@@ -56,7 +56,7 @@ To change this template use File | Settings | File Templates.
 <td class="tableDown"><%=orgTo.getFacilitiesAvailable()%></td>
 <td class="tableDown"><%=orgTo.getWorkingAreas()%></td>
 <td class="tableDown">
-        <a href="Logging.jsp?action=view&orgCode=<%=orgTo.getOrgCode()%>">view</a>
+<%--        <a href="Logging.jsp?action=view&orgCode=<%=orgTo.getOrgCode()%>">view</a>--%>
         <a href="Logging.jsp?action=edit&orgCode=<%=orgTo.getOrgCode()%>">edit</a>
 </td>
 </tr>
