@@ -116,7 +116,7 @@ function display_data()
 	<li>Age (years): <? display_input('age'); ?></li>
 <? } ?>
 <? if (input_is_set('age_group')) { ?>
-	<li>Age group: <? display_input('age_group'); ?></li>
+	<li>Age group: <? display_input_caption('age_group'); ?></li>
 <? } ?>
 <? if (input_is_set('nic_no')) { ?>
 	<li>National ID number: <? display_input('nic_no'); ?></li>
