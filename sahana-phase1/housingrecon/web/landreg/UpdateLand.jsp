@@ -6,13 +6,19 @@
                  java.util.Iterator,
                  org.housing.landreg.util.LabelValue,
                  org.housing.landreg.db.DataAccessManager,
+                 org.housing.landreg.util.StringUtil,
                  org.housing.landreg.business.LandTO"%>
 <jsp:useBean id="newLand" scope="page" class="org.housing.landreg.business.LandTO" />
 <jsp:setProperty name="newLand" property="*" />
 <%
-    DataAccessManager dataAccessManager = new DataAccessManager();
-     List errors = new LinkedList();
 
+    if (request.getParameter("reset") != null) {
+       newLand.reset();
+    }
+
+    DataAccessManager dataAccessManager = new DataAccessManager();
+    String Infracture_Ids="";
+     List errors = new LinkedList();
     if (request.getParameter("doUpdate") == null) {  //data comes from the database
         if (request.getParameter("landId") == null) {
             response.sendRedirect("SearchLands.jsp");
@@ -37,6 +43,13 @@
         session.setAttribute("LAND_ID",new Integer(newLand.getLandId()));
 
 
+    }
+
+    // to retrieve values from Infracture list
+    List InfracturesIds = (List) dataAccessManager.listAllInfractureNameForLandIds(newLand.getLandId());
+    for (Iterator iterator = InfracturesIds.iterator(); iterator.hasNext();) {
+    LabelValue Infracture = (LabelValue) iterator.next();
+           Infracture_Ids =Infracture_Ids+"_"+Infracture.getLabel();
     }
 
     if (request.getParameter("doUpdate") != null) {
@@ -65,76 +78,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../common/style.css" rel="stylesheet" type="text/css">
 <script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
+<script type="text/javascript" language="javascript" src="stringTokenizer.js"></script>
 <script type="text/javascript">
-
-function validateForm()
-{
-    if(document.newLand.landName.value == "")
-    {
-        alert("Land Name must have a value");
-        document.newLand.landName.focus();
-        return false;
-    }
-<%--        alert("pro "+ document.newLand.provinceCode.value);--%>
-    if(document.newLand.provinceCode.value == "-1" || document.newLand.provinceCode.value == "")
-    {
-        alert("Province must be selected");
-        document.newLand.provinceCode.focus();
-        return false;
-    }
-
-    if(document.newLand.districtId.value == "-1" || document.newLand.districtId.value == "")
-    {
-        alert("District must be selected");
-        document.newLand.districtId.focus();
-        return false;
-    }
-
-    if(document.newLand.divisionId.value == "-1" || document.newLand.divisionId.value == "")
-    {
-        alert("Division must be selected");
-        document.newLand.divisionId.focus();
-        return false;
-    }
-
-    if(document.newLand.measurement.value == "")
-    {
-        alert(" Measurement must have a value");
-        document.newLand.measurement.focus();
-        return false;
-    }
-
-    if(document.newLand.areaId.value == "-1" || document.newLand.areaId.value == "" )
-    {
-        alert(" Area must have a value");
-        document.newLand.areaId.focus();
-        return false;
-    }
-
-    if(document.newLand.ownedById.value == "-1" || document.newLand.ownedById.value == "" )
-    {
-        alert(" Owned By must have a value");
-        document.newLand.ownedById.focus();
-        return false;
-    }
-
-    if(document.newLand.termId.value == "-1" || document.newLand.termId.value == "" )
-    {
-        alert(" Term must have a value");
-        document.newLand.termId.focus();
-        return false;
-    }
-
-    document.newLand.doInsert="doInsert";
-    document.newLand.submit();
-
-}
-
 
 
 <% DataAccessManager dm = new DataAccessManager(); %>
 
- <%List listcode;
+<%
+     List listcode;
      for (int j = 1;j < 10; j++) {
          %>var provCode<%=j%> = new Array( <%
         listcode = dm.listDistrictwithProvince(""+j);
@@ -190,45 +141,145 @@ function validateForm()
  %>
 
   function listDistrict(){
-       var provincecode = document.newLand.provinceCode.value;
-       var optionList = document.newLand.districtId.options;
-       optionList.length = 0;
-       var divisionList = document.newLand.divisionId.options;
-       divisionList.length = 0;
+     var provincecode = document.newLand.provinceCode.value;
+     var optionList = document.newLand.districtId.options;
+     optionList.length = 0;
+     var divisionList = document.newLand.divisionId.options;
+     divisionList.length = 0;
 
-       if(provincecode!=""){
-           var prov = eval("prov"+provincecode);
-           var tempproveCode = eval("provCode"+provincecode);
-           for (i=0;i< prov.length ;i++){
-                var option = new Option(prov[i],tempproveCode[i]);
-                optionList.add(option,i);
-           }
-       }
+     if(provincecode!=""){
+         var prov = eval("prov"+provincecode);
+         var tempproveCode = eval("provCode"+provincecode);
+         for (i=0;i< prov.length ;i++){
+              var option = new Option(prov[i],tempproveCode[i]);
+              optionList.add(option,i);
+         }
      }
+     document.newLand.districtId.value ="<%=newLand.getDistrictId()%>";
+   }
 
-   function listDivisions(){
-        var provincecode = document.newLand.provinceCode.value;
-        var distrcictCode = document.newLand.districtId.selectedIndex ;
-        var divisionList = document.newLand.divisionId.options;
-        divisionList.length =0;
+ function listDivisions(){
+      var provincecode = document.newLand.provinceCode.value;
+      var distrcictCode = document.newLand.districtId.selectedIndex ;
+      var divisionList = document.newLand.divisionId.options;
+      divisionList.length =0;
 
-        var divisionCode = document.newLand.districtId.value;
+      var divisionCode = document.newLand.districtId.value;
 
-        if(divisionCode!=""){
-            var divisions =eval("district" + divisionCode);
-            var tempdivisionCode =eval("districtCode" + divisionCode);
-            for (i=0;i< divisions.length ;i++){
-                var option = new Option(divisions[i],tempdivisionCode[i]);
-                divisionList.add(option,i);
+      if(divisionCode!=""){
+          var divisions =eval("district" + divisionCode);
+          var tempdivisionCode =eval("districtCode" + divisionCode);
+          for (i=0;i< divisions.length ;i++){
+              var option = new Option(divisions[i],tempdivisionCode[i]);
+              divisionList.add(option,i);
+          }
+       }
+       document.newLand.divisionId.value ="<%=newLand.getDivisionId()%>";
+    }
+
+      <%List subdivlistCode;
+                   List suballdisCode = dm.listDivisions();
+              //     String subdisNameCode;
+                   String subdicCode;
+                   for (int j = 0 ;j < suballdisCode.size(); j++) {
+              //            subdisNameCode =((LabelValue)suballdisCode.get(j)).getLabel();
+                          subdicCode = ((LabelValue)suballdisCode.get(j)).getValue();
+                           %>var subDivCode<%=subdicCode%> = new Array( <%
+                             subdivlistCode = dm.listGNDforDivisions(subdicCode);
+                           for (int i = 0; i <subdivlistCode.size(); i++) {
+                             if (i==0){
+                                 out.print("\"" + ((LabelValue)subdivlistCode.get(i)).getValue() +"\"");
+                             }else{
+                                out.print("," + "\""+((LabelValue)subdivlistCode.get(i)).getValue() +"\"" );
+                           }
+                         }
+                               %>);
+                        var subDiv<%=subdicCode%> = new Array( <%
+                        for (int i = 0; i <subdivlistCode.size(); i++) {
+                         if (i==0){
+                             out.print("\"" + ((LabelValue)subdivlistCode.get(i)).getLabel() +"\"");
+                         }else{
+                             out.print("," + "\""+((LabelValue)subdivlistCode.get(i)).getLabel() +"\"" );
+                        }
+                      }
+                       %>);
+                       <%
+                   }
+                           out.println();
+               %>
+
+
+    function listSubDivisions(){
+        var subdivisionList = document.newLand.subDivisionId.options;
+        subdivisionList.length =0;
+
+        var subdivisionCode = document.newLand.divisionId.value;
+
+        if(subdivisionCode!=""){
+            var subdivisions =eval("subDiv" + subdivisionCode);
+            var tempsubdivisionCode =eval("subDivCode" + subdivisionCode);
+            for (i=0;i< subdivisions.length ;i++){
+                var option = new Option(subdivisions[i],tempsubdivisionCode[i]);
+                subdivisionList.add(option,i);
             }
          }
+         document.newLand.subDivisionId.value ="<%=newLand.getSubDivisionId()%>";
       }
 
+
+      function modify_boxes(to_be_checked,total_boxes){
+        for ( i=0 ; i < total_boxes ; i++ ){
+          if (to_be_checked){
+             document.forms[0].infractureId[i].checked=true;
+         }
+         else{
+            document.forms[0].infractureId[i].checked=false;
+          }
+        }
+       }
+
+
+     function setInfractureIds(total_boxes){
+               var InfractureIds ="";
+               var flag ="true";
+               for ( i=0 ; i < total_boxes ; i++ ){
+               if (document.forms[0].infractureId[i].checked==true){
+               if (flag=="true")
+               {
+                  InfractureIds =InfractureIds+document.forms[0].infractureId[i].value;
+                  flag ="false"
+                }else{
+                   InfractureIds =InfractureIds+ "_" +document.forms[0].infractureId[i].value;
+                }
+                }
+
+              }
+              document.newLand.InfractureIds.value =InfractureIds;
+     }
+
+     function ClickInfractureId()
+     {
+
+        var infractureIds = "<%=Infracture_Ids%>" ;
+        var tokenizer = new StringTokenizer (infractureIds,"_");
+         while (tokenizer.hasMoreTokens())
+         {
+            var id =tokenizer.nextToken();
+
+            for ( i=0 ; i < 5 ; i++ )
+            {
+                if (id==document.forms[0].infractureId[i].value)
+                {
+                   document.forms[0].infractureId[i].checked=true;
+                }
+            }
+      }
+  }
 
 </script>
 </head>
 
-<body topmargin="0" leftmargin="0" onload="listDistrict();listDivisions()" >
+<body topmargin="0" leftmargin="0" onload="listDistrict();listDivisions();listSubDivisions();ClickInfractureId();" >
     <table width="760" border="0" cellspacing="0" cellpadding="0">
         <td height="50" >
             <jsp:include page="../common/header.inc"></jsp:include>
@@ -269,7 +320,7 @@ function validateForm()
                     <td colspan="3"class="formText" ><font color="red">Please correct the following errors</font><br></td>
                 </tr>
                 <%
-                        newLand.setNullValsToEmpty();
+                        //newLand.setNullValsToEmpty();
                         for (Iterator iterator = errors.iterator(); iterator.hasNext();) {
                             String error = (String) iterator.next();
 
@@ -280,22 +331,30 @@ function validateForm()
                 <%      }
                     }
                 %>
-
-                <tr>
-                    <td align="right" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
+<tr>
+                   <td align="left" valign="center"  class="formText">Plan No &nbsp;<small><font color="red">*</font></small></td>
+                   <td>
+                   <table>
+                       <tr>
+                            <td><input type="text" size="10" maxlength="49"  name="planId" class="textBox"  value="<jsp:getProperty name="newLand" property="planId" />"><!--&nbsp;<small><font color="red">*</font></small> --></td>
+                            <td align="left" valign="top"  class="formText"  >Land Name </td><td><input type="text" size="50" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />"></td>
+                       </tr>
+                    </table>
+                  </td>
                 </tr>
 
                 <tr>
-                    <td  align="right" valign="top"  class="formText" >Description&nbsp;</td>
+                    <td  align="left" valign="center"  class="formText" >Description </td>
                        <td>
-                         <input type="text" size="20" maxlength="49"  name="description" class="textBox"  value="<jsp:getProperty name="newLand" property="description" />">
+
+                         <input type="text"size=80 maxlength="150" name="description" class="textBox"  value="<jsp:getProperty name="newLand" property="description" />">
                        </td>
                 </tr>
 
                  <tr>
-                      <td align="left" class="formText" type="submit">Province </td>
+                      <td align="left" class="formText" type="submit">Province &nbsp;<small><font color="red">*</font></small></td>
                       <td vAlign="top" >
-                        <select name="provinceCode"  class="selectBoxes" onchange="listDistrict();listDivisions()"   >
+                        <select name="provinceCode"  class="selectBoxes" onchange="listDistrict();listDivisions()" >
                             <option value="">&lt;Select&gt;</option>
                             <%
                               DataAccessManager daProvience =new DataAccessManager();
@@ -316,99 +375,189 @@ function validateForm()
                             <%
                                 }
                             %>
-                        </select>&nbsp;<small><font color="red">*</font></small>
+                       </select>&nbsp;<small><!--<font color="red">*</font></small>-->
                        </td>
                  </tr>
 
-                    <tr>
-                      <td  align="left" class="formText" type="submit">District </td>
+                <tr>
+                      <td  align="left" class="formText" type="submit">District &nbsp;<small><font color="red">*</font></small></td>
                       <td vAlign="top" >
                         <select name="districtId" class="selectBoxes" onchange="listDivisions();" >
                             <option value="">&lt;Select&gt;</option>
-                        </select>
+                        </select> <!--&nbsp;<small><font color="red">*</font></small>-->
                        </td>
                     </tr>
                     <tr>
-                      <td  align="left" class="formText" type="submit">Division </td>
+                      <td  align="left" class="formText" type="submit">Local Authority &nbsp;<small><font color="red">*</font></small></td>
                       <td vAlign="top" >
-                        <select name="divisionId" class="selectBoxes" >
+                        <select name="divisionId" class="selectBoxes" onchange="listSubDivisions();" >
                             <option value="-1">&lt;Select&gt;</option>
-                      </select>
-                       </td>
-                    </tr>
-
+                      </select>&nbsp;<!--<small><font color="red">*</font></small>-->
+                      </td>
+               </tr>
 
                 <tr>
-                    <td  align="left" valign="top"   class="formText">Area&nbsp;</td>
-                    <td ><input type="text" size="20" name="area" class="textBox"  value="<jsp:getProperty name="newLand" property="area" />"><small><font color="red">*</font></small> </td>
-                    <td>
-                        <select name="measurementTypeId" class="selectBoxes">
-                            <option value="">&lt;Select&gt;</option>
-                            <%
-                             DataAccessManager dat1 = new DataAccessManager();
-                                // DataAccessManager da= new DataAccessManager();
-                              List measurementTypes = (List) dat1.listMeasurementTypes();
-                                for (Iterator iterator = measurementTypes.iterator(); iterator.hasNext();) {
-                                    LabelValue measurementType = (LabelValue) iterator.next();
+                      <td  align="left" class="formText" type="submit">G N Division &nbsp;<small><font color="red">*</font></small></td>
+                      <td vAlign="top" >
+                        <select name="subDivisionId" class="selectBoxes" >
+                            <option value="-1">&lt;Select&gt;</option>
+                      </select>&nbsp;<!--<small><font color="red">*</font></small>-->
+                       </td>
 
-                                    if(newLand.getMeasurementTypeId()!= null){
-                                          if(newLand.getMeasurementTypeId().equals(measurementType.getValue())) {
-                                    %>
-                                               <option selected value="<%=measurementType.getValue()%>"><%=measurementType.getLabel()%></option>
-                                    <%
-                                               continue;
-                                          }
-                                    }
-                                    %>
-                                    <option value="<%=measurementType.getValue()%>"><%=measurementType.getLabel()%></option>
-                            <%
-                                }
-                            %>
-                        </select>&nbsp;<small><font color="red">*</font></small>
-                        <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
+               </tr>
+
+              <tr>
+                           <td  align="left" valign="center"   class="formText">Land Type &nbsp;<small><font color="red">*</font></small></td>
+                           <td>
+                                             <!-- <select name="landTypeId" class="selectBoxes">
+
+                                               <option value="">&lt;Select&gt;</option> -->
+                                               <%
+                                                DataAccessManager dat5 = new DataAccessManager();
+
+                                                 List landTypeIds = (List) dat5.listLandType();
+                                                   for (Iterator iterator = landTypeIds.iterator(); iterator.hasNext();) {
+                                                       LabelValue landTypeId = (LabelValue) iterator.next();
+
+                                                        if(newLand.getLandTypeId()!= null){
+                                                           if(newLand.getLandTypeId().equals(landTypeId.getValue())) {
+                                               %>
+                                                         <!--      <option selected  value="<=landTypeId.getValue()%>"><=landTypeId.getLabel()%></option> -->
+                                                         <input type="radio"  CHECKED name="landTypeId" value="<%=landTypeId.getValue()%>"> <%=landTypeId.getLabel()%>
+                                               <%
+                                                               continue;
+                                                           }
+                                                       }
+                                               %>
+                                                    <!--   <option value="<=landTypeId.getValue()%>"><=landTypeId.getLabel()%></option>  -->
+                                                    <input type="radio" name="landTypeId" value="<%=landTypeId.getValue()%>"> <%=landTypeId.getLabel()%>
+                                               <%
+                                                   }
+                                               %>
+                                           <!--</select>&nbsp;<small><font color="red">*</font></small>-->
+
+
+                            </td>
+                            <!--<td><small><font color="red">*</font></small></td>-->
+              </tr>
+
+              <tr>
+                           <td  align="left" valign="center"   class="formText">Infrastructure &nbsp;<small><font color="red">*</font></small></td>
+                           <td>
+                                             <!-- <select name="infractureId" class="selectBoxes">
+
+                                               <option value="">&lt;Select&gt;</option>-->
+                                               <%
+                                                DataAccessManager dat6 = new DataAccessManager();
+
+                                                 List Infractures = (List) dat6.listInfrastructures();
+                                                   for (Iterator iterator = Infractures.iterator(); iterator.hasNext();) {
+                                                       LabelValue Infracture = (LabelValue) iterator.next();
+                                                       if(newLand.getInfractureId()!= null){
+                                                           if(newLand.getInfractureId().equals(Infracture.getValue())) {
+                                               %>
+                                                               <!--<option selected  value="<=Infracture.getValue()%>"><=Infracture.getLabel()%></option>-->
+
+<%--                                                               <input type="checkbox" CHECKED name="infractureId" value="<%=Infracture.getValue()%>" onclick="check('+ <%=Infracture.getValue()%>+',this )"> <%=Infracture.getLabel()%>--%>
+                                                                    <input type="checkbox" CHECKED name="infractureId" value="<%=Infracture.getValue()%>"> <%=Infracture.getLabel()%>
+
+                                               <%
+                                                               continue;
+                                                           }
+                                                       }
+                                               %>
+                                                          <input type="checkbox" name="infractureId" value="<%=Infracture.getValue()%>" > <%=Infracture.getLabel()%>
+<%--                                                       <input type="checkbox" name="infractureId" value="<%=Infracture.getValue()%>" onclick="check('+ <%=Infracture.getValue()%>+',this )"> <%=Infracture.getLabel()%>--%>
+                                                       <!--<option value="<=Infracture.getValue()%>"><=Infracture.getLabel()%></option>-->
+                                                       <!--<input type="radio" name="infractureId" value="<=Infracture.getValue()%>"><=Infracture.getLabel()%>-->
+
+                                               <%
+                                                   }
+                                               %>
+                           <INPUT TYPE=button NAME="CheckAll" VALUE="Check All" class="buttons" onClick="modify_boxes(true,5)">
+                           <INPUT TYPE=button NAME="UnCheckAll" VALUE="UnCheck All" class="buttons" onClick="modify_boxes(false,5)">
+
+                           </td>
+                       <!--<td><small><font color="red">*</font></small></td>-->
+              </tr>
+
+              <tr>
+                    <td  align="left" valign="center"   class="formText">Extent </td>
+
+                    <td>
+
+                    <table>
+                       <tr>
+
+                         <td> Acres &nbsp;
+                         <input type="text" size="10" maxlength="49"  name="area" class="textBox"  value="<jsp:getProperty name="newLand" property="area" />">
+                         &nbsp;&nbsp;&nbsp; Roods &nbsp;
+                         <input type="text" size="10" maxlength="49"  name="area1" class="textBox"  value="<jsp:getProperty name="newLand" property="area1" />">
+                         &nbsp;&nbsp;&nbsp; Perches &nbsp;
+                         <input type="text" size="10" maxlength="49"  name="area2" class="textBox"  value="<jsp:getProperty name="newLand" property="area2" />">
+                         </td>
+
+                      </tr>
+                    </table>
+
                     </td>
 
                </tr>
 
                <tr>
-                       <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
+                            <td  align="left" valign="center"   class="formText">Ownership &nbsp;<small><font color="red">*</font></small> </td>
+                            <td>
+                              <table>
+                                  <tr>
+                                        <td>
+                                              <table>
+                                                          <tr>
+                                                                <td>
+                                                            <!--   <select name="ownedById" class="selectBoxes">
 
-                       <td>
-                           <select name="ownedById" class="selectBoxes">
+                                                                <option value="">&lt;Select&gt;</option> -->
+                                                                <%
+                                                                 DataAccessManager dat4 = new DataAccessManager();
+                                                                    // DataAccessManager da= new DataAccessManager();
+                                                                  List ownedBys = (List) dat4.listOwnedBy();
+                                                                    for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
+                                                                        LabelValue ownedBy = (LabelValue) iterator.next();
 
-                               <option value="">&lt;Select&gt;</option>
-                               <%
-                                DataAccessManager dat4 = new DataAccessManager();
-                                   // DataAccessManager da= new DataAccessManager();
-                                 List ownedBys = (List) dat4.listOwnedBy();
-                                   for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
-                                       LabelValue ownedBy = (LabelValue) iterator.next();
+                                                                        if(newLand.getOwnedById()!= null){
+                                                                            if(newLand.getOwnedById().equals(ownedBy.getValue())) {
+                                                                %>
+                                                                              <!--  <option selected  value="<=ownedBy.getValue()%>"><=ownedBy.getLabel()%></option> -->
+                                                                                <input type="radio" CHECKED name="ownedById" value="<%=ownedBy.getValue()%>"> <%=ownedBy.getLabel()%>
 
-                                       if(newLand.getOwnedById()!= null){
-                                           if(newLand.getOwnedById().equals(ownedBy.getValue())) {
-                               %>
-                                               <option selected  value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                               <%
-                                               continue;
-                                           }
-                                       }
-                               %>
-                                       <option value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                               <%
-                                   }
-                               %>
-                           </select>&nbsp;<small><font color="red">*</font></small>
-                           <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
-                       </td>
+                                                                <%
+                                                                                continue;
+                                                                            }
+                                                                        }
+                                                                %>
+                                                                       <!-- <option value="<=ownedBy.getValue()%>"><=ownedBy.getLabel()%></option> -->
+                                                                       <input type="radio" name="ownedById" value="<%=ownedBy.getValue()%>"> <%=ownedBy.getLabel()%>
+                                                                <%
+                                                                    }
+                                                                %>
+                                                           <!-- </select>&nbsp;<small><font color="red">*</font></small> -->
 
-                       <td  align="left" valign="center"   class="formText">Comments&nbsp;</td>
-                       <td ><textarea type="text"  COLS=40 ROWS=2 maxlength="250" name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"></textarea></td>
+                                                                  </td>
+                                                               </tr>
+                                                        </table>
+
+                                                        </td>
+                       <!--                                 <td><small><font color="red">*</font></small></td> -->
+                                                        <td  align="left" valign="center"   class="formText">Comments </td>
+                                                        <td ><input type="text"  size=80 maxlength="150"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
+
+                                     </tr>
+                           </table>
+                    </td>
 
                </tr>
 
-
                <tr>
-                    <td  align="left" valign="top"   class="formText">Terms&nbsp;</td>
+                    <td  align="left" valign="top" class="formText">Terms &nbsp;<small><font color="red">*</font></small></td>
 
                     <td>
 
@@ -435,18 +584,14 @@ function validateForm()
                             <%
                                 }
                             %>
-                        </select>&nbsp;<small><font color="red">*</font></small>
-                        <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
+
                     </td>
 
                </tr>
 
                <tr>
+                    <td  align="left" valign="center"  class="formText" >GPS Coordinates </td>
 
-                   <table>
-                      <tr>
-                              <td  align="left" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
-                              <td>&nbsp;&nbsp;</td>
                               <td>
                                 <!-- <input type="text" size="10" maxlength="49"  name="GPS1" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS1" />">-->
                                  <select name="GPS1" class="selectBoxes" >
@@ -471,16 +616,12 @@ function validateForm()
                                  <%
                                      }
                                  %>
-                                </select>
-                               </td>
+                                </select> &nbsp;
 
-                               <td>
-                                 <input type="text" size="10" maxlength="49"  name="GPS2" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS2" />">
-                               </td>
-                               <td>&nbsp;&nbsp;</td>
-                               <td>
+                                <input type="text" size="10" maxlength="49"  name="GPS2" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS2" />">
+
                                <!--  <input type="text" size="10" maxlength="49"  name="GPS3" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS3" />">-->
-                               <select name="GPS3" class="selectBoxes" >
+                               &nbsp;&nbsp;<select name="GPS3" class="selectBoxes" >
                                         <option value="-1">&lt;Select&gt;</option>
                                     <%
                                      if(newLand.getGPS3().equals("East")){
@@ -501,34 +642,41 @@ function validateForm()
                                     <%
                                      }
                                     %>
-                                </select>
-                               </td>
-
-                               <td>
+                                </select>&nbsp;
                                  <input type="text" size="10" maxlength="49"  name="GPS4" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS4" />">
                                </td>
 
-                         </tr>
-                       </table>
-                </tr>
-                <tr>
-                   <td>
-                       <table>
-                               <tr>
-                                  <td></td>
-                                  <td>
-                                    <input type="reset" name="reset" value="Clear" class="buttons"/>
-                                    <input type="submit" name="doUpdate" value="Update" class="buttons" />
-                                </tr>
-                         </table>
-                    </td>
-                </tr>
-                <tr>
-                 <td>
+               </tr>
 
-                 </td>
+
+                <tr>
+                     <td align="left" valign="center"  class="formText">Proposed use as per zoning plan </td>
+                       <td>
+                         <input type="text" size=80 maxlength="150" name="proposedUseAsPerZonPlan" class="textBox"  value="<jsp:getProperty name="newLand" property="proposedUseAsPerZonPlan" />">
+                       </td>
+                </tr>
+
+                <tr>
+                    <td  align="left" valign="center"  class="formText" >Remarks </td>
+                       <td>
+                         <input type="text"  size=80 maxlength="150"  name="remarks" class="textBox"  value="<jsp:getProperty name="newLand" property="remarks" />">
+                       </td>
+                </tr>
+
+
+            </table>
+
+            <table align =center>
+
+                 <tr>
+                       <td align =center> <input type="reset" name="reset" value="Clear" class="buttons"/>
+
+                           <input type="submit" name="doUpdate" value="Update" class="buttons" onClick="setInfractureIds(5)">
+                           <input type ="hidden" name ="infractureIds" id ="InfractureIds" value="<jsp:getProperty name="newLand" property="infractureIds" />">
+                       </td>
                 </tr>
             </table>
+
 
         </form>
      </tr>

@@ -10,7 +10,7 @@
                  org.housing.landreg.util.StringUtil"%>
 <jsp:useBean id="newLand" scope="page" class="org.housing.landreg.business.LandTO" />
 <jsp:setProperty name="newLand" property="*" />
-
+<% DataAccessManager dm = new DataAccessManager(); %>
 <%
     if (request.getParameter("landId") == null) {
         response.sendRedirect("SearchLands.jsp");
@@ -70,9 +70,11 @@
                 <tr>
                     <td colspan="6" >&nbsp;</td>
                 </tr>
-
-                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Land Name </td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getLandName())%></td>
+                <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Plan No</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getPlanId())%> </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Land Name</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getLandName())%></td>
                 </tr>
                  <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Description</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getDescription())%></td>
@@ -83,14 +85,50 @@
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >District</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getDistrictName())%></td>
                 </tr>
                  <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Division</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getdivisionName())%></td>
-                </tr>
-                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Area</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getArea())%>
-                    &nbsp;&nbsp;<%=StringUtil.returnEmptyForNull(newLand.getMeasurementTypeName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Local Authority</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getdivisionName())%></td>
+
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Owned By</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getOwnedByName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >G N Division</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getSubDivisionName())%></td>
+
+                </tr>
+
+               <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Land Type</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getLandTypeName())%></td>
+
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Infrastructure</td><td colspan="2" >
+                     <%
+                     List allInfracture = dm.listAllInfractureNameForLandIds(newLand.getLandId());
+                     String InfractureName="";
+
+                     for (int j = 0 ;j < allInfracture.size(); j++) {
+                       if (j < allInfracture.size()-1){
+
+                 %>
+                      <%=((LabelValue)allInfracture.get(j)).getValue()%>,
+
+                 <%  } else { %>
+                      <%=((LabelValue)allInfracture.get(j)).getValue()%>
+                 <%
+                     }
+
+                    }
+                 %></td>
+
+                 </tr>
+
+                 <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Extent</td>
+                    <td colspan="2" > Acres :&nbsp; <%=StringUtil.returnEmptyForNull(newLand.getArea())%>
+                                      Rods : <%=StringUtil.returnEmptyForNull(newLand.getArea1())%>
+                                      Perches : <%=StringUtil.returnEmptyForNull(newLand.getArea2())%>                                      
+                    </td>
+<%--                    &nbsp;&nbsp;<%=StringUtil.returnEmptyForNull(newLand.getMeasurementTypeName())%></td>--%>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Ownership</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getOwnedByName())%></td>
                     <td vAlign="top" class="formText" align="left" >Comments &nbsp;&nbsp;<%=StringUtil.returnEmptyForNull(newLand.getOwnedByComment())%></td>
                 </tr>
                 <tr>
@@ -98,13 +136,43 @@
                 </tr>
 
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >GPS Co-ordinates</td>
-                    <td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getGPS1())%> &nbsp;
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >GPS Coordinates</td>
+                    <td colspan="2" ><%--<%=StringUtil.returnEmptyForNull(newLand.getGPS1())%> &nbsp;
                     <%=StringUtil.returnEmptyForNull(newLand.getGPS2())%> &nbsp;
                     <%=StringUtil.returnEmptyForNull(newLand.getGPS3())%> &nbsp;
-                    <%=StringUtil.returnEmptyForNull(newLand.getGPS4())%></td>
+                    <%=StringUtil.returnEmptyForNull(newLand.getGPS4())%>--%>
+                      <%if(!newLand.getGPS1().equals("-1"))
+                                      {
+                                     %>
+                                     <%=StringUtil.returnEmptyForNull(newLand.getGPS1())%>
+                                     <% }else{%>
+                                         &nbsp;
+                                      <% }%>
+                                      &nbsp;
+                                      <%=StringUtil.returnEmptyForNull(newLand.getGPS2())%>&nbsp;&nbsp;
+
+                                       <%if(!newLand.getGPS3().equals("-1"))
+                                        {
+                                       %>
+                                       <%=StringUtil.returnEmptyForNull(newLand.getGPS3())%>
+                                       <% }else{%>
+                                           &nbsp;
+                                        <% }%>
+
+                                      &nbsp;
+                                      <%=StringUtil.returnEmptyForNull(newLand.getGPS4())%>
+                </td>
                 </tr>
 
+                <tr>
+                <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Proposed use as per zoning plan </td>
+                <td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getProposedUseAsPerZonPlan())%></td>
+                <tr>
+
+                <tr>
+                <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Remarks </td>
+                <td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getRemarks())%></td>
+                <tr>
 
             </table>
              <table align="center" >
