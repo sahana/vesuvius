@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+  "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+   <display-name>::ERMS::</display-name>
+
+  <!-- Action Servlet Configuration -->
+  <servlet>
+    <servlet-name>report</servlet-name>
+    <servlet-class>gov.lk.dms.report.framework.struts.DMSActionServlet</servlet-class> 
+
+    <init-param>
+      <param-name>definitions-debug</param-name>
+      <param-value>0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>definitions-parser-details</param-name>
+      <param-value>0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>definitions-parser-validate</param-name>
+      <param-value>true</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    
+    <!--
+    <init-param>
+      <param-name>config/doc</param-name>
+      <param-value>/WEB-INF/struts-doc-config.xml</param-value>
+    </init-param>
+    -->
+    <init-param>
+      <param-name>validate</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+      <!-- Added as a trick for a bug in Struts -->
+    <init-param>
+      <param-name>application</param-name>
+      <param-value>org.apache.struts.webapp.tiles.dev1-1.ApplicationResources</param-value>
+    </init-param>
+    
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+
+  <!-- Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>report</servlet-name>
+    <url-pattern>*.vx</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- The Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- Struts Tag Library Descriptor -->
+  
+   <!-- Security for role testing -->
+    <security-constraint>
+      <web-resource-collection>
+         <web-resource-name>Protected Area</web-resource-name>
+	 <!-- Define the context-relative URL(s) to be protected -->
+         <url-pattern>/test/testRole.jsp</url-pattern>
+	 <!-- If you list http methods, only those methods are protected -->
+	 <http-method>DELETE</http-method>
+         <http-method>GET</http-method>
+         <http-method>POST</http-method>
+	 <http-method>PUT</http-method>
+      </web-resource-collection>
+      <auth-constraint>
+         <!-- Anyone with one of the listed roles may access this area -->
+         <role-name>tomcat</role-name>
+	     <role-name>role1</role-name>
+      </auth-constraint>
+    </security-constraint>
+
+    <!-- Default login configuration uses BASIC authentication -->
+    <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>Example Basic Authentication Area</realm-name>
+    </login-config>
+
+    <!-- Define security roles used in this application -->
+    <security-role>
+        <role-name>role1</role-name>
+    </security-role>
+    <security-role>
+        <role-name>tomcat</role-name>
+    </security-role>
+
+    <resource-ref>
+       <description>ERMS DB Connection Pool</description>
+       <res-ref-name>jdbc/mysql_erms</res-ref-name>
+       <res-type>javax.sql.DataSource</res-type>
+       <res-auth>Container</res-auth>
+    </resource-ref>
+
+</web-app>

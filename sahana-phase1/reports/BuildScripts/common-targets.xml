@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<target name="load-env">
+    <property file="ant-config.properties"/>
+</target>
+
+<target name="init" depends="load-env">
+
+    <tstamp>
+        <format property="TODAY" pattern="yyyy.MM.dd 'at' hh:mm:ss z" locale="en"/>
+    </tstamp>
+
+    <echo message=""/>
+    <echo message="######################################################"/>
+    <echo message="#                                                    #"/>
+    <echo message="#        Sri Lanka Disaster Management System        #"/>
+    <echo message="#                INITIALIZE ENVIRONMENT              #"/>
+    <echo message="#          Date: ${TODAY}          #"/><!--This space is left intentionally-->
+    <echo message="#                                                    #"/>
+    <echo message="######################################################"/>
+    <echo message=""/>
+
+    <!-- Set global properties for the build -->
+
+    <!-- splash imageurl="file:./xx.jpg" showduration="0"/-->
+
+    <ant antfile="check-environment.xml" target="check-environment" inheritAll="true"/>
+
+    <!-- 3rd Party Libraries -->
+    <path id="libs">
+        <pathelement path="${resources.dir}"/>
+        <pathelement path="${resources.dir}"/>
+
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+            <include name="*.zip"/>
+        </fileset>
+
+        <fileset dir="${src.dir}/web/WEB-INF/lib">
+            <include name="*.jar"/>
+            <include name="*.zip"/>
+        </fileset>
+
+    </path>
+
+</target>
+
+
+<!-- This target makes sure dependent classes are also compiled          -->
+<target name="depend" depends="init">
+    <depend srcdir="${src.dir}" destdir="${classes.dir}" cache="${dependency.cache}"/>
+</target>
+
+<target name="compile-reports.needed" depends="init">
+    <uptodate property="compile-reports.not.needed" targetfile="${build.jars.dir}/ved-client.jar">
+        <srcfiles dir="${reports.dir}" includes="*.jrxml"/>
+        <mapper type="glob" from="*.jrxml" to="*.jasper"/>
+    </uptodate>
+</target>
+
+<target name="compile-reports" depends="compile-reports.needed" unless="compile-reports.not.needed">
+    <mkdir dir="${build.dir}/reports/compiled"/>
+    <mkdir dir="${build.dir}/temp/reports"/>
+    <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask">
+	<classpath refid="libs"/>
+    </taskdef>
+
+    <jrc destdir="${build.dir}/reports/compiled"
+	srcdir="${reports.dir}"
+	tempdir="${build.dir}/temp/reports"
+	keepjava="true">
+	<classpath refid="libs"/>
+    </jrc>
+</target>

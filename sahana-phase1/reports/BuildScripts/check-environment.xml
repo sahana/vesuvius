@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="environment" default="check-environment" basedir=".">
+
+   <target name="check-tomcat" unless="tomcat.home">
+      <fail>
+         Property "tomcat.home" is not set. Please use the file
+         ".ant.properties" in this directory ${basedir} to
+         set this property. It must point to the directory which
+         contains the following directory: "bin", "webapps", "temp"
+         etc.
+      </fail>
+   </target>
+
+   <target name="wrong-tomcat" unless="tomcat.present">
+      <fail>
+         Property "tomcat.home" is set but it does not seem
+         to point to the right directory. The file "catalina.50.bat"
+         must be available at ${tomcat.home}/bin.
+      </fail>
+   </target>
+
+   <target name="check-environment">
+      <antcall target="check-tomcat"/>
+      <available property="tomcat.present" file="${tomcat.home}/bin/startup.sh"/>
+      <antcall target="wrong-tomcat"/>
+
+      <!-- Create the build directory structure used by compile
+      and copy the deployment descriptors into it-->
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${classes.dir}"/>
+      <mkdir dir="${deploy.dir}"/>
+      <mkdir dir="${build.jars.dir}"/>
+   </target>
+</project>
