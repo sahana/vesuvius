@@ -6,9 +6,12 @@
   mysql -uroot -p < db/updates-2.sql
 
 - Update db.php file of mambo/componnets/com_report/ with the CVS version.
+  IMPORTANT: There are two versions of db.php.  The one in www/ here should
+  NOT go into mambo.  Rather, use the mambo/components/com_report/db.php in
+  the CVS.
 
 - Start apache
 
-- Copy *.php and *.css files in www/ to any location on the web server
+- Copy *.php and *.css files  in www/ to any location on the web server
   and open entry.php
 
