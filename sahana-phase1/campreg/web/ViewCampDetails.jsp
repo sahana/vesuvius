@@ -143,46 +143,16 @@
 
                                         <%  }%>
 
-                    <%--                <tr>--%>
-<%--                    <td>&nbsp;</td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Number of Men </td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampMen())%> </td>--%>
-<%--                <tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Women  </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampWomen())%> </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Children </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampChildren())%> </td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Total</td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampTotal())%> </td>--%>
-<%--                <tr>--%>
-<%--                <tr>--%>
-<%--                    <td>&nbsp;</td>   --%>
-<%--                </tr>--%>
 
                 <tr>
                     <td vAlign="top" class="tableUp" align="left" colspan="6" ><b>General Information</b></td>
                 </tr>
-<%--                 <tr>--%>
-<%--                    <td colspan="6">&nbsp;</td>--%>
-<%--                </tr>--%>
                 <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Accessability</td><td  colspan="4" valign="top" ><%=StringUtil.returnEmptyForNull(camp.getCampAccesability())%></td>
                 </tr>
-<%--                <tr>--%>
-<%--                    <td colspan="6">&nbsp;</td>--%>
-<%--                </tr>--%>
                <tr>
                     <td >&nbsp;</td><td vAlign="top" class="formText" align="left">Capability</td><td  colspan="4"  valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampCapability())%></td>
                 </tr>
-<%--                <tr>--%>
-<%--                    <td colspan="6">&nbsp;</td>--%>
-<%--                </tr>--%>
                <tr>
                     <td>&nbsp;</td><td vAlign="top"  rowspan="2" class="formText" align="left"  >Comment  </td><td colspan="4" valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampComment())%></td>
                 </tr>
@@ -205,36 +175,3 @@
 </body>
 </html>
 
-
-
-<%----%>
-<%--<tr align="center" >--%>
-<%--                    <table border="1" width="50%" >--%>
-<%--                        <tr>--%>
-<%--                            <td>--%>
-<%--                                <table width="30%" border="1" >--%>
-<%--                                    <tr>--%>
-<%--                                    </tr>--%>
-<%--                                </table>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Total</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampTotal())%></td>--%>
-<%--                        </tr>--%>
-<%--                        <tr>--%>
-<%--                            <td>--%>
-<%--                                <table width="30%" border="1" >--%>
-<%--                                    <tr>--%>
-<%--                                    <td>--%>
-<%--                                        <table width="30%" border="1" >--%>
-<%--                                            <tr>--%>
-<%--                                            </tr>--%>
-<%--                                        </table>--%>
-<%--                                    </td>--%>
-<%--                                    </tr>--%>
-<%--                                </table>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%----%>
-<%--                    </table>--%>
-<%--                </tr>--%>
