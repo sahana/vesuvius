@@ -11,7 +11,7 @@ use erms;
 #----------------------------
 # Table structure for tblAccessLevels
 #----------------------------
-DROP TABLE `TBLACCESSLEVELS`;
+DROP TABLE IF EXISTS `TBLACCESSLEVELS`;
 CREATE TABLE `TBLACCESSLEVELS` (
   `AccessLevels` varchar(20) default NULL
 ) TYPE=MyISAM ;
@@ -29,7 +29,7 @@ insert  into TBLACCESSLEVELS values
 #----------------------------
 # Table structure for tblAccessModules
 #----------------------------
-DROP TABLE `TBLACCESSMODULES`;
+DROP TABLE IF EXISTS `TBLACCESSMODULES`;
 CREATE TABLE `TBLACCESSMODULES` (
   `ModuleId` int(11) default NULL,
   `ModuleName` varchar(50) default NULL
@@ -50,7 +50,7 @@ insert  into TBLACCESSMODULES values
 #----------------------------
 # Table structure for tblaccesspermissions
 #----------------------------
-DROP TABLE `TBLACCESSPERMISSIONS` ;
+DROP TABLE IF EXISTS `TBLACCESSPERMISSIONS` ;
 CREATE TABLE `TBLACCESSPERMISSIONS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL,
@@ -89,7 +89,7 @@ insert  into TBLACCESSPERMISSIONS values
 #----------------------------
 # Table structure for tblAuditLog
 #----------------------------
-DROP TABLE `TBLAUDITLOG` ;
+DROP TABLE IF EXISTS `TBLAUDITLOG` ;
 CREATE TABLE `TBLAUDITLOG` (
   `UserName` varchar(100) NOT NULL default '',
   `ModuleId` int(11) NOT NULL default '0',
@@ -102,7 +102,7 @@ CREATE TABLE `TBLAUDITLOG` (
 #----------------------------
 # Table structure for tblModuleAccessLevels
 #----------------------------
-DROP TABLE `TBLMODULEACCESSLEVELS` ;
+DROP TABLE IF EXISTS `TBLMODULEACCESSLEVELS` ;
 CREATE TABLE `TBLMODULEACCESSLEVELS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL
@@ -138,7 +138,7 @@ insert  into TBLMODULEACCESSLEVELS values
 #----------------------------
 # Table structure for tblRoles
 #----------------------------
-DROP TABLE `TBLROLES` ;
+DROP TABLE IF EXISTS `TBLROLES` ;
 CREATE TABLE `TBLROLES` (
   `RoleId` int(11) default NULL,
   `RoleName` varchar(30) default NULL,
@@ -155,7 +155,7 @@ insert  into TBLROLES values
 #----------------------------
 # Table structure for tbluserroles
 #----------------------------
-DROP TABLE `TBLUSERROLES` ;
+DROP TABLE IF EXISTS `TBLUSERROLES` ;
 CREATE TABLE `TBLUSERROLES` (
   `RoleId` int(11) default NULL,
   `UserName` varchar(30) default NULL
@@ -170,6 +170,6 @@ CREATE TABLE `TBLUSERROLES` (
 #
 # Populate the database with the default user
 #
-INSERT INTO TBLUSERROLES select 0, UserName from user;
+## INSERT INTO TBLUSERROLES select 0, UserName from USER
 #
 #
