@@ -166,10 +166,10 @@
 <table>
      <tr>
         <form name="newLand" action="SearchLands.jsp"  >
-            <table cellspacing="4"  border =1 >
+            <table cellspacing="4" >
 
                 <tr>
-                    <td align="left" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
+                    <td align="left" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp; <!--<small><font color="red">*</font></small> --></td>
                 </tr>
 
                  <tr>
@@ -221,6 +221,9 @@
 
                                     <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
 
+                                     <td >
+                                      <table>
+                                           <tr>
                                     <td>
                                         <select name="ownedById" class="selectBoxes">
 
@@ -247,11 +250,7 @@
                                             %>
                                         </select>
                                         <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
-                                    </td>
 
-                                    <td>
-                                      <table border =1>
-                                           <tr>
 
                                                 <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
 
@@ -299,8 +298,8 @@
 
                 <tr>
                        <td  align="left" valign="top"   class="formText">Area Atleast&nbsp;</td>
-                       <td ><input type="text" size="20" name="area" class="textBox"  value="<jsp:getProperty name="newLand" property="area" />"></td>
-                       <td>
+                       <td ><input type="text" size="20" name="area" class="textBox"  value="<jsp:getProperty name="newLand" property="area" />">
+
                            <select name="measurementTypeId" class="selectBoxes">
                                <option value="">&lt;Select&gt;</option>
                                <%

@@ -285,11 +285,11 @@ function validateForm()
                 %>
 
                 <tr>
-                    <td align="right" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
+                    <td align="left" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
                 </tr>
 
                 <tr>
-                    <td  align="right" valign="top"  class="formText" >Description&nbsp;</td>
+                    <td  align="left" valign="top"  class="formText" >Description&nbsp;</td>
                        <td>
                          <input type="text" size="20" maxlength="49"  name="description" class="textBox"  value="<jsp:getProperty name="newLand" property="description" />">
                        </td>
@@ -448,11 +448,11 @@ function validateForm()
                </tr>
 
                <tr>
+                    <td  align="left" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
+                    <td>
+                     <table>
+                         <tr>
 
-                    <table>
-                      <tr>
-                              <td  align="right" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
-                              <td>&nbsp;&nbsp;</td>
                               <td>
                                 <!-- <input type="text" size="10" maxlength="49"  name="GPS1" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS1" />">-->
                                  <select name="GPS1" class="selectBoxes" >
@@ -516,6 +516,7 @@ function validateForm()
 
                          </tr>
                        </table>
+                     </td>
                 </tr>
                 <tr>
                    <td>
