@@ -123,33 +123,21 @@
                    </td>
              </tr>
 
+
              <tr>
-                  <td align="right" vAlign="top" class="formText">Distance From Sea : </td>
+                  <td align="right" vAlign="top" class="formText">Address : </td>
                   <td>
-                     <input class="textBox" name="distanceFromSea"  type="text" id="distanceFromSea">&nbsp;<small><font color="red">*</font></small>
+                     <input class="textBox" name="address"  type="text" id="city">
                    </td>
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Number and Street : </td>
-                  <td>
-                     <input class="textBox" name="noAndStreet" maxlength="99" size="38" type="text" id="noAndStreet">
-                   </td>
+                            <td align="right" vAlign="top" class="formText">Distance From Sea : </td>
+                                     <td>
+                                        <input class="textBox" name="distanceFromSea"  type="text" id="distanceFromSea">&nbsp;<small><font color="red">*</font></small>
+                                      </td>
              </tr>
 
-             <tr>
-                  <td align="right" vAlign="top" class="formText">City : </td>
-                  <td>
-                     <input class="textBox" name="city"  type="text" id="city">
-                   </td>
-             </tr>
-
-             <tr>
-                  <td align="right" vAlign="top" class="formText">Current Address : </td>
-                  <td>
-                     <input class="textBox" name="currentAddress" maxlength="99" size="38" type="text" id="currentAddress">
-                   </td>
-             </tr>
 
              <tr>
                   <td align="right" vAlign="top" class="formText">Floor Area : </td>
@@ -213,7 +201,7 @@
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Resident Incometax Number : </td>
+                  <td align="right" vAlign="top" class="formText"> House Tax Number (Varipanam) : </td>
                   <td>
                      <input class="textBox" name="propertyTaxNo" type="text" id="propertyTaxNo">
                    </td>
@@ -221,6 +209,12 @@
 
 
              <tr>
+                  <td align="right" vAlign="top" class="formText">Estimated Value of House in Rupees (Before the Damage) : </td>
+                  <td>
+                     <input class="textBox" name="totalValue" type="text" id="totalDamagedCost">
+                   </td>
+             </tr>
+            <tr>
                   <td align="right" vAlign="top" class="formText">Estimated Damage in Rupees : </td>
                   <td>
                      <input class="textBox" name="totalDamagedCost" type="text" id="totalDamagedCost">
@@ -230,12 +224,12 @@
              <tr>
                   <td align="right" vAlign="top" class="formText">Floor area of the House : </td>
                   <td>
-                     <input class="textBox" name="landArea" type="text" id="landArea">
+                     <input class="textBox" name="floorArea" type="text" id="landArea">
                    </td>
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Do you like to get relocated : </td>
+                  <td align="right" vAlign="top" class="formText">If your house got damaged, do you want to be relocated ? : </td>
                   <td>
                      <input type="radio" name="relocate" class="formText"  value="true"
                      <%="checked=\"true\""
@@ -253,7 +247,7 @@
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Is house Insured : </td>
+                  <td align="right" vAlign="top" class="formText">Is house Insured? : </td>
                   <td>
                      <input type="radio" name="insured" class="formText"  value="true"
                      <%

@@ -34,9 +34,9 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement.setString(3, dhTO.getGSN());
             preparedStatement.setString(4, dhTO.getOwner());
             preparedStatement.setString(5, dhTO.getDistanceFromSea());
-            preparedStatement.setString(6, dhTO.getCity());
-            preparedStatement.setString(7, dhTO.getNoAndStreet());
-            preparedStatement.setString(8, dhTO.getCurrentAddress());
+            //preparedStatement.setString(6, dhTO.getCity());
+            //preparedStatement.setString(7, dhTO.getNoAndStreet());
+           // preparedStatement.setString(8, dhTO.getCurrentAddress());
             preparedStatement.setString(9, dhTO.getFloorArea());
             preparedStatement.setString(10, dhTO.getNoOfStories());
             preparedStatement.setString(11, dhTO.getTypeOfOwnership());
@@ -44,7 +44,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement.setString(13, dhTO.getTypeOfConstruction());
             preparedStatement.setString(14, dhTO.getPropertyTaxNo());
             preparedStatement.setString(15, dhTO.getTotalDamagedCost());
-            preparedStatement.setString(16, dhTO.getLandArea());
+            preparedStatement.setString(16, dhTO.getFloorArea());
 
             if(dhTO.getRelocate().equalsIgnoreCase("true"))
                  preparedStatement.setBoolean(17,true);
@@ -161,7 +161,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
                 requestSearchTo.setTypeOfConstruction(resultSet.getString(DBConstants.TableColumns.TYPE_OF_CONSTRUCTION));
                 requestSearchTo.setPropertyTaxNo(resultSet.getString(DBConstants.TableColumns.PROPERTY_TAX_NO));
                 requestSearchTo.setTotalDamagedCost(resultSet.getString(DBConstants.TableColumns.TOTAL_DAMAGED_COST));
-                requestSearchTo.setLandArea(resultSet.getString(DBConstants.TableColumns.LAND_AREA));
+                requestSearchTo.setFloorArea(resultSet.getString(DBConstants.TableColumns.LAND_AREA));
                 requestSearchTo.setRelocate(resultSet.getString(DBConstants.TableColumns.INSURED));
                 requestSearchTo.setDamageType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE));
                 requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS ));

@@ -10,9 +10,6 @@ public class DamagedHouseTO {
     private String gsn;
     private String owner;
     private String distanceFromSea;
-    private String city;
-    private String noAndStreet;
-    private String currentAddress;
     private String floorArea;
     private String noOfStories;
     private String typeOfOwnership;
@@ -20,7 +17,6 @@ public class DamagedHouseTO {
     private String typeOfConstruction;
     private String propertyTaxNo;
     private String totalDamagedCost;
-    private String landArea;
     private String relocate;
     private String insured;
     private String damageType;
@@ -87,30 +83,6 @@ public class DamagedHouseTO {
         this.distanceFromSea = distanceFromSea;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getNoAndStreet() {
-        return noAndStreet;
-    }
-
-    public void setNoAndStreet(String noAndStreet) {
-        this.noAndStreet = noAndStreet;
-    }
-
-    public String getCurrentAddress() {
-        return currentAddress;
-    }
-
-    public void setCurrentAddress(String currentAddress) {
-        this.currentAddress = currentAddress;
-    }
-
     public String getFloorArea() {
         return floorArea;
     }
@@ -167,13 +139,6 @@ public class DamagedHouseTO {
         this.totalDamagedCost = totalDamagedCost;
     }
 
-    public String getLandArea() {
-        return landArea;
-    }
-
-    public void setLandArea(String landArea) {
-        this.landArea = landArea;
-    }
 
     public String getRelocate() {
         return relocate;
@@ -224,16 +189,13 @@ public class DamagedHouseTO {
     }
 
     public DamagedHouseTO(){}
-    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, String distanceFromSea, String city, String noAndStreet, String currentAddress, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String totalDamagedCost, String landArea, String relocate, String insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
+    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, String distanceFromSea, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String totalDamagedCost,  String relocate, String insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
         this.id = id;
         this.districtCode = districtCode;
         this.division = division;
         this.gsn = gsn;
         this.owner = owner;
         this.distanceFromSea = distanceFromSea;
-        this.city = city;
-        this.noAndStreet = noAndStreet;
-        this.currentAddress = currentAddress;
         this.floorArea = floorArea;
         this.noOfStories = noOfStories;
         this.typeOfOwnership = typeOfOwnership;
@@ -241,7 +203,6 @@ public class DamagedHouseTO {
         this.typeOfConstruction = typeOfConstruction;
         this.propertyTaxNo = propertyTaxNo;
         this.totalDamagedCost = totalDamagedCost;
-        this.landArea = landArea;
         this.relocate = relocate;
         this.insured = insured;
         this.damageType = damageType;
