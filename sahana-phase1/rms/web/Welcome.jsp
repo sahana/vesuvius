@@ -68,7 +68,7 @@
                 <td  nowrap class="formText" align="left" ><strong><a href="Search_Request.jsp?<%=ERMSConstants.ISearchConstants.SEARCH_REQUEST%>" style="text-decoration:none"  class="style1">Search Request</a></strong> </td>
                 </tr>
 
-                <tr>
+               <!-- <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
                 <td  nowrap class="formText" align="left" ><strong>Reports</strong></td>
                 </tr>
@@ -79,7 +79,7 @@
                 <tr>
                 <td  align="right" class="formText">&nbsp;&nbsp;&nbsp;&nbsp;&raquo;</strong></td>
                 <td  nowrap class="formText" align="left" >&nbsp;&nbsp;&nbsp;<a href="/reports/sahana-report.vx?report=fulfill-request-detail"><strong>Fulfillment Details Reports</strong></a></td>
-                </tr>
+                </tr> -->
               </table>
 
              </td>
