@@ -70,7 +70,7 @@
      </fileset>
   </copy>
 
-  <copy file="${db.properties}"  todir="${bin.war.root.classes}/org/erms/db"></copy>
+  <copy file="${db.properties}"  todir="${bin.war.root.classes}/org/sahana/share/db"></copy>
 
   <!--   Create the war   -->
   <war warfile="${app-name}.war" basedir="${bin.war.root}" webxml="${web}/WEB-INF/web.xml" ></war>
