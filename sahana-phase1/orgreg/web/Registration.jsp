@@ -170,7 +170,15 @@
             }else if(ERMSConstants.IContextInfoConstants.ACTION_EDIT.equalsIgnoreCase(fromAction)){
                 OrganizationRegistrationTO sessionOrgReg = (OrganizationRegistrationTO) session.getAttribute(ERMSConstants.IContextInfoConstants.ORGANIZATION_TO);
                 orgReg.setOrgCode(sessionOrgReg.getOrgCode());
-               status =dataAccessManager.updateOrganization(orgReg);
+                String requestDateParameter = request.getParameter("periodenddate");
+                String[] dateValues = requestDateParameter.split("-");
+                Calendar cal = new GregorianCalendar(Integer.parseInt(dateValues[0]),
+                    Integer.parseInt(dateValues[1])-1,
+                    Integer.parseInt(dateValues[2])
+                );
+                java.sql.Date periodDateObj = new java.sql.Date(cal.getTime().getTime());
+                orgReg.setPeriodEndDate(periodDateObj);
+                status =dataAccessManager.updateOrganization(orgReg);
                 message = "Your oraganizations information updated successfully !!";
 
             }

@@ -1080,7 +1080,11 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setString(11, org.getComments());
             preparedStatement.setString(12, new Date().toString());
             preparedStatement.setBoolean(13, org.isSriLankan());
-             preparedStatement.setString(14, org.getOrgCode());
+            preparedStatement.setString(14, org.getPeriodEndDate().toString());
+            preparedStatement.setString(15, org.getOrgCode());
+            
+            System.out.println("Date" + org.getPeriodEndDate().toString());
+            System.out.println("SQL " + preparedStatement);
             preparedStatement.execute();
 
 

@@ -523,7 +523,8 @@ public class SQLGenerator {
                      DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE + "=?, "+
                      DBConstants.TableColumns.ORG_COMMENTS + "=?, "+
                      DBConstants.TableColumns.ORG_LAST_UPDATE + "=?, "+
-                     DBConstants.TableColumns.ORG_IS_SRILANKAN + "=? "+
+                     DBConstants.TableColumns.ORG_IS_SRILANKAN + "=?, "+
+                     DBConstants.TableColumns.ORG_UNTILDATE + "=? "+
 
                      " where " + DBConstants.TableColumns.ORG_CODE + "=?";
         }
