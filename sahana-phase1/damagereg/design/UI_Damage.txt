@@ -1,0 +1,109 @@
+Create new case
+	Login by authorization officer.
+	reportedBy:  Person (PersonID FK reference | (name; phone; address; dentifier(NIC));
+		Either locate in the Person table OR enter via data entry NOT BOTH
+	Values for other attributes;
+	Insert new record.
+
+Update case: 	Search by name of person reporting case OR 
+        	Search by name of contact person in DamageReport;
+		Confirm with locationAddress of property. Note: this may not be 
+                     relevant for Fishing or (land) Vehicle.
+		
+
+Loop within new case or update case:
+	Select propertyType;
+	Create/Update Property instance;
+	Create/Update (generic) Damage Report instance;
+	Create/Update Customized (property type specific) Damage Report instance;
+	Import images;
+	Update database.
+
+Create_Property (Property)
+	Global PropertyID;
+	propertyType -- select from enumerated values;
+	ownerPerson: Person (PersonID FK reference | (name; phone; address; dentifier(NIC));
+	locationCode | province,district,division, etc. -- Select from enumerated values.
+	locationAddress;
+	insuranceinformation:  
+		isInsured: Boolean 
+		(Company, policy number)
+	Other attributes.
+	Insert record into Property.
+
+Update_Property (Property)
+
+
+Create_Generic_Damage_Report (DamageReport)
+	Global DamageReportID
+	PropertyID (foreign key)
+	propertyType  (also in Property) 
+	CaseID     (foreign key)
+	ContactPerson : Person (PersonID FK reference | (name; phone; address; dentifier(NIC));
+	numberOfAffectedPersons;
+	Create customized damage report AND/OR
+		damageTypeCode (4 values);
+		estimatedDamageValue;
+	Insert record into DamageReport.
+
+Update_Generic_Damage_Report (DamageReport)
+
+Create_Damage_Details_Hospital () 
+ONLY APPLIES WHEN DAMAGE_DETAIL_TYPE in PROPERTY_TYPE is non NULL.
+	Global DamageDetailID
+	DamageReportID (foreign key)
+	PropertyID (foreign key) -- redundant
+	PropertyTypeCode  -- redundant
+	Other attributes;	
+	Insert record into HospitalDamageReport.
+
+Update_Customized_Damage_Report ()
+
+Upload_DamageImage (DamageImage)
+	Global ImageID
+	DamageReportID (foreign key)
+	Image_Filename
+	Insert record into DamageImage.
+ 
+======================================================================================
+TABLES FOR PROPERTYDAMAGE APPLICATION SCHEMA
+======================================================================================
+Enumerate propertyType values.  Note that PROPERTYTYPE does NOT maintain the tree structure of Property_Hierarchy.
+
+PROPERTYTYPE table.
+
+PK - PropertyTypeCode
+     PropertyTypeDesc
+     DamageDetailCode
+
+Enumerate DamageType values.
+
+DAMAGETYPE Table with DAMAGETYPECODE as primary key.
+======================================================================================
+
+======================================================================================
+TABLES IN GLOBAL SCHEMA
+======================================================================================
+
+Location 
+	Global LocationID 
+	LocationCode
+	Province
+	District
+	Division
+	GN .... 
+
+Person Entity
+	Global PersonID
+        Name
+	Other attributes.
+======================================================================================
+
+
+======================================================================================
+ADMINISTRATIVE TABLES
+======================================================================================
+
+
+
+======================================================================================

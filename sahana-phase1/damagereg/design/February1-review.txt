@@ -1,0 +1,139 @@
+February 1 2005
+
+1. LOCATION
+
+2. PROPERTY_TYPE
+
+3. DAMAGE_DETAILS_HOSPITAL
+
+1.
+Location Code
+Check attribute values.
+	Missing values.
+	Errors in values.  Character instead of numeric.
+Uniqueness check for attributes in hierarchy.
+Select attribute hierarchy for LOCATION_CODE.
+Create LOCATION_CODE.
+	Format may correspond to location hierarchy.
+	Unique.
+
+2.
+PROPERTY_TYPE
+	PROPERTY_TYPE_CODE  
+ 	PROPERTY_TYPE_DESCRIPTION
+	PARENT_TYPE_CODE
+	DAMAGE_DETAIL_TYPE
+
+Java Class will represent Property_Hierarchy tree.  Leaf nodes of tree are pairs of values (PROPERTY_TYPE_CODE, DAMAGE_DETAIL_TYPE).
+  
+Depth of Property_Hierarchy tree can vary.  Property_Hierarchy tree is Not binary.
+
+PROPERTY_TYPE_CODE field of PROPERTY_TYPE table represents the leaf nodes and intermediate nodes but does NOT encode the Property_Hierarchy tree.
+PARENT_TYPE identifies parent at level ?? of tree.
+
+UserInterface will traverse the tree and select ONE leaf node. 
+UI must produce 
+	(PROPERTY_TYPE_CODE, DAMAGE_DETAIL_XXX).
+ 
+Property_Hierarchy tree is not extensible for this version.
+
+Schedule 3 Questions 3 and 4 have a classification based on PURPOSE (Question 3) and AFFILIATIOn (Question 4).  We will incorporate into Property_Hierarchy tree.
+
+	Residential 
+		Single  ..... return (ResSgl, NULL)
+		Scheme  ..... return (ResSch, NULL)
+	Institution
+		Religious Institution ... return (RlgInst, NULL)
+		School  
+			Public 
+				Primary 
+					return (SchlPblPrm, DAMAGE_DETAIL_SCHOOL)
+				Secondary
+			Private
+				Primary 
+				Secondary
+		Hospital 
+			Public 
+				TeachingHospital
+					return (HspPblTch DAMAGE_DETAIL_HOSPITAL)
+			Private 
+		University (return NULL)
+		OtherInstitution  (return NULL)
+	Commercial ** NULL
+		Census - Schedule 3 Question 3 - Commercial Property subcodes
+	Land  ** NULL
+	Unoccupied  ** NULL
+	Other????  ** NULL
+
+	Vehicle  ** DAMAGE_DETAIL_VEHICLE 
+		Bicycle; 
+		Motorbicycle
+			Price range?
+		3-wheeler
+		Car
+			Price range?
+			Make / Model / Year
+		Vans
+			Length
+		Jeep
+		Cab
+			Single 
+			Double
+		Lorries
+		Trucks-Cab-Bed
+		Tractor/trailer
+		Bus
+
+	FishingVehicle ** DAMAGE_DETAIL_FISHINGVEHICLE
+		Unmotorized
+			Type or price range
+		Motorized
+			Engine Type and Length
+
+
+3.
+
+Customized DAMAGE_DETAILS_XXX Report will be produced for the following nodes of the Property_Hierarchy tree 
+	Hospital  
+	School 
+	FishingVehicle.
+
+
+DAMAGE_DETAILS_HOSPITAL
+DAMAGE_DETAILS_HOSPITAL_EST_COST
+DAMAGE_DETAILS_HOSPITAL_UNIT_STATUS
+
+Create_Damage_Detail_Hospital
+	Global DamageDetailID
+	DamageReportID (foreign key)
+	PropertyID (foreign key) -- redundant
+	PropertyTypeCode  -- redundant
+	parentPropertyTypeCode
+	Other attributes;	
+	Insert record into HospitalDamageReport.
+
+Value of parentPropertyTypeCode used to retrieve UNIT_TYPE values from PROPERTY_UNITS and
+BUDGET_TYPE values from DAMAGE_DETAIL_BUDGET_TYPE.
+
+PROPERTY_UNITS
+	PROPERTY_TYPE_CODE
+	UNIT_TYPE
+
+DAMAGE_DETAIL_HOSPITAL_UNIT_STATUS
+	DAMAGE_REPORT_ID
+	PROPERTY_TYPE_CODE
+	UNIT_TYPE
+	DAMAGE_TYPE_CODE 
+
+DAMAGE_DETAIL_BUDGET_TYPE
+	PROPERTY_TYPE_CODE
+	BUDGET_TYPE
+
+DAMAGE_DETAIL_HOSPITAL_EST_COST
+	DAMAGE_REPORT_ID
+	PROPERTY_TYPE_CODE
+	BUDGET_TYPE
+	ESTIMATED_VALUE
+	
+	
+
