@@ -19,6 +19,7 @@ public interface DBConstants {
     }
 
     public interface TableColumns {
+        
         //house table
         public static final String ID = "Id";
         public static final String DISTRICT_CODE = "DistrictCode";

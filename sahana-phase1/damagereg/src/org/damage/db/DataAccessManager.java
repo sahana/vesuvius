@@ -3,23 +3,52 @@ package org.damage.db;
 import org.damage.business.DamagedHouseTO;
 import org.erms.db.*;
 import org.erms.db.DBConstants;
+import org.erms.db.SQLGenerator;
 import org.erms.business.KeyValueDTO;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 
 public class DataAccessManager implements DBConstants{
 
      public DataAccessManager() {
     }
-   public void addDamageHouse(DamagedHouseTO  dhTO){
+   public boolean addDamagedHouse(DamagedHouseTO  dhTO)throws SQLException, Exception {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean status=false;
 
+         try {
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse());
+
+          } catch (Exception e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    status = false;
+
+                }
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+                status = false;
+                throw e1;
+
+            }
+            status = false;
+            e.printStackTrace();
+
+        } finally {
+            closeStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return status;
     }
     //list oif house dtos
     //public List searchHouses(SearchHouseTO);
