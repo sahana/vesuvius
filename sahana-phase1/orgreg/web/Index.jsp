@@ -69,6 +69,11 @@
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
                 <td  nowrap class="formText" align="left"><strong><a href="Search_org.jsp" style="text-decoration:none"  class="style1">List of Organizations</a></strong></td>
                 </tr>
+                <tr>
+                <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
+                <td  nowrap class="formText" align="left"><strong><a href="Search_org.jsp" style="text-decoration:none"  class="style1">Edit Organizations</a></strong></td>
+                </tr>
+
 <%--                 <tr>--%>
 <%--                <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>--%>
 <%--                <td  nowrap class="formText" align="left"><strong><a href="/index.html" style="text-decoration:none"  class="style1">Home</a></strong></td>--%>
