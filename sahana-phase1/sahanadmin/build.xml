@@ -1,0 +1,20 @@
+<!DOCTYPE project [<!ENTITY common-targets SYSTEM "file:../share/common-targets.xml">]>
+<project basedir="." default="deploy-local">
+    <!-- Reference to the common targets xml file -->
+      &common-targets;
+
+  <!--  Build script for the sahana admin.war  -->
+  <property name="app-name" value="sahanaadmin"></property>
+
+    <property name="db.properties" value="${src}/org/assistance/db/db.properties"></property>
+    <property file="../tomcat.properties"/>
+
+
+  <path id="project.class.path">
+  	<pathelement location="${tomcat.home}/common/lib/servlet.jar"/>
+  	<fileset dir="${lib}">
+  		<include name="*.jar"/>
+  	</fileset>
+  </path>
+</project>
+
