@@ -1,8 +1,9 @@
 - Stop apache
 
-- Run update.sql
+- Run updates.sql and updates-2.sql
 
   mysql -uroot -p < db/updates.sql
+  mysql -uroot -p < db/updates-2.sql
 
 - Update db.php file of mambo/componnets/com_component/ with the CVS version.
 
