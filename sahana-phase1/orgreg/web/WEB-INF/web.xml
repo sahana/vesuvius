@@ -12,24 +12,24 @@
         <location>/error.jsp</location>
     </error-page>
 
-    <!-- Security is active on Registration directory -->
-<!--  <security-constraint>-->
-<!--    <display-name>Sahana Server Registration Constraint</display-name>-->
-<!--    <web-resource-collection>-->
-<!--      <web-resource-name>Protected Area</web-resource-name>-->
-     <!-- Define the context-relative URL(s) to be protected -->
-<!--      <url-pattern>/Registration.jsp</url-pattern>-->
-<!--    </web-resource-collection>-->
-<!--    <auth-constraint>-->
-      <!-- Anyone with one of the listed roles may access this area -->
-<!--      <role-name>sahanaAdmin</role-name>-->
-<!--    </auth-constraint>-->
-<!--  </security-constraint>-->
+<!--     Security is active on Registration directory -->
+  <security-constraint>
+    <display-name>Sahana Server Registration Constraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Area</web-resource-name>
+<!--      Define the context-relative URL(s) to be protected-->
+      <url-pattern>/Registration.jsp</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+<!--       Anyone with one of the listed roles may access this area-->
+      <role-name>sahanaAdmin</role-name>
+    </auth-constraint>
+  </security-constraint>
 
-  <!-- Login configuration uses form-based authentication -->
-<!--  <login-config>-->
-<!--    <auth-method>BASIC</auth-method>-->
-<!--    <realm-name>Sahana sever Authentication Area</realm-name>-->
-<!--  </login-config>-->
+<!--   Login configuration uses form-based authentication -->
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>Sahana sever Authentication Area</realm-name>
+  </login-config>
 
 </web-app>
