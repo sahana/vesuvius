@@ -472,7 +472,7 @@
 
                                     <tr>
 
-                                        <td class="formText">&nbsp;Site Area</td>
+                                        <td class="formText">&nbsp;Site Address</td>
 
                                         <td colspan="4"><input type="text" name="item" class="textBox"  readonly="true" value="<%=requestTO.getSiteArea()%>"></td>
 
