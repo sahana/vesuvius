@@ -204,9 +204,9 @@ public class SQLGenerator {
                 DBConstants.Tables.CAMPS_CAMP +
                 " (" +
                  DBConstants.TableColumns.CAMP_AREANAME + ","+
-                 DBConstants.TableColumns.CAMP_DIV_ID + ","+
-                 DBConstants.TableColumns.CAMP_DIST_CODE + ","+
-                 DBConstants.TableColumns.CAMP_PROV_CODE + ","+
+                 DBConstants.TableColumns.DIV_ID + ","+
+                 DBConstants.TableColumns.DIST_CODE + ","+
+                 DBConstants.TableColumns.PROV_CODE + ","+
                  DBConstants.TableColumns.CAMP_CAMP_NAME + ","+
                  DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + ","+
                  DBConstants.TableColumns.CAMP_CAMP_MEN + ","+
@@ -240,14 +240,30 @@ public class SQLGenerator {
                 "?)";
     }
 
+    public static String getSQLInsertHistory(){
+         return "insert into " +
+                 DBConstants.Tables.CAMPS_HISTORY +
+                 "(" +
+                 DBConstants.TableColumns.HISTORY_CAMP_ID + ","+
+                 DBConstants.TableColumns.HISTORY_CAMP_MEN + ","+
+                 DBConstants.TableColumns.HISTORY_CAMP_WOMEN + ","+
+                 DBConstants.TableColumns.HISTORY_CAMP_CHILDREN + ","+
+                 DBConstants.TableColumns.HISTORY_CAMP_TOTAL + ","+
+                 DBConstants.TableColumns.HISTORY_CAMP_FAMILY + ","+
+                 DBConstants.TableColumns.HISTORY_UPDATED_DATE + ","+
+                 DBConstants.TableColumns.HISTORY_UPDATED_TIME +
+                 ") values (" +
+                 "?,?,?,?,?,?,?,?)";
+    }
+
     public static String getSQLEditCamp() {
             return "update " +
                     DBConstants.Tables.CAMPS_CAMP +
                     " set " +
                      DBConstants.TableColumns.CAMP_AREANAME + "=?, "+
-                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
-                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
-                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
+                     DBConstants.TableColumns.DIV_ID + "=?, "+
+                     DBConstants.TableColumns.DIST_CODE + "=?, "+
+                     DBConstants.TableColumns.PROV_CODE + "=?, "+
                      DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
                      DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
                      DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
@@ -261,50 +277,19 @@ public class SQLGenerator {
                      DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
                      DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
                      DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
-                     " where " + DBConstants.TableColumns.CAMP_CAMP_ID + "=?"; 
+                     " where " + DBConstants.TableColumns.CAMP_CAMP_ID + "=?";
 
         }
 
-
-    public static String getSQLEditCamp(CampTO campTO) {
-        StringBuffer strBuffer = new StringBuffer("update CAMPS_CAMP set ");
-        boolean commaNeeded = false;
-
-//        commaNeeded = appendToSqlEditCampStrBuffer("AREA_ID", campTO.getAreadId(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("AREA_NAME", campTO.getAreaName(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("DIV_ID", campTO.getDivisionId(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("DIST_CODE", campTO.getDistrictCode(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("PROV_CODE", campTO.getProvienceCode(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_NAME", campTO.getCampName(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_ACCESABILITY", campTO.getCampAccesability(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_MEN", campTO.getCampMen(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_WOMEN", campTO.getCampWomen(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_CHILDREN", campTO.getCampChildren(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_TOTAL", campTO.getCampTotal(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_CAPABILITY", campTO.getCampCapability(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_CONTACT_PERSON", campTO.getCampContactPerson(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_CONTACT_NUMBER", campTO.getCampContactNumber(), strBuffer, commaNeeded);
-        commaNeeded = appendToSqlEditCampStrBuffer("CAMP_COMMENT", campTO.getCampComment(), strBuffer, commaNeeded);
-        strBuffer.append(" where CAMP_ID = " + campTO.getCampId());
-
-        return strBuffer.toString();
-    }
 
     public static String getSQLDeleteCamp() {
-        return "delete from CAMPS_CAMP where CAMP_ID = ?";
+        return "delete from " +
+                DBConstants.Tables.CAMPS_CAMP +
+                "where " +
+                 DBConstants.TableColumns.CAMP_CAMP_ID +
+                "= ?";
     }
 
-    private static boolean appendToSqlEditCampStrBuffer(String columnName, String columnValue, StringBuffer strBuffer, boolean commaNeeded) {
-        if (columnValue != null) {
-            if (commaNeeded) {
-                strBuffer.append(", ");
-            } else {
-                commaNeeded = true;
-            }
-            strBuffer.append(columnName + " = '" + columnValue + "'");
-        }
-        return commaNeeded;
-    }
 
     /**
      */
@@ -314,21 +299,9 @@ public class SQLGenerator {
         StringBuffer sqlBuff = new StringBuffer("select * from " + DBConstants.Tables.CAMPS_CAMP + " where ");
         boolean hasWhereClause = false;
 
-//        if (areaId != -1) {
-//            sqlBuff.append(" AREA_ID=" + areaId);
-//            hasWhereClause = true;
-//
-//        }
-
         if (divisionId != -1) {
-//            if (hasWhereClause) {
-//                sqlBuff.append(" and ");
-//            } else {
-//                hasWhereClause = true;
-//            }
-            sqlBuff.append(" DIV_ID=" + divisionId);
+            sqlBuff.append(" " + DBConstants.TableColumns.DIV_ID+"=" + divisionId + " ");
              hasWhereClause = true;
-
         }
 
         if (districtCode != null) {
@@ -337,7 +310,8 @@ public class SQLGenerator {
             } else {
                 hasWhereClause = true;
             }
-            sqlBuff.append(" DIST_CODE='" + districtCode + "'");
+            sqlBuff.append(" " + DBConstants.TableColumns.DIST_CODE +
+                    "='" + districtCode + "'");
         }
 
         if (provinceCode != null) {
@@ -346,14 +320,18 @@ public class SQLGenerator {
             } else {
                 hasWhereClause = true;
             }
-            sqlBuff.append(" PROV_CODE='" + provinceCode + "'");
+            sqlBuff.append(" " +
+                    DBConstants.TableColumns.PROV_CODE +
+                    "='" + provinceCode + "'");
         }
 
         if (campName != null) {
             if (hasWhereClause) {
                 sqlBuff.append(" and ");
             }
-            sqlBuff.append(" CAMP_NAME like '%" + campName + "%'");
+            sqlBuff.append(" " +
+                    DBConstants.TableColumns.CAMP_CAMP_NAME +
+                    " like '%" + campName + "%'");
         }
 
         return sqlBuff.toString();
@@ -362,19 +340,36 @@ public class SQLGenerator {
     /**
      */
     public static String getSQLForSearchCriteria(int campId) {
-        return "select * from " + DBConstants.Tables.CAMPS_CAMP + " where CAMP_ID=" + campId;
+        return "select * from " + DBConstants.Tables.CAMPS_CAMP + " where " +
+                DBConstants.TableColumns.CAMP_CAMP_ID+"=" + campId;
     }
 
     public static String getSQLForProvienceName(String provCode) {
-        return "select PROV_NAME from " + DBConstants.Tables.CAMPS_PROVINCE + " where PROV_CODE='" + provCode + "'";
+        return "select " +
+                DBConstants.TableColumns.PROV_NAME  +
+                " from " +
+                DBConstants.Tables.CAMPS_PROVINCE + " where " +
+                DBConstants.TableColumns.PROV_CODE + "='" +
+                provCode + "'";
     }
 
     public static String getSQLForDistrictName(String districtCode) {
-        return "select DIST_NAME from " + DBConstants.Tables.CAMPS_DISTRICT + " where DIST_CODE='" + districtCode + "'";
+        return "select " +
+                DBConstants.TableColumns.DIST_NAME +
+                " from " +
+                DBConstants.Tables.CAMPS_DISTRICT +
+                " where " +
+                DBConstants.TableColumns.DIST_CODE + "='"
+                + districtCode + "'";
     }
 
     public static String getSQLForDivisionName(int divisionId) {
-        return "select DIV_NAME from " + DBConstants.Tables.CAMPS_DIVISION + " where DIV_ID=" + divisionId;
+        return "select " +
+                DBConstants.TableColumns.DIV_NAME +
+                " from " +
+                DBConstants.Tables.CAMPS_DIVISION + " where " +
+                DBConstants.TableColumns.DIV_ID +"=" +
+                divisionId;
     }
 
     public static String getSQLForAreaName(int areaId) {
@@ -430,34 +425,9 @@ public class SQLGenerator {
 
     public static String getSQLForProvinceCode(String districtCode) {
         String temp = "select * from " + DBConstants.Tables.CAMPS_DISTRICT + " where DIST_CODE='"  + districtCode  + "'";;
-        System.out.println("temp = " + temp);
-//        return "select * from " + DBConstants.Tables.CAMPS_DISTRICT + " where DIST_CODE='"  + districtCode  + "'";
         return temp;
     }
 
-//    /**
-//     * This method is in progress. need to complete with the appropriate fields.
-//     * @return
-//     */
-//    public static String getSQLForSearchCriteria() {
-//
-//        final String RQH = "RQH";
-//        final String RQD = "RQD";
-//
-//        return "SELECT "
-//            + RQH + "." + DBConstants.TableColumns.DESCRIPTION + ", "
-//            + RQD + "." + DBConstants.TableColumns.ITEM
-//            + " FROM "
-//            + DBConstants.Tables.REQUEST_HEADER + " as " + RQH + ", "
-//            + DBConstants.Tables.REQUEST_DETAIL + " as " + RQD
-//            + " WHERE "
-//            + "(? is null OR (" + DBConstants.TableColumns.CATEGORY + " = ?))"
-//            + " and "
-//            + RQH + "." + DBConstants.TableColumns.REQUEST_ID
-//            + " = "
-//            + RQD + "." + DBConstants.TableColumns.REQUEST_ID
-//            ;
-//    }
    /**
     * Gives an sql insert statement to insert values to organization table
     * in following order.

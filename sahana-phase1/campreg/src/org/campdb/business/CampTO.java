@@ -29,6 +29,7 @@ public class CampTO {
     private String campContactNumber;
     private String campComment;
     private Date updateDate = new Date(); //initialise to current date
+    private Date updateTime = new Date(); //initialise to current date
     private String provienceName;
     private String districtName;
     private String divionName;
@@ -36,6 +37,14 @@ public class CampTO {
     private String campFamily;
     private String countSelect;
 
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getCountSelect() {
         return countSelect;

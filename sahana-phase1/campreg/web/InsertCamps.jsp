@@ -406,7 +406,7 @@ function showObject(id){
        <tr>
        <tr>
        <td align="right">
-            Date
+            Effective from
        </td>
        <td><input type="text" name="updateDate" class="textBox" readonly="true" id="txtMDate1" value="<%=formatter.format(newCamp.getUpdateDate())%>" />&nbsp;<small><font color="red">*</font></small>
            <img src="images/calendar.gif" onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'yyyy-mm-dd')" width="18" height="17"/></td>

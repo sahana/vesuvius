@@ -123,7 +123,6 @@
       for (i=0;i< divisions.length ;i++){
           var option = new Option(divisions[i],tempdivisionCode[i]);
           divisionList.add(option,i);
-<%--          divisionList.options[i] = new Option(divisions[i],tempdivisionCode[i]);--%>
       }
     }
 
@@ -137,15 +136,6 @@
 <body topmargin="0" leftmargin="0">
 
         <jsp:include page="comman/header.inc"></jsp:include>
-
-   <%
-      List  districts = null;
-
-
-//       = (List) application.getAttribute("districts");
-  %>
-
-
 
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -204,7 +194,7 @@
             <tr>
               <td align="right" class="formText" type="submit">Province :</td>
               <td vAlign="top" >
-                <select name="provinceCode"  class="selectBoxes" onchange="listDistrict();"  >
+                <select name="provinceCode"  class="selectBoxes" onchange="listDistrict();listDivisions()"  >
                     <option value="">&lt;Select&gt;</option>
                     <%
                       List provinces = (List) application.getAttribute("provinces");
@@ -223,17 +213,6 @@
               <td vAlign="top" >
                 <select name="districtId" class="selectBoxes" onchange="listDivisions();" >
                     <option value="">&lt;Select&gt;</option>
-<%--                    <%--%>
-<%--//                     List districts = (List) application.getAttribute("districts");--%>
-<%--                        if(districts != null){--%>
-<%--                          for (Iterator iterator = districts.iterator(); iterator.hasNext();) {--%>
-<%--                              LabelValue district = (LabelValue) iterator.next();--%>
-<%--                    %>--%>
-<%--                            <option value="<%=district.getValue()%>"><%=district.getLabel()%></option>--%>
-<%--                    <%--%>
-<%--                          }--%>
-<%--                        }--%>
-<%--                    %>--%>
                 </select>
                </td>
             </tr>
@@ -242,16 +221,7 @@
               <td vAlign="top" >
                 <select name="divisionId" class="selectBoxes" >
                     <option value="-1">&lt;Select&gt;</option>
-<%--                    <%--%>
-<%--                      List divisions = (List) application.getAttribute("divisions");--%>
-<%--                        for (Iterator iterator = divisions.iterator(); iterator.hasNext();) {--%>
-<%--                            LabelValue division = (LabelValue) iterator.next();--%>
-<%--                    %>--%>
-<%--                            <option value="<%=division.getValue()%>"><%=division.getLabel()%></option>--%>
-<%--                    <%--%>
-<%--                        }--%>
-<%--                    %>--%>
-                </select>
+              </select>
                </td>
             </tr>
 

@@ -26,6 +26,7 @@ public interface DBConstants {
         public static final String CAMPS_DIVISION = "CAMPS_DIVISION";
         public static final String CAMPS_AREA = "CAMPS_AREA";
         public static final String CAMPS_CAMP = "CAMPS_CAMP";
+        public static final String CAMPS_HISTORY = "camp_history";
         public static final String DISTRICT = "district";
         public static final String CATOGORY = "category";
         public static final String PRIORITIES = "priority";
@@ -80,9 +81,12 @@ public interface DBConstants {
 
 
         public static final String CAMP_AREANAME = "AREA_NAME";
-        public static final String CAMP_DIV_ID = "DIV_ID";
-        public static final String CAMP_DIST_CODE = "DIST_CODE";
-        public static final String CAMP_PROV_CODE = "PROV_CODE";
+        public static final String DIV_ID = "DIV_ID";
+        public static final String DIV_NAME = "DIV_NAME";
+        public static final String DIST_CODE = "DIST_CODE";
+        public static final String DIST_NAME = "DIST_NAME";
+        public static final String PROV_CODE = "PROV_CODE";
+        public static final String PROV_NAME = "PROV_NAME";
         public static final String CAMP_CAMP_NAME = "CAMP_NAME";
         public static final String CAMP_CAMP_ACCESABILITY = "CAMP_ACCESABILITY";
         public static final String CAMP_CAMP_MEN = "CAMP_MEN";
@@ -98,5 +102,14 @@ public interface DBConstants {
         public static final String CAMP_CAMP_FAMILY = "CAMP_FAMILY";
         public static final String CAMP_CAMP_ID = "CAMP_ID";
 
+
+        public static final String HISTORY_CAMP_ID = "CAMP_ID";
+        public static final String HISTORY_CAMP_MEN = "CAMP_MEN";
+        public static final String HISTORY_CAMP_WOMEN = "CAMP_WOMEN";
+        public static final String HISTORY_CAMP_CHILDREN = "CAMP_CHILDREN";
+        public static final String HISTORY_CAMP_TOTAL = "CAMP_TOTAL";
+        public static final String HISTORY_CAMP_FAMILY = "CAMP_FAMILY";
+        public static final String HISTORY_UPDATED_DATE = "UPDATED_DATE";
+        public static final String HISTORY_UPDATED_TIME = "UPDATED_TIME";
     }
 }

@@ -1,14 +1,12 @@
 <%@ page import="org.campdb.business.CampTO,
                  org.campdb.db.DataAccessManager,
                  org.campdb.util.StringUtil,
-                 java.util.List,
-                 java.util.Iterator,
                  org.campdb.util.LabelValue,
-                 java.util.LinkedList,
                  org.campdb.business.User,
                  org.campdb.util.CAMPDBConstants,
                  java.text.Format,
-                 java.text.SimpleDateFormat"%>
+                 java.text.SimpleDateFormat,
+                 java.util.*"%>
 <jsp:useBean id="newCamp" scope="request" class="org.campdb.business.CampTO" />
      <jsp:setProperty name="newCamp" property="campId" />
      <jsp:setProperty name="newCamp" property="areadId" />
@@ -34,8 +32,21 @@
 
 <%
     DataAccessManager dataAccessManager = new DataAccessManager();
-
     List errors = new LinkedList();
+
+    //add the date variable manually
+    String updatedDateParameter = request.getParameter("updateDate");
+    if (updatedDateParameter!=null && updatedDateParameter.trim().length()>0){
+        //Date is in yyyy-mm-dd format
+        String[] dateValues = updatedDateParameter.split("-");
+        Calendar cal = new GregorianCalendar(Integer.parseInt(dateValues[0]),
+                Integer.parseInt(dateValues[1])-1,
+                Integer.parseInt(dateValues[2])
+        );
+        newCamp.setUpdateDate(cal.getTime());
+
+    }
+
 
     if (request.getParameter("doUpdate") == null) {  //data comes from the database
         if (request.getParameter("campId") == null) {
@@ -49,7 +60,6 @@
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.sendRedirect("SearchCamps.jsp");
-
             return;
         }
 
@@ -71,6 +81,7 @@
                 newCamp.setCampId(String.valueOf(Id));
                 dataAccessManager.editCamp(newCamp);
                 response.sendRedirect("ViewCampDetails.jsp?campId=" + Id);
+                return;
             } catch (Exception e) {
                 errors.add(e.getMessage());
             }
@@ -279,11 +290,14 @@
                <!-- seperator -->
                <tr>
                     <td align="right">
-                         Date
+                        Effective from
                 </td>
                 <td><input type="text" name="updateDate" class="textBox" readonly="true" id="txtMDate1" value="<%=formatter.format(newCamp.getUpdateDate())%>" />&nbsp;<small><font color="red">*</font></small>
                     <img src="images/calendar.gif" onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'yyyy-mm-dd')" width="18" height="17"/></td>
                 </tr>
+                <tr>
+               <td  align="right" vAlign="top" class="formText"> Family Count</td><td><input type="text" name="campFamily" class="textBox"/></td>
+           </tr>
                <tr>
                     <td align="right" valign="top"  >Comment </td>
                     <td>

@@ -24,7 +24,7 @@ import java.util.Collection;
  *         To change the template for this generated type comment go to
  *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class DataAccessManager {
+public class DataAccessManager implements DBConstants{
 
     //todo: load @ startup - & reload when ever edit/add/modify
 
@@ -41,7 +41,7 @@ public class DataAccessManager {
             pstmt = connection.prepareStatement(sqlString);
             resultSet = pstmt.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("DIST_CODE");
+                return resultSet.getString(TableColumns.DIST_CODE);
             }
 
         } finally {
@@ -60,7 +60,7 @@ public class DataAccessManager {
             pstmt = connection.prepareStatement(sqlString);
             resultSet = pstmt.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("PROV_CODE");
+                return resultSet.getString(TableColumns.PROV_CODE);
             }
 
         } finally {
@@ -104,15 +104,63 @@ public class DataAccessManager {
             pstmt.setString(17,campTO.getCampFamily());
 
             pstmt.execute();
+            connection.commit();
+
             returnValue = true;
         }catch(Exception e){
             returnValue = false;
-            e.printStackTrace();
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
             closeConnections(connection, pstmt, null);
         }
+
+        return returnValue;
+    }
+
+    public boolean addCampHistory(CampTO campTO) throws SQLException,Exception{
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        boolean returnValue = false;
+
+        try {
+
+//           DBConstants.TableColumns.HISTORY_CAMP_ID + ","+
+//           DBConstants.TableColumns.HISTORY_CAMP_MEN + ","+
+//           DBConstants.TableColumns.HISTORY_CAMP_WOMEN + ","+
+//           DBConstants.TableColumns.HISTORY_CAMP_CHILDREN + ","+
+//           DBConstants.TableColumns.HISTORY_CAMP_TOTAL + ","+
+//           DBConstants.TableColumns.HISTORY_CAMP_FAMILY + ","+
+//           DBConstants.TableColumns.HISTORY_UPDATED_DATE + ","+
+//           DBConstants.TableColumns.HISTORY_UPDATED_TIME +
+
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+            String sqlString = SQLGenerator.getSQLInsertHistory();
+            pstmt = connection.prepareStatement(sqlString);
+
+            pstmt.setString(1, campTO.getCampId());
+            pstmt.setString(2, campTO.getCampMen());
+            pstmt.setString(3, campTO.getCampWomen());
+            pstmt.setString(4, campTO.getCampChildren());
+            pstmt.setString(5, campTO.getCampTotal());
+            pstmt.setString(6, campTO.getCampFamily());
+            pstmt.setDate(7, new java.sql.Date(campTO.getUpdateDate().getTime()));
+            pstmt.setDate(8, new java.sql.Date(new java.util.Date().getTime()));
+
+
+
+
+            returnValue = true;
+        }catch(Exception e){
+            returnValue = false;
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+            closeConnections(connection, pstmt, null);
+        }
+
+
 
         return returnValue;
     }
@@ -127,27 +175,7 @@ public class DataAccessManager {
             connection.setAutoCommit(false);
 
             String sqlString = SQLGenerator.getSQLEditCamp();
-            System.out.println("sqlString = " + sqlString);
             pstmt = connection.prepareStatement(sqlString);
-//
-//             DBConstants.TableColumns.CAMP_AREANAME + "=?, "+
-//                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
-//                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_WOMEN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CHILDREN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_TOTAL + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_COMMENT + "=?, "+
-//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
-//                     " where (" + DBConstants.TableColumns.CAMP_CAMP_ID + "=?";
 
             pstmt.setString(1, campTO.getAreaName());
             pstmt.setString(2, campTO.getDivisionId());
@@ -171,10 +199,10 @@ public class DataAccessManager {
             pstmt.setString(18,campTO.getCampId());
 
             pstmt.execute();
+            connection.commit();
             returnValue = true;
         }catch(Exception e){
             returnValue = false;
-            e.printStackTrace();
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
@@ -184,22 +212,6 @@ public class DataAccessManager {
         return returnValue;
     }
 
-    public boolean editCamp1(CampTO campTO) throws SQLException, Exception {
-        Connection connection = null;
-        Statement stmt = null;
-
-        try {
-            connection = DBConnection.createConnection();
-            campTO.setDistrictCode(getDistrictCode(campTO));
-            campTO.setProvienceCode(getProvinceCode(campTO));
-
-            String sqlString = SQLGenerator.getSQLEditCamp(campTO);
-            stmt = connection.createStatement();
-            return stmt.execute(sqlString);
-        } finally {
-            closeConnections(connection, stmt, null);
-        }
-    }
 
     public boolean deleteCamp(int campId) throws SQLException, Exception {
         Connection connection = null;
@@ -231,7 +243,6 @@ public class DataAccessManager {
         try {
             connection = DBConnection.createConnection();
             connection2 = DBConnection.createConnection();
-            //connection.setAutoCommit(false);
             connection2.setAutoCommit(false);
 
             // Setting the Request Header data.
@@ -248,8 +259,6 @@ public class DataAccessManager {
 
             while (resultSet.next()) {
                 campTo = new CampTO();
-//                campTo = new CampTO();
-//                campTo.setAreadId(resultSet.getString("AREA_ID"));
                 campTo.setAreaName(resultSet.getString("AREA_NAME"));
                 campTo.setCampAccesability(resultSet.getString("CAMP_ACCESABILITY"));
                 campTo.setCampCapability(resultSet.getString("CAMP_CAPABILITY"));
@@ -265,12 +274,6 @@ public class DataAccessManager {
                 campTo.setDistrictCode(resultSet.getString("DIST_CODE"));
                 campTo.setDivisionId(resultSet.getString("DIV_ID"));
                 campTo.setProvienceCode(resultSet.getString("PROV_CODE"));
-
-//                sqlSearchString = SQLGenerator.getSQLForAreaName(Integer.parseInt(campTo.getAreadId()));
-//                tempRS = stmt2.executeQuery(sqlSearchString);
-//                if (tempRS.next()) {
-//                    campTo.setAreaName(tempRS.getString("AREA_NAME"));
-//                }
 
                 sqlSearchString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(campTo.getDivisionId()));
                 tempRS = stmt2.executeQuery(sqlSearchString);
@@ -303,7 +306,6 @@ public class DataAccessManager {
             connection = DBConnection.createConnection();
             //connection.setAutoCommit(false);
 
-            //todo: modify to optimize preparedStatement
             String sqlString = SQLGenerator.getSQLForSearchCriteria(campId);
             preparedStatement = connection.prepareStatement(sqlString);
 
@@ -313,7 +315,6 @@ public class DataAccessManager {
 
             if (resultSet.next()) {
                 campTo = new CampTO();
-//                campTo.setAreadId(resultSet.getString("AREA_ID"));
                 campTo.setAreaName(resultSet.getString("AREA_NAME"));
                 campTo.setCampAccesability(resultSet.getString("CAMP_ACCESABILITY"));
                 campTo.setCampCapability(resultSet.getString("CAMP_CAPABILITY"));
