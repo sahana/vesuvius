@@ -19,6 +19,7 @@ function xdb($msg){global $xdb;if($xdb) echo("<font color=\"#1100BB\">$msg</font
 $host = "localhost";
 $dbuser="dbuser"; $dbpassword="dbpassword";
 
+
 $database="mambo";
 
 $attrtable = 'sahana_attributes';

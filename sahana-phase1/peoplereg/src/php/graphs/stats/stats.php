@@ -4,7 +4,7 @@
  # License : GPL
  # Author : Buddhika Siddhisena [Bud@babytux.org]
  # Created: 31/12/2004
- # Updated: 05/01/2005
+ # Updated: 06/01/2005
 
  // Site configuration
 require_once("common/site@config.php");
@@ -67,6 +67,14 @@ function graphtype_sel($val){ # Displays the graph type drop
 
 }
 
+function dispunknown_chk($val){ # Displays the unknown tick
+  $cont="<input type=\"checkbox\" name=\"disp_unknown\" value=\"1\" checked>Display Unknown";
+
+  if(!($val>0)){$cont=preg_replace ("/checked/","",$cont);}
+  return $cont; 
+
+}
+
 function print_statdata($attr_id){ # Prints stat data
  global $maxstatsize;
  
@@ -94,7 +102,7 @@ for ($i=0;$i<count($statattrdata);$i++){
  }
  
  if($other_count>0){$cont.="<tr><td class=\"rightBorder\">Other</td><td>$other_count</td></tr>"; }
- if($total_entities>0){$cont.="<tr><td class=\"rightBorder\">Unknown</td><td>".($total_entities-$attr_count)."</td></tr>"; }
+ if($total_entities>0 && $_REQUEST['disp_unknown']){$cont.="<tr><td class=\"rightBorder\">Unknown</td><td>".($total_entities-$attr_count)."</td></tr>"; }
  $cont.="</table>"; 
 
   if ($num_rows>1){return $cont;} # return rable only if there are records
@@ -108,10 +116,11 @@ $page_cont=preg_replace("/{ATTR_LIST}/",get_attribute(),$page_cont);
 
 if($_REQUEST['attribute']){
   $page_cont=preg_replace("/{STAT_TABLE}/",print_statdata($_REQUEST['attribute']),$page_cont);
-  $page_cont=preg_replace("/{PIE_GRAPH}/","<img src=\"$docroot/graph.php?attribute=$_REQUEST[attribute]&width=475&height=220&graph_type=$_REQUEST[graph_type]\">",$page_cont);
+  $page_cont=preg_replace("/{PIE_GRAPH}/","<img src=\"$docroot/graph.php?attribute=$_REQUEST[attribute]&width=475&height=220&graph_type=$_REQUEST[graph_type]&disp_unknown=$_REQUEST[disp_unknown]\">",$page_cont);
   #### $page_cont=preg_replace("/{FILTER_LIST}/",get_filter(),$page_cont); ##working on it 
   $page_cont=preg_replace("/{FILTER_LIST}/",'',$page_cont);
   $page_cont=preg_replace("/{GRAPH_TYPE}/",graphtype_sel($_REQUEST['graph_type']),$page_cont);
+  $page_cont=preg_replace("/{UNKNOWN_CHK}/",dispunknown_chk($_REQUEST['disp_unknown']),$page_cont);
 }else{
  $page_cont=preg_replace("/{[^\}]+}/",'',$page_cont);
 }

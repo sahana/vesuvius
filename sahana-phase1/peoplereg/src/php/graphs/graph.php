@@ -21,7 +21,7 @@ require_once ("$webroot/stats/inc_stats.php");
 $db=0;$xdb=0; #local debug options
 
 
-function draw_graph($attr_id,$width,$height,$graph_type='pie'){ # Draw a graph
+function draw_graph($attr_id,$width,$height,$graph_type='pie',$disp_unknown=1){ # Draw a graph
 global $maxstatsize;
 
 $cont='';
@@ -55,7 +55,7 @@ for ($i=0;$i<count($statattrdata);$i++){
    array_push($graph_data[0],$other_count);  
    $graph_legend[$i]='Other'; 
  }
- if($num_rows>1 && $total_entities>0){
+ if($num_rows>1 && $total_entities>0 && $disp_unknown){
    array_push($graph_data[0],$total_entities-$attr_count);  
    $graph_legend[$i+1]='Unknown'; 
  }
@@ -95,5 +95,5 @@ for ($i=0;$i<count($statattrdata);$i++){
  
 }
 
-if ($_REQUEST['attribute']) {draw_graph($_REQUEST['attribute'],$_REQUEST['width'],$_REQUEST['height'],$_REQUEST['graph_type']); }
+if ($_REQUEST['attribute']) {draw_graph($_REQUEST['attribute'],$_REQUEST['width'],$_REQUEST['height'],$_REQUEST['graph_type'],$_REQUEST['disp_unknown']); }
 ?>
