@@ -1,5 +1,5 @@
-This CVS module contains an exceptionally simple web site that
-is placed on shell.sourceforge.net:/home/groups/s/sa/sahana/{cgi-bin,htdocs}
+This CVS module contains an exceptionally simple web site that is
+placed on shell.sourceforge.net:/home/groups/s/sa/sahana/{cgi-bin,htdocs}
 so that something is visible when people visit http://sahana.sourceforge.net/.
 
 To revise the published site you
