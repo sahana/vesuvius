@@ -1,41 +1,19 @@
-<?xml version="1.0"?>
+<!DOCTYPE project [<!ENTITY common-targets SYSTEM "file:../share/common-targets.xml">]>
+<project basedir="." default="deploy-local">
+    <!-- Reference to the common targets xml file -->
+      &common-targets;
+
+  <!--  Build script for the assistance.war  -->
+  <property name="app-name" value="campreg"></property>
+    <property name="db.properties" value="${src}/org/campdb/db/db.properties"/>
+    <property file="../tomcat.properties"/>
 
 
-
-<project name="campdb" default="war" basedir=".">
-    <property name="src" value="src"></property>
-    <property name="class.dir" value="web/WEB-INF/classes"></property>
-    <property file ="conf/campdb.conf"/>
-    <property name="dir-diploy" value="${tomcat-home}/webapps/"></property>
-
-
-    <target name="init">
-	<mkdir dir="${class.dir}"/>
-    </target>
-    <target name="compile" depends="init">
-        <javac srcdir="${src}"
-            destdir="${class.dir}">
-            <classpath>
-                <pathelement location="lib/mysql-connector-java-3.0.12-production-bin.jar"/>
-                <pathelement location="lib/servlet.jar"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="war" depends="compile">
-        <mkdir dir="staging"/>
-        <copy file ="src/org/campdb/db/db.properties" todir="web/WEB-INF/classes/org/campdb/db/"/>
-        <jar destfile="staging/campdb.war" basedir="web"/>
-    </target>
-
-
-    <target name="deploy">
-        <copy file ="staging/campdb.war" todir="${dir-diploy}"/>
-        <delete dir="staging"/>
-    </target>
-
-    <target name="clean">
-        <delete dir="staging"/>
-        <delete dir="web/WEB-INF/classes/org"/>
-    </target>
+  <path id="project.class.path">
+  	<pathelement location="${tomcat.home}/common/lib/servlet.jar"/>
+  	<fileset dir="${lib}">
+  		<include name="*.jar"/>
+  	</fileset>
+  </path>
 </project>
+

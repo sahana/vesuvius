@@ -46,7 +46,6 @@ public class DataAccessManager {
     public DataAccessManager() throws Exception {
         this.allSiteMap = loadAllSiteTypes();
         allCategories = loadAllCategories();
-        System.out.println(allCategories);
         allSearchStatuses = loadAllSearchStatuses();
         allPriorities = loadAllPriorities();
         allDistricts = loadAllDistricts();
