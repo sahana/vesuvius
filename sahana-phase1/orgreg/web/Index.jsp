@@ -1,4 +1,4 @@
-<%@ page import="org.erms.util.ERMSConstants"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>:: Sahana ::</title>
@@ -54,16 +54,16 @@
                 <td  nowrap class="formText" align="left" colspan="2" >&nbsp;</td>
                 </tr>
                 <tr>
-                <td  nowrap class="formText" align="left" colspan="2" ><strong>In order to initiate this registration process please contact
-                    <li>Patrick Canagasingham (+94-11-236 9100) </li> or
-                    <li>Sanjiva Weerawarana (sanjiva@opensource.lk, +94-77-787 6880)</li></strong></td>
+                <td  nowrap class="formText" align="left" colspan="2" ><strong>In order to initiate this registration process please contact one of the following:
+                    <li>CNO INGO/NGO Desk: +94 11 474 0270. Contact person (if necessary): David Evans +94 72 226 5003.</li> or
+                    <li><a href="http://www.humanitarian-srilanka.org/">Consortium of Humanitarian Agencies</a> (CHA): +94 11 461 6824.</li></strong></td>
                 </tr>
                 <tr>
                 <td  nowrap class="formText" align="left" colspan="2" >&nbsp;</td>
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left" ><strong><a href="Registration.jsp?action=add &isEdit=N" style="text-decoration:none"  class="style1">Register</a></strong> </td>
+                <td  nowrap class="formText" align="left" ><strong><a href="Registration.jsp?action=add" style="text-decoration:none"  class="style1">Register</a></strong> </td>
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
