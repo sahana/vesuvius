@@ -25,6 +25,7 @@ Person entries
 - Occupation
 - Income
 - Name
+- status (injured, missing, deceased, displaced, affected)
 
 Property Fields
 - Nature and extent
@@ -34,3 +35,5 @@ Requirements
 ------------
 - show reports similar to http://www.cnosrilanka.org/13Jan17.html 
 - report on the trends
+- occupation classification
+- status per perons
