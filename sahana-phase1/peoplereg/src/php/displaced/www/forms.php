@@ -16,7 +16,7 @@ function show_input_text($name, $size = 0, $js ="")
 
 	echo '<input type="text" name="' . $name . '"';
 	if (isset($_SESSION['form'][$name]))
-		echo ' value="' . $_SESSION['form'][$name] . '"';
+		echo ' value="' . stripslashes($_SESSION['form'][$name]) . '"';
 	if ($size)
 		echo ' size="' . $size . '"';
 	if ($js)
@@ -30,7 +30,7 @@ function show_input_hidden($name)
 
 	echo '<input type="hidden" name="' . $name . '" id="' . $name . '"';
 	if (isset($_SESSION['form'][$name]))
-		echo ' value="' . $_SESSION['form'][$name] . '"';
+		echo ' value="' . stripslashes($_SESSION['form'][$name]) . '"';
 	echo ' />';
 }
 
@@ -41,7 +41,7 @@ function show_input_element_text($name, $n, $size = 0, $js ="")
 
 	echo '<input type="text" name="' . $name . '[]"';
 	if (isset($_SESSION['form'][$name][$n]))
-		echo ' value="' . $_SESSION['form'][$name][$n] . '"';
+		echo ' value="' . stripslashes($_SESSION['form'][$name][$n]) . '"';
 	if ($size)
 		echo ' size="' . $size . '"';
 	if ($js)
@@ -55,7 +55,7 @@ function show_input_textarea($name, $rows, $cols)
 
 	echo '<textarea name="' . $name . '" rows="' . $rows . '" cols="' . $cols . '">';
 	if (isset($_SESSION['form'][$name]))
-		echo $_SESSION['form'][$name];
+		echo stripslashes($_SESSION['form'][$name]);
 	echo '</textarea>';
 }
 
@@ -89,8 +89,7 @@ function show_input_element_select($name, $n)
 	$value = isset($_SESSION['form'][$name][$n]) ? $_SESSION['form'][$name][$n] : '';
 	$name_sql = ereg_replace('\[.*\]', '', $name);
 
-	$rows = mysql_query("select o.id as id, o.name as name, o.caption as caption from sahana_attribute_options o, sahana_attributes a where a.name='$name_sql' and a.id = o.attribute_id order by id");
-
+	$rows = mysql_query("select o.id as id, o.name as name, o.caption as caption from sahana_attribute_options o, sahana_attributes a where a.name='$name_sql' and a.id = o.attribute_id order by id"); 
 	while ($row = mysql_fetch_array($rows)) {
 		echo '<option value="' . $row[1] . '"';
 		if ($row[1] == $value) echo ' selected';
