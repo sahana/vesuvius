@@ -1,0 +1,20 @@
+
+Iframes are used for dynamic form content (e.g.: dynamic
+selection list).  Here is an example of a dynamic selection
+list called "division".
+
+- An iframe is created with the name and ID "division_frame".
+
+- Dynamically generated selection list is named (name and ID)
+  "division0".
+
+- A hidden input element is created with the name "division".
+
+- At the "onSubmit" event of the form, value of the "division"
+  input element is set to that of the "division0" selection
+  list.
+
+- At "onLoad", if the relevent session form variable (say
+  "district" say) is set, load the selection list, and set the
+  default value again using the session variable "division".
+
