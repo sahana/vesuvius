@@ -56,10 +56,10 @@ public interface DBConstants {
         public static final String PROV_NAME = "PROV_NAME";
     }
 
-     public interface Area {
-        public static final String TABLENAME = "hse_area_mst";
-        public static final String AREA_ID = "AREA_ID";
-        public static final String MEASUREMENT = "MEASUREMENT";
+     public interface MeasurementType {
+        public static final String TABLENAME = "hse_measurement_type_mst";
+        public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
+        public static final String MEASUREMENT_TYPE_NAME = "MEASUREMENT_TYPE_NAME";
     }
 
     public interface Term {
@@ -91,15 +91,16 @@ public interface DBConstants {
 
    public interface Land{
        public static final String TABLENAME = "HSE_LAND_MST";
+       public static final String LAND_ID = "LAND_ID";
        public static final String LAND_NAME = "LAND_NAME";
        public static final String DIVISION_ID = "DIVISION_ID";
        public static final String DESCRIPTION = "DESCRIPTION";
-       public static final String AREA_ID = "AREA_ID";
+       public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
        public static final String GPS1 = "GPS1";
        public static final String GPS2 = "GPS2";
        public static final String GPS3 = "GPS3";
        public static final String GPS4 = "GPS4";
-       public static final String MEASUREMENT ="MEASUREMENT";
+       public static final String AREA ="AREA";
        public static final String TERM_ID = "TERM_ID";
        public static final String OWNED_BY_ID = "OWNED_BY_ID";
        public static final String OWNED_BY_COMMENT = "OWNED_BY_COMMENT";
