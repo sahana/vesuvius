@@ -11,15 +11,20 @@
        {
         tccsol.admin.accessControl.AuditLog log = new tccsol.admin.accessControl.AuditLog();
 
+
       if (request.getAttribute("modNo") != null)
         modNo = (String)request.getAttribute("modNo");
 
       if (request.getAttribute("accessLvl") != null)
         accessLvl = (String)request.getAttribute("accessLvl");
-
-          if (accessLvl.equalsIgnoreCase("PAGE"))
-            session.removeAttribute("LoginBean");
-
+           boolean isComefromIndex = false;
+           if(request.getParameter("userName")!=null){
+               isComefromIndex = true;
+           }
+           if(isComefromIndex){
+               if (accessLvl.equalsIgnoreCase("PAGE"))
+                   session.removeAttribute("LoginBean");
+           }
           if (session.getAttribute("LoginBean") != null)
             bean = (LoginBean) session.getAttribute("LoginBean");
 
