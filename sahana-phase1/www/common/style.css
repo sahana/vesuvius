@@ -1,0 +1,118 @@
+body { font-size: smaller; }
+
+.textBox {
+	font-family: sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+
+.formTitle {
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #fff;
+	text-align: left;
+	font-variant: small-caps;
+	border-left-width: 1px solid #0033cc;
+}
+
+.formText {
+	font-family: sans-serif;
+	color: #000;
+	border: 1px;
+	border-top-style: none;
+	border-color: #cccccc;
+}
+
+.formTextJustify {
+	font-family: sans-serif;
+	color: #666666;
+	text-align: justify;
+	font-size: smaller;
+}
+
+.ackCentered {
+	font-family: sans-serif;
+	font-weight: normal;
+	font-size: smaller;
+	color: #777777;
+	text-align: center;
+        margin-left: 100px;
+        margin-right: 100px;
+}
+
+.formBG { background-color: #f0f0f0; }
+
+.pageBg { background-color: #fff; }
+
+.buttons {
+	font-family: sans-serif;
+	color: #000;
+}
+
+.menuBG {
+	background-image: url(../images/mainMenuBG.gif);
+	font-family: sans-serif;
+	font-weight: bold;
+	font-variant: small-caps;
+	color: #000;
+}
+
+.leftMenuBG { background-color: #005c91; }
+
+.statusBar {
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #fff;
+	background-color: #cccccc;
+	border: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-color: #999999;
+}
+
+.border { background-color: #999999; }
+
+.loginText {
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #000;
+}
+
+.selectBoxes {
+	font-family: sans-serif;
+	background-color: #fff;
+}
+
+.tableUp {
+	font-family: sans-serif;
+	font-weight: bold;
+	background-color: #d8e9fd;
+	text-align: center;
+	border-top: 1px solid #7ba4e0;
+	border-right: 0px none;
+	border-bottom: 1px solid #7ba4e0;
+	border-left: 0px none;
+}
+
+.tableDown {
+	font-family: sans-serif;
+	font-weight: normal;
+	background-color: #f3f9fe;
+	text-align: center;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #cccccc;
+}
+
+.loginText {
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+	padding: 0px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #b4c6db;
+}
+
+.loginBG { background-color: #005495; }
