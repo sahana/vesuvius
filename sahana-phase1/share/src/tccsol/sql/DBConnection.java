@@ -86,8 +86,8 @@ return connection it.
 */
     public Connection getConnection() throws SystemException {
         try {
-            return org.assistance.db.DataAccessManager.getInstance().createConnection();
-        } catch (SQLException e) {
+            return   org.sahana.share.db.DBConnection.createConnection();
+        } catch (Exception e) {
             throw new SystemException(e.getMessage());
         }
     }
@@ -237,6 +237,61 @@ value of another column
         }
         return val;
     }
+
+    public String getValue(Connection con1, String value, String tbl, String col1, String col2, char typ) throws Exception
+        {
+            Statement stat = null;
+            ResultSet resultset = null;
+            String val = "";
+
+            try
+            {
+                stat = con1.createStatement();
+
+                if ((typ == 'N') || (typ == 'n')) {
+                    resultset = stat.executeQuery("select " + col1 + " from " + tbl + " where " + col2 + " = " + value);
+                }
+                else {
+                    resultset = stat.executeQuery("select " + col1 + " from " + tbl + " where " + col2 + " = '" + value + "'");
+                }
+
+                if (typ == 'D' || typ == 'd') {
+                    if (resultset.next()){
+                        if (resultset.getString(1) != null)
+                            val = tccsol.util.Utility.getDBDate(resultset.getDate(1));
+                    }
+                }
+                else if (typ == 'N' || typ == 'S' || typ == 's' || typ == 'n')
+                {
+                    if (resultset.next()){
+                        if (resultset.getString(1) != null)
+                            val = resultset.getString(1).trim();
+                    }
+                }
+            }
+            catch(SQLException ex){
+                // rethrow the thrown exception
+                throw ex;
+            }
+            catch(SystemException ex2){
+                // rethrow the thrown exception
+                throw ex2;
+            }
+            finally
+            {
+                try {
+                    if (stat != null)
+                        stat.close();
+                    if (resultset != null)
+                        resultset.close();
+
+                    stat = null;
+                    resultset = null;
+                }catch(SQLException ex){}
+
+            }
+            return val;
+        }
 
 
 /*
