@@ -4,7 +4,7 @@
       &common-targets;
 
   <!--  Build script for the assistance.war  -->
-  <property name="app-name" value="campreg"></property>
+  <property name="app-name" value="campdb"></property>
     <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
     <property file="../tomcat.properties"/>
 
