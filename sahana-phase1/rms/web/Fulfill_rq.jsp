@@ -212,6 +212,9 @@
                             <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar"><a href="Logoff.jsp" style="text-decoration:none"><font color="#000000">Log
                                         off&nbsp;&nbsp;&nbsp;&nbsp;</font></a>
                             </td>
+                            <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar">
+                                <a href="help.html#FullFilReq" style="text-decoration:none"><font color="#000000">Help&nbsp;&nbsp;&nbsp;&nbsp;</font></a>
+                            </td>
                         </tr>
                         <tr>
 

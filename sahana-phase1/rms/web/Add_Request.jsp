@@ -211,6 +211,9 @@ Request</font></a>&nbsp;&nbsp;</td>
 <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
 <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar"><a href="Logoff.jsp" style="text-decoration:none"><font color="#000000">Log
 off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
+    <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar">
+        <a href="help.html#AddReq" style="text-decoration:none"><font color="#000000">Help&nbsp;&nbsp;&nbsp;&nbsp;</font></a>
+    </td>
 </tr>
 </table>
 </td>
