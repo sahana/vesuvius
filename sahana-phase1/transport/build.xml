@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+
+
+<project name="transport" default="war" basedir=".">
+    <property name="src" value="src"></property>
+    <property name="class.dir" value="web/WEB-INF/classes"></property>
+    <property file ="conf/transport.conf"/>
+    <property name="dir-diploy" value="${tomcat-home}/webapps/"></property>
+
+
+    <target name="init">
+	<mkdir dir="${class.dir}"/>
+    </target>
+    <target name="compile" depends="init">
+        <javac srcdir="${src}"
+            destdir="${class.dir}">
+            <classpath>
+                <pathelement location="lib/mysql-connector-java-3.0.12-production-bin.jar"/>
+                <pathelement location="lib/servlet.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="war" depends="compile">
+        <mkdir dir="staging"/>
+        <copy file ="src/org/transport/db/db.properties" todir="web/WEB-INF/classes/org/transport/db/"/>
+        <jar destfile="staging/transport.war" basedir="web"/>
+    </target>
+
+
+    <target name="deploy">
+        <copy file ="staging/transport.war" todir="${dir-diploy}"/>
+        <delete dir="staging"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="staging"/>
+        <delete dir="web/WEB-INF/classes/org"/>
+    </target>
+</project>
