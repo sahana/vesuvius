@@ -71,7 +71,9 @@ public interface DBConstants {
 
         String USERDB = "user";
 
-        
+        String USER_ROLEDB = "tbluserroles";
+
+
 
         public static final String USERS = "user";
 
@@ -97,7 +99,9 @@ public interface DBConstants {
 
         public static final String USER_NAME = "UserName";
 
-        
+        String ROLE_ID = "RoleId";
+
+
 
         public static final String PASSWORD = "Password";
 

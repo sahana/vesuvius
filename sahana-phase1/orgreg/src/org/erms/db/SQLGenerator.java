@@ -577,6 +577,20 @@ public class SQLGenerator {
 
     }
 
+    public static String getSQLForOrganizationUserRole() {
+        return "INSERT into "
+
+            + DBConstants.Tables.USER_ROLEDB
+
+            + " ("
+            + DBConstants.TableColumns.USER_NAME + ", "
+            + DBConstants.TableColumns.ROLE_ID
+            + ") "
+            + " VALUES "
+
+            + "(?,?)";
+    }
+
     public static String getSQLForOrganizationRegistrationUserUpdate(String orgCode) {
         return "UPDATE "
 

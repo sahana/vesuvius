@@ -1,5 +1,7 @@
 <%@ page import="org.erms.db.DataAccessManager,
-                 org.erms.business.User"%>
+                 org.erms.business.User,
+                 tccsol.admin.accessControl.LoginBean,
+                 java.sql.Connection"%>
  <%--
   Created by IntelliJ IDEA.
   User: Deepal Jayasinghe
@@ -41,8 +43,21 @@
         password = user.getPassword();
         String action = (String) session.getAttribute("action");
         user = dataAccessManager.getUser((String)session.getAttribute("orgCode"));
-        if (user.getPassword().equals(password) && user.getUserName().equals(userName)){
-            response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode"));
+
+        if (user.getPassword().equals(password) && user.getUserName().equalsIgnoreCase(userName)){
+
+            tccsol.admin.accessControl.LoginBean lbean = new tccsol.admin.accessControl.LoginBean();
+            lbean.setUserName(user.getUserName());
+            tccsol.sql.DBConnection econ = new tccsol.sql.DBConnection();
+            Connection c = econ.getConnection();
+            lbean.setRoleId(Long.parseLong(econ.getValue(c, user.getUserName(), "tblUserRoles", "RoleId", "UserName", 'S')));
+            econ.closeConnection();
+            lbean.setOrgId(user.getOrganization());
+            lbean.setValid(true);
+            session.setAttribute("LoginBean", lbean);
+            new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
+
+            response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode") +"&isEdit=Y");
          } else {
            %>
                 <h2 class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Logging.jsp">Try Again</a></font></h2>

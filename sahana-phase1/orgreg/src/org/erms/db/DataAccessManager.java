@@ -1211,6 +1211,13 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setString(3, code);
             preparedStatement.executeUpdate();
 
+            /**
+             * adding user Role to user role table
+             */
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationUserRole());
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, "0");
+            preparedStatement.executeUpdate();
             //just try to put a record to the mambo database. even If it fails move on
             try {
                 MamboDataAccessManager mamboDAM = new MamboDataAccessManager();

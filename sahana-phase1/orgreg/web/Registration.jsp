@@ -6,6 +6,7 @@
 <jsp:useBean id="orgReg" scope="request" class="org.erms.business.OrganizationRegistrationTO" />
 <jsp:setProperty name="orgReg" property="*" />
 <html>
+
 <header>
   <title>:: Sahana ::</title>
   <script>
@@ -97,6 +98,20 @@
 </header>
 
 <body>
+ <%
+  if (request.getParameter("isEdit") != null) {
+    if (request.getParameter("isEdit").equalsIgnoreCase("Y"))
+    {
+        request.setAttribute("turl", "Welcome.jsp");
+        request.setAttribute("modNo", "4");
+        request.setAttribute("accessLvl", "EDIT");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+<%
+    }
+  }
+%>
+
 
     <jsp:include page="comman/header.inc"></jsp:include>
 
@@ -177,7 +192,7 @@
     } else if (request.getParameter("action") != null) {
 
             globalControlDisable = ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action);
-            
+
         if(request.getParameter("orgCode") != null){
             orgReg = dataAccessManager.getOrgTO(request.getParameter("orgCode"));
             request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.ORGANIZATION_TO, orgReg);
