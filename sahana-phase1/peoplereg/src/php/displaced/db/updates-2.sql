@@ -19,6 +19,7 @@ insert into sahana_attributes
 	('num_children', 'Number of children', 0, 0, 0),
 	('income', 'Income', 0, 0, 0),
 	('other_income', 'Income from other sources', 0, 0, 0),
+	('total_income', 'Total income', 0, 0, 0),
 	('property_value', 'Value of property owned', 0, 0, 0),
 	('relief_adults', 'No of adults who need relief', 0, 0, 0),
 	('relief_children', 'No of children who need relief', 0, 0, 0);
