@@ -1,0 +1,26 @@
+<h3>Report Generation</h3>
+
+<table border=0>
+<form method="post" action="{SELF}">
+<tr>
+    <td colspan="3">Select a persons attribute to see statistics</td>    
+</tr>
+<tr><td>
+      {ATTR_LIST}
+    </td>
+    <td>
+      {FILTER_LIST}
+    </td>
+    <td>
+      {GRAPH_TYPE}
+    </td>
+</tr>
+<tr><td  colspan="3"><input type="submit" value="Generate"></td></tr>
+<tr><td  colspan="3">&nbsp;</td></tr>
+</form>
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+  <td>{PIE_GRAPH}</td><td>&nbsp;</td><td valign="top">{STAT_TABLE}</td>
+</tr>  
+</table>
