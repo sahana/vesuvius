@@ -15,30 +15,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
 <script language='javascript' src='comman/validate.js'></script>
-<script>
-//type=1 is full submit
-//type = 2 is save
-function validate(type){
-var quantitiyStr = document.form1.quantity.value;
-
-if (type==1){
- document.form1.submitType.value = "Save";
-}else if (type==2){
- document.form1.submitType.value = "AddList";
-}else if (type==3){
- document.form1.submitType.value = "Clear";
-}
-
-if (type==2){
-if (!testNumber(quantitiyStr)){
-alert("please put in a number for quantity");
-return;
-}
-}
-document.form1.submit();
-
-}
-</script>
+<%--<script>--%>
+<%--</script>--%>
 
 <link href="comman/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -327,13 +305,18 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                            districtList =  dam.getAllDistricts();
                            if(districtList != null){
                                Iterator ditr = districtList.iterator();
+                               boolean isSelected = false;
                                while(ditr.hasNext()){
                                    KeyValueDTO district = (KeyValueDTO) ditr.next();
                                    String districtCode = district.getDbTableCode();
                                    String districtvalue = district.getDisplayValue();
+
+
+
                                    if (requestObj.getSiteDistrict().equals(districtCode)){
+                                       isSelected = true;
                    %>
-                   <option selected value="<%=districtCode%>"><%=districtvalue%></option>
+                                        <option selected="true" value="<%=districtCode%>"><%=districtvalue%></option>
                                        <%
                                    }else{
                                        %>
@@ -341,6 +324,10 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                        <%
                                    }
                                }
+                               if(!isSelected){ %>
+                                    <option selected="true" value="deafult">&lt;select&gt;</option>
+
+                               <% }
                            }
                        }catch(Exception e) {
                            throw new Exception(e);
@@ -368,17 +355,25 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
             <%
                 String siteTypeCode = null;
                 String siteType = null;
+                boolean isSelected = false;
                 while(sites.hasNext()){
                     KeyValueDTO keyVpair = (KeyValueDTO)sites.next();
                     siteTypeCode = keyVpair.getDbTableCode();
                     siteType = keyVpair.getDisplayValue();
              %>
                 <%
-                    if(siteTypeCode.equals(requestObj.getSiteType())){ %>
+                    if(siteTypeCode.equals(requestObj.getSiteType())){
+                        isSelected = true;
+                %>
                         <option selected="false"  value="<%=siteTypeCode%>"><%=siteType%></option>
                 <% }else{ %>
                        <option selected="false"  value="<%=siteTypeCode%>"><%=siteType%></option>
                 <% }
+                }
+                if(!isSelected){
+                   %>
+                     <option selected="true" value="deafult">&lt;select&gt;</option>
+                   <%
                 }
             %>
         </select>
@@ -422,11 +417,13 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                            catogoryList =  dam.getAllCategories();
                            if(catogoryList != null){
                                Iterator citr = catogoryList.iterator();
+                               isSelected = false;
                                while(citr.hasNext()){
                                    KeyValueDTO catogory = (KeyValueDTO) citr.next();
                                    String catogoryCode = catogory.getDbTableCode();
                                    String catogoryvalue = catogory.getDisplayValue();
                         if (catogoryCode.equals(catogoriesParameter)){
+                            isSelected = true;
                            %>
                    <option value="<%=catogoryCode%>" selected="true"><%=catogoryvalue%></option>
                    <%
@@ -435,6 +432,11 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                    <option value="<%=catogoryCode%>"><%=catogoryvalue%></option>
                    <%
                         }
+                               }
+                               if(!isSelected){
+                                     %>
+                                       <option selected="true" value="deafult">&lt;select&gt;</option>
+                                     <%
                                }
                            }
                        }catch(Exception e) {
@@ -468,12 +470,14 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                            priorityList =  dam.getAllPriorities();
                            if(priorityList != null){
                                Iterator pitr = priorityList.iterator();
+                               isSelected = false;
                                while(pitr.hasNext()){
                                    KeyValueDTO priorityDTO = (KeyValueDTO) pitr.next();
                                    String priorityCode = priorityDTO.getDbTableCode();
                                    String priorityvalue = priorityDTO.getDisplayValue();
 
                                    if (priorityCode.equals(priorityParameter)){
+                                       isSelected = true;
                                      %>
                                    <option value="<%=priorityCode%>" selected="true"><%=priorityvalue%></option>
                       <%
@@ -483,6 +487,9 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                       <%
                                }
                                }
+                               if(!isSelected){ %>
+                                   <option selected="true" value="deafult">&lt;select&gt;</option>
+                               <% }
                            }
                        }catch(Exception e) {
                            throw new Exception(e);

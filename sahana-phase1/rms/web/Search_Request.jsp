@@ -234,17 +234,26 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                         Collection districtList = null;
                                         try {
                                             districtList = dam.getAllDistricts();
+                                            boolean isSelected = false;
+
+
                                             if (districtList != null) {
                                                 Iterator ditr = districtList.iterator();
                                                 while (ditr.hasNext()) {
                                                     KeyValueDTO district = (KeyValueDTO) ditr.next();
                                                     String districtCode = district.getDbTableCode();
                                                     String districtvalue = district.getDisplayValue();
-                                                    if (requestSearchCriteriaTO.getSiteDistrict().equals(districtCode)) {%>
-                                                    <option selected value="<%=districtCode%>"><%=districtvalue%></option>
-                                                                                        <%} else {%>
-                                                                                        <option value="<%=districtCode%>"><%=districtvalue%></option>
-                                                                                        <%}
+                                                    if (requestSearchCriteriaTO.getSiteDistrict().equals(districtCode)) {
+                                                        isSelected = true;
+%>
+                                                        <option selected ="true"  value="<%=districtCode%>"><%=districtvalue%></option>
+
+                                                  <%} else {%>
+                                                        <option value="<%=districtCode%>"><%=districtvalue%></option>
+                                                   <%}
+                                                    if(!isSelected){  %>
+                                                          <option selected ="true"  value="Default">>Default</option>
+                                                     <% }
                                                 }
                                             }
                                         } catch (Exception e) {
