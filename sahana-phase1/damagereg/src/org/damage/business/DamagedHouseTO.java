@@ -9,51 +9,27 @@ public class DamagedHouseTO {
     private String division;
     private String gsn;
     private String owner;
-    private double distanceFromSea;
+    private String distanceFromSea;
     private String city;
     private String noAndStreet;
     private String currentAddress;
-    private double floorArea;
-    private int noOfStories;
+    private String floorArea;
+    private String noOfStories;
     private String typeOfOwnership;
-    private int noOfResidents;
+    private String noOfResidents;
     private String typeOfConstruction;
     private String propertyTaxNo;
-    private double totalDamagedCost;
-    private double landArea;
-    private boolean relocate;
-    private boolean insured;
+    private String totalDamagedCost;
+    private String landArea;
+    private String relocate;
+    private String insured;
     private String damageType;
     private String comments;
 
     private ArrayList  damagedHouseMoreInfoList= new ArrayList();
     private ArrayList houseFacilityInfoList=new ArrayList();
 
-    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, double distanceFromSea, String city, String noAndStreet, String currentAddress, double floorArea, int noOfStories, String typeOfOwnership, int noOfResidents, String typeOfConstruction, String propertyTaxNo, double totalDamagedCost, double landArea, boolean relocate, boolean insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
-        this.id = id;
-        this.districtCode = districtCode;
-        this.division = division;
-        this.gsn = gsn;
-        this.owner = owner;
-        this.distanceFromSea = distanceFromSea;
-        this.city = city;
-        this.noAndStreet = noAndStreet;
-        this.currentAddress = currentAddress;
-        this.floorArea = floorArea;
-        this.noOfStories = noOfStories;
-        this.typeOfOwnership = typeOfOwnership;
-        this.noOfResidents = noOfResidents;
-        this.typeOfConstruction = typeOfConstruction;
-        this.propertyTaxNo = propertyTaxNo;
-        this.totalDamagedCost = totalDamagedCost;
-        this.landArea = landArea;
-        this.relocate = relocate;
-        this.insured = insured;
-        this.damageType = damageType;
-        this.comments = comments;
-        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
-        this.houseFacilityInfoList = houseFacilityInfoList;
-    }
+
 
     public void addDamagedHouseMoreInfo(DamagedHouseMoreInfoTO dhmInfoTO){
        this.damagedHouseMoreInfoList.add(dhmInfoTO);
@@ -63,39 +39,12 @@ public class DamagedHouseTO {
         this.houseFacilityInfoList.add(hfInfoTO);
     }
 
-    public ArrayList getDamagedHouseMoreInfoList() {
-        return damagedHouseMoreInfoList;
-    }
-
-    public void setDamagedHouseMoreInfoList(ArrayList damagedHouseMoreInfoList) {
-        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
-    }
-
-    public ArrayList getHouseFacilityInfoList() {
-        return houseFacilityInfoList;
-    }
-
-    public void setHouseFacilityInfoList(ArrayList houseFacilityInfoList) {
-        this.houseFacilityInfoList = houseFacilityInfoList;
-    }
-
-    public DamagedHouseTO() {
-    }
-
-
-
-    public String getGsn() {
-        return gsn;
-    }
-
-    public void setGsn(String gsn) {
-        this.gsn = gsn;
-    }
-
-
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDistrictCode() {
@@ -118,12 +67,8 @@ public class DamagedHouseTO {
         return gsn;
     }
 
-    public double getDistanceFromSea() {
-        return distanceFromSea;
-    }
-
-    public void setDistanceFromSea(double distanceFromSea) {
-        this.distanceFromSea = distanceFromSea;
+    public void setGsn(String gsn) {
+        this.gsn = gsn;
     }
 
     public String getOwner() {
@@ -132,6 +77,14 @@ public class DamagedHouseTO {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getDistanceFromSea() {
+        return distanceFromSea;
+    }
+
+    public void setDistanceFromSea(String distanceFromSea) {
+        this.distanceFromSea = distanceFromSea;
     }
 
     public String getCity() {
@@ -158,19 +111,19 @@ public class DamagedHouseTO {
         this.currentAddress = currentAddress;
     }
 
-    public double getFloorArea() {
+    public String getFloorArea() {
         return floorArea;
     }
 
-    public void setFloorArea(double floorArea) {
+    public void setFloorArea(String floorArea) {
         this.floorArea = floorArea;
     }
 
-    public int getNoOfStories() {
+    public String getNoOfStories() {
         return noOfStories;
     }
 
-    public void setNoOfStories(int noOfStories) {
+    public void setNoOfStories(String noOfStories) {
         this.noOfStories = noOfStories;
     }
 
@@ -182,11 +135,11 @@ public class DamagedHouseTO {
         this.typeOfOwnership = typeOfOwnership;
     }
 
-    public int getNoOfResidents() {
+    public String getNoOfResidents() {
         return noOfResidents;
     }
 
-    public void setNoOfResidents(int noOfResidents) {
+    public void setNoOfResidents(String noOfResidents) {
         this.noOfResidents = noOfResidents;
     }
 
@@ -206,35 +159,35 @@ public class DamagedHouseTO {
         this.propertyTaxNo = propertyTaxNo;
     }
 
-    public double getTotalDamagedCost() {
+    public String getTotalDamagedCost() {
         return totalDamagedCost;
     }
 
-    public void setTotalDamagedCost(double totalDamagedCost) {
+    public void setTotalDamagedCost(String totalDamagedCost) {
         this.totalDamagedCost = totalDamagedCost;
     }
 
-    public double getLandArea() {
+    public String getLandArea() {
         return landArea;
     }
 
-    public void setLandArea(double landArea) {
+    public void setLandArea(String landArea) {
         this.landArea = landArea;
     }
 
-    public boolean getRelocate() {
+    public String getRelocate() {
         return relocate;
     }
 
-    public void setRelocate(boolean relocate) {
+    public void setRelocate(String relocate) {
         this.relocate = relocate;
     }
 
-    public boolean getInsured() {
+    public String getInsured() {
         return insured;
     }
 
-    public void setInsured(boolean insured) {
+    public void setInsured(String insured) {
         this.insured = insured;
     }
 
@@ -242,8 +195,8 @@ public class DamagedHouseTO {
         return damageType;
     }
 
-    public void setDamagedType(String damagedType) {
-        this.damageType = damagedType;
+    public void setDamageType(String damageType) {
+        this.damageType = damageType;
     }
 
     public String getComments() {
@@ -253,4 +206,48 @@ public class DamagedHouseTO {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+    public ArrayList getDamagedHouseMoreInfoList() {
+        return damagedHouseMoreInfoList;
+    }
+
+    public void setDamagedHouseMoreInfoList(ArrayList damagedHouseMoreInfoList) {
+        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
+    }
+
+    public ArrayList getHouseFacilityInfoList() {
+        return houseFacilityInfoList;
+    }
+
+    public void setHouseFacilityInfoList(ArrayList houseFacilityInfoList) {
+        this.houseFacilityInfoList = houseFacilityInfoList;
+    }
+
+    public DamagedHouseTO(){}
+    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, String distanceFromSea, String city, String noAndStreet, String currentAddress, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String totalDamagedCost, String landArea, String relocate, String insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
+        this.id = id;
+        this.districtCode = districtCode;
+        this.division = division;
+        this.gsn = gsn;
+        this.owner = owner;
+        this.distanceFromSea = distanceFromSea;
+        this.city = city;
+        this.noAndStreet = noAndStreet;
+        this.currentAddress = currentAddress;
+        this.floorArea = floorArea;
+        this.noOfStories = noOfStories;
+        this.typeOfOwnership = typeOfOwnership;
+        this.noOfResidents = noOfResidents;
+        this.typeOfConstruction = typeOfConstruction;
+        this.propertyTaxNo = propertyTaxNo;
+        this.totalDamagedCost = totalDamagedCost;
+        this.landArea = landArea;
+        this.relocate = relocate;
+        this.insured = insured;
+        this.damageType = damageType;
+        this.comments = comments;
+        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
+        this.houseFacilityInfoList = houseFacilityInfoList;
+    }
+
 }
