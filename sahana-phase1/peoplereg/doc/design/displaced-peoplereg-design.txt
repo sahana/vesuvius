@@ -2,8 +2,8 @@
 entity type = Family unit
 
 Location Fields
-- District
-- Village
+- District (loc-lev1)
+- Village (loc-lev2)
 - Divisional secretariat's division
 - Nama of grama sevaka's division
 
@@ -20,6 +20,7 @@ Family Fields
 - Probable period for which relief is necessary
 - other income
 - Remarks
+- current location - camp, temporary housing, with firends-family, home
 
 Person entries
 - Occupation
@@ -37,3 +38,4 @@ Requirements
 - report on the trends
 - occupation classification
 - status per perons
+- for i18n purposed use abstract location hierachy
