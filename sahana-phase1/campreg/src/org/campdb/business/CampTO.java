@@ -7,9 +7,12 @@ package org.campdb.business;
 
 import java.util.List;
 import java.util.LinkedList;
-import org.campdb.util.StringUtil;
+import java.util.Date;
+import java.beans.PropertyEditorManager;
+
 
 public class CampTO {
+
     private String campId;
     private String areadId;
     private String divisionId;
@@ -25,12 +28,38 @@ public class CampTO {
     private String campContactPerson;
     private String campContactNumber;
     private String campComment;
-
+    private Date updateDate = new Date(); //initialise to current date
     private String provienceName;
     private String districtName;
     private String divionName;
     private String areaName;
+    private String campFamily;
+    private String countSelect;
 
+
+    public String getCountSelect() {
+        return countSelect;
+    }
+
+    public void setCountSelect(String countSelect) {
+        this.countSelect = countSelect;
+    }
+
+    public String getCampFamily() {
+        return campFamily;
+    }
+
+    public void setCampFamily(String campFamily) {
+        this.campFamily = campFamily;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
     public String getCampId() {
         return campId;
     }
@@ -85,7 +114,6 @@ public class CampTO {
 
     public String getCampChildren() {
         if(campChildren == null || campChildren.equals("null")) campChildren = "";
-        //System.out.println("campChildren2********:" + campChildren);
         return campChildren;
     }
 
@@ -236,7 +264,7 @@ public class CampTO {
                 isNumberCorrect = false;
             }
         }
-       
+
         if (isEmpty(areadId)) {
             if (isEmpty(divisionId)) {
                 if (isEmpty(districtCode) ) {

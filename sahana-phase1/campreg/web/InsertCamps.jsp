@@ -4,21 +4,65 @@
                  org.campdb.util.LabelValue,
                  java.util.*,
                  org.campdb.util.CAMPDBConstants,
-                 org.campdb.business.User"%>
-<jsp:useBean id="newCamp" scope="request" class="org.campdb.business.CampTO" />
-<jsp:setProperty name="newCamp" property="*" />
+                 org.campdb.business.User,
+                 java.text.Format,
+                 java.text.SimpleDateFormat"%>
+<jsp:useBean id="newCamp" scope="page" class="org.campdb.business.CampTO" />
+<jsp:setProperty name="newCamp" property="campId" />
+<jsp:setProperty name="newCamp" property="areadId" />
+<jsp:setProperty name="newCamp" property="divisionId" />
+<jsp:setProperty name="newCamp" property="districtCode" />
+<jsp:setProperty name="newCamp" property="provienceCode" />
+<jsp:setProperty name="newCamp" property="campName" />
+<jsp:setProperty name="newCamp" property="campAccesability" />
+<jsp:setProperty name="newCamp" property="campMen" />
+<jsp:setProperty name="newCamp" property="campWomen" />
+<jsp:setProperty name="newCamp" property="campChildren" />
+<jsp:setProperty name="newCamp" property="campTotal" />
+<jsp:setProperty name="newCamp" property="campCapability" />
+<jsp:setProperty name="newCamp" property="campContactPerson" />
+<jsp:setProperty name="newCamp" property="campContactNumber" />
+<jsp:setProperty name="newCamp" property="campComment" />
+<jsp:setProperty name="newCamp" property="provienceName" />
+<jsp:setProperty name="newCamp" property="districtName" />
+<jsp:setProperty name="newCamp" property="divionName" />
+<jsp:setProperty name="newCamp" property="areaName" />
+<jsp:setProperty name="newCamp" property="campFamily" />
+<jsp:setProperty name="newCamp" property="countSelect" />
+
 <%
+
+    //=============================================
+//    System.out.println("newCamp = " + newCamp.getUpdateDate());
+    //=============================================
+
+    //add the date variable manually
+    String updatedDateParameter = request.getParameter("updateDate");
+
+    if (updatedDateParameter!=null && updatedDateParameter.trim().length()>0){
+        //Date is in yyyy-mm-dd format
+        String[] dateValues = updatedDateParameter.split("-");
+        Calendar cal = new GregorianCalendar(Integer.parseInt(dateValues[0]),
+                Integer.parseInt(dateValues[1])-1,
+                Integer.parseInt(dateValues[2])
+        );
+        newCamp.setUpdateDate(cal.getTime());
+
+    }
+
+
+
+
     boolean inserted = false;
     List errors = new LinkedList();
     if (request.getParameter("doInsert") != null) {
         DataAccessManager dataAccessManager = new DataAccessManager();
         errors.addAll(dataAccessManager.validateCampTOforInsert(newCamp));
-        System.out.println("ize"+ errors.size());
+
         if(errors.size()<=0) {
             try {
-                dataAccessManager.addCamp(newCamp);
+                inserted = dataAccessManager.addCamp(newCamp);
                 newCamp.reset();
-                inserted = true;
             } catch (Exception e) {
 //                errors.add(e.getMessage());
             }
@@ -30,7 +74,7 @@
                <h3 align="center" >You have successfully inserted a camp to the system !!</h3>
              </p>
            <%
-             session.invalidate();
+                session.invalidate();
           } else {
                response.sendRedirect("error.jsp");
             }
@@ -46,7 +90,10 @@
         newCamp.reset();
     }
 %>
+<%
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+%>
 
 
 
@@ -58,6 +105,7 @@
 <title>:: Sahana :: Camp Database</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="comman/style.css" rel="stylesheet" type="text/css">
+<script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
 <script type="text/javascript">
 
 function validateForm()
@@ -260,7 +308,7 @@ function showObject(id){
         </table>
         <table width="760" border="0" cellspacing="0" cellpadding="0">
              <tr>
-               <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">Add Camps  </td>
+               <td background="images/HeaderBG.jpg" colspan="2" class="formTitle">Add Camps  </td>
              </tr>
          </table>
 
@@ -269,27 +317,32 @@ function showObject(id){
     <table cellspacing="4"  >
         <%
             if(errors.size() > 0) {
+                 %>
+        <tr>
+            <td colspan="3"class="formText" ><font color="red">Please correct the following errors</font><br></td>
+        </tr>
+        <%
                 newCamp.setNullValsToEmpty();
                 for (Iterator iterator = errors.iterator(); iterator.hasNext();) {
                     String error = (String) iterator.next();
 
          %>
         <tr>
-            <td colspan="3"class="formText" ><font color="red"><%=error%></font><br></td>
+            <td colspan="3"class="formText" ><font color="red"><li><%=error%></li></font><br></td>
         </tr>
         <%      }
             }
         %>
 
-        <%
-            if(inserted) {
-        %>
-            <tr>
-                <td colspan="3" ><font color="blue" size="-1">successfully inserted values to the database</font><br></td>
-            </tr>
-        <%
-            }
-        %>
+<%--        <%--%>
+<%--            if(inserted) {--%>
+<%--        %>--%>
+<%--            <tr>--%>
+<%--                <td colspan="3" ><font color="blue" size="-1">Successfully inserted values to the database</font><br></td>--%>
+<%--            </tr>--%>
+<%--        <%--%>
+<%--            }--%>
+<%--        %>--%>
 
 
         <tr>
@@ -345,36 +398,83 @@ function showObject(id){
                 <textarea name="campCapability" cols="50" rows="3" class="textBox"><jsp:getProperty name="newCamp" property="campCapability" /></textarea>
             </td>
         </tr>
+          <!--  seperator -->
+               <tr>
+                  <td align="right" valign="top" colspan="2"><hr/></td>
+               </tr>
+               <!-- seperator -->
        <tr>
+       <tr>
+       <td align="right">
+            Date
+       </td>
+       <td><input type="text" name="updateDate" class="textBox" readonly="true" id="txtMDate1" value="<%=formatter.format(newCamp.getUpdateDate())%>" />&nbsp;<small><font color="red">*</font></small>
+           <img src="images/calendar.gif" onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'yyyy-mm-dd')" width="18" height="17"/></td>
+       </tr>
+
             <td align="right" valign="top"  class="formText" >Comment</td>
             <td>
                 <textarea name="campComment" cols="50" rows="3" class="textBox"><jsp:getProperty name="newCamp" property="campComment" /></textarea>
             </td>
-        </tr>
+           </tr>
 
+           <tr>
+               <td  align="right" vAlign="top" class="formText"> Family Count</td><td><input type="text" name="campFamily" class="textBox"/></td>
+           </tr>
+                <%
+                    boolean isTotalSelected =  (newCamp.getCountSelect()!=null && newCamp.getCountSelect().equals("1"));
+                    boolean isBreakdownSelected =  (newCamp.getCountSelect()!=null && newCamp.getCountSelect().equals("2"));
+
+                %>
                 <tr>
-                    <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
+                    <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();" value="1"
+                     <%
+                       if (isTotalSelected) out.print(" checked=\"true\" ");
+                     %>
+                    /></td>
                 </tr>
                 <tr>
-                    <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
+                    <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();" value="2"
+                <%
+                       if (isBreakdownSelected) out.print(" checked=\"true\" ");
+                %>
+                /></td>
                 </tr>
-                <tr id="totalRow" style="display:none" >
+                <tr id="totalRow"
+                <%
+                    if (isTotalSelected) out.print("");
+                    else out.print(" style=\"display:none\" ");
+                %>
+ >
                     <td align="right" >Total</td><td align="left" vAlign="top" class="formText" ><input type="text" name="campTotal" class="textBox"  onChange="validateTotal();" value="<%=newCamp.getCampTotal()==null?"":newCamp.getCampTotal()%>" ></input></td>
                 </tr>
-                <tr id="menRow" style="display:none">
+                <tr id="menRow" <%
+                    if (isBreakdownSelected) out.print("");
+                    else out.print(" style=\"display:none\" ");
+                %>>
                     <td align="right" >Men :</td><td  align="left" vAlign="top" class="formText"><input type="text" name="campMen" class="textBox" onchange="validateMen();"  value="<%=newCamp.getCampMen()==null?"":newCamp.getCampMen()%>"></input></td>
                 </tr>
-                <tr id="womenRow" style="display:none">
+                <tr id="womenRow" <%
+                    if (isBreakdownSelected) out.print("");
+                    else out.print(" style=\"display:none\" ");
+                %>>
                     <td align="right" >Women :</td><td align="left" vAlign="top" class="formText"><input type="text" name="campWomen" class="textBox" onchange="validateWomen();"  value="<%=newCamp.getCampWomen()==null?"":newCamp.getCampWomen()%>"></input></td>
                 </tr>
-                <tr id="childRow" style="display:none">
+                <tr id="childRow" <%
+                    if (isBreakdownSelected) out.print("");
+                    else out.print(" style=\"display:none\" ");
+                %>>
                      <td align="right" >Children :</td><td align="left" vAlign="top" class="formText"><input type="text" name="campChildren" class="textBox" onchange="validateChildren();"  value="<%=newCamp.getCampChildren()==null?"":newCamp.getCampChildren()%>"></input></td>
                 </tr>
 
 
          </td>
         </tr>
-
+             <!--  seperator -->
+               <tr>
+                  <td align="right" valign="top" colspan="2"><hr/></td>
+               </tr>
+               <!-- seperator -->
           <tr>
               <td colspan="2" align="right" vAlign="top">&nbsp;</td>
             </tr>

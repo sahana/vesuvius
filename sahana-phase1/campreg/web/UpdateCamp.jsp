@@ -6,9 +6,32 @@
                  org.campdb.util.LabelValue,
                  java.util.LinkedList,
                  org.campdb.business.User,
-                 org.campdb.util.CAMPDBConstants"%>
+                 org.campdb.util.CAMPDBConstants,
+                 java.text.Format,
+                 java.text.SimpleDateFormat"%>
 <jsp:useBean id="newCamp" scope="request" class="org.campdb.business.CampTO" />
-<jsp:setProperty name="newCamp" property="*" />
+     <jsp:setProperty name="newCamp" property="campId" />
+     <jsp:setProperty name="newCamp" property="areadId" />
+     <jsp:setProperty name="newCamp" property="divisionId" />
+     <jsp:setProperty name="newCamp" property="districtCode" />
+     <jsp:setProperty name="newCamp" property="provienceCode" />
+     <jsp:setProperty name="newCamp" property="campName" />
+     <jsp:setProperty name="newCamp" property="campAccesability" />
+     <jsp:setProperty name="newCamp" property="campMen" />
+     <jsp:setProperty name="newCamp" property="campWomen" />
+     <jsp:setProperty name="newCamp" property="campChildren" />
+     <jsp:setProperty name="newCamp" property="campTotal" />
+     <jsp:setProperty name="newCamp" property="campCapability" />
+     <jsp:setProperty name="newCamp" property="campContactPerson" />
+     <jsp:setProperty name="newCamp" property="campContactNumber" />
+     <jsp:setProperty name="newCamp" property="campComment" />
+     <jsp:setProperty name="newCamp" property="provienceName" />
+     <jsp:setProperty name="newCamp" property="districtName" />
+     <jsp:setProperty name="newCamp" property="divionName" />
+     <jsp:setProperty name="newCamp" property="areaName" />
+     <jsp:setProperty name="newCamp" property="campFamily" />
+     <jsp:setProperty name="newCamp" property="countSelect" />
+
 <%
     DataAccessManager dataAccessManager = new DataAccessManager();
 
@@ -16,6 +39,7 @@
 
     if (request.getParameter("doUpdate") == null) {  //data comes from the database
         if (request.getParameter("campId") == null) {
+            System.out.println(" i am in camp id null");
             response.sendRedirect("SearchCamps.jsp");
             return;
         }
@@ -23,17 +47,24 @@
         try {
             campID = Integer.parseInt(request.getParameter("campId"));
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             response.sendRedirect("SearchCamps.jsp");
+
             return;
         }
+
         CampTO camp = dataAccessManager.searchCamp(campID);
         newCamp.copyFrom(camp);
+
+        //reset the date
+        newCamp.setUpdateDate(new java.util.Date());
+
         session.setAttribute("CAMP_ID",new Integer(newCamp.getCampId()));
     }
 
     if (request.getParameter("doUpdate") != null) {
         errors.addAll(dataAccessManager.validateCampTOforInsert(newCamp));
-        System.out.println("error size" +errors.size() );
+
         int Id = ((Integer)session.getAttribute("CAMP_ID")).intValue();
         if(errors.size()<=0) {
             try {
@@ -47,6 +78,10 @@
     }
 %>
 
+<%
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+%>
 
 
 
@@ -56,53 +91,10 @@
 <title>:: Sahana :: Camp Database</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="comman/style.css" rel="stylesheet" type="text/css">
+<script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
 <script>
-function validateform()
-    {
-    if(document.editCamp.campName.value == "")
-    {
-        alert("Camp Name must have a value");
-        document.editCamp.campName.focus();
-        return false;
-    }
 
-    if(document.editCamp.divisionId.value == "")
-    {
-        alert("Division Id must be selected");
-        document.editCamp.divisionId.focus();
-        return false;
-    }
-    if(isNaN(document.editCamp.campChildren.value))
-    {
-        alert("Please enter integer value");
-        document.editCamp.campChildren.focus();
-        return;
-    }
-    if(isNaN(document.editCamp.campMen.value))
-    {
-       alert("Please enter integer value");
-       document.editCamp.campMen.focus();
-       return;
-    }
-    if(isNaN(document.editCamp.campWomen.value))
-    {
-       alert("Please enter integer value");
-       document.editCamp.campWomen.focus();
-       return;
-    }
-
-    if(isNaN(document.editCamp.campTotal.value))
-    {
-       alert("Please enter integer value");
-       document.editCamp.campTotal.focus();
-       return;
-    }
-
-    //document.editCamp.doInsert.value="doInsert";
-    document.editCamp.submit();
-}
-
-    function validateTotal()
+   function validateTotal()
     {
         var answer = confirm("Changes may affect the break down\n Continue?")
         if (answer){
@@ -115,14 +107,14 @@ function validateform()
             document.editCamp.campTotal.value= parseInt(document.editCamp.campMen.value) +
                 parseInt(document.editCamp.campWomen.value) +
                 parseInt(document.editCamp.campChildren.value);
-            return; 
+            return;
        }
        if(isNaN(document.editCamp.campTotal.value))
        {
            alert("Please enter integer value");
            document.editCamp.campTotal.focus();
            return;
-       }                                                                                                                     
+       }
     }
 
     function validateChildren()
@@ -133,7 +125,7 @@ function validateform()
            document.editCamp.campChildren.focus();
            return;
        }
-       calcTotal();                                                                                                          
+       calcTotal();
     }
 
     function validateMen()
@@ -144,7 +136,7 @@ function validateform()
            document.editCamp.campMen.focus();
            return;
        }
-       calcTotal();                                                                                                          
+       calcTotal();
     }
 
     function validateWomen()
@@ -155,7 +147,7 @@ function validateform()
            document.editCamp.campWomen.focus();
            return;
        }
-       calcTotal();                                                                                                          
+       calcTotal();
     }
 
  function calcTotal(){
@@ -279,6 +271,19 @@ function validateform()
                         <textarea name="campCapability"  class="textBox" cols="50" rows="3"><jsp:getProperty name="newCamp" property="campCapability" /></textarea>
                     </td>
                 </tr>
+
+                <!--  seperator -->
+               <tr>
+                  <td align="right" valign="top" colspan="2"><hr/></td>
+               </tr>
+               <!-- seperator -->
+               <tr>
+                    <td align="right">
+                         Date
+                </td>
+                <td><input type="text" name="updateDate" class="textBox" readonly="true" id="txtMDate1" value="<%=formatter.format(newCamp.getUpdateDate())%>" />&nbsp;<small><font color="red">*</font></small>
+                    <img src="images/calendar.gif" onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'yyyy-mm-dd')" width="18" height="17"/></td>
+                </tr>
                <tr>
                     <td align="right" valign="top"  >Comment </td>
                     <td>
@@ -310,9 +315,15 @@ function validateform()
 
                 </tr>
 
+               <!--  seperator -->
+               <tr>
+                  <td align="right" valign="top" colspan="2"><hr/></td>
+               </tr>
+               <!-- seperator -->
+
                 <tr>
                     <td align="right" ><input type="reset" name="reset" value="Clear" align="right" class="buttons" /></td>
-                    <td align="left" ><input type="button" name="doUpdate" onClick="validateform();" value="Update" align="left" class="buttons"/></td>
+                    <td align="left" ><input type="submit" name="doUpdate" value="Update" align="left" class="buttons"/></td>
                 </tr>
             </table>
 

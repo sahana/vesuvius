@@ -200,25 +200,71 @@ public class SQLGenerator {
 
 
     public static String getSQLAddCamp() {
-        return "insert into CAMPS_CAMP (" +
-//                "AREA_ID, " +
-                "AREA_NAME, " +
-                "DIV_ID, " +
-                "DIST_CODE, " +
-                "PROV_CODE, " +
-                "CAMP_NAME, " +
-                "CAMP_ACCESABILITY, " +
-                "CAMP_MEN, " +
-                "CAMP_WOMEN, " +
-                "CAMP_CHILDREN, " +
-                "CAMP_TOTAL, " +
-                "CAMP_CAPABILITY, " +
-                "CAMP_CONTACT_PERSON, " +
-                "CAMP_CONTACT_NUMBER, " +
-                "CAMP_COMMENT" +
-                ") values (" +
-                "?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "insert into " +
+                DBConstants.Tables.CAMPS_CAMP +
+                " (" +
+                 DBConstants.TableColumns.CAMP_AREANAME + ","+
+                 DBConstants.TableColumns.CAMP_DIV_ID + ","+
+                 DBConstants.TableColumns.CAMP_DIST_CODE + ","+
+                 DBConstants.TableColumns.CAMP_PROV_CODE + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_NAME + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_MEN + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_WOMEN + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_CHILDREN + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_TOTAL + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_COMMENT + ","+
+                 DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + ","+
+                 DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + ","+
+                 DBConstants.TableColumns.CAMP_CAMP_FAMILY +
+                 ") values (" +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?)";
     }
+
+    public static String getSQLEditCamp() {
+            return "update " +
+                    DBConstants.Tables.CAMPS_CAMP +
+                    " set " +
+                     DBConstants.TableColumns.CAMP_AREANAME + "=?, "+
+                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
+                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
+                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_WOMEN + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_CHILDREN + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_TOTAL + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_COMMENT + "=?, "+
+                     DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
+                     DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
+                     DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
+                     " where " + DBConstants.TableColumns.CAMP_CAMP_ID + "=?"; 
+
+        }
+
 
     public static String getSQLEditCamp(CampTO campTO) {
         StringBuffer strBuffer = new StringBuffer("update CAMPS_CAMP set ");

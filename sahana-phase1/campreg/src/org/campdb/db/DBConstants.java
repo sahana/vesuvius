@@ -26,166 +26,77 @@ public interface DBConstants {
         public static final String CAMPS_DIVISION = "CAMPS_DIVISION";
         public static final String CAMPS_AREA = "CAMPS_AREA";
         public static final String CAMPS_CAMP = "CAMPS_CAMP";
-
         public static final String DISTRICT = "district";
-
         public static final String CATOGORY = "category";
-
         public static final String PRIORITIES = "priority";
-
         public static final String REQUEST_HEADER = "requestheader";
-
         public static final String REQUEST_DETAIL = "requestdetail";
-
         public static final String ORGANIZATION = "organization";
-
         public static final String USERS = "user";
-
-        /**
-////         * Request fulfill table
-////         */
         public static final String REQUEST_FULFILL = "requestfulfill";
-
         public static final String FULFILL_STATUS = "fulfillstatus";
     }
 
     public interface TableColumns {
 
         public static final String USER_NAME = "UserName";
-        
         public static final String PASSWORD = "Password";
         public static final String ORGANIZATION = "OrgCode";
-
-        
         public static final String DISTRICT_CODE = "DistrictCode";
-
         public static final String NAME = "Name";
-
-        /**
-         * request id
-         */
         public static final String REQUEST_ID = "RequestID";
-
-        /**
-         * Org Code
-         */
         public static final String ORG_CODE = "OrgCode";
-
         public static final String ORG_NAME = "OrgName";
-
         public static final String ORG_ADDRESS = "OrgAddress";
-
         public static final String ORG_CONTACT_PERSON = "ContactPerson";
-
         public static final String ORG_STATUS ="Status";
-
         public static final String ORG_CONTACT_NUMBER = "ContactNumber";
-
         public static final String ORG_EMAIL_ADDRESS = "EmailAddress";
-
         public static final String ORG_COUNTRY_OF_ORIGIN = "CountryOfOrigin";
-
         public static final String ORG_FACILITIES_AVAILABLE = "FacilitiesAvailable";
-
         public static final String ORG_WORKING_AREAS = "WorkingAreas";
-        
         public static final String ORG_COMMENTS = "Comments";
-
-        /**
-         * Create Date
-         */
         public static final String CREATE_DATE = "CreateDate";
-
-        /**
-         * Request Date
-         */
         public static final String REQUEST_DATE = "RequestDate";
-
-        /**
-         * Caller Name
-         */
         public static final String CALLER_NAME = "CallerName";
-
-        /**
-         * Caller Address
-         */
         public static final String CALLER_ADDRESS = "CallerAddress";
-
-        /**
-         * Caller Contact No
-         */
         public static final String CALLER_CONTACT_NO = "CallerContactNo";
-
-        /**
-         * Description
-         */
         public static final String DESCRIPTION = "Description";
-
-        /**
-         * Site Type
-         */
         public static final String SITE_TYPE = "SiteType";
-
-        /**
-         * Site District
-         */
         public static final String SITE_DISTRICT = "SiteDistrict";
-
-        /**
-         * Site Area
-         */
         public static final String SITE_AREA = "SiteArea";
-
-        /**
-         * Site Name
-         */
         public static final String SITE_NAME = "SiteName";
-
-        /**
-         * Request Detail ID
-         */
         public static final String REQUEST_DETAIL_ID = "RequestDetailId";
-
-        /**
-         * Category
-         */
         public static final String CATEGORY = "Category";
-
-        /**
-         * Item
-         */
         public static final String ITEM = "Item";
-
-        /**
-         * Unit
-         */
         public static final String UNIT = "Unit";
-
-        /**
-         * Quantity
-         */
         public static final String QUANTITY = "Quantity";
-
-        /**
-         * Priority
-         */
         public static final String PRIORITY_DESCRIPTION = "Description";
-
         public static final String CAT_CODE = "CatCode";
-
         public static final String CAT_DESCRIPTION = "CatDescription";
-
         public static final String PRIORITY_LEVEL = "Priority";
-        /**
-         * Service Quatity
-         */
         public static final String SERVICE_QTY = "serviceQty";
-
-        /**
-         * Status
-         */
         public static final String STATUS = "status";
 
+
+        public static final String CAMP_AREANAME = "AREA_NAME";
+        public static final String CAMP_DIV_ID = "DIV_ID";
+        public static final String CAMP_DIST_CODE = "DIST_CODE";
+        public static final String CAMP_PROV_CODE = "PROV_CODE";
+        public static final String CAMP_CAMP_NAME = "CAMP_NAME";
+        public static final String CAMP_CAMP_ACCESABILITY = "CAMP_ACCESABILITY";
+        public static final String CAMP_CAMP_MEN = "CAMP_MEN";
+        public static final String CAMP_CAMP_WOMEN = "CAMP_WOMEN";
+        public static final String CAMP_CAMP_CHILDREN = "CAMP_CHILDREN";
+        public static final String CAMP_CAMP_TOTAL = "CAMP_TOTAL";
+        public static final String CAMP_CAMP_CAPABILITY = "CAMP_CAPABILITY";
+        public static final String CAMP_CAMP_CONTACT_PERSON = "CAMP_CONTACT_PERSON";
+        public static final String CAMP_CAMP_CONTACT_NUMBER = "CAMP_CONTACT_NUMBER";
+        public static final String CAMP_CAMP_COMMENT = "CAMP_COMMENT";
+        public static final String CAMP_LAST_UPDATE_DATE = "LAST_UPDATE_DATE";
+        public static final String CAMP_LAST_UPDATE_TIME = "LAST_UPDATE_TIME";
+        public static final String CAMP_CAMP_FAMILY = "CAMP_FAMILY";
+        public static final String CAMP_CAMP_ID = "CAMP_ID";
 
     }
 }

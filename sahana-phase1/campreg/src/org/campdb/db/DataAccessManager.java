@@ -27,10 +27,6 @@ import java.util.Collection;
 public class DataAccessManager {
 
     //todo: load @ startup - & reload when ever edit/add/modify
-    private static Collection allProviences = null;
-    private static Collection allDistricts = null;
-    private static Collection allDivisions = null;
-    private static Collection allAreas = null;
 
     public DataAccessManager() {
     }
@@ -78,57 +74,126 @@ public class DataAccessManager {
     public boolean addCamp(CampTO campTO) throws SQLException, Exception {
         Connection connection = null;
         PreparedStatement pstmt = null;
+        boolean returnValue = false;
 
         try {
             connection = DBConnection.createConnection();
-            //connection.setAutoCommit(false);
-            // Setting the Request Header data.
+            connection.setAutoCommit(false);
+
             String sqlString = SQLGenerator.getSQLAddCamp();
             pstmt = connection.prepareStatement(sqlString);
-            int i = 1;
-//            pstmt.setString(i++, campTO.getAreadId());
-            pstmt.setString(i++, campTO.getAreaName());
-            pstmt.setString(i++, campTO.getDivisionId());
-//            pstmt.setString(i++, campTO.getDistrictCode());
-            pstmt.setString(i++, getDistrictCode(campTO));
+
+            pstmt.setString(1, campTO.getAreaName());
+            pstmt.setString(2, campTO.getDivisionId());
+            pstmt.setString(3, getDistrictCode(campTO));
             campTO.setDistrictCode(getDistrictCode(campTO));
-//            pstmt.setString(i++, campTO.getProvienceCode());
-            pstmt.setString(i++, getProvinceCode(campTO));
+            pstmt.setString(4, getProvinceCode(campTO));
             campTO.setProvienceCode(getProvinceCode(campTO));
+            pstmt.setString(5, campTO.getCampName());
+            pstmt.setString(6, campTO.getCampAccesability());
+            pstmt.setString(7, campTO.getCampMen());
+            pstmt.setString(8, campTO.getCampWomen());
+            pstmt.setString(9, campTO.getCampChildren());
+            pstmt.setString(10, campTO.getCampTotal());
+            pstmt.setString(11, campTO.getCampCapability());
+            pstmt.setString(12, campTO.getCampContactPerson());
+            pstmt.setString(13, campTO.getCampContactNumber());
+            pstmt.setString(14, campTO.getCampComment());
+            pstmt.setDate(15,new java.sql.Date(campTO.getUpdateDate().getTime()));
+            pstmt.setDate(16,new java.sql.Date(new java.util.Date().getTime()));
+            pstmt.setString(17,campTO.getCampFamily());
 
-            pstmt.setString(i++, campTO.getCampName());
-            pstmt.setString(i++, campTO.getCampAccesability());
-            pstmt.setString(i++, campTO.getCampMen());
-            pstmt.setString(i++, campTO.getCampWomen());
-            pstmt.setString(i++, campTO.getCampChildren());
-            pstmt.setString(i++, campTO.getCampTotal());
-            pstmt.setString(i++, campTO.getCampCapability());
-            pstmt.setString(i++, campTO.getCampContactPerson());
-            pstmt.setString(i++, campTO.getCampContactNumber());
-            pstmt.setString(i++, campTO.getCampComment());
-
-
-            return pstmt.execute();
+            pstmt.execute();
+            returnValue = true;
+        }catch(Exception e){
+            returnValue = false;
+            e.printStackTrace();
+            connection.rollback();
         } finally {
+            connection.setAutoCommit(true);
             closeConnections(connection, pstmt, null);
         }
+
+        return returnValue;
     }
 
-    public boolean editCamp(CampTO campTO) throws SQLException, Exception {
+     public boolean editCamp(CampTO campTO) throws SQLException, Exception {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        boolean returnValue = false;
+
+        try {
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+
+            String sqlString = SQLGenerator.getSQLEditCamp();
+            System.out.println("sqlString = " + sqlString);
+            pstmt = connection.prepareStatement(sqlString);
+//
+//             DBConstants.TableColumns.CAMP_AREANAME + "=?, "+
+//                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
+//                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_WOMEN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CHILDREN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_TOTAL + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_COMMENT + "=?, "+
+//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
+//                     " where (" + DBConstants.TableColumns.CAMP_CAMP_ID + "=?";
+
+            pstmt.setString(1, campTO.getAreaName());
+            pstmt.setString(2, campTO.getDivisionId());
+            pstmt.setString(3, getDistrictCode(campTO));
+            campTO.setDistrictCode(getDistrictCode(campTO));
+            pstmt.setString(4, getProvinceCode(campTO));
+            campTO.setProvienceCode(getProvinceCode(campTO));
+            pstmt.setString(5, campTO.getCampName());
+            pstmt.setString(6, campTO.getCampAccesability());
+            pstmt.setString(7, campTO.getCampMen());
+            pstmt.setString(8, campTO.getCampWomen());
+            pstmt.setString(9, campTO.getCampChildren());
+            pstmt.setString(10, campTO.getCampTotal());
+            pstmt.setString(11, campTO.getCampCapability());
+            pstmt.setString(12, campTO.getCampContactPerson());
+            pstmt.setString(13, campTO.getCampContactNumber());
+            pstmt.setString(14, campTO.getCampComment());
+            pstmt.setDate(15,new java.sql.Date(campTO.getUpdateDate().getTime()));
+            pstmt.setDate(16,new java.sql.Date(new java.util.Date().getTime()));
+            pstmt.setString(17,campTO.getCampFamily());
+            pstmt.setString(18,campTO.getCampId());
+
+            pstmt.execute();
+            returnValue = true;
+        }catch(Exception e){
+            returnValue = false;
+            e.printStackTrace();
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+            closeConnections(connection, pstmt, null);
+        }
+
+        return returnValue;
+    }
+
+    public boolean editCamp1(CampTO campTO) throws SQLException, Exception {
         Connection connection = null;
         Statement stmt = null;
 
         try {
             connection = DBConnection.createConnection();
-            //connection.setAutoCommit(false);
-
-            // Setting the Request Header data.
-
             campTO.setDistrictCode(getDistrictCode(campTO));
             campTO.setProvienceCode(getProvinceCode(campTO));
 
             String sqlString = SQLGenerator.getSQLEditCamp(campTO);
-            System.out.println("sqlString = " + sqlString);
             stmt = connection.createStatement();
             return stmt.execute(sqlString);
         } finally {
@@ -142,8 +207,6 @@ public class DataAccessManager {
 
         try {
             connection = DBConnection.createConnection();
-            //connection.setAutoCommit(false);
-
             String sqlString = SQLGenerator.getSQLDeleteCamp();
             pstmt = connection.prepareStatement(sqlString);
             pstmt.setInt(1, campId);
@@ -153,80 +216,7 @@ public class DataAccessManager {
         }
     }
 
-/*    public List searchCamps(String campName, String provinceCode,
-                            String districtCode, int divisionId, int areaId)
-            throws SQLException, Exception {
-        Connection connection = null;
-        Connection connection2 = null;
-        Statement stmt = null;
-        Statement stmt2 = null;
-        ResultSet resultSet = null;
-        ResultSet tempRS = null;
 
-        try {
-            connection = DBConnection.createConnection();
-            connection2 = DBConnection.createConnection();
-            //connection.setAutoCommit(false);
-            connection2.setAutoCommit(false);
-
-            // Setting the Request Header data.
-            String sqlSearchString = SQLGenerator.getSQLForSearchCriteria(campName,
-                    provinceCode, districtCode, divisionId, areaId);
-
-            System.out.println(sqlSearchString);
-
-            stmt = connection.createStatement();
-            stmt2 = connection2.createStatement();
-
-            resultSet = stmt.executeQuery(sqlSearchString);
-
-            List returnSearchTOs = new ArrayList();
-            CampTO campTo;
-
-            while (resultSet.next()) {
-                campTo = new CampTO();
-//                campTo = new CampTO();
-                campTo.setAreadId(resultSet.getString("AREA_ID"));
-                campTo.setCampAccesability(resultSet.getString("CAMP_ACCESABILITY"));
-                campTo.setCampCapability(resultSet.getString("CAMP_CAPABILITY"));
-                campTo.setCampChildren(resultSet.getString("CAMP_CHILDREN"));
-                campTo.setCampComment(resultSet.getString("CAMP_COMMENT"));
-                campTo.setCampContactNumber(resultSet.getString("CAMP_CONTACT_NUMBER"));
-                campTo.setCampContactPerson(resultSet.getString("CAMP_CONTACT_PERSON"));
-                campTo.setCampId(resultSet.getString("CAMP_ID"));
-                campTo.setCampMen(resultSet.getString("CAMP_MEN"));
-                campTo.setCampName(resultSet.getString("CAMP_NAME"));
-                campTo.setCampWomen(resultSet.getString("CAMP_WOMEN"));
-                campTo.setDistrictCode(resultSet.getString("DIST_CODE"));
-                campTo.setDivisionId(resultSet.getString("DIV_ID"));
-                campTo.setProvienceCode(resultSet.getString("PROV_CODE"));
-
-                sqlSearchString = SQLGenerator.getSQLForAreaName(Integer.parseInt(campTo.getAreadId()));
-                tempRS = stmt2.executeQuery(sqlSearchString);
-                if (tempRS.next()) {
-                    campTo.setAreaName(tempRS.getString("AREA_NAME"));
-                }
-
-                sqlSearchString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(campTo.getDivisionId()));
-                tempRS = stmt2.executeQuery(sqlSearchString);
-                if (tempRS.next()) campTo.setDivionName(tempRS.getString("DIV_NAME"));
-
-                sqlSearchString = SQLGenerator.getSQLForDistrictName(campTo.getDistrictCode());
-                tempRS = stmt2.executeQuery(sqlSearchString);
-                if (tempRS.next()) campTo.setDistrictName(tempRS.getString("DIST_NAME"));
-
-                sqlSearchString = SQLGenerator.getSQLForProvienceName(campTo.getProvienceCode());
-                tempRS = stmt2.executeQuery(sqlSearchString);
-                if (tempRS.next()) campTo.setProvienceName(tempRS.getString("PROV_NAME"));
-
-                returnSearchTOs.add(campTo);
-            }
-            return returnSearchTOs;
-        } finally {
-            closeConnections(connection, stmt, resultSet);
-            closeConnections(connection2, stmt2, tempRS);
-        }
-    }*/
 
     public List searchCamps(String campName, String provinceCode,
                             String districtCode, int divisionId)
@@ -247,8 +237,6 @@ public class DataAccessManager {
             // Setting the Request Header data.
             String sqlSearchString = SQLGenerator.getSQLForSearchCriteria(campName,
                     provinceCode, districtCode, divisionId);
-
-            System.out.println(sqlSearchString);
 
             stmt = connection.createStatement();
             stmt2 = connection2.createStatement();
@@ -372,14 +360,6 @@ public class DataAccessManager {
                 campTo.setDivionName(resultSet.getString("DIV_NAME"));
             }
 
-//            sqlString = SQLGenerator.getSQLForAreaName(Integer.parseInt(campTo.getAreadId()));
-//            preparedStatement = connection.prepareStatement(sqlString);
-//
-//            resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                campTo.setAreaName(resultSet.getString("AREA_NAME"));
-//            }
 
             return campTo;
         } finally {
