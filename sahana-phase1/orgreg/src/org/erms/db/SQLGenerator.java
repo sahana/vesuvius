@@ -12,6 +12,7 @@
 
 package org.erms.db;
 
+import java.util.Date;
 
 
 /**
@@ -504,31 +505,27 @@ public class SQLGenerator {
 
     }
 
-    
-//    public static String getSQLEditOrganization() {
-//            return "update " +
-//                    DBConstants.Tables.ORGANIZATION +
-//                    " set " +
-//                     DBConstants.TableColumns. + "=?, "+
-//                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
-//                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_WOMEN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CHILDREN + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_TOTAL + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_COMMENT + "=?, "+
-//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
-//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
-//                     DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
-//                     " where " + DBConstants.TableColumns.CAMP_CAMP_ID + "=?";
-//
-//        }
+
+    public static String getSQLEditOrganization() {
+            return "update " +
+                    DBConstants.Tables.ORGANIZATION +
+                    " set " +
+                     DBConstants.TableColumns.ORG_TYPE + "=?, "+
+                     DBConstants.TableColumns.ORG_SUBTYPE + "=?, "+
+                     DBConstants.TableColumns.ORG_CONTACT_PERSON + "=?, "+
+                     DBConstants.TableColumns.ORG_NAME + "=?, "+
+                     DBConstants.TableColumns.ORG_STATUS + "=?, "+
+                     DBConstants.TableColumns.ORG_ADDRESS + "=?, "+
+                     DBConstants.TableColumns.ORG_CONTACT_NUMBER + "=?, "+
+                     DBConstants.TableColumns.ORG_EMAIL_ADDRESS + "=?, "+
+                     DBConstants.TableColumns.ORG_COUNTRY_OF_ORIGIN + "=?, "+
+                     DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE + "=?, "+
+                     DBConstants.TableColumns.ORG_COMMENTS + "=?, "+
+                     DBConstants.TableColumns.ORG_LAST_UPDATE + "=?, "+
+                     DBConstants.TableColumns.ORG_IS_SRILANKAN + "=? "+
+
+                     " where " + DBConstants.TableColumns.ORG_CODE + "=?";
+        }
 
     public static String getSQLForOrganizationSectors(){
             return "INSERT into "

@@ -1032,8 +1032,9 @@ public class DataAccessManager implements DBConstants {
         try {
             connection = DBConnection.createConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistration());
-            String code = getOrgCode();
+                                        System.out.println(SQLGenerator.getSQLEditOrganization());
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLEditOrganization());
+
             int i = 1;
 
             String orgType = org.getOrgType();
@@ -1046,19 +1047,21 @@ public class DataAccessManager implements DBConstants {
             }
             preparedStatement.setString(1, orgType);
             preparedStatement.setString(2, ngoType);
-            preparedStatement.setString(3, code);
-            preparedStatement.setString(4, org.getContactPerson());
-            preparedStatement.setString(5, org.getOrgName());
-            preparedStatement.setBoolean(6, Boolean.getBoolean(org.getStatus()));
-            preparedStatement.setString(7, org.getOrgAddress());
-            preparedStatement.setString(8, org.getContactNumber());
-            preparedStatement.setString(9, org.getEmailAddress());
-            preparedStatement.setString(10, org.getCountryOfOrigin());
-            preparedStatement.setString(11, org.getFacilitiesAvailable());
-            preparedStatement.setString(12, org.getComments());
-            preparedStatement.setString(13, new Date().toString());
-            preparedStatement.setBoolean(14, org.isSriLankan());
-            preparedStatement.executeUpdate();
+
+            preparedStatement.setString(3, org.getContactPerson());
+            preparedStatement.setString(4, org.getOrgName());
+            preparedStatement.setBoolean(5, Boolean.getBoolean(org.getStatus()));
+            preparedStatement.setString(6, org.getOrgAddress());
+            preparedStatement.setString(7, org.getContactNumber());
+            preparedStatement.setString(8, org.getEmailAddress());
+            preparedStatement.setString(9, org.getCountryOfOrigin());
+            preparedStatement.setString(10, org.getFacilitiesAvailable());
+            preparedStatement.setString(11, org.getComments());
+            preparedStatement.setString(12, new Date().toString());
+            preparedStatement.setBoolean(13, org.isSriLankan());
+             preparedStatement.setString(14, org.getOrgCode());
+            preparedStatement.execute();
+            System.out.println(preparedStatement.toString());
 
 
 //            String userName = org.getUsername();
