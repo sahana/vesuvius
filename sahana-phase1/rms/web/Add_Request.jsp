@@ -73,6 +73,9 @@ document.form1.submit();
     String userParameter = request.getParameter("user");
     String requestDateParameter = request.getParameter("requestDate");
     String descriptionParameter = request.getParameter("description"); //not required
+    String siteTypeParameter =  request.getParameter("siteType");
+    String siteContactParameter =  request.getParameter("siteContact");
+
 
     //adding the list
     String quantityParameter = request.getParameter("quantity");
@@ -151,6 +154,8 @@ document.form1.submit();
             requestObj.setSiteArea(siteAreaParameter);
             requestObj.setUser(userParameter);
             requestObj.setDescription(descriptionParameter);
+            requestObj.setSiteType(siteTypeParameter);
+            requestObj.setSiteContact(siteContactParameter);
 
             String requestID = requestObj.getRequestID();
 
@@ -340,6 +345,56 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                            requestObj.getSiteArea()
                                        %>" />&nbsp;<small><font color="red">*</font></small></td>
                                        </tr>
+
+<tr>
+    <td>
+          &nbsp;Site Type
+    </td>
+        <!---- TODO Ajth ayya --->
+    <td>
+        <%
+            Iterator sites = dam.getAllSiteTypes().iterator();
+        %>
+        <select name = "siteType" class="textBox">
+            <%
+                String siteTypeCode = null;
+                String siteType = null;
+                while(sites.hasNext()){
+                    KeyValueDTO keyVpair = (KeyValueDTO)sites.next();
+                    siteTypeCode = keyVpair.getDbTableCode();
+                    siteType = keyVpair.getDisplayValue();
+             %>
+                <%
+                    if(siteTypeCode.equals(requestObj.getSiteType())){ %>
+                        <option selected="false"  value="<%=siteTypeCode%>"><%=siteType%></option>
+                <% }else{ %>
+                       <option selected="false"  value="<%=siteTypeCode%>"><%=siteType%></option>
+                <% }
+                }
+            %>
+        </select>
+
+
+    </td>
+</tr>
+
+<tr>
+    <td>
+          &nbsp;Site Contract
+    </td>
+    <!---- TODO Ajth ayya --->
+    <td>
+          <input type="text" name="siteContact" class="textBox" value="<%=
+                                           requestObj.getSiteContact()
+                                       %>" />
+    </td>
+</tr>
+<tr>
+    <td>
+          &nbsp;
+    </td>
+</tr>
+
 
 <tr>
 <td class="formText">&nbsp;Additional Comments</td>

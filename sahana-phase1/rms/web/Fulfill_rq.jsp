@@ -478,6 +478,34 @@
 
                                     </tr>
 
+
+                                    <tr>
+                                        <td>
+                                              &nbsp;Site Type
+                                        </td>
+
+                                            <%
+                                                  String value = dam.getSiteTypeName(model.getRequest().getSiteType());
+                                                  if(value == null){
+                                                      value = "";
+                                                  }
+                                            %>
+                                            <td><input type="text" name="siteContact" class="textBox" value="<%=value%>" /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                              &nbsp;Site Contract
+                                        </td>
+                                        <!---- TODO Ajth ayya --->
+                                        <td>
+                                              <input type="text" name="siteContact" class="textBox" value="<%=
+                                                                               model.getRequest().getSiteContact()
+                                                                           %>" />
+                                        </td>
+                                    </tr>
+
+
                                     <tr>
 
                                         <td>&nbsp;</td>

@@ -53,6 +53,13 @@ public class SQLGenerator {
     }
 
 
+    public static String getSQLForAllSites() {
+         String s = "SELECT " +  DBConstants.TableSiteType.SITE_TYPE_CODE + "," + DBConstants.TableSiteType.SITE_TYPE
+             + " FROM " + DBConstants.Tables.SITE_TYPE + " order by "+ DBConstants.TableSiteType.SITE_TYPE;
+         return s;
+     }
+
+
 
     public static String getSQLForAllPriorities() {
 
@@ -180,13 +187,15 @@ public class SQLGenerator {
 
             + DBConstants.TableColumns.SITE_AREA + ", "
 
-            + DBConstants.TableColumns.SITE_NAME
+            + DBConstants.TableColumns.SITE_NAME + ", "
+
+            + DBConstants.TableColumns.SITE_CONTACT
 
             + ") "
 
             + " VALUES "
 
-            + "(?,?,?,?,?,?,?,?,?,?,?)";
+            + "(?,?,?,?,?,?,?,?,?,?,?,?)";
 
     }
 
@@ -398,6 +407,8 @@ public class SQLGenerator {
             + REQ_HEAD + "." + DBConstants.TableColumns.SITE_AREA + ", "
 
             + REQ_HEAD + "." + DBConstants.TableColumns.SITE_NAME + ", "
+
+            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_CONTACT + ", "
 
             + REQ_ORG + "." + DBConstants.TableColumns.ORG_NAME + ", "
 

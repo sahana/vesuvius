@@ -17,6 +17,16 @@ public class RequestTO {
     private String callerContactNumber="";
     private String description="";
     private String siteType="";
+
+    public String getSiteContact() {
+        return siteContact;
+    }
+
+    public void setSiteContact(String siteContact) {
+        this.siteContact = siteContact;
+    }
+
+    private String siteContact ="";
     private String siteDistrict="";
     private String siteArea="";
     private String siteName="";

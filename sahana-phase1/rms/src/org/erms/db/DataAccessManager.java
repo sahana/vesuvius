@@ -16,10 +16,7 @@ package org.erms.db;
 import org.erms.business.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -39,8 +36,62 @@ public class DataAccessManager {
     private static Collection allFulfillStatuses = null;
     private static Collection allSearchStatuses = null;
 
+    private static Collection allSiteTypes = null;
+    private static HashMap  allSiteMap = new HashMap();
+
+
+
 
     public DataAccessManager() {
+    }
+
+    public Collection getAllSiteTypes()throws SQLException,Exception{
+        if(allSiteTypes == null){
+            allSiteTypes = new ArrayList();
+            Connection conn = DBConnection.createConnection();
+            Statement s = null;
+            ResultSet rs = null;
+
+            try {
+
+                String sql = SQLGenerator.getSQLForAllSites();
+
+                s = conn.createStatement();
+
+                rs = s.executeQuery(sql);
+
+
+                String itemCode = null;
+
+                String itemName = null;
+
+                KeyValueDTO dto = null;
+
+
+                while (rs.next()) {
+
+                    itemCode = rs.getString(DBConstants.TableSiteType.SITE_TYPE_CODE);
+
+                    itemName = rs.getString(DBConstants.TableSiteType.SITE_TYPE);
+                    allSiteMap.put(itemCode,itemName);
+
+                    dto = new KeyValueDTO();
+
+                    dto.setDbTableCode(itemCode);
+
+                    dto.setDisplayValue(itemName);
+
+                    allSiteTypes.add(dto);
+
+                }
+
+            } finally {
+
+                closeConnections(conn,s,rs);
+
+            }
+        }
+        return allSiteTypes;
     }
 
 
@@ -224,6 +275,8 @@ public class DataAccessManager {
             preparedStatement.setString(10, request.getSiteArea());
 
             preparedStatement.setString(11, request.getSiteName());
+
+            preparedStatement.setString(12, request.getSiteContact());
 
 
             preparedStatement.executeUpdate();
@@ -611,6 +664,7 @@ public class DataAccessManager {
                 requestTO.setSiteName(resultSet.getString(DBConstants.TableColumns.SITE_NAME));
                 requestTO.setOrgName(resultSet.getString(DBConstants.TableColumns.ORG_NAME));
                 requestTO.setOrgContact(resultSet.getString(DBConstants.TableColumns.ORG_CONTACT_NUMBER));
+                requestTO.setSiteContact(resultSet.getString(DBConstants.TableColumns.SITE_CONTACT));                
 
 
                 List requestDetailTOs = new ArrayList();
@@ -1270,6 +1324,9 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
     }
 
 
+    public String getSiteTypeName(String siteTypeCode){
+         return (String)allSiteMap.get(siteTypeCode);
+    }
 }
 
 

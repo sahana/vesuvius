@@ -57,7 +57,18 @@ public interface DBConstants {
         public static final String FULFILL_STATUS = "fulfillstatus";
         public static final String REQUEST_STATUS = "requeststatus";
 
+        public static final String SITE_TYPE = "sitetype";
+
+
     }
+
+
+    public interface TableSiteType{
+        public static final String SITE_TYPE_CODE = "SiteTypeCode";
+        public static final String SITE_TYPE = "SiteType";
+    }
+
+
 
 
 
@@ -68,8 +79,10 @@ public interface DBConstants {
         public static final String PASSWORD = "Password";
         public static final String ORGANIZATION = "OrgCode";
 
-        public static final String DISTRICT_CODE = "DistrictCode";
         public static final String DISTRICT_NAME = "Name";
+        public static final String DISTRICT_CODE = "DistrictCode";
+        
+
         public static final String REQUEST_ID = "RequestID";
         public static final String ORG_CODE = "OrgCode";
         public static final String ORG_NAME = "OrgName";
@@ -98,6 +111,9 @@ public interface DBConstants {
         public static final String SITE_DISTRICT = "SiteDistrict";
         public static final String SITE_AREA = "SiteArea";
         public static final String SITE_NAME = "SiteName";
+        public static final String SITE_CONTACT = "SiteContact";
+
+
         public static final String REQUEST_DETAIL_ID = "RequestDetailId";
         public static final String REQUEST_FULFILL_ID = "FulfullId";
         public static final String CATEGORY = "Category";
