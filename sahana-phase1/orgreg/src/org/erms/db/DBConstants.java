@@ -49,6 +49,7 @@ public interface DBConstants {
         public static final String ORGANIZATION_DISTRICT = "organization_district";
 
 
+        public static final String ORGANIZATION_SECTOR = "organization_sector";
 
         public static final String CATOGORY = "category";
 
@@ -110,8 +111,10 @@ public interface DBConstants {
         public static final String DISTRICT_NAME = "Name";
 
         public static final String ORGANIZATION_DISTRICT_ORG_CODE = "OrgCode";
-        public static final String ORGANIZATION_DISTRICT_DISTRICT_NAME = "DistrictName"; 
+        public static final String ORGANIZATION_DISTRICT_DISTRICT_NAME = "DistrictName";
 
+        public static final String ORGANIZATION_SECTOR_ORG_CODE = "OrgCode";
+        public static final String ORGANIZATION_SECTOR_SECTOR = "Sector";
 
         /**
 
@@ -172,6 +175,7 @@ public interface DBConstants {
 
         public static final String ORG_COMMENTS = "Comments";
         public static final String ORG_LAST_UPDATE = "LastUpdate";
+        public static final String ORG_IS_SRILANKAN = "IsSriLankan";
 
 
 

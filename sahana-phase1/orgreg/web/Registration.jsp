@@ -37,6 +37,51 @@
 
    }
 
+
+
+    function add()
+    {
+        if(document.tsunamiOrgReg.inputVal.value != ""  ){
+
+            document.tsunamiOrgReg.sectors.value += document.tsunamiOrgReg.inputVal.value+",";
+            document.tsunamiOrgReg.inputVal.value = "";
+        }else {
+            for (var i = 0; i < document.tsunamiOrgReg.choiseList.length; i++) {
+                if(document.tsunamiOrgReg.choiseList.options[i].selected){
+                   document.tsunamiOrgReg.sectors.value += document.tsunamiOrgReg.choiseList.options[i].value+",";
+                }
+            }
+        }
+    }
+
+
+
+    function minus()
+    {
+          var inValue;
+        if(document.tsunamiOrgReg.inputVal.value != ""){
+            inValue = document.tsunamiOrgReg.inputVal.value+","  ;
+        }else {
+            for (var i = 0; i < document.tsunamiOrgReg.choiseList.length; i++) {
+
+                if(document.tsunamiOrgReg.choiseList.options[i].selected){
+
+                   inValue =  document.tsunamiOrgReg.choiseList.options[i].value;
+                }
+            }
+        }
+        var outValue = document.tsunamiOrgReg.sectors.value;
+        var startIndex = outValue.indexOf (inValue);
+        if(outValue.indexOf (inValue,0) != -1){
+        var endIndex = startIndex + inValue.length+1;
+        outValue = outValue.substring (0,startIndex) + outValue.substring(endIndex,outValue.length);
+        document.tsunamiOrgReg.sectors.value = outValue;
+        document.tsunamiOrgReg.inputVal.value="";
+        }
+
+    }
+
+
   </script>
  <link href="comman/style.css" rel="stylesheet" type="text/css">
 
@@ -51,7 +96,11 @@
     List  messages = new LinkedList();
     if (request.getParameter("submit") != null) {
         orgReg.setStatus("false");
-        messages.addAll(orgReg.validate());
+
+        boolean isSriLankan = "yes".equalsIgnoreCase(request.getParameter("isSriLankan")) ? true : false;
+        orgReg.setIsSriLankan(isSriLankan);
+
+        //messages.addAll(orgReg.validate());
         // get the selected working areas
         Iterator allDistrictNames = dataAccessManager.getAllDistrictNames().iterator();
 
@@ -63,8 +112,21 @@
 
        }
 
-         if (messages.size() <= 0) {
-            boolean status = dataAccessManager.addOrganization(orgReg);
+        String sectorString = (String)request.getParameter("sectors");
+        System.out.println(sectorString);
+        while(sectorString.indexOf(',') != -1){
+            String sector =sectorString.substring(0, sectorString.indexOf(','));
+            sectorString =  sectorString.substring(sectorString.indexOf(','));
+            orgReg.AddSectors(sector);
+            sectorString =  sectorString.substring(1);
+
+        }
+
+
+        if (messages.size() <= 0) {
+           boolean status =dataAccessManager.addOrganization(orgReg);
+
+
 %>
 <%
  if(status) {
@@ -89,7 +151,7 @@
 
 
 
-    <form method="get" name="tsunamiOrgReg" action="Registration.jsp">
+    <form method="post" name="tsunamiOrgReg" action="Registration.jsp">
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
    <tr>
               <td align="center" vAlign="top" colspan="2" class="formTitle" background="images/HeaderBG.jpg"  >Register Your Organization</td>
@@ -129,6 +191,13 @@
               <!--   -->
 <%--                <input name="orgType" size="38" maxlength="10" type="text" id="Code" value="<jsp:getProperty name="orgReg" property="orgType" />">--%>
                 </font>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+
+
                 </td>
             </tr>
             <!--  -->
@@ -180,6 +249,54 @@
 </textarea>&nbsp;<small><font color="red">*</font></small>
                 </td>
             </tr>
+            <tr>
+            <td vAlign="top" class="formText" align="right" >Sector(s)</td>
+
+            <td vAlign="top">
+                <textarea cols="38" readonly="true" name="sectors" rows="1"></textarea>
+            </td>
+
+
+
+            </tr>
+            <tr>
+            <td align="right"></td>
+            <td vAlign="top" >
+
+                <input type="formText"  style="width: 100px;" name="inputVal" value="">
+            </td>
+<%--            <td >--%>
+<%--                <INPUT type="button" name="click" onClick="add();" value="Add">--%>
+<%--            </td>--%>
+            </tr>
+            <tr>
+            <td align="right"></td>
+            <td>
+                <select name="choiseList" size="5"  style="width: 150px;">
+                          <%
+                              String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;
+                              String selectStmt= null;
+                              for(int i=0; i< sectorList.length; i++){
+
+                                 selectStmt="<option value=\""+ sectorList[i]+"\">"+sectorList[i]+"</option>";
+                                  %>
+                                  <%=selectStmt%>
+                                  <%
+                              }
+
+                          %>
+
+
+                       </select>
+                       <INPUT type = "button" name="click" onClick="add();" value="Add" class="buttons" >
+                    <INPUT  type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
+                </td>
+<%--                <td>--%>
+
+<%--                </td>--%>
+
+            </tr>
+
             <tr>
               <td align="right" vAlign="top" class="formText">Contact
                 No :</td>
@@ -438,15 +555,9 @@
               <td>
                 <textarea cols="38" name="facilitiesAvailable" rows="5" id="Facilities"><%= (orgReg.getFacilitiesAvailable()==null) ? "" : orgReg.getFacilitiesAvailable() %></textarea>
                 </td>
-                <td>
-                      <%--   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    --%>
-
-<%--   ########################################################    --%>
-
-                </td>
             </tr>
             <tr>
-              <td align="right" vAlign="top" class="formText">Working Areas :</td>
+              <td align="right" vAlign="top" class="formText">Operational Districts :</td>
               <td>
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
                 <%
@@ -477,13 +588,14 @@
                         i++;
                    }
                 %>
-                    <td>
-                <tr>
-                    <input name="checkAll" type="button" value=" Select All " class="buttons" onclick="setAllCheckBoxes(true);" ></input>
-                    <input name="clearAll" type="button" value=" Clear All " class="buttons" onclick="setAllCheckBoxes(false);" ></input>
 
-                </tr>
-                </td>
+
+                    <td>
+                        <input name="checkAll" type="button" value=" Select All " class="buttons" onclick="setAllCheckBoxes(true);" ></input>
+                        <input name="clearAll" type="button" value=" Clear All " class="buttons" onclick="setAllCheckBoxes(false);" ></input>
+                    </td>
+
+
             </table>
 
                 </td>
@@ -497,6 +609,13 @@
 
             </tr>
             <tr>
+              <td align="right" vAlign="top" class="formText">Are you registered in Sri Lanka ? :</td>
+              <td>
+                <input name="isSriLankan" type="radio" value="yes">Yes</input>
+                <input name="isSriLankan" type="radio" value="no">No</input>
+                </td>
+            </tr>
+            <tr>
               <td align="right" vAlign="top" class="formText">Comments :</td>
               <td>
                 <textarea name="comments" cols="38" rows="5" id="comments" ><%= (orgReg.getComments()==null) ? "" : orgReg.getComments() %></textarea>
@@ -506,6 +625,10 @@
 <%--              <td align="center" vAlign="top" colspan="2" class="formText" ><strong>User Registration</strong></td>--%>
 
             </tr>
+
+            <br/>
+            <br/>
+
             <tr>
                    <td align="right" vAlign="top" class="formText">User Name :</td>
                    <td>

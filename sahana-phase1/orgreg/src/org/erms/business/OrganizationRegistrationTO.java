@@ -34,7 +34,7 @@ public class OrganizationRegistrationTO {
     private String orgName;
 
     private String status;
-
+    
     private String orgAddress;
 
     private String contactNumber;
@@ -46,6 +46,8 @@ public class OrganizationRegistrationTO {
     private String facilitiesAvailable;
 
     private ArrayList workingAreas;
+
+    private ArrayList sectors;
 
     private String comments;
 
@@ -59,9 +61,21 @@ public class OrganizationRegistrationTO {
 
     private String passwordRe;
 
+    private boolean isSriLankan;
+
+    public boolean isSriLankan() {
+        return isSriLankan;
+    }
+
+    public void setIsSriLankan(boolean sriLankan) {
+        isSriLankan = sriLankan;
+    }
+
     public String getUsername() {
         return username;
     }
+
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -265,6 +279,20 @@ public class OrganizationRegistrationTO {
     }
 
 
+    public ArrayList getSectors() {
+           if(null ==sectors){
+               this.sectors = new ArrayList();
+           }
+           return sectors;
+       }
+
+       public void AddSectors(String sectorName) {
+           if(null ==sectors){
+               this.sectors = new ArrayList();
+           }
+           sectors.add(sectorName);
+       }
+    
 
     public String getComments() {
 

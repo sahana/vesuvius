@@ -492,15 +492,35 @@ public class SQLGenerator {
 
             + DBConstants.TableColumns.ORG_COMMENTS + ", "
 
-            + DBConstants.TableColumns.ORG_LAST_UPDATE
+            + DBConstants.TableColumns.ORG_LAST_UPDATE + ", "
+
+            + DBConstants.TableColumns.ORG_IS_SRILANKAN
 
             + ") "
 
             + " VALUES "
 
-            + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     }
+
+
+    public static String getSQLForOrganizationSectors(){
+            return "INSERT into "
+
+               + DBConstants.Tables.ORGANIZATION_SECTOR
+
+               + " ("
+               + DBConstants.TableColumns.ORGANIZATION_SECTOR_ORG_CODE + ", "
+               + DBConstants.TableColumns.ORGANIZATION_SECTOR_SECTOR
+               + ") "
+
+               + " VALUES "
+
+               + "(?,?)";
+
+       }
+
 
     public static String getSQLForOrganizationDistrictInsertion() {
 

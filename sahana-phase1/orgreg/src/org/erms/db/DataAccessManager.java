@@ -1056,6 +1056,7 @@ public class DataAccessManager implements DBConstants{
             preparedStatement.setString(11, org.getFacilitiesAvailable());
             preparedStatement.setString(12, org.getComments());
             preparedStatement.setString(13, new Date().toString());
+            preparedStatement.setBoolean(14, org.isSriLankan());
             preparedStatement.executeUpdate();
 
 
@@ -1091,6 +1092,16 @@ public class DataAccessManager implements DBConstants{
                 preparedStatement.executeUpdate();
             }
 
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
+
+            Iterator sectorIter = org.getSectors().iterator();
+            while (sectorIter.hasNext()) {
+                String sector = (String) sectorIter.next();
+                // set the organization code
+                    preparedStatement.setString(1, code);
+                    preparedStatement.setString(2, sector);
+                preparedStatement.executeUpdate();
+            }
 
             connection.commit();
             connection.setAutoCommit(true);

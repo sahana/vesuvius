@@ -64,7 +64,26 @@ public interface ERMSConstants {
 
     }
 
+    public interface ERMSSectorNameConstants{
 
+        public static final String[] SECTORS = {"Water and Sanitation"
+                                                , "Construction"
+                                                , "Shelter"
+                                                , "Infrastructure"
+                                                , "Medical supplies and Medicine"
+                                                , "Medical personnel"
+                                                , "Child care"
+                                                , "Education"
+                                                , "Psychosocial"
+                                                , "Empowerment"
+                                                , "Fishing Community Support"
+                                                , "Livelihoods"
+                                                , "Gender based activities"
+                                                , "Food relief"
+                                                , "Clothes;utensils etc"
+                                                , "Volunteers"
+                                                , "Assesments"};
+    }
 
 }
 
