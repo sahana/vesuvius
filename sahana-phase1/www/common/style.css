@@ -1,118 +1,182 @@
-body { font-size: smaller; }
-
 .textBox {
-	font-family: sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: #000;
+	font-weight: normal;
+	color: #000000;
 }
-
 .formTitle {
-	font-family: sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
 	font-weight: bold;
-	color: #fff;
+	color: #FFFFFF;
 	text-align: left;
 	font-variant: small-caps;
-	border-left-width: 1px solid #0033cc;
-}
+	text-indent: 5pt;
+	line-height: 20px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #0033CC;
 
+
+
+
+
+
+
+}
 .formText {
-	font-family: sans-serif;
-	color: #000;
-	border: 1px;
+	font-family: Tahoma;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	font-style: normal;
+	text-indent: 5pt;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
 	border-top-style: none;
-	border-color: #cccccc;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+
+
 }
 
 .formTextJustify {
-	font-family: sans-serif;
+	font-family: Tahoma;
+	font-size: 8pt;
+	font-weight: normal;
 	color: #666666;
+	font-style: normal;
 	text-align: justify;
-	font-size: smaller;
+	line-height: 11pt;
 }
 
 .ackCentered {
-	font-family: sans-serif;
+	font-family: Tahoma;
+	font-size: 8pt;
 	font-weight: normal;
-	font-size: smaller;
 	color: #777777;
+	font-style: normal;
 	text-align: center;
+	line-height: 11pt;
         margin-left: 100px;
         margin-right: 100px;
 }
 
-.formBG { background-color: #f0f0f0; }
-
-.pageBg { background-color: #fff; }
-
-.buttons {
-	font-family: sans-serif;
-	color: #000;
+.formBG {
+	background-color: #F0F0F0;
 }
-
+.pageBg {
+	background-color: #FFFFFF;
+}
+.buttons {
+	font-family: Tahoma;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+}
 .menuBG {
 	background-image: url(../images/mainMenuBG.gif);
-	font-family: sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
 	font-weight: bold;
 	font-variant: small-caps;
-	color: #000;
+	color: #000000;
+
+
 }
-
-.leftMenuBG { background-color: #005c91; }
-
+.leftMenuBG {
+	background-color: #005C91;
+}
 .statusBar {
-	font-family: sans-serif;
+	font-family: tahoma;
+	font-size: 8pt;
 	font-weight: bold;
-	color: #fff;
-	background-color: #cccccc;
-	border: 1px;
+	color: #FFFFFF;
+	background-color: #CCCCCC;
+	line-height: 18px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
 	border-top-style: solid;
+	border-top-color: #999999;
 	border-bottom-style: solid;
-	border-color: #999999;
+	border-right-color: #999999;
+	border-bottom-color: #999999;
+	border-left-color: #999999;
+
+
+
+
 }
-
-.border { background-color: #999999; }
-
+.border {
+	background-color: #999999;
+}
 .loginText {
-	font-family: sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
 	font-weight: bold;
-	color: #000;
+	color: #000000;
 }
-
 .selectBoxes {
-	font-family: sans-serif;
-	background-color: #fff;
+	font-family: Tahoma;
+	font-size: 8pt;
+	background-color: #FFFFFF;
 }
-
 .tableUp {
-	font-family: sans-serif;
+	font-family: Tahoma;
+	font-size: 8pt;
 	font-weight: bold;
-	background-color: #d8e9fd;
+	background-color: #D8E9FD;
 	text-align: center;
-	border-top: 1px solid #7ba4e0;
+	line-height: 13pt;
+	border-top: 1px solid #7BA4E0;
 	border-right: 0px none;
-	border-bottom: 1px solid #7ba4e0;
+	border-bottom: 1px solid #7BA4E0;
 	border-left: 0px none;
-}
 
+
+
+
+
+
+}
 .tableDown {
-	font-family: sans-serif;
+	font-family: Tahoma;
+	font-size: 8pt;
 	font-weight: normal;
-	background-color: #f3f9fe;
+	background-color: #F3F9FE;
 	text-align: center;
+	line-height: 13pt;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #cccccc;
+	border-bottom-color: #CCCCCC;
+
+
+
 }
 
 .loginText {
-	font-family: sans-serif;
-	font-weight: bold;
-	color: #000;
+	font-family: Tahoma;
+	font-size: 8pt;
+	font-weight: bolder;
+	color: #000000;
+	font-variant: normal;
+	line-height: 20px;
 	text-decoration: none;
 	padding: 0px;
 	border-top-width: 1px;
 	border-top-style: solid;
-	border-color: #b4c6db;
-}
+	border-top-color: #B4C6DB;
+	border-right-color: #B4C6DB;
+	border-bottom-color: #B4C6DB;
+	border-left-color: #B4C6DB;
 
-.loginBG { background-color: #005495; }
+}
+.loginBG {
+	background-color: #005495;
+}

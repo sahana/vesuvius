@@ -1,0 +1,63 @@
+<project basedir="." default="deploy-local">
+
+<!--  Ant build for root application   -->
+  <property name="app-name" value="ROOT"></property>
+  <property name="web" value="."/>
+  <property name="deploy-dir" value="deploy"/>
+  <property name="bin" value="bin"/>
+
+  <property name="bin.war.root" value="${bin}/${app-name}"></property>
+   <property file="tomcat.properties"/>
+
+
+  <target name="deploy-tomcat">
+      <antcall target="deploy-local"></antcall>
+      <copy file="${deploy-dir}/${app-name}.war" todir="${tomcat.home}/webapps" />
+  </target>
+
+  <target name="deploy-local">
+      <antcall target="clean"></antcall>
+      <antcall target="init"></antcall>
+      <antcall target="deploy"></antcall>
+      <antcall target="clean"></antcall>
+  </target>
+
+
+  <target name ="init">
+	 <echo message=" using ${tomcat.home}"/>
+     <!-- try to delete the deploy directory -->
+     <delete dir="${deploy-dir}" quiet="true"></delete>
+     <mkdir dir="${bin}"></mkdir>
+     <mkdir dir="${bin.war.root}"></mkdir>
+     <mkdir dir="${deploy-dir}"></mkdir>
+  </target>
+
+
+  <target name="deploy">
+	<copy todir="${bin.war.root}">
+      <fileset dir="${web}">
+        <include name="**/*"/>
+        <exclude name="**/web.xml"/>
+        <exclude name="**/CVS/**"/>
+        <!-- stop the recursive copying -->
+        <exclude name="**/bin/**"/>
+        <exclude name="**/deploy/**"/>
+        <exclude name="**/*.xml"/>
+        <exclude name="**/*.properties"/>
+      </fileset>
+	</copy>
+
+    <!--   Make the war   -->
+	<war warfile="${app-name}.war" basedir="${bin.war.root}" webxml="${web}/WEB-INF/web.xml" ></war>
+    <copy file="${app-name}.war" tofile="${deploy-dir}/${app-name}.war"/>
+    <delete file="${app-name}.war"></delete>
+  </target>
+
+  <target name="clean">
+     <delete dir="${bin}" quiet="true" />
+     <delete dir="${bin.war.root}" quiet="true"/>
+
+  </target>
+</project>
+
+
