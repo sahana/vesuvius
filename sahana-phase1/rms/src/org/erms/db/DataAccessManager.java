@@ -758,7 +758,7 @@ public class DataAccessManager {
 
     public void fulfillRequest(RequestFulfillDetailTO fullFillment,
                                Collection oldFullFillment,
-                               Collection newFullFillment, boolean closeRequest,String reqDetailID) throws Exception {
+                               Collection newFullFillment, String status,String reqDetailID) throws Exception {
 
         //validate this
         if (fullFillment != null) {
@@ -815,11 +815,11 @@ public class DataAccessManager {
                         System.out.println("After commit");
                     }
                 }
-                if (closeRequest ) {
+                if (status!= null) {
                     String sqlreqStatusChangeStatement = SQLGenerator.getSQLupdateRequestStatus();
                     System.out.println(sqlreqStatusChangeStatement);
                     PreparedStatement reqStatusChangeStatement = connection.prepareStatement(sqlreqStatusChangeStatement);
-                    reqStatusChangeStatement.setString(1, "Closed");
+                    reqStatusChangeStatement.setString(1, status);
                     reqStatusChangeStatement.setString(2, reqDetailID);
                     reqStatusChangeStatement.executeUpdate();
                     reqStatusChangeStatement.executeUpdate();

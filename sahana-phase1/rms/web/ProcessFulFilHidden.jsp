@@ -20,7 +20,7 @@
 
     Collection oldCollection = new ArrayList();
     Collection newCollection = new ArrayList();
-    boolean closeRequest = false;
+    String requestDetailstatus = null;
 
 
 
@@ -57,7 +57,6 @@
         newCollection.add(fd.createCopy());
     }
 
-
         String status =   request.getParameter("FulfilStatus");
         String quantity = request.getParameter("FulfilQuantity");
 
@@ -68,6 +67,10 @@
         if(quantity != null && quantity.trim().length() != 0){
             quantityValue = Integer.parseInt (quantity.trim());
 
+            if(quantityValue != 0 && fulfilments.isEmpty()){
+               requestDetailstatus = "InProgress";
+            }
+
             if("Delivered".equalsIgnoreCase(status.trim())){
                 toteldeliverd = toteldeliverd + quantityValue;
             }
@@ -76,7 +79,7 @@
                 model.setMessage("\"Fulfillment Quantity\" can not be larger than the \"Request Quantity\"" + "("+ totelFulfilment +"+" + quantityValue +") > " + requestQuantity);
                 DataAccessManager dam = new DataAccessManager();
                 //dam.fulfillRequest(rfdto);
-                dam.fulfillRequest(rfdto,oldCollection,newCollection,closeRequest,model.getRequestDetailID());
+                dam.fulfillRequest(rfdto,oldCollection,newCollection,status,model.getRequestDetailID());
                 response.sendRedirect("Fulfill_rq.jsp");
                 return;
             }
@@ -88,9 +91,6 @@
             rfdto.setStatus(status);
             rfdto.setQuantity(quantity);
             rfdto.setRequestDetailID(model.getRequestDetailID());
-//
-//            fulfilments.add(rfdto);
-
         } else{
 
 
@@ -98,13 +98,13 @@
         System.out.println("VAL" + toteldeliverd + " = "+ requestQuantity);
         if(toteldeliverd >= requestQuantity){
                 System.out.println("Request Closed");
-                closeRequest = true;
+                requestDetailstatus = "Closed";
         }
 
 
         DataAccessManager dam = new DataAccessManager();
         //dam.fulfillRequest(rfdto);
-        dam.fulfillRequest(rfdto,oldCollection,newCollection,closeRequest,model.getRequestDetailID());
+        dam.fulfillRequest(rfdto,oldCollection,newCollection,requestDetailstatus,model.getRequestDetailID());
        response.sendRedirect("Fulfill_rq.jsp?RequestDetailID="+model.getRequestDetailID());
     }catch(Exception e){
           e.printStackTrace();
