@@ -14,6 +14,7 @@ package org.erms.db;
 
 
 import org.erms.business.*;
+import org.sahana.share.db.DBConnection;
 
 import java.sql.*;
 import java.util.*;
