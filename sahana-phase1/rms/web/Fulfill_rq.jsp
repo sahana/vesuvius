@@ -90,8 +90,7 @@
 
 //		   	User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
             LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
-            User user = new  User(lbean.getUserName(),lbean.getOrgId());
-            user.setOrganization(lbean.getOrgName());
+            User user = new  User(lbean.getUserName(),lbean.getOrgId(),lbean.getOrgName());
 		    if (user==null){
 
 		    	//Nobody should come here without a user

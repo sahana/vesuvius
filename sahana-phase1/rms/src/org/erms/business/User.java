@@ -6,9 +6,10 @@ public class User {
     private String organization;
     private String orgCode;
 
-    public User(String userName, String organization) {
+    public User(String userName,String orgcode, String organization) {
         this.userName = userName;
         this.organization = organization;
+        this.orgCode = orgcode;
     }
 
     public String getOrgCode() {

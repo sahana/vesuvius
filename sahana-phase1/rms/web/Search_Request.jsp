@@ -44,8 +44,7 @@ function resetForm()
 
     //checking the authentication
       LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
-      User user = new  User(lbean.getUserName(),lbean.getOrgId());
-      user.setOrganization(lbean.getOrgName());
+      User user = new  User(lbean.getUserName(),lbean.getOrgId(),lbean.getOrgName());
 //    User user =            (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
     if (user == null) {
         request.getSession().setAttribute(

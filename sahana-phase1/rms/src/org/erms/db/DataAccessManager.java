@@ -640,8 +640,7 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
                    System.out.println(realpassword);
                    System.out.println(organization);
 
-                   User user = new User(userName, organization);
-                   user.setOrgCode(orgCode);
+                   User user = new User(userName,orgCode, organization);
 
                    if (realpassword.equals(password)) {
 
