@@ -66,29 +66,8 @@ public class SQLGenerator extends AbstractSQLGenerator{
       public static String getSQLForSearchCriteria() {
 
        String H = "H";
-       String H_MORE = "H_MORE";
+       String H_MORE = "HM";
        String H_F = "HF";
-
-//           private String districtCode;
-//    private String division;
-//    private String gsn;
-//    private String owner;
-//    private double distanceFromSea;
-//    private String city;
-//    private String noAndStreet;
-//    private String currentAddress;
-//    private double floorArea;
-//    private int noOfStories;
-//    private String typeOfOwnership;
-//    private int noOfResidents;
-//    private String typeOfConstruction;
-//    private String propertyTaxNo;
-//    private double totalDamagedCost;
-//    private double landArea;
-//    private boolean relocate;
-//    private boolean insured;
-//    private String damageType;
-//    private String comments;
 
         return "SELECT "
             + DBConstants.TableColumns.DISTRICT_CODE + ","
@@ -107,7 +86,7 @@ public class SQLGenerator extends AbstractSQLGenerator{
             + DBConstants.TableColumns.RELOCATE + ","
             + DBConstants.TableColumns.INSURED + ","
             + DBConstants.TableColumns.DAMAGE_TYPE + ","
-            + DBConstants.TableColumns.COMMENTS + ","
+            + DBConstants.TableColumns.COMMENTS 
 
             + " FROM "
 
