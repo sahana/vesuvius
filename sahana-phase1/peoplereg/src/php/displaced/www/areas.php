@@ -50,7 +50,7 @@ elseif ($_GET['t'] == 'g') {
 	echo '<select id="gs_division0" name="gs_division0" onChange="set_gs_division();">' . "\n";
 }
 
-$default = isset($_GET['s']) ? $_GET['s'] : '';
+$default = isset($_GET['s']) ? stripslashes($_GET['s']) : '';
 
 $rows = mysql_query("select l.name from sahana_locations l, sahana_locations lp, sahana_location_types lt where lt.name = '$type' and lt.id = lp.location_type and lp.name = '$parent' and l.parent = lp.id order by l.name");
 while ($row = mysql_fetch_array($rows)) {
