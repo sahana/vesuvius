@@ -972,6 +972,7 @@ public class DataAccessManager implements DBConstants {
 //                orgTo.setWorkingAreas(rs.getString(TableColumns.ORG_WORKING_AREAS));
                 orgTo.setComments(rs.getString(TableColumns.ORG_COMMENTS));
                 orgTo.setLastUpdate(rs.getString(TableColumns.ORG_LAST_UPDATE));
+                orgTo.setPeriodEndDate(rs.getDate(TableColumns.ORG_UNTILDATE));
                 int temp = rs.getInt(TableColumns.ORG_IS_SRILANKAN);
                 if (temp == 0) {
                     orgTo.setIsSriLankan(false);
@@ -1083,9 +1084,6 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setBoolean(13, org.isSriLankan());
             preparedStatement.setString(14, org.getPeriodEndDate().toString());
             preparedStatement.setString(15, org.getOrgCode());
-            
-            System.out.println("Date" + org.getPeriodEndDate().toString());
-            System.out.println("SQL " + preparedStatement);
             preparedStatement.execute();
 
 
