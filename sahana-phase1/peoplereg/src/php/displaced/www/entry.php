@@ -21,7 +21,7 @@ $num_members = 10; /* FIXME: get rid of the static value */
 </head>
 <body>
 -->
-	<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+	<form action="" method="post">
 	<input type="hidden" name="num_members" value="10" />
 
 <?
@@ -135,7 +135,7 @@ if ($_POST) {
 		store_attribute_string($report_id, $family_id, 'property_owned');
 		store_attribute_integer($report_id, $family_id, 'property_value');
 
-		store_attribute_string($report_id, $family_id, 'current_location');
+		store_attribute_selection($report_id, $family_id, 'current_location');
 		store_attribute_string($report_id, $family_id, 'current_camp');
 		store_attribute_integer($report_id, $family_id, 'relief_adults');
 		store_attribute_integer($report_id, $family_id, 'relief_children');
@@ -246,7 +246,7 @@ for ($i = 0; $i < $num_members; $i++) {
 		<hr />
 		<table class="entry">
 			<tr>
-				<td>Current location: <? show_input_text('current_location'); ?></td>
+				<td>Current location: <? show_input_select('current_location'); ?></td>
 				<td>Camp (if applicable): <? show_input_text('current_camp'); ?></td>
 			</tr>
 		</table>
@@ -367,7 +367,7 @@ for ($i = 0; $i < $num_members; $i++) {
 		<table class="entry">
 			<tr>
 				<td>Current location:</td>
-				<td><? display_input('current_location'); ?></td>
+				<td><? display_input_caption('current_location'); ?></td>
 				<td>Camp (if applicable):</td>
 				<td><? display_input('current_camp'); ?></td>
 			</tr>
