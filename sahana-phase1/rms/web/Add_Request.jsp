@@ -305,7 +305,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 <tr>
 <td class="formText">&nbsp;Site Name</td>
 <td colspan="4"><input type="text" name="siteName" class="textBox" value="
-<%=requestObj.getSiteName()%>"/>&nbsp;<small><font color="red">*</font></small><img src="images/question1.gif" width="20" height="20" alt="Enter the Common Name Given to the Site"/></td>
+<%=requestObj.getSiteName()%>"/>&nbsp;<small><font color="red">*</font></small><img src="images/question1.gif" width="10" height="10" alt="Enter the Common Name Given to the Site"/></td>
 
 </tr>
 <tr>
@@ -346,7 +346,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                            throw new Exception(e);
                        }
                                        %>
-                                       </select>&nbsp;<small><font color="red">*</font></small><img src="images/question1.gif" width="20" height="20" alt="Enter the district to which the site belongs"/></td>
+                                       </select>&nbsp;<small><font color="red">*</font></small><img src="images/question1.gif" width="10" height="10" alt="Enter the district to which the site belongs"/></td>
                                        </tr>
                                        <tr>
                                        <td class="formText">&nbsp;Site Address</td>
@@ -390,7 +390,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                 }
             %>
         </select>
-        <img src="images/question1.gif" width="20" height="20" alt="Select one of the four types listed"/>
+        <img src="images/question1.gif" width="10" height="10" alt="Select one of the four types listed"/>
 
     </td>
 </tr>
