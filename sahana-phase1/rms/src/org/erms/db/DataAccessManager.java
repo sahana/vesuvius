@@ -573,6 +573,12 @@ public class DataAccessManager extends AbstractDataAccessManager{
             preparedStatement.setString(13, searchCriteria.getStatus());
             preparedStatement.setString(14, searchCriteria.getStatus());
 
+            preparedStatement.setString(15, searchCriteria.getCallerName());
+            preparedStatement.setString(16, searchCriteria.getCallerName());
+
+            preparedStatement.setString(17, searchCriteria.getSiteArea());
+            preparedStatement.setString(18, searchCriteria.getSiteArea());
+
 /*          preparedStatement.setDate(15, searchCriteria.getRequestDateFrom());
 preparedStatement.setDate(16, searchCriteria.getRequestDateTo());
 preparedStatement.setDate(17, searchCriteria.getRequestDateFrom());
@@ -589,7 +595,7 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
             while (resultSet.next()) {
 
                 requestSearchTo = new RequestSearchTO();
-
+                requestSearchTo.setDate(resultSet.getDate(DBConstants.Requestheader.REQUEST_DATE));
                 requestSearchTo.setRequestDetId(resultSet.getString(DBConstants.Requestdetail.REQUEST_DETAIL_ID));
                 requestSearchTo.setItem(resultSet.getString(DBConstants.Requestdetail.ITEM));
                 requestSearchTo.setCategory(resultSet.getString(DBConstants.Requestdetail.CATEGORY));

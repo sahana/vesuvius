@@ -421,6 +421,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
 
         return "SELECT "
+            + RQH + "." + DBConstants.Requestheader.REQUEST_DATE  + ", "
 
             + RQD + "." + DBConstants.Requestdetail.REQUEST_DETAIL_ID + ", "
 
@@ -480,10 +481,14 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
             + "(? is null OR (" + DBConstants.Requestdetail.REQUEST_STATUS + " = ?))"
 
-/*            + " AND "
+            + " AND "
 
-            + "((? is null OR ? is null) OR (" + DBConstants.TableColumns.REQUEST_DATE + " BETWEEN ? AND ?))"
-*/
+            + "(? is null OR (" + DBConstants.Requestheader.CALLER_NAME + " = ?))"
+
+            + " AND "
+
+            + "(? is null OR (" + DBConstants.Requestheader.SITE_AREA + " = ?))"
+
             + " AND "
 
             + RQH + "." + DBConstants.Requestheader.REQUEST_ID
@@ -492,7 +497,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
             + RQD + "." + DBConstants.Requestdetail.REQUEST_ID
 
-            ;
+            + " ORDER BY " + DBConstants.Requestheader.REQUEST_DATE + "," + DBConstants.Requestdetail.PRIORITY_LEVEL;
 
     }
 

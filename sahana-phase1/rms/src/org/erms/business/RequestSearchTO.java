@@ -1,5 +1,7 @@
 package org.erms.business;
 
+import java.sql.Date;
+
 
 public class RequestSearchTO {
     private String requestDetId;
@@ -13,6 +15,16 @@ public class RequestSearchTO {
     private String status;
     private int quantity;
     private String units;
+    private Date date;
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public RequestSearchTO() {
     }

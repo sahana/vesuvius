@@ -75,6 +75,7 @@ function resetForm()
     String stritem 			= "";
     String strpriority 		= "";
     String strStatus 		= "";
+    String strCallerName    = "";
 
 
     if (mainRequest == null && submitType !=null && !submitType.equals("CLEAR")){
@@ -86,6 +87,9 @@ function resetForm()
         stritem = request.getParameter("item");
         strStatus = request.getParameter("status");
         strpriority = request.getParameter("priority");
+        strsiteArea = request.getParameter("siteArea");
+        strCallerName =   request.getParameter("callerName");
+
 
         temprequestSearchCriteriaTO = new RequestSearchCriteriaTO();
         temprequestSearchCriteriaTO.setOrganization((strOrganization!=null && !strOrganization.equals("select"))?strOrganization:null);
@@ -95,6 +99,8 @@ function resetForm()
         temprequestSearchCriteriaTO.setItem((stritem != null && !stritem.equals(""))?stritem:null);
         temprequestSearchCriteriaTO.setPriority((strpriority!=null && !strpriority.equals("select"))?strpriority:null);
         temprequestSearchCriteriaTO.setStatus((strStatus!=null && !strStatus.equals("select"))?strStatus:null);
+        temprequestSearchCriteriaTO.setSiteArea((strsiteArea != null && !strsiteArea.equals(""))?strsiteArea:null);
+        temprequestSearchCriteriaTO.setCallerName((strCallerName!=null && !strCallerName.equals(""))?strCallerName:null);
 
         searchDetails = (ArrayList)dam.searchRequests(temprequestSearchCriteriaTO);
         request.removeAttribute(ERMSConstants.ISearchConstants.SEARCH);
@@ -407,6 +413,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 										<td colspan="2">
 										<table width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tr class="formTitle">
+												<td class="tableUp" width="120" >Date</td>
 												<td class="tableUp" width="120" >Item</td>
 												<td class="tableUp">Unit</td>
                                                 <td class="tableUp">Quantity</td>
@@ -422,17 +429,20 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 RequestSearchTO requestSearchTO;
 while (iterator.hasNext()) {
 	requestSearchTO = (RequestSearchTO) iterator.next();
+    formatter = new SimpleDateFormat("yyyy-MM-dd");
+    formattedDate = formatter.format(requestSearchTO.getDate());
 %>
 											<tr>
-												<td class="tableDown" nowrap="true" width="120"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getItem()%></a></td>
-												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getUnits()%></a></td>
+												<td class="tableLeft" nowrap="true" width="120"><%=formattedDate%></td>
+												<td class="tableLeft" nowrap="true" width="120"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getItem()%></a></td>
+												<td class="tableLeft"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getUnits()%></a></td>
 												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getQuantity()%></a></td>
 												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=dam.getPriorityName(requestSearchTO.getPriority())%></a></td>
 									     		<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getStatus()%></a></td>
-												<td class="tableDown" align="left" ><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteDistrict()%></a></td>
-                                                <td class="tableDown" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%="".equals(requestSearchTO.getSiteArea())?"&nbsp;":requestSearchTO.getSiteArea()%></a></td>
-												<td class="tableDown" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteName()!=null?requestSearchTO.getSiteName():""%></a></td>
-												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=dam.getCategoryName(requestSearchTO.getCategory())%></a></td>
+												<td class="tableLeft" align="left" ><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteDistrict()%></a></td>
+                                                <td class="tableLeft" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%="".equals(requestSearchTO.getSiteArea())?"&nbsp;":requestSearchTO.getSiteArea()%></a></td>
+												<td class="tableLeft" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteName()!=null?requestSearchTO.getSiteName():""%></a></td>
+												<td class="tableLeft"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=dam.getCategoryName(requestSearchTO.getCategory())%></a></td>
 											</tr>
 											<%}%>
 										</table>
