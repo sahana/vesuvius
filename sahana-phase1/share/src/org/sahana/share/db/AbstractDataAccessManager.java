@@ -285,9 +285,9 @@ public class AbstractDataAccessManager {
 
             while (rs.next()) {
 
-                itemCode = rs.getString(DBConstants.District.DISTRICT_CODE);
+                itemCode = rs.getString(DBConstants.District.DIST_CODE);
 
-                itemName = rs.getString(DBConstants.District.DISTRICT_NAME);
+                itemName = rs.getString(DBConstants.District.DIST_NAME);
 
                 districtDTOs.put(itemCode, itemName);
 

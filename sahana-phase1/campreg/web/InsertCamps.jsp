@@ -68,6 +68,43 @@
         DataAccessManager dataAccessManager = new DataAccessManager();
         errors.addAll(dataAccessManager.validateCampTOforInsert(newCamp));
 
+        if (newCamp.getCountSelect()==null){
+            errors.add("Either the total or the breakdown should be selected and the values filled!");
+        }else{
+
+            if (newCamp.getCountSelect().equals("1")){
+                try {
+                    Integer.parseInt(newCamp.getCampTotal());
+                } catch (NumberFormatException e) {
+                    errors.add("Total should be an integer value");
+                }
+            }else{
+                try {
+                    //todo fix this!!!!!!
+                    Integer.parseInt(newCamp.getCampMen());
+                    Integer.parseInt(newCamp.getCampWomen());
+                    Integer.parseInt(newCamp.getCampChildren());
+                } catch (NumberFormatException e) {
+                    errors.add("Men,Women or children must be integers");
+                }
+            }
+
+        }
+
+        if (newCamp.getCampFamily()==null){
+            newCamp.setCampFamily("0");
+        }else{
+            try {
+
+                Integer.parseInt(newCamp.getCampFamily());
+            } catch (NumberFormatException e) {
+                errors.add("Family count should be an integer");
+            }
+
+
+        }
+
+
         if(errors.size()<=0) {
             try {
                 inserted = dataAccessManager.addCamp(newCamp);
@@ -388,8 +425,7 @@ function showObject(id){
         <tr>
             <td  align="right" valign="top"  class="formText" >Area&nbsp;</td>
                <td>
-                 <input type="text" size="20" maxlength="49"  name="areaName" class="textBox"  value="<jsp:getProperty name="newCamp" property="areaName" />">
-               </td>
+                 <input type="text" size="20" maxlength="49"  name="areaName" class="textBox"  value="<jsp:getProperty name="newCamp" property="areaName" />">               </td>
         </tr>
 
        <tr>
@@ -443,7 +479,7 @@ function showObject(id){
                      <%
                        if (isTotalSelected) out.print(" checked=\"true\" ");
                      %>
-                    /></td>
+                    /> &nbsp;&nbsp; <small><font color="red">*</font></small> It is mandatory to select one of these radio buttons   </td>
                 </tr>
                 <tr>
                     <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();" value="2"

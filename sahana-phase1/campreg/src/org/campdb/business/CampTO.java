@@ -246,7 +246,7 @@ public class CampTO {
             result.add("Camp Name can't be null");
         }
 
-
+        //todo look at this later
         try{
             Integer.parseInt(campTotal);
             isNumberCorrect = true;
@@ -277,7 +277,7 @@ public class CampTO {
         if (isEmpty(areadId)) {
             if (isEmpty(divisionId)) {
                 if (isEmpty(districtCode) ) {
-                    result.add("Division and Area is required.");
+                    result.add("Division is required.");
                 }
             }
         }

@@ -34,7 +34,7 @@ public class AbstractSQLGenerator {
 
         String s = "SELECT *"
 
-            + " FROM " + DBConstants.District.TABLENAME + " order by "+ DBConstants.District.DISTRICT_NAME;
+            + " FROM " + DBConstants.District.TABLENAME + " order by "+ DBConstants.District.DIST_NAME;
 
         return s;
 
