@@ -53,7 +53,7 @@ public class UsersBean
             if(!("U".equals(nm) || "D".equals(nm))){
                 try
                 {
-                    String sql = "select * from USER where upper(USERNAME) = '" + this.userName.toUpperCase() + "'";
+                    String sql = "select * from user where upper(USERNAME) = '" + this.userName.toUpperCase() + "'";
 
                     if (conn.rowExists(sql) == true){
                         messages.add("User Name already exists");
@@ -142,7 +142,7 @@ public class UsersBean
         {
             con = conn.getConnection();
             con.setAutoCommit(false);
-            stat = con.prepareStatement("insert into USER (USERNAME, PASSWORD,ORGCODE) values (?, ?, ?)");
+            stat = con.prepareStatement("insert into user (USERNAME, PASSWORD,ORGCODE) values (?, ?, ?)");
             stat.setString(1, this.userName);
             //encrypted
             // stat.setString(2, tccsol.security.MD5toHexConverter.md5(pass1));
@@ -378,7 +378,7 @@ public class UsersBean
         {
             con = conn.getConnection();
             con.setAutoCommit(false);
-            sql = "update USER set ORGCODE = ?";
+            sql = "update user set ORGCODE = ?";
 
             if (this.pass1.length() > 0)
                 sql = sql + ", PASSWORD = ?";
@@ -484,7 +484,7 @@ public class UsersBean
             con = conn.getConnection();
             con.setAutoCommit(false);
 
-            stat = con.prepareStatement("delete from USER where upper(USERNAME) = ?");
+            stat = con.prepareStatement("delete from user where upper(USERNAME) = ?");
             stat.setString(1, this.userName.toUpperCase());
             int co=stat.executeUpdate();
             if (co == 0)

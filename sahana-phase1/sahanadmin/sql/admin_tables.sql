@@ -165,11 +165,11 @@ CREATE TABLE `TBLUSERROLES` (
 #----------------------------
 #
 #
-insert  into TBLUSERROLES values 
-(1, 'sanjiva');
+#update TBLUSERROLES setvalues
+#(1, 'sanjiva');
 #
 # Populate the database with the default user
 #
-INSERT INTO tbluserroles select 0, UserName from USER
+INSERT INTO TBLUSERROLES select 0, UserName from user;
 #
 #

@@ -39,7 +39,7 @@ public class ChangePasswordBean
         else {
             try {
               //encrypted//if (!conn.rowExists("select * from USER where upper(USERNAME)='"+userName.toUpperCase()+"' and PASSWORD='"+tccsol.security.MD5toHexConverter.md5(this.oldPass)+"'"))
-              if (!conn.rowExists("select * from USER where upper(USERNAME)='"+userName.toUpperCase()+"' and PASSWORD='"+this.oldPass+"'"));
+              if (!conn.rowExists("select * from user where upper(USERNAME)='"+userName.toUpperCase()+"' and PASSWORD='"+this.oldPass+"'"));
               messages.add("Current Password is Invalid");
             }
             catch(Exception e) {
@@ -72,7 +72,7 @@ public class ChangePasswordBean
         messages.clear();
 
         //create sql string
-        String sql = "update USER set PASSWORD=? where upper(USERNAME)=?";
+        String sql = "update user set PASSWORD=? where upper(USERNAME)=?";
 
         try
         {
