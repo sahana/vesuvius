@@ -15,6 +15,12 @@
 
 <target name="deploy-tomcat">
     <antcall target="deploy-local"></antcall>
+
+    <!-- used by damagereg build to deploy the app including the custom app components. 
+    Please uncomment once other module build.xmls are updated with a dummy tag node. - chamath@virtusa.com
+    <antcall target="deploy-custom"></antcall>
+    -->
+    
     <copy file="${deploy-dir}/${app-name}.war" todir="${tomcat.home}/webapps" />
 </target>
 
