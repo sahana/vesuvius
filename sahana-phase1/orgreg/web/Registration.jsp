@@ -308,7 +308,7 @@
               <td>
                  <select <%if(globalControlDisable){ %>disabled="true" <%}%>name="ngoType" class="selectBoxes" >
                  <%
-                   String[] Ngovalues={"NGO","INGO","CBU"};
+                   String[] Ngovalues={"NGO","INGO","CBO"};
                      for (int i = 0; i < Ngovalues.length; i++) {
                            selected = Ngovalues[i].equalsIgnoreCase(ngoSubType);
                         %> <option <% if(selected){%> selected="true" <%}%>><%=Ngovalues[i]%></option>
@@ -352,61 +352,59 @@
                 </td>
             </tr>
             <tr>
-            <td vAlign="top" class="formText" align="right" >Sector(s)</td>
-
-            <td vAlign="top">
-                <%
-                    String sectors = "";
-                    if(orgReg.getSectors() != null){
-                     StringBuffer buffer = new StringBuffer(orgReg.getSectors().toString());
-                     buffer.deleteCharAt(buffer.indexOf("["));
-                     buffer.deleteCharAt(buffer.indexOf("]"));
-                     sectors = buffer.toString();
-                    }
-                %>
-                <textarea <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" readonly="true" name="sectors" rows="1"><%=sectors%></textarea>
-            </td>
-
-
-
+             <td>&nbsp;</td>
             </tr>
             <tr>
-            <td align="right"></td>
-            <td <%if(globalControlDisable){ %>style="display:none" <%}%> vAlign="top" >
+                        <td vAlign="top" class="formText" align="right" >Sectors </td>
 
-                <input type="formText"  style="width: 100px;" name="inputVal" value="">
-            </td>
-<%--            <td >--%>
-<%--                <INPUT type="button" name="click" onClick="add();" value="Add">--%>
-<%--            </td>--%>
-            </tr>
-            <tr>
-            <td align="right"></td>
-            <td <%if(globalControlDisable){ %>style="display:none" <%}%>>
-                <select  name="choiseList" size="5"  style="width: 150px;">
-                          <%
-                              String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;
-                              String selectStmt= null;
-                              for(int i=0; i< sectorList.length; i++){
+                        <td vAlign="top">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td width="20%">Available Sector (s) </td>
+                                <td width="10%" valign="center" align="center" >&nbsp;</td>
+                                <td width="70%">Selected Sector (s)</td>
+                              </tr>
+                              <tr>
+                                <td width="20%">
+                                  <select  name="choiseList" size="5"  class="selectBoxes">
+                                    <%
+                                        String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;
+                                        String selectStmt= null;
+                                        for(int i=0; i< sectorList.length; i++){
 
-                                 selectStmt="<option value=\""+ sectorList[i]+"\">"+sectorList[i]+"</option>";
+                                            selectStmt="<option value=\""+ sectorList[i]+"\">"+sectorList[i]+"</option>";
                                   %>
                                   <%=selectStmt%>
                                   <%
-                              }
-
-                          %>
+                                       }
+                                %>
 
 
                        </select>
-                       <INPUT <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="add();" value="Add" class="buttons" >
-                    <INPUT  <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
-                </td>
-<%--                <td>--%>
+                                <p>Other Sector : <input type="formText"  style="width: 100px;" name="inputVal" value=""></p>
+                                <p>
 
-<%--                </td>--%>
-
-            </tr>
+                                </td>
+                                <td width="10%" valign="top" align="center">
+                                   <br>
+                                   <INPUT <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="add();" value="Add" class="buttons" ><br><br>
+                                   <INPUT  <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
+                                <p>&nbsp;</td>
+                                <td width="70%" valign="top" >
+                                <%
+                                    String sectors = "";
+                                    if(orgReg.getSectors() != null){
+                                        StringBuffer buffer = new StringBuffer(orgReg.getSectors().toString());
+                                        buffer.deleteCharAt(buffer.indexOf("["));
+                                        buffer.deleteCharAt(buffer.indexOf("]"));
+                                        sectors = buffer.toString();
+                                    }
+                            %>
+                               <textarea  <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" readonly="true" name="sectors" rows="4"><%=sectors%></textarea>
+                              </tr>
+                            </table>
+                        </td>
+                        </tr>
 
             <tr>
               <td align="right" vAlign="top" class="formText">Contact
@@ -431,7 +429,7 @@
                     <input disabled="true" name="countryOfOrigin" maxlength="99" size="38" type="text" class="textBox" id="countryOfOrigin" value="<%= (orgReg.getCountryOfOrigin()==null) ? "" : orgReg.getCountryOfOrigin() %>">
                 <%
                 }else {
-                %> <select name="countryOfOrigin" class="selectBox">
+                %> <select name="countryOfOrigin" class="selectBoxes">
               <%
                   String [] contry = {"Afghanistan",
 	"Albania",
