@@ -44,7 +44,7 @@ public interface TRANSPORTConstants {
 
     public interface IContextInfoConstants {
         public static final String ERROR_DESCRIPTION = "error_description";
-        public static final String REQUEST_DTO = "request_dto";
+        public static final String TRANSPORT_DTO = "transport_dto";
         public static final String USER_INFO = "user_info";
     }
 

@@ -59,33 +59,52 @@ document.form1.submit();
 <input type="hidden" name="submitType"/>
 
 <%
-ConsignmentTO consignmentObj;
-/*
-User user = (User) request.getSession().getAttribute(TRANSPORTConstants.IContextInfoConstants.USER_INFO);
-ArrayList errorList = new ArrayList();
+ConsignmentTO consignmentObj = null;
 
-if (user==null){
-request.getSession().setAttribute(TRANSPORTConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User not authenticated!");
-response.sendRedirect("error.jsp");
+User user = (User) request.getSession().getAttribute(TRANSPORTConstants.IContextInfoConstants.USER_INFO);
+//ArrayList errorList = new ArrayList();
+/*
+if (user==null)
+{
+    request.getSession().setAttribute(TRANSPORTConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User not authenticated!");
+    response.sendRedirect("error.jsp");
 }*/
 
 boolean isSaveConsignment = false;
 boolean isClearConsignment = false;
+int consignmentIdParam = 0;
+int sourceParam = 0;
+int divisionParam = 0;
+int campParam = 0;
+int statusParam = 0;
+int quantityParam = 0;
 //save code
 String submitType = request.getParameter("submitType");
-int consignmentIdParam = Integer.parseInt(request.getParameter("consignmentId"));
-String typeParam = request.getParameter("type");
-int sourceParam = Integer.parseInt(request.getParameter("source"));
-int divisionParam = Integer.parseInt(request.getParameter("division"));
-int campParam = Integer.parseInt(request.getParameter("camp"));
-int statusParam = Integer.parseInt(request.getParameter("status"));
+String temp1 = request.getParameter("consignmentId");
+if(null != temp1)
+    consignmentIdParam = Integer.parseInt(temp1);
+    String typeParam = request.getParameter("type");
+String temp2 = request.getParameter("source");
+if(null != temp2)
+    sourceParam = Integer.parseInt(temp2);
+String temp3 = request.getParameter("division");
+if(null != temp3)
+    divisionParam = Integer.parseInt(temp3);
+String temp4 = request.getParameter("camp");
+if(null != temp4)
+    campParam = Integer.parseInt(temp4);
+String temp5 = request.getParameter("status");
+if(null != temp5)
+    statusParam = Integer.parseInt(temp5);
 //Collection itemsParam = request.getParameter("items");
 //String userParameter = request.getParameter("user");
 
 //adding the list
-String itemParameter = request.getParameter("item");
-String quantityParameter = request.getParameter("issuedQty");
-String uoMParameter = request.getParameter("UoM");
+String itemParam = request.getParameter("item");
+String temp6 = request.getParameter("issuedQty");
+if(null != temp6)
+    quantityParam = Integer.parseInt(temp6);
+String uoMParam = request.getParameter("UoM");
 
 isSaveConsignment = "Save".equals(submitType);
 isClearConsignment = "Clear".equals(submitType);
@@ -135,14 +154,14 @@ consignmentObj.setStatus(statusParam);
 int consignmentID = consignmentObj.getConsignmentId();
 
 ConsignmentItemTO consignmentItemTO = new 
-    ConsignmentItemTO(consignmentIDParameter,itemParameter, 
-    quantityParameter, uoMParameter , 0, null, null, null);
+    ConsignmentItemTO(consignmentIdParam,itemParam,
+    quantityParam, uoMParam , 0, null, null, null);
 //items.add(consignmentItemTO);
 
 //clear the params here
-quantityParameter = null;
-itemParameter =null;
-uoMParameter = null;
+quantityParam = 0;
+itemParam =null;
+uoMParam = null;
 }
 %>
 
@@ -255,9 +274,9 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                Iterator ditr = divisionList.iterator();
                                while(ditr.hasNext()){
                                    KeyValueDTO division = (KeyValueDTO) ditr.next();
-                                   String divisionCode = division.getDbTableCode();
+                                   int divisionCode = Integer.parseInt(division.getDbTableCode());
                                    String divisionvalue = division.getDisplayValue();
-                                   if (divisionParam.equals(divisionCode)){
+                                   if (divisionCode == divisionParam){
                    %>
                    <option selected value="<%=divisionCode%>"><%=divisionvalue%></option>
                                        <%
@@ -279,7 +298,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 <td class="formText">&nbsp;Camps </td>
 <td colspan="4"><select name="camp" class="textBox">
                    <%
-                       DataAccessManager dam = new DataAccessManager();
+                       dam = new DataAccessManager();
                        Collection campList=null;
                        try{
                            campList =  dam.getAllCamps();
@@ -287,9 +306,9 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                Iterator ditr = campList.iterator();
                                while(ditr.hasNext()){
                                    KeyValueDTO district = (KeyValueDTO) ditr.next();
-                                   String campCode = district.getDbTableCode();
+                                   int campCode = Integer.parseInt(district.getDbTableCode());
                                    String campvalue = district.getDisplayValue();
-                                   if (consignmentObj.getDestination().equals(campCode)){
+                                   if (campCode == consignmentObj.getDestination()){
                    %>
                    <option selected value="<%=campCode%>"><%=campvalue%></option>
                                        <%
@@ -322,6 +341,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 <td colspan="4"><select name="Item Code" class="textBox">
                    <%
                        Collection itemList=null;
+                       dam = new DataAccessManager();
                        try{
                            itemList =  dam.getAllItems();
                            if(itemList != null){
@@ -330,7 +350,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                    KeyValueDTO item = (KeyValueDTO) citr.next();
                                    String itemCode = item.getDbTableCode();
                                    String itemvalue = item.getDisplayValue();
-                        if (itemParameter.equals(itemCode)){
+                        if (itemParam.equals(itemCode)){
                            %>
                    <option value="<%=itemCode%>" selected="true"><%=itemvalue%></option>
                    <%
@@ -348,12 +368,13 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                    </select></td>
 </tr>
                    <td width="10%" class="formText">Quantity</td>
-                   <td width="18%"><input type="text" name="quantity" class="textBox" maxlength="10" value="<%=quantityParameter==null?"":quantityParameter%>"  ></td>
+                   <td width="18%"><input type="text" name="quantity" class="textBox" maxlength="10" value="<%=quantityParam==0%>"  ></td>
                    <td >&nbsp;</td>
                    <td class="formText">&nbsp;UoM</td>
                    <td colspan="1"><select name="UoM" class="textBox">
                    <%
                        Collection uoMList=null;
+                       dam = new DataAccessManager();
                        try{
                            uoMList =  dam.getAllUoM();
                            if(uoMList != null){
@@ -363,7 +384,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                    String uoMCode = uoMDTO.getDbTableCode();
                                    String uoMvalue = uoMDTO.getDisplayValue();
 
-                                   if (uoMParameter.equals(uoMCode)){
+                                   if (uoMParam.equals(uoMCode)){
                                      %>
                                    <option value="<%=uoMCode%>" selected="true"><%=uoMvalue%></option>
                       <%
@@ -403,7 +424,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 
 
 <%
-    Collection consignmentItems = consignmentObj.getConsignmentItems();
+    Collection consignmentItems = consignmentObj.getItems();
     Iterator iterator = consignmentItems.iterator();
     ConsignmentItemTO    tempConsignmentItemDto;
     while (iterator.hasNext()) {
