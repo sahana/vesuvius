@@ -6,7 +6,8 @@
   <!--  Build script for the sahana admin.war  -->
   <property name="app-name" value="sahanaadmin"></property>
 
-    <property name="db.properties" value="${src}/org/assistance/db/db.properties"></property>
+    <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
+
     <property file="../tomcat.properties"/>
 
 

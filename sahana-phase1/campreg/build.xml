@@ -5,7 +5,7 @@
 
   <!--  Build script for the assistance.war  -->
   <property name="app-name" value="campreg"></property>
-    <property name="db.properties" value="${src}/org/campdb/db/db.properties"/>
+    <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
     <property file="../tomcat.properties"/>
 
 
