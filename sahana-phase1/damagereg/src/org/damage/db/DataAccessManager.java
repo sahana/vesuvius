@@ -132,7 +132,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             // Setting the Request Header data.
 
             String sqlSearchString = SQLGenerator.getSQLForSearchCriteria();
-
+            System.out.println(sqlSearchString);
 
             preparedStatement = connection.prepareStatement(sqlSearchString);
             preparedStatement.setString(1, searchCriteria.getDistrictCode());
@@ -164,7 +164,8 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
                 requestSearchTo.setLandArea(resultSet.getString(DBConstants.TableColumns.LAND_AREA));
                 requestSearchTo.setRelocate(resultSet.getString(DBConstants.TableColumns.INSURED));
                 requestSearchTo.setDamageType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE));
-                requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS));
+                requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS ));
+                returnSearchTOs.add(requestSearchTo);
             }
 
 

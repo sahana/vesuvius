@@ -69,66 +69,106 @@ public class SQLGenerator extends AbstractSQLGenerator{
        String H_MORE = "HM";
        String H_F = "HF";
 
-        return "SELECT "
-            + DBConstants.TableColumns.DISTRICT_CODE + ","
-            + DBConstants.TableColumns.DIVISION + ","
-            + DBConstants.TableColumns.GSN + ","
-            + DBConstants.TableColumns.OWNER + ","
-            + DBConstants.TableColumns.DISTANCE_FROM_SEA + ","
-            + DBConstants.TableColumns.FLOOR_AREA + ","
-            + DBConstants.TableColumns.NO_OF_STORIES + ","
-            + DBConstants.TableColumns.DAMAGE_TYPE + ","
-            + DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ","
-            + DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ","
-            + DBConstants.TableColumns.PROPERTY_TAX_NO + ","
-            + DBConstants.TableColumns.TOTAL_DAMAGED_COST + ","
-            + DBConstants.TableColumns.LAND_AREA + ","
-            + DBConstants.TableColumns.RELOCATE + ","
-            + DBConstants.TableColumns.INSURED + ","
-            + DBConstants.TableColumns.DAMAGE_TYPE + ","
-            + DBConstants.TableColumns.COMMENTS 
+          return "SELECT "
+                     + DBConstants.TableColumns.DISTRICT_CODE + ","
+                     + DBConstants.TableColumns.DIVISION + ","
+                     + DBConstants.TableColumns.GSN + ","
+                     + DBConstants.TableColumns.OWNER + ","
+                     + DBConstants.TableColumns.DISTANCE_FROM_SEA + ","
+                     + DBConstants.TableColumns.FLOOR_AREA + ","
+                     + DBConstants.TableColumns.NO_OF_STORIES + ","
+                     + DBConstants.TableColumns.DAMAGE_TYPE + ","
+                     + DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ","
+                     + DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ","
+                     + DBConstants.TableColumns.PROPERTY_TAX_NO + ","
+                     + DBConstants.TableColumns.TOTAL_DAMAGED_COST + ","
+                     + DBConstants.TableColumns.LAND_AREA + ","
+                     + DBConstants.TableColumns.RELOCATE + ","
+                     + DBConstants.TableColumns.INSURED + ","
+                     + DBConstants.TableColumns.DAMAGE_TYPE + ","
+                     + DBConstants.TableColumns.COMMENTS
 
-            + " FROM "
+                     + " FROM "
 
-            + DBConstants.Tables.HOUSE + " as " + H + ", "
+                     + DBConstants.Tables.HOUSE
 
-            + DBConstants.Tables.HOUSE_DAMAGE_MOREINFO + " as " + H_MORE + ", "
+                     + " WHERE "
 
-            + DBConstants.Tables.HOUSE_FACILITY_INFO + " as " + H_F     
+                     + "(? is null OR (" + DBConstants.TableColumns.DISTRICT_CODE + " = ?))"
 
+                     + " AND "
 
-            + " WHERE "
+                     + "(? is null OR (" + DBConstants.TableColumns.DIVISION + " = ?))"
 
-            + "(? is null OR (" + DBConstants.TableColumns.DISTRICT_CODE + " = ?))"
+                     + " AND "
 
-            + " AND "
+                     + "(? is null OR (" + DBConstants.TableColumns.GSN + " LIKE ?))"
 
-            + "(? is null OR (" + DBConstants.TableColumns.DIVISION + " = ?))"
+                     + " AND "
 
-            + " AND "
+                     + "(? is null OR (" + DBConstants.TableColumns.OWNER + " = ?))"
+                     ;
 
-            + "(? is null OR (" + DBConstants.TableColumns.GSN + " LIKE ?))"
-
-            + " AND "
-
-            + "(? is null OR (" + DBConstants.TableColumns.OWNER + " = ?))"
-
-            + " AND "
-
-            + H + "." + DBConstants.TableColumns.ID
-
-            + " = "
-
-            + H_MORE + "." + DBConstants.TableColumns.HOUSE_ID
-
-            + " AND "
-
-            + H + "." + DBConstants.TableColumns.ID
-
-            + " = "
-
-            + H_F + "." + DBConstants.TableColumns.HOUSE_ID
-            ;
+//        return "SELECT "
+//            + DBConstants.TableColumns.DISTRICT_CODE + ","
+//            + DBConstants.TableColumns.DIVISION + ","
+//            + DBConstants.TableColumns.GSN + ","
+//            + DBConstants.TableColumns.OWNER + ","
+//            + DBConstants.TableColumns.DISTANCE_FROM_SEA + ","
+//            + DBConstants.TableColumns.FLOOR_AREA + ","
+//            + DBConstants.TableColumns.NO_OF_STORIES + ","
+//            + DBConstants.TableColumns.DAMAGE_TYPE + ","
+//            + DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ","
+//            + DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ","
+//            + DBConstants.TableColumns.PROPERTY_TAX_NO + ","
+//            + DBConstants.TableColumns.TOTAL_DAMAGED_COST + ","
+//            + DBConstants.TableColumns.LAND_AREA + ","
+//            + DBConstants.TableColumns.RELOCATE + ","
+//            + DBConstants.TableColumns.INSURED + ","
+//            + DBConstants.TableColumns.DAMAGE_TYPE + ","
+//            + DBConstants.TableColumns.COMMENTS
+//
+//            + " FROM "
+//
+//            + DBConstants.Tables.HOUSE + " as " + H + ", "
+//
+//            + DBConstants.Tables.HOUSE_DAMAGE_MOREINFO + " as " + H_MORE + ", "
+//
+//            + DBConstants.Tables.HOUSE_FACILITY_INFO + " as " + H_F
+//
+//
+//            + " WHERE "
+//
+//            + "(? is null OR (" + DBConstants.TableColumns.DISTRICT_CODE + " = ?))"
+//
+//            + " AND "
+//
+//            + "(? is null OR (" + DBConstants.TableColumns.DIVISION + " = ?))"
+//
+//            + " AND "
+//
+//            + "(? is null OR (" + DBConstants.TableColumns.GSN + " LIKE ?))"
+//
+//            + " AND "
+//
+//            + "(? is null OR (" + DBConstants.TableColumns.OWNER + " = ?))"
+//
+//            + " AND "
+//
+//            + H + "." + DBConstants.TableColumns.ID
+//
+//            + " = "
+//
+//            + H_MORE + "." + DBConstants.TableColumns.HOUSE_ID
+//
+//            + " AND "
+//
+//            + H + "." + DBConstants.TableColumns.ID
+//
+//            + " = "
+//
+//            + H_F + "." + DBConstants.TableColumns.HOUSE_ID
+//            ;
 
     }
 }

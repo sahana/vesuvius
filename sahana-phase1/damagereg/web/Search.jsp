@@ -21,45 +21,71 @@
        <link href="common/style.css" rel="stylesheet" type="text/css">
             <%
                     DataAccessManager dataAccessManager = new DataAccessManager();
+                    boolean firstTime = false;
+                    Object obj = request.getSession().getAttribute("VISITED");
+                    if(obj == null){
+                         firstTime = true;
+                         request.getSession().setAttribute("VISITED","Hello");
+                    }
+
              %>
 
   </head>
   <body>
   <jsp:include page="common/header.inc"></jsp:include>
     <table>
-        <tr><td>Header</td></tr>
-        <tr><td>Header2</td></tr>
         <tr>
             <td>
+            <form method="post" name="tsunamiAddDamagedHouse" action="Search.jsp">
                <table>
                     <tr><td>districtCode</td><td>
+
                      <select name="orgType" class="selectBoxes">
                                  <%Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
                                     String option= null;
                                     while (allDistricts.hasNext()) {
                                          KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();
                                          if(keyValueDTO.getDbTableCode().equals(search.getDistrictCode())){
-                                            option  = "<option selected=\"true\" id=\""+keyValueDTO.getDbTableCode()+"\">"+keyValueDTO.getDisplayValue()+"</option>";                                             
+                                            option  = "<option selected=\"true\" value=\""+keyValueDTO.getDbTableCode()+"\">"+keyValueDTO.getDisplayValue()+"</option>";
                                          }
-                                            option  = "<option id=\""+keyValueDTO.getDbTableCode()+"\">"+keyValueDTO.getDisplayValue()+"</option>";
+                                            option  = "<option value=\""+keyValueDTO.getDbTableCode()+"\">"+keyValueDTO.getDisplayValue()+"</option>";
                                         %><%=option%><%
 
                                     }
                                   %>
 
                     </td></tr>
-                    <tr><td>division</td><td><input name="division" value="<%=search.getDistrictCode()%>"/> </td></tr>
-                    <tr><td>gsn</td><td><input name="gsn" value="<%=search.getDistrictCode()%>"/> </td></tr>
-                    <tr><td>owner</td><td><input name="owner" value="<%=search.getOwner()%>"/> </td></tr>
+                    <%
+                        String districtCode  =   search.getDistrictCode();
+                        String gsn = search.getGsn();
+                        String owner = search.getOwner();
+
+                        if(districtCode == null){
+                             districtCode = "";
+                        }
+                        if(gsn == null){
+                            gsn = "";
+                        }
+                        if(owner == null){
+                            owner = "";
+                        }
+
+                    %>
+                    <tr><td>division</td><td><input name="division" value="<%=districtCode%>"/> </td></tr>
+                    <tr><td>gsn</td><td><input name="gsn" value="<%=gsn%>"/> </td></tr>
+                    <tr><td>owner</td><td><input name="owner" value="<%=owner%>"/> </td></tr>
+
+                    <tr><td><input type="submit" ></td></tr>
                </table>
+               </form>
             </td>
         </tr>
 
         <%
-            List searchReasult = dataAccessManager.searchDamage(search);
-
+            if(!firstTime){
+            List searchReasult = dataAccessManager.searchRequests(search);
         %>
-        <tr>
+        <tr class="tableUp">
             <td>DistrictCode</td>
             <td>Division</td>
             <td>GSN</td>
@@ -80,7 +106,9 @@
                     <td><%=to.getCity()%></td>
                     <td><%=to.getFloorArea()%></td>
                 </tr>
-                <% } %>
+                <% }
+            }
+                %>
 
     </table>
 

@@ -12,7 +12,7 @@ public class SearchHouseTO {
     }
 
     public void setDistrictCode(String districtCode) {
-        this.districtCode = districtCode;
+        this.districtCode = emptyToNull(districtCode);
     }
 
     public String getDivision() {
@@ -20,7 +20,7 @@ public class SearchHouseTO {
     }
 
     public void setDivision(String division) {
-        this.division = division;
+        this.division = emptyToNull(division);
     }
 
     public String getGsn() {
@@ -28,7 +28,7 @@ public class SearchHouseTO {
     }
 
     public void setGsn(String gsn) {
-        this.gsn = gsn;
+        this.gsn = emptyToNull(gsn);
     }
 
     public String getOwner() {
@@ -36,7 +36,7 @@ public class SearchHouseTO {
     }
 
     public void setOwner(String owner) {
-        this.owner = owner;
+        this.owner = emptyToNull(owner);
     }
 
     public String getDistanceFromSea() {
@@ -44,7 +44,7 @@ public class SearchHouseTO {
     }
 
     public void setDistanceFromSea(String distanceFromSea) {
-        this.distanceFromSea = distanceFromSea;
+        this.distanceFromSea = emptyToNull(distanceFromSea);
     }
 
     public String getDamageType() {
@@ -52,9 +52,17 @@ public class SearchHouseTO {
     }
 
     public void setDamageType(String damageType) {
-        this.damageType = damageType;
+        this.damageType = emptyToNull(damageType);
     }
 
  private String distanceFromSea;
     private String damageType;
+
+
+    private String emptyToNull(String in){
+         if(in != null && (in.trim().length() == 0)){
+             return null;
+         }
+        return in;
+    }
 }
