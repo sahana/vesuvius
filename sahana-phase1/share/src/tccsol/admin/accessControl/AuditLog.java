@@ -58,7 +58,7 @@ public class AuditLog {
         try
         {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-            st = formatter.format(new Date());
+            st = formatter.format(new java.util.Date());
         }
         catch(Exception ex)
         {
