@@ -1,32 +1,32 @@
 package org.damage.business;
 public class DamagedHouseTO {
 
-    private String id;
+    private int id;
     private String districtCode;
     private String division;
     private String gsn;
     private String owner;
-    private String distanceFromSea;
+    private double distanceFromSea;
     private String city;
     private String noAndStreet;
     private String currentAddress;
-    private String floorArea;
-    private String noOfStories;
+    private double floorArea;
+    private int noOfStories;
     private String typeOfOwnership;
-    private String noOfResidents;
+    private int noOfResidents;
     private String typeOfConstruction;
     private String propertyTaxNo;
-    private String totalDamagedCost;
-    private String landArea;
-    private String relocate;
-    private String insured;
+    private double totalDamagedCost;
+    private double landArea;
+    private boolean relocate;
+    private boolean insured;
     private String damageType;
     private String comments;
 
     public DamagedHouseTO(){
     }
-    
-    public DamagedHouseTO(String id, String districtCode, String division, String gsn, String owner, String distanceFromSea, String city, String noAndStreet, String currentAddress, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String totalDamagedCost, String landArea, String relocate, String insured,  String damagedType, String comments){
+
+    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, double distanceFromSea, String city, String noAndStreet, String currentAddress, double floorArea, int noOfStories, String typeOfOwnership, int noOfResidents, String typeOfConstruction, String propertyTaxNo, double totalDamagedCost, double landArea, boolean relocate, boolean insured,  String damagedType, String comments){
         this.id = id;
         this.districtCode = districtCode;
         this.division = division;
@@ -50,12 +50,8 @@ public class DamagedHouseTO {
         this.comments = comments;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDistrictCode() {
@@ -82,11 +78,11 @@ public class DamagedHouseTO {
         this.gsn = gsn;
     }
 
-    public String getDistanceFromSea() {
+    public double getDistanceFromSea() {
         return distanceFromSea;
     }
 
-    public void setDistanceFromSea(String distanceFromSea) {
+    public void setDistanceFromSea(double distanceFromSea) {
         this.distanceFromSea = distanceFromSea;
     }
 
@@ -122,19 +118,19 @@ public class DamagedHouseTO {
         this.currentAddress = currentAddress;
     }
 
-    public String getFloorArea() {
+    public double getFloorArea() {
         return floorArea;
     }
 
-    public void setFloorArea(String floorArea) {
+    public void setFloorArea(double floorArea) {
         this.floorArea = floorArea;
     }
 
-    public String getNoOfStories() {
+    public int getNoOfStories() {
         return noOfStories;
     }
 
-    public void setNoOfStories(String noOfStories) {
+    public void setNoOfStories(int noOfStories) {
         this.noOfStories = noOfStories;
     }
 
@@ -146,11 +142,11 @@ public class DamagedHouseTO {
         this.typeOfOwnership = typeOfOwnership;
     }
 
-    public String getNoOfResidents() {
+    public int getNoOfResidents() {
         return noOfResidents;
     }
 
-    public void setNoOfResidents(String noOfResidents) {
+    public void setNoOfResidents(int noOfResidents) {
         this.noOfResidents = noOfResidents;
     }
 
@@ -170,35 +166,35 @@ public class DamagedHouseTO {
         this.propertyTaxNo = propertyTaxNo;
     }
 
-    public String getTotalDamagedCost() {
+    public double getTotalDamagedCost() {
         return totalDamagedCost;
     }
 
-    public void setTotalDamagedCost(String totalDamagedCost) {
+    public void setTotalDamagedCost(double totalDamagedCost) {
         this.totalDamagedCost = totalDamagedCost;
     }
 
-    public String getLandArea() {
+    public double getLandArea() {
         return landArea;
     }
 
-    public void setLandArea(String landArea) {
+    public void setLandArea(double landArea) {
         this.landArea = landArea;
     }
 
-    public String getRelocate() {
+    public boolean getRelocate() {
         return relocate;
     }
 
-    public void setRelocate(String relocate) {
+    public void setRelocate(boolean relocate) {
         this.relocate = relocate;
     }
 
-    public String getInsured() {
+    public boolean getInsured() {
         return insured;
     }
 
-    public void setInsured(String insured) {
+    public void setInsured(boolean insured) {
         this.insured = insured;
     }
 
