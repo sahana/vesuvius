@@ -84,7 +84,8 @@ insert  into TBLACCESSPERMISSIONS values
 (7, 'ADD', 'Y', 1), 
 (7, 'EDIT', 'Y', 1), 
 (7, 'DELETE', 'Y', 1), 
-(4, 'EDIT', 'Y', 1); 
+(4, 'EDIT', 'Y', 1),
+(4, 'EDIT', 'Y', 0); 
 
 #----------------------------
 # Table structure for tblAuditLog
@@ -170,6 +171,6 @@ CREATE TABLE `TBLUSERROLES` (
 #
 # Populate the database with the default user
 #
-## INSERT INTO TBLUSERROLES select 0, UserName from USER
+INSERT INTO TBLUSERROLES select 0, UserName from user;
 #
 #
