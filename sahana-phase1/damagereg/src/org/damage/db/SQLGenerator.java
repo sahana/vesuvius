@@ -1,8 +1,67 @@
 package org.damage.db;
 
+import org.erms.db.*;
+import org.damage.db.DBConstants;
+import org.sahana.share.db.AbstractSQLGenerator;
 
-public class SQLGenerator {
+
+public class SQLGenerator extends AbstractSQLGenerator{
+
     public static String getSQLForAddDamagedHouse(){
-        return null;
+        String s = "INSERT into"
+                    + DBConstants.Tables.HOUSE
+                    +"("
+                    +DBConstants.TableColumns.ID + ", "
+                    +DBConstants.TableColumns.DISTRICT_CODE + ", "
+                    +DBConstants.TableColumns.DIVISION + ", "
+                    +DBConstants.TableColumns.GSN + ", "
+                    +DBConstants.TableColumns.OWNER + ", "
+                    +DBConstants.TableColumns.DISTANCE_FROM_SEA + ", "
+                    +DBConstants.TableColumns.CITY + ", "
+                    +DBConstants.TableColumns.NO_AND_STREET + ", "
+                    +DBConstants.TableColumns.CURRENT_ADDRESS + ", "
+                    +DBConstants.TableColumns.FLOOR_AREA + ", "
+                    +DBConstants.TableColumns.NO_OF_STORIES + ", "
+                    +DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ", "
+                    +DBConstants.TableColumns.NO_OF_RESIDENTS + ", "
+                    +DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ", "
+                    +DBConstants.TableColumns.PROPERTY_TAX_NO + ", "
+                    +DBConstants.TableColumns.TOTAL_DAMAGED_COST + ", "
+                    +DBConstants.TableColumns.LAND_AREA + ", "
+                    +DBConstants.TableColumns.RELOCATE + ", "
+                    +DBConstants.TableColumns.INSURED + ", "
+                    +DBConstants.TableColumns.DAMAGE_TYPE + ", "
+                    +DBConstants.TableColumns.COMMENTS
+                    + ")"
+                    +"VALUES"
+                    +"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        return s;
+    }
+
+    public static String getSQLForAddDamagedHouse_Damage_Moreinfo(){
+        String s = "INSERT into"
+                    + DBConstants.Tables.HOUSE_DAMAGE_MOREINFO
+                    +"("
+                    +DBConstants.TableColumns.HOUSE_ID + ", "
+                    +DBConstants.TableColumns.DAMAGE_INFO
+                    + ")"
+                    +"VALUES"
+                    +"(?,?)";
+
+        return s;
+    }
+
+    public static String getSQLForAddDamagedHouse_Facility_Info(){
+        String s = "INSERT into"
+                    + DBConstants.Tables.HOUSE_FACILITY_INFO
+                    +"("
+                    +DBConstants.TableColumns.FACILITY_NAME + ", "
+                    +DBConstants.TableColumns.DESCRIPTION
+                    + ")"
+                    +"VALUES"
+                    +"(?,?)";
+
+        return s;
     }
 }
