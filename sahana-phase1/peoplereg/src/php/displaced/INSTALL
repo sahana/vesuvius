@@ -1,9 +1,10 @@
 - Stop apache
 
-- Run updates.sql and updates-2.sql
+- Run updates.sql, updates-2.sql, updates-3.sql
 
   mysql -uroot -p < db/updates.sql
   mysql -uroot -p < db/updates-2.sql
+  mysql -uroot -p < db/updates-3.sql
 
 - Update db.php file of mambo/componnets/com_report/ with the CVS version.
   IMPORTANT: There are two versions of db.php.  The one in www/ here should
