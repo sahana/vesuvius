@@ -243,7 +243,7 @@ if ($screen == 'entry') {
 				<td>District:</td>
 				<td><? show_input_select('district', 'onChange="load_division_list();"'); ?></td>
 				<td>Divisional secretariat:</td>
-				<td><? show_input_hidden('division'); ?><iframe id="division_frame" name="division_frame" style="height: 3em; border: 0px" src="<?
+				<td><? show_input_hidden('division'); ?><iframe id="division_frame" name="division_frame" style="height: 3em; border: 0px" frameborder="0" scrolling="no" src="<?
 
 				if ($_SESSION['form']['district']) {
 					echo '/peoplereg/displaced/areas.php?t=d&amp;d=' . $_SESSION['form']['district'];
@@ -259,7 +259,7 @@ if ($screen == 'entry') {
 			</tr>
 			<tr>
 				<td>Grama Niladhari's Division:</td>
-				<td><? show_input_hidden('gs_division'); ?><iframe id="gs_division_frame" name="gs_division_frame" style="height: 3em; border: 0px" src="<?
+				<td><? show_input_hidden('gs_division'); ?><iframe id="gs_division_frame" name="gs_division_frame" style="height: 3em; border: 0px" frameborder="0" scrolling="no" src="<?
 				
 				if ($_SESSION['form']['division']) {
 					echo '/peoplereg/displaced/areas.php?t=g&amp;d=' . $_SESSION['form']['division'];
