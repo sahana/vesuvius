@@ -80,6 +80,8 @@ sub dump_database()
 
 	print "Dumping database $name\n";
 	my $not_done = 1;
+	my %map = ();
+	my $last_id = $dbh->prepare('select last_insert_id()');
 	while ($not_done) {
 		$not_done = 0;
 		foreach my $table (sort keys %table) {
@@ -112,7 +114,26 @@ sub dump_database()
 					$insert_query .= ' values (' . ($#columns ? '?' : '') . (',?' x $#columns) . ')';
 					print "- Insert query: $insert_query\n" if ($verbose);
 
+					my $insert = $dbh_target->prepare($insert_query);
+
 					while (my $row = $get->fetchrow_hashref()) {
+						@values = ();
+						my $auto = undef;
+						foreach my $column (@columns) {
+							if ($table{$table}{column}{$column}{type} == 'normal') {
+								push @values, $row->{$column};
+							}
+							elsif ($table{$table}{column}{$column}{type} == 'foreign') {
+								push @values, $map{$table{$table}{refers}{$column}{table}}{$row->{$column}};
+							}
+							elsif ($table{$table}{column}{$column}{type} == 'auto') {
+								$auto = $row->{$column}
+							}
+						}
+						print "- Insert query: $insert_query\n" if ($verbose);
+						print "- Values: " . join(',', @values) . "\n" if ($verbose);
+						$insert->execute(@values);
+						$map{$table}{$auto} = last_insert_id($last_id);
 					}
 
 					print "- Settign state of $table to done.\n" if ($verbose);
@@ -187,9 +208,20 @@ sub read_table_info()
 			print "*** Key for $foreign_column not found ***\n";
 			exit 1;
 		}
+		$table{column}{$foreign_column}{type} = 'foreign';
 		print "  Foreign key: $foreign_column => $table{column}{$foreign_column}{table}($table{column}{$foreign_column}{key})\n";
 	}
 
 	return \%table;
+}
+
+sub last_insert_id()
+{
+	my $last_id = shift;
+	$last_id->execute();
+	if (my @last_id = $last_id->fetchrow_array()) {
+		return $last_id[0];
+	}
+	return undef;
 }
 
