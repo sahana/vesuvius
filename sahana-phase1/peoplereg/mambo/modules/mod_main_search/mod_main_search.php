@@ -23,6 +23,7 @@ if (!defined( '_MOS_MAIN_SEARCH_MODULE' )) {
 	<a href="/mambo/index.php">People registry home page</a><br />
 	<? if ($my->id) { ?>
 	<a href="/mambo/index.php?option=com_report&amp;step=0">Add new entry</a><br />
+	<a href="/mambo/index.php?option=com_content&amp;task=section&id=6&Itemid=46">Add displaced people</a><br />
 	<? } else { ?>
 	<a href="/mambo/index.php?option=com_report&amp;step=0">Report a missing person</a><br />
 	<? } ?>
