@@ -20,7 +20,7 @@ public class DamagedHouseTO {
     private String landArea;
     private String relocate;
     private String insured;
-    private String damagedType;
+    private String damageType;
     private String comments;
 
     public DamagedHouseTO(){
@@ -46,7 +46,7 @@ public class DamagedHouseTO {
         this.landArea = landArea;
         this.relocate = relocate;
         this.insured = insured;
-        this.damagedType = damagedType;
+        this.damageType = damagedType;
         this.comments = comments;
     }
 
@@ -74,11 +74,11 @@ public class DamagedHouseTO {
         this.division = division;
     }
 
-    public String getGsn() {
+    public String getGSN() {
         return gsn;
     }
 
-    public void setGsn(String gsn) {
+    public void setGSN(String gsn) {
         this.gsn = gsn;
     }
 
@@ -202,12 +202,12 @@ public class DamagedHouseTO {
         this.insured = insured;
     }
 
-    public String getDamagedType() {
-        return damagedType;
+    public String getDamageType() {
+        return damageType;
     }
 
     public void setDamagedType(String damagedType) {
-        this.damagedType = damagedType;
+        this.damageType = damagedType;
     }
 
     public String getComments() {

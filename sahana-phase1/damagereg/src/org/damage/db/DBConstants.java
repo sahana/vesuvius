@@ -40,7 +40,7 @@ public interface DBConstants {
         public static final String LAND_AREA = "LandArea";
         public static final String RELOCATE = "Relocate";
         public static final String INSURED = "Insured";
-        public static final String DAMAGED_TYPE = "DamageType";
+        public static final String DAMAGE_TYPE = "DamageType";
         public static final String COMMENTS = "Comments";
 
         //house_damage_moreinfo table
