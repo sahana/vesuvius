@@ -275,10 +275,10 @@ for ($i = 0; $i < $num_members; $i++) {
 ?>
 
 <tr>
-<td align="center"><? show_input_text('name[]', 50); ?></td>
-<td align="center"><? show_input_select($dbh, 'status[]'); ?></td>
-<td align="center"><? show_input_text('occupation[]'); ?></td>
-<td align="center"><? show_input_text('income[]'); ?></td>
+<td align="center"><? show_input_element_text('name', $i, 50); ?></td>
+<td align="center"><? show_input_element_select($dbh, 'status', $i); ?></td>
+<td align="center"><? show_input_element_text('occupation', $i); ?></td>
+<td align="center"><? show_input_element_text('income', $i); ?></td>
 </tr>
 
 <?
