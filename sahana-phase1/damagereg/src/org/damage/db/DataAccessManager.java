@@ -1,6 +1,8 @@
 package org.damage.db;
 
 import org.damage.business.DamagedHouseTO;
+import org.damage.business.DamagedHouseMoreInfoTO;
+import org.damage.business.HouseFacilityInfoTO;
 import org.erms.db.*;
 import org.erms.db.DBConstants;
 import org.erms.db.SQLGenerator;
@@ -50,10 +52,27 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement.setBoolean(18, dhTO.getInsured());
             preparedStatement.setString(19, dhTO.getDamageType());
             preparedStatement.setString(20, dhTO.getDamageType());
+            preparedStatement.executeUpdate();
 
-            int count=preparedStatement.getUpdateCount();
 
-           // Iterator ite=dhTo
+            Iterator ite1 = dhTO.getDamagedHouseMoreInfoList().iterator();
+            preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse_Damage_Moreinfo());
+            if (ite1.hasNext()) {
+                DamagedHouseMoreInfoTO dhmInfoTO = (DamagedHouseMoreInfoTO) ite1.next();
+                preparedStatement.setInt(1, dhmInfoTO.getHouseID());
+                preparedStatement.setString(2, dhmInfoTO.getDamageInfo());
+                preparedStatement.executeUpdate();
+            }
+
+            Iterator ite2 = dhTO.getHouseFacilityInfoList().iterator();
+            preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse_Damage_Moreinfo());
+            if (ite2.hasNext()) {
+                HouseFacilityInfoTO hfInfoTO = (HouseFacilityInfoTO) ite2.next();
+                preparedStatement.setInt(1, hfInfoTO.getHouseID());
+                preparedStatement.setString(2, hfInfoTO.getFacilityName());
+                preparedStatement.setString(3, hfInfoTO.getDescription());
+                preparedStatement.executeUpdate();
+            }
 
         } catch (Exception e) {
             try {
