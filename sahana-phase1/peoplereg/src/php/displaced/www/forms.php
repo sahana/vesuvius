@@ -48,7 +48,7 @@ function show_input_textarea($name, $rows, $cols)
 	echo '</textarea>';
 }
 
-function show_input_select($dbh, $name)
+function show_input_select($name)
 {
 	global $_SESSION;
 	$value = '';
@@ -67,7 +67,7 @@ function show_input_select($dbh, $name)
 	echo '</select>';
 }
 
-function show_input_element_select($dbh, $name, $n)
+function show_input_element_select($name, $n)
 {
 	global $_SESSION;
 	$value = '';

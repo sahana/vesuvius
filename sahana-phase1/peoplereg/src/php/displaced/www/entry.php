@@ -7,6 +7,7 @@
 session_start();
 require('forms.php');
 require('db.php');
+require('peoplesearch.php');
 
 // Need to generate this dynamically
 $num_members = 10; /* FIXME: get rid of the static value */
@@ -26,9 +27,9 @@ $num_members = 10; /* FIXME: get rid of the static value */
 <?
 
 // Connect to DB running locally
-$dbh = mysql_connect('localhost', 'apache', 'abcd321')
-	or die('Could not connect: ' . mysql_error());
-mysql_select_db('mambo') or die('Could not select database');
+//$dbh = mysql_connect('localhost', 'apache', 'abcd321')
+//	or die('Could not connect: ' . mysql_error());
+//mysql_select_db('mambo') or die('Could not select database');
 
 // By default, we are in the data entry mode
 $screen = 'entry';
@@ -173,7 +174,7 @@ if ($screen == 'entry') {
 		<table class="entry">
 			<tr>
 				<td>District:</td>
-				<td><? show_input_select($dbh, 'district'); ?></td>
+				<td><? show_input_select('district'); ?></td>
 				<td>Divisional secretariat:</td>
 				<td><? show_input_text('division'); ?></td>
 			</tr>
@@ -217,7 +218,7 @@ for ($i = 0; $i < $num_members; $i++) {
 ?>
 			<tr>
 				<td align="center"><? show_input_element_text('name', $i, 50); ?></td>
-				<td align="center"><? show_input_element_select($dbh, 'status', $i); ?></td>
+				<td align="center"><? show_input_element_select('status', $i); ?></td>
 				<td align="center"><? show_input_element_text('occupation', $i); ?></td>
 				<td align="center"><? show_input_element_text('income', $i); ?></td>
 			</tr>

@@ -56,6 +56,7 @@ function store_attribute_string($report, $entity, $attribute, $index = 0, $n = -
 		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_string) select $report, $entity, id, '$value' from sahana_attributes where name='$attribute'");
 	}
 	// Do indexing if $index is set
+	_indexAttribute($value, $entity, get_attribute_id($attribute));
 }
 
 function store_attribute_integer($report, $entity, $attribute, $n = -1)
@@ -83,6 +84,12 @@ function store_attribute_selection($report, $entity, $attribute, $n = -1)
 function add_relation($entity, $related, $relation)
 {
 	mysql_query("insert into sahana_entity_relationships (entity_id, related_id, relation_type) select $entity, $related, id from sahana_entity_relationship_types where name = '$relation'");
+}
+
+function get_attribute_id($attribute)
+{
+	$rows = mysql_query("select id from sahana_attributes where name='$attribute'");
+	return ($row = mysql_fetch_array($rows)) ?  $row[0] : 0;
 }
 
 ?>
