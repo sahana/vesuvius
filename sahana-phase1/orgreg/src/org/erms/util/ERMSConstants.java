@@ -62,6 +62,12 @@ public interface ERMSConstants {
         public static final String REQUEST_DTO = "request_dto";
         public static final String USER_INFO = "user_info";
 
+        public static final String ACTION = "action";
+        public static final String ACTION_ADD = "add";
+        public static final String ACTION_EDIT = "edit";
+        public static final String ACTION_VIEW = "view";
+
+
     }
 
     public interface ERMSSectorNameConstants{

@@ -1,7 +1,8 @@
 <%@ page import="org.erms.db.DataAccessManager,
                  org.erms.util.ERMSConstants,
                  org.erms.business.*,
-                 java.util.*"%>
+                 java.util.*,
+                 org.erms.util.OrganizationPageHelper"%>
 <jsp:useBean id="orgReg" scope="request" class="org.erms.business.OrganizationRegistrationTO" />
 <jsp:setProperty name="orgReg" property="*" />
 <html>
@@ -48,7 +49,15 @@
         }else {
             for (var i = 0; i < document.tsunamiOrgReg.choiseList.length; i++) {
                 if(document.tsunamiOrgReg.choiseList.options[i].selected){
+                	var newValue = document.tsunamiOrgReg.choiseList.options[i].value;
+                    if((document.tsunamiOrgReg.sectors.value.indexOf(newValue+",")) != -1){
+                        var confirm = window.confirm("You have already added "+newValue + ". Do you still want to add it again ?");
+                        if(confirm){
+                        	document.tsunamiOrgReg.sectors.value += newValue+",";
+                        }
+                    }else {
                    document.tsunamiOrgReg.sectors.value += document.tsunamiOrgReg.choiseList.options[i].value+",";
+                   }
                 }
             }
         }
@@ -94,6 +103,9 @@
 
 <%
     List  messages = new LinkedList();
+    String action = "";
+    boolean globalControlDisable = false;
+
     if (request.getParameter("submit") != null) {
         orgReg.setStatus("false");
 
@@ -146,18 +158,24 @@
 <%
             return;
   }
+    } else if (request.getParameter("action") != null) {
+            action = request.getParameter("action");
+            globalControlDisable = ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action);
     }
+
 %>
 
 
 
     <form method="post" name="tsunamiOrgReg" action="Registration.jsp">
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
-   <tr>
-              <td align="center" vAlign="top" colspan="2" class="formTitle" background="images/HeaderBG.jpg"  >Register Your Organization</td>
-
+          <%
+              OrganizationPageHelper helper = new OrganizationPageHelper();
+          %>
+            <tr>
+              <td align="center" vAlign="top" colspan="2" class="formTitle" background="images/HeaderBG.jpg"><%=helper.getHeaderMessage(action)%></td>
             </tr>
-<% if (messages.size() > 0) { %>
+        <% if (messages.size() > 0) { %>
             <tr>
               <td>&nbsp;</td>
               <td vAlign="top" align="right" class="formText" ><font size="2" color="red" >Please Correct Following Errors :</font><br/>
@@ -205,7 +223,7 @@
               <td vAlign="top" class="formText" align="right">NGO Type :
                   </td>
               <td>
-                 <select  name="ngoType" class="selectBoxes">
+                 <select name="ngoType" class="selectBoxes">
                  <%
                    String[] Ngovalues={"NGO","INGO","CBU"};
                      for (int i = 0; i < Ngovalues.length; i++) {
