@@ -6,49 +6,56 @@ import org.erms.db.DBConstants;
 import org.erms.db.SQLGenerator;
 import org.erms.business.KeyValueDTO;
 import org.sahana.share.db.AbstractDataAccessManager;
+import org.sahana.share.utils.OrderedMap;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.sql.*;
 
 
-public class DataAccessManager extends AbstractDataAccessManager  implements DBConstants {
+public class DataAccessManager extends AbstractDataAccessManager implements DBConstants {
 
-   public DataAccessManager() throws Exception{}
-    
-   public boolean addDamagedHouse(DamagedHouseTO  dhTO)throws SQLException, Exception {
+    public DataAccessManager() throws Exception {
+    }
+
+    public boolean addDamagedHouse(DamagedHouseTO dhTO) throws SQLException, Exception {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        boolean status=false;
+        boolean status = false;
 
-         try {
+        try {
             connection = DBConnection.createConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse());
 
-            preparedStatement.setString(1,dhTO.getDistrictCode());
-            preparedStatement.setString(2,dhTO.getDivision());
-             preparedStatement.setString(3,dhTO.getGSN());
-             preparedStatement.setString(4,dhTO.getOwner());
-             preparedStatement.setString(5,dhTO.getDistanceFromSea());
-            preparedStatement.setString(6,dhTO.getCity());
-             preparedStatement.setString(5,dhTO.getNoAndStreet());
-             preparedStatement.setString(5,dhTO.getCurrentAddress());
-             preparedStatement.setString(5,dhTO.getFloorArea());
-             preparedStatement.setString(5,dhTO.getNoOfStories());
-             preparedStatement.setString(5,dhTO.getTypeOfOwnership());
-         preparedStatement.setString(5,dhTO.getNoOfResidents());
-             preparedStatement.setString(5,dhTO.getTypeOfConstruction());
-            preparedStatement.setString(5,dhTO.getPropertyTaxNo());
-             preparedStatement.setString(5,dhTO.getTotalDamagedCost());
-             preparedStatement.setString(5,dhTO.getLandArea());
-             preparedStatement.setString(5,dhTO.getRelocate());
-             preparedStatement.setString(5,dhTO.getInsured());
-             preparedStatement.setString(5,dhTO.getDamageType());
-             preparedStatement.setString(5,dhTO.getDamageType());
+            preparedStatement.setString(1, dhTO.getDistrictCode());
+            preparedStatement.setString(2, dhTO.getDivision());
+            preparedStatement.setString(3, dhTO.getGSN());
+            preparedStatement.setString(4, dhTO.getOwner());
+            preparedStatement.setDouble(5, dhTO.getDistanceFromSea());
+            preparedStatement.setString(6, dhTO.getCity());
+            preparedStatement.setString(7, dhTO.getNoAndStreet());
+            preparedStatement.setString(8, dhTO.getCurrentAddress());
+            preparedStatement.setDouble(9, dhTO.getFloorArea());
+            preparedStatement.setInt(10, dhTO.getNoOfStories());
+            preparedStatement.setString(11, dhTO.getTypeOfOwnership());
+            preparedStatement.setInt(12, dhTO.getNoOfResidents());
+            preparedStatement.setString(13, dhTO.getTypeOfConstruction());
+            preparedStatement.setString(14, dhTO.getPropertyTaxNo());
+            preparedStatement.setDouble(15, dhTO.getTotalDamagedCost());
+            preparedStatement.setDouble(16, dhTO.getLandArea());
+            preparedStatement.setBoolean(17, dhTO.getRelocate());
+            preparedStatement.setBoolean(18, dhTO.getInsured());
+            preparedStatement.setString(19, dhTO.getDamageType());
+            preparedStatement.setString(20, dhTO.getDamageType());
 
-          } catch (Exception e) {
+            int count=preparedStatement.getUpdateCount();
+
+           // Iterator ite=dhTo
+
+        } catch (Exception e) {
             try {
                 if (connection != null) {
                     connection.rollback();
@@ -74,9 +81,6 @@ public class DataAccessManager extends AbstractDataAccessManager  implements DBC
     }
     //list oif house dtos
     //public List searchHouses(SearchHouseTO);
-
-
-
 
 
 }

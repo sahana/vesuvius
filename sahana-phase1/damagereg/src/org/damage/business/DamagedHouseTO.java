@@ -1,4 +1,7 @@
 package org.damage.business;
+
+import java.util.ArrayList;
+
 public class DamagedHouseTO {
 
     private int id;
@@ -23,10 +26,10 @@ public class DamagedHouseTO {
     private String damageType;
     private String comments;
 
-    public DamagedHouseTO(){
-    }
+    private ArrayList  damagedHouseMoreInfoList;
+    private ArrayList houseFacilityInfoList;
 
-    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, double distanceFromSea, String city, String noAndStreet, String currentAddress, double floorArea, int noOfStories, String typeOfOwnership, int noOfResidents, String typeOfConstruction, String propertyTaxNo, double totalDamagedCost, double landArea, boolean relocate, boolean insured,  String damagedType, String comments){
+    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, double distanceFromSea, String city, String noAndStreet, String currentAddress, double floorArea, int noOfStories, String typeOfOwnership, int noOfResidents, String typeOfConstruction, String propertyTaxNo, double totalDamagedCost, double landArea, boolean relocate, boolean insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
         this.id = id;
         this.districtCode = districtCode;
         this.division = division;
@@ -46,9 +49,50 @@ public class DamagedHouseTO {
         this.landArea = landArea;
         this.relocate = relocate;
         this.insured = insured;
-        this.damageType = damagedType;
+        this.damageType = damageType;
         this.comments = comments;
+        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
+        this.houseFacilityInfoList = houseFacilityInfoList;
     }
+
+    public void addDamagedHouseMoreInfo(DamagedHouseMoreInfoTO dhmInfoTO){
+       this.damagedHouseMoreInfoList.add(dhmInfoTO);
+    }
+
+    public void addHouseFacilityInfo(HouseFacilityInfoTO hfInfoTO){
+        this.houseFacilityInfoList.add(hfInfoTO);
+    }
+
+    public ArrayList getDamagedHouseMoreInfoList() {
+        return damagedHouseMoreInfoList;
+    }
+
+    public void setDamagedHouseMoreInfoList(ArrayList damagedHouseMoreInfoList) {
+        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
+    }
+
+    public ArrayList getHouseFacilityInfoList() {
+        return houseFacilityInfoList;
+    }
+
+    public void setHouseFacilityInfoList(ArrayList houseFacilityInfoList) {
+        this.houseFacilityInfoList = houseFacilityInfoList;
+    }
+
+    public DamagedHouseTO() {
+    }
+
+
+
+    public String getGsn() {
+        return gsn;
+    }
+
+    public void setGsn(String gsn) {
+        this.gsn = gsn;
+    }
+
+
 
     public int getId() {
         return id;
