@@ -12,6 +12,8 @@
 
 package org.erms.db;
 
+import org.sahana.share.db.AbstractDataAccessManager;
+import org.sahana.share.db.DBConstants;
 
 
 /**
@@ -26,125 +28,18 @@ package org.erms.db;
 
  */
 
-public class SQLGenerator {
+public class SQLGenerator extends AbstractDataAccessManager{
 
-
-
-    public static String getSQLForAllDistricts() {
-
-        String s = "SELECT *"
-
-            + " FROM " + DBConstants.Tables.DISTRICT + " order by "+DBConstants.TableColumns.DISTRICT_NAME;
-
-        return s;
-
+    public SQLGenerator() throws Exception {
     }
 
-
-
-    public static String getSQLForAllCategories() {
-
-        String s = "SELECT *"
-
-            + " FROM " + DBConstants.Tables.CATOGORY + " order by "+ DBConstants.TableColumns.CAT_DESCRIPTION;
-
-        return s;
-
-    }
-
-
-    public static String getSQLForAllSites() {
-         String s = "SELECT " +  DBConstants.TableSiteType.SITE_TYPE_CODE + "," + DBConstants.TableSiteType.SITE_TYPE
-             + " FROM " + DBConstants.Tables.SITE_TYPE + " order by "+ DBConstants.TableSiteType.SITE_TYPE;
-         return s;
-     }
-
-
-
-    public static String getSQLForAllPriorities() {
-
-        String s = "SELECT *"
-
-            + " FROM " + DBConstants.Tables.PRIORITIES;
-
-        return s;
-
-    }
-
-
-
-
-
-    public static String getSQLForLogin(String userName) {
-            String ORG = "ORG";
-            String USR = "USR";
-
-            String s =  "SELECT "
-            + USR + "." + DBConstants.TableColumns.USER_NAME + ", "
-
-            + USR + "." + DBConstants.TableColumns.PASSWORD + ", "
-
-            + ORG + "." + DBConstants.TableColumns.ORG_CODE + ", "
-
-            + ORG + "." + DBConstants.TableColumns.ORG_NAME
-
-            + " FROM "
-
-            + DBConstants.Tables.USERS + " as " + USR + ", "
-
-            + DBConstants.Tables.ORGANIZATION + " as " + ORG
-
-
-
-            + " WHERE "
-
-            + USR + "." + DBConstants.TableColumns.USER_NAME + "='" + userName
-            + "' AND "
-
-            + USR + "." + DBConstants.TableColumns.ORG_CODE + "="
-
-            + ORG + "." + DBConstants.TableColumns.ORG_CODE;
-
-//        String s = "SELECT *"
-//
-//            + " FROM " + DBConstants.Tables.USERS + " WHERE "+DBConstants.TableColumns.USER_NAME+"='"+userName+"'";
-//
-        return s;
-
-    }
-
-
-
-    public static String getSQLForAllOrganizationNames() {
-
-        return "SELECT "
-
-            + DBConstants.TableColumns.ORG_CODE + ","
-
-            + DBConstants.TableColumns.ORG_NAME
-
-            + " FROM "
-
-            + DBConstants.Tables.ORGANIZATION;
-
-    }
-
-
-
-    public static String getSQLForAllStatuses() {
-        return "SELECT "
-            + DBConstants.TableColumns.FULLFILL_STATUS + ","
-            + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION
-            + " FROM "
-            + DBConstants.Tables.FULFILL_STATUS;
-    }
 
      public static String getSQLForAllSearchStatuses() {
         return "SELECT "
-            + DBConstants.TableColumns.REQUEST_STATUS + ","
-            + DBConstants.TableColumns.REQUEST_STATUS_DESCRIPTION
+            + DBConstants.Requeststatus.REQUEST_STATUS + ","
+            + DBConstants.Requeststatus.REQUEST_STATUS_DESCRIPTION
             + " FROM "
-            + DBConstants.Tables.REQUEST_STATUS;
+            + DBConstants.Requeststatus.TABLENAME;
 
     }
 
@@ -163,33 +58,33 @@ public class SQLGenerator {
 
         return "INSERT into "
 
-            + DBConstants.Tables.REQUEST_HEADER
+            + DBConstants.Requestheader.TABLENAME
 
             + " ("
 
-            + DBConstants.TableColumns.ORG_CODE + ", "
+            + DBConstants.Requestheader.ORG_CODE + ", "
 
-            + DBConstants.TableColumns.CREATE_DATE + ", "
+            + DBConstants.Requestheader.CREATE_DATE + ", "
 
-            + DBConstants.TableColumns.REQUEST_DATE + ", "
+            + DBConstants.Requestheader.REQUEST_DATE + ", "
 
-            + DBConstants.TableColumns.CALLER_NAME + ", "
+            + DBConstants.Requestheader.CALLER_NAME + ", "
 
-            + DBConstants.TableColumns.CALLER_ADDRESS + ", "
+            + DBConstants.Requestheader.CALLER_ADDRESS + ", "
 
-            + DBConstants.TableColumns.CALLER_CONTACT_NO + ", "
+            + DBConstants.Requestheader.CALLER_CONTACT_NO + ", "
 
-            + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION + ", "
+            + DBConstants.Requestheader.FULLFILL_STATUS_DESCRIPTION + ", "
 
-            + DBConstants.TableColumns.SITE_TYPE + ", "
+            + DBConstants.Requestheader.SITE_TYPE + ", "
 
-            + DBConstants.TableColumns.SITE_DISTRICT + ", "
+            + DBConstants.Requestheader.SITE_DISTRICT + ", "
 
-            + DBConstants.TableColumns.SITE_AREA + ", "
+            + DBConstants.Requestheader.SITE_AREA + ", "
 
-            + DBConstants.TableColumns.SITE_NAME + ", "
+            + DBConstants.Requestheader.SITE_NAME + ", "
 
-            + DBConstants.TableColumns.SITE_CONTACT
+            + DBConstants.Requestheader.SITE_CONTACT
 
             + ") "
 
@@ -215,24 +110,24 @@ public class SQLGenerator {
 
         return "INSERT into "
 
-            + DBConstants.Tables.REQUEST_DETAIL
+            + DBConstants.Requestdetail.TABLENAME
 
             + " ("
 
-            + DBConstants.TableColumns.REQUEST_ID + ", "
+            + DBConstants.Requestdetail.REQUEST_ID + ", "
 
-            + DBConstants.TableColumns.CATEGORY + ", "
+            + DBConstants.Requestdetail.CATEGORY + ", "
 
-            + DBConstants.TableColumns.ITEM + ", "
+            + DBConstants.Requestdetail.ITEM + ", "
 
-            + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION + ", "
+            + DBConstants.Requestdetail.FULLFILL_STATUS_DESCRIPTION + ", "
 
-            + DBConstants.TableColumns.UNIT + ", "
+            + DBConstants.Requestdetail.UNIT + ", "
 
-            + DBConstants.TableColumns.QUANTITY + ", "
+            + DBConstants.Requestdetail.QUANTITY + ", "
 
-            + DBConstants.TableColumns.PRIORITY_LEVEL  +  ","
-            + DBConstants.TableColumns.FULLFILL_STATUS
+            + DBConstants.Requestdetail.PRIORITY_LEVEL  +  ","
+            + DBConstants.Requestdetail.REQUEST_STATUS
 
             + ") "
 
@@ -258,17 +153,17 @@ public class SQLGenerator {
 
         return "INSERT into "
 
-            + DBConstants.Tables.REQUEST_FULFILL
+            + DBConstants.Requestfulfill.TABLENAME
 
             + " ("
 
-            + DBConstants.TableColumns.ORG_CODE + ", "
+            + DBConstants.Requestfulfill.ORG_CODE + ", "
 
-            + DBConstants.TableColumns.REQUEST_DETAIL_ID + ", "
+            + DBConstants.Requestfulfill.REQUEST_DETAIL_ID + ", "
 
-            + DBConstants.TableColumns.SERVICE_QTY + ", "
+            + DBConstants.Requestfulfill.SERVICE_QTY + ", "
 
-            + DBConstants.TableColumns.FULLFILL_STATUS
+            + DBConstants.Requestfulfill.FULLFILL_STATUS
 
             + ") "
 
@@ -282,15 +177,15 @@ public class SQLGenerator {
 
         return "INSERT into "
 
-            + DBConstants.Tables.REQUEST_STAUS_HISTORY
+            + DBConstants.Statushistory.TABLENAME
 
             + " ("
 
-            + DBConstants.TableColumns.FUlFILL_REAL_ID + ", "
+            + DBConstants.Statushistory.FUlFILL_REAL_ID + ", "
 
-            + DBConstants.TableColumns.STATUS_CHANGED_DATE + ", "
+            + DBConstants.Statushistory.STATUS_CHANGED_DATE + ", "
 
-            + DBConstants.TableColumns.CHANGED_STAUS
+            + DBConstants.Statushistory.CHANGED_STAUS
 
             + ") "
 
@@ -304,15 +199,15 @@ public class SQLGenerator {
 
         return "UPDATE "
 
-            + DBConstants.Tables.REQUEST_FULFILL
+            + DBConstants.Requestfulfill.TABLENAME
 
             + " SET "
 
-            + DBConstants.TableColumns.FULLFILL_STATUS + "= ?  "
+            + DBConstants.Requestfulfill.FULLFILL_STATUS + "= ?  "
 
             + "WHERE ("
 
-            + DBConstants.TableColumns.REQUEST_FULFILL_ID + "= ? ) ";
+            + DBConstants.Requestfulfill.REQUEST_FULFILL_ID + "= ? ) ";
 
 
     }
@@ -321,15 +216,15 @@ public class SQLGenerator {
 
         return "UPDATE "
 
-            + DBConstants.Tables.REQUEST_DETAIL
+            + DBConstants.Requestdetail.TABLENAME
 
             + " SET "
 
-            + DBConstants.TableColumns.REQUEST_STATUS + "= ?  "
+            + DBConstants.Requestdetail.REQUEST_STATUS + "= ?  "
 
             + "WHERE ("
 
-            + DBConstants.TableColumns.REQUEST_DETAIL_ID + "= ? ) ";
+            + DBConstants.Requestdetail.REQUEST_DETAIL_ID + "= ? ) ";
 
 
     }
@@ -362,83 +257,83 @@ public class SQLGenerator {
 
             // first the detail table details
 
-            + REQ_DET + "." + DBConstants.TableColumns.REQUEST_DETAIL_ID + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.REQUEST_DETAIL_ID + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.REQUEST_ID + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.REQUEST_ID + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.CATEGORY + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.CATEGORY + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.ITEM + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.ITEM + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.FULLFILL_STATUS_DESCRIPTION + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.UNIT + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.UNIT + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.QUANTITY + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.QUANTITY + ", "
 
-            + REQ_DET + "." + DBConstants.TableColumns.PRIORITY_LEVEL + ", "
+            + REQ_DET + "." + DBConstants.Requestdetail.PRIORITY_LEVEL + ", "
 
-             + REQ_DET + "." + DBConstants.TableColumns.REQUEST_STATUS + ", "
+             + REQ_DET + "." + DBConstants.Requestdetail.REQUEST_STATUS + ", "
 
             // now the header details
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.REQUEST_ID + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.REQUEST_ID + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.ORG_CODE + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.ORG_CODE + ", "
 
 
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.CREATE_DATE + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.CREATE_DATE + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.REQUEST_DATE + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.REQUEST_DATE + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.CALLER_NAME + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.CALLER_NAME + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.CALLER_ADDRESS + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.CALLER_ADDRESS + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.CALLER_CONTACT_NO + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.CALLER_CONTACT_NO + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.FULLFILL_STATUS_DESCRIPTION + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_TYPE + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.SITE_TYPE + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_DISTRICT + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.SITE_DISTRICT + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_AREA + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.SITE_AREA + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_NAME + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.SITE_NAME + ", "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.SITE_CONTACT + ", "
+            + REQ_HEAD + "." + DBConstants.Requestheader.SITE_CONTACT + ", "
 
-            + REQ_ORG + "." + DBConstants.TableColumns.ORG_NAME + ", "
+            + REQ_ORG + "." + DBConstants.Organization.ORG_NAME + ", "
 
-            + REQ_ORG + "." + DBConstants.TableColumns.ORG_CONTACT_NUMBER
+            + REQ_ORG + "." + DBConstants.Organization.ORG_CONTACT_NUMBER
 
             + " FROM "
 
-            + DBConstants.Tables.REQUEST_DETAIL + " as " + REQ_DET + ", "
+            + DBConstants.Requestdetail.TABLENAME + " as " + REQ_DET + ", "
 
-            + DBConstants.Tables.ORGANIZATION + " as " + REQ_ORG + ", "
+            + DBConstants.Organization.TABLENAME + " as " + REQ_ORG + ", "
 
-            + DBConstants.Tables.REQUEST_HEADER + " as " + REQ_HEAD
+            + DBConstants.Requestheader.TABLENAME + " as " + REQ_HEAD
 
 
 
             + " WHERE "
 
-            + REQ_DET + "." + DBConstants.TableColumns.REQUEST_DETAIL_ID + "=" + requestDetailID
+            + REQ_DET + "." + DBConstants.Requestdetail.REQUEST_DETAIL_ID + "=" + requestDetailID
 
             + " AND "
 
-            + REQ_DET + "." + DBConstants.TableColumns.REQUEST_ID + "="
+            + REQ_DET + "." + DBConstants.Requestdetail.REQUEST_ID + "="
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.REQUEST_ID
+            + REQ_HEAD + "." + DBConstants.Requestheader.REQUEST_ID
 
             + " AND "
 
-            + REQ_HEAD + "." + DBConstants.TableColumns.ORG_CODE + "="
+            + REQ_HEAD + "." + DBConstants.Requestheader.ORG_CODE + "="
 
-            + REQ_ORG + "." + DBConstants.TableColumns.ORG_CODE;
+            + REQ_ORG + "." + DBConstants.Organization.ORG_CODE;
 
 
     }
@@ -469,38 +364,38 @@ public class SQLGenerator {
 
             // first the detail table details
 
-            + ORG + "." + DBConstants.TableColumns.ORG_CODE + ", "
+            + ORG + "." + DBConstants.Organization.ORG_CODE + ", "
 
-            + ORG + "." + DBConstants.TableColumns.ORG_NAME + ", "
+            + ORG + "." + DBConstants.Organization.ORG_NAME + ", "
 
-            + ORG + "." + DBConstants.TableColumns.ORG_ADDRESS + ", "
+            + ORG + "." + DBConstants.Organization.ORG_ADDRESS + ", "
 
             // now the header details
 
-            + FULFILL + "." + DBConstants.TableColumns.SERVICE_QTY + ", "
+            + FULFILL + "." + DBConstants.Requestfulfill.SERVICE_QTY + ", "
 
-            + FULFILL + "." + DBConstants.TableColumns.FUlFILL_ID + ", "
+            + FULFILL + "." + DBConstants.Requestfulfill.FUlFILL_ID + ", "
 
-            + FULFILL + "." + DBConstants.TableColumns.FULLFILL_STATUS
+            + FULFILL + "." + DBConstants.Requestfulfill.FULLFILL_STATUS
 
 
 
             + " FROM "
 
-            + DBConstants.Tables.REQUEST_FULFILL + " as " + FULFILL + ", "
+            + DBConstants.Requestfulfill.TABLENAME + " as " + FULFILL + ", "
 
-            + DBConstants.Tables.ORGANIZATION + " as " + ORG
+            + DBConstants.Organization.TABLENAME + " as " + ORG
 
 
 
             + " WHERE "
 
-            + FULFILL + "." + DBConstants.TableColumns.REQUEST_DETAIL_ID + "=" + requestDetailID
+            + FULFILL + "." + DBConstants.Requestfulfill.REQUEST_DETAIL_ID + "=" + requestDetailID
             + " AND "
 
-            + FULFILL + "." + DBConstants.TableColumns.ORG_CODE + "="
+            + FULFILL + "." + DBConstants.Requestfulfill.ORG_CODE + "="
 
-            + ORG + "." + DBConstants.TableColumns.ORG_CODE;
+            + ORG + "." + DBConstants.Organization.ORG_CODE;
 
 
     }
@@ -527,63 +422,63 @@ public class SQLGenerator {
 
         return "SELECT "
 
-            + RQD + "." + DBConstants.TableColumns.REQUEST_DETAIL_ID + ", "
+            + RQD + "." + DBConstants.Requestdetail.REQUEST_DETAIL_ID + ", "
 
-            + RQH + "." + DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION + ", "
+            + RQH + "." + DBConstants.Requestheader.FULLFILL_STATUS_DESCRIPTION + ", "
 
-            + RQH + "." + DBConstants.TableColumns.SITE_NAME + ", "
+            + RQH + "." + DBConstants.Requestheader.SITE_NAME + ", "
 
-            + RQH + "." + DBConstants.TableColumns.SITE_TYPE + ", "
+            + RQH + "." + DBConstants.Requestheader.SITE_TYPE + ", "
 
-            + RQH + "." + DBConstants.TableColumns.SITE_DISTRICT + ", "
+            + RQH + "." + DBConstants.Requestheader.SITE_DISTRICT + ", "
 
-            + RQH + "." + DBConstants.TableColumns.SITE_AREA + ", "
+            + RQH + "." + DBConstants.Requestheader.SITE_AREA + ", "
 
-            + RQD + "." + DBConstants.TableColumns.CATEGORY + ", "
+            + RQD + "." + DBConstants.Requestdetail.CATEGORY + ", "
 
-            + RQD + "." + DBConstants.TableColumns.FULLFILL_STATUS + ", "
+            + RQD + "." + DBConstants.Requestdetail.REQUEST_STATUS + ", "
 
-            + RQD + "." + DBConstants.TableColumns.QUANTITY + ", "
+            + RQD + "." + DBConstants.Requestdetail.QUANTITY + ", "
 
-            + RQD + "." + DBConstants.TableColumns.UNIT + ", "
+            + RQD + "." + DBConstants.Requestdetail.UNIT + ", "
 
-            + RQD + "." + DBConstants.TableColumns.PRIORITY_LEVEL + ", "
+            + RQD + "." + DBConstants.Requestdetail.PRIORITY_LEVEL + ", "
 
-            + RQD + "." + DBConstants.TableColumns.ITEM
+            + RQD + "." + DBConstants.Requestdetail.ITEM
 
             + " FROM "
 
-            + DBConstants.Tables.REQUEST_HEADER + " as " + RQH + ", "
+            + DBConstants.Requestheader.TABLENAME + " as " + RQH + ", "
 
-            + DBConstants.Tables.REQUEST_DETAIL + " as " + RQD
+            + DBConstants.Requestdetail.TABLENAME + " as " + RQD
 
             + " WHERE "
 
-            + "(? is null OR (" + DBConstants.TableColumns.CATEGORY + " = ?))"
+            + "(? is null OR (" + DBConstants.Requestdetail.CATEGORY + " = ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.ORG_CODE + " = ?))"
+            + "(? is null OR (" + DBConstants.Requestheader.ORG_CODE + " = ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.SITE_NAME + " LIKE ?))"
+            + "(? is null OR (" + DBConstants.Requestheader.SITE_NAME + " LIKE ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.SITE_DISTRICT + " = ?))"
+            + "(? is null OR (" + DBConstants.Requestheader.SITE_DISTRICT + " = ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.ITEM + " LIKE ?))"
+            + "(? is null OR (" + DBConstants.Requestdetail.ITEM + " LIKE ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.PRIORITY_LEVEL + " = ?))"
+            + "(? is null OR (" + DBConstants.Requestdetail.PRIORITY_LEVEL + " = ?))"
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.FULLFILL_STATUS + " = ?))"
+            + "(? is null OR (" + DBConstants.Requestdetail.REQUEST_STATUS + " = ?))"
 
 /*            + " AND "
 
@@ -591,11 +486,11 @@ public class SQLGenerator {
 */
             + " AND "
 
-            + RQH + "." + DBConstants.TableColumns.REQUEST_ID
+            + RQH + "." + DBConstants.Requestheader.REQUEST_ID
 
             + " = "
 
-            + RQD + "." + DBConstants.TableColumns.REQUEST_ID
+            + RQD + "." + DBConstants.Requestdetail.REQUEST_ID
 
             ;
 
@@ -621,31 +516,31 @@ public class SQLGenerator {
 
         return "INSERT into "
 
-            + DBConstants.Tables.ORGANIZATION
+            + DBConstants.Organization.TABLENAME
 
             + " ("
 
-            + DBConstants.TableColumns.ORG_CODE + ", "
+            + DBConstants.Organization.ORG_CODE + ", "
 
-            + DBConstants.TableColumns.ORG_CONTACT_PERSON + ", "
+            + DBConstants.Organization.ORG_CONTACT_PERSON + ", "
 
-            + DBConstants.TableColumns.ORG_NAME + ", "
+            + DBConstants.Organization.ORG_NAME + ", "
 
-            + DBConstants.TableColumns.FULLFILL_STATUS + ", "
+            + DBConstants.Organization.STATUS + ", "
 
-            + DBConstants.TableColumns.ORG_ADDRESS + ", "
+            + DBConstants.Organization.ORG_ADDRESS + ", "
 
-            + DBConstants.TableColumns.ORG_CONTACT_NUMBER + ", "
+            + DBConstants.Organization.ORG_CONTACT_NUMBER + ", "
 
-            + DBConstants.TableColumns.ORG_EMAIL_ADDRESS + ", "
+            + DBConstants.Organization.ORG_EMAIL_ADDRESS + ", "
 
-            + DBConstants.TableColumns.ORG_COUNTRY_OF_ORIGIN + ", "
+            + DBConstants.Organization.ORG_COUNTRY_OF_ORIGIN + ", "
 
-            + DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE + ", "
+            + DBConstants.Organization.ORG_FACILITIES_AVAILABLE + ", "
 
-            + DBConstants.TableColumns.ORG_WORKING_AREAS + ", "
+            + DBConstants.Organization.ORG_WORKING_AREAS + ", "
 
-            + DBConstants.TableColumns.ORG_COMMENTS
+            + DBConstants.Organization.ORG_COMMENTS
 
             + ") "
 
@@ -659,11 +554,51 @@ public class SQLGenerator {
 
     public static String getSQLForCountOrganizationCode() {
 
-        return "select count(" + DBConstants.TableColumns.ORG_CODE + ") from " + DBConstants.Tables.ORGANIZATION +" where "
+        return "select count(" + DBConstants.Organization.ORG_CODE + ") from " + DBConstants.Organization.TABLENAME +" where "
 
-                + DBConstants.TableColumns.ORG_CODE + "=?";
+                + DBConstants.Organization.ORG_CODE + "=?";
 
     }
+
+    public static String getSQLForLogin(String userName) {
+               String ORG = "ORG";
+               String USR = "USR";
+
+               String s =  "SELECT "
+               + USR + "." + DBConstants.User.USER_NAME + ", "
+
+               + USR + "." + DBConstants.User.PASSWORD + ", "
+
+               + ORG + "." + DBConstants.Organization.ORG_CODE + ", "
+
+               + ORG + "." + DBConstants.Organization.ORG_NAME
+
+               + " FROM "
+
+               + DBConstants.User.TABLENAME + " as " + USR + ", "
+
+               + DBConstants.Organization.TABLENAME + " as " + ORG
+
+
+
+               + " WHERE "
+
+               + USR + "." + DBConstants.User.USER_NAME + "='" + userName
+                       
+               + "' AND "
+
+               + USR + "." + DBConstants.User.ORG_CODE + "="
+
+               + ORG + "." + DBConstants.Organization.ORG_CODE;
+
+//        String s = "SELECT *"
+//
+//            + " FROM " + DBConstants.Tables.USERS + " WHERE "+DBConstants.TableColumns.USER_NAME+"='"+userName+"'";
+//
+           return s;
+
+       }
+
 
 
 }

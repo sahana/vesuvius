@@ -1,6 +1,7 @@
 package org.erms.util;
 
-import org.erms.db.DBConstantLoader;
+
+import org.sahana.share.db.DBConstantLoader;
 
 public interface ERMSConstants {
 

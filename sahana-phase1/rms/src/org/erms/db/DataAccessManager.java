@@ -14,7 +14,10 @@ package org.erms.db;
 
 
 import org.erms.business.*;
-import org.erms.util.OrderedMap;
+import org.sahana.share.db.AbstractDataAccessManager;
+import org.sahana.share.db.DBConstants;
+import org.sahana.share.db.DBConnection;
+import org.sahana.share.utils.KeyValueDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,170 +36,10 @@ import java.util.List;
  *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
-public class DataAccessManager {
-    private static OrderedMap allDistricts = null;
-    private static OrderedMap allCategories = null;
-    private static OrderedMap allPriorities = null;
-    private static OrderedMap allFulfillStatuses = null;
-    private static OrderedMap allSearchStatuses = null;
-
-    private static OrderedMap allSiteMap = null;
-
-
+public class DataAccessManager extends AbstractDataAccessManager{
     public DataAccessManager() throws Exception {
-        this.allSiteMap = loadAllSiteTypes();
-        allCategories = loadAllCategories();
-        allSearchStatuses = loadAllSearchStatuses();
-        allPriorities = loadAllPriorities();
-        allDistricts = loadAllDistricts();
-        allFulfillStatuses = loadAllStatuses();
+        super();
     }
-
-    private OrderedMap loadAllSiteTypes() throws SQLException, Exception {
-        allSiteMap = new OrderedMap();
-        Connection conn = DBConnection.createConnection();
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllSites();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableSiteType.SITE_TYPE_CODE);
-
-                itemName = rs.getString(DBConstants.TableSiteType.SITE_TYPE);
-                allSiteMap.put(itemCode, itemName);
-            }
-
-        } finally {
-
-            closeConnections(conn, s, rs);
-
-        }
-        return allSiteMap;
-    }
-
-
-    public Collection getAllSiteTypes() throws SQLException, Exception {
-        return allSiteMap.getValuesInOrder();
-    }
-
-
-    public Collection getAllCategories() throws SQLException, Exception {
-        return allCategories.getValuesInOrder();
-
-    }
-
-    public Collection getAllSearchStatuses() throws SQLException, Exception {
-        return allSearchStatuses.getValuesInOrder();
-
-    }
-
-    private static OrderedMap loadAllCategories() throws SQLException, Exception {
-
-
-        Connection conn = DBConnection.createConnection();
-
-        OrderedMap categoryDTOs = new OrderedMap();
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllCategories();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableColumns.CAT_CODE);
-
-                itemName = rs.getString(DBConstants.TableColumns.CAT_DESCRIPTION);
-
-                categoryDTOs.put(itemCode, itemName);
-            }
-
-        } finally {
-            closeConnections(conn, s, rs);
-        }
-
-        return categoryDTOs;
-
-    }
-
-
-    public Collection getAllPriorities() throws SQLException, Exception {
-        return allPriorities.getValuesInOrder();
-
-    }
-
-
-    private OrderedMap loadAllPriorities() throws SQLException, Exception {
-
-        Connection conn = DBConnection.createConnection();
-
-        OrderedMap priorityDTOs = new OrderedMap();
-
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllPriorities();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableColumns.PRIORITY_LEVEL);
-
-                itemName = rs.getString(DBConstants.TableColumns.PRIORITY_DESCRIPTION);
-
-                priorityDTOs.put(itemCode, itemName);
-
-            }
-
-        } finally {
-            closeConnections(conn, s, rs);
-        }
-
-        return priorityDTOs;
-
-    }
-
 
     /**
      * Method to add a request.
@@ -362,193 +205,9 @@ public class DataAccessManager {
     }
 
 
-    public Collection getAllOrganizationNames() throws SQLException, Exception {
-        return loadAllOrganizationNames();
-    }
 
 
-    private Collection loadAllOrganizationNames() throws SQLException, Exception {
 
-        Connection conn = DBConnection.createConnection();
-
-        Collection orgDTOs = new ArrayList();
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllOrganizationNames();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableColumns.ORG_CODE);
-
-                itemName = rs.getString(DBConstants.TableColumns.ORG_NAME);
-
-                dto = new KeyValueDTO();
-
-                dto.setDbTableCode(itemCode);
-
-                dto.setDisplayValue(itemName);
-
-                orgDTOs.add(dto);
-
-            }
-
-        } finally {
-            closeConnections(conn, s, rs);
-        }
-
-
-        return orgDTOs;
-
-    }
-
-
-    public Collection getAllDistricts() throws SQLException, Exception {
-        return allDistricts.getValuesInOrder();
-
-    }
-
-
-    private OrderedMap loadAllDistricts() throws SQLException, Exception {
-
-        Connection conn = DBConnection.createConnection();
-
-        OrderedMap districtDTOs = new OrderedMap();
-
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllDistricts();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableColumns.DISTRICT_CODE);
-
-                itemName = rs.getString(DBConstants.TableColumns.DISTRICT_NAME);
-
-                districtDTOs.put(itemCode, itemName);
-
-            }
-
-        } finally {
-
-            closeConnections(conn, s, rs);
-
-        }
-
-
-        return districtDTOs;
-
-    }
-
-
-    public Collection getAllStatuses() throws SQLException, Exception {
-        return allFulfillStatuses.getValuesInOrder();
-
-    }
-
-    private OrderedMap loadAllSearchStatuses() throws SQLException, Exception {
-        Connection conn = DBConnection.createConnection();
-        OrderedMap statusDTOs = new OrderedMap();
-
-        Statement s = null;
-        ResultSet rs = null;
-        try {
-            String sql = SQLGenerator.getSQLForAllSearchStatuses();
-            s = conn.createStatement();
-            rs = s.executeQuery(sql);
-            String itemCode = null;
-            String itemName = null;
-            KeyValueDTO dto = null;
-            while (rs.next()) {
-                itemCode = rs.getString(DBConstants.TableColumns.REQUEST_STATUS);
-                itemName = rs.getString(DBConstants.TableColumns.REQUEST_STATUS_DESCRIPTION);
-                statusDTOs.put(itemCode, itemName);
-            }
-        } finally {
-            closeConnections(conn, s, rs);
-        }
-        return statusDTOs;
-    }
-
-
-    private OrderedMap loadAllStatuses() throws SQLException, Exception {
-
-        Connection conn = DBConnection.createConnection();
-
-        OrderedMap statusDTOs = new OrderedMap();
-
-        Statement s = null;
-        ResultSet rs = null;
-
-
-        try {
-
-            String sql = SQLGenerator.getSQLForAllStatuses();
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-            String itemCode = null;
-
-            String itemName = null;
-
-            KeyValueDTO dto = null;
-
-
-            while (rs.next()) {
-
-                itemCode = rs.getString(DBConstants.TableColumns.FULLFILL_STATUS);
-
-                itemName = rs.getString(DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION);
-
-                dto = new KeyValueDTO();
-
-                dto.setDbTableCode(itemCode);
-
-                dto.setDisplayValue(itemName);
-
-                statusDTOs.put(itemCode, itemName);
-
-            }
-
-        } finally {
-
-            closeConnections(conn, s, rs);
-
-        }
-
-
-        return statusDTOs;
-
-    }
 
 
     /**
@@ -587,16 +246,16 @@ public class DataAccessManager {
 
             if (resultSet.next()) {
                 //fill the request detail TO
-                requestDetailTO.setRequestDetailID(resultSet.getString(DBConstants.TableColumns.REQUEST_DETAIL_ID));
-                requestDetailTO.setRequestID(resultSet.getString(DBConstants.TableColumns.REQUEST_ID));
-                requestDetailTO.setCategory(resultSet.getString(DBConstants.TableColumns.CATEGORY));
-                requestDetailTO.setItem(resultSet.getString(DBConstants.TableColumns.ITEM));
-                requestDetailTO.setDescription(resultSet.getString(DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION));
-                requestDetailTO.setUnit(resultSet.getString(DBConstants.TableColumns.UNIT));
-                requestDetailTO.setQuantity(resultSet.getInt(DBConstants.TableColumns.QUANTITY));
-                requestDetailTO.setPriority(resultSet.getString(DBConstants.TableColumns.PRIORITY_LEVEL));
+                requestDetailTO.setRequestDetailID(resultSet.getString(DBConstants.Requestdetail.REQUEST_DETAIL_ID));
+                requestDetailTO.setRequestID(resultSet.getString(DBConstants.Requestdetail.REQUEST_ID));
+                requestDetailTO.setCategory(resultSet.getString(DBConstants.Requestdetail.CATEGORY));
+                requestDetailTO.setItem(resultSet.getString(DBConstants.Requestdetail.ITEM));
+                requestDetailTO.setDescription(resultSet.getString(DBConstants.Requestdetail.FULLFILL_STATUS_DESCRIPTION));
+                requestDetailTO.setUnit(resultSet.getString(DBConstants.Requestdetail.UNIT));
+                requestDetailTO.setQuantity(resultSet.getInt(DBConstants.Requestdetail.QUANTITY));
+                requestDetailTO.setPriority(resultSet.getString(DBConstants.Requestdetail.PRIORITY_LEVEL));
 
-                requestDetailTO.setStatus(resultSet.getString(DBConstants.TableColumns.REQUEST_STATUS));
+                requestDetailTO.setStatus(resultSet.getString(DBConstants.Requestdetail.REQUEST_STATUS));
 
 
                 //set the category name
@@ -610,21 +269,21 @@ public class DataAccessManager {
                     }
                 }
 
-                requestTO.setRequestID(resultSet.getString(DBConstants.TableColumns.REQUEST_ID));
-                requestTO.setOrgCode(resultSet.getString(DBConstants.TableColumns.ORG_CODE));
-                requestTO.setCreateDate(resultSet.getDate(DBConstants.TableColumns.CREATE_DATE));
-                requestTO.setRequestedDate(resultSet.getDate(DBConstants.TableColumns.REQUEST_DATE));
-                requestTO.setCallerName(resultSet.getString(DBConstants.TableColumns.CALLER_NAME));
-                requestTO.setCallerAddress(resultSet.getString(DBConstants.TableColumns.CALLER_ADDRESS));
-                requestTO.setCallerContactNumber(resultSet.getString(DBConstants.TableColumns.CALLER_CONTACT_NO));
-                requestTO.setDescription(resultSet.getString(DBConstants.TableColumns.FULLFILL_STATUS_DESCRIPTION));
-                requestTO.setSiteType(resultSet.getString(DBConstants.TableColumns.SITE_TYPE));
-                requestTO.setSiteDistrict(resultSet.getString(DBConstants.TableColumns.SITE_DISTRICT));
-                requestTO.setSiteArea(resultSet.getString(DBConstants.TableColumns.SITE_AREA));
-                requestTO.setSiteName(resultSet.getString(DBConstants.TableColumns.SITE_NAME));
-                requestTO.setOrgName(resultSet.getString(DBConstants.TableColumns.ORG_NAME));
-                requestTO.setOrgContact(resultSet.getString(DBConstants.TableColumns.ORG_CONTACT_NUMBER));
-                requestTO.setSiteContact(resultSet.getString(DBConstants.TableColumns.SITE_CONTACT));
+                requestTO.setRequestID(resultSet.getString(DBConstants.Requestheader.REQUEST_ID));
+                requestTO.setOrgCode(resultSet.getString(DBConstants.Requestheader.ORG_CODE));
+                requestTO.setCreateDate(resultSet.getDate(DBConstants.Requestheader.CREATE_DATE));
+                requestTO.setRequestedDate(resultSet.getDate(DBConstants.Requestheader.REQUEST_DATE));
+                requestTO.setCallerName(resultSet.getString(DBConstants.Requestheader.CALLER_NAME));
+                requestTO.setCallerAddress(resultSet.getString(DBConstants.Requestheader.CALLER_ADDRESS));
+                requestTO.setCallerContactNumber(resultSet.getString(DBConstants.Requestheader.CALLER_CONTACT_NO));
+                requestTO.setDescription(resultSet.getString(DBConstants.Requestheader.FULLFILL_STATUS_DESCRIPTION));
+                requestTO.setSiteType(resultSet.getString(DBConstants.Requestheader.SITE_TYPE));
+                requestTO.setSiteDistrict(resultSet.getString(DBConstants.Requestheader.SITE_DISTRICT));
+                requestTO.setSiteArea(resultSet.getString(DBConstants.Requestheader.SITE_AREA));
+                requestTO.setSiteName(resultSet.getString(DBConstants.Requestheader.SITE_NAME));
+                requestTO.setOrgName(resultSet.getString(DBConstants.Organization.ORG_NAME));
+                requestTO.setOrgContact(resultSet.getString(DBConstants.Organization.ORG_CONTACT_NUMBER));
+                requestTO.setSiteContact(resultSet.getString(DBConstants.Requestheader.SITE_CONTACT));
 
 
                 List requestDetailTOs = new ArrayList();
@@ -648,12 +307,12 @@ public class DataAccessManager {
             while (resultSet1.next()) {
                 RequestFulfillDetailTO requestFulfillDetailTO = new RequestFulfillDetailTO();
                 requestFulfillDetailTO = new RequestFulfillDetailTO();
-                requestFulfillDetailTO.setOrgCode(resultSet1.getString(DBConstants.TableColumns.ORG_CODE));
-                requestFulfillDetailTO.setOrgContact(resultSet1.getString(DBConstants.TableColumns.ORG_ADDRESS));
-                requestFulfillDetailTO.setOrgName(resultSet1.getString(DBConstants.TableColumns.ORG_NAME));
-                requestFulfillDetailTO.setQuantity(resultSet1.getString(DBConstants.TableColumns.SERVICE_QTY));
-                requestFulfillDetailTO.setStatus(resultSet1.getString(DBConstants.TableColumns.FULLFILL_STATUS));
-                requestFulfillDetailTO.setFulfillID(resultSet1.getString(DBConstants.TableColumns.FUlFILL_ID));
+                requestFulfillDetailTO.setOrgCode(resultSet1.getString(DBConstants.Requestfulfill.ORG_CODE));
+                requestFulfillDetailTO.setOrgContact(resultSet1.getString(DBConstants.Organization.ORG_ADDRESS));
+                requestFulfillDetailTO.setOrgName(resultSet1.getString(DBConstants.Organization.ORG_NAME));
+                requestFulfillDetailTO.setQuantity(resultSet1.getString(DBConstants.Requestfulfill.SERVICE_QTY));
+                requestFulfillDetailTO.setStatus(resultSet1.getString(DBConstants.Requestfulfill.FULLFILL_STATUS));
+                requestFulfillDetailTO.setFulfillID(resultSet1.getString(DBConstants.Requestfulfill.FUlFILL_ID));
                 requestFulfillDetailTO.setRequestDetailID(requestDetailID);
                 servicerList.add(requestFulfillDetailTO);
             }
@@ -867,14 +526,6 @@ public class DataAccessManager {
     }
 
 
-    private String ususalWildcard2SQLWildCard(String whildCard) {
-        if (whildCard == null) {
-            return null;
-        }
-        whildCard = whildCard.replace('*', '%');
-        whildCard = whildCard.replace('?', '_');
-        return whildCard;
-    }
 
     /**
      * This class is still in progress... The SQL statement in the SQLgenerator has to be completed with the appropriate search fields and select fields.
@@ -942,17 +593,17 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
 
                 requestSearchTo = new RequestSearchTO();
 
-                requestSearchTo.setRequestDetId(resultSet.getString(DBConstants.TableColumns.REQUEST_DETAIL_ID));
-                requestSearchTo.setItem(resultSet.getString(DBConstants.TableColumns.ITEM));
-                requestSearchTo.setCategory(resultSet.getString(DBConstants.TableColumns.CATEGORY));
-                requestSearchTo.setPriority(resultSet.getString(DBConstants.TableColumns.PRIORITY_LEVEL));
-                requestSearchTo.setQuantity(Integer.parseInt(resultSet.getString(DBConstants.TableColumns.QUANTITY)));
-                requestSearchTo.setSiteName(resultSet.getString(DBConstants.TableColumns.SITE_NAME));
-                requestSearchTo.setSiteArea(resultSet.getString(DBConstants.TableColumns.SITE_AREA));
-                requestSearchTo.setSiteDistrict(resultSet.getString(DBConstants.TableColumns.SITE_DISTRICT));
-                requestSearchTo.setStatus(resultSet.getString(DBConstants.TableColumns.FULLFILL_STATUS));
-                requestSearchTo.setUnits(resultSet.getString(DBConstants.TableColumns.UNIT));
-                requestSearchTo.setSiteType(resultSet.getString(DBConstants.TableColumns.SITE_TYPE));
+                requestSearchTo.setRequestDetId(resultSet.getString(DBConstants.Requestdetail.REQUEST_DETAIL_ID));
+                requestSearchTo.setItem(resultSet.getString(DBConstants.Requestdetail.ITEM));
+                requestSearchTo.setCategory(resultSet.getString(DBConstants.Requestdetail.CATEGORY));
+                requestSearchTo.setPriority(resultSet.getString(DBConstants.Requestdetail.PRIORITY_LEVEL));
+                requestSearchTo.setQuantity(Integer.parseInt(resultSet.getString(DBConstants.Requestdetail.QUANTITY)));
+                requestSearchTo.setSiteName(resultSet.getString(DBConstants.Requestheader.SITE_NAME));
+                requestSearchTo.setSiteArea(resultSet.getString(DBConstants.Requestheader.SITE_AREA));
+                requestSearchTo.setSiteDistrict(resultSet.getString(DBConstants.Requestheader.SITE_DISTRICT));
+                requestSearchTo.setStatus(resultSet.getString(DBConstants.Requestdetail.REQUEST_STATUS));
+                requestSearchTo.setUnits(resultSet.getString(DBConstants.Requestdetail.UNIT));
+                requestSearchTo.setSiteType(resultSet.getString(DBConstants.Requestheader.SITE_TYPE));
 
 
                 returnSearchTOs.add(requestSearchTo);
@@ -969,6 +620,52 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
         }
 
     }
+
+    public User loginSuccess(String userName, String password) throws SQLException, Exception {
+           Connection conn = null;
+            Statement s = null;
+            ResultSet rs = null;
+
+           try {
+               conn = DBConnection.createConnection();
+
+               String sql = SQLGenerator.getSQLForLogin(userName);
+
+               s = conn.createStatement();
+
+               rs = s.executeQuery(sql);
+
+               if (rs.next()) {
+
+                   String realpassword = rs.getString(2);
+                   String orgCode = rs.getString(3);
+                   String organization = rs.getString(4);
+                   System.out.println(realpassword);
+                   System.out.println(organization);
+
+                   User user = new User(userName, organization);
+                   user.setOrgCode(orgCode);
+
+                   if (realpassword.equals(password)) {
+
+                       return user;
+                   }
+
+                }
+
+            } catch (Exception e){
+                  e.printStackTrace();
+            }finally {
+
+                closeConnections(conn,s,rs);
+
+            }
+
+
+            return null;
+
+        }
+
 
 
     public void addOrganization(OrganizationRegistrationTO org) throws SQLException {
@@ -1030,231 +727,6 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
 
 
     }
-
-
-//    /**
-//     * This method is purely for testing purposes.
-//     *
-//     * @param args
-//     */
-//
-//    public static void main
-//
-//            (String[] args) {
-//
-//        DataAccessManager app = new DataAccessManager();
-//
-//        try {
-//
-//
-//            Collection newL = new Vector();
-//
-//            RequestFulfillDetailTO reqfNew = new RequestFulfillDetailTO();
-//            reqfNew.setFulfillID("71");
-//            reqfNew.setStatus("Delived");
-//            reqfNew.setQuantity("44");
-//            newL.add(reqfNew);
-//
-//            reqfNew = new RequestFulfillDetailTO();
-//            reqfNew.setFulfillID("72");
-//            reqfNew.setStatus("Delived");
-//            reqfNew.setQuantity("444");
-//            newL.add(reqfNew);
-//
-//
-//            Collection oldL = new Vector();
-//
-//            RequestFulfillDetailTO reqfOld = new RequestFulfillDetailTO();
-//            reqfOld.setFulfillID("71");
-//            reqfOld.setOrgCode("000001");
-//            oldL.add(reqfOld);
-//
-//            reqfOld = new RequestFulfillDetailTO();
-//            reqfOld.setFulfillID("72");
-//            reqfOld.setOrgCode("000001");
-//            oldL.add(reqfOld);
-//
-//
-//
-//            app.fulfillRequest(null,oldL,newL);
-//
-//            Collection c1 = app.getAllCategories();
-//
-//            Collection c2 = app.getAllDistricts();
-//
-//            Collection c3 = app.getAllOrganizationNames();
-//
-//            Collection c4 = app.getAllPriorities();
-//
-//            Collection c5 = app.getAllStatuses();
-//
-//
-//            System.out.println("done");
-//
-//        } catch (SQLException e) {
-//
-//            // TODO Auto-generated catch block
-//
-//            e.printStackTrace();
-//
-//        } catch (Exception e) {
-//
-//            // TODO Auto-generated catch block
-//
-//            e.printStackTrace();
-//
-//        }
-//
-//    }
-
-
-    private static void closeResultSet
-
-            (ResultSet
-
-            resultSet) {
-
-        // close the result set
-
-        if (resultSet != null) {
-
-            try {
-
-                resultSet.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-
-            }
-
-        }
-
-    }
-
-
-    private static void closeConnection
-
-            (Connection
-
-            connection) {
-
-        // close the connection
-
-        if (connection != null) {
-
-            try {
-
-                connection.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-
-            }
-
-        }
-
-    }
-
-
-    /**
-     * Closes the open connections
-     *
-     * @param connection
-     * @param resultSet
-     */
-
-    private static void closeConnections
-
-            (Connection
-
-            connection, Statement
-
-            statement, ResultSet
-
-            resultSet) {
-
-        closeStatement(statement);
-
-        closeResultSet(resultSet);
-
-        closeConnection(connection);
-    }
-
-
-    private static void closeStatement
-
-            (Statement
-
-            statement) {
-
-        // close the statement
-
-        if (statement != null) {
-
-            try {
-
-                statement.close();
-
-            } catch (SQLException e) {
-
-                e.printStackTrace();
-
-            }
-
-        }
-
-    }
-
-
-    public User loginSuccess(String userName, String password) throws SQLException, Exception {
-
-        Connection conn = DBConnection.createConnection();
-
-
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-
-            String sql = SQLGenerator.getSQLForLogin(userName);
-
-            s = conn.createStatement();
-
-            rs = s.executeQuery(sql);
-
-            if (rs.next()) {
-
-                String realpassword = rs.getString(2);
-                String orgCode = rs.getString(3);
-                String organization = rs.getString(4);
-                System.out.println(realpassword);
-                System.out.println(organization);
-
-                User user = new User(userName, organization);
-                user.setOrgCode(orgCode);
-
-                if (realpassword.equals(password)) {
-
-                    return user;
-
-                }
-
-            }
-
-        } finally {
-
-            closeConnections(conn, s, rs);
-
-        }
-
-
-        return null;
-
-    }
-
-
     public boolean hasOrgAlreadyRegisterd(String orgCode) throws Exception {
 
         Connection conn = DBConnection.createConnection();
@@ -1293,20 +765,7 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
     }
 
 
-    public String getPriorityName(String key) {
-        return (String) allPriorities.get(key);
 
-    }
-
-    public String getCategoryName(String code) {
-        return (String) allCategories.get(code);
-
-    }
-
-
-    public String getSiteTypeName(String siteTypeCode) {
-        return (String) allSiteMap.get(siteTypeCode);
-    }
 }
 
 
