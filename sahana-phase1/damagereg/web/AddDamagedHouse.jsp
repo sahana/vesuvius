@@ -26,32 +26,6 @@
 
      <link href="common/style.css" rel="stylesheet" type="text/css">
 
-     <%
-             DataAccessManager dataAccessManager = new DataAccessManager();
-
-               boolean status = false;
-               String  message  = null;
-
-         /**
-          * This is where the form will be saved.
-          */
-            if (request.getParameter("submit") != null) {
-
-                String districtString = request.getParameter("district");
-                Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
-                while(allDistricts.hasNext()){
-                    KeyValueDTO dto = (KeyValueDTO)allDistricts.next();
-                    if(dto.getDisplayValue().equalsIgnoreCase(districtString))
-                        house.setDistrictCode((String)dto.getDbTableCode());
-                }
-
-                status = dataAccessManager.addDamagedHouse(house);
-                 message = "Your oraganizations information updated successfully !!";
-                  System.out.println("ddd"+house.getInsured());
-
-            }
-
-          %>
 
 
 
@@ -61,7 +35,52 @@
   <body>
 
    <jsp:include page="common/header.inc"></jsp:include>
+     <%
+                 DataAccessManager dataAccessManager = new DataAccessManager();
 
+                   boolean status = false;
+                   String  message  = null;
+
+             /**
+              * This is where the form will be saved.
+              */
+                if (request.getParameter("submit") != null) {
+
+                    String districtString = request.getParameter("district");
+                    Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
+                    while(allDistricts.hasNext()){
+                        KeyValueDTO dto = (KeyValueDTO)allDistricts.next();
+                        if(dto.getDisplayValue().equalsIgnoreCase(districtString))
+                            house.setDistrictCode((String)dto.getDbTableCode());
+                    }
+
+                    status = dataAccessManager.addDamagedHouse(house);
+                     message = "Your oraganizations information updated successfully !!";
+                      System.out.println("ddd"+house.getInsured());
+
+
+
+
+        if(status) {
+
+        %>
+        <p align="center" class="formText" >
+               <h2>You have been successfully registered.!</h2>
+         </p>
+  <%
+ session.invalidate();
+ } else {
+      response.sendRedirect("error.jsp");
+ }
+%>
+     </body>
+     <jsp:include page="common/footer.inc"></jsp:include>
+  </html>
+<%
+            return;
+            }
+    
+%>
 
    <form method="post" name="tsunamiAddDamagedHouse" action="AddDamagedHouse.jsp">
              <table border="0" width="100%" cellspacing="1" cellpadding="1">
