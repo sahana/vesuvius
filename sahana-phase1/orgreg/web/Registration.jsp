@@ -136,24 +136,24 @@
         // get the selected working areas
         Iterator allDistrictNames = dataAccessManager.getAllDistrictNames().iterator();
 
-        orgReg.getWorkingAreas().clear();
-       while (allDistrictNames.hasNext()) {
-           String districtName =  (String) allDistrictNames.next();
-           if ("on".equals(request.getParameter(districtName))) {
-               orgReg.addWorkingArea(districtName);
-           }
+//       orgReg.getWorkingAreas().clear();
+//       while (allDistrictNames.hasNext()) {
+//           String districtName =  (String) allDistrictNames.next();
+//           if ("on".equals(request.getParameter(districtName))) {
+//               orgReg.addWorkingArea(districtName);
+//           }
+//
+//       }
 
-       }
-
-        orgReg.getSectors().clear();
-        String sectorString = (String)request.getParameter("sectors");
-        while(sectorString.indexOf(',') != -1){
-            String sector =sectorString.substring(0, sectorString.indexOf(','));
-            sectorString =  sectorString.substring(sectorString.indexOf(','));
-            orgReg.addSectors(sector);
-            sectorString =  sectorString.substring(1);
-
-        }
+//        orgReg.getSectors().clear();
+//        String sectorString = (String)request.getParameter("sectors");
+//        while(sectorString.indexOf(',') != -1){
+//            String sector =sectorString.substring(0, sectorString.indexOf(','));
+//            sectorString =  sectorString.substring(sectorString.indexOf(','));
+//            orgReg.addSectors(sector);
+//            sectorString =  sectorString.substring(1);
+//
+//        }
 
 
         if (messages.size() <= 0) {
@@ -351,60 +351,60 @@
 </textarea>&nbsp;<small><font color="red">*</font></small>
                 </td>
             </tr>
-            <tr>
-             <td>&nbsp;</td>
-            </tr>
-            <tr>
-                        <td vAlign="top" class="formText" align="right" >Sectors </td>
-
-                        <td vAlign="top">
-                            <table border="0" cellpadding="0" cellspacing="0">
-                              <tr>
-                                <td width="20%">Available Sector (s) </td>
-                                <td width="10%" valign="center" align="center" >&nbsp;</td>
-                                <td width="70%">Selected Sector (s)</td>
-                              </tr>
-                              <tr>
-                                <td width="20%">
-                                  <select  name="choiseList" size="5"  class="selectBoxes">
-                                    <%
-                                        String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;
-                                        String selectStmt= null;
-                                        for(int i=0; i< sectorList.length; i++){
-
-                                            selectStmt="<option value=\""+ sectorList[i]+"\">"+sectorList[i]+"</option>";
-                                  %>
-                                  <%=selectStmt%>
-                                  <%
-                                       }
-                                %>
-
-
-                       </select>
-                                <p>Other Sector : <input type="formText"  style="width: 100px;" name="inputVal" value=""></p>
-                                <p>
-
-                                </td>
-                                <td width="10%" valign="top" align="center">
-                                   <br>
-                                   <INPUT <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="add();" value="Add" class="buttons" ><br><br>
-                                   <INPUT  <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
-                                <p>&nbsp;</td>
-                                <td width="70%" valign="top" >
-                                <%
-                                    String sectors = "";
-                                    if(orgReg.getSectors() != null){
-                                        StringBuffer buffer = new StringBuffer(orgReg.getSectors().toString());
-                                        buffer.deleteCharAt(buffer.indexOf("["));
-                                        buffer.deleteCharAt(buffer.indexOf("]"));
-                                        sectors = buffer.toString();
-                                    }
-                            %>
-                               <textarea  <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" readonly="true" name="sectors" rows="4"><%=sectors%></textarea>
-                              </tr>
-                            </table>
-                        </td>
-                        </tr>
+<%--            <tr>--%>
+<%--             <td>&nbsp;</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--                        <td vAlign="top" class="formText" align="right" >Sectors </td>--%>
+<%----%>
+<%--                        <td vAlign="top">--%>
+<%--                            <table border="0" cellpadding="0" cellspacing="0">--%>
+<%--                              <tr>--%>
+<%--                                <td width="20%">Available Sector (s) </td>--%>
+<%--                                <td width="10%" valign="center" align="center" >&nbsp;</td>--%>
+<%--                                <td width="70%">Selected Sector (s)</td>--%>
+<%--                              </tr>--%>
+<%--                              <tr>--%>
+<%--                                <td width="20%">--%>
+<%--                                  <select  name="choiseList" size="5"  class="selectBoxes">--%>
+<%--                                    <%--%>
+<%--                                        String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;--%>
+<%--                                        String selectStmt= null;--%>
+<%--                                        for(int i=0; i< sectorList.length; i++){--%>
+<%----%>
+<%--                                            selectStmt="<option value=\""+ sectorList[i]+"\">"+sectorList[i]+"</option>";--%>
+<%--                                  %>--%>
+<%--                                  <%=selectStmt%>--%>
+<%--                                  <%--%>
+<%--                                       }--%>
+<%--                                %>--%>
+<%----%>
+<%----%>
+<%--                       </select>--%>
+<%--                                <p>Other Sector : <input type="formText"  style="width: 100px;" name="inputVal" value=""></p>--%>
+<%--                                <p>--%>
+<%----%>
+<%--                                </td>--%>
+<%--                                <td width="10%" valign="top" align="center">--%>
+<%--                                   <br>--%>
+<%--                                   <INPUT <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="add();" value="Add" class="buttons" ><br><br>--%>
+<%--                                   <INPUT  <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="minus();" value="Remove" class="buttons">--%>
+<%--                                <p>&nbsp;</td>--%>
+<%--                                <td width="70%" valign="top" >--%>
+<%--                                <%--%>
+<%--                                    String sectors = "";--%>
+<%--                                    if(orgReg.getSectors() != null){--%>
+<%--                                        StringBuffer buffer = new StringBuffer(orgReg.getSectors().toString());--%>
+<%--                                        buffer.deleteCharAt(buffer.indexOf("["));--%>
+<%--                                        buffer.deleteCharAt(buffer.indexOf("]"));--%>
+<%--                                        sectors = buffer.toString();--%>
+<%--                                    }--%>
+<%--                            %>--%>
+<%--                               <textarea  <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" readonly="true" name="sectors" rows="4"><%=sectors%></textarea>--%>
+<%--                              </tr>--%>
+<%--                            </table>--%>
+<%--                        </td>--%>
+<%--                        </tr>--%>
 
             <tr>
               <td align="right" vAlign="top" class="formText">Contact
@@ -685,67 +685,73 @@
                 </td>
             </tr>
             <tr>
-              <td align="right" vAlign="top" class="formText">Operational Districts :</td>
-              <td>
-          <table border="0" width="100%" cellspacing="1" cellpadding="1">
-                <%
-                    Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
-                    ArrayList workingAreas = orgReg.getWorkingAreas();
-
-                    // check whether this is EDIT action or VIEW action.
-                    boolean correctView = action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_EDIT) || action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_VIEW);
-                    boolean checked = false;
-                    int i=0;
-                    while (allDistricts.hasNext()) {
-                        KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();
-
-                        // check whether this is an area of the existing organization
-                        checked = correctView && workingAreas.contains(keyValueDTO.getDisplayValue());
-                        if((i % 4)==0){
-                %>
-                <tr>
-                    <td>
-                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
-                    </td>
-                <%
-                    }else {
-                %>
-
-                    <td>
-                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
-                    </td>
-
-                <% }
-                    if((i % 4)==3){
-                %>
-                    </tr>
-                <%
-                    }
-                        i++;
-                   }
-
-
-                %>
-
-
-                    <td <%if(globalControlDisable){ %>style="display:none" <%}%>>
-                        <input name="checkAll" type="button" value=" Select All " class="buttons" onclick="setAllCheckBoxes(true);" ></input>
-                        <input name="clearAll" type="button" value=" Clear All " class="buttons" onclick="setAllCheckBoxes(false);" ></input>
-                    </td>
-
-
-            </table>
-
-                </td>
+                 <td align="right" vAlign="top" class="formText">Working Areas :</td>
+                     <td>
+                        <textarea  name="workingAreas" cols="38" rows="5" id="workarea"><%= (orgReg.getWorkingAreas()==null) ? "" : orgReg.getWorkingAreas() %></textarea>
+                 </td>
+            </tr>
+<%--            <tr>--%>
+<%--              <td align="right" vAlign="top" class="formText">Operational Districts :</td>--%>
+<%--              <td>--%>
+<%--          <table border="0" width="100%" cellspacing="1" cellpadding="1">--%>
+<%--                <%--%>
+<%--                    Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();--%>
+<%--                    ArrayList workingAreas = orgReg.getWorkingAreas();--%>
+<%----%>
+<%--                    // check whether this is EDIT action or VIEW action.--%>
+<%--                    boolean correctView = action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_EDIT) || action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_VIEW);--%>
+<%--                    boolean checked = false;--%>
+<%--                    int i=0;--%>
+<%--                    while (allDistricts.hasNext()) {--%>
+<%--                        KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();--%>
+<%----%>
+<%--                        // check whether this is an area of the existing organization--%>
+<%--                        checked = correctView && workingAreas.contains(keyValueDTO.getDisplayValue());--%>
+<%--                        if((i % 4)==0){--%>
+<%--                %>--%>
+<%--                <tr>--%>
+<%--                    <td>--%>
+<%--                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>--%>
+<%--                    </td>--%>
+<%--                <%--%>
+<%--                    }else {--%>
+<%--                %>--%>
+<%----%>
+<%--                    <td>--%>
+<%--                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>--%>
+<%--                    </td>--%>
+<%----%>
+<%--                <% }--%>
+<%--                    if((i % 4)==3){--%>
+<%--                %>--%>
+<%--                    </tr>--%>
+<%--                <%--%>
+<%--                    }--%>
+<%--                        i++;--%>
+<%--                   }--%>
+<%----%>
+<%----%>
+<%--                %>--%>
+<%----%>
+<%----%>
+<%--                    <td <%if(globalControlDisable){ %>style="display:none" <%}%>>--%>
+<%--                        <input name="checkAll" type="button" value=" Select All " class="buttons" onclick="setAllCheckBoxes(true);" ></input>--%>
+<%--                        <input name="clearAll" type="button" value=" Clear All " class="buttons" onclick="setAllCheckBoxes(false);" ></input>--%>
+<%--                    </td>--%>
+<%----%>
+<%----%>
+<%--            </table>--%>
+<%----%>
+<%--                </td>--%>
 
 <%--                <td>--%>
 <%--                 <button onClick="showDiv();">Add Areas</button>--%>
 <%--                </td>--%>
 
 
-
-
-            </tr>
+<%----%>
+<%----%>
+<%--            </tr>--%>
             <tr>
               <td align="right" vAlign="top" class="formText">Are you registered in Sri Lanka ? :</td>
               <td>
