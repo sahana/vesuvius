@@ -12,12 +12,14 @@ require('db.php');
 $num_members = 10; /* FIXME: get rid of the static value */
 
 ?>
+<!--
 <html>
 <head>
 	<title>Displaced Persons Data Entry</title>
 	<link href="entry.css" rel="stylesheet" type="text/css" /> 
 </head>
 <body>
+-->
 	<form action="entry.php" method="post">
 	<input type="hidden" name="num_members" value="10" />
 
@@ -402,8 +404,10 @@ for ($i = 0; $i < $num_members; $i++) {
 
 ?>
 	</form>
+<!--
 <body>
 </html>
+-->
 
 <?
 
