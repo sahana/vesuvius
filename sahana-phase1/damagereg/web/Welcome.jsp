@@ -18,7 +18,7 @@
 
 <body topmargin="0" leftmargin="0">
 
-<jsp:include page="comman/header.inc"></jsp:include>
+<jsp:include page="common/header.inc"></jsp:include>
 
 <table width="760" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -104,7 +104,7 @@
 </table>
 </form>
 
-<jsp:include page="comman/footer.inc"></jsp:include>
+<jsp:include page="common/footer.inc"></jsp:include>
 
 </body>
 </html>
