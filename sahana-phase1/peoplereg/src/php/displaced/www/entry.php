@@ -54,6 +54,12 @@ function load_division_list()
     iframedocGS.location.replace('/peoplereg/displaced/blank.php');
 }
 
+function verify(f)
+{
+	alert("Can't submit");
+	return true;
+}
+
 </script>
 
 <?
@@ -69,12 +75,6 @@ foreach (array_keys($_GET) as $key) {
 $get_str = implode('&amp;', $get);
 if ($get_str)
 	$myself .= '?' . $get_str;
-?>
-
-	<form action="<?=$myself?>" method="post" name="entry_form">
-	<input type="hidden" name="num_members" value="10" />
-
-<?
 
 // Connect to DB running locally
 //$dbh = mysql_connect('localhost', 'apache', 'abcd321')
@@ -83,12 +83,13 @@ if ($get_str)
 
 // By default, we are in the data entry mode
 $screen = 'entry';
+$family_id_str = '';
 
 if ($_POST) {
 	if ($_POST['back']) {
 		// Back button is pressed
 		if ($_SESSION['form']['family_id'])
-			print '<input type="hidden" name="family_id" value="' . $_SESSION['form']['family_id'] . '" />' . "\n";
+			$family_id_str = '<input type="hidden" name="family_id" value="' . $_SESSION['form']['family_id'] . '" />' . "\n";
 
 		$screen = 'entry';
 	}
@@ -221,12 +222,21 @@ elseif ($_GET['view'] || $_GET['edit']) {
 	if ($family_id > 0) {
 		load_family_info($family_id);
 		if ($_GET['edit'])
-			print '<input type="hidden" name="family_id" value="' . $family_id . '" />' . "\n";
+			$family_id_str = '<input type="hidden" name="family_id" value="' . $family_id . '" />' . "\n";
 	}
 }
 else {
 	clear_form();
 }
+
+?>
+
+	<form action="<?=$myself?>" method="post" name="entry_form"<? if ($screen == 'entry') echo 'onSubmit="return verify(this);"'; ?>>
+	<input type="hidden" name="num_members" value="10" />
+
+<?
+
+	echo $family_id_str;
 
 // Display data entry screen
 if ($screen == 'entry') {
