@@ -19,6 +19,6 @@ CREATE TABLE `organization_sector` (
   `OrgCode` varchar(100) NOT NULL default '',
   `Sector` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`OrgCode`,`Sector`)
-) Type = MyISAM DEFAULT CHARSET=latin1; 
+) Type=MyISAM DEFAULT CHARSET=latin1; 
 
 
