@@ -20,7 +20,7 @@ $num_members = 10; /* FIXME: get rid of the static value */
 </head>
 <body>
 -->
-	<form action="entry.php" method="post">
+	<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
 	<input type="hidden" name="num_members" value="10" />
 
 <?
