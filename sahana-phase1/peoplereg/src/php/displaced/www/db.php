@@ -95,13 +95,19 @@ function get_attribute_id($attribute)
 function get_string_attribute_by_entity($entity_id, $attribute)
 {
 	$rows = mysql_query("select v.value_string from sahana_attribute_values v, sahana_attributes a where a.name = '$attribute' and v.entity = $entity_id and a.id = v.attribute_id limit 1");
-	return ($row = mysql_fetch_array($rows)) ?  $row[0] : 0;
+	return ($row = mysql_fetch_array($rows)) ?  $row[0] : '';
 }
 
 function get_integer_attribute_by_entity($entity_id, $attribute)
 {
 	$rows = mysql_query("select v.value_int from sahana_attribute_values v, sahana_attributes a where a.name = '$attribute' and v.entity = $entity_id and a.id = v.attribute_id limit 1");
-	return ($row = mysql_fetch_array($rows)) ?  $row[0] : 0;
+	return ($row = mysql_fetch_array($rows)) ?  $row[0] : '';
+}
+
+function get_option_attribute_by_entity($entity, $attribute)
+{
+	$rows = mysql_query("select o.caption from sahana_attribute_values v, sahana_attributes a, sahana_attribute_options o where a.name = '$attribute' and v.entity = $entity and a.id = v.attribute_id and v.value_int = o.id limit 1");
+	return ($row = mysql_fetch_array($rows)) ?  $row[0] : '';
 }
 
 ?>

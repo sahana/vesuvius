@@ -35,37 +35,57 @@ $skip = ($page - 1) * $page_size;
 // Generic query
 $query = "sahana_entities e join sahana_entity_types et on (e.entity_type = et.id) left join sahana_entity_relationships er on (e.id = er.entity_id) left join sahana_entity_relationship_types ert on (er.relation_type = ert.id) where et.name = 'person' and (ert.name is NULL or ert.name = 'family member')";
 
+echo '<div align="center">';
 // First count the list
 $query_count = "select count(*) from $query";
 $rows = mysql_query($query_count);
 $row = mysql_fetch_array($rows) or die('Database error!');
 $num_results = $row[0];
-print $num_results . ' matches found.';
+print $num_results . ' matches found.<br>';
 
 $bar = page_bar($page_size, $page, 'list.php', $num_results);
 print $bar;
 
-//print $bar;
-
 $query_real = "select e.id as id, ert.name as relation from $query order by e.id $order limit $skip, $page_size";
 $rows = mysql_query($query_real);
-print '<table cellpadding="3" cellspacing="1" border="0">';
+print '<table width="95%" cellpadding="3" cellspacing="1" border="0">';
 print '<tr>';
 print '<th bgcolor="#336699"><font color="#ffffff">Name</font></th>';
+print '<th bgcolor="#336699"><font color="#ffffff">Age</font></th>';
+print '<th bgcolor="#336699"><font color="#ffffff">Gender</font></th>';
+print '<th bgcolor="#336699"><font color="#ffffff">Status</font></th>';
 print '<th bgcolor="#336699"><font color="#ffffff">Family</font></th>';
 print '</tr>';
 while ($row = mysql_fetch_array($rows)) {
 	print '<tr>';
+
 	print '<td bgcolor="#dddddd">';
 	$person = get_person_info($row[0]);
-	print '<a href="/mambo/index.php?option=com_report&type=entity&entity=' . $row[0] . '">' . $person['name'] . '</a>';
+	print '<a href="/mambo/index.php?option=com_report&type=entity&entity=' . $row[0] . '">' . ($person['name'] ? $person['name'] : 'Unknown') . '</a>';
 	print '</td>';
+
+	print '<td bgcolor="#dddddd">';
+	print $person['age'];
+	print '</td>';
+
+	print '<td bgcolor="#dddddd">';
+	print $person['gender'];
+	print '</td>';
+
+	print '<td bgcolor="#dddddd">';
+	print $person['status'];
+	print '</td>';
+
 	print '<td bgcolor="#dddddd">';
 	print $row[1] ? 'have family' : '&nbsp;';
 	print '</td>';
 	print '</tr>';
 }
 print "</table>\n";
+
+print $bar;
+
+echo '</div>';
 
 ?>
 
@@ -77,6 +97,9 @@ function get_person_info($entity_id)
 {
 	$person = array();
 	$person['name'] = get_string_attribute_by_entity($entity_id, 'name');
+	$person['age'] = get_integer_attribute_by_entity($entity_id, 'name');
+	$person['gender'] = get_option_attribute_by_entity($entity_id, 'gender');
+	$person['status'] = get_option_attribute_by_entity($entity_id, 'status');
 	return $person;
 }
 
