@@ -1,0 +1,21 @@
+
+body {
+	background-color: #ffffff;
+}
+
+h2 {
+	text-align: center;
+}
+
+hr {
+	width: 98%;
+}
+
+table.entry {
+	width: 95%;
+	padding: 2;
+	border: 0;
+	margin: 2;
+	background-color: #dddddd;
+}
+
