@@ -452,84 +452,84 @@ public class DataAccessManager extends AbstractDataAccessManager{
            return result;
        }
 
-    public LandTO searchLand(int landId)
-                throws SQLException, Exception {
-            Connection connection = null;
-            PreparedStatement preparedStatement = null;
-            ResultSet resultSet = null;
-
-            try {
-                connection = DBConnection.createConnection();
-                //connection.setAutoCommit(false);
-
-                String sqlString = SQLGenerator.getSQLForSearchCriteria(landId);
-                preparedStatement = connection.prepareStatement(sqlString);
-
-                resultSet = preparedStatement.executeQuery();
-
-                LandTO landTO = null;
-
-                if (resultSet.next()) {
-                    landTO = new LandTO();
-                    landTO.setLandId(resultSet.getString(DBConstants.Land.LAND_ID));
-                    landTO.setLandName(resultSet.getString(DBConstants.Land.LAND_NAME));
-                    landTO.setDivisionId(resultSet.getString(DBConstants.Land.DIVISION_ID));
-                    landTO.setDescription(resultSet.getString(DBConstants.Land.DESCRIPTION));
-                    landTO.setMeasurementTypeId(resultSet.getString(DBConstants.Land.MEASUREMENT_TYPE_ID));
-                    landTO.setGPS1(resultSet.getString(DBConstants.Land.GPS1));
-                    landTO.setGPS2(resultSet.getString(DBConstants.Land.GPS2));
-                    landTO.setGPS3(resultSet.getString(DBConstants.Land.GPS3));
-                    landTO.setGPS4(resultSet.getString(DBConstants.Land.GPS4));
-                    landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
-                    landTO.setTermId(resultSet.getString(DBConstants.Land.TERM_ID));
-                    landTO.setOwnedById(resultSet.getString(DBConstants.Land.OWNED_BY_ID));
-                    landTO.setownedByComment(resultSet.getString(DBConstants.Land.OWNED_BY_COMMENT));
-
-                } else {
-                    return null;
-                }
-                //todo: should use outer joint
-                sqlString = SQLGenerator.getSQLForProvienceName(landTO.getProvinceCode());
-                preparedStatement = connection.prepareStatement(sqlString);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    landTO.setProvinceName(resultSet.getString(DBConstants.Province.PROV_NAME));
-                }
-
-                sqlString = SQLGenerator.getSQLForDistrictName(landTO.getDistrictId());
-                preparedStatement = connection.prepareStatement(sqlString);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    landTO.setDistrictName(resultSet.getString(DBConstants.District.DIST_NAME));
-                }
-
-                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
-                preparedStatement = connection.prepareStatement(sqlString);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
-                }
-
-                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
-                preparedStatement = connection.prepareStatement(sqlString);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
-                }
-
-                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
-                preparedStatement = connection.prepareStatement(sqlString);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
-                }
-
-
-                return landTO;
-            } finally {
-                closeConnections(connection, preparedStatement, resultSet);
-            }
-        }
+//    public LandTO searchLand(int landId)
+//                throws SQLException, Exception {
+//            Connection connection = null;
+//            PreparedStatement preparedStatement = null;
+//            ResultSet resultSet = null;
+//
+//            try {
+//                connection = DBConnection.createConnection();
+//                //connection.setAutoCommit(false);
+//
+//                String sqlString = SQLGenerator.getSQLForSearchCriteria(landId);
+//                preparedStatement = connection.prepareStatement(sqlString);
+//
+//                resultSet = preparedStatement.executeQuery();
+//
+//                LandTO landTO = null;
+//
+//                if (resultSet.next()) {
+//                    landTO = new LandTO();
+//                    landTO.setLandId(resultSet.getString(DBConstants.Land.LAND_ID));
+//                    landTO.setLandName(resultSet.getString(DBConstants.Land.LAND_NAME));
+//                    landTO.setDivisionId(resultSet.getString(DBConstants.Land.DIVISION_ID));
+//                    landTO.setDescription(resultSet.getString(DBConstants.Land.DESCRIPTION));
+//                    landTO.setMeasurementTypeId(resultSet.getString(DBConstants.Land.MEASUREMENT_TYPE_ID));
+//                    landTO.setGPS1(resultSet.getString(DBConstants.Land.GPS1));
+//                    landTO.setGPS2(resultSet.getString(DBConstants.Land.GPS2));
+//                    landTO.setGPS3(resultSet.getString(DBConstants.Land.GPS3));
+//                    landTO.setGPS4(resultSet.getString(DBConstants.Land.GPS4));
+//                    landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
+//                    landTO.setTermId(resultSet.getString(DBConstants.Land.TERM_ID));
+//                    landTO.setOwnedById(resultSet.getString(DBConstants.Land.OWNED_BY_ID));
+//                    landTO.setownedByComment(resultSet.getString(DBConstants.Land.OWNED_BY_COMMENT));
+//
+//                } else {
+//                    return null;
+//                }
+//                //todo: should use outer joint
+//                sqlString = SQLGenerator.getSQLForProvienceName(landTO.getProvinceCode());
+//                preparedStatement = connection.prepareStatement(sqlString);
+//                resultSet = preparedStatement.executeQuery();
+//                if (resultSet.next()) {
+//                    landTO.setProvinceName(resultSet.getString(DBConstants.Province.PROV_NAME));
+//                }
+//
+//                sqlString = SQLGenerator.getSQLForDistrictName(landTO.getDistrictId());
+//                preparedStatement = connection.prepareStatement(sqlString);
+//                resultSet = preparedStatement.executeQuery();
+//                if (resultSet.next()) {
+//                    landTO.setDistrictName(resultSet.getString(DBConstants.District.DIST_NAME));
+//                }
+//
+//                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
+//                preparedStatement = connection.prepareStatement(sqlString);
+//                resultSet = preparedStatement.executeQuery();
+//                if (resultSet.next()) {
+//                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
+//                }
+//
+//                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
+//                preparedStatement = connection.prepareStatement(sqlString);
+//                resultSet = preparedStatement.executeQuery();
+//                if (resultSet.next()) {
+//                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
+//                }
+//
+//                sqlString = SQLGenerator.getSQLForDivisionName(Integer.parseInt(landTO.getDivisionId()));
+//                preparedStatement = connection.prepareStatement(sqlString);
+//                resultSet = preparedStatement.executeQuery();
+//                if (resultSet.next()) {
+//                    landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
+//                }
+//
+//
+//                return landTO;
+//            } finally {
+//                closeConnections(connection, preparedStatement, resultSet);
+//            }
+//        }
 
 
    public String getDivNameByDivId(int divId)
@@ -585,7 +585,7 @@ public class DataAccessManager extends AbstractDataAccessManager{
                     landTO = new LandTO();
                     landTO.setLandName(resultSet.getString(DBConstants.Land.LAND_NAME));
                     landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
-                     landTO.setDescription(resultSet.getString(DBConstants.Land.DESCRIPTION));
+                     landTO.setDescription(resultSet.getString("LAND_DESCRIPTION"));
                      landTO.setDistrictId(resultSet.getString(DBConstants.District.DIST_CODE));
                      landTO.setDistrictName(resultSet.getString(DBConstants.District.DIST_NAME));
                      landTO.setDivisionId(resultSet.getString(DBConstants.Land.DIVISION_ID));
@@ -603,7 +603,7 @@ public class DataAccessManager extends AbstractDataAccessManager{
                      landTO.setProvinceCode(resultSet.getString(DBConstants.Province.PROV_CODE));
                      landTO.setProvinceName(resultSet.getString(DBConstants.Province.PROV_NAME));
                      landTO.setTermId(resultSet.getString(DBConstants.Land.TERM_ID));
-                     landTO.setTermName(resultSet.getString(DBConstants.Term.DESCRIPTION));
+                     landTO.setTermName(resultSet.getString("TERM_DESCRIPTION"));
 
                     returnSearchTOs.add(landTO);
                 }
@@ -614,6 +614,114 @@ public class DataAccessManager extends AbstractDataAccessManager{
             }
     }
 
+    public LandTO searchLand(int landId)
+                    throws SQLException, Exception {
+
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
+
+                try {
+                    connection = DBConnection.createConnection();
+
+                    // Setting the Request Header data.
+                    String sqlSearchString = SQLGenerator.getSQLForSearchCriteria(landId);
+
+                     preparedStatement = connection.prepareStatement(sqlSearchString);
+                     resultSet = preparedStatement.executeQuery();
+
+//                    List returnSearchTOs = new ArrayList();
+                    LandTO landTO;
+                    landTO = new LandTO();
+
+                    while (resultSet.next()) {
+
+
+                        landTO.setLandName(resultSet.getString(DBConstants.Land.LAND_NAME));
+
+                        landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
+
+                         landTO.setDescription(resultSet.getString("LAND_DESCRIPTION"));
+
+                         landTO.setDistrictId(resultSet.getString(DBConstants.District.DIST_CODE));
+
+                         landTO.setDistrictName(resultSet.getString(DBConstants.District.DIST_NAME));
+
+                         landTO.setDivisionId(resultSet.getString(DBConstants.Land.DIVISION_ID));
+
+                         landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
+
+                        landTO.setGPS1(resultSet.getString(DBConstants.Land.GPS1));
+                        landTO.setGPS2(resultSet.getString(DBConstants.Land.GPS2));
+                        landTO.setGPS3(resultSet.getString(DBConstants.Land.GPS3));
+                        landTO.setGPS4(resultSet.getString(DBConstants.Land.GPS4));
+                         landTO.setLandId(resultSet.getString(DBConstants.Land.LAND_ID));
+
+                         landTO.setMeasurementTypeId(resultSet.getString(DBConstants.Land.MEASUREMENT_TYPE_ID));
+                         landTO.setMeasurementTypeName(resultSet.getString(DBConstants.MeasurementType.MEASUREMENT_TYPE_NAME));
+                         landTO.setownedByComment(resultSet.getString(DBConstants.Land.OWNED_BY_COMMENT));
+                         landTO.setOwnedById(resultSet.getString(DBConstants.Land.OWNED_BY_ID));
+                        landTO.setOwnedByName(resultSet.getString(DBConstants.OwnedBy.OWNED_BY_NAME));
+                         landTO.setProvinceCode(resultSet.getString(DBConstants.Province.PROV_CODE));
+                         landTO.setProvinceName(resultSet.getString(DBConstants.Province.PROV_NAME));
+                         landTO.setTermId(resultSet.getString(DBConstants.Land.TERM_ID));
+                         landTO.setTermName(resultSet.getString("TERM_DESCRIPTION"));
+
+//                        returnSearchTOs.add(landTO);
+                    }
+
+                    return landTO;
+                } finally {
+                    closeConnections(connection, preparedStatement, resultSet);
+
+
+                }
+        }
+
+        public boolean editLand(LandTO landTO) throws SQLException, Exception {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        boolean returnValue = false;
+
+        try {
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+
+            String sqlString = SQLGenerator.getSQLEditLand();
+            pstmt = connection.prepareStatement(sqlString);
+
+            //get the original data
+//            LandTO tempLandTO = searchLand(Integer.parseInt(landTO.getLandId()));
+
+            pstmt.setString(1, landTO.getLandName());
+            pstmt.setString(2, landTO.getDivisionId());
+            pstmt.setString(3, landTO.getDescription());
+            pstmt.setString(4, landTO.getMeasurementTypeId());
+            pstmt.setString(5, landTO.getGPS1());
+            pstmt.setString(6, landTO.getGPS2());
+            pstmt.setString(7, landTO.getGPS3());
+            pstmt.setString(8, landTO.getGPS4());
+            pstmt.setString(9, landTO.getArea());
+            pstmt.setString(10, landTO.getTermId());
+            pstmt.setString(11, landTO.getOwnedById());
+            pstmt.setString(12, landTO.getOwnedByComment());
+            pstmt.setInt(13, Integer.parseInt(landTO.getLandId()));
+
+            pstmt.execute();
+
+            connection.commit();
+            returnValue = true;
+        }catch(Exception e){
+            returnValue = false;
+            e.printStackTrace();
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+            closeConnections(connection, pstmt, null);
+        }
+
+        return returnValue;
+    }
 
 
 

@@ -319,4 +319,32 @@ public class LandTO {
 
         return result;
     }
+
+     public void copyFrom(LandTO src) {
+        landId =src.getLandId();
+        landName = src.getLandName();
+        divisionId =src.getDivisionId();
+        description =src.getDescription();
+        measurementTypeId  = src.getMeasurementTypeId();
+        GPS1   = src.getGPS1();
+        GPS2   = src.getGPS2();
+        GPS3    = src.getGPS3();
+        GPS4    = src.getGPS4();
+        area= src.getArea();
+        termId =src.getTermId();
+        ownedById =src.getOwnedById();
+        ownedByComment = src.getOwnedByComment();
+        districtId = src.getDistrictId();
+        provinceCode = src.getProvinceCode();
+
+        provinceName = src.getprovinceName();
+        districtName= src.getDistrictName();
+        divisionName =src.getdivisionName();
+         measurementTypeName = src.getMeasurementTypeName();
+        termName = src.getTermName();
+        ownedByName = src.getOwnedByName();
+
+    }
+
+
 }

@@ -5,46 +5,55 @@
                  java.util.ArrayList,
                  java.util.Iterator,
                  org.housing.landreg.util.LabelValue,
-                 org.housing.landreg.db.DataAccessManager"%>
+                 org.housing.landreg.db.DataAccessManager,
+                 org.housing.landreg.business.LandTO"%>
 <jsp:useBean id="newLand" scope="page" class="org.housing.landreg.business.LandTO" />
 <jsp:setProperty name="newLand" property="*" />
 <%
-    boolean inserted = false;
-    List errors = new LinkedList();
-    if (request.getParameter("doInsert") != null) {
-        DataAccessManager dataAccessManager = new DataAccessManager();
-        errors.addAll(dataAccessManager.validateLandTOforInsert(newLand));
+    DataAccessManager dataAccessManager = new DataAccessManager();
+     List errors = new LinkedList();
 
-        if(errors.size()<=0) {
-            try {
-                inserted=dataAccessManager.addLand(newLand);
-                newLand.reset();
-            } catch (Exception e) {
-                //errors.add(e.getMessage());
-            }
-            if(inserted) {
-            %>
-                <jsp:include page="../common/header.inc"></jsp:include>
-
-                <p align="center" class="formText" >
-                    <h3 align="center" >You have successfully inserted a Housing Scheme to the system !!</h3>
-                </p>
-            <%
-                session.invalidate();
-            } else {
-                response.sendRedirect("error.jsp");
-            }
-            %>
-                </body>
-                <jsp:include page="../common/footer.inc"></jsp:include>
-                </html>
-          <%
+    if (request.getParameter("doUpdate") == null) {  //data comes from the database
+        if (request.getParameter("landId") == null) {
+            response.sendRedirect("SearchLands.jsp");
+            return;
+        }
+        int landID = 0;
+        try {
+            landID = Integer.parseInt(request.getParameter("landId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("SearchLands.jsp");
             return;
         }
 
-  } else {
-        newLand.reset();
-  }
+
+        LandTO land = dataAccessManager.searchLand(landID);
+        newLand.copyFrom(land);
+
+        //reset the date
+//        newLand.setUpdateDate(new java.util.Date());
+
+        session.setAttribute("LAND_ID",new Integer(newLand.getLandId()));
+
+
+    }
+
+    if (request.getParameter("doUpdate") != null) {
+        errors.addAll(dataAccessManager.validateLandTOforInsert(newLand));
+
+        int Id = ((Integer)session.getAttribute("LAND_ID")).intValue();
+        if(errors.size()<=0) {
+            try {
+                newLand.setLandId(String.valueOf(Id));
+                dataAccessManager.editLand(newLand);
+                response.sendRedirect("ViewLand.jsp?landId=" + Id);
+                return;
+            } catch (Exception e) {
+                errors.add(e.getMessage());
+            }
+        }
+    }
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -263,7 +272,7 @@ function validateForm()
 
 <table>
      <tr>
-        <form name="newLand" action="InsertLand.jsp"  >
+        <form name="newLand" action="UpdateLand.jsp"  >
             <table cellspacing="4"  >
                 <%
                     if(errors.size() > 0) {
@@ -341,7 +350,7 @@ function validateForm()
                     </tr>
 
 
-               <tr>
+                <tr>
                     <td  align="left" valign="top"   class="formText">Area&nbsp;</td>
                     <td ><input type="text" size="20" name="area" class="textBox"  value="<jsp:getProperty name="newLand" property="area" />"><small><font color="red">*</font></small> </td>
                     <td>
@@ -371,47 +380,44 @@ function validateForm()
                         <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
                     </td>
 
-
-
                </tr>
-
 
                <tr>
-                            <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
+                       <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
 
-                            <td>
-                                <select name="ownedById" class="selectBoxes">
+                       <td>
+                           <select name="ownedById" class="selectBoxes">
 
-                                    <option value="">&lt;Select&gt;</option>
-                                    <%
-                                     DataAccessManager dat4 = new DataAccessManager();
-                                        // DataAccessManager da= new DataAccessManager();
-                                      List ownedBys = (List) dat4.listOwnedBy();
-                                        for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
-                                            LabelValue ownedBy = (LabelValue) iterator.next();
+                               <option value="">&lt;Select&gt;</option>
+                               <%
+                                DataAccessManager dat4 = new DataAccessManager();
+                                   // DataAccessManager da= new DataAccessManager();
+                                 List ownedBys = (List) dat4.listOwnedBy();
+                                   for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
+                                       LabelValue ownedBy = (LabelValue) iterator.next();
 
-                                            if(newLand.getOwnedById()!= null){
-                                                if(newLand.getOwnedById().equals(ownedBy.getValue())) {
-                                    %>
-                                                    <option selected  value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                                    <%
-                                                    continue;
-                                                }
-                                            }
-                                    %>
-                                            <option value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>&nbsp;<small><font color="red">*</font></small>
-                                <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
-                            </td>
+                                       if(newLand.getOwnedById()!= null){
+                                           if(newLand.getOwnedById().equals(ownedBy.getValue())) {
+                               %>
+                                               <option selected  value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
+                               <%
+                                               continue;
+                                           }
+                                       }
+                               %>
+                                       <option value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
+                               <%
+                                   }
+                               %>
+                           </select>&nbsp;<small><font color="red">*</font></small>
+                           <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
+                       </td>
 
-                            <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
-                            <td ><input type="text" size="50" maxlength="49"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
-
+                       <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
+                       <td ><input type="text" size="50" maxlength="49"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
 
                </tr>
+
 
                <tr>
                     <td  align="left" valign="top"   class="formText">Terms&nbsp;</td>
@@ -449,7 +455,7 @@ function validateForm()
 
                <tr>
 
-                    <table>
+                   <table>
                       <tr>
                               <td  align="right" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
                               <td>&nbsp;&nbsp;</td>
@@ -524,7 +530,7 @@ function validateForm()
                                   <td></td>
                                   <td>
                                     <input type="reset" name="reset" value="Clear" class="buttons"/>
-                                    <input type="submit" name="doInsert" value="Add" class="buttons" />
+                                    <input type="submit" name="doUpdate" value="Update" class="buttons" />
                                 </tr>
                          </table>
                     </td>
@@ -541,7 +547,7 @@ function validateForm()
 
  </table>
 
-  <jsp:include page="../common/header.inc"></jsp:include>
+  <jsp:include page="../common/footer.inc"></jsp:include>
 
 </body>
 </html>

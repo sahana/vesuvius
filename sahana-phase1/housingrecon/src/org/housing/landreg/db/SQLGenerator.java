@@ -633,10 +633,10 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
        }
 
-     public static String getSQLForSearchCriteria(int landId) {
-        return "select * from " + DBConstants.Land.TABLENAME + " where " +
-                DBConstants.Land.LAND_ID + "=" + landId;
-    }
+//     public static String getSQLForSearchCriteria(int landId) {
+//        return "select * from " + DBConstants.Land.TABLENAME + " where " +
+//                DBConstants.Land.LAND_ID + "=" + landId;
+//    }
 
     public static String getSQLForProvienceName(String provCode) {
         return "select " +
@@ -698,7 +698,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
         StringBuffer sqlBuff = new StringBuffer("select lan."+ DBConstants.Land.LAND_ID + ", lan."
                                 +  DBConstants.Land.LAND_NAME +",lan."
-                                +  DBConstants.Land.DESCRIPTION +",lan."
+                                +  DBConstants.Land.DESCRIPTION +" as LAND_DESCRIPTION,lan."
                                 +  DBConstants.Land.DIVISION_ID +",lan."
                                 +  DBConstants.Land.AREA +",lan."
                                 +  DBConstants.Land.MEASUREMENT_TYPE_ID +",lan."
@@ -718,7 +718,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
                                 +  DBConstants.District.DIST_NAME +","+ DBConstants.Division.TABLENAME+"."
                                 +  DBConstants.Division.DIV_NAME +",ter."
 
-                                +  DBConstants.Term.DESCRIPTION +",mea."
+                                +  DBConstants.Term.DESCRIPTION +" as TERM_DESCRIPTION,mea."
                                 +  DBConstants.MeasurementType.MEASUREMENT_TYPE_NAME +",own."
                                 +  DBConstants.OwnedBy.OWNED_BY_NAME
 
@@ -809,6 +809,90 @@ public class SQLGenerator extends AbstractDataAccessManager{
         }
 
 
+    public static String getSQLForSearchCriteria(int landId) {
+
+            StringBuffer sqlBuff = new StringBuffer("select lan."+ DBConstants.Land.LAND_ID + ", lan."
+                                    +  DBConstants.Land.LAND_NAME +",lan."
+                                    +  DBConstants.Land.DESCRIPTION  +" as LAND_DESCRIPTION,lan."
+                                    +  DBConstants.Land.DIVISION_ID +",lan."
+                                    +  DBConstants.Land.AREA +",lan."
+                                    +  DBConstants.Land.MEASUREMENT_TYPE_ID +",lan."
+                                    +  DBConstants.Land.OWNED_BY_ID +",lan."
+                                    +  DBConstants.Land.OWNED_BY_COMMENT +",lan."
+                                    +  DBConstants.Land.TERM_ID+",lan."
+
+                                    +  DBConstants.Land.GPS1 +",lan."
+                                    +  DBConstants.Land.GPS2 +",lan."
+                                    +  DBConstants.Land.GPS3 +",lan."
+                                    +  DBConstants.Land.GPS4 +",pro."
+
+                                    +  DBConstants.Province.PROV_CODE +",dis."
+                                    +  DBConstants.District.DIST_CODE +",pro."
+
+                                    +  DBConstants.Province.PROV_NAME +",dis."
+                                    +  DBConstants.District.DIST_NAME +","+ DBConstants.Division.TABLENAME+"."
+                                    +  DBConstants.Division.DIV_NAME +",ter."
+
+                                    +  DBConstants.Term.DESCRIPTION +" as TERM_DESCRIPTION,mea."
+                                    +  DBConstants.MeasurementType.MEASUREMENT_TYPE_NAME +",own."
+                                    +  DBConstants.OwnedBy.OWNED_BY_NAME
+
+                  +" from "
+
+                  + DBConstants.Land.TABLENAME +" as lan," + DBConstants.District.TABLENAME +" as dis,"
+                  + DBConstants.Division.TABLENAME +"," + DBConstants.Province.TABLENAME  +" as pro,"
+                  + DBConstants.Term.TABLENAME +" as ter," + DBConstants.OwnedBy.TABLENAME  +" as own,"
+                  + DBConstants.MeasurementType.TABLENAME + " as mea"
+
+                  + " where lan."+DBConstants.Land.DIVISION_ID + "= "+ DBConstants.Division.TABLENAME +"."+ DBConstants.Division.DIV_ID
+                  + " and "+ DBConstants.Division.TABLENAME+"."+DBConstants.Division.DIST_CODE + "= dis." + DBConstants.District.DIST_CODE
+                  + " and dis."+DBConstants.District.PROV_CODE + "= pro." +DBConstants.Province.PROV_CODE
+                  + " and lan."+DBConstants.Land.TERM_ID + "= ter."+DBConstants.Term.TERM_ID
+                  + " and lan."+DBConstants.Land.OWNED_BY_ID + "= own." +  DBConstants.OwnedBy.OWNED_BY_ID
+                  + " and lan."+DBConstants.Land.MEASUREMENT_TYPE_ID + "= mea."+DBConstants.MeasurementType.MEASUREMENT_TYPE_ID
+
+                  + " and lan." + DBConstants.Land.LAND_ID + "=" + landId
+            );
+
+
+
+                return sqlBuff.toString();
+            }
+
+
+    public static String getSQLEditLand() {
+                return "update "
+                        + DBConstants.Land.TABLENAME
+
+                        + " set "
+
+                        + DBConstants.Land.LAND_NAME + "=?,"
+
+                        + DBConstants.Land.DIVISION_ID + "=?,"
+
+                        + DBConstants.Land.DESCRIPTION + "=?,"
+
+                        + DBConstants.Land.MEASUREMENT_TYPE_ID + "=?,"
+
+                        + DBConstants.Land.GPS1 + "=?,"
+
+                        + DBConstants.Land.GPS2 + "=?,"
+
+                        + DBConstants.Land.GPS3 + "=?,"
+
+                        + DBConstants.Land.GPS4 + "=?,"
+
+                        + DBConstants.Land.AREA  + "=?,"
+
+                        + DBConstants.Land.TERM_ID + "=?,"
+
+                        + DBConstants.Land.OWNED_BY_ID + "=?,"
+
+                        + DBConstants.Land.OWNED_BY_COMMENT + "=?"
+
+                        +" where " + DBConstants.Land.LAND_ID + "=?";
+
+            }
 
 
 }

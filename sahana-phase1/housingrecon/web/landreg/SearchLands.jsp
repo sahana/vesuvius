@@ -19,13 +19,13 @@
 
 <title>:: Sahana :: Housing Scheme - Add Land</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="common/style.css" rel="stylesheet" type="text/css">
+<link href="../common/style.css" rel="stylesheet" type="text/css">
 <script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
 
 <script type="text/javascript">
 
 <% DataAccessManager dm = new DataAccessManager(); %>
-
+   var provCode="";
 <%
      List listcode;
      for (int j = 1;j < 10; j++) {
@@ -166,10 +166,10 @@
 <table>
      <tr>
         <form name="newLand" action="SearchLands.jsp"  >
-            <table cellspacing="4"  >
+            <table cellspacing="4"  border =1 >
 
                 <tr>
-                    <td align="right" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
+                    <td align="left" valign="top"  class="formText"  >Land Name</td><td><input type="text" size="20" maxlength="49"  name="landName" class="textBox"  value="<jsp:getProperty name="newLand" property="landName" />">&nbsp;<small><font color="red">*</font></small></td>
                 </tr>
 
                  <tr>
@@ -218,39 +218,48 @@
                     </tr>
 
                      <tr>
-                            <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
 
-                            <td>
-                                <select name="ownedById" class="selectBoxes">
+                                    <td  align="left" valign="top"   class="formText">Owned By &nbsp;</td>
 
-                                    <option value="">&lt;Select&gt;</option>
-                                    <%
-                                     DataAccessManager dat4 = new DataAccessManager();
-                                        // DataAccessManager da= new DataAccessManager();
-                                      List ownedBys = (List) dat4.listOwnedBy();
-                                        for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
-                                            LabelValue ownedBy = (LabelValue) iterator.next();
+                                    <td>
+                                        <select name="ownedById" class="selectBoxes">
 
-                                            if(newLand.getOwnedById()!= null){
-                                                if(newLand.getOwnedById().equals(ownedBy.getValue())) {
-                                    %>
-                                                    <option selected  value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                                    <%
-                                                    continue;
+                                            <option value="">&lt;Select&gt;</option>
+                                            <%
+                                             DataAccessManager dat4 = new DataAccessManager();
+                                                // DataAccessManager da= new DataAccessManager();
+                                              List ownedBys = (List) dat4.listOwnedBy();
+                                                for (Iterator iterator = ownedBys.iterator(); iterator.hasNext();) {
+                                                    LabelValue ownedBy = (LabelValue) iterator.next();
+
+                                                    if(newLand.getOwnedById()!= null){
+                                                        if(newLand.getOwnedById().equals(ownedBy.getValue())) {
+                                            %>
+                                                            <option selected  value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
+                                            <%
+                                                            continue;
+                                                        }
+                                                    }
+                                            %>
+                                                    <option value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
+                                            <%
                                                 }
-                                            }
-                                    %>
-                                            <option value="<%=ownedBy.getValue()%>"><%=ownedBy.getLabel()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                                <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
-                            </td>
+                                            %>
+                                        </select>
+                                        <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
+                                    </td>
 
-                            <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
-                            <td ><input type="text" size="50" maxlength="49"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
+                                    <td>
+                                      <table border =1>
+                                           <tr>
 
+                                                <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
+
+                                                <td ><input type="text" size="50" maxlength="49"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
+
+                                            </tr>
+                                     </table>
+                                  </td>
 
                </tr>
 
@@ -393,7 +402,7 @@
                     LandTO landTO = (LandTO) iterator.next();
             %>
              <tr>
-                <td class="tableDown"><a href="ViewCampDetails.jsp?campId=<%=landTO.getLandId()%>"><%=StringUtil.returnEmptyForNull(landTO.getLandName())%></a></td>
+                <td class="tableDown"><a href="ViewLand.jsp?landId=<%=landTO.getLandId()%>"><%=StringUtil.returnEmptyForNull(landTO.getLandName())%></a></td>
                 <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getDescription())%></td>
                 <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getprovinceName())%></td>
                 <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getDistrictName())%></td>
@@ -407,7 +416,7 @@
                                       <%=StringUtil.returnEmptyForNull(landTO.getGPS3())%>:&nbsp;
                                       <%=StringUtil.returnEmptyForNull(landTO.getGPS4())%></td>
 
-                <td class="tableDown"><a href="UpdateLand.jsp?campId=<%=landTO.getLandId()%>">Edit&nbsp;<%=StringUtil.returnEmptyForNull(landTO.getLandName())%></a></td>
+                <td class="tableDown"><a href="UpdateLand.jsp?landId=<%=landTO.getLandId()%>">Edit</a></td>
              </tr>
             <%
 
