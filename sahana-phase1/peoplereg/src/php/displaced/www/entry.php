@@ -191,7 +191,6 @@ elseif ($_GET['view'] || $_GET['edit']) {
 	}
 }
 else {
-	print "Clearing form";
 	clear_form();
 }
 
