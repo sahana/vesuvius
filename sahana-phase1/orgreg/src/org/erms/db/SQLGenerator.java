@@ -504,6 +504,31 @@ public class SQLGenerator {
 
     }
 
+    
+//    public static String getSQLEditOrganization() {
+//            return "update " +
+//                    DBConstants.Tables.ORGANIZATION +
+//                    " set " +
+//                     DBConstants.TableColumns. + "=?, "+
+//                     DBConstants.TableColumns.CAMP_DIV_ID + "=?, "+
+//                     DBConstants.TableColumns.CAMP_DIST_CODE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_PROV_CODE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_NAME + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_ACCESABILITY + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_MEN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_WOMEN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CHILDREN + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_TOTAL + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CAPABILITY + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_PERSON + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_CONTACT_NUMBER + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_COMMENT + "=?, "+
+//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_DATE + "=?, "+
+//                     DBConstants.TableColumns.CAMP_LAST_UPDATE_TIME + "=?, "+
+//                     DBConstants.TableColumns.CAMP_CAMP_FAMILY  + "=?" +
+//                     " where " + DBConstants.TableColumns.CAMP_CAMP_ID + "=?";
+//
+//        }
 
     public static String getSQLForOrganizationSectors(){
             return "INSERT into "
@@ -588,16 +613,18 @@ public class SQLGenerator {
 
     public static String getSQLForAllOrganizations(String orgCode) {
 
-            return "SELECT " +
-                    DBConstants.TableColumns.ORG_NAME + "," +
-                    DBConstants.TableColumns.ORG_ADDRESS+ "," +
-                    DBConstants.TableColumns.ORG_CONTACT_NUMBER + "," +
-                    DBConstants.TableColumns.ORG_EMAIL_ADDRESS + "," +
-                    DBConstants.TableColumns.ORG_COUNTRY_OF_ORIGIN + "," +
-                    DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE +  "," +
-                    DBConstants.TableColumns.ORG_WORKING_AREAS +"," +
-                    DBConstants.TableColumns.ORG_CODE + " from " +
-                    DBConstants.Tables.ORGANIZATION + " where " + DBConstants.TableColumns.ORG_CODE + "="+ "'" + orgCode + "'";
+            return "SELECT * " +
+//                    DBConstants.TableColumns.ORG_NAME + "," +
+//                    DBConstants.TableColumns.ORG_ADDRESS+ "," +
+//                    DBConstants.TableColumns.ORG_CONTACT_NUMBER + "," +
+//                    DBConstants.TableColumns.ORG_EMAIL_ADDRESS + "," +
+//                    DBConstants.TableColumns.ORG_COUNTRY_OF_ORIGIN + "," +
+//                    DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE +  "," +
+//                    DBConstants.TableColumns.ORG_WORKING_AREAS +"," +
+//                    DBConstants.TableColumns.ORG_CODE +
+                    " from " +
+                    DBConstants.Tables.ORGANIZATION +
+                    " where " + DBConstants.TableColumns.ORG_CODE + "="+ "'" + orgCode + "'";
 
         }
 

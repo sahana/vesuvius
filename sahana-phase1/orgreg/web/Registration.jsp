@@ -112,7 +112,7 @@
         boolean isSriLankan = "yes".equalsIgnoreCase(request.getParameter("isSriLankan")) ? true : false;
         orgReg.setIsSriLankan(isSriLankan);
 
-        //messages.addAll(orgReg.validate());
+        messages.addAll(orgReg.validate());
         // get the selected working areas
         Iterator allDistrictNames = dataAccessManager.getAllDistrictNames().iterator();
 

@@ -39,7 +39,7 @@ import java.util.*;
  *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 
-public class DataAccessManager implements DBConstants{
+public class DataAccessManager implements DBConstants {
 
 
     private static Collection allOrganizationNames = null;
@@ -429,7 +429,7 @@ public class DataAccessManager implements DBConstants{
                 districtDTOs.add(dto);
             }
         } finally {
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
         }
 
 
@@ -490,7 +490,7 @@ public class DataAccessManager implements DBConstants{
 
         } finally {
 
-           closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
 
         }
 
@@ -792,8 +792,6 @@ public class DataAccessManager implements DBConstants{
     }
 
 
-
-
     private static void closeResultSet(ResultSet resultSet) {
         // close the result set
         if (resultSet != null) {
@@ -806,7 +804,7 @@ public class DataAccessManager implements DBConstants{
     }
 
 
-    private static void closeConnection (Connection  connection) {
+    private static void closeConnection(Connection connection) {
         // close the connection
         if (connection != null) {
             try {
@@ -825,7 +823,7 @@ public class DataAccessManager implements DBConstants{
      * @param resultSet
      */
 
-    private static void closeConnections (Connection connection, Statement  statement, ResultSet  resultSet) {
+    private static void closeConnections(Connection connection, Statement statement, ResultSet resultSet) {
         closeResultSet(resultSet);
         closeStatement(statement);
         closeConnection(connection);
@@ -843,11 +841,11 @@ public class DataAccessManager implements DBConstants{
         }
     }
 
-    public boolean isUserExisting(String userName) throws SQLException,Exception{
+    public boolean isUserExisting(String userName) throws SQLException, Exception {
         Connection conn = DBConnection.createConnection();
-        Statement s=null;
-        ResultSet rs=null;
-        boolean returnValue=false;
+        Statement s = null;
+        ResultSet rs = null;
+        boolean returnValue = false;
         try {
             String sql = SQLGenerator.getSQLForUserCheck(userName);
             s = conn.createStatement();
@@ -856,16 +854,17 @@ public class DataAccessManager implements DBConstants{
                 returnValue = true;
             }
         } finally {
-           closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
 
         }
-        return  returnValue;
+        return returnValue;
 
     }
+
     public User loginSuccess(String userName, String password) throws SQLException, Exception {
         Connection conn = DBConnection.createConnection();
         Statement s = null;
-        ResultSet rs=null;
+        ResultSet rs = null;
         try {
             String sql = SQLGenerator.getSQLForLogin(userName);
             s = conn.createStatement();
@@ -881,7 +880,7 @@ public class DataAccessManager implements DBConstants{
             }
 
         } finally {
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
         }
 
 
@@ -910,12 +909,12 @@ public class DataAccessManager implements DBConstants{
             return false;
 
         } finally {
-            closeConnections(conn,ps,rs);
+            closeConnections(conn, ps, rs);
         }
 
     }
 
-    public String getOrgCode() throws Exception{
+    public String getOrgCode() throws Exception {
         Connection conn = DBConnection.createConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -930,10 +929,10 @@ public class DataAccessManager implements DBConstants{
                 try {
                     int count = Integer.parseInt(code);
                     count = count + 1;
-                    String zeroStr =String.valueOf(count);
+                    String zeroStr = String.valueOf(count);
                     int len = zeroStr.length();
                     zeroStr = "";
-                    for(int i=0 ; i < 6 - len ; i++){
+                    for (int i = 0; i < 6 - len; i++) {
                         zeroStr = zeroStr + "0";
                     }
 
@@ -942,23 +941,22 @@ public class DataAccessManager implements DBConstants{
                     //the number could not be set. use the default
                     code = "000001";
                 }
-            }else{
+            } else {
                 //just use the default
                 code = "000001";
             }
-        }
-        finally {
-            closeConnections(conn,ps,rs);
+        } finally {
+            closeConnections(conn, ps, rs);
         }
         return code;
 
     }
 
-   public OrganizationRegistrationTO getOrgTO(String orgCode) throws Exception{
+    public OrganizationRegistrationTO getOrgTO(String orgCode) throws Exception {
         Connection conn = DBConnection.createConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        OrganizationRegistrationTO orgTo ;
+        OrganizationRegistrationTO orgTo;
         try {
             String sql = SQLGenerator.getSQLForAllOrganizations(orgCode);
             ps = conn.prepareStatement(sql);
@@ -966,28 +964,41 @@ public class DataAccessManager implements DBConstants{
 
             while (rs.next()) {
                 orgTo = new OrganizationRegistrationTO();
+                orgTo.setOrgType(rs.getString(TableColumns.ORG_TYPE));
+                orgTo.setNgoType(rs.getString(TableColumns.ORG_SUBTYPE));
+                orgTo.setOrgCode(rs.getString(TableColumns.ORG_CODE));
+                orgTo.setContactPerson(rs.getString(TableColumns.ORG_CONTACT_PERSON));
                 orgTo.setOrgName(rs.getString(TableColumns.ORG_NAME));
+                orgTo.setStatus(new Integer(rs.getInt(TableColumns.ORG_STATUS)).toString());
                 orgTo.setOrgAddress(rs.getString(TableColumns.ORG_ADDRESS));
                 orgTo.setContactNumber(rs.getString(TableColumns.ORG_CONTACT_NUMBER));
                 orgTo.setEmailAddress(rs.getString(TableColumns.ORG_EMAIL_ADDRESS));
                 orgTo.setCountryOfOrigin(rs.getString(TableColumns.ORG_COUNTRY_OF_ORIGIN));
                 orgTo.setFacilitiesAvailable(rs.getString(TableColumns.ORG_FACILITIES_AVAILABLE));
 //                orgTo.setWorkingAreas(rs.getString(TableColumns.ORG_WORKING_AREAS));
-                orgTo.setOrgCode(rs.getString(TableColumns.ORG_CODE));
+                orgTo.setComments(rs.getString(TableColumns.ORG_COMMENTS));
+                orgTo.setLastUpdate(rs.getString(TableColumns.ORG_LAST_UPDATE));
+                int temp = rs.getInt(TableColumns.ORG_IS_SRILANKAN);
+                if (temp == 0) {
+                    orgTo.setIsSriLankan(false);
+                } else {
+                    orgTo.setIsSriLankan(true);
+                }
+                closeConnections(conn, ps, rs);
                 return orgTo;
             }
         } finally {
-            closeConnections(conn,ps,rs);
+            closeConnections(conn, ps, rs);
         }
-        return  null;
-   }
+        return null;
+    }
 
     public List getAllOrganizations() throws Exception {
         Connection conn = DBConnection.createConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList returnList = new ArrayList();
-        OrganizationTO orgTo ;
+        OrganizationTO orgTo;
 
         try {
             String sql = SQLGenerator.getSQLForAllOrganizations();
@@ -1007,12 +1018,126 @@ public class DataAccessManager implements DBConstants{
                 returnList.add(orgTo);
             }
         } finally {
-            closeConnections(conn,ps,rs);
+            closeConnections(conn, ps, rs);
         }
-        return  returnList;
+        return returnList;
     }
 
-    public boolean addOrganization(OrganizationRegistrationTO org) throws SQLException,Exception {
+
+    public boolean updateOrganization(OrganizationRegistrationTO org) throws SQLException, Exception {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean status = false;
+
+        try {
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistration());
+            String code = getOrgCode();
+            int i = 1;
+
+            String orgType = org.getOrgType();
+            String ngoType = org.getNgoType();
+
+            if (!orgType.equals("NGO")) {
+                ngoType = "";
+            } else {
+                ngoType = "NGO-" + ngoType;
+            }
+            preparedStatement.setString(1, orgType);
+            preparedStatement.setString(2, ngoType);
+            preparedStatement.setString(3, code);
+            preparedStatement.setString(4, org.getContactPerson());
+            preparedStatement.setString(5, org.getOrgName());
+            preparedStatement.setBoolean(6, Boolean.getBoolean(org.getStatus()));
+            preparedStatement.setString(7, org.getOrgAddress());
+            preparedStatement.setString(8, org.getContactNumber());
+            preparedStatement.setString(9, org.getEmailAddress());
+            preparedStatement.setString(10, org.getCountryOfOrigin());
+            preparedStatement.setString(11, org.getFacilitiesAvailable());
+            preparedStatement.setString(12, org.getComments());
+            preparedStatement.setString(13, new Date().toString());
+            preparedStatement.setBoolean(14, org.isSriLankan());
+            preparedStatement.executeUpdate();
+
+
+//            String userName = org.getUsername();
+//            String password = org.getPassword();
+//
+//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistrationUser());
+//            preparedStatement.setString(1, userName);
+//            preparedStatement.setString(2, password);
+//            preparedStatement.setString(3, code);
+//            preparedStatement.executeUpdate();
+
+            //just try to put a record to the mambo database. even If it fails move on
+//            try {
+//                MamboDataAccessManager mamboDAM = new MamboDataAccessManager();
+//                mamboDAM.addUserToMamboDatabase(org.getContactPerson(),
+//                        userName,
+//                        password,
+//                        org.getEmailAddress());
+//            } catch (Exception e) {
+//                //eat up the exception and move on
+//                e.printStackTrace();
+//            }
+
+//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
+//
+//            Iterator workingAreasIter = org.getWorkingAreas().iterator();
+//            while (workingAreasIter.hasNext()) {
+//                String workingArea = (String) workingAreasIter.next();
+//                // set the organization code
+//                preparedStatement.setString(1, code);
+//                preparedStatement.setString(2, workingArea);
+//                preparedStatement.executeUpdate();
+//            }
+//
+//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
+//
+//            Iterator sectorIter = org.getSectors().iterator();
+//            while (sectorIter.hasNext()) {
+//                String sector = (String) sectorIter.next();
+//                // set the organization code
+//                preparedStatement.setString(1, code);
+//                preparedStatement.setString(2, sector);
+//                preparedStatement.executeUpdate();
+//            }
+
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            status = true;
+
+        } catch (Exception e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                    status = false;
+
+                }
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+                status = false;
+                throw e1;
+
+            }
+            status = false;
+            e.printStackTrace();
+
+        } finally {
+            closeStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return status;
+
+
+    }
+
+
+    public boolean addOrganization(OrganizationRegistrationTO org) throws SQLException, Exception {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -1020,11 +1145,11 @@ public class DataAccessManager implements DBConstants{
         boolean status = false;
 
         //first check for the user
-        if (isUserExisting(org.getUsername())){
+        if (isUserExisting(org.getUsername())) {
             throw new Exception("The user name is already taken. Please put in a new user name. click <a href='Registration.jsp'>here</a> to register again ");
         }
 
-        if (hasOrgAlreadyRegisterd(org.getOrgName())){
+        if (hasOrgAlreadyRegisterd(org.getOrgName())) {
             throw new Exception("The organization name is already registered.  click <a href='Registration.jsp'>here</a> to go back to registration ");
         }
 
@@ -1038,13 +1163,13 @@ public class DataAccessManager implements DBConstants{
             String orgType = org.getOrgType();
             String ngoType = org.getNgoType();
 
-            if(! orgType.equals("NGO")){
+            if (!orgType.equals("NGO")) {
                 ngoType = "";
             } else {
-                ngoType = "NGO-"+ ngoType;
+                ngoType = "NGO-" + ngoType;
             }
-            preparedStatement.setString(1,orgType);
-            preparedStatement.setString(2,ngoType);
+            preparedStatement.setString(1, orgType);
+            preparedStatement.setString(2, ngoType);
             preparedStatement.setString(3, code);
             preparedStatement.setString(4, org.getContactPerson());
             preparedStatement.setString(5, org.getOrgName());
@@ -1064,9 +1189,9 @@ public class DataAccessManager implements DBConstants{
             String password = org.getPassword();
 
             preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistrationUser());
-            preparedStatement.setString(1,userName);
-            preparedStatement.setString(2,password);
-            preparedStatement.setString(3,code);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, code);
             preparedStatement.executeUpdate();
 
             //just try to put a record to the mambo database. even If it fails move on
@@ -1087,8 +1212,8 @@ public class DataAccessManager implements DBConstants{
             while (workingAreasIter.hasNext()) {
                 String workingArea = (String) workingAreasIter.next();
                 // set the organization code
-                    preparedStatement.setString(1, code);
-                    preparedStatement.setString(2, workingArea);
+                preparedStatement.setString(1, code);
+                preparedStatement.setString(2, workingArea);
                 preparedStatement.executeUpdate();
             }
 
@@ -1098,8 +1223,8 @@ public class DataAccessManager implements DBConstants{
             while (sectorIter.hasNext()) {
                 String sector = (String) sectorIter.next();
                 // set the organization code
-                    preparedStatement.setString(1, code);
-                    preparedStatement.setString(2, sector);
+                preparedStatement.setString(1, code);
+                preparedStatement.setString(2, sector);
                 preparedStatement.executeUpdate();
             }
 
@@ -1108,20 +1233,16 @@ public class DataAccessManager implements DBConstants{
 
             status = true;
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             try {
-                if (connection != null)
-                {
+                if (connection != null) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     status = false;
 
                 }
 
-            }
-
-            catch (SQLException e1) {
+            } catch (SQLException e1) {
                 e1.printStackTrace();
                 status = false;
                 throw e1;
@@ -1130,8 +1251,7 @@ public class DataAccessManager implements DBConstants{
             status = false;
             e.printStackTrace();
 
-        }
-        finally{
+        } finally {
             closeStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -1144,8 +1264,8 @@ public class DataAccessManager implements DBConstants{
         PreparedStatement ps = null;
         ResultSet rs = null;
         User user = new User();
-       try {
-           SQLGenerator sqlGen = new SQLGenerator();
+        try {
+            SQLGenerator sqlGen = new SQLGenerator();
             String sql = sqlGen.getSQLForGetUser(orgCode);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -1155,9 +1275,9 @@ public class DataAccessManager implements DBConstants{
                 user.setPassword(rs.getString(TableColumns.PASSWORD));
             }
         } finally {
-            closeConnections(conn,ps,rs);
+            closeConnections(conn, ps, rs);
         }
-        return  user;
+        return user;
 
     }
 

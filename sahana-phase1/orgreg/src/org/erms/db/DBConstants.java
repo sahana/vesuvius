@@ -135,56 +135,23 @@ public interface DBConstants {
 
         public static final String ORG_CODE = "OrgCode";
 
-
-
         public static final String ORG_NAME = "OrgName";
-
-
-
         public static final String ORG_ADDRESS = "OrgAddress";
-
-
-
         public static final String ORG_CONTACT_PERSON = "ContactPerson";
-
-
-
         public static final String ORG_STATUS ="Status";
-
-
-
         public static final String ORG_CONTACT_NUMBER = "ContactNumber";
-
-
-
         public static final String ORG_EMAIL_ADDRESS = "EmailAddress";
-
-
-
         public static final String ORG_COUNTRY_OF_ORIGIN = "CountryOfOrigin";
-
-
-
         public static final String ORG_FACILITIES_AVAILABLE = "FacilitiesAvailable";
-
-
-
         public static final String ORG_WORKING_AREAS = "WorkingAreas";
-
-        
-
         public static final String ORG_COMMENTS = "Comments";
         public static final String ORG_LAST_UPDATE = "LastUpdate";
         public static final String ORG_IS_SRILANKAN = "IsSriLankan";
-
-
-
+        public static final String ORG_TYPE = "OrgType";
+        public static final String ORG_SUBTYPE = "OrgSubType";
         /**
-
          * Create Date
-
          */
-
         public static final String CREATE_DATE = "CreateDate";
 
 
@@ -368,8 +335,7 @@ public interface DBConstants {
         public static final String STATUS = "status";
 
 
-        String ORG_TYPE = "OrgType";
-        String ORG_SUBTYPE = "OrgSubType";
+
     }
 
 }
