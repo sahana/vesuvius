@@ -5,52 +5,52 @@
 -- Server version	4.0.23_Debian-1-log
 
 --
--- Table structure for table `tblaccesslevels`
+-- Table structure for table `TBLACCESSLEVELS`
 --
 
-DROP TABLE IF EXISTS `tblaccesslevels`;
-CREATE TABLE `tblaccesslevels` (
+DROP TABLE IF EXISTS `TBLACCESSLEVELS`;
+CREATE TABLE `TBLACCESSLEVELS` (
   `AccessLevels` varchar(20) default NULL
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table `tblaccesslevels`
+-- Dumping data for table `TBLACCESSLEVELS`
 --
 
 
-/*!40000 ALTER TABLE `tblaccesslevels` DISABLE KEYS */;
-LOCK TABLES `tblaccesslevels` WRITE;
-INSERT INTO `tblaccesslevels` VALUES ('PAGE'),('ADD'),('EDIT'),('DELETE'),('SEARCH'),('VIEW');
+/*!40000 ALTER TABLE `TBLACCESSLEVELS` DISABLE KEYS */;
+LOCK TABLES `TBLACCESSLEVELS` WRITE;
+INSERT INTO `TBLACCESSLEVELS` VALUES ('PAGE'),('ADD'),('EDIT'),('DELETE'),('SEARCH'),('VIEW');
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tblaccesslevels` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLACCESSLEVELS` ENABLE KEYS */;
 
 --
--- Table structure for table `tblaccessmodules`
+-- Table structure for table `TBLACCESSMODULES`
 --
 
-DROP TABLE IF EXISTS `tblaccessmodules`;
-CREATE TABLE `tblaccessmodules` (
+DROP TABLE IF EXISTS `TBLACCESSMODULES`;
+CREATE TABLE `TBLACCESSMODULES` (
   `ModuleId` int(11) default NULL,
   `ModuleName` varchar(50) default NULL
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table `tblaccessmodules`
+-- Dumping data for table `TBLACCESSMODULES`
 --
 
 
-/*!40000 ALTER TABLE `tblaccessmodules` DISABLE KEYS */;
-LOCK TABLES `tblaccessmodules` WRITE;
-INSERT INTO `tblaccessmodules` VALUES (1,'Assistance Database'),(2,'Camp Registry'),(3,'People Registry');
+/*!40000 ALTER TABLE `TBLACCESSMODULES` DISABLE KEYS */;
+LOCK TABLES `TBLACCESSMODULES` WRITE;
+INSERT INTO `TBLACCESSMODULES` VALUES (1,'Assistance Database'),(2,'Camp Registry'),(3,'People Registry');
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tblaccessmodules` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLACCESSMODULES` ENABLE KEYS */;
 
 --
--- Table structure for table `tblaccesspermissions`
+-- Table structure for table `TBLACCESSPERMISSIONS`
 --
 
-DROP TABLE IF EXISTS `tblaccesspermissions`;
-CREATE TABLE `tblaccesspermissions` (
+DROP TABLE IF EXISTS `TBLACCESSPERMISSIONS`;
+CREATE TABLE `TBLACCESSPERMISSIONS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL,
   `Permission` char(1) default NULL,
@@ -58,22 +58,22 @@ CREATE TABLE `tblaccesspermissions` (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table `tblaccesspermissions`
+-- Dumping data for table `TBLACCESSPERMISSIONS`
 --
 
 
-/*!40000 ALTER TABLE `tblaccesspermissions` DISABLE KEYS */;
-LOCK TABLES `tblaccesspermissions` WRITE;
-INSERT INTO `tblaccesspermissions` VALUES (3,'ADD','Y',1),(1,'EDIT','Y',1),(3,'VIEW','Y',1);
+/*!40000 ALTER TABLE `TBLACCESSPERMISSIONS` DISABLE KEYS */;
+LOCK TABLES `TBLACCESSPERMISSIONS` WRITE;
+INSERT INTO `TBLACCESSPERMISSIONS` VALUES (3,'ADD','Y',1),(1,'EDIT','Y',1),(3,'VIEW','Y',1);
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tblaccesspermissions` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLACCESSPERMISSIONS` ENABLE KEYS */;
 
 --
--- Table structure for table `tblmoduleaccesslevels`
+-- Table structure for table `TBLMODULEACCESSLEVELS`
 --
 
-DROP TABLE IF EXISTS `tblmoduleaccesslevels`;
-CREATE TABLE `tblmoduleaccesslevels` (
+DROP TABLE IF EXISTS `TBLMODULEACCESSLEVELS`;
+CREATE TABLE `TBLMODULEACCESSLEVELS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL
 ) TYPE=MyISAM;
@@ -83,18 +83,18 @@ CREATE TABLE `tblmoduleaccesslevels` (
 --
 
 
-/*!40000 ALTER TABLE `tblmoduleaccesslevels` DISABLE KEYS */;
-LOCK TABLES `tblmoduleaccesslevels` WRITE;
-INSERT INTO `tblmoduleaccesslevels` VALUES (1,'PAGE'),(1,'ADD'),(1,'SEARCH');
+/*!40000 ALTER TABLE `TBLMODULEACCESSLEVELS` DISABLE KEYS */;
+LOCK TABLES `TBLMODULEACCESSLEVELS` WRITE;
+INSERT INTO `TBLMODULEACCESSLEVELS` VALUES (1,'PAGE'),(1,'ADD'),(1,'SEARCH');
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tblmoduleaccesslevels` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLMODULEACCESSLEVELS` ENABLE KEYS */;
 
 --
--- Table structure for table `tblroles`
+-- Table structure for table `TBLROLES`
 --
 
-DROP TABLE IF EXISTS `tblroles`;
-CREATE TABLE `tblroles` (
+DROP TABLE IF EXISTS `TBLROLES`;
+CREATE TABLE `TBLROLES` (
   `RoleId` int(11) default NULL,
   `RoleName` varchar(30) default NULL,
   `Description` varchar(100) default NULL
@@ -105,17 +105,17 @@ CREATE TABLE `tblroles` (
 --
 
 
-/*!40000 ALTER TABLE `tblroles` DISABLE KEYS */;
-LOCK TABLES `tblroles` WRITE;
-INSERT INTO `tblroles` VALUES (1,'Administrator','Administration role'),(2,'Normal user','Normal user');
+/*!40000 ALTER TABLE `TBLROLES` DISABLE KEYS */;
+LOCK TABLES `TBLROLES` WRITE;
+INSERT INTO `TBLROLES` VALUES (1,'Administrator','Administration role'),(2,'Normal user','Normal user');
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tblroles` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLROLES` ENABLE KEYS */;
 
 --
--- Table structure for table `tbluserroles`
+-- Table structure for table `TBLUSERROLES`
 --
 
-DROP TABLE IF EXISTS `tbluserroles`;
+DROP TABLE IF EXISTS `TBLUSERROLES`;
 CREATE TABLE `tbluserroles` (
   `RoleId` int(11) default NULL,
   `UserName` varchar(30) default NULL
@@ -126,9 +126,9 @@ CREATE TABLE `tbluserroles` (
 --
 
 
-/*!40000 ALTER TABLE `tbluserroles` DISABLE KEYS */;
-LOCK TABLES `tbluserroles` WRITE;
-INSERT INTO `tbluserroles` VALUES (1,'sanjiva');
+/*!40000 ALTER TABLE `TBLUSERROLES` DISABLE KEYS */;
+LOCK TABLES `TBLUSERROLES` WRITE;
+INSERT INTO `TBLUSERROLES` VALUES (1,'sanjiva');
 UNLOCK TABLES;
-/*!40000 ALTER TABLE `tbluserroles` ENABLE KEYS */;
+/*!40000 ALTER TABLE `TBLUSERROLES` ENABLE KEYS */;
 

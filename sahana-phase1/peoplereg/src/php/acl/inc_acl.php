@@ -3,26 +3,27 @@
  # Author: Buddhika Siddhisena [Bud@babytux.org]
  # License : GPL
  # Created: 11/01/2005
- # Updated: 13/01/2005
+ # Updated: 18/01/2005
 
 function checkacl($user,$module_name,$access_levels){
  
  #-- database config --
 $host = "localhost";
 $dbuser="dbuser"; $dbpassword="dbpassword";
+
 $database="erms";
 
-$accessleveltable = 'tblaccesslevels';
+$accessleveltable = 'TBLACCESSLEVELS';
 $accessleveltable_fields = ' AccessLevels';
-$accessmodulestable='tblaccessmodules';
+$accessmodulestable='TBLACCESSMODULES';
 $accessmodulestable_fields='ModuleId,ModuleName';
-$accesspermissions='tblaccesspermissions';
+$accesspermissions='TBLACCESSPERMISSIONS';
 $accesspermissions_fields=' ModuleId ,AccessLevel,Permission,RoleId';
-$moduleaccesslevels='tblmoduleaccesslevels';
+$moduleaccesslevels='TBLMODULEACCESSLEVELS';
 $moduleaccesslevels_fields=' ModuleId,AccessLevel';
-$rolestable='tblroles';
+$rolestable='TBLROLES';
 $rolestable_fields=' RoleId,RoleName,Description';
-$userrolestable='tbluserroles';
+$userrolestable='TBLUSERROLES';
 $userrolestable_table='RoleId,UserName';
 
  //Connect to database
@@ -41,7 +42,7 @@ if(preg_match("/[\,]+\,/",$access_levels)){ # multiple access levels
 }else{
    $sql.=" AND AccessLevel='$access_levels'";
 }
-#print $sql;
+print $sql;
 $rs=mysql_query($sql);
 $status=true;
 if(mysql_num_rows($rs)==0){$status=false;} # If we didnt get any result we deny
