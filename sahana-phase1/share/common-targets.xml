@@ -72,7 +72,7 @@
 
   <copy file="${db.properties}"  todir="${bin.war.root.classes}/org/erms/db"></copy>
 
-  <!--   Make the jar   -->
+  <!--   Create the war   -->
   <war warfile="${app-name}.war" basedir="${bin.war.root}" webxml="${web}/WEB-INF/web.xml" ></war>
   <copy file="${app-name}.war" tofile="${deploy-dir}/${app-name}.war"/>
   <delete file="${app-name}.war"></delete>
