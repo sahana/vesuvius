@@ -14,8 +14,8 @@ if (!defined( '_MOS_MAIN_SEARCH_MODULE' )) {
 
 ?>
 	<form method="get" action="index.php">
-		<input type="hidden" name="option" value="com_report">
-		<input type="hidden" name="type" value="search">
+		<input type="hidden" name="option" value="com_peoplesearch">
+		<input type="hidden" name="task" value="search">
 		<input type="text" name="q"><br />
 		<input type="submit" value="Search for people!"><br />
 	</form>
