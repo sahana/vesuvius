@@ -131,7 +131,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 							<tr>
 <!--								<td width="134" height="350" valign="top" class="leftMenuBG"><img
 									src="images/spacer.gif" width="160" height="10"></td>-->
-								<td width="620">
+								<td >
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">Search request  </td>
@@ -148,7 +148,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
     String formattedDate = formatter.format(new java.util.Date());
 %>
 <tr>
-<td colspan="2" class="formText"><strong>Organization : <%=user.getOrganization()%> &nbsp;&nbsp;User : <%=user.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%>�</strong></td>
+<td colspan="2" class="formText"><strong>Organization : <%=user.getOrganization()%> &nbsp;&nbsp;User : <%=user.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
 </tr>
 <tr>
 <td class="formText">&nbsp;</td>
@@ -197,53 +197,8 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 												</select></td>
 				</tr>
 	
-											<tr>
-<!--	
-												<td class="formText" nowrap="nowrap">&nbsp;Request Date from</td>
-	
-												<td colspan="4">
-												<table width="100%" border="0" cellspacing="0"
-													cellpadding="0">
-													
-													<tr>
-														<td width="16%"><input type="text" name="fromDate"
-															//TODO: Add functionality to search by date
-															class="textBox" id="fromDate" value="<%=requestSearchCriteriaTO.getRequestDateFrom()%>"> 
-														</td>
-								
-														<td width="82%"><img src="Images/calendar.gif"
-															onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'mm/dd/yyyy')"
-															width="18" height="17"></td>
-													</tr>
-													
-													
-												</table>
-												</td>
--->		
-			<!--
-												<td width="16%" nowrap="nowrap" class="formText">Request
-												Date To</td>
-												<td colspan="4">
-												<table width="100%" border="0" cellspacing="0"
-													cellpadding="0">
-													<tr>
-														<td width="16%"><input type="text" name="toDate"
-															class="textBox" id="toDate" value="<%=requestSearchCriteriaTO.getRequestDateTo()%>"> 														</td>
-														<td width="82%"><img src="Images/calendar.gif"
-															onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'mm/dd/yyyy')"
-															width="18" height="17"></td>
-													</tr>
-												</table>
-												</td>
--->									
-<!--												
-												<td width="25%">&nbsp;</td>
-											</tr>
-											<tr>
-												<td>&nbsp;</td>
-												<td colspan="4">&nbsp;</td>
-											</tr>
--->								
+
+
 											<tr>
 												<td class="formText">&nbsp;Requester Name</td>
 												<td colspan="4"><input type="text" name="callerName"

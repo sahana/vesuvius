@@ -547,22 +547,32 @@ public class DataAccessManager {
      *         the services (if any) who are fulfilling the request.
      */
 
-    public List getRequest(String requestDetailID) throws SQLException, Exception {
+    public RequestInfo getRequest(String requestDetailID) throws SQLException, Exception {
         if (requestDetailID == null || Integer.parseInt(requestDetailID) == 0)
             throw new Exception("The request detail ID is null");
-        Connection connection = DBConnection.createConnection();
+
         Statement statement = null;
         ResultSet resultSet = null;
+
+        RequestInfo reqInfo = new RequestInfo();
+
+
+        Connection connection = DBConnection.createConnection();
         RequestTO requestTO = new RequestTO();
         RequestDetailTO requestDetailTO = new RequestDetailTO();
-        RequestFulfillDetailTO requestFulfillDetailTO = new RequestFulfillDetailTO();
-        List returnTOList = new ArrayList();
+//
+
         try {
             String sql = SQLGenerator.getSQLGetRequestDetail(requestDetailID);
+
+            System.out.print("SQL QUARY       %%%%%%%%%%%%%%%%%%%%%% "+sql);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
 
-            while (resultSet.next()) {
+            //Write this code with if rather than the while , thee is no way  the loop cn go to the
+            //loop towice unless the MySQL has messed up
+
+            if (resultSet.next()) {
                 //fill the request detail TO
                 requestDetailTO.setRequestDetailID(resultSet.getString(DBConstants.TableColumns.REQUEST_DETAIL_ID));
                 requestDetailTO.setRequestID(resultSet.getString(DBConstants.TableColumns.REQUEST_ID));
@@ -607,10 +617,13 @@ public class DataAccessManager {
                 requestDetailTOs.add(requestDetailTO);
 
                 requestTO.setRequestDetails(requestDetailTOs);
-                returnTOList.add(requestTO);
+                reqInfo.setRequest(requestTO);
+            }else{
+                throw new RuntimeException("A RequetDetailInfo with ID= \'"+requestDetailID + "\' Does not exists ");
             }
-            // Now get the services who have serviced this request.
 
+
+            // Now get the services who have serviced this request.
             String sqlFulfillServices = SQLGenerator.getSQLGetServiceDetailsForRequest(requestDetailID);
             statement = connection.createStatement();
             ResultSet resultSet1 = statement.executeQuery(sqlFulfillServices);
@@ -619,6 +632,7 @@ public class DataAccessManager {
             List servicerList = new ArrayList();
 
             while (resultSet1.next()) {
+                RequestFulfillDetailTO requestFulfillDetailTO = new RequestFulfillDetailTO();
                 requestFulfillDetailTO = new RequestFulfillDetailTO();
                 requestFulfillDetailTO.setOrgCode(resultSet1.getString(DBConstants.TableColumns.ORG_CODE));
                 requestFulfillDetailTO.setOrgContact(resultSet1.getString(DBConstants.TableColumns.ORG_ADDRESS));
@@ -627,17 +641,13 @@ public class DataAccessManager {
                 requestFulfillDetailTO.setStatus(resultSet1.getString(DBConstants.TableColumns.FULLFILL_STATUS));
                 requestFulfillDetailTO.setFulfillID(resultSet1.getString(DBConstants.TableColumns.FUlFILL_ID));
                 requestFulfillDetailTO.setRequestDetailID(requestDetailID);
-//                private String orgContact;
-
-
                 servicerList.add(requestFulfillDetailTO);
             }
-            returnTOList.add(servicerList);
+            reqInfo.setServices(servicerList);
         } finally {
             closeConnections(connection, statement, resultSet);
         }
-        return returnTOList;
-
+        return reqInfo;
     }
 
 

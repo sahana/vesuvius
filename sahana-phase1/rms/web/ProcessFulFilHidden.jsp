@@ -67,11 +67,13 @@
         RequestFulfillDetailTO rfdto = null;
         if(quantity != null && quantity.trim().length() != 0){
             quantityValue = Integer.parseInt (quantity.trim());
-            toteldeliverd = quantityValue + quantityValue;
 
+            if("Delivered".equalsIgnoreCase(status.trim())){
+                toteldeliverd = toteldeliverd + quantityValue;
+            }
 
             if((quantityValue + totelFulfilment) > requestQuantity){
-                model.setMessage("\"Fulfilment Quantitry\" can not be larger than the \"Request Quantity\"" + "("+ totelFulfilment +"+" + quantityValue +") > " + requestQuantity);
+                model.setMessage("\"Fulfillment Quantity\" can not be larger than the \"Request Quantity\"" + "("+ totelFulfilment +"+" + quantityValue +") > " + requestQuantity);
                 DataAccessManager dam = new DataAccessManager();
                 //dam.fulfillRequest(rfdto);
                 dam.fulfillRequest(rfdto,oldCollection,newCollection,closeRequest,model.getRequestDetailID());

@@ -12,6 +12,9 @@
  <jsp:include page="comman/header.inc"/>
 
  <table width="100%" border="0" cellspacing="2" cellpadding="0" bgcolor="#D8E9FD">
+    <%
+        exception.printStackTrace();
+    %>
     <tr>
         <td align="center" > <font size="3" color="red">An error has occured!</font></td>
     </tr>

@@ -235,7 +235,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
     String formattedDate = formatter.format(new java.util.Date());
 %>
 <tr>
-<td colspan="2" class="formText"><strong>Organization : <%=user.getOrganization()%> &nbsp;&nbsp;User : <%=user.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%>�</strong></td>
+<td colspan="2" class="formText"><strong>Organization : <%=user.getOrganization()%> &nbsp;&nbsp;User : <%=user.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
 </tr>
 <tr>
 <td class="formText">&nbsp;</td>
@@ -335,7 +335,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                                        </select>&nbsp;<small><font color="red">*</font></small></td>
                                        </tr>
                                        <tr>
-                                       <td class="formText">&nbsp;Site Area</td>
+                                       <td class="formText">&nbsp;Site Address</td>
                                        <td colspan="4"><input type="text" name="siteArea" class="textBox" value="<%=
                                            requestObj.getSiteArea()
                                        %>" />&nbsp;<small><font color="red">*</font></small></td>

@@ -103,7 +103,7 @@
             //We got to forget the old stuff when we start a new search
 
             if(requestDetailID != null){
-
+                requestDetailID = requestDetailID.trim();
                 model = null;
 
             }
@@ -124,27 +124,13 @@
 
 
 
-                List list =	dam.getRequest(requestDetailID);
-
-                if(list == null || list.size() != 2){
-
-                    request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.ERROR_DESCRIPTION, "list return by dam.getRequest(requestID) is wrong");
-
-                    response.sendRedirect("error.jsp");
-
-                }
-
-
-
-                requestTO = (RequestTO)list.get(0);
-
-                requestFulfillTOs = (Collection)list.get(1);
+                RequestInfo reqInfo =	dam.getRequest(requestDetailID);
 
 
 
 
-
-
+                requestTO = reqInfo.getRequest();
+                requestFulfillTOs = reqInfo.getServices();
 
                 if(requestTO == null){
 
@@ -246,7 +232,7 @@
 
             <tr>
 
-                <td align="center" >
+                <td align="center" class="formText" >
 
                     <font color="red" >
 
@@ -256,7 +242,7 @@
 
                                      %>
 
-                                        <h2><%=model.getMessage()%></h2>
+                                        <%=model.getMessage()%>
 
                                      <%
 

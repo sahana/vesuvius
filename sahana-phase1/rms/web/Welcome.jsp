@@ -61,37 +61,20 @@
                 </tr>
 
                 <tr>
-              <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left" ><strong><a href="/reports/" style="text-decoration:none"  class="style1">Request Reports</a></strong> </td>
-                </tr>
-<%--                <tr>--%>
-<%--                <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>--%>
-<%--                <td  nowrap class="formText" align="left"><strong><a href="Logoff.jsp" style="text-decoration:none"  class="style1">LogOff</a></strong></td>--%>
-<%--                </tr>--%>
-
-<%--Needs to invalidate the session. So have to go to log off first--%>
-                <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left"><strong><a href="Logoff.jsp" style="text-decoration:none"  class="style1">Home</a></strong></td>
+                <td  nowrap class="formText" align="left" ><strong>Reports</strong></td>
+                </tr>
+                <tr>
+                <td  align="right" class="formText">&nbsp;&nbsp;&nbsp;&nbsp;&raquo;</strong></td>
+                <td  nowrap class="formText" align="left" >&nbsp;&nbsp;&nbsp;<a href="/reports/sahana-report.vx?report=All-request-details-grouped-District"><strong>Request Detail Reports</strong></a></td>
+                </tr>
+                <tr>
+                <td  align="right" class="formText">&nbsp;&nbsp;&nbsp;&nbsp;&raquo;</strong></td>
+                <td  nowrap class="formText" align="left" >&nbsp;&nbsp;&nbsp;<a href="/reports/sahana-report.vx?report=fulfill-request-detail"><strong>Fulfillment Details Reports</strong></a></td>
                 </tr>
               </table>
 
-<%--              <tr>--%>
-<%--                <td class="formText">&nbsp;</font></td>--%>
-<%--                <td >&nbsp;</td>--%>
-<%--              </tr>--%>
-<%--              <tr>--%>
-<%--                <td class="formText"><font size="2"><a href="Add_Request.jsp">Add Request </a><font></font></td>--%>
-<%--                <td >&nbsp;</td>--%>
-<%--              </tr>--%>
-<%--           <tr>--%>
-<%--               <td class="formText"><font size="2"><a href="Search_Request.jsp">Search Request</a></font></td>--%>
-<%--                <td class="formText"><font size="2">Search Request</font></td>--%>
-<%--                <td >&nbsp;</td>--%>
-<%--              </tr><tr>--%>
-<%--              <td class="formText"><font size="2"><a href="Logoff.jsp">Log off</a><font></td>--%>
-<%--                <td >&nbsp;</td>--%>
- </td>
+             </td>
               </tr>
            <% }else{
 
