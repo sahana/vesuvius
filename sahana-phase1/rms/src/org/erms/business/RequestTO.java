@@ -3,10 +3,11 @@ package org.erms.business;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Vector;
+import java.util.Iterator;
 
 
 public class RequestTO {
-    private Collection requestDetails = new Vector();
+    private Vector requestDetails = new Vector();
     private String requestID="";
     private String orgCode="";
     private String user="";
@@ -62,11 +63,11 @@ public class RequestTO {
     public RequestTO() {
     }
 
-    public Collection getRequestDetails() {
+    public Vector getRequestDetails() {
         return requestDetails;
     }
 
-    public void setRequestDetails(Collection requestDetails) {
+    public void setRequestDetails(Vector requestDetails) {
         this.requestDetails = requestDetails;
     }
 
@@ -76,6 +77,15 @@ public class RequestTO {
         }
         requestDetails.add(requestDetailTO);
     }
+
+    public void removeRequestDetails(int index) {
+        if (requestDetails == null) {
+            requestDetails = new Vector();
+        }
+        requestDetails.remove(index);
+    }
+
+
 
     public String getRequestID() {
         return requestID;

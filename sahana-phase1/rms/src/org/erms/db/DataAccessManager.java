@@ -20,10 +20,7 @@ import org.sahana.share.db.DBConnection;
 import org.sahana.share.utils.KeyValueDTO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -286,7 +283,7 @@ public class DataAccessManager extends AbstractDataAccessManager{
                 requestTO.setSiteContact(resultSet.getString(DBConstants.Requestheader.SITE_CONTACT));
 
 
-                List requestDetailTOs = new ArrayList();
+                Vector requestDetailTOs = new Vector();
                 requestDetailTOs.add(requestDetailTO);
 
                 requestTO.setRequestDetails(requestDetailTOs);

@@ -35,7 +35,19 @@
 <input type="hidden" name="submitType"/>
 
 <%
+    final String DELETE_FROMLIST = "DELETE_FROM_LIST";
+
+
+
+
+
     RequestTO requestObj = (RequestTO) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.REQUEST_DTO);
+
+    String deleteID = (String)request.getParameter(DELETE_FROMLIST);
+    if(deleteID!= null){
+        requestObj.removeRequestDetails(Integer.parseInt(deleteID));
+    }
+
 //    User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
     LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
     User user = new  User(lbean.getUserName(),lbean.getOrgId());
@@ -293,7 +305,8 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 <tr>
 <td class="formText">&nbsp;Site Name</td>
 <td colspan="4"><input type="text" name="siteName" class="textBox" value="
-<%=requestObj.getSiteName()%>"/>&nbsp;<small><font color="red">*</font></small></td>
+<%=requestObj.getSiteName()%>"/>&nbsp;<small><font color="red">*</font></small><img src="images/question.gif" width="20" height="20" alt="Enter the Common Name Given to the Site"/></td>
+
 </tr>
 <tr>
 <td class="formText">&nbsp;Site District </td>
@@ -333,7 +346,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                            throw new Exception(e);
                        }
                                        %>
-                                       </select>&nbsp;<small><font color="red">*</font></small></td>
+                                       </select>&nbsp;<small><font color="red">*</font></small><img src="images/question.gif" width="20" height="20" alt="Enter the district to which the site belongs"/></td>
                                        </tr>
                                        <tr>
                                        <td class="formText">&nbsp;Site Address</td>
@@ -377,7 +390,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
                 }
             %>
         </select>
-
+        <img src="images/question.gif" width="20" height="20" alt="Select one of the four types listed"/>
 
     </td>
 </tr>
@@ -520,11 +533,11 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 
 
 <%
-    Collection requestDetails = requestObj.getRequestDetails();
+    Vector requestDetails = requestObj.getRequestDetails();
     Iterator iterator = requestDetails.iterator();
     RequestDetailTO    tempRequestDetailDto;
-    while (iterator.hasNext()) {
-        tempRequestDetailDto =(RequestDetailTO) iterator.next();
+    for(int i = 0;i<requestDetails.size();i++){
+        tempRequestDetailDto =(RequestDetailTO) requestDetails.get(i);
 %>
 <tr>
 <td class="tableDown"><%=dam.getCategoryName(tempRequestDetailDto.getCategory())%></td>
@@ -532,6 +545,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 <td class="tableDown"><%=tempRequestDetailDto.getUnit()%></td>
 <td class="tableDown"><%=tempRequestDetailDto.getQuantity()%></td>
 <td class="tableDown"><%=dam.getPriorityName(tempRequestDetailDto.getPriority())%></td>
+<td class="tableDown"><a href="Add_Request.jsp?<%=DELETE_FROMLIST+"="+String.valueOf(i)%>">remove</a></td>
 </tr>
         <%
     }
