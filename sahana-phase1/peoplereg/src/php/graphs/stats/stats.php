@@ -27,7 +27,7 @@ function get_attribute($publicity_level=1){ # Get a list of attributes
  $val=$_REQUEST['attribute'];
  $fname='attribute'; $width='10'; $fldset="id,caption";
  
- $crit = "name IN ('age','gender','province','city','seen_at','marital_status','country','race','religion')";
+ $crit = "name IN ('age','gender','province','city','marital_status','country','race','religion')";
  $cont=dbsel($val,$fname,$width,$attrtable,$fldset,$crit); # commented since we dont need all atts
 
  
@@ -83,8 +83,13 @@ $cont="<table  width=200 class=\"stat_table\" cellspacing=0 cellpadding=0><tr><t
  
 for ($i=0;$i<count($statattrdata);$i++){
    #$row[0] = $statattrdata[$i]; $row[1]=$statattrvaldata[$i];
-   if($statattrdata[$i] && $i<$maxstatsize){ $cont.="<tr><td class=\"rightBorder\">".(isset($statoptiondata[$statattrdata[$i]])?$statoptiondata[$statattrdata[$i]]:$statattrdata[$i])."</td><td>$statattrvaldata[$i]</td>"; }
-   else{ $other_count+=$statattrvaldata[$i]; }
+   if($statattrdata[$i] && $i<$maxstatsize){ 
+     if (preg_match("/other/i",$statattrdata[$i])){
+       $other_count+=$statattrvaldata[$i];
+     }else{
+       $cont.="<tr><td class=\"rightBorder\">".(isset($statoptiondata[$statattrdata[$i]])?$statoptiondata[$statattrdata[$i]]:$statattrdata[$i])."</td><td>$statattrvaldata[$i]</td>"; 
+     }
+   }else{ $other_count+=$statattrvaldata[$i]; }
    $attr_count+=$statattrvaldata[$i];
  }
  

@@ -40,9 +40,13 @@ $attr_count=0; $other_count=0; # Used to track the frequency of other options on
  
 for ($i=0;$i<count($statattrdata);$i++){
    #$row[0] = $statattrdata[$i]; $row[1]=$statattrvaldata[$i];
-   if($statattrdata[$i] && $i<$maxstatsize){ 
-     $graph_data[0][$i+1]=$statattrvaldata[$i];
-     $graph_legend[$i]=(isset($statoptiondata[$statattrdata[$i]])?$statoptiondata[$statattrdata[$i]]:$statattrdata[$i]); 
+   if($statattrdata[$i] && $i<$maxstatsize){
+      if (preg_match("/other/i",$statattrdata[$i])){
+       $other_count+=$statattrvaldata[$i];
+      }else{ 
+        $graph_data[0][$i+1]=$statattrvaldata[$i];
+        $graph_legend[$i]=(isset($statoptiondata[$statattrdata[$i]])?$statoptiondata[$statattrdata[$i]]:$statattrdata[$i]); 
+      }
    } else{ $other_count+=$statattrvaldata[$i]; }
    $attr_count+=$statattrvaldata[$i];
  }
