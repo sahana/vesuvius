@@ -245,7 +245,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 												</select></td>
 											</tr>
 											<tr>
-												<td class="formText">&nbsp;Site Area</td>
+												<td class="formText">&nbsp;Site Address</td>
 												<td colspan="4"><input type="text" name="siteArea"
 													class="textBox"
 													value="<%=requestSearchCriteriaTO.getSiteArea()==null?"":requestSearchCriteriaTO.getSiteArea()%>">
