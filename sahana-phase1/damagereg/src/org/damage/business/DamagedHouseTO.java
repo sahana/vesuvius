@@ -118,10 +118,6 @@ public class DamagedHouseTO {
         return gsn;
     }
 
-    public void setGSN(String gsn) {
-        this.gsn = gsn;
-    }
-
     public double getDistanceFromSea() {
         return distanceFromSea;
     }

@@ -1,16 +1,12 @@
 package org.damage.db;
 
+import org.sahana.share.db.AbstractDataAccessManager;
+import org.sahana.share.db.DBConnection;
 import org.damage.business.DamagedHouseTO;
 import org.damage.business.DamagedHouseMoreInfoTO;
 import org.damage.business.HouseFacilityInfoTO;
-import org.erms.db.*;
-import org.erms.db.DBConstants;
-import org.erms.db.SQLGenerator;
-import org.erms.business.KeyValueDTO;
-import org.sahana.share.db.AbstractDataAccessManager;
-import org.sahana.share.utils.OrderedMap;
+import org.damage.business.SearchHouseTO;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -102,5 +98,70 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
     //list oif house dtos
     //public List searchHouses(SearchHouseTO);
 
+    public List searchRequests(SearchHouseTO searchCriteria) throws SQLException, Exception {
+
+        Connection connection = null;
+
+        PreparedStatement preparedStatement = null;
+
+        ResultSet resultSet = null;
+
+
+        try {
+
+            connection = DBConnection.createConnection();
+
+            connection.setAutoCommit(false);
+
+
+
+            // Setting the Request Header data.
+
+            String sqlSearchString = SQLGenerator.getSQLForSearchCriteria();
+
+
+            preparedStatement = connection.prepareStatement(sqlSearchString);
+            preparedStatement.setString(1, searchCriteria.getDistrictCode());
+            preparedStatement.setString(2, searchCriteria.getDistrictCode());
+            preparedStatement.setString(3, searchCriteria.getDivision());
+            preparedStatement.setString(4, searchCriteria.getDivision());
+            preparedStatement.setString(5, searchCriteria.getGsn());
+            preparedStatement.setString(6, ususalWildcard2SQLWildCard(searchCriteria.getGsn()));
+            preparedStatement.setString(7, searchCriteria.getOwner());
+            preparedStatement.setString(8, searchCriteria.getOwner());
+            resultSet = preparedStatement.executeQuery();
+
+
+            List returnSearchTOs = new ArrayList();
+            while (resultSet.next()) {
+               DamagedHouseTO requestSearchTo = new DamagedHouseTO();
+                requestSearchTo.setDistrictCode(resultSet.getString(DBConstants.TableColumns.DISTRICT_CODE));
+                requestSearchTo.setDivision(resultSet.getString(DBConstants.TableColumns.DIVISION ));
+                requestSearchTo.setGsn(resultSet.getString(DBConstants.TableColumns.GSN ));
+                requestSearchTo.setOwner(resultSet.getString(DBConstants.TableColumns.OWNER ));
+                requestSearchTo.setDistanceFromSea(resultSet.getDouble(DBConstants.TableColumns.DISTANCE_FROM_SEA));
+                requestSearchTo.setFloorArea(resultSet.getDouble(DBConstants.TableColumns.FLOOR_AREA));
+                requestSearchTo.setNoOfStories(resultSet.getInt(DBConstants.TableColumns.NO_OF_STORIES ));
+                requestSearchTo.setDamagedType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE ));
+                requestSearchTo.setTypeOfOwnership(resultSet.getString(DBConstants.TableColumns.TYPE_OF_OWNERSHIP));
+                requestSearchTo.setTypeOfConstruction(resultSet.getString(DBConstants.TableColumns.TYPE_OF_CONSTRUCTION ));
+                requestSearchTo.setPropertyTaxNo(resultSet.getString(DBConstants.TableColumns.PROPERTY_TAX_NO));
+                requestSearchTo.setTotalDamagedCost(resultSet.getDouble(DBConstants.TableColumns.TOTAL_DAMAGED_COST ));
+                requestSearchTo.setLandArea(resultSet.getDouble(DBConstants.TableColumns.LAND_AREA ));
+                requestSearchTo.setRelocate(resultSet.getBoolean(DBConstants.TableColumns.INSURED ));
+                requestSearchTo.setDamagedType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE));
+                requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS ));
+            }
+
+
+            return returnSearchTOs;
+
+        } finally {
+
+            closeConnections(connection, preparedStatement, resultSet);
+
+        }
+
+    }
 
 }
