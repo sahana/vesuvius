@@ -11,6 +11,7 @@ use erms;
 #----------------------------
 # Table structure for tblAccessLevels
 #----------------------------
+DROP TABLE `TBLACCESSLEVELS`;
 CREATE TABLE `TBLACCESSLEVELS` (
   `AccessLevels` varchar(20) default NULL
 ) TYPE=MyISAM ;
@@ -28,6 +29,7 @@ insert  into TBLACCESSLEVELS values
 #----------------------------
 # Table structure for tblAccessModules
 #----------------------------
+DROP TABLE `TBLACCESSMODULES`;
 CREATE TABLE `TBLACCESSMODULES` (
   `ModuleId` int(11) default NULL,
   `ModuleName` varchar(50) default NULL
@@ -48,6 +50,7 @@ insert  into TBLACCESSMODULES values
 #----------------------------
 # Table structure for tblaccesspermissions
 #----------------------------
+DROP TABLE `TBLACCESSPERMISSIONS` ;
 CREATE TABLE `TBLACCESSPERMISSIONS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL,
@@ -60,32 +63,33 @@ CREATE TABLE `TBLACCESSPERMISSIONS` (
 
 
 insert  into TBLACCESSPERMISSIONS values 
-(1, 'PAGE', 'Y', 0), 
-(1, 'ADD', 'Y', 0), 
-(1, 'SEARCH', 'Y', 0), 
-(2, 'PAGE', 'Y', 0), 
-(2, 'ADD', 'Y', 0), 
-(2, 'SEARCH', 'Y', 0), 
-(2, 'EDIT', 'Y', 0), 
-(8, 'PAGE', 'Y', 0), 
-(8, 'ADD', 'Y', 0), 
-(6, 'ADD', 'Y', 0), 
-(6, 'PAGE', 'Y', 0), 
-(6, 'EDIT', 'Y', 0), 
-(6, 'DELETE', 'Y', 0), 
-(3, 'PAGE', 'Y', 0), 
-(3, 'ADD', 'Y', 0), 
-(3, 'EDIT', 'Y', 0), 
-(3, 'SEARCH', 'Y', 0), 
-(7, 'PAGE', 'Y', 0), 
-(7, 'ADD', 'Y', 0), 
-(7, 'EDIT', 'Y', 0), 
-(7, 'DELETE', 'Y', 0), 
-(4, 'EDIT', 'Y', 0); 
+(1, 'PAGE', 'Y', 1), 
+(1, 'ADD', 'Y', 1), 
+(1, 'SEARCH', 'Y', 1), 
+(2, 'PAGE', 'Y', 1), 
+(2, 'ADD', 'Y', 1), 
+(2, 'SEARCH', 'Y', 1), 
+(2, 'EDIT', 'Y', 1), 
+(8, 'PAGE', 'Y', 1), 
+(8, 'ADD', 'Y', 1), 
+(6, 'ADD', 'Y', 1), 
+(6, 'PAGE', 'Y', 1), 
+(6, 'EDIT', 'Y', 1), 
+(6, 'DELETE', 'Y', 1), 
+(3, 'PAGE', 'Y', 1), 
+(3, 'ADD', 'Y', 1), 
+(3, 'EDIT', 'Y', 1), 
+(3, 'SEARCH', 'Y', 1), 
+(7, 'PAGE', 'Y', 1), 
+(7, 'ADD', 'Y', 1), 
+(7, 'EDIT', 'Y', 1), 
+(7, 'DELETE', 'Y', 1), 
+(4, 'EDIT', 'Y', 1); 
 
 #----------------------------
 # Table structure for tblAuditLog
 #----------------------------
+DROP TABLE `TBLAUDITLOG` ;
 CREATE TABLE `TBLAUDITLOG` (
   `UserName` varchar(100) NOT NULL default '',
   `ModuleId` int(11) NOT NULL default '0',
@@ -98,6 +102,7 @@ CREATE TABLE `TBLAUDITLOG` (
 #----------------------------
 # Table structure for tblModuleAccessLevels
 #----------------------------
+DROP TABLE `TBLMODULEACCESSLEVELS` ;
 CREATE TABLE `TBLMODULEACCESSLEVELS` (
   `ModuleId` int(11) default NULL,
   `AccessLevel` varchar(20) default NULL
@@ -133,6 +138,7 @@ insert  into TBLMODULEACCESSLEVELS values
 #----------------------------
 # Table structure for tblRoles
 #----------------------------
+DROP TABLE `TBLROLES` ;
 CREATE TABLE `TBLROLES` (
   `RoleId` int(11) default NULL,
   `RoleName` varchar(30) default NULL,
@@ -144,11 +150,12 @@ CREATE TABLE `TBLROLES` (
 
 
 insert  into TBLROLES values 
-(0, 'Administrator', 'the boss'), 
-(1, 'User', 'the average user');
+(1, 'Administrator', 'the boss'), 
+(0, 'User', 'the average user');
 #----------------------------
 # Table structure for tbluserroles
 #----------------------------
+DROP TABLE `TBLUSERROLES` ;
 CREATE TABLE `TBLUSERROLES` (
   `RoleId` int(11) default NULL,
   `UserName` varchar(30) default NULL
@@ -156,8 +163,13 @@ CREATE TABLE `TBLUSERROLES` (
 #----------------------------
 # Records for table tbluserroles
 #----------------------------
-
-
+#
+#
 insert  into TBLUSERROLES values 
 (1, 'sanjiva');
-
+#
+# Populate the database with the default user
+#
+INSERT INTO tbluserroles select 0, UserName from USER
+#
+#
