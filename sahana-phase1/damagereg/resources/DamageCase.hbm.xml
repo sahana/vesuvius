@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="org.damage.business.DamageCase" table="dmg_case">
+    <id name="caseId" column="CaseId" type="long" unsaved-value="null">
+      <generator class="increment"/>
+    </id>
+    <property name="reportedPersonId" column="ReportedPersonId" type="string" length="30" />
+	<property name="reportedDate" column="ReportedDate" type="date" />
+	<property name="damageDate" column="DamageDate" type="date"/>
+	<property name="causeOfDamage" column="CauseOfDamage" type="string" length="20"/>
+    <property name="reporterNicPassportId" column="ReporterNicPassportId" type="string" length="20" />
+	<property name="reporterName" column="ReporterName" type="string" length="60" />
+    <property name="reporterTelNo" column="ReporterTelNo" type="string" length="30" />
+    <property name="reporterAddress" column="ReporterAddress" type="string" length="30" />
+    <property name="reporterLocation" column="ReporterLocation" type="string" length="30" />
+    <property name="authOfficerId" column="AuthOfficerId" type="string" length="30" />
+    <property name="institutionId" column="InstitutionId" type="string" length="30" />
+    <property name="referenceNumber" column="ReferenceNumber" type="string" length="30" />
+    <!--
+    <set name="damageReport" cascade="all" inverse="true" lazy="true">
+      <key column="CaseId"/>
+      <one-to-many class="org.damage.business.DamageReport"/>
+    </set>
+    -->
+
+  </class>
+
+</hibernate-mapping>

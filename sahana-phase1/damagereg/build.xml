@@ -1,0 +1,83 @@
+<!--
+* Copyright (c) 2005 Sahana Project.
+* Contributed by Virtusa Corporation.
+*
+-->
+<!DOCTYPE project [<!ENTITY common-targets SYSTEM "file:../share/common-targets.xml">]>
+<project basedir="." default="deploy-custom">
+    <!-- Reference to the common targets xml file -->
+    &common-targets;
+
+    <!--  Build script for the erms.war  -->
+    <property name="app-name" value="damagereg"></property>
+    <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
+    <property name="custom-lib" value="lib"/>
+    <property name="custom-ui-common" value="web/common"/>
+    <property name="custom-ui-images" value="web/images"/>
+    <property name="custom-properties" value="resources"/>
+
+    <property file="../tomcat.properties"/>
+
+    <path id="project.class.path">
+
+        <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
+        <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
+
+        <fileset dir="${custom-lib}">
+            <include name="*.jar"/>
+        </fileset>
+
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+
+    </path>
+
+    <target name="deploy-custom" depends="deploy-local">
+
+        <!-- copy all suppl files to war root -->
+        <copy todir="${bin.war.root}/common">
+            <fileset dir="${custom-ui-common}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <copy todir="${bin.war.root}/images">
+            <fileset dir="${custom-ui-images}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+
+        <!-- copy all jars to web-inf lib-->
+        <copy todir="${bin.war.root.lib}">
+            <fileset dir="${custom-lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+
+        <!-- copy all properties to web-inf classes-->
+        <copy todir="${bin.war.root.classes}">
+            <fileset dir="${custom-properties}">
+                <include name="**/*.properties"/>
+                <include name="**/*.hbm.xml"/>
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+
+        <!--   Update the war   -->
+        <war destfile="${deploy-dir}/${app-name}.war"
+            basedir="${bin.war.root}"
+            update="true"
+            includes="**/*"
+            webxml="${web}/WEB-INF/web.xml"/>
+
+        <delete includeEmptyDirs="true" failonerror="false">
+          <fileset dir="${tomcat.home}/webapps/damagereg"/>
+        </delete>
+        <delete file="${app-name}.war"></delete>
+        <antcall target="clean"></antcall>
+
+    </target>
+
+</project>
+

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>Sahana Tag Library</shortname>
+    <info>
+        This tag library contains functionality specific to the Sahana
+        Application.
+    </info>
+
+    <tag>
+        <name>SelectionHierarchyTree</name>
+        <tagclass>org.damage.tags.SelectionHierarchyTree</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Displays javascript arrays for generating the sahana location hierarchy dropdowns.
+        </info>
+    </tag>
+
+    <tag>
+        <name>DamageReportList</name>
+        <tagclass>org.damage.tags.DamageReportList</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Displays the table of Damage Report list
+        </info>
+    </tag>
+
+    <tag>
+        <name>SahanaLocationsArray</name>
+        <tagclass>org.damage.tags.SahanaLocationsArray</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Displays javascript arrays for generating the sahana location hierarchy dropdowns.
+        </info>
+        <attribute>
+            <name>listAllDistrictsByProvince</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>listAllDivisionsByDistrict</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>listAllGNDivisionsByDivision</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>SahanaReferenceDropdown</name>
+        <tagclass>org.damage.tags.SahanaReferenceDropdown</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Displays html select dropdown for the sahana reference tables.
+            Set one of property like show* each tag use.
+        </info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onChangeJS</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultValue</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>showLocations</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>showInstitutions</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>showInsuranceCompany</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>showDamageType</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>DamageCustomTextDropdown</name>
+        <tagclass>org.damage.tags.DamageCustomTextDropdown</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Displays html select dropdown for the custom text
+        </info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>styleClass</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>onChangeJS</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultValue</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>customString</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+
+</taglib>

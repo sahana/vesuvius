@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="org.damage.business.DamageReport" table="dmg_report">
+    <id name="damageReportId" column="DamageReportId" type="long" unsaved-value="null">
+      <generator class="increment"/>
+    </id>
+    <property name="numberPersonsAffected" column="NumberPersonsAffected" />
+	<property name="propertyTypeCode" column="PropertyTypeCode" type="string" length="30" />
+	<property name="contactPersonName" column="ContactPersonName" type="string" length="30"/>
+    <property name="contactPersonId" column="ContactPersonId" type="string" length="30"/>
+    <property name="damageTypeCode" column="DamageTypeCode" type="string" length="30"/>
+    <property name="estimatedDamageValue" column="EstimatedDamageValue" type="double"/>
+    <property name="propertyId" column="PropertyId" type="long"/>
+    <property name="isRelocate" column="IsRelocate" type="boolean"/>
+    <property name="caseId" column="caseId" type="long"/>
+    <!--
+    <many-to-one name="damageCase" class="org.damage.business.DamageCase" column="CaseId" />
+
+    <one-to-one name="property" class="org.damage.business.Property"  cascade="all" />
+    -->
+
+  </class>
+
+</hibernate-mapping>
