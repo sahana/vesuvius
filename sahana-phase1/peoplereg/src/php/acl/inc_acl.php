@@ -14,7 +14,7 @@ $dbuser="dbuser"; $dbpassword="dbpassword";
 $database="erms";
 
 $accessleveltable = 'TBLACCESSLEVELS';
-$accessleveltable_fields = ' AccessLevels';
+$accessleveltable_fields = 'AccessLevels';
 $accessmodulestable='TBLACCESSMODULES';
 $accessmodulestable_fields='ModuleId,ModuleName';
 $accesspermissions='TBLACCESSPERMISSIONS';
@@ -37,12 +37,11 @@ if (!mysql_select_db($database,$dbconn)){
 
 $sql="SELECT AccessLevel,Permission FROM $accesspermissions a,  $userrolestable b, $accessmodulestable c WHERE b.RoleId=a.RoleId AND a.ModuleId=c.ModuleId AND c.ModuleName LIKE '$module_name' AND UserName LIKE '$user'";
 
-if(preg_match("/[\,]+\,/",$access_levels)){ # multiple access levels
+if(preg_match("/[\,]+/",$access_levels)){ # multiple access levels
    $sql.=" AND AccessLevel IN ('".preg_replace("/\,/","','",$access_levels)."')";
 }else{
    $sql.=" AND AccessLevel='$access_levels'";
 }
-print $sql;
 $rs=mysql_query($sql);
 $status=true;
 if(mysql_num_rows($rs)==0){$status=false;} # If we didnt get any result we deny
