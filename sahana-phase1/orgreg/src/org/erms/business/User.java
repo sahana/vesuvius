@@ -4,6 +4,10 @@ package org.erms.business;
 public class User {
     private String userName;
     private String organization;
+    private String password;
+
+    public User() {
+    }
 
     public User(String userName, String organization) {
         this.userName = userName;
@@ -36,6 +40,14 @@ public class User {
      */
     public void setOrganization(String string) {
         organization = string;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

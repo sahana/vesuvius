@@ -563,6 +563,14 @@ public class SQLGenerator {
 
     }
 
+    public String getSQLForGetUser(String orgCode){
+       String SQL = "SELECT " +
+                DBConstants.TableColumns.USER_NAME + "," +
+                DBConstants.TableColumns.PASSWORD + " from " +
+                DBConstants.Tables.USERDB + " Where "+DBConstants.TableColumns.ORG_CODE + "="  + orgCode ;
+       return SQL;
+    }
+
     public static String getSQLForAllOrganizations() {
 
         return "SELECT " +

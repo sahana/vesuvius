@@ -20,7 +20,6 @@ To change this template use File | Settings | File Templates.
 
 <jsp:include page="comman/header.inc"></jsp:include>
 
-
 <table width="760" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="border">
@@ -47,8 +46,8 @@ To change this template use File | Settings | File Templates.
         orgTo = (OrganizationTO) requestDetails.get(i);
 %>
 <tr>
-<%--<td class="tableDown"><a href="EditOrganization.jsp?OrgCode=<%=orgTo.getOrgCode()%>"><%=orgTo.getOrgName()%></a></td>--%>
-<td class="tableDown"><%=orgTo.getOrgName()%></td>
+<td class="tableDown"><a href="Logging.jsp?OrgCode=<%=orgTo.getOrgCode()%>"><%=orgTo.getOrgName()%></a></td>
+<%--<td class="tableDown"><%=orgTo.getOrgName()%></td>--%>
 <td class="tableDown"><%=orgTo.getOrgAddress()%></td>
 <td class="tableDown"><%=orgTo.getContactNumber()%></td>
 <td class="tableDown"><%=orgTo.getEmailAddress()%></td>
