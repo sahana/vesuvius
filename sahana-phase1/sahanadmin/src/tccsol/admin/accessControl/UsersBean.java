@@ -411,7 +411,7 @@ public class UsersBean
                     sql = "insert into TBLUSERROLES (ROLEID, USERNAME) values (?, ?)";
                     stat = con.prepareStatement(sql);
                     stat.setString(1,this.roleId);
-                    stat.setString(2, this.userName.toUpperCase());
+                    stat.setString(2, this.userName);
                     co = stat.executeUpdate();
                     if (co == 0)
                         ret = false;

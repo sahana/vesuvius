@@ -66,7 +66,7 @@
     <url-pattern>/usersservlet</url-pattern>
   </servlet-mapping>
  <welcome-file-list>
-    <welcome-file>admin/accessControl/Login1.jsp</welcome-file>
+    <welcome-file>/admin/accessControl/Login1.jsp</welcome-file>
  </welcome-file-list>
 
 </web-app>
