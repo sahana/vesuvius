@@ -72,7 +72,8 @@
      </fileset>
   </copy>
 
-  <copy file="${db.properties}"  todir="${bin.war.root.classes}/org/sahana/share/db"></copy>
+<!-- #####################   This is not the same as the others #################### -->
+  <copy file="${db.properties}"  todir="${bin.war.root.classes}/org/sahana"></copy>
 
   <!--   Create the war   -->
   <war warfile="${app-name}.war" basedir="${bin.war.root}" webxml="${web}/WEB-INF/web.xml" ></war>
@@ -100,9 +101,9 @@
 
   <!--  Build script for the sahana admin.war  -->
   <property name="app-name" value="sahanaadmin"></property>
-
-    <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
-
+  <!-- #####################   This is not the same as the others #################### -->
+	
+    <property name="db.properties" value="${src}/org/sahana/db.properties"></property>
     <property file="../tomcat.properties"/>
 
 
