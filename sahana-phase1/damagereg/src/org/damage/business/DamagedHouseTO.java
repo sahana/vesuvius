@@ -9,6 +9,7 @@ public class DamagedHouseTO {
     private String division;
     private String gsn;
     private String owner;
+    private String address;
     private String distanceFromSea;
     private String floorArea;
     private String noOfStories;
@@ -16,7 +17,9 @@ public class DamagedHouseTO {
     private String noOfResidents;
     private String typeOfConstruction;
     private String propertyTaxNo;
+    private String estimatedValue;
     private String totalDamagedCost;
+    private String landArea;
     private String relocate;
     private String insured;
     private String damageType;
@@ -25,7 +28,7 @@ public class DamagedHouseTO {
     private ArrayList  damagedHouseMoreInfoList= new ArrayList();
     private ArrayList houseFacilityInfoList=new ArrayList();
 
-
+   public DamagedHouseTO(){}
 
     public void addDamagedHouseMoreInfo(DamagedHouseMoreInfoTO dhmInfoTO){
        this.damagedHouseMoreInfoList.add(dhmInfoTO);
@@ -33,6 +36,31 @@ public class DamagedHouseTO {
 
     public void addHouseFacilityInfo(HouseFacilityInfoTO hfInfoTO){
         this.houseFacilityInfoList.add(hfInfoTO);
+    }
+
+    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, String address, String distanceFromSea, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String estimatedValue, String totalDamagedCost, String landArea, String relocate, String insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
+        this.id = id;
+        this.districtCode = districtCode;
+        this.division = division;
+        this.gsn = gsn;
+        this.owner = owner;
+        this.address = address;
+        this.distanceFromSea = distanceFromSea;
+        this.floorArea = floorArea;
+        this.noOfStories = noOfStories;
+        this.typeOfOwnership = typeOfOwnership;
+        this.noOfResidents = noOfResidents;
+        this.typeOfConstruction = typeOfConstruction;
+        this.propertyTaxNo = propertyTaxNo;
+        this.estimatedValue = estimatedValue;
+        this.totalDamagedCost = totalDamagedCost;
+        this.landArea = landArea;
+        this.relocate = relocate;
+        this.insured = insured;
+        this.damageType = damageType;
+        this.comments = comments;
+        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
+        this.houseFacilityInfoList = houseFacilityInfoList;
     }
 
     public int getId() {
@@ -63,7 +91,7 @@ public class DamagedHouseTO {
         return gsn;
     }
 
-    public void setGsn(String gsn) {
+    public void setGSN(String gsn) {
         this.gsn = gsn;
     }
 
@@ -73,6 +101,14 @@ public class DamagedHouseTO {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDistanceFromSea() {
@@ -131,6 +167,14 @@ public class DamagedHouseTO {
         this.propertyTaxNo = propertyTaxNo;
     }
 
+    public String getEstimatedValue() {
+        return estimatedValue;
+    }
+
+    public void setEstimatedValue(String estimatedValue) {
+        this.estimatedValue = estimatedValue;
+    }
+
     public String getTotalDamagedCost() {
         return totalDamagedCost;
     }
@@ -139,6 +183,13 @@ public class DamagedHouseTO {
         this.totalDamagedCost = totalDamagedCost;
     }
 
+    public String getLandArea() {
+        return landArea;
+    }
+
+    public void setLandArea(String landArea) {
+        this.landArea = landArea;
+    }
 
     public String getRelocate() {
         return relocate;
@@ -185,29 +236,6 @@ public class DamagedHouseTO {
     }
 
     public void setHouseFacilityInfoList(ArrayList houseFacilityInfoList) {
-        this.houseFacilityInfoList = houseFacilityInfoList;
-    }
-
-    public DamagedHouseTO(){}
-    public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, String distanceFromSea, String floorArea, String noOfStories, String typeOfOwnership, String noOfResidents, String typeOfConstruction, String propertyTaxNo, String totalDamagedCost,  String relocate, String insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
-        this.id = id;
-        this.districtCode = districtCode;
-        this.division = division;
-        this.gsn = gsn;
-        this.owner = owner;
-        this.distanceFromSea = distanceFromSea;
-        this.floorArea = floorArea;
-        this.noOfStories = noOfStories;
-        this.typeOfOwnership = typeOfOwnership;
-        this.noOfResidents = noOfResidents;
-        this.typeOfConstruction = typeOfConstruction;
-        this.propertyTaxNo = propertyTaxNo;
-        this.totalDamagedCost = totalDamagedCost;
-        this.relocate = relocate;
-        this.insured = insured;
-        this.damageType = damageType;
-        this.comments = comments;
-        this.damagedHouseMoreInfoList = damagedHouseMoreInfoList;
         this.houseFacilityInfoList = houseFacilityInfoList;
     }
 

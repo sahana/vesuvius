@@ -14,17 +14,16 @@ public class SQLGenerator extends AbstractSQLGenerator{
                     +DBConstants.TableColumns.DIVISION + ", "
                     +DBConstants.TableColumns.GSN + ", "
                     +DBConstants.TableColumns.OWNER + ", "
+                    +DBConstants.TableColumns.ADDRESS + ", "
                     +DBConstants.TableColumns.DISTANCE_FROM_SEA + ", "
-                    +DBConstants.TableColumns.CITY + ", "
-                    +DBConstants.TableColumns.NO_AND_STREET + ", "
-                    +DBConstants.TableColumns.CURRENT_ADDRESS + ", "
                     +DBConstants.TableColumns.FLOOR_AREA + ", "
                     +DBConstants.TableColumns.NO_OF_STORIES + ", "
                     +DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ", "
                     +DBConstants.TableColumns.NO_OF_RESIDENTS + ", "
                     +DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ", "
                     +DBConstants.TableColumns.PROPERTY_TAX_NO + ", "
-                    +DBConstants.TableColumns.TOTAL_DAMAGED_COST + ", "
+                    +DBConstants.TableColumns.ESTIMATED_VALUE + ", "
+                    +DBConstants.TableColumns.TOTAL_DAMAGE_COST + ", "
                     +DBConstants.TableColumns.LAND_AREA + ", "
                     +DBConstants.TableColumns.RELOCATE + ", "
                     +DBConstants.TableColumns.INSURED + ", "
@@ -32,7 +31,7 @@ public class SQLGenerator extends AbstractSQLGenerator{
                     +DBConstants.TableColumns.COMMENTS
                     + ")"
                     +" VALUES "
-                    +"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    +"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         return s;
     }
@@ -81,7 +80,7 @@ public class SQLGenerator extends AbstractSQLGenerator{
                      + DBConstants.TableColumns.TYPE_OF_OWNERSHIP + ","
                      + DBConstants.TableColumns.TYPE_OF_CONSTRUCTION + ","
                      + DBConstants.TableColumns.PROPERTY_TAX_NO + ","
-                     + DBConstants.TableColumns.TOTAL_DAMAGED_COST + ","
+                     + DBConstants.TableColumns.TOTAL_DAMAGE_COST + ","
                      + DBConstants.TableColumns.LAND_AREA + ","
                      + DBConstants.TableColumns.RELOCATE + ","
                      + DBConstants.TableColumns.INSURED + ","
