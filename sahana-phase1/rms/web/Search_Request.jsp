@@ -393,20 +393,17 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 										<td height="25">&nbsp;</td>
 									</tr>
 
-<%
-                                                if(submitType != null  && searchDetails.isEmpty()){
-                                            %>
-
+                                    <% if(submitType != null){ %>
                                                  <tr>
-                                                    <td align="center" ><h3>There were no results found for specified search criteria</h3></td>
+                                                    <td align="center" ><h3>There are  <%=searchDetails.size()%> results found for specified search criteria</h3></td>
                                                  </tr>
                                                 <tr>
                                                     <td class="formText">&nbsp;</td>
                                                     <td height="25">&nbsp;</td>
                                                 </tr>
-
-                                              <%
-                                                }else{
+                                    <% }%>
+<%
+                                                if(!searchDetails.isEmpty()){
 %>
 
 									<tr>
