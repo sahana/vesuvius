@@ -15,6 +15,13 @@
 <jsp:useBean id="tempNewOffer" scope="page" class="org.erms.business.Offer" />
 <jsp:setProperty name="tempNewOffer" property="*" />
 
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "ADD");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
 <html>
 <head>
 <title>:: Sahana ::</title>
@@ -91,7 +98,9 @@ function validate(type){
 
 <%
 
-    //User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
+
+    LoginBean userBean = (LoginBean) session.getAttribute("LoginBean");
+
     ArrayList errorList = new ArrayList();
 
     //if (user==null){
@@ -260,7 +269,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 %>
 <tr>
 
-<td colspan="2" class="formText"><strong>Organization : <%="user.getOrganization()"%> &nbsp;&nbsp;User : <%="user.getUserName()"%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
+<td colspan="2" class="formText"><strong>Organization : <%=userBean.getOrgName()%> &nbsp;&nbsp;User : <%=userBean.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
 </tr>
 <tr>
 <td class="formText">&nbsp;</td>

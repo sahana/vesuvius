@@ -16,6 +16,12 @@
 <jsp:useBean id="offerSearchCriteriaTO" scope="session" class="org.erms.business.OfferSearchCriteriaTO" />
 <jsp:setProperty name="offerSearchCriteriaTO" property="*" />
 
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "SEARCH");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
 
 
 <html>
@@ -71,7 +77,7 @@ function selectEntityType(){
 <%
     //OfferSearchCriteriaTO offerSearchCriteriaTO = null;
     OfferSearchCriteriaTO temprequestSearchCriteriaTO = null;
-
+    LoginBean userBean = (LoginBean) session.getAttribute("LoginBean");
 
     //checking the authentication
    //User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
@@ -162,8 +168,7 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
     String formattedDate = formatter.format(new java.util.Date());
 %>
 <tr>
-<td colspan="2" class="formText"><strong>Organization : <%=
- "user.getOrganization()"%> &nbsp;&nbsp;User : &nbsp<%="user.getUserName()"%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
+<td colspan="2" class="formText"><strong>Organization : <%=userBean.getOrgName()%> &nbsp;&nbsp;User : &nbsp<%=userBean.getUserName()%> &nbsp;&nbsp;Date : <%=formattedDate%></strong></td>
 </tr>
 <tr>
 <td class="formText">&nbsp;</td>
