@@ -24,11 +24,13 @@ mysql_select_db('mambo') or die('Could not select database');
 // Descending order by default
 $order = isset($_GET['o']) && $_GET['o'] == 'a' ? 'asc' : 'desc';
 
-// Show first page by default
-$skip = isset($_GET['s']) ?  intval($_GET['s']) : 0;
+// Show 25 results per page by default
+$page_size = isset($_GET['s']) ?  intval($_GET['s']) : 25;
 
-// Skip 25 pages by default
-$page = isset($_GET['p']) ?  intval($_GET['p']) : 25;
+// We are on the first page by default
+$page = isset($_GET['p']) ?  intval($_GET['p']) : 1;
+
+$skip = ($page - 1) * $page_size;
 
 // Generic query
 $query = "sahana_entities e join sahana_entity_types et on (e.entity_type = et.id) left join sahana_entity_relationships er on (e.id = er.entity_id) left join sahana_entity_relationship_types ert on (er.relation_type = ert.id) where et.name = 'person' and (ert.name is NULL or ert.name = 'family member')";
@@ -37,9 +39,15 @@ $query = "sahana_entities e join sahana_entity_types et on (e.entity_type = et.i
 $query_count = "select count(*) from $query";
 $rows = mysql_query($query_count);
 $row = mysql_fetch_array($rows) or die('Database error!');
-print $row[0] . ' matches found.';
+$num_results = $row[0];
+print $num_results . ' matches found.';
 
-$query_real = "select e.id as id, ert.name as relation from $query order by e.id $order limit $skip, $page";
+$bar = page_bar($page_size, $page, 'list.php', $num_results);
+print $bar;
+
+//print $bar;
+
+$query_real = "select e.id as id, ert.name as relation from $query order by e.id $order limit $skip, $page_size";
 $rows = mysql_query($query_real);
 print '<table cellpadding="3" cellspacing="1" border="0">';
 print '<tr>';
@@ -70,6 +78,53 @@ function get_person_info($entity_id)
 	$person = array();
 	$person['name'] = get_string_attribute_by_entity($entity_id, 'name');
 	return $person;
+}
+
+function page_bar($page_size, $page_id, $url, $num_results,
+	$num_pages = 5, $target = '', $show_range = 0)
+{
+   	if ($target) {
+		$target = " target=\"$target\"";
+	}
+   	$pgbit = ereg("\?", $url) > 0 ? '&p':'?p';
+   	$page_start = $page_size * ($page_id - 1);
+	$page_end = $page_start + $page_size;
+
+	if ($page_start > $num_results - 1) {
+	   	return '';
+   	}
+	if ($page_end >= $num_results) $page_end = $num_results;
+
+	$page_str = '';
+	$num_showpages = ceil($num_results / $page_size);
+	$start_page = $page_id > $num_pages ? $page_id - $num_pages : 1;
+	for ($i = $start_page; $i <= $num_showpages; $i++) {
+		if ($i > $page_id + $num_pages) break;
+	   	if ($show_range) {
+		   	$st = ($i - 1) * $page_size;
+			$en = $st + $page_size;
+			$st++;
+			if ($page_id == $i)
+				$page_str .= "$st - $en | ";
+			else
+				$page_str .= "<a href=\"$url$pgbit=$i\"$target>$st - $en</a> |";
+		}
+		else{
+			if ($page_id == $i)
+				$page_str.="<font color=#BB0000>$i</font> | ";
+			
+			else $page_str.="<a href=\"$url$pgbit=$i\"$target>$i</a> | ";
+		}#if($show_range)
+	}
+	//Build next and previous links
+	if ($page_id < $num_showpages)
+		$page_str.="<a href=\"$url$pgbit=".($page_id+1)."\"$target>next &gt;</a> | ";
+	if ($page_id > 1)
+		$page_str = "<a href=\"$url$pgbit=".($page_id-1)."\"$target>&lt; prev</a> | " . $page_str;
+	$page_str = substr($page_str, 0, strlen($page_str) - 2);
+	#Apply css style
+	$page_str = "<font class='small'>$page_str</font>";
+	return $page_str;
 }
 
 ?>
