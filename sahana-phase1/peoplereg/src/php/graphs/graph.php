@@ -4,7 +4,7 @@
  # License : GPL
  # Author : Buddhika Siddhisena
  # Created: 31/12/2004
- # Updated: 04/01/2005
+ # Updated: 05/01/2005
 
  // Site configuration
 require_once("common/site@config.php");
@@ -33,7 +33,7 @@ list($num_rows,$total_entities)=get_statdata($attr_id,$statattrdata,$statattrval
 # Build graph data array
 $graph_data=array();
 $graph_data[0]=array();
-$graph_data[0][0]='a';
+$graph_data[0][0]=' ';
 $graph_legend=array();
 
 $attr_count=0; $other_count=0; # Used to track the frequency of other options once we pass $maxstatsize
@@ -76,7 +76,8 @@ for ($i=0;$i<count($statattrdata);$i++){
   $graph->SetLegend($graph_legend);
   
   if($graph_type=='bars'){
-    $graph->SetXLabel("Percentage");
+    $graph->SetXGridLabelType("title");
+    $graph->SetNumHorizTicks(1);
     $graph->SetYLabel("Frequency");
   }
   #$graph->SetLegendPixels($width-70,1);
