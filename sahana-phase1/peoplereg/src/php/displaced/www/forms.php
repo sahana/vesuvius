@@ -89,12 +89,15 @@ function show_input_element_select($name, $n)
 function capture_input_string($name)
 {
 	global $_POST;
+	global $_GET;
 	global $_SESSION;
 
 	if (!isset($_SESSION['form'])) $_SESSION['form'] = array();
 
 	if (isset($_POST[$name]))
 		$_SESSION['form'][$name] = trim($_POST[$name]);
+	elseif (isset($_GET[$name]))
+		$_SESSION['form'][$name] = trim($_GET[$name]);
 	else
 		unset($_SESSION['form'][$name]);
 }
@@ -157,12 +160,15 @@ function capture_input_image($name)
 function capture_input_int($name)
 {
 	global $_POST;
+	global $_GET;
 	global $_SESSION;
 
 	if (!isset($_SESSION['form'])) $_SESSION['form'] = array();
 
 	if (isset($_POST[$name]))
 		$_SESSION['form'][$name] = intval(trim($_POST[$name]));
+	if (isset($_GET[$name]))
+		$_SESSION['form'][$name] = intval(trim($_GET[$name]));
 	else
 		unset($_SESSION['form'][$name]);
 }
