@@ -9,6 +9,11 @@ require('forms.php');
 require('db.php');
 require('peoplesearch.php');
 
+// Connect to DB running locally
+$dbh = mysql_connect('localhost', 'apache', 'abcd321')
+	or die('Could not connect: ' . mysql_error());
+mysql_select_db('mambo') or die('Could not select database');
+
 // Need to generate this dynamically
 $num_members = 10; /* FIXME: get rid of the static value */
 
