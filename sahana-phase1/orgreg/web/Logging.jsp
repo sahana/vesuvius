@@ -50,13 +50,17 @@
             lbean.setUserName(user.getUserName());
             tccsol.sql.DBConnection econ = new tccsol.sql.DBConnection();
             Connection c = econ.getConnection();
-            lbean.setRoleId(Long.parseLong(econ.getValue(c, user.getUserName(), "tblUserRoles", "RoleId", "UserName", 'S')));
+            String value = econ.getValue(c, user.getUserName(), "tblUserRoles", "RoleId", "UserName", 'S');
+            try{
+                lbean.setRoleId(Long.parseLong(value));
+            }catch(NumberFormatException e){
+                throw new Exception("you don't have permission to do this operation");
+            }
             econ.closeConnection();
             lbean.setOrgId(user.getOrganization());
             lbean.setValid(true);
             session.setAttribute("LoginBean", lbean);
             new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
-
             response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode") +"&isEdit=Y");
          } else {
            %>
