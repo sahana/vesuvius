@@ -21,7 +21,60 @@
   <head>
      <title>:: Sahana ::</title>
 
+     <script>
 
+     function add()
+    {
+        if(document.tsunamiAddDamagedHouse.inputVal.value != ""  ){
+
+            document.tsunamiAddDamagedHouse.damageType.value += document.tsunamiAddDamagedHouse.inputVal.value+",";
+            document.tsunamiAddDamagedHouse.inputVal.value = "";
+        }else {
+            for (var i = 0; i < document.tsunamiAddDamagedHouse.choiseList.length; i++) {
+                if(document.tsunamiAddDamagedHouse.choiseList.options[i].selected){
+                	var newValue = document.tsunamiAddDamagedHouse.choiseList.options[i].value;
+                    if((document.tsunamiAddDamagedHouse.damageType.value.indexOf(newValue+",")) != -1){
+                        var confirm = window.confirm("You have already added "+newValue + ". Do you still want to add it again ?");
+                        if(confirm){
+                        	document.tsunamiAddDamagedHouse.damageType.value += newValue+",";
+                        }
+                    }else {
+                   document.tsunamiAddDamagedHouse.damageType.value += document.tsunamiAddDamagedHouse.choiseList.options[i].value+",";
+                   }
+                }
+            }
+        }
+    }
+
+
+
+    function minus()
+    {
+          var inValue;
+        if(document.tsunamiAddDamagedHouse.inputVal.value != ""){
+            inValue = document.tsunamiAddDamagedHouse.inputVal.value+","  ;
+        }else {
+            for (var i = 0; i < document.tsunamiAddDamagedHouse.choiseList.length; i++) {
+
+                if(document.tsunamiAddDamagedHouse.choiseList.options[i].selected){
+
+                   inValue =  document.tsunamiAddDamagedHouse.choiseList.options[i].value;
+                }
+            }
+        }
+        var outValue = document.tsunamiAddDamagedHouse.damageType.value;
+        var startIndex = outValue.indexOf (inValue);
+        if(outValue.indexOf (inValue,0) != -1){
+        var endIndex = startIndex + inValue.length+1;
+        outValue = outValue.substring (0,startIndex) + outValue.substring(endIndex,outValue.length);
+        document.tsunamiAddDamagedHouse.damageType.value = outValue;
+        document.tsunamiAddDamagedHouse.inputVal.value="";
+        }
+
+    }
+
+
+  </script>
 
 
      <link href="common/style.css" rel="stylesheet" type="text/css">
@@ -74,6 +127,7 @@
  }
 %>
      </body>
+      <jsp:include page="common/welcomefooter.inc"></jsp:include>
      <jsp:include page="common/footer.inc"></jsp:include>
   </html>
 <%
@@ -266,22 +320,45 @@
 
              <tr>
                   <td align="right" vAlign="top" class="formText">Type of Damage : </td>
-                  <td>
-                  <select name="damageType" class="selectBoxes">
-                  <%
-                      String[] damage = DBConstants.DAMAGE_TYPE;
-                      for(int i=0; i<damage.length; i++){
-                        %><option><%=damage[i]%></option>
+                <td>
+                    <table  border="0"  cellspacing="0" cellpadding="0">
+                        <tr>
 
-                          <%
-                      }
-                  %>
+                            <td vAlign="top" align="left" >
+<%--                                <input type="formText"  col="5" style="width: 150px;" name="inputVal" value="">--%>
+                                <textarea cols="15"  name="inputVal" rows="3"></textarea>
+                            </td>
+                            <td vAlign="top" align="left">
+                                <INPUT  type = "button" name="click" onClick="add();" value="Add      -->   " class="buttons" >
+                            </td>
+                            <td vAlign="top" align="left" >
+                               <textarea cols="15" readonly="true" name="damageType" rows="3"></textarea>
+                            </td>
 
-                  </select>
-                  </td>
-             </tr>
+                        </tr>
+                        <tr>
+                            <td vAlign="top" align="left">
+                                <select  name="choiseList" size="5"  style="width: 140px;">
+                                    <%
+                                        String[] damage = DBConstants.DAMAGE_TYPE;
+                                        for(int i=0; i<damage.length; i++){
+                                    %>
+                                        <option value="<%=damage[i]%>"><%=damage[i]%></option>
+                                    <%
+                                      }
+                                    %>
+                                </select>
+                            </td>
+                            <td vAlign="top" align="left">
+                                <INPUT   type = "button"  name="click" onClick="minus();" value="<--  Remove" class="buttons">
+                            </td>
+                        </tr>
+                    </table>
 
-             <tr>
+                </td>
+            </tr>
+
+            <tr>
                   <td align="right" vAlign="top" class="formText">Comments </td>
                   <td>
                      <textarea  cols="38"  name="comments" rows="5"></textarea>
