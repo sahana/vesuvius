@@ -4,7 +4,7 @@
  # License : GPL
  # Author : Buddhika Siddhisena [Bud@babytux.org]
  # Created: 27/01/2005
- # Updated: 31/01/2005
+ # Updated: 01/02/2005
 
 function get_attribute($value){ # Get a list of attributes
  global $conn,$attrtable,$attrtable_fields,$attrvaltable,$attrvaltable_fields;
@@ -38,7 +38,7 @@ function list_attr_values($attrid){
    print "<tr><td colspan=2>No results found!</td></tr>";
  }
  
- $rowaltcolor='#EBEBEB';  # Used to alternate colors between rows
+ $rowaltcolor='#FFFFFF';  # Used to alternate colors between rows
  
  for ($i=0;$i<mysql_num_rows($rs);$i++){
    $row=mysql_fetch_array($rs);

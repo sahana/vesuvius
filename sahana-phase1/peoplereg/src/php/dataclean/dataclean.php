@@ -4,7 +4,7 @@
  # License : GPL
  # Author : Buddhika Siddhisena [Bud@babytux.org]
  # Created: 27/01/2005
- # Updated: 30/01/2005
+ # Updated: 01/02/2005
 
 # Dont allow directcall. Uses mambo variable
 #defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
@@ -38,7 +38,7 @@ if(count($_REQUEST['value_string'])>0){ # Call update_data if data is passed
 <!-- attribute value data -->
 <table border=0 class="bordertext" width="50%">
 
-<tr><th>seq #</th><th>Attribute value</th></tr>
+<tr><th></th><th>Attribute values</th></tr>
 <?=list_attr_values($_REQUEST['attr'])?>
 </table>
 
@@ -50,6 +50,8 @@ if(count($_REQUEST['value_string'])>0){ # Call update_data if data is passed
 <input type="hidden" name="attr" value="<?=$_REQUEST['attr']?>">
 </form>
 </table>
+<?php else:?>
+<table border="0" width="450" height="100" class="bordertext" align="center"><tr><td>&nbsp;</td><td>Please select an attribute from the above drop down to get a complete listing. </td><td>&nbsp;</td></tr></table> 
 <?php endif?>
 
 </body>
