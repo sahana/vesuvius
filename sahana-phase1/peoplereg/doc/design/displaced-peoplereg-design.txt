@@ -1,0 +1,36 @@
+
+entity type = Family unit
+
+Location Fields
+- District
+- Village
+- Divisional secretariat's division
+- Nama of grama sevaka's division
+
+Family Fields 
+- Family number (serial number of family)
+- Name of Persons + (~ relationship)
+- Number of adult males
+- Number of adult females
+- Number of children (under 12 years)
+- Property (~ relation)
+- Weather relief is necessary
+- Number of adults eligible for relief
+- Number of children (under 13 years) eligible for relief
+- Probable period for which relief is necessary
+- other income
+- Remarks
+
+Person entries
+- Occupation
+- Income
+- Name
+
+Property Fields
+- Nature and extent
+- Value
+
+Requirements
+------------
+- show reports similar to http://www.cnosrilanka.org/13Jan17.html 
+- report on the trends
