@@ -227,62 +227,11 @@ function validateform()
                 <tr>
                     <td align="right" valign="top"  >Camp Name</td><td><input type="text" class="textBox" name="campName" value="<jsp:getProperty name="newCamp" property="campName" />"></td>
                 </tr>
-                <%--<tr>
-                    <td align="right" valign="top"  >Province</td><td>&nbsp;</td>
-                    <td>
-                        <select name="provienceCode">
-                            <%
-                              List provinces = (List) application.getAttribute("provinces");
-                                for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
-                                    LabelValue province = (LabelValue) iterator.next();
-                            %>
-                            <%
-                                    if(province.getValue().equals(newCamp.getProvienceCode())) {
-                            %>
-                                      <option selected value="<%=province.getValue()%>"><%=province.getLabel()%></option>
-                            <%
-                              } else {
-                            %>
-                                    <option value="<%=province.getValue()%>"><%=province.getLabel()%></option>
 
-                            <%
-                                    }
-                                }
-                            %>
-                        </select>
-                    </td>
-                </tr>--%>
-                <%--<tr>
-                    <td align="right" valign="top"  >District</td><td>&nbsp;</td>
-                    <td>
-                        <select name="districtCode">
-
-                        <%
-                          List districts = (List) application.getAttribute("districts");
-                            for (Iterator iterator = districts.iterator(); iterator.hasNext();) {
-                                LabelValue district = (LabelValue) iterator.next();
-                        %>
-                        <%
-                                if(district.getValue().equals(newCamp.getDistrictCode())) {
-                        %>
-                                  <option selected value="<%=district.getValue()%>"><%=district.getLabel()%></option>
-                        <%
-                          } else {
-                        %>
-                                <option value="<%=district.getValue()%>"><%=district.getLabel()%></option>
-
-                        <%
-                                }
-                            }
-                        %>
-
-                        </select>
-                    </td>
-                </tr>--%>
                 <tr>
                     <td  align="right" valign="top"  >Division&nbsp;
                         <td>
-                        <select name="divisionId" class="selectBox">
+                        <select name="divisionId" class="selectBoxes">
                             <%
                             List divisions = (List) application.getAttribute("divisions");
                                 for (Iterator iterator = divisions.iterator(); iterator.hasNext();) {
@@ -304,32 +253,6 @@ function validateform()
                         </select>
                     </td>
                </tr>
-               <%--<tr>
-                    <td  align="right" valign="top"  >Area&nbsp;<td>&nbsp;</td>
-                       <td>
-                        <select name="areadId">
-                            <%
-                              List areas = (List) application.getAttribute("areas");
-                                for (Iterator iterator = areas.iterator(); iterator.hasNext();) {
-                                    LabelValue area = (LabelValue) iterator.next();
-                            %>
-                            <%
-                                    if(area.getValue().equals(newCamp.getAreadId())) {
-                            %>
-                                      <option selected value="<%=area.getValue()%>"><%=area.getLabel()%></option>
-                            <%
-                              } else {
-                            %>
-                                    <option value="<%=area.getValue()%>"><%=area.getLabel()%></option>
-
-                            <%
-                                    }
-                                }
-                            %>
-
-                        </select>
-                    </td>
-                </tr>--%>
 
                 <tr>
                     <td  align="right" valign="top"  >Area&nbsp;

@@ -143,10 +143,6 @@ function showObject(id){
            hideObject("menRow");
            hideObject("womenRow");
            hideObject("childRow");
-<%--      enableTextBox("campTotal");--%>
-<%--      disableTextBox("campMen");--%>
-<%--      disableTextBox("campWomen");--%>
-<%--      disableTextBox("campChildren");--%>
     }
 
     function breakDownSelected(){
@@ -154,11 +150,7 @@ function showObject(id){
            showObject("menRow");
            showObject("womenRow");
            showObject("childRow");
-           
-<%--      disableTextBox("campTotal");--%>
-<%--      enableTextBox("campMen");--%>
-<%--      enableTextBox("campChildren");--%>
-<%--      enableTextBox("campWomen");--%>
+
     }
 
     function changeTextBoxStatus(){
@@ -243,7 +235,7 @@ function showObject(id){
                                    User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
                                    if(user == null){
                                        request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
-                                              response.sendRedirect("error.jsp");
+                                       response.sendRedirect("error.jsp");
                                    }
                                %>
         <table width="760" border="0" cellspacing="0" cellpadding="0">
@@ -266,8 +258,6 @@ function showObject(id){
           </td>
           </tr>
         </table>
-<%--  <tr>--%>
-<%--    <td>--%>
         <table width="760" border="0" cellspacing="0" cellpadding="0">
              <tr>
                <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">Add Camps  </td>
@@ -305,39 +295,6 @@ function showObject(id){
         <tr>
             <td align="right" valign="top"  class="formText"  >Camp Name</td><td><input type="text" size="20" maxlength="49"  name="campName" class="textBox"  value="<jsp:getProperty name="newCamp" property="campName" />">&nbsp;<small><font color="red">*</font></small></td>
         </tr>
-        <%--<tr>
-            <td align="right" valign="top"  >Province</td><td>&nbsp;</td>
-            <td>
-                <select name="provienceCode">
-
-                    <%
-                      List provinces = (List) application.getAttribute("provinces");
-                        for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
-                            LabelValue province = (LabelValue) iterator.next();
-                    %>
-                            <option value="<%=province.getValue()%>"><%=province.getLabel()%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td align="right" valign="top"  >District</td><td>&nbsp;</td>
-            <td>
-                <select name="districtCode">
-                    <%
-                      List districts = (List) application.getAttribute("districts");
-                        for (Iterator iterator = districts.iterator(); iterator.hasNext();) {
-                            LabelValue district = (LabelValue) iterator.next();
-                    %>
-                            <option value="<%=district.getValue()%>"><%=district.getLabel()%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </td>
-        </tr>--%>
 
         <%
             // populate the session with the division, district and province info so that jscript can use them
@@ -347,7 +304,7 @@ function showObject(id){
         <tr>
             <td  align="right" valign="top"   class="formText">Division&nbsp;</td>
                 <td>
-                <select onChange="update();" name="divisionId" class="selectBox">
+                <select onChange="update();" name="divisionId" class="selectBoxes">
                     <option value="">&lt;Select&gt;</option>
                     <%
                       List divisions = (List) application.getAttribute("divisions");
@@ -363,24 +320,6 @@ function showObject(id){
             </td>
 
        </tr>
-
-      <%-- <tr>
-            <td  align="right" valign="top"  >Area&nbsp;<td>&nbsp;</td>
-               <td>
-                <select name="areadId">
-                    <%
-                      List areas = (List) application.getAttribute("areas");
-                        for (Iterator iterator = areas.iterator(); iterator.hasNext();) {
-                            LabelValue area = (LabelValue) iterator.next();
-                    %>
-                            <option value="<%=area.getValue()%>"><%=area.getLabel()%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </td>
-        </tr>--%>
-
         <tr>
             <td  align="right" valign="top"  class="formText" >Area&nbsp;</td>
                <td>
@@ -444,7 +383,6 @@ function showObject(id){
               <td>
                 <input type="reset" name="reset" value="Clear" class="buttons"/>
                 <input type="submit" name="doInsert" value="Add" class="buttons"/>
-<%--                <input type="button" name="doInsert" onClick="validateForm();"  value="doInsert"  class="buttons"/>--%>
             </tr>
             <tr>
              <td>
