@@ -67,4 +67,11 @@ public interface DBConstants {
         //public static final String DESCRIPTION="Description";
     }
 
+
+    public static final String[] OWNERSHIP_TYPE = {"Self Owned", "Leased/Rent", "Government", "Encroched"};
+
+    public static final String[] CONSTRUCTION_TYPE = {"Bricks", "Thatched", "Wood"};
+
+    public static final String[] DAMAGE_TYPE = {"Completely Destroyed", "Roof Destroyed", "Structural Damage", "Fractures Walls"};
+
 }
