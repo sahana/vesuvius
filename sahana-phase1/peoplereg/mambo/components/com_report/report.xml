@@ -123,6 +123,21 @@
       </query>
 
       <query>
+        insert into sahana_attributes (name, caption, data_type, publicity, search)
+	        values ('age_group', 'Age group', 0, 0, 1);
+      </query>
+	  <query>
+        insert into sahana_attribute_options
+			(attribute_id, name, caption) values
+			(last_insert_id(), 'unknown', 'Unknown'),
+			(last_insert_id(), 'infant', 'Infant (age: less than 1)'),
+			(last_insert_id(), 'child', 'Child (age: 1-12)'),
+			(last_insert_id(), 'teenager', 'Teenager (age: 13-20)'),
+			(last_insert_id(), 'adult', 'Adult (age: 21-60)'),
+			(last_insert_id(), 'elderly', 'Elderly (age: over 60)'));
+	  </query>
+
+      <query>
         insert into sahana_attributes (name, caption, data_type, publicity, search) values('province', 'Province/state', 0, 0, 1);
       </query>
 

@@ -20,6 +20,7 @@ function capture_data()
 	capture_input_string('gender');
 	capture_input_string('dob');
 	capture_input_string('age');
+	capture_input_string('age_group');
 	capture_input_string('nic_no');
 	capture_input_string('passport_no');
 	capture_input_string('marital_status');
@@ -113,6 +114,9 @@ function display_data()
 <? } ?>
 <? if (input_is_set('age')) { ?>
 	<li>Age (years): <? display_input('age'); ?></li>
+<? } ?>
+<? if (input_is_set('age_group')) { ?>
+	<li>Age group: <? display_input('age_group'); ?></li>
 <? } ?>
 <? if (input_is_set('nic_no')) { ?>
 	<li>National ID number: <? display_input('nic_no'); ?></li>
@@ -317,7 +321,7 @@ function validate_email() {
 		<td><? show_input_text('dob', 0, "onblur=\"validate_dob();\""); ?></td>
 	<tr>
 		<td>Age:</td>
-		<td><? show_input_text('age', 0, "onblur=\"validate_age();\""); ?></td>
+		<td><? show_input_text('age', 0, "onblur=\"validate_age();\""); ?> OR <? show_input_select('age_group'); ?></td>
 	</tr>
 	<tr>
 		<td>Image:</td>
@@ -587,6 +591,7 @@ function store_data()
 		store_integer($report_id, $entity_id, 'age');
 		store_string($report_id, $entity_id, 'age_str');
 	}
+	store_selection($report_id, $entity_id, 'age_group');
 	store_string($report_id, $entity_id, 'nic_no', 1);
 	store_string($report_id, $entity_id, 'passport_no', 1);
 	store_selection($report_id, $entity_id, 'marital_status', 1);
@@ -655,6 +660,8 @@ function display_entity_info($entity)
 	//if ($dob != 'Unknown') echo '<li> Date of birth: ' . $dob;
 	$age = get_integer_attribute_by_entity($entity, 'age');
 	echo '<li> Age: ' . $age;
+	$age_group = get_option_attribute_by_entity($entity, 'age_group');
+	echo '<li> Age group: ' . $age_group;
 	//$nic_no = get_string_attribute_by_entity($entity, 'nic_no');
 	//if ($nic_no != 'Unknown') echo '<li> NIC no: ' . $nic_no;
 	//$passport_no = get_string_attribute_by_entity($entity, 'passport_no');
