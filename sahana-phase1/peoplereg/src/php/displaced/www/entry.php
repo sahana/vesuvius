@@ -43,6 +43,7 @@ if ($_POST) {
 		capture_input_string('village');
 
 		capture_input_int('family_serial_no');
+		capture_input_string('address');
 		capture_input_int('num_males');
 		capture_input_int('num_females');
 		capture_input_int('num_children');
@@ -55,9 +56,14 @@ if ($_POST) {
 			capture_input_element_string('occupation', $i);
 			capture_input_element_int('income', $i);
 		}
-
 		capture_input_int('other_income');
 		capture_input_int('total_income');
+
+		capture_input_string('property_owned');
+		capture_input_int('property_value');
+
+		capture_input_string('current_location');
+		capture_input_string('current_camp');
 
 		capture_input_int('relief_adults');
 		capture_input_int('relief_children');
@@ -100,7 +106,10 @@ if ($screen == 'confirm') {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Serial number of the family: <? display_input('family_serial_no'); ?></td>
+<td>Serial number of the family:</td><td><? display_input('family_serial_no'); ?></td>
+</tr>
+<tr>
+<td>Address:</td><td><? display_input('address'); ?></td>
 </tr>
 </table>
 </div>
@@ -129,33 +138,39 @@ for ($i = 0; $i < $num_members; $i++) {
 	if (member_info_available($i)) {
 		print '<tr><td>';
 		display_input_element('name', $i);
-		print '</td><td>';
+		print '</td><td align="center">';
 		display_input_element_caption('status', $i);
-		print '</td><td>';
+		print '</td><td align="center">';
 		display_input_element('occupation', $i);
 		print '</td><td align="right">';
-		display_input_element('income', $i);
+		display_input_element_money('income', $i);
 		print '</td></tr>';
 	}
 }
 ?>
 
 <tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Other income</td>
-<td><? display_input('other_income'); ?></td>
+<td colspan="3" align="right">Other income</td>
+<td align="right"><? display_input_money('other_income'); ?></td>
 </tr>
 
 <tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Total income</td>
-<td><? display_input('total_income'); ?></td>
+<td colspan="3" align="right">Total income</td>
+<td align="right"><? display_input_money('total_income'); ?></td>
 </tr>
 
 </table>
+
+<table class="entry">
+<tr>
+<td>Property owned:</td>
+<td><? display_input('property_owned'); ?></td>
+<td>Property value:</td>
+<td><? display_input_money('property_value'); ?></td>
+</tr>
+</table>
 </div>
+
 
 <hr />
 
@@ -163,9 +178,9 @@ for ($i = 0; $i < $num_members; $i++) {
 <table class="entry">
 <tr>
 <td>Current location:</td>
-<td><? display_input('location'); ?></td>
+<td><? display_input('current_location'); ?></td>
 <td>Camp (if applicable):</td>
-<td><? display_input('camp'); ?></td>
+<td><? display_input('current_camp'); ?></td>
 </tr>
 </table>
 </div>
@@ -185,8 +200,7 @@ for ($i = 0; $i < $num_members; $i++) {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Probable period for which relief is necessary:</td>
-<td><? display_input('relief_period'); ?></td>
+<td>Probable period for which relief is necessary: <? display_input('relief_period'); ?></td>
 </tr>
 </table>
 </div>
@@ -245,7 +259,10 @@ else {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Serial number of the family: <? show_input_text('family_serial_no'); ?></td>
+<td>Serial number of the family:</td><td><? show_input_text('family_serial_no'); ?></td>
+</tr>
+<tr>
+<td>Address:</td><td><? show_input_text('address', 70); ?></td>
 </tr>
 </table>
 </div>
@@ -312,8 +329,8 @@ for ($i = 0; $i < $num_members; $i++) {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Current location: <? show_input_text('location'); ?></td>
-<td>Camp (if applicable): <? show_input_text('camp'); ?></td>
+<td>Current location: <? show_input_text('current_location'); ?></td>
+<td>Camp (if applicable): <? show_input_text('current_camp'); ?></td>
 </tr>
 </table>
 </div>

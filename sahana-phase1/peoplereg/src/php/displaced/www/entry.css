@@ -8,17 +8,17 @@ h2 {
 }
 
 hr {
-	width: 98%;
+	width: 95%;
 }
 
 table.entry {
 	width: 95%;
-	padding: 2;
+	padding: 0;
 	border: 0;
 }
 
 td {
-	padding: 3;
+	padding: 4;
 	margin: 1;
 	background-color: #ddddff;
 }
