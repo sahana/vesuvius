@@ -6,6 +6,9 @@
  # Created: 31/12/2004
  # Updated: 06/01/2005
 
+# Dont allow directcall. Uses mambo variable
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+
  // Site configuration
 require_once("common/site@config.php");
 
