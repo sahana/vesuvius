@@ -31,7 +31,7 @@
          //validate
          if (addBurialDetailTO.getDistrictCode()==null || (addBurialDetailTO.getDistrictCode().trim().length()<=0))
              errorList.add("District is required");
-         if (addBurialDetailTO.getProvinceCode()==null || (addBurialDetailTO.getProvinceCode().trim().length()<=0))
+         if (addBurialDetailTO.getProvinceCode()==null || (addBurialDetailTO.getProvinceCode().trim().length()<=0) && !addBurialDetailTO.getProvinceCode().trim().equals("-1"))
              errorList.add("Province is required");
          if (addBurialDetailTO.getDivisionCode()==null || (addBurialDetailTO.getDivisionCode().trim().length()<=0))
              errorList.add("Division is required");
@@ -338,6 +338,7 @@
                <td  align="right" vAlign="top" class="formText">Province : </td>
                <td  >
                    <select name="provinceCode" class="selectBoxes" onchange="listDistrict();listDivisions();">
+                         <option value="-1">&lt;select&gt;</option>
                         <%
                             if (addBurialDetailTO.getProvinceCode()!=null){
                                  for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
@@ -362,7 +363,21 @@
            <td align="right" vAlign="top" class="formText">District :</td>
                    <td>
                     <select name="districtCode" class="selectBoxes" onchange="listDivisions();" >
-                            <option value="-1">&lt;select&gt;</option>
+                    <%
+                     if (addBurialDetailTO.getProvinceCode()!=null && addBurialDetailTO.getDistrictCode()!=null){
+                            //load the specific district list. By this time it is assumed that the province is also loaded
+                            List districtList = dataAccessManager.listDistrictwithProvince(addBurialDetailTO.getProvinceCode());
+                            for (int i = 0; i < districtList.size(); i++) {
+                                String dbTableCode = ((KeyValueDTO)districtList.get(i)).getDbTableCode();
+                                String dbTableName = ((KeyValueDTO)districtList.get(i)).getDisplayValue();
+                    %><option value="<%=dbTableCode%>" <% if (addBurialDetailTO.getDistrictCode().equals(dbTableCode)) out.print("selected=\"true\"");%>><%=dbTableName%></option>
+                     <%  }
+                        }else{
+                    %>
+                      <option value="-1">&lt;select&gt;</option>
+                    <%
+                        }
+                    %>
                    </select>&nbsp;<small><font color="red">*</font></small>
                   </td>
 
@@ -371,8 +386,21 @@
            <td align="right" vAlign="top" class="formText">Division :</td>
                    <td >
                     <select name="divisionCode" class="selectBoxes">
-                            <option value="-1">&lt;select&gt;</option>
-                      
+                           <%
+                               if (addBurialDetailTO.getProvinceCode()!=null && addBurialDetailTO.getDistrictCode()!=null && addBurialDetailTO.getDivisionCode()!=null){
+                            //load the specific district list. By this time it is assumed that the province is also loaded
+                            List divisionList = dataAccessManager.listDivisionsforDistrict(addBurialDetailTO.getDistrictCode());
+                            for (int i = 0; i < divisionList.size(); i++) {
+                                String dbTableCode = ((KeyValueDTO)divisionList.get(i)).getDbTableCode();
+                                String dbTableName = ((KeyValueDTO)divisionList.get(i)).getDisplayValue();
+                    %><option value="<%=dbTableCode%>" <% if (addBurialDetailTO.getDistrictCode().equals(dbTableCode)) out.print("selected=\"true\"");%>><%=dbTableName%></option>
+                     <%  }
+                        }else{
+                    %>
+                      <option value="-1">&lt;select&gt;</option>
+                    <%
+                        }
+                         %>
                    </select>&nbsp;<small><font color="red">*</font></small>
                   </td>
 
@@ -416,10 +444,10 @@
              </td>
            </tr>
      <tr>
-                    <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
+                    <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();" value="1"/></td>
                     </tr>
                     <tr>
-                        <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
+                        <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();" value="2"/></td>
                     </tr>
                     <tr id="totalRow" style="display:none" >
                         <td align="right" >Total</td><td align="left" vAlign="top" class="formText" ><input type="text" name="bodyCountTotal" class="textBox"  onChange="validateTotal();" value="<%=addBurialDetailTO.getBodyCountTotal()%>" ></input>&nbsp;<small><font color="red">*</font></small></td>

@@ -30,6 +30,15 @@ public class BurialSiteDetailTO {
     private String authorityName;
     private String authorityPersonRank;
     private String authorityReference;
+    private String countSelect;
+
+    public String getCountSelect() {
+        return countSelect;
+    }
+
+    public void setCountSelect(String countSelect) {
+        this.countSelect = countSelect;
+    }
 
     public String getGpsLattitude() {
         return gpsLattitude;

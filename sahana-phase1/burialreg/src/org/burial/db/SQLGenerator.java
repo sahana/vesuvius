@@ -23,7 +23,7 @@ public class SQLGenerator {
      public static String getSQLForDivisionListforDistrict(String district) {
         return "select CAMPS_DIVISION.DIV_NAME, CAMPS_DIVISION.DIV_ID " +
                 "FROM CAMPS_DIVISION INNER JOIN CAMPS_DISTRICT ON camps_division.DIST_CODE = camps_district.DIST_CODE " +
-                "and camps_district.DIST_NAME ="+"'" + district +"'";
+                "and CAMPS_DISTRICT.DIST_NAME ="+"'" + district +"'";
     }
 
 //     public static String getSQLForAllDistricts() {
