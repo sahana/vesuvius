@@ -192,7 +192,7 @@ if ($screen == 'entry') {
 			</tr>
 			<tr>
 				<td>Address:</td>
-				<td><? show_input_text('address', 70); ?></td>
+				<td><? show_input_textarea('address', 3, 50); ?></td>
 			</tr>
 		</table>
 		<table class="entry">
