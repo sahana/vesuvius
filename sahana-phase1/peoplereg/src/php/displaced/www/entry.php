@@ -540,6 +540,3 @@ function load_family_info($family_id)
 
 ?>
 
-<script language="javascript">
-
-</script>
