@@ -1,0 +1,96 @@
+Requirements
+R.1) Ensuring that person does not have to repeat entering his data - police entering the data - Sanjiva
+R.2) Put the district number in the form - Dr M
+R.3) Data transformation - Sanjiva
+R.4) put fingerprinting, dental records and dna
+
+Enhancements
+E.2) Relating records
+E.3) Report and chart enhanceemnts - Grouping the data
+E.4) Search with soundex
+E.5) Advance search 
+E.7) consistent UI and CSS cleanup
+E.8) Full listing of people missing, found, injured, deceased
+E.9) Putting people who reported in display resulting from search
+
+Bugs
+B.1) Age breakdown - shahani
+B.2) remove hotline number in report a missing person - 
+B.3) grouping of interger data in charts
+
+Actions
+A.0) create and setup sourceforge account - chamindra
+A.1) get additional requirements from Dr M and police - chamindra
+A.2) Get staging server setup
+A.3) Setup testing enviornments
+
+Team							Rota
+- Anuradha (A)- main component development		9:30a-9:30p
+- Buddhika (B) - report functionality			9:30a-9:30p
+- Chamindra (Cd) - mambo design and admisitration	9:30a-7:30p
+- Chinthana (Cw) - javascripts, XHTML and css		9:30a-7:30p
+- Harsha (H)						4:00p-10:00p
+- Parthi (P)
+- Chamila (Cr)
+- Kamal (K)						9:30a-9:30p
+
+Project plan
+
+4-Tuesday
+Present: B, Cd, Cw, K, Cr, Jackie
+	- E.3/B.1 - groups for reporting - age/unknown - B
+	- E.7 - CSS cleanup - Cw
+	- E.4 - soundex solution
+	- R.3 - Cr
+	- R.1 - A
+	- B.2 - A
+
+5-Wednesday
+	- E.7 - CSS cleanup - chinthana
+	- R.3 - Jackie and Cr
+	- E.4/E.9 - K 
+	- R.4 - A
+	- R.1 - B 
+	- B.3 - B 
+	- Draw E-R diagram - C
+	- Design of next system - C/A
+
+
+
+CVS Directory structure
+
+DONE
+E.6) client side/server side data validation
+
+/sahana
+	/rms
+	/orgreg
+	/reports
+	/campreg
+	/common
+		/java
+		/c
+		/php
+	/www
+	/peoplereg
+		/src
+			/mambo
+				/modules
+					/mod_main_search
+					/mod_stats
+				/components
+					/com_sahanadb
+					/com_reports
+				/templates
+			/mysql
+				/transformations
+		/doc
+			/tracking
+			/design
+			/requirements
+		/debian
+		/rpm
+
+mailing lists
+- sahana-general
+- sahana-dev
