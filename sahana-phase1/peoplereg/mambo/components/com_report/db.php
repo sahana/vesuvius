@@ -66,7 +66,7 @@ function new_report()
 function new_entity()
 {
 	global $database;
-	$database->setQuery('insert into sahana_entities values ()');
+	$database->setQuery("insert into sahana_entities (entity_type) select id from sahana_entity_types where name = 'person'");
 	$database->query();
 	$database->setQuery('select last_insert_id()');
 	return $database->loadResult();

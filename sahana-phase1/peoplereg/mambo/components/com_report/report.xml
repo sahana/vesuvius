@@ -21,6 +21,7 @@
       <query>
         create table sahana_entities (
         	id integer(10) not null auto_increment,
+        	entity_type integer,
         	primary key (id)
         );
       </query>
