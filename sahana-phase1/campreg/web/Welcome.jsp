@@ -1,3 +1,5 @@
+<%--Camp reg Welcome--%>
+
 <%@ page import="org.campdb.business.User,
                  org.campdb.util.CAMPDBConstants"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -18,7 +20,18 @@
 </head>
 
 <body topmargin="0" leftmargin="0">
-   <% User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
+<%
+    request.setAttribute("turl", "index.jsp");
+    request.setAttribute("modNo", "3");
+    request.setAttribute("accessLvl", "PAGE");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
+   <%
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User user = new  User(lbean.getUserName(),lbean.getOrgId());
+      user.setOrganization(lbean.getOrgName());
+//       User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
       if(user == null){
         request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
       response.sendRedirect("error.jsp");

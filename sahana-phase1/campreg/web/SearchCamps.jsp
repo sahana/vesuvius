@@ -12,13 +12,24 @@
                  java.util.ArrayList"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "3");
+    request.setAttribute("accessLvl", "SEARCH");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
 <html>
 <header>
   <title>:: Sahana ::</title>
   <script>
 
+
    <%
-       User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User user = new  User(lbean.getUserName(),lbean.getOrgId());
+      user.setOrganization(lbean.getOrgName());
+//       User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
        if(user == null){
        request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
        response.sendRedirect("error.jsp");

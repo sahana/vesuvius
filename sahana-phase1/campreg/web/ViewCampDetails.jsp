@@ -9,6 +9,14 @@
 
 
 <%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "3");
+    request.setAttribute("accessLvl", "SEARCH");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
+
+<%
     if (request.getParameter("campId") == null) {
         response.sendRedirect("SearchCamps.jsp");
         return;
@@ -37,7 +45,11 @@
 </head>
 
 <body topmargin="0" leftmargin="0">
-   <%  User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
+   <%
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User user = new  User(lbean.getUserName(),lbean.getOrgId());
+      user.setOrganization(lbean.getOrgName());       
+//       User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
        if(user == null){
          request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
          response.sendRedirect("error.jsp");

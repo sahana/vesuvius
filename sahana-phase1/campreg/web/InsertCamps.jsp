@@ -30,6 +30,15 @@
 <jsp:setProperty name="newCamp" property="campFamily" />
 <jsp:setProperty name="newCamp" property="countSelect" />
 
+
+ <%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "3");
+    request.setAttribute("accessLvl", "ADD");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
+
 <%
 
     //=============================================
@@ -279,13 +288,16 @@ function showObject(id){
 </head>
 
 <body topmargin="0" leftmargin="0">
-                               <%
-                                   User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
-                                   if(user == null){
-                                       request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
-                                       response.sendRedirect("error.jsp");
-                                   }
-                               %>
+   <%
+//       User user = (User) session.getAttribute(CAMPDBConstants.IContextInfoConstants.USER_INFO);
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User user = new  User(lbean.getUserName(),lbean.getOrgId());
+      user.setOrganization(lbean.getOrgName());       
+       if(user == null){
+           request.getSession().setAttribute(CAMPDBConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User has not been authenticated. Please login  !!");
+           response.sendRedirect("error.jsp");
+       }
+   %>
         <table width="760" border="0" cellspacing="0" cellpadding="0">
         <td height="50" >
       <jsp:include page="comman/header.inc"></jsp:include>
