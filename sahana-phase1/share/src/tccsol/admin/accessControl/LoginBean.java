@@ -30,6 +30,11 @@ public class LoginBean
 
     public boolean isValidUser()
     {
+
+        //System.out.println("userName = " + userName);
+
+
+
         DBConnection conn = null;
         Connection con = null;
         PreparedStatement stat = null;
@@ -39,14 +44,15 @@ public class LoginBean
 
         String sql = "SELECT u.username, password, o.Orgcode, OrgName, l.RoleId, RoleName FROM user u, TBLUSERROLES r, "
                 + "TBLROLES l, organization o where u.username = r.username and o.Orgcode = u.Orgcode and "
-                + "r.RoleId = l.RoleId and u.username = ?";
+                + "r.RoleId = l.RoleId and u.username = '"+ userName +"'";
 
+         //System.out.println("sql = " + sql);
         try
         {
             conn = new DBConnection();
             con = conn.getConnection();
             stat = con.prepareStatement(sql);
-            stat.setString(1, this.userName);   //User name not case sensitive
+            //stat.setString(1, this.userName);   //User name not case sensitive
 
             rs = stat.executeQuery();
 
@@ -68,9 +74,9 @@ public class LoginBean
                    ret = true;
                 else
                     messages.add("Invalid Password (Password is case sensitive)");
-            }
-            else
+            }else{
                 messages.add("Invalid User Name");
+            }
         }
         catch(Exception ex)
         {
