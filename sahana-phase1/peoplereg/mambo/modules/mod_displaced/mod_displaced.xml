@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<mosinstall type="module">
+    <name>Displaced</name>
+    <creationDate>18/Jan/2005</creationDate>
+    <author> Virtusa / LK-LUG</author>
+    <copyright>This template is released under the GNU/GPL License</copyright>
+    <authorEmail>anuradha@linux.lk</authorEmail>
+    <authorUrl></authorUrl>
+    <version>1.0</version>
+    <description>Allows displaced persons to be entered</description>
+     <files>
+         <filename module="mod_displaced">mod_displaced.php</filename>
+     </files>
+</mosinstall>
