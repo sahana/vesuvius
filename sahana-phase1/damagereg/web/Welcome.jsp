@@ -63,11 +63,11 @@
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left"><strong><a href="Add_new_damaged_house.jsp" style="text-decoration:none"  class="style1">Add New Damaged House</a></strong></td>
+                <td  nowrap class="formText" align="left"><strong><a href="AddDamagedHouse.jsp" style="text-decoration:none"  class="style1">Add New Damaged House</a></strong></td>
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left"><strong><a href="Search_damage_house.jsp" style="text-decoration:none"  class="style1">Search Damaged Houses</a></strong></td>
+                <td  nowrap class="formText" align="left"><strong><a href="Search.jsp" style="text-decoration:none"  class="style1">Search Damaged Houses</a></strong></td>
                 </tr>
 
 <%--                 <tr>--%>

@@ -1,6 +1,8 @@
 <%@ page import="java.util.Iterator,
                  org.sahana.share.utils.KeyValueDTO,
-                 org.damage.db.DataAccessManager"%>
+                 org.damage.db.DataAccessManager,
+                 java.util.List,
+                 org.damage.business.DamagedHouseTO"%>
  <%--
   Created by IntelliJ IDEA.
   User: srinath
@@ -10,7 +12,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="search" scope="request" class="org.damage.business.SearchHouseTO" />
-
 <jsp:setProperty name="search" property="*" />
 
 
@@ -53,6 +54,33 @@
                </table>
             </td>
         </tr>
+
+        <%
+            List searchReasult = dataAccessManager.searchDamage(search);
+
+        %>
+        <tr>
+            <td>DistrictCode</td>
+            <td>Division</td>
+            <td>GSN</td>
+            <td>distanceFromSea</td>
+            <td>City</td>
+            <td>FloorArea</td>
+        </tr>
+             <%
+               Iterator it = searchReasult.iterator();
+               while(it.hasNext()){
+               DamagedHouseTO to = (DamagedHouseTO)it.next();
+             %>
+                <tr>
+                    <td><%=to.getDistrictCode()%></td>
+                    <td><%=to.getDivision()%></td>
+                    <td><%=to.getGSN()%></td>
+                    <td><%=to.getDistanceFromSea()%></td>
+                    <td><%=to.getCity()%></td>
+                    <td><%=to.getFloorArea()%></td>
+                </tr>
+                <% } %>
 
     </table>
 
