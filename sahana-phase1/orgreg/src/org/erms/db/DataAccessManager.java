@@ -1287,20 +1287,21 @@ public class DataAccessManager implements DBConstants {
 
     }
 
-    public User getUser(String orgCode) throws Exception {
+    public User getUser(String userName) throws Exception {
         Connection conn = DBConnection.createConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         User user = new User();
         try {
             SQLGenerator sqlGen = new SQLGenerator();
-            String sql = sqlGen.getSQLForGetUser(orgCode);
+            String sql = sqlGen.getSQLForGetUser(userName);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 user.setUserName(rs.getString(TableColumns.USER_NAME));
                 user.setPassword(rs.getString(TableColumns.PASSWORD));
+                user.setOrganization(rs.getString(TableColumns.ORG_CODE));
             }
         } finally {
             closeConnections(conn, ps, rs);

@@ -36,7 +36,7 @@ To change this template use File | Settings | File Templates.
     <td class="tableUp">Country of Origin</td>
     <td class="tableUp">Facilities available</td>
     <td class="tableUp">Working areas</td>
-    <td class="tableUp">Options</td>
+<%--    <td class="tableUp">Options</td>--%>
  </tr>
 
 
@@ -55,10 +55,10 @@ To change this template use File | Settings | File Templates.
 <td class="tableDown"><%=orgTo.getCountryOfOrigin()%></td>
 <td class="tableDown"><%=orgTo.getFacilitiesAvailable()%></td>
 <td class="tableDown"><%=orgTo.getWorkingAreas()%></td>
-<td class="tableDown">
+<%--<td class="tableDown">--%>
 <%--        <a href="Logging.jsp?action=view&orgCode=<%=orgTo.getOrgCode()%>">view</a>--%>
-        <a href="Logging.jsp?action=edit&orgCode=<%=orgTo.getOrgCode()%>">edit</a>
-</td>
+<%--        <a href="Logging.jsp?action=edit&orgCode=<%=orgTo.getOrgCode()%>">edit</a>--%>
+<%--</td>--%>
 </tr>
  <%
     }

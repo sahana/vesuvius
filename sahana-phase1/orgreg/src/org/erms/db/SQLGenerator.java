@@ -612,11 +612,9 @@ public class SQLGenerator {
 
     }
 
-    public String getSQLForGetUser(String orgCode){
-       String SQL = "SELECT " +
-                DBConstants.TableColumns.USER_NAME + "," +
-                DBConstants.TableColumns.PASSWORD + " from " +
-                DBConstants.Tables.USERDB + " Where "+DBConstants.TableColumns.ORG_CODE + "="  + orgCode ;
+    public String getSQLForGetUser(String UserName){
+       String SQL = "SELECT * from " +
+                DBConstants.Tables.USERDB + " Where "+DBConstants.TableColumns.USER_NAME + "='"  + UserName + "'" ;
        return SQL;
     }
 

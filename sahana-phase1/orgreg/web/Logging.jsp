@@ -1,7 +1,8 @@
 <%@ page import="org.erms.db.DataAccessManager,
                  org.erms.business.User,
                  tccsol.admin.accessControl.LoginBean,
-                 java.sql.Connection"%>
+                 java.sql.Connection,
+                 org.erms.util.ERMSConstants"%>
  <%--
   Created by IntelliJ IDEA.
   User: Deepal Jayasinghe
@@ -29,40 +30,42 @@
     DataAccessManager dataAccessManager = new DataAccessManager();
     String password = null;
     if (request.getParameter("Submit") == null) {  //data comes from the database
-        if (request.getParameter("orgCode") == null) {
-            response.sendRedirect("Search_org.jsp");
-            return;
-        }
-        String orgCode = "";
-        orgCode = request.getParameter("orgCode");
-        session.setAttribute("orgCode",request.getParameter("orgCode"));
-        user = dataAccessManager.getUser(orgCode);
-        password = user.getPassword();
+//        if (request.getParameter("orgCode") == null) {
+//            response.sendRedirect("Search_org.jsp");
+//            return;
+//        }
+//        String orgCode = "";
+//        orgCode = request.getParameter("orgCode");
+//        session.setAttribute("orgCode",request.getParameter("orgCode"));
+//        user = dataAccessManager.getUser(orgCode);
+//        password = user.getPassword();
     } else {
         String userName =user.getUserName();
         password = user.getPassword();
-        String action = (String) session.getAttribute("action");
-        user = dataAccessManager.getUser((String)session.getAttribute("orgCode"));
+        String action =ERMSConstants.IContextInfoConstants.ACTION_EDIT;// (String) session.getAttribute("action");
+        user = dataAccessManager.getUser(userName);
+        if(user.getOrganization() == null ){
+            throw new Exception("Invalid user");
+        } else {
+            if (user.getPassword().equals(password) && user.getUserName().equalsIgnoreCase(userName)){
 
-        if (user.getPassword().equals(password) && user.getUserName().equalsIgnoreCase(userName)){
-
-            tccsol.admin.accessControl.LoginBean lbean = new tccsol.admin.accessControl.LoginBean();
-            lbean.setUserName(user.getUserName());
-            tccsol.sql.DBConnection econ = new tccsol.sql.DBConnection();
-            Connection c = econ.getConnection();
-            String value = econ.getValue(c, user.getUserName(), "TBLUSERROLES", "RoleId", "UserName", 'S');
-            try{
-                lbean.setRoleId(Long.parseLong(value));
-            }catch(NumberFormatException e){
-                throw new Exception("you don't have permission to do this operation");
-            }
-            econ.closeConnection();
-            lbean.setOrgId(user.getOrganization());
-            lbean.setValid(true);
-            session.setAttribute("LoginBean", lbean);
-            new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
-            response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode") +"&isEdit=Y");
-         } else {
+                tccsol.admin.accessControl.LoginBean lbean = new tccsol.admin.accessControl.LoginBean();
+                lbean.setUserName(user.getUserName());
+                tccsol.sql.DBConnection econ = new tccsol.sql.DBConnection();
+                Connection c = econ.getConnection();
+                String value = econ.getValue(c, user.getUserName(), "TBLUSERROLES", "RoleId", "UserName", 'S');
+                try{
+                    lbean.setRoleId(Long.parseLong(value));
+                }catch(NumberFormatException e){
+                    throw new Exception("you don't have permission to do this operation");
+                }
+                econ.closeConnection();
+                lbean.setOrgId(user.getOrganization());
+                lbean.setValid(true);
+                session.setAttribute("LoginBean", lbean);
+                new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
+                response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + user.getOrganization() +"&isEdit=Y");
+            } else {
            %>
                 <h2 class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Logging.jsp">Try Again</a></font></h2>
              </body>
@@ -72,6 +75,7 @@
       <%
              return;
          }
+        }
     }
 
 %>
