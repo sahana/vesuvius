@@ -14,6 +14,6 @@ function get_page($pageurl){
 }
 
  //include_once("$mosConfig_absolute_path/modules/stats/stats.php");
- $cont=get_page ("http://localhost/mambo/sahana/stats.php?attribute=$_REQUEST[attribute]");
+ $cont=get_page ("http://localhost/mambo/sahana/stats.php?attribute=$_REQUEST[attribute]&graph_type=$_REQUEST[graph_type]");
  print $cont;
 ?>
