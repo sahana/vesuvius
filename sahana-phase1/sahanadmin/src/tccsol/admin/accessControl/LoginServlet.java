@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet
 
           if (request.getParameter("callAction").trim().equals("Login"))
           {
-              if (url.equals("/admin/accessControl/Login1.jsp"))
+              if (url.endsWith("/admin/accessControl/Login1.jsp"))
               {
                  bean.isValidUser();
                  request.setAttribute("messages", bean.getMessages());

@@ -21,9 +21,13 @@ public class SQLGenerator {
     }
 
      public static String getSQLForDivisionListforDistrict(String district) {
-        return "select CAMPS_DIVISION.DIV_NAME, CAMPS_DIVISION.DIV_ID " +
-                "FROM CAMPS_DIVISION INNER JOIN CAMPS_DISTRICT ON camps_division.DIST_CODE = camps_district.DIST_CODE " +
-                "and CAMPS_DISTRICT.DIST_NAME ="+"'" + district +"'";
+        return "select " + DataBaseConstants.DIVISION_TABLE+"."+ DataBaseConstants.TableColumans.DIVISION_NAME+", " +
+                DataBaseConstants.DIVISION_TABLE+"."+ DataBaseConstants.TableColumans.DIVISION_ID +
+                " FROM " + DataBaseConstants.DIVISION_TABLE +" INNER JOIN " + DataBaseConstants.CAMPS_DISTRICT_TABLE +" ON " +
+                DataBaseConstants.DIVISION_TABLE+"."+ DataBaseConstants.TableColumans.DIVISION_CODE +"= " +
+                DataBaseConstants.CAMPS_DISTRICT_TABLE + "." + DataBaseConstants.TableColumans.DIVISION_CODE +
+                " and " +
+                DataBaseConstants.CAMPS_DISTRICT_TABLE + "." + DataBaseConstants.TableColumans.CAMPS_DIST_NAME +"="+"'" + district +"'";
     }
 
 //     public static String getSQLForAllDistricts() {
