@@ -111,7 +111,7 @@ for ($i=0;$i<count($statattrdata);$i++){
 
 # Replace template TAGS with values
 $page_cont=get_page($content_template);
-$page_cont=preg_replace("/{SELF}/",$PHP_SELF,$page_cont);
+$page_cont=preg_replace("/{SELF}/",$_SERVER['PHP_SELF'],$page_cont);
 $page_cont=preg_replace("/{ATTR_LIST}/",get_attribute(),$page_cont);
 
 if($_REQUEST['attribute']){
