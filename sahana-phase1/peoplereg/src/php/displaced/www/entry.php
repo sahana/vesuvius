@@ -52,12 +52,39 @@ function load_division_list()
 	}
     iframedoc.location.replace('/peoplereg/displaced/areas.php?t=d&d=' + district);
     iframedocGS.location.replace('/peoplereg/displaced/blank.php');
+	document.entry_form.division.value = '';
+	document.entry_form.gs_division.value = '';
 }
 
 function verify(f)
 {
-	alert("Can't submit");
-	return true;
+	var ok = true;
+	var errors = '';
+
+	if (f.district.value == 'unknown') {
+		ok = false;
+		errors += "- No district selected\n";
+	}
+	if (f.division.value == '') {
+		ok = false;
+		errors += "- No division selected\n";
+	}
+	if (f.gs_division.value == '') {
+		ok = false;
+		errors += "- No grama sevaka division selected\n";
+	}
+	if (!(f.family_serial_no.value > 0)) {
+		ok = false;
+		errors += "- Family serial number not entered.\n";
+	}
+	if (!(f.num_males.value + f.num_females.value + f.num_children.value > 0)) {
+		ok = false;
+		errors += "- Number of family members not entered.\n";
+	}
+
+	if (!ok) alert("Please correct the following errors:\n" + errors);
+
+	return ok;
 }
 
 </script>
