@@ -1,17 +1,15 @@
+<!DOCTYPE project [<!ENTITY common-targets SYSTEM "file:../share/common-targets.xml">]>
 <project basedir="." default="deploy-local">
+    <!-- Reference to the common targets xml file -->
+      &common-targets;
+
   <!--  Build script for the orgreg.war  -->
   <property name="app-name" value="orgreg"></property>
 
-  <property name="src" value="src"/>
-  <property name="web" value="web"/>
-  <property name="deploy-dir" value="deploy"/>
-  <property name="lib" value="lib"/>
-  <property name="bin" value="bin"/>
+    <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
+    <property file="../tomcat.properties"/>
 
-  <property name="bin.war.root" value="${bin}/${app-name}"></property>
-  <property name="bin.war.root.lib" value="${bin.war.root}/WEB-INF/lib"></property>
-  <property name="bin.war.root.classes" value="${bin.war.root}/WEB-INF/classes"></property>
-  <property file="tomcat.properties"/>
+
 
   <path id="project.class.path">
   	<pathelement location="${tomcat.home}/common/lib/servlet.jar"/>
@@ -19,67 +17,5 @@
   		<include name="*.jar"/>
   	</fileset>
   </path>
-
-  <target name="deploy-tomcat">
-      <antcall target="deploy-local"></antcall>
-      <copy file="${deploy-dir}/${app-name}.war" todir="${tomcat.home}/webapps" />
-  </target>
-
-  <target name="deploy-local">
-      <antcall target="clean"></antcall>
-      <antcall target="init"></antcall>
-      <antcall target="compile"></antcall>
-      <antcall target="deploy"></antcall>
-      <antcall target="clean"></antcall>
-  </target>
-
-
-  <target name ="init">
-	 <echo message=" using ${tomcat.home}"/>
-     <!-- try to delete the deploy directory -->
-     <delete dir="${deploy-dir}" quiet="true"></delete>
-     <mkdir dir="${bin}"></mkdir>
-     <mkdir dir="${bin.war.root}"></mkdir>
-     <mkdir dir="${bin.war.root.lib}"></mkdir>
-     <mkdir dir="${bin.war.root.classes}"></mkdir>
-     <mkdir dir="${deploy-dir}"></mkdir>
-  </target>
-
-  <target name="compile">
-<!--  Compile directly to the war classes location     -->
-    <javac deprecation="true" destdir="${bin.war.root.classes}">
-      <classpath refid="project.class.path"/>
-      <src path="${src}"/>
-    </javac>
-  </target>
-  
-  <target name="deploy">
-	<copy todir="${bin.war.root}">
-      <fileset dir="${web}">
-        <include name="**/*"/>
-        <exclude name="**/web.xml"/>
-        <exclude name="**/CVS/**"/>
-      </fileset>
-	</copy>
-    <!-- copy all jars to web-inf lib-->
-    <copy todir="${bin.war.root.lib}">
-         <fileset dir="${lib}">
-         <include name="**/*.jar"/>
-       </fileset>
-    </copy>
-
-        <copy file="${src}/org/erms/db/db.properties"  todir="${bin.war.root.classes}/org/erms/db"></copy>
-
-    <!--   Make the jar   -->
-	<war warfile="${app-name}.war" basedir="${bin.war.root}" webxml="${web}/WEB-INF/web.xml" ></war>
-    <copy file="${app-name}.war" tofile="${deploy-dir}/${app-name}.war"/>
-    <delete file="${app-name}.war"></delete>
-  </target>
-
-  <target name="clean">
-     <delete dir="${bin}" quiet="true" />
-     <delete dir="${bin.war.root}" quiet="true"/>
-     <delete dir="${bin.war.root.lib}" quiet="true"/>
-     <delete dir="${bin.war.root.classes}" quiet="true"/>
-  </target>
 </project>
+
