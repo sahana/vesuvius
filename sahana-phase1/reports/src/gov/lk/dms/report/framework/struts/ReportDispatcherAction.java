@@ -21,7 +21,7 @@ import org.apache.struts.actions.DispatchAction;
 /**
  * 
  * @author  Thushera P. Kawdawatta.
- * @version $Revision: 1.1 $, $Date: 2005-01-07 08:53:16 $
+ * @version $Revision: 1.2 $, $Date: 2005-01-20 05:40:18 $
  *  
  */
 public abstract class ReportDispatcherAction extends DispatchAction {
@@ -44,34 +44,10 @@ public abstract class ReportDispatcherAction extends DispatchAction {
         
 
         //System.out.println("report template = " + mapping.getParameter());
-        doLog(request);
         
         return doAction(mapping, form, request, response);
     }
     
-    private void doLog(HttpServletRequest request) {
-        String host = request.getRemoteHost();
-        int port = request.getRemotePort();
-        String user = request.getRemoteUser();
-        
-        //Calendar now = new GregorianCalendar();
-        String time = timestampFormat.format(new Date());
-        
-        InetAddress address = null;
-        
-        String addr = host;
-        
-        try {
-            address = InetAddress.getByName(host);
-            addr = address.getHostName();
-            System.out.println(">>Addr " + address.toString());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println(">>LOG: " + host + ":" + port + " at " + time);
-    }
-
     /**
      * 
      * @param mapping
