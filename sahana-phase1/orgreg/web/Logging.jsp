@@ -50,7 +50,7 @@
             lbean.setUserName(user.getUserName());
             tccsol.sql.DBConnection econ = new tccsol.sql.DBConnection();
             Connection c = econ.getConnection();
-            String value = econ.getValue(c, user.getUserName(), "tblUserRoles", "RoleId", "UserName", 'S');
+            String value = econ.getValue(c, user.getUserName(), "TBLUSERROLES", "RoleId", "UserName", 'S');
             try{
                 lbean.setRoleId(Long.parseLong(value));
             }catch(NumberFormatException e){

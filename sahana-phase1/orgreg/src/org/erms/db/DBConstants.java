@@ -71,7 +71,7 @@ public interface DBConstants {
 
         String USERDB = "user";
 
-        String USER_ROLEDB = "tbluserroles";
+        String USER_ROLEDB = "TBLUSERROLES";
 
 
 
