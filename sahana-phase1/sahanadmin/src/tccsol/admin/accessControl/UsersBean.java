@@ -402,18 +402,10 @@ public class UsersBean
 
             if (co>0)
             {
-                sql = "select RoleId from TBLUSERROLES where upper(USERNAME) = ?";
                 sql = "delete from TBLUSERROLES where upper(USERNAME) = ?";
                 stat = con.prepareStatement(sql);
                 stat.setString(1, userName.toUpperCase());
                 co = stat.executeUpdate();
-
-
-
-                stat = con.prepareStatement(sql);
-                stat.setString(1, userName.toUpperCase());
-                co = stat.executeUpdate();
-
                 if (co>0)
                 {
                     sql = "insert into TBLUSERROLES (ROLEID, USERNAME) values (?, ?)";
