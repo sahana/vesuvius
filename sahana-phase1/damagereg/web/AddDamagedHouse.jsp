@@ -1,7 +1,8 @@
 <%@ page import="org.sahana.share.utils.KeyValueDTO,
                  java.util.ArrayList,
                  java.util.Iterator,
-                 java.util.Collection"%>
+                 java.util.Collection,
+                 org.damage.db.DataAccessManager"%>
  <%--
   Created by IntelliJ IDEA.
   User: Chathura
@@ -17,8 +18,8 @@
      <link href="common/style.css" rel="stylesheet" type="text/css">
 
      <%
-//             DataAccessManager dataAccessManager = new DataAccessManager();
-//              Collection allDistrictNamesCollection = dataAccessManager.getAllDistrictNames();
+             DataAccessManager dataAccessManager = new DataAccessManager();
+
 
           %>
 
@@ -29,19 +30,22 @@
    <jsp:include page="common/header.inc"></jsp:include>
 
 
-   <form method="post" name="tsunamiAddOffer" action="AddOfferAssistance.jsp">
+   <form method="post" name="tsunamiAddDamagedHouse" action="AddDamagedHouse.jsp">
              <table border="0" width="100%" cellspacing="1" cellpadding="1">
 
               <tr>
                   <td align="right" vAlign="top" class="formText">District : </td>
                   <td>
-                        <select>
-<%--                                 <%Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();--%>
-<%--                                    ArrayList workingAreas = orgReg.getWorkingAreas();--%>
-<%--                                    while (allDistricts.hasNext()) {--%>
-<%--                                         KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();--%>
-<%----%>
-<%--                                  %>--%>
+                        <select name="orgType" class="selectBoxes">
+                                 <%Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
+                                    String option= null;
+                                    while (allDistricts.hasNext()) {
+                                         KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();
+                                         option  = "<option id=\""+keyValueDTO.getDbTableCode()+"\">"+keyValueDTO.getDisplayValue()+"</option>";
+                                        %><%=option%><%
+
+                                    }
+                                  %>
 
                         </select>
                    </td>
@@ -55,6 +59,10 @@
              </tr>
 
         </table>
+
+        <input name="submit" type="submit" value=" Save " class="buttons" >
+
+                <input name="reset" type="reset" value=" Clear " class="buttons" >
     </form>
 
 
