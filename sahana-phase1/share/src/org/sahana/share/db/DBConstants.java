@@ -37,21 +37,21 @@ public interface DBConstants {
     }
 
     public interface District {
-        public static final String TABLENAME = "camps_district";
+        public static final String TABLENAME = "CAMPS_DISTRICT";
         public static final String DIST_NAME = "DIST_NAME";
         public static final String DIST_CODE = "DIST_CODE";
         public static final String PROV_CODE = "PROV_CODE";
     }
 
      public interface Division {
-            public static final String TABLENAME = "camps_division";
+            public static final String TABLENAME = "CAMPS_DIVISION";
             public static final String DIV_NAME = "DIV_NAME";
             public static final String DIV_ID = "DIV_ID";
             public static final String DIST_CODE = "DIST_CODE";
         }
 
      public interface Province {
-        public static final String TABLENAME = "camps_province";
+        public static final String TABLENAME = "CAMPS_PROVINCE";
         public static final String PROV_CODE = "PROV_CODE";
         public static final String PROV_NAME = "PROV_NAME";
     }
