@@ -28,8 +28,14 @@
     <!-- ========== Action Mapping Definitions ============================== -->
     <action-mappings>
          <!-- Action Mappings  for last-eng-focus-metrics page -->
-        <action path="/request-detail" input="" parameter="All-request-details-grouped-District" type="gov.lk.dms.report.action.erms.ERMSDetailAction" scope="session" validate="false">
-            <forward name="success" path="/reports/RequestDetail.jsp" redirect="true"/>
+        <action path="/sahana-report" input="" parameter="" type="gov.lk.dms.report.action.erms.SahanaReportAction" scope="request" validate="false">
+            <forward name="success" path="/reports/report.jsp" redirect="false"/>
+            <forward name="failure" path="/error-page.html"/>
+        </action>
+
+         <!-- Action Mappings  for last-eng-focus-metrics page -->
+        <action path="/flush-reports" input="" parameter="" type="gov.lk.dms.report.common.FlushCacheAction" scope="request" validate="false">
+            <forward name="success" path="/reports/flush.jsp" redirect="false"/>
             <forward name="failure" path="/error-page.html"/>
         </action>
 
