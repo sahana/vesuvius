@@ -15,7 +15,11 @@ table.entry {
 	width: 95%;
 	padding: 2;
 	border: 0;
-	margin: 2;
-	background-color: #dddddd;
+}
+
+td {
+	padding: 3;
+	margin: 1;
+	background-color: #ddddff;
 }
 

@@ -10,15 +10,15 @@ function clear_form()
 	unset($_SESSION['form']);
 }
 
-function show_input_text($name, $width = 0, $js ="")
+function show_input_text($name, $size = 0, $js ="")
 {
 	global $_SESSION;
 
 	echo '<input type="text" name="' . $name . '"';
 	if (isset($_SESSION['form'][$name]))
 		echo ' value="' . $_SESSION['form'][$name] . '"';
-	if ($width)
-		echo ' width="' . $width . '"';
+	if ($size)
+		echo ' size="' . $size . '"';
 	if ($js)
 		echo " $js";	
 	echo ' />';
@@ -64,6 +64,19 @@ function capture_input_string($name)
 		$_SESSION['form'][$name] = trim($_POST[$name]);
 	else
 		unset($_SESSION['form'][$name]);
+}
+
+function capture_input_element_string($name, $n)
+{
+	global $_POST;
+	global $_SESSION;
+
+	if (!isset($_SESSION['form'])) $_SESSION['form'] = array();
+
+	if (isset($_POST[$name][$n]))
+		$_SESSION['form'][$name][$n] = trim($_POST[$name][$n]);
+	else
+		unset($_SESSION['form'][$name][$n]);
 }
 
 function capture_input_image($name)
@@ -121,6 +134,19 @@ function capture_input_int($name)
 		unset($_SESSION['form'][$name]);
 }
 
+function capture_input_element_int($name, $n)
+{
+	global $_POST;
+	global $_SESSION;
+
+	if (!isset($_SESSION['form'])) $_SESSION['form'] = array();
+
+	if (isset($_POST[$name][$n]))
+		$_SESSION['form'][$name][$n] = intval(trim($_POST[$name][$n]));
+	else
+		unset($_SESSION['form'][$name][$n]);
+}
+
 function input_is_set($name)
 {
 	global $_SESSION;
@@ -138,12 +164,28 @@ function display_input($name)
 		echo $_SESSION['form'][$name];
 }
 
+function display_input_element($name, $n)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$name][$n]))
+		echo $_SESSION['form'][$name][$n];
+}
+
 function display_input_caption($name)
 {
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$name]))
 		echo get_caption($name, $_SESSION['form'][$name]);
+}
+
+function display_input_element_caption($name, $n)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$name][$n]))
+		echo get_caption($name, $_SESSION['form'][$name][$n]);
 }
 
 ?>

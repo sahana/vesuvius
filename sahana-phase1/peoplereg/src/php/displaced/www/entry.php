@@ -7,6 +7,9 @@
 session_start();
 require('forms.php');
 require('db.php');
+
+$num_members = 10; /* FIXME: get rid of the static value */
+
 ?>
 <html>
 <head>
@@ -17,6 +20,8 @@ require('db.php');
 <body>
 
 <form action="entry.php" method="post">
+
+<input type="hidden" name="num_members" value="10" />
 
 <?
 
@@ -37,10 +42,22 @@ if ($_POST) {
 		capture_input_string('grama');
 		capture_input_string('village');
 
-		capture_input_int('family_no');
+		capture_input_int('family_serial_no');
 		capture_input_int('num_males');
 		capture_input_int('num_females');
 		capture_input_int('num_children');
+
+		capture_input_int('num_members');
+		$num_members = $_SESSION['form']['num_members'];
+		for ($i = 0; $i < $num_members; $i++) {
+			capture_input_element_string('name', $i);
+			capture_input_element_string('status', $i);
+			capture_input_element_string('occupation', $i);
+			capture_input_element_int('income', $i);
+		}
+
+		capture_input_int('other_income');
+		capture_input_int('total_income');
 
 		capture_input_int('relief_adults');
 		capture_input_int('relief_children');
@@ -83,8 +100,7 @@ if ($screen == 'confirm') {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Serial number of family:</td>
-<td><? display_input('family_no'); ?></td>
+<td>Serial number of the family: <? display_input('family_serial_no'); ?></td>
 </tr>
 </table>
 </div>
@@ -92,12 +108,7 @@ if ($screen == 'confirm') {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Males:</td>
-<td><? display_input('num_males'); ?></td>
-<td>Females:</td>
-<td><? display_input('num_females'); ?></td>
-<td>Children:</td>
-<td><? display_input('num_children'); ?></td>
+<td>Males: <? display_input('num_males'); ?>, Females: <? display_input('num_females'); ?>, Children: <? display_input('num_children'); ?></td>
 </tr>
 </table>
 </div>
@@ -106,81 +117,28 @@ if ($screen == 'confirm') {
 <table class="entry">
 
 <tr>
-<td>Name</td>
-<td>Status</td>
-<td>Occupation</td>
-<td>Income</td>
+<td align="center">Name</td>
+<td align="center">Status</td>
+<td align="center">Occupation</td>
+<td align="center">Income</td>
 </tr>
 
-<tr>
-<td><? display_input('name[0]'); ?></td>
-<td><? display_input_caption('status[0]'); ?></td>
-<td><? display_input('occupation[0]'); ?></td>
-<td><? display_input('income[0]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[1]'); ?></td>
-<td><? display_input_caption('status[1]'); ?></td>
-<td><? display_input('occupation[1]'); ?></td>
-<td><? display_input('income[1]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[2]'); ?></td>
-<td><? display_input_caption('status[2]'); ?></td>
-<td><? display_input('occupation[2]'); ?></td>
-<td><? display_input('income[2]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[3]'); ?></td>
-<td><? display_input_caption('status[3]'); ?></td>
-<td><? display_input('occupation[3]'); ?></td>
-<td><? display_input('income[3]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[4]'); ?></td>
-<td><? display_input_caption('status[4]'); ?></td>
-<td><? display_input('occupation[4]'); ?></td>
-<td><? display_input('income[4]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[5]'); ?></td>
-<td><? display_input_caption('status[5]'); ?></td>
-<td><? display_input('occupation[5]'); ?></td>
-<td><? display_input('income[5]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[6]'); ?></td>
-<td><? display_input_caption('status[6]'); ?></td>
-<td><? display_input('occupation[6]'); ?></td>
-<td><? display_input('income[6]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[7]'); ?></td>
-<td><? display_input_caption('status[7]'); ?></td>
-<td><? display_input('occupation[7]'); ?></td>
-<td><? display_input('income[7]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[8]'); ?></td>
-<td><? display_input_caption('status[8]'); ?></td>
-<td><? display_input('occupation[8]'); ?></td>
-<td><? display_input('income[8]'); ?></td>
-</tr>
-
-<tr>
-<td><? display_input('name[9]'); ?></td>
-<td><? display_input_caption('status[9]'); ?></td>
-<td><? display_input('occupation[9]'); ?></td>
-<td><? display_input('income[9]'); ?></td>
-</tr>
+<?
+ 
+for ($i = 0; $i < $num_members; $i++) {
+	if (member_info_available($i)) {
+		print '<tr><td>';
+		display_input_element('name', $i);
+		print '</td><td>';
+		display_input_element_caption('status', $i);
+		print '</td><td>';
+		display_input_element('occupation', $i);
+		print '</td><td align="right">';
+		display_input_element('income', $i);
+		print '</td></tr>';
+	}
+}
+?>
 
 <tr>
 <td>&nbsp;</td>
@@ -264,8 +222,6 @@ else {
 
 <hr />
 
-<form action="entry.php" method="post">
-
 <div align="center">
 <table class="entry">
 <tr>
@@ -289,8 +245,7 @@ else {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Serial number of family:</td>
-<td><? show_input_text('family_no'); ?></td>
+<td>Serial number of the family: <? show_input_text('family_serial_no'); ?></td>
 </tr>
 </table>
 </div>
@@ -298,12 +253,9 @@ else {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Males:</td>
-<td><? show_input_text('num_males'); ?></td>
-<td>Females:</td>
-<td><? show_input_text('num_females'); ?></td>
-<td>Children:</td>
-<td><? show_input_text('num_children'); ?></td>
+<td>Males: <? show_input_text('num_males'); ?></td>
+<td>Females: <? show_input_text('num_females'); ?></td>
+<td>Children: <? show_input_text('num_children'); ?></td>
 </tr>
 </table>
 </div>
@@ -312,96 +264,46 @@ else {
 <table class="entry">
 
 <tr>
-<td>Name</td>
-<td>Status</td>
-<td>Occupation</td>
-<td>Income</td>
+<td align="center">Name</td>
+<td align="center">Status</td>
+<td align="center">Occupation</td>
+<td align="center">Income</td>
+</tr>
+
+<?
+for ($i = 0; $i < $num_members; $i++) {
+?>
+
+<tr>
+<td align="center"><? show_input_text('name[]', 50); ?></td>
+<td align="center"><? show_input_select($dbh, 'status[]'); ?></td>
+<td align="center"><? show_input_text('occupation[]'); ?></td>
+<td align="center"><? show_input_text('income[]'); ?></td>
+</tr>
+
+<?
+}
+?>
+
+<tr>
+<td colspan="3" align="right">Other income:</td>
+<td align="center"><? show_input_text('other_income'); ?></td>
 </tr>
 
 <tr>
-<td><? show_input_text('name[0]'); ?></td>
-<td><? show_input_select($dbh, 'status[0]'); ?></td>
-<td><? show_input_text('occupation[0]'); ?></td>
-<td><? show_input_text('income[0]'); ?></td>
+<td colspan="3" align="right">Total income:</td>
+<td align="center"><? show_input_text('total_income'); ?></td>
 </tr>
 
+</table>
+</div>
+
+<div align="center">
+<table class="entry">
 <tr>
-<td><? show_input_text('name[1]'); ?></td>
-<td><? show_input_select($dbh, 'status[1]'); ?></td>
-<td><? show_input_text('occupation[1]'); ?></td>
-<td><? show_input_text('income[1]'); ?></td>
+<td valign="middle">Property owned:</td><td><? show_input_textarea('property_owned', 3, 50); ?></td>
+<td valign="middle">Value (Rs): <? show_input_text('property_value'); ?></td>
 </tr>
-
-<tr>
-<td><? show_input_text('name[2]'); ?></td>
-<td><? show_input_select($dbh, 'status[2]'); ?></td>
-<td><? show_input_text('occupation[2]'); ?></td>
-<td><? show_input_text('income[2]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[3]'); ?></td>
-<td><? show_input_select($dbh, 'status[3]'); ?></td>
-<td><? show_input_text('occupation[3]'); ?></td>
-<td><? show_input_text('income[3]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[4]'); ?></td>
-<td><? show_input_select($dbh, 'status[4]'); ?></td>
-<td><? show_input_text('occupation[4]'); ?></td>
-<td><? show_input_text('income[4]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[5]'); ?></td>
-<td><? show_input_select($dbh, 'status[5]'); ?></td>
-<td><? show_input_text('occupation[5]'); ?></td>
-<td><? show_input_text('income[5]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[6]'); ?></td>
-<td><? show_input_select($dbh, 'status[6]'); ?></td>
-<td><? show_input_text('occupation[6]'); ?></td>
-<td><? show_input_text('income[6]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[7]'); ?></td>
-<td><? show_input_select($dbh, 'status[7]'); ?></td>
-<td><? show_input_text('occupation[7]'); ?></td>
-<td><? show_input_text('income[7]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[8]'); ?></td>
-<td><? show_input_select($dbh, 'status[8]'); ?></td>
-<td><? show_input_text('occupation[8]'); ?></td>
-<td><? show_input_text('income[8]'); ?></td>
-</tr>
-
-<tr>
-<td><? show_input_text('name[9]'); ?></td>
-<td><? show_input_select($dbh, 'status[9]'); ?></td>
-<td><? show_input_text('occupation[9]'); ?></td>
-<td><? show_input_text('income[9]'); ?></td>
-</tr>
-
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Other income</td>
-<td><? show_input_text('other_income'); ?></td>
-</tr>
-
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Total income</td>
-<td><? show_input_text('total_income'); ?></td>
-</tr>
-
 </table>
 </div>
 
@@ -410,10 +312,8 @@ else {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Current location:</td>
-<td><? show_input_text('location'); ?></td>
-<td>Camp (if applicable):</td>
-<td><? show_input_text('camp'); ?></td>
+<td>Current location: <? show_input_text('location'); ?></td>
+<td>Camp (if applicable): <? show_input_text('camp'); ?></td>
 </tr>
 </table>
 </div>
@@ -422,10 +322,8 @@ else {
 <table class="entry">
 <tr>
 <td>No of people eligible for relief:</td>
-<td>Adults:</td>
-<td><? show_input_text('relief_adults'); ?></td>
-<td>Children:</td>
-<td><? show_input_text('relief_children'); ?></td>
+<td>Adults: <? show_input_text('relief_adults'); ?></td>
+<td>Children: <? show_input_text('relief_children'); ?></td>
 </tr>
 </table>
 </div>
@@ -433,12 +331,10 @@ else {
 <div align="center">
 <table class="entry">
 <tr>
-<td>Probable period for which relief is necessary:</td>
-<td><? show_input_text('relief_period'); ?></td>
+<td>Probable period for which relief is necessary: <? show_input_text('relief_period'); ?></td>
 </tr>
 </table>
 </div>
-
 
 <div align="center">
 <table class="entry">
@@ -465,4 +361,15 @@ else {
 
 <body>
 </html>
+
+<?
+function member_info_available($n)
+{
+	global $_SESSION;
+	return ($_SESSION['form']['status'][$n] != 'unknown')
+		|| ($_SESSION['form']['name'][$n] != '')
+		|| ($_SESSION['form']['occupation'][$n] != '');
+}
+
+?>
 
