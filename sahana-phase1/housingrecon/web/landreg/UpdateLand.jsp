@@ -190,52 +190,40 @@ function validateForm()
  %>
 
   function listDistrict(){
-     var provincecode = document.newLand.provinceCode.value;
-     var optionList = document.newLand.districtId.options;
-     optionList.length = 0;
-     var divisionList = document.newLand.divisionId.options;
-     divisionList.length = 0;
-     var prov = eval("prov"+provincecode);
-     var tempproveCode = eval("provCode"+provincecode);
-     for (i=0;i< prov.length ;i++){
-      var option = new Option(prov[i],tempproveCode[i]);
-      optionList.add(option,i);
+       var provincecode = document.newLand.provinceCode.value;
+       var optionList = document.newLand.districtId.options;
+       optionList.length = 0;
+       var divisionList = document.newLand.divisionId.options;
+       divisionList.length = 0;
+
+       if(provincecode!=""){
+           var prov = eval("prov"+provincecode);
+           var tempproveCode = eval("provCode"+provincecode);
+           for (i=0;i< prov.length ;i++){
+                var option = new Option(prov[i],tempproveCode[i]);
+                optionList.add(option,i);
+           }
+       }
      }
-   }
 
- function listDivisions(){
-      var provincecode = document.newLand.provinceCode.value;
-      var distrcictCode = document.newLand.districtId.selectedIndex ;
-      var divisionList = document.newLand.divisionId.options;
-      divisionList.length =0;
-<%--      var divCode = 0;--%>
-      var divisionCode = document.newLand.districtId.value;
-<%--      alert(divisionCode);--%>
-<%--      for(j=0 ; j < provincecode-1 ; j++){--%>
-<%--         switch (parseInt(j)) {--%>
-<%--                  case 0:  divCode = divCode + prov1.length ; break;--%>
-<%--                  case 1:  divCode = divCode + prov2.length ; break;--%>
-<%--                  case 2:  divCode = divCode + prov3.length ; break;--%>
-<%--                  case 3:  divCode = divCode + prov4.length ; break;--%>
-<%--                  case 4:  divCode = divCode + prov5.length ; break;--%>
-<%--                  case 5:  divCode = divCode + prov6.length ; break;--%>
-<%--                  case 6:  divCode = divCode + prov7.length ; break;--%>
-<%--                  case 7:  divCode = divCode + prov8.length ; break;--%>
-<%--                  case 8:  divCode = divCode + prov9.length ; break;--%>
-<%----%>
-<%--              }--%>
-<%--      }--%>
-<%--      divCode = divCode + parseInt(distrcictCode);--%>
+   function listDivisions(){
+        var provincecode = document.newLand.provinceCode.value;
+        var distrcictCode = document.newLand.districtId.selectedIndex ;
+        var divisionList = document.newLand.divisionId.options;
+        divisionList.length =0;
 
-<%--      var divisions =eval("district" + divCode);--%>
-<%--      var tempdivisionCode =eval("districtCode" + divCode);--%>
-      var divisions =eval("district" + divisionCode);
-      var tempdivisionCode =eval("districtCode" + divisionCode);
-      for (i=0;i< divisions.length ;i++){
-          var option = new Option(divisions[i],tempdivisionCode[i]);
-          divisionList.add(option,i);
+        var divisionCode = document.newLand.districtId.value;
+
+        if(divisionCode!=""){
+            var divisions =eval("district" + divisionCode);
+            var tempdivisionCode =eval("districtCode" + divisionCode);
+            for (i=0;i< divisions.length ;i++){
+                var option = new Option(divisions[i],tempdivisionCode[i]);
+                divisionList.add(option,i);
+            }
+         }
       }
-    }
+
 
 </script>
 </head>
@@ -250,8 +238,8 @@ function validateForm()
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr align="left">
                     <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
-                    <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="SearchLand.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Search
-                    Housing Scheme</font></a>&nbsp;&nbsp;</td>
+                    <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="SearchLands.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Search Lands</font></a>&nbsp;&nbsp;</td>
+                    <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="InsertLand.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Add Land</font></a>&nbsp;&nbsp;</td>
                     <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
                     <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar"><a href="LogOff.jsp" style="text-decoration:none"><font color="#000000">Log
                     off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
@@ -265,7 +253,7 @@ function validateForm()
         </table>
         <table width="760" border="0" cellspacing="0" cellpadding="0">
              <tr>
-               <td background="images/HeaderBG.jpg" colspan="2" class="formTitle">Add Land  </td>
+               <td background="images/HeaderBG.jpg" colspan="2" class="formTitle">Update Land  </td>
              </tr>
          </table>
 
@@ -305,7 +293,7 @@ function validateForm()
                 </tr>
 
                  <tr>
-                      <td align="left" class="formText" type="submit">Province :</td>
+                      <td align="left" class="formText" type="submit">Province </td>
                       <td vAlign="top" >
                         <select name="provinceCode"  class="selectBoxes" onchange="listDistrict();listDivisions()"   >
                             <option value="">&lt;Select&gt;</option>
@@ -333,7 +321,7 @@ function validateForm()
                  </tr>
 
                     <tr>
-                      <td  align="left" class="formText" type="submit">District :</td>
+                      <td  align="left" class="formText" type="submit">District </td>
                       <td vAlign="top" >
                         <select name="districtId" class="selectBoxes" onchange="listDivisions();" >
                             <option value="">&lt;Select&gt;</option>
@@ -341,7 +329,7 @@ function validateForm()
                        </td>
                     </tr>
                     <tr>
-                      <td  align="left" class="formText" type="submit">Division :</td>
+                      <td  align="left" class="formText" type="submit">Division </td>
                       <td vAlign="top" >
                         <select name="divisionId" class="selectBoxes" >
                             <option value="-1">&lt;Select&gt;</option>
@@ -413,8 +401,8 @@ function validateForm()
                            <!--<input size="100" type="text" name="divInfo" readonly="true" style="border:none;" class="textBox"></input>-->
                        </td>
 
-                       <td  align="left" valign="top"   class="formText">Comments&nbsp;</td>
-                       <td ><input type="text" size="50" maxlength="49"  name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"> </td>
+                       <td  align="left" valign="center"   class="formText">Comments&nbsp;</td>
+                       <td ><textarea type="text"  COLS=40 ROWS=2 maxlength="250" name="ownedByComment" class="textBox"  value="<jsp:getProperty name="newLand" property="ownedByComment" />"></textarea></td>
 
                </tr>
 
@@ -457,7 +445,7 @@ function validateForm()
 
                    <table>
                       <tr>
-                              <td  align="right" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
+                              <td  align="left" valign="top"  class="formText" >GPS Co-Ordinates&nbsp;</td>
                               <td>&nbsp;&nbsp;</td>
                               <td>
                                 <!-- <input type="text" size="10" maxlength="49"  name="GPS1" class="textBox"  value="<jsp:getProperty name="newLand" property="GPS1" />">-->

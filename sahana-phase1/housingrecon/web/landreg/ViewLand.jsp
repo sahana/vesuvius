@@ -47,10 +47,8 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr align="left">
                         <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
-                        <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="SearchCamps.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Search
-                        Camp</font></a>&nbsp;&nbsp;</td>
-                        <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="InsertCamps.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Add
-                        Camp</font></a>&nbsp;&nbsp;</td>
+                        <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="SearchLands.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Search Lands</font></a>&nbsp;&nbsp;</td>
+                        <td nowrap background="images/BannerBG.jpg" class="statusBar"><a href="InsertLand.jsp" style="text-decoration:none"><font color="#000000">&nbsp;&nbsp;Add Land</font></a>&nbsp;&nbsp;</td>
 
                         <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
                         <td width="100%" height="23" align="right" background="images/BannerBG.jpg" bgcolor="#000099" class="statusBar"><a href="LogOff.jsp" style="text-decoration:none"><font color="#000000">Log
@@ -61,13 +59,13 @@
 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                  <tr>
-                   <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">Camp Details  </td>
+                   <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">View Land  </td>
                  </tr>
              </table>
 
             <table width="80%" border="0">
                 <tr>
-                    <td vAlign="top" class="tableUp" align="left" colspan="6" rowspan="2" ><b>Location Information</b></td>
+                    <td vAlign="top" class="tableUp" align="left" colspan="6" rowspan="2" ><b>Land Information</b></td>
                 </tr>
                 <tr>
                     <td colspan="6" >&nbsp;</td>
