@@ -604,6 +604,196 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
        }
 
+     public static String getSQLAddOfferDetail() {
+
+        return "INSERT into "
+
+            + DBConstants.OfferArea.TABLENAME
+
+            + " ("
+
+            + DBConstants.Offers.OFFER_ID  + ", "
+
+            + DBConstants.OfferArea.DIST_CODE + ", "
+
+            + DBConstants.OfferArea.OFFER_QUANTITY
+
+            + ") "
+
+            + " VALUES "
+
+            + "(?,?,?)";
+
+    }
+
+    public static String getSQLUpdateOfferQty() {
+        return "UPDATE "
+
+               + DBConstants.Offers.TABLENAME
+
+               + " SET "
+
+               + DBConstants.Offers.TOTAL_OFFER_QTY
+
+               + "= ?"
+
+               + " WHERE "
+
+               + DBConstants.Offers.OFFER_ID
+
+               + "= ?";
+
+    }
+
+    public static String getSQLAddOfferLog() {
+
+           return "INSERT into "
+
+               + DBConstants.Offerlog.TABLENAME
+
+               + " ("
+
+              // + DBConstants.TableColumns.OFFER_ID  + ", "
+
+               + DBConstants.Offerlog.OFFER_LOG_DATE  + ", "
+
+               + DBConstants.Offerlog.OFFER_LOG_USER_ID + ", "
+
+               + DBConstants.Offerlog.OFFER_LOG_COMMENTS
+
+               + ") "
+
+               + " VALUES "
+
+               + "(?,?,?)";
+
+       }
+
+
+     public static String getSQLForOrganizationByCode(String code) {
+        return "SELECT "
+          + DBConstants.Organization.ORG_CONTACT_PERSON + ","
+          + DBConstants.Organization.ORG_CONTACT_NUMBER + ","
+          + DBConstants.Organization.ORG_EMAIL_ADDRESS + ","
+          + DBConstants.Organization.ORG_ADDRESS
+          + " FROM "
+          + DBConstants.Organization.TABLENAME
+          + " WHERE "
+          + DBConstants.Organization.ORG_CODE + "= '"
+          + code + "'";
+
+    }
+
+    public static String getSQLForOfferSearch(String offeringInd, String orgCode ,String category,String target,String item){
+
+        StringBuffer sqlBuffOffer = new StringBuffer("select * from " +
+                DBConstants.Offers.TABLENAME +
+                " where "+DBConstants.Offers.TABLENAME+"."+
+                DBConstants.Offers.OFFER_ID +" NOT IN( SELECT DISTINCT " +
+                DBConstants.OfferArea.OFFERAREA_OFFER_ID +
+                " FROM "
+                +DBConstants.OfferArea.TABLENAME+")");
+
+        StringBuffer sqlBuffOfferArea = new StringBuffer("select * from " +
+                DBConstants.Offers.TABLENAME+","+
+                DBConstants.OfferArea.TABLENAME +  " where "+
+                DBConstants.Offers.TABLENAME+"."+  DBConstants.Offers.OFFER_ID +"="+
+                DBConstants.OfferArea.TABLENAME+"."+DBConstants.OfferArea.OFFERAREA_OFFER_ID);
+
+        boolean hasWhereClause = true;
+
+        if (target != null  && ("".equalsIgnoreCase(target) || target.length() >0)) {
+
+            sqlBuffOffer=sqlBuffOfferArea;
+
+            if (hasWhereClause && !"".equalsIgnoreCase(target)) {
+                sqlBuffOffer.append(" and ");
+                sqlBuffOffer.append(" " +
+                        DBConstants.OfferArea.TABLENAME+"."+DBConstants.OfferArea.DIST_CODE+"='" + target +"'");
+            }
+
+        }
+
+
+        if (orgCode != null && orgCode.trim().length()>0) {
+            sqlBuffOffer.append(" and " + DBConstants.Offers.OFFERING_ORGCODE+"=" + orgCode + " ");
+             hasWhereClause = true;
+
+        }
+        if (category != null && category.trim().length()>0) {
+            if (hasWhereClause) {
+                sqlBuffOffer.append(" and ");
+            } else {
+                hasWhereClause = true;
+            }
+            sqlBuffOffer.append(" " + DBConstants.Offers.CATEGORYCODE+"='" + category + "' ");
+             hasWhereClause = true;
+
+        }
+        if (item != null && item.trim().length()>0) {
+            if (hasWhereClause) {
+                sqlBuffOffer.append(" and ");
+            } else {
+                hasWhereClause = true;
+            }
+            sqlBuffOffer.append(" " + DBConstants.Offers.ITEM+"='" + item + "' ");
+             hasWhereClause = true;
+
+        }
+
+        if (offeringInd != null && offeringInd.trim().length()>0) {
+            if (hasWhereClause) {
+                sqlBuffOffer.append(" and ");
+            } else {
+                hasWhereClause = true;
+            }
+            sqlBuffOffer.append(" " + DBConstants.Offers.OFFERING_IND_NAME+"='" + offeringInd + "' ");
+             hasWhereClause = true;
+
+        }
+
+       // if (target == null && item == null && category == null && orgCode == null && offeringInd==null){
+                   //sqlBuffOffer = new StringBuffer("");
+
+       // }
+
+        String s = sqlBuffOffer.toString();
+        return s;
+
+    }
+
+
+    public static String getSQLAddOffer() {
+
+              return "INSERT into "
+                  + DBConstants.Offers.TABLENAME
+                  + " ("
+                 // + DBConstants.TableColumns.OFFER_ID  + ", "
+                  + DBConstants.Offers.OFFERING_ENTITY_TYPE  + ", "
+                  + DBConstants.Offers.OFFERING_ORGCODE + ", "
+                  + DBConstants.Offers.OFFERING_IND_NAME + ", "
+                      + DBConstants.Offers.OFFERING_IND_CONTACT_NUMBER + ", "
+                      + DBConstants.Offers.OFFERING_IND_CONTACT_EMAIL_ADDRESS + ", "
+                      + DBConstants.Offers.OFFERING_IND_CONTACT_ADDRESS + ", "
+                      + DBConstants.Offers.ITEM  + ", "
+                  + DBConstants.Offers.CATEGORYCODE  + ", "
+
+                  + DBConstants.Offers.OFFER_UNIT  + ", "
+
+                  + DBConstants.Offers.DESCRIPTION  + ", "
+
+                  + DBConstants.Offers.TIMEFRAME  + ", "
+
+                  + DBConstants.Offers.EQUIVALENT_VALUE
+
+                  + ") "
+
+                  + " VALUES "
+
+                  + "(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+          }
+
 
 
 }

@@ -59,12 +59,23 @@
                 <td width="66%"  >&nbsp;</td>
               </tr>
               <tr>
+            <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
+              <td  nowrap class="formText" align="left" ><strong><a href="Add_offer.jsp" style="text-decoration:none"  class="style1">Add Offer</a></strong> </td>
+              </tr>
+              <tr>
+            <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
+
+              <td  nowrap class="formText" align="left" ><strong><a href="Search_Offer.jsp?<%=ERMSConstants.ISearchConstants.SEARCH_REQUEST%>" style="text-decoration:none"  class="style1">Search Offer</a></strong> </td>
+              </tr>
+
+
+              <tr>
               <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
                 <td  nowrap class="formText" align="left" ><strong><a href="Add_Request.jsp" style="text-decoration:none"  class="style1">Add Request</a></strong> </td>
                 </tr>
                 <tr>
               <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                
+
                 <td  nowrap class="formText" align="left" ><strong><a href="Search_Request.jsp?<%=ERMSConstants.ISearchConstants.SEARCH_REQUEST%>" style="text-decoration:none"  class="style1">Search Request</a></strong> </td>
                 </tr>
 

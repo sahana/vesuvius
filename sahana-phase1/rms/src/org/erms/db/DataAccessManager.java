@@ -159,9 +159,6 @@ public class DataAccessManager extends AbstractDataAccessManager{
             connection.setAutoCommit(true);
 
         } catch (Exception e) {
-
-            System.out.println("Exception!!!");
-
             try {
 
                 if (connection != null)
@@ -169,28 +166,16 @@ public class DataAccessManager extends AbstractDataAccessManager{
                 // Since an exception has occured lets roll back the partially inserted record.
                 {
 
-                    System.out.println("About to rollback");
-
                     connection.rollback();
 
                     connection.setAutoCommit(true);
-
-                    System.out.println("After roll back");
-
                 }
 
             } catch (SQLException e1) {
-
-                System.out.println("rollback exception");
-
                 e1.printStackTrace();
-
-                throw e1;
+               throw e1;
 
             }
-
-            e.printStackTrace();
-
             throw e;
 
         } finally {
@@ -234,7 +219,6 @@ public class DataAccessManager extends AbstractDataAccessManager{
         try {
             String sql = SQLGenerator.getSQLGetRequestDetail(requestDetailID);
 
-            System.out.print("SQL QUARY       %%%%%%%%%%%%%%%%%%%%%% " + sql);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
 
@@ -374,47 +358,28 @@ public class DataAccessManager extends AbstractDataAccessManager{
 
 
             // If all is ok then commit.
-
-            System.out.println("Before commit");
-
             connection.commit();
 
             connection.setAutoCommit(true);
-
-            System.out.println("After commit");
-
         } catch (Exception e) {
-
-            System.out.println("Exception!!!");
-
             try {
 
                 if (connection != null)
 
                 // Since an exception has occured lets roll back the partially inserted record.
                 {
-
-                    System.out.println("About to rollback");
-
                     connection.rollback();
 
                     connection.setAutoCommit(true);
-
-                    System.out.println("After roll back");
-
                 }
 
             } catch (SQLException e1) {
-
-                System.out.println("rollback exception");
-
                 e1.printStackTrace();
-
                 throw e1;
 
             }
 
-            e.printStackTrace();
+
 
             throw e;
 
@@ -465,8 +430,6 @@ public class DataAccessManager extends AbstractDataAccessManager{
 
                         String sqlUpdateFulFillRequestString = SQLGenerator.SQLupdateFulFillRequest();
                         String sqlAddFulFillStausChanged = SQLGenerator.getSQLAddFulFillStausChanged();
-
-                        System.out.println(sqlUpdateFulFillRequestString);
                         preparedStatement = connection.prepareStatement(sqlUpdateFulFillRequestString);
 
 
@@ -482,7 +445,6 @@ public class DataAccessManager extends AbstractDataAccessManager{
                         preparedStatement1.setString(3, newReqFTO.getStatus());
                         preparedStatement1.executeUpdate();
 
-                        System.out.println("After commit");
                     }
                 }
                 if (status != null) {
@@ -497,24 +459,19 @@ public class DataAccessManager extends AbstractDataAccessManager{
                 connection.setAutoCommit(true);
             } catch (Exception e) {
 
-                System.out.println("Exception!!!");
 
                 try {
 
                     if (connection != null)
                     // Since an exception has occured lets roll back the partially inserted record.
                     {
-                        System.out.println("About to rollback");
                         connection.rollback();
                         connection.setAutoCommit(true);
-                        System.out.println("After roll back");
                     }
                 } catch (SQLException e1) {
-                    System.out.println("rollback exception");
                     e1.printStackTrace();
                     throw e1;
                 }
-                e.printStackTrace();
                 throw e;
             } finally {
                 closeConnections(connection, preparedStatement, resultSet);
@@ -765,6 +722,360 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
         }
 
     }
+
+    public void addOffer(Offer offer,String loggedUserId, boolean isTargeted) throws Exception {
+
+                    Connection connection = null;
+
+                    PreparedStatement preparedStatement = null;
+
+                    ResultSet resultSet = null;
+
+
+                    try {
+
+                        connection = DBConnection.createConnection();
+
+                        connection.setAutoCommit(false);
+
+                     if (isTargeted) {   // Target Area is selected, so update both Offer and Offer Detail Table.
+
+                        int offerFullQty =0;
+                        String sqlAddOfferString = SQLGenerator.getSQLAddOffer();
+
+
+                        preparedStatement = connection.prepareStatement(sqlAddOfferString);
+                        preparedStatement.setString(1, offer.getOfferingEntityType());
+                        preparedStatement.setString(2, offer.getOrgCode());
+                        preparedStatement.setString(3, offer.getOfferingIndividual());
+                        preparedStatement.setString(4, offer.getContactNumber());
+                        preparedStatement.setString(5, offer.getEmailAddress());
+                        preparedStatement.setString(6, offer.getContactAddress());
+                        preparedStatement.setString(7, offer.getItem());
+                        preparedStatement.setString(8, offer.getCategory());
+                        preparedStatement.setString(9, offer.getUnit());
+                        preparedStatement.setString(10, offer.getDescription());
+                        preparedStatement.setString(11, offer.getTimeFrame());
+                        preparedStatement.setString(12, offer.getEqValue());
+
+                        preparedStatement.executeUpdate();
+
+
+
+                        // Getting the generated Key from the above statement
+
+                        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                        String generatedKey = new String();
+
+                        if (generatedKeys.next()) // We're expecting just one auto genrated key
+                        {
+                            generatedKey = generatedKeys.getObject(1).toString();
+                        }
+
+                // if(isTargeted){
+                        String sqlAddOfferDetailString = SQLGenerator.getSQLAddOfferDetail();
+                        // Now we're going to add the detail records.
+
+                        Collection requestDetails = offer.getOfferDetails();
+
+                        for (Iterator iterator = requestDetails.iterator(); iterator.hasNext();) {
+                            OfferDetail offerDetail = (OfferDetail) iterator.next();
+                            preparedStatement = connection.prepareStatement(sqlAddOfferDetailString);
+                            preparedStatement.setString(1, generatedKey);
+                            preparedStatement.setString(2, offerDetail.getTargetArea());
+                            preparedStatement.setInt(3, offerDetail.getQuantity());
+                            offerFullQty +=  offerDetail.getQuantity();
+                            preparedStatement.executeUpdate();
+                        }
+
+
+                       //-----
+                       String sqlUpdateOfferQtyString = SQLGenerator.getSQLUpdateOfferQty();
+
+                        preparedStatement = connection.prepareStatement(sqlUpdateOfferQtyString);
+                        preparedStatement.setInt(1,offerFullQty);
+                        preparedStatement.setInt(2,Integer.parseInt(generatedKey));
+
+                        preparedStatement.executeUpdate();
+
+                       //-----
+
+
+                       String sqlAddOfferLogString = SQLGenerator.getSQLAddOfferLog();
+                       preparedStatement = connection.prepareStatement(sqlAddOfferLogString);
+
+                        // format date
+
+                        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                        String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+                        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
+                        sdf.setTimeZone(TimeZone.getDefault());
+
+                        preparedStatement.setString(1,sdf.format(c.getTime()));
+                        preparedStatement.setString(2, loggedUserId);
+                        preparedStatement.setString(3, "Added Offer ID : ( "+generatedKey+" ) Successfully. ");
+
+                        preparedStatement.executeUpdate();
+                      // }
+
+                        // If all is ok then commit.
+
+
+                     } else {  // Area Code not selected, so insert only to Offer table.
+
+                      String sqlAddOfferString = SQLGenerator.getSQLAddOffer();
+
+
+                        preparedStatement = connection.prepareStatement(sqlAddOfferString);
+                        preparedStatement.setString(1, offer.getOfferingEntityType());
+                        preparedStatement.setString(2, offer.getOrgCode());
+                        preparedStatement.setString(3, offer.getOfferingIndividual());
+                        preparedStatement.setString(4, offer.getContactNumber());
+                        preparedStatement.setString(5, offer.getEmailAddress());
+                        preparedStatement.setString(6, offer.getContactAddress());
+                        preparedStatement.setString(7, offer.getItem());
+                        preparedStatement.setString(8, offer.getCategory());
+
+                        preparedStatement.setString(9, offer.getUnit());
+                        preparedStatement.setString(10, offer.getDescription());
+                        preparedStatement.setString(11, offer.getTimeFrame());
+                        preparedStatement.setString(12, offer.getEqValue());
+
+                        preparedStatement.executeUpdate();
+
+                        // Getting the generated Key from the above statement
+
+                        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                        String generatedKey = new String();
+
+                        if (generatedKeys.next()) // We're expecting just one auto genrated key
+                        {
+                            generatedKey = generatedKeys.getObject(1).toString();
+                        }
+
+                        int offerFullQty=0;
+                        Collection requestDetails = offer.getOfferDetails();
+
+                        for (Iterator iterator = requestDetails.iterator(); iterator.hasNext();) {
+                            OfferDetail offerDetail = (OfferDetail) iterator.next();
+                            offerFullQty +=  offerDetail.getQuantity();
+                        }
+
+                         String sqlUpdateOfferQtyString = SQLGenerator.getSQLUpdateOfferQty();
+
+                        preparedStatement = connection.prepareStatement(sqlUpdateOfferQtyString);
+                        preparedStatement.setInt(1,offerFullQty);
+                        preparedStatement.setInt(2,Integer.parseInt(generatedKey));
+
+                        preparedStatement.executeUpdate();
+
+                        String sqlAddOfferLogString = SQLGenerator.getSQLAddOfferLog();
+                       preparedStatement = connection.prepareStatement(sqlAddOfferLogString);
+
+                        // format date
+
+                        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                        String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+                        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
+                        sdf.setTimeZone(TimeZone.getDefault());
+
+                        preparedStatement.setString(1,sdf.format(c.getTime()));
+                        preparedStatement.setString(2, loggedUserId);
+                        preparedStatement.setString(3, "Added Offer ID : ( "+generatedKey+" ) Successfully. ");
+
+                        preparedStatement.executeUpdate();
+                      // }
+
+                        // If all is ok then commit.
+
+
+                     }
+                        connection.commit();
+                        connection.setAutoCommit(true);
+
+
+                    } catch (Exception e) {
+            try {
+
+                            if (connection != null)
+
+                            // Since an exception has occured lets roll back the partially inserted record.
+                            {
+                                connection.rollback();
+
+                                connection.setAutoCommit(true);
+
+                            }
+
+                        } catch (SQLException e1) {
+
+                            e1.printStackTrace();
+
+                            throw e1;
+
+                        }
+
+                        e.printStackTrace();
+
+                        throw e;
+
+                    } finally {
+
+                        closeConnections(connection, preparedStatement, resultSet);
+
+                    }
+
+        }
+
+    public OrganizationRegistrationTO findOrganizatinByCode(String code)throws SQLException,Exception{
+
+                OrganizationRegistrationTO orgTo = new OrganizationRegistrationTO();
+
+
+                Connection conn = DBConnection.createConnection();
+                Statement s = null;
+                ResultSet rs = null;
+
+                try {
+
+                    String sql = SQLGenerator.getSQLForOrganizationByCode(code);
+
+                    s = conn.createStatement();
+
+                    rs = s.executeQuery(sql);
+
+                    String TempPerson = null;
+                    String TempConNum = null;
+                    String TempConMail = null;
+                    String TempAdd = null;
+                                      KeyValueDTO dto = null;
+
+
+                    while (rs.next()) {
+
+                        TempPerson = rs.getString(DBConstants.Organization.ORG_CONTACT_PERSON);
+                        TempConNum = rs.getString(DBConstants.Organization.ORG_CONTACT_NUMBER);
+                        TempConMail = rs.getString(DBConstants.Organization.ORG_EMAIL_ADDRESS);
+                        TempAdd = rs.getString(DBConstants.Organization.ORG_ADDRESS);
+
+                        orgTo.setContactPerson(TempPerson);
+                        orgTo.setContactNumber(TempConNum);
+                        orgTo.setEmailAddress(TempConMail);
+                        orgTo.setOrgAddress(TempAdd);
+
+
+
+                    }
+
+                } finally {
+
+                    closeConnections(conn,s,rs);
+
+                }
+
+            return orgTo;
+        }
+
+    public List searchOffers(OfferSearchCriteriaTO searchCriteria) throws SQLException, Exception {
+
+               Connection connection = null;
+
+               Statement createStatement = null;
+
+               ResultSet resultSet = null;
+
+               try {
+                   List returnSearchTOs = new ArrayList();
+
+                   connection = DBConnection.createConnection();
+                   connection.setAutoCommit(false);
+                   createStatement = connection.createStatement();
+                   String sqlSearchString = "";
+
+                   OfferSearchTO offerSearchTo = new OfferSearchTO();
+
+                   if(searchCriteria.getTargetArea()==null || searchCriteria.getTargetArea().equalsIgnoreCase("")) {
+
+                       sqlSearchString = SQLGenerator.getSQLForOfferSearch(searchCriteria.getOfferingIndividual(),searchCriteria.getOrgCode(),searchCriteria.getCategory(),null,searchCriteria.getItem());
+
+                       resultSet = createStatement.executeQuery(sqlSearchString);
+
+                       while (resultSet.next()) {
+
+                       offerSearchTo = new OfferSearchTO();
+
+                       offerSearchTo.setItem(resultSet.getString(DBConstants.Offers.ITEM));
+                       offerSearchTo.setCategory(resultSet.getString(DBConstants.Offers.CATEGORYCODE));
+                       offerSearchTo.setUnit(resultSet.getString(DBConstants.Offers.OFFER_UNIT));
+                       offerSearchTo.setQuantity(Integer.toString(resultSet.getInt(DBConstants.Offers.TOTAL_OFFER_QTY)));
+                       offerSearchTo.setOrgCode(resultSet.getString(DBConstants.Offers.OFFERING_ORGCODE));
+                       offerSearchTo.setOfferingIndividual(resultSet.getString(DBConstants.Offers.OFFERING_IND_NAME));
+                       offerSearchTo.setTimeFrame(resultSet.getString(DBConstants.Offers.TIMEFRAME));
+                       offerSearchTo.setEqValue(resultSet.getString(DBConstants.Offers.EQUIVALENT_VALUE));
+
+                       returnSearchTOs.add(offerSearchTo);
+
+                       }
+
+                       sqlSearchString = SQLGenerator.getSQLForOfferSearch(searchCriteria.getOfferingIndividual(),searchCriteria.getOrgCode(),searchCriteria.getCategory(),"",searchCriteria.getItem());
+
+                       resultSet = createStatement.executeQuery(sqlSearchString);
+
+                       while (resultSet.next()) {
+
+                       offerSearchTo = new OfferSearchTO();
+
+                       //offerSearchTo.setRequestDetId(resultSet.getString(DBConstants.TableColumns.REQUEST_DETAIL_ID));
+                       offerSearchTo.setItem(resultSet.getString(DBConstants.Offers.ITEM));
+                       offerSearchTo.setCategory(resultSet.getString(DBConstants.Offers.CATEGORYCODE));
+                       offerSearchTo.setUnit(resultSet.getString(DBConstants.Offers.OFFER_UNIT));
+                       offerSearchTo.setQuantity(Integer.toString(resultSet.getInt(DBConstants.OfferArea.OFFER_QUANTITY)));
+                       offerSearchTo.setOrgCode(resultSet.getString(DBConstants.Offers.OFFERING_ORGCODE));
+                       offerSearchTo.setOfferingIndividual(resultSet.getString(DBConstants.Offers.OFFERING_IND_NAME));
+                       offerSearchTo.setTimeFrame(resultSet.getString(DBConstants.Offers.TIMEFRAME));
+                       offerSearchTo.setEqValue(resultSet.getString(DBConstants.Offers.EQUIVALENT_VALUE));
+                       offerSearchTo.setTargetArea(resultSet.getString(DBConstants.OfferArea.DIST_CODE));
+
+                       returnSearchTOs.add(offerSearchTo);
+
+                     }
+
+                   } else if(searchCriteria.getTargetArea()!=null || !searchCriteria.getTargetArea().equalsIgnoreCase("")) {
+
+                      sqlSearchString = SQLGenerator.getSQLForOfferSearch(searchCriteria.getOfferingIndividual(),searchCriteria.getOrgCode(),searchCriteria.getCategory(),searchCriteria.getTargetArea(),searchCriteria.getItem());
+
+                      resultSet = createStatement.executeQuery(sqlSearchString);
+
+                       while (resultSet.next()) {
+
+                       offerSearchTo = new OfferSearchTO();
+
+                       //offerSearchTo.setRequestDetId(resultSet.getString(DBConstants.TableColumns.REQUEST_DETAIL_ID));
+                       offerSearchTo.setItem(resultSet.getString(DBConstants.Offers.ITEM));
+                       offerSearchTo.setCategory(resultSet.getString(DBConstants.Offers.CATEGORYCODE));
+                       offerSearchTo.setUnit(resultSet.getString(DBConstants.Offers.OFFER_UNIT));
+                       offerSearchTo.setQuantity(Integer.toString(resultSet.getInt(DBConstants.Offers.TOTAL_OFFER_QTY)));
+                       offerSearchTo.setOrgCode(resultSet.getString(DBConstants.Offers.OFFERING_ORGCODE));
+                       offerSearchTo.setOfferingIndividual(resultSet.getString(DBConstants.Offers.OFFERING_IND_NAME));
+                       offerSearchTo.setTimeFrame(resultSet.getString(DBConstants.Offers.TIMEFRAME));
+                       offerSearchTo.setEqValue(resultSet.getString(DBConstants.Offers.EQUIVALENT_VALUE));
+                       offerSearchTo.setTargetArea(resultSet.getString(DBConstants.OfferArea.DIST_CODE));
+
+
+                       returnSearchTOs.add(offerSearchTo);
+
+                     }
+                   }
+
+                   return returnSearchTOs;
+
+               } finally {
+
+                   closeConnections(connection, createStatement, resultSet);
+
+               }
+
+           }
 
 
 
