@@ -116,32 +116,55 @@
                 <tr>
                     <td vAlign="top" class="tableUp" align="left" colspan="6"><b>People Information</b></td>
                 </tr>
+                <tr>
+                    <td colspan="6">&nbsp;</td>
+                </tr>
+                 <tr>
+                    <td class="tableUp" align="left" >Number of Families</td>
+                    <td class="tableUp" align="left">Number of Men</td>
+                    <td class="tableUp" align="left">Number of Women</td>
+                    <td class="tableUp" align="left">Number of Children</td>
+                    <td class="tableUp" align="left">Total </td>
+                    <td class="tableUp" align="left">Date</td>
+                </tr>
+                <tr>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(camp.getCampFamily())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(camp.getCampMen())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(camp.getCampWomen())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(camp.getCampChildren())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(camp.getCampTotal())%> </td>
+                    <td class="tableDown" align="left"><%=camp.getUpdateDate()%></td>
+                </tr>
+                <tr>
+                    <td colspan="6">&nbsp;</td>
+                </tr>
 
-                                        <tr>
-                                            <td class="tableUp" align="left" >Number of Families</td>
-                                            <td class="tableUp" align="left">Number of Men</td>
-                                            <td class="tableUp" align="left">Number of Women</td>
-                                            <td class="tableUp" align="left">Number of Children</td>
-                                            <td class="tableUp" align="left">Total </td>
-                                            <td class="tableUp" align="left">Date</td>
-                                        </tr>
-                                        <%
-                                            int count = historyList.size();
-                                            for (int i = 0; i < count; i++) {
-                                                CampHistoryTO historyTo = (CampHistoryTO) historyList.get(i);
 
-                                            %>
+                <tr>
+                    <td class="tableUp" align="left" >Number of Families</td>
+                    <td class="tableUp" align="left">Number of Men</td>
+                    <td class="tableUp" align="left">Number of Women</td>
+                    <td class="tableUp" align="left">Number of Children</td>
+                    <td class="tableUp" align="left">Total </td>
+                    <td class="tableUp" align="left">Date</td>
+                </tr>
+                <%
+                    int count = historyList.size();
+                    for (int i = 0; i < count; i++) {
+                        CampHistoryTO historyTo = (CampHistoryTO) historyList.get(i);
 
-                                     <tr>
-                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampFamily())%></td>
-                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampMen())%></td>
-                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampWomen())%></td>
-                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampChildren())%></td>
-                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampTotal())%> </td>
-                                            <td class="tableDown" align="left"><%=historyTo.getUpdateDate()%></td>
-                                        </tr>
+                    %>
 
-                                        <%  }%>
+             <tr>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampFamily())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampMen())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampWomen())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampChildren())%></td>
+                    <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampTotal())%> </td>
+                    <td class="tableDown" align="left"><%=historyTo.getUpdateDate()%></td>
+                </tr>
+
+                <%  }%>
 
 
                 <tr>
