@@ -33,25 +33,26 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse());
 
             preparedStatement.setString(1, dhTO.getDistrictCode());
-            preparedStatement.setString(2, dhTO.getDivision());
-            preparedStatement.setString(3, dhTO.getGSN());
-            preparedStatement.setString(4, dhTO.getOwner());
-            preparedStatement.setDouble(5, dhTO.getDistanceFromSea());
-            preparedStatement.setString(6, dhTO.getCity());
-            preparedStatement.setString(7, dhTO.getNoAndStreet());
-            preparedStatement.setString(8, dhTO.getCurrentAddress());
-            preparedStatement.setDouble(9, dhTO.getFloorArea());
-            preparedStatement.setInt(10, dhTO.getNoOfStories());
-            preparedStatement.setString(11, dhTO.getTypeOfOwnership());
-            preparedStatement.setInt(12, dhTO.getNoOfResidents());
-            preparedStatement.setString(13, dhTO.getTypeOfConstruction());
-            preparedStatement.setString(14, dhTO.getPropertyTaxNo());
-            preparedStatement.setDouble(15, dhTO.getTotalDamagedCost());
-            preparedStatement.setDouble(16, dhTO.getLandArea());
-            preparedStatement.setBoolean(17, dhTO.getRelocate());
-            preparedStatement.setBoolean(18, dhTO.getInsured());
-            preparedStatement.setString(19, dhTO.getDamageType());
+            preparedStatement.setString(2, dhTO.getDistrictCode());
+            preparedStatement.setString(3, dhTO.getDivision());
+            preparedStatement.setString(4, dhTO.getGSN());
+            preparedStatement.setString(5, dhTO.getOwner());
+            preparedStatement.setDouble(6, dhTO.getDistanceFromSea());
+            preparedStatement.setString(7, dhTO.getCity());
+            preparedStatement.setString(8, dhTO.getNoAndStreet());
+            preparedStatement.setString(9, dhTO.getCurrentAddress());
+            preparedStatement.setDouble(10, dhTO.getFloorArea());
+            preparedStatement.setInt(11, dhTO.getNoOfStories());
+            preparedStatement.setString(12, dhTO.getTypeOfOwnership());
+            preparedStatement.setInt(13, dhTO.getNoOfResidents());
+            preparedStatement.setString(14, dhTO.getTypeOfConstruction());
+            preparedStatement.setString(15, dhTO.getPropertyTaxNo());
+            preparedStatement.setDouble(16, dhTO.getTotalDamagedCost());
+            preparedStatement.setDouble(17, dhTO.getLandArea());
+            preparedStatement.setBoolean(18, dhTO.getRelocate());
+            preparedStatement.setBoolean(19, dhTO.getInsured());
             preparedStatement.setString(20, dhTO.getDamageType());
+            preparedStatement.setString(21, dhTO.getComments());
             preparedStatement.executeUpdate();
 
 
