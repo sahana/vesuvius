@@ -228,7 +228,7 @@ function display_input_element($name, $n)
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$name][$n]))
-		echo $_SESSION['form'][$name][$n];
+		echo stripslashes($_SESSION['form'][$name][$n]);
 }
 
 function display_input_element_money($name, $n)
