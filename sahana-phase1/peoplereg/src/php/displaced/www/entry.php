@@ -25,22 +25,35 @@ $dbh = mysql_connect('localhost', 'apache', 'abcd321')
 
 mysql_select_db('mambo') or die('Could not select database');
 
+$screen = 'entry';
+
 if ($_POST) {
-	capture_input_string('district');
-	capture_input_string('division');
-	capture_input_string('grama');
-	capture_input_string('village');
+	if ($_POST['back']) {
+		$screen = 'entry';
+	}
+	elseif ($_POST['submit']) {
+		capture_input_string('district');
+		capture_input_string('division');
+		capture_input_string('grama');
+		capture_input_string('village');
 
-	capture_input_int('family_no');
-	capture_input_int('num_males');
-	capture_input_int('num_females');
-	capture_input_int('num_children');
+		capture_input_int('family_no');
+		capture_input_int('num_males');
+		capture_input_int('num_females');
+		capture_input_int('num_children');
 
-	capture_input_int('relief_adults');
-	capture_input_int('relief_children');
+		capture_input_int('relief_adults');
+		capture_input_int('relief_children');
 
-	capture_input_string('relief_period');
-	capture_input_string('remarks');
+		capture_input_string('relief_period');
+		capture_input_string('remarks');
+
+		$screen = 'confirm';
+	}
+}
+
+if ($screen == 'confirm') {
+
 ?>
 
 <h2>Confirmation Form</h2>
