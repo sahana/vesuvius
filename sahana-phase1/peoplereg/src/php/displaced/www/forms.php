@@ -167,7 +167,7 @@ function capture_input_int($name)
 
 	if (isset($_POST[$name]))
 		$_SESSION['form'][$name] = intval(trim($_POST[$name]));
-	if (isset($_GET[$name]))
+	elseif (isset($_GET[$name]))
 		$_SESSION['form'][$name] = intval(trim($_GET[$name]));
 	else
 		unset($_SESSION['form'][$name]);
