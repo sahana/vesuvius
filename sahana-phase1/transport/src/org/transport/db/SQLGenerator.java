@@ -4,9 +4,9 @@
  * To change the template for this generated file go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-package org.campdb.db;
+package org.transport.db;
 
-//import org.campdb.business.CampTO;
+//import org.transport.business.CampTO;
 
 /**
  * @author Administrator
@@ -34,13 +34,13 @@ public class SQLGenerator {
         return s;
     }
 
-
+*/
     public static String getSQLForLogin(String userName) {
         String s = "SELECT *"
             + " FROM " + DBConstants.Tables.USERS + " WHERE "+DBConstants.TableColumns.USER_NAME+"='"+userName+"'";
         return s;
     }
-
+/*
     public static String getSQLForAllOrganizationNames() {
         return "SELECT "
             + DBConstants.TableColumns.ORG_CODE + ","

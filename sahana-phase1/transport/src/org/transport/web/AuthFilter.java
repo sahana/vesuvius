@@ -33,9 +33,14 @@ public class AuthFilter  implements Filter {
             return;
         }
 
-         if(httpReq.getRequestURL().indexOf("Index.jsp") < 0) {
+         /*if(httpReq.getRequestURL().indexOf("Index.jsp") < 0) {
             if (!isSessionValid(session)) {
                 ((HttpServletResponse)response).sendRedirect("Index.jsp");
+                return;
+            }*/
+         if(httpReq.getRequestURL().indexOf("Welcome.jsp") < 0) {
+            if (!isSessionValid(session)) {
+                ((HttpServletResponse)response).sendRedirect("Welcome.jsp");
                 return;
             }
         }

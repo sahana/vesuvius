@@ -6,7 +6,7 @@
 */
 package org.transport.db;
 
-//import org.transport.business.*;
+import org.transport.business.*;
 //import org.transport.util.LabelValue;
 
 import java.sql.Connection;
@@ -436,7 +436,7 @@ public class DataAccessManager {
             }
         }
     }
-
+*/
     public User loginSuccess(String userName, String password) throws SQLException, Exception {
         Connection conn = DBConnection.createConnection();
         try {
@@ -458,7 +458,7 @@ public class DataAccessManager {
 
         return null;
     }
-
+/*
 
     public List validateCampTOforInsert(CampTO campTO) throws SQLException, Exception {
         List result = campTO.validate();
