@@ -4,15 +4,16 @@
                  org.erms.util.ERMSConstants,
                  org.erms.business.*,
                  org.erms.util.FulfilmentModel,
-                 java.util.*" %>
+                 java.util.*,
+                 tccsol.admin.accessControl.LoginBean" %>
 <%
     try{
-    User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
-    if (user==null){
-        //Nobody should come here without a user
-        request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.ERROR_DESCRIPTION, "User not authenticated!");
-        response.sendRedirect("error.jsp");
+    LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+    if (lbean==null){
+        throw new Exception("Please login with a valid username and password");
     }
+    User user = new  User(lbean.getUserName(),lbean.getOrgId(),lbean.getOrgName());
+
     //OK we are authenticated
 
 
@@ -21,9 +22,6 @@
     Collection oldCollection = new ArrayList();
     Collection newCollection = new ArrayList();
     String requestDetailstatus = null;
-
-
-
 
     RequestDetailTO requestDetailObj = model.getRequestDetail();
     RequestFulfillDetailTO fd = null;
