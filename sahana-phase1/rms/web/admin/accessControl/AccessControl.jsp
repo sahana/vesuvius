@@ -9,6 +9,7 @@
 
        try
        {
+        tccsol.admin.accessControl.AuditLog log = new tccsol.admin.accessControl.AuditLog();
 
       if (request.getAttribute("modNo") != null)
         modNo = (String)request.getAttribute("modNo");
@@ -32,14 +33,11 @@
 
               if (request.getParameter("passwd") != null)
                 bean.setPassword(request.getParameter("passwd").trim());
-                  System.out.println("user: " + bean.getUserName());
-System.out.println("pass: " + bean.getPassword());
-System.out.println("module: " + modNo);
-              System.out.println("level: " + accessLvl);
 
              if (bean.isValidUser()) {
                session.setAttribute("LoginBean", bean);
                request.setAttribute("isValidUsr", "Y");
+               log.logEntry(bean.getUserName(), modNo, "Login");
              }
              else {
                  if (bean.getMessages().size() > 0)
@@ -115,8 +113,10 @@ System.out.println("module: " + modNo);
             request.setAttribute("turl", path);
             request.setAttribute("hasAccess", "N");
         }
-        else
+        else {
             request.setAttribute("hasAccess", "Y");
+            log.logEntry(bean.getUserName(), modNo, accessLvl);
+        }
              //Access Control implementation - END
     //
     }
