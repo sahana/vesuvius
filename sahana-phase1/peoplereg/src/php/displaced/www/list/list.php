@@ -5,12 +5,12 @@
 // -- Anuradha
 
 session_start();
-require('forms.php');
-require('db.php');
+require('../forms.php');
+require('../db.php');
 
 // Change this to the data entry URI
 // It NEEDS at least one (even dummy) get parameter
-$entry_url = 'http://127.0.0.1/mambo/?d=1';
+$entry_url = '/mambo/index.php?option=com_content&task=section&id=6&Itemid=46&d=1';
 
 ?>
 <html>
@@ -21,7 +21,7 @@ $entry_url = 'http://127.0.0.1/mambo/?d=1';
 
 <?
 // Connect to DB running locally
-$dbh = mysql_connect('localhost', 'apache', 'abcd321')
+$dbh = mysql_connect('localhost', 'dbuser', 'dbpasswd')
 	or die('Could not connect: ' . mysql_error());
 mysql_select_db('mambo') or die('Could not select database');
 

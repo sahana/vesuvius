@@ -10,7 +10,7 @@ require('db.php');
 require('peoplesearch.php');
 
 // Connect to DB running locally
-$dbh = mysql_connect('localhost', 'apache', 'abcd321')
+$dbh = mysql_connect('localhost', 'dbuser', 'dbpasswd')
 	or die('Could not connect: ' . mysql_error());
 mysql_select_db('mambo') or die('Could not select database');
 
@@ -272,7 +272,7 @@ if ($screen == 'entry') {
 
 ?>
 	<h2>Family Details Entry Form</h2>
-	<a href="/peoplereg/displaced/list.php">List of entries</a>
+	<a href="/peoplereg/displaced/list/list.php">List of entries</a>
 	<div align="center">
 		<hr />
 		<table class="entry">
@@ -412,7 +412,7 @@ elseif ($screen == 'confirm') {
 
 ?>
 	<h2>Confirmation Form</h2>
-	<a href="/peoplereg/displaced/list.php">List of entries</a>
+	<a href="/peoplereg/displaced/list/list.php">List of entries</a>
 	<div align="center">
 		<hr />
 		<table class="entry">
