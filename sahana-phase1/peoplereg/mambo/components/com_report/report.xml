@@ -134,7 +134,7 @@
 			(last_insert_id(), 'child', 'Child (age: 1-12)'),
 			(last_insert_id(), 'teenager', 'Teenager (age: 13-20)'),
 			(last_insert_id(), 'adult', 'Adult (age: 21-60)'),
-			(last_insert_id(), 'elderly', 'Elderly (age: over 60)'));
+			(last_insert_id(), 'elderly', 'Elderly (age: over 60)');
 	  </query>
 
       <query>
@@ -252,10 +252,10 @@
         insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_mobile', 'Reporter mobile', 1, 0, 1);
       </query>
       <query>
-        insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_email', Reporter email, 1, 0, 1);
+        insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_email', 'Reporter email', 1, 0, 1);
       </query>
       <query>
-        insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_relationship', Reporter relationship, 1, 0, 1);
+        insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_relationship', 'Reporter relationship', 1, 0, 1);
       </query>
       <query>
         insert into sahana_attributes (name, caption, data_type, publicity, search) values('reporter_org', 'Reporter organization', 1, 0, 1);
