@@ -57,6 +57,7 @@ function capture_reporter_data()
 	capture_input_string('reporter_name');
 	capture_input_string('reporter_address');
 	capture_input_string('reporter_city');
+	capture_input_string('reporter_country');
 	capture_input_string('reporter_phone');
 	capture_input_string('reporter_mobile');
 	capture_input_string('reporter_email');
@@ -522,6 +523,10 @@ function reporter_data()
 		<td><? show_input_text('reporter_city'); ?></td>
 	</tr>
 	<tr>
+		<td>Country:</td>
+		<td><? show_input_text('reporter_country'); ?></td>
+	</tr>
+	<tr>
 		<td>Phone:</td>
 		<td><? show_input_text('reporter_phone'); ?></td>
 	</tr>
@@ -618,6 +623,7 @@ function store_data()
 	store_string($report_id, $entity_id, 'reporter_name');
 	store_string($report_id, $entity_id, 'reporter_address');
 	store_string($report_id, $entity_id, 'reporter_city');
+	store_string($report_id, $entity_id, 'reporter_country');
 	store_string($report_id, $entity_id, 'reporter_phone');
 	store_string($report_id, $entity_id, 'reporter_mobile');
 	store_string($report_id, $entity_id, 'reporter_email');
