@@ -2,7 +2,7 @@
 
 
 
-<project name="transport" default="war" basedir=".">
+<project name="transport" default="deploy" basedir=".">
     <property name="src" value="src"></property>
     <property name="class.dir" value="web/WEB-INF/classes"></property>
     <property file ="conf/transport.conf"/>
@@ -29,7 +29,7 @@
     </target>
 
 
-    <target name="deploy">
+    <target name="deploy" depends="war">
         <copy file ="staging/transport.war" todir="${dir-diploy}"/>
         <delete dir="staging"/>
     </target>
