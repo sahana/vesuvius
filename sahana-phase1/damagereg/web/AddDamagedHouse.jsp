@@ -33,7 +33,8 @@
                String  message  = null;
                      
             if (request.getParameter("submit") != null) {
-                
+
+                System.out.println("INSURED "+request.getParameter("insured"));
                 String districtString = request.getParameter("district");
                 Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
                 while(allDistricts.hasNext()){
@@ -104,7 +105,7 @@
              <tr>
                   <td align="right" vAlign="top" class="formText">Distance From Sea : </td>
                   <td>
-                     <input class="textBox" name="distance"  type="text" id="distance">&nbsp;<small><font color="red">*</font></small>
+                     <input class="textBox" name="distanceFromSea"  type="text" id="distanceFromSea">&nbsp;<small><font color="red">*</font></small>
                    </td>
              </tr>
 
@@ -215,14 +216,14 @@
              <tr>
                   <td align="right" vAlign="top" class="formText">Do you like to get relocated : </td>
                   <td>
-                     <input type="radio" name="relocate" class="formText"  value="yes"
+                     <input type="radio" name="relocate" class="formText"  value="true"
                      <%="checked=\"true\""
 
                      %>
                     >yes</input>
 
 
-                    <input type="radio" name="relocate" class="formText"  value="no"
+                    <input type="radio" name="relocate" class="formText"  value="false"
                      <%
 
                      %>
@@ -233,14 +234,14 @@
              <tr>
                   <td align="right" vAlign="top" class="formText">Is house Insured : </td>
                   <td>
-                     <input type="radio" name="insured" class="formText"  value="yes"
+                     <input type="radio" name="insured" class="formText"  value="true"
                      <%
 
                      %>
                     >yes</input>
 
 
-                    <input type="radio" name="insured" class="formText"  value="no"
+                    <input type="radio" name="insured" class="formText"  value="false"
                      <%="checked=\"true\""
 
                      %>
@@ -249,7 +250,7 @@
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Type of Construction : </td>
+                  <td align="right" vAlign="top" class="formText">Type of Damage : </td>
                   <td>
                   <select name="damageType" class="selectBoxes">
                   <%
@@ -266,9 +267,9 @@
              </tr>
 
              <tr>
-                  <td align="right" vAlign="top" class="formText">Estimated Damage in Rupees : </td>
+                  <td align="right" vAlign="top" class="formText">Comments </td>
                   <td>
-                     <textarea  cols="38" readonly="true" name="comments" rows="5"></textarea>
+                     <textarea  cols="38"  name="comments" rows="5"></textarea>
                    </td>
              </tr>
 

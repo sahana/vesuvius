@@ -45,8 +45,16 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement.setString(14, dhTO.getPropertyTaxNo());
             preparedStatement.setString(15, dhTO.getTotalDamagedCost());
             preparedStatement.setString(16, dhTO.getLandArea());
-            preparedStatement.setString(17, dhTO.getRelocate());
-            preparedStatement.setString(18, dhTO.getInsured());
+
+//            if(dhTO.getRelocate().equalsIgnoreCase("true"))
+//                 preparedStatement.setBoolean(17,new Boolean(true).booleanValue());
+//            else
+                 preparedStatement.setBoolean(17, true);
+//            if(dhTO.getInsured().equalsIgnoreCase("true"))
+//                 preparedStatement.setBoolean(18, new Boolean(true).booleanValue());
+//            else
+              preparedStatement.setBoolean(18, false);
+
             preparedStatement.setString(19, dhTO.getDamageType());
             preparedStatement.setString(20, dhTO.getComments());
             preparedStatement.executeUpdate();
@@ -54,7 +62,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
 
             Iterator ite1 = dhTO.getDamagedHouseMoreInfoList().iterator();
             preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse_Damage_Moreinfo());
-            while(ite1.hasNext()) {
+            while (ite1.hasNext()) {
                 DamagedHouseMoreInfoTO dhmInfoTO = (DamagedHouseMoreInfoTO) ite1.next();
                 preparedStatement.setInt(1, dhmInfoTO.getHouseID());
                 preparedStatement.setString(2, dhmInfoTO.getDamageInfo());
@@ -71,6 +79,10 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
                 preparedStatement.setString(3, hfInfoTO.getDescription());
                 preparedStatement.executeUpdate();
             }
+
+            connection.commit();
+            connection.setAutoCommit(true);
+            status = true;
 
         } catch (Exception e) {
             try {
@@ -91,6 +103,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             e.printStackTrace();
 
         } finally {
+
             closeStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -135,23 +148,23 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
 
             List returnSearchTOs = new ArrayList();
             while (resultSet.next()) {
-               DamagedHouseTO requestSearchTo = new DamagedHouseTO();
+                DamagedHouseTO requestSearchTo = new DamagedHouseTO();
                 requestSearchTo.setDistrictCode(resultSet.getString(DBConstants.TableColumns.DISTRICT_CODE));
-                requestSearchTo.setDivision(resultSet.getString(DBConstants.TableColumns.DIVISION ));
-                requestSearchTo.setGsn(resultSet.getString(DBConstants.TableColumns.GSN ));
-                requestSearchTo.setOwner(resultSet.getString(DBConstants.TableColumns.OWNER ));
+                requestSearchTo.setDivision(resultSet.getString(DBConstants.TableColumns.DIVISION));
+                requestSearchTo.setGsn(resultSet.getString(DBConstants.TableColumns.GSN));
+                requestSearchTo.setOwner(resultSet.getString(DBConstants.TableColumns.OWNER));
                 requestSearchTo.setDistanceFromSea(resultSet.getString(DBConstants.TableColumns.DISTANCE_FROM_SEA));
                 requestSearchTo.setFloorArea(resultSet.getString(DBConstants.TableColumns.FLOOR_AREA));
-                requestSearchTo.setNoOfStories(resultSet.getString(DBConstants.TableColumns.NO_OF_STORIES ));
-                requestSearchTo.setDamageType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE ));
-                requestSearchTo.setTypeOfOwnership(resultSet.getString(DBConstants.TableColumns.TYPE_OF_OWNERSHIP));
-                requestSearchTo.setTypeOfConstruction(resultSet.getString(DBConstants.TableColumns.TYPE_OF_CONSTRUCTION ));
-                requestSearchTo.setPropertyTaxNo(resultSet.getString(DBConstants.TableColumns.PROPERTY_TAX_NO));
-                requestSearchTo.setTotalDamagedCost(resultSet.getString(DBConstants.TableColumns.TOTAL_DAMAGED_COST ));
-                requestSearchTo.setLandArea(resultSet.getString(DBConstants.TableColumns.LAND_AREA ));
-                requestSearchTo.setRelocate(resultSet.getString(DBConstants.TableColumns.INSURED ));
+                requestSearchTo.setNoOfStories(resultSet.getString(DBConstants.TableColumns.NO_OF_STORIES));
                 requestSearchTo.setDamageType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE));
-                requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS ));
+                requestSearchTo.setTypeOfOwnership(resultSet.getString(DBConstants.TableColumns.TYPE_OF_OWNERSHIP));
+                requestSearchTo.setTypeOfConstruction(resultSet.getString(DBConstants.TableColumns.TYPE_OF_CONSTRUCTION));
+                requestSearchTo.setPropertyTaxNo(resultSet.getString(DBConstants.TableColumns.PROPERTY_TAX_NO));
+                requestSearchTo.setTotalDamagedCost(resultSet.getString(DBConstants.TableColumns.TOTAL_DAMAGED_COST));
+                requestSearchTo.setLandArea(resultSet.getString(DBConstants.TableColumns.LAND_AREA));
+                requestSearchTo.setRelocate(resultSet.getString(DBConstants.TableColumns.INSURED));
+                requestSearchTo.setDamageType(resultSet.getString(DBConstants.TableColumns.DAMAGE_TYPE));
+                requestSearchTo.setComments(resultSet.getString(DBConstants.TableColumns.COMMENTS));
             }
 
 
