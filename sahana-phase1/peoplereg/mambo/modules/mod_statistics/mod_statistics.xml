@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<mosinstall type="module">
+    <name>Statistics</name>
+    <creationDate>1/Jan/2004</creationDate>
+    <author> Virtusa / LK-LUG</author>
+    <copyright>This template is released under the GNU/GPL License</copyright>
+    <authorEmail>budks@users.sourceforge.net</authorEmail>
+    <authorUrl></authorUrl>
+    <version>1.0</version>
+    <description>Shows related content items based on
+        keywords in the meta key field</description>
+     <files>
+         <filename module="mod_statistics">mod_statistics.php</filename>
+     </files>
+</mosinstall>
