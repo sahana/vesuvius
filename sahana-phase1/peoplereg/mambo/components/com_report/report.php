@@ -292,8 +292,8 @@ function validate_email() {
 
 <table class="data_entry">
 	<tr>
-		<td>Name:</td>
-		<td><? show_input_text('name'); ?></td>
+		<td class="row1">Name:</td>
+		<td class="row2"><? show_input_text('name'); ?></td>
 	</tr>
 	<tr>
 		<td>Other names:</td>
@@ -301,8 +301,8 @@ function validate_email() {
 	</tr>
 <? if ($my->id) { ?>
 	<tr>
-		<td class="row1">Status:</td>
-		<td class="row2"><? show_input_select('status'); ?></td>
+		<td>Status:</td>
+		<td><? show_input_select('status'); ?></td>
 	</tr>
 <? } else { ?>
 	<input type="hidden" name="status" value="missing" />
@@ -353,8 +353,8 @@ function validate_email() {
 
 <table class="data_entry">
 	<tr>
-		<td>Last seen location:</td>
-		<td><? show_input_text('location'); ?></td>
+		<td class="row1">Last seen location:</td>
+		<td class="row2"><? show_input_text('location'); ?></td>
 	</tr>
 	<tr>
 		<td>Location contact details:</td>
@@ -385,11 +385,11 @@ function validate_email() {
 	</tr>
 	<tr>
 		<td>Hair colour:</td>
-		<td class="row2"><? show_input_select('hair_colour'); ?></td>
+		<td><? show_input_select('hair_colour'); ?></td>
 	</tr>
 	<tr>
 		<td>Eye colour:</td>
-		<td class="row2"><? show_input_select('eye_colour'); ?></td>
+		<td><? show_input_select('eye_colour'); ?></td>
 	</tr>
 	<tr>
 		<td>Height: (inches)</td>
@@ -415,8 +415,8 @@ function validate_email() {
 
 <table class="data_entry">
 	<tr>
-		<td>Street address:</td>
-		<td><? show_input_text('address'); ?></td>
+		<td class="row1">Street address:</td>
+		<td class="row2"><? show_input_text('address'); ?></td>
 	</tr>
 	<tr>
 		<td>City/village:</td>
@@ -431,12 +431,12 @@ function validate_email() {
 		<td><? show_input_select('district'); ?></td>
 	</tr>
 	<tr>
-		<td class="row1">Country:</td>
-		<td class="row2"><? show_input_text('country'); ?></td>
+		<td>Country:</td>
+		<td><? show_input_text('country'); ?></td>
 	</tr>
 	<tr>
-		<td class="row1">Email:</td>
-		<td class="row2"><? show_input_text('email',0, "onblur=\"validate_email();\""); ?></td>
+		<td>Email:</td>
+		<td><? show_input_text('email',0, "onblur=\"validate_email();\""); ?></td>
 	</tr>
 	<tr>
 		<td>Home telephone no:</td>
@@ -459,8 +459,8 @@ function validate_email() {
 
 <table class="data_entry">
 	<tr>
-		<td>Being tracked by:</td>
-		<td><? show_input_text('tracked_by'); ?></td>
+		<td class="row1">Being tracked by:</td>
+		<td class="row2"><? show_input_text('tracked_by'); ?></td>
 	</tr>
 	<tr>
 		<td>Tracking comments:</td>
