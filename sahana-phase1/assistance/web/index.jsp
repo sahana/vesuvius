@@ -1,4 +1,5 @@
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+        <jsp:useBean id="LoginBean" scope="session" class="tccsol.admin.accessControl.LoginBean"/>
         <html>
         <head>
         <title>:: Sahana ::</title>
@@ -13,7 +14,7 @@
 
         <jsp:include page="common/header.inc"></jsp:include>
 
-        <form name="form1" action="Welcome.jsp" method="post">
+        <form action="Welcome.jsp" method="post" name="frmLogin">
 
         <table width="760" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -44,18 +45,20 @@
                     <td><table width="100%" border="0" cellspacing="2" cellpadding="0">
                       <tr>
                         <td width="34%" class="formText">User Name</td>
-                        <td width="66%"><input name="userName" type="text" class="textBox" size="20"></td>
+                        <td width="66%"><input name="userName" type="text" id="userName" value="<%=LoginBean.getUserName()%>" class="textBox" size="20"></td>
                       </tr>
                       <tr>
                         <td class="formText">Password</td>
-                        <td><input name="password" type="password" class="textBox" size="20"></td>
+                        <td><input name="passwd" type="password" id="passwd"  class="textBox" size="20"></td>
                       </tr>
                       <tr>
                         <td>&nbsp;</td>
                         <td><table width="100" border="0" cellspacing="0" cellpadding="0">
-                          <tr>
-                            <td><input type="submit" name="Submit" value="Log in" class="buttons"></td>
-                          </tr>
+                      <tr>
+                      <input name="callAction" type="submit" id="callAction" value="Log in"  class="buttons">
+                      <input type="hidden" name="url" id="url" value="<%=request.getServletPath()%>">
+                      <input type="hidden" value="/Welcome.jsp" name="targetUrl" id="targetUrl">
+                      </tr>
                            <!-- register link -->
                        <tr>
                         <td class="formText">If you are a new user <a href="/orgreg/Registration.jsp"> Click here </a>to register </td>

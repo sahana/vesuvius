@@ -56,7 +56,7 @@ public class DataAccessManager {
     }
 
 
-    private Connection createConnection() throws SQLException {
+    public Connection createConnection() throws SQLException {
 
         String userName = dbUserName;
 

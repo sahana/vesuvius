@@ -30,6 +30,13 @@
 
 
 <body>
+ <%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "1");
+    request.setAttribute("accessLvl", "ADD");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
     <jsp:include page="common/header.inc"></jsp:include>
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -49,7 +56,9 @@
 
  <%
       boolean readOnly = false;
-      User loginUser = (User) request.getSession().getAttribute(Constants.USER_INFO);
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User loginUser = new  User(lbean.getUserName(),lbean.getOrgId());
+//      User loginUser = (User) request.getSession().getAttribute(Constants.USER_INFO);
           if (loginUser==null){
               request.getSession().setAttribute(Constants.ERROR_DESCRIPTION, "User not authenticated!");
               response.sendRedirect("error.jsp");

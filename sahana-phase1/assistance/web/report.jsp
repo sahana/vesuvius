@@ -15,8 +15,9 @@
 <link href="common/style.css" rel="stylesheet" type="text/css">
 <%
             DataAccessManager dam =  DataAccessManager.getInstance();
-            //Is he authenticated
-		   	User user = (User) request.getSession().getAttribute(Constants.USER_INFO);
+	        LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+            User user = new  User(lbean.getUserName(),lbean.getOrgId());
+    //  	User user = (User) request.getSession().getAttribute(Constants.USER_INFO);
 		    if (user==null){
 		    	//Nobody should come here without a user
 		   	    request.getSession().setAttribute(Constants.ERROR_DESCRIPTION, "User not authenticated!");
@@ -25,7 +26,12 @@
 %>
 </head>
 <body>
-
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "1");
+    request.setAttribute("accessLvl", "ADD");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
 <jsp:include page="common/header.inc"></jsp:include>
 <%--    <table width="100%" border="0" cellspacing="2" cellpadding="0" bgcolor="#D8E9FD">--%>
 <%--      <tr>--%>

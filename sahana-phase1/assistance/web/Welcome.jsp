@@ -11,40 +11,46 @@
 <link href="common/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<%
+    request.setAttribute("turl", "index.jsp");
+    request.setAttribute("modNo", "1");
+    request.setAttribute("accessLvl", "PAGE");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
 
 <jsp:include page="common/header.inc"></jsp:include>
     <table width="100%" border="0" cellspacing="2" cellpadding="0" bgcolor="#D8E9FD">
-     <%
-
-       boolean isAuthenticated = false;
-       if (request.getSession()==null){
-           throw new Exception("Session expired!");
-       }else if(request.getSession().getAttribute(Constants.USER_INFO)!=null){
-           //user is already logged in. Do nothing
-           isAuthenticated = true;
-       }else {
-
-
-       DataAccessManager dataAccessManager =DataAccessManager.getInstance();
-       String username = request.getParameter("userName");
-       String password = request.getParameter("password");
-
-       User user = null;
-       try {
-           user = dataAccessManager.loginSuccess(username, password);
-       } catch (Exception e) {
-           throw new Exception("Problem in validating user");
-       }
-       if( !"".equals(username) && user != null) {
-           request.getSession().setAttribute(Constants.USER_INFO, user);
-             isAuthenticated = true ;
-       }else{
-           isAuthenticated = false;
-       }
-       }
-
-       if (isAuthenticated){
-   %>
+<%--     <%--%>
+<%----%>
+<%--       boolean isAuthenticated = false;--%>
+<%--       if (request.getSession()==null){--%>
+<%--           throw new Exception("Session expired!");--%>
+<%--       }else if(request.getSession().getAttribute(Constants.USER_INFO)!=null){--%>
+<%--           //user is already logged in. Do nothing--%>
+<%--           isAuthenticated = true;--%>
+<%--       }else {--%>
+<%----%>
+<%----%>
+<%--       DataAccessManager dataAccessManager =DataAccessManager.getInstance();--%>
+<%--       String username = request.getParameter("userName");--%>
+<%--       String password = request.getParameter("password");--%>
+<%----%>
+<%--       User user = null;--%>
+<%--       try {--%>
+<%--           user = dataAccessManager.loginSuccess(username, password);--%>
+<%--       } catch (Exception e) {--%>
+<%--           throw new Exception("Problem in validating user");--%>
+<%--       }--%>
+<%--       if( !"".equals(username) && user != null) {--%>
+<%--           request.getSession().setAttribute(Constants.USER_INFO, user);--%>
+<%--             isAuthenticated = true ;--%>
+<%--       }else{--%>
+<%--           isAuthenticated = false;--%>
+<%--       }--%>
+<%--       }--%>
+<%----%>
+<%--       if (isAuthenticated){--%>
+<%--   %>--%>
       <tr>
             <td width="134" valign="top"><img src="images/imgLoginAssistance.jpg" width="302" height="200" border="0"></td>
             <td valign="top" bgcolor="#D8E9FD">
@@ -91,12 +97,12 @@
 <%--                <td >&nbsp;</td>--%>
 <%--              </tr>--%>
 <%--             <%--%>
-      <% }else{  %>
-                <tr>
-                <td class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Index.jsp">Try Again</a></font></td>
-                <td >&nbsp;</td>
-              </tr>
-      <% } %>
+<%--      <% }else{  %>--%>
+<%--                <tr>--%>
+<%--                <td class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Index.jsp">Try Again</a></font></td>--%>
+<%--                <td >&nbsp;</td>--%>
+<%--              </tr>--%>
+<%--      <% } %>--%>
       </table>
 
       <jsp:include page="common/footer.inc"></jsp:include>

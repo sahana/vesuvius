@@ -1,0 +1,115 @@
+<%@ page import="tccsol.admin.accessControl.LoginBean"%>
+<%@ page language="java" errorPage="/ErrorDetails.jsp" %>
+<jsp:useBean id="AccessPermissionBean" scope="session" class="tccsol.admin.accessControl.AccessPermissionBean"/>
+<jsp:useBean id="ListSBean" scope="session" class="tccsol.util.ListSingleBean" />
+<jsp:include page="AccessControl.jsp" flush="true">
+    <jsp:param name="turl" value="/admin/accessControl/AccesPermission1.jsp" />
+    <jsp:param name="modNo" value="1" />
+    <jsp:param name="accessLvl" value="PAGE" />
+</jsp:include>
+
+<html>
+<head>
+<title>Access Control - Admin</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<%
+if (request.getAttribute("messages")!=null)
+{
+    java.util.Vector v = (java.util.Vector) request.getAttribute("messages");
+    if (v.size() > 0)
+    {
+    for(int i=0;i<v.size();i++)
+    {
+%><li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+    <%=v.elementAt(i)%></font></li>
+<%
+    }//end of for loop
+    }
+}//end of if
+%>
+
+<form action="/hris/accesspermissionservlet" method="post" name="frmAccessPerm1">
+  <br><br>
+  <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><u>
+  Access Permission</u></strong></font></p>
+
+  <table width="77%" border="0" align="center" cellpadding="0" cellspacing="3">
+    <tr>
+      <td colspan="2" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top"><table width="101%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="27%"><div align="right">
+                <input type="radio" name="selMode" id="selMode" value="M">
+              </div></td>
+            <td width="73%"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Select
+              Module</font></strong></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td width="41%"><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+          Module Id: </font></div></td>
+      <td width="59%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+        <% if (ListSBean.getId() != null && AccessPermissionBean.getSelMode().equalsIgnoreCase("M")) {
+            if (ListSBean.getId().trim().length() > 0) {
+                AccessPermissionBean.setModuleId(ListSBean.getId());
+                session.removeAttribute("ListSBean");
+            }
+         }
+      %>
+        <input name="moduleId" type="text" id="moduleId" value="<%=AccessPermissionBean.getModuleId()%>">
+        </font></td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top"><table width="100%" border="0" cellspacing="3" cellpadding="0">
+          <tr>
+            <td width="27%"><div align="right">
+                <input type="radio" name="selMode" id="selMode" value="R">
+              </div></td>
+            <td width="73%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Select
+              Role</strong></font></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td> <div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+          Role Name: </font></div></td>
+      <td width="59%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+        <% if (ListSBean.getId() != null && AccessPermissionBean.getSelMode().equalsIgnoreCase("R")) {
+            if (ListSBean.getId().trim().length() > 0) {
+                AccessPermissionBean.setRoleName(ListSBean.getId());
+                session.removeAttribute("ListSBean");
+            }
+         }
+      %>
+        <input name="roleName" type="text" id="roleName" value="<%=AccessPermissionBean.getRoleName()%>">
+        </font></td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top"><div align="center"><br>
+          <input name="callAction" type="submit" id="callAction" value="Select From List">
+          <input name="callAction" type="submit" id="callAction" value="Set Access Permission">
+          <input type="hidden" name="url" id="url" value="<%=request.getServletPath()%>">
+        </div></td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+</form>
+<%
+  if (AccessPermissionBean != null)
+    AccessPermissionBean.closeDBConn();
+
+  session.removeAttribute("ListSBean");
+%>
+</body>
+</html>
