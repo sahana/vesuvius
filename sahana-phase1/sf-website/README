@@ -1,0 +1,13 @@
+This CVS module contains an exceptionally simple web site that
+is placed on shell.sourceforge.net:/home/groups/s/sa/sahana/{cgi-bin,htdocs}
+so that something is visible when people visit http://sahana.sourceforge.net/.
+
+To revise the published site you
+  1. Check this module out.
+       cvs ... co sf-website
+  2. Then copy the site using scp
+       scp sf-website/htdocs shell.sourceforge.net:/home/groups/s/sa/sahana/htdocs
+
+That assumes you have your ssh key installed on sourceforge etc.
+
+Currently there isn't anything in cgi-bin.
