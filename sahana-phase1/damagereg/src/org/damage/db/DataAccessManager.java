@@ -65,7 +65,7 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             }
 
             Iterator ite2 = dhTO.getHouseFacilityInfoList().iterator();
-            preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse_Damage_Moreinfo());
+            preparedStatement = connection.prepareStatement(org.damage.db.SQLGenerator.getSQLForAddDamagedHouse_Facility_Info());
             if (ite2.hasNext()) {
                 HouseFacilityInfoTO hfInfoTO = (HouseFacilityInfoTO) ite2.next();
                 preparedStatement.setInt(1, hfInfoTO.getHouseID());
