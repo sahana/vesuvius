@@ -125,8 +125,9 @@
     }
     catch(Throwable t)
     {
-        messages = "Error: " + t.getMessage();
-        request.setAttribute("hasAccess", "N");
+       t.printStackTrace();    
+       messages = "Error: " + t.getMessage();
+       request.setAttribute("hasAccess", "N");
     }
 
     if (!bean.isValid()) {

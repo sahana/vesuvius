@@ -1039,6 +1039,7 @@ public class DataAccessManager implements DBConstants {
                 orgTo.setFacilitiesAvailable(rs.getString(TableColumns.ORG_FACILITIES_AVAILABLE));
                 orgTo.setWorkingAreas(rs.getString(TableColumns.ORG_WORKING_AREAS));
                 orgTo.setOrgCode(rs.getString(TableColumns.ORG_CODE));
+                orgTo.setComments(rs.getString(TableColumns.ORG_COMMENTS));
                 returnList.add(orgTo);
             }
         } finally {
@@ -1220,7 +1221,7 @@ public class DataAccessManager implements DBConstants {
              */
             preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationUserRole());
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, "0");
+            preparedStatement.setString(2, "2");
             preparedStatement.executeUpdate();
             //just try to put a record to the mambo database. even If it fails move on
             try {

@@ -628,6 +628,7 @@ public class SQLGenerator {
                 DBConstants.TableColumns.ORG_COUNTRY_OF_ORIGIN + "," +
                 DBConstants.TableColumns.ORG_FACILITIES_AVAILABLE +  "," +
                 DBConstants.TableColumns.ORG_WORKING_AREAS +"," +
+                DBConstants.TableColumns.ORG_COMMENTS +"," +
                 DBConstants.TableColumns.ORG_CODE + " from " +
                 DBConstants.Tables.ORGANIZATION + " ORDER BY "+DBConstants.TableColumns.ORG_NAME;
 

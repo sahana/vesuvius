@@ -23,12 +23,12 @@ To change this template use File | Settings | File Templates.
 <table width="760" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="border">
-<table width="100%" border="0" cellspacing="1" cellpadding="0">
+<table width="760" border="0" cellspacing="1" cellpadding="0">
 <tr>
 <td class="pageBg">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr >
+<table width="760" border="0" cellspacing="0" cellpadding="0">
+    <tr>
     <td class="tableUp">Organization Name</td>
     <td class="tableUp">Organization Address</td>
     <td class="tableUp">Organization Contact Number</td>
@@ -36,6 +36,7 @@ To change this template use File | Settings | File Templates.
     <td class="tableUp">Country of Origin</td>
     <td class="tableUp">Facilities available</td>
     <td class="tableUp">Working areas</td>
+    <td class="tableUp">Comments</td>
 <%--    <td class="tableUp">Options</td>--%>
  </tr>
 
@@ -55,6 +56,7 @@ To change this template use File | Settings | File Templates.
 <td class="tableDown"><%=orgTo.getCountryOfOrigin()%></td>
 <td class="tableDown"><%=orgTo.getFacilitiesAvailable()%></td>
 <td class="tableDown"><%=orgTo.getWorkingAreas()%></td>
+<td class="tableDown"><%=orgTo.getComments()==null?"&nbsp;":orgTo.getComments()%></td>
 <%--<td class="tableDown">--%>
 <%--        <a href="Logging.jsp?action=view&orgCode=<%=orgTo.getOrgCode()%>">view</a>--%>
 <%--        <a href="Logging.jsp?action=edit&orgCode=<%=orgTo.getOrgCode()%>">edit</a>--%>
