@@ -183,10 +183,12 @@ elseif ($_GET['view'] || $_GET['edit']) {
 	// Get the family ID
 	clear_form();
 	capture_input_int('f');
-	$family_id = $_SESSION['form']['f'];
-	load_family_info($family_id);
-	if ($_GET['edit'])
-		print '<input type="hidden" name="family_id" value="' . $family_id . '" />' . "\n";
+	$family_id = intval($_SESSION['form']['f']);
+	if ($family_id > 0) {
+		load_family_info($family_id);
+		if ($_GET['edit'])
+			print '<input type="hidden" name="family_id" value="' . $family_id . '" />' . "\n";
+	}
 }
 else {
 	print "Clearing form";
@@ -200,6 +202,7 @@ if ($screen == 'entry') {
 
 ?>
 	<h2>Family Details Entry Form</h2>
+	<a href="/peoplereg/displaced/list.php">List of entries</a>
 	<div align="center">
 		<hr />
 		<table class="entry">
@@ -316,6 +319,7 @@ elseif ($screen == 'confirm') {
 
 ?>
 	<h2>Confirmation Form</h2>
+	<a href="/peoplereg/displaced/list.php">List of entries</a>
 	<div align="center">
 		<hr />
 		<table class="entry">
