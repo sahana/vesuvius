@@ -18,7 +18,7 @@
 <tr>
 
 <td height="50" >
-      <jsp:include page="comman/header.inc"></jsp:include>
+      <jsp:include page="common/header.inc"></jsp:include>
       </td>
 
       </tr>
