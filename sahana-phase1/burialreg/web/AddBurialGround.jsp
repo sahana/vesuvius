@@ -17,11 +17,7 @@
      ArrayList errorList = new ArrayList();
 
      Collection provinces =  dataAccessManager.getAllProvinces();
-     Collection districts =  dataAccessManager.getAllDistricts();
-     Collection divisions =  dataAccessManager.getAllDivisions();
      KeyValueDTO provinceTO;
-     KeyValueDTO districtTO;
-     KeyValueDTO divisionTO;
      boolean status = false;
 
      if (request.getSession()==null){
@@ -323,15 +319,15 @@
              %>
 
            <tr>
-                   <td align="right" vAlign="top" class="formText" colspan="2"><font color="red">Please correct the Folowing Errors
+                <td align="left" vAlign="top" class="formText" colspan="2">Please correct the Following Errors
              <%
             //todo write the errors here
              for (int i = 0; i < errorList.size(); i++) {
                  %>
-                   <li class="formText" ><%=errorList.get(i).toString()%></li>
+                   <li class="formText" ><font color="red"><%=errorList.get(i).toString()%></font></li>
                  <%
              }
-           %></font></td>
+           %></td>
             </tr> <%
         }
 
@@ -341,14 +337,25 @@
             <tr>
                <td  align="right" vAlign="top" class="formText">Province : </td>
                <td  >
-                   <select name="provinceCode" class="selectBoxes" onchange="listDistrict();">
-                        <%//loop for the provinces
-                           for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
-                                 provinceTO = (KeyValueDTO)iterator.next();
-                                 %><option value="<%=provinceTO.getDbTableCode()%>" ><%=provinceTO.getDisplayValue()%></option>  <%
-                           }
+                   <select name="provinceCode" class="selectBoxes" onchange="listDistrict();listDivisions();">
+                        <%
+                            if (addBurialDetailTO.getProvinceCode()!=null){
+                                 for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
+                                    provinceTO = (KeyValueDTO)iterator.next();
+                                    if (addBurialDetailTO.getProvinceCode().equals(provinceTO.getDbTableCode())) {
+                                        %><option selected="true" value="<%=provinceTO.getDbTableCode()%>" ><%=provinceTO.getDisplayValue()%></option>  <%
+                                    } else{
+                                        %><option value="<%=provinceTO.getDbTableCode()%>" ><%=provinceTO.getDisplayValue()%></option>  <%
+                                    }
+                                }
+                            } else{
+                                for (Iterator iterator = provinces.iterator(); iterator.hasNext();) {
+                                    provinceTO = (KeyValueDTO)iterator.next();
+                                        %><option value="<%=provinceTO.getDbTableCode()%>" ><%=provinceTO.getDisplayValue()%></option>  <%
+                                }
+                            }
                            %>
-                   </select>
+                   </select>&nbsp;<small><font color="red">*</font></small>
                 </td>
           </tr>
           <tr>
@@ -356,7 +363,7 @@
                    <td>
                     <select name="districtCode" class="selectBoxes" onchange="listDivisions();" >
                             <option value="-1">&lt;select&gt;</option>
-                   </select>
+                   </select>&nbsp;<small><font color="red">*</font></small>
                   </td>
 
            </tr>
@@ -366,28 +373,28 @@
                     <select name="divisionCode" class="selectBoxes">
                             <option value="-1">&lt;select&gt;</option>
                       
-                   </select>
+                   </select>&nbsp;<small><font color="red">*</font></small>
                   </td>
 
            </tr>
            <tr>
              <td align="right" vAlign="top" class="formText">Area :</td>
              <td >
-                  <textarea cols="50" name="area" rows="3" class="textBox"><%=addBurialDetailTO.getArea()==null?"":addBurialDetailTO.getArea()%></textarea>
+                  <textarea cols="50" name="area" rows="3" class="textBox"><%=addBurialDetailTO.getArea()==null?"":addBurialDetailTO.getArea()%></textarea>&nbsp;<small><font color="red">*</font></small>
              </td>
            </tr>
 
            <tr>
              <td align="right" vAlign="top" class="formText">Site Description :</td>
              <td>
-                  <textarea cols="50" name="sitedescription" rows="3" class="textBox"><%=addBurialDetailTO.getSitedescription()==null?"":addBurialDetailTO.getSitedescription()%></textarea>
+                  <textarea cols="50" name="sitedescription" rows="3" class="textBox"><%=addBurialDetailTO.getSitedescription()==null?"":addBurialDetailTO.getSitedescription()%></textarea>&nbsp;<small><font color="red">*</font></small>
              </td>
            </tr>
 
            <tr>
              <td align="right" vAlign="top" class="formText">Burial Details :</td>
              <td >
-                  <textarea cols="50" name="burialdetail" rows="3" class="textBox"><%=addBurialDetailTO.getBurialdetail()==null?"":addBurialDetailTO.getBurialdetail()%></textarea>
+                  <textarea cols="50" name="burialdetail" rows="3" class="textBox"><%=addBurialDetailTO.getBurialdetail()==null?"":addBurialDetailTO.getBurialdetail()%></textarea>&nbsp;<small><font color="red">*</font></small>
              </td>
            </tr>
 
@@ -409,22 +416,22 @@
              </td>
            </tr>
      <tr>
-                        <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
+                    <td  align="right" vAlign="top" class="formText"> Total </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
                     </tr>
                     <tr>
                         <td  align="right" vAlign="top" class="formText">  Break Down </td><td><input type="radio" name="countSelect" class="formText" onclick="changeTextBoxStatus();"/></td>
                     </tr>
                     <tr id="totalRow" style="display:none" >
-                        <td align="right" >Total</td><td align="left" vAlign="top" class="formText" ><input type="text" name="bodyCountTotal" class="textBox"  onChange="validateTotal();" value="<%=addBurialDetailTO.getBodyCountTotal()%>" ></input></td>
+                        <td align="right" >Total</td><td align="left" vAlign="top" class="formText" ><input type="text" name="bodyCountTotal" class="textBox"  onChange="validateTotal();" value="<%=addBurialDetailTO.getBodyCountTotal()%>" ></input>&nbsp;<small><font color="red">*</font></small></td>
                     </tr>
                     <tr id="menRow" style="display:none">
-                        <td align="right" >Men :</td><td  align="left" vAlign="top" class="formText"><input type="text" name="bodyCountMmen" class="textBox" onchange="validateMen();"  value="<%=addBurialDetailTO.getBodyCountMmen()%>"></input></td>
+                        <td align="right" >Men :</td><td  align="left" vAlign="top" class="formText"><input type="text" name="bodyCountMmen" class="textBox" onchange="validateMen();"  value="<%=addBurialDetailTO.getBodyCountMmen()%>"></input>&nbsp;<small><font color="red">*</font></small></td>
                     </tr>
                     <tr id="womenRow" style="display:none">
-                        <td align="right" >Women :</td><td align="left" vAlign="top" class="formText"><input type="text" name="bodyCountWomen" class="textBox" onchange="validateWomen();"  value="<%=addBurialDetailTO.getBodyCountWomen()%>"></input></td>
+                        <td align="right" >Women :</td><td align="left" vAlign="top" class="formText"><input type="text" name="bodyCountWomen" class="textBox" onchange="validateWomen();"  value="<%=addBurialDetailTO.getBodyCountWomen()%>"></input>&nbsp;<small><font color="red">*</font></small></td>
                     </tr>
                     <tr id="childRow" style="display:none">
-                         <td align="right" >Children :</td><td align="left" vAlign="top" class="formText"><input type="text" name="bodyCountChildren" class="textBox" onchange="validateChildren();"  value="<%=addBurialDetailTO.getBodyCountChildren()%>"></input></td>
+                         <td align="right" >Children :</td><td align="left" vAlign="top" class="formText"><input type="text" name="bodyCountChildren" class="textBox" onchange="validateChildren();"  value="<%=addBurialDetailTO.getBodyCountChildren()%>">&nbsp;<small><font color="red">*</font></small></input></td>
                     </tr>
 
 <%----%>
@@ -439,21 +446,21 @@
            <tr>
            <td align="right" vAlign="top" class="formText">Person name :</td>
            <td>
-                <input type="text" name="authorityPersonName" class="textBox" value="<%=addBurialDetailTO.getAuthorityPersonName()==null?"":addBurialDetailTO.getAuthorityPersonName()%>"/>&nbsp;
+                <input type="text" name="authorityPersonName" class="textBox" value="<%=addBurialDetailTO.getAuthorityPersonName()==null?"":addBurialDetailTO.getAuthorityPersonName()%>"/>&nbsp;<small><font color="red">*</font></small>
            </td>
            </tr>
 
             <tr>
            <td align="right" vAlign="top" class="formText">Authority Name :</td>
            <td>
-                <input type="text" name="authorityName" class="textBox" value="<%=addBurialDetailTO.getAuthorityName()==null?"":addBurialDetailTO.getAuthorityName()%>"/>&nbsp;
+                <input type="text" name="authorityName" class="textBox" value="<%=addBurialDetailTO.getAuthorityName()==null?"":addBurialDetailTO.getAuthorityName()%>"/>&nbsp;<small><font color="red">*</font></small>
            </td>
            </tr>
 
            <tr>
            <td align="right" vAlign="top" class="formText">Rank :</td>
            <td>
-                <input type="text" name="authorityPersonRank" class="textBox" value="<%=addBurialDetailTO.getAuthorityPersonRank()==null?"":addBurialDetailTO.getAuthorityPersonRank()%>"/>&nbsp;
+                <input type="text" name="authorityPersonRank" class="textBox" value="<%=addBurialDetailTO.getAuthorityPersonRank()==null?"":addBurialDetailTO.getAuthorityPersonRank()%>"/>&nbsp;<small><font color="red">*</font></small>
            </td>
            </tr>
 
