@@ -14,7 +14,8 @@
 
                  org.erms.business.User,
 
-                 org.erms.util.FulfilmentModel" %>
+                 org.erms.util.FulfilmentModel,
+                 org.sahana.share.utils.KeyValueDTO" %>
 
 <%@ page import="org.erms.business.*" %>
 

@@ -5,8 +5,8 @@
                  org.erms.business.RequestDetailTO,
                  java.text.Format,
                  java.text.SimpleDateFormat,
-                 org.erms.business.User" %>
-<%@ page import="org.erms.business.KeyValueDTO" %>
+                 org.erms.business.User,
+                 org.sahana.share.utils.KeyValueDTO" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.IOException" %>
 <html>
