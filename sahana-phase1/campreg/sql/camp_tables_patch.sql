@@ -7,7 +7,7 @@ Date:                  2005/01/17 18:21:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-use erms;
+
 #----------------------------
 # Table structure for camp_history
 #----------------------------
@@ -27,5 +27,5 @@ CREATE TABLE `camp_history` (
 #----------------------------
 
 ALTER TABLE CAMPS_CAMP ADD CAMP_FAMILY int(5) NOT NULL;
-ALTER TABLE CAMPS_CAMP ADD LAST_UPDATE_DATE date NOT NULL;
-ALTER TABLE CAMPS_CAMP ADD LAST_UPDATE_TIME time NOT NULL;
+ALTER TABLE CAMPS_CAMP ADD LAST_UPDATE_DATE date NOT NULL default '0000-00-00';
+ALTER TABLE CAMPS_CAMP ADD LAST_UPDATE_TIME time NOT NULL default '00:00:00';
