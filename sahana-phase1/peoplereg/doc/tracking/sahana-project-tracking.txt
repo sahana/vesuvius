@@ -1,28 +1,27 @@
 Requirements
+R.9) Implement security module to preven anyone accessing security system- Ajit, Sanjiva
+R.10) make unknown on district, division, gramasevake (14000) to a required field
+R.11) Test cycle on editing latest release
+R.12) Data mangling from production to testing - bud 
 R.1) Ensuring that person does not have to repeat entering his data - police entering the data - Sanjiva
-R.2) Put the district number in the form - Dr M
 R.3) Data transformation - Sanjiva
 R.4) put fingerprinting, dental records and dna
+R.8) Specify infant, child, adult, elderly instead of age - age range - T
 
 Enhancements
 E.2) Relating records
-E.3) Report and chart enhanceemnts - Grouping the data
-E.4) Search with soundex
 E.5) Advance search 
 E.7) consistent UI and CSS cleanup
-E.8) Full listing of people missing, found, injured, deceased
 E.9) Putting people who reported in display resulting from search
 
 Bugs
 B.1) Age breakdown - shahani
 B.2) remove hotline number in report a missing person - 
-B.3) grouping of interger data in charts
 
 Actions
-A.0) create and setup sourceforge account - chamindra
-A.1) get additional requirements from Dr M and police - chamindra
-A.2) Get staging server setup
 A.3) Setup testing enviornments
+A.4) Send mail on requirements for security module - bud
+A.5) look into javascript for data pull - chamindra
 
 Team							Rota
 - Anuradha (A)- main component development		9:30a-9:30p
@@ -42,7 +41,6 @@ Present: B, Cd, Cw, K, Cr, Jackie
 	- E.7 - CSS cleanup - Cw
 	- E.4 - soundex solution
 	- R.3 - Cr
-	- R.1 - A
 	- B.2 - A
 
 5-Wednesday
@@ -50,6 +48,7 @@ Present: B, Cd, Cw, K, Cr, Jackie
 	- R.3 - Jackie and Cr
 	- E.4/E.9 - K 
 	- R.4 - A
+	- R.1 - A
 	- R.1 - B 
 	- B.3 - B 
 	- Draw E-R diagram - C
@@ -94,3 +93,18 @@ E.6) client side/server side data validation
 mailing lists
 - sahana-general
 - sahana-dev
+
+Done
+R.2) Put the district number in the form - Dr M
+A.0) create and setup sourceforge account - chamindra
+A.2) Get staging server setup
+R.6) put a field to add the camp location
+R.7) put explainatory text in the login section and also relocate the login section -T
+A.1) get additional requirements from Dr M and police - chamindra
+R.5) change the header to put the CNO logo - T
+E.3) Report and chart enhanceemnts - Grouping the data
+E.4) Search with soundex
+E.8) Full listing of people missing, found, injured, deceased
+B.3) grouping of interger data in charts
+
+
