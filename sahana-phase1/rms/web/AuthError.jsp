@@ -26,8 +26,5 @@
 <%--</td>--%>
 <%--</tr>--%>
  </table>
- <tr>
-  <td height="13" align="center" bgcolor="#CCCCCC" class="statusBar"><a href="index.jsp"> Sahana Home </a> <br/>&nbsp;&copy;2005 All rights
-    reserved.</td>
-</tr>
+<jsp:include page="comman/footer.inc"/>
 </body>
