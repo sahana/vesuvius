@@ -37,26 +37,39 @@ public interface DBConstants {
     }
 
     public interface District {
-        public static final String TABLENAME = "CAMPS_DISTRICT";
+        //public static final String TABLENAME = "CAMPS_DISTRICT";
+        public static final String TABLENAME = "camps_district";
         public static final String DIST_NAME = "DIST_NAME";
         public static final String DIST_CODE = "DIST_CODE";
         public static final String PROV_CODE = "PROV_CODE";
     }
 
-    public interface Division {
-        public static final String TABLENAME = "CAMPS_DIVISION";
-        public static final String DIV_NAME = "DIV_NAME";
-        public static final String DIV_ID = "DIV_ID";
-        public static final String DIST_CODE = "DIST_CODE";
-    }
 
+     public interface Division {
+         //public static final String TABLENAME = "CAMPS_DIVISION";
+            public static final String TABLENAME = "camps_division";
+            public static final String DIV_NAME = "DIV_NAME";
+            public static final String DIV_ID = "DIV_ID";
+            public static final String DIST_CODE = "DIST_CODE";
+        }
+    
     public interface Province {
-        public static final String TABLENAME = "CAMPS_PROVINCE";
+        //public static final String TABLENAME = "CAMPS_PROVINCE";
+         public static final String TABLENAME = "camps_province";
         public static final String PROV_CODE = "PROV_CODE";
         public static final String PROV_NAME = "PROV_NAME";
     }
 
-    public interface MeasurementType {
+
+    public interface SubDivision {
+        //public static final String TABLENAME = "CAMPS_PROVINCE";
+        public static final String TABLENAME = "HSE_SUB_DIVISION_MST";
+        public static final String DIV_ID = "DIV_ID";
+        public static final String SUB_DIV_ID = "SUB_DIV_ID";
+        public static final String SUB_DIV_NAME = "SUB_DIV_NAME";
+    }
+
+     public interface MeasurementType {
         public static final String TABLENAME = "hse_measurement_type_mst";
         public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
         public static final String MEASUREMENT_TYPE_NAME = "MEASUREMENT_TYPE_NAME";
@@ -74,8 +87,24 @@ public interface DBConstants {
         public static final String OWNED_BY_NAME = "OWNED_BY_NAME";
     }
 
+    public interface LandType{
+        public static final String TABLENAME = "HSE_LAND_TYPE_MST";
+        public static final String LAND_TYPE_ID = "LAND_TYPE_ID";
+        public static final String LAND_TYPE_NAME = "LAND_TYPE_NAME";
+    }
 
+   public interface Infracture{
+        public static final String TABLENAME = "HSE_INFRACTURE_MST";
+        public static final String INFRACTURE_ID = "INFRACTURE_ID";
+        public static final String INFRACTURE_DESC = "INFRACTURE_DESC";
+    }
 
+    public interface Land_Infracture{
+        public static final String TABLENAME = "HSE_LAND_INFRACTURE_TXN";
+        public static final String LAND_ID = "LAND_ID";
+        public static final String INFRACTURE_ID = "INFRACTURE_ID";
+        public static final String SEQ_ID = "SEQ_ID";
+    }
 
     public interface Category {
         public static final String TABLENAME = "category";
@@ -89,22 +118,35 @@ public interface DBConstants {
         public static final String PRIORITY_DESCRIPTION = "Description";
     }
 
-    public interface Land{
-        public static final String TABLENAME = "HSE_LAND_MST";
-        public static final String LAND_ID = "LAND_ID";
-        public static final String LAND_NAME = "LAND_NAME";
-        public static final String DIVISION_ID = "DIVISION_ID";
-        public static final String DESCRIPTION = "DESCRIPTION";
-        public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
-        public static final String GPS1 = "GPS1";
-        public static final String GPS2 = "GPS2";
-        public static final String GPS3 = "GPS3";
-        public static final String GPS4 = "GPS4";
-        public static final String AREA ="AREA";
-        public static final String TERM_ID = "TERM_ID";
-        public static final String OWNED_BY_ID = "OWNED_BY_ID";
-        public static final String OWNED_BY_COMMENT = "OWNED_BY_COMMENT";
-    }
+
+   public interface Land{
+       //public static final String TABLENAME = "HSE_LAND_MST";
+       public static final String TABLENAME = "hse_land_mst";
+       public static final String LAND_ID = "LAND_ID";
+       public static final String LAND_NAME = "LAND_NAME";
+       public static final String SUB_DIVISION_ID = "SUB_DIVISION_ID";
+       public static final String DESCRIPTION = "DESCRIPTION";
+       public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
+       public static final String GPS1 = "GPS1";
+       public static final String GPS2 = "GPS2";
+       public static final String GPS3 = "GPS3";
+       public static final String GPS4 = "GPS4";
+       public static final String AREA ="AREA";
+       public static final String TERM_ID = "TERM_ID";
+       public static final String AREA1 ="AREA1";
+       public static final String TERM_ID1 = "TERM_ID";
+       public static final String AREA2 ="AREA2";
+      // public static final String TERM_ID2 = "TERM_ID";
+       public static final String OWNED_BY_ID = "OWNED_BY_ID";
+       public static final String OWNED_BY_COMMENT = "OWNED_BY_COMMENT";
+       public static final String PLAN_NO = "PLAN_NO";
+       public static final String LAND_TYPE = "LAND_TYPE";
+       public static final String INFRACTURE = "INFRACTURE";
+       public static final String PROPOSED_USE_ASPERZONPLAN = "PROPOSED_USE_ASPERZONPLAN";
+       public static final String REMARKS = "REMARKS";
+
+   }
+
 
     public interface Requestheader {
         public static final String TABLENAME = "requestheader";
