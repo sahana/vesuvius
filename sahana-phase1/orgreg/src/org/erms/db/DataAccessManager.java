@@ -1054,7 +1054,6 @@ public class DataAccessManager implements DBConstants {
         try {
             connection = DBConnection.createConnection();
             connection.setAutoCommit(false);
-            System.out.println(SQLGenerator.getSQLEditOrganization());
             preparedStatement = connection.prepareStatement(SQLGenerator.getSQLEditOrganization());
 
             int i = 1;
@@ -1083,7 +1082,6 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setBoolean(13, org.isSriLankan());
              preparedStatement.setString(14, org.getOrgCode());
             preparedStatement.execute();
-            System.out.println(preparedStatement.toString());
 
 
 //

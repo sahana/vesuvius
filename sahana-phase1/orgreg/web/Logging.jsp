@@ -40,7 +40,6 @@
         String userName =user.getUserName();
         password = user.getPassword();
         String action = (String) session.getAttribute("action");
-        System.out.println("action = " + action);
         user = dataAccessManager.getUser((String)session.getAttribute("orgCode"));
         if (user.getPassword().equals(password) && user.getUserName().equals(userName)){
             response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode"));

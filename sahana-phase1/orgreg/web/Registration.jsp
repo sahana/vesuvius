@@ -159,6 +159,9 @@
         <p align="center" class="formText" >
                <h2><%=message%></h2>
          </p>
+         <tr>
+                 <td class="formText" align="center" colspan="2" ><a href="Index.jsp">Organization Registry Home</a></td>
+            </tr>
   <%
  session.invalidate();
  } else {

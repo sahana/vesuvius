@@ -274,7 +274,6 @@ public class OrganizationRegistrationTO {
         if(workingAreas == null){
             workingAreas = new ArrayList();
         }
-        System.out.println("workingAreas = " + workingAreas);
         return workingAreas;
 
     }
