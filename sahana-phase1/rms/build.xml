@@ -5,7 +5,7 @@
 
   <!--  Build script for the erms.war  -->
   <property name="app-name" value="erms"></property>
-  <property name="db.properties" value="${src}/org/erms/db/db.properties"></property>
+  <property name="db.properties" value="${share.src}/org/sahana/share/db/db.properties"></property>
   <property file="../tomcat.properties"/>
 
   <path id="project.class.path">
