@@ -45,8 +45,8 @@ $middle_width = 100 - $left_width - $right_width;
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" height="49">
         <tr> 
-          <td height="49"><a href="<?php echo $mosConfig_live_site;?>/index.php" class="banner"><img src="<?php echo $mosConfig_live_site;?>/templates/tsunami/css/gov.gif" border="0" width="479"></a></td>
-          <td align="right" height="49"><img src="<?php echo $mosConfig_live_site;?>/templates/tsunami/css/cnologog.gif" width="223"></td>
+          <td height="49"><a href="<?php echo $mosConfig_live_site;?>/index.php" class="banner"><img src="<?php echo $mosConfig_live_site;?>/templates/tsunami/css/gov.gif" border="0"></a></td>
+          <td align="right" height="49"><img src="<?php echo $mosConfig_live_site;?>/templates/tsunami/css/cnologog.gif"></td>
         </tr>
     </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
