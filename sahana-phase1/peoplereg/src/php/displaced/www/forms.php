@@ -24,6 +24,17 @@ function show_input_text($name, $size = 0, $js ="")
 	echo ' />';
 }
 
+function show_input_hidden($name)
+{
+	global $_SESSION;
+
+	echo '<input type="hidden" name="' . $name . '" id="' . $name . '"';
+	if (isset($_SESSION['form'][$name]))
+		echo ' value="' . $_SESSION['form'][$name] . '"';
+	echo ' />';
+}
+
+
 function show_input_element_text($name, $n, $size = 0, $js ="")
 {
 	global $_SESSION;
@@ -48,12 +59,14 @@ function show_input_textarea($name, $rows, $cols)
 	echo '</textarea>';
 }
 
-function show_input_select($name)
+function show_input_select($name, $js ="")
 {
 	global $_SESSION;
 	$value = '';
 
-	echo '<select name="' . $name . '">';
+	echo '<select name="' . $name . '"';
+	if ($js) echo " $js";	
+	echo '>';
 	$value = isset($_SESSION['form'][$name]) ? $_SESSION['form'][$name] : '';
 	$name_sql = ereg_replace('\[.*\]', '', $name);
 
@@ -200,7 +213,7 @@ function display_input($name)
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$name]))
-		echo $_SESSION['form'][$name];
+		echo stripslashes($_SESSION['form'][$name]);
 }
 
 function display_input_money($name)

@@ -22,6 +22,35 @@ $num_members = 10; /* FIXME: get rid of the static value */
 <body>
 -->
 
+<script language="javascript">
+
+function load_division_list()
+{
+	var iframeObj = document.getElementById('division_frame');
+	var iframeObjGS = document.getElementById('gs_division_frame');
+	var district = document.entry_form.district.options[document.entry_form.district.selectedIndex].value;
+
+	if (iframeObj.contentDocument) {
+		// For NS6
+		iframedoc = iframeObj.contentDocument;
+		iframedocGS = iframeObjGS.contentDocument;
+	} else if (iframeObj.contentWindow) {
+		// For IE5.5 and IE6
+		iframedoc = iframeObj.contentWindow.document;
+		iframedocGS = iframeObjGS.contentWindow.document;
+	} else if (iframeObj.document) {
+		// For IE5
+		iframedoc = iframeObj.document;
+		iframedocGS = iframeObjGS.document;
+	} else {
+		return;
+	}
+    iframedoc.location.replace('/peoplereg/displaced/areas.php?t=d&d=' + district);
+    iframedocGS.location.replace('/peoplereg/displaced/blank.php');
+}
+
+</script>
+
 <?
 
 // Remove the strings 'view', 'edit' and 'f' from $_GET variable
@@ -37,7 +66,7 @@ if ($get_str)
 	$myself .= '?' . $get_str;
 ?>
 
-	<form action="<?=$myself?>" method="post">
+	<form action="<?=$myself?>" method="post" name="entry_form">
 	<input type="hidden" name="num_members" value="10" />
 
 <?
@@ -207,13 +236,36 @@ if ($screen == 'entry') {
 		<table class="entry">
 			<tr>
 				<td>District:</td>
-				<td><? show_input_select('district'); ?></td>
+				<td><? show_input_select('district', 'onChange="load_division_list();"'); ?></td>
 				<td>Divisional secretariat:</td>
-				<td><? show_input_text('division'); ?></td>
+				<td><? show_input_hidden('division'); ?><iframe id="division_frame" name="division_frame" style="height: 3em; border: 0px" src="<?
+
+				if ($_SESSION['form']['district']) {
+					echo '/peoplereg/displaced/areas.php?t=d&amp;d=' . $_SESSION['form']['district'];
+					if ($_SESSION['form']['division'])
+						echo '&amp;s=' . stripslashes($_SESSION['form']['division']);
+				}
+				else {
+					echo '/peoplereg/displaced/blank.php';
+				}
+				
+				?>"></iframe></td>
+
 			</tr>
 			<tr>
 				<td>Grama Niladhari's Division:</td>
-				<td><? show_input_text('gs_division'); ?></td>
+				<td><? show_input_hidden('gs_division'); ?><iframe id="gs_division_frame" name="gs_division_frame" style="height: 3em; border: 0px" src="<?
+				
+				if ($_SESSION['form']['division']) {
+					echo '/peoplereg/displaced/areas.php?t=g&amp;d=' . $_SESSION['form']['division'];
+					if ($_SESSION['form']['gs_division'])
+						echo '&amp;s=' . stripslashes($_SESSION['form']['gs_division']);
+				}
+				else {
+					echo '/peoplereg/displaced/blank.php';
+				}
+	
+				?>"></iframe></td>
 				<td>Village:</td>
 				<td><? show_input_text('village'); ?></td>
 			</tr>
@@ -488,3 +540,6 @@ function load_family_info($family_id)
 
 ?>
 
+<script language="javascript">
+
+</script>
