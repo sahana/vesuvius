@@ -5,7 +5,7 @@
   mysql -uroot -p < db/updates.sql
   mysql -uroot -p < db/updates-2.sql
 
-- Update db.php file of mambo/componnets/com_component/ with the CVS version.
+- Update db.php file of mambo/componnets/com_report/ with the CVS version.
 
 - Start apache
 
