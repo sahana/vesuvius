@@ -34,6 +34,8 @@ function resetForm()
     RequestSearchCriteriaTO requestSearchCriteriaTO = null;
     RequestSearchCriteriaTO temprequestSearchCriteriaTO = null;
 
+
+    //checking the authentication
     User user =
             (User) request.getSession().getAttribute(
                     ERMSConstants.IContextInfoConstants.USER_INFO);
@@ -45,6 +47,8 @@ function resetForm()
                 "User not authenticated!");
         response.sendRedirect("error.jsp");
     }
+
+
 
     DataAccessManager dam = new DataAccessManager();
     ArrayList searchDetails = new ArrayList();
@@ -374,6 +378,23 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 										<td class="formText">&nbsp;</td>
 										<td height="25">&nbsp;</td>
 									</tr>
+
+<%
+                                                if(submitType != null  && searchDetails.isEmpty()){
+                                            %>
+
+                                                 <tr>
+                                                    <td align="center" ><h3>There were no results found for specified search criteria</h3></td>
+                                                 </tr>
+                                                <tr>
+                                                    <td class="formText">&nbsp;</td>
+                                                    <td height="25">&nbsp;</td>
+                                                </tr>
+
+                                              <%
+                                                }else{
+%>
+
 									<tr>
 										<td colspan="2">
 										<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -388,7 +409,8 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
 												<td class="tableUp">Site Name</td>
 												<td class="tableUp">Category</td>
 											</tr>
-											<%Iterator iterator = searchDetails.iterator();
+                                              <%
+                                                Iterator iterator = searchDetails.iterator();
 RequestSearchTO requestSearchTO;
 while (iterator.hasNext()) {
 	requestSearchTO = (RequestSearchTO) iterator.next();
@@ -408,6 +430,9 @@ while (iterator.hasNext()) {
 										</table>
 										</td>
 									</tr>
+                              <%} %>
+
+
 									<tr>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
