@@ -22,6 +22,10 @@ public class DamagedHouseMoreInfoTO {
         this.damageInfo = damageInfo;
     }
 
+    public DamagedHouseMoreInfoTO(int houseID){
+        this.houseID = houseID;
+    }
+
     public DamagedHouseMoreInfoTO(int houseID, String damageInfo) {
         this.houseID = houseID;
         this.damageInfo = damageInfo;

@@ -6,10 +6,10 @@ import org.sahana.share.db.AbstractSQLGenerator;
 public class SQLGenerator extends AbstractSQLGenerator{
 
     public static String getSQLForAddDamagedHouse(){
-        String s = "INSERT into"
+        String s = "INSERT INTO "
                     + DBConstants.Tables.HOUSE
                     +"("
-                    +DBConstants.TableColumns.ID + ", "
+                    //+DBConstants.TableColumns.ID + ", "
                     +DBConstants.TableColumns.DISTRICT_CODE + ", "
                     +DBConstants.TableColumns.DIVISION + ", "
                     +DBConstants.TableColumns.GSN + ", "
@@ -31,34 +31,35 @@ public class SQLGenerator extends AbstractSQLGenerator{
                     +DBConstants.TableColumns.DAMAGE_TYPE + ", "
                     +DBConstants.TableColumns.COMMENTS
                     + ")"
-                    +"VALUES"
-                    +"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    +" VALUES "
+                    +"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         return s;
     }
 
     public static String getSQLForAddDamagedHouse_Damage_Moreinfo(){
-        String s = "INSERT into"
+        String s = "INSERT INTO "
                     + DBConstants.Tables.HOUSE_DAMAGE_MOREINFO
                     +"("
                     +DBConstants.TableColumns.HOUSE_ID + ", "
                     +DBConstants.TableColumns.DAMAGE_INFO
                     + ")"
-                    +"VALUES"
+                    +" VALUES"
                     +"(?,?)";
 
         return s;
     }
 
     public static String getSQLForAddDamagedHouse_Facility_Info(){
-        String s = "INSERT into"
+        String s = "INSERT INTO "
                     + DBConstants.Tables.HOUSE_FACILITY_INFO
                     +"("
+                    +DBConstants.TableColumns.HOUSE_ID + ", "
                     +DBConstants.TableColumns.FACILITY_NAME + ", "
                     +DBConstants.TableColumns.DESCRIPTION
                     + ")"
-                    +"VALUES"
-                    +"(?,?)";
+                    +" VALUES"
+                    +"(?,?,?)";
 
         return s;
     }

@@ -6,6 +6,10 @@ public class HouseFacilityInfoTO {
     private String facilityName;
     private String description;
 
+    public HouseFacilityInfoTO(int houseID){
+             this.houseID = houseID;
+    }
+
     public HouseFacilityInfoTO(int houseID, String description, String facilityName) {
         this.houseID = houseID;
         this.description = description;

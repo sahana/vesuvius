@@ -26,8 +26,8 @@ public class DamagedHouseTO {
     private String damageType;
     private String comments;
 
-    private ArrayList  damagedHouseMoreInfoList;
-    private ArrayList houseFacilityInfoList;
+    private ArrayList  damagedHouseMoreInfoList= new ArrayList();
+    private ArrayList houseFacilityInfoList=new ArrayList();
 
     public DamagedHouseTO(int id, String districtCode, String division, String gsn, String owner, double distanceFromSea, String city, String noAndStreet, String currentAddress, double floorArea, int noOfStories, String typeOfOwnership, int noOfResidents, String typeOfConstruction, String propertyTaxNo, double totalDamagedCost, double landArea, boolean relocate, boolean insured, String damageType, String comments, ArrayList damagedHouseMoreInfoList, ArrayList houseFacilityInfoList) {
         this.id = id;
