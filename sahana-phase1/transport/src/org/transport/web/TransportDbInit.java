@@ -10,7 +10,7 @@
 
 package org.transport.web;
 
-import org.transport.util.LabelValue;
+//import org.transport.util.LabelValue;
 import org.transport.db.DataAccessManager;
 
 import javax.servlet.http.HttpServlet;
@@ -25,10 +25,11 @@ public class TransportDbInit extends HttpServlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
         try {
-            servletConfig.getServletContext().setAttribute("areas", getAreaLabelValues());
+/*            servletConfig.getServletContext().setAttribute("areas", getAreaLabelValues());
             servletConfig.getServletContext().setAttribute("provinces", getProviceLabelValues());
             servletConfig.getServletContext().setAttribute("districts", getDistrictLabelValues());
             servletConfig.getServletContext().setAttribute("divisions", getDivisionLabelValues());
+*/
         } catch (Exception e) {
             e.printStackTrace(System.err);
             List emptyList = new LinkedList();
@@ -40,7 +41,7 @@ public class TransportDbInit extends HttpServlet {
         }
     }
 
-    public List getDivisionLabelValues() throws Exception {
+/*    public List getDivisionLabelValues() throws Exception {
         return dataAccessManager.listDivisions();
     }
 
@@ -55,4 +56,5 @@ public class TransportDbInit extends HttpServlet {
     public List getDistrictLabelValues() throws Exception {
         return dataAccessManager.listDistricts();
     }
+*/
 }

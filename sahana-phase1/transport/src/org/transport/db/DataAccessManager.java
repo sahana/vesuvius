@@ -4,10 +4,10 @@
 * To change the template for this generated file go to
 * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
 */
-package org.campdb.db;
+package org.transport.db;
 
-import org.campdb.business.*;
-import org.campdb.util.LabelValue;
+//import org.transport.business.*;
+//import org.transport.util.LabelValue;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +27,7 @@ import java.util.Collection;
 public class DataAccessManager {
 
     //todo: load @ startup - & reload when ever edit/add/modify
-    private static Collection allProviences = null;
+/*    private static Collection allProviences = null;
     private static Collection allDistricts = null;
     private static Collection allDivisions = null;
     private static Collection allAreas = null;
@@ -35,7 +35,7 @@ public class DataAccessManager {
     public DataAccessManager() {
     }
 
-    //campdb
+    //transport
     public boolean addCamp(CampTO campTO) throws SQLException, Exception {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -404,14 +404,14 @@ public class DataAccessManager {
             }
         }
     }
-
+*/
     /**
      * Closes the open connections
      *
      * @param connection
      * @param resultSet
      */
-    private static void closeConnections
+/*    private static void closeConnections
             (Connection
             connection, Statement
             statement, ResultSet
@@ -719,5 +719,5 @@ public class DataAccessManager {
         return result;
     }
 
-
+*/
 }

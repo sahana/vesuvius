@@ -6,7 +6,7 @@
  */
 package org.campdb.db;
 
-import org.campdb.business.CampTO;
+//import org.campdb.business.CampTO;
 
 /**
  * @author Administrator
@@ -16,7 +16,7 @@ import org.campdb.business.CampTO;
  */
 public class SQLGenerator {
 
-    public static String getSQLForAllDistricts() {
+/*    public static String getSQLForAllDistricts() {
         String s = "SELECT *"
             + " FROM " + DBConstants.Tables.DISTRICT;
         return s;
@@ -56,13 +56,13 @@ public class SQLGenerator {
             + "FROM"
             + DBConstants.Tables.FULFILL_STATUS;
     }
-
+*/
     /**
      * returns the sql statement for inserting records into the request header
      *
      * @return
      */
-    public static String getSQLAddRequestHeader() {
+/*    public static String getSQLAddRequestHeader() {
         return "INSERT into "
             + DBConstants.Tables.REQUEST_HEADER
             + " ("
@@ -81,12 +81,13 @@ public class SQLGenerator {
             + " VALUES "
             + "(?,?,?,?,?,?,?,?,?,?,?)";
     }
-
+*/
     /**
      * returns the sql statement for inserting records into the request detail
      *
      * @return
      */
+/*
     public static String getSQLAddRequestDetail() {
         return "INSERT into "
             + DBConstants.Tables.REQUEST_DETAIL
@@ -102,13 +103,13 @@ public class SQLGenerator {
             + " VALUES "
             + "(?,?,?,?,?,?,?)";
     }
-
+*/
     /**
      * returns the sql statement for inserting records into the request detail
      *
      * @return
      */
-    public static String getSQLAddFulFillRequest() {
+/*    public static String getSQLAddFulFillRequest() {
         return "INSERT into "
             + DBConstants.Tables.REQUEST_FULFILL
             + " ("
@@ -120,13 +121,13 @@ public class SQLGenerator {
             + " VALUES "
             + "(?,?,?,?)";
     }
-
+*/
     /**
      * Returns the query which will get the request detail To as well the header information.
      *
      * @return
      */
-    public static String getSQLGetRequestDetail(String requestDetailID) {
+/*    public static String getSQLGetRequestDetail(String requestDetailID) {
 
         final String REQ_HEAD = "req_head";
         final String REQ_DET = "req_detail";
@@ -166,13 +167,13 @@ public class SQLGenerator {
             + REQ_HEAD + "." + DBConstants.TableColumns.REQUEST_ID;
 
     }
-
+*/
     /**
      * Returns the query which will return all the services for that particular request.
      *
      * @return
      */
-    public static String getSQLGetServiceDetailsForRequest(String requestDetailID) {
+/*    public static String getSQLGetServiceDetailsForRequest(String requestDetailID) {
 
         final String ORG = "ORG";
         final String FULFILL = "FULFILL";
@@ -255,10 +256,10 @@ public class SQLGenerator {
         }
         return commaNeeded;
     }
-
+*/
     /**
      */
-    public static String getSQLForSearchCriteria(String campName, String provinceCode,
+/*    public static String getSQLForSearchCriteria(String campName, String provinceCode,
                             String districtCode, int divisionId, int areaId) {
 
         StringBuffer sqlBuff = new StringBuffer("select * from " + DBConstants.Tables.CAMPS_CAMP + " where ");
@@ -307,10 +308,10 @@ public class SQLGenerator {
 
         return sqlBuff.toString();
     }
-
+*/
     /**
      */
-    public static String getSQLForSearchCriteria(int campId) {
+/*    public static String getSQLForSearchCriteria(int campId) {
         return "select * from " + DBConstants.Tables.CAMPS_CAMP + " where CAMP_ID=" + campId;
     }
 
@@ -362,7 +363,7 @@ public class SQLGenerator {
         return "select * from " + DBConstants.Tables.CAMPS_CAMP + " where CAMP_ID='"  + campId  + "'";
     }
 
-
+*/
 //    /**
 //     * This method is in progress. need to complete with the appropriate fields.
 //     * @return
@@ -394,7 +395,7 @@ public class SQLGenerator {
     * Comments
     * @return
     */
-    public static String getSQLForOrganizationRegistration() {
+/*    public static String getSQLForOrganizationRegistration() {
         return "INSERT into "
             + DBConstants.Tables.ORGANIZATION
             + " ("
@@ -418,4 +419,5 @@ public class SQLGenerator {
         return "select count(" + DBConstants.TableColumns.ORG_CODE + ") from " + DBConstants.Tables.ORGANIZATION +" where "
                 + DBConstants.TableColumns.ORG_CODE + "=?";
     }
+*/
 }
