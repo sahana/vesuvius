@@ -106,8 +106,30 @@ function get_integer_attribute_by_entity($entity_id, $attribute)
 
 function get_option_attribute_by_entity($entity, $attribute)
 {
+	$rows = mysql_query("select o.name from sahana_attribute_values v, sahana_attributes a, sahana_attribute_options o where a.name = '$attribute' and v.entity = $entity and a.id = v.attribute_id and v.value_int = o.id limit 1");
+	return ($row = mysql_fetch_array($rows)) ?  $row[0] : '';
+}
+
+function get_option_attribute_caption_by_entity($entity, $attribute)
+{
 	$rows = mysql_query("select o.caption from sahana_attribute_values v, sahana_attributes a, sahana_attribute_options o where a.name = '$attribute' and v.entity = $entity and a.id = v.attribute_id and v.value_int = o.id limit 1");
 	return ($row = mysql_fetch_array($rows)) ?  $row[0] : '';
+}
+
+// This is again a bit dirty; we remove related entities only if the
+// relation is "family member"
+function clear_entity_information($entity)
+{
+	mysql_query("delete from sahana_attribute_values where entity = $entity");
+	mysql_query("delete from sahana_lexicon_entities where entity_id = $entity");
+
+	$rows = mysql_query("select er.entity_id from sahana_entity_relationships er, sahana_entity_relationship_types ert where er.related_id = $entity and er.relation_type = ert.id and ert.name = 'family member'");
+
+	while ($row = mysql_fetch_array($rows)) {
+		clear_entity_information($row[0]);
+		mysql_query("delete from sahana_entities where id = $entity");
+		mysql_query("delete from sahana_entity_relationships where (entity_id = $entity) or (related_id = $entity)");
+	}
 }
 
 ?>

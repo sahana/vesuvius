@@ -21,7 +21,23 @@ $num_members = 10; /* FIXME: get rid of the static value */
 </head>
 <body>
 -->
-	<form action="" method="post">
+
+<?
+
+// Remove the strings 'view', 'edit' and 'f' from $_GET variable
+$myself = $_SERVER['PHP_SELF'];
+$get = array();
+foreach (array_keys($_GET) as $key) {
+	if (($get != 'view') && ($key != 'edit') && ($key != 'f')) {
+		array_push($get, $key . '=' . $_GET[$key]);
+	}
+}
+$get_str = implode('&amp;', $get);
+if ($get_str)
+	$myself .= '?' . $get_str;
+?>
+
+	<form action="<?=$myself?>" method="post">
 	<input type="hidden" name="num_members" value="10" />
 
 <?
@@ -34,10 +50,12 @@ $num_members = 10; /* FIXME: get rid of the static value */
 // By default, we are in the data entry mode
 $screen = 'entry';
 
-// Do something extra for POST
 if ($_POST) {
 	if ($_POST['back']) {
 		// Back button is pressed
+		if ($_SESSION['form']['family_id'])
+			print '<input type="hidden" name="family_id" value="' . $_SESSION['form']['family_id'] . '" />' . "\n";
+
 		$screen = 'entry';
 	}
 	elseif ($_POST['submit']) {
@@ -45,7 +63,7 @@ if ($_POST) {
 		// Capture form data into the session
 
 		// Family ID if editing an existing record
-		capture_input_string('family_id');
+		capture_input_int('family_id');
 
 		// Common information
 		capture_input_string('district');
@@ -96,8 +114,8 @@ if ($_POST) {
 			&& isset($_SESSION['form']['valid'])) {
 		if (isset($_SESSION['form']['family_id'])) {
 			// Editing an existing record
-			// Clear all the related data
 			$family_id = $_SESSION['form']['family_id'];
+			clear_entity_information($family_id);
 		}
 		else {
 			// Create a new family entity
@@ -160,6 +178,19 @@ if ($_POST) {
 			restore_form_attribute('village');
 		}
 	}
+}
+elseif ($_GET['view'] || $_GET['edit']) {
+	// Get the family ID
+	clear_form();
+	capture_input_int('f');
+	$family_id = $_SESSION['form']['f'];
+	load_family_info($family_id);
+	if ($_GET['edit'])
+		print '<input type="hidden" name="family_id" value="' . $family_id . '" />' . "\n";
+}
+else {
+	print "Clearing form";
+	clear_form();
 }
 
 // Display data entry screen
@@ -418,6 +449,38 @@ function member_info_available($n)
 	return ($_SESSION['form']['status'][$n] != 'unknown')
 		|| ($_SESSION['form']['name'][$n] != '')
 		|| ($_SESSION['form']['occupation'][$n] != '');
+}
+
+function load_family_info($family_id)
+{
+	$options = array('district', 'current_location');
+	$strings = array('division', 'gs_division', 'village', 'address',
+			'property_owned', 'current_camp', 'relief_period', 'remarks');
+	$integers = array('family_serial_no', 'num_males', 'num_females',
+			'num_children', 'other_income', 'total_income',
+			'property_value', 'relief_adults', 'relief_children');
+
+	foreach ($options as $option) {
+		$_SESSION['form'][$option] = get_option_attribute_by_entity($family_id, $option);
+	}
+	foreach ($strings as $string) {
+		$_SESSION['form'][$string] = get_string_attribute_by_entity($family_id, $string);
+	}
+	foreach ($integers as $integer) {
+		$_SESSION['form'][$integer] = get_integer_attribute_by_entity($family_id, $integer);
+	}
+
+	$rows = mysql_query("select er.entity_id from sahana_entity_relationships er, sahana_entity_relationship_types ert where er.related_id = $family_id and er.relation_type = ert.id and ert.name = 'family member'");
+
+	$i = 0;
+	while ($row = mysql_fetch_array($rows)) {
+		$_SESSION['form']['name'][$i] = get_string_attribute_by_entity($row[0], 'name');
+		$_SESSION['form']['status'][$i] = get_option_attribute_by_entity($row[0], 'status');
+		$_SESSION['form']['occupation'][$i] = get_option_attribute_by_entity($row[0], 'occupation');
+		$_SESSION['form']['income'][$i] = get_integer_attribute_by_entity($row[0], 'income');
+		$i++;
+	}
+
 }
 
 ?>

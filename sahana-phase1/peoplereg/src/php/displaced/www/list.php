@@ -98,8 +98,8 @@ function get_person_info($entity_id)
 	$person = array();
 	$person['name'] = get_string_attribute_by_entity($entity_id, 'name');
 	$person['age'] = get_integer_attribute_by_entity($entity_id, 'name');
-	$person['gender'] = get_option_attribute_by_entity($entity_id, 'gender');
-	$person['status'] = get_option_attribute_by_entity($entity_id, 'status');
+	$person['gender'] = get_option_attribute_caption_by_entity($entity_id, 'gender');
+	$person['status'] = get_option_attribute_caption_by_entity($entity_id, 'status');
 	return $person;
 }
 
