@@ -61,7 +61,18 @@ public class OrganizationRegistrationTO {
 
     private String passwordRe;
 
+    private String lastUpdate;
+
     private boolean isSriLankan;
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
 
     public boolean isSriLankan() {
         return isSriLankan;
