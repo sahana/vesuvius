@@ -625,6 +625,24 @@ public class SQLGenerator {
 
         }
 
+    public static String getSQLForOrganizationDistrictRelationshipInfoRetrieval(String orgCode){
+        return "SELECT "+DBConstants.TableColumns.ORGANIZATION_DISTRICT_DISTRICT_NAME +
+                " FROM "+ DBConstants.Tables.ORGANIZATION_DISTRICT +
+                " WHERE " + DBConstants.TableColumns.ORGANIZATION_DISTRICT_ORG_CODE + "='" + orgCode + "'";
+    }
+
+    public static String getSQLForOrganizationSectorsRelationshipInfoRetrieval(String orgCode){
+        return "SELECT "+DBConstants.TableColumns.ORGANIZATION_SECTOR_SECTOR +
+                " FROM "+ DBConstants.Tables.ORGANIZATION_SECTOR +
+                " WHERE " + DBConstants.TableColumns.ORGANIZATION_SECTOR_ORG_CODE + "='" + orgCode + "'";
+    }
+
+    public static String getSQLForOrganizationUsersInfoRetrieval(String orgCode){
+        return "SELECT "+DBConstants.TableColumns.USER_NAME +
+                " FROM "+ DBConstants.Tables.USERS +
+                " WHERE " + DBConstants.TableColumns.ORGANIZATION + "='" + orgCode + "'";
+    }
+
 
     public static String getLastOrgCode() {
            return "select max(" + DBConstants.TableColumns.ORG_CODE + ") from " + DBConstants.Tables.ORGANIZATION;

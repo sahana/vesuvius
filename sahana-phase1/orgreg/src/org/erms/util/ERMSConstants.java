@@ -67,6 +67,8 @@ public interface ERMSConstants {
         public static final String ACTION_EDIT = "edit";
         public static final String ACTION_VIEW = "view";
 
+        public static final String ORGANIZATION_TO = "orgganizationTo";
+
 
     }
 

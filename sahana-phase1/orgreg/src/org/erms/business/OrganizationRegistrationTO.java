@@ -297,7 +297,7 @@ public class OrganizationRegistrationTO {
            return sectors;
        }
 
-       public void AddSectors(String sectorName) {
+       public void addSectors(String sectorName) {
            if(null ==sectors){
                this.sectors = new ArrayList();
            }

@@ -103,7 +103,7 @@
 
 <%
     List  messages = new LinkedList();
-    String action = "";
+    String action = request.getParameter("action");
     boolean globalControlDisable = false;
 
     if (request.getParameter("submit") != null) {
@@ -125,11 +125,10 @@
        }
 
         String sectorString = (String)request.getParameter("sectors");
-        System.out.println(sectorString);
         while(sectorString.indexOf(',') != -1){
             String sector =sectorString.substring(0, sectorString.indexOf(','));
             sectorString =  sectorString.substring(sectorString.indexOf(','));
-            orgReg.AddSectors(sector);
+            orgReg.addSectors(sector);
             sectorString =  sectorString.substring(1);
 
         }
@@ -159,15 +158,32 @@
             return;
   }
     } else if (request.getParameter("action") != null) {
-            action = request.getParameter("action");
+
             globalControlDisable = ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action);
+            response.
+        if(request.getParameter("orgCode") != null){
+            orgReg = dataAccessManager.getOrgTO(request.getParameter("orgCode"));
+            request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.ORGANIZATION_TO, orgReg);
+
+       }
+
+        // for testing only
+//        if(action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_EDIT) || action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_VIEW)){
+//            orgReg.setContactPerson("Chinthaka");
+//            orgReg.setEmailAddress("chinthaka@apache.org");
+//            orgReg.addWorkingArea("Ampara");
+//            orgReg.addWorkingArea("Badulla");
+//            orgReg.addWorkingArea("Galle");
+//            orgReg.setCountryOfOrigin("Sri Lanka");
+//            orgReg.setIsSriLankan(false);
+//        }
     }
 
 %>
 
 
 
-    <form method="post" name="tsunamiOrgReg" action="Registration.jsp">
+    <form method="post" name="tsunamiOrgReg" action="Registration.jsp?action=<%=action%>">
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
           <%
               OrganizationPageHelper helper = new OrganizationPageHelper();
@@ -196,11 +212,15 @@
                   Type :</td>
               <td>
               <!--    -->
-                 <select  name="orgType" onchange="displayRow();" class="selectBoxes"  >
+
+                 <select <%if(globalControlDisable){ %>disabled="true" <%}%>  name="orgType" onchange="displayRow();" class="selectBoxes" >
                  <%
+                     System.out.println("orgReg.getOrgType() = " + orgReg.getOrgType());
                    String[] values={"Multilateral","Bilateral","NGO","Government","Private"};
+                     boolean selected;
                      for (int i = 0; i < values.length; i++) {
-                        %> <option value="<%=values[i]%>"><%=values[i]%></option>
+                         selected = values[i].equalsIgnoreCase(orgReg.getOrgType());
+                        %> <option <% if(selected){%> selected="true" <%}%> value="<%=values[i]%>"><%=values[i]%></option>
                         <%
                      }
                  %>
@@ -219,15 +239,25 @@
                 </td>
             </tr>
             <!--  -->
-            <tr style="display:none" id="hiddenRow" >
+            <%
+                boolean shouldBeDisplayedNow = "NGO".equalsIgnoreCase(orgReg.getOrgType());
+                String ngoSubType = null;
+                if (orgReg.getNgoType() != null) {
+                    ngoSubType = orgReg.getNgoType().split("-")[1];
+                    System.out.println("ngoSubType = " + ngoSubType);
+                }
+
+            %>
+            <tr <% if(!shouldBeDisplayedNow){%>style="display:none" <%}%> id="hiddenRow" >
               <td vAlign="top" class="formText" align="right">NGO Type :
                   </td>
               <td>
-                 <select name="ngoType" class="selectBoxes">
+                 <select <%if(globalControlDisable){ %>disabled="true" <%}%>name="ngoType" class="selectBoxes" >
                  <%
                    String[] Ngovalues={"NGO","INGO","CBU"};
                      for (int i = 0; i < Ngovalues.length; i++) {
-                        %> <option><%=Ngovalues[i]%></option>
+                           selected = Ngovalues[i].equalsIgnoreCase(ngoSubType);
+                        %> <option <% if(selected){%> selected="true" <%}%>><%=Ngovalues[i]%></option>
                         <%
                      }
                  %>
@@ -249,20 +279,20 @@
               <td vAlign="top" align="right" class="formText">Organization
                   Name :</td>
               <td>
-                <input name="orgName" maxlength="99" size="38" type="text" id="Name" class="textBox" value="<%= (orgReg.getOrgName()==null)?"":orgReg.getOrgName()%>">&nbsp;<small><font color="red">*</font></small>
+                <input <%if(globalControlDisable){ %>disabled="true" <%}%> name="orgName" maxlength="99" size="38" type="text" id="Name" class="textBox" value="<%= (orgReg.getOrgName()==null)?"":orgReg.getOrgName()%>">&nbsp;<small><font color="red">*</font></small>
                 </td>
             </tr>
             <tr>
               <td vAlign="top" class="formText" align="right" >Contact
                   Person :</td>
               <td>
-                <input class="textBox" name="contactPerson" maxlength="99" size="38" type="text" id="contactperson" value="<%= (orgReg.getContactPerson()==null) ? "" : orgReg.getContactPerson() %>">&nbsp;<small><font color="red">*</font></small>
+                <input <%if(globalControlDisable){ %>disabled="true" <%}%> class="textBox" name="contactPerson" maxlength="99" size="38" type="text" id="contactperson" value="<%= (orgReg.getContactPerson()==null) ? "" : orgReg.getContactPerson() %>">&nbsp;<small><font color="red">*</font></small>
                 </td>
             </tr>
             <tr>
               <td vAlign="top" class="formText" align="right" >Address :</td>
               <td>
-                <textarea cols="38" name="orgAddress" rows="5" id="contact">
+                <textarea <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" name="orgAddress" rows="5" id="contact">
 <%= (orgReg.getOrgAddress()==null) ? "" : orgReg.getOrgAddress() %>
 </textarea>&nbsp;<small><font color="red">*</font></small>
                 </td>
@@ -271,7 +301,16 @@
             <td vAlign="top" class="formText" align="right" >Sector(s)</td>
 
             <td vAlign="top">
-                <textarea cols="38" readonly="true" name="sectors" rows="1"></textarea>
+                <%
+                    String sectors = "";
+                    if(orgReg.getSectors() != null){
+                     StringBuffer buffer = new StringBuffer(orgReg.getSectors().toString());
+                     buffer.deleteCharAt(buffer.indexOf("["));
+                     buffer.deleteCharAt(buffer.indexOf("]"));
+                     sectors = buffer.toString();
+                    }
+                %>
+                <textarea <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" readonly="true" name="sectors" rows="1"><%=sectors%></textarea>
             </td>
 
 
@@ -279,7 +318,7 @@
             </tr>
             <tr>
             <td align="right"></td>
-            <td vAlign="top" >
+            <td <%if(globalControlDisable){ %>style="display:none" <%}%> vAlign="top" >
 
                 <input type="formText"  style="width: 100px;" name="inputVal" value="">
             </td>
@@ -289,8 +328,8 @@
             </tr>
             <tr>
             <td align="right"></td>
-            <td>
-                <select name="choiseList" size="5"  style="width: 150px;">
+            <td <%if(globalControlDisable){ %>style="display:none" <%}%>>
+                <select  name="choiseList" size="5"  style="width: 150px;">
                           <%
                               String[] sectorList = ERMSConstants.ERMSSectorNameConstants.SECTORS;
                               String selectStmt= null;
@@ -306,8 +345,8 @@
 
 
                        </select>
-                       <INPUT type = "button" name="click" onClick="add();" value="Add" class="buttons" >
-                    <INPUT  type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
+                       <INPUT <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="add();" value="Add" class="buttons" >
+                    <INPUT  <%if(globalControlDisable){ %>disabled="true" <%}%> type = "button" name="click" onClick="minus();" value="Remove" class="buttons">
                 </td>
 <%--                <td>--%>
 
@@ -319,21 +358,26 @@
               <td align="right" vAlign="top" class="formText">Contact
                 No :</td>
               <td>
-                <input class="textBox" name="contactNumber" maxlength="99" size="38" type="text" id="contactno" value="<%= (orgReg.getContactNumber()==null) ? "" : orgReg.getContactNumber()%>">&nbsp;<small><font color="red">*</font></small>
+                <input <%if(globalControlDisable){ %>disabled="true" <%}%> class="textBox" name="contactNumber" maxlength="99" size="38" type="text" id="contactno" value="<%= (orgReg.getContactNumber()==null) ? "" : orgReg.getContactNumber()%>">&nbsp;<small><font color="red">*</font></small>
                </td>
             </tr>
             <tr>
               <td align="right" vAlign="top" class="formText">Email
                 Address :</td>
               <td>
-                <input name="emailAddress" maxlength="99" size="38" type="text" class="textBox" id="email" value="<%= (orgReg.getEmailAddress()==null) ? "" : orgReg.getEmailAddress() %>">&nbsp;<small><font color="red">*</font></small>
+                <input <%if(globalControlDisable){ %>disabled="true" <%}%> name="emailAddress" maxlength="99" size="38" type="text" class="textBox" id="email" value="<%= (orgReg.getEmailAddress()==null) ? "" : orgReg.getEmailAddress() %>">&nbsp;<small><font color="red">*</font></small>
                 </td>
             </tr>
             <tr>
               <td align="right" vAlign="top" class="formText">Country
                 of Origin :</td>
               <td>
-              <select name="countryOfOrigin" class="selectBox">
+                <% if(globalControlDisable){
+                %>
+                    <input disabled="true" name="countryOfOrigin" maxlength="99" size="38" type="text" class="textBox" id="countryOfOrigin" value="<%= (orgReg.getCountryOfOrigin()==null) ? "" : orgReg.getCountryOfOrigin() %>">
+                <%
+                }else {
+                %> <select name="countryOfOrigin" class="selectBox">
               <%
                   String [] contry = {"Afghanistan",
 	"Albania",
@@ -576,13 +620,16 @@
          %>
               </select>
                 <font color="red">*</font></small>
+                <%
+                }
+                %>
                 </td>
             </tr>
             <tr>
               <td align="right" vAlign="top" class="formText">Facilities
                 Available :</td>
               <td>
-                <textarea cols="38" name="facilitiesAvailable" rows="5" id="Facilities"><%= (orgReg.getFacilitiesAvailable()==null) ? "" : orgReg.getFacilitiesAvailable() %></textarea>
+                <textarea <%if(globalControlDisable){ %>disabled="true" <%}%> cols="38" name="facilitiesAvailable" rows="5" id="Facilities"><%= (orgReg.getFacilitiesAvailable()==null) ? "" : orgReg.getFacilitiesAvailable() %></textarea>
                 </td>
             </tr>
             <tr>
@@ -591,21 +638,29 @@
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
                 <%
                     Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
+                    ArrayList workingAreas = orgReg.getWorkingAreas();
+
+                    // check whether this is EDIT action or VIEW action.
+                    boolean correctView = action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_EDIT) || action.equalsIgnoreCase(ERMSConstants.IContextInfoConstants.ACTION_VIEW);
+                    boolean checked = false;
                     int i=0;
                     while (allDistricts.hasNext()) {
                         KeyValueDTO keyValueDTO = (KeyValueDTO) allDistricts.next();
+
+                        // check whether this is an area of the existing organization
+                        checked = correctView && workingAreas.contains(keyValueDTO.getDisplayValue());
                         if((i % 4)==0){
                 %>
                 <tr>
                     <td>
-                        <input type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
+                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
                     </td>
                 <%
                     }else {
                 %>
 
                     <td>
-                        <input type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
+                        <input <%if(checked){ %>checked="true" <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> type="checkbox" name="<%=keyValueDTO.getDisplayValue()%>"><%=keyValueDTO.getDisplayValue()%></input>
                     </td>
 
                 <% }
@@ -616,10 +671,12 @@
                     }
                         i++;
                    }
+
+
                 %>
 
 
-                    <td>
+                    <td <%if(globalControlDisable){ %>style="display:none" <%}%>>
                         <input name="checkAll" type="button" value=" Select All " class="buttons" onclick="setAllCheckBoxes(true);" ></input>
                         <input name="clearAll" type="button" value=" Clear All " class="buttons" onclick="setAllCheckBoxes(false);" ></input>
                     </td>
@@ -640,14 +697,19 @@
             <tr>
               <td align="right" vAlign="top" class="formText">Are you registered in Sri Lanka ? :</td>
               <td>
-                <input name="isSriLankan" type="radio" value="yes">Yes</input>
-                <input name="isSriLankan" type="radio" value="no">No</input>
+
+                   <%
+                      boolean isSriLankanChecked = orgReg.isSriLankan();
+                  %>
+                <input <%if(isSriLankanChecked){ %>checked <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> name="isSriLankan" type="radio" value="yes">Yes</input>
+                <input <%if(!isSriLankanChecked){ %>checked <%}%> <%if(globalControlDisable){ %>disabled="true" <%}%> name="isSriLankan" type="radio" value="no">No</input>
+
                 </td>
             </tr>
             <tr>
               <td align="right" vAlign="top" class="formText">Comments :</td>
               <td>
-                <textarea name="comments" cols="38" rows="5" id="comments" ><%= (orgReg.getComments()==null) ? "" : orgReg.getComments() %></textarea>
+                <textarea <%if(globalControlDisable){ %>disabled="true" <%}%> name="comments" cols="38" rows="5" id="comments" ><%= (orgReg.getComments()==null) ? "" : orgReg.getComments() %></textarea>
                 </td>
             </tr>
                  <tr>
@@ -661,16 +723,17 @@
             <tr>
                    <td align="right" vAlign="top" class="formText">User Name :</td>
                    <td>
-                   <input name="username" type="text" class="textBox" size="20" value="<%=orgReg.getUsername()==null?"":orgReg.getUsername()%>" >&nbsp;<small><font color="red">*</font></small>
+                   <input <%if(globalControlDisable){ %>disabled="true" <%}%> name="username" type="text" class="textBox" size="20" value="<%=orgReg.getUsername()==null?"":orgReg.getUsername()%>" >&nbsp;<small><font color="red">*</font></small>
                    </td>
             </tr>
-            <tr>
+
+            <tr <%if(globalControlDisable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText">Password :</td>
                    <td>
                    <input name="password" type="password" class="textBox" size="20" value="<%=orgReg.getPassword()==null?"":orgReg.getPassword()%>">&nbsp;<small><font color="red">*</font></small>
                   </td>
             </tr>
-             <tr>
+             <tr <%if(globalControlDisable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText" >Re Enter Password :</td>
                    <td>
                    <input name="passwordRe" type="password" class="textBox" size="20"  value="<%=orgReg.getPasswordRe()==null?"":orgReg.getPasswordRe()%>">&nbsp;<small><font color="red">*</font></small>
@@ -681,7 +744,8 @@
             </tr>
             <tr>
               <td></td>
-              <td>
+                <td <%if(globalControlDisable){ %>style="display:none" <%}%>>
+
                 <input name="submit" type="submit" value=" Save " class="buttons" >
 
                 <input name="reset" type="reset" value=" Clear " class="buttons" >

@@ -17,6 +17,7 @@
     </tr>
     <tr>
         <td align="center" >Message : <%=exception.getMessage()%></td>
+        <%exception.printStackTrace();%>
     </tr>
     <tr>
         <td align="center" >&nbsp;</td>

@@ -1,5 +1,7 @@
 package org.erms.util;
 
+import java.util.ArrayList;
+
 /**
  * Copyright 2001-2004 The Apache Software Foundation.
  * <p/>
@@ -26,5 +28,9 @@ public class OrganizationPageHelper implements ERMSConstants {
             message = "View Your Organization Information";
         }
         return message;
+    }
+
+    public boolean isWorkingArea(ArrayList workingAreas, String workingArea){
+        return workingAreas.contains(workingArea);
     }
 }

@@ -15,18 +15,9 @@ package org.erms.db;
 
 import org.erms.business.*;
 
-
-import java.sql.Connection;
-
-import java.sql.PreparedStatement;
-
-import java.sql.ResultSet;
-
-import java.sql.SQLException;
-
-import java.sql.Statement;
-
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 
 /**
@@ -956,13 +947,15 @@ public class DataAccessManager implements DBConstants {
         Connection conn = DBConnection.createConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        OrganizationRegistrationTO orgTo;
+        OrganizationRegistrationTO orgTo = new OrganizationRegistrationTO();
         try {
+
+            // get info from Organization table
             String sql = SQLGenerator.getSQLForAllOrganizations(orgCode);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 orgTo = new OrganizationRegistrationTO();
                 orgTo.setOrgType(rs.getString(TableColumns.ORG_TYPE));
                 orgTo.setNgoType(rs.getString(TableColumns.ORG_SUBTYPE));
@@ -984,13 +977,42 @@ public class DataAccessManager implements DBConstants {
                 } else {
                     orgTo.setIsSriLankan(true);
                 }
-                closeConnections(conn, ps, rs);
-                return orgTo;
+
             }
+
+            // get information from organization_district table
+            sql = SQLGenerator.getSQLForOrganizationDistrictRelationshipInfoRetrieval(orgCode);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                orgTo.addWorkingArea(rs.getString(TableColumns.ORGANIZATION_DISTRICT_DISTRICT_NAME));
+            }
+
+            // get information from organization_sectors table
+            sql = SQLGenerator.getSQLForOrganizationSectorsRelationshipInfoRetrieval(orgCode);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                orgTo.addSectors(rs.getString(TableColumns.ORGANIZATION_SECTOR_SECTOR));
+            }
+
+            // get information from users table
+            sql = SQLGenerator.getSQLForOrganizationUsersInfoRetrieval(orgCode);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                orgTo.setUsername(rs.getString(TableColumns.USER_NAME));
+            }
+
+            closeConnections(conn, ps, rs);
+            return orgTo;
         } finally {
             closeConnections(conn, ps, rs);
         }
-        return null;
+
     }
 
     public List getAllOrganizations() throws Exception {
@@ -1149,11 +1171,11 @@ public class DataAccessManager implements DBConstants {
 
         //first check for the user
         if (isUserExisting(org.getUsername())) {
-            throw new Exception("The user name is already taken. Please put in a new user name. click <a href='Registration.jsp'>here</a> to register again ");
+            throw new Exception("The user name is already taken. Please put in a new user name. click <a href='Registration.jsp?action=add'>here</a> to register again ");
         }
 
         if (hasOrgAlreadyRegisterd(org.getOrgName())) {
-            throw new Exception("The organization name is already registered.  click <a href='Registration.jsp'>here</a> to go back to registration ");
+            throw new Exception("The organization name is already registered.  click <a href='Registration.jsp?action=add'>here</a> to go back to registration ");
         }
 
         try {
