@@ -197,12 +197,28 @@ function display_input($name)
 		echo $_SESSION['form'][$name];
 }
 
+function display_input_money($name)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$name]))
+		echo number_format(floatval($_SESSION['form'][$name]), 2);
+}
+
 function display_input_element($name, $n)
 {
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$name][$n]))
 		echo $_SESSION['form'][$name][$n];
+}
+
+function display_input_element_money($name, $n)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$name][$n]))
+		echo number_format(floatval($_SESSION['form'][$name][$n]), 2);
 }
 
 function display_input_caption($name)
