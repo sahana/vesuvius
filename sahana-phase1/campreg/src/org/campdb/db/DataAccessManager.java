@@ -8,6 +8,7 @@ package org.campdb.db;
 
 import org.campdb.business.*;
 import org.campdb.util.LabelValue;
+import org.sahana.share.db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collection;
+
 
 /**
  * @author Administrator
