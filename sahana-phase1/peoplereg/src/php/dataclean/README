@@ -1,0 +1,19 @@
+
+PREREQUSITES
+------------
+PHP 4.x
+MySQL 4.x
+
+
+INSTALLTION
+-----------
+
+1) Copy the dataclean directory to where mambo is installed (e.g. /var/www/mambo)
+
+2) Set the correct path to site@config (found in other modules such as stats)
+
+   require_once("../common/site@config.php");
+
+
+CREATED : 27/01/2005
+LAST MODIFIED : 27/01/2005
