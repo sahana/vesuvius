@@ -31,10 +31,12 @@
 
                boolean status = false;
                String  message  = null;
-                     
+
+         /**
+          * This is where the form will be saved.
+          */
             if (request.getParameter("submit") != null) {
 
-                System.out.println("INSURED "+request.getParameter("insured"));
                 String districtString = request.getParameter("district");
                 Iterator allDistricts = dataAccessManager.getAllDistricts().iterator();
                 while(allDistricts.hasNext()){
@@ -45,7 +47,7 @@
 
                 status = dataAccessManager.addDamagedHouse(house);
                  message = "Your oraganizations information updated successfully !!";
-                  System.out.println("ddd"+status);
+                  System.out.println("ddd"+house.getInsured());
 
             }
 

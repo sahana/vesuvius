@@ -46,13 +46,13 @@ public class DataAccessManager extends AbstractDataAccessManager implements DBCo
             preparedStatement.setString(15, dhTO.getTotalDamagedCost());
             preparedStatement.setString(16, dhTO.getLandArea());
 
-//            if(dhTO.getRelocate().equalsIgnoreCase("true"))
-//                 preparedStatement.setBoolean(17,new Boolean(true).booleanValue());
-//            else
-                 preparedStatement.setBoolean(17, true);
-//            if(dhTO.getInsured().equalsIgnoreCase("true"))
-//                 preparedStatement.setBoolean(18, new Boolean(true).booleanValue());
-//            else
+            if(dhTO.getRelocate().equalsIgnoreCase("true"))
+                 preparedStatement.setBoolean(17,true);
+            else
+                 preparedStatement.setBoolean(17, false);
+            if(dhTO.getInsured().equalsIgnoreCase("true"))
+                 preparedStatement.setBoolean(18, true);
+            else
               preparedStatement.setBoolean(18, false);
 
             preparedStatement.setString(19, dhTO.getDamageType());
