@@ -44,6 +44,12 @@ document.form1.submit();
 </head>
 
 <body topmargin="0" leftmargin="0">
+ <%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "ADD");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
 
 <jsp:include page="comman/header.inc"></jsp:include>
 
@@ -52,7 +58,10 @@ document.form1.submit();
 
 <%
     RequestTO requestObj = (RequestTO) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.REQUEST_DTO);
-    User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
+//    User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
+    LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+    User user = new  User(lbean.getUserName(),lbean.getOrgId());
+    user.setOrganization(lbean.getOrgName());
     ArrayList errorList = new ArrayList();
 
     if (user==null){

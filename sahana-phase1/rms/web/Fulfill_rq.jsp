@@ -67,6 +67,13 @@
 
 </script>
 
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "EDIT");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
 
 
 <%
@@ -81,8 +88,10 @@
 
             //Is he authenticated
 
-		   	User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
-
+//		   	User user = (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
+            LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+            User user = new  User(lbean.getUserName(),lbean.getOrgId());
+            user.setOrganization(lbean.getOrgName());
 		    if (user==null){
 
 		    	//Nobody should come here without a user

@@ -1,3 +1,5 @@
+<%--RMS welcome--%>
+
 <%@ page import="org.erms.db.DataAccessManager,
                  org.erms.util.ERMSConstants,
                  org.erms.business.User"%>
@@ -8,39 +10,45 @@
 <link href="comman/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<%
+    request.setAttribute("turl", "index.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "PAGE");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
 
 <jsp:include page="comman/header.inc"></jsp:include>
     <table width="100%" border="0" cellspacing="2" cellpadding="0" bgcolor="#D8E9FD">
-   <%
-       boolean isAuthenticated = false;
-       if (request.getSession()==null){
-           throw new Exception("Session expired!");
-       }else if(request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO)!=null){
-           //user is already logged in. Do nothing
-           isAuthenticated = true;
-       }else {
-
-
-       DataAccessManager dataAccessManager = new DataAccessManager();
-       String username = request.getParameter("userName");
-       String password = request.getParameter("password");
-
-       User user = null;
-       try {
-           user = dataAccessManager.loginSuccess(username, password);
-       } catch (Exception e) {
-           throw new Exception("Problem in validating user");
-       }
-       if( !"".equals(username) && user != null) {
-           request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.USER_INFO, user);
-             isAuthenticated = true ;
-       }else{
-           isAuthenticated = false;
-       }
-       }
-
-       if (isAuthenticated){
-   %>
+<%--   <%--%>
+<%--       boolean isAuthenticated = false;--%>
+<%--       if (request.getSession()==null){--%>
+<%--           throw new Exception("Session expired!");--%>
+<%--       }else if(request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO)!=null){--%>
+<%--           //user is already logged in. Do nothing--%>
+<%--           isAuthenticated = true;--%>
+<%--       }else {--%>
+<%----%>
+<%----%>
+<%--       DataAccessManager dataAccessManager = new DataAccessManager();--%>
+<%--       String username = request.getParameter("userName");--%>
+<%--       String password = request.getParameter("password");--%>
+<%----%>
+<%--       User user = null;--%>
+<%--       try {--%>
+<%--           user = dataAccessManager.loginSuccess(username, password);--%>
+<%--       } catch (Exception e) {--%>
+<%--           throw new Exception("Problem in validating user");--%>
+<%--       }--%>
+<%--       if( !"".equals(username) && user != null) {--%>
+<%--           request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.USER_INFO, user);--%>
+<%--             isAuthenticated = true ;--%>
+<%--       }else{--%>
+<%--           isAuthenticated = false;--%>
+<%--       }--%>
+<%--       }--%>
+<%----%>
+<%--       if (isAuthenticated){--%>
+<%--   %>--%>
 
       <tr>
             <td width="134" valign="top"><img src="images/imgloginrqstms.jpg" width="302" height="200" border="0"></td>
@@ -76,17 +84,17 @@
 
              </td>
               </tr>
-           <% }else{
+<%--           <% }else{--%>
+<%----%>
+<%--           %>--%>
+<%--                <tr>--%>
+<%--                <td class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Index.jsp">Try Again</a></font></td>--%>
+<%--                <td >&nbsp;</td>--%>
+<%--              </tr>--%>
 
-           %>
-                <tr>
-                <td class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Index.jsp">Try Again</a></font></td>
-                <td >&nbsp;</td>
-              </tr>
-
-
-      <%}
-       %>
+<%----%>
+<%--      <%}--%>
+<%--       %>--%>
       </table>
 
       <jsp:include page="comman/footer.inc"></jsp:include>

@@ -26,6 +26,13 @@ function resetForm()
 
 <body topmargin="0" leftmargin="0">
 
+<%
+    request.setAttribute("turl", "Welcome.jsp");
+    request.setAttribute("modNo", "2");
+    request.setAttribute("accessLvl", "SEARCH");
+%>
+<%@include file="/admin/accessControl/AccessControl.jsp" %>
+
 <jsp:include page="comman/header.inc"></jsp:include>
 <form name="form1" action="Search_Request.jsp" method="post">
 <input type="hidden" name="submitType"/>
@@ -36,11 +43,10 @@ function resetForm()
 
 
     //checking the authentication
-    User user =
-            (User) request.getSession().getAttribute(
-                    ERMSConstants.IContextInfoConstants.USER_INFO);
-
-
+      LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
+      User user = new  User(lbean.getUserName(),lbean.getOrgId());
+      user.setOrganization(lbean.getOrgName());
+//    User user =            (User) request.getSession().getAttribute(ERMSConstants.IContextInfoConstants.USER_INFO);
     if (user == null) {
         request.getSession().setAttribute(
                 ERMSConstants.IContextInfoConstants.ERROR_DESCRIPTION,
