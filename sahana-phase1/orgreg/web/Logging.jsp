@@ -64,6 +64,7 @@
                 lbean.setValid(true);
                 session.setAttribute("LoginBean", lbean);
                 new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
+               // session.setAttribute("action",ERMSConstants.IContextInfoConstants.ACTION_EDIT);
                 response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + user.getOrganization() +"&isEdit=Y");
             } else {
            %>

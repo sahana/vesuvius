@@ -103,12 +103,15 @@
   if (request.getParameter("isEdit") != null) {
     if (request.getParameter("isEdit").equalsIgnoreCase("Y"))
     {
+        session.setAttribute("action",ERMSConstants.IContextInfoConstants.ACTION_EDIT);
         request.setAttribute("turl", "Welcome.jsp");
         request.setAttribute("modNo", "4");
         request.setAttribute("accessLvl", "EDIT");
 %>
 <%@include file="/admin/accessControl/AccessControl.jsp" %>
 <%
+    } else {
+        session.setAttribute("action",ERMSConstants.IContextInfoConstants.ACTION_ADD);
     }
   }
 %>
@@ -119,12 +122,12 @@
 
 <%
     List  messages = new LinkedList();
-    String action = request.getParameter("action");
+    String action = (String)session.getAttribute("action");//request.getParameter("action");
     boolean globalControlDisable = false;
 
     if (request.getParameter("submit") != null) {
         orgReg.setStatus("false");
-        String fromAction = request.getParameter("fromAction");
+        String fromAction = (String)session.getAttribute("action");//request.getParameter("fromAction");
 
         boolean isSriLankan = "yes".equalsIgnoreCase(request.getParameter("isSriLankan")) ? true : false;
         orgReg.setIsSriLankan(isSriLankan);
@@ -206,7 +209,7 @@
 <%
             return;
   }
-    } else if (request.getParameter("action") != null) {
+    } else if ((String)session.getAttribute("action") != null) {
 
             globalControlDisable = ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action);
 

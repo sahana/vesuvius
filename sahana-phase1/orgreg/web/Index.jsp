@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page import="org.erms.util.ERMSConstants"%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>:: Sahana ::</title>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
-                <td  nowrap class="formText" align="left" ><strong><a href="Registration.jsp?action=add" style="text-decoration:none"  class="style1">Register</a></strong> </td>
+                <td  nowrap class="formText" align="left" ><strong><a href="Registration.jsp?action=add &isEdit=N" style="text-decoration:none"  class="style1">Register</a></strong> </td>
                 </tr>
                 <tr>
                 <td  align="right" class="formText"><strong><span class="style2">&raquo;</span>&nbsp;</strong></td>
