@@ -50,7 +50,6 @@
 
     if (request.getParameter("doUpdate") == null) {  //data comes from the database
         if (request.getParameter("campId") == null) {
-            System.out.println(" i am in camp id null");
             response.sendRedirect("SearchCamps.jsp");
             return;
         }

@@ -285,11 +285,27 @@ public class SQLGenerator {
     public static String getSQLDeleteCamp() {
         return "delete from " +
                 DBConstants.Tables.CAMPS_CAMP +
-                "where " +
+                " where " +
                  DBConstants.TableColumns.CAMP_CAMP_ID +
                 "= ?";
     }
 
+     public static String getSQLGetHistory() {
+        return "select " +
+            DBConstants.TableColumns.HISTORY_ID + ","+
+            DBConstants.TableColumns.HISTORY_CAMP_ID + ","+
+            DBConstants.TableColumns.HISTORY_CAMP_MEN + ","+
+            DBConstants.TableColumns.HISTORY_CAMP_WOMEN + ","+
+            DBConstants.TableColumns.HISTORY_CAMP_TOTAL + ","+
+            DBConstants.TableColumns.HISTORY_CAMP_FAMILY + ","+
+            DBConstants.TableColumns.HISTORY_UPDATED_DATE + ","+
+            DBConstants.TableColumns.HISTORY_UPDATED_TIME +
+           " from " +
+           DBConstants.Tables.CAMPS_HISTORY +
+           " where " +
+            DBConstants.TableColumns.HISTORY_CAMP_ID +
+           "= ?";
+    }
 
     /**
      */

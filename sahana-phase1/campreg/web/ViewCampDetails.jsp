@@ -2,7 +2,12 @@
                  org.campdb.db.DataAccessManager,
                  org.campdb.util.StringUtil,
                  org.campdb.business.User,
-                 org.campdb.util.CAMPDBConstants"%>
+                 org.campdb.util.CAMPDBConstants,
+                 java.util.Iterator,
+                 java.util.List,
+                 org.campdb.business.CampHistoryTO"%>
+
+
 <%
     if (request.getParameter("campId") == null) {
         response.sendRedirect("SearchCamps.jsp");
@@ -17,6 +22,7 @@
     }
     DataAccessManager dataAccessManager = new DataAccessManager();
     CampTO camp = dataAccessManager.searchCamp(campID);
+    List historyList = dataAccessManager.getHistory(camp);
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -37,10 +43,9 @@
          response.sendRedirect("error.jsp");
         }
     %>
+   <jsp:include page="comman/header.inc"></jsp:include>
 
-<table width="100%" height="100%" border="0">
 
-            <jsp:include page="comman/header.inc"></jsp:include>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr align="left">
                         <td nowrap background="images/BannerBG.jpg" class="statusBar"><img src="images/Tab.gif" width="2" height="15"></td>
@@ -55,117 +60,140 @@
                 </tr>
                 </table>
 
-              </td>
-              </tr>
-            </table>
 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                  <tr>
                    <td background="images/HeaderBG.jpg" height="25" colspan="2" class="formTitle">Camp Details  </td>
                  </tr>
              </table>
-      </tr>
-          <tr>
-          <td height="100%" align="center" valign="top">
-          <br><br>
-            <table border="0" width="50%" cellspacing="1" cellpadding="2" align="center" >
+
+            <table width="80%" border="0">
                 <tr>
-                    <td vAlign="top" class="tableUp" align="left" colspan="4" rowspan="2" ><b>Location Information</b></td>
+                    <td vAlign="top" class="tableUp" align="left" colspan="6" rowspan="2" ><b>Location Information</b></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="6" >&nbsp;</td>
                 </tr>
 
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >CampId</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampId())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >CampId</td><td colspan="4" ><%=StringUtil.returnEmptyForNull(camp.getCampId())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Camp Name</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Camp Name</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getCampName())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Province</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getProvienceName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Province</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getProvienceName())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">District</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getDistrictName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">District</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getDistrictName())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Division</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getDivionName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Division</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getDivionName())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Area</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getAreaName())%></td>
-                </tr>
-
-                <tr>
-                    <td>&nbsp;</td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Area</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getAreaName())%></td>
                 </tr>
 
                 <tr>
-                    <td vAlign="top" class="tableUp" align="left" colspan="4" rowspan="2"><b>Contact Information</b></td>
+                    <td colspan="6">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td vAlign="top" class="tableUp" align="left" colspan="6" rowspan="2"><b>Contact Information</b></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="6">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Conatct Person</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampContactPerson())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Conatct Person</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getCampContactPerson())%></td>
                 </tr>
                <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Contact Number</td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampContactNumber())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Contact Number</td><td colspan="4"><%=StringUtil.returnEmptyForNull(camp.getCampContactNumber())%></td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="6">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td vAlign="top" class="tableUp" align="left" colspan="4" rowspan="2" ><b>People Information</b></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Number of Men </td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampMen())%> </td>
-                <tr>
-                <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Women  </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampWomen())%> </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Children </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampChildren())%> </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Total</td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampTotal())%> </td>
-                <tr>
-                <tr>
-                    <td>&nbsp;</td>   
+                    <td vAlign="top" class="tableUp" align="left" colspan="6"><b>People Information</b></td>
                 </tr>
 
+                                        <tr>
+                                            <td class="tableUp" align="left" >Number of Families</td>
+                                            <td class="tableUp" align="left">Number of Men</td>
+                                            <td class="tableUp" align="left">Number of Women</td>
+                                            <td class="tableUp" align="left">Number of Children</td>
+                                            <td class="tableUp" align="left">Total </td>
+                                            <td class="tableUp" align="left">Date</td>
+                                        </tr>
+                                        <%
+                                            int count = historyList.size();
+                                            for (int i = 0; i < count; i++) {
+                                                CampHistoryTO historyTo = (CampHistoryTO) historyList.get(i);
+
+                                            %>
+
+                                     <tr>
+                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampFamily())%></td>
+                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampMen())%></td>
+                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampWomen())%></td>
+                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampChildren())%></td>
+                                            <td class="tableDown" align="left"><%=StringUtil.returnEmptyForNull(historyTo.getCampTotal())%> </td>
+                                            <td class="tableDown" align="left"><%=historyTo.getUpdateDate()%></td>
+                                        </tr>
+
+                                        <%  }%>
+
+                    <%--                <tr>--%>
+<%--                    <td>&nbsp;</td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Number of Men </td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampMen())%> </td>--%>
+<%--                <tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Women  </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampWomen())%> </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110">Number of Children </td><td>&nbsp;</td><td><%=StringUtil.returnEmptyForNull(camp.getCampChildren())%> </td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" width="110" >Total</td><td>&nbsp;</td><td> <%=StringUtil.returnEmptyForNull(camp.getCampTotal())%> </td>--%>
+<%--                <tr>--%>
+<%--                <tr>--%>
+<%--                    <td>&nbsp;</td>   --%>
+<%--                </tr>--%>
+
                 <tr>
-                    <td vAlign="top" class="tableUp" align="left" colspan="4" rowspan="2" ><b>General Information</b></td>
+                    <td vAlign="top" class="tableUp" align="left" colspan="6" ><b>General Information</b></td>
+                </tr>
+<%--                 <tr>--%>
+<%--                    <td colspan="6">&nbsp;</td>--%>
+<%--                </tr>--%>
+                <tr>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Accessability</td><td  colspan="4" valign="top" ><%=StringUtil.returnEmptyForNull(camp.getCampAccesability())%></td>
+                </tr>
+<%--                <tr>--%>
+<%--                    <td colspan="6">&nbsp;</td>--%>
+<%--                </tr>--%>
+               <tr>
+                    <td >&nbsp;</td><td vAlign="top" class="formText" align="left">Capability</td><td  colspan="4"  valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampCapability())%></td>
+                </tr>
+<%--                <tr>--%>
+<%--                    <td colspan="6">&nbsp;</td>--%>
+<%--                </tr>--%>
+               <tr>
+                    <td>&nbsp;</td><td vAlign="top"  rowspan="2" class="formText" align="left"  >Comment  </td><td colspan="4" valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampComment())%></td>
                 </tr>
                  <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="6">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Accessability</td><td>&nbsp;</td><td td rowspan="2" valign="top" ><%=StringUtil.returnEmptyForNull(camp.getCampAccesability())%></td>
+                    <td colspan="6">&nbsp;</td>
                 </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-               <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left">Capability</td><td>&nbsp;</td><td td rowspan="2" valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampCapability())%></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-               <tr>
-                    <td>&nbsp;</td><td vAlign="top"  rowspan="2" class="formText" align="left"  >Comment  </td><td>&nbsp;</td><td rowspan="2" valign="top"><%=StringUtil.returnEmptyForNull(camp.getCampComment())%></td>
-                </tr>
-
             </table>
-                <br>
-                <br>
-                <br>
-                <table align="center" >
+             <table align="center" >
                      <tr>
                         <td class="formText" align="center">
                                 <a href="Welcome.jsp">Camp Registry Home</a>

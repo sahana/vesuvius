@@ -259,7 +259,7 @@
     </tr>
     </table>
     <table width="100%" align="left" height="80%">
-        <table cellspacing="4" >
+        <table cellspacing="2" >
             <tr>
                 <td class="tableUp">Camp Name</td>
                 <td class="tableUp">Area</td>

@@ -104,6 +104,7 @@ public interface DBConstants {
 
 
         public static final String HISTORY_CAMP_ID = "CAMP_ID";
+        public static final String HISTORY_ID = "HISTORY_ID";
         public static final String HISTORY_CAMP_MEN = "CAMP_MEN";
         public static final String HISTORY_CAMP_WOMEN = "CAMP_WOMEN";
         public static final String HISTORY_CAMP_CHILDREN = "CAMP_CHILDREN";

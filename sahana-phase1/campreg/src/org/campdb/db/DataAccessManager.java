@@ -118,64 +118,69 @@ public class DataAccessManager implements DBConstants{
         return returnValue;
     }
 
-    public boolean addCampHistory(CampTO campTO) throws SQLException,Exception{
+    public List getHistory(CampTO campTO) throws SQLException{
+        List returnList = new ArrayList();
         Connection connection = null;
         PreparedStatement pstmt = null;
-        boolean returnValue = false;
+        ResultSet rs = null;
+        CampHistoryTO tempHistoryTO = null;
 
         try {
+           connection = DBConnection.createConnection();
+           pstmt = connection.prepareStatement(SQLGenerator.getSQLGetHistory());
+           pstmt.setString(1, campTO.getCampId());
+           rs = pstmt.executeQuery();
 
-//           DBConstants.TableColumns.HISTORY_CAMP_ID + ","+
-//           DBConstants.TableColumns.HISTORY_CAMP_MEN + ","+
-//           DBConstants.TableColumns.HISTORY_CAMP_WOMEN + ","+
-//           DBConstants.TableColumns.HISTORY_CAMP_CHILDREN + ","+
-//           DBConstants.TableColumns.HISTORY_CAMP_TOTAL + ","+
-//           DBConstants.TableColumns.HISTORY_CAMP_FAMILY + ","+
-//           DBConstants.TableColumns.HISTORY_UPDATED_DATE + ","+
-//           DBConstants.TableColumns.HISTORY_UPDATED_TIME +
-
-            connection = DBConnection.createConnection();
-            connection.setAutoCommit(false);
-            String sqlString = SQLGenerator.getSQLInsertHistory();
-            pstmt = connection.prepareStatement(sqlString);
-
-            pstmt.setString(1, campTO.getCampId());
-            pstmt.setString(2, campTO.getCampMen());
-            pstmt.setString(3, campTO.getCampWomen());
-            pstmt.setString(4, campTO.getCampChildren());
-            pstmt.setString(5, campTO.getCampTotal());
-            pstmt.setString(6, campTO.getCampFamily());
-            pstmt.setDate(7, new java.sql.Date(campTO.getUpdateDate().getTime()));
-            pstmt.setDate(8, new java.sql.Date(new java.util.Date().getTime()));
+           while(rs.next()){
+               tempHistoryTO = new CampHistoryTO();
+               tempHistoryTO.setCampHistoryId(rs.getString(DBConstants.TableColumns.HISTORY_ID));
+               tempHistoryTO.setCampId(rs.getString(DBConstants.TableColumns.HISTORY_CAMP_ID));
+               tempHistoryTO.setCampMen(rs.getString(DBConstants.TableColumns.HISTORY_CAMP_MEN));
+               tempHistoryTO.setCampWomen(rs.getString(DBConstants.TableColumns.HISTORY_CAMP_WOMEN));
+               tempHistoryTO.setCampTotal(rs.getString(DBConstants.TableColumns.HISTORY_CAMP_TOTAL));
+               tempHistoryTO.setCampFamily(rs.getString(DBConstants.TableColumns.HISTORY_CAMP_FAMILY));
+               tempHistoryTO.setUpdateDate(rs.getDate(DBConstants.TableColumns.HISTORY_UPDATED_DATE));
+               //tempHistoryTO.setUpdateTime(rs.getDate(DBConstants.TableColumns.HISTORY_UPDATED_TIME));
+               returnList.add(tempHistoryTO);
+           }
 
 
 
-
-            returnValue = true;
         }catch(Exception e){
-            returnValue = false;
-            connection.rollback();
+            e.printStackTrace();
+          
         } finally {
-            connection.setAutoCommit(true);
+
             closeConnections(connection, pstmt, null);
         }
 
+        return returnList;
 
 
-        return returnValue;
+
     }
 
-     public boolean editCamp(CampTO campTO) throws SQLException, Exception {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
-        boolean returnValue = false;
 
-        try {
-            connection = DBConnection.createConnection();
-            connection.setAutoCommit(false);
 
+    private void addCampHistory(CampTO campTO,Connection connection) throws SQLException{
+        String sqlString = SQLGenerator.getSQLInsertHistory();
+        PreparedStatement pstmt = connection.prepareStatement(sqlString);
+
+        pstmt.setString(1, campTO.getCampId());
+        pstmt.setString(2, campTO.getCampMen());
+        pstmt.setString(3, campTO.getCampWomen());
+        pstmt.setString(4, campTO.getCampChildren());
+        pstmt.setString(5, campTO.getCampTotal());
+        pstmt.setString(6, campTO.getCampFamily());
+        pstmt.setDate(7, new java.sql.Date(campTO.getUpdateDate().getTime()));
+        pstmt.setDate(8, new java.sql.Date(new java.util.Date().getTime()));
+
+        pstmt.executeUpdate();
+    }
+
+    private void editCampRecord(CampTO campTO,Connection connection) throws SQLException,Exception{
             String sqlString = SQLGenerator.getSQLEditCamp();
-            pstmt = connection.prepareStatement(sqlString);
+            PreparedStatement pstmt = connection.prepareStatement(sqlString);
 
             pstmt.setString(1, campTO.getAreaName());
             pstmt.setString(2, campTO.getDivisionId());
@@ -199,10 +204,31 @@ public class DataAccessManager implements DBConstants{
             pstmt.setString(18,campTO.getCampId());
 
             pstmt.execute();
+    }
+
+
+
+     public boolean editCamp(CampTO campTO) throws SQLException, Exception {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        boolean returnValue = false;
+
+        try {
+            connection = DBConnection.createConnection();
+            connection.setAutoCommit(false);
+
+            //get the original data
+            CampTO tempCampTo = searchCamp(Integer.parseInt(campTO.getCampId()));
+            //put the original in the history table
+            addCampHistory(tempCampTo,connection);
+            //edit the original record
+            editCampRecord(campTO,connection);
+
             connection.commit();
             returnValue = true;
         }catch(Exception e){
             returnValue = false;
+            e.printStackTrace();
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
@@ -295,6 +321,9 @@ public class DataAccessManager implements DBConstants{
             closeConnections(connection2, stmt2, tempRS);
         }
     }
+
+
+
 
     public CampTO searchCamp(int campId)
             throws SQLException, Exception {
