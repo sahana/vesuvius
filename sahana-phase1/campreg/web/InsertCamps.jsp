@@ -197,7 +197,7 @@ var choice = document.newCamp.divisionId.value;
     }
     array = array + "";
 %>
-var arr = [<%=array%>];
+var arr = ["",<%=array%>];
 <%--alert(arr[choice]);--%>
 
 document.newCamp.divInfo.value = arr[choice];

@@ -65,9 +65,11 @@
  <%List divlistCode;
      List alldisCode = dm.listDistrictsOrderbyProvince();
      String disNameCode;
+     String disCode;
      for (int j = 0 ;j < alldisCode.size(); j++) {
-             %>var districtCode<%=j%> = new Array( <%
-                 disNameCode =((LabelValue)alldisCode.get(j)).getLabel();
+            disNameCode =((LabelValue)alldisCode.get(j)).getLabel();
+            disCode = ((LabelValue)alldisCode.get(j)).getValue();
+             %>var districtCode<%=disCode%> = new Array( <%
                divlistCode = dm.listDivisionsforDistrcit(disNameCode);
              for (int i = 0; i <divlistCode.size(); i++) {
                if (i==0){
@@ -77,7 +79,7 @@
              }
            }
                  %>);
-          var district<%=j%> = new Array( <%
+          var district<%=disCode%> = new Array( <%
           for (int i = 0; i <divlistCode.size(); i++) {
            if (i==0){
                out.print("\"" + ((LabelValue)divlistCode.get(i)).getLabel() +"\"");
@@ -113,24 +115,27 @@
       var divisionList = document.searchCamps.divisionId.options;
       divisionList.length =0;
       var divCode = 0;
-      for(j=0 ; j < provincecode-1 ; j++){
-         switch (parseInt(j)) {
-                  case 0:  divCode = divCode + prov1.length ; break;
-                  case 1:  divCode = divCode + prov2.length ; break;
-                  case 2:  divCode = divCode + prov3.length ; break;
-                  case 3:  divCode = divCode + prov4.length ; break;
-                  case 4:  divCode = divCode + prov5.length ; break;
-                  case 5:  divCode = divCode + prov6.length ; break;
-                  case 6:  divCode = divCode + prov7.length ; break;
-                  case 7:  divCode = divCode + prov8.length ; break;
-                  case 8:  divCode = divCode + prov9.length ; break;
+      var DisCode = document.searchCamps.districtId.value;
+<%--      for(j=0 ; j < provincecode-1 ; j++){--%>
+<%--         switch (parseInt(j)) {--%>
+<%--                  case 0:  divCode = divCode + prov1.length ; break;--%>
+<%--                  case 1:  divCode = divCode + prov2.length ; break;--%>
+<%--                  case 2:  divCode = divCode + prov3.length ; break;--%>
+<%--                  case 3:  divCode = divCode + prov4.length ; break;--%>
+<%--                  case 4:  divCode = divCode + prov5.length ; break;--%>
+<%--                  case 5:  divCode = divCode + prov6.length ; break;--%>
+<%--                  case 6:  divCode = divCode + prov7.length ; break;--%>
+<%--                  case 7:  divCode = divCode + prov8.length ; break;--%>
+<%--                  case 8:  divCode = divCode + prov9.length ; break;--%>
+<%----%>
+<%--              }--%>
+<%--      }--%>
+<%--      divCode = divCode + parseInt(distrcictCode);--%>
 
-              }
-      }
-      divCode = divCode + parseInt(distrcictCode);
-
-      var divisions =eval("district" + divCode);
-      var tempdivisionCode =eval("districtCode" + divCode);
+      var divisions =eval("district" + DisCode);
+      var tempdivisionCode =eval("districtCode" + DisCode);
+<%--      var divisions =eval("district" + divCode);--%>
+<%--      var tempdivisionCode =eval("districtCode" + divCode);--%>
       for (i=0;i< divisions.length ;i++){
           var option = new Option(divisions[i],tempdivisionCode[i]);
           divisionList.add(option,i);
