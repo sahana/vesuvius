@@ -1,0 +1,35 @@
+<html>
+  <head><title>Contact Page</title></head>
+  <body>
+    <table border=0 align=center>
+      <tr><td colspan=3><h1>Message</h1></td></tr>
+      <tr><td colspan=3><hr /></td></tr>
+      <tr><td width=75 valign=top>&nbsp;</td>
+          <td width=400>Dear 
+	                <?=contact_title?>
+			<?=contact_surname?>,<br>
+	    <p>The Job Matching system identified me as a possible match to one
+              of your vacancies using a search based on the following criteria.
+              Please contact me so that we may discuss the possibility of
+              volunteering with your organisation.</p>
+            <p>Kind regards,</p>
+            <p><?=sender_title?>
+              <?=sender_surname?></p>
+            <h3>Criteria used for search</h3>
+              Skills required:<br />
+              <ul>
+	        <?=$matched_skills_list?>
+              </ul>
+	      Desired Job Details:<br>
+              <ul>
+	        <li><?=$matched_job_tenure?></li>
+                <li><?=$matched_job_basis?></li>
+              </ul>
+           </td>
+           <td valign=top><form action="OrgMessages.html" method="POST">
+                 <input type="hidden" name="VolunteerId" value="1">
+		 <input type="submit" name="submit" value="mark as read">
+                 <input type="submit" name="submit" value="contact"></form></td></tr>
+    </table>
+  </body>
+</html>

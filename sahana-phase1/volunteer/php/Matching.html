@@ -1,0 +1,34 @@
+<html>
+  <head><title>Volunteer Personal Page</title></head>
+  <body>
+    <? WriteHeader() ?>
+
+    <table border=0 align=center>
+      <tr><td colspan=4><h1>Your Profiles</h1></td>
+          <td colspan=2 align=right>
+            <form action="Matching.php" method="POST">
+	      <input type="hidden" name="referring_page" value="Matching">
+              <input type="hidden" name="ProfileId" value="all">
+              <input type="submit" name="submit" value="Match All">
+            </form>
+          </td></tr>
+      <tr><td colspan=6><hr /></td></tr>
+      <? populate_profile_list() ?>
+      <tr><td colspan=6><h1>New Profile</h1></td></tr>
+    <form action="Matching.php" method="POST">
+      <input type="hidden" name="referring_page" value="Matching">
+      <tr><td>Tenure:</td>
+          <td><select name="Tenure">
+	        <?=$ptfl_codes?>
+              </select></td>
+          <td>&nbsp;</td>
+          <td>Basis:</td>
+          <td><select name="Basis">
+	        <?=$fpct_codes?>
+              </select></td></tr>
+      <tr><td colspan=4 align=left><input type="submit" name="submit" value="add profile"></td>
+          <td colspan=2 align=right><input type="reset" name="reset" value="reset"></td></tr>
+    </form>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+  <head><title>Organisation Personal Page</title></head>
+  <body>
+    <? WriteHeader() ?>
+
+    <table border=0 align=center>
+      <tr><td colspan=4><h1>Your Opportunities</h1></td>
+          <td colspan=2 align=right>&nbsp;</td></tr>
+      <tr><td colspan=6><hr /></td></tr>
+      <? populate_opportunity_list() ?>
+      <tr><td colspan=6><h1>New Opportunity</h1></td></tr>
+    <form action="OrgMatching.php" method="POST">
+      <input type="hidden" name="referring_page" value="OrgMatching">  
+      <tr><td>Select Country:</td>
+          <td colspan=3><select name="Country">
+                <option value="add" selected>--- select an option ---</option>
+                <?=$country_list?>
+              </select></td>
+          <td colspan=3 align=right><input type="submit" name="submit" value="choose country"></td></tr>
+      <tr><td>Other:</td>
+          <td width=300 colspan=3><input type="text" name="AddCountry" maxlength="50"></td>
+	  <td colspan=2>&nbsp;</td></tr>
+      <tr><td colspan=5><hr /></td>
+          <td>&nbsp;</td></tr>
+      <tr><td>Select State:</td>
+          <td colspan=3><?=$state_list?></td>
+          <td colspan=2 align=right><input type="submit" name="submit" value="choose state"></td></tr>
+      <tr><td>Other:</td>
+          <td colspan=3 width=300><input type="text" name="AddState" maxlength="50"></td>
+	  <td colspan=2>&nbsp;</td></tr>
+      <tr><td colspan=5><hr /></td>
+          <td>&nbsp;</td></tr>
+      <tr><td>Select Region:</td>
+          <td colspan=3><?=$region_list?></td>
+          <td colspan=2 align=right><input type="submit" name="submit" value="choose region"></td></tr>
+      <tr><td>Other:</td>
+          <td colspan=3 width=300><input type="text" name="AddRegion" maxlength="50"></td>
+          <td colspan=2>&nbsp;</td></tr>
+      <tr><td colspan=6><hr /></td></tr>
+      <tr><th colspan=6>Select Skills</th></tr>
+      <tr><td colspan=6>Select existing skill.  If not skills are suitable leave<br />
+                        the selection blank and use the text box to add your own.</td></tr>
+      <tr><td>Select skill:</td>
+          <td colspan=3><select name="SkillId">
+                          <option value="add">--- select an option ---</option>
+                          <?=$skills_list?>
+                        </select></td>
+          <td colspan=2 align=right><input type="submit" name="submit" value="choose skill"></td></tr>
+      <tr><td>Other:</td>
+          <td colspan=3 width=300><input type="text" name="AddSkill" maxlength="50"></td>
+	  <td colspan=2>&nbsp;</td>
+      <tr><td colspan=6><hr /></td></tr>
+      <tr><th colspan=6>Full Time, Part Time, or Casual?</th></tr>
+      <tr><td colspan=6><select name="FPC">
+                          <?=$fpct_codes?>
+                        </select></td></tr>
+      <tr><td colspan=6><hr /></td></tr>
+      <tr><th colspan=6>Permanent or Temporary?</th></tr>
+      <tr><td colspan=6><select name="PermTemp">
+                          <?=$ptfl_codes?>
+                        </select></td></tr>
+      <tr><td colspan=6><hr /></td></tr>
+      <tr><td colspan=3 align=left><input type="submit" name="submit" value="add opportunity"></td>
+          <td colspan=3 align=right><input type="reset" name="reset" value="reset"></td></tr>
+    </form>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<html>
+  <head><title>Volunteer Registration Page</title></head>
+  <body>
+    <form action="OrgPersonalPage.html" method="POST">
+      <table border=0 align=center>
+        <tr><th colspan=5 align=center>Login Details</th></tr>
+        <tr><td>User Name</td>
+	    <td><input type="text" name="username" maxlength="10"></td>
+	    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	    <td>Password</td>
+            <td><input type="password" name="password" maxlength="15"></td></tr>
+	<tr><td colspan=3>&nbsp;</td>
+	    <td>Confirm</td>
+            <td><input type="password" name="password" maxlength="15"></td></tr>
+	<tr><td colspan=5><hr /></td></tr>
+        <tr><th colspan=5 align=center>Personal Details</th></tr>
+        <tr><td>Title</td>
+	    <td><select name="title">
+	          <option value="1">Mr</option>
+		  <option value="2">Mrs</option>
+	          <option value="3">Master</option>
+		</select></td>
+	    <td>&nbsp</td>
+	    <td>First Name</td>
+            <td><input type="text" name="firstname" maxlength="50"></td></tr>
+	<tr><td>Date of Birth</td>
+	    <td><input type="text" name="dob" maxlength="10"></td>
+	    <td>&nbsp;</td>
+	    <td>Surname</td>
+            <td><input type="text" name="surname" maxlength="50"></td></tr>
+        <tr><td colspan=5><hr /></td></tr>
+	<tr><th colspan=2 align=center>Physical Address Details</th>
+	    <td>&nbsp;</td>
+	    <th colspan=2 align=center>Postal Address Details</th></tr>
+        <tr><td>Address</td>
+            <td><input type="text" name="PhysicalAddressLine1" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>Address</td>
+            <td><input type="text" name="PostalAddressLine1" maxlength="50"></td></tr>
+        <tr><td>Address</td>
+            <td><input type="text" name="PhysicalAddressLine2" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>Address</td>
+            <td><input type="text" name="PostalAddressLine2" maxlength="50"></td></tr>
+        <tr><td>Address</td>
+            <td><input type="text" name="PhysicalAddressLine3" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>Address</td>
+            <td><input type="text" name="PostalAddressLine3" maxlength="50"></td></tr>
+        <tr><td>Suburb or Town</td>
+            <td><input type="text" name="PhysicalLocation" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>Suburb or Town</td>
+            <td><input type="text" name="PostalLocation" maxlength="50"></td></tr>
+        <tr><td>State</td>
+            <td><input type="text" name="PhysicalState" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>State</td>
+            <td><input type="text" name="PostalState" maxlength="50"></td></tr>
+        <tr><td>Postcode</td>
+            <td><input type="text" name="PhysicalPostcode" maxlength="10"></td>
+	    <td>&nbsp;</td>
+            <td>Postcode</td>
+            <td><input type="text" name="PostalPostcode" maxlength="10"></td></tr>
+        <tr><td>Country</td>
+            <td><input type="text" name="PhysicalCountry" maxlength="50"></td>
+	    <td>&nbsp;</td>
+            <td>Country</td>
+            <td><input type="text" name="PostalCountry" maxlength="50"></td></tr>
+	<tr><td colspan=5><hr /></td></tr>
+	<tr><th colspan=2 align=center>Contact Details</th>
+	    <td>&nbsp;</td>
+	    <th colspan=2 align=center>Preferred Method of Contact</th></tr>
+        <tr><td>Email Address</td>
+            <td><input type="text" name="Email" maxlength="50"></td>
+            <td>&nbsp;</td>
+            <td colspan=2><select name="ContactMethod">
+	                    <option value="30">Contact by email</option>
+			    <option value="31">Contact by phone</option>
+			    <option value="29">Leave a message on my Personal Page</option>
+			  </select></td></tr>
+        <tr><td>Phone Number</td>
+            <td><input type="text" name="Phone" maxlength="50"></td>
+	    <td colspan=3>&nbsp;</td></tr>
+        <tr><td>Mobile Number</td>
+            <td><input type="text" name="Mobile" maxlength="50"></td>
+	    <td colspan=3>&nbsp;</td></tr>
+	<tr><td colspan=5><hr /></td></tr>
+	<tr><td colspan=2 align=left><input type="submit" name="submit" value="submit"></td>
+            <td colspan=3 align=right><input type="reset" name="reset" value="clear"></td></tr>
+      </table>
+    </form>
+  </body>
+</html>

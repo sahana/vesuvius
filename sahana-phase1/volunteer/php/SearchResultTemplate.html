@@ -1,0 +1,19 @@
+      <tr><td colspan=3><hr /></td></tr>
+      <tr><td width=75 valign=top><?=$result_id?></td>
+          <td width=400>Skills required:<br>
+              <ul>
+	        <?=$matched_job_skills?>
+              </ul>
+	      Job Details:<br>
+              <ul>
+	        <li><?=$matched_job_tenure?></li>
+                <li><?=$matched_job_basis?></li>
+              </ul>
+              Preferred Contact:<br>
+              <ul>
+	        <li><?=$matched_job_contact_method?></li>
+              </ul>
+	      <?=$contact_error?>
+           </td>
+           <td valign=top><form action="SearchResults.php" method="POST">
+                 <?=$contact_string?></form></td></tr>

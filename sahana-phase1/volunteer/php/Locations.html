@@ -1,0 +1,45 @@
+<html>
+  <head><title>Volunteer Locations Page</title></head>
+  <body>
+    <? WriteHeader() ?>
+    <table border=0 align=center>
+      <tr><td colspan=3><h1>Your Locations</h1></td></tr>
+      <tr><td colspan=3><hr /></td></tr>
+      <? populate_location_list() ?>
+      <tr><td colspan=3><h1>New Location</h1></td></tr>
+      <tr><td colspan=3>Select existing Country/State/Region.  If none are suitable leave<br />
+                        the selection blank and use the text box to add your own.</td></tr>
+    <form action="Locations.php" method="POST">  
+      <input type="hidden" name="referring_page" value="Locations">  
+      <tr><td>Select Country:</td>
+          <td><select name="Country">
+                <option value="add" selected>--- select an option ---</option>
+                <?=$country_list?>
+              </select></td>
+          <td align=right><input type="submit" name="submit" value="choose country"></td></tr>
+      <tr><td>Other:</td>
+          <td width=300><input type="text" name="AddCountry" maxlength="50"></td>
+	  <td>&nbsp;</td></tr>
+      <tr><td colspan=2><hr /></td>
+          <td>&nbsp;</td></tr>
+      <tr><td>Select State:</td>
+          <td><?=$state_list?></td>
+          <td align=right><input type="submit" name="submit" value="choose state"></td></tr>
+      <tr><td>Other:</td>
+          <td width=300><input type="text" name="AddState" maxlength="50"></td>
+	  <td>&nbsp;</td></tr>
+      <tr><td colspan=2><hr /></td>
+          <td>&nbsp;</td></tr>
+      <tr><td>Select Region:</td>
+          <td><?=$region_list?></td>
+          <td align=right><input type="submit" name="submit" value="choose region"></td></tr>
+      <tr><td>Other:</td>
+          <td width=300><input type="text" name="AddRegion" maxlength="50"></td>
+          <td>&nbsp;</td></tr>
+      <tr><td colspan=3><hr /></td></tr>
+      <tr><td colspan=2 align=left><input type="submit" name="submit" value="add location"></td>
+          <td align=right><input type="reset" name="reset" value="reset"></td></tr>
+    </form>
+    </table>
+  </body>
+</html>

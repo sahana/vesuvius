@@ -1,0 +1,22 @@
+      <form action="OrgMatching.php" method="POST">
+        <tr><td colspan=4>Opportunity <?=$opp_id?></td>
+            <td colspan=2 align=right>
+	      <?=$opportunity_hidden_text?>
+	      <input type="submit" name="submit" value="edit">
+	      <input type="submit" name="submit" value="delete"></td></tr>
+	<tr><td colspan=2>Tenure: <?=$job_tenure?></td>
+	    <td>&nbsp;</td>
+	    <td colspan=2>Basis: <?=$job_basis?></td>
+	    <td align=right>
+	      <input type="submit" name="submit" value="match"></td></tr>
+	<tr><td colspan=6>
+	      Skills:<br />
+	      <ul>
+	        <?=$job_skills?>
+              </ul>
+              Preferred Contact:<br />
+              <ul>
+	        <li><?=$job_contact_method?></li>
+              </ul>
+            </td></tr>
+	<tr><td colspan=6><hr /></td></tr></form>

@@ -1,0 +1,28 @@
+<html>
+  <head><title>Volunteer Skills Page</title></head>
+  <body>
+    <? WriteHeader() ?>
+    <table border=0 align=center>
+      <tr><td colspan=3><h1>Your Skills</h1></td></tr>
+      <tr><td colspan=3><hr /></td></tr>
+      <? populate_skill_list() ?>
+      <tr><td colspan=3><h1>New Skill</h1></td></tr>
+      <tr><td colspan=3>Select existing skill.  If not skills are suitable leave<br />
+                        the selection blank and use the text box to add your own.</td></tr>
+    <form action="Skills.php" method="POST">  
+      <tr><td>Select skill:</td>
+          <td colspan=2><select name="SkillId">
+	                  <option value="0">--- select option ---</option>
+	                  <?=$remaining_skill_list?>
+                        </select></td></tr>
+      <tr><td>Other:</td>
+          <td width=300><input type="text" name="AddSkill" maxlength="50"></td>
+          <td>&nbsp;</td></tr>
+      <tr><td colspan=2 align=left>
+            <input type="hidden" name="referring_page" value="Skills">
+            <input type="submit" name="submit" value="add skill"></td>
+          <td align=right><input type="reset" name="reset" value="reset"></td></tr>
+    </form>
+    </table>
+  </body>
+</html>
