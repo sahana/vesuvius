@@ -664,7 +664,7 @@ public class DataAccessManager {
                 requestTO.setSiteName(resultSet.getString(DBConstants.TableColumns.SITE_NAME));
                 requestTO.setOrgName(resultSet.getString(DBConstants.TableColumns.ORG_NAME));
                 requestTO.setOrgContact(resultSet.getString(DBConstants.TableColumns.ORG_CONTACT_NUMBER));
-                requestTO.setSiteContact(resultSet.getString(DBConstants.TableColumns.SITE_CONTACT));                
+                requestTO.setSiteContact(resultSet.getString(DBConstants.TableColumns.SITE_CONTACT));
 
 
                 List requestDetailTOs = new ArrayList();
@@ -907,6 +907,15 @@ public class DataAccessManager {
     }
 
 
+    private String ususalWildcard2SQLWildCard(String whildCard){
+        if(whildCard == null){
+            return null;
+        }
+        whildCard = whildCard.replace('*','%');
+        whildCard = whildCard.replace('?','_');
+        return whildCard;
+    }
+
     /**
      * This class is still in progress... The SQL statement in the SQLgenerator has to be completed with the appropriate search fields and select fields.
      * <p/>
@@ -946,11 +955,11 @@ public class DataAccessManager {
             preparedStatement.setString(3, searchCriteria.getOrganization());
             preparedStatement.setString(4, searchCriteria.getOrganization());
             preparedStatement.setString(5, searchCriteria.getSiteName());
-            preparedStatement.setString(6, searchCriteria.getSiteName());
+            preparedStatement.setString(6, ususalWildcard2SQLWildCard(searchCriteria.getSiteName()));
             preparedStatement.setString(7, searchCriteria.getSiteDistrict());
             preparedStatement.setString(8, searchCriteria.getSiteDistrict());
             preparedStatement.setString(9, searchCriteria.getItem());
-            preparedStatement.setString(10, searchCriteria.getItem());
+            preparedStatement.setString(10, ususalWildcard2SQLWildCard(searchCriteria.getItem()));
             preparedStatement.setString(11, searchCriteria.getPriority());
             preparedStatement.setString(12, searchCriteria.getPriority());
             preparedStatement.setString(13, searchCriteria.getStatus());

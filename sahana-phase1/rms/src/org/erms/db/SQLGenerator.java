@@ -567,7 +567,7 @@ public class SQLGenerator {
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.SITE_NAME + " = ?))"
+            + "(? is null OR (" + DBConstants.TableColumns.SITE_NAME + " LIKE ?))"
 
             + " AND "
 
@@ -575,7 +575,7 @@ public class SQLGenerator {
 
             + " AND "
 
-            + "(? is null OR (" + DBConstants.TableColumns.ITEM + " = ?))"
+            + "(? is null OR (" + DBConstants.TableColumns.ITEM + " LIKE ?))"
 
             + " AND "
 
