@@ -1,0 +1,13 @@
+- Stop apache
+
+- Run update.sql
+
+  mysql -uroot -p < db/updates.sql
+
+- Update db.php file of mambo/componnets/com_component/ with the CVS version.
+
+- Start apache
+
+- Copy *.php and *.css files in www/ to any location on the web server
+  and open entry.php
+
