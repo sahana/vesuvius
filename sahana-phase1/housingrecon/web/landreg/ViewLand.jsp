@@ -72,7 +72,7 @@
                 </tr>
 
                  <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Land Name</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getLandName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Land Name </td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getLandName())%></td>
                 </tr>
                  <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Description</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getDescription())%></td>
@@ -86,12 +86,12 @@
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Division</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getdivisionName())%></td>
                 </tr>
                  <tr>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Area</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getArea())%></td>
-                    <td colspan="4" ><%=StringUtil.returnEmptyForNull(newLand.getMeasurementTypeName())%></td>
+                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Area</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getArea())%>
+                    &nbsp;&nbsp;<%=StringUtil.returnEmptyForNull(newLand.getMeasurementTypeName())%></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Owned By</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getOwnedByName())%></td>
-                    <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Comments</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getOwnedByComment())%></td>
+                    <td vAlign="top" class="formText" align="left" >Comments &nbsp;&nbsp;<%=StringUtil.returnEmptyForNull(newLand.getOwnedByComment())%></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >Term</td><td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getTermName())%></td>
@@ -99,10 +99,10 @@
 
                 <tr>
                     <td>&nbsp;</td><td vAlign="top" class="formText" align="left" >GPS Co-ordinates</td>
-                    <td>&nbsp;</td><td colspan="4" ><%=StringUtil.returnEmptyForNull(newLand.getGPS1())%></td>
-                    <td>&nbsp;</td><td colspan="4" ><%=StringUtil.returnEmptyForNull(newLand.getGPS2())%></td>
-                    <td>&nbsp;</td><td colspan="4" ><%=StringUtil.returnEmptyForNull(newLand.getGPS3())%></td>
-                    <td>&nbsp;</td><td colspan="4" ><%=StringUtil.returnEmptyForNull(newLand.getGPS4())%></td>
+                    <td colspan="2" ><%=StringUtil.returnEmptyForNull(newLand.getGPS1())%> &nbsp;
+                    <%=StringUtil.returnEmptyForNull(newLand.getGPS2())%> &nbsp;
+                    <%=StringUtil.returnEmptyForNull(newLand.getGPS3())%> &nbsp;
+                    <%=StringUtil.returnEmptyForNull(newLand.getGPS4())%></td>
                 </tr>
 
 
