@@ -45,39 +45,44 @@ function new_report()
 	die('Database error');
 }
 
-function store_attribute_string($report, $entity, $attribute, $index = 0)
+function store_attribute_string($report, $entity, $attribute, $index = 0, $n = -1)
 {
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$attribute])
 			&& ($_SESSION['form'][$attribute] != 'unknown')
 			&& ($_SESSION['form'][$attribute] != '')) {
-		$value = trim($_SESSION['form'][$attribute]); // FIXME: escape special characters
+		$value = trim(($n < 0) ? $_SESSION['form'][$attribute] : $_SESSION['form'][$attribute][$n]); // FIXME: escape special characters
 		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_string) select $report, $entity, id, '$value' from sahana_attributes where name='$attribute'");
 	}
 	// Do indexing if $index is set
 }
 
-function store_attribute_integer($report, $entity, $attribute)
+function store_attribute_integer($report, $entity, $attribute, $n = -1)
 {
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$attribute])) {
-		$value = intval(trim($_SESSION['form'][$attribute]));
+		$value = intval(trim(($n < 0) ? $_SESSION['form'][$attribute] : $_SESSION['form'][$attribute][$n]));
 		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_int) select $report, $entity, id, $value from sahana_attributes where name='$attribute'");
 	}
 }
 
-function store_attribute_selection($report, $entity, $attribute)
+function store_attribute_selection($report, $entity, $attribute, $n = -1)
 {
 	global $_SESSION;
 
 	if (isset($_SESSION['form'][$attribute])
 			&& ($_SESSION['form'][$attribute] != 'unknown')
 			&& ($_SESSION['form'][$attribute] != '')) {
-		$value = trim($_SESSION['form'][$attribute]); // FIXME: escape special characters
+		$value = trim(($n < 0) ? $_SESSION['form'][$attribute] : $_SESSION['form'][$attribute][$n]); // FIXME: escape special characters
 		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_int) select $report, $entity, a.id, o.id from sahana_attributes a, sahana_attribute_options o where a.name = '$attribute' and a.id = o.attribute_id and o.name = '$value'");
 	}
+}
+
+function add_relation($entity, $related, $relation)
+{
+	mysql_query("insert into sahana_entity_relationships (entity_id, related_id, relation_type) select $entity, $related, id from sahana_entity_relationship_types where name = '$relation'");
 }
 
 ?>

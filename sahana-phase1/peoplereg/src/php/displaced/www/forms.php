@@ -237,5 +237,21 @@ function display_input_element_caption($name, $n)
 		echo get_caption($name, $_SESSION['form'][$name][$n]);
 }
 
+function backup_form_attribute($name)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$name]))
+		$_SESSION['backup']['form'][$name] = $_SESSION['form'][$name];
+}
+
+function restore_form_attribute($name)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['backup']['form'][$name]))
+		$_SESSION['form'][$name] = $_SESSION['backup']['form'][$name];
+}
+
 ?>
 

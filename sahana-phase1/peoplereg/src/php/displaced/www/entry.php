@@ -89,7 +89,8 @@ if ($_POST) {
 
 		$screen = 'confirm';
 	}
-	elseif ($_POST['confirm'] && isset($_SESSION['form']['valid'])) {
+	elseif (($_POST['confirm'] || $_POST['finish'])
+			&& isset($_SESSION['form']['valid'])) {
 		if (isset($_SESSION['form']['family_id'])) {
 			// Editing an existing record
 			// Clear all the related data
@@ -114,6 +115,18 @@ if ($_POST) {
 		store_attribute_integer($report_id, $family_id, 'num_females');
 		store_attribute_integer($report_id, $family_id, 'num_children');
 
+		$num_members = $_SESSION['form']['num_members'];
+		for ($i = 0; $i < $num_members; $i++) {
+			if (member_info_available($i)) {
+				$person_id = new_person();
+				store_attribute_string($report_id, $person_id, 'name', 1, $i);
+				store_attribute_selection($report_id, $person_id, 'status', $i);
+				store_attribute_string($report_id, $person_id, 'occupation', 1, $i);
+				store_attribute_integer($report_id, $person_id, 'income', $i);
+				add_relation($person_id, $family_id, 'family member');
+			}
+		}
+
 		store_attribute_integer($report_id, $family_id, 'other_income');
 		store_attribute_integer($report_id, $family_id, 'total_income');
 		store_attribute_string($report_id, $family_id, 'property_owned');
@@ -125,6 +138,24 @@ if ($_POST) {
 		store_attribute_integer($report_id, $family_id, 'relief_children');
 		store_attribute_string($report_id, $family_id, 'relief_period');
 		store_attribute_string($report_id, $family_id, 'remarks');
+
+		// Preserve location info across families
+		if ($_POST['confirm']) {
+			backup_form_attribute('district');
+			backup_form_attribute('division');
+			backup_form_attribute('gs_division');
+			backup_form_attribute('village');
+		}
+
+		clear_form();
+
+		// Preserve location info across families (cont... ;-))
+		if ($_POST['confirm']) {
+			restore_form_attribute('district');
+			restore_form_attribute('division');
+			restore_form_attribute('gs_division');
+			restore_form_attribute('village');
+		}
 	}
 }
 
