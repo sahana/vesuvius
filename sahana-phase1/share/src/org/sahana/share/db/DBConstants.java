@@ -33,7 +33,7 @@ public interface DBConstants {
         public static final String USER_NAME = "UserName";
 
         public static final String PASSWORD = "Password";
-          public static final String ORG_CODE = "OrgCode";
+        public static final String ORG_CODE = "OrgCode";
     }
 
     public interface District {
@@ -43,20 +43,20 @@ public interface DBConstants {
         public static final String PROV_CODE = "PROV_CODE";
     }
 
-     public interface Division {
-            public static final String TABLENAME = "CAMPS_DIVISION";
-            public static final String DIV_NAME = "DIV_NAME";
-            public static final String DIV_ID = "DIV_ID";
-            public static final String DIST_CODE = "DIST_CODE";
-        }
+    public interface Division {
+        public static final String TABLENAME = "CAMPS_DIVISION";
+        public static final String DIV_NAME = "DIV_NAME";
+        public static final String DIV_ID = "DIV_ID";
+        public static final String DIST_CODE = "DIST_CODE";
+    }
 
-     public interface Province {
+    public interface Province {
         public static final String TABLENAME = "CAMPS_PROVINCE";
         public static final String PROV_CODE = "PROV_CODE";
         public static final String PROV_NAME = "PROV_NAME";
     }
 
-     public interface MeasurementType {
+    public interface MeasurementType {
         public static final String TABLENAME = "hse_measurement_type_mst";
         public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
         public static final String MEASUREMENT_TYPE_NAME = "MEASUREMENT_TYPE_NAME";
@@ -89,22 +89,22 @@ public interface DBConstants {
         public static final String PRIORITY_DESCRIPTION = "Description";
     }
 
-   public interface Land{
-       public static final String TABLENAME = "HSE_LAND_MST";
-       public static final String LAND_ID = "LAND_ID";
-       public static final String LAND_NAME = "LAND_NAME";
-       public static final String DIVISION_ID = "DIVISION_ID";
-       public static final String DESCRIPTION = "DESCRIPTION";
-       public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
-       public static final String GPS1 = "GPS1";
-       public static final String GPS2 = "GPS2";
-       public static final String GPS3 = "GPS3";
-       public static final String GPS4 = "GPS4";
-       public static final String AREA ="AREA";
-       public static final String TERM_ID = "TERM_ID";
-       public static final String OWNED_BY_ID = "OWNED_BY_ID";
-       public static final String OWNED_BY_COMMENT = "OWNED_BY_COMMENT";
-   }
+    public interface Land{
+        public static final String TABLENAME = "HSE_LAND_MST";
+        public static final String LAND_ID = "LAND_ID";
+        public static final String LAND_NAME = "LAND_NAME";
+        public static final String DIVISION_ID = "DIVISION_ID";
+        public static final String DESCRIPTION = "DESCRIPTION";
+        public static final String MEASUREMENT_TYPE_ID = "MEASUREMENT_TYPE_ID";
+        public static final String GPS1 = "GPS1";
+        public static final String GPS2 = "GPS2";
+        public static final String GPS3 = "GPS3";
+        public static final String GPS4 = "GPS4";
+        public static final String AREA ="AREA";
+        public static final String TERM_ID = "TERM_ID";
+        public static final String OWNED_BY_ID = "OWNED_BY_ID";
+        public static final String OWNED_BY_COMMENT = "OWNED_BY_COMMENT";
+    }
 
     public interface Requestheader {
         public static final String TABLENAME = "requestheader";
@@ -143,8 +143,8 @@ public interface DBConstants {
 
         public static final String REQUEST_STATUS_DESCRIPTION = "Description";
         public static final String FULLFILL_STATUS_DESCRIPTION = "Description";
-         public static final String PRIORITY_LEVEL = "Priority";
-          public static final String REQUEST_STATUS = "Status";
+        public static final String PRIORITY_LEVEL = "Priority";
+        public static final String REQUEST_STATUS = "Status";
 
 
 
@@ -182,9 +182,9 @@ public interface DBConstants {
         public static final String FUlFILL_ID = "FulfullID";
         public static final String ORG_CODE = "OrgCode";
         public static final String REQUEST_DETAIL_ID = "RequestDetailId";
-         public static final String SERVICE_QTY = "serviceQty";
+        public static final String SERVICE_QTY = "serviceQty";
         public static final String FULLFILL_STATUS = "Status";
-         public static final String REQUEST_FULFILL_ID = "FulfullId";
+        public static final String REQUEST_FULFILL_ID = "FulfullId";
     }
 
     public interface Requeststatus {
@@ -210,6 +210,43 @@ public interface DBConstants {
     }
 
 
+
+
+
+
+    public interface Offers{
+         public static final String TABLENAME = "OFFER";
+        public static final String OFFER_ID = "OfferID";
+        public static final String OFFERING_ENTITY_TYPE = "OfferingEntityType";
+        public static final String OFFERING_ORGCODE = "OfferingOrgCode";
+        public static final String OFFERING_USERNAME = "OfferingUserName";
+        public static final String OFFERING_IND_NAME = "OfferingIndividual";
+        public static final String OFFERING_IND_CONTACT_EMAIL_ADDRESS = "OfferingIndEmail";
+        public static final String OFFERING_IND_CONTACT_ADDRESS = "OfferingIndContactAddress";
+        public static final String OFFERING_IND_CONTACT_NUMBER = "OfferingIndContactNumber";
+        public static final String ITEM = "Item";
+        public static final String CATEGORYCODE = "Category";
+        public static final String OFFER_UNIT = "Unit";
+        public static final String DESCRIPTION = "Description";
+        public static final String TIMEFRAME = "TimeFrame";
+        public static final String EQUIVALENT_VALUE = "EquivalentValue";
+        public static final String TOTAL_OFFER_QTY = "TotalOfferQuantity";
+    }
+
+      public interface OfferArea{// Offer Area table
+        public static final String TABLENAME = "Offer_Area";
+        public static final String OFFERAREA_OFFER_ID = "OfferID";
+        public static final String DIST_CODE = "TargetArea";
+        public static final String OFFER_QUANTITY = "QuantityPerTargetArea";
+      }
+
+    public interface Offerlog{
+        //Offer Log table
+        public static final String TABLENAME = "Offer_Log";
+        public static final String OFFER_LOG_USER_ID = "UserName";
+        public static final String OFFER_LOG_COMMENTS = "Comment";
+        public static final String OFFER_LOG_DATE = "Date";
+    }
     public interface SQL {
 
         public static final String SELECT = "select";
