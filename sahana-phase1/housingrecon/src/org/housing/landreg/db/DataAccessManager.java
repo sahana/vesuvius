@@ -584,7 +584,26 @@ public class DataAccessManager extends AbstractDataAccessManager{
                 while (resultSet.next()) {
                     landTO = new LandTO();
                     landTO.setLandName(resultSet.getString(DBConstants.Land.LAND_NAME));
-                     landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
+                    landTO.setArea(resultSet.getString(DBConstants.Land.AREA));
+                     landTO.setDescription(resultSet.getString(DBConstants.Land.DESCRIPTION));
+                     landTO.setDistrictId(resultSet.getString(DBConstants.District.DIST_CODE));
+                     landTO.setDistrictName(resultSet.getString(DBConstants.District.DIST_NAME));
+                     landTO.setDivisionId(resultSet.getString(DBConstants.Land.DIVISION_ID));
+                     landTO.setDivisionName(resultSet.getString(DBConstants.Division.DIV_NAME));
+                    landTO.setGPS1(resultSet.getString(DBConstants.Land.GPS1));
+                    landTO.setGPS2(resultSet.getString(DBConstants.Land.GPS2));
+                    landTO.setGPS3(resultSet.getString(DBConstants.Land.GPS3));
+                    landTO.setGPS4(resultSet.getString(DBConstants.Land.GPS4));
+                     landTO.setLandId(resultSet.getString(DBConstants.Land.LAND_ID));
+                     landTO.setMeasurementTypeId(resultSet.getString(DBConstants.Land.MEASUREMENT_TYPE_ID));
+                     landTO.setMeasurementTypeName(resultSet.getString(DBConstants.MeasurementType.MEASUREMENT_TYPE_NAME));
+                     landTO.setownedByComment(resultSet.getString(DBConstants.Land.OWNED_BY_COMMENT));
+                     landTO.setOwnedById(resultSet.getString(DBConstants.Land.OWNED_BY_ID));
+                    landTO.setOwnedByName(resultSet.getString(DBConstants.OwnedBy.OWNED_BY_NAME));
+                     landTO.setProvinceCode(resultSet.getString(DBConstants.Province.PROV_CODE));
+                     landTO.setProvinceName(resultSet.getString(DBConstants.Province.PROV_NAME));
+                     landTO.setTermId(resultSet.getString(DBConstants.Land.TERM_ID));
+                     landTO.setTermName(resultSet.getString(DBConstants.Term.DESCRIPTION));
 
                     returnSearchTOs.add(landTO);
                 }

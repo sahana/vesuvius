@@ -377,8 +377,16 @@
         <table cellspacing="2" >
             <tr>
                 <td class="tableUp">Land Name</td>
-                <td class="tableUp">Measurement</td>
-                  <td class="tableUp">Edit </td>
+                <td class="tableUp">Description</td>
+                 <td class="tableUp">Province</td>
+                <td class="tableUp">District</td>
+                 <td class="tableUp">Division</td>
+                 <td class="tableUp">Area</td>
+                 <td class="tableUp">Unit</td>
+                <td class="tableUp">Owned By</td>
+                 <td class="tableUp">Term</td>
+                <td class="tableUp">GPS Co-ordinates</td>
+                <td class="tableUp">Edit </td>
             </tr>
             <%
                 for (Iterator iterator = result.iterator(); iterator.hasNext();) {
@@ -386,7 +394,19 @@
             %>
              <tr>
                 <td class="tableDown"><a href="ViewCampDetails.jsp?campId=<%=landTO.getLandId()%>"><%=StringUtil.returnEmptyForNull(landTO.getLandName())%></a></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getDescription())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getprovinceName())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getDistrictName())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getdivisionName())%></td>
                 <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getArea())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getMeasurementTypeName())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getOwnedByName())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getTermName())%></td>
+                <td class="tableDown"><%=StringUtil.returnEmptyForNull(landTO.getGPS1())%>:&nbsp;
+                                      <%=StringUtil.returnEmptyForNull(landTO.getGPS2())%>&nbsp;&nbsp;
+                                      <%=StringUtil.returnEmptyForNull(landTO.getGPS3())%>:&nbsp;
+                                      <%=StringUtil.returnEmptyForNull(landTO.getGPS4())%></td>
+
                 <td class="tableDown"><a href="UpdateLand.jsp?campId=<%=landTO.getLandId()%>">Edit&nbsp;<%=StringUtil.returnEmptyForNull(landTO.getLandName())%></a></td>
              </tr>
             <%

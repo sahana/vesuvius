@@ -696,12 +696,51 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
     public static String getSQLForSearchCriteria(String landName, String divisionId, String ownedById, String termId , String area, String measurementTypeId) {
 
-        StringBuffer sqlBuff = new StringBuffer("select * from " + DBConstants.Land.TABLENAME );
-        boolean hasWhereClause = false;
+        StringBuffer sqlBuff = new StringBuffer("select lan."+ DBConstants.Land.LAND_ID + ", lan."
+                                +  DBConstants.Land.LAND_NAME +",lan."
+                                +  DBConstants.Land.DESCRIPTION +",lan."
+                                +  DBConstants.Land.DIVISION_ID +",lan."
+                                +  DBConstants.Land.AREA +",lan."
+                                +  DBConstants.Land.MEASUREMENT_TYPE_ID +",lan."
+                                +  DBConstants.Land.OWNED_BY_ID +",lan."
+                                +  DBConstants.Land.OWNED_BY_COMMENT +",lan."
+                                +  DBConstants.Land.TERM_ID+",lan."
+
+                                +  DBConstants.Land.GPS1 +",lan."
+                                +  DBConstants.Land.GPS2 +",lan."
+                                +  DBConstants.Land.GPS3 +",lan."
+                                +  DBConstants.Land.GPS4 +",pro."
+
+                                +  DBConstants.Province.PROV_CODE +",dis."
+                                +  DBConstants.District.DIST_CODE +",pro."
+
+                                +  DBConstants.Province.PROV_NAME +",dis."
+                                +  DBConstants.District.DIST_NAME +","+ DBConstants.Division.TABLENAME+"."
+                                +  DBConstants.Division.DIV_NAME +",ter."
+
+                                +  DBConstants.Term.DESCRIPTION +",mea."
+                                +  DBConstants.MeasurementType.MEASUREMENT_TYPE_NAME +",own."
+                                +  DBConstants.OwnedBy.OWNED_BY_NAME
+
+              +" from "
+
+              + DBConstants.Land.TABLENAME +" as lan," + DBConstants.District.TABLENAME +" as dis,"
+              + DBConstants.Division.TABLENAME +"," + DBConstants.Province.TABLENAME  +" as pro,"
+              + DBConstants.Term.TABLENAME +" as ter," + DBConstants.OwnedBy.TABLENAME  +" as own,"
+              + DBConstants.MeasurementType.TABLENAME + " as mea"
+
+              + " where lan."+DBConstants.Land.DIVISION_ID + "= "+ DBConstants.Division.TABLENAME +"."+ DBConstants.Division.DIV_ID
+              + " and "+ DBConstants.Division.TABLENAME+"."+DBConstants.Division.DIST_CODE + "= dis." + DBConstants.District.DIST_CODE
+              + " and dis."+DBConstants.District.PROV_CODE + "= pro." +DBConstants.Province.PROV_CODE
+              + " and lan."+DBConstants.Land.TERM_ID + "= ter."+DBConstants.Term.TERM_ID
+              + " and lan."+DBConstants.Land.OWNED_BY_ID + "= own." +  DBConstants.OwnedBy.OWNED_BY_ID
+              + " and lan."+DBConstants.Land.MEASUREMENT_TYPE_ID + "= mea."+DBConstants.MeasurementType.MEASUREMENT_TYPE_ID);
+
+        boolean hasWhereClause = true;
 
         try{
                  int divId  = Integer.parseInt(divisionId);
-                sqlBuff.append(" where " + DBConstants.Land.DIVISION_ID+"=" + divId + " ");
+                sqlBuff.append(" and lan." + DBConstants.Land.DIVISION_ID+"=" + divId + " ");
                  hasWhereClause = true;
         }   catch(Exception e){
 
@@ -713,7 +752,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
 
         if (landName != null  && landName!="") {
             if (hasWhereClause) {
-                sqlBuff.append(" and ");
+                sqlBuff.append(" and lan.");
             }else{
                 sqlBuff.append(" where ");
             }
@@ -728,14 +767,14 @@ public class SQLGenerator extends AbstractDataAccessManager{
             int _measurementId  = Integer.parseInt(measurementTypeId);
 
             if (hasWhereClause) {
-                sqlBuff.append(" and ");
+                sqlBuff.append(" and lan.");
             }else{
                 sqlBuff.append(" where ");
             }
             sqlBuff.append(" " + DBConstants.Land.AREA+" >= " + _area + " ");
             hasWhereClause = true;
 
-            sqlBuff.append(" and " + DBConstants.Land.MEASUREMENT_TYPE_ID+"=" + _measurementId + " ");
+            sqlBuff.append(" and lan." + DBConstants.Land.MEASUREMENT_TYPE_ID+"=" + _measurementId + " ");
             hasWhereClause = true;
 
         }   catch(Exception e){}
@@ -744,7 +783,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
             int _ownedById  = Integer.parseInt(ownedById);
 
             if (hasWhereClause) {
-                sqlBuff.append(" and ");
+                sqlBuff.append(" and lan.");
             }else{
                 sqlBuff.append(" where ");
             }
@@ -757,7 +796,7 @@ public class SQLGenerator extends AbstractDataAccessManager{
             int _termId  = Integer.parseInt(termId);
 
             if (hasWhereClause) {
-                sqlBuff.append(" and ");
+                sqlBuff.append(" and lan.");
             }else{
                 sqlBuff.append(" where ");
             }
