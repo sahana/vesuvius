@@ -316,235 +316,246 @@
                 of Origin :</td>
               <td>
               <select name="countryOfOrigin" class="selectBox">
-	<option >Afghanistan</option>
-	<option >Albania</option>
-	<option >Algeria</option>
-	<option >American Samoa</option>
-	<option >Andorra</option>
-	<option >Angola</option>
-	<option >Anguilla</option>
-	<option >Antigua and Barbuda</option>
-	<option >Argentina</option>
-	<option >Armenia</option>
-	<option >Aruba</option>
-	<option >Australia</option>
-	<option >Austria</option>
-	<option >Azerbaijan</option>
-	<option >Bahamas</option>
-	<option >Bahrain</option>
-	<option >Bangladesh</option>
-	<option >Barbados</option>
-	<option >Belarus</option>
-	<option >Belgium</option>
-	<option >Belize</option>
-	<option >Benin</option>
-	<option >Bermuda</option>
-	<option >Bhutan</option>
-	<option >Bolivia</option>
-	<option >Bosnia and Herzegowina</option>
-	<option >Botswana</option>
-	<option >Brazil</option>
-	<option >Brunei Darussalam</option>
-	<option >Bulgaria</option>
-	<option >Burkina Faso</option>
-	<option >Burundi</option>
-	<option >Cambodia</option>
-	<option >Cameroon</option>
-    <option >Canada (Eastern)</option>
-	<option >Canada (Western)</option>
-    <option >Cape Verde</option>
-	<option >Cayman Islands</option>
-	<option >Central African Republic</option>
-	<option >Chad</option>
-	<option >Chile</option>
-	<option >China</option>
-	<option >Christmas Island</option>
-	<option >Cocos (Keeling) Islands</option>
-	<option >Colombia</option>
-	<option >Comoros</option>
-	<option >Congo</option>
-	<option >Cook Islands</option>
-	<option >Costa Rica</option>
-	<option >Cote D Ivoire</option>
-	<option >Croatia (Hrvatska)</option>
-	<option >Cuba</option>
-	<option >Cyprus</option>
-	<option >Czech Republic</option>
-    <option >Denmark</option>
-	<option >Djibouti</option>
-	<option >Dominica</option>
-	<option >Dominican Republic</option>
-	<option >Ecuador</option>
-	<option >Egypt</option>
-	<option >El Salvador</option>
-	<option >Equatorial Guinea</option>
-	<option > Eritrea</option>
-	<option >Estonia</option>
-	<option >Ethiopia</option>
-	<option >Falkland (Malvinas) Islands</option>
-	<option >Faroe Islands</option>
-	<option >Fiji</option>
-    <option >Finland</option>
-    <option>France</option>
-	<option >French Guiana</option>
-	<option >French Polynesia</option>
-	<option >Gabon</option>
-	<option >Gambia</option>
-	<option >Georgia</option>
-    <option >Germany</option>
-	<option >Ghana</option>
-	<option >Gibraltar</option>
-	<option >Greece</option>
-	<option >Greenland</option>
-	<option >Grenada</option>
-	<option >Guadeloupe</option>
-	<option >GUAM</option>
-	<option >Guatemala</option>
-	<option >Guinea</option>
-	<option >Guinea-Bissau</option>
-	<option >Guyana</option>
-	<option >Haiti</option>
-	<option >Holy See (Vatican city state)</option>
-	<option >Honduras</option>
-	<option >Hong Kong</option>
-	<option >Hungary</option>
-	<option >Iceland</option>
-	<option >India</option>
-	<option >Indonesia</option>
-	<option >Iran</option>
-	<option >Iraq</option>
-	<option >Ireland</option>
-	<option >Israel</option>
-    <option >Italy</option>
-    <option >Japan</option>
-    <option >Jamaica</option>
-	<option >Jordan</option>
-	<option >Kazakhstan</option>
-	<option >Kenya</option>
-	<option >Kiribati</option>
-	<option >North korea</option>
-	<option >South korea</option>
-	<option >Kuwait</option>
-	<option >Kyrgyzstan</option>
-	<option >Laos</option>
-	<option >Latvia</option>
-	<option >Lebanon</option>
-	<option >Lesotho</option>
-	<option >Liberia</option>
-	<option >Libya</option>
-	<option >Liechtenstein</option>
-	<option >Lithuania</option>
-	<option >Luxembourg</option>
-	<option >Macau</option>
-	<option >Macedonia</option>
-	<option >Madagascar</option>
-	<option >Malawi</option>
-	<option >Malaysia</option>
-	<option >Maldives</option>
-	<option >Mali</option>
-	<option >Malta</option>
-	<option >Marshall Islands</option>
-	<option >Martinique</option>
-	<option >Mauritania</option>
-	<option >Mauritius</option>
-	<option >Mayotte</option>
-	<option >Mexico</option>
-	<option >Federated States of Micronesia</option>
-	<option >Moldova</option>
-	<option >Monaco</option>
-	<option >Mongolia</option>
-	<option >Montserrat</option>
-	<option >Morocco</option>
-	<option >Mozambique</option>
-	<option >Myanmar</option>
-	<option >Namibia</option>
-	<option >Nauru</option>
-	<option >Nepal</option>
-    <option >Netherlands</option>
-	<option >Netherlands Antilles</option>
-	<option >New Caledonia</option>
-	<option >New Zealand</option>
-	<option >Nicaragua</option>
-	<option >Niger</option>
-	<option >Nigeria</option>
-	<option >Niue</option>
-	<option >Norfolk Island</option>
-	<option >Northern Mariana Islands</option>
-    <option >Norway</option>
-	<option >Oman</option>
-	<option >Pakistan</option>
-	<option >Palau</option>
-	<option >Panama</option>
-	<option >Papua New Guinea</option>
-	<option >Paraguay</option>
-	<option >Peru</option>
-	<option >Philippines</option>
-	<option >Poland</option>
-	<option >Portugal</option>
-	<option >Puerto Rico</option>
-	<option >Qatar</option>
-	<option >Reunion</option>
-	<option >Romania</option>
-	<option >Russia</option>
-	<option >Rwanda</option>
-	<option >Saint Kitts and Nevis</option>
-	<option >Saint Lucia</option>
-	<option >Saint Vincent and Grenadines</option>
-	<option >Samoa</option>
-	<option >San Marino</option>
-	<option >Sao Tome and Principe</option>
-	<option >Saudi Arabia</option>
-	<option >Senegal</option>
-	<option >Seychelles</option>
-	<option >Sierra leone</option>
-	<option >Singapore</option>
-	<option >Slovakia</option>
-	<option >Slovenia</option>
-	<option >Solomon Islands</option>
-	<option >Somalia</option>
-	<option >South Africa</option>
-    <option >Spain</option>
-	<option selected="true" >Sri Lanka</option>
-	<option >St. Helena</option>
-	<option >St. Pierre and Miquelon</option>
-	<option >Sudan</option>
-	<option >Suriname</option>
-	<option >Svalbard and Jan Mayen Islands</option>
-	<option >Swaziland</option>
-    <option >Sweden</option>
-	<option >Switzerland</option>
-	<option >Syria</option>
-	<option >Taiwan</option>
-	<option >Tajikistan</option>
-	<option >Tanzania, United Republic of</option>
-	<option >Thailand</option>
-	<option >Togo</option>
-	<option >Tonga</option>
-	<option >Trinidad and Tobago</option>
-	<option >Tunisia</option>
-	<option >Turkey</option>
-	<option >Turkmenistan</option>
-	<option >Turks and Caicos Islands</option>
-	<option >Tuvalu</option>
-	<option >Uganda</option>
-	<option >Ukraine</option>
-	<option >United Arab Emirates</option>
-    <option>United Kingdom</option>
-    <option >United States</option>
-	<option >Uruguay</option>
-	<option >Uzbekistan</option>
-	<option >Vanuatu</option>
-	<option >Venezuela</option>
-	<option >Viet Nam</option>
-	<option >Virgin Islands (British)</option>
-	<option >Virgin Islands (U.S.)</option>
-	<option >Wallis and Futuna Islands</option>
-	<option >Western Sahara</option>
-	<option >Yemen</option>
-	<option >Yugoslavia</option>
-	<option >Zaire</option>
-	<option >Zambia</option>
-	<option >Zimbabwe</option>
+              <%
+                  String [] contry = {"Afghanistan",
+	"Albania",
+	"Algeria",
+	"American Samoa",
+	"Andorra",
+	"Angola",
+	"Anguilla",
+	"Antigua and Barbuda",
+	"Argentina",
+	"Armenia",
+	"Aruba",
+	"Australia",
+	"Austria",
+	"Azerbaijan",
+	"Bahamas",
+	"Bahrain",
+	"Bangladesh",
+	"Barbados",
+	"Belarus",
+	"Belgium",
+	"Belize",
+	"Benin",
+	"Bermuda",
+	"Bhutan",
+	"Bolivia",
+	"Bosnia and Herzegowina",
+	"Botswana",
+	"Brazil",
+	"Brunei Darussalam",
+	"Bulgaria",
+	"Burkina Faso",
+	"Burundi",
+	"Cambodia",
+	"Cameroon",
+    "Canada (Eastern)",
+	"Canada (Western)",
+    "Cape Verde",
+	"Cayman Islands",
+	"Central African Republic",
+	"Chad",
+	"Chile",
+	"China",
+	"Christmas Island",
+	"Cocos (Keeling) Islands",
+	"Colombia",
+	"Comoros",
+	"Congo",
+	"Cook Islands",
+	"Costa Rica",
+	"Cote D Ivoire",
+	"Croatia (Hrvatska)",
+	"Cuba",
+	"Cyprus",
+	"Czech Republic",
+    "Denmark",
+	"Djibouti",
+	"Dominica",
+	"Dominican Republic",
+	"Ecuador",
+	"Egypt",
+	"El Salvador",
+	"Equatorial Guinea",
+	" Eritrea",
+	"Estonia",
+	"Ethiopia",
+	"Falkland (Malvinas) Islands",
+	"Faroe Islands",
+	"Fiji",
+    "Finland",
+    "France",
+	"French Guiana",
+	"French Polynesia",
+	"Gabon",
+	"Gambia",
+	"Georgia",
+    "Germany",
+	"Ghana",
+	"Gibraltar",
+	"Greece",
+	"Greenland",
+	"Grenada",
+	"Guadeloupe",
+	"GUAM",
+	"Guatemala",
+	"Guinea",
+	"Guinea-Bissau",
+	"Guyana",
+	"Haiti",
+	"Holy See (Vatican city state)",
+	"Honduras",
+	"Hong Kong",
+	"Hungary",
+	"Iceland",
+	"India",
+	"Indonesia",
+	"Iran",
+	"Iraq",
+	"Ireland",
+	"Israel",
+    "Italy",
+    "Japan",
+    "Jamaica",
+	"Jordan",
+	"Kazakhstan",
+	"Kenya",
+	"Kiribati",
+	"North korea",
+	"South korea",
+	"Kuwait",
+	"Kyrgyzstan",
+	"Laos",
+	"Latvia",
+	"Lebanon",
+	"Lesotho",
+	"Liberia",
+	"Libya",
+	"Liechtenstein",
+	"Lithuania",
+	"Luxembourg",
+	"Macau",
+	"Macedonia",
+	"Madagascar",
+	"Malawi",
+	"Malaysia",
+	"Maldives",
+	"Mali",
+	"Malta",
+	"Marshall Islands",
+	"Martinique",
+	"Mauritania",
+	"Mauritius",
+	"Mayotte",
+	"Mexico",
+	"Federated States of Micronesia",
+	"Moldova",
+	"Monaco",
+	"Mongolia",
+	"Montserrat",
+	"Morocco",
+	"Mozambique",
+	"Myanmar",
+	"Namibia",
+	"Nauru",
+	"Nepal",
+    "Netherlands",
+	"Netherlands Antilles",
+	"New Caledonia",
+	"New Zealand",
+	"Nicaragua",
+	"Niger",
+	"Nigeria",
+	"Niue",
+	"Norfolk Island",
+	"Northern Mariana Islands",
+    "Norway",
+	"Oman",
+	"Pakistan",
+	"Palau",
+	"Panama",
+	"Papua New Guinea",
+	"Paraguay",
+	"Peru",
+	"Philippines",
+	"Poland",
+	"Portugal",
+	"Puerto Rico",
+	"Qatar",
+	"Reunion",
+	"Romania",
+	"Russia",
+	"Rwanda",
+	"Saint Kitts and Nevis",
+	"Saint Lucia",
+	"Saint Vincent and Grenadines",
+	"Samoa",
+	"San Marino",
+	"Sao Tome and Principe",
+	"Saudi Arabia",
+	"Senegal",
+	"Seychelles",
+	"Sierra leone",
+	"Singapore",
+	"Slovakia",
+	"Slovenia",
+	"Solomon Islands",
+	"Somalia",
+	"South Africa",
+    "Spain",
+	"Sri Lanka",
+	"St. Helena",
+	"St. Pierre and Miquelon",
+	"Sudan",
+	"Suriname",
+	"Svalbard and Jan Mayen Islands",
+	"Swaziland",
+    "Sweden",
+	"Switzerland",
+	"Syria",
+	"Taiwan",
+	"Tajikistan",
+	"Tanzania, United Republic of",
+	"Thailand",
+	"Togo",
+	"Tonga",
+	"Trinidad and Tobago",
+	"Tunisia",
+	"Turkey",
+	"Turkmenistan",
+	"Turks and Caicos Islands",
+	"Tuvalu",
+	"Uganda",
+	"Ukraine",
+	"United Arab Emirates",
+    "United Kingdom",
+    "United States",
+	"Uruguay",
+	"Uzbekistan",
+	"Vanuatu",
+	"Venezuela",
+	"Viet Nam",
+	"Virgin Islands (British)",
+	"Virgin Islands (U.S.)",
+	"Wallis and Futuna Islands",
+	"Western Sahara",
+	"Yemen",
+	"Yugoslavia",
+	"Zaire",
+	"Zambia",
+	"Zimbabwe"};
+	          for (int i = 0; i < contry.length; i++) {
+                  if(contry[i].equals("Sri Lanka")){
+                    %> <option selected="true" ><%=contry[i]%></option>
+                    <%
+                  }else {
+                        %> <option><%=contry[i]%></option>
+                        <%
+                  }
+              }
+         %>
               </select>
                 <font color="red">*</font></small>
                 </td>
