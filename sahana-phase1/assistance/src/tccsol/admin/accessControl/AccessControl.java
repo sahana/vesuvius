@@ -17,7 +17,7 @@ public class AccessControl
         messages = new Vector();
     }
 
-    public boolean hasAccess(long mod, long rol, String lvl, String rolNm, String opName)
+    public boolean hasAccess(long mod, long rol, String lvl, String rolNm, String opName, String usr)
     {
         Connection con = null;
         DBConnection cn = null;
@@ -49,10 +49,10 @@ public class AccessControl
                       ret = true;
                     else {
                       String str = "";
-                      if (rolNm.equalsIgnoreCase("PAGE"))
-                        str = "Access Denied: The current user role (" + rolNm + ") does not have permission to access the module";
+                      if (opName.equalsIgnoreCase("PAGE"))
+                        str = "Access Denied: The current user (" + usr + ") does not have permission to access the module";
                       else
-                        str = "Access Denied: The current user role (" + rolNm + ") does not have permission to perform the '"
+                        str = "Access Denied: The current user (" + usr + ") does not have permission to perform the '"
                                 + opName +"' operation for the current module";
                       messages.add(str);
                     }

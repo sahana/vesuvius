@@ -1,3 +1,5 @@
+<%--      Assistance Index--%>
+
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
         <jsp:useBean id="LoginBean" scope="session" class="tccsol.admin.accessControl.LoginBean"/>
         <html>
@@ -57,7 +59,6 @@
                       <tr>
                       <input name="callAction" type="submit" id="callAction" value="Log in"  class="buttons">
                       <input type="hidden" name="url" id="url" value="<%=request.getServletPath()%>">
-                      <input type="hidden" value="/Welcome.jsp" name="targetUrl" id="targetUrl">
                       </tr>
                            <!-- register link -->
                        <tr>

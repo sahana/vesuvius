@@ -1,14 +1,27 @@
 <%@ page import="tccsol.admin.accessControl.LoginBean"%>
 <%
        LoginBean bean = null;
-       String url = "";
        session = request.getSession();
        String messages = "";
+       String path = "";
+       String modNo = "";
+       String accessLvl = "";
+
        try
        {
-           //populating the bean with request data
+
+      if (request.getAttribute("modNo") != null)
+        modNo = (String)request.getAttribute("modNo");
+
+      if (request.getAttribute("accessLvl") != null)
+        accessLvl = (String)request.getAttribute("accessLvl");
+
+          if (accessLvl.equalsIgnoreCase("PAGE"))
+            session.removeAttribute("LoginBean");
+
           if (session.getAttribute("LoginBean") != null)
             bean = (LoginBean) session.getAttribute("LoginBean");
+
           if (bean == null)
             bean = new LoginBean();
 
@@ -33,19 +46,8 @@
     //Access permission check
     tccsol.admin.accessControl.AccessControl access = null;
 
-    url = "";
-    String path = "";
-    String modNo = "";
-    String accessLvl = "";
-
 //    if (request.getParameter("turl") != null)
 //        path = request.getParameter("turl").trim();
-
-    if (request.getAttribute("modNo") != null)
-        modNo = (String)request.getAttribute("modNo");
-
-    if (request.getAttribute("accessLvl") != null)
-        accessLvl = (String)request.getAttribute("accessLvl");
 
     //Access Control implementation - START
 
@@ -102,7 +104,7 @@
     //        return;
     //    }
 
-        if (access.hasAccess(mno, logb.getRoleId(), accessLvl.toUpperCase(), logb.getRoleName(), accessLvl) == false)
+        if (access.hasAccess(mno, logb.getRoleId(), accessLvl.toUpperCase(), logb.getRoleName(), accessLvl, logb.getUserName()) == false)
         {
             if (access.getMessages().size() > 0)
                 messages = (String)access.getMessages().elementAt(0);

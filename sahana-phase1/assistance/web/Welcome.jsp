@@ -1,3 +1,4 @@
+<%--ASSISTANCE WELCOME--%>
 <%@ page import="org.assistance.db.DataAccessManager,
                  org.assistance.model.User,
                  org.assistance.Constants"%>

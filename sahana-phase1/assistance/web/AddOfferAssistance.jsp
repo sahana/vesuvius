@@ -58,6 +58,7 @@
       boolean readOnly = false;
       LoginBean lbean = (LoginBean)session.getAttribute("LoginBean");
       User loginUser = new  User(lbean.getUserName(),lbean.getOrgId());
+      loginUser.setOrganization(lbean.getOrgName());
 //      User loginUser = (User) request.getSession().getAttribute(Constants.USER_INFO);
           if (loginUser==null){
               request.getSession().setAttribute(Constants.ERROR_DESCRIPTION, "User not authenticated!");

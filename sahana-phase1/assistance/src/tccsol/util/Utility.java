@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import tccsol.sql.DBConnection;
 import tccsol.hris.SystemException;
-import tccsol.hris.BusinessException;
 
 public class Utility
 {
@@ -923,53 +922,7 @@ public class Utility
         }
     }
 
-    public  static String findEmpNic(String empId) throws SystemException,BusinessException{
-
-        DBConnection dbconn = null;
-        Connection conn = null;
-        Statement s=null;
-        ResultSet rs=null;
-        String empNic=null;
-        String sql = "select EMPNIC from TBLPERSONALINFORMATION where EMPID='"
-                +empId+"'";
-        try {
-            dbconn = new DBConnection();
-            conn = dbconn.getConnection();
-            s = conn.createStatement();
-            rs = s.executeQuery(sql);
-
-            if(rs.next()){
-                empNic=rs.getString(1);
-            }
-            else{
-                throw new BusinessException("EMP No not found");
-            }
-            rs.close();
-        }catch(SQLException ex){
-            throw new SystemException(ex.getMessage());
-        }
-
-        finally{
-            try {
-                if(s!=null){
-                    s.close();
-                }
-                if(dbconn!=null){
-                    dbconn.closeConnection();
-                    conn=null;
-                }
-
-            }catch(SQLException ex){}
-        }
-
-        if(empNic==null){
-            throw new BusinessException("EMP No not found");
-        }
-        return empNic;
-    }
-
-
-    public static Date getDateWithTime(java.util.Date date,String time) throws SystemException
+      public static Date getDateWithTime(java.util.Date date,String time) throws SystemException
     {
         try
         {
