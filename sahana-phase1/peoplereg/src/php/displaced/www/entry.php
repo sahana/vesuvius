@@ -41,10 +41,13 @@ if ($_POST) {
 		// Submit button pressed from the first screen
 		// Capture form data into the session
 
+		// Family ID if editing an existing record
+		capture_input_string('family_id');
+
 		// Common information
 		capture_input_string('district');
 		capture_input_string('division');
-		capture_input_string('grama');
+		capture_input_string('gs_division');
 		capture_input_string('village');
 
 		// General family information
@@ -76,13 +79,59 @@ if ($_POST) {
 		capture_input_string('relief_period');
 		capture_input_string('remarks');
 
-		// Confirmation screen is to be displayed
+		// At this point, the input has to be validated
+		// Confirmation screen is to be displayed ONLY if
+		// validation goes through!
+
+		// unset($_SESSION['form']['valid']);
+		// Validate the form
+		$_SESSION['form']['valid'] = 1;
+
 		$screen = 'confirm';
+	}
+	elseif ($_POST['confirm'] && isset($_SESSION['form']['valid'])) {
+		if (isset($_SESSION['form']['family_id'])) {
+			// Editing an existing record
+			// Clear all the related data
+			$family_id = $_SESSION['form']['family_id'];
+		}
+		else {
+			// Create a new family entity
+			$family_id = new_family();
+		}
+
+		// Each data entry is called a report
+		$report_id = new_report();
+
+		store_attribute_selection($report_id, $family_id, 'district');
+		store_attribute_string($report_id, $family_id, 'division');
+		store_attribute_string($report_id, $family_id, 'gs_division');
+		store_attribute_string($report_id, $family_id, 'village');
+
+		store_attribute_integer($report_id, $family_id, 'family_serial_no');
+		store_attribute_string($report_id, $family_id, 'address');
+		store_attribute_integer($report_id, $family_id, 'num_males');
+		store_attribute_integer($report_id, $family_id, 'num_females');
+		store_attribute_integer($report_id, $family_id, 'num_children');
+
+		store_attribute_integer($report_id, $family_id, 'other_income');
+		store_attribute_integer($report_id, $family_id, 'total_income');
+		store_attribute_string($report_id, $family_id, 'property_owned');
+		store_attribute_integer($report_id, $family_id, 'property_value');
+
+		store_attribute_string($report_id, $family_id, 'current_location');
+		store_attribute_string($report_id, $family_id, 'current_camp');
+		store_attribute_integer($report_id, $family_id, 'relief_adults');
+		store_attribute_integer($report_id, $family_id, 'relief_children');
+		store_attribute_string($report_id, $family_id, 'relief_period');
+		store_attribute_string($report_id, $family_id, 'remarks');
 	}
 }
 
 // Display data entry screen
 if ($screen == 'entry') {
+	// Newly enterred data - not valid
+	unset($_SESSION['form']['valid']);
 
 ?>
 	<h2>Family Details Entry Form</h2>
@@ -97,7 +146,7 @@ if ($screen == 'entry') {
 			</tr>
 			<tr>
 				<td>Grama Niladhari's Division:</td>
-				<td><? show_input_text('grama'); ?></td>
+				<td><? show_input_text('gs_division'); ?></td>
 				<td>Village:</td>
 				<td><? show_input_text('village'); ?></td>
 			</tr>
@@ -213,7 +262,7 @@ elseif ($screen == 'confirm') {
 			</tr>
 			<tr>
 				<td>Grama Niladhari's Division:</td>
-				<td><? display_input('grama'); ?></td>
+				<td><? display_input('gs_division'); ?></td>
 				<td>Village:</td>
 				<td><? display_input('village'); ?></td>
 			</tr>

@@ -10,4 +10,74 @@ function get_caption($attribute, $option)
 	return ($row = mysql_fetch_array($rows)) ?  $row[0] : 'Unknown';
 }
 
+function new_family()
+{
+	return new_entity('family');
+}
+
+function new_person()
+{
+	return new_entity('person');
+}
+
+function new_entity($type)
+{
+	mysql_query("insert into sahana_entities (entity_type) select id from sahana_entity_types where name = '$type'")
+		or die('Database error');
+	$rows = mysql_query('select last_insert_id()')
+		or die('Database error');
+	if ($row = mysql_fetch_array($rows)) return $row[0];
+	die('Database error');
+}
+
+function new_report()
+{
+	// FIXME: get validity by looking at the UID
+	//$validity = $my->id ? 1 : 0;
+	$validity = 0;
+	$date = date('Y-m-d H:i:s');
+	$uid = 0;
+	mysql_query("insert into sahana_reports (user_id, dtime, validity) values ($uid, '$date', $validity)")
+		or die('Database error');
+	$rows = mysql_query('select last_insert_id()')
+		or die('Database error');
+	if ($row = mysql_fetch_array($rows)) return $row[0];
+	die('Database error');
+}
+
+function store_attribute_string($report, $entity, $attribute, $index = 0)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$attribute])
+			&& ($_SESSION['form'][$attribute] != 'unknown')
+			&& ($_SESSION['form'][$attribute] != '')) {
+		$value = trim($_SESSION['form'][$attribute]); // FIXME: escape special characters
+		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_string) select $report, $entity, id, '$value' from sahana_attributes where name='$attribute'");
+	}
+	// Do indexing if $index is set
+}
+
+function store_attribute_integer($report, $entity, $attribute)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$attribute])) {
+		$value = intval(trim($_SESSION['form'][$attribute]));
+		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_int) select $report, $entity, id, $value from sahana_attributes where name='$attribute'");
+	}
+}
+
+function store_attribute_selection($report, $entity, $attribute)
+{
+	global $_SESSION;
+
+	if (isset($_SESSION['form'][$attribute])
+			&& ($_SESSION['form'][$attribute] != 'unknown')
+			&& ($_SESSION['form'][$attribute] != '')) {
+		$value = trim($_SESSION['form'][$attribute]); // FIXME: escape special characters
+		mysql_query("insert into sahana_attribute_values (report_id, entity, attribute_id, value_int) select $report, $entity, a.id, o.id from sahana_attributes a, sahana_attribute_options o where a.name = '$attribute' and a.id = o.attribute_id and o.name = '$value'");
+	}
+}
+
 ?>
