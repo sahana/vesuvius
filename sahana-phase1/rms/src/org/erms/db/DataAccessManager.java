@@ -14,9 +14,13 @@ package org.erms.db;
 
 
 import org.erms.business.*;
+import org.erms.util.OrderedMap;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -30,93 +34,85 @@ import java.util.*;
  */
 
 public class DataAccessManager {
-    private static Collection allDistricts = null;
-    private static Collection allCategories = null;
-    private static Collection allPriorities = null;
-    private static Collection allFulfillStatuses = null;
-    private static Collection allSearchStatuses = null;
+    private static OrderedMap allDistricts = null;
+    private static OrderedMap allCategories = null;
+    private static OrderedMap allPriorities = null;
+    private static OrderedMap allFulfillStatuses = null;
+    private static OrderedMap allSearchStatuses = null;
 
-    private static Collection allSiteTypes = null;
-    private static HashMap  allSiteMap = new HashMap();
-
+    private static OrderedMap allSiteMap = null;
 
 
-
-    public DataAccessManager() {
+    public DataAccessManager() throws Exception {
+        this.allSiteMap = loadAllSiteTypes();
+        allCategories = loadAllCategories();
+        System.out.println(allCategories);
+        allSearchStatuses = loadAllSearchStatuses();
+        allPriorities = loadAllPriorities();
+        allDistricts = loadAllDistricts();
+        allFulfillStatuses = loadAllStatuses();
     }
 
-    public Collection getAllSiteTypes()throws SQLException,Exception{
-        if(allSiteTypes == null){
-            allSiteTypes = new ArrayList();
-            Connection conn = DBConnection.createConnection();
-            Statement s = null;
-            ResultSet rs = null;
+    private OrderedMap loadAllSiteTypes() throws SQLException, Exception {
+        allSiteMap = new OrderedMap();
+        Connection conn = DBConnection.createConnection();
+        Statement s = null;
+        ResultSet rs = null;
 
-            try {
+        try {
 
-                String sql = SQLGenerator.getSQLForAllSites();
+            String sql = SQLGenerator.getSQLForAllSites();
 
-                s = conn.createStatement();
+            s = conn.createStatement();
 
-                rs = s.executeQuery(sql);
-
-
-                String itemCode = null;
-
-                String itemName = null;
-
-                KeyValueDTO dto = null;
+            rs = s.executeQuery(sql);
 
 
-                while (rs.next()) {
+            String itemCode = null;
 
-                    itemCode = rs.getString(DBConstants.TableSiteType.SITE_TYPE_CODE);
+            String itemName = null;
 
-                    itemName = rs.getString(DBConstants.TableSiteType.SITE_TYPE);
-                    allSiteMap.put(itemCode,itemName);
+            KeyValueDTO dto = null;
 
-                    dto = new KeyValueDTO();
 
-                    dto.setDbTableCode(itemCode);
+            while (rs.next()) {
 
-                    dto.setDisplayValue(itemName);
+                itemCode = rs.getString(DBConstants.TableSiteType.SITE_TYPE_CODE);
 
-                    allSiteTypes.add(dto);
-
-                }
-
-            } finally {
-
-                closeConnections(conn,s,rs);
-
+                itemName = rs.getString(DBConstants.TableSiteType.SITE_TYPE);
+                allSiteMap.put(itemCode, itemName);
             }
+
+        } finally {
+
+            closeConnections(conn, s, rs);
+
         }
-        return allSiteTypes;
+        return allSiteMap;
+    }
+
+
+    public Collection getAllSiteTypes() throws SQLException, Exception {
+        return allSiteMap.getValuesInOrder();
     }
 
 
     public Collection getAllCategories() throws SQLException, Exception {
-        if (allCategories == null) {
-            allCategories = loadAllCategories();
-        }
-        return allCategories;
+        return allCategories.getValuesInOrder();
 
     }
 
     public Collection getAllSearchStatuses() throws SQLException, Exception {
-        if (allSearchStatuses == null) {
-            allSearchStatuses = loadAllSearchStatuses();
-        }
-        return allSearchStatuses;
+        return allSearchStatuses.getValuesInOrder();
 
     }
 
-    private static Collection loadAllCategories() throws SQLException, Exception {
+    private static OrderedMap loadAllCategories() throws SQLException, Exception {
 
 
         Connection conn = DBConnection.createConnection();
 
-        List categoryDTOs = new ArrayList();
+        OrderedMap categoryDTOs = new OrderedMap();
         Statement s = null;
         ResultSet rs = null;
 
@@ -142,22 +138,12 @@ public class DataAccessManager {
 
                 itemName = rs.getString(DBConstants.TableColumns.CAT_DESCRIPTION);
 
-                dto = new KeyValueDTO();
-
-                dto.setDbTableCode(itemCode);
-
-                dto.setDisplayValue(itemName);
-
-                categoryDTOs.add(dto);
-
+                categoryDTOs.put(itemCode, itemName);
             }
 
         } finally {
-
-            closeConnections(conn,s,rs);
-
+            closeConnections(conn, s, rs);
         }
-
 
         return categoryDTOs;
 
@@ -165,20 +151,16 @@ public class DataAccessManager {
 
 
     public Collection getAllPriorities() throws SQLException, Exception {
-        if (allPriorities == null) {
-            allPriorities = loadAllPriorities();
-        }
-
-        return allPriorities;
+        return allPriorities.getValuesInOrder();
 
     }
 
 
-    private Collection loadAllPriorities() throws SQLException, Exception {
+    private OrderedMap loadAllPriorities() throws SQLException, Exception {
 
         Connection conn = DBConnection.createConnection();
 
-        List priorityDTOs = new ArrayList();
+        OrderedMap priorityDTOs = new OrderedMap();
 
         Statement s = null;
         ResultSet rs = null;
@@ -204,18 +186,12 @@ public class DataAccessManager {
 
                 itemName = rs.getString(DBConstants.TableColumns.PRIORITY_DESCRIPTION);
 
-                dto = new KeyValueDTO();
-
-                dto.setDbTableCode(itemCode);
-
-                dto.setDisplayValue(itemName);
-
-                priorityDTOs.add(dto);
+                priorityDTOs.put(itemCode, itemName);
 
             }
 
         } finally {
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
         }
 
         return priorityDTOs;
@@ -432,7 +408,7 @@ public class DataAccessManager {
             }
 
         } finally {
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
         }
 
 
@@ -442,21 +418,18 @@ public class DataAccessManager {
 
 
     public Collection getAllDistricts() throws SQLException, Exception {
-        if (allDistricts == null) {
-            allDistricts = loadAllDistricts();
-        }
-        return allDistricts;
+        return allDistricts.getValuesInOrder();
 
     }
 
 
-    private Collection loadAllDistricts() throws SQLException, Exception {
+    private OrderedMap loadAllDistricts() throws SQLException, Exception {
 
         Connection conn = DBConnection.createConnection();
 
-        List districtDTOs = new ArrayList();
+        OrderedMap districtDTOs = new OrderedMap();
 
-        Statement s  = null;
+        Statement s = null;
         ResultSet rs = null;
 
         try {
@@ -480,19 +453,13 @@ public class DataAccessManager {
 
                 itemName = rs.getString(DBConstants.TableColumns.DISTRICT_NAME);
 
-                dto = new KeyValueDTO();
-
-                dto.setDbTableCode(itemCode);
-
-                dto.setDisplayValue(itemName);
-
-                districtDTOs.add(dto);
+                districtDTOs.put(itemCode, itemName);
 
             }
 
         } finally {
 
-            closeConnections(conn,s, rs);
+            closeConnections(conn, s, rs);
 
         }
 
@@ -503,16 +470,13 @@ public class DataAccessManager {
 
 
     public Collection getAllStatuses() throws SQLException, Exception {
-        if (allFulfillStatuses == null) {
-            allFulfillStatuses = loadAllStatuses();
-        }
-        return allFulfillStatuses;
+        return allFulfillStatuses.getValuesInOrder();
 
     }
 
-    private Collection loadAllSearchStatuses() throws SQLException, Exception {
+    private OrderedMap loadAllSearchStatuses() throws SQLException, Exception {
         Connection conn = DBConnection.createConnection();
-        List statusDTOs = new ArrayList();
+        OrderedMap statusDTOs = new OrderedMap();
 
         Statement s = null;
         ResultSet rs = null;
@@ -526,23 +490,20 @@ public class DataAccessManager {
             while (rs.next()) {
                 itemCode = rs.getString(DBConstants.TableColumns.REQUEST_STATUS);
                 itemName = rs.getString(DBConstants.TableColumns.REQUEST_STATUS_DESCRIPTION);
-                dto = new KeyValueDTO();
-                dto.setDbTableCode(itemCode);
-                dto.setDisplayValue(itemName);
-                statusDTOs.add(dto);
+                statusDTOs.put(itemCode, itemName);
             }
         } finally {
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
         }
         return statusDTOs;
     }
 
 
-    private Collection loadAllStatuses() throws SQLException, Exception {
+    private OrderedMap loadAllStatuses() throws SQLException, Exception {
 
         Connection conn = DBConnection.createConnection();
 
-        List statusDTOs = new ArrayList();
+        OrderedMap statusDTOs = new OrderedMap();
 
         Statement s = null;
         ResultSet rs = null;
@@ -575,13 +536,13 @@ public class DataAccessManager {
 
                 dto.setDisplayValue(itemName);
 
-                statusDTOs.add(dto);
+                statusDTOs.put(itemCode, itemName);
 
             }
 
         } finally {
 
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
 
         }
 
@@ -618,7 +579,7 @@ public class DataAccessManager {
         try {
             String sql = SQLGenerator.getSQLGetRequestDetail(requestDetailID);
 
-            System.out.print("SQL QUARY       %%%%%%%%%%%%%%%%%%%%%% "+sql);
+            System.out.print("SQL QUARY       %%%%%%%%%%%%%%%%%%%%%% " + sql);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
 
@@ -641,7 +602,7 @@ public class DataAccessManager {
 
                 //set the category name
                 //TODO there should be a better way to do that
-                Iterator it = allCategories.iterator();
+                Iterator it = allCategories.getValuesInOrder().iterator();
                 while (it.hasNext()) {
                     KeyValueDTO keypair = (KeyValueDTO) it.next();
                     if (requestDetailTO.getCategory().equals(keypair.getDbTableCode())) {
@@ -672,8 +633,8 @@ public class DataAccessManager {
 
                 requestTO.setRequestDetails(requestDetailTOs);
                 reqInfo.setRequest(requestTO);
-            }else{
-                throw new RuntimeException("A RequetDetailInfo with ID= \'"+requestDetailID + "\' Does not exists ");
+            } else {
+                throw new RuntimeException("A RequetDetailInfo with ID= \'" + requestDetailID + "\' Does not exists ");
             }
 
 
@@ -812,7 +773,7 @@ public class DataAccessManager {
 
     public void fulfillRequest(RequestFulfillDetailTO fullFillment,
                                Collection oldFullFillment,
-                               Collection newFullFillment, String status,String reqDetailID) throws Exception {
+                               Collection newFullFillment, String status, String reqDetailID) throws Exception {
 
         //validate this
         if (fullFillment != null) {
@@ -869,7 +830,7 @@ public class DataAccessManager {
                         System.out.println("After commit");
                     }
                 }
-                if (status!= null) {
+                if (status != null) {
                     String sqlreqStatusChangeStatement = SQLGenerator.getSQLupdateRequestStatus();
                     System.out.println(sqlreqStatusChangeStatement);
                     PreparedStatement reqStatusChangeStatement = connection.prepareStatement(sqlreqStatusChangeStatement);
@@ -907,12 +868,12 @@ public class DataAccessManager {
     }
 
 
-    private String ususalWildcard2SQLWildCard(String whildCard){
-        if(whildCard == null){
+    private String ususalWildcard2SQLWildCard(String whildCard) {
+        if (whildCard == null) {
             return null;
         }
-        whildCard = whildCard.replace('*','%');
-        whildCard = whildCard.replace('?','_');
+        whildCard = whildCard.replace('*', '%');
+        whildCard = whildCard.replace('?', '_');
         return whildCard;
     }
 
@@ -1253,8 +1214,8 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
         Connection conn = DBConnection.createConnection();
 
 
-         Statement s = null;
-         ResultSet rs = null;
+        Statement s = null;
+        ResultSet rs = null;
 
         try {
 
@@ -1285,7 +1246,7 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
 
         } finally {
 
-            closeConnections(conn,s,rs);
+            closeConnections(conn, s, rs);
 
         }
 
@@ -1327,14 +1288,25 @@ preparedStatement.setDate(18, searchCriteria.getRequestDateTo());
 
         } finally {
 
-            closeConnections(conn,ps,rs);
+            closeConnections(conn, ps, rs);
         }
 
     }
 
 
-    public String getSiteTypeName(String siteTypeCode){
-         return (String)allSiteMap.get(siteTypeCode);
+    public String getPriorityName(String key) {
+        return (String) allPriorities.get(key);
+
+    }
+
+    public String getCategoryName(String code) {
+        return (String) allCategories.get(code);
+
+    }
+
+
+    public String getSiteTypeName(String siteTypeCode) {
+        return (String) allSiteMap.get(siteTypeCode);
     }
 }
 

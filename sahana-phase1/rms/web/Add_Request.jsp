@@ -511,11 +511,11 @@ off&nbsp;&nbsp;&nbsp;&nbsp;</font></a></td>
         tempRequestDetailDto =(RequestDetailTO) iterator.next();
 %>
 <tr>
-<td class="tableDown"><%=tempRequestDetailDto.getCategory()%></td>
+<td class="tableDown"><%=dam.getCategoryName(tempRequestDetailDto.getCategory())%></td>
 <td class="tableDown" nowrap="false" width="200"  ><%=tempRequestDetailDto.getItem()%></td>
 <td class="tableDown"><%=tempRequestDetailDto.getUnit()%></td>
 <td class="tableDown"><%=tempRequestDetailDto.getQuantity()%></td>
-<td class="tableDown"><%=tempRequestDetailDto.getPriority()%></td>
+<td class="tableDown"><%=dam.getPriorityName(tempRequestDetailDto.getPriority())%></td>
 </tr>
         <%
     }

@@ -71,7 +71,7 @@ public class DBConnection {
 
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         DataAccessManager dataAccessManager = new DataAccessManager();
         RequestSearchCriteriaTO rqs = new RequestSearchCriteriaTO();
         rqs.setCategory("");

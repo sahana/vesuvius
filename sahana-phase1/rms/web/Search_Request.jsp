@@ -419,12 +419,12 @@ while (iterator.hasNext()) {
 												<td class="tableDown" nowrap="true" width="120"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getItem()%></a></td>
 												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getUnits()%></a></td>
 												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getQuantity()%></a></td>
-												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getPriority()%></a></td>
+												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=dam.getPriorityName(requestSearchTO.getPriority())%></a></td>
 									     		<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getStatus()%></a></td>
 												<td class="tableDown" align="left" ><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteDistrict()%></a></td>
                                                 <td class="tableDown" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%="".equals(requestSearchTO.getSiteArea())?"&nbsp;":requestSearchTO.getSiteArea()%></a></td>
 												<td class="tableDown" align="left"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getSiteName()!=null?requestSearchTO.getSiteName():""%></a></td>
-												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=requestSearchTO.getCategory()%></a></td>
+												<td class="tableDown"><a href="Fulfill_rq.jsp?<%=ERMSConstants.REQUEST_DETAIL_ID + "=" + requestSearchTO.getRequestDetId()%>" style="text-decoration:none"><%=dam.getCategoryName(requestSearchTO.getCategory())%></a></td>
 											</tr>
 											<%}%>
 										</table>
