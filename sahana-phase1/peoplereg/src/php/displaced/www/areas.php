@@ -52,6 +52,8 @@ elseif ($_GET['t'] == 'g') {
 
 $default = isset($_GET['s']) ? stripslashes($_GET['s']) : '';
 
+echo '<option value="none" > Please select'. "\n";
+
 $rows = mysql_query("select l.name from sahana_locations l, sahana_locations lp, sahana_location_types lt where lt.name = '$type' and lt.id = lp.location_type and lp.name = '$parent' and l.parent = lp.id order by l.name");
 while ($row = mysql_fetch_array($rows)) {
 	echo '<option value="' . $row[0] . '"';
