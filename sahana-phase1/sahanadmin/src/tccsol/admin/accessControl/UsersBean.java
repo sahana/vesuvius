@@ -86,7 +86,7 @@ public class UsersBean
             }
             else {
                 try {
-                    String sql = "select * from tblroles where roleid="+this.roleId;
+                    String sql = "select * from TBLROLES where roleid="+this.roleId;
 
                     if (!conn.rowExists(sql) == true) {
                         messages.add("Role doesnt exists");
@@ -221,7 +221,7 @@ public class UsersBean
         ResultSet rs = null;
         String sql = "";
 
-        sql = "select roleid,orgcode from user u,tbluserroles ur"
+        sql = "select roleid,orgcode from user u,TBLUSERROLES ur"
                 +" where upper(u.username)=upper(ur.username) and u.username=?";
         try
         {

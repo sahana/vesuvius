@@ -36,7 +36,7 @@ public class AuditLog {
         {
          tccsol.sql.DBConnection dcon = new tccsol.sql.DBConnection();
          Connection con = dcon.getConnection();
-         PreparedStatement stat = con.prepareStatement("insert into tblAuditLog (UserName,ModuleId,AccessLevel,"
+         PreparedStatement stat = con.prepareStatement("insert into TBLAUDITLOG (UserName,ModuleId,AccessLevel,"
             + "AccessDateTime) values (?, ?, ?, ?)");
          stat.setString(1, user);
          stat.setString(2, modId);

@@ -275,7 +275,7 @@ public class RolesBean
               int co = 0;
               for (int i=0; i<users.size(); i++)
               {
-                if(conn.exists(((String)users.elementAt(i)).toUpperCase(),"tbluserroles","upper(username)")) {
+                if(conn.exists(((String)users.elementAt(i)).toUpperCase(),"TBLUSERROLES","upper(username)")) {
                   messages.add("Role already assigned for user :"+((String)users.elementAt(i)));;
                   break;
                  }

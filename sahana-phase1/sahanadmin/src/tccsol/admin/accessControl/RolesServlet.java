@@ -253,7 +253,7 @@ public class RolesServlet extends HttpServlet
                   v.add("Organization Name");
                   lbean.setTitles(v);
                   String sql= " select u.username,o.orgname from user u,organization o "
-                  + " where u.orgcode=o.orgcode and UPPER(u.username) not in (select UPPER(username) from tbluserroles "
+                  + " where u.orgcode=o.orgcode and UPPER(u.username) not in (select UPPER(username) from TBLUSERROLES "
                   + "where ROLEID = " + bean.getRoleId() + ") order by u.username ";
                   lbean.setSqlStat(sql);
                   lbean.setType("Users (Not having Role: "+bean.getRoleName()+")");
@@ -312,7 +312,7 @@ public class RolesServlet extends HttpServlet
 
                   lbean.setTitles(v);
                   String sql= " select u.username,o.orgname from user u,organization o "
-                  + " where u.orgcode=o.orgcode and upper(u.username) in  (select upper(username) from tbluserroles "
+                  + " where u.orgcode=o.orgcode and upper(u.username) in  (select upper(username) from TBLUSERROLES "
                   + "where ROLEID = " + bean.getRoleId() + ") order by u.username ";
                   lbean.setSqlStat(sql);
 

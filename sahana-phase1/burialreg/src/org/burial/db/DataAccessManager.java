@@ -3,6 +3,7 @@ package org.burial.db;
 import org.burial.business.KeyValueDTO;
 import org.burial.business.UserTO;
 import org.burial.business.BurialSiteDetailTO;
+import org.sahana.share.db.DBConnection;
 
 import java.sql.*;
 import java.util.*;
@@ -14,16 +15,12 @@ import java.util.*;
 
 public class DataAccessManager {
 
-    protected static final String dbUserName = DBConstantLoader.getDbUserName();
-    protected static final String dbPassword = DBConstantLoader.getDbPassword();
-    protected static final String dbURLConnectionString = DBConstantLoader.getDbUrl();
-    protected static final String dbDriver = DBConstantLoader.getDbDriver();
+
     protected static DataAccessManager instance = null;
 
     protected final HashMap districtMap = new HashMap();
     protected final HashMap divisionMap = new HashMap();
     protected final HashMap provinceMap = new HashMap();
-
 
     protected final ArrayList districts = new ArrayList();
     protected final ArrayList divsions = new ArrayList();

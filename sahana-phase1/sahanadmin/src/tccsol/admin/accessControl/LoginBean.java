@@ -37,8 +37,8 @@ public class LoginBean
         boolean ret = false;
         messages.clear();
 
-        String sql = "SELECT u.username, password, o.Orgcode, OrgName, l.RoleId, RoleName FROM user u, tbluserroles r, "
-            + "tblroles l, organization o where upper(u.username) = upper(r.username) and o.Orgcode = u.Orgcode and "
+        String sql = "SELECT u.username, password, o.Orgcode, OrgName, l.RoleId, RoleName FROM user u, TBLUSERROLES r, "
+            + "TBLROLES l, organization o where upper(u.username) = upper(r.username) and o.Orgcode = u.Orgcode and "
                 + "r.RoleId = l.RoleId and upper(u.username) = ?";
 
         try

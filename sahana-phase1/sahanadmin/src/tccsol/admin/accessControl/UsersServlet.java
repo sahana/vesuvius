@@ -179,7 +179,7 @@ if (cAct.equals("Select Role"))
                 v.add("Role Name");
                 v.add("Role Description");
                 lbean.setTitles(v);
-                String sql= "select roleid,rolename,description from tblroles order by rolename";
+                String sql= "select roleid,rolename,description from TBLROLES order by rolename";
                 lbean.setSqlStat(sql);
 
                 lbean.setType("Roles");

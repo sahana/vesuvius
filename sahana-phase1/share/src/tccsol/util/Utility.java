@@ -483,7 +483,7 @@ public class Utility
             con = new DBConnection();
             cn = con.getConnection();
             stat = cn.createStatement();
-            res = stat.executeQuery("Select DBFORMAT, DISPLAYFORMAT from tblDateFormat");
+            res = stat.executeQuery("Select DBFORMAT, DISPLAYFORMAT from TBLDATEFORMAT");
             res.next();
             frmt[0] = res.getString(1);
             frmt[1] = res.getString(2);
