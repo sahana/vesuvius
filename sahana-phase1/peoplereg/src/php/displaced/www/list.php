@@ -8,6 +8,10 @@ session_start();
 require('forms.php');
 require('db.php');
 
+// Change this to the data entry URI
+// It NEEDS at least one (even dummy) get parameter
+$entry_url = 'http://127.0.0.1/mambo/?d=1';
+
 ?>
 <html>
 <head>
@@ -46,7 +50,7 @@ print $num_results . ' matches found.<br>';
 $bar = page_bar($page_size, $page, 'list.php', $num_results);
 print $bar;
 
-$query_real = "select e.id as id, ert.name as relation from $query order by e.id $order limit $skip, $page_size";
+$query_real = "select e.id as id, er.related_id as relation from $query order by e.id $order limit $skip, $page_size";
 $rows = mysql_query($query_real);
 print '<table width="95%" cellpadding="3" cellspacing="1" border="0">';
 print '<tr>';
@@ -77,7 +81,8 @@ while ($row = mysql_fetch_array($rows)) {
 	print '</td>';
 
 	print '<td bgcolor="#dddddd">';
-	print $row[1] ? 'have family' : '&nbsp;';
+	print $row[1] ? '<a href="' . $entry_url . '&amp;edit=1&amp;f=' .
+		$row[1] . '">Edit</a>' : '&nbsp;';
 	print '</td>';
 	print '</tr>';
 }
