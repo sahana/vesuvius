@@ -7,4 +7,6 @@ CREATE TABLE `organization_district` (
 
 ALTER TABLE organization ADD COLUMN LastUpdate varchar(100) NOT NULL;
 
+ALTER TABLE organization ADD COLUMN UntilDate varchar(100) NOT NULL;
+
 ALTER TABLE organization ADD COLUMN IsSriLankan tinyint NOT NULL;

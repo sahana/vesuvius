@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.sql.Date;
 
 
 
@@ -64,6 +65,8 @@ public class OrganizationRegistrationTO {
     private String lastUpdate;
 
     private boolean isSriLankan;
+
+    private Date periodEndDate =  new java.sql.Date(new java.util.Date().getTime());
 
     public String getLastUpdate() {
         return lastUpdate;
@@ -334,6 +337,13 @@ public class OrganizationRegistrationTO {
     }
 
 
+    public Date getPeriodEndDate() {
+        return periodEndDate;
+    }
+
+    public void setPeriodEndDate(Date periodEndDate) {
+        this.periodEndDate = periodEndDate;
+    }
 
     public List validate(boolean userNamePasswordValidate) {
 
@@ -391,6 +401,8 @@ public class OrganizationRegistrationTO {
             result.add("Country of origin  is required.");
 
         }
+
+
 
         if (userNamePasswordValidate) {
             if(isEmpty(username)){

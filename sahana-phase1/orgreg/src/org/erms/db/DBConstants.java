@@ -153,6 +153,7 @@ public interface DBConstants {
         public static final String ORG_IS_SRILANKAN = "IsSriLankan";
         public static final String ORG_TYPE = "OrgType";
         public static final String ORG_SUBTYPE = "OrgSubType";
+        public static final String ORG_UNTILDATE = "UntilDate";
         /**
          * Create Date
          */

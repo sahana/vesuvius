@@ -9,6 +9,7 @@
 
 <header>
   <title>:: Sahana ::</title>
+  <script language='javascript' src='commonControls/popupcal/popcalendar.js'></script>
   <script>
   function displayRow(){
     var orgvalue = document.tsunamiOrgReg.orgType.value;
@@ -156,6 +157,14 @@
             boolean status = false;
             String message = "";
             if(ERMSConstants.IContextInfoConstants.ACTION_ADD.equalsIgnoreCase(fromAction)){
+                String requestDateParameter = request.getParameter("periodenddate");
+                String[] dateValues = requestDateParameter.split("-");
+                Calendar cal = new GregorianCalendar(Integer.parseInt(dateValues[0]),
+                    Integer.parseInt(dateValues[1])-1,
+                    Integer.parseInt(dateValues[2])
+                );
+                java.sql.Date periodDateObj = new java.sql.Date(cal.getTime().getTime());
+                orgReg.setPeriodEndDate(periodDateObj);
                 status =dataAccessManager.addOrganization(orgReg);
                 message = "You have been successfully registered.!";
             }else if(ERMSConstants.IContextInfoConstants.ACTION_EDIT.equalsIgnoreCase(fromAction)){
@@ -760,6 +769,16 @@
                     }
 
                 %>
+            <td align="right" width="20%" class="formText">&nbsp;Period End Date</td>
+                <td colspan="4">
+                <table>
+                    <tr>
+                    <td width="16%">
+                       <input type="text" name="periodenddate" class="textBox" readonly="true" id="txtMDate1" value="<%=orgReg.getPeriodEndDate()%>" />&nbsp;<small><font color="red">*</font></small>
+                    </td>
+                        <td width="82%"><img src="images/calendar.gif" onClick="popUpCalendar(this, document.getElementById('txtMDate1'), 'yyyy-mm-dd')" width="18" height="17"/></td>
+                    </tr>
+            </table>
             <tr <%if(disable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText">User Name :</td>
                    <td>

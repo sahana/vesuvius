@@ -495,13 +495,14 @@ public class SQLGenerator {
 
             + DBConstants.TableColumns.ORG_LAST_UPDATE + ", "
 
-            + DBConstants.TableColumns.ORG_IS_SRILANKAN
+            + DBConstants.TableColumns.ORG_IS_SRILANKAN  + ", "
+            + DBConstants.TableColumns.ORG_UNTILDATE
 
             + ") "
 
             + " VALUES "
 
-            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     }
 
