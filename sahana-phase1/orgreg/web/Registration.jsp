@@ -108,14 +108,16 @@
 
     if (request.getParameter("submit") != null) {
         orgReg.setStatus("false");
+        String fromAction = request.getParameter("fromAction");
 
         boolean isSriLankan = "yes".equalsIgnoreCase(request.getParameter("isSriLankan")) ? true : false;
         orgReg.setIsSriLankan(isSriLankan);
 
-        messages.addAll(orgReg.validate());
+        messages.addAll(orgReg.validate(false));
         // get the selected working areas
         Iterator allDistrictNames = dataAccessManager.getAllDistrictNames().iterator();
 
+        orgReg.getWorkingAreas().clear();
        while (allDistrictNames.hasNext()) {
            String districtName =  (String) allDistrictNames.next();
            if ("on".equals(request.getParameter(districtName))) {
@@ -124,6 +126,7 @@
 
        }
 
+        orgReg.getSectors().clear();
         String sectorString = (String)request.getParameter("sectors");
         while(sectorString.indexOf(',') != -1){
             String sector =sectorString.substring(0, sectorString.indexOf(','));
@@ -135,7 +138,18 @@
 
 
         if (messages.size() <= 0) {
-           boolean status =dataAccessManager.addOrganization(orgReg);
+            boolean status = false;
+            String message = "";
+            if(ERMSConstants.IContextInfoConstants.ACTION_ADD.equalsIgnoreCase(fromAction)){
+                status =dataAccessManager.addOrganization(orgReg);
+                message = "You have been successfully registered.!";
+            }else if(ERMSConstants.IContextInfoConstants.ACTION_EDIT.equalsIgnoreCase(fromAction)){
+                OrganizationRegistrationTO sessionOrgReg = (OrganizationRegistrationTO) session.getAttribute(ERMSConstants.IContextInfoConstants.ORGANIZATION_TO);
+                orgReg.setOrgCode(sessionOrgReg.getOrgCode());
+               status =dataAccessManager.updateOrganization(orgReg);
+                message = "Your oraganizations information updated successfully !!";
+
+            }
 
 
 %>
@@ -143,7 +157,7 @@
  if(status) {
         %>
         <p align="center" class="formText" >
-               <h2>You have been successfully registered.!</h2>
+               <h2><%=message%></h2>
          </p>
   <%
  session.invalidate();
@@ -160,7 +174,7 @@
     } else if (request.getParameter("action") != null) {
 
             globalControlDisable = ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action);
-            response.
+            
         if(request.getParameter("orgCode") != null){
             orgReg = dataAccessManager.getOrgTO(request.getParameter("orgCode"));
             request.getSession().setAttribute(ERMSConstants.IContextInfoConstants.ORGANIZATION_TO, orgReg);
@@ -183,7 +197,7 @@
 
 
 
-    <form method="post" name="tsunamiOrgReg" action="Registration.jsp?action=<%=action%>">
+    <form method="post" name="tsunamiOrgReg" action="Registration.jsp?fromAction=<%=action%>">
           <table border="0" width="100%" cellspacing="1" cellpadding="1">
           <%
               OrganizationPageHelper helper = new OrganizationPageHelper();
@@ -215,7 +229,6 @@
 
                  <select <%if(globalControlDisable){ %>disabled="true" <%}%>  name="orgType" onchange="displayRow();" class="selectBoxes" >
                  <%
-                     System.out.println("orgReg.getOrgType() = " + orgReg.getOrgType());
                    String[] values={"Multilateral","Bilateral","NGO","Government","Private"};
                      boolean selected;
                      for (int i = 0; i < values.length; i++) {
@@ -243,8 +256,11 @@
                 boolean shouldBeDisplayedNow = "NGO".equalsIgnoreCase(orgReg.getOrgType());
                 String ngoSubType = null;
                 if (orgReg.getNgoType() != null) {
-                    ngoSubType = orgReg.getNgoType().split("-")[1];
-                    System.out.println("ngoSubType = " + ngoSubType);
+                    if(orgReg.getNgoType().indexOf("-") != -1){
+                        ngoSubType = orgReg.getNgoType().split("-")[1];
+                    }else {
+                        ngoSubType = orgReg.getNgoType();
+                    }
                 }
 
             %>
@@ -719,21 +735,27 @@
 
             <br/>
             <br/>
+                <%
+                    boolean disable = false;
+                    if(ERMSConstants.IContextInfoConstants.ACTION_EDIT.equalsIgnoreCase(action) || ERMSConstants.IContextInfoConstants.ACTION_VIEW.equalsIgnoreCase(action)){
+                        disable = true;
+                    }
 
-            <tr>
+                %>
+            <tr <%if(disable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText">User Name :</td>
                    <td>
                    <input <%if(globalControlDisable){ %>disabled="true" <%}%> name="username" type="text" class="textBox" size="20" value="<%=orgReg.getUsername()==null?"":orgReg.getUsername()%>" >&nbsp;<small><font color="red">*</font></small>
                    </td>
             </tr>
 
-            <tr <%if(globalControlDisable){ %>style="display:none" <%}%>>
+            <tr <%if(disable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText">Password :</td>
                    <td>
                    <input name="password" type="password" class="textBox" size="20" value="<%=orgReg.getPassword()==null?"":orgReg.getPassword()%>">&nbsp;<small><font color="red">*</font></small>
                   </td>
             </tr>
-             <tr <%if(globalControlDisable){ %>style="display:none" <%}%>>
+             <tr <%if(disable){ %>style="display:none" <%}%>>
                    <td align="right" vAlign="top" class="formText" >Re Enter Password :</td>
                    <td>
                    <input name="passwordRe" type="password" class="textBox" size="20"  value="<%=orgReg.getPasswordRe()==null?"":orgReg.getPasswordRe()%>">&nbsp;<small><font color="red">*</font></small>

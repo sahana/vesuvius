@@ -1054,7 +1054,7 @@ public class DataAccessManager implements DBConstants {
         try {
             connection = DBConnection.createConnection();
             connection.setAutoCommit(false);
-                                        System.out.println(SQLGenerator.getSQLEditOrganization());
+            System.out.println(SQLGenerator.getSQLEditOrganization());
             preparedStatement = connection.prepareStatement(SQLGenerator.getSQLEditOrganization());
 
             int i = 1;
@@ -1086,48 +1086,42 @@ public class DataAccessManager implements DBConstants {
             System.out.println(preparedStatement.toString());
 
 
+//
 //            String userName = org.getUsername();
 //            String password = org.getPassword();
 //
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistrationUser());
+//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationRegistrationUserUpdate(org.getOrgCode()));
 //            preparedStatement.setString(1, userName);
 //            preparedStatement.setString(2, password);
-//            preparedStatement.setString(3, code);
 //            preparedStatement.executeUpdate();
 
-            //just try to put a record to the mambo database. even If it fails move on
-//            try {
-//                MamboDataAccessManager mamboDAM = new MamboDataAccessManager();
-//                mamboDAM.addUserToMamboDatabase(org.getContactPerson(),
-//                        userName,
-//                        password,
-//                        org.getEmailAddress());
-//            } catch (Exception e) {
-//                //eat up the exception and move on
-//                e.printStackTrace();
-//            }
+            // before adding, delete existing relationships
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationWorkingAreaInfoDeletion(org.getOrgCode()));
+            preparedStatement.execute();
 
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
-//
-//            Iterator workingAreasIter = org.getWorkingAreas().iterator();
-//            while (workingAreasIter.hasNext()) {
-//                String workingArea = (String) workingAreasIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, code);
-//                preparedStatement.setString(2, workingArea);
-//                preparedStatement.executeUpdate();
-//            }
-//
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
-//
-//            Iterator sectorIter = org.getSectors().iterator();
-//            while (sectorIter.hasNext()) {
-//                String sector = (String) sectorIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, code);
-//                preparedStatement.setString(2, sector);
-//                preparedStatement.executeUpdate();
-//            }
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
+            Iterator workingAreasIter = org.getWorkingAreas().iterator();
+            while (workingAreasIter.hasNext()) {
+                String workingArea = (String) workingAreasIter.next();
+                // set the organization code
+                preparedStatement.setString(1, org.getOrgCode());
+                preparedStatement.setString(2, workingArea);
+                preparedStatement.executeUpdate();
+            }
+
+            // before adding, delete existing relationships
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectorsInfoDeletion(org.getOrgCode()));
+            preparedStatement.execute();
+
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
+            Iterator sectorIter = org.getSectors().iterator();
+            while (sectorIter.hasNext()) {
+                String sector = (String) sectorIter.next();
+                // set the organization code
+                preparedStatement.setString(1, org.getOrgCode());
+                preparedStatement.setString(2, sector);
+                preparedStatement.executeUpdate();
+            }
 
             connection.commit();
             connection.setAutoCommit(true);

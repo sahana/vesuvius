@@ -577,6 +577,17 @@ public class SQLGenerator {
 
     }
 
+    public static String getSQLForOrganizationRegistrationUserUpdate(String orgCode) {
+        return "UPDATE "
+
+            + DBConstants.Tables.USERDB
+
+            + " set "
+            + DBConstants.TableColumns.USER_NAME + "=?, "
+            + DBConstants.TableColumns.PASSWORD+ "=?";
+
+    }
+
 
     public static String getSQLForCountOrganizationName() {
 
@@ -648,5 +659,14 @@ public class SQLGenerator {
            return "select max(" + DBConstants.TableColumns.ORG_CODE + ") from " + DBConstants.Tables.ORGANIZATION;
        }
 
+    public static String getSQLForOrganizationWorkingAreaInfoDeletion(String orgCode) {
+        return "DELETE FROM "+DBConstants.Tables.ORGANIZATION_DISTRICT+
+                " WHERE " + DBConstants.TableColumns.ORGANIZATION_DISTRICT_ORG_CODE + "='" + orgCode + "'";
+    }
+
+    public static String getSQLForOrganizationSectorsInfoDeletion(String orgCode) {
+        return "DELETE FROM "+DBConstants.Tables.ORGANIZATION_SECTOR+
+                " WHERE " + DBConstants.TableColumns.ORGANIZATION_SECTOR_ORG_CODE + "='" + orgCode + "'";
+    }
 }
 

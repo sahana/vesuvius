@@ -274,6 +274,7 @@ public class OrganizationRegistrationTO {
         if(workingAreas == null){
             workingAreas = new ArrayList();
         }
+        System.out.println("workingAreas = " + workingAreas);
         return workingAreas;
 
     }
@@ -335,7 +336,7 @@ public class OrganizationRegistrationTO {
 
 
 
-    public List validate() {
+    public List validate(boolean userNamePasswordValidate) {
 
         List result = new LinkedList();
 
@@ -392,24 +393,22 @@ public class OrganizationRegistrationTO {
 
         }
 
-        if(isEmpty(username)){
-            result.add("User Name is required.");
+        if (userNamePasswordValidate) {
+            if(isEmpty(username)){
+                result.add("User Name is required.");
+            }
+            if(password==null){
+                result.add( "Password is required.");
+            }
+
+            if (passwordRe==null) {
+                result.add("Re enteredPassword is required.");
+            }
+
+            if(password!=null && !password.equals(passwordRe)) {
+                result.add("Password does not match.");
+            }
         }
-        if(password==null){
-            result.add( "Password is required.");
-        }
-
-        if (passwordRe==null) {
-            result.add("Re enteredPassword is required.");
-        }
-
-        if(password!=null && !password.equals(passwordRe)) {
-            result.add("Password does not match.");
-        }
-
-
-
-
 
 
         if (result.size() <=0) {

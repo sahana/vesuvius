@@ -27,21 +27,23 @@
     DataAccessManager dataAccessManager = new DataAccessManager();
     String password = null;
     if (request.getParameter("Submit") == null) {  //data comes from the database
-        if (request.getParameter("OrgCode") == null) {
+        if (request.getParameter("orgCode") == null) {
             response.sendRedirect("Search_org.jsp");
             return;
         }
         String orgCode = "";
-        orgCode = request.getParameter("OrgCode");
-        session.setAttribute("OrgCode",request.getParameter("OrgCode"));
+        orgCode = request.getParameter("orgCode");
+        session.setAttribute("orgCode",request.getParameter("orgCode"));
         user = dataAccessManager.getUser(orgCode);
         password = user.getPassword();
-    } else if (request.getParameter("Submit") !=null){
+    } else {
         String userName =user.getUserName();
         password = user.getPassword();
-        user = dataAccessManager.getUser((String)session.getAttribute("OrgCode"));
+        String action = (String) session.getAttribute("action");
+        System.out.println("action = " + action);
+        user = dataAccessManager.getUser((String)session.getAttribute("orgCode"));
         if (user.getPassword().equals(password) && user.getUserName().equals(userName)){
-            response.sendRedirect("Registration.jsp?orgCode" + (String)session.getAttribute("OrgCode"));
+            response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + (String)session.getAttribute("orgCode"));
          } else {
            %>
                 <h2 class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Logging.jsp">Try Again</a></font></h2>
@@ -56,7 +58,9 @@
 
 %>
 <form name="logging" action="Logging.jsp" method="post">
-
+          <%
+              session.setAttribute("action", request.getParameter("action"));
+          %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="border">
