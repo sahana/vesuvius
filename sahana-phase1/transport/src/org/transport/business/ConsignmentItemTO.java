@@ -18,6 +18,21 @@ import java.sql.Date;
  * limitations under the License.
  */
 public class ConsignmentItemTO {
+  
+    public ConsignmentItemTO(int consignmentId, String itemCode,
+       int issuedQty, String uoM, int acceptedQty, Date expDate, 
+       String conversion, String comments)
+    {
+        this.consignmentId = consignmentId;
+        this.itemCode = itemCode;
+        this.issuedQty = issuedQty;
+        this.UoM = uoM;
+        this.expDate = expDate;
+        this.acceptedQty = acceptedQty;
+        this.conversion = conversion;
+        this.comments = comments;
+    }
+  
     public String getItemCode() {
         return itemCode;
     }
