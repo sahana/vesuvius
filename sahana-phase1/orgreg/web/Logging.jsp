@@ -65,7 +65,8 @@
                 session.setAttribute("LoginBean", lbean);
                 new tccsol.admin.accessControl.AuditLog().logEntry(user.getUserName(), "4", "Login"); //Organization reg is module no. 4
                // session.setAttribute("action",ERMSConstants.IContextInfoConstants.ACTION_EDIT);
-                response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + user.getOrganization() +"&isEdit=Y");
+                response.sendRedirect("EditOrganization.jsp?action="+action+ "&orgCode=" + user.getOrganization() +"&isEdit=Y");
+              //  response.sendRedirect("Registration.jsp?action="+action+ "&orgCode=" + user.getOrganization() +"&isEdit=Y");
             } else {
            %>
                 <h2 class="formText" align="center" ><font size="2">Invalid Username / Password. Please <a href="Logging.jsp">Try Again</a></font></h2>

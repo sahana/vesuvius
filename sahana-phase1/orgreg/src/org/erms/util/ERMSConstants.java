@@ -72,26 +72,48 @@ public interface ERMSConstants {
 
     }
 
+//    public interface ERMSSectorNameConstants{
+//
+//        public static final String[] SECTORS = {"Water and Sanitation"
+//                                                , "Construction"
+//                                                , "Shelter"
+//                                                , "Infrastructure"
+//                                                , "Medical supplies and Medicine"
+//                                                , "Medical personnel"
+//                                                , "Child care"
+//                                                , "Education"
+//                                                , "Psychosocial"
+//                                                , "Empowerment"
+//                                                , "Fishing Community Support"
+//                                                , "Livelihoods"
+//                                                , "Gender based activities"
+//                                                , "Food relief"
+//                                                , "Clothes;utensils etc"
+//                                                , "Volunteers"
+//                                                , "Assesments"};
+//    }
+
     public interface ERMSSectorNameConstants{
 
-        public static final String[] SECTORS = {"Water and Sanitation"
-                                                , "Construction"
-                                                , "Shelter"
-                                                , "Infrastructure"
-                                                , "Medical supplies and Medicine"
-                                                , "Medical personnel"
-                                                , "Child care"
-                                                , "Education"
-                                                , "Psychosocial"
-                                                , "Empowerment"
-                                                , "Fishing Community Support"
-                                                , "Livelihoods"
-                                                , "Gender based activities"
-                                                , "Food relief"
-                                                , "Clothes;utensils etc"
-                                                , "Volunteers"
-                                                , "Assesments"};
+        public static final String[] SECTORS = { "Agriculture"
+                                                 , "Area Development"
+                                                 , "Communication"
+                                                 ,"Development Administration"
+                                                 , "Disaster Preparedness"
+                                                 , "Domestic Trade in Goods and Services"
+                                                 , "Economic Management"
+                                                 , "Energy"
+                                                 , "Forestry and Fisheries"
+                                                 , "Health"
+                                                 , "Humanitarian Aid and Relief"
+                                                 , "Human Resource Development"
+                                                 , "Industry"
+                                                 , "International Trade in Goods and Services"
+                                                 , "Natural Resources"
+                                                 , "Social Development and Services"
+                                                 , "Transport"};
     }
+
 
 }
 

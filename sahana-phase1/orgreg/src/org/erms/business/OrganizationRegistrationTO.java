@@ -46,8 +46,8 @@ public class OrganizationRegistrationTO {
 
     private String facilitiesAvailable;
 
-//    private ArrayList workingAreas;
-    private String workingAreas;
+    private ArrayList workingAreas;
+//    private String workingAreas;
 
     private ArrayList sectors;
 
@@ -271,40 +271,40 @@ public class OrganizationRegistrationTO {
 
     }
 
-    public String getWorkingAreas() {
-
-           return workingAreas;
-
-       }
-
-
-
-       public void setWorkingAreas(String workingAreas) {
-
-           this.workingAreas = workingAreas;
-
-       }
-
-
-//    public ArrayList getWorkingAreas() {
+//    public String getWorkingAreas() {
 //
-//        if(workingAreas == null){
-//            workingAreas = new ArrayList();
-//        }
-//        return workingAreas;
+//           return workingAreas;
 //
-//    }
+//       }
 //
 //
 //
-//    public void addWorkingArea(String areaName) {
+//       public void setWorkingAreas(String workingAreas) {
 //
-//        if(workingAreas == null){
-//            workingAreas = new ArrayList();
-//        }
-//        this.workingAreas.add(areaName);
+//           this.workingAreas = workingAreas;
 //
-//    }
+//       }
+
+
+    public ArrayList getWorkingAreas() {
+
+        if(workingAreas == null){
+            workingAreas = new ArrayList();
+        }
+        return workingAreas;
+
+    }
+
+
+
+    public void addWorkingArea(String areaName) {
+
+        if(workingAreas == null){
+            workingAreas = new ArrayList();
+        }
+        this.workingAreas.add(areaName);
+
+    }
 
 
     public ArrayList getSectors() {

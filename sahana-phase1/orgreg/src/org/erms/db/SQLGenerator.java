@@ -496,14 +496,12 @@ public class SQLGenerator {
             + DBConstants.TableColumns.ORG_LAST_UPDATE + ", "
 
             + DBConstants.TableColumns.ORG_IS_SRILANKAN  + ", "
-            + DBConstants.TableColumns.ORG_UNTILDATE    + ", "
-            + DBConstants.TableColumns.ORG_WORKING_AREAS
-
+            + DBConstants.TableColumns.ORG_UNTILDATE
             + ") "
 
             + " VALUES "
 
-            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     }
 
@@ -525,8 +523,7 @@ public class SQLGenerator {
                      DBConstants.TableColumns.ORG_COMMENTS + "=?, "+
                      DBConstants.TableColumns.ORG_LAST_UPDATE + "=?, "+
                      DBConstants.TableColumns.ORG_IS_SRILANKAN + "=?, "+
-                     DBConstants.TableColumns.ORG_UNTILDATE + "=? ,"+
-                    DBConstants.TableColumns.ORG_WORKING_AREAS + "=? "+
+                     DBConstants.TableColumns.ORG_UNTILDATE + "=? "+
 
                      " where " + DBConstants.TableColumns.ORG_CODE + "=?";
         }

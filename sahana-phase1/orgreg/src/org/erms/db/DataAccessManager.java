@@ -969,7 +969,6 @@ public class DataAccessManager implements DBConstants {
                 orgTo.setEmailAddress(rs.getString(TableColumns.ORG_EMAIL_ADDRESS));
                 orgTo.setCountryOfOrigin(rs.getString(TableColumns.ORG_COUNTRY_OF_ORIGIN));
                 orgTo.setFacilitiesAvailable(rs.getString(TableColumns.ORG_FACILITIES_AVAILABLE));
-                orgTo.setWorkingAreas(rs.getString(TableColumns.ORG_WORKING_AREAS));
                 orgTo.setComments(rs.getString(TableColumns.ORG_COMMENTS));
                 orgTo.setLastUpdate(rs.getString(TableColumns.ORG_LAST_UPDATE));
                 orgTo.setPeriodEndDate(rs.getDate(TableColumns.ORG_UNTILDATE));
@@ -983,13 +982,13 @@ public class DataAccessManager implements DBConstants {
             }
 
             // get information from organization_district table
-//            sql = SQLGenerator.getSQLForOrganizationDistrictRelationshipInfoRetrieval(orgCode);
-//            ps = conn.prepareStatement(sql);
-//            rs = ps.executeQuery();
-//
-//            while(rs.next()){
-//                orgTo.addWorkingArea(rs.getString(TableColumns.ORGANIZATION_DISTRICT_DISTRICT_NAME));
-//            }
+            sql = SQLGenerator.getSQLForOrganizationDistrictRelationshipInfoRetrieval(orgCode);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                orgTo.addWorkingArea(rs.getString(TableColumns.ORGANIZATION_DISTRICT_DISTRICT_NAME));
+            }
 
             // get information from organization_sectors table
             sql = SQLGenerator.getSQLForOrganizationSectorsRelationshipInfoRetrieval(orgCode);
@@ -1084,8 +1083,7 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setDate(12, new java.sql.Date(new java.util.Date().getTime()));
             preparedStatement.setBoolean(13, org.isSriLankan());
             preparedStatement.setDate(14, org.getPeriodEndDate());
-            preparedStatement.setString(15,org.getWorkingAreas());
-            preparedStatement.setString(16, org.getOrgCode());
+            preparedStatement.setString(15, org.getOrgCode());
             preparedStatement.execute();
 
 
@@ -1102,29 +1100,29 @@ public class DataAccessManager implements DBConstants {
             preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationWorkingAreaInfoDeletion(org.getOrgCode()));
             preparedStatement.execute();
 
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
-//            Iterator workingAreasIter = org.getWorkingAreas().iterator();
-//            while (workingAreasIter.hasNext()) {
-//                String workingArea = (String) workingAreasIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, org.getOrgCode());
-//                preparedStatement.setString(2, workingArea);
-//                preparedStatement.executeUpdate();
-//            }
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
+            Iterator workingAreasIter = org.getWorkingAreas().iterator();
+            while (workingAreasIter.hasNext()) {
+                String workingArea = (String) workingAreasIter.next();
+                // set the organization code
+                preparedStatement.setString(1, org.getOrgCode());
+                preparedStatement.setString(2, workingArea);
+                preparedStatement.executeUpdate();
+            }
 
             // before adding, delete existing relationships
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectorsInfoDeletion(org.getOrgCode()));
-//            preparedStatement.execute();
-//
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
-//            Iterator sectorIter = org.getSectors().iterator();
-//            while (sectorIter.hasNext()) {
-//                String sector = (String) sectorIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, org.getOrgCode());
-//                preparedStatement.setString(2, sector);
-//                preparedStatement.executeUpdate();
-//            }
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectorsInfoDeletion(org.getOrgCode()));
+            preparedStatement.execute();
+
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
+            Iterator sectorIter = org.getSectors().iterator();
+            while (sectorIter.hasNext()) {
+                String sector = (String) sectorIter.next();
+                // set the organization code
+                preparedStatement.setString(1, org.getOrgCode());
+                preparedStatement.setString(2, sector);
+                preparedStatement.executeUpdate();
+            }
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -1205,7 +1203,6 @@ public class DataAccessManager implements DBConstants {
             preparedStatement.setDate(13, new java.sql.Date(new java.util.Date().getTime()));
             preparedStatement.setBoolean(14, org.isSriLankan());
             preparedStatement.setDate(15, org.getPeriodEndDate());
-            preparedStatement.setString(16,org.getWorkingAreas());
             preparedStatement.executeUpdate();
 
 
@@ -1237,27 +1234,27 @@ public class DataAccessManager implements DBConstants {
                 e.printStackTrace();
             }
 
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
-//
-//            Iterator workingAreasIter = org.getWorkingAreas().iterator();
-//            while (workingAreasIter.hasNext()) {
-//                String workingArea = (String) workingAreasIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, code);
-//                preparedStatement.setString(2, workingArea);
-//                preparedStatement.executeUpdate();
-//            }
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationDistrictInsertion());
 
-//            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
-//
-//            Iterator sectorIter = org.getSectors().iterator();
-//            while (sectorIter.hasNext()) {
-//                String sector = (String) sectorIter.next();
-//                // set the organization code
-//                preparedStatement.setString(1, code);
-//                preparedStatement.setString(2, sector);
-//                preparedStatement.executeUpdate();
-//            }
+            Iterator workingAreasIter = org.getWorkingAreas().iterator();
+            while (workingAreasIter.hasNext()) {
+                String workingArea = (String) workingAreasIter.next();
+                // set the organization code
+                preparedStatement.setString(1, code);
+                preparedStatement.setString(2, workingArea);
+                preparedStatement.executeUpdate();
+            }
+
+            preparedStatement = connection.prepareStatement(SQLGenerator.getSQLForOrganizationSectors());
+
+            Iterator sectorIter = org.getSectors().iterator();
+            while (sectorIter.hasNext()) {
+                String sector = (String) sectorIter.next();
+                // set the organization code
+                preparedStatement.setString(1, code);
+                preparedStatement.setString(2, sector);
+                preparedStatement.executeUpdate();
+            }
 
             connection.commit();
             connection.setAutoCommit(true);
