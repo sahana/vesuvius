@@ -34,8 +34,10 @@ Property Fields
 
 Requirements
 ------------
-- show reports similar to http://www.cnosrilanka.org/13Jan17.html 
 - report on the trends
 - occupation classification
 - status per perons
 - for i18n purposed use abstract location hierachy
+- tmp
+
+
