@@ -1,0 +1,279 @@
+html, body
+{
+	color: black;
+	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
+	background: #fff;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+p
+{
+	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
+	text-align: justify;
+	letter-spacing: 1px;
+	margin: 0 0 0;
+	padding: 0 22px 15px;
+}
+
+h3
+{
+	text-indent: -2000px;
+	margin: 0;
+	padding: 0;
+}
+
+a
+{
+	color: #59365f;
+	text-decoration: none;
+	background-color: #ffae00;
+}
+
+a:hover
+{
+	color: #feffff;
+	text-decoration: underline;
+}
+
+#nav_bar ul li a.login
+{
+	font-size:10pt;
+	color: #9CEBDF;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	padding: 0;
+	padding:2px 2px 2px 0;
+	border-left:0;
+	border-top:0;
+	border-bottom:0;
+	text-align:center;
+}
+
+#nav_bar ul li a.login:hover
+{
+	font-size:11pt;
+	color: #EBE77C;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	padding: 0;
+	padding:2px 2px 2px 0.5em;
+	border-left:0;
+	border-top:0;
+	border-bottom:0;
+	left:20px;
+}
+
+#footer
+{
+	border-top:5px solid #369;
+	background-color:#DBDEF2;
+	padding: 5px 0 0 0;
+	position: absolute;
+	top: 900px;
+	width:770px;
+}
+
+#container
+{
+	background: #DBDEF2;
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	width: 770px;
+	height:905px;
+}
+
+#page_header
+{
+	background: url(img/logo.jpg) no-repeat 0 0;
+	text-indent: -2000px;
+	margin: 0;
+	padding: 0;
+	height: 75px;
+}
+
+#menu
+{
+	background: #0174bb;
+	position: relative;
+	border-top:0 solid #DBDEF2;
+}
+
+#menu_header
+{
+	background: transparent url(img/menu_bar.png) no-repeat;
+	position: relative;
+	height:6px;
+	border-top:10px solid #DBDEF2;
+}
+
+#menu_footer
+{
+	background: bottom transparent url(img/menu_bar_bottom.png) no-repeat;
+	position: relative;
+	height:6px;
+	padding-bottom: 30px;
+}
+
+#page_content_header
+{
+	background: transparent url(img/content.png) no-repeat;
+	position: relative;
+	height:6px;
+}
+
+#page_content_footer
+{
+	background: bottom transparent url(img/content_bottom.png) no-repeat;
+	position: relative;
+	height:6px;
+}
+
+#menu ul li {text-align:left;
+}
+
+#page_content
+{
+	background-color: #ADB7EB;
+	text-align: left;
+	margin: 82px 0 0;
+	padding: 0;
+	position: absolute;
+	top: 3px;
+	left: 240px;
+	width: 520px;
+	height: auto;
+}
+
+#page_content .title{
+	color:#369; 
+	font-size:80px;
+}
+
+#page_content p
+{
+	font-family: Verdana;
+	color:#000;
+	padding-top: 22px;
+	padding-right: 22px;
+	padding-left: 22px;
+}
+
+#nav_bar
+{
+	font-family:Verdana, Helvetica, Arial, Sans-serif;
+	font-size:0.7em;
+	font-weight:bold;
+	width:230px;
+	position:absolute;
+	top:78px;
+	margin-bottom:1em;
+}
+
+#nav_bar .menu_title
+{
+	position: relative;
+	left: -65px;
+	color: #feffff;
+	font-size: 12px;
+	font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, sans-serif;
+	text-transform: uppercase;
+	text-indent: 0;
+	letter-spacing: 1px;
+	display: block;
+	padding-top: 20px;
+	padding-left: 70px;
+	padding-bottom: 10px;
+}
+
+#nav_bar ul
+{
+	list-style:none;
+	margin: 0;
+	padding: 0;
+}
+
+#nav_bar ul li a
+{
+	margin: 0;
+	border-top: 1px solid #003;
+}
+
+#nav_bar label{
+	color: #feffff;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 15px;
+	text-decoration: none;
+	background: transparent;
+	display: block;
+	padding: 9px 0 10px 0;
+	width: auto;
+}
+
+#nav_bar ul li a
+{
+	font-size:11pt;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	padding: 9px 0 0 0;
+	width: 100%;
+	display:block;
+	padding:2px 2px 2px 0.5em;
+	border-left:10px solid #369;
+	border-bottom:1px solid #369;
+}
+
+html>body #nav_bar ul li a{
+	width:auto;
+	}
+	
+#nav_bar ul li a:hover
+{
+	border-left:10px solid #369;
+	border-bottom:1px solid #369;
+	background-color:#8B92BE;
+	color:#fff;
+	
+}
+
+#submenu {
+	font-size:11pt;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	width: 95%;
+	padding:0;
+	border-bottom:1px solid #369;
+	position:relative;
+	left:10px;
+}
+
+#submenu1 {
+	display:none;
+}
+#submenu2 {
+	display:none;
+}
+#submenu3 {
+	display:none;
+}
+#submenu4 {
+	display:none;
+}
+
+#article {
+	background: #fff;
+	padding-bottom: 30px;
+	position: absolute;
+	top: 150px;
+	left: 550px;
+	border-top:10px solid #DBDEF2;
+	width:220px;
+}

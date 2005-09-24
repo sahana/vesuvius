@@ -1,0 +1,275 @@
+/* Basic Elements */
+html, body
+{
+	color: black;
+	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
+	background: #fff;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+p
+{
+	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
+	text-align: justify;
+	letter-spacing: 1px;
+	margin: 0 0 0;
+	padding: 0 22px 15px;
+}
+
+h3
+{
+	text-indent: -2000px;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2 { display: none; }
+
+a
+{
+	color: #59365f;
+	text-decoration: none;
+	background-color: #ffae00;
+}
+
+a:hover
+{
+	color: #feffff;
+	text-decoration: underline;
+}
+
+#nav_bar ul li a.login
+{
+	font-size:10pt;
+	color: #9CEBDF;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	padding: 0;
+	padding:2px 2px 2px 0;
+	border-left:0;
+	border-top:0;
+	border-bottom:0;
+	text-align:center;
+}
+
+#nav_bar ul li a.login:hover
+{
+	font-size:11pt;
+	color: #EBE77C;
+	text-decoration: none;
+	background-color:#A1A9DB;
+	display: block;
+	padding: 0;
+	padding:2px 2px 2px 0.5em;
+	border-left:0;
+	border-top:0;
+	border-bottom:0;
+	left:20px;
+}
+
+#footer
+{
+	border-top:5px solid #8abc88;
+	background-color:#fff;
+	padding: 5px 0 0 0;
+	position: absolute;
+	top: 900px;
+	width:770px;
+}
+
+#container
+{
+	background: #fff;
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	width: 770px;
+	height:905px;
+}
+
+#page_header
+{
+	background: transparent url(img/logo.jpg) no-repeat 0 0;
+	text-indent: -2000px;
+	margin: 0;
+	padding: 0;
+	height: 75px;
+}
+
+#menu
+{
+	background: #fff;
+	position: relative;
+	border-top:0 solid #DBDEF2;
+}
+
+/*#menu_header
+{
+	background: transparent url(img/menu_bar.png) no-repeat;
+	position: relative;
+	height:6px;
+	border-top:10px solid #DBDEF2;
+}
+
+#menu_footer
+{
+	background: bottom transparent url(img/menu_bar_bottom.png) no-repeat;
+	position: relative;
+	height:6px;
+	padding-bottom: 30px;
+}
+*/
+#page_content_header
+{
+	background: transparent url(img/content2.png) no-repeat;
+	position: relative;
+	height:6px;
+}
+
+#page_content_footer
+{
+	background: bottom transparent url(img/content2_bottom.png) no-repeat;
+	position: relative;
+	height:6px;
+}
+
+#menu ul li {text-align:left;
+}
+
+#page_content
+{
+	background-color: #8abc88;
+	text-align: left;
+	margin: 82px 0 0;
+	padding: 0;
+	position: absolute;
+	top: 50px;
+	left: 10px;
+	width: 750px;
+	height: auto;
+}
+
+#page_content .title{
+	color:#369; 
+	font-size:80px;
+}
+
+#page_content p
+{
+	font-family: Verdana;
+	color:#000;
+	padding-top: 22px;
+	padding-right: 22px;
+	padding-left: 22px;
+}
+
+#nav_bar h5{
+	display:none;
+}
+
+#nav_bar ul {
+	padding:3px 0;
+	margin-left:0;
+	border-bottom:1px solid #778;
+	font: bold 12px Verdana, sans-serif;
+}
+
+#nav_bar ul li {
+	list-style:none;
+	margin:0;
+	display:inline;
+}
+
+#nav_bar ul li a{
+	padding:3px 0.5em;
+	margin-left: 3px;
+	border:1px solid #778;
+	border-bottom:none;
+	background:#d1ffcf;
+	text-decoration:none;
+	width:200;
+}
+
+#nav_bar ul li a:link{
+	color:#448;
+}
+
+#nav_bar ul li a:visited{
+	color:#667;
+}
+
+#nav_bar ul li a:link:hover, #nav_bar ul li a:visited:hover{
+	color:#000;
+	background:#8abc88;
+	border-color:#227;
+}
+
+#nav_bar ul li a#current{
+	background:white;
+	border-bottom:1px solid white;
+}
+
+#submenu {
+	font-size:11pt;
+	text-decoration: none;
+	background:none;
+	display: block;
+	width: 95%;
+	padding:0;
+	position:absolute;
+	left:200;
+	top:400;
+}
+
+#submenu1 {
+	display:none;
+	position:relative;
+	left:155px;
+	top:10px;
+	width:150px;
+	text-align:left;
+	height:75px;
+}
+
+#submenu2 {
+	display:none;
+	position:relative;
+	left:348px;
+	top:10px;
+	width:150px;
+	text-align:left;
+	height:75px;
+}
+#submenu3 {
+	display:none;
+	position:relative;
+	left:400px;
+	top:10px;
+	width:150px;
+	text-align:left;
+	height:75px;
+}
+#submenu4 {
+	display:none;
+	position:relative;
+	left:450px;
+	top:10px;
+	width:150px;
+	text-align:left;
+	height:75px;
+}	
+
+#article {
+	background: #fff;
+	padding-bottom: 30px;
+	position: absolute;
+	top: 150px;
+	left: 550px;
+	border-top:10px solid #DBDEF2;
+	width:220px;
+}
+
