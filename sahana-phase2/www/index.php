@@ -37,48 +37,56 @@ function shn_front_controller() {
     global $global;
     global $conf;
     $approot = $global['approot'];
+    $action = $global['action'];
+    $module = $global['module'];
 
     // @todo: session authentication and authorization
+    
+    // get the session information ..
+    
+    // if (shn_authorized("shn_".$module."_".$action", $user)..
+    //    change session
+    // error
+    //    call the error handler
+    // shn_modulename_err
     
     // include the html head tags
     include($approot."inc/handler_html_head.inc");
     
+    // error handler
+
+    // include the correct module file based on action and module
+    $module_file = $approot."mod/".$module."/main.inc";
+
+    if (file_exists($module_file)) {
+        include($module_file); 
+    } else {
+        include($approot."mod/home/main.inc");
+    }
+
     // include the page header provided there is not a module override
-    $module_function = "shn_".$global['module']."_header";
+    $module_function = "shn_".$module."_header";
     if (function_exists($module_function)) {
         $module_function();
     } else {
         include($approot."inc/handler_header.inc");
     }
 
-    include($approot."test/testconf.inc");
-    ?>
-   <?php
-
-
-    // include the correct module file based on action and module
-    $module_file = $approot."mod/".$global['module']."/main.inc";
-
-    if (file_exists($module_file)) {
-        @ include($module_file); 
-    } else {
-        @ include($approot."mod/home/main.inc");
-    }
-
     // compose and call the relevant module function 
-    $module_function = "shn_".$global['module']."_".$global['action'];
+    $module_function = "shn_".$module."_".$action;
     if (!function_exists($module_function)) {
-        $module_function="shn_".$global['module']."_default";
+        $module_function="shn_".$module."_default";
     }
-    $module_function(); ?>
+    $module_function(); 
         
+    include($approot."test/testconf.inc"); ?>
 
        <div id="page_content_footer"></div>
       </div>
     <?php 
 
     // include the mainmenu provided there is not a module override
-    $module_function = "shn_".$global['module']."_mainmenu";
+    $module_function = "shn_".$module."_mainmenu";
     if (function_exists($module_function)) {
         $module_function();
     } else {
@@ -86,7 +94,7 @@ function shn_front_controller() {
     }
 
     // include the footer provided there is not a module override
-    $module_function = "shn_".$global['module']."_footer";
+    $module_function = "shn_".$module."_footer";
     if (function_exists($module_function)) {
         $module_function();
     } else {
