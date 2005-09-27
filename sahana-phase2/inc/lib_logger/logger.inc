@@ -9,8 +9,8 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author     Author <pradeeper@opensource.lk>
-* @author     Author <mifan@opensource.lk>
+* @author     Pradeeper <pradeeper@opensource.lk>
+* @author     Mifan <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
