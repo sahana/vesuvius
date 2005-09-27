@@ -1,0 +1,12 @@
+/* 
+Sahana Mobile Stylesheet 
+----------------------------------------------------------------------------------- */
+
+* {
+	position: static !important;
+	float: none !important;
+      font: Arial, Helvetica, sans-serif;
+      color: #000 !important;
+	background: #FFF !important;
+}
+
