@@ -1,279 +1,146 @@
-html, body
-{
-	color: black;
-	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
-	background: #fff;
-	text-align: center;
-	margin: 0;
-	padding: 0;
+/* 
+Sahana Stylesheet 
+-----------------------------------------------------------------------------------
+
+Structure
+---------
+
+0.) Generic Styles
+1.) Container
+2.) Header (=header)
+3.) Wrapper (=wrapper)
+4.) Content (=content)
+5.) Nav (=nav)
+6.) Footer (=footer)
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- */
+
+/* Neutralize styling: 
+   Elements we want to clean out entirely: */
+html, body, form, fieldset {
+        margin: 0;
+        padding: 0;
+        font: 90%/125% Arial, Helvetica, sans-serif;
 }
 
-p
-{
-	font: 11px/16px "trebuchet ms", arial, helvetica, sans;
-	text-align: justify;
-	letter-spacing: 1px;
-	margin: 0 0 0;
-	padding: 0 22px 15px;
+/* Neutralize styling: 
+   Elements with a vertical margin: */
+h1, h2, h3, h4, h5, h6, p, pre,
+blockquote, ul, ol, dl, address {
+        margin: 0 0 1em 0;
+        padding: 0;
 }
 
-h3
-{
-	text-indent: -2000px;
-	margin: 0;
-	padding: 0;
+/* Apply left margin:
+   Only to the few elements that need it: */
+li, dd, blockquote {
+        margin-left: 1em;
 }
 
-a
-{
-	color: #59365f;
-	text-decoration: none;
-	background-color: #ffae00;
+/* Clear floats without structural markup */
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
 }
 
-a:hover
-{
-	color: #feffff;
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
+/* Miscellaneous conveniences: */
+body {
+	color: #000;
+	background: #FFF;
+}
+
+form label {
+        cursor: pointer;
+}
+
+fieldset {
+        border: none;
+}
+
+input, select, textarea {
+        font-size: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.mini {
+	font-size: 80%;
+}
+
+/* Links should ALWAYS be unvisited */
+a {
+	color: #039;
 	text-decoration: underline;
 }
 
-#nav_bar ul li a.login
-{
-	font-size:10pt;
-	color: #9CEBDF;
+a:hover {
+	color: #C00;
 	text-decoration: none;
-	background-color:#A1A9DB;
-	display: block;
-	padding: 0;
-	padding:2px 2px 2px 0;
-	border-left:0;
-	border-top:0;
-	border-bottom:0;
-	text-align:center;
+	background-color: #FFC;
 }
 
-#nav_bar ul li a.login:hover
-{
-	font-size:11pt;
-	color: #EBE77C;
-	text-decoration: none;
-	background-color:#A1A9DB;
-	display: block;
-	padding: 0;
-	padding:2px 2px 2px 0.5em;
-	border-left:0;
-	border-top:0;
-	border-bottom:0;
-	left:20px;
+/* Now to layout elements... */
+
+#container {
 }
 
-#footer
-{
-	border-top:5px solid #369;
-	background-color:#DBDEF2;
-	padding: 5px 0 0 0;
-	position: absolute;
-	top: 900px;
-	width:770px;
+#header {
+	border-bottom: #996 5px solid;
+	padding: 0 1em;
+	background-color: #666;
 }
 
-#container
-{
-	background: #DBDEF2;
-	display: block;
-	margin: 0 auto;
-	padding: 0;
-	position: relative;
-	width: 770px;
-	height:905px;
-}
-
-#page_header
-{
-	background: url(img/logo.jpg) no-repeat 0 0;
-	text-indent: -2000px;
-	margin: 0;
-	padding: 0;
-	height: 75px;
-}
-
-#menu
-{
-	background: #0174bb;
-	position: relative;
-	border-top:0 solid #DBDEF2;
-}
-
-#menu_header
-{
-	background: transparent url(img/menu_bar.png) no-repeat;
-	position: relative;
-	height:6px;
-	border-top:10px solid #DBDEF2;
-}
-
-#menu_footer
-{
-	background: bottom transparent url(img/menu_bar_bottom.png) no-repeat;
-	position: relative;
-	height:6px;
-	padding-bottom: 30px;
-}
-
-#page_content_header
-{
-	background: transparent url(img/content.png) no-repeat;
-	position: relative;
-	height:6px;
-}
-
-#page_content_footer
-{
-	background: bottom transparent url(img/content_bottom.png) no-repeat;
-	position: relative;
-	height:6px;
-}
-
-#menu ul li {text-align:left;
-}
-
-#page_content
-{
-	background-color: #ADB7EB;
-	text-align: left;
-	margin: 82px 0 0;
-	padding: 0;
-	position: absolute;
-	top: 3px;
-	left: 240px;
-	width: 520px;
-	height: auto;
-}
-
-#page_content .title{
-	color:#369; 
-	font-size:80px;
-}
-
-#page_content p
-{
-	font-family: Verdana;
-	color:#000;
-	padding-top: 22px;
-	padding-right: 22px;
-	padding-left: 22px;
-}
-
-#nav_bar
-{
-	font-family:Verdana, Helvetica, Arial, Sans-serif;
-	font-size:0.7em;
-	font-weight:bold;
-	width:230px;
-	position:absolute;
-	top:78px;
-	margin-bottom:1em;
-}
-
-#nav_bar .menu_title
-{
-	position: relative;
-	left: -65px;
-	color: #feffff;
-	font-size: 12px;
-	font-family: "Trebuchet MS", Geneva, Arial, Helvetica, SunSans-Regular, sans-serif;
+#header h1 {
+	margin-top: 0;
+	padding-top: 1em;
+	color: #FFF;
 	text-transform: uppercase;
-	text-indent: 0;
-	letter-spacing: 1px;
-	display: block;
-	padding-top: 20px;
-	padding-left: 70px;
-	padding-bottom: 10px;
 }
 
-#nav_bar ul
-{
-	list-style:none;
-	margin: 0;
-	padding: 0;
+#wrapper {
 }
 
-#nav_bar ul li a
-{
-	margin: 0;
-	border-top: 1px solid #003;
+#content {
+	margin: 0 0 0 200px;
+	padding: 1em;
 }
 
-#nav_bar label{
-	color: #feffff;
-	font-size: 11px;
+#navigation {
+	padding: 0 10px 10px 10px;
+	float: left;
+	width: 180px;
+	background-color: #FFE;
+}
+
+#navigation h2 {
+	margin: 1em 0 0.5em 0;
+	padding: 0 0 0.25em 0;
+	font-size: 120%;
+	color: #996;
+	text-transform: uppercase;
+	border-bottom: #996 1px solid;
+}
+
+#navigation dt {
 	font-weight: bold;
-	line-height: 15px;
-	text-decoration: none;
-	background: transparent;
-	display: block;
-	padding: 9px 0 10px 0;
-	width: auto;
 }
 
-#nav_bar ul li a
-{
-	font-size:11pt;
-	text-decoration: none;
-	background-color:#A1A9DB;
-	display: block;
-	padding: 9px 0 0 0;
-	width: 100%;
-	display:block;
-	padding:2px 2px 2px 0.5em;
-	border-left:10px solid #369;
-	border-bottom:1px solid #369;
+#footer {
+	margin: 0;
+	padding: 10px;
+	clear: both;
+	color: #FFF;
+	background-color: #666;
+	border-top: #996 5px solid;
 }
 
-html>body #nav_bar ul li a{
-	width:auto;
-	}
-	
-#nav_bar ul li a:hover
-{
-	border-left:10px solid #369;
-	border-bottom:1px solid #369;
-	background-color:#8B92BE;
-	color:#fff;
-	
-}
-
-#submenu {
-	font-size:11pt;
-	text-decoration: none;
-	background-color:#A1A9DB;
-	display: block;
-	width: 95%;
-	padding:0;
-	border-bottom:1px solid #369;
-	position:relative;
-	left:10px;
-}
-
-#submenu1 {
-	display:none;
-}
-#submenu2 {
-	display:none;
-}
-#submenu3 {
-	display:none;
-}
-#submenu4 {
-	display:none;
-}
-
-#article {
-	background: #fff;
-	padding-bottom: 30px;
-	position: absolute;
-	top: 150px;
-	left: 550px;
-	border-top:10px solid #DBDEF2;
-	width:220px;
-}
