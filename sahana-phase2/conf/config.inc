@@ -25,21 +25,27 @@
 
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
+#
 $conf['db_host'] = '192.168.101.38';
 
 # port that data base talks. leave blank for default.
+#
 $conf['db_port'] = '';
 
 # theme that sahana will use todo
+#
 $conf['theme'] = 'default' ; 
 
 # specify the database name.
+#
 $conf['db_name'] = 'sahana';
 
 # specify user name that Sahana can use to connect.
+#
 $conf['db_user'] = 'sahana';
 
 # And password for that user.
+#
 $conf['db_pass'] = '';
 
 # specify a Log Level.
@@ -81,6 +87,7 @@ $conf['db_engine'] = 'mysql';
 
 # enable monitor time that takes to process sql queries
 # this is an advance feature and recommended only for developers
+#
 $conf['enable_monitor_sql'] = 'true';
 
 # @todo Look into the database caching directories etc
