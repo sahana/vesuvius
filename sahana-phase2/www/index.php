@@ -42,7 +42,8 @@ function shn_front_controller() {
 
     // @todo: session authentication and authorization
     
-    // get the session information ..
+    // Start a session
+    session_start();
     
     // if (shn_authorized("shn_".$module."_".$action", $user)..
     //    change session
@@ -64,26 +65,20 @@ function shn_front_controller() {
         include($approot."mod/home/main.inc");
     }
 
+    // Start the body and the CSS container element
+    echo '<body>';
+    echo '<div id="container">';
+
     // include the page header provided there is not a module override
     $module_function = "shn_".$module."_header";
     if (function_exists($module_function)) {
         $module_function();
     } else {
         include($approot."inc/handler_header.inc");
-    }
-
-    // compose and call the relevant module function 
-    $module_function = "shn_".$module."_".$action;
-    if (!function_exists($module_function)) {
-        $module_function="shn_".$module."_default";
-    }
-    $module_function(); 
-        
-    include($approot."test/testconf.inc"); ?>
-
-       <div id="page_content_footer"></div>
-      </div>
-    <?php 
+    } 
+    // Now include the wrapper for the main conent
+    echo '<div id="wrapper" class="clearfix">';
+    echo '<div id="navigation">';
 
     // include the mainmenu provided there is not a module override
     $module_function = "shn_".$module."_mainmenu";
@@ -92,6 +87,21 @@ function shn_front_controller() {
     } else {
         include($approot."inc/handler_mainmenu.inc");
     }
+    echo '</div> <!-- /navigation -->';
+
+    // now include the main content of the page
+    echo '<div id="content">';
+
+    // compose and call the relevant module function 
+    $module_function = "shn_".$module."_".$action;
+    if (!function_exists($module_function)) {
+        $module_function="shn_".$module."_default";
+    }
+    $module_function(); 
+        
+    include($approot."test/testconf.inc"); 
+
+    echo '</div> <!-- /content -->';
 
     // include the footer provided there is not a module override
     $module_function = "shn_".$module."_footer";
@@ -101,10 +111,11 @@ function shn_front_controller() {
         include($approot."inc/handler_footer.inc");
     }
     ?>
- 
-    </div>
-   </body>
-  </html>
+
+    </div> <!-- /wrapper -->
+    </div> <!-- /container -->
+    </body>
+    </html>
 <?php 
 }
 ?>

@@ -5,36 +5,26 @@ include $global['approot']."/inc/lib_modules.inc";
 
 function shn_dvr_mainmenu() 
 {
+    global $global;
+    $module = $global['module'];
+    include $global['approot']."/inc/handler_mainmenu.inc";
 ?>
-<div id="nav_bar">
- <div id="menu">
-  <div id="menu_header"></div>
-   <h3 class="menu_title">DVR Menu</h3>
-   <ul>
-    <li><a href="index.php?mod=dvr&act=view">view</a></li>
-    <li><a href="index.php?mod=dvr&act=home">default</a></li>
-   </ul>
-  <div id="menu_header"></div>
-   <h3 class="menu_title">Modules</h3>
-    <ul> 
+    
+        <h2>DVR Module Actions</h2>
+        <dl>
+       <dt><a href="index.php?mod="></a></dt>
+        <dd>
+            <ul>
+                <li><a href="index.php?mod=<?=$module?>&act=default">Add Person</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=view">Find Person</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=admin">Edit Person</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=admin">Statistics</a></li>
+            </ul>
+        </dd>
+       </dt>
     <?php 
-    // display the list of modules on the menu bar
-    $module_list = shn_get_module_names();
-
-    foreach ($module_list as $i) {  
-
-        echo '<li><a href="index.php?mod='.$i.'">'.$i.'</a></li>';
-    }
-    ?>
-
-    </ul>
- </div>
-</div>
+} 
 	
-<?php
-}
-
-
 function shn_dvr_view()
 {?>
     <p><b> DVR View Action </b></p> 

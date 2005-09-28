@@ -16,24 +16,25 @@
 include_once $global['approot']."/inc/lib_modules.inc";
 
 ?>
-<div id="nav_bar">
- <div id="menu">
-  <div id="menu_header"></div>
-   <h3 class="menu_title">Detected Modules</h3>
-    <ul> 
-    <?php 
+        <p><a href="#content" class="mini">Skip Navigation</a></p>
+        <h2>Sahana Main</h2>
+        <dl>
+     <?php 
     // display the list of modules on the menu bar
     $module_list = shn_get_module_names();
 
-    foreach ($module_list as $i) {  
+    foreach ($module_list as $i) {  ?>
 
-        echo '<li><a href="index.php?mod='.$i.'">'.$i.'</a></li>';
-    }
-    ?>
-
-    </ul>
-  </div>
- </div>
-</div>
+       <dt><a href="index.php?mod=<?=$i?>"><?=$i?></a></dt>
+        <dd>
+            <ul>
+                <li><a href="index.php?mod=<?=$i?>&act=default">Default</a></li>
+                <li><a href="index.php?mod=<?=$i?>&act=view">View</a></li>
+                <li><a href="index.php?mod=<?=$i?>&act=admin">Admin</a></li>
+            </ul>
+        </dd>
+       </dt>
+    <?php 
+    } ?>
 	
 
