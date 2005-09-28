@@ -30,7 +30,6 @@ include_once $global['approot']."/inc/lib_modules.inc";
             <ul>
                 <li><a href="index.php?mod=<?=$i?>&act=default">Default</a></li>
                 <li><a href="index.php?mod=<?=$i?>&act=view">View</a></li>
-                <li><a href="index.php?mod=<?=$i?>&act=admin">Admin</a></li>
             </ul>
         </dd>
        </dt>

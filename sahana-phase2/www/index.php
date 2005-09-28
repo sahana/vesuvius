@@ -56,6 +56,14 @@ function shn_front_controller() {
     
     // error handler
 
+    // Redirect the module based on the action performed
+    // redirect admin functions through the admin module
+    if (preg_match('/^adm/',$action)) {
+        #include($approot."mod/".$module."/admin.inc");
+        $module = 'admin';   
+        $action = 'modadmin';
+    }
+
     // include the correct module file based on action and module
     $module_file = $approot."mod/".$module."/main.inc";
 

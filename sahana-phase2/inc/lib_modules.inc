@@ -13,6 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+// get all available modules regardless of weather they are enabled or not
 function shn_get_module_names()
 {
     global $global;
@@ -28,4 +29,22 @@ function shn_get_module_names()
     }
     return $module_list; 
 }
+
+// get all modules that have admin pages
+function shn_get_modules_with_admin()
+{
+    global $global;
+    $module_list = array();
+
+    $approot = $global['approot'];
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+        if (is_dir($approot."mod/".$f) && 
+          file_exists($approot."mod/".$f."/admin.inc")) {
+          array_push($module_list, $f);
+        }
+    }
+    return $module_list; 
+}
+
 ?>
