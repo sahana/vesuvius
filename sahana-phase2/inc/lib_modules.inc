@@ -22,8 +22,7 @@ function shn_get_module_names()
     $approot = $global['approot'];
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
-        if (is_dir($approot."mod/".$f) && 
-          file_exists($approot."mod/".$f."/main.inc")) {
+        if (file_exists($approot."mod/".$f."/main.inc")) {
           array_push($module_list, $f);
         }
     }
@@ -39,12 +38,37 @@ function shn_get_modules_with_admin()
     $approot = $global['approot'];
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
-        if (is_dir($approot."mod/".$f) && 
-          file_exists($approot."mod/".$f."/admin.inc")) {
+        if (file_exists($approot."mod/".$f."/admin.inc")) {
           array_push($module_list, $f);
         }
     }
     return $module_list; 
 }
 
+function shn_include_module_conf()
+{
+    global $global;
+    $approot = $global['approot'];
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+        if (file_exists($approot."mod/".$f."/conf.inc")) {
+          include_once ($approot."mod/".$f."/conf.inc");
+        }
+    }
+}
+
+function shn_include_page_section($section, $module=null)
+{
+    global $global;
+    if ($module == null)
+        $module = $global['module'];
+
+    $module_function = 'shn_'.$module.'_'.$section;
+    if (function_exists($module_function)) {
+        $module_function();
+    } else {
+        include($global['approot'].'inc/handler_'.$section.'.inc');
+    } 
+}
+ 
 ?>

@@ -13,9 +13,11 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+global $conf;
 include_once $global['approot']."/inc/lib_modules.inc";
 
 ?>
+
         <p><a href="#content" class="mini">Skip Navigation</a></p>
         <h2>Sahana Main</h2>
         <dl>
@@ -23,9 +25,14 @@ include_once $global['approot']."/inc/lib_modules.inc";
     // display the list of modules on the menu bar
     $module_list = shn_get_module_names();
 
-    foreach ($module_list as $i) {  ?>
+    foreach ($module_list as $i) {  
+       
+       $module_name = $conf[$i."_name"]; 
+       $module_name = ( null == $module_name )? $i : $module_name ;
+    
+       ?>
 
-       <dt><a href="index.php?mod=<?=$i?>"><?=$i?></a></dt>
+       <dt><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></dt>
         <dd>
             <ul>
                 <li><a href="index.php?mod=<?=$i?>&act=default">Default</a></li>

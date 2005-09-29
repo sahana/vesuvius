@@ -25,8 +25,10 @@ $global['module'] = (NULL == $_REQUEST['mod']) ?
                             "home" : $_REQUEST['mod'];
 
 // === initialize configuration variables ===
-@ include ($global['approot']."conf/config.inc"); 
+include_once ($global['approot']."conf/config.inc"); 
 //TODO: when config is not there we have to setup
+
+include_once ($global['approot']."inc/lib_modules.inc"); 
 
 shn_front_controller();
 
@@ -59,7 +61,6 @@ function shn_front_controller() {
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
-        #include($approot."mod/".$module."/admin.inc");
         $module = 'admin';   
         $action = 'modadmin';
     }
@@ -73,30 +74,30 @@ function shn_front_controller() {
         include($approot."mod/home/main.inc");
     }
 
+    // include the module configuration files 
+    $d = dir($approot."mod/");
+    while (false !== ($f = $d->read())) {
+        if (file_exists($approot."mod/".$f."/conf.inc")) {
+          include ($approot."mod/".$f."/conf.inc");
+        }
+    }
+
     // Start the body and the CSS container element
     echo '<body>';
     echo '<div id="container">';
 
     // include the page header provided there is not a module override
-    $module_function = "shn_".$module."_header";
-    if (function_exists($module_function)) {
-        $module_function();
-    } else {
-        include($approot."inc/handler_header.inc");
-    } 
-    // Now include the wrapper for the main conent
+    shn_include_page_section('header',$module);
+    
+    // Now include the wrapper for the main content
     echo '<div id="wrapper" class="clearfix">';
     echo '<div id="navigation">';
 
     // include the mainmenu provided there is not a module override
-    $module_function = "shn_".$module."_mainmenu";
-    if (function_exists($module_function)) {
-        $module_function();
-    } else {
-        include($approot."inc/handler_mainmenu.inc");
-    }
-    echo '</div> <!-- /navigation -->';
+    shn_include_page_section('mainmenu',$module);
 
+    echo '</div> <!-- /navigation -->';
+    
     // now include the main content of the page
     echo '<div id="content">';
 
@@ -112,12 +113,7 @@ function shn_front_controller() {
     echo '</div> <!-- /content -->';
 
     // include the footer provided there is not a module override
-    $module_function = "shn_".$module."_footer";
-    if (function_exists($module_function)) {
-        $module_function();
-    } else {
-        include($approot."inc/handler_footer.inc");
-    }
+    shn_include_page_section('footer',$module);
     ?>
 
     </div> <!-- /wrapper -->

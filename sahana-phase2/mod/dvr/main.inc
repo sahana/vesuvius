@@ -1,7 +1,7 @@
 <?php
 
 
-include $global['approot']."/inc/lib_modules.inc";
+include_once $global['approot']."/inc/lib_modules.inc";
 
 function shn_dvr_mainmenu() 
 {
