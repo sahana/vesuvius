@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_db.inc,v 1.1 2005-09-29 11:35:08 janakawicks Exp $ */
+/* $Id: lib_db.inc,v 1.2 2005-09-29 12:22:25 janakawicks Exp $ */
 
 /**
 *
@@ -25,5 +25,5 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 
 //enable logging sql
 if($conf['enable_monitor_sql'])
-    $db->LogSQL();
+    $global['db']->LogSQL();
 ?>
