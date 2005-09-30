@@ -96,5 +96,9 @@ $conf['enable_monitor_sql'] = 'true';
 $conf['enable_cache'] = false;
 $conf['cache_dir'] = 'cache/db_cache';
 
+# Default locale
+#
+$conf['locale'] = 'en_US';
+
 # end of the config file.
 ?>
