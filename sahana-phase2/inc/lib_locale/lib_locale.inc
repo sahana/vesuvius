@@ -13,62 +13,65 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
-/**
- * If gettext support isn't available
- */
-if (!function_exists("gettext")) {
-    include_once $global['approot'] . "/inc/lib_locale/lib_gettext.inc";
-}
 
-/**
- * Set default locale
- */
-$defaultlocale = $conf['locale'];
-
-/**
- * Cookie expiration in 24 hours
- */
-$expire_cookie = time() + 3600 * 24;
-
-/**
- * Set the session key 'locale' with the value 'locale'
- * in the cookie
- */
-if ( isset($_COOKIE['locale']) )
-    $_SESSION['locale'] = $_COOKIE['locale'];
-
-/**
- * get the new locale id
- */
-if ( isset($_POST['locale']) ) {
-    $getlocale = $_POST['locale'];
+if (function_exists("gettext")) {
+    
+    /**
+     * Set default locale
+     */
+    $defaultlocale = $conf['locale'];
+    
+    /**
+     * Cookie expiration in 24 hours
+     */
+    $expire_cookie = time() + 3600 * 24;
+    
+    /**
+     * Set the session key 'locale' with the value 'locale'
+     * in the cookie
+     */
+    if ( isset($_COOKIE['locale']) )
+        $_SESSION['locale'] = $_COOKIE['locale'];
+    
+    /**
+     * get the new locale id
+     */
+    if ( isset($_POST['locale']) ) {
+        $getlocale = $_POST['locale'];
+    } else {
+        $getlocale = $_GET['locale'];
+    }
+    
+    /**
+     * Set a cookie to value 'locale'.
+     * Set the session key 'locale' to the new 'locale' value.
+     */
+    if ( isset ($getlocale) ) {
+        setcookie ('locale', $getlocale, $expire_cookie);
+        $_SESSION['locale'] = $getlocale;
+    } else if ( !isset ($_COOKIE['locale']) ) {
+        setcookie ('locale', $defaultlocale, $expire_cookie);
+        $_SESSION['locale'] = $defaultlocale;
+    } 
+    
+    /**
+     * Setting gettext parameters
+     */
+    if ( isset ($_SESSION["locale"]) ) { 
+        $locale = $_SESSION["locale"];
+        $domain = $global['module'];
+            
+        putenv("LANG=$locale"); 
+        setlocale(LC_ALL, $locale);    
+        bindtextdomain($domain, $global['approot'] . "res/locale/"); 
+        textdomain($domain);    
+    }
+    
 } else {
-    $getlocale = $_GET['locale'];
-}
-
-/**
- * Set a cookie to value 'locale'.
- * Set the session key 'locale' to the new 'locale' value.
- */
-if ( isset ($getlocale) ) {
-    setcookie ('locale', $getlocale, $expire_cookie);
-    $_SESSION['locale'] = $getlocale;
-} else if ( !isset ($_COOKIE['locale']) ) {
-    setcookie ('locale', $defaultlocale, $expire_cookie);
-    $_SESSION['locale'] = $defaultlocale;
-} 
-
-/**
- * Setting gettext parameters
- */
-if ( isset ($_SESSION["locale"]) ) { 
-    $locale = $_SESSION["locale"];
-    $domain = $global['module'];
-        
-    putenv("LANG=$locale"); 
-    setlocale(LC_ALL, $locale);    
-    bindtextdomain($domain, $global['approot'] . "res/locale/"); 
-    textdomain($domain);    
+    /**
+     * If gettext support isn't available
+     */
+    include_once $global['approot'] . "/inc/lib_locale/lib_gettext.inc";
 }
 
 ?>
