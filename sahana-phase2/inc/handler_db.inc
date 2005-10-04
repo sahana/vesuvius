@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_db.inc,v 1.2 2005-09-29 12:22:25 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.1 2005-10-04 12:51:11 janakawicks Exp $ */
 
 /**
 *

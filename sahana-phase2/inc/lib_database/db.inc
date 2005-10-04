@@ -1,5 +1,5 @@
 <?php 
-/* $Id: db.inc,v 1.1.1.1 2005-09-24 21:22:55 chamindra Exp $ */
+/* $Id: db.inc,v 1.2 2005-10-04 12:51:11 janakawicks Exp $ */
 
 /**
 * Database Generic Function Library. Inspired by dotProject includes/db_connect.php
@@ -34,7 +34,7 @@ require_once($global['approot'].'inc/handler_errors.inc');
 * List of supported databases
 */
 
-require_once($global['approot'].'conf/db/dbengine.list.inc');
+#require_once($global['approot'].'conf/db/dbengine.list.inc');
 
 
 /**
@@ -59,7 +59,7 @@ if(DB_DEVEL)
 // 3. make the database connection
 if(DB_DEVEL)
 	echo "Connection  : ";
-if(! db_connect()){ 
+if(! _shn_db_connect()){ 
         display_errors(true);
 }
 if(DB_DEVEL)
@@ -76,12 +76,11 @@ require_once($global['approot'].'inc/lib_database/db_query.inc');
 function validateconf()
 {
 	//Check the existance of the db library
-	global $conf;
+	global $conf,$global;
 	
 	//No Errors
 	$return = true;
-
-	if(!is_dir($global['approot'].'3rdparty/'.$conf['dbal_lib_name'])){
+	if(!is_dir($global['approot'].'3rd/'.$conf['dbal_lib_name'])){
 		/* @todo I18N on error messages */
 		add_error("The given database abtraction library does not exists");
 		$return = false;
@@ -98,6 +97,15 @@ function validateconf()
 	
 }
 
+/**
+* Writes the session data to the database
+*/
+
+function shn_db_session()
+{
+    _shn_db_session();
+}
+
 
 /**
 * Returns the first field (NOTE: sql should only contain one field )
@@ -105,7 +113,8 @@ function validateconf()
 * @return The value returned in the query or null if the query failed.
 * @note modifications from original : naming, error handling
 */
-function shn_db_load_result( $sql ) {
+function shn_db_load_result( $sql ) 
+{
 	$cur = _shn_db_exec( $sql );
     //@todo Need Error Handling
 	$ret = null;
@@ -122,7 +131,8 @@ function shn_db_load_result( $sql ) {
 * @param object The address of variable
 * @note modifications from original : naming, error handling
 */
-function shn_db_load_object( $sql, &$object, $bindAll=false , $strip = true) {
+function shn_db_load_object( $sql, &$object, $bindAll=false , $strip = true) 
+{
 	if ($object != null) {
 		$hash = array();
 		if( !_shn_db_load_hash( $sql, $hash ) ) {
@@ -149,8 +159,10 @@ function shn_db_load_object( $sql, &$object, $bindAll=false , $strip = true) {
 * @param string The SQL query
 * @param array An array for the result to be return in
 * @return <b>True</b> is the query was successful, <b>False</b> otherwise
+* @note modifications from original : naming, error handling
 */
-function shn_db_load_assoc( $sql, &$hash ) {
+function shn_db_load_assoc( $sql, &$hash ) 
+{
 	$cur = _shn_db_exec( $sql );
     //@todo Need Error Handling
 	$hash = _shn_db_fetch_assoc( $cur );
@@ -163,158 +175,60 @@ function shn_db_load_assoc( $sql, &$hash ) {
 }
 
 /**
-* Document::db_loadHashList()
-*
-* { Description }
-*
-* @param string $index
+* Load the data into a list of associative arrays 
+* @param string $sql
 */
-function shn_db_load_hash_list( $sql, $index='' ) {
-	$cur = _shn_db_exec( $sql );
-	$cur or exit( db_error() );
-	$hashlist = array();
-	while ($hash = db_fetch_array( $cur )) {
-		$hashlist[$hash[$index ? $index : 0]] = $index ? $hash : $hash[1];
-	}
-	_shn_db_free_result( $cur );
-	return $hashlist;
+function shn_db_load_assoc_list($sql , $max=NULL)
+{
+    $cur = _shn_db_exec( $sql );
+    //@todo Need Error Handling
+    $assoclist = array();
+    while ($list = _shn_db_fetch_assoc( $cur )) {
+        array_push($assoclist , $list);
+        if($max && $max == $rows++)
+            break;
+    }
+    _shn_db_free_result( $cur );
+    return $assclist;
 }
+
+//@todo load object list
 
 /**
-* Document::db_loadList()
-*
-* { Description }
-*
-* @param [type] $maxrows
-*/
-function shn_db_load_list( $sql, $maxrows=NULL ) {
-	/*GLOBAL $AppUI;
-	if (!($cur = _shn_db_exec( $sql ))) {;
-		$AppUI->setMsg( db_error(), UI_MSG_ERROR );
-		return false;
-	}*/
-	$list = array();
-	$cnt = 0;
-	while ($hash = db_fetch_assoc( $cur )) {
-		$list[] = $hash;
-		if( $maxrows && $maxrows == $cnt++ ) {
-			break;
-		}
-	}
-	_shn_db_free_result( $cur );
-	return $list;
-}
-
-/**
-* Document::db_loadColumn()
-*
-* { Description }
-*
-* @param [type] $maxrows
-*/
-function shn_db_load_column( $sql, $maxrows=NULL ) {
-	/*GLOBAL $AppUI;
-	if (!($cur = _shn_db_exec( $sql ))) {;
-		$AppUI->setMsg( db_error(), UI_MSG_ERROR );
-		return false;
-	}*/
-	$list = array();
-	$cnt = 0;
-	$row_index = null;
-	while ($row = _shn_db_fetch_row( $cur )) {
-		if (! isset($row_index)) {
-			if (isset($row[0])) {
-				$row_index = 0;
-			} else {
-				$row_indices = array_keys($row);
-				$row_index = $row_indices[0];
-			}
-		}
-		$list[] = $row[$row_index];
-		if( $maxrows && $maxrows == $cnt++ ) {
-			break;
-		}
-	}
-	_shn_db_free_result( $cur );
-	return $list;
-}
-
-/* return an array of objects from a SQL SELECT query
- * class must implement the Load() factory, see examples in Webo classes
- * @note to optimize request, only select object oids in $sql
- */
-function shn_db_load_object_list( $sql, $object, $maxrows = NULL ) {
-	$cur = _shn_db_exec( $sql );
-	if (!$cur) {
-		die( "db_loadObjectList : " . db_error() );
-	}
-	$list = array();
-	$cnt = 0;
-	$row_index = null;
-	while ($row = db_fetch_array( $cur )) {
-		if (! isset($row_index)) {
-			if (isset($row[0]))
-				$row_index = 0;
-			else {
-				$row_indices = array_keys($row);
-				$row_index = $row_indices[0];
-			}
-		}
-		$object->load( $row[$row_index] );
-		$list[] = $object;
-		if( $maxrows && $maxrows == $cnt++ ) {
-			break;
-		}
-	}
-	_shn_db_free_result( $cur );
-	return $list;
-}
-
-
-/**
-* Document::db_insertArray()
-*
-* { Description }
-*
+* Insert into a table. Fields are passed as an associative array.
 * @param [type] $verbose
 */
-function shn_db_insert_array( $table, &$hash, $verbose=false ) {
+function shn_db_insert( $table, &$hash) {
 	$fmtsql = "insert into $table ( %s ) values( %s ) ";
 	foreach ($hash as $k => $v) {
 		if (is_array($v) or is_object($v) or $v == NULL) {
 			continue;
 		}
 		$fields[] = $k;
-		$values[] = "'" . db_escape(strip_tags( $v )) . "'";
+		$values[] = "'" . _shn_db_escape(strip_tags( $v )) . "'";
 	}
 	$sql = sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) );
-
-	($verbose) && print "$sql<br />\n";
 
 	if (!_shn_db_exec( $sql )) {
 		return false;
 	}
-	$id = db_insert_id();
+    //@todo return the id
+	#$id = db_insert_id();
 	return true;
 }
 
 /**
-* Document::db_updateArray()
-*
-* { Description }
-*
+* Updates into a table. Fields and 'Where fields' are passed as an associative array.
 * @param [type] $verbose
+* @note after where clause joins and stuff plus n
 */
-function shn_db_update_array( $table, &$hash, $keyName, $verbose=false ) {
+
+function shn_db_update( $table, &$hash, &$keyname, $verbose=false ) {
 	$fmtsql = "UPDATE $table SET %s WHERE %s";
 	foreach ($hash as $k => $v) {
 		if( is_array($v) or is_object($v) or $k[0] == '_' ) // internal or NA field
 			continue;
 
-		if( $k == $keyName ) { // PK not to be updated
-			$where = "$keyName='" . db_escape( $v ) . "'";
-			continue;
-		}
 		if ($v == '') {
 			$val = 'NULL';
 		} else {
@@ -322,7 +236,18 @@ function shn_db_update_array( $table, &$hash, $keyName, $verbose=false ) {
 		}
 		$tmp[] = "$k=$val";
 	}
-	$sql = sprintf( $fmtsql, implode( ",", $tmp ) , $where );
+    foreach ($keyname as $k => $v) {
+        if( is_array($v) or is_object($v) or $k[0] == '_' ) // internal or NA field
+            continue;
+        if ($v == '') {
+            $val = 'NULL';
+        } else {
+            $val = "'" . db_escape(strip_tags( $v )) . "'";
+        }
+        $tmpkey[] = "$k=$val";
+    }
+
+	$sql = sprintf( $fmtsql, implode( ",", $tmp ) , mplode( " AND ", $tmpkey ) );
 	($verbose) && print "$sql<br />\n";
 	$ret = _shn_db_exec( $sql );
 	return $ret;

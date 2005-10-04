@@ -11,28 +11,15 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @subpackage lib_database
 * @author     Janaka Wicksramasinghe <janaka@opensource.lk>
-* @version    $Id: db_adodb.inc,v 1.1.1.1 2005-09-24 21:22:52 chamindra Exp $
+* @version    $Id: db_adodb.inc,v 1.2 2005-10-04 12:51:11 janakawicks Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
 //Include the ADOdb Library
-require_once($global['approot'].'3rdparty/adodb/adodb.inc.php');
+require_once($global['approot'].'3rd/adodb/adodb.inc.php');
 
 //Exception handling <-- Hell NO, OOP sucks
 #include("inc/lib_database/db_libs/adodb/adodb-exceptions.inc.php");
-/**
-* Directing the session to the database
-*/
-
-if($session_writer == 'database'){
-        $ADODB_SESSION_DRIVER=$conf['db_engine'];
-        $ADODB_SESSION_CONNECT=$conf['db_host'];
-        $ADODB_SESSION_USER =$conf['db_user'];
-        $ADODB_SESSION_PWD =$conf['db_pass'];
-        $ADODB_SESSION_DB =$conf['db_name'];
-        $ADODB_SESSION_TBL = 'core_sessions';
-        require_once('3rdparty/adodb/session/adodb-session.php');
-}
 
 $db = null;
 
@@ -56,6 +43,20 @@ function _shn_db_connect()
         return $return;
 }
 
+function _shn_db_session()
+{
+    if($session_writer == 'database'){
+        $ADODB_SESSION_DRIVER=$conf['db_engine'];
+        $ADODB_SESSION_CONNECT=$conf['db_host'];
+        $ADODB_SESSION_USER =$conf['db_user'];
+        $ADODB_SESSION_PWD =$conf['db_pass'];
+        $ADODB_SESSION_DB =$conf['db_name'];
+        $ADODB_SESSION_TBL = 'core_sessions';
+        require_once('3rdparty/adodb/session/adodb-session.php');
+    }
+    return true;
+}
+
 function _shn_db_error() {
         global $db;
 	if (! is_object($db))
@@ -71,7 +72,7 @@ function _shn_db_errno() {
 }
 
 function _shn_db_insert_id() {
-        global $db;
+    global $db;
 	if (! is_object($db))
 	  add_error_debug(__FILE__,__LINE__, 0, "Database object does not exist");
 	return $db->Insert_ID();
@@ -152,8 +153,8 @@ function _shn_db_fetch_object( $qid  ) {
 }
 
 function _shn_db_escape( $str ) {
-        global $db;
-	return substr($db->qstr( $str ), 1, -1);
+    global $db;
+	return substr($db->qstr( $str ), get_magic_quotes_gpc());
 }
 
 function _shn_db_version() {
