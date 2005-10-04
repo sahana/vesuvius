@@ -48,15 +48,30 @@ $conf['db_user'] = 'sahana';
 #
 $conf['db_pass'] = '';
 
+###########################
+# Logging #
+###########################
+
 # specify a Log Level.
-# 0 - no logging at all.
+# 0 - no logging.
 # 1 - basic logging.
-# 2 - Security level logging.
-# 3 - Debug level logging (not yet implemented).
+# 2 - Security level logging
+#	3 - Error Logging
 #
 # Default is 1
 #
 $conf['loglevel'] = 1;
+
+#debug variable
+# true/false
+$conf['debug'] =true;
+
+#debug output: screen or file
+$conf['debug_output'] = 'file';
+
+#if debug_output=file then the writable file path
+$conf['debug_file_path'] = '/home/nazgul/devel/log.file';
+
 
 
 
