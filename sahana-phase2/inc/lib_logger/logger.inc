@@ -19,36 +19,50 @@
 // 20th Sep 2005
 // by The A-Team :)
 
-function shn_log_event()
+//include(actions.inc);
+
+function shn_log_event($message)
 {
      
      global $conf, $global;
-     
+		 
+		 $logdate= date("jS F Y");
+		 $logtime= date("G:i:s");
+		
      $entry['userid']= $_SESSION['userid']; 
      $entry['userlogid']=$_SESSION['userlogid'];
      $entry['action']=$global['action'];
      $entry['modulename']=$global['module'];
 
-    echo $global['action'];
-    echo $global['module'];
 
-	 // switch to relavent log level based on sahana config file.
+	 	 // switch to relevent log level based on sahana config file.
      switch($conf['loglevel']) {
 	 	
         case 1 : // normal level auditing
-    		shn_db_insert_array("core_actionlog_level1", $entry,true);
+    				_shn_db_insert_array($entry['userid'],$entry['userlogid'],$message,$conf['loglevel'],$logdate,$logtime,$entry['modulename']);
             break;
 		
-		case 2 : // security level auditing
-    		$entry['data']=serialize($_POST);
-            shn_db_insert_array("core_actionlog_level2", $entry, true);
+				case 2 : // security level auditing
+    				_shn_db_insert_array($entry['userid'],$entry['userlogid'],$message,$conf['loglevel'],$logdate,$logtime,$entry['modulename']);
             break;
+						
 		
-		// case 3 : // debug level auditing
-		 //   break;
-		
-		default :
+				default :
+						break;
 	  } // end of level_catch
 }
 
+	/**
+		* insert log entry into database
+		* connection is already open
+		* values entered via adodb
+	*/
+	function _shn_db_insert_array($userid,$userlogid,$message_text,$loglevel,$date,$time,$module){
+		global $conf, $global;
+		$table='cre_actionlog';
+		$id=$global['db']->GenId();
+		$query="insert into $table values($id,$userid,$userlogid,$message_text,$loglevel,$module)";
+		@$result=$global['db']->Execute($query) or die ("Error in query: $query".$global['db']->ErrorMsg());
+	}
+	
 ?>
