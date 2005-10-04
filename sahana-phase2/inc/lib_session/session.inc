@@ -48,7 +48,13 @@ case "files":
 default:
 	break;
 }
-
+/**
+*this function is a wrapper around session_start()
+*it includes checks to reduce session hijacking
+*therefore this function will also start or
+*retreive a session like session_start() ,but
+*with better security
+*/
 function shn_session_start(){
 	//retrieves or starts a session
    session_start();
@@ -93,21 +99,33 @@ function shn_session_start(){
 		return true;
     }
 }
-
+/**
+* when the user changes privilege levels (e.g login)
+*its recommended to regenerate the session id
+*this function does that and in addition registers
+*,changes several session variables to reflect
+*change of privileges
+*/
 
 function shn_session_change($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
 	*/ 
 	session_regenerate_id();
-    	$_SESSION['logged_in'] = true;
-    	$_SESSION['user'] = $user_data["user"];
-    	$_SESSION['user_id'] =$user_data["user_id"];
-		return ;
+    $_SESSION['logged_in'] = true;
+    $_SESSION['user'] = $user_data["user"];
+    $_SESSION['user_id'] =$user_data["user_id"];
+	return ;
 }
 
-// function which checks whether a Session variable is already registered
-function shn_session_register($sess_var){
+/**
+*function which checks whether a Session variable is already registered
+*since there are many modules ,there is the possibility of one module
+*overiding a session varibale of another.
+*proper naming convention should reduce that, in addition its recommended
+*to call this function to see if the variable is already registered
+*/
+function shn_session_is_registered($sess_var){
     if(!isset($_SESSION[$sess_var])){
         return true;
     } else {
