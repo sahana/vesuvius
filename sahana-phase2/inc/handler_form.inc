@@ -16,7 +16,7 @@
 */
 // 2nd October 2005
 
-function show_form($form)
+function shn_show_form($form)
 {
  
     foreach ($form as $x) { // header part of the form         
