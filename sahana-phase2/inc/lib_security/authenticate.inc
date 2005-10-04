@@ -13,9 +13,15 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-// Add a new user to the users table
+/**
+*Add a new user to the users table
+*@param string user name
+*@param string user password
+*/
 function shn_add_user($user_name, $user_password)
 {
+   if (shn_is_user($user_name))
+   		return false;
    // Create the encrypted password
    $stored_password = md5(trim($user_password));
 
@@ -36,11 +42,40 @@ function shn_add_user($user_name, $user_password)
 
 }
 
-// Check if a user has an account that matches the user name and password
+/**
+*returns the existence of the user
+*@param string user name
+*/
+function shn_is_user($user_name){
+   $query = "select user_id from  users where  user_name = '{$user_name}'";
+	echo $query;
+//   $result = $connection->query($query);
+	if (!$connection =@mysql_connect("localhost", "sahana", "sahanapwd"))
+  		die("Cannot connect");
+
+  	if (!mysql_selectdb("sahanadb", $connection))
+    	showerror();
+	if (!$result = @ mysql_query ($query, $connection))
+		echo "error";
+	if (mysql_numrows($result)>0)
+		return true;
+	else
+		return false;
+}
+
+/**
+*Check if a user has an account that matches the user name and password
+*therefore this is the function you need to call for authentication
+*since authentication is called by the front controller
+*and all the POST variables avaliable to the front controller
+*is avaliable to this function as well,user name and password
+*are not sent as parameters. Instead they are read from the POST
+*array.
+*/
 function shn_authenticate_user()
 {
 	/*need to modify the function to work with the sahana database scheme
-	and adodb code 
+	and adodb code, till then return true. 
 	*/
 	return true;
 	global $global;
