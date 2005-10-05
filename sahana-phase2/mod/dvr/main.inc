@@ -1,4 +1,5 @@
 <?php
+/* $Id: main.inc,v 1.7 2005-10-05 09:47:13 mifanc Exp $ */
 /**Main home page of the DVR
 *
 * PHP version 4 and 5
@@ -28,8 +29,8 @@ function shn_dvr_mainmenu()
             <ul>
                 <li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=add">Add Entry</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=search&adv=1">Edit Entry</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=search&adv=1">Search</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=search">Edit Entry</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=searc">Search</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=stats">Statistics</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=help">Help/FAQ</a></li>
             </ul>
