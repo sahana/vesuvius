@@ -1,5 +1,16 @@
 <?php
-
+/**Main home page of the DVR
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author			
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/
 
 include_once $global['approot']."/inc/lib_modules.inc";
 
@@ -15,10 +26,12 @@ function shn_dvr_mainmenu()
        <dt><a href="index.php?mod="></a></dt>
         <dd>
             <ul>
-                <li><a href="index.php?mod=<?=$module?>&act=default">Add Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=view">Find Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=admin">Edit Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=admin">Statistics</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=add">Add Entry</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=search&adv=1">Edit Entry</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=search&adv=1">Search</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=stats">Statistics</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=help">Help/FAQ</a></li>
             </ul>
         </dd>
        </dt>
