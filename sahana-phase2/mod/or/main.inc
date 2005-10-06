@@ -1,4 +1,20 @@
 <?php
+/*
+*
+* Sahana HTML form handler
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Ravindra <ravindra@opensource.lk>
+* @author     Pradeeper <pradeeper@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*
+*/
 
 
 include_once $global['approot']."/inc/lib_modules.inc";
@@ -15,33 +31,80 @@ function shn_or_mainmenu()
        <dt><a href="index.php?mod="></a></dt>
         <dd>
             <ul>
+                <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register a ORG</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=view_all_org">View all ORG</a></li>
+
                 <li><a href="index.php?mod=<?=$module?>&act=add_branch">Add a Branch</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=edit_branch">Edit an Branch</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=edit_branch">Edit a Branch</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=reports">Reports</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=admin">Admin</a></li>
+
+                <li><a href="index.php?mod=<?=$module?>&act=mng_con">Management Console</a></li>
+                
             </ul>
         </dd>
        </dt>
     <?php 
 } 
-	
-function shn_or_add_branch()
+
+// register a OR
+function shn_or_reg_org()
 {?>
-    <p><b> OR add branch </b></p> 
-    <p> You made a call to the add branch action of the OR module</p>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+<?php
+include_once ("handler_or_registration.inc"); // call form generator
+
+}
+
+// view all OR
+function shn_or_view_all_org()
+{?>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <p>view all OR </p> 
 <?php
 }
 
+// add branch
+function shn_or_add_branch()
+{?>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <p>add branch </p> 
+<?php
+}
+
+// edit branch
+function shn_or_edit_branch()
+{?>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <p>edit branch </p> <?php
+}
+
+// reports
 function shn_or_reports()
 {
+?>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <p>Reports</p>
+<?php
 
 }
 
+// default page, welcome page ;-)
 function shn_or_default()
 {
 ?>
-    <p><b> Welcome to the OR  home </b></p>
+    <center><h3><b> Welcome to Organization Regisry</p><br></b></h3></center>
     <p> This is the default view</p>
+
+
+<?php
+}
+
+// OR admin console
+function shn_or_mng_con()
+{
+?>
+    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <p> Admin</p>
 
 
 <?php
