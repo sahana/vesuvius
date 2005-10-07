@@ -34,9 +34,7 @@ function shn_show_form($form)
 
 
     foreach ($form as $y) { // body part of the form
-       
             switch($y['type']){ // cheack for the 'input' type
-                
                 
                 
                 case "text": // if 'input' type is *text*
@@ -47,14 +45,13 @@ function shn_show_form($form)
                     
                     }
                     echo '">'; // end of 'text'
-                    
                     // this will generate the 'break'.
                     for ($i=1; $i<=$y['br']; $i++)
                     {
                         if ($y['br']==0)
                             break;
                         echo "<br>";    
-                    }    
+                    }
                 break;
             
 
@@ -63,24 +60,32 @@ function shn_show_form($form)
                 
                 
                 case "radio" : // if 'input' type is *radio*
-                    echo $y['desc'],"<br>";
+                    
+                    // check for line break request before the radio button
+                    for ($i=1; $i<=$y['br']; $i++)
+                    {
+                        if ($y['br']==0)
+                            break;
+                        echo "<br>";
+                    }
+                    // start the radio 
+                    echo $y['desc'];
                     foreach($y['options'] as $k){
-                        if($y['align']=='left'){ // if radio for left side
+                       if($y['align']=='right'){ // if radio for right side
                             echo $k['drop_desc'],'<input type="radio" name="',
                                         $y['name'],'" value="',$k['value'],'" >';
-                                                        if ($k['br']==1) // line break
-                                                        {    
-                                                            echo '<br>' ;
-                                                        }
-
-                        }elseif($y['align']=='right'){ // if radio for right
+                       }else { // default is to have radio on left
                             echo '<input type="radio" name="',
                                         $y['name'],'" value="',$k['value'],'" >',$k['drop_desc'];
-                                                        if ($k['br']==1) // line break
-                                                        {    
-                                                            echo '<br>' ;
-                                                        }    
+                       }
+                        // check whether a line break requested...
+                        for ($i=1; $i<=$k['br']; $i++)
+                        {
+                            if ($k['br']==0)
+                                break;
+                            echo "<br>";
                         }
+                        
                 } // end of 'radio'
                 break;
 
@@ -101,7 +106,7 @@ function shn_show_form($form)
                 
                 
                 case "checkbox" : // if 'input' type is *check box*
-                    echo '<input type="checkbox" name="',$y['name'],' value="',$y['value'],'">',$y['drop_desc'];
+                    echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'">',$y['drop_desc'];
                     if ($y['br'] == 1)
                     {    
                         echo "<br>";
