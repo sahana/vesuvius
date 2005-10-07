@@ -107,10 +107,13 @@ function shn_show_form($form)
                 
                 case "checkbox" : // if 'input' type is *check box*
                     echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'">',$y['drop_desc'];
-                    if ($y['br'] == 1)
-                    {    
-                        echo "<br>";
-                    }    
+                        // check whether a line break requested...
+                        for ($i=1; $i<=$y['br']; $i++)
+                        {
+                            if ($y['br']==0)
+                                break;
+                            echo "<br>";
+                        }
                 break;
                 
                 
