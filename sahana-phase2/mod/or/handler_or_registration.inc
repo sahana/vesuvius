@@ -89,7 +89,7 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
     // OR infomation
     echo "<br>";
     echo "<b>"._("Organization Information :")."</b><br>";
-    echo _("First contact person details : ");
+    echo _("First contact person's details : ");
     $contact01 = array (
                         array('desc'=>_("Name : "),'type'=>"text",'size'=>45,'name'=>'contact01_name','br'=>1),
                         array('desc'=>_("Address 1: "),'type'=>"text",'size'=>40,'name'=>'contact01_add1','br'=>1),
@@ -103,6 +103,26 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
     shn_show_form($contact01);
 
 
+    echo _("Second contact person's details : ");
+    $contact02 = array (
+                        array('desc'=>_("Name : "),'type'=>"text",'size'=>45,'name'=>'contact02_name','br'=>1),
+                        array('desc'=>_("Address 1: "),'type'=>"text",'size'=>40,'name'=>'contact02_add1','br'=>1),
+                        array('desc'=>_("Address 2: "),'type'=>"text",'size'=>40,'name'=>'contact02_add1','br'=>1),
+                        array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact02_phone','br'=>0),
+                        array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact02_fax','br'=>1),
+                        array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact02_mail','br'=>1),
+                        array('desc'=>_("NIC/Passport No : "),'type'=>"text",'size'=>35,'name'=>'contact02_id','br'=>1)
+
+                        ); // end of contact 02
+    shn_show_form($contact02);
+
+    // get man power of the OR
+    $man_power = array (
+                        array('desc'=>_("Man Power : "),'type'=>"text",'size'=>4,'name'=>'manpower','br'=>1)
+                        );
+    shn_show_form($man_power);
+    
+    
     // end of form
     $tail = array (
                         array('type'=>"submit",'value'=>_("Submit"))
