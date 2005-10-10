@@ -116,7 +116,16 @@ function shn_show_form($form)
                         }
                 break;
                 
-                
+                case "multiselect" : // if 'input' type is a multiple selection
+                    echo $y['desc'],'<select multiple size="',$y['size'],'" name="',$y['name'],'">';
+                        foreach($y['option'] as $k){
+                            echo '<option ';
+                            if ($k['select']==1) // if this option selected...
+                                echo 'selected ';
+                            echo 'value="',$k['value'],'"> ',$k['drop_desc'],'</option>';
+                        }                
+                    echo "</select>"; // end of the list
+                break;
                 
                 case "seperator" : // this is a seperator
                     echo "<hr>"; // drow a line ;-)
