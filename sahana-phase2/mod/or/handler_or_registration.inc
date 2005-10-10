@@ -53,7 +53,7 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
     //call OR sector
     $or_sec = array (
                         array('desc'=>_("Sector :"),'drop_desc'=>"Health",'type'=>"checkbox",'name'=>"chkbox1",'value'=>"health"),
-                        array('drop_desc'=>_("Foos"),'type'=>"checkbox",'name'=>"chkbox2",'value'=>"food"),
+                        array('drop_desc'=>_("Food"),'type'=>"checkbox",'name'=>"chkbox2",'value'=>"food"),
                         array('drop_desc'=>_("Medicine"),'type'=>"checkbox",'name'=>"chkbox3",'value'=>"medicine"),
                         array('drop_desc'=>_("Child Care"),'type'=>"checkbox",'name'=>"chkbox4",'value'=>"chld_care"),
                         array('drop_desc'=>_("Sanitation"),'type'=>"checkbox",'name'=>"chkbox5",'value'=>"sani"),
@@ -77,7 +77,7 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
 
                         array('desc'=>_("Type :"),'drop_desc'=>"NPO",'type'=>"checkbox",'name'=>"chkbox1",'value'=>"npo"),
                         array('drop_desc'=>_("NGO"),'type'=>"checkbox",'name'=>"chkbox2",'value'=>"ngo"),
-                        array('drop_desc'=>_("Multinational"),'type'=>"checkbox",'name'=>"chkbox3",'value'=>"multin"),
+                        array('drop_desc'=>_("Multinational"),'type'=>"checkbox",'name'=>"chkbox3",'value'=>"multin",'select'=>1),
                         array('drop_desc'=>_("Bilateral"),'type'=>"checkbox",'name'=>"chkbox4",'value'=>"bilateral",'br'=>1),
 
 
@@ -116,6 +116,8 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
                         ); // end of contact 02
     shn_show_form($contact02);
 
+
+    
     // get man power of the OR
     $man_power = array (
                         array('desc'=>_("Man Power : "),'type'=>"text",'size'=>4,'name'=>'manpower','br'=>1)
@@ -123,6 +125,82 @@ echo "<h2>" . _("Organization Registration") . "</h2>";
     shn_show_form($man_power);
     
     
+    // get the countries list that Org working
+    $operating_countries = array(
+                                array('desc'=>_("Operating Countries : "),'type'=>"multiselect",'size'=>4,
+                                                                                    'name'=>"op_countries",
+                                    'option'=>array(
+                                        array('drop_desc'=>_("Sri Lanka"),'vale'=>'lk','select'=>1),
+                                        array('drop_desc'=>_("India"),'vale'=>'in'),
+                                        array('drop_desc'=>_("Pakistan"),'vale'=>'pk'),
+                                        array('drop_desc'=>_("Madagasker"),'vale'=>'md'),
+                                        array('drop_desc'=>_("Ice-Land"),'vale'=>'ic'),
+                                        array('drop_desc'=>_("New-Zealand"),'vale'=>'nz'),
+                                        array('drop_desc'=>_("Australia"),'vale'=>'au'),
+                                        array('drop_desc'=>_("USA"),'vale'=>'us'),
+                                        array('drop_desc'=>_("UK"),'vale'=>'uk'),
+                                        array('drop_desc'=>_("Japan"),'vale'=>'jp'),
+                                        array('drop_desc'=>_("Taprobane"),'vale'=>'tp'),
+                                        array('drop_desc'=>_("Maldives"),'vale'=>'ml')
+                                     ) // end of list
+                                ) // end of list form
+                            
+                            ); //end of opearating countries
+                        
+     shn_show_form($operating_countries);
+
+     echo "<br>";
+    
+    // get the location list that Org working
+    $operating_locations = array(
+                                array('desc'=>_("Operating Locations : "),'type'=>"multiselect",'size'=>4,
+                                                                                    'name'=>"op_locations",
+                                    'option'=>array(
+                                        array('drop_desc'=>_("Kandy"),'vale'=>'kandy'),
+                                        array('drop_desc'=>_("Colombo"),'vale'=>'col','select'=>1),
+                                        array('drop_desc'=>_("Galle"),'vale'=>'ga'),
+                                        array('drop_desc'=>_("Matara"),'vale'=>'mt'),
+                                        array('drop_desc'=>_("Jaffna"),'vale'=>'jf'),
+                                        array('drop_desc'=>_("Nuwara-Eliya"),'vale'=>'na'),
+                                        array('drop_desc'=>_("Anuradhapura"),'vale'=>'an'),
+                                        array('drop_desc'=>_("Mathale"),'vale'=>'ma'),
+                                        array('drop_desc'=>_("Hambanthota"),'vale'=>'hm'),
+                                        array('drop_desc'=>_("Polonnaruwa"),'vale'=>'po')
+                                     ) // end of list
+                                ) // end of list form
+                            
+                            ); //end of opearating countries
+                        
+     shn_show_form($operating_locations);
+     
+     echo "<br>";
+     
+    // for comments
+    echo _("Comments : <br>");
+    $comments = array(
+                    array('type'=>"txtarea",'name'=>"some_comments",'rows'=>10,'cols'=>60)
+    ); // end of comments
+
+    shn_show_form($comments);
+
+
+    echo _("<br>Login information : <br>");
+    // for get login info
+    $login_info = array(
+                    array('desc'=>_("User name : "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
+                    array('desc'=>_("Password : "),'type'=>"text",'size'=>12,'name'=>'password','br'=>1),
+                    array('desc'=>_("Confirm Password: "),'type'=>"text",'size'=>12,'name'=>'re_password','br'=>1)
+    ); // end of getting logging info
+    shn_show_form($login_info);
+
+    
+    // make my contact info available
+    $my_contact = array(
+                    array('desc'=>_("   Make my contact information available  "),'type'=>'checkbox','name'=>'avail','value'=>'avail','algin'=>'right','select'=>1)
+                    );
+    shn_show_form($my_contact);
+
+
     // end of form
     $tail = array (
                         array('type'=>"submit",'value'=>_("Submit"))
