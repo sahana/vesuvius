@@ -117,7 +117,7 @@ function shn_show_form($form)
                 break;
                 
                 case "multiselect" : // if 'input' type is a multiple selection
-                    echo $y['desc'],'<select multiple size="',$y['size'],'" name="',$y['name'],'">';
+                    echo $y['desc'],'<br><select multiple size="',$y['size'],'" name="',$y['name'],'">';
                         foreach($y['option'] as $k){
                             echo '<option ';
                             if ($k['select']==1) // if this option selected...
@@ -126,7 +126,13 @@ function shn_show_form($form)
                         }                
                     echo "</select>"; // end of the list
                 break;
+               
                 
+                case "txtarea" : // if 'input' type is a txtarea
+                    echo '<textarea name="',$y['name'],'" rows=',$y['rows'],' cols=',$y['cols'],'>';
+                    echo '</textarea>';
+                break; //end of txtarea
+               
                 case "seperator" : // this is a seperator
                     echo "<hr>"; // drow a line ;-)
                 break;
