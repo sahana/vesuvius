@@ -97,16 +97,29 @@ function shn_show_form($form)
                 case "dropdown" : // if 'input' type is *dropdown*
                     echo $y['desc'],' <select name="',$y['name'],'">';
                     foreach($y['options'] as $k){ // generating the values for drop down menu
-                      echo '<option> ',$k['drop_desc'];
+                      echo '<option>',$k['drop_desc'];
                     }
-                    echo '</select><br>'; // end of 'drop down'
-                break;
+                    echo '</select><br>'; 
+                    echo $k['select'];
+                break; //end of 'drop down'
             
 
                 
                 
                 case "checkbox" : // if 'input' type is *check box*
-                    echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'">',$y['drop_desc'];
+                    if ($y['select']==1){ // check whether which one is defult
+                        $select = "checked";
+                    } else { // else make it nothing, otherwise it makes all checked
+                                $select = "";
+                            }
+                    
+                    if ($y['align']=='right') {
+                    echo '<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'"',
+                                                        $select,'>',$y['drop_desc'],' ',$y['desc'];
+                    }
+                    echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'"',
+                                                        $select,'>',$y['drop_desc'];
+                                                        
                         // check whether a line break requested...
                         for ($i=1; $i<=$y['br']; $i++)
                         {
@@ -114,7 +127,9 @@ function shn_show_form($form)
                                 break;
                             echo "<br>";
                         }
-                break;
+                break; // end of checkbox
+
+
                 
                 case "multiselect" : // if 'input' type is a multiple selection
                     echo $y['desc'],'<br><select multiple size="',$y['size'],'" name="',$y['name'],'">';
