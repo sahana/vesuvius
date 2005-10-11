@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.8 2005-10-10 03:59:38 janakawicks Exp $ */
+/* $Id: main.inc,v 1.9 2005-10-11 06:47:30 saumya Exp $ */
 
 /**Main home page of the DVR
 *
@@ -10,9 +10,9 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author	  Mifan 
+* @author	  Mifan Careem <mifan@opensource.lk>
 * @author	  Janaka Wickramasinghe <janaka@opensource.lk> 
-* @author	  Saumya 
+* @author	  Saumya Gunawardana <saumya@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -54,6 +54,15 @@ function shn_dvr_default()
 {
     global $global;
     include $global['approot']."/mod/dvr/home.inc";
+}
+
+function shn_dvr_search()
+{
+    global $global;
+    //include the dvr search function library
+    include $global['approot']."/mod/dvr/search.inc";
+    //include the form handler 
+    require_once ($global['approot'].'/inc/handler_form.inc');
 }
 
 //Main Add Controller
