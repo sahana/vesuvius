@@ -17,25 +17,34 @@
 ?>
     <h3> Advanced Search </h3>
 <?php
+	 //include the form handler 
+    require_once ($global['approot'].'/inc/handler_form.inc');
+    //include the database handler 
+    required_once($global['approot'].'inc/handler_db.inc');
+    
     $header = array (array('method'=>"POST",'action'=>'')); // end of header
     shn_show_form($header);
 
-    $body = array ( 
-                array ( 'type'=>'radio','desc'=>'Select the type of the entry you want to enter, from the following list', 
-                        'name'=>'add_option', 'align'=>'right','options'=> 
-                        array ( 
-                            array ( 'drop_desc' => 'Individual - <i>If you want to add details of individuals choose this
- option</i>', 'value' => 'individual'),
-                            array ( 'drop_desc' => 'Group - <i>If you want to add details of individuals choose this option</i
->', 'value' => 'group')
-                            )
-                    )
-                );//end of body
+    $body = array (
+    	array ( 'type'=>'text','desc' => 'Name', 'size' => '30','name'=>'name'),
+    	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'option','options'=>
+    		array(
+    			array('drop_desc'=>'Exactly'),
+    			array('drop_desc'=>'Like'),
+    			array('drop_desc'=>'Start From')
+    		)
+    	),
+    	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'option','options'=>
+    		array(
+    			array('drop_desc'=>'Or'),
+    			array('drop_desc'=>'And'),
+    			array('drop_desc'=>'Not')
+    		)	
+    	)
+    );//end of body
     shn_show_form($body);
     
-    <?php
     $tail = array (
         array('type'=>"submit",'value'=>"Next")
     ); // end of tail
-?>
 ?>
