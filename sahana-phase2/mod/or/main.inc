@@ -32,14 +32,12 @@ function shn_or_mainmenu()
         <dd>
             <ul>
                 <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register a ORG</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=add_user">Register a user</a></li>
+                <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=view_all_org">View all ORG</a></li>
-
-                <li><a href="index.php?mod=<?=$module?>&act=add_branch">Add a Branch</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=edit_branch">Edit a Branch</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=reports">Reports</a></li>
-
+					 <li><a href="index.php?mod=<?=$module?>&act=reports">Reports</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=mng_con">Management Console</a></li>
-                
+             
             </ul>
         </dd>
        </dt>
@@ -48,17 +46,34 @@ function shn_or_mainmenu()
 
 // register a OR
 function shn_or_reg_org()
-{?>
-    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+{?> 
+    <center><h3><b>Organization Registry</p><br></b></h3></center>
 <?php
 include_once ("handler_or_registration.inc"); // call form generator
+
+}
+
+function shn_or_add_user()
+{?> 
+    <center><h3><b>Organization Registry</p><br></b></h3></center>
+<?php
+include_once ("handler_or_usr_add.inc"); // call form generator
+
+}
+
+// register a volunteer
+function shn_or_reg_vol()
+{?> 
+    <center><h3><b>Organization Registry</p><br></b></h3></center>
+<?php
+include_once ("handler_or_vol_registration.inc"); // call form generator
 
 }
 
 // view all OR
 function shn_or_view_all_org()
 {?>
-    <center><h3><b>Organization Regisry</p><br></b></h3></center>
+    <center><h3><b>Organization Registry</p><br></b></h3></center>
     <p>view all OR </p> 
 <?php
 }
@@ -66,9 +81,9 @@ function shn_or_view_all_org()
 // add branch
 function shn_or_add_branch()
 {?>
-    <center><h3><b>Organization Regisry</p><br></b></h3></center>
-    <p>add branch </p> 
-<?php
+    <center><h3><b>Organization Registry</p><br></b></h3></center>
+   <?php
+include_once ("handler_or_brn_add.inc"); // call form generator 
 }
 
 // edit branch
@@ -92,11 +107,12 @@ function shn_or_reports()
 function shn_or_default()
 {
 ?>
-    <center><h3><b> Welcome to Organization Regisry</p><br></b></h3></center>
-    <p> This is the default view</p>
+    <center><h3><b> Welcome to Organization Registry</p><br></b></h3></center>
+    <?php
+       include_once ("home.inc");
 
 
-<?php
+
 }
 
 // OR admin console
@@ -108,6 +124,7 @@ function shn_or_mng_con()
 
 
 <?php
+	include_once ("handler_or_mng_con.inc");
 }
 
 ?>
