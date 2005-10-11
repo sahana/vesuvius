@@ -10,10 +10,13 @@ Hide all unnecessary elements
 	position: static !important;
 	float: none !important;
       font: Arial, Helvetica, sans-serif;
+}
+
+body {	
       color: #000 !important;
 	background: #FFF !important;
 }
 
-#navigation {
+#skip, #modmenuwrap, #menuwrap, #loginform {
 	display: none;
 }
