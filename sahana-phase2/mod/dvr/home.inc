@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.1 2005-10-10 03:59:38 janakawicks Exp $ */
+/* $Id: home.inc,v 1.2 2005-10-11 06:54:29 saumya Exp $ */
 
 /**Main home page of the DVR
 *
@@ -10,9 +10,9 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author	  Mifan 
+* @author	  Mifan Careem <mifan@opensource.lk>
 * @author	  Janaka Wickramasinghe <janaka@opensource.lk> 
-* @author	  Saumya 
+* @author	  Saumya Gunawardana <saumya@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
