@@ -12,6 +12,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     Ravindra <ravindra@opensource.lk>
 * @author     Pradeeper <pradeeper@opensource.lk>
+* @author 	  Chathra <chathra@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
@@ -37,7 +38,13 @@ function shn_or_mainmenu()
                 <li><a href="index.php?mod=<?=$module?>&act=view_all_org">View all ORG</a></li>
 					 <li><a href="index.php?mod=<?=$module?>&act=reports">Reports</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=mng_con">Management Console</a></li>
-             
+                <!--The following part of sub menus should be visible based on the ACL information, by default it will be invisible.*/-->
+
+                 	<ul>
+                		<li><a href="index.php?mod=<?=$module?>&act=add_branch">Add a Branch</a></li>
+                		<li><a href="index.php?mod=<?=$module?>&act=edit_branch">Edit Branch Information</a></li>
+                		<li><a href="index.php?mod=<?=$module?>&act=add_branch">Add a User</a></li>
+                	</ul>
             </ul>
         </dd>
        </dt>
