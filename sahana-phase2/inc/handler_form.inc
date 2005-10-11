@@ -41,7 +41,7 @@ function shn_show_form($form)
                     echo $y['desc'];
                     echo '<input type=text '; 
                     foreach($y as $v){
-                       echo 'size=',$y['size'] ,' name="',$y['name'];
+                       echo 'size=',$v['size'] ,' name="',$v['name'];
                     
                     }
                     echo '">'; // end of 'text'
@@ -56,6 +56,22 @@ function shn_show_form($form)
             
 
                 
+                case "password" : // if 'input' type is passward
+                    echo $y['desc'];
+                    echo '<input type="password" ';
+                    foreach($y as $k) {
+                        echo 'size=',$k['size'],' name="',$k['name'];
+                    }
+                    echo '">';
+
+                    // this will generate the 'break'.
+                    for ($i=1; $i<=$y['br']; $i++)
+                    {
+                        if ($y['br']==0)
+                            break;
+                        echo "<br>";    
+                    }
+                break; // end of passwd
                 
                 
                 
@@ -89,7 +105,6 @@ function shn_show_form($form)
                 } // end of 'radio'
                 break;
 
-                
                 
                 
                 
