@@ -45,11 +45,11 @@ $conf['or_name'] = "Organization Registry";
 *from now on 'C' means 'create'
 */
 $conf['shn_or_action_groups'] = array(
-    'create' => 'C',
-    'delete' => 'D',
-    'update' => 'U',
-    'view'   => 'V',
-	'access' => 'A'
+    'create' => 'cre',
+    'delete' => 'del',
+    'update' => 'upd',
+    'view'   => 'viw',
+	'access' => 'acc'
 );
 
 /**
@@ -60,17 +60,17 @@ $conf['shn_or_action_groups'] = array(
 */
 
 $conf['shn_or_specific_roles'] = array(
-    'E'=>'Data Entry Operator',
+    'D'=>'Data Entry Operator',
     'B'=>'Branch Manager'
 );
 
 // list available permissions for OR module
 $conf['shn_perms_or'] = array(
-    'C' => 'ABDGU',
-    'D' => 'A',
-    'U' => 'ABDU',
-    'V'   => 'ABDGU',
-	'A' => 'ABDU'
+    'cre' => 'ABDGU',
+    'del' => 'A',
+    'upd' => 'ABDU',
+    'viw'   => 'ABDGU',
+	'acc' => 'ABDU'
 );
 
 // assign the functions to permissions to be used by the ACL
@@ -79,18 +79,27 @@ $conf['shn_perms_or'] = array(
 * therefore action group is 'A' which is avaliable
 *only to logged in users("admin","data entry operator","user")
 */
-$conf['shn_or_default']='A';
-$conf['shn_or_register']='C';
+$conf['shn_or_default'] = array(
+    'perms'=>array('acc')
+);
+$conf['shn_or_register'] = array(
+    'perms'=>array('cre')
+);
+
+$conf['shn_or_org_vw'] = array(
+    'perms'=>array('viw'),
+    'cases'=>array('all','one')
+);
 /*
 *when the edit org page loads its possible to update
 *organization data and create or delete branches 
 *so this function is only avaliable to admin
 */
-$conf['shn_or_edit_org']='CDU';
+$conf['shn_or_edit_org']=array('cre','del','upd');
 
 
 //branches
-$conf['shn_or_view_branch'] = 'V'; 
+$conf['shn_or_view_branch'] = array('viw'); 
 $conf['shn_or_add_branch'] = 'C';
 /*
 * when the user clicks the link to edit branch ,the
