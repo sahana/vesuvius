@@ -17,10 +17,9 @@ global $conf;
 include_once $global['approot']."/inc/lib_modules.inc";
 
 ?>
-
-        <p><a href="#content" class="mini">Skip Navigation</a></p>
+    <div id="menuwrap">
         <h2>Sahana Main</h2>
-        <dl>
+        <ul id="menu">
      <?php 
     // display the list of modules on the menu bar
     $module_list = shn_get_module_names();
@@ -32,15 +31,10 @@ include_once $global['approot']."/inc/lib_modules.inc";
     
        ?>
 
-       <dt><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></dt>
-        <dd>
-            <ul>
-                <li><a href="index.php?mod=<?=$i?>&act=default">Default</a></li>
-                <li><a href="index.php?mod=<?=$i?>&act=view">View</a></li>
-            </ul>
-        </dd>
-       </dt>
+           <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
     <?php 
     } ?>
 	
 
+       </ul>
+    </div> <!-- /menuwrap -->

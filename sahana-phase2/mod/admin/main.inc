@@ -4,17 +4,13 @@ function shn_admin_mainmenu()
 {
     global $global;
     $module = $global['module'];
-    include $global['approot']."/inc/handler_mainmenu.inc";
 
      // display the list of modules on the menu bar
     $module_list = shn_get_modules_with_admin();
 ?>
-
+    <div id="modmenuwrap">
         <h2>Admin Pages</h2>
-        <dl>
-        <dt><a href="index.php?mod=admin">Config Mods</a></dt>
-        <dd>
-          <ul>
+          <ul id="modmenu">
 
 <?php foreach ($module_list as $i) {  ?>
 
@@ -23,8 +19,9 @@ function shn_admin_mainmenu()
           </ul>
         </dd>
         </dt>
-        
+    </div> <!-- /modmenuwrap -->    
 <?php 
+    include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 	
 function shn_admin_view()

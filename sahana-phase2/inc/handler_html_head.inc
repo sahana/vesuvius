@@ -18,6 +18,6 @@
  <head> 
   <title>Sahana Disaster Management System </title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" media="screen" type="text/css" href="theme/<?php echo $conf['theme']?>/sahana.css" />
+  <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $conf['theme']?>/sahana.css" />
   <script type="javascript" src="theme/<?php echo $conf['theme']?>/sahana.js">
  </head>

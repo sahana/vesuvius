@@ -85,26 +85,26 @@ function shn_front_controller() {
         if (file_exists($approot."mod/".$f."/conf.inc")) {
           include ($approot."mod/".$f."/conf.inc");
         }
-    }
+    } 
 
     // Start the body and the CSS container element
-    echo '<body>';
-    echo '<div id="container">';
-
+    ?>
+    <body>
+        <div id="container">
+            <p id="skip">Jump to: <a href="#content">Content</a> | <a href="#modulemenu">Module Menu</a></p> 
+    <?php
+    
     // include the page header provided there is not a module override
     shn_include_page_section('header',$module);
     
     // Now include the wrapper for the main content
-    echo '<div id="wrapper" class="clearfix">';
-    echo '<div id="navigation">';
+    ?>          <div id="wrapper" class="clearfix">     <?php
 
     // include the mainmenu provided there is not a module override
     shn_include_page_section('mainmenu',$module);
 
-    echo '</div> <!-- /navigation -->';
-    
     // now include the main content of the page
-    echo '<div id="content">';
+    ?>          <div id="content">                      <?php
 
     // compose and call the relevant module function 
     $module_function = "shn_".$module."_".$action;
@@ -113,16 +113,16 @@ function shn_front_controller() {
     }
     $module_function(); 
         
-    include($approot."test/testconf.inc"); 
+    #include($approot."test/testconf.inc"); 
 
-    echo '</div> <!-- /content -->';
+    ?>          </div> <!-- /content -->                <?php
 
     // include the footer provided there is not a module override
     shn_include_page_section('footer',$module);
     ?>
 
-    </div> <!-- /wrapper -->
-    </div> <!-- /container -->
+                </div> <!-- /wrapper -->
+        </div> <!-- /container -->
     </body>
     </html>
 <?php 

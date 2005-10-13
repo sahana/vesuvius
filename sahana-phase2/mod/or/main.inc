@@ -24,14 +24,11 @@ function shn_or_mainmenu()
 {
     global $global;
     $module = $global['module'];
-    include $global['approot']."/inc/handler_mainmenu.inc";
 ?>
     
+   <div id="modmenuwrap"> 
         <h2>OR Module Actions</h2>
-        <dl>
-       <dt><a href="index.php?mod="></a></dt>
-        <dd>
-            <ul>
+            <ul id="modmenu">
                 <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register a ORG</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=add_user">Register a user</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
@@ -46,9 +43,9 @@ function shn_or_mainmenu()
                 		<li><a href="index.php?mod=<?=$module?>&act=add_branch">Add a User</a></li>
                 	</ul>
             </ul>
-        </dd>
-       </dt>
+    </div> <!-- /modmainwrap -->
     <?php 
+    include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
 // register a OR
