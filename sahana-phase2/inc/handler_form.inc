@@ -36,13 +36,12 @@ function shn_show_form($form)
     foreach ($form as $y) { // body part of the form
             switch($y['type']){ // cheack for the 'input' type
                 
-                
                 case "text": // if 'input' type is *text*
                     echo $y['desc'];
-                    echo '<input type=text '; 
-                    foreach($y as $v){
-                       echo 'size=',$v['size'] ,' name="',$v['name'];
-                    
+                    echo '<input type=text ';
+                    foreach ($y as $k => $v){
+                        if($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
+                            echo $k.'="'.$v.'" '; // print
                     }
                     echo '">'; // end of 'text'
                     // this will generate the 'break'.
@@ -51,7 +50,7 @@ function shn_show_form($form)
                         if ($y['br']==0)
                             break;
                         echo "<br>";    
-                    }
+                    } 
                 break;
             
 
