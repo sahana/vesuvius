@@ -1,7 +1,7 @@
 <?php
 
 // provide the nice display name for the DVR module
-$conf['dvr_name'] = "People Registry";
+$conf['mod_dvr_name'] = "People Registry";
 
 // list the available permissions for the dvr modules
 $conf['shn_perms_dvr'] = array(

@@ -17,7 +17,7 @@
 
 
 // provide the nice display name for the OR  module
-$conf['or_name'] = "Organization Registry";
+$conf['mod_or_name'] = "Organization Registry";
 
 /**********************************************************************/
 /* specify ACL settings

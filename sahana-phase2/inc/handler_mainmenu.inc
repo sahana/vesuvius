@@ -26,7 +26,7 @@ include_once $global['approot']."/inc/lib_modules.inc";
 
     foreach ($module_list as $i) {  
        
-       $module_name = $conf[$i."_name"]; 
+       $module_name = $conf["mod_".$i."_name"]; 
        $module_name = ( null == $module_name )? $i : $module_name ;
     
        ?>

@@ -3,19 +3,22 @@
 function shn_admin_mainmenu() 
 {
     global $global;
+    global $conf;
     $module = $global['module'];
 
      // display the list of modules on the menu bar
     $module_list = shn_get_modules_with_admin();
 ?>
     <div id="modmenuwrap">
-        <h2>Admin Pages</h2>
+        <h2>Administration</h2>
           <ul id="modmenu">
+            <li><a href="#">Module Config </a></li>
+              <ul id="modsubmenu">
 
 <?php foreach ($module_list as $i) {  ?>
 
-            <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$i?></a></li><?php } ?> 
-            
+            <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
+              </ul>
           </ul>
         </dd>
         </dt>
