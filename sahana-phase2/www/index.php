@@ -91,14 +91,16 @@ function shn_front_controller() {
     ?>
     <body>
         <div id="container">
-            <p id="skip">Jump to: <a href="#content">Content</a> | <a href="#modulemenu">Module Menu</a></p> 
     <?php
     
     // include the page header provided there is not a module override
     shn_include_page_section('header',$module);
     
     // Now include the wrapper for the main content
-    ?>          <div id="wrapper" class="clearfix">     <?php
+    ?>     
+            <div id="wrapper" class="clearfix"> 
+                <p id="skip">Jump to: <a href="#content">Content</a> | <a href="#modulemenu">Module Menu</a></p> 
+    <?php
 
     // include the mainmenu provided there is not a module override
     shn_include_page_section('mainmenu',$module);
