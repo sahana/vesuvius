@@ -58,11 +58,11 @@ function shn_show_form($form)
                 case "password" : // if 'input' type is passward
                     echo $y['desc'];
                     echo '<input type="password" ';
-                    foreach($y as $k) {
-                        echo 'size=',$k['size'],' name="',$k['name'];
+                    foreach($y as $k => $v) {
+                        if ($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
+                            echo $k.'="'.$v.'" ';    
                     }
                     echo '">';
-
                     // this will generate the 'break'.
                     for ($i=1; $i<=$y['br']; $i++)
                     {
