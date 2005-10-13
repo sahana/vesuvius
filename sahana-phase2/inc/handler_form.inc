@@ -38,7 +38,7 @@ function shn_show_form($form)
                 
                 case "text": // if 'input' type is *text*
                     echo $y['desc'];
-                    echo '<input type=text ';
+                    echo '<input '; 
                     foreach ($y as $k => $v){
                         if($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
                             echo $k.'="'.$v.'" '; // print
@@ -57,7 +57,7 @@ function shn_show_form($form)
                 
                 case "password" : // if 'input' type is passward
                     echo $y['desc'];
-                    echo '<input type="password" ';
+                    echo '<input ';
                     foreach($y as $k => $v) {
                         if ($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
                             echo $k.'="'.$v.'" ';    
@@ -109,12 +109,19 @@ function shn_show_form($form)
                 
                 
                 case "dropdown" : // if 'input' type is *dropdown*
+
                     echo $y['desc'],' <select name="',$y['name'],'">';
                     foreach($y['options'] as $k){ // generating the values for drop down menu
-                      echo '<option>',$k['drop_desc'];
+                        if ($k['select']==1){ // check whether which one is defult
+                            $select = " selected";
+                        } else { // else make it nothing, otherwise it makes all checked
+                                $select = "";
+                               } // end of the default selection
+                                   
+                        echo '<option',$select,'>',$k['drop_desc'];
+                        
                     }
                     echo '</select><br>'; 
-                    echo $k['select'];
                 break; //end of 'drop down'
             
 
@@ -134,11 +141,11 @@ function shn_show_form($form)
                     echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'"',
                                                         $select,'>',$y['drop_desc'];
                                                         
-                        // check whether a line break requested...
-                        for ($i=1; $i<=$y['br']; $i++)
-                        {
-                            if ($y['br']==0)
-                                break;
+                    // check whether a line break requested...
+                    for ($i=1; $i<=$y['br']; $i++)
+                    {
+                        if ($y['br']==0)
+                            break;
                             echo "<br>";
                         }
                 break; // end of checkbox
