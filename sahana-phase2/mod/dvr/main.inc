@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.12 2005-10-14 03:44:47 saumya Exp $ */
+/* $Id: main.inc,v 1.13 2005-10-14 04:00:16 saumya Exp $ */
 
 /**Main home page of the DVR
 *
