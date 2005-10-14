@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.11 2005-10-13 10:39:55 chamindra Exp $ */
+/* $Id: main.inc,v 1.12 2005-10-14 03:44:47 saumya Exp $ */
 
 /**Main home page of the DVR
 *
@@ -57,6 +57,20 @@ function shn_dvr_search()
     global $global;
     //include the dvr search function library
     include $global['approot']."/mod/dvr/search.inc";
+    //include the form handler 
+   	require_once ($global['approot'].'/inc/handler_form.inc');
+    //include the database handler 
+    require_once($global['approot'].'inc/handler_db.inc');
+
+    //check the add_sequence
+    switch ($_REQUEST['search_seq']){
+    case 'result':
+        _shn_dvr_search_result();
+        break;
+    default :
+        _shn_dvr_search_default();
+        break;
+    }
 }
 
 //Main Add Controller
