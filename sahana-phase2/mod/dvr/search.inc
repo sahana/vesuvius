@@ -91,7 +91,7 @@ function _shn_dvr_search_result()
 	$opt[2] = ($_POST['opt_addr']!=NULL)?$_POST['opt_addr']:NULL;
     $or[0] = ($_POST['or_name']!=NULL)?$_POST['or_name']:NULL;
 	$or[1] = ($_POST['or_age']!=NULL)?$_POST['or_age']:NULL;
-	
+
 	if($args!=NULL){
 		for($i=0;$i<=2;$i++){
 			if($args[$i]!=NULL){
@@ -133,9 +133,8 @@ function _shn_dvr_search_result()
         			print 'Error Fetching: '.$conn->ErrorMsg().'<br />';
     			} 
     			else{
-    				$i=0;
+    				$j=1;
     				while ($arr = $rs->FetchRow()) {
-    					//$rec_name[$i]=$arr['rec_id'];
     					$sql="SELECT form_id FROM people_reg WHERE rec_id='".$arr['rec_id']."' AND active=1"; 
             			$res = $conn->SelectLimit($sql);
 						if ($res === false) {
@@ -143,10 +142,16 @@ function _shn_dvr_search_result()
     					} 
     					else{
     						while ($arr2 = $res->FetchRow()) {
-    							$arr_name[$i]=$arr2['form_id'];
+    							if($i==0){
+    								$arr_name[$j]=$arr2['form_id'];
+    							}elseif($i==1){
+    								$arr_age[$j]=$arr2['form_id'];
+    							}else{
+    								$arr_addr[$j]=$arr2['form_id'];
+    							}
+    							$j++;
     						}
     					}
-    					$i++;
     				}
     			}
     		}	
@@ -156,29 +161,29 @@ function _shn_dvr_search_result()
  	if($arr_name!=NULL){
  		if($arr_age!=NULL){
  			if($arr_addr!=NULL){
- 				if($opt[0]=="Or"){
+ 				if($or[0]=="Or"){
     				$result=array_merge($arr_name,$arr_age);
-    				if($opt[1]=="Or"){
+    				if($or[1]=="Or"){
     					$result=array_merge($result,$arr_addr);
-    				}elseif($opt[1]=="And"){
+    				}elseif($or[1]=="And"){
     					$result=array_intersect($result,$arr_addr);
     				}else{
     					$result=$result;
     				}
-    			}elseif($opt[0]=="And"){
+    			}elseif($or[0]=="And"){
     				$result=array_intersect($arr_name,$arr_age);
-    				if($opt[1]=="Or"){
+    				if($or[1]=="Or"){
     					$result=array_merge($result,$arr_addr);
-    				}elseif($opt[1]=="And"){
+    				}elseif($or[1]=="And"){
     					$result=array_intersect($result,$arr_addr);
     				}else{
     					$result=$result;
     				}
     			}
     		}else{
-    			if($opt[0]=="Or"){
+    			if($or[0]=="Or"){
     				$result=array_merge($arr_name,$arr_age);
-    			}elseif($opt[0]=="And"){
+    			}elseif($or[0]=="And"){
     				$result=array_intersect($arr_name,$arr_age);
     			}else{
     				$result=$result;
@@ -186,9 +191,9 @@ function _shn_dvr_search_result()
     		}
     	}else{
     		if($arr_addr!=NULL){
-    			if($opt[1]=="Or"){
+    			if($or[1]=="Or"){
     				$result=array_merge($arr_name,$arr_addr);
-    			}elseif($opt[1]=="And"){
+    			}elseif($or[1]=="And"){
     				$result=array_intersect($arr_name,$arr_addr);
     			}else{
     				$result=$result;
@@ -200,9 +205,9 @@ function _shn_dvr_search_result()
     }else{
     	if($arr_age!=NULL){
  			if($arr_addr!=NULL){
- 				if($opt[1]=="Or"){
+ 				if($or[1]=="Or"){
     				$result=array_merge($arr_age,$arr_addr);
-    			}elseif($opt['1']=="And"){
+    			}elseif($or['1']=="And"){
     				$result=array_intersect($arr_age,$arr_addr);
     			}else{
     				$result=$result;
@@ -232,7 +237,7 @@ function _shn_dvr_search_result()
 <?php
     	foreach($result as $value){
 ?>
-			<tr><td>
+			<tr><td><a href="index.php?mod=<?=$module?>&act=view&form_id=<?=$value?>">
 <?php
     		$sql="SELECT metadata_text.value FROM people_reg,metadata_text WHERE people_reg.form_id='".$value."' AND people_reg.active=1 AND people_reg.meta_id=1 AND people_reg.rec_id=metadata_text.rec_id"; 
     		//print($sql);
@@ -247,7 +252,7 @@ function _shn_dvr_search_result()
     			}
     		}
 ?>
-			</td><td>
+			</a></td><td><a href="index.php?mod=<?=$module?>&act=view&form_id=<?=$value?>">
 <?php
     		$sql="SELECT metadata_int.value FROM people_reg,metadata_int WHERE people_reg.form_id='".$value."' AND people_reg.active=1 AND people_reg.meta_id=2 AND people_reg.rec_id=metadata_int.rec_id"; 
     		//print($sql);
@@ -262,7 +267,7 @@ function _shn_dvr_search_result()
     			}
     		}
 ?>
-			</td><td>
+			</a></td><td><a href="index.php?mod=<?=$module?>&act=view&form_id=<?=$value?>">
 <?php
     		$sql="SELECT metadata_text.value FROM people_reg,metadata_text WHERE people_reg.form_id='".$value."' AND people_reg.active=1 AND people_reg.meta_id=3 AND people_reg.rec_id=metadata_text.rec_id"; 
     		//print($sql);
@@ -277,7 +282,7 @@ function _shn_dvr_search_result()
     			}
     		}
 ?>
-			</td></tr>
+			</a></td></a></tr>
 <?php
     	}
 ?>
