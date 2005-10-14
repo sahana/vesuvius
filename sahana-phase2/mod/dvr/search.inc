@@ -24,7 +24,6 @@ function _shn_dvr_search_default()
 
     $body = array (
     	array('type'=>'text','desc'=>'Name','size'=>'30','name'=>'name'),
-    	array('type'=>'password','desc'=>'Name','size'=>'30','name'=>'name55'),
     	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'opt_name','options'=>
     		array(
     			array('drop_desc'=>'Exactly'),
