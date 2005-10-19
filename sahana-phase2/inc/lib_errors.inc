@@ -9,15 +9,51 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author     
+* @author     Janaka Wickramasinghe <janaka@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
 /**
-* @package Error Container
+* Error Container
 */
 
 $error_container = array();
+
+/**
+* Display Errors
+* @param bool $clean_erros clean the error container 
+* @param bool $exit Exit the script execution 
+*/
+
+function display_errors($return=false,$clean_errors=true,$exit=false)
+{
+	$errors = return_errors();
+    $output = "<div id=\"error\">";
+	if($exit){
+		$output .= '<b>'._('O my god you killed Kenny').'</b><br>'; 
+	}else{
+		$output .= '<b>'._('O\' my god you killed Kenny')."</b><br>";
+	}
+    $output .= "<ul>";
+	foreach ($errors as $error){
+		$output .= "<li>"._($error).'<br></li>';
+	}
+    $output .= "</ul>";
+    $output .= "</div>";
+
+    //Clean Errors
+	if($clean_errors)
+        clean_errors();
+
+	if($exit)
+		exit(1);
+	else{
+        if($return)
+            return $output;
+        else
+		    return 1;
+    }
+}
 
 /**
 * Add Errors to the container
@@ -26,7 +62,10 @@ $error_container = array();
 function add_error($error)
 {
 	global $error_container;
-	array_push($error_container,$error);
+    if(is_array($error))
+    	array_push($error_container,$error);
+    else
+        $error_container[] = $error;
 }	
 function add_error_debug($file,$line,$intNumber,$strmessage)
 {
@@ -60,7 +99,5 @@ function return_errors()
 	global $error_container;
 	return $error_container;
 }
-
-
 
 ?>
