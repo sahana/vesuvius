@@ -176,8 +176,17 @@ function shn_show_form($form)
                
                 
                 case "txtarea" : // if 'input' type is a txtarea
+                    echo '<label>'.$y['desc'].'</label>';
                     echo '<textarea name="',$y['name'],'" rows=',$y['rows'],' cols=',$y['cols'],'>';
                     echo '</textarea>';
+                    // check whether a line break requested...
+                    for ($i=1; $i<=$y['br']; $i++)
+                    {
+                        if ($y['br']==0)
+                            break;
+                            echo "<br>";
+                        }
+
                 break; //end of txtarea
                
                 case "seperator" : // this is a seperator
