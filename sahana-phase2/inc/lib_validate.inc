@@ -115,7 +115,7 @@ function emailCheck($field)
    $validEmailExpr =  "^[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*" .
                       "@[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*$";
 
-   if (!eregi($validEmailExpr, $field)
+   if (!eregi($validEmailExpr, $field))
    {
       return false;
    }
@@ -136,5 +136,21 @@ function emailCheck($field)
    }
 
    return true;
+}
+
+function shn_check_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
+{
+    if(preg_match($pattern,$date))
+        return true;
+    else
+        return false;
+}
+
+function shn_check_number($str,$pattern='/^\d+$/')
+{
+    if(preg_match($pattern,$date))
+        return true;
+    else
+        return false;
 }
 ?>

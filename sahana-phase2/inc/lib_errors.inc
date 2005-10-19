@@ -30,9 +30,9 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
 	$errors = return_errors();
     $output = "<div id=\"error\">";
 	if($exit){
-		$output .= '<b>'._('O my god you killed Kenny').'</b><br>'; 
+		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
 	}else{
-		$output .= '<b>'._('O\' my god you killed Kenny')."</b><br>";
+		$output .= '<b>'._('O\' my god you killed Kenny !!!')."</b><br>";
 	}
     $output .= "<ul>";
 	foreach ($errors as $error){
@@ -50,8 +50,10 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
 	else{
         if($return)
             return $output;
-        else
+        else{
+            echo $output;
 		    return 1;
+        }
     }
 }
 
