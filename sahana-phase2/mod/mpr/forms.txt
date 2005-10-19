@@ -1,0 +1,35 @@
+--- Personal Details
+First name|fname|text
+Last name|lname|text
+Other names|oname|text
+Gender|gender|dropdown|Unknown,U;Male,M;Female,f
+Date Of Birth(YYYY-MM-DD)|dob|text
+Age|age|text
+Marital Status|marital_status|dropdown|Unknown,U;Single,S;Married,M;Divorced,D;Widowed,W
+Religion|religion|text
+Race|race|text
+--- Contact detail
+Address|address|text
+Location|location|location
+Phone Number|phone|text
+--- Indentification
+Old Id|id1|text
+New Id|id2|text
+Family Id|id3|text
+--- Physical Appearance
+Skin Color|skin_color|dropdown|Unknown,unknown;Dark or Black,dark;Brown,brown;Fair,fair;White,white
+Hair Color|hair_color|dropdown|Unknown,unknown;Black,black;Dark Brown,dark_brown;Grey,grey;Black going grey,grey_black;Tinted,tinted;Blonde,blonde;Brunette,brunette;Red,red;Bald,bald;Other,other
+Eye Color|eye_color|dropdown|Unknown,unknown;Black,black;Dark brown,dark_brown;Light brown,light_brown;Blue,blue;Grey,grey;Green,green;other,other;
+Height|height|text
+Weight|weight|text
+Distinctive features|comments|txtarea
+Last clothing|last_seen|txtarea
+Last clothing|last_clothing|txtarea
+--- Reported By
+First Name|report_fname|text
+Last Name|report_lname|text
+Address|report_address|text
+Phone|report_phone|text
+Relationship|report_relation|text
+Organization|report_organization|text
+

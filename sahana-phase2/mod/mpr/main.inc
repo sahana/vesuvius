@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.1 2005-10-19 06:08:20 chamindra Exp $ */
+/* $Id: main.inc,v 1.2 2005-10-19 12:32:06 janakawicks Exp $ */
 
 /**Main home page of the DVR
 *
@@ -53,7 +53,24 @@ function shn_mpr_fndmp()
 function shn_mpr_addmp()
 {
     global $global;
-    echo "<h2>Add a Missing Person</h2>";
+    //include the mpr add function library
+    include ($global['approot'].'/mod/mpr/add.inc');
+
+    //Include the presentation layer
+    //@todo : (may be not for this) check the presentation layer
+    require_once ($global['approot'].'/inc/handler_form.inc');
+
+    //check the add_sequence
+    switch ($_REQUEST['add_sequence']){
+    case 'commit':
+        _shn_mpr_add_commit();
+        break;
+    default :
+        _shn_mpr_add_default();
+        break;
+    }
+
+
 }
 
 function shn_mpr_search()
