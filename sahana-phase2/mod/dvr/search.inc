@@ -18,47 +18,37 @@ function _shn_dvr_search_default()
 {
 ?>
     <h3> Advanced Search </h3>
-<?php    
+<?php   
+	global $global; 
+	$filename = $global['approot']."/mod/dvr/test.txt"; // File which holds fields 
+	$arr_fields = file($filename); // Open the file as an array
+	$numLines = count($arr_fields); // Count the elements in the array
+
     $header = array (array('method'=>"POST",'action'=>'')); // end of header
     shn_show_form($header);
-
-    $body = array (
-    	array('type'=>'text','desc'=>'Name','size'=>'30','name'=>'name'),
-    	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'opt_name','options'=>
-    		array(
-    			array('drop_desc'=>'Exactly'),
-    			array('drop_desc'=>'Like'),
-    			array('drop_desc'=>'Starting From')
-    		)
-    	),
-    	array ( 'type'=>'dropdown','desc' => '', 'name'=>'or_name','options'=>
-    		array(
-    			array('drop_desc'=>'Or'),
-    			array('drop_desc'=>'And')
-    		)	
-    	),
-    	array('type'=>'text','desc'=>'Age','size'=>'5','name'=>'age'),
-    	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'opt_age','options'=>
-    		array(
-    			array('drop_desc'=>'Exactly')
-    		)
-    	),
-    	array ( 'type'=>'dropdown','desc' => '', 'name'=>'or_age','options'=>
+    
+	foreach($arr_fields as $value){
+		$temp = preg_split("/#/", $value);
+		
+		$field=NULL;
+		$caption=NULL;
+		$size=NULL;
+		
+		$field=$temp[0];
+		$caption=$temp[1];
+		$size=$temp[2];
+		$or_name="or_".$field;
+		$body = array (
+		array('type'=>'text','desc'=>$caption,'size'=>$size,'name'=>$field),
+    	array ( 'type'=>'dropdown','desc' => '', 'name'=>$or_name,'options'=>
     		array(
     			array('drop_desc'=>'Or'),
     			array('drop_desc'=>'And')
     		)	
-    	),
-    	array('type'=>'text','desc'=>'Address','size'=>'50','name'=>'address'),
-    	array ( 'type'=>'dropdown','desc' => 'Option', 'name'=>'opt_addr','options'=>
-    		array(
-    			array('drop_desc'=>'Exactly'),
-    			array('drop_desc'=>'Like'),
-    			array('drop_desc'=>'Starting From')
-    		)
-    	)	
+    	)
     );//end of body
     shn_show_form($body);
+	}
     
     $tail = array (
         array('type'=>"submit",'value'=>"Search")
