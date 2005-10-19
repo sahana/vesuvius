@@ -52,8 +52,6 @@ CREATE TABLE location_type(
     PRIMARY KEY (location_type_id)
 );
 
-
-
 CREATE TABLE location(
     location_id BIGINT NOT NULL AUTO_INCREMENT,
     parent_id BIGINT DEFAULT 0,
@@ -81,7 +79,9 @@ CREATE TABLE devel_logsql (
 
 /*** PERSON TABLES ***/
 
--- Main person ID table 
+-- Main Person ID table 
+-- Contains all IDs including the UUID that gives a 100%
+-- match to uniquely identify the person
 CREATE TABLE person_id (
     p_uuid BIGINT NOT NULL AUTO_INCREMENT,
     id_1 VARCHAR(100),     -- usually nic
@@ -108,11 +108,11 @@ CREATE TABLE person_entry (
     reporter_uuid BIGINT,  -- details on the person who reported the entry
     p_uuid BIGINT NOT NULL,
     PRIMARY KEY (e_uuid),
-    FOREIGN KEY (p_uuid) REFERECES person_id(p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
     FOREIGN KEY (user_uuid) REFERENCES person_id(p_uuid)
 );
     
--- Person names 
+-- Person Names 
 CREATE TABLE person_main (
     p_uuid BIGINT NOT NULL,
     name_1 VARCHAR(100),   -- usually first name
@@ -124,7 +124,7 @@ CREATE TABLE person_main (
     FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
 );
 
--- Contact information
+-- Contact Information
 CREATE TABLE person_contact (
     p_uuid  BIGINT NOT NULL,
     phone_1 VARCHAR(25),   -- usually current contact land phone
@@ -136,14 +136,22 @@ CREATE TABLE person_contact (
     im_1 VARCHAR(200),     -- instant messenger id 
     im_2 VARCHAR(200),     -- instant messenger id 
     address_1 TEXT,        -- usually current address
+    location_1 BIGINT      -- the location of address_1
+                           -- the location can be at any level of granularity
     address_2 TEXT,        -- usually home address 
+    location_2 BIGINT      -- the location of address_2
     address_3 TEXT,        -- usually previous address
-    current_shelter,       -- if at a current shelter
+    location_3 BIGINT      -- the location of address_3
+    cur_shelter,           -- if at a current shelter
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (location_1) REFERENCES location(location_id)
+    FOREIGN KEY (location_2) REFERENCES location(location_id)
+    FOREIGN KEY (location_3) REFERENCES location(location_id)
 );
 
-CREATE TABLE group (
+-- Group information
+CREATE TABLE person_group (
     g_uuid BIGINT NOT NULL AUTO_INCREMENT, 
     name VARCHAR(100),
     g_type TINYINT,          -- type of the group
@@ -151,12 +159,21 @@ CREATE TABLE group (
     contact_2_uuid BIGINT, 
     PRIMARY KEY (g_uuid),
     FOREIGN KEY (contact_1_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (contact_2_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (contact_2_uuid) REFERENCES person_id(p_uuid),
+    FOREIGN KEY (g_type) REFERENCE person_group_type(type_id)
 );
 
-CREATE TABLE group_type (
+-- Specify the types of groups available and values
+CREATE TABLE person_group_type (
+    type_id SMALLINT NOT NULL,
+    type_name VARCHAR(100)
 );
-    
+
+INSERT INTO person_group_type (type_name) VALUES(1,'family');
+INSERT INTO person_group_type (type_name) VALUES(2,'company');
+INSERT INTO person_group_type (type_name) VALUES(3,'community');
+INSERT INTO person_group_type (type_name) VALUES(4,'other');
+
 CREATE TABLE people_working_details (
     form_id BIGINT NOT NULL,
     organization TEXT,
@@ -181,30 +198,6 @@ CREATE TABLE people_extended (
     marital_status VARCHAR(1),
     PRIMARY KEY (form_id),
     FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
-);
-
-CREATE TABLE dvr_group (
-    group_id BIGINT NOT NULL AUTO_INCREMENT,
-    group_name TEXT,
-    group_type TEXT,
-    PRIMARY KEY (group_id)
-);
-
-CREATE TABLE dvr_people_group (
-    form_id BIGINT NOT NULL,
-    group_id BIGINT NOT NULL,   
-    PRIMARY KEY (form_id, group_id),
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id),
-    FOREIGN KEY (group_id) REFERENCES dvr_group(group_id)
-);
-
-CREATE TABLE dvr_group_extended (
-    group_id BIGINT NOT NULL,
-    race TEXT,
-    ethnic_group TEXT,
-    other TEXT,
-    PRIMARY KEY (group_id),
-    FOREIGN KEY (group_id) REFERENCES dvr_group(group_id)
 );
 
 CREATE TABLE dvr_next_kin (
