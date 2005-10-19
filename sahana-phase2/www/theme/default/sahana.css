@@ -342,3 +342,7 @@ p#skip {
 	border-top: #036 5px solid;
 }
 
+#error {
+    color: #FFF;
+    background-color: #F00;
+}
