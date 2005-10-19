@@ -72,7 +72,18 @@ function shn_show_form($form)
                     }
                 break; // end of passwd
                 
-                
+               
+
+
+                case "hiddeni" : // if 'input' type is hidden
+                    echo '<input type=hidden name=';
+                    foreach($y as $k => $v) {
+                        if ($k != 'type')
+                            echo $k.'="'.$v.'" ';
+                    }
+                break;
+
+
                 
                 case "radio" : // if 'input' type is *radio*
                     
