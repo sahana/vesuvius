@@ -75,7 +75,7 @@ function shn_show_form($form)
                
 
 
-                case "hiddeni" : // if 'input' type is hidden
+                case "hidden" : // if 'input' type is hidden
                     echo '<input type=hidden name=';
                     foreach($y as $k => $v) {
                         if ($k != 'type')
