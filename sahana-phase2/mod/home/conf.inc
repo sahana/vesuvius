@@ -1,6 +1,6 @@
 <?php
 
-$conf['home_name'] = "Home Page";
+$conf['mod_home_name'] = "Home Page";
 
 
 #$conf['dvr_perms'] = [
