@@ -37,7 +37,7 @@ function shn_show_form($form)
             switch($y['type']){ // cheack for the 'input' type
                 
                 case "text": // if 'input' type is *text*
-                    echo '<lable>'.$y['desc'].'</lable>';
+                    echo '<label>'.$y['desc'].'</label>';
                     echo '<input '; 
                     foreach ($y as $k => $v){
                         if($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
