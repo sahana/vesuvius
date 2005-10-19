@@ -29,7 +29,7 @@ include_once ($global['approot']."conf/config.inc");
 //TODO: when config is not there we have to setup
 
 include_once ($global['approot']."inc/lib_modules.inc"); 
-include ($global['approot']."inc/lib_session/session.inc");
+include ($global['approot']."inc/lib_session/handler_session.inc");
 include ($global['approot']."inc/lib_security/authenticate.inc");
 
 shn_front_controller();
@@ -44,8 +44,7 @@ function shn_front_controller() {
     $action = $global['action'];
     $module = $global['module'];
 
-    // Start a session and authenticate user
-	shn_session_start();
+    // authenticate user
 	$user_data = shn_authenticate_user();
 
  	if($user_data["user_id"]>0){
