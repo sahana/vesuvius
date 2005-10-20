@@ -87,7 +87,8 @@ CREATE TABLE person_id (
     id_1 VARCHAR(100),     -- usually nic
     id_2 VARCHAR(100),     -- usually passport #
     id_3 VARCHAR(100),     -- usually driving licence # 
-    id_4 VARCHAR(100)      
+    id_4 VARCHAR(100),
+    PRIMARY KEY(p_uuid)      
 );
 
 -- All users have a associade person id
@@ -136,18 +137,24 @@ CREATE TABLE person_contact (
     im_1 VARCHAR(200),     -- instant messenger id 
     im_2 VARCHAR(200),     -- instant messenger id 
     address_1 TEXT,        -- usually current address
-    location_1 BIGINT      -- the location of address_1
+    location_1 BIGINT,      -- the location of address_1
                            -- the location can be at any level of granularity
     address_2 TEXT,        -- usually home address 
-    location_2 BIGINT      -- the location of address_2
+    location_2 BIGINT,      -- the location of address_2
     address_3 TEXT,        -- usually previous address
-    location_3 BIGINT      -- the location of address_3
-    cur_shelter,           -- if at a current shelter
+    location_3 BIGINT,      -- the location of address_3
+    cur_shelter TEXT,           -- if at a current shelter
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
-    FOREIGN KEY (location_1) REFERENCES location(location_id)
-    FOREIGN KEY (location_2) REFERENCES location(location_id)
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
+    FOREIGN KEY (location_1) REFERENCES location(location_id),
+    FOREIGN KEY (location_2) REFERENCES location(location_id),
     FOREIGN KEY (location_3) REFERENCES location(location_id)
+);
+
+-- Specify the types of groups available and values
+CREATE TABLE person_group_type (
+    type_id SMALLINT NOT NULL,
+    type_name VARCHAR(100)
 );
 
 -- Group information
@@ -160,20 +167,15 @@ CREATE TABLE person_group (
     PRIMARY KEY (g_uuid),
     FOREIGN KEY (contact_1_uuid) REFERENCES person_id(p_uuid),
     FOREIGN KEY (contact_2_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (g_type) REFERENCE person_group_type(type_id)
+    FOREIGN KEY (g_type) REFERENCES person_group_type(type_id)
 );
 
--- Specify the types of groups available and values
-CREATE TABLE person_group_type (
-    type_id SMALLINT NOT NULL,
-    type_name VARCHAR(100)
-);
 
-INSERT INTO person_group_type (type_name) VALUES(1,'family');
+/*INSERT INTO person_group_type (type_name) VALUES(1,'family');
 INSERT INTO person_group_type (type_name) VALUES(2,'company');
 INSERT INTO person_group_type (type_name) VALUES(3,'community');
 INSERT INTO person_group_type (type_name) VALUES(4,'other');
-
+*/
 CREATE TABLE people_working_details (
     form_id BIGINT NOT NULL,
     organization TEXT,
