@@ -96,8 +96,10 @@ CREATE TABLE user (
     p_uuid BIGINT NOT NULL,
     username VARCHAR(100),
     password VARCHAR(100),
+    acl_id INT(11),
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
+    FOREIGN KEY (acl_id) REFERENCES gacl_aro(id)
 );
 
 -- Main entry table as there can be multiple entries
@@ -219,7 +221,6 @@ CREATE TABLE dvr_medical (
     eye_color VARCHAR(50),
     skin_color VARCHAR(50),
     hair_color VARCHAR(50),
-    
     PRIMARY KEY (form_id) ,
     FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
 );
@@ -335,5 +336,67 @@ CREATE TABLE dirty_tables(
     PRIMARY KEY (tablename)
 );
 */
+
+/* SCHEMA for Organization Registry */
+/* author chathra   */
+/* author ravindra  */
+/* prefix : org_ */
+
+-- ORG MAIN
+CREATE TABLE org_main(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+    parent_id BIGINT DEFAULT 0,
+    name VARCHAR(100) NOT NULL ,
+	or_type BIGINT NOT NULL,
+	reg_no VARCHAR(100),
+    facilities VARCHAR(200),
+	privacy INT(1) DEFAULT 1,
+	PRIMARY KEY (id),
+	FOREIGN KEY (or_type) REFERENCES org_types(id)
+);
+
+-- ORG TYPE
+CREATE TABLE org_types(
+
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	org_type VARCHAR(50),
+	PRIMARY KEY (id)
+);
+
+-- ORG SECTORS
+CREATE TABLE org_sector_types(
+
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	sector VARCHAR(50),
+	PRIMARY KEY (id)
+);
+
+-- ORG SECTOR  INFORMATION
+CREATE TABLE org_sector(
+	org_id BIGINT NOT NULL,
+	sector_id VARCHAR(32) NOT NULL,
+    PRIMARY KEY (org_id, sector_id),
+    FOREIGN KEY (org_id) REFERENCES org_main(id),
+    FOREIGN KEY (sector_id) REFERENCES org_sector_types(id)
+);
+
+-- ORG LOCATION INFORMATION
+CREATE TABLE org_location(
+	org_id BIGINT NOT NULL,
+	location_id BIGINT NOT NULL,
+    PRIMARY KEY (org_id, location_id),
+	FOREIGN KEY (location_id) REFERENCES location(location_id),
+	FOREIGN KEY (org_id) REFERENCES org_main(id)
+);
+
+-- ORG USER INFORMATION
+CREATE TABLE org_users(
+    org_id BIGINT NOT NULL,
+	user_id BIGINT NOT NULL,
+	PRIMARY KEY (org_id,user_id),
+	FOREIGN KEY (user_id) REFERENCES user(p_uuid),
+	FOREIGN KEY (org_id) REFERENCES org_main(id)
+	
+);
 
 
