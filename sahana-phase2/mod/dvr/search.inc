@@ -26,7 +26,13 @@ function _shn_dvr_search_default()
 
     $header = array (array('method'=>"POST",'action'=>'')); // end of header
     shn_show_form($header);
-    
+	
+	/*$body = array (
+		array('fieldset'=>' '),
+    	array ('legend'=>'Advanced Search')
+    );//end of body
+     */   
+     $body = array();
 	foreach($arr_fields as $value){
 		$temp = preg_split("/#/", $value);
 		
@@ -38,17 +44,16 @@ function _shn_dvr_search_default()
 		$caption=$temp[1];
 		$size=$temp[2];
 		$or_name="or_".$field;
-		$body = array (
-		array('type'=>'text','desc'=>$caption,'size'=>$size,'name'=>$field),
-    	array ( 'type'=>'dropdown','desc' => '', 'name'=>$or_name,'options'=>
-    		array(
-    			array('drop_desc'=>'Or'),
-    			array('drop_desc'=>'And')
-    		)	
-    	)
-    );//end of body
-    shn_show_form($body);
+		array_push($body, array('type'=>'text','desc'=>$caption,'size'=>$size,'name'=>$field));
+		array_push($body, array ('type'=>'dropdown','desc' => '', 'name'=>$or_name,'options'=>
+    			array(
+    				array('drop_desc'=>'Or'),
+    				array('drop_desc'=>'And')
+   		 		)	
+   		 	)
+   		 );
 	}
+    shn_show_form($body);
     
     $tail = array (
         array('type'=>"submit",'value'=>"Search")
@@ -63,7 +68,7 @@ function _shn_dvr_search_result()
 {
 	global $global;
 ?>
-    <h3> Search Results </h3>   
+    <h3> Search Results </h3>   ')
 <?php  
 		
 	$arr_name=NULL;
