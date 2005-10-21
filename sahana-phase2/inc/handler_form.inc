@@ -32,9 +32,11 @@ function shn_show_form($form)
     } // end of header part of the form
   
 
-
     foreach ($form as $y) { // body part of the form
-            switch($y['type']){ // cheack for the 'input' type
+
+                echo($y['fieldset']?'<fieldset>':'');    
+                
+                switch($y['type']){ // cheack for the 'input' type
                 
                 case "text": // if 'input' type is *text*
                     echo '<label>'.$y['desc'].'</label>';
@@ -200,8 +202,8 @@ function shn_show_form($form)
                 break;
 
             }
+    echo($y['fieldset']?'</fieldset>':'');    
     } // end of body part of the form
-
 
 foreach ($form as $x) { // tail part of the form
 
