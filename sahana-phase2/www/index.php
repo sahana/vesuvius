@@ -31,6 +31,7 @@ include_once ($global['approot']."conf/config.inc");
 include_once ($global['approot']."inc/lib_modules.inc"); 
 include ($global['approot']."inc/lib_session/handler_session.inc");
 include ($global['approot']."inc/lib_security/authenticate.inc");
+include_once ($global['approot']."inc/lib_locale/handler_locale.inc"); 
 require_once($global['approot']."inc/handler_db.inc");
 
 shn_front_controller();
