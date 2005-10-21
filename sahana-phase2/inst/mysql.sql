@@ -51,6 +51,10 @@ CREATE TABLE location_type(
     description TEXT,
     PRIMARY KEY (location_type_id)
 );
+insert into location_type(name,description) values('country','countries');
+insert into location_type(name,description) values('province','provinces');
+insert into location_type(name,description) values('district','districts');
+insert into location_type(name,description) values('village','villages');
 
 CREATE TABLE location(
     location_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -58,11 +62,18 @@ CREATE TABLE location(
     location_type_id BIGINT NOT NULL,
     name VARCHAR(100) NOT NULL,
     value VARCHAR(50), -- for dropdowns if needed
-    decription TEXT,
+    description TEXT,
     PRIMARY KEY (location_id),
     FOREIGN KEY (location_type_id) REFERENCES location_type(location_type_id)
 );
 
+insert into location(parent_id,location_type_id,name,value,description) values(0,1,'Sri Lanka','lk','Sri Lanka added as a country');
+insert into location(parent_id,location_type_id,name,value,description) values(0,1,'Pakistan','pk','Pakistan added as a country');
+insert into location(parent_id,location_type_id,name,value,description) values(0,1,'United Kingdom','uk','United Kingdom added as a country');
+insert into location(parent_id,location_type_id,name,value,description) values(0,1,'United States','us','United States added as a country');
+insert into location(parent_id,location_type_id,name,value,description) values(1,2,'Western','wes','Western  added as a province in Sri Lanka');
+insert into location(parent_id,location_type_id,name,value,description) values(5,3,'Colombo','cmb','Colombo added as a district in Srilanka Western Province');
+insert into location(parent_id,location_type_id,name,value,description) values(6,4,'Pettah','pet','pettah added as a village in Srilanka Western Province');
 
 
 /******************/
@@ -357,11 +368,14 @@ CREATE TABLE org_main(
 
 -- ORG TYPE
 CREATE TABLE org_types(
-
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	org_type VARCHAR(50),
 	PRIMARY KEY (id)
 );
+insert into org_types(org_type)values("Government");
+insert into org_types(org_type)values("Private");
+insert into org_types(org_type)values("Multinational");
+insert into org_types(org_type)values("Bilateral");
 
 -- ORG SECTORS
 CREATE TABLE org_sector_types(
@@ -370,6 +384,14 @@ CREATE TABLE org_sector_types(
 	sector VARCHAR(50),
 	PRIMARY KEY (id)
 );
+
+insert into org_sector_types(sector)values("Agriculture");
+insert into org_sector_types(sector)values("Area Development");
+insert into org_sector_types(sector)values("Communications");
+insert into org_sector_types(sector)values("Disaster Preperation");
+insert into org_sector_types(sector)values("Energy");
+insert into org_sector_types(sector)values("Health");
+insert into org_sector_types(sector)values("Fisheries");
 
 -- ORG SECTOR  INFORMATION
 CREATE TABLE org_sector(
