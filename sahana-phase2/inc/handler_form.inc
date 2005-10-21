@@ -24,7 +24,7 @@ function shn_show_form($form)
         switch($x['method']) {
         
             case "POST": // POST method
-                echo '<form method="',$x['method'],'" action="',$x['action'],'">'; 
+                echo '<form name="',$x['name'],'" method="',$x['method'],'" action="',$x['action'],'">'; 
             break;
 
             
@@ -97,13 +97,13 @@ function shn_show_form($form)
                     // start the radio 
                     echo $y['desc'];
                     foreach($y['options'] as $k){
-                       if($y['align']=='right'){ // if radio for right side
-                            echo $k['drop_desc'],'<input type="radio" name="',
-                                        $y['name'],'" value="',$k['value'],'" >';
-                       }else { // default is to have radio on left
-                            echo '<input type="radio" name="',
-                                        $y['name'],'" value="',$k['value'],'" >',$k['drop_desc'];
-                       }
+                        //echo $y['class'];
+                        $output= '<input type="radio" name="'.$y['name'].'" value="'.$k['value'].'" '.
+                            ($y['class']?'class="'.$y['class'].'"':'').' > ';
+                        if($y['align']=='right')
+                            echo $output.$k['drop_desc'];
+                        else
+                            echo $k['drop_desc'].$output;
                         // check whether a line break requested...
                         for ($i=1; $i<=$k['br']; $i++)
                         {
@@ -136,7 +136,13 @@ function shn_show_form($form)
                 break; //end of 'drop down'
             
 
-                
+                case "location" : // if 'input' type is location
+                echo $y['desc'];
+                global $global;
+                include_once $global['approot']."/inc/handler_location.inc";
+                echo $output; 
+                break;
+               
                 
                 case "checkbox" : // if 'input' type is *check box*
                     if ($y['select']==1){ // check whether which one is defult
