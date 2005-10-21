@@ -342,6 +342,52 @@ p#skip {
 	border-top: #036 5px solid;
 }
 
+#dataform fieldset{ 
+	padding: 10px; 
+	border: #036 1px dashed; 
+	width: 600px;
+	background:#EFEFEF;
+	font-size:120%;
+}
+
+#dataform legend{ 
+	background: #0E72A4; 
+	color:#fff;
+	border: #26a solid 1px; 
+	padding: 2px 10px;
+	font-size:140%;
+}
+
+#dataform label { 
+	width: 200px; 
+	float: left; 
+	text-align: left; 
+	margin: 0px 10px 10px 10px; 
+	clear: both;
+}
+
+#dataform label#txtarea, value#txtarea{ 
+	height: 50px;
+}
+
+#dataform value{ 
+	width: 200px; 
+	float: left; 
+	background: #feb; 
+	border: #26a solid 1px; 
+	padding: 1px 5px 1px;
+}
+
+#dataform input,#dataform textarea,#dataform select{ 
+	background: #DEE3E7; 
+	border: #26a solid 1px; 
+	margin-bottom: 10px;
+}
+
+#dataform a:hover { 
+	color: #F00;
+}
+
 #error {
     color: #FFF;
     background-color: #F00;
