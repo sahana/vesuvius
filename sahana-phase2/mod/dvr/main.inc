@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.13 2005-10-14 04:00:16 saumya Exp $ */
+/* $Id: main.inc,v 1.14 2005-10-21 10:52:54 saumya Exp $ */
 
 /**Main home page of the DVR
 *
@@ -23,6 +23,7 @@ function shn_dvr_mainmenu()
 {
     global $global;
     $module = $global['module'];
+    include $global['approot']."/inc/handler_mainmenu.inc";
 ?>
    <div id="modmenuwrap"> 
         <h2>DVR Module Actions</h2>
@@ -36,7 +37,6 @@ function shn_dvr_mainmenu()
             </ul>
     </div> <!-- /modmenuwrap -->
     <?php 
-    include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 	
 function shn_dvr_view()
