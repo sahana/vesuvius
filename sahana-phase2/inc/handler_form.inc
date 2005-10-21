@@ -24,17 +24,19 @@ function shn_show_form($form)
         switch($x['method']) {
         
             case "POST": // POST method
-                echo '<form name="',$x['name'],'" method="',$x['method'],'" action="',$x['action'],'">'; 
+                echo '<form id="dataform" name="',$x['name'],'" method="',$x['method'],'" action="',$x['action'],'">'; 
             break;
 
             
         }// end of switch
     } // end of header part of the form
-  
+
+	print"<fieldset>";
+    foreach ($form as $y) { // body part of the form
+		$y['legend']?print"<legend>".($y['legend'])."</legend>":print"";
+	}
 
     foreach ($form as $y) { // body part of the form
-
-                echo($y['fieldset']?'<fieldset>':'');    
                 
                 switch($y['type']){ // cheack for the 'input' type
                 
@@ -58,7 +60,7 @@ function shn_show_form($form)
 
                 
                 case "password" : // if 'input' type is passward
-                    echo $y['desc'];
+                    echo '<label>'.$y['desc'].'</label>';
                     echo '<input ';
                     foreach($y as $k => $v) {
                         if ($k != 'desc' && $k != 'br') // if $k is NOT equal 'desc' and 'br'
@@ -97,7 +99,7 @@ function shn_show_form($form)
                         echo "<br>";
                     }
                     // start the radio 
-                    echo $y['desc'];
+                    echo '<label>'.$y['desc'].'</label>';
                     foreach($y['options'] as $k){
                         //echo $y['class'];
                         $output= '<input type="radio" name="'.$y['name'].'" value="'.$k['value'].'" '.
@@ -123,7 +125,7 @@ function shn_show_form($form)
                 
                 case "dropdown" : // if 'input' type is *dropdown*
 
-                    echo $y['desc'],' <select name="',$y['name'],'">';
+                    echo '<label>'.$y['desc'].'</label>',' <select name="',$y['name'],'">';
                     foreach($y['options'] as $k){ // generating the values for drop down menu
                         if ($k['select']==1){ // check whether which one is defult
                             $select = " selected";
@@ -134,12 +136,19 @@ function shn_show_form($form)
                         echo '<option',$select,'>',$k['drop_desc'];
                         
                     }
-                    echo '</select><br>'; 
+                    echo '</select><br />';
+                                            // check whether a line break requested...
+                        for ($i=1; $i<=$k['br']; $i++)
+                        {
+                            if ($k['br']==0)
+                                break;
+                            echo "<br>";
+                        }                         
                 break; //end of 'drop down'
             
 
                 case "location" : // if 'input' type is location
-                echo $y['desc'];
+                echo '<label>'.$y['desc'].'</label>';
                 global $global;
                 include_once $global['approot']."/inc/handler_location.inc";
                 echo $output; 
@@ -155,7 +164,7 @@ function shn_show_form($form)
                     
                     if ($y['align']=='right') {
                     echo '<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'"',
-                                                        $select,'>',$y['drop_desc'],' ',$y['desc'];
+                                                        $select,'>',$y['drop_desc'],'<label>',$y['desc'].'</label>';
                     }
                     echo $y['desc'],'<input type="checkbox" name="',$y['name'],'" value="',$y['value'],'"',
                                                         $select,'>',$y['drop_desc'];
@@ -172,7 +181,7 @@ function shn_show_form($form)
 
                 
                 case "multiselect" : // if 'input' type is a multiple selection
-                    echo $y['desc'],'<br><select multiple size="',$y['size'],'" name="',$y['name'],'">';
+                    echo '<label>'.$y['desc'].'</label>','<select multiple size="',$y['size'],'" name="',$y['name'],'">';
                         foreach($y['option'] as $k){
                             echo '<option ';
                             if ($k['select']==1) // if this option selected...
@@ -180,6 +189,13 @@ function shn_show_form($form)
                             echo 'value="',$k['value'],'"> ',$k['drop_desc'],'</option>';
                         }                
                     echo "</select>"; // end of the list
+                                            // check whether a line break requested...
+                        for ($i=1; $i<=$y['br']; $i++)
+                        {
+                            if ($y['br']==0)
+                                break;
+                            echo "<br>";
+                        }
                 break;
                
                 
@@ -202,8 +218,9 @@ function shn_show_form($form)
                 break;
 
             }
-    echo($y['fieldset']?'</fieldset>':'');    
     } // end of body part of the form
+
+    print"</fieldset>";
 
 foreach ($form as $x) { // tail part of the form
 
