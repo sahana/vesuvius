@@ -133,7 +133,7 @@ function shn_show_form($form)
                                 $select = "";
                                } // end of the default selection
                                    
-                        echo '<option',$select,'>',$k['drop_desc'];
+                        echo '<option value="'.$k['value'].'"',$select,'>',$k['drop_desc'];
                         
                     }
                     echo '</select><br />';
