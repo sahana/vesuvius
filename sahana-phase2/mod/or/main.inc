@@ -64,9 +64,55 @@ function shn_or_reg_org_cr()
 {
 $org_name=$_POST{"org_name"};
 $org_type=$_POST{"org_type"};
-$bsd_country=$_POST{"bsd_country"};
+$org_sector=$_POST{"org_sector"};
+//$bsd_country=$_POST{"bsd_country"};
 echo "reg_or_create";
-$or_sector=$_POST{"or_sector"};
+//$bsd_province=$_POST{"bsd_province"};
+//$bsd_district=$_POST{"bsd_district"};
+$bsd_village=$_POST{"bsd_village"};
+$reg_no=$_POST{"reg_no"};
+
+$contact_name=$_POST{"contact_name"};
+$contact_add=$_POST{"contact_add"};
+$contact_phone=$_POST{"contact_phone"};
+$contact_fax=$_POST{"contact_fax"};
+$contact_mail=$_POST{"contact_mail"};
+
+$man_power=$_POST{"man_power"};
+$resources=$_POST{"resources"};
+
+
+$user_name=$_POST{"user_name"};
+$password=$_POST{"password"};
+$re_password=$_POST{"re_password"};
+
+$chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
+$chk_branch=$_POST{"chk_branch"};
+
+global $global;
+$db=$global['db'];
+$org_id = $db->GenID('org_seq',1);
+//Double check the ACL ID was generated.
+if (empty($org_id)){
+//("add_org(): ORG_ID generation failed!");
+return false;
+}
+$q="insert into org_main(id,parent_id,name,or_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
+$res=$db->Execute($q);
+
+$i=0;
+var_dump($org_sector);
+while($i<count($org_sector)){
+    $q="insert into org_sector(org_id,sector_id) values($org_id,$org_sector[$i])";
+    $res=$db->Execute($q);
+    var_dump($q);
+    $i=$i+1;
+}
+if($res==false){
+    return false;
+}else {
+    shn_or_branch_reg();
+}
 /*
 $i=0;
 echo "count".count($or_sector);
@@ -106,11 +152,7 @@ include_once ("handler_or_usr_add.inc"); // call form generator
 }
 
 // register a volunteer
-function shn_or_reg_vol()
-{?> 
-    <center><h3><b>Organization Registry</p><br></b></h3></center>
-<?php
-
+function shn_or_reg_vol(){
 shn_or_vol_reg();
 }
 
