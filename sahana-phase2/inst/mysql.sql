@@ -94,7 +94,8 @@ CREATE TABLE devel_logsql (
 -- Contains all IDs including the UUID that gives a 100%
 -- match to uniquely identify the person
 CREATE TABLE person_id (
-    p_uuid BIGINT NOT NULL AUTO_INCREMENT,
+    /*p_uuid BIGINT NOT NULL AUTO_INCREMENT,*/
+    p_uuid BIGINT NOT NULL,
     id_1 VARCHAR(100),     -- usually nic
     id_2 VARCHAR(100),     -- usually passport #
     id_3 VARCHAR(100),     -- usually driving licence # 
@@ -355,13 +356,15 @@ CREATE TABLE dirty_tables(
 
 -- ORG MAIN
 CREATE TABLE org_main(
-	id BIGINT NOT NULL AUTO_INCREMENT,
+	/*id BIGINT NOT NULL AUTO_INCREMENT,*/
+	id BIGINT NOT NULL,
     parent_id BIGINT DEFAULT 0,
     name VARCHAR(100) NOT NULL ,
 	or_type BIGINT NOT NULL,
 	reg_no VARCHAR(100),
-    facilities VARCHAR(200),
-	privacy INT(1) DEFAULT 1,
+    man_power VARCHAR(50),
+	resources VARCHAR(200),
+    privacy INT(1) DEFAULT 1,
 	PRIMARY KEY (id),
 	FOREIGN KEY (or_type) REFERENCES org_types(id)
 );
@@ -396,7 +399,7 @@ insert into org_sector_types(sector)values("Fisheries");
 -- ORG SECTOR  INFORMATION
 CREATE TABLE org_sector(
 	org_id BIGINT NOT NULL,
-	sector_id VARCHAR(32) NOT NULL,
+	sector_id BIGINT NOT NULL,
     PRIMARY KEY (org_id, sector_id),
     FOREIGN KEY (org_id) REFERENCES org_main(id),
     FOREIGN KEY (sector_id) REFERENCES org_sector_types(id)
