@@ -1,3 +1,7 @@
+DROP DATABASE sahana;
+CREATE DATABASE sahana;
+USE sahana;
+
 -- SESSIONS
 CREATE TABLE sessions(
 	sesskey VARCHAR(32) NOT NULL,
@@ -13,6 +17,7 @@ CREATE TABLE field_options(
    field_name VARCHAR(100),
    option_value VARCHAR(10),
    option_name VARCHAR(50),
+   PRIMARY KEY (field_name,option_value)
 );
 
 /**** CORE LOG SCHEMA END *****/
@@ -84,12 +89,9 @@ insert into location(parent_id,location_type_id,name,value,description) values(1
 insert into location(parent_id,location_type_id,name,value,description) values(5,3,'Colombo','cmb','Colombo added as a district in Srilanka Western Province');
 insert into location(parent_id,location_type_id,name,value,description) values(6,4,'Pettah','pet','pettah added as a village in Srilanka Western Province');
 
-
-/******************/
-
--- OPTIMIZATION  (DEVEL)
+-- OPTIMIZATION  DEVEL
 CREATE TABLE devel_logsql (
-		  created timestamp NOT NULL DEFAULT NOW(),
+		  created timestamp NOT NULL, 
 		  sql0 varchar(250) NOT NULL,
 		  sql1 text NOT NULL,
 		  params text NOT NULL,
@@ -103,7 +105,6 @@ CREATE TABLE devel_logsql (
 -- Contains all IDs including the UUID that gives a 100%
 -- match to uniquely identify the person
 CREATE TABLE person_uuid (
-    /*p_uuid BIGINT NOT NULL AUTO_INCREMENT,*/
     p_uuid BIGINT NOT NULL,
     PRIMARY KEY(p_uuid)      
 );
@@ -113,7 +114,7 @@ CREATE TABLE identity_to_person (
     p_uuid BIGINT NOT NULL,
     serial VARCHAR(100),
     opt_id_type VARCHAR(10),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
     
 
@@ -124,7 +125,7 @@ CREATE TABLE user (
     password VARCHAR(100),
     acl_id INT(11),
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (acl_id) REFERENCES gacl_aro(id)
 );
 
@@ -137,8 +138,8 @@ CREATE TABLE person_entry (
     reporter_uuid BIGINT,  -- details on the person who reported the entry
     p_uuid BIGINT NOT NULL,
     PRIMARY KEY (e_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (user_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (user_uuid) REFERENCES person_uuid(p_uuid)
 );
     
 -- Person Names 
@@ -150,46 +151,35 @@ CREATE TABLE person_name (
     family_name_1 VARCHAR(100),  -- usually surname 
     family_name_2 VARCHAR(100),  -- usually name of family head 
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 -- Person Status
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
-    isReliefWorker BOOLEAN,
+    isReliefWorker TINYINT,
     opt_status VARCHAR(10),
+    PRIMARY KEY (p_uuid)
 );
 
--- Contact Information
-CREATE TABLE person_contact (
-    p_uuid  BIGINT NOT NULL,
-    phone_1 VARCHAR(25),   -- usually current contact land phone
-    phone_2 VARCHAR(25),   -- usually home land phone
-    mobile_1 VARCHAR(25),  -- current mobile phone (SMS alert capable!) 
-    mobile_2 VARCHAR(25),  -- usually mobile phone
-    email_1 VARCHAR(200),
-    email_2 VARCHAR(200),
-    im_1 VARCHAR(200),     -- instant messenger id 
-    im_2 VARCHAR(200),     -- instant messenger id 
-    address_1 TEXT,        -- usually current address
-    location_1 BIGINT,      -- the location of address_1
-                           -- the location can be at any level of granularity
-    address_2 TEXT,        -- usually home address 
-    location_2 BIGINT,      -- the location of address_2
-    address_3 TEXT,        -- usually previous address
-    location_3 BIGINT,      -- the location of address_3
+-- Contact Information for a person, org or camp
+-- mobile, home phone, email, IM
+CREATE TABLE contact (
+    pgc_uuid BIGINT NOT NULL,  -- be either c_uuid, p_uuid or g_uuid
+    opt_contact_type VARCHAR(10),
+    contact_value VARCHAR(100),
+    PRIMARY KEY (pgc_uuid)
+);
+
+CREATE TABLE person_location ( 
+    p_uuid BIGINT NOT NULL,
+    location_id BIGINT,
+    opt_person_loc_type VARCHAR(10),
+    address TEXT,        
     cur_shelter VARCHAR(50),
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (location_1) REFERENCES location(location_id),
-    FOREIGN KEY (location_2) REFERENCES location(location_id),
-    FOREIGN KEY (location_3) REFERENCES location(location_id)
-);
-
--- Specify the types of groups available and values
-CREATE TABLE pgroup_type (
-    type_id SMALLINT NOT NULL,
-    type_name VARCHAR(100)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
 -- Group information
@@ -197,12 +187,7 @@ CREATE TABLE pgroup (
     g_uuid BIGINT NOT NULL AUTO_INCREMENT, 
     name VARCHAR(100),
     opt_group_type VARCHAR(10),          -- type of the group
-    contact_1_uuid BIGINT, 
-    contact_2_uuid BIGINT, 
-    PRIMARY KEY (g_uuid),
-    FOREIGN KEY (contact_1_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (contact_2_uuid) REFERENCES person_id(p_uuid),
-    FOREIGN KEY (g_type) REFERENCES person_group_type(type_id)
+    PRIMARY KEY (g_uuid)
 );
 
 -- Group to Persons N to M mapping
@@ -219,10 +204,10 @@ CREATE TABLE person_details (
     relation VARCHAR(50),
     opt_country VARCHAR(10),
     opt_race VARCHAR(10),
-    opt_religion VARCHAR(10)j,
+    opt_religion VARCHAR(10),
     opt_marital_status VARCHAR(10),
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 CREATE TABLE person_physical (
@@ -235,7 +220,7 @@ CREATE TABLE person_physical (
     opt_hair_color VARCHAR(50),
     injuries TEXT,
     PRIMARY KEY (p_uuid) ,
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 CREATE TABLE person_missing (
@@ -244,7 +229,7 @@ CREATE TABLE person_missing (
     last_clothing TEXT,
     comments TEXT,
     PRIMARY KEY (p_uuid) ,
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 CREATE TABLE person_deceased (
@@ -254,8 +239,8 @@ CREATE TABLE person_deceased (
     location BIGINT,
     place_of_death TEXT,
     comments TEXT,
-    PRIMARY KEY (p_uuid) ,
-    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (location) REFERENCES location(location_id)
 );
 
@@ -405,19 +390,31 @@ CREATE TABLE org_users(
     org_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
 	PRIMARY KEY (org_id,user_id),
-	FOREIGN KEY (user_id) REFERENCES user(p_uuid),
+	FOREIGN KEY (user_id) REFERENCES person_uuid(p_uuid),
 	FOREIGN KEY (org_id) REFERENCES org_main(id)
-	
+);
+
+
+/* SHELTER AND CAMP TABLES */
+/* --------------------------------------------------------------------------*/
+
+CREATE TABLE camp (
+    c_uuid BIGINT NOT NULL,
+    location_id BIGINT,
+    opt_camp_type VARCHAR(10),
+    address TEXT,
+    PRIMARY KEY (c_uuid),
+    FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
 /* CONFIGURATION DATA AND VALUES */
 /* ------------------------------------------------------------------------ */
 
 -- GROUP TYPES
-INSERT INTO field_options VALUES('opt_group_type','fam','family');
-INSERT INTO field_options VALUES('opt_group_type','com','company');
-INSERT INTO field_options VALUES('opt_group_type','soc','society');
-INSERT INTO field_options VALUES('opt_group_type','oth','other');
+INSERT INTO field_options VALUES ('opt_group_type','fam','family');
+INSERT INTO field_options VALUES ('opt_group_type','com','company');
+INSERT INTO field_options VALUES ('opt_group_type','soc','society');
+INSERT INTO field_options VALUES ('opt_group_type','oth','other');
 
 -- IDENTITY CARD / PASSPORT TYPES
 INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
@@ -431,6 +428,19 @@ INSERT INTO field_options VALUES ('opt_status','mis','Missing');
 INSERT INTO field_options VALUES ('opt_status','inj','Injured');
 INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 
+-- PERSON CONTACT TYPES
+INSERT INTO field_options VALUES ('opt_contact_type','home','Home Phone (permanent address)');
+INSERT INTO field_options VALUES ('opt_contact_type','pmob','Personal Mobile');
+INSERT INTO field_options VALUES ('opt_contact_type','curr','Current Phone');
+INSERT INTO field_options VALUES ('opt_contact_type','cmob','Current Mobile');
+INSERT INTO field_options VALUES ('opt_contact_type','emai','Email address');
+INSERT INTO field_options VALUES ('opt_contact_type','inst','Instant Messenger');
+
+-- PERSON LOCATION TYPES 
+INSERT INTO field_options VALUES ('opt_person_loc_type','hom','Permanent home address)');
+INSERT INTO field_options VALUES ('opt_person_loc_type','imp','Impact location');
+INSERT INTO field_options VALUES ('opt_person_loc_type','cur','Current location');
+
 -- AGE GROUP VALUES
 INSERT INTO field_options VALUES ('opt_age_group','inf','Infant (0-1)');
 INSERT INTO field_options VALUES ('opt_age_group','chi','Child (1-15)');
@@ -439,45 +449,50 @@ INSERT INTO field_options VALUES ('opt_age_group','adu','Adult (22-50)');
 INSERT INTO field_options VALUES ('opt_age_group','sen','Senior Citizen (50+)');
 
 -- COUNTRY VALUES
-INSERT INTO field_options ('opt_country','uk','United Kingdom');
-INSERT INTO field_options ('opt_country','lanka','Sri Lanka');
+INSERT INTO field_options VALUES ('opt_country','uk','United Kingdom');
+INSERT INTO field_options VALUES ('opt_country','lanka','Sri Lanka');
 
 -- RACE VALUES 
-INSERT INTO field_options ('opt_race','sing1','Sinhalese');
-INSERT INTO field_options ('opt_race','tamil','Tamil');
-INSERT INTO field_options ('opt_race','other','Other');
+INSERT INTO field_options VALUES ('opt_race','sing1','Sinhalese');
+INSERT INTO field_options VALUES ('opt_race','tamil','Tamil');
+INSERT INTO field_options VALUES ('opt_race','other','Other');
 
 -- RELIGION VALUES 
-INSERT INTO field_options ('opt_religion','bud','Buddhist');
-INSERT INTO field_options ('opt_religion','chr','Christian');
-INSERT INTO field_options ('opt_religion','oth','Other');
+INSERT INTO field_options VALUES ('opt_religion','bud','Buddhist');
+INSERT INTO field_options VALUES ('opt_religion','chr','Christian');
+INSERT INTO field_options VALUES ('opt_religion','oth','Other');
 
 -- MARITIAL STATUS VALUES 
-INSERT INTO field_options ('opt_marital_status','sin','Single');
-INSERT INTO field_options ('opt_marital_status','mar','Married');
-INSERT INTO field_options ('opt_marital_status','div','Divorced');
+INSERT INTO field_options VALUES ('opt_marital_status','sin','Single');
+INSERT INTO field_options VALUES ('opt_marital_status','mar','Married');
+INSERT INTO field_options VALUES ('opt_marital_status','div','Divorced');
 
 -- BLOOD TYPE VALUES 
-INSERT INTO field_options ('opt_blood_type','ab','AB');
-INSERT INTO field_options ('opt_blood_type','a+','A+');
-INSERT INTO field_options ('opt_blood_type','o','O');
+INSERT INTO field_options VALUES ('opt_blood_type','ab','AB');
+INSERT INTO field_options VALUES ('opt_blood_type','a+','A+');
+INSERT INTO field_options VALUES ('opt_blood_type','o','O');
 
 -- EYE COLOR VALUES
-INSERT INTO field_options ('eye_color','bla','Black');
-INSERT INTO field_options ('eye_color','bro','Light Brown');
-INSERT INTO field_options ('eye_color','blu','Blue');
-INSERT INTO field_options ('eye_color','oth','Other');
+INSERT INTO field_options VALUES ('opt_eye_color','bla','Black');
+INSERT INTO field_options VALUES ('opt_eye_color','bro','Light Brown');
+INSERT INTO field_options VALUES ('opt_eye_color','blu','Blue');
+INSERT INTO field_options VALUES ('opt_eye_color','oth','Other');
 
 -- SKIN COLOR VALUES
-INSERT INTO field_options ('skin_color','bla','Black');
-INSERT INTO field_options ('skin_color','bro','Dark Brown');
-INSERT INTO field_options ('skin_color','fai','Fair');
-INSERT INTO field_options ('skin_color','whi','White');
-INSERT INTO field_options ('skin_color','oth','Other');
+INSERT INTO field_options VALUES ('opt_skin_color','bla','Black');
+INSERT INTO field_options VALUES ('opt_skin_color','bro','Dark Brown');
+INSERT INTO field_options VALUES ('opt_skin_color','fai','Fair');
+INSERT INTO field_options VALUES ('opt_skin_color','whi','White');
+INSERT INTO field_options VALUES ('opt_skin_color','oth','Other');
 
 -- HAIR COLOR VALUES
-INSERT INTO field_options ('hair_color','bla','Black');
-INSERT INTO field_options ('hair_color','bro','Brown');
-INSERT INTO field_options ('hair_color','red','Red');
-INSERT INTO field_options ('hair_color','blo','Blond');
-INSERT INTO field_options ('hair_color','oth','Other');
+INSERT INTO field_options VALUES ('opt_hair_color','bla','Black');
+INSERT INTO field_options VALUES ('opt_hair_color','bro','Brown');
+INSERT INTO field_options VALUES ('opt_hair_color','red','Red');
+INSERT INTO field_options VALUES ('opt_hair_color','blo','Blond');
+INSERT INTO field_options VALUES ('opt_hair_color','oth','Other');
+
+-- CAMP TYPE VALUES 
+INSERT INTO field_options VALUES ('opt_camp_type','ngo','NGO Run Camp');
+INSERT INTO field_options VALUES ('opt_camp_type','tmp','Temporary Shelter');
+INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Run Camp');
