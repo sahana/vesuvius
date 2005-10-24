@@ -16,8 +16,7 @@ CREATE TABLE sessions(
 CREATE TABLE field_options(
    field_name VARCHAR(100),
    option_value VARCHAR(10),
-   option_name VARCHAR(50),
-   PRIMARY KEY (field_name,option_value)
+   option_name VARCHAR(50)
 );
 
 /**** CORE LOG SCHEMA END *****/
@@ -411,10 +410,10 @@ CREATE TABLE camp (
 /* ------------------------------------------------------------------------ */
 
 -- GROUP TYPES
-INSERT INTO field_options VALUES ('opt_group_type','fam','family');
-INSERT INTO field_options VALUES ('opt_group_type','com','company');
-INSERT INTO field_options VALUES ('opt_group_type','soc','society');
-INSERT INTO field_options VALUES ('opt_group_type','oth','other');
+INSERT INTO field_options VALUES('opt_group_type','fam','family');
+INSERT INTO field_options VALUES('opt_group_type','com','company');
+INSERT INTO field_options VALUES('opt_group_type','soc','society');
+INSERT INTO field_options VALUES('opt_group_type','oth','other');
 
 -- IDENTITY CARD / PASSPORT TYPES
 INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
