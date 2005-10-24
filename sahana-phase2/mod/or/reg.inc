@@ -11,6 +11,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     Pradeeper <pradeeper@opensource.lk>
 * @author     Ravindra <ravindra@opensource.lk>
+* @author     Chathra <chathra@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
@@ -26,7 +27,7 @@ function shn_or_org_reg(){
     $res=$db->Execute($q);
     $or_type_options=array();
         
-    while(!$res->EOF){
+    while(!res==NULL && !$res->EOF){
         array_push(
             $or_type_options,
             array(  'drop_desc'=>$res->fields[1],
@@ -112,12 +113,11 @@ function shn_or_org_reg(){
     }
 echo "<h2><center>" . _("Organization Registration") . "</center></h2>";
     // Start OR registration form
-    $header = array (
-                        array('method'=>"POST",'action'=>"index.php?mod=or&act=reg_org_cr")
-                    );
-                    
-    shn_show_form($header);
-    
+
+
+   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'dataform');
+	shn_from_open($header,false);
+       
     // call OR name
     $or_main = array(
                         array('legend'=>''),
@@ -190,12 +190,18 @@ echo "<h2><center>" . _("Organization Registration") . "</center></h2>";
     shn_show_form($extra);
 
 
-    // end of form
-    $tail = array (
-                        array('type'=>"submit",'value'=>_("Next"))
-                   );
+ 	print"<center>";
+     //create the submit button
+        $submit= array('type'=>'submit', 'value'=>'Next');
+	shn_form_add_component($submit,false,false);
+	print"</center>";
+        //close the form
+     	shn_form_close(false);
+				     
 
-    shn_show_form($tail);
+    // end of form
+
+    
 } 
 
 function shn_or_branch_reg(){
@@ -296,9 +302,8 @@ echo "<h2><center>" . _("Branch Registration") . "</center></h2>";
     // base location
     $location_inf = array(
     					array('legend'=>_("Base Location Information :")),           
-                        array('desc'=>_("Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries
+                        array('desc'=>_("Country of Branch:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries
                              ),                         
-                       array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>1),
                         array('desc'=>_("Province :"),'type'=>'dropdown','name'=>'bsd_province',
                             'options'=>$or_provinces
                         ),// end of option
