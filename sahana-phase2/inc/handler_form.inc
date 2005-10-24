@@ -16,6 +16,197 @@
 */
 // 2nd October 2005
 
+/* {{{ Presentation Layer */
+
+/* {{{ function shn_form_open($arropt) */
+function shn_from_open($arropt=array('method'=>'POST','action'=>'','id'=>'dataform'),$return=false)
+{
+    $output = '<form ';
+    foreach ($arropt as $k => $v){
+        $output .= "$k=\"$v\" ";
+    }
+    $output .= ">\n";
+    if($return)
+        return $output;
+    else
+        echo $output;
+}
+/* }}} */
+
+/* {{{ function shn_form_add_component($arr,$return=false,$default_val_req=false) */
+function shn_form_add_component($arr,$return=false,$default_val_req=false)
+{
+    switch ($arr['type']){
+        case 'text' :
+        case 'password' :
+        case 'button' :
+        case 'hidden' :
+        case 'submit' :
+            $output .= '<input ';
+            if($arr['type']=="submit")
+                $output .= _shn_form_dump_key_val($arr,array('desc','br','caption_align')); //don't dump 'desc' and 'br' and 'value'
+            else
+                $output .= _shn_form_dump_key_val($arr,array('desc','value','br','caption_align')); //don't dump 'desc' and 'br' and 'value'
+            $output .= ($default_val_req?_shn_form_default_req($arr['type'],$arr['name'],$arr['value']):' value="'.$arr['value'].'" '); //value assgined
+            $output .= ' />'."\n"; // end of 'input type'
+            $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n"; // this will generate the 'break'.
+        break;
+
+        case 'textarea' :
+            $output .= '<textarea ';
+            $output .= _shn_form_dump_key_val($arr,array('desc','value','br','type'));
+            $output .= ' >';
+            $output .= ($default_val_req?_shn_form_default_req($arr['type'],$arr['name'],$arr['value']):$arr['value']); //value assgined
+            $output .= '</textarea>';
+            $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n"; // this will generate the 'break'.
+        break;
+        
+        case 'checkbox' :
+            $output .= '<input ';
+            $output .= _shn_form_dump_key_val($arr,array('desc','br','caption_align','selected')); //don't dump 'desc' and 'br' and 'value'
+            $output .= ($default_val_req?_shn_form_default_req($arr['type'],$arr['name'],$_POST[$arr['name']]):($arr['selected']?' checked':'')); //check assgined
+            $output .= ' />'."\n"; // end of 'input type'
+            $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n"; // this will generate the 'break'.
+        break;    
+
+        case 'label' :
+            $output .= _shn_form_set_caption($arr['desc']);
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
+        break;
+    
+        case 'radio' :
+            $output .= _shn_form_set_caption($arr['desc']);
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
+            foreach($arr['options'] as $option){
+                $output_opt = '<input type="'.$arr['type'].'" name="'.$arr['name'].'" ';
+                $output_opt .= _shn_form_dump_key_val($option,array('drop_desc','br','caption_align','selected'));
+                $output_opt .= ($default_val_req?_shn_form_default_req($arr['type'],$option['value'],$_POST[$arr['name']]):($option['selected']?' checked':''));
+                $output_opt .= ' />'."\n"; // end of 'input type'
+                $output_opt = _shn_form_set_caption($option['drop_desc'],$option['caption_align'],$output_opt); //Set the caption NOTE: assign all back
+                $output_opt .= ($arr['br']?_shn_form_br($option['br']):'')."\n"; // this will generate the 'break'.
+                $output .= $output_opt;
+            }
+        break;
+        case 'dropdown' :
+            $output .= '<select '. _shn_form_dump_key_val($arr,array('desc','br','options')). ">\n";
+            foreach($arr['options'] as $option){
+                $output_opt = '<option '._shn_form_dump_key_val($option,array('drop_desc','selected'));
+                $output_opt .= ($default_val_req?_shn_form_default_req($arr['type'],$option['value'],$_POST[$arr['name']]):($option['selected']?' selected':''));
+                $output_opt .= ">" . _shn_form_set_caption($option['drop_desc'],'','',false) .'</option>'."\n";
+                $output .= $output_opt;
+            }
+            $output .= "</select>\n"; 
+            $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
+        break;
+    }
+    if($return)
+        return $output;
+    else
+        echo $output;
+}
+/* }}} */
+
+/* {{{ function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=false,$default_val_req=false) */
+function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=false,$default_val_req=false)
+{
+    if($section)
+        $output ="<fieldset>\n".($legend?"<legend>$legend</legend>\n":'');
+    foreach($arr_list as $arr){
+        $output .= shn_form_add_component($arr,true,$default_val_req);
+    }
+    if($section)
+        $output .="</fieldset>\n";
+    if($return)
+        return $output;
+    else
+        echo $output;
+}
+/* }}} */
+
+/* {{{ function shn_form_close() */
+function shn_form_close($return=false)
+{
+    $output = "</form>\n";
+    if($return)
+        return $output;
+    else
+        echo $output;
+}
+/* }}} */
+
+/* }}} */
+
+
+/* {{{ Helper Functions  */
+
+/* {{{ _shn_form_br($number,$return=false) */
+function _shn_form_br($number)
+{
+    for ($i=0; $i<$number; $i++)
+        $output .= '<br>';
+    return $output;
+}
+/* }}} */
+
+/* {{{ function _shn_form_default_req($arr) */
+function _shn_form_default_req($type,$name,$value="")
+{
+    switch ($type){
+        case 'text':
+        case 'password':
+        case 'hidden':
+            $output = ($_POST[$name]?' value="'.$_POST[$name].'" ':' value="'.$value.'" ');
+        break;
+        case 'textarea' :
+            $output = ($_POST[$name]?$_POST[$name]:$value);
+        break;
+        case 'checkbox' :
+            $output = ($value?' checked':'');
+        break;
+        case 'radio' :
+            $output = ($name==$value?' checked':'');
+        break;
+        case 'dropdown' :
+            $output = ($name==$value?' selected':'');
+        break;
+    }
+    return $output;    
+}
+/* }}} */
+
+/* {{{ function _shn_form_dump_key_val($arr) */
+function _shn_form_dump_key_val($arr,$keys_ignore)
+{
+    foreach ($arr as $k => $v){
+        if(! (in_array($k,$keys_ignore))){
+                $output .= $k.'="'.$v.'" ';
+        }
+    }
+    return $output;
+}
+/* }}} */
+
+/* {{{ function _shn_form_set_caption($caption,$align,$output) */
+function _shn_form_set_caption($caption,$align="left",$str="",$tag=true)
+{
+    if(!$caption)
+        return $str;
+    if($tag)
+        $caption = "<label>$caption</label>";
+    if($align=='right')
+        $output = $str.$caption;
+    else
+        $output = $caption.$str ;
+    return $output;
+}
+/* }}} */
+
+/* }}} */
+
 function shn_show_form($form)
 {
  
@@ -237,4 +428,5 @@ echo "<br>";
 
 } // end of the show_form function
 
+// vim: set tabstop=4 shiftwidth=4 fdm=marker:
 ?>
