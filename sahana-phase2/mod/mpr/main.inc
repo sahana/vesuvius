@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.2 2005-10-19 12:32:06 janakawicks Exp $ */
+/* $Id: main.inc,v 1.3 2005-10-24 09:59:44 janakawicks Exp $ */
 
 /**Main home page of the DVR
 *
@@ -19,7 +19,7 @@
 
 include_once $global['approot']."/inc/lib_modules.inc";
 
-
+/* {{{ Menu */
 function shn_mpr_mainmenu() 
 {
     global $global;
@@ -39,6 +39,10 @@ function shn_mpr_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 	
+/* }}} */
+
+/* {{{ Control Layer */
+
 function shn_mpr_default()
 {
     global $global;
@@ -47,7 +51,14 @@ function shn_mpr_default()
 function shn_mpr_fndmp()
 {
     global $global;
-    echo "<h2>Find a Missing Person</h2>";
+    //include the mpr add function library
+    include ($global['approot'].'/mod/mpr/add.inc');
+
+    //Include the presentation layer
+    //@todo : (may be not for this) check the presentation layer
+    require_once ($global['approot'].'/inc/handler_form.inc');
+    _shn_mpr_add_new();
+
 }
 
 function shn_mpr_addmp()
@@ -79,5 +90,8 @@ function shn_mpr_search()
     echo "<h2>Search for a Missing Person</h2>";
 }
 
+/* }}} */
+
+// vim: set tabstop=4 shiftwidth=4 fdm=marker:
 ?>
 

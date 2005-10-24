@@ -1,0 +1,5 @@
+#Physical Appearance
+- type: text 
+    desc: Skin Color
+    name: skin_color 
+    br: 1

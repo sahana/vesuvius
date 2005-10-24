@@ -1,0 +1,41 @@
+#Repoter Details
+- type: text 
+    desc: First Name
+    name: reporter_name_1
+    br: 1
+- type: text
+    desc: Surname Name
+    name: reporter_family_name_1
+    br: 1
+- type: txtarea 
+    desc: Address
+    name: reporter_address_1
+    br: 1
+- type: text
+    desc: Phone
+    name: reporter_phone_1
+    br: 1
+- type: text
+    desc: Mobile
+    name: reporter_mobile_1
+    br: 1
+- type: text
+    desc: Email
+    name: reporter_email_1
+    br: 1
+- type: dropdown
+    desc: Relationship
+    name: relationship
+    br: 1
+    options:
+       - drop_desc: Friend
+         value: friend
+       - drop_desc: Relation
+         value: Relation
+       - drop_desc: Neighbor
+         value: neighbor
+       - drop_desc: Neighbor11
+         value: neighbor11
+- type: submit
+    name: submit
+    value: submit
