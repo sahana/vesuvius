@@ -7,6 +7,14 @@ CREATE TABLE sessions(
 	PRIMARY KEY (sesskey)
 );
 
+-- FIELD OPTIONS TABLE
+-- provides a list of options for fileds
+CREATE TABLE field_options(
+   field_name VARCHAR(100),
+   option_value VARCHAR(10),
+   option_name VARCHAR(50),
+);
+
 /**** CORE LOG SCHEMA END *****/
 
 -- MODULES
@@ -60,6 +68,7 @@ CREATE TABLE location(
     location_id BIGINT NOT NULL AUTO_INCREMENT,
     parent_id BIGINT DEFAULT 0,
     location_type_id BIGINT NOT NULL,
+    iso_code VARCHAR(20),
     name VARCHAR(100) NOT NULL,
     value VARCHAR(50), -- for dropdowns if needed
     description TEXT,
@@ -93,17 +102,22 @@ CREATE TABLE devel_logsql (
 -- Main Person ID table 
 -- Contains all IDs including the UUID that gives a 100%
 -- match to uniquely identify the person
-CREATE TABLE person_id (
+CREATE TABLE person_uuid (
     /*p_uuid BIGINT NOT NULL AUTO_INCREMENT,*/
     p_uuid BIGINT NOT NULL,
-    id_1 VARCHAR(100),     -- usually nic
-    id_2 VARCHAR(100),     -- usually passport #
-    id_3 VARCHAR(100),     -- usually driving licence # 
-    id_4 VARCHAR(100),
     PRIMARY KEY(p_uuid)      
 );
 
--- All users have a associade person id
+-- Many ID card numbers (or passport or driving licence) to person table
+CREATE TABLE identity_to_person (
+    p_uuid BIGINT NOT NULL,
+    serial VARCHAR(100),
+    opt_id_type VARCHAR(10),
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
+);
+    
+
+-- All users have a associated person id
 CREATE TABLE user (
     p_uuid BIGINT NOT NULL,
     username VARCHAR(100),
@@ -128,7 +142,7 @@ CREATE TABLE person_entry (
 );
     
 -- Person Names 
-CREATE TABLE person_main (
+CREATE TABLE person_name (
     p_uuid BIGINT NOT NULL,
     name_1 VARCHAR(100),   -- usually first name
     name_2 VARCHAR(100),   -- usually middle name
@@ -137,6 +151,13 @@ CREATE TABLE person_main (
     family_name_2 VARCHAR(100),  -- usually name of family head 
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+);
+
+-- Person Status
+CREATE TABLE person_status (
+    p_uuid BIGINT NOT NULL,
+    isReliefWorker BOOLEAN,
+    opt_status VARCHAR(10),
 );
 
 -- Contact Information
@@ -157,7 +178,7 @@ CREATE TABLE person_contact (
     location_2 BIGINT,      -- the location of address_2
     address_3 TEXT,        -- usually previous address
     location_3 BIGINT,      -- the location of address_3
-    cur_shelter TEXT,           -- if at a current shelter
+    cur_shelter VARCHAR(50),
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid),
     FOREIGN KEY (location_1) REFERENCES location(location_id),
@@ -166,16 +187,16 @@ CREATE TABLE person_contact (
 );
 
 -- Specify the types of groups available and values
-CREATE TABLE person_group_type (
+CREATE TABLE pgroup_type (
     type_id SMALLINT NOT NULL,
     type_name VARCHAR(100)
 );
 
 -- Group information
-CREATE TABLE person_group (
+CREATE TABLE pgroup (
     g_uuid BIGINT NOT NULL AUTO_INCREMENT, 
     name VARCHAR(100),
-    g_type TINYINT,          -- type of the group
+    opt_group_type VARCHAR(10),          -- type of the group
     contact_1_uuid BIGINT, 
     contact_2_uuid BIGINT, 
     PRIMARY KEY (g_uuid),
@@ -184,93 +205,58 @@ CREATE TABLE person_group (
     FOREIGN KEY (g_type) REFERENCES person_group_type(type_id)
 );
 
-
-/*INSERT INTO person_group_type (type_name) VALUES(1,'family');
-INSERT INTO person_group_type (type_name) VALUES(2,'company');
-INSERT INTO person_group_type (type_name) VALUES(3,'community');
-INSERT INTO person_group_type (type_name) VALUES(4,'other');
-*/
-CREATE TABLE people_working_details (
-    form_id BIGINT NOT NULL,
-    organization TEXT,
-    address TEXT,
-    phone TEXT,
-    PRIMARY KEY (form_id),
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
+-- Group to Persons N to M mapping
+CREATE TABLE person_to_pgroup (   
+    p_uuid BIGINT,
+    g_uuid BIGINT
 );
 
-CREATE TABLE people_location (
-    form_id BIGINT NOT NULL,
-    location_id BIGINT NOT NULL,
-    PRIMARY KEY (form_id, location_id),
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id),
-    FOREIGN KEY (location_id) REFERENCES location(location_id)
+CREATE TABLE person_details (
+    p_uuid BIGINT NOT NULL,
+    next_kin_uuid BIGINT NOT NULL,
+    birth_date DATE,
+    age_group TINYINT,     -- The age group they belong too
+    relation VARCHAR(50),
+    opt_country VARCHAR(10),
+    opt_race VARCHAR(10),
+    opt_religion VARCHAR(10)j,
+    opt_marital_status VARCHAR(10),
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
 );
 
-CREATE TABLE people_extended (
-    form_id BIGINT NOT NULL,
-    race TEXT,
-    religion TEXT,
-    marital_status VARCHAR(1),
-    PRIMARY KEY (form_id),
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
-);
-
-CREATE TABLE dvr_next_kin (
-    form_id BIGINT NOT NULL,
-    next_kin_id BIGINT NOT NULL,
-    relation TEXT,
-    PRIMARY KEY (form_id, next_kin_id),
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id),
-    FOREIGN KEY (next_kin_id) REFERENCES people_reg(form_id)
-);
-
-CREATE TABLE dvr_medical (
-    form_id BIGINT NOT NULL,
+CREATE TABLE person_physical (
+    p_uuid BIGINT NOT NULL,
     blood_type VARCHAR(10),
     height VARCHAR(10),
     weight VARCHAR(10),
     eye_color VARCHAR(50),
     skin_color VARCHAR(50),
     hair_color VARCHAR(50),
-    PRIMARY KEY (form_id) ,
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
+    injuries TEXT,
+    PRIMARY KEY (p_uuid) ,
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
 );
 
-CREATE TABLE dvr_missing (
-    form_id BIGINT NOT NULL,
+CREATE TABLE person_missing (
+    p_uuid BIGINT NOT NULL,
     last_seen TEXT,
     last_clothing TEXT,
     comments TEXT,
-    PRIMARY KEY (form_id) ,
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
+    PRIMARY KEY (p_uuid) ,
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
 );
 
-CREATE TABLE dvr_deceased (
-    form_id BIGINT NOT NULL,
-    deceased TEXT,
-    date_of_death TIMESTAMP,
+CREATE TABLE person_deceased (
+    p_uuid BIGINT NOT NULL,
+    details TEXT,
+    date_of_death DATE,
+    location BIGINT,
     place_of_death TEXT,
     comments TEXT,
-    PRIMARY KEY (form_id) ,
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
-);
-
-CREATE TABLE dvr_injured (
-    form_id BIGINT NOT NULL,
-    injury_type TEXT,
-    immediate_needs TEXT,
-    comments TEXT,
-    PRIMARY KEY (form_id) ,
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
-);
-
-CREATE TABLE dvr_displaced (
-    form_id BIGINT NOT NULL,
-    current_address TEXT,
-    previous_address TEXT,
-    PRIMARY KEY (form_id) ,
-    FOREIGN KEY (form_id) REFERENCES people_reg(form_id)
+    PRIMARY KEY (p_uuid) ,
+    FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
+    FOREIGN KEY (location) REFERENCES location(location_id)
 );
 
 
@@ -302,7 +288,7 @@ CREATE TABLE module_metadata(
 
 CREATE TABLE people_reg(
     rec_id BIGINT NOT NULL AUTO_INCREMENT,
-    form_id VARCHAR(100) NOT NULL,
+    p_uuid VARCHAR(100) NOT NULL,
     meta_id BIGINT NOT NULL,
     updated TIMESTAMP NOT NULL DEFAULT NOW(),
     active BOOLEAN NOT NULL DEFAULT TRUE,
@@ -423,5 +409,33 @@ CREATE TABLE org_users(
 	FOREIGN KEY (org_id) REFERENCES org_main(id)
 	
 );
+
+/* CONFIGURATION DATA AND VALUES */
+/* ------------------------------------------------------------------------ */
+
+-- GROUP TYPES
+INSERT INTO field_options VALUES('opt_group_type','fam','family');
+INSERT INTO field_options VALUES('opt_group_type','com','company');
+INSERT INTO field_options VALUES('opt_group_type','soc','society');
+INSERT INTO field_options VALUES('opt_group_type','oth','other');
+
+-- IDENTITY CARD / PASSPORT TYPES
+INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
+INSERT INTO field_options VALUES('opt_id_type','pas','Passport');
+INSERT INTO field_options VALUES('opt_id_type','dln','Driving License Number');
+
+-- PERSON STATUS VALUES
+INSERT INTO field_options VALUES ('opt_status','ali','Alive & Well');
+INSERT INTO field_options VALUES ('opt_status','mis','Missing');
+INSERT INTO field_options VALUES ('opt_status','inj','Injured');
+INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
+
+-- COUNTRY VALUES
+INSERT INTO field_options ('opt_country','uk','United Kingdom');
+INSERT INTO field_options ('opt_country','lanka','Sri Lanka');
+
+-- RACE VALUES 
+INSERT INTO field_options ('opt_race','sing1','Sinhalese');
+INSERT INTO field_options ('opt_race','tamil','Tamil');
 
 
