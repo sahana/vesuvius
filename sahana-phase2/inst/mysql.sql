@@ -215,7 +215,7 @@ CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
     next_kin_uuid BIGINT NOT NULL,
     birth_date DATE,
-    age_group TINYINT,     -- The age group they belong too
+    opt_age_group VARCHAR(10),     -- The age group they belong too
     relation VARCHAR(50),
     opt_country VARCHAR(10),
     opt_race VARCHAR(10),
@@ -227,12 +227,12 @@ CREATE TABLE person_details (
 
 CREATE TABLE person_physical (
     p_uuid BIGINT NOT NULL,
-    blood_type VARCHAR(10),
+    opt_blood_type VARCHAR(10),
     height VARCHAR(10),
     weight VARCHAR(10),
-    eye_color VARCHAR(50),
-    skin_color VARCHAR(50),
-    hair_color VARCHAR(50),
+    opt_eye_color VARCHAR(50),
+    opt_skin_color VARCHAR(50),
+    opt_hair_color VARCHAR(50),
     injuries TEXT,
     PRIMARY KEY (p_uuid) ,
     FOREIGN KEY (p_uuid) REFERENCES person_id(p_uuid)
@@ -423,12 +423,20 @@ INSERT INTO field_options VALUES('opt_group_type','oth','other');
 INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
 INSERT INTO field_options VALUES('opt_id_type','pas','Passport');
 INSERT INTO field_options VALUES('opt_id_type','dln','Driving License Number');
+INSERT INTO field_options VALUES('opt_id_type','oth','Other');
 
 -- PERSON STATUS VALUES
 INSERT INTO field_options VALUES ('opt_status','ali','Alive & Well');
 INSERT INTO field_options VALUES ('opt_status','mis','Missing');
 INSERT INTO field_options VALUES ('opt_status','inj','Injured');
 INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
+
+-- AGE GROUP VALUES
+INSERT INTO field_options VALUES ('opt_age_group','inf','Infant (0-1)');
+INSERT INTO field_options VALUES ('opt_age_group','chi','Child (1-15)');
+INSERT INTO field_options VALUES ('opt_age_group','you','Young Adult (16-21)');
+INSERT INTO field_options VALUES ('opt_age_group','adu','Adult (22-50)');
+INSERT INTO field_options VALUES ('opt_age_group','sen','Senior Citizen (50+)');
 
 -- COUNTRY VALUES
 INSERT INTO field_options ('opt_country','uk','United Kingdom');
@@ -437,5 +445,39 @@ INSERT INTO field_options ('opt_country','lanka','Sri Lanka');
 -- RACE VALUES 
 INSERT INTO field_options ('opt_race','sing1','Sinhalese');
 INSERT INTO field_options ('opt_race','tamil','Tamil');
+INSERT INTO field_options ('opt_race','other','Other');
 
+-- RELIGION VALUES 
+INSERT INTO field_options ('opt_religion','bud','Buddhist');
+INSERT INTO field_options ('opt_religion','chr','Christian');
+INSERT INTO field_options ('opt_religion','oth','Other');
 
+-- MARITIAL STATUS VALUES 
+INSERT INTO field_options ('opt_marital_status','sin','Single');
+INSERT INTO field_options ('opt_marital_status','mar','Married');
+INSERT INTO field_options ('opt_marital_status','div','Divorced');
+
+-- BLOOD TYPE VALUES 
+INSERT INTO field_options ('opt_blood_type','ab','AB');
+INSERT INTO field_options ('opt_blood_type','a+','A+');
+INSERT INTO field_options ('opt_blood_type','o','O');
+
+-- EYE COLOR VALUES
+INSERT INTO field_options ('eye_color','bla','Black');
+INSERT INTO field_options ('eye_color','bro','Light Brown');
+INSERT INTO field_options ('eye_color','blu','Blue');
+INSERT INTO field_options ('eye_color','oth','Other');
+
+-- SKIN COLOR VALUES
+INSERT INTO field_options ('skin_color','bla','Black');
+INSERT INTO field_options ('skin_color','bro','Dark Brown');
+INSERT INTO field_options ('skin_color','fai','Fair');
+INSERT INTO field_options ('skin_color','whi','White');
+INSERT INTO field_options ('skin_color','oth','Other');
+
+-- HAIR COLOR VALUES
+INSERT INTO field_options ('hair_color','bla','Black');
+INSERT INTO field_options ('hair_color','bro','Brown');
+INSERT INTO field_options ('hair_color','red','Red');
+INSERT INTO field_options ('hair_color','blo','Blond');
+INSERT INTO field_options ('hair_color','oth','Other');
