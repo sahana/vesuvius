@@ -21,7 +21,7 @@
 /* {{{ function shn_form_open($arropt) */
 function shn_from_open($arropt=array('method'=>'POST','action'=>'','id'=>'dataform'),$return=false)
 {
-    $output = '<form ';
+    $output = '<form '.($arropt['id']?'':'id="dataform" ');
     foreach ($arropt as $k => $v){
         $output .= "$k=\"$v\" ";
     }
@@ -85,7 +85,7 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
                 $output_opt .= _shn_form_dump_key_val($option,array('drop_desc','br','caption_align','selected'));
                 $output_opt .= ($default_val_req?_shn_form_default_req($arr['type'],$option['value'],$_POST[$arr['name']]):($option['selected']?' checked':''));
                 $output_opt .= ' />'."\n"; // end of 'input type'
-                $output_opt = _shn_form_set_caption($option['drop_desc'],$option['caption_align'],$output_opt); //Set the caption NOTE: assign all back
+                $output_opt = _shn_form_set_caption($option['drop_desc'],$option['caption_align'],$output_opt,false); //Set the caption NOTE: assign all back
                 $output_opt .= ($arr['br']?_shn_form_br($option['br']):'')."\n"; // this will generate the 'break'.
                 $output .= $output_opt;
             }
@@ -116,7 +116,11 @@ function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=
     if($section)
         $output ="<fieldset>\n".($legend?"<legend>$legend</legend>\n":'');
     foreach($arr_list as $arr){
+        if($arr['section_start'])
+            $output .="<fieldset>\n<legend>{$arr['section_start']}</legend>\n";
         $output .= shn_form_add_component($arr,true,$default_val_req);
+        if($arr['section_end'])
+            $output .="</fieldset>\n";
     }
     if($section)
         $output .="</fieldset>\n";
