@@ -19,7 +19,7 @@
 /* {{{ Presentation Layer */
 
 /* {{{ function shn_form_open($arropt) */
-function shn_from_open($arropt=array('method'=>'POST','action'=>'','id'=>'dataform'),$return=false)
+function shn_form_open($arropt=array('method'=>'POST','action'=>'','id'=>'dataform'),$return=false)
 {
     $output = '<form '.($arropt['id']?'':'id="dataform" ');
     foreach ($arropt as $k => $v){
@@ -91,7 +91,8 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
             }
         break;
         case 'dropdown' :
-            $output .= '<select '. _shn_form_dump_key_val($arr,array('desc','br','options')). ">\n";
+        case 'multiselect' :
+            $output .= '<select '.$arr['multiple'].' '. _shn_form_dump_key_val($arr,array('desc','br','options')). ">\n";
             foreach($arr['options'] as $option){
                 $output_opt = '<option '._shn_form_dump_key_val($option,array('drop_desc','selected'));
                 $output_opt .= ($default_val_req?_shn_form_default_req($arr['type'],$option['value'],$_POST[$arr['name']]):($option['selected']?' selected':''));
