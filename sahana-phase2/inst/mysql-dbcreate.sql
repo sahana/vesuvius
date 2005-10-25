@@ -1,8 +1,8 @@
-DROP DATABASE sahana;
-CREATE DATABASE sahana;
+CREATE DATABASE IF NOT EXISTS sahana;
 USE sahana;
 
 -- SESSIONS
+DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions(
 	sesskey VARCHAR(32) NOT NULL,
 	expiry INT NOT NULL,
@@ -13,6 +13,7 @@ CREATE TABLE sessions(
 
 -- FIELD OPTIONS TABLE
 -- provides a list of options for fileds
+DROP TABLE IF EXISTS field_options;
 CREATE TABLE field_options(
    field_name VARCHAR(100),
    option_value VARCHAR(10),
@@ -22,6 +23,7 @@ CREATE TABLE field_options(
 /**** CORE LOG SCHEMA END *****/
 
 -- MODULES
+DROP TABLE IF EXISTS modules;
 CREATE TABLE modules(
 	module_id BIGINT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL,
@@ -33,6 +35,7 @@ CREATE TABLE modules(
 
 
 --CUSTOM MODULE CONFIGURATIONS
+DROP TABLE IF EXISTS config;
 CREATE TABLE config(
 	config_id BIGINT NOT NULL AUTO_INCREMENT,
 	config_group VARCHAR(100),
@@ -47,6 +50,7 @@ CREATE TABLE config(
 
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
+DROP TABLE IF EXISTS configlist;
 CREATE TABLE configlist(
 	description TEXT NOT NULL,
 	value VARCHAR(50),
@@ -56,7 +60,7 @@ CREATE TABLE configlist(
 
 
 /* Location Classification */
-
+DROP TABLE IF EXISTS location;
 CREATE TABLE location(
     location_id VARCHAR(20),
     opt_location_type VARCHAR(10),
@@ -67,6 +71,7 @@ CREATE TABLE location(
 );
 
 -- OPTIMIZATION  DEVEL
+DROP TABLE IF EXISTS devel_logsql;
 CREATE TABLE devel_logsql (
 		  created timestamp NOT NULL, 
 		  sql0 varchar(250) NOT NULL,
@@ -81,6 +86,7 @@ CREATE TABLE devel_logsql (
 -- Main Person ID table 
 -- Contains all IDs including the UUID that gives a 100%
 -- match to uniquely identify the person
+DROP TABLE IF EXISTS person_uuid;
 CREATE TABLE person_uuid (
     p_uuid BIGINT NOT NULL,
     name VARCHAR(100),   -- usually first name
@@ -92,6 +98,7 @@ CREATE TABLE person_uuid (
 );
 
 -- Many ID card numbers (or passport or driving licence) to person table
+DROP TABLE IF EXISTS identity_to_person;
 CREATE TABLE identity_to_person (
     p_uuid BIGINT NOT NULL,
     serial VARCHAR(100),
@@ -101,6 +108,7 @@ CREATE TABLE identity_to_person (
     
 
 -- All users have a associated person id
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
     username VARCHAR(100),
@@ -113,7 +121,8 @@ CREATE TABLE users (
 
 -- Main entry table as there can be multiple entries
 -- on the same person
-/*CREATE TABLE person_entry (
+/*DROP TABLE IF EXISTS person_entry;
+    CREATE TABLE person_entry (
     e_uuid BIGINT NOT NULL AUTO_INCREMENT,
     entry_date TIMESTAMP,
     user_uuid BIGINT,      -- details on the user who did the data entry
@@ -125,6 +134,7 @@ CREATE TABLE users (
 );*/
     
 -- Person Status
+DROP TABLE IF EXISTS person_status;
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
     isReliefWorker TINYINT,
@@ -134,6 +144,7 @@ CREATE TABLE person_status (
 
 -- Contact Information for a person, org or camp
 -- mobile, home phone, email, IM
+DROP TABLE IF EXISTS contact;
 CREATE TABLE contact (
     pgc_uuid BIGINT NOT NULL,  -- be either c_uuid, p_uuid or g_uuid
     opt_contact_type VARCHAR(10),
@@ -141,6 +152,7 @@ CREATE TABLE contact (
     PRIMARY KEY (pgc_uuid)
 );
 
+DROP TABLE IF EXISTS person_location;
 CREATE TABLE person_location ( 
     p_uuid BIGINT NOT NULL,
     location_id VARCHAR(20),
@@ -153,6 +165,7 @@ CREATE TABLE person_location (
 );
 
 -- Group information
+DROP TABLE IF EXISTS pgroup;
 CREATE TABLE pgroup (
     g_uuid BIGINT NOT NULL AUTO_INCREMENT, 
     name VARCHAR(100),
@@ -161,11 +174,13 @@ CREATE TABLE pgroup (
 );
 
 -- Group to Persons N to M mapping
+DROP TABLE IF EXISTS person_to_pgroup;
 CREATE TABLE person_to_pgroup (   
     p_uuid BIGINT,
     g_uuid BIGINT
 );
 
+DROP TABLE IF EXISTS person_details;
 CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
     next_kin_uuid BIGINT NOT NULL,
@@ -180,6 +195,7 @@ CREATE TABLE person_details (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
+DROP TABLE IF EXISTS person_physical;
 CREATE TABLE person_physical (
     p_uuid BIGINT NOT NULL,
     opt_blood_type VARCHAR(10),
@@ -193,6 +209,7 @@ CREATE TABLE person_physical (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
+DROP TABLE IF EXISTS person_missing;
 CREATE TABLE person_missing (
     p_uuid BIGINT NOT NULL,
     last_seen TEXT,
@@ -202,6 +219,7 @@ CREATE TABLE person_missing (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
+DROP TABLE IF EXISTS person_deceased;
 CREATE TABLE person_deceased (
     p_uuid BIGINT NOT NULL,
     details TEXT,
@@ -216,6 +234,7 @@ CREATE TABLE person_deceased (
 
 
 -- ORG MAIN
+DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
 	o_uuid BIGINT NOT NULL,
     parent_id BIGINT DEFAULT 0,
@@ -229,6 +248,7 @@ CREATE TABLE org_main(
 );
 
 -- ORG SECTOR  INFORMATION
+DROP TABLE IF EXISTS org_sector;
 CREATE TABLE org_sector(
 	org_id BIGINT NOT NULL,
 	opt_org_sector VARCHAR(100),
@@ -237,6 +257,7 @@ CREATE TABLE org_sector(
 );
 
 -- ORG LOCATION INFORMATION
+DROP TABLE IF EXISTS org_location;
 CREATE TABLE org_location(
 	org_id BIGINT NOT NULL,
 	location_id VARCHAR(20),
@@ -246,6 +267,7 @@ CREATE TABLE org_location(
 );
 
 -- ORG USER INFORMATION
+DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
     org_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
@@ -259,6 +281,7 @@ CREATE TABLE org_users(
 /* SHELTER AND CAMP TABLES */
 /* --------------------------------------------------------------------------*/
 
+DROP TABLE IF EXISTS camp;
 CREATE TABLE camp (
     c_uuid BIGINT NOT NULL,
     location_id VARCHAR(20),
