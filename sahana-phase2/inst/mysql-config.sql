@@ -84,3 +84,34 @@ INSERT INTO field_options VALUES ('opt_hair_color','oth','Other');
 INSERT INTO field_options VALUES ('opt_camp_type','ngo','NGO Run Camp');
 INSERT INTO field_options VALUES ('opt_camp_type','tmp','Temporary Shelter');
 INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Run Camp');
+
+-- ORGANIZATION TYPES 
+INSERT INTO field_options VALUES("opt_org_type","gov","Government");
+INSERT INTO field_options VALUES("opt_org_type","priv","Private");
+INSERT INTO field_options VALUES("opt_org_type","multi","Multinational");
+INSERT INTO field_options VALUES("opt_org_type","bilat","Bilateral");
+
+-- ORGANIZATION SECTOR VALUES
+INSERT INTO field_options VALUES("opt_org_sector_type","agri","Agriculture");
+INSERT INTO field_options VALUES("opt_org_sector_type","adev","Area Development");
+INSERT INTO field_options VALUES("opt_org_sector_type","comm","Communications");
+INSERT INTO field_options VALUES("opt_org_sector_type","dprep","Disaster Preperation");
+INSERT INTO field_options VALUES("opt_org_sector_type","ene","Energy");
+INSERT INTO field_options VALUES("opt_org_sector_type","hlth","Health");
+
+-- LOCATION TYPE VALUES
+INSERT INTO field_options VALUES ('opt_location_type','1','countries');
+INSERT INTO field_options VALUES ('opt_location_type','2','provinces');
+INSERT INTO field_options VALUES ('opt_location_type','3','districts');
+INSERT INTO field_options VALUES ('opt_location_type','4','villages');
+
+-- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
+INSERT INTO location VALUES ('1','1','Sri Lanka','lk','Sri Lanka added as a country');
+INSERT INTO location VALUES ('2','1','Pakistan','pk','Pakistan added as a country');
+INSERT INTO location VALUES ('3','1','United Kingdom','uk','United Kingdom added as a country');
+INSERT INTO location VALUES ('4','1','United States','us','United States added as a country');
+INSERT INTO location VALUES ('1.1','2','Western','wes','Western  added as a province in Sri Lanka');
+INSERT INTO location VALUES ('1.1.1','3','Colombo','cmb','Colombo added as a district in Srilanka Western Province');
+INSERT INTO location VALUES ('1.1.1.1','4','Pettah','pet','pettah added as a village in Srilanka Western Province');
+
+

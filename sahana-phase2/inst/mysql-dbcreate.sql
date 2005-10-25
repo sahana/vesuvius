@@ -57,36 +57,14 @@ CREATE TABLE configlist(
 
 /* Location Classification */
 
-CREATE TABLE location_type(
-    location_type_id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    PRIMARY KEY (location_type_id)
-);
-insert into location_type(name,description) values('country','countries');
-insert into location_type(name,description) values('province','provinces');
-insert into location_type(name,description) values('district','districts');
-insert into location_type(name,description) values('village','villages');
-
 CREATE TABLE location(
-    location_id BIGINT NOT NULL AUTO_INCREMENT,
-    parent_id BIGINT DEFAULT 0,
-    location_type_id BIGINT NOT NULL,
-    iso_code VARCHAR(20),
+    location_id VARCHAR(20),
+    opt_location_type VARCHAR(10),
     name VARCHAR(100) NOT NULL,
-    value VARCHAR(50), -- for dropdowns if needed
+    iso_code VARCHAR(20),
     description TEXT,
-    PRIMARY KEY (location_id),
-    FOREIGN KEY (location_type_id) REFERENCES location_type(location_type_id)
+    PRIMARY KEY (location_id)
 );
-
-insert into location(parent_id,location_type_id,name,value,description) values(0,1,'Sri Lanka','lk','Sri Lanka added as a country');
-insert into location(parent_id,location_type_id,name,value,description) values(0,1,'Pakistan','pk','Pakistan added as a country');
-insert into location(parent_id,location_type_id,name,value,description) values(0,1,'United Kingdom','uk','United Kingdom added as a country');
-insert into location(parent_id,location_type_id,name,value,description) values(0,1,'United States','us','United States added as a country');
-insert into location(parent_id,location_type_id,name,value,description) values(1,2,'Western','wes','Western  added as a province in Sri Lanka');
-insert into location(parent_id,location_type_id,name,value,description) values(5,3,'Colombo','cmb','Colombo added as a district in Srilanka Western Province');
-insert into location(parent_id,location_type_id,name,value,description) values(6,4,'Pettah','pet','pettah added as a village in Srilanka Western Province');
 
 -- OPTIMIZATION  DEVEL
 CREATE TABLE devel_logsql (
@@ -105,6 +83,11 @@ CREATE TABLE devel_logsql (
 -- match to uniquely identify the person
 CREATE TABLE person_uuid (
     p_uuid BIGINT NOT NULL,
+    name VARCHAR(100),   -- usually first name
+    name_2 VARCHAR(100),   -- usually middle name
+    name_3 VARCHAR(100),   -- usually aliases 
+    name_4 VARCHAR(100),  -- usually surname 
+    name_5 VARCHAR(100),  -- usually name of family head 
     PRIMARY KEY(p_uuid)      
 );
 
@@ -118,7 +101,7 @@ CREATE TABLE identity_to_person (
     
 
 -- All users have a associated person id
-CREATE TABLE user (
+CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
     username VARCHAR(100),
     password VARCHAR(100),
@@ -130,7 +113,7 @@ CREATE TABLE user (
 
 -- Main entry table as there can be multiple entries
 -- on the same person
-CREATE TABLE person_entry (
+/*CREATE TABLE person_entry (
     e_uuid BIGINT NOT NULL AUTO_INCREMENT,
     entry_date TIMESTAMP,
     user_uuid BIGINT,      -- details on the user who did the data entry
@@ -139,20 +122,8 @@ CREATE TABLE person_entry (
     PRIMARY KEY (e_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (user_uuid) REFERENCES person_uuid(p_uuid)
-);
+);*/
     
--- Person Names 
-CREATE TABLE person_name (
-    p_uuid BIGINT NOT NULL,
-    name_1 VARCHAR(100),   -- usually first name
-    name_2 VARCHAR(100),   -- usually middle name
-    name_3 VARCHAR(100),   -- usually aliases 
-    family_name_1 VARCHAR(100),  -- usually surname 
-    family_name_2 VARCHAR(100),  -- usually name of family head 
-    PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
-);
-
 -- Person Status
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
@@ -172,7 +143,7 @@ CREATE TABLE contact (
 
 CREATE TABLE person_location ( 
     p_uuid BIGINT NOT NULL,
-    location_id BIGINT,
+    location_id VARCHAR(20),
     opt_person_loc_type VARCHAR(10),
     address TEXT,        
     cur_shelter VARCHAR(50),
@@ -235,7 +206,7 @@ CREATE TABLE person_deceased (
     p_uuid BIGINT NOT NULL,
     details TEXT,
     date_of_death DATE,
-    location BIGINT,
+    location VARCHAR(20),
     place_of_death TEXT,
     comments TEXT,
     PRIMARY KEY (p_uuid),
@@ -244,144 +215,34 @@ CREATE TABLE person_deceased (
 );
 
 
-/* This is changed
-
-CREATE TABLE metadata (
-    meta_id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    caption VARCHAR(50),
-    type VARCHAR(50),
-    form_meta TEXT,
-    table_name VARCHAR(50),
-    validation_func VARCHAR(50),
-    PRIMARY KEY (meta_id)
-);
-
-CREATE TABLE module_metadata(
-    module_id BIGINT NOT NULL,
-    meta_id BIGINT NOT NULL,
-    section VARCHAR(50),
-    forms INT,
-    form_meta TEXT,
-    field_list TEXT,
-    element_order INT,
-    PRIMARY KEY(module_id,meta_id),
-    FOREIGN KEY (meta_id) REFERENCES metadata(meta_id),
-    FOREIGN KEY (module_id) REFERENCES modules(module_id)
-);
-
-CREATE TABLE people_reg(
-    rec_id BIGINT NOT NULL AUTO_INCREMENT,
-    p_uuid VARCHAR(100) NOT NULL,
-    meta_id BIGINT NOT NULL,
-    updated TIMESTAMP NOT NULL DEFAULT NOW(),
-    active BOOLEAN NOT NULL DEFAULT TRUE,
-    PRIMARY KEY (rec_id),
-    FOREIGN KEY (meta_id) REFERENCES metadata(meta_id)
-);
-
-CREATE TABLE metadata_int(
-    rec_id BIGINT NOT NULL,
-    value BIGINT,
-    PRIMARY KEY(rec_id),
-    FOREIGN KEY (rec_id) REFERENCES people_reg(rec_id)
-);
-
-CREATE TABLE metadata_text(
-    rec_id BIGINT NOT NULL,
-    value TEXT,
-    PRIMARY KEY(rec_id),
-    FOREIGN KEY (rec_id) REFERENCES people_reg(rec_id)
-);
-   
-CREATE TABLE metadata_date(
-    rec_id BIGINT NOT NULL,
-    value timestamp,
-    PRIMARY KEY(rec_id),
-    FOREIGN KEY (rec_id) REFERENCES  people_reg(rec_id)
-); 
-
--- USERS
-CREATE TABLE users(
-    rec_id BIGINT NOT NULL,
-	username VARCHAR(10) NOT NULL,
-	password VARCHAR(40) NOT NULL,
-	PRIMARY KEY (rec_id),
-	FOREIGN KEY (rec_id) REFERENCES people_reg(rec_id)
-);
-
-COMMENT ON TABLE users IS 'User Information';
-
-CREATE TABLE dirty_tables(
-    tablename TEXT NOT NULL,
-    updated TIMESTAMP NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (tablename)
-);
-*/
-
-/* SCHEMA for Organization Registry */
-/* author chathra   */
-/* author ravindra  */
-/* prefix : org_ */
-
 -- ORG MAIN
 CREATE TABLE org_main(
-	/*id BIGINT NOT NULL AUTO_INCREMENT,*/
-	id BIGINT NOT NULL,
+	o_uuid BIGINT NOT NULL,
     parent_id BIGINT DEFAULT 0,
     name VARCHAR(100) NOT NULL ,
-	or_type BIGINT NOT NULL,
+	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
     man_power VARCHAR(50),
 	resources VARCHAR(200),
     privacy INT(1) DEFAULT 1,
-	PRIMARY KEY (id),
-	FOREIGN KEY (or_type) REFERENCES org_types(id)
+	PRIMARY KEY (o_uuid)
 );
-
--- ORG TYPE
-CREATE TABLE org_types(
-	id BIGINT NOT NULL AUTO_INCREMENT,
-	org_type VARCHAR(50),
-	PRIMARY KEY (id)
-);
-insert into org_types(org_type)values("Government");
-insert into org_types(org_type)values("Private");
-insert into org_types(org_type)values("Multinational");
-insert into org_types(org_type)values("Bilateral");
-
--- ORG SECTORS
-CREATE TABLE org_sector_types(
-
-	id BIGINT NOT NULL AUTO_INCREMENT,
-	sector VARCHAR(50),
-	PRIMARY KEY (id)
-);
-
-insert into org_sector_types(sector)values("Agriculture");
-insert into org_sector_types(sector)values("Area Development");
-insert into org_sector_types(sector)values("Communications");
-insert into org_sector_types(sector)values("Disaster Preperation");
-insert into org_sector_types(sector)values("Energy");
-insert into org_sector_types(sector)values("Health");
-insert into org_sector_types(sector)values("Fisheries");
 
 -- ORG SECTOR  INFORMATION
 CREATE TABLE org_sector(
 	org_id BIGINT NOT NULL,
-	sector_id BIGINT NOT NULL,
-    PRIMARY KEY (org_id, sector_id),
-    FOREIGN KEY (org_id) REFERENCES org_main(id),
-    FOREIGN KEY (sector_id) REFERENCES org_sector_types(id)
+	opt_org_sector VARCHAR(100),
+    PRIMARY KEY (org_id, opt_org_sector),
+    FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
 );
 
 -- ORG LOCATION INFORMATION
 CREATE TABLE org_location(
 	org_id BIGINT NOT NULL,
-	location_id BIGINT NOT NULL,
+	location_id VARCHAR(20),
     PRIMARY KEY (org_id, location_id),
 	FOREIGN KEY (location_id) REFERENCES location(location_id),
-	FOREIGN KEY (org_id) REFERENCES org_main(id)
+	FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
 );
 
 -- ORG USER INFORMATION
@@ -389,8 +250,9 @@ CREATE TABLE org_users(
     org_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
 	PRIMARY KEY (org_id,user_id),
-	FOREIGN KEY (user_id) REFERENCES person_uuid(p_uuid),
-	FOREIGN KEY (org_id) REFERENCES org_main(id)
+	FOREIGN KEY (user_id) REFERENCES users(p_uuid),
+	FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
+	
 );
 
 
@@ -399,7 +261,7 @@ CREATE TABLE org_users(
 
 CREATE TABLE camp (
     c_uuid BIGINT NOT NULL,
-    location_id BIGINT,
+    location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
     PRIMARY KEY (c_uuid),
