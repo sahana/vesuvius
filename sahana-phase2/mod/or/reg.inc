@@ -19,11 +19,12 @@
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 
-function shn_or_org_reg(){
+function shn_or_regform_org()
+{
     global $global;
     $db=$global['db'];
     
-    $q = "select * from org_types";
+    $q = "select option_value,option_name from field_options where field_name='opt_org_type'";
     $res=$db->Execute($q);
     $or_type_options=array();
         
@@ -39,7 +40,7 @@ function shn_or_org_reg(){
         
     }
     
-    $q = "select * from org_sector_types";
+    $q = "select option_value,option_name from field_options where field_name='opt_org_sector_type'";
     $res=$db->Execute($q);
     $or_sector_type_options=array();
         
@@ -53,7 +54,7 @@ function shn_or_org_reg(){
         
         $res->MoveNext();
     }
-    $q = "select location.name,location.location_id from location,location_type where location.location_type_id=location_type.location_type_id and location_type.name='country'";
+    $q = "select location.name,location.location_id from location where location.opt_location_type='1'";
     $res=$db->Execute($q);
     $or_countries=array();
         
@@ -68,7 +69,7 @@ function shn_or_org_reg(){
         $res->MoveNext();
     }
 
-    $q = "select location.name,location.location_id from location,location_type where location.location_type_id=location_type.location_type_id and location_type.name='province'";
+    $q = "select location.name,location.location_id from location where location.opt_location_type='2'";
     $res=$db->Execute($q);
     $or_provinces=array();
         
@@ -82,7 +83,8 @@ function shn_or_org_reg(){
         
         $res->MoveNext();
     }
-    $q = "select location.name,location.location_id from location,location_type where location.location_type_id=location_type.location_type_id and location_type.name='district'";
+    $q = "select location.name,location.location_id from location where location.opt_location_type='3'";
+ 
     $res=$db->Execute($q);
     $or_districts=array();
         
@@ -96,8 +98,9 @@ function shn_or_org_reg(){
         
         $res->MoveNext();
     }
+    $q = "select location.name,location.location_id from location where location.opt_location_type='4'";
+ 
 
-    $q = "select location.name,location.location_id from location,location_type where location.location_type_id=location_type.location_type_id and location_type.name='village'";
     $res=$db->Execute($q);
     $or_villages=array();
         
@@ -111,66 +114,82 @@ function shn_or_org_reg(){
         
         $res->MoveNext();
     }
-echo "<h2><center>" . _("Organization Registration") . "</center></h2>";
-    // Start OR registration form
-
-
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'dataform');
-	shn_from_open($header,false);
-       
-    // call OR name
+?>
+<center><h1>Organization Registration</h1></center>
+<div id="formcontainer">
+<?php
+   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+	shn_form_open($header,false);
+?>  
+<fieldset>     
+<?php
+// call OR name
     $or_main = array(
                         array('legend'=>''),
                         array('desc'=>_("Organization name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'class'=>'test','id'=>'tid','br'=>'1'),    
-                        array('desc'=>_("Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options
+                        array('desc'=>_("Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1'
                         ),
-                        array('desc'=>_("Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"org_sector[]",'option'=>$or_sector_type_options,
+                        array('multiple'=>'multiple','desc'=>_("Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"org_sector[]",'options'=>$or_sector_type_options,
                         'br'=>'1'
                         ) // end of list form
                      );
-    shn_show_form($or_main);
-
+    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=false);
+?>
+</fieldset> 
+<?php
     // base location
     $location_inf = array(
-    					array('legend'=>_("Base Location Information :")),           
-                        array('desc'=>_("Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries
-                             ),                         
+                        array('desc'=>_("Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries,'br'=>'1'                             ),                         
                        array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>1),
                         array('desc'=>_("Province :"),'type'=>'dropdown','name'=>'bsd_province',
-                            'options'=>$or_provinces
+                            'options'=>$or_provinces,'br'=>'1'
                         ),// end of option
                         array('desc'=>_("District :"),'type'=>'dropdown','name'=>'bsd_district',
-                            'options'=>$or_districts
+                            'options'=>$or_districts,'br'=>'1'
                         ),// end of option
                         array('desc'=>_("Village :"),'type'=>'dropdown','name'=>'bsd_village',
-                            'options'=>$or_villages
+                            'options'=>$or_villages,'br'=>'1'
                         )
                     );// end of option
                              
-	shn_show_form($location_inf);
     // OR infomation
-    
-    $contact01 = array (
+?>
+<fieldset>
+<?php
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=false);
+?>
+</fieldset>
+<?php
+    $contact = array (
     					array('legend'=>_("Contact Person Information :")),          
                         array('desc'=>_("Name : "),'type'=>"text",'size'=>50,'name'=>'contact_name','br'=>1),
-                        array('desc'=>_("Address : "),'type'=>"txtarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1),
+                        array('desc'=>_("Address : "),'type'=>"textarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1),
                         array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact_phone','br'=>1),
                         array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact_fax','br'=>1),
                         array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
 
                         ); // end of contact 01
-    shn_show_form($contact01);
-    
+?>
+<fieldset>
+<?php
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
+?>
+</fieldset>
+<?php
      
     // for comments
     $facilities = array(
 					array('legend'=>_("Facilities Avaliable : ")),       			// get man power of the OR
                 array('desc'=>_("Man Power (No):"),'type'=>"text",'size'=>4,'name'=>'man_power','br'=>1),
-                array('type'=>"txtarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60)
+                array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60)
     ); // end of comments
-
-    shn_show_form($facilities);
-
+?>
+<fieldset>
+<?php
+    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=false);
+?>
+</fieldset>
+<?php
     // for get login info
     $login_info = array(
     				array('legend'=>_("Login information : ")),       	
@@ -178,8 +197,13 @@ echo "<h2><center>" . _("Organization Registration") . "</center></h2>";
                     array('desc'=>_("Password : "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
                     array('desc'=>_("Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
     ); // end of getting logging info
-    shn_show_form($login_info); 	
-
+?>
+<fieldset>
+<?php
+    shn_form_add_component_list($login_info,$section=true,$legend='Login Information',$return=false,$default_val_req=false);
+?>
+</fieldset>
+<?php
     // make my contact info available
     $extra = array(
                     array('desc'=>_("Make my contact information available  "),'type'=>'checkbox','name'=>'chk_avail','value'=>'avail','algin'=>'right','select'=>1,'br'=>1),
@@ -187,18 +211,25 @@ echo "<h2><center>" . _("Organization Registration") . "</center></h2>";
                     array('desc'=>_(" Add branch information  "),'type'=>'checkbox','name'=>'chk_branch','value'=>'add','algin'=>'right','select'=>1)
                     
             );
-    shn_show_form($extra);
-
-
- 	print"<center>";
-     //create the submit button
-        $submit= array('type'=>'submit', 'value'=>'Next');
+?>
+<fieldset>
+<?php
+    shn_form_add_component_list($extra,$section=true,$legend='',$return=false,$default_val_req=false);
+?>
+</fieldset>
+<center>
+<?php
+//create the submit button
+    $submit= array('type'=>'submit', 'value'=>'Next');
 	shn_form_add_component($submit,false,false);
-	print"</center>";
+?>
+</center>
+<?php
         //close the form
      	shn_form_close(false);
-				     
-
+?>				     
+</div>
+<?php
     // end of form
 
     
@@ -208,7 +239,7 @@ function shn_or_branch_reg(){
     global $global;
     $db=$global['db'];
     
-    $q = "select * from org_sector_types";
+    $q = "select option_value,option_name from field_options where field_name='org_sector_type'";
     $res=$db->Execute($q);
     $or_sector_type_options=array();
         
