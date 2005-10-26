@@ -399,6 +399,7 @@ p#skip {
 	background: #DEE3E7; 
 	border: #26a solid 1px; 
 	margin: 0px 10px 10px 10px; 
+	font-size:10px;
 }
 
 #formset a:hover { 
