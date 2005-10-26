@@ -416,7 +416,7 @@ p#skip {
 	text-align:left;
 }
 
-#result th{
+#result thead td{
 	text-align:center;
 	padding:.25em .25em .25em .25em;
 	font-family:Arial, Helvetica, Verdana, sans-serif;
@@ -426,7 +426,7 @@ p#skip {
 	border-right:2px solid #DEE3E7;
 }
 
-#result td{
+#result tr td{
 	text-align:left;
 	padding:.1em .1em .1em .1em;
 	font-family:Arial, Helvetica, Verdana, sans-serif;
@@ -434,4 +434,8 @@ p#skip {
 	color:#000;
 	background-color:#EFEFEF;
 	border-right:1px solid #EFEFEF;
+}
+
+#parent{
+	margin-left:15px;
 }
