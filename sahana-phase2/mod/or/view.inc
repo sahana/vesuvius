@@ -48,11 +48,14 @@ function shn_or_viewform_org(){
     $q = "select contact_value from contact where pgc_uuid='{$org_id}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
 
-    $q="select * from org_location where org_id='{$org_id}'";
-    $res_temp=
-    $q = "select name from location,org_location where org_id='{$org_id}' and location.location_id=org_location.location_id";
-    //$q = "select name from location,org_location where org_id='{$org_id}' and opt_location_type='1' and location.location_id=org_location.location_id";
+    $q="select location_id from org_location where org_id='{$org_id}'";
+    $res_temp=$db->Execute($q);
+    $loc=$res_temp->fields[0][0];
+    $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
+   // $q = "select name from location,org_location where org_id='{$org_id}' and location.location_id=org_location.location_id";
+    //$q = "select name from location,org_location where org_id='{$org_id}' and opt_location_type='1' and location.location_id=org_location.location_id";
+   // $res_bsd_country=$db->Execute($q);
 ?>
 
 <tr>

@@ -20,8 +20,11 @@
 global $global;
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/handler_form.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
+include_once $global['approot']."/inc/lib_validate.inc";
 include_once ("reg.inc"); // call form generator
 include_once("view.inc");
+include_once("errors.inc");
 
 function shn_or_acl_setup(){
  	global $global;
@@ -135,17 +138,39 @@ function shn_or_mainmenu()
 } 
 
 // register a OR
-function shn_or_reg_org()
+function shn_or_reg_org($error=false)
 {
-    shn_or_regform_org();
+    shn_or_regform_org($error);
 }
 
 function shn_or_reg_org_cr()
 {
-    $org_name=$_POST{"org_name"};
-    $org_type=$_POST{"org_type"};
-    $org_sector=$_POST{"org_sector"};
-    $bsd_village=$_POST{"bsd_village"};
+    $error=false;
+    if (shn_is_null($_POST{"org_name"})){
+        $error=true;
+        add_error(SHN_ERR_OR_NAME_INCOMPLETE);
+    }else {    
+        $org_name=$_POST{"org_name"};
+    }
+    
+    if (shn_is_null($_POST{"org_type"})){
+        $error=true;
+        add_error(SHN_ERR_OR_TYPE_INCOMPLETE);
+    }else {    
+        $org_type=$_POST{"org_type"};
+    }
+    if (shn_is_null($_POST{"org_sector"})){
+        $error=true;
+        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
+    }else {    
+        $org_sector=$_POST{"org_sector"};
+    }
+    if (shn_is_null($_POST{"bsd_village"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_village=$_POST{"bsd_village"};
+    }
     $reg_no=$_POST{"reg_no"};
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
@@ -156,12 +181,26 @@ function shn_or_reg_org_cr()
     $man_power=$_POST{"man_power"};
     $resources=$_POST{"resources"};
 
-    $user_name=$_POST{"user_name"};
-    $password=$_POST{"password"};
-    $re_password=$_POST{"re_password"};
-
+    if (shn_is_null($_POST{"user_name"})){
+        $error=true;
+        add_error(SHN_ERR_OR_UNAME_INCOMPLETE);
+    }else {    
+        $user_name=$_POST{"user_name"};
+    }
+    if (shn_is_null($_POST{"password"})){
+        $error=true;
+        add_error(SHN_ERR_OR_PWD_INCOMPLETE);
+    }else {    
+        $password=$_POST{"password"};
+    }
+    if (shn_is_null($_POST{"re_password"})){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+    }else {    
+        $re_password=$_POST{"re_password"};
+    }
     $chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
-    $chk_branch=$_POST{"chk_branch"};
+    $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
 
     global $global;
     $db=$global['db'];
@@ -172,7 +211,14 @@ function shn_or_reg_org_cr()
     //("add_org(): ORG_ID generation failed!");
         return false;
     }
-    
+    $q="select o_uuid from org_main where org_id='{$org_id}'";
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        $error=true;
+        add_error(SHN_ERR_OR_ORG_EXISTS);
+    }
+    if(!$error){
+    //no validation done on other fields as they are not unique
     $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
     $res=$db->Execute($q);
 
@@ -182,8 +228,16 @@ function shn_or_reg_org_cr()
         $res=$db->Execute($q);
         $i=$i+1;
     }
-    
+    }
+
     $pid=time();
+    $q="select p_uuid from person_uuid where p_uuid='{$p_id}'";
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        $error=true;
+        add_error(SHN_ERR_OR_PERSON_EXISTS);
+    }
+    if(!$error){
     $q="insert into person_uuid(p_uuid,name) values($pid,'{$contact_name}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgc_uuid,opt_contact_type,contact_value) values($org_id,'home','{$contact_address}')";
@@ -194,26 +248,37 @@ function shn_or_reg_org_cr()
     $res=$db->Execute($q);
     $q="insert into contact(pgc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
     $res=$db->Execute($q);
+    }
+    $q="select p_uuid from users where username='{$user_name}'";
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        $error=true;
+        add_error(SHN_ERR_OR_USER_EXISTS);
+    }
+    if(!$error){
+   
     $q="insert into users(p_uuid,username,password) values($pid,'{$user_name}','{$password}')";
     $res=$db->Execute($q);
     $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
     $res=$db->Execute($q);
+    }
 
+    //no validation as organization can have multiple locations
     $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
     $res=$db->Execute($q);
-    var_dump($q);
     
-    if($res==false){
-        return false;
+    if($error){
+       // shn_or_reg_org($error);
+        //return false;
     }else {
       //  shn_or_branch_reg();
     }
 
-    //n_or_branch_reg();
+   shn_or_regform_operation();
 }
 
 
-function shn_or_branch_reg_cr(){
+function shn_or_reg_operation_cr(){
 }
 
 // register a volunteer
