@@ -20,7 +20,7 @@ include_once $global['approot']."/inc/lib_modules.inc";
     <div id="menuwrap">
     <h2>Sahana Main</h2>
     <ul id="menu">
- <?php 
+<?php 
     // display the list of modules on the menu bar
     $module_list = shn_get_module_names();
 
@@ -30,7 +30,7 @@ include_once $global['approot']."/inc/lib_modules.inc";
        $module_name = ( null == $module_name )? $i : $module_name ;
 
 ?>
-   <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
+        <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
 <?php 
     } 
 ?>

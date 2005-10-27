@@ -10,6 +10,7 @@
 *
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+* @author     Chaindra de Silva <chaindra@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -27,15 +28,19 @@ $error_container = array();
 
 function display_errors($return=false,$clean_errors=true,$exit=false)
 {
-	$errors = return_errors();
+    global $error_container;
+
+    // return if there are no errors
+    if (count($error_container) == 0 ) return;
+    
     $output = "<div id=\"error\">";
 	if($exit){
-		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
+		$output .= '<b>'._('The following fields were invalid').'</b><br>'; 
 	}else{
-		$output .= '<b>'._('O\' my god you killed Kenny !!!')."</b><br>";
+		$output .= '<b>'._('The following fields were invalid')."</b><br>";
 	}
     $output .= "<ul>";
-	foreach ($errors as $error){
+	foreach ($error_container as $error){
 		$output .= "<li>"._($error).'<br></li>';
 	}
     $output .= "</ul>";

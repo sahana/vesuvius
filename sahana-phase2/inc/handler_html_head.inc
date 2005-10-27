@@ -14,10 +14,11 @@
 */
 
 ?>
- <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
- <head> 
-  <title>Sahana Disaster Management System </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $conf['theme']?>/sahana.css" />
-  <script type="javascript" src="theme/<?php echo $conf['theme']?>/sahana.js">
- </head>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head> 
+        <title>Sahana Disaster Management System </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $conf['theme']?>/sahana.css" />
+        <script type="javascript" src="theme/<?=$conf['theme']?>/sahana.js">
+    </head>
+

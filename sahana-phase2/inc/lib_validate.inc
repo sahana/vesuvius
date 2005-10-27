@@ -2,7 +2,7 @@
 // General-purpose validation functions
 
 // Test if a field is between min and  max length
-function check_len_range($field, $minlength, $maxlength)
+function shn_valid_len_range($field, $minlength, $maxlength)
 {
    if ((strlen($field) > $minlength) && (strlen($field) < $maxlength))
    {
@@ -12,7 +12,7 @@ function check_len_range($field, $minlength, $maxlength)
 }
 
 //zipcode validator 
-function check_zipcode($country, $zipcode)
+function shn_valid_zipcode($country, $zipcode)
 {
   switch ($country)
   {
@@ -94,7 +94,7 @@ function check_zipcode($country, $zipcode)
 
 
 // Check a phone number
-function check_phone($field)
+function shn_valid_phone($field)
 {
    $validPhoneExpr = "^([0-9]{2,3}[ ]?)?[0-9]{4}[ ]?[0-9]{4}$";
 
@@ -109,7 +109,7 @@ function check_phone($field)
 
 
 // Check an email address
-function Check_email($field)
+function shn_valid_email($field)
 {
    // Check syntax
    $validEmailExpr =  "^[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*" .
@@ -138,7 +138,7 @@ function Check_email($field)
    return true;
 }
 
-function shn_check_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
+function shn_valid_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
 {
     if(preg_match($pattern,$date))
         return true;
@@ -146,7 +146,7 @@ function shn_check_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
         return false;
 }
 
-function shn_check_number($str,$pattern='/^\d+$/')
+function shn_valid_number($str,$pattern='/^\d+$/')
 {
     if(preg_match($pattern,$date))
         return true;
@@ -154,12 +154,4 @@ function shn_check_number($str,$pattern='/^\d+$/')
         return false;
 }
 
-function shn_is_null($field)
-{
-    if (null==$field){
-        return true;
-    }else {
-        return false;
-    }
-}
 ?>
