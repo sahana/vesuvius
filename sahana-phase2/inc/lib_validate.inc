@@ -1,7 +1,6 @@
 <?php
 // General-purpose validation functions
 
-
 // Test if a field is between min and  max length
 function check_len_range($field, $minlength, $maxlength)
 {
@@ -12,7 +11,7 @@ function check_len_range($field, $minlength, $maxlength)
    return false;
 }
 
-// zipcode validator 
+//zipcode validator 
 function check_zipcode($country, $zipcode)
 {
   switch ($country)
@@ -24,9 +23,9 @@ function check_zipcode($country, $zipcode)
     case "Norway":
     case "Portugal":
     case "Switzerland":
-      if (!ereg("^[0-9]{4}$", $zipcode))
+     if (!ereg("^[0-9]{4}$", $zipcode))
       {
-         print "The postcode/zipcode must be 4 digits in length";
+        // print "The postcode/zipcode must be 4 digits in length";
          return false;
       }
       break;
@@ -93,6 +92,7 @@ function check_zipcode($country, $zipcode)
   return true;
 }
 
+
 // Check a phone number
 function check_phone($field)
 {
@@ -109,7 +109,7 @@ function check_phone($field)
 
 
 // Check an email address
-function emailCheck($field)
+function Check_email($field)
 {
    // Check syntax
    $validEmailExpr =  "^[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*" .
@@ -152,5 +152,14 @@ function shn_check_number($str,$pattern='/^\d+$/')
         return true;
     else
         return false;
+}
+
+function shn_is_null($field)
+{
+    if (null==$field){
+        return true;
+    }else {
+        return false;
+    }
 }
 ?>
