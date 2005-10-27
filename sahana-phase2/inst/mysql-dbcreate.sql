@@ -31,10 +31,18 @@ CREATE TABLE field_options(
 );
 
 
-/* Location Classification */
+/*** Location Classification ***/
+
+/**
+* The central table to store loactions
+* Modules: dvr, mpr, rms, or, cms 
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+
 DROP TABLE IF EXISTS location;
 CREATE TABLE location(
-    location_id VARCHAR(20),
+    location_id VARCHAR(20) NOT NULL,
+    search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
     opt_location_type VARCHAR(10),
     name VARCHAR(100) NOT NULL,
     iso_code VARCHAR(20),
@@ -66,7 +74,7 @@ CREATE TABLE person_uuid (
     full_name VARCHAR(100), -- the full name (contains the family name)
     family_name VARCHAR(50), -- the family name
     l10n_name VARCHAR(100), -- localized version of name
-    custom_name VARCHAR(50), -- exta name field as required
+    custom_name VARCHAR(50), -- extra name field as required
     PRIMARY KEY(p_uuid)      
 );
 
@@ -86,17 +94,16 @@ CREATE TABLE identity_to_person (
 /**
 * Contains the Sahana system user details
 * Modules: all
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
-    username VARCHAR(100),
+    username VARCHAR(100) NOT NULL,
     password VARCHAR(100),
-    acl_id INT(11), -- reference to their acl entry
     PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
-    FOREIGN KEY (acl_id) REFERENCES gacl_aro(id)
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 
@@ -141,13 +148,13 @@ CREATE TABLE contact (
     pgoc_uuid BIGINT NOT NULL, -- be either c_uuid, p_uuid or g_uuid
     opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
     contact_value VARCHAR(100), 
-    PRIMARY KEY (pgc_uuid)
+    PRIMARY KEY (pgoc_uuid)
 );
 
 /**
 * Details on the location of an entity (person, camp, organization)
 * Modules: dvr, mpr, or, cms, rms 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 DROP TABLE IF EXISTS location_details;
 CREATE TABLE location_details ( 
@@ -157,8 +164,7 @@ CREATE TABLE location_details (
     address TEXT, -- the street address        
     postcode VARCHAR(30), -- or ZIP code
     long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
-    PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    PRIMARY KEY (poc_uuid,location_id),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
@@ -272,16 +278,6 @@ CREATE TABLE org_sector(
     FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
 );
 
--- ORG LOCATION INFORMATION
-DROP TABLE IF EXISTS org_location;
-CREATE TABLE org_location(
-	org_id BIGINT NOT NULL,
-	location_id VARCHAR(20),
-    PRIMARY KEY (org_id, location_id),
-	FOREIGN KEY (location_id) REFERENCES location(location_id),
-	FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
-);
-
 -- ORG USER INFORMATION
 DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
@@ -325,7 +321,7 @@ CREATE TABLE camp (
 DROP TABLE IF EXISTS person_camp;
 CREATE TABLE person_camp(
     c_uuid BIGINT NOT NULL,
-    p_uuid BIGING NOT NULL
+    p_uuid BIGINT NOT NULL
 );
 
 

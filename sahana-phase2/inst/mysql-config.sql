@@ -17,11 +17,13 @@ INSERT INTO field_options VALUES ('opt_status','inj','Injured');
 INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 
 -- PERSON CONTACT TYPES
-INSERT INTO field_options VALUES ('opt_contact_type','home','Home Phone (permanent address)');
+INSERT INTO field_options VALUES ('opt_contact_type','home','Home(permanent address)');
+INSERT INTO field_options VALUES ('opt_contact_type','name','Contact Person');
 INSERT INTO field_options VALUES ('opt_contact_type','pmob','Personal Mobile');
 INSERT INTO field_options VALUES ('opt_contact_type','curr','Current Phone');
 INSERT INTO field_options VALUES ('opt_contact_type','cmob','Current Mobile');
 INSERT INTO field_options VALUES ('opt_contact_type','emai','Email address');
+INSERT INTO field_options VALUES ('opt_contact_type','fax','Fax Number');
 INSERT INTO field_options VALUES ('opt_contact_type','inst','Instant Messenger');
 
 -- PERSON LOCATION TYPES 
@@ -106,12 +108,10 @@ INSERT INTO field_options VALUES ('opt_location_type','3','districts');
 INSERT INTO field_options VALUES ('opt_location_type','4','villages');
 
 -- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
-INSERT INTO location VALUES ('1','1','Sri Lanka','lk','Sri Lanka added as a country');
-INSERT INTO location VALUES ('2','1','Pakistan','pk','Pakistan added as a country');
-INSERT INTO location VALUES ('3','1','United Kingdom','uk','United Kingdom added as a country');
-INSERT INTO location VALUES ('4','1','United States','us','United States added as a country');
-INSERT INTO location VALUES ('1.1','2','Western','wes','Western  added as a province in Sri Lanka');
-INSERT INTO location VALUES ('1.1.1','3','Colombo','cmb','Colombo added as a district in Srilanka Western Province');
-INSERT INTO location VALUES ('1.1.1.1','4','Pettah','pet','pettah added as a village in Srilanka Western Province');
-
-
+INSERT INTO location VALUES ('1','1','1','Sri Lanka','lk','Sri Lanka added as a country');
+INSERT INTO location VALUES ('2','2','1','Pakistan','pk','Pakistan added as a country');
+INSERT INTO location VALUES ('3','3','1','United Kingdom','uk','United Kingdom added as a country');
+INSERT INTO location VALUES ('4','4','1','United States','us','United States added as a country');
+INSERT INTO location VALUES ('5','1.1','2','Western','wes','Western  added as a province in Sri Lanka');
+INSERT INTO location VALUES ('6','1.1.1','3','Colombo','cmb','Colombo added as a district in Srilanka Western Province');
+INSERT INTO location VALUES ('7','1.1.1.1','4','Pettah','pet','pettah added as a village in Srilanka Western Province');
