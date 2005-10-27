@@ -1,3 +1,7 @@
+/**
+* MySQL database structure creation table for Sahana
+*/
+
 CREATE DATABASE IF NOT EXISTS sahana;
 USE sahana;
 
@@ -11,51 +15,19 @@ CREATE TABLE sessions(
 	PRIMARY KEY (sesskey)
 );
 
--- FIELD OPTIONS TABLE
--- provides a list of options for fileds
+/**
+* Field options meta table
+* Give a custom list of options for each filed in this schema 
+* prefixed with opt_. This is customizable then at deployment
+* See the mysql-config.sql for default customizations
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS field_options;
 CREATE TABLE field_options(
-   field_name VARCHAR(100),
-   option_value VARCHAR(10),
-   option_name VARCHAR(50)
-);
-
-/**** CORE LOG SCHEMA END *****/
-
--- MODULES
-DROP TABLE IF EXISTS modules;
-CREATE TABLE modules(
-	module_id BIGINT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(50) NOT NULL,
-	description TEXT,
-	version VARCHAR(10) NOT NULL,
-	active BOOL NOT NULL DEFAULT 0,
-	PRIMARY KEY (module_id)
-);
-
-
---CUSTOM MODULE CONFIGURATIONS
-DROP TABLE IF EXISTS config;
-CREATE TABLE config(
-	config_id BIGINT NOT NULL AUTO_INCREMENT,
-	config_group VARCHAR(100),
-	name VARCHAR(50) NOT NULL,
-	value TEXT,
-	description TEXT,
-	type VARCHAR(10),
-	module_id BIGINT,
-	PRIMARY KEY(config_id),
-	FOREIGN KEY (module_id) REFERENCES modules (module_id)
-);
-
-
---CUSTOM CONFIGURATION LISTS (SELECT)
-DROP TABLE IF EXISTS configlist;
-CREATE TABLE configlist(
-	description TEXT NOT NULL,
-	value VARCHAR(50),
-	config_id BIGINT NOT NULL,
-	FOREIGN KEY (config_id) REFERENCES config (config_id)
+   field_name VARCHAR(100), -- a meta reference to the field_name
+   option_code VARCHAR(20), -- a coded version of the value
+   option_description VARCHAR(50) -- The nice name of the value 
 );
 
 
@@ -73,54 +45,67 @@ CREATE TABLE location(
 -- OPTIMIZATION  DEVEL
 DROP TABLE IF EXISTS devel_logsql;
 CREATE TABLE devel_logsql (
-		  created timestamp NOT NULL, 
-		  sql0 varchar(250) NOT NULL,
-		  sql1 text NOT NULL,
-		  params text NOT NULL,
-		  tracer text NOT NULL,
-		  timer decimal(16,6) NOT NULL
+    created timestamp NOT NULL, 
+    sql0 varchar(250) NOT NULL,
+    sql1 text NOT NULL,
+    params text NOT NULL,
+    tracer text NOT NULL,
+    timer decimal(16,6) NOT NULL
 ); 
 
 /*** PERSON TABLES ***/
 
--- Main Person ID table 
--- Contains all IDs including the UUID that gives a 100%
--- match to uniquely identify the person
+/**
+* The central table on a person, with their associated names
+* Modules: dvr, mpr, rms, or, cms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS person_uuid;
 CREATE TABLE person_uuid (
-    p_uuid BIGINT NOT NULL,
-    name VARCHAR(100),   -- usually first name
-    name_2 VARCHAR(100),   -- usually middle name
-    name_3 VARCHAR(100),   -- usually aliases 
-    name_4 VARCHAR(100),  -- usually surname 
-    name_5 VARCHAR(100),  -- usually name of family head 
+    p_uuid BIGINT NOT NULL, -- universally unique person id
+    full_name VARCHAR(100), -- the full name (contains the family name)
+    family_name VARCHAR(50), -- the family name
+    l10n_name VARCHAR(100), -- localized version of name
+    custom_name VARCHAR(50), -- exta name field as required
     PRIMARY KEY(p_uuid)      
 );
 
--- Many ID card numbers (or passport or driving licence) to person table
+/**
+* Many ID card numbers (or passport or driving licence) to person table
+* Modules: dvr, mpr 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS identity_to_person;
 CREATE TABLE identity_to_person (
     p_uuid BIGINT NOT NULL,
-    serial VARCHAR(100),
-    opt_id_type VARCHAR(10),
+    serial VARCHAR(100), -- id card #, passport #, Driving License # etc
+    opt_id_type VARCHAR(10), -- can be customized in the field options table
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
     
-
--- All users have a associated person id
+/**
+* Contains the Sahana system user details
+* Modules: all
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
     username VARCHAR(100),
     password VARCHAR(100),
-    acl_id INT(11),
+    acl_id INT(11), -- reference to their acl entry
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (acl_id) REFERENCES gacl_aro(id)
 );
 
--- Main entry table as there can be multiple entries
--- on the same person
+
+/**
+* Main entry table as there can be multiple entries
+* per person.
+* Modules: dvr, mpr 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 /*DROP TABLE IF EXISTS person_entry;
     CREATE TABLE person_entry (
     e_uuid BIGINT NOT NULL AUTO_INCREMENT,
@@ -133,53 +118,79 @@ CREATE TABLE users (
     FOREIGN KEY (user_uuid) REFERENCES person_uuid(p_uuid)
 );*/
     
--- Person Status
+/**
+* Details on the person's status
+* Modules: dvr, mpr, or
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS person_status;
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
-    isReliefWorker TINYINT,
-    opt_status VARCHAR(10),
+    isReliefWorker TINYINT, 
+    opt_status VARCHAR(10), -- missing, ingured, etc. customizable
     PRIMARY KEY (p_uuid)
 );
 
--- Contact Information for a person, org or camp
--- mobile, home phone, email, IM
+/**
+* Contact Information for a person, org or camp
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS contact;
 CREATE TABLE contact (
-    pgc_uuid BIGINT NOT NULL,  -- be either c_uuid, p_uuid or g_uuid
-    opt_contact_type VARCHAR(10),
-    contact_value VARCHAR(100),
+    pgoc_uuid BIGINT NOT NULL, -- be either c_uuid, p_uuid or g_uuid
+    opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
+    contact_value VARCHAR(100), 
     PRIMARY KEY (pgc_uuid)
 );
 
-DROP TABLE IF EXISTS person_location;
-CREATE TABLE person_location ( 
-    p_uuid BIGINT NOT NULL,
-    location_id VARCHAR(20),
-    opt_person_loc_type VARCHAR(10),
-    address TEXT,        
-    cur_shelter VARCHAR(50),
+/**
+* Details on the location of an entity (person, camp, organization)
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS location_details;
+CREATE TABLE location_details ( 
+    poc_uuid BIGINT NOT NULL, -- this can be a person, camp or organization location
+    location_id VARCHAR(20), -- This gives country,province,district,town - based on l10n 
+    opt_person_loc_type VARCHAR(10), -- the relation this location has to the person
+    address TEXT, -- the street address        
+    postcode VARCHAR(30), -- or ZIP code
+    long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
--- Group information
+/**
+* Contains the list of groups of people
+* Modules: dvr, mpr, or
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS pgroup;
 CREATE TABLE pgroup (
-    g_uuid BIGINT NOT NULL AUTO_INCREMENT, 
-    name VARCHAR(100),
-    opt_group_type VARCHAR(10),          -- type of the group
+    g_uuid BIGINT NOT NULL AUTO_INCREMENT, -- universally unique group id
+    name VARCHAR(100), -- name of the group
+    opt_group_type VARCHAR(10), -- type of the group
     PRIMARY KEY (g_uuid)
 );
 
--- Group to Persons N to M mapping
+/**
+* A person can belong to multiple groups
+* Modules: dvr, mpr
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS person_to_pgroup;
 CREATE TABLE person_to_pgroup (   
     p_uuid BIGINT,
     g_uuid BIGINT
 );
 
+/**
+* The main details on a person
+* Modules: dvr, mpr, 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS person_details;
 CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
@@ -195,6 +206,11 @@ CREATE TABLE person_details (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
+/**
+* Physical details of a person
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
 DROP TABLE IF EXISTS person_physical;
 CREATE TABLE person_physical (
     p_uuid BIGINT NOT NULL,
@@ -278,8 +294,23 @@ CREATE TABLE org_users(
 );
 
 
+/* ------------ TO BE USED ---------------- */
+
+/**
+* The phonetic search table stores the encoding (for Soundx, metafore, etc) 
+* Modules: dvr, mpr, cms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS phonetic_word;
+CREATE TABLE phonetic_word(
+    encode1 VARCHAR(50),
+    encode2 VARCHAR(50),
+    pgl_uuid BIGINT
+);
+    
 /* SHELTER AND CAMP TABLES */
 /* --------------------------------------------------------------------------*/
+
 
 DROP TABLE IF EXISTS camp;
 CREATE TABLE camp (
@@ -290,3 +321,48 @@ CREATE TABLE camp (
     PRIMARY KEY (c_uuid),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
+
+DROP TABLE IF EXISTS person_camp;
+CREATE TABLE person_camp(
+    c_uuid BIGINT NOT NULL,
+    p_uuid BIGING NOT NULL
+);
+
+
+-- MODULES
+DROP TABLE IF EXISTS modules;
+CREATE TABLE modules(
+	module_id BIGINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL,
+	description TEXT,
+	version VARCHAR(10) NOT NULL,
+	active BOOL NOT NULL DEFAULT 0,
+	PRIMARY KEY (module_id)
+);
+
+
+--CUSTOM MODULE CONFIGURATIONS
+DROP TABLE IF EXISTS config;
+CREATE TABLE config(
+	config_id BIGINT NOT NULL AUTO_INCREMENT,
+	config_group VARCHAR(100),
+	name VARCHAR(50) NOT NULL,
+	value TEXT,
+	description TEXT,
+	type VARCHAR(10),
+	module_id BIGINT,
+	PRIMARY KEY(config_id),
+	FOREIGN KEY (module_id) REFERENCES modules (module_id)
+);
+
+
+--CUSTOM CONFIGURATION LISTS (SELECT)
+DROP TABLE IF EXISTS configlist;
+CREATE TABLE configlist(
+	description TEXT NOT NULL,
+	value VARCHAR(50),
+	config_id BIGINT NOT NULL,
+	FOREIGN KEY (config_id) REFERENCES config (config_id)
+);
+
+
