@@ -107,7 +107,7 @@ function shn_front_controller() {
     shn_include_page_section('mainmenu',$module);
 
     // now include the main content of the page
-    ?>          <div id="content">                      <?php
+    ?>          <div id="content" class="clearfix">      <?php
 
     // compose and call the relevant module function 
     $module_function = "shn_".$module."_".$action;

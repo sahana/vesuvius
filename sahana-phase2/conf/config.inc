@@ -26,7 +26,7 @@
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
 #
-$conf['db_host'] = '192.168.101.38';
+$conf['db_host'] = 'localhost';
 
 # port that data base talks. leave blank for default.
 #
@@ -42,7 +42,7 @@ $conf['db_name'] = 'sahana';
 
 # specify user name that Sahana can use to connect.
 #
-$conf['db_user'] = 'sahana';
+$conf['db_user'] = 'root';
 
 # And password for that user.
 #
@@ -116,4 +116,4 @@ $conf['cache_dir'] = 'cache/db_cache';
 $conf['locale'] = 'en_US';
 
 # end of the config file.
-?>
+

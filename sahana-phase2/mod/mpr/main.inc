@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.3 2005-10-24 09:59:44 janakawicks Exp $ */
+/* $Id: main.inc,v 1.4 2005-10-27 12:09:33 chamindra Exp $ */
 
 /**Main home page of the DVR
 *
@@ -18,30 +18,29 @@
 */
 
 include_once $global['approot']."/inc/lib_modules.inc";
+include_once $global['approot']."/inc/lib_menu.inc";
 
-/* {{{ Menu */
 function shn_mpr_mainmenu() 
 {
     global $global;
     $module = $global['module'];
-?>
-   <div id="modmenuwrap"> 
-        <h2>Missing Person Registry</h2>
-            <ul id="modmenu">
-                <li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=addmp">Report a Missing Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=fndmp">Report a Found Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=search">Search for a Person</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=stats">Statistics</a></li>
-            </ul>
-    </div> <!-- /modmenuwrap -->
-    <?php 
+
+    // Create the module menu
+    shn_mod_menuopen("Missing Person Registry");
+
+    shn_mod_menuitem("default","Home");
+    shn_mod_menuitem("addmp","Report a Missing Person");
+    shn_mod_menuitem("fndmp","Report a Found Person");
+    shn_mod_menuitem("search","Search for a Person");
+    shn_mod_menuitem("stats","Statistics");
+
+    shn_mod_menuclose();
+   
+    // include the main menu
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 	
-/* }}} */
 
-/* {{{ Control Layer */
 
 function shn_mpr_default()
 {
@@ -90,8 +89,5 @@ function shn_mpr_search()
     echo "<h2>Search for a Missing Person</h2>";
 }
 
-/* }}} */
-
-// vim: set tabstop=4 shiftwidth=4 fdm=marker:
 ?>
 

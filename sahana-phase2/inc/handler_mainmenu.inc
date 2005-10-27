@@ -18,9 +18,9 @@ include_once $global['approot']."/inc/lib_modules.inc";
 
 ?>
     <div id="menuwrap">
-        <h2>Sahana Main</h2>
-        <ul id="menu">
-     <?php 
+    <h2>Sahana Main</h2>
+    <ul id="menu">
+ <?php 
     // display the list of modules on the menu bar
     $module_list = shn_get_module_names();
 
@@ -28,13 +28,11 @@ include_once $global['approot']."/inc/lib_modules.inc";
        
        $module_name = $conf["mod_".$i."_name"]; 
        $module_name = ( null == $module_name )? $i : $module_name ;
-    
-       ?>
 
-           <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
-    <?php 
-    } ?>
-	
-
-       </ul>
+?>
+   <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
+<?php 
+    } 
+?>
+    </ul>
     </div> <!-- /menuwrap -->
