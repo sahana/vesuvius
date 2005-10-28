@@ -23,7 +23,7 @@ function shn_or_viewform_org(){
     
 ?>
 <div id ="result">
-    <h1>"Organization Registry"</h1>
+    <h2>Organization Registry</h2>
     <table>
         <thead>
             <td>Organization name</td>
@@ -41,14 +41,14 @@ function shn_or_viewform_org(){
     while(!res==NULL && !$res->EOF){
         
     $org_id=$res->fields[0];        
-    $q = "select contact_value from contact where pgc_uuid='{$org_id}' and opt_contact_type='home'";
+    $q = "select address from location_details where poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-    $q = "select contact_value from contact where pgc_uuid='{$org_id}' and opt_contact_type='curr'";
+    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-    $q = "select contact_value from contact where pgc_uuid='{$org_id}' and opt_contact_type='email'";
+    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
 
-    $q="select location_id from org_location where org_id='{$org_id}'";
+    $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields[0][0];
     $q="select name from location where location_id='{$loc}'";
