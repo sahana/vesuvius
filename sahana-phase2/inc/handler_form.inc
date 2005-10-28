@@ -40,7 +40,6 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
         case 'text' :
         case 'password' :
         case 'button' :
-        case 'hidden' :
         case 'submit' :
             $output .= '<input ';
             if($arr['type']=="submit")
@@ -53,6 +52,16 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
             $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n"; // this will generate the 'break'.
         break;
 
+        case 'hidden' :
+            $output .= '<input ';
+            if($arr['type']=="submit")
+                $output .= _shn_form_dump_key_val($arr,array('desc','br','caption_align')); //don't dump 'desc' and 'br' and 'value'
+            else
+                $output .= _shn_form_dump_key_val($arr,array('desc','value','br','caption_align')); //don't dump 'desc' and 'br' and 'value'
+            $output .= ($default_val_req?_shn_form_default_req($arr['type'],$arr['name'],$arr['value']):' value="'.$arr['value'].'" '); //value assgined
+            $output .= ' />'."\n"; // end of 'input type'
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n"; // this will generate the 'break'.
+            break; 
         case 'textarea' :
             $output .= '<textarea ';
             $output .= _shn_form_dump_key_val($arr,array('desc','value','br','type'));
