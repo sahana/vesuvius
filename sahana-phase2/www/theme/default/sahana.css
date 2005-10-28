@@ -1,5 +1,5 @@
 /* 
-Sahana Stylesheet 
+Sahana - Default Theme - Stylesheet 
 -----------------------------------------------------------------------------------
 Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
 
@@ -11,7 +11,7 @@ Selectors are listed in their order of appearance in the html, where applicable.
 html, body, form, fieldset {
         margin: 0;
         padding: 0;
-        font: 90%/125% Arial, Helvetica, sans-serif;
+        font: 100%/125% Arial, Helvetica, sans-serif;
 }
 
 /* Neutralize styling: 
@@ -47,20 +47,21 @@ li, dd, blockquote {
 
 /* Miscellaneous conveniences: */
 body {
+	font-size: 0.8em;
 	color: #000;
 	background: #069;
 }
 
 form label {
-        cursor: pointer;
+	cursor: pointer;
 }
 
 fieldset {
-        border: none;
+	border: none;
 }
 
 input, select, textarea {
-        font-size: 100%;
+	font-size: 100%;
 }
 
 .hide {
@@ -127,6 +128,7 @@ p#skip {
 	padding: 0 0 0 5px;
 	font-size: 120%;
 	text-transform: uppercase;
+	text-align: left;
 }
 
 #menuwrap h2 {
@@ -346,6 +348,7 @@ p#skip {
 	border-top: #036 5px solid;
 }
 
+/* Form styles */
 #formcontainer{
 	background-color: #fff; 
 	/*border: 1px #98AAB1 solid;*/ 
