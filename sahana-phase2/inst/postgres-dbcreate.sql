@@ -1,12 +1,8 @@
 /**
-* MySQL database structure creation table for Sahana
+* Postgres database structure creation table for Sahana
 */
 
-CREATE DATABASE IF NOT EXISTS sahana;
-USE sahana;
-
 -- SESSIONS
-DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions(
 	sesskey VARCHAR(32) NOT NULL,
 	expiry INT NOT NULL,
@@ -23,7 +19,6 @@ CREATE TABLE sessions(
 * Modules: dvr, mpr, or, cms, rms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS field_options;
 CREATE TABLE field_options(
    field_name VARCHAR(100), -- a meta reference to the field_name
    option_code VARCHAR(20), -- a coded version of the value
@@ -36,12 +31,11 @@ CREATE TABLE field_options(
 /**
 * The central table to store loactions
 * Modules: dvr, mpr, rms, or, cms 
-* Last changed: 28-OCT-2005 - janaka@opensource.lk  
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 
-DROP TABLE IF EXISTS location;
 CREATE TABLE location(
-    location_id BIGINT NOT NULL AUTO_INCREMENT,
+    location_id BIGSERIAL,
     parent_id BIGINT DEFAULT 0,
     search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
     opt_location_type VARCHAR(10),
@@ -53,7 +47,6 @@ CREATE TABLE location(
 );
 
 -- OPTIMIZATION  DEVEL
-DROP TABLE IF EXISTS devel_logsql;
 CREATE TABLE devel_logsql (
     created timestamp NOT NULL, 
     sql0 varchar(250) NOT NULL,
@@ -70,7 +63,6 @@ CREATE TABLE devel_logsql (
 * Modules: dvr, mpr, rms, or, cms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS person_uuid;
 CREATE TABLE person_uuid (
     p_uuid BIGINT NOT NULL, -- universally unique person id
     full_name VARCHAR(100), -- the full name (contains the family name)
@@ -85,7 +77,6 @@ CREATE TABLE person_uuid (
 * Modules: dvr, mpr 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS identity_to_person;
 CREATE TABLE identity_to_person (
     p_uuid BIGINT NOT NULL,
     serial VARCHAR(100), -- id card #, passport #, Driving License # etc
@@ -99,7 +90,6 @@ CREATE TABLE identity_to_person (
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 
-DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
     user_name VARCHAR(100) NOT NULL,
@@ -117,7 +107,7 @@ CREATE TABLE users (
 */
 /*DROP TABLE IF EXISTS person_entry;
     CREATE TABLE person_entry (
-    e_uuid BIGINT NOT NULL AUTO_INCREMENT,
+    e_uuid BIGSERIAL,
     entry_date TIMESTAMP,
     user_uuid BIGINT,      -- details on the user who did the data entry
     reporter_uuid BIGINT,  -- details on the person who reported the entry
@@ -132,10 +122,9 @@ CREATE TABLE users (
 * Modules: dvr, mpr, or
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS person_status;
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
-    isReliefWorker TINYINT, 
+    isReliefWorker SMALLINT, 
     opt_status VARCHAR(10), -- missing, ingured, etc. customizable
     PRIMARY KEY (p_uuid)
 );
@@ -145,7 +134,6 @@ CREATE TABLE person_status (
 * Modules: dvr, mpr, or, cms, rms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS contact;
 CREATE TABLE contact (
     pgoc_uuid BIGINT NOT NULL, -- be either c_uuid, p_uuid or g_uuid
     opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
@@ -162,7 +150,6 @@ CREATE TABLE contact (
 * Modules: dvr, mpr, or, cms, rms 
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
-DROP TABLE IF EXISTS location_details;
 CREATE TABLE location_details ( 
     poc_uuid BIGINT NOT NULL, -- this can be a person, camp or organization location
     location_id VARCHAR(20), -- This gives country,province,district,town - based on l10n 
@@ -179,9 +166,8 @@ CREATE TABLE location_details (
 * Modules: dvr, mpr, or
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS pgroup;
 CREATE TABLE pgroup (
-    g_uuid BIGINT NOT NULL AUTO_INCREMENT, -- universally unique group id
+    g_uuid BIGSERIAL, -- universally unique group id
     name VARCHAR(100), -- name of the group
     opt_group_type VARCHAR(10), -- type of the group
     PRIMARY KEY (g_uuid)
@@ -192,7 +178,6 @@ CREATE TABLE pgroup (
 * Modules: dvr, mpr
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS person_to_pgroup;
 CREATE TABLE person_to_pgroup (   
     p_uuid BIGINT,
     g_uuid BIGINT
@@ -203,7 +188,6 @@ CREATE TABLE person_to_pgroup (
 * Modules: dvr, mpr, 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS person_details;
 CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
     next_kin_uuid BIGINT NOT NULL,
@@ -223,7 +207,6 @@ CREATE TABLE person_details (
 * Modules: dvr, mpr, or, cms, rms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS person_physical;
 CREATE TABLE person_physical (
     p_uuid BIGINT NOT NULL,
     opt_blood_type VARCHAR(10),
@@ -237,7 +220,6 @@ CREATE TABLE person_physical (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
-DROP TABLE IF EXISTS person_missing;
 CREATE TABLE person_missing (
     p_uuid BIGINT NOT NULL,
     last_seen TEXT,
@@ -247,7 +229,6 @@ CREATE TABLE person_missing (
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
-DROP TABLE IF EXISTS person_deceased;
 CREATE TABLE person_deceased (
     p_uuid BIGINT NOT NULL,
     details TEXT,
@@ -262,7 +243,6 @@ CREATE TABLE person_deceased (
 
 
 -- ORG MAIN
-DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
 	o_uuid BIGINT NOT NULL,
     parent_id BIGINT DEFAULT 0,
@@ -271,12 +251,11 @@ CREATE TABLE org_main(
 	reg_no VARCHAR(100),
     man_power VARCHAR(50),
 	resources VARCHAR(200),
-    privacy INT(1) DEFAULT 1,
+    privacy INT DEFAULT 1,
 	PRIMARY KEY (o_uuid)
 );
 
 -- ORG SECTOR  INFORMATION
-DROP TABLE IF EXISTS org_sector;
 CREATE TABLE org_sector(
 	org_id BIGINT NOT NULL,
 	opt_org_sector VARCHAR(100),
@@ -285,7 +264,6 @@ CREATE TABLE org_sector(
 );
 
 -- ORG USER INFORMATION
-DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
     org_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
@@ -303,7 +281,6 @@ CREATE TABLE org_users(
 * Modules: dvr, mpr, cms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-DROP TABLE IF EXISTS phonetic_word;
 CREATE TABLE phonetic_word(
     encode1 VARCHAR(50),
     encode2 VARCHAR(50),
@@ -314,7 +291,6 @@ CREATE TABLE phonetic_word(
 /* --------------------------------------------------------------------------*/
 
 
-DROP TABLE IF EXISTS camp;
 CREATE TABLE camp (
     c_uuid BIGINT NOT NULL,
     location_id VARCHAR(20),
@@ -324,7 +300,6 @@ CREATE TABLE camp (
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
-DROP TABLE IF EXISTS person_camp;
 CREATE TABLE person_camp(
     c_uuid BIGINT NOT NULL,
     p_uuid BIGINT NOT NULL
@@ -332,21 +307,19 @@ CREATE TABLE person_camp(
 
 
 -- MODULES
-DROP TABLE IF EXISTS modules;
 CREATE TABLE modules(
-	module_id BIGINT NOT NULL AUTO_INCREMENT,
+	module_id BIGSERIAL,
 	name VARCHAR(50) NOT NULL,
 	description TEXT,
 	version VARCHAR(10) NOT NULL,
-	active BOOL NOT NULL DEFAULT 0,
+	active BOOL NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (module_id)
 );
 
 
 --CUSTOM MODULE CONFIGURATIONS
-DROP TABLE IF EXISTS config;
 CREATE TABLE config(
-	config_id BIGINT NOT NULL AUTO_INCREMENT,
+	config_id BIGSERIAL,
 	config_group VARCHAR(100),
 	name VARCHAR(50) NOT NULL,
 	value TEXT,
@@ -359,7 +332,6 @@ CREATE TABLE config(
 
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
-DROP TABLE IF EXISTS configlist;
 CREATE TABLE configlist(
 	description TEXT NOT NULL,
 	value VARCHAR(50),
