@@ -100,7 +100,6 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
             }
         break;
         case 'dropdown' :
-        case 'multiselect' :
             $output .= '<select '.$arr['multiple'].' '. _shn_form_dump_key_val($arr,array('desc','br','options')). ">\n";
             foreach($arr['options'] as $option){
                 $output_opt = '<option '._shn_form_dump_key_val($option,array('drop_desc','selected'));
@@ -112,7 +111,20 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
             $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
             $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
         break;
-    }
+        case 'multiselect' :
+            $output .= '<select multiple '._shn_form_dump_key_val($arr,array('desc','br','options')). ">\n";
+            foreach($arr['options'] as $option){
+                $output_opt = '<option '._shn_form_dump_key_val($option,array('drop_desc','selected'));
+                $output_opt .= ($default_val_req?_shn_form_default_req($arr['type'],$option['value'],$_POST[$arr['name']]):($option['selected']?' selected':''));
+                $output_opt .= ">" . _shn_form_set_caption($option['drop_desc'],'','',false) .'</option>'."\n";
+                $output .= $output_opt;
+            }
+            $output .= "</select>\n"; 
+            $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
+            $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
+        break;
+ 
+}
     if($return)
         return $output;
     else
