@@ -100,7 +100,7 @@ CREATE TABLE identity_to_person (
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid BIGINT NOT NULL,
-    username VARCHAR(100) NOT NULL,
+    user_name VARCHAR(100) NOT NULL,
     password VARCHAR(100),
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
@@ -148,7 +148,11 @@ CREATE TABLE contact (
     pgoc_uuid BIGINT NOT NULL, -- be either c_uuid, p_uuid or g_uuid
     opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
     contact_value VARCHAR(100), 
-    PRIMARY KEY (pgoc_uuid)
+    PRIMARY KEY (pgoc_uuid,opt_contact_type,contact_value)
+    /**only pgoc_uuid should not be primary key 
+    as for a person there can be several contact types 
+    and values (email and mobile) or multiple mobiles
+    **/
 );
 
 /**

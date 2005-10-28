@@ -115,3 +115,9 @@ INSERT INTO location VALUES ('4','4','1','United States','us','United States add
 INSERT INTO location VALUES ('5','1.1','2','Western','wes','Western  added as a province in Sri Lanka');
 INSERT INTO location VALUES ('6','1.1.1','3','Colombo','cmb','Colombo added as a district in Srilanka Western Province');
 INSERT INTO location VALUES ('7','1.1.1.1','4','Pettah','pet','pettah added as a village in Srilanka Western Province');
+INSERT INTO location VALUES ('8','3.1','2','East Anagalia','ea','');
+INSERT INTO location VALUES ('9','3.1.1','3','Suffolk','suf','');
+INSERT INTO location VALUES ('10','3.1.1.1','4','ipswich','ip','');
+
+
+
