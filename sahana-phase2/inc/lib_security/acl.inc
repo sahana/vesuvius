@@ -17,7 +17,7 @@
 make phpgacl work with the adodb installation rest of the system
 uses
 */
-//define('ADODB_DIR', $global['approot']."3rd/adodb");
+define('ADODB_DIR', $global['approot']."3rd/adodb");
 define ('TRUE','success');
 define ('UEXIST','user already exists');
 define ('UNEXIST','user does not exist');
@@ -27,9 +27,9 @@ define ('AEXIST','ACL already exists');
 define ('ANEXIST','ACL does not exist');
 define ('NARG','NULL arguments');
 global $global;
-include_once($global['approot']."3rd/gacl/gacl.class.php");
-require_once($global['approot']."3rd/gacl/gacl_api.class.php");
-include_once("query.inc");
+include_once($global['approot']."3rd/phpgacl/gacl.class.php");
+require_once($global['approot']."3rd/phpgacl/gacl_api.class.php");
+
 class SahanaAcl extends gacl_api {
 
 /**
@@ -37,25 +37,20 @@ class SahanaAcl extends gacl_api {
 *@param array options for the database
 */
 function SahanaAcl($gacl_options){
+    global $conf;
   // for the moment $gacl_options is hard coded
     if (! is_array($gacl_options)){
         $gacl_options = array(
-                               'debug' => 'TRUE',
+                               'debug' => FALSE,
                                'items_per_page' => 100,
                                'max_select_box_items' => 100,
                                'max_search_return_items' => 200,
-                               //'db_type' => $conf['db_engine'],
-                               'db_type' => 'mysql',
-                               //'db_host' => $conf['db_host'],
-                               'db_host' => 'localhost',
-                               //'db_user' => $conf['db_user'],
-                               'db_user' => 'sahana',
-                              // 'db_password' => $conf['db_pass'],
-                               'db_password' => 'sahanapwd',
-                               //'db_name' => $conf['db_name'],
-                               'db_name' => 'sahanaACL',
-                               //'db_table_prefix' => $conf['tbl_prefix'].'_gacl_',
-                               'db_table_prefix' => 'gacl_',
+                               'db_type' => $conf['db_engine'],
+                               'db_host' => $conf['db_host'],
+                               'db_user' => $conf['db_user'],
+                               'db_password' => $conf['db_pass'],
+                               'db_name' => $conf['db_name'],
+                               'db_table_prefix' => $conf['tbl_prefix'].'gacl_',
                                'caching' => FALSE,
                                'force_cache_expire' => TRUE,
                                'cache_dir' => '/tmp/phpgacl_cache',
@@ -122,9 +117,6 @@ function _shn_add_permission($aco_section,$aco,$aro_section,$aro,$aro_group,$axo
     $allow = true;
 	$enabled = true;
 	$return_value = NULL;
-	var_dump($aco_array);
-	var_dump($aro_array);
-	var_dump($axo_array);
     //The NULL values are for the more advanced options such as groups, and AXOs. Refer to the manual for more info.
 	$result = $this->add_acl($aco_array, $aro_array, $aro_group,$axo_array, $axo_group, $allow, $enabled, $return_value, $acl_desc);
 	if ($result == FALSE) {
@@ -136,8 +128,6 @@ function _shn_add_permission($aco_section,$aco,$aro_section,$aro,$aro_group,$axo
 
 
 function _shn_check_permission($aco_section,$aco,$aro_section,$aro,$axo_section,$axo){
-	echo $aco;
-	echo $aro;
     /*
     this phpgacl function is very smart.
     it retreives groups for the aro and checks
@@ -163,8 +153,6 @@ function _shn_add_section($section,$desc,$type){
 }
 
 function _shn_add_aco($section,$aco,$aco_desc){
-    echo $section;
-    echo $aco;
     
     if ((NULL==$section) or (NULL==$aco)) {
         return NARG;
@@ -221,16 +209,12 @@ function _shn_add_aro($section,$aro,$aro_desc){
 
 function _shn_add_aro_group($group,$desc,$parent){
 	//$parent_id=$this->get_group_id($parent,NULL,"ARO");
-    echo "group is" ,$group;
-    echo "parent is", $parent;
-    echo "desc", $desc;
     
    $this->add_group($group, $desc,$parent,'ARO');
-	echo "res",$res;
     if ($res !== FALSE) {
-    	echo "Created ARO group sucessfully. <br>\n";
+    	//echo "Created ARO group sucessfully. <br>\n";
 	} else {
-   		echo "Error creating ARO group.<br>\n";
+   		//echo "Error creating ARO group.<br>\n";
 	}
 	return $res;
    // $this->add_group('fk2', 'foobar',10,'ARO');
@@ -241,9 +225,9 @@ function _shn_add_aro_group($group,$desc,$parent){
 function _shn_add_aco_group($group,$desc,$parent){
 	$this->add_group($group, $desc,$parent,'ACO');
 	if ($res !== FALSE) {
-    	echo "Created ACO group sucessfully. <br>\n";
+    	//echo "Created ACO group sucessfully. <br>\n";
 	} else {
-   		echo "Error creating ACO group.<br>\n";
+   		//echo "Error creating ACO group.<br>\n";
 	}
 	return $res;
 }
@@ -252,9 +236,9 @@ function _shn_add_aco_group($group,$desc,$parent){
 function _shn_add_axo_group($group,$desc,$parent){
 	$this->add_group($group, $desc,$parent,'AXO');
 	if ($res !== FALSE) {
-    	echo "Created AXO group sucessfully. <br>\n";
+    	//echo "Created AXO group sucessfully. <br>\n";
 	} else {
-   		echo "Error creating AXO group.<br>\n";
+   		//echo "Error creating AXO group.<br>\n";
 	}
 	return $res;
 }
@@ -267,9 +251,9 @@ adds the $aro of $section to $group
 function _shn_add_to_aro_group($group,$section,$aro){
     $this->add_group_object($group,$section,$aro,'ARO'); 
 	if ($res !== FALSE) {
-    	echo "added to ARO group sucessfully. <br>\n";
+    	//echo "added to ARO group sucessfully. <br>\n";
 	} else {
-   		echo "Error adding to ARO group.<br>\n";
+   		//echo "Error adding to ARO group.<br>\n";
 	}
 	return $res;
 }
@@ -280,9 +264,9 @@ function _shn_add_to_aro_group($group,$section,$aro){
 function _shn_add_to_aco_group($group,$section,$aco){
 	$this->add_group_object($group,$section,$aco,'ACO');
 	if ($res !== FALSE) {
-    	echo "added to ACO group sucessfully. <br>\n";
+    	//echo "added to ACO group sucessfully. <br>\n";
 	} else {
-   		echo "Error adding to ACO group.<br>\n";
+   		//echo "Error adding to ACO group.<br>\n";
 	}
 	return $res;
 } 
@@ -291,9 +275,9 @@ function _shn_add_to_aco_group($group,$section,$aco){
 function _shn_add_to_axo_group($group,$section,$axo){
 	$this->add_group_object($group,$section,$axo,'AXO');
 	if ($res !== FALSE) {
-    	echo "added to  AXO group sucessfully. <br>\n";
+    	//echo "added to  AXO group sucessfully. <br>\n";
 	} else {
-   		echo "Error adding to  AXO group.<br>\n";
+   		//echo "Error adding to  AXO group.<br>\n";
 	}
 	return $res;
 } 
