@@ -22,10 +22,6 @@ blockquote, ul, ol, dl, address {
         padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	text-align:center;
-}
-
 /* Apply left margin:
    Only to the few elements that need it: */
 li, dd, blockquote {
@@ -349,6 +345,19 @@ p#skip {
 }
 
 /* Form styles */
+
+form ul {
+	list-style: none;
+}
+
+form ul li {
+	margin: 0 0 5px 0;
+}
+
+form ul.list {
+	list-style-type: disc;
+}
+
 #formcontainer{
 	background-color: #fff; 
 	/*border: 1px #98AAB1 solid;*/ 
@@ -386,6 +395,13 @@ p#skip {
 	clear: both;
 }
 
+#formset label.inline {
+	margin: 0;
+	height: auto;
+	display: inline;
+	float: none;
+}
+
 #formset label#txtarea, value#txtarea{ 
 	height: 50px;
 }
@@ -399,10 +415,12 @@ p#skip {
 }
 
 #formset input,#formset textarea,#formset select{ 
-	background: #DEE3E7; 
-	border: #26a solid 1px; 
 	margin: 0px 10px 10px 10px; 
 	font-size:10px;
+}
+
+#formset input.inline {
+	margin: 0 10px;
 }
 
 #formset a:hover { 
