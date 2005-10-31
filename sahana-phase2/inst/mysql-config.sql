@@ -16,6 +16,13 @@ INSERT INTO field_options VALUES ('opt_status','mis','Missing');
 INSERT INTO field_options VALUES ('opt_status','inj','Injured');
 INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 
+
+-- PERSON GENDER 
+INSERT INTO field_options VALUES ('opt_gender','mal','Male');
+INSERT INTO field_options VALUES ('opt_gender','fml','Female');
+
+
+
 -- PERSON CONTACT TYPES
 INSERT INTO field_options VALUES ('opt_contact_type','home','Home(permanent address)');
 INSERT INTO field_options VALUES ('opt_contact_type','name','Contact Person');
@@ -94,12 +101,12 @@ INSERT INTO field_options VALUES("opt_org_type","multi","Multinational");
 INSERT INTO field_options VALUES("opt_org_type","bilat","Bilateral");
 
 -- ORGANIZATION SECTOR VALUES
-INSERT INTO field_options VALUES("opt_org_sector_type","agri","Agriculture");
-INSERT INTO field_options VALUES("opt_org_sector_type","adev","Area Development");
-INSERT INTO field_options VALUES("opt_org_sector_type","comm","Communications");
-INSERT INTO field_options VALUES("opt_org_sector_type","dprep","Disaster Preperation");
-INSERT INTO field_options VALUES("opt_org_sector_type","ene","Energy");
-INSERT INTO field_options VALUES("opt_org_sector_type","hlth","Health");
+INSERT INTO field_options VALUES("opt_sector_type","agri","Agriculture");
+INSERT INTO field_options VALUES("opt_sector_type","adev","Area Development");
+INSERT INTO field_options VALUES("opt_sector_type","comm","Communications");
+INSERT INTO field_options VALUES("opt_sector_type","dprep","Disaster Preperation");
+INSERT INTO field_options VALUES("opt_sector_type","ene","Energy");
+INSERT INTO field_options VALUES("opt_sector_type","hlth","Health");
 
 -- LOCATION TYPE VALUES
 INSERT INTO field_options VALUES ('opt_location_type','1','countries');
