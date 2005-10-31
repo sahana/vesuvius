@@ -10,10 +10,10 @@ CREATE TABLE rms_request (
     req_date TIMESTAMP,
     name VARCHAR(100),
     contact VARCHAR(100),
-    address VARCHAR(300),
+    address VARCHAR(255),
     site_name VARCHAR(100),
     site_district VARCHAR(100),
-    site_address VARCHAR(300),
+    site_address VARCHAR(255),
     comments VARCHAR(500),
     status VARCHAR(100) DEFAULT 'open',
     user_id BIGINT,
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `rms_req_category`;
 CREATE TABLE rms_req_category (
     cat_id BIGINT NOT NULL AUTO_INCREMENT,
     category VARCHAR(100) NOT NULL,
-    description VARCHAR(300),
+    description VARCHAR(255),
     PRIMARY KEY (cat_id)
 );
 /**
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `rms_req_priority`;
 CREATE TABLE rms_req_priority (
     priority_id BIGINT NOT NULL AUTO_INCREMENT,
     priority VARCHAR(100) NOT NULL,
-    description VARCHAR(300),
+    description VARCHAR(255),
     PRIMARY KEY (priority_id)
 );
 /**
