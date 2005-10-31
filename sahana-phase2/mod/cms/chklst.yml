@@ -1,0 +1,31 @@
+- type: hidden
+    name: seq
+    value: form
+- type: checkbox 
+    desc: Area
+    name: name_1
+    br: 1
+- type: checkbox
+    desc: Staff
+    name: admin_name
+    br: 1
+- type: checkbox
+    desc: Beds
+    name: org_name
+    br: 1
+- type: checkbox
+    desc: Sanitation Facilities
+    name: org_name
+    br: 1
+- type: checkbox
+    desc: Food Facilities
+    name: org_name
+    br: 1
+- type: checkbox
+    desc: Water Facilities
+    name: org_name
+    br: 1
+- type: checkbox
+    desc: Shelter
+    name: org_name
+    br: 1

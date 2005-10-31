@@ -1,0 +1,29 @@
+#Contact Details
+- type: txtarea 
+    desc: Camp Address
+    name: address_1
+    br: 1
+- type: txtarea
+    desc: Camp Area(sq. ft)
+    name: area
+    br: 1
+- type: text
+    desc: Camp Phone
+    name: phone_1
+    br: 1
+- type: text
+    desc: Zone
+    name: phone_2
+    br: 1
+- type: text
+    desc: Distance from City
+    name: mobile_1
+    br: 1
+- type: text
+    desc: Distance from Incident
+    name: email_1
+    br: 1
+- type: text
+    desc: Number of Shelters
+    name: cur_shelter
+    br: 1

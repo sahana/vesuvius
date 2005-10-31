@@ -1,0 +1,22 @@
+#Service Details
+- type: text
+    desc: Maximum Capacity
+    name: max_capacity
+    br: 1
+- type: txtarea 
+    desc: Services
+    name: service
+    br: 1
+- type: dropdown
+    desc: Camp Type
+    name: camp_type
+    br: 1
+    options:
+       - drop_desc: Government
+         value: friend
+       - drop_desc: Non Government
+         value: ngo
+       - drop_desc: Medical
+         value: medical
+       - drop_desc: Iternational
+         value: intern
