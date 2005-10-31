@@ -18,6 +18,7 @@ $global['rms_db_dbug'] = false;
 $global['org_id'] = '10001';
 $global['person_id'] = '10002';
 
+
 /**
  * debug  function
  */
@@ -394,9 +395,7 @@ function show_ffitems_table($modify_on)
             "AND ff.req_item_id=req.req_item_id " .
             "AND ff.user_id=$user_id";
     
-    print $sql . "<br/><br/>";
     $rs_ff = $global['db']->Execute($sql);
-    
     $list = '';
     
     
@@ -416,7 +415,6 @@ function show_ffitems_table($modify_on)
             "WHERE req.req_id=$req_id " .
             "AND req_item_id NOT IN ($list)";
                
-    print $sql . "<br/><br/>";
     $rs_itms = $global['db']->Execute($sql);
     
     
@@ -429,7 +427,6 @@ function show_ffitems_table($modify_on)
                 "AND cat.cat_id=req.cat_id " .
                 "GROUP BY req.item";
                 
-    print $sql . "<br/><br/>";
     $rs = $global['db']->Execute($sql);
     if ($rs === false)
     {
