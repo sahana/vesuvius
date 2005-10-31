@@ -154,4 +154,14 @@ function shn_valid_number($str,$pattern='/^\d+$/')
         return false;
 }
 
+function shn_is_null($field)
+{
+    if (null==$field){
+        return true;
+    }else {
+        return false;
+    }
+}
+
+
 ?>
