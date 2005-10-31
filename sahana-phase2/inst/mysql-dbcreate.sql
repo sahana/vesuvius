@@ -214,6 +214,8 @@ CREATE TABLE person_details (
     opt_race VARCHAR(10),
     opt_religion VARCHAR(10),
     opt_marital_status VARCHAR(10),
+    opt_gender VARCHAR(10),
+    occupation VARCHAR(100),
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
@@ -276,12 +278,11 @@ CREATE TABLE org_main(
 );
 
 -- ORG SECTOR  INFORMATION
-DROP TABLE IF EXISTS org_sector;
-CREATE TABLE org_sector(
-	org_id BIGINT NOT NULL,
-	opt_org_sector VARCHAR(100),
-    PRIMARY KEY (org_id, opt_org_sector),
-    FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
+DROP TABLE IF EXISTS sector;
+CREATE TABLE sector(
+	pgoc_uuid BIGINT NOT NULL,
+	opt_sector VARCHAR(100),
+    PRIMARY KEY (pgoc_uuid, opt_sector)
 );
 
 -- ORG USER INFORMATION
