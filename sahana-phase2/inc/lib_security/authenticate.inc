@@ -38,7 +38,6 @@ function shn_add_user($p_uuid,$user_name, $user_password)
              p_uuid='{$p_uuid}',
 		password = '{$stored_password}',
              user_name = '{$user_name}'";
-	echo $query;
 	$res=$db->Execute($q);
 	if ($res){
     	$res=shn_acl_add_user($p_uuid,$user_name);

@@ -285,18 +285,3 @@ function _shn_add_to_axo_group($group,$section,$axo){
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
