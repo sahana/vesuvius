@@ -35,7 +35,7 @@ if(!$res->EOF){
 	</head>
     <body>
         <div>
-            <h4>Organization Registry registers Organizations,Volunteers and maintain and display those information
+            <h4>Organization Registry register Organizations,Volunteers and maintain and display those information
             </h4>
         </div>
         <hr>

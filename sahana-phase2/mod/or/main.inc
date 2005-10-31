@@ -127,10 +127,11 @@ function shn_or_mainmenu()
    <div id="modmenuwrap"> 
         <h2>Organization Registry</h2>
             <ul id="modulemenu">
+	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
                 <li id="modactive"><a href="index.php?mod=<?=$module?>&act=reg_org">Register an Organization</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=view_org">View all Organizations</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=view_vol">View all Volunteers</a></li>
+	        	<li><a href="index.php?mod=<?=$module?>&act=view_vol">View all Volunteers</a></li>
             </ul>
     </div>
 <?php 
@@ -361,8 +362,21 @@ function shn_or_reg_operation_cr(){
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
     $res=$db->Execute($q);
-     
-    shn_or_regform_operation($error);
+    if($error){
+        shn_or_regform_operation($error);
+    } else {
+        if($chk_branch){
+            ?>
+            <div id="add">
+                <?php echo $org_name ?> was succesfully registered
+            </div>
+            <?
+            shn_or_regform_operation($error);
+        }else {
+            shn_or_regform_org($error=false);
+        }
+    }
+    
 }
 
 //author ravindra

@@ -34,12 +34,38 @@ function shn_or_viewform_allorg(){
             <td>Man Power</td>
             <td>Facilities</td>
         </thead>
+        <tbody>
 <?php    
-    $q = "select o_uuid,parent_id,name,man_power,resources from org_main";
-    //$q = "select o_uuid,name,address_1,telephone,email,man_power,resources from org_main,,org_users,person_contact where org_main.id=org_users.org_id and users.user_id=person_contact.p_uuid";
+    $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by name";
     $res_org=$db->Execute($q);
     while(!$res_org==NULL && !$res_org->EOF){
+        $org_id=$res_org->fields[0];
+        _shn_display_org($org_id);
+        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=$org_id order by name";
+        $res_operation=$db->Execute($q);
+        while(!$res_operation==NULL && !$res_operation->EOF){
+            $operation_id=$res_operation->fields[0];
+            _shn_display_org($operation_id);
+            $res_operation->MoveNext();
+        }
         
+        $res_org->MoveNext();
+    }
+?>
+   </tbody>
+  </table>
+</div>
+
+<?php
+}
+
+
+function _shn_display_org($org_id){
+    global $global;
+    $db=$global["db"];
+    $q = "select o_uuid,parent_id,name,man_power,resources from org_main where o_uuid=$org_id";
+    //echo $q;
+    $res_org=$db->Execute($q);
     $org_id=$res_org->fields[0];        
     $q = "select address from location_details where poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
@@ -81,17 +107,7 @@ function shn_or_viewform_allorg(){
     <td><?php echo $res_org->fields[3]?></td>
 </tr>
 <?php
-        $res_org->MoveNext();
-        
-    }
-?>
-    </table>
-</div>
-<?php
 }
-
-
-
 
 function shn_or_viewform_org($org_id)
 {
@@ -148,13 +164,25 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 
     $q="select search_id,name from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
+    $bsd_village=$res_temp->fields[0];
+    $loc=split("\.", $bsd_village);
     $bsd_village=$res_temp->fields[1];
-    $loc=$res_temp->fields[0];
-
-    $q="select name from location where location_id='{$loc[0]}'";
+    $bsd_country=$loc[0];
+    $q="select name from location where search_id='$bsd_country'";
     $res_bsd_country=$db->Execute($q);
     $bsd_country=$res_bsd_country->fields[0];
-   }
+    
+    $bsd_province=$loc[0].".".$loc[1];
+    $q="select name from location where search_id='$bsd_province'";
+    $res_bsd_province=$db->Execute($q);
+    $bsd_province=$res_bsd_province->fields[0];
+
+    $bsd_district=$loc[0].".".$loc[1].".".$loc[1];
+    $q="select name from location where search_id='$bsd_district'";
+    $res_bsd_district=$db->Execute($q);
+    $bsd_district=$res_bsd_district->fields[0];
+
+    }
 ?>
 <center><h2>Organization Registration Information of <h1> <?php echo $org_name?></h1></h2></center>
          
@@ -176,7 +204,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $location_inf = array(
                         array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country                             ),                         
                        array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>1,'value'=>$reg_no),
-                        array('desc'=>_("Province :"),'type'=>'text','name'=>'bsd_province','br'=>'1','value'=>$bsd_district
+                        array('desc'=>_("Province :"),'type'=>'text','name'=>'bsd_province','br'=>'1','value'=>$bsd_province
                         ),// end of option
                         array('desc'=>_("District :"),'type'=>'text','name'=>'bsd_district','br'=>'1','value'=>$bsd_district
                         ),// end of option
@@ -246,7 +274,7 @@ function shn_or_viewform_allvol(){
             <td>Occupation</td>
         </thead>
 <?php    
-    $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid";
+    $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
     
     $res_pers=$db->Execute($q);
     while(!$res_pers==NULL && !$res_pers->EOF){
@@ -258,15 +286,12 @@ function shn_or_viewform_allvol(){
     $res_phone=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
+    $country=$res_pers->fields[2];
+    $q="select name from location where location_id=$country";
+    $res_country=$db->Execute($q);
+    $country=$res_country->fields[0];
+    
 
-   // $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
-    $res_temp=$db->Execute($q);
-    $loc=$res_pers->fields[2];
-    $q="select name from location where location_id='{$loc}'";
-    $res_bsd_country=$db->Execute($q);
-   // $q = "select name from location,org_location where org_id='{$org_id}' and location.location_id=org_location.location_id";
-    //$q = "select name from location,org_location where org_id='{$org_id}' and opt_location_type='1' and location.location_id=org_location.location_id";
-   // $res_bsd_country=$db->Execute($q);
 ?>
 
 <tr>
@@ -278,7 +303,7 @@ function shn_or_viewform_allvol(){
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
-    <td><?php echo $res_bsd_country->fields[0]?></td>
+    <td><?php echo $country?></td>
     <td><?php echo $res_pers->fields[3]?></td>
    
 </tr>
@@ -325,34 +350,40 @@ function shn_or_viewform_vol($pid){
         $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='email'";
         $res_email=$db->Execute($q);
         $contact_email=$res_email->fields[0];
-
-        $q="select name,search_id from location_details,location where poc_uuid='{$pid}' and location_details.location_id=location.location_id";
-        $res_village=$db->Execute($q);
-        $bsd_village=$res_village->fields[0];
-        $loc=$res_village->fields[1];
-        $q="select name from location where location_id='{$bsd_country}'";
+        $q="select search_id,name from location_details,location where poc_uuid='{$pid}' and location_details.location_id=location.location_id";
+        $res_temp=$db->Execute($q);
+         $bsd_village=$res_temp->fields[0];
+        $loc=split("\.", $bsd_village);
+        $bsd_village=$res_temp->fields[1];
+        $bsd_country=$loc[0];
+        $q="select name from location where search_id='$bsd_country'";
         $res_bsd_country=$db->Execute($q);
         $bsd_country=$res_bsd_country->fields[0];
-   // $q = "select name from location,org_location where org_id='{$org_id}' and location.location_id=org_location.location_id";
-    //$q = "select name from location,org_location where org_id='{$org_id}' and opt_location_type='1' and location.location_id=org_location.location_id";
-   // $res_bsd_country=$db->Execute($q);
+    
+        $bsd_province=$loc[0].".".$loc[1];
+        $q="select name from location where search_id='$bsd_province'";
+        $res_bsd_province=$db->Execute($q);
+        $bsd_province=$res_bsd_province->fields[0];
+
+        $bsd_district=$loc[0].".".$loc[1].".".$loc[1];
+        $q="select name from location where search_id='$bsd_district'";
+        $res_bsd_district=$db->Execute($q);
+        $bsd_district=$res_bsd_district->fields[0];
 
 
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-    $res_sector=$db->Execute($q);    
-    $person_sector_type_options=array();
+       
+        $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+        $res_sector=$db->Execute($q);    
+        $person_sector_type_options=array();
         
-    while(!$res_sector->EOF){
-        array_push(
+        while(!$res_sector->EOF){
+            array_push(
             $person_sector_type_options,
-            array(  'drop_desc'=>$res_sector->fields[0]
-                    
-            )       
-        );
-        
+                array(  'drop_desc'=>$res_sector->fields[0]
+                )       
+            );
         $res_sector->MoveNext();
-    }  
-
+        }  
     }
 ?>
 
