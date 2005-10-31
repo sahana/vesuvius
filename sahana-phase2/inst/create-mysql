@@ -1,17 +1,20 @@
 #!/bin/bash
 USER='root'
-PASS=''
+PASS='dd'
 HOST='localhost'
 DATABASE='sahana'
 
 function loadsql() {
     echo "Loading SQL script $1"
-    mysql $DATABASE -h $HOST -u $USER -p $PASS < $1
+    if [ "$PASS" = '' ]; then
+        mysql $DATABASE -h $HOST -u $USER < $1
+    else
+        mysql $DATABASE -h $HOST -u $USER -p$PASS < $1
+    fi
 }
 
 # Basic structure
-echo "Createing Skeletal database with mysql-dbcrete.sql"
-mysql -h $HOST -u $USER -p $PASS < mysql-dbcreate.sql
+loadsql mysql-dbcreate.sql
 
 # other main tables
 loadsql mysql-acl.sql 
