@@ -1,0 +1,96 @@
+<?php
+/**
+* Description for file
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Sudheera R. Fernando <sudheera@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/ 
+
+include_once $global['approot']."/inc/lib_modules.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
+include_once $global['approot']."/inc/lib_validate.inc";
+require_once 'lib_rms.inc';
+
+
+/**
+ * RMS main menu
+ */
+function shn_rms_mainmenu() 
+{
+    global $global;
+    $module = $global['module'];
+    
+?>
+    
+   <div id="modmenuwrap"> 
+        <h2><?php print _("RMS Module Actions"); ?></h2>
+            <ul id="modmenu">
+                <li><a href="index.php?mod=home">
+                    <?php print _("Sahana Home"); ?></a>
+                </li>
+                <li><a href="index.php?mod=<?=$module?>">
+                    <?php print _("RMS Home"); ?></a>
+                </li>
+                <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
+                    <?php print _("New Request"); ?></a>
+                </li>
+                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req">
+                    <?php print _("View Requests"); ?></a>
+                </li>
+                <li><a href="index.php?mod=<?=$module?>&amp;act=sch_req">
+                    <?php print _("Search Request"); ?></a>
+                </li>
+            </ul>
+    </div> <!-- /modmainwrap -->
+    <?php
+    include $global['approot']."/inc/handler_mainmenu.inc"; 
+} 
+
+/**
+ * The Default RMS homepage
+ */
+function shn_rms_default()
+{
+    include_once ('handler_main.inc');
+}
+
+/**
+ * Add New request form
+ */
+function shn_rms_new_req()
+{
+    include_once ('handler_new_req.inc');
+}
+
+/**
+ * Add New request form
+ */
+function shn_rms_vw_req()
+{
+    include_once ('handler_view_req.inc');
+}
+
+/**
+ * Add seach request
+ */
+function shn_rms_sch_req()
+{
+    include_once ('handler_search_req.inc');
+}
+
+/**
+ * Enter Fulfilment information
+ */
+function shn_rms_fulfill_req()
+{
+    include_once ('handler_fulfill_req.inc');
+}
+?>
+
