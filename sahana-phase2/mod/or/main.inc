@@ -26,6 +26,7 @@ include_once ("reg.inc"); // call form generator
 include_once("view.inc");
 include_once("errors.inc");
 
+//ravindra
 function shn_or_acl_setup(){
  	global $global;
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
@@ -114,11 +115,9 @@ or_acl_setup to sahana setup script once its avaliable
     
    $res=shn_acl_check_perms_action('ravids','shn_or_default');
     echo "res2".$res;
- 
-
-   
 }
 
+//ravindra,chathra,pradeeper
 function shn_or_mainmenu() 
 {
     global $global;
@@ -126,11 +125,12 @@ function shn_or_mainmenu()
 ?>
     
    <div id="modmenuwrap"> 
-        <h2>OR Module Actions</h2>
+        <h2>Organization Registry</h2>
             <ul id="modulemenu">
                 <li id="modactive"><a href="index.php?mod=<?=$module?>&act=reg_org">Register an Organization</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=view_org">View all Organizations</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=view_vol">View all Volunteers</a></li>
             </ul>
     </div>
 <?php 
@@ -138,12 +138,14 @@ function shn_or_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
+//author ravindra
 // register a OR
 function shn_or_reg_org($error=false)
 {
     shn_or_regform_org($error);
 }
 
+//author ravindra
 function shn_or_reg_org_cr()
 {
     global $global;
@@ -162,11 +164,11 @@ function shn_or_reg_org_cr()
     }else {    
         $org_type=trim($_POST{"org_type"});
     }
-    if (shn_is_null($_POST{"org_sector"})){
+    if (shn_is_null($_POST{"sector"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
     }else {    
-        $org_sector=trim($_POST{"org_sector"});
+        $sector=$_POST{"sector"};
     }
     if (shn_is_null($_POST{"bsd_village"})){
         $error=true;
@@ -183,6 +185,8 @@ function shn_or_reg_org_cr()
 
     $man_power=$_POST{"man_power"};
     $resources=$_POST{"resources"};
+    
+    $account_name=$_POST{"account_name"};
 
     if (shn_is_null($_POST{"user_name"})){
         $error=true;
@@ -229,10 +233,9 @@ function shn_or_reg_org_cr()
     //no validation done on other fields as they are not unique
     $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
     $res=$db->Execute($q);
-
     $i=0;
-    while($i<count($org_sector)){
-        $q="insert into org_sector(org_id,opt_org_sector) values($org_id,'{$org_sector[$i]}')";
+    while($i<count($sector)){
+        $q="insert into sector(pgoc_uuid,opt_sector) values($org_id,'{$sector[$i]}')";
         $res=$db->Execute($q);
         $i=$i+1;
     }
@@ -242,6 +245,9 @@ function shn_or_reg_org_cr()
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
     $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
+    $res=$db->Execute($q);
+
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
@@ -255,10 +261,9 @@ function shn_or_reg_org_cr()
         add_error(SHN_ERR_OR_PERSON_EXISTS);
     }
     if(!$error){
-        $q="insert into person_uuid(p_uuid,name) values($pid,'{$contact_name}')";
+        $q="insert into person_uuid(p_uuid,full_name) values($pid,'{$account_name}')";
         $res=$db->Execute($q);
         $res=shn_add_user($pid,$user_name,$password);
-        echo $res;
         if($res){
             $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
             $res=$db->Execute($q);
@@ -273,23 +278,21 @@ function shn_or_reg_org_cr()
         shn_or_reg_org($error);
         //return false;
     }else {
-        $operation=array(
-                    "parent_name"=>$org_name,
-                    "parent_id"=>$org_id,
-                    "org_type"=>$org_type,
-                    "contact_name"=>$contact_name,
-                    "contact_address"=>$contact_address,
-                    "contact_phone"=>$contact_phone,
-                    "contact_fax"=>$contact_fax,
-                    "contact_email"=>$contact_mail,
-                    "man_power"=>$man_power,
-                    "resources"=>$resources
-                    );
-         shn_or_regform_operation($error=false,$operation);
+         $_SESSION["parent_name"]=$org_name;
+         $_SESSION["parent_id"]=$org_id;
+         $_SESSION["org_type"]=$org_type;
+         $_SESSION["contact_name"]=$contact_name;
+         $_SESSION["contact_address"]=$contact_address;
+         $_SESSION["contact_phone"]=$contact_phone;
+         $_SESSION["contact_fax"]=$contact_fax;
+         $_SESSION["contact_email"]=$contact_mail;
+         $_SESSION["man_power"]=$man_power;
+         $_SESSION["resources"]=$resources;
+         shn_or_regform_operation($error=false);
     }
 }
 
-
+//author ravindra
 function shn_or_reg_operation_cr(){
     $error=false;
     if (shn_is_null($_POST{"opr_name"})){
@@ -299,11 +302,11 @@ function shn_or_reg_operation_cr(){
         $org_name=$_POST{"opr_name"};
     }
     
-    if (shn_is_null($_POST{"org_sector"})){
+    if (shn_is_null($_POST{"sector"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
     }else {    
-        $org_sector=$_POST{"org_sector"};
+        $sector=$_POST{"sector"};
     }
     if (shn_is_null($_POST{"bsd_village"})){
         $error=true;
@@ -324,7 +327,7 @@ function shn_or_reg_operation_cr(){
 
     global $global;
     $db=$global['db'];
-    $operation=$_POST{"operation"}; 
+    //$=$_POST{"operation"}; 
     $org_id = $db->GenID('org_seq',1);
 //Double check the ACL ID was generated.
     if (empty($org_id)){
@@ -332,7 +335,6 @@ function shn_or_reg_operation_cr(){
         return false;
     }
     $q="select o_uuid from org_main where o_uuid={$org_id}";
-    echo $q;
     $res=$db->Execute($q);
     if(!$res->EOF){
         $error=true;
@@ -341,12 +343,11 @@ function shn_or_reg_operation_cr(){
     if(!$error){
         $parent_id=$operation["parent_id"];
     //no validation done on other fields as they are not unique
-        $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,$parent_id,'{$org_name}','{$operation["org_type"]}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
+        $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,man_power,resources)values($org_id,{$_SESSION["parent_id"]},'{$org_name}','{$_SESSION["org_type"]}','{$man_power}','{$resources}')";
         $res=$db->Execute($q);
-echo $q;
         $i=0;
-        while($i<count($org_sector)){
-            $q="insert into org_sector(org_id,opt_org_sector) values($org_id,'{$org_sector[$i]}')";
+        while($i<count($sector)){
+            $q="insert into sector(pgoc_uuid,opt_sector) values($org_id,'{$sector[$i]}')";
             $res=$db->Execute($q);
             $i=$i+1;
         }
@@ -361,32 +362,144 @@ echo $q;
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
     $res=$db->Execute($q);
      
-    shn_or_regform_operation($error,$operation);
-
+    shn_or_regform_operation($error);
 }
 
+//author ravindra
 // register a volunteer
 function shn_or_reg_vol(){
-	shn_or_vol_reg();
+	shn_or_regform_vol();
 }
 
+//author ravindra
 // register a volunteer
 function shn_or_reg_vol_cr(){
-	shn_or_vol_reg();
+    $error=false;
+    if (shn_is_null($_POST{"name"})){
+        $error=true;
+        add_error(SHN_ERR_PERSON_NAME_INCOMPLETE);
+    }else {    
+        $name=$_POST{"name"};
+    }
+    
+    if (!shn_valid_date($_POST{"dob"})){
+        $error=true;
+        add_error(SHN_ERR_DOB_INCORRECT);
+    }else {    
+        $dob=$_POST{"dob"};
+    }
+
+$male=trim($_POST{"sex"});
+$job=$_POST{"job"};
+$nic=trim($_POST{"nic"});
+$pas=trim($_POST{"pas"});
+$dln=trim($_POST{"dln"});
+
+//if ('m'==trim($_POST{"sex"})){
+//$male=true;
+//} else{
+//$male=false;
+//}
+
+    if (shn_is_null($_POST{"sector"})){
+        $error=true;
+        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
+    }else {    
+        $sector=$_POST{"sector"};
+    }
+    if (shn_is_null($_POST{"bsd_country"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_country=$_POST{"bsd_country"};
+    }
+    if (shn_is_null($_POST{"bsd_village"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_village=$_POST{"bsd_village"};
+    }
+    $contact_name=$_POST{"contact_name"};
+    $contact_address=$_POST{"contact_add"};
+    $contact_phone=$_POST{"contact_phone"};
+    $contact_fax=$_POST{"contact_fax"};
+    $contact_mail=$_POST{"contact_mail"};
+
+
+
+    global $global;
+    $db=$global['db'];
+   
+    $pid=time();
+    $q="select p_uuid from person_uuid where p_uuid='{$p_id}'";
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        $error=true;
+        add_error(SHN_ERR_OR_PERSON_EXISTS);
+    }
+    if(!$error){
+        $q="insert into person_uuid(p_uuid,full_name) values($pid,'{$name}')";
+        $res=$db->Execute($q);
+	
+	$q="insert into person_details(p_uuid,birth_date,opt_country,opt_gender,occupation) values($pid,'{$dob}','{$bsd_country}','{$male}','{$job}')";
+        $res=$db->Execute($q);
+	$q="insert into person_status(p_uuid,isReliefWorker) values($pid,1)";
+        $res=$db->Execute($q);
+
+	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$nic}','nic')";
+   $res=$db->Execute($q);
+	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$pas}','pas')";
+        $res=$db->Execute($q);
+	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$dln}','dln')";
+        $res=$db->Execute($q);
+
+        $i=0;
+        while($i<count($sector)){
+            $q="insert into sector(pgoc_uuid,opt_sector) values($pid,'{$sector[$i]}')";
+           $res=$db->Execute($q);
+           $i=$i+1;
+        }
+    }
+
+    $q="insert into location_details(poc_uuid,location_id,opt_person_loc_type,address) values($pid,'{$bsd_village}','hom','{$contact_address}')";
+    $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'curr','{$contact_phone}')";
+    $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'fax','{$contact_fax}')";
+    $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'email','{$contact_mail}')";
+    $res=$db->Execute($q);
+     
+    shn_or_regform_vol($error);
 }
 
+//author ravindra
 // view all OR
 function shn_or_view_org()
 {
-    shn_or_viewform_org();
+if(NULL == $_REQUEST['id']){
+    shn_or_viewform_allorg();
+}else{
+    shn_or_viewform_org($_REQUEST['id']);
+}
 }
 
-// default page, welcome page ;-)
+
+//author ravindra
+// view all Volunteers
+function shn_or_view_vol()
+{
+if(NULL == $_REQUEST['id']){
+    shn_or_viewform_allvol();
+}else{
+    shn_or_viewform_vol($_REQUEST['id']);
+}
+}
+
+//author ravindra,pradeeper,chathra
+// default page, welcome page 
 function shn_or_default()
 {
-?>
-    <center><h3><b> Welcome to Organization Registry</p><br></b></h3></center>
-    <?php
        include_once ("home.inc");
 
 
