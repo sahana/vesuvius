@@ -13,10 +13,9 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
-
 $global['rms_db_dbug'] = false;
 $global['org_id'] = '10001';
-$global['person_id'] = '10002';
+$global['person_id'] = '10001';
 
 
 /**
@@ -376,7 +375,6 @@ function show_request_list($filter,$value)
 ?>
 <?php
 }
-
 
 
 function show_ffitems_table($modify_on)
