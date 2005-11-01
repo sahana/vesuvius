@@ -46,12 +46,15 @@ function shn_cr_acmp(){
 
 	// check action sequence
 	switch($_REQUEST['seq']){
-		case 'commit':
-		            echo "New Camp Created";
-		            break;
-		default :
-		            _shn_cr_cadd_start();
-		            break;
+		case 'chk'		:
+									_shn_cr_cadd_chk();
+									break;
+		case 'commit'	:
+		            	_shn_cr_cadd_commit();
+		            	break;
+		default 			:
+		            	_shn_cr_cadd_start();
+		            	break;
 		}
 																																																						
 }

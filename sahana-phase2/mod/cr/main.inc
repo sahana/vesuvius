@@ -14,7 +14,7 @@
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
-
+//var_dump($global[db]);
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cr/main_fns.inc";
 
