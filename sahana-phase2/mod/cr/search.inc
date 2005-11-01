@@ -1,5 +1,4 @@
 <?php
-/* $Id; */
 
 /**Search for  CR
 *
@@ -17,22 +16,64 @@
 
 include_once($global['approot'].'/inc/lib_form.inc');
 
-function _shn_cr_srch(){
+function _shn_cr_srch($camp_name){
 	global $global;
+	$db=$global['db'];
+   $q = "select camp_id,name,contact_person,contact_no from camp_reg where name='{$camp_name}'";
+    
+    $res_cmp =$db->Execute($q);
+    if(!$res_cmp==NULL && !$res_cmp->EOF){
+    $cmp_id =$res_cmp->fields[0]; 
+    $cmp_name=$res_cmp->fields[1];    
+    $cmp_contact=$res_cmp->fields[3];
+    $cmp_no=$res_cmp->fields[4]; 
+  }
+	
+	
 ?>
 	 	  <h2>Search for a Camp</h2>
  <?php
-			shn_form_fopen("sercmp");
+			shn_form_fopen("srch");
 			shn_form_fsopen("SEARCH");
-			shn_form_hidden(array('seq'=>'next'));
-			shn_form_text('Name of the Camp','cmp_id','size="20"',array('req'=>true));
+			shn_form_hidden(array('seq'=>'commit'));
+			shn_form_text('Name of the Camp','cmp_id','size="20"',array('req'=>true),array('value'=>$camp_name));
  ?>
  <br>		<?php
          shn_form_opt_select("opt_location_type","Location Type");
 			shn_form_fsclose();
 			shn_form_fclose();
+			//get_all_location('opt_location_type');
+			//get_all_location_names('opt_location_type');
+			//get_all_location_parent('opt_location_type');
+				
 
 }
 
+function get_all_location($loc_type){
+		$sql = "SELECT location_id FROM location WHERE opt_location_type = $loc_type";	
+		$rs  = mysql_query($sql) or die('Query failed: ' . mysql_error());
+		
+		while ($line = mysql_fetch_array($rs , MYSQL_ASSOC)) {
+      foreach ($line as $col_value) {
+       echo "$col_value";
+      }
+  }
+mysql_free_result($rs);
+
+}
+
+function get_all_location_names($loc_type){
+		$sql = "SELECT description FROM location WHERE opt_location_type = $loc_type";	
+		$rs1  = mysql_query($sql) or die('Query failed: ' . mysql_error());
+		
+		while ($line = mysql_fetch_array($rs1 , MYSQL_ASSOC)) {
+      foreach ($line as $col_value) {
+       echo "$col_value";
+      }
+  }
+mysql_free_result($rs1);
+
+}
+  
 ?>
 
