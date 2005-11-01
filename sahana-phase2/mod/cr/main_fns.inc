@@ -27,6 +27,20 @@ function shn_cr_srch(){
 }
 
 function shn_cr_acmp(){
+	global $global;
+  include($global['approot'].'/mod/cr/camp.inc');
+	require_once($global['approot'].'/inc/handler_form.inc');
+
+	// check action sequence
+	switch($_REQUEST['seq']){
+		case 'commit':
+		            echo "New Camp Created";
+		            break;
+		default :
+		            _shn_cr_cadd_start();
+		            break;
+		}
+																																																						
 }
 
 function shn_cr_acma(){
