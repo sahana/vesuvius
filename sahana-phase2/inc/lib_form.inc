@@ -131,4 +131,15 @@ function shn_form_opt_checkbox($opt_field){
 				       $resu->MoveNext();
    		     }
 }
-																																	 
+
+function shn_form_textarea($label, $name, $text_opts = null, 
+                        $extra_opts = null)
+{
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <textarea name="<?=$name?>" <?=$text_opts?> ><?=$value?></textarea>
+<?php
+    shn_form_extra_opts($extra_opts);
+}
+?>
