@@ -115,3 +115,20 @@ function shn_form_opt_select($opt_field, $label,
     shn_form_extra_opts($extra_opts);
 } 
 
+
+function shn_form_opt_checkbox($opt_field){
+    global $global;
+		$value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
+		$resu = $global['db']->Execute
+		       ("select * from field_options where field_name='$opt_field'");
+			     while(!resu==NULL && !$resu->EOF) {
+		            $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
+?>
+				       <label><?=$resu->fields[2]?></label>
+				       <input type="checkbox" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
+     		       <br>
+<?php
+				       $resu->MoveNext();
+   		     }
+}
+																																	 
