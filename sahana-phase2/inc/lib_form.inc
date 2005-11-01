@@ -88,7 +88,6 @@ function shn_form_opt_select($opt_field, $label,
 
     $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
-        
     while(!res==NULL && !$res->EOF) {
         
         $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
@@ -104,7 +103,7 @@ function shn_form_opt_select($opt_field, $label,
 } 
 
 // function to deal with additional options such as <BR> and is required 
-function shn_form_extra_ops($extra_opts)
+function shn_form_extra_opts($extra_opts)
 {
     // output a required flag
     if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
