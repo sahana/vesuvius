@@ -56,13 +56,12 @@ function shn_form_fsclose()
 function shn_form_text($label, $name, $text_opts = null, 
                         $extra_opts = null)
 {
-    if (true != $extra_opts['br']) echo "\n    <br/>\n";
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?>  />
 <?php
-    if (true == $extra_opts['req']) echo " <b>*(req)</b>";
+    shn_form_extra_opts($extra_opts);
 }
 
 
@@ -81,7 +80,6 @@ function shn_form_opt_select($opt_field, $label,
 {
     global $global;
 
-    if ($br) echo "\n    <br/>\n";
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
 ?>
     <label><?=$label?></label>
@@ -102,5 +100,14 @@ function shn_form_opt_select($opt_field, $label,
 ?>
     </select> 
 <?php
-    if (true == $extra_opts['req']) echo " <b>*(req)</b>";
+    shn_form_extra_opts($extra_opts);
 } 
+
+// function to deal with additional options such as <BR> and is required 
+function shn_form_extra_ops($extra_opts)
+{
+    // output a required flag
+    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
+    // output a break - default is true
+    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br/>\n";
+}
