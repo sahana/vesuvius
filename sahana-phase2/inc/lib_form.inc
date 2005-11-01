@@ -15,6 +15,14 @@
 *
 */
 
+// function to deal with additional options such as <BR> and is required 
+function shn_form_extra_opts($extra_opts)
+{
+    // output a required flag
+    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
+    // output a break - default is true
+    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br/>\n";
+}
 // Open and close a form section
 
 function shn_form_fopen($act, $mod = null)
@@ -30,9 +38,14 @@ function shn_form_fopen($act, $mod = null)
 
 function shn_form_fclose()
 { ?>
-    <input type="submit" value="Submit"/>
     </form>
     </div> <!-- /formcontainer -->
+<?php
+}
+
+function shn_form_submit($name)
+{ ?>
+    <input type="submit" value="<?=$name?>"/>
 <?php
 }
 

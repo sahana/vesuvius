@@ -35,4 +35,11 @@ include_once $global['approot']."/inc/lib_modules.inc";
     } 
 ?>
     </ul>
+    <div id="loginform">
+        <fieldset><legend>Login</legend>
+        <label>User Name</label><input type="text" name="user_name" id="userName" />
+        <label>Password</label><input type="password" name="password" id="pswd" />
+        <a href="#">Forgot your password?</a>
+        </fieldset>
+    </div><!-- /loginform -->
     </div> <!-- /menuwrap -->

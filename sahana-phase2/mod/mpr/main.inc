@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.5 2005-10-27 20:46:48 chamindra Exp $ */
+/* $Id: main.inc,v 1.6 2005-11-01 08:30:46 chamindra Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -28,10 +28,10 @@ function shn_mpr_mainmenu()
     shn_mod_menuopen("Missing Person Registry");
 
     shn_mod_menuitem("default","Home");
+    shn_mod_menuitem("search","Search for a Person");
     shn_mod_menuitem("addmp","Report a Missing Person");
     shn_mod_menuitem("fndmp","Report a Found Person");
     shn_mod_menuitem("editmp","Edit a Missing Person");
-    shn_mod_menuitem("search","Search for a Person");
     shn_mod_menuitem("stats","Statistics");
 
     shn_mod_menuclose();
@@ -62,33 +62,12 @@ function shn_mpr_fndmp()
 function shn_mpr_editmp()
 {
     global $global;
-
-    //validation
-    if ($_POST['seq']=='submit') {
-        if (!shn_valid_phone($_POST['phone'])) add_error("Invalid Phone Number"); 
-        display_errors();
-    } 
-
-    shn_form_fopen("editmp");
-    shn_form_fsopen("Identity");
-
-    shn_form_hidden(array('seq'=>'submit'));
-
-    shn_form_text('Full Name','name','size="60"',array('req'=>true));
-    shn_form_text('Mobile Phone','phone','size="30"',array('req'=>true));
-    shn_form_opt_select("opt_hair_color","Hair Color");
-    shn_form_opt_select("opt_age_group","Age Group");
-    shn_form_text('L10N name','l10name','size="60" disabled="disabled"');
-
-
-    shn_form_fsclose();
-
-    shn_form_fclose();
 }
 
 function shn_mpr_addmp()
 {
-
+    global $global;
+    require($global['approot'].'mod/mpr/add.inc');
 }
 
 function shn_mpr_search()

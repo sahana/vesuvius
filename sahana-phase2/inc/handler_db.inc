@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.3 2005-10-24 03:25:50 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.4 2005-11-01 08:30:46 chamindra Exp $ */
 
 /**
 *
@@ -17,26 +17,19 @@
 #remove this
 define(DB_DEBUG,0);
 
-/* {{{ Includes */
 //Include the ADOdb Library
 require_once($global['approot'].'3rd/adodb/adodb.inc.php');
-/* }}} */
 
-/* {{{ Making Connection */
 //Make the connection to $global['db']
 $global['db'] = NewADOConnection($conf['db_engine']);
 $global['db']->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
 t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 //Error handle baby!!!
-/* }}} */
 
-/* {{{ Logging SQL Queries */
 //enable logging sql
 #if($conf['enable_monitor_sql'])
     $global['db']->LogSQL();
-/* }}} */
 
-/* {{{ Caching Layer */
 /* LATER DUDES 
 if($conf['enable_cache']){
     $ADODB_CACHE_DIR = $global['approot'].$conf['cache_dir'];
@@ -169,7 +162,5 @@ function _shn_db_escape( $str, $db ) {
     return $db->qstr( $str );
 }
 */
-/* }}} */
 
-// vim: set tabstop=4 shiftwidth=4 fdm=marker:
 ?>
