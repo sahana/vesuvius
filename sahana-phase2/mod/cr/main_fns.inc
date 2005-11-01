@@ -24,6 +24,19 @@ function shn_cr_stat(){
 }
 
 function shn_cr_srch(){
+
+  global $global;
+  include($global['approot'].'/mod/cr/search.inc');
+  require_once($global['approot'].'/inc/handler_form.inc');
+  switch($_REQUEST['seq']){
+		case 'next':
+		            echo "Search Results";
+		            break;
+		default :
+		            _shn_cr_srch();
+		            break;
+		}
+  
 }
 
 function shn_cr_acmp(){
