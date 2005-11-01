@@ -19,7 +19,9 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function _shn_cr_cadd_start(){
 	global $global;
-
+?>
+<h2>Register New Camp</h2>
+<?php
 	shn_form_fopen(acmp);
 	shn_form_fsopen("General Details");
 	shn_form_hidden(array('seq'=>'chk'));
@@ -57,7 +59,9 @@ function _shn_cr_cadd_chk(){
 	$_SESSION['camp_children']=$_POST['children'];
 	$_SESSION['camp_total']=$_POST['total'];
 	//var_dump($_SESSION);
-	
+?>
+<h2>Camp Checklist</h2>
+<?php
 	shn_form_fopen(acmp);
   shn_form_fsopen("Services / Facilities Available");
 	shn_form_hidden(array('seq'=>'commit'));
