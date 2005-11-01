@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.5 2005-11-01 08:45:24 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.6 2005-11-01 09:21:39 janakawicks Exp $ */
 
 /**
 *
@@ -19,7 +19,6 @@ define(DB_DEBUG,0);
 
 //Include the ADOdb Library
 require_once($global['approot'].'3rd/adodb/adodb.inc.php');
-$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 /* }}} */
 
 //Make the connection to $global['db']
