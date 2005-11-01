@@ -24,6 +24,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once ("reg.inc"); // call form generator
 include_once("view.inc");
+include_once("report.inc");
 include_once("errors.inc");
 
 //ravindra
@@ -96,7 +97,7 @@ or_acl_setup to sahana setup script once its avaliable
     
     
     //give permission for 'create' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','create');
+    $res=shn_acl_add_perms_action_group_role('user','or','create');
     
     //add a user named "ravids"
     $res=shn_acl_add_user("ravids","ravindra");
@@ -132,12 +133,32 @@ function shn_or_mainmenu()
                 <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
                 <li><a href="index.php?mod=<?=$module?>&act=view_org">View all Organizations</a></li>
 	        	<li><a href="index.php?mod=<?=$module?>&act=view_vol">View all Volunteers</a></li>
-            </ul>
+        
+		        <li><a href="#">Reports </a></li>
+              	    <ul id="modsubmenu">
+    	            	<li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
+			        <li><a href="index.php?mod=or&act=org_loc"> Organizations by Location</a></li>
+              		</ul>    
+	</ul>
     </div>
 <?php 
 
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
+
+//author ravindra
+// register a OR
+
+function shn_acl_config(){
+
+}
+
+//author ravindra
+// register a OR
+
+function shn_acl_config_cr(){
+
+}
 
 //author ravindra
 // register a OR
@@ -509,6 +530,16 @@ if(NULL == $_REQUEST['id']){
     shn_or_viewform_vol($_REQUEST['id']);
 }
 }
+
+
+
+//author ravindra
+// view all orgs group by sector
+function shn_or_org_sector()
+{
+    shn_or_report_org_sector();
+}
+
 
 //author ravindra,pradeeper,chathra
 // default page, welcome page 

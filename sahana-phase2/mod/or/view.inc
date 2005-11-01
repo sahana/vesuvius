@@ -60,11 +60,10 @@ function shn_or_viewform_allorg(){
 }
 
 
-function _shn_display_org($org_id){
+function _shn_display_org($org_id,$indent=true){
     global $global;
     $db=$global["db"];
     $q = "select o_uuid,parent_id,name,man_power,resources from org_main where o_uuid=$org_id";
-    //echo $q;
     $res_org=$db->Execute($q);
     $org_id=$res_org->fields[0];        
     $q = "select address from location_details where poc_uuid='{$org_id}'";
@@ -79,22 +78,19 @@ function _shn_display_org($org_id){
     $loc=$res_temp->fields[0][0];
     $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
-   // $q = "select name from location,org_location where org_id='{$org_id}' and location.location_id=org_location.location_id";
-    //$q = "select name from location,org_location where org_id='{$org_id}' and opt_location_type='1' and location.location_id=org_location.location_id";
-   // $res_bsd_country=$db->Execute($q);
 ?>
 
 <tr>
     <td>
      <?php
     $parent=$res_org->fields[1];
-    if($parent>0){
+    if($parent>0 && $indent){
     echo "<div id='parent'>";
     }
     ?>
     <a href="index.php?mod=or&act=view_org&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
     <?php
-    if($parent>0){
+    if($parent>0 && $indent){
     echo "</div>";
     }
     ?>
