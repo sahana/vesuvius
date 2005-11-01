@@ -115,11 +115,3 @@ function shn_form_opt_select($opt_field, $label,
     shn_form_extra_opts($extra_opts);
 } 
 
-// function to deal with additional options such as <BR> and is required 
-function shn_form_extra_opts($extra_opts)
-{
-    // output a required flag
-    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
-    // output a break - default is true
-    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br/>\n";
-}
