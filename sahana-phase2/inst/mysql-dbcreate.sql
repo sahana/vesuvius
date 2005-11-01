@@ -314,10 +314,16 @@ CREATE TABLE phonetic_word(
 /* SHELTER AND CAMP TABLES */
 /* --------------------------------------------------------------------------*/
 
+/**
+* Camp Registry Specific Tables added
+* Modules: cms,cr
+* Last changed: 01-NIV-2005 - chathra@opensource.lk  
+*/
 
 DROP TABLE IF EXISTS camp;
 CREATE TABLE camp (
     c_uuid BIGINT NOT NULL,
+    name VARCHAR(60),
     location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
@@ -325,12 +331,38 @@ CREATE TABLE camp (
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
+DROP TABLE IF EXISTS camp_reg;
+CREATE TABLE camp_reg (
+    c_uuid BIGINT NOT NULL,
+    name VARCHAR(60),
+    orgid BIGINT,
+    contact_name VARCHAR(30),
+    contact_no INT (10),
+    comments VARCHAR(100),
+    services INT(2),
+    men INT,
+    women INT,
+    family INT,
+    children INT,
+    total INT, 
+    PRIMARY KEY (c_uuid),
+    FOREIGN KEY (orgid) REFERENCES org_main(o_uuid)
+);
+
+DROP TABLE IF EXISTS camp_services;
+CREATE TABLE camp_services (
+    c_uuid BIGINT NOT NULL,
+    opt_camp_service VARCHAR(50),
+    value BOOL NOT NULL default 0, 
+    PRIMARY KEY (c_uuid,opt_camp_service)
+    
+);
+
 DROP TABLE IF EXISTS person_camp;
 CREATE TABLE person_camp(
     c_uuid BIGINT NOT NULL,
     p_uuid BIGINT NOT NULL
 );
-
 
 -- MODULES
 DROP TABLE IF EXISTS modules;
