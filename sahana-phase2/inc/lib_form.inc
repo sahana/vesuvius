@@ -153,4 +153,14 @@ function shn_form_upload($label, $name,
     shn_form_extra_opts($extra_opts);
 }
 
+function shn_form_label($label, $caption,
+                        $extra_opts = null)
+{
+?>
+    <label><?=$label?></label>
+    <?=$caption?>
+<?php
+    shn_form_extra_opts($extra_opts);
+}
+
 ?>
