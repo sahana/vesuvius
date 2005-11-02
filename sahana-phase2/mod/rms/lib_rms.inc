@@ -14,8 +14,8 @@
 */ 
 
 $global['rms_db_dbug'] = false;
-$global['org_id'] = '10001';
-$global['person_id'] = '10001';
+$global['org_id'] = $global['person_id'] = '10002';
+
 
 
 /**
@@ -38,6 +38,33 @@ function get_loc_list($loc_type)
     
 }
 
+function is_requester($req_id,$user_id)
+{
+    global $global;
+    $sql = "SELECT req_id,user_id " .
+            "FROM rms_request " .
+            "WHERE req_id=$req_id AND user_id=$user_id";
+    $rs = $global['db']->Execute($sql);
+    
+    if (1 > $rs->RecordCount())
+        return false;
+    
+    return true;
+}
+
+function is_req_open($req_id)
+{
+    global $global;
+    $sql = "SELECT req_id,status " .
+            "FROM rms_request " .
+            "WHERE req_id=$req_id AND status='open'";
+    $rs = $global['db']->Execute($sql);
+    
+    if (1 > $rs->RecordCount())
+        return false;
+    
+    return true;
+}
 
 function show_rms_heading()
 {
@@ -114,6 +141,7 @@ function rms_get_initvals()
         $rms_init_vals['req_site_district'] = $recordSet->fields[6];
         $rms_init_vals['req_site_address'] = $recordSet->fields[7];
         $rms_init_vals['req_comments'] = $recordSet->fields[8];
+        $rms_init_vals['user_id'] = $recordSet->fields[10];
         
         $recordSet->Close();
     }
@@ -141,6 +169,7 @@ function show_init_vals($legend)
         <label id="txtarea"><?php print _("Comments") ?></label><value id="txtarea"><?php print $vals['req_comments']?></value><br/>
     </fieldset>
 <?php
+    return $vals['user_id'];
 }
 
 
@@ -314,23 +343,63 @@ function get_request_categories($req_id)
 /**
  * Display the list of requests
  */
-function show_request_list($filter,$value)
+function show_request_list($filter='none',$value,$user='all',$status='open')
 {
     global $global;
+    $user_id = $global['person_id'];
+    $seq = '';
+    $list_of = "All Uers";
+    $filtered_by = '';
     
-    if(!$filter || $filter === "all")
-        $sql = "SELECT * FROM rms_request ORDER BY req_date DESC";
+    if (isset($_GET['stat']))
+        $status = $_GET['stat'];
+    
+    if (isset($_GET['user']))
+        $user = $_GET['user'];
+    
+    $url = "index.php?mod=rms&amp;act=vw_req" .
+            "&amp;user=$user&amp;stat=$status";
+                    
+    $where = "WHERE status='$status'";
+    $where_fil = "status='$status' AND";
+    
+    if ($user == 'all' && $status == 'all')
+    {
+        $where = '';
+        $where_fil = '';
+    } 
+    else if ($user == 'user' && $status == 'all')
+    {
+        $where = "WHERE user_id=$user_id";
+        $where_fil = "user_id=$user_id AND";
+        $list_of = "User :$user_id";
+    }
+    else if ($user == 'user' && $status != 'all')
+    {
+        $where = "WHERE user_id=$user_id AND status='$status'";
+        $where_fil = "user_id=$user_id  AND status='$status'";
+        $list_of = "User :$user_id";
+    }
+    
+    if($filter == '' || $filter == 'none')
+        $sql = "SELECT * FROM rms_request $where ORDER BY req_date DESC";
     else
+    {
         $sql="SELECT DISTINCT(req.req_id), req.req_date, req.name, req.site_name, req.site_district " .
                 "FROM rms_request req, rms_req_item itm " .
-                "WHERE itm.$filter=$value AND req.req_id=itm.req_id " .
+                "WHERE $where_fil itm.$filter=$value AND req.req_id=itm.req_id " .
                 "ORDER BY req_date DESC;";
+        
+        $filtered_by = "Filtered by \{$filter : $value}";
+    }
     
+    
+    //print "<br/>" .$sql;
     $recordSet = $global['db']->Execute($sql);
     if ($recordSet !== false)
     {            
 ?>
-        
+      <h3>List of <?php print ucfirst($status) ?> (status) requests for <?php print $list_of . "&nbsp;" . $filtered_by?></h3>
 <?php 
         while (!$recordSet->EOF)
         {   
@@ -347,7 +416,7 @@ function show_request_list($filter,$value)
                     while (!$rs->EOF)
                     {
                 ?>
-                 <a href="index.php?mod=rms&amp;act=vw_req&amp;filter=cat_id&amp;value=<?php print ($rs->fields['cat_id']); ?>">
+                 <a href="<?php print $url;?>&amp;filter=cat_id&amp;value=<?php print ($rs->fields['cat_id']); ?>">
                     <?php print ($rs->fields['category']); ?>
                  </a>                        
                  <?php 
@@ -377,7 +446,7 @@ function show_request_list($filter,$value)
 }
 
 
-function show_ffitems_table($modify_on)
+function show_ffitems_table($modify_on,$is_fulfill=true)
 {
     $req_id = $_GET['req_id'];
     global $global;
@@ -483,7 +552,7 @@ function show_ffitems_table($modify_on)
         </fieldset>
 <?php
         $rs_ff->MoveFirst();
-        if (!$rs_ff->EOF)
+        if ($is_fulfill && !$rs_ff->EOF)
         {
 ?>
         <br/>
@@ -535,7 +604,7 @@ function show_ffitems_table($modify_on)
         }
     }
     
-    if (!$rs_itms->EOF)
+    if ($is_fulfill && !$rs_itms->EOF)
     {
 ?>
     <br/>

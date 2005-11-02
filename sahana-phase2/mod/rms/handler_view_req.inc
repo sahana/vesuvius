@@ -22,18 +22,57 @@ if (!isset($_GET['seq']))
 {
     $filter = $_GET['filter'];
     $value = $_GET['value'];
-    show_request_list($filter,$value);
+    $user = $_GET['user'];
+    $stat = $_GET['stat'];
+    
+    $url="index.php?mod=rms&amp;act=vw_req";
+    $url_usr="index.php?mod=rms&amp;act=vw_req" .
+              "&amp;user=$user";
+?>
+    
+    Request Status : <a href=<?php print $url_usr . "&amp;stat=open"; ?>>Open requests</a> | 
+    <a href=<?php print $url_usr . "&amp;stat=closed"; ?>>Closed requests</a> | 
+    <a href=<?php print $url. "&amp;user=$user" . "&amp;stat=all"; ?>>All requests</a>
+    <br/>
+    <br/>
+<?php
+    show_request_list($filter,$value,$user,'open');
 }
     
 if ($_GET['seq'] == 'detail')
 {
+    $req_id = $_GET['req_id'];
+    $user_id = $global['person_id'];
 ?>
+    <h3>USER : <?php print $global['person_id']; ?></h3>
     <form id="rmsforms" action="">
     <?php show_init_vals(_("Request Information")); ?>
     <br/>
-    <?php show_items_table(false,false); ?>
-    <br/>
-    <a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $_GET['req_id'] ?>#form"> [Fulfill]</a> 
 <?php
+    if (is_requester($req_id,$user_id))
+    {
+        show_ffitems_table(false,false);
+?>
+    <a href="index.php?mod=rms&amp;act=mgt_req&amp;req_id=<?php print $req_id ?>">
+    [ <?php print _("Change Request Status") ?> ]</a>
+<?php
+    if (is_req_open($req_id))
+    {
+?> 
+    |<a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
+    [ <?php print _("Close Request") ?> ]</a>    
+<?php
+    }
+    }
+    else
+    {
+        show_ffitems_table(false,false);
+?>
+    <br/>
+    <a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>#form">
+    [ <?php print _("Fulfill") ?> ]
+    </a>
+<?php
+    }
 }
 ?>

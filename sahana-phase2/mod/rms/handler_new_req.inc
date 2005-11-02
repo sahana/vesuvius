@@ -14,6 +14,7 @@
 global $global;
 
 $global['items'] = false;
+print ("<h3>USER : " . $global['person_id'] . "</h3>");
 ?>
 
 <?php show_rms_heading(); ?>
@@ -42,7 +43,7 @@ if ($_GET['stat'] == 'add')
     $req_site_district = $vals['req_site_district'];
     $req_site_address = $vals['req_site_address'];
     $req_comments = $vals['req_comments'];
-    $user_id = 10001;
+    $user_id = $global['person_id'];
     
     $sql = "INSERT INTO rms_request (req_date, name, contact, address, site_name," .
             " site_district, site_address, comments, user_id) " .
@@ -90,7 +91,7 @@ if ($_GET['stat'] == 'add')
             if ($global['items'])
             { 
         ?>
-            <a id="finish" href="index.php?mod=rms&amp;act=new_req">[ &amp;nbsp; <?php print _("Finish") ?> &nbsp; ]</a>
+            <a id="finish" href="index.php?mod=rms&amp;act=new_req">[ &nbsp; <?php print _("Finish") ?> &nbsp; ]</a>
         <?php
             }
         ?>

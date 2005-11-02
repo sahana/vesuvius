@@ -36,17 +36,17 @@ function shn_rms_mainmenu()
                     <?php print _("Sahana Home"); ?></a>
                 </li>
                 <li><a href="index.php?mod=<?=$module?>">
-                    <?php print _("RMS Home"); ?></a>
+                    <?php print _("R.M.S Home"); ?></a>
                 </li>
                 <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
-                    <?php print _("New Request"); ?></a>
+                    <?php print _("Make New Request"); ?></a>
                 </li>
-                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req">
-                    <?php print _("View Requests"); ?></a>
+                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
+                    <?php print _("View All Requests"); ?></a>
                 </li>
-                <li><a href="index.php?mod=<?=$module?>&amp;act=sch_req">
-                    <?php print _("Search Request"); ?></a>
-                </li>
+                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=user">
+                    <?php print _("View My Requests"); ?></a>
+                </li>                
             </ul>
     </div> <!-- /modmainwrap -->
     <?php
@@ -77,12 +77,10 @@ function shn_rms_vw_req()
     include_once ('handler_view_req.inc');
 }
 
-/**
- * Add seach request
- */
-function shn_rms_sch_req()
+
+function shn_rms_mgt_req()
 {
-    include_once ('handler_search_req.inc');
+    include_once ('handler_mgt_req.inc');
 }
 
 /**
@@ -92,5 +90,11 @@ function shn_rms_fulfill_req()
 {
     include_once ('handler_fulfill_req.inc');
 }
+
+function shn_rms_cstat_req()
+{
+    include_once ('handler_cstat_req.inc');
+}
+
 ?>
 
