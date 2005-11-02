@@ -14,27 +14,27 @@
 */
 
 global $conf;
-include_once $global['approot']."/inc/lib_modules.inc";
+require_once $global['approot']."/inc/lib_modules.inc";
+require_once $global['approot']."/inc/lib_menu.inc";
 
-?>
-    <div id="menuwrap">
-    <h2>Sahana Main</h2>
-    <ul id="menu">
-<?php 
-    // display the list of modules on the menu bar
-    $module_list = shn_get_module_names();
+shn_mainmenuopen("Main Menu");
+shn_mainmenuitem('default','Sahana Home','home');
 
-    foreach ($module_list as $i) {  
-       
-       $module_name = $conf["mod_".$i."_name"]; 
-       $module_name = ( null == $module_name )? $i : $module_name ;
+// display the list of modules on the menu bar
+$module_list = shn_get_module_names();
 
+foreach ($module_list as $i) {  
+    
+    if ( ( 'home' != $i ) && ('admin' != $i ) ) {
+        $module_name = $conf["mod_".$i."_name"]; 
+        $module_name = ( null == $module_name )? $i : $module_name ;
+        shn_mainmenuitem('default',$module_name, $i);
+    }
+} 
+
+shn_mainmenuitem('default','System Administration','admin');
+shn_mainmenuclose();
 ?>
-        <li><a href="index.php?mod=<?=$i?>"><?=$module_name?></a></li>
-<?php 
-    } 
-?>
-    </ul>
     <div id="loginform">
         <fieldset><legend>Login</legend>
         <label>User Name</label><input type="text" name="user_name" id="userName" />
@@ -44,4 +44,3 @@ include_once $global['approot']."/inc/lib_modules.inc";
         <a href="#">Forgot your password?</a>
         </fieldset>
     </div><!-- /loginform -->
-    </div> <!-- /menuwrap -->

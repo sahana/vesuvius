@@ -1,6 +1,6 @@
 #!/bin/bash
 USER='root'
-PASS='dd'
+PASS=''
 HOST='localhost'
 DATABASE='sahana'
 

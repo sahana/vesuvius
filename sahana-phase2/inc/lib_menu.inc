@@ -13,6 +13,34 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+// Main menu template helper
+function shn_mainmenuitem($action, $desc, $module = null ) 
+{ 
+    global $global;
+    if ( null == $module ) $module = $global['module'];
+?>
+    <li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
+<?php
+}
+
+
+function shn_mainmenuopen($desc ) 
+{   
+?>
+    <div id="menuwrap">
+        <h2>Sahana Main</h2>
+        <ul id="menu">
+<?php
+}
+
+function shn_mainmenuclose() 
+{   
+?>
+        </ul>
+    </div> <!-- /modmenuwrap -->
+<?php
+}
+
 function shn_mod_menuitem($action, $desc, $module = null ) 
 { 
     global $global;
