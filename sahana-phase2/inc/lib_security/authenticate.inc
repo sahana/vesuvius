@@ -20,8 +20,49 @@
 *@param string user password
 */
 include "acl_api.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
 
-function shn_add_user($p_uuid,$user_name, $user_password)
+function shn_add_user($account_name,$user_name, $user_password)
+{
+    global $global;
+    $db=$global['db'];
+
+    if (shn_is_user($user_name)){
+        add_error(SHN_ERR_OR_USER_EXISTS);
+   		return false;
+    }
+    $pid = $db->GenID('person_seq',1);
+    $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
+    echo $q;
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        $error=true;
+        add_error(SHN_ERR_OR_PERSON_EXISTS);
+    }
+    if(!$error){
+        $q="insert into person_uuid(p_uuid,full_name) values($pid,'{$account_name}')";
+        $res=$db->Execute($q);
+   // Create the encrypted password
+   $stored_password = md5(trim($user_password));
+
+   // Insert a new user into the users table
+   $q = "INSERT INTO users SET 
+             p_uuid={$pid},
+		password = '{$stored_password}',
+             user_name = '{$user_name}'";
+	$res=$db->Execute($q);
+echo $q;
+	if ($res){
+    	$res=shn_acl_add_user($pid,$user_name);
+    	$res=shn_acl_add_to_role($pid,"user");
+	}
+}
+	return $pid;
+}
+
+
+
+function shn_add_user_with_id($p_uuid,$user_name, $user_password)
 {
     global $global;
     $db=$global['db'];
