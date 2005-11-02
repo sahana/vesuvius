@@ -13,33 +13,47 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-// === initialize global variables ===
+// Specify the base location of the Sahana insallation
+// The base should not be exposed to the web for security reasons
+// only the www sub directory should be exposed to the web
 
-// Find the base location of the Sahana installation
-$global['approot']=realpath(dirname(__FILE__)).'/../';
-
-// Initilize action and module global variables
-$global['action'] = (NULL == $_REQUEST['act']) ? 
-                            "default" : $_REQUEST['act'];
-$global['module'] = (NULL == $_REQUEST['mod']) ? 
-                            "home" : $_REQUEST['mod'];
+$global['approot'] = realpath(dirname(__FILE__)).'/../';
+// $global['approot'] = '/usr/local/bin/sahana/';
 
 // === initialize configuration variables ===
-include_once ($global['approot']."conf/config.inc"); 
-//TODO: when config is not there we have to setup
+require_once ($global['approot'].'conf/config.inc'); 
+require_once ($global['approot'].'inc/lib_modules.inc'); 
+require_once ($global['approot'].'inc/lib_session/handler_session.inc');
+require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
+require_once ($global['approot'].'inc/handler_db.inc');
 
-include_once ($global['approot']."inc/lib_modules.inc"); 
-include ($global['approot']."inc/lib_session/handler_session.inc");
-include ($global['approot']."inc/lib_security/authenticate.inc");
-include_once ($global['approot']."inc/lib_locale/handler_locale.inc"); 
-require_once($global['approot']."inc/handler_db.inc");
+shn_main();
 
-shn_front_controller();
+// Switch based on Sahana installation status
+function shn_main()
+{
+    global $global;
+    global $conf;
 
+    if (file_exists($global['approot'].'inst/install-timestamp')) {
+
+        $global['action'] = (NULL == $_REQUEST['act']) ? 
+                                    "default" : $_REQUEST['act'];
+        $global['module'] = (NULL == $_REQUEST['mod']) ? 
+                                    "home" : $_REQUEST['mod'];
+        shn_front_controller();
+
+    } else {
+        
+        require ($global['approot'].'inst/setup.inc');
+    }
+
+}
 // === front controller ===
 
-function shn_front_controller() {
- 
+function shn_front_controller() 
+{
     global $global;
     global $conf;
     $approot = $global['approot'];
