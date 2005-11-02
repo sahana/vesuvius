@@ -314,8 +314,22 @@ function _shn_get_roles(){
 *@param string user
 */
 function _shn_get_roles_of_user($user){
-    $acl=new SahanaACL(NULL);
-    $this->acl_get_groups ("users",$user,NULL, 'ARO');
+    //$res=$this->acl_get_groups ("users",$user,NULL, 'ARO');
+    $q="select id from gacl_aro_groups where value='sahana'";
+    $res=$this->db->Execute($q);
+    $group_id=$res->fields[0];
+    $q="select gacl_aro_groups.id,gacl_aro_groups.value,gacl_aro_groups.name from gacl_aro_groups,gacl_groups_aro_map,gacl_aro where parent_id={$group_id} and gacl_aro.value='{$user}' and gacl_groups_aro_map.aro_id=gacl_aro.id and gacl_aro_groups.id=gacl_groups_aro_map.group_id";
+
+    $res=$this->db->Execute($q);
+    while(!$res->EOF){
+       $roles[]=array(
+       'id' =>$res->fields[0].' ',
+       'name'=>$res->fields[2].' ',
+       'value'=>$res->fields[1].' ',
+        );
+       $res->MoveNext();
+    }
+	return $roles;
 }
 
 function shn_get_users_of_role($role){

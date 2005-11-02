@@ -92,7 +92,7 @@ function shn_authenticate_user()
 	return -1 , so the calling application can identify that 			
 	authentication was not attempted
 	*/
-	if("login_submit"!=$global['action']){
+	if("login"!=$global['action']){
      	$user_data["user_id"]=-1;
 	 	return $user_data ;
     } else {

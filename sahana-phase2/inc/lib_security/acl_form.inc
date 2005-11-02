@@ -27,29 +27,29 @@ function shn_acl_form_existing_perms($module,$error=false)
     $acl=new SahanaACL(NULL);
 	
     ?>
-<center><h2>Add User to Role</h2></center>
-<h3>User can be assigned to Multiple Roles</h3>
+<center><h2>Existing User Permissions</h2></center>
+<!--<h3>User can be assigned to Multiple Roles</h3>-->
  
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+   	$header=array('method'=>'POST','action'=>'index.php?mod=admin&act=acl_default&sel='.$module,'id'=>'formset');
 	shn_form_open($header,false);
 ?>
-    </br>
-        <hr>
+   <!-- </br>
+        <hr>-->
             <div id ="result">
-                <h2>User Permissions</h2>
+              <!--  <h2>User Permissions</h2>-->
                 <table>
                     <thead>
                         <td>User</td>
 	                    <td>User Description</td>
+                        <td>Member of Roles</td>
                         <td>Permitted Actions</td>
 	                    <td>Action Description</td>
                     </thead>
                     <tbody>
 <?php 
    // $roles=array();
-  //  $role_arr=$acl->_shn_get_roles();
     $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.org_id=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
     $res=$db->Execute($q);
  
@@ -57,15 +57,29 @@ function shn_acl_form_existing_perms($module,$error=false)
 //	while($i<=count($role_arr)){
     while((!$res->EOF) && (!$res==NULL)){
         $user=$res->fields[0];
+        $user_name=$res->fields[3];
 ?>
     <tr>
         <td><b><?php echo $res->fields[2]?></b></td>
         <td><b><?php echo $res->fields[1]?></b></td>
-        <td></td>
-        <td></td>
-    </tr>
-<?php   
+<?php
+        
+        $role_arr=$acl->_shn_get_roles_of_user($user);
         $act_arr=$acl->_shn_get_module_actions($module);
+?>
+        <td>
+<?php
+            $k=0;
+            while($k<count($role_arr)){
+                echo $role_arr[$k]['name']."</br>";
+                $k=$k+1;
+            }
+?>
+        </td>
+        <td>
+        <td>
+        </tr>
+<?php
         $i=0;
         while($i<count($act_arr)){
             $act=$act_arr[$i]["value"];
@@ -73,10 +87,11 @@ function shn_acl_form_existing_perms($module,$error=false)
             if (shn_acl_check_perms_action($user,$act)) {
 ?>
     <tr>
-        <td></td>
-        <td></td>
-        <td><?php echo $act?></td>
-        <td><?php echo $act_desc?></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><?php echo $act?></td>
+    <td><?php echo $act_desc?></td>
   	</tr>  
 <?php       }
         	$i=$i+1;
@@ -93,7 +108,7 @@ function shn_acl_form_existing_perms($module,$error=false)
 <center>
 <?php
 //create the submit button
-    $submit= array('type'=>'submit', 'value'=>'Submit');
+    $submit= array('type'=>'submit', 'value'=>'Reload');
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
@@ -105,7 +120,7 @@ function shn_acl_form_existing_perms($module,$error=false)
 
 
 
-function shn_acl_form_user_role($error=false)
+function shn_acl_form_user_role($module,$error=false)
 {
     
      global $global;
@@ -150,7 +165,7 @@ function shn_acl_form_user_role($error=false)
 ?>               
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+   	$header=array('method'=>'POST','action'=>'index.php?mod=admin&act=acl_usr_role_cr&sel='.$module,'id'=>'formset');
 	shn_form_open($header,false);
 
 $acl_users = array(
@@ -224,7 +239,7 @@ function shn_acl_form_role_perms($module,$error=false)
 ?>               
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+   	$header=array('method'=>'POST','action'=>'index.php?mod=admin&act=acl_role_cr&sel='.$module,'id'=>'formset');
 	shn_form_open($header,false);
 
 $acl_users = array(
@@ -255,7 +270,6 @@ $acl_users = array(
 <?php
         //close the form
      	shn_form_close(false);
-shn_acl_form_existing_perms($module,false);		
 }
 
 
@@ -303,12 +317,12 @@ function shn_acl_form_user_perms($module,$error=false)
 ?>               
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+   	$header=array('method'=>'POST','action'=>'index.php?mod=admin&act=acl_user_cr&sel='.$module,'id'=>'formset');
 	shn_form_open($header,false);
 
 $acl_users = array(
                         
-                        array('desc'=>_("User : "),'type'=>"multiselect",'size'=>4,'name'=>"roles[]",'options'=>$users,
+                        array('desc'=>_("User : "),'type'=>"multiselect",'size'=>4,'name'=>"users[]",'options'=>$users,
                         'br'=>'1'
                         ),// end of list form
 
@@ -396,7 +410,7 @@ function shn_acl_form_advanced_perms($module,$error=false)
 ?>               
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+    $header=array('method'=>'POST','action'=>'index.php?mod=admin&act=acl_adv_cr&sel='.$module,'id'=>'formset');
 	shn_form_open($header,false);
 
 $acl_roles = array(
