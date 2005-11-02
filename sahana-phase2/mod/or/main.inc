@@ -32,6 +32,7 @@ function shn_or_acl_setup(){
  	global $global;
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
+    include_once $global['approot'].'inc/lib_security/authenticate.inc';
     $acl=new SahanaACL(NULL);
 
 /*****************************************************************/
@@ -67,7 +68,12 @@ or_acl_setup to sahana setup script once its avaliable
     permissions , hence requires ACO
     */
    $res=shn_acl_add_perm_type("execute","execute permission");
-  
+    shn_add_user("guest","pass"); 
+    //add a user named "guest"
+    $res=shn_acl_add_user("guest","Guest User");
+    // add "guest" to the "guest" role
+    $res=shn_acl_add_to_role("guest","guest");
+
  /*****************************************************************/
  /** start of or specifc ACL entries
  **/
@@ -275,22 +281,13 @@ function shn_or_reg_org_cr()
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
     $res=$db->Execute($q);
     
-    $pid = $db->GenID('person_seq',1);
-    $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
-    $res=$db->Execute($q);
-    if(!$res->EOF){
-        $error=true;
-        add_error(SHN_ERR_OR_PERSON_EXISTS);
-    }
-    if(!$error){
-        $q="insert into person_uuid(p_uuid,full_name) values($pid,'{$account_name}')";
-        $res=$db->Execute($q);
-        $res=shn_add_user($pid,$user_name,$password);
+    
+        $pid=shn_add_user($account_name,$user_name,$password);
         if($res){
             $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
             $res=$db->Execute($q);
         }
-    }
+    
 
     //no validation as organization can have multiple locations
     $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
