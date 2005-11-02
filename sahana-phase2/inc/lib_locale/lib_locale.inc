@@ -16,8 +16,6 @@
 
 if (function_exists("gettext")) {
     
-    global $global;
-    
     /**
      * Set default locale
      */
@@ -61,8 +59,8 @@ if (function_exists("gettext")) {
      */
     if ( isset ($_SESSION["locale"]) ) { 
         $locale = $_SESSION["locale"];
-        $domain = $global['module'];
-            
+        $domain = $_GET['mod'];
+        
         putenv("LANG=$locale"); 
         setlocale(LC_ALL, $locale);    
         bindtextdomain($domain, $global['approot'] . "res/locale/"); 
