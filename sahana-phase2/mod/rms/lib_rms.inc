@@ -14,7 +14,7 @@
 */ 
 
 $global['rms_db_dbug'] = false;
-$global['org_id'] = $global['person_id'] = '10002';
+$global['org_id'] = $global['person_id'] = '10004';
 
 
 
@@ -44,6 +44,20 @@ function is_requester($req_id,$user_id)
     $sql = "SELECT req_id,user_id " .
             "FROM rms_request " .
             "WHERE req_id=$req_id AND user_id=$user_id";
+    $rs = $global['db']->Execute($sql);
+    
+    if (1 > $rs->RecordCount())
+        return false;
+    
+    return true;
+}
+
+function is_a_requester($user_id)
+{
+    global $global;
+    $sql = "SELECT req_id,user_id " .
+            "FROM rms_request " .
+            "WHERE user_id=$user_id";
     $rs = $global['db']->Execute($sql);
     
     if (1 > $rs->RecordCount())
@@ -94,10 +108,11 @@ function count_user_reqff($user_id)
     return $rs->fields[0];
 }
 
-function count_user_reqst($user_id,$stat)
+function count_user_reqstat($user_id,$stat)
 {
     global $global;
-    $sql = "SELECT COUNT(req_id) FROM rms_request WHERE status='$stat'";
+    $sql = "SELECT COUNT(req_id) FROM rms_request " .
+            "WHERE user_id='$user_id' AND status='$stat'";
             
     $rs = $global['db']->Execute($sql);
     return $rs->fields[0];

@@ -23,8 +23,8 @@ $req_count = count_req();
 $user_req_count = count_user_req($user_id);
 $org_req_count = count_user_req($org_id);
 $org_reqff_count = count_user_reqff($user_id);
-$user_oreq_count = count_user_reqst($user_id,'open');
-$user_creq_count = count_user_reqst($user_id,'closed');
+$user_oreq_count = count_user_reqstat($user_id,'open');
+$user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
 
 <?php show_rms_heading(); ?>

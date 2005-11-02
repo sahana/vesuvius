@@ -54,15 +54,16 @@ if ($_GET['seq'] == 'detail')
     if (is_requester($req_id,$user_id))
     {
         show_ffitems_table(false,false);
-?>
-    <a href="index.php?mod=rms&amp;act=mgt_req&amp;req_id=<?php print $req_id ?>">
-    [ <?php print _("Change Request Status") ?> ]</a>
+?>  
+    <br/>
+    [<a href="index.php?mod=rms&amp;act=mgt_req&amp;req_id=<?php print $req_id ?>">
+     <?php print _("Change Request Status") ?> </a>]
 <?php
     if (is_req_open($req_id))
     {
 ?> 
-    |<a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
-    [ <?php print _("Close Request") ?> ]</a>    
+    | [<a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
+     <?php print _("Close Request") ?> </a>]    
 <?php
     }
     }
@@ -71,9 +72,8 @@ if ($_GET['seq'] == 'detail')
         show_ffitems_table(false,false);
 ?>
     <br/>
-    <a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>#form">
-    [ <?php print _("Fulfill") ?> ]
-    </a>
+    [<a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>#form">
+     <?php print _("Fulfill") ?></a>]
 <?php
     }
 }

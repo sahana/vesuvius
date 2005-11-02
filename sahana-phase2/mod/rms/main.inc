@@ -26,6 +26,7 @@ function shn_rms_mainmenu()
 {
     global $global;
     $module = $global['module'];
+    $user_id = $global['person_id'];
     
 ?>
     
@@ -36,7 +37,7 @@ function shn_rms_mainmenu()
                     <?php print _("Sahana Home"); ?></a>
                 </li>
                 <li><a href="index.php?mod=<?=$module?>">
-                    <?php print _("R.M.S Home"); ?></a>
+                    <?php print _("Home"); ?></a>
                 </li>
                 <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
                     <?php print _("Make New Request"); ?></a>
@@ -44,9 +45,14 @@ function shn_rms_mainmenu()
                 <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
                     <?php print _("View All Requests"); ?></a>
                 </li>
+                <?php 
+                    if(is_a_requester($user_id))
+                    { 
+                ?>
                 <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=user">
                     <?php print _("View My Requests"); ?></a>
-                </li>                
+                </li>  
+               <?php } ?>              
             </ul>
     </div> <!-- /modmainwrap -->
     <?php

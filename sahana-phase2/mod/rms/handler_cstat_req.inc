@@ -35,7 +35,7 @@ if (is_requester($req_id,$user_id))
     <h4><?php print _("The Request Status was successfully changed")?>. <?php _("Please") . _("click") ?>
     <a href='index.php?mod=rms'><?php print _("here to go back to the main page") ?></a>
     , <?php print _("or") . _("click") ?> 
-    <a href='index.php?mod=rms&act=vw_req&seq=detail&req_id=$req_id'><?php print _("here") . _("to view the") ._("request"); ?></a></h4>
+    <a href='index.php?mod=rms&act=vw_req&seq=detail&req_id=<?php print $req_id ?>'><?php print _("here ") . _("to view the ") ._("request"); ?></a></h4>
 <?php
 }
 else
