@@ -87,6 +87,18 @@ function shn_form_hidden($hidden_vars)
     }
 }
 
+function shn_form_checkbox($label, $name, $text_opts = null, 
+                        $extra_opts = null)
+{
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?>  />
+<?php
+    shn_form_extra_opts($extra_opts);
+}
+
+
 // create a select field based on field options
 function shn_form_opt_select($opt_field, $label, 
                                 $select_opts = "", $extra_opts = null)

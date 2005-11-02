@@ -20,36 +20,33 @@
 $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 
-// === initialize configuration variables ===
-require_once ($global['approot'].'conf/config.inc'); 
-require_once ($global['approot'].'inc/lib_modules.inc'); 
-require_once ($global['approot'].'inc/lib_session/handler_session.inc');
-require_once ($global['approot'].'inc/lib_security/authenticate.inc');
-require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
-require_once ($global['approot'].'inc/handler_db.inc');
+// detect if we need to first setup sahana
+$global['isSetup'] = (file_exists($global['approot'].
+                        'inst/install-timestamp'))? true : false; 
 
-shn_main();
+if ($global['isSetup']) {
 
-// Switch based on Sahana installation status
-function shn_main()
-{
-    global $global;
-    global $conf;
+    // === initialize configuration variables ===
+    require_once ($global['approot'].'conf/config.inc'); 
+    require_once ($global['approot'].'inc/lib_modules.inc'); 
+    require_once ($global['approot'].'inc/lib_session/handler_session.inc');
+    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+    require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
+    require_once ($global['approot'].'inc/handler_db.inc');
 
-    if (file_exists($global['approot'].'inst/install-timestamp')) {
 
-        $global['action'] = (NULL == $_REQUEST['act']) ? 
-                                    "default" : $_REQUEST['act'];
-        $global['module'] = (NULL == $_REQUEST['mod']) ? 
-                                    "home" : $_REQUEST['mod'];
-        shn_front_controller();
+    $global['action'] = (NULL == $_REQUEST['act']) ? 
+                                "default" : $_REQUEST['act'];
+    $global['module'] = (NULL == $_REQUEST['mod']) ? 
+                                "home" : $_REQUEST['mod'];
+    shn_front_controller();
 
-    } else {
-        
-        require ($global['approot'].'inst/setup.inc');
-    }
-
+} else { // Launch the web setup
+    
+    require ($global['approot'].'inst/setup.inc');
 }
+
+
 // === front controller ===
 
 function shn_front_controller() 
