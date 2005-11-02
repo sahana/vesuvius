@@ -123,7 +123,33 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
             $output = _shn_form_set_caption($arr['desc'],$arr['caption_align'],$output); //Set the caption NOTE: assign all back
             $output .= ($arr['br']?_shn_form_br($arr['br']):'')."\n";
         break;
- 
+		case 'date' :
+			$output .="<label>".$arr['desc']."</label>\n<select name=\"".$arr['name']."_dd\"  SIZE=1>\n";
+			for($i=1; $i<=31; $i++) {
+				if(($i<10)&($i>=0)) {
+					$output .="<option>0".$i."</option>\n";
+				} else {
+					$output .="<option>".$i."</option>\n";
+				}
+			}
+			$output .="</select>\n";
+			$output .="<select name=\"".$arr['name']."_mm\"  SIZE=1>\n";
+			for($i=1; $i<=12; $i++) {
+				if(($i<10)&($i>=0)) {
+					$output .="<option>0".$i."</option>\n";
+				} else {
+					$output .="<option>".$i."</option>\n";
+				}
+			}
+			$output .="</select>\n";
+			$output .="<select name=\"".$arr['name']."_yyyy\"  SIZE=1>\n";
+			$current_year = date("Y");
+			for($i=$current_year; $i>=1900; $i--) {
+				$output .="<option>".$i."</option>\n";
+			}
+			$output .="</select>\n";
+			$output .="<br />";
+        break;
 }
     if($return)
         return $output;
