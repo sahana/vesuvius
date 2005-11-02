@@ -15,6 +15,37 @@
 
 global $global;
 require_once('lib_rms.inc');
+
+$user_id = $global['person_id'];
+$org_id = $global['org_id'];
+
+$req_count = count_req();
+$user_req_count = count_user_req($user_id);
+$org_req_count = count_user_req($org_id);
+$org_reqff_count = count_user_reqff($user_id);
+$user_oreq_count = count_user_reqst($user_id,'open');
+$user_creq_count = count_user_reqst($user_id,'closed');
 ?>
 
 <?php show_rms_heading(); ?>
+
+<div>
+<h3><?php print _("User Information")?></h3>
+<?php print _("User Name" . " : ")?><br/>
+<?php print _("User ID" . " : " . $user_id)?><br/>
+<?php print _("Total Requests" . " : " . $user_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)<br/>
+<?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open">View</a>)<br/>
+<?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
+<?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?><br/>
+
+</div>
+
+<div>
+<br/>
+<h3><?php print _("Organization Information")?></h3>
+<?php print _("Org. Name" . " : ")?><br/>
+<?php print _("Org. ID" . " : " . $org_id)?><br/>
+<?php print _("Total Requests" . " : " . $org_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>) <br/>
+</div>
+<br/>
+<h4><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all">View</a>) </h4>

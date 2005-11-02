@@ -25,14 +25,16 @@ if (!isset($_GET['seq']))
     $user = $_GET['user'];
     $stat = $_GET['stat'];
     
+    $req_count = count_req();
+    
     $url="index.php?mod=rms&amp;act=vw_req";
     $url_usr="index.php?mod=rms&amp;act=vw_req" .
               "&amp;user=$user";
 ?>
-    
-    Request Status : <a href=<?php print $url_usr . "&amp;stat=open"; ?>>Open requests</a> | 
-    <a href=<?php print $url_usr . "&amp;stat=closed"; ?>>Closed requests</a> | 
-    <a href=<?php print $url. "&amp;user=$user" . "&amp;stat=all"; ?>>All requests</a>
+    <?php print _("Request Status")?> : 
+    <a href=<?php print $url_usr . "&amp;stat=open"; ?>><?php print _("Open requests")?></a> | 
+    <a href=<?php print $url_usr . "&amp;stat=closed"; ?>><?php print _("Closed requests")?></a> | 
+    <a href=<?php print $url. "&amp;user=$user" . "&amp;stat=all"; ?>><?php print _("All requests")?></a>
     <br/>
     <br/>
 <?php

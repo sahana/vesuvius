@@ -24,7 +24,7 @@ if (is_req_open($req_id))
 {
 ?>    
     <div id="">
-    Change Request Status 
+    <?php print _("Change Request Status") ?> 
     <a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
     &lt;<?php print _("Close") ?>&gt;
     </a> | &lt;<?php print _("Open") ?>&gt;
@@ -35,7 +35,7 @@ else
 {
 ?>
     <div id="">
-    Change Request Status &lt;<?php print _("Close") ?>&gt; | 
+    <?php print _("Change Request Status") ?> &lt;<?php print _("Close") ?>&gt; | 
     <a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=open">
     &lt;<?php print _("Open") ?>&gt;
     </a>

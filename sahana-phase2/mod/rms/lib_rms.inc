@@ -66,6 +66,65 @@ function is_req_open($req_id)
     return true;
 }
 
+function count_req()
+{
+    global $global;
+    $sql = "SELECT count(req_id) FROM rms_request";
+    $rs = $global['db']->Execute($sql);
+    return $rs->fields[0];
+}
+
+function count_user_req($user_id)
+{
+    global $global;
+    $sql = "SELECT count(req_id) FROM rms_request WHERE user_id=$user_id";
+    $rs = $global['db']->Execute($sql);
+    return $rs->fields[0];
+}
+
+function count_user_reqff($user_id)
+{
+    global $global;
+    $sql = "SELECT COUNT(DISTINCT(req.req_id)) " .
+            "FROM rms_req_ff ff, rms_req_item itm, rms_request req " .
+            "WHERE itm.req_item_id=ff.req_item_id AND req.req_id=itm.req_id " .
+            "AND req.user_id=$user_id";
+            
+    $rs = $global['db']->Execute($sql);
+    return $rs->fields[0];
+}
+
+function count_user_reqst($user_id,$stat)
+{
+    global $global;
+    $sql = "SELECT COUNT(req_id) FROM rms_request WHERE status='$stat'";
+            
+    $rs = $global['db']->Execute($sql);
+    return $rs->fields[0];
+}
+
+function count_org_req($org_id) //not functional yet
+{
+    global $global;
+    $sql = "SELECT count(req_id) FROM rms_request WHERE user_id=$user_id";
+    $rs = $global['db']->Execute($sql);
+    return $rs->fields[0];
+}
+
+function get_district_list($name)
+{
+    global $global;
+    $sql = "SELECT location_id,name FROM location WHERE opt_location_type=3";
+    $rs = $global['db']->Execute($sql);
+    $select = "<select name='$name'>\n";
+    foreach ($rs as $r)
+    {
+        $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
+    }
+    $select .= "</select>\n";
+    print $select;
+}
+
 function show_rms_heading()
 {
 ?>
@@ -87,11 +146,8 @@ function show_rms_initform()
     <label><?php print _("Requester Address") ?></label> <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
     <label><?php print _("Site Name") ?></label> <input type="text" name="req_site_name" size="40" maxlength="40"/><br/>
     <label><?php print _("Site District") ?></label>
-    <select name="req_site_district">
-        <option value="023">Anuradhapura</option>
-        <option value="024">Colombo</option>
-        <option value="025">Gall</option>
-    </select><br/>
+    <?php get_district_list("req_site_district") ?>
+    <br/>
     <label><?php print _("Site Address") ?></label> <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
     <label><?php print _("Comments") ?></label> <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
 </fieldset>
@@ -631,8 +687,10 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
             <option value="On Route">On Route</option>
             <option value="Delivered">Delivered</option>
             <option value="Withdrawn">Withdrawn</option> 
-        </select><br/>
-        <input type="submit" name="ff_add" value="Add"/> 
+        </select>
+        <br/>
+        <br/>
+        <input type="submit" name="ff_add" value="Add Items"/> 
         </fieldset>
 <?php
     }
