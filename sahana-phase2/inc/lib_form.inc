@@ -25,14 +25,14 @@ function shn_form_extra_opts($extra_opts)
 }
 // Open and close a form section
 
-function shn_form_fopen($act, $mod = null)
+function shn_form_fopen($act, $mod = null, $form_opts = null)
 {
     global $global;
     if ( null == $mod ) $mod = $global['module'];
 ?>
     <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
     <div id="formcontainer">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" >
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>>
 <?php
 }
 
@@ -142,4 +142,15 @@ function shn_form_textarea($label, $name, $text_opts = null,
 <?php
     shn_form_extra_opts($extra_opts);
 }
+
+function shn_form_upload($label, $name,
+                        $extra_opts = null)
+{
+?>
+    <label><?=$label?></label>
+    <input type="file" name="<?=$name?>" />
+<?php
+    shn_form_extra_opts($extra_opts);
+}
+
 ?>
