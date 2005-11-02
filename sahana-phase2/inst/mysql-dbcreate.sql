@@ -15,6 +15,36 @@ CREATE TABLE sessions(
 	PRIMARY KEY (sesskey)
 );
 
+-- MODULES
+
+/**
+* The central table to store the status of available modules
+* Modules: all
+* Last changed: 2-NOV-2005 - chamindra@opensource.lk 
+*/
+DROP TABLE IF EXISTS modules;
+CREATE TABLE modules(
+	module_id VARCHAR(20) NOT NULL, -- the directory name of the module e.g. dvr, or, mpr
+	version VARCHAR(10) NOT NULL, -- the module version
+	active BOOL NOT NULL DEFAULT 0, -- is the module active or disabled
+	PRIMARY KEY (module_id)
+);
+
+/**
+* The central table to store all configuration details of the base system
+* and all modules
+* Modules: all
+* Last changed: 2-NOV-2005 - chamindra@opensource.lk 
+*/
+DROP TABLE IF EXISTS config;
+CREATE TABLE config(
+    module_id VARCHAR(20), -- the directory name of the module e.g. dvr, or, mpr
+	confkey VARCHAR(50) NOT NULL, -- the configuration key for the module
+	value VARCHAR(100), -- the value 
+	FOREIGN KEY (module_id) REFERENCES modules (module_id)
+);
+
+
 /**
 * Field options meta table
 * Give a custom list of options for each filed in this schema 
@@ -362,26 +392,6 @@ DROP TABLE IF EXISTS person_camp;
 CREATE TABLE person_camp(
     c_uuid BIGINT NOT NULL,
     p_uuid BIGINT NOT NULL
-);
-
--- MODULES
-DROP TABLE IF EXISTS modules;
-CREATE TABLE modules(
-	module_id VARCHAR(20) NOT NULL,
-	description TEXT,
-	version VARCHAR(10) NOT NULL,
-	active BOOL NOT NULL DEFAULT 0,
-	PRIMARY KEY (module_id)
-);
-
-
---CUSTOM MODULE CONFIGURATIONS
-DROP TABLE IF EXISTS config;
-CREATE TABLE config(
-    module_id VARCHAR(20),
-	confkey VARCHAR(50) NOT NULL,
-	value VARCHAR(100)
---	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
 
