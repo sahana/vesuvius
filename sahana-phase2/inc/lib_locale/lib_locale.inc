@@ -16,6 +16,8 @@
 
 if (function_exists("gettext")) {
     
+    global $global;
+    
     /**
      * Set default locale
      */
