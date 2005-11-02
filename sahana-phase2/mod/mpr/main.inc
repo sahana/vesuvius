@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.6 2005-11-01 08:30:46 chamindra Exp $ */
+/* $Id: main.inc,v 1.7 2005-11-02 10:08:57 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -32,6 +32,7 @@ function shn_mpr_mainmenu()
     shn_mod_menuitem("addmp","Report a Missing Person");
     shn_mod_menuitem("fndmp","Report a Found Person");
     shn_mod_menuitem("editmp","Edit a Missing Person");
+    shn_mod_menuitem("test","Test");
     shn_mod_menuitem("stats","Statistics");
 
     shn_mod_menuclose();
