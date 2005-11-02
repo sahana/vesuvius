@@ -367,8 +367,7 @@ CREATE TABLE person_camp(
 -- MODULES
 DROP TABLE IF EXISTS modules;
 CREATE TABLE modules(
-	module_id BIGINT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(50) NOT NULL,
+	module_id VARCHAR(20) NOT NULL,
 	description TEXT,
 	version VARCHAR(10) NOT NULL,
 	active BOOL NOT NULL DEFAULT 0,
@@ -379,15 +378,10 @@ CREATE TABLE modules(
 --CUSTOM MODULE CONFIGURATIONS
 DROP TABLE IF EXISTS config;
 CREATE TABLE config(
-	config_id BIGINT NOT NULL AUTO_INCREMENT,
-	config_group VARCHAR(100),
-	name VARCHAR(50) NOT NULL,
-	value TEXT,
-	description TEXT,
-	type VARCHAR(10),
-	module_id BIGINT,
-	PRIMARY KEY(config_id),
-	FOREIGN KEY (module_id) REFERENCES modules (module_id)
+    module_id VARCHAR(20),
+	confkey VARCHAR(50) NOT NULL,
+	value VARCHAR(100)
+--	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
 
