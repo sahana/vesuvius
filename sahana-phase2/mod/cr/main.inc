@@ -17,6 +17,7 @@
 //var_dump($global[db]);
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cr/main_fns.inc";
+include_once $global['approot']."/mod/cr/home.inc";
 
 function shn_cr_mainmenu(){
 	global $global;
@@ -28,6 +29,12 @@ function shn_cr_mainmenu(){
 		<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
 		<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>
 		<li><a href="index.php?mod=<?=$module?>&act=acmp">Add Camp</a></li>
+		<li><a href="#">Reports</a></li>
+		<ul id="modsubmenu">
+		  <li><a href="index.php?mod=<?=$module?>&act=arpt">View All Camps</a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=lrpt">View By Location</a></li>
+		</ul>
+													
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->
 <?

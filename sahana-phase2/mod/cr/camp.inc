@@ -16,9 +16,12 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'].'/inc/lib_validate.inc');
+include_once($global['approot'].'/inc/lib_errors.inc');
 
 function _shn_cr_cadd_start(){
 	global $global;
+	$db = $global['db'];
 ?>
 <h2>Register New Camp</h2>
 <?php
@@ -27,7 +30,30 @@ function _shn_cr_cadd_start(){
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_text("Camp Name","camp_name",'size="60"');
 	shn_form_opt_select("opt_camp_type","Camp Type");
-	shn_form_opt_select("opt_location_type","Division");
+?>
+<label>Division</label>
+<select name="opt_location_type" >
+<?php
+// Display selected Division type only
+	$q="select value from config where confkey='division_type' && module_id='cr'";
+	//$q ="select option_description from field_options where field_name='cr_pref_div'";
+	$ref = $db->Execute($q);
+		$val=$ref->fields[0];
+	$q ="select location_id,name from location where opt_location_type=$val";
+	$ref = $db->Execute($q);
+	while(!$ref->EOF){	
+		$val=$ref->fields[0];
+		$name=$ref->fields[1];
+?>
+<option value='<?=$val?>'><?=$name?></option>
+<?php
+		$ref->MoveNext();
+	}
+?>
+</select><br>
+<?php
+			
+//-----------------------------------------
 	shn_form_textarea("Address","camp_address");
 	shn_form_fsclose();
 	shn_form_fsopen("Contact Person Details");
@@ -76,13 +102,55 @@ function _shn_cr_cadd_chk(){
 function _shn_cr_cadd_commit(){
 	global $global;
 	//write to database
-	$_SESSION['camp_children']=$_POST['children'];
-	
-	var_dump($_SESSION);
+	$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
+	$_SESSION['camp_comments']=$_POST['comments'];
+  foreach($_SESSION['opt_camp_service'] as $a=>$b){
+		//echo "value is $b";
+	}
+	//echo microtime(true);
+	//var_dump($_SESSION);
+	_shn_cr_cadd_commit_db();
 }
 
 function _shn_cr_create_cid(){
 	//create unique camp id
+	//db->GenID();
+	$id=time();
+	return $id;
+	
+}
+
+function _shn_cr_cadd_commit_db(){
+	//insert to database;
+	global $global;
+	$db = $global['db'];
+
+	//call unique camp id
+	$uid=_shn_cr_create_cid();
+	
+		//enter into camp table
+		$q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}','{$_SESSION['opt_location_type']}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+
+		
+		$res = $db->Execute($q);
+
+		//enter into camp_reg table
+		$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+		
+		$res = $db->Execute($q);
+
+		/*insert services into camp_services table
+		//currently add checked values.
+		@todo:  handle unchecked values
+		*/								
+		foreach($_SESSION['opt_camp_service'] as $a => $b){
+				//currently add checked values.
+				//@todo:	handle unchecked values
+				$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
+				$res = $db->Execute($q);
+		}
+		
+	
 }
 
 ?>

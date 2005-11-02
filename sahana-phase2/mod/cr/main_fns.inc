@@ -17,8 +17,6 @@
 */
 
 
-function shn_cr_default(){
-}
 
 function shn_cr_stat(){
 }
@@ -29,9 +27,13 @@ function shn_cr_srch(){
   include($global['approot'].'/mod/cr/search.inc');
   require_once($global['approot'].'/inc/handler_form.inc');
   switch($_REQUEST['seq']){
-		case 'next':
-		            echo "Search Results";
-		            break;
+		case 'next'		:
+		            	echo "Search Results";
+		           	 	break;
+		case 'commit'	:
+									//echo "{$_POST['cmp_id']}";
+									_shn_cr_srch_rst($_POST['cmp_id']);
+									break;
 		default :
 		            _shn_cr_srch();
 		            break;
@@ -59,9 +61,49 @@ function shn_cr_acmp(){
 																																																						
 }
 
+function shn_cr_rpt(){
+ global $global;
+ include($global['approot'].'/mod/cr/reports.inc');
+ require_once($global['approot'].'/inc/handler_form.inc');
+
+ // check action sequence
+ switch($_REQUEST['seq']){
+ case 'viewall'    :
+					      echo "Reports";
+								break;
+ case 'commit' :
+                _shn_cr_rpt_rst();
+                break;
+ case 'viewloc' :
+ 								echo "loc";
+                _shn_cr_rpt_rst();
+                break;
+ default       :
+ 								echo "default";
+								_shn_cr_rpt();
+								break;
+																																																									     }
+																																																										 
+}
+
+function shn_cr_arpt(){
+	global $global;
+	echo "called";
+	include($global['approot'].'/mod/cr/reports.inc');
+	_shn_cr_rpt_all(); 
+}
+
+function shn_cr_lrpt(){
+	global $global;
+ 	include($global['approot'].'/mod/cr/reports.inc');
+	_shn_cr_rpt_loc();
+}
+
 function shn_cr_acma(){
 }
 
 function shn_cr_view(){
-}
-?>
+				}
+								 
+
+				?>
