@@ -94,6 +94,11 @@ INSERT INTO field_options VALUES ('opt_camp_type','ngo','NGO Run Camp');
 INSERT INTO field_options VALUES ('opt_camp_type','tmp','Temporary Shelter');
 INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Run Camp');
 
+-- CAMP SERVICES 
+INSERT INTO field_options VALUES ('opt_camp_service','mdc','Medical Facilities');
+INSERT INTO field_options VALUES ('opt_camp_service','snt','Sanitation Facilities');
+INSERT INTO field_options VALUES ('opt_camp_service','wat','Water Facilities');
+
 -- ORGANIZATION TYPES 
 INSERT INTO field_options VALUES("opt_org_type","gov","Government");
 INSERT INTO field_options VALUES("opt_org_type","priv","Private");
@@ -126,5 +131,6 @@ INSERT INTO location VALUES (8,3,'3.1','2','East Anagalia','ea','');
 INSERT INTO location VALUES (9,8,'3.1.1','3','Suffolk','suf','');
 INSERT INTO location VALUES (10,9,'3.1.1.1','4','ipswich','ip','');
 
-
+-- INSERT CONFIG VALUES
+INSERT INTO config VALUES ( 'cr', 'division_type', '2');
 
