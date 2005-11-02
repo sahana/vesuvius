@@ -125,7 +125,7 @@ function shn_form_opt_checkbox($opt_field){
 		            $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 ?>
 				       <label><?=$resu->fields[2]?></label>
-				       <input type="checkbox" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
+				       <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
      		       <br>
 <?php
 				       $resu->MoveNext();
