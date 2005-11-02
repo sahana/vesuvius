@@ -17,7 +17,6 @@
 //var_dump($global[db]);
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cr/main_fns.inc";
-include_once $global['approot']."/mod/cr/home.inc";
 
 function shn_cr_mainmenu(){
 	global $global;

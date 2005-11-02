@@ -19,6 +19,8 @@
 function shn_cr_default(){
 ?>
 <h1>The Camp Registry</h1>
+<br>
+<p>The Camps Registry is the central Registry to manage Camps and Camp Management Systems</p><br>
 <?
 }
 ?>

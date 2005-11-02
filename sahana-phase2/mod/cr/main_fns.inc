@@ -17,7 +17,16 @@
 */
 
 
+function shn_cr_default(){
+?>
+	<h1>The Camp Registry</h1>
+	<br>
+	<p>The Camps Registry is the central Registry to manage Camps and Camp Management Systems</p><br>
+<?php
+	shn_cr_arpt();
 
+	
+}
 function shn_cr_stat(){
 }
 
@@ -31,7 +40,6 @@ function shn_cr_srch(){
 		            	echo "Search Results";
 		           	 	break;
 		case 'commit'	:
-									//echo "{$_POST['cmp_id']}";
 									_shn_cr_srch_rst($_POST['cmp_id']);
 									break;
 		default :
@@ -88,7 +96,6 @@ function shn_cr_rpt(){
 
 function shn_cr_arpt(){
 	global $global;
-	echo "called";
 	include($global['approot'].'/mod/cr/reports.inc');
 	_shn_cr_rpt_all(); 
 }

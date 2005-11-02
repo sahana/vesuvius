@@ -30,7 +30,7 @@ function shn_cr_adm_default()
     _shn_cr_adm_sub_menu();
 ?>
     <p><b> Welcome to the CR admin page </b></p>
-    <p> This can only be seen through the admin module</p>
+    <p> Use the Above Navigation to Administer Camps Registry</p>
 
     
 
