@@ -163,5 +163,14 @@ function shn_is_null($field)
     }
 }
 
+function shn_is_opt_field($opt_field)
+{
+    global $global;
+    $result = $global['db']->GetOne("SELECT * FROM field_options WHERE field_name LIKE '$opt_field'");
+    if($result)
+        return true;
+    else
+        return false;
+}
 
 ?>
