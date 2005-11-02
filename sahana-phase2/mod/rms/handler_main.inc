@@ -35,7 +35,7 @@ $user_creq_count = count_user_reqst($user_id,'closed');
 <?php print _("User ID" . " : " . $user_id)?><br/>
 <?php print _("Total Requests" . " : " . $user_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)<br/>
 <?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open">View</a>)<br/>
-<?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
+<?php print _("Closed Requests" . " : " . $user_creq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
 <?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?><br/>
 
 </div>
