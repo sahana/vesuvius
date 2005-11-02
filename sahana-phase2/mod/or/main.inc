@@ -87,7 +87,7 @@ or_acl_setup to sahana setup script once its avaliable
     //add an action name 'shn_or_reg_org"  under the above action group
     $res=shn_acl_add_action("or","create","shn_or_reg_org","Register function");
     $res=shn_acl_add_action("or","create","shn_or_reg_org_cr","Register function");
-    $res=shn_acl_add_action("or","create","shn_or__reg_branch_cr","Register function");
+    $res=shn_acl_add_action("or","create","shn_or_reg_operation_cr","Register function");
     $res=shn_acl_add_action("or","create","shn_or_reg_vol","Register function");
     $res=shn_acl_add_action("or","create","shn_or_reg_vol_cr","Register function");
     $res=shn_acl_add_action("or","view","shn_or_view_org","View function");
@@ -275,8 +275,8 @@ function shn_or_reg_org_cr()
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
     $res=$db->Execute($q);
     
-    $pid=time();
-    $q="select p_uuid from person_uuid where p_uuid='{$p_id}'";
+    $pid = $db->GenID('person_seq',1);
+    $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
     $res=$db->Execute($q);
     if(!$res->EOF){
         $error=true;
@@ -465,8 +465,8 @@ $dln=trim($_POST{"dln"});
     global $global;
     $db=$global['db'];
    
-    $pid=time();
-    $q="select p_uuid from person_uuid where p_uuid='{$p_id}'";
+    $pid = $db->GenID('person_seq',1);
+    $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
     $res=$db->Execute($q);
     if(!$res->EOF){
         $error=true;

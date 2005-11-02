@@ -301,7 +301,7 @@ function shn_or_regform_vol($error=false)
  $perdetails = 	array (
                         				array('desc'=>_("* Name in Full : "),'type'=>"text",'size'=>50,'name'=>'name','br'=>1),
                        					array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1),
-                        				array('desc'=>_("Sex :"),'type'=>'dropdown','name'=>'sex','br'=>1,
+                        				array('desc'=>_("Gender :"),'type'=>'dropdown','name'=>'sex','br'=>1,
                         								'options'=>array(
                                 												array('drop_desc'=>_("Male"),'value'=>'mal'),
                                 												array('drop_desc'=>_("Female"),'value'=>'fmal')
