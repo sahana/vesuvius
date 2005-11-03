@@ -26,10 +26,10 @@ require_once ($global['approot'].'conf/config.inc');
 if ($conf['sahana_status'] == 'installed' ) {
 
     require_once ($global['approot'].'inc/lib_modules.inc'); 
+    require_once ($global['approot'].'inc/handler_db.inc');
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
-    require_once ($global['approot'].'inc/handler_db.inc');
 
 
     $global['action'] = (NULL == $_REQUEST['act']) ? 
@@ -43,7 +43,6 @@ if ($conf['sahana_status'] == 'installed' ) {
     require ($global['approot'].'inst/setup.inc');
 }
 
-
 // === front controller ===
 
 function shn_front_controller() 
@@ -53,20 +52,11 @@ function shn_front_controller()
     $approot = $global['approot'];
     $action = $global['action'];
     $module = $global['module'];
-
-    // authenticate user
-	$user_data = shn_authenticate_user();
-
- 	if($user_data["user_id"]>0){
-		shn_session_change($user_data);
-    }
     
-    // if (shn_authorized("shn_".$module."_".$action", $user)..
-    //    change session
-    // error
-    //    call the error handler
-    // shn_modulename_err
-    
+    $req_act="shn_".$module."_".$action;
+    $allow=false;
+    $allow=(shn_acl_check_perms_action($_SESSION["user_id"],$req_act))?true:false;
+    $allow=true;
     // include the html head tags
     include($approot."inc/handler_html_head.inc");
     
@@ -118,14 +108,16 @@ function shn_front_controller()
 ?>  
     <div id="content" class="clearfix">      
 <?php
-
-    // compose and call the relevant module function 
-    $module_function = "shn_".$module."_".$action;
-    if (!function_exists($module_function)) {
-        $module_function="shn_".$module."_default";
+    if($allow){
+        // compose and call the relevant module function 
+        $module_function = "shn_".$module."_".$action;
+        if (!function_exists($module_function)) {
+            $module_function="shn_".$module."_default";
+        }
+        $module_function(); 
+    }else {
+         echo "<center><div><h1>you dont have permission to view this page</h1></div></center>";
     }
-    $module_function(); 
-        
     #include($approot."test/testconf.inc"); 
 ?>
     </div> <!-- /content -->
