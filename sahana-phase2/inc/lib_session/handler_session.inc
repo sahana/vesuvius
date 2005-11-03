@@ -60,9 +60,6 @@ shn_session_start();
 		shn_session_change($user_data);
     }
 
-var_dump($user_data);     
-
-var_dump($_SESSION);     
 /**
 *this function is a wrapper around session_start()
 *it includes checks to reduce session hijacking

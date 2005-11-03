@@ -71,7 +71,6 @@ or_acl_setup to sahana setup script once its avaliable
     // adds guest user with password and add the user to ACL users and add to 'guest' role
     $guest=shn_add_user("Guest User","guest","pass","guest",1); 
     //add a"guest" user to ACL users and add to 'guest' role
-   echo "guest user id is =" .$guest;
     /************************************/
     //give permission for the guest user to sahana home
     // add a module named "home"
