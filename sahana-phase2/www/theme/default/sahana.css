@@ -462,20 +462,16 @@ form ul.list {
 	margin-left:15px;
 }
 
-#add{
-	font-size:150%;
-	color:#0E72A4;
-	padding: 15px 15px 15px 15px;
-}
 
 #rmsforms fieldset{ 
+	background: #efefef;
 	padding: 10px; 
 	border: #036 1px dashed; 
 	width: 600px
 }
 
 #rmsforms legend{ 
-	background: #fb0; 
+	background: #dee3e7; 
 	border: #26a solid 1px; 
 	padding: 2px 10px
 }
