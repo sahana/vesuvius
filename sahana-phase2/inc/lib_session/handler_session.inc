@@ -19,6 +19,7 @@
 /* following code decides the session management approach
 e.g write sessions to the database or files 
 */
+require_once ($global['approot'].'inc/lib_security/authenticate.inc');
 
 switch ($conf["session_writer"]){
 
@@ -52,6 +53,16 @@ default:
 //start the session
 shn_session_start();
 
+// authenticate user
+	$user_data = shn_authenticate_user();
+
+ 	if($user_data["user_id"]>1){
+		shn_session_change($user_data);
+    }
+
+var_dump($user_data);     
+
+var_dump($_SESSION);     
 /**
 *this function is a wrapper around session_start()
 *it includes checks to reduce session hijacking
@@ -62,14 +73,14 @@ shn_session_start();
 function shn_session_start(){
 	//retrieves or starts a session
    session_start();
-   /* since the anonymous user cant do much , no one would
+   /* since the guest user cant do much , no one would
    try to fix or hijack their session, so let the attackers
     hijack this useless session
   */
-  if ('anonymous'==$_SESSION['user']){
+  if ('guest'==$_SESSION['user']){
    		return true;
    }
-   /*If user is anonymous then he has privileges ,so we have to protect the    
+   /*If user is guest then he has privileges ,so we have to protect the    
       session ,lets  try to make it hard for session hijacking
     the use of IPADDRESS to prevent session hijacking has
    been rejected by many many PHP experts, what they say
@@ -97,8 +108,8 @@ function shn_session_start(){
         $_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
         $_SESSION['initiated'] = true;
         $_SESSION['logged_in'] = false;
-   		$_SESSION["user"]="anonymous";
-		$_SESSION["user_id"]=0;// anonymous user id is 0
+   		$_SESSION["user"]="guest";
+		$_SESSION["user_id"]=1;// guest user id is 0
 		$_SESSION["user_log_id"]=$log_id;
 		return true;
     }
