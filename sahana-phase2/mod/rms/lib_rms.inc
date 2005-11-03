@@ -1,6 +1,6 @@
 <?php
 /**
-* Description for file
+* library of Common rms functions
 *
 * PHP version 4 and 5
 *
@@ -14,7 +14,7 @@
 */ 
 
 $global['rms_db_dbug'] = false;
-$global['org_id'] = $global['person_id'] = '10004';
+$global['org_id'] = $global['person_id'] = '10002';
 
 
 
@@ -28,14 +28,9 @@ function db_dbug($sql,$msg)
         print "<br/>SQL Statement: $sql" . "<br/>Debug Message: $msg";
 }
 
-/**
- * get locations
- */
-function get_loc_list($loc_type)
+function temp_show_required()
 {
-    $sql = "SELECT * FROM location WHERE opt_location_type = $loc_type";
-    
-    
+    print '<strong><font color="red">**</font></strong> ';    
 }
 
 function is_requester($req_id,$user_id)
@@ -149,22 +144,32 @@ function show_rms_heading()
 }
 
 
-function show_rms_initform()
+function show_rms_initform($errors=0)
 {
+    if ($errors==0)
+    {
+    }
     $today = date("Y-m-d");
 ?>
 <fieldset>
     <legend><?php print _("New Request") ?></legend>
-    <label><?php print _("Request Date") ?></label> <input type="text" id="req_date" value="<?php print $today ?>" name="req_date" size="40" maxlength="40"/><br/>
-    <label><?php print _("Requester Name") ?></label> <input type="text" name="req_name" size="40" maxlength="40"/><br/>
-    <label><?php print _("Requester Contact") ?></label> <input type="text" name="req_contact" size="40" maxlength="40"/><br/>
-    <label><?php print _("Requester Address") ?></label> <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
-    <label><?php print _("Site Name") ?></label> <input type="text" name="req_site_name" size="40" maxlength="40"/><br/>
+    <label><?php print _("Request Date") ?></label> 
+    <input readonly="readonly" type="text" id="req_date" value="<?php print $today ?>" name="req_date" size="40" maxlength="40"/><br/>
+    <label><?php print _("Requester Name") ?></label> 
+    <input type="text" name="req_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
+    <label><?php print _("Requester Contact") ?></label> 
+    <input type="text" name="req_contact" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
+    <label><?php print _("Requester Address") ?></label> 
+    <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
+    <label><?php print _("Site Name") ?></label> 
+    <input type="text" name="req_site_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
     <label><?php print _("Site District") ?></label>
-    <?php get_district_list("req_site_district") ?>
+    <?php get_district_list("req_site_district") ?><?php print temp_show_required(); ?>
     <br/>
-    <label><?php print _("Site Address") ?></label> <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
-    <label><?php print _("Comments") ?></label> <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
+    <label><?php print _("Site Address") ?></label> 
+    <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
+    <label><?php print _("Comments") ?></label> 
+    <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
 </fieldset>
 
 <?php
@@ -274,7 +279,7 @@ function show_items_table($req_id, $remove_on)
         <table>
             <tr id="head">
                 <td><?php print _("Category") ?></td>
-                <td><?php print _("Item") ?>Item</td>
+                <td><?php print _("Item") ?></td>
                 <td><?php print _("Units") ?></td>
                 <td><?php print _("Quantity") ?></td>
                 <td><?php print _("Priority") ?></td>
@@ -324,7 +329,7 @@ function show_items_table($req_id, $remove_on)
 /**
  * Show add items form
  */
-function show_item_fields($req_id) 
+function show_item_fields($req_id)
 {
     global $global;
     
@@ -356,10 +361,13 @@ function show_item_fields($req_id)
                 }
             }
         ?>            
-        </select><br/>    
-        <label><?php print _("Item") ?></label> <textarea name="req_item" rows="5" cols="50" wrap="off"></textarea><br/>
-        <label><?php print _("Units") ?></label> <input type="text" name="req_units" size="20" maxlength="20"/><br/>
-        <label><?php print _("Quantity") ?></label> <input type="text" name="req_quantity" size="20" maxlength="20"/><br/>
+        </select><?php print temp_show_required(); ?><br/>    
+        <label><?php print _("Item") ?></label> 
+        <textarea name="req_item" rows="5" cols="50" wrap="off"></textarea><?php print temp_show_required(); ?><br/>
+        <label><?php print _("Units") ?></label> 
+        <input type="text" name="req_units" size="20" maxlength="20"/><?php print temp_show_required(); ?><br/>
+        <label><?php print _("Quantity") ?></label> 
+        <input type="text" name="req_quantity" size="20" maxlength="20"/><?php print temp_show_required(); ?><br/>
         <label><?php print _("Priority") ?></label>
         <select name="req_priority">
         <?php 
@@ -375,7 +383,7 @@ function show_item_fields($req_id)
                 }
             }
         ?>
-        </select><br/>
+        </select><?php print temp_show_required(); ?><br/>
         <input type="submit" name="req_add" value="Add"/>
     </fieldset>    
 <?php
@@ -448,9 +456,10 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     else if ($user == 'user' && $status != 'all')
     {
         $where = "WHERE user_id=$user_id AND status='$status'";
-        $where_fil = "user_id=$user_id  AND status='$status'";
-        $list_of = "User :$user_id";
+        $where_fil = "req.user_id=$user_id  AND req.status='$status' AND";
+        $list_of = "User_test :$user_id";
     }
+    
     
     if($filter == '' || $filter == 'none')
         $sql = "SELECT * FROM rms_request $where ORDER BY req_date DESC";
