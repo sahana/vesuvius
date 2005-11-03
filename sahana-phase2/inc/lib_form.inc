@@ -67,12 +67,12 @@ function shn_form_fsclose()
 // enter the fields
 
 function shn_form_text($label, $name, $text_opts = null, 
-                        $extra_opts = null)
+                        $extra_opts = null, $readonly = false, $disabled = false)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?>  />
+    <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> <?php $readonly?print"readonly":print" "?> <?php $disabled?print"disabled":print" "?> />
 <?php
     shn_form_extra_opts($extra_opts);
 }
