@@ -1,6 +1,6 @@
 <?php
 
-/**Search for  CR
+/**Pre-defined Reports for the Camps Registry 
 *
 * PHP version 4 and 5
 *
@@ -15,6 +15,9 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
+
+/*General Camp Reports- if required to be provided when the Reports Main Menu is clicked
+--currently no link from that*/
 
 function _shn_cr_rpt_rst(){
 
@@ -39,11 +42,11 @@ function _shn_cr_rpt_rst(){
 
 		 
 }
-
 	
 function _shn_cr_rpt(){		
 ?>
-	 	  <h2>Camp Information</h2>
+	 	  <h2>Reports</h2>
+	  
  <?php
 			shn_form_fopen("rpt");
 			shn_form_fsopen("Report for all camps");
@@ -53,12 +56,115 @@ function _shn_cr_rpt(){
 			shn_form_fclose();
 }
 
+
+
+/** To retrieve all the camps that has been registered and display in a table format*/
+
 function _shn_cr_rpt_all(){
-	echo "all";
+	?>
+	<div id ="result">
+    <h2>Camp Information</h2>
+    <table>
+        <thead>
+            <td>Camp Name</td>
+            <td>Camp Type</td>
+            <td>Address</td> 
+            <td>Location</td>
+            <td>No: of Families</td>
+            <td>No: of Males</td>
+            <td>No: of Females</td>
+            <td>No: of Children</td>
+            <td>Total Count</td>
+            
+        </thead>
+        		<tbody>
+				<?php    
+   					 global $global;
+						 $db=$global['db'];
+ 						 $q = "select * from camp_reg ";
+	 
+         			$res_cmp =$db->Execute($q);
+    						while (!$res_cmp->EOF){
+    						$c_uuid  =$res_cmp->fields[0];        
+    						$qdetails  = "select * from camp where c_uuid='{$c_uuid}'";
+    						$res_maincmp =$db->Execute($qdetails);
+    						
+    						$loc  =$res_maincmp->fields[2];   
+    						$qloc = "select * from location where location_id='{$loc}'";
+    						$res_loc =$db->Execute($qloc);
+    				  				
+					?>
+    				<tr>
+					<td><?php echo $res_cmp->fields[1]?></td>
+					<td><?php echo $res_maincmp->fields[3]?></td>
+  					<td><?php echo $res_maincmp->fields[4]?></td>
+  					<td><?php echo $res_loc->fields[4]?></td>
+    				<td><?php echo $res_cmp->fields[9]?></td>
+    				<td><?php echo $res_cmp->fields[7]?></td>
+    				<td><?php echo $res_cmp->fields[8]?></td>
+    				<td><?php echo $res_cmp->fields[10]?></td>
+  					<td><?php echo $res_cmp->fields[11]?></td>
+  					 					
+    				</tr>
+    				<?php
+    				$res_cmp->MoveNext();
+   	  		   } 	
+			?>	    	    	    	
+	  		</tbody>
+    </div>
+    </table>
+<?php
 }
 
+/*To Display the camps based on the location*/
+
 function _shn_cr_rpt_loc(){
-	echo "location";
+	?>
+	<div id ="result">
+    <h2>Camp Information by Location</h2>
+    <table>
+        <thead>
+            <td>Location</td>
+            <td>Camp Name </td>
+            <td>Camp Type</td>
+            <td>Address</td>
+            <td>Total Victims</td>
+         </thead>
+        
+        <tbody>
+        
+				<?php    
+   					 global $global;
+						 $db=$global['db'];
+						 $q = "select c_uuid,name,opt_camp_type,address,location_id from camp";
+						 $res_cmp = $db->Execute($q);
+						while (!$res_cmp->EOF){
+     	   								
+    						$loc_id =$res_cmp->fields[4];        
+    						$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
+    						$res_loc =$db->Execute($qloc);
+    						    						
+    						$cmp_id =$res_cmp->fields[0];        
+    						$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
+    						$res_reg =$db->Execute($qreg);
+    		    					   				
+    				?>
+    				<tr>
+    				<td><?php echo $res_loc->fields[4]?></td>
+  					<td><?php echo $res_cmp->fields[1]?></td>
+  					<td><?php echo $res_cmp->fields[2]?></td>
+  					<td><?php echo $res_cmp->fields[3]?></td>
+  					<td><?php echo $res_reg->fields[0]?></td>
+  					
+  					</tr>
+  					<?php
+    				$res_cmp->MoveNext();		
+   	  		   } 	
+   	  			?>	    	    	    	
+	  		</tbody>
+      </div>
+      </table>
+      <?php
 }
   
 ?>
