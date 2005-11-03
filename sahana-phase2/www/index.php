@@ -20,14 +20,11 @@
 $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 
-// detect if we need to first setup sahana
-$global['isSetup'] = (file_exists($global['approot'].
-                        'inst/install-timestamp'))? true : false; 
+// === initialize configuration variables ===
+require_once ($global['approot'].'conf/config.inc'); 
 
-if ($global['isSetup']) {
+if ($conf['sahana_status'] == 'installed' ) {
 
-    // === initialize configuration variables ===
-    require_once ($global['approot'].'conf/config.inc'); 
     require_once ($global['approot'].'inc/lib_modules.inc'); 
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');

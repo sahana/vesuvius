@@ -5,6 +5,7 @@ require_once ($global['approot'].'inc/lib_modules.inc');
 require_once ($global['approot'].'inc/lib_form.inc'); 
 require_once ($global['approot'].'inc/lib_errors.inc'); 
 require_once ($global['approot'].'3rd/adodb/adodb.inc.php');
+require_once ($global['approot'].'inc/lib_config.inc');
 
 shn_setup_main();
 
@@ -12,6 +13,7 @@ shn_setup_main();
 function shn_setup_main()
 {
     $action = $_GET['act'];
+    $modify = array();
 
     // display nice header
     shn_setup_header();
@@ -19,13 +21,23 @@ function shn_setup_main()
 
     case 'dbsetup':
         if (shn_setup_database()) { // check if database writing is a success
-            //shn_setup_write_timestamp();
             shn_setup_form2();
         } else {
             display_errors();
             shn_setup_form1();
         }
         break;
+        
+    case 'cfgsetup':
+
+        if (shn_setup_config_update()) { // check if writing the file was a success
+            shn_setup_form3();
+        } else {
+            display_errors();
+            shn_setup_form2();
+        }
+        break;
+
 
     default:
         // first database setup form
@@ -35,16 +47,44 @@ function shn_setup_main()
     shn_setup_footer();
 }
 
+// the config file setup form
 function shn_setup_form2()
 {
+ ?>
+    <h1>Sahaha Web Setup - Step 2</h2>
+    <p> Please follow the following steps to setup the Sahana configuration </p>
+<?php
+    shn_form_fopen("cfgsetup");
+    
+    // pass the previous post varibles into hidden for the configuration file
+    shn_form_hidden( array(
+        'dbhost' => $_POST['dbhost'] ,
+        'dbname' => $_POST['dbname'] ,
+        'dbuser' => $_POST['dbuser'] ,
+        'dbpass' => $_POST['dbpass'] ));           
+
+    shn_form_fsopen('Configuration');
+    shn_form_select(
+        array( 'default' => 'Default Theme', 'green_theme' => 'Green Theme'), 
+                "Theme", "theme");
+    shn_form_fsclose();
+
+    shn_form_submit('Setup Configuration >>');
+ 
+    shn_form_fclose();
+}
+function shn_setup_form3()
+{
+    global $global;
+    if (copy('/tmp/sahana-config.inc', $global['approot'].'conf/config.inc')) {
 ?>
     <h1>Sahaha Web Setup</h2>
     <p> Installation is complete. To start using Sahana click on the button below.</p>
 <?php
-
-    shn_form_fopen("default");
-    shn_form_submit('Start Sahana');
-    shn_form_fclose();
+        shn_form_fopen("default");
+        shn_form_submit('Start Sahana');
+        shn_form_fclose();
+    }
 
 }
 
@@ -76,7 +116,7 @@ function shn_setup_form1()
     shn_form_checkbox('Sample Data','dbsample','',
                         array('value'=>'y')); 
     shn_form_fsclose();
-    shn_form_submit('Setup Database');
+    shn_form_submit('Setup Database >>');
  
     shn_form_fclose();
 }
@@ -134,12 +174,22 @@ function shn_setup_run_sqlscript($db, $relative_script_path)
 }
 
 
-function shn_setup_write_timestamp()
+function shn_setup_config_update()
 {
     global $global;
-    $fh = fopen($global['approot'].'inst/install-timestamp','w');
-    fputs($fh,"This instance of Sahana was installed on ".strftime('%c'));
-    fclose($fh);
+
+    $modify = array( 
+        '/\'sahana_status\'/' => '$conf[\'sahana_status\'] = \'installed\';' ,
+        '/\'theme\'/' => '$conf[\'theme\'] = \''.$_POST['theme'].'\';' ,
+        '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
+        '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
+        '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
+        '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
+
+    shn_config_update( $modify, $global['approot'].'conf/config.inc',
+                            '/tmp/sahana-config.inc');
+
+    return true;
 }
 
 function shn_setup_header() 

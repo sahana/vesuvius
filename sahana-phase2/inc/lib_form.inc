@@ -99,6 +99,30 @@ function shn_form_checkbox($label, $name, $text_opts = null,
 }
 
 
+function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts = null)
+{
+    global $global;
+
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
+?>
+    <label><?=$label?></label>
+    <select name="<?=$name?>" <?=$select_opts?> >
+<?php
+    foreach ($options as $opt_value => $desc ) {
+    
+        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+?>
+        <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
+<?php
+    }
+?>
+    </select> 
+<?php
+    shn_form_extra_opts($extra_opts);
+} 
+
+
+
 // create a select field based on field options
 function shn_form_opt_select($opt_field, $label, 
                                 $select_opts = "", $extra_opts = null)
@@ -108,7 +132,7 @@ function shn_form_opt_select($opt_field, $label,
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>" <?=$select_options?> >
+    <select name="<?=$opt_field?>" <?=$select_opts?> >
 <?php
 
     $res = $global['db']->Execute

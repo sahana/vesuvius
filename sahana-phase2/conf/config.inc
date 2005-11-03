@@ -23,6 +23,9 @@
 # if you have problem please visit http://sahana.sourceforge.org/
 # or join with our irc channel #sahana-dev at freenode.org, 
 
+# specify the status (installed | uninstalled | unavailable )
+$conf['sahana_status'] = 'installed';
+
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
 #
@@ -34,7 +37,7 @@ $conf['db_port'] = '';
 
 # theme that sahana will use todo
 #
-$conf['theme'] = 'default' ; 
+$conf['theme'] = 'default';
 
 # specify the database name.
 #
