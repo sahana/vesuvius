@@ -34,7 +34,6 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
         $pid = $db->GenID('person_seq',10);
     }
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
-    echo $q;
     $res=$db->Execute($q);
     if(!$res->EOF){
         $error=true;
@@ -52,7 +51,6 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 		password = '{$stored_password}',
              user_name = '{$user_name}'";
 	$res=$db->Execute($q);
-echo $q;
 	if ($res){
     	$res=shn_acl_add_user($pid,$user_name);
     	$res=shn_acl_add_to_role($pid,$role);
