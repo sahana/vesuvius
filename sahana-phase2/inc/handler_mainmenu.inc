@@ -35,14 +35,3 @@ foreach ($module_list as $i) {
 shn_mainmenuitem('default','System Administration','admin');
 shn_mainmenuclose();
 ?>
-	<form method="POST" action="index.php?act=login">
-    <div id="loginform">
-        <fieldset><legend>Login</legend>
-        <label>User Name</label><input type="text" name="user_name" id="userName" />
-        <label>Password</label><input type="password" name="password" id="pswd" />
-		<input type="submit" value="Login" />
-		<br />
-        <a href="#">Forgot your password?</a>
-        </fieldset>
-    </div><!-- /loginform -->
-    </form>

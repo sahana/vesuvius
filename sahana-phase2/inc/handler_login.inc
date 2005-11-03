@@ -1,0 +1,40 @@
+<?php  
+/**
+* Displays the login box 
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     http://www.linux.lk/~chamindra
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/
+
+global $conf;
+
+if ($_SESSION['logged_in'] != true ) {
+?>
+	<form method="POST" action="index.php?act=login">
+    <div id="loginform">
+        <fieldset><legend>Login</legend>
+        <label>User Name</label><input type="text" name="user_name" id="userName" />
+        <label>Password</label><input type="password" name="password" id="pswd" />
+		<input type="submit" value="Login" />
+		<br />
+        <a href="#">Forgot your password?</a>
+        </fieldset>
+    </div><!-- /loginform -->
+    </form>
+
+<?php
+} else {
+?>
+    <div id="loginform">
+        <fieldset><legend>Logged In</legend>
+        <label>User: <?=$_SESSION['user']?> </label>
+    </div>
+<?php
+}

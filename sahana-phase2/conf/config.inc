@@ -26,6 +26,10 @@
 # specify the status (installed | uninstalled | unavailable )
 $conf['sahana_status'] = 'installed';
 
+# Disable the access control system
+$conf['diableACL'] = false;
+
+
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
 #

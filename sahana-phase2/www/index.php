@@ -54,14 +54,12 @@ function shn_front_controller()
     $module = $global['module'];
     
     $req_act="shn_".$module."_".$action;
-    $allow=false;
-    $allow=(shn_acl_check_perms_action($_SESSION["user_id"],$req_act))?true:false;
-    $allow=true;
+    $allow = (shn_acl_check_perms_action($_SESSION["user_id"],$req_act) || 
+             ($conf['disableACL']) )? true : false;
+    
     // include the html head tags
     include($approot."inc/handler_html_head.inc");
     
-    // error handler
-
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
@@ -103,6 +101,9 @@ function shn_front_controller()
 
     // include the mainmenu provided there is not a module override
     shn_include_page_section('mainmenu',$module);
+
+    // include the mainmenu provided there is not a module override
+    shn_include_page_section('login',$module);
 
     // now include the main content of the page
 ?>  
