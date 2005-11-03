@@ -21,19 +21,8 @@ print ("<h3>USER : " . $global['person_id'] . "</h3>");
 
 <?php
 
-if (!isset($_GET['stat']))
-{
-?>
-<form action="index.php?mod=rms&amp;act=new_req&amp;stat=add&amp;add_item=1#items_form" name="req_new_frm" id="rmsforms" method="post">
-<?php show_rms_initform(); ?>
-<br/>
-<?php show_item_fields(false); ?>
-</form>
-<?php
-}
-
-if ($_GET['stat'] == 'add') 
-{
+if ($_GET['stat'] == 'add' && rms_validate_mform()) 
+{    
     $vals = rms_get_initvals();
     $req_date = $vals['req_date'];
     $req_name = $vals['req_name'];
@@ -44,6 +33,8 @@ if ($_GET['stat'] == 'add')
     $req_site_address = $vals['req_site_address'];
     $req_comments = $vals['req_comments'];
     $user_id = $global['person_id'];
+    
+    
     
     $sql = "INSERT INTO rms_request (req_date, name, contact, address, site_name," .
             " site_district, site_address, comments, user_id) " .
@@ -58,6 +49,7 @@ if ($_GET['stat'] == 'add')
     }
     $req_id = $global['db']->Insert_ID();
     
+    //Item info
     $req_category = $_POST['req_category'];
     $req_item = $_POST['req_item'];
     $req_units = $_POST['req_units'];
@@ -178,5 +170,19 @@ if ($_GET['stat'] == 'rem_all')
         db_dbug($sql,$msg);
     } 
     print "<h3>request removed</h3>";   
-}     
+}
+
+if (!isset($_GET['stat']) || $_SESSION['rms_errors'])
+{
+?>
+    <form action="index.php?mod=rms&amp;act=new_req&amp;stat=add&amp;add_item=1#items_form" name="req_new_frm" id="rmsforms" method="post">
+    <?php show_rms_initform(); ?>
+    <br/>
+    <?php show_item_fields(false); ?>
+    </form>
+<?php
+    if ($_SESSION['rms_errors'])
+        $_SESSION['rms_errors'] = false;
+}
+
 ?>

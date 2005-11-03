@@ -33,6 +33,12 @@ function temp_show_required()
     print '<strong><font color="red">**</font></strong> ';    
 }
 
+function show_frm_error($error)
+{
+    if($error != '')
+        print "<div id='error'>[$error]</div>";
+}
+
 function is_requester($req_id,$user_id)
 {
     global $global;
@@ -121,7 +127,7 @@ function count_org_req($org_id) //not functional yet
     return $rs->fields[0];
 }
 
-function get_district_list($name)
+function get_district_list($name,$dist='')
 {
     global $global;
     $sql = "SELECT location_id,name FROM location WHERE opt_location_type=3";
@@ -129,7 +135,10 @@ function get_district_list($name)
     $select = "<select name='$name'>\n";
     foreach ($rs as $r)
     {
-        $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
+        if($r[0] != $dist)
+            $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
+        else
+            $select .= "\t<option selected value=" . $r[0] . ">" . $r[1] . "</option>\n";
     }
     $select .= "</select>\n";
     print $select;
@@ -144,37 +153,143 @@ function show_rms_heading()
 }
 
 
-function show_rms_initform($errors=0)
+function show_rms_initform()
 {
-    if ($errors==0)
-    {
-    }
     $today = date("Y-m-d");
+    if (!$_SESSION['rms_errors'])
+    {        
 ?>
-<fieldset>
-    <legend><?php print _("New Request") ?></legend>
-    <label><?php print _("Request Date") ?></label> 
-    <input readonly="readonly" type="text" id="req_date" value="<?php print $today ?>" name="req_date" size="40" maxlength="40"/><br/>
-    <label><?php print _("Requester Name") ?></label> 
-    <input type="text" name="req_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
-    <label><?php print _("Requester Contact") ?></label> 
-    <input type="text" name="req_contact" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
-    <label><?php print _("Requester Address") ?></label> 
-    <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
-    <label><?php print _("Site Name") ?></label> 
-    <input type="text" name="req_site_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
-    <label><?php print _("Site District") ?></label>
-    <?php get_district_list("req_site_district") ?><?php print temp_show_required(); ?>
-    <br/>
-    <label><?php print _("Site Address") ?></label> 
-    <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
-    <label><?php print _("Comments") ?></label> 
-    <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
-</fieldset>
-
+        <fieldset>
+            <legend><?php print _("New Request") ?></legend>
+            <label><?php print _("Request Date") ?></label> 
+            <input readonly="readonly" type="text" id="req_date" value="<?php print $today ?>" name="req_date" size="40" maxlength="40"/><br/>
+            <label><?php print _("Requester Name") ?></label> 
+            <input type="text" name="req_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
+            <label><?php print _("Requester Contact") ?></label> 
+            <input type="text" name="req_contact" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
+            <label><?php print _("Requester Address") ?></label> 
+            <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
+            <label><?php print _("Site Name") ?></label> 
+            <input type="text" name="req_site_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
+            <label><?php print _("Site District") ?></label>
+            <?php get_district_list("req_site_district") ?><?php print temp_show_required(); ?>
+            <br/>
+            <label><?php print _("Site Address") ?></label> 
+            <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
+            <label><?php print _("Comments") ?></label> 
+            <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
+        </fieldset>
 <?php
+    }
+    else
+    {
+        $values = $_SESSION['rms_mform_values'];
+        $errors = $_SESSION['rms_form_errors'];
+        //print_r ($values);
+?>
+        <fieldset>
+            <legend><?php print _("New Request") ?></legend>
+            <label><?php print _("Request Date") ?></label> 
+            <input readonly="readonly" type="text" id="req_date" value="<?php print $today ?>" name="req_date" size="40" maxlength="40"/><br/>
+            
+            <label><?php print _("Requester Name") ?></label> 
+            <input type="text" name="req_name" value="<?php print $values['req_name'] ?>" size="40" maxlength="40"/>
+            <?php print temp_show_required(); ?> <?php show_frm_error($errors['req_name']) ?><br/>
+            
+            <label><?php print _("Requester Contact") ?></label> 
+            <input type="text" name="req_contact" value="<?php print $values['req_contact'] ?>" size="40" maxlength="40"/>
+            <?php print temp_show_required(); ?> <?php show_frm_error($errors['req_contact']) ?><br/>
+            
+            <label><?php print _("Requester Address") ?></label> 
+            <textarea name="req_address" rows="5" cols="50" wrap="off"><?php print $values['req_address'] ?></textarea> <?php show_frm_error($errors['req_address']) ?><br/>
+            
+            <label><?php print _("Site Name") ?></label> 
+            <input type="text" name="req_site_name" value="<?php print $values['req_site_name'] ?>" size="40" maxlength="40"/>
+            <?php print temp_show_required(); ?> <?php show_frm_error($errors['req_site_name']) ?><br/>
+            
+            <label><?php print _("Site District") ?></label>
+            <?php get_district_list("req_site_district",$values['req_site_district']) ?>
+            <?php print temp_show_required() ?>  <?php show_frm_error($errors['req_site_district']) ?>
+            <br/>
+            
+            <label><?php print _("Site Address") ?></label> 
+            <textarea name="req_site_address" rows="5" cols="50" wrap="off"><?php print $values['req_site_address'] ?></textarea> 
+             <?php show_frm_error($errors['req_site_address']) ?><br/>
+            
+            <label><?php print _("Comments") ?></label> 
+            <textarea name="req_comments" rows="5" cols="50" wrap="off"><?php print $values['req_comments'] ?></textarea> <?php show_frm_error($errors['req_comments']) ?><br/>
+        </fieldset>
+<?php
+    }
 }
 
+function rms_validate_mform()
+{
+    $_SESSION['rms_errors'] = false;
+    $vals = $_SESSION['rms_mform_values'] = rms_get_initvals();
+    
+    if(!isset($vals['req_date']))
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_date"]= "Please enter a valid date";        
+    }
+    
+    if($vals['req_name']=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_name"]= "Please enter a name"; 
+    }
+    
+    if($vals['req_contact']=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_contact"]= "Please enter contact information";        
+    }
+    
+//    if($vals['req_address']=='')
+//    {
+//        $_SESSION['rms_errors'] = true;
+//    }
+
+    if($vals['req_site_name']=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_site_name"]= "Please enter a valid site name";
+    }
+    
+    if($vals['req_site_district']=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_site_district"]= "Please select a valid district";
+    }
+    
+//    if($vals['req_site_address']=='')
+//    {
+//        $_SESSION['rms_errors'] = true;
+//    }
+    $_SESSION['rms_form_errors'] = $err_msgs;
+    return !$_SESSION['rms_errors'];
+}
+
+function rms_validate_iform()
+{
+    $_SESSION['rms_item_errors'] = false;
+    //Item info
+    $req_category = $_POST['req_category'];
+    $req_item = $_POST['req_item'];
+    $req_units = $_POST['req_units'];
+    $req_quantity = $_POST['req_quantity'];
+    $req_priority = $_POST['req_priority'];
+    
+    if(!isset($vals['$req_item']))
+    {
+        $_SESSION['rms_item_errors'] = true;
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["$req_item"]= "Please enter valid Items";        
+    }
+    
+    return !$_SESSION['rms_item_errors'];
+}
 
 /**
  * Fetch the initial request values 
@@ -221,7 +336,6 @@ function rms_get_initvals()
         
         $recordSet->Close();
     }
-       
     return $rms_init_vals;
 }
 
@@ -257,7 +371,7 @@ function show_items_table($req_id, $remove_on)
     if(!$req_id)
         $req_id = $_REQUEST['req_id'];
     global $global;
-    
+        
     $sql = "SELECT req.req_item_id,cat.category,req.item,req.units,req.quantity,pri.priority " .
             "FROM rms_req_category cat, rms_req_priority pri, rms_req_item req " .
             "WHERE req.req_id=$req_id AND pri.priority_id=req.priority_id " .
@@ -365,7 +479,7 @@ function show_item_fields($req_id)
         <label><?php print _("Item") ?></label> 
         <textarea name="req_item" rows="5" cols="50" wrap="off"></textarea><?php print temp_show_required(); ?><br/>
         <label><?php print _("Units") ?></label> 
-        <input type="text" name="req_units" size="20" maxlength="20"/><?php print temp_show_required(); ?><br/>
+        <input type="text" name="req_units" size="20" maxlength="20"/><br/>
         <label><?php print _("Quantity") ?></label> 
         <input type="text" name="req_quantity" size="20" maxlength="20"/><?php print temp_show_required(); ?><br/>
         <label><?php print _("Priority") ?></label>
@@ -708,7 +822,7 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
         <label><?php print _("Status") ?></label>
         <select name="ff_status">
             <option value="Under Consideration">Under Consideration</option>
-            <option value="On Route">On Route</option>
+            <option selected value="On Route">On Route</option>
             <option value="Delivered">Delivered</option>
             <option value="Withdrawn">Withdrawn</option> 
         </select>
