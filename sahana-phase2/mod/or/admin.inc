@@ -10,7 +10,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
+* @author     Ravindra <ravidesilva@iee.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */

@@ -1,4 +1,20 @@
 <?php
+/*
+*
+* Sahana Organization registry error defines
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Ravindra <ravidesilva@iee.org>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*
+*/
+
 define(SHN_ERR_OR_NAME_INCOMPLETE,"Organization name is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_TYPE_INCOMPLETE,"Organization Type is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_SECTOR_INCOMPLETE,"Organization Sector is essential for registration. Please Complete and Submit again");

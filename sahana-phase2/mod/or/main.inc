@@ -68,11 +68,24 @@ or_acl_setup to sahana setup script once its avaliable
     permissions , hence requires ACO
     */
    $res=shn_acl_add_perm_type("execute","execute permission");
-    shn_add_user("guest","pass"); 
-    //add a user named "guest"
-    $res=shn_acl_add_user("guest","Guest User");
-    // add "guest" to the "guest" role
-    $res=shn_acl_add_to_role("guest","guest");
+    // adds guest user with password and add the user to ACL users and add to 'guest' role
+    $guest=shn_add_user("Guest User","guest","pass","guest",1); 
+    //add a"guest" user to ACL users and add to 'guest' role
+   echo "guest user id is =" .$guest;
+    /************************************/
+    //give permission for the guest user to sahana home
+    // add a module named "home"
+    $res=shn_acl_add_module("home","Sahana Home");
+     // add an action group named "view" under the module "home"
+    $res=shn_acl_add_action_group("home","view","view group");
+    $res=shn_acl_add_action("home","view","shn_home_default","View function");
+    //give permission for 'view' action group with in 'home' to 'guest' role
+    $res=shn_acl_add_perms_action_group_role('guest','home','view');
+  //give permission for 'view' action group with in 'home' to 'user' role
+    $res=shn_acl_add_perms_action_group_role('user','home','view');
+  //give permission for 'view' action group with in 'home' to 'admin' role
+    $res=shn_acl_add_perms_action_group_role('admin','home','view');
+
 
  /*****************************************************************/
  /** start of or specifc ACL entries
@@ -90,38 +103,39 @@ or_acl_setup to sahana setup script once its avaliable
     $res=shn_acl_add_action_group("or","update","update group");
     // add an action group named "view" under the module "or"
     $res=shn_acl_add_action_group("or","view","view group");
-    //add an action name 'shn_or_reg_org"  under the above action group
-    $res=shn_acl_add_action("or","create","shn_or_reg_org","Register function");
-    $res=shn_acl_add_action("or","create","shn_or_reg_org_cr","Register function");
-    $res=shn_acl_add_action("or","create","shn_or_reg_operation_cr","Register function");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol","Register function");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol_cr","Register function");
-    $res=shn_acl_add_action("or","view","shn_or_view_org","View function");
-    $res=shn_acl_add_action("or","view","shn_or_default","View function");
+    // add an action group named "admin" under the module "or"
+    $res=shn_acl_add_action_group("or","acl","ACL group");
+ 
+   //add an action name 'shn_or_reg_org"  under above action groups
+    $res=shn_acl_add_action("or","create","shn_or_reg_org","Display Organization Registration form");
+    $res=shn_acl_add_action("or","create","shn_or_reg_org_cr","Save Organization Registration info");
+    $res=shn_acl_add_action("or","create","shn_or_reg_operation_cr","Save Operation Registration form");
+    $res=shn_acl_add_action("or","create","shn_or_reg_vol","Display Volunteer Registration form");
+    $res=shn_acl_add_action("or","create","shn_or_reg_vol_cr","Save Volunteer Registration info");
+
+    $res=shn_acl_add_action("or","view","shn_or_view_org","View Organization Registration info");
+    $res=shn_acl_add_action("or","view","shn_or_view_vol","View Volunteer Registration info");
+    $res=shn_acl_add_action("or","view","shn_or_default","Organization Registry Home");
     // add an action case name "view_all"  under the above case
     $res=shn_acl_add_action_case("or","view","shn_or_view_org","all","action case");
-    
+    $res=shn_acl_add_action("or","acl","shn_or_acl_setup","Display ACL configuration info");
     
     //give permission for 'create' action group with in 'or' to 'guest' role
+    $res=shn_acl_add_perms_action_group_role('guest','or','create');
+    //give permission for 'create' action group with in 'or' to 'user' role
     $res=shn_acl_add_perms_action_group_role('user','or','create');
-    
-    //add a user named "ravids"
-    $res=shn_acl_add_user("ravids","ravindra");
-    // add "ravids" to the "guest" role
-    $res=shn_acl_add_to_role("ravids","guest");
-   
-    //check whether permission was added as expected. should return true
-    $res=shn_acl_check_perms_action('ravids','shn_or_reg_org');
-    echo "res1".$res;
-   
-   $res=shn_acl_check_perms_action('ravids','shn_or_default');
-    echo "res2".$res;
-    
-   //give permission for 'create' action group with in 'or' to 'guest' role
+    //give permission for 'create' action group with in 'or' to 'admin' role
+    $res=shn_acl_add_perms_action_group_role('admin','or','create');
+
+    //give permission for 'view' action group with in 'or' to 'guest' role
     $res=shn_acl_add_perms_action_group_role('guest','or','view');
-    
-   $res=shn_acl_check_perms_action('ravids','shn_or_default');
-    echo "res2".$res;
+    //give permission for 'view' action group with in 'or' to 'user' role
+    $res=shn_acl_add_perms_action_group_role('user','or','view');
+    //give permission for 'view' action group with in 'or' to 'admin' role
+    $res=shn_acl_add_perms_action_group_role('admin','or','view');
+
+    //give permission for 'admin' action group with in 'or' to 'admin' role
+    $res=shn_acl_add_perms_action_group_role('admin','or','acl');
 }
 
 //ravindra,chathra,pradeeper
@@ -179,26 +193,26 @@ function shn_or_reg_org_cr()
     global $global;
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     $error=false;
-    if (shn_is_null($_POST{"org_name"})){
+    if (is_null($_POST{"org_name"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $org_name=$_POST{"org_name"};
     }
     
-    if (shn_is_null($_POST{"org_type"})){
+    if (is_null($_POST{"org_type"})){
         $error=true;
         add_error(SHN_ERR_OR_TYPE_INCOMPLETE);
     }else {    
         $org_type=trim($_POST{"org_type"});
     }
-    if (shn_is_null($_POST{"sector"})){
+    if (is_null($_POST{"sector"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
     }else {    
         $sector=$_POST{"sector"};
     }
-    if (shn_is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"bsd_village"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
@@ -216,19 +230,19 @@ function shn_or_reg_org_cr()
     
     $account_name=$_POST{"account_name"};
 
-    if (shn_is_null($_POST{"user_name"})){
+    if (is_null($_POST{"user_name"})){
         $error=true;
         add_error(SHN_ERR_OR_UNAME_INCOMPLETE);
     }else {    
         $user_name=trim($_POST{"user_name"});
     }
-    if (shn_is_null($_POST{"password"})){
+    if (is_null($_POST{"password"})){
         $error=true;
         add_error(SHN_ERR_OR_PWD_INCOMPLETE);
     }else {    
         $password=trim($_POST{"password"});
     }
-    if (shn_is_null($_POST{"re_password"})){
+    if (is_null($_POST{"re_password"})){
         $error=true;
         add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
     }else {    
@@ -282,7 +296,7 @@ function shn_or_reg_org_cr()
     $res=$db->Execute($q);
     
     
-        $pid=shn_add_user($account_name,$user_name,$password);
+        $pid=shn_add_user($account_name,$user_name,$password,"admin",NULL);
         if($res){
             $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
             $res=$db->Execute($q);
@@ -314,20 +328,20 @@ function shn_or_reg_org_cr()
 //author ravindra
 function shn_or_reg_operation_cr(){
     $error=false;
-    if (shn_is_null($_POST{"opr_name"})){
+    if (is_null($_POST{"opr_name"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $org_name=$_POST{"opr_name"};
     }
     
-    if (shn_is_null($_POST{"sector"})){
+    if (is_null($_POST{"sector"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
     }else {    
         $sector=$_POST{"sector"};
     }
-    if (shn_is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"bsd_village"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
@@ -407,7 +421,7 @@ function shn_or_reg_vol(){
 // register a volunteer
 function shn_or_reg_vol_cr(){
     $error=false;
-    if (shn_is_null($_POST{"name"})){
+    if (is_null($_POST{"name"})){
         $error=true;
         add_error(SHN_ERR_PERSON_NAME_INCOMPLETE);
     }else {    
@@ -433,19 +447,19 @@ $dln=trim($_POST{"dln"});
 //$male=false;
 //}
 
-    if (shn_is_null($_POST{"sector"})){
+    if (is_null($_POST{"sector"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
     }else {    
         $sector=$_POST{"sector"};
     }
-    if (shn_is_null($_POST{"bsd_country"})){
+    if (is_null($_POST{"bsd_country"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
         $bsd_country=$_POST{"bsd_country"};
     }
-    if (shn_is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"bsd_village"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
