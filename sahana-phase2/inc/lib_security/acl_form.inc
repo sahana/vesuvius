@@ -41,7 +41,8 @@ function shn_acl_form_existing_perms($module,$error=false)
               <!--  <h2>User Permissions</h2>-->
                 <table>
                     <thead>
-                        <td>User</td>
+                        <td>Organization</td>
+                        <td>User Name</td>
 	                    <td>User Description</td>
                         <td>Member of Roles</td>
                         <td>Permitted Actions</td>
@@ -61,6 +62,7 @@ function shn_acl_form_existing_perms($module,$error=false)
 ?>
     <tr>
         <td><b><?php echo $res->fields[2]?></b></td>
+        <td><b><?php echo $res->fields[3]?></b></td>
         <td><b><?php echo $res->fields[1]?></b></td>
 <?php
         
@@ -87,6 +89,7 @@ function shn_acl_form_existing_perms($module,$error=false)
             if (shn_acl_check_perms_action($user,$act)) {
 ?>
     <tr>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>

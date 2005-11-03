@@ -22,16 +22,17 @@
 include "acl_api.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
-function shn_add_user($account_name,$user_name, $user_password)
+function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 {
     global $global;
     $db=$global['db'];
-
     if (shn_is_user($user_name)){
         add_error(SHN_ERR_OR_USER_EXISTS);
    		return false;
     }
-    $pid = $db->GenID('person_seq',1);
+    if(is_null($pid)){
+        $pid = $db->GenID('person_seq',10);
+    }
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
     echo $q;
     $res=$db->Execute($q);
@@ -54,37 +55,10 @@ function shn_add_user($account_name,$user_name, $user_password)
 echo $q;
 	if ($res){
     	$res=shn_acl_add_user($pid,$user_name);
-    	$res=shn_acl_add_to_role($pid,"user");
+    	$res=shn_acl_add_to_role($pid,$role);
 	}
 }
 	return $pid;
-}
-
-
-
-function shn_add_user_with_id($p_uuid,$user_name, $user_password)
-{
-    global $global;
-    $db=$global['db'];
-
-    if (shn_is_user($user_name)){
-        add_error(SHN_ERR_OR_USER_EXISTS);
-   		return false;
-	}
-   // Create the encrypted password
-   $stored_password = md5(trim($user_password));
-
-   // Insert a new user into the users table
-   $q = "INSERT INTO users SET 
-             p_uuid='{$p_uuid}',
-		password = '{$stored_password}',
-             user_name = '{$user_name}'";
-	$res=$db->Execute($q);
-	if ($res){
-    	$res=shn_acl_add_user($p_uuid,$user_name);
-    	$res=shn_acl_add_to_role($p_uuid,"user");
-	}
-	return $res;
 }
 
 /**
@@ -125,31 +99,30 @@ function shn_authenticate_user()
 	/*need to modify the function to work with the sahana database scheme
 	and adodb code, till then return true. 
 	*/
-	return true;
     global $global;
     $db=$global['db'];
-	$user_data=array("user_id"=>0,"user"=>"guest");
+	$user_data=array("user_id"=>1,"user"=>"guest");
  	/* if user has not requested login no need to authenticate, simply
 	return -1 , so the calling application can identify that 			
 	authentication was not attempted
 	*/
-	if("login"!=$global['action']){
+	if("login"!=$_GET['act']){
      	$user_data["user_id"]=-1;
 	 	return $user_data ;
     } else {
     //authentication is done only as the user requested to login
-        $user = $_POST{"user"};
-        $pwd =$_POST{"pwd"};
+        $user = $_POST{"user_name"};
+        $pwd =$_POST{"password"};
          // Create a digest of the password collected from the challenge
         $password_digest = md5(trim($pwd));
         // Formulate the SQL to find the user
-        $query = "  SELECT user_id  FROM users
+        $q = "  SELECT p_uuid  FROM users
                     WHERE user_name = '$user'
                     AND password = '$password_digest'";
-    	$res=$this->db->Execute($q);
+        $res=$db->Execute($q);
         if(!$res->EOF){
             $user_id=$res->fields[0];
-            if($user_id>0){
+            if($user_id>1){
      		    $user_data["user_id"]=$user_id;
      		    $user_data["user"]=$user;
 			    return $user_data;
@@ -158,7 +131,7 @@ function shn_authenticate_user()
                 /* no result ,so return 0 ,which is  not a valid user_id , the calling
                 application can identify authentication was attempted,but failed
                 */	
-        	    $user_data["user_id"]=0;
+        	    $user_data["user_id"]=1;
                 return $user_data;
             }
         }
@@ -166,7 +139,7 @@ function shn_authenticate_user()
             /* no result ,so return 0 ,which is  not a valid user_id , the calling
             application can identify authentication was attempted,but failed
             */	
-        	$user_data["user_id"]=0;
+        	$user_data["user_id"]=1;
             return $user_data;
         }
     }

@@ -56,7 +56,7 @@ function shn_acl_add_module($module,$desc){
 function shn_acl_add_action_group($module,$action_group,$desc){
     $acl=new SahanaACL(NULL);
     $axo_parent = $acl->get_group_id($module,NULL,"AXO");
-    $acl->_shn_add_axo_group($action_group,$desc,$axo_parent);
+    $acl->_shn_add_axo_group($module."_".$action_group,$desc,$axo_parent);
 }
 
 /**
@@ -75,13 +75,17 @@ function shn_acl_add_action($module,$action_group=NULL,$action,$desc){
     $acl=new SahanaACL(NULL);
     $acl->_shn_add_section("actions","module actions","AXO");
     $acl->_shn_add_axo("actions",$action,$desc);
-    $mod_id=$acl->get_group_id($module,NULL,"AXO");
-    $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-    foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($action_group)){
-            $axo_parent=$sub_group['id'];
-        }
+    if (is_null($action_group)){
+        $axo_parent=$acl->get_group_id($module,NULL,"AXO");
+    } else {
+        $axo_parent=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
     }
+  //  $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
+  //  foreach ($sub_groups as $sub_group){
+    //    if(trim($sub_group['value'])==trim($action_group)){
+    //        $axo_parent=$sub_group['id'];
+    //    }
+    //}
     $acl->_shn_add_to_axo_group(trim($axo_parent),"actions",$action);
     
 }
@@ -104,6 +108,12 @@ function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc)
     $axo=$action."_".$case;
     $acl->_shn_add_section("actions","module actions","AXO");
     $acl->_shn_add_axo("actions",$axo,$desc);
+    if (is_null($action_group)){
+    $axo_parent=$acl->get_group_id($module,NULL,"AXO");
+    } else {
+    $axo_parent=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
+    }
+/*
     $mod_id=$acl->get_group_id($module,NULL,"AXO");
     $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
     foreach ($sub_groups as $sub_group){
@@ -111,6 +121,7 @@ function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc)
             $axo_parent=$sub_group['id'];
         }
     }
+*/
     $acl->_shn_add_to_axo_group(trim($axo_parent),"actions",$axo);
 }
 
@@ -143,6 +154,7 @@ function shn_acl_add_role($role,$desc){
 */
 function shn_acl_add_user($user,$desc){
     $acl=new SahanaACL(NULL);
+echo "here".$user ."and".$desc;
     return $acl->_shn_add_aro("users",$user,$desc);
 }
 
@@ -222,13 +234,21 @@ function shn_acl_add_perms_action_group_role($role,$module,$action_group){
     $acl=new SahanaACL(NULL);
     $aro_group= $acl->get_group_id(trim($role),NULL,'ARO');
     $aro_groups=array($aro_group);
+/**
     $mod_id=$acl->get_group_id($module,NULL,"AXO");
     $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
     foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($action_group)){
+        if(trim($sub_group['value'])==trim($module."_".$action_group)){
             $axo_group=$sub_group['id'];
         }
     }
+**/
+    if (is_null($action_group)){
+        $axo_group=$acl->get_group_id($module,NULL,"AXO");
+    } else {
+        $axo_group=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
+    }
+
     $axo_groups=array($axo_group);
     $acl->_shn_add_permission(trim("permissions"),trim("execute"),NULL,NULL,$aro_groups,NULL,NULL,$axo_groups,true,true,NULL,"first acl"); 
 
@@ -306,13 +326,20 @@ function shn_acl_add_perms_module_user($user,$module){
 
 function shn_acl_add_perms_action_group_user($user,$module,$action_group){
         $acl=new SahanaACL(NULL);
+/**
         $mod_id=$acl->get_group_id($module,NULL,"AXO");
         $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
         foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($action_group)){
+        if(trim($sub_group['value'])==trim($module."_".$action_group)){
             $axo_group=$sub_group['id'];
         }
         }
+**/
+    if (is_null($action_group)){
+        $axo_group=$acl->get_group_id($module,NULL,"AXO");
+    } else {
+        $axo_group=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
+    }
         $axo_groups=array($axo_group);
         $acl->_shn_add_permission(trim("permissions"),trim("execute"),trim("users"),trim($user),NULL,NULL,NULL,$axo_groups,true,true,NULL,"first acl");
 }
