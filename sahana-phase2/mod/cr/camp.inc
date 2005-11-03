@@ -132,12 +132,12 @@ $uid=_shn_cr_create_cid();
 $q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}','{$_SESSION['opt_location_type']}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
 
-//$res = $db->Execute($q);
+$res = $db->Execute($q);
 
 //enter into camp_reg table
 $q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
 
-//$res = $db->Execute($q);
+$res = $db->Execute($q);
 
 /*insert services into camp_services table
 //currently add checked values.
@@ -147,7 +147,7 @@ $q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,serv
 	//currently add checked values.
 	//@todo:	handle unchecked values
 		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
-	//$res = $db->Execute($q);
+	$res = $db->Execute($q);
 	}
 ?>
 <h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>
