@@ -22,8 +22,9 @@ function shn_or_viewform_allorg(){
     $db=$global['db'];
     
 ?>
+
+<h2 align="center">Organization Registry</h2>
 <div id ="result">
-    <h2>Organization Registry</h2>
     <table>
         <thead>
             <td>Organization Name</td>

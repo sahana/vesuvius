@@ -29,11 +29,7 @@ if(!$res->EOF){
 
 ?>
 
-<html>
-    <head>	
         <center><h3><b> Welcome to Organization Registry</p><br></b></h3></center>
-	</head>
-    <body>
         <div>
             <h4>Organization Registry register Organizations,Volunteers and maintain and display those information
             </h4>
@@ -56,5 +52,3 @@ if(!$res->EOF){
                 </a>
             </div>
         </center>
-    </body>
-</html>

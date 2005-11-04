@@ -12,7 +12,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     Ravindra <ravindra@opensource.lk>
 * @author     Pradeeper <pradeeper@opensource.lk>
-* @author 	  Chathra <chathra@opensource.lk>
+* @author     Chathra <chathra@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
@@ -192,44 +192,60 @@ function shn_or_reg_org_cr()
     global $global;
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     $error=false;
-    if (is_null($_POST{"org_name"})){
-        $error=true;
-        add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
-        $org_name=$_POST{"org_name"};
-    }
+    $VARCHAR=100;
     
-    if (is_null($_POST{"org_type"})){
-        $error=true;
-        add_error(SHN_ERR_OR_TYPE_INCOMPLETE);
-    }else {    
-        $org_type=trim($_POST{"org_type"});
-    }
-    if (is_null($_POST{"sector"})){
-        $error=true;
-        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
-    }else {    
-        $sector=$_POST{"sector"};
-    }
+    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array(false,$_POST{"org_name"}):array(true,NULL);
+        
+    list($error,$org_type)=(shn_validate_opt_field($_POST{"org_type"},"Organization Type",$VARCHAR,true))?array(false,$_POST{"org_type"}):array(true,NULL);
+   
+    list($error,$sector)=(shn_validate_opt_field($_POST{"sector"},"Organization Sector",$VARCHAR,true))?array(false,$_POST{"sector"}):array(true,NULL);
+
     if (is_null($_POST{"bsd_village"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
         $bsd_village=trim($_POST{"bsd_village"});
     }
-    $reg_no=$_POST{"reg_no"};
-    $contact_name=$_POST{"contact_name"};
-    $contact_address=$_POST{"contact_add"};
-    $contact_phone=$_POST{"contact_phone"};
-    $contact_fax=$_POST{"contact_fax"};
-    $contact_mail=$_POST{"contact_mail"};
-
-    $man_power=$_POST{"man_power"};
+    if (trim(strlen($_POST{"reg_no"})) > $REG_NO){
+            add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $reg_no=$_POST{"reg_no"};
+    }
+    if (trim(strlen($_POST{"contact_name"})) > $REG_NO){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $contact_name=$_POST{"contact_name"};
+    }
+    if (trim(strlen($_POST{"contact_add"})) > $CONTACT_ADDRESS){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+       $contact_address=$_POST{"contact_add"};
+    }
+    if (trim(strlen($_POST{"contact_phone"})) > $CONTACT_PHONE){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $contact_phone=$_POST{"contact_phone"};
+    }
+    if (trim(strlen($_POST{"contact_fax"})) > $CONTACT_FAX){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+         $contact_fax=$_POST{"contact_fax"};
+    }
+    if (trim(strlen($_POST{"contact_mail"})) > $CONTACT_MAIL){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $contact_mail=$_POST{"contact_mail"};
+    }
+    if (trim(strlen($_POST{"man_power"})) > $MAN_POWER){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $man_power=$_POST{"man_power"};
+    }
     $resources=$_POST{"resources"};
     
     $account_name=$_POST{"account_name"};
 
-    if (is_null($_POST{"user_name"})){
+    if (shn_is_null($_POST{"user_name"})){
         $error=true;
         add_error(SHN_ERR_OR_UNAME_INCOMPLETE);
     }else {    
