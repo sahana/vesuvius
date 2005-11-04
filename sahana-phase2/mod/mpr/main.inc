@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.7 2005-11-02 10:08:57 janakawicks Exp $ */
+/* $Id: main.inc,v 1.8 2005-11-04 06:18:31 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -46,6 +46,7 @@ function shn_mpr_mainmenu()
 function shn_mpr_default()
 {
     global $global;
+    echo "<h1>Missing People Reg</h1>";
 }
 
 function shn_mpr_fndmp()
@@ -75,6 +76,7 @@ function shn_mpr_search()
 {
     global $global;
     echo "<h2>Search for a Missing Person</h2>";
+    require($global['approot'].'mod/mpr/search.inc');
 }
 
 ?>
