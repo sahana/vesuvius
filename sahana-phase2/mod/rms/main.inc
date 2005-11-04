@@ -33,9 +33,6 @@ function shn_rms_mainmenu()
    <div id="modmenuwrap"> 
         <h2><?php print _("RMS Module Actions"); ?></h2>
             <ul id="modmenu">
-                <li><a href="index.php?mod=home">
-                    <?php print _("Sahana Home"); ?></a>
-                </li>
                 <li><a href="index.php?mod=<?=$module?>">
                     <?php print _("Home"); ?></a>
                 </li>

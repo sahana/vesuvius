@@ -703,7 +703,7 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
         <table>
             <tr id="head">
                 <td><?php print _("Category") ?></td>
-                <td><?php print _("Item") ?>Item</td>
+                <td><?php print _("Item") ?></td>
                 <td><?php print _("Units") ?></td>
                 <td><?php print _("Qty - Needed [Fulfilled]") ?></td>
                 <td><?php print _("Priority") ?></td>
@@ -755,7 +755,7 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
         <table>
             <tr id="head">
                 <td><?php print _("Category") ?></td>
-                <td><?php print _("Item") ?>Item</td>
+                <td><?php print _("Item") ?></td>
                 <td><?php print _("Units") ?></td>
                 <td><?php print _("Qty - Needed/Fulfilled (Status)") ?></td>
                 <td><?php print _("Priority") ?></td>
