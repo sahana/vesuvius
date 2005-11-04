@@ -360,13 +360,10 @@ form ul.list {
 
 #formcontainer{
 	background-color: #fff; 
-	/*border: 1px #98AAB1 solid;*/ 
-	width:760px;
 }
 
 #formset	{ 
 	background-color: #DEE3E7; 
-	width: 750px;
 	padding: 5px 5px 5px 5px; 
 	border: 1px #98AAB1 solid;
 }
@@ -430,38 +427,42 @@ form ul.list {
 #error {
     color: #FFF;
     background-color: #F00;
+	padding:10px 10px 1px 10px;
 }
 
 #result{
-	padding:0;
-	width:760px;
-	text-align:left;
+	background-color: #DEE3E7; 
+	padding: 5px 5px 5px 5px; 
+	border: 1px #98AAB1 solid;
 }
 
 #result thead td{
 	text-align:center;
 	padding:.25em .25em .25em .25em;
-	font-family:Arial, Helvetica, Verdana, sans-serif;
-	font-size:80%;
-	color:#0E72A4;
-	background-color:#DEE3E7;
 	border-right:2px solid #DEE3E7;
+	background: #0E72A4; 
+	color:#fff;
+	border: #26a solid 1px; 
+	font-size:80%;
 }
 
 #result tr td{
 	text-align:left;
 	padding:.1em .1em .1em .1em;
-	font-family:Arial, Helvetica, Verdana, sans-serif;
 	font-size:75%;
 	color:#000;
-	background-color:#EFEFEF;
-	border-right:1px solid #EFEFEF;
+	background:#EFEFEF;
 }
 
 #parent{
 	margin-left:15px;
 }
 
+#save{
+	font-size:150%;
+	color:#0E72A4;
+	padding: 15px 15px 15px 15px;
+}
 
 #rmsforms fieldset{ 
 	background: #efefef;
@@ -548,4 +549,38 @@ form ul.list {
 
 #rmsforms a:hover { 
 	color: #F00;
+}
+
+#homecontainer{
+	padding: 15px 15px 15px 15px; 
+	border: 3px #006699 groove; 
+	background:#fff;
+}
+
+#homecontainer #articlebl{
+	color:#000;
+	padding: 2px 10px;
+	text-align:justify;
+	padding:.5em .5em .5em .5em;
+	font-size:80%;
+}
+
+#homecontainer #articlebl #heading{
+	background: #003366; 
+	color:#fff;
+	font-size:120%;
+}
+
+#homecontainer #articlegr{
+	color:#000;
+	padding: 2px 10px;
+	text-align:justify;
+	padding:.5em .5em .5em .5em;
+	font-size:80%;
+}
+
+#homecontainer #articlegr #heading{
+	background: #336600; 
+	color:#fff;
+	font-size:120%;
 }
