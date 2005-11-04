@@ -30,7 +30,7 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
         add_error(SHN_ERR_OR_USER_EXISTS);
    		return false;
     }
-    if(is_null($pid)){
+    if(shn_is_null($pid)){
         $pid = $db->GenID('person_seq',10);
     }
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
@@ -67,15 +67,13 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 function shn_is_user($user_name){
 	
     $q = "select p_uuid from  users where  user_name = '{$user_name}'";
-
     global $global;
     $db=$global['db'];
 	$res=$db->Execute($q);
-    if(!$res->EOF){
-       if(($res->fields[0])>0){
-           return true;
-        }
-    }
+    if($res->EOF)
+        return false;
+    else
+        return true;
 }
 
 /**

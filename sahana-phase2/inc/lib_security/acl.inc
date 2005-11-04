@@ -402,6 +402,28 @@ function _shn_get_module_actions($module){
     return $act;
     //return array_unique($act);
 }
+
+/**
+returns permitted action groups of that module
+*/
+
+function _shn_get_module_action_groups_user($module,$user){
+    $q="select id from gacl_axo_groups where value='{$module}'";
+    $res=$this->db->Execute($q);
+    $group_id=$res->fields[0];
+    $q="select id,value,name from gacl_axo_groups where parent_id={$group_id}";
+    $res=$this->db->Execute($q);
+    while(!$res->EOF){
+       $axo_group=$res->fields[0]; 
+       $res->MoveNext();
+    }
+	return $act_groups;
+}
+
+
+
+
+
 //end of gets
 }
 ?>
