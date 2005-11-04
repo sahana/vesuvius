@@ -1,5 +1,6 @@
 <?php
 // General-purpose validation functions
+include_once $global['approot']."/inc/lib_errors.inc";
 
 // Test if a field is between min and  max length
 function shn_valid_len_range($field, $minlength, $maxlength)
@@ -156,7 +157,7 @@ function shn_valid_number($str,$pattern='/^\d+$/')
 
 function shn_is_null($field)
 {
-    if (null==$field){
+    if ((null==$field)or (is_null($field))){
         return true;
     }else {
         return false;
@@ -166,11 +167,49 @@ function shn_is_null($field)
 function shn_is_opt_field($opt_field)
 {
     global $global;
-    $result = $global['db']->GetOne("SELECT * FROM field_options WHERE field_name LIKE '$opt_field'");
+    $result = $global['db']->GetOne("SELECT * FROM field_options WHERE option_code LIKE '$opt_field'");
     if($result)
         return true;
     else
         return false;
 }
+function shn_is_location($field)
+{
+    global $global;
+    $result = $global['db']->GetOne("SELECT * FROM location WHERE location_id LIKE '$field'");
+    if($result)
+        return true;
+    else
+        return false;
+}
+function shn_clean($field){
+    return trim($field);
+}
 
+function shn_validate_field($field,$desc,$max_len,$check_null=false){
+    if ($check_null And shn_is_null($field)){
+        add_error($desc." is a Required Field, Please Enter an value.");
+        return false;
+    }else {
+        if (strlen(shn_clean($field))>$max_len){
+            add_error("You Exceeded the field size for ".$desc.".Field size is ".$max_len);
+            return false;
+        }else {
+            return true;
+        }
+    }
+}
+
+function shn_validate_opt_field($field,$desc,$max_len,$check_null=false){
+    if (shn_validate_field($field,$desc,$max_len,$check_null)){
+        if (shn_is_opt_field(shn_clean($field))){
+            return true;
+        }else {
+            add_error("You Have to Select a Value from the list box");
+            return false;
+        }
+    }else {
+        return false;
+    }
+}
 ?>
