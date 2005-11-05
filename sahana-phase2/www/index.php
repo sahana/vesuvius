@@ -19,7 +19,7 @@
 
 $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
-
+$global['previous']=false;
 // === initialize configuration variables ===
 require_once ($global['approot'].'conf/config.inc'); 
 
@@ -31,11 +31,12 @@ if ($conf['sahana_status'] == 'installed' ) {
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
 
-
-    $global['action'] = (NULL == $_REQUEST['act']) ? 
+    if(!$global['previous']){
+        $global['action'] = (NULL == $_REQUEST['act']) ? 
                                 "default" : $_REQUEST['act'];
-    $global['module'] = (NULL == $_REQUEST['mod']) ? 
+        $global['module'] = (NULL == $_REQUEST['mod']) ? 
                                 "home" : $_REQUEST['mod'];
+    }
     shn_front_controller();
 
 } else { // Launch the web setup
@@ -115,6 +116,8 @@ function shn_front_controller()
         if (!function_exists($module_function)) {
             $module_function="shn_".$module."_default";
         }
+        $_SESSION["last_module"]=$module;
+        $_SESSION["last_action"]=$action;
         $module_function(); 
     }else {
          echo "<center><div><h1>you dont have permission to view this page</h1></div></center>";
