@@ -551,36 +551,51 @@ form ul.list {
 	color: #F00;
 }
 
-#homecontainer{
-	padding: 15px 15px 15px 15px; 
-	border: 3px #006699 groove; 
-	background:#fff;
+#right{
+	width:30%;
+	float:left;
+	background:white;
+	padding-bottom: 1em;
+	border:2px white solid;
 }
 
-#homecontainer #articlebl{
-	color:#000;
-	padding: 2px 10px;
-	text-align:justify;
-	padding:.5em .5em .5em .5em;
-	font-size:80%;
-}
-
-#homecontainer #articlebl #heading{
-	background: #003366; 
+#right #heading{
+	width:100%;
 	color:#fff;
+	float:left;
+	background:#003366;
 	font-size:120%;
 }
 
-#homecontainer #articlegr{
-	color:#000;
-	padding: 2px 10px;
+#left{
+	width:30%;
+	float:left;
+	background:white;
+	padding-bottom:1em;
 	text-align:justify;
-	padding:.5em .5em .5em .5em;
-	font-size:80%;
+	border:2px white solid;
 }
 
-#homecontainer #articlegr #heading{
-	background: #336600; 
+#left #heading{
+	width:100%;
 	color:#fff;
+	float:left;
+	background:#003366;
+	font-size:120%;
+}
+
+#center{
+	width:30%;
+	float:left;
+	background:white;
+	padding-bottom:1em;
+	border:2px white solid;
+}
+
+#center #heading{
+	width:100%;
+	color:#fff;
+	float:left;
+	background:#336600;
 	font-size:120%;
 }
