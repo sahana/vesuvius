@@ -10,6 +10,7 @@
 *
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     http://www.linux.lk/~chamindra
+* @author     ravindra@opensource.lk
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -35,6 +36,8 @@ if ($_SESSION['logged_in'] != true ) {
     <div id="loginform">
         <fieldset><legend>Logged In</legend>
         <label>User: <?=$_SESSION['user']?> </label>
+        <br />
+        <center><a href="index.php?act=logout">Logout</a></center>
     </div>
 <?php
 }
