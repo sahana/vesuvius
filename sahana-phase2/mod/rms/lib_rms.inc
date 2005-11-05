@@ -144,6 +144,43 @@ function get_district_list($name,$dist='')
     print $select;
 }
 
+function get_district_name($dist_id)
+{
+    global $global;
+    $sql = "SELECT name FROM location WHERE location_id=$dist_id";
+    $rs = $global['db']->Execute($sql);
+    
+    return $rs->fields[0];
+}
+
+function get_username($user_id)
+{
+    
+}
+
+function show_rms_categories($value)
+{
+    global $global;
+    $sql = "SELECT cat_id,category FROM  rms_req_category";
+    $rs = $global['db']->Execute($sql);
+    
+    $url = "index.php?mod=rms&act=vw_req&amp;user=all&amp;stat=open&amp;filter=cat_id";
+    
+    $select = "<form action='$url' name=req_fil_cat method=post>\n";
+    $select .= _("Filter by Category");
+    $select .= "<select name='value' onChange='submit();'>\n";
+    foreach ($rs as $r)
+    {
+        if($r[0] != $value)
+            $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
+        else
+            $select .= "\t<option selected='selected' value=" . $r[0] . ">" . $r[1] . "</option>\n";
+    }
+    $select .= "</select>\n" .
+               "</form>\n";
+    print $select;
+}
+
 function show_rms_heading()
 {
 ?>
@@ -223,57 +260,55 @@ function show_rms_initform()
     }
 }
 
-function rms_validate_mform()
+function rms_validate_mform($mode=0)
 {
     $_SESSION['rms_errors'] = false;
     $vals = $_SESSION['rms_mform_values'] = rms_get_initvals();
     
-    if(!isset($vals['req_date']))
+    if ($mode == 1)
     {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_date"]= "Please enter a valid date";        
+        
+        if(!isset($vals['req_date']))
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_date"]= "Please enter a valid date";        
+        }
+        
+        if($vals['req_name']=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_name"]= "Please enter a name"; 
+        }
+        
+        if($vals['req_contact']=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_contact"]= "Please enter contact information";        
+        }
+        
+    //    if($vals['req_address']=='')
+    //    {
+    //        $_SESSION['rms_errors'] = true;
+    //    }
+    
+        if($vals['req_site_name']=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_site_name"]= "Please enter a valid site name";
+        }
+        
+        if($vals['req_site_district']=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_site_district"]= "Please select a valid district";
+        }
+        
+    //    if($vals['req_site_address']=='')
+    //    {
+    //        $_SESSION['rms_errors'] = true;
+    //    }
     }
     
-    if($vals['req_name']=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_name"]= "Please enter a name"; 
-    }
-    
-    if($vals['req_contact']=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_contact"]= "Please enter contact information";        
-    }
-    
-//    if($vals['req_address']=='')
-//    {
-//        $_SESSION['rms_errors'] = true;
-//    }
-
-    if($vals['req_site_name']=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_site_name"]= "Please enter a valid site name";
-    }
-    
-    if($vals['req_site_district']=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_site_district"]= "Please select a valid district";
-    }
-    
-//    if($vals['req_site_address']=='')
-//    {
-//        $_SESSION['rms_errors'] = true;
-//    }
-    $_SESSION['rms_form_errors'] = $err_msgs;
-    return !$_SESSION['rms_errors'];
-}
-
-function rms_validate_iform()
-{
-    $_SESSION['rms_item_errors'] = false;
     //Item info
     $req_category = $_POST['req_category'];
     $req_item = $_POST['req_item'];
@@ -281,14 +316,53 @@ function rms_validate_iform()
     $req_quantity = $_POST['req_quantity'];
     $req_priority = $_POST['req_priority'];
     
-    if(!isset($vals['$req_item']))
+    $item_vlas = array("req_category"=>$req_category,
+                       "req_item"=>$req_item,
+                       "req_units"=>$req_units,
+                       "req_quantity"=>$req_quantity,
+                       "req_priority"=>$req_priority
+                       );
+    
+    if($req_category=='')
     {
-        $_SESSION['rms_item_errors'] = true;
         $_SESSION['rms_errors'] = true;
-        $err_msgs["$req_item"]= "Please enter valid Items";        
+        $err_msgs["req_category"]= "Please select a valid category";
     }
     
-    return !$_SESSION['rms_item_errors'];
+    if($req_item=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_item"]= "Please enter a valid item";
+    }
+    
+//    if($req_units=='')
+//    {
+//        $_SESSION['rms_errors'] = true;
+//        $err_msgs["req_units"]= "Please enter a valid units";
+//    }
+    
+    if($req_quantity=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_quantity"]= "Please enter a valid quantity";
+    }
+    
+    if($req_priority=='')
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_priority"]= "Please select a valid priority";
+    }
+    
+    $_SESSION['rms_iform_values'] = $item_vlas;
+        
+    $_SESSION['rms_form_errors'] = $err_msgs;
+    
+    return !$_SESSION['rms_errors'];
+}
+
+function rms_validate_iform()
+{
+    
 }
 
 /**
@@ -455,6 +529,10 @@ function show_item_fields($req_id)
     
     if ($recordSet_cat !== false && $recordSet_pri !== false)
     {
+        $ivalues = $_SESSION['rms_iform_values'];
+        $errors = $_SESSION['rms_form_errors'];
+        unset($_SESSION['rms_iform_values']);
+        $_SESSION['rms_form_errors'] ='';
        
 ?>
     <fieldset>
@@ -467,21 +545,34 @@ function show_item_fields($req_id)
             {
                 foreach ($recordSet_cat as $rec)
                 {
+                    if ($rec['cat_id'] != $ivalues['req_category'])
+                    {
         ?>
                     <option value="<?php print $rec['cat_id']?>">
                         <?php print $rec['category']?>
                     </option>
         <?php
+                    }
+                    else
+                    {
+        ?>
+                    <option selected="selected" value="<?php print $rec['cat_id']?>">
+                        <?php print $rec['category']?>
+                    </option>
+        <?php
+                    }
                 }
             }
         ?>            
-        </select><?php print temp_show_required(); ?><br/>    
+        </select><?php print temp_show_required(); ?><?php show_frm_error($errors['req_category']) ?><br/>    
         <label><?php print _("Item") ?></label> 
-        <textarea name="req_item" rows="5" cols="50" wrap="off"></textarea><?php print temp_show_required(); ?><br/>
+        <textarea name="req_item" rows="5" cols="50" wrap="off"><?php print $ivalues['req_item']?></textarea><?php print temp_show_required(); ?>
+        <?php show_frm_error($errors['req_item']) ?><br/>
         <label><?php print _("Units") ?></label> 
-        <input type="text" name="req_units" size="20" maxlength="20"/><br/>
+        <input type="text" value="<?php print $ivalues['req_units']?>" name="req_units" size="20" maxlength="20"/><br/>
         <label><?php print _("Quantity") ?></label> 
-        <input type="text" name="req_quantity" size="20" maxlength="20"/><?php print temp_show_required(); ?><br/>
+        <input type="text" name="req_quantity" value="<?php print $ivalues['req_quantity']?>" size="20" maxlength="20"/><?php print temp_show_required(); ?>
+        <?php show_frm_error($errors['req_quantity']) ?><br/>
         <label><?php print _("Priority") ?></label>
         <select name="req_priority">
         <?php 
@@ -489,15 +580,27 @@ function show_item_fields($req_id)
             {
                 foreach ($recordSet_pri as $rec)
                 {
+                    if ($rec['priority_id'] != $ivalues['priority_id'])
+                    {
         ?>
-                <option value="<?php print $rec['priority_id']?>">
-                    <?php print $rec['priority']?>
-                </option>
+                    <option value="<?php print $rec['priority_id']?>">
+                        <?php print $rec['priority']?>
+                    </option>
         <?php
+                    }
+                    else
+                    {
+        ?>
+                    <option selected="selected" value="<?php print $rec['priority_id']?>">
+                        <?php print $rec['priority']?>
+                    </option>
+        <?php
+                    }
                 }
             }
         ?>
-        </select><?php print temp_show_required(); ?><br/>
+        </select><?php print temp_show_required(); ?>
+        <?php show_frm_error($errors['req_priority']) ?><br/>
         <input type="submit" name="req_add" value="Add"/>
     </fieldset>    
 <?php
@@ -601,9 +704,10 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
             <div id="sres">
             <a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=<?php print $recordSet->fields['req_id'] ?>#list">
                 [<?php print $recordSet->fields['req_date'] ?>] 
-                Requested by : [ <?php print $recordSet->fields['name'] ?>] for 
-                <?php print $recordSet->fields['site_name'] ?> ( <?php print $recordSet->fields['site_district'] ?> : District name)
-            </a>
+                Requested by : <?php print $recordSet->fields['name'] ?> <br> 
+                Site name : <?php print $recordSet->fields['site_name'] ?> 
+                District : <?php print get_district_name($recordSet->fields['site_district']); ?> 
+                </a>
                 <br/>Item Categories: <label>
                 <?php 
                     $rs = get_request_categories($recordSet->fields['req_id']);                                        

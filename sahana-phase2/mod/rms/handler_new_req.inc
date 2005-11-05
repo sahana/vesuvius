@@ -21,7 +21,7 @@ print ("<h3>USER : " . $global['person_id'] . "</h3>");
 
 <?php
 
-if ($_GET['stat'] == 'add' && rms_validate_mform()) 
+if ($_GET['stat'] == 'add' && rms_validate_mform(1)) 
 {    
     $vals = rms_get_initvals();
     $req_date = $vals['req_date'];
@@ -95,7 +95,7 @@ if ($_GET['stat'] == 'add' && rms_validate_mform())
 if ($_GET['stat'] == 'more_itms') 
 {   
     $req_id = $_GET['req_id']; 
-    if ($_GET['add_item'] == 1 && !isset($_GET['remove_item']))
+    if ($_GET['add_item'] == 1 && !isset($_GET['remove_item']) && rms_validate_mform())
     {        
         $req_category = $_POST['req_category'];
         $req_item = $_POST['req_item'];
@@ -103,6 +103,7 @@ if ($_GET['stat'] == 'more_itms')
         $req_quantity = $_POST['req_quantity'];
         $req_priority = $_POST['req_priority'];
         
+        unset($_SESSION['rms_iform_values']);
         $sql = "INSERT INTO rms_req_item (cat_id, item, units, " .
                 "quantity, priority_id, req_id) " .
                "VALUES ($req_category, '$req_item', '$req_units', " .
@@ -150,6 +151,8 @@ if ($_GET['stat'] == 'more_itms')
         </fieldset>
     </form>
 <?php
+    if ($_SESSION['rms_errors'])
+        $_SESSION['rms_errors'] = false;
 }
 
 

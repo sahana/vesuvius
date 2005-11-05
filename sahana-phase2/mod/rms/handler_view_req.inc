@@ -20,8 +20,8 @@ global $global;
 <?php 
 if (!isset($_GET['seq']))
 {
-    $filter = $_GET['filter'];
-    $value = $_GET['value'];
+    $filter = $_REQUEST['filter'];
+    $value = $_REQUEST['value'];
     $user = $_GET['user'];
     $stat = $_GET['stat'];
     
@@ -31,15 +31,21 @@ if (!isset($_GET['seq']))
     $url_usr="index.php?mod=rms&amp;act=vw_req" .
               "&amp;user=$user";
 ?>
-    <?php print _("Request Status")?> : 
+    <div id=req_list_top>
+    <?php print _("Request Status")?> :
     <a href=<?php print $url_usr . "&amp;stat=open"; ?>><?php print _("Open requests")?></a> | 
     <a href=<?php print $url_usr . "&amp;stat=closed"; ?>><?php print _("Closed requests")?></a> | 
     <a href=<?php print $url. "&amp;user=$user" . "&amp;stat=all"; ?>><?php print _("All requests")?></a>
-    <br/>
-    <br/>
+    <?php show_rms_categories($value) ?>
+    </div>
+    <div id=req_list>
+    <br>
 <?php
     show_request_list($filter,$value,$user,'open');
 }
+?>
+    </div>
+<?php
     
 if ($_GET['seq'] == 'detail')
 {
