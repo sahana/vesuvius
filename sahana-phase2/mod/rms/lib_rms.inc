@@ -133,7 +133,9 @@ function get_district_list($name,$dist='')
     $sql = "SELECT location_id,name FROM location WHERE opt_location_type=3";
     $rs = $global['db']->Execute($sql);
     $select = "<select name='$name'>\n";
-    foreach ($rs as $r)
+    $rs_arr = $rs->GetAll();
+    
+    foreach ($rs_arr as $r)
     {
         if($r[0] != $dist)
             $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
@@ -169,7 +171,8 @@ function show_rms_categories($value)
     $select = "<form action='$url' name=req_fil_cat method=post>\n";
     $select .= _("Filter by Category");
     $select .= "<select name='value' onChange='submit();'>\n";
-    foreach ($rs as $r)
+    $rs_arr = $rs->GetAll();
+    foreach ($rs_arr as $r)
     {
         if($r[0] != $value)
             $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
@@ -184,8 +187,7 @@ function show_rms_categories($value)
 function show_rms_heading()
 {
 ?>
-    <!-- RMS -->
-    <h2> <?php print _("The Request Management System") ?></h2><br/>
+    <h2> <?php print _("The Request Management System") ?></h2>
 <?php
 }
 
@@ -543,7 +545,8 @@ function show_item_fields($req_id)
         <?php 
             if (!$recordSet_cat->EOF)
             {
-                foreach ($recordSet_cat as $rec)
+                $rs_arr_cat = $recordSet_cat->GetAll();
+                foreach ($rs_arr_cat as $rec)
                 {
                     if ($rec['cat_id'] != $ivalues['req_category'])
                     {
@@ -578,7 +581,8 @@ function show_item_fields($req_id)
         <?php 
             if (!$recordSet_pri->EOF)
             {
-                foreach ($recordSet_pri as $rec)
+                $rs_arr_pri = $recordSet_pri->GetAll();
+                foreach ($rs_arr_pri as $rec)
                 {
                     if ($rec['priority_id'] != $ivalues['priority_id'])
                     {
@@ -674,7 +678,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     {
         $where = "WHERE user_id=$user_id AND status='$status'";
         $where_fil = "req.user_id=$user_id  AND req.status='$status' AND";
-        $list_of = "User_test :$user_id";
+        $list_of = "User :$user_id";
     }
     
     
@@ -697,18 +701,33 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     {            
 ?>
       <h3>List of <?php print ucfirst($status) ?> (status) requests for <?php print $list_of . "&nbsp;" . $filtered_by?></h3>
+      <div id ="result">
+    <table>
+        <thead>
+            <td><?php print _("Date/Time") ?></td>
+            <td><?php print _("Requester") ?></td>
+            <td><?php print _("Site") ?></td>
+            <td><?php print _("District") ?></td>
+            <td><?php print _("Categories") ?></td>
+            <td><?php print _("View") ?></td>
+        </thead>
+        <tbody>
 <?php 
         while (!$recordSet->EOF)
         {   
 ?>
-            <div id="sres">
-            <a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=<?php print $recordSet->fields['req_id'] ?>#list">
-                [<?php print $recordSet->fields['req_date'] ?>] 
-                Requested by : <?php print $recordSet->fields['name'] ?> <br> 
-                Site name : <?php print $recordSet->fields['site_name'] ?> 
-                District : <?php print get_district_name($recordSet->fields['site_district']); ?> 
-                </a>
-                <br/>Item Categories: <label>
+    
+        <tr>
+        
+        <td><?php print  $recordSet->fields['req_date'] ?></td>
+        <td><?php print  $recordSet->fields['name'] ?></td>
+        <td><?php print  $recordSet->fields['site_name'] ?></td>
+        <td><?php print  print get_district_name($recordSet->fields['site_district']); ?></td>
+        <td>
+            
+        
+            
+                
                 <?php 
                     $rs = get_request_categories($recordSet->fields['req_id']);                                        
                     while (!$rs->EOF)
@@ -724,13 +743,16 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
                             print ", ";
                     }
                 ?>
-                </label>
-            </div><br/>
+                </td>
+                <td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=<?php print $recordSet->fields['req_id'] ?>#list">View</a></td>
+        </tr>
 <?php
             $recordSet->MoveNext();
         }
 ?>
-      
+      </tbody>
+  </table>
+  </div>
 <?php
     $recordSet->Close();
     }
@@ -912,8 +934,8 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
         <label><?php print _("Item") ?></label>
         <select name="ff_item">
         <?php
-            
-            foreach ($rs_itms as $rec)
+            $rs_arr_itms = $rs_itms->GetAll();
+            foreach ($rs_arr_itms as $rec)
             {
         ?>
             <option value="<?php print $rec[0]?>"><?php print $rec[1]?></option>

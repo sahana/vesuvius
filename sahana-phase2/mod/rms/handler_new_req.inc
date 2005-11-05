@@ -24,7 +24,7 @@ print ("<h3>USER : " . $global['person_id'] . "</h3>");
 if ($_GET['stat'] == 'add' && rms_validate_mform(1)) 
 {    
     $vals = rms_get_initvals();
-    $req_date = $vals['req_date'];
+    //$req_date = $vals['req_date'];
     $req_name = $vals['req_name'];
     $req_contact = $vals['req_contact'];
     $req_address = $vals['req_address'];
@@ -36,9 +36,9 @@ if ($_GET['stat'] == 'add' && rms_validate_mform(1))
     
     
     
-    $sql = "INSERT INTO rms_request (req_date, name, contact, address, site_name," .
+    $sql = "INSERT INTO rms_request (name, contact, address, site_name," .
             " site_district, site_address, comments, user_id) " .
-           "VALUES ('$req_date', '$req_name', '$req_contact', '$req_address'," .
+           "VALUES ('$req_name', '$req_contact', '$req_address'," .
             " '$req_site_name', '$req_site_district', '$req_site_address'," .
             " '$req_comments', '$user_id')";
     

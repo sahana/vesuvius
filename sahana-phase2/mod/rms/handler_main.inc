@@ -29,8 +29,8 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 
 <?php show_rms_heading(); ?>
 
-<div>
-<h3><?php print _("User Information")?></h3>
+<div id="left">
+<div id="heading"><?php print _("User Information")?></div>
 <?php print _("User Name" . " : ")?><br/>
 <?php print _("User ID" . " : " . $user_id)?><br/>
 <?php print _("Total Requests" . " : " . $user_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)<br/>
@@ -40,12 +40,14 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 
 </div>
 
-<div>
-<br/>
-<h3><?php print _("Organization Information")?></h3>
+<div id="center">
+<div id="heading"><?php print _("Organization Information")?></div>
 <?php print _("Org. Name" . " : ")?><br/>
 <?php print _("Org. ID" . " : " . $org_id)?><br/>
 <?php print _("Total Requests" . " : " . $org_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>) <br/>
 </div>
-<br/>
+
+<div id="right">
+<div id="heading"><?php print _("Full Statistics")?></div>
 <h4><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all">View</a>) </h4>
+</div>
