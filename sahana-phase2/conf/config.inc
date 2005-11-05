@@ -27,7 +27,7 @@
 $conf['sahana_status'] = 'installed';
 
 # Disable the access control system
-$conf['diableACL'] = false;
+$conf['disableACL'] = true;
 
 
 # specify the host ip address of the database reside.
