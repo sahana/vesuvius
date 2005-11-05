@@ -430,7 +430,7 @@ function show_init_vals($legend)
         <label><?php print _("Requester Contact") ?></label><value><?php print $vals['req_contact']?></value><br/>
         <label id="txtarea"><?php print _("Requester Address") ?></label><value id="txtarea"><?php print $vals['req_address']?></value><br/>
         <label><?php print _("Site Name") ?></label><value><?php print $vals['req_site_name']?></value><br/>
-        <label><?php print _("Site District") ?></label><value><?php print $vals['req_site_district']?></value><br/>
+        <label><?php print _("Site District") ?></label><value><?php print get_district_name($vals['req_site_district']);?></value><br/>
         <label id="txtarea"><?php print _("Site Address") ?></label><value id="txtarea"><?php print $vals['req_site_address']?></value><br/>
         <label id="txtarea"><?php print _("Comments") ?></label><value id="txtarea"><?php print $vals['req_comments']?></value><br/>
     </fieldset>
@@ -722,7 +722,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
         <td><?php print  $recordSet->fields['req_date'] ?></td>
         <td><?php print  $recordSet->fields['name'] ?></td>
         <td><?php print  $recordSet->fields['site_name'] ?></td>
-        <td><?php print  print get_district_name($recordSet->fields['site_district']); ?></td>
+        <td><?php print  get_district_name($recordSet->fields['site_district']); ?></td>
         <td>
             
         
