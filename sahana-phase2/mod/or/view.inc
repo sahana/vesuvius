@@ -259,8 +259,8 @@ function shn_or_viewform_allvol(){
     $db=$global['db'];
     
 ?>
-<div id ="result">
     <h2>Volunteer Registry</h2>
+<div id ="result">
     <table>
         <thead>
             <td>Name</td>
