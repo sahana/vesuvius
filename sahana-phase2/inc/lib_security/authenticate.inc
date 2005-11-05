@@ -21,6 +21,7 @@
 */
 include "acl_api.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
+require_once ($global['approot'].'inc/constants.inc');
 
 function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 {
@@ -70,10 +71,11 @@ function shn_is_user($user_name){
     global $global;
     $db=$global['db'];
 	$res=$db->Execute($q);
-    if($res->EOF)
+    if($res->EOF){
         return false;
-    else
+    }else {
         return true;
+    }
 }
 
 /**
@@ -98,7 +100,13 @@ function shn_authenticate_user()
     global $global;
     $db=$global['db'];
 	$user_data=array("user_id"=>1,"user"=>"guest");
- 	/* if user has not requested login no need to authenticate, simply
+    if("logout"==$_GET['act']){
+     	$user_data["user_id"]=1;
+     	$user_data["user"]="guest";
+     	$user_data["result"]=LOGGEDOUT;
+	 	return $user_data ;
+    }
+    /* if user has not requested login no need to authenticate, simply
 	return -1 , so the calling application can identify that 			
 	authentication was not attempted
 	*/
@@ -109,6 +117,7 @@ function shn_authenticate_user()
     //authentication is done only as the user requested to login
         $user = $_POST{"user_name"};
         $pwd =$_POST{"password"};
+     	$user_data["result"]=LOGGEDOUT;
          // Create a digest of the password collected from the challenge
         $password_digest = md5(trim($pwd));
         // Formulate the SQL to find the user
@@ -121,6 +130,7 @@ function shn_authenticate_user()
             if($user_id>1){
      		    $user_data["user_id"]=$user_id;
      		    $user_data["user"]=$user;
+     	        $user_data["result"]=LOGGEDIN;
 			    return $user_data;
             }
             else{

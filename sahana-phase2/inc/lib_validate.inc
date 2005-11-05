@@ -164,11 +164,12 @@ function shn_is_null($field)
     }
 }
 
-function shn_is_opt_field($opt_field)
+function shn_is_opt_field($opt_field,$opt_value)
 {
     global $global;
-    $result = $global['db']->GetOne("SELECT * FROM field_options WHERE option_code LIKE '$opt_field'");
-    if($result)
+    $q="SELECT * FROM field_options WHERE option_code='$opt_value' and field_name='$opt_field'";
+   $result = $global['db']->Execute($q);
+    if(!$result->EOF)
         return true;
     else
         return false;
@@ -200,12 +201,53 @@ function shn_validate_field($field,$desc,$max_len,$check_null=false){
     }
 }
 
-function shn_validate_opt_field($field,$desc,$max_len,$check_null=false){
-    if (shn_validate_field($field,$desc,$max_len,$check_null)){
-        if (shn_is_opt_field(shn_clean($field))){
-            return true;
+function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
+    if (shn_validate_field($field,$desc,$max_len,true)){
+        $i=0;
+        if(!$array){
+             if (shn_is_opt_field($type,shn_clean($field)))
+                return true;
         }else {
-            add_error("You Have to Select a Value from the list box");
+            $i=0;
+            while ($i<count($field)){
+                if (!shn_is_opt_field($type,shn_clean($field[$i]))){
+                    add_error("You Have to Select a Value from the list box");
+                    return false;
+                }
+                $i=$i+1;
+            }
+            return true;
+        }
+    }else {
+        return false;
+    }
+}
+
+function shn_validate_user_name($field){
+    if (shn_validate_field($field,"User Name",100,true)){
+        if (shn_is_user($field)){
+            add_error("User Already Exists");
+            return false;
+        }else {
+            return true;
+        }
+    }else {
+        return false;
+    }
+}
+
+function shn_validate_password($field){
+   return true;
+   $PWDPOLICY="password must adhere to following rules:
+    1. only numbers and letters.
+    2. minimum length is 8.
+    3. at least one number and one letter in the expression."; 
+    $pattern='/([0-9]+[a-z]\+){8}/';
+    if (shn_validate_field($field,"Password",100,true)){
+        if(preg_match($pattern,$field))
+            return true;
+        else{
+            add_error($PWDPOLICY);
             return false;
         }
     }else {
