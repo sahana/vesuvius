@@ -191,7 +191,7 @@ function show_rms_categories($value)
 function show_rms_heading()
 {
 ?>
-    <h2> <?php print _("The Request Management System") ?></h2>
+    <h1> <?php print _("Request Management System") ?></h1>
 <?php
 }
 
@@ -211,16 +211,16 @@ function show_rms_initform()
             <label><?php print _("Requester Contact") ?></label> 
             <input type="text" name="req_contact" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
             <label><?php print _("Requester Address") ?></label> 
-            <textarea name="req_address" rows="5" cols="50" wrap="off"></textarea><br/>
+            <textarea name="req_address" rows="3" cols="50" wrap="off"></textarea><br/>
             <label><?php print _("Site Name") ?></label> 
             <input type="text" name="req_site_name" size="40" maxlength="40"/><?php print temp_show_required(); ?><br/>
             <label><?php print _("Site District") ?></label>
             <?php get_district_list("req_site_district") ?><?php print temp_show_required(); ?>
             <br/>
             <label><?php print _("Site Address") ?></label> 
-            <textarea name="req_site_address" rows="5" cols="50" wrap="off"></textarea><br/>
+            <textarea name="req_site_address" rows="3" cols="50" wrap="off"></textarea><br/>
             <label><?php print _("Comments") ?></label> 
-            <textarea name="req_comments" rows="5" cols="50" wrap="off"></textarea><br/>
+            <textarea name="req_comments" rows="3" cols="50" wrap="off"></textarea><br/>
         </fieldset>
 <?php
     }
@@ -244,7 +244,7 @@ function show_rms_initform()
             <?php print temp_show_required(); ?> <?php show_frm_error($errors['req_contact']) ?><br/>
             
             <label><?php print _("Requester Address") ?></label> 
-            <textarea name="req_address" rows="5" cols="50" wrap="off"><?php print $values['req_address'] ?></textarea> <?php show_frm_error($errors['req_address']) ?><br/>
+            <textarea name="req_address" rows="3" cols="50" wrap="off"><?php print $values['req_address'] ?></textarea> <?php show_frm_error($errors['req_address']) ?><br/>
             
             <label><?php print _("Site Name") ?></label> 
             <input type="text" name="req_site_name" value="<?php print $values['req_site_name'] ?>" size="40" maxlength="40"/>
@@ -256,11 +256,11 @@ function show_rms_initform()
             <br/>
             
             <label><?php print _("Site Address") ?></label> 
-            <textarea name="req_site_address" rows="5" cols="50" wrap="off"><?php print $values['req_site_address'] ?></textarea> 
+            <textarea name="req_site_address" rows="3" cols="50" wrap="off"><?php print $values['req_site_address'] ?></textarea> 
              <?php show_frm_error($errors['req_site_address']) ?><br/>
             
             <label><?php print _("Comments") ?></label> 
-            <textarea name="req_comments" rows="5" cols="50" wrap="off"><?php print $values['req_comments'] ?></textarea> <?php show_frm_error($errors['req_comments']) ?><br/>
+            <textarea name="req_comments" rows="3" cols="50" wrap="off"><?php print $values['req_comments'] ?></textarea> <?php show_frm_error($errors['req_comments']) ?><br/>
         </fieldset>
 <?php
     }
@@ -600,7 +600,7 @@ function show_item_fields($req_id)
         ?>            
         </select><?php print temp_show_required(); ?><?php show_frm_error($errors['req_category']) ?><br/>    
         <label><?php print _("Item") ?></label> 
-        <textarea name="req_item" rows="5" cols="50" wrap="off"><?php print $ivalues['req_item']?></textarea><?php print temp_show_required(); ?>
+        <textarea name="req_item" rows="3" cols="50" wrap="off"><?php print $ivalues['req_item']?></textarea><?php print temp_show_required(); ?>
         <?php show_frm_error($errors['req_item']) ?><br/>
         <label><?php print _("Units") ?></label> 
         <input type="text" value="<?php print $ivalues['req_units']?>" name="req_units" size="20" maxlength="20"/><br/>
