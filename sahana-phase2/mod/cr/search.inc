@@ -36,18 +36,66 @@ function _shn_cr_srch_rst($camp_name,$type){
         </thead>
         
         <tbody>
+        
         <?php
         
-         /* Search for a given Camp Name*/
-         
-			global $global;
-			$db=$global['db'];
-   		$q = "select * from camp where name='{$camp_name}'AND opt_camp_type='{$type}'";	 
-     		$res_cmp =$db->Execute($q);
+             /* Search for a given Camp Name with the matching for the specific Camp Type*/
+	
+			if($type != "all"){
+					        	global $global;
+								$db=$global['db'];	
+								
+   					$q = "select * from camp where name='{$camp_name}'AND opt_camp_type='{$type}'";	
+    		     		$res_cmp =$db->Execute($q);
    	
    	           while (!$res_cmp->EOF){
-    						$c_uuid  =$res_cmp->fields[0];        
-    						$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+   	           		$c_uuid  =$res_cmp->fields[0];   
+   	           		 
+   	           		$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+   						$res_maincmp =$db->Execute($qdetails);
+    						$loc  =$res_cmp->fields[2];   
+    						$qloc = "select * from location where location_id='{$loc}'";
+    						$res_loc =$db->Execute($qloc);
+    						$type  =$res_cmp->fields[3]; 
+    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$res_type =$db->Execute($qtype);
+    					
+    		?> 
+			<tr>
+    				<td><?php echo $res_cmp->fields[1]?></td>
+  					<td><?php echo $res_loc->fields[4]?></td>
+  					<td><?php echo $res_maincmp->fields[4]?></td>
+  					<td><?php echo $res_type->fields[2]?></td>
+  					<td><?php echo $res_maincmp->fields[9]?></td>
+  					<td><?php echo $res_maincmp->fields[7]?></td>
+  					<td><?php echo $res_maincmp->fields[8]?></td>
+  					<td><?php echo $res_maincmp->fields[10]?></td>
+  					<td><?php echo $res_maincmp->fields[11]?></td>
+    		</tr>
+    		<?php
+    				$res_cmp->MoveNext();
+   	  		   } 
+   	  		   	 
+   	  		   ?>
+   </tbody>
+   </table>
+     </div>
+  <?php
+      
+  }
+  
+  else
+  {		global $global;
+			$db=$global['db'];
+								
+   		$q = "select * from camp where name='{$camp_name}'";	
+   		 
+   		     		$res_cmp =$db->Execute($q);
+   	
+   	           while (!$res_cmp->EOF){
+   	           		$c_uuid  =$res_cmp->fields[0];     
+   	           		$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+   	           		
     						$res_maincmp =$db->Execute($qdetails);
     						$loc  =$res_cmp->fields[2];   
     						$qloc = "select * from location where location_id='{$loc}'";
@@ -74,9 +122,13 @@ function _shn_cr_srch_rst($camp_name,$type){
    	  		   	 
    	  		   ?>
    </tbody>
-   </div>
    </table>
+        </div>
    <?php
+  }
+  
+  
+			
 	}
 
 /*The Form to handle the Search Functionality*/
@@ -92,8 +144,8 @@ function _shn_cr_srch(){
  			?>
  			<br>		
 			<?php
-         shn_form_opt_select("opt_camp_type","Camp Type",array('value'=>"Any"));
-         shn_form_fsclose();
+		   shn_form_opt_select("opt_camp_type","Camp Type",null,array('all'=>true));
+		   shn_form_fsclose();
 			shn_form_submit("Search");
 			shn_form_fclose();
 				
