@@ -19,7 +19,9 @@ include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
-function _shn_cr_cadd_start(){
+function _shn_cr_cadd_start($errors=false){
+	if($errors)
+		display_errors();
 	global $global;
 	$db = $global['db'];
 ?>
@@ -28,7 +30,7 @@ function _shn_cr_cadd_start(){
 	shn_form_fopen(acmp);
 	shn_form_fsopen("General Details");
 	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_text("Camp Name","camp_name",'size="60"');
+	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type","Camp Type");
 ?>
 <label>Division</label>
@@ -71,7 +73,10 @@ function _shn_cr_cadd_start(){
 	shn_form_fclose();
 }
 
-function _shn_cr_cadd_chk(){
+function _shn_cr_cadd_chk($errors=false){
+if($errors)
+	display_errors;
+	
 	global $global;
 	$_SESSION['camp_name']=$_POST['camp_name'];
 	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
@@ -120,6 +125,52 @@ return $id;
 
 }
 
+function _shn_cr_validate_error(){
+	clean_errors();
+	$error_flag=false;
+
+
+	if(null == ($_POST['camp_name'])){
+			add_error(_("Please Enter the Camp Name"));
+			$error_flag=true;
+	}
+	//echo $_POST['family'];
+	if(!(null == ($_POST['family']))){
+		if(!is_numeric(trim($_POST['family']))){
+			add_error(_("The Familiy Count is not a valid number"));
+			$error_flag=true;
+		}
+	}
+	if(!(null == ($_POST['total']))){
+		if(!is_numeric(trim($_POST['total']))){
+			add_error(_("The Total Count is not a valid number"));
+			$error_flag=true;
+		}
+	}
+	if(!(null == ($_POST['men']))){
+		if(!is_numeric(trim($_POST['men']))){
+			add_error(_("The Men Count is not a valid number"));
+			$error_flag=true;
+		}
+	}
+	if(!(null == ($_POST['women']))){
+		if(!is_numeric(trim($_POST['women']))){
+			add_error(_("The Women Count is not a valid number"));
+			$error_flag=true;
+		}
+	}
+	if(!(null == ($_POST['children']))){
+		if(!is_numeric(trim($_POST['children']))){
+			add_error(_("The Children Count is not a valid number"));
+			$error_flag=true;
+		}
+	}
+	
+
+	
+	return $error_flag;
+}
+
 function _shn_cr_cadd_commit_db(){
 //insert to database;
 global $global;
@@ -141,11 +192,9 @@ $res = $db->Execute($q);
 
 /*insert services into camp_services table
 //currently add checked values.
-@todo:  handle unchecked values
 */								
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
-	//@todo:	handle unchecked values
 		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
 	$res = $db->Execute($q);
 	}
