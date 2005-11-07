@@ -13,8 +13,10 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
-$global['rms_db_dbug'] = true;
+$global['rms_db_dbug'] = false;
+
 $global['person_id'] = $_SESSION['user_id'];
+
 if ($global['person_id'])
     $global['org_id'] = $global['person_id'];
 else
