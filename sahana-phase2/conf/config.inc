@@ -29,7 +29,6 @@ $conf['sahana_status'] = 'installed';
 # Disable the access control system
 $conf['disableACL'] = true;
 
-
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
 #
