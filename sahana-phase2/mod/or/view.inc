@@ -23,7 +23,7 @@ function shn_or_viewform_allorg($no=NULL){
     
 ?>
 
-<h2 align="center">Organization Registry</h2>
+<h1 align="center">Organization Registry</h1>
 <div id ="result">
     <table>
         <thead>
@@ -205,7 +205,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 
     }
 ?>
-<center><h2>Organization Registration Information of <h1> <?php echo $org_name?></h1></h2></center>
+<h1 align="center">Organization Registration Information of <em> <?php echo $org_name?></em></h1></center>
          
 <div id="formcontainer">
 <?php
@@ -283,7 +283,7 @@ function shn_or_viewform_allvol(){
     $db=$global['db'];
     
 ?>
-    <h2 align="center">Volunteer Registry</h2>
+    <h1 align="center">Volunteer Registry</h1>
 <div id ="result">
     <table>
         <thead>
@@ -420,7 +420,7 @@ function shn_or_viewform_vol($pid){
     }
 ?>
 
-<center><h2>Volunteer Registration information of<h1><?php echo $name ?></h1> </h2></center>
+<h1 align="center">Volunteer Registration information of<em><?php echo $name ?></em> </h1>
 
 <div id="formcontainer">
 <?php
