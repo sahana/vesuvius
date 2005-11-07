@@ -320,56 +320,70 @@ function rms_validate_mform($mode=0)
     //    }
     }
     
-    //Item info
-    $req_category = $_POST['req_category'];
-    $req_item = $_POST['req_item'];
-    $req_units = $_POST['req_units'];
-    $req_quantity = $_POST['req_quantity'];
-    $req_priority = $_POST['req_priority'];
-    
-    $item_vlas = array("req_category"=>$req_category,
-                       "req_item"=>$req_item,
-                       "req_units"=>$req_units,
-                       "req_quantity"=>$req_quantity,
-                       "req_priority"=>$req_priority
-                       );
-    
-    array_walk($item_vlas,'clean_frm_val');
-    
-    if($req_category=='')
+    if ($mode == 2)   //handling fulfill data
     {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_category"]= "Please select a valid category";
+        $ff_quantity = $_POST['ff_quantity'];
+        
+                
+        if(!is_numeric($ff_quantity))
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["ff_quantity"]= "The Quantity has to be a numeric value";
+        }
     }
-    
-    if($req_item=='')
+    else
     {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_item"]= "Please enter a valid item";
-    }
-    
-//    if($req_units=='')
-//    {
-//        $_SESSION['rms_errors'] = true;
-//        $err_msgs["req_units"]= "Please enter a valid units";
-//    }
-    
-    if($req_quantity=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_quantity"]= "Please enter a valid quantity";
-    }
-    
-    if(!is_numeric($req_quantity))
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_quantity"]= "The Quantity has to be a numeric value";
-    }
-    
-    if($req_priority=='')
-    {
-        $_SESSION['rms_errors'] = true;
-        $err_msgs["req_priority"]= "Please select a valid priority";
+        //Item info
+        $req_category = $_POST['req_category'];
+        $req_item = $_POST['req_item'];
+        $req_units = $_POST['req_units'];
+        $req_quantity = $_POST['req_quantity'];
+        $req_priority = $_POST['req_priority'];
+        
+        $item_vlas = array("req_category"=>$req_category,
+                           "req_item"=>$req_item,
+                           "req_units"=>$req_units,
+                           "req_quantity"=>$req_quantity,
+                           "req_priority"=>$req_priority
+                           );
+        
+        array_walk($item_vlas,'clean_frm_val');
+        
+        if($req_category=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_category"]= "Please select a valid category";
+        }
+        
+        if($req_item=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_item"]= "Please enter a valid item";
+        }
+        
+    //    if($req_units=='')
+    //    {
+    //        $_SESSION['rms_errors'] = true;
+    //        $err_msgs["req_units"]= "Please enter a valid units";
+    //    }
+        
+        if($req_quantity=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_quantity"]= "Please enter a valid quantity";
+        }
+        
+        if(!is_numeric($req_quantity))
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_quantity"]= "The Quantity has to be a numeric value";
+        }
+        
+        if($req_priority=='')
+        {
+            $_SESSION['rms_errors'] = true;
+            $err_msgs["req_priority"]= "Please select a valid priority";
+        }
     }
     
     $_SESSION['rms_iform_values'] = $item_vlas;
@@ -938,6 +952,7 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
     
     if ($is_fulfill && !$rs_itms->EOF)
     {
+        $errors = $_SESSION['rms_form_errors'];
 ?>
     <br/>
     
@@ -956,7 +971,8 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
         ?>            
         </select><br/>
         <label><?php print _("Quantity") ?></label> 
-        <input type="text" name="ff_quantity" size="20" maxlength="20"/><br/>
+        <input type="text" name="ff_quantity" size="20" maxlength="20"/>
+        <?php show_frm_error($errors['ff_quantity']) ?><br/>
         <label><?php print _("Status") ?></label>
         <select name="ff_status">
             <option value="Under Consideration">Under Consideration</option>

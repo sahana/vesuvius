@@ -49,12 +49,11 @@ if ($_GET['seq'] == 'detail')
     $req_id = $_GET['req_id'];
     $user_id = $global['person_id'];
 ?>
-    <h3>USER: <?php print $global['person_id']; ?></h3>
     <form id="rmsforms" action="">
     <?php show_init_vals(_("Request Information")); ?>
     <br/>
 <?php
-    if (is_requester($req_id,$user_id))
+    if (is_requester($req_id,$user_id)) //single user mode
     {
         show_ffitems_table(false,false);
 ?>  
@@ -66,7 +65,9 @@ if ($_GET['seq'] == 'detail')
     {
 ?> 
     | [<a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
-     <?php print _("Close Request") ?> </a>]    
+     <?php print _("Close Request") ?> </a>]   
+    | [<a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>#form">
+     <?php print _("Fulfill") ?></a>] 
 <?php
     }
     }

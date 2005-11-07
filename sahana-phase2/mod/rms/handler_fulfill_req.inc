@@ -15,8 +15,9 @@
 
 global $global;
 $req_id = $_GET['req_id'];
+require_once('lib_rms.inc');
  
-if ($_GET['seq'] == 'add')
+if ($_GET['seq'] == 'add' && rms_validate_mform(2))
 {
     $itm = $_POST['ff_item'];
     $user = $global['person_id'];

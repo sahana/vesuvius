@@ -14,7 +14,6 @@
 global $global;
 
 $global['items'] = false;
-print ("<h3>USER : " . $global['person_id'] . "</h3>");
 ?>
 
 <?php show_rms_heading(); ?>
