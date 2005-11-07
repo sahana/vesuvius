@@ -19,7 +19,7 @@
 
 function shn_cr_default(){
 ?>
-	<h1><center>Camps Registry</center></h1>
+	<h1 align="center">Camps Registry</h1>
 	<br>
 <?php
 	//shn_cr_arpt();
@@ -29,7 +29,7 @@ function shn_cr_default(){
 <img src="theme/default/img/cr.jpg"/>
 
 	<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
-	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br>
+	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br />
 
 </div>
 								
