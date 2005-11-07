@@ -457,6 +457,18 @@ form ul.list {
 	border: 3px #98AAB1 solid;
 }
 
+#result img{
+	width:40%;
+	float:left;
+	padding-bottom: 1em;
+}
+
+#result ul{
+	width:60%;
+	float:left;
+	padding-bottom: 1em;
+}
+
 #result table{
 	background:white;
 	width:100%;
