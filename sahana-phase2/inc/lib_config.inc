@@ -4,7 +4,8 @@ function shn_config_update($modify, $config_file, $output_file)
     global $global;
 
     $fh_c = fopen($config_file,'r');
-    $fh_t = fopen($output_file,'w');
+    if (!( $fh_t = fopen($output_file,'w') ))
+        return false; // if unable to open the file for write
 
     while (! feof ($fh_c) ) {
         
@@ -24,5 +25,6 @@ function shn_config_update($modify, $config_file, $output_file)
     }
     fclose($fh_c);
     fclose($fh_t);
+    return true;
 }
 ?>
