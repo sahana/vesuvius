@@ -35,9 +35,9 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
     
     $output = "<div id=\"error\">";
 	if($exit){
-		$output .= '<b>'._('The following fields were invalid').'</b><br>'; 
+//		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
 	}else{
-		$output .= '<b>'._('The following fields were invalid')."</b><br>";
+//		$output .= '<b>'._('O\' my god you killed Kenny !!!')."</b><br>";
 	}
     $output .= "<ul>";
 	foreach ($error_container as $error){

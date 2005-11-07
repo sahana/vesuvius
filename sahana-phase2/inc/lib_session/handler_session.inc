@@ -20,7 +20,8 @@
 e.g write sessions to the database or files 
 */
 require_once ($global['approot'].'inc/lib_security/authenticate.inc');
-
+require_once ($global['approot'].'inc/constants.inc');
+global $global;
 switch ($conf["session_writer"]){
 
 case "database":
@@ -54,11 +55,26 @@ default:
 shn_session_start();
 
 // authenticate user
-	$user_data = shn_authenticate_user();
+$user_data = shn_authenticate_user();
 
- 	if($user_data["user_id"]>1){
-		shn_session_change($user_data);
-    }
+switch ($user_data["result"]){
+    case LOGGEDIN:
+	    shn_session_change($user_data);
+        $global["module"]=$_SESSION["last_module"];
+        $global["action"]=$_SESSION["last_action"];
+        $global['previous']=true;
+        break;
+    case LOGGEDOUT:
+		shn_session_end($user_data);
+        $global["module"]=$_SESSION["last_module"];
+        $global["action"]=$_SESSION["last_action"];
+        $global['previous']=true;
+        break;
+    default:
+        break;
+}
+
+
 
 /**
 *this function is a wrapper around session_start()
@@ -129,7 +145,16 @@ function shn_session_change($user_data){
     $_SESSION['user_id'] =$user_data["user_id"];
 	return ;
 }
-
+function shn_session_end($user_data){
+	/*regenerate the session id and send to the client, this  is essential
+	as user obtained different privileges
+	*/ 
+	session_regenerate_id();
+    $_SESSION['logged_in'] = false;
+    $_SESSION['user'] = $user_data["user"];
+    $_SESSION['user_id'] =$user_data["user_id"];
+	return ;
+}
 /**
 *function which checks whether a Session variable is already registered
 *since there are many modules ,there is the possibility of one module
