@@ -60,7 +60,7 @@ function shn_mpr_editmp_load($p_uuid)
     $sql = "SELECT 
                 a.full_name, a.family_name, a.l10n_name,
                 b.birth_date, b.opt_age_group, b.opt_race, b.opt_religion, 
-                b.opt_marital_status,
+                b.opt_marital_status, b.opt_gender,
                 c.opt_blood_type, c.height, c.weight, c.opt_eye_color, c.opt_skin_color,
                 c.opt_hair_color, c.comments as physical_comments, 
                 d.last_seen, d.last_clothing, d.comments,
@@ -101,6 +101,7 @@ function shn_mpr_editmp_load($p_uuid)
     $_SESSION['mpr_entry']['rep_email'] = $rs->fields['rep_email'];
     $_SESSION['mpr_entry']['address'] = $rs->fields['address'];
     $_SESSION['mpr_entry']['zip'] = $rs->fields['postcode'];
+    $_SESSION['mpr_entry']['opt_gender'] = $rs->fields['opt_gender'];
 
     //Home phone
     $sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
