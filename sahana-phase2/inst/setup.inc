@@ -30,7 +30,8 @@ function shn_setup_main()
         
     case 'cfgsetup': // third setup form
 
-        if (shn_setup_config_update()) { // check if writing the file was a success
+        if (shn_setup_config_update($_POST['conffile'])) { 
+            // check if writing the file was a success
             shn_setup_form3();
         } else {
             display_errors();
@@ -38,57 +39,12 @@ function shn_setup_main()
         }
         break;
 
-
     default: 
         // first database setup form
         shn_setup_form1();
 
     }
     shn_setup_footer();
-}
-
-// the config file setup form
-function shn_setup_form2()
-{
- ?>
-    <h1>Sahaha Web Setup - Step 2</h2>
-    <p> Please follow the following steps to setup the Sahana configuration </p>
-<?php
-    shn_form_fopen("cfgsetup");
-    
-    // pass the previous post varibles into hidden for the configuration file
-    shn_form_hidden( array(
-        'dbhost' => $_POST['dbhost'] ,
-        'dbname' => $_POST['dbname'] ,
-        'dbuser' => $_POST['dbuser'] ,
-        'dbpass' => $_POST['dbpass'] ));           
-
-    shn_form_fsopen('Configuration');
-    shn_form_select(
-        array( 'default' => 'Default Theme'), 
-                "Theme", "theme");
-    shn_form_select(
-        array( 'disable' => 'Disable'), 
-                "Access Control","acl");
-    shn_form_fsclose();
-
-    shn_form_submit('Setup Configuration >>');
- 
-    shn_form_fclose();
-}
-function shn_setup_form3()
-{
-    global $global;
-    if (copy('/tmp/sahana-config.inc', $global['approot'].'conf/config.inc')) {
-?>
-    <h1>Sahaha Web Setup</h2>
-    <p> Installation is complete. To start using Sahana click on the button below.</p>
-<?php
-        shn_form_fopen("default");
-        shn_form_submit('Start Sahana');
-        shn_form_fclose();
-    }
-
 }
 
 // the database setup form
@@ -124,6 +80,79 @@ function shn_setup_form1()
     shn_form_fsclose();
     shn_form_submit('Setup Database >>');
  
+    shn_form_fclose();
+}
+
+
+// the config file setup form
+function shn_setup_form2()
+{
+ ?>
+    <h1>Sahaha Web Setup - Step 2</h2>
+    <p> Please follow the following steps to setup the Sahana configuration </p>
+<?php
+    global $global;
+
+    shn_form_fopen("cfgsetup");
+    
+    // pass the previous post varibles into hidden for the configuration file
+    shn_form_hidden( array(
+        'dbhost' => $_POST['dbhost'] ,
+        'dbname' => $_POST['dbname'] ,
+        'dbuser' => $_POST['dbuser'] ,
+        'dbpass' => $_POST['dbpass'] ));           
+
+    shn_form_fsopen('Settings');
+    shn_form_select(
+        array( 'default' => 'Default Theme'), 
+                "Theme", "theme");
+    shn_form_select(
+        array( 'disable' => 'Disable'), 
+                "Access Control","acl");
+    shn_form_fsclose();
+
+    shn_form_fsopen('Configuration File');
+?>
+    <p>The PHP/Web Server should normally not have access to write 
+    or modify the configuration file located in Sahana application <b>/conf</b> 
+    directory, as this is a security risk. Please specify where to temporarily
+    write the file (e.g. /tmp). Subsequently you need to copy this file to 
+    the Sahana <b>/conf</b> directory.</p>
+<?php
+    shn_form_text('Location To Write Config File','conffile','size="50"',
+                array('value'=>'/tmp/config.inc','req'=>true ));
+    shn_form_fsclose();
+
+    shn_form_submit('Write Configuration File >>');
+ 
+    shn_form_fclose();
+}
+
+
+function shn_setup_form3()
+{
+?>
+    <h1>Sahaha Web Setup - Step 3</h2>
+    <p>Configuration file <?=$_POST['conffile']?> has been successfully written.</p>
+
+<?php
+    global $global;
+    shn_form_fopen('default','home');
+    shn_form_fsopen("Configuration File");
+    shn_form_hidden( array(
+        'conffile' => $_POST['conffile'] )); 
+?>
+
+    <p>To finish the configuration follow the steps below</p>
+    <p> <b>1.</b> Copy the temporary config file created from: <br/>
+        <u><?=$_POST['conffile']?></u> to: <br/>
+     <u><?=$global['approot']."conf/config.inc"?></u></p>
+    <p> <b>2.</b> Delete the temporary configuration file at <u><?=$_POST['conffile']?></u></p>
+    <p> <b>3.</b> Once done click the button below to start Sahana</p>
+
+<?php        
+    shn_form_fsclose();
+    shn_form_submit('Start Sahana');    
     shn_form_fclose();
 }
 
@@ -180,7 +209,7 @@ function shn_setup_run_sqlscript($db, $relative_script_path)
 }
 
 
-function shn_setup_config_update()
+function shn_setup_config_update($tmp_configfile)
 {
     global $global;
 
@@ -192,10 +221,13 @@ function shn_setup_config_update()
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
         '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
 
-    shn_config_update( $modify, $global['approot'].'conf/config.inc',
-                            '/tmp/sahana-config.inc');
-
-    return true;
+    if ( @shn_config_update( $modify, $global['approot'].'conf/config.inc',
+                            $tmp_configfile) ) {
+        return true;
+    } else {
+        add_error("Could not write to file $tmp_configfile. Try another location");
+        return false;
+    }
 }
 
 function shn_setup_header() 

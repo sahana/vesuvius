@@ -53,7 +53,8 @@ function shn_front_controller()
     $approot = $global['approot'];
     $action = $global['action'];
     $module = $global['module'];
-    
+   
+    // check the users access permissions for this action
     $req_act="shn_".$module."_".$action;
     $allow = (shn_acl_check_perms_action($_SESSION["user_id"],$req_act) || 
              ($conf['disableACL']) )? true : false;
@@ -104,7 +105,7 @@ function shn_front_controller()
     shn_include_page_section('mainmenu',$module);
 
     // include the mainmenu provided there is not a module override
-    shn_include_page_section('login',$module);
+    // shn_include_page_section('login',$module);
 
     // now include the main content of the page
 ?>  
