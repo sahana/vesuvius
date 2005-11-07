@@ -30,16 +30,16 @@ if(!$res->EOF){
 ?>
 
         <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
-            <h4>Organization Registry register Organizations,Volunteers and maintain and display those information
-            </h4>
-        Organization Registry Provides a database of organizations and services that are involved in managing/ supporting response/recovery at an occurrence of a disaster.
-        <br><br>
-        <u><b>Facilities</b></u><br>
+		<div id="result">
+            <p><em>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
+            </em></p>
+        <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
+        <p><u><b>Facilities</b></u><br>
 
-        1.Register and Manage organization information<br>  
-        2.Provide reports and searches on organizational information <br>
-        3.Add users under Organization<br>
-        </br>
+        1.Registering and Manageing organization information<br>  
+        2.Provide reports and searching facilities on organizational information <br>
+        3.Add users of an Organization</p>
+		</div>
         <div id="left">
             <div id="heading">
                 Organizations
