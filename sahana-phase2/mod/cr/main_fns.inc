@@ -19,12 +19,29 @@
 
 function shn_cr_default(){
 ?>
-	<h1>The Camp Registry</h1>
+	<h1><center>Camps Registry</center></h1>
 	<br>
-	<p>The Camps Registry is the central Registry to manage Camps and Camp Management Systems</p><br>
-<?php
-	shn_cr_arpt();
-
+	<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
+	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br>
+	
+	
+	<div id="left">
+	<div id="heading">Camp Information</div>
+	Camp Name : <br/>
+	</div>
+	
+	<div id="center">
+	<div id="heading">Victim Information</div>
+	No of Victims : <br/>
+	</div>
+	
+	<div id="right">
+	<div id="heading">Service Information</div>
+	Services : <br/>
+	</div>
+	<?php 
+	
+		shn_cr_srpt();
 	
 }
 function shn_cr_stat(){
@@ -104,6 +121,13 @@ function shn_cr_lrpt(){
 	global $global;
  	include($global['approot'].'/mod/cr/reports.inc');
 	_shn_cr_rpt_loc();
+}
+
+
+function shn_cr_srpt(){
+	global $global;
+ 	include($global['approot'].'/mod/cr/reports.inc');
+	_shn_cr_rpt_summary();
 }
 
 function shn_cr_acma(){
