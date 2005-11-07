@@ -70,6 +70,8 @@ function shn_form_text($label, $name, $text_opts = null,
                         $extra_opts = null, $readonly = false, $disabled = false)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    if(get_magic_quotes_gpc())
+        $value = stripslashes($value);
 ?>
     <label><?=$label?></label>
     <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> <?php $readonly?print"readonly":print" "?> <?php $disabled?print"disabled":print" "?> />
@@ -103,7 +105,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 {
     global $global;
 
-    $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <select name="<?=$name?>" <?=$select_opts?> >
@@ -129,7 +131,7 @@ function shn_form_opt_select($opt_field, $label,
 {
     global $global;
 
-    $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <select name="<?=$opt_field?>" <?=$select_opts?> >
@@ -172,6 +174,9 @@ function shn_form_textarea($label, $name, $text_opts = null,
                         $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    if(get_magic_quotes_gpc())
+        $value = stripslashes($value);
+
 ?>
     <label><?=$label?></label>
     <textarea name="<?=$name?>" <?=$text_opts?> ><?=$value?></textarea>
@@ -192,6 +197,8 @@ function shn_form_upload($label, $name,
 function shn_form_label($label, $caption,
                         $extra_opts = null)
 {
+    if(get_magic_quotes_gpc())
+        $caption = stripslashes($caption);
 ?>
     <label><?=$label?></label>
     <?=$caption?>

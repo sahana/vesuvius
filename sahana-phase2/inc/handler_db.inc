@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.6 2005-11-01 09:21:39 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.7 2005-11-07 04:12:23 janakawicks Exp $ */
 
 /**
 *
@@ -31,6 +31,78 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 #if($conf['enable_monitor_sql'])
 #    $global['db']->LogSQL();
 /* }}} */
+
+function shn_db_clean($str)
+{
+    global $global;
+    $str = trim($str);
+    $str = $global['db']->qstr($str,get_magic_quotes_gpc());
+    return $str;
+}
+
+/** 
+ * DB Insert and update Array functions 
+ */
+function shn_db_update($arr,$table, $key){
+    global $global;
+    $sql = "UPDATE $table SET ";
+
+    foreach($arr as $k => $v){
+        if($v == '')
+            $sql .= "$k = NULL, ";
+        else
+            $sql .= "$k = ".shn_db_clean($v).", ";
+    }
+
+    $sql = substr($sql,0,strlen($sql)-2);
+
+    if($key)
+        $sql .= " $key";
+//@todo: check keys and error 
+    if($key)
+        $global['db']->Execute($sql);
+#    echo $sql;
+}
+
+function shn_db_insert($arr,$table){
+    global $global;
+    $sql = "INSERT INTO $table ";
+
+    foreach($arr as $k => $v){
+        $keys .= "$k , ";
+
+        if($v == '')
+            $values .= "'NULL', ";
+        else
+            $values .= shn_db_clean($v).", ";
+    }
+
+    $keys = substr($keys,0,strlen($keys)-2);
+    $values = substr($values,0,strlen($values)-2);
+    
+    $sql .= "( $keys ) VALUES ( $values ) ";
+
+    $global['db']->Execute($sql);
+    #echo $sql."<hr>";
+}
+function shn_db_insert_phonetic($name,$pgl_uuid)
+{
+    global $global;
+    //split the name
+    $keywords = preg_split("/[\s]+/",$name);
+    foreach($keywords as $keyword){
+        $arr['encode1'] = soundex($keyword);
+        $arr['encode2'] = metaphone($keyword);
+        $arr['pgl_uuid'] = $pgl_uuid;
+        
+        //ignore if all the fields are there
+        //@todo: clean
+        if(! $global['db']->GetOne("SELECT * FROM phonetic_word WHERE encode1='{$arr['encode1']}' AND encode2='{$arr['encode2']}' AND pgl_uuid='{$arr['pgl_uuid']}'") )
+            shn_db_insert($arr,'phonetic_word');
+        //clear arr just incase ;-) 
+        $arr = null;
+    }
+}
 
 /* LATER DUDES 
 if($conf['enable_cache']){
