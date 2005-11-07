@@ -39,7 +39,6 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
     $d_comm = $_POST['ff_d_comments'];
     $d_same = $_POST['ff_same_donor'];
     
-    print "<br/>" . $_SESSION['rms_donor_name'] . "<br/>$d_id";
     
     
     if ($d_id=='')
