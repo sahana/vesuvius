@@ -360,7 +360,7 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
 
 // call OR name
     $services =    array(                     
-                        array('multiple'=>"true",'desc'=>_("* select services you can offer  : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$person_sector_type_options,
+                        array('multiple'=>"true",'desc'=>_("* Select Services You Can Offer  : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$person_sector_type_options,
                         'br'=>'1'
 )
                          );
@@ -372,7 +372,7 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
                         array('desc'=>_("Address : "),'type'=>"textarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1),
                         array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact_phone','br'=>1),
                         array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact_fax','br'=>1),
-                        array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
+                        array('desc'=>_("Email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
 
                         ); // end of contact 01
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
