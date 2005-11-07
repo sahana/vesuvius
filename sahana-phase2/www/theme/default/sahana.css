@@ -446,7 +446,7 @@ form ul.list {
 
 #display{
 	position:relative;
-	margin-top:270px;
+	margin-top:150px;
 	padding: 5px 5px 5px 5px; 
 }
 
@@ -458,15 +458,25 @@ form ul.list {
 }
 
 #result img{
-	width:40%;
-	float:left;
-	padding-bottom: 1em;
+	display:block;
+}
+
+#result p{
+	font-size:115%;
+	line-height:1.3;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 
 #result ul{
-	width:60%;
-	float:left;
-	padding-bottom: 1em;
+	font-size:150%;
+	margin-left:250px;
+	margin-top:-200px;
+	height:200px;
+}
+
+#result ul li{
+	line-height:1.2;
 }
 
 #result table{
