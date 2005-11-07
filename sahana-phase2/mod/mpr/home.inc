@@ -9,9 +9,9 @@
 <ul>
     <li>Missing Person Registry helps you to find people quickly in the chaos</li>
 	<br>
-    <li>Ensure every single person is being accounted for and tracked</li>
+    <li>Ensures every single person is being accounted for and tracked</li>
 	<br>
-    <li>Help prioritize releif response to the critically affected</li>
+    <li>Helps prioritize releif response to the critically affected</li>
 </ul>
 </div>
 <?php
@@ -20,7 +20,7 @@
  */
 ?>
 <DIV ID="leftmpr">
-<DIV id="heading">Latest update on Found People
+<DIV id="heading">Latest updates on Found People
 <?php
 $limit = 5;
 $type = "found";
@@ -36,7 +36,7 @@ shn_mpr_home_show_mpr($type,$limit);
  */
 ?>
 <DIV ID="rightmpr">
-<DIV id="heading">Latest update on Missing People
+<DIV id="heading">Latest updates on Missing People
 <?php
 $limit = 5;
 $type = "missing";
