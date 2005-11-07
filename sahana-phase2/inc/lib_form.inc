@@ -22,7 +22,9 @@ function shn_form_extra_opts($extra_opts)
     if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
     // output a break - default is true
     if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br/>\n";
-}
+    
+    
+    }
 // Open and close a form section
 
 function shn_form_fopen($act, $mod = null, $form_opts = null)
@@ -134,20 +136,21 @@ function shn_form_opt_select($opt_field, $label,
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>" <?=$select_opts?> >
+    <select name="<?=$opt_field?>" <?=$select_opts?> 
 <?php
-
-    $res = $global['db']->Execute
+		    $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
     while(!res==NULL && !$res->EOF) {
         
         $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
-        <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
-<?php
+ <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
+<?php	
+		  
         $res->MoveNext();
-    }
-?>
+      }
+      if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+ ?>
     </select> 
 <?php
     shn_form_extra_opts($extra_opts);
