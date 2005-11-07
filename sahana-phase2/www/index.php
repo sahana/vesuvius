@@ -105,7 +105,7 @@ function shn_front_controller()
     shn_include_page_section('mainmenu',$module);
 
     // include the mainmenu provided there is not a module override
-    // shn_include_page_section('login',$module);
+    if (!$conf['disableACL']) shn_include_page_section('login',$module);
 
     // now include the main content of the page
 ?>  

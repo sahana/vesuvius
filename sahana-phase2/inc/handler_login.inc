@@ -13,7 +13,7 @@
 * @author     ravindra@opensource.lk
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
-/*
+
 global $conf;
 
 if ($_SESSION['logged_in'] != true ) {
@@ -41,5 +41,5 @@ if ($_SESSION['logged_in'] != true ) {
     </div>
 <?php
 }
-*/
+
 ?>
