@@ -30,11 +30,9 @@ if(!$res->EOF){
 ?>
 
         <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
-        <div>
             <h4>Organization Registry register Organizations,Volunteers and maintain and display those information
             </h4>
-        </div>
-        <div>
+        <div id="note">
         Organization Registry Provides a database of organizations and services that are involved in managing/ supporting response/recovery at an occurrence of a disaster.
         <br><br>
         <u><b>Facilities</b></u><br>
@@ -43,32 +41,35 @@ if(!$res->EOF){
         2.Provide reports and searches on organizational information <br>
         3.Add users under Organization<br>
         </div>
-        <hr>
-        </br></br>
-        <center> 
-            <div>
+        </br>
+        <div id="left">
+            <div id="heading">
+                Organizations
+            </div>
                 <a href="index.php?mod=or&act=view_org">
                   <b> <?php echo $org_no ?></b>  Organizations have registered
                 </a>
+        </div>
+        <div id="center">
+            <div id="heading">
+            Pakistan Earthquake
             </div>
-        </center>
-        </br>
-        </br>
-        <center>
-            <div>
+            It is the biggest disaster in Pakistan's history. Saturday's earthquake is thought to have killed more than 30,000 people, mainly in Pakistani Kashmir. It flattened buildings in an area spanning 250 miles, from central Afghanistan to western Bangladesh.
+
+        </div>
+
+        <div id="right">
+            <div id="heading">
+                Volunteers
+            </div>
                  <a href="index.php?mod=or&act=view_vol">
                     <b><?php echo $vol_no?></b>  Volunteers have registered
                 </a>
-            </div>
-        </center>
-        </br></br>
-        <hr>
-        </br></br></br>
-        <div>
-            <center>
+        </div>
+              </br></br></br>
+        <center>
             <h3>Last 10 Organizations to Register</h3>
             </center>
-        </div>
         </br>
 <?php
         shn_or_viewform_allorg(10);
