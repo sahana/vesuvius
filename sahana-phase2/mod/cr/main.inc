@@ -33,6 +33,8 @@ function shn_cr_mainmenu(){
 		  <li><a href="index.php?mod=<?=$module?>&act=arpt">View All Camps</a></li>
 			<li><a href="index.php?mod=<?=$module?>&act=lrpt">View By Location</a></li>
 		</ul>
+		<li><a href="index.php?mod=<?=$module?>&act=ecmp">Edit Camp</a></li>
+		
 													
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->

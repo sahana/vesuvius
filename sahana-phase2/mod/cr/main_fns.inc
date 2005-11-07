@@ -21,6 +21,9 @@ function shn_cr_default(){
 ?>
 	<h1><center>Camps Registry</center></h1>
 	<br>
+<?php
+	//shn_cr_arpt();
+?>
 	<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br>
 	
@@ -74,7 +77,10 @@ function shn_cr_acmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									_shn_cr_cadd_chk();
+									if(_shn_cr_validate_error())
+										_shn_cr_cadd_start(true);
+									else
+										_shn_cr_cadd_chk();
 									break;
 		case 'commit'	:
 		            	_shn_cr_cadd_commit();
@@ -85,6 +91,34 @@ function shn_cr_acmp(){
 		}
 																																																						
 }
+
+function shn_cr_ecmp(){
+	global $global;
+  include($global['approot'].'/mod/cr/edit.inc');
+	require_once($global['approot'].'/inc/handler_form.inc');
+
+	// check action sequence
+	switch($_REQUEST['seq']){
+		case 'chk'		:
+									//if(_shn_cr_validate_error())
+										//_shn_cr_edt_start(true);
+									//else
+									_shn_cr_cedt_chk();
+									break;
+		case 'commit'	:
+		            	_shn_cr_cedt_commit();
+		            	break;
+		case 'disp'		:
+										_shn_cr_cedt_start();
+									break;	
+		default 			:
+									_shn_cr_search_edt_frm();
+		            	//_shn_cr_cedt_start();
+		            	break;
+		}
+																																																						
+}
+
 
 function shn_cr_rpt(){
  global $global;

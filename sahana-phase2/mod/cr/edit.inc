@@ -1,7 +1,7 @@
 <?php
 /* $Id; */
 
-/**Camp library for  CR
+/**Update functions for  CR
 *
 * PHP version 4 and 5
 *
@@ -19,19 +19,26 @@ include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
-function _shn_cr_cadd_start($errors=false){
+global $editid;
+function _shn_cr_cedt_start($errors=false){
 	if($errors)
 		display_errors();
 	global $global;
 	$db = $global['db'];
 ?>
-<h2 align="center">Register New Camp</h2>
+<h2>Update Existing Camp</h2>
 <?php
-	shn_form_fopen(acmp);
+	$query="select c_uuid from camp where name='{$_POST['cmp_id']}'";
+	$res=$db->Execute($query);
+	$editid=$res->fields[0];
+	$_SESSION['editid']=$editid;
+	
+	_shn_cr_get_session($editid);
+	shn_form_fopen(ecmp);
 	shn_form_fsopen("General Details");
 	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
-	shn_form_opt_select("opt_camp_type","Camp Type");
+	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
+	shn_form_opt_select("opt_camp_type","Camp Type",array('value'=>$_SESSION['opt_camp_type']));
 ?>
 <label>Division</label>
 <select name="opt_location_type" >
@@ -56,24 +63,24 @@ function _shn_cr_cadd_start($errors=false){
 <?php
 			
 //-----------------------------------------
-	shn_form_textarea("Address","camp_address");
+	shn_form_textarea("Address","camp_address",array('value'=>$_SESSION['camp_address']));
 	shn_form_fsclose();
 	shn_form_fsopen("Contact Person Details");
-	shn_form_text("Full Name","camp_contact_name",'size="60"');
-	shn_form_text("Phone Number","camp_contact_number",'size="60"');
+	shn_form_text("Full Name","camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
+	shn_form_text("Phone Number","camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
 	shn_form_fsclose();
 	shn_form_fsopen("Camp Population");
-	shn_form_text("Family Count","family",'size="10"');
-	shn_form_text("Total Count","total",'size="10"');
-	shn_form_text("Men","men",'size="10"');
-	shn_form_text("Women","women",'size="10"');
-	shn_form_text("Children","children",'size="10"');
+	shn_form_text("Family Count","family",'size="10"',array('value'=>$_SESSION['camp_family']));
+	shn_form_text("Total Count","total",'size="10"',array('value'=>$_SESSION['camp_total']));
+	shn_form_text("Men","men",'size="10"',array('value'=>$_SESSION['camp_men']));
+	shn_form_text("Women","women",'size="10"',array('value'=>$_SESSION['camp_women']));
+	shn_form_text("Children","children",'size="10"',array('value'=>$_SESSION['camp_children']));
 	shn_form_fsclose();
 	shn_form_submit("Next");
 	shn_form_fclose();
 }
 
-function _shn_cr_cadd_chk($errors=false){
+function _shn_cr_cedt_chk($errors=false){
 if($errors)
 	display_errors;
 	
@@ -93,7 +100,7 @@ if($errors)
 ?>
 <h2>Camp Checklist</h2>
 <?php
-shn_form_fopen(acmp);
+shn_form_fopen(ecmp);
 shn_form_fsopen("Services / Facilities Available");
 shn_form_hidden(array('seq'=>'commit'));
 shn_form_opt_checkbox("opt_camp_service");
@@ -122,6 +129,20 @@ function _shn_cr_create_cid(){
 //db->GenID();
 $id=time();
 return $id;
+
+}
+
+function _shn_cr_search_edt_frm(){
+?><h2 align="center">Edit Existing Camp</h2><?php
+	shn_form_fopen("ecmp");
+	shn_form_fsopen("Edit Camp");
+	shn_form_hidden(array('seq'=>'disp'));
+	shn_form_text('Name of Camp to edit','cmp_id','size="20"');
+	shn_form_fsclose();
+	shn_form_submit("Edit");
+	shn_form_fclose();
+	
+													
 
 }
 
@@ -171,22 +192,50 @@ function _shn_cr_validate_error(){
 	return $error_flag;
 }
 
-function _shn_cr_cadd_commit_db(){
+
+/**
+ * populate session variables from database
+ * @param camp_id	the retrieved camp id
+*/
+function _shn_cr_get_session($camp_id){
+	global $global;
+	$db = $global['db'];
+	
+	$query="select a.name,a.location_id,a.opt_camp_type,address,contact_name,contact_no,family,total,men,women,children from camp a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
+	
+	$res = $db->Execute($query);
+
+	$_SESSION['camp_name']=$res->fields['name'];
+	$_SESSION['opt_camp_type']=$res->fields['opt_camp_type'];
+	$_SESSION['opt_location_type']=$res->fields['location_id'];
+	$_SESSION['camp_address']=$res->fields['address'];
+	$_SESSION['camp_contact_name']=$res->fields['contact_name'];
+	$_SESSION['camp_contact_number']=$res->fields['contact_no'];
+	$_SESSION['camp_family']=$res->fields['family'];
+	$_SESSION['camp_men']=$res->fields['men'];
+	$_SESSION['camp_women']=$res->fields['women'];
+	$_SESSION['camp_children']=$res->fields['children'];
+	$_SESSION['camp_total']=$res->fields['total'];
+											
+}
+
+
+function _shn_cr_cedt_commit(){
 //insert to database;
 global $global;
+global $editid;
 $db = $global['db'];
 
 //call unique camp id
-$uid=_shn_cr_create_cid();
-
+//$uid=_shn_cr_create_cid();
 //enter into camp table
-$q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}','{$_SESSION['opt_location_type']}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="update camp set name='{$_SESSION['camp_name']}',location_id='{$_SESSION['opt_location_type']}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
 
 
 $res = $db->Execute($q);
 
 //enter into camp_reg table
-$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+$q="update camp_reg set name='{$_SESSION['camp_name']}',contact_name='{$_SESSION['camp_contact_name']}',contact_no='{$_SESSION['camp_contact_number']}',comments='{$_SESSION['camp_comments']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_family']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
 
 $res = $db->Execute($q);
 
@@ -195,14 +244,13 @@ $res = $db->Execute($q);
 */								
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
-		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
+		//$q = "update camp_services(c_uuid,opt_camp_service,value) values($editid,'{$b}',1)";
 	$res = $db->Execute($q);
 	}
 ?>
 <h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>
 <h4>Facilities / Services Availability</h4><br>
 <ul>
-
 
 
 <?php
