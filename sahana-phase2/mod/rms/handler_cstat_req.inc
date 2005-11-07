@@ -14,6 +14,7 @@
 */ 
 
 global $global;
+
 $req_id = $_GET['req_id'];
 $stat = $_GET['stat'];
 $user_id = $global['person_id'];

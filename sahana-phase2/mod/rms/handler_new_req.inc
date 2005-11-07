@@ -21,6 +21,25 @@ print ("<h3>USER : " . $global['person_id'] . "</h3>");
 
 <?php
 
+/**
+ * Removing a request
+ */
+if ($_GET['stat'] == 'rem_all')
+{
+    global $global;
+    $req_id = $_GET['req_id'];
+    
+    $sql_items = "DELETE FROM rms_req_item WHERE req_id=$req_id";    
+    $sql_request = "DELETE FROM rms_request WHERE req_id=$req_id";
+    
+    if ($global['db']->Execute($sql_items) === false || $global['db']->Execute($sql_request) === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        db_dbug($sql,$msg);
+    } 
+    print "<h3>request removed</h3>";   
+}
+
 if ($_GET['stat'] == 'add' && rms_validate_mform(1)) 
 {    
     $vals = rms_get_initvals();
@@ -78,7 +97,7 @@ if ($_GET['stat'] == 'add' && rms_validate_mform(1))
     <br/>
     <form action="index.php?mod=rms" id="rmsforms">
         <fieldset>
-        <a id="clear" href="index.php?mod=rms&amp;act=new_req&amp;stat=3&amp;req_id=<?php print $req_id ?>">[<?php print _("Remove Request") ?>]</a>
+        <a id="clear" href="index.php?mod=rms&amp;act=new_req&amp;stat=rem_all&amp;req_id=<?php print $req_id ?>">[<?php print _("Remove Request") ?>]</a>
         <?php 
             if ($global['items'])
             { 
@@ -156,24 +175,7 @@ if ($_GET['stat'] == 'more_itms')
 }
 
 
-/**
- * Removing a request
- */
-if ($_GET['stat'] == 'rem_all')
-{
-    global $global;
-    $req_id = $_GET['req_id'];
-    
-    $sql_items = "DELETE FROM rms_req_item WHERE req_id=$req_id";    
-    $sql_request = "DELETE FROM rms_request WHERE req_id=$req_id";
-    
-    if ($global['db']->Execute($sql_items) === false || $global['db']->Execute($sql_request) === false)
-    {
-        $msg = $global['db']->ErrorMsg();
-        db_dbug($sql,$msg);
-    } 
-    print "<h3>request removed</h3>";   
-}
+
 
 if (!isset($_GET['stat']) || $_SESSION['rms_errors'])
 {

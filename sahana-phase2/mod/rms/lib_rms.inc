@@ -14,9 +14,11 @@
 */ 
 
 $global['rms_db_dbug'] = false;
-$global['org_id'] = $global['person_id'] = '10002';
-
-
+$global['person_id'] = $_SESSION['user_id'];
+if ($global['person_id'])
+    $global['org_id'] = $global['person_id'];
+else
+    $global['org_id'] = $_SESSION['org_id'];
 
 /**
  * debug  function
@@ -262,10 +264,17 @@ function show_rms_initform()
     }
 }
 
+function clean_frm_val(&$val)
+{
+    $val = trim($val);
+}
+
 function rms_validate_mform($mode=0)
 {
     $_SESSION['rms_errors'] = false;
     $vals = $_SESSION['rms_mform_values'] = rms_get_initvals();
+    
+    array_walk($vals, 'clean_frm_val');
     
     if ($mode == 1)
     {
@@ -325,6 +334,8 @@ function rms_validate_mform($mode=0)
                        "req_priority"=>$req_priority
                        );
     
+    array_walk($item_vlas,'clean_frm_val');
+    
     if($req_category=='')
     {
         $_SESSION['rms_errors'] = true;
@@ -349,6 +360,12 @@ function rms_validate_mform($mode=0)
         $err_msgs["req_quantity"]= "Please enter a valid quantity";
     }
     
+    if(!is_numeric($req_quantity))
+    {
+        $_SESSION['rms_errors'] = true;
+        $err_msgs["req_quantity"]= "The Quantity has to be a numeric value";
+    }
+    
     if($req_priority=='')
     {
         $_SESSION['rms_errors'] = true;
@@ -360,11 +377,6 @@ function rms_validate_mform($mode=0)
     $_SESSION['rms_form_errors'] = $err_msgs;
     
     return !$_SESSION['rms_errors'];
-}
-
-function rms_validate_iform()
-{
-    
 }
 
 /**
