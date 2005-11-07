@@ -1,4 +1,8 @@
 #!/bin/bash
+USER='sahana'
+PASS='sahanapwd'
+HOST='localhost'
+DATABASE='sahana'
 
 echo "Enter Hostname (default = localhost):"
 read HOST
@@ -49,6 +53,12 @@ function loadsql() {
     fi
 }
 
+echo "Creating database $DATABASE"
+if [ "$PASS" = '' ]; then
+    mysql -h $HOST -u $USER -e "CREATE DATABASE IF NOT EXISTS $DATABASE"
+else
+    mysql -h $HOST -u $USER -p$PASS -e "CREATE DATABASE IF NOT EXISTS $DATABASE"
+fi
 # Basic structure
 loadsql mysql-dbcreate.sql
 
