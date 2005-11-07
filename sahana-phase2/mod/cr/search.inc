@@ -43,10 +43,17 @@ function _shn_cr_srch_rst($camp_name,$type){
 	
 			if($type != "all"){
 					        	global $global;
-								$db=$global['db'];	
+								$db=$global['db'];
+
+						if((!null==$camp_name) && (!null==$type)){
 								
    					$q = "select * from camp where name='{$camp_name}'AND opt_camp_type='{$type}'";	
     		     		$res_cmp =$db->Execute($q);
+						}
+						else if((null==$camp_name) && (!null==$type)){
+   					$q = "select * from camp where opt_camp_type='{$type}'";	
+    		     		$res_cmp =$db->Execute($q);
+						}
    	
    	           while (!$res_cmp->EOF){
    	           		$c_uuid  =$res_cmp->fields[0];   
@@ -87,8 +94,11 @@ function _shn_cr_srch_rst($camp_name,$type){
   else
   {		global $global;
 			$db=$global['db'];
-								
+
+			if($camp_name!=null)
    		$q = "select * from camp where name='{$camp_name}'";	
+			else
+   		$q = "select * from camp";	
    		 
    		     		$res_cmp =$db->Execute($q);
    	
