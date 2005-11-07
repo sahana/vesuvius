@@ -88,15 +88,27 @@ a:hover {
 #header {
 	border-bottom: #036 5px solid;
 	padding: 0 1em;
-	background-color: #069;
+	background-color: #369;
+	height: 100px;
+	position: relative;
 }
 
 #header h1 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100px;
+	width: 400px;
+	text-indent: -9999px;
+	background: url(img/sahana_logo.jpg) #369 no-repeat left top;
+	/* This stuff is useless since we're using image replacement 
+	------------------------------------------------------------
 	margin-top: 0;
 	padding-top: 1em;
 	color: #FFF;
 	text-transform: uppercase;
 	float: left;
+	------------ */
 }
 
 #wrapper {
@@ -340,7 +352,7 @@ p#skip {
 	padding: 10px;
 	clear: both;
 	color: #FFF;
-	background-color: #069;
+	background-color: #369;
 	border-top: #036 5px solid;
 }
 
