@@ -17,7 +17,7 @@
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 
-function shn_or_viewform_allorg(){
+function shn_or_viewform_allorg($no=NULL){
     global $global;
     $db=$global['db'];
     
@@ -28,21 +28,28 @@ function shn_or_viewform_allorg(){
     <table>
         <thead>
             <td>Organization Name</td>
+            <td>Services Provided</td>
+            <td>Organization Type</td>
+            <td>Country of Origin</td>
             <td>Contact Address</td>
             <td>Contact Number</td>
             <td>Contact Email</td>
-            <td>Country of Origin</td>
             <td>Man Power</td>
             <td>Facilities</td>
         </thead>
         <tbody>
-<?php    
-    $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by name";
-    $res_org=$db->Execute($q);
+<?php
+    if($no==NULL){
+        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by name";
+        $res_org=$db->Execute($q);
+    }else {
+        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by o_uuid desc";
+        $res_org=$db->SelectLimit($q,$no);
+    }
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
         _shn_display_org($org_id);
-        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=$org_id order by name";
+        $q = "select o_uuid from org_main where parent_id=$org_id order by name";
         $res_operation=$db->Execute($q);
         while(!$res_operation==NULL && !$res_operation->EOF){
             $operation_id=$res_operation->fields[0];
@@ -79,6 +86,14 @@ function _shn_display_org($org_id,$indent=true){
     $loc=$res_temp->fields[0][0];
     $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
+    $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
+field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
+    $res_type=$db->Execute($q); 
+    $org_type=$res_type->fields[0];
+
+    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
+field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+    $res_sector=$db->Execute($q);    
 ?>
 
 <tr>
@@ -96,12 +111,21 @@ function _shn_display_org($org_id,$indent=true){
     }
     ?>
     </td>
+    <td>
+<?php
+    while(!$res_sector->EOF){
+        echo $res_sector->fields[0]."</br>";
+        $res_sector->MoveNext();
+    }
+?>
+    </td>
+    <td><?php echo $org_type?></td>
+    <td><?php echo $res_bsd_country->fields[0]?></td>
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
-    <td><?php echo $res_bsd_country->fields[0]?></td>
-    <td><?php echo $res_org->fields[2]?></td>
     <td><?php echo $res_org->fields[3]?></td>
+    <td><?php echo $res_org->fields[4]?></td>
 </tr>
 <?php
 }
@@ -264,11 +288,12 @@ function shn_or_viewform_allvol(){
     <table>
         <thead>
             <td>Name</td>
+	        <td>Services offered</td>
+            <td>Occupation</td>
+            <td>Country of Origin</td>
             <td>Contact Address</td>
             <td>Contact Number</td>
             <td>Contact Email</td>
-            <td>Country of Origin</td>
-            <td>Occupation</td>
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
@@ -287,6 +312,9 @@ function shn_or_viewform_allvol(){
     $q="select name from location where location_id=$country";
     $res_country=$db->Execute($q);
     $country=$res_country->fields[0];
+    $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and
+field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+    $res_sector=$db->Execute($q);    
     
 
 ?>
@@ -297,11 +325,19 @@ function shn_or_viewform_allvol(){
     <a href="index.php?mod=or&act=view_vol&id=<?php echo $res_pers->fields[0] ?>"><?php echo $res_pers->fields[1]?></a> 
    
     </td>
+    <td>
+<?php
+    while(!$res_sector->EOF){
+        echo $res_sector->fields[0]."</br>";
+        $res_sector->MoveNext();
+    }
+?>
+    </td>
+    <td><?php echo $res_pers->fields[3]?></td>
+    <td><?php echo $country?></td>
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
-    <td><?php echo $country?></td>
-    <td><?php echo $res_pers->fields[3]?></td>
    
 </tr>
 <?php
@@ -394,7 +430,7 @@ function shn_or_viewform_vol($pid){
  $perdetails = 	array (
                         			//	array('desc'=>_("Name in Full : "),'type'=>"text",'size'=>50,'name'=>'name','br'=>1,'value'=>$name),
                        					array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1,'value'=>$dob),
-                        				array('desc'=>_("Sex :"),'type'=>'text','name'=>'sex','br'=>1,'size'=>10,'value'=>$sex	),							  
+                        				array('desc'=>_("Gender :"),'type'=>'text','name'=>'sex','br'=>1,'size'=>10,'value'=>$sex	),							  
                         				
                         				array('desc'=>_("Occupation : "),'type'=>"text",'size'=>20,'name'=>'job','br'=>1,'value'=>$job)
            

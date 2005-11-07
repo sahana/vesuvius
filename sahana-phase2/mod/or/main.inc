@@ -26,6 +26,7 @@ include_once ("reg.inc"); // call form generator
 include_once("view.inc");
 include_once("report.inc");
 include_once("errors.inc");
+include_once ("search.inc");
 
 //ravindra
 function shn_or_acl_setup(){
@@ -148,16 +149,22 @@ function shn_or_mainmenu()
         <h2>Organization Registry</h2>
             <ul id="modulemenu">
 	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-                <li id="modactive"><a href="index.php?mod=<?=$module?>&act=reg_org">Register an Organization</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Register as a Volunteer</a></li>
-                <li><a href="index.php?mod=<?=$module?>&act=view_org">View all Organizations</a></li>
-	        	<li><a href="index.php?mod=<?=$module?>&act=view_vol">View all Volunteers</a></li>
-        
+                <li><a href="#">Register </a></li>
+              	    <ul id="modsubmenu">
+                        <li id="modactive"><a href="index.php?mod=<?=$module?>&act=reg_org">Organization</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Volunteer</a></li>
+                    </ul>
+                 <li><a href="#">View </a></li>
+              	    <ul id="modsubmenu">
+                         <li><a href="index.php?mod=<?=$module?>&act=view_org">Organizations</a></li>
+	        	        <li><a href="index.php?mod=<?=$module?>&act=view_vol">Volunteers</a></li>
+                    </ul> 
 		        <li><a href="#">Reports </a></li>
               	    <ul id="modsubmenu">
-    	            	<li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
-			        <li><a href="index.php?mod=or&act=org_loc"> Organizations by Location</a></li>
-              		</ul>    
+			        <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
+    	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
+                    </ul>   
+		        <li><a href="index.php?mod=or&act=search">Search </a></li>
 	</ul>
     </div>
 <?php 
@@ -225,6 +232,7 @@ function shn_or_reg_org_cr()
        $contact_address=$_POST{"contact_add"};
     }
 */
+    $contact_address=$_POST{"contact_add"};
     if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
@@ -257,7 +265,7 @@ function shn_or_reg_org_cr()
         $account_name=$_POST{"account_name"};
     }
    
-     
+    /* 
     list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
     
     //for the moment return true
@@ -272,11 +280,10 @@ function shn_or_reg_org_cr()
         $error=true;
         add_error(SHN_ERR_OR_REPWD_WRONG);
     }
-
+*/
     $chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
 
-    echo $error;
     global $global;
     $db=$global['db'];
     if($error!=true){
@@ -314,18 +321,27 @@ function shn_or_reg_org_cr()
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
             $res=$db->Execute($q);
+          /*
             $pid=shn_add_user($account_name,$user_name,$password,"admin",NULL);
             if($res){
                 $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
                 $res=$db->Execute($q);
             }
+            */
             //no validation as organization can have multiple locations
             $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
             $res=$db->Execute($q);
     }
 }
-    echo $error;
     if((!$chk_branch) or $error){
+        if($error!=true){
+?>
+    <div id="result_msg">
+       <?php echo $org_name?> Organization was succesfully registered
+    </div>
+    </br>
+<?php
+        }
         shn_or_reg_org($error);
         //return false;
     }else {
@@ -418,7 +434,7 @@ function shn_or_reg_operation_cr(){
         if($chk_branch){
             ?>
             <div id="add">
-                <?php echo $org_name ?> was succesfully registered
+               <h3> <?php echo $org_name ?> was succesfully registered</h3><hr></br>
             </div>
             <?
             shn_or_regform_operation($error);
@@ -445,13 +461,15 @@ function shn_or_reg_vol_cr(){
     }else {    
         $name=$_POST{"name"};
     }
-    
+    $dob=$_POST{"dob_yyyy"}."-".$_POST{"dob_mm"}."-".$_POST{"dob_dd"};
+    /*
     if (!shn_valid_date($_POST{"dob"})){
         $error=true;
         add_error(SHN_ERR_DOB_INCORRECT);
     }else {    
         $dob=$_POST{"dob"};
     }
+    */
 
 $male=trim($_POST{"sex"});
 $job=$_POST{"job"};
@@ -533,7 +551,14 @@ $dln=trim($_POST{"dln"});
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'email','{$contact_mail}')";
     $res=$db->Execute($q);
-     
+    if($error!=true){
+?>
+    <div id="result_msg">
+       <?php echo $name?> was succesfully registered
+    </div>
+    </br>
+<?php
+    }
     shn_or_regform_vol($error);
 }
 
@@ -559,8 +584,28 @@ if(NULL == $_REQUEST['id']){
     shn_or_viewform_vol($_REQUEST['id']);
 }
 }
+//author ravindra
+// view all orgs group by sector
+function shn_or_report_village()
+{
+    $district=$_GET["id"];
+    shn_or_village($district);
+}
 
+//author ravindra
+// view all orgs group by sector
+function shn_or_report_district()
+{
+    $prov=$_GET["id"];
+    shn_or_district($prov);
+}
 
+//author ravindra
+// view all orgs group by sector
+function shn_or_report_province()
+{
+    shn_or_province();
+}
 
 //author ravindra
 // view all orgs group by sector
@@ -579,5 +624,104 @@ function shn_or_default()
 
 
 }
+function shn_or_search()
+{
+       
+       shn_or_form_search();
+}
+function shn_or_search_cr(){
+ $VARCHAR=100;
+global $global;
+$db=$global["db"];
+ list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
 
+if (is_null($_POST{"bsd_country"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_country=trim($_POST{"bsd_country"});
+    }
+
+if (is_null($_POST{"bsd_province"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_province=trim($_POST{"bsd_province"});
+    }
+
+if (is_null($_POST{"bsd_district"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_district=trim($_POST{"bsd_district"});
+    }
+    if (is_null($_POST{"bsd_village"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_village=trim($_POST{"bsd_village"});
+    }
+switch ($_POST{"loc_option"}){
+	case "province":
+	break;
+	case "district":
+	break;
+	case "village":
+	$loc="($bsd_village)";
+	break;
+
+}
+
+$i=0;
+$org=array();
+//$loc=array(10,13);
+var_dump($loc);
+while($i<count($sector)){
+            $q="select o_uuid from location_details,sector,org_main where location_details.location_id in $loc and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector[$i]}' and org_main.o_uuid=sector.pgoc_uuid";
+echo $q;
+            $res_org=$db->Execute($q);
+while(!$res_org==NULL && !$res_org->EOF){
+            array_push($org,$res_org->fields[0]);
+            
+            $res_org->MoveNext();
+        }
+$i=$i+1;
+}
+
+?>
+
+<div id ="result">
+    <h2>Search Result</h2>
+    <table>
+        <thead>
+            <td>Organization Name</td>
+            <td>Services Offered</td>
+            <td>Organization Type</td>
+            <td>Country of Origin</td>
+            <td>Contact Address</td>
+            <td>Contact Number</td>
+            <td>Contact Email</td>
+            <td>Man Power</td>
+            <td>Facilities</td>
+        </thead>
+        <tbody>
+<?php
+$i=0;
+
+$org=array_unique($org);
+$i=0;
+
+while($i<count($org)){
+           
+            _shn_display_org($org[$i],false);
+         
+$i=$i+1;
+}
+?>
+</tbody>
+  </table>
+</div>
+
+<?php
+}
 ?>

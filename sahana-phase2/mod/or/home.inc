@@ -13,7 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
-
+include_once "view.inc";
 global $global;
 $db=$global["db"];
 $q="select count(o_uuid) as cnt from org_main";
@@ -29,13 +29,22 @@ if(!$res->EOF){
 
 ?>
 
-        <center><h3><b> Welcome to Organization Registry</p><br></b></h3></center>
+        <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
         <div>
             <h4>Organization Registry register Organizations,Volunteers and maintain and display those information
             </h4>
         </div>
+        <div>
+        Organization Registry Provides a database of organizations and services that are involved in managing/ supporting response/recovery at an occurrence of a disaster.
+        <br><br>
+        <u><b>Facilities</b></u><br>
+
+        1.Register and Manage organization information<br>  
+        2.Provide reports and searches on organizational information <br>
+        3.Add users under Organization<br>
+        </div>
         <hr>
-        </br></br></br>
+        </br></br>
         <center> 
             <div>
                 <a href="index.php?mod=or&act=view_org">
@@ -52,3 +61,15 @@ if(!$res->EOF){
                 </a>
             </div>
         </center>
+        </br></br>
+        <hr>
+        </br></br></br>
+        <div>
+            <center>
+            <h3>Last 10 Organizations to Register</h3>
+            </center>
+        </div>
+        </br>
+<?php
+        shn_or_viewform_allorg(10);
+?>

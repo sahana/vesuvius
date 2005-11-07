@@ -28,7 +28,7 @@ function shn_or_regform_org($error=false)
     $res=$db->Execute($q);
     $or_type_options=array();
         
-    while(!res==NULL && !$res->EOF){
+    while(!$res==NULL && !$res->EOF){
         array_push(
             $or_type_options,
             array(  'drop_desc'=>$res->fields[1],
@@ -114,11 +114,13 @@ function shn_or_regform_org($error=false)
         $res->MoveNext();
     }
 ?>
-<center><h2>Organization Registration</h2></center>
-<h3>Fields marked with * are required (entry is compulsory)</h3>
+<h2>Organization Registration</h2>
+<div id="note">
+Fields marked with * are required (entry is compulsory)
+</div>
 <?php
-    if($error)
-    display_errors();
+    if($error==true)
+        display_errors();
 ?>               
 <div id="formcontainer">
 <?php
@@ -126,7 +128,7 @@ function shn_or_regform_org($error=false)
 	shn_form_open($header,false);
 // call OR name
     $or_main = array(
-                        array('desc'=>_("* Organization name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'class'=>'test','id'=>'tid','br'=>'1'),    
+                        array('desc'=>_("* Organization name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'),    
                         array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1'
                         ),
                         array('desc'=>_("* Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$or_sector_type_options,
@@ -169,7 +171,8 @@ function shn_or_regform_org($error=false)
                 array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1)
     ); // end of comments
     shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=true);
-    // for get login info
+  /*
+  // for get login info
     $login_info = array(
     		       	array('desc'=>_("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
                     array('desc'=>_("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
@@ -177,9 +180,11 @@ function shn_or_regform_org($error=false)
                     array('desc'=>_("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
     ); // end of getting logging info
     shn_form_add_component_list($login_info,$section=true,$legend='Create an Account for Login',$return=false,$default_val_req=false);
-
+*/
   $extra = array(
+  /**
                     array('desc'=>_("Make my contact information available  "),'type'=>'checkbox','name'=>'chk_avail','value'=>'avail','algin'=>'right','select'=>1,'br'=>1),
+     **/
      // add location
                     array('desc'=>_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull.) "),'type'=>'checkbox','name'=>'chk_branch','value'=>'add','algin'=>'right','select'=>1,'br'=>4)
                     
@@ -211,7 +216,21 @@ function shn_or_regform_vol($error=false)
 {
   global $global;
     $db=$global['db'];
-    
+    $q = "select option_code,option_description from field_options where field_name='opt_gender'";
+    $res=$db->Execute($q);
+    $gender=array();
+        
+    while(!$res->EOF){
+        array_push(
+            $gender,
+            array(  'drop_desc'=>$res->fields[1],
+                    'value'=>$res->fields[0]
+            )       
+        );
+        
+        $res->MoveNext();
+    }
+     
     $q = "select option_code,option_description from field_options where field_name='opt_sector_type'";
     $res=$db->Execute($q);
     $person_sector_type_options=array();
@@ -287,8 +306,10 @@ function shn_or_regform_vol($error=false)
         $res->MoveNext();
     }
 ?>
-<center><h2>Volunteer Registration </h2></center>
-<h3>Fields marked with * are required (entry is compulsory)</h3>
+<h2>Volunteer Registration </h2>
+<div id="note">
+Fields marked with * are required (entry is compulsory)
+</div>
 <?php
     if($error)
     display_errors();
@@ -300,13 +321,8 @@ function shn_or_regform_vol($error=false)
 
  $perdetails = 	array (
                         				array('desc'=>_("* Name in Full : "),'type'=>"text",'size'=>50,'name'=>'name','br'=>1),
-                       					array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1),
-                        				array('desc'=>_("Gender :"),'type'=>'dropdown','name'=>'sex','br'=>1,
-                        								'options'=>array(
-                                												array('drop_desc'=>_("Male"),'value'=>'mal'),
-                                												array('drop_desc'=>_("Female"),'value'=>'fmal')
-                                											  )
-                                				),							  
+                       					array('desc'=>_("Date of Birth: "),'type'=>"date",'size'=>10,'name'=>'dob','br'=>1),
+                        				array('desc'=>_("Gender :"),'type'=>'dropdown','name'=>'sex','br'=>1,'options'=>$gender),							  
                         				
                         				array('desc'=>_("Occupation : "),'type'=>"text",'size'=>20,'name'=>'job','br'=>1)
            
@@ -463,8 +479,10 @@ function shn_or_regform_operation(){
         $res->MoveNext();
     }
 ?>
-<center><h2>Add an Operation/Branch under the Organization <?php echo $_SESSION["parent_name"]?> </h2></center>
-<h3>Fields marked with * are required (entry is compulsory)</h3>
+<h2>Add an Operation/Branch under the Organization <?php echo $_SESSION["parent_name"]?> </h2>
+<div id="note">
+Fields marked with * are required (entry is compulsory)
+</div>
 <?php
     if($error)
     display_errors();
