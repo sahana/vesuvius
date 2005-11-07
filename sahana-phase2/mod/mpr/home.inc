@@ -19,7 +19,7 @@
  *  Recent Found People people Top 5
  */
 ?>
-<DIV ID="left">
+<DIV ID="leftmpr">
 <DIV id="heading">Latest update on Found People
 <?php
 $limit = 5;
@@ -35,7 +35,7 @@ shn_mpr_home_show_mpr($type,$limit);
  *  Recent Missing People Top 5
  */
 ?>
-<DIV ID="right">
+<DIV ID="rightmpr">
 <DIV id="heading">Latest update on Missing People
 <?php
 $limit = 5;
