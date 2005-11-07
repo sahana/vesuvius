@@ -114,7 +114,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td>
 <?php
     while(!$res_sector->EOF){
-        echo $res_sector->fields[0]."</br>";
+        echo $res_sector->fields[0]."<br />";
         $res_sector->MoveNext();
     }
 ?>
@@ -256,7 +256,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=true);
   
 ?>
-</br>
+<br />
 <center>
 <?php
 //create the submit button
@@ -264,7 +264,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
-</br>
+<br />
 <?php
         //close the form
      	shn_form_close(false);
@@ -328,7 +328,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td>
 <?php
     while(!$res_sector->EOF){
-        echo $res_sector->fields[0]."</br>";
+        echo $res_sector->fields[0]."<br />";
         $res_sector->MoveNext();
     }
 ?>
@@ -482,7 +482,7 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
  ?>
    
-</br>
+<br />
 <center>
 <?php
 //create the submit button
@@ -490,7 +490,7 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
-</br>
+<br />
 <?php
         //close the form
      	shn_form_close(false);

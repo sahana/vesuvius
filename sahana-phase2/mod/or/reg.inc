@@ -135,7 +135,7 @@ Fields marked with * are required (entry is compulsory)
                         'br'=>'1'
                         ) // end of list form
                      );
-    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
+    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
     // base location
     $location_inf = array(
                         array('desc'=>_("* Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries,'br'=>'1'                             ),                         
@@ -152,7 +152,7 @@ Fields marked with * are required (entry is compulsory)
                     );// end of option
                              
     // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=true);
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
     $contact = array (
     					
                         array('desc'=>_("Name : "),'type'=>"text",'size'=>50,'name'=>'contact_name','br'=>1),
@@ -162,7 +162,7 @@ Fields marked with * are required (entry is compulsory)
                         array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
 
                         ); // end of contact 01
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=true);
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
      
     // for comments
     $facilities = array(
@@ -170,7 +170,7 @@ Fields marked with * are required (entry is compulsory)
                 array('desc'=>_("Man Power (No):"),'type'=>"text",'size'=>4,'name'=>'man_power','br'=>1),
                 array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1)
     ); // end of comments
-    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=true);
+    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
   /*
   // for get login info
     $login_info = array(
@@ -189,9 +189,9 @@ Fields marked with * are required (entry is compulsory)
                     array('desc'=>_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull.) "),'type'=>'checkbox','name'=>'chk_branch','value'=>'add','algin'=>'right','select'=>1,'br'=>4)
                     
             );
-    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=true);
+    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=$error);
 ?>
-</br>
+<br />
 <center>
 <?php
 //create the submit button
@@ -199,7 +199,7 @@ Fields marked with * are required (entry is compulsory)
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
-</br>
+<br />
 <?php
         //close the form
      	shn_form_close(false);
@@ -327,7 +327,7 @@ Fields marked with * are required (entry is compulsory)
                         				array('desc'=>_("Occupation : "),'type'=>"text",'size'=>20,'name'=>'job','br'=>1)
            
                         ); // end of perdetails
-shn_form_add_component_list($perdetails,$section=true,$legend='',$return=false,$default_val_req=true);
+shn_form_add_component_list($perdetails,$section=true,$legend='',$return=false,$default_val_req=$error);
 
 $identity = 	    array (
                         				
@@ -336,7 +336,7 @@ $identity = 	    array (
                         				array('desc'=>_("Driving License No: "),'type'=>"text",'size'=>15,'name'=>'dln','br'=>1),
            
                         ); 
-shn_form_add_component_list($identity,$section=true,$legend='Identity Information',$return=false,$default_val_req=true);
+shn_form_add_component_list($identity,$section=true,$legend='Identity Information',$return=false,$default_val_req=$error);
 
 
 
@@ -356,7 +356,7 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
                     );// end of option
                              
     // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=false);
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
 
 // call OR name
     $services =    array(                     
@@ -364,7 +364,7 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
                         'br'=>'1'
 )
                          );
-shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$return=false,$default_val_req=false);    
+shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$return=false,$default_val_req=$error);    
 
     $contact = array (
     					
@@ -375,10 +375,10 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
                         array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
 
                         ); // end of contact 01
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
  ?>
    
-</br>
+<br />
 <center>
 <?php
 //create the submit button
@@ -386,7 +386,7 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
-</br>
+<br />
 <?php
         //close the form
      	shn_form_close(false);
@@ -500,7 +500,7 @@ Fields marked with * are required (entry is compulsory)
                         'br'=>'1'
                         ) // end of list form
                      );
-    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
+    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
     // base location
     $location_inf = array(
                         array('desc'=>_("Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries,'br'=>'1'                             ),                         
@@ -517,7 +517,7 @@ Fields marked with * are required (entry is compulsory)
                     );// end of option
                              
     // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=false);
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
     $contact = array (
     					
                         array('desc'=>_("Name : "),'type'=>"text",'size'=>50,'name'=>'contact_name','br'=>1,'value'=>$_SESSION["contact_name"]),
@@ -527,7 +527,7 @@ Fields marked with * are required (entry is compulsory)
                         array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1,'value'=>$_SESSION["contact_email"]),
 
                         ); // end of contact 01
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
      
     // for comments
     $facilities = array(
@@ -535,7 +535,7 @@ Fields marked with * are required (entry is compulsory)
                 array('desc'=>_("Man Power (No):"),'type'=>"text",'size'=>4,'name'=>'man_power','br'=>1,'value'=>$_SESSION["man_power"]),
                 array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1,'value'=>$_SESSION["resources"])
     ); // end of comments
-    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=false);
+    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
     
 
   $extra = array(
@@ -543,9 +543,9 @@ Fields marked with * are required (entry is compulsory)
                     array('desc'=>_("Add More Operations "),'type'=>'checkbox','name'=>'chk_branch','value'=>'add','algin'=>'right','select'=>1,'br'=>1)
                     
             );
-    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=false);
+    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=$error);
 ?>
-</br>
+<br />
 <center>
 <?php
 //create the submit button
@@ -553,7 +553,7 @@ Fields marked with * are required (entry is compulsory)
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
-</br>
+<br />
 <?php
         //close the form
      	shn_form_close(false);

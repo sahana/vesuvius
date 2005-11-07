@@ -26,7 +26,7 @@ function shn_or_province(){
 <h1 align="center">Organization Report by Province</h1>
 <div id="note">
 Rows are Provinces ,Columns are Services ,Intersection shows how many
-villages are covered as a ratio: <br>If atleast one organization is there in the village providing the service then that village is considered as covered for that service
+villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
 </div>
 <div id ="result">
     <table>
@@ -76,7 +76,7 @@ function shn_or_district($province){
 <h1 align="center">Organization Report by District</h1>
 <div id="note">
 Rows are Districts ,Columns are Services ,Intersection shows how many
-villages are covered as a ratio: <br>If atleast one organization is there in the village providing the service then that village is considered as covered for that service
+villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
 </div>
 <div id ="result">
     <table>
@@ -106,7 +106,11 @@ villages are covered as a ratio: <br>If atleast one organization is there in the
 <?php
         while(!$res_sector==NULL && !$res_sector->EOF){
             $res=_shn_coverage_district($res_loc->fields[0],$res_sector->fields[0]);
-            echo "<td>".$res["active"]."/".$res["total"]."</td>";
+            $precent=0;
+            if($res["total"]>0){
+                $precent=$res["active"]/$res["total"] *100;
+            }
+            echo "<td><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></td>";
             $res_sector->MoveNext();
         }
 
@@ -133,7 +137,7 @@ function shn_or_village($district){
 <h1 align="center">Organization Report by Villages</h1>
 <div id="note">
 Rows are Villages ,Columns are Services ,Intersection shows how many
-villages are covered as a ratio: <br>If atleast one organization is there in the village providing the service then that village is considered as covered for that service
+villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
 </div>
 <div id ="result">
     <table>
@@ -164,12 +168,14 @@ villages are covered as a ratio: <br>If atleast one organization is there in the
         while(!$res_sector==NULL && !$res_sector->EOF){
             $q="select location_id from location_details,sector where location_details.location_id={$res_loc->fields[0]} and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$res_sector->fields[0]}'";
             $res_village=$db->Execute($q);
-            if(!$res_village==NULL && !$res_village->EOF)
-                $active="T";
-            else
-                $active="F";
-            
-            echo "<td>".$active."</td>";
+            if(!$res_village==NULL && !$res_village->EOF){
+                $active="Covered";
+		echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
+            } else{
+                $active="Not Covered";
+		echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
+            }
+     
             $res_sector->MoveNext();
         }
 
@@ -205,8 +211,12 @@ function _shn_district_coverage_province($loc){
             $active=$active+$res["active"];
             $res_tmp->MoveNext();
         }
-
-        echo "<td>".$active."/".$total."</td>";
+	$precent=0;
+            if($total>0){
+                $precent=$active/$total *100;
+            }
+            echo "<td><b><font color=#2E8B57>".$active."/".$total."</font> (<font color=#FF0000>".$precent."%</font>)</b></td>";
+       // echo "<td>".$active."/".$total."</td>";
         $res_sector->MoveNext();
     }
  
