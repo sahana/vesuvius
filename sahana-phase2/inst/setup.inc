@@ -19,7 +19,7 @@ function shn_setup_main()
     shn_setup_header();
     switch ($action) {
 
-    case 'dbsetup':
+    case 'dbsetup': // second setup form
         if (shn_setup_database()) { // check if database writing is a success
             shn_setup_form2();
         } else {
@@ -28,7 +28,7 @@ function shn_setup_main()
         }
         break;
         
-    case 'cfgsetup':
+    case 'cfgsetup': // third setup form
 
         if (shn_setup_config_update()) { // check if writing the file was a success
             shn_setup_form3();
@@ -39,7 +39,7 @@ function shn_setup_main()
         break;
 
 
-    default:
+    default: 
         // first database setup form
         shn_setup_form1();
 
@@ -65,8 +65,11 @@ function shn_setup_form2()
 
     shn_form_fsopen('Configuration');
     shn_form_select(
-        array( 'default' => 'Default Theme', 'green_theme' => 'Green Theme'), 
+        array( 'default' => 'Default Theme'), 
                 "Theme", "theme");
+    shn_form_select(
+        array( 'disable' => 'Disable'), 
+                "Access Control","acl");
     shn_form_fsclose();
 
     shn_form_submit('Setup Configuration >>');
@@ -99,13 +102,16 @@ function shn_setup_form1()
     shn_form_fopen("dbsetup");
 
     shn_form_fsopen('Database');
+    shn_form_select(
+        array( 'mysql' => 'MySQL 4.1'), 
+                "Database Type", "dbtype");
     shn_form_text('Database Host:Port','dbhost','size="30"',
                 array('value'=>'localhost','req'=>true ));
     shn_form_text('Database Name','dbname','size="30"',
                 array('value'=>'sahana', 'req'=>true));
     shn_form_text('Database User','dbuser','size="30"',
                 array('value'=>'root', 'req'=>true));
-    shn_form_text('Database Password','dbpass','size="30"', array('req'=>true));
+    shn_form_password('Database Password','dbpass','size="30"', array('req'=>true));
     shn_form_fsclose();
 
     shn_form_fsopen('Schema\'s to Install');
