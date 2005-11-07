@@ -59,7 +59,7 @@ function shn_setup_form1()
 
     shn_form_fsopen('Database');
     shn_form_select(
-        array( 'mysql' => 'MySQL 4.1'), 
+        array( 'mysql' => 'MySQL 4.1 or above'), 
                 "Database Type", "dbtype");
     shn_form_text('Database Host:Port','dbhost','size="30"',
                 array('value'=>'localhost','req'=>true ));
