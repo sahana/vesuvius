@@ -42,6 +42,6 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
 <?php show_init_vals(_("Request Information")); ?>
 <br/>
 <a name="form"></a>
-<?php show_ffitems_table(true); ?>
+<?php show_ffitems_table(); ?>
 </form>
 <a id="finish" href="index.php?mod=rms&amp;act=vw_req">[ &nbsp; <?php print _("Finish") ?> &nbsp; ]</a>

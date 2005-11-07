@@ -731,10 +731,10 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     <table>
         <thead>
             <td><?php print _("Date/Time") ?></td>
-            <td><?php print _("Requester") ?></td>
-            <td><?php print _("Site") ?></td>
-            <td><?php print _("District") ?></td>
-            <td><?php print _("Categories") ?></td>
+            <td width="150"><?php print _("Requester") ?></td>
+            <td width="75"><?php print _("Site") ?></td>
+            <td width="75"><?php print _("District") ?></td>
+            <td width=""><?php print _("Categories") ?></td>
             <td><?php print _("View") ?></td>
         </thead>
         <tbody>
@@ -792,7 +792,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
 }
 
 
-function show_ffitems_table($modify_on,$is_fulfill=true)
+function show_ffitems_table($modify_on=false,$is_fulfill=true)
 {
     $req_id = $_GET['req_id'];
     global $global;
@@ -910,7 +910,6 @@ function show_ffitems_table($modify_on,$is_fulfill=true)
                 <td><?php print _("Item") ?></td>
                 <td><?php print _("Units") ?></td>
                 <td><?php print _("Qty - Needed/Fulfilled (Status)") ?></td>
-                <td><?php print _("Priority") ?></td>
                 <?php if($modify_on) {?>
                     <td>&nbsp;</td>
                 <?php } ?>
