@@ -31,8 +31,8 @@ if(!$res->EOF){
 
         <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
 		<div id="result">
-            <p><em>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
-            </em></p>
+            <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
+            </p>
         <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
         <p><u><b>Facilities</b></u><br>
 
