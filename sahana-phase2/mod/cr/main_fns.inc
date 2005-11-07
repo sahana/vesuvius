@@ -40,7 +40,7 @@ function shn_cr_srch(){
 		            	echo "Search Results";
 		           	 	break;
 		case 'commit'	:
-									_shn_cr_srch_rst($_POST['cmp_id']);
+									_shn_cr_srch_rst($_POST['cmp_id'],$_POST['opt_camp_type']);
 									break;
 		default :
 		            _shn_cr_srch();
