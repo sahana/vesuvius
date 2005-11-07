@@ -128,7 +128,7 @@ Fields marked with * are required (entry is compulsory)
 	shn_form_open($header,false);
 // call OR name
     $or_main = array(
-                        array('desc'=>_("* Organization name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'),    
+                        array('desc'=>_("* Organization Name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'),    
                         array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1'
                         ),
                         array('desc'=>_("* Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$or_sector_type_options,
@@ -159,7 +159,7 @@ Fields marked with * are required (entry is compulsory)
                         array('desc'=>_("Address : "),'type'=>"textarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1),
                         array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact_phone','br'=>1),
                         array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact_fax','br'=>1),
-                        array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
+                        array('desc'=>_("Email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1),
 
                         ); // end of contact 01
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
@@ -168,7 +168,7 @@ Fields marked with * are required (entry is compulsory)
     $facilities = array(
 		// get man power of the OR
                 array('desc'=>_("Man Power (No):"),'type'=>"text",'size'=>4,'name'=>'man_power','br'=>1),
-                array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1)
+                array('type'=>"textarea",'desc'=>("Other Relevant Resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1)
     ); // end of comments
     shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
   /*
