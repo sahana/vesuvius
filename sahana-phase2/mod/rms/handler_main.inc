@@ -29,7 +29,7 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 
 <?php show_rms_heading(); ?>
 <div id=homerms>
-<img src="theme/default/img/rms_home.png" border='1'/>
+<img src="theme/default/img/rms_home.png" border='0'/>
   <ul>
     <li>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment<br/></li>
   </ul>
