@@ -288,7 +288,7 @@ function shn_or_viewform_allvol(){
     <table>
         <thead>
             <td>Name</td>
-	        <td>Services offered</td>
+	        <td>Services Offered</td>
             <td>Occupation</td>
             <td>Country of Origin</td>
             <td>Contact Address</td>

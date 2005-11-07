@@ -109,7 +109,7 @@ INSERT INTO field_options VALUES("opt_org_type","bilat","Bilateral");
 INSERT INTO field_options VALUES("opt_sector_type","agri","Agriculture");
 INSERT INTO field_options VALUES("opt_sector_type","adev","Area Development");
 INSERT INTO field_options VALUES("opt_sector_type","comm","Communications");
-INSERT INTO field_options VALUES("opt_sector_type","dprep","Disaster Preperation");
+INSERT INTO field_options VALUES("opt_sector_type","dprep","Disaster Preparation");
 INSERT INTO field_options VALUES("opt_sector_type","ene","Energy");
 INSERT INTO field_options VALUES("opt_sector_type","hlth","Health");
 
