@@ -114,7 +114,7 @@ function shn_or_regform_org($error=false)
         $res->MoveNext();
     }
 ?>
-<h2>Organization Registration</h2>
+<h1 align="center">Organization Registration</h1>
 <div id="note">
 Fields marked with * are required (entry is compulsory)
 </div>
@@ -306,7 +306,7 @@ function shn_or_regform_vol($error=false)
         $res->MoveNext();
     }
 ?>
-<h2>Volunteer Registration </h2>
+<h1 align="center">Volunteer Registration </h1>
 <div id="note">
 Fields marked with * are required (entry is compulsory)
 </div>
