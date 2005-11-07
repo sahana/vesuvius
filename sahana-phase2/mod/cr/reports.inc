@@ -62,9 +62,9 @@ function _shn_cr_rpt(){
 
 function _shn_cr_rpt_all(){
 	?>
+	<h1><center>Camp Information</center></h1>
 	<div id ="result">
-    <h2>Camp Information</h2>
-    <table>
+   <table>
         <thead>
             <td>Camp Name</td>
             <td>Camp Type</td>
@@ -92,11 +92,15 @@ function _shn_cr_rpt_all(){
     						$loc  =$res_maincmp->fields[2];   
     						$qloc = "select * from location where location_id='{$loc}'";
     						$res_loc =$db->Execute($qloc);
+    						
+    						$type  =$res_maincmp->fields[3]; 
+    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$res_type =$db->Execute($qtype);
     				  				
 					?>
     				<tr>
 					<td><?php echo $res_cmp->fields[1]?></td>
-					<td><?php echo $res_maincmp->fields[3]?></td>
+					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_maincmp->fields[4]?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
     				<td><?php echo $res_cmp->fields[9]?></td>
@@ -120,8 +124,8 @@ function _shn_cr_rpt_all(){
 
 function _shn_cr_rpt_loc(){
 	?>
+	<h1><center>Camp Information by Location</center></h1>
 	<div id ="result">
-    <h2>Camp Information by Location</h2>
     <table>
         <thead>
             <td>Location</td>
@@ -147,12 +151,16 @@ function _shn_cr_rpt_loc(){
     						$cmp_id =$res_cmp->fields[0];        
     						$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
     						$res_reg =$db->Execute($qreg);
+    						
+    						$type  =$res_cmp->fields[2]; 
+    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$res_type =$db->Execute($qtype);
     		    					   				
     				?>
     				<tr>
     				<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[1]?></td>
-  					<td><?php echo $res_cmp->fields[2]?></td>
+  					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_cmp->fields[3]?></td>
   					<td><?php echo $res_reg->fields[0]?></td>
   					
