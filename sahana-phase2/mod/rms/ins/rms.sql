@@ -74,8 +74,19 @@ CREATE TABLE rms_req_ff (
     user_id BIGINT,
     quantity INT,
     ff_status VARCHAR(100),
+    req_donor_id BIGINT,
+    ff_date TIMESTAMP,
     PRIMARY KEY (req_ff_id),
+    FOREIGN KEY (req_donor_id) REFERENCES rms_req_donor(req_donor_id),
     FOREIGN KEY (req_item_id) REFERENCES rms_req_item(req_item_id),
     FOREIGN KEY (user_id) REFERENCES users (puu_id)
 );
 
+DROP TABLE IF EXISTS `rms_req_donor`;
+CREATE TABLE rms_req_donor (
+    req_donor_id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255),
+    contact VARCHAR(255),
+    comments VARCHAR(255),
+    PRIMARY KEY (req_donor_id)
+);

@@ -16,6 +16,14 @@
 global $global;
 $req_id = $_GET['req_id'];
 require_once('lib_rms.inc');
+
+function clear_donor()
+{
+    $_SESSION['rms_donor_id'] = '';
+    $_SESSION['rms_donor_name'] = '';
+    $_SESSION['rms_donor_contact'] = '';
+    $_SESSION['rms_donor_comments'] = '';
+}
  
 if ($_GET['seq'] == 'add' && rms_validate_mform(2))
 {
@@ -24,14 +32,56 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
     $qty = $_POST['ff_quantity'];
     $stat = $_POST['ff_status'];
     
-    $sql = "INSERT INTO rms_req_ff (req_item_id,user_id,quantity,ff_status) " .
-            "VALUES ($itm,$user,$qty,'$stat')";
+    
+    $d_id = $_SESSION['rms_donor_id'];
+    $d_name = $_POST['ff_d_name'];
+    $d_con = $_POST['ff_d_contact'];
+    $d_comm = $_POST['ff_d_comments'];
+    $d_same = $_POST['ff_same_donor'];
+    
+    print "<br/>" . $_SESSION['rms_donor_name'] . "<br/>$d_id";
+    
+    
+    if ($d_id=='')
+    {
+        $sql = "INSERT INTO rms_req_ff (name,contact,comments) " .
+                "VALUES ('$d_name','$d_con','$d_comm')";
+                
+        if ($global['db']->Execute($sql) === false)
+        {
+            $msg = $global['db']->ErrorMsg();
+            db_dbug($sql,$msg);
+        }
+        
+        $d_id = $global['db']->Insert_ID();
+        
+    }
+    
+    if ($d_same == 'same_donor')
+    {
+        $_SESSION['rms_donor_id'] = $d_id;
+        $_SESSION['rms_donor_name'] = $d_name;
+        $_SESSION['rms_donor_contact'] = $d_con;
+        $_SESSION['rms_donor_comments'] = $d_comm;
+    }
+    
+    $sql = "INSERT INTO rms_req_ff (req_item_id,user_id,quantity,ff_status,req_donor_id) " .
+            "VALUES ($itm, $user, $qty, '$stat', $d_id)";
     
     if ($global['db']->Execute($sql) === false)
     {
         $msg = $global['db']->ErrorMsg();
         db_dbug($sql,$msg);
     }
+
+    if ($d_same != 'same_donor')
+    {
+        clear_donor();
+    }
+}
+else
+{
+    clear_donor();
 }
 ?>
 
@@ -44,4 +94,5 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
 <a name="form"></a>
 <?php show_ffitems_table(); ?>
 </form>
+<br/>
 <a id="finish" href="index.php?mod=rms&amp;act=vw_req">[ &nbsp; <?php print _("Finish") ?> &nbsp; ]</a>

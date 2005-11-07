@@ -13,7 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
-$global['rms_db_dbug'] = false;
+$global['rms_db_dbug'] = true;
 $global['person_id'] = $_SESSION['user_id'];
 if ($global['person_id'])
     $global['org_id'] = $global['person_id'];
@@ -323,7 +323,10 @@ function rms_validate_mform($mode=0)
     if ($mode == 2)   //handling fulfill data
     {
         $ff_quantity = $_POST['ff_quantity'];
-        
+        $_SESSION['rms_donor_name'] = $_POST['ff_d_name'];
+        $_SESSION['rms_donor_contact'] = $_POST['ff_d_contact'];
+        $_SESSION['rms_donor_comments'] = $_POST['ff_d_comments'];
+        //$_SESSION['rms_ff_quantity'] = $ff_quantity;
                 
         if(!is_numeric($ff_quantity))
         {
@@ -805,8 +808,8 @@ function show_ffitems_table($modify_on=false,$is_fulfill=true)
             "WHERE req.req_id=$req_id " .
             "AND pri.priority_id=req.priority_id " .
             "AND cat.cat_id=req.cat_id " .
-            "AND ff.req_item_id=req.req_item_id " .
-            "AND ff.user_id=$user_id";
+            "AND ff.req_item_id=req.req_item_id ";
+            //"AND ff.user_id=$user_id";
     
     $rs_ff = $global['db']->Execute($sql);
     $list = '';
@@ -825,8 +828,8 @@ function show_ffitems_table($modify_on=false,$is_fulfill=true)
         $list = '-1';
     
     $sql = "SELECT req.req_item_id,req.item FROM rms_req_item req " .
-            "WHERE req.req_id=$req_id " .
-            "AND req_item_id NOT IN ($list)";
+            "WHERE req.req_id=$req_id ";
+            //"AND req_item_id NOT IN ($list)";
                
     $rs_itms = $global['db']->Execute($sql);
     
@@ -957,6 +960,15 @@ function show_ffitems_table($modify_on=false,$is_fulfill=true)
     
     <fieldset>
     <legend><?php print _("Fulfilment information") ?></legend>
+        <div name="new_donor">
+        <label><?php print _("Donor Name") ?></label>
+        <input type="text" value="<?php print $_SESSION['rms_donor_name'] ?>" name="ff_d_name" size="20" maxlength="20"/><br/>
+        <label><?php print _("Donor Contact") ?></label>
+        <input type="text" value="<?php print $_SESSION['rms_donor_contact'] ?>" name="ff_d_contact" size="20"maxlength="20"/><br/>
+        <label>Comments</label>
+        <textarea name="ff_d_comments" rows="3" cols="50" wrap="off"><?php print $_SESSION['rms_donor_comments'] ?></textarea><br/>
+        </div>
+        <label>Keep Donor info.</label><input type="checkbox" name="ff_same_donor" value="same_donor"><br/>
         <label><?php print _("Item") ?></label>
         <select name="ff_item">
         <?php
