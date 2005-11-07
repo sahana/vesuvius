@@ -3,12 +3,14 @@
  * Some Intro text 
  */
 ?>
-<h1>Missing Person Registry</h1>
+<h1 align="center">Missing Person Registry</h1>
 <div id="result">
-<img src="theme/default/img/mpr.png" />
+<img src="theme/default/img/mpr.png"/>
 <ul>
     <li>Missing Person Registry helps you to find people quickly in the chaos</li>
+	<br>
     <li>Ensure every single person is being accounted for and tracked</li>
+	<br>
     <li>Help prioritize releif response to the critically affected</li>
 </ul>
 </div>
