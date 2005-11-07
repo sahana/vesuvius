@@ -881,7 +881,7 @@ function show_ffitems_table($modify_on=false,$is_fulfill=true)
                 <value id="small"><?php print $rs->fields[3] ?></value>
                 </td>
                 <td>
-                <value id="big">
+                <value id="med">
                 <?php print $rs->fields[4] ?> 
                 [ <?php (!$rs->fields[8]?print 0:print $rs->fields[8]) ?> ]
                 </value>

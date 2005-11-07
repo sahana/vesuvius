@@ -86,7 +86,8 @@ if ($_GET['stat'] == 'add' && rms_validate_mform(1))
     }
 
 ?>
-    <form action="index.php?mod=rms&amp;act=new_req&amp;req_id=<?php print $req_id ?>&amp;stat=more_itms&amp;add_item=1#items_form" name="req_new_frm" id="rmsforms" method="post">
+    <div id="formcontainer">
+    <form action="index.php?mod=rms&amp;act=new_req&amp;req_id=<?php print $req_id ?>&amp;stat=more_itms&amp;add_item=1#items_form" name="req_new_frm" id="formset" method="post">
     <?php show_init_vals(_("New Request")); ?>
     <a name="items_form"></a><br/>
     <?php show_items_table($req_id,true); ?>    
@@ -107,6 +108,7 @@ if ($_GET['stat'] == 'add' && rms_validate_mform(1))
         ?>
         </fieldset>
     </form>
+    </div>
 <?php
 }
 
@@ -147,7 +149,8 @@ if ($_GET['stat'] == 'more_itms')
         }
     }
 ?>
-    <form action="index.php?mod=rms&amp;act=new_req&amp;stat=more_itms&amp;req_id=<?php print $req_id ?>&amp;add_item=1#items_form" name="req_new_frm" id="rmsforms" method="post">
+    <div id="formcontainer">
+    <form action="index.php?mod=rms&amp;act=new_req&amp;stat=more_itms&amp;req_id=<?php print $req_id ?>&amp;add_item=1#items_form" name="req_new_frm" id="formset" method="post">
     <?php show_init_vals(_("New Request")); ?>
     <a name="items_form"></a><br/>
     <?php show_items_table($req_id,true); ?>    
@@ -155,7 +158,7 @@ if ($_GET['stat'] == 'more_itms')
     <?php show_item_fields($req_id); ?>
     </form>
     <br/>
-    <form action="index.php?mod=rms" id="rmsforms">
+    <form action="index.php?mod=rms" id="formset">
         <fieldset>
         <a id="clear" href="index.php?mod=rms&amp;act=new_req&amp;stat=rem_all&amp;req_id=<?php print $req_id ?>">[<?php print _("Remove Request") ?>]</a>
         <?php 
@@ -168,6 +171,7 @@ if ($_GET['stat'] == 'more_itms')
         ?>
         </fieldset>
     </form>
+    </div>
 <?php
     if ($_SESSION['rms_errors'])
         $_SESSION['rms_errors'] = false;
@@ -179,11 +183,13 @@ if ($_GET['stat'] == 'more_itms')
 if (!isset($_GET['stat']) || $_SESSION['rms_errors'])
 {
 ?>
-    <form action="index.php?mod=rms&amp;act=new_req&amp;stat=add&amp;add_item=1#items_form" name="req_new_frm" id="rmsforms" method="post">
+    <div id="formcontainer">
+    <form action="index.php?mod=rms&amp;act=new_req&amp;stat=add&amp;add_item=1#items_form" name="req_new_frm" id="formset" method="post">
     <?php show_rms_initform(); ?>
     <br/>
     <?php show_item_fields(false); ?>
     </form>
+    </div>
 <?php
     if ($_SESSION['rms_errors'])
         $_SESSION['rms_errors'] = false;

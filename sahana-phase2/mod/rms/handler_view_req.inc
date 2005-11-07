@@ -49,7 +49,7 @@ if ($_GET['seq'] == 'detail')
     $req_id = $_GET['req_id'];
     $user_id = $global['person_id'];
 ?>
-    <form id="rmsforms" action="">
+    <form id="formset" action="">
     <?php show_init_vals(_("Request Information")); ?>
     <br/>
 <?php
