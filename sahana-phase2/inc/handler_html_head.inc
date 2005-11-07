@@ -32,7 +32,7 @@ function shn_display_html_head()
         <title>Sahana Disaster Management System </title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
-        <script type="javascript" src="theme/<?=$theme?>/sahana.js">
+<!--        <script type="javascript" src="theme/<?=$theme?>/sahana.js"/> -->
     </head>
 <?php
 }

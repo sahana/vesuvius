@@ -450,24 +450,30 @@ form ul.list {
 }
 
 #result{
-	margin-top:10px;
 	background-color: #DEE3E7; 
-	padding: 5px 5px 5px 5px; 
 	border: 1px #98AAB1 solid;
-	width:100%;
+}
+
+#resulthome ul{
+	margin-left: 200px;
+	padding-bottom:112px;
+	padding: 5px 5px 5px 5px; 
 }
 
 #homerms{
-	margin-top:10px;
 	background-color: #DEE3E7; 
-	padding: 5px 5px 5px 5px; 
+	position:relative;
 	border: 1px #98AAB1 solid;
-	width:100%;
 }
 
 #display{
 	position:relative;
 	margin-top:150px;
+	padding: 5px 5px 5px 5px; 
+}
+
+#displaycr{
+	position:relative;
 	padding: 5px 5px 5px 5px; 
 }
 
@@ -479,11 +485,13 @@ form ul.list {
 }
 
 #result img{
-	display:block;
+	position:relative;
+	padding: 5px 5px 15px 5px;
 }
 
 #homerms img{
 	display:block;
+	height: 100%;
 }
 
 #result p{
@@ -494,11 +502,8 @@ form ul.list {
 }
 
  #resulthome{
-	margin-top:10px;
 	background-color: #DEE3E7; 
-	padding: 5px 5px 5px 5px; 
 	border: 1px #98AAB1 solid;
-	width:100%;
 }
 	
 #resulthome p{

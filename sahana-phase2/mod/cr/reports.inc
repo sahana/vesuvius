@@ -178,7 +178,7 @@ function _shn_cr_rpt_loc(){
   
 function _shn_cr_rpt_summary(){
 	?>
-	<div id ="display">
+	<div id ="displaycr">
 	<div id = "result">
     <table>
         <thead>
