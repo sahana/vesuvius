@@ -18,12 +18,11 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 /*General Camp Reports- if required to be provided when the Reports Main Menu is clicked
 --currently no link from that*/
-
 function _shn_cr_rpt_rst(){
 
 	global $global;
 	$db=$global['db'];
-  $q = "select * from camp_reg ";
+	 $q = "select * from camp_reg ";
 	 
     
     $res_cmp =$db->Execute($q);
@@ -34,15 +33,12 @@ function _shn_cr_rpt_rst(){
     $cmp_women=$res_cmp->fields[8];
 
   }
-	
 	echo  $res_cmp->fields[1];
 	echo  $res_cmp->fields[6];
 	echo  $res_cmp->fields[7];
 	echo  $res_cmp->fields[8];
-
 		 
 }
-	
 function _shn_cr_rpt(){		
 ?>
 	 	  <h2>Reports</h2>
@@ -115,8 +111,13 @@ function _shn_cr_rpt_all(){
    	  		   } 	
 			?>	    	    	    	
 	  		</tbody>
+
+     </table>
+        </div>
+
     </table>
     </div>
+
 <?php
 }
 
@@ -170,10 +171,68 @@ function _shn_cr_rpt_loc(){
    	  		   } 	
    	  			?>	    	    	    	
 	  		</tbody>
-      </table>
-     </div>
+           </table>
+       </div>
       <?php
 }
+  
+function _shn_cr_rpt_summary(){
+	?>
+	<div id ="display">
+	<div id = "result">
+    <table>
+        <thead>
+            <td>Camp Name </td>
+            <td>Camp Type</td>
+            <td>Location</td>
+            <td>Total Victims</td>
+         </thead>
+        
+        <tbody>
+        
+				<?php    
+   					 global $global;
+						 $db=$global['db'];
+						 $q = "select c_uuid,name,opt_camp_type,address,location_id from camp";
+						 $res_cmp = $db->Execute($q);
+						while (!$res_cmp->EOF){
+     	   								
+    						$loc_id =$res_cmp->fields[4];        
+    						$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
+    						$res_loc =$db->Execute($qloc);
+    						    						
+    						$cmp_id =$res_cmp->fields[0];        
+    						$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
+    						$res_reg =$db->Execute($qreg);
+    						
+    						$type  =$res_cmp->fields[2]; 
+    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$res_type =$db->Execute($qtype);
+    		    					   				
+    				?>
+    				<tr>
+    				<td><?php echo $res_cmp->fields[1]?></td>
+  					<td><?php echo $res_type->fields[2]?></td>
+  					<td><?php echo $res_loc->fields[4]?></td>
+  					<td><?php echo $res_reg->fields[0]?></td>
+  					
+  					</tr>
+  					<?php
+    				$res_cmp->MoveNext();		
+   	  		   } 	
+   	  			?>	    	    	    	
+	  		</tbody>
+            </table>
+       </div>
+       </div>
+
+      </table>
+     </div>
+
+      <?php
+}
+      
+    
   
 ?>
 
