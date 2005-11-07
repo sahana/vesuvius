@@ -27,7 +27,7 @@ include_once("view.inc");
 include_once("report.inc");
 include_once("errors.inc");
 include_once ("search.inc");
-
+include_once ("lib_or.inc");
 //ravindra
 function shn_or_acl_setup(){
  	global $global;
@@ -661,24 +661,28 @@ if (is_null($_POST{"bsd_district"})){
     }else {    
         $bsd_village=trim($_POST{"bsd_village"});
     }
-switch ($_POST{"loc_option"}){
+$post_loc=$_POST{"loc_option"};
+switch ($post_loc){
 	case "province":
+       $loc=shn_or_province_villages($bsd_province);
 	break;
 	case "district":
-	break;
+	   $loc=shn_or_district_villages($bsd_district);
+              
+    break;
 	case "village":
-	$loc="($bsd_village)";
+    	$loc="($bsd_village)";
 	break;
 
 }
-
+$loc="($loc)";
 $i=0;
 $org=array();
-//$loc=array(10,13);
-var_dump($loc);
+
+
 while($i<count($sector)){
             $q="select o_uuid from location_details,sector,org_main where location_details.location_id in $loc and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector[$i]}' and org_main.o_uuid=sector.pgoc_uuid";
-echo $q;
+
             $res_org=$db->Execute($q);
 while(!$res_org==NULL && !$res_org->EOF){
             array_push($org,$res_org->fields[0]);
