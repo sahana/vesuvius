@@ -429,12 +429,14 @@ form ul.list {
     background-color: #F00;
 	padding:10px 10px 1px 10px;
 }
+
 #note{
 	background-color: #DEE3E7; 
 	text-align:center;
 	padding: 5px 5px 15px 5px; 
 	border: 3px #98AAB1 solid;
 }
+
 #result{
 	background-color: #DEE3E7; 
 	padding: 5px 5px 5px 5px; 
@@ -448,6 +450,11 @@ form ul.list {
 	border: 3px #98AAB1 solid;
 }
 
+#result table{
+	background:white;
+	width:100%;
+}
+
 #result thead td{
 	text-align:center;
 	padding:.25em .25em .25em .25em;
@@ -458,7 +465,7 @@ form ul.list {
 	font-size:80%;
 }
 
-#result tbody td{
+#result tr td{
 	text-align:left;
 	padding:.1em .1em .1em .1em;
 	font-size:75%;
@@ -610,4 +617,11 @@ form ul.list {
 	float:left;
 	background:#336600;
 	font-size:120%;
+}
+
+#note{
+	background-color: #DEE3E7; 
+	text-align:center;
+	padding: 5px 5px 15px 5px; 
+	border: 3px #98AAB1 solid;
 }
