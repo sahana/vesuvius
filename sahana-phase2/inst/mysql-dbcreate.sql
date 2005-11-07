@@ -305,8 +305,8 @@ CREATE TABLE org_main(
     name VARCHAR(100) NOT NULL ,
 	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
-    man_power VARCHAR(50),
-	resources VARCHAR(200),
+    man_power VARCHAR(100),
+	resources TEXT,
     privacy INT(1) DEFAULT 1,
 	PRIMARY KEY (o_uuid)
 );
@@ -413,6 +413,7 @@ CREATE TABLE configlist(
 * Modules: dvr, mpr, 
 * Created : 07-Nov-2005 - janaka@opensource.lk
 */
+DROP TABLE IF EXISTS person_to_report;
 CREATE TABLE person_to_report (
     p_uuid BIGINT NOT NULL,
     name VARCHAR(100) NOT NULL,
