@@ -67,14 +67,14 @@ function shn_form_fsclose()
 // enter the fields
 
 function shn_form_text($label, $name, $text_opts = null, 
-                        $extra_opts = null, $readonly = false, $disabled = false)
+                        $extra_opts = null )
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     if(get_magic_quotes_gpc())
         $value = stripslashes($value);
 ?>
     <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> <?php $readonly?print"readonly":print" "?> <?php $disabled?print"disabled":print" "?> />
+    <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -206,4 +206,14 @@ function shn_form_label($label, $caption,
     shn_form_extra_opts($extra_opts);
 }
 
+function shn_form_password($label, $name, $text_opts = null, 
+                        $extra_opts = null)
+{
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <input type="password" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> />
+<?php
+    shn_form_extra_opts($extra_opts);
+}
 ?>
