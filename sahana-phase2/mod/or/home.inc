@@ -51,11 +51,10 @@ if(!$res->EOF){
         </div>
         <div id="center">
             <div id="heading">
-            Pakistan Earthquake
+            Please register 
             </div>
-            It is the biggest disaster in Pakistan's history. Saturday's earthquake is thought to have killed more than 30,000 people, mainly in Pakistani Kashmir. It flattened buildings in an area spanning 250 miles, from central Afghanistan to western Bangladesh.
-
-        </div>
+ 	Registering your organization allows us to know who is doing what where and allows us to opperate more effectively as one	    
+	</div>
 
         <div id="right">
             <div id="heading">
