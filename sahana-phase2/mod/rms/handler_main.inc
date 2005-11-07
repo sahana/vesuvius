@@ -28,17 +28,12 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
 
 <?php show_rms_heading(); ?>
-
-<div id=result>
+<div id=homerms>
 <img src="theme/default/img/rms_home.png" border='1'/>
-
   <ul>
-    <li>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment<br/>
-    </li>
+    <li>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment<br/></li>
   </ul>
-  
 </div>
-  
 <div id="left">
 <div id="heading"><?php print _("User Information")?></div>
 <?php print _("User Name" . " : ")?><br/>
@@ -47,10 +42,8 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 <?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open">View</a>)<br/>
 <?php print _("Closed Requests" . " : " . $user_creq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
 <?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?><br/>
-
 </div>
-
-<div id="left">
+<div id="center">
 <div id="heading"><?php print _("Organization Information")?></div>
 <?php print _("Org. Name" . " : ")?><br/>
 <?php print _("Org. ID" . " : " . $org_id)?><br/>
