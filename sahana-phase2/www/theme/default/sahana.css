@@ -532,10 +532,14 @@ form ul.list {
 	font-size:150%;
 	margin-left:250px;
 	margin-top:-200px;
-	padding-bottom:132px;
+	padding-bottom:112px;
 }
 
 #result ul li{
+	line-height:1.2;
+}
+
+#homerms ul li{
 	line-height:1.2;
 }
 
