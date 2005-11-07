@@ -3,11 +3,15 @@
  * Some Intro text 
  */
 ?>
-<DIV ID="left">
-<DIV id="heading">Missing People Reg
-</DIV>
-<p>This is the missing People Regsitry</p>
-</DIV>
+<h1>Missing Person Registry</h1>
+<div id="result">
+<img src="theme/default/img/mpr.png" />
+<ul>
+    <li>Missing Person Registry helps you to find people quickly in the chaos</li>
+    <li>Ensure every single person is being accounted for and tracked</li>
+    <li>Help prioritize releif response to the critically affected</li>
+</ul>
+</div>
 <?php
 /**
  *  Recent Found People people Top 5

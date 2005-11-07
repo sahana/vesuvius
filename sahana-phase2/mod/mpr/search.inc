@@ -164,10 +164,9 @@ function shn_mpr_search_show_result($details)
         </TD>
         <TD>
 <?php
+    echo shn_get_field_opt($detail['opt_status'],'opt_status');
     if($detail['opt_status'] == 'mis')
-        echo '<a title="Change the status to Alive & Well" href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'">'.shn_get_field_opt($detail['opt_status'],'opt_status').'</a>';
-    else
-        echo shn_get_field_opt($detail['opt_status'],'opt_status');
+        echo '</br /><a title="Change the status to Alive & Well" href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'">(Click to change to found)</a>';
 ?>      </TD>
     </TR>
 <?php
@@ -178,4 +177,3 @@ function shn_mpr_search_show_result($details)
 <?php
 }
 ?>
-
