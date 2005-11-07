@@ -537,7 +537,7 @@ form ul.list {
 	height: 50px;
 }
 
-#rmsforms value{ 
+#formset value{ 
 	width: 200px; 
 	float: left; 
 	background: #fff; 
@@ -545,29 +545,35 @@ form ul.list {
 	padding: 1px 5px 1px
 }
 
-#rmsforms table{ 
+#formset table{ 
 	border: #aaa solid 1px; 
 	font-size: 10px;
 }
 
-#rmsforms tr#head{ 
+#formset tr#head{ 
 	text-align: center; 
 	background: #aaf
 }
 
-#rmsforms value#small{ 
+#formset value#small{ 
 	width: 80px; 
 	border: #aaa solid 1px; 
 	padding: 1px 1px 1px 1px;
 }
 
-#rmsforms value#big{ 
-	width: 110px; 
+#formset value#med{ 
+	width: 100px; 
 	border: #aaa solid 1px; 
 	padding: 1px 1px 1px 1px;
 }
 
-#rmsforms a#table{ 
+#formset value#big{ 
+	width: 165px; 
+	border: #aaa solid 1px; 
+	padding: 1px 1px 1px 1px;
+}
+
+#formset a#table{ 
 	border: #ccc dotted 1px; 
 	font-size: 70%; 
 	color: #d33; 
