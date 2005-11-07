@@ -115,8 +115,8 @@ function _shn_cr_rpt_all(){
    	  		   } 	
 			?>	    	    	    	
 	  		</tbody>
-    </div>
     </table>
+    </div>
 <?php
 }
 
@@ -170,8 +170,8 @@ function _shn_cr_rpt_loc(){
    	  		   } 	
    	  			?>	    	    	    	
 	  		</tbody>
-      </div>
       </table>
+     </div>
       <?php
 }
   
