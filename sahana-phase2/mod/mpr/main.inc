@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.9 2005-11-07 04:14:00 janakawicks Exp $ */
+/* $Id: main.inc,v 1.10 2005-11-07 12:40:21 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -65,19 +65,21 @@ function shn_mpr_fndmp()
 function shn_mpr_editmp()
 {
     global $global;
+    echo '<h1 align="center">Edit Missing Person Entry</h1>';
     require($global['approot'].'mod/mpr/edit.inc');
 }
 
 function shn_mpr_addmp()
 {
     global $global;
+    echo '<h1 align="center">Missing Person Entry</h1>';
     require($global['approot'].'mod/mpr/add.inc');
 }
 
 function shn_mpr_search()
 {
     global $global;
-    echo "<h2>Search</h2>";
+    echo '<h1 align="center">Search</h1>';
     require($global['approot'].'mod/mpr/search.inc');
 }
 
