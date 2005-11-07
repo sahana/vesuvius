@@ -170,7 +170,12 @@ function show_rms_categories($value)
     $sql = "SELECT cat_id,category FROM  rms_req_category";
     $rs = $global['db']->Execute($sql);
     
-    $url = "index.php?mod=rms&act=vw_req&amp;user=all&amp;stat=open&amp;filter=cat_id";
+    if (isset($_GET['stat']))
+        $stat = $_GET['stat'];
+    else
+        $stat = open;
+        
+    $url = "index.php?mod=rms&act=vw_req&amp;user=all&amp;stat=$stat&amp;filter=cat_id";
     
     $select = "<form action='$url' name=req_fil_cat method=post>\n";
     $select .= _("Filter by Category");
