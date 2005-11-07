@@ -457,6 +457,14 @@ form ul.list {
 	width:100%;
 }
 
+#homerms{
+	margin-top:10px;
+	background-color: #DEE3E7; 
+	padding: 5px 5px 5px 5px; 
+	border: 1px #98AAB1 solid;
+	width:100%;
+}
+
 #display{
 	position:relative;
 	margin-top:150px;
@@ -471,6 +479,10 @@ form ul.list {
 }
 
 #result img{
+	display:block;
+}
+
+#homerms img{
 	display:block;
 }
 
@@ -514,6 +526,13 @@ form ul.list {
 	margin-left:250px;
 	margin-top:-200px;
 	padding-bottom:50px;
+}
+
+#homerms ul{
+	font-size:150%;
+	margin-left:250px;
+	margin-top:-200px;
+	padding-bottom:132px;
 }
 
 #result ul li{
