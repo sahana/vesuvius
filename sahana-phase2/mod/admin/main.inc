@@ -18,12 +18,14 @@
 */
 
 global $global;
+/*
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl_form.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
+    include_once "user.inc";
+*/
     include_once $global['approot']."/inc/lib_validate.inc";
-
 
 function shn_admin_mainmenu() 
 {
@@ -36,24 +38,30 @@ function shn_admin_mainmenu()
 ?>
     <div id="modmenuwrap">
         <h2>Administration</h2>
-          <ul id="modmenu">
-            <li><a href="#">Module Config </a></li>
-              <ul id="modsubmenu">
+            <ul id="modmenu">
+                <li><a href="#">Module Config </a></li>
+                    <ul id="modsubmenu">
 
 <?php foreach ($module_list as $i) {  ?>
 
-            <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
-              </ul>
-             <li><a href="#">ACL Config </a></li>
-              <ul id="modsubmenu">
+                        <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
+                    </ul>
+<!--
+                <li><a href="#">Security </a></li>
+                    <ul id="modsubmenu">
+                        <li><a href="index.php?mod=admin&act=acl_default">Add an User</a></li>
+                        <li><a href="index.php?mod=admin&act=acl_default">ChangePassword</a></li>
+                        <li><a href="index.php?mod=admin&act=acl_default">Delete User</a></li>
+                    </ul>
+                <li><a href="#">ACL Config </a></li>
+                    <ul id="modsubmenu">
 
 <?php foreach ($module_list as $i) {  ?>
 
-            <li><a href="index.php?mod=admin&act=acl_default&sel=<?=$i?>"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
-              </ul>
-          
-          
-          </ul>
+                        <li><a href="index.php?mod=admin&act=acl_default&sel=<?=$i?>"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
+                    </ul>
+         -->
+         </ul>
         </dd>
         </dt>
     </div> <!-- /modmenuwrap -->    
@@ -132,7 +140,7 @@ function _shn_admin_acl_sub_menu($module)
 function shn_admin_acl_usr_role($module=NULL,$error=false)
 {
 
-if(NULL==$module){
+if(is_null($module)){
 $module=$_GET['sel'];   
 }
 
@@ -151,14 +159,14 @@ function shn_admin_acl_usr_role_cr()
 $module=$_GET['sel'];  
 //$acl=new SahanaACL(NULL);
 
- if (shn_is_null($_POST{"users"})){
+ if (is_null($_POST{"users"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $user=$_POST{"users"};
     }
 
-if (shn_is_null($_POST{"roles"})){
+if (is_null($_POST{"roles"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
@@ -199,14 +207,14 @@ function shn_admin_acl_role_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (shn_is_null($_POST{"action_groups"})){
+    if (is_null($_POST{"action_groups"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $action_group=$_POST{"action_groups"};
     }
 
-if (shn_is_null($_POST{"roles"})){
+if (is_null($_POST{"roles"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
@@ -250,14 +258,14 @@ function shn_admin_acl_user_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (shn_is_null($_POST{"action_groups"})){
+    if (is_null($_POST{"action_groups"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $action_group=$_POST{"action_groups"};
     }
 
-if (shn_is_null($_POST{"users"})){
+if (is_null($_POST{"users"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
@@ -301,14 +309,14 @@ function shn_admin_acl_adv_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (shn_is_null($_POST{"action_groups"})){
+    if (is_null($_POST{"action_groups"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $action_group=$_POST{"action_groups"};
     }
 
-if (shn_is_null($_POST{"users"})){
+if (is_null($_POST{"users"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
@@ -333,4 +341,27 @@ Roles were succesfully given permission to action groups
 }
 }
 
+function shn_admin_add_user(){
+    shn_admin_form_user_add(false);
+}
+
+function shn_admin_add_user_cr(){
+   
+   
+
+   list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
+    
+    //for the moment return true
+    list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
+    if (is_null($_POST{"re_password"})){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+    }else {    
+        $re_password=trim($_POST{"re_password"});
+    }
+    if (!($password==$re_password)){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_WRONG);
+    }
+}
 ?>
