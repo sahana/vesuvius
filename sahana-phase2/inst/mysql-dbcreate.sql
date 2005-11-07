@@ -2,9 +2,9 @@
 * MySQL database structure creation table for Sahana
 */
 
-/*CREATE DATABASE IF NOT EXISTS sahana;
+CREATE DATABASE IF NOT EXISTS sahana;
 USE sahana;
-*/
+
 -- SESSIONS
 DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions(
@@ -167,6 +167,7 @@ CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
     isReliefWorker TINYINT, 
     opt_status VARCHAR(10), -- missing, ingured, etc. customizable
+    updated TIMESTAMP DEFAULT NOW(),
     PRIMARY KEY (p_uuid)
 );
 
@@ -231,12 +232,14 @@ CREATE TABLE person_to_pgroup (
 /**
 * The main details on a person
 * Modules: dvr, mpr, 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Created : 27-OCT-2005 - chamindra@opensource.lk  
+* Last Updated : 07-Nov-2005 - janaka@opensource.lk
+* Note: Removed the NOT NULL Constraint on next_kin_uuid
 */
 DROP TABLE IF EXISTS person_details;
 CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
-    next_kin_uuid BIGINT NOT NULL,
+    next_kin_uuid BIGINT,
     birth_date DATE,
     opt_age_group VARCHAR(10),     -- The age group they belong too
     relation VARCHAR(50),
@@ -265,6 +268,7 @@ CREATE TABLE person_physical (
     opt_skin_color VARCHAR(50),
     opt_hair_color VARCHAR(50),
     injuries TEXT,
+    comments TEXT,
     PRIMARY KEY (p_uuid) ,
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
@@ -404,4 +408,18 @@ CREATE TABLE configlist(
 	FOREIGN KEY (config_id) REFERENCES config (config_id)
 );
 
-
+/**
+* Person to Report (Contact person)  
+* Modules: dvr, mpr, 
+* Created : 07-Nov-2005 - janaka@opensource.lk
+*/
+CREATE TABLE person_to_report (
+    p_uuid BIGINT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    address TEXT,
+    phone VARCHAR(100),
+    email VARCHAR(255),
+    relation VARCHAR(100),
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
