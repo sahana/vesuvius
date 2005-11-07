@@ -694,8 +694,9 @@ $i=$i+1;
 
 ?>
 
+    <h1 align="center">Search Result</h1>
+	
 <div id ="result">
-    <h2>Search Result</h2>
     <table>
         <thead>
             <td>Organization Name</td>

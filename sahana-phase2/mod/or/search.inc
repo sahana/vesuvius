@@ -100,7 +100,7 @@ $q = "select location.name,location.location_id from location where location.opt
         $res->MoveNext();
     }
 ?>
-<h2>Search for Organizations by Service and Location</h2>
+<h1 align="center">Search for Organizations by Service and Location</h1>
 <div id="formcontainer">
 <?php
    	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=search_cr','id'=>'formset');
