@@ -199,12 +199,13 @@ $res = $db->Execute($q);
 	$res = $db->Execute($q);
 	}
 ?>
-<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>
-<h4>Facilities / Services Availability</h4><br>
+<h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
+<!--<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>-->
+<br>
+<br>
+<h3>The availability of Services & Facilities of the camp are as follows.</h3>
+<!--<p>Facilities / Services Availability</p>-->
 <ul>
-
-
-
 <?php
 $a="select option_code,option_description from field_options where field_name='opt_camp_service'";
 $ref=$db->Execute($a);
@@ -219,7 +220,7 @@ while(!$ref->EOF){
 		}
 	}
 	if(!$flag){
-		echo "<li>$name : NOT AVAILABLE </li><br>";
+		echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
 	}
 	
 	$ref->MoveNext();
@@ -227,7 +228,9 @@ while(!$ref->EOF){
 
 ?>
 </ul>
-<p>Use the Navigation Menu to Continue</p>
+<br><br>
+<p>Use the Left Navigation Menu to Continue..............</p>
+
 <?php	
 }
 ?>
