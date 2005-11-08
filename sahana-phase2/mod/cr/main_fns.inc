@@ -19,41 +19,106 @@
 
 function shn_cr_default(){
 ?>
-	<h1 align="center">Camps Registry</h1>
+	<h1 align="center">Camp Registry</h1>
 	<br>
 <?php
 	//shn_cr_arpt();
 ?>
 
 <div id="result">
-<img src="theme/default/img/cr.jpg"/>
+<img src="theme/default/img/cr.png" align="center" />
 
 	<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
-	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br />
+	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
 
 </div>
 								
-<!--	
-	<div id="left">
-	<div id="heading">Camp Information</div>
-	Camp Name : <br/>
+	
+	<div id="leftmpr">
+	<div id="heading">Most Populated Camps</div>
+	<?php shn_cr_home_pop(); ?>
 	</div>
 	
+	<!--
 	<div id="center">
 	<div id="heading">Victim Information</div>
 	No of Victims : <br/>
 	</div>
+	-->
 	
-	<div id="right">
-	<div id="heading">Service Information</div>
-	Services : <br/>
+	<div id="rightmpr">
+	<div id="heading">Newest Camps</div>
+	<?php shn_cr_home_newcmp(); ?>
 	</div>
--->
+
 	<?php 
 	
-		shn_cr_srpt();
+		//shn_cr_srpt();
 	
 }
+
+function shn_cr_home_pop(){
+	global $global;
+	$db=$global['db'];
+	$query="select name,total from camp_reg  order by total desc";
+	$res=$db->Execute($query);
+	$count=0;
+?>
+<div id="result">
+<table>
+<thead>
+<td>Camp</td>
+<td>Population</td>
+</thead>
+<tbody>
+<?php
+	while((!$res->EOF) && $count<=3){
+		echo "<tr>";
+		echo "<td>{$res->fields['name']}</td>";
+		echo "<td>{$res->fields['total']}</td>";
+		echo "</tr>";
+		$count++;
+		$res->MoveNext();
+	}
+?>
+</tbody>
+</table>
+</div>
+<?php
+}
+
+function shn_cr_home_newcmp(){
+	global $global;
+	$db=$global['db'];
+	$query="select a.name,b.name from camp_reg a left outer join camp c using(c_uuid) left outer join location b on c.location_id=b.location_id order by c_uuid desc";
+	$res=$db->Execute($query);
+	$count=0;
+?>
+<div id="result">
+<table>
+<thead>
+<td>Camp</td>
+<td>Division</td>
+</thead>
+<tbody>
+<?php
+	while((!$res->EOF) && $count<=3){
+		echo "<tr>";
+		echo "<td>{$res->fields[0]}</td>";
+		echo "<td>{$res->fields[1]}</td>";
+		echo "</tr>";
+		$count++;
+		$res->MoveNext();
+	}
+?>
+</tbody>
+</table>
+</div>
+<?php
+}
+
+
+
 function shn_cr_stat(){
 }
 
