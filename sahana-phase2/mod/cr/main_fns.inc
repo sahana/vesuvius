@@ -34,19 +34,12 @@ function shn_cr_default(){
 </div>
 								
 	
-	<div id="leftmpr">
+	<div id="left">
 	<div id="heading">Most Populated Camps</div>
 	<?php shn_cr_home_pop(); ?>
 	</div>
 	
-	<!--
-	<div id="center">
-	<div id="heading">Victim Information</div>
-	No of Victims : <br/>
-	</div>
-	-->
-	
-	<div id="rightmpr">
+	<div id="right">
 	<div id="heading">Newest Camps</div>
 	<?php shn_cr_home_newcmp(); ?>
 	</div>
@@ -90,8 +83,8 @@ function shn_cr_home_pop(){
 function shn_cr_home_newcmp(){
 	global $global;
 	$db=$global['db'];
-	$query="select a.name,b.name from camp_reg a left outer join camp c using(c_uuid) left outer join location b on c.location_id=b.location_id order by c_uuid desc";
-	$res=$db->Execute($query);
+	$query="select a.name,b.name from camp_reg a left outer join camp c using(c_uuid) left outer join location b on c.location_id=b.location_id order by a.c_uuid desc";
+	$res =$db->Execute($query);
 	$count=0;
 ?>
 <div id="result">
@@ -102,7 +95,7 @@ function shn_cr_home_newcmp(){
 </thead>
 <tbody>
 <?php
-	while((!$res->EOF) && $count<=3){
+	while((!$res->EOF) && ($count<=3)){
 		echo "<tr>";
 		echo "<td>{$res->fields[0]}</td>";
 		echo "<td>{$res->fields[1]}</td>";
