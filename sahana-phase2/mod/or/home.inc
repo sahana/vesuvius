@@ -30,16 +30,19 @@ if(!$res->EOF){
 ?>
 
         <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
-		<div id="result">
-<img src="theme/default/img/org.png"/>
+		<div id="resulthome">
+            <img src="theme/default/img/org.png"/>
             <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
             </p>
-        <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
-        <p><u><b>Facilities</b></u><br>
-
-        1.Registering and Managing organization information<br>  
-        2.Provide reports and searching facilities on organizational information <br>
-        3.Add users of an Organization</p>
+             <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
+            <p><u><b>Facilities</b></u><br>
+                <ul>
+                    <li>Register and Manage organization information</li>
+                    <li>Register and Manage organization operation information</li>
+                    <li>Register and Manage Volunteer information</li>
+                    <li>Provide reports and searching facilities on organizational information </li>
+                </ul>
+            </p>
 		</div>
         <div id="left">
             <div id="heading">
@@ -53,8 +56,8 @@ if(!$res->EOF){
             <div id="heading">
             Please register 
             </div>
- 	Registering your organization allows us to know who is doing what where and allows us to opperate more effectively as one	    
-	</div>
+ 	Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.	    
+	    </div>
 
         <div id="right">
             <div id="heading">
@@ -73,4 +76,4 @@ if(!$res->EOF){
 <?php
         shn_or_viewform_allorg(10);
 ?>
-		</div>
+		
