@@ -201,7 +201,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-	$query="select a.name,a.location_id,a.opt_camp_type,address,contact_name,contact_no,family,total,men,women,children from camp a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
+	$query="select a.name,a.location_id,a.opt_camp_type,a.address,contact_name,contact_no,family,total,men,women,children from camp a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
 	
 	$res = $db->Execute($query);
 
@@ -248,8 +248,12 @@ $res = $db->Execute($q);
 	$res = $db->Execute($q);
 	}
 ?>
-<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>
-<h4>Facilities / Services Availability</h4><br>
+<h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
+<!--<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>-->
+<br>
+<br>
+<h3>The availability of Services & Facilities of the camp are as follows.</h3>
+<!--<p>Facilities / Services Availability</p>-->
 <ul>
 
 
@@ -267,7 +271,7 @@ while(!$ref->EOF){
 		}
 	}
 	if(!$flag){
-		echo "<li>$name : NOT AVAILABLE </li><br>";
+		echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
 	}
 	
 	$ref->MoveNext();
@@ -275,6 +279,7 @@ while(!$ref->EOF){
 
 ?>
 </ul>
+<br><br>
 <p>Use the Navigation Menu to Continue</p>
 <?php	
 }
