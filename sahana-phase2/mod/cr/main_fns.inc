@@ -19,36 +19,37 @@
 
 function shn_cr_default(){
 ?>
-	<h1 align="center">Camp Registry</h1>
-	<br>
-<?php
-	//shn_cr_arpt();
-?>
-
-<div id="result">
+<h1 align="center">Camp Registry</h1>
+<br>
+<div id="resulthome">
 <img src="theme/default/img/cr.png" align="center" />
-
-	<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
+<ul>
+   <li>Camps Registry is the central repository to manage Camps & individual Camp Management Systems.</li>
+	<br>
+	<li>Helps to coordinate camp activities in an efficient manner.</li>
+	<br>
+	<li>Explore the facilities like Adding Camps, Editing Camps, Viewing Information on Camps based on different categories & Searching for camps...</li>
+	<br>
+</ul>
+	<!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
-
+	-->
 </div>
 								
 	
 	<div id="left">
 	<div id="heading">Most Populated Camps</div>
-	<?php shn_cr_home_pop(); ?>
+	<?php shn_cr_home_pop(); 
+	?>	
 	</div>
 	
 	<div id="right">
 	<div id="heading">Newest Camps</div>
-	<?php shn_cr_home_newcmp(); ?>
+	<?php shn_cr_home_newcmp(); 
+	?>
 	</div>
-
-	<?php 
-	
-		//shn_cr_srpt();
-	
-}
+	<?php
+	}
 
 function shn_cr_home_pop(){
 	global $global;
@@ -57,13 +58,13 @@ function shn_cr_home_pop(){
 	$res=$db->Execute($query);
 	$count=0;
 ?>
-<div id="result">
+<!--<div id="result">-->
 <table>
 <thead>
-<td>Camp</td>
-<td>Population</td>
+	<td>Camp Name</td>
+	<td>Population</td>
 </thead>
-<tbody>
+
 <?php
 	while((!$res->EOF) && $count<=3){
 		echo "<tr>";
@@ -74,9 +75,7 @@ function shn_cr_home_pop(){
 		$res->MoveNext();
 	}
 ?>
-</tbody>
 </table>
-</div>
 <?php
 }
 
@@ -87,13 +86,12 @@ function shn_cr_home_newcmp(){
 	$res =$db->Execute($query);
 	$count=0;
 ?>
-<div id="result">
 <table>
 <thead>
-<td>Camp</td>
-<td>Division</td>
+	<td>Camp Name</td>
+	<td>Location</td>
 </thead>
-<tbody>
+
 <?php
 	while((!$res->EOF) && ($count<=3)){
 		echo "<tr>";
@@ -104,9 +102,9 @@ function shn_cr_home_newcmp(){
 		$res->MoveNext();
 	}
 ?>
-</tbody>
+
 </table>
-</div>
+
 <?php
 }
 
