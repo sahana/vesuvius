@@ -71,7 +71,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 			<tr>
     				<td><?php echo $res_cmp->fields[1]?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
-  					<td><?php echo $res_maincmp->fields[4]?></td>
+  					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_maincmp->fields[9]?></td>
   					<td><?php echo $res_maincmp->fields[7]?></td>
@@ -118,7 +118,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 			<tr>
     				<td><?php echo $res_cmp->fields[1]?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
-  					<td><?php echo $res_maincmp->fields[4]?></td>
+  					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_maincmp->fields[9]?></td>
   					<td><?php echo $res_maincmp->fields[7]?></td>
