@@ -690,6 +690,11 @@ form ul.list {
 }
 
 /*-----------Added to Display the statistics section the Home Page of CR-------------*/
+.fontspecial{
+	color:red;
+	font-weight:bold;
+}
+
 #right table{
 	background:white;
 	margin-left:-225px;
