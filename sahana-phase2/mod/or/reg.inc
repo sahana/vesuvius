@@ -53,7 +53,7 @@ function shn_or_regform_org($error=false)
         
         $res->MoveNext();
     }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='1'";
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='1'";
     $res=$db->Execute($q);
     $or_countries=array();
         
@@ -61,14 +61,15 @@ function shn_or_regform_org($error=false)
         array_push(
             $or_countries,
             array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
+                    'value'=>$res->fields[1],
+                    'parent'=>$res->fields[2]
             )       
         );
         
         $res->MoveNext();
     }
 
-    $q = "select location.name,location.location_id from location where location.opt_location_type='2'";
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='2'";
     $res=$db->Execute($q);
     $or_provinces=array();
         
@@ -76,13 +77,14 @@ function shn_or_regform_org($error=false)
         array_push(
             $or_provinces,
             array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
+                    'value'=>$res->fields[1],
+                    'parent'=>$res->fields[2]
             )       
         );
         
         $res->MoveNext();
     }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='3'";
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='3'";
  
     $res=$db->Execute($q);
     $or_districts=array();
@@ -91,13 +93,14 @@ function shn_or_regform_org($error=false)
         array_push(
             $or_districts,
             array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
+                    'value'=>$res->fields[1],
+                    'parent'=>$res->fields[2]
             )       
         );
         
         $res->MoveNext();
     }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='4'";
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='4'";
  
 
     $res=$db->Execute($q);
@@ -107,7 +110,8 @@ function shn_or_regform_org($error=false)
         array_push(
             $or_villages,
             array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
+                    'value'=>$res->fields[1],
+                    'parent'=>$res->fields[2]
             )       
         );
         
@@ -121,16 +125,66 @@ Fields marked with * are required (entry is compulsory)
 <?php
     if($error==true)
         display_errors();
-?>               
+?>
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
+   	$header=array('name'=>'sahana','method'=>'POST','action'=>'index.php?mod=or&act=reg_org_cr','id'=>'formset');
 	shn_form_open($header,false);
+?>               
+<script type="text/javascript">
+	var level2=new Array();
+	var level3=new Array();
+	var level4=new Array();
+<?php
+ $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='2'";
+    $res=$db->Execute($q);
+      $i=0;  
+    while(!$res->EOF){
+	echo "level2[".$i."]=['".$res->fields[0]."',".$res->fields[1].",".$res->fields[2]."];";
+        $i=$i+1;
+        $res->MoveNext();
+    }
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='3'";
+    $res=$db->Execute($q);
+      $i=0;  
+    while(!$res->EOF){
+	echo "level3[".$i."]=['".$res->fields[0]."',".$res->fields[1].",".$res->fields[2]."];";
+        $i=$i+1;
+        $res->MoveNext();
+    }
+    $q = "select location.name,location.location_id,parent_id from location where location.opt_location_type='4'";
+    $res=$db->Execute($q);
+      $i=0;  
+    while(!$res->EOF){
+	echo "level4[".$i."]=['".$res->fields[0]."',".$res->fields[1].",".$res->fields[2]."];";
+        $i=$i+1;
+        $res->MoveNext();
+    }
+
+?>
+
+    function update_next_level(selection,nextlevel,list)
+    {
+	    var x=document.getElementsByName(nextlevel);
+        for (i=0; i<=x[0].options.length+1; i++){
+	        x[0].options[0]=null;
+        }
+        for (i=0; i<list.length; i++){
+		    if((list[i][2])==selection){
+			    opt = document.createElement("option") ;
+  			    opt.value = list[i][1] ;
+  			    opt.text =list[i][0] ;
+			    opt.parent =list[i][2] ;
+    			x[0].appendChild(opt)
+            }
+        }
+    }
+</script>
+<?php
 // call OR name
     $or_main = array(
                         array('desc'=>_("* Organization Name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'),    
-                        array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1'
-                        ),
+                        array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1'                        ),
                         array('desc'=>_("* Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$or_sector_type_options,
                         'br'=>'1'
                         ) // end of list form
@@ -138,16 +192,17 @@ Fields marked with * are required (entry is compulsory)
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
     // base location
     $location_inf = array(
-                        array('desc'=>_("* Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries,'br'=>'1'                             ),                         
+                        array('desc'=>_("* Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country',"onChange"=>"update_next_level(this.options[this.selectedIndex].value,'bsd_province',level2)",'options'=>$or_countries,'br'=>'1'                             ),                         
                        array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>1),
-                        array('desc'=>_("* Province :"),'type'=>'dropdown','name'=>'bsd_province',
-                            'options'=>$or_provinces,'br'=>'1'
+                       // array('desc'=>_("* Province :"),'type'=>'dropdown','name'=>'bsd_province',
+                       //     'options'=>$or_provinces,'br'=>'1'
+                        //),// end of option
+			array('desc'=>_("* Province :"),'type'=>'dropdown','name'=>'bsd_province',
+                            'br'=>'1','id'=>'bsd_province',"onChange"=>"update_next_level(this.options[this.selectedIndex].value,'bsd_district',level3)"
                         ),// end of option
-                        array('desc'=>_("* District :"),'type'=>'dropdown','name'=>'bsd_district',
-                            'options'=>$or_districts,'br'=>'1'
+                        array('desc'=>_("* District :"),'type'=>'dropdown','name'=>'bsd_district','id'=>'bsd_district','br'=>'1',"onChange"=>"update_next_level(this.options[this.selectedIndex].value,'bsd_village',level4)"
                         ),// end of option
-                        array('desc'=>_("* Village :"),'type'=>'dropdown','name'=>'bsd_village',
-                            'options'=>$or_villages,'br'=>'1'
+                        array('desc'=>_("* Village :"),'type'=>'dropdown','name'=>'bsd_village','br'=>'1'
                         )
                     );// end of option
                              
