@@ -30,7 +30,7 @@ if(!$res->EOF){
 ?>
 
         <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
-		<div id="resulthome">
+		<div id="home">
             <img src="theme/default/img/org.png"/>
             <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
             </p>
@@ -76,4 +76,3 @@ if(!$res->EOF){
 <?php
         shn_or_viewform_allorg(10);
 ?>
-		
