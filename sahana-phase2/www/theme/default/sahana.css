@@ -454,7 +454,7 @@ form ul.list {
 	border: 1px #98AAB1 solid;
 }
 
-#resulthome ul{
+#home ul{
 	margin-left: 200px;
 	padding-bottom:112px;
 	padding: 5px 5px 5px 5px; 
@@ -501,12 +501,12 @@ form ul.list {
 	padding-bottom:10px;
 }
 
- #resulthome{
+ #home{
 	background-color: #DEE3E7; 
 	border: 1px #98AAB1 solid;
 }
 	
-#resulthome p{
+#home p{
 	text-align:top;
 	padding-left:200px;
 	padding-top:10px;
@@ -517,7 +517,7 @@ form ul.list {
 	line-height:1.25;
 }
 
-#resulthome h2{
+#home h2{
 	text-align:top;
 	padding-left:200px;
 	padding-top:10px;
@@ -787,38 +787,4 @@ form ul.list {
 	text-align:center;
 	padding: 5px 5px 15px 5px; 
 	border: 3px #98AAB1 solid;
-}
-
-#leftmpr{
-	width:48%;
-	float:left;
-	background:white;
-	padding-bottom:1em;
-	text-align:justify;
-	border:2px white solid;
-}
-
-#leftmpr #heading{
-	width:100%;
-	color:#fff;
-	float:left;
-	background:#003366;
-	font-size:120%;
-}
-
-
-#rightmpr{
-	width:48%;
-	float:left;
-	background:white;
-	padding-bottom: 1em;
-	border:2px white solid;
-}
-
-#rightmpr #heading{
-	width:100%;
-	color:#fff;
-	float:left;
-	background:#003366;
-	font-size:120%;
 }
