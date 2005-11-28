@@ -38,15 +38,17 @@ function shn_cr_default(){
 								
 	
 	<div id="left">
-	<div id="heading">Most Populated Camps</div>
+	<div id="heading">Most Populated Camps
 	<?php shn_cr_home_pop(); 
 	?>	
 	</div>
+	</div>
 	
 	<div id="right">
-	<div id="heading">Newest Camps</div>
+	<div id="heading">Newest Camps
 	<?php shn_cr_home_newcmp(); 
 	?>
+	</div>
 	</div>
 	<?php
 	}
@@ -58,7 +60,7 @@ function shn_cr_home_pop(){
 	$res=$db->Execute($query);
 	$count=0;
 ?>
-<!--<div id="result">-->
+<div id="result">
 <table>
 <thead>
 	<td>Camp Name</td>
@@ -76,6 +78,7 @@ function shn_cr_home_pop(){
 	}
 ?>
 </table>
+</div>
 <?php
 }
 
@@ -86,6 +89,7 @@ function shn_cr_home_newcmp(){
 	$res =$db->Execute($query);
 	$count=0;
 ?>
+<div id="result">
 <table>
 <thead>
 	<td>Camp Name</td>
@@ -104,7 +108,7 @@ function shn_cr_home_newcmp(){
 ?>
 
 </table>
-
+</div>
 <?php
 }
 
