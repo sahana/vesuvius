@@ -76,3 +76,4 @@ if(!$res->EOF){
 <?php
         shn_or_viewform_allorg(10);
 ?>
+		</div>
