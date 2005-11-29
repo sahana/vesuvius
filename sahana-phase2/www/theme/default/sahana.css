@@ -689,66 +689,6 @@ form ul.list {
 	font-size:120%;
 }
 
-/*-----------Added to Display the statistics section the Home Page of CR-------------*/
-.fontspecial{
-	color:red;
-	font-weight:bold;
-}
-
-#right table{
-	background:white;
-	margin-left:-225px;
-	position:relative;
-	margin-top:25px;
-	width: 90%;
-	
-}
-
-#right thead td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
-	color:#fff;
-	border: #26a solid 1px; 
-	font-size:100%;
-}
-
-#right tr td{
-	text-align:left;
-	padding:.1em .1em .1em .1em;
-	font-size:90%;
-	color:#000;
-	background:#EFEFEF;
-}
-
-#left table{
-	background:white;
-	margin-left:-225px;
-	position:relative;
-	margin-top:25px;
-	width: 90%;
-	}
-
-#left thead td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
-	color:#fff;
-	border: #26a solid 1px; 
-	font-size:100%;
-}
-
-#left tr td{
-	text-align:left;
-	padding:.1em .1em .1em .1em;
-	font-size:90%;
-	color:#000;
-	background:#EFEFEF;
-	}
-
-/*--------------------------------------------------------------------------------------*/
 #left{
 	width:30%;
 	float:left;
