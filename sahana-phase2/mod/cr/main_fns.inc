@@ -21,7 +21,7 @@ function shn_cr_default(){
 ?>
 <h1 align="center">Camp Registry</h1>
 <br>
-<div id="resulthome">
+<div id="home">
 <img src="theme/default/img/cr.png" align="center" />
 <ul>
    <li>Camps Registry is the central repository to manage Camps & individual Camp Management Systems.</li>
