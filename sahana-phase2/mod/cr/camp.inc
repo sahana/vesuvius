@@ -179,6 +179,10 @@ $db = $global['db'];
 //call unique camp id
 $uid=_shn_cr_create_cid();
 
+/*--------Phonetic Insertions------------*/
+shn_db_insert_phonetic('camp_name',$uid);
+/*---------------------------------------*/
+
 //enter into camp table
 $q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}','{$_SESSION['opt_location_type']}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
@@ -200,12 +204,23 @@ $res = $db->Execute($q);
 	}
 ?>
 <h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
-<!--<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>-->
+
 <br>
 <br>
-<h3>The availability of Services & Facilities of the camp are as follows.</h3>
+<h3>The Availability of Services & Facilities of the Camp are as follows.</h3>
 <!--<p>Facilities / Services Availability</p>-->
 <ul>
+
+<!--To have the results shown in table format-->
+<div id ="result">
+<table>
+        <thead>
+        		<td>Service Type</td>
+            <td>Availability</td>
+        </thead>
+        
+<tbody>
+<tr>
 <?php
 $a="select option_code,option_description from field_options where field_name='opt_camp_service'";
 $ref=$db->Execute($a);
@@ -215,18 +230,30 @@ while(!$ref->EOF){
 	$flag=false;
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
 		if($val==$b){
-			echo "<li>$name :  Available </li><br>";
-			$flag=true;
+					
+    		echo "<td>$name</td>";
+    		echo "<td>Available</td>";
+					
+			//echo "<li>$name :  Available </li><br>";
+			$flag=true;			
 		}
 	}
 	if(!$flag){
-		echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
+		echo "<td>$name</td>";
+		echo "<td>NOT AVAILABLE</td>";
+		//echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
 	}
-	
+	?>
+	</tr>
+	<?php
 	$ref->MoveNext();
 }
 
 ?>
+</tbody>
+</table>
+</div>
+
 </ul>
 <br><br>
 <p>Use the Left Navigation Menu to Continue..............</p>
