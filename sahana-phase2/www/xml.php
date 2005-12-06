@@ -1,0 +1,38 @@
+<?php
+/*
+*
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Ravindra <ravindra@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*
+*/
+require_once('../3rd/adodb/adodb.inc.php');
+require_once('../conf/config.inc');
+/* }}} */
+
+//Make the connection to $global['db']
+$db = NewADOConnection($conf['db_engine']);
+$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
+t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
+
+$level=$_GET{"lvl"}+1;
+$parent=$_GET{"sel"};
+$q = "select location.name,location.location_id,parent_id from location where location.opt_location_type={$level} and parent_id={$parent}";
+    $res_child=$db->Execute($q);
+    if($res_child->EOF)
+        return;
+    while(!$res_child->EOF){
+        $res=$res.",".$res_child->fields[1];
+        $res=$res.",".$res_child->fields[0];
+        $res_child->MoveNext();
+    }
+echo $res;
+?>
+
