@@ -29,6 +29,7 @@ include_once("errors.inc");
 include_once ("search.inc");
 include_once ("lib_or.inc");
 //ravindra
+
 function shn_or_acl_setup(){
  	global $global;
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
@@ -151,21 +152,26 @@ function shn_or_mainmenu()
 	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
                 <li><a href="#">Register </a></li>
               	    <ul id="modsubmenu">
-                        <li id="modactive"><a href="index.php?mod=<?=$module?>&act=reg_org">Organization</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=reg_org">Organization</a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Volunteer</a></li>
                     </ul>
-                 <li><a href="#">View </a></li>
+               <!--  <li><a href="#">Update </a></li>
               	    <ul id="modsubmenu">
-                         <li><a href="index.php?mod=<?=$module?>&act=view_org">Organizations</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=search&edit=true">Organizations</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=view_vol&edit=true">Volunteers</a></li>
+                    </ul> -->
+                <li><a href="#">View </a></li>
+              	    <ul id="modsubmenu">
+                        <li><a href="index.php?mod=<?=$module?>&act=view_org">Organizations</a></li>
 	        	        <li><a href="index.php?mod=<?=$module?>&act=view_vol">Volunteers</a></li>
                     </ul> 
 		        <li><a href="#">Reports </a></li>
               	    <ul id="modsubmenu">
-			        <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
+			            <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
     	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
                     </ul>   
 		        <li><a href="index.php?mod=or&act=search">Search </a></li>
-	</ul>
+	        </ul>
     </div>
 <?php 
 
@@ -206,11 +212,11 @@ function shn_or_reg_org_cr()
    
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
 
-    if (is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=trim($_POST{"bsd_village"});
+        $bsd_village=trim($_POST{"4"});
     }
 
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
@@ -470,18 +476,11 @@ function shn_or_reg_vol_cr(){
         $dob=$_POST{"dob"};
     }
     */
-
-$male=trim($_POST{"sex"});
-$job=$_POST{"job"};
-$nic=trim($_POST{"nic"});
-$pas=trim($_POST{"pas"});
-$dln=trim($_POST{"dln"});
-
-//if ('m'==trim($_POST{"sex"})){
-//$male=true;
-//} else{
-//$male=false;
-//}
+    $male=trim($_POST{"sex"});
+    $job=$_POST{"job"};
+    $nic=trim($_POST{"nic"});
+    $pas=trim($_POST{"pas"});
+    $dln=trim($_POST{"dln"});
 
     if (is_null($_POST{"sector"})){
         $error=true;
@@ -489,26 +488,23 @@ $dln=trim($_POST{"dln"});
     }else {    
         $sector=$_POST{"sector"};
     }
-    if (is_null($_POST{"bsd_country"})){
+    if (is_null($_POST{"1"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_country=$_POST{"bsd_country"};
+        $bsd_country=$_POST{"1"};
     }
-    if (is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=$_POST{"bsd_village"};
+        $bsd_village=$_POST{"4"};
     }
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
     $contact_fax=$_POST{"contact_fax"};
     $contact_mail=$_POST{"contact_mail"};
-
-
-
     global $global;
     $db=$global['db'];
    
@@ -524,19 +520,17 @@ $dln=trim($_POST{"dln"});
         $res=$db->Execute($q);
 	
 	$q="insert into person_details(p_uuid,birth_date,opt_country,opt_gender,occupation) values($pid,'{$dob}','{$bsd_country}','{$male}','{$job}')";
-        $res=$db->Execute($q);
+    $res=$db->Execute($q);
 	$q="insert into person_status(p_uuid,isReliefWorker) values($pid,1)";
-        $res=$db->Execute($q);
-
+    $res=$db->Execute($q);
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$nic}','nic')";
    $res=$db->Execute($q);
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$pas}','pas')";
-        $res=$db->Execute($q);
+    $res=$db->Execute($q);
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$dln}','dln')";
-        $res=$db->Execute($q);
-
-        $i=0;
-        while($i<count($sector)){
+    $res=$db->Execute($q);
+    $i=0;
+    while($i<count($sector)){
             $q="insert into sector(pgoc_uuid,opt_sector) values($pid,'{$sector[$i]}')";
            $res=$db->Execute($q);
            $i=$i+1;
@@ -561,7 +555,16 @@ $dln=trim($_POST{"dln"});
     }
     shn_or_regform_vol($error);
 }
-
+//author ravindra
+// view all OR
+function shn_or_edit_org()
+{
+if(NULL == $_REQUEST['id']){
+    shn_or_viewform_allorg(true);
+}else{
+    shn_or_viewform_org($_REQUEST['id'],true);
+}
+}
 //author ravindra
 // view all OR
 function shn_or_view_org()
@@ -635,42 +638,42 @@ global $global;
 $db=$global["db"];
  list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
 
-if (is_null($_POST{"bsd_country"})){
+if (is_null($_POST{"1"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_country=trim($_POST{"bsd_country"});
+        $bsd_country=trim($_POST{"1"});
     }
 
-if (is_null($_POST{"bsd_province"})){
+if (is_null($_POST{"2"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_province=trim($_POST{"bsd_province"});
+        $bsd_province=trim($_POST{"2"});
     }
 
-if (is_null($_POST{"bsd_district"})){
+if (is_null($_POST{"3"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_district=trim($_POST{"bsd_district"});
+        $bsd_district=trim($_POST{"3"});
     }
-    if (is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=trim($_POST{"bsd_village"});
+        $bsd_village=trim($_POST{"4"});
     }
 $post_loc=$_POST{"loc_option"};
 switch ($post_loc){
-	case "province":
+	case "2":
        $loc=shn_or_province_villages($bsd_province);
 	break;
-	case "district":
+	case "3":
 	   $loc=shn_or_district_villages($bsd_district);
               
     break;
-	case "village":
+	case "4":
     	$loc="($bsd_village)";
 	break;
 
@@ -718,7 +721,7 @@ $i=0;
 
 while($i<count($org)){
            
-            _shn_display_org($org[$i],false);
+            _shn_display_org($org[$i],false,true);
          
 $i=$i+1;
 }

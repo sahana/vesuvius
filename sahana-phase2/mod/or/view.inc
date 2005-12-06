@@ -68,7 +68,7 @@ function shn_or_viewform_allorg($no=NULL){
 }
 
 
-function _shn_display_org($org_id,$indent=true){
+function _shn_display_org($org_id,$indent=true,$edit=false){
     global $global;
     $db=$global["db"];
     $q = "select o_uuid,parent_id,name,man_power,resources from org_main where o_uuid=$org_id";
@@ -101,10 +101,13 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
      <?php
     $parent=$res_org->fields[1];
     if($parent>0 && $indent){
-    echo "<div id='parent'>";
+    ?>
+    <div id="parent">
+    <?php
+    //echo "<div id='parent'>";
     }
     ?>
-    <a href="index.php?mod=or&act=view_org&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
+    <a href="index.php?mod=or&act=<?if ($edit){echo "edit_org";}else {echo "view_org";}?>&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
     <?php
     if($parent>0 && $indent){
     echo "</div>";
@@ -130,7 +133,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <?php
 }
 
-function shn_or_viewform_org($org_id)
+function shn_or_viewform_org($org_id,$edit=false)
 {
     global $global;
     $db=$global['db'];
@@ -141,8 +144,7 @@ function shn_or_viewform_org($org_id)
         
     $org_name=$res_org->fields[2];
     $reg_no=$res_org->fields[3]; 
-    $man_power=$res_org->fields[4]; 
-    $resources=$res_org->fields[5]; 
+    
     $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
 
@@ -164,24 +166,6 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         
         $res_sector->MoveNext();
     }  
-
-    $q = "select address from location_details where poc_uuid={$org_id}";
-    $res_addr=$db->Execute($q); 
-    $contact_address=$res_addr->fields[0];
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
-    $res_phone=$db->Execute($q);
-    $contact_phone=$res_phone->fields[0];
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
-    $res_name=$db->Execute($q);
-    $contact_name=$res_name->fields[0];
-
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='fax'";
-    $res_fax=$db->Execute($q);
-    $contact_fax=$res_fax->fields[0];
-
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
-    $res_email=$db->Execute($q);
-    $contact_email=$res_email->fields[0];
 
     $q="select search_id,name from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
@@ -205,11 +189,12 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 
     }
 ?>
-<h1 align="center">Organization Registration Information of <em> <?php echo $org_name?></em></h1></center>
+<h1 align="center"><?php if($edit){echo "Edit ";}?>Organization Registration Information of <em> <?php echo $org_name?></em></h1></center>
          
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=view_org','id'=>'formset');
+if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=view_org";}
+   	$header=array('method'=>'POST','action'=>$act,'id'=>'formset');
 	shn_form_open($header,false);
 // call OR name
     $or_main = array(
@@ -236,31 +221,26 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
                              
     // OR infomation
     shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=true);
-    $contact = array (
-    					
-                        array('desc'=>_("Name : "),'type'=>"text",'size'=>50,'name'=>'contact_name','br'=>1,'value'=>$contact_name),
-                        array('desc'=>_("Address : "),'type'=>"textarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1,'value'=>$contact_address),
-                        array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact_phone','br'=>1,'value'=>$contact_phone),
-                        array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact_fax','br'=>1,'value'=>$contact_fax),
-                        array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1,'value'=>$contact_email),
 
-                        ); // end of contact 01
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=true);
-     
-    // for comments
-    $facilities = array(
-		// get man power of the OR
-                array('desc'=>_("Man Power (No):"),'type'=>"text",'size'=>4,'name'=>'man_power','br'=>1,'value'=>$man_power),
-                array('type'=>"textarea",'desc'=>("Other relevant resources:"),'name'=>"resources",'rows'=>10,'cols'=>60,'br'=>1,'value'=>$resources)
-    ); // end of comments
-    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=true);
+    $contact=_shn_or_display_contact_person($error,true,$org_id);
+
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
+ 
+    
+     $facilities=_shn_or_display_org_facilities($error,$org_id);
+    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
   
 ?>
 <br />
 <center>
 <?php
 //create the submit button
-    $submit= array('type'=>'submit', 'value'=>'Close');
+if($edit){
+$submit="Edit & Save";
+}else{
+$submit="Close";
+}
+    $submit= array('type'=>'submit', 'value'=>$submit);
 	shn_form_add_component($submit,false,false);
 ?>
 </center>
@@ -374,15 +354,8 @@ function shn_or_viewform_vol($pid){
         $res_dln=$db->Execute($q);
         $dln=$res_dln->fields[0];
 
-        $q = "select address from location_details where poc_uuid='{$pid}'";
-        $res_addr=$db->Execute($q);
-        $contact_address=$res_addr->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='curr'";
-        $res_phone=$db->Execute($q);
-        $contact_phone=$res_phone->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='email'";
-        $res_email=$db->Execute($q);
-        $contact_email=$res_email->fields[0];
+        $contact= _shn_or_display_contact_person(false,false,$pid);
+    
         $q="select search_id,name from location_details,location where poc_uuid='{$pid}' and location_details.location_id=location.location_id";
         $res_temp=$db->Execute($q);
          $bsd_village=$res_temp->fields[0];
@@ -428,7 +401,6 @@ function shn_or_viewform_vol($pid){
 	shn_form_open($header,false);
 
  $perdetails = 	array (
-                        			//	array('desc'=>_("Name in Full : "),'type'=>"text",'size'=>50,'name'=>'name','br'=>1,'value'=>$name),
                        					array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1,'value'=>$dob),
                         				array('desc'=>_("Gender :"),'type'=>'text','name'=>'sex','br'=>1,'size'=>10,'value'=>$sex	),							  
                         				
@@ -470,16 +442,7 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
                          );
 shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$return=false,$default_val_req=false);    
 
-    $contact = array (
-    					
-                        
-                        array('desc'=>_("Address : "),'type'=>"textarea",'rows'=>10,'cols'=>60,'name'=>'contact_add','br'=>1,'value'=>$contact_address),
-                        array('desc'=>_("Phone : "),'type'=>"text",'size'=>10,'name'=>'contact_phone','br'=>1,'value'=>$contact_phone),
-                        array('desc'=>_("Fax : "),'type'=>"text",'size'=>10,'name'=>'contact_fax','br'=>1,'value'=>$contact_fax),
-                        array('desc'=>_("email : "),'type'=>"text",'size'=>20,'name'=>'contact_mail','br'=>1,'value'=>$contact_email),
-
-                        ); // end of contact 01
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
+  shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
  ?>
    
 <br />
