@@ -95,6 +95,72 @@ Fields marked with * are required (entry is compulsory)
     // end of form
 } 
 
+function shn_or_regform_operation(){
+
+    global $global;
+    $db=$global['db'];
+    
+?>
+<h2>Add an Operation/Branch under the Organization <?php echo $_SESSION["parent_name"]?> </h2>
+<div id="note">
+Fields marked with * are required (entry is compulsory)
+</div>
+<?php
+    if($error)
+    display_errors();
+?>               
+<div id="formcontainer">
+<?php
+   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_operation_cr','id'=>'formset');
+	shn_form_open($header,false);
+
+	$or_main=array();
+	$or_name=array('desc'=>_("* Operation/Branch Name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'); 
+                         
+    $or_sector=_shn_or_display_sector($error);
+
+    array_push(
+            $or_main,
+            $or_name
+            );
+
+    array_push(
+            $or_main,
+            $or_sector
+            );
+
+    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
+   
+    // base location
+    $location_inf = shn_location_form('1','4'); 
+
+    $contact=_shn_or_display_contact_person($error);
+
+    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
+     
+    $facilities=_shn_or_display_org_facilities($error);
+    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
+    $extra=_shn_or_display_extra($error);
+    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=$error);
+?>
+<br />
+<center>
+<?php
+//create the submit button
+    $submit= array('type'=>'submit', 'value'=>'Next');
+	shn_form_add_component($submit,false,false);
+?>
+</center>
+<br />
+<?php
+        //close the form
+     	shn_form_close(false);
+?>				     
+</div>
+<?php
+    // end of form
+  
+} 
 
 function shn_or_regform_vol($error=false)
 {
@@ -187,170 +253,5 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 ?>				     
 </div>
 <?php
-    // end of form
-
-    
-   
-} 
-
-function shn_or_regform_operation(){
-
-  global $global;
-    $db=$global['db'];
-    
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type'";
-    $res=$db->Execute($q);
-    $or_sector_type_options=array();
-        
-    while(!$res->EOF){
-        array_push(
-            $or_sector_type_options,
-            array(  'drop_desc'=>$res->fields[1],
-                    'value'=>$res->fields[0]
-            )       
-        );
-        
-        $res->MoveNext();
-    }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='1'";
-    $res=$db->Execute($q);
-    $or_countries=array();
-        
-    while(!$res->EOF){
-        array_push(
-            $or_countries,
-            array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
-            )       
-        );
-        
-        $res->MoveNext();
-    }
-
-    $q = "select location.name,location.location_id from location where location.opt_location_type='2'";
-    $res=$db->Execute($q);
-    $or_provinces=array();
-        
-    while(!$res->EOF){
-        array_push(
-            $or_provinces,
-            array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
-            )       
-        );
-        
-        $res->MoveNext();
-    }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='3'";
- 
-    $res=$db->Execute($q);
-    $or_districts=array();
-        
-    while(!$res->EOF){
-        array_push(
-            $or_districts,
-            array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
-            )       
-        );
-        
-        $res->MoveNext();
-    }
-    $q = "select location.name,location.location_id from location where location.opt_location_type='4'";
- 
-
-    $res=$db->Execute($q);
-    $or_villages=array();
-        
-    while(!$res->EOF){
-        array_push(
-            $or_villages,
-            array(  'drop_desc'=>$res->fields[0],
-                    'value'=>$res->fields[1]
-            )       
-        );
-        
-        $res->MoveNext();
-    }
-?>
-<h2>Add an Operation/Branch under the Organization <?php echo $_SESSION["parent_name"]?> </h2>
-<div id="note">
-Fields marked with * are required (entry is compulsory)
-</div>
-<?php
-    if($error)
-    display_errors();
-?>               
-<div id="formcontainer">
-<?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=reg_operation_cr','id'=>'formset');
-	shn_form_open($header,false);
-
-
-
-	$or_main=array();
-	$or_name=array('desc'=>_("* Operation/Branch Name : "),'type'=>"text",'size'=>50,'name'=>'org_name','br'=>0,'br'=>'1'); 
-              
-                        
-    	$or_sector=_shn_or_display_sector($error);
-
-array_push(
-            $or_main,
-            $or_name
-            );
-
-
-array_push(
-            $or_main,
-            $or_sector
-            );
-
-    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
-    // base location
-    $location_inf = array(
-                        array('desc'=>_("Country of Origin:"),'type'=>'dropdown','name'=>'bsd_country','options'=>$or_countries,'br'=>'1'                             ),                         
-                       
-                        array('desc'=>_("Province :"),'type'=>'dropdown','name'=>'bsd_province',
-                            'options'=>$or_provinces,'br'=>'1'
-                        ),// end of option
-                        array('desc'=>_("District :"),'type'=>'dropdown','name'=>'bsd_district',
-                            'options'=>$or_districts,'br'=>'1'
-                        ),// end of option
-                        array('desc'=>_("Village :"),'type'=>'dropdown','name'=>'bsd_village',
-                            'options'=>$or_villages,'br'=>'1'
-                        )
-                    );// end of option
-                             
-    // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
-
-$contact=_shn_or_display_contact_person($error);
-
-    shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
-     
-    $facilities=_shn_or_display_org_facilities($error);
-    shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
- 
-  $extra=_shn_or_display_extra($error);
-    shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=$error);
-   
-?>
-<br />
-<center>
-<?php
-//create the submit button
-    $submit= array('type'=>'submit', 'value'=>'Next');
-	shn_form_add_component($submit,false,false);
-?>
-</center>
-<br />
-<?php
-        //close the form
-     	shn_form_close(false);
-?>				     
-</div>
-<?php
-    // end of form
-  
 }                                               
 ?>

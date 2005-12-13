@@ -28,116 +28,6 @@ include_once("report.inc");
 include_once("errors.inc");
 include_once ("search.inc");
 include_once ("lib_or.inc");
-//ravindra
-
-function shn_or_acl_setup(){
- 	global $global;
-    include_once $global['approot']. 'inc/lib_security/acl_api.inc';
-    include_once $global['approot'].'inc/lib_security/acl.inc';
-    include_once $global['approot'].'inc/lib_security/authenticate.inc';
-    $acl=new SahanaACL(NULL);
-
-/*****************************************************************/
-/** ACL common to all modules ,this piece of code will be removed from
-or_acl_setup to sahana setup script once its avaliable
-**/
-    /**
-    add a section to categorize sahana users in ARO table.
-    used is a function in acl.inc which you need not call
-    as module writers. "users" section needs to be added only
-    once per sahana and will be done at the installation
-    */
-    $acl->_shn_add_section("users","users of sahana","ARO");
-    /**
-    add a section to categorize sahana acions in AXO table.
-    used is a function in acl.inc which you need not call
-    as module writers. "actions" section needs to be added only
-    once per sahana and will be done at the installation
-    */
-    $acl->_shn_add_section("actions","actions avaliable in sahana","ARO");
-    //add a group to contain Sahana AROs(root group)
-    $acl->_shn_add_aro_group("sahana","Sahana ARO root",0);
-     // add a role named guest
-    $res=shn_acl_add_role("guest","guest role");
-   // add a role named user
-    $res=shn_acl_add_role("user","Normal user role");
-   // add a role named guest
-    $res=shn_acl_add_role("admin","Administrator role");
-    //add a group to contain Sahana AXOs(root group)
-    $acl->_shn_add_axo_group("sahana","Sahana AXO root",0);
-    /** add a ACO , not neccesary to protect actions, but when  we go to
-    table and field level protection need to seperate "read","write"
-    permissions , hence requires ACO
-    */
-   $res=shn_acl_add_perm_type("execute","execute permission");
-    // adds guest user with password and add the user to ACL users and add to 'guest' role
-    $guest=shn_add_user("Guest User","guest","pass","guest",1); 
-    //add a"guest" user to ACL users and add to 'guest' role
-    /************************************/
-    //give permission for the guest user to sahana home
-    // add a module named "home"
-    $res=shn_acl_add_module("home","Sahana Home");
-     // add an action group named "view" under the module "home"
-    $res=shn_acl_add_action_group("home","view","view group");
-    $res=shn_acl_add_action("home","view","shn_home_default","View function");
-    //give permission for 'view' action group with in 'home' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','home','view');
-  //give permission for 'view' action group with in 'home' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','home','view');
-  //give permission for 'view' action group with in 'home' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','home','view');
-
-
- /*****************************************************************/
- /** start of or specifc ACL entries
- **/
-     
-     // add a module named "or"
-    $res=shn_acl_add_module("or","organization reg");
-    
-    /** action groups **/
-    // add an action group named "create" under the module "or"
-    $res=shn_acl_add_action_group("or","create","create group");
-    // add an action group named "delete" under the module "or"
-    $res=shn_acl_add_action_group("or","delete","delete group");
-    // add an action group named "update" under the module "or"
-    $res=shn_acl_add_action_group("or","update","update group");
-    // add an action group named "view" under the module "or"
-    $res=shn_acl_add_action_group("or","view","view group");
-    // add an action group named "admin" under the module "or"
-    $res=shn_acl_add_action_group("or","acl","ACL group");
- 
-   //add an action name 'shn_or_reg_org"  under above action groups
-    $res=shn_acl_add_action("or","create","shn_or_reg_org","Display Organization Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_org_cr","Save Organization Registration info");
-    $res=shn_acl_add_action("or","create","shn_or_reg_operation_cr","Save Operation Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol","Display Volunteer Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol_cr","Save Volunteer Registration info");
-
-    $res=shn_acl_add_action("or","view","shn_or_view_org","View Organization Registration info");
-    $res=shn_acl_add_action("or","view","shn_or_view_vol","View Volunteer Registration info");
-    $res=shn_acl_add_action("or","view","shn_or_default","Organization Registry Home");
-    // add an action case name "view_all"  under the above case
-    $res=shn_acl_add_action_case("or","view","shn_or_view_org","all","action case");
-    $res=shn_acl_add_action("or","acl","shn_or_acl_setup","Display ACL configuration info");
-    
-    //give permission for 'create' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','create');
-    //give permission for 'create' action group with in 'or' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','or','create');
-    //give permission for 'create' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','create');
-
-    //give permission for 'view' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','view');
-    //give permission for 'view' action group with in 'or' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','or','view');
-    //give permission for 'view' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','view');
-
-    //give permission for 'admin' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','acl');
-}
 
 //ravindra,chathra,pradeeper
 function shn_or_mainmenu() 
@@ -368,11 +258,11 @@ function shn_or_reg_org_cr()
 //author ravindra
 function shn_or_reg_operation_cr(){
     $error=false;
-    if (is_null($_POST{"opr_name"})){
+    if (is_null($_POST{"org_name"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
-        $org_name=$_POST{"opr_name"};
+        $org_name=$_POST{"org_name"};
     }
     
     if (is_null($_POST{"sector"})){
@@ -381,11 +271,11 @@ function shn_or_reg_operation_cr(){
     }else {    
         $sector=$_POST{"sector"};
     }
-    if (is_null($_POST{"bsd_village"})){
+    if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=$_POST{"bsd_village"};
+        $bsd_village=$_POST{"4"};
     }
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
@@ -400,11 +290,8 @@ function shn_or_reg_operation_cr(){
 
     global $global;
     $db=$global['db'];
-    //$=$_POST{"operation"}; 
     $org_id = $db->GenID('org_seq',1);
-//Double check the ACL ID was generated.
     if (empty($org_id)){
-    //("add_org(): ORG_ID generation failed!");
         return false;
     }
     $q="select o_uuid from org_main where o_uuid={$org_id}";
@@ -428,6 +315,8 @@ function shn_or_reg_operation_cr(){
 
     $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
     $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
+    $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
@@ -437,12 +326,13 @@ function shn_or_reg_operation_cr(){
     if($error){
         shn_or_regform_operation($error);
     } else {
+?>
+    <div id="result_msg">
+       <?php echo $org_name?> Operation was succesfully registered
+    </div>
+    </br>
+<?php
         if($chk_branch){
-            ?>
-            <div id="add">
-               <h3> <?php echo $org_name ?> was succesfully registered</h3><hr></br>
-            </div>
-            <?
             shn_or_regform_operation($error);
         }else {
             shn_or_regform_org($error=false);

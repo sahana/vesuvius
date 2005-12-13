@@ -56,7 +56,6 @@ function shn_or_viewform_allorg($no=NULL){
             _shn_display_org($operation_id);
             $res_operation->MoveNext();
         }
-        
         $res_org->MoveNext();
     }
 ?>
@@ -90,7 +89,6 @@ function _shn_display_org($org_id,$indent=true,$edit=false){
 field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
     $res_type=$db->Execute($q); 
     $org_type=$res_type->fields[0];
-
     $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
@@ -101,10 +99,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
      <?php
     $parent=$res_org->fields[1];
     if($parent>0 && $indent){
-    ?>
-    <div id="parent">
-    <?php
-    //echo "<div id='parent'>";
+    echo "<div id='parent'>";
     }
     ?>
     <a href="index.php?mod=or&act=<?if ($edit){echo "edit_org";}else {echo "view_org";}?>&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
@@ -135,58 +130,39 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 
 function shn_or_viewform_org($org_id,$edit=false)
 {
+    include_once "lib_or.inc";
     global $global;
     $db=$global['db'];
     $q = "select o_uuid,parent_id,name,reg_no,man_power,resources from org_main where o_uuid='{$org_id}'";
-    
     $res_org=$db->Execute($q);
     if(!$res_org==NULL && !$res_org->EOF){
-        
-    $org_name=$res_org->fields[2];
-    $reg_no=$res_org->fields[3]; 
+        $parent=($res_org->fields[1]=='0')?true:false;    
+        $org_name=$res_org->fields[2];
+        $reg_no=$res_org->fields[3]; 
     
-    $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
+        $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
+        $res_type=$db->Execute($q); 
+        $org_type=$res_type->fields[0];
 
-    $res_type=$db->Execute($q); 
-    $org_type=$res_type->fields[0];
-
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
+        $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-    $res_sector=$db->Execute($q);    
-    $or_sector_type_options=array();
+        $res_sector=$db->Execute($q);    
+        $or_sector_type_options=array();
         
-    while(!$res_sector->EOF){
-        array_push(
-            $or_sector_type_options,
-            array(  'drop_desc'=>$res_sector->fields[0]
-                    
+        while(!$res_sector->EOF){
+            array_push(
+                $or_sector_type_options,
+                array(  'drop_desc'=>$res_sector->fields[0]
             )       
         );
-        
-        $res_sector->MoveNext();
-    }  
-
-    $q="select search_id,name from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
-    $res_temp=$db->Execute($q);
-    $bsd_village=$res_temp->fields[0];
-    $loc=split("\.", $bsd_village);
-    $bsd_village=$res_temp->fields[1];
-    $bsd_country=$loc[0];
-    $q="select name from location where search_id='$bsd_country'";
-    $res_bsd_country=$db->Execute($q);
-    $bsd_country=$res_bsd_country->fields[0];
-    
-    $bsd_province=$loc[0].".".$loc[1];
-    $q="select name from location where search_id='$bsd_province'";
-    $res_bsd_province=$db->Execute($q);
-    $bsd_province=$res_bsd_province->fields[0];
-
-    $bsd_district=$loc[0].".".$loc[1].".".$loc[1];
-    $q="select name from location where search_id='$bsd_district'";
-    $res_bsd_district=$db->Execute($q);
-    $bsd_district=$res_bsd_district->fields[0];
-
+            $res_sector->MoveNext();
+        }  
+    $loc=shn_or_get_parents($org_id);
+    $bsd_country=$loc[0][1];
+    $bsd_province=$loc[1][1];
+    $bsd_district=$loc[2][1];
+    $bsd_village=$loc[3][1];
     }
 ?>
 <h1 align="center"><?php if($edit){echo "Edit ";}?>Organization Registration Information of <em> <?php echo $org_name?></em></h1></center>
@@ -205,17 +181,23 @@ if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=
                         'br'=>'1'
                         )
                      );
+    $reg=array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>'1','value'=>$reg_no);
+    if($parent){
+        array_push(
+            $or_main,
+            $reg
+            );
+    }
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
     // base location
-    $location_inf = array(
-                        array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country                             ),                         
-                       array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>1,'value'=>$reg_no),
+     $location_inf = array(
+                        array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country
+                        ),                         
                         array('desc'=>_("Province :"),'type'=>'text','name'=>'bsd_province','br'=>'1','value'=>$bsd_province
                         ),// end of option
                         array('desc'=>_("District :"),'type'=>'text','name'=>'bsd_district','br'=>'1','value'=>$bsd_district
                         ),// end of option
-                        array('desc'=>_("Village :"),'type'=>'text','name'=>'bsd_village',
-                            'br'=>'1','value'=>$bsd_village
+                        array('desc'=>_("Village :"),'type'=>'text','name'=>'bsd_village','br'=>'1','value'=>$bsd_village
                         )
                     );// end of option
                              
@@ -226,19 +208,17 @@ if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=
 
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
  
-    
      $facilities=_shn_or_display_org_facilities($error,$org_id);
     shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
-  
 ?>
 <br />
 <center>
 <?php
 //create the submit button
 if($edit){
-$submit="Edit & Save";
-}else{
-$submit="Close";
+    $submit="Edit & Save";
+    }else{
+    $submit="Close";
 }
     $submit= array('type'=>'submit', 'value'=>$submit);
 	shn_form_add_component($submit,false,false);
@@ -295,15 +275,11 @@ function shn_or_viewform_allvol(){
     $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
-    
-
 ?>
-
 <tr>
     <td>
     
     <a href="index.php?mod=or&act=view_vol&id=<?php echo $res_pers->fields[0] ?>"><?php echo $res_pers->fields[1]?></a> 
-   
     </td>
     <td>
 <?php
@@ -318,11 +294,9 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
-   
 </tr>
 <?php
         $res_pers->MoveNext();
-        
     }
 ?>
     </table>
@@ -355,29 +329,12 @@ function shn_or_viewform_vol($pid){
         $dln=$res_dln->fields[0];
 
         $contact= _shn_or_display_contact_person(false,false,$pid);
-    
-        $q="select search_id,name from location_details,location where poc_uuid='{$pid}' and location_details.location_id=location.location_id";
-        $res_temp=$db->Execute($q);
-         $bsd_village=$res_temp->fields[0];
-        $loc=split("\.", $bsd_village);
-        $bsd_village=$res_temp->fields[1];
-        $bsd_country=$loc[0];
-        $q="select name from location where search_id='$bsd_country'";
-        $res_bsd_country=$db->Execute($q);
-        $bsd_country=$res_bsd_country->fields[0];
-    
-        $bsd_province=$loc[0].".".$loc[1];
-        $q="select name from location where search_id='$bsd_province'";
-        $res_bsd_province=$db->Execute($q);
-        $bsd_province=$res_bsd_province->fields[0];
-
-        $bsd_district=$loc[0].".".$loc[1].".".$loc[1];
-        $q="select name from location where search_id='$bsd_district'";
-        $res_bsd_district=$db->Execute($q);
-        $bsd_district=$res_bsd_district->fields[0];
-
-
-       
+        $loc=shn_or_get_parents($pid);
+        $bsd_country=$loc[0][1];
+        $bsd_province=$loc[1][1];
+        $bsd_district=$loc[2][1];
+        $bsd_village=$loc[3][1];
+   
         $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
         $person_sector_type_options=array();
@@ -460,8 +417,5 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 ?>				     
 </div>
 <?php
-    // end of form
-
 }
-
 ?>
