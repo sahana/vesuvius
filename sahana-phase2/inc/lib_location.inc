@@ -120,7 +120,7 @@ function _shn_location_form($from,$to){
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
             if($cur==$from)
-                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0];
+                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
             else
                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
             $res_options=$db->Execute($q);
