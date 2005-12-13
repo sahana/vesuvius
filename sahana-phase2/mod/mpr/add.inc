@@ -1,31 +1,49 @@
 <?php
-//validation
-switch ($_POST['seq']) {
+/* $Id: add.inc,v 1.8 2005-12-13 11:48:29 janakawicks Exp $ */
 
-    case 'entry':
-        if(shn_mpr_addmp_validate()){
-            shn_mpr_addmp_upload();
-        }else
-            shn_mpr_addmp_entry(true);
-    break;
+/**Main home page of the Missing Person Registry 
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @author	  Janaka Wickramasinghe <janaka@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/
 
-    case 'upload_pic' :
-        if(! shn_mpr_addmp_upload_pic())
-            shn_mpr_addmp_upload(true);
-        else
-            shn_mpr_addmp_confirm();
-    break;
+/* {{{ Tools */
+/** TODO: Put this somewhere else
+*/
 
-    case 'commit' :
-        shn_mpr_addmp_commit();
-    break;
-
-    default:
-        shn_mpr_addmp_entry();            
-
+/**
+ * shn_tools_clean_post 
+ * 
+ * @param mixed $local_post 
+ * @access public
+ * @return void
+ */
+function shn_tools_clean_post(&$local_post)
+{
+    //trim them all
+    foreach($_POST as $k => $v){
+        $v = trim($v);
+        if($v != '')
+            $local_post[$k] = $v;
+    }
 }
 
+/* }}} */
 
+/* {{{ Add Entry From */
+/**
+ * shn_mpr_addmp_entry 
+ * 
+ * @param mixed $errors 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_entry($errors=false) 
 {
     if($errors)
@@ -35,9 +53,17 @@ function shn_mpr_addmp_entry($errors=false)
 
     shn_form_fsopen('WARNING');
 ?>
-    <p>Please do a search and check whether the person you are looking for is already found or not</p>
+    <p>Please do a search and check whether the person you are looking for
+is already exists</p>
 <?php
-    shn_form_fsclose();
+    shn_form_fsclose(); 
+    if($_GET['type']=='found'){
+        shn_form_fsopen('Status');
+        shn_form_opt_select('opt_status','Status');
+        shn_form_fsclose();
+    }elseif($_GET['type']=='missing'){
+        shn_form_hidden(array('opt_status'=>'mis'));
+    }
     
     shn_form_hidden(array('seq'=>'entry'));
 
@@ -87,32 +113,26 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_textarea('Comments','comments');
     shn_form_fsclose();
 
-    shn_form_fsopen("Reporting Person");
-    shn_form_text('Name','rep_full_name','size="30"',array('req'=>true));
-    shn_form_text('Relation','rep_relation','size="30"',array('req'=>true));
-?>
-<p>IMPORTANT : At least one of the following contact method is required</p>
-<?php
-    shn_form_textarea('Address','rep_address');
-    shn_form_text('Phone','rep_phone','size="30"');
-    shn_form_text('Email','rep_email','size="30"');
-    shn_form_fsclose();
-    
     shn_form_submit('Next');
     shn_form_fclose();
 }
+/* }}} */
 
+/* {{{ Add Entry form Validation */
+
+/**
+ * shn_mpr_addmp_validate 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_validate() 
 {
     $error_flag=false;
     
-    //trim them all
-    foreach($_POST as $k => $v){
-        $v = trim($v);
-        if($v != '')
-            $local_post[$k] = $v;
-    }
-
+    //clean the post
+    shn_tools_clean_post(&$local_post);
+    
     //anything entered?
     if(empty($local_post)){
         add_error(_("You have not completed the form"));
@@ -125,30 +145,15 @@ function shn_mpr_addmp_validate()
         $error_flag=true;
     }
 
-    //Reporting person name
-    if(! isset($local_post['rep_full_name'])){
-        add_error(_("Please enter the full name of the reporting person"));
-        $error_flag=true;
-    }
-
-    //Reporting person relation
-    if(! isset($local_post['rep_relation'])){
-        add_error(_("Please enter the relationship of the reporting person"));
-        $error_flag=true;
-    }
-
-    //Reporting person contact
-    if(! ( isset($local_post['rep_address']) || 
-            isset($local_post['rep_phone']) || 
-            isset($local_post['rep_email']) ) ){
-        add_error(_("Please enter any contact method of the reporting person"));
-        $error_flag=true;
-    }
+/**
+ * TODO: Shift to reproting person validation function
              
     if(isset($local_post['dob']) && ! shn_valid_date($local_post['dob'])){
         add_error(_("Invalid Date of Birth"));
         $error_flag=true;
     }
+
+*/
 
 /*    if(shn_is_opt_field($opt_age_group)){
         add_error(_("Invalid Age Group"));
@@ -180,11 +185,124 @@ function shn_mpr_addmp_validate()
     else{
         //set session
         $local_post['p_uuid'] = shn_create_uuid();
-        $_SESSION['mpr_entry']=$local_post;
+        $_SESSION['mpr_add']['entry']=$local_post;
         return true;
     }
 } 
 
+/* }}} */
+
+/* {{{ Add Reporter Form */
+
+/**
+ * shn_mpr_addmp_reporter 
+ * 
+ * @param mixed $errors 
+ * @access public
+ * @return void
+ */
+function shn_mpr_addmp_reporter($errors=false)
+{
+    if($errors)
+        display_errors();
+
+    // TODO: Clean the $_GET['act'] baby ;-)
+    shn_form_fopen($_GET['act'],null);
+
+    shn_form_hidden(array('seq'=>'report_person'));
+    shn_form_fsopen("Reporter Details");
+    
+    shn_form_fsopen("Background Information");
+    shn_form_select(array("yes"=>"Yes","no"=>"No"),"Have you reported
+anyone before? ", "reported_before");
+    shn_form_select(array("yes"=>"Yes","no"=>"No"), "Are you a disaster
+victim too? ", "is_dv");
+    shn_form_opt_select('opt_status','If you are a victim, Please specify
+the status','',array('value'=>$_SESSION['mpr_reporter']['opt_status']));
+
+    shn_form_fsclose();
+
+    shn_form_fsopen("Personal Details");
+?>
+<p>NOTE : If you have reproted before, we will use the following
+information to do a match</p>
+<?php
+    shn_form_text('Name','rep_full_name','size="30"',array('req'=>true));
+    shn_form_text('Relation','rep_relation','size="30"',array('req'=>true));
+?>
+<p>IMPORTANT : At least one of the following contact method is required</p>
+<?php
+    shn_form_textarea('Address','rep_address');
+    shn_form_text('Phone','rep_phone','size="30"');
+    shn_form_text('Email','rep_email','size="30"');
+    shn_form_fsclose();
+    
+    shn_form_fsclose();
+
+    shn_form_submit('Next');
+    shn_form_fclose();
+
+}
+/* }}} */
+
+/* {{{ Add Reporter Form Validation */
+/**
+ * shn_mpr_addmp_reporter_validate 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_mpr_addmp_reporter_validate()
+{
+    $error_flag=false;
+    
+    //clean the post
+    shn_tools_clean_post(&$local_post);
+
+    //anything entered?
+    if(empty($local_post)){
+        add_error(_("You have not completed the form"));
+        return false;
+    }
+
+    //Reporting person name
+    if(! isset($local_post['rep_full_name'])){
+        add_error(_("Please enter the full name of the reporting person"));
+        $error_flag=true;
+    }
+
+    //Reporting person relation
+    if(! isset($local_post['rep_relation'])){
+        add_error(_("Please enter the relationship of the reporting person"));
+        $error_flag=true;
+    }
+
+    //Reporting person contact
+    if(! ( isset($local_post['rep_address']) || 
+            isset($local_post['rep_phone']) || 
+            isset($local_post['rep_email']) ) ){
+        add_error(_("Please enter any contact method of the reporting person"));
+        $error_flag=true;
+    }
+   
+    if($error_flag)
+        return false;
+    else{
+        //set session
+        $_SESSION['mpr_add']['report_person']=$local_post;
+        return true;
+    }
+}
+/* }}} */
+
+/* {{{ Add Upload Form */
+/**
+ * shn_mpr_addmp_upload 
+ * 
+ * @param mixed $errors 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_upload($errors=false) 
 {
     if($errors)
@@ -199,7 +317,15 @@ function shn_mpr_addmp_upload($errors=false)
     shn_form_submit('Next');
     shn_form_fclose();
 }
+/* }}} */
  
+/* {{{ Add Upload Pic */
+/**
+ * shn_mpr_addmp_upload_pic 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_upload_pic() 
 {
     //No file was uploaded ignore
@@ -219,154 +345,162 @@ function shn_mpr_addmp_upload_pic()
     $ext = '.'.$ext;
 
     $upload_dir = $global['approot'].'www/tmp/';
-    $uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_entry']['p_uuid'].$ext;
+    $uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_add']['entry']['p_uuid'].$ext;
     move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
-    $desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_entry']['p_uuid'].$ext; 
+    $desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext; 
     //make thumb 100X100 or some thing like that ;-)
     shn_image_resize($uploadfile,$desc_path,100,100);
     return true;
 }
+/* }}} */
 
 function shn_create_uuid($type='p')
 {
    return mktime().rand(0,1000); 
 }
 
+/* {{{ Add Confirm Form */
+/**
+ * shn_mpr_addmp_confirm 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_confirm()
 {
     shn_form_fopen("addmp",null);
     shn_form_fsopen("Missing Person");
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb($_SESSION['mpr_entry']['p_uuid']);
+    shn_show_thumb($_SESSION['mpr_add']['entry']['p_uuid']);
 ?>
     <hr>
 <?php
     //Identity
-    if(isset($_SESSION['mpr_entry']['idcard']) ||
-            isset($_SESSION['mpr_entry']['passport']) ||
-            isset($_SESSION['mpr_entry']['drv_license']) ) {
+    if(isset($_SESSION['mpr_add']['entry']['idcard']) ||
+            isset($_SESSION['mpr_add']['entry']['passport']) ||
+            isset($_SESSION['mpr_add']['entry']['drv_license']) ) {
         shn_form_fsopen("Identity");
         $identity_section = true;
     }
-    if(isset($_SESSION['mpr_entry']['idcard']))
-        shn_form_label('Identity Card Number',$_SESSION['mpr_entry']['idcard']);
-    if(isset($_SESSION['mpr_entry']['passport']))
-        shn_form_label('Passport Number',$_SESSION['mpr_entry']['passport']);
-    if(isset($_SESSION['mpr_entry']['drv_license']))
-        shn_form_label('Driving License',$_SESSION['mpr_entry']['drv_license']);
+    if(isset($_SESSION['mpr_add']['entry']['idcard']))
+        shn_form_label('Identity Card Number',$_SESSION['mpr_add']['entry']['idcard']);
+    if(isset($_SESSION['mpr_add']['entry']['passport']))
+        shn_form_label('Passport Number',$_SESSION['mpr_add']['entry']['passport']);
+    if(isset($_SESSION['mpr_add']['entry']['drv_license']))
+        shn_form_label('Driving License',$_SESSION['mpr_add']['entry']['drv_license']);
     if($identity_section)
         shn_form_fsclose();
 
     //Basic Details
-    if(isset($_SESSION['mpr_entry']['full_name']) ||
-            isset($_SESSION['mpr_entry']['family_name']) ||
-            isset($_SESSION['mpr_entry']['local_name']) ||
-            isset($_SESSION['mpr_entry']['dob']) ||
-            isset($_SESSION['mpr_entry']['opt_age_group']) ||
-            isset($_SESSION['mpr_entry']['opt_gender']) ||
-            isset($_SESSION['mpr_entry']['opt_marital_status']) ||
-            isset($_SESSION['mpr_entry']['opt_religion']) ||
-            isset($_SESSION['mpr_entry']['opt_race']) ) {
+    if(isset($_SESSION['mpr_add']['entry']['full_name']) ||
+            isset($_SESSION['mpr_add']['entry']['family_name']) ||
+            isset($_SESSION['mpr_add']['entry']['local_name']) ||
+            isset($_SESSION['mpr_add']['entry']['dob']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_age_group']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_gender']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_marital_status']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_religion']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_race']) ) {
         shn_form_fsopen("Basic Details");
         $basic_section = true;
     }
-    if(isset($_SESSION['mpr_entry']['full_name']))
-        shn_form_label('Full Name',$_SESSION['mpr_entry']['full_name']);
-    if(isset($_SESSION['mpr_entry']['family_name']))
-        shn_form_label('Family Name',$_SESSION['mpr_entry']['family_name']);
-    if(isset($_SESSION['mpr_entry']['local_name']))
-        shn_form_label('Local Name',$_SESSION['mpr_entry']['local_name']);
-    if(isset($_SESSION['mpr_entry']['dob']))
-        shn_form_label('Date of Birth',$_SESSION['mpr_entry']['dob']);
-    if(isset($_SESSION['mpr_entry']['opt_age_group']))
-        shn_form_label('Age Group',shn_get_field_opt($_SESSION['mpr_entry']['opt_age_group'],'opt_age_group'));
-    if(isset($_SESSION['mpr_entry']['opt_gender']))
-        shn_form_label('Gender',shn_get_field_opt($_SESSION['mpr_entry']['opt_gender'],'opt_gender'));
-    if(isset($_SESSION['mpr_entry']['opt_marital_status']))
-        shn_form_label('Marital Status',shn_get_field_opt($_SESSION['mpr_entry']['opt_marital_status'],'opt_marital_status'));
-    if(isset($_SESSION['mpr_entry']['opt_religion']))
-        shn_form_label('Religion',shn_get_field_opt($_SESSION['mpr_entry']['opt_religion'],'opt_religion'));
-    if(isset($_SESSION['mpr_entry']['opt_race']))
-        shn_form_label('Race',shn_get_field_opt($_SESSION['mpr_entry']['opt_race'],'opt_race'));
+    if(isset($_SESSION['mpr_add']['entry']['full_name']))
+        shn_form_label('Full Name',$_SESSION['mpr_add']['entry']['full_name']);
+    if(isset($_SESSION['mpr_add']['entry']['family_name']))
+        shn_form_label('Family Name',$_SESSION['mpr_add']['entry']['family_name']);
+    if(isset($_SESSION['mpr_add']['entry']['local_name']))
+        shn_form_label('Local Name',$_SESSION['mpr_add']['entry']['local_name']);
+    if(isset($_SESSION['mpr_add']['entry']['dob']))
+        shn_form_label('Date of Birth',$_SESSION['mpr_add']['entry']['dob']);
+    if(isset($_SESSION['mpr_add']['entry']['opt_age_group']))
+        shn_form_label('Age Group',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_age_group'],'opt_age_group'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_gender']))
+        shn_form_label('Gender',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_gender'],'opt_gender'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_marital_status']))
+        shn_form_label('Marital Status',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_marital_status'],'opt_marital_status'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_religion']))
+        shn_form_label('Religion',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_religion'],'opt_religion'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_race']))
+        shn_form_label('Race',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_race'],'opt_race'));
     if($basic_section)
         shn_form_fsclose();
 
     //Physical Details
-    if(isset($_SESSION['mpr_entry']['opt_eye_color']) ||
-            isset($_SESSION['mpr_entry']['opt_skin_color']) ||
-            isset($_SESSION['mpr_entry']['opt_hair_color']) ||
-            isset($_SESSION['mpr_entry']['height']) ||
-            isset($_SESSION['mpr_entry']['weight']) || 
-            isset($_SESSION['mpr_entry']['physical_comments'])) {
+    if(isset($_SESSION['mpr_add']['entry']['opt_eye_color']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_skin_color']) ||
+            isset($_SESSION['mpr_add']['entry']['opt_hair_color']) ||
+            isset($_SESSION['mpr_add']['entry']['height']) ||
+            isset($_SESSION['mpr_add']['entry']['weight']) || 
+            isset($_SESSION['mpr_add']['entry']['physical_comments'])) {
         shn_form_fsopen("Physical Details");
         $physical_section = true;
     }
-    if(isset($_SESSION['mpr_entry']['opt_eye_color']))
-        shn_form_label('Eye Colour',shn_get_field_opt($_SESSION['mpr_entry']['opt_eye_color'],'opt_eye_color'));
-    if(isset($_SESSION['mpr_entry']['opt_skin_color']))
-        shn_form_label('Skin Colour',shn_get_field_opt($_SESSION['mpr_entry']['opt_skin_color'],'opt_skin_color'));
-    if(isset($_SESSION['mpr_entry']['opt_hair_color']))
-        shn_form_label('Hair Colour',shn_get_field_opt($_SESSION['mpr_entry']['opt_hair_color'],'opt_hair_color'));
-    if(isset($_SESSION['mpr_entry']['height']))
-        shn_form_label('Height',$_SESSION['mpr_entry']['height']);
-    if(isset($_SESSION['mpr_entry']['weight']))
-        shn_form_label('Weight',$_SESSION['mpr_entry']['weight']);
-    if(isset($_SESSION['mpr_entry']['physical_comments']))
-        shn_form_label('Comments',$_SESSION['mpr_entry']['physical_comments']);
+    if(isset($_SESSION['mpr_add']['entry']['opt_eye_color']))
+        shn_form_label('Eye Colour',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_eye_color'],'opt_eye_color'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_skin_color']))
+        shn_form_label('Skin Colour',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_skin_color'],'opt_skin_color'));
+    if(isset($_SESSION['mpr_add']['entry']['opt_hair_color']))
+        shn_form_label('Hair Colour',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_hair_color'],'opt_hair_color'));
+    if(isset($_SESSION['mpr_add']['entry']['height']))
+        shn_form_label('Height',$_SESSION['mpr_add']['entry']['height']);
+    if(isset($_SESSION['mpr_add']['entry']['weight']))
+        shn_form_label('Weight',$_SESSION['mpr_add']['entry']['weight']);
+    if(isset($_SESSION['mpr_add']['entry']['physical_comments']))
+        shn_form_label('Comments',$_SESSION['mpr_add']['entry']['physical_comments']);
     if($physical_section)
         shn_form_fsclose();
 
     //Contact Details
-    if(isset($_SESSION['mpr_entry']['address']) || 
-            isset($_SESSION['mpr_entry']['zip']) ||
-            isset($_SESSION['mpr_entry']['phone']) ||
-            isset($_SESSION['mpr_entry']['mobile']) ){
+    if(isset($_SESSION['mpr_add']['entry']['address']) || 
+            isset($_SESSION['mpr_add']['entry']['zip']) ||
+            isset($_SESSION['mpr_add']['entry']['phone']) ||
+            isset($_SESSION['mpr_add']['entry']['mobile']) ){
         shn_form_fsopen("Contact Details");
         $contact_section = true;
     }
-    if(isset($_SESSION['mpr_entry']['address']))
-        shn_form_label('Address',$_SESSION['mpr_entry']['address']);
-    if(isset($_SESSION['mpr_entry']['zip']))
-        shn_form_label('Postal Code',$_SESSION['mpr_entry']['zip']);
-    if(isset($_SESSION['mpr_entry']['phone']))
-        shn_form_label('Home Phone',$_SESSION['mpr_entry']['phone']);
-    if(isset($_SESSION['mpr_entry']['mobile']))
-        shn_form_label('Mobile',$_SESSION['mpr_entry']['mobile']);
+    if(isset($_SESSION['mpr_add']['entry']['address']))
+        shn_form_label('Address',$_SESSION['mpr_add']['entry']['address']);
+    if(isset($_SESSION['mpr_add']['entry']['zip']))
+        shn_form_label('Postal Code',$_SESSION['mpr_add']['entry']['zip']);
+    if(isset($_SESSION['mpr_add']['entry']['phone']))
+        shn_form_label('Home Phone',$_SESSION['mpr_add']['entry']['phone']);
+    if(isset($_SESSION['mpr_add']['entry']['mobile']))
+        shn_form_label('Mobile',$_SESSION['mpr_add']['entry']['mobile']);
     if($contact_section)
         shn_form_fsclose();
 
-    if(isset($_SESSION['mpr_entry']['opt_blood_type']) ||
-            isset($_SESSION['mpr_entry']['last_seen']) ||
-            isset($_SESSION['mpr_entry']['last_clothing']) ||
-            isset($_SESSION['mpr_entry']['comments']) ) {
+    if(isset($_SESSION['mpr_add']['entry']['opt_blood_type']) ||
+            isset($_SESSION['mpr_add']['entry']['last_seen']) ||
+            isset($_SESSION['mpr_add']['entry']['last_clothing']) ||
+            isset($_SESSION['mpr_add']['entry']['comments']) ) {
         shn_form_fsopen("Other Details");
         $other_section = true;
     }
     //Other Details
-    if(isset($_SESSION['mpr_entry']['opt_blood_type']))
-        shn_form_label('Blood Type',shn_get_field_opt($_SESSION['mpr_entry']['opt_blood_type'],'opt_blood_type'));
-    if(isset($_SESSION['mpr_entry']['last_seen']))
-        shn_form_label('Last Seen',$_SESSION['mpr_entry']['last_seen']);
-    if(isset($_SESSION['mpr_entry']['last_clothing']))
-        shn_form_label('Last Clothing',$_SESSION['mpr_entry']['last_clothing']);
-    if(isset($_SESSION['mpr_entry']['comments']))
-        shn_form_label('Comments',$_SESSION['mpr_entry']['comments']);
+    if(isset($_SESSION['mpr_add']['entry']['opt_blood_type']))
+        shn_form_label('Blood Type',shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_blood_type'],'opt_blood_type'));
+    if(isset($_SESSION['mpr_add']['entry']['last_seen']))
+        shn_form_label('Last Seen',$_SESSION['mpr_add']['entry']['last_seen']);
+    if(isset($_SESSION['mpr_add']['entry']['last_clothing']))
+        shn_form_label('Last Clothing',$_SESSION['mpr_add']['entry']['last_clothing']);
+    if(isset($_SESSION['mpr_add']['entry']['comments']))
+        shn_form_label('Comments',$_SESSION['mpr_add']['entry']['comments']);
     if($other_section)
         shn_form_fsclose();
 
     //Reporting Person
     shn_form_fsopen("Reporting Person");
 
-    if(isset($_SESSION['mpr_entry']['rep_full_name']))
-        shn_form_label('Name',$_SESSION['mpr_entry']['rep_full_name']);
-    if(isset($_SESSION['mpr_entry']['rep_relation']))
-        shn_form_label('Relation',$_SESSION['mpr_entry']['rep_relation']);
-    if(isset($_SESSION['mpr_entry']['rep_address']))
-        shn_form_label('Address',$_SESSION['mpr_entry']['rep_address']);
-    if(isset($_SESSION['mpr_entry']['rep_phone']))
-        shn_form_label('Phone',$_SESSION['mpr_entry']['rep_phone']);
-    if(isset($_SESSION['mpr_entry']['rep_email']))
-        shn_form_label('Email',$_SESSION['mpr_entry']['rep_email']);
+    if(isset($_SESSION['mpr_add']['report_person']['rep_full_name']))
+        shn_form_label('Name',$_SESSION['mpr_add']['report_person']['rep_full_name']);
+    if(isset($_SESSION['mpr_add']['report_person']['rep_relation']))
+        shn_form_label('Relation',$_SESSION['mpr_add']['report_person']['rep_relation']);
+    if(isset($_SESSION['mpr_add']['report_person']['rep_address']))
+        shn_form_label('Address',$_SESSION['mpr_add']['report_person']['rep_address']);
+    if(isset($_SESSION['mpr_add']['report_person']['rep_phone']))
+        shn_form_label('Phone',$_SESSION['mpr_add']['report_person']['rep_phone']);
+    if(isset($_SESSION['mpr_add']['report_person']['rep_email']))
+        shn_form_label('Email',$_SESSION['mpr_add']['report_person']['rep_email']);
 
     shn_form_fsclose();
 
@@ -379,9 +513,15 @@ function shn_mpr_addmp_confirm()
     shn_form_fsclose();
     shn_form_fclose();
 }
+/* }}} */
 
-
-
+/* {{{ Add Commit */
+/**
+ * shn_mpr_addmp_commit 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_commit()
 {
 /* LATER
@@ -397,19 +537,19 @@ function shn_mpr_addmp_commit()
     // $insert_array[<field_name>] = value
     global $global;
 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Basic Details : person_uuid
     //@todo: soundex insert
-    if(isset($_SESSION['mpr_entry']['full_name'])){
-        $insert_array['full_name'] = $_SESSION['mpr_entry']['full_name'];
+    if(isset($_SESSION['mpr_add']['entry']['full_name'])){
+        $insert_array['full_name'] = $_SESSION['mpr_add']['entry']['full_name'];
         shn_db_insert_phonetic($insert_array['full_name'],$insert_array['p_uuid']);
     }
-    if(isset($_SESSION['mpr_entry']['family_name'])){
-        $insert_array['family_name'] = $_SESSION['mpr_entry']['family_name'];
+    if(isset($_SESSION['mpr_add']['entry']['family_name'])){
+        $insert_array['family_name'] = $_SESSION['mpr_add']['entry']['family_name'];
         shn_db_insert_phonetic($insert_array['family_name'],$insert_array['p_uuid']);
     }
-    if(isset($_SESSION['mpr_entry']['local_name'])){
-        $insert_array['l10n_name'] = $_SESSION['mpr_entry']['local_name'];
+    if(isset($_SESSION['mpr_add']['entry']['local_name'])){
+        $insert_array['l10n_name'] = $_SESSION['mpr_add']['entry']['local_name'];
         shn_db_insert_phonetic($insert_array['l10n_name'],$insert_array['p_uuid']);
     }
 
@@ -417,20 +557,20 @@ function shn_mpr_addmp_commit()
     //reset $insert_array 
     $insert_array = null;
 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Identity
-    if(isset($_SESSION['mpr_entry']['idcard'])) {
-        $insert_array['serial'] = $_SESSION['mpr_entry']['idcard'];
+    if(isset($_SESSION['mpr_add']['entry']['idcard'])) {
+        $insert_array['serial'] = $_SESSION['mpr_add']['entry']['idcard'];
         $insert_array['opt_id_type'] = 'nic';
         shn_db_insert($insert_array,'identity_to_person');
     }
-    if(isset($_SESSION['mpr_entry']['passport'])) {
-        $insert_array['serial'] = $_SESSION['mpr_entry']['passport'];
+    if(isset($_SESSION['mpr_add']['entry']['passport'])) {
+        $insert_array['serial'] = $_SESSION['mpr_add']['entry']['passport'];
         $insert_array['opt_id_type'] = 'pas';
         shn_db_insert($insert_array,'identity_to_person');
     }
-    if(isset($_SESSION['mpr_entry']['drv_license'])) {
-        $insert_array['serial'] = $_SESSION['mpr_entry']['drv_license'];
+    if(isset($_SESSION['mpr_add']['entry']['drv_license'])) {
+        $insert_array['serial'] = $_SESSION['mpr_add']['entry']['drv_license'];
         $insert_array['opt_id_type'] = 'dln';
         shn_db_insert($insert_array,'identity_to_person');
     }
@@ -438,22 +578,23 @@ function shn_mpr_addmp_commit()
     $insert_array = null;
 
     //Contacts
-    $insert_array['poc_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
-    if(isset($_SESSION['mpr_entry']['address'])){
+    $insert_array['poc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    if(isset($_SESSION['mpr_add']['entry']['address'])){
+        // TODO: make the location
         $insert_array['location_id'] = '0';
-        $insert_array['address'] = $_SESSION['mpr_entry']['address'];
+        $insert_array['address'] = $_SESSION['mpr_add']['entry']['address'];
         $insert_array['opt_person_loc_type'] = 'hom';
     }
-    if(isset($_SESSION['mpr_entry']['zip']))
-        $insert_array['postcode'] = $_SESSION['mpr_entry']['zip'];
+    if(isset($_SESSION['mpr_add']['entry']['zip']))
+        $insert_array['postcode'] = $_SESSION['mpr_add']['entry']['zip'];
 
     shn_db_insert($insert_array,'location_details');
     //reset $insert_array 
     $insert_array = null;
 
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
-    if(isset($_SESSION['mpr_entry']['phone'])){
-        $insert_array['contact_value'] = $_SESSION['mpr_entry']['phone'];
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    if(isset($_SESSION['mpr_add']['entry']['phone'])){
+        $insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['phone'];
         $insert_array['opt_contact_type'] = 'curr';
         
     }
@@ -461,107 +602,192 @@ function shn_mpr_addmp_commit()
     //reset $insert_array 
     $insert_array = null;
 
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
-    if(isset($_SESSION['mpr_entry']['mobile'])){
-        $insert_array['contact_value'] = $_SESSION['mpr_entry']['mobile'];
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    if(isset($_SESSION['mpr_add']['entry']['mobile'])){
+        $insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['mobile'];
         $insert_array['opt_contact_type'] = 'cmob';
     }
     shn_db_insert($insert_array,'contact');
     //reset $insert_array 
     $insert_array = null;
    
-/*    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+/*    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Contacts
-    if(isset($_SESSION['mpr_entry']['address']))
-        shn_form_label('Address',$_SESSION['mpr_entry']['address']);
-    if(isset($_SESSION['mpr_entry']['']))
-        shn_form_label('Postal Code',$_SESSION['mpr_entry']['zip']);
-    if(isset($_SESSION['mpr_entry']['address']))
-        shn_form_label('Home Phone',$_SESSION['mpr_entry']['phone']);
-    if(isset($_SESSION['mpr_entry']['address']))
-        shn_form_label('Mobile',$_SESSION['mpr_entry']['mobile']);
+    if(isset($_SESSION['mpr_add']['entry']['address']))
+        shn_form_label('Address',$_SESSION['mpr_add']['entry']['address']);
+    if(isset($_SESSION['mpr_add']['entry']['']))
+        shn_form_label('Postal Code',$_SESSION['mpr_add']['entry']['zip']);
+    if(isset($_SESSION['mpr_add']['entry']['address']))
+        shn_form_label('Home Phone',$_SESSION['mpr_add']['entry']['phone']);
+    if(isset($_SESSION['mpr_add']['entry']['address']))
+        shn_form_label('Mobile',$_SESSION['mpr_add']['entry']['mobile']);
     if($contact_section)
  */
 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Physical Details : person_physical
-    if(isset($_SESSION['mpr_entry']['opt_eye_color']))
-        $insert_array['opt_eye_color'] = $_SESSION['mpr_entry']['opt_eye_color'];
-    if(isset($_SESSION['mpr_entry']['opt_skin_color']))
-        $insert_array['opt_skin_color'] = $_SESSION['mpr_entry']['opt_skin_color'];
-    if(isset($_SESSION['mpr_entry']['opt_hair_color']))
-        $insert_array['opt_hair_color'] = $_SESSION['mpr_entry']['opt_hair_color'];
-    if(isset($_SESSION['mpr_entry']['height']))
-        $insert_array['height'] = $_SESSION['mpr_entry']['height'];
-    if(isset($_SESSION['mpr_entry']['weight']))
-        $insert_array['weight'] = $_SESSION['mpr_entry']['weight'];
-    if(isset($_SESSION['mpr_entry']['opt_blood_type']))
-        $insert_array['opt_blood_type'] = $_SESSION['mpr_entry']['opt_blood_type'];
-    if(isset($_SESSION['mpr_entry']['physical_comments']))
-        $insert_array['comments'] = $_SESSION['mpr_entry']['physical_comments'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_eye_color']))
+        $insert_array['opt_eye_color'] = $_SESSION['mpr_add']['entry']['opt_eye_color'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_skin_color']))
+        $insert_array['opt_skin_color'] = $_SESSION['mpr_add']['entry']['opt_skin_color'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_hair_color']))
+        $insert_array['opt_hair_color'] = $_SESSION['mpr_add']['entry']['opt_hair_color'];
+    if(isset($_SESSION['mpr_add']['entry']['height']))
+        $insert_array['height'] = $_SESSION['mpr_add']['entry']['height'];
+    if(isset($_SESSION['mpr_add']['entry']['weight']))
+        $insert_array['weight'] = $_SESSION['mpr_add']['entry']['weight'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_blood_type']))
+        $insert_array['opt_blood_type'] = $_SESSION['mpr_add']['entry']['opt_blood_type'];
+    if(isset($_SESSION['mpr_add']['entry']['physical_comments']))
+        $insert_array['comments'] = $_SESSION['mpr_add']['entry']['physical_comments'];
 
     shn_db_insert($insert_array,'person_physical');
     //reset $insert_array 
     $insert_array = null;
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 
 
     //Other Details
-    if(isset($_SESSION['mpr_entry']['last_seen']))
-        $insert_array['last_seen'] = $_SESSION['mpr_entry']['last_seen'];
-    if(isset($_SESSION['mpr_entry']['last_clothing']))
-        $insert_array['last_clothing'] = $_SESSION['mpr_entry']['last_clothing'];
-    if(isset($_SESSION['mpr_entry']['comments']))
-        $insert_array['comments'] = $_SESSION['mpr_entry']['comments'];
+    if(isset($_SESSION['mpr_add']['entry']['last_seen']))
+        $insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
+    if(isset($_SESSION['mpr_add']['entry']['last_clothing']))
+        $insert_array['last_clothing'] = $_SESSION['mpr_add']['entry']['last_clothing'];
+    if(isset($_SESSION['mpr_add']['entry']['comments']))
+        $insert_array['comments'] = $_SESSION['mpr_add']['entry']['comments'];
 
     shn_db_insert($insert_array,'person_missing');
     //reset $insert_array 
     $insert_array = null;
 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //person_details        
-    if(isset($_SESSION['mpr_entry']['dob']))
-        $insert_array['birth_date'] = $_SESSION['mpr_entry']['dob'];
-    if(isset($_SESSION['mpr_entry']['opt_age_group']))
-        $insert_array['opt_age_group'] = $_SESSION['mpr_entry']['opt_age_group'];
-    if(isset($_SESSION['mpr_entry']['opt_gender']))
-        $insert_array['opt_gender'] = $_SESSION['mpr_entry']['opt_gender'];
-    if(isset($_SESSION['mpr_entry']['opt_marital_status']))
-        $insert_array['opt_marital_status'] = $_SESSION['mpr_entry']['opt_marital_status'];
-    if(isset($_SESSION['mpr_entry']['opt_religion']))
-        $insert_array['opt_religion'] = $_SESSION['mpr_entry']['opt_religion'];
-    if(isset($_SESSION['mpr_entry']['opt_race']))
-        $insert_array['opt_race'] = $_SESSION['mpr_entry']['opt_race'];
+    if(isset($_SESSION['mpr_add']['entry']['dob']))
+        $insert_array['birth_date'] = $_SESSION['mpr_add']['entry']['dob'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_age_group']))
+        $insert_array['opt_age_group'] = $_SESSION['mpr_add']['entry']['opt_age_group'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_gender']))
+        $insert_array['opt_gender'] = $_SESSION['mpr_add']['entry']['opt_gender'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_marital_status']))
+        $insert_array['opt_marital_status'] = $_SESSION['mpr_add']['entry']['opt_marital_status'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_religion']))
+        $insert_array['opt_religion'] = $_SESSION['mpr_add']['entry']['opt_religion'];
+    if(isset($_SESSION['mpr_add']['entry']['opt_race']))
+        $insert_array['opt_race'] = $_SESSION['mpr_add']['entry']['opt_race'];
     shn_db_insert($insert_array,'person_details');
     //reset $insert_array 
     $insert_array = null;
 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Insert Into person_status mis
-    $insert_array['opt_status'] = 'mis';
+    $insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
+    $insert_array['isvictim'] = 'TRUE';
     shn_db_insert($insert_array,'person_status');
     //reset $insert_array 
     $insert_array = null;
 
-    //Reported person entry 
-    $insert_array['p_uuid'] = $_SESSION['mpr_entry']['p_uuid'];
-    //Reporting Person
-    if(isset($_SESSION['mpr_entry']['rep_full_name']))
-        $insert_array['name'] = $_SESSION['mpr_entry']['rep_full_name'];
-    if(isset($_SESSION['mpr_entry']['rep_relation']))
-        $insert_array['relation'] = $_SESSION['mpr_entry']['rep_relation'];
-    if(isset($_SESSION['mpr_entry']['rep_address']))
-        $insert_array['address'] = $_SESSION['mpr_entry']['rep_address'];
-    if(isset($_SESSION['mpr_entry']['rep_phone']))
-        $insert_array['phone'] = $_SESSION['mpr_entry']['rep_phone'];
-    if(isset($_SESSION['mpr_entry']['rep_email']))
-        $insert_array['email'] = $_SESSION['mpr_entry']['rep_email'];
-
-    shn_db_insert($insert_array,'person_to_report');
+    /** 
+     * TODO: Later for now using the person_to_report to group
+    //Insert into pgroup
+    /**
+     * For Tracking purpose create a group around missing person
+     * /
+    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    $insert_array['opt_group_type'] = 'mpr_trk';
+    shn_db_insert($insert_array,'pgroup');
     //reset $insert_array 
     $insert_array = null;
-    
+    */
+
+        //reset $insert_array 
+
+    shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
+
     //go back to the main menu
     shn_mpr_default();    
 }
+
+function shn_mpr_addmp_insert_reporter($p_uuid)
+{
+    //Reported person entry 
+    $rep_uuid = shn_create_uuid('p');
+    //Person uuid table
+    $insert_array['p_uuid'] = $rep_uuid;
+    if(isset($_SESSION['mpr_add']['report_person']['rep_full_name'])){
+        $insert_array['full_name'] =
+            $_SESSION['mpr_add']['report_person']['rep_full_name'];
+        // Insert into Phonetic words
+        shn_db_insert_phonetic($_SESSION['mpr_add']['report_person']['rep_full_name'],
+                                $insert_array['p_uuid']);
+    }
+    shn_db_insert($insert_array,'person_uuid');
+    //reset $insert_array 
+    $insert_array = null;
+
+    //Insert the status
+    /**
+     * If not a victim, isvictim = false , status = ali (Alive and Well) 
+     * If a victim, isvictim = true , status = given status 
+     */
+    $insert_array['p_uuid'] = $rep_uuid;
+    if($_SESSION['mpr_add']['report_person']['is_dv'] == 'yes') {
+        $insert_array['opt_status'] =
+$_SESSION['mpr_add']['report_person']['opt_status'];
+        $insert_array['isvictim'] = 'TRUE';
+    }else{
+        $insert_array['opt_status'] = 'ali';
+        $insert_array['isvictim'] = 'FALSE';
+    } 
+    shn_db_insert($insert_array,'person_status');
+    //reset $insert_array 
+    $insert_array = null;
+
+    //Contacts
+    $insert_array['poc_uuid'] = $rep_uuid;
+    if(isset($_SESSION['mpr_add']['report_person']['rep_address'])){
+        // TODO: make the location
+        $insert_array['location_id'] = '0';
+        $insert_array['address'] =
+                            $_SESSION['mpr_add']['report_person']['rep_address'];
+        $insert_array['opt_person_loc_type'] = 'hom';
+    }
+    shn_db_insert($insert_array,'location_details');
+    //reset $insert_array 
+    $insert_array = null;
+
+    $insert_array['pgoc_uuid'] = $rep_uuid;
+    if(isset($_SESSION['mpr_add']['report_person']['rep_phone'])){
+        $insert_array['contact_value'] =
+                            $_SESSION['mpr_add']['report_person']['rep_phone'];
+        $insert_array['opt_contact_type'] = 'curr';
+
+    }
+    shn_db_insert($insert_array,'contact');
+    //reset $insert_array 
+    $insert_array = null;
+
+    $insert_array['pgoc_uuid'] = $rep_uuid;
+    if(isset($_SESSION['mpr_add']['report_person']['rep_email'])){
+        $insert_array['contact_value'] =
+                            $_SESSION['mpr_add']['report_person']['rep_email'];
+        $insert_array['opt_contact_type'] = 'emai';
+
+    }
+    shn_db_insert($insert_array,'contact');
+    //reset $insert_array 
+    $insert_array = null;
+    
+    /**
+     * Insert into the person_to_report
+     */
+
+    if(isset($_SESSION['mpr_add']['report_person']['rep_relation'])){
+        $insert_array['p_uuid'] = $p_uuid;
+        $insert_array['rep_uuid'] = $rep_uuid;
+        $insert_array['relation'] = $_SESSION['mpr_add']['report_person']['rep_relation'];
+    }
+    shn_db_insert($insert_array,'person_to_report');
+
+}
+/* }}} */
+
 ?>
