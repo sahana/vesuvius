@@ -70,10 +70,7 @@ Fields marked with * are required (entry is compulsory)
      
     $facilities=_shn_or_display_org_facilities($error);
     shn_form_add_component_list($facilities,$section=true,$legend='Facilities Avaliable',$return=false,$default_val_req=$error);
-  /*
-  $login_info=_shn_or_display_logininfo($error);
-    shn_form_add_component_list($login_info,$section=true,$legend='Create an Account for Login',$return=false,$default_val_req=false);
-*/
+ 
     $extra=_shn_or_display_extra($error);
     shn_form_add_component_list($extra,$section=true,$legend='Extra',$return=false,$default_val_req=$error);
 ?>

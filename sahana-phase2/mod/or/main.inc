@@ -161,22 +161,7 @@ function shn_or_reg_org_cr()
         $account_name=$_POST{"account_name"};
     }
    
-    /* 
-    list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
-    
-    //for the moment return true
-    list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
-    if (is_null($_POST{"re_password"})){
-        $error=true;
-        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
-    }else {    
-        $re_password=trim($_POST{"re_password"});
-    }
-    if (!($password==$re_password)){
-        $error=true;
-        add_error(SHN_ERR_OR_REPWD_WRONG);
-    }
-*/
+  
     $chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
 
@@ -217,13 +202,7 @@ function shn_or_reg_org_cr()
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
             $res=$db->Execute($q);
-          /*
-            $pid=shn_add_user($account_name,$user_name,$password,"admin",NULL);
-            if($res){
-                $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
-                $res=$db->Execute($q);
-            }
-            */
+         
             //no validation as organization can have multiple locations
             $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
             $res=$db->Execute($q);
