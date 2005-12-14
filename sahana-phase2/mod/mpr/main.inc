@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.11 2005-12-13 11:48:29 janakawicks Exp $ */
+/* $Id: main.inc,v 1.12 2005-12-14 12:55:22 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -386,6 +386,21 @@ function shn_mpr_search_adv()
     global $global;
     echo '<h1 align="center">Search</h1>';
     require($global['approot'].'mod/mpr/search.inc');
+}
+/* }}} */
+
+/* {{{ Action: Audit */
+/**
+ * shn_mpr_addmp 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_mpr_auditmp()
+{
+    global $global;
+    require($global['approot'].'mod/mpr/audit.inc');
+    shn_audit_show($_GET['id']);
 }
 /* }}} */
 

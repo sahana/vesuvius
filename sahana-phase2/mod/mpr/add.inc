@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.8 2005-12-13 11:48:29 janakawicks Exp $ */
+/* $Id: add.inc,v 1.9 2005-12-14 12:55:22 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -553,7 +553,7 @@ function shn_mpr_addmp_commit()
         shn_db_insert_phonetic($insert_array['l10n_name'],$insert_array['p_uuid']);
     }
 
-    shn_db_insert($insert_array,'person_uuid');
+    shn_db_insert($insert_array,'person_uuid',true, 'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -562,17 +562,17 @@ function shn_mpr_addmp_commit()
     if(isset($_SESSION['mpr_add']['entry']['idcard'])) {
         $insert_array['serial'] = $_SESSION['mpr_add']['entry']['idcard'];
         $insert_array['opt_id_type'] = 'nic';
-        shn_db_insert($insert_array,'identity_to_person');
+        shn_db_insert($insert_array,'identity_to_person',true,'p_uuid');
     }
     if(isset($_SESSION['mpr_add']['entry']['passport'])) {
         $insert_array['serial'] = $_SESSION['mpr_add']['entry']['passport'];
         $insert_array['opt_id_type'] = 'pas';
-        shn_db_insert($insert_array,'identity_to_person');
+        shn_db_insert($insert_array,'identity_to_person',true,'p_uuid');
     }
     if(isset($_SESSION['mpr_add']['entry']['drv_license'])) {
         $insert_array['serial'] = $_SESSION['mpr_add']['entry']['drv_license'];
         $insert_array['opt_id_type'] = 'dln';
-        shn_db_insert($insert_array,'identity_to_person');
+        shn_db_insert($insert_array,'identity_to_person', true, 'p_uuid');
     }
     //reset $insert_array 
     $insert_array = null;
@@ -588,7 +588,7 @@ function shn_mpr_addmp_commit()
     if(isset($_SESSION['mpr_add']['entry']['zip']))
         $insert_array['postcode'] = $_SESSION['mpr_add']['entry']['zip'];
 
-    shn_db_insert($insert_array,'location_details');
+    shn_db_insert($insert_array,'location_details', true, 'poc_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -598,7 +598,7 @@ function shn_mpr_addmp_commit()
         $insert_array['opt_contact_type'] = 'curr';
         
     }
-    shn_db_insert($insert_array,'contact');
+    shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -607,7 +607,7 @@ function shn_mpr_addmp_commit()
         $insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['mobile'];
         $insert_array['opt_contact_type'] = 'cmob';
     }
-    shn_db_insert($insert_array,'contact');
+    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
     //reset $insert_array 
     $insert_array = null;
    
@@ -641,7 +641,7 @@ function shn_mpr_addmp_commit()
     if(isset($_SESSION['mpr_add']['entry']['physical_comments']))
         $insert_array['comments'] = $_SESSION['mpr_add']['entry']['physical_comments'];
 
-    shn_db_insert($insert_array,'person_physical');
+    shn_db_insert($insert_array,'person_physical',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
     $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
@@ -655,7 +655,7 @@ function shn_mpr_addmp_commit()
     if(isset($_SESSION['mpr_add']['entry']['comments']))
         $insert_array['comments'] = $_SESSION['mpr_add']['entry']['comments'];
 
-    shn_db_insert($insert_array,'person_missing');
+    shn_db_insert($insert_array,'person_missing',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -673,7 +673,7 @@ function shn_mpr_addmp_commit()
         $insert_array['opt_religion'] = $_SESSION['mpr_add']['entry']['opt_religion'];
     if(isset($_SESSION['mpr_add']['entry']['opt_race']))
         $insert_array['opt_race'] = $_SESSION['mpr_add']['entry']['opt_race'];
-    shn_db_insert($insert_array,'person_details');
+    shn_db_insert($insert_array,'person_details',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -681,7 +681,7 @@ function shn_mpr_addmp_commit()
     //Insert Into person_status mis
     $insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
     $insert_array['isvictim'] = 'TRUE';
-    shn_db_insert($insert_array,'person_status');
+    shn_db_insert($insert_array,'person_status',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -719,7 +719,7 @@ function shn_mpr_addmp_insert_reporter($p_uuid)
         shn_db_insert_phonetic($_SESSION['mpr_add']['report_person']['rep_full_name'],
                                 $insert_array['p_uuid']);
     }
-    shn_db_insert($insert_array,'person_uuid');
+    shn_db_insert($insert_array,'person_uuid',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -737,7 +737,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
         $insert_array['opt_status'] = 'ali';
         $insert_array['isvictim'] = 'FALSE';
     } 
-    shn_db_insert($insert_array,'person_status');
+    shn_db_insert($insert_array,'person_status',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -750,7 +750,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
                             $_SESSION['mpr_add']['report_person']['rep_address'];
         $insert_array['opt_person_loc_type'] = 'hom';
     }
-    shn_db_insert($insert_array,'location_details');
+    shn_db_insert($insert_array,'location_details',true,'poc_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -761,7 +761,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
         $insert_array['opt_contact_type'] = 'curr';
 
     }
-    shn_db_insert($insert_array,'contact');
+    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
     //reset $insert_array 
     $insert_array = null;
 
@@ -772,7 +772,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
         $insert_array['opt_contact_type'] = 'emai';
 
     }
-    shn_db_insert($insert_array,'contact');
+    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
     //reset $insert_array 
     $insert_array = null;
     
@@ -785,7 +785,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
         $insert_array['rep_uuid'] = $rep_uuid;
         $insert_array['relation'] = $_SESSION['mpr_add']['report_person']['rep_relation'];
     }
-    shn_db_insert($insert_array,'person_to_report');
+    shn_db_insert($insert_array,'person_to_report',true,'p_uuid');
 
 }
 /* }}} */

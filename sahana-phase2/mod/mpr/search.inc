@@ -27,7 +27,7 @@ function shn_mpr_search_default()
     shn_form_text('Any Card Number','idcard','size="30"');
     shn_form_text('Any Name','name','size="30"');
     shn_form_submit('Next');
-    shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
+    #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'result'));
     shn_form_hidden(array('type'=>$_GET['type']));
@@ -244,6 +244,9 @@ function shn_mpr_search_show_result($details)
         <TD>
 <?php
     shn_show_thumb($detail['p_uuid']); 
+    echo '<hr><a title="Audit" '.
+            'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
+            $detail['p_uuid'].'">'.'Audit'.'</a>';
 ?>
         </TD>
         <TD>
