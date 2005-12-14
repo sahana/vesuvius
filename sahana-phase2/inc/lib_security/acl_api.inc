@@ -154,7 +154,6 @@ function shn_acl_add_role($role,$desc){
 */
 function shn_acl_add_user($user,$desc){
     $acl=new SahanaACL(NULL);
-echo "here".$user ."and".$desc;
     return $acl->_shn_add_aro("users",$user,$desc);
 }
 
@@ -499,11 +498,20 @@ user is ARO ,action is AXO
 */
 
 function shn_acl_check_perms_action($user,$action){
+    if($user==0){return true;}
     $acl=new SahanaACL(NULL);
     $res=$acl->_shn_check_permission('permissions','execute','users',$user,'actions',$action);
     return $res;
 }
-
+/*
+function shn_acl_check_perms_action_group($user,$action_group){
+    if($user==0){return true;}
+    global $global;
+    $db=$global['db'];
+    $q="select 
+    return $res;
+}
+*/
 function shn_check_perms_action_case($user,$action,$case){
 }
 
@@ -511,6 +519,33 @@ function shn_check_perms_table($user,$table,$perm_type){
 }
 
 function shn_check_perms_table_field($user,$table,$field,$perm_type){
+}
+
+function shn_acl_set_state(){
+echo "here";
+	if('enable'==$_GET{"do"}){
+		$q="update config set value='true' where module_id='admin' and confkey='acl'";
+	}else{
+		$q="update config set value='false' where module_id='admin' and confkey='acl'";
+	}
+	global $global;
+	$global["db"]->Execute($q);
+}
+
+function shn_acl_get_state(){
+    global $global;
+    $q="select value from config where module_id='admin' and confkey='acl'";
+    $db=$global["db"];
+    $res=$db->Execute($q);
+    if(!$res->EOF){
+        //echo ($res->fields[0]);
+        if($res->fields[0]=='true'){
+          // echo "true it is";
+           return true;
+        }
+	return false;
+    }
+    return false;
 }
 /**
 *end of checks

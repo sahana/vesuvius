@@ -190,7 +190,7 @@ function _shn_add_axo($section,$axo,$axo_desc){
 }
 
 function _shn_add_aro($section,$aro,$aro_desc){
-    if ((NULL==$section) or (NULL==$aro)) {
+    if ((NULL==$section) or (NULL==$aro && $aro!=0)) {
         return false;
     } else {
         $id=$this->get_object_id($section,$aro,"aro");
@@ -249,6 +249,7 @@ function _shn_add_axo_group($group,$desc,$parent){
 adds the $aro of $section to $group
 */
 function _shn_add_to_aro_group($group,$section,$aro){
+
     $this->add_group_object($group,$section,$aro,'ARO'); 
 	if ($res !== FALSE) {
     	//echo "added to ARO group sucessfully. <br>\n";

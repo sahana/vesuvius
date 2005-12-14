@@ -31,7 +31,14 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
         add_error(SHN_ERR_OR_USER_EXISTS);
    		return false;
     }
+   /*
+   if($pid!=0){
     if(shn_is_null($pid)){
+        $pid = $db->GenID('person_seq',10);
+    }
+    }
+*/
+    if($pid==-1){
         $pid = $db->GenID('person_seq',10);
     }
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
@@ -97,6 +104,16 @@ function shn_authenticate_user()
 	/*need to modify the function to work with the sahana database scheme
 	and adodb code, till then return true. 
 	*/
+    if("enable"==$_GET['do']){
+            shn_acl_set_state();
+	        $user_data["result"]=ACLCHANGE;
+        }
+    if("disable"==$_GET['do']){
+	    if (shn_acl_check_perms_action($_SESSION["user_id"],"shn_acl_set_state")){
+            shn_acl_set_state();
+	        $user_data["result"]=ACLCHANGE;
+        }
+     }	
     global $global;
     $db=$global['db'];
 	$user_data=array("user_id"=>1,"user"=>"guest");
@@ -127,14 +144,14 @@ function shn_authenticate_user()
         $res=$db->Execute($q);
         if(!$res->EOF){
             $user_id=$res->fields[0];
-            if($user_id>1){
+            if($user_id!=1){
      		    $user_data["user_id"]=$user_id;
      		    $user_data["user"]=$user;
      	        $user_data["result"]=LOGGEDIN;
 			    return $user_data;
             }
             else{
-                /* no result ,so return 0 ,which is  not a valid user_id , the calling
+                /* no result ,so return 1 ,which is  not a valid user_id , the calling
                 application can identify authentication was attempted,but failed
                 */	
         	    $user_data["user_id"]=1;
@@ -142,12 +159,35 @@ function shn_authenticate_user()
             }
         }
         else{
-            /* no result ,so return 0 ,which is  not a valid user_id , the calling
+            /* no result ,so return 1 ,which is  not a valid user_id , the calling
             application can identify authentication was attempted,but failed
             */	
         	$user_data["user_id"]=1;
             return $user_data;
         }
     }
+}
+
+function shn_change_password($user,$old_pwd,$new_pwd)
+{
+	global $global;
+        $db=$global['db'];
+	$password_digest = md5(trim($old_pwd));
+       $q = "  SELECT p_uuid  FROM users
+                    WHERE p_uuid = '$user'
+                    AND password = '$password_digest'";
+        $res=$db->Execute($q);
+        echo $q;
+echo $res->fields[0];
+	if($res->EOF){
+		return false;
+	}
+	$password_digest = md5(trim($new_pwd));
+        // Formulate the SQL to find the user
+        $q = "  update users set password = '$password_digest'
+                    WHERE p_uuid = '$user'";
+                 echo $q;
+        $res=$db->Execute($q);
+	return $res;
 }
 ?>
