@@ -114,12 +114,35 @@ INSERT INTO field_options VALUES("opt_sector_type","ene","Energy");
 INSERT INTO field_options VALUES("opt_sector_type","hlth","Health");
 
 -- LOCATION TYPE VALUES
-INSERT INTO field_options VALUES ('opt_location_type','1','countries');
-INSERT INTO field_options VALUES ('opt_location_type','2','provinces');
-INSERT INTO field_options VALUES ('opt_location_type','3','districts');
-INSERT INTO field_options VALUES ('opt_location_type','4','villages');
+INSERT INTO field_options VALUES ('opt_location_type','1','Country');
+INSERT INTO field_options VALUES ('opt_location_type','2','Province');
+INSERT INTO field_options VALUES ('opt_location_type','3','District');
+INSERT INTO field_options VALUES ('opt_location_type','4','Village');
 
 -- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
+/*
+INSERT INTO location VALUES (1,0,'1','1','Pakistan','pk','Pakistan added as a country');
+INSERT INTO location VALUES (2,1,'1.1','2','Kabul','kab','kabul  added as a province in Pakistan');
+INSERT INTO location VALUES (3,1,'1.1','2','abc','cde','kabul  added as a province in Pakistan');
+INSERT INTO location VALUES (4,1,'1.1','2','cde','cde','kabul  added as a province in Pakistan');
+INSERT INTO location VALUES (5,1,'1.1','2','efg','efg','kabul  added as a province in Pakistan');
+INSERT INTO location VALUES (6,1,'1.1','2','lhk','lhk','kabul  added as a province in Pakistan');
+INSERT INTO location VALUES (7,1,'1.1','2','rpq','rpq','kabul  added as a province in Pakistan');
+
+INSERT INTO location VALUES (8,2,'1.1.1','3','islam','ism','Islam added as a district in Pakistan Western Province');
+INSERT INTO location VALUES (9,2,'1.1.1','3','jawal','jwl','jwl added as a district in Pakistan Western Province');
+
+INSERT INTO location VALUES (10,8,'1.1.1.1','4','Pett','pet','pettah added as a village in pak Western Province');
+
+
+INSERT INTO location VALUES (11,3,'1.1.1','3','ks','ks','Islam added as a district in Pakistan Western Province');
+INSERT INTO location VALUES (12,3,'1.1.1','3','rm','rm','jwl added as a district in Pakistan Western Province');
+
+INSERT INTO location VALUES (13,8,'1.1.1.1','4','rett','pet','pettah added as a village in pak Western Province');
+
+INSERT INTO location VALUES (14,11,'1.1.1.1','4','kett','pet','pettah added as a village in pak Western Province');
+*/
+
 INSERT INTO location VALUES (1,0,'1','1','Sri Lanka','lk','Sri Lanka added as a country');
 INSERT INTO location VALUES (2,0,'2','1','Pakistan','pk','Pakistan added as a country');
 INSERT INTO location VALUES (3,0,'3','1','United Kingdom','uk','United Kingdom added as a country');
@@ -130,7 +153,15 @@ INSERT INTO location VALUES (7,6,'1.1.1.1','4','Pettah','pet','pettah added as a
 INSERT INTO location VALUES (8,3,'3.1','2','East Anagalia','ea','');
 INSERT INTO location VALUES (9,8,'3.1.1','3','Suffolk','suf','');
 INSERT INTO location VALUES (10,9,'3.1.1.1','4','ipswich','ip','');
+INSERT INTO location VALUES (11,1,'1.1','2','Eastern','est','Eastern  added as a province in Sri Lanka');
+INSERT INTO location VALUES (12,1,'1.1','2','south','sou','South  added as a province in Sri Lanka');
+INSERT INTO location VALUES (13,5,'1.1.1','3','Kalutara','klt','Colombo added as a district in Srilanka Western Province');
+INSERT INTO location VALUES (14,6,'1.1.1.1','4','dehiwala','dwh','dehiwala added as a village in Srilanka Western Province');
+
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
+INSERT INTO config VALUES('admin','acl','false');
 
+-- INSERT THE INBUILT SAHANA ORGANIZATION
+INSERT INTO org_main(o_uuid,parent_id,name,opt_org_type)VALUES(0,0,'sahana','gov');
