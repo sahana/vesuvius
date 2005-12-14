@@ -1,0 +1,118 @@
+<?php
+/*
+*
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Ravindra <ravindra@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*
+*/
+
+global $global;
+include_once $global['approot']."/inc/handler_form.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
+include_once $global['approot']. 'inc/lib_security/acl_api.inc';
+include_once $global['approot']. 'inc/lib_security/acl.inc';
+
+function shn_acl_form_users(){
+  global $global;
+    $db=$global['db'];
+    
+  $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.org_id=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
+  
+    $res=$db->Execute($q);
+    $users=array();
+        
+    while(!$res->EOF){
+        array_push(
+            $users,
+            array(  'drop_desc'=>$res->fields[2].".".$res->fields[3],
+                    'value'=>$res->fields[0]
+            )       
+        );
+        
+        $res->MoveNext();
+    }
+$user_arr=array('desc'=>_("Users : "),'type'=>"multiselect",'size'=>4,'name'=>"users[]",'options'=>$users,
+                        'br'=>'1'
+                        );
+return $user_arr;
+
+}
+
+function shn_acl_form_roles(){
+  global $global;
+    $db=$global['db'];
+
+    $acl=new SahanaACL(NULL);
+    $roles=array();
+    $role_arr=$acl->_shn_get_roles();
+    $i=0;
+	while($i<=count($role_arr)){
+        array_push(
+            $roles,
+            array(  'drop_desc'=>$role_arr[$i]["name"],
+                    'value'=>$role_arr[$i]["value"]
+            )       
+        );
+        
+        $i=$i+1;
+    }
+$role_arr=array('desc'=>_("Roles : "),'type'=>"multiselect",'size'=>4,'name'=>"roles[]",'options'=>$roles,
+                        'br'=>'1'
+                        ) ;
+return $role_arr;
+
+}
+
+function shn_acl_form_action_groups($module){
+global $global;
+    $db=$global['db'];
+    $acl=new SahanaACL(NULL);
+   
+    $act_group_arr=$acl->_shn_get_module_action_groups($module);
+    $action_groups=array();
+    $i=0;
+	while($i<=count($act_group_arr)){
+        array_push(
+            $action_groups,
+            array(  'drop_desc'=>$act_group_arr[$i]["name"],
+                    'value'=>$act_group_arr[$i]["value"]
+            )       
+        );
+        
+        $i=$i+1;
+    }
+$arr=array('desc'=>_("Action Groups : "),'type'=>"multiselect",'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
+                        );
+return $arr;
+}
+
+function shn_user_orgs(){
+
+	global $global;
+    $db=$global['db'];
+    
+    $q = "select o_uuid,name from org_main";
+    $res=$db->Execute($q);
+    $orgs=array();
+        
+    while(!res==NULL && !$res->EOF){
+        array_push(
+            $orgs,
+            array(  'drop_desc'=>$res->fields[1],
+                    'value'=>$res->fields[0]
+            )       
+        );
+        
+        $res->MoveNext();
+    }
+$org_arr=array('desc'=>_("Organization :"),'type'=>"dropdown",'name'=>'org','options'=>$orgs,'br'=>'1');
+return $org_arr;
+}
