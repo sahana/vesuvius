@@ -18,13 +18,12 @@
 */
 
 global $global;
-/*
+
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
+    include_once $global['approot']. 'inc/lib_security/authenticate.inc';
     include_once $global['approot'].'inc/lib_security/acl_form.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
-    include_once "user.inc";
-*/
     include_once $global['approot']."/inc/lib_validate.inc";
 
 function shn_admin_mainmenu() 
@@ -32,7 +31,7 @@ function shn_admin_mainmenu()
     global $global;
     global $conf;
     $module = $global['module'];
-
+    $acl=shn_acl_get_state();
      // display the list of modules on the menu bar
     $module_list = shn_get_modules_with_admin();
 ?>
@@ -41,26 +40,34 @@ function shn_admin_mainmenu()
             <ul id="modmenu">
                 <li><a href="#">Module Config </a></li>
                     <ul id="modsubmenu">
-
 <?php foreach ($module_list as $i) {  ?>
-
                         <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
                     </ul>
-<!--
+
                 <li><a href="#">Security </a></li>
                     <ul id="modsubmenu">
-                        <li><a href="index.php?mod=admin&act=acl_default">Add an User</a></li>
-                        <li><a href="index.php?mod=admin&act=acl_default">ChangePassword</a></li>
-                        <li><a href="index.php?mod=admin&act=acl_default">Delete User</a></li>
-                    </ul>
-                <li><a href="#">ACL Config </a></li>
+                         <li><a href="index.php?mod=admin&act=add_user">Add an User</a></li>
+                        <li><a href="index.php?mod=admin&act=del_user">Delete User</a></li>
+                        <li><a href="index.php?mod=admin&act=ch_pwd">ChangePassword</a></li>
+                   </ul>
+                <li><a href="#">ACL System Config </a></li>
                     <ul id="modsubmenu">
-
+<?php 
+if ($acl==true){
+	echo "<li><a href='index.php?mod=admin&act=acl_state&do=disable'><b>Disable ACL</b></a></li>";
+}else {
+	echo "<li><a href='index.php?mod=admin&act=acl_state&do=enable'>Enable ACL</a></li>" ;
+}
+?>
+<li><a href="index.php?mod=admin&act=acl_install">ACL Base Install</a></li> 
+                   </ul>
+         <li><a href="#">ACL Module Config </a></li>
+                    <ul id="modsubmenu">
 <?php foreach ($module_list as $i) {  ?>
 
                         <li><a href="index.php?mod=admin&act=acl_default&sel=<?=$i?>"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
                     </ul>
-         -->
+
          </ul>
         </dd>
         </dt>
@@ -91,18 +98,13 @@ function shn_admin_default()
 function shn_admin_modadmin() 
 {
     global $global;
-
     include $global['approot']."/mod/".$global['module']."/admin.inc";
-    
     // compose and call the relevant module function 
     $module_function = "shn_".$global['module']."_".$global['action'];
     if (!function_exists($module_function)) {
         $module_function="shn_".$module."_default";
     } 
-
     $module_function(); 
- 
-
 }
 
 
@@ -117,14 +119,20 @@ function shn_admin_acl_default()
 
 <?php
 	_shn_admin_acl_sub_menu($module);
-     shn_acl_form_existing_perms($module,false);
+    // shn_acl_form_existing_perms($module,false);
+     shn_acl_form_existing_perms_grid($module,false);
+}
+function shn_admin_acl_existing_perms_tab()
+{
+    $module=$_GET['sel'];    
+    shn_acl_form_existing_perms_tabular($module,false);
 }
 
 function _shn_admin_acl_sub_menu($module)
 {
-
 ?>
 <div id="submenu_v">
+<a href="index.php?mod=<?php echo $module?>&act=adm_acl_install">Install ACL</a>
 <a href="index.php?mod=admin&act=acl_default&sel=<?php echo $module?>">Existing Permissions</a>
 <a href="index.php?mod=admin&act=acl_usr_role&sel=<?php echo $module?>">Add User to Role</a>
 <a href="index.php?mod=admin&act=acl_role&sel=<?php echo $module?>">Role Permissions</a>
@@ -136,6 +144,77 @@ function _shn_admin_acl_sub_menu($module)
 }
 
 
+function shn_admin_acl_install(){
+    global $global;
+    $db=$global["db"];
+    include_once $global['approot']. 'inc/lib_security/acl_api.inc';
+    include_once $global['approot'].'inc/lib_security/acl.inc';
+    include_once $global['approot'].'inc/lib_security/authenticate.inc';
+    $acl=new SahanaACL(NULL);
+
+/*****************************************************************/
+/** ACL common to all modules ,this piece of code will be removed from
+or_acl_setup to sahana setup script once its avaliable
+**/
+    /**
+    add a section to categorize sahana users in ARO table.
+    used is a function in acl.inc which you need not call
+    as module writers. "users" section needs to be added only
+    once per sahana and will be done at the installation
+    */
+    $acl->_shn_add_section("users","users of sahana","ARO");
+    /**
+    add a section to categorize sahana acions in AXO table.
+    used is a function in acl.inc which you need not call
+    as module writers. "actions" section needs to be added only
+    once per sahana and will be done at the installation
+    */
+    $acl->_shn_add_section("actions","actions avaliable in sahana","ARO");
+    //add a group to contain Sahana AROs(root group)
+    $acl->_shn_add_aro_group("sahana","Sahana ARO root",0);
+     // add a role named guest
+    $res=shn_acl_add_role("guest","guest role");
+   // add a role named user
+    $res=shn_acl_add_role("user","Normal user role");
+   // add a role named guest
+    $res=shn_acl_add_role("admin","Administrator role");
+    //add a group to contain Sahana AXOs(root group)
+    $acl->_shn_add_axo_group("sahana","Sahana AXO root",0);
+    /** add a ACO , not neccesary to protect actions, but when  we go to
+    table and field level protection need to seperate "read","write"
+    permissions , hence requires ACO
+    */
+   $res=shn_acl_add_perm_type("execute","execute permission");
+    // adds guest user with password and add the user to ACL users and add to 'guest' role
+    $guest=shn_add_user("Guest User","guest","pass","guest",1); 
+    //add a"guest" user to ACL users and add to 'guest' role
+    $q="insert into org_users(org_id,user_id) values(0,1)";
+    $res=$db->Execute($q);
+    $root=shn_add_user("Root User","root","rootpwd","admin",0); 
+    //add a "root" user to ACL users and add to 'admin' role
+    $q="insert into org_users(org_id,user_id) values(0,0)";
+    $res=$db->Execute($q);
+    /************************************/
+    //give permission for the guest user to sahana home
+    // add a module named "home"
+    $res=shn_acl_add_module("home","Sahana Home");
+     // add an action group named "view" under the module "home"
+    $res=shn_acl_add_action_group("home","view","view group");
+    $res=shn_acl_add_action("home","view","shn_home_default","View function");
+    //give permission for 'view' action group with in 'home' to 'guest' role
+    $res=shn_acl_add_perms_action_group_role('guest','home','view');
+  //give permission for 'view' action group with in 'home' to 'user' role
+    $res=shn_acl_add_perms_action_group_role('user','home','view');
+  //give permission for 'view' action group with in 'home' to 'admin' role
+    $res=shn_acl_add_perms_action_group_role('admin','home','view');
+
+?>
+    <div id="result_msg">
+       ACL Base was succesfully installed
+    </div>
+    </br>
+<?php
+}
 
 function shn_admin_acl_usr_role($module=NULL,$error=false)
 {
@@ -156,23 +235,23 @@ global $conf;
 function shn_admin_acl_usr_role_cr()
 {
     global $global;
-$module=$_GET['sel'];  
+    $module=$_GET['sel'];  
 //$acl=new SahanaACL(NULL);
 
- if (is_null($_POST{"users"})){
+    if (is_null($_POST{"users"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $user=$_POST{"users"};
     }
 
-if (is_null($_POST{"roles"})){
+    if (is_null($_POST{"roles"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $role=$_POST{"roles"};
     }
-$i=0;
+    $i=0;
     while($i<count($user)){
 	$j=0;
     	while($j<count($role)){
@@ -245,7 +324,7 @@ shn_admin_acl_role($module,false);
 function shn_admin_acl_user()
 {
     $module=$_GET['sel']; 
-global $conf;
+    global $conf;
 ?>
 <h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
 <?php 
@@ -265,13 +344,13 @@ function shn_admin_acl_user_cr()
         $action_group=$_POST{"action_groups"};
     }
 
-if (is_null($_POST{"users"})){
+    if (is_null($_POST{"users"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $user=$_POST{"users"};
     }
-$i=0;
+    $i=0;
     while($i<count($user)){
 	$j=0;
     	while($j<count($action_group)){
@@ -341,14 +420,14 @@ Roles were succesfully given permission to action groups
 }
 }
 
-function shn_admin_add_user(){
-    shn_admin_form_user_add(false);
+function shn_admin_add_user($error=false){
+    shn_acl_form_user_add($error);
 }
 
 function shn_admin_add_user_cr(){
-   
-   
-
+   global $global;
+ $db=$global["db"];
+$VARCHAR=100;
    list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
     
     //for the moment return true
@@ -363,5 +442,51 @@ function shn_admin_add_user_cr(){
         $error=true;
         add_error(SHN_ERR_OR_REPWD_WRONG);
     }
+	 if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
+        $error=true;
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+        $account_name=$_POST{"account_name"};
+    }
+    if (is_null($_POST{"org"})){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+    }else {    
+        $org_id=trim($_POST{"org"});
+    }
+$pid=shn_add_user($account_name,$user_name,$password,"guest",-1);
+             $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
+                $res=$db->Execute($q);
+          
+
+shn_admin_add_user($error);
 }
+
+function shn_admin_ch_pwd($error=false){
+    shn_acl_form_ch_pwd($error);
+}
+
+function shn_admin_ch_pwd_cr(){
+    global $global;
+    $db=$global["db"];
+    $VARCHAR=100;
+    
+    //for the moment return true
+    list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
+    if (is_null($_POST{"re_password"})){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+    }else {    
+        $re_password=trim($_POST{"re_password"});
+    }
+    if (!($password==$re_password)){
+        $error=true;
+        add_error(SHN_ERR_OR_REPWD_WRONG);
+    }
+        $old_password=trim($_POST{"old_password"});
+        $user_id=trim($_POST{"user"});
+    $error=shn_change_password($user_id,$old_password,$password);
+    shn_admin_ch_pwd($error);
+}
+
 ?>
