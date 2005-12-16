@@ -34,6 +34,14 @@ function shn_admin_mainmenu()
     $acl=shn_acl_get_state();
      // display the list of modules on the menu bar
     $module_list = shn_get_modules_with_admin();
+    $db=$global["db"];
+    $q="select value from config where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if(!$res->EOF && $res->fields[0]=='installed'){
+        $visible=true;
+    }else {
+        $visible=false;
+    }
 ?>
     <div id="modmenuwrap">
         <h2>Administration</h2>
@@ -50,24 +58,11 @@ function shn_admin_mainmenu()
                         <li><a href="index.php?mod=admin&act=del_user">Delete User</a></li>
                         <li><a href="index.php?mod=admin&act=ch_pwd">ChangePassword</a></li>
                    </ul>
-                <li><a href="#">ACL System Config </a></li>
+                <li><a href="#">ACL Config </a></li>
                     <ul id="modsubmenu">
-<?php 
-if ($acl==true){
-	echo "<li><a href='index.php?mod=admin&act=acl_state&do=disable'><b>Disable ACL</b></a></li>";
-}else {
-	echo "<li><a href='index.php?mod=admin&act=acl_state&do=enable'>Enable ACL</a></li>" ;
-}
-?>
-<li><a href="index.php?mod=admin&act=acl_install">ACL Base Install</a></li> 
+<li><a href="index.php?mod=admin&act=acl_system">ACL System Config</a></li> 
+<li><a href="index.php?mod=admin&act=acl_module">ACL Module Config</a></li> 
                    </ul>
-         <li><a href="#">ACL Module Config </a></li>
-                    <ul id="modsubmenu">
-<?php foreach ($module_list as $i) {  ?>
-
-                        <li><a href="index.php?mod=admin&act=acl_default&sel=<?=$i?>"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?> 
-                    </ul>
-
          </ul>
         </dd>
         </dt>
@@ -111,7 +106,21 @@ function shn_admin_modadmin()
 function shn_admin_acl_default()
 {
     global $conf;
-    $module=$_GET['sel'];    
+    global $global;
+    $db=$global["db"];
+    $q="select value from config where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if($res->fields[0]!='installed'){
+         echo "<a href='index.php?mod=admin&act=acl_install'>ACL is not Installed! You need to Install ACL Base and then Module Default ACL </a>";
+        return;
+    }
+    $module=$_GET['sel']; 
+    $q="select value from config where module_id='{$module}' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if($res->EOF || $res->fields[0]!='installed'){
+         echo "<a href='index.php?mod=".$module."&act=adm_acl_install'>ACL for the Module is not Installed! You need to Install Module Default ACL </a>";
+        return;
+    }   
 ?>
 
         <h2>Welcome to the Sahana ACL page</h2>
@@ -119,20 +128,77 @@ function shn_admin_acl_default()
 
 <?php
 	_shn_admin_acl_sub_menu($module);
-    // shn_acl_form_existing_perms($module,false);
      shn_acl_form_existing_perms_grid($module,false);
 }
+
+function shn_admin_acl_system()
+{
+?>
+         <h2>Welcome to the Sahana ACL System Configuration page</h2>
+
+<?php
+	_shn_admin_acl_system_menu();
+}
+function shn_admin_acl_module()
+{
+?>
+         <h2>Welcome to the Sahana ACL Module Configuration page</h2>
+
+<?php
+	_shn_admin_acl_module_menu();
+}
+
 function shn_admin_acl_existing_perms_tab()
 {
     $module=$_GET['sel'];    
     shn_acl_form_existing_perms_tabular($module,false);
 }
 
+
+function _shn_admin_acl_module_menu(){
+global $conf;
+$module_list = shn_get_modules_with_admin();
+?>
+<div id="submenu_v">
+<?php
+foreach ($module_list as $i) {
+                 echo"<a href='index.php?mod=admin&act=acl_default&sel=".$i."'>".$conf['mod_'.$i.'_name']."</a>"; } ?> 
+</div>
+<?php
+}
+function _shn_admin_acl_system_menu()
+{
+?>
+<div id="submenu_v">
+<?php
+global $global;
+$db=$global["db"];
+    $q="select value from config where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if(!$res->EOF && $res->fields[0]=='installed'){
+        $visible=true;
+    }else {
+        $visible=false;
+    }
+if($visible==true){
+if ($acl==true){
+	echo "<a href='index.php?mod=admin&act=acl_state&do=disable'><b>D</b>isable ACL</a>";
+}else {
+	echo "<a href='index.php?mod=admin&act=acl_state&do=enable'><b>E</b>nable ACL</a>" ;
+}
+}
+?>
+<a href="index.php?mod=admin&act=acl_install"><b>A</b>CL Base Install</a>
+</div>
+<br>
+<?php
+}
+
 function _shn_admin_acl_sub_menu($module)
 {
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=<?php echo $module?>&act=adm_acl_install">Install ACL</a>
+<a href="index.php?mod=<?php echo $module?>&act=adm_acl_install"><b>Install Default ACL</b></a>
 <a href="index.php?mod=admin&act=acl_default&sel=<?php echo $module?>">Existing Permissions</a>
 <a href="index.php?mod=admin&act=acl_usr_role&sel=<?php echo $module?>">Add User to Role</a>
 <a href="index.php?mod=admin&act=acl_role&sel=<?php echo $module?>">Role Permissions</a>
@@ -147,6 +213,11 @@ function _shn_admin_acl_sub_menu($module)
 function shn_admin_acl_install(){
     global $global;
     $db=$global["db"];
+    $q="select value from config where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if($res->fields[0]=='installed'){
+        $msg="ACL Base is already installed";
+    }else {
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot'].'inc/lib_security/authenticate.inc';
@@ -207,10 +278,14 @@ or_acl_setup to sahana setup script once its avaliable
     $res=shn_acl_add_perms_action_group_role('user','home','view');
   //give permission for 'view' action group with in 'home' to 'admin' role
     $res=shn_acl_add_perms_action_group_role('admin','home','view');
-
+    
+    $q="update config set value='installed' where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    $msg="ACL Base was succesfully installed";
+    }
 ?>
     <div id="result_msg">
-       ACL Base was succesfully installed
+        <?php echo $msg; ?>
     </div>
     </br>
 <?php
