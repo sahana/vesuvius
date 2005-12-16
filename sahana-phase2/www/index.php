@@ -29,6 +29,7 @@ if ($conf['sahana_status'] == 'installed' ) {
     require_once ($global['approot'].'inc/handler_db.inc');
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+    require_once ($global['approot'].'inc/lib_security/acl_api.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
 
     if(!$global['previous']){
@@ -56,9 +57,9 @@ function shn_front_controller()
    
     // check the users access permissions for this action
     $req_act="shn_".$module."_".$action;
+    $acl_enabled=shn_acl_get_state();
     $allow = (shn_acl_check_perms_action($_SESSION["user_id"],$req_act) || 
-             ($conf['disableACL']) )? true : false;
-    
+             !$acl_enabled)? true : false;
     // include the html head tags
     include($approot."inc/handler_html_head.inc");
     
@@ -105,7 +106,7 @@ function shn_front_controller()
     shn_include_page_section('mainmenu',$module);
 
     // include the mainmenu provided there is not a module override
-    if (!$conf['disableACL']) shn_include_page_section('login',$module);
+    if ($acl_enabled) shn_include_page_section('login',$module);
 
     // now include the main content of the page
 ?>  
