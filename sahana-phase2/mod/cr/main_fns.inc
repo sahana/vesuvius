@@ -19,7 +19,7 @@
 
 function shn_cr_default(){
 ?>
-<h1 align="center">Camp Registry</h1>
+<h1 align="center"><?php echo _("Camps Registry");?></h1>
 <br>
 <div id="home">
 <img src="theme/default/img/cr.png" align="center" />
@@ -144,14 +144,20 @@ function shn_cr_acmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									if(_shn_cr_validate_error())
-										_shn_cr_cadd_start(true);
-									else
+									//if(_shn_cr_validate_error())
+									//	_shn_cr_cadd_start(true);
+									//else
 										_shn_cr_cadd_chk();
 									break;
 		case 'commit'	:
 		            	_shn_cr_cadd_commit();
 		            	break;
+		case 'gis'		:
+									if(_shn_cr_validate_error())
+									  _shn_cr_cadd_start(true);
+									else								
+										_shn_cr_sel_map();
+									break;
 		default 			:
 		            	_shn_cr_cadd_start();
 		            	break;

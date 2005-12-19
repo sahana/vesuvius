@@ -29,7 +29,7 @@ function _shn_cr_cadd_start($errors=false){
 <?php
 	shn_form_fopen(acmp);
 	shn_form_fsopen("General Details");
-	shn_form_hidden(array('seq'=>'chk'));
+	shn_form_hidden(array('seq'=>'gis'));
 	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type","Camp Type");
 ?>
@@ -123,6 +123,47 @@ function _shn_cr_create_cid(){
 $id=time();
 return $id;
 
+}
+
+function _shn_cr_sel_map(){
+	$_SESSION['camp_name']=$_POST['camp_name'];
+	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
+	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
+	$_SESSION['camp_address']=$_POST['camp_address'];
+	$_SESSION['camp_contact_name']=$_POST['camp_contact_name'];
+	$_SESSION['camp_contact_number']=$_POST['camp_contact_number'];
+	$_SESSION['camp_family']=$_POST['family'];
+	$_SESSION['camp_men']=$_POST['men'];
+	$_SESSION['camp_women']=$_POST['women'];
+	$_SESSION['camp_children']=$_POST['children'];
+	$_SESSION['camp_total']=$_POST['total'];
+											
+	shn_form_fopen(acmp);
+	shn_form_hidden(array('seq'=>'chk'));
+	global $global;
+	include $global['approot']."/conf/config.inc";
+	echo "<h2>"._("Area Map")."</h2>";
+	if($conf['gis']){
+	  include $global['approot']."/mod/gis/conf.inc";
+	  if($conf['mod_gis']=='gmap'){
+	  	/*
+		 	 * google maps
+		 	 * check for online connectivity
+	  	*/
+	 		include_once $global['approot']."/mod/gis/handler_gmap.inc";
+			echo "Enter Camp Location. Click on Map where camp exists";
+			init_map($conf['gmap_key']);
+			load_map();
+			add_marker($_POST['camp_name']);
+		}
+	}
+  else{
+?>
+   <p>No Currently Selected GIS</p>
+<?php
+  }
+	shn_form_submit("Geo-Location");
+	shn_form_close();
 }
 
 function _shn_cr_validate_error(){
