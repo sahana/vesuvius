@@ -76,7 +76,7 @@ $conf['debug'] =true;
 $conf['debug_output'] = 'file';
 
 #if debug_output=file then the writable file path
-$conf['debug_file_path'] = '/home/nazgul/devel/log.file';
+$conf['debug_file_path'] = '';
 
 
 
@@ -120,6 +120,19 @@ $conf['cache_dir'] = 'cache/db_cache';
 # Default locale
 #
 $conf['locale'] = 'en_US';
+
+###############################
+# GIS and Mapping Configuration
+###############################
+# @todo Provide Web Interface for cofiguration
+# See GIS Module for more configuration information
+
+# GIS Funcitionality
+# true: to enable GIS/Mapping Capabilities
+
+$conf['gis'] = 'true';
+###############################
+
 
 # end of the config file.
 
