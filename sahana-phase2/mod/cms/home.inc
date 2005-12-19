@@ -18,7 +18,18 @@
 
 function shn_cms_default(){
 ?>
-<h1>The Camp Management System</h1>
+<h1><?php echo _("Camp Management System"); ?></h1>
+<div id="home">
+	<img src="theme/default/img/cms.png" align="center" />
+	<ul>
+   	<li>The Camps Management System is a System to Manage Camps</li>
+	  <br>
+		<li>It helps coordinate and track people, inventory and activities within camps</li>
+		<br>
+		<li>It also provides facilities to get Reports and  Statistics of camps</li>
+		<br>
+	</ul>
+						 
 <?
 }
 ?>

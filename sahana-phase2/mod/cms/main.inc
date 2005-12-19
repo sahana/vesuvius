@@ -19,7 +19,6 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cms/main_fns.inc";
 include_once $global['approot']."/mod/cms/home.inc";
 
-/* {{{ shn_cms_mainmenu : Add From */
 function shn_cms_mainmenu(){
 	global $global;
 	$module = $global['module'];
@@ -48,14 +47,13 @@ function shn_cms_mainmenu(){
 		</ul>
 		<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>
 		<li><a href="index.php?mod=<?=$module?>&act=stat">Statistics</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=rept">Reports</a></li>
 		<li><a href="index.php?mod=<?=$module?>&act=invt">Inventory</a></li>
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->
 <?
 include $global['approot']."/inc/handler_mainmenu.inc";
 }
-/* }}} */
 
 
-//vim: set tabstop=4 shiftwidth=4 fdm=marker:
 ?>

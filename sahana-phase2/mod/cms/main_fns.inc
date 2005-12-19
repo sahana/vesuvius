@@ -60,7 +60,6 @@ function shn_cms_cext(){
 function shn_cms_vadd(){
  global $global;
  include($global['approot'].'/mod/cms/victim.inc');
- require_once($global['approot'].'/inc/handler_form.inc');
  shn_cms_reg_victim();
 		 
 }
@@ -71,7 +70,6 @@ function shn_cms_vadd(){
 function shn_cms_vedt(){
  global $global;
  include($global['approot'].'/mod/cms/victim.inc');
- require_once($global['approot'].'/inc/handler_form.inc');
   shn_cms_edit_victim();
 
 
@@ -92,7 +90,6 @@ function shn_cms_wadd(){
 
 global $global;
  include($global['approot'].'/mod/cms/aidworker.inc');
- require_once($global['approot'].'/inc/handler_form.inc');
  shn_cms_reg_aidworker();
 
 }
@@ -102,8 +99,7 @@ global $global;
 */
 function shn_cms_wedt(){
 global $global;
-  include($global['approot'].'/mod/cms/victim.inc');
-  require_once($global['approot'].'/inc/handler_form.inc');
+  include($global['approot'].'/mod/cms/aidworker.inc');
   shn_cms_edit_aidworker();
 
 }

@@ -15,54 +15,74 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-//include yaml
-include_once($global['approot'].'/3rd/spyc/spyc.php');
+include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'].'/inc/lib_validate.inc');
+include_once($global['approot'].'/inc/lib_errors.inc');
 
-function _shn_cms_cadd_form(){
+function _shn_cms_cadd_form($errors=false){
+	echo "<h2>"._("Add New Camp - Details")."</h2>";
+	
+	if($errors)
+		display_errors();
+		
 	global $global;
-?>
-<? echo "<h2>"._("Add New Camp")."</h2>"; ?>
-<?
-	$open_frm = array('method'=>"post",'action'=>"");
-	shn_form_open($open_frm);
+	$db=$global['db'];
+		
+	//show add camp form
+	shn_form_fopen(cadd);
+	shn_form_fsopen(_("Name and Type"));
+	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_form_opt_select("opt_camp_type",_("Camp Type"));
+	shn_form_fsclose();
+	shn_form_fsopen(_("Camp Administrator"));
+	shn_form_text(_("Camp Admin Name"),"admin_name",'size="50"');
+	shn_form_text(_("Contact Number"),"admin_no",'size="50"');
+	shn_form_text(_("Organization Name"),"org_name",'size="50"');
+	shn_form_fsclose();
+	shn_form_fsopen(_("General Details"));
+	shn_form_text(_("Distance from City [km]"),"city_dis",'size="50"');
+	shn_form_text(_("Distance from Disaster [km]"),"disas_dis",'size="50"');
+	shn_form_text(_("Approximate Capacity [people]"),"capacity",'size="50"');
+	shn_form_text(_("Number of Shelters"),"shelters",'size="50"');
+	shn_form_text(_("Approximate Area Size [square metres]"),"camp_size",'size="50"');
+	shn_form_fsclose();
+	shn_form_submit(_("Create Camp"));
+	shn_form_fclose();
+			
 
 
-	$sections = Spyc::YAMLLoad($global['approot'].'/mod/cms/map.yml');
-	foreach($sections as $k => $v){
-		$array = Spyc::YAMLLoad($global['approot'].'/mod/cms/'.$v);
-		//if($error)
-		//  shn_form_add_component_list($array,true,$k,false,true);
-		//else
-		  shn_form_add_component_list($array,true,$k);
-	}
-	$subarray= array('type'=>'submit','name'=>'','value'=>'Create Camp');
-	shn_form_add_component($subarray);	
-	shn_form_close();
+
 }
 
 function _shn_cms_cadd_guide(){
 	global $global;
 	//attach guidelines;
+	
+?>
+	<h2>New Camp Guidlines</h2>
+	<div id="home">
+<?php
 	include($global['approot'].'/mod/cms/guide.inc');
 ?>
-<form method='post' action=''>
- <input type='hidden' name='seq' value='chk'>
- <input type='submit' value='ACCEPT>>'>
-</form>
-<?
+	</div>
+<?php
+	shn_form_fopen(cadd);
+	shn_form_hidden(array('seq'=>'chk'));
+	shn_form_submit(_("Accept"));
 }
 
 function _shn_cms_cadd_chk(){
 	global $global;
 	echo "<h2>"._("Camp Checklist")."</h2>";
-	$open_frm = array('method'=>"post",'action'=>"");
-	shn_form_open($open_frm);
-	$category = _("Camp Checklist");
-	$array = Spyc::YAMLLoad($global['approot'].'/mod/cms/chklst.yml');
-	shn_form_add_component_list($array,true,$category);
-	$subarray= array('type'=>'submit','name'=>'NEXT','value'=>'NEXT>>');
-	shn_form_add_component($subarray);
-	shn_form_close();
+	shn_form_fopen(cadd);
+	shn_form_fsopen(_("Facilities / Services"));
+	shn_form_hidden(array('seq'=>'form'));
+	shn_form_opt_checkbox("opt_camp_service");
+	shn_form_fsclose();
+	shn_form_submit(_("Done"));
+	shn_form_fclose();
+			
 }
 
 function _shn_cms_cedt(){
