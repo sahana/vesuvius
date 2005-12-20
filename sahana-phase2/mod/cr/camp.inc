@@ -29,7 +29,16 @@ function _shn_cr_cadd_start($errors=false){
 <?php
 	shn_form_fopen(acmp);
 	shn_form_fsopen("General Details");
-	shn_form_hidden(array('seq'=>'gis'));
+	//check for gis and goto mapping page
+	include $global['approot']."/conf/config.inc";
+	
+	if($conf['gis']=='true'){
+		shn_form_hidden(array('seq'=>'gis'));
+	}
+	else{
+		shn_form_hidden(array('seq'=>'chk'));
+	}
+	
 	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type","Camp Type");
 ?>
@@ -78,17 +87,21 @@ if($errors)
 	display_errors;
 	
 	global $global;
-	$_SESSION['camp_name']=$_POST['camp_name'];
-	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
-	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
-	$_SESSION['camp_address']=$_POST['camp_address'];
-	$_SESSION['camp_contact_name']=$_POST['camp_contact_name'];
-	$_SESSION['camp_contact_number']=$_POST['camp_contact_number'];
-	$_SESSION['camp_family']=$_POST['family'];
-	$_SESSION['camp_men']=$_POST['men'];
-	$_SESSION['camp_women']=$_POST['women'];
-	$_SESSION['camp_children']=$_POST['children'];
-	$_SESSION['camp_total']=$_POST['total'];
+	include $global['approot']."/conf/config.inc";
+	if($conf['gis']=='false'){
+		//add to session if GIS module is not enabled
+		$_SESSION['camp_name']=$_POST['camp_name'];
+		$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
+		$_SESSION['opt_location_type']=$_POST['opt_location_type'];
+		$_SESSION['camp_address']=$_POST['camp_address'];
+		$_SESSION['camp_contact_name']=$_POST['camp_contact_name'];
+		$_SESSION['camp_contact_number']=$_POST['camp_contact_number'];
+		$_SESSION['camp_family']=$_POST['family'];
+		$_SESSION['camp_men']=$_POST['men'];
+		$_SESSION['camp_women']=$_POST['women'];
+		$_SESSION['camp_children']=$_POST['children'];
+		$_SESSION['camp_total']=$_POST['total'];
+	}
 	//var_dump($_SESSION);
 ?>
 <h2>Camp Checklist</h2>
@@ -160,6 +173,7 @@ function _shn_cr_sel_map(){
   else{
 ?>
    <p>No Currently Selected GIS</p>
+	 
 <?php
   }
 	shn_form_submit("Geo-Location");

@@ -22,7 +22,7 @@ function shn_cr_default(){
 <h1 align="center"><?php echo _("Camps Registry");?></h1>
 <br>
 <div id="home">
-<img src="theme/default/img/cr.png" align="center" />
+<img src="theme/default/img/cms.png" align="center" />
 <ul>
    <li>Camps Registry is the central repository to manage Camps & individual Camp Management Systems.</li>
 	<br>
@@ -144,9 +144,11 @@ function shn_cr_acmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									//if(_shn_cr_validate_error())
-									//	_shn_cr_cadd_start(true);
-									//else
+									include($global['approot'].'/conf/config.inc');
+									if($conf['gis']=='false'){
+										if(_shn_cr_validate_error())
+											_shn_cr_cadd_start(true);
+									}
 										_shn_cr_cadd_chk();
 									break;
 		case 'commit'	:
