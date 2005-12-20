@@ -92,9 +92,14 @@ function shn_location_jscript($from,$to){
 function shn_location_form($from,$to){
 	shn_location_jscript($from,$to);
 	$location_inf = _shn_location_form($from,$to);  
+	shn_form_add_component_list($location_inf,$section=true,$legend='',$return=false,$default_val_req=$error);
+}
+
+function shn_location_form_org($from,$to){
+	shn_location_jscript($from,$to);
+	$location_inf = _shn_location_form($from,$to);  
 	shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
 }
- 
 function _shn_location_form($from,$to){   
     global $global;
     $db=$global['db'];
