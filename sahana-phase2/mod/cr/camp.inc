@@ -102,7 +102,10 @@ if($errors)
 		$_SESSION['camp_children']=$_POST['children'];
 		$_SESSION['camp_total']=$_POST['total'];
 	}
-	//var_dump($_SESSION);
+	else{
+		$_SESSION['gis_loc_x']=$_POST['loc_x'];
+		$_SESSION['gis_loc_y']=$_POST['loc_y'];
+	}
 ?>
 <h2>Camp Checklist</h2>
 <?php
@@ -153,9 +156,14 @@ function _shn_cr_sel_map(){
 											
 	shn_form_fopen(acmp);
 	shn_form_hidden(array('seq'=>'chk'));
+	shn_form_hidden(array('loc_x'=>''));
+	shn_form_hidden(array('loc_y'=>''));
 	global $global;
+	$db=$global['db'];
 	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
+
+	//if mod_gis
 	if($conf['gis']){
 	  include $global['approot']."/mod/gis/conf.inc";
 	  if($conf['mod_gis']=='google_maps'){
@@ -165,15 +173,20 @@ function _shn_cr_sel_map(){
 	  	*/
 	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			echo "Enter Camp Location. Click on Map where camp exists";
-			init_map($conf['gmap_key']);
+
+			$a="select value from config where module_id='gis' and confkey='google_key'";
+      $ares=$db->Execute($a);
+			$keys=$ares->fields[0];
+						
+			init_map($keys);
 			load_map();
 			add_marker($_POST['camp_name']);
 		}
 	}
-  else{
+	else
+	{
 ?>
-   <p>No Currently Selected GIS</p>
-	 
+   <p>No Currently Selected GIS</p> 
 <?php
   }
 	shn_form_submit("Geo-Location");
@@ -248,6 +261,24 @@ $res = $db->Execute($q);
 $q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
 
 $res = $db->Execute($q);
+
+/*
+ * GIS Insertion
+*/
+
+global $global;
+include $global['approot']."/conf/config.inc";
+	
+
+//if mod_gis
+if($conf['gis']){
+  include $global['approot']."/mod/gis/conf.inc";
+  include $global['approot']."/mod/gis/gis_fns.inc";
+	shn_gis_dbinsert($uid,$_SESSION['opt_location_type'],$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
+}
+				
+
+
 
 /*insert services into camp_services table
 //currently add checked values.

@@ -167,6 +167,39 @@ function shn_cr_acmp(){
 																																																						
 }
 
+function shn_cr_gis_show(){
+	global $global;
+  include($global['approot'].'/conf/config.inc');
+	if($conf['gis']){
+		global $global;
+		include($global['approot'].'/mod/gis/conf.inc');	
+		include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
+		$db = $global['db'];
+		echo "GIS Map of Camps";
+		$q="select map_northing,map_easting,name from gis_location as a, camp as b where a.poc_uuid=b.c_uuid";
+		$res = $db->Execute($q);
+		
+		if($conf['mod_gis']=='google_maps'){
+			$a="select value from config where module_id='gis' and confkey='google_key'";
+			$ares=$db->Execute($a);
+			$key=$ares->fields[0];						
+			init_map($key);
+		}
+		else
+			init_map();
+		load_map();
+		//put values into array: even better, process directly ;)
+		while(!$res->EOF){
+			add_marker_db($res->fields[0],$res->fields[1],$res->fields[2]);
+			//add_marker($res->fields[2]);
+			$res->MoveNext();	
+		}
+		
+	}
+	
+}
+
+
 function shn_cr_ecmp(){
 	global $global;
   include($global['approot'].'/mod/cr/edit.inc');

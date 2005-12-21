@@ -21,6 +21,7 @@ include_once $global['approot']."/mod/cr/main_fns.inc";
 function shn_cr_mainmenu(){
 	global $global;
 	$module = $global['module'];
+	include $global['approot']."/conf/config.inc";
 ?>
 <div id="modmenuwrap">
 	<h2>Camps Registry Menu</h2>
@@ -32,6 +33,13 @@ function shn_cr_mainmenu(){
 		<ul id="modsubmenu">
 		  <li><a href="index.php?mod=<?=$module?>&act=arpt">View All Camps</a></li>
 			<li><a href="index.php?mod=<?=$module?>&act=lrpt">View By Location</a></li>
+			<?php
+				if($conf['gis']){
+			?>
+				<li><a href="index.php?mod=<?=$module?>&act=gis_show">Location Map</a></li>
+			<?php
+				}
+			?>
 		</ul>
 		<li><a href="index.php?mod=<?=$module?>&act=ecmp">Edit Camp</a></li>
 		
