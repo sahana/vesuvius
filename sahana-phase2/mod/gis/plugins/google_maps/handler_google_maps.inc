@@ -38,13 +38,14 @@ function load_map(){
 /*
  * add existing markers from db
 */
-function add_marker_db($array)
+function add_marker_db($x,$y,$name)
 {
 ?>
   <script type="text/javascript">
-		var point1 = new GPoint(-122.1419, 37.4419);
+		var point1 = new GPoint(<?php echo $x?>,<?php echo $y?>);
 		var marker1 = new GMarker(point1);
-		map.addOverlay(marker1);            
+		//marker1.openInfoWindowHtml(<?php echo $name?>);
+		map.addOverlay(marker1);
 	</script>
 <?php
 }
@@ -59,12 +60,19 @@ function add_marker($name)
 		GEvent.addListener(map, 'click', function(overlay, point) {
 	  	if (overlay) {
 			var html = "<?php echo $name?>";
+			//var html = overlay;
 				overlay.openInfoWindowHtml(html);
 				//map.removeOverlay(overlay);
 			} 
 			else if (point) {
 				map.addOverlay(new GMarker(point));
-				<?php //store coordinates in session variable; ?>
+				// store x,y coords in hidden variables named loc_x, loc_y
+				// must be set via calling page
+				var x_point=document.getElementsByName("loc_x");
+				var y_point=document.getElementsByName("loc_y");
+				x_point[0].value=point.x;
+				y_point[0].value=point.y;
+				//alert(x_point[0].value);
 			}
 		});
 	</script>
@@ -83,8 +91,9 @@ function info_event($query_results){
 			var html = "test";
 			overlay.openInfoWindowHtml(html);
 		}
-		else{
-			//dont handle point
+		else if (point){
+			map.addOverlay(new GMarker(point));
+			
 		}
 	});
  </script>			 

@@ -17,4 +17,11 @@ CREATE TABLE `gis_location` (
 	`gis_uid` bigint(20) NOT NULL,
 	PRIMARY KEY  (`gis_uid`)
 );
-									
+
+/* --config options --*/
+
+INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'google_key', '');
+INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_x', '');
+INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_y', '');
+
+

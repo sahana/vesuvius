@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.2 2005-12-21 04:10:41 mifanc Exp $ */
+/* $Id: admin.inc,v 1.3 2005-12-21 11:29:31 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -55,14 +55,30 @@ function shn_gis_adm_find_mods()
 }
 
 function shn_gis_adm_showform(){
-	shn_form_fopen("");
+	shn_form_fopen(adm_commit);
 	shn_form_fsopen("General Configuration");
 	//shn_form_select();
-	shn_form_text("Center Northing Value[coordinates of center point]","");
-	shn_form_text("Center Easting Value[coordinates of center point]","");
+	shn_form_text("Center Northing Value[coordinates of center point]","x_center");
+	shn_form_text("Center Easting Value[coordinates of center point]","y_center");
 	shn_form_fsclose();
 	shn_form_submit("Done");
 	shn_form_fclose();
+}
+
+function shn_gis_adm_commit(){
+	echo "<h3>Changes Made</h3>";
+	global $global;
+	$db = $global['db'];
+	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
+	if(!null==$_POST['x_center'])
+	{
+		$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'center_x'";       $db->Execute($q);
+	}
+	if(!null==$_POST['y_center'])
+	{
+		$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'center_y'";       $db->Execute($r);
+	}
+	shn_gis_adm_default();	
 }
 						
 ?>

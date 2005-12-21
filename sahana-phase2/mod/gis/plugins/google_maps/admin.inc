@@ -29,10 +29,23 @@ function _shn_gis_gm_form(){
 	<div id="formcontainer">
 	<form method="POST" action="index.php?mod=gis/plugins/google_maps&act=adm_com" id="formset">
 <?php
+	shn_form_fsopen("Info");
+	echo "<p>Register a google maps key for the url you host sahana in, and enter it here</p>";
+	echo "<p>Get your key from: http://www.google.com/apis/maps/</p>";
+	shn_form_fsclose();
 	shn_form_fsopen("Configure Google Maps");
 	shn_form_text("Enter Google Maps Key","gmap_key",'size="110"');
 	shn_form_fsclose();
 	shn_form_submit("Done");
 	shn_form_fclose();
+	global $global;
+	$db = $global['db'];
+		
+	if(!null==($_POST['gmap_key'])){
+		echo "Changes Saved";
+		$gm="UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";
+		$db->Execute($gm);
+		
+	}
 }
 ?>

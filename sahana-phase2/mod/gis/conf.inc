@@ -1,6 +1,6 @@
 <?php
 
-# provide a  nice display name for the CR module
+# provide a  nice display name for the GIS module
 $conf['mod_gis_name'] = "GIS Mapping";
 
 # GIS Module Name

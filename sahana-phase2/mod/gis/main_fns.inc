@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.2 2005-12-21 04:10:41 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.3 2005-12-21 11:29:31 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -34,6 +34,7 @@ function shn_gis_default()
 function shn_gis_show()
 {
 	global $global;
+	$db=$global['db'];
 	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
 	if($conf['gis']){
@@ -45,7 +46,10 @@ function shn_gis_show()
 			*/
 			include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			//echo "GIS: Google Map";
-			init_map($conf['gmap_key']);
+			$q="select value from config where module_id='gis' and confkey='google_key'";
+			$res=$db->Execute($q);
+			$key=$res->fields[0];
+			init_map($key);
 			load_map();
 		}
 	}
