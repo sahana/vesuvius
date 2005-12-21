@@ -52,7 +52,7 @@ $conf['db_user'] = 'root';
 
 # And password for that user.
 #
-$conf['db_pass'] = '';
+$conf['db_pass'] = 'password';
 
 ###########################
 # Logging #

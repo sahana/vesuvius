@@ -106,10 +106,10 @@ function shn_setup_form2()
     shn_form_select(
         array( 'default' => 'Default Theme'), 
                 "Theme", "theme");
-    shn_form_select(
-        array( 'disable' => 'Disable'), 
+/*    shn_form_select(
+        array( 'disable' => 'Disable','enable' =>'Enable'), 
                 "Access Control","acl");
-    shn_form_fsclose();
+    shn_form_fsclose(); */
 
     shn_form_fsopen('Configuration File');
 ?>
