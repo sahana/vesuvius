@@ -34,7 +34,7 @@ function shn_cr_mainmenu(){
 		  <li><a href="index.php?mod=<?=$module?>&act=arpt">View All Camps</a></li>
 			<li><a href="index.php?mod=<?=$module?>&act=lrpt">View By Location</a></li>
 			<?php
-				if($conf['gis']){
+				if($conf['gis']=='true'){
 			?>
 				<li><a href="index.php?mod=<?=$module?>&act=gis_show">Location Map</a></li>
 			<?php
