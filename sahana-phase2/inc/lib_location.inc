@@ -79,7 +79,7 @@ function shn_location_jscript($from,$to){
     function update_next_level(selection,level){
         curlevel=level;
         http = getHTTPObject();
-        var url2=url + "lvl="+curlevel+"&sel="+selection;
+        var url2=url + "act=get_loc&lvl="+curlevel+"&sel="+selection;
         http.open("GET", url2, true); 
         http.onreadystatechange = null; 
         http.onreadystatechange = handleHttpResponse; 
@@ -94,7 +94,11 @@ function shn_location_form($from,$to){
 	$location_inf = _shn_location_form($from,$to);  
 	shn_form_add_component_list($location_inf,$section=true,$legend='',$return=false,$default_val_req=$error);
 }
-
+function shn_location($from,$to){
+	shn_location_jscript($from,$to);
+	$location_inf = _shn_location_form($from,$to);  
+	return $location_inf ;
+}
 function shn_location_form_org($from,$to){
 	shn_location_jscript($from,$to);
 	$location_inf = _shn_location_form($from,$to);  
@@ -154,3 +158,37 @@ function _shn_location_form($from,$to){
 }
    return $loc;
 }
+
+function shn_location_add(){
+global $global;
+$db=$global['db'];
+$loc=$_POST{"loc_name"};
+$desc=$_POST{"desc"};
+$iso=$_POST{"iso"};
+$level=$_POST{"level"};
+if($level==1){
+$q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
+$res=$db->Execute($q);
+$q="select location_id from location where name='{$loc}' and opt_location_type=1";
+$res=$db->Execute($q);
+$id=$res->fields[0];
+$q="update location set search_id=$id where location_id=$id";
+$res=$db->Execute($q);
+}else {
+$level=$level-1;
+$parent=$_POST{"$level"};
+$level=$level+1;
+
+$q="select count(*) from location where parent_id=$parent";
+
+$res=$db->Execute($q);
+$count=$res->fields[0]+1;
+$q="select search_id from location where location_id=$parent";
+$res=$db->Execute($q);
+$search_id=$res->fields[0].".".$count;
+$q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
+
+$res=$db->Execute($q);
+}
+}
+?>

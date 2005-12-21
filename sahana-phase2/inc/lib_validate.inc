@@ -237,21 +237,24 @@ function shn_validate_user_name($field){
 }
 
 function shn_validate_password($field){
-   return true;
+   //return true;
    $PWDPOLICY="password must adhere to following rules:
     1. only numbers and letters.
     2. minimum length is 8.
     3. at least one number and one letter in the expression."; 
     $pattern='/([0-9]+[a-z]\+){8}/';
     if (shn_validate_field($field,"Password",100,true)){
+            return true;
+        /*
         if(preg_match($pattern,$field))
             return true;
         else{
             add_error($PWDPOLICY);
             return false;
         }
+        */
     }else {
-        return false;
+            return false;
     }
 }
 ?>

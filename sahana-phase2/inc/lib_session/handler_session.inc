@@ -70,11 +70,6 @@ switch ($user_data["result"]){
         $global["action"]=$_SESSION["last_action"];
         $global['previous']=true;
         break;
-    case ACLCHANGE:
-        $global["module"]=$_SESSION["last_module"];
-        $global["action"]=$_SESSION["last_action"];
-        $global['previous']=true;
-        break;
     default:
         break;
 }
