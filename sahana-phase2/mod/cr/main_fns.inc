@@ -22,7 +22,7 @@ function shn_cr_default(){
 <h1 align="center"><?php echo _("Camps Registry");?></h1>
 <br>
 <div id="home">
-<img src="theme/default/img/cms.png" align="center" />
+<!--<img src="theme/default/img/cms.png" align="center" />-->
 <ul>
    <li>Camps Registry is the central repository to manage Camps & individual Camp Management Systems.</li>
 	<br>
@@ -229,9 +229,15 @@ function shn_cr_arpt(){
 function shn_cr_lrpt(){
 	global $global;
  	include($global['approot'].'/mod/cr/reports.inc');
-	_shn_cr_rpt_loc();
+	_shn_cr_drill_location();
+	//_shn_cr_rpt_loc();
 }
 
+function shn_cr_ldrpt(){
+	global $global;
+ 	include($global['approot'].'/mod/cr/reports.inc');
+	_shn_cr_rpt_loc($_REQUEST['seq']);
+}
 
 function shn_cr_srpt(){
 	global $global;

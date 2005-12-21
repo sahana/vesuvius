@@ -121,44 +121,87 @@ function _shn_cr_rpt_all(){
 <?php
 }
 
-/*To Display the camps based on the location*/
+function _shn_cr_drill_location(){
+?>
+<h1><center>Camp Information by Location Drilled</center></h1>
+  <div id ="result">
+	   <table>
+		   <thead>
+		     	<td>Location</td>
+					<td>Total Number of Victims in Camps</td>
+			 </thead>
+			 <tbody>
+<?php
+	global $global;
+	$module = $global['module'];	
+	$db=$global['db'];
+	$q = "select sum(b.total), a.location_id from camp as a, camp_reg as b where b.c_uuid=a.c_uuid group by a.location_id";
+	$res_cmp = $db->Execute($q);
+	while (!$res_cmp->EOF){
+		$loc_id =$res_cmp->fields[1];
+		$qloc  = "select name from location where location_id='{$loc_id}'";
+		$res_loc =$db->Execute($qloc);
+?>
+				<tr>
+					<td><a href="index.php?mod=<?=$module?>&act=ldrpt&seq=<?php echo $res_loc->fields[0]?>"><?php echo $res_loc->fields[0]?></a></td>
+					<td><?php echo $res_cmp->fields[0]?></td>
+				</tr>
+<?php
+		$res_cmp->MoveNext();
+	}
+?>								 
+				</tbody>
+			</table>
+		</div>
+<?php		
+}
 
-function _shn_cr_rpt_loc(){
-	?>
-	<h1><center>Camp Information by Location</center></h1>
-	<div id ="result">
-    <table>
-        <thead>
-            <td>Location</td>
-            <td>Camp Name </td>
-            <td>Camp Type</td>
-            <td>Address</td>
-            <td>Total Victims</td>
-         </thead>
-        
-        <tbody>
-        
-				<?php    
-   					 global $global;
-						 $db=$global['db'];
-						 $q = "select c_uuid,name,opt_camp_type,address,location_id from camp";
-						 $res_cmp = $db->Execute($q);
-						while (!$res_cmp->EOF){
-     	   								
-    						$loc_id =$res_cmp->fields[4];        
-    						$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
-    						$res_loc =$db->Execute($qloc);
-    						    						
-    						$cmp_id =$res_cmp->fields[0];        
-    						$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
-    						$res_reg =$db->Execute($qreg);
-    						
-    						$type  =$res_cmp->fields[2]; 
-    						$qtype = "select * from field_options where option_code='{$type}'";
-    						$res_type =$db->Execute($qtype);
-    		    					   				
-    				?>
-    				<tr>
+//To Display the camps based on the location
+
+function _shn_cr_rpt_loc($locate){
+?>
+<h1><center>Camp Information by Location</center></h1>
+<div id ="result">
+<table>
+<thead>
+<td>Location</td>
+<td>Camp Name </td>
+<td>Camp Type</td>
+<td>Address</td>
+<td>Total Victims</td>
+</thead>
+
+<tbody>
+
+<?php    
+global $global;
+$db=$global['db'];
+echo "<strong>"._("Camps in ").$locate." </strong>";
+
+$loc_q = "select location_id from location where name='{$locate}'";
+$loc_r = $db->Execute($loc_q);
+if(!$loc_r->EOF){
+	$location_id=$loc_r->fields[0];
+}
+
+$q = "select c_uuid,name,opt_camp_type,address,location_id from camp where location_id='{$location_id}'";
+$res_cmp = $db->Execute($q);
+while (!$res_cmp->EOF){
+				
+$loc_id =$res_cmp->fields[4];        
+$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
+$res_loc =$db->Execute($qloc);
+								
+$cmp_id =$res_cmp->fields[0];        
+$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
+$res_reg =$db->Execute($qreg);
+
+$type  =$res_cmp->fields[2]; 
+$qtype = "select * from field_options where option_code='{$type}'";
+$res_type =$db->Execute($qtype);
+								
+?>
+<tr>
     				<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[1]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
