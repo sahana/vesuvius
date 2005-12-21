@@ -162,6 +162,7 @@ INSERT INTO location VALUES (14,6,'1.1.1.1','4','dehiwala','dwh','dehiwala added
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
 INSERT INTO config VALUES('admin','acl','false');
+INSERT INTO config VALUES('admin','acl_base','no');
 
 -- INSERT THE INBUILT SAHANA ORGANIZATION
 INSERT INTO org_main(o_uuid,parent_id,name,opt_org_type)VALUES(0,0,'sahana','gov');
