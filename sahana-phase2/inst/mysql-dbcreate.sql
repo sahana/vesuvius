@@ -168,6 +168,7 @@ CREATE TABLE person_status (
     isReliefWorker TINYINT, 
     opt_status VARCHAR(10), -- missing, ingured, etc. customizable
     updated TIMESTAMP DEFAULT NOW(),
+    isvictim BOOL DEFAULT 1,
     PRIMARY KEY (p_uuid)
 );
 
@@ -411,16 +412,35 @@ CREATE TABLE configlist(
 /**
 * Person to Report (Contact person)  
 * Modules: dvr, mpr, 
-* Created : 07-Nov-2005 - janaka@opensource.lk
+* Created : 21-Dec-2005 - janaka@opensource.lk
 */
 DROP TABLE IF EXISTS person_to_report;
 CREATE TABLE person_to_report (
     p_uuid BIGINT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    address TEXT,
-    phone VARCHAR(100),
-    email VARCHAR(255),
+    rep_uuid BIGINT NOT NULL,
     relation VARCHAR(100),
-    PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+    PRIMARY KEY (p_uuid,rep_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (rep_uuid) REFERENCES person_uuid(p_uuid)
 );
+
+/**
+* Audit  
+* Modules: dvr, mpr, 
+* Created : 21-Dec-2005 - janaka@opensource.lk
+*/
+
+DROP TABLE IF EXISTS audit;
+CREATE TABLE audit (
+    audit_id BIGINT NOT NULL AUTO_INCREMENT,
+    updated TIMESTAMP NOT NULL DEFAULT NOW(),
+    x_uuid BIGINT NOT NULL,
+    u_uuid BIGINT NOT NULL,
+    change_type VARCHAR(3) NOT NULL,
+    change_table VARCHAR(100) NOT NULL,
+    change_field VARCHAR(100) NOT NULL,
+    prev_val TEXT,
+    new_val TEXT,
+    PRIMARY KEY(audit_id)
+);
+
