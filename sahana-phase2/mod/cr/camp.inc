@@ -189,7 +189,7 @@ function _shn_cr_sel_map(){
    <p>No Currently Selected GIS</p> 
 <?php
   }
-	shn_form_submit("Geo-Location");
+	shn_form_submit("Next");
 	shn_form_close();
 }
 
