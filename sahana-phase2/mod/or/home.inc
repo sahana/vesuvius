@@ -29,10 +29,9 @@ if(!$res->EOF){
 
 ?>
 
-        <center><h2><b> Welcome to Organization Registry</p><br></b></h2></center>
+        <center><h2><b> Welcome to Organization Registry</b></h2></center>
 		<div id="home">
 <!--            <img src="theme/default/img/org.png"/>-->
-            <img src="theme/default/img/org.png"/>
             <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
             </p>
              <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
@@ -78,3 +77,4 @@ if(!$res->EOF){
         shn_or_viewform_allorg(10);
 ?>
 		</div>
+        </div>
