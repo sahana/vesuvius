@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.13 2005-12-21 04:35:12 janakawicks Exp $ */
+/* $Id: main.inc,v 1.14 2005-12-21 11:43:36 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -152,15 +152,21 @@ function shn_mpr_editmp()
 
         case 'report_person' :
             echo '<h1 align="center">Edit Missing Person Entry</h1>';
-            if(shn_mpr_addmp_reporter_validate()){
-                if($_POST['reported_before'] == 'yes') {
+            if(shn_mpr_addmp_reporter_validate() || isset($_GET['offset']) ){
+                if($_POST['reported_before'] == 'yes' || isset($_GET['offset']) ) {
                     require_once($global['approot'].'mod/mpr/search.inc');
-                    $search_sql = new SearchQuery();
-                    $search_sql->set_name($_POST['rep_full_name']);
-                    $search_sql->set_address($_POST['rep_address']);
-                    $search_sql->set_phone($_POST['rep_phone']);
-                    $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,-1,true);
-                    shn_mpr_search_select($arr);
+                    if(isset($_GET['offset'])){
+                        $arr = shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'],
+                            $_GET['offset'],true);
+                        shn_mpr_search_select($arr);
+                    }else{
+                        $search_sql = new SearchQuery();
+                        $search_sql->set_name($_POST['rep_full_name']);
+                        $search_sql->set_address($_POST['rep_address']);
+                        $search_sql->set_phone($_POST['rep_phone']);
+                        $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,true);
+                        shn_mpr_search_select($arr);
+                    }
                 }else{
                     shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
                     shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']); 
@@ -345,16 +351,22 @@ function shn_mpr_addmp()
         break;
 
 	    case 'report_person' :
-	        if(shn_mpr_addmp_reporter_validate()){
+	        if(shn_mpr_addmp_reporter_validate() || isset($_GET['offset'])){
                 //if reported before then send to the search 
-                if($_POST['reported_before'] == 'yes') {
+                if($_POST['reported_before'] == 'yes' || isset($_GET['offset'])) {
                     require_once($global['approot'].'mod/mpr/search.inc');
-                    $search_sql = new SearchQuery();
-                    $search_sql->set_name($_POST['rep_full_name']);
-                    $search_sql->set_address($_POST['rep_address']);
-                    $search_sql->set_phone($_POST['rep_phone']); 
-                    $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,-1,true);
-                    shn_mpr_search_select($arr);
+                    if(isset($_GET['offset'])){
+                        $arr = shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'], 
+                            $_GET['offset'],true);
+                        shn_mpr_search_select($arr);
+                    }else{
+                        $search_sql = new SearchQuery();
+                        $search_sql->set_name($_POST['rep_full_name']);
+                        $search_sql->set_address($_POST['rep_address']);
+                        $search_sql->set_phone($_POST['rep_phone']); 
+                        $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,true);
+                        shn_mpr_search_select($arr);
+                    }
                 }else{
                     echo $heading;
                     echo '<h2 align="center">(Final Confirmation)</h2>';
@@ -407,9 +419,18 @@ function shn_mpr_search()
 
     //Controller for Normal Search
 	if($_GET['act']=='search'){
-	    switch ($_POST['seq']) {
+	    switch ($_REQUEST['seq']) {
 	        case 'result' :
-	            shn_mpr_search_result();
+                if($_GET['offset'])
+                    shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'],
+                        $_GET['offset']);
+                else{
+    	            $search_sql = new SearchQuery();
+                    $search_sql->set_name($_POST['_name']);
+                    $search_sql->set_serial_no($_POST['idcard']);
+                    $search_sql->isvictim = true; 
+                    $arr = shn_mpr_search_result_vw($search_sql->get_sql());
+                }
 	        break;
 	        default:
 	            shn_mpr_search_default();

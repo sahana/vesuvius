@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.10 2005-12-21 04:35:12 janakawicks Exp $ */
+/* $Id: add.inc,v 1.11 2005-12-21 11:43:36 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -495,6 +495,9 @@ function shn_mpr_addmp_confirm()
     //Reporting Person
     shn_form_fsopen("Reporting Person");
 
+    if(isset($_SESSION['mpr_add']['entry']['tracker_id']))
+        shn_add_get_tracker_details($_SESSION['mpr_add']['entry']['tracker_id']); 
+
     if(isset($_SESSION['mpr_add']['report_person']['rep_full_name']))
         shn_form_label('Name',$_SESSION['mpr_add']['report_person']['rep_full_name']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_relation']))
@@ -805,4 +808,20 @@ function shn_add_person_to_report($p_uuid, $rep_uuid, $relation)
 }
 /* }}} */
 
+function shn_add_get_tracker_details($p_uuid)
+{
+    global $global;
+
+    $rs = $global['db']->GetRow(
+        "SELECT a.full_name, b.address , c.contact_value as phone, d.contact_value as email FROM person_uuid a ".
+        "LEFT OUTER JOIN location_details b ON a.p_uuid = b.poc_uuid AND b.opt_person_loc_type = 'hom' ".
+        "LEFT OUTER JOIN contact c ON a.p_uuid = c.pgoc_uuid AND c.opt_contact_type = 'curr' ".
+        "LEFT OUTER JOIN contact d ON a.p_uuid = d.pgoc_uuid AND d.opt_contact_type = 'email' ".
+        "WHERE a.p_uuid = '$p_uuid'");
+    #var_dump($rs);
+    $_SESSION['mpr_add']['report_person']['rep_full_name'] = $rs['full_name'];
+    $_SESSION['mpr_add']['report_person']['rep_address'] = $rs['address'];
+    $_SESSION['mpr_add']['report_person']['rep_phone'] = $rs['phone'];
+    $_SESSION['mpr_add']['report_person']['rep_email'] = $rs['email'];
+}
 ?>

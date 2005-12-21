@@ -74,7 +74,7 @@ function shn_mpr_search_advance()
 }
 /* }}} */
 
-/* {{{ Search Query Generation (OLD) */
+/* {{{ Search Query Generation (OLD NOT NEEDED) */
 /**
  * shn_mpr_search_result 
  * 
@@ -131,8 +131,9 @@ NOT LIKE 'mis' AND isvictim='TRUE'";
 	        $sub_sql = "SELECT p_uuid FROM person_status WHERE
 isvictim='TRUE'";
         shn_mpr_search_result_vw($sub_sql );
-    }else
+    }else{
         shn_mpr_search_result_vw($sql);
+    }
 }
 /* }}} */
 
@@ -146,10 +147,16 @@ isvictim='TRUE'";
  * @access public
  * @return void
  */
-function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $limit=-1,$offset=-1, $return=false)
+function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $offset=-1, $return=false)
 {
+    
+    $_SESSION['mpr']['search']['subquery'] = $subquery;
+
     global $global;
     global $conf;
+
+    $limit = $conf['mod_mpr']['search']['limit'];
+
     if($conf['mysql']){
         //Select into temp table todo put the locks to reading tables ;-)
         $sql1 = "CREATE TEMPORARY TABLE tmp_mpr_search( p_uuid BIGINT )";
@@ -170,10 +177,10 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $l
         $global['db']->Execute($sql1);
         $global['db']->Execute($sql2);
         $rs = $global['db']->SelectLimit($sql3,$limit,$offset);
+        $rs_count = $global['db']->Execute($sql3);
         $global['db']->Execute($sql4);
     }else{
-        $rs = $global['db']->SelectLimit("
-        SELECT 
+        $sql = "SELECT 
             a.p_uuid AS p_uuid, a.full_name AS full_name, a.family_name as family_name,
             a.l10n_name AS l10n_name, b.height AS height, 
             b.weight AS weight, b.opt_eye_color AS opt_eye_color, 
@@ -184,28 +191,31 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $l
         LEFT OUTER JOIN person_physical b USING (p_uuid) 
         LEFT OUTER JOIN person_missing c USING (p_uuid) 
         LEFT OUTER JOIN person_status d USING (p_uuid)
-        WHERE a.p_uuid IN ($subquery)",$limit,$offset);
+        WHERE a.p_uuid IN ($subquery)";
+        $rs = $global['db']->SelectLimit($sql,$limit,$offset);
+        $rs_count = $global['db']->Execute($sql);
     }
     $arr = $rs->GetAll();
-    if($return)
+    $_SESSION['mpr']['search']['record_count'] =  $rs_count->RecordCount();
+    if($return){
         return $arr;
-    else{
-    shn_mpr_search_navigation_top($rs);
+    }else{
+        shn_mpr_search_nav();
 ?>
 <DIV ID="result">
 <?php
     shn_mpr_search_show_result($arr);
-    shn_mpr_search_navigation_bottom($rs);
 ?>
 </DIV>
 <?php
+        shn_mpr_search_nav();
     }
 }
 /* }}} */
 
 /* {{{ Navigation Controll */
 /**
- * shn_mpr_search_navigation_top 
+ * shn_mpr_search_navigation_top  NOT NEEDED
  * 
  * @param mixed $rs 
  * @access public
@@ -213,11 +223,11 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $l
  */
 function shn_mpr_search_navigation_top($rs)
 {
-    echo '<b>'.$rs->RecordCount().' Records were found</b><br>';    
+    shn_mpr_search_nav_arrows($rs);    
 }
 
 /**
- * shn_mpr_search_navigation_bottom 
+ * shn_mpr_search_navigation_bottom NOT NEEDED
  * 
  * @param mixed $rs 
  * @access public
@@ -225,7 +235,59 @@ function shn_mpr_search_navigation_top($rs)
  */
 function shn_mpr_search_navigation_bottom($rs)
 {
-    echo '<b>'.$rs->RecordCount().' Records were found</b><br>';    
+    //NOTE: I know this looks really dumb, but 
+    //Later we are going to populate some bottom stuff
+    echo '<strong>Total '.$rs->RecordCount().' Records were found</strong><br />';
+    shn_mpr_search_nav_arrows($rs);
+}
+
+function shn_mpr_search_nav()
+{
+    global $global;
+    global $conf;
+
+    $limit = $conf['mod_mpr']['search']['limit'];
+    $offset = $_GET['offset']; 
+    $total = $_SESSION['mpr']['search']['record_count'];
+
+    $delta = $total - $offset - $limit;
+
+    echo '<strong>Total '.$total.' Records were found</strong><br />';    
+?>  
+<DIV id="paging_nav">
+<UL>
+<?php   
+    //Back Arrows
+    if( $offset > 0 ){
+        //Right Back
+        echo '<li><a href="index.php?mod='.$global['module'].
+            '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
+            '&offset=0'.'">'.
+            '|&lt;&lt;First '.$limit.' Records </a></li>';   
+        //With Limit Jump
+        echo '<li><a href="index.php?mod='.$global['module'].
+            '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
+            '&offset='. ( $offset - $limit ) . '">'.
+            '&lt;&lt;Previous '.$limit.' Records </a></li>';
+    }
+    //Forward Arrows
+    if( $delta > 0 ){
+        //With Limit Jump
+        echo '<li><a href="index.php?mod='.$global['module'].
+            '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
+            '&offset='. ( $offset + $limit ) . '">'.
+            'Next '.($delta < $limit ? $delta : $limit).' Records &gt;&gt; </a></li>';
+        //Right at Last
+        echo '<li><a href="index.php?mod='.$global['module'].
+            '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
+            '&offset='.($total - $limit).'">'.
+            'Last  '. $limit.' Records &gt;&gt;|</a></li>';
+    }
+?>
+</UL>
+</DIV>
+<?php
+
 }
 /* }}} */
 
@@ -338,8 +400,18 @@ function shn_mpr_search_get_trackers($p_uuid)
 }
 /* }}} */
 
+/* {{{ Search Select */
+/**
+ * shn_mpr_search_select 
+ * 
+ * @param mixed $details 
+ * @access public
+ * @return void
+ */
 function shn_mpr_search_select($details)
 {
+    shn_mpr_search_nav();
+
     global $global;
 ?>
 <DIV ID="result">
@@ -385,7 +457,9 @@ function shn_mpr_search_select($details)
 <a title="Back" href="index.php?<?=$_SERVER['QUERY_STRING']?>&seq=tracker_back">Back</a>
 </DIV>
 <?php
+    shn_mpr_search_nav();
 }
+/* }}} */
 
 /* {{{ Search Query Class */
 /**
@@ -403,84 +477,65 @@ class SearchQuery
     var $__address;
     var $__phone;
     var $__email;
+    var $__serial_no;
     
     var $__sql;
 
     var $__joins;
     var $__where;
 
+    var $isvictim;
+
     function set_name($name)
     {
         $this->__name = $name;
-        $this->__process_name();
-    }
-
-    function __process_name()
-    {
-        if($this->__name){
-            //split name
-            $names = preg_split("/\s+/",$this->__name);
-            foreach($names as $name){
-                $encode1 .= " phonetic_word.encode1 LIKE '".soundex($name)."' OR ";
-                $encode2 .= " phonetic_word.encode2 LIKE '".metaphone($name)."%' OR ";
-            }
-            $encode1 = substr($encode1,0,strlen($encode1) - 3);
-            $encode2 = substr($encode2,0,strlen($encode2) - 3);
-            
-            //TODO: Need to check this later
-            $this->__joins[] = " LEFT OUTER JOIN phonetic_word ON " .
-                " person_status.p_uuid = phonetic_word.pgl_uuid ";
-
-            $this->__where[] = " ( ($encode1) OR ($encode2) ) ";
-
-            return true;
-
-        }else{
-            return false;
+        //split name
+        $names = preg_split("/\s+/",$this->__name);
+        foreach($names as $name){
+            $encode1 .= " phonetic_word.encode1 LIKE '".soundex($name)."' OR ";
+            $encode2 .= " phonetic_word.encode2 LIKE '".metaphone($name)."%' OR ";
         }
+        $encode1 = substr($encode1,0,strlen($encode1) - 3);
+        $encode2 = substr($encode2,0,strlen($encode2) - 3);
+           
+        //TODO: Need to check this later
+        $this->__joins[] = " LEFT OUTER JOIN phonetic_word ON " .
+            " person_status.p_uuid = phonetic_word.pgl_uuid ";
+
+        $this->__where[] = " ( ($encode1) OR ($encode2) ) ";
     }
 
     function set_address($address)
     {
+        //todo CLEAN
         $this->__address = $address;
-        $this->__process_address();
+
+        //set wild cards between
+        $local_address = $this->__address;
+        preg_replace("/\s+/","%",$local_address);
+
+        $this->__joins[] = " LEFT OUTER JOIN location_details ON " .
+            " person_status.p_uuid = location_details.poc_uuid ";
+
+        $this->__where[] = " location_details.address LIKE '$local_address' ";
     }
-    
-    function __process_address()
+
+    function set_serial_no($serial_no)
     {
-            if($this->__address){
-            //set wild cards between
-            $address = $this->__address;
-            preg_replace("/\s+/","%",$address);
+        $this->__serial_no = $serial_no;
 
-            $this->__joins[] = " LEFT OUTER JOIN location_details ON " .
-                " person_status.p_uuid = location_details.poc_uuid ";
-
-            $this->__where[] = " location_details.address LIKE '$address' ";
-            
-            return true;
-        }else{
-            
-            return false;
-        }
+        $this->__joins[] = " LEFT OUTER JOIN identity_to_person ON ".
+                " person_status.p_uuid = identity_to_person.p_uuid ";
+        $this->__where[] = " identity_to_person.serial LIKE '%{$this->__serial_no}%' ";
     }
 
     function set_phone($phone)
     {
         $this->__phone = $phone;
-        $this->__process_phone();
-    }
 
-    function __process_phone()
-    {
-        if($this->__phone){
-            $this->__joins[] = " LEFT OUTER JOIN contact ON ".
-                " person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
-            $this->__where[] = " contact.contact_value LIKE '{$this->__phone}' "; 
-            return true;
-        }else{
-            return false;
-        }
+        $this->__joins[] = " LEFT OUTER JOIN contact ON ".
+            " person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
+        $this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' "; 
     }
 
     function get_sql()
@@ -491,11 +546,15 @@ class SearchQuery
             $sql .= $joins ;
         
         if($this->__where){
-            $sql .= " WHERE ";
+            $sql .= " WHERE (";
             foreach ($this->__where as $where)
                 $sql .= $where . " OR ";
 
             $sql = substr($sql,0,strlen($sql) - 3);
+            $sql .= " ) ";
+            
+            if($this->isvictim)
+                $sql .= " AND person_status.isvictim = 'TRUE' ";
             
             $sql .= " GROUP BY 1";
         }       
