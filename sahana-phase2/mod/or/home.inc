@@ -35,7 +35,7 @@ if(!$res->EOF){
             <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
             </p>
              <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
-            <p><u><b>Facilities</b></u><br>
+            <p><u><b>Facilities</b></u><br />
                 <ul>
                     <li>Register and Manage organization information</li>
                     <li>Register and Manage organization operation information</li>
@@ -67,16 +67,13 @@ if(!$res->EOF){
                     <b><?php echo $vol_no?></b>  Volunteers have registered
                 </a>
         </div>
-              </br></br></br>
 		<div id="display">
         <center>
             <h3>Last 10 Organizations to Register</h3>
             </center>
-        </br>
+        <br />
 
-		</div>
-        <div>
+		</div><br /><br />
 <?php
         shn_or_viewform_allorg(10);
 ?>
-    </div>
