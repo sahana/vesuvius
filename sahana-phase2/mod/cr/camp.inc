@@ -158,12 +158,12 @@ function _shn_cr_sel_map(){
 	echo "<h2>"._("Area Map")."</h2>";
 	if($conf['gis']){
 	  include $global['approot']."/mod/gis/conf.inc";
-	  if($conf['mod_gis']=='gmap'){
+	  if($conf['mod_gis']=='google_maps'){
 	  	/*
 		 	 * google maps
-		 	 * check for online connectivity
+		 	 *@todo check for online connectivity: exit gracefully
 	  	*/
-	 		include_once $global['approot']."/mod/gis/handler_gmap.inc";
+	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			echo "Enter Camp Location. Click on Map where camp exists";
 			init_map($conf['gmap_key']);
 			load_map();
