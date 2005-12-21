@@ -20,7 +20,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/acl_api.inc';
 include_once $global['approot']. 'inc/lib_security/acl.inc';
 
-function shn_acl_form_users(){
+function shn_acl_form_users($multi=false){
   global $global;
     $db=$global['db'];
     
@@ -39,7 +39,8 @@ function shn_acl_form_users(){
         
         $res->MoveNext();
     }
-$user_arr=array('desc'=>_("Users : "),'type'=>"multiselect",'size'=>4,'name'=>"users[]",'options'=>$users,
+$type=$multi?"select":"multiselect";
+$user_arr=array('desc'=>_("Users : "),'type'=>$type,'size'=>4,'name'=>"users[]",'options'=>$users,
                         'br'=>'1'
                         );
 return $user_arr;
@@ -71,7 +72,30 @@ return $role_arr;
 
 }
 
-function shn_acl_form_action_groups($module){
+function shn_acl_form_actions($module){
+global $global;
+    $db=$global['db'];
+    $acl=new SahanaACL(NULL);
+   
+    $act_arr=$acl->_shn_get_module_actions($module);
+    $actions=array();
+    $i=0;
+	while($i<=count($act_arr)){
+        array_push(
+            $actions,
+            array(  'drop_desc'=>$act_arr[$i]["name"],
+                    'value'=>$act_arr[$i]["value"]
+            )       
+        );
+        
+        $i=$i+1;
+    }
+$arr=array('desc'=>_("Actions : "),'type'=>"multiselect",'size'=>4,'name'=>"actions[]",'options'=>$actions,'br'=>'1'
+                        );
+return $arr;
+}
+
+function shn_acl_form_action_groups($module,$multi=true){
 global $global;
     $db=$global['db'];
     $acl=new SahanaACL(NULL);
@@ -89,10 +113,44 @@ global $global;
         
         $i=$i+1;
     }
-$arr=array('desc'=>_("Action Groups : "),'type'=>"multiselect",'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
+//echo $multi;
+	//$select=$multi?"multiselect":"select";
+$arr=array('desc'=>_("Action Groups : "),'type'=>$select,'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
                         );
+
+$arr=$multi?array('desc'=>_("* Action Groups:"),'type'=>"multiselect",'size'=>4,'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1'):array('desc'=>_("* Action Groups:"),'type'=>"dropdown",'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1');    
+
 return $arr;
 }
+
+function shn_acl_form_action_groups_id($module,$multi=true){
+global $global;
+    $db=$global['db'];
+    $acl=new SahanaACL(NULL);
+   
+    $act_group_arr=$acl->_shn_get_module_action_groups($module);
+    $action_groups=array();
+        $i=0;
+	while($i<=count($act_group_arr)){
+        array_push(
+            $action_groups,
+            array(  'drop_desc'=>$act_group_arr[$i]["name"],
+                    'value'=>$act_group_arr[$i]["id"]
+            )       
+        );
+        
+        $i=$i+1;
+    }
+//echo $multi;
+	//$select=$multi?"multiselect":"select";
+$arr=array('desc'=>_("Select the Action Group : "),'type'=>$select,'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
+                        );
+
+$arr=$multi?array('desc'=>_("* Action Groups:"),'type'=>"multiselect",'size'=>4,'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1'):array('desc'=>_("* Action Groups:"),'type'=>"dropdown",'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1');    
+
+return $arr;
+}
+
 
 function shn_user_orgs(){
 

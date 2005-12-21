@@ -314,6 +314,23 @@ function _shn_get_roles(){
 * gets roles assigned to an user
 *@param string user
 */
+function _shn_is_user_role($user,$role){
+    $q="select id from gacl_aro_groups where value='sahana'";
+    $res=$this->db->Execute($q);
+    $group_id=$res->fields[0];
+    $q="select gacl_aro_groups.id from gacl_aro_groups,gacl_groups_aro_map,gacl_aro where parent_id={$group_id} and gacl_aro.value='{$user}' and gacl_groups_aro_map.aro_id=gacl_aro.id and gacl_groups_aro_map.group_id={$role}";
+
+    $res=$this->db->Execute($q);
+    if(!$res->EOF)
+	    return true;
+    else
+        return false;
+}
+
+/**
+* gets roles assigned to an user
+*@param string user
+*/
 function _shn_get_roles_of_user($user){
     //$res=$this->acl_get_groups ("users",$user,NULL, 'ARO');
     $q="select id from gacl_aro_groups where value='sahana'";
@@ -367,6 +384,7 @@ function _shn_get_module_action_groups($module){
     $group_id=$res->fields[0];
     $q="select id,value,name from gacl_axo_groups where parent_id={$group_id}";
     $res=$this->db->Execute($q);
+    if($res!=NULL){
     while(!$res->EOF){
        $act_groups[]=array(
        'id' =>$res->fields[0].' ',
@@ -376,6 +394,8 @@ function _shn_get_module_action_groups($module){
        $res->MoveNext();
     }
 	return $act_groups;
+    }
+    return false;
 }
 
 
@@ -390,6 +410,7 @@ function _shn_get_module_actions($module){
         $group_id=$act_groups[$i]['id'];
         $q="select id,value,name from gacl_groups_axo_map,gacl_axo where group_id={$group_id} and gacl_axo.id=gacl_groups_axo_map.axo_id";
         $res=$this->db->Execute($q);
+        if($res!=NULL){
         while(!$res->EOF){
             $act[]=array(
             'id' =>$res->fields[0].' ',
@@ -400,6 +421,24 @@ function _shn_get_module_actions($module){
         }
         $i=$i+1;
     }
+    return $act;
+    }
+    return false;
+    //return array_unique($act);
+}
+
+
+function _shn_get_action_group_actions($group_id){
+        $q="select id,value,name from gacl_groups_axo_map,gacl_axo where group_id={$group_id} and gacl_axo.id=gacl_groups_axo_map.axo_id";
+        $res=$this->db->Execute($q);
+        while(!$res->EOF){
+            $act[]=array(
+            'id' =>$res->fields[0].' ',
+            'name'=>$res->fields[2].' ',
+            'value'=>$res->fields[1].' ',
+             );
+            $res->MoveNext();
+        }
     return $act;
     //return array_unique($act);
 }

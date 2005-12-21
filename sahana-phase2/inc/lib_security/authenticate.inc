@@ -104,16 +104,7 @@ function shn_authenticate_user()
 	/*need to modify the function to work with the sahana database scheme
 	and adodb code, till then return true. 
 	*/
-    if("enable"==$_GET['do']){
-            shn_acl_set_state();
-	        $user_data["result"]=ACLCHANGE;
-        }
-    if("disable"==$_GET['do']){
-	    if (shn_acl_check_perms_action($_SESSION["user_id"],"shn_acl_set_state")){
-            shn_acl_set_state();
-	        $user_data["result"]=ACLCHANGE;
-        }
-     }	
+  
     global $global;
     $db=$global['db'];
 	$user_data=array("user_id"=>1,"user"=>"guest");
@@ -177,8 +168,6 @@ function shn_change_password($user,$old_pwd,$new_pwd)
                     WHERE p_uuid = '$user'
                     AND password = '$password_digest'";
         $res=$db->Execute($q);
-        echo $q;
-echo $res->fields[0];
 	if($res->EOF){
 		return false;
 	}
@@ -186,7 +175,6 @@ echo $res->fields[0];
         // Formulate the SQL to find the user
         $q = "  update users set password = '$password_digest'
                     WHERE p_uuid = '$user'";
-                 echo $q;
         $res=$db->Execute($q);
 	return $res;
 }
