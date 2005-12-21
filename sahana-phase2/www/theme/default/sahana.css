@@ -397,7 +397,7 @@ form ul.list {
 
 #formset label { 
 	width: 250px; 
-	height:0px;
+	/*height:0px;*/
 	float: left; 
 	text-align: left; 
 	margin: 0px 10px 10px 10px; 
@@ -455,15 +455,9 @@ form ul.list {
 }
 
 #home ul{
-	margin-left: 200px;
+	/*margin-left: 200px;*/
 	padding-bottom:112px;
 	padding: 5px 5px 5px 5px; 
-}
-
-#homerms{
-	background-color: #DEE3E7; 
-	position:relative;
-	border: 1px #98AAB1 solid;
 }
 
 #display{
@@ -472,10 +466,6 @@ form ul.list {
 	padding: 5px 5px 5px 5px; 
 }
 
-#displaycr{
-	position:relative;
-	padding: 5px 5px 5px 5px; 
-}
 
 #result_msg{
 	background-color: #DEE3E7; 
@@ -489,10 +479,6 @@ form ul.list {
 	padding: 5px 5px 15px 5px;
 }
 
-#homerms img{
-	display:block;
-	height: 100%;
-}
 
 #result p{
 	font-size:115%;
@@ -508,7 +494,8 @@ form ul.list {
 	
 #home p{
 	text-align:top;
-	padding-left:200px;
+/*	padding-left:200px;*/
+  padding: 10px;
 	padding-top:10px;
 	padding-bottom:10px;
 	padding-right:10px;
@@ -532,20 +519,11 @@ form ul.list {
 	padding-bottom:50px;
 }
 
-#homerms ul{
-	font-size:150%;
-	margin-left:250px;
-	margin-top:-200px;
-	padding-bottom:112px;
-}
 
 #result ul li{
 	line-height:1.2;
 }
 
-#homerms ul li{
-	line-height:1.2;
-}
 
 #result table{
 	background:white;
@@ -578,31 +556,6 @@ form ul.list {
 	font-size:150%;
 	color:#0E72A4;
 	padding: 15px 15px 15px 15px;
-}
-
-#rmsforms fieldset{ 
-	background: #efefef;
-	padding: 10px; 
-	border: #036 1px dashed; 
-	width: 600px
-}
-
-#rmsforms legend{ 
-	background: #dee3e7; 
-	border: #26a solid 1px; 
-	padding: 2px 10px
-}
-
-#rmsforms label { 
-	width: 100px; 
-	float: left; 
-	text-align: left; 
-	margin: 0px 10px 10px 10px; 
-	clear: both
-}
-
-#rmsforms label#txtarea, value#txtarea{ 
-	height: 50px;
 }
 
 #formset value{ 
@@ -648,30 +601,6 @@ form ul.list {
 	padding: 1px 1px 1px 1px;
 }
 
-#rmsforms input,#rmsforms textarea,#rmsforms select{ 
-	background: #fff; 
-	border: #26a solid 1px; 
-	margin-bottom: 10px; 
-	font-size: 110%;
-}
-
-#rmsforms a#clear{ 
-	border: #f00 dotted 1px; 
-	font-size: 120%; 
-	color: #d33; 
-	padding: 1px 1px 1px 1px;
-}
-
-#rmsforms a#finish{ 
-	border: #0f0 dotted 1px; 
-	font-size: 120%; 
-	color: #2a6; 
-	padding: 1px 1px 1px 1px;
-}
-
-#rmsforms a:hover { 
-	color: #F00;
-}
 
 #right{
 	width:30%;
