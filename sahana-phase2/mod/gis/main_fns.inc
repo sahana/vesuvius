@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: main_fns.inc,v 1.2 2005-12-21 04:10:41 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -38,12 +38,12 @@ function shn_gis_show()
 	echo "<h2>"._("Area Map")."</h2>";
 	if($conf['gis']){
 		include $global['approot']."/mod/gis/conf.inc";
-		if($conf['mod_gis']=='gmap'){
+		if($conf['mod_gis']=='google_maps'){
 			/*
 			 * google maps
 			 * check for online connectivity
 			*/
-			include_once $global['approot']."/mod/gis/handler_gmap.inc";
+			include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			//echo "GIS: Google Map";
 			init_map($conf['gmap_key']);
 			load_map();

@@ -1,0 +1,14 @@
+Geographic Information System and Mapping Module - Sahana2
+----------------------------------------------------------
+
+Welcome to GIS and Mapping. This module is a skeleton module extensible in the ability to 
+add custom GIS Modules within it. 
+
+@TODO:	add to readme file
+
+To Create a new GIS-Module, follow these steps:
+
+1. Create a folder within the GIS module, to reflect the name of the GIS. 
+2. Within that folder, create dbcreate.sql, and any changes to the database to it.
+
+Happy Hacking and Mapping ;)

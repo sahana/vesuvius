@@ -5,10 +5,10 @@ $conf['mod_gis_name'] = "GIS Mapping";
 
 # GIS Module Name
 # options
-#  gmap -  google maps [online]
+#  googel_maps -  google maps [online]
 #  mapserver - php/mapserver
 
-$conf['mod_gis'] = 'gmap';
+$conf['mod_gis'] = 'google_maps';
 
  # if google maps, map api key
  # key should be registered to hosted url

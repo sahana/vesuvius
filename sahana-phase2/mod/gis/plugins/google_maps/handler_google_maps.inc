@@ -19,7 +19,8 @@ function load_map(){
 	  <script type="text/javascript">
 		   //<![CDATA[
        var map = new GMap(document.getElementById("map"));
-       map.addControl(new GSmallMapControl());
+			 map.addControl(new GLargeMapControl());
+       //map.addControl(new GSmallMapControl());
 			 map.addControl(new GMapTypeControl());//satellite image switch
        map.centerAndZoom(new GPoint(-122.1419, 37.4419), 4);
        //map.centerAndZoom(new GPoint(79.8000, 7.4419),8);
@@ -34,6 +35,23 @@ function load_map(){
 <?php
 }
 
+/*
+ * add existing markers from db
+*/
+function add_marker_db($array)
+{
+?>
+  <script type="text/javascript">
+		var point1 = new GPoint(-122.1419, 37.4419);
+		var marker1 = new GMarker(point1);
+		map.addOverlay(marker1);            
+	</script>
+<?php
+}
+
+/*
+ * click and add markers
+*/
 function add_marker($name)
 {
 ?>
@@ -46,6 +64,7 @@ function add_marker($name)
 			} 
 			else if (point) {
 				map.addOverlay(new GMarker(point));
+				<?php //store coordinates in session variable; ?>
 			}
 		});
 	</script>
@@ -53,11 +72,22 @@ function add_marker($name)
 }
 
 /**
- * 
+ * info on existing markers
 */
-function info_event(){
+function info_event($query_results){
 ?>
-
+ <script type="text/javascript">
+ 	GEvent.addListener(map, 'click', function(overlay, point) {
+  	if (overlay) { 
+			//display information on marker
+			var html = "test";
+			overlay.openInfoWindowHtml(html);
+		}
+		else{
+			//dont handle point
+		}
+	});
+ </script>			 
 <?php
 }
 ?>
