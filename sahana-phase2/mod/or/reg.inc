@@ -61,7 +61,7 @@ Fields marked with * are required (entry is compulsory)
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
   
    // base location
-    $location_inf = shn_location_form('1','4'); 
+    $location_inf = shn_location_form_org('1','4'); 
                               
     // Contact infomation
     $contact=_shn_or_display_contact_person($error,true,null);
@@ -129,7 +129,7 @@ Fields marked with * are required (entry is compulsory)
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
    
     // base location
-    $location_inf = shn_location_form('1','4'); 
+    $location_inf = shn_location_form_org('1','4'); 
 
     $contact=_shn_or_display_contact_person($error);
 
@@ -220,7 +220,7 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
 
 
     // base location
-   $location_inf = shn_location_form('1','4'); 
+   $location_inf = shn_location_form_org('1','4'); 
 // call OR name
    $services=array();
    $sectors=_shn_or_display_sector($error);
