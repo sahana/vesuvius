@@ -58,6 +58,7 @@ function shn_front_controller()
     // check the users access permissions for this action
     $req_act="shn_".$module."_".$action;
     $acl_enabled=shn_acl_get_state();
+//    $module_enabled=shn_acl_is_enabled($module);
     $allow = (shn_acl_check_perms_action($_SESSION["user_id"],$req_act) || 
              !$acl_enabled)? true : false;
     // include the html head tags
@@ -106,7 +107,7 @@ function shn_front_controller()
     shn_include_page_section('mainmenu',$module);
 
     // include the mainmenu provided there is not a module override
-    if ($acl_enabled) shn_include_page_section('login',$module);
+    shn_include_page_section('login',$module);
 
     // now include the main content of the page
 ?>  
