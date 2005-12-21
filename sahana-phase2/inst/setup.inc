@@ -175,6 +175,7 @@ function shn_setup_database()
         shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
         shn_setup_run_sqlscript($db,'inst/mysql-acl.sql');
         shn_setup_run_sqlscript($db,'mod/rms/ins/rms.sql');
+        shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     }
     if ($_POST['dbconfig']=='y') 
         shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
