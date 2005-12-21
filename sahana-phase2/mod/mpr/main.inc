@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.12 2005-12-14 12:55:22 janakawicks Exp $ */
+/* $Id: main.inc,v 1.13 2005-12-21 04:35:12 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -140,29 +140,44 @@ function shn_mpr_editmp()
 	    break;
 
         case 'add_tracker' :
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
-            $_POST = null;
-            $_SESSION['mpr_add']['add_tracker'] = null;
-            echo '<h1 align="center">Add a tracker to
-'.$_SESSION['mpr_edit']['entry']['full_name'].' </h1>';
-            $_SESSION['mpr_add']['add_tracker']['p_uuid'] =
-$_SESSION['mpr_edit']['entry']['p_uuid'];
-                // TODO: check the p_uuid exists or not *** VERY URGENT
-            shn_mpr_addmp_reporter();
+        	echo '<h1 align="center">Edit Missing Person Entry</h1>';
+	        $_POST = null;
+	        $_SESSION['mpr_add']['add_tracker'] = null;
+	        echo '<h1 align="center">Add a tracker to '.
+	            $_SESSION['mpr_edit']['entry']['full_name'].' </h1>';
+            $_SESSION['mpr_add']['add_tracker']['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+	        // TODO: check the p_uuid exists or not *** VERY URGENT
+	        shn_mpr_addmp_reporter();
 	    break;
 
         case 'report_person' :
             echo '<h1 align="center">Edit Missing Person Entry</h1>';
             if(shn_mpr_addmp_reporter_validate()){
-                shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
-                shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']); 
-                $_SESSION['mpr_add']['add_tracker']=null;
+                if($_POST['reported_before'] == 'yes') {
+                    require_once($global['approot'].'mod/mpr/search.inc');
+                    $search_sql = new SearchQuery();
+                    $search_sql->set_name($_POST['rep_full_name']);
+                    $search_sql->set_address($_POST['rep_address']);
+                    $search_sql->set_phone($_POST['rep_phone']);
+                    $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,-1,true);
+                    shn_mpr_search_select($arr);
+                }else{
+                    shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
+                    shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']); 
+                    $_SESSION['mpr_add']['add_tracker']=null;
+                }
             }else{
                 echo '<h1 align="center">Add a tracker to
 '.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
                 shn_mpr_addmp_reporter(true);
             }            
         break; 
+        case 'tracker_select' :
+            shn_add_person_to_report ( $_SESSION['mpr_edit']['entry']['p_uuid'],
+                $_GET['tracker_id'], $_SESSION['mpr_add']['report_person']['rep_relation']);
+            $_SESSION['mpr_add']['add_tracker']=null;
+            shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
+        break;
         case 'del_tracker' :
             echo '<h1 align="center">Edit Missing Person Entry</h1>';
             //TODO : Clean the input
@@ -213,19 +228,37 @@ function shn_mpr_add_tracker()
     global $global;
     require($global['approot'].'mod/mpr/add.inc');
     //Controller
-    switch ($_POST['seq']) {
+    switch ($_REQUEST['seq']) {
 	    case 'report_person' :
             if(shn_mpr_addmp_reporter_validate()){
-                shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
-                // TODO: redirect back to search results (that'll be great)
-                shn_mpr_default();                
-                $_SESSION['mpr_add']['add_tracker']=null;
+                 if($_POST['reported_before'] == 'yes') {
+                    require_once($global['approot'].'mod/mpr/search.inc');
+                    $search_sql = new SearchQuery();
+                    $search_sql->set_name($_POST['rep_full_name']);
+                    $search_sql->set_address($_POST['rep_address']);
+                    $search_sql->set_phone($_POST['rep_phone']);
+                    $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,-1,true);
+                    shn_mpr_search_select($arr);
+                }else{
+                    shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
+                    // TODO: redirect back to search results (that'll be great)
+                    shn_mpr_default();                
+                    $_SESSION['mpr_add']['add_tracker']=null;
+                }
             }else{
                 echo '<h1 align="center">Add a tracker to
 '.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
                 shn_mpr_addmp_reporter(true);
             }
         break;
+        
+        case 'tracker_select' :
+            shn_add_person_to_report ( $_SESSION['mpr_add']['add_tracker']['p_uuid'], 
+                $_GET['tracker_id'], $_SESSION['mpr_add']['report_person']['rep_relation']);
+            shn_mpr_default();
+            $_SESSION['mpr_add']['add_tracker']=null;
+        break;
+
         default:
             //clean the $_POST to remove the conflicts
                 $_POST = null;
@@ -283,26 +316,50 @@ function shn_mpr_addmp()
         $heading = '<h1 align="center">Missing Person Entry</h1>';
 
     //Controller
-	switch ($_POST['seq']) {
+	switch ($_REQUEST['seq']) {
 	    case 'entry':
 	        if(shn_mpr_addmp_validate()){
 	            //clean the $_POST to remove the conflicts
 	            $_POST = null;
                 echo $heading;
-                echo '<h2 align="center">(Reporting Person)</h2>';
-                shn_mpr_addmp_reporter();
+                echo '<h2 align="center">(Upload Person\'s Picture)</h2>';
+	            shn_mpr_addmp_upload();
 	        }else{
                 echo $heading;
                 echo '<h2 align="center">(Person Details)</h2>';
 	            shn_mpr_addmp_entry(true);
             }
 	    break;
+
+        case 'tracker_back' :
+            echo $heading;
+            echo '<h2 align="center">(Reporting Person)</h2>';
+            shn_mpr_addmp_reporter();
+        break;
 	
+        case 'tracker_select' :
+            $_SESSION['mpr_add']['entry']['tracker_id'] = $_GET['tracker_id'];
+            echo $heading;
+            echo '<h2 align="center">(Final Confirmation)</h2>';
+            shn_mpr_addmp_confirm();
+        break;
+
 	    case 'report_person' :
 	        if(shn_mpr_addmp_reporter_validate()){
-                echo $heading;
-                echo '<h2 align="center">(Upload Person\'s Picture)</h2>';
-	            shn_mpr_addmp_upload();
+                //if reported before then send to the search 
+                if($_POST['reported_before'] == 'yes') {
+                    require_once($global['approot'].'mod/mpr/search.inc');
+                    $search_sql = new SearchQuery();
+                    $search_sql->set_name($_POST['rep_full_name']);
+                    $search_sql->set_address($_POST['rep_address']);
+                    $search_sql->set_phone($_POST['rep_phone']); 
+                    $arr = shn_mpr_search_result_vw($search_sql->get_sql(),-1,-1,true);
+                    shn_mpr_search_select($arr);
+                }else{
+                    echo $heading;
+                    echo '<h2 align="center">(Final Confirmation)</h2>';
+	                shn_mpr_addmp_confirm();
+                }
 	        }else{
                 echo $heading;
                 echo '<h2 align="center">(Reporting Person)</h2>';
@@ -311,14 +368,14 @@ function shn_mpr_addmp()
 	    break;
 	
 	    case 'upload_pic' :
-	        if(! shn_mpr_addmp_upload_pic()){
+	        if(shn_mpr_addmp_upload_pic()){
+                echo $heading;
+                echo '<h2 align="center">(Reporting Person)</h2>';
+                shn_mpr_addmp_reporter();
+	        }else{
                 echo $heading;
                 echo '<h2 align="center">(Upload Person\'s Picture)</h2>';
                 shn_mpr_addmp_upload(true);
-	        }else{
-                echo $heading;
-                echo '<h2 align="center">(Final Confirmation)</h2>';
-	            shn_mpr_addmp_confirm();
             }
 	    break;
 	

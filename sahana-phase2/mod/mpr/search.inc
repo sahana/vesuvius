@@ -13,7 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-
+/* {{{ Search Form */
 /**
  * shn_mpr_search_default 
  * 
@@ -33,8 +33,9 @@ function shn_mpr_search_default()
     shn_form_hidden(array('type'=>$_GET['type']));
     shn_form_fclose();
 }
+/* }}} */
 
-
+/* {{{ Search Advance Form */
 /**
  * shn_mpr_search_advance 
  * 
@@ -71,7 +72,9 @@ function shn_mpr_search_advance()
     shn_form_fclose();
 
 }
+/* }}} */
 
+/* {{{ Search Query Generation (OLD) */
 /**
  * shn_mpr_search_result 
  * 
@@ -79,7 +82,7 @@ function shn_mpr_search_advance()
  * @return void
  */
 function shn_mpr_search_result()
-{
+{   
     //@todo: rewrite
 
     $name = trim($_POST['name']);
@@ -117,7 +120,6 @@ function shn_mpr_search_result()
                     WHERE ((b.serial LIKE '%$idcard%') OR (($encode1) OR ($encode2))) $type
                     GROUP BY 1";
 
-    
     if(!($name || $idcard)){
 	    if($post_type == 'missing')
 	        $sub_sql = "SELECT p_uuid FROM person_status WHERE opt_status
@@ -131,10 +133,10 @@ isvictim='TRUE'";
         shn_mpr_search_result_vw($sub_sql );
     }else
         shn_mpr_search_result_vw($sql);
-        
 }
+/* }}} */
 
-
+/* {{{ Search Result Display  (OLD) */
 /**
  * shn_mpr_search_result_vw 
  * 
@@ -144,7 +146,7 @@ isvictim='TRUE'";
  * @access public
  * @return void
  */
-function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $limit=-1,$offset=-1)
+function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $limit=-1,$offset=-1, $return=false)
 {
     global $global;
     global $conf;
@@ -185,6 +187,9 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $l
         WHERE a.p_uuid IN ($subquery)",$limit,$offset);
     }
     $arr = $rs->GetAll();
+    if($return)
+        return $arr;
+    else{
     shn_mpr_search_navigation_top($rs);
 ?>
 <DIV ID="result">
@@ -194,9 +199,11 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $l
 ?>
 </DIV>
 <?php
+    }
 }
+/* }}} */
 
-
+/* {{{ Navigation Controll */
 /**
  * shn_mpr_search_navigation_top 
  * 
@@ -220,8 +227,9 @@ function shn_mpr_search_navigation_bottom($rs)
 {
     echo '<b>'.$rs->RecordCount().' Records were found</b><br>';    
 }
+/* }}} */
 
-
+/* {{{ Display Results  (OLD) */
 /**
  * shn_mpr_search_show_result 
  * 
@@ -231,11 +239,15 @@ function shn_mpr_search_navigation_bottom($rs)
  */
 function shn_mpr_search_show_result($details)
 {
+    
     global $global;
+    if($_GET['act']!='search')
+        $select = true;
 ?>
 <TABLE>
 <THEAD>
     <TD>Picture</TD><TD>Name</TD><TD>Appearance</TD><TD>Missing Details</TD><TD>Status</TD>
+    <?=($select?'<TD>Select</TD>':''); ?>
 </THEAD>
 <?php
     foreach($details as $detail){
@@ -263,7 +275,7 @@ function shn_mpr_search_show_result($details)
             $fullname['p_uuid'].'">'.
             $fullname['full_name'].'</a><br />';
     
-    echo "<br /";
+    echo "<br />";
     echo '<a title="Add Tracker"'.
         'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
         $detail['p_uuid'].'&name='.$detail['full_name'].'">'.
@@ -294,6 +306,10 @@ function shn_mpr_search_show_result($details)
 href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><br
 />(Click to change to found)</a>';
 ?>      </TD>
+        <?=($select?'<TD><a title="Select" href="index.php?'.
+            $_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].
+            '&tracker_relation='.$_POST['rep_relation'].'&seq=tracker_select" > Select </a>'.
+            '</TD>':''); ?>
     </TR>
 <?php
     }
@@ -301,8 +317,9 @@ href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><
 </TABLE>
 <?php
 }
+/* }}} */
 
-
+/* {{{ Get Trackers */
 /**
  * shn_mpr_search_get_trackers 
  * 
@@ -319,4 +336,171 @@ function shn_mpr_search_get_trackers($p_uuid)
     $arr = $global['db']->GetAll($sql);
     return $arr;
 }
+/* }}} */
+
+function shn_mpr_search_select($details)
+{
+    global $global;
+?>
+<DIV ID="result">
+<TABLE>
+<THEAD>
+    <TD>Picture</TD><TD>Name</TD><TD>Status</TD><TD>Select</TD>
+</THEAD>
+<?php
+    foreach($details as $detail){
+?>
+    <TR>
+        <TD>
+<?php
+    shn_show_thumb($detail['p_uuid']);
+?>
+        </TD>
+        <TD>
+<?php
+    echo '<a title="View" href="index.php?mod='.$global['module'].'&act=viewmp&id='.
+            $detail['p_uuid'].'">'.
+            $detail['full_name'].'</a>'.
+        '<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+?>
+        </TD>
+        <TD>
+<?php
+    echo shn_get_field_opt($detail['opt_status'],'opt_status');
+    if($detail['opt_status'] == 'mis')
+        echo '</br /><a title="Change the status to Alive & Well" '.
+            'href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].
+            '"><br />(Click to change to found)</a>';
+?>
+        </TD>
+        <TD><a title="Select" href="index.php?<?=$_SERVER['QUERY_STRING'].
+                '&tracker_id='.$detail['p_uuid'].
+                '&seq=tracker_select';?>" >Select</a>
+        </TD>
+    </TR>
+<?php
+    }
+?>
+</TABLE>
+<a title="Back" href="index.php?<?=$_SERVER['QUERY_STRING']?>&seq=tracker_back">Back</a>
+</DIV>
+<?php
+}
+
+/* {{{ Search Query Class */
+/**
+ * SearchQuery 
+ * 
+ * @package 
+ * @version $id$
+ * @copyright 
+ * @author 
+ * @license {@link http://www.php.net/license/3_0.txt}
+ */
+class SearchQuery
+{
+    var $__name;
+    var $__address;
+    var $__phone;
+    var $__email;
+    
+    var $__sql;
+
+    var $__joins;
+    var $__where;
+
+    function set_name($name)
+    {
+        $this->__name = $name;
+        $this->__process_name();
+    }
+
+    function __process_name()
+    {
+        if($this->__name){
+            //split name
+            $names = preg_split("/\s+/",$this->__name);
+            foreach($names as $name){
+                $encode1 .= " phonetic_word.encode1 LIKE '".soundex($name)."' OR ";
+                $encode2 .= " phonetic_word.encode2 LIKE '".metaphone($name)."%' OR ";
+            }
+            $encode1 = substr($encode1,0,strlen($encode1) - 3);
+            $encode2 = substr($encode2,0,strlen($encode2) - 3);
+            
+            //TODO: Need to check this later
+            $this->__joins[] = " LEFT OUTER JOIN phonetic_word ON " .
+                " person_status.p_uuid = phonetic_word.pgl_uuid ";
+
+            $this->__where[] = " ( ($encode1) OR ($encode2) ) ";
+
+            return true;
+
+        }else{
+            return false;
+        }
+    }
+
+    function set_address($address)
+    {
+        $this->__address = $address;
+        $this->__process_address();
+    }
+    
+    function __process_address()
+    {
+            if($this->__address){
+            //set wild cards between
+            $address = $this->__address;
+            preg_replace("/\s+/","%",$address);
+
+            $this->__joins[] = " LEFT OUTER JOIN location_details ON " .
+                " person_status.p_uuid = location_details.poc_uuid ";
+
+            $this->__where[] = " location_details.address LIKE '$address' ";
+            
+            return true;
+        }else{
+            
+            return false;
+        }
+    }
+
+    function set_phone($phone)
+    {
+        $this->__phone = $phone;
+        $this->__process_phone();
+    }
+
+    function __process_phone()
+    {
+        if($this->__phone){
+            $this->__joins[] = " LEFT OUTER JOIN contact ON ".
+                " person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
+            $this->__where[] = " contact.contact_value LIKE '{$this->__phone}' "; 
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function get_sql()
+    {
+        $sql = "SELECT person_status.p_uuid FROM person_status " ;
+        
+        foreach ($this->__joins as $joins)
+            $sql .= $joins ;
+        
+        if($this->__where){
+            $sql .= " WHERE ";
+            foreach ($this->__where as $where)
+                $sql .= $where . " OR ";
+
+            $sql = substr($sql,0,strlen($sql) - 3);
+            
+            $sql .= " GROUP BY 1";
+        }       
+        return $sql;
+    } 
+}
+/* }}} */
 ?>

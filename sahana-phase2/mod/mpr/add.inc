@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.9 2005-12-14 12:55:22 janakawicks Exp $ */
+/* $Id: add.inc,v 1.10 2005-12-21 04:35:12 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -105,7 +105,11 @@ is already exists</p>
     shn_form_text('Weight','weight','size="10"');
     shn_form_textarea('Comments','physical_comments');
     shn_form_fsclose();
-
+    
+/*     global $global; 
+    include_once($global['approot']."/inc/lib_location.inc");
+    shn_location_form(1,4);
+*/    
     shn_form_fsopen("Other Details");
     shn_form_opt_select("opt_blood_type","Blood Type");
     shn_form_textarea('Last Seen','last_seen');
@@ -698,9 +702,14 @@ function shn_mpr_addmp_commit()
     $insert_array = null;
     */
 
-        //reset $insert_array 
+    //reset $insert_array 
 
-    shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
+    if($_SESSION['mpr_add']['entry']['tracker_id']){
+        shn_add_person_to_report ($_SESSION['mpr_add']['entry']['p_uuid'],
+                $_SESSION['mpr_add']['entry']['tracker_id'],
+                $_SESSION['mpr_add']['report_person']['rep_relation']);
+    }else
+        shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
 
     //go back to the main menu
     shn_mpr_default();    
@@ -779,14 +788,20 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
     /**
      * Insert into the person_to_report
      */
+    shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['rep_relation']);
 
-    if(isset($_SESSION['mpr_add']['report_person']['rep_relation'])){
-        $insert_array['p_uuid'] = $p_uuid;
-        $insert_array['rep_uuid'] = $rep_uuid;
-        $insert_array['relation'] = $_SESSION['mpr_add']['report_person']['rep_relation'];
-    }
+
+}
+
+function shn_add_person_to_report($p_uuid, $rep_uuid, $relation)
+{
+    global $global;
+
+    $insert_array['p_uuid'] = $p_uuid;
+    $insert_array['rep_uuid'] = $rep_uuid;
+    $insert_array['relation'] = $relation;
+
     shn_db_insert($insert_array,'person_to_report',true,'p_uuid');
-
 }
 /* }}} */
 
