@@ -73,8 +73,10 @@ if(!$res->EOF){
             <h3>Last 10 Organizations to Register</h3>
             </center>
         </br>
+
+		</div>
+        <div>
 <?php
         shn_or_viewform_allorg(10);
 ?>
-		</div>
-        </div>
+    </div>
