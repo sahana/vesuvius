@@ -4,8 +4,8 @@
  */
 ?>
 <h1 align="center">Missing Person Registry</h1>
-<div id="result">
-<img src="theme/default/img/mpr.png"/>
+<div id="home">
+<!-- <img src="theme/default/img/mpr.png"/> -->
 <ul>
     <li>Missing Person Registry helps you to find people quickly in the chaos</li>
 	<br>
