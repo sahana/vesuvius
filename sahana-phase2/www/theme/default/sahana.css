@@ -657,3 +657,9 @@ form ul.list {
 	padding: 5px 5px 15px 5px; 
 	border: 3px #98AAB1 solid;
 }
+#paging_nav ul{
+       padding: 3px 0;
+}
+#paging_nav ul li {
+      display : inline;
+}
