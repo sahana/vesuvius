@@ -9,6 +9,7 @@ o Assume that php and MySQL installed and working properly.
         o php 4.3 or later
         o MySQL 4.1 or later
         o Apache web server 1.3 or later
+        o latest php4-gd libs
         
 o Download Sahana latest release (preferably 'stable' version, if available). 
   Please read README file for download instructions.
