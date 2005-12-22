@@ -14,7 +14,7 @@ function shn_home_default()
 
     <h1 align="center">Welcome to Sahana</h1>
     <div id="home">
-        <img src="theme/default/img/home_pic1.png" align="left" />
+<!--        <img src="theme/default/img/home_pic1.png" align="left" /> -->
         <p>Sahana is an Open Source disaster management system that handles the following key problems during a disaster:
 	<ul>
 	<li>Efficiently posting and finding missing persons. <br/> (use the <b>Missing Person Registry</b>)</li>
