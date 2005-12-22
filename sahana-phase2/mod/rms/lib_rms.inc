@@ -25,6 +25,25 @@ else
     $global['org_id'] = $_SESSION['org_id'];
 
 
+function _shn_rms_search_home()
+{
+//    shn_form_fopen("sc_req",null,array('req_message'=>false));
+//    shn_form_hidden(array('seq'=>'req_sch'));
+//    shn_form_fsopen('Search Keyword');
+//    shn_form_text('Enter Search Keyword','kword');
+//    shn_form_fsclose();
+//    shn_form_submit('Search');
+//    shn_form_fclose();
+?>
+<form method="POST" action="index.php?mod=rms&act=sc_req">
+    <input type="hidden" name="seq" value="req_sch">
+    <strong>Enter Search Keyword</strong> : 
+    <input type="text" name="kword" />
+    <input type="submit" value="Search"/>
+</form>
+<?php    
+}
+
 function _shn_rms_show_headder($sub='')
 {
 ?>

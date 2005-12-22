@@ -1,4 +1,4 @@
-f<?php
+<?php
 /**
 * Description for file
 *
@@ -24,18 +24,33 @@ if ($_POST['seq'] == 'confirm')
 ?>
 
 <h4><?=_("Please Confirm the information"); ?></h4>
-<label><?=_("Date"); ?></label><value><?=$_POST['date']?></value>
-<label><?=_("Name"); ?></label><value><?=$_POST['name']?></value>
-<label><?=_("Contact"); ?></label><value><?=$_POST['contact']?></value>
-<label><?=_("Address"); ?></label><value><?=$_POST['address']?></value>
-<label><?=_("Comments"); ?></label><value><?=$_POST['comments']?></value>
-<label><?=_("Category"); ?></label><value><?=get_category_name($_POST['cat_id'])?></value>
-<label><?=_("Item"); ?></label><value><?=$_POST['item']?></value>
-<label><?=_("Units"); ?></label><value><?=$_POST['units']?></value>
-<label><?=_("Quantity"); ?></label><value><?=$_POST['quantity']?></value>
+<table>
+<tr><td width="100"><?=_("Date"); ?></td><td width="200"><?=$_POST['date']?></td></tr>
+<tr><td><?=_("Name"); ?></td><td><?=$_POST['name']?></td></tr>
+<tr><td><?=_("Contact"); ?></td><td><?=$_POST['contact']?></td></tr>
+<tr><td><?=_("Address"); ?></td><td><?=$_POST['address']?></td></tr>
+<tr><td><?=_("Comments"); ?></td><td><?=$_POST['comments']?></td></tr>
+<tr><td><?=_("Category"); ?></td><td><?=get_category_name($_POST['cat_id'])?></td></tr>
+<tr><td><?=_("Item"); ?></td><td><?=$_POST['item']?></td></tr>
+<tr><td><?=_("Units"); ?></td><td><?=$_POST['units']?></td></tr>
+<tr><td><?=_("Quantity"); ?></td><td><?=$_POST['quantity']?></td></tr>
+</table>
 <br/>
 <div><h4>
 <?php
+    if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
+    {
+        _shn_rms_adderror("Please add a quantity");
+        _shn_rms_showerrors();
+
+            #more details button
+            shn_form_fopen("vw_plgs",null,array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'vw_plg'));            
+            shn_form_hidden(array('id'=>$plg['plg_id']));
+            shn_form_submit('More',"shorter");
+            shn_form_fclose();
+        return false;
+    }
     print _("If the information is correct please press 'Finish'.");
     print _("If you need to change some details"); 
     print _("please"); 
@@ -62,6 +77,14 @@ elseif ($_POST['seq'] == 'add')
     $item  = $_POST['item'];
     $units  = $_POST['units'];
     $quantity  = $_POST['quantity'];
+    
+    if(!isset($_POST['quantity']) || $quantity == '')
+    {
+        _shn_rms_adderror("Please add a quantity");
+        _shn_rms_showerrors();
+        
+        return false;
+    }
     
     $sql = "INSERT INTO rms_req_donor (name, contact, comments) " .
             "VALUES ('$name', '$contact', '$comments')";

@@ -17,7 +17,7 @@
 
     global $global;
     
-    shn_form_fopen("vw_plg",null);
+    shn_form_fopen("vw_plg",null,array('req_message'=>false));
 
     shn_form_fsopen('Pledge ID');
     shn_form_hidden(array('seq'=>'view'));

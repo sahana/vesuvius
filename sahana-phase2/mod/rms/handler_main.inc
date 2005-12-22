@@ -28,29 +28,37 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
 
 <?php show_rms_heading(); ?>
-<div id=homerms>
-<img src="theme/default/img/rms_home.png" border='0'/>
-  <ul>
-    <li>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment<br/></li>
-  </ul>
-</div>
-<div id="left">
-<div id="heading"><?php print _("User Information")?></div>
+<h4>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment</h4>
+<br/>
+<?php _shn_rms_search_home(); ?>
+<div id="home_resent">
+<br/><hr/><br/>
+<div id="result">
+<h3><?php print _("User Information")?></h3>
+<hr/>
 <?php print _("User Name" . " : ")?><br/>
 <?php print _("User ID" . " : " . $user_id)?><br/>
 <?php print _("Total Requests" . " : " . $user_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)<br/>
 <?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open">View</a>)<br/>
 <?php print _("Closed Requests" . " : " . $user_creq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
-<?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?><br/>
+<hr/>
+<strong><?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?></strong><br/>
 </div>
-<div id="center">
-<div id="heading"><?php print _("Organization Information")?></div>
+<br/>
+<div id="result">
+<h3><?php print _("Organization Information")?></h3>
+<hr/>
 <?php print _("Org. Name" . " : ")?><br/>
 <?php print _("Org. ID" . " : " . $org_id)?><br/>
-<?php print _("Total Requests" . " : " . $org_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>) <br/>
+<br/>
+<strong><?php print _("Total Requests" . " : " . $org_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)</strong> 
+<br/>
 </div>
-<div id="right">
-<div id="heading"><?php print _("Full Statistics")?></div>
-<h4><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all">View</a>) </h4>
-<?php include_once ('handler_sc_req.inc'); ?>
+<br/>
+<div id="result">
+<h3><?php print _("Full Statistics")?></h3>
+<br/>
+<hr/>
+<strong><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all">View</a>) </strong>
+</div>
 </div>

@@ -37,17 +37,17 @@ function _shn_rms_show_plglist()
 {
     $plgs = _shn_rms_get_allplgs();
 ?>
-<div>
-<table id="result">
-    <tr id="head">
-        <td><?php print _("ID") ?></td>
-        <td><?php print _("Status") ?></td>
-        <td><?php print _("Date") ?></td>
-        <td><?php print _("Donor") ?></td>
-        <td><?php print _("Category") ?></td>
-        <td><?php print _("Item") ?></td>
-        <td><?php print _("More Details") ?></td>
-    </tr>
+<div id ="result">
+<table>
+    <thead>
+        <td width=""><?php print _("ID") ?></td>
+        <td width="100"><?php print _("Status") ?></td>
+        <td width=""><?php print _("Date") ?></td>
+        <td width="150"><?php print _("Donor") ?></td>
+        <td width="100"><?php print _("Category") ?></td>
+        <td width="100"><?php print _("Item") ?></td>
+        <td width=""><?php print _("More Details") ?></td>
+    </thead>
 <?php
 
     foreach($plgs as $plg)
@@ -63,7 +63,7 @@ function _shn_rms_show_plglist()
         <td>
         <?php
             #more details button
-            shn_form_fopen("vw_plgs",null);
+            shn_form_fopen("vw_plgs",null,array('req_message'=>false));
             shn_form_hidden(array('seq'=>'vw_plg'));            
             shn_form_hidden(array('id'=>$plg['plg_id']));
             shn_form_submit('More',"shorter");
