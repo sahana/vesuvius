@@ -66,7 +66,7 @@ if ($_POST['seq'] == 'confirm')
         
         #more details button
         shn_form_fopen("new_plg",null,array('req_message'=>false));
-        shn_form_hidden(array('seq'=>'addplg'));         
+        shn_form_hidden(array('seq'=>''));         
         //shn_form_hidden($_POST);   
         shn_form_submit('<--Back',"shorter");
         shn_form_fclose();
