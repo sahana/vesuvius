@@ -152,7 +152,7 @@ elseif ($_POST['seq'] == 'addplg')
         
         shn_form_fsopen('Donor Contact Information');
         shn_form_text('Date','date',null,array('value'=>$today));
-        shn_form_text('Name','name');
+        shn_form_text('Name','name',array('req'=>true));
         shn_form_text('Contact','contact');
         shn_form_textarea('Address','address');
         shn_form_textarea('Comments','comments');
@@ -187,17 +187,17 @@ else
     shn_form_hidden(array('seq'=>'confirm'));
     
     shn_form_fsopen('Donor Contact Information');
-    shn_form_text('Date','date',null,array('value'=>$today));
-    shn_form_text('Name','name',array('req'=>'true'));
-    shn_form_text('Contact','contact',array('req'=>'true'));
+    shn_form_text('Date','date',array('value'=>$today));
+    shn_form_text('Name','name',null,array('req'=>true));
+    shn_form_text('Contact','contact',null,array('req'=>true));
     shn_form_textarea('Address','address');
     shn_form_textarea('Comments','comments');
     shn_form_fsclose();
     shn_form_fsopen('Pledge Details');
     shn_form_select(get_rms_catlist(),"Category","cat_id");
-    shn_form_textarea('Item','item',array('req'=>'true'));
+    shn_form_textarea('Item','item',null,array('req'=>true));
     shn_form_text('Units','units');
-    shn_form_text('Quantity','quantity',array('req'=>'true'));
+    shn_form_text('Quantity','quantity',null,array('req'=>true));
     shn_form_fsclose();
     shn_form_submit('Add');
     shn_form_fclose();
