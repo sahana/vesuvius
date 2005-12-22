@@ -28,9 +28,7 @@ if(!$res->EOF){
 }
 
 ?>
-
 		<div id="home">
-<!--            <img src="theme/default/img/org.png"/>-->
         	<h2>Welcome to Organization Registry</h2>
 			<div>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
             </div>
@@ -49,37 +47,45 @@ if(!$res->EOF){
 				</div>
 			</div>
 		</div>
-
-		<div id="home_recent">
-			<div id="left">
-				<div id="heading">
-					Organizations
-				</div>
+        <br />
+		<table>
+        <thead>
+        <td><strong>Organizations</strong></td>
+        <td><strong>Please Register</strong></td>
+        <td><strong>Volunteers</strong></td>
+        </thead>
+        <tbody>
+        <tr>
+			<td>
 				<div>
                 <a href="index.php?mod=or&act=view_org">
                   <strong> <?php echo $org_no ?></strong>  Organizations have registered
                 </a>
 				</div>
-			</div>
-			<div id="center">
-				<div id="heading">
-					 Please register 
-				</div>
+			</td>
+			<td>
 				<div>
 					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.	    
 				</div>
-			</div>
-			<div id="right">
-				<div id="heading">
-					Volunteers
-				</div>
-                <div>
+			</td>
+			<td>
+			    <div>
 				<a href="index.php?mod=or&act=view_vol">
                     <strong><?php echo $vol_no?></strong>  Volunteers have registered
                 </a>
-				</div>
-			</div>
-		</div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+        <br />
+        <div id="note">
+           <strong> Last 10 Organizations to Register</strong>
+        </div>
 <?php
         shn_or_viewform_allorg(10);
+?>
+        
+<?php
+//        shn_or_viewform_allorg(10);
 ?>

@@ -438,6 +438,9 @@ if(NULL == $_REQUEST['id']){
 // view all OR
 function shn_or_view_org()
 {
+?>
+<h2>Organization Registry</h2>
+<?php
 if(NULL == $_REQUEST['id']){
     shn_or_viewform_allorg();
 }else{

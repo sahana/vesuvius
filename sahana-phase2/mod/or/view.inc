@@ -24,7 +24,6 @@ function shn_or_viewform_allorg($no=NULL){
 ?>
 
 <div id ="result">
-
 	<table>
         <thead>
             <td>Organization Name</td>
@@ -61,6 +60,7 @@ function shn_or_viewform_allorg($no=NULL){
 ?>
    </tbody>
   </table>
+  
 </div>
 
 <?php
