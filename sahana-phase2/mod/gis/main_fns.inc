@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.3 2005-12-21 11:29:31 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.4 2005-12-22 13:34:23 chamindra Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -20,13 +20,9 @@ function shn_gis_default()
 {
 	global $global;
 ?>
-	<h1><?php echo _("GIS Mapping");?></h1>
-	<br>
 	<div id="home">
-		<ul>
-			<li>The GIS Mapping Module provides Spatial and Mapping Functionality to Sahana</li>
-			<li>It is used by various modules to display maps, specify locations and coordinates, tracking etc.</li>
-		</ul>
+	<h2><?php echo _("GIS Mapping");?></h2>
+			<p>The GIS (Geographic Information System) Mapping Module provides Spatial and Mapping Functionality to Sahana. It is used by various modules to display maps, specify locations and coordinates of camps, victims and relief efforts. Currently it support Google Maps</p>
 	</div>
 <?php											
 }
