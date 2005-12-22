@@ -12,9 +12,8 @@ function shn_home_view()
 function shn_home_default()
 { ?>
 
-    <h1 align="center">Welcome to the Sahana FOSS</h1>
-    <h1 align="center">Disaster Management System</h1>
     <div id="home">
+    <h2>Welcome to the Sahana FOSS Disaster Management System</h2>
 <!--        <img src="theme/default/img/home_pic1.png" align="left" /> -->
         <p>Sahana is an integrated set of pluggable, web based disaster management applications that provide solutions to large-scale humanitarian problems in the aftermath of a disaster. These applications and problems they address are as follows:</p>
 	<ul>

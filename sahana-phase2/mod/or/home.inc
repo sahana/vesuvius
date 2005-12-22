@@ -29,23 +29,18 @@ if(!$res->EOF){
 
 ?>
 		<div id="home">
-        	<h2>Welcome to Organization Registry</h2>
-			<div>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
-            </div>
-            <div>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.
-			</div>
-			<br />
-			<div>
-				<strong>Facilities</strong>
-                <div>
+        	<h2>Organization Registry</h2>
+			<p>The Organization Registry keeps track of all the relief organizations and civil society groups working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
+				Features Include:
+                </p>
 				<ul>
-                    <li>Register and Manage organization information</li>
-                    <li>Register and Manage organization operation information</li>
-                    <li>Register and Manage Volunteer information</li>
-                    <li>Provide reports and searching facilities on organizational information </li>
+<li>Capturing a comprehensive list of meta data on an relief organization and all</li>
+the activities they have in the region
+<li>Registering ad-hoc volunteers willing to contribute</li>
+<li>Capturing the essential services each group is providing and where</li>
+<li>Reporting on the converge of services and support in the region and more</li>
+<li>importantly where there are no aid services being provided</li>
                 </ul>
-				</div>
-			</div>
 		</div>
         <br />
 		<table>

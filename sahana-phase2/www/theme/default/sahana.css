@@ -111,6 +111,13 @@ a:hover {
 	------------ */
 }
 
+#header h3 {
+	padding-top: 1em;
+	text-align: left;
+	color: #FFF;
+    float: bottom;
+}
+
 #wrapper {
 	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
 }
@@ -513,10 +520,10 @@ form ul.list {
 }
 
 #home h2{
-	text-align:top;
-	padding-left:200px;
+	text-align:center;
 	padding-top:10px;
-	padding-right:10px;
+/*	padding-left:200px;
+	padding-right:10px;*/
 }
 thead td{
 	text-align:center;

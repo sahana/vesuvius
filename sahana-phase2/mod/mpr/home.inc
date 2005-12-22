@@ -3,15 +3,21 @@
  * Some Intro text 
  */
 ?>
-<h1 align="center">Missing Person Registry</h1>
 <div id="home">
+<h2>Missing Person Registry</h2>
 <!-- <img src="theme/default/img/mpr.png"/> -->
+<p>The Missing person registry is an online bulletin board of missing and found people.
+It not only captures information about the people missing and found, but the
+information of the person seeking them is also captured, which adds to the chances
+of people finding each other. For example if two members of the a family unit is
+looking for the head of the family, we can use this data at least to connect those two
+family members.
+Features include:</p>
 <ul>
-    <li>Missing Person Registry helps you to find people quickly in the chaos</li>
-	<br>
-    <li>Ensures every single person is being accounted for and tracked</li>
-	<br>
-    <li>Helps prioritize releif response to the critically affected</li>
+    <li>Meta data around the individual such identity numbers, visual appearance, last seen location, status, etc</li>
+    <li>Sounds-like name search (using metafore and soundex algorithms)</li>
+    <li>Uploading of a persons picture</li>
+    <li>Grouping by family unit or other groups types</li>
 </ul>
 </div>
 <?php

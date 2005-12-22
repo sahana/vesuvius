@@ -46,8 +46,8 @@ function shn_admin_view()
 
 function shn_admin_default()
 { ?>
-    <h1 align="center">Sahana System Administration</h1>
     <div id="home">
+    <h2>Sahana System Administration</h2>
         <p>The System Adminisitration section allows you to configure and customize Sahana based on your requirements</p>
 	<ul>
 	<li><b>System Config</b> <br/>Contains all the configuration sections that apply across the Sahana application such as localization to location</li>

@@ -26,11 +26,24 @@ $org_reqff_count = count_user_reqff($user_id);
 $user_oreq_count = count_user_reqstat($user_id,'open');
 $user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
+<div id="home">
+<h2><?php print _("Request Managment System")?></h2>
+<p>The Sahana request management system is a central online repository where all
+relief organizations, relief works, government agents and camps can effectively
+match requests of aid and supplies to pledges of support. It effectively looks like an
+online aid trading system tracking request to fulfillment. Features include:
+</p>
+<ul>
+    <li>Basic meta data on the request and pledges such as the category, the units, contact details and the status</li>
+    <li>Customizable category of aid</li>
+    <li>Filtered search of aid pledges and requests</li>
+    <li>Ability to track partial fulfillment of the request</li>
+</ul>
 
-<?php show_rms_heading(); ?>
-<h4>The Request Management System tracks all requests and helps match pledges for support, aid and supplies to fullfilment</h4>
 <br/>
 <?php _shn_rms_search_home(); ?>
+<br/>
+</div>
 <div id="home_resent">
 <br/><hr/><br/>
 <div id="result">

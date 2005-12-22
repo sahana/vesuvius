@@ -19,18 +19,20 @@
 
 function shn_cr_default(){
 ?>
-<h1 align="center"><?php echo _("Camps Registry");?></h1>
 <div id="home">
-<!--<img src="theme/default/img/cms.png" align="center" />-->
+<h2><?php echo _("Camps Registry");?></h2>
+<p> This sub application of Sahana keeps track of the location of all the camps in the
+region and the some basic data on the facilities they might have and the number of
+people in them. It also provides a GIS view to plot the location of the camps in the
+affected area.
+Current features include:</p>
 <ul>
-   <li>Camps Registry is the central repository to manage Camps & individual Camp Management Systems.</li>
-	<br>
-	<li>Helps to coordinate camp activities in an efficient manner.</li>
-	<br>
-	<li>Explore the facilities like Adding Camps, Editing Camps, Viewing Information on Camps based on different categories & Searching for camps...</li>
-	<br>
+    <li>Tracking of basic meta-data on the location, facilities and size of the camp</li>
+    <li>Integration of google maps to provide a GIS view of the affected region</li>
+    <li>Ability to customize the list of important facilities needed at a camp</li>
+    <li>Basic reports on the camps and drill-down by region</li>
 </ul>
-	<!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
+<!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
 	-->
 </div>
