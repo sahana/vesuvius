@@ -46,8 +46,16 @@ function shn_admin_view()
 
 function shn_admin_default()
 { ?>
-        <p><b>Welcome to the Sahana admin page</b></p>
-        <p> This is the default  of admin</p>
+    <h1 align="center">Sahana System Administration</h1>
+    <div id="home">
+        <p>The System Adminisitration section allows you to configure and customize Sahana based on your requirements</p>
+	<ul>
+	<li><b>System Config</b> <br/>Contains all the configuration sections that apply across the Sahana application such as localization to location</li>
+	<li><b>Module Config</b> <br/>Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately. </li>
+	<li><b>Security Config</b> <br/>Allows the system administrator to configure who gets access to what modules and to what degree to high degree of granularity if required.</li>
+	</ul>
+    </div>    
+ 
 
 <?php
 }

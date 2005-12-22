@@ -37,10 +37,10 @@ $module_list = shn_get_modules_with_admin();
                     </ul>
 
                 
-                <li><a href="#">ACL Config </a></li>
+                <li><a href="#">Security Config </a></li>
                     <ul id="modsubmenu">
-<li><a href="index.php?mod=admin&act=acl_system">ACL System Config</a></li> 
-<li><a href="index.php?mod=admin&act=acl_module">ACL Module Config</a></li> 
+<li><a href="index.php?mod=admin&act=acl_system">User</a></li> 
+<li><a href="index.php?mod=admin&act=acl_module">Modules</a></li> 
                    </ul>
          </ul>
         </dd>
