@@ -14,85 +14,116 @@
 */ 
 
 
+_shn_rms_show_headder(_("Search for a Request"));
 
-    global $global;
-    
+function _shn_rms_get_kword()
+{
     shn_form_fopen("sc_req",null);
-
-    shn_form_fsopen('Request ID');
-    shn_form_hidden(array('seq'=>'view'));
-    shn_form_text('Request ID','req_id','size="15"');
+    
+    shn_form_hidden(array('seq'=>'req_sch'));
+    
+    shn_form_fsopen('Search Keyword');
+    shn_form_text('Enter Search Keyword','kword');
     shn_form_fsclose();
     shn_form_submit('Search');
+    shn_form_fclose();    
+}
+
+function _shn_rms_get_res($word)
+{
+    global $global;
+    
+    $sql = "SELECT * FROM rms_request " .
+            "WHERE LOWER(name) LIKE LOWER('%$word%') " .
+            "OR LOWER(site_name) LIKE LOWER('%$word%') " .
+            "OR LOWER(site_address) LIKE LOWER('%$word%')";
+      
+    $rs = $global['db']->Execute($sql);
+    
+    if ($global['db']->ErrorMsg())
+    {
+        _shn_rms_adderror($global['db']->ErrorMsg());
+        _shn_rms_showerrors();
+    }
+    
+    if (1>$rs->RecordCount())
+    {
+        print "<h3>No results found for the keyword : ". $_SESSION['rms_src_kword'] ."</h3>";
+        print "<h3>Click the back button to go back</h3>";
+        
+        #back button
+        shn_form_fopen("sc_req",null);
+        shn_form_hidden(array('seq'=>''));
+        shn_form_submit('Back',"short");
+        shn_form_fclose();
+    }
+    
+    return $rs->GetArray();
+}
+
+function _shn_rms_show_res()
+{
+    $kword = $_POST['kword'];
+    $_SESSION['rms_src_kword'] = $kword;
+    $words = preg_split("/\s+/",$kword);
+    
+    _shn_rms_get_kword();
+?>
+<br/>
+<div>
+<table id="result">
+    <tbody>
+<?php
+    foreach($words as $word)
+    {
+        $reqs = _shn_rms_get_res($word);
+        
+        
+        foreach ($reqs as $req)
+        {
+            print "<tr>";
+            print "<td>" . $req['req_id'] . "</td>";
+            print "<td>" . $req['req_date'] . "</td>";
+            print "<td>" . $req['name'] . "</td>";
+            print "<td>" . $req['site_name'] . "</td>";
+            print "<td>" . $req['site_address'] . "</td>";
+            print '<td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a></td>';
+            print "</tr>";
+        }        
+    }
+?>
+</tbody>
+</table>
+</div>
+<?php
+}
+
+function _shn_rms_show_reqdetails()
+{
+    _shn_rms_show_request($_POST['id']);
+    
+    #back button
+    shn_form_fopen("req_srch",null);
+    
+    shn_form_hidden(array('seq'=>'req_sch'));
+    shn_form_hidden(array('kword'=>$_SESSION['rms_src_kword']));            
+    shn_form_submit('Back',"short");
     shn_form_fclose();
     
-    if ($_POST['seq'] == 'view')
-    {
-        $req_id = $_POST['req_id'];
-        
-        $sql = "SELECT * FROM rms_request WHERE req_id=$req_id";    
-        $rs_r = $global['db']->Execute($sql);
-        
-        if (1 > $rs_r->RecordCount())
-        {
-            print "not a valid request id";
-        }
-        else
-        {
-            $recordSet = $rs_r;
-?>
-  
-         <div id ="result">
-        <table>
-        <thead>
-            <td><?php print _("Date/Time") ?></td>
-            <td width="150"><?php print _("Requester") ?></td>
-            <td width="75"><?php print _("Site") ?></td>
-            <td width="75"><?php print _("District") ?></td>
-            <td width=""><?php print _("Categories") ?></td>
-            <td><?php print _("View") ?></td>
-        </thead>
-        <tbody>
-<?php 
-        while (!$recordSet->EOF)
-        {   
-?>
+}
+
+switch ($_REQUEST['seq'])
+{
+    case '':
+            _shn_rms_get_kword();
+            break;
     
-        <tr>
+    case 'req_sch':
+            _shn_rms_show_res();
+            break;
         
-        <td><?php print  $recordSet->fields['req_date'] ?></td>
-        <td><?php print  $recordSet->fields['name'] ?></td>
-        <td><?php print  $recordSet->fields['site_name'] ?></td>
-        <td><?php print  get_district_name($recordSet->fields['site_district']); ?></td>
-        <td>
-            
-        
-            
-                
-                <?php 
-                    $rs = get_request_categories($recordSet->fields['req_id']);                                        
-                    while (!$rs->EOF)
-                    {
-                ?>
-                    <?php print ($rs->fields['category']); ?>
-                 <?php 
-                        $rs->MoveNext();
-                        
-                        if(!$rs->EOF)
-                            print ", ";
-                    }
-                ?>
-                </td>
-                <td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=<?php print $recordSet->fields['req_id'] ?>#list">View</a></td>
-        </tr>
-<?php
-            $recordSet->MoveNext();
-        }
-?>
-      </tbody>
-  </table>
-  </div>
-<?php
-        }
+    case 'req_vw' :
+            _shn_rms_show_reqdetails();
+            break;     
 }
 ?>

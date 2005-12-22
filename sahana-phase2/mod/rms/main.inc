@@ -44,14 +44,14 @@ function shn_rms_mainmenu()
                     <?php print _("New Request"); ?></a>
                     </li>
                     <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
-                    <?php print _("View All Requests"); ?></a>
+                    <?php print _("List All Requests"); ?></a>
                     </li>
                     <?php 
                         if(is_a_requester($user_id))
                         { 
                     ?>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=user">
-                        <?php print _("View My Requests"); ?></a>
+                    <li><a href="index.php?mod=<?=$module?>&amp;act=v_req&amp;user=user">
+                        <?php print _("View Request"); ?></a>
                     </li>  
                    <?php } ?>
                    <li><a href="index.php?mod=<?=$module?>&amp;act=sc_req">
@@ -64,7 +64,10 @@ function shn_rms_mainmenu()
                     <?php print _("Add Pledges"); ?></a>
                     </li>
                     <li><a href="index.php?mod=<?=$module?>&amp;act=vw_plg">
-                    <?php print _("View Pledges"); ?></a>
+                    <?php print _("View Pledge"); ?></a>
+                    </li>
+                    <li><a href="index.php?mod=<?=$module?>&amp;act=vw_plgs">
+                    <?php print _("List Pledges"); ?></a>
                     </li>
                 </ul>          
             </ul>
@@ -90,15 +93,20 @@ function shn_rms_new_req()
 }
 
 /**
- * View Requests
+ * List Requests
  */
 function shn_rms_vw_req()
 {
     include_once ('handler_view_req.inc');
 }
 
+function shn_rms_v_req()
+{
+    include_once ('handler_vw_req.inc');
+}
+
 /**
- * View Requests
+ * Search Requests
  */
 function shn_rms_sc_req()
 {
@@ -121,6 +129,11 @@ function shn_rms_new_plg()
 function shn_rms_vw_plg()
 {
     include_once ('handler_plg_vw.inc');
+}
+
+function shn_rms_vw_plgs()
+{
+    include_once ('handler_plg_ls.inc');
 }
 
 /**

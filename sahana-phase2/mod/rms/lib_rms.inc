@@ -25,6 +25,15 @@ else
     $global['org_id'] = $_SESSION['org_id'];
 
 
+function _shn_rms_show_headder($sub='')
+{
+?>
+<h2><?=_("Sahana Request Management System")?></h2>
+<?php
+if ($sub != '')
+    print "<h3>" . _("$sub") . "</h3>";
+}
+
 /**
  * Some Simple Error Handling
  */
@@ -35,6 +44,8 @@ function _shn_rms_adderror($err_msg)
 
 function _shn_rms_showerrors()
 {
+    if (!isset($_SESSION['rms_errors']))
+        return false;
     $errors = $_SESSION['rms_errors'];
 ?>
 <div id="errors">
@@ -52,6 +63,11 @@ function _shn_rms_showerrors()
 </div>    
 <?php
     $_SESSION['rms_errors'] = null;
+}
+
+function _shn_rms_errorcount()
+{
+    return count($_SESSION['rms_errors']);
 }
 
 /**
@@ -200,9 +216,26 @@ function get_category_name($cat_id)
     return $rs->fields[0];
 }
 
-function get_username($user_id)
+function get_donor_name($id)
 {
+    global $global;
     
+    $sql = "SELECT name FROM rms_req_donor WHERE req_donor_id = $id";    
+    $recordSet_cat = $global['db']->Execute($sql);
+    
+    $rec = $recordSet_cat->getArray(); 
+    return $rec[0][0];
+}
+
+function get_plg_category($id)
+{
+    global $global;
+    
+    $sql = "SELECT category FROM rms_req_category WHERE cat_id = $id";    
+    $recordSet_cat = $global['db']->Execute($sql);
+    
+    $rec = $recordSet_cat->getArray(); 
+    return $rec[0][0];
 }
 
 function show_rms_categories($value)

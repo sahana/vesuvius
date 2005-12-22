@@ -33,17 +33,22 @@ if ($_POST['seq'] == 'confirm')
 <label><?=_("Item"); ?></label><value><?=$_POST['item']?></value>
 <label><?=_("Units"); ?></label><value><?=$_POST['units']?></value>
 <label><?=_("Quantity"); ?></label><value><?=$_POST['quantity']?></value>
-<br>
-<h4>If the information is correct please press 'Finish'. 
-If you need to change some details please <a href="javascript:;" onClick="history.back();">click here</a> to go back.</h4>
+<br/>
+<div><h4>
 <?php
+    print _("If the information is correct please press 'Finish'.");
+    print _("If you need to change some details"); 
+    print _("please"); 
+?> <a href="javascript:;" onClick="history.back();"><?=_("click here")?></a><?=_("to go back")?>.</h4></div>
+<?php
+    
+    $_SESSION['rms_plg_added'] = false;
     
     shn_form_hidden($_POST);
     shn_form_hidden(array('seq'=>'add'));    
     shn_form_fsclose();
     shn_form_submit('Finish');
     shn_form_fclose();   
-    print_r($_POST);
 }
 elseif ($_POST['seq'] == 'add')
 {
@@ -67,13 +72,14 @@ elseif ($_POST['seq'] == 'add')
         print $msg . "<br/>" . $sql;
         db_dbug($sql,$msg);
     }
-    else
+    elseif (!$_SESSION['rms_plg_added'])
     {
         $user_id = $global['db']->Insert_ID();
         $sql = "INSERT INTO rms_pledge (date, cat_id, item, units, " .
                 "quantity, user_id ) " .
                "VALUES ('$date', $cat_id, '$item', '$units', " .
                 "$quantity, $user_id)";
+        
         
         #print "<br/>" . $sql;
         
@@ -82,10 +88,16 @@ elseif ($_POST['seq'] == 'add')
             $msg = $global['db']->ErrorMsg();
             print $msg . "<br/>" . $sql;
             db_dbug($sql,$msg);
+            $_SESSION['rms_plg_added'] = false;
         }
+        $_SESSION['rms_plg_added'] = true;
+        $_SESSION['rms_plg_new_id'] = $global['db']->Insert_ID();
         
-        print "Pledge added";
+        _shn_rms_plg_endadd($_SESSION['rms_plg_new_id']);
+        
     }
+    else 
+         _shn_rms_plg_endadd($_SESSION['rms_plg_new_id']);
 }
 elseif ($_POST['seq'] == 'addplg')
 {
@@ -128,7 +140,7 @@ elseif ($_POST['seq'] == 'addplg')
         _shn_rms_get_usrid();    
     }
 }
-elseif ($_GET['seq'] == 'newusr')
+else
 {
     $today = date("Y-m-d");
     
@@ -152,27 +164,36 @@ elseif ($_GET['seq'] == 'newusr')
     shn_form_submit('Add');
     shn_form_fclose();
 }
-else
-{
-    _shn_rms_get_usrid();
-}
+//else
+//{
+//    _shn_rms_get_usrid();
+//}
+//
+//function _shn_rms_get_usrid()
+//{
+// print ('If you have a user id please enter it bellow and enter, If you are a new Donor please <a href="index.php?mod=rms&amp;act=new_plg&amp;seq=newusr">enter here</a>.')
 
-function _shn_rms_get_usrid()
+//    $today = date("Y-m-d");
+//    
+//    shn_form_fopen("new_plg",null);
+//    
+//    shn_form_hidden(array('seq'=>'addplg'));
+//    
+//    shn_form_fsopen('User ID');
+//    shn_form_text('User_ID','id');
+//    shn_form_fsclose();
+//    shn_form_submit('Enter');
+//    shn_form_fclose();
+//}
+
+function _shn_rms_plg_endadd($plg_id)
 {
 ?>
-If you have a user id please enter it bellow and enter, If you are a new Donor please <a href="index.php?mod=rms&amp;act=new_plg&amp;seq=newusr">enter here</a>.
+    <div class=error>
+    <h3>The Pledge was successfully added</h3>
+    <strong>The pledge ID : <?=$plg_id?></strong>
+    </div>
 <?php
-    $today = date("Y-m-d");
-    
-    shn_form_fopen("new_plg",null);
-    
-    shn_form_hidden(array('seq'=>'addplg'));
-    
-    shn_form_fsopen('User ID');
-    shn_form_text('User_ID','id');
-    shn_form_fsclose();
-    shn_form_submit('Enter');
-    shn_form_fclose();
 }
 ?>
 
