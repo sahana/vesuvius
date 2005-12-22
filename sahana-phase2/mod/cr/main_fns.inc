@@ -20,7 +20,6 @@
 function shn_cr_default(){
 ?>
 <h1 align="center"><?php echo _("Camps Registry");?></h1>
-<br>
 <div id="home">
 <!--<img src="theme/default/img/cms.png" align="center" />-->
 <ul>
@@ -35,21 +34,15 @@ function shn_cr_default(){
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
 	-->
 </div>
-								
-	
-	<div id="left">
-	<div id="heading">Most Populated Camps
+    <div id="home_recent">		
+	<h1>Most Populated Camps</h1>
 	<?php shn_cr_home_pop(); 
 	?>	
-	</div>
-	</div>
 	
-	<div id="right">
-	<div id="heading">Newest Camps
+	<h1>Newest Camps</h1>
 	<?php shn_cr_home_newcmp(); 
 	?>
-	</div>
-	</div>
+    </div>
 	<?php
 	}
 

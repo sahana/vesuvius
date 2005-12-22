@@ -100,6 +100,7 @@ function shn_front_controller()
     // Now include the wrapper for the main content
 ?>     
     <div id="wrapper" class="clearfix"> 
+    <div id="wrapper_menu">
     <p id="skip">Jump to: <a href="#content">Content</a> | <a href="#modulemenu">Module Menu</a></p> 
 <?php
 
@@ -109,8 +110,9 @@ function shn_front_controller()
     // include the mainmenu provided there is not a module override
     shn_include_page_section('login',$module);
 
-    // now include the main content of the page
+    // now include the main content of the pageA
 ?>  
+    </div> <!-- Left hand side menus & login form -->
     <div id="content" class="clearfix">      
 <?php
     if($allow){

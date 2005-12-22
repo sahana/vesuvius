@@ -23,9 +23,9 @@ function shn_or_viewform_allorg($no=NULL){
     
 ?>
 
-<h1 align="center">Organization Registry</h1>
 <div id ="result">
-    <table>
+
+	<table>
         <thead>
             <td>Organization Name</td>
             <td>Services Provided</td>

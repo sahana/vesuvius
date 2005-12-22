@@ -29,51 +29,57 @@ if(!$res->EOF){
 
 ?>
 
-        <center><h2><b> Welcome to Organization Registry</b></h2></center>
 		<div id="home">
 <!--            <img src="theme/default/img/org.png"/>-->
-            <p>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
-            </p>
-             <p>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.</p> 
-            <p><u><b>Facilities</b></u><br />
-                <ul>
+        	<h2>Welcome to Organization Registry</h2>
+			<div>Organization Registry does registration of Organizations and Volunteers while maintaining and displaying those information.
+            </div>
+            <div>This module maintains a database of organizations and services that are involved in managing/ supporting response/recovery in an occurrence of a disaster.
+			</div>
+			<br />
+			<div>
+				<strong>Facilities</strong>
+                <div>
+				<ul>
                     <li>Register and Manage organization information</li>
                     <li>Register and Manage organization operation information</li>
                     <li>Register and Manage Volunteer information</li>
                     <li>Provide reports and searching facilities on organizational information </li>
                 </ul>
-            </p>
+				</div>
+			</div>
 		</div>
-        <div id="left">
-            <div id="heading">
-                Organizations
-            </div>
+
+		<div id="home_recent">
+			<div id="left">
+				<div id="heading">
+					Organizations
+				</div>
+				<div>
                 <a href="index.php?mod=or&act=view_org">
-                  <b> <?php echo $org_no ?></b>  Organizations have registered
+                  <strong> <?php echo $org_no ?></strong>  Organizations have registered
                 </a>
-        </div>
-        <div id="center">
-            <div id="heading">
-            Please register 
-            </div>
- 	Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.	    
-	    </div>
-
-        <div id="right">
-            <div id="heading">
-                Volunteers
-            </div>
-                 <a href="index.php?mod=or&act=view_vol">
-                    <b><?php echo $vol_no?></b>  Volunteers have registered
+				</div>
+			</div>
+			<div id="center">
+				<div id="heading">
+					 Please register 
+				</div>
+				<div>
+					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.	    
+				</div>
+			</div>
+			<div id="right">
+				<div id="heading">
+					Volunteers
+				</div>
+                <div>
+				<a href="index.php?mod=or&act=view_vol">
+                    <strong><?php echo $vol_no?></strong>  Volunteers have registered
                 </a>
-        </div>
-		<div id="display">
-        <center>
-            <h3>Last 10 Organizations to Register</h3>
-            </center>
-        <br />
-
-		</div><br /><br />
+				</div>
+			</div>
+		</div>
 <?php
         shn_or_viewform_allorg(10);
 ?>

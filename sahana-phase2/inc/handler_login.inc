@@ -18,8 +18,8 @@ global $conf;
 
 if ($_SESSION['logged_in'] != true ) {
 ?>
-	<form method="POST" action="index.php?act=login">
     <div id="loginform">
+	<form method="POST" action="index.php?act=login">
         <fieldset><legend>Login</legend>
         <label>User Name</label><input type="text" name="user_name" id="userName" />
         <label>Password</label><input type="password" name="password" id="pswd" />
@@ -27,8 +27,8 @@ if ($_SESSION['logged_in'] != true ) {
 		<br />
         <a href="#">Forgot your password?</a>
         </fieldset>
-    </div><!-- /loginform -->
     </form>
+    </div><!-- /loginform -->
 
 <?php
 } else {
