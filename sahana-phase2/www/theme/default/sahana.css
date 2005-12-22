@@ -115,12 +115,20 @@ a:hover {
 	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
 }
 
+#wrapper_menu {
+
+}
+
+#wrapper_content {
+
+}
+
 #content {
 	margin: 0 0 0 200px;
 	padding: 1em;
 }
 
-p#skip {
+#skip {
 	margin-bottom: 0;
 	padding: 10px;
 	width: 180px;
@@ -663,3 +671,11 @@ form ul.list {
 #paging_nav ul li {
       display : inline;
 }
+#home_recent{
+}
+#home_recent h1{
+	font-size:120%;
+	margin: 0 0 0 0;
+	padding: 25px 5px 5px 5px; 
+}
+
