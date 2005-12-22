@@ -27,12 +27,18 @@ function shn_form_extra_opts($extra_opts)
     }
 // Open and close a form section
 
-function shn_form_fopen($act, $mod = null, $form_opts = null)
+function shn_form_fopen($act, $mod = null, $form_opts =
+array('req_message'=>true))
 {
     global $global;
     if ( null == $mod ) $mod = $global['module'];
+
+    if($form_opts['req_message']){
 ?>
     <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
+<?php
+    }
+?>
     <div id="formcontainer">
     <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>>
 <?php
