@@ -40,14 +40,13 @@ if ($_POST['seq'] == 'confirm')
 <?php
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
     {
-        _shn_rms_adderror("Please add a quantity");
+        _shn_rms_adderror("Please bo <em>Back</em> and add a quantity");
         _shn_rms_showerrors();
 
             #more details button
-            shn_form_fopen("vw_plgs",null,array('req_message'=>false));
-            shn_form_hidden(array('seq'=>'vw_plg'));            
-            shn_form_hidden(array('id'=>$plg['plg_id']));
-            shn_form_submit('More',"shorter");
+            shn_form_fopen("new_plg",null,array('req_message'=>false));
+            shn_form_hidden(array('seq'=>''));            
+            shn_form_submit('<--Back',"shorter");
             shn_form_fclose();
         return false;
     }
