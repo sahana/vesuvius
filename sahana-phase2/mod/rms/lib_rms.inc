@@ -814,6 +814,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
       <div id ="result">
     <table>
         <thead>
+            <td><?php print _("ID") ?></td>
             <td><?php print _("Date/Time") ?></td>
             <td width="150"><?php print _("Requester") ?></td>
             <td width="75"><?php print _("Site") ?></td>
@@ -828,7 +829,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
 ?>
     
         <tr>
-        
+        <td><?php print  $recordSet->fields['req_id'] ?></td>
         <td><?php print  $recordSet->fields['req_date'] ?></td>
         <td><?php print  $recordSet->fields['name'] ?></td>
         <td><?php print  $recordSet->fields['site_name'] ?></td>
@@ -1095,5 +1096,51 @@ function get_rms_catlist()
     }
     return $list;
 }
+
+
+/**
+ * plg stuff
+ * should go to lib_plg..
+ */
+ 
+ function _shn_rms_plg_view($id)
+ {
+    global $global;
+        
+    $sql =  "SELECT p.plg_id AS plg_id,p.date AS date, p.cat_id AS cat_id, p.item AS item, p.units AS units, p.quantity AS quantity, p.status AS status, p.user_id AS uid, d.name AS name, d.contact AS contact, d.comments AS comments FROM rms_pledge p, rms_req_donor d WHERE p.plg_id=$id AND p.user_id=d.req_donor_id";
+    
+    $rs = $global['db']->Execute($sql);
+    if($rs == null)
+    {
+        _shn_rms_adderror($global['db']->ErrorMsg());
+        _shn_rms_showerrors();
+    }
+    
+    $rs = $rs->GetArray();
+    $rs = $rs[0];
+?>
+<br/>
+<div>
+<h4><?=_("Detailed Pledge Information"); ?></h4>
+</div>
+<div id ="result">
+<table>
+<tbody>
+<tr><td width="100"><?=_("Pledge ID"); ?></td><td width="200"><?=$rs['plg_id']?></td></tr>
+<tr><td><?=_("Date"); ?></td><td><?=$rs['date']?></td></tr>
+<tr><td><?=_("Name"); ?></td><td><?=$rs['name']?></td></tr>
+<tr><td><?=_("Contact"); ?></td><td><?=$rs['contact']?></td></tr>
+<tr><td><?=_("Address"); ?></td><td><?=$rs['address']?></td></tr>
+<tr><td><?=_("Comments"); ?></td><td><?=$rs['comments']?></td></tr>
+<tr><td><?=_("Category"); ?></td><td><?=get_category_name($rs['cat_id'])?></td></tr>
+<tr><td><?=_("Item"); ?></td><td><?=$rs['item']?></td></tr>
+<tr><td><?=_("Units"); ?></td><td><?=$rs['units']?></td></tr>
+<tr><td><?=_("Quantity"); ?></td><td><?=$rs['quantity']?></td></tr>
+<tbody>
+</table>
+</div>
+<br/>
+<?php
+ }
 ?>
 
