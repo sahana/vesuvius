@@ -18,6 +18,7 @@ INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 
 
 -- PERSON GENDER 
+INSERT INTO field_options VALUES ('opt_gender','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_gender','mal','Male');
 INSERT INTO field_options VALUES ('opt_gender','fml','Female');
 
@@ -39,6 +40,7 @@ INSERT INTO field_options VALUES ('opt_person_loc_type','imp','Impact location')
 INSERT INTO field_options VALUES ('opt_person_loc_type','cur','Current location');
 
 -- AGE GROUP VALUES
+INSERT INTO field_options VALUES ('opt_age_group','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_age_group','inf','Infant (0-1)');
 INSERT INTO field_options VALUES ('opt_age_group','chi','Child (1-15)');
 INSERT INTO field_options VALUES ('opt_age_group','you','Young Adult (16-21)');
@@ -50,32 +52,38 @@ INSERT INTO field_options VALUES ('opt_country','uk','United Kingdom');
 INSERT INTO field_options VALUES ('opt_country','lanka','Sri Lanka');
 
 -- RACE VALUES 
+INSERT INTO field_options VALUES ('opt_race','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_race','sing1','Sinhalese');
 INSERT INTO field_options VALUES ('opt_race','tamil','Tamil');
 INSERT INTO field_options VALUES ('opt_race','other','Other');
 
 -- RELIGION VALUES 
+INSERT INTO field_options VALUES ('opt_religion','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_religion','bud','Buddhist');
 INSERT INTO field_options VALUES ('opt_religion','chr','Christian');
 INSERT INTO field_options VALUES ('opt_religion','oth','Other');
 
 -- MARITIAL STATUS VALUES 
+INSERT INTO field_options VALUES ('opt_marital_status','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_marital_status','sin','Single');
 INSERT INTO field_options VALUES ('opt_marital_status','mar','Married');
 INSERT INTO field_options VALUES ('opt_marital_status','div','Divorced');
 
 -- BLOOD TYPE VALUES 
+INSERT INTO field_options VALUES ('opt_blood_type','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_blood_type','ab','AB');
 INSERT INTO field_options VALUES ('opt_blood_type','a+','A+');
 INSERT INTO field_options VALUES ('opt_blood_type','o','O');
 
 -- EYE COLOR VALUES
+INSERT INTO field_options VALUES ('opt_eye_color','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_eye_color','bla','Black');
 INSERT INTO field_options VALUES ('opt_eye_color','bro','Light Brown');
 INSERT INTO field_options VALUES ('opt_eye_color','blu','Blue');
 INSERT INTO field_options VALUES ('opt_eye_color','oth','Other');
 
 -- SKIN COLOR VALUES
+INSERT INTO field_options VALUES ('opt_skin_color','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_skin_color','bla','Black');
 INSERT INTO field_options VALUES ('opt_skin_color','bro','Dark Brown');
 INSERT INTO field_options VALUES ('opt_skin_color','fai','Fair');
@@ -83,6 +91,7 @@ INSERT INTO field_options VALUES ('opt_skin_color','whi','White');
 INSERT INTO field_options VALUES ('opt_skin_color','oth','Other');
 
 -- HAIR COLOR VALUES
+INSERT INTO field_options VALUES ('opt_hair_color','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_hair_color','bla','Black');
 INSERT INTO field_options VALUES ('opt_hair_color','bro','Brown');
 INSERT INTO field_options VALUES ('opt_hair_color','red','Red');
