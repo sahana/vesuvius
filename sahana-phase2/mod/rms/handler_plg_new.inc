@@ -38,18 +38,41 @@ if ($_POST['seq'] == 'confirm')
 <br/>
 <div><h4>
 <?php
+
+    if(!isset($_POST['name']) || $_POST['contact'] == '')
+    {
+        _shn_rms_adderror("Please enter a name");
+    }
+    
+    if(!isset($_POST['contact']) || $_POST['contact'] == '')
+    {
+        _shn_rms_adderror("Please add a contact");
+    }
+    
+    if(!isset($_POST['item']) || $_POST['item'] == '')
+    {
+        _shn_rms_adderror("Please add a item");
+    }
+    
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
     {
-        _shn_rms_adderror("Please bo <em>Back</em> and add a quantity");
+        _shn_rms_adderror("Please add a quantity");
+    }
+    
+    if(0<_shn_rms_errorcount())
+    {
+        _shn_rms_adderror("Please go <em>Back</em> and correct the errors");
         _shn_rms_showerrors();
-
-            #more details button
-            shn_form_fopen("new_plg",null,array('req_message'=>false));
-            shn_form_hidden(array('seq'=>''));            
-            shn_form_submit('<--Back',"shorter");
-            shn_form_fclose();
+        
+        #more details button
+        shn_form_fopen("new_plg",null,array('req_message'=>false));
+        shn_form_hidden(array('seq'=>'addplg'));         
+        //shn_form_hidden($_POST);   
+        shn_form_submit('<--Back',"shorter");
+        shn_form_fclose();
         return false;
     }
+
     print _("If the information is correct please press 'Finish'.");
     print _("If you need to change some details"); 
     print _("please"); 
@@ -77,13 +100,6 @@ elseif ($_POST['seq'] == 'add')
     $units  = $_POST['units'];
     $quantity  = $_POST['quantity'];
     
-    if(!isset($_POST['quantity']) || $quantity == '')
-    {
-        _shn_rms_adderror("Please add a quantity");
-        _shn_rms_showerrors();
-        
-        return false;
-    }
     
     $sql = "INSERT INTO rms_req_donor (name, contact, comments) " .
             "VALUES ('$name', '$contact', '$comments')";
@@ -172,16 +188,16 @@ else
     
     shn_form_fsopen('Donor Contact Information');
     shn_form_text('Date','date',null,array('value'=>$today));
-    shn_form_text('Name','name');
-    shn_form_text('Contact','contact');
+    shn_form_text('Name','name',array('req'=>'true'));
+    shn_form_text('Contact','contact',array('req'=>'true'));
     shn_form_textarea('Address','address');
     shn_form_textarea('Comments','comments');
     shn_form_fsclose();
     shn_form_fsopen('Pledge Details');
     shn_form_select(get_rms_catlist(),"Category","cat_id");
-    shn_form_textarea('Item','item');
+    shn_form_textarea('Item','item',array('req'=>'true'));
     shn_form_text('Units','units');
-    shn_form_text('Quantity','quantity');
+    shn_form_text('Quantity','quantity',array('req'=>'true'));
     shn_form_fsclose();
     shn_form_submit('Add');
     shn_form_fclose();
