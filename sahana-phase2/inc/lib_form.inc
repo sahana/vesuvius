@@ -125,6 +125,26 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
     shn_form_extra_opts($extra_opts);
 } 
 
+function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
+{
+    global $global;
+
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+<?php
+    foreach ($options as $opt_value => $desc ) {
+    
+#        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+?>
+        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
+<?=$sel?> /><?=$desc?>
+<?php
+    }
+?>
+<?php
+    shn_form_extra_opts($extra_opts);
+} 
 
 
 // create a select field based on field options
