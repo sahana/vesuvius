@@ -19,15 +19,13 @@
  *  Recent Found People people Top 5
  */
 ?>
-<DIV ID="left">
-<DIV id="heading">Latest updates on Found People
+<div id="home_recent">
+<h1>Latest updates on Found People</h1>
 <?php
 $limit = 5;
 $type = "found";
 shn_mpr_home_show_mpr($type,$limit);
 ?>
-</DIV>
-</DIV>
 <?php
 
 
@@ -35,15 +33,13 @@ shn_mpr_home_show_mpr($type,$limit);
  *  Recent Missing People Top 5
  */
 ?>
-<DIV ID="right">
-<DIV id="heading">Latest updates on Missing People
+<h1>Latest updates on Missing People</h1>
 <?php
 $limit = 5;
 $type = "missing";
 shn_mpr_home_show_mpr($type,$limit);
 ?>
-</DIV>
-</DIV>
+</div>
 <?php
 function shn_mpr_home_show_mpr($type="missing",$limit=5)
 {
