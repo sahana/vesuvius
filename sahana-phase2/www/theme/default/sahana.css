@@ -518,7 +518,16 @@ form ul.list {
 	padding-top:10px;
 	padding-right:10px;
 }
-
+thead td{
+	text-align:center;
+	padding:.25em .25em .25em .25em;
+	border-right:2px solid #DEE3E7;
+	background: #0E72A4; 
+	background: green; 
+	color:#fff;
+	border: #26a solid 1px; 
+	font-size:100%;
+}
 
 #result ul{
 	font-size:150%;
@@ -526,7 +535,6 @@ form ul.list {
 	margin-top:-200px;
 	padding-bottom:50px;
 }
-
 
 #result ul li{
 	line-height:1.2;
