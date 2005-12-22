@@ -85,7 +85,7 @@ function _shn_rms_show_plgdetails()
     _shn_rms_plg_view($_POST['id']);
     
     #back button
-    shn_form_fopen("vw_plgs",null);
+    shn_form_fopen("vw_plgs",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>''));            
     shn_form_submit('Back',"short");
     shn_form_fclose();

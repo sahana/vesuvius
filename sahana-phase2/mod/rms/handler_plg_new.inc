@@ -18,7 +18,7 @@
  */
 if ($_POST['seq'] == 'confirm')
 {
-    shn_form_fopen("new_plg",null);
+    shn_form_fopen("new_plg",null,array('req_message'=>false));
     shn_form_fsopen('Confirmation');
     
 ?>

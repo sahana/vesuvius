@@ -33,9 +33,10 @@
         $sql = "SELECT * FROM rms_pledge WHERE plg_id=$plg_id";    
         $rs_r = $global['db']->Execute($sql);
         
-        if (1 > $rs_r->RecordCount())
+        if ($rs_r == null || 1 > $rs_r->RecordCount())
         {
-            print "not a valid Pledge id";
+            _shn_rms_adderror("<em>'$plg_id'</em> is not a valid pledge id");
+            _shn_rms_showerrors();
         }
         else
         {
