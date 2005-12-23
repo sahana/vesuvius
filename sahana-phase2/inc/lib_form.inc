@@ -245,4 +245,21 @@ function shn_form_password($label, $name, $text_opts = null,
 <?php
     shn_form_extra_opts($extra_opts);
 }
+
+function shn_form_date($label, $name = 'date') 
+{
+    $today = date("d/m/Y");
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    global $global;
+?>
+    <script language="javascript" type="text/javascript" src="res/js/calendar.core.js"></script>
+    <label><?=$label?></label>
+<?php
+    require_once $global['approot']."/3rd/popupcal/cal_class.php";
+    $calendario=new Calendar("en");
+    $calendario->CreateCalendar($today,$name,"12/31/2004","12/31/2006");
+
+    shn_form_extra_opts($extra_opts);
+}
+
 ?>
