@@ -1172,5 +1172,7 @@ function _shn_rms_plg_showdelbutton($id)
     shn_form_submit('Remove Pledge',"short");
     shn_form_fclose();
 }
+
+
 ?>
 

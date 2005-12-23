@@ -80,11 +80,12 @@ function _shn_rms_show_plglist()
 <table>
     <thead>
         <td width=""><?php __add_order_url('ID') ?></td>
-        <td width="100"><?php __add_order_url('Status') ?></td>
+        <td width="70"><?php __add_order_url('Status') ?></td>
         <td width=""><?php __add_order_url('Date') ?></td>
-        <td width="150"><?php __add_order_url('Donor') ?></td>
+        <td width="120"><?php __add_order_url('Donor') ?></td>
         <td width="100"><?php __add_order_url('Category') ?></td>
         <td width="100"><?php __add_order_url('Item') ?></td>
+        <td width=""><?php print _("Change Status") ?></td>
         <td width=""><?php print _("More Details") ?></td>
     </thead>
 <?php
@@ -101,6 +102,16 @@ function _shn_rms_show_plglist()
         <td><?php print  $plg['item']; ?></td>
         <td>
         <?php
+                       
+            shn_form_fopen("stat_plgs",null,array('req_message'=>false));
+            shn_form_hidden(array('seq'=>''));            
+            shn_form_hidden(array('plg_id'=>$plg['plg_id']));
+            shn_form_submit('Change Status',"shorter");
+            shn_form_fclose();
+        ?>
+        </td>
+        <td>
+        <?php
             #more details button
             shn_form_fopen("vw_plgs",null,array('req_message'=>false));
             shn_form_hidden(array('seq'=>'vw_plg'));            
@@ -109,6 +120,7 @@ function _shn_rms_show_plglist()
             shn_form_fclose();
         ?>
         </td>
+        
     </tr>
         
 <?php

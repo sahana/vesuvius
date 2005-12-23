@@ -141,6 +141,11 @@ function shn_rms_del_plg()
     include_once ('handler_plg_del.inc');
 }
 
+function shn_rms_stat_plgs()
+{
+    include_once ('handler_plg_stat.inc');
+}
+
 /**
  * Enter Fulfilment information
  */
