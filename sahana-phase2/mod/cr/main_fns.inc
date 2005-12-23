@@ -217,8 +217,10 @@ function shn_cr_ecmp(){
 		case 'view'		:
 									shn_cr_all_view();
 									break;
-		default 			:
-									
+		case 'del'	  :
+									_shn_cr_del_camp($_REQUEST['cmp_id']);
+									break;
+		default 			:	
 		            	shn_cr_edt_srch();
 		            	break;
 		}

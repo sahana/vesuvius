@@ -83,6 +83,17 @@ function _shn_cr_cedt_start($errors=false){
 
 function shn_cr_all_view(){
 	
+?>
+<script type="text/javascript">
+	function editThis(){
+		var x=window.confirm("Do You Really Want to Delete?")
+		if (x)
+		return true;
+		else
+		return false;
+	}
+</script>
+<?php
 	global $global;
 	$db = $global['db'];
 ?>
@@ -143,6 +154,10 @@ function shn_cr_all_view(){
 	shn_form_label("Children",$_SESSION['camp_children']);
 	shn_form_fsclose();
 	shn_form_submit("Close");
+?>
+	<input type="button" onClick="location.replace('index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $_REQUEST['cmp_id']?>');" value="Edit Camp" />
+	<input type="button" onClick="if(editThis()) location.replace('index.php?mod=cr&act=ecmp&seq=del&cmp_id=<?php echo $_SESSION['editid']?>');" value="Delete Camp" />
+<?php
 	shn_form_fclose();
 }
 
@@ -179,6 +194,19 @@ shn_form_fsclose();
 shn_form_submit("Next");
 shn_form_fclose();
 
+}
+
+function _shn_cr_del_camp($id){
+	global $global;
+	$db=$global['db'];
+	$q="delete from camp where c_uuid='{$id}'";
+	$r="delete from camp_reg where c_uuid='{$id}'";
+	$s="delete from camp_services where c_uuid='{$id}'";
+	$db->Execute($q);
+	$db->Execute($r);
+	$db->Execute($s);
+	echo "Deleted Camp Succesfully";
+	//shn_cr_srch
 }
 
 function _shn_cr_cadd_commit(){
