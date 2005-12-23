@@ -300,7 +300,6 @@ function shn_mpr_editmp_upload_pic()
  */
 function shn_mpr_editmp_confirm()
 {
-    var_dump($_SESSION['mpr_edit']['entry']);
     global $global;
     global $conf;
 
