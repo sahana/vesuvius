@@ -1161,6 +1161,15 @@ function get_rms_catlist()
 </div>
 <br/>
 <?php
+    #change Status    
+    shn_form_fopen("stat_plgs",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>''));
+    shn_form_hidden(array('from'=>'view'));             
+    shn_form_hidden(array('plg_id'=>$rs['plg_id']));
+    shn_form_submit('Change Status',"shorter");
+    shn_form_fclose();
+    
+    #remove pledge
     _shn_rms_plg_showdelbutton($rs['plg_id']);
 }
 

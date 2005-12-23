@@ -15,7 +15,7 @@
 
 _shn_rms_show_headder(_("List of Current Pledges"));
 
-_shn_rms_plg_showfilter();
+
 
 function _shn_rms_get_allplgs()
 {
@@ -74,6 +74,7 @@ function __add_order_url($str)
 
 function _shn_rms_show_plglist()
 {
+    _shn_rms_plg_showfilter();
     $plgs = _shn_rms_get_allplgs();
 ?>
 <div id ="result">
@@ -104,7 +105,8 @@ function _shn_rms_show_plglist()
         <?php
                        
             shn_form_fopen("stat_plgs",null,array('req_message'=>false));
-            shn_form_hidden(array('seq'=>''));            
+            shn_form_hidden(array('seq'=>''));
+            shn_form_hidden(array('from'=>'list'));             
             shn_form_hidden(array('plg_id'=>$plg['plg_id']));
             shn_form_submit('Change Status',"shorter");
             shn_form_fclose();

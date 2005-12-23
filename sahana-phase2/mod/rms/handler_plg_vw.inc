@@ -20,14 +20,14 @@
     shn_form_fopen("vw_plg",null,array('req_message'=>false));
 
     shn_form_fsopen('Pledge ID');
-    shn_form_hidden(array('seq'=>'view'));
+    shn_form_hidden(array('seq'=>'view1'));
     shn_form_text('Pledge ID','plg_id','size="15"');
     shn_form_fsclose();
-    shn_form_submit('Search');
+    shn_form_submit('View');
     shn_form_fclose();
     print "<br/>";
     
-    if ($_POST['seq'] == 'view')
+    if ($_POST['seq'] == 'view1')
     {
         $plg_id = $_POST['plg_id'];
         
@@ -81,7 +81,7 @@
         }
 }
 
-if ($_GET['seq'] == 'view')
+if ($_REQUEST['seq'] == 'view')
 {
     $id = $_REQUEST['plg_id'];
     _shn_rms_plg_view($id);
