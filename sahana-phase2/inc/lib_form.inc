@@ -258,6 +258,7 @@ function shn_form_date($label, $name = 'date')
     require_once $global['approot']."/3rd/popupcal/cal_class.php";
     $calendario=new Calendar("en");
     $calendario->CreateCalendar($today,$name,"12/31/2004","12/31/2006");
+    # @TODO handle localization and remove fixed date range above
 
     shn_form_extra_opts($extra_opts);
 }
