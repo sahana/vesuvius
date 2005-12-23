@@ -38,7 +38,8 @@ function _shn_cr_srch_rst($camp_name,$type){
         <tbody>
         
         <?php
-        
+       	if($_REQUEST['edt']=='true')
+					$edt=true;
              /* Search for a given Camp Name with the matching for the specific Camp Type*/
 	
 			if($type != "all"){
@@ -69,7 +70,7 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><?php echo $res_cmp->fields[1]?>&nbsp;<a href="#">[edit]</a></td>
+    				<td><?php echo $res_cmp->fields[1]?>&nbsp;<?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -116,7 +117,8 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><?php echo $res_cmp->fields[1]?></td>
+    				<td><?php echo $res_cmp->fields[1]?>&nbsp;<?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
+						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -143,7 +145,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 
 /*The Form to handle the Search Functionality*/
 	
-function _shn_cr_srch(){		
+function _shn_cr_srch($edit=false){		
 ?>
 	 	  <h1><center>Search for a Camp</center></h1>
  <?php
@@ -155,6 +157,8 @@ function _shn_cr_srch(){
  			<br>		
 			<?php
 		   shn_form_opt_select("opt_camp_type","Camp Type",null,array('all'=>true));
+			 if($edit=='true')
+			 	shn_form_hidden(array('edt'=>'true'));
 		   shn_form_fsclose();
 			shn_form_submit("Search");
 			shn_form_fclose();

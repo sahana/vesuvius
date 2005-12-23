@@ -28,7 +28,7 @@ function _shn_cr_cedt_start($errors=false){
 ?>
 <h2>Update Existing Camp</h2>
 <?php
-	$query="select c_uuid from camp where name='{$_POST['cmp_id']}'";
+	$query="select c_uuid from camp where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
 	$editid=$res->fields[0];
 	$_SESSION['editid']=$editid;
@@ -142,9 +142,14 @@ function _shn_cr_search_edt_frm(){
 	shn_form_submit("Edit");
 	shn_form_fclose();
 	
-													
+}
+function shn_cr_edt_srch(){
+	global $global;
+	include($global['approot'].'/mod/cr/search.inc');
+	_shn_cr_srch(true);
 
 }
+
 
 function _shn_cr_validate_error(){
 	clean_errors();

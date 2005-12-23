@@ -215,8 +215,8 @@ function shn_cr_ecmp(){
 										_shn_cr_cedt_start();
 									break;	
 		default 			:
-									_shn_cr_search_edt_frm();
-		            	//_shn_cr_cedt_start();
+									
+		            	shn_cr_edt_srch();
 		            	break;
 		}
 																																																						

@@ -42,9 +42,12 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type","Camp Type");
 ?>
-<label>Division</label>
-<select name="opt_location_type" >
+
+<!--<label>Division</label>
+<select name="opt_location_type" >-->
+
 <?php
+/*
 // Display selected Division type only
 	$q="select value from config where confkey='division_type' && module_id='cr'";
 	//$q ="select option_description from field_options where field_name='cr_pref_div'";
@@ -63,10 +66,16 @@ function _shn_cr_cadd_start($errors=false){
 ?>
 </select><br>
 <?php
-			
+*/			
 //-----------------------------------------
 	shn_form_textarea("Address","camp_address");
 	shn_form_fsclose();
+//-------------------------
+	global $global;
+	include $global['approot']."/inc/lib_location.inc";
+	shn_location_form_org(1,4);
+		
+//-------------------------
 	shn_form_fsopen("Contact Person Details");
 	shn_form_text("Full Name","camp_contact_name",'size="60"');
 	shn_form_text("Phone Number","camp_contact_number",'size="60"');
@@ -85,7 +94,6 @@ function _shn_cr_cadd_start($errors=false){
 function _shn_cr_cadd_chk($errors=false){
 if($errors)
 	display_errors;
-	
 	global $global;
 	include $global['approot']."/conf/config.inc";
 	if($conf['gis']=='false'){
@@ -101,6 +109,11 @@ if($errors)
 		$_SESSION['camp_women']=$_POST['women'];
 		$_SESSION['camp_children']=$_POST['children'];
 		$_SESSION['camp_total']=$_POST['total'];
+		$_SESSION['cr_1']=$_POST['1'];
+		$_SESSION['cr_2']=$_POST['2'];
+		$_SESSION['cr_3']=$_POST['3'];
+		$_SESSION['cr_4']=$_POST['4'];
+					
 	}
 	else{
 		$_SESSION['gis_loc_x']=$_POST['loc_x'];
@@ -153,6 +166,10 @@ function _shn_cr_sel_map(){
 	$_SESSION['camp_women']=$_POST['women'];
 	$_SESSION['camp_children']=$_POST['children'];
 	$_SESSION['camp_total']=$_POST['total'];
+	$_SESSION['cr_1']=$_POST['1'];
+	$_SESSION['cr_2']=$_POST['2'];
+	$_SESSION['cr_3']=$_POST['3'];
+	$_SESSION['cr_4']=$_POST['4'];
 											
 	shn_form_fopen(acmp);
 	shn_form_hidden(array('seq'=>'chk'));
@@ -205,7 +222,7 @@ function _shn_cr_validate_error(){
 	//echo $_POST['family'];
 	if(!(null == ($_POST['family']))){
 		if(!is_numeric(trim($_POST['family']))){
-			add_error(_("The Familiy Count is not a valid number"));
+			add_error(_("The Family Count is not a valid number"));
 			$error_flag=true;
 		}
 	}
@@ -239,6 +256,17 @@ function _shn_cr_validate_error(){
 	return $error_flag;
 }
 
+function _shn_cr_get_locid(){
+	if($_SESSION['cr_4']!=null)
+		return $_SESSION['cr_4'];
+	else if($_SESSION['cr_3']!=null)
+		return $_SESSION['cr_3'];
+	else if($_SESSION['cr_2']!=null)
+		return $_SESSION['cr_2'];
+	else 
+		return $_SESSION['cr_1'];
+}
+
 function _shn_cr_cadd_commit_db(){
 //insert to database;
 global $global;
@@ -251,8 +279,11 @@ $uid=_shn_cr_create_cid();
 shn_db_insert_phonetic('camp_name',$uid);
 /*---------------------------------------*/
 
+$loc_id=_shn_cr_get_locid();
+
+
 //enter into camp table
-$q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}','{$_SESSION['opt_location_type']}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
 
 $res = $db->Execute($q);
@@ -274,14 +305,14 @@ include $global['approot']."/conf/config.inc";
 if($conf['gis']){
   include $global['approot']."/mod/gis/conf.inc";
   include $global['approot']."/mod/gis/gis_fns.inc";
-	shn_gis_dbinsert($uid,$_SESSION['opt_location_type'],$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
+	shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
 }
 				
 
 
 
 /*insert services into camp_services table
-//currently add checked values.
+ *currently add checked values.
 */								
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
