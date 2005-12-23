@@ -24,17 +24,22 @@ function shn_rms_adm_default()
 ?>
 
 <h2>Welcome to The RMS Administration Page</h2>
-<div id="left">
-<div id="heading"><?php print _("Items Category Settings")?></div>
+<br/><hr/><br/>
+<div id="home">
+<div id="result">
+<div id="home_resent"><?php print _("Items Category Settings")?></div><hr/>
 <?php print '<a href="index.php?mod=rms&act=adm_add_category">' . _("Add Category") . '</a>'?><br/>
 <?php print '<a href="index.php?mod=rms&act=adm_remove_category">' . _("Remove Category") . '</a>'?><br/>
 </div>
-
-<div id="center">
-<div id="heading"><?php print _("Items Priority Settings")?></div>
+</div>
+<br/><hr/><br/>
+<div id="result">
+<div id="home_resent"><?php print _("Items Priority Settings")?></div><hr/>
 <?php print '<a href="index.php?mod=rms&act=adm_add_priority">' . _("Add Priority Type") . '</a>'?><br/>
 <?php print '<a href="index.php?mod=rms&act=adm_remove_priority">' . _("Remove Priority Type") . '</a>'?><br/>
 </div>
+</div>
+</div> 
 
 <?php
 }
