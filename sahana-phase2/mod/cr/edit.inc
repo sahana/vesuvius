@@ -149,10 +149,31 @@ function shn_cr_all_view(){
 ?>
 <!--</select><br>-->
 <?php
-			
+	
+	global $global;
+	include $global['approot']."/mod/or/lib_or.inc";
+		
 //-----------------------------------------
 	shn_form_label("Address",$_SESSION['camp_address']);
+
+
+	//Starts
+	        $i = 1  - 1;
+					while( $i < 4 ) {
+					$i++;
+					  $sql = " SELECT location.name , field_options.option_description FROM location ".
+				           " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
+				           " WHERE location.opt_location_type = '$i' AND " .
+				           " location.location_id = '{$_SESSION['opt_location_type']}' ";
+																																																											                $result = $global['db']->GetRow($sql);
+																																																																			                shn_form_label($result['option_description'] , $result['name']);
+																																																												
+																																																												}
+																																																																																					    //Ends
+																																																																																					
+		
 	shn_form_fsclose();
+	//shn_location_form_view(1,4,$_SESSION['opt_location_type']);
 	shn_form_fsopen("Contact Person Details");
 	shn_form_label("Full Name",$_SESSION['camp_contact_name']);
 	shn_form_label("Phone Number",$_SESSION['camp_contact_number']);
