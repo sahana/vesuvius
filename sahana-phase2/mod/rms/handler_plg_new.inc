@@ -187,7 +187,7 @@ else
     shn_form_hidden(array('seq'=>'confirm'));
     
     shn_form_fsopen('Donor Contact Information');
-    shn_form_text('Date','date',array('value'=>$today));
+    shn_form_text('Date','date',null,array('value'=>$today));
     shn_form_text('Name','name',null,array('req'=>true));
     shn_form_text('Contact','contact',null,array('req'=>true));
     shn_form_textarea('Address','address');
