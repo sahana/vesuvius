@@ -39,11 +39,15 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
 	shn_form_opt_select("opt_camp_type","Camp Type",array('value'=>$_SESSION['opt_camp_type']));
+	shn_form_textarea("Address","camp_address",array('value'=>$_SESSION['camp_address']));
+	shn_form_fsclose();
 ?>
+<!--
 <label>Division</label>
-<select name="opt_location_type" >
+<select name="opt_location_type" >-->
 <?php
 // Display selected Division type only
+/*
 	$q="select value from config where confkey='division_type' && module_id='cr'";
 	//$q ="select option_description from field_options where field_name='cr_pref_div'";
 	$ref = $db->Execute($q);
@@ -53,18 +57,25 @@ function _shn_cr_cedt_start($errors=false){
 	while(!$ref->EOF){	
 		$val=$ref->fields[0];
 		$name=$ref->fields[1];
+*/
 ?>
-<option value='<?=$val?>'><?=$name?></option>
+<!--
+<option value='<?=$val?>'><?=$name?></option>-->
 <?php
+/*
 		$ref->MoveNext();
 	}
+*/
 ?>
-</select><br>
+<!--</select><br>-->
 <?php
+
+	global $global;
+	include $global['approot']."/inc/lib_location.inc";
+	shn_location_form_org(1,4,$_SESSION['opt_location_type']);
+			
 			
 //-----------------------------------------
-	shn_form_textarea("Address","camp_address",array('value'=>$_SESSION['camp_address']));
-	shn_form_fsclose();
 	shn_form_fsopen("Contact Person Details");
 	shn_form_text("Full Name","camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
 	shn_form_text("Phone Number","camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
@@ -181,6 +192,11 @@ if($errors)
 	$_SESSION['camp_women']=$_POST['women'];
 	$_SESSION['camp_children']=$_POST['children'];
 	$_SESSION['camp_total']=$_POST['total'];
+	$_SESSION['cr_1']=$_POST['1'];
+	$_SESSION['cr_2']=$_POST['2'];
+	$_SESSION['cr_3']=$_POST['3'];
+	$_SESSION['cr_4']=$_POST['4'];
+							
 	//var_dump($_SESSION);
 ?>
 <h2>Camp Checklist</h2>
@@ -321,7 +337,16 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['camp_total']=$res->fields['total'];
 											
 }
-
+function _shn_cr_get_locid(){
+  if($_SESSION['cr_4']!=null)
+		return $_SESSION['cr_4'];
+	else if($_SESSION['cr_3']!=null)
+	  return $_SESSION['cr_3'];
+	else if($_SESSION['cr_2']!=null)
+	  return $_SESSION['cr_2'];
+	else
+	  return $_SESSION['cr_1'];
+}
 
 function _shn_cr_cedt_commit(){
 //insert to database;
@@ -329,14 +354,14 @@ global $global;
 global $editid;
 $db = $global['db'];
 
+$loc_id=_shn_cr_get_locid();
 //call unique camp id
 //$uid=_shn_cr_create_cid();
 //enter into camp table
-$q="update camp set name='{$_SESSION['camp_name']}',location_id='{$_SESSION['opt_location_type']}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp set name='{$_SESSION['camp_name']}',location_id=$loc_id,opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
 
 
 $res = $db->Execute($q);
-
 //enter into camp_reg table
 $q="update camp_reg set name='{$_SESSION['camp_name']}',contact_name='{$_SESSION['camp_contact_name']}',contact_no='{$_SESSION['camp_contact_number']}',comments='{$_SESSION['camp_comments']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_family']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
 
