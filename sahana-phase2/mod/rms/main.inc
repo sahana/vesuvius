@@ -136,6 +136,11 @@ function shn_rms_vw_plgs()
     include_once ('handler_plg_ls.inc');
 }
 
+function shn_rms_del_plg()
+{
+    include_once ('handler_plg_del.inc');
+}
+
 /**
  * Enter Fulfilment information
  */

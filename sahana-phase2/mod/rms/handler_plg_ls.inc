@@ -53,6 +53,25 @@ function _shn_rms_get_allplgs()
     return $arr;
 }
 
+function __add_order_url($str)
+{
+    switch ($str)
+    {
+        case 'ID' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=plg_id'>$str</a>";
+                    break;
+        case 'Status' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=status'>$str</a>";
+                    break;
+        case 'Category' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=cat_id'>$str</a>";
+                    break;
+        case 'Date' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=date'>$str</a>";
+                    break;
+        case 'Donor' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=user_id'>$str</a>";
+                    break;
+        case 'Item' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=item'>$str</a>";
+                    break;
+    }
+}
+
 function _shn_rms_show_plglist()
 {
     $plgs = _shn_rms_get_allplgs();
@@ -60,12 +79,12 @@ function _shn_rms_show_plglist()
 <div id ="result">
 <table>
     <thead>
-        <td width=""><?php print _("ID") ?></td>
-        <td width="100"><?php print _("Status") ?></td>
-        <td width=""><?php print _("Date") ?></td>
-        <td width="150"><?php print _("Donor") ?></td>
-        <td width="100"><?php print _("Category") ?></td>
-        <td width="100"><?php print _("Item") ?></td>
+        <td width=""><?php __add_order_url('ID') ?></td>
+        <td width="100"><?php __add_order_url('Status') ?></td>
+        <td width=""><?php __add_order_url('Date') ?></td>
+        <td width="150"><?php __add_order_url('Donor') ?></td>
+        <td width="100"><?php __add_order_url('Category') ?></td>
+        <td width="100"><?php __add_order_url('Item') ?></td>
         <td width=""><?php print _("More Details") ?></td>
     </thead>
 <?php

@@ -1161,6 +1161,16 @@ function get_rms_catlist()
 </div>
 <br/>
 <?php
- }
+    _shn_rms_plg_showdelbutton($rs['plg_id']);
+}
+
+function _shn_rms_plg_showdelbutton($id)
+{
+    shn_form_fopen("del_plg",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'confirm'));
+    shn_form_hidden(array('plg_id'=>$id));            
+    shn_form_submit('Remove Pledge',"short");
+    shn_form_fclose();
+}
 ?>
 

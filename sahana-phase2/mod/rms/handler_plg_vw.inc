@@ -86,4 +86,5 @@ if ($_GET['seq'] == 'view')
     $id = $_REQUEST['plg_id'];
     _shn_rms_plg_view($id);
 }
+
 ?>
