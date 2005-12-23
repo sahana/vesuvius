@@ -15,6 +15,7 @@
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
+include_once $global['approot']."/mod/or/lib_or.inc";
 
 function shn_location_jscript($from,$to){
     global $global;
@@ -121,21 +122,7 @@ function _shn_location_form_value($from,$to,$value){
     if($value!=NULL){
         $loc_arr=shn_or_get_parents($value);
     }
-      /*
-    $msg=array('desc'=>_("Type the Zip Code OR select from List Boxes"),'type'=>"label",'name'=>'zip','br'=>'3');  
-    array_push(
-            $loc,
-            $msg            
-       
-    );
-
-    $zip=array('desc'=>_("Zip Code"),'type'=>"text",'name'=>'zip','br'=>'1');  
-    array_push(
-            $loc,
-            $zip            
-       
-    );
-    */
+     
     $cur=$from;
     while($cur<=$to){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
@@ -180,21 +167,7 @@ function _shn_location_form($from,$to){
     global $global;
     $db=$global['db'];
     $loc=array(); 
-      /*
-    $msg=array('desc'=>_("Type the Zip Code OR select from List Boxes"),'type'=>"label",'name'=>'zip','br'=>'3');  
-    array_push(
-            $loc,
-            $msg            
-       
-    );
-
-    $zip=array('desc'=>_("Zip Code"),'type'=>"text",'name'=>'zip','br'=>'1');  
-    array_push(
-            $loc,
-            $zip            
-       
-    );
-    */
+     
     $cur=$from;
     while($cur<=$to){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
