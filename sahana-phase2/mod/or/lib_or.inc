@@ -308,7 +308,7 @@ function shn_or_admin_javascript($name){
 </script>
 <?php
 }
-function shn_or_get_parents($child){
+function shn_or_get_org_loc_parents($child){
     global $global;
     $db=$global['db'];
     $q="select search_id,name,location.location_id from location_details,location where poc_uuid='{$child}' and location_details.location_id=location.location_id";
@@ -345,19 +345,60 @@ function shn_or_get_parents($child){
 
      return $loc_return;
 }
+function shn_or_get_parents($child){
 
-function _shn_or_display_gender($error=false){
+    global $global;
+    $db=$global['db'];
+    $q="select search_id,name,location_id from location where location_id=$child";
+    $res_temp=$db->Execute($q);
+    $final=array();
+    $final[0]=$res_temp->fields[0];
+    $final[1]=$res_temp->fields[1];
+    $final[2]=$res_temp->fields[2];
+
+    $bsd_village=$res_temp->fields[0];
+    $loc=split("\.", $bsd_village);
+    $loc_return=array();
+    for($k=0;$k<count($loc)-1;$k++){
+        $cur=$cur.$loc[$k];
+        $temp=array();
+        $temp[0]=$cur;     
+        $q="select name,location_id from location where search_id='$cur'";
+        $res_loc=$db->Execute($q);
+        $temp[1]=$res_loc->fields[0];
+        $temp[2]=$res_loc->fields[1];
+        array_push(
+            $loc_return,
+            $temp
+            );
+        if($k!=count($loc)-1){
+            $cur=$cur.".";
+        }
+	}
+        array_push(
+            $loc_return,
+            $final
+            );
+       
+
+     return $loc_return;
+}
+
+
+
+function _shn_or_display_gender($error=false,$value=NULL){
     global $global;
     $db=$global['db'];
     $q = "select option_code,option_description from field_options where field_name='opt_gender'";
     $res=$db->Execute($q);
     $gender=array();
-        
+    $selected=($value==$res->fields[0])?true:false;
     while(!$res->EOF){
         array_push(
             $gender,
             array(  'drop_desc'=>$res->fields[1],
-                    'value'=>$res->fields[0]
+                    'value'=>$res->fields[0],
+ 		     'selected'=>$selected
             )       
         );
         
@@ -366,26 +407,31 @@ function _shn_or_display_gender($error=false){
    return array('desc'=>_("Gender :"),'type'=>'dropdown','name'=>'sex','br'=>1,'options'=>$gender);
    				
 }
-function _shn_or_display_org_type($error=false,$multi=false)
+function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
 {
     global $global;
     $db=$global['db'];
     
     $q = "select option_code,option_description from field_options where field_name='opt_org_type' order by option_description";
     $res=$db->Execute($q);
-    $or_type_options=array();
-        
+    $options=array();
+    
     while(!$res==NULL && !$res->EOF){
-        array_push(
-            $or_type_options,
-            array(  'drop_desc'=>$res->fields[1],
-                    'value'=>$res->fields[0]
-            )       
-        );
+       echo $res->fields[0];
+	$selected=(trim($value)==trim($res->fields[0]))?true:false;
+echo $selected;
+       array_push(
+                    $options,
+                    array(  'drop_desc'=>$res->fields[1],
+                        'value'=>$res->fields[0],
+                        'selected'=>$selected
+                     )       
+                );
         
         $res->MoveNext();
     }
-$or_type=$multi?array('desc'=>_("* Organization Type:"),'type'=>"multiselect",'size'=>4,'name'=>'org_type[]','options'=>$or_type_options,'br'=>'1'):array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$or_type_options,'br'=>'1');    
+$or_type=$multi?array('desc'=>_("* Organization Type:"),'type'=>"multiselect",'size'=>4,'name'=>'org_type[]','options'=>$options,'br'=>'1'):array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$options,'br'=>'1');  
+
 return $or_type;
 
 }
