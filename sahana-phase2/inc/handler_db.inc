@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.7 2005-11-07 04:12:23 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.8 2005-12-23 09:14:43 janakawicks Exp $ */
 
 /**
 *
@@ -64,8 +64,25 @@ function shn_db_update($arr,$table, $key){
 #    echo $sql;
 }
 
-function shn_db_insert($arr,$table){
-    global $global;
+function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
+    global $global,$conf;
+
+    if($audit){
+        $primary_field = trim($primary_field);
+        //If Primary Field given then check for the value
+        if( $primary_field != '' )
+           $x_uuid = $arr[$primary_field];
+        //if primary field is not given the look get the primary key
+        //@TODO
+        
+        //if the $_SESSION['user_id'] is not set, $u_uuid =
+        //$conf['guest_id']
+        if (isset($_SESSION['user_id']))
+            $u_uuid = $_SESSION['user_id'];
+        else
+            $u_uuid = $conf['guest_id'];
+    }
+    
     $sql = "INSERT INTO $table ";
 
     foreach($arr as $k => $v){
@@ -75,6 +92,12 @@ function shn_db_insert($arr,$table){
             $values .= "'NULL', ";
         else
             $values .= shn_db_clean($v).", ";
+
+        if($audit)
+            $sql_audit[] = "INSERT INTO audit (x_uuid, u_uuid, change_type, ".
+                     "change_table, change_field, new_val ) VALUES ( ".
+                    "'$x_uuid' , '$u_uuid', 'ins' , '$table' , '$k' , " .
+                    shn_db_clean($v) ." )";
     }
 
     $keys = substr($keys,0,strlen($keys)-2);
@@ -84,7 +107,16 @@ function shn_db_insert($arr,$table){
 
     $global['db']->Execute($sql);
     #echo $sql."<hr>";
+    #var_dump($sql_audit);
+    if($audit){
+        foreach($sql_audit as $sqls){
+            #echo $sqls ."<hr>";
+            $global['db']->Execute($sqls);
+        }
+    }
+
 }
+
 function shn_db_insert_phonetic($name,$pgl_uuid)
 {
     global $global;
@@ -98,7 +130,7 @@ function shn_db_insert_phonetic($name,$pgl_uuid)
         //ignore if all the fields are there
         //@todo: clean
         if(! $global['db']->GetOne("SELECT * FROM phonetic_word WHERE encode1='{$arr['encode1']}' AND encode2='{$arr['encode2']}' AND pgl_uuid='{$arr['pgl_uuid']}'") )
-            shn_db_insert($arr,'phonetic_word');
+            shn_db_insert($arr,'phonetic_word', true, 'pgl_uuid');
         //clear arr just incase ;-) 
         $arr = null;
     }
