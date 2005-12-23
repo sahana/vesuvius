@@ -39,11 +39,11 @@ online aid trading system tracking request to fulfillment. Features include:
     <li>Filtered search of aid pledges and requests</li>
     <li>Ability to track partial fulfillment of the request</li>
 </ul>
+<br/>
+</div>
 
 <br/>
 <?php _shn_rms_search_home(); ?>
-<br/>
-</div>
 <div id="home_resent">
 <br/><hr/><br/>
 <div id="result">

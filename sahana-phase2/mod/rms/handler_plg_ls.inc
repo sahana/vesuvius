@@ -15,11 +15,31 @@
 
 _shn_rms_show_headder(_("List of Current Pledges"));
 
+_shn_rms_plg_showfilter();
+
 function _shn_rms_get_allplgs()
 {
     global $global;
+    
+    $filter = $_REQUEST['filter'];
+    $order  = $_REQUEST['order'];
+    
     $sql = "SELECT * FROM rms_pledge";
+    
+    if(isset($filter) && trim($filter) != -1)
+    {
+        $str = " WHERE cat_id=$filter";
+        $sql .= $str;        
+    }
+    
+    if(trim(isset($order)))
+    {
+        $str = " ORDER BY $order";
+        $sql .= $str;        
+    }
+    
     $rs = $global['db']->Execute($sql);
+    
     
     if ($rs == null || $global['db']->ErrorMsg() != null)
     {
@@ -92,6 +112,39 @@ function _shn_rms_show_plgdetails()
     
 }
 
+function _shn_rms_plg_showfilter()
+{
+    $value = $_REQUEST['filter'];
+    _shn_rms_fltcats($value);
+    print "<br/>";
+}
+
+function _shn_rms_fltcats($value)
+{
+    global $global;
+    $sql = "SELECT cat_id,category FROM  rms_req_category";
+    $rs = $global['db']->Execute($sql);
+    
+    $url = "index.php?mod=rms&act=vw_req&amp;act=vw_plgs";
+    
+    $select = "<div><form action='$url' name=req_fil_cat method=post>\n";
+    $select .= _("Filter by Category");
+    $select .= "<select name='filter' onChange='submit();'>\n";
+    $rs_arr = $rs->GetAll();
+    foreach ($rs_arr as $r)
+    {
+        if($r[0] != $value)
+            $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
+        else
+            $select .= "\t<option selected='selected' value=" . $r[0] . ">" . $r[1] . "</option>\n";
+    }
+    $select .= "\t<option value='-1'> All </option>\n";
+    $select .= "</select>\n" .
+               "</form>\n" .
+               "</div>";
+    print $select;
+}
+
 switch ($_REQUEST['seq'])
 {
     case '':
@@ -102,4 +155,6 @@ switch ($_REQUEST['seq'])
             _shn_rms_show_plgdetails();            
             break;                
 }
+
+
 ?>

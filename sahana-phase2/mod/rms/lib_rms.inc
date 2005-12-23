@@ -37,7 +37,7 @@ function _shn_rms_search_home()
 ?>
 <form method="POST" action="index.php?mod=rms&act=sc_req">
     <input type="hidden" name="seq" value="req_sch">
-    <strong>Enter Search Keyword</strong> : 
+    <strong>Search for a Request</strong> : 
     <input type="text" name="kword" />
     <input type="submit" value="Search"/>
 </form>
