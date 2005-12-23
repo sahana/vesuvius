@@ -47,6 +47,7 @@ function shn_or_viewform_allorg($no=NULL){
     }
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
+        if($org_id!=0){
         _shn_display_org($org_id);
         $q = "select o_uuid from org_main where parent_id=$org_id order by name";
         $res_operation=$db->Execute($q);
@@ -55,7 +56,9 @@ function shn_or_viewform_allorg($no=NULL){
             _shn_display_org($operation_id);
             $res_operation->MoveNext();
         }
+        }
         $res_org->MoveNext();
+        
     }
 ?>
    </tbody>
@@ -165,12 +168,12 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $bsd_village=$loc[3][1];
     }
 ?>
-<h1 align="center"><?php if($edit){echo "Edit ";}?>Organization Registration Information of <em> <?php echo $org_name?></em></h1></center>
+<h2>Organization Registration Information of <em> <?php echo $org_name?></em></h2>
          
 <div id="formcontainer">
 <?php
-if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=view_org";}
-   	$header=array('method'=>'POST','action'=>$act,'id'=>'formset');
+$act="index.php?mod=or&act=view_org_submit";
+   	$header=array('method'=>'POST','action'=>$act,'id'=>'formset','name'=>'view');
 	shn_form_open($header,false);
 // call OR name
     $or_main = array(
@@ -189,7 +192,8 @@ if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=
             );
     }
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
-    // base location
+   /*
+   // base location
      $location_inf = array(
                         array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country
                         ),                         
@@ -200,10 +204,11 @@ if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=
                         array('desc'=>_("Village :"),'type'=>'text','name'=>'bsd_village','br'=>'1','value'=>$bsd_village
                         )
                     );// end of option
-                             
+                            
     // OR infomation
     shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=true);
-
+*/
+    shn_location_form_org('1','4',$org_id);
     $contact=_shn_or_display_contact_person($error,true,$org_id);
 
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
@@ -215,13 +220,18 @@ if($edit){$act="index.php?mod=or&act=edit_org";}else{$act="index.php?mod=or&act=
 <center>
 <?php
 //create the submit button
-if($edit){
-    $submit="Edit & Save";
-    }else{
-    $submit="Close";
-}
-    $submit= array('type'=>'submit', 'value'=>$submit);
+    $submit= array('type'=>'submit', 'value'=>'Close','onClick'=>"change_action('close')");
 	shn_form_add_component($submit,false,false);
+    $edit= array('type'=>'button', 'value'=>'Edit','onClick'=>"change_action('edit')");
+	shn_form_add_component($edit,false,false);
+  $delete= array('type'=>'button', 'value'=>'Delete','onClick'=>"change_action('del')");
+	shn_form_add_component($delete,false,false);
+  $change= array('type'=>'hidden', 'name'=>'action');
+	shn_form_add_component($change,false,false);
+ $org_id= array('type'=>'hidden', 'name'=>'org_id','value'=>$org_id);
+	shn_form_add_component($org_id,false,false);
+
+shn_or_action_change_javascript("action");
 ?>
 </center>
 <br />
@@ -408,6 +418,8 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 //create the submit button
     $submit= array('type'=>'submit', 'value'=>'Close');
 	shn_form_add_component($submit,false,false);
+    $edit= array('type'=>'button', 'value'=>'Edit');
+	shn_form_add_component($edit,false,false);
 ?>
 </center>
 <br />

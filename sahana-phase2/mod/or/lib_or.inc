@@ -16,6 +16,118 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
+function _shn_or_del_org(){
+}
+
+function _shn_or_edit_org(){
+  global $global;
+    $error=false;
+    $VARCHAR=100;
+    $org_id=$_POST{"org_id"};
+    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
+        
+    list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"org_type"}):array(true,NULL);
+   
+    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
+
+    if (is_null($_POST{"4"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_village=trim($_POST{"4"});
+    }
+
+    if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $reg_no=$_POST{"reg_no"};
+    }
+    if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_name=$_POST{"contact_name"};
+    }
+/*
+    if (trim(strlen($_POST{"contact_add"})) > $CONTACT_ADDRESS){
+        add_error(SHN_ERR_OR_REG_MAX);
+    }else {
+       $contact_address=$_POST{"contact_add"};
+    }
+*/
+    $contact_address=$_POST{"contact_add"};
+    if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_phone=$_POST{"contact_phone"};
+    }
+    if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+         $contact_fax=$_POST{"contact_fax"};
+    }
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mail=$_POST{"contact_mail"};
+    }
+    if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $man_power=$_POST{"man_power"};
+    }
+    $resources=$_POST{"resources"};
+    
+    $db=$global['db'];
+           //no validation done on other fields as they are not unique
+            $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
+            $res=$db->Execute($q);
+            $i=0;
+            while($i<count($sector)){
+                $q="insert into sector(pgoc_uuid,opt_sector) values($org_id,'{$sector[$i]}')";
+                $res=$db->Execute($q);
+                $i=$i+1;
+            }
+            $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
+            $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
+            $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
+            $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
+            $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
+            $res=$db->Execute($q);
+         
+            //no validation as organization can have multiple locations
+            $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
+            $res=$db->Execute($q);
+   ?>
+    <div id="result_msg">
+       <?php echo $org_name?> Organization was succesfully Updated
+    </div>
+    </br>
+<?php
+        shn_or_view_org($error);
+}
+
+function shn_or_action_change_javascript($change){
+?>
+<script type="text/javascript">
+function change_action(action){
+ var x=document.getElementsByName("<?php echo $change?>");
+ x[0].value=action;
+ document.view.submit();
+ return;
+}
+</script>
+<?php
+}
 
 function shn_or_admin_javascript($name){
 ?>
@@ -199,18 +311,24 @@ function shn_or_admin_javascript($name){
 function shn_or_get_parents($child){
     global $global;
     $db=$global['db'];
-    $q="select search_id,name from location_details,location where poc_uuid='{$child}' and location_details.location_id=location.location_id";
+    $q="select search_id,name,location.location_id from location_details,location where poc_uuid='{$child}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
+    $final=array();
+    $final[0]=$res_temp->fields[0];
+    $final[1]=$res_temp->fields[1];
+    $final[2]=$res_temp->fields[2];
+
     $bsd_village=$res_temp->fields[0];
     $loc=split("\.", $bsd_village);
     $loc_return=array();
-    for($k=0;$k<count($loc);$k++){
+    for($k=0;$k<count($loc)-1;$k++){
         $cur=$cur.$loc[$k];
         $temp=array();
         $temp[0]=$cur;     
-        $q="select name from location where search_id='$cur'";
+        $q="select name,location_id from location where search_id='$cur'";
         $res_loc=$db->Execute($q);
         $temp[1]=$res_loc->fields[0];
+        $temp[2]=$res_loc->fields[1];
         array_push(
             $loc_return,
             $temp
@@ -219,6 +337,12 @@ function shn_or_get_parents($child){
             $cur=$cur.".";
         }
 	}
+        array_push(
+            $loc_return,
+            $final
+            );
+       
+
      return $loc_return;
 }
 

@@ -50,7 +50,7 @@ function shn_or_mainmenu()
                         <li><a href="index.php?mod=<?=$module?>&act=search&edit=true">Organizations</a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=view_vol&edit=true">Volunteers</a></li>
                     </ul> -->
-                <li><a href="#">View </a></li>
+                <li><a href="#">View & Edit & Delete </a></li>
               	    <ul id="modsubmenu">
                         <li><a href="index.php?mod=<?=$module?>&act=view_org">Organizations</a></li>
 	        	        <li><a href="index.php?mod=<?=$module?>&act=view_vol">Volunteers</a></li>
@@ -434,6 +434,22 @@ if(NULL == $_REQUEST['id']){
     shn_or_viewform_org($_REQUEST['id'],true);
 }
 }
+function shn_or_view_org_submit(){
+$act=$_POST{"action"};
+//var_dump($_POST);
+switch ($act) {
+    case "edit":
+        _shn_or_edit_org();
+        break;
+    case "del":
+        _shn_del_org();
+        break;
+    default:
+        shn_or_view_org();
+        break;
+}
+}
+
 //author ravindra
 // view all OR
 function shn_or_view_org()
