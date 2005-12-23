@@ -18,7 +18,7 @@ include_once $global['approot']."/inc/handler_form.inc";
 
 function shn_location_jscript($from,$to){
     global $global;
-    $fetch_server="../www/xml.php?";
+    $fetch_server="xml.php?";
 ?>           
 <script type="text/javascript">
     var url = "<?php echo $fetch_server?>"; 
