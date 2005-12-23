@@ -95,7 +95,7 @@ function _shn_cr_rpt_all(){
     				  				
 					?>
     				<tr>
-					<td><?php echo $res_cmp->fields[1]?></td>
+					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
 					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_maincmp->fields[4]?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
@@ -203,7 +203,7 @@ $res_type =$db->Execute($qtype);
 ?>
 <tr>
     				<td><?php echo $res_loc->fields[4]?></td>
-  					<td><?php echo $res_cmp->fields[1]?></td>
+  					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
   					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_cmp->fields[3]?></td>
   					<td><?php echo $res_reg->fields[0]?></td>
