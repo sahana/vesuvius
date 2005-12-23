@@ -25,6 +25,7 @@
     shn_form_fsclose();
     shn_form_submit('Search');
     shn_form_fclose();
+    print "<br/>";
     
     if ($_POST['seq'] == 'view')
     {

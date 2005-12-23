@@ -18,7 +18,7 @@ _shn_rms_show_headder(_("Search for a Request"));
 
 function _shn_rms_get_kword()
 {
-    shn_form_fopen("sc_req",null);
+    shn_form_fopen("sc_req",null,array('req_message'=>false));
     
     shn_form_hidden(array('seq'=>'req_sch'));
     
@@ -49,10 +49,10 @@ function _shn_rms_get_res($word)
     if (1>$rs->RecordCount())
     {
         print "<h3>No results found for the keyword : ". $_SESSION['rms_src_kword'] ."</h3>";
-        print "<h3>Click the back button to go back</h3>";
+        print "<br/><h4>Click the back button to go back</h4>";
         
         #back button
-        shn_form_fopen("sc_req",null);
+        shn_form_fopen("sc_req",null,array('req_message'=>false));
         shn_form_hidden(array('seq'=>''));
         shn_form_submit('Back',"short");
         shn_form_fclose();
@@ -71,7 +71,15 @@ function _shn_rms_show_res()
 ?>
 <br/>
 <div>
-<table id="result">
+<table id="result" width="100%">
+    <thead>
+        <td width="30"><?php print _("ID") ?></td>
+        <td width="120"><?php print _("Date") ?></td>
+        <td width="100"><?php print _("Requester") ?></td>
+        <td width="100"><?php print _("Site Name") ?></td>
+        <td width=""><?php print _("Site Address") ?></td>
+        <td width="80"><?php print _("More Details") ?></td>
+    </thead>
     <tbody>
 <?php
     foreach($words as $word)
@@ -86,7 +94,7 @@ function _shn_rms_show_res()
             print "<td>" . $req['req_date'] . "</td>";
             print "<td>" . $req['name'] . "</td>";
             print "<td>" . $req['site_name'] . "</td>";
-            print "<td>" . $req['site_address'] . "</td>";
+            print "<td>" . nl2br($req['site_address']) . "</td>";
             print '<td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a></td>';
             print "</tr>";
         }        

@@ -63,7 +63,7 @@ if ($_GET['seq'] == 'detail')
 <?php
     if (is_req_open($req_id))
     {
-?> 
+?>
     | [<a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
      <?php print _("Close Request") ?> </a>]   
     | [<a href="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>#form">

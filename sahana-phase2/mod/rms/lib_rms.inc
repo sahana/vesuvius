@@ -270,7 +270,7 @@ function show_rms_categories($value)
         
     $url = "index.php?mod=rms&act=vw_req&amp;user=all&amp;stat=$stat&amp;filter=cat_id";
     
-    $select = "<form action='$url' name=req_fil_cat method=post>\n";
+    $select = "<br/><br/><div><form action='$url' name=req_fil_cat method=post>\n";
     $select .= _("Filter by Category");
     $select .= "<select name='value' onChange='submit();'>\n";
     $rs_arr = $rs->GetAll();
@@ -282,7 +282,8 @@ function show_rms_categories($value)
             $select .= "\t<option selected='selected' value=" . $r[0] . ">" . $r[1] . "</option>\n";
     }
     $select .= "</select>\n" .
-               "</form>\n";
+               "</form>\n" .
+               "</div>";
     print $select;
 }
 
@@ -557,11 +558,11 @@ function show_init_vals($legend)
         <label><?php print _("Request Date") ?></label><value><?php print $vals['req_date']?></value><br/>
         <label><?php print _("Requester Name") ?></label><value><?php print $vals['req_name']?></value><br/>
         <label><?php print _("Requester Contact") ?></label><value><?php print $vals['req_contact']?></value><br/>
-        <label id="txtarea"><?php print _("Requester Address") ?></label><value id="txtarea"><?php print $vals['req_address']?></value><br/>
+        <label id="txtarea"><?php print _("Requester Address") ?></label><value id="txtarea"><?php print nl2br($vals['req_address'])?></value><br/>
         <label><?php print _("Site Name") ?></label><value><?php print $vals['req_site_name']?></value><br/>
         <label><?php print _("Site District") ?></label><value><?php print get_district_name($vals['req_site_district']);?></value><br/>
-        <label id="txtarea"><?php print _("Site Address") ?></label><value id="txtarea"><?php print $vals['req_site_address']?></value><br/>
-        <label id="txtarea"><?php print _("Comments") ?></label><value id="txtarea"><?php print $vals['req_comments']?></value><br/>
+        <label id="txtarea"><?php print _("Site Address") ?></label><value id="txtarea"><?php print nl2br($vals['req_site_address'])?></value><br/>
+        <label id="txtarea"><?php print _("Comments") ?></label><value id="txtarea"><?php print nl2br($vals['req_comments'])?></value><br/>
     </fieldset>
 <?php
     return $vals['user_id'];
@@ -820,7 +821,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
                 "WHERE $where_fil itm.$filter=$value AND req.req_id=itm.req_id " .
                 "ORDER BY req_date DESC;";
         
-        $filtered_by = "Filtered by \{$filter : $value}";
+        $filtered_by = "Filtered by Category : " . get_category_name($value);
     }
     
     
@@ -829,7 +830,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     if ($recordSet !== false)
     {            
 ?>
-      <h3>List of <?php print ucfirst($status) ?> (status) requests for <?php print $list_of . "&nbsp;" . $filtered_by?></h3>
+      <h3>List of <?php print ucfirst($status) ?> requests for <?php print $list_of . "&nbsp;" . $filtered_by?></h3>
       <div id ="result">
     <table>
         <thead>

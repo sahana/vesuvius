@@ -14,14 +14,15 @@
 */ 
 
 
+_shn_rms_show_headder(_("View Request using the <em>Request ID</em>"));
 
     global $global;
     
-    shn_form_fopen("v_req",null);
+    shn_form_fopen("v_req",null,array('req_message'=>false));
 
     shn_form_fsopen('Request ID');
     shn_form_hidden(array('seq'=>'view'));
-    shn_form_text('Request ID','req_id','size="15"');
+    shn_form_text('Enter Request ID','req_id','size="15"');
     shn_form_fsclose();
     shn_form_submit('Search');
     shn_form_fclose();
