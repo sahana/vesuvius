@@ -59,6 +59,11 @@ if ($_POST['seq'] == 'confirm')
         _shn_rms_adderror("Please add a quantity");
     }
     
+    if(!is_numeric($_POST['quantity']))
+    {
+        _shn_rms_adderror("The quantity has to be a numeric value");
+    }
+    
     if(0<_shn_rms_errorcount())
     {
         _shn_rms_adderror("Please go <em>Back</em> and correct the errors");
