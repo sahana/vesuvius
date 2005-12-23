@@ -59,17 +59,20 @@ function shn_location_jscript($from,$to){
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
             results = http.responseText.split(","); 
+
             curlevel=curlevel+1;
             var x=document.getElementsByName(curlevel);
             for (i=0; i<=x[0].options.length+1; i++){
 	            x[0].options[0]=null;
             }
             var next=results[1];
-            for (i=1; i<results.length-1; i=i+2){
+            j=0;
+            for (i=1; i<results.length-1; i=i+2, j++){
 		 	    opt = document.createElement("option") ;
   			    opt.value = results[i] ;
-  			    opt.text =results[i+1] ;
-			    x[0].appendChild(opt)
+  			    opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
+                x[0].options[j] = opt;
+               //x[0].appendChild(opt);
             }
             if(curlevel<to){
                  update_next_level(next,curlevel);
@@ -82,7 +85,8 @@ function shn_location_jscript($from,$to){
         http = getHTTPObject();
         var url2=url + "act=get_loc&lvl="+curlevel+"&sel="+selection;
         http.open("GET", url2, true); 
-        http.onreadystatechange = null; 
+//        http.onreadystatechange = null; 
+        http.onreadystatechange = function(){}; 
         http.onreadystatechange = handleHttpResponse; 
         http.send(null);
     }
