@@ -16,6 +16,113 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
+
+function _shn_or_edit_vol(){
+
+    $error=false;
+    $pid=$_POST{"pid"};
+    if (is_null($_POST{"name"})){
+        $error=true;
+        add_error(SHN_ERR_PERSON_NAME_INCOMPLETE);
+    }else {    
+        $name=$_POST{"name"};
+    }
+    $dob=$_POST{"dob_yyyy"}."-".$_POST{"dob_mm"}."-".$_POST{"dob_dd"};
+    /*
+    if (!shn_valid_date($_POST{"dob"})){
+        $error=true;
+        add_error(SHN_ERR_DOB_INCORRECT);
+    }else {    
+        $dob=$_POST{"dob"};
+    }
+    */
+    $male=trim($_POST{"sex"});
+    $job=$_POST{"job"};
+    $nic=trim($_POST{"nic"});
+    $pas=trim($_POST{"pas"});
+    $dln=trim($_POST{"dln"});
+
+    if (is_null($_POST{"sector"})){
+        $error=true;
+        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
+    }else {    
+        $sector=$_POST{"sector"};
+    }
+    if (is_null($_POST{"1"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_country=$_POST{"1"};
+    }
+    if (is_null($_POST{"4"})){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else {    
+        $bsd_village=$_POST{"4"};
+    }
+    $contact_name=$_POST{"contact_name"};
+    $contact_address=$_POST{"contact_add"};
+    $contact_phone=$_POST{"contact_phone"};
+    $contact_fax=$_POST{"contact_fax"};
+    $contact_mail=$_POST{"contact_mail"};
+    global $global;
+    $db=$global['db'];
+   
+
+        $q="update person_uuid set full_name='{$name}' where p_uuid=$pid";
+        $res=$db->Execute($q);
+	
+	$q="update person_details set birth_date='{$dob}',opt_country='{$bsd_country}',opt_gender='{$male}',occupation='{$job}' where p_uuid=$pid";
+    $res=$db->Execute($q);
+	
+	$q="update identity_to_person set serial='{$nic}' where p_uuid=$pid and opt_id_type='nic'";
+   $res=$db->Execute($q);
+$q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_type='pas'";
+   $res=$db->Execute($q);
+$q="update identity_to_person set serial='{$dln}' where p_uuid=$pid and opt_id_type='dln'";
+   $res=$db->Execute($q);
+
+    $i=0;
+            while($i<count($sector)){
+                $q="insert into sector(pgoc_uuid,opt_sector) values($pid,'{$sector[$i]}')";
+                $res=$db->Execute($q);
+                $i=$i+1;
+            }
+            $q="update location_details set location_id='{$bsd_village}',address='{$contact_address}' where poc_uuid=$pid";
+            $res=$db->Execute($q);
+            $q="update contact set contact_name='{$contact_name}' where pgoc_uuid=$pid and opt_contact_type='name'";
+            $res=$db->Execute($q);
+            $q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$pid and opt_contact_type='curr'";
+            $res=$db->Execute($q);
+            $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$pid and opt_contact_type='fax'";
+            $res=$db->Execute($q);
+           $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$pid and opt_contact_type='email'";
+            $res=$db->Execute($q);
+
+
+    if($error!=true){
+?>
+    <div id="result_msg">
+       <?php echo $name?> was succesfully Updated
+    </div>
+    </br>
+<?php
+    }
+
+}
+
+function _shn_or_del_vol(){
+ global $global;
+$db=$global['db'];
+$pid=$_POST{"pid"};
+$q="update person_status set isReliefWorker=0 where p_uuid=$pid";
+    $res=$db->Execute($q);
+$res=$db->Execute($q);
+
+}
+
+
+
 function _shn_or_del_org(){
  global $global;
 $db=$global['db'];
@@ -401,8 +508,10 @@ function _shn_or_display_gender($error=false,$value=NULL){
     $q = "select option_code,option_description from field_options where field_name='opt_gender'";
     $res=$db->Execute($q);
     $gender=array();
-    $selected=($value==$res->fields[0])?true:false;
+
+   
     while(!$res->EOF){
+$selected=(trim($value)==trim($res->fields[0]))?true:false;
         array_push(
             $gender,
             array(  'drop_desc'=>$res->fields[1],

@@ -220,7 +220,7 @@ shn_form_add_component($or_sector,false,false);
 //create the submit button
     $submit= array('type'=>'submit', 'value'=>'Close','onClick'=>"change_action('close')");
 	shn_form_add_component($submit,false,false);
-    $edit= array('type'=>'button', 'value'=>'Edit','onClick'=>"change_action('edit')");
+    $edit= array('type'=>'button', 'value'=>'Save','onClick'=>"change_action('edit')");
 	shn_form_add_component($edit,false,false);
   $delete= array('type'=>'button', 'value'=>'Delete','onClick'=>"change_action('del')");
 	shn_form_add_component($delete,false,false);
@@ -322,9 +322,9 @@ function shn_or_viewform_vol($pid){
         $dob=$res_pers->fields[2];
         $bsd_country=$res_pers->fields[3];
         $sex=$res_pers->fields[4];
-        $q="select option_description from field_options where field_name='opt_gender' and option_code='{$sex}'";
-        $res_sex=$db->Execute($q);
-        $sex=$res_sex->fields[0];
+      //  $q="select option_description from field_options where field_name='opt_gender' and option_code='{$sex}'";
+     //   $res_sex=$db->Execute($q);
+    //   $sex=$res_sex->fields[0];
         $job=$res_pers->fields[5];
         $q="Select serial from identity_to_person where p_uuid=$pid and opt_id_type='nic'";
         $res_nic=$db->Execute($q);
@@ -337,43 +337,50 @@ function shn_or_viewform_vol($pid){
         $dln=$res_dln->fields[0];
 
         $contact= _shn_or_display_contact_person(false,false,$pid);
-        $loc=shn_or_get_parents($pid);
-        $bsd_country=$loc[0][1];
-        $bsd_province=$loc[1][1];
-        $bsd_district=$loc[2][1];
-        $bsd_village=$loc[3][1];
+         $loc=shn_or_get_org_loc_parents($pid);
+         $bsd_village=$loc[3][2];
    
-        $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+        $q = "select option_code from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
-        $person_sector_type_options=array();
+        
+        
+     $sector_arr=array();
         
         while(!$res_sector->EOF){
             array_push(
-            $person_sector_type_options,
-                array(  'drop_desc'=>$res_sector->fields[0]
-                )       
-            );
-        $res_sector->MoveNext();
-        }  
+                $sector_arr,
+                $res_sector->fields[0]
+            );       
+            $res_sector->MoveNext();
+        } 
     }
 ?>
 
-<h1 align="center">Volunteer Registration information of<em><?php echo $name ?></em> </h1>
+<h2>Volunteer Registration information of<em> <?php echo $name ?></em> </h2>
 
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=view_vol','id'=>'formset');
+   	$header=array('method'=>'POST','name'=>'view','action'=>'index.php?mod=or&act=view_vol_submit','id'=>'formset');
 	shn_form_open($header,false);
 
  $perdetails = 	array (
-                       					array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1,'value'=>$dob),
-                        				array('desc'=>_("Gender :"),'type'=>'text','name'=>'sex','br'=>1,'size'=>10,'value'=>$sex	),							  
-                        				
+array('desc'=>_("Name: "),'type'=>"text",'size'=>10,'name'=>'name','br'=>1,'value'=>$name),
+                       					//array('desc'=>_("Date of Birth: "),'type'=>"text",'size'=>10,'name'=>'dob','br'=>1,'value'=>$dob),
+array('desc'=>_("Date of Birth: "),'type'=>"date",'size'=>10,'name'=>'dob','br'=>1),
+                        				                      				
                         				array('desc'=>_("Occupation : "),'type'=>"text",'size'=>20,'name'=>'job','br'=>1,'value'=>$job)
            
                         ); // end of perdetails
-shn_form_add_component_list($perdetails,$section=true,$legend='',$return=false,$default_val_req=true);
 
+shn_form_add_component_list($perdetails,$section=true,$legend='',$return=false,$default_val_req=true);
+$gender=_shn_or_display_gender($error,$sex);
+?>
+<fieldset>
+<?php
+shn_form_add_component($gender,false,false);
+?>
+</fieldset> 
+<?php
 $identity = 	    array (
                         				
                         				array('desc'=>_("National ID No: "),'type'=>"text",'size'=>15,'name'=>'nic','br'=>1,'value'=>$nic),
@@ -385,28 +392,25 @@ shn_form_add_component_list($identity,$section=true,$legend='Identity Informatio
 
 
 
-    // base location
-    $location_inf = array(
-                        array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country),                         
-                       
-                        array('desc'=>_("Province :"),'type'=>'text','name'=>'bsd_province','br'=>'1','value'=>$bsd_province ),// end of option
-                        array('desc'=>_("District :"),'type'=>'text','name'=>'bsd_district','br'=>'1','value'=>$bsd_district
-                        ),// end of option
-                        array('desc'=>_("Village :"),'type'=>'text','name'=>'bsd_village','br'=>'1','value'=>$bsd_village
-                        )
-                    );// end of option
-                             
-    // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=false);
+   shn_location_form_org('1','4',$bsd_village);
 
-// call OR name
-    $services =    array(                     
+$sector=_shn_or_display_sector($error,$sector_arr);
+?>
+<fieldset>
+<?php
+shn_form_add_component($sector,false,false);
+?>
+</fieldset> 
+<?php
+
+  /*  $services =    array(                     
                         array('multiple'=>"true",'desc'=>_("Services offered  : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$person_sector_type_options,
                         'br'=>'1'
 )
                          );
-shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$return=false,$default_val_req=false);    
-
+///shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$return=false,$default_val_req=false);    
+*/
+$contact=_shn_or_display_contact_person($error,true,$pid);
   shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=false);
  ?>
    
@@ -414,10 +418,18 @@ shn_form_add_component_list($services,$section=true,$legend='Volunteerism',$retu
 <center>
 <?php
 //create the submit button
-    $submit= array('type'=>'submit', 'value'=>'Close');
+  $submit= array('type'=>'submit', 'value'=>'Close','onClick'=>"change_action('close')");
 	shn_form_add_component($submit,false,false);
-    $edit= array('type'=>'button', 'value'=>'Edit');
+    $edit= array('type'=>'button', 'value'=>'Save','onClick'=>"change_action('edit')");
 	shn_form_add_component($edit,false,false);
+  $delete= array('type'=>'button', 'value'=>'Delete','onClick'=>"change_action('del')");
+	shn_form_add_component($delete,false,false);
+  $change= array('type'=>'hidden', 'name'=>'action');
+	shn_form_add_component($change,false,false);
+ $pid= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
+	shn_form_add_component($pid,false,false);
+
+shn_or_action_change_javascript("action");
 ?>
 </center>
 <br />

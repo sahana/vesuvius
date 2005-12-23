@@ -468,7 +468,23 @@ if(NULL == $_REQUEST['id']){
 }
 }
 
-
+function shn_or_view_vol_submit(){
+$act=$_POST{"action"};
+//var_dump($_POST);
+switch ($act) {
+    case "edit":
+        _shn_or_edit_vol();
+        shn_or_view_vol();
+        break;
+    case "del":
+        _shn_or_del_vol();
+        shn_or_view_vol();
+        break;
+    default:
+        shn_or_view_vol();
+        break;
+}
+}
 //author ravindra
 // view all Volunteers
 function shn_or_view_vol()
