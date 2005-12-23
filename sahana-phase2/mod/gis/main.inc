@@ -25,7 +25,7 @@ function shn_gis_mainmenu(){
 	<h2><?php echo _("GIS Mapping Module");?></h2>
 	<ul id="modmenu">
 		<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>
+		<!--<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>-->
 		<li><a href="index.php?mod=<?=$module?>&act=show">Show</a></li>
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->

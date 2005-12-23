@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.4 2005-12-22 13:34:23 chamindra Exp $ */
+/* $Id: main_fns.inc,v 1.5 2005-12-23 09:26:16 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -45,6 +45,16 @@ function shn_gis_show()
 			$q="select value from config where module_id='gis' and confkey='google_key'";
 			$res=$db->Execute($q);
 			$key=$res->fields[0];
+
+			$w="select value from config where module_id='gis' and confkey='center_x'";
+			$wres=$db->Execute($w);
+			$wkey=$wres->fields[0];
+						
+			$e="select value from config where module_id='gis' and confkey='center_y'";
+			$eres=$db->Execute($e);
+			$ekey=$eres->fields[0];
+
+			
 			init_map($key);
 			load_map();
 		}
