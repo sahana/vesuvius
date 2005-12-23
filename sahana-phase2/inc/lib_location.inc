@@ -89,9 +89,13 @@ function shn_location_jscript($from,$to){
 <?php
 }
 
-function shn_location_form($from,$to){
+function shn_location_form($from,$to,$value=NULL){
 	shn_location_jscript($from,$to);
-	$location_inf = _shn_location_form($from,$to);  
+	if($value!=NULL){
+        $location_inf = _shn_location_form_value($from,$to,$value);  
+	}else {
+        $location_inf = _shn_location_form($from,$to);  
+	}
 	shn_form_add_component_list($location_inf,$section=true,$legend='',$return=false,$default_val_req=$error);
 }
 function shn_location($from,$to){
@@ -99,16 +103,84 @@ function shn_location($from,$to){
 	$location_inf = _shn_location_form($from,$to);  
 	return $location_inf ;
 }
-function shn_location_form_org($from,$to){
+function shn_location_form_org($from,$to,$value=NULL){
 	shn_location_jscript($from,$to);
-	$location_inf = _shn_location_form($from,$to);  
-	shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
+	if($value!=NULL){
+        $location_inf = _shn_location_form_value($from,$to,$value);  
+	}else {
+        $location_inf = _shn_location_form($from,$to);  
+	}
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
 }
-function _shn_location_form($from,$to){   
+
+
+function _shn_location_form_value($from,$to,$value){   
     global $global;
     $db=$global['db'];
     $loc=array();
-    /*
+    if($value!=NULL){
+        $loc_arr=shn_or_get_parents($value);
+    }
+      /*
+    $msg=array('desc'=>_("Type the Zip Code OR select from List Boxes"),'type'=>"label",'name'=>'zip','br'=>'3');  
+    array_push(
+            $loc,
+            $msg            
+       
+    );
+
+    $zip=array('desc'=>_("Zip Code"),'type'=>"text",'name'=>'zip','br'=>'1');  
+    array_push(
+            $loc,
+            $zip            
+       
+    );
+    */
+    $cur=$from;
+    while($cur<=$to){
+        $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
+        $res=$db->Execute($q);
+        while(!$res==NULL && !$res->EOF){
+            if($cur==$from)
+                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
+            else
+                $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
+            $res_options=$db->Execute($q);
+            $options=array();
+            if(!$res_options->EOF){
+                $selection=$loc_arr[$cur-1][2];
+            }
+            while(!$res_options->EOF){
+                    $sel= $loc_arr[$cur-1][2];
+                    $selected=($sel==$res_options->fields[1])?true:false;
+                    
+                array_push(
+                    $options,
+                    array(  'drop_desc'=>$res_options->fields[0],
+                        'value'=>$res_options->fields[1],
+                        'selected'=>$selected
+                     )       
+                );
+                                $res_options->MoveNext();
+            }
+                                $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
+            array_push(
+                $loc,
+                 $loc_box
+             );
+            $res->MoveNext();
+        }
+        $cur=$cur+1;
+}
+   return $loc;
+}
+
+
+function _shn_location_form($from,$to){   
+    global $global;
+    $db=$global['db'];
+    $loc=array(); 
+      /*
     $msg=array('desc'=>_("Type the Zip Code OR select from List Boxes"),'type'=>"label",'name'=>'zip','br'=>'3');  
     array_push(
             $loc,
@@ -143,12 +215,11 @@ function _shn_location_form($from,$to){
                     array(  'drop_desc'=>$res_options->fields[0],
                         'value'=>$res_options->fields[1],
                      )       
-                );
+                 );
                 $res_options->MoveNext();
             }
-
-            $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
-             array_push(
+                                $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
+            array_push(
                 $loc,
                  $loc_box
              );
