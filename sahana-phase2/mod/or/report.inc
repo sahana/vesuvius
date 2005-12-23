@@ -23,7 +23,7 @@ function shn_or_province(){
     
 ?>
 
-<h1 align="center">Organization Report by Province</h1>
+<h2>Organization Report by Province</h2>
 <div id="note">
 Rows are Provinces ,Columns are Services ,Intersection shows how many
 villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
@@ -73,7 +73,7 @@ function shn_or_district($province){
     
 ?>
 
-<h1 align="center">Organization Report by District</h1>
+<h2>Organization Report by District</h2>
 <div id="note">
 Rows are Districts ,Columns are Services ,Intersection shows how many
 villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
@@ -134,7 +134,7 @@ function shn_or_village($district){
     
 ?>
 
-<h1 align="center">Organization Report by Villages</h1>
+<h2>Organization Report by Villages</h2>
 <div id="note">
 Rows are Villages ,Columns are Services ,Intersection shows how many
 villages are covered as a ratio: <br />If atleast one organization is there in the village providing the service then that village is considered as covered for that service
@@ -249,7 +249,7 @@ function shn_or_report_org_sector(){
     $db=$global['db'];
     
 ?>
-<h1 align="center">Organization Report by Sector</h1>
+<h2>Organization Report by Sector</h2>
 <div id ="result">
     <table>
         <thead>

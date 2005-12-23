@@ -429,6 +429,9 @@ function shn_or_reg_vol_cr(){
 function shn_or_edit_org()
 {
 if(NULL == $_REQUEST['id']){
+    ?>
+    <h2> Organization Registry</h2>
+<?php
     shn_or_viewform_allorg(true);
 }else{
     shn_or_viewform_org($_REQUEST['id'],true);
@@ -440,9 +443,11 @@ $act=$_POST{"action"};
 switch ($act) {
     case "edit":
         _shn_or_edit_org();
+        shn_or_view_org();
         break;
     case "del":
-        _shn_del_org();
+        _shn_or_del_org();
+        shn_or_view_org();
         break;
     default:
         shn_or_view_org();
@@ -455,9 +460,11 @@ switch ($act) {
 function shn_or_view_org()
 {
 ?>
-<h2>Organization Registry</h2>
 <?php
 if(NULL == $_REQUEST['id']){
+    ?>
+    <h2> Organization Registry</h2>
+<?php
     shn_or_viewform_allorg();
 }else{
     shn_or_viewform_org($_REQUEST['id']);

@@ -17,10 +17,21 @@
 *
 */
 function _shn_or_del_org(){
+ global $global;
+$db=$global['db'];
+$org_id=$_POST{"org_id"};
+$q="delete from org_main where o_uuid=$org_id";
+            $res=$db->Execute($q);
+            $q="delete from sector where pgoc_uuid=$org_id";
+            $res=$db->Execute($q);
+ $q="delete from location_details where poc_uuid=$org_id";
+            $res=$db->Execute($q);
+            $q="delete from contact where pgoc_uuid=$org_id";
+            $res=$db->Execute($q);
 }
 
 function _shn_or_edit_org(){
-  global $global;
+    global $global;
     $error=false;
     $VARCHAR=100;
     $org_id=$_POST{"org_id"};
@@ -85,7 +96,9 @@ function _shn_or_edit_org(){
     
     $db=$global['db'];
            //no validation done on other fields as they are not unique
-            $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
+            $q="update org_main set name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',resources='{$resources}' where o_uuid=$org_id";
+            $res=$db->Execute($q);
+            $q="delete from sector where pgoc_uuid=$org_id";
             $res=$db->Execute($q);
             $i=0;
             while($i<count($sector)){
@@ -93,27 +106,23 @@ function _shn_or_edit_org(){
                 $res=$db->Execute($q);
                 $i=$i+1;
             }
-            $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
+            $q="update location_details set location_id='{$bsd_village}',address='{$contact_address}' where poc_uuid=$org_id";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
+            $q="update contact set contact_name='{$contact_name}' where pgoc_uuid=$org_id and opt_contact_type='name'";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
+            $q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
+            $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$org_id and opt_contact_type='fax'";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
+           $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$org_id and opt_contact_type='email'";
             $res=$db->Execute($q);
-         
-            //no validation as organization can have multiple locations
-            $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
-            $res=$db->Execute($q);
-   ?>
+  ?>
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully Updated
     </div>
     </br>
 <?php
-        shn_or_view_org($error);
+       
 }
 
 function shn_or_action_change_javascript($change){
@@ -411,15 +420,12 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
 {
     global $global;
     $db=$global['db'];
-    
     $q = "select option_code,option_description from field_options where field_name='opt_org_type' order by option_description";
     $res=$db->Execute($q);
     $options=array();
     
     while(!$res==NULL && !$res->EOF){
-       echo $res->fields[0];
 	$selected=(trim($value)==trim($res->fields[0]))?true:false;
-echo $selected;
        array_push(
                     $options,
                     array(  'drop_desc'=>$res->fields[1],
@@ -430,14 +436,14 @@ echo $selected;
         
         $res->MoveNext();
     }
-$or_type=$multi?array('desc'=>_("* Organization Type:"),'type'=>"multiselect",'size'=>4,'name'=>'org_type[]','options'=>$options,'br'=>'1'):array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$options,'br'=>'1');  
 
-return $or_type;
+$type=$multi?array('desc'=>_("* Organization Type:"),'type'=>"multiselect",'size'=>4,'name'=>'org_type[]','options'=>$options,'br'=>'1'):array('desc'=>_("* Organization Type:"),'type'=>"dropdown",'name'=>'org_type','options'=>$options,'br'=>'1');  
+return $type;
 
 }
-    
+//function search_array($arr,    
 
-function _shn_or_display_sector($error=false)
+function _shn_or_display_sector($error=false,$values=NULL)
 {
     global $global;
     $db=$global['db'];
@@ -445,12 +451,19 @@ function _shn_or_display_sector($error=false)
 $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
     $res=$db->Execute($q);
     $or_sector_type_options=array();
-        
     while(!$res->EOF){
+    
+        $selected=false;
+        if($values!=NULL){
+            if ((array_search($res->fields[0],$values)==true) || (array_search($res->fields[0],$values)===0)){
+                $selected=true; 
+            }
+        }
         array_push(
             $or_sector_type_options,
             array(  'drop_desc'=>$res->fields[1],
-                    'value'=>$res->fields[0]
+                    'value'=>$res->fields[0],
+                        'selected'=>$selected
             )       
         );
         

@@ -25,7 +25,7 @@ function shn_or_regform_org($error=false)
     global $global;
     $db=$global['db'];
 ?>
-<h1 align="center">Organization Registration</h1>
+<h2>Organization Registration</h2>
 <div id="note">
 Fields marked with * are required (entry is compulsory)
 </div>
@@ -180,7 +180,7 @@ function shn_or_regform_vol($error=false)
      
  
 ?>
-<h1 align="center">Volunteer Registration </h1>
+<h2>Volunteer Registration </h2>
 <div id="note">
 Fields marked with * are required (entry is compulsory)
 </div>

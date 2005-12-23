@@ -143,29 +143,24 @@ function shn_or_viewform_org($org_id,$edit=false)
         $org_name=$res_org->fields[2];
         $reg_no=$res_org->fields[3]; 
     
-        $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
+        $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
         $res_type=$db->Execute($q); 
         $org_type=$res_type->fields[0];
-
-        $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
+        $q = "select option_code from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
-        $or_sector_type_options=array();
+        $or_sector_arr=array();
         
         while(!$res_sector->EOF){
             array_push(
-                $or_sector_type_options,
-                array(  'drop_desc'=>$res_sector->fields[0]
-            )       
-        );
+                $or_sector_arr,
+                $res_sector->fields[0]
+            );       
             $res_sector->MoveNext();
-        }  
-    $loc=shn_or_get_parents($org_id);
-    $bsd_country=$loc[0][1];
-    $bsd_province=$loc[1][1];
-    $bsd_district=$loc[2][1];
-    $bsd_village=$loc[3][1];
+        } 
+    $loc=shn_or_get_org_loc_parents($org_id);
+    $bsd_village=$loc[3][2];
     }
 ?>
 <h2>Organization Registration Information of <em> <?php echo $org_name?></em></h2>
@@ -175,40 +170,43 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 $act="index.php?mod=or&act=view_org_submit";
    	$header=array('method'=>'POST','action'=>$act,'id'=>'formset','name'=>'view');
 	shn_form_open($header,false);
-// call OR name
-    $or_main = array(
+$or_type=_shn_or_display_org_type($error,false,$org_type);
+$or_sector=_shn_or_display_sector($error,$or_sector_arr);
+
+    $or_main = array();
                       
-                        array('desc'=>_("Organization Type:"),'type'=>"text",'name'=>'org_type','size'=>50,'br'=>'1','value'=>$org_type
-                        ),
-                         array('multiple'=>'multiple','desc'=>_("Services Provided : "),'type'=>"multiselect",'size'=>4,'name'=>"sector[]",'options'=>$or_sector_type_options,
-                        'br'=>'1'
-                        )
-                     );
+    $name=array('desc'=>_("Organization Name : "),'type'=>"text",'size'=>20,'name'=>'org_name','br'=>'1','value'=>$org_name);
+    array_push(
+            $or_main,
+            $name
+            );
+
     $reg=array('desc'=>_("Registration Number : "),'type'=>"text",'size'=>20,'name'=>'reg_no','br'=>'1','value'=>$reg_no);
     if($parent){
         array_push(
             $or_main,
             $reg
             );
+    
     }
-    shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
-   /*
-   // base location
-     $location_inf = array(
-                        array('desc'=>_("Country of Origin:"),'type'=>'text','name'=>'bsd_country','br'=>'1','value'=>$bsd_country
-                        ),                         
-                        array('desc'=>_("Province :"),'type'=>'text','name'=>'bsd_province','br'=>'1','value'=>$bsd_province
-                        ),// end of option
-                        array('desc'=>_("District :"),'type'=>'text','name'=>'bsd_district','br'=>'1','value'=>$bsd_district
-                        ),// end of option
-                        array('desc'=>_("Village :"),'type'=>'text','name'=>'bsd_village','br'=>'1','value'=>$bsd_village
-                        )
-                    );// end of option
-                            
-    // OR infomation
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=true);
-*/
-    shn_location_form_org('1','4',$org_id);
+
+shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=true);
+
+?>
+<fieldset>
+<?php
+shn_form_add_component($or_type,false,false);
+?>
+</fieldset> 
+<fieldset>
+<?php
+shn_form_add_component($or_sector,false,false);
+?>
+</fieldset> 
+<?php
+
+ 
+   shn_location_form_org('1','4',$bsd_village);
     $contact=_shn_or_display_contact_person($error,true,$org_id);
 
     shn_form_add_component_list($contact,$section=true,$legend='Contact Information',$return=false,$default_val_req=$error);
