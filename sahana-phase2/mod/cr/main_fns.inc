@@ -214,6 +214,9 @@ function shn_cr_ecmp(){
 		case 'disp'		:
 										_shn_cr_cedt_start();
 									break;	
+		case 'view'		:
+									shn_cr_all_view();
+									break;
 		default 			:
 									
 		            	shn_cr_edt_srch();

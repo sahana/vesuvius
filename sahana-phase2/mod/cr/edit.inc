@@ -80,6 +80,76 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_fclose();
 }
 
+
+function shn_cr_all_view(){
+	
+	global $global;
+	$db = $global['db'];
+?>
+<h2>Camp Details</h2>
+<?php
+	$query="select c_uuid from camp where name='{$_REQUEST['cmp_id']}'";
+	$res=$db->Execute($query);
+	$editid=$res->fields[0];
+	$_SESSION['editid']=$editid;
+	
+	_shn_cr_get_session($editid);
+	shn_form_fopen(srch);
+	shn_form_fsopen("General Details");
+	shn_form_hidden(array('seq'=>'commit'));
+	//shn_form_hidden(array('cmp_id'=>$_REQUEST['cmp_id']));
+	shn_form_hidden(array('opt_camp_type'=>$_SESSION['opt_camp_type']));
+	
+	shn_form_label("Camp Name",$_SESSION['camp_name'],array('br'=>'true'));
+	shn_form_label("opt_camp_type",$_SESSION['opt_camp_type'],array('br'=>'true'));
+?>
+<!--
+<label>Division</label>
+<select name="opt_location_type" >-->
+<?php
+// Display selected Division type only
+/*
+	$q="select value from config where confkey='division_type' && module_id='cr'";
+	//$q ="select option_description from field_options where field_name='cr_pref_div'";
+	$ref = $db->Execute($q);
+		$val=$ref->fields[0];
+	$q ="select location_id,name from location where opt_location_type=$val";
+	$ref = $db->Execute($q);
+	while(!$ref->EOF){	
+		$val=$ref->fields[0];
+		$name=$ref->fields[1];
+?>
+<option value='<?=$val?>'><?=$name?></option>
+<?php
+		$ref->MoveNext();
+	}
+*/
+?>
+<!--</select><br>-->
+<?php
+			
+//-----------------------------------------
+	shn_form_label("Address",$_SESSION['camp_address']);
+	shn_form_fsclose();
+	shn_form_fsopen("Contact Person Details");
+	shn_form_label("Full Name",$_SESSION['camp_contact_name']);
+	shn_form_label("Phone Number",$_SESSION['camp_contact_number']);
+	shn_form_fsclose();
+	shn_form_fsopen("Camp Population");
+	shn_form_label("Family Count",$_SESSION['camp_family']);
+	shn_form_label("Total Count",$_SESSION['camp_total']);
+	shn_form_label("Men",$_SESSION['camp_men']);
+	shn_form_label("Women",$_SESSION['camp_women']);
+	shn_form_label("Children",$_SESSION['camp_children']);
+	shn_form_fsclose();
+	shn_form_submit("Close");
+	shn_form_fclose();
+}
+
+
+
+
+
 function _shn_cr_cedt_chk($errors=false){
 if($errors)
 	display_errors;

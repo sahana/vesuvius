@@ -19,6 +19,8 @@ include_once($global['approot'].'/inc/lib_form.inc');
 /*Displaying Results for the Search*/
 
 function _shn_cr_srch_rst($camp_name,$type){
+		global $global;
+		$db=$global['db'];
 		?>
 		<h1><center>Search Results</center></h1>
 		<div id ="result">
@@ -70,7 +72,9 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><?php echo $res_cmp->fields[1]?>&nbsp;<?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a></td>
+    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
+						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?>
+							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a><?php ;?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -117,7 +121,8 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><?php echo $res_cmp->fields[1]?>&nbsp;<?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
+    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
+						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
 						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
