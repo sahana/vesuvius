@@ -44,7 +44,7 @@ function shn_mpr_editmp_load($p_uuid)
                 c.opt_blood_type, c.height, c.weight, c.opt_eye_color, c.opt_skin_color,
                 c.opt_hair_color, c.comments as physical_comments, 
                 d.last_seen, d.last_clothing, d.comments,
-                e.address, e.postcode
+                e.address, e.postcode, e.location_id
             FROM person_uuid a
             LEFT OUTER JOIN person_details b USING (p_uuid)
             LEFT OUTER JOIN person_physical c USING (p_uuid)
@@ -71,6 +71,7 @@ function shn_mpr_editmp_load($p_uuid)
     $_SESSION['mpr_edit']['entry']['last_clothing'] = $rs->fields['last_clothing'];
     $_SESSION['mpr_edit']['entry']['comments'] = $rs->fields['comments'];
     $_SESSION['mpr_edit']['entry']['address'] = $rs->fields['address'];
+    $_SESSION['mpr_edit']['entry']['location_id'] = $rs->fields['location_id'];
     $_SESSION['mpr_edit']['entry']['zip'] = $rs->fields['postcode'];
     $_SESSION['mpr_edit']['entry']['opt_gender'] = $rs->fields['opt_gender'];
 
@@ -137,6 +138,25 @@ function shn_mpr_editmp_entry($errors=false)
     shn_form_text('Home Phone','phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
     shn_form_text('Mobile','mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
     shn_form_fsclose();
+    
+    global $global;
+    global $conf;
+
+
+    include_once($global['approot']."/inc/lib_location.inc");
+    /* This hack should be integrated with 
+        the lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['lower_limit'];
+        while((! isset($_POST[$i])) &&
+                $i > $conf['mod_mpr']['location']['upper_limit'] )
+            $i--;
+    //Ends
+    $selected_loc_id = (isset($_POST[$i]) ? $_POST[$i] : $_SESSION['mpr_edit']['entry']['location_id']);
+    shn_location_form($conf['mod_mpr']['location']['upper_limit'],
+                        $conf['mod_mpr']['location']['lower_limit'],
+                        $selected_loc_id); 
 
     shn_form_fsopen("Physical Details");
     shn_form_opt_select("opt_eye_color","Eye Colour",'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_eye_color']));
@@ -280,6 +300,10 @@ function shn_mpr_editmp_upload_pic()
  */
 function shn_mpr_editmp_confirm()
 {
+    var_dump($_SESSION['mpr_edit']['entry']);
+    global $global;
+    global $conf;
+
     shn_form_fopen("editmp",null);
     shn_form_fsopen("Person");
     shn_form_hidden(array('seq'=>'commit'));
@@ -366,15 +390,38 @@ function shn_mpr_editmp_confirm()
         shn_form_fsclose();
 
     //Contact Details
-    if(isset($_SESSION['mpr_edit']['entry']['address']) || 
-            isset($_SESSION['mpr_edit']['entry']['zip']) ||
-            isset($_SESSION['mpr_edit']['entry']['phone']) ||
-            isset($_SESSION['mpr_edit']['entry']['mobile']) ){
-        shn_form_fsopen("Contact Details");
-        $contact_section = true;
-    }
+#    if(isset($_SESSION['mpr_edit']['entry']['address']) || 
+#            isset($_SESSION['mpr_edit']['entry']['zip']) ||
+#            isset($_SESSION['mpr_edit']['entry']['phone']) ||
+#            isset($_SESSION['mpr_edit']['entry']['mobile']) ){
+#        shn_form_fsopen("Contact Details");
+#        $contact_section = true;
+#    }
+    shn_form_fsopen("Contact Details");
+    $contact_section = true;
+
     if(isset($_SESSION['mpr_edit']['entry']['address']))
         shn_form_label('Address',$_SESSION['mpr_edit']['entry']['address']);
+
+    /* This hack should also include in the
+        lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['upper_limit'] - 1;
+        while( $i < $conf['mod_mpr']['location']['lower_limit'] ) {
+            $i++;
+            if(isset($_SESSION['mpr_edit']['entry'][$i])){
+                $sql = " SELECT location.name , field_options.option_description FROM location ".
+                    " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
+                    " WHERE location.opt_location_type = '$i' AND " .
+                    " location.location_id = '{$_SESSION['mpr_edit']['entry'][$i]}' ";
+                $result = $global['db']->GetRow($sql);
+                shn_form_label($result['option_description'] , $result['name']);
+            }
+
+        }
+    //Ends
+
     if(isset($_SESSION['mpr_edit']['entry']['zip']))
         shn_form_label('Postal Code',$_SESSION['mpr_edit']['entry']['zip']);
     if(isset($_SESSION['mpr_edit']['entry']['phone']))
@@ -455,6 +502,7 @@ function shn_mpr_editmp_commit()
 {
     // $update_array[<field_name>] = value
     global $global;
+    global $conf;
 
     $update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     //phonetic flush and refill
@@ -502,11 +550,24 @@ function shn_mpr_editmp_commit()
     $update_array['poc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     //flush and refill baby
     $global['db']->Execute("DELETE FROM location_details WHERE poc_uuid = '{$update_array['poc_uuid']}'");
-    if(isset($_SESSION['mpr_edit']['entry']['address'])){
-        $update_array['location_id'] = '0';
+
+    
+    $update_array['opt_person_loc_type'] = 'hom';
+    if(isset($_SESSION['mpr_edit']['entry']['address']))
         $update_array['address'] = $_SESSION['mpr_edit']['entry']['address'];
-        $update_array['opt_person_loc_type'] = 'hom';
-    }
+
+    /* This hack should be integrated with 
+        the lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['lower_limit'];
+        while((! isset($_SESSION['mpr_edit']['entry'][$i])) &&
+                $i > $conf['mod_mpr']['location']['upper_limit'] )
+            $i--;
+    //Ends
+    if(isset($_SESSION['mpr_edit']['entry'][$i]))
+        $update_array['location_id'] = $_SESSION['mpr_edit']['entry'][$i];
+ 
     if(isset($_SESSION['mpr_edit']['entry']['zip']))
         $update_array['postcode'] = $_SESSION['mpr_edit']['entry']['zip'];
 

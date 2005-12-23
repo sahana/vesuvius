@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.11 2005-12-21 11:43:36 janakawicks Exp $ */
+/* $Id: add.inc,v 1.12 2005-12-23 09:13:57 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -97,6 +97,24 @@ is already exists</p>
     shn_form_text('Mobile','mobile','size="10"');
     shn_form_fsclose();
 
+    global $global; 
+    global $conf;
+    
+    
+    include_once($global['approot']."/inc/lib_location.inc");
+    /* This hack should be integrated with 
+        the lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['lower_limit'];
+        while((! isset($_POST[$i])) && 
+                $i > $conf['mod_mpr']['location']['upper_limit'] ) 
+            $i--;
+    //Ends
+    shn_location_form($conf['mod_mpr']['location']['upper_limit'],
+                        $conf['mod_mpr']['location']['lower_limit'],$_POST[$i]);
+
+
     shn_form_fsopen("Physical Details");
     shn_form_opt_select("opt_eye_color","Eye Colour");
     shn_form_opt_select("opt_skin_color","Skin Colour");
@@ -106,10 +124,7 @@ is already exists</p>
     shn_form_textarea('Comments','physical_comments');
     shn_form_fsclose();
     
-/*     global $global; 
-    include_once($global['approot']."/inc/lib_location.inc");
-    shn_location_form(1,4);
-*/    
+   
     shn_form_fsopen("Other Details");
     shn_form_opt_select("opt_blood_type","Blood Type");
     shn_form_textarea('Last Seen','last_seen');
@@ -372,7 +387,10 @@ function shn_create_uuid($type='p')
  */
 function shn_mpr_addmp_confirm()
 {
-    shn_form_fopen("addmp",null);
+    global $global;
+    global $conf;
+
+    shn_form_fopen("addmp",null,array('req_message'=>false));
     shn_form_fsopen("Missing Person");
     shn_form_hidden(array('seq'=>'commit'));
     shn_show_thumb($_SESSION['mpr_add']['entry']['p_uuid']);
@@ -455,15 +473,37 @@ function shn_mpr_addmp_confirm()
         shn_form_fsclose();
 
     //Contact Details
-    if(isset($_SESSION['mpr_add']['entry']['address']) || 
-            isset($_SESSION['mpr_add']['entry']['zip']) ||
-            isset($_SESSION['mpr_add']['entry']['phone']) ||
-            isset($_SESSION['mpr_add']['entry']['mobile']) ){
-        shn_form_fsopen("Contact Details");
-        $contact_section = true;
-    }
+#    if(isset($_SESSION['mpr_add']['entry']['address']) || 
+#            isset($_SESSION['mpr_add']['entry']['zip']) ||
+#            isset($_SESSION['mpr_add']['entry']['phone']) ||
+#            isset($_SESSION['mpr_add']['entry']['mobile']) ){
+#        shn_form_fsopen("Contact Details");
+#        $contact_section = true;
+#    }
+    shn_form_fsopen("Contact Details");
+    $contact_section = true;
     if(isset($_SESSION['mpr_add']['entry']['address']))
         shn_form_label('Address',$_SESSION['mpr_add']['entry']['address']);
+    
+    /* This hack should also include in the
+        lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['upper_limit'] - 1;
+        while( $i < $conf['mod_mpr']['location']['lower_limit'] ) {
+            $i++;
+            if(isset($_SESSION['mpr_add']['entry'][$i])){
+                $sql = " SELECT location.name , field_options.option_description FROM location ".
+                    " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
+                    " WHERE location.opt_location_type = '$i' AND " .
+                    " location.location_id = '{$_SESSION['mpr_add']['entry'][$i]}' ";
+                $result = $global['db']->GetRow($sql);
+                shn_form_label($result['option_description'] , $result['name']);
+            }
+
+        }
+    //Ends
+    
     if(isset($_SESSION['mpr_add']['entry']['zip']))
         shn_form_label('Postal Code',$_SESSION['mpr_add']['entry']['zip']);
     if(isset($_SESSION['mpr_add']['entry']['phone']))
@@ -543,6 +583,7 @@ function shn_mpr_addmp_commit()
 */
     // $insert_array[<field_name>] = value
     global $global;
+    global $conf;
 
     $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Basic Details : person_uuid
@@ -586,12 +627,22 @@ function shn_mpr_addmp_commit()
 
     //Contacts
     $insert_array['poc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    $insert_array['opt_person_loc_type'] = 'hom';
     if(isset($_SESSION['mpr_add']['entry']['address'])){
-        // TODO: make the location
-        $insert_array['location_id'] = '0';
         $insert_array['address'] = $_SESSION['mpr_add']['entry']['address'];
-        $insert_array['opt_person_loc_type'] = 'hom';
     }
+    /* This hack should be integrated with 
+        the lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['lower_limit'];
+        while((! isset($_SESSION['mpr_add']['entry'][$i])) && 
+                $i > $conf['mod_mpr']['location']['upper_limit'] ) 
+            $i--;
+    //Ends
+    if(isset($_SESSION['mpr_add']['entry'][$i]))
+        $insert_array['location_id'] = $_SESSION['mpr_add']['entry'][$i];
+
     if(isset($_SESSION['mpr_add']['entry']['zip']))
         $insert_array['postcode'] = $_SESSION['mpr_add']['entry']['zip'];
 
