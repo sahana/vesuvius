@@ -40,27 +40,24 @@ function shn_or_mainmenu()
         <h2>Organization Registry</h2>
             <ul id="modulemenu">
 	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-                <li><a href="#">Register </a></li>
+                <li><a href="#">Organizations </a></li>
               	    <ul id="modsubmenu">
-                        <li><a href="index.php?mod=<?=$module?>&act=reg_org">Organization</a></li>
-                        <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Volunteer</a></li>
+                        <li><a href="index.php?mod=or&act=search">Search </a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=view_org">View and Edit</a></li>
+			            <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
+    	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
                     </ul>
                <!--  <li><a href="#">Update </a></li>
               	    <ul id="modsubmenu">
                         <li><a href="index.php?mod=<?=$module?>&act=search&edit=true">Organizations</a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=view_vol&edit=true">Volunteers</a></li>
                     </ul> -->
-                <li><a href="#">View & Edit & Delete </a></li>
+		        <li><a href="#">Volunteers </a></li>
               	    <ul id="modsubmenu">
-                        <li><a href="index.php?mod=<?=$module?>&act=view_org">Organizations</a></li>
-	        	        <li><a href="index.php?mod=<?=$module?>&act=view_vol">Volunteers</a></li>
-                    </ul> 
-		        <li><a href="#">Reports </a></li>
-              	    <ul id="modsubmenu">
-			            <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
-    	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=reg_vol">Add</a></li>
+	        	        <li><a href="index.php?mod=<?=$module?>&act=view_vol">View and Edit</a></li>
                     </ul>   
-		        <li><a href="index.php?mod=or&act=search">Search </a></li>
 	        </ul>
     </div>
 <?php 
