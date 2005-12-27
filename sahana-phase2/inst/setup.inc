@@ -115,12 +115,16 @@ function shn_setup_form2()
 ?>
     <p>The PHP/Web Server should normally not have access to write 
     or modify the configuration file located in Sahana application <b>/conf</b> 
-    directory, as this is a security risk. Please specify where to temporarily
-    write the file (e.g. /tmp). Subsequently you need to copy this file to 
+    directory, as this is a security risk. Please specify where to
+    write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
     the Sahana <b>/conf</b> directory.</p>
 <?php
+    $tmp_filename = tempnam('/tmp','config.inc');
+    // Need the temporary directory rather than the filename
+    $tmp_filename = preg_replace('/config.inc.*$/','config.inc',$tmp_filename); 
+
     shn_form_text('Location To Write Config File','conffile','size="50"',
-                array('value'=>'/tmp/config.inc','req'=>true ));
+                array('value'=>"$tmp_filename",'req'=>true ));
     shn_form_fsclose();
 
     shn_form_submit('Write Configuration File >>');
@@ -141,14 +145,15 @@ function shn_setup_form3()
     shn_form_fsopen("Configuration File");
     shn_form_hidden( array(
         'conffile' => $_POST['conffile'] )); 
+    $sahana_url = 'http://'.$_SERVER['HTTP_HOST'].preg_replace('/index.php\?.*$/','',$_SERVER['REQUEST_URI']);
 ?>
 
     <p>To finish the configuration follow the steps below</p>
     <p> <b>1.</b> Copy the temporary config file created from: <br/>
         <u><?=$_POST['conffile']?></u> to: <br/>
      <u><?=$global['approot']."conf/config.inc"?></u></p>
-    <p> <b>2.</b> Delete the temporary configuration file at <u><?=$_POST['conffile']?></u></p>
-    <p> <b>3.</b> Once done click the button below to start Sahana</p>
+    <p> <b>2.</b> For security reasons delete the temporary configuration file at <u><?=$_POST['conffile']?></u></p>
+    <p> <b>3.</b> Once done click the button below to start Sahana or access it anytime using the url: <a href="<?=$sahana_url?>"><?=$sahana_url?></a></p>
 
 <?php        
     shn_form_fsclose();
