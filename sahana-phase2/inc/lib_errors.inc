@@ -37,7 +37,7 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
 	if($exit){
 //		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
 	}else{
-//		$output .= '<b>'._('O\' my god you killed Kenny !!!')."</b><br>";
+        $output .= '<p><em>Oops. There were a few errors in the form submitted:</em><p>';
 	}
     $output .= "<ul>";
 	foreach ($error_container as $error){
