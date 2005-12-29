@@ -125,7 +125,16 @@ function shn_front_controller()
         $_SESSION["last_action"]=$action;
         $module_function(); 
     }else {
-         echo "<center><div><h1>you dont have permission to view this page</h1></div></center>";
+?>
+    <div id="error">
+        <p><em>Sorry, you do not have permisssion to access this section</em>.<br/><br/>This could be because:</ul>
+        <ul>
+        <li>You have not logged in or Anonymous access is not allowed to this section</li>
+        <li>Your username has not been given permission to access this section</li>
+        </ul>
+        <p>To gain access to this section please contact the administrator</p>
+    </div> <!-- /error -->
+<?php
     }
     #include($approot."test/testconf.inc"); 
 ?>
