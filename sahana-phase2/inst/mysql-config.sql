@@ -148,6 +148,7 @@ INSERT INTO location VALUES (14,6,'1.1.1.1','4','dehiwala','dwh','dehiwala added
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
+INSERT INTO config VALUES ( 'or', 'loc_start', '1');
 INSERT INTO config VALUES('admin','acl','false');
 INSERT INTO config VALUES('admin','acl_base','no');
 
