@@ -17,6 +17,15 @@
 *
 */
 
+function shn_or_get_start_loc(){
+    global $global;
+    $db=$global['db'];
+    $q="select value from config where module_id='or' and confkey='loc_start'";
+    $res=$db->Execute($q);
+    return $res->fields[0];
+}
+
+
 function _shn_or_edit_vol(){
 
     $error=false;

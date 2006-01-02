@@ -22,6 +22,7 @@ function _shn_or_adm_sub_menu(){
 <div id="submenu_v">
 <a href="index.php?mod=or&act=adm_or_type">Organization Types</a> 
 <a href="index.php?mod=or&act=adm_sector">Organization Sectors</a>
+<a href="index.php?mod=or&act=adm_location">Set starting Location</a>
 </div>
 
 <br>
@@ -38,6 +39,26 @@ function shn_or_adm_default()
 
 
 <?php
+}
+
+function shn_or_adm_location()
+{
+    _shn_or_adm_sub_menu();
+    shn_or_adm_location_form();
+}
+function shn_or_adm_location_cr()
+{
+    global $global;
+    $db=$global['db'];
+    if (isset($_POST{"chk_start"})){
+        $loc=0;
+    }else {
+        $level=$_POST{"level"};
+        $loc=$_POST{$level};
+    }
+    $q="update config set value={$loc} where module_id='or' and confkey='loc_start'";
+    $db->Execute($q);
+    shn_or_adm_location();
 }
 function shn_or_adm_or_type()
 {

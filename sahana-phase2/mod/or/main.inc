@@ -34,6 +34,7 @@ function shn_or_mainmenu()
 {
     global $global;
     $module = $global['module'];
+    $loc=shn_or_get_start_loc();
 ?>
     
    <div id="modmenuwrap"> 
@@ -45,7 +46,7 @@ function shn_or_mainmenu()
                         <li><a href="index.php?mod=or&act=search">Search </a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register</a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=view_org">View and Edit</a></li>
-			            <li><a href="index.php?mod=or&act=report_province">Drill down by Location</a></li>
+			            <li><a href="index.php?mod=or&act=drill_report&id=<?php echo $loc?>">Drill down by Location</a></li>
     	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
                     </ul>
                <!--  <li><a href="#">Update </a></li>
@@ -515,9 +516,16 @@ function shn_or_report_district()
 // view all orgs group by sector
 function shn_or_report_province()
 {
-    shn_or_province();
+    $loc=shn_or_get_start_loc();
+    shn_or_level($loc);
+    //shn_or_province();
 }
-
+function shn_or_drill_report()
+{
+    $parent=$_GET["id"];
+    shn_or_level($parent);
+    //shn_or_province();
+}
 //author ravindra
 // view all orgs group by sector
 function shn_or_org_sector()

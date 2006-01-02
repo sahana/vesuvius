@@ -61,8 +61,13 @@ Fields marked with * are required (entry is compulsory)
     shn_form_add_component_list($or_main,$section=true,$legend='',$return=false,$default_val_req=$error);
   
    // base location
-    $location_inf = shn_location_form_org('1','4'); 
-                              
+   $parent=shn_or_get_start_loc();
+   if($parent==0){
+        $location_inf = shn_location('1','4'); 
+    }else {
+        $location_inf = shn_location_parent($parent,'4'); 
+    }
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location',$return=false,$default_val_req=$error);
     // Contact infomation
     $contact=_shn_or_display_contact_person($error,true,null);
 

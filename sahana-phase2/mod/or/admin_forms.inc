@@ -17,6 +17,78 @@
 include_once($global['approot'].'/inc/lib_form.inc');
 include_once $global['approot']."/inc/handler_form.inc";
 include_once "lib_or.inc";
+
+function shn_or_adm_location_form(){
+?>
+<h1 align="center">Set the Starting Location</h1>
+<div id="note">
+Fields marked with * are required (entry is compulsory)
+</div>
+<div id="note">
+When a Disaster happens,typically organizations located in a certain region get involved. Therefore when you select a location its a waste of time to always start from country. If you know the country ,give it in this form,and you can start with sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.
+</div>
+<?php
+    if($error==true)
+        display_errors();
+?>
+<div id="formcontainer">
+<?php
+    $header=array('name'=>'sahana','method'=>'POST','action'=>'index.php?mod=or&act=adm_location_cr','id'=>'formset');
+shn_form_open($header,false);
+global $global;
+$db=$global["db"];
+$q = "select option_code,option_description from field_options where field_name='opt_location_type'";
+$res=$db->Execute($q);
+$options=array();
+while(!$res==NULL && !$res->EOF){
+                array_push(
+                    $options,
+                    array(  'drop_desc'=>$res->fields[1],
+                        'value'=>$res->fields[0],
+                     )       
+                );
+                $res->MoveNext();
+            }
+$loc=array('desc'=>_("Location Type(level)"),'type'=>"dropdown",'name'=>'level','options'=>$options,'br'=>'1');   
+$loc_options=array();
+array_push(
+$loc_options,
+$loc
+);
+$all = array('desc'=>_("I want all the Locations ,so don't set a starting point"),'type'=>'checkbox','name'=>'chk_start','value'=>'add','algin'=>'right','select'=>1,'br'=>4
+                    
+            );
+array_push(
+$loc_options,
+$all
+);
+shn_form_add_component_list($loc_options,$section=true,$legend='Select the Location Level you want fix',$return=false,$default_val_req=$error);
+$location_inf=shn_location_all();
+shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
+ ?>
+</center>
+<br />
+<center>
+<?php
+
+//create the submit button
+    $submit= array('type'=>'submit', 'value'=>'Save');
+	shn_form_add_component($submit,false,false);
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_close(false);
+?>				     
+</div>
+<?php
+    // end of form
+	
+}
+
+
+
 function shn_or_adm_or_type_form()
 {
 ?>
