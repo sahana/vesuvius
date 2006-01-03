@@ -24,24 +24,24 @@ function shn_cr_mainmenu(){
 	include $global['approot']."/conf/config.inc";
 ?>
 <div id="modmenuwrap">
-	<h2>Camps Registry Menu</h2>
+	<h2><?php echo _("Camps Registry Menu")?></h2>
 	<ul id="modmenu">
-		<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=acmp">Add Camp</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=default"><?php echo _("Home")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=srch"><?php echo _("Search")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=acmp"><?php echo _("Add Camp")?></a></li>
 		<li><a href="#">Reports</a></li>
 		<ul id="modsubmenu">
-		  <li><a href="index.php?mod=<?=$module?>&act=arpt">View All Camps</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=lrpt">View By Location</a></li>
+		  <li><a href="index.php?mod=<?=$module?>&act=arpt"><?php echo _("View All Camps")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=lrpt"><?php echo _("View By Location")?></a></li>
 			<?php
 				if($conf['gis']=='true'){
 			?>
-				<li><a href="index.php?mod=<?=$module?>&act=gis_show">Location Map</a></li>
+				<li><a href="index.php?mod=<?=$module?>&act=gis_show"><?php echo _("Location Map")?></a></li>
 			<?php
 				}
 			?>
 		</ul>
-		<li><a href="index.php?mod=<?=$module?>&act=ecmp">Edit Camp</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=ecmp"><?php echo _("Edit Camp")?></a></li>
 		
 													
 	</ul><!--end div=modmenu-->

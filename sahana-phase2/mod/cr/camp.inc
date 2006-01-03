@@ -25,10 +25,10 @@ function _shn_cr_cadd_start($errors=false){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2 align="center">Register New Camp</h2>
+<h2 align="center"><?php echo _("Register New Camp")?></h2>
 <?php
 	shn_form_fopen(acmp);
-	shn_form_fsopen("General Details");
+	shn_form_fsopen(_("General Details"));
 	//check for gis and goto mapping page
 	include $global['approot']."/conf/config.inc";
 	
@@ -39,8 +39,8 @@ function _shn_cr_cadd_start($errors=false){
 		shn_form_hidden(array('seq'=>'chk'));
 	}
 	
-	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true));
-	shn_form_opt_select("opt_camp_type","Camp Type");
+	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_form_opt_select("opt_camp_type",_("Camp Type"));
 ?>
 
 <!--<label>Division</label>
@@ -68,7 +68,7 @@ function _shn_cr_cadd_start($errors=false){
 <?php
 */			
 //-----------------------------------------
-	shn_form_textarea("Address","camp_address");
+	shn_form_textarea(_("Address"),"camp_address");
 	shn_form_fsclose();
 //-------------------------
 	global $global;
@@ -76,18 +76,18 @@ function _shn_cr_cadd_start($errors=false){
 	shn_location_form_org(1,4);
 		
 //-------------------------
-	shn_form_fsopen("Contact Person Details");
-	shn_form_text("Full Name","camp_contact_name",'size="60"');
-	shn_form_text("Phone Number","camp_contact_number",'size="60"');
+	shn_form_fsopen(_("Contact Person Details"));
+	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"');
+	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"');
 	shn_form_fsclose();
-	shn_form_fsopen("Camp Population");
-	shn_form_text("Family Count","family",'size="10"');
-	shn_form_text("Total Count","total",'size="10"');
-	shn_form_text("Men","men",'size="10"');
-	shn_form_text("Women","women",'size="10"');
-	shn_form_text("Children","children",'size="10"');
+	shn_form_fsopen(_("Camp Population"));
+	shn_form_text(_("Family Count"),"family",'size="10"');
+	shn_form_text(_("Total Count"),"total",'size="10"');
+	shn_form_text(_("Men"),"men",'size="10"');
+	shn_form_text(_("Women"),"women",'size="10"');
+	shn_form_text(_("Children"),"children",'size="10"');
 	shn_form_fsclose();
-	shn_form_submit("Next");
+	shn_form_submit(_("Next"));
 	shn_form_fclose();
 }
 
@@ -123,12 +123,12 @@ if($errors)
 <h2>Camp Checklist</h2>
 <?php
 shn_form_fopen(acmp);
-shn_form_fsopen("Services / Facilities Available");
+shn_form_fsopen(_("Services / Facilities Available"));
 shn_form_hidden(array('seq'=>'commit'));
 shn_form_opt_checkbox("opt_camp_service");
-shn_form_textarea("Other Facilities","comments");
+shn_form_textarea(_("Other Facilities"),"comments");
 shn_form_fsclose();
-shn_form_submit("Next");
+shn_form_submit(_("Next"));
 shn_form_fclose();
 
 }
@@ -189,7 +189,7 @@ function _shn_cr_sel_map(){
 		 	 *@todo check for online connectivity: exit gracefully
 	  	*/
 	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-			echo "Enter Camp Location. Click on Map where camp exists";
+			echo _("Enter Camp Location. Click on Map where camp exists");
 
 			$a="select value from config where module_id='gis' and confkey='google_key'";
       $ares=$db->Execute($a);
@@ -324,7 +324,7 @@ if($conf['gis']){
 
 <br>
 <br>
-<h3>The Availability of Services & Facilities of the Camp are as follows.</h3>
+<h3><?php echo _("The Availability of Services & Facilities of the Camp are as follows:")?></h3>
 <!--<p>Facilities / Services Availability</p>-->
 <ul>
 
@@ -332,8 +332,8 @@ if($conf['gis']){
 <div id ="result">
 <table>
         <thead>
-        		<td>Service Type</td>
-            <td>Availability</td>
+        		<td><?php echo _("Service Type")?></td>
+            <td><?php echo _("Availability")?></td>
         </thead>
         
 <tbody>
@@ -349,7 +349,7 @@ while(!$ref->EOF){
 		if($val==$b){
 					
     		echo "<td>$name</td>";
-    		echo "<td>Available</td>";
+    		echo "<td>". _("Available"). "</td>";
 					
 			//echo "<li>$name :  Available </li><br>";
 			$flag=true;			
@@ -357,7 +357,7 @@ while(!$ref->EOF){
 	}
 	if(!$flag){
 		echo "<td>$name</td>";
-		echo "<td>NOT AVAILABLE</td>";
+		echo "<td>"._("NOT AVAILABLE")."</td>";
 		//echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
 	}
 	?>
@@ -373,7 +373,7 @@ while(!$ref->EOF){
 
 </ul>
 <br><br>
-<p>Use the Left Navigation Menu to Continue..............</p>
+<p><?php echo _("Use the Left Navigation Menu to Continue.")?></p>
 
 <?php	
 }

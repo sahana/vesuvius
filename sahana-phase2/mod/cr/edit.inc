@@ -26,7 +26,7 @@ function _shn_cr_cedt_start($errors=false){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2>Update Existing Camp</h2>
+<h2><?php echo _("Update Existing Camp")?></h2>
 <?php
 	$query="select c_uuid from camp where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -35,11 +35,11 @@ function _shn_cr_cedt_start($errors=false){
 	
 	_shn_cr_get_session($editid);
 	shn_form_fopen(ecmp);
-	shn_form_fsopen("General Details");
+	shn_form_fsopen(_("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_text("Camp Name","camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
-	shn_form_opt_select("opt_camp_type","Camp Type",array('value'=>$_SESSION['opt_camp_type']));
-	shn_form_textarea("Address","camp_address",array('value'=>$_SESSION['camp_address']));
+	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
+	shn_form_opt_select("opt_camp_type",_("Camp Type"),array('value'=>$_SESSION['opt_camp_type']));
+	shn_form_textarea(_("Address"),"camp_address",array('value'=>$_SESSION['camp_address']));
 	shn_form_fsclose();
 ?>
 <!--
@@ -76,18 +76,18 @@ function _shn_cr_cedt_start($errors=false){
 			
 			
 //-----------------------------------------
-	shn_form_fsopen("Contact Person Details");
-	shn_form_text("Full Name","camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
-	shn_form_text("Phone Number","camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
+	shn_form_fsopen(_("Contact Person Details"));
+	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
+	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
 	shn_form_fsclose();
-	shn_form_fsopen("Camp Population");
-	shn_form_text("Family Count","family",'size="10"',array('value'=>$_SESSION['camp_family']));
-	shn_form_text("Total Count","total",'size="10"',array('value'=>$_SESSION['camp_total']));
-	shn_form_text("Men","men",'size="10"',array('value'=>$_SESSION['camp_men']));
-	shn_form_text("Women","women",'size="10"',array('value'=>$_SESSION['camp_women']));
-	shn_form_text("Children","children",'size="10"',array('value'=>$_SESSION['camp_children']));
+	shn_form_fsopen(_("Camp Population"));
+	shn_form_text(_("Family Count"),"family",'size="10"',array('value'=>$_SESSION['camp_family']));
+	shn_form_text(_("Total Count"),"total",'size="10"',array('value'=>$_SESSION['camp_total']));
+	shn_form_text(_("Men"),"men",'size="10"',array('value'=>$_SESSION['camp_men']));
+	shn_form_text(_("Women"),"women",'size="10"',array('value'=>$_SESSION['camp_women']));
+	shn_form_text(_("Children"),"children",'size="10"',array('value'=>$_SESSION['camp_children']));
 	shn_form_fsclose();
-	shn_form_submit("Next");
+	shn_form_submit(_("Next"));
 	shn_form_fclose();
 }
 
@@ -117,12 +117,12 @@ function shn_cr_all_view(){
 	
 	_shn_cr_get_session($editid);
 	shn_form_fopen(srch);
-	shn_form_fsopen("General Details");
+	shn_form_fsopen(_("General Details"));
 	shn_form_hidden(array('seq'=>'commit'));
 	//shn_form_hidden(array('cmp_id'=>$_REQUEST['cmp_id']));
 	shn_form_hidden(array('opt_camp_type'=>$_SESSION['opt_camp_type']));
 	
-	shn_form_label("Camp Name",$_SESSION['camp_name'],array('br'=>'true'));
+	shn_form_label(_("Camp Name"),$_SESSION['camp_name'],array('br'=>'true'));
 	shn_form_label("opt_camp_type",$_SESSION['opt_camp_type'],array('br'=>'true'));
 ?>
 <!--
@@ -154,7 +154,7 @@ function shn_cr_all_view(){
 	include $global['approot']."/mod/or/lib_or.inc";
 		
 //-----------------------------------------
-	shn_form_label("Address",$_SESSION['camp_address']);
+	shn_form_label(_("Address"),$_SESSION['camp_address']);
 
 
 	//Starts
@@ -174,18 +174,18 @@ function shn_cr_all_view(){
 		
 	shn_form_fsclose();
 	//shn_location_form_view(1,4,$_SESSION['opt_location_type']);
-	shn_form_fsopen("Contact Person Details");
-	shn_form_label("Full Name",$_SESSION['camp_contact_name']);
-	shn_form_label("Phone Number",$_SESSION['camp_contact_number']);
+	shn_form_fsopen(_("Contact Person Details"));
+	shn_form_label(_("Full Name"),$_SESSION['camp_contact_name']);
+	shn_form_label(_("Phone Number"),$_SESSION['camp_contact_number']);
 	shn_form_fsclose();
-	shn_form_fsopen("Camp Population");
-	shn_form_label("Family Count",$_SESSION['camp_family']);
-	shn_form_label("Total Count",$_SESSION['camp_total']);
-	shn_form_label("Men",$_SESSION['camp_men']);
-	shn_form_label("Women",$_SESSION['camp_women']);
-	shn_form_label("Children",$_SESSION['camp_children']);
+	shn_form_fsopen(_("Camp Population"));
+	shn_form_label(_("Family Count"),$_SESSION['camp_family']);
+	shn_form_label(_("Total Count"),$_SESSION['camp_total']);
+	shn_form_label(_("Men"),$_SESSION['camp_men']);
+	shn_form_label(_("Women"),$_SESSION['camp_women']);
+	shn_form_label(_("Children"),$_SESSION['camp_children']);
 	shn_form_fsclose();
-	shn_form_submit("Close");
+	shn_form_submit(_("Close"));
 ?>
 	<input type="button" onClick="location.replace('index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $_REQUEST['cmp_id']?>');" value="Edit Camp" />
 	<input type="button" onClick="if(editThis()) location.replace('index.php?mod=cr&act=ecmp&seq=del&cmp_id=<?php echo $_SESSION['editid']?>');" value="Delete Camp" />
@@ -223,12 +223,12 @@ if($errors)
 <h2>Camp Checklist</h2>
 <?php
 shn_form_fopen(ecmp);
-shn_form_fsopen("Services / Facilities Available");
+shn_form_fsopen(_("Services / Facilities Available"));
 shn_form_hidden(array('seq'=>'commit'));
 shn_form_opt_checkbox("opt_camp_service");
-shn_form_textarea("Other Facilities","comments");
+shn_form_textarea(_("Other Facilities"),"comments");
 shn_form_fsclose();
-shn_form_submit("Next");
+shn_form_submit(_("Next"));
 shn_form_fclose();
 
 }
@@ -242,7 +242,7 @@ function _shn_cr_del_camp($id){
 	$db->Execute($q);
 	$db->Execute($r);
 	$db->Execute($s);
-	echo "Deleted Camp Succesfully";
+	echo _("Deleted Camp Succesfully");
 	//shn_cr_srch
 }
 
@@ -270,11 +270,11 @@ return $id;
 function _shn_cr_search_edt_frm(){
 ?><h2 align="center">Edit Existing Camp</h2><?php
 	shn_form_fopen("ecmp");
-	shn_form_fsopen("Edit Camp");
+	shn_form_fsopen(_("Edit Camp"));
 	shn_form_hidden(array('seq'=>'disp'));
-	shn_form_text('Name of Camp to edit','cmp_id','size="20"');
+	shn_form_text(_("Name of Camp to edit"),'cmp_id','size="20"');
 	shn_form_fsclose();
-	shn_form_submit("Edit");
+	shn_form_submit(_("Edit"));
 	shn_form_fclose();
 	
 }
@@ -429,7 +429,7 @@ while(!$ref->EOF){
 ?>
 </ul>
 <br><br>
-<p>Use the Navigation Menu to Continue</p>
+<p><?php echo _("Use the Navigation Menu to Continue")?></p>
 <?php	
 }
 ?>

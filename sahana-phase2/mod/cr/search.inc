@@ -22,19 +22,19 @@ function _shn_cr_srch_rst($camp_name,$type){
 		global $global;
 		$db=$global['db'];
 		?>
-		<h1><center>Search Results</center></h1>
+		<h1><center><?php echo _("Search Results")?></center></h1>
 		<div id ="result">
     	<table>
         <thead>
-        		<td>Camp Name</td>
-            <td>Location</td>
-            <td>Address</td>
-         	<td>Camp Type</td>
-            <td>No: of Families</td>
-            <td>No: of Males</td>
-            <td>No: of Females</td>
-            <td>No: of Families</td>
-            <td>Total Count</td>
+        		<td><?php echo _("Camp Name")?></td>
+            <td><?php echo _("Location")?></td>
+            <td><?php echo _("Address")?></td>
+         	<td><?php echo _("Camp Type")?></td>
+            <td><?php echo _("No: of Families")?></td>
+            <td><?php echo _("No: of Males")?></td>
+            <td><?php echo _("No: of Females")?></td>
+            <td><?php echo _("No: of Families")?></td>
+            <td><?php echo _("Total Count")?></td>
         </thead>
         
         <tbody>
@@ -74,7 +74,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 			<tr>
     				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
 						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?>
-							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a><?php ;?></td>
+							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a><?php ;?></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -123,7 +123,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 			<tr>
     				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
 						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
-						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[edit]</a></td>
+						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a></td>
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -155,17 +155,17 @@ function _shn_cr_srch($edit=false){
 	 	  <h1><center>Search for a Camp</center></h1>
  <?php
 			shn_form_fopen("srch");
-			shn_form_fsopen("SEARCH");
+			shn_form_fsopen(_("SEARCH"));
 			shn_form_hidden(array('seq'=>'commit'));
-			shn_form_text('Name of the Camp','cmp_id','size="20"');
+			shn_form_text(_("Name of the Camp"),'cmp_id','size="20"');
  			?>
  			<br>		
 			<?php
-		   shn_form_opt_select("opt_camp_type","Camp Type",null,array('all'=>true));
+		   shn_form_opt_select("opt_camp_type",_("Camp Type"),null,array('all'=>true));
 			 if($edit=='true')
 			 	shn_form_hidden(array('edt'=>'true'));
 		   shn_form_fsclose();
-			shn_form_submit("Search");
+			shn_form_submit(_("Search"));
 			shn_form_fclose();
 				
 

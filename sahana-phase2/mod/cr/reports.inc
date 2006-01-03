@@ -45,10 +45,10 @@ function _shn_cr_rpt(){
 	  
  <?php
 			shn_form_fopen("rpt");
-			shn_form_fsopen("Report for all camps");
+			shn_form_fsopen(_("Report for all camps"));
 			shn_form_hidden(array('seq'=>'commit'));
 			shn_form_fsclose();
-			shn_form_submit("Generate Report");
+			shn_form_submit(_("Generate Report"));
 			shn_form_fclose();
 }
 

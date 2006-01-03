@@ -21,27 +21,27 @@ function shn_cr_default(){
 ?>
 <div id="home">
 <h2><?php echo _("Camps Registry");?></h2>
-<p> This sub application of Sahana keeps track of the location of all the camps in the
+<p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps in the
 region and the some basic data on the facilities they might have and the number of
 people in them. It also provides a GIS view to plot the location of the camps in the
 affected area.
-Current features include:</p>
+Current features include:")?></p>
 <ul>
-    <li>Tracking of basic meta-data on the location, facilities and size of the camp</li>
-    <li>Integration of google maps to provide a GIS view of the affected region</li>
-    <li>Ability to customize the list of important facilities needed at a camp</li>
-    <li>Basic reports on the camps and drill-down by region</li>
+    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the camp")?></li>
+    <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
+    <li><?php echo _("Ability to customize the list of important facilities needed at a camp")?></li>
+    <li><?php echo _("Basic reports on the camps and drill-down by region")?></li>
 </ul>
 <!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
 	-->
 </div>
     <div id="home_recent">		
-	<h1>Most Populated Camps</h1>
+	<h1><?php echo _("Most Populated Camps");?></h1>
 	<?php shn_cr_home_pop(); 
 	?>	
 	
-	<h1>Newest Camps</h1>
+	<h1><?php echo _("Newest Camps");?></h1>
 	<?php shn_cr_home_newcmp(); 
 	?>
     </div>
@@ -119,7 +119,7 @@ function shn_cr_srch(){
   require_once($global['approot'].'/inc/handler_form.inc');
   switch($_REQUEST['seq']){
 		case 'next'		:
-		            	echo "Search Results";
+		            	echo _("Search Results");
 		           	 	break;
 		case 'commit'	:
 									_shn_cr_srch_rst($_POST['cmp_id'],$_POST['opt_camp_type']);
@@ -170,7 +170,7 @@ function shn_cr_gis_show(){
 		include($global['approot'].'/mod/gis/conf.inc');	
 		include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
-		echo "GIS Map of Camps";
+		echo _("GIS Map of Camps");
 		$q="select map_northing,map_easting,name from gis_location as a, camp as b where a.poc_uuid=b.c_uuid";
 		$res = $db->Execute($q);
 		
