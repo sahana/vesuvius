@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.14 2005-12-21 11:43:36 janakawicks Exp $ */
+/* $Id: main.inc,v 1.15 2006-01-03 05:06:29 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -421,14 +421,17 @@ function shn_mpr_search()
 	if($_GET['act']=='search'){
 	    switch ($_REQUEST['seq']) {
 	        case 'result' :
+	            shn_mpr_search_default();
                 if($_GET['offset'])
                     shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'],
                         $_GET['offset']);
                 else{
     	            $search_sql = new SearchQuery();
-                    $search_sql->set_name($_POST['_name']);
+                    $search_sql->set_name($_POST['name']);
                     $search_sql->set_serial_no($_POST['idcard']);
                     $search_sql->isvictim = true; 
+                    if ($_REQUEST['type'] == 'missing')
+                        $search_sql->missing_only = true; 
                     $arr = shn_mpr_search_result_vw($search_sql->get_sql());
                 }
 	        break;

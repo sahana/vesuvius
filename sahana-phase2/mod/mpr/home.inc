@@ -22,13 +22,13 @@ Features include:</p>
 </div>
 <?php
 /**
- *  Recent Found People people Top 5
+ *  Recent Found People people Top 6
  */
 ?>
 <div id="home_recent">
 <h1>Latest updates on Found People</h1>
 <?php
-$limit = 5;
+$limit = 6;
 $type = "found";
 shn_mpr_home_show_mpr($type,$limit);
 ?>
@@ -36,12 +36,12 @@ shn_mpr_home_show_mpr($type,$limit);
 
 
 /**
- *  Recent Missing People Top 5
+ *  Recent Missing People Top 6
  */
 ?>
 <h1>Latest updates on Missing People</h1>
 <?php
-$limit = 5;
+$limit = 6;
 $type = "missing";
 shn_mpr_home_show_mpr($type,$limit);
 ?>
@@ -122,9 +122,9 @@ function shn_mpr_search_show_verticle($details)
         <TD>
 <?php
 		        if(shn_show_thumb($details[$i+1]['p_uuid']))
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a>';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a>';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		            echo ($details[$i+1]['height']?'Height : '.$details[$i+1]['height'].'<br>':'');
 		            echo ($details[$i+1]['weight']?'Weight : '.$details[$i+1]['weight'].'<br>':'');
 	                echo ($details[$i+1]['opt_eye_color']?'Eye Colour : '.shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');

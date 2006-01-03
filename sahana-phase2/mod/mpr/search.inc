@@ -30,7 +30,7 @@ function shn_mpr_search_default()
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'result'));
-    shn_form_hidden(array('type'=>$_GET['type']));
+    shn_form_hidden(array('type'=>$_REQUEST['type']));
     shn_form_fclose();
 }
 /* }}} */
@@ -237,7 +237,7 @@ function shn_mpr_search_navigation_bottom($rs)
 {
     //NOTE: I know this looks really dumb, but 
     //Later we are going to populate some bottom stuff
-    echo '<strong>Total '.$rs->RecordCount().' Records were found</strong><br />';
+    echo '<br /><strong>Total '.$rs->RecordCount().' Records were found</strong><br />';
     shn_mpr_search_nav_arrows($rs);
 }
 
@@ -252,7 +252,7 @@ function shn_mpr_search_nav()
 
     $delta = $total - $offset - $limit;
 
-    echo '<strong>Total '.$total.' Records were found</strong><br />';    
+    echo '<br /><strong>Total '.$total.' Records were found</strong><br />';    
 ?>  
 <DIV id="paging_nav">
 <UL>
@@ -485,6 +485,7 @@ class SearchQuery
     var $__where;
 
     var $isvictim;
+    var $missing_only;
 
     function set_name($name)
     {
@@ -555,7 +556,8 @@ class SearchQuery
             
             if($this->isvictim)
                 $sql .= " AND person_status.isvictim = 'TRUE' ";
-            
+            if($this->missing_only)
+                $sql .= " AND person_status.opt_status = 'mis' ";
             $sql .= " GROUP BY 1";
         }       
         return $sql;

@@ -1,5 +1,25 @@
 <?php
 
+
+function shn_generate_tabs($selected='')
+{
+    global $conf;
+    $tabs = $conf['mod_mpr']['edit']['tabs'];
+?>
+<div id="form_tabs">
+<ul>
+<?php
+    foreach($tabs as $tab){
+?>
+    <li><a href="#"><?= $tab; ?></a></li>
+<?php
+    }
+?>
+</ul>
+</div>
+<?php
+}
+
 /* {{{ Load Informations 
 
 /**
@@ -105,8 +125,8 @@ function shn_mpr_editmp_entry($errors=false)
 
     shn_form_hidden(array('seq'=>'entry'));
 
-    shn_form_fsopen('Status');
-    shn_form_opt_select('opt_status','Change the status','',array('value'=>$_SESSION['mpr_edit']['entry']['opt_status']));
+    shn_form_fsopen(_('Status'));
+    shn_form_opt_select('opt_status',_('Change the status'),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_status']));
     shn_form_fsclose();
 
     shn_form_fsopen('Identity');

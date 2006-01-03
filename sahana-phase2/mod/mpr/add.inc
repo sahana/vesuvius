@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.12 2005-12-23 09:13:57 janakawicks Exp $ */
+/* $Id: add.inc,v 1.13 2006-01-03 05:06:29 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -224,7 +224,7 @@ function shn_mpr_addmp_reporter($errors=false)
 {
     if($errors)
         display_errors();
-
+    shn_js_toggle_layer();
     // TODO: Clean the $_GET['act'] baby ;-)
     shn_form_fopen($_GET['act'],null);
 
@@ -232,8 +232,10 @@ function shn_mpr_addmp_reporter($errors=false)
     shn_form_fsopen("Reporter Details");
     
     shn_form_fsopen("Background Information");
-    shn_form_select(array("yes"=>"Yes","no"=>"No"),"Have you reported
-anyone before? ", "reported_before");
+    shn_form_select(array("yes"=>"Yes","no"=>"No"),
+            "Have you reported anyone before? ",
+            "reported_before",
+            'onchange="javascript:toggleLayer(\'toggle_reporter\');"');
     shn_form_select(array("yes"=>"Yes","no"=>"No"), "Are you a disaster
 victim too? ", "is_dv");
     shn_form_opt_select('opt_status','If you are a victim, Please specify
@@ -249,11 +251,15 @@ information to do a match</p>
     shn_form_text('Name','rep_full_name','size="30"',array('req'=>true));
     shn_form_text('Relation','rep_relation','size="30"',array('req'=>true));
 ?>
+<div id="toggle_reporter">
 <p>IMPORTANT : At least one of the following contact method is required</p>
 <?php
     shn_form_textarea('Address','rep_address');
     shn_form_text('Phone','rep_phone','size="30"');
     shn_form_text('Email','rep_email','size="30"');
+?>
+</div>
+<?php
     shn_form_fsclose();
     
     shn_form_fsclose();
@@ -300,8 +306,10 @@ function shn_mpr_addmp_reporter_validate()
     if(! ( isset($local_post['rep_address']) || 
             isset($local_post['rep_phone']) || 
             isset($local_post['rep_email']) ) ){
-        add_error(_("Please enter any contact method of the reporting person"));
-        $error_flag=true;
+        if ( $_POST['reported_before'] != 'yes' ) {
+            add_error(_("Please enter any contact method of the reporting person"));
+            $error_flag=true;
+        }
     }
    
     if($error_flag)
@@ -874,5 +882,30 @@ function shn_add_get_tracker_details($p_uuid)
     $_SESSION['mpr_add']['report_person']['rep_address'] = $rs['address'];
     $_SESSION['mpr_add']['report_person']['rep_phone'] = $rs['phone'];
     $_SESSION['mpr_add']['report_person']['rep_email'] = $rs['email'];
+}
+
+//@todo: Need to put this somewhere else, 
+function shn_js_toggle_layer()
+{
+?>
+<script language="javascript">
+function toggleLayer(whichLayer)
+{
+    if (document.getElementById) {
+		// this is the way the standards work
+		var style2 = document.getElementById(whichLayer).style;
+		style2.display = style2.display? "":"block";
+    } else if (document.all) {
+		// this is the way old msie versions work
+		var style2 = document.all[whichLayer].style;
+		style2.display = style2.display? "":"block";
+    } else if (document.layers) {
+		// this is the way nn4 works
+		var style2 = document.layers[whichLayer].style;
+		style2.display = style2.display? "":"block";
+	}
+}
+</script>
+<?
 }
 ?>
