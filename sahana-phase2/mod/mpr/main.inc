@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.15 2006-01-03 05:06:29 janakawicks Exp $ */
+/* $Id: main.inc,v 1.16 2006-01-03 11:14:12 janakawicks Exp $ */
 
 /**Main home page of the Missing Person Registry 
 *
@@ -33,13 +33,13 @@ function shn_mpr_mainmenu()
     $module = $global['module'];
 
     // Create the module menu
-    shn_mod_menuopen("Missing Person Registry");
+    shn_mod_menuopen(_("Missing Person Registry"));
 
-    shn_mod_menuitem("default","Home");
-    shn_mod_menuitem("search&type=all","Search for a Person");
-    shn_mod_menuitem("addmp&type=missing","Report a Missing Person");
-    shn_mod_menuitem("search&type=missing","Edit a Missing Person");
-    shn_mod_menuitem("addmp&type=found","Report a Found Person");
+    shn_mod_menuitem("default",_("Home"));
+    shn_mod_menuitem("search&type=all",_("Search for a Person"));
+    shn_mod_menuitem("addmp&type=missing",_("Report a Missing Person"));
+    shn_mod_menuitem("search&type=missing",_("Edit a Missing Person"));
+    shn_mod_menuitem("addmp&type=found",_("Report a Found Person"));
 #    shn_mod_menuitem("test","Test");
 #    shn_mod_menuitem("stats","Statistics");
 
@@ -114,7 +114,7 @@ function shn_mpr_editmp()
 	switch ($_REQUEST['seq']) {
 	
 	    case 'entry':
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
 	        if(shn_mpr_editmp_validate()){
                 shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
 	        }else
@@ -122,11 +122,11 @@ function shn_mpr_editmp()
 	    break;
 	    
         case 'trackers' :
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
             shn_mpr_editmp_upload();
         break;
 	    case 'upload_pic' :
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
 	        if(! shn_mpr_editmp_upload_pic())
 	            shn_mpr_editmp_upload(true);
 	        else
@@ -140,10 +140,10 @@ function shn_mpr_editmp()
 	    break;
 
         case 'add_tracker' :
-        	echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
 	        $_POST = null;
 	        $_SESSION['mpr_add']['add_tracker'] = null;
-	        echo '<h1 align="center">Add a tracker to '.
+	        echo '<h1 align="center">'._('Add a tracker to').' '.
 	            $_SESSION['mpr_edit']['entry']['full_name'].' </h1>';
             $_SESSION['mpr_add']['add_tracker']['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 	        // TODO: check the p_uuid exists or not *** VERY URGENT
@@ -151,7 +151,7 @@ function shn_mpr_editmp()
 	    break;
 
         case 'report_person' :
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
             if(shn_mpr_addmp_reporter_validate() || isset($_GET['offset']) ){
                 if($_POST['reported_before'] == 'yes' || isset($_GET['offset']) ) {
                     require_once($global['approot'].'mod/mpr/search.inc');
@@ -173,8 +173,7 @@ function shn_mpr_editmp()
                     $_SESSION['mpr_add']['add_tracker']=null;
                 }
             }else{
-                echo '<h1 align="center">Add a tracker to
-'.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
+                echo '<h1 align="center">'._('Add a tracker to').' '.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
                 shn_mpr_addmp_reporter(true);
             }            
         break; 
@@ -185,7 +184,7 @@ function shn_mpr_editmp()
             shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
         break;
         case 'del_tracker' :
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
             //TODO : Clean the input
             $tracker_uuid = $_GET['tracker_id'];
             shn_edit_del_tracker ($_SESSION['mpr_edit']['entry']['p_uuid'],
@@ -194,7 +193,7 @@ function shn_mpr_editmp()
             
         break;
 	    default:
-            echo '<h1 align="center">Edit Missing Person Entry</h1>';
+            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
 	        //load details
 	        $_SESSION['mpr_edit']['entry'] = null;
 	        shn_mpr_editmp_load($_GET['id']);
@@ -217,7 +216,7 @@ function shn_mpr_viewmp()
 {
     global $global;
     require($global['approot'].'mod/mpr/view.inc');
-    echo '<h1 align="center">View Person</h1>';
+    echo '<h1 align="center">'._('View Person').'</h1>';
     shn_mpr_view($_GET['id']);
 }
 /* }}} */
@@ -252,8 +251,7 @@ function shn_mpr_add_tracker()
                     $_SESSION['mpr_add']['add_tracker']=null;
                 }
             }else{
-                echo '<h1 align="center">Add a tracker to
-'.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
+                echo '<h1 align="center">'._('Add a tracker to').' '.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
                 shn_mpr_addmp_reporter(true);
             }
         break;
@@ -269,7 +267,7 @@ function shn_mpr_add_tracker()
             //clean the $_POST to remove the conflicts
                 $_POST = null;
                 $_SESSION['mpr_add']['add_tracker'] = null;
-                echo '<h1 align="center">Add a tracker to '.$_GET['name'].' </h1>';
+                echo '<h1 align="center">'._('Add a tracker to').' '.$_GET['name'].' </h1>';
                 $_SESSION['mpr_add']['add_tracker']['p_uuid'] =
 $_GET['id'];
                 $_SESSION['mpr_add']['add_tracker']['name'] =
@@ -292,8 +290,7 @@ function shn_mpr_del_tracker()
                 #shn_mpr_default();                
                 $_SESSION['mpr_add']['add_tracker']=null;
             }else{
-                echo '<h1 align="center">Add a tracker to
-'.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
+                echo '<h1 align="center">'._('Add a tracker to').' '.$_SESSION['mpr_add']['add_tracker']['name'].' </h1>';
                 shn_mpr_addmp_reporter(true);
             }
 }
@@ -317,9 +314,9 @@ function shn_mpr_addmp()
         $_SESSION['mpr_add']['entry_type'] = 'missing';
 
     if($_SESSION['mpr_add']['entry_type'] == 'found')
-        $heading = '<h1 align="center">Found Person Entry</h1>';
+        $heading = '<h1 align="center">'._('Found Person Entry').'</h1>';
     elseif($_SESSION['mpr_add']['entry_type'] == 'missing')
-        $heading = '<h1 align="center">Missing Person Entry</h1>';
+        $heading = '<h1 align="center">'._('Missing Person Entry').'</h1>';
 
     //Controller
 	switch ($_REQUEST['seq']) {
@@ -328,25 +325,25 @@ function shn_mpr_addmp()
 	            //clean the $_POST to remove the conflicts
 	            $_POST = null;
                 echo $heading;
-                echo '<h2 align="center">(Upload Person\'s Picture)</h2>';
+                echo '<h2 align="center">('._('Upload Person\'s Picture').')</h2>';
 	            shn_mpr_addmp_upload();
 	        }else{
                 echo $heading;
-                echo '<h2 align="center">(Person Details)</h2>';
+                echo '<h2 align="center">('._('Person Details').')</h2>';
 	            shn_mpr_addmp_entry(true);
             }
 	    break;
 
         case 'tracker_back' :
             echo $heading;
-            echo '<h2 align="center">(Reporting Person)</h2>';
+            echo '<h2 align="center">('._('Reporting Person').')</h2>';
             shn_mpr_addmp_reporter();
         break;
 	
         case 'tracker_select' :
             $_SESSION['mpr_add']['entry']['tracker_id'] = $_GET['tracker_id'];
             echo $heading;
-            echo '<h2 align="center">(Final Confirmation)</h2>';
+            echo '<h2 align="center">('._('Final Confirmation').')</h2>';
             shn_mpr_addmp_confirm();
         break;
 
@@ -369,12 +366,12 @@ function shn_mpr_addmp()
                     }
                 }else{
                     echo $heading;
-                    echo '<h2 align="center">(Final Confirmation)</h2>';
+                    echo '<h2 align="center">('._('Final Confirmation').')</h2>';
 	                shn_mpr_addmp_confirm();
                 }
 	        }else{
                 echo $heading;
-                echo '<h2 align="center">(Reporting Person)</h2>';
+                echo '<h2 align="center">('._('Reporting Person').')</h2>';
                 shn_mpr_addmp_reporter(true);
             }
 	    break;
@@ -382,11 +379,11 @@ function shn_mpr_addmp()
 	    case 'upload_pic' :
 	        if(shn_mpr_addmp_upload_pic()){
                 echo $heading;
-                echo '<h2 align="center">(Reporting Person)</h2>';
+                echo '<h2 align="center">('._('Reporting Person').')</h2>';
                 shn_mpr_addmp_reporter();
 	        }else{
                 echo $heading;
-                echo '<h2 align="center">(Upload Person\'s Picture)</h2>';
+                echo '<h2 align="center">('._('Upload Person\'s Picture').')</h2>';
                 shn_mpr_addmp_upload(true);
             }
 	    break;
@@ -397,7 +394,7 @@ function shn_mpr_addmp()
 	
 	    default:
             echo $heading;
-            echo '<h2 align="center">(Person Details)</h2>';
+            echo '<h2 align="center">('._('Reporting Person').')</h2>';
 	        shn_mpr_addmp_entry();
         break;
 	}
@@ -538,7 +535,7 @@ function shn_show_thumb($p_uuid)
     
     //if image is not available 
     if(! file_exists($global['approot']."www/tmp/ori_$p_uuid.$ext") ){
-        echo "Image Not Available";
+        echo _("Image Not Available");
         return false;
     }
         
@@ -553,7 +550,7 @@ function shn_show_thumb($p_uuid)
     //add http://
     $url = 'http://'.$url."/tmp/ori_$p_uuid.$ext";
 ?>
-    <a title="Click to see the original size" href="#" onclick="window.open('<?=$url?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
+    <a title="<?= _('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$url?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
     <img border="0" src="tmp/<?='thumb_'.$p_uuid.'.'.$ext?>" />
     </a>
 <?php

@@ -4,20 +4,22 @@
  */
 ?>
 <div id="home">
-<h2>Missing Person Registry</h2>
+<h2><?= _('Missing Person Registry'); ?></h2>
 <!-- <img src="theme/default/img/mpr.png"/> -->
-<p>The Missing person registry is an online bulletin board of missing and found people.
+<p><?= _('The Missing person registry is an online bulletin board of missing and found people.
 It not only captures information about the people missing and found, but the
 information of the person seeking them is also captured, which adds to the chances
 of people finding each other. For example if two members of the a family unit is
 looking for the head of the family, we can use this data at least to connect those two
-family members.
-Features include:</p>
+family members.'); ?>
+<?= _('Features include:');?></p>
 <ul>
-    <li>Meta data around the individual such identity numbers, visual appearance, last seen location, status, etc</li>
-    <li>Sounds-like name search (using metafore and soundex algorithms)</li>
-    <li>Uploading of a persons picture</li>
-    <li>Grouping by family unit or other groups types</li>
+    <li><?= _('Meta data around the individual such identity numbers, visual
+appearance, last seen location, status, etc'); ?></li>
+    <li><?= _('Sounds-like name search (using metafore and soundex
+algorithms)'); ?></li>
+    <li><?= _('Uploading of a persons picture'); ?></li>
+    <li><?= _('Grouping by family unit or other groups types'); ?></li>
 </ul>
 </div>
 <?php
@@ -26,7 +28,7 @@ Features include:</p>
  */
 ?>
 <div id="home_recent">
-<h1>Latest updates on Found People</h1>
+<h1><?= _('Latest updates on Found People'); ?></h1>
 <?php
 $limit = 6;
 $type = "found";
@@ -39,7 +41,7 @@ shn_mpr_home_show_mpr($type,$limit);
  *  Recent Missing People Top 6
  */
 ?>
-<h1>Latest updates on Missing People</h1>
+<h1><?= _('Latest updates on Missing People'); ?></h1>
 <?php
 $limit = 6;
 $type = "missing";
@@ -105,14 +107,14 @@ function shn_mpr_search_show_verticle($details)
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
-	            echo ($details[$i]['height']?'Height : '.$details[$i]['height'].'<br>':'');
-	            echo ($details[$i]['weight']?'Weight : '.$details[$i]['weight'].'<br>':'');
-	            echo ($details[$i]['opt_eye_color']?'Eye Colour : '.shn_get_field_opt($details[$i]['opt_eye_color'],'opt_eye_color').'<br>':'');
-	            echo ($details[$i]['opt_skin_color']?'Skin Colour : '.shn_get_field_opt($details[$i]['opt_skin_color'],'opt_skin_color').'<br>':'');
-	            echo ($details[$i]['opt_hair_color']?'Hair Colour : '.shn_get_field_opt($details[$i]['opt_hair_color'],'opt_hair_color').'<br>':'');
-	            echo ($details[$i]['last_seen']?'Last Seen : '.$details[$i]['last_seen'].'<br>':'');
-	            echo ($details[$i]['last_clothing']?'Last Clothing : '.$details[$i]['last_clothing'].'<br>':'');
-	            echo ($details[$i]['comments']?'Comments : '.$details[$i]['comments']:'');
+	            echo ($details[$i]['height']?_('Height : ').$details[$i]['height'].'<br>':'');
+	            echo ($details[$i]['weight']?_('Weight : ').$details[$i]['weight'].'<br>':'');
+	            echo ($details[$i]['opt_eye_color']?_('Eye Colour : ').shn_get_field_opt($details[$i]['opt_eye_color'],'opt_eye_color').'<br>':'');
+	            echo ($details[$i]['opt_skin_color']?_('Skin Colour : ').shn_get_field_opt($details[$i]['opt_skin_color'],'opt_skin_color').'<br>':'');
+	            echo ($details[$i]['opt_hair_color']?_('Hair Colour : ').shn_get_field_opt($details[$i]['opt_hair_color'],'opt_hair_color').'<br>':'');
+	            echo ($details[$i]['last_seen']?_('Last Seen : ').$details[$i]['last_seen'].'<br>':'');
+	            echo ($details[$i]['last_clothing']?_('Last Clothing : ').$details[$i]['last_clothing'].'<br>':'');
+	            echo ($details[$i]['comments']?_('Comments : ').$details[$i]['comments']:'');
 	        } 
 ?>
         </TD>
@@ -125,14 +127,14 @@ function shn_mpr_search_show_verticle($details)
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
-		            echo ($details[$i+1]['height']?'Height : '.$details[$i+1]['height'].'<br>':'');
-		            echo ($details[$i+1]['weight']?'Weight : '.$details[$i+1]['weight'].'<br>':'');
-	                echo ($details[$i+1]['opt_eye_color']?'Eye Colour : '.shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');
-	                echo ($details[$i+1]['opt_skin_color']?'Skin Colour : '.shn_get_field_opt($details[$i+1]['opt_skin_color'],'opt_skin_color').'<br>':'');
-	                echo ($details[$i+1]['opt_hair_color']?'Hair Colour : '.shn_get_field_opt($details[$i+1]['opt_hair_color'],'opt_hair_color').'<br>':'');
-	                echo ($details[$i+1]['last_seen']?'Last Seen : '.$details[$i+1]['last_seen'].'<br>':'');
-	                echo ($details[$i+1]['last_clothing']?'Last Clothing : '.$details[$i+1]['last_clothing'].'<br>':'');
-	                echo ($details[$i+1]['comments']?'Comments : '.$details[$i+1]['comments']:'');
+		            echo ($details[$i+1]['height']?_('Height : ').$details[$i+1]['height'].'<br>':'');
+		            echo ($details[$i+1]['weight']?_('Weight : ').$details[$i+1]['weight'].'<br>':'');
+	                echo ($details[$i+1]['opt_eye_color']?_('Eye Colour : ').shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');
+	                echo ($details[$i+1]['opt_skin_color']?_('Skin Colour : ').shn_get_field_opt($details[$i+1]['opt_skin_color'],'opt_skin_color').'<br>':'');
+	                echo ($details[$i+1]['opt_hair_color']?_('Hair Colour : ').shn_get_field_opt($details[$i+1]['opt_hair_color'],'opt_hair_color').'<br>':'');
+	                echo ($details[$i+1]['last_seen']?_('Last Seen : ').$details[$i+1]['last_seen'].'<br>':'');
+	                echo ($details[$i+1]['last_clothing']?_('Last Clothing : ').$details[$i+1]['last_clothing'].'<br>':'');
+	                echo ($details[$i+1]['comments']?_('Comments : ').$details[$i+1]['comments']:'');
 		        } 
 ?>
         </TD>

@@ -1,5 +1,5 @@
 <?php
-/* $Id: audit.inc,v 1.1 2005-12-14 12:55:22 janakawicks Exp $ */
+/* $Id: audit.inc,v 1.2 2006-01-03 11:14:12 janakawicks Exp $ */
 
 /** Audit page of the Missing Person Registry 
  *
@@ -22,34 +22,34 @@ function shn_audit_show($x_uuid)
     "person_uuid b ON b.p_uuid = a.u_uuid WHERE a.x_uuid = '$x_uuid' ";
     $arr_result = $global['db']->GetAll($sql);
     
-    echo ' <a title="Download"'.
+    echo ' <a title="'._('Download').'"'.
         'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'.'Download CSV'. '</a>';
+        $_GET['id'].'" >'._('Download CSV'). '</a>';
 
-    echo '&nbsp;&nbsp;&nbsp;<a title="Download"'.
+    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
         'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'.'Download PDF'. '</a>';
+        $_GET['id'].'" >'._('Download PDF'). '</a>';
 
-    echo '&nbsp;&nbsp;&nbsp;<a title="Download"'.
+    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
         'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'.'Download Ugly Excel'. '</a>';
+        $_GET['id'].'" >'._('Download Ugly Excel'). '</a>';
 //TODO PUT INTO A LIB
 ?>
 <DIV ID="result">
 <TABLE>
 <THEAD>
-    <TD>Date/Time</TD>
-    <TD>User Making Changes</TD>
-    <TD>Table Affected</TD>
-    <TD>Field Affected</TD>
-    <TD>Type of change</TD>
-    <TD>Previous Value</TD>
-    <TD>New Value</TD>
+    <TD><?= _('Date/Time'); ?></TD>
+    <TD><?= _('User Making Changes'); ?></TD>
+    <TD><?= _('Table Affected'); ?></TD>
+    <TD><?= _('Field Affected'); ?></TD>
+    <TD><?= _('Type of change'); ?></TD>
+    <TD><?= _('Previous Value'); ?></TD>
+    <TD><?= _('New Value'); ?></TD>
 </THEAD>
 <?php
     foreach($arr_result as $arr){
         if ($arr['change_type'] == 'ins' )
-            $arr['change_type'] = 'Inserted'; 
+            $arr['change_type'] = _('Inserted'); 
 ?>
     <TR>
     <TD><?= $arr['updated']; ?></TD>
