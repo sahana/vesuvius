@@ -16,14 +16,15 @@
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
-
-function shn_or_level($parent){
+include_once $global['approot']."/inc/lib_location.inc";
+include_once("lib_or.inc");
+function _shn_or_level($parent){
     global $global;
     $db=$global['db'];
     $q="select option_description,option_code,name from field_options,location where field_options.option_code=location.opt_location_type and location.location_id=$parent and field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
-    if(!$res_label->EOF){
-    $parent_type="For  ".$res_label->fields[2];
+    if($res_label!=NULL && !$res_label->EOF){
+        $parent_type="For  ".$res_label->fields[2];
     }
     $child=$res_label->fields[1]+1;
     $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
@@ -37,17 +38,17 @@ function shn_or_level($parent){
 
 ?>
 
-<h2>Organization Report By <?php echo $child_type ?>  <?php echo $parent_type ?></h2>
+<h2><?=_("Organization Report By ". $child_type." ".$parent_type) ?></h2>
 <div id="note">
-Each Row is a  <?php echo $child_type ?> ,Column is a  Service.<br />
+<?=_("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
 <?php 
     $last=shn_get_last_level();
     if ($last[0]!=$child-1){
-echo "Intersection shows the precentage of Sub-divisions Covered per each service.<br />";
-echo "For this report Sub-division is a  ".$grand_child_type.".";
-echo "If atleast one ".$last[1]. " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.";
+echo _("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
+echo _("For this report Sub-division is a  ".$grand_child_type.".");
+echo _("If atleast one ".$last[1]. " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
 }else {
-echo "Intersection shows whether each ".$child_type." has atleast one organization providing the service.<br />";
+echo _("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
 }
 ?>
 </div>
@@ -87,10 +88,10 @@ echo "Intersection shows whether each ".$child_type." has atleast one organizati
                
                 echo ($res["active"]);
                if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
-                    $active="Covered";
+                    $active=_("Covered");
 		            echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
                 }else {
-                    $active="Not Covered";
+                    $active=_("Not Covered");
 		            echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
                 }
             }else {
@@ -157,24 +158,25 @@ function _shn_is_covered($loc,$sector){
    return false; 
 }
 
-function shn_or_report_org_sector(){
+function _shn_or_report_org_sector(){
+include_once("view_org.inc");
     global $global;
     $db=$global['db'];
     
 ?>
-<h2>Organization Report by Sector</h2>
+<h2><?=_("Organization Report by Sector")?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td>Organization Name</td>
-            <td>Services Offered</td>
-            <td>Organization Type</td>
-            <td>Country of Origin</td>
-            <td>Contact Address</td>
-            <td>Contact Number</td>
-            <td>Contact Email</td>
-            <td>Man Power</td>
-            <td>Facilities</td>
+            <td><?=_("Organization Name")?></td>
+            <td><?=_("Services Offered")?></td>
+            <td><?=_("Organization Type")?></td>
+            <td><?=_("Country of Origin")?></td>
+            <td><?=_("Contact Address")?></td>
+            <td><?=_("Contact Number")?></td>
+            <td><?=_("Contact Email")?></td>
+            <td><?=_("Man Power")?></td>
+            <td><?=_("Facilities")?></td>
         </thead>
         <tbody>
 <?php    
@@ -188,7 +190,7 @@ function shn_or_report_org_sector(){
 	    ?>
 	    <tr>
 		    <td>
-	            <b><?php echo $res_sector->fields[1]?></b>
+	            <b><?=_($res_sector->fields[1])?></b>
 		    </td>
 	    </tr>
 	    <?php

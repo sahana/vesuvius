@@ -16,50 +16,30 @@
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
+include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
 
-function shn_or_form_search()
+function _shn_or_form_search()
 {
 global $global;
 $db=$global["db"];
-$q = "select option_code,option_description from field_options where field_name='opt_location_type'";
-$res=$db->Execute($q);
-$options=array();
-while(!$res==NULL && !$res->EOF){
-                array_push(
-                    $options,
-                    array(  'drop_desc'=>$res->fields[1],
-                        'value'=>$res->fields[0],
-                     )       
-                );
-                $res->MoveNext();
-            }
-$loc=array('desc'=>_("Search Based on"),'type'=>"dropdown",'name'=>'loc_option','options'=>$options,'br'=>'1');   
-$loc_options=array();
-array_push(
-$loc_options,
-$loc
-);
-$or_sector=_shn_or_display_sector($error);
-$sector=array();
-array_push(
-$sector,
-$or_sector
-);
  
 ?>
-<h1 align="center">Search for Organizations by Service and Location</h1>
+<h2>Search for Organizations by Service and Location</h2>
 <div id="formcontainer">
 <?php
-   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=search_cr','id'=>'formset');
-	shn_form_open($header,false);
-      
+shn_form_fopen("search_cr");
+  shn_form_fsopen("Organization Type");
+_shn_or_display_org_type($error);
+shn_form_fsclose();
+shn_form_fsopen("Organization Sector");
+_shn_or_display_sector($error);
+shn_form_fsclose();
+  shn_form_fsopen(_("Search Based on"));    
+shn_form_opt_select('opt_location_type','',null,null);
+   shn_form_fsclose();                      
 
-   shn_form_add_component_list($sector,$section=true,$legend='Services',$return=false,$default_val_req=true);
-    // base location
-                         
-shn_form_add_component_list($loc_options,$section=true,$legend='Select Location Type',$return=false,$default_val_req=true);
     $location_inf = shn_location_form('1','4'); 
     
 
@@ -68,14 +48,13 @@ shn_form_add_component_list($loc_options,$section=true,$legend='Select Location 
 <center>
 <?php
 //create the submit button
-    $submit= array('type'=>'submit', 'value'=>'Search');
-	shn_form_add_component($submit,false,false);
+shn_form_submit(_("Search"));
 ?>
 </center>
 </br>
 <?php
         //close the form
-     	shn_form_close(false);
+     	shn_form_fclose();
 ?>				     
 </div>
 <?php

@@ -20,12 +20,12 @@ include_once "lib_or.inc";
 
 function shn_or_adm_location_form(){
 ?>
-<h1 align="center">Set the Starting Location</h1>
+<h2><?=_("Set the Starting Location")?></h2>
 <div id="note">
-Fields marked with * are required (entry is compulsory)
+<?=_("Fields marked with * are required (entry is compulsory)")?>
 </div>
 <div id="note">
-When a Disaster happens,typically organizations located in a certain region get involved. Therefore when you select a location its a waste of time to always start from country. If you know the country ,give it in this form,and you can start with sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.
+<?=_("When a Disaster happens,typically organizations located in a certain region get involved. Therefore when you select a location its a waste of time to always start from country. If you know the country ,give it in this form,and you can start with sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
 </div>
 <?php
     if($error==true)
@@ -92,9 +92,9 @@ shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the 
 function shn_or_adm_or_type_form()
 {
 ?>
-<h1 align="center">Organization Types</h1>
+<h2><?=_("Organization Types")?></h2>
 <div id="note">
-Fields marked with * are required (entry is compulsory)
+<?=_("Fields marked with * are required (entry is compulsory)")?>
 </div>
 <?php
     if($error==true)
@@ -172,9 +172,9 @@ shn_form_add_component($removed,$return=false,$default_val_req=false);
 function shn_or_adm_or_sector_form()
 {
 ?>
-<h1 align="center">Organization Sectors</h1>
+<h2><?=_("Organization Sectors")?></h1>
 <div id="note">
-Fields marked with * are required (entry is compulsory)
+<?=_("Fields marked with * are required (entry is compulsory)")?>
 </div>
 <?php
     if($error==true)
