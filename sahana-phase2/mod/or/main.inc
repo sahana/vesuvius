@@ -170,7 +170,6 @@ function shn_or_search_cr(){
     $i=0;
     $org=array();
     $org_type=$_POST{"opt_org_type"};
-
     while($i<count($sector)){
         $q="select o_uuid from location_details,sector,org_main where location_details.location_id in $loc and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector[$i]}' and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type='{$org_type}'";
         $res_org=$db->Execute($q);

@@ -34,15 +34,17 @@ function _shn_or_form_search()
     shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,'dummy');
     shn_form_fsclose();
-    shn_form_fsopen(_("Search Based on Location"));
-    shn_form_text(_("location"),'loc');
-    shn_form_label(_("Type the Location or select from below"),NULL);
+    shn_form_fsopen(_("Based Location"));
+    $extra_options['value']="All Locations";
+    shn_form_text(_("location"),'loc',NULL,$extra_options);
     shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
-    shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();                      
     $location_inf = shn_location_form('1','4'); 
+    ?><fieldset><?
+    shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
+    ?></fieldset><?
 ?>
 </br>
     <center>
