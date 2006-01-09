@@ -13,7 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
-include_once "view.inc";
+include_once "view_org.inc";
 global $global;
 $db=$global["db"];
 $q="select count(o_uuid) as cnt from org_main";
@@ -26,47 +26,45 @@ $res=$db->Execute($q);
 if(!$res->EOF){
     $vol_no=$res->fields[0];
 }
-
 ?>
-		<div id="home">
-        	<h2>Organization Registry</h2>
-			<p>The Organization Registry keeps track of all the relief organizations and civil society groups working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
-				Features Include:
-                </p>
-				<ul>
-<li>Capturing a comprehensive list of meta data on an relief organization and all</li>
-the activities they have in the region
-<li>Registering ad-hoc volunteers willing to contribute</li>
-<li>Capturing the essential services each group is providing and where</li>
-<li>Reporting on the converge of services and support in the region and more</li>
-<li>importantly where there are no aid services being provided</li>
-                </ul>
-		</div>
-        <br />
-		<table>
-        <thead>
-        <td><strong>Organizations</strong></td>
-        <td><strong>Please Register</strong></td>
-        <td><strong>Volunteers</strong></td>
-        </thead>
-        <tbody>
+<div id="home">
+    <h2><?=_("Organization Registry")?></h2>
+		<div><?=_("The Organization Registry keeps track of all the relief organizations and civil society groups working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
+				Features Include:")?>
+        </div>
+		<ul>
+            <li><?=_("Capturing a comprehensive list of meta data on an relief organization and all the activities they have in the region")?></li>
+            <li><?=_("Registering ad-hoc volunteers willing to contribute")?></li>
+            <li><?=_("Capturing the essential services each group is providing and where")?></li>
+            <li><?=_("Reporting on the converge of services and support in the region and more")?></li>
+            <li><?=_("importantly where there are no aid services being provided")?></li>
+        </ul>
+</div>
+<br />
+<table>
+    <thead>
+        <td><strong><?=_("Organizations")?></strong></td>
+        <td><strong><?=_("Please Register")?></strong></td>
+        <td><strong><?=_("Volunteers")?></strong></td>
+    </thead>
+    <tbody>
         <tr>
 			<td>
 				<div>
                 <a href="index.php?mod=or&act=view_org">
-                  <strong> <?php echo $org_no ?></strong>  Organizations have registered
+                  <strong> <?php echo $org_no ?></strong><?=_(" Organizations have registered")?>
                 </a>
 				</div>
 			</td>
 			<td>
-				<div>
-					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.	    
+				<div><?=_("
+					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.")?>	    
 				</div>
 			</td>
 			<td>
 			    <div>
 				<a href="index.php?mod=or&act=view_vol">
-                    <strong><?php echo $vol_no?></strong>  Volunteers have registered
+                    <strong><?php echo $vol_no?></strong><?=("Volunteers have registered")?>
                 </a>
                 </div>
             </td>
@@ -75,12 +73,8 @@ the activities they have in the region
         </table>
         <br />
         <div id="note">
-           <strong> Last 10 Organizations to Register</strong>
+           <strong><?=_("Last 10 Organizations to Register")?></strong>
         </div>
 <?php
-        shn_or_viewform_allorg(10);
-?>
-        
-<?php
-//        shn_or_viewform_allorg(10);
+        _shn_or_viewform_allorg(10);
 ?>
