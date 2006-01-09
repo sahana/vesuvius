@@ -21,7 +21,7 @@ function shn_form_extra_opts($extra_opts)
     // output a required flag
     if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
     // output a break - default is true
-    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br/>\n";
+    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br />\n";
     
     
     }
@@ -40,7 +40,7 @@ array('req_message'=>true))
     }
 ?>
     <div id="formcontainer">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>>
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
 <?php
 }
 
@@ -74,6 +74,14 @@ function shn_form_fsclose()
 
 // enter the fields
 
+function shn_form_button($name, $button_opts = null)
+                        
+{
+?>
+    <input type="button" value="<?=$name?>" <?=$button_opts?> />
+<?php
+}
+
 function shn_form_text($label, $name, $text_opts = null, 
                         $extra_opts = null )
 {
@@ -86,7 +94,6 @@ function shn_form_text($label, $name, $text_opts = null,
 <?php
     shn_form_extra_opts($extra_opts);
 }
-
 
 function shn_form_hidden($hidden_vars) 
 {
@@ -182,6 +189,35 @@ function shn_form_opt_select($opt_field, $label,
     shn_form_extra_opts($extra_opts);
 } 
 
+// create a select field based on field options
+function shn_form_opt_multi_select($opt_field, $label, 
+                                $select_opts = "", $extra_opts = null)
+{
+    global $global;
+
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <select name="<?=$opt_field?>[]" <?=$select_opts?> 
+<?php
+		    $res = $global['db']->Execute
+        ("select * from field_options where field_name='$opt_field'");
+    while(!res==NULL && !$res->EOF) {
+        if($value!=NULL){ 
+            $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? "selected" : null ;
+        }
+?>
+ <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
+<?php	
+		  
+        $res->MoveNext();
+      }
+      if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+ ?>
+    </select> 
+<?php
+    shn_form_extra_opts($extra_opts);
+} 
 
 function shn_form_opt_checkbox($opt_field){
     global $global;
@@ -246,8 +282,27 @@ function shn_form_password($label, $name, $text_opts = null,
     shn_form_extra_opts($extra_opts);
 }
 
+function shn_form_date($label, $name = 'date', $initdate = null ) 
+{
+    ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
+    ($valueY = $_POST[$name.'Y']) || ($valueY = ($initdate)? date('Y',$initdate) : null);
+    ($valueD = $_POST[$name.'D']) || ($valueD = ($initdate)? date('d',$initdate) : null);
+    global $global;
+?>
+    <label><?=$label?></label>
+    <p><?=_('Day')?></p>
+    <input type="text" name="<?=$name.'D'?>" value="<?=$valueD?>" size="2">
+    <?=_('Month')?>
+    <input type="text" name="<?=$name.'M'?>" value="<?=$valueM?>" size="2">
+    <?=_('Year')?>
+    <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4">
+<?php
+}
+
+/* fancy popup calendar, however such systems are eyecandy and not efficient
 function shn_form_date($label, $name = 'date') 
 {
+    #$today = date("Y-m-d");
     $today = date("d/m/Y");
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     global $global;
@@ -257,10 +312,10 @@ function shn_form_date($label, $name = 'date')
 <?php
     require_once $global['approot']."/3rd/popupcal/cal_class.php";
     $calendario=new Calendar("en");
-    $calendario->CreateCalendar($today,$name,"12/31/2004","12/31/2006");
+    $calendario->CreateCalendar($today,$name,"1/1/2000","12/30/2000");
     # @TODO handle localization and remove fixed date range above
 
     shn_form_extra_opts($extra_opts);
 }
-
+*/
 ?>
