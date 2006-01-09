@@ -17,16 +17,87 @@ global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/mod/or/lib_or.inc";
 
+function shn_location_get_descendants($loc)
+{
+    global $global;
+    $db=$global["db"];
+    $q="select search_id from location where location_id=$loc";
+    $res=$db->Execute($q);
+    $search="'".$res->fields[0]."%'";
+    $q="select location_id from location where search_id LIKE $search";
+    $res=$db->Execute($q);
+    while(!$res==NULL && !$res->EOF){
+         $loc=$loc."{$res->fields[0]}";
+            $res->MoveNext();
+            if(!$res->EOF)
+                $loc=$loc.",";
+    }
+   return  $loc; 
+}
+
+
+function shn_location_levels_form()
+{
+    global $global;
+    $db=$global["db"];
+    $q = "select option_code,option_description from field_options where field_name='opt_location_type'";
+    $res=$db->Execute($q);
+    $options=array();
+    while(!$res==NULL && !$res->EOF){
+        array_push(
+            $options,
+            array(  'drop_desc'=>$res->fields[1],
+                        'value'=>$res->fields[0],
+            )       
+        );
+        $res->MoveNext();
+    }
+    return $options;
+}
+
+function shn_or_get_parents($child)
+{
+    global $global;
+    $db=$global['db'];
+    $q="select search_id,name,location_id from location where location_id=$child";
+    $res_temp=$db->Execute($q);
+    $final=array();
+    $final[0]=$res_temp->fields[0];
+    $final[1]=$res_temp->fields[1];
+    $final[2]=$res_temp->fields[2];
+    $bsd_village=$res_temp->fields[0];
+    $loc=split("\.", $bsd_village);
+    $loc_return=array();
+    for($k=0;$k<count($loc)-1;$k++){
+        $cur=$cur.$loc[$k];
+        $temp=array();
+        $temp[0]=$cur;     
+        $q="select name,location_id from location where search_id='$cur'";
+        $res_loc=$db->Execute($q);
+        $temp[1]=$res_loc->fields[0];
+        $temp[2]=$res_loc->fields[1];
+        array_push(
+            $loc_return,
+            $temp
+            );
+        if($k!=count($loc)-1){
+            $cur=$cur.".";
+        }
+	}
+        array_push(
+            $loc_return,
+            $final
+            );
+     return $loc_return;
+}
+
 function shn_get_level($loc){
     global $global;
     $db=$global['db'];
     $q="select option_code from field_options,location where field_options.option_code =location.opt_location_type and location.location_id=$loc and field_name='opt_location_type'";
     $res=$db->Execute($q);
     return $res->fields[0];
-
 }
-
-
 
 function shn_is_last_level($loc){
     global $global;
@@ -307,35 +378,32 @@ function _shn_location_form($from,$to){
 }
 
 function shn_location_add(){
-global $global;
-$db=$global['db'];
-$loc=$_POST{"loc_name"};
-$desc=$_POST{"desc"};
-$iso=$_POST{"iso"};
-$level=$_POST{"level"};
-if($level==1){
-$q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
-$res=$db->Execute($q);
-$q="select location_id from location where name='{$loc}' and opt_location_type=1";
-$res=$db->Execute($q);
-$id=$res->fields[0];
-$q="update location set search_id=$id where location_id=$id";
-$res=$db->Execute($q);
-}else {
-$level=$level-1;
-$parent=$_POST{"$level"};
-$level=$level+1;
-
-$q="select count(*) from location where parent_id=$parent";
-
-$res=$db->Execute($q);
-$count=$res->fields[0]+1;
-$q="select search_id from location where location_id=$parent";
-$res=$db->Execute($q);
-$search_id=$res->fields[0].".".$count;
-$q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
-
-$res=$db->Execute($q);
-}
+    global $global;
+    $db=$global['db'];
+    $loc=$_POST{"loc_name"};
+    $desc=$_POST{"desc"};
+    $iso=$_POST{"iso"};
+    $level=$_POST{"level"};
+    if($level==1){
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+        $q="select location_id from location where name='{$loc}' and opt_location_type=1";
+        $res=$db->Execute($q);
+        $id=$res->fields[0];
+        $q="update location set search_id=$id where location_id=$id";
+        $res=$db->Execute($q);
+    }else {
+        $level=$level-1;
+        $parent=$_POST{"$level"};
+        $level=$level+1;
+        $q="select count(*) from location where parent_id=$parent";
+        $res=$db->Execute($q);
+        $count=$res->fields[0]+1;
+        $q="select search_id from location where location_id=$parent";
+        $res=$db->Execute($q);
+        $search_id=$res->fields[0].".".$count;
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+    }
 }
 ?>
