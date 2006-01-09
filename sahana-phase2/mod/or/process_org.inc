@@ -14,27 +14,22 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
-
 function _shn_or_reg_org_cr()
 {
-include_once "reg_org.inc";
     global $global;
+    include_once "reg_org.inc";
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     $error=false;
     $VARCHAR=100;
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-        
     list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
-   
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-
     if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
         $bsd_village=trim($_POST{"4"});
     }
-
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
@@ -86,16 +81,11 @@ include_once "reg_org.inc";
     }else {
         $account_name=$_POST{"account_name"};
     }
-   
-  
     $chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
-
-    global $global;
     $db=$global['db'];
     if($error!=true){
         $org_id = $db->GenID('org_seq',1);
-        //Double check the ACL ID was generated.
         if (empty($org_id)){
             $error=true;
             //("add_org(): ORG_ID generation failed!");
@@ -128,7 +118,6 @@ include_once "reg_org.inc";
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
             $res=$db->Execute($q);
-         
             //no validation as organization can have multiple locations
             $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
             $res=$db->Execute($q);
@@ -140,10 +129,10 @@ include_once "reg_org.inc";
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully registered
     </div>
-    </br>
+    <br />
 <?php
         }
-        _shn_or_reg_org($error);
+        _shn_or_regform_org($error);
         //return false;
     }else {
          $_SESSION["parent_name"]=$org_name;
@@ -161,16 +150,17 @@ include_once "reg_org.inc";
 }
 
 
-function _shn_or_reg_operation_cr(){
-include_once "reg_org.inc";
-   $error=false;
+function _shn_or_reg_operation_cr()
+{
+    include_once "reg_org.inc";
+    global $global;
+    $error=false;
     if (is_null($_POST{"org_name"})){
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
     }else {    
         $org_name=$_POST{"org_name"};
     }
-    
     if (is_null($_POST{"opt_sector_type"})){
         $error=true;
         add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
@@ -188,13 +178,9 @@ include_once "reg_org.inc";
     $contact_phone=$_POST{"contact_phone"};
     $contact_fax=$_POST{"contact_fax"};
     $contact_mail=$_POST{"contact_mail"};
-
     $man_power=$_POST{"man_power"};
     $resources=$_POST{"resources"};
-
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
-
-    global $global;
     $db=$global['db'];
     $org_id = $db->GenID('org_seq',1);
     if (empty($org_id)){
@@ -218,7 +204,6 @@ include_once "reg_org.inc";
             $i=$i+1;
         }
     }
-
     $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
@@ -236,7 +221,7 @@ include_once "reg_org.inc";
     <div id="result_msg">
        <?php echo $org_name?> Operation was succesfully registered
     </div>
-    </br>
+    <br />
 <?php
         if($chk_branch){
             _shn_or_regform_operation($error);
@@ -248,38 +233,36 @@ include_once "reg_org.inc";
 
 }
 
-function _shn_or_del_org(){
- global $global;
-$db=$global['db'];
-$org_id=$_POST{"org_id"};
-$q="delete from org_main where o_uuid=$org_id";
-            $res=$db->Execute($q);
-            $q="delete from sector where pgoc_uuid=$org_id";
-            $res=$db->Execute($q);
- $q="delete from location_details where poc_uuid=$org_id";
-            $res=$db->Execute($q);
-            $q="delete from contact where pgoc_uuid=$org_id";
-            $res=$db->Execute($q);
+function _shn_or_del_org()
+{
+    global $global;
+    $db=$global['db'];
+    $org_id=$_POST{"org_id"};
+    $q="delete from org_main where o_uuid=$org_id";
+    $res=$db->Execute($q);
+    $q="delete from sector where pgoc_uuid=$org_id";
+    $res=$db->Execute($q);
+    $q="delete from location_details where poc_uuid=$org_id";
+    $res=$db->Execute($q);
+    $q="delete from contact where pgoc_uuid=$org_id";
+    $res=$db->Execute($q);
 }
 
-function _shn_or_edit_org(){
+function _shn_or_edit_org()
+{
     global $global;
     $error=false;
     $VARCHAR=100;
     $org_id=$_POST{"org_id"};
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-        
     list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"org_type"}):array(true,NULL);
-   
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
-
     if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
         $bsd_village=trim($_POST{"4"});
     }
-
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
@@ -325,7 +308,6 @@ function _shn_or_edit_org(){
         $man_power=$_POST{"man_power"};
     }
     $resources=$_POST{"resources"};
-    
     $db=$global['db'];
            //no validation done on other fields as they are not unique
             $q="update org_main set name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',resources='{$resources}' where o_uuid=$org_id";
@@ -352,11 +334,8 @@ function _shn_or_edit_org(){
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully Updated
     </div>
-    </br>
+    <br />
 <?php
        
 }
-
-
-
 ?>

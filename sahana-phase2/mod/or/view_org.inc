@@ -15,16 +15,14 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 
-function _shn_or_viewform_allorg($no=NULL){
+function _shn_or_viewform_allorg($no=NULL)
+{
     global $global;
     $db=$global['db'];
-    
 ?>
-
 <div id ="result">
 	<table>
         <thead>
@@ -67,12 +65,12 @@ function _shn_or_viewform_allorg($no=NULL){
   </table>
   
 </div>
-
 <?php
 }
 
 
-function _shn_display_org($org_id,$indent=true,$edit=false){
+function _shn_display_org($org_id,$indent=true,$edit=false)
+{
     global $global;
     $db=$global["db"];
     $q = "select o_uuid,parent_id,name,man_power,resources from org_main where o_uuid=$org_id";
@@ -98,7 +96,6 @@ field_options.option_code=org_main.opt_org_type and field_options.field_name='op
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
 ?>
-
 <tr>
     <td>
      <?php
@@ -144,7 +141,6 @@ function _shn_or_viewform_org($org_id,$edit=false)
         $parent=($res_org->fields[1]=='0')?true:false;    
         $org_name=$res_org->fields[2];
         $reg_no=$res_org->fields[3]; 
-    
         $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
         $res_type=$db->Execute($q); 
@@ -166,30 +162,26 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }
 ?>
 <h2><?=_("Organization Registration Information of <em>").$org_name?></em></h2>
-         
 <div id="formcontainer">
 <?php
-$form_opts['name']='view';
-$form_opts['req_message']=false;
-shn_form_fopen("view_org_submit",null,$form_opts);
-shn_form_fsopen('Primary Details');
-shn_form_text(_("Organization Name : "),'org_name','size="50"',array('value'=>$org_name)); 
+    $form_opts['name']='view';
+    $form_opts['req_message']=false;
+    shn_form_fopen("view_org_submit",null,$form_opts);
+    shn_form_fsopen('Primary Details');
+    shn_form_text(_("Organization Name : "),'org_name','size="50"',array('value'=>$org_name)); 
     shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
     shn_form_fsclose();
-  // 	$header=array('method'=>'POST','action'=>$act,'id'=>'formset','name'=>'view');
-//	shn_form_open($header,false);
-shn_form_fsopen("Organization Type");
-_shn_or_display_org_type($error,false,$org_type);
-shn_form_fsclose();
-shn_form_fsopen("Organization Sector");
-_shn_or_display_sector($error,$or_sector_arr);
-shn_form_fsclose();
-   shn_location_form_org('1','4',$bsd_village);
-shn_form_fsopen("Contact Information");
-    _shn_or_display_contact_person($error,true,$org_id);
-
+    shn_form_fsopen("Organization Type");
+    _shn_or_display_org_type($error,false,$org_type);
     shn_form_fsclose();
- shn_form_fsopen("Facilities Avaliable");
+    shn_form_fsopen("Organization Sector");
+    _shn_or_display_sector($error,$or_sector_arr);
+    shn_form_fsclose();
+    shn_location_form_org('1','4',$bsd_village);
+    shn_form_fsopen("Contact Information");
+    _shn_or_display_contact_person($error,true,$org_id);
+    shn_form_fsclose();
+    shn_form_fsopen("Facilities Avaliable");
     _shn_or_display_org_facilities($error,$org_id);
     shn_form_fsclose();
 ?>
@@ -197,30 +189,22 @@ shn_form_fsopen("Contact Information");
 <center>
 <?php
 //create the submit button
-shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
-  
+    shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
 	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
- 
-shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
-  
-  $change= array('type'=>'hidden', 'name'=>'action');
+    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
+    $change= array('type'=>'hidden', 'name'=>'action');
 	shn_form_add_component($change,false,false);
- $org_id= array('type'=>'hidden', 'name'=>'org_id','value'=>$org_id);
+    $org_id= array('type'=>'hidden', 'name'=>'org_id','value'=>$org_id);
 	shn_form_add_component($org_id,false,false);
-
-_shn_or_action_change_javascript("action");
+    _shn_or_action_change_javascript("action");
 ?>
 </center>
 <br />
 <?php
         //close the form
-     	shn_form_close(false);
+    shn_form_close(false);
 ?>				     
 </div>
 <?php
-    // end of form
-
-    
 } 
-
 ?>

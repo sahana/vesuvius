@@ -15,7 +15,6 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 require_once $global['approot']."/inc/lib_location.inc";
@@ -27,7 +26,6 @@ function _shn_or_regform_org($error=false)
     $db=$global['db'];
 ?>
 <h2><?= _('Organization Registration')?></h2>
-
 <?php
     if($error==true)
         display_errors();
@@ -40,12 +38,12 @@ function _shn_or_regform_org($error=false)
     shn_form_text(_("* Organization Name : "),'org_name','size="50"',$extra_opts); 
     shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
-shn_form_fsopen("Organization Type");
-_shn_or_display_org_type($error);
-shn_form_fsclose();
-shn_form_fsopen("Organization Sector");
-_shn_or_display_sector($error);
-shn_form_fsclose();
+    shn_form_fsopen("Organization Type");
+    _shn_or_display_org_type($error);
+    shn_form_fsclose();
+    shn_form_fsopen("Organization Sector");
+    _shn_or_display_sector($error);
+    shn_form_fsclose();
     
    // base location
    $parent=_shn_or_get_start_loc();
@@ -56,12 +54,11 @@ shn_form_fsclose();
     }
     shn_form_add_component_list($location_inf,$section=true,$legend='Base Location',$return=false,$default_val_req=$error);
     // Contact infomation
-shn_form_fsopen("Contact Information");
+    shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
-shn_form_fsclose();
-    
+    shn_form_fsclose();
      shn_form_fsopen("Facilities Avaliable");
-   _shn_or_display_org_facilities($error);
+    _shn_or_display_org_facilities($error);
     shn_form_fsclose();
  	shn_form_fsopen("Extra Information");
     _shn_or_display_extra($error);
@@ -71,8 +68,7 @@ shn_form_fsclose();
 <center>
 <?php
 //create the submit button
-shn_form_submit(_("Next"));
-    
+    shn_form_submit(_("Next"));
 ?>
 </center>
 <br />
@@ -85,11 +81,10 @@ shn_form_submit(_("Next"));
     // end of form
 } 
 
-function _shn_or_regform_operation(){
-
+function _shn_or_regform_operation()
+{
     global $global;
     $db=$global['db'];
-    
 ?>
 <h2><?=_("Add an Operation/Branch under the Organization ").$_SESSION["parent_name"]?> </h2>
 <?php
@@ -98,32 +93,25 @@ function _shn_or_regform_operation(){
 ?>               
 <div id="formcontainer">
 <?php
-shn_form_fopen("reg_operation_cr");
-   	
-	$or_main=array();
-shn_form_fsopen('Primary Details');
+    shn_form_fopen("reg_operation_cr");
+    shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
     shn_form_text(_("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
-	  shn_form_fsclose();
-shn_form_fsopen("Organization Sector");
-_shn_or_display_sector($error);
-shn_form_fsclose();
-
-   
+	shn_form_fsclose();
+    shn_form_fsopen("Organization Sector");
+    _shn_or_display_sector($error);
+    shn_form_fsclose();
     // base location
     $location_inf = shn_location_form_org('1','4'); 
-
-shn_form_fsopen("Contact Information");
+    shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
 shn_form_fsclose();
-    
      shn_form_fsopen("Facilities Avaliable");
    _shn_or_display_org_facilities($error);
     shn_form_fsclose();
  	shn_form_fsopen("Extra Information");
     _shn_or_display_extra($error);
     shn_form_fsclose();
-   
 ?>
 <br />
 <center>
@@ -135,13 +123,11 @@ shn_form_fsclose();
 <br />
 <?php
         //close the form
-     	shn_form_fclose();
+    shn_form_fclose();
 ?>				     
 </div>
 <?php
     // end of form
   
 } 
-
-
 ?>

@@ -15,18 +15,17 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once ("lib_or.inc");
 
 
-function _shn_or_viewform_allvol(){
+function _shn_or_viewform_allvol()
+{
     global $global;
     $db=$global['db'];
-    
 ?>
-    <h1 align="center">Volunteer Registry</h1>
+<h2><?=_("Volunteer Registry")?></h1>
 <div id ="result">
     <table>
         <thead>
@@ -40,10 +39,8 @@ function _shn_or_viewform_allvol(){
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
-    
     $res_pers=$db->Execute($q);
     while(!$res_pers==NULL && !$res_pers->EOF){
-        
     $pid=$res_pers->fields[0];        
     $q = "select address from location_details where poc_uuid='{$pid}'";
     $res_addr=$db->Execute($q);
@@ -61,7 +58,6 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 ?>
 <tr>
     <td>
-    
     <a href="index.php?mod=or&act=view_vol&id=<?php echo $res_pers->fields[0] ?>"><?php echo $res_pers->fields[1]?></a> 
     </td>
     <td>
@@ -87,7 +83,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <?php
 }
 
-function _shn_or_viewform_vol($pid){
+function _shn_or_viewform_vol($pid)
+{
     global $global;
     $db=$global["db"];
     $q = "select person_uuid.p_uuid,full_name,birth_date,opt_country,opt_gender,occupation from person_details,person_uuid where person_details.p_uuid=person_uuid.p_uuid and person_uuid.p_uuid=$pid";
@@ -97,9 +94,6 @@ function _shn_or_viewform_vol($pid){
         $dob=$res_pers->fields[2];
         $bsd_country=$res_pers->fields[3];
         $sex=$res_pers->fields[4];
-      //  $q="select option_description from field_options where field_name='opt_gender' and option_code='{$sex}'";
-     //   $res_sex=$db->Execute($q);
-    //   $sex=$res_sex->fields[0];
         $job=$res_pers->fields[5];
         $q="Select serial from identity_to_person where p_uuid=$pid and opt_id_type='nic'";
         $res_nic=$db->Execute($q);
@@ -110,17 +104,11 @@ function _shn_or_viewform_vol($pid){
         $q="Select serial from identity_to_person where p_uuid=$pid and opt_id_type='dln'";
         $res_dln=$db->Execute($q);
         $dln=$res_dln->fields[0];
-
-      
-         $loc=_shn_or_get_org_loc_parents($pid);
-         $bsd_village=$loc[3][2];
-   
+        $loc=_shn_or_get_org_loc_parents($pid);
+        $bsd_village=$loc[3][2];
         $q = "select option_code from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
-        
-        
-     $sector_arr=array();
-        
+        $sector_arr=array();
         while(!$res_sector->EOF){
             array_push(
                 $sector_arr,
@@ -130,67 +118,54 @@ function _shn_or_viewform_vol($pid){
         } 
     }
 ?>
-
-<h2>Volunteer Registration information of<em> <?php echo $name ?></em> </h2>
-
+<h2><?=_("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
 <div id="formcontainer">
 <?php
-$form_opts['name']='view';
-$form_opts['req_message']=false;
-shn_form_fopen("view_vol_submit",null,$form_opts);
+    $form_opts['name']='view';
+    $form_opts['req_message']=false;
+    shn_form_fopen("view_vol_submit",null,$form_opts);
    	shn_form_fsopen('Primary Details');
-   $extra_opts['value']=$name;
+    $extra_opts['value']=$name;
     shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
-$extra_opts['value']=$dob;
-shn_form_text(_("Date of Birth : "),'dob','size="10"',$extra_opts); 
-//shn_form_date(_("Date of Birth: "),'dob', null ) ;
-$extra_opts['value']=$job;
-shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
-
-_shn_or_display_gender($error,NULL);
-shn_form_fsclose();
-
-shn_form_fsopen('Identity Information');
-$extra_opts['value']=$nic;
- shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
-$extra_opts['value']=$pas;
-shn_form_text(_("Passporl No : "),'pas','size="50"',$extra_opts); 
-$extra_opts['value']=$dln;
-shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
-shn_form_fsclose();
-
-   shn_location_form_org('1','4',$bsd_village);
-
-shn_form_fsopen("Services Offered");
-_shn_or_display_sector($error,$sector_arr);
-shn_form_fsclose();
-
-shn_form_fsopen("Contact Information");
- _shn_or_display_contact_person(false,false,$pid);
-shn_form_fsclose();
-
+    $extra_opts['value']=$dob;
+    shn_form_text(_("Date of Birth : "),'dob','size="10"',$extra_opts); 
+    //shn_form_date(_("Date of Birth: "),'dob', null ) ;
+    $extra_opts['value']=$job;
+    shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
+    _shn_or_display_gender($error,$sex);
+    shn_form_fsclose();
+    shn_form_fsopen('Identity Information');
+    $extra_opts['value']=$nic;
+    shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
+    $extra_opts['value']=$pas;
+    shn_form_text(_("Passporl No : "),'pas','size="50"',$extra_opts); 
+    $extra_opts['value']=$dln;
+    shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
+    shn_form_fsclose();
+    shn_location_form_org('1','4',$bsd_village);
+    shn_form_fsopen("Services Offered");
+    _shn_or_display_sector($error,$sector_arr);
+    shn_form_fsclose();
+    shn_form_fsopen("Contact Information");
+     _shn_or_display_contact_person(false,false,$pid);
+    shn_form_fsclose();
 ?>
 <br />
 <center>
 <?php
-shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
-  
+    shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
 	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
- 
-shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
-  
-  $change= array('type'=>'hidden', 'name'=>'action');
+    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
+    $change= array('type'=>'hidden', 'name'=>'action');
 	shn_form_add_component($change,false,false);
- $p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
+    $p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
 	shn_form_add_component($p_id,false,false);
-
-_shn_or_action_change_javascript("action");
+    _shn_or_action_change_javascript("action");
 ?>
 </center>
 <br />
 <?php
-        //close the form
-     	shn_form_fclose();
+    shn_form_fclose();
 ?>				     
 </div>
 <?php

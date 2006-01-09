@@ -15,10 +15,11 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once("lib_or.inc");
-function _shn_or_level($parent){
+
+function _shn_or_level($parent)
+{
     global $global;
     $db=$global['db'];
     $q="select option_description,option_code,name from field_options,location where field_options.option_code=location.opt_location_type and location.location_id=$parent and field_name='opt_location_type'"; 
@@ -34,22 +35,19 @@ function _shn_or_level($parent){
     $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     $grand_child_type=$res_label->fields[0];
-
-
 ?>
-
 <h2><?=_("Organization Report By ". $child_type." ".$parent_type) ?></h2>
-<div id="note">
+    <div id="note">
 <?=_("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
 <?php 
     $last=shn_get_last_level();
     if ($last[0]!=$child-1){
-echo _("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
-echo _("For this report Sub-division is a  ".$grand_child_type.".");
-echo _("If atleast one ".$last[1]. " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
-}else {
-echo _("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
-}
+        echo _("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
+        echo _("For this report Sub-division is a  ".$grand_child_type.".");
+        echo _("If atleast one ".$last[1]. " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
+    }else {
+        echo _("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
+    }
 ?>
 </div>
 <div id ="result">
@@ -63,11 +61,10 @@ echo _("Intersection shows whether each ".$child_type." has atleast one organiza
        echo "<td>".$res_sector->fields[1]."</td>";
        $res_sector->MoveNext();
     }
-        
        $res_sector->MoveFirst();
 ?>       
-    </thead>
-     <tbody>
+        </thead>
+    <tbody>
 <?php    
     $q = "select location_id,name from location where parent_id={$parent} order by name";
     $res_loc=$db->Execute($q);
@@ -78,14 +75,13 @@ echo _("Intersection shows whether each ".$child_type." has atleast one organiza
 <?php if(shn_is_last_level($res_loc->fields[0])){
         echo $res_loc->fields[1];
       }else {
-          echo "<a href='index.php?mod=or&act=drill_report&id=".$res_loc->fields[0]."'>".$res_loc->fields[1]."</a>";
+        echo "<a href='index.php?mod=or&act=drill_report&id=".$res_loc->fields[0]."'>".$res_loc->fields[1]."</a>";
       }
 ?>
         </td>
 <?php
         while(!$res_sector==NULL && !$res_sector->EOF){
             if(shn_is_last_level($res_loc->fields[0])){
-               
                 echo ($res["active"]);
                if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
                     $active=_("Covered");
@@ -98,13 +94,12 @@ echo _("Intersection shows whether each ".$child_type." has atleast one organiza
                 $res=_shn_coverage_loc($res_loc->fields[0],$res_sector->fields[0]);
                 $precent=0;
                 if($res["total"]>0){
-                    $precent=$res["active"]/$res["total"] *100;
+                    $precent=round($res["active"]/$res["total"] *100,2);
                 }
                 echo "<td><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></td>";
             }
             $res_sector->MoveNext();
         }
-
         $res_sector->MoveFirst();
         $res_loc->MoveNext();
 ?>
@@ -119,7 +114,8 @@ echo _("Intersection shows whether each ".$child_type." has atleast one organiza
 <?php
 }
 
-function _shn_coverage_loc($loc,$sector){
+function _shn_coverage_loc($loc,$sector)
+{
     global $global;
     $db=$global["db"];
     $result=array();
@@ -138,7 +134,8 @@ function _shn_coverage_loc($loc,$sector){
    return $result; 
 }
 
-function _shn_is_covered($loc,$sector){
+function _shn_is_covered($loc,$sector)
+{
     global $global;
     $db=$global["db"];
     $q="select location_id from location_details,sector where location_details.location_id={$loc} and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
@@ -158,8 +155,9 @@ function _shn_is_covered($loc,$sector){
    return false; 
 }
 
-function _shn_or_report_org_sector(){
-include_once("view_org.inc");
+function _shn_or_report_org_sector()
+{
+    include_once("view_org.inc");
     global $global;
     $db=$global['db'];
     
@@ -200,7 +198,6 @@ include_once("view_org.inc");
             _shn_display_org($org_id,false);
             $res_org->MoveNext();
         }
-        
         $res_sector->MoveNext();
     }
 ?>

@@ -15,47 +15,66 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
-
 function _shn_or_form_search()
 {
-global $global;
-$db=$global["db"];
- 
+    global $global;
+    $db=$global["db"];
 ?>
-<h2>Search for Organizations by Service and Location</h2>
-<div id="formcontainer">
+<h2><?= _("Search for Organizations by Service and Location")?></h2>
+    <div id="formcontainer">
 <?php
-shn_form_fopen("search_cr");
-  shn_form_fsopen("Organization Type");
-_shn_or_display_org_type($error);
-shn_form_fsclose();
-shn_form_fsopen("Organization Sector");
-_shn_or_display_sector($error);
-shn_form_fsclose();
-  shn_form_fsopen(_("Search Based on"));    
-shn_form_opt_select('opt_location_type','',null,null);
-   shn_form_fsclose();                      
-
+    shn_form_fopen("search_cr");
+    _shn_or_update_loc();
+    shn_form_fsopen(_("Organization Type"));
+    _shn_or_display_org_type($error,false,'dummy');
+    shn_form_fsclose();
+    shn_form_fsopen(_("Organization Sector"));
+    _shn_or_display_sector($error,'dummy');
+    shn_form_fsclose();
+    shn_form_fsopen(_("Search Based on Location"));
+    shn_form_text(_("location"),'loc');
+    shn_form_label(_("Type the Location or select from below"),NULL);
+    shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
+    $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
+    shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
+    shn_form_hidden(array('loc_sel'=>'0'));
+    shn_form_fsclose();                      
     $location_inf = shn_location_form('1','4'); 
-    
-
 ?>
 </br>
-<center>
+    <center>
 <?php
 //create the submit button
-shn_form_submit(_("Search"));
+    shn_form_submit(_("Search"));
 ?>
 </center>
-</br>
+    </br>
 <?php
         //close the form
-     	shn_form_fclose();
+    shn_form_fclose();
 ?>				     
 </div>
 <?php
 }
+
+function _shn_or_update_loc(){
+?>
+<script type="text/javascript">
+    function update_loc(action,desc){
+        var x=document.getElementsByName(action);
+        var loc_val=x[0].options[x[0].selectedIndex].value;
+        var loc_desc=x[0].options[x[0].selectedIndex].text;
+        var x=document.getElementsByName('loc_sel');
+        x[0].value=loc_val;
+        loc_desc=desc+"->"+loc_desc;
+        var x=document.getElementsByName('loc');
+        x[0].value=loc_desc;
+        return;
+    }
+</script>
+<?php
+}
+?>
