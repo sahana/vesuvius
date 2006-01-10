@@ -100,7 +100,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         echo "<div id='parent'>";
     }
     ?>
-    <a href="index.php?mod=or&act=<?if ($edit){echo "edit_org";}else {echo "view_org";}?>&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
+    <a href="index.php?mod=or&act=view_org&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
     <?php
     if($parent>0 && $indent){
         echo "</div>";
