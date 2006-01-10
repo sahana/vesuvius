@@ -26,4 +26,6 @@ define(SHN_ERR_OR_NAME_INCOMPLETE,"Organization name is essential for registrati
 define(SHN_ERR_OR_ADD_OPTION,"Choose group or individual enrty.");
 define(SHN_ERR_OR_ADD_TYPE,"Select the type of the entry");
 define(SHN_ERR_OR_PREFER,"Select the preference of form display");
+define(SHN_ERR_OR_EMAIL,"Email Address is of the wrong format");
+define(SHN_ERR_DOB_INCORRECT,"You have to enter a Date (yyyy-mm-dd) for Date of Birth");
 ?>

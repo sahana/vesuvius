@@ -18,36 +18,29 @@
 
 function _shn_or_reg_vol_cr()
 {
-    include_once "reg_vol.inc";
     global $global;
+    include_once "reg_vol.inc";
+    include_once "errors.inc";
+    include_once $global['approot']."/inc/lib_validate.inc";
+    $VARCHAR=100;
     $error=false;
-    if (is_null($_POST{"name"})){
-        $error=true;
-        add_error(SHN_ERR_PERSON_NAME_INCOMPLETE);
-    }else {    
-        $name=$_POST{"name"};
-    }
-    $dob=$_POST{"dob"};
-     //  $dob=$_POST{"dob_yyyy"}."-".$_POST{"dob_mm"}."-".$_POST{"dob_dd"};
-    /*
+list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
+    
+     
     if (!shn_valid_date($_POST{"dob"})){
         $error=true;
         add_error(SHN_ERR_DOB_INCORRECT);
     }else {    
         $dob=$_POST{"dob"};
     }
-    */
-    $male=trim($_POST{"opt_gender"});
+    
+    list($error,$male)=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
     $job=$_POST{"job"};
     $nic=trim($_POST{"nic"});
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
-    if (is_null($_POST{"opt_sector_type"})){
-        $error=true;
-        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
-    }else {    
-        $sector=$_POST{"opt_sector_type"};
-    }
+    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    
     if (is_null($_POST{"1"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
@@ -64,7 +57,16 @@ function _shn_or_reg_vol_cr()
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
     $contact_fax=$_POST{"contact_fax"};
-    $contact_mail=$_POST{"contact_mail"};
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mail=$_POST{"contact_mail"};
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }
+    }
     $db=$global['db'];
     $pid = $db->GenID('person_seq',1);
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
@@ -78,7 +80,7 @@ function _shn_or_reg_vol_cr()
         $res=$db->Execute($q);
 	$q="insert into person_details(p_uuid,birth_date,opt_country,opt_gender,occupation) values($pid,'{$dob}','{$bsd_country}','{$male}','{$job}')";
     $res=$db->Execute($q);
-	$q="insert into person_status(p_uuid,isReliefWorker) values($pid,1)";
+    $q="insert into person_status(p_uuid,isReliefWorker) values($pid,1)";
     $res=$db->Execute($q);
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$nic}','nic')";
    $res=$db->Execute($q);
@@ -115,34 +117,24 @@ function _shn_or_reg_vol_cr()
 function _shn_or_edit_vol()
 {
     global $global;
+    include_once "errors.inc";
+    include_once $global['approot']."/inc/lib_validate.inc";
+    $VARCHAR=100;
     $error=false;
     $pid=$_POST{"pid"};
-    if (is_null($_POST{"name"})){
-        $error=true;
-        add_error(SHN_ERR_PERSON_NAME_INCOMPLETE);
-    }else {    
-        $name=$_POST{"name"};
-    }
-    $dob=$_POST{"dob_yyyy"}."-".$_POST{"dob_mm"}."-".$_POST{"dob_dd"};
-    /*
+list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
     if (!shn_valid_date($_POST{"dob"})){
         $error=true;
         add_error(SHN_ERR_DOB_INCORRECT);
     }else {    
         $dob=$_POST{"dob"};
     }
-    */
-    $male=trim(opt_gender);
+    list($error,$male)=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
     $job=$_POST{"job"};
     $nic=trim($_POST{"nic"});
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
-    if (is_null($_POST{"sector"})){
-        $error=true;
-        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
-    }else {    
-        $sector=$_POST{"sector"};
-    }
+    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
     if (is_null($_POST{"1"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
@@ -159,7 +151,16 @@ function _shn_or_edit_vol()
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
     $contact_fax=$_POST{"contact_fax"};
-    $contact_mail=$_POST{"contact_mail"};
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mail=$_POST{"contact_mail"};
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }
+    }
     $db=$global['db'];
     $q="update person_uuid set full_name='{$name}' where p_uuid=$pid";
     $res=$db->Execute($q);
@@ -170,6 +171,8 @@ function _shn_or_edit_vol()
 $q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_type='pas'";
     $res=$db->Execute($q);
     $q="update identity_to_person set serial='{$dln}' where p_uuid=$pid and opt_id_type='dln'";
+    $res=$db->Execute($q);
+    $q="delete from sector where pgoc_uuid=$pid";
     $res=$db->Execute($q);
     $i=0;
     while($i<count($sector)){
@@ -187,23 +190,39 @@ $q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_t
     $res=$db->Execute($q);
     $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$pid and opt_contact_type='email'";
     $res=$db->Execute($q);
-    if($error!=true){
+    if($error==true){
+		_shn_or_viewform_vol($pid,$error);
+        	return false;
+	    }
+    
 ?>
     <div id="result_msg">
        <?php echo $name?> was succesfully Updated
     </div>
     <br />
+<h2> Volunteer Registry</h2>
 <?php
-    }
+        _shn_or_viewform_allvol();    
 }
+
 
 function _shn_or_del_vol()
 { 
     global $global;
     $db=$global['db'];
     $pid=$_POST{"pid"};
+    $q="select full_name from person_uuid where p_uuid=$pid";
+    $res=$db->Execute($q);
+    $name=$res->fields[0];
     $q="update person_status set isReliefWorker=0 where p_uuid=$pid";
     $res=$db->Execute($q);
-    $res=$db->Execute($q);
+     ?>
+    <div id="result_msg">
+       <?php echo $name?> Volunteer was succesfully Deleted
+    </div>
+    <br />
+<h2> Volunteer Registry</h2>
+<?php
+        _shn_or_viewform_allvol();   
 }
 ?>

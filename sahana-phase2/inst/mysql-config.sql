@@ -18,7 +18,7 @@ INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 
 
 -- PERSON GENDER 
-INSERT INTO field_options VALUES ('opt_gender','unk','Unknown');
+-- INSERT INTO field_options VALUES ('opt_gender','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_gender','mal','Male');
 INSERT INTO field_options VALUES ('opt_gender','fml','Female');
 

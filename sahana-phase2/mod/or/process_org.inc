@@ -18,7 +18,9 @@ function _shn_or_reg_org_cr()
 {
     global $global;
     include_once "reg_org.inc";
+    include_once "errors.inc";
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
+    include_once $global['approot']."/inc/lib_validate.inc"; 
     $error=false;
     $VARCHAR=100;
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
@@ -67,6 +69,10 @@ function _shn_or_reg_org_cr()
         $error=true;
     }else {
         $contact_mail=$_POST{"contact_mail"};
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }
     }
     if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -153,20 +159,14 @@ function _shn_or_reg_org_cr()
 function _shn_or_reg_operation_cr()
 {
     include_once "reg_org.inc";
+    include_once "errors.inc";
+    include_once $global['approot']."/inc/lib_validate.inc";
     global $global;
-    $error=false;
-    if (is_null($_POST{"org_name"})){
-        $error=true;
-        add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
-        $org_name=$_POST{"org_name"};
-    }
-    if (is_null($_POST{"opt_sector_type"})){
-        $error=true;
-        add_error(SHN_ERR_OR_SECTOR_INCOMPLETE);
-    }else {    
-        $sector=$_POST{"opt_sector_type"};
-    }
+      $error=false;
+    $VARCHAR=100;
+    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
+     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+   
     if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
@@ -177,7 +177,16 @@ function _shn_or_reg_operation_cr()
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
     $contact_fax=$_POST{"contact_fax"};
-    $contact_mail=$_POST{"contact_mail"};
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mail=$_POST{"contact_mail"};
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }
+    }
     $man_power=$_POST{"man_power"};
     $resources=$_POST{"resources"};
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
@@ -216,6 +225,7 @@ function _shn_or_reg_operation_cr()
     $res=$db->Execute($q);
     if($error){
         _shn_or_regform_operation($error);
+        return false;
     } else {
 ?>
     <div id="result_msg">
@@ -238,6 +248,9 @@ function _shn_or_del_org()
     global $global;
     $db=$global['db'];
     $org_id=$_POST{"org_id"};
+    $q="select name from org_main where o_uuid=$org_id";
+    $res=$db->Execute($q);
+    $org_name=$res->fields[0];
     $q="delete from org_main where o_uuid=$org_id";
     $res=$db->Execute($q);
     $q="delete from sector where pgoc_uuid=$org_id";
@@ -246,17 +259,33 @@ function _shn_or_del_org()
     $res=$db->Execute($q);
     $q="delete from contact where pgoc_uuid=$org_id";
     $res=$db->Execute($q);
+/*
+  if($error==true){
+		_shn_or_viewform_org($org_id,$error);
+        	return false;
+	    }
+*/
+  ?>
+    <div id="result_msg">
+       <?php echo $org_name?> Organization was succesfully Deleted
+    </div>
+    <br />
+<h2> Organization Registry</h2>
+<?php
+        _shn_or_viewform_allorg();    
 }
 
 function _shn_or_edit_org()
 {
     global $global;
+    include_once "errors.inc";
+    include_once $global['approot']."/inc/lib_validate.inc";
     $error=false;
     $VARCHAR=100;
     $org_id=$_POST{"org_id"};
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-    list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"org_type"}):array(true,NULL);
-    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"sector"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"sector"}):array(true,NULL);
+    list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
+    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
     if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
@@ -300,6 +329,10 @@ function _shn_or_edit_org()
         $error=true;
     }else {
         $contact_mail=$_POST{"contact_mail"};
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }
     }
     if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -322,20 +355,26 @@ function _shn_or_edit_org()
             }
             $q="update location_details set location_id='{$bsd_village}',address='{$contact_address}' where poc_uuid=$org_id";
             $res=$db->Execute($q);
-            $q="update contact set contact_name='{$contact_name}' where pgoc_uuid=$org_id and opt_contact_type='name'";
+            $q="update contact set contact_value='{$contact_name}' where pgoc_uuid=$org_id and opt_contact_type='name'";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
+    
+$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$org_id and opt_contact_type='fax'";
             $res=$db->Execute($q);
            $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$org_id and opt_contact_type='email'";
             $res=$db->Execute($q);
+            if($error==true){
+		_shn_or_viewform_org($org_id,$error);
+        	return false;
+	    }
   ?>
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully Updated
     </div>
     <br />
+<h2> Organization Registry</h2>
 <?php
-       
+        _shn_or_viewform_allorg();    
 }
 ?>

@@ -53,7 +53,7 @@ function shn_or_adm_location_cr()
     if (isset($_POST{"chk_start"})){
         $loc=0;
     }else {
-        $level=$_POST{"level"};
+        $level=$_POST{"opt_location_type"};
         $loc=$_POST{$level};
     }
     $q="update config set value={$loc} where module_id='or' and confkey='loc_start'";

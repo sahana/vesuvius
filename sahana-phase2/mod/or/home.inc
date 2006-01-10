@@ -19,7 +19,7 @@ $db=$global["db"];
 $q="select count(o_uuid) as cnt from org_main";
 $res=$db->Execute($q);
 if(!$res->EOF){
-    $org_no=$res->fields[0];
+    $org_no=($res->fields[0])-1;
 }
 $q="select count(person_uuid.p_uuid) as cnt from person_uuid,person_status where person_status.isReliefWorker=1 and person_status.p_uuid=person_uuid.p_uuid";
 $res=$db->Execute($q);
@@ -64,7 +64,7 @@ if(!$res->EOF){
 			<td>
 			    <div>
 				<a href="index.php?mod=or&act=view_vol">
-                    <strong><?php echo $vol_no?></strong><?=("Volunteers have registered")?>
+                    <strong><?php echo $vol_no?></strong><?=(" Volunteers have registered")?>
                 </a>
                 </div>
             </td>

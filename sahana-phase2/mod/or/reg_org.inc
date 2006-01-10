@@ -81,7 +81,7 @@ function _shn_or_regform_org($error=false)
     // end of form
 } 
 
-function _shn_or_regform_operation()
+function _shn_or_regform_operation($error=false)
 {
     global $global;
     $db=$global['db'];

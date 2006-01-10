@@ -25,17 +25,16 @@ function _shn_or_viewform_allvol()
     global $global;
     $db=$global['db'];
 ?>
-<h2><?=_("Volunteer Registry")?></h1>
 <div id ="result">
     <table>
         <thead>
-            <td>Name</td>
-	        <td>Services Offered</td>
-            <td>Occupation</td>
-            <td>Country of Origin</td>
-            <td>Contact Address</td>
-            <td>Contact Number</td>
-            <td>Contact Email</td>
+            <td><?=_("Name")?></td>
+	        <td><?=_("Services Offered")?></td>
+            <td><?=_("Occupation")?></td>
+            <td><?=_("Country of Origin")?></td>
+            <td><?=_("Contact Address")?></td>
+            <td><?=_("Contact Number")?></td>
+            <td><?=_("Contact Email")?></td>
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
@@ -83,7 +82,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <?php
 }
 
-function _shn_or_viewform_vol($pid)
+function _shn_or_viewform_vol($pid,$error=false)
 {
     global $global;
     $db=$global["db"];
@@ -119,12 +118,16 @@ function _shn_or_viewform_vol($pid)
     }
 ?>
 <h2><?=_("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
+<?php
+ if($error==true)
+        display_errors();
+?>
 <div id="formcontainer">
 <?php
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_vol_submit",null,$form_opts);
-   	shn_form_fsopen('Primary Details');
+   	shn_form_fsopen(_('Primary Details'));
     $extra_opts['value']=$name;
     shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
     $extra_opts['value']=$dob;
@@ -134,7 +137,7 @@ function _shn_or_viewform_vol($pid)
     shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
     _shn_or_display_gender($error,$sex);
     shn_form_fsclose();
-    shn_form_fsopen('Identity Information');
+    shn_form_fsopen(_('Identity Information'));
     $extra_opts['value']=$nic;
     shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
     $extra_opts['value']=$pas;
@@ -143,10 +146,10 @@ function _shn_or_viewform_vol($pid)
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
     shn_location_form_org('1','4',$bsd_village);
-    shn_form_fsopen("Services Offered");
+    shn_form_fsopen(_("Services Offered"));
     _shn_or_display_sector($error,$sector_arr);
     shn_form_fsclose();
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
      _shn_or_display_contact_person(false,false,$pid);
     shn_form_fsclose();
 ?>

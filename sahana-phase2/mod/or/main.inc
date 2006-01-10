@@ -81,11 +81,9 @@ function shn_or_view_org_submit(){
     switch ($act) {
         case "edit":
             _shn_or_edit_org();
-            shn_or_view_org();
             break;
         case "del":
             _shn_or_del_org();
-            shn_or_view_org();
             break;
         default:
             shn_or_view_org();
@@ -115,11 +113,9 @@ function shn_or_view_vol_submit(){
     switch ($act) {
         case "edit":
             _shn_or_edit_vol();
-            shn_or_view_vol();
             break;
         case "del":
             _shn_or_del_vol();
-            shn_or_view_vol();
             break;
         default:
             shn_or_view_vol();
@@ -130,6 +126,9 @@ function shn_or_view_vol()
 {
     include_once ("view_vol.inc");
     if(NULL == $_REQUEST['id']){
+         ?>
+        <h2> Volunteer Registry</h2>
+         <?php
         _shn_or_viewform_allvol();
     }else{
         _shn_or_viewform_vol($_REQUEST['id']);
@@ -184,15 +183,15 @@ function shn_or_search_cr(){
     <div id ="result">
         <table>
             <thead>
-                <td>Organization Name</td>
-                <td>Services Offered</td>
-                <td>Organization Type</td>
-                <td>Country of Origin</td>
-                <td>Contact Address</td>
-                <td>Contact Number</td>
-                <td>Contact Email</td>
-                <td>Man Power</td>
-                <td>Facilities</td>
+                <td><?=_("Organization Name")?></td>
+                <td><?=_("Services Offered")?></td>
+                <td><?=_("Organization Type")?></td>
+                <td><?=_("Country of Origin")?></td>
+                <td><?=_("Contact Address")?></td>
+                <td><?=_("Contact Number")?></td>
+                <td><?=_("Contact Email")?></td>
+                <td><?=_("Man Power")?></td>
+                <td><?=_("Facilities")?></td>
             </thead>
             <tbody>
 <?php

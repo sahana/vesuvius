@@ -58,16 +58,13 @@ function _shn_or_viewform_allorg($no=NULL)
         }
         }
         $res_org->MoveNext();
-        
     }
 ?>
    </tbody>
   </table>
-  
 </div>
 <?php
 }
-
 
 function _shn_display_org($org_id,$indent=true,$edit=false)
 {
@@ -82,7 +79,6 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
     $res_phone=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
-
     $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields[0][0];
@@ -101,36 +97,36 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
      <?php
     $parent=$res_org->fields[1];
     if($parent>0 && $indent){
-    echo "<div id='parent'>";
+        echo "<div id='parent'>";
     }
     ?>
-    <a href="index.php?mod=or&act=<?if ($edit){echo "edit_org";}else {echo "view_org";}?>&id=<?php echo $res_org->fields[0] ?>"><?php echo _($res_org->fields[2])?></a> 
+    <a href="index.php?mod=or&act=<?if ($edit){echo "edit_org";}else {echo "view_org";}?>&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
     <?php
     if($parent>0 && $indent){
-    echo "</div>";
+        echo "</div>";
     }
     ?>
     </td>
     <td>
 <?php
     while(!$res_sector->EOF){
-        echo _($res_sector->fields[0])."<br />";
+        echo $res_sector->fields[0]."<br />";
         $res_sector->MoveNext();
     }
 ?>
     </td>
-    <td><?php echo _($org_type)?></td>
-    <td><?php echo _($res_bsd_country->fields[0])?></td>
-    <td><?php echo _($res_addr->fields[0])?></td>
-    <td><?php echo _($res_phone->fields[0])?></td>
-    <td><?php echo _($res_email->fields[0])?></td>
-    <td><?php echo _($res_org->fields[3])?></td>
+    <td><?php echo $org_type?></td>
+    <td><?php echo $res_bsd_country->fields[0]?></td>
+    <td><?php echo $res_addr->fields[0]?></td>
+    <td><?php echo $res_phone->fields[0]?></td>
+    <td><?php echo $res_email->fields[0]?></td>
+    <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
 </tr>
 <?php
 }
 
-function _shn_or_viewform_org($org_id,$edit=false)
+function _shn_or_viewform_org($org_id,$error=false)
 {
     include_once "lib_or.inc";
     global $global;
@@ -162,26 +158,32 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }
 ?>
 <h2><?=_("Organization Registration Information of <em>").$org_name?></em></h2>
+<?php
+ if($error==true)
+        display_errors();
+?>
 <div id="formcontainer">
 <?php
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_org_submit",null,$form_opts);
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_('Primary Details'));
     shn_form_text(_("Organization Name : "),'org_name','size="50"',array('value'=>$org_name)); 
-    shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
+    if($parent){
+        shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
+    }
     shn_form_fsclose();
-    shn_form_fsopen("Organization Type");
+    shn_form_fsopen(_("Organization Type"));
     _shn_or_display_org_type($error,false,$org_type);
     shn_form_fsclose();
-    shn_form_fsopen("Organization Sector");
+    shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,$or_sector_arr);
     shn_form_fsclose();
     shn_location_form_org('1','4',$bsd_village);
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,$org_id);
     shn_form_fsclose();
-    shn_form_fsopen("Facilities Avaliable");
+    shn_form_fsopen(_("Facilities Avaliable"));
     _shn_or_display_org_facilities($error,$org_id);
     shn_form_fsclose();
 ?>
@@ -192,10 +194,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
 	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
     shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
-    $change= array('type'=>'hidden', 'name'=>'action');
-	shn_form_add_component($change,false,false);
-    $org_id= array('type'=>'hidden', 'name'=>'org_id','value'=>$org_id);
-	shn_form_add_component($org_id,false,false);
+    shn_form_hidden(array('action'=>'0'));
+     shn_form_hidden(array('org_id'=>$org_id));
     _shn_or_action_change_javascript("action");
 ?>
 </center>

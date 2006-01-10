@@ -110,8 +110,11 @@ function shn_valid_phone($field)
 
 
 // Check an email address
-function shn_valid_email($field)
+function shn_valid_email($field,$required=false)
 {
+   if((!$required) && $field==NULL){
+       return true;
+    }
    // Check syntax
    $validEmailExpr =  "^[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*" .
                       "@[0-9a-z~!#$%&_-]([.]?[0-9a-z~!#$%&_-])*$";
@@ -120,7 +123,7 @@ function shn_valid_email($field)
    {
       return false;
    }
-
+/*
    // linux only version to check the existance of the host
    if (function_exists("getmxrr") && 
        function_exists("gethostbyname"))
@@ -135,7 +138,7 @@ function shn_valid_email($field)
        return false;
      }
    }
-
+*/
    return true;
 }
 

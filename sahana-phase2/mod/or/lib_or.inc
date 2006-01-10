@@ -114,7 +114,8 @@ function _shn_or_admin_javascript($name)
             opt = document.createElement("option") ;
             opt.text = y[0].value ;
             opt.value = z[0].value ;
-            x[0].appendChild(opt) ;
+            var k=x[0].options.length;
+            x[0].options[k]=opt;
             sortSelect(x[0], true) ;
             add[0].value= add[0].value+":"+z[0].value+"|"+y[0].value;
             y[0].value=null;
