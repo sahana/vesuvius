@@ -124,14 +124,31 @@ function shn_rms_adm_add_cat()
     
     global $global;
     $name = $_POST["cat_name"];
-    //print $name;
     $desc = $_POST["cat_desc"];
+    $error = false;
     
-    global $global;
     $sql = "SELECT category FROM rms_req_category WHERE category='$name'";
     $rs = $global['db']->Execute($sql);
     
-    if (1 > $rs->RecordCount())
+    if(trim($_POST["cat_name"])=='' || !isset($_POST["cat_name"]))
+    {
+    	_shn_rms_adderror("The Category cannot be blank please enter a " .
+    			"valid Category");
+    	$error = true;
+    }
+    
+    if(trim($_POST["cat_desc"])=='' || !isset($_POST["cat_desc"]))
+    {
+    	_shn_rms_adderror("The Category description cannot be blank please enter a " .
+    			"valid Category description");
+    	$error = true;
+    }
+    
+    if($error)
+    {
+    	_shn_rms_showerrors();
+    }
+    elseif (1 > $rs->RecordCount())
     {     
         $sql = "INSERT INTO rms_req_category (category,description) VALUES('$name','$desc')";    
         $global['db']->Execute($sql);
@@ -259,12 +276,31 @@ function shn_rms_adm_add_prio()
     $prio = $_POST["priority"];
     //print $name;
     $desc = $_POST["prio_desc"];
+    $error = false;
     
     global $global;
     $sql = "SELECT priority FROM rms_req_priority WHERE priority='$prio'";
     $rs = $global['db']->Execute($sql);
     
-    if (1 > $rs->RecordCount())
+    if(trim($_POST["priority"])=='' || !isset($_POST["priority"]))
+    {
+    	_shn_rms_adderror("The priority cannot be blank please enter a " .
+    			"valid priority");
+    	$error = true;  	
+    }
+    
+    if(trim($_POST["prio_desc"])=='' || !isset($_POST["prio_desc"]))
+    {
+    	_shn_rms_adderror("The priority description cannot be blank please enter a " .
+    			"valid priority description");
+    	$error = true;  	
+    }
+    
+    if($error)
+    {
+    	_shn_rms_showerrors();
+    }
+    elseif (1 > $rs->RecordCount())
     {     
         $sql = "INSERT INTO rms_req_priority (priority,description) VALUES('$prio','$desc')";    
         $global['db']->Execute($sql);

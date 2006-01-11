@@ -13,6 +13,41 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
+
+function __show_confirm()
+{
+?>
+<h4><?=_("Please Confirm the information"); ?></h4>
+<table>
+<tr><td width="100"><?=_("Date"); ?></td><td width="200"><?=$_POST['date']?></td></tr>
+<tr><td><?=_("Name"); ?></td><td><?=$_POST['name']?></td></tr>
+<tr><td><?=_("Contact"); ?></td><td><?=$_POST['contact']?></td></tr>
+<tr><td><?=_("Address"); ?></td><td><?=$_POST['address']?></td></tr>
+<tr><td><?=_("Comments"); ?></td><td><?=$_POST['comments']?></td></tr>
+<tr><td><?=_("Category"); ?></td><td>
+<?php
+		print get_category_name($_POST['cat_id']);
+		if($_POST['cat_id'] == 4)
+			print " [" . $_POST['other_cat'] . "]";
+		
+?>
+</td></tr>
+<tr><td><?=_("Item"); ?></td><td><?=$_POST['item']?></td></tr>
+<tr><td><?=_("Units"); ?></td><td>
+<?php
+		print get_unit_name($_POST['units']);
+		if($_POST['units'] == get_unit_id("Other"))
+			print " [" . $_POST['other_units'] . "]";
+		
+?>
+</td></tr>
+<tr><td><?=_("Quantity"); ?></td><td><?=$_POST['quantity']?></td></tr>
+</table>
+<br/>
+<div>
+<?php
+}
+
 /**
  * New Pledge form
  */
@@ -21,23 +56,7 @@ if ($_POST['seq'] == 'confirm')
     shn_form_fopen("new_plg",null,array('req_message'=>false));
     shn_form_fsopen('Confirmation');
     
-?>
 
-<h4><?=_("Please Confirm the information"); ?></h4>
-<table>
-<tr><td width="100"><?=_("Date"); ?></td><td width="200"><?=$_POST['date']?></td></tr>
-<tr><td><?=_("Name"); ?></td><td><?=$_POST['name']?></td></tr>
-<tr><td><?=_("Contact"); ?></td><td><?=$_POST['contact']?></td></tr>
-<tr><td><?=_("Address"); ?></td><td><?=$_POST['address']?></td></tr>
-<tr><td><?=_("Comments"); ?></td><td><?=$_POST['comments']?></td></tr>
-<tr><td><?=_("Category"); ?></td><td><?=get_category_name($_POST['cat_id'])?></td></tr>
-<tr><td><?=_("Item"); ?></td><td><?=$_POST['item']?></td></tr>
-<tr><td><?=_("Units"); ?></td><td><?=$_POST['units']?></td></tr>
-<tr><td><?=_("Quantity"); ?></td><td><?=$_POST['quantity']?></td></tr>
-</table>
-<br/>
-<div><h4>
-<?php
 
     if(!isset($_POST['name']) || $_POST['contact'] == '')
     {
@@ -52,6 +71,13 @@ if ($_POST['seq'] == 'confirm')
     if(!isset($_POST['item']) || $_POST['item'] == '')
     {
         _shn_rms_adderror("Please add a item");
+    }
+    
+    if(get_category_name($_POST['cat_id']) == 'Other')
+    {
+    	if(!isset($_POST['other_cat']) || $_POST['other_cat'] == '')
+        	_shn_rms_adderror("You have to enter a category or select a valid" .
+        			"category from the list");
     }
     
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
@@ -69,28 +95,42 @@ if ($_POST['seq'] == 'confirm')
         _shn_rms_adderror("Please go <em>Back</em> and correct the errors");
         _shn_rms_showerrors();
         
-        #more details button
+        #displaying the entered data for confirmation 
+        __show_confirm();
+        
+        #Back button
         shn_form_fopen("new_plg",null,array('req_message'=>false));
-        shn_form_hidden(array('seq'=>''));         
-        //shn_form_hidden($_POST);   
+        shn_form_hidden(array('seq'=>''));  
+        unset($_POST['seq']);
+        shn_form_hidden($_POST);   
         shn_form_submit('<--Back',"shorter");
         shn_form_fclose();
         return false;
     }
-
-    print _("If the information is correct please press 'Finish'.");
-    print _("If you need to change some details"); 
-    print _("please"); 
-?> <a href="javascript:;" onClick="history.back();"><?=_("click here")?></a><?=_("to go back")?>.</h4></div>
-<?php
+	
+	__show_confirm();
+	
+    print _("If the information is correct please press <strong>Finish</strong><br/>");
+    shn_form_hidden($_POST);
+    shn_form_hidden(array('seq'=>'add')); 
+    shn_form_submit('Finish');   
     
+    shn_form_fclose();
+    
+    print _("If you need to change some details"); 
+    print _("please go bak and change it"); 
+	#Back button
+    shn_form_fopen("new_plg",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>''));  
+    unset($_POST['seq']);
+    shn_form_hidden($_POST);   
+    shn_form_submit('<--Back',"shorter");
+    shn_form_fsclose();
+    shn_form_fclose();
+
     $_SESSION['rms_plg_added'] = false;
     
-    shn_form_hidden($_POST);
-    shn_form_hidden(array('seq'=>'add'));    
-    shn_form_fsclose();
-    shn_form_submit('Finish');
-    shn_form_fclose();   
+       
 }
 elseif ($_POST['seq'] == 'add')
 {
@@ -102,14 +142,37 @@ elseif ($_POST['seq'] == 'add')
     $comments  = $_POST['comments'];
     $cat_id  = $_POST['cat_id'];
     $item  = $_POST['item'];
-    $units  = $_POST['units'];
     $quantity  = $_POST['quantity'];
+    $unit_id = $_POST['units'];
     
+    if($cat_id==get_cat_id("Other") && !$_SESSION['rms_plg_added'])
+    {
+    	$other_cat = $_POST['other_cat'];
+    	$cat_id = _shn_rms_addcategory($other_cat);
+    	if (!$cat_id)
+    	{
+    		_shn_rms_adderror("Error inserting new Category");
+    		return false;
+    	}
+    	
+    }
+    
+    if($unit_id==get_unit_id("Other") && !$_SESSION['rms_plg_added'])
+    {
+    	$other_units = $_POST['other_units'];
+    	$unit_id = _shn_rms_addunit($other_units);
+    	if (!$cat_id)
+    	{
+    		_shn_rms_adderror("Error inserting new Unit");
+    		return false;
+    	}
+    	
+    }
     
     $sql = "INSERT INTO rms_req_donor (name, contact, comments) " .
             "VALUES ('$name', '$contact', '$comments')";
     
-    if ($global['db']->Execute($sql) === false)
+    if (!$_SESSION['rms_plg_added'] && $global['db']->Execute($sql) === false)
     {
         $msg = $global['db']->ErrorMsg();
         print $msg . "<br/>" . $sql;
@@ -118,9 +181,9 @@ elseif ($_POST['seq'] == 'add')
     elseif (!$_SESSION['rms_plg_added'])
     {
         $user_id = $global['db']->Insert_ID();
-        $sql = "INSERT INTO rms_pledge (date, cat_id, item, units, " .
+        $sql = "INSERT INTO rms_pledge (cat_id, item, units, " .
                 "quantity, user_id ) " .
-               "VALUES ('$date', $cat_id, '$item', '$units', " .
+               "VALUES ($cat_id, '$item', '$unit_id', " .
                 "$quantity, $user_id)";
         
         
@@ -149,28 +212,29 @@ elseif ($_POST['seq'] == 'addplg')
     $user = false;
     if ($user == true)
     {
-        $today = date("Y-m-d");
-        
-        shn_form_fopen("new_plg",null);
-        
-        shn_form_hidden(array('seq'=>'confirm'));
-        
-        shn_form_fsopen('Donor Contact Information');
-        shn_form_text('Date','date',null,array('value'=>$today));
-        shn_form_text('Name','name',array('req'=>true));
-        shn_form_text('Contact','contact');
-        shn_form_textarea('Address','address');
-        shn_form_textarea('Comments','comments');
-        shn_form_fsclose();
-        
-        shn_form_fsopen('Pledge Details');
-        shn_form_select(get_rms_catlist(),"Category","cat_id");
-        shn_form_textarea('Item','item');
-        shn_form_text('Units','units');
-        shn_form_text('Quantity','quantity');
-        shn_form_fsclose();
-        shn_form_submit('Add');
-        shn_form_fclose();
+//        $today = date("Y-m-d");
+//        
+//        shn_form_fopen("new_plg",null);
+//        
+//        shn_form_hidden(array('seq'=>'confirm'));
+//        
+//        shn_form_fsopen('Donor Contact Information');
+//        shn_form_text('Date','date',null,array('value'=>$today));
+//        shn_form_text('Name','name',array('req'=>true));
+//        shn_form_text('Contact','contact');
+//        shn_form_textarea('Address','address');
+//        shn_form_textarea('Comments','comments');
+//        shn_form_fsclose();
+//        
+//        shn_form_fsopen('Pledge Details');
+//        shn_form_select(get_rms_catlist(),"Category","cat_id",array('br'=>false));
+//        shn_form_text('','other_cat');
+//        shn_form_textarea('Item','item');
+//        shn_form_text('Units','units');
+//        shn_form_text('Quantity','quantity');
+//        shn_form_fsclose();
+//        shn_form_submit('Add');
+//        shn_form_fclose();
     }    
     else
     {
@@ -192,16 +256,18 @@ else
     shn_form_hidden(array('seq'=>'confirm'));
     
     shn_form_fsopen('Donor Contact Information');
-    shn_form_text('Date','date',null,array('value'=>$today));
+    shn_form_text('Date','date','readolny="true"',array('value'=>$today));
     shn_form_text('Name','name',null,array('req'=>true));
     shn_form_text('Contact','contact',null,array('req'=>true));
     shn_form_textarea('Address','address');
     shn_form_textarea('Comments','comments');
     shn_form_fsclose();
     shn_form_fsopen('Pledge Details');
-    shn_form_select(get_rms_catlist(),"Category","cat_id");
+    shn_form_select(get_rms_catlist(),"Category","cat_id",null,array('br'=>false));
+    shn_form_text('','other_cat','onFocus="cat_id.value='. get_cat_id("Other") .';"');
     shn_form_textarea('Item','item',null,array('req'=>true));
-    shn_form_text('Units','units');
+    shn_form_select(get_rms_itemunits(),"Units","units",null,array('br'=>false));
+    shn_form_text('','other_units','onFocus="units.value='. get_unit_id("Other") .';"');
     shn_form_text('Quantity','quantity',null,array('req'=>true));
     shn_form_fsclose();
     shn_form_submit('Add');

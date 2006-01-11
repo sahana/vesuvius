@@ -13,6 +13,6 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */ 
 
-// provide the nice display name for the OR  module
-$conf['mod_rms_name'] = "Request Management System";
+# provide the nice display name for the OR  module
+$conf['mod_rms_name'] = _("Request Management System");
 ?>

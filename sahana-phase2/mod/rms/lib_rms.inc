@@ -235,6 +235,33 @@ function get_category_name($cat_id)
     return $rs->fields[0];
 }
 
+function get_cat_id($cat_name)
+{
+    global $global;
+    $sql = "SELECT cat_id FROM rms_req_category WHERE category='$cat_name'";
+    $rs = $global['db']->Execute($sql);
+    
+    return $rs->fields[0];
+}
+
+function get_unit_name($unit_id)
+{
+    global $global;
+    $sql = "SELECT unit FROM rms_req_units WHERE unit_id=$unit_id";
+    $rs = $global['db']->Execute($sql);
+    
+    return $rs->fields[0];
+}
+
+function get_unit_id($unit_name)
+{
+    global $global;
+    $sql = "SELECT unit_id FROM rms_req_units WHERE unit='$unit_name'";
+    $rs = $global['db']->Execute($sql);
+    
+    return $rs->fields[0];
+}
+
 function get_donor_name($id)
 {
     global $global;
@@ -1117,6 +1144,21 @@ function get_rms_catlist()
     return $list;
 }
 
+function get_rms_itemunits()
+{
+    global $global;
+    
+    $sql = "SELECT * FROM rms_req_units";    
+    $rs = $global['db']->Execute($sql);
+    
+    $recs = $rs->getArray(); 
+    $list = array();
+    foreach ($recs as $rec)
+    {
+        $list[$rec[0]] = sprintf("%s [%s]",$rec[1],$rec[2]);
+    }
+    return $list;
+}
 
 /**
  * plg stuff
@@ -1154,7 +1196,7 @@ function get_rms_catlist()
 <tr><td><?=_("Comments"); ?></td><td><?=$rs['comments']?></td></tr>
 <tr><td><?=_("Category"); ?></td><td><?=get_category_name($rs['cat_id'])?></td></tr>
 <tr><td><?=_("Item"); ?></td><td><?=$rs['item']?></td></tr>
-<tr><td><?=_("Units"); ?></td><td><?=$rs['units']?></td></tr>
+<tr><td><?=_("Units"); ?></td><td><?=get_unit_name($rs['units']);?></td></tr>
 <tr><td><?=_("Quantity"); ?></td><td><?=$rs['quantity']?></td></tr>
 <tbody>
 </table>
@@ -1182,6 +1224,66 @@ function _shn_rms_plg_showdelbutton($id)
     shn_form_fclose();
 }
 
+
+/**
+ * 
+ */
+function _shn_rms_addoption($field_name,$option_code,$option_description)
+{
+	$sql = "INSERT INTO field_options " .
+			"VALUES('$field_name','$option_code','$option_description')";
+	if ($global['db']->Execute($sql) === false)
+    {
+    	$msg = "Error inserting field option.<br/>" . $global['db']->ErrorMsg();
+        _shn_rms_adderror($msg);
+        return false;
+    }
+    
+    return true;
+}
+
+function _shn_rms_addcategory($name,$desc="")
+{
+	global $global;
+
+    $sql = "SELECT category FROM rms_req_category WHERE category='$name'";
+    $rs = $global['db']->Execute($sql);
+    
+    if (1 > $rs->RecordCount())
+    {     
+        $sql = "INSERT INTO rms_req_category (category,description) VALUES('$name','$desc')";    
+        $global['db']->Execute($sql);
+        return $global['db']->Insert_ID();
+    }
+    
+    return false;
+}
+
+function _shn_rms_addunit($name,$desc="")
+{
+	global $global;
+
+    $sql = "SELECT unit FROM rms_req_units WHERE unit='$name'";
+    $rs = $global['db']->Execute($sql);
+    
+    if (1 > $rs->RecordCount())
+    {     
+        $sql = "INSERT INTO rms_req_units (unit,description) VALUES('$name','$desc')";    
+        $global['db']->Execute($sql);
+        return $global['db']->Insert_ID();
+    }
+    
+    return false;
+}
+
+
+/**
+ * lib_rms_person
+ */
+function _shn_rms_donor_getname($id)
+{
+	sql = "SELECT name FROM rms_req_donor";
+}
 
 ?>
 

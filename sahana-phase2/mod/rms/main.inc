@@ -40,23 +40,15 @@ function shn_rms_mainmenu()
                 </li>
                 <li><a href="#">Requests</a></li>
                 <ul>                    
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
-                    <?php print _("New Request"); ?></a>
+	                <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
+	                <?php print _("New Request"); ?></a>
+	                </li>
+	                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
+	                <?php print _("List All Requests"); ?></a>
+	                </li>
+                    <li><a href="index.php?mod=<?=$module?>&amp;act=sc_req">
+                    <?php print _("Search Requests"); ?></a>
                     </li>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
-                    <?php print _("List All Requests"); ?></a>
-                    </li>
-                    <?php 
-                        if(is_a_requester($user_id))
-                        { 
-                    ?>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=v_req&amp;user=user">
-                        <?php print _("View Request"); ?></a>
-                    </li>  
-                   <?php } ?>
-                   <li><a href="index.php?mod=<?=$module?>&amp;act=sc_req">
-                   <?php print _("Search Requests"); ?></a>
-                   </li>
                 </ul>
                 <li><a href="#">Pledges</a></li>       
                 <ul>                    

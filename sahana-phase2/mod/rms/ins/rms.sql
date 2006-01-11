@@ -37,6 +37,23 @@ INSERT INTO rms_req_category (category, description) values ('Food and Nutrition
 INSERT INTO rms_req_category (category, description) values ('Other','Other Categories');
 
 
+
+DROP TABLE IF EXISTS `rms_req_units`;
+CREATE TABLE rms_req_units (
+    unit_id BIGINT NOT NULL AUTO_INCREMENT,
+    unit VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    PRIMARY KEY (unit_id)
+);
+/**
+*Intial category type data (Should be localized??)
+*/
+INSERT INTO rms_req_units (unit, description) values ('Kg','Kilogram');
+INSERT INTO rms_req_units (unit, description) values ('m','metre');
+INSERT INTO rms_req_units (unit, description) values ('Bottle','');
+INSERT INTO rms_req_units (unit, description) values ('Other','Other unit');
+
+
 DROP TABLE IF EXISTS `rms_req_priority`;
 CREATE TABLE rms_req_priority (
     priority_id BIGINT NOT NULL AUTO_INCREMENT,

@@ -18,15 +18,32 @@ _shn_rms_show_headder(_("Search for a Request"));
 
 function _shn_rms_get_kword()
 {
-    shn_form_fopen("sc_req",null,array('req_message'=>false));
+    __shn_rms_schkword();    
+    __req_id_form();
+}
+
+function __shn_rms_schkword()
+{
+	shn_form_fopen("sc_req",null,array('req_message'=>false));
     
     shn_form_hidden(array('seq'=>'req_sch'));
     
-    shn_form_fsopen('Search Keyword');
-    shn_form_text('Enter Search Keyword','kword');
-    shn_form_fsclose();
+    shn_form_fsopen('Search For Requests');
+    shn_form_text('Enter Search Keyword','kword',null,array('br'=>false));
     shn_form_submit('Search');
-    shn_form_fclose();    
+    shn_form_fsclose();
+    shn_form_fclose();
+}
+
+function __req_id_form()
+{
+	shn_form_fopen("v_req",null,array('req_message'=>false));
+    shn_form_fsopen('View Request by ID');
+    shn_form_hidden(array('seq'=>'view'));
+    shn_form_text('Enter Request ID','req_id',null,array('br'=>false));
+    shn_form_submit('View Request');
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 
 function _shn_rms_get_res($word)
@@ -48,14 +65,7 @@ function _shn_rms_get_res($word)
     
     if (1>$rs->RecordCount())
     {
-        print "<h3>No results found for the keyword : ". $_SESSION['rms_src_kword'] ."</h3>";
-        print "<br/><h4>Click the back button to go back</h4>";
-        
-        #back button
-        shn_form_fopen("sc_req",null,array('req_message'=>false));
-        shn_form_hidden(array('seq'=>''));
-        shn_form_submit('Back',"short");
-        shn_form_fclose();
+        return false;        
     }
     
     return $rs->GetArray();
@@ -66,10 +76,54 @@ function _shn_rms_show_res()
     $kword = $_POST['kword'];
     $_SESSION['rms_src_kword'] = $kword;
     $words = preg_split("/\s+/",$kword);
+    $thead = false;
+    $error = true;
     
-    _shn_rms_get_kword();
+    __shn_rms_schkword();
+
+    foreach($words as $word)
+    {
+        $reqs = _shn_rms_get_res($word);
+        
+        if (!$thead && $reqs)
+        {
+        	__show_table_head();
+        	$thead = true;
+        }
+        
+        if($reqs)
+        {
+        	$error = false;
+        
+	        foreach ($reqs as $req)
+	        {
+	            print "<tr>";
+	            print "<td>" . $req['req_id'] . "</td>";
+	            print "<td>" . $req['req_date'] . "</td>";
+	            print "<td>" . $req['name'] . "</td>";
+	            print "<td>" . $req['site_name'] . "</td>";
+	            print "<td>" . nl2br($req['site_address']) . "</td>";
+	            print '<td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a></td>';
+	            print "</tr>";
+	        }
+        }
+    }
 ?>
-<br/>
+</tbody>
+</table>
+</div>
+<?php
+
+	if ($error)
+	{
+		_shn_rms_plgsc_back();
+	}
+}
+
+function __show_table_head()
+{
+?>
+	<br/>
 <div>
 <table id="result" width="100%">
     <thead>
@@ -82,28 +136,18 @@ function _shn_rms_show_res()
     </thead>
     <tbody>
 <?php
-    foreach($words as $word)
-    {
-        $reqs = _shn_rms_get_res($word);
-        
-        
-        foreach ($reqs as $req)
-        {
-            print "<tr>";
-            print "<td>" . $req['req_id'] . "</td>";
-            print "<td>" . $req['req_date'] . "</td>";
-            print "<td>" . $req['name'] . "</td>";
-            print "<td>" . $req['site_name'] . "</td>";
-            print "<td>" . nl2br($req['site_address']) . "</td>";
-            print '<td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a></td>';
-            print "</tr>";
-        }        
-    }
-?>
-</tbody>
-</table>
-</div>
-<?php
+}
+
+function _shn_rms_plgsc_back()
+{
+	print _("<h3>No results found for the keyword : "). $_SESSION['rms_src_kword'] ."</h3>";
+    print _("<br/><h4>Click the back button to go back</h4>");
+    
+    #back button
+    shn_form_fopen("sc_req",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>''));
+    shn_form_submit('Back',"short");
+    shn_form_fclose();
 }
 
 function _shn_rms_show_reqdetails()

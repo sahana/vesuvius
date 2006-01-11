@@ -43,8 +43,8 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
     
     if ($d_id=='')
     {
-        $sql = "INSERT INTO rms_req_ff (name,contact,comments) " .
-                "VALUES ('$d_name','$d_con','$d_comm')";
+        $sql = "INSERT INTO rms_req_donor (name,contact,comments) " .
+               "VALUES ('$d_name','$d_con','$d_comm')";
                 
         if ($global['db']->Execute($sql) === false)
         {
