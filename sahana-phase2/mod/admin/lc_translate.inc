@@ -1,12 +1,19 @@
 <?php
-/*
- * Created on Jan 3, 2006
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+/**
+* Description for file
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     Sudheera R. Fernando <sudheera@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/
  
- $locale = "en_US";
+$locale = "en_US";
  
 ?>
 <h3><?=_("Sahana Localization Module") ?></h3>
@@ -50,7 +57,7 @@
 function __text_clean($str)
 {
 	if(get_magic_quotes_gpc())
-    return stripslashes($str);
+    	return stripslashes($str);
 }
     
 function _shn_admin_lc_save()
