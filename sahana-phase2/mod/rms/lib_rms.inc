@@ -1282,7 +1282,7 @@ function _shn_rms_addunit($name,$desc="")
  */
 function _shn_rms_donor_getname($id)
 {
-	sql = "SELECT name FROM rms_req_donor";
+	$sql = "SELECT name FROM rms_req_donor";
 }
 
 ?>
