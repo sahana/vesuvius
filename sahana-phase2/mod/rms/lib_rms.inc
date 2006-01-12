@@ -67,7 +67,7 @@ function _shn_rms_showerrors()
         return false;
     $errors = $_SESSION['rms_errors'];
 ?>
-<div id="errors">
+<div id="error">
     <p><em>Oops... the following errors were encountered:</em></p>
     <ul>
 <?php
