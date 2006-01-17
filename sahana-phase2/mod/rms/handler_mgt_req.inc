@@ -17,7 +17,7 @@ global $global;
 $req_id = $_GET['req_id'];
 ?>
 <?php show_rms_heading(); ?>
-<h3>Request Management</h3>
+<h3><?php print _("Request Management") ?></h3>
 <br/>
 <?php
 if (is_req_open($req_id))

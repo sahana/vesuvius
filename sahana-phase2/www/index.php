@@ -56,10 +56,10 @@ function shn_front_controller()
     $module = $global['module'];
    
     // check the users access permissions for this action
-    $req_act="shn_".$module."_".$action;
+    $req_act='shn_'.$module.'_'.$action;
     $acl_enabled=shn_acl_get_state();
 //    $module_enabled=shn_acl_is_enabled($module);
-    $allow = (shn_acl_check_perms_action($_SESSION["user_id"],$req_act) || 
+    $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
              !$acl_enabled)? true : false;
     // include the html head tags
     include($approot."inc/handler_html_head.inc");
@@ -72,19 +72,19 @@ function shn_front_controller()
     }
 
     // include the correct module file based on action and module
-    $module_file = $approot."mod/".$module."/main.inc";
+    $module_file = $approot.'mod/'.$module.'/main.inc';
 
     if (file_exists($module_file)) {
         include($module_file); 
     } else {
-        include($approot."mod/home/main.inc");
+        include($approot.'mod/home/main.inc');
     }
 
     // include the module configuration files 
-    $d = dir($approot."mod/");
+    $d = dir($approot.'mod/');
     while (false !== ($f = $d->read())) {
-        if (file_exists($approot."mod/".$f."/conf.inc")) {
-          include ($approot."mod/".$f."/conf.inc");
+        if (file_exists($approot.'mod/'.$f.'/conf.inc')) {
+          include ($approot.'mod/'.$f.'/conf.inc');
         }
     } 
 
@@ -101,7 +101,7 @@ function shn_front_controller()
 ?>     
     <div id="wrapper" class="clearfix"> 
     <div id="wrapper_menu">
-    <p id="skip">Jump to: <a href="#content">Content</a> | <a href="#modulemenu">Module Menu</a></p> 
+    <p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a href="#modulemenu"><?=_('Module Menu')?></a></p> 
 <?php
 
     // include the mainmenu provided there is not a module override
@@ -117,22 +117,22 @@ function shn_front_controller()
 <?php
     if($allow){
         // compose and call the relevant module function 
-        $module_function = "shn_".$module."_".$action;
+        $module_function = 'shn_'.$module.'_'.$action;
         if (!function_exists($module_function)) {
-            $module_function="shn_".$module."_default";
+            $module_function='shn_'.$module.'_default';
         }
-        $_SESSION["last_module"]=$module;
-        $_SESSION["last_action"]=$action;
+        $_SESSION['last_module']=$module;
+        $_SESSION['last_action']=$action;
         $module_function(); 
     }else {
 ?>
     <div id="error">
-        <p><em>Sorry, you do not have permisssion to access this section</em>.<br/><br/>This could be because:</ul>
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
         <ul>
-        <li>You have not logged in or Anonymous access is not allowed to this section</li>
-        <li>Your username has not been given permission to access this section</li>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
         </ul>
-        <p>To gain access to this section please contact the administrator</p>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
     </div> <!-- /error -->
 <?php
     }

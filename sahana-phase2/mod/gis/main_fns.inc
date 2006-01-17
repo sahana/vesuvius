@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.5 2005-12-23 09:26:16 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.6 2006-01-17 09:37:58 chamindra Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -56,7 +56,7 @@ function shn_gis_show()
 
 			
 			init_map($key);
-			load_map();
+			load_map($wkey,$ekey);
 		}
 	}
 	else{

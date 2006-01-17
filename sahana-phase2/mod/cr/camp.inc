@@ -116,8 +116,16 @@ if($errors)
 					
 	}
 	else{
-		$_SESSION['gis_loc_x']=$_POST['loc_x'];
-		$_SESSION['gis_loc_y']=$_POST['loc_y'];
+		if((null==$_POST['gps_x']) && null==$_POST['gps_y']){
+			$_SESSION['gis_loc_x']=$_POST['loc_x'];
+			$_SESSION['gis_loc_y']=$_POST['loc_y'];
+		}
+		else{
+			$_POST['loc_x'] = $_POST['gps_x'];
+			$_POST['loc_y'] = $_POST['gps_y'];
+			$_SESSION['gis_loc_x']=$_POST['loc_x'];
+			$_SESSION['gis_loc_y']=$_POST['loc_y'];
+		}
 	}
 ?>
 <h2>Camp Checklist</h2>
@@ -172,6 +180,10 @@ function _shn_cr_sel_map(){
 	$_SESSION['cr_4']=$_POST['4'];
 											
 	shn_form_fopen(acmp);
+	shn_form_fsopen(_("Location Information"));
+	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
+	shn_form_fsclose();
+	shn_form_fsopen(_("Plot Location on Map"));
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_hidden(array('loc_x'=>''));
 	shn_form_hidden(array('loc_y'=>''));
@@ -194,9 +206,18 @@ function _shn_cr_sel_map(){
 			$a="select value from config where module_id='gis' and confkey='google_key'";
       $ares=$db->Execute($a);
 			$keys=$ares->fields[0];
-						
+
+	
+			$w="select value from config where module_id='gis' and confkey='center_x'";
+			$wres=$db->Execute($w);
+			$wkey=$wres->fields[0];
+
+			$e="select value from config where module_id='gis' and confkey='center_y'";
+			$eres=$db->Execute($e);
+			$ekey=$eres->fields[0];
+																		
 			init_map($keys);
-			load_map();
+			load_map($wkey,$ekey);
 			add_marker($_POST['camp_name']);
 		}
 	}
@@ -206,6 +227,12 @@ function _shn_cr_sel_map(){
    <p>No Currently Selected GIS</p> 
 <?php
   }
+	shn_form_fsclose();
+	shn_form_fsopen(_("GPS Coordinates"));
+	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
+	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
+	shn_form_fsclose();
+			
 	shn_form_submit("Next");
 	shn_form_close();
 }

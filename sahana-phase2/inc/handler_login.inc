@@ -20,12 +20,12 @@ if ($_SESSION['logged_in'] != true ) {
 ?>
     <div id="loginform">
 	<form method="POST" action="index.php?act=login">
-        <fieldset><legend>Login</legend>
-        <label>User Name</label><input type="text" name="user_name" id="userName" />
-        <label>Password</label><input type="password" name="password" id="pswd" />
+        <fieldset><legend><?=_('Login')?></legend>
+        <label><?=_('User Name')?></label><input type="text" name="user_name" id="userName" />
+        <label><?=_('Password')?></label><input type="password" name="password" id="pswd" />
 		<input type="submit" value="Login" />
 		<br />
-        <a href="#">Forgot your password?</a>
+        <!-- <a href="#">Forgot your password?</a> -->
         </fieldset>
     </form>
     </div><!-- /loginform -->
@@ -34,10 +34,10 @@ if ($_SESSION['logged_in'] != true ) {
 } else {
 ?>
     <div id="loginform">
-        <fieldset><legend>Logged In</legend>
-        <label>User: <?=$_SESSION['user']?> </label>
+        <fieldset><legend><?=_('Logged In')?></legend>
+        <label><?=_('User: ')?><?=$_SESSION['user']?> </label>
         <br />
-        <center><a href="index.php?act=logout">Logout</a></center>
+        <center><a href="index.php?act=logout"><?=_('Logout')?></a></center>
     </div>
 <?php
 }

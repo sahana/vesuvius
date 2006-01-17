@@ -59,8 +59,8 @@ if (function_exists("gettext")) {
      */
     if ( isset ($_SESSION["locale"]) ) { 
         $locale = $_SESSION["locale"];
-                
-        isset($_GET['mod'])?$domain = $_GET['mod']:$domain = "home";            
+        $domain = 'sahana';
+        #isset($_GET['mod'])?$domain = $_GET['mod']:$domain = "home";            
             
         putenv("LANG=$locale"); 
         setlocale(LC_ALL, $locale);    

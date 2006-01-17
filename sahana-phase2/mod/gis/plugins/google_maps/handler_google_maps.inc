@@ -13,7 +13,7 @@ function init_gmap(){
 <?php
 }
 
-function load_map(){
+function load_map($x='',$y=''){
 ?>
 	<div id="map" style="width: 500px; height: 400px"></div>
 	  <script type="text/javascript">
@@ -22,7 +22,18 @@ function load_map(){
 			 map.addControl(new GLargeMapControl());
        //map.addControl(new GSmallMapControl());
 			 map.addControl(new GMapTypeControl());//satellite image switch
-       	map.centerAndZoom(new GPoint(-122.1419, 37.4419), 4);
+<?php
+		if($x=='' || $y==''){
+?>
+       	map.centerAndZoom(new GPoint(-122.1419, 37.4419), 3);
+<?php
+		}
+		else{
+?>
+				map.centerAndZoom(new GPoint(<?php echo $x?>,<?php echo $y?>), 4);
+<?php
+		}
+?>
 			 	//map.centerAndZoom(new GPoint(<?php echo $x?>,<?php echo $y?>), 4);<?php ;?>
        //map.centerAndZoom(new GPoint(79.8000, 7.4419),8);
 

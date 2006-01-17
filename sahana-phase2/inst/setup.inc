@@ -51,34 +51,34 @@ function shn_setup_main()
 function shn_setup_form1()
 {
  ?>
-    <h1>Sahaha Web Setup</h2>
-    <p> Welcome to Sahana. Please follow the following steps to setup the Sahana system </p>
+    <h1><?=_('Sahaha Web Setup')?></h2>
+    <p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system ')?></p>
 <?php
 
-    shn_form_fopen("dbsetup");
+    shn_form_fopen('dbsetup');
 
-    shn_form_fsopen('Database');
+    shn_form_fsopen(_('Database'));
     shn_form_select(
         array( 'mysql' => 'MySQL 4.1 or above'), 
-                "Database Type", "dbtype");
-    shn_form_text('Database Host:Port','dbhost','size="30"',
+                'Database Types', 'dbtype');
+    shn_form_text(_('Database Host:Port'),'dbhost','size="30"',
                 array('value'=>'localhost','req'=>true ));
-    shn_form_text('Database Name','dbname','size="30"',
+    shn_form_text(_('Database Name'),'dbname','size="30"',
                 array('value'=>'sahana', 'req'=>true));
-    shn_form_text('Database User','dbuser','size="30"',
+    shn_form_text(_('Database User'),'dbuser','size="30"',
                 array('value'=>'root', 'req'=>true));
-    shn_form_password('Database Password','dbpass','size="30"', array('req'=>true));
+    shn_form_password(_('Database Password'),'dbpass','size="30"', array('req'=>true));
     shn_form_fsclose();
 
-    shn_form_fsopen('Schema\'s to Install');
-    shn_form_checkbox('Create Main Database tables','dbcreate',"checked",
+    shn_form_fsopen(_('Schema\'s to Install'));
+    shn_form_checkbox(_('Create Main Database tables'),'dbcreate',"checked",
                         array('value'=>'y')); 
-    shn_form_checkbox('Default Configuration','dbconfig',"checked",
+    shn_form_checkbox(_('Default Configuration'),'dbconfig',"checked",
                         array('value'=>'y')); 
-    shn_form_checkbox('Sample Data','dbsample','',
+    shn_form_checkbox(_('Sample Data'),'dbsample','',
                         array('value'=>'y')); 
     shn_form_fsclose();
-    shn_form_submit('Setup Database >>');
+    shn_form_submit(_('Setup Database >>'));
  
     shn_form_fclose();
 }
@@ -93,7 +93,7 @@ function shn_setup_form2()
 <?php
     global $global;
 
-    shn_form_fopen("cfgsetup");
+    shn_form_fopen('cfgsetup');
     
     // pass the previous post varibles into hidden for the configuration file
     shn_form_hidden( array(
@@ -102,32 +102,32 @@ function shn_setup_form2()
         'dbuser' => $_POST['dbuser'] ,
         'dbpass' => $_POST['dbpass'] ));           
 
-    shn_form_fsopen('Settings');
+    shn_form_fsopen(_('Settings'));
     shn_form_select(
-        array( 'default' => 'Default Theme'), 
-                "Theme", "theme");
+        array( 'default' => _('Default Theme')), 
+                _('Theme'), 'theme');
     shn_form_select(
-        array( 'disable' => 'Disable','enable' =>'Enable'), 
-                "Access Control","acl");
+        array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
+                _('Access Control'),'acl');
     shn_form_fsclose();
 
-    shn_form_fsopen('Configuration File');
+    shn_form_fsopen(_('Configuration File'));
 ?>
-    <p>The PHP/Web Server should normally not have access to write 
+    <p><?=_('The PHP/Web Server should normally not have access to write 
     or modify the configuration file located in Sahana application <b>/conf</b> 
     directory, as this is a security risk. Please specify where to
     write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
-    the Sahana <b>/conf</b> directory.</p>
+    the Sahana <b>/conf</b> directory.</p>')?>
 <?php
     $tmp_filename = tempnam('/tmp','config.inc');
     // Need the temporary directory rather than the filename
     $tmp_filename = preg_replace('/config.inc.*$/','config.inc',$tmp_filename); 
 
-    shn_form_text('Location To Write Config File','conffile','size="50"',
+    shn_form_text(_('Location To Write Config File'),'conffile','size="50"',
                 array('value'=>"$tmp_filename",'req'=>true ));
     shn_form_fsclose();
 
-    shn_form_submit('Write Configuration File >>');
+    shn_form_submit(_('Write Configuration File >>'));
  
     shn_form_fclose();
 }
@@ -136,28 +136,28 @@ function shn_setup_form2()
 function shn_setup_form3()
 {
 ?>
-    <h1>Sahaha Web Setup - Step 3</h2>
-    <p>Configuration file <?=$_POST['conffile']?> has been successfully written.</p>
+    <h1><?=_('Sahaha Web Setup - Step 3')?></h2>
+    <p><?=_('Configuration file ')?><?=$_POST['conffile']?> <?=_(' has been successfully written.')?></p>
 
 <?php
     global $global;
     shn_form_fopen('default','home');
-    shn_form_fsopen("Configuration File");
+    shn_form_fsopen(_('Configuration File'));
     shn_form_hidden( array(
         'conffile' => $_POST['conffile'] )); 
     $sahana_url = 'http://'.$_SERVER['HTTP_HOST'].preg_replace('/index.php\?.*$/','',$_SERVER['REQUEST_URI']);
 ?>
 
-    <p>To finish the configuration follow the steps below</p>
-    <p> <b>1.</b> Copy the temporary config file created from: <br/>
+    <p><?=_('To finish the configuration follow the steps below')?></p>
+    <p> <b>1.</b><?=_(' Copy the temporary config file created from: ')?><br/>
         <u><?=$_POST['conffile']?></u> to: <br/>
      <u><?=$global['approot']."conf/config.inc"?></u></p>
-    <p> <b>2.</b> For security reasons delete the temporary configuration file at <u><?=$_POST['conffile']?></u></p>
-    <p> <b>3.</b> Once done click the button below to start Sahana or access it anytime using the url: <a href="<?=$sahana_url?>"><?=$sahana_url?></a></p>
+    <p> <b>2.</b><?=_(' For security reasons delete the temporary configuration file at ')?><u><?=$_POST['conffile']?></u></p>
+    <p> <b>3.</b><?=_(' Once done click the button below to start Sahana or access it anytime using the url: ')?><a href="<?=$sahana_url?>"><?=$sahana_url?></a></p>
 
 <?php        
     shn_form_fsclose();
-    shn_form_submit('Start Sahana');    
+    shn_form_submit(_('Start Sahana'));    
     shn_form_fclose();
 }
 
@@ -166,7 +166,7 @@ function shn_setup_database()
 {
     $db = &NewADOConnection('mysql');
     if (! $db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']) ) {
-        add_error("Could not connect to the database. Please check the setting and try again");
+        add_error(_('Could not connect to the database. Please check the setting and try again'));
         return false;
     }
 
@@ -231,7 +231,7 @@ function shn_setup_config_update($tmp_configfile)
                             $tmp_configfile) ) {
         return true;
     } else {
-        add_error("Could not write to file $tmp_configfile. Try another location");
+        add_error(_('Could not write to file $tmp_configfile. Try another location'));
         return false;
     }
 }

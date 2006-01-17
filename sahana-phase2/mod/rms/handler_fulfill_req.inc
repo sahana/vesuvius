@@ -85,7 +85,7 @@ else
 ?>
 
 <?php show_rms_heading(); ?>
-<h3><a name="list">Fulfil Requests</a></h3>
+<h3><a name="list"><?php print _("Fulfil Requests") ?></a></h3>
 
 <form action="index.php?mod=rms&amp;act=fulfill_req&amp;req_id=<?php print $req_id ?>&amp;seq=add#form" name="req_new_frm" id="formset" method="post">
 <?php show_init_vals(_("Request Information")); ?>

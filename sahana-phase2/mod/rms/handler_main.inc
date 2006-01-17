@@ -28,16 +28,16 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
 <div id="home">
 <h2><?php print _("Request Managment System")?></h2>
-<p>The Sahana request management system is a central online repository where all
-relief organizations, relief works, government agents and camps can effectively
-match requests of aid and supplies to pledges of support. It effectively looks like an
-online aid trading system tracking request to fulfillment. Features include:
+<p><?php print _("The Sahana request management system is a central online repository where all " .
+		"relief organizations, relief works, government agents and camps can effectively " .
+		"match requests of aid and supplies to pledges of support. It effectively looks like an " .
+		"online aid trading system tracking request to fulfillment. Features include:") ?>
 </p>
 <ul>
-    <li>Basic meta data on the request and pledges such as the category, the units, contact details and the status</li>
-    <li>Customizable category of aid</li>
-    <li>Filtered search of aid pledges and requests</li>
-    <li>Ability to track partial fulfillment of the request</li>
+    <li><?php print _("Basic meta data on the request and pledges such as the category, the units, contact details and the status") ?></li>
+    <li><?php print _("Customizable category of aid") ?></li>
+    <li><?php print _("Filtered search of aid pledges and requests") ?></li>
+    <li><?php print _("Ability to track partial fulfillment of the request") ?></li>
 </ul>
 <br/>
 </div>
@@ -49,22 +49,22 @@ online aid trading system tracking request to fulfillment. Features include:
 <div id="result">
 <h3><?php print _("User Information")?></h3>
 <hr/>
-<?php print _("User Name" . " : ")?><br/>
-<?php print _("User ID" . " : " . $user_id)?><br/>
-<?php print _("Total Requests" . " : " . $user_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)<br/>
-<?php print _("Open Requests" . " : " . $user_oreq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open">View</a>)<br/>
-<?php print _("Closed Requests" . " : " . $user_creq_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed">View</a>)<br/>
+<?php print _("User Name") . " : "?><br/>
+<?php print _("User ID") . " : " . $user_id?><br/>
+<?php print _("Total Requests") . " : " . $user_req_count?> (<a href="index.php?mod=rms&act=vw_req&user=user"><?php print _("View") ?></a>)<br/>
+<?php print _("Open Requests") . " : " . $user_oreq_count?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=open"><?php print _("View") ?></a>)<br/>
+<?php print _("Closed Requests") . " : " . $user_creq_count?> (<a href="index.php?mod=rms&act=vw_req&user=user&stat=closed"><?php print _("View") ?></a>)<br/>
 <hr/>
-<strong><?php print _("Fulfilled (fully/partially) Requests" . " : " . $org_reqff_count)?></strong><br/>
+<strong><?php print _("Fulfilled (fully/partially) Requests") . " : " . $org_reqff_count?></strong><br/>
 </div>
 <br/>
 <div id="result">
 <h3><?php print _("Organization Information")?></h3>
 <hr/>
-<?php print _("Org. Name" . " : ")?><br/>
-<?php print _("Org. ID" . " : " . $org_id)?><br/>
+<?php print _("Org. Name") . " : "?><br/>
+<?php print _("Org. ID") . " : " . $org_id?><br/>
 <br/>
-<strong><?php print _("Total Requests" . " : " . $org_req_count)?> (<a href="index.php?mod=rms&act=vw_req&user=user">View</a>)</strong> 
+<strong><?php print _("Total Requests") . " : " . $org_req_count?> (<a href="index.php?mod=rms&act=vw_req&user=user"><?php print _("View") ?></a>)</strong> 
 <br/>
 </div>
 <br/>
@@ -72,6 +72,6 @@ online aid trading system tracking request to fulfillment. Features include:
 <h3><?php print _("Full Statistics")?></h3>
 <br/>
 <hr/>
-<strong><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all">View</a>) </strong>
+<strong><?php print _("Total Number of requests = ") . $req_count?> (<a href="index.php?mod=rms&act=vw_req&user=all"><?php print _("View") ?></a>) </strong>
 </div>
 </div>

@@ -36,7 +36,7 @@ if ($_GET['stat'] == 'rem_all')
         $msg = $global['db']->ErrorMsg();
         db_dbug($sql,$msg);
     } 
-    print "<h3>request removed</h3>";   
+    print "<h3>" . _("request removed") . "</h3>";   
 }
 
 if ($_GET['stat'] == 'add' && rms_validate_mform(1)) 

@@ -29,6 +29,10 @@ $module_list = shn_get_modules_with_admin();
                     <ul id="modsubmenu">
 <li><a href="index.php?mod=admin&act=add_loc">Add Location</a></li> 
                    </ul>
+                   <li><a href="#">Localization</a></li>
+                    <ul id="modsubmenu">
+<li><a href="index.php?mod=admin&act=lc_trns">Language Translation</a></li> 
+                   </ul>
 
                <li><a href="#">Module Config </a></li>
                     <ul id="modsubmenu">

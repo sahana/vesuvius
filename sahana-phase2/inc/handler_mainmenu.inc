@@ -14,11 +14,11 @@
 */
 
 global $conf;
-require_once $global['approot']."/inc/lib_modules.inc";
-require_once $global['approot']."/inc/lib_menu.inc";
+require_once $global['approot'].'/inc/lib_modules.inc';
+require_once $global['approot'].'/inc/lib_menu.inc';
 
-shn_mainmenuopen("Main Menu");
-shn_mainmenuitem('default','Sahana Home','home');
+shn_mainmenuopen(_('Main Menu'));
+shn_mainmenuitem('default',_('Sahana Home'),'home');
 
 // display the list of modules on the menu bar
 $module_list = shn_get_module_names();
@@ -26,12 +26,12 @@ $module_list = shn_get_module_names();
 foreach ($module_list as $i) {  
     
     if ( ( 'home' != $i ) && ('admin' != $i ) ) {
-        $module_name = $conf["mod_".$i."_name"]; 
+        $module_name = $conf['mod_'.$i.'_name']; 
         $module_name = ( null == $module_name )? $i : $module_name ;
         shn_mainmenuitem('default',$module_name, $i);
     }
 } 
 
-shn_mainmenuitem('default','System Administration','admin');
+shn_mainmenuitem('default',_('System Administration'),'admin');
 shn_mainmenuclose();
 ?>

@@ -21,10 +21,12 @@ function _shn_rms_show_confirmdel()
 {
     $id = $_REQUEST['plg_id'];
 ?>
-<h4>You are about to remove the pledge ( Pledge id:<?=$_REQUEST['plg_id']?> )</h4>
-(The information will be permanently deleted from the database)<br/>
+<h4><?php print _("You are about to remove the pledge ( Pledge id :") . 
+	$_REQUEST['plg_id'] . " )</h4>" . 
+	_("(The information will be permanently deleted from the database)") ?>
 <br/>
-Please press "Remove" to remove the pledge.
+<br/>
+<?php print _("Please press 'Remove' to remove the pledge.") ?>
 <?php
 
 
@@ -51,7 +53,7 @@ function _shn_rms_del_plg()
     }
     else
     {
-        print "<h3>The Pledge was successfully Removed</h3>";
+        print _("<h3>The Pledge was successfully Removed</h3>");
         
         #back to list view
         shn_form_fopen("vw_plgs",null,array('req_message'=>false));

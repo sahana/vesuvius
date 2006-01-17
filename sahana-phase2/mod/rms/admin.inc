@@ -152,11 +152,11 @@ function shn_rms_adm_add_cat()
     {     
         $sql = "INSERT INTO rms_req_category (category,description) VALUES('$name','$desc')";    
         $global['db']->Execute($sql);
-        print "category added successfully";
+        print _("category added successfully");
     }
     else
     {
-        print "The category already exists";
+        print _("The category already exists");
     }
     
     shn_rms_adm_add_category();
@@ -189,11 +189,11 @@ function shn_rms_adm_remove_cat()
     {     
         $sql = "DELETE FROM rms_req_category WHERE cat_id='$cat_id'";
         $rs = $global['db']->Execute($sql);
-        print "Category removed successfully";
+        print _("Category removed successfully");
     }
     else
     {
-        print "This category cannot be removed, because it is in use atm";
+        print _("This category cannot be removed, because it is in use atm");
     }
     
     shn_rms_adm_remove_category();
@@ -304,11 +304,11 @@ function shn_rms_adm_add_prio()
     {     
         $sql = "INSERT INTO rms_req_priority (priority,description) VALUES('$prio','$desc')";    
         $global['db']->Execute($sql);
-        print "Priority type added successfully";
+        print _("Priority type added successfully");
     }
     else
     {
-        print "The Priority type already exists";
+        print _("The Priority type already exists");
     }
     
     shn_rms_adm_add_priority();
@@ -341,11 +341,11 @@ function shn_rms_adm_remove_prio()
     {     
         $sql = "DELETE FROM rms_req_priority WHERE priority_id='$prio'";
         $rs = $global['db']->Execute($sql);
-        print "Priority Type removed successfully";
+        print _("Priority Type removed successfully");
     }
     else
     {
-        print "This Priority type cannot be removed, because it is in use at the moment";
+        print _("This Priority type cannot be removed, because it is in use at the moment");
     }
     
     shn_rms_adm_remove_priority();

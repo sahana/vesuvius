@@ -228,4 +228,9 @@ function shn_admin_ch_pwd_cr(){
     _shn_admin_ch_pwd_cr();
 }
 
+function shn_admin_lc_trns()
+{
+ require_once('lc_translate.inc');
+}
+
 ?>
