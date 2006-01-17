@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.6 2006-01-17 09:37:58 chamindra Exp $ */
+/* $Id: main_fns.inc,v 1.7 2006-01-17 09:46:29 chamindra Exp $ */
 
 /**
 * Functions page of the GIS Module

@@ -76,23 +76,22 @@ if ($_POST['seq'] == 'confirm')
     if(get_category_name($_POST['cat_id']) == 'Other')
     {
     	if(!isset($_POST['other_cat']) || $_POST['other_cat'] == '')
-        	_shn_rms_adderror("You have to enter a category or select a valid" .
-        			"category from the list");
+        	_shn_rms_adderror(_("You have to enter a category or select a valid category from the list"));
     }
     
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
     {
-        _shn_rms_adderror("Please add a quantity");
+        _shn_rms_adderror(_("Please add a quantity"));
     }
     
     if(!is_numeric($_POST['quantity']))
     {
-        _shn_rms_adderror("The quantity has to be a numeric value");
+        _shn_rms_adderror(_("The quantity has to be a numeric value"));
     }
     
     if(0<_shn_rms_errorcount())
     {
-        _shn_rms_adderror("Please go <em>Back</em> and correct the errors");
+        _shn_rms_adderror(_("Please go <em>Back</em> and correct the errors"));
         _shn_rms_showerrors();
         
         #displaying the entered data for confirmation 
@@ -103,7 +102,7 @@ if ($_POST['seq'] == 'confirm')
         shn_form_hidden(array('seq'=>''));  
         unset($_POST['seq']);
         shn_form_hidden($_POST);   
-        shn_form_submit('<--Back',"shorter");
+        shn_form_submit(_("Back"),"shorter");
         shn_form_fclose();
         return false;
     }
@@ -124,7 +123,7 @@ if ($_POST['seq'] == 'confirm')
     shn_form_hidden(array('seq'=>''));  
     unset($_POST['seq']);
     shn_form_hidden($_POST);   
-    shn_form_submit('<--Back',"shorter");
+    shn_form_submit(_("Back"),"shorter");
     shn_form_fsclose();
     shn_form_fclose();
 
@@ -151,7 +150,7 @@ elseif ($_POST['seq'] == 'add')
     	$cat_id = _shn_rms_addcategory($other_cat);
     	if (!$cat_id)
     	{
-    		_shn_rms_adderror("Error inserting new Category");
+    		_shn_rms_adderror(_("Error inserting new Category"));
     		return false;
     	}
     	
@@ -163,7 +162,7 @@ elseif ($_POST['seq'] == 'add')
     	$unit_id = _shn_rms_addunit($other_units);
     	if (!$cat_id)
     	{
-    		_shn_rms_adderror("Error inserting new Unit");
+    		_shn_rms_adderror(_("Error inserting new Unit"));
     		return false;
     	}
     	
@@ -238,7 +237,7 @@ elseif ($_POST['seq'] == 'addplg')
     }    
     else
     {
-        _shn_rms_adderror("some error");
+        _shn_rms_adderror(_("some error"));
 
 
         if ($_SESSION['rms_errors'] != null)
@@ -255,22 +254,22 @@ else
     
     shn_form_hidden(array('seq'=>'confirm'));
     
-    shn_form_fsopen('Donor Contact Information');
-    shn_form_text('Date','date','readolny="true"',array('value'=>$today));
-    shn_form_text('Name','name',null,array('req'=>true));
-    shn_form_text('Contact','contact',null,array('req'=>true));
-    shn_form_textarea('Address','address');
-    shn_form_textarea('Comments','comments');
+    shn_form_fsopen(_("Donor Contact Information"));
+    shn_form_text(_("Date"),'date','readolny="true"',array('value'=>$today));
+    shn_form_text(_("Name"),'name',null,array('req'=>true));
+    shn_form_text(_("Contact"),'contact',null,array('req'=>true));
+    shn_form_textarea(_("Address"),'address');
+    shn_form_textarea(_("Comments"),'comments');
     shn_form_fsclose();
-    shn_form_fsopen('Pledge Details');
-    shn_form_select(get_rms_catlist(),"Category","cat_id",null,array('br'=>false));
-    shn_form_text('','other_cat','onFocus="cat_id.value='. get_cat_id("Other") .';"');
-    shn_form_textarea('Item','item',null,array('req'=>true));
-    shn_form_select(get_rms_itemunits(),"Units","units",null,array('br'=>false));
-    shn_form_text('','other_units','onFocus="units.value='. get_unit_id("Other") .';"');
-    shn_form_text('Quantity','quantity',null,array('req'=>true));
+    shn_form_fsopen(_("Pledge Details"));
+    shn_form_select(get_rms_catlist(),_("Category"),"cat_id",null,array('br'=>false));
+    shn_form_text('','other_cat','onFocus="cat_id.value='. get_cat_id(_("Other")) .';"');
+    shn_form_textarea(_("Item"),'item',null,array('req'=>true));
+    shn_form_select(get_rms_itemunits(),_("Units"),"units",null,array('br'=>false));
+    shn_form_text('','other_units','onFocus="units.value='. get_unit_id(_("Other")) .';"');
+    shn_form_text(_("Quantity"),'quantity',null,array('req'=>true));
     shn_form_fsclose();
-    shn_form_submit('Add');
+    shn_form_submit(_("Add"));
     shn_form_fclose();
 }
 //else
@@ -299,10 +298,9 @@ function _shn_rms_plg_endadd($plg_id)
 {
 ?>
     <div class=error>
-    <h3>The Pledge was successfully added</h3>
-    <strong>The pledge ID : <?=$plg_id?></strong>
+    <h3><?php print _("The Pledge was successfully added") ?></h3>
+    <strong><?php print _("The pledge ID") . " : $plg_id" ?></strong>
     </div>
 <?php
 }
 ?>
-

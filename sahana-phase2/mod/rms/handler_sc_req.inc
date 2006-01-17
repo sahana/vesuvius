@@ -28,9 +28,9 @@ function __shn_rms_schkword()
     
     shn_form_hidden(array('seq'=>'req_sch'));
     
-    shn_form_fsopen('Search For Requests');
-    shn_form_text('Enter Search Keyword','kword',null,array('br'=>false));
-    shn_form_submit('Search');
+    shn_form_fsopen(_("Search For Requests"));
+    shn_form_text(_("Enter Search Keyword"),'kword',null,array('br'=>false));
+    shn_form_submit(_("Search"));
     shn_form_fsclose();
     shn_form_fclose();
 }
@@ -38,10 +38,10 @@ function __shn_rms_schkword()
 function __req_id_form()
 {
 	shn_form_fopen("v_req",null,array('req_message'=>false));
-    shn_form_fsopen('View Request by ID');
+    shn_form_fsopen(_("View Request by ID"));
     shn_form_hidden(array('seq'=>'view'));
-    shn_form_text('Enter Request ID','req_id',null,array('br'=>false));
-    shn_form_submit('View Request');
+    shn_form_text(_("Enter Request ID"),'req_id',null,array('br'=>false));
+    shn_form_submit(_("View Request"));
     shn_form_fsclose();
     shn_form_fclose();
 }
@@ -146,7 +146,7 @@ function _shn_rms_plgsc_back()
     #back button
     shn_form_fopen("sc_req",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>''));
-    shn_form_submit('Back',"short");
+    shn_form_submit(_("Back"),"short");
     shn_form_fclose();
 }
 
@@ -159,7 +159,7 @@ function _shn_rms_show_reqdetails()
     
     shn_form_hidden(array('seq'=>'req_sch'));
     shn_form_hidden(array('kword'=>$_SESSION['rms_src_kword']));            
-    shn_form_submit('Back',"short");
+    shn_form_submit(_("Back"),"short");
     shn_form_fclose();
     
 }
