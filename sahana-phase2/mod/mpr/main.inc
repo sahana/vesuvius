@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.17 2006-01-17 07:14:08 janakawicks Exp $ */
+/* $Id: main.inc,v 1.18 2006-01-17 07:39:03 janakawicks Exp $ */
 
 /**Main Controller of the Missing Person Registry 
 *
@@ -12,6 +12,8 @@
 * @author	  Chamindra de Silva <chamindra@opensource.lk>
 * @author	  Janaka Wickramasinghe <janaka@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    sahana
+* @subpackage mpr
 */
 
 include_once $global['approot']."/inc/lib_modules.inc";

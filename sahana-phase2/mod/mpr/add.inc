@@ -1,7 +1,7 @@
 <?php
-/* $Id: add.inc,v 1.14 2006-01-03 11:14:11 janakawicks Exp $ */
+/* $Id: add.inc,v 1.15 2006-01-17 07:39:03 janakawicks Exp $ */
 
-/**Main home page of the Missing Person Registry 
+/**Add Missing Person Registry 
 *
 * PHP version 4 and 5
 *
@@ -11,15 +11,14 @@
 *
 * @author	  Janaka Wickramasinghe <janaka@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    sahana
+* @subpackage mpr
 */
 
 /* {{{ Tools */
-/** TODO: Put this somewhere else
-*/
-
 /**
- * shn_tools_clean_post 
- * 
+ * This function cleans the POST values
+ * @TODO Put this somewhere else, i.e. form handling
  * @param mixed $local_post 
  * @access public
  * @return void
@@ -38,8 +37,7 @@ function shn_tools_clean_post(&$local_post)
 
 /* {{{ Add Entry From */
 /**
- * shn_mpr_addmp_entry 
- * 
+ * This is the Add Entry Form
  * @param mixed $errors 
  * @access public
  * @return void
@@ -139,8 +137,7 @@ function shn_mpr_addmp_entry($errors=false)
 /* {{{ Add Entry form Validation */
 
 /**
- * shn_mpr_addmp_validate 
- * 
+ * This is the Add Entry Validation function
  * @access public
  * @return void
  */
@@ -213,8 +210,7 @@ function shn_mpr_addmp_validate()
 /* {{{ Add Reporter Form */
 
 /**
- * shn_mpr_addmp_reporter 
- * 
+ * This is the reproter entry form 
  * @param mixed $errors 
  * @access public
  * @return void
@@ -268,8 +264,7 @@ function shn_mpr_addmp_reporter($errors=false)
 
 /* {{{ Add Reporter Form Validation */
 /**
- * shn_mpr_addmp_reporter_validate 
- * 
+ * This is the reporter entry validation
  * @access public
  * @return void
  */
@@ -320,8 +315,7 @@ function shn_mpr_addmp_reporter_validate()
 
 /* {{{ Add Upload Form */
 /**
- * shn_mpr_addmp_upload 
- * 
+ * This is the image upload form
  * @param mixed $errors 
  * @access public
  * @return void
@@ -344,8 +338,7 @@ function shn_mpr_addmp_upload($errors=false)
  
 /* {{{ Add Upload Pic */
 /**
- * shn_mpr_addmp_upload_pic 
- * 
+ * This checks for the uploaded picture and make the thumbnail.
  * @access public
  * @return void
  */
@@ -377,6 +370,15 @@ function shn_mpr_addmp_upload_pic()
 }
 /* }}} */
 
+/**
+ * This creates an uuid, you can specify the the types
+ * p - person 
+ * c - camp etc;
+ * @TODO Need to shift this somewhere else
+ * @param string $type 
+ * @access public
+ * @return void
+ */
 function shn_create_uuid($type='p')
 {
    return mktime().rand(0,1000); 
@@ -384,8 +386,7 @@ function shn_create_uuid($type='p')
 
 /* {{{ Add Confirm Form */
 /**
- * shn_mpr_addmp_confirm 
- * 
+ * This is the confirmation function.
  * @access public
  * @return void
  */
@@ -568,8 +569,7 @@ function shn_mpr_addmp_confirm()
 
 /* {{{ Add Commit */
 /**
- * shn_mpr_addmp_commit 
- * 
+ * This function commits the given Missing person's data to the databsae.
  * @access public
  * @return void
  */
@@ -773,6 +773,12 @@ function shn_mpr_addmp_commit()
     shn_mpr_default();    
 }
 
+/**
+ * This function inserts the reporting person to the people registry
+ * @param mixed $p_uuid 
+ * @access public
+ * @return void
+ */
 function shn_mpr_addmp_insert_reporter($p_uuid)
 {
     //Reported person entry 
@@ -851,6 +857,14 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
 
 }
 
+/**
+ * This function helps you to add reporting persons to the missing person
+ * @param mixed $p_uuid 
+ * @param mixed $rep_uuid 
+ * @param mixed $relation 
+ * @access public
+ * @return void
+ */
 function shn_add_person_to_report($p_uuid, $rep_uuid, $relation)
 {
     global $global;
@@ -865,8 +879,8 @@ function shn_add_person_to_report($p_uuid, $rep_uuid, $relation)
 
 /* {{{ Get Tracker Details */
 /**
- * shn_add_get_tracker_details 
- * 
+ * This function fetches the information of the reporting person with given
+ * id.
  * @param mixed $p_uuid 
  * @access public
  * @return void
@@ -890,6 +904,13 @@ function shn_add_get_tracker_details($p_uuid)
 /* }}} */
 
 //@todo: Need to put this somewhere else, 
+/**
+ * This is a buch of javascript helps for the collapse and expanind of a
+ * given division.
+ * @TODO Move to somewhere 
+ * @access public
+ * @return void
+ */
 function shn_js_toggle_layer()
 {
 ?>
