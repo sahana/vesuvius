@@ -37,7 +37,7 @@ function _shn_rms_search_home()
 ?>
 <form method="POST" action="index.php?mod=rms&act=sc_req">
     <input type="hidden" name="seq" value="req_sch">
-    <strong>Search for a Request</strong> : 
+    <strong><?php print _("Search for a Request") ?></strong> : 
     <input type="text" name="kword" />
     <input type="submit" value="Search"/>
 </form>
@@ -68,7 +68,7 @@ function _shn_rms_showerrors()
     $errors = $_SESSION['rms_errors'];
 ?>
 <div id="error">
-    <p><em>Oops... the following errors were encountered:</em></p>
+    <p><em><?php print _("Oops... the following errors were encountered")?>:</em></p>
     <ul>
 <?php
     foreach ( $errors as $err )
@@ -410,19 +410,19 @@ function rms_validate_mform($mode=0)
         if(!isset($vals['req_date']))
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_date"]= "Please enter a valid date";        
+            $err_msgs["req_date"]= _("Please enter a valid date");        
         }
         
         if($vals['req_name']=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_name"]= "Please enter a name"; 
+            $err_msgs["req_name"]= _("Please enter a name"); 
         }
         
         if($vals['req_contact']=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_contact"]= "Please enter contact information";        
+            $err_msgs["req_contact"]= _("Please enter contact information");        
         }
         
     //    if($vals['req_address']=='')
@@ -433,13 +433,13 @@ function rms_validate_mform($mode=0)
         if($vals['req_site_name']=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_site_name"]= "Please enter a valid site name";
+            $err_msgs["req_site_name"]= _("Please enter a valid site name");
         }
         
         if($vals['req_site_district']=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_site_district"]= "Please select a valid district";
+            $err_msgs["req_site_district"]= _("Please select a valid district");
         }
         
     //    if($vals['req_site_address']=='')
@@ -459,7 +459,7 @@ function rms_validate_mform($mode=0)
         if(!is_numeric($ff_quantity))
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["ff_quantity"]= "The Quantity has to be a numeric value";
+            $err_msgs["ff_quantity"]= _("The Quantity has to be a numeric value");
         }
     }
     else
@@ -483,13 +483,13 @@ function rms_validate_mform($mode=0)
         if($req_category=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_category"]= "Please select a valid category";
+            $err_msgs["req_category"]= _("Please select a valid category");
         }
         
         if($req_item=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_item"]= "Please enter a valid item";
+            $err_msgs["req_item"]= _("Please enter a valid item");
         }
         
     //    if($req_units=='')
@@ -501,19 +501,19 @@ function rms_validate_mform($mode=0)
         if($req_quantity=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_quantity"]= "Please enter a valid quantity";
+            $err_msgs["req_quantity"]= _("Please enter a valid quantity");
         }
         
         if(!is_numeric($req_quantity))
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_quantity"]= "The Quantity has to be a numeric value";
+            $err_msgs["req_quantity"]= _("The Quantity has to be a numeric value");
         }
         
         if($req_priority=='')
         {
             $_SESSION['rms_errors'] = true;
-            $err_msgs["req_priority"]= "Please select a valid priority";
+            $err_msgs["req_priority"]= _("Please select a valid priority");
         }
     }
     
@@ -857,8 +857,8 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     if ($recordSet !== false)
     {            
 ?>
-      <h3>List of <?php print ucfirst($status) ?> requests for <?php print $list_of . "&nbsp;" . $filtered_by?></h3>
-      <div id ="result">
+   <h3><?php print _("List of") .   ucfirst($status) . _("requests for ") . $list_of . "&nbsp;" . $filtered_by?></h3>
+   <div id ="result">
     <table>
         <thead>
             <td><?php print _("ID") ?></td>
@@ -1208,7 +1208,7 @@ function get_rms_itemunits()
     shn_form_hidden(array('seq'=>''));
     shn_form_hidden(array('from'=>'view'));             
     shn_form_hidden(array('plg_id'=>$rs['plg_id']));
-    shn_form_submit('Change Status',"shorter");
+    shn_form_submit(_("Change Status"),"shorter");
     shn_form_fclose();
     
     #remove pledge
@@ -1220,7 +1220,7 @@ function _shn_rms_plg_showdelbutton($id)
     shn_form_fopen("del_plg",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'confirm'));
     shn_form_hidden(array('plg_id'=>$id));            
-    shn_form_submit('Remove Pledge',"short");
+    shn_form_submit(_("Remove Pledge"),"short");
     shn_form_fclose();
 }
 
