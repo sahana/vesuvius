@@ -1,7 +1,7 @@
 <?php
-/* $Id: main.inc,v 1.16 2006-01-03 11:14:12 janakawicks Exp $ */
+/* $Id: main.inc,v 1.17 2006-01-17 07:14:08 janakawicks Exp $ */
 
-/**Main home page of the Missing Person Registry 
+/**Main Controller of the Missing Person Registry 
 *
 * PHP version 4 and 5
 *
@@ -22,8 +22,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 
 /* {{{ Main Menu */
 /**
- * shn_mpr_mainmenu 
- * 
+ * This function defines the menu list.
  * @access public
  * @return void
  */
@@ -52,8 +51,8 @@ function shn_mpr_mainmenu()
 
 /* {{{ Action: Test */
 /**
- * shn_mpr_test 
- * 
+ * this is a testing function
+ * @TODO remove shn_mpr_test
  * @access public
  * @return void
  */
@@ -66,8 +65,7 @@ function shn_mpr_test()
 
 /* {{{ Action: Default (Home Page) */
 /**
- * shn_mpr_default 
- * 
+ * This function displays the home page of the missing person registry
  * @access public
  * @return void
  */
@@ -80,8 +78,9 @@ function shn_mpr_default()
 
 /* {{{ Action: Find */
 /**
- * shn_mpr_fndmp 
- * 
+ * This function displays the basic search form
+ * @NOTE deprecated
+ * @TODO shn_mpr_fndmp to be removed 
  * @access public
  * @return void
  */
@@ -100,8 +99,7 @@ function shn_mpr_fndmp()
 
 /* {{{ Action: Edit */
 /**
- * shn_mpr_editmp 
- * 
+ * This is the MPR Edit Controller
  * @access public
  * @return void
  */
@@ -207,8 +205,7 @@ function shn_mpr_editmp()
 
 /* {{{ Action: View */
 /**
- * shn_mpr_viewmp 
- * 
+ * This is the MPR View Controller
  * @access public
  * @return void
  */
@@ -223,8 +220,7 @@ function shn_mpr_viewmp()
 
 /* {{{ Action: Add Tracker */
 /**
- * shn_mpr_add_tracker 
- * 
+ * This is the MPR Add Tracker Controller
  * @access public
  * @return void
  */
@@ -280,6 +276,11 @@ $_GET['name'];
 /* }}} */
 
 /* {{{ Action: Delete Tracker */
+/**
+ * This is the MPR Delete Tracker Controller
+ * @access public
+ * @return void
+ */
 function shn_mpr_del_tracker()
 {
     global $global;
@@ -298,8 +299,7 @@ function shn_mpr_del_tracker()
 
 /* {{{ Action: Add */
 /**
- * shn_mpr_addmp 
- * 
+ * This is the MPR Add Controller
  * @access public
  * @return void
  */
@@ -403,8 +403,7 @@ function shn_mpr_addmp()
 
 /* {{{ Action: Search */
 /**
- * shn_mpr_search 
- * 
+ * This is the Search Controller
  * @access public
  * @return void
  */
@@ -454,8 +453,8 @@ function shn_mpr_search()
 
 /* {{{ Action: Advance Search */
 /**
- * shn_mpr_search_adv 
- * 
+ * This is the Advance Search Controller
+ * @TODO Add Advance Filters
  * @access public
  * @return void
  */
@@ -469,8 +468,8 @@ function shn_mpr_search_adv()
 
 /* {{{ Action: Audit */
 /**
- * shn_mpr_addmp 
- * 
+ * This is the Auditing Controller
+ * @TODO Need to discuss this further
  * @access public
  * @return void
  */
@@ -484,8 +483,7 @@ function shn_mpr_auditmp()
 
 /* {{{ Status */
 /**
- * shn_mpr_status 
- * 
+ * This is function change the status from missing to alive and well
  * @access public
  * @return void
  */
@@ -512,10 +510,10 @@ function shn_mpr_status()
 /* }}} */
 
 /* {{{ Show Thumbnail */
-//Put some where else
 /**
- * shn_show_thumb 
- * 
+ * This is function show the tumbnail if available and say "Image not
+ * available" otherwise
+ * @TODO Need to move to a different file, possibly to a library.
  * @param mixed $p_uuid 
  * @access public
  * @return void
@@ -560,8 +558,8 @@ function shn_show_thumb($p_uuid)
 
 /* {{{ get field option description */
 /**
- * shn_get_field_opt 
- * 
+ * Shows the Description of the field_option, when given the vaule
+ * @TODO Need to move this to a library.
  * @param mixed $value 
  * @param mixed $field_name 
  * @access public
@@ -577,8 +575,9 @@ function shn_get_field_opt($value,$field_name)
 
 /* {{{ Image Resize */
 /**
- * shn_image_resize 
- * 
+ * This function can resize a given image and save it to the given
+ * location. 
+ * @TODO Need to move this out to a library, e.g. image library
  * @param mixed $src_path 
  * @param mixed $desc_path 
  * @param mixed $width 
