@@ -28,10 +28,14 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 ?>
 <div id="home">
 <h2><?php print _("Request Managment System")?></h2>
-<p><?php print _("The Sahana request management system is a central online repository where all " .
-		"relief organizations, relief works, government agents and camps can effectively " .
-		"match requests of aid and supplies to pledges of support. It effectively looks like an " .
-		"online aid trading system tracking request to fulfillment. Features include:") ?>
+<p>
+<?php print 
+		_("The Sahana request management system is a central online repository where all 
+		relief organizations, relief works, government agents and camps can effectively 
+		match requests of aid and supplies to pledges of support. It effectively looks like an 
+		online aid trading system tracking request to fulfillment. Features include:"
+		) 
+?>
 </p>
 <ul>
     <li><?php print _("Basic meta data on the request and pledges such as the category, the units, contact details and the status") ?></li>
