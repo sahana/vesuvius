@@ -31,7 +31,8 @@ $module_list = shn_get_modules_with_admin();
                    </ul>
                    <li><a href="#">Localization</a></li>
                     <ul id="modsubmenu">
-<li><a href="index.php?mod=admin&act=lc_trns">Language Translation</a></li> 
+                    	<li><a href="index.php?mod=admin&act=lc_set">Set Locale</a></li>
+						<li><a href="index.php?mod=admin&act=lc_trns">Language Translation</a></li> 
                    </ul>
 
                <li><a href="#">Module Config </a></li>

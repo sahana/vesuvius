@@ -24,8 +24,8 @@ global $global;
     include_once $global['approot']."/inc/lib_location.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
     include_once "menu.inc";
-include_once "acl.inc";
-include_once "forms.inc";
+	include_once "acl.inc";
+	include_once "forms.inc";
     include_once $global['approot']."inc/lib_security/auth_form.inc";
 
 function shn_admin_mainmenu() 
@@ -233,4 +233,8 @@ function shn_admin_lc_trns()
  require_once('lc_translate.inc');
 }
 
+function shn_admin_lc_set()
+{
+ require_once('lc_setlocale.inc');
+}
 ?>
