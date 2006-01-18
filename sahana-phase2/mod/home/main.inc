@@ -14,7 +14,14 @@ function shn_home_default()
 	<li><b><?=_("Request Management System</b> <br/>Registering and Tracking all incoming requests for support and relief upto fullfilment and helping donors connect to relief requirements")?> </li>
 	<li><b><?=_("Camp Registry</b><br/>Tracking the location and numbers of victims in the various camps and temporary shelters setup all around the affected area")?> </li>
 	</ul>
-    <p><?=_('For more detail see the Sahana <a href="http://www.sahana.lk">Website</a> and <a href="http://www.linux.lk/~chamindra/docs/Sahana-Brochure.pdf">Brochure</a>')?>.
+    <p>
+    <?php 
+    	print _("For more detail see the ") . 
+			  '<a href="http://www.sahana.lk">' . 
+			  _("Sahana Website </a> and ") . 
+              '<a href="http://www.linux.lk/~chamindra/docs/Sahana-Brochure.pdf">' . 
+              _(" Brochure </a>");
+    ?>
 	</p>
     </div>    
     
