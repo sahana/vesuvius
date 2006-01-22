@@ -34,7 +34,7 @@ function __select_locale()
 
 switch ($_REQUEST['seq'])
 {
-	case '':	    
+	case ''	:	    
             if(_shn_lc_issetdblc())
             {
             	$locale = _shn_lc_getdblc();
