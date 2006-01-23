@@ -2,5 +2,5 @@
 
 for i in check_php_*
 do
-   ./find_phpcode $1 | ./$i
+   ./find_phpcode $* | ./$i
 done

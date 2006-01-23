@@ -1,0 +1,2 @@
+#!/bin/bash
+./check_php ../../mod ../../inc ../../www ../../conf ../../inst
