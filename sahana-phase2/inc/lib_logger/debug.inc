@@ -1,15 +1,12 @@
 <?php
 /**
- * debug.inc
- * debugger
+ * debug 
+ * 
+ * @param mixed $message 
+ * @access public
+ * @return void
  */
-
-	/**
-	 * output debug messages
-	 */
-
-	
-	function debug($message){
+function debug($message){
 		global $conf;
 		$logdate= date("jS F Y");
 		$logtime= date("G:i:s");
@@ -21,9 +18,18 @@
 			echo $message_text;
 		}
 		
-	}
+}
 
-	function shn_file_insert_log($date,$time,$message){
+/**
+ * shn_file_insert_log 
+ * 
+ * @param mixed $date 
+ * @param mixed $time 
+ * @param mixed $message 
+ * @access public
+ * @return void
+ */
+function shn_file_insert_log($date,$time,$message){
 		global $conf;
 	  $filename=$conf['debug_file_path'];
 	  $fp=fopen($filename,"a");
@@ -31,5 +37,5 @@
 		fwrite($fp,$message);
 		flock($fp,3); //release lock
 		fclose($fp);					
-	}
+}
 ?>
