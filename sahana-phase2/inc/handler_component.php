@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_component.php,v 1.1 2005-10-11 04:58:48 janakawicks Exp $ */
+/* $Id: handler_component.php,v 1.2 2006-01-23 11:05:05 janakawicks Exp $ */
 
 /**
 *
@@ -14,6 +14,15 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+/**
+ * show_component 
+ * 
+ * @param mixed $body 
+ * @param string $title 
+ * @param string $options 
+ * @access public
+ * @return void
+ */
 function show_component($body, $title='Component', $options=array('title'=>true))
 {
     global $conf;
