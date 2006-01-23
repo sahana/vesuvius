@@ -1,4 +1,13 @@
 <?php
+/**
+ * shn_config_update 
+ * 
+ * @param mixed $modify 
+ * @param mixed $config_file 
+ * @param mixed $output_file 
+ * @access public
+ * @return void
+ */
 function shn_config_update($modify, $config_file, $output_file)
 {
     global $global;
