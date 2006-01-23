@@ -21,11 +21,14 @@
 $error_container = array();
 
 /**
-* Display Errors
-* @param bool $clean_erros clean the error container 
-* @param bool $exit Exit the script execution 
-*/
-
+ * display_errors 
+ * 
+ * @param mixed $return 
+ * @param mixed $clean_errors 
+ * @param mixed $exit 
+ * @access public
+ * @return void
+ */
 function display_errors($return=false,$clean_errors=true,$exit=false)
 {
     global $error_container;
@@ -63,9 +66,12 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
 }
 
 /**
-* Add Errors to the container
-* @param string $error Error Message to display
-*/
+ * add_error 
+ * 
+ * @param mixed $error 
+ * @access public
+ * @return void
+ */
 function add_error($error)
 {
 	global $error_container;
@@ -74,24 +80,39 @@ function add_error($error)
     else
         $error_container[] = $error;
 }	
+/**
+ * add_error_debug 
+ * 
+ * @param mixed $file 
+ * @param mixed $line 
+ * @param mixed $intNumber 
+ * @param mixed $strmessage 
+ * @access public
+ * @return void
+ */
 function add_error_debug($file,$line,$intNumber,$strmessage)
 {
 	global $error_container;
 	array_push($error_container,array($file,$line,$intNumber,$strmessage));
 }
-/** 
-* Remove Error from the container
-* @param integer $index
-* @todo Need to implement
-*/
+/**
+ * remove_error 
+ * 
+ * @param mixed $index 
+ * @access public
+ * @return void
+ */
 function remove_error($index)
 {
 	
 }
 
-/** 
-* Clean the error container
-*/
+/**
+ * clean_errors 
+ * 
+ * @access public
+ * @return void
+ */
 function clean_errors()
 {
 	global $error_container;
@@ -99,8 +120,11 @@ function clean_errors()
 }
 
 /**
-* Return Errors
-*/
+ * return_errors 
+ * 
+ * @access public
+ * @return void
+ */
 function return_errors()
 {
 	global $error_container;
