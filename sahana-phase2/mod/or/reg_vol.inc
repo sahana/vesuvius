@@ -1,6 +1,5 @@
 <?php
-/*
-*
+/**Registration related forms for Volunteers of the Organization Registry 
 *
 * PHP version 4 and 5
 *
@@ -8,10 +7,10 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
+* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
+* @package    sahana
+* @subpackage or
 */
 
 global $global;

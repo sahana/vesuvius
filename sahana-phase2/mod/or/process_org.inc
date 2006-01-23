@@ -1,7 +1,5 @@
 <?php
-/*
-*
-* Sahana HTML form handler
+/**Processing functions(add ,edit,delete,ect) for Organizations of the Organization Registry 
 *
 * PHP version 4 and 5
 *
@@ -9,10 +7,10 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
+* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
+* @package    sahana
+* @subpackage or
 */
 function _shn_or_reg_org_cr()
 {
