@@ -16,6 +16,13 @@
 */
 
 // function to deal with additional options such as <BR> and is required 
+/**
+ * shn_form_extra_opts 
+ * 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
 function shn_form_extra_opts($extra_opts)
 {
     // output a required flag
@@ -27,8 +34,16 @@ function shn_form_extra_opts($extra_opts)
     }
 // Open and close a form section
 
-function shn_form_fopen($act, $mod = null, $form_opts =
-array('req_message'=>true))
+/**
+ * shn_form_fopen 
+ * 
+ * @param mixed $act 
+ * @param mixed $mod 
+ * @param string $form_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true))
 {
     global $global;
     if ( null == $mod ) $mod = $global['module'];
@@ -44,6 +59,12 @@ array('req_message'=>true))
 <?php
 }
 
+/**
+ * shn_form_fclose 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_form_fclose()
 { ?>
     </form>
@@ -51,6 +72,13 @@ function shn_form_fclose()
 <?php
 }
 
+/**
+ * shn_form_submit 
+ * 
+ * @param mixed $name 
+ * @access public
+ * @return void
+ */
 function shn_form_submit($name)
 { ?>
     <input type="submit" value="<?=$name?>"/>
@@ -59,6 +87,13 @@ function shn_form_submit($name)
 
 // Open and close a fieldset, which is a group of fields
 
+/**
+ * shn_form_fsopen 
+ * 
+ * @param mixed $label 
+ * @access public
+ * @return void
+ */
 function shn_form_fsopen($label = null)
 { ?>
     <fieldset>
@@ -66,6 +101,12 @@ function shn_form_fsopen($label = null)
 <?php
 }
 
+/**
+ * shn_form_fsclose 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_form_fsclose()
 { ?>
     </fieldset>
@@ -74,6 +115,14 @@ function shn_form_fsclose()
 
 // enter the fields
 
+/**
+ * shn_form_button 
+ * 
+ * @param mixed $name 
+ * @param mixed $button_opts 
+ * @access public
+ * @return void
+ */
 function shn_form_button($name, $button_opts = null)
                         
 {
@@ -82,8 +131,17 @@ function shn_form_button($name, $button_opts = null)
 <?php
 }
 
-function shn_form_text($label, $name, $text_opts = null, 
-                        $extra_opts = null )
+/**
+ * shn_form_text 
+ * 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param mixed $text_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     if(get_magic_quotes_gpc())
@@ -95,6 +153,13 @@ function shn_form_text($label, $name, $text_opts = null,
     shn_form_extra_opts($extra_opts);
 }
 
+/**
+ * shn_form_hidden 
+ * 
+ * @param mixed $hidden_vars 
+ * @access public
+ * @return void
+ */
 function shn_form_hidden($hidden_vars) 
 {
     foreach ($hidden_vars as $name => $value) {
@@ -104,8 +169,17 @@ function shn_form_hidden($hidden_vars)
     }
 }
 
-function shn_form_checkbox($label, $name, $text_opts = null, 
-                        $extra_opts = null)
+/**
+ * shn_form_checkbox 
+ * 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param mixed $text_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
@@ -116,6 +190,17 @@ function shn_form_checkbox($label, $name, $text_opts = null,
 }
 
 
+/**
+ * shn_form_select 
+ * 
+ * @param mixed $options 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param string $select_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
 function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
@@ -138,6 +223,17 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
     shn_form_extra_opts($extra_opts);
 } 
 
+/**
+ * shn_form_radio 
+ * 
+ * @param mixed $options 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param string $select_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
 function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
@@ -161,8 +257,17 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 
 
 // create a select field based on field options
-function shn_form_opt_select($opt_field, $label, 
-                                $select_opts = "", $extra_opts = null)
+/**
+ * shn_form_opt_select 
+ * 
+ * @param mixed $opt_field 
+ * @param mixed $label 
+ * @param string $select_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
 
@@ -190,8 +295,17 @@ function shn_form_opt_select($opt_field, $label,
 } 
 
 // create a select field based on field options
-function shn_form_opt_multi_select($opt_field, $label, 
-                                $select_opts = "", $extra_opts = null)
+/**
+ * shn_form_opt_multi_select 
+ * 
+ * @param mixed $opt_field 
+ * @param mixed $label 
+ * @param string $select_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
 
@@ -219,6 +333,13 @@ function shn_form_opt_multi_select($opt_field, $label,
     shn_form_extra_opts($extra_opts);
 } 
 
+/**
+ * shn_form_opt_checkbox 
+ * 
+ * @param mixed $opt_field 
+ * @access public
+ * @return void
+ */
 function shn_form_opt_checkbox($opt_field){
     global $global;
 		$value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
@@ -235,8 +356,17 @@ function shn_form_opt_checkbox($opt_field){
    		     }
 }
 
-function shn_form_textarea($label, $name, $text_opts = null, 
-                        $extra_opts = null)
+/**
+ * shn_form_textarea 
+ * 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param mixed $text_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_textarea($label, $name, $text_opts = null, $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     if(get_magic_quotes_gpc())
@@ -249,8 +379,16 @@ function shn_form_textarea($label, $name, $text_opts = null,
     shn_form_extra_opts($extra_opts);
 }
 
-function shn_form_upload($label, $name,
-                        $extra_opts = null)
+/**
+ * shn_form_upload 
+ * 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_upload($label, $name, $extra_opts = null)
 {
 ?>
     <label><?=$label?></label>
@@ -259,8 +397,16 @@ function shn_form_upload($label, $name,
     shn_form_extra_opts($extra_opts);
 }
 
-function shn_form_label($label, $caption,
-                        $extra_opts = null)
+/**
+ * shn_form_label 
+ * 
+ * @param mixed $label 
+ * @param mixed $caption 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_label($label, $caption, $extra_opts = null)
 {
     if(get_magic_quotes_gpc())
         $caption = stripslashes($caption);
@@ -271,8 +417,17 @@ function shn_form_label($label, $caption,
     shn_form_extra_opts($extra_opts);
 }
 
-function shn_form_password($label, $name, $text_opts = null, 
-                        $extra_opts = null)
+/**
+ * shn_form_password 
+ * 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param mixed $text_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
@@ -282,6 +437,15 @@ function shn_form_password($label, $name, $text_opts = null,
     shn_form_extra_opts($extra_opts);
 }
 
+/**
+ * shn_form_date 
+ * 
+ * @param mixed $label 
+ * @param string $name 
+ * @param mixed $initdate 
+ * @access public
+ * @return void
+ */
 function shn_form_date($label, $name = 'date', $initdate = null ) 
 {
     ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
