@@ -21,6 +21,13 @@
 
 //include(actions.inc);
 
+/**
+ * shn_log_event 
+ * 
+ * @param mixed $message 
+ * @access public
+ * @return void
+ */
 function shn_log_event($message)
 {
      
@@ -52,17 +59,27 @@ function shn_log_event($message)
 	  } // end of level_catch
 }
 
-	/**
-		* insert log entry into database
-		* connection is already open
-		* values entered via adodb
-	*/
-	function _shn_db_insert_array($userid,$userlogid,$message_text,$loglevel,$date,$time,$module){
+/**
+ * insert log entry into database
+ * connection is already open
+ * values entered via adodb
+ * 
+ * @param mixed $userid 
+ * @param mixed $userlogid 
+ * @param mixed $message_text 
+ * @param mixed $loglevel 
+ * @param mixed $date 
+ * @param mixed $time 
+ * @param mixed $module 
+ * @access protected
+ * @return void
+ */
+function _shn_db_insert_array($userid,$userlogid,$message_text,$loglevel,$date,$time,$module){
 		global $conf, $global;
 		$table='cre_actionlog';
 		$id=$global['db']->GenId();
 		$query="insert into $table values($id,$userid,$userlogid,$message_text,$loglevel,$module)";
 		@$result=$global['db']->Execute($query) or die ("Error in query: $query".$global['db']->ErrorMsg());
-	}
+}
 	
 ?>
