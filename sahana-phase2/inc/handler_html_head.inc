@@ -15,6 +15,12 @@
 
 shn_display_html_head();
 
+/**
+ * shn_display_html_head 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_display_html_head() 
 {
     global $conf;
