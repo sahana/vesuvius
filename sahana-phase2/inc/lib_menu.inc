@@ -14,6 +14,15 @@
 */
 
 // Main menu template helper
+/**
+ * shn_mainmenuitem 
+ * 
+ * @param mixed $action 
+ * @param mixed $desc 
+ * @param mixed $module 
+ * @access public
+ * @return void
+ */
 function shn_mainmenuitem($action, $desc, $module = null ) 
 { 
     global $global;
@@ -24,6 +33,13 @@ function shn_mainmenuitem($action, $desc, $module = null )
 }
 
 
+/**
+ * shn_mainmenuopen 
+ * 
+ * @param mixed $desc 
+ * @access public
+ * @return void
+ */
 function shn_mainmenuopen($desc ) 
 {   
 ?>
@@ -33,6 +49,12 @@ function shn_mainmenuopen($desc )
 <?php
 }
 
+/**
+ * shn_mainmenuclose 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mainmenuclose() 
 {   
 ?>
@@ -41,6 +63,15 @@ function shn_mainmenuclose()
 <?php
 }
 
+/**
+ * shn_mod_menuitem 
+ * 
+ * @param mixed $action 
+ * @param mixed $desc 
+ * @param mixed $module 
+ * @access public
+ * @return void
+ */
 function shn_mod_menuitem($action, $desc, $module = null ) 
 { 
     global $global;
@@ -51,6 +82,13 @@ function shn_mod_menuitem($action, $desc, $module = null )
 }
 
 
+/**
+ * shn_mod_menuopen 
+ * 
+ * @param mixed $desc 
+ * @access public
+ * @return void
+ */
 function shn_mod_menuopen($desc ) 
 {   
 ?>
@@ -60,6 +98,12 @@ function shn_mod_menuopen($desc )
 <?php
 }
 
+/**
+ * shn_mod_menuclose 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_mod_menuclose() 
 {   
 ?>
