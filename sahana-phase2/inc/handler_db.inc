@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.8 2005-12-23 09:14:43 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.9 2006-01-23 11:08:22 janakawicks Exp $ */
 
 /**
 *
@@ -32,6 +32,13 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 #    $global['db']->LogSQL();
 /* }}} */
 
+/**
+ * shn_db_clean 
+ * 
+ * @param mixed $str 
+ * @access public
+ * @return void
+ */
 function shn_db_clean($str)
 {
     global $global;
@@ -40,8 +47,14 @@ function shn_db_clean($str)
     return $str;
 }
 
-/** 
+/**
  * DB Insert and update Array functions 
+ * 
+ * @param mixed $arr 
+ * @param mixed $table 
+ * @param mixed $key 
+ * @access public
+ * @return void
  */
 function shn_db_update($arr,$table, $key){
     global $global;
@@ -64,6 +77,16 @@ function shn_db_update($arr,$table, $key){
 #    echo $sql;
 }
 
+/**
+ * DB Insert and update Array functions 
+ * 
+ * @param mixed $arr 
+ * @param mixed $table 
+ * @param mixed $audit 
+ * @param string $primary_field 
+ * @access public
+ * @return void
+ */
 function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
     global $global,$conf;
 
@@ -117,6 +140,14 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
 
 }
 
+/**
+ * shn_db_insert_phonetic 
+ * 
+ * @param mixed $name 
+ * @param mixed $pgl_uuid 
+ * @access public
+ * @return void
+ */
 function shn_db_insert_phonetic($name,$pgl_uuid)
 {
     global $global;
