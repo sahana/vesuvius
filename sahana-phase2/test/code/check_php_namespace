@@ -1,0 +1,65 @@
+#!/usr/bin/perl -w
+
+#&validateArgs;
+
+# read int he list of files
+
+print "Running Check: $0\n";
+print "Checking for conflicts in the PHP function name space:\n";
+%func_namespace = ();
+    
+while (<>) {
+
+    $file = $_;
+    # print "examining $file";
+    chomp($file);
+    open(SRC,"<$file") or die "File $file does not exist\n";
+
+    # your processing code goes here
+
+    while (<SRC>) {
+
+        if ( /^ *function +(\w+)\(/ ) {
+            
+            $func_name = $1;
+            #s/^([^_]*)_.*/$1/;
+            if ( $func_namespace{$func_name} ) {
+            
+                print " - $file : $func_name conflicts with $func_namespace{$func_name}\n";
+
+            } else {
+                
+                $func_namespace{$func_name} = "$file";
+                #print " - $func_name => $func_namespace{$func_name}\n";
+            }
+
+        }
+   
+    }
+
+    close(SRC);
+    
+}
+
+
+
+sub validateArgs {
+    if ( $#ARGV < 1 ) {
+        &showUsageNotice;
+        die "Invalid number of arguments \n";
+    }
+}
+
+sub showUsageNotice {
+print <<"END";
+    Replace string command
+    <file list command> | replacestr <from string> <to string>
+
+    example usage:
+        ls | replacestr this that
+        find . | replacestr foo bar
+
+END
+
+}
+
