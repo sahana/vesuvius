@@ -75,14 +75,16 @@ switch ($user_data["result"]){
 }
 
 
-
 /**
-*this function is a wrapper around session_start()
-*it includes checks to reduce session hijacking
-*therefore this function will also start or
-*retreive a session like session_start() ,but
-*with better security
-*/
+ * this function is a wrapper around session_start()
+ * it includes checks to reduce session hijacking
+ * therefore this function will also start or
+ * retreive a session like session_start() ,but
+ * with better security
+ * 
+ * @access public
+ * @return void
+ */
 function shn_session_start(){
 	//retrieves or starts a session
    session_start();
@@ -128,13 +130,16 @@ function shn_session_start(){
     }
 }
 /**
-* when the user changes privilege levels (e.g login)
-*its recommended to regenerate the session id
-*this function does that and in addition registers
-*,changes several session variables to reflect
-*change of privileges
-*/
-
+ * when the user changes privilege levels (e.g login)
+ * its recommended to regenerate the session id
+ * this function does that and in addition registers
+ * ,changes several session variables to reflect
+ * change of privileges
+ * 
+ * @param mixed $user_data 
+ * @access public
+ * @return void
+ */
 function shn_session_change($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
@@ -145,6 +150,13 @@ function shn_session_change($user_data){
     $_SESSION['user_id'] =$user_data["user_id"];
 	return ;
 }
+/**
+ * shn_session_end 
+ * 
+ * @param mixed $user_data 
+ * @access public
+ * @return void
+ */
 function shn_session_end($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
@@ -156,12 +168,16 @@ function shn_session_end($user_data){
 	return ;
 }
 /**
-*function which checks whether a Session variable is already registered
-*since there are many modules ,there is the possibility of one module
-*overiding a session varibale of another.
-*proper naming convention should reduce that, in addition its recommended
-*to call this function to see if the variable is already registered
-*/
+ * function which checks whether a Session variable is already registered
+ * since there are many modules ,there is the possibility of one module
+ * overiding a session varibale of another.
+ * proper naming convention should reduce that, in addition its recommended
+ * to call this function to see if the variable is already registered
+ * 
+ * @param mixed $sess_var 
+ * @access public
+ * @return void
+ */
 function shn_session_is_registered($sess_var){
     if(!isset($_SESSION[$sess_var])){
         return true;
