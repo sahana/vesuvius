@@ -14,6 +14,13 @@
 */
 
 
+/**
+ * _shn_lc_setdblc 
+ * 
+ * @param mixed $locale 
+ * @access protected
+ * @return void
+ */
 function _shn_lc_setdblc($locale)
 {
 	global $global;
@@ -28,6 +35,12 @@ function _shn_lc_setdblc($locale)
 	return true;
 }
 
+/**
+ * _shn_lc_getdblc 
+ * 
+ * @access protected
+ * @return void
+ */
 function _shn_lc_getdblc()
 {
 	global $global;
@@ -54,6 +67,12 @@ function _shn_lc_getdblc()
 	}
 }
 
+/**
+ * _shn_lc_issetdblc 
+ * 
+ * @access protected
+ * @return void
+ */
 function _shn_lc_issetdblc()
 {
 	global $global;
