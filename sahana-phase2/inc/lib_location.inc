@@ -17,6 +17,13 @@ global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/mod/or/lib_or.inc";
 
+/**
+ * shn_location_get_descendants 
+ * 
+ * @param mixed $loc 
+ * @access public
+ * @return void
+ */
 function shn_location_get_descendants($loc)
 {
     global $global;
@@ -36,6 +43,12 @@ function shn_location_get_descendants($loc)
 }
 
 
+/**
+ * shn_location_levels_form 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_location_levels_form()
 {
     global $global;
@@ -55,6 +68,13 @@ function shn_location_levels_form()
     return $options;
 }
 
+/**
+ * shn_or_get_parents 
+ * 
+ * @param mixed $child 
+ * @access public
+ * @return void
+ */
 function shn_or_get_parents($child)
 {
     global $global;
@@ -91,6 +111,13 @@ function shn_or_get_parents($child)
      return $loc_return;
 }
 
+/**
+ * shn_get_level 
+ * 
+ * @param mixed $loc 
+ * @access public
+ * @return void
+ */
 function shn_get_level($loc){
     global $global;
     $db=$global['db'];
@@ -99,6 +126,13 @@ function shn_get_level($loc){
     return $res->fields[0];
 }
 
+/**
+ * shn_is_last_level 
+ * 
+ * @param mixed $loc 
+ * @access public
+ * @return void
+ */
 function shn_is_last_level($loc){
     global $global;
     $db=$global['db'];
@@ -115,6 +149,12 @@ function shn_is_last_level($loc){
 
 }
 
+/**
+ * shn_get_last_level 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_get_last_level(){
     global $global;
     $db=$global['db'];
@@ -127,6 +167,13 @@ function shn_get_last_level(){
 
 }
 
+/**
+ * shn_location_jscript 
+ * 
+ * @param mixed $to 
+ * @access public
+ * @return void
+ */
 function shn_location_jscript($to){
     global $global;
     $fetch_server="xml.php?";
@@ -203,6 +250,15 @@ function shn_location_jscript($to){
 <?php
 }
 
+/**
+ * shn_location_form 
+ * 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @param mixed $value 
+ * @access public
+ * @return void
+ */
 function shn_location_form($from,$to,$value=NULL){
 	shn_location_jscript($to);
 	if($value!=NULL){
@@ -213,18 +269,40 @@ function shn_location_form($from,$to,$value=NULL){
 	shn_form_add_component_list($location_inf,$section=true,$legend='',$return=false,$default_val_req=$error);
 }
 
+/**
+ * shn_location 
+ * 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @access public
+ * @return void
+ */
 function shn_location($from,$to){
 	shn_location_jscript($to);
 	$location_inf = _shn_location_form($from,$to);  
 	return $location_inf ;
 }
 
+/**
+ * shn_location_parent 
+ * 
+ * @param mixed $parent 
+ * @param mixed $to 
+ * @access public
+ * @return void
+ */
 function shn_location_parent($parent,$to){
 	shn_location_jscript($to);
 	$location_inf = _shn_location_form_parent($parent,$to);  
 	return $location_inf ;
 }
 
+/**
+ * shn_location_all 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_location_all(){
     global $global;
     $db=$global['db'];
@@ -238,7 +316,17 @@ function shn_location_all(){
 	return $location_inf ;
 }
 
-function shn_location_form_org($from,$to,$value=NULL){
+/**
+ * shn_location_form_org 
+ * 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @param mixed $value 
+ * @access public
+ * @return void
+ */
+function shn_location_form_org($from,$to,$value=NULL)
+{
 	shn_location_jscript($to);
 	if($value!=NULL){
         $location_inf = _shn_location_form_value($from,$to,$value);  
@@ -248,7 +336,16 @@ function shn_location_form_org($from,$to,$value=NULL){
     shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
 }
 
-function _shn_location_form_parent($parent,$to){   
+/**
+ * _shn_location_form_parent 
+ * 
+ * @param mixed $parent 
+ * @param mixed $to 
+ * @access protected
+ * @return void
+ */
+function _shn_location_form_parent($parent,$to)
+{   
     global $global;
     $db=$global['db'];
     $loc=array();
@@ -289,7 +386,17 @@ function _shn_location_form_parent($parent,$to){
 
 
 
-function _shn_location_form_value($from,$to,$value){   
+/**
+ * _shn_location_form_value 
+ * 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @param mixed $value 
+ * @access protected
+ * @return void
+ */
+function _shn_location_form_value($from,$to,$value)
+{   
     global $global;
     $db=$global['db'];
     $loc=array();
@@ -337,7 +444,16 @@ function _shn_location_form_value($from,$to,$value){
 }
 
 
-function _shn_location_form($from,$to){   
+/**
+ * _shn_location_form 
+ * 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @access protected
+ * @return void
+ */
+function _shn_location_form($from,$to)
+{   
     global $global;
     $db=$global['db'];
     $loc=array(); 
@@ -377,7 +493,14 @@ function _shn_location_form($from,$to){
    return $loc;
 }
 
-function shn_location_add(){
+/**
+ * shn_location_add 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_location_add()
+{
     global $global;
     $db=$global['db'];
     $loc=$_POST{"loc_name"};
