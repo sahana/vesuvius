@@ -15,13 +15,23 @@
 
 
 /**
- * 
  * Dummy function to emulate the gettext function when gettext is not installed
+ * 
+ * @param mixed $string 
+ * @access public
+ * @return void
  */
 function gettext($string) {
     return $string;
 }
  
+/**
+ * _ 
+ * 
+ * @param mixed $string 
+ * @access protected
+ * @return void
+ */
 function _($string) {
     return $string;
 }
