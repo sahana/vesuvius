@@ -3,6 +3,15 @@
 include_once $global['approot']."/inc/lib_errors.inc";
 
 // Test if a field is between min and  max length
+/**
+ * shn_valid_len_range 
+ * 
+ * @param mixed $field 
+ * @param mixed $minlength 
+ * @param mixed $maxlength 
+ * @access public
+ * @return void
+ */
 function shn_valid_len_range($field, $minlength, $maxlength)
 {
    if ((strlen($field) > $minlength) && (strlen($field) < $maxlength))
@@ -13,6 +22,14 @@ function shn_valid_len_range($field, $minlength, $maxlength)
 }
 
 //zipcode validator 
+/**
+ * shn_valid_zipcode 
+ * 
+ * @param mixed $country 
+ * @param mixed $zipcode 
+ * @access public
+ * @return void
+ */
 function shn_valid_zipcode($country, $zipcode)
 {
   switch ($country)
@@ -95,6 +112,13 @@ function shn_valid_zipcode($country, $zipcode)
 
 
 // Check a phone number
+/**
+ * shn_valid_phone 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_valid_phone($field)
 {
    $validPhoneExpr = "^([0-9]{2,3}[ ]?)?[0-9]{4}[ ]?[0-9]{4}$";
@@ -110,6 +134,14 @@ function shn_valid_phone($field)
 
 
 // Check an email address
+/**
+ * shn_valid_email 
+ * 
+ * @param mixed $field 
+ * @param mixed $required 
+ * @access public
+ * @return void
+ */
 function shn_valid_email($field,$required=false)
 {
    if((!$required) && $field==NULL){
@@ -142,6 +174,14 @@ function shn_valid_email($field,$required=false)
    return true;
 }
 
+/**
+ * shn_valid_date 
+ * 
+ * @param mixed $date 
+ * @param string $pattern 
+ * @access public
+ * @return void
+ */
 function shn_valid_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
 {
     if(preg_match($pattern,$date))
@@ -150,6 +190,14 @@ function shn_valid_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
         return false;
 }
 
+/**
+ * shn_valid_number 
+ * 
+ * @param mixed $str 
+ * @param string $pattern 
+ * @access public
+ * @return void
+ */
 function shn_valid_number($str,$pattern='/^\d+$/')
 {
     if(preg_match($pattern,$date))
@@ -158,6 +206,13 @@ function shn_valid_number($str,$pattern='/^\d+$/')
         return false;
 }
 
+/**
+ * shn_is_null 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_is_null($field)
 {
     if ((null==$field)or (is_null($field))){
@@ -167,6 +222,14 @@ function shn_is_null($field)
     }
 }
 
+/**
+ * shn_is_opt_field 
+ * 
+ * @param mixed $opt_field 
+ * @param mixed $opt_value 
+ * @access public
+ * @return void
+ */
 function shn_is_opt_field($opt_field,$opt_value)
 {
     global $global;
@@ -177,6 +240,13 @@ function shn_is_opt_field($opt_field,$opt_value)
     else
         return false;
 }
+/**
+ * shn_is_location 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_is_location($field)
 {
     global $global;
@@ -186,10 +256,27 @@ function shn_is_location($field)
     else
         return false;
 }
+/**
+ * shn_clean 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_clean($field){
     return trim($field);
 }
 
+/**
+ * shn_validate_field 
+ * 
+ * @param mixed $field 
+ * @param mixed $desc 
+ * @param mixed $max_len 
+ * @param mixed $check_null 
+ * @access public
+ * @return void
+ */
 function shn_validate_field($field,$desc,$max_len,$check_null=false){
     if ($check_null And shn_is_null($field)){
         add_error($desc." is a Required Field, Please Enter an value.");
@@ -204,6 +291,17 @@ function shn_validate_field($field,$desc,$max_len,$check_null=false){
     }
 }
 
+/**
+ * shn_validate_opt_field 
+ * 
+ * @param mixed $type 
+ * @param mixed $field 
+ * @param mixed $desc 
+ * @param mixed $max_len 
+ * @param mixed $array 
+ * @access public
+ * @return void
+ */
 function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
     if (shn_validate_field($field,$desc,$max_len,true)){
         $i=0;
@@ -226,6 +324,13 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
     }
 }
 
+/**
+ * shn_validate_user_name 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_validate_user_name($field){
     if (shn_validate_field($field,"User Name",100,true)){
         if (shn_is_user($field)){
@@ -239,6 +344,13 @@ function shn_validate_user_name($field){
     }
 }
 
+/**
+ * shn_validate_password 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return void
+ */
 function shn_validate_password($field){
    //return true;
    $PWDPOLICY="password must adhere to following rules:
