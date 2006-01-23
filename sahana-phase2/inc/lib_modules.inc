@@ -14,6 +14,12 @@
 */
 
 // get all available modules regardless of weather they are enabled or not
+/**
+ * shn_get_module_names 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_get_module_names()
 {
     global $global;
@@ -30,6 +36,12 @@ function shn_get_module_names()
 }
 
 // get all modules that have admin pages
+/**
+ * shn_get_modules_with_admin 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_get_modules_with_admin()
 {
     global $global;
@@ -45,6 +57,12 @@ function shn_get_modules_with_admin()
     return $module_list; 
 }
 
+/**
+ * shn_include_module_conf 
+ * 
+ * @access public
+ * @return void
+ */
 function shn_include_module_conf()
 {
     global $global;
@@ -57,6 +75,14 @@ function shn_include_module_conf()
     }
 }
 
+/**
+ * shn_include_page_section 
+ * 
+ * @param mixed $section 
+ * @param mixed $module 
+ * @access public
+ * @return void
+ */
 function shn_include_page_section($section, $module=null)
 {
     global $global;
