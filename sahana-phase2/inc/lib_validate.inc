@@ -142,6 +142,7 @@ function shn_valid_phone($field)
  * @access public
  * @return void
  */
+
 function shn_valid_email($field,$required=false)
 {
    if((!$required) && $field==NULL){
@@ -182,14 +183,23 @@ function shn_valid_email($field,$required=false)
  * @access public
  * @return void
  */
-function shn_valid_date($date,$pattern='/^\d{4}-\d{2}-\d{2}$/')
-{
-    if(preg_match($pattern,$date))
-        return true;
-    else
-        return false;
+function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/')
+{    
+    if (shn_is_null($date)){
+        if ($check_null){
+            add_error($desc." is a Required Field, Please Enter an value.");
+            return false;
+        }
+    }
+    else {
+            if(preg_match($pattern,$date))
+                return true;
+            else{
+	            add_error($desc." You have to enter a Date (yyyy-mm-dd) for Date of Birth");
+                return false;
+            }
+    }
 }
-
 /**
  * shn_valid_number 
  * 
