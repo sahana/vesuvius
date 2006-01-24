@@ -8,10 +8,14 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
+
 
 global $global;
 $req_id = $_GET['req_id'];
@@ -22,9 +26,9 @@ $req_id = $_GET['req_id'];
 <?php
 if (is_req_open($req_id))
 {
-?>    
+?>
     <div id="">
-    <?php print _("Change Request Status") ?> 
+    <?php print _("Change Request Status") ?>
     <a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=closed">
     &lt;<?php print _("Close") ?>&gt;
     </a> | &lt;<?php print _("Open") ?>&gt;
@@ -35,11 +39,11 @@ else
 {
 ?>
     <div id="">
-    <?php print _("Change Request Status") ?> &lt;<?php print _("Close") ?>&gt; | 
+    <?php print _("Change Request Status") ?> &lt;<?php print _("Close") ?>&gt; |
     <a href="index.php?mod=rms&amp;act=cstat_req&amp;req_id=<?php print $req_id ?>&amp;stat=open">
     &lt;<?php print _("Open") ?>&gt;
     </a>
     </div>
 <?php
 }
-?> 
+?>

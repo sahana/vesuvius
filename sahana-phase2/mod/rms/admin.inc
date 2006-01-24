@@ -1,6 +1,6 @@
 <?php
 /**
-* Description for file
+* Sahana Request Management System configuration file
 *
 * PHP version 4 and 5
 *
@@ -8,10 +8,14 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
+
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -39,7 +43,7 @@ function shn_rms_adm_default()
 <?php print '<a href="index.php?mod=rms&act=adm_remove_priority">' . _("Remove Priority Type") . '</a>'?><br/>
 </div>
 </div>
-</div> 
+</div>
 
 <?php
 }
@@ -48,15 +52,15 @@ function shn_rms_adm_default()
 function check_frgn_key($table,$field,$value)
 {
     global $global;
-    
-    $sql = "SELECT $field FROM $table WHERE $field='$value'";    
+
+    $sql = "SELECT $field FROM $table WHERE $field='$value'";
     $rs = $global['db']->Execute($sql);
-    
+
     if (1 > $rs->RecordCount())
     {
         return false;
     }
-    
+
     return true;
 }
 
@@ -64,17 +68,17 @@ function check_frgn_key($table,$field,$value)
 /**
  * Add/Remove Item Category types
  */
- 
+
 
 
 function show_rms_categories_adm()
 {
     global $global;
-    
-    $sql = "SELECT * FROM rms_req_category";    
+
+    $sql = "SELECT * FROM rms_req_category";
     $recordSet_cat = $global['db']->Execute($sql);
-    
-    $rs = $recordSet_cat->getArray(); 
+
+    $rs = $recordSet_cat->getArray();
 ?>
 <div id ="result">
     <table>
@@ -84,16 +88,16 @@ function show_rms_categories_adm()
         <td width=""><?php print _("Description") ?></td>
     </thead>
     <tbody>
-    <?php 
+    <?php
         foreach($rs as $r)
         {
     ?>
-    <tr>        
+    <tr>
         <td><?php print  $r['cat_id'] ?></td>
         <td><?php print  $r['category'] ?></td>
         <td><?php print  $r['description'] ?></td>
     </tr>
-    <?php 
+    <?php
         }
     ?>
     </table>
@@ -103,54 +107,54 @@ function show_rms_categories_adm()
 
 function shn_rms_adm_add_category()
 {
-    
+
     shn_form_fopen("adm_add_cat",null);
-    
+
     shn_form_fsopen('Add Categories');
-    
+
     //shn_form_select(get_rms_catlist(),"category","category");
     shn_form_text('Category','cat_name','size="30"');
     shn_form_textarea('Description','cat_desc');
-    
+
     shn_form_fsclose();
     shn_form_submit('Add');
     shn_form_fclose();
     show_rms_categories_adm();
-    
+
 }
 
 function shn_rms_adm_add_cat()
 {
-    
+
     global $global;
     $name = $_POST["cat_name"];
     $desc = $_POST["cat_desc"];
     $error = false;
-    
+
     $sql = "SELECT category FROM rms_req_category WHERE category='$name'";
     $rs = $global['db']->Execute($sql);
-    
+
     if(trim($_POST["cat_name"])=='' || !isset($_POST["cat_name"]))
     {
     	_shn_rms_adderror("The Category cannot be blank please enter a " .
     			"valid Category");
     	$error = true;
     }
-    
+
     if(trim($_POST["cat_desc"])=='' || !isset($_POST["cat_desc"]))
     {
     	_shn_rms_adderror("The Category description cannot be blank please enter a " .
     			"valid Category description");
     	$error = true;
     }
-    
+
     if($error)
     {
     	_shn_rms_showerrors();
     }
     elseif (1 > $rs->RecordCount())
-    {     
-        $sql = "INSERT INTO rms_req_category (category,description) VALUES('$name','$desc')";    
+    {
+        $sql = "INSERT INTO rms_req_category (category,description) VALUES('$name','$desc')";
         $global['db']->Execute($sql);
         print _("category added successfully");
     }
@@ -158,35 +162,35 @@ function shn_rms_adm_add_cat()
     {
         print _("The category already exists");
     }
-    
+
     shn_rms_adm_add_category();
-    
+
 }
 
 
 function shn_rms_adm_remove_category()
 {
-    
+
     shn_form_fopen("adm_remove_cat",null);
-    
+
     shn_form_fsopen('Remove Categories');
-    
+
     shn_form_select(get_rms_catlist(),"Category","cat_id");
-    
+
     shn_form_fsclose();
     shn_form_submit('Remove');
     shn_form_fclose();
     show_rms_categories_adm();
-    
+
 }
 
 function shn_rms_adm_remove_cat()
 {
     global $global;
     $cat_id = $_POST["cat_id"];
-    
+
     if (!check_frgn_key("rms_req_item","cat_id",$cat_id))
-    {     
+    {
         $sql = "DELETE FROM rms_req_category WHERE cat_id='$cat_id'";
         $rs = $global['db']->Execute($sql);
         print _("Category removed successfully");
@@ -195,7 +199,7 @@ function shn_rms_adm_remove_cat()
     {
         print _("This category cannot be removed, because it is in use atm");
     }
-    
+
     shn_rms_adm_remove_category();
 }
 
@@ -205,11 +209,11 @@ function shn_rms_adm_remove_cat()
 function get_rms_priolist()
 {
     global $global;
-    
-    $sql = "SELECT priority_id,priority FROM rms_req_priority";    
+
+    $sql = "SELECT priority_id,priority FROM rms_req_priority";
     $recordSet_prio = $global['db']->Execute($sql);
-    
-    $recs = $recordSet_prio->getArray(); 
+
+    $recs = $recordSet_prio->getArray();
     $list = array();
     foreach ($recs as $rec)
     {
@@ -221,11 +225,11 @@ function get_rms_priolist()
 function show_rms_priorities()
 {
     global $global;
-    
-    $sql = "SELECT * FROM rms_req_priority";    
+
+    $sql = "SELECT * FROM rms_req_priority";
     $recordSet_prio = $global['db']->Execute($sql);
-    
-    $rs = $recordSet_prio->getArray(); 
+
+    $rs = $recordSet_prio->getArray();
 ?>
 <div id ="result">
     <table>
@@ -235,16 +239,16 @@ function show_rms_priorities()
         <td width=""><?php print _("Description") ?></td>
     </thead>
     <tbody>
-    <?php 
+    <?php
         foreach($rs as $r)
         {
     ?>
-    <tr>        
+    <tr>
         <td><?php print  $r['priority_id'] ?></td>
         <td><?php print  $r['priority'] ?></td>
         <td><?php print  $r['description'] ?></td>
     </tr>
-    <?php 
+    <?php
         }
     ?>
     </table>
@@ -254,55 +258,55 @@ function show_rms_priorities()
 
 function shn_rms_adm_add_priority()
 {
-    
+
     shn_form_fopen("adm_add_prio",null);
-    
+
     shn_form_fsopen('Add Priority Type');
-    
+
     shn_form_text('Priority','priority','size="30"');
     shn_form_textarea('Description','prio_desc');
-    
+
     shn_form_fsclose();
     shn_form_submit('Add');
     shn_form_fclose();
     show_rms_priorities();
-    
+
 }
 
 function shn_rms_adm_add_prio()
 {
-    
+
     global $global;
     $prio = $_POST["priority"];
     //print $name;
     $desc = $_POST["prio_desc"];
     $error = false;
-    
+
     global $global;
     $sql = "SELECT priority FROM rms_req_priority WHERE priority='$prio'";
     $rs = $global['db']->Execute($sql);
-    
+
     if(trim($_POST["priority"])=='' || !isset($_POST["priority"]))
     {
     	_shn_rms_adderror("The priority cannot be blank please enter a " .
     			"valid priority");
-    	$error = true;  	
+    	$error = true;
     }
-    
+
     if(trim($_POST["prio_desc"])=='' || !isset($_POST["prio_desc"]))
     {
     	_shn_rms_adderror("The priority description cannot be blank please enter a " .
     			"valid priority description");
-    	$error = true;  	
+    	$error = true;
     }
-    
+
     if($error)
     {
     	_shn_rms_showerrors();
     }
     elseif (1 > $rs->RecordCount())
-    {     
-        $sql = "INSERT INTO rms_req_priority (priority,description) VALUES('$prio','$desc')";    
+    {
+        $sql = "INSERT INTO rms_req_priority (priority,description) VALUES('$prio','$desc')";
         $global['db']->Execute($sql);
         print _("Priority type added successfully");
     }
@@ -310,35 +314,35 @@ function shn_rms_adm_add_prio()
     {
         print _("The Priority type already exists");
     }
-    
+
     shn_rms_adm_add_priority();
-    
+
 }
 
 
 function shn_rms_adm_remove_priority()
 {
-    
+
     shn_form_fopen("adm_remove_prio",null);
-    
+
     shn_form_fsopen('Remove Priority Type');
-    
+
     shn_form_select(get_rms_priolist(),"Priority","priority");
-    
+
     shn_form_fsclose();
     shn_form_submit('Remove');
     shn_form_fclose();
     show_rms_priorities();
-    
+
 }
 
 function shn_rms_adm_remove_prio()
 {
     global $global;
     $prio = $_POST["priority"];
-    
+
     if (!check_frgn_key("rms_req_item","priority_id",$prio))
-    {     
+    {
         $sql = "DELETE FROM rms_req_priority WHERE priority_id='$prio'";
         $rs = $global['db']->Execute($sql);
         print _("Priority Type removed successfully");
@@ -347,7 +351,7 @@ function shn_rms_adm_remove_prio()
     {
         print _("This Priority type cannot be removed, because it is in use at the moment");
     }
-    
+
     shn_rms_adm_remove_priority();
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* Description for file
+* Sahana Request Management System main page
 *
 * PHP version 4 and 5
 *
@@ -8,10 +8,13 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
@@ -23,15 +26,15 @@ require_once 'lib_rms.inc';
 /**
  * RMS main menu
  */
-function shn_rms_mainmenu() 
+function shn_rms_mainmenu()
 {
     global $global;
     $module = $global['module'];
     $user_id = $global['person_id'];
-    
+
 ?>
-    
-   <div id="modmenuwrap"> 
+
+   <div id="modmenuwrap">
         <h2><?php print _("RMS Module Actions"); ?></h2>
             <ul id="modmenu">
                 <li>
@@ -39,7 +42,7 @@ function shn_rms_mainmenu()
                     <?php print _("Home"); ?></a>
                 </li>
                 <li><a href="#">Requests</a></li>
-                <ul>                    
+                <ul>
 	                <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
 	                <?php print _("New Request"); ?></a>
 	                </li>
@@ -50,8 +53,8 @@ function shn_rms_mainmenu()
                     <?php print _("Search Requests"); ?></a>
                     </li>
                 </ul>
-                <li><a href="#">Pledges</a></li>       
-                <ul>                    
+                <li><a href="#">Pledges</a></li>
+                <ul>
                     <li><a href="index.php?mod=<?=$module?>&amp;act=new_plg">
                     <?php print _("Add Pledges"); ?></a>
                     </li>
@@ -61,12 +64,12 @@ function shn_rms_mainmenu()
                     <li><a href="index.php?mod=<?=$module?>&amp;act=vw_plgs">
                     <?php print _("List Pledges"); ?></a>
                     </li>
-                </ul>          
+                </ul>
             </ul>
     </div> <!-- /modmainwrap -->
     <?php
-    include $global['approot']."/inc/handler_mainmenu.inc"; 
-} 
+    include $global['approot']."/inc/handler_mainmenu.inc";
+}
 
 /**
  * The Default RMS homepage

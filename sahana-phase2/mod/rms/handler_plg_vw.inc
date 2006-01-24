@@ -8,15 +8,18 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
 
 
     global $global;
-    
+
     shn_form_fopen("vw_plg",null,array('req_message'=>false));
 
     shn_form_fsopen('Pledge ID');
@@ -26,14 +29,14 @@
     shn_form_submit('View');
     shn_form_fclose();
     print "<br/>";
-    
+
     if ($_POST['seq'] == 'view1')
     {
         $plg_id = $_POST['plg_id'];
-        
-        $sql = "SELECT * FROM rms_pledge WHERE plg_id=$plg_id";    
+
+        $sql = "SELECT * FROM rms_pledge WHERE plg_id=$plg_id";
         $rs_r = $global['db']->Execute($sql);
-        
+
         if ($rs_r == null || 1 > $rs_r->RecordCount())
         {
             _shn_rms_adderror("<em>'$plg_id'</em> is not a valid pledge id");
@@ -43,7 +46,7 @@
         {
             $recordSet = $rs_r;
 ?>
-  
+
          <div id ="result">
         <table>
         <thead>
@@ -56,11 +59,11 @@
             <td><?php print _("View") ?></td>
         </thead>
         <tbody>
-<?php 
+<?php
         while (!$recordSet->EOF)
-        {   
+        {
 ?>
-    
+
         <tr>
         <td><?php print  $recordSet->fields['plg_id'] ?></td>
         <td><?php print  $recordSet->fields['date'] ?></td>

@@ -8,10 +8,14 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
+
 
 global $global;
 $req_id = $_GET['req_id'];
@@ -24,38 +28,38 @@ function clear_donor()
     $_SESSION['rms_donor_contact'] = '';
     $_SESSION['rms_donor_comments'] = '';
 }
- 
+
 if ($_GET['seq'] == 'add' && rms_validate_mform(2))
 {
     $itm = $_POST['ff_item'];
     $user = $global['person_id'];
     $qty = $_POST['ff_quantity'];
     $stat = $_POST['ff_status'];
-    
-    
+
+
     $d_id = $_SESSION['rms_donor_id'];
     $d_name = $_POST['ff_d_name'];
     $d_con = $_POST['ff_d_contact'];
     $d_comm = $_POST['ff_d_comments'];
     $d_same = $_POST['ff_same_donor'];
-    
-    
-    
+
+
+
     if ($d_id=='')
     {
         $sql = "INSERT INTO rms_req_donor (name,contact,comments) " .
                "VALUES ('$d_name','$d_con','$d_comm')";
-                
+
         if ($global['db']->Execute($sql) === false)
         {
             $msg = $global['db']->ErrorMsg();
             db_dbug($sql,$msg);
         }
-        
+
         $d_id = $global['db']->Insert_ID();
-        
+
     }
-    
+
     if ($d_same == 'same_donor')
     {
         $_SESSION['rms_donor_id'] = $d_id;
@@ -63,10 +67,10 @@ if ($_GET['seq'] == 'add' && rms_validate_mform(2))
         $_SESSION['rms_donor_contact'] = $d_con;
         $_SESSION['rms_donor_comments'] = $d_comm;
     }
-    
+
     $sql = "INSERT INTO rms_req_ff (req_item_id,user_id,quantity,ff_status,req_donor_id) " .
             "VALUES ($itm, $user, $qty, '$stat', $d_id)";
-    
+
     if ($global['db']->Execute($sql) === false)
     {
         $msg = $global['db']->ErrorMsg();

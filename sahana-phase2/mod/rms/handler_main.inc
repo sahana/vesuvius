@@ -8,10 +8,14 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
+
 
 global $global;
 require_once('lib_rms.inc');
@@ -29,12 +33,12 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 <div id="home">
 <h2><?php print _("Request Managment System")?></h2>
 <p>
-<?php print 
-		_("The Sahana request management system is a central online repository where all 
-		relief organizations, relief works, government agents and camps can effectively 
-		match requests of aid and supplies to pledges of support. It effectively looks like an 
+<?php print
+		_("The Sahana request management system is a central online repository where all
+		relief organizations, relief works, government agents and camps can effectively
+		match requests of aid and supplies to pledges of support. It effectively looks like an
 		online aid trading system tracking request to fulfillment. Features include:"
-		) 
+		)
 ?>
 </p>
 <ul>
@@ -68,7 +72,7 @@ $user_creq_count = count_user_reqstat($user_id,'closed');
 <?php print _("Org. Name") . " : "?><br/>
 <?php print _("Org. ID") . " : " . $org_id?><br/>
 <br/>
-<strong><?php print _("Total Requests") . " : " . $org_req_count?> (<a href="index.php?mod=rms&act=vw_req&user=user"><?php print _("View") ?></a>)</strong> 
+<strong><?php print _("Total Requests") . " : " . $org_req_count?> (<a href="index.php?mod=rms&act=vw_req&user=user"><?php print _("View") ?></a>)</strong>
 <br/>
 </div>
 <br/>

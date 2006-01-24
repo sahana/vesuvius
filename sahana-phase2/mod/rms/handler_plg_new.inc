@@ -8,10 +8,13 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
 
 function __show_confirm()
@@ -29,7 +32,7 @@ function __show_confirm()
 		print get_category_name($_POST['cat_id']);
 		if($_POST['cat_id'] == 4)
 			print " [" . $_POST['other_cat'] . "]";
-		
+
 ?>
 </td></tr>
 <tr><td><?=_("Item"); ?></td><td><?=$_POST['item']?></td></tr>
@@ -38,7 +41,7 @@ function __show_confirm()
 		print get_unit_name($_POST['units']);
 		if($_POST['units'] == get_unit_id("Other"))
 			print " [" . $_POST['other_units'] . "]";
-		
+
 ?>
 </td></tr>
 <tr><td><?=_("Quantity"); ?></td><td><?=$_POST['quantity']?></td></tr>
@@ -55,81 +58,81 @@ if ($_POST['seq'] == 'confirm')
 {
     shn_form_fopen("new_plg",null,array('req_message'=>false));
     shn_form_fsopen('Confirmation');
-    
+
 
 
     if(!isset($_POST['name']) || $_POST['contact'] == '')
     {
         _shn_rms_adderror("Please enter a name");
     }
-    
+
     if(!isset($_POST['contact']) || $_POST['contact'] == '')
     {
         _shn_rms_adderror("Please add a contact");
     }
-    
+
     if(!isset($_POST['item']) || $_POST['item'] == '')
     {
         _shn_rms_adderror("Please add a item");
     }
-    
+
     if(get_category_name($_POST['cat_id']) == 'Other')
     {
     	if(!isset($_POST['other_cat']) || $_POST['other_cat'] == '')
         	_shn_rms_adderror(_("You have to enter a category or select a valid category from the list"));
     }
-    
+
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
     {
         _shn_rms_adderror(_("Please add a quantity"));
     }
-    
+
     if(!is_numeric($_POST['quantity']))
     {
         _shn_rms_adderror(_("The quantity has to be a numeric value"));
     }
-    
+
     if(0<_shn_rms_errorcount())
     {
         _shn_rms_adderror(_("Please go <em>Back</em> and correct the errors"));
         _shn_rms_showerrors();
-        
-        #displaying the entered data for confirmation 
+
+        #displaying the entered data for confirmation
         __show_confirm();
-        
+
         #Back button
         shn_form_fopen("new_plg",null,array('req_message'=>false));
-        shn_form_hidden(array('seq'=>''));  
+        shn_form_hidden(array('seq'=>''));
         unset($_POST['seq']);
-        shn_form_hidden($_POST);   
+        shn_form_hidden($_POST);
         shn_form_submit(_("Back"),"shorter");
         shn_form_fclose();
         return false;
     }
-	
+
 	__show_confirm();
-	
+
     print _("If the information is correct please press <strong>Finish</strong><br/>");
     shn_form_hidden($_POST);
-    shn_form_hidden(array('seq'=>'add')); 
-    shn_form_submit('Finish');   
-    
+    shn_form_hidden(array('seq'=>'add'));
+    shn_form_submit('Finish');
+
     shn_form_fclose();
-    
-    print _("If you need to change some details"); 
-    print _("please go bak and change it"); 
+
+    print _("If you need to change some details");
+    print _("please go bak and change it");
 	#Back button
     shn_form_fopen("new_plg",null,array('req_message'=>false));
-    shn_form_hidden(array('seq'=>''));  
+    shn_form_hidden(array('seq'=>''));
     unset($_POST['seq']);
-    shn_form_hidden($_POST);   
+    shn_form_hidden($_POST);
     shn_form_submit(_("Back"),"shorter");
     shn_form_fsclose();
     shn_form_fclose();
 
     $_SESSION['rms_plg_added'] = false;
-    
-       
+
+
 }
 elseif ($_POST['seq'] == 'add')
 {
@@ -143,7 +146,7 @@ elseif ($_POST['seq'] == 'add')
     $item  = $_POST['item'];
     $quantity  = $_POST['quantity'];
     $unit_id = $_POST['units'];
-    
+
     if($cat_id==get_cat_id("Other") && !$_SESSION['rms_plg_added'])
     {
     	$other_cat = $_POST['other_cat'];
@@ -153,9 +156,9 @@ elseif ($_POST['seq'] == 'add')
     		_shn_rms_adderror(_("Error inserting new Category"));
     		return false;
     	}
-    	
+
     }
-    
+
     if($unit_id==get_unit_id("Other") && !$_SESSION['rms_plg_added'])
     {
     	$other_units = $_POST['other_units'];
@@ -165,12 +168,12 @@ elseif ($_POST['seq'] == 'add')
     		_shn_rms_adderror(_("Error inserting new Unit"));
     		return false;
     	}
-    	
+
     }
-    
+
     $sql = "INSERT INTO rms_req_donor (name, contact, comments) " .
             "VALUES ('$name', '$contact', '$comments')";
-    
+
     if (!$_SESSION['rms_plg_added'] && $global['db']->Execute($sql) === false)
     {
         $msg = $global['db']->ErrorMsg();
@@ -184,10 +187,10 @@ elseif ($_POST['seq'] == 'add')
                 "quantity, user_id ) " .
                "VALUES ($cat_id, '$item', '$unit_id', " .
                 "$quantity, $user_id)";
-        
-        
+
+
         #print "<br/>" . $sql;
-        
+
         if ($global['db']->Execute($sql) === false)
         {
             $msg = $global['db']->ErrorMsg();
@@ -197,26 +200,26 @@ elseif ($_POST['seq'] == 'add')
         }
         $_SESSION['rms_plg_added'] = true;
         $_SESSION['rms_plg_new_id'] = $global['db']->Insert_ID();
-        
+
         _shn_rms_plg_endadd($_SESSION['rms_plg_new_id']);
-        
+
     }
-    else 
+    else
          _shn_rms_plg_endadd($_SESSION['rms_plg_new_id']);
 }
 elseif ($_POST['seq'] == 'addplg')
 {
     $usr_id = $_POST['id'];
-    
+
     $user = false;
     if ($user == true)
     {
 //        $today = date("Y-m-d");
-//        
+//
 //        shn_form_fopen("new_plg",null);
-//        
+//
 //        shn_form_hidden(array('seq'=>'confirm'));
-//        
+//
 //        shn_form_fsopen('Donor Contact Information');
 //        shn_form_text('Date','date',null,array('value'=>$today));
 //        shn_form_text('Name','name',array('req'=>true));
@@ -224,7 +227,7 @@ elseif ($_POST['seq'] == 'addplg')
 //        shn_form_textarea('Address','address');
 //        shn_form_textarea('Comments','comments');
 //        shn_form_fsclose();
-//        
+//
 //        shn_form_fsopen('Pledge Details');
 //        shn_form_select(get_rms_catlist(),"Category","cat_id",array('br'=>false));
 //        shn_form_text('','other_cat');
@@ -234,7 +237,7 @@ elseif ($_POST['seq'] == 'addplg')
 //        shn_form_fsclose();
 //        shn_form_submit('Add');
 //        shn_form_fclose();
-    }    
+    }
     else
     {
         _shn_rms_adderror(_("some error"));
@@ -242,18 +245,18 @@ elseif ($_POST['seq'] == 'addplg')
 
         if ($_SESSION['rms_errors'] != null)
             _shn_rms_showerrors();
-        
-        _shn_rms_get_usrid();    
+
+        _shn_rms_get_usrid();
     }
 }
 else
 {
     $today = date("Y-m-d");
-    
+
     shn_form_fopen("new_plg",null);
-    
+
     shn_form_hidden(array('seq'=>'confirm'));
-    
+
     shn_form_fsopen(_("Donor Contact Information"));
     shn_form_text(_("Date"),'date','readolny="true"',array('value'=>$today));
     shn_form_text(_("Name"),'name',null,array('req'=>true));
@@ -282,11 +285,11 @@ else
 // print ('If you have a user id please enter it bellow and enter, If you are a new Donor please <a href="index.php?mod=rms&amp;act=new_plg&amp;seq=newusr">enter here</a>.')
 
 //    $today = date("Y-m-d");
-//    
+//
 //    shn_form_fopen("new_plg",null);
-//    
+//
 //    shn_form_hidden(array('seq'=>'addplg'));
-//    
+//
 //    shn_form_fsopen('User ID');
 //    shn_form_text('User_ID','id');
 //    shn_form_fsclose();

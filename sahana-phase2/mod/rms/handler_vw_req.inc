@@ -8,23 +8,26 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
 
 _shn_rms_show_headder(_("View Request using the <em>Request ID</em>"));
 
     global $global;
-        
+
     if ($_POST['seq'] == 'view')
     {
         $req_id = $_POST['req_id'];
-        
-        $sql = "SELECT * FROM rms_request WHERE req_id=$req_id";    
+
+        $sql = "SELECT * FROM rms_request WHERE req_id=$req_id";
         $rs_r = $global['db']->Execute($sql);
-        
+
         if (1 > $rs_r->RecordCount())
         {
             print "not a valid request id";
@@ -33,7 +36,7 @@ _shn_rms_show_headder(_("View Request using the <em>Request ID</em>"));
         {
             $recordSet = $rs_r;
 ?>
-  
+
          <div id ="result">
         <table>
         <thead>
@@ -45,31 +48,31 @@ _shn_rms_show_headder(_("View Request using the <em>Request ID</em>"));
             <td><?php print _("View") ?></td>
         </thead>
         <tbody>
-<?php 
+<?php
         while (!$recordSet->EOF)
-        {   
+        {
 ?>
-    
+
         <tr>
-        
+
         <td><?php print  $recordSet->fields['req_date'] ?></td>
         <td><?php print  $recordSet->fields['name'] ?></td>
         <td><?php print  $recordSet->fields['site_name'] ?></td>
         <td><?php print  get_district_name($recordSet->fields['site_district']); ?></td>
         <td>
-            
-        
-            
-                
-                <?php 
-                    $rs = get_request_categories($recordSet->fields['req_id']);                                        
+
+
+
+
+                <?php
+                    $rs = get_request_categories($recordSet->fields['req_id']);
                     while (!$rs->EOF)
                     {
                 ?>
                     <?php print ($rs->fields['category']); ?>
-                 <?php 
+                 <?php
                         $rs->MoveNext();
-                        
+
                         if(!$rs->EOF)
                             print ", ";
                     }

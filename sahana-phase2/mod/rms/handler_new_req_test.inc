@@ -8,19 +8,22 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
     global $global;
-    
+
     include_once $global['approot']."/inc/lib_modules.inc";
     include_once $global['approot']."/inc/lib_menu.inc";
     include_once $global['approot']."/inc/lib_form.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
 
-?>   
+?>
 
 <?php
     shn_form_fopen("new_req",null);
