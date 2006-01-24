@@ -142,8 +142,9 @@ INSERT INTO location VALUES (9,8,'3.1.1','3','Suffolk','suf','');
 INSERT INTO location VALUES (10,9,'3.1.1.1','4','ipswich','ip','');
 INSERT INTO location VALUES (11,1,'1.1','2','Eastern','est','Eastern  added as a province in Sri Lanka');
 INSERT INTO location VALUES (12,1,'1.1','2','south','sou','South  added as a province in Sri Lanka');
-INSERT INTO location VALUES (13,5,'1.1.1','3','Kalutara','klt','Colombo added as a district in Srilanka Western Province');
-INSERT INTO location VALUES (14,6,'1.1.1.1','4','dehiwala','dwh','dehiwala added as a village in Srilanka Western Province');
+INSERT INTO location VALUES (13,5,'1.1.2','3','Kalutara','klt','Kalutara added as a district in Srilanka Western Province');
+INSERT INTO location VALUES (14,6,'1.1.1.2','4','dehiwala','dwh','dehiwala added as a village in Srilanka Western Province');
+INSERT INTO location VALUES (15,13,'1.1.2.1','4','panadura','pan','panadura added as a village in Srilanka Western Province');
 
 
 -- INSERT CONFIG VALUES
