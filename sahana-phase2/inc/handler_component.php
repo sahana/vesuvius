@@ -1,23 +1,29 @@
 <?php
-/* $Id: handler_component.php,v 1.2 2006-01-23 11:05:05 janakawicks Exp $ */
+/* $Id: handler_component.php,v 1.3 2006-01-24 12:03:37 janakawicks Exp $ */
 
 /**
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Janaka Wickramasinghe <janaka@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ *
+ * This is simple component handler that creates a box where you can 
+ * put some informations, great for watches.. Still under development..
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage presentation
+ * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @todo make is better
+ */
 
 /**
- * show_component 
  * 
- * @param mixed $body 
+ * Shows the component box 
+ *
+ * @param body $body 
  * @param string $title 
  * @param string $options 
  * @access public
