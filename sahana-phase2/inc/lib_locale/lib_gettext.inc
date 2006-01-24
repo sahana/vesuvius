@@ -11,24 +11,26 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/ 
+*/
 
 
 /**
- * Dummy function to emulate the gettext function when gettext is not installed
- * 
- * @param mixed $string 
+ * Dummy function to emulate the gettext() function when gettext is not installed
+ * This will be replaced by a pure PHP gettext library
+ *
+ * @param string $string
  * @access public
- * @return void
+ * @return string
  */
 function gettext($string) {
     return $string;
 }
- 
+
 /**
- * _ 
- * 
- * @param mixed $string 
+ * Dummy function to emulate the _() function when gettext is not installed
+ * This will be replaced by a pure PHP gettext library
+ *
+ * @param mixed $string
  * @access protected
  * @return void
  */
