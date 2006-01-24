@@ -22,35 +22,26 @@ function _shn_or_reg_vol_cr()
     include_once $global['approot']."/inc/lib_validate.inc";
     $VARCHAR=100;
     $error=false;
-list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
-    
-     
+    list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
     if (!shn_valid_date($_POST{"dob"})){
         $error=true;
-        add_error(SHN_ERR_DOB_INCORRECT);
     }else {    
         $dob=$_POST{"dob"};
     }
-    
     list($error,$male)=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
     $job=$_POST{"job"};
     $nic=trim($_POST{"nic"});
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    
-    if (is_null($_POST{"1"})){
-        $error=true;
-        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
-    }else {    
-        $bsd_country=$_POST{"1"};
-    }
     if (is_null($_POST{"4"})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
         $bsd_village=$_POST{"4"};
     }
+    $parents=shn_or_get_parents($bsd_village);
+    $bsd_country=$parents[0][0];
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};

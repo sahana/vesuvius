@@ -49,9 +49,9 @@ function _shn_or_regform_org($error=false)
    if($parent==0){
         $location_inf = shn_location('1','4'); 
     }else {
-        $location_inf = shn_location_parent($parent,'4'); 
+        $location_inf = shn_location_parent($parent,'1','4'); 
     }
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location',$return=false,$default_val_req=$error);
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
     // Contact infomation
     shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
@@ -100,8 +100,14 @@ function _shn_or_regform_operation($error=false)
     shn_form_fsopen("Organization Sector");
     _shn_or_display_sector($error);
     shn_form_fsclose();
-    // base location
-    $location_inf = shn_location_form_org('1','4'); 
+ // base location
+   $parent=_shn_or_get_start_loc();
+   if($parent==0){
+        $location_inf = shn_location('1','4'); 
+    }else {
+        $location_inf = shn_location_parent($parent,'1','4'); 
+    }
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error); 
     shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
 shn_form_fsclose();

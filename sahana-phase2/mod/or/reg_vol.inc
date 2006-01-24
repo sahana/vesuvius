@@ -36,7 +36,7 @@ function _shn_or_regform_vol($error=false)
     $extra_opts['req']=true;
     shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
     $extra_opts['req']=false;
-    shn_form_text(_("Date of Birth : "),'dob','size="10"',$extra_opts); 
+    shn_form_text(_("Date of Birth (yyyy-mm-dd) : "),'dob','size="10"',$extra_opts); 
     //shn_form_date(_("Date of Birth: "),'dob', null ) ;
     shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
     _shn_or_display_gender($error,NULL);
@@ -46,8 +46,14 @@ function _shn_or_regform_vol($error=false)
     shn_form_text(_("Passporl No : "),'pas','size="50"',$extra_opts); 
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
-    // base location
-   $location_inf = shn_location_form_org('1','4'); 
+     // base location
+   $parent=_shn_or_get_start_loc();
+   if($parent==0){
+        $location_inf = shn_location('1','4'); 
+    }else {
+        $location_inf = shn_location_parent($parent,'1','4'); 
+    }
+    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
    shn_form_fsopen("Services Offered");
     _shn_or_display_sector($error);
     shn_form_fsclose();
