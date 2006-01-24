@@ -189,7 +189,8 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
         if ($check_null){
             add_error($desc." is a Required Field, Please Enter an value.");
             return false;
-        }
+        }else 
+            return true;
     }
     else {
             if(preg_match($pattern,$date))
