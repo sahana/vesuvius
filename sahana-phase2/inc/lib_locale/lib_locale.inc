@@ -1,6 +1,6 @@
 <?php
 /**
-* Description for file
+* Sahana Localization library
 *
 * PHP version 4 and 5
 *
@@ -8,23 +8,26 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package	  framework
+* @subpackage localization
+* @tutorial	  localization.pkg
+* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 
 /**
- * _shn_lc_setdblc 
- * 
- * @param mixed $locale 
+ * Set the 'locale' value in the 'config' table
+ *
+ * @param string $locale
  * @access protected
- * @return void
+ * @return bool
  */
 function _shn_lc_setdblc($locale)
 {
 	global $global;
-	
+
 	$sql = "INSERT INTO config " .
 			"VALUES('admin', 'locale', '$locale')";
 	if (!$global['db']->Execute($sql))
@@ -36,28 +39,28 @@ function _shn_lc_setdblc($locale)
 }
 
 /**
- * _shn_lc_getdblc 
- * 
+ * Get the 'locale' value from the database
+ *
  * @access protected
- * @return void
+ * @return mixed
  */
 function _shn_lc_getdblc()
 {
 	global $global;
-	
+
 	$sql = "SELECT value FROM config " .
 			"WHERE module_id = 'admin' " .
 			"AND confkey = 'locale'";
-			
+
 	$rs = $global['db']->Execute($sql);
-	
+
 	if(!$rs)
 	{
 		print "Error : " . $global['db']->ErrorMsg();
 		return false;
 	}
 	else if(1>$rs->RecordCount())
-	{		
+	{
 		return false;
 	}
 	else
@@ -68,17 +71,17 @@ function _shn_lc_getdblc()
 }
 
 /**
- * _shn_lc_issetdblc 
- * 
+ * Checks whether the 'locale' value is set or not in the database
+ *
  * @access protected
- * @return void
+ * @return bool
  */
 function _shn_lc_issetdblc()
 {
 	global $global;
-	
+
 	$res = _shn_lc_getdblc();
-	
+
 	if(!$res)
 	{
 		return false;
