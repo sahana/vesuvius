@@ -1,7 +1,8 @@
 <?php
-/* $Id: audit.inc,v 1.2 2006-01-03 11:14:12 janakawicks Exp $ */
+/* $Id: audit.inc,v 1.3 2006-01-25 09:36:32 janakawicks Exp $ */
 
-/** Audit page of the Missing Person Registry 
+/** 
+ * Audit page of the Missing Person Registry 
  *
  * PHP version 4 and 5
  *
@@ -9,10 +10,20 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	  Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+/**
+ * Shows the audit log
+ * 
+ * @param mixed $x_uuid 
+ * @access public
+ * @return void
+ */
 function shn_audit_show($x_uuid)
 {
     global $global;

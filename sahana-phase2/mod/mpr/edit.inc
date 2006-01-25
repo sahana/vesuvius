@@ -1,6 +1,31 @@
 <?php
+/* $Id: edit.inc,v 1.8 2006-01-25 09:36:32 janakawicks Exp $ */
+
+/** 
+ * Edit page of the Missing Person Registry 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ */
 
 
+/**
+ * Generate Tabbs
+ * 
+ * @param string $selected 
+ * @access public
+ * @return void
+ * @todo code this
+ */
 function shn_generate_tabs($selected='')
 {
     global $conf;
@@ -23,7 +48,7 @@ function shn_generate_tabs($selected='')
 /* {{{ Load Informations 
 
 /**
- * shn_mpr_editmp_load 
+ * Load Informations on given person_uuid i.e. p_uuid
  * 
  * @param mixed $p_uuid 
  * @access public
@@ -110,7 +135,7 @@ function shn_mpr_editmp_load($p_uuid)
 /* {{{ Edit Form */ 
 
 /**
- * shn_mpr_editmp_entry 
+ * Edit Form
  * 
  * @param mixed $errors 
  * @access public
@@ -201,7 +226,7 @@ function shn_mpr_editmp_entry($errors=false)
 
 /* {{{ Edit Validation */
 /**
- * shn_mpr_editmp_validate 
+ * Validation of the Edit Form
  * 
  * @access public
  * @return void
@@ -250,11 +275,12 @@ function shn_mpr_editmp_validate()
 
 /* {{{ Edit Upload Form */
 /**
- * shn_mpr_editmp_upload 
+ * Upload Image form
  * 
  * @param mixed $errors 
  * @access public
  * @return void
+ * @todo upload multiple images
  */
 function shn_mpr_editmp_upload($errors=false) 
 {
@@ -278,7 +304,7 @@ function shn_mpr_editmp_upload($errors=false)
 
 /* {{{ Edit Upload */
 /**
- * shn_mpr_editmp_upload_pic 
+ * Uploads the image and create thumbnail
  * 
  * @access public
  * @return void
@@ -313,7 +339,7 @@ function shn_mpr_editmp_upload_pic()
 
 /* {{{ Edit Confirm */
 /**
- * shn_mpr_editmp_confirm 
+ * Confirmation page
  * 
  * @access public
  * @return void
@@ -514,7 +540,7 @@ function shn_mpr_editmp_confirm()
 
 /* {{{ Edit Commit */
 /**
- * shn_mpr_editmp_commit 
+ * Commits the changes to the database
  * 
  * @access public
  * @return void
@@ -691,7 +717,7 @@ function shn_mpr_editmp_commit()
 
 /* {{{ Edit Tracker */
 /**
- * shn_edit_show_trackers 
+ * Shows the current Trackers
  * 
  * @param mixed $p_uuid 
  * @access public
@@ -763,7 +789,7 @@ href="<?='index.php?mod='.$global['module'].
 
 /* {{{ Edit: Delete Tracker */
 /**
- * shn_edit_del_tracker 
+ * Delete Tracker
  * 
  * @param mixed $p_uuid 
  * @param mixed $rep_uuid 

@@ -1,20 +1,23 @@
 <?php
-/* $Id: main.inc,v 1.18 2006-01-17 07:39:03 janakawicks Exp $ */
+/* $Id: main.inc,v 1.19 2006-01-25 09:36:32 janakawicks Exp $ */
 
-/**Main Controller of the Missing Person Registry 
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author	  Chamindra de Silva <chamindra@opensource.lk>
-* @author	  Janaka Wickramasinghe <janaka@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage mpr
-*/
+/**
+ * Main Controller of the Missing Person Registry 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author	   Chamindra de Silva <chamindra@opensource.lk>
+ * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -53,8 +56,10 @@ function shn_mpr_mainmenu()
 
 /* {{{ Action: Test */
 /**
- * this is a testing function
- * @TODO remove shn_mpr_test
+ *
+ * This is a testing function.
+ *
+ * @todo remove shn_mpr_test
  * @access public
  * @return void
  */
@@ -67,7 +72,9 @@ function shn_mpr_test()
 
 /* {{{ Action: Default (Home Page) */
 /**
+ * 
  * This function displays the home page of the missing person registry
+ *
  * @access public
  * @return void
  */
@@ -81,8 +88,8 @@ function shn_mpr_default()
 /* {{{ Action: Find */
 /**
  * This function displays the basic search form
- * @NOTE deprecated
- * @TODO shn_mpr_fndmp to be removed 
+ * @deprecated 
+ * @todo shn_mpr_fndmp to be removed 
  * @access public
  * @return void
  */
@@ -146,7 +153,7 @@ function shn_mpr_editmp()
 	        echo '<h1 align="center">'._('Add a tracker to').' '.
 	            $_SESSION['mpr_edit']['entry']['full_name'].' </h1>';
             $_SESSION['mpr_add']['add_tracker']['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
-	        // TODO: check the p_uuid exists or not *** VERY URGENT
+	        // todo: check the p_uuid exists or not *** VERY URGENT
 	        shn_mpr_addmp_reporter();
 	    break;
 
@@ -185,7 +192,7 @@ function shn_mpr_editmp()
         break;
         case 'del_tracker' :
             echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
-            //TODO : Clean the input
+            //todo : Clean the input
             $tracker_uuid = $_GET['tracker_id'];
             shn_edit_del_tracker ($_SESSION['mpr_edit']['entry']['p_uuid'],
                 $tracker_uuid);
@@ -244,7 +251,7 @@ function shn_mpr_add_tracker()
                     shn_mpr_search_select($arr);
                 }else{
                     shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
-                    // TODO: redirect back to search results (that'll be great)
+                    // todo: redirect back to search results (that'll be great)
                     shn_mpr_default();                
                     $_SESSION['mpr_add']['add_tracker']=null;
                 }
@@ -270,7 +277,7 @@ function shn_mpr_add_tracker()
 $_GET['id'];
                 $_SESSION['mpr_add']['add_tracker']['name'] =
 $_GET['name'];
-                // TODO: check the p_uuid exists or not *** VERY URGENT
+                // todo: check the p_uuid exists or not *** VERY URGENT
                 shn_mpr_addmp_reporter();
         break;
     }
@@ -289,7 +296,7 @@ function shn_mpr_del_tracker()
     
             if(shn_mpr_addmp_reporter_validate()){
                 shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['add_tracker']['p_uuid']);
-                // TODO: rediddrect back to search results (that'll be great)
+                // todo: rediddrect back to search results (that'll be great)
                 #shn_mpr_default();                
                 $_SESSION['mpr_add']['add_tracker']=null;
             }else{
@@ -456,7 +463,7 @@ function shn_mpr_search()
 /* {{{ Action: Advance Search */
 /**
  * This is the Advance Search Controller
- * @TODO Add Advance Filters
+ * @todo Add Advance Filters
  * @access public
  * @return void
  */
@@ -471,7 +478,7 @@ function shn_mpr_search_adv()
 /* {{{ Action: Audit */
 /**
  * This is the Auditing Controller
- * @TODO Need to discuss this further
+ * @todo Need to discuss this further
  * @access public
  * @return void
  */
@@ -513,9 +520,11 @@ function shn_mpr_status()
 
 /* {{{ Show Thumbnail */
 /**
+ *
  * This is function show the tumbnail if available and say "Image not
  * available" otherwise
- * @TODO Need to move to a different file, possibly to a library.
+ *
+ * @todo Need to move to a different file, possibly to a library.
  * @param mixed $p_uuid 
  * @access public
  * @return void
@@ -560,8 +569,10 @@ function shn_show_thumb($p_uuid)
 
 /* {{{ get field option description */
 /**
+ *
  * Shows the Description of the field_option, when given the vaule
- * @TODO Need to move this to a library.
+ *
+ * @todo Need to move this to a library.
  * @param mixed $value 
  * @param mixed $field_name 
  * @access public
@@ -577,9 +588,11 @@ function shn_get_field_opt($value,$field_name)
 
 /* {{{ Image Resize */
 /**
+ *
  * This function can resize a given image and save it to the given
  * location. 
- * @TODO Need to move this out to a library, e.g. image library
+ *
+ * @todo Need to move this out to a library, e.g. image library
  * @param mixed $src_path 
  * @param mixed $desc_path 
  * @param mixed $width 

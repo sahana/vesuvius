@@ -1,21 +1,26 @@
 <?php
+/* $Id: search.inc,v 1.10 2006-01-25 09:36:32 janakawicks Exp $ */
 /**
-* Description for file
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Janaka Wickramasinghe <janaka@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * 
+ * Main Search Controller of the Missing Person Registry 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
 
 /* {{{ Search Form */
 /**
- * shn_mpr_search_default 
+ * Search default form
  * 
  * @access public
  * @return void
@@ -37,10 +42,11 @@ function shn_mpr_search_default()
 
 /* {{{ Search Advance Form */
 /**
- * shn_mpr_search_advance 
+ * Search Advance form
  * 
  * @access public
  * @return void
+ * @todo work on the advance search function
  */
 function shn_mpr_search_advance()
 {
@@ -76,8 +82,9 @@ function shn_mpr_search_advance()
 
 /* {{{ Search Query Generation (OLD NOT NEEDED) */
 /**
- * shn_mpr_search_result 
+ * Search Query Generation
  * 
+ * @deprecated 
  * @access public
  * @return void
  */
@@ -139,8 +146,9 @@ isvictim='TRUE'";
 
 /* {{{ Search Result Display  (OLD) */
 /**
- * shn_mpr_search_result_vw 
+ * Search Result Display
  * 
+ * @deprecated 
  * @param string $subquery 
  * @param mixed $limit 
  * @param mixed $offset 
@@ -215,8 +223,9 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 
 /* {{{ Navigation Controll */
 /**
- * shn_mpr_search_navigation_top  NOT NEEDED
+ * Navigation Controll
  * 
+ * @deprecated
  * @param mixed $rs 
  * @access public
  * @return void
@@ -293,8 +302,9 @@ function shn_mpr_search_nav()
 
 /* {{{ Display Results  (OLD) */
 /**
- * shn_mpr_search_show_result 
+ * Display Results
  * 
+ * @deprecated
  * @param mixed $details 
  * @access public
  * @return void
@@ -387,7 +397,7 @@ href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><
 
 /* {{{ Get Trackers */
 /**
- * shn_mpr_search_get_trackers 
+ * Get List of Trackers
  * 
  * @param mixed $p_uuid 
  * @access public
@@ -406,7 +416,7 @@ function shn_mpr_search_get_trackers($p_uuid)
 
 /* {{{ Search Select */
 /**
- * shn_mpr_search_select 
+ * Search result with select button
  * 
  * @param mixed $details 
  * @access public
@@ -470,13 +480,13 @@ function shn_mpr_search_select($details)
 
 /* {{{ Search Query Class */
 /**
- * SearchQuery 
+ * SearchQuery Generates sqls for search
  * 
- * @package 
- * @version $id$
- * @copyright 
- * @author 
- * @license {@link http://www.php.net/license/3_0.txt}
+ * @package module
+ * @subpackage mpr
+ * @copyright Lanka Software Foundation - http://www.opensource.lk
+ * @author Janaka Wickramasinghe <janaka@opensource.lk>
+ * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 class SearchQuery
 {
@@ -494,6 +504,13 @@ class SearchQuery
     var $isvictim;
     var $missing_only;
 
+    /**
+     * Sets the name field including soundex and metaphone
+     * 
+     * @param mixed $name 
+     * @access public
+     * @return void
+     */
     function set_name($name)
     {
         $this->__name = $name;
@@ -513,6 +530,13 @@ class SearchQuery
         $this->__where[] = " ( ($encode1) OR ($encode2) ) ";
     }
 
+    /**
+     * Sets the address
+     * 
+     * @param mixed $address 
+     * @access public
+     * @return void
+     */
     function set_address($address)
     {
         //todo CLEAN
@@ -528,6 +552,13 @@ class SearchQuery
         $this->__where[] = " location_details.address LIKE '$local_address' ";
     }
 
+    /**
+     * Sets any serial numeber
+     * 
+     * @param mixed $serial_no 
+     * @access public
+     * @return void
+     */
     function set_serial_no($serial_no)
     {
         $this->__serial_no = $serial_no;
@@ -537,6 +568,13 @@ class SearchQuery
         $this->__where[] = " identity_to_person.serial LIKE '%{$this->__serial_no}%' ";
     }
 
+    /**
+     * Sets the phone number
+     * 
+     * @param mixed $phone 
+     * @access public
+     * @return void
+     */
     function set_phone($phone)
     {
         $this->__phone = $phone;
@@ -546,6 +584,12 @@ class SearchQuery
         $this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' "; 
     }
 
+    /**
+     * returns the generated sql
+     * 
+     * @access public
+     * @return string
+     */
     function get_sql()
     {
         $sql = "SELECT person_status.p_uuid FROM person_status " ;

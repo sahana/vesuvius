@@ -1,6 +1,20 @@
 <?php
-/**
- * Some Intro text 
+/* $Id: home.inc,v 1.12 2006-01-25 09:36:32 janakawicks Exp $ */
+
+/** 
+ * Home Page of the Missing Person Registry 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 ?>
 <div id="home">
@@ -23,7 +37,7 @@ algorithms)'); ?></li>
 </ul>
 </div>
 <?php
-/**
+/*
  *  Recent Found People people Top 6
  */
 ?>
@@ -37,7 +51,7 @@ shn_mpr_home_show_mpr($type,$limit);
 <?php
 
 
-/**
+/*
  *  Recent Missing People Top 6
  */
 ?>
@@ -49,6 +63,14 @@ shn_mpr_home_show_mpr($type,$limit);
 ?>
 </div>
 <?php
+/**
+ * Shows the latest updates on missing and found perople
+ * 
+ * @param string $type 
+ * @param int $limit 
+ * @access public
+ * @return void
+ */
 function shn_mpr_home_show_mpr($type="missing",$limit=5)
 {
     global $global; 
@@ -90,6 +112,13 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
     shn_mpr_search_show_verticle($arr);
 }
 
+/**
+ * Actual Presentaion of latest updates
+ * 
+ * @param mixed $details 
+ * @access public
+ * @return void
+ */
 function shn_mpr_search_show_verticle($details)
 {
     global $global;
