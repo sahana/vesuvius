@@ -9,15 +9,17 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     http://www.linux.lk/~chamindra
+* @package    framework
+* @subpackage presentation
+* @author     Chamindra de Silva (chamindra@opensource.lk>
+* @author     Janaka Wickramasinghe <janaka@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *
 */
 
-// function to deal with additional options such as <BR> and is required 
 /**
- * shn_form_extra_opts 
+ * You can add extra attributes to the given HTML element
  * 
  * @param mixed $extra_opts 
  * @access public
@@ -32,10 +34,9 @@ function shn_form_extra_opts($extra_opts)
     
     
     }
-// Open and close a form section
 
 /**
- * shn_form_fopen 
+ * This function will open the HTML Form
  * 
  * @param mixed $act 
  * @param mixed $mod 
@@ -60,7 +61,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 }
 
 /**
- * shn_form_fclose 
+ * This function will close the HTML form
  * 
  * @access public
  * @return void
@@ -73,7 +74,7 @@ function shn_form_fclose()
 }
 
 /**
- * shn_form_submit 
+ * This will produce a submit button
  * 
  * @param mixed $name 
  * @access public
@@ -85,10 +86,9 @@ function shn_form_submit($name)
 <?php
 }
 
-// Open and close a fieldset, which is a group of fields
 
 /**
- * shn_form_fsopen 
+ * Open and close a fieldset, which is a group of field
  * 
  * @param mixed $label 
  * @access public
@@ -102,7 +102,7 @@ function shn_form_fsopen($label = null)
 }
 
 /**
- * shn_form_fsclose 
+ * HTML Form close
  * 
  * @access public
  * @return void
@@ -113,10 +113,9 @@ function shn_form_fsclose()
 <?php
 }
 
-// enter the fields
 
 /**
- * shn_form_button 
+ * HTML button element
  * 
  * @param mixed $name 
  * @param mixed $button_opts 
@@ -132,7 +131,7 @@ function shn_form_button($name, $button_opts = null)
 }
 
 /**
- * shn_form_text 
+ * HTML text element
  * 
  * @param mixed $label 
  * @param mixed $name 
@@ -154,7 +153,7 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 }
 
 /**
- * shn_form_hidden 
+ * HTML hidden element
  * 
  * @param mixed $hidden_vars 
  * @access public
@@ -170,7 +169,7 @@ function shn_form_hidden($hidden_vars)
 }
 
 /**
- * shn_form_checkbox 
+ * HTML checkbox element
  * 
  * @param mixed $label 
  * @param mixed $name 
@@ -191,7 +190,7 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 
 
 /**
- * shn_form_select 
+ * HTML dropdown list element
  * 
  * @param mixed $options 
  * @param mixed $label 
@@ -224,7 +223,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 } 
 
 /**
- * shn_form_radio 
+ * HTML radio button element
  * 
  * @param mixed $options 
  * @param mixed $label 
@@ -256,9 +255,8 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 } 
 
 
-// create a select field based on field options
 /**
- * shn_form_opt_select 
+ * create a select field based on field options 
  * 
  * @param mixed $opt_field 
  * @param mixed $label 
@@ -294,9 +292,8 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
     shn_form_extra_opts($extra_opts);
 } 
 
-// create a select field based on field options
 /**
- * shn_form_opt_multi_select 
+ * create a select field based on field option
  * 
  * @param mixed $opt_field 
  * @param mixed $label 
@@ -334,7 +331,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 } 
 
 /**
- * shn_form_opt_checkbox 
+ * create a checkboxes field based on field option
  * 
  * @param mixed $opt_field 
  * @access public
@@ -357,7 +354,7 @@ function shn_form_opt_checkbox($opt_field){
 }
 
 /**
- * shn_form_textarea 
+ * HTML textarea element
  * 
  * @param mixed $label 
  * @param mixed $name 
@@ -380,7 +377,7 @@ function shn_form_textarea($label, $name, $text_opts = null, $extra_opts = null)
 }
 
 /**
- * shn_form_upload 
+ * HTML upload element
  * 
  * @param mixed $label 
  * @param mixed $name 
@@ -398,7 +395,7 @@ function shn_form_upload($label, $name, $extra_opts = null)
 }
 
 /**
- * shn_form_label 
+ * This is a pseudo element, which creats a label
  * 
  * @param mixed $label 
  * @param mixed $caption 
@@ -418,7 +415,7 @@ function shn_form_label($label, $caption, $extra_opts = null)
 }
 
 /**
- * shn_form_password 
+ * HTML password text element
  * 
  * @param mixed $label 
  * @param mixed $name 
@@ -438,7 +435,7 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 }
 
 /**
- * shn_form_date 
+ * This is a pseudo element, contains a date 
  * 
  * @param mixed $label 
  * @param string $name 
