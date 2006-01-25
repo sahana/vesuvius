@@ -1,24 +1,34 @@
 <?php
-/*
-*
-* Sahana HTML form handler
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Pradeeper <pradeeper@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
-// 2nd October 2005
+/**
+ *
+ * This is a generic form template handler(NOTE: this is deprecated use lib_form.inc)
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage presentation
+ * @author     Pradeeper <pradeeper@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @deprecated This handler is replaced by the lib_form.inc
+ *
+ */
 
-/* {{{ Presentation Layer */
 
-/* {{{ function shn_form_open($arropt) */
+/**
+ * Creates the HTML form
+ * 
+ * @param string $arropt 
+ * @param 'action'=>'' $'action'=>'' 
+ * @param 'id'=>'dataform') $'id'=>'dataform') 
+ * @param mixed $return 
+ * @access public
+ * @return void
+ */
 function shn_form_open($arropt=array('method'=>'POST','action'=>'','id'=>'dataform'),$return=false)
 {
     $output = '<form '.($arropt['id']?'':'id="dataform" ');
@@ -31,9 +41,16 @@ function shn_form_open($arropt=array('method'=>'POST','action'=>'','id'=>'datafo
     else
         echo $output;
 }
-/* }}} */
 
-/* {{{ function shn_form_add_component($arr,$return=false,$default_val_req=false) */
+/**
+ * You can add HTML form elements as an array
+ * 
+ * @param mixed $arr 
+ * @param mixed $return 
+ * @param mixed $default_val_req 
+ * @access public
+ * @return void
+ */
 function shn_form_add_component($arr,$return=false,$default_val_req=false)
 {
     switch ($arr['type']){
@@ -156,9 +173,18 @@ function shn_form_add_component($arr,$return=false,$default_val_req=false)
     else
         echo $output;
 }
-/* }}} */
 
-/* {{{ function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=false,$default_val_req=false) */
+/**
+ * You can add list of HTML form elements as an array
+ * 
+ * @param mixed $arr_list 
+ * @param mixed $section 
+ * @param string $legend 
+ * @param mixed $return 
+ * @param mixed $default_val_req 
+ * @access public
+ * @return void
+ */
 function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=false,$default_val_req=false)
 {
     if($section)
@@ -177,9 +203,14 @@ function shn_form_add_component_list($arr_list,$section=true,$legend='',$return=
     else
         echo $output;
 }
-/* }}} */
 
-/* {{{ function shn_form_close() */
+/**
+ * Use this function to close the HTML form
+ * 
+ * @param mixed $return 
+ * @access public
+ * @return void
+ */
 function shn_form_close($return=false)
 {
     $output = "</form>\n";
@@ -188,23 +219,32 @@ function shn_form_close($return=false)
     else
         echo $output;
 }
-/* }}} */
-
-/* }}} */
 
 
-/* {{{ Helper Functions  */
 
-/* {{{ _shn_form_br($number,$return=false) */
+/**
+ * Generate given number of line breaks
+ * 
+ * @param mixed $number 
+ * @access protected
+ * @return void
+ */
 function _shn_form_br($number)
 {
     for ($i=0; $i<$number; $i++)
         $output .= '<br>';
     return $output;
 }
-/* }}} */
 
-/* {{{ function _shn_form_default_req($arr) */
+/**
+ * Auto Populated the POST values if available.
+ * 
+ * @param mixed $type 
+ * @param mixed $name 
+ * @param string $value 
+ * @access protected
+ * @return void
+ */
 function _shn_form_default_req($type,$name,$value="")
 {
     switch ($type){
@@ -228,9 +268,15 @@ function _shn_form_default_req($type,$name,$value="")
     }
     return $output;    
 }
-/* }}} */
 
-/* {{{ function _shn_form_dump_key_val($arr) */
+/**
+ * Dumps the given associative array into $key="value" sequence
+ * 
+ * @param mixed $arr 
+ * @param mixed $keys_ignore 
+ * @access protected
+ * @return void
+ */
 function _shn_form_dump_key_val($arr,$keys_ignore)
 {
     foreach ($arr as $k => $v){
@@ -240,9 +286,17 @@ function _shn_form_dump_key_val($arr,$keys_ignore)
     }
     return $output;
 }
-/* }}} */
 
-/* {{{ function _shn_form_set_caption($caption,$align,$output) */
+/**
+ * Sets the caption of a input field
+ * 
+ * @param mixed $caption 
+ * @param string $align 
+ * @param string $str 
+ * @param mixed $tag 
+ * @access protected
+ * @return void
+ */
 function _shn_form_set_caption($caption,$align="left",$str="",$tag=true)
 {
     if(!$caption)
@@ -255,10 +309,15 @@ function _shn_form_set_caption($caption,$align="left",$str="",$tag=true)
         $output = $caption.$str ;
     return $output;
 }
-/* }}} */
 
-/* }}} */
 
+/**
+ * Use this function to display form
+ * 
+ * @param mixed $form 
+ * @access public
+ * @return void
+ */
 function shn_show_form($form)
 {
  
