@@ -1,24 +1,26 @@
 <?php
-/* $Id: add.inc,v 1.15 2006-01-17 07:39:03 janakawicks Exp $ */
+/* $Id: add.inc,v 1.16 2006-01-25 07:32:49 janakawicks Exp $ */
 
-/**Add Missing Person Registry 
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author	  Janaka Wickramasinghe <janaka@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage mpr
-*/
+/**
+ * Add Missing Person Registry 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage mpr
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ */
 
 /* {{{ Tools */
 /**
  * This function cleans the POST values
- * @TODO Put this somewhere else, i.e. form handling
+ * @todo Put this somewhere else, i.e. form handling
  * @param mixed $local_post 
  * @access public
  * @return void
@@ -160,8 +162,8 @@ function shn_mpr_addmp_validate()
         $error_flag=true;
     }
 
-/**
- * TODO: Shift to reproting person validation function
+/*
+ * todo: Shift to reproting person validation function
              
     if(isset($local_post['dob']) && ! shn_valid_date($local_post['dob'])){
         add_error(_("Invalid Date of Birth"));
@@ -220,7 +222,7 @@ function shn_mpr_addmp_reporter($errors=false)
     if($errors)
         display_errors();
     shn_js_toggle_layer();
-    // TODO: Clean the $_GET['act'] baby ;-)
+    // todo: Clean the $_GET['act'] baby ;-)
     shn_form_fopen($_GET['act'],null);
 
     shn_form_hidden(array('seq'=>'report_person'));
@@ -374,7 +376,7 @@ function shn_mpr_addmp_upload_pic()
  * This creates an uuid, you can specify the the types
  * p - person 
  * c - camp etc;
- * @TODO Need to shift this somewhere else
+ * @todo Need to shift this somewhere else
  * @param string $type 
  * @access public
  * @return void
@@ -748,9 +750,9 @@ function shn_mpr_addmp_commit()
     $insert_array = null;
 
     /** 
-     * TODO: Later for now using the person_to_report to group
+     * todo: Later for now using the person_to_report to group
     //Insert into pgroup
-    /**
+    /*
      * For Tracking purpose create a group around missing person
      * /
     $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
@@ -797,7 +799,7 @@ function shn_mpr_addmp_insert_reporter($p_uuid)
     $insert_array = null;
 
     //Insert the status
-    /**
+    /*
      * If not a victim, isvictim = false , status = ali (Alive and Well) 
      * If a victim, isvictim = true , status = given status 
      */
@@ -817,7 +819,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
     //Contacts
     $insert_array['poc_uuid'] = $rep_uuid;
     if(isset($_SESSION['mpr_add']['report_person']['rep_address'])){
-        // TODO: make the location
+        // todo: make the location
         $insert_array['location_id'] = '0';
         $insert_array['address'] =
                             $_SESSION['mpr_add']['report_person']['rep_address'];
@@ -849,7 +851,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
     //reset $insert_array 
     $insert_array = null;
     
-    /**
+    /*
      * Insert into the person_to_report
      */
     shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['rep_relation']);
@@ -879,8 +881,7 @@ function shn_add_person_to_report($p_uuid, $rep_uuid, $relation)
 
 /* {{{ Get Tracker Details */
 /**
- * This function fetches the information of the reporting person with given
- * id.
+ * This function fetches the information of the reporting person with given id.
  * @param mixed $p_uuid 
  * @access public
  * @return void
@@ -903,11 +904,10 @@ function shn_add_get_tracker_details($p_uuid)
 }
 /* }}} */
 
-//@todo: Need to put this somewhere else, 
 /**
  * This is a buch of javascript helps for the collapse and expanind of a
  * given division.
- * @TODO Move to somewhere 
+ * @todo Move to somewhere 
  * @access public
  * @return void
  */
