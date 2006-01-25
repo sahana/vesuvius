@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_component.php,v 1.3 2006-01-24 12:03:37 janakawicks Exp $ */
+/* $Id: handler_component.php,v 1.4 2006-01-25 06:21:43 janakawicks Exp $ */
 
 /**
  *
@@ -16,6 +16,7 @@
  * @subpackage presentation
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @todo make is better
  */
 

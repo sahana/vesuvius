@@ -1,33 +1,35 @@
 <?php
 /**
-* Sahana error library 
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Janaka Wickramasinghe <janaka@opensource.lk>
-* @author     Chaindra de Silva <chaindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ *  
+ * This is a generic error handler, you can create and manage a error container
+ * and display the errors.
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage presentation
+ * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author     Chaindra de Silva <chaindra@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ */
 
-/**
-* Error Container
-*/
 
 $error_container = array();
 
 /**
- * display_errors 
+ * If you want to display the errors call this function.  
+ *
  * 
- * @param mixed $return 
- * @param mixed $clean_errors 
- * @param mixed $exit 
+ * @param bool $return 
+ * @param bool $clean_errors 
+ * @param bool $exit 
  * @access public
- * @return void
+ * @return mixed
  */
 function display_errors($return=false,$clean_errors=true,$exit=false)
 {
@@ -66,9 +68,9 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
 }
 
 /**
- * add_error 
+ * Insert an error to the container
  * 
- * @param mixed $error 
+ * @param string $error 
  * @access public
  * @return void
  */
@@ -81,12 +83,12 @@ function add_error($error)
         $error_container[] = $error;
 }	
 /**
- * add_error_debug 
+ * Insert an error debug message to the container
  * 
- * @param mixed $file 
- * @param mixed $line 
- * @param mixed $intNumber 
- * @param mixed $strmessage 
+ * @param string $file 
+ * @param integer $line 
+ * @param integer $intNumber 
+ * @param string  $strmessage 
  * @access public
  * @return void
  */
@@ -96,11 +98,12 @@ function add_error_debug($file,$line,$intNumber,$strmessage)
 	array_push($error_container,array($file,$line,$intNumber,$strmessage));
 }
 /**
- * remove_error 
+ * Remove an error from the container
  * 
- * @param mixed $index 
+ * @param integer $index 
  * @access public
  * @return void
+ * @todo code this function remove_error
  */
 function remove_error($index)
 {
@@ -108,7 +111,7 @@ function remove_error($index)
 }
 
 /**
- * clean_errors 
+ * Clean the error container
  * 
  * @access public
  * @return void
@@ -120,7 +123,7 @@ function clean_errors()
 }
 
 /**
- * return_errors 
+ * This function will return errors from the error container
  * 
  * @access public
  * @return void

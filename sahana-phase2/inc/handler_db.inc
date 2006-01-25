@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.10 2006-01-24 11:52:47 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.11 2006-01-25 06:21:43 janakawicks Exp $ */
 
 /**
  *
@@ -19,6 +19,7 @@
  * @subpackage database
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * 
  * @todo       Enable Caching
  * @todo       Database Connection Nice Error handling
