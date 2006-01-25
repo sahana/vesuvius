@@ -38,8 +38,10 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
         <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
 <!--        <script type="javascript" src="theme/<?=$theme?>/sahana.js"/> -->
 <?php
-    foreach ($arrPostfix as $i) {
-        echo '        '.$i."\n";
+    if ($arrPostfix != null) {
+        foreach ($arrPostfix as $i) {
+            echo '        '.$i."\n";
+        }
     }
 
     echo "    </head>\n";
