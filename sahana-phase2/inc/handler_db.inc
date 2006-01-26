@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.11 2006-01-25 06:21:43 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.12 2006-01-26 07:20:50 janakawicks Exp $ */
 
 /**
  *
@@ -69,8 +69,8 @@ function shn_db_clean($str)
  * @access public
  * @return void
  *
- * @todo: check keys and see the field exists or not
- * @todo: integrate the auditing
+ * @todo check keys and see the field exists or not
+ * @todo integrate the auditing
  */
 function shn_db_update($arr,$table, $key){
     global $global;
