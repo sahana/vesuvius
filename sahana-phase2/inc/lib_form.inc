@@ -1,22 +1,22 @@
 <?php
-/*
-*
-* Sahana HTML form library
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    framework
-* @subpackage presentation
-* @author     Chamindra de Silva (chamindra@opensource.lk>
-* @author     Janaka Wickramasinghe <janaka@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
-*
-*/
+/**
+ *
+ * Sahana HTML form library
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage presentation
+ * @author     Chamindra de Silva (chamindra@opensource.lk>
+ * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
 
 /**
  * You can add extra attributes to the given HTML element
