@@ -21,7 +21,7 @@
 */
 include "acl_api.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
-require_once ($global['approot'].'inc/constants.inc');
+require_once "constants.inc";
 
 function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 {

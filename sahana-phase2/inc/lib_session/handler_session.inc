@@ -20,7 +20,7 @@
 e.g write sessions to the database or files 
 */
 require_once ($global['approot'].'inc/lib_security/authenticate.inc');
-require_once ($global['approot'].'inc/constants.inc');
+
 global $global;
 switch ($conf["session_writer"]){
 

@@ -29,7 +29,6 @@ if ($conf['sahana_status'] == 'installed' ) {
     require_once ($global['approot'].'inc/handler_db.inc');
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
-    require_once ($global['approot'].'inc/lib_security/acl_api.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
 
     if(!$global['previous']){
