@@ -17,7 +17,6 @@
 */
 
 include_once $global['approot']."/inc/lib_modules.inc";
-include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 require_once 'lib_rms.inc';

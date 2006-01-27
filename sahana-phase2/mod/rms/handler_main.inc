@@ -20,6 +20,8 @@
 global $global;
 require_once('lib_rms.inc');
 
+include_once('handler_dep_check.inc');
+
 $user_id = $global['person_id'];
 $org_id = $global['org_id'];
 
