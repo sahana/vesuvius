@@ -1,5 +1,7 @@
 <?php
 /**
+* Description for file
+*
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -8,9 +10,9 @@
 *
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package	  framework
-* @subpackage localization
-* @tutorial	  localization.pkg
+* @package
+* @subpackage
+* @tutorial
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
