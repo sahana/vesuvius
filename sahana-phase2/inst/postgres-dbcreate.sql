@@ -1,5 +1,5 @@
 /**
-* Postgres database structure creation table for Sahana
+* MySQL database structure creation table for Sahana
 */
 
 -- SESSIONS
@@ -10,6 +10,34 @@ CREATE TABLE sessions(
 	data TEXT NOT NULL,
 	PRIMARY KEY (sesskey)
 );
+
+-- MODULES
+
+/**
+* The central table to store the status of available modules
+* Modules: all
+* Last changed: 2-NOV-2005 - chamindra@opensource.lk 
+*/
+CREATE TABLE modules(
+	module_id VARCHAR(20) NOT NULL, -- the directory name of the module e.g. dvr, or, mpr
+	version VARCHAR(10) NOT NULL, -- the module version
+	active BOOL NOT NULL DEFAULT FALSE, -- is the module active or disabled
+	PRIMARY KEY (module_id)
+);
+
+/**
+* The central table to store all configuration details of the base system
+* and all modules
+* Modules: all
+* Last changed: 2-NOV-2005 - chamindra@opensource.lk 
+*/
+CREATE TABLE config(
+    module_id VARCHAR(20), -- the directory name of the module e.g. dvr, or, mpr
+	confkey VARCHAR(50) NOT NULL, -- the configuration key for the module
+	value VARCHAR(100), -- the value ,
+	FOREIGN KEY (module_id) REFERENCES modules (module_id)
+);
+
 
 /**
 * Field options meta table
@@ -31,7 +59,7 @@ CREATE TABLE field_options(
 /**
 * The central table to store loactions
 * Modules: dvr, mpr, rms, or, cms 
-* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+* Last changed: 28-OCT-2005 - janaka@opensource.lk  
 */
 
 CREATE TABLE location(
@@ -105,8 +133,7 @@ CREATE TABLE users (
 * Modules: dvr, mpr 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
-/*DROP TABLE IF EXISTS person_entry;
-    CREATE TABLE person_entry (
+/*    CREATE TABLE person_entry (
     e_uuid BIGSERIAL,
     entry_date TIMESTAMP,
     user_uuid BIGINT,      -- details on the user who did the data entry
@@ -124,8 +151,10 @@ CREATE TABLE users (
 */
 CREATE TABLE person_status (
     p_uuid BIGINT NOT NULL,
-    isReliefWorker SMALLINT, 
+    isReliefWorker INT, 
     opt_status VARCHAR(10), -- missing, ingured, etc. customizable
+    updated TIMESTAMP DEFAULT NOW(),
+    isvictim BOOL DEFAULT TRUE,
     PRIMARY KEY (p_uuid)
 );
 
@@ -180,17 +209,21 @@ CREATE TABLE pgroup (
 */
 CREATE TABLE person_to_pgroup (   
     p_uuid BIGINT,
-    g_uuid BIGINT
+    g_uuid BIGINT,
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (g_uuid) REFERENCES pgroup(g_uuid)
 );
 
 /**
 * The main details on a person
 * Modules: dvr, mpr, 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Created : 27-OCT-2005 - chamindra@opensource.lk  
+* Last Updated : 07-Nov-2005 - janaka@opensource.lk
+* Note: Removed the NOT NULL Constraint on next_kin_uuid
 */
 CREATE TABLE person_details (
     p_uuid BIGINT NOT NULL,
-    next_kin_uuid BIGINT NOT NULL,
+    next_kin_uuid BIGINT,
     birth_date DATE,
     opt_age_group VARCHAR(10),     -- The age group they belong too
     relation VARCHAR(50),
@@ -198,6 +231,8 @@ CREATE TABLE person_details (
     opt_race VARCHAR(10),
     opt_religion VARCHAR(10),
     opt_marital_status VARCHAR(10),
+    opt_gender VARCHAR(10),
+    occupation VARCHAR(100),
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
@@ -216,6 +251,7 @@ CREATE TABLE person_physical (
     opt_skin_color VARCHAR(50),
     opt_hair_color VARCHAR(50),
     injuries TEXT,
+    comments TEXT,
     PRIMARY KEY (p_uuid) ,
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
@@ -249,18 +285,17 @@ CREATE TABLE org_main(
     name VARCHAR(100) NOT NULL ,
 	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
-    man_power VARCHAR(50),
-	resources VARCHAR(200),
+    man_power VARCHAR(100),
+	resources TEXT,
     privacy INT DEFAULT 1,
 	PRIMARY KEY (o_uuid)
 );
 
 -- ORG SECTOR  INFORMATION
-CREATE TABLE org_sector(
-	org_id BIGINT NOT NULL,
-	opt_org_sector VARCHAR(100),
-    PRIMARY KEY (org_id, opt_org_sector),
-    FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
+CREATE TABLE sector(
+	pgoc_uuid BIGINT NOT NULL,
+	opt_sector VARCHAR(100),
+    PRIMARY KEY (pgoc_uuid, opt_sector)
 );
 
 -- ORG USER INFORMATION
@@ -290,14 +325,45 @@ CREATE TABLE phonetic_word(
 /* SHELTER AND CAMP TABLES */
 /* --------------------------------------------------------------------------*/
 
+/**
+* Camp Registry Specific Tables added
+* Modules: cms,cr
+* Last changed: 01-NIV-2005 - chathra@opensource.lk  
+*/
 
 CREATE TABLE camp (
     c_uuid BIGINT NOT NULL,
+    name VARCHAR(60),
     location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
     PRIMARY KEY (c_uuid),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
+);
+
+CREATE TABLE camp_reg (
+    c_uuid BIGINT NOT NULL,
+    name VARCHAR(60),
+    orgid BIGINT,
+    contact_name VARCHAR(30),
+    contact_no INT,
+    comments VARCHAR(100),
+    services INT,
+    men INT,
+    women INT,
+    family INT,
+    children INT,
+    total INT, 
+    PRIMARY KEY (c_uuid),
+    FOREIGN KEY (orgid) REFERENCES org_main(o_uuid)
+);
+
+CREATE TABLE camp_services (
+    c_uuid BIGINT NOT NULL,
+    opt_camp_service VARCHAR(50),
+    value BOOL NOT NULL DEFAULT FALSE, 
+    PRIMARY KEY (c_uuid,opt_camp_service)
+    
 );
 
 CREATE TABLE person_camp(
@@ -306,37 +372,158 @@ CREATE TABLE person_camp(
 );
 
 
--- MODULES
-CREATE TABLE modules(
-	module_id BIGSERIAL,
-	name VARCHAR(50) NOT NULL,
-	description TEXT,
-	version VARCHAR(10) NOT NULL,
-	active BOOL NOT NULL DEFAULT FALSE,
-	PRIMARY KEY (module_id)
-);
-
-
---CUSTOM MODULE CONFIGURATIONS
-CREATE TABLE config(
-	config_id BIGSERIAL,
-	config_group VARCHAR(100),
-	name VARCHAR(50) NOT NULL,
-	value TEXT,
-	description TEXT,
-	type VARCHAR(10),
-	module_id BIGINT,
-	PRIMARY KEY(config_id),
-	FOREIGN KEY (module_id) REFERENCES modules (module_id)
-);
-
-
 --CUSTOM CONFIGURATION LISTS (SELECT)
 CREATE TABLE configlist(
 	description TEXT NOT NULL,
 	value VARCHAR(50),
 	config_id BIGINT NOT NULL,
-	FOREIGN KEY (config_id) REFERENCES config (config_id)
+	FOREIGN KEY (config_id) REFERENCES config (module_id)
+);
+
+/**
+* Person to Report (Contact person)  
+* Modules: dvr, mpr, 
+* Created : 21-Dec-2005 - janaka@opensource.lk
+*/
+CREATE TABLE person_to_report (
+    p_uuid BIGINT NOT NULL,
+    rep_uuid BIGINT NOT NULL,
+    relation VARCHAR(100),
+    PRIMARY KEY (p_uuid,rep_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (rep_uuid) REFERENCES person_uuid(p_uuid)
+);
+
+/**
+* Audit  
+* Modules: dvr, mpr, 
+* Created : 21-Dec-2005 - janaka@opensource.lk
+*/
+
+CREATE TABLE audit (
+    audit_id BIGSERIAL,
+    updated TIMESTAMP NOT NULL DEFAULT NOW(),
+    x_uuid BIGINT NOT NULL,
+    u_uuid BIGINT NOT NULL,
+    change_type VARCHAR(3) NOT NULL,
+    change_table VARCHAR(100) NOT NULL,
+    change_field VARCHAR(100) NOT NULL,
+    prev_val TEXT,
+    new_val TEXT,
+    PRIMARY KEY(audit_id)
 );
 
 
+/* REQUEST MANAGEMENT SYSTEM TABLES */
+/* --------------------------------------------------------------------------*/
+
+CREATE TABLE rms_request (
+    req_id BIGSERIAL,
+    req_date TIMESTAMP,
+    name VARCHAR(100),
+    contact VARCHAR(100),
+    address VARCHAR(255),
+    site_name VARCHAR(100),
+    site_district VARCHAR(100),
+    site_address VARCHAR(255),
+    comments VARCHAR(500),
+    status VARCHAR(100) DEFAULT 'open',
+    user_id BIGINT,
+    PRIMARY KEY (req_id),
+    FOREIGN KEY (user_id) REFERENCES person_uuid (p_uuid)
+);
+
+CREATE TABLE rms_req_category (
+    cat_id BIGSERIAL,
+    category VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    PRIMARY KEY (cat_id)
+);
+/**
+*Intial category type data (Should be localized??)
+*/
+INSERT INTO rms_req_category (category, description) values ('Blankets Shelter','later');
+INSERT INTO rms_req_category (category, description) values ('Medical Drugs','later');
+INSERT INTO rms_req_category (category, description) values ('Food and Nutrition','later');
+INSERT INTO rms_req_category (category, description) values ('Other','Other Categories');
+
+
+
+CREATE TABLE rms_req_units (
+    unit_id BIGSERIAL,
+    unit VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    PRIMARY KEY (unit_id)
+);
+/**
+*Intial category type data (Should be localized??)
+*/
+INSERT INTO rms_req_units (unit, description) values ('Kg','Kilogram');
+INSERT INTO rms_req_units (unit, description) values ('m','metre');
+INSERT INTO rms_req_units (unit, description) values ('Bottle','');
+INSERT INTO rms_req_units (unit, description) values ('Other','Other unit');
+
+
+CREATE TABLE rms_req_priority (
+    priority_id BIGSERIAL,
+    priority VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    PRIMARY KEY (priority_id)
+);
+/**
+*Intial priority type data (Should be localized??)
+*/
+INSERT INTO rms_req_priority (priority,description) values ('Immediate (< 1 week)','sum desc');
+INSERT INTO rms_req_priority (priority,description) values ('Medium (< 1 mon)','sum desc');
+INSERT INTO rms_req_priority (priority,description) values ('Long Term (1-3 mon)','sum desc');
+
+
+CREATE TABLE rms_req_item (
+    req_item_id BIGSERIAL,
+    cat_id BIGINT,
+    item VARCHAR(200),
+    units VARCHAR(100),
+    quantity INT,
+    priority_id BIGINT,
+    req_id BIGINT NOT NULL,
+    PRIMARY KEY (req_item_id),
+    FOREIGN KEY (req_id) REFERENCES rms_request(req_id),
+    FOREIGN KEY (cat_id) REFERENCES rms_req_category(cat_id),
+    FOREIGN KEY (priority_id) REFERENCES rms_req_priority(priority_id)
+);
+
+CREATE TABLE rms_req_donor (
+    req_donor_id BIGSERIAL,
+    name VARCHAR(255),
+    contact VARCHAR(255),
+    comments VARCHAR(255),
+    PRIMARY KEY (req_donor_id)
+);
+
+CREATE TABLE rms_req_ff (
+    req_ff_id BIGSERIAL,
+    req_item_id BIGINT,
+    user_id BIGINT,
+    quantity INT,
+    ff_status VARCHAR(100),
+    req_donor_id BIGINT,
+    ff_date TIMESTAMP,
+    PRIMARY KEY (req_ff_id),
+    FOREIGN KEY (req_donor_id) REFERENCES rms_req_donor(req_donor_id),
+    FOREIGN KEY (req_item_id) REFERENCES rms_req_item(req_item_id),
+    FOREIGN KEY (user_id) REFERENCES person_uuid (p_uuid)
+);
+
+CREATE TABLE rms_pledge (
+    plg_id BIGSERIAL,
+    date TIMESTAMP,
+    op_id BIGINT,
+    cat_id BIGINT,
+    item VARCHAR(200),
+    units VARCHAR(100),
+    quantity INT,
+    status VARCHAR(100) DEFAULT 'not confirmed',
+    user_id BIGINT,
+    PRIMARY KEY (plg_id),
+    FOREIGN KEY (user_id) REFERENCES person_uuid (p_uuid)
+);
