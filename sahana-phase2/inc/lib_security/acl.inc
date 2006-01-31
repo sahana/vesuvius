@@ -1,17 +1,21 @@
 <?php
 /**
-* This library helps uses phpgacl library to manage ACL
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * This library helps uses phpgacl library to manage ACL
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 /**
 make phpgacl work with the adodb installation rest of the system
@@ -459,10 +463,6 @@ function _shn_get_module_action_groups_user($module,$user){
     }
 	return $act_groups;
 }
-
-
-
-
 
 //end of gets
 }

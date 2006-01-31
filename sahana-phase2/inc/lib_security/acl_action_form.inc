@@ -1,23 +1,32 @@
 <?php
-/*
-*
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
+/**
+ * This library generates forms regarding actions in security library.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 include_once($global['approot'].'/inc/lib_form.inc');
 include_once $global['approot']."/inc/handler_form.inc";
 include_once "acl_form_lib.inc";
 include_once "lib_js.inc";
+
+/**
+ * Generates a form to add actions for a module
+ * @param $module
+ * @access public
+ */
 
 function shn_acl_form_add_action($module)
 {
@@ -108,6 +117,12 @@ shn_form_add_component($removed,$return=false,$default_val_req=false);
 <?php
     // end of form
 } 
+
+/**
+ * Generates a form to add an action group for a module
+ * @param $module
+ * @access public
+ */
 
 function shn_acl_form_add_action_group($module)
 {

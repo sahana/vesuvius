@@ -13,7 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 *
 */
-
+/*
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
@@ -536,5 +536,6 @@ $acl_users = array(
      	shn_form_close(false);
 }
 
-
+*/
 ?>
+

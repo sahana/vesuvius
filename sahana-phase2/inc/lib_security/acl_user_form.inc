@@ -1,18 +1,22 @@
 <?php
-/*
-*
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
+/**
+ * This library generates all the forms required to add,modify and remove
+ * user ACL settings.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
@@ -20,6 +24,12 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/acl_api.inc';
 include_once $global['approot']. 'inc/lib_security/acl.inc';
 include_once "acl_form_lib.inc";
+
+/**
+ * Generates a form to edit roles of an user
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_user_edit_roles($module,$error=false)
 {
@@ -117,6 +127,11 @@ shn_form_add_component($tmp,$return=false,$default_val_req=false);
 <?php	
 }
 
+/**
+ * Generates a form to edit permissions of an user
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_user_edit_perms($module,$error=false)
 {
@@ -214,6 +229,12 @@ shn_form_add_component($tmp,$return=false,$default_val_req=false);
 <?php	
 }
 
+/**
+ * Generates a grid view form of user permissions
+ * @access public
+ * @return void
+ */
+
 function shn_acl_form_user_perms_grid($module,$error=false)
 {
     global $global;
@@ -287,6 +308,12 @@ $res->MoveNext();
 
 <?php
 }
+
+/**
+ * Generates a table view form of user permissions
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_existing_perms_tabular($module,$error=false)
 {
@@ -389,9 +416,11 @@ $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_mai
      	shn_form_close(false);
 }
 
-
-
-
+/**
+ * Generates a form to add roles for an user
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_user_add_roles($module,$error=false)
 {
@@ -434,6 +463,12 @@ array_push(
         //close the form
      	shn_form_close(false);
 }
+
+/**
+ * Generates a form to add permissions for an user
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_user_add_perms($module,$error=false)
 {

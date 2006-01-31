@@ -1,24 +1,35 @@
 <?php
-/*
-*
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
+/**
+ * This library generates common parts for the forms in security library.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/acl_api.inc';
 include_once $global['approot']. 'inc/lib_security/acl.inc';
+
+/**
+ * generates a multi select box of users
+ * @param $multi (whether to enable multi select or not)
+ * @return void
+ * @access public
+ * 
+ */
 
 function shn_acl_form_users($multi=false){
   global $global;
@@ -47,6 +58,13 @@ return $user_arr;
 
 }
 
+/**
+ * generates a multi select box of roles
+ * @return void
+ * @access public
+ * 
+ */
+
 function shn_acl_form_roles(){
   global $global;
     $db=$global['db'];
@@ -71,6 +89,13 @@ $role_arr=array('desc'=>_("Roles : "),'type'=>"multiselect",'size'=>4,'name'=>"r
 return $role_arr;
 
 }
+/**
+ * generates a multi select box of actions in a module
+ * @param $modules
+ * @return void
+ * @access public
+ * 
+ */
 
 function shn_acl_form_actions($module){
 global $global;
@@ -95,6 +120,15 @@ $arr=array('desc'=>_("Actions : "),'type'=>"multiselect",'size'=>4,'name'=>"acti
 return $arr;
 }
 
+/**
+ * generates a multi select box of action groups in a module
+ * @param $module 
+ * @param $multi (whether to enable multi select or not)
+ * @return void
+ * @access public
+ * 
+ */
+
 function shn_acl_form_action_groups($module,$multi=true){
 global $global;
     $db=$global['db'];
@@ -113,18 +147,25 @@ global $global;
         
         $i=$i+1;
     }
-//echo $multi;
-	//$select=$multi?"multiselect":"select";
-$arr=array('desc'=>_("Action Groups : "),'type'=>$select,'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
+
+	$arr=array('desc'=>_("Action Groups : "),'type'=>$select,'size'=>4,'name'=>"action_groups[]",'options'=>$action_groups,'br'=>'1'
                         );
-
-$arr=$multi?array('desc'=>_("* Action Groups:"),'type'=>"multiselect",'size'=>4,'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1'):array('desc'=>_("* Action Groups:"),'type'=>"dropdown",'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1');    
-
-return $arr;
+	$arr=$multi?array('desc'=>_("* Action Groups:"),'type'=>"multiselect",'size'=>4,'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1'):array('desc'=>_("* Action Groups:"),'type'=>"dropdown",'name'=>'action_groups[]','options'=>$action_groups,'br'=>'1');    
+	return $arr;
 }
 
+/**
+ * generates a multi select box of action groups in a module, the value
+ * is the id of the action group
+ * @param $module 
+ * @param $multi (whether to enable multi select or not)
+ * @return void
+ * @access public
+ * 
+ */
+
 function shn_acl_form_action_groups_id($module,$multi=true){
-global $global;
+	global $global;
     $db=$global['db'];
     $acl=new SahanaACL(NULL);
    
@@ -150,7 +191,11 @@ $arr=$multi?array('desc'=>_("* Action Groups:"),'type'=>"multiselect",'size'=>4,
 
 return $arr;
 }
-
+/**
+ * Generates a select box of user organizations
+ * @return array organizations
+ * @access public
+ */
 
 function shn_user_orgs(){
 
@@ -171,6 +216,6 @@ function shn_user_orgs(){
         
         $res->MoveNext();
     }
-$org_arr=array('desc'=>_("Organization :"),'type'=>"dropdown",'name'=>'org','options'=>$orgs,'br'=>'1');
-return $org_arr;
+	$org_arr=array('desc'=>_("Organization :"),'type'=>"dropdown",'name'=>'org','options'=>$orgs,'br'=>'1');
+	return $org_arr;
 }

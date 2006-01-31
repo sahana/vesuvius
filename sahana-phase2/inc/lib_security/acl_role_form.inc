@@ -1,18 +1,22 @@
 <?php
-/*
-*
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
+/**
+ * This library generates all the forms required to add,modify and remove
+ * role ACL settings.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
@@ -21,6 +25,12 @@ include_once $global['approot']. 'inc/lib_security/acl_api.inc';
 include_once $global['approot']. 'inc/lib_security/acl.inc';
 include_once "acl_form_lib.inc";
 
+
+/**
+ * Generates a grid view form of role permissions
+ * @access public
+ * @return void
+ */
 function shn_acl_form_role_perms_grid($module,$error=false)
 {
     global $global;
@@ -90,6 +100,12 @@ $j=$j+1;
 
 <?php
 }
+
+/**
+ * Generates a form to edit permissions of a role
+ * @access public
+ * @return void
+ */
 
 function shn_acl_form_role_edit_perms($module,$error=false)
 {

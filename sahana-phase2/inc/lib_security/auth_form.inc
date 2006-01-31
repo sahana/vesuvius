@@ -1,29 +1,34 @@
 <?PHP
+/**
+ *
+ * Sahana authentication form generator library.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
-/*
-*
-* Sahana Admin & ACL section
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra <ravindra@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*
-*/
 
-global $global;
-
-    
+	global $global;
     include_once $global['approot']. 'inc/lib_security/authenticate.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
    
-
+/**
+ * Generates a form to delete a user
+ * @return void
+ * @access public
+ */
 function shn_auth_form_user_del($error=false)
 {
    
@@ -75,6 +80,12 @@ $q="delete from users where p_uuid=$user[$i]";
 shn_admin_del_user(false);
 
 }
+
+/**
+ * Generates a form to add an user
+ * @return void
+ * @access public
+ */
 
 function shn_auth_form_user_add($error=false)
 {
@@ -162,7 +173,12 @@ $pid=shn_add_user($account_name,$user_name,$password,"guest",-1);
 shn_admin_add_user($error);
 }
 
-
+/**
+ * Generates a form to change the password
+ * @return void
+ * @access public
+ */
+ 
 function shn_auth_form_ch_pwd($error=false)
 {
 

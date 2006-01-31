@@ -1,28 +1,38 @@
 <?php
 /**
-* This library helps in authentication ,but not authorization
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva(ravindra@opensource.lk)
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ *
+ * This library helps in authentication ,but not authorization. A vital component of the framework.
+ * Developers are required to use this library for security.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
-/**
-*Add a new user to the users table
-*@return bool 
-*@param string user name
-*@param string user password
-*/
 include "acl_api.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 require_once "constants.inc";
 
+/**
+*Add a new user to the users table
+*@param string account name(nice name for the user)
+*@param string user namee
+*@param string user password
+*@param string role 
+*@param p_uuid p_id ( user id , if not present the value is generated)
+*@access public
+*@return bool
+*/
 function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 {
     global $global;
@@ -71,6 +81,7 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 *check the existence of an user
 *@return bool
 *@param string user name
+*@access public
 */
 function shn_is_user($user_name){
 	
@@ -97,6 +108,7 @@ function shn_is_user($user_name){
 *controller. But we need to authenticate only when its a login attempt
 *if its not a login request return -1
 *@return int the user id , if the user exists ,else 0 or -1
+*@access public
 */
 
 function shn_authenticate_user()
@@ -158,7 +170,13 @@ function shn_authenticate_user()
         }
     }
 }
-
+/**
+ * Changes the password
+ * @param string user name
+ * @param string old password
+ * @param string new password
+ * @access public
+ */
 function shn_change_password($user,$old_pwd,$new_pwd)
 {
 	global $global;
