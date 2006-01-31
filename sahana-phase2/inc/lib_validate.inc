@@ -1,16 +1,39 @@
 <?php
-// General-purpose validation functions
+
+/**
+ *
+ * This is the validation library. A vital component of the framework.
+ * It is hoped that the module writers add or change functions here rather 
+ * than writing with in the module. 
+ * 
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage validation
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ * @todo       password validation
+ */
+
 include_once $global['approot']."/inc/lib_errors.inc";
 
-// Test if a field is between min and  max length
 /**
- * shn_valid_len_range 
+ * Test if a field is between min and  max length 
  * 
  * @param mixed $field 
- * @param mixed $minlength 
- * @param mixed $maxlength 
+ * @param int $minlength 
+ * @param int $maxlength 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_valid_len_range($field, $minlength, $maxlength)
 {
@@ -21,14 +44,14 @@ function shn_valid_len_range($field, $minlength, $maxlength)
    return false;
 }
 
-//zipcode validator 
+ 
 /**
- * shn_valid_zipcode 
+ * zipcode validator 
  * 
  * @param mixed $country 
  * @param mixed $zipcode 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_valid_zipcode($country, $zipcode)
 {
@@ -110,14 +133,12 @@ function shn_valid_zipcode($country, $zipcode)
   return true;
 }
 
-
-// Check a phone number
 /**
- * shn_valid_phone 
+ * Check the validity of a phone number 
  * 
  * @param mixed $field 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_valid_phone($field)
 {
@@ -132,15 +153,13 @@ function shn_valid_phone($field)
    return true;
 }
 
-
-// Check an email address
 /**
- * shn_valid_email 
+ * Check the validity of an email address
  * 
  * @param mixed $field 
- * @param mixed $required 
+ * @param bool $required 
  * @access public
- * @return void
+ * @return bool
  */
 
 function shn_valid_email($field,$required=false)
@@ -176,12 +195,13 @@ function shn_valid_email($field,$required=false)
 }
 
 /**
- * shn_valid_date 
+ * Check the validity of a date 
  * 
- * @param mixed $date 
+ * @param mixed $date
+ * @param bool $check_null. whether to check for null
  * @param string $pattern 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/')
 {    
@@ -202,12 +222,12 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
     }
 }
 /**
- * shn_valid_number 
+ * checks if the argument is a number 
  * 
  * @param mixed $str 
  * @param string $pattern 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_valid_number($str,$pattern='/^\d+$/')
 {
@@ -218,11 +238,11 @@ function shn_valid_number($str,$pattern='/^\d+$/')
 }
 
 /**
- * shn_is_null 
+ * checks for null or 0 of the argumnet
  * 
  * @param mixed $field 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_is_null($field)
 {
@@ -234,12 +254,12 @@ function shn_is_null($field)
 }
 
 /**
- * shn_is_opt_field 
+ * Checks whether the value exists in the field options table 
  * 
  * @param mixed $opt_field 
  * @param mixed $opt_value 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_is_opt_field($opt_field,$opt_value)
 {
@@ -252,11 +272,11 @@ function shn_is_opt_field($opt_field,$opt_value)
         return false;
 }
 /**
- * shn_is_location 
+ * Tests if the argument is a location in the database 
  * 
  * @param mixed $field 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_is_location($field)
 {
@@ -268,7 +288,7 @@ function shn_is_location($field)
         return false;
 }
 /**
- * shn_clean 
+ * Trims(cleans) the arguments
  * 
  * @param mixed $field 
  * @access public
@@ -279,14 +299,14 @@ function shn_clean($field){
 }
 
 /**
- * shn_validate_field 
+ * Validates( null, length)  a field. 
  * 
  * @param mixed $field 
  * @param mixed $desc 
  * @param mixed $max_len 
- * @param mixed $check_null 
+ * @param mixed $check_null (should we check for null) 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_validate_field($field,$desc,$max_len,$check_null=false){
     if ($check_null And shn_is_null($field)){
@@ -303,15 +323,16 @@ function shn_validate_field($field,$desc,$max_len,$check_null=false){
 }
 
 /**
- * shn_validate_opt_field 
+ * Checks whether the value is valid(null ,length)and whether the value exists in the
+ * field options table 
  * 
  * @param mixed $type 
  * @param mixed $field 
  * @param mixed $desc 
  * @param mixed $max_len 
- * @param mixed $array 
+ * @param mixed $array (whether you have sent an array to validate)
  * @access public
- * @return void
+ * @return bool
  */
 function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
     if (shn_validate_field($field,$desc,$max_len,true)){
@@ -336,11 +357,11 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
 }
 
 /**
- * shn_validate_user_name 
+ * Validates a user name 
  * 
  * @param mixed $field 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_validate_user_name($field){
     if (shn_validate_field($field,"User Name",100,true)){
@@ -356,11 +377,11 @@ function shn_validate_user_name($field){
 }
 
 /**
- * shn_validate_password 
+ * Checks whether the argument meets the password criteria(e.g. minimum length is 8) 
  * 
  * @param mixed $field 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_validate_password($field){
    //return true;
