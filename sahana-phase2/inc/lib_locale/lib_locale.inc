@@ -91,5 +91,25 @@ function _shn_lc_issetdblc()
 		return true;
 	}
 }
+
+function _shn_lc_issetcookie()
+{
+	return isset($_COOKIE['locale']);
+}
+
+function _shn_lc_setcookielc($locale)
+{
+	$_COOKIE['locale'] = $locale;
+}
+
+function _shn_lc_setsessionlc($locale)
+{
+	$_SESSION["locale"] = $locale;
+}
+
+function _shn_lc_issetsession()
+{
+	return isset($_SESSION['locale']);
+}
 ?>
 
