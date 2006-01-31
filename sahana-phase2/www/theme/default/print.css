@@ -1,22 +1,149 @@
 /* 
-Sahana Print Stylesheet 
+Sahana - Default Theme - Print Stylesheet 
 -----------------------------------------------------------------------------------
+J. Priyanga Fonseka - jo@opensource.lk - http://nidahas.com
 
-Let the default browser styling take effect, and stay out of the way.
-Hide all unnecessary elements 
------------------------------------------------------------------------------------ */
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- */
 
-* {
-	position: static !important;
-	float: none !important;
-      font: Arial, Helvetica, sans-serif;
+/* HTML BODY */
+
+body{
+	font: 0.8em sans-serif;
 }
 
-body {	
-      color: #000 !important;
-	background: #FFF !important;
+/* Removing unwanted items */
+
+container{
+
 }
 
-#skip, #modmenuwrap, #menuwrap, #loginform {
-	display: none;
+wrapper{
+
+}
+
+#header{
+	display:none;
+}
+
+#loginform{
+	display:none;
+}
+
+#skip{
+	display:none;
+}
+#modmenuwrap{
+	display:none;
+}
+#menuwrap{
+	display:none;
+}
+
+#content{
+	top:0;
+}
+
+#error{
+	display:none;
+}
+
+/* Form styles */
+
+#formcontainer input[type="text"] {  
+	color: black; 
+	border-width: 0; 
+	border: 1px solid #000;
+	margin: 0px 10px 10px 10px; 
+} 
+
+#formcontainer textArea { 
+	color: black; 
+	width:300px;
+	border-width: 0; 
+	border: 1px solid #000;
+	margin: 0px 10px 10px 10px; 
+} 
+
+/* Removing the buttons */
+
+#formcontainer input[type="submit"]{
+	display:none;
+}
+
+#formcontainer select{
+	width:0;
+	right-margin:200pt; 
+	visibility:hidden;
+}
+
+#formset label { 
+	width: 30%; 	
+	float: left; 
+	text-align: right;
+	margin: 0px 10px 10px 10px; 
+	clear: both;
+}
+
+/* result tables */
+
+#result{
+
+}
+
+#result_msg{
+	background-color: #DEE3E7; 
+	text-align:center;
+	padding: 5px 5px 15px 5px; 
+	border: 3px #98AAB1 solid;
+}
+
+#result img{
+	position:relative;
+	padding: 5px 5px 15px 5px;
+}
+
+#result p{
+	font-size:115%;
+	line-height:1.3;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#result ul{
+	font-size:150%;
+	margin-left:250px;
+	margin-top:-200px;
+	padding-bottom:50px;
+}
+
+#result ul li{
+	line-height:1.2;
+}
+
+
+#result table{
+	background:white;
+	border-color:black;
+	width:100%;
+}
+
+#result td{
+	text-align:center;
+	padding:.25em .25em .25em .25em;
+	border-right:2px solid #DEE3E7; 
+	color:#fff;
+	border: #26a solid 1px;
+	border-color:black;
+	font-size:100%;
+}
+
+#result hr{
+	border: 1px solid #000;
+}
+
+/* No need to display the footer */
+
+#footer{
+	display:none;
 }

@@ -36,6 +36,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
         <title><?=_($title)?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
+	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />
 <!--        <script type="javascript" src="theme/<?=$theme?>/sahana.js"/> -->
 <?php
     if ($arrPostfix != null) {
