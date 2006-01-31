@@ -22,13 +22,16 @@ require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 
 function __select_locale()
 {
+	$lc_list = array('si_LK'=>'si_LK [Sinhala]',	'de_DE'=>'de_DE [German]','en_US'=>'en_US [English US]');
+	$locale = $_SESSION["locale"];
+	print "<h3>Current language : $locale</h3>";
 	shn_form_fopen("lc_set",null,array('req_message'=>false));
 
     shn_form_hidden(array('seq'=>'set_locale'));
 
     shn_form_fsopen(_("Select Locale"));
 
-    shn_form_select(array('en_US'=>'en_US [English US]'),_("Locale"),"locale",null);
+    shn_form_select($lc_list,_("Locale"),"locale",null);
 
     shn_form_fsclose();
     shn_form_submit(_("Set Locale"));
@@ -59,6 +62,9 @@ switch ($_REQUEST['seq'])
     case 'set_locale':
 			$locale = $_POST['locale'];
 			_shn_lc_setdblc($locale);
+			_shn_lc_setcookielc($locale);
+			_shn_lc_setsessionlc($locale);
+			__select_locale();
 			break;
 }
 ?>
