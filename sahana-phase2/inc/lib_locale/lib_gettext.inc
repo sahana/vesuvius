@@ -17,6 +17,8 @@
 */
 
 
+include_once $global['approot']."/3rd/php-gettext/gettext.php";
+
 /**
  * Dummy function to emulate the gettext() function when gettext is not installed
  * This will be replaced by a pure PHP gettext library
@@ -26,7 +28,7 @@
  * @return string
  */
 function gettext($string) {
-    return $string;
+    return translate($string);
 }
 
 /**
@@ -38,6 +40,6 @@ function gettext($string) {
  * @return void
  */
 function _($string) {
-    return $string;
+    return translate($string);
 }
 ?>
