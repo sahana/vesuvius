@@ -1,17 +1,22 @@
 <?php
 /**
-* This library provides an API for authorization ,using the SahanaACL class of acl.inc
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva(ravindra@opensource.lk)
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * This library provides an API for authorization 
+ * ,using the SahanaACL class of acl.inc
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage security
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 /**
 *acl.inc includes functions directly interacting with
@@ -35,6 +40,7 @@ include_once("acl.inc");
 * @return bool true if succesfull ,else false
 * @param string module name
 * @param string description
+* @access public
 */
 
 function shn_acl_add_module($module,$desc){
@@ -52,6 +58,7 @@ function shn_acl_add_module($module,$desc){
 *@param string module name
 *@param string action group
 *@param string description
+*@access public
 */
 function shn_acl_add_action_group($module,$action_group,$desc){
     $acl=new SahanaACL(NULL);
@@ -69,6 +76,7 @@ function shn_acl_add_action_group($module,$action_group,$desc){
 *@param string action group
 *@param string action
 *@param string  description
+*@access public
 */
 
 function shn_acl_add_action($module,$action_group=NULL,$action,$desc){
@@ -89,7 +97,15 @@ function shn_acl_add_action($module,$action_group=NULL,$action,$desc){
     $acl->_shn_add_to_axo_group(trim($axo_parent),"actions",$action);
     
 }
-
+/**
+*adds an action under the given parent
+*this is an AXO
+*@return bool
+*@param string $axo_parent
+*@param string $action an id 
+*@param string  description
+*@access public
+*/
 function shn_acl_add_action_id($axo_parent,$action,$desc){
     $acl=new SahanaACL(NULL);
     $acl->_shn_add_section("actions","module actions","AXO");
@@ -108,6 +124,7 @@ function shn_acl_add_action_id($axo_parent,$action,$desc){
 *@param string action
 *@param string case
 *@param string description
+*@access public
 */
 function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc){
     $acl=new SahanaACL(NULL);
@@ -143,6 +160,7 @@ function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc)
 *@return bool
 *@param string role
 *@param string description
+*@access public
 */
 function shn_acl_add_role($role,$desc){
     $acl=new SahanaACL(NULL);
@@ -157,6 +175,7 @@ function shn_acl_add_role($role,$desc){
 *@return bool
 *@param string user
 *@param string description
+*@access public
 */
 function shn_acl_add_user($user,$desc){
     $acl=new SahanaACL(NULL);
@@ -168,6 +187,7 @@ function shn_acl_add_user($user,$desc){
 *@return bool
 *@param string user
 *@param string role
+*@access public
 */
 function shn_acl_add_to_role($user,$role){
     $acl=new SahanaACL(NULL);
@@ -192,6 +212,7 @@ function shn_acl_add_to_role($user,$role){
 *@return bool
 *@param string permission type
 *@param string description
+*@access public
 */
 function shn_acl_add_perm_type($perm_type,$desc){
     $acl=new SahanaACL(NULL);
@@ -212,6 +233,7 @@ function shn_acl_add_perm_type($perm_type,$desc){
 *@return bool
 *@param string role
 *@param string module
+*@access public
 */
 
 function shn_acl_add_perms_module_role($role,$module){
@@ -233,6 +255,7 @@ function shn_acl_add_perms_module_role($role,$module){
 *@param string role
 *@param string module
 *@param string action group
+*@access public
 */
 
 function shn_acl_add_perms_action_group_role($role,$module,$action_group){
@@ -258,6 +281,16 @@ function shn_acl_add_perms_action_group_role($role,$module,$action_group){
     $acl->_shn_add_permission(trim("permissions"),trim("execute"),NULL,NULL,$aro_groups,NULL,NULL,$axo_groups,true,true,NULL,"first acl"); 
 
 }
+
+/**
+*add an ACL for a role to an action group(given the id) with in the module
+*therefore the action group is permitted for the role
+*@return bool
+*@param string role
+*@param string module
+*@param string action group
+*@access public
+*/
 
 function shn_acl_add_perms_action_group_id_role_id($role,$module,$axo_group){
     $acl=new SahanaACL(NULL);
@@ -285,6 +318,7 @@ function shn_acl_add_perms_action_group_id_role_id($role,$module,$axo_group){
 *@return bool
 *@param string role
 *@param string action ,since actions are unique ,no need for the module
+*@access public
 */
 
 
@@ -303,6 +337,7 @@ e.g : Allow admin to execute "shn_or_org_view_all"
 *@param string role
 *@param string action ,since actions are unique ,no need for the module
 *@param string case
+*@access public
 */
 
 
@@ -327,6 +362,7 @@ function shn_acl_add_perms_action_case_role($role,$action,$case){
 *@return bool
 *@param string user
 *@param string module
+*@access public
 */
 
 function shn_acl_add_perms_module_user($user,$module){
@@ -346,6 +382,7 @@ function shn_acl_add_perms_module_user($user,$module){
 *@param string user
 *@param string module
 *@param string action group
+*@access public
 */
 
 function shn_acl_add_perms_action_group_user($user,$module,$action_group){
@@ -376,6 +413,7 @@ function shn_acl_add_perms_action_group_user($user,$module,$action_group){
 *@return bool
 *@param string user
 *@param string action ,since actions are unique ,no need for the module
+*@access public
 */
 
 function shn_acl_add_perms_action_user($user,$action){
@@ -392,6 +430,7 @@ e.g : Allow user to execute "shn_or_org_view_all"
 *@param string user
 *@param string action ,since actions are unique ,no need for the module
 *@param string case
+*@access public
 */
 
 
@@ -413,23 +452,28 @@ function shn_acl_add_perms_action_case_user($user,$action,$case){
 */
 
 /** 
-removes  a User and from all the groups its under
-this is a ARO
-*/
+ *removes  a User and from all the groups its under
+ * this is a ARO
+ * @todo function does not work right now 
+ */
 function shn_rem_user($user){
     $acl=new SahanaACL;
 }
 /**
-removes a role
-e.g "admin" 
-this is a ARO group
+ *removes a role
+ * e.g "admin" 
+ *this is a ARO group
+ *@todo function does not work right now 
 */
 function shn_rem_role($role){
-    $acl=new SahanaACL;
+    $acl=new SahanaACLg;
 }
 /**
-removes the action and removes it from all the action groups
-it was under.
+ *removes the action and removes it from all the action groups
+ *it was under.
+ *@param $action
+ *@return bool
+ *
 */
 function shn_rem_action($action){
     $acl=new SahanaACL(NULL);
@@ -438,6 +482,11 @@ function shn_rem_action($action){
     $res=$global['db']->Execute($q);
     return $res;
 }
+/**
+ *removes tthe action group and all the actions under it 
+ *@param $action_group
+ *@return bool
+*/
 
 function shn_rem_action_group($action_group){
     $acl=new SahanaACL(NULL);
@@ -465,27 +514,30 @@ function shn_rem_action_group($module,$action_group){
 */
 /**
 *removes permission type
-e.g "execute"
-this is an ACO
+*e.g "execute"
+*this is an ACO
+*@todo function is not working
 */
 function shn_rem_perm_type($perm_type){
     $acl=new SahanaACL;
 }
 
 /**
-removes a module
-e.g "OR"
-this is an AXO group
+*removes a module
+*e.g "OR"
+*this is an AXO group
+*@todo function is not working
 */
 function shn_rem_module($module){
     $acl=new SahanaACL;
 }
 
 /*
-removes ACL for a user for one action
-e.g for action shn_or_register
-note : each action name is unique
-and front controller passes this action name
+*removes ACL for a user for one action
+*e.g for action shn_or_register
+*note : each action name is unique
+*and front controller passes this action name
+*@todo function is not workingS
 */
 
 function shn_rem_perms_action_user($user,$action){
@@ -493,55 +545,60 @@ function shn_rem_perms_action_user($user,$action){
 
 }
 /*
-removes ACL for a user for a group of actions
-e.g for "create" action group
-each action_group is stored uniquely
-e.g or_create
+*removes ACL for a user for a group of actions
+*e.g for "create" action group
+*each action_group is stored uniquely
+*e.g or_create
+*@todo function is not working
 */
 function shn_rem_perms_action_group_user($user,$action_group){
     $acl=new SahanaACL;
 
 }
 /*
-removes ACL for a role for an action
-e.g : Allow admin to execute "shn_or_register"
+*removes ACL for a role for an action
+*e.g : Allow admin to execute "shn_or_register"
+*@todo function is not working
 */
 function shn_rem_perms_action_role($role,$action){
     $acl=new SahanaACL;
 
 }
 /**
-removes ACL for a role for a group of actions
-e.g Allow admin to execute "or_create" actions
+*removes ACL for a role for a group of actions
+*e.g Allow admin to execute "or_create" actions
+*@todo function is not working
 */
 function shn_rem_perms_action_group_role($role,$action_group){
     $acl=new SahanaACL;
 
 }
+/**
+ * Delete all the permissions related to a module
+ * @param $module
+ * @access public
+ */
 function shn_rem_perms_action_group($module){
     global $global;
     $db=$global['db'];
-      $acl=new SahanaACL(NULL);
+    $acl=new SahanaACL(NULL);
     $act_arr=$acl->_shn_get_module_action_groups($module);
-
     $k=0;
      while($k<count($act_arr)){
         $q="delete gacl_aro_groups_map from gacl_aro_groups_map,gacl_axo_groups_map where gacl_aro_groups_map.acl_id=gacl_axo_groups_map.acl_id and gacl_axo_groups_map.group_id=".$act_arr[$k]['id'];
-
-	$res=$db->Execute($q);
-	$q="delete from gacl_axo_groups_map where group_id=".$act_arr[$k]['id'];
-	$res=$db->Execute($q);
-      
-       $k=$k+1;
+		$res=$db->Execute($q);
+		$q="delete from gacl_axo_groups_map where group_id=".$act_arr[$k]['id'];
+		$res=$db->Execute($q);
+        $k=$k+1;
     }
-return $res;
+	return $res;
 }
 
 function shn_acl_rem_user_role_map(){
-$q="delete from gacl_groups_aro_map";
-global $global;
-$res=$global['db']->Execute($q);
-return $res;
+	$q="delete from gacl_groups_aro_map";
+	global $global;
+	$res=$global['db']->Execute($q);
+	return $res;
 }
 
 /**
@@ -552,16 +609,17 @@ return $res;
 *permission checks
 */
 
-/*
-checks whether the user can execute a particular action
-there is no point in asking whether a role has permissions.
-as user A with a particular role may be denied a certian 
-resource.
-so its not a boolean answer for the role
-user is ARO ,action is AXO
-@return bool ,true if allowed
-@param string user
-@param string action
+/**
+*checks whether the user can execute a particular action
+*there is no point in asking whether a role has permissions.
+*as user A with a particular role may be denied a certian 
+*resource.
+*so its not a boolean answer for the role
+*user is ARO ,action is AXO
+*@return bool ,true if allowed
+*@param string user
+*@param string action
+*access public
 */
 
 function shn_acl_check_perms_action($user,$action){
@@ -570,6 +628,18 @@ function shn_acl_check_perms_action($user,$action){
     $res=$acl->_shn_check_permission('permissions','execute','users',$user,'actions',$action);
     return $res;
 }
+/**
+*checks whether the user can execute a particular action group
+*there is no point in asking whether a role has permissions.
+*as user A with a particular role may be denied a certian 
+*resource.
+*so its not a boolean answer for the role
+*user is ARO ,action is AXO
+*@return bool ,true if allowed
+*@param string user
+*@param string action
+*access public
+*/
 
 function shn_acl_check_perms_action_group($user,$action_group){
     if($user==0){return true;}
@@ -591,6 +661,15 @@ function shn_acl_check_perms_action_group($user,$action_group){
    return $result;
 }
 
+/**
+*checks whether the role has an entry for a particular action group
+*user is ARO ,action is AXO
+*@return bool ,true if allowed
+*@param string user
+*@param string action
+*access public
+*/
+
 function shn_acl_check_role_perms_action_group($role,$action_group){
     $result=false;
     global $global;
@@ -610,6 +689,11 @@ function shn_check_perms_table($user,$table,$perm_type){
 
 function shn_check_perms_table_field($user,$table,$field,$perm_type){
 }
+/**
+ * function to check whether the ACL BASE is installed
+ * @return bool
+ * @access public
+ */
 function shn_acl_is_base_installed(){
     global $global;
     $db=$global["db"];
@@ -621,6 +705,12 @@ function shn_acl_is_base_installed(){
         return false;
     }
 }
+/**
+ * function to set the ACL state(enabled vs disabled), reads from the POST varaibles.
+ * if enabled will disable and vice versa
+ * @access public
+ * 
+ */
 function shn_acl_set_state(){
 	if('enable'==$_GET{"do"}){
 		$q="update config set value='true' where module_id='admin' and confkey='acl'";
@@ -630,7 +720,12 @@ function shn_acl_set_state(){
 	global $global;
 	$global["db"]->Execute($q);
 }
-
+/**
+ * function to read the ACL state
+ * @access public
+ * @return bool
+ * 
+ */
 function shn_acl_get_state(){
     global $global;
     $q="select value from config where module_id='admin' and confkey='acl'";
