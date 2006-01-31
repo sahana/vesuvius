@@ -1,24 +1,33 @@
 <?php
 /**
-* This library helps uses phpgacl library to manage ACL
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ *
+ * This is the location library. A vital component of the framework.
+ * locations are used by several modules like organization regsitry,Camp registry 
+ * This library has nearly everything you need to do with locations 
+ * 
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage location
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
+
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/mod/or/lib_or.inc";
 
 /**
- * shn_location_get_descendants 
+ * Returns a comma seperated string of descendants 
  * 
  * @param mixed $loc 
  * @access public
@@ -44,7 +53,8 @@ function shn_location_get_descendants($loc)
 
 
 /**
- * shn_location_levels_form 
+ * Returns an array containing location levels(code,description)
+ * suitable to be used in a select box.
  * 
  * @access public
  * @return void
@@ -69,11 +79,12 @@ function shn_location_levels_form()
 }
 
 /**
- * shn_or_get_parents 
+ * Returns the list of parents of the location. Starting from country for each
+ * level the name and location id is returned. 
  * 
  * @param mixed $child 
  * @access public
- * @return void
+ * @return array
  */
 function shn_or_get_parents($child)
 {
@@ -112,11 +123,11 @@ function shn_or_get_parents($child)
 }
 
 /**
- * shn_get_level 
+ * Returns the level of the location 
  * 
  * @param mixed $loc 
  * @access public
- * @return void
+ * @return mixed
  */
 function shn_get_level($loc){
     global $global;
@@ -127,11 +138,11 @@ function shn_get_level($loc){
 }
 
 /**
- * shn_is_last_level 
+ * Returns whether the location is in the last level or not 
  * 
  * @param mixed $loc 
  * @access public
- * @return void
+ * @return bool
  */
 function shn_is_last_level($loc){
     global $global;
@@ -150,8 +161,8 @@ function shn_is_last_level($loc){
 }
 
 /**
- * shn_get_last_level 
- * 
+ * Returns the last location level avaliable 
+ * @param mixed $loc
  * @access public
  * @return void
  */
@@ -168,7 +179,7 @@ function shn_get_last_level(){
 }
 
 /**
- * shn_location_jscript 
+ * Generates the java script required for AJAX functionality 
  * 
  * @param mixed $to 
  * @access public
@@ -251,11 +262,12 @@ function shn_location_jscript($to){
 }
 
 /**
- * shn_location_form 
+ * Generates a set of select boxes with locations with in the given levels. Will add to the form. 
  * 
  * @param mixed $from 
  * @param mixed $to 
- * @param mixed $value 
+ * @param mixed $value( if the value is given ,select boxes will be
+ * poplulated with locations related to that value) 
  * @access public
  * @return void
  */
@@ -271,7 +283,7 @@ function shn_location_form($from,$to,$value=NULL){
 
 /**
  * shn_location 
- * 
+ * Generates a set of select boxes with locations with in the given levels. Will NOT add to the form. 
  * @param mixed $from 
  * @param mixed $to 
  * @access public
@@ -284,7 +296,8 @@ function shn_location($from,$to){
 }
 
 /**
- * shn_location_parent 
+ * Generates a set of select boxes with locations with the given parent, with in the given levels. 
+ * Will NOT add to the form.  
  * 
  * @param mixed $parent 
  * @param mixed $to 
@@ -298,7 +311,8 @@ function shn_location_parent($parent,$from,$to){
 }
 
 /**
- * shn_location_all 
+ * Generates a set of select boxes with locations with all the levels. 
+ * Will NOT add to the form.  
  * 
  * @access public
  * @return void
@@ -317,8 +331,10 @@ function shn_location_all(){
 }
 
 /**
- * shn_location_form_org 
- * 
+ * Generates a set of select boxes with locations with in the given levels.
+ * Originally developed for organization regsitry in mind,but there
+ * is a better method now.
+ * @deprecated version - Jan 31, 2006
  * @param mixed $from 
  * @param mixed $to 
  * @param mixed $value 
@@ -334,6 +350,43 @@ function shn_location_form_org($from,$to,$value=NULL)
         $location_inf = _shn_location_form($from,$to);  
 	}
     shn_form_add_component_list($location_inf,$section=true,$legend='Base Location Information',$return=false,$default_val_req=$error);
+}
+
+/**
+ * Adds a location to the database.Retrives the values to insert from the POST variables. 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_location_add()
+{
+    global $global;
+    $db=$global['db'];
+    $loc=$_POST{"loc_name"};
+    $desc=$_POST{"desc"};
+    $iso=$_POST{"iso"};
+    $level=$_POST{"level"};
+    if($level==1){
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+        $q="select location_id from location where name='{$loc}' and opt_location_type=1";
+        $res=$db->Execute($q);
+        $id=$res->fields[0];
+        $q="update location set search_id=$id where location_id=$id";
+        $res=$db->Execute($q);
+    }else {
+        $level=$level-1;
+        $parent=$_POST{"$level"};
+        $level=$level+1;
+        $q="select count(*) from location where parent_id=$parent";
+        $res=$db->Execute($q);
+        $count=$res->fields[0]+1;
+        $q="select search_id from location where location_id=$parent";
+        $res=$db->Execute($q);
+        $search_id=$res->fields[0].".".$count;
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+    }
 }
 
 function _shn_location_form_parent($parent,$from,$to){   
@@ -520,40 +573,4 @@ function _shn_location_form($from,$to)
    return $loc;
 }
 
-/**
- * shn_location_add 
- * 
- * @access public
- * @return void
- */
-function shn_location_add()
-{
-    global $global;
-    $db=$global['db'];
-    $loc=$_POST{"loc_name"};
-    $desc=$_POST{"desc"};
-    $iso=$_POST{"iso"};
-    $level=$_POST{"level"};
-    if($level==1){
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
-        $q="select location_id from location where name='{$loc}' and opt_location_type=1";
-        $res=$db->Execute($q);
-        $id=$res->fields[0];
-        $q="update location set search_id=$id where location_id=$id";
-        $res=$db->Execute($q);
-    }else {
-        $level=$level-1;
-        $parent=$_POST{"$level"};
-        $level=$level+1;
-        $q="select count(*) from location where parent_id=$parent";
-        $res=$db->Execute($q);
-        $count=$res->fields[0]+1;
-        $q="select search_id from location where location_id=$parent";
-        $res=$db->Execute($q);
-        $search_id=$res->fields[0].".".$count;
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
-    }
-}
 ?>

@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * 
  * @todo       password validation
+ * @todo       username validation
  */
 
 include_once $global['approot']."/inc/lib_errors.inc";
