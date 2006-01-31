@@ -1,24 +1,28 @@
 <?php
 /**
-* This library helps in session management
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
-
-
-
+ *
+ * This is the session management library. A vital component of the framework.
+ * Developers are recommended to use this library for session management.
+ * 
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    framework
+ * @subpackage session
+ * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 
 /* following code decides the session management approach
 e.g write sessions to the database or files 
 */
+
 require_once ($global['approot'].'inc/lib_security/authenticate.inc');
 
 global $global;
@@ -151,7 +155,8 @@ function shn_session_change($user_data){
 	return ;
 }
 /**
- * shn_session_end 
+ * this function is a wrapper around session_regenerate_id()
+ * it will empty the session variables.
  * 
  * @param mixed $user_data 
  * @access public

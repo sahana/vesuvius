@@ -3,22 +3,23 @@
 /**
  * save session to the database.
  * custom session handler.
+ * @todo This is just a draft ,need to rewrite all the functions
  */
 
-session_set_save_handler("sess_open", "sess_close", "sess_read", "sess_write", "sess_destroy", "sess_gc");
+session_set_save_handler("_shn_session_sess_open", "_shn_session_sess_close", "_shn_session_sess_read", "_shn_session_sess_write", "_shn_session_sess_destroy", "_shn_session_sess_gc");
 session_start();
 
 /*** Session functions *****************************************************/
 
-function sess_open($save_path, $session_name) {
+function _shn_session_sess_open($save_path, $session_name) {
   return 1;
 }
 
-function sess_close() {
+function _shn_session_sess_close() {
   return 1;
 }
 
-function sess_read($key) {
+function _shn_session_sess_read($key) {
   global $user;
 
   $result = db_query_range("SELECT u.*, s.* FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.sid = '%s' AND u.status < 3", $key, 0, 1);
@@ -30,7 +31,7 @@ function sess_read($key) {
   return $result;
 }
 
-function sess_write($key, $value) {
+function _shn_session_sess_write($key, $value) {
   global $user;
 
   db_query("UPDATE {sessions} SET uid = %d, hostname = '%s', session = '%s', timestamp = %d WHERE sid = '%s'", $user->uid, $_SERVER["REMOTE_ADDR"], $value, time(), $key);
@@ -38,11 +39,11 @@ function sess_write($key, $value) {
   return '';
 }
 
-function sess_destroy($key) {
+function _shn_session_sess_destroy($key) {
   db_query("DELETE FROM {sessions} WHERE sid = '%s'", $key);
 }
 
-function sess_gc($lifetime) {
+function _shn_session_sess_gc($lifetime) {
 
   /*
   **  Be sure to adjust 'php_value session.gc_maxlifetime' to a large enough
