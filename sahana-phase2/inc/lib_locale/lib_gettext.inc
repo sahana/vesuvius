@@ -28,7 +28,7 @@ include_once $global['approot']."/3rd/php-gettext/gettext.php";
  * @return string
  */
 function gettext($string) {
-    return translate($string);
+    return $string;
 }
 
 /**
@@ -40,6 +40,6 @@ function gettext($string) {
  * @return void
  */
 function _($string) {
-    return translate($string);
+    return $string;
 }
 ?>
