@@ -78,4 +78,9 @@ if (function_exists("gettext")) {
     include_once $global['approot'] . "/inc/lib_locale/lib_gettext.inc";
 }
 
+function _lc($string)
+{
+	return gettext($string);
+}
+
 ?>
