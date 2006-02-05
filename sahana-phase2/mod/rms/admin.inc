@@ -27,7 +27,7 @@ function shn_rms_adm_default()
 {
 ?>
 
-<h2>Welcome to The RMS Administration Page</h2>
+<h2><? print _("Welcome to The RMS Administration Page")?></h2>
 <br/><hr/><br/>
 <div id="home">
 <div id="result">
@@ -93,9 +93,9 @@ function show_rms_categories_adm()
         {
     ?>
     <tr>
-        <td><?php print  $r['cat_id'] ?></td>
-        <td><?php print  $r['category'] ?></td>
-        <td><?php print  $r['description'] ?></td>
+        <td><?php print  _lc($r['cat_id']) ?></td>
+        <td><?php print  _lc($r['category']) ?></td>
+        <td><?php print  _lc($r['description']) ?></td>
     </tr>
     <?php
         }
@@ -110,14 +110,14 @@ function shn_rms_adm_add_category()
 
     shn_form_fopen("adm_add_cat",null);
 
-    shn_form_fsopen('Add Categories');
+    shn_form_fsopen(_("Add Categories"));
 
     //shn_form_select(get_rms_catlist(),"category","category");
-    shn_form_text('Category','cat_name','size="30"');
-    shn_form_textarea('Description','cat_desc');
+    shn_form_text(_("Category"),'cat_name','size="30"');
+    shn_form_textarea(_("Description"),'cat_desc');
 
     shn_form_fsclose();
-    shn_form_submit('Add');
+    shn_form_submit(_("Add"));
     shn_form_fclose();
     show_rms_categories_adm();
 
@@ -136,21 +136,21 @@ function shn_rms_adm_add_cat()
 
     if(trim($_POST["cat_name"])=='' || !isset($_POST["cat_name"]))
     {
-    	_shn_rms_adderror("The Category cannot be blank please enter a " .
-    			"valid Category");
-    	$error = true;
+        	_shn_rms_adderror(_("The Category cannot be blank,") .
+                          _(" please enter a valid Category"));
+        	$error = true;
     }
 
     if(trim($_POST["cat_desc"])=='' || !isset($_POST["cat_desc"]))
     {
-    	_shn_rms_adderror("The Category description cannot be blank please enter a " .
-    			"valid Category description");
-    	$error = true;
+        	_shn_rms_adderror(_("The Category description cannot be blank, ") .
+                          _("please enter a valid Category description"));
+        	$error = true;
     }
 
     if($error)
     {
-    	_shn_rms_showerrors();
+    	   _shn_rms_showerrors();
     }
     elseif (1 > $rs->RecordCount())
     {
@@ -173,12 +173,12 @@ function shn_rms_adm_remove_category()
 
     shn_form_fopen("adm_remove_cat",null);
 
-    shn_form_fsopen('Remove Categories');
+    shn_form_fsopen(_("Remove Categories"));
 
-    shn_form_select(get_rms_catlist(),"Category","cat_id");
+    shn_form_select(get_rms_catlist(),_("Category"),"cat_id");
 
     shn_form_fsclose();
-    shn_form_submit('Remove');
+    shn_form_submit(_("Remove"));
     shn_form_fclose();
     show_rms_categories_adm();
 
@@ -244,9 +244,9 @@ function show_rms_priorities()
         {
     ?>
     <tr>
-        <td><?php print  $r['priority_id'] ?></td>
-        <td><?php print  $r['priority'] ?></td>
-        <td><?php print  $r['description'] ?></td>
+        <td><?php print  _lc($r['priority_id']) ?></td>
+        <td><?php print  _lc($r['priority']) ?></td>
+        <td><?php print  _lc($r['description']) ?></td>
     </tr>
     <?php
         }
@@ -261,13 +261,13 @@ function shn_rms_adm_add_priority()
 
     shn_form_fopen("adm_add_prio",null);
 
-    shn_form_fsopen('Add Priority Type');
+    shn_form_fsopen(_("Add Priority Type"));
 
-    shn_form_text('Priority','priority','size="30"');
-    shn_form_textarea('Description','prio_desc');
+    shn_form_text(_("Priority"),'priority','size="30"');
+    shn_form_textarea(_("Description"),'prio_desc');
 
     shn_form_fsclose();
-    shn_form_submit('Add');
+    shn_form_submit(_("Add"));
     shn_form_fclose();
     show_rms_priorities();
 
@@ -278,7 +278,6 @@ function shn_rms_adm_add_prio()
 
     global $global;
     $prio = $_POST["priority"];
-    //print $name;
     $desc = $_POST["prio_desc"];
     $error = false;
 
@@ -288,21 +287,21 @@ function shn_rms_adm_add_prio()
 
     if(trim($_POST["priority"])=='' || !isset($_POST["priority"]))
     {
-    	_shn_rms_adderror("The priority cannot be blank please enter a " .
-    			"valid priority");
-    	$error = true;
+        	_shn_rms_adderror(_("The priority cannot be blank, ") .
+                          _("please enter a valid priority"));
+        	$error = true;
     }
 
     if(trim($_POST["prio_desc"])=='' || !isset($_POST["prio_desc"]))
     {
-    	_shn_rms_adderror("The priority description cannot be blank please enter a " .
-    			"valid priority description");
-    	$error = true;
+    	   _shn_rms_adderror(_("The priority description cannot be blank, ") .
+                         _("please enter a valid priority description"));
+    	   $error = true;
     }
 
     if($error)
     {
-    	_shn_rms_showerrors();
+    	   _shn_rms_showerrors();
     }
     elseif (1 > $rs->RecordCount())
     {
@@ -322,15 +321,14 @@ function shn_rms_adm_add_prio()
 
 function shn_rms_adm_remove_priority()
 {
-
     shn_form_fopen("adm_remove_prio",null);
 
-    shn_form_fsopen('Remove Priority Type');
+    shn_form_fsopen(_("Remove Priority Type"));
 
-    shn_form_select(get_rms_priolist(),"Priority","priority");
+    shn_form_select(get_rms_priolist(),_("Priority"),"priority");
 
     shn_form_fsclose();
-    shn_form_submit('Remove');
+    shn_form_submit(_("Remove"));
     shn_form_fclose();
     show_rms_priorities();
 
@@ -349,7 +347,8 @@ function shn_rms_adm_remove_prio()
     }
     else
     {
-        print _("This Priority type cannot be removed, because it is in use at the moment");
+        print _("This Priority type cannot be removed, " .
+              _("because it is in use at the moment"));
     }
 
     shn_rms_adm_remove_priority();

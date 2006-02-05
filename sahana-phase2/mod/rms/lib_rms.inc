@@ -1142,7 +1142,7 @@ function get_rms_catlist()
     $list = array();
     foreach ($recs as $rec)
     {
-        $list[$rec[0]] = $rec[1];
+        $list[$rec[0]] = _lc($rec[1]);
     }
     return $list;
 }
