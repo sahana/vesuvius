@@ -22,9 +22,17 @@ require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 
 function __select_locale()
 {
-	$lc_list = array('si_LK'=>'si_LK [Sinhala]',	'de_DE'=>'de_DE [German]','en_US'=>'en_US [English US]');
+	$lc_list = array(
+					'ko_KR'=>'ko_KR [Sinhala]',
+					'si_LK'=>'si_LK [Sinhala]',
+					'de_DE'=>'de_DE [German]',
+					'en_US'=>'en_US [English US]'
+					);
+
 	$locale = $_SESSION["locale"];
-	print "<h3>Current language : $locale</h3>";
+
+	print "<h3>" . _("Current language : ") . _lc($locale) . "</h3>";
+
 	shn_form_fopen("lc_set",null,array('req_message'=>false));
 
     shn_form_hidden(array('seq'=>'set_locale'));
@@ -44,8 +52,13 @@ switch ($_REQUEST['seq'])
             if(_shn_lc_issetdblc())
             {
             	$locale = _shn_lc_getdblc();
-            	print "<h3>" . _("Current locale setting ") .
-            			"in the Database : $locale </h3>";
+
+            	print "<h3>" .
+                  _("Current locale setting ") .
+            		  _("in the Database : ") .
+                  _lc($locale) .
+                  " </h3>";
+
             	__select_locale();
             }
             else
@@ -54,7 +67,7 @@ switch ($_REQUEST['seq'])
             		  _("The locale setting is not set in the Database") .
             		  "</h3><br /><h4>" .
             		  _("Please select a valid locale from the list") .
-					  "</h4>";
+			      "</h4>";
             	__select_locale();
             }
             break;

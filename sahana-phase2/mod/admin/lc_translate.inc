@@ -16,11 +16,13 @@
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-$locale = "en_US";
+$locale = $_SESSION["locale"];
+$lc = $_SESSION["locale"];
 
 ?>
 <h3><?=_("Sahana Localization Module") ?></h3>
 <h4><?=_("Language Translation") ?></h4>
+<h3><?php print _("Current language : $lc") ?></h3>
 <table>
 <tr>
 	<td>
@@ -41,12 +43,12 @@ $locale = "en_US";
 	</td>
 	<td>
 	<?php
-		$file_name = "../res/locale/en_US/LC_MESSAGES/sahana.po";
+		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
     	if(file_exists($file_name))
     	{
     		global $global;
     		print _("You can download the [" .
-    				"<a href='".$global['approot']."res/locale/en_US/LC_MESSAGES/sahana.po'> Sahana.po </a>] " .
+    				"<a href='".$global['approot']."res/locale/$locale/LC_MESSAGES/sahana.po'> Sahana.po </a>] " .
     				"file and do the translation offline," .
     				"then paste the content of the file in the text area bellow and save it using save button.");
     	}
@@ -65,28 +67,31 @@ function __text_clean($str)
 
 function _shn_admin_lc_save()
 {
-	$file_name = "../res/locale/en_US/LC_MESSAGES/sahana.po";
+	$locale = $_SESSION["locale"];
+	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	$file_cont = __text_clean($_POST['msgs']);
-	file_put_contents($file_name, $file_cont);
+
+	if (is_writable("../res/locale/$locale/LC_MESSAGES/"))
+		file_put_contents($file_name, utf8_encode($file_cont));
+	else
+		print "plesae make the path : $file_name writable";
 	_shn_admin_lc_load();
 }
 
 function _shn_admin_lc_load($file_n = null)
 {
+	$locale = $_SESSION["locale"];
 
-	if ($file_n == null)
-	{
-    	$file_name = "../res/locale/en_US/LC_MESSAGES/sahana.po";
-	}
-	else
-	{
+	if ($file_n == null) {
+    		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
+	} else {
 		$file_name = $file_n;
 	}
 
 	if(!file_exists($file_name))
 		$value = "Please create the file first";
-
-	$value = file_get_contents($file_name);
+	else
+		$value = file_get_contents($file_name);
 
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save'));
@@ -115,14 +120,13 @@ switch ($_REQUEST['seq'])
             $cmd = 'xgettext --keyword=__ --keyword=_e ' .
             		'--keyword=_p  --default-domain=sahana ' .
             		'--language=php ../*/*/*.inc ' .
-            		'--output=../res/locale/en_US/LC_MESSAGES/sahana_temp.po';
-            _shn_admin_lc_load('../res/locale/en_US/LC_MESSAGES/sahana_temp.po');
+            		'--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
+            _shn_admin_lc_load('../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po');
             system($cmd, &$return);
             break;
     case 'compile':
             $return = array();
-            $cmd = 'msgfmt ../res/locale/en_US/LC_MESSAGES/sahana.po --output-file=../res/locale/en_US/LC_MESSAGES/sahana.mo';
-            system($cmd, &$return);
+            $cmd = 'msgfmt ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.mo';            system($cmd, &$return);
             break;
 }
 ?>
