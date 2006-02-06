@@ -22,7 +22,7 @@ $lc = $_SESSION["locale"];
 ?>
 <h3><?=_("Sahana Localization Module") ?></h3>
 <h4><?=_("Language Translation") ?></h4>
-<h3><?php print _("Current language : $lc") ?></h3>
+<h3><?php print _("Current language : ") . _lc($lc) ?></h3>
 <table>
 <tr>
 	<td>
@@ -75,6 +75,7 @@ function _shn_admin_lc_save()
 		file_put_contents($file_name, utf8_encode($file_cont));
 	else
 		print "plesae make the path : $file_name writable";
+
 	_shn_admin_lc_load();
 }
 
@@ -82,11 +83,10 @@ function _shn_admin_lc_load($file_n = null)
 {
 	$locale = $_SESSION["locale"];
 
-	if ($file_n == null) {
+	if ($file_n == null)
     		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
-	} else {
+	else
 		$file_name = $file_n;
-	}
 
 	if(!file_exists($file_name))
 		$value = "Please create the file first";

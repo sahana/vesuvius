@@ -23,9 +23,7 @@ require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 function __select_locale()
 {
 	$lc_list = array(
-					'ko_KR'=>'ko_KR [Sinhala]',
-					'si_LK'=>'si_LK [Sinhala]',
-					'de_DE'=>'de_DE [German]',
+					'de_DE'=>'si_LK [Sinhala]',
 					'en_US'=>'en_US [English US]'
 					);
 
