@@ -25,12 +25,12 @@ function load_map($x='',$y=''){
 <?php
 		if($x=='' || $y==''){
 ?>
-       	map.centerAndZoom(new GPoint(-122.1419, 37.4419), 3);
+       	map.centerAndZoom(new GPoint(79.5, 8.5338), 10);
 <?php
 		}
 		else{
 ?>
-				map.centerAndZoom(new GPoint(<?php echo $x?>,<?php echo $y?>), 4);
+				map.centerAndZoom(new GPoint(<?php echo $x?>,<?php echo $y?>), 10);
 <?php
 		}
 ?>
