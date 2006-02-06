@@ -26,6 +26,7 @@ function shn_or_mainmenu()
     global $global;
     $module = $global['module'];
     $loc=_shn_or_get_start_loc();
+    print $loc;
 ?>
    <div id="modmenuwrap"> 
         <h2>Organization Registry</h2>
