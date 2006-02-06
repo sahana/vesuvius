@@ -49,24 +49,26 @@ switch ($_REQUEST['seq'])
 	case ''	:
             if(_shn_lc_issetdblc())
             {
-            	$locale = _shn_lc_getdblc();
+                	$locale = _shn_lc_getdblc();
 
-            	print "<h3>" .
-                  _("Current locale setting ") .
-            		  _("in the Database : ") .
-                  _lc($locale) .
-                  " </h3>";
+                	print "<h3>" .
+                      _("Current locale setting ") .
+                		  _("in the Database : ") .
+                      _lc($locale) .
+                      " </h3>";
 
-            	__select_locale();
+                	__select_locale();
             }
             else
             {
-            	print "<h3>" .
-            		  _("The locale setting is not set in the Database") .
-            		  "</h3><br /><h4>" .
-            		  _("Please select a valid locale from the list") .
-			      "</h4>";
-            	__select_locale();
+            /*
+                print "<h3>" .
+                		  _("The locale setting is not set in the Database") .
+                		  "</h3><br /><h4>" .
+                		  _("Please select a valid locale from the list") .
+    			      "</h4>";
+                	__select_locale();
+            */
             }
             break;
 
