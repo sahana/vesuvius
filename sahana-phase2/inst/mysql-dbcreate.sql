@@ -350,9 +350,9 @@ CREATE TABLE phonetic_word(
 /* --------------------------------------------------------------------------*/
 
 /**
-* Camp Registry Specific Tables added
-* Modules: cms,cr
-* Last changed: 01-NIV-2005 - chathra@opensource.lk  
+* Camp Management System Specific Tables added
+* Modules: cms
+* Last changed: 06-Feb-2006 - mifan@opensource.lk  
 */
 
 DROP TABLE IF EXISTS camp;
@@ -366,6 +366,11 @@ CREATE TABLE camp (
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
+/**
+* Camp Management System Specific Tables added
+* Modules: cms
+* Last changed: 06-Feb-2006 - mifan@opensource.lk  
+*/
 DROP TABLE IF EXISTS camp_reg;
 CREATE TABLE camp_reg (
     c_uuid BIGINT NOT NULL,
@@ -399,6 +404,17 @@ CREATE TABLE person_camp(
     p_uuid BIGINT NOT NULL
 );
 
+DROP TABLE IF EXISTS camp_org;
+CREATE TABLE camp_org(
+    c_uuid BIGINT NOT NULL,
+    o_uuid BIGINT NOT NULL
+);
+
+DROP TABLE IF EXISTS camp_admin;
+CREATE TABLE camp_admin(
+    c_uuid BIGINT NOT NULL,
+    contact_puuid BIGINT NOT NULL
+);
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
 DROP TABLE IF EXISTS configlist;
