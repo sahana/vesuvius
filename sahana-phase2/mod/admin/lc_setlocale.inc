@@ -61,14 +61,12 @@ switch ($_REQUEST['seq'])
             }
             else
             {
-            /*
                 print "<h3>" .
                 		  _("The locale setting is not set in the Database") .
                 		  "</h3><br /><h4>" .
                 		  _("Please select a valid locale from the list") .
     			      "</h4>";
                 	__select_locale();
-            */
             }
             break;
 
