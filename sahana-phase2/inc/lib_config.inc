@@ -36,4 +36,31 @@ function shn_config_update($modify, $config_file, $output_file)
     fclose($fh_t);
     return true;
 }
+
+/**
+ * shn_config_fetch 
+ * 
+ *    - all  : all configuration
+ *    - base : base configuration
+ *    - you can sepecify the module name
+ *    
+ * @param string $type 
+ * @access public
+ * @return void
+ */
+function shn_config_fetch($type='base')
+{
+    global $global;
+    global $conf;
+
+    if($type == 'all')
+        $sql = "SELECT module_id, confkey, value FROM config";
+    else
+        $sql = "SELECT module_id, confkey, value FROM config WHERE module_id = '$type'";
+
+    if($results = $global['db']->GetAll($sql)){
+        foreach($results as $result)
+            $conf['mod_'.$result['module_id'].'_'.$result['confkey']] = $result['value'];
+    }
+}
 ?>
