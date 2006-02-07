@@ -27,6 +27,11 @@ if ($conf['sahana_status'] == 'installed' ) {
 
     require_once ($global['approot'].'inc/lib_modules.inc'); 
     require_once ($global['approot'].'inc/handler_db.inc');
+    
+    require_once ($global['approot'].'inc/lib_config.inc');
+    //fetch config values : base values
+    shn_config_fetch('base');
+
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
@@ -86,6 +91,9 @@ function shn_front_controller()
           include ($approot.'mod/'.$f.'/conf.inc');
         }
     } 
+
+    //Override config values with database ones
+    shn_config_fetch('all');
 
     // Start the body and the CSS container element
 ?>
