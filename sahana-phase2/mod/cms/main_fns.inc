@@ -122,6 +122,9 @@ function shn_cms_stat(){
 function shn_cms_srch(){
 }
 
+function shn_cms_sync(){
+}	
+
 
 
 

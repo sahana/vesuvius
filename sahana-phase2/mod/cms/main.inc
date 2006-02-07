@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: main.inc,v 1.3 2006-02-07 06:09:58 mifanc Exp $ */
 
 /**Main home page of the CMS
 *
@@ -9,9 +9,9 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author   Chathra Hendehewa <chathra@opensource.lk>
-* @author   Mifan Careem <mifan@opensource.lk>
+* @package    	Sahana - http://sahana.sourceforge.net
+* @author   	Chathra Hendehewa <chathra@opensource.lk>
+* @author   	Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -19,41 +19,67 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cms/main_fns.inc";
 include_once $global['approot']."/mod/cms/home.inc";
 
-function shn_cms_mainmenu(){
+
+/**
+ * Main menu functionality
+ * @todo	Add Javascript to handle menu expansion
+*/
+function shn_cms_mainmenu()
+{
 	global $global;
 	$module = $global['module'];
+	$db = $global['db'];
 ?>
 <div id="modmenuwrap">
-	<h2>Camps Management System</h2>
+	<h2><?=_("Camp Management System")?></h2>
 	<ul id="modmenu">
-		<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-		<li><a href="#">Camps</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=default"><?=_("Home")?></a></li>
+<?php
+	/*
+	 * Check whether there are existing camps.
+	 * If not, show only Camps creation subsection
+	 * Else, show everything
+	 */
+	$query_camps = "select * from camps";
+	$result = $db->Execute($query_camps);
+	if($result->EOF || $result==null)
+	{	
+?>
+		<li><a href="index.php?mod=<?=$module?>&act=cadd"><?=_("Add New Camp")?></a></li>
+<?php
+	}//end if
+	else
+	{
+?>
+		<li><a href="#"><?=_("Victims")?></a></li>
 		<ul id="modsubmenu">
-			<li><a href="index.php?mod=<?=$module?>&act=cadd">Add New Camp</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=cedt">Edit Camp</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=cext">Close Camp</a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=vadd"><?=_("Register Victim")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=vedt"><?=_("Edit Victim")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=vupd"><?=_("Update Victim")?></a></li>
 		</ul>
-		<li><a href="#">Victims</a></li>
+		<li><a href="#"><?=_("Relief Workers")?></a></li>
 		<ul id="modsubmenu">
-			<li><a href="index.php?mod=<?=$module?>&act=vadd">Register Victim</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=vedt">Edit Victim</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=vupd">Update Victim</a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=wadd"><?=_("Register Relief Worker")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=wedt"><?=_("Edit Relief Worker")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=wupd"><?=_("Update Relief Worker")?></a></li>
 		</ul>
-		<li><a href="#">Relief Workers</a></li>
-		<ul id="modsubmenu">
-			<li><a href="index.php?mod=<?=$module?>&act=wadd">Register Relief Worker</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=wedt">Edit Relief Worker</a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=wupd">Update Relief Worker</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=srch"><?=_("Search")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=stat"><?=_("Statistics")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=rept"><?=_("Reports")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=invt"><?=_("Inventory")?></a></li>
+		<li><a href="#"><?=_("Camp Details")?></a></li>
+		<ul id="modsubmenu">	
+			<li><a href="index.php?mod=<?=$module?>&act=cedt"><?=_("Edit Camp")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=cext"><?=_("Camp Closure")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=sync"><?=_("Synchronize")?></a></li>
 		</ul>
-		<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=stat">Statistics</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=rept">Reports</a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=invt">Inventory</a></li>
+<?php
+	}//end else
+?>
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->
-<?
+
+<?php
 include $global['approot']."/inc/handler_mainmenu.inc";
-}
-
-
+}//end shn_cms_mainmenu
 ?>
