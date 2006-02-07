@@ -328,7 +328,7 @@ CREATE TABLE phonetic_word(
 /**
 * Camp Registry Specific Tables added
 * Modules: cms,cr
-* Last changed: 01-NIV-2005 - chathra@opensource.lk  
+* Last changed: 07-Feb-2006 - mifan@opensource.lk  
 */
 
 CREATE TABLE camp (
@@ -369,6 +369,16 @@ CREATE TABLE camp_services (
 CREATE TABLE person_camp(
     c_uuid BIGINT NOT NULL,
     p_uuid BIGINT NOT NULL
+);
+
+CREATE TABLE camp_org(
+    c_uuid BIGINT NOT NULL,
+		o_uuid BIGINT NOT NULL
+);
+
+CREATE TABLE camp_admin(
+    c_uuid BIGINT NOT NULL,
+    contact_puuid BIGINT NOT NULL
 );
 
 
