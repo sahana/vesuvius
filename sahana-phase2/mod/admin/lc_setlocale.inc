@@ -37,7 +37,7 @@ function __select_locale()
 
     shn_form_fsopen(_("Select Locale"));
 
-    shn_form_select($lc_list,_("Locale"),"locale",null);
+    shn_form_select($lc_list,"","locale",'onChange=submit(this);',array('value'=>"$locale"));
 
     shn_form_fsclose();
     shn_form_submit(_("Set Locale"));
