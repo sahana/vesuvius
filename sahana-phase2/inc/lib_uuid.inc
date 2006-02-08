@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.1 2006-02-07 11:12:24 janakawicks Exp $ */
+/* $Id: lib_uuid.inc,v 1.2 2006-02-08 08:19:34 ravids Exp $ */
 
 /**
  *
@@ -71,7 +71,7 @@ function shn_create_uuid($type='person')
             break;
     }
     
-    return $conf['base_uuid'].$gen_id
+    return $conf['base_uuid'].$gen_id;
 }
 
 /**
