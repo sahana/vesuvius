@@ -19,6 +19,7 @@ $q="select count(o_uuid) as cnt from org_main";
 $res=$db->Execute($q);
 if(!$res->EOF){
     $org_no=($res->fields[0])-1;
+    $org_no=($org_no<0)?0:$org_no;
 }
 $q="select count(person_uuid.p_uuid) as cnt from person_uuid,person_status where person_status.isReliefWorker=1 and person_status.p_uuid=person_uuid.p_uuid";
 $res=$db->Execute($q);
