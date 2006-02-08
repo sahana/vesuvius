@@ -20,27 +20,27 @@
 
 /**
  * You can add extra attributes to the given HTML element
- * 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
 function shn_form_extra_opts($extra_opts)
 {
     // output a required flag
-    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n"; 
+    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n";
     // output a break - default is true
     if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br />\n";
-    
-    
+
+
     }
 
 /**
  * This function will open the HTML Form
- * 
- * @param mixed $act 
- * @param mixed $mod 
- * @param string $form_opts 
+ *
+ * @param mixed $act
+ * @param mixed $mod
+ * @param string $form_opts
  * @access public
  * @return void
  */
@@ -62,7 +62,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 
 /**
  * This function will close the HTML form
- * 
+ *
  * @access public
  * @return void
  */
@@ -75,8 +75,8 @@ function shn_form_fclose()
 
 /**
  * This will produce a submit button
- * 
- * @param mixed $name 
+ *
+ * @param mixed $name
  * @access public
  * @return void
  */
@@ -89,8 +89,8 @@ function shn_form_submit($name)
 
 /**
  * Open and close a fieldset, which is a group of field
- * 
- * @param mixed $label 
+ *
+ * @param mixed $label
  * @access public
  * @return void
  */
@@ -103,7 +103,7 @@ function shn_form_fsopen($label = null)
 
 /**
  * HTML Form close
- * 
+ *
  * @access public
  * @return void
  */
@@ -116,14 +116,14 @@ function shn_form_fsclose()
 
 /**
  * HTML button element
- * 
- * @param mixed $name 
- * @param mixed $button_opts 
+ *
+ * @param mixed $name
+ * @param mixed $button_opts
  * @access public
  * @return void
  */
 function shn_form_button($name, $button_opts = null)
-                        
+
 {
 ?>
     <input type="button" value="<?=$name?>" <?=$button_opts?> />
@@ -132,11 +132,11 @@ function shn_form_button($name, $button_opts = null)
 
 /**
  * HTML text element
- * 
- * @param mixed $label 
- * @param mixed $name 
- * @param mixed $text_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $name
+ * @param mixed $text_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -154,27 +154,27 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 
 /**
  * HTML hidden element
- * 
- * @param mixed $hidden_vars 
+ *
+ * @param mixed $hidden_vars
  * @access public
  * @return void
  */
-function shn_form_hidden($hidden_vars) 
+function shn_form_hidden($hidden_vars)
 {
     foreach ($hidden_vars as $name => $value) {
 ?>
     <input type="hidden" name="<?=$name?>" value="<?=$value?>">
-<?php   
+<?php
     }
 }
 
 /**
  * HTML checkbox element
- * 
- * @param mixed $label 
- * @param mixed $name 
- * @param mixed $text_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $name
+ * @param mixed $text_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -191,12 +191,12 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 
 /**
  * HTML dropdown list element
- * 
- * @param mixed $options 
- * @param mixed $label 
- * @param mixed $name 
- * @param string $select_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $options
+ * @param mixed $label
+ * @param mixed $name
+ * @param string $select_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -209,27 +209,27 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
     <label><?=$label?></label>
     <select name="<?=$name?>" <?=$select_opts?> >
 <?php
-    foreach ($options as $opt_value => $desc ) {
-    
-        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+    foreach ($options as $opt_value => $desc )
+    {
+        $sel = ( $opt_value == $value ) ? "selected" : null ;
 ?>
         <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
 <?php
     }
 ?>
-    </select> 
+    </select>
 <?php
     shn_form_extra_opts($extra_opts);
-} 
+}
 
 /**
  * HTML radio button element
- * 
- * @param mixed $options 
- * @param mixed $label 
- * @param mixed $name 
- * @param string $select_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $options
+ * @param mixed $label
+ * @param mixed $name
+ * @param string $select_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -242,7 +242,7 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
     <label><?=$label?></label>
 <?php
     foreach ($options as $opt_value => $desc ) {
-    
+
 #        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
         <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
@@ -252,16 +252,16 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 ?>
 <?php
     shn_form_extra_opts($extra_opts);
-} 
+}
 
 
 /**
- * create a select field based on field options 
- * 
- * @param mixed $opt_field 
- * @param mixed $label 
- * @param string $select_opts 
- * @param mixed $extra_opts 
+ * create a select field based on field options
+ *
+ * @param mixed $opt_field
+ * @param mixed $label
+ * @param string $select_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -272,33 +272,33 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>" <?=$select_opts?> 
+    <select name="<?=$opt_field?>" <?=$select_opts?>
 <?php
 		    $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
     while(!res==NULL && !$res->EOF) {
-        
+
         $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
  <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
-<?php	
-		  
+<?php
+
         $res->MoveNext();
       }
       if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
  ?>
-    </select> 
+    </select>
 <?php
     shn_form_extra_opts($extra_opts);
-} 
+}
 
 /**
  * create a select field based on field option
- * 
- * @param mixed $opt_field 
- * @param mixed $label 
- * @param string $select_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $opt_field
+ * @param mixed $label
+ * @param string $select_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -309,31 +309,31 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>[]" <?=$select_opts?> 
+    <select name="<?=$opt_field?>[]" <?=$select_opts?>
 <?php
 		    $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
     while(!res==NULL && !$res->EOF) {
-        if($value!=NULL){ 
+        if($value!=NULL){
             $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? "selected" : null ;
         }
 ?>
  <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
-<?php	
-		  
+<?php
+
         $res->MoveNext();
       }
       if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
  ?>
-    </select> 
+    </select>
 <?php
     shn_form_extra_opts($extra_opts);
-} 
+}
 
 /**
  * create a checkboxes field based on field option
- * 
- * @param mixed $opt_field 
+ *
+ * @param mixed $opt_field
  * @access public
  * @return void
  */
@@ -355,11 +355,11 @@ function shn_form_opt_checkbox($opt_field){
 
 /**
  * HTML textarea element
- * 
- * @param mixed $label 
- * @param mixed $name 
- * @param mixed $text_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $name
+ * @param mixed $text_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -378,10 +378,10 @@ function shn_form_textarea($label, $name, $text_opts = null, $extra_opts = null)
 
 /**
  * HTML upload element
- * 
- * @param mixed $label 
- * @param mixed $name 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $name
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -396,10 +396,10 @@ function shn_form_upload($label, $name, $extra_opts = null)
 
 /**
  * This is a pseudo element, which creats a label
- * 
- * @param mixed $label 
- * @param mixed $caption 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $caption
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -416,11 +416,11 @@ function shn_form_label($label, $caption, $extra_opts = null)
 
 /**
  * HTML password text element
- * 
- * @param mixed $label 
- * @param mixed $name 
- * @param mixed $text_opts 
- * @param mixed $extra_opts 
+ *
+ * @param mixed $label
+ * @param mixed $name
+ * @param mixed $text_opts
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
@@ -435,15 +435,15 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 }
 
 /**
- * This is a pseudo element, contains a date 
- * 
- * @param mixed $label 
- * @param string $name 
- * @param mixed $initdate 
+ * This is a pseudo element, contains a date
+ *
+ * @param mixed $label
+ * @param string $name
+ * @param mixed $initdate
  * @access public
  * @return void
  */
-function shn_form_date($label, $name = 'date', $initdate = null ) 
+function shn_form_date($label, $name = 'date', $initdate = null )
 {
     ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
     ($valueY = $_POST[$name.'Y']) || ($valueY = ($initdate)? date('Y',$initdate) : null);
@@ -461,7 +461,7 @@ function shn_form_date($label, $name = 'date', $initdate = null )
 }
 
 /* fancy popup calendar, however such systems are eyecandy and not efficient
-function shn_form_date($label, $name = 'date') 
+function shn_form_date($label, $name = 'date')
 {
     #$today = date("Y-m-d");
     $today = date("d/m/Y");
