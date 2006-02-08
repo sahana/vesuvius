@@ -2348,3 +2348,11 @@ msgstr "&#3523;&#3524;&#3505; (FOSS) &#3462;&#3508;&#3503;&#3535; &#3482;&#3525;
 #: manually added entry**Temp locale for Sinhala
 msgid "de_DE"
 msgstr "&#3523;&#3538;&#3458;&#3524;&#3517;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "Sinhala"
+msgstr "&#3523;&#3538;&#3458;&#3524;&#3517;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "English"
+msgstr "&#3465;&#3458;&#3484;&#3530;&#8205;&#3515;&#3539;&#3523;&#3538;"
