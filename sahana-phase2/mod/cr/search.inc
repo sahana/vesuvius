@@ -152,7 +152,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 	
 function _shn_cr_srch($edit=false){		
 ?>
-	 	  <h1><center>Search for a Camp</center></h1>
+	 	  <h1><center><?=_("Search for a Camp")?></center></h1>
  <?php
 			shn_form_fopen("srch");
 			shn_form_fsopen(_("SEARCH"));

@@ -58,8 +58,8 @@ function shn_cr_home_pop(){
 <div id="result">
 <table>
 <thead>
-	<td>Camp Name</td>
-	<td>Population</td>
+	<td><?=_("Camp Name")?></td>
+	<td><?=_("Population")?></td>
 </thead>
 
 <?php
@@ -87,8 +87,8 @@ function shn_cr_home_newcmp(){
 <div id="result">
 <table>
 <thead>
-	<td>Camp Name</td>
-	<td>Location</td>
+	<td><?=_("Camp Name")?></td>
+	<td><?=_("Location")?></td>
 </thead>
 
 <?php

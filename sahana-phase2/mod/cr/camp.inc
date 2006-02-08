@@ -146,9 +146,9 @@ global $global;
 //write to database
 $_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
 $_SESSION['camp_comments']=$_POST['comments'];
-foreach($_SESSION['opt_camp_service'] as $a=>$b){
+//foreach($_SESSION['opt_camp_service'] as $a=>$b){
 //echo "value is $b";
-}
+//}
 //echo microtime(true);
 //var_dump($_SESSION);
 _shn_cr_cadd_commit_db();
@@ -341,10 +341,12 @@ if($conf['gis']){
 /*insert services into camp_services table
  *currently add checked values.
 */								
-	foreach($_SESSION['opt_camp_service'] as $a => $b){
+	if(isset($_SESSION['opt_camp_service'])){
+	 foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
 		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
-	$res = $db->Execute($q);
+	 $res = $db->Execute($q);
+	 }
 	}
 ?>
 <h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
@@ -372,7 +374,8 @@ while(!$ref->EOF){
 	$val=$ref->fields[0];
 	$name=$ref->fields[1];
 	$flag=false;
-	foreach($_SESSION['opt_camp_service'] as $a => $b){
+	if(isset($_SESSION['opt_camp_service'])){
+	 foreach($_SESSION['opt_camp_service'] as $a => $b){
 		if($val==$b){
 					
     		echo "<td>$name</td>";
@@ -381,6 +384,7 @@ while(!$ref->EOF){
 			//echo "<li>$name :  Available </li><br>";
 			$flag=true;			
 		}
+	 }
 	}
 	if(!$flag){
 		echo "<td>$name</td>";

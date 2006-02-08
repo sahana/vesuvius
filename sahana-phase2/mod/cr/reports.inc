@@ -123,12 +123,12 @@ function _shn_cr_rpt_all(){
 
 function _shn_cr_drill_location(){
 ?>
-<h1><center>Camp Information by Location Drilled</center></h1>
+<h1><center><?=_("Camp Information by Location")?></center></h1>
   <div id ="result">
 	   <table>
 		   <thead>
-		     	<td>Location</td>
-					<td>Total Number of Victims in Camps</td>
+		     	<td><?=_("Location")?></td>
+					<td><?=_("Total Number of Victims in Camps")?></td>
 			 </thead>
 			 <tbody>
 <?php
@@ -160,7 +160,7 @@ function _shn_cr_drill_location(){
 
 function _shn_cr_rpt_loc($locate){
 ?>
-<h1><center>Camp Information by Location</center></h1>
+<h1><center>Camp Information by Location Drilled</center></h1>
 <div id ="result">
 <table>
 <thead>
