@@ -1,7 +1,8 @@
 <?PHP
 
 function shn_home_default()
-{ ?>
+{ _shn_lc_lang_list();
+    ?>
 
     <div id="home">
 
@@ -15,16 +16,16 @@ function shn_home_default()
 	<li><b><?=_("Camp Registry</b><br/>Tracking the location and numbers of victims in the various camps and temporary shelters setup all around the affected area")?> </li>
 	</ul>
     <p>
-    <?php 
-    	print _("For more detail see the ") . 
-			  '<a href="http://www.sahana.lk">' . 
-			  _("Sahana Website </a> and ") . 
-              '<a href="http://www.linux.lk/~chamindra/docs/Sahana-Brochure.pdf">' . 
+    <?php
+    	print _("For more detail see the ") .
+			  '<a href="http://www.sahana.lk">' .
+			  _("Sahana Website </a> and ") .
+              '<a href="http://www.linux.lk/~chamindra/docs/Sahana-Brochure.pdf">' .
               _(" Brochure </a>");
     ?>
 	</p>
-    </div>    
-    
+    </div>
+
 <?php
 }
 
