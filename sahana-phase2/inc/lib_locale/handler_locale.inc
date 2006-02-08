@@ -16,6 +16,7 @@
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
+require_once ("lib_locale.inc");
 
 if (function_exists("gettext")) {
 

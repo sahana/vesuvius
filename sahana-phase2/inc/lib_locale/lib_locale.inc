@@ -16,6 +16,7 @@
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
+include_once $global['approot']."/inc/lib_form.inc";
 
 /**
  * Set the 'locale' value in the 'config' table
@@ -29,12 +30,23 @@ function _shn_lc_setdblc($locale)
 	global $global;
 
 	$sql = "INSERT INTO config " .
-			"VALUES('admin', 'locale', '$locale')";
+		   "VALUES('admin', 'locale', '$locale')";
+
+    $sql_up = "UPDATE config SET value = '$locale' " .
+              "WHERE module_id = 'admin' " .
+              "AND confkey = 'locale'";
+
 	if (!$global['db']->Execute($sql))
 	{
 		print $global['db']->ErrorMsg();
 		return false;
 	}
+    elseif (!$global['db']->Execute($sql_up))
+    {
+        print $global['db']->ErrorMsg();
+        return false;
+    }
+
 	return true;
 }
 
@@ -111,5 +123,26 @@ function _shn_lc_issetsession()
 {
 	return isset($_SESSION['locale']);
 }
-?>
 
+/**
+ * Displays the list of available languages
+ */
+function _shn_lc_lang_list($mode=1)
+{
+    $lc_list = array(
+                    'de_DE'=>_("Sinhala"),
+                    'en_US'=>_("English")
+                    );
+    $locale = $_SESSION['locale'];
+
+    shn_form_fopen("lc_set",null,array('req_message'=>false));
+
+    shn_form_hidden(array('seq'=>'set_locale'));
+
+
+    shn_form_select($lc_list,"","locale",'onChange=submit(this);',array('value'=>"$locale"));
+
+    shn_form_fclose();
+}
+
+?>
