@@ -1,7 +1,7 @@
 <?PHP
 
 function shn_home_default()
-{ _shn_lc_lang_list();
+{
     ?>
 
     <div id="home">
