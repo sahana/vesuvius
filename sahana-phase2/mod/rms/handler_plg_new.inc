@@ -78,8 +78,8 @@ if ($_POST['seq'] == 'confirm')
 
     if(get_category_name($_POST['cat_id']) == 'Other')
     {
-    	if(!isset($_POST['other_cat']) || $_POST['other_cat'] == '')
-        	_shn_rms_adderror(_("You have to enter a category or select a valid category from the list"));
+        	if(!isset($_POST['other_cat']) || $_POST['other_cat'] == '')
+            	_shn_rms_adderror(_("You have to enter a category or select a valid category from the list"));
     }
 
     if(!isset($_POST['quantity']) || $_POST['quantity'] == '')
@@ -137,38 +137,37 @@ if ($_POST['seq'] == 'confirm')
 elseif ($_POST['seq'] == 'add')
 {
     global $global;
-    $date = $_POST['date'];
-    $name  = $_POST['name'];
-    $contact  = $_POST['contact'];
-    $location  = $_POST['location'];
-    $comments  = $_POST['comments'];
-    $cat_id  = $_POST['cat_id'];
-    $item  = $_POST['item'];
-    $quantity  = $_POST['quantity'];
-    $unit_id = $_POST['units'];
+    $date       = $_POST['date'];
+    $name       = $_POST['name'];
+    $contact    = $_POST['contact'];
+    $location   = $_POST['location'];
+    $comments   = $_POST['comments'];
+    $cat_id     = $_POST['cat_id'];
+    $item       = $_POST['item'];
+    $quantity   = $_POST['quantity'];
+    $unit_id    = $_POST['units'];
 
-    if($cat_id==get_cat_id("Other") && !$_SESSION['rms_plg_added'])
+    if($cat_id == get_cat_id("Other") && !$_SESSION['rms_plg_added'])
     {
-    	$other_cat = $_POST['other_cat'];
-    	$cat_id = _shn_rms_addcategory($other_cat);
-    	if (!$cat_id)
-    	{
-    		_shn_rms_adderror(_("Error inserting new Category"));
-    		return false;
-    	}
+        	$other_cat = $_POST['other_cat'];
+        	$cat_id = _shn_rms_addcategory($other_cat);
+        	if (!$cat_id)
+        	{
+        		_shn_rms_adderror(_("Error inserting new Category"));
+        		return false;
+        	}
 
     }
 
     if($unit_id==get_unit_id("Other") && !$_SESSION['rms_plg_added'])
     {
-    	$other_units = $_POST['other_units'];
-    	$unit_id = _shn_rms_addunit($other_units);
-    	if (!$cat_id)
-    	{
-    		_shn_rms_adderror(_("Error inserting new Unit"));
-    		return false;
-    	}
-
+        	$other_units = $_POST['other_units'];
+        	$unit_id = _shn_rms_addunit($other_units);
+        	if (!$cat_id)
+        	{
+        		_shn_rms_adderror(_("Error inserting new Unit"));
+        		return false;
+        	}
     }
 
     $sql = "INSERT INTO rms_req_donor (name, contact, comments) " .

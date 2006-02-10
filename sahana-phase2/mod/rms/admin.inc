@@ -244,7 +244,7 @@ function show_rms_priorities()
         {
     ?>
     <tr>
-        <td><?php print  _lc($r['priority_id']) ?></td>
+        <td><?php print  $r['priority_id'] ?></td>
         <td><?php print  _lc($r['priority']) ?></td>
         <td><?php print  _lc($r['description']) ?></td>
     </tr>

@@ -832,13 +832,13 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     {
         $where = "WHERE user_id=$user_id";
         $where_fil = "user_id=$user_id AND";
-        $list_of = "User :$user_id";
+        $list_of = _("User") . " :$user_id";
     }
     else if ($user == 'user' && $status != 'all')
     {
         $where = "WHERE user_id=$user_id AND status='$status'";
         $where_fil = "req.user_id=$user_id  AND req.status='$status' AND";
-        $list_of = "User :$user_id";
+        $list_of = _("User") . " :$user_id";
     }
 
 
@@ -851,7 +851,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
                 "WHERE $where_fil itm.$filter=$value AND req.req_id=itm.req_id " .
                 "ORDER BY req_date DESC;";
 
-        $filtered_by = "Filtered by Category : " . get_category_name($value);
+        $filtered_by = _("Filtered by Category : ") . _lc(get_category_name($value));
     }
 
 
@@ -860,7 +860,7 @@ function show_request_list($filter='none',$value,$user='all',$status='open')
     if ($recordSet !== false)
     {
 ?>
-   <h3><?php print _("List of") .   ucfirst($status) . _("requests for ") . $list_of . "&nbsp;" . $filtered_by?></h3>
+   <h3><?php print _("List of") .   _lc(ucfirst($status)) . _("requests for ") . _lc($list_of) . "&nbsp;" . $filtered_by?></h3>
    <div id ="result">
     <table>
         <thead>
