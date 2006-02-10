@@ -8,13 +8,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-06 11:10+0600\n"
+"POT-Creation-Date: 2006-02-10 19:04+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../inc/lib_locale/lib_locale.inc:133
+msgid "Sinhala"
+msgstr ""
+
+#: ../inc/lib_locale/lib_locale.inc:134
+msgid "English"
+msgstr ""
 
 #: ../inc/lib_logger/actions.inc:2
 msgid "Create User"
@@ -186,10 +194,6 @@ msgstr ""
 
 #: ../mod/admin/lc_setlocale.inc:38
 msgid "Select Locale"
-msgstr ""
-
-#: ../mod/admin/lc_setlocale.inc:40
-msgid "Locale"
 msgstr ""
 
 #: ../mod/admin/lc_setlocale.inc:43 ../mod/admin/menu.inc:31
@@ -419,36 +423,36 @@ msgstr ""
 msgid "Aid Worker Registration"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:34
+#: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:38
 msgid "Individual Information"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:32 ../mod/cms/victim.inc:36 ../mod/mpr/add.inc:245
-#: ../mod/mpr/add.inc:549 ../mod/mpr/edit.inc:509 ../mod/mpr/edit.inc:743
-#: ../mod/mpr/search.inc:63 ../mod/mpr/search.inc:64 ../mod/mpr/search.inc:322
+#: ../mod/cms/aidworker.inc:32 ../mod/mpr/add.inc:245 ../mod/mpr/add.inc:549
+#: ../mod/mpr/edit.inc:509 ../mod/mpr/edit.inc:743 ../mod/mpr/search.inc:63
+#: ../mod/mpr/search.inc:64 ../mod/mpr/search.inc:322
 #: ../mod/mpr/search.inc:435 ../mod/or/view_vol.inc:30
 #: ../mod/rms/handler_plg_new.inc:26 ../mod/rms/handler_plg_new.inc:261
 #: ../mod/rms/lib_rms.inc:1196
 msgid "Name"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:37
+#: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:43
 msgid "ID/SSN/Passport"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:40 ../mod/mpr/add.inc:88
+#: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:46 ../mod/mpr/add.inc:88
 #: ../mod/mpr/add.inc:453 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:408
 #: ../mod/mpr/view.inc:81
 msgid "Race"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:35 ../mod/cms/victim.inc:41 ../mod/mpr/add.inc:87
+#: ../mod/cms/aidworker.inc:35 ../mod/cms/victim.inc:47 ../mod/mpr/add.inc:87
 #: ../mod/mpr/add.inc:451 ../mod/mpr/edit.inc:175 ../mod/mpr/edit.inc:406
 #: ../mod/mpr/view.inc:79
 msgid "Religion"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:36 ../mod/cms/victim.inc:42 ../mod/mpr/add.inc:86
+#: ../mod/cms/aidworker.inc:36 ../mod/cms/victim.inc:48 ../mod/mpr/add.inc:86
 #: ../mod/mpr/add.inc:449 ../mod/mpr/edit.inc:174 ../mod/mpr/edit.inc:404
 #: ../mod/mpr/view.inc:77
 msgid "Marital Status"
@@ -476,7 +480,7 @@ msgstr ""
 msgid "Service Information"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:43 ../mod/cms/camp.inc:41 ../mod/or/main.inc:184
+#: ../mod/cms/aidworker.inc:43 ../mod/cms/camp.inc:41 ../mod/or/main.inc:185
 #: ../mod/or/report.inc:168 ../mod/or/view_org.inc:28
 msgid "Organization Name"
 msgstr ""
@@ -485,12 +489,12 @@ msgstr ""
 msgid "Proffesion"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:45 ../mod/or/main.inc:185 ../mod/or/report.inc:169
+#: ../mod/cms/aidworker.inc:45 ../mod/or/main.inc:186 ../mod/or/report.inc:169
 #: ../mod/or/view_vol.inc:31 ../mod/or/view_vol.inc:148
 msgid "Services Offered"
 msgstr ""
 
-#: ../mod/cms/aidworker.inc:47 ../mod/cms/victim.inc:53
+#: ../mod/cms/aidworker.inc:47 ../mod/cms/victim.inc:59
 msgid "Register"
 msgstr ""
 
@@ -507,7 +511,8 @@ msgid "Name and Type"
 msgstr ""
 
 #: ../mod/cms/camp.inc:35 ../mod/cr/camp.inc:42 ../mod/cr/edit.inc:40
-#: ../mod/cr/edit.inc:125 ../mod/cr/search.inc:29
+#: ../mod/cr/edit.inc:125 ../mod/cr/main_fns.inc:61 ../mod/cr/main_fns.inc:90
+#: ../mod/cr/search.inc:29
 msgid "Camp Name"
 msgstr ""
 
@@ -524,7 +529,7 @@ msgstr ""
 msgid "Camp Admin Name"
 msgstr ""
 
-#: ../mod/cms/camp.inc:40 ../mod/or/main.inc:189 ../mod/or/report.inc:173
+#: ../mod/cms/camp.inc:40 ../mod/or/main.inc:190 ../mod/or/report.inc:173
 #: ../mod/or/view_org.inc:33 ../mod/or/view_vol.inc:35
 msgid "Contact Number"
 msgstr ""
@@ -574,57 +579,147 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: ../mod/cms/home.inc:21
+#: ../mod/cms/home.inc:21 ../mod/cms/main.inc:34
 msgid "Camp Management System"
 msgstr ""
 
-#: ../mod/cms/victim.inc:26
+#: ../mod/cms/main.inc:36 ../mod/cr/main.inc:29 ../mod/mpr/main.inc:42
+#: ../mod/rms/main.inc:41
+msgid "Home"
+msgstr ""
+
+#: ../mod/cms/main.inc:48
+msgid "Add New Camp"
+msgstr ""
+
+#: ../mod/cms/main.inc:54
+msgid "Victims"
+msgstr ""
+
+#: ../mod/cms/main.inc:56
+msgid "Register Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:57
+msgid "Edit Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:58
+msgid "Update Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:60
+msgid "Relief Workers"
+msgstr ""
+
+#: ../mod/cms/main.inc:62
+msgid "Register Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:63
+msgid "Edit Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:64
+msgid "Update Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:66 ../mod/cr/main.inc:30 ../mod/cr/search.inc:168
+#: ../mod/or/search.inc:52 ../mod/rms/handler_sc_req.inc:36
+msgid "Search"
+msgstr ""
+
+#: ../mod/cms/main.inc:67
+msgid "Statistics"
+msgstr ""
+
+#: ../mod/cms/main.inc:68
+msgid "Reports"
+msgstr ""
+
+#: ../mod/cms/main.inc:69
+msgid "Inventory"
+msgstr ""
+
+#: ../mod/cms/main.inc:70
+msgid "Camp Details"
+msgstr ""
+
+#: ../mod/cms/main.inc:72 ../mod/cr/edit.inc:273 ../mod/cr/main.inc:44
+msgid "Edit Camp"
+msgstr ""
+
+#: ../mod/cms/main.inc:73
+msgid "Camp Closure"
+msgstr ""
+
+#: ../mod/cms/main.inc:74
+msgid "Synchronize"
+msgstr ""
+
+#: ../mod/cms/victim.inc:30
 msgid "Victim Registration"
 msgstr ""
 
-#: ../mod/cms/victim.inc:38 ../mod/mpr/add.inc:84 ../mod/mpr/add.inc:445
+#: ../mod/cms/victim.inc:40 ../mod/cr/camp.inc:80 ../mod/cr/edit.inc:80
+#: ../mod/cr/edit.inc:178 ../mod/mpr/add.inc:80 ../mod/mpr/add.inc:437
+#: ../mod/mpr/edit.inc:168 ../mod/mpr/edit.inc:392 ../mod/mpr/view.inc:65
+msgid "Full Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:41 ../mod/mpr/add.inc:81 ../mod/mpr/add.inc:439
+#: ../mod/mpr/edit.inc:169 ../mod/mpr/edit.inc:394 ../mod/mpr/view.inc:67
+msgid "Family Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:42 ../mod/mpr/add.inc:82 ../mod/mpr/add.inc:441
+#: ../mod/mpr/edit.inc:170 ../mod/mpr/edit.inc:396 ../mod/mpr/view.inc:69
+msgid "Local Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:44 ../mod/mpr/add.inc:84 ../mod/mpr/add.inc:445
 #: ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:400 ../mod/mpr/view.inc:73
 msgid "Age Group"
 msgstr ""
 
-#: ../mod/cms/victim.inc:39
+#: ../mod/cms/victim.inc:45
 msgid "Person Status"
 msgstr ""
 
-#: ../mod/cms/victim.inc:43
+#: ../mod/cms/victim.inc:49
 msgid "Previous Contact  Type"
 msgstr ""
 
-#: ../mod/cms/victim.inc:44
+#: ../mod/cms/victim.inc:50
 msgid "Previous Contact"
 msgstr ""
 
-#: ../mod/cms/victim.inc:46
+#: ../mod/cms/victim.inc:52
 msgid "Group/Family"
 msgstr ""
 
-#: ../mod/cms/victim.inc:47
+#: ../mod/cms/victim.inc:53
 msgid "Group Name/Sirname/Family Name"
 msgstr ""
 
-#: ../mod/cms/victim.inc:48 ../mod/mpr/add.inc:92 ../mod/mpr/add.inc:490
+#: ../mod/cms/victim.inc:54 ../mod/mpr/add.inc:92 ../mod/mpr/add.inc:490
 #: ../mod/mpr/edit.inc:180 ../mod/mpr/edit.inc:445 ../mod/mpr/view.inc:115
 msgid "Contact Details"
 msgstr ""
 
-#: ../mod/cms/victim.inc:49
+#: ../mod/cms/victim.inc:55
 msgid "Number of Members in Group"
 msgstr ""
 
-#: ../mod/cms/victim.inc:50
+#: ../mod/cms/victim.inc:56
 msgid "Individual is head of Group/Family"
 msgstr ""
 
-#: ../mod/cms/victim.inc:51
+#: ../mod/cms/victim.inc:57
 msgid "Members of Group/Family are Missing"
 msgstr ""
 
-#: ../mod/cms/victim.inc:58
+#: ../mod/cms/victim.inc:66
 msgid "Edit Victim Information"
 msgstr ""
 
@@ -643,12 +738,6 @@ msgstr ""
 
 #: ../mod/cr/camp.inc:79 ../mod/cr/edit.inc:79 ../mod/cr/edit.inc:177
 msgid "Contact Person Details"
-msgstr ""
-
-#: ../mod/cr/camp.inc:80 ../mod/cr/edit.inc:80 ../mod/cr/edit.inc:178
-#: ../mod/mpr/add.inc:80 ../mod/mpr/add.inc:437 ../mod/mpr/edit.inc:168
-#: ../mod/mpr/edit.inc:392 ../mod/mpr/view.inc:65
-msgid "Full Name"
 msgstr ""
 
 #: ../mod/cr/camp.inc:83 ../mod/cr/edit.inc:83 ../mod/cr/edit.inc:181
@@ -749,27 +838,27 @@ msgstr ""
 msgid "The Children Count is not a valid number"
 msgstr ""
 
-#: ../mod/cr/camp.inc:354
+#: ../mod/cr/camp.inc:356
 msgid "The Availability of Services & Facilities of the Camp are as follows:"
 msgstr ""
 
-#: ../mod/cr/camp.inc:362
+#: ../mod/cr/camp.inc:364
 msgid "Service Type"
 msgstr ""
 
-#: ../mod/cr/camp.inc:363
+#: ../mod/cr/camp.inc:365
 msgid "Availability"
 msgstr ""
 
-#: ../mod/cr/camp.inc:379
+#: ../mod/cr/camp.inc:382
 msgid "Available"
 msgstr ""
 
-#: ../mod/cr/camp.inc:387
+#: ../mod/cr/camp.inc:391
 msgid "NOT AVAILABLE"
 msgstr ""
 
-#: ../mod/cr/camp.inc:403
+#: ../mod/cr/camp.inc:407
 msgid "Use the Left Navigation Menu to Continue."
 msgstr ""
 
@@ -789,10 +878,6 @@ msgstr ""
 
 #: ../mod/cr/edit.inc:245
 msgid "Deleted Camp Succesfully"
-msgstr ""
-
-#: ../mod/cr/edit.inc:273 ../mod/cr/main.inc:44
-msgid "Edit Camp"
 msgstr ""
 
 #: ../mod/cr/edit.inc:275
@@ -848,6 +933,14 @@ msgstr ""
 msgid "Newest Camps"
 msgstr ""
 
+#: ../mod/cr/main_fns.inc:62
+msgid "Population"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:91 ../mod/cr/reports.inc:130 ../mod/cr/search.inc:30
+msgid "Location"
+msgstr ""
+
 #: ../mod/cr/main_fns.inc:122 ../mod/cr/search.inc:25
 msgid "Search Results"
 msgstr ""
@@ -858,15 +951,6 @@ msgstr ""
 
 #: ../mod/cr/main.inc:27
 msgid "Camps Registry Menu"
-msgstr ""
-
-#: ../mod/cr/main.inc:29 ../mod/mpr/main.inc:42 ../mod/rms/main.inc:41
-msgid "Home"
-msgstr ""
-
-#: ../mod/cr/main.inc:30 ../mod/cr/search.inc:168 ../mod/or/search.inc:52
-#: ../mod/rms/handler_sc_req.inc:36
-msgid "Search"
 msgstr ""
 
 #: ../mod/cr/main.inc:31
@@ -893,12 +977,16 @@ msgstr ""
 msgid "Generate Report"
 msgstr ""
 
-#: ../mod/cr/reports.inc:179
-msgid "Camps in "
+#: ../mod/cr/reports.inc:126
+msgid "Camp Information by Location"
 msgstr ""
 
-#: ../mod/cr/search.inc:30
-msgid "Location"
+#: ../mod/cr/reports.inc:131
+msgid "Total Number of Victims in Camps"
+msgstr ""
+
+#: ../mod/cr/reports.inc:179
+msgid "Camps in "
 msgstr ""
 
 #: ../mod/cr/search.inc:33 ../mod/cr/search.inc:36
@@ -915,6 +1003,10 @@ msgstr ""
 
 #: ../mod/cr/search.inc:77 ../mod/cr/search.inc:126
 msgid "edit"
+msgstr ""
+
+#: ../mod/cr/search.inc:155
+msgid "Search for a Camp"
 msgstr ""
 
 #: ../mod/cr/search.inc:158
@@ -941,11 +1033,11 @@ msgstr ""
 msgid "Home Page"
 msgstr ""
 
-#: ../mod/home/main.inc:8
+#: ../mod/home/main.inc:9
 msgid "<h2>Welcome to the Sahana FOSS Disaster Management System</h2>"
 msgstr ""
 
-#: ../mod/home/main.inc:10
+#: ../mod/home/main.inc:11
 msgid ""
 "Sahana is an integrated set of pluggable, web based disaster management "
 "applications that provide solutions to large-scale humanitarian problems in "
@@ -953,41 +1045,41 @@ msgid ""
 "are as follows:"
 msgstr ""
 
-#: ../mod/home/main.inc:12
+#: ../mod/home/main.inc:13
 msgid ""
 "Missing Person Registry</b> <br/>Helping to reduce trauma by effectively "
 "finding missing persons"
 msgstr ""
 
-#: ../mod/home/main.inc:13
+#: ../mod/home/main.inc:14
 msgid ""
 "Organization Registry</b> <br/>Coordinating and balancing the distribution "
 "of relief organizations in the affected areas and connecting relief groups "
 "allowing them to operate as one"
 msgstr ""
 
-#: ../mod/home/main.inc:14
+#: ../mod/home/main.inc:15
 msgid ""
 "Request Management System</b> <br/>Registering and Tracking all incoming "
 "requests for support and relief upto fullfilment and helping donors connect "
 "to relief requirements"
 msgstr ""
 
-#: ../mod/home/main.inc:15
+#: ../mod/home/main.inc:16
 msgid ""
 "Camp Registry</b><br/>Tracking the location and numbers of victims in the "
 "various camps and temporary shelters setup all around the affected area"
 msgstr ""
 
-#: ../mod/home/main.inc:19
+#: ../mod/home/main.inc:20
 msgid "For more detail see the "
 msgstr ""
 
-#: ../mod/home/main.inc:21
+#: ../mod/home/main.inc:22
 msgid "Sahana Website </a> and "
 msgstr ""
 
-#: ../mod/home/main.inc:23
+#: ../mod/home/main.inc:24
 msgid " Brochure </a>"
 msgstr ""
 
@@ -1035,16 +1127,6 @@ msgstr ""
 
 #: ../mod/mpr/add.inc:77
 msgid "Please enter any of the following details on the person:"
-msgstr ""
-
-#: ../mod/mpr/add.inc:81 ../mod/mpr/add.inc:439 ../mod/mpr/edit.inc:169
-#: ../mod/mpr/edit.inc:394 ../mod/mpr/view.inc:67
-msgid "Family Name"
-msgstr ""
-
-#: ../mod/mpr/add.inc:82 ../mod/mpr/add.inc:441 ../mod/mpr/edit.inc:170
-#: ../mod/mpr/edit.inc:396 ../mod/mpr/view.inc:69
-msgid "Local Name"
 msgstr ""
 
 #: ../mod/mpr/add.inc:83 ../mod/mpr/edit.inc:171
@@ -1607,11 +1689,11 @@ msgstr ""
 msgid "Organization Sector : "
 msgstr ""
 
-#: ../mod/or/home.inc:30
+#: ../mod/or/home.inc:31
 msgid "Organization Registry"
 msgstr ""
 
-#: ../mod/or/home.inc:31
+#: ../mod/or/home.inc:32
 msgid ""
 "The Organization Registry keeps track of all the relief organizations and "
 "civil society groups working in the disaster region. It captures not only "
@@ -1620,53 +1702,53 @@ msgid ""
 "\t\t\t\tFeatures Include:"
 msgstr ""
 
-#: ../mod/or/home.inc:35
+#: ../mod/or/home.inc:36
 msgid ""
 "Capturing a comprehensive list of meta data on an relief organization and "
 "all the activities they have in the region"
 msgstr ""
 
-#: ../mod/or/home.inc:36
+#: ../mod/or/home.inc:37
 msgid "Registering ad-hoc volunteers willing to contribute"
 msgstr ""
 
-#: ../mod/or/home.inc:37
+#: ../mod/or/home.inc:38
 msgid "Capturing the essential services each group is providing and where"
 msgstr ""
 
-#: ../mod/or/home.inc:38
+#: ../mod/or/home.inc:39
 msgid ""
 "Reporting on the converge of services and support in the region and more"
 msgstr ""
 
-#: ../mod/or/home.inc:39
+#: ../mod/or/home.inc:40
 msgid "importantly where there are no aid services being provided"
 msgstr ""
 
-#: ../mod/or/home.inc:45
+#: ../mod/or/home.inc:46
 msgid "Organizations"
 msgstr ""
 
-#: ../mod/or/home.inc:46
+#: ../mod/or/home.inc:47
 msgid "Please Register"
 msgstr ""
 
-#: ../mod/or/home.inc:47
+#: ../mod/or/home.inc:48
 msgid "Volunteers"
 msgstr ""
 
-#: ../mod/or/home.inc:54
+#: ../mod/or/home.inc:55
 msgid " Organizations have registered"
 msgstr ""
 
-#: ../mod/or/home.inc:59
+#: ../mod/or/home.inc:60
 msgid ""
 "\n"
 "\t\t\t\t\tRegistering your organization allows us to know who is doing what "
 "where and allows us to operate more effectively as one."
 msgstr ""
 
-#: ../mod/or/home.inc:75
+#: ../mod/or/home.inc:76
 msgid "Last 10 Organizations to Register"
 msgstr ""
 
@@ -1709,35 +1791,35 @@ msgid ""
 "is usefull : "
 msgstr ""
 
-#: ../mod/or/main.inc:180
+#: ../mod/or/main.inc:181
 msgid "Search Result"
 msgstr ""
 
-#: ../mod/or/main.inc:186 ../mod/or/report.inc:170 ../mod/or/search.inc:30
+#: ../mod/or/main.inc:187 ../mod/or/report.inc:170 ../mod/or/search.inc:30
 #: ../mod/or/view_org.inc:30 ../mod/or/view_org.inc:175
 msgid "Organization Type"
 msgstr ""
 
-#: ../mod/or/main.inc:187 ../mod/or/report.inc:171 ../mod/or/view_org.inc:31
+#: ../mod/or/main.inc:188 ../mod/or/report.inc:171 ../mod/or/view_org.inc:31
 #: ../mod/or/view_vol.inc:33
 msgid "Country of Origin"
 msgstr ""
 
-#: ../mod/or/main.inc:188 ../mod/or/report.inc:172 ../mod/or/view_org.inc:32
+#: ../mod/or/main.inc:189 ../mod/or/report.inc:172 ../mod/or/view_org.inc:32
 #: ../mod/or/view_vol.inc:34
 msgid "Contact Address"
 msgstr ""
 
-#: ../mod/or/main.inc:190 ../mod/or/report.inc:174 ../mod/or/view_org.inc:34
+#: ../mod/or/main.inc:191 ../mod/or/report.inc:174 ../mod/or/view_org.inc:34
 #: ../mod/or/view_vol.inc:36
 msgid "Contact Email"
 msgstr ""
 
-#: ../mod/or/main.inc:191 ../mod/or/report.inc:175 ../mod/or/view_org.inc:35
+#: ../mod/or/main.inc:192 ../mod/or/report.inc:175 ../mod/or/view_org.inc:35
 msgid "Man Power"
 msgstr ""
 
-#: ../mod/or/main.inc:192 ../mod/or/report.inc:176 ../mod/or/view_org.inc:36
+#: ../mod/or/main.inc:193 ../mod/or/report.inc:176 ../mod/or/view_org.inc:36
 msgid "Facilities"
 msgstr ""
 
@@ -2545,6 +2627,14 @@ msgstr ""
 
 #: ../mod/rms/lib_rms.inc:701
 msgid "Add Items"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:835 ../mod/rms/lib_rms.inc:841
+msgid "User"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:854
+msgid "Filtered by Category : "
 msgstr ""
 
 #: ../mod/rms/lib_rms.inc:863
