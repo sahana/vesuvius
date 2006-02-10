@@ -80,25 +80,28 @@ a:hover {
 }
 
 #language{
+	
 }
 
-#language form{
+#language form{	
 	position: absolute;
-	top: 45px;
-	margin-left: 90%;
-	height: 45px;
-	width: 10%;
+	top: 60px;
+	right:0%;
+	height: 30px;	
 	border:none;
- 	background-color:#369;	
+ 	background-color:#369;
+	padding:0em;
 }
 
-#language select{
-	position: relative;		
+#language select{			
 	color:#fff;
 	border: 1px solid #369;
 	border-style:none;
-	background:#369;
-	padding: 0em;	
+	background:#369;	
+}
+
+#language label{
+	display:none;
 }
 
 
@@ -125,7 +128,7 @@ a:hover {
 	clear: both;
 	color: #FFF;
 	background-color: #369;
-	border-top: #036 5px solid;
+	border-top: #036 5px solid;	
 }
 
 /* SECTION:HEADER-FOOTER*/
