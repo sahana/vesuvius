@@ -50,7 +50,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     if ( null == $mod ) $mod = $global['module'];
 
     if (!isset($form_opts['style']))
-        $form_opts['style'] = "formset";
+        $form_opts['style'] = "formcontainer";
 
     if($form_opts['req_message']){
 ?>
@@ -58,8 +58,8 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 <?php
     }
 ?>
-    <div id="formcontainer">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="<?=$form_opts['style']?>" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <div id="<?=$form_opts['style']?>">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
 <?php
 }
 
