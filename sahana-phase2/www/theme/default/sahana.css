@@ -79,6 +79,29 @@ a:hover {
 	position: relative;
 }
 
+#language{
+}
+
+#language form{
+	position: absolute;
+	top: 45px;
+	margin-left: 90%;
+	height: 45px;
+	width: 10%;
+	border:none;
+ 	background-color:#369;	
+}
+
+#language select{
+	position: relative;		
+	color:#fff;
+	border: 1px solid #369;
+	border-style:none;
+	background:#369;
+	padding: 0em;	
+}
+
+
 #wrapper {
 	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
 }
