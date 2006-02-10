@@ -49,6 +49,9 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     global $global;
     if ( null == $mod ) $mod = $global['module'];
 
+    if (!isset($form_opts['style']))
+        $form_opts['style'] = "formset";
+
     if($form_opts['req_message']){
 ?>
     <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
@@ -56,7 +59,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     }
 ?>
     <div id="formcontainer">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="<?=$form_opts['style']?>" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
 <?php
 }
 
@@ -479,4 +482,21 @@ function shn_form_date($label, $name = 'date')
     shn_form_extra_opts($extra_opts);
 }
 */
+
+function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
+{
+    global $global;
+    if ( null == $mod ) $mod = $global['module'];
+
+    $form_id = $form_opts['id'];
+    if($form_opts['req_message']){
+?>
+    <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
+<?php
+    }
+?>
+    <div id="<?=$form_id?>">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+<?php
+}
 ?>
