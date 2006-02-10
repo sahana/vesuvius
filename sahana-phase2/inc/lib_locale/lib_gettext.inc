@@ -27,7 +27,8 @@ include_once $global['approot']."/3rd/php-gettext/gettext.php";
  * @access public
  * @return string
  */
-function gettext($string) {
+function gettext($string)
+{
     return $string;
 }
 
@@ -39,7 +40,8 @@ function gettext($string) {
  * @access protected
  * @return void
  */
-function _($string) {
+function _($string)
+{
     return $string;
 }
 ?>
