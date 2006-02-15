@@ -16,7 +16,6 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once ("lib_or.inc");
@@ -26,7 +25,7 @@ function shn_or_mainmenu()
     global $global;
     $module = $global['module'];
     $loc=_shn_or_get_start_loc();
-    print $loc;
+    
 ?>
    <div id="modmenuwrap"> 
         <h2>Organization Registry</h2>
