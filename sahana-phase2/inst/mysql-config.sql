@@ -129,7 +129,6 @@ INSERT INTO field_options VALUES ('opt_location_type','3','District');
 INSERT INTO field_options VALUES ('opt_location_type','4','Village');
 
 -- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
-INSERT INTO location (location_id,name) VALUES ('0','unknown');
 INSERT INTO location VALUES (1,0,'1','1','Sri Lanka','lk','Sri Lanka added as a country');
 INSERT INTO location VALUES (2,0,'2','1','Pakistan','pk','Pakistan added as a country');
 INSERT INTO location VALUES (3,0,'3','1','United Kingdom','uk','United Kingdom added as a country');
@@ -145,7 +144,7 @@ INSERT INTO location VALUES (12,1,'1.1','2','south','sou','South  added as a pro
 INSERT INTO location VALUES (13,5,'1.1.2','3','Kalutara','klt','Kalutara added as a district in Srilanka Western Province');
 INSERT INTO location VALUES (14,6,'1.1.1.2','4','dehiwala','dwh','dehiwala added as a village in Srilanka Western Province');
 INSERT INTO location VALUES (15,13,'1.1.2.1','4','panadura','pan','panadura added as a village in Srilanka Western Province');
-
+INSERT INTO location (location_id,name) VALUES (0,'unknown');
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
 INSERT INTO modules VALUES ('or', '0.2', TRUE);
