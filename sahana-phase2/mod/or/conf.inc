@@ -15,5 +15,5 @@
 */
 
 // provide the nice display name for the OR  module
-$conf['mod_or_name'] = "Organization Registry";
+$conf['mod_or_name'] = _("Organization Registry");
 ?>
