@@ -3,6 +3,7 @@
 function init_map($gmap_key){
 ?>
 		<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $gmap_key?>" type="text/javascript"></script>
+		<div id="map" style="width: 500px; height: 400px"></div>
 
 <?php
 }
@@ -15,7 +16,7 @@ function init_gmap(){
 
 function load_map($x='',$y=''){
 ?>
-	<div id="map" style="width: 500px; height: 400px"></div>
+	
 	  <script type="text/javascript">
 		   //<![CDATA[
        var map = new GMap(document.getElementById("map"));

@@ -19,6 +19,9 @@ include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
+/**
+ * display camp creation form
+ */
 function _shn_cms_cadd_form($errors=false){
 	echo "<h2>"._("Add New Camp - Details")."</h2>";
 	
@@ -27,14 +30,20 @@ function _shn_cms_cadd_form($errors=false){
 		
 	global $global;
 	$db=$global['db'];
+	include $global['approot']."/inc/lib_location.inc";
+		
+	// store session
+	$_SESSION['opt_camp_service'] = $_POST['opt_camp_service'];
 		
 	//show add camp form
 	shn_form_fopen(cadd);
 	shn_form_fsopen(_("Name and Type"));
-	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_hidden(array('seq'=>'map'));
 	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type",_("Camp Type"));
+	shn_form_textarea(_("Address"),"camp_address");
 	shn_form_fsclose();
+	shn_location_form_org(1,4);
 	shn_form_fsopen(_("Camp Administrator"));
 	shn_form_text(_("Camp Admin Name"),"admin_name",'size="50"');
 	shn_form_text(_("Contact Number"),"admin_no",'size="50"');
@@ -47,12 +56,9 @@ function _shn_cms_cadd_form($errors=false){
 	shn_form_text(_("Number of Shelters"),"shelters",'size="50"');
 	shn_form_text(_("Approximate Area Size [square metres]"),"camp_size",'size="50"');
 	shn_form_fsclose();
-	shn_form_submit(_("Create Camp"));
+	shn_form_submit(_("Next"));
 	shn_form_fclose();
 			
-
-
-
 }
 
 function _shn_cms_cadd_guide(){
@@ -74,7 +80,7 @@ function _shn_cms_cadd_guide(){
 
 function _shn_cms_cadd_chk(){
 	global $global;
-	echo "<h2>"._("Camp Checklist")."</h2>";
+	echo "<h2>"._("Camp Service Checklist")."</h2>";
 	shn_form_fopen(cadd);
 	shn_form_fsopen(_("Facilities / Services"));
 	shn_form_hidden(array('seq'=>'form'));
@@ -83,6 +89,159 @@ function _shn_cms_cadd_chk(){
 	shn_form_submit(_("Done"));
 	shn_form_fclose();
 			
+}
+
+/**
+ *	add camp location gis 
+ */
+function _shn_cms_add_map()
+{
+	$_SESSION['opt_camp_service'] = $_POST['opt_camp_service'];
+	$_SESSION['camp_name']=$_POST['camp_name'];
+	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
+	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
+	$_SESSION['camp_address']=$_POST['camp_address'];
+	$_SESSION['city_dis']=$_POST['city_dis'];
+	$_SESSION['disas_dis']=$_POST['disas_dis'];
+	$_SESSION['admin_name']=$_POST['admin_name'];
+	$_SESSION['admin_no']=$_POST['admin_no'];
+	$_SESSION['org_name']=$_POST['org_name'];
+	$_SESSION['capacity']=$_POST['capacity'];
+	$_SESSION['shelters']=$_POST['shelters'];
+	$_SESSION['camp_size']=$_POST['camp_size'];
+	
+	shn_form_fopen(cadd);
+	shn_form_fsopen(_("Location Information"));
+	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
+	shn_form_fsclose();
+	shn_form_fsopen(_("Plot Location on Map"));
+	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_hidden(array('loc_x'=>''));
+	shn_form_hidden(array('loc_y'=>''));
+	global $global;
+	$db=$global['db'];
+	include $global['approot']."/conf/config.inc";
+	echo "<h2>"._("Area Map")."</h2>";
+
+	//if mod_gis
+	if($conf['gis']){
+	  include $global['approot']."/mod/gis/conf.inc";
+	  if($conf['mod_gis']=='google_maps'){
+	  	/*
+		 	 * google maps
+		 	 *@todo check for online connectivity: exit gracefully
+	  	*/
+	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+			echo _("Enter Camp Location. Click on Map where camp exists");
+
+			$a="select value from config where module_id='gis' and confkey='google_key'";
+      		$ares=$db->Execute($a);
+			$keys=$ares->fields[0];
+
+	
+			$w="select value from config where module_id='gis' and confkey='center_x'";
+			$wres=$db->Execute($w);
+			$wkey=$wres->fields[0];
+
+			$e="select value from config where module_id='gis' and confkey='center_y'";
+			$eres=$db->Execute($e);
+			$ekey=$eres->fields[0];
+																		
+			init_map($keys);
+			load_map($wkey,$ekey);
+			add_marker($_POST['camp_name']);
+		}
+	}
+	else
+	{
+?>
+   <p>No Currently Selected GIS</p> 
+<?php
+  }
+	shn_form_fsclose();
+	shn_form_fsopen(_("GPS Coordinates"));
+	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
+	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
+	shn_form_fsclose();
+			
+	shn_form_submit("Next");
+	shn_form_close();
+}	
+
+/**
+ * commit new camp
+ */
+function _shn_cms_camp_commit()
+{
+	
+	//override map location by gps location box values
+	if((null==$_POST['gps_x']) && null==$_POST['gps_y']){
+		$_SESSION['gis_loc_x']=$_POST['loc_x'];
+		$_SESSION['gis_loc_y']=$_POST['loc_y'];
+	}
+	else{
+		$_POST['loc_x'] = $_POST['gps_x'];
+		$_POST['loc_y'] = $_POST['gps_y'];
+		$_SESSION['gis_loc_x']=$_POST['loc_x'];
+		$_SESSION['gis_loc_y']=$_POST['loc_y'];
+	}
+	
+	global $global;
+	$db = $global['db'];
+	
+	//create unique camp id
+	$uid=shn_create_uuid();
+	
+	// phonetic inclusion
+	shn_db_insert_phonetic('camp_name',$uid);
+	
+	$loc_id=_shn_cr_get_locid();
+	
+	//enter into camp table
+	$query="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+	$res = $db->Execute($query);
+	
+	/*insert services into camp_services table
+ 	*currently add checked values.
+	*/								
+	if(isset($_SESSION['opt_camp_service'])){
+	 foreach($_SESSION['opt_camp_service'] as $a => $b){
+	//currently add checked values.
+		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
+	 	$res = $db->Execute($q);
+	 }
+	}
+	
+	// insert gis location
+	include $global['approot']."/conf/config.inc";
+	//if mod_gis
+	if($conf['gis']){
+  		include $global['approot']."/mod/gis/conf.inc";
+  		include $global['approot']."/mod/gis/gis_fns.inc";
+		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
+	}
+	
+}	
+
+//dummy function.replace with janakas
+function shn_create_uuid()
+{
+	$id=time();
+	return $id;
+}
+	
+/**
+ * hack for location
+ */
+function _shn_cr_get_locid(){
+	if($_SESSION['cr_4']!=null)
+		return $_SESSION['cr_4'];
+	else if($_SESSION['cr_3']!=null)
+		return $_SESSION['cr_3'];
+	else if($_SESSION['cr_2']!=null)
+		return $_SESSION['cr_2'];
+	else 
+		return $_SESSION['cr_1'];
 }
 
 function _shn_cms_cedt(){

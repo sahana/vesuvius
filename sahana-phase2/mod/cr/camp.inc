@@ -237,6 +237,8 @@ function _shn_cr_sel_map(){
 	shn_form_close();
 }
 
+
+
 function _shn_cr_validate_error(){
 	clean_errors();
 	$error_flag=false;

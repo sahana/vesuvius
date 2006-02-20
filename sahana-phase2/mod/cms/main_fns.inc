@@ -32,7 +32,12 @@ function shn_cms_cadd(){
 	case 'chk':
 							_shn_cms_cadd_chk();
 							break;
+    case 'map':
+    						_shn_cms_add_map();
+    						break;
+    
 	case 'commit':
+							_shn_cms_camp_commit();
 							echo "New Camp Created";
 							break;
 	default :

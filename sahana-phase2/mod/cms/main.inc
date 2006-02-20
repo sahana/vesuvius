@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.3 2006-02-07 06:09:58 mifanc Exp $ */
+/* $Id: main.inc,v 1.4 2006-02-20 11:40:25 mifanc Exp $ */
 
 /**Main home page of the CMS
 *
@@ -40,7 +40,7 @@ function shn_cms_mainmenu()
 	 * If not, show only Camps creation subsection
 	 * Else, show everything
 	 */
-	$query_camps = "select * from camps";
+	$query_camps = "select * from camp";
 	$result = $db->Execute($query_camps);
 	if($result->EOF || $result==null)
 	{	
