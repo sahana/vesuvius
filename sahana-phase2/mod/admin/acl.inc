@@ -22,7 +22,7 @@ global $global;
     include_once $global['approot']. 'inc/lib_security/authenticate.inc';
     include_once $global['approot'].'inc/lib_security/acl_user_form.inc';
     include_once $global['approot'].'inc/lib_security/acl_role_form.inc';
-include_once $global['approot'].'inc/lib_security/acl_action_form.inc';
+	include_once $global['approot'].'inc/lib_security/acl_action_form.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
@@ -45,7 +45,7 @@ function _shn_admin_acl_default()
     
     if($res->EOF || $res->fields[0]!='installed'){
          echo "ACL for the Module is not Installed! You need to Install Module Default ACL<br /> ";
-         echo "<a href='index.php?mod=".$module."&act=adm_acl_install'>Click here if you have ACL install script in your module</a><br />";
+         echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
          echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install Sytem defaults</a><br />";
     return;
     }  
@@ -240,24 +240,40 @@ for ($i=0;$i<count($perms)-1;$i++){
 
 
 function _shn_admin_acl_mod_install(){
+	global $global;
+	$db=$global["db"];
    $module=$_GET{"sel"};
+   if($_GET{"script"}==true){
+   		$module_function='shn_'.$module.'_adm_acl_install()';
+   		if (!function_exists($module_function)) {
+           echo  _("Sorry ! It seems you do not have an ACL script");
+            return;
+        }
+        $module_function();
+        $q="insert into config values('{$module}','acl_enabled',true)";
+		$db->Execute($q);
+        return; 
+   }
+   
     $acl=new SahanaACL(NULL);
     $res=shn_acl_add_module($module,$module);
      // add an action group named "view" under the module "home"
     $res=shn_acl_add_action_group($module,"none","default group");
-    global $global;
-     $db=$global["db"];
     $q="select value from config where module_id='{$module}' and confkey='acl_base'";
     $res_acl=$db->Execute($q);
     if(!$res_acl->EOF && $res_acl->fields[0]=='installed'){
-        echo "ACL Base for Organization Registry is already installed";
+        echo "ACL Base for ".$module." is already installed";
         return;
     }
-    if($res_acl->EOF)
-         $q="insert into config values('$module','acl_base','installed')";
-     else
+    if($res_acl->EOF){
+    	$q="insert into config values('{$module}','acl_enabled',true)";
+		$db->Execute($q);
+        $q="insert into config values('$module','acl_base','installed')";
+    }else
          $q="update config set value='installed' where module_id='$module' and confkey='acl_base'";
-        $res=$db->Execute($q);
+    $res=$db->Execute($q);
+    echo  _("Default ACL was succesfully installed");
+
 }
 
 function _shn_admin_acl_install(){
