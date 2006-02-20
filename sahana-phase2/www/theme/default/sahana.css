@@ -468,9 +468,15 @@ form ul.list {
 	padding: 1px 5px 1px;
 }
 
-#formset input,#formset textarea,#formset select{ 
+#formset input,#formset select{ 
 	margin: 0px 10px 10px 10px; 
 	font-size:10px;
+}
+
+#formset textarea{
+	margin: 0px 10px 10px 10px;
+	font-size:10px;
+	font-family:sans-serif;
 }
 
 #formset input.inline {
