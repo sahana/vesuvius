@@ -91,10 +91,7 @@ function shn_or_adm_or_type_form()
 <br />
 <center>
 <?php
-    shn_form_hidden('added');
-    shn_form_hidden('removed');
-    shn_form_add_component($added,$return=false,$default_val_req=false);
-    shn_form_submit(_("Save"))
+   shn_form_submit(_("Save"))
 ?>
 </center>
 <br />
@@ -138,9 +135,6 @@ function shn_or_adm_or_sector_form()
 <br />
 <center>
 <?php
-    shn_form_hidden('added');
-    shn_form_hidden('removed');
-    shn_form_add_component($added,$return=false,$default_val_req=false);
     shn_form_submit(_("Save"))
 ?>
 </center>
