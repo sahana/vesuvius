@@ -471,6 +471,6 @@ DROP TABLE IF EXISTS lc_fields;
 CREATE TABLE lc_fields (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tablename VARCHAR(32) NOT NULL,
-    fieldname VARCHAR(32) NOT NULL
+    fieldname VARCHAR(32) NOT NULL,
     PRIMARY KEY(id)
 );
