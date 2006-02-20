@@ -54,10 +54,12 @@ function _shn_admin_mainmenu()
 
 
 function _shn_admin_acl_module_menu(){
-global $conf;
-$module_list = shn_get_modules_with_admin();
-$visible=shn_acl_is_base_installed();
-if($visible==true){
+	global $conf;
+	global $global;
+	include_once $global['approot']."inc/lib_security/acl_module_form.inc";
+	$module_list = shn_get_modules_with_admin();
+	$visible=shn_acl_is_base_installed();
+	if($visible==true){
 ?>
 <div id="submenu_v">
 <?php
@@ -69,7 +71,11 @@ foreach ($module_list as $i) {
 </div>
 <br />
  <h2 align="center"><?=_("Welcome to the Sahana ACL Module Configuration page")?></h2>
+<br />
+ <h2 align="center"><?=_("Current Status (Installed/Enabled)")?></h2>
+ <br /> 
 <?php
+	shn_acl_module_status($module_list);
 }else {
 ?>
 <a href='index.php?mod=admin&act=acl_install'><?=_("ACL is not Installed! You need to Install ACL Base")?></a>
@@ -80,28 +86,18 @@ foreach ($module_list as $i) {
 function _shn_admin_acl_system_menu()
 {
     $visible=shn_acl_is_base_installed();
-    $acl=shn_acl_get_state();
-?>
+ ?>
 <div id="submenu_v">
 <?php
 
 if($visible==true){
-if ($acl==true) {
-	?>
-    <a href="index.php?mod=admin&act=acl_state&do=disable"><?=_("<strong>D</strong>isable ACL")?></a>
-<?php
-} else {
-    ?>
-	<a href="index.php?mod=admin&act=acl_state&do=enable"><?=_("<strong>E</strong>nable ACL")?></a>
-<?php
-}
 ?>
 <a href="index.php?mod=admin&act=acl_install"><?=_("<strong>A</strong>CL Base Install")?></a>
 <a href="index.php?mod=admin&act=acl_user&sel=admin"><?=_("<strong>U</strong>sers")?></a>
 <a href="index.php?mod=admin&act=acl_role&sel=admin"><?=_("<strong>R</strong>oles")?></a>
 </div>
 <br>
-<h2 align="center"><?=_("Welcome to the Sahana ACL System Configuration page")?></h2>
+<!--<h2 align="center"><?=_("Welcome to the Sahana ACL System Configuration page")?></h2>-->			
 <?php
 } else {
 ?>
