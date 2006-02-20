@@ -26,6 +26,11 @@
 include_once("acl.inc");
 
 /*****************************************************************************************/
+/*
+ *  AXO=Resources to protect (e.g web page)
+ *  ARO=Requesters for resources (e.g. guest)
+ *  ACO=Different actions requested on a resource (e.g edit)
+ */
 /**
 * ACO,AXO,ARO additions
 */
@@ -35,7 +40,7 @@ include_once("acl.inc");
 */
 
 /**
-*adds a module ,e.g "OR"
+*Registers a module ,e.g "OR"
 *this is an AXO group under "shn"
 * @return bool true if succesfull ,else false
 * @param string module name
@@ -50,7 +55,7 @@ function shn_acl_add_module($module,$desc){
 }
 
 /**
-*adds an action group under the module
+*Register an action group under the module
 *e.g "create"
 *this is an AXO group under the module AXO group.
 *e.g  it will be added under "shn"->"or" 
@@ -67,7 +72,7 @@ function shn_acl_add_action_group($module,$action_group,$desc){
 }
 
 /**
-*adds an action under the "shn"->"module"->"action_group"
+*Register an action under the "shn"->"module"->"action_group"
 *e.g "shn_or_register"
 *this is an AXO
 *this will be added to the group "shn"->"or"->"create"
@@ -84,21 +89,17 @@ function shn_acl_add_action($module,$action_group=NULL,$action,$desc){
     $acl->_shn_add_section("actions","module actions","AXO");
     $acl->_shn_add_axo("actions",$action,$desc);
     if (is_null($action_group)){
-        $axo_parent=$acl->get_group_id($module,NULL,"AXO");
+        $axo_parent=$acl->get_group_id($module,NULL,"AXO");//PhpGacl function
     } else {
         $axo_parent=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
     }
-  //  $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-  //  foreach ($sub_groups as $sub_group){
-    //    if(trim($sub_group['value'])==trim($action_group)){
-    //        $axo_parent=$sub_group['id'];
-    //    }
-    //}
     $acl->_shn_add_to_axo_group(trim($axo_parent),"actions",$action);
-    
 }
 /**
-*adds an action under the given parent
+*Register an action under the given parent,convenient when you know the parent id
+*This and shn_acl_add_action function above serve the same purpose.
+*Difference is this registers under parent ID ,other one registers with
+*Parent heirarchy.
 *this is an AXO
 *@return bool
 *@param string $axo_parent
@@ -136,15 +137,6 @@ function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc)
     } else {
     $axo_parent=$acl->get_group_id($module."_".$action_group,NULL,"AXO");
     }
-/*
-    $mod_id=$acl->get_group_id($module,NULL,"AXO");
-    $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-    foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($action_group)){
-            $axo_parent=$sub_group['id'];
-        }
-    }
-*/
     $acl->_shn_add_to_axo_group(trim($axo_parent),"actions",$axo);
 }
 
@@ -154,7 +146,7 @@ function shn_acl_add_action_case($module,$action_group=NULL,$action,$case,$desc)
 */
 
 /**
-*adds a role
+*Regsiter a role
 *e.g "admin" 
 *this is a ARO group
 *@return bool
@@ -170,7 +162,7 @@ function shn_acl_add_role($role,$desc){
 
 
 /** 
-*adds a User
+*Register an User
 *this is a ARO
 *@return bool
 *@param string user
@@ -203,7 +195,7 @@ function shn_acl_add_to_role($user,$role){
 
 /**
 *adds permission type,e.g "execute",this is an ACO
-*we could have gone without AXO's.
+*we could have gone without AXO's. Then ACO's take the role of AXO's
 *but in the future we may provide ACL for database table rows.
 *therefore AXO's are required.
 *To specify permissions users to actions no need for AXO's.
@@ -260,17 +252,9 @@ function shn_acl_add_perms_module_role($role,$module){
 
 function shn_acl_add_perms_action_group_role($role,$module,$action_group){
     $acl=new SahanaACL(NULL);
-    $aro_group= $acl->get_group_id(trim($role),NULL,'ARO');
+    $aro_group= $acl->get_group_id(trim($role),NULL,'ARO');//PhpGacl function
     $aro_groups=array($aro_group);
-/**
-    $mod_id=$acl->get_group_id($module,NULL,"AXO");
-    $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-    foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($module."_".$action_group)){
-            $axo_group=$sub_group['id'];
-        }
-    }
-**/
+
     if (is_null($action_group)){
         $axo_group=$acl->get_group_id($module,NULL,"AXO");
     } else {
@@ -278,13 +262,15 @@ function shn_acl_add_perms_action_group_role($role,$module,$action_group){
     }
 
     $axo_groups=array($axo_group);
-    $acl->_shn_add_permission(trim("permissions"),trim("execute"),NULL,NULL,$aro_groups,NULL,NULL,$axo_groups,true,true,NULL,"first acl"); 
+    $acl->_shn_add_permission(trim("permissions"),trim("execute"),NULL,NULL,$aro_groups,NULL,NULL,$axo_groups,true,true,NULL,"ACL permission for $role to $action_group"); 
 
 }
 
 /**
-*add an ACL for a role to an action group(given the id) with in the module
+*add an ACL for a role(id) to an action group(given the id) with in the module
 *therefore the action group is permitted for the role
+*convenient if you know the ID's of the action group and the role
+*otherwise serve the same purpose as shn_acl_add_perms_action_group_role
 *@return bool
 *@param string role
 *@param string module
@@ -295,17 +281,8 @@ function shn_acl_add_perms_action_group_role($role,$module,$action_group){
 function shn_acl_add_perms_action_group_id_role_id($role,$module,$axo_group){
     $acl=new SahanaACL(NULL);
     $aro_groups=array($role);
-/**
-    $mod_id=$acl->get_group_id($module,NULL,"AXO");
-    $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-    foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($module."_".$action_group)){
-            $axo_group=$sub_group['id'];
-        }
-    }
-**/
+
     $axo_groups=array($axo_group);
-    echo $axo_group;
     $acl->_shn_add_permission(trim("permissions"),trim("execute"),NULL,NULL,$aro_groups,NULL,NULL,$axo_groups,true,true,NULL,"first acl"); 
 
 }
@@ -386,16 +363,7 @@ function shn_acl_add_perms_module_user($user,$module){
 */
 
 function shn_acl_add_perms_action_group_user($user,$module,$action_group){
-        $acl=new SahanaACL(NULL);
-/**
-        $mod_id=$acl->get_group_id($module,NULL,"AXO");
-        $sub_groups=$acl->_shn_get_sub_groups($mod_id,"AXO");
-        foreach ($sub_groups as $sub_group){
-        if(trim($sub_group['value'])==trim($module."_".$action_group)){
-            $axo_group=$sub_group['id'];
-        }
-        }
-**/
+    $acl=new SahanaACL(NULL);
     if (is_null($action_group)){
         $axo_group=$acl->get_group_id($module,NULL,"AXO");
     } else {
@@ -447,6 +415,8 @@ function shn_acl_add_perms_action_case_user($user,$action,$case){
 *end of additions
 */
 /*********************************************************/
+
+
 /**
 *deletes TODO
 */
@@ -456,22 +426,26 @@ function shn_acl_add_perms_action_case_user($user,$action,$case){
  * this is a ARO
  * @todo function does not work right now 
  */
+ /*
 function shn_rem_user($user){
     $acl=new SahanaACL;
 }
+*/
 /**
  *removes a role
  * e.g "admin" 
  *this is a ARO group
  *@todo function does not work right now 
 */
+/*
 function shn_rem_role($role){
     $acl=new SahanaACLg;
 }
+*/
 /**
  *removes the action and removes it from all the action groups
  *it was under.
- *@param $action
+ *@param $action(value not ID)
  *@return bool
  *
 */
@@ -483,8 +457,8 @@ function shn_rem_action($action){
     return $res;
 }
 /**
- *removes tthe action group and all the actions under it 
- *@param $action_group
+ *removes the action group and all the actions under it 
+ *@param $action_group(id of the action group)
  *@return bool
 */
 
@@ -507,20 +481,24 @@ this is an AXO group under the module AXO group.
 actually it will be removed from the actions sub group of 
 the module.
 e.g  it will be removed from "modules"->"or"->"actions" 
-
+*/
+/*
 function shn_rem_action_group($module,$action_group){
   '  $acl=new SahanaACL;
 }
 */
+
 /**
 *removes permission type
 *e.g "execute"
 *this is an ACO
 *@todo function is not working
 */
+/*
 function shn_rem_perm_type($perm_type){
     $acl=new SahanaACL;
 }
+*/
 
 /**
 *removes a module
@@ -528,10 +506,11 @@ function shn_rem_perm_type($perm_type){
 *this is an AXO group
 *@todo function is not working
 */
+/*
 function shn_rem_module($module){
     $acl=new SahanaACL;
 }
-
+*/
 /*
 *removes ACL for a user for one action
 *e.g for action shn_or_register
@@ -539,11 +518,12 @@ function shn_rem_module($module){
 *and front controller passes this action name
 *@todo function is not workingS
 */
-
+/*
 function shn_rem_perms_action_user($user,$action){
     $acl=new SahanaACL;
 
 }
+*/
 /*
 *removes ACL for a user for a group of actions
 *e.g for "create" action group
@@ -551,28 +531,34 @@ function shn_rem_perms_action_user($user,$action){
 *e.g or_create
 *@todo function is not working
 */
+/*
 function shn_rem_perms_action_group_user($user,$action_group){
     $acl=new SahanaACL;
 
 }
+*/
 /*
 *removes ACL for a role for an action
 *e.g : Allow admin to execute "shn_or_register"
 *@todo function is not working
 */
+/*
 function shn_rem_perms_action_role($role,$action){
     $acl=new SahanaACL;
 
 }
+*/
 /**
 *removes ACL for a role for a group of actions
 *e.g Allow admin to execute "or_create" actions
 *@todo function is not working
 */
+/*
 function shn_rem_perms_action_group_role($role,$action_group){
     $acl=new SahanaACL;
 
 }
+*/
 /**
  * Delete all the permissions related to a module
  * @param $module
@@ -593,13 +579,17 @@ function shn_rem_perms_action_group($module){
     }
 	return $res;
 }
-
+/**
+ * @todo information_string
+ */
+ /*
 function shn_acl_rem_user_role_map(){
 	$q="delete from gacl_groups_aro_map";
 	global $global;
 	$res=$global['db']->Execute($q);
 	return $res;
 }
+*/
 
 /**
 *end of deletes
@@ -609,12 +599,32 @@ function shn_acl_rem_user_role_map(){
 *permission checks
 */
 
+
+/**
+ * checks whether ACL is enabled for the module
+ * @return bool
+ * @param string $module
+ * @access public 
+ */
+ 
+ function shn_acl_if_check($module)
+ {
+ 
+ }
+ 
 /**
 *checks whether the user can execute a particular action
 *there is no point in asking whether a role has permissions.
 *as user A with a particular role may be denied a certian 
-*resource.
-*so its not a boolean answer for the role
+*resource.so its not a boolean answer for the role
+*But due to request from others we are not facilitating "DENY"
+*therefore we can answer whether a role has access to a resource.
+*because user of that role wont be denied permission.
+*But as its not that elegant still the question whether can execute a particular
+*action can be asked only for the user.
+*for the role you can ask whether there is a permission entry for a resource.
+*right now as we dont provide "DENY" that question is same as whether you are allowed
+*that resource. But in the future if we go for "DENY" it wont be.
 *user is ARO ,action is AXO
 *@return bool ,true if allowed
 *@param string user
@@ -623,16 +633,20 @@ function shn_acl_rem_user_role_map(){
 */
 
 function shn_acl_check_perms_action($user,$action){
-    if($user==0){return true;}
+	//conf can make any user id become the root
+	// here if the userid is equal to the root id specified
+	// in the conf return true, but by default (unless conf is edited)
+	// the default root is root
+    if($user==shn_acl_get_root_id()){return true;}
     $acl=new SahanaACL(NULL);
     $res=$acl->_shn_check_permission('permissions','execute','users',$user,'actions',$action);
     return $res;
 }
 /**
 *checks whether the user can execute a particular action group
-*there is no point in asking whether a role has permissions.
-*as user A with a particular role may be denied a certian 
-*resource.
+*actually there is no point in asking permission for an action group,
+*as actions within the action group may be "DENIED".
+*but since we are not going for "DENY" right now , its fair to ask
 *so its not a boolean answer for the role
 *user is ARO ,action is AXO
 *@return bool ,true if allowed
@@ -680,7 +694,7 @@ function shn_acl_check_role_perms_action_group($role,$action_group){
             return true;
     return $result;
 }
-
+/*
 function shn_check_perms_action_case($user,$action,$case){
 }
 
@@ -689,6 +703,16 @@ function shn_check_perms_table($user,$table,$perm_type){
 
 function shn_check_perms_table_field($user,$table,$field,$perm_type){
 }
+*/
+
+/**
+*end of checks
+*/
+
+/*****************************************************************************/
+/**
+*gets
+*/
 /**
  * function to check whether the ACL BASE is installed
  * @return bool
@@ -705,48 +729,66 @@ function shn_acl_is_base_installed(){
         return false;
     }
 }
+
+/**
+ * function to check whether the ACL is installed for the module
+ * @return bool
+ * @access public
+ */
+function shn_acl_is_module_installed($module){
+    global $global;
+    $db=$global["db"];
+    $q="select value from config where module_id='{$module}' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    if(!$res->EOF && $res->fields[0]=='installed'){
+        return true;
+    }else {
+        return false;
+    }
+}
+
 /**
  * function to set the ACL state(enabled vs disabled), reads from the POST varaibles.
  * if enabled will disable and vice versa
  * @access public
  * 
  */
-function shn_acl_set_state(){
+function shn_acl_set_state($module){
 	if('enable'==$_GET{"do"}){
-		$q="update config set value='true' where module_id='admin' and confkey='acl'";
+		$q="update config set value='true' where module_id='$module' and confkey='acl_enabled'";
 	}else{
-		$q="update config set value='false' where module_id='admin' and confkey='acl'";
+		$q="update config set value='false' where module_id='$module' and confkey='acl_enabled'";
 	}
 	global $global;
 	$global["db"]->Execute($q);
 }
 /**
- * function to read the ACL state
+ * function to read the ACL state of a Module (enabled/disabled)
  * @access public
  * @return bool
- * 
+ * @param string $module
  */
-function shn_acl_get_state(){
+function shn_acl_get_state($module){
     global $global;
-    $q="select value from config where module_id='admin' and confkey='acl'";
+    $q="select value from config where module_id='{$module}' and confkey='acl_enabled'";
     $db=$global["db"];
     $res=$db->Execute($q);
     if(!$res->EOF){
-        //echo ($res->fields[0]);
-        if($res->fields[0]=='true'){
-          // echo "true it is";
-           return true;
+        
+        if($res->fields[0]==true){
+        	return true;
         }
 	return false;
     }
     return false;
 }
-/**
-*end of checks
-*/
+function shn_acl_get_root_id()
+{
+	global $conf;
+	return $conf['root_id'];
+}
 
-/******************************************************************************/
 /**
-*gets
+*end of gets
 */
 
