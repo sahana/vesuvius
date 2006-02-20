@@ -65,7 +65,8 @@ function shn_or_adm_or_type()
     shn_or_adm_or_type_form();
 }
 
-function shn_or_adm_type_cr(){
+function shn_or_adm_type_cr()
+{
     global $global;
     $db=$global['db'];
     $add = explode(":", $_POST{"added"});
