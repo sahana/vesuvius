@@ -149,6 +149,7 @@ INSERT INTO location (location_id,name) VALUES (0,'unknown');
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
 INSERT INTO modules VALUES ('or', '0.2', TRUE);
 INSERT INTO modules VALUES ('admin', '0.2', TRUE);
+INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
@@ -158,3 +159,9 @@ INSERT INTO config VALUES('admin','acl_base','no');
 
 -- INSERT THE INBUILT SAHANA ORGANIZATION
 INSERT INTO org_main(o_uuid,parent_id,name,opt_org_type)VALUES(0,0,'sahana','gov');
+
+-- GIS
+
+INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'google_key', '');
+INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_x', '');
+INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_y', '');
