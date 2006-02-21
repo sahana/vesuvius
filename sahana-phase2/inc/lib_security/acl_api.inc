@@ -768,7 +768,8 @@ function shn_acl_set_state($module){
  * @return bool
  * @param string $module
  */
-function shn_acl_get_state($module){
+function shn_acl_get_state($module)
+{
     global $global;
     $q="select value from config where module_id='{$module}' and confkey='acl_enabled'";
     $db=$global["db"];
@@ -782,6 +783,7 @@ function shn_acl_get_state($module){
     }
     return false;
 }
+
 function shn_acl_get_root_id()
 {
 	global $conf;

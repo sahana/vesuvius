@@ -16,13 +16,14 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * 
  */
- 
+ global $global;
  include_once($global['approot'].'/inc/lib_form.inc');
  
  function shn_acl_module_status($module_list)
  {
  	global $global;
  	global $conf;
+ 	include_once($global['approot'].'/inc/lib_security/acl_api.inc');
     $db=$global['db'];
     ?>
 <div id="note">
@@ -71,7 +72,7 @@ Rows are Modules ,Intersection shows whether the Module has ACL entries installe
  	</td>
  	<td>
  <?php
-  // $chkbox_opts['value']=shn_acl_get_state($i);
+  	$chkbox_opts['value']=shn_acl_get_state($i);
 	shn_form_checkbox('','chk_'.$i,null,$chkbox_opts);
  ?>
  	</td>
