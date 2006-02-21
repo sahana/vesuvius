@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.2 2006-02-08 08:19:34 ravids Exp $ */
+/* $Id: lib_uuid.inc,v 1.3 2006-02-21 11:17:58 janakawicks Exp $ */
 
 /**
  *
@@ -23,14 +23,22 @@
  * @todo       define a subpackage
  */
 
-function shn_generate_uuid()
+/**
+ * shn_generate_uuid 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_generate_uuid($width=2)
 {
-    //Sleep for random 2sec = 2000000 milli seconds
-    usleep(rand(0,2000000));
-
-    //Get the micro time now and {hash (sha1)} just to make 40 characters wide
-    return sha1($microtime());
-    
+   //random number between 0-36
+    for($i=0;$i<$width;$i++){
+        if(($num = rand(0,36)) < 27 ) 
+            $uuid .= chr($num+97);
+        else
+            $uuid .= 36 - $num;
+    }
+    return $uuid;
 }
  
 /**
@@ -47,25 +55,25 @@ function shn_create_uuid($type='person')
     switch ($type){
         case 'person':
         case 'p' :
-                $gen_id = _shn_gen_id('person').'p';
+                $gen_id = 'p-'._shn_gen_id('person');
             break;
 
         case 'org':
         case 'o' :
         case 'organization':
-                $gen_id = _shn_gen_id('organization').'o';
+                $gen_id = 'o-'._shn_gen_id('organization');
             break;
 
         case 'camp':
         case 'c' :
-                $gen_id = _shn_gen_id('camp').'c';
+                $gen_id = 'c-'._shn_gen_id('camp');
             break;
 
         case 'request' :
         case 'req' :
         case 'r' :
             break;
-                $gen_id = _shn_gen_id('request').'r';
+                $gen_id = 'r-'._shn_gen_id('request');
         default :    
 
             break;
