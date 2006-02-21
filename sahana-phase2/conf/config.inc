@@ -32,6 +32,16 @@ $conf['disableACL'] = true;
 # Root ID :The user with this ID will be skipped from ACL checking
 $conf['root_id'] = 0;
 
+# Root Password :The default root password
+$conf['rootpwd'] = 'password';
+
+# Guest ID :The user with this ID will have access to some but not all resources by default
+#but could be changed
+$conf['guest_id'] = 1;
+
+# Guest Password :The default guest password
+$conf['guestpwd'] = 'password';
+
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
 #
