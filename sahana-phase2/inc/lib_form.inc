@@ -184,18 +184,11 @@ function shn_form_hidden($hidden_vars)
 function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    $disabled = $extra_opts['disabled']==NULL? false :$extra_opts['disabled'];
  ?>
     <label><?=$label?></label>
- <?php
- if($value){
- ?>
-    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" checked="<?=$value?>" <?=$text_opts?>  />
+    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?if ($value){ echo "checked='true'";}?> <?if ($disabled){ echo "disabled='true'";}?><?=$text_opts?>  />
 <?php
-}else {
-?>
-	<input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?>  />
-<?php
- }
     shn_form_extra_opts($extra_opts);
 }
 
