@@ -61,8 +61,8 @@ function shn_front_controller()
    
     // check the users access permissions for this action
     $req_act='shn_'.$module.'_'.$action;
-    $acl_enabled=shn_acl_get_state();
-//    $module_enabled=shn_acl_is_enabled($module);
+   
+	$acl_enabled=shn_acl_get_state($module);
     $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
              !$acl_enabled)? true : false;
     // include the html head tags
