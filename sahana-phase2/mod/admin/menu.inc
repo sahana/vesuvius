@@ -21,16 +21,24 @@ function _shn_admin_mainmenu()
     <div id="modmenuwrap">
         <h2><?=_("Administration")?></h2>
             <ul id="modmenu">
-
                 <li><a href="#"><?=_("System Config")?> </a></li>
                     <ul id="modsubmenu">
-<li><a href="index.php?mod=admin&act=add_loc"><?=_("Add Location")?></a></li>
-                   </ul>
-                   <li><a href="#"><?=_("Localization")?></a></li>
+                    <li>
+                        <a href="index.php?mod=admin&act=add_loc"><?=_("Add Location")?></a>
+                    </li>
+                    </ul>
+                    <li><a href="#"><?=_("Localization")?></a></li>
                     <ul id="modsubmenu">
-                    	<li><a href="index.php?mod=admin&act=lc_set"><?=_("Set Locale")?></a></li>
-						<li><a href="index.php?mod=admin&act=lc_trns"><?=_("Language Translation")?></a></li>
-                   </ul>
+                    	<li>
+                            <a href="index.php?mod=admin&amp;act=lc_set"><?=_("Set Locale")?></a>
+                        </li>
+                        <li>
+                            <a href="index.php?mod=admin&amp;act=lc_db"><?=_("Database L10N")?></a>
+                        </li>
+						<li>
+                            <a href="index.php?mod=admin&amp;act=lc_trns"><?=_("Language Translation")?></a>
+                        </li>
+                    </ul>
 
                <li><a href="#"><?=_("Module Config")?> </a></li>
                     <ul id="modsubmenu">
@@ -73,7 +81,7 @@ foreach ($module_list as $i) {
  <h2 align="center"><?=_("Welcome to the Sahana ACL Module Configuration page")?></h2>
 <br />
  <h2 align="center"><?=_("Current Status (Installed/Enabled)")?></h2>
- <br /> 
+ <br />
 <?php
 	shn_acl_module_status($module_list);
 }else {
@@ -97,7 +105,7 @@ if($visible==true){
 <a href="index.php?mod=admin&act=acl_role&sel=admin"><?=_("<strong>R</strong>oles")?></a>
 </div>
 <br>
-<!--<h2 align="center"><?=_("Welcome to the Sahana ACL System Configuration page")?></h2>-->			
+<!--<h2 align="center"><?=_("Welcome to the Sahana ACL System Configuration page")?></h2>-->
 <?php
 } else {
 ?>

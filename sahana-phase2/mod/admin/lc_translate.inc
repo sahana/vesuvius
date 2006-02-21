@@ -91,7 +91,11 @@ function _shn_admin_lc_load($file_n = null)
 	if(!file_exists($file_name))
 		$value = "Please create the file first";
 	else
+    {
 		$value = file_get_contents($file_name);
+        $value .= "\n\n#: DB L10N Starts here\n";
+        $value .= _shn_lc_get_dbpo();
+    }
 
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save'));

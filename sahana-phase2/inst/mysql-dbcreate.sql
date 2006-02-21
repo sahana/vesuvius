@@ -460,11 +460,12 @@ CREATE TABLE audit (
     PRIMARY KEY(audit_id)
 );
 
+
 /**
 * I18N/L10N specific tables
 * Modules	: Framework, admin 
 * Created 	: 08-Feb-2006 - sudheera@opensource.lk
-* Last changed	: 08-Feb-2006 - sudheera@opensource.lk
+* Last changed	: 21-Feb-2006 - sudheera@opensource.lk
 */
 
 DROP TABLE IF EXISTS lc_fields;
@@ -473,4 +474,10 @@ CREATE TABLE lc_fields (
     tablename VARCHAR(32) NOT NULL,
     fieldname VARCHAR(32) NOT NULL,
     PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS lc_tmp_po;
+CREATE TABLE lc_tmp_po (
+    string TEXT,
+    comment TEXT
 );

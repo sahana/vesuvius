@@ -129,19 +129,145 @@ function _shn_lc_issetsession()
  */
 function _shn_lc_lang_list($mode=1)
 {
-    $lc_list = array(
-                    'de_DE'=>_("Sinhala"),
-                    'en_US'=>_("English")
-                    );
-    $locale = $_SESSION['locale'];
+    if ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set')
+    {
+        $lc_list = array(
+                        'de_DE'=>_("Sinhala"),
+                        'en_US'=>_("English")
+                        );
+        $locale = $_SESSION['locale'];
 
-    shn_form_fopen("lc_set",null,array('req_message'=>false,'style'=>"language"));
+        shn_form_fopen("lc_set",null,array('req_message'=>false,'style'=>"language"));
 
-    shn_form_hidden(array('seq'=>'set_locale'));
+        shn_form_hidden(array('seq'=>'set_locale'));
 
-    shn_form_select($lc_list,"","locale",'onChange=submit(this);',array('value'=>"$locale"));
+        shn_form_select($lc_list,"","locale",'onChange=submit(this);',array('value'=>"$locale"));
 
-    shn_form_fclose();
+        shn_form_fclose();
+    }
+
 }
 
+function _shn_lc_get_dbpo()
+{
+    global $global;
+
+    $db_po_str = '';
+
+    //Clear tmp_po table
+    $sql = "DELETE FROM lc_tmp_po";
+    $rs = $global['db']->Execute($sql);
+
+    $list = _shn_lc_get_db_strlist();
+
+    //print_r($list);
+    foreach ($list as $str)
+    {
+        $sql = "SELECT * FROM lc_tmp_po WHERE string = '" . $str['string'] . "'";
+        $rs = $global['db']->Execute($sql);
+        $rs_array = $rs->getArray();
+
+        if (1 > $rs->RecordCount())
+        {
+            $string = $str['string'];
+            $comment = $str['table'] . "/" . $str['field'] . ", ";
+
+            $sql = "INSERT INTO lc_tmp_po (string, comment) " .
+                    "VALUES('$string','$comment')";
+
+            //print $sql;
+            $global['db']->Execute($sql);
+        }
+        else
+        {
+            $comment = $rs_array[1] . $str['table'] . "/" . $str['field'] . ", ";
+            $sql = "UPDATE lc_tmp_po SET comment = '$comment'";
+            $global['db']->Execute($sql);
+            //print $sql;
+        }
+
+    }
+
+    $sql = "SELECT * FROM lc_tmp_po";
+    $rs = $global['db']->Execute($sql);
+
+    if (1 < $rs->RecordCount())
+    {
+        $rs = $rs->getArray();
+
+        foreach ($rs as $r)
+        {
+            $string = $r[0];
+            $comment = $r[1];
+
+            $db_po_str .= "#: $comment\n" .
+                         "msgid \"$string\"\n" .
+                         "msgstr \"\"\n\n";
+        }
+    }
+
+    return $db_po_str;
+
+}
+
+function _shn_lc_get_db_strlist()
+{
+    global $global;
+
+    $str_list = '';
+    $sql = "SELECT tablename,fieldname FROM  lc_fields";
+    $rs = $global['db']->Execute($sql);
+
+    if(!$rs)
+    {
+        print "Error : " . $global['db']->ErrorMsg();
+        return false;
+    }
+    else if(1>$rs->RecordCount())
+    {
+        print ">>>>>>>>>>>no db lc";
+        return false;
+    }
+    else
+    {
+        $rs = $rs->getArray();
+        foreach ($rs as $r)
+        {
+            $strs = _shn_lc_get_db_tblstrings($r[0],$r[1]);
+            foreach ($strs as $str)
+            {
+                $str_list[] = array(
+                                    'string'=> $str[0],
+                                    'table' => $r[0],
+                                    'field' => $r[1]
+                                    );
+            }
+        }
+    }
+
+    return $str_list;
+}
+
+function _shn_lc_get_db_tblstrings($table, $field)
+{
+    global $global;
+
+    $str_list = '';
+    $sql = "SELECT DISTINCT($field) FROM $table";
+    $rs = $global['db']->Execute($sql);
+
+    if(!$rs)
+    {
+        print "Error : " . $global['db']->ErrorMsg();
+        return false;
+    }
+    else if(1>$rs->RecordCount())
+    {
+        return false;
+    }
+    else
+    {
+        return $rs->getArray();
+    }
+}
 ?>

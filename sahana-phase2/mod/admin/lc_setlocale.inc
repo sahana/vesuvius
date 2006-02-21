@@ -17,8 +17,6 @@
 */
 
 global $global;
-require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
-
 
 function __select_locale()
 {

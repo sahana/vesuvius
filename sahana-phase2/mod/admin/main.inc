@@ -244,4 +244,9 @@ function shn_admin_lc_set()
 {
     require_once('lc_setlocale.inc');
 }
+
+function shn_admin_lc_db()
+{
+    require_once('lc_db.inc');
+}
 ?>
