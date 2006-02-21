@@ -83,6 +83,10 @@ function shn_admin_acl_module()
 {
     _shn_admin_acl_module();
 }
+function shn_admin_acl_module_cr()
+{
+    _shn_admin_acl_module_cr();
+}
 function shn_admin_acl_install()
 {
     _shn_admin_acl_install();

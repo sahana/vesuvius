@@ -74,6 +74,20 @@ function _shn_admin_acl_module()
         
 
 }
+
+function _shn_admin_acl_module_cr()
+{
+	global $global;
+    $db=$global['db'];
+	$q="update config set value=false where confkey='acl_enabled'";
+	$db->Execute($q); 
+	foreach ($_POST as $name=>$val){
+		$q="update config set value=true where module_id='{$name}' and confkey='acl_enabled'";
+		$db->Execute($q); 
+	}
+	_shn_admin_acl_module();
+}
+
 function _shn_admin_acl_state(){
       if("enable"==$_GET['do']){
             shn_acl_set_state();
@@ -278,6 +292,7 @@ function _shn_admin_acl_mod_install(){
 
 function _shn_admin_acl_install(){
     global $global;
+    global $conf;
     $db=$global["db"];
     $q="select value from config where module_id='admin' and confkey='acl_base'";
     $res=$db->Execute($q);
@@ -323,11 +338,11 @@ or_acl_setup to sahana setup script once its avaliable
     */
    $res=shn_acl_add_perm_type("execute","execute permission");
     // adds guest user with password and add the user to ACL users and add to 'guest' role
-    $guest=shn_add_user("Guest User","guest","pass","guest",1); 
+    $guest=shn_add_user("Guest User","guest",$conf['guest'],"guest",1); 
     //add a"guest" user to ACL users and add to 'guest' role
-    $q="insert into org_users(org_id,user_id) values(0,1)";
+    $q="insert into org_users(org_id,user_id) values(0,$conf['guest_id]')";
     $res=$db->Execute($q);
-    $root=shn_add_user("Root User","root","rootpwd","admin",0); 
+    $root=shn_add_user("Root User","root",$conf['rootpwd'],"admin",0); 
     //add a "root" user to ACL users and add to 'admin' role
     $q="insert into org_users(org_id,user_id) values(0,0)";
     $res=$db->Execute($q);
