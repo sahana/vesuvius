@@ -328,38 +328,38 @@ CREATE TABLE phonetic_word(
 /**
 * Camp Registry Specific Tables added
 * Modules: cms,cr
-* Last changed: 07-Feb-2006 - mifan@opensource.lk  
+* Last changed: 22-Feb-2006 - mifan@opensource.lk  
 */
 
-CREATE TABLE camp (
-    c_uuid BIGINT NOT NULL,
+CREATE TABLE camp_general (
+    c_uuid VARCHAR(60) NOT NULL,
     name VARCHAR(60),
     location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
+		capacity INT,
+		shelters INT,
+		area VARCHAR(20),
+		personsPerShelter INT,
     PRIMARY KEY (c_uuid),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
 CREATE TABLE camp_reg (
-    c_uuid BIGINT NOT NULL,
-    name VARCHAR(60),
-    orgid BIGINT,
-    contact_name VARCHAR(30),
-    contact_no INT,
-    comments VARCHAR(100),
-    services INT,
-    men INT,
+    c_uuid VARCHAR(60) NOT NULL,
+    admin_name VARCHAR(60),
+		admin_no VARCHAR(60),
+		men INT,
     women INT,
     family INT,
     children INT,
     total INT, 
-    PRIMARY KEY (c_uuid),
-    FOREIGN KEY (orgid) REFERENCES org_main(o_uuid)
+    PRIMARY KEY (c_uuid)
 );
 
+
 CREATE TABLE camp_services (
-    c_uuid BIGINT NOT NULL,
+    c_uuid VARCHAR(60) NOT NULL,
     opt_camp_service VARCHAR(50),
     value BOOL NOT NULL DEFAULT FALSE, 
     PRIMARY KEY (c_uuid,opt_camp_service)
@@ -367,20 +367,22 @@ CREATE TABLE camp_services (
 );
 
 CREATE TABLE person_camp(
-    c_uuid BIGINT NOT NULL,
-    p_uuid BIGINT NOT NULL
-);
-
-CREATE TABLE camp_org(
-    c_uuid BIGINT NOT NULL,
-		o_uuid BIGINT NOT NULL
+    c_uuid VARCHAR(60) NOT NULL,
+    p_uuid VARCHAR(60) NOT NULL
 );
 
 CREATE TABLE camp_admin(
     c_uuid BIGINT NOT NULL,
-    contact_puuid BIGINT NOT NULL
+    contact_puuid BIGINT NOT NULL,
+		PRIMARY KEY (c_uuid,contact_puuid)
 );
 
+CREATE TABLE camp_org(
+    c_uuid VARCHAR(60) NOT NULL,
+		opt_camp_service VARCHAR(50),
+    o_uuid VARCHAR(60) NOT NULL
+		PRIMARY KEY (c_uuid,opt_camp_service,o_uuid)
+);
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
 CREATE TABLE configlist(

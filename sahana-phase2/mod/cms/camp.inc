@@ -34,7 +34,16 @@ function _shn_cms_cadd_form($errors=false){
 		
 	// store session
 	$_SESSION['opt_camp_service'] = $_POST['opt_camp_service'];
+	
+	//initialize array for organizaton drop-down
+	$org_q="select o_uuid,name from org_main";
+	$org_res=$db->Execute($org_q);
+	while(!$org_res->EOF){
+		$org_array[$org_res->fields['o_uuid']] = ($org_res->fields['name']);
+		$org_res->MoveNext();
+	}
 		
+	var_dump($org_array);
 	//show add camp form
 	shn_form_fopen(cadd);
 	shn_form_fsopen(_("Name and Type"));
@@ -48,6 +57,7 @@ function _shn_cms_cadd_form($errors=false){
 	shn_form_text(_("Camp Admin Name"),"admin_name",'size="50"');
 	shn_form_text(_("Contact Number"),"admin_no",'size="50"');
 	shn_form_text(_("Organization Name"),"org_name",'size="50"');
+	shn_form_select($org_array,_("Organization"),"org_id");
 	shn_form_fsclose();
 	shn_form_fsopen(_("General Details"));
 	shn_form_text(_("Distance from City [km]"),"city_dis",'size="50"');

@@ -414,7 +414,7 @@ DROP TABLE IF EXISTS camp_admin;
 CREATE TABLE camp_admin(
     c_uuid VARCHAR(60) NOT NULL,
     contact_puuid VARCHAR(60) NOT NULL
-		PRIMARY KEY (c_uuid)
+		PRIMARY KEY (c_uuid,contact_puuid)
 );
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
