@@ -217,8 +217,6 @@ function _shn_cr_sel_map(){
 			$ekey=$eres->fields[0];
 																		
 			init_map($keys);
-			load_map($wkey,$ekey);
-			add_marker($_POST['camp_name']);
 		}
 	}
 	else
@@ -235,6 +233,10 @@ function _shn_cr_sel_map(){
 			
 	shn_form_submit("Next");
 	shn_form_close();
+	add_footer();
+	load_map($wkey,$ekey);
+	add_marker($_POST['camp_name']);
+	end_page();
 }
 
 

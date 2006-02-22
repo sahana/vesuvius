@@ -182,6 +182,7 @@ function shn_cr_gis_show(){
 		}
 		else
 			init_map();
+		add_footer();
 		load_map();
 		//put values into array: even better, process directly ;)
 		while(!$res->EOF){
@@ -189,6 +190,7 @@ function shn_cr_gis_show(){
 			//add_marker($res->fields[2]);
 			$res->MoveNext();	
 		}
+		end_page();
 		
 	}
 	
