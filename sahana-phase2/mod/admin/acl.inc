@@ -340,11 +340,11 @@ or_acl_setup to sahana setup script once its avaliable
     // adds guest user with password and add the user to ACL users and add to 'guest' role
     $guest=shn_add_user("Guest User","guest",$conf['guest'],"guest",1); 
     //add a"guest" user to ACL users and add to 'guest' role
-    $q="insert into org_users(org_id,user_id) values(0,$conf['guest_id]')";
+    $q="insert into org_users(org_id,user_id) values(0,{$conf['guest_id']})";
     $res=$db->Execute($q);
     $root=shn_add_user("Root User","root",$conf['rootpwd'],"admin",0); 
     //add a "root" user to ACL users and add to 'admin' role
-    $q="insert into org_users(org_id,user_id) values(0,0)";
+    $q="insert into org_users(org_id,user_id) values(0,{$conf['root_id']})";
     $res=$db->Execute($q);
     /************************************/
     //give permission for the guest user to sahana home
