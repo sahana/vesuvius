@@ -312,15 +312,18 @@ $loc_id=_shn_cr_get_locid();
 
 
 //enter into camp table
-$q="insert into camp(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
 
 $res = $db->Execute($q);
 
 //enter into camp_reg table
-$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+//$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+$q="insert into camp_reg(c_uuid,admin_name,admin_no,men,women,family,children,total) values($uid,'{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
 
 $res = $db->Execute($q);
+
+//@TODO: $query = "insert into camp_admin";
 
 /*
  * GIS Insertion
@@ -351,11 +354,11 @@ if($conf['gis']){
 	 }
 	}
 ?>
-<h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
+<h2><?=_("You Have Succesfully Registered '{$_SESSION['camp_name']}'?>")?></h2>
 
 <br>
 <br>
-<h3><?php echo _("The Availability of Services & Facilities of the Camp are as follows:")?></h3>
+<?php echo _("The Availability of Services & Facilities of the Camp are as follows:")?></h3>
 <!--<p>Facilities / Services Availability</p>-->
 <ul>
 

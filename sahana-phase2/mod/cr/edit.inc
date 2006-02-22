@@ -28,9 +28,9 @@ function _shn_cr_cedt_start($errors=false){
 ?>
 <h2><?php echo _("Update Existing Camp")?></h2>
 <?php
-	$query="select c_uuid from camp where name='{$_REQUEST['cmp_id']}'";
+	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
-	$editid=$res->fields[0];
+	$editid=$res->fields['c_uuid'];
 	$_SESSION['editid']=$editid;
 	
 	_shn_cr_get_session($editid);
@@ -108,9 +108,9 @@ function shn_cr_all_view(){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2>Camp Details</h2>
+<h2><?=_("Camp Details")?></h2>
 <?php
-	$query="select c_uuid from camp where name='{$_REQUEST['cmp_id']}'";
+	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
 	$editid=$res->fields[0];
 	$_SESSION['editid']=$editid;
@@ -220,7 +220,7 @@ if($errors)
 							
 	//var_dump($_SESSION);
 ?>
-<h2>Camp Checklist</h2>
+<h2><?=("Camp Checklist")?></h2>
 <?php
 shn_form_fopen(ecmp);
 shn_form_fsopen(_("Services / Facilities Available"));
@@ -236,7 +236,7 @@ shn_form_fclose();
 function _shn_cr_del_camp($id){
 	global $global;
 	$db=$global['db'];
-	$q="delete from camp where c_uuid='{$id}'";
+	$q="delete from camp_general where c_uuid='{$id}'";
 	$r="delete from camp_reg where c_uuid='{$id}'";
 	$s="delete from camp_services where c_uuid='{$id}'";
 	$db->Execute($q);
@@ -341,7 +341,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-	$query="select a.name,a.location_id,a.opt_camp_type,a.address,contact_name,contact_no,family,total,men,women,children from camp a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
+	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
 	
 	$res = $db->Execute($query);
 
@@ -349,8 +349,8 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['opt_camp_type']=$res->fields['opt_camp_type'];
 	$_SESSION['opt_location_type']=$res->fields['location_id'];
 	$_SESSION['camp_address']=$res->fields['address'];
-	$_SESSION['camp_contact_name']=$res->fields['contact_name'];
-	$_SESSION['camp_contact_number']=$res->fields['contact_no'];
+	$_SESSION['camp_contact_name']=$res->fields['admin_name'];
+	$_SESSION['camp_contact_number']=$res->fields['admin_no'];
 	$_SESSION['camp_family']=$res->fields['family'];
 	$_SESSION['camp_men']=$res->fields['men'];
 	$_SESSION['camp_women']=$res->fields['women'];
@@ -379,30 +379,29 @@ $loc_id=_shn_cr_get_locid();
 //call unique camp id
 //$uid=_shn_cr_create_cid();
 //enter into camp table
-$q="update camp set name='{$_SESSION['camp_name']}',location_id=$loc_id,opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp_general set name='{$_SESSION['camp_name']}',location_id=$loc_id,opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
 
 
 $res = $db->Execute($q);
 //enter into camp_reg table
-$q="update camp_reg set name='{$_SESSION['camp_name']}',contact_name='{$_SESSION['camp_contact_name']}',contact_no='{$_SESSION['camp_contact_number']}',comments='{$_SESSION['camp_comments']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_family']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_family']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
 
 $res = $db->Execute($q);
 
 /*insert services into camp_services table
-//currently add checked values.
-*/								
+//currently add checked values								
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
 		//$q = "update camp_services(c_uuid,opt_camp_service,value) values($editid,'{$b}',1)";
 	$res = $db->Execute($q);
 	}
+*/
 ?>
-<h2>You Have Succesfully Registered "<?=$_SESSION['camp_name']?>"</h2>
-<!--<h3>You Have Succesfully Registered <?=$_SESSION['camp_name']?></h3><br>-->
+
+<h2><?=_("You Have Succesfully Edited '{$_SESSION['camp_name']}'?>")?></h2>
 <br>
-<br>
-<h3>The availability of Services & Facilities of the camp are as follows.</h3>
-<!--<p>Facilities / Services Availability</p>-->
+<h3><?=_("The availability of Services & Facilities of the camp are as follows")?></h3>
+
 <ul>
 
 
@@ -413,14 +412,16 @@ while(!$ref->EOF){
 	$val=$ref->fields[0];
 	$name=$ref->fields[1];
 	$flag=false;
-	foreach($_SESSION['opt_camp_service'] as $a => $b){
+	if(isset($_SESSION['opt_camp_service'])){
+	 foreach($_SESSION['opt_camp_service'] as $a => $b){
 		if($val==$b){
-			echo "<li>$name :  Available </li><br>";
+			echo "<li>$name :". "_('Available') </li><br>";
 			$flag=true;
 		}
+	 }
 	}
 	if(!$flag){
-		echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
+		echo "<li class=\"fontspecial\">$name :". "_('NOT AVAILABLE') </li><br>";
 	}
 	
 	$ref->MoveNext();

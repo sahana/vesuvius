@@ -30,9 +30,9 @@ function _shn_cr_srch_rst($camp_name,$type){
             <td><?php echo _("Location")?></td>
             <td><?php echo _("Address")?></td>
          	<td><?php echo _("Camp Type")?></td>
-            <td><?php echo _("No: of Families")?></td>
             <td><?php echo _("No: of Males")?></td>
             <td><?php echo _("No: of Females")?></td>
+            <td><?php echo _("No: of Children")?></td>
             <td><?php echo _("No: of Families")?></td>
             <td><?php echo _("Total Count")?></td>
         </thead>
@@ -50,11 +50,11 @@ function _shn_cr_srch_rst($camp_name,$type){
 
 						if((!null==$camp_name) && (!null==$type)){
 								
-   					$q = "select * from camp where name='{$camp_name}'AND opt_camp_type='{$type}'";	
+   					$q = "select * from camp_general where name='{$camp_name}'AND opt_camp_type='{$type}'";	
     		     		$res_cmp =$db->Execute($q);
 						}
 						else if((null==$camp_name) && (!null==$type)){
-   					$q = "select * from camp where opt_camp_type='{$type}'";	
+   					$q = "select * from camp_general where opt_camp_type='{$type}'";	
     		     		$res_cmp =$db->Execute($q);
 						}
    	
@@ -73,22 +73,22 @@ function _shn_cr_srch_rst($camp_name,$type){
     		?> 
 			<tr>
     				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
-						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?>
+						<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?>
 							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a><?php ;?></td>
-  					<td><?php echo $res_loc->fields[4]?></td>
-  					<td><?php echo $res_cmp->fields[4]?></td>
-  					<td><?php echo $res_type->fields[2]?></td>
-  					<td><?php echo $res_maincmp->fields[9]?></td>
-  					<td><?php echo $res_maincmp->fields[7]?></td>
-  					<td><?php echo $res_maincmp->fields[8]?></td>
-  					<td><?php echo $res_maincmp->fields[10]?></td>
-  					<td><?php echo $res_maincmp->fields[11]?></td>
+  					<td><?php echo $res_loc->fields['name']?></td>
+  					<td><?php echo $res_cmp->fields['address']?></td>
+  					<td><?php echo $res_type->fields['option_description']?></td>
+  					<td><?php echo $res_maincmp->fields['men']?></td>
+  					<td><?php echo $res_maincmp->fields['women']?></td>
+  					<td><?php echo $res_maincmp->fields['children']?></td>
+  					<td><?php echo $res_maincmp->fields['family']?></td>
+  					<td><?php echo $res_maincmp->fields['total']?></td>
     		</tr>
     		<?php
     				$res_cmp->MoveNext();
    	  		   } 
    	  		   	 
-   	  		   ?>
+   	  		   ?>s
    </tbody>
    </table>
      </div>
@@ -101,9 +101,9 @@ function _shn_cr_srch_rst($camp_name,$type){
 			$db=$global['db'];
 
 			if($camp_name!=null)
-   		$q = "select * from camp where name='{$camp_name}'";	
+   		$q = "select * from camp_general where name='{$camp_name}'";	
 			else
-   		$q = "select * from camp";	
+   		$q = "select * from camp_general";	
    		 
    		     		$res_cmp =$db->Execute($q);
    	
@@ -124,6 +124,16 @@ function _shn_cr_srch_rst($camp_name,$type){
     				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
 						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
 						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a></td>
+  					
+  					<td><?php echo $res_loc->fields['name']?></td>
+  					<td><?php echo $res_cmp->fields['address']?></td>
+  					<td><?php echo $res_type->fields['option_description']?></td>
+  					<td><?php echo $res_maincmp->fields['men']?></td>
+  					<td><?php echo $res_maincmp->fields['women']?></td>
+  					<td><?php echo $res_maincmp->fields['children']?></td>
+  					<td><?php echo $res_maincmp->fields['family']?></td>
+  					<td><?php echo $res_maincmp->fields['total']?></td>
+  					<!--
   					<td><?php echo $res_loc->fields[4]?></td>
   					<td><?php echo $res_cmp->fields[4]?></td>
   					<td><?php echo $res_type->fields[2]?></td>
@@ -132,6 +142,7 @@ function _shn_cr_srch_rst($camp_name,$type){
   					<td><?php echo $res_maincmp->fields[8]?></td>
   					<td><?php echo $res_maincmp->fields[10]?></td>
   					<td><?php echo $res_maincmp->fields[11]?></td>
+  					-->
     		</tr>
     		<?php
     				$res_cmp->MoveNext();

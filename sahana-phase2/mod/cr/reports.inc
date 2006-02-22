@@ -58,19 +58,19 @@ function _shn_cr_rpt(){
 
 function _shn_cr_rpt_all(){
 	?>
-	<h1><center>Camp Information</center></h1>
+	<h1><center><?=_("Camp Information")?></center></h1>
 	<div id ="result">
    <table>
         <thead>
-            <td>Camp Name</td>
-            <td>Camp Type</td>
-            <td>Address</td> 
-            <td>Location</td>
-            <td>No: of Families</td>
-            <td>No: of Males</td>
-            <td>No: of Females</td>
-            <td>No: of Children</td>
-            <td>Total Count</td>
+            <td><?=_("Camp Name")?></td>
+            <td><?=_("Camp Type")?></td>
+            <td><?=_("Address")?></td> 
+            <td><?=_("Location")?></td>
+            <td><?=_("No: of Families")?></td>
+            <td><?=_("No: of Males")?></td>
+            <td><?=_("No: of Females")?></td>
+            <td><?=_("No: of Children")?></td>
+            <td><?=_("Total Count")?></td>
             
         </thead>
         		<tbody>
@@ -81,29 +81,35 @@ function _shn_cr_rpt_all(){
 	 
          			$res_cmp =$db->Execute($q);
     						while (!$res_cmp->EOF){
-    						$c_uuid  =$res_cmp->fields[0];        
-    						$qdetails  = "select * from camp where c_uuid='{$c_uuid}'";
+    						$c_uuid  =$res_cmp->fields['c_uuid'];        
+    						$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
     						$res_maincmp =$db->Execute($qdetails);
     						
-    						$loc  =$res_maincmp->fields[2];   
+    						$qcamp = "select * from camp_general where c_uuid='{$c_uuid}'";
+    						$res_camp =$db->Execute($qcamp);
+    						
+    						$loc  =$res_camp->fields['location_id'];   
     						$qloc = "select * from location where location_id='{$loc}'";
     						$res_loc =$db->Execute($qloc);
     						
-    						$type  =$res_maincmp->fields[3]; 
+    						$type  =$res_camp->fields['opt_camp_type']; 
     						$qtype = "select * from field_options where option_code='{$type}'";
     						$res_type =$db->Execute($qtype);
+    						 
+    						
+    						
     				  				
 					?>
     				<tr>
-					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
-					<td><?php echo $res_type->fields[2]?></td>
-  					<td><?php echo $res_maincmp->fields[4]?></td>
-  					<td><?php echo $res_loc->fields[4]?></td>
-    				<td><?php echo $res_cmp->fields[9]?></td>
-    				<td><?php echo $res_cmp->fields[7]?></td>
-    				<td><?php echo $res_cmp->fields[8]?></td>
-    				<td><?php echo $res_cmp->fields[10]?></td>
-  					<td><?php echo $res_cmp->fields[11]?></td>
+					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_camp->fields['name']?>"><?php echo $res_camp->fields['name']?></a></td>
+					<td><?php echo $res_type->fields['option_description']?></td>
+  					<td><?php echo $res_camp->fields['address']?></td>
+  					<td><?php echo $res_loc->fields['name']?></td>
+    				<td><?php echo $res_cmp->fields['family']?></td>
+    				<td><?php echo $res_cmp->fields['men']?></td>
+    				<td><?php echo $res_cmp->fields['women']?></td>
+    				<td><?php echo $res_cmp->fields['children']?></td>
+  					<td><?php echo $res_cmp->fields['total']?></td>
   					 					
     				</tr>
     				<?php
@@ -135,7 +141,7 @@ function _shn_cr_drill_location(){
 	global $global;
 	$module = $global['module'];	
 	$db=$global['db'];
-	$q = "select sum(b.total), a.location_id from camp as a, camp_reg as b where b.c_uuid=a.c_uuid group by a.location_id";
+	$q = "select sum(b.total), a.location_id from camp_general as a, camp_reg as b where b.c_uuid=a.c_uuid group by a.location_id";
 	$res_cmp = $db->Execute($q);
 	while (!$res_cmp->EOF){
 		$loc_id =$res_cmp->fields[1];
@@ -160,15 +166,15 @@ function _shn_cr_drill_location(){
 
 function _shn_cr_rpt_loc($locate){
 ?>
-<h1><center>Camp Information by Location Drilled</center></h1>
+<h1><center><?=_("Camp Information by Location Drilled")?></center></h1>
 <div id ="result">
 <table>
 <thead>
-<td>Location</td>
-<td>Camp Name </td>
-<td>Camp Type</td>
-<td>Address</td>
-<td>Total Victims</td>
+<td><?=_("Location")?></td>
+<td><?=_("Camp Name")?> </td>
+<td><?=_("Camp Type")?></td>
+<td><?=_("Address")?></td>
+<td><?=_("Total Victims")?></td>
 </thead>
 
 <tbody>
@@ -184,7 +190,7 @@ if(!$loc_r->EOF){
 	$location_id=$loc_r->fields[0];
 }
 
-$q = "select c_uuid,name,opt_camp_type,address,location_id from camp where location_id='{$location_id}'";
+$q = "select c_uuid,name,opt_camp_type,address,location_id from camp_general where location_id='{$location_id}'";
 $res_cmp = $db->Execute($q);
 while (!$res_cmp->EOF){
 				
@@ -205,8 +211,8 @@ $res_type =$db->Execute($qtype);
     				<td><?php echo $res_loc->fields[4]?></td>
   					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
   					<td><?php echo $res_type->fields[2]?></td>
-  					<td><?php echo $res_cmp->fields[3]?></td>
-  					<td><?php echo $res_reg->fields[0]?></td>
+  					<td><?php echo $res_cmp->fields['address']?></td>
+  					<td><?php echo $res_reg->fields['total']?></td>
   					
   					</tr>
   					<?php

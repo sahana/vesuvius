@@ -51,7 +51,7 @@ Current features include:")?></p>
 function shn_cr_home_pop(){
 	global $global;
 	$db=$global['db'];
-	$query="select name,total from camp_reg  order by total desc";
+	$query="select c.name,a.total from camp_general as c,camp_reg as a where c.c_uuid=a.c_uuid  order by total desc";
 	$res=$db->Execute($query);
 	$count=0;
 ?>
@@ -80,7 +80,7 @@ function shn_cr_home_pop(){
 function shn_cr_home_newcmp(){
 	global $global;
 	$db=$global['db'];
-	$query="select a.name,b.name from camp_reg a left outer join camp c using(c_uuid) left outer join location b on c.location_id=b.location_id order by a.c_uuid desc";
+	$query="select c.name,b.name from camp_reg a left outer join camp_general c using(c_uuid) left outer join location b on c.location_id=b.location_id order by a.c_uuid desc";
 	$res =$db->Execute($query);
 	$count=0;
 ?>
@@ -171,7 +171,7 @@ function shn_cr_gis_show(){
 		include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
 		echo _("GIS Map of Camps");
-		$q="select map_northing,map_easting,name from gis_location as a, camp as b where a.poc_uuid=b.c_uuid";
+		$q="select map_northing,map_easting,name from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
 		$res = $db->Execute($q);
 		
 		if($conf['mod_gis']=='google_maps'){
@@ -283,5 +283,5 @@ function shn_cr_acma(){
 
 function shn_cr_view(){
 }
-
+s
 ?>
