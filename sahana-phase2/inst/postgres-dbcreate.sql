@@ -380,7 +380,7 @@ CREATE TABLE camp_admin(
 CREATE TABLE camp_org(
     c_uuid VARCHAR(60) NOT NULL,
 		opt_camp_service VARCHAR(50),
-    o_uuid VARCHAR(60) NOT NULL
+    o_uuid VARCHAR(60) NOT NULL,
 		PRIMARY KEY (c_uuid,opt_camp_service,o_uuid)
 );
 
