@@ -398,12 +398,22 @@ $res = $db->Execute($q);
 */
 ?>
 
-<h2><?=_("You Have Succesfully Edited '{$_SESSION['camp_name']}'?>")?></h2>
+<h2><?=_("You Have Succesfully Edited camp {$_SESSION[camp_name]}")?></h2>
 <br>
 <h3><?=_("The availability of Services & Facilities of the camp are as follows")?></h3>
 
 <ul>
 
+<!--To have the results shown in table format-->
+<div id ="result">
+<table>
+        <thead>
+        		<td><?php echo _("Service Type")?></td>
+            <td><?php echo _("Availability")?></td>
+        </thead>
+        
+<tbody>
+<tr>
 
 <?php
 $a="select option_code,option_description from field_options where field_name='opt_camp_service'";
@@ -415,19 +425,29 @@ while(!$ref->EOF){
 	if(isset($_SESSION['opt_camp_service'])){
 	 foreach($_SESSION['opt_camp_service'] as $a => $b){
 		if($val==$b){
-			echo "<li>$name :". "_('Available') </li><br>";
-			$flag=true;
+			echo "<td>$name</td>";
+    		echo "<td>". _("Available"). "</td>";
+    		echo "<br>";
 		}
 	 }
 	}
 	if(!$flag){
-		echo "<li class=\"fontspecial\">$name :". "_('NOT AVAILABLE') </li><br>";
+		echo "<td>$name</td>";
+		echo "<td>"._("NOT AVAILABLE")."</td>";
+		echo "<br>";
 	}
-	
+	?>
+	</tr>
+	<?php
 	$ref->MoveNext();
 }
 
 ?>
+
+</tbody>
+</table>
+</div>
+
 </ul>
 <br><br>
 <p><?php echo _("Use the Navigation Menu to Continue")?></p>

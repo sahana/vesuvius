@@ -356,7 +356,7 @@ if($conf['gis']){
 	 }
 	}
 ?>
-<h2><?=_("You Have Succesfully Registered '{$_SESSION['camp_name']}'?>")?></h2>
+<h2><?=_("You Have Succesfully Registered camp'{$_SESSION[camp_name]}'")?></h2>
 
 <br>
 <br>
