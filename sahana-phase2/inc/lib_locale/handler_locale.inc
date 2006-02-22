@@ -81,7 +81,10 @@ if (function_exists("gettext")) {
 
 function _lc($string)
 {
-	return gettext($string);
+    if(trim($string) != '')
+	   return gettext($string);
+    else
+        return $string;
 }
 
 ?>

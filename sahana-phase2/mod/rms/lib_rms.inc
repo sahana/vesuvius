@@ -1158,7 +1158,7 @@ function get_rms_itemunits()
     $list = array();
     foreach ($recs as $rec)
     {
-        $list[$rec[0]] = sprintf("%s [%s]",$rec[1],$rec[2]);
+        $list[$rec[0]] = sprintf("%s [%s]",_lc($rec[1]),_lc($rec[2]));
     }
     return $list;
 }
