@@ -112,4 +112,33 @@ function info_event($query_results){
  </script>			 
 <?php
 }
+
+
+/**
+ *adding the footer
+*/
+function add_footer(){
+?>
+    </div> <!-- /content -->
+<?php
+
+    // include the footer provided there is not a module override
+    shn_include_page_section('footer',$module);
+?>
+    </div> <!-- /wrapper -->
+    </div> <!-- /container -->
+
+<?php
+}
+
+/**
+ *used to close the page
+ */
+function end_page(){
+?>
+    </body>
+    </html>
+<?php 
+	exit(0);
+}
 ?>
