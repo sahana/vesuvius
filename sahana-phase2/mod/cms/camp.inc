@@ -19,6 +19,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
+
 /**
  * display camp creation form
  */
@@ -47,7 +48,7 @@ function _shn_cms_cadd_form($errors=false){
 	//show add camp form
 	shn_form_fopen(cadd);
 	shn_form_fsopen(_("Name and Type"));
-	shn_form_hidden(array('seq'=>'map'));
+	shn_form_hidden(array('seq'=>'adm'));
 	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
 	shn_form_opt_select("opt_camp_type",_("Camp Type"));
 	shn_form_textarea(_("Address"),"camp_address");
@@ -56,19 +57,68 @@ function _shn_cms_cadd_form($errors=false){
 	shn_form_fsopen(_("Camp Administrator"));
 	shn_form_text(_("Camp Admin Name"),"admin_name",'size="50"');
 	shn_form_text(_("Contact Number"),"admin_no",'size="50"');
-	shn_form_text(_("Organization Name"),"org_name",'size="50"');
-	shn_form_select($org_array,_("Organization"),"org_id");
+	shn_form_select($org_array,_("Administrative Organization(s)"),"org_name");
 	shn_form_fsclose();
-	shn_form_fsopen(_("General Details"));
-	shn_form_text(_("Distance from City [km]"),"city_dis",'size="50"');
-	shn_form_text(_("Distance from Disaster [km]"),"disas_dis",'size="50"');
+	shn_form_fsopen(_("Demographics"));
+	//shn_form_text(_("Distance from City [km]"),"city_dis",'size="50"');
+	//shn_form_text(_("Distance from Disaster [km]"),"disas_dis",'size="50"');
 	shn_form_text(_("Approximate Capacity [people]"),"capacity",'size="50"');
 	shn_form_text(_("Number of Shelters"),"shelters",'size="50"');
-	shn_form_text(_("Approximate Area Size [square metres]"),"camp_size",'size="50"');
+	shn_form_text(_("Approximate Area Size [with units]"),"camp_size",'size="50"');
+	shn_form_text(_("Number of Persons per camp"),"per_camp",'size="50"');
 	shn_form_fsclose();
 	shn_form_submit(_("Next"));
 	shn_form_fclose();
 			
+}
+
+/**
+ * Camp Admin form
+ */
+function _shn_cms_cadd_admin(){
+	shn_form_fopen(cadd);
+	shn_form_fsopen(_("Camp Administrator Details"));
+	shn_form_hidden(array('seq'=>'ser'));
+	shn_form_text(_("Administrator Full Name"),"admin_name",'size="50"',array('req'=>true));
+	shn_form_text(_("ID/Passport/SSN"),"admin_id");
+	shn_form_text(_("Camp Phone"),"camp_contact");
+	shn_form_text(_("Mobile Number"),"admin_mobile");
+	shn_form_text(_("ID/Passport/SSN"),"admin_id");
+	shn_form_fsclose();
+	shn_form_submit(_("Next"));
+	shn_form_fclose();
+}
+
+/**
+ * Add service-organization form
+ */
+function _shn_cms_cadd_serorg(){
+	
+	global $global;
+	$db = $global['db'];
+	
+	//initialize array for organizaton drop-down
+	$org_q="select o_uuid,name from org_main";
+	$org_res=$db->Execute($org_q);
+	while(!$org_res->EOF){
+		$org_array[$org_res->fields['o_uuid']] = ($org_res->fields['name']);
+		$org_res->MoveNext();
+	}
+	
+	shn_form_fopen(cadd);
+	shn_form_fsopen(_("Service Organizations"));
+	shn_form_hidden(array('seq'=>'map'));
+	
+	//get camp services from database
+	$cmp_ser = "select * from field_options where field_name='opt_camp_service'";
+	$cmp_ser_res = $db->Execute($cmp_ser);
+	while(!$cmp_ser_res->EOF){
+		shn_form_select($org_array,_lc($cmp_ser_res->fields['option_description']),"org_ser_name");
+		$cmp_ser_res->MoveNext();
+	}
+	shn_form_fsclose();
+	shn_form_submit(_("Next"));
+	shn_form_fclose();
 }
 
 function _shn_cms_cadd_guide(){

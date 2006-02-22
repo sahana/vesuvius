@@ -32,6 +32,14 @@ function shn_cms_cadd(){
 	case 'chk':
 							_shn_cms_cadd_chk();
 							break;
+	case 'adm':
+    						_shn_cms_cadd_admin();
+    						break;
+    						
+    case 'ser':				
+    						_shn_cms_cadd_serorg();
+    						break;
+    							    
     case 'map':
     						_shn_cms_add_map();
     						break;
