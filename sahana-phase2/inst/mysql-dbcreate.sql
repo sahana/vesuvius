@@ -350,43 +350,42 @@ CREATE TABLE phonetic_word(
 /* --------------------------------------------------------------------------*/
 
 /**
-* Camp Management System Specific Tables added
+* Camp Management System and CR  Specific Tables added
 * Modules: cms
-* Last changed: 06-Feb-2006 - mifan@opensource.lk  
+* Last changed: 21-Feb-2006 - mifan@opensource.lk  
 */
 
-DROP TABLE IF EXISTS camp;
-CREATE TABLE camp (
+DROP TABLE IF EXISTS camp_general;
+CREATE TABLE camp_general (
     c_uuid VARCHAR(60) NOT NULL,
     name VARCHAR(60),
     location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
+		capacity INT,
+		shelters INT,
+		area VARCHAR(20),
+		personsPerShelter INT,
     PRIMARY KEY (c_uuid),
     FOREIGN KEY (location_id) REFERENCES location(location_id)
 );
 
 /**
-* Camp Management System Specific Tables added
+* Camp Management System and CR Specific Tables added
 * Modules: cms
-* Last changed: 06-Feb-2006 - mifan@opensource.lk  
+* Last changed: 21-Feb-2006 - mifan@opensource.lk  
 */
 DROP TABLE IF EXISTS camp_reg;
 CREATE TABLE camp_reg (
     c_uuid VARCHAR(60) NOT NULL,
-    name VARCHAR(60),
-    orgid BIGINT,
-    contact_name VARCHAR(30),
-    contact_no INT (10),
-    comments VARCHAR(100),
-    services INT(2),
-    men INT,
+    admin_name VARCHAR(60),
+		admin_no VARCHAR(60),
+		men INT,
     women INT,
     family INT,
     children INT,
     total INT, 
-    PRIMARY KEY (c_uuid),
-    FOREIGN KEY (orgid) REFERENCES org_main(o_uuid)
+    PRIMARY KEY (c_uuid)
 );
 
 DROP TABLE IF EXISTS camp_services;
@@ -395,7 +394,6 @@ CREATE TABLE camp_services (
     opt_camp_service VARCHAR(50),
     value BOOL NOT NULL default 0, 
     PRIMARY KEY (c_uuid,opt_camp_service)
-    
 );
 
 DROP TABLE IF EXISTS person_camp;
@@ -407,13 +405,16 @@ CREATE TABLE person_camp(
 DROP TABLE IF EXISTS camp_org;
 CREATE TABLE camp_org(
     c_uuid VARCHAR(60) NOT NULL,
+		opt_camp_service VARCHAR(50),
     o_uuid VARCHAR(60) NOT NULL
+		PRIMARY KEY (c_uuid,opt_camp_service,o_uuid)
 );
 
 DROP TABLE IF EXISTS camp_admin;
 CREATE TABLE camp_admin(
     c_uuid VARCHAR(60) NOT NULL,
     contact_puuid VARCHAR(60) NOT NULL
+		PRIMARY KEY (c_uuid)
 );
 
 --CUSTOM CONFIGURATION LISTS (SELECT)
