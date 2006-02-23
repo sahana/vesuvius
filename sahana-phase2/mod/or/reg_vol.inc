@@ -43,7 +43,7 @@ function _shn_or_regform_vol($error=false)
     shn_form_fsclose();
     shn_form_fsopen('Identity Information');
     shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
-    shn_form_text(_("Passporl No : "),'pas','size="50"',$extra_opts); 
+    shn_form_text(_("Passport No : "),'pas','size="50"',$extra_opts); 
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
      // base location
