@@ -417,6 +417,17 @@ CREATE TABLE camp_admin(
 		PRIMARY KEY (c_uuid,contact_puuid)
 );
 
+/**
+* Camps in Camp Management System
+*/
+ 
+DROP TABLE IF EXISTS camp_cms;
+CREATE TABLE camp_cms(
+    c_uuid VARCHAR(60) NOT NULL,
+    camp_status VARCHAR(60) NOT NULL,
+		PRIMARY KEY (c_uuid)
+);
+
 --CUSTOM CONFIGURATION LISTS (SELECT)
 DROP TABLE IF EXISTS configlist;
 CREATE TABLE configlist(
