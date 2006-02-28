@@ -171,8 +171,10 @@ function _shn_or_report_org_sector()
             <td><?=_("Country of Origin")?></td>
             <td><?=_("Contact Address")?></td>
             <td><?=_("Contact Number")?></td>
+            <td><?=_("Mobile Number")?></td>
             <td><?=_("Contact Email")?></td>
             <td><?=_("Man Power")?></td>
+            <td><?=_("Equipment")?></td>
             <td><?=_("Facilities")?></td>
         </thead>
         <tbody>
@@ -181,7 +183,7 @@ function _shn_or_report_org_sector()
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
         $option_code=$res_sector->fields[0];
-        $q = "select o_uuid,parent_id,name,man_power,resources from org_main,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid order by name";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid order by name";
         $res_org=$db->Execute($q);
 	    if(!$res_org->EOF){
 	    ?>
