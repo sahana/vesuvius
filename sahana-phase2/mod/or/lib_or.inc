@@ -19,10 +19,15 @@ include_once $global['approot']."/inc/lib_form.inc";
 function _shn_or_get_start_loc()
 {
     global $global;
+    global $conf;
     $db=$global['db'];
     $q="select value from config where module_id='or' and confkey='loc_start'";
     $res=$db->Execute($q);
-    return $res->fields[0];
+    if($res->fields[0]==NULL){
+       	return $conf['mod_or_start_loc'];
+    }else {
+    	return $res->fields[0];
+    }
 }
 
 function _shn_or_action_change_javascript($change)

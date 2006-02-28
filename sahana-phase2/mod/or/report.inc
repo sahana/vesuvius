@@ -21,6 +21,9 @@ function _shn_or_level($parent)
 {
     global $global;
     $db=$global['db'];
+    if($parent<0){
+    	$parent=NULL;
+    }
     $q="select option_description,option_code,name from field_options,location where field_options.option_code=location.opt_location_type and location.location_id=$parent and field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     if($res_label!=NULL && !$res_label->EOF){
@@ -64,8 +67,12 @@ function _shn_or_level($parent)
 ?>       
         </thead>
     <tbody>
-<?php    
-    $q = "select location_id,name from location where parent_id={$parent} order by name";
+<?php
+	if($parent==NULL){
+		$q = "select location_id,name from location where parent_id is NULL order by name";
+	}else {
+		$q = "select location_id,name from location where parent_id=$parent order by name";
+	}
     $res_loc=$db->Execute($q);
     while(!$res_loc==NULL && !$res_loc->EOF){
 ?>

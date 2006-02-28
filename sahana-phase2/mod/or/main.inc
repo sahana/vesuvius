@@ -137,7 +137,7 @@ function shn_or_drill_report()
 {
     include_once("report.inc");
     $parent=$_GET["id"];
-    _shn_or_level($parent);
+     _shn_or_level($parent);
 }
 function shn_or_org_sector()
 {
