@@ -22,6 +22,7 @@ include_once "lib_or.inc";
 function _shn_or_regform_vol($error=false)
 {
     global $global;
+    global $conf;
     $db=$global['db'];
 ?>
 <h2><?=_("Volunteer Registration")?> </h2>
@@ -48,8 +49,8 @@ function _shn_or_regform_vol($error=false)
     shn_form_fsclose();
      // base location
     $parent=_shn_or_get_start_loc();
-   	if($parent==0){
-        $location_inf = shn_location('1','4'); 
+	if($parent==$conf['mod_or_start_loc']){
+  		$location_inf = shn_location('1','4'); 
     }else {
         $location_inf = shn_location_parent($parent,'1','4'); 
     }
