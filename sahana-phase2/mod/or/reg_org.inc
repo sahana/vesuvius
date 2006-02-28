@@ -84,6 +84,7 @@ function _shn_or_regform_org($error=false)
 function _shn_or_regform_operation($error=false)
 {
     global $global;
+    global $conf;
     $db=$global['db'];
 ?>
 <h2><?=_("Add an Operation/Branch under the Organization ").$_SESSION["parent_name"]?> </h2>
@@ -102,8 +103,7 @@ function _shn_or_regform_operation($error=false)
     _shn_or_display_sector($error);
     shn_form_fsclose();
  // base location
-   $parent=_shn_or_get_start_loc();
-  	$parent=_shn_or_get_start_loc();
+   	$parent=_shn_or_get_start_loc();
 	if($parent==$conf['mod_or_start_loc']){
   		$location_inf = shn_location('1','4'); 
     }else {
