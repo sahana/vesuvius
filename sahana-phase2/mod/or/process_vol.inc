@@ -45,6 +45,7 @@ function _shn_or_reg_vol_cr()
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
+    $contact_mobile=$_POST{"contact_mobile"};
     $contact_fax=$_POST{"contact_fax"};
     if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -56,6 +57,7 @@ function _shn_or_reg_vol_cr()
             $error=true;
         }
     }
+    $contact_web=$_POST{"contact_web"};
     $db=$global['db'];
     $pid = $db->GenID('person_seq',1);
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
@@ -88,9 +90,13 @@ function _shn_or_reg_vol_cr()
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'curr','{$contact_phone}')";
     $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'pmob','{$contact_mobile}')";
+    $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'fax','{$contact_fax}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'email','{$contact_mail}')";
+    $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'web','{$contact_web}')";
     $res=$db->Execute($q);
     if($error!=true){
 ?>
@@ -139,6 +145,7 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
+    $contact_mobile=$_POST{"contact_mobile"};
     $contact_fax=$_POST{"contact_fax"};
     if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -150,6 +157,7 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
             $error=true;
         }
     }
+    $contact_web=$_POST{"contact_web"};
     $db=$global['db'];
     $q="update person_uuid set full_name='{$name}' where p_uuid=$pid";
     $res=$db->Execute($q);
@@ -157,7 +165,7 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
     $res=$db->Execute($q);
 	$q="update identity_to_person set serial='{$nic}' where p_uuid=$pid and opt_id_type='nic'";
     $res=$db->Execute($q);
-$q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_type='pas'";
+	$q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_type='pas'";
     $res=$db->Execute($q);
     $q="update identity_to_person set serial='{$dln}' where p_uuid=$pid and opt_id_type='dln'";
     $res=$db->Execute($q);
@@ -175,9 +183,13 @@ $q="update identity_to_person set serial='{$pas}' where p_uuid=$pid and opt_id_t
     $res=$db->Execute($q);
     $q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$pid and opt_contact_type='curr'";
     $res=$db->Execute($q);
+    $q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid=$pid and opt_contact_type='pmob'";
+    $res=$db->Execute($q);
     $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$pid and opt_contact_type='fax'";
     $res=$db->Execute($q);
     $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$pid and opt_contact_type='email'";
+    $res=$db->Execute($q);
+    $q="update contact set contact_value='{$contact_web}' where pgoc_uuid=$pid and opt_contact_type='web'";
     $res=$db->Execute($q);
     if($error==true){
 		_shn_or_viewform_vol($pid,$error);

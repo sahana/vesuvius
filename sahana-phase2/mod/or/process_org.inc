@@ -56,6 +56,12 @@ function _shn_or_reg_org_cr()
     }else {
         $contact_phone=$_POST{"contact_phone"};
     }
+     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mobile=$_POST{"contact_mobile"};
+    }
     if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
@@ -72,11 +78,23 @@ function _shn_or_reg_org_cr()
             $error=true;
         }
     }
+     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_web=$_POST{"contact_web"};
+    }
     if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
     }else {
         $man_power=$_POST{"man_power"};
+    }
+    if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $equipment=$_POST{"equipment"};
     }
     $resources=$_POST{"resources"};
      if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
@@ -104,7 +122,7 @@ function _shn_or_reg_org_cr()
         }
         if($error!=true){
             //no validation done on other fields as they are not unique
-            $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,resources,privacy)values($org_id,0,'{$org_name}','{$opt_org_type}','{$reg_no}','{$man_power}','{$resources}',$chk_avail)";
+            $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values($org_id,0,'{$org_name}','{$opt_org_type}','{$reg_no}','{$man_power}','{$equipment}','{$resources}',$chk_avail)";
             $res=$db->Execute($q);
             $i=0;
             while($i<count($sector)){
@@ -116,11 +134,15 @@ function _shn_or_reg_org_cr()
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
             $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'pmob','{$contact_mobile}')";
+            $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
+            $res=$db->Execute($q);
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'web','{$contact_web}')";
             $res=$db->Execute($q);
             //no validation as organization can have multiple locations
             $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
@@ -145,9 +167,12 @@ function _shn_or_reg_org_cr()
          $_SESSION["contact_name"]=$contact_name;
          $_SESSION["contact_address"]=$contact_address;
          $_SESSION["contact_phone"]=$contact_phone;
+         $_SESSION["contact_mobile"]=$contact_mobile;
          $_SESSION["contact_fax"]=$contact_fax;
          $_SESSION["contact_email"]=$contact_mail;
+         $_SESSION["contact_web"]=$contact_web;
          $_SESSION["man_power"]=$man_power;
+         $_SESSION["equipment"]=$equipment;
          $_SESSION["resources"]=$resources;
          _shn_or_regform_operation($error=false);
     }
@@ -174,6 +199,7 @@ function _shn_or_reg_operation_cr()
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
+    $contact_mobile=$_POST{"contact_mobile"};
     $contact_fax=$_POST{"contact_fax"};
     if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -185,7 +211,9 @@ function _shn_or_reg_operation_cr()
             $error=true;
         }
     }
+    $contact_web=$_POST{"contact_web"};
     $man_power=$_POST{"man_power"};
+    $equipment=$_POST{"equipment"};
     $resources=$_POST{"resources"};
     $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
     $db=$global['db'];
@@ -202,7 +230,7 @@ function _shn_or_reg_operation_cr()
     if(!$error){
         $parent_id=$operation["parent_id"];
     //no validation done on other fields as they are not unique
-        $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,man_power,resources)values($org_id,{$_SESSION["parent_id"]},'{$org_name}','{$_SESSION["opt_org_type"]}','{$man_power}','{$resources}')";
+        $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,man_power,equipment,resources)values($org_id,{$_SESSION["parent_id"]},'{$org_name}','{$_SESSION["opt_org_type"]}','{$man_power}','{$equipment}','{$resources}')";
         $res=$db->Execute($q);
         $i=0;
         while($i<count($sector)){
@@ -217,9 +245,13 @@ function _shn_or_reg_operation_cr()
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
     $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'pmob','{$contact_mobile}')";
+    $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
+    $res=$db->Execute($q);
+    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'web','{$contact_web}')";
     $res=$db->Execute($q);
     if($error){
         _shn_or_regform_operation($error);
@@ -316,6 +348,12 @@ function _shn_or_edit_org()
     }else {
         $contact_phone=$_POST{"contact_phone"};
     }
+    if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_mobile=$_POST{"contact_mobile"};
+    }
     if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
@@ -332,16 +370,28 @@ function _shn_or_edit_org()
             $error=true;
         }
     }
+    if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $contact_web=$_POST{"contact_web"};
+    }
     if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
     }else {
         $man_power=$_POST{"man_power"};
     }
+    if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $equipment=$_POST{"equipment"};
+    }
     $resources=$_POST{"resources"};
     $db=$global['db'];
            //no validation done on other fields as they are not unique
-            $q="update org_main set name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',resources='{$resources}' where o_uuid=$org_id";
+            $q="update org_main set name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}' where o_uuid=$org_id";
             $res=$db->Execute($q);
             $q="delete from sector where pgoc_uuid=$org_id";
             $res=$db->Execute($q);
@@ -355,12 +405,15 @@ function _shn_or_edit_org()
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_name}' where pgoc_uuid=$org_id and opt_contact_type='name'";
             $res=$db->Execute($q);
-    
-$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
+    		$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
+            $res=$db->Execute($q);
+            $q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid=$org_id and opt_contact_type='pmob'";
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$org_id and opt_contact_type='fax'";
             $res=$db->Execute($q);
-           $q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$org_id and opt_contact_type='email'";
+           	$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$org_id and opt_contact_type='email'";
+            $res=$db->Execute($q);
+            $q="update contact set contact_value='{$contact_web}' where pgoc_uuid=$org_id and opt_contact_type='web'";
             $res=$db->Execute($q);
             if($error==true){
 		_shn_or_viewform_org($org_id,$error);

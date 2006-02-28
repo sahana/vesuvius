@@ -33,6 +33,7 @@ function _shn_or_viewform_allvol()
             <td><?=_("Country of Origin")?></td>
             <td><?=_("Contact Address")?></td>
             <td><?=_("Contact Number")?></td>
+            <td><?=_("Contact Mobile")?></td>
             <td><?=_("Contact Email")?></td>
         </thead>
 <?php    
@@ -44,6 +45,8 @@ function _shn_or_viewform_allvol()
     $res_addr=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
+    $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='pmob'";
+    $res_mobile=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
     $country=$res_pers->fields[2];
@@ -70,6 +73,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td><?php echo $country?></td>
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
+    <td><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
 </tr>
 <?php

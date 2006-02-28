@@ -31,17 +31,19 @@ function _shn_or_viewform_allorg($no=NULL)
             <td><?=_("Country of Origin")?></td>
             <td><?=_("Contact Address")?></td>
             <td><?=_("Contact Number")?></td>
+            <td><?=_("Contact Mobile")?></td>
             <td><?=_("Contact Email")?></td>
             <td><?=_("Man Power")?></td>
-            <td><?=_("Facilities")?></td>
+            <td><?=_("Equipment")?></td>
+            <td><?=_("Other Facilities")?></td>
         </thead>
         <tbody>
 <?php
     if($no==NULL){
-        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by name";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id=0 order by name";
         $res_org=$db->Execute($q);
     }else {
-        $q = "select o_uuid,parent_id,name,man_power,resources from org_main where parent_id=0 order by o_uuid desc";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id=0 order by o_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
     }
     while(!$res_org==NULL && !$res_org->EOF){
@@ -69,13 +71,15 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
 {
     global $global;
     $db=$global["db"];
-    $q = "select o_uuid,parent_id,name,man_power,resources from org_main where o_uuid=$org_id";
+    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid=$org_id";
     $res_org=$db->Execute($q);
     $org_id=$res_org->fields[0];        
     $q = "select address from location_details where poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
+    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+    $res_mobile=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
     $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
@@ -118,9 +122,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td><?php echo $res_bsd_country->fields[0]?></td>
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
+    <td><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_email->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
+    <td><?php echo $res_org->fields[5]?></td>
 </tr>
 <?php
 }

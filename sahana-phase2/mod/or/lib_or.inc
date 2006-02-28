@@ -308,6 +308,9 @@ function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
         $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='curr'";
         $res_phone=$db->Execute($q);
         $contact_phone=$res_phone->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='pmob'";
+        $res_mobile=$db->Execute($q);
+        $contact_mobile=$res_mobile->fields[0];
         if($org){
             $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='name'";
             $res_name=$db->Execute($q);
@@ -319,6 +322,9 @@ function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
         $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='email'";
         $res_email=$db->Execute($q);
         $contact_email=$res_email->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='web'";
+        $res_web=$db->Execute($q);
+        $contact_web=$res_web->fields[0];
     }
     if($org){
         $extra_opts['value']=$contact_name;
@@ -328,10 +334,14 @@ function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
     shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
     shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_mobile;
+    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
     $extra_opts['value']=$contact_fax;
     shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_email;
     shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_web;
+    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
 }
 
 function _shn_or_display_org_facilities($error=false,$org_id=false)
@@ -339,15 +349,18 @@ function _shn_or_display_org_facilities($error=false,$org_id=false)
     if(!shn_is_null($org_id)){
         global $global;
        $db=$global['db'];
-        $q = "select man_power,resources from org_main where o_uuid='{$org_id}'";
+        $q = "select man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
         $res_org=$db->Execute($q);
         if(!$res_org==NULL && !$res_org->EOF){
-            $man_power=$res_org->fields[0]; 
-            $resources=$res_org->fields[1]; 
+            $man_power=$res_org->fields[0];
+            $equipment=$res_org->fields[1]; 
+            $resources=$res_org->fields[2]; 
         }
     }
     $extra_opts['value']=$man_power;
     shn_form_text(_("Man Power : "),'man_power','size="50"',$extra_opts);
+    $extra_opts['value']=$equipment;
+    shn_form_text(_("Equipment : "),'equipment','size="50"',$extra_opts);
     $extra_opts['value']=$resources;
     shn_form_text(_("Other relevant resources : "),'resources','size="50"',$extra_opts);
 }
