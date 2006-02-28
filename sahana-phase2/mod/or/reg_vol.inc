@@ -47,8 +47,8 @@ function _shn_or_regform_vol($error=false)
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
      // base location
-   $parent=_shn_or_get_start_loc();
-   if($parent==0){
+    $parent=_shn_or_get_start_loc();
+   	if($parent==0){
         $location_inf = shn_location('1','4'); 
     }else {
         $location_inf = shn_location_parent($parent,'1','4'); 
