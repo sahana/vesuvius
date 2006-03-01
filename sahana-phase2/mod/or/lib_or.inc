@@ -384,6 +384,6 @@ function _shn_or_display_logininfo($error=false)
 
 function _shn_or_display_extra($error=false)
 {
-    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : "),'chk_branch',null,$chkbox_opts);
+    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
 }
 ?>
