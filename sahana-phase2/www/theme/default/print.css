@@ -1,7 +1,7 @@
 /* 
 Sahana - Default Theme - Print Stylesheet 
 -----------------------------------------------------------------------------------
-J. Priyanga Fonseka - jo@opensource.lk - http://nidahas.com
+J. Priyanga Fonseka - jo@opensource.lk 
 
 Selectors are listed in their order of appearance in the html, where applicable.
 ---------------------------------------------------------------------------------- */
@@ -125,17 +125,16 @@ wrapper{
 #result table{
 	background:white;
 	border-color:black;
+	border:1px solid;
 	width:100%;
+	padding:2pt;
+	border-collapse: collapse
 }
 
 #result td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	border-right:2px solid #DEE3E7; 
-	color:#fff;
-	border: #26a solid 1px;
-	border-color:black;
+	text-align:center; 
 	font-size:100%;
+	border:1px solid black;
 }
 
 #result hr{
