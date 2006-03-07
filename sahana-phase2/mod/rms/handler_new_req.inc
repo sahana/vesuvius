@@ -184,8 +184,6 @@ if ($_GET['stat'] == 'more_itms')
 }
 
 
-
-
 if (!isset($_GET['stat']) || $_SESSION['rms_errors'])
 {
 ?>

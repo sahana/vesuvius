@@ -82,17 +82,20 @@ function _shn_rms_show_res()
     $thead = false;
     $error = true;
 
+    $body = array();
+    $row  = array();
+
     __shn_rms_schkword();
 
     foreach($words as $word)
     {
         $reqs = _shn_rms_get_res($word);
 
-        if (!$thead && $reqs)
-        {
-        	__show_table_head();
-        	$thead = true;
-        }
+//        if (!$thead && $reqs)
+//        {
+//        	__show_table_head();
+//        	$thead = true;
+//        }
 
         if($reqs)
         {
@@ -100,16 +103,30 @@ function _shn_rms_show_res()
 
 	        foreach ($reqs as $req)
 	        {
-	            print "<tr>";
-	            print "<td>" . $req['req_id'] . "</td>";
-	            print "<td>" . $req['req_date'] . "</td>";
-	            print "<td>" . $req['name'] . "</td>";
-	            print "<td>" . $req['site_name'] . "</td>";
-	            print "<td>" . nl2br($req['site_address']) . "</td>";
-	            print '<td><a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a></td>';
-	            print "</tr>";
+                array_push($row, $req['req_id']);
+                array_push($row, $req['req_date']);
+                array_push($row, $req['name']);
+                array_push($row, $req['site_name']);
+                array_push($row, nl2br($req['site_address']));
+                array_push($row, '<a href="index.php?mod=rms&amp;act=vw_req&amp;seq=detail&amp;req_id=' . $req['req_id'] . '#list">View</a>');
 	        }
+            array_push($body, $row);
         }
+    }
+
+    if (!empty($body))
+    {
+        $top_row = array(
+                    _("ID"),
+                    _("Date"),
+                    _("Requester"),
+                    _("Site Name"),
+                    _("Site Address"),
+                    _("More Details")
+                    );
+        $head = array ($top_row);
+
+        shn_html_table($body, $head);
     }
 ?>
 </tbody>
@@ -129,14 +146,9 @@ function __show_table_head()
 	<br/>
 <div>
 <table id="result" width="100%">
-    <thead>
-        <td width="30"><?php print _("ID") ?></td>
-        <td width="120"><?php print _("Date") ?></td>
-        <td width="100"><?php print _("Requester") ?></td>
-        <td width="100"><?php print _("Site Name") ?></td>
-        <td width=""><?php print _("Site Address") ?></td>
-        <td width="80"><?php print _("More Details") ?></td>
-    </thead>
+<?php
+
+?>
     <tbody>
 <?php
 }
