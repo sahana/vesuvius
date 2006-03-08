@@ -111,5 +111,52 @@ function shn_mod_menuclose()
     </div> <!-- /modmenuwrap -->
 <?php
 }
+
+/**
+ * shn_sub_mod_menuitem 
+ * 
+ * @param mixed $action 
+ * @param mixed $desc 
+ * @param mixed $module 
+ * @access public
+ * @return void
+ */
+function shn_sub_mod_menuitem($action, $desc, $module = null )
+{ 
+    global $global;
+    if ( null == $module ) $module = $global['module'];
+?>
+		<li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
+<?php
+}
+
+/**
+ * shn_sub_mod_menuopen 
+ * 
+ * @param mixed $desc 
+ * @access public
+ * @return void
+ */
+function shn_sub_mod_menuopen($desc) 
+{   
+?>
+	<li><a href="#" onClick="expand('<?=$desc?>');"><?=$desc?></a>
+		<ul id="<?=$desc?>">
+<?php
+}
+
+/**
+ * shn_sub_mod_menuclose 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_sub_mod_menuclose() 
+{   
+?>
+		</ul>
+	</li> <!-- /modmenuwrap -->
+<?php
+}
 ?>
 
