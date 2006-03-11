@@ -17,8 +17,6 @@
 */
 
 
-include_once $global['approot']."/3rd/php-gettext/gettext.php";
-
 /**
  * Dummy function to emulate the gettext() function when gettext is not installed
  * This will be replaced by a pure PHP gettext library
