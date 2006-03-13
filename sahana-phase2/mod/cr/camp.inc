@@ -73,12 +73,15 @@ function _shn_cr_cadd_start($errors=false){
 //-------------------------
 	global $global;
 	include $global['approot']."/inc/lib_location.inc";
-	shn_location_form_org(1,4);
+	$range=array("start"=>1,"end"=>5);
+	shn_location_form_org($range);
 		
 //-------------------------
 	shn_form_fsopen(_("Contact Person Details"));
 	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"');
 	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"');
+	shn_form_text(_("Mobile Number"),"contact_mob",'size="60"');
+	shn_form_text(_("Occupation"),"occupation",'size="60"');
 	shn_form_fsclose();
 	shn_form_fsopen(_("Camp Population"));
 	shn_form_text(_("Family Count"),"family",'size="10"');
@@ -109,10 +112,14 @@ if($errors)
 		$_SESSION['camp_women']=$_POST['women'];
 		$_SESSION['camp_children']=$_POST['children'];
 		$_SESSION['camp_total']=$_POST['total'];
+		$_SESSION['contact_mob']=$_POST['contact_mob'];
+		$_SESSION['occupation']=$_POST['occupation'];
+		
 		$_SESSION['cr_1']=$_POST['1'];
 		$_SESSION['cr_2']=$_POST['2'];
 		$_SESSION['cr_3']=$_POST['3'];
 		$_SESSION['cr_4']=$_POST['4'];
+		$_SESSION['cr_5']=$_POST['5'];
 					
 	}
 	else{
@@ -158,6 +165,7 @@ function _shn_cr_create_cid(){
 //create unique camp id
 //db->GenID();
 $id=time();
+sleep(2);
 return $id;
 
 }
@@ -178,6 +186,9 @@ function _shn_cr_sel_map(){
 	$_SESSION['cr_2']=$_POST['2'];
 	$_SESSION['cr_3']=$_POST['3'];
 	$_SESSION['cr_4']=$_POST['4'];
+	$_SESSION['cr_5']=$_POST['5'];
+		$_SESSION['contact_mob']=$_POST['contact_mob'];
+		$_SESSION['occupation']=$_POST['occupation'];
 											
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("Location Information"));
@@ -288,7 +299,9 @@ function _shn_cr_validate_error(){
 }
 
 function _shn_cr_get_locid(){
-	if($_SESSION['cr_4']!=null)
+	if($_SESSION['cr_5']!=null)
+		return $_SESSION['cr_5'];
+	else if($_SESSION['cr_4']!=null)
 		return $_SESSION['cr_4'];
 	else if($_SESSION['cr_3']!=null)
 		return $_SESSION['cr_3'];
@@ -312,6 +325,11 @@ shn_db_insert_phonetic('camp_name',$uid);
 
 $loc_id=_shn_cr_get_locid();
 
+//create admin id
+$puid = _shn_cr_create_cid();
+
+//echo "location is".$loc_id;
+//echo "camp is".$uid;
 
 //enter into camp table
 $q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
@@ -325,8 +343,19 @@ $q="insert into camp_reg(c_uuid,admin_name,admin_no,men,women,family,children,to
 
 $res = $db->Execute($q);
 
-//@TODO: $query = "insert into camp_admin";
+// insert into camp admin
+$qa = "insert into camp_admin(c_uuid,contact_puuid) values($uid,$puid)";
+$resa = $db->Execute($qa);
 
+
+// insert into person_details
+$qb = "insert into person_details(p_uuid,occupation) values($puid,'{$_SESSION['occupation']}')";
+$resb = $db->Execute($qb);
+
+
+// insert into admin contact
+$qc = "insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($puid,'cmob','{$_SESSION['contact_mob']}')";
+$resc = $db->Execute($qc);
 /*
  * GIS Insertion
 */

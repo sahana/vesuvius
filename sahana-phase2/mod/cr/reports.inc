@@ -224,7 +224,46 @@ $res_type =$db->Execute($qtype);
        </div>
       <?php
 }
-  
+
+
+function _shn_cr_contact(){
+
+?>
+	<div id = "result">
+		  <table>
+			  <thead>
+			    <td>Camp Name </td>
+			    <td>Admin Name</td>
+			    <td>Admin Phone</td>
+			    <td>Admin Mobile</td>
+			    <td>Admin Occupation</td>
+			  </thead>
+	      <tbody>
+				<?php
+				global $global;
+				$db=$global['db'];
+				
+				$query = "select d.name, a.admin_name, a.admin_no, b.contact_value, c.occupation from camp_reg a left outer join camp_admin z USING (c_uuid) inner join contact b on b.pgoc_uuid = z.contact_puuid left outer join person_details c on c.p_uuid = b.pgoc_uuid inner join camp_general d on a.c_uuid = d.c_uuid where b.opt_contact_type='cmob'";
+				$resc = $db->Execute($query);
+				while (!$resc->EOF){
+				?>
+					<tr>
+						<td><?php echo $resc->fields['name']?></td>
+						<td><?php echo $resc->fields['admin_name']?></td>
+						<td><?php echo $resc->fields['admin_no']?></td>
+						<td><?php echo $resc->fields['contact_value']?></td>
+						<td><?php echo $resc->fields['occupation']?></td>
+					</tr>
+					<?php 
+							$resc->MoveNext();
+				}
+					?>
+				</tbody>
+			</table>
+		</div>
+<?php																																								 
+}
+
 function _shn_cr_rpt_summary(){
 	?>
 	<div id ="displaycr">

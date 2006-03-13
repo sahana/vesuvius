@@ -88,7 +88,7 @@ function _shn_cr_srch_rst($camp_name,$type){
     				$res_cmp->MoveNext();
    	  		   } 
    	  		   	 
-   	  		   ?>s
+   	  		   ?>
    </tbody>
    </table>
      </div>

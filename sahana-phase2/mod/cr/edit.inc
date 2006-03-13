@@ -72,8 +72,10 @@ function _shn_cr_cedt_start($errors=false){
 
 	global $global;
 	include $global['approot']."/inc/lib_location.inc";
-	shn_location_form_org(1,4,$_SESSION['opt_location_type']);
-			
+	$range=array("start"=>1,"end"=>5);
+	//shn_location_form_org($range);
+	shn_location_form_org($range,$_SESSION['opt_location_type']);
+		
 			
 //-----------------------------------------
 	shn_form_fsopen(_("Contact Person Details"));
@@ -159,7 +161,7 @@ function shn_cr_all_view(){
 
 	//Starts
 	        $i = 1  - 1;
-					while( $i < 4 ) {
+					while( $i < 5 ) {
 					$i++;
 					  $sql = " SELECT location.name , field_options.option_description FROM location ".
 				           " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
@@ -217,6 +219,7 @@ if($errors)
 	$_SESSION['cr_2']=$_POST['2'];
 	$_SESSION['cr_3']=$_POST['3'];
 	$_SESSION['cr_4']=$_POST['4'];
+	$_SESSION['cr_5']=$_POST['5'];
 							
 	//var_dump($_SESSION);
 ?>
@@ -359,7 +362,9 @@ function _shn_cr_get_session($camp_id){
 											
 }
 function _shn_cr_get_locid(){
-  if($_SESSION['cr_4']!=null)
+	if($_SESSION['cr_5']!=null)
+    return $_SESSION['cr_5'];
+  else if($_SESSION['cr_4']!=null)
 		return $_SESSION['cr_4'];
 	else if($_SESSION['cr_3']!=null)
 	  return $_SESSION['cr_3'];

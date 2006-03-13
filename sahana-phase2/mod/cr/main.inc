@@ -33,6 +33,7 @@ function shn_cr_mainmenu(){
 		<ul id="modsubmenu">
 		  <li><a href="index.php?mod=<?=$module?>&act=arpt"><?php echo _("View All Camps")?></a></li>
 			<li><a href="index.php?mod=<?=$module?>&act=lrpt"><?php echo _("View By Location")?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&act=contact"><?php echo _("View Admin Details")?></a></li>
 			<?php
 				if($conf['gis']=='true'){
 			?>

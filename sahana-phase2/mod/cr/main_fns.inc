@@ -261,6 +261,12 @@ function shn_cr_arpt(){
 	_shn_cr_rpt_all(); 
 }
 
+function shn_cr_contact(){
+	global $global;
+	include($global['approot'].'/mod/cr/reports.inc');
+	_shn_cr_contact(); 
+}
+
 function shn_cr_lrpt(){
 	global $global;
  	include($global['approot'].'/mod/cr/reports.inc');
