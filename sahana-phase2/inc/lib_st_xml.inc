@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_st_xml.inc,v 1.1 2006-03-09 11:30:17 janakawicks Exp $ */
+/* $Id: lib_st_xml.inc,v 1.2 2006-03-13 08:17:20 janakawicks Exp $ */
 
 /**
  *
@@ -20,7 +20,16 @@
  
 function shn_stream_init($filename)
 {
+    $file = 'download.xml';
+    if(isset($_GET['filename']))
+        $file = $_GET['filename'];
     //todo need a way to pass header;
+
+    header("Content-type: text/xml");
+    if(isset($_GET['download']))
+        header("Content-Disposition: attachment; filename=$file");
+        
+    
     echo '<?xml version="1.0" ?>';
 }
 
