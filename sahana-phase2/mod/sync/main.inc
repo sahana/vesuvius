@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.1 2006-03-09 09:17:32 janakawicks Exp $ */
+/* $Id: main.inc,v 1.2 2006-03-13 09:40:48 priyanga Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -83,20 +83,39 @@ function shn_sync_down()
     global $global;
     global $conf;
     require_once($global['approot'].'mod/sync/down.inc');
-    
+    //shn_sync_down_interface();
     //link to download the base
+
+       echo "<div id='formcontainer'>";
+       echo "<form method='POST' action='stream.php?stream_type=xml&mod=sync&act=download&download=true&filename=test.sql' id='formset' name=''>";
+       shn_form_fsopen('Databases');
 ?>
-<a href="stream.php?stream_type=xml&mod=sync&act=down&type=base">Download base data</a><br />
-<?php
-    //link to download the modules
+<TABLE align='center'>
+	<THEAD>
+		<td><strong><?=_("Avalable Data")?></strong></td>
+        	<td><strong><?=_("Select")?></strong></td>
+	</THEAD>
+	<TR><TD>Base data</TD>
+	<TD><input type="checkbox" name="base" value="base" checked="true"/></TD></TR>
+<?php 
     //get the list of modules
     $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
     $arr = $global['db']->GetAll($sql);
     foreach ($arr as $mods){
+	$sync_down = 'shn_sync_dump_'.$mods['module_id'];
+        if (function_exists($sync_down)) {
 ?>
-<a href="stream.php?stream_type=xml&mod=sync&act=down&type=module&module_type=<?=$mods['module_id'];?>">Download <?=$conf['mod_'.$mods['module_id'].'_name'];?> Data </a><br />
+<TR><TD><?=$conf['mod_'.$mods['module_id'].'_name'];?> Data</TD>
+<TD><input type="checkbox" name="<?=$mods['module_id'];?>" value="<?=$mods['module_id'];?>" checked="true"/> </TD></TR>
 <?php
+        }
     }
+?>
+</TABLE>
+<?php
+    shn_form_submit(_("Download"));
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 /* }}} */
 
