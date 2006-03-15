@@ -20,5 +20,5 @@ CREATE TABLE `gis_location` (
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'google_key', '');
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_x', '');
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_y', '');
-
+INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'type', '');
 

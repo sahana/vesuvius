@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.1 2005-12-21 11:29:31 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.2 2006-03-15 12:21:52 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -33,6 +33,21 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	)";
 	
 	$res = $db->Execute($q);	
+	
+}
+
+/**
+ * Check for GIS availability from config file
+ */
+function _shn_gis_check_gis()
+{
+	global $global;
+	include $global['approot']."/conf/config.inc";
+	//only if gis is enabled
+	if($conf['gis' == 'true'])
+	{
+		
+	}
 	
 }
 

@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.3 2005-12-21 11:29:31 mifanc Exp $ */
+/* $Id: admin.inc,v 1.4 2006-03-15 12:21:52 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -33,29 +33,64 @@ function shn_gis_adm_default()
 
 <?php
 	shn_gis_adm_showform();
+	shn_gis_adm_show_mods();
 	shn_gis_adm_find_mods();
 }
 
 function shn_gis_adm_find_mods()
 {
 ?>
+<?php
+	global $global;
+	include_once($global['approot'].'/inc/lib_modules.inc');
+	include_once($global['approot'].'/inc/lib_form.inc');
+	$count=1;
+	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$dir = opendir($gis_plugins_dir);
+	shn_form_fopen(adm_gis_conf,null,array('req_message'=>false));
+	shn_form_fsopen("GIS Plugin Configuration");
+	while($file = readdir($dir)){
+		if(!is_dir($file)){
+			echo "$count.	<a href='index.php?mod=gis/plugins/"."$file"."&act=adm'>$file</a><br>";
+			$count++;
+		}
+	}
+	shn_form_fsclose();
+	shn_form_fclose();	
+}
+
+function shn_gis_adm_show_mods()
+{
+?>
 	<br/><h3>GIS Plugins Detected</h3>
 <?php
 	global $global;
 	include_once($global['approot'].'/inc/lib_modules.inc');
+	include_once($global['approot'].'/inc/lib_form.inc');
 	$count=1;
 	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
-			echo "$count.	<a href='index.php?mod=gis/plugins/google_maps&act=adm'>$file</a><br>";
-			$count++;
+			$options_array[$file] = $file			;
+			//echo "$count.	<a href='index.php?mod=gis/plugins/"."$file"."&act=adm'>$file</a><br>";
+			//$count++;
+			
 		}
 	}
+	$extra_opts_form['req_message'] = 'false';
+	shn_form_fopen(adm_mod,null,array('req_message'=>false));
+	shn_form_fsopen("Detected GIS module plugins");
+	
+	$extra_opts['br']='true';
+	shn_form_radio($options_array,"Select GIS module","mod_gis",null,$extra_opts);
+	shn_form_fsclose();
+	shn_form_submit("Done");
+	shn_form_fclose();	
 }
 
 function shn_gis_adm_showform(){
-	shn_form_fopen(adm_commit);
+	shn_form_fopen(adm_commit,null,array('req_message'=>false));
 	shn_form_fsopen("General Configuration");
 	//shn_form_select();
 	shn_form_text("Center Northing Value[coordinates of center point]","x_center");
