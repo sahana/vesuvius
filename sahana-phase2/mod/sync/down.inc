@@ -1,5 +1,5 @@
 <?php
-/* $Id: down.inc,v 1.3 2006-03-15 11:21:06 priyanga Exp $ */
+/* $Id: down.inc,v 1.4 2006-03-15 11:38:36 janakawicks Exp $ */
 
 /**
  *
@@ -75,7 +75,7 @@ function _shn_sync_generate_xml($node,$fields, $arr)
     foreach($arr as $data){
         $output .= "\t\t<record>\n";
         foreach($fields as $field){
-            $output .= "\t\t\t<$field>".$data[$field]."</$field>\n";
+            $output .= "\t\t\t<$field>".htmlspecialchars($data[$field])."</$field>\n";
         }
         $output .= "\t\t</record>\n";
     }
