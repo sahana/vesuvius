@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.16 2006-01-25 07:32:49 janakawicks Exp $ */
+/* $Id: add.inc,v 1.17 2006-03-15 11:18:33 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -17,6 +17,10 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+/* {{{ Includes */
+include_once($global['approot']."/inc/lib_uuid.inc");
+/* }}} */
+ 
 /* {{{ Tools */
 /**
  * This function cleans the POST values
@@ -50,7 +54,6 @@ function shn_mpr_addmp_entry($errors=false)
         display_errors();
 
     shn_form_fopen("addmp",null);
-
     shn_form_fsopen(_('WARNING'));
 ?>
     <p><?= _('Please do a search and check whether the person you are looking for is already exists'); ?></p>
@@ -371,20 +374,6 @@ function shn_mpr_addmp_upload_pic()
     return true;
 }
 /* }}} */
-
-/**
- * This creates an uuid, you can specify the the types
- * p - person 
- * c - camp etc;
- * @todo Need to shift this somewhere else
- * @param string $type 
- * @access public
- * @return void
- */
-function shn_create_uuid($type='p')
-{
-   return mktime().rand(0,1000); 
-}
 
 /* {{{ Add Confirm Form */
 /**
