@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS sahana;
-USE sahana;
-
 /* Geographic Information System and Mapping Tables
 ----------------------------------------------------
 */
