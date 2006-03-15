@@ -493,3 +493,26 @@ CREATE TABLE lc_tmp_po (
     string TEXT,
     comment TEXT
 );
+
+/** 
+ * Synchronization Related Tables
+ * Modules : Framework, sync
+ * Created : 22nd-Feb-2006 - janaka@opensource.lk
+ * Last Change : 22nd-Feb-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS sync_instance;
+CREATE TABLE sync_instance (
+    uuid_prefix VARCHAR(4) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    url TEXT NOT NULL,
+    is_dsc_server BOOLEAN NOT NULL DEFAULT FALSE, -- is a discovery server
+    cron_status BOOLEAN NOT NULL DEFAULT FALSE, -- cron for checking the status of the instance
+    last_sync TIMESTAMP NOT NULL, -- Last Time sync with the instance
+    updates_available BOOLEAN NOT NULL DEFAULT FALSE, -- This gets updated by the cron or update button
+    active BOOLEAN NOT NULL DEFAULT TRUE, -- Active or deactive the instance NOTE: not remove unless the data also delete.. well
+    PRIMARY KEY(uuid_prefix)
+);
+
+    
+ 
