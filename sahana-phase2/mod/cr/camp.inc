@@ -74,7 +74,9 @@ function _shn_cr_cadd_start($errors=false){
 	global $global;
 	include $global['approot']."/inc/lib_location.inc";
 	$range=array("start"=>1,"end"=>5);
-	shn_location_form_org($range);
+	//small hack until lib_location is corrected
+	//shn_location_form_org($range);
+	shn_location_form_org(1,5);
 		
 //-------------------------
 	shn_form_fsopen(_("Contact Person Details"));
