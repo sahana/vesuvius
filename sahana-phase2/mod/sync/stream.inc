@@ -37,8 +37,8 @@ function shn_sync_download(){
             $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
             $arr = $global['db']->GetAll($sql);
             foreach ($arr as $mods){
-                if(file_exists($global['approot'].'mod/'.$mods.'/down.inc'))
-                    require_once($global['approot'].'mod/'.$mods.'/down.inc');
+                if(file_exists($global['approot'].'mod/'.$mods['module_id'].'/down.inc'))
+                    require_once($global['approot'].'mod/'.$mods['module_id'].'/down.inc');
             }
                 foreach($_POST as $mod){
 		    foreach($mod as $mo){
