@@ -25,7 +25,7 @@
  * @return void
  */
 function shn_sync_download(){
-    switch ($_GET['stream_type']){
+    switch ($_GET['stream_type']){	
         case 'soap' :
             return '';
         break;
@@ -33,17 +33,27 @@ function shn_sync_download(){
         case 'xml' :
             global $global;
             require($global['approot'].'mod/sync/down.inc');
-            foreach($_POST as $mod){
-                $sync_down = 'shn_sync_dump_'.$mod;
-                if (function_exists($sync_down))
-                {
-                    $sync_down();
-                }
+            //including all the files
+            $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
+            $arr = $global['db']->GetAll($sql);
+            foreach ($arr as $mods){
+                if(file_exists($global['approot'].'mod/'.$mods.'/down.inc'))
+                    require_once($global['approot'].'mod/'.$mods.'/down.inc');
             }
+                foreach($_POST as $mod){
+		    foreach($mod as $mo){
+                    $sync_down = 'shn_sync_dump_'.$mo;
+                    if (function_exists($sync_down))
+                    {
+                        $sync_down();
+                    }
+		    }
+                }
 	break;
         default:
             return '';
         break;
     }
 }
+
 ?>
