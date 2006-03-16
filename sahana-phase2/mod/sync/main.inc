@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.3 2006-03-15 10:36:07 priyanga Exp $ */
+/* $Id: main.inc,v 1.4 2006-03-16 04:06:16 priyanga Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -83,14 +83,12 @@ function shn_sync_down()
     global $global;
     global $conf;
     require_once($global['approot'].'mod/sync/down.inc');
-    //shn_sync_down_interface();
-    //link to download the base
 
-       echo "<div id='formcontainer'>";
-       echo "<form method='POST' action='stream.php?stream_type=xml&mod=sync&act=download&download=true&filename=test.xml' id='formset' name=''>";
-       shn_form_fsopen('Database');
+    echo "<div id='formcontainer'>";
+    echo "<form method='POST' action='stream.php?stream_type=xml&mod=sync&act=download&download=true&filename=test.xml' id='formset' name=''>";
+    shn_form_fsopen('Database');
 
-// javascript to handel checkbox select
+// javascript to handel checkbox select and unselect
 ?>
 <script type="text/javascript">
 function selectAll(el,arr){
@@ -105,9 +103,18 @@ function selectAll(el,arr){
 	}
 }
 
-function ckeckHead(){
-	var he=document.getElementById('base');
-	he.checked=false;
+function checkHead(hname){
+	var he=document.getElementById(hname);
+	var arr=hname+"[]";
+	var child=document.getElementsByName(arr);
+	var st=true;
+	for (var i=0;i<child.length;i++){
+	 if(child[i].checked==false){
+	  st=false;
+	  break;
+	 }
+	}
+	he.checked=st;
 }
 </script>
 
@@ -116,39 +123,39 @@ function ckeckHead(){
 		<td><strong><?=_("Avalable Data")?></strong></td>
         	<td><strong><?=_("Select")?></strong></td>
 	</THEAD>
-	<TR><TD>Base data</TD>
+	<TR><TD>Base data Select All</TD>
 	<TD><input type="checkbox" id="base" value="base" onchange="selectAll(this,'base[]');" /></TD></TR>
 <?php
-        foreach($basetables as $table)
-        {
-            echo "<TR><TD>".$table." data</TD>";
-            echo "<TD><input type='checkbox' name='base[]' value='".$table."' onchange='ckeckHead();'/></TD></TR>\n";
-	}
-        //get the list of modules
-        $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
-        $arr = $global['db']->GetAll($sql);
-        foreach ($arr as $mods){
-	    $st_down=$global['approot'].'mod/'.$mods['module_id'].'/down.inc';
-            if (file_exists($st_down)){
-		require_once($st_down);
-		if(function_exists('shn_sync_dump_'.$mods['module_id'])){
+    foreach($basetables as $table)
+    {
+        echo "<TR><TD>".$table." data</TD>";
+        echo "<TD><input type='checkbox' name='base[]' value='".$table."' onchange=\"checkHead('base');\"/></TD></TR>\n";
+    }
+    //get the list of modules
+    $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
+    $arr = $global['db']->GetAll($sql);
+    //traversing by module
+    foreach ($arr as $mods){
+        //including the module 'down.inc' file if it is there
+        $st_down=$global['approot'].'mod/'.$mods['module_id'].'/down.inc';
+        if (file_exists($st_down)){
+            require_once($st_down);
 ?>
 	<TR><TD><?=$conf['mod_'.$mods['module_id'].'_name'];?> Data</TD>
 	<TD><input type="checkbox" id="<?=$mods['module_id'];?>" value="<?=$mods['module_id'];?>"  onchange="selectAll(this,'<?=$mods['module_id'].'[]';?>');"/> </TD></TR>
 <?php
-                }
-
-		foreach(${$mods['module_id'].'tables'} as $table){
-		     if(function_exists('shn_sync_dump_'.$table)){
+                
+                //traversing by the functions in 'down.inc'
+            foreach(${$mods['module_id'].'tables'} as $table){
+                if(function_exists('shn_sync_dump_'.$table)){
 ?>
 	<TR><TD><?=$table;?> Data</TD>
-	<TD><input type="checkbox" name="<?=$mods['module_id'].'[]';?>" value="<?=$table;?>" onchange="document.getElementById('<?=$mods['module_id'];?>').checked=false" /> </TD></TR>
+	<TD><input type="checkbox" name="<?=$mods['module_id'].'[]';?>" value="<?=$table;?>" onchange="checkHead('<?=$mods['module_id'];?>')" /> </TD></TR>
 <?php
-		
-		     }
-		}
-	    }
+                }
+            }
         }
+    }
 ?>
 </TABLE>
 <?php
