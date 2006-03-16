@@ -20,10 +20,7 @@ global $global;
 
 function __select_locale()
 {
-	$lc_list = array(
-					'de_DE'=>'si_LK [Sinhala]',
-					'en_US'=>'en_US [English US]'
-					);
+	$lc_list = _shn_get_lang_list();
 
 	$locale = $_SESSION["locale"];
 

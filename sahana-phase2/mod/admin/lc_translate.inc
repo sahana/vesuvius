@@ -93,8 +93,11 @@ function _shn_admin_lc_load($file_n = null)
 	else
     {
 		$value = file_get_contents($file_name);
-        $value .= "\n\n#: DB L10N Starts here\n";
-        $value .= _shn_lc_get_dbpo();
+        if (!_shn_lc_is_dbl10n_tbl_empty())
+        {
+            $value .= "\n\n#: DB L10N Starts here\n";
+            $value .= _shn_lc_get_dbpo();
+        }
     }
 
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
