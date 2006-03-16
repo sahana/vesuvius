@@ -131,10 +131,8 @@ function _shn_lc_lang_list($mode=1)
 {
     if ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set')
     {
-        $lc_list = array(
-                        'de_DE'=>_("Sinhala"),
-                        'en_US'=>_("English")
-                        );
+        $lc_list = _shn_get_lang_list();
+
         $locale = $_SESSION['locale'];
 
         shn_form_fopen("lc_set",null,array('req_message'=>false,'style'=>"language"));
@@ -210,6 +208,26 @@ function _shn_lc_get_dbpo()
 
 }
 
+function _shn_lc_is_dbl10n_tbl_empty()
+{
+    global $global;
+    $sql = "SELECT tablename,fieldname FROM  lc_fields";
+    $rs = $global['db']->Execute($sql);
+
+    if(!$rs)
+    {
+        print "Error : " . $global['db']->ErrorMsg();
+        return null;
+    }
+    else if(1>$rs->RecordCount())
+    {
+        //No records
+        return true;
+    }
+
+    return true;
+}
+
 function _shn_lc_get_db_strlist()
 {
     global $global;
@@ -269,5 +287,15 @@ function _shn_lc_get_db_tblstrings($table, $field)
     {
         return $rs->getArray();
     }
+}
+
+function _shn_get_lang_list()
+{
+    $l_list = array(
+                    'de_DE'=>_("Sinhala"),
+                    'zh_TW'=>_("zh_TW"),
+                    'en_US'=>_("English")
+                   );
+    return $l_list;
 }
 ?>
