@@ -1,0 +1,936 @@
+# Traditional Chinese Messages for sahana
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# This file is distributed under the same license as the sahana package.
+# Wei-Lun Chao <william.chao@ossii.com.tw>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sahana2 0.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-01-03 11:00+0600\n"
+"PO-Revision-Date: 2005-02-21 15:05+0800\n"
+"Last-Translator: Wei-Lun Chao <william.chao@ossii.com.tw>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../inc/lib_security/acl_action_form.inc:40
+msgid "* New Action : "
+msgstr "* 新的行動："
+
+#: ../inc/lib_security/acl_action_form.inc:41
+#: ../inc/lib_security/acl_action_form.inc:130
+msgid "* Description:"
+msgstr "* 說明："
+
+#: ../inc/lib_security/acl_action_form.inc:47
+#: ../inc/lib_security/acl_action_form.inc:132 ../mod/or/admin_forms.inc:39
+#: ../mod/or/admin_forms.inc:119
+msgid "Add"
+msgstr "增加"
+
+#: ../inc/lib_security/acl_action_form.inc:74
+#: ../inc/lib_security/acl_action_form.inc:155 ../mod/or/admin_forms.inc:62
+#: ../mod/or/admin_forms.inc:142
+msgid "Remove"
+msgstr "刪除"
+
+#: ../inc/lib_security/acl_action_form.inc:129
+msgid "* New Action Group : "
+msgstr "* 新的行動小組："
+
+#: ../inc/lib_security/acl_form.inc:49 ../inc/lib_security/auth_form.inc:101
+#: ../mod/or/lib_or.inc:688
+msgid "Account Name : "
+msgstr "帳戶名稱："
+
+#: ../inc/lib_security/acl_form.inc:50 ../inc/lib_security/auth_form.inc:102
+#: ../mod/or/lib_or.inc:689
+msgid "* User Name for Login: "
+msgstr "* 使用者登入名稱："
+
+#: ../inc/lib_security/acl_form.inc:51 ../inc/lib_security/auth_form.inc:103
+#: ../mod/or/lib_or.inc:690
+msgid "* Password for Login: "
+msgstr "* 登入密碼："
+
+#: ../inc/lib_security/acl_form.inc:52 ../inc/lib_security/auth_form.inc:104
+#: ../mod/or/lib_or.inc:691
+msgid "* Confirm Password: "
+msgstr "* 密碼確認："
+
+#: ../inc/lib_security/acl_form.inc:94 ../inc/lib_security/auth_form.inc:184
+msgid "* Old Password: "
+msgstr "* 舊密碼："
+
+#: ../inc/lib_security/acl_form.inc:95 ../inc/lib_security/auth_form.inc:185
+msgid "* New Password: "
+msgstr "* 新密碼："
+
+#: ../inc/lib_security/acl_form.inc:96 ../inc/lib_security/auth_form.inc:186
+msgid "* Confirm New Password: "
+msgstr "* 新密碼確認："
+
+#: ../inc/lib_security/acl_form.inc:498
+#: ../inc/lib_security/acl_form_lib.inc:68
+msgid "Roles : "
+msgstr "身分："
+
+#: ../inc/lib_security/acl_form.inc:502 ../inc/lib_security/acl_form.inc:515
+#: ../inc/lib_security/acl_form_lib.inc:93
+msgid "Actions : "
+msgstr "行動："
+
+#: ../inc/lib_security/acl_form.inc:511
+msgid "User : "
+msgstr "使用者："
+
+#: ../inc/lib_security/acl_form_lib.inc:43
+msgid "Users : "
+msgstr "使用者："
+
+#: ../inc/lib_security/acl_form_lib.inc:118
+msgid "Action Groups : "
+msgstr "行動小組："
+
+#: ../inc/lib_security/acl_form_lib.inc:121
+#: ../inc/lib_security/acl_form_lib.inc:149
+msgid "* Action Groups:"
+msgstr "* 行動小組："
+
+#: ../inc/lib_security/acl_form_lib.inc:146
+msgid "Select the Action Group : "
+msgstr "選擇行動小組："
+
+#: ../inc/lib_security/acl_form_lib.inc:174
+msgid "Organization :"
+msgstr "組織："
+
+#: ../mod/admin/forms.inc:74
+msgid "Location Type(level)"
+msgstr "位置類型(層級)"
+
+#: ../mod/admin/forms.inc:81
+msgid "* Location Name : "
+msgstr "* 位置名稱："
+
+#: ../mod/admin/forms.inc:82
+msgid "Description : "
+msgstr "說明："
+
+#: ../mod/admin/forms.inc:83
+msgid "ISO code : "
+msgstr "ISO 碼："
+
+#: ../mod/cms/aidworker.inc:23
+msgid "Aid Worker Registration"
+msgstr "救難人員登錄"
+
+#: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:34
+msgid "Individual Information"
+msgstr "個人資料"
+
+#: ../mod/cms/aidworker.inc:32 ../mod/cms/victim.inc:36
+#: ../mod/rms/handler_plg_new.inc:23 ../mod/rms/lib_rms.inc:1193
+msgid "Name"
+msgstr "名稱"
+
+#: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:37
+msgid "ID/SSN/Passport"
+msgstr "身分證/社會安全證/護照"
+
+#: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:40
+msgid "Race"
+msgstr "種族"
+
+#: ../mod/cms/aidworker.inc:35 ../mod/cms/victim.inc:41
+msgid "Religion"
+msgstr "宗教"
+
+#: ../mod/cms/aidworker.inc:36 ../mod/cms/victim.inc:42
+msgid "Marital Status"
+msgstr "婚姻狀況"
+
+#: ../mod/cms/aidworker.inc:37
+msgid "Phone Number"
+msgstr "電話號碼"
+
+#: ../mod/cms/aidworker.inc:38
+msgid "Email"
+msgstr "電子郵件"
+
+#: ../mod/cms/aidworker.inc:39
+msgid "Contact Type"
+msgstr "連絡類型"
+
+#: ../mod/cms/aidworker.inc:40 ../mod/rms/handler_plg_new.inc:24
+#: ../mod/rms/lib_rms.inc:1194
+msgid "Contact"
+msgstr "連絡方式"
+
+#: ../mod/cms/aidworker.inc:42
+msgid "Service Information"
+msgstr "服務資訊"
+
+#: ../mod/cms/aidworker.inc:43 ../mod/cms/camp.inc:41
+msgid "Organization Name"
+msgstr "所屬組織"
+
+#: ../mod/cms/aidworker.inc:44
+msgid "Proffesion"
+msgstr "職業"
+
+#: ../mod/cms/aidworker.inc:45
+msgid "Services Offered"
+msgstr "服務已就緒"
+
+#: ../mod/cms/aidworker.inc:47 ../mod/cms/victim.inc:53
+msgid "Register"
+msgstr "登錄者"
+
+#: ../mod/cms/aidworker.inc:54
+msgid "Edit Aid Worker Information"
+msgstr "編輯救難人員資訊"
+
+#: ../mod/cms/camp.inc:23
+msgid "Add New Camp - Details"
+msgstr "新增小隊 - 詳細內容"
+
+#: ../mod/cms/camp.inc:33
+msgid "Name and Type"
+msgstr "名稱與類型"
+
+#: ../mod/cms/camp.inc:35
+msgid "Camp Name"
+msgstr "小隊名稱"
+
+#: ../mod/cms/camp.inc:36
+msgid "Camp Type"
+msgstr "小隊類型"
+
+#: ../mod/cms/camp.inc:38
+msgid "Camp Administrator"
+msgstr "小隊長"
+
+#: ../mod/cms/camp.inc:39
+msgid "Camp Admin Name"
+msgstr "小隊長名稱"
+
+#: ../mod/cms/camp.inc:40
+msgid "Contact Number"
+msgstr "連絡號碼"
+
+#: ../mod/cms/camp.inc:43
+msgid "General Details"
+msgstr "一般內容"
+
+#: ../mod/cms/camp.inc:44
+msgid "Distance from City [km]"
+msgstr "與市區距離[公里]"
+
+#: ../mod/cms/camp.inc:45
+msgid "Distance from Disaster [km]"
+msgstr "與災難距離[公里]"
+
+#: ../mod/cms/camp.inc:46
+msgid "Approximate Capacity [people]"
+msgstr "估算容量[人數]"
+
+#: ../mod/cms/camp.inc:47
+msgid "Number of Shelters"
+msgstr "避難所數目"
+
+#: ../mod/cms/camp.inc:48
+msgid "Approximate Area Size [square metres]"
+msgstr "估算區域大小[平方公尺]"
+
+#: ../mod/cms/camp.inc:50
+msgid "Create Camp"
+msgstr "建立小隊"
+
+#: ../mod/cms/camp.inc:72
+msgid "Accept"
+msgstr "同意"
+
+#: ../mod/cms/camp.inc:77
+msgid "Camp Checklist"
+msgstr "小隊檢查清單"
+
+#: ../mod/cms/camp.inc:79
+msgid "Facilities / Services"
+msgstr "設備 / 服務"
+
+#: ../mod/cms/camp.inc:83
+msgid "Done"
+msgstr "完成"
+
+#: ../mod/cms/home.inc:21
+msgid "Camp Management System"
+msgstr "小隊管理系統"
+
+#: ../mod/cms/victim.inc:26
+msgid "Victim Registration"
+msgstr "受難者登錄"
+
+#: ../mod/cms/victim.inc:38
+msgid "Age Group"
+msgstr "年齡層"
+
+#: ../mod/cms/victim.inc:39
+msgid "Person Status"
+msgstr "個人狀態"
+
+#: ../mod/cms/victim.inc:43
+msgid "Previous Contact  Type"
+msgstr "之前連絡類型"
+
+#: ../mod/cms/victim.inc:44
+msgid "Previous Contact"
+msgstr "之前連絡方式"
+
+#: ../mod/cms/victim.inc:46
+msgid "Group/Family"
+msgstr "團體/家族"
+
+#: ../mod/cms/victim.inc:47
+msgid "Group Name/Sirname/Family Name"
+msgstr "團體名稱/爵位/家族名稱"
+
+#: ../mod/cms/victim.inc:48
+msgid "Contact Details"
+msgstr "連絡方式詳細內容"
+
+#: ../mod/cms/victim.inc:49
+msgid "Number of Members in Group"
+msgstr "團體中成員數量"
+
+#: ../mod/cms/victim.inc:50
+msgid "Individual is head of Group/Family"
+msgstr "該個體是團體/家族領袖"
+
+#: ../mod/cms/victim.inc:51
+msgid "Members of Group/Family are Missing"
+msgstr "有失蹤的團體/家族成員"
+
+#: ../mod/cms/victim.inc:58
+msgid "Edit Victim Information"
+msgstr "編輯受難者資訊"
+
+#: ../mod/cr/camp.inc:181 ../mod/gis/main_fns.inc:35
+msgid "Area Map"
+msgstr "區域地圖"
+
+#: ../mod/cr/camp.inc:219 ../mod/cr/edit.inc:295
+msgid "Please Enter the Camp Name"
+msgstr "請輸入小隊名稱"
+
+#: ../mod/cr/camp.inc:225
+msgid "The Family Count is not a valid number"
+msgstr "家族數量欄位並不是有效的數字"
+
+#: ../mod/cr/camp.inc:231 ../mod/cr/edit.inc:307
+msgid "The Total Count is not a valid number"
+msgstr "總計數量欄位並不是有效的數字"
+
+#: ../mod/cr/camp.inc:237 ../mod/cr/edit.inc:313
+msgid "The Men Count is not a valid number"
+msgstr "男性數量欄位並不是有效的數字"
+
+#: ../mod/cr/camp.inc:243 ../mod/cr/edit.inc:319
+msgid "The Women Count is not a valid number"
+msgstr "女性數量欄位並不是有效的數字"
+
+#: ../mod/cr/camp.inc:249 ../mod/cr/edit.inc:325
+msgid "The Children Count is not a valid number"
+msgstr "小孩數量欄位並不是有效的數字"
+
+#: ../mod/cr/edit.inc:301
+msgid "The Familiy Count is not a valid number"
+msgstr "家族數量欄位並不是有效的數字"
+
+#: ../mod/cr/main_fns.inc:23
+msgid "Camps Registry"
+msgstr "小隊登錄"
+
+#: ../mod/cr/reports.inc:179
+msgid "Camps in "
+msgstr "小隊位於"
+
+#: ../mod/dvr/add.inc:136
+msgid "b.caption"
+msgstr "b.標題"
+
+#: ../mod/gis/main.inc:25
+msgid "GIS Mapping Module"
+msgstr "GIS 對映模組"
+
+#: ../mod/gis/main_fns.inc:24
+msgid "GIS Mapping"
+msgstr "GIS 對映"
+
+#: ../mod/mpr/add.inc:157 ../mod/mpr/add.inc:289 ../mod/mpr/edit.inc:202
+msgid "You have not completed the form"
+msgstr "您尚未完成此問卷"
+
+#: ../mod/mpr/add.inc:163 ../mod/mpr/edit.inc:208
+msgid "Please enter the full name of the missing person"
+msgstr "請輸入失蹤者的全名"
+
+#: ../mod/mpr/add.inc:295
+msgid "Please enter the full name of the reporting person"
+msgstr "請輸入通報者的全名"
+
+#: ../mod/mpr/add.inc:301
+msgid "Please enter the relationship of the reporting person"
+msgstr "請輸入通報者的身分關係"
+
+#: ../mod/mpr/add.inc:310
+msgid "Please enter any contact method of the reporting person"
+msgstr "請輸入通報者的任何連絡方法"
+
+#: ../mod/mpr/add.inc:366 ../mod/mpr/edit.inc:276
+msgid "Invalid Image Type Please try again"
+msgstr "無效的圖像類型；請再試一次"
+
+#: ../mod/mpr/edit.inc:213
+msgid "Invalid Date of Birth"
+msgstr "無效的出生日期"
+
+#: ../mod/or/admin_forms.inc:37
+msgid "* Organization Type : "
+msgstr "* 組織類型："
+
+#: ../mod/or/admin_forms.inc:38 ../mod/or/admin_forms.inc:118
+msgid "* Abbrevation [3 letter unique abbr. to store in the database]: "
+msgstr "* 縮寫 [惟一的三字母縮寫以儲存於資料庫中]："
+
+#: ../mod/or/admin_forms.inc:117
+msgid "* Organization Sector : "
+msgstr "* 組織部門："
+
+#: ../mod/or/lib_or.inc:525
+msgid "Gender :"
+msgstr "性別："
+
+#: ../mod/or/lib_or.inc:549
+msgid "* Organization Type:"
+msgstr "* 組織類型："
+
+#: ../mod/or/lib_or.inc:582
+msgid "* Services Provided : "
+msgstr "* 提供服務："
+
+#: ../mod/or/lib_or.inc:593 ../mod/or/lib_or.inc:623
+msgid "Name : "
+msgstr "名稱："
+
+#: ../mod/or/lib_or.inc:595 ../mod/or/lib_or.inc:625
+msgid "Address : "
+msgstr "地址："
+
+#: ../mod/or/lib_or.inc:596 ../mod/or/lib_or.inc:626
+msgid "Phone : "
+msgstr "電話："
+
+#: ../mod/or/lib_or.inc:597 ../mod/or/lib_or.inc:627
+msgid "Fax : "
+msgstr "傳真："
+
+#: ../mod/or/lib_or.inc:598
+msgid "Email : "
+msgstr "電子郵件："
+
+#: ../mod/or/lib_or.inc:628
+msgid "email : "
+msgstr "電子郵件："
+
+#: ../mod/or/lib_or.inc:660 ../mod/or/lib_or.inc:677
+msgid "Man Power (No):"
+msgstr "人力(位)："
+
+#: ../mod/or/lib_or.inc:700
+msgid ""
+"Add Operation<br> (Your Organization might be having branches or carrying "
+"out relief operations in this disaster. Then information of those operations "
+"is usefull.) "
+msgstr ""
+"增加作業<br> (您的組織在這場災難中也許正有分支或是進行著救援作業。"
+"因此這些作業的資訊是很有用的。)"
+
+#: ../mod/or/reg.inc:42
+msgid "* Organization Name : "
+msgstr "* 組織名稱："
+
+#: ../mod/or/reg.inc:43 ../mod/or/view.inc:184
+msgid "Registration Number : "
+msgstr "登錄號碼："
+
+#: ../mod/or/reg.inc:115
+msgid "* Operation/Branch Name : "
+msgstr "* 作業/分支名稱："
+
+#: ../mod/or/reg.inc:197
+msgid "* Name in Full : "
+msgstr "* 全名："
+
+#: ../mod/or/reg.inc:198 ../mod/or/view.inc:369
+msgid "Date of Birth: "
+msgstr "出生日期："
+
+#: ../mod/or/reg.inc:200 ../mod/or/view.inc:371
+msgid "Occupation : "
+msgstr "職業："
+
+#: ../mod/or/reg.inc:213 ../mod/or/view.inc:386
+msgid "National ID No: "
+msgstr "國家識別碼："
+
+#: ../mod/or/reg.inc:214 ../mod/or/view.inc:387
+msgid "Passport No: "
+msgstr "護證號碼："
+
+#: ../mod/or/reg.inc:215 ../mod/or/view.inc:388
+msgid "Driving License No: "
+msgstr "駕駛執照號碼："
+
+#: ../mod/or/search.inc:38
+msgid "Search Based on"
+msgstr "搜尋依據"
+
+#: ../mod/or/view.inc:178
+msgid "Organization Name : "
+msgstr "組織名稱："
+
+#: ../mod/or/view.inc:367
+msgid "Name: "
+msgstr "名稱："
+
+#: ../mod/rms/admin.inc:30
+msgid "Items Category Settings"
+msgstr "項目分類設定"
+
+#: ../mod/rms/admin.inc:31
+msgid "Add Category"
+msgstr "新增分類"
+
+#: ../mod/rms/admin.inc:32
+msgid "Remove Category"
+msgstr "移除分類"
+
+#: ../mod/rms/admin.inc:37
+msgid "Items Priority Settings"
+msgstr "項目優先權設定"
+
+#: ../mod/rms/admin.inc:38
+msgid "Add Priority Type"
+msgstr "增加優先權類型"
+
+#: ../mod/rms/admin.inc:39
+msgid "Remove Priority Type"
+msgstr "移除優先權類型"
+
+#: ../mod/rms/admin.inc:82
+msgid "CatID"
+msgstr "聊天帳號"
+
+#: ../mod/rms/admin.inc:83 ../mod/rms/handler_plg_new.inc:27
+#: ../mod/rms/handler_plg_vw.inc:53 ../mod/rms/lib_rms.inc:628
+#: ../mod/rms/lib_rms.inc:700 ../mod/rms/lib_rms.inc:989
+#: ../mod/rms/lib_rms.inc:1041 ../mod/rms/lib_rms.inc:1197
+msgid "Category"
+msgstr "分類"
+
+#: ../mod/rms/admin.inc:84 ../mod/rms/admin.inc:217
+msgid "Description"
+msgstr "描述"
+
+#: ../mod/rms/admin.inc:215
+msgid "Priority_ID"
+msgstr "優先編號"
+
+#: ../mod/rms/admin.inc:216 ../mod/rms/lib_rms.inc:632
+#: ../mod/rms/lib_rms.inc:736 ../mod/rms/lib_rms.inc:993
+msgid "Priority"
+msgstr "優先順序"
+
+#: ../mod/rms/conf.inc:17 ../mod/rms/lib_rms.inc:320
+msgid "Request Management System"
+msgstr "需求管理系統"
+
+#: ../mod/rms/handler_cstat_req.inc:36
+msgid "The Request Status was successfully changed"
+msgstr "已經成功修改需求狀態"
+
+#: ../mod/rms/handler_cstat_req.inc:36
+msgid "Please"
+msgstr "請求"
+
+#: ../mod/rms/handler_cstat_req.inc:36 ../mod/rms/handler_cstat_req.inc:38
+msgid "click"
+msgstr "點擊"
+
+#: ../mod/rms/handler_cstat_req.inc:37
+msgid "here to go back to the main page"
+msgstr "從這裡回到主頁面"
+
+#: ../mod/rms/handler_cstat_req.inc:38
+msgid "or"
+msgstr "或"
+
+#: ../mod/rms/handler_cstat_req.inc:39
+msgid "here "
+msgstr "這裡"
+
+#: ../mod/rms/handler_cstat_req.inc:39
+msgid "to view the "
+msgstr "用來檢視"
+
+#: ../mod/rms/handler_cstat_req.inc:39
+msgid "request"
+msgstr "需求"
+
+#: ../mod/rms/handler_cstat_req.inc:44
+msgid "Sorry, you are not the owner of this request"
+msgstr "抱歉，您不是這個需求的擁有者"
+
+#: ../mod/rms/handler_fulfill_req.inc:91 ../mod/rms/handler_view_req.inc:53
+msgid "Request Information"
+msgstr "需求資訊"
+
+#: ../mod/rms/handler_fulfill_req.inc:97 ../mod/rms/handler_new_req.inc:105
+#: ../mod/rms/handler_new_req.inc:168
+msgid "Finish"
+msgstr "完成"
+
+#: ../mod/rms/handler_main.inc:30
+msgid "Request Managment System"
+msgstr "需求管理系統"
+
+#: ../mod/rms/handler_main.inc:50
+msgid "User Information"
+msgstr "使用者資訊"
+
+#: ../mod/rms/handler_main.inc:52
+msgid "User Name"
+msgstr "使用者名稱"
+
+#: ../mod/rms/handler_main.inc:52 ../mod/rms/handler_main.inc:53
+#: ../mod/rms/handler_main.inc:54 ../mod/rms/handler_main.inc:55
+#: ../mod/rms/handler_main.inc:56 ../mod/rms/handler_main.inc:58
+#: ../mod/rms/handler_main.inc:64 ../mod/rms/handler_main.inc:65
+#: ../mod/rms/handler_main.inc:67
+msgid " : "
+msgstr "："
+
+#: ../mod/rms/handler_main.inc:53
+msgid "User ID"
+msgstr "使用者編號"
+
+#: ../mod/rms/handler_main.inc:54 ../mod/rms/handler_main.inc:67
+msgid "Total Requests"
+msgstr "需求總數"
+
+#: ../mod/rms/handler_main.inc:55
+msgid "Open Requests"
+msgstr "開放的需求"
+
+#: ../mod/rms/handler_main.inc:56
+msgid "Closed Requests"
+msgstr "關閉的需求"
+
+#: ../mod/rms/handler_main.inc:58
+msgid "Fulfilled (fully/partially) Requests"
+msgstr "已達到(全部/部份)的需求"
+
+#: ../mod/rms/handler_main.inc:62
+msgid "Organization Information"
+msgstr "組織資訊"
+
+#: ../mod/rms/handler_main.inc:64
+msgid "Org. Name"
+msgstr "組織名稱"
+
+#: ../mod/rms/handler_main.inc:65
+msgid "Org. ID"
+msgstr "組織編號"
+
+#: ../mod/rms/handler_main.inc:72
+msgid "Full Statistics"
+msgstr "完整統計"
+
+#: ../mod/rms/handler_main.inc:75
+msgid "Total Number of requests = "
+msgstr "需求總數＝"
+
+#: ../mod/rms/handler_mgt_req.inc:27 ../mod/rms/handler_mgt_req.inc:38
+#: ../mod/rms/handler_view_req.inc:62
+msgid "Change Request Status"
+msgstr "變更需求狀態"
+
+#: ../mod/rms/handler_mgt_req.inc:29 ../mod/rms/handler_mgt_req.inc:38
+msgid "Close"
+msgstr "關閉"
+
+#: ../mod/rms/handler_mgt_req.inc:30 ../mod/rms/handler_mgt_req.inc:40
+msgid "Open"
+msgstr "開啟"
+
+#: ../mod/rms/handler_new_req.inc:91 ../mod/rms/handler_new_req.inc:154
+#: ../mod/rms/lib_rms.inc:332 ../mod/rms/lib_rms.inc:360
+#: ../mod/rms/main.inc:44
+msgid "New Request"
+msgstr "新的需求"
+
+#: ../mod/rms/handler_new_req.inc:100 ../mod/rms/handler_new_req.inc:163
+msgid "Remove Request"
+msgstr "移除需求"
+
+#: ../mod/rms/handler_plg_del.inc:17
+msgid "Removing a Pledge"
+msgstr "移除保證中"
+
+#: ../mod/rms/handler_plg_ls.inc:16
+msgid "List of Current Pledges"
+msgstr "目前保證的清單"
+
+#: ../mod/rms/handler_plg_ls.inc:89
+msgid "Change Status"
+msgstr "變更狀態"
+
+#: ../mod/rms/handler_plg_ls.inc:90 ../mod/rms/handler_sc_req.inc:133
+msgid "More Details"
+msgstr "更多詳細資訊"
+
+#: ../mod/rms/handler_plg_ls.inc:164 ../mod/rms/lib_rms.inc:301
+msgid "Filter by Category"
+msgstr "依照分類過濾"
+
+#: ../mod/rms/handler_plg_new.inc:20
+msgid "Please Confirm the information"
+msgstr "請確認資訊"
+
+#: ../mod/rms/handler_plg_new.inc:22 ../mod/rms/handler_sc_req.inc:129
+#: ../mod/rms/lib_rms.inc:1192
+msgid "Date"
+msgstr "日期"
+
+#: ../mod/rms/handler_plg_new.inc:25 ../mod/rms/lib_rms.inc:1195
+msgid "Address"
+msgstr "地址"
+
+#: ../mod/rms/handler_plg_new.inc:26 ../mod/rms/lib_rms.inc:348
+#: ../mod/rms/lib_rms.inc:388 ../mod/rms/lib_rms.inc:592
+#: ../mod/rms/lib_rms.inc:1196
+msgid "Comments"
+msgstr "備註"
+
+#: ../mod/rms/handler_plg_new.inc:35 ../mod/rms/handler_plg_vw.inc:54
+#: ../mod/rms/lib_rms.inc:629 ../mod/rms/lib_rms.inc:728
+#: ../mod/rms/lib_rms.inc:990 ../mod/rms/lib_rms.inc:1042
+#: ../mod/rms/lib_rms.inc:1101 ../mod/rms/lib_rms.inc:1198
+msgid "Item"
+msgstr "項目"
+
+#: ../mod/rms/handler_plg_new.inc:36 ../mod/rms/lib_rms.inc:630
+#: ../mod/rms/lib_rms.inc:731 ../mod/rms/lib_rms.inc:991
+#: ../mod/rms/lib_rms.inc:1043 ../mod/rms/lib_rms.inc:1199
+msgid "Units"
+msgstr "單位"
+
+#: ../mod/rms/handler_plg_new.inc:44 ../mod/rms/lib_rms.inc:631
+#: ../mod/rms/lib_rms.inc:733 ../mod/rms/lib_rms.inc:1113
+#: ../mod/rms/lib_rms.inc:1200
+msgid "Quantity"
+msgstr "份量"
+
+#: ../mod/rms/handler_plg_new.inc:113
+msgid "If the information is correct please press <strong>Finish</strong><br/>"
+msgstr "如果資訊正確就請按下<strong>完成</strong><br/>"
+
+#: ../mod/rms/handler_plg_new.inc:120
+msgid "If you need to change some details"
+msgstr "如果您需要去變更某些細節"
+
+#: ../mod/rms/handler_plg_new.inc:121
+msgid "please go bak and change it"
+msgstr "請退回並變更它"
+
+#: ../mod/rms/handler_plg_vw.inc:50 ../mod/rms/lib_rms.inc:1191
+msgid "Pledge ID"
+msgstr "保證編號"
+
+#: ../mod/rms/handler_plg_vw.inc:51 ../mod/rms/handler_vw_req.inc:40
+#: ../mod/rms/lib_rms.inc:865
+msgid "Date/Time"
+msgstr "日期/時間"
+
+#: ../mod/rms/handler_plg_vw.inc:52 ../mod/rms/lib_rms.inc:1093
+msgid "Donor Name"
+msgstr "捐贈者名稱"
+
+#: ../mod/rms/handler_plg_vw.inc:55 ../mod/rms/lib_rms.inc:1116
+msgid "Status"
+msgstr "狀態"
+
+#: ../mod/rms/handler_plg_vw.inc:56 ../mod/rms/handler_vw_req.inc:45
+#: ../mod/rms/lib_rms.inc:870
+msgid "View"
+msgstr "檢視"
+
+#: ../mod/rms/handler_sc_req.inc:17
+msgid "Search for a Request"
+msgstr "搜尋某個需求"
+
+#: ../mod/rms/handler_sc_req.inc:128 ../mod/rms/lib_rms.inc:864
+msgid "ID"
+msgstr "編號"
+
+#: ../mod/rms/handler_sc_req.inc:130 ../mod/rms/handler_vw_req.inc:41
+#: ../mod/rms/lib_rms.inc:866
+msgid "Requester"
+msgstr "需求者"
+
+#: ../mod/rms/handler_sc_req.inc:131 ../mod/rms/lib_rms.inc:341
+#: ../mod/rms/lib_rms.inc:375 ../mod/rms/lib_rms.inc:589
+msgid "Site Name"
+msgstr "地點名稱"
+
+#: ../mod/rms/handler_sc_req.inc:132 ../mod/rms/lib_rms.inc:346
+#: ../mod/rms/lib_rms.inc:384 ../mod/rms/lib_rms.inc:591
+msgid "Site Address"
+msgstr "地點地址"
+
+#: ../mod/rms/handler_view_req.inc:34
+msgid "Request Status"
+msgstr "需求狀態"
+
+#: ../mod/rms/handler_view_req.inc:35
+msgid "Open requests"
+msgstr "開放的需求"
+
+#: ../mod/rms/handler_view_req.inc:36
+msgid "Closed requests"
+msgstr "關閉的需求"
+
+#: ../mod/rms/handler_view_req.inc:37
+msgid "All requests"
+msgstr "所有的需求"
+
+#: ../mod/rms/handler_view_req.inc:68
+msgid "Close Request"
+msgstr "關閉需求"
+
+#: ../mod/rms/handler_view_req.inc:70 ../mod/rms/handler_view_req.inc:80
+msgid "Fulfill"
+msgstr "達到"
+
+#: ../mod/rms/handler_vw_req.inc:17
+msgid "View Request using the <em>Request ID</em>"
+msgstr "利用<em>需求編號</em>檢視需求"
+
+#: ../mod/rms/handler_vw_req.inc:42 ../mod/rms/lib_rms.inc:867
+msgid "Site"
+msgstr "地點"
+
+#: ../mod/rms/handler_vw_req.inc:43 ../mod/rms/lib_rms.inc:868
+msgid "District"
+msgstr "區域"
+
+#: ../mod/rms/handler_vw_req.inc:44 ../mod/rms/lib_rms.inc:869
+msgid "Categories"
+msgstr "分類"
+
+#: ../mod/rms/lib_rms.inc:50
+msgid "Sahana Request Management System"
+msgstr "Sahana 需求管理系統"
+
+#: ../mod/rms/lib_rms.inc:333 ../mod/rms/lib_rms.inc:361
+#: ../mod/rms/lib_rms.inc:585
+msgid "Request Date"
+msgstr "需求日期"
+
+#: ../mod/rms/lib_rms.inc:335 ../mod/rms/lib_rms.inc:364
+#: ../mod/rms/lib_rms.inc:586
+msgid "Requester Name"
+msgstr "需求者名稱"
+
+#: ../mod/rms/lib_rms.inc:337 ../mod/rms/lib_rms.inc:368
+#: ../mod/rms/lib_rms.inc:587
+msgid "Requester Contact"
+msgstr "需求者聯絡方式"
+
+#: ../mod/rms/lib_rms.inc:339 ../mod/rms/lib_rms.inc:372
+#: ../mod/rms/lib_rms.inc:588
+msgid "Requester Address"
+msgstr "需求者地址"
+
+#: ../mod/rms/lib_rms.inc:343 ../mod/rms/lib_rms.inc:379
+#: ../mod/rms/lib_rms.inc:590
+msgid "Site District"
+msgstr "地點區域"
+
+#: ../mod/rms/lib_rms.inc:625
+msgid "Items"
+msgstr "項目"
+
+#: ../mod/rms/lib_rms.inc:698
+msgid "Add Items"
+msgstr "增加項目"
+
+#: ../mod/rms/lib_rms.inc:986
+msgid "Current Fulfill Status"
+msgstr "目前達到的狀態"
+
+#: ../mod/rms/lib_rms.inc:992
+msgid "Qty - Needed [Fulfilled]"
+msgstr "數量 - 所需的 [已達到的]"
+
+#: ../mod/rms/lib_rms.inc:1038
+msgid "Newly Added"
+msgstr "新近增加的"
+
+#: ../mod/rms/lib_rms.inc:1044
+msgid "Qty - Needed/Fulfilled (Status)"
+msgstr "數量 - 所需的/達到的 (狀態)"
+
+#: ../mod/rms/lib_rms.inc:1091
+msgid "Fulfilment information"
+msgstr "達成的資訊"
+
+#: ../mod/rms/lib_rms.inc:1095
+msgid "Donor Contact"
+msgstr "捐贈者連絡方式"
+
+#: ../mod/rms/lib_rms.inc:1186
+msgid "Detailed Pledge Information"
+msgstr "詳細保證資訊"
+
+#: ../mod/rms/main.inc:35
+msgid "RMS Module Actions"
+msgstr "RMS 模組動作"
+
+#: ../mod/rms/main.inc:39
+msgid "Home"
+msgstr "主頁面"
+
+#: ../mod/rms/main.inc:47
+msgid "List All Requests"
+msgstr "列出所有需求"
+
+#: ../mod/rms/main.inc:50
+msgid "Search Requests"
+msgstr "搜尋需求"
+
+#: ../mod/rms/main.inc:56
+msgid "Add Pledges"
+msgstr "增加保證"
+
+#: ../mod/rms/main.inc:59
+msgid "View Pledge"
+msgstr "檢視保證"
+
+#: ../mod/rms/main.inc:62
+msgid "List Pledges"
+msgstr "列出保證"

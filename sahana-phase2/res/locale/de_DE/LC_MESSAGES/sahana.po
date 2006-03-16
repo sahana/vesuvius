@@ -2372,3 +2372,34 @@ msgstr "&#3523;&#3538;&#3514;&#3517;&#3540;&#3512; &#3511;&#3535;&#3520;&#3538;&
 #: manually added entry**Temp locale for Sinhala
 msgid "Filtered by Category : "
 msgstr "&#3501;&#3549;&#3515;&#3505;&#3517;&#3503; &#3520;&#3515;&#3530;&#3484;&#3514; : "
+
+
+#: DB L10N Starts here
+#: rms_req_units/unit, 
+msgid "Kg"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "m"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "Bottle"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "Other"
+msgstr ""
+
+#: rms_req_units/description, 
+msgid "Kilogram"
+msgstr "&#3482;&#3538;&#3517;&#3549; &#3484;&#3530;&#8205;&#3515;&#3537;&#3512;&#3530;"
+
+#: rms_req_units/description, 
+msgid "metre"
+msgstr ""
+
+#: rms_req_units/description, 
+msgid "Other unit"
+msgstr ""
+

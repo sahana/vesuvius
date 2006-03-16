@@ -2610,3 +2610,38 @@ msgstr ""
 #: ../mod/rms/main.inc:64
 msgid "List Pledges"
 msgstr ""
+
+
+#: DB L10N Starts here
+#: rms_req_units/unit, 
+msgid "Kg"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "m"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "Bottle"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "Other"
+msgstr ""
+
+#: rms_req_units/description, 
+msgid "Kilogram"
+msgstr ""
+
+#: rms_req_units/description, 
+msgid "metre"
+msgstr ""
+
+#: rms_req_units/description, 
+msgid ""
+msgstr ""
+
+#: rms_req_units/description, 
+msgid "Other unit"
+msgstr ""
+
