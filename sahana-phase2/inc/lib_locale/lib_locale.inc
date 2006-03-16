@@ -293,7 +293,7 @@ function _shn_get_lang_list()
 {
     $l_list = array(
                     'de_DE'=>_("Sinhala"),
-                    'zh_TW'=>_("zh_TW"),
+                    'zh_TW'=>_("Chinese Traditional"),
                     'en_US'=>_("English")
                    );
     return $l_list;
