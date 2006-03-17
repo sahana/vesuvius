@@ -6,22 +6,9 @@ Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
 Selectors are listed in their order of appearance in the html, where applicable.
 ---------------------------------------------------------------------------------- */
 
-/* SECTION:ALLTAGS */
-
-thead td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
-	background: green; 
-	color:#fff;
-	border: #26a solid 1px; 
-	font-size:100%;
-}
-
 /* Neutralize styling: 
    Elements we want to clean out entirely: */
-html, body, form, fieldset {
+html, body, form, fieldset, textarea {
         margin: 0;
         padding: 0;
         font: 100%/125% Arial, Helvetica, sans-serif;
@@ -41,359 +28,25 @@ li, dd, blockquote {
         margin-left: 1em;
 }
 
+/* Clear floats without structural markup */
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
 /* Miscellaneous conveniences: */
 body {
 	font-size: 0.8em;
 	color: #000;
-	background: #369;
+	background: #6181CA;
 }
-
-input, select, textarea {
-	font-size: 100%;
-}
-
-/* Links should ALWAYS be unvisited */
-a {
-	color: #039;
-	text-decoration: underline;
-}
-
-a:hover {
-	color: #C00;
-	text-decoration: none;
-	background-color: #FFC;
-}
-
-/* SECTION:LAYOUT 
-   Over structure of the page 
-*/
-
-#container {
-}
-
-#header {
-	border-bottom: #036 5px solid;
-	padding: 0 1em;
-	background-color: #369;
-	height: 100px;
-	position: relative;
-}
-
-#language{
-	
-}
-
-#language form{	
-	position: absolute;
-	top: 60px;
-	right:0%;
-	height: 30px;	
-	border:none;
- 	background-color:#369;
-	padding:0em;
-}
-
-#language select{			
-	color:#fff;
-	border: 1px solid #369;
-	border-style:none;
-	background:#369;	
-}
-
-#language label{
-	display:none;
-}
-
-
-#wrapper {
-	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
-}
-
-#wrapper_menu {
-
-}
-
-#wrapper_content {
-
-}
-
-#content {
-	margin: 0 0 0 200px;
-	padding: 1em;
-}
-
-#footer {
-	margin: 0;
-	padding: 10px;
-	clear: both;
-	color: #FFF;
-	background-color: #369;
-	border-top: #036 5px solid;	
-}
-
-/* SECTION:HEADER-FOOTER*/
-
-#header h1 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100px;
-	width: 400px;
-	text-indent: -9999px;
-	background: url(img/sahana_logo.jpg) #369 no-repeat left top;
-	/* This stuff is useless since we're using image replacement 
-	------------------------------------------------------------
-	margin-top: 0;
-	padding-top: 1em;
-	color: #FFF;
-	text-transform: uppercase;
-	float: left;
-	------------ */
-}
-
-
-#header h3 {
-	padding-top: 1em;
-	text-align: left;
-	color: #FFF;
-    float: bottom;
-}
-#skip {
-	margin-bottom: 0;
-	padding: 10px;
-	width: 180px;
-	font-size: 90%;
-	float: left;
-}
-
-/* SECTION:NAVIGATION 
-   Contains all the menu stylizing
-*/
-
-#menuwrap, #modmenuwrap {
-}
-
-#menuwrap h2, #modmenuwrap h2 {
-	margin: 1em 0 0.5em 0;
-	padding: 0 0 0 5px;
-	font-size: 120%;
-	text-transform: uppercase;
-	text-align: left;
-}
-
-#menuwrap h2 {
-	color: #036;
-}
-
-#modmenuwrap h2 {
-	color: #360;
-}
-
-#menuwrap, #modmenuwrap {
-	float: left;
-	clear: left;
-	width: 180px;
-}
-
-#menuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
-}
-
-#menuwrap ul
-{
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-	width: 100%;
-}
-
-#menuwrap li
-{
-	margin: 0px;
-	padding: 0px;
-	line-height: 20px;
-}
-
-#menuwrap ul li a
-{
-	display: block;
-	width: 190px;
-	padding-left: 10px;
-	background-color: #036;
-	font-size: 0.9em;
-}
-
-#menuwrap ul li a:link, #menuwrap ul li a:visited
-{
-	color: #E2E2F5;
-	text-decoration: none;
-}
-
-#menuwrap ul li a:hover
-{
-	background-color: #00458A;
-	color: #FFF;
-}
-
-#menuwrap ul ul li a
-{
-	display: block;
-	padding-left: 20px;
-	width: 180px;
-	background-color: #006FDD;
-	font-size: 0.85em;
-}
-
-#menuwrap ul ul li a:link, #menuwrap ul ul li a:visited
-{
-	color: #E2E2F5;
-	text-decoration: none;
-}
-
-#menuwrap ul ul li a:hover
-{
-	background-color: #0059B3;
-	color: #E2E2F5;
-}
-
-/* selected states */
-#menuwrap ul li a#current
-{
-	font-weight: bold;
-	color: #6699CC;
-	background-color: #00458A;
-}
-
-#menuwrap ul ul li a#subcurrent
-{
-	font-weight: bold;
-	color: #98C8F7;
-	background-color: #0059B3;
-}
-
-#modmenuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
-}
-
-#modmenuwrap ul
-{
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-	width: 100%;
-}
-
-#modmenuwrap li
-{
-	margin: 0px;
-	padding: 0px;
-	line-height: 20px;
-}
-
-#modmenuwrap ul li a
-{
-	display: block;
-	width: 190px;
-	padding-left: 10px;
-	background-color: #360;
-	font-size: 0.9em;
-}
-
-#modmenuwrap ul li a:link, #modmenuwrap ul li a:visited
-{
-	color: #E2E2F5;
-	text-decoration: none;
-}
-
-#modmenuwrap ul li a:hover
-{
-	background-color: #418200;
-	color: #FFF;
-}
-
-#modmenuwrap ul ul li a
-{
-	display: block;
-	padding-left: 20px;
-	width: 180px;
-	background-color: #60BF00;
-	font-size: 0.85em;
-}
-
-#modmenuwrap ul ul li a:link, #modmenuwrap ul ul li a:visited
-{
-	color: #E2F5E2;
-	text-decoration: none;
-}
-
-#modmenuwrap ul ul li a:hover
-{
-	background-color: #509F00;
-	color: #E2F5E2;
-}
-
-/* selected states */
-#modmenuwrap ul li a#modcurrent
-{
-	font-weight: bold;
-	color: #9F0;
-	background-color: #418200;
-}
-
-#modmenuwrap ul ul li a#modsubcurrent
-{
-	font-weight: bold;
-	color: #9F0;
-	background-color: #509F00;
-}
-
-/* SECTION:LOGIN */
-
-#loginform {
-	padding: 0 10px;
-	width: 180px;
-	margin: 1em 0;
-	float: left;
-	clear: left;
-}
-
-#loginform fieldset {
-	padding: 10px;
-	border: #036 1px solid;
-}
-
-#loginform legend {
-	font-size: 120%;
-	color: #036;
-}
-
-#loginform label {
-}
-
-#loginform input#userName, #loginform input#pswd {
-	margin-right: 10px;
-}
-
-#loginform p {
-	padding: 1em 0 0 0;
-	text-align: right;
-}
-
-#loginform a {
-	color: #036;
-}
-
-#loginform a:hover {	
-	color: #F00;
-}
-
-
-
-/* SECTION:FORMS */
 
 form label {
 	cursor: pointer;
@@ -402,154 +55,286 @@ form label {
 fieldset {
 	border: none;
 }
-form ul {
-	list-style: none;
+
+input, select, textarea {
+	font-size: 100%;
 }
 
-form ul li {
-	margin: 0 0 5px 0;
+.hide {
+	display: none;
 }
 
-form ul.list {
-	list-style-type: disc;
+.mini {
+	font-size: 80%;
 }
 
-#formcontainer{
-	background-color: #fff; 
+/* Links should ALWAYS be unvisited */
+a {
+	color: #039;
+	text-decoration: underline;
+	
 }
 
-#formset	{ 
-	background-color: #DEE3E7; 
-	padding: 5px 5px 5px 5px; 
-	border: 1px #98AAB1 solid;
+a:hover {
+	color: #C00;
+	text-decoration: none;
+	background-color: #FFC;
 }
 
-#formset fieldset{ 
-	padding: 15px 15px 15px 15px; 
-	border: 1px #006699 solid; 
-	background:#EFEFEF;
-	font-size:100%;
+/* Now to layout elements... */
+
+div#container {
 }
 
-#formset legend{ 
-	background: #0E72A4; 
+div#header {
+	border-bottom: #069 1px solid;
+	padding: 0 1em;
+	height: 70px;
+	position: relative;
+	background: url(img/sahana_logo.png) #6181CA no-repeat left top;	
+}
+
+div#header h1 {
+	display:none;
+}
+
+#language form{	
+	position: absolute;
+	top: 40px;
+	width:120px;
+	right:0%;
+	height: 30px;
+}
+
+#language select{
 	color:#fff;
-	border: #26a solid 1px; 
-	padding: 2px 10px;
-	font-size:120%;
+	border: 1px solid #6181CA;
+	background:#6181CA;
+	font-size:10px;
 }
 
-#formset label { 
-	width: 250px; 
-	/*height:0px;*/
-	float: left; 
-	text-align: left; 
-	margin: 0px 10px 10px 10px; 
-	clear: both;
+#language label{
+	display:none;
 }
 
-#formset label.inline {
-	margin: 0;
-	height: auto;
-	display: inline;
-	float: none;
+
+div#wrapper {
+	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
 }
 
-#formset label#txtarea, value#txtarea{ 
-	height: 50px;
+div#content {
+	margin: 0 0 0 200px;
+	padding: 1em;
 }
 
-#formset value{ 
+p#skip {
+	display: none;
+}
+
+div#menuwrap, 
+div#modmenuwrap {
+}
+
+div#menuwrap h2, 
+div#modmenuwrap h2 {
+	margin: 1em 0 0.5em 0;
+	padding: 0 0 0 5px;
+	font-size: 120%;
+	text-transform: uppercase;
+	text-align: left;
+}
+
+div#menuwrap h2 {
+	color: #555;
+}
+
+div#modmenuwrap h2 {
+	color: #069;
+}
+
+div#menuwrap { 
 	width: 200px; 
 	float: left; 
-	background: #feb; 
-	/*background: #fff; */
-	border: #26a solid 1px; 
-	padding: 1px 5px 1px;
+	clear: left; 
 }
 
-#formset input,#formset select{ 
-	margin: 0px 10px 10px 10px; 
-	font-size:10px;
+div#menuwrap ul
+{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	width: 100%;
 }
 
-#formset textarea{
-	margin: 0px 10px 10px 10px;
-	font-size:10px;
-	font-family:sans-serif;
+div#menuwrap li
+{
+	margin: 0px;
+	padding: 0px;
+	line-height: 20px;
 }
 
-#formset input.inline {
-	margin: 0 10px;
+div#menuwrap ul li a
+{
+	display: block;
+	width: 190px;
+	padding-left: 10px;
+	background-color: #555;
+	font-size: 0.9em;
+	border-top: #666 1px solid;
+	border-bottom: #444 1px solid;
 }
 
-#formset a:hover { 
-	color: #F00;
+div#menuwrap ul li a:link, 
+div#menuwrap ul li a:visited
+{
+	color: #EEE;
+	text-decoration: none;
 }
 
-#formset table{ 
-	border: #aaa solid 1px; 
-	font-size: 10px;
+div#menuwrap ul li a:hover
+{
+	color: #FFF;
+	background-color: #333;
+	border-top: #222 1px solid;
+	border-bottom: #444 1px solid;
 }
 
-#formset tr#head{ 
-	text-align: center; 
-	background: #aaf
+div#menuwrap ul ul li a
+{
+	display: block;
+	padding-left: 20px;
+	width: 180px;
+	background-color: #777;
+	font-size: 0.85em;
 }
 
-#formset value#small{ 
-	width: 80px; 
-	border: #aaa solid 1px; 
-	padding: 1px 1px 1px 1px;
+div#menuwrap ul ul li a:link, 
+div#menuwrap ul ul li a:visited
+{
+	border-top: #888 1px solid;
+	border-bottom: #666 1px solid;
 }
 
-#formset value#med{ 
-	width: 100px; 
-	border: #aaa solid 1px; 
-	padding: 1px 1px 1px 1px;
+div#menuwrap ul ul li a:hover
+{
+	background-color: #666;
+	border-top: #555 1px solid;
+	border-bottom: #777 1px solid;
 }
 
-#formset value#big{ 
-	width: 165px; 
-	border: #aaa solid 1px; 
-	padding: 1px 1px 1px 1px;
+/* selected states  */
+
+div#modmenuwrap { 
+	width: 200px; 
+	float: left; 
+	clear: left; 
 }
 
-#formset a#table{ 
-	border: #ccc dotted 1px; 
-	font-size: 70%; 
-	color: #d33; 
-	padding: 1px 1px 1px 1px;
+div#modmenuwrap ul
+{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	width: 100%;
+}
+
+div#modmenuwrap li
+{
+	margin: 0px;
+	padding: 0px;
+	line-height: 20px;
+}
+
+div#modmenuwrap ul li a
+{
+	display: block;
+	width: 190px;
+	padding-left: 10px;
+	background-color: #069;
+	font-size: 0.9em;
+	border-top: #07A 1px solid;
+	border-bottom: #058 1px solid;
+}
+
+div#modmenuwrap ul li a:link, 
+div#modmenuwrap ul li a:visited
+{
+	color: #EEE;
+	text-decoration: none;
+}
+
+div#modmenuwrap ul li a:hover
+{
+	color: #FFF;
+	background-color: #036;
+	border-top: #025 1px solid;
+	border-bottom: #047 1px solid;
+}
+
+div#modmenuwrap ul ul li a
+{
+	display: block;
+	padding-left: 20px;
+	width: 180px;
+	background-color: #07A;
+	font-size: 0.85em;
+}
+
+div#modmenuwrap ul ul li a:link, 
+div#modmenuwrap ul ul li a:visited
+{
+	border-top: #08B 1px solid;
+	border-bottom: #069 1px solid;
+}
+
+div#modmenuwrap ul ul li a:hover
+{
+	background-color: #069;
+	border-top: #058 1px solid;
+	border-bottom: #07A 1px solid;
 }
 
 
-/* SECTION:ERROR */
-
-#error {
-    margin: 0 0 10px 0;
-    padding: 5px 10px 5px 35px;
-    border: #FC6 1px solid;
-    background: url(img/oops.png) #FFC no-repeat 5px 5px;
+div#loginform {
+	padding: 0 10px;
+	width: 100px;
+	margin-top: 1em;
+	margin-bottom:6.2em;
+	float: left;
+	clear: left;
 }
 
-#error p {
-    margin: 0;
+div#loginform form fieldset {
+	padding: 10px;
+	border-color: #DED;
+	border-width: 2px;
+	border-style: groove;
 }
 
-#error ul {
-    margin: auto;
-    margin-bottom: 0.5em;
-    list-style: disc;
+div#loginform form legend {
+	font-size: 120%;
+	color: #555;
 }
 
-#error p em {
-    color: #C00;
-    font-style: normal;
-    font-weight: bold;
+div#loginform form label {
 }
 
-/* SECTION:HOME 
-   Module Home page specific styling */
+div#loginform form input#userName, 
+div#loginform input#pswd {
+	margin-right: 10px;
+	width:140px;
+}
+
+
+div#content h1,div#content h2 ,div#contenth3 ,div#content h4{
+	color:#069;
+	font-size:15px;
+	font-weight:bolder;
+	background:#F3F6FF;
+	padding:3px 3px 3px 3px;
+	border:1px #C6D1F5 solid;
+	margin-bottom:10px;
+}
 
 #home ul{
 	/*margin-left: 200px;*/
@@ -558,27 +343,21 @@ form ul.list {
 }
 
 #home{
-	background-color: #DEE3E7; 
-	border: 1px #98AAB1 solid;
+	border: 10px #fff solid;
 }
 	
 #home p{
-	text-align:top;
+	text-align:center;
 /*	padding-left:200px;*/
-  padding: 10px;
-	padding-top:10px;
-	padding-bottom:10px;
-	padding-right:10px;
+	padding: 10px 10px 10px 10px;
 	font-size:125%;
 	text-align:justify;
 	line-height:1.25;
 }
 
 #home h2{
+	font-size:16px;
 	text-align:center;
-	padding-top:10px;
-/*	padding-left:200px;
-	padding-right:10px;*/
 }
 
 #home_recent{
@@ -590,33 +369,144 @@ form ul.list {
 	padding: 25px 5px 5px 5px; 
 }
 
-/* SECTION:RESULT 
-   To list the results of a query 
+/* Forms markup */
+
+div#formcontainer form {
+	padding: 5px;
+	background-color: #f8f8f8;
+	border-top: #EEE 2px solid;
+	border-right: #CCC 2px solid;
+	border-bottom: #CCC 2px solid;
+	border-left: #EEE 2px solid;
+}
+
+div#formcontainer fieldset {
+	padding: 5px;
+	background-color: #FbFbFb;
+	border-top: #EEE 2px solid;
+	border-right: #CCC 2px solid;
+	border-bottom: #CCC 2px solid;
+	border-left: #EEE 2px solid;
+}
+
+div#formcontainer fieldset p#legend {
+	margin-bottom: 1em;
+}
+
+div#formcontainer fieldset p#legend em {
+	color: #C00;
+	font-style: normal;
+}
+
+
+#formset input,#formset select{ 
+	margin: 0px 10px 10px 10px;
+	max-width:50%;
+}
+
+div#formcontainer legend{
+	font-weight: bold;
+	color: #666;
+}
+
+div#formcontainer fieldset form p  {
+	margin: 0;
+}
+
+div#formcontainer fieldset {
+	margin: 0 0 1em 0;
+	padding: 0.5em;
+	border: #DDD 1px solid;
+}
+
+div#formcontainer fieldset form fieldset div {
+	padding: 0.25em 0;
+}
+
+div#formcontainer fieldset label,
+div#formcontainer fieldset span.label {
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+	width: 15em;
+	min-height:1em;
+	display: block;
+	float: left;
+	text-align: right;
+	position: relative;
+}
+
+div#formcontainer fieldset label.error, 
+div#formcontainer fieldset span.error {
+	color: #C00;
+}
+
+div#formcontainer fieldset label em, 
+div#formcontainer fieldset span.label em {
+	position: absolute;
+	right: 0;
+	font-size: 120%;
+	font-style: normal;
+	color: #C00;
+}
+
+div#formcontainer fieldset input.error {
+	border-color: #C00;
+	background-color: #FEF;
+}
+
+div#formcontainer fieldset input:focus,
+div#formcontainer fieldset input.error:focus,
+div#formcontainer fieldset textarea:focus {
+	background-color: #FFC;
+	border-color: #FC6;
+}
+
+/*div#formset div ul {
+	margin: 1.25em 0 1em 10em;
+	list-style: none;
+}
 */
-
-#parent{
-	margin-left:15px;
+#formset textarea{
+	margin: 0px 10px 10px 10px;
+	font-family:sans-serif;
+	width:50%;
 }
 
-
-#paging_nav ul{
-       padding: 3px 0;
-}
-#paging_nav ul li {
-      display : inline;
+div#formcontainer fieldset div ul li {
+	float: none;
 }
 
+div#formcontainer fieldset div.controlset label, div#formset fieldset div.controlset input {
+	display: inline;
+	float: none;
+}
 
+div#formcontainer  fieldset div.controlset div {
+	margin-left: 11em;
+}
+
+div#formcontainer fieldset div.buttonrow {
+	margin-left: 12em;
+}
+
+thead td{
+	text-align:center;
+	padding:.25em .25em .25em .25em;
+	background: #555; 
+	color:#fff;
+	font-size:100%;
+}
+
+/* result styles */
 #result{
-background-color: #DEE3E7; 
-border: 1px #98AAB1 solid;
+background-color: #eee;
 }
 
 #result_msg{
-	background-color: #DEE3E7; 
+	background-color: #eee; 
 	text-align:center;
 	padding: 5px 5px 15px 5px; 
-	border: 3px #98AAB1 solid;
+	border: 3px #eee solid;
 }
 
 #result img{
@@ -648,13 +538,11 @@ border: 1px #98AAB1 solid;
 	width:100%;
 }
 
-#result thead td{
+#result table thead td{
 	text-align:center;
 	padding:.25em .25em .25em .25em;
-	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
-	color:#fff;
-	border: #26a solid 1px; 
+	background: #777;
+	color:#fff;	
 	font-size:100%;
 }
 
@@ -663,79 +551,49 @@ border: 1px #98AAB1 solid;
 	padding:.1em .1em .1em .1em;
 	font-size:90%;
 	color:#000;
-	background:#EFEFEF;
-}
-/* SECTION:MODIFIERS */
-
-/* Clear floats without structural markup */
-.clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
-    visibility: hidden;
-}
-
-/* Hides from IE-mac \*/
-* html .clearfix {height: 1%;}
-/* End hide from IE-mac */
-
-.hide {
-	display: none;
-}
-
-.mini {
-	font-size: 80%;
-}
-
-/* SECTION: MISC */
-#note{
-	background-color: #DEE3E7; 
-	text-align:center;
-	padding: 5px 5px 15px 5px; 
-	border: 3px #98AAB1 solid;
-}
-
-div#toggle_reporter
-{
-display: none;
+	background:#ddd;
 }
 
 #note{
-	background-color: #DEE3E7; 
+	background-color: #ccc; 
 	text-align:center;
-	padding: 5px 5px 15px 5px; 
-	border: 3px #98AAB1 solid;
-}
-
-/* SECTION:DEPRECATED */
-
-#display{
-	position:relative;
-	margin-top:150px;
 	padding: 5px 5px 5px 5px; 
-}
-
-#save{
-	font-size:150%;
-	color:#0E72A4;
-	padding: 15px 15px 15px 15px;
-}
-
-#right{
-	width:30%;
-	float:left;
-	background:white;
-	padding-bottom: 1em;
-	border:2px white solid;
-}
-
-#right #heading{
-	width:100%;
-	color:#fff;
-	float:left;
-	background:#003366;
-	font-size:120%;
+	margin-bottom:10px;
 }
 
 
+/* error styles */
+div#error {
+	margin: 0 0 10px 0;
+	padding: 5px 10px 5px 35px;
+	border: #FC6 1px solid;
+	background: url(img/oops.png) #FFC no-repeat 5px 5px;
+}
+
+div#error p {
+	margin: 0;
+}
+
+div#error ul {
+	margin: auto;
+	margin-bottom: 0.5em;
+	list-style: disc;
+}
+
+div#error p em {
+	color: #C00;
+	font-style: normal;
+	text-decoration:blink;
+	font-weight: bold;
+}
+
+
+/* footer style */
+div#footer {
+	margin: 0;
+	padding: 10px;
+	clear: both;
+	color: #666;
+	background-color: #6181CA;
+	border-top: #058 1px solid;
+}
