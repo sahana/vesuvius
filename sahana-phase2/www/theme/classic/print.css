@@ -1,0 +1,148 @@
+/* 
+Sahana - Default Theme - Print Stylesheet 
+-----------------------------------------------------------------------------------
+J. Priyanga Fonseka - jo@opensource.lk 
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- */
+
+/* HTML BODY */
+
+body{
+	font: 0.8em sans-serif;
+}
+
+/* Removing unwanted items */
+
+container{
+
+}
+
+wrapper{
+
+}
+
+#header{
+	display:none;
+}
+
+#loginform{
+	display:none;
+}
+
+#skip{
+	display:none;
+}
+#modmenuwrap{
+	display:none;
+}
+#menuwrap{
+	display:none;
+}
+
+#content{
+	top:0;
+}
+
+#error{
+	display:none;
+}
+
+/* Form styles */
+
+#formcontainer input[type="text"] {  
+	color: black; 
+	border-width: 0; 
+	border: 1px solid #000;
+	margin: 0px 10px 10px 10px; 
+} 
+
+#formcontainer textArea { 
+	color: black; 
+	width:300px;
+	border-width: 0; 
+	border: 1px solid #000;
+	margin: 0px 10px 10px 10px; 
+} 
+
+/* Removing the buttons */
+
+#formcontainer input[type="submit"]{
+	display:none;
+}
+
+#formcontainer select{
+	width:0;
+	right-margin:200pt; 
+	visibility:hidden;
+}
+
+#formset label { 
+	width: 30%; 	
+	float: left; 
+	text-align: right;
+	margin: 0px 10px 10px 10px; 
+	clear: both;
+}
+
+/* result tables */
+
+#result{
+
+}
+
+#result_msg{
+	background-color: #DEE3E7; 
+	text-align:center;
+	padding: 5px 5px 15px 5px; 
+	border: 3px #98AAB1 solid;
+}
+
+#result img{
+	position:relative;
+	padding: 5px 5px 15px 5px;
+}
+
+#result p{
+	font-size:115%;
+	line-height:1.3;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#result ul{
+	font-size:150%;
+	margin-left:250px;
+	margin-top:-200px;
+	padding-bottom:50px;
+}
+
+#result ul li{
+	line-height:1.2;
+}
+
+
+#result table{
+	background:white;
+	border-color:black;
+	border:1px solid;
+	width:100%;
+	padding:2pt;
+	border-collapse: collapse
+}
+
+#result td{
+	text-align:center; 
+	font-size:100%;
+	border:1px solid black;
+}
+
+#result hr{
+	border: 1px solid #000;
+}
+
+/* No need to display the footer */
+
+#footer{
+	display:none;
+}
