@@ -176,10 +176,8 @@ function _shn_or_report_org_sector()
             <td><?=_("Services Offered")?></td>
             <td><?=_("Organization Type")?></td>
             <td><?=_("Country of Origin")?></td>
-            <td><?=_("Contact Address")?></td>
+            <td><?=_("Address")?></td>
             <td><?=_("Contact Number")?></td>
-            <td><?=_("Mobile Number")?></td>
-            <td><?=_("Contact Email")?></td>
             <td><?=_("Man Power")?></td>
             <td><?=_("Equipment")?></td>
             <td><?=_("Facilities")?></td>
