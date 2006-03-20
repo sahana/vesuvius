@@ -549,3 +549,16 @@ CREATE TABLE rms_pledge (
     PRIMARY KEY (plg_id),
     FOREIGN KEY (user_id) REFERENCES person_uuid (p_uuid)
 );
+
+CREATE TABLE gis_location (
+  poc_uuid bigint NOT NULL,
+	location_id varchar(20) default NULL,
+	opt_gis_mod varchar(30) default NULL,
+	map_northing float NOT NULL,
+	map_easting float NOT NULL,
+	map_projection varchar(20) default NULL,
+	opt_gis_marker varchar(20) default NULL,
+	gis_uid bigint NOT NULL,
+	PRIMARY KEY  (gis_uid)
+);
+

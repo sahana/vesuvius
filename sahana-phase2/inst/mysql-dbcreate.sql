@@ -515,5 +515,21 @@ CREATE TABLE sync_instance (
     PRIMARY KEY(uuid_prefix)
 );
 
+/** 
+ * Person Image
+ * Modules : Framework, sync
+ * Created : 20th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 20th-Mar-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS person_image;
+CREATE TABLE person_image(
+    image_id BIGINT NOT NULL AUTO_INCREMENT,
+    p_uuid BIGINT NOT NULL, 
+    image BLOB NOT NULL,
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
+    PRIMARY KEY (image_id)
+);
+
     
- 
+    
