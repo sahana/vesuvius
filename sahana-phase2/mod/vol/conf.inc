@@ -16,7 +16,7 @@
 
 // provide the nice display name for the OR  module
 global $conf;
-$conf['mod_vol_name'] = _("Volunteer Registry");
+$conf['mod_vol_name'] = _("Volunteer Coordination System");
 $conf['mod_vol_start_loc'] = 1;
 $conf['mod_vol_loc_level_start']=1;
 $conf['mod_vol_loc_level_end']=3;
