@@ -122,6 +122,8 @@ function shn_acl_generic_module_status($module_list=NULL)
     	$module_list=array();
     	array_push($module_list,"or");
     	array_push($module_list,"mpr");
+    	array_push($module_list,"rms");
+    	array_push($module_list,"cr");
     }
     ?>
 <h3 align="center"> Other Modules </h3>
