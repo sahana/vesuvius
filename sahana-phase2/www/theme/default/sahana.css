@@ -81,6 +81,23 @@ a:hover {
 	background-color: #FFC;
 }
 
+table {
+	border-collapse: collapse
+}
+
+thead td{
+	text-align:center;
+	padding:.25em .25em .25em .25em;
+	background: #555; 
+	color:#fff;
+	font-size:100%;
+}
+
+td{
+	padding:5px 5px 0 5px;
+	border:1px solid #ccc;	
+}
+
 /* Now to layout elements... */
 
 div#container {
@@ -489,14 +506,6 @@ div#formcontainer fieldset div.buttonrow {
 	margin-left: 12em;
 }
 
-thead td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	background: #555; 
-	color:#fff;
-	font-size:100%;
-}
-
 /* result styles */
 #result{
 background-color: #eee;
@@ -536,6 +545,7 @@ background-color: #eee;
 #result table{
 	background:white;
 	width:100%;
+	border-collapse:separate;
 }
 
 #result table thead td{
@@ -544,6 +554,7 @@ background-color: #eee;
 	background: #777;
 	color:#fff;	
 	font-size:100%;
+	border:none;
 }
 
 #result tr td{
@@ -552,10 +563,12 @@ background-color: #eee;
 	font-size:90%;
 	color:#000;
 	background:#ddd;
+	border:none;
 }
 
 #result tr:hover td{
 	background:#ccc;
+	border:none;
 }
 
 #note{
