@@ -637,7 +637,7 @@ function shn_acl_check_perms_action($user,$action){
 	// here if the userid is equal to the root id specified
 	// in the conf return true, but by default (unless conf is edited)
 	// the default root is root
-    if($user==shn_acl_get_root_id()){return true;}
+    if($user==shn_acl_get_root_id()){return false;}
     $acl=new SahanaACL(NULL);
     $res=$acl->_shn_check_permission('permissions','execute','users',$user,'actions',$action);
     return $res;
@@ -721,10 +721,10 @@ function shn_check_perms_table_field($user,$table,$field,$perm_type){
 function shn_acl_is_base_installed(){
     global $global;
     $db=$global["db"];
-    $q="select value from config where module_id='admin' and confkey='acl_base'";
+    $q="select value from config where module_id='admin' and confkey='acl_base' and value='installed'";
     $res=$db->Execute($q);
-    if(!$res->EOF && $res->fields[0]=='installed'){
-        return true;
+    if($res!=NULL && !$res->EOF){
+    	return true;
     }else {
         return false;
     }
