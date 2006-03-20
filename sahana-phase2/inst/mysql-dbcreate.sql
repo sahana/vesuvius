@@ -307,6 +307,7 @@ CREATE TABLE org_main(
 	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
     man_power VARCHAR(100),
+equipment VARCHAR(100),
 	resources TEXT,
     privacy INT(1) DEFAULT 1,
 	PRIMARY KEY (o_uuid)
