@@ -101,9 +101,8 @@ div#header h1 {
 #language form{	
 	position: absolute;
 	top: 40px;
-	width:120px;
-	right:0%;
-	height: 30px;
+	max-width:200px;
+	right:12px;
 }
 
 #language select{
@@ -111,6 +110,7 @@ div#header h1 {
 	border: 1px solid #6181CA;
 	background:#6181CA;
 	font-size:10px;
+	float:right;
 }
 
 #language label{
