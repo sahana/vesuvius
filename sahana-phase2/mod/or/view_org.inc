@@ -29,13 +29,11 @@ function _shn_or_viewform_allorg($no=NULL)
             <td><?=_("Services Provided")?></td>
             <td><?=_("Organization Type")?></td>
             <td><?=_("Country of Origin")?></td>
-            <td><?=_("Contact Address")?></td>
-            <td><?=_("Contact Number")?></td>
-            <td><?=_("Contact Mobile")?></td>
-            <td><?=_("Contact Email")?></td>
+            <td><?=_("Address")?></td>
+            <td><?=_("Contact Numbers")?></td>
             <td><?=_("Man Power")?></td>
             <td><?=_("Equipment")?></td>
-            <td><?=_("Other Facilities")?></td>
+            <td><?=_("Other <br /> Facilities")?></td>
         </thead>
         <tbody>
 <?php
@@ -120,10 +118,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     </td>
     <td><?php echo $org_type?></td>
     <td><?php echo $res_bsd_country->fields[0]?></td>
-    <td><?php echo $res_addr->fields[0]?></td>
-    <td><?php echo $res_phone->fields[0]?></td>
-    <td><?php echo $res_mobile->fields[0]?></td>
-    <td><?php echo $res_email->fields[0]?></td>
+    <td><?php echo $res_addr->fields[0]?><br /><?php echo $res_email->fields[0]?></td>
+    <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
     <td><?php echo $res_org->fields[5]?></td>
