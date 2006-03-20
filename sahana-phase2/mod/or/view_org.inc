@@ -118,7 +118,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     </td>
     <td><?php echo $org_type?></td>
     <td><?php echo $res_bsd_country->fields[0]?></td>
-    <td><?php echo $res_addr->fields[0]?><br /><?php echo $res_email->fields[0]?></td>
+    <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
     <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
