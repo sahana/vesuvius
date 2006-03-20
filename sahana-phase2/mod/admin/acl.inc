@@ -255,18 +255,29 @@ for ($i=0;$i<count($perms)-1;$i++){
 
 function _shn_admin_acl_mod_install(){
 	global $global;
+	$global['approot']."/inc/lib_errors.inc";
 	$db=$global["db"];
-   $module=$_GET{"sel"};
-   if($_GET{"script"}==true){
-   		$module_function='shn_'.$module.'_adm_acl_install()';
-   		if (!function_exists($module_function)) {
-           echo  _("Sorry ! It seems you do not have an ACL script");
+   	$module=$_GET{"sel"};
+   	if($_GET{"script"}==true){
+   		$module_function='shn_'.$module.'_adm_acl_install';
+   		 // include the correct module file based on action and module
+    	$module_file = $global['approot'].'/mod/'.$module.'/admin.inc';
+    	if (file_exists($module_file)) {
+	    	include_once($module_file);
+	    	if (function_exists($module_function)) {
+        		$module_function();
+        		$q="insert into config values('{$module}','acl_enabled',true)";
+				$db->Execute($q);
+        		return;
+        	}else {
+        		echo  _("Sorry ! It seems you do not have an ACL script");
+            	return;
+        	}
+    	} else {
+        	echo  _("Sorry ! It seems you do not have an ACL script");
             return;
-        }
-        $module_function();
-        $q="insert into config values('{$module}','acl_enabled',true)";
-		$db->Execute($q);
-        return; 
+   		}
+   	   
    }
    
     $acl=new SahanaACL(NULL);
