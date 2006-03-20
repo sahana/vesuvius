@@ -32,6 +32,7 @@ INSERT INTO field_options VALUES ('opt_contact_type','curr','Current Phone');
 INSERT INTO field_options VALUES ('opt_contact_type','cmob','Current Mobile');
 INSERT INTO field_options VALUES ('opt_contact_type','emai','Email address');
 INSERT INTO field_options VALUES ('opt_contact_type','fax','Fax Number');
+INSERT INTO field_options VALUES ('opt_contact_type','web','Website');
 INSERT INTO field_options VALUES ('opt_contact_type','inst','Instant Messenger');
 
 -- PERSON LOCATION TYPES 
@@ -53,14 +54,14 @@ INSERT INTO field_options VALUES ('opt_country','lanka','Sri Lanka');
 
 -- RACE VALUES 
 INSERT INTO field_options VALUES ('opt_race','unk','Unknown');
-INSERT INTO field_options VALUES ('opt_race','sing1','Sinhalese');
-INSERT INTO field_options VALUES ('opt_race','tamil','Tamil');
+INSERT INTO field_options VALUES ('opt_race','filip','Filipino');
 INSERT INTO field_options VALUES ('opt_race','other','Other');
 
 -- RELIGION VALUES 
 INSERT INTO field_options VALUES ('opt_religion','unk','Unknown');
 INSERT INTO field_options VALUES ('opt_religion','bud','Buddhist');
 INSERT INTO field_options VALUES ('opt_religion','chr','Christian');
+INSERT INTO field_options VALUES ('opt_religion','mus','Muslim');
 INSERT INTO field_options VALUES ('opt_religion','oth','Other');
 
 -- MARITIAL STATUS VALUES 
@@ -101,50 +102,42 @@ INSERT INTO field_options VALUES ('opt_hair_color','oth','Other');
 -- CAMP TYPE VALUES 
 INSERT INTO field_options VALUES ('opt_camp_type','ngo','NGO Run Camp');
 INSERT INTO field_options VALUES ('opt_camp_type','tmp','Temporary Shelter');
-INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Run Camp');
+INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Evacuation Center');
 
 -- CAMP SERVICES 
-INSERT INTO field_options VALUES ('opt_camp_service','mdc','Medical Facilities');
+INSERT INTO field_options VALUES ('opt_camp_service','mdc','Administrative Facilities');
 INSERT INTO field_options VALUES ('opt_camp_service','snt','Sanitation Facilities');
 INSERT INTO field_options VALUES ('opt_camp_service','wat','Water Facilities');
+INSERT INTO field_options VALUES ('opt_camp_service','mdc','Medical Facilities');
 
 -- ORGANIZATION TYPES 
 INSERT INTO field_options VALUES('opt_org_type','gov','Government');
 INSERT INTO field_options VALUES('opt_org_type','priv','Private');
-INSERT INTO field_options VALUES('opt_org_type','multi','Multinational');
-INSERT INTO field_options VALUES('opt_org_type','bilat','Bilateral');
+INSERT INTO field_options VALUES('opt_org_type','ngo','NGO');
+INSERT INTO field_options VALUES('opt_org_type','ingo','International NGO');
+INSERT INTO field_options VALUES('opt_org_type','mngo','Multinational NGO');
 
 -- ORGANIZATION SECTOR VALUES
-INSERT INTO field_options VALUES('opt_sector_type','agri','Agriculture');
-INSERT INTO field_options VALUES('opt_sector_type','adev','Area Development');
 INSERT INTO field_options VALUES('opt_sector_type','comm','Communications');
-INSERT INTO field_options VALUES('opt_sector_type','dprep','Disaster Preparation');
-INSERT INTO field_options VALUES('opt_sector_type','ene','Energy');
-INSERT INTO field_options VALUES('opt_sector_type','hlth','Health');
+INSERT INTO field_options VALUES('opt_sector_type','dana','DANA');
+INSERT INTO field_options VALUES('opt_sector_type','ems','EMS');
+INSERT INTO field_options VALUES('opt_sector_type','fs','FS');
+INSERT INTO field_options VALUES('opt_sector_type','rel','Relief');
+INSERT INTO field_options VALUES('opt_sector_type','rehab','Rehabilitation');
+INSERT INTO field_options VALUES('opt_sector_type','sar','SAR');
 
 -- LOCATION TYPE VALUES
 INSERT INTO field_options VALUES ('opt_location_type','1','Country');
-INSERT INTO field_options VALUES ('opt_location_type','2','Province');
-INSERT INTO field_options VALUES ('opt_location_type','3','District');
-INSERT INTO field_options VALUES ('opt_location_type','4','Village');
+INSERT INTO field_options VALUES ('opt_location_type','2','District');
+INSERT INTO field_options VALUES ('opt_location_type','3','City/Village');
 
 -- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
-INSERT INTO location VALUES (1,NULL,'1','1','Sri Lanka','lk','Sri Lanka added as a country');
-INSERT INTO location VALUES (2,NULL,'2','1','Pakistan','pk','Pakistan added as a country');
-INSERT INTO location VALUES (3,NULL,'3','1','United Kingdom','uk','United Kingdom added as a country');
-INSERT INTO location VALUES (4,NULL,'4','1','United States','us','United States added as a country');
-INSERT INTO location VALUES (5,1,'1.1','2','Western','wes','Western  added as a province in Sri Lanka');
-INSERT INTO location VALUES (6,5,'1.1.1','3','Colombo','cmb','Colombo added as a district in Srilanka Western Province');
-INSERT INTO location VALUES (7,6,'1.1.1.1','4','Pettah','pet','pettah added as a village in Srilanka Western Province');
-INSERT INTO location VALUES (8,3,'3.1','2','East Anagalia','ea','');
-INSERT INTO location VALUES (9,8,'3.1.1','3','Suffolk','suf','');
-INSERT INTO location VALUES (10,9,'3.1.1.1','4','ipswich','ip','');
-INSERT INTO location VALUES (11,1,'1.1','2','Eastern','est','Eastern  added as a province in Sri Lanka');
-INSERT INTO location VALUES (12,1,'1.1','2','south','sou','South  added as a province in Sri Lanka');
-INSERT INTO location VALUES (13,5,'1.1.2','3','Kalutara','klt','Kalutara added as a district in Srilanka Western Province');
-INSERT INTO location VALUES (14,6,'1.1.1.2','4','dehiwala','dwh','dehiwala added as a village in Srilanka Western Province');
-INSERT INTO location VALUES (15,13,'1.1.2.1','4','panadura','pan','panadura added as a village in Srilanka Western Province');
-INSERT INTO location (location_id,name) VALUES (16,'unknown');
+INSERT INTO location VALUES (1,0,'1','1','Sri Lanka','lk','Sri Lanka added as a country');
+INSERT INTO location VALUES (2,1,'1.1','2','Colombo','cmb','Colombo added as a district in Srilanka ');
+INSERT INTO location VALUES (3,1,'1.2','2','Kalutara','klt','Colombo added as a district in Srilanka ');
+INSERT INTO location VALUES (4,2,'1.1.1','3','Pettah','pet','pettah added as a village');
+INSERT INTO location VALUES (5,2,'1.1.2','3','dehiwala','dwh','dehiwala added as a village ');
+INSERT INTO location VALUES (6,3,'1.2.1','3','panadura','pan','Panadura added as a village');
 
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
@@ -154,7 +147,9 @@ INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
-INSERT INTO config VALUES ( 'or', 'loc_start', '0');
+INSERT INTO config VALUES ( 'or', 'loc_start', NULL);
+INSERT INTO config VALUES ( 'or', 'loc_range_start', 1);
+INSERT INTO config VALUES ( 'or', 'loc_range_end', 3);
 INSERT INTO config VALUES('admin','acl','false');
 INSERT INTO config VALUES('admin','acl_base','no');
 
