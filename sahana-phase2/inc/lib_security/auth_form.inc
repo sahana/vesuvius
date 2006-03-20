@@ -23,6 +23,7 @@
     include_once $global['approot']. 'inc/lib_security/authenticate.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
+    include_once "acl_form_lib.inc";
    
 /**
  * Generates a form to delete a user
@@ -87,10 +88,10 @@ shn_admin_del_user(false);
  * @access public
  */
 
-function shn_auth_form_user_add($error=false)
+function shn_auth_form_user_add($title="Add an User",$header=null,$error=false)
 {
 ?>
-<center><h2>Add an User</h2></center>
+<center><h2><? echo $title ?></h2></center>
 <h3>Fields marked with * are required (entry is compulsory)</h3>
 <?php
     if($error)
@@ -98,15 +99,17 @@ function shn_auth_form_user_add($error=false)
 ?>               
 <div id="formcontainer">
 <?php
+if($header==NULL){
    	$header=array('method'=>'POST','action'=>'index.php?mod=admin&act=add_user_cr','id'=>'formset');
+}
 	shn_form_open($header,false);
-$org=shn_user_orgs();
-$or_arr=array();
-array_push(
-	$or_arr,
-	$org
+	$org=shn_user_orgs();
+	$or_arr=array();
+	array_push(
+		$or_arr,
+		$org
 	);
-shn_form_add_component_list($or_arr,$section=true,$legend='Add a User for the Organization',$return=false,$default_val_req=false);
+	shn_form_add_component_list($or_arr,$section=true,$legend='Add a User for the Organization',$return=false,$default_val_req=false);
 
 $login_info = array(    
 			array('desc'=>_("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
@@ -139,8 +142,8 @@ $login_info = array(
 
 function _shn_admin_add_user_cr(){
    global $global;
- $db=$global["db"];
-$VARCHAR=100;
+ 	$db=$global["db"];
+	$VARCHAR=100;
    list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
     
     //for the moment return true
@@ -167,10 +170,10 @@ $VARCHAR=100;
     }else {    
         $org_id=trim($_POST{"org"});
     }
-$pid=shn_add_user($account_name,$user_name,$password,"guest",-1);
-             $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
-                $res=$db->Execute($q);
-shn_admin_add_user($error);
+	$pid=shn_add_user($account_name,$user_name,$password,"user",-1);
+    $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
+    $res=$db->Execute($q);
+    return $error;
 }
 
 /**
