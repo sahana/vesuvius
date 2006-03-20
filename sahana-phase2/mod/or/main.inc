@@ -23,21 +23,22 @@ include_once ("lib_or.inc");
 function shn_or_mainmenu() 
 {
     global $global;
+    global $conf;
     $module = $global['module'];
     $loc=_shn_or_get_start_loc();
     
 ?>
    <div id="modmenuwrap"> 
-        <h2>Organization Registry</h2>
+        <h2><?=_lc($conf['mod_or_name'])?></h2>
             <ul id="modulemenu">
 	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
                 <li><a href="#">Organizations </a></li>
               	    <ul id="modsubmenu">
-                        <li><a href="index.php?mod=or&act=search">Search </a></li>
+                        <li><a href="index.php?mod=<?=$module?>&act=search">Search </a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=reg_org">Register</a></li>
                         <li><a href="index.php?mod=<?=$module?>&act=view_org">View and Edit</a></li>
-			            <li><a href="index.php?mod=or&act=drill_report&id=<?php echo $loc?>">Drill down by Location</a></li>
-    	                <li><a href="index.php?mod=or&act=org_sector"> Organizations by Sector</a></li>
+			            <li><a href="index.php?mod=<?=$module?>&act=drill_report&id=<?php echo $loc?>">Drill down by Location</a></li>
+    	                <li><a href="index.php?mod=<?=$module?>&act=org_sector"> Organizations by Sector</a></li>
                     </ul>
    		        <li><a href="#">Volunteers </a></li>
               	    <ul id="modsubmenu">
@@ -72,10 +73,43 @@ function shn_or_reg_vol_cr(){
     include_once("process_vol.inc");
    _shn_or_reg_vol_cr();
 }
+
+function shn_or_add_user_cr()
+{
+    global $global;
+    include_once $global['approot']."inc/lib_security/auth_form.inc";
+    $error=_shn_admin_add_user_cr();
+    if($error){
+	   	$header=array('method'=>'POST','action'=>'index.php?mod=or&act=add_user_cr','id'=>'formset');
+       	shn_auth_form_user_add("Create an Account for Login",$header,$error);
+    }else {
+    	include_once ("reg_vol.inc");
+		_shn_or_regform_vol();
+    }
+}
+
 function shn_or_view_org_submit(){
     include_once("process_org.inc");
     include_once ("view_org.inc");
+    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     $act=$_POST{"action"};
+    $acl_enabled=shn_acl_get_state("or");
+    $req_act="_shn_or_".$act."_org";
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
+             !$acl_enabled)? true : false;
+    if(!$allow){
+    	?>
+    	<div id="error">
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <ul>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
+        </ul>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
+    	</div> <!-- /error -->
+    	<?
+    	return false;
+    }
     switch ($act) {
         case "edit":
             _shn_or_edit_org();
@@ -107,7 +141,25 @@ function shn_or_view_org()
 function shn_or_view_vol_submit(){
     include_once("process_vol.inc");
     include_once ("view_vol.inc");
+    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     $act=$_POST{"action"};
+    $acl_enabled=shn_acl_get_state("or");
+    $req_act="_shn_or_".$act."_vol";
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
+             !$acl_enabled)? true : false;
+    if(!$allow){
+    	?>
+    	<div id="error">
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <ul>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
+        </ul>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
+    	</div> <!-- /error -->
+    	<?
+    	return false;
+    }
     switch ($act) {
         case "edit":
             _shn_or_edit_vol();

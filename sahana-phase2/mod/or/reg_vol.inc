@@ -47,15 +47,17 @@ function _shn_or_regform_vol($error=false)
     shn_form_text(_("Passport No : "),'pas','size="50"',$extra_opts); 
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
-     // base location
-    $parent=_shn_or_get_start_loc();
-	if($parent==$conf['mod_or_start_loc']){
-  		$location_inf = shn_location('1','4'); 
+ // base location
+    shn_form_fsopen("Base Location");
+   	$parent=_shn_or_get_start_loc();
+   	$range= shn_or_get_loc_range();
+   	if($parent==$conf['mod_or_start_loc']){
+  		$location_inf = shn_location($range); 
     }else {
-        $location_inf = shn_location_parent($parent,'1','4'); 
+        $location_inf = shn_location_parent($parent,$range); 
     }
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
-   shn_form_fsopen("Services Offered");
+    shn_form_fsclose();
+   	shn_form_fsopen("Services Offered");
     _shn_or_display_sector($error);
     shn_form_fsclose();
     shn_form_fsopen("Contact Information");

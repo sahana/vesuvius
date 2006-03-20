@@ -30,6 +30,29 @@ function _shn_or_get_start_loc()
     }
 }
 
+function shn_or_get_loc_range()
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+    $loc=array();
+    $q="select value from config where module_id='or' and confkey='loc_range_start'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["start"]=$conf['mod_or_loc_level_start'];
+    }else {
+    	$loc["start"]=$res->fields[0];
+    }
+    $q="select value from config where module_id='or' and confkey='loc_range_end'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["end"]=$conf['mod_or_loc_level_end'];
+    }else {
+    	$loc["end"]=$res->fields[0];
+    }
+    return $loc;
+}
+
 function _shn_or_action_change_javascript($change)
 {
 ?>
@@ -295,10 +318,11 @@ function _shn_or_display_sector($error=false,$value=NULL)
 {
     if($value!=NULL){
         $extra_opts['value']=$value;
-        $extra_opts['req']=false;
+       // $extra_opts['req']=false;
     }else{
-        $extra_opts['req']=true;
+       // $extra_opts['req']=true;
     }
+    $extra_opts['req']=true;
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 

@@ -24,11 +24,12 @@ function _shn_or_reg_org_cr()
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
     list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    if (is_null($_POST{"4"})){
+    $range= shn_or_get_loc_range();
+    if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=trim($_POST{"4"});
+        $bsd_village=trim($_POST{$range["end"]});
     }
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -188,13 +189,14 @@ function _shn_or_reg_operation_cr()
       $error=false;
     $VARCHAR=100;
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
    
-    if (is_null($_POST{"4"})){
+   	$range= shn_or_get_loc_range();
+    if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=$_POST{"4"};
+        $bsd_village=trim($_POST{$range["end"]});
     }
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
@@ -316,11 +318,12 @@ function _shn_or_edit_org()
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
     list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    if (is_null($_POST{"4"})){
+   	$range= shn_or_get_loc_range();
+    if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=trim($_POST{"4"});
+        $bsd_village=trim($_POST{$range["end"]});
     }
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -389,6 +392,7 @@ function _shn_or_edit_org()
         $equipment=$_POST{"equipment"};
     }
     $resources=$_POST{"resources"};
+    if(!$error){
     $db=$global['db'];
            //no validation done on other fields as they are not unique
             $q="update org_main set name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}' where o_uuid=$org_id";
@@ -415,10 +419,7 @@ function _shn_or_edit_org()
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_web}' where pgoc_uuid=$org_id and opt_contact_type='web'";
             $res=$db->Execute($q);
-            if($error==true){
-		_shn_or_viewform_org($org_id,$error);
-        	return false;
-	    }
+           
   ?>
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully Updated
@@ -426,6 +427,11 @@ function _shn_or_edit_org()
     <br />
 <h2> Organization Registry</h2>
 <?php
+    }
+     if($error==true){
+		_shn_or_viewform_org($org_id,$error);
+        	return false;
+	 }
         _shn_or_viewform_allorg();    
 }
 ?>

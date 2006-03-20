@@ -17,6 +17,7 @@
 function _shn_or_reg_vol_cr()
 {
     global $global;
+    include_once $global['approot']."inc/lib_security/auth_form.inc";
     include_once "reg_vol.inc";
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
@@ -34,13 +35,14 @@ function _shn_or_reg_vol_cr()
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    if (is_null($_POST{"4"})){
+  	$range= shn_or_get_loc_range();
+  	if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=$_POST{"4"};
+        $bsd_village=trim($_POST{$range["end"]});
     }
-    $parents=shn_or_get_parents($bsd_village);
+    $parents=shn_get_parents($bsd_village);
     $bsd_country=$parents[0][0];
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
@@ -101,7 +103,12 @@ function _shn_or_reg_vol_cr()
     if($error!=true){
 ?>
     <div id="result_msg">
-       <?php echo $name?> was succesfully registered
+       <?php echo $name?> was succesfully registered <br /><br />
+       <? 
+       $header=array('method'=>'POST','action'=>'index.php?mod=or&act=add_user_cr','id'=>'formset');
+       shn_auth_form_user_add("Create an Account for Login",$header,false);
+       	return; 
+       	?>
     </div>
     <br />
 <?php
@@ -117,13 +124,14 @@ function _shn_or_edit_vol()
     $VARCHAR=100;
     $error=false;
     $pid=$_POST{"pid"};
-list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
+	list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
     if (!shn_valid_date($_POST{"dob"})){
         $error=true;
         add_error(SHN_ERR_DOB_INCORRECT);
     }else {    
         $dob=$_POST{"dob"};
     }
+    
     list($error,$male)=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
     $job=$_POST{"job"};
     $nic=trim($_POST{"nic"});
@@ -136,11 +144,12 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
     }else {    
         $bsd_country=$_POST{"1"};
     }
-    if (is_null($_POST{"4"})){
+   	$range= shn_or_get_loc_range();
+    if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }else {    
-        $bsd_village=$_POST{"4"};
+        $bsd_village=trim($_POST{$range["end"]});
     }
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
@@ -158,6 +167,7 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
         }
     }
     $contact_web=$_POST{"contact_web"};
+    if(!$error){
     $db=$global['db'];
     $q="update person_uuid set full_name='{$name}' where p_uuid=$pid";
     $res=$db->Execute($q);
@@ -191,10 +201,7 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
     $res=$db->Execute($q);
     $q="update contact set contact_value='{$contact_web}' where pgoc_uuid=$pid and opt_contact_type='web'";
     $res=$db->Execute($q);
-    if($error==true){
-		_shn_or_viewform_vol($pid,$error);
-        	return false;
-	    }
+    
     
 ?>
     <div id="result_msg">
@@ -203,6 +210,11 @@ list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true)
     <br />
 <h2> Volunteer Registry</h2>
 <?php
+    }
+    if($error==true){
+		_shn_or_viewform_vol($pid,$error);
+        return false;
+	}
         _shn_or_viewform_allvol();    
 }
 

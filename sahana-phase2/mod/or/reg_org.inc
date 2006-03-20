@@ -38,21 +38,23 @@ function _shn_or_regform_org($error=false)
     shn_form_text(_("* Organization Name : "),'org_name','size="50"',$extra_opts); 
     shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
-    shn_form_fsopen("Organization Type");
+    shn_form_fsopen("Organization Type *(req)");
     _shn_or_display_org_type($error);
     shn_form_fsclose();
-    shn_form_fsopen("Organization Sector");
+    shn_form_fsopen("Organization Sector *(req)");
     _shn_or_display_sector($error);
     shn_form_fsclose();
-    
-   // base location
+    // base location
+    shn_form_fsopen("Base Location");
    	$parent=_shn_or_get_start_loc();
-	if($parent==$conf['mod_or_start_loc']){
-  		$location_inf = shn_location('1','4'); 
+   	$range= shn_or_get_loc_range();
+   	if($parent==$conf['mod_or_start_loc']){
+  		$location_inf = shn_location($range); 
     }else {
-        $location_inf = shn_location_parent($parent,'1','4'); 
+        $location_inf = shn_location_parent($parent,$range); 
     }
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
+    shn_form_fsclose();
+    //shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
     // Contact infomation
     shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
@@ -102,14 +104,16 @@ function _shn_or_regform_operation($error=false)
     shn_form_fsopen("Organization Sector");
     _shn_or_display_sector($error);
     shn_form_fsclose();
- // base location
+  // base location
+    shn_form_fsopen("Base Location");
    	$parent=_shn_or_get_start_loc();
-	if($parent==$conf['mod_or_start_loc']){
-  		$location_inf = shn_location('1','4'); 
+   	$range= shn_or_get_loc_range();
+   	if($parent==$conf['mod_or_start_loc']){
+  		$location_inf = shn_location($range); 
     }else {
-        $location_inf = shn_location_parent($parent,'1','4'); 
+        $location_inf = shn_location_parent($parent,$range); 
     }
-    shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error); 
+    shn_form_fsclose();
     shn_form_fsopen("Contact Information");
     _shn_or_display_contact_person($error,true,null);
 shn_form_fsclose();

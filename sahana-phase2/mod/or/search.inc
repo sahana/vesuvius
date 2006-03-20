@@ -20,6 +20,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 function _shn_or_form_search()
 {
     global $global;
+    global $conf;
     $db=$global["db"];
 ?>
 <h2><?= _("Search for Organizations by Service and Location")?></h2>
@@ -33,14 +34,23 @@ function _shn_or_form_search()
     shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,'dummy');
     shn_form_fsclose();
-    shn_form_fsopen(_("Based Location"));
+    shn_form_fsopen(_("Selected Location"));
     $extra_options['value']="All Locations";
     shn_form_text(_("location"),'loc',NULL,$extra_options);
     shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
     shn_form_hidden(array('loc_sel'=>'0'));
-    shn_form_fsclose();                      
-    $location_inf = shn_location_form('1','4'); 
+    shn_form_fsclose();
+ // base location
+    shn_form_fsopen(" Location");
+   	$parent=_shn_or_get_start_loc();
+   	$range= shn_or_get_loc_range();
+   	if($parent==$conf['mod_or_start_loc']){
+  		$location_inf = shn_location($range); 
+    }else {
+        $location_inf = shn_location_parent($parent,$range); 
+    }
+    shn_form_fsclose();
     ?><fieldset><?
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
     ?></fieldset><?

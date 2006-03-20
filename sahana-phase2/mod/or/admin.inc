@@ -21,6 +21,7 @@ function _shn_or_adm_sub_menu(){
 <div id="submenu_v">
 <a href="index.php?mod=or&act=adm_or_type">Organization Types</a> 
 <a href="index.php?mod=or&act=adm_sector">Organization Sectors</a>
+<a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
 <a href="index.php?mod=or&act=adm_location">Set starting Location</a>
 </div>
 
@@ -38,6 +39,23 @@ function shn_or_adm_default()
 
 
 <?php
+}
+function shn_or_adm_location_range()
+{
+    _shn_or_adm_sub_menu();
+    shn_or_adm_location_range_form();
+}
+function shn_or_adm_location_range_cr()
+{
+    global $global;
+    $db=$global['db'];
+    $start=$_POST{"start"};
+   	$end=$_POST{"end"};
+    $q="update config set value={$start} where module_id='or' and confkey='loc_range_start'";
+    $db->Execute($q);
+    $q="update config set value={$end} where module_id='or' and confkey='loc_range_end'";
+    $db->Execute($q);
+    shn_or_adm_location_range();
 }
 
 function shn_or_adm_location()
@@ -108,14 +126,15 @@ function shn_or_adm_sector_cr(){
     shn_or_adm_sector();
 }
 
-function shn_or_adm_acl_install(){
+function shn_or_adm_acl_install()
+{
     global $global;
     $db=$global["db"];
     $q="select value from config where module_id='or' and confkey='acl_base'";
     $res_acl=$db->Execute($q);
     if(!$res_acl->EOF && $res_acl->fields[0]=='installed'){
         $msg="ACL Base for Organization Registry is already installed";
-    }else {
+    }
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot'].'inc/lib_security/authenticate.inc';
@@ -128,54 +147,40 @@ function shn_or_adm_acl_install(){
     $res=shn_acl_add_module("or","organization reg");
     
     /** action groups **/
-    // add an action group named "create" under the module "or"
-    $res=shn_acl_add_action_group("or","create","create group");
-    // add an action group named "delete" under the module "or"
-    $res=shn_acl_add_action_group("or","delete","delete group");
-    // add an action group named "update" under the module "or"
-    $res=shn_acl_add_action_group("or","update","update group");
-    // add an action group named "view" under the module "or"
-    $res=shn_acl_add_action_group("or","view","view group");
-    // add an action group named "admin" under the module "or"
-    $res=shn_acl_add_action_group("or","acl","ACL group");
- 
-   //add an action name 'shn_or_reg_org"  under above action groups
-    $res=shn_acl_add_action("or","create","shn_or_reg_org","Display Organization Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_org_cr","Save Organization Registration info");
-    $res=shn_acl_add_action("or","create","shn_or_reg_operation_cr","Save Operation Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol","Display Volunteer Registration form");
-    $res=shn_acl_add_action("or","create","shn_or_reg_vol_cr","Save Volunteer Registration info");
-
-    $res=shn_acl_add_action("or","view","shn_or_view_org","View Organization Registration info");
-    $res=shn_acl_add_action("or","view","shn_or_view_vol","View Volunteer Registration info");
-    $res=shn_acl_add_action("or","view","shn_or_default","Organization Registry Home");
-    // add an action case name "view_all"  under the above case
-    $res=shn_acl_add_action_case("or","view","shn_or_view_org","all","action case");
-    $res=shn_acl_add_action("or","acl","shn_or_acl_setup","Display ACL configuration info");
+    // add an action group named "deny_admin" under the module "or"
+    $res=shn_acl_add_action_group("or","deny_admin","deny admin group");
+    $res=shn_acl_add_action("or","deny_admin","shn_or_acl_setup","Display ACL configuration info");
+    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_default","Display Admin page");
+    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_or_type","Display Admin Or type page");
+    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_sector","Display Admin Or sector page");
+    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_location_range","Display Admin Or location range page");
+      $res=shn_acl_add_action("or","deny_admin","shn_or_adm_location","Display Admin Or location page");
+     //deny permission for 'deny_admin' action group with in 'or' to 'guest' role
+    $res=shn_acl_add_perms_action_group_role('guest','or','deny_admin');
+    $res=shn_acl_add_perms_action_group_role('user','or','deny_admin');
     
-    //give permission for 'create' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','create');
-    //give permission for 'create' action group with in 'or' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','or','create');
-    //give permission for 'create' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','create');
+    // add an action group named "deny_user" under the module "or"
+    $res=shn_acl_add_action_group("or","deny_user","deny user group");
+    //add an action name 'shn_or_reg_org"  under above action groups
+    $res=shn_acl_add_action("or","deny_user","shn_or_reg_org","Display Organization Registration form");
+    $res=shn_acl_add_action("or","deny_user","shn_or_reg_org_cr","Save Organization Registration info");
+    $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation_cr","Save Operation Registration form");
+    $res=shn_acl_add_action("or","deny_user","_shn_or_edit_org","edit Org Registration form");
+    $res=shn_acl_add_action("or","deny_user","_shn_or_del_org","delete Org Registration form");
+    $res=shn_acl_add_action("or","deny_user","_shn_or_edit_vol","edit vol Registration form");
+    $res=shn_acl_add_action("or","deny_user","_shn_or_del_vol","delete vol Registration form");
+   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol","Display Volunteer Registration form");
+   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol_cr","Save Volunteer Registration info");
 
-    //give permission for 'view' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','view');
-    //give permission for 'view' action group with in 'or' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','or','view');
-    //give permission for 'view' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','view');
-
-    //give permission for 'admin' action group with in 'or' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','or','acl');
+	$res=shn_acl_add_perms_action_group_role('guest','or','deny_user');
+         
     if($res_acl->EOF)
 	 $q="insert into config values('or','acl_base','installed')";
     else
 	 $q="update config set value='installed' where module_id='or' and confkey='acl_base'";
     $res=$db->Execute($q);
     $msg="ACL Base for Organization Registry was succesfully installed";
-}
+
 ?>
     <div id="result_msg">
        <?php echo $msg;?>

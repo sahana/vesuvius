@@ -14,7 +14,6 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
-include_once $global['approot']."/inc/handler_form.inc";
 include_once "lib_or.inc";
 
 function shn_or_adm_location_form()
@@ -37,11 +36,51 @@ function shn_or_adm_location_form()
     shn_form_checkbox('','chk_start',null,$chkbox_opts);
     shn_form_fsclose();
     shn_form_fsopen(_("Select the Location Level you want fix"));
-    shn_form_opt_select('opt_location_type','',$select_opts,null,null);
+    shn_form_opt_select('opt_location_type','',$select_opts,array('req'=>true));
     shn_form_fsclose();
-    $location_inf=shn_location_all();
-    shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
+    shn_form_fsopen(_("Now Select the Location"));
+    shn_location_all();
+    shn_form_fsclose();
+   // shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
  ?>
+<br />
+<center>
+<?php
+//create the submit button
+    shn_form_submit(_("Save"));
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_fclose();
+?>				     
+</div>
+<?php
+    // end of form
+	
+}
+
+function shn_or_adm_location_range_form()
+{
+    global $global;
+    $db=$global["db"];
+?>
+<h2><?=_("Set the Location Range")?></h2>
+<div id="note">
+<?=_("In a Disaster,all the location levels might not be important ,set the range here")?>
+</div>
+<?php
+    if($error==true)
+        display_errors();
+?>
+<div id="formcontainer">
+<?php
+	$range= shn_or_get_loc_range();
+    shn_form_fopen("adm_location_range_cr",NULL,array('req_message'=>false));
+    shn_location_level_range_form('start','Set Starting Level',$range["start"]);
+ 	shn_location_level_range_form('end','Set End Level',$range["end"]);
+?>
 <br />
 <center>
 <?php

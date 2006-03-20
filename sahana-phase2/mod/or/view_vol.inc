@@ -106,8 +106,11 @@ function _shn_or_viewform_vol($pid,$error=false)
         $q="Select serial from identity_to_person where p_uuid=$pid and opt_id_type='dln'";
         $res_dln=$db->Execute($q);
         $dln=$res_dln->fields[0];
-        $loc=_shn_or_get_org_loc_parents($pid);
-        $bsd_village=$loc[3][2];
+       // $loc=_shn_or_get_org_loc_parents($pid);
+       // $bsd_village=$loc[3][2];
+        $q = "select location_id from location_details where poc_uuid='{$pid}'";
+    	$res_loc=$db->Execute($q);
+    	$bsd_village=$res_loc->fields[0];
         $q = "select option_code from field_options,sector where pgoc_uuid='{$pid}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
         $sector_arr=array();
@@ -132,7 +135,9 @@ function _shn_or_viewform_vol($pid,$error=false)
     shn_form_fopen("view_vol_submit",null,$form_opts);
    	shn_form_fsopen(_('Primary Details'));
     $extra_opts['value']=$name;
+    $extra_opts['req']=true;
     shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
+    $extra_opts['req']=false;
     $extra_opts['value']=$dob;
     shn_form_text(_("Date of Birth : "),'dob','size="10"',$extra_opts); 
     //shn_form_date(_("Date of Birth: "),'dob', null ) ;
@@ -144,11 +149,15 @@ function _shn_or_viewform_vol($pid,$error=false)
     $extra_opts['value']=$nic;
     shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
     $extra_opts['value']=$pas;
-    shn_form_text(_("Passporl No : "),'pas','size="50"',$extra_opts); 
+    shn_form_text(_("Passport No : "),'pas','size="50"',$extra_opts); 
     $extra_opts['value']=$dln;
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
-    shn_location_form_org('1','4',$bsd_village);
+    $range= shn_or_get_loc_range();
+     // base location
+    shn_form_fsopen("Base Location");
+    shn_location_form_org($range,$bsd_village);
+    shn_form_fsclose();
     shn_form_fsopen(_("Services Offered"));
     _shn_or_display_sector($error,$sector_arr);
     shn_form_fsclose();

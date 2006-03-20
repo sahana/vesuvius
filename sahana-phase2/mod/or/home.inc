@@ -14,6 +14,7 @@
 */
 include_once "view_org.inc";
 global $global;
+global $conf;
 $db=$global["db"];
 $q="select count(o_uuid) as cnt from org_main";
 $res=$db->Execute($q);
@@ -28,7 +29,7 @@ if(!$res->EOF){
 }
 ?>
 <div id="home">
-    <h2><?=_("Organization Registry")?></h2>
+    <h2><?=_lc($conf['mod_or_name'])?></h2>
 		<div><?=_("The Organization Registry keeps track of all the relief organizations and civil society groups working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
 				Features Include:")?>
         </div>

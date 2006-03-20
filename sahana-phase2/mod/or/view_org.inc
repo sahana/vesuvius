@@ -158,8 +158,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
             );       
             $res_sector->MoveNext();
         } 
-    $loc=_shn_or_get_org_loc_parents($org_id);
-    $bsd_village=$loc[3][2];
+    $q = "select location_id from location_details where poc_uuid='{$org_id}'";
+    $res_loc=$db->Execute($q);
+    $bsd_village=$res_loc->fields[0];
+   // $loc=_shn_or_get_org_loc_parents($org_id);
+    //$bsd_village=$loc[5][2];
     }
 ?>
 <h2><?=_("Organization Registration Information of <em>").$org_name?></em></h2>
@@ -173,18 +176,21 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $form_opts['req_message']=false;
     shn_form_fopen("view_org_submit",null,$form_opts);
     shn_form_fsopen(_('Primary Details'));
-    shn_form_text(_("Organization Name : "),'org_name','size="50"',array('value'=>$org_name)); 
+    $extra_opts['req']=true;
+    $extra_opts['value']=$org_name;
+    shn_form_text(_("Organization Name : "),'org_name','size="50"', $extra_opts); 
     if($parent){
         shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
     }
     shn_form_fsclose();
-    shn_form_fsopen(_("Organization Type"));
+    shn_form_fsopen(_("Organization Type *(req)"));
     _shn_or_display_org_type($error,false,$org_type);
     shn_form_fsclose();
-    shn_form_fsopen(_("Organization Sector"));
+    shn_form_fsopen(_("Organization Sector *(req)"));
     _shn_or_display_sector($error,$or_sector_arr);
     shn_form_fsclose();
-    shn_location_form_org('1','4',$bsd_village);
+    $range= shn_or_get_loc_range();
+    shn_location_form_org($range,$bsd_village);
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,$org_id);
     shn_form_fsclose();
