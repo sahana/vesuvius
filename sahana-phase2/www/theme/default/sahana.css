@@ -554,6 +554,10 @@ background-color: #eee;
 	background:#ddd;
 }
 
+#result tr:hover td{
+	background:#ccc;
+}
+
 #note{
 	background-color: #ccc; 
 	text-align:center;
