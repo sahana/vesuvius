@@ -600,7 +600,6 @@ div#error ul {
 div#error p em {
 	color: #C00;
 	font-style: normal;
-	text-decoration:blink;
 	font-weight: bold;
 }
 
