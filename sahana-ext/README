@@ -1,6 +1,13 @@
+Welcome to Sahana External Modules!
 This is for Sahana External modules. All the modules which are not putting to core system, will be landed here.
-
+     
+Current Scenarios:
+=================
+conflict-resolution - Child Protection System.
+data-management     - Data Synchronization between sahana instances.
+srilankan-dm        - Sahana Sri Lankan specific customisations.
+      
 Have Fun!
-
+     
 Pradeeper
-Monday 20th March at Sahana Lab, Colombo.
+Monday 21th March at Sahana Lab, Colombo.
