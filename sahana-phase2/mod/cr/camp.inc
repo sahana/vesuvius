@@ -164,12 +164,10 @@ _shn_cr_cadd_commit_db();
 }
 
 function _shn_cr_create_cid(){
-//create unique camp id
-//db->GenID();
-$id=time();
-sleep(2);
-return $id;
-
+	global $global;
+	include_once($global['approot'].'/inc/lib_uuid.inc');
+	$id = shn_create_uuid('c');
+	return $id;
 }
 
 function _shn_cr_sel_map(){
