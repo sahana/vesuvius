@@ -473,4 +473,42 @@ function _shn_location_form($range)
    
 }
 
+/********************************************************************************************************/
+/* Deprecated functions ,will be removed on 11th april 2006 *********************************************/
+
+function shn_location_form($from,$to,$value=NULL){
+	$range["start"]=$from;
+	$range["end"]=$to;
+	shn_form_fsopen("Base Location");
+	shn_location_jscript($range["end"]);
+	if($value!=NULL){
+        _shn_location_form_value($range,$value);  
+	}else {
+		if($parent==null){
+			_shn_location_form($range);
+		}else{
+        	_shn_location_form_parent($range,$parent);
+		}	  
+	}
+	shn_form_fsclose();
+}
+
+function shn_location_form_org($from,$to,$value=NULL){
+	$range["start"]=$from;
+	$range["end"]=$to;
+	shn_form_fsopen("Base Location");
+	shn_location_jscript($range["end"]);
+	if($value!=NULL){
+        _shn_location_form_value($range,$value);  
+	}else {
+		if($parent==null){
+			_shn_location_form($range);
+		}else{
+        	_shn_location_form_parent($range,$parent);
+		}	  
+	}
+	shn_form_fsclose();
+}
+
+
 ?>
