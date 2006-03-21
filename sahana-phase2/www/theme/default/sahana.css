@@ -67,6 +67,9 @@ input, select, textarea {
 .mini {
 	font-size: 80%;
 }
+.wide {
+	width:100%;
+}
 
 /* Links should ALWAYS be unvisited */
 a {
