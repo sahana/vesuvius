@@ -1,4 +1,5 @@
 <?php
+/* $Id: lib_form.inc,v 1.30 2006-03-21 07:22:59 janakawicks Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -276,7 +277,7 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>" <?=$select_opts?>
+    <select name="<?=$opt_field?>" <?=$select_opts?> >
 <?php
 		    $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
