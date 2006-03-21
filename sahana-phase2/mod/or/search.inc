@@ -45,7 +45,7 @@ function _shn_or_form_search()
     shn_form_fsopen(" Location");
    	$parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
-  	shn_location($range,$parent); 
+  	shn_location($range,null,$parent); 
     shn_form_fsclose();
     ?><fieldset><?
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
