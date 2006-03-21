@@ -187,7 +187,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsclose();
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
-    shn_location_form_org($range,$bsd_village);
+    shn_location($range,$bsd_village,null);
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,$org_id);

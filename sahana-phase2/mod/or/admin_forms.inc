@@ -39,7 +39,8 @@ function shn_or_adm_location_form()
     shn_form_opt_select('opt_location_type','',$select_opts,array('req'=>true));
     shn_form_fsclose();
     shn_form_fsopen(_("Now Select the Location"));
-    shn_location_all();
+    $range= shn_or_get_loc_range();
+    shn_location($range,null,null);
     shn_form_fsclose();
    // shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
  ?>
