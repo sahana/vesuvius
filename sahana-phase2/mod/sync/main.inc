@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.4 2006-03-16 04:06:16 priyanga Exp $ */
+/* $Id: main.inc,v 1.5 2006-03-21 04:54:50 priyanga Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -118,18 +118,18 @@ function checkHead(hname){
 }
 </script>
 
-<TABLE align='center'>
-	<THEAD>
+<table align='center'>
+	<thead>
 		<td><strong><?=_("Avalable Data")?></strong></td>
         	<td><strong><?=_("Select")?></strong></td>
-	</THEAD>
-	<TR><TD>Base data Select All</TD>
-	<TD><input type="checkbox" id="base" value="base" onchange="selectAll(this,'base[]');" /></TD></TR>
+	</thead>
+	<tr><td>Base data Select All</td>
+	<td><input type="checkbox" id="base" value="base" onchange="selectAll(this,'base[]');" /></td></tr>
 <?php
     foreach($basetables as $table)
     {
-        echo "<TR><TD>".$table." data</TD>";
-        echo "<TD><input type='checkbox' name='base[]' value='".$table."' onchange=\"checkHead('base');\"/></TD></TR>\n";
+        echo "<tr><td>".$table." data</td>";
+        echo "<td><input type='checkbox' name='base[]' value='".$table."' onchange=\"checkHead('base');\"/></td></tr>\n";
     }
     //get the list of modules
     $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
@@ -141,23 +141,23 @@ function checkHead(hname){
         if (file_exists($st_down)){
             require_once($st_down);
 ?>
-	<TR><TD><?=$conf['mod_'.$mods['module_id'].'_name'];?> Data</TD>
-	<TD><input type="checkbox" id="<?=$mods['module_id'];?>" value="<?=$mods['module_id'];?>"  onchange="selectAll(this,'<?=$mods['module_id'].'[]';?>');"/> </TD></TR>
+	<tr><td><?=$conf['mod_'.$mods['module_id'].'_name'];?> Data</td>
+	<td><input type="checkbox" id="<?=$mods['module_id'];?>" value="<?=$mods['module_id'];?>"  onchange="selectAll(this,'<?=$mods['module_id'].'[]';?>');"/> </td></tr>
 <?php
                 
                 //traversing by the functions in 'down.inc'
             foreach(${$mods['module_id'].'tables'} as $table){
                 if(function_exists('shn_sync_dump_'.$table)){
 ?>
-	<TR><TD><?=$table;?> Data</TD>
-	<TD><input type="checkbox" name="<?=$mods['module_id'].'[]';?>" value="<?=$table;?>" onchange="checkHead('<?=$mods['module_id'];?>')" /> </TD></TR>
+	<tr><td><?=$table;?> Data</td>
+	<td><input type="checkbox" name="<?=$mods['module_id'].'[]';?>" value="<?=$table;?>" onchange="checkHead('<?=$mods['module_id'];?>')" /> </td></tr>
 <?php
                 }
             }
         }
     }
 ?>
-</TABLE>
+</table>
 <?php
     shn_form_submit(_("Download"));
     shn_form_fsclose();
