@@ -1,5 +1,19 @@
 <?php
 
+function initialize_map(){
+	global $global;
+	$db=$global['db'];
+	$q="select value from config where module_id='gis' and confkey='google_key'";
+	$res=$db->Execute($q);
+	$key=$res->fields[0];
+?>
+		<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
+		<div id="map" style="width: 500px; height: 400px"></div>
+
+<?php
+	add_footer();
+}
+
 function init_map($gmap_key){
 ?>
 		<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $gmap_key?>" type="text/javascript"></script>
@@ -44,7 +58,7 @@ function load_map($x='',$y=''){
 			 //map.addOverlay(marker1);
        //]]>
     </script>
-	
+	end_page();
 <?php
 }
 

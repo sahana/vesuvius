@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.9 2006-03-16 10:11:45 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.10 2006-03-21 06:57:35 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -34,15 +34,15 @@ function shn_gis_show()
 	global $global;
 	$db=$global['db'];
 	include $global['approot']."/conf/config.inc";
-	echo "<h2>"._("Area Map")."</h2>";
+	//	echo "<h2>"._("Area Map")."</h2>";
 	if($conf['gis']){
 		include $global['approot']."/mod/gis/conf.inc";
-		if($conf['mod_gis']=='google_maps'){
+		if($conf['mod_gis_dflt']=='google_maps'){
 			/*
 			 * google maps
 			 * check for online connectivity
 			*/
-			include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+			//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			//echo "GIS: Google Map";
 			$q="select value from config where module_id='gis' and confkey='google_key'";
 			$res=$db->Execute($q);
@@ -56,11 +56,11 @@ function shn_gis_show()
 			$eres=$db->Execute($e);
 			$ekey=$eres->fields[0];
 
-			
-			init_map($key);
-			add_footer();
+			shn_gis_init_plugin();
+			//initialize_map();
+			//add_footer();
 			load_map($wkey,$ekey);
-			end_page();
+			//end_page();
 		}
 	}
 	else{
@@ -69,5 +69,37 @@ function shn_gis_show()
 <?php
 	}
 
+}
+
+/**
+ * Show plain GIS map
+ */
+function shn_gis_show_map()
+{
+	
+}
+
+/**
+ * Initialize GIS plugin
+ * @access public
+ * @param mixed  $name_of_map Custom Map Name
+ */
+function shn_gis_init_plugin($name_of_map="Area Map")
+{
+	global $global;
+	$db=$global['db'];
+	include $global['approot']."/conf/config.inc";
+	if($conf['gis'])
+	{
+		echo "<h2>".$name_of_map."</h2>";
+		include $global['approot']."/mod/gis/conf.inc";
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		initialize_map();
+		
+	}
+	else{
+		//gis not enabled in config file
+	}
 }
 ?>
