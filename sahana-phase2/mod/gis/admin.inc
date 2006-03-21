@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.5 2006-03-16 10:11:45 mifanc Exp $ */
+/* $Id: admin.inc,v 1.6 2006-03-21 08:55:03 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -91,6 +91,7 @@ function shn_gis_adm_show_mods()
 	<li><?php echo _("Sahana supports a modular GIS plugin architecture ");?> </li>
 	<li><?php echo _("You can select which GIS plugin to use as your default GIS");?></li>
     <li><?php echo _("Select the default GIS plugin from the detected plugins below:");?> </li>
+    <li><?php echo _("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
 	</ul>
 <?php
 	shn_form_fclose();
@@ -142,8 +143,8 @@ function shn_gis_adm_showform(){
 	shn_form_fsopen(_("Default Center Coordinates"));
 	
 	
-	shn_form_text(_("Center Northing Value[coordinate of center point]"),"x_center");
-	shn_form_text(_("Center Easting Value[coordinate of center point]"),"y_center");
+	shn_form_text(_("Center Northing Value[x]"),"x_center");
+	shn_form_text(_("Center Easting Value[y]"),"y_center");
 	shn_form_fsclose();
 	shn_form_submit(_("Done"));
 	shn_form_fclose();

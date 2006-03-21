@@ -1,4 +1,5 @@
 <?php
+/*$id$*/
 
 function initialize_map(){
 	global $global;
@@ -58,8 +59,9 @@ function load_map($x='',$y=''){
 			 //map.addOverlay(marker1);
        //]]>
     </script>
-	end_page();
+	
 <?php
+   end_page();
 }
 
 /*

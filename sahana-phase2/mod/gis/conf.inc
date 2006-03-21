@@ -39,8 +39,8 @@ $conf['mod_gis_dflt'] = 'google_maps';
  * Currently set to display Sri Lanka
  * Can be changed via the admin interface for GIS
  */
-$conf['mod_gis_center_x'] = '';
-$conf['mod_gis_center_y'] = '';
+$conf['mod_gis_center_x'] = '79.5';
+$conf['mod_gis_center_y'] = '8.5338';
 	 
 ?>
 
