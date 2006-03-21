@@ -51,34 +51,6 @@ function shn_location_get_descendants($loc)
    return  $loc; 
 }
 
-
-/**
- * Returns an array containing location levels(code,description)
- * suitable to be used in a select box.
- * 
- * @access public
- * @return void
- */
- /*
-function shn_location_levels_form()
-{
-    global $global;
-    $db=$global["db"];
-    $q = "select option_code,option_description from field_options where field_name='opt_location_type'";
-    $res=$db->Execute($q);
-    $options=array();
-    while(!$res==NULL && !$res->EOF){
-        array_push(
-            $options,
-            array(  'drop_desc'=>$res->fields[1],
-                        'value'=>$res->fields[0],
-            )       
-        );
-        $res->MoveNext();
-    }
-    return $options;
-}
-*/
 function shn_location_level_range_form($name,$label,$sel)
 {
     global $global;
@@ -282,97 +254,27 @@ function shn_location_jscript($to){
 }
 
 /**
- * Generates a set of select boxes with locations with in the given levels. Will add to the form. 
- * 
- * @param mixed $from 
- * @param mixed $to 
- * @param mixed $value( if the value is given ,select boxes will be
- * poplulated with locations related to that value) 
- * @access public
- * @return void
- */
- /*
-function shn_location_form($from,$to,$value=NULL){
-	shn_location_jscript($to);
-	if($value!=NULL){
-        $location_inf = _shn_location_form_value($from,$to,$value);  
-	}else {
-        $location_inf = _shn_location_form($from,$to);  
-	}
-	shn_form_add_component_list($location_inf,$section=true,$legend='',$return=false,$default_val_req=$error);
-}
-*/
-/**
  * shn_location 
- * Generates a set of select boxes with locations with in the given levels. Will NOT add to the form. 
+ * Generates a set of select boxes with locations with in the given levels. Will add to the form. 
  * @param mixed $from 
  * @param mixed $to 
  * @access public
  * @return void
  */
-function shn_location($range){
-	shn_location_jscript($range["end"]);
-	$location_inf = _shn_location_form($range);  
-	return $location_inf ;
-}
-
-/**
- * Generates a set of select boxes with locations with the given parent, with in the given levels. 
- * Will NOT add to the form.  
- * 
- * @param mixed $parent 
- * @param mixed $to 
- * @access public
- * @return void
- */
-function shn_location_parent($parent,$range){
-	shn_location_jscript($range["end"]);
-	$location_inf = _shn_location_form_parent($parent,$range);  
-	return $location_inf ;
-}
-
-/**
- * Generates a set of select boxes with locations with all the levels. 
- * Will NOT add to the form.  
- * 
- * @access public
- * @return void
- */
-function shn_location_all(){
-    global $global;
-//    $db=$global['db'];
-//    $q="select option_code from field_options where field_name='opt_location_type' order by option_code";
-//    $res=$db->Execute($q);
-//    $from=$res->fields[0];
-//    $res->MoveLast();
-//    $to=$res->fields[0];
-	$range= shn_or_get_loc_range();
-   	shn_location_jscript($range["end"]);
-	$location_inf = _shn_location_form($range);  
-	return $location_inf ;
-}
-
-/**
- * Generates a set of select boxes with locations with in the given levels.
- * Originally developed for organization regsitry in mind,but there
- * is a better method now.
- * @deprecated version - Jan 31, 2006
- * @param mixed $from 
- * @param mixed $to 
- * @param mixed $value 
- * @access public
- * @return void
- */
-function shn_location_form_org($range,$value=NULL)
-{
+function shn_location($range,$value=null,$parent=null){
 	shn_location_jscript($range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  
 	}else {
-        _shn_location_form($range);  
+		if($parent==null){
+			_shn_location_form($range);
+		}else{
+        	_shn_location_form_parent($range,$parent);
+		}	  
 	}
-   // shn_form_add_component_list($location_inf,$section=true,$legend='Base Location *(req)',$return=false,$default_val_req=$error);
 }
+
+
 
 /**
  * Adds a location to the database.Retrives the values to insert from the POST variables. 
@@ -411,12 +313,12 @@ function shn_location_add()
     }
 }
 
-function _shn_location_form_parent($parent,$range){   
+function _shn_location_form_parent($range,$parent){   
     global $global;
     $db=$global['db'];
     $value=$parent;
     $loc=array();
-    $loc_arr=shn_or_get_parents($value);
+    $loc_arr=shn_get_parents($value);
     $parent_level=shn_get_level($parent);
     $from=$range["start"];
     $to=$range["end"];
@@ -429,29 +331,20 @@ function _shn_location_form_parent($parent,$range){
                  $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
             else
                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
-	    $res_options=$db->Execute($q);
+	    	$res_options=$db->Execute($q);
             $options=array();
             if(!$res_options->EOF){
                 $selection=$loc_arr[$cur-1][2];
             }
             while(!$res_options->EOF){
-                    $sel= $loc_arr[$cur-1][2];
-                    $selected=($sel==$res_options->fields[1])?true:false;
-                    
-                array_push(
-                    $options,
-                    array(  'drop_desc'=>$res_options->fields[0],
-                        'value'=>$res_options->fields[1],
-                        'selected'=>$selected
-                     )       
-                );
-                                $res_options->MoveNext();
+            
+                 $options[$res_options->fields[1]]=$res_options->fields[0];
+                 $res_options->MoveNext();
             }
-                                $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
-            array_push(
-                $loc,
-                 $loc_box
-             );
+            $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
+            $extra_opts['value']=$loc_arr[$cur-1][2];
+            $extra_opts['req']=true;
+            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -470,26 +363,19 @@ function _shn_location_form_parent($parent,$range){
             if(!$res_options->EOF){
                 $selection=$res_options->fields[1];
             }
-            while(!$res_options->EOF){
-                    
-                array_push(
-                    $options,
-                    array(  'drop_desc'=>$res_options->fields[0],
-                        'value'=>$res_options->fields[1]
-                     )       
-                );
-                                $res_options->MoveNext();
+           
+           while(!$res_options->EOF){
+                
+                    $options[$res_options->fields[1]]=$res_options->fields[0];
+                    $res_options->MoveNext();
             }
-                                $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
-            array_push(
-                $loc,
-                 $loc_box
-             );
+            $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
+            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,array('req'=>true));
             $res->MoveNext();
         }
         $cur=$cur+1;
 }
-   return $loc;
+   
 }
 
 /**
@@ -534,7 +420,6 @@ function _shn_location_form_value($range,$value)
             $extra_opts['value']=$loc_arr[$cur-1][2];
             $extra_opts['req']=true;
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
-                                $loc_box=array('desc'=>_($res->fields[1].":"),'type'=>"dropdown",'name'=>$res->fields[0],'options'=>$options,'onChange'=>'update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')','br'=>'1');    
             $res->MoveNext();
         }
         $cur=$cur+1;
