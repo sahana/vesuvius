@@ -36,6 +36,32 @@ if(!$res->EOF){
         </ul>
 </div>
 <br />
+<table>
+    <thead>
+        <td><strong><?=_("Volunteers")?></strong></td>
+        <td><strong><?=_("Please Register")?></strong></td>
+    
+    </thead>
+    <tbody>
+        <tr>
+			<td>
+				<div>
+                <a href="index.php?mod=or&act=view_org">
+                  <strong> <?php echo $vol_no ?></strong><?=_(" Volunteers have registered")?>
+                </a>
+				</div>
+			</td>
+			<td>
+				<div><?=_("
+					Registering as a volunteer allows us to know who is doing what where and allows us to operate more effectively as one.")?>	    
+				</div>
+			</td>
+			
+		
+        </tr>
+        </tbody>
+        </table>
+       <br />
 
         <div id="note">
            <strong><?=_("Last 10 Volunteers to Register")?></strong>

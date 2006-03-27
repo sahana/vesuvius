@@ -105,7 +105,7 @@ function _shn_vol_reg_cr()
     <div id="result_msg">
        <?php echo $name?> was succesfully registered <br /><br />
        <? 
-       $header=array('method'=>'POST','action'=>'index.php?mod=or&act=add_user_cr','id'=>'formset');
+       $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
        shn_auth_form_user_add("Create an Account for Login",$header,false);
        	return; 
        	?>

@@ -106,7 +106,7 @@ function _shn_vol_viewform($pid,$error=false)
         $q="Select serial from identity_to_person where p_uuid=$pid and opt_id_type='dln'";
         $res_dln=$db->Execute($q);
         $dln=$res_dln->fields[0];
-       // $loc=_shn_or_get_org_loc_parents($pid);
+       // $loc=_shn_vol_get_org_loc_parents($pid);
        // $bsd_village=$loc[3][2];
         $q = "select location_id from location_details where poc_uuid='{$pid}'";
     	$res_loc=$db->Execute($q);
@@ -143,7 +143,7 @@ function _shn_vol_viewform($pid,$error=false)
     //shn_form_date(_("Date of Birth: "),'dob', null ) ;
     $extra_opts['value']=$job;
     shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
-    _shn_or_display_gender($error,$sex);
+    _shn_vol_display_gender($error,$sex);
     shn_form_fsclose();
     shn_form_fsopen(_('Identity Information'));
     $extra_opts['value']=$nic;
@@ -153,16 +153,16 @@ function _shn_vol_viewform($pid,$error=false)
     $extra_opts['value']=$dln;
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
-    $range= shn_or_get_loc_range();
+    $range= shn_vol_get_loc_range();
      // base location
     shn_form_fsopen("Base Location");
-    shn_location_form_org($range,$bsd_village);
+    shn_location($range,$bsd_village);
     shn_form_fsclose();
     shn_form_fsopen(_("Services Offered"));
-    _shn_or_display_sector($error,$sector_arr);
+    _shn_vol_display_sector($error,$sector_arr);
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
-     _shn_or_display_contact_person(false,false,$pid);
+     _shn_vol_display_contact_person(false,false,$pid);
     shn_form_fsclose();
 ?>
 <br />
@@ -175,7 +175,7 @@ function _shn_vol_viewform($pid,$error=false)
 	shn_form_add_component($change,false,false);
     $p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
 	shn_form_add_component($p_id,false,false);
-    _shn_or_action_change_javascript("action");
+    _shn_vol_action_change_javascript("action");
 ?>
 </center>
 <br />

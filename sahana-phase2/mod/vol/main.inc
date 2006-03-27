@@ -57,6 +57,21 @@ function shn_vol_reg_cr(){
    _shn_vol_reg_cr();
 }
 
+function shn_vol_add_user_cr()
+{
+    global $global;
+    include_once $global['approot']."inc/lib_security/auth_form.inc";
+    $error=_shn_admin_add_user_cr();
+    if($error){
+	   	$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
+       	shn_auth_form_user_add("Create an Account for Login",$header,$error);
+    }else {
+    	include_once ("reg_vol.inc");
+		_shn_vol_regform();
+    }
+}
+
+
 function shn_vol_view_submit(){
     include_once("process_vol.inc");
     include_once ("view_vol.inc");

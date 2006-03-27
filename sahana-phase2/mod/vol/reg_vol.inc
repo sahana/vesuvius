@@ -40,7 +40,7 @@ function _shn_vol_regform($error=false)
     shn_form_text(_("Date of Birth (yyyy-mm-dd) : "),'dob','size="10"',$extra_opts); 
     //shn_form_date(_("Date of Birth: "),'dob', null ) ;
     shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
-    _shn_or_display_gender($error,NULL);
+    _shn_vol_display_gender($error,NULL);
     shn_form_fsclose();
     shn_form_fsopen('Identity Information');
     shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
@@ -49,19 +49,19 @@ function _shn_vol_regform($error=false)
     shn_form_fsclose();
  // base location
     shn_form_fsopen("Base Location");
-   	$parent=_shn_or_get_start_loc();
-   	$range= shn_or_get_loc_range();
-   	if($parent==$conf['mod_or_start_loc']){
+   	$parent=_shn_vol_get_start_loc();
+   	$range= shn_vol_get_loc_range();
+   	if($parent==$conf['mod_vol_start_loc']){
   		$location_inf = shn_location($range); 
     }else {
         $location_inf = shn_location_parent($parent,$range); 
     }
     shn_form_fsclose();
    	shn_form_fsopen("Services Offered");
-    _shn_or_display_sector($error);
+    _shn_vol_display_sector($error);
     shn_form_fsclose();
     shn_form_fsopen("Contact Information");
-    _shn_or_display_contact_person($error,true,null);
+    _shn_vol_display_contact_person($error,true,null);
     shn_form_fsclose();
  ?>
 <br />

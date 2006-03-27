@@ -171,6 +171,25 @@ function shn_get_last_level(){
 }
 
 /**
+ * Returns the range of levels avaliable 
+ * @param mixed $loc
+ * @access public
+ * @return void
+ */
+function shn_get_range(){
+    global $global;
+    $db=$global['db'];
+    $q="select option_code,option_description from field_options where field_name='opt_location_type' order by option_code asc";
+    $res=$db->Execute($q);
+    $range["start"]=$res->fields[0];
+    $q="select option_code,option_description from field_options where field_name='opt_location_type' order by option_code desc";
+    $res=$db->Execute($q);
+    $range["end"]=$res->fields[0];
+    return $range;
+
+}
+
+/**
  * Generates the java script required for AJAX functionality 
  * 
  * @param mixed $to 
@@ -289,7 +308,7 @@ function shn_location_add()
     $loc=$_POST{"loc_name"};
     $desc=$_POST{"desc"};
     $iso=$_POST{"iso"};
-    $level=$_POST{"level"};
+    $level=$_POST{"opt_location_type"};
     if($level==1){
         $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
         $res=$db->Execute($q);
