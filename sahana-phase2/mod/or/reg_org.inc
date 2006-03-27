@@ -35,13 +35,13 @@ function _shn_or_regform_org($error=false)
     shn_form_fopen("reg_org_cr");
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
-    shn_form_text(_("* Organization Name : "),'org_name','size="50"',$extra_opts); 
+    shn_form_text(_("Organization Name : "),'org_name','size="50"',$extra_opts); 
     shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
-    shn_form_fsopen("Organization Type *(req)");
+    shn_form_fsopen("Organization Type");
     _shn_or_display_org_type($error);
     shn_form_fsclose();
-    shn_form_fsopen("Organization Sector *(req)");
+    shn_form_fsopen("Organization Sector");
     _shn_or_display_sector($error);
     shn_form_fsclose();
     // base location

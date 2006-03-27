@@ -179,10 +179,10 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
     }
     shn_form_fsclose();
-    shn_form_fsopen(_("Organization Type *(req)"));
+    shn_form_fsopen(_("Organization Type"));
     _shn_or_display_org_type($error,false,$org_type);
     shn_form_fsclose();
-    shn_form_fsopen(_("Organization Sector *(req)"));
+    shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,$or_sector_arr);
     shn_form_fsclose();
     shn_form_fsopen("Base Location");

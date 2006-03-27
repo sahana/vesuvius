@@ -22,11 +22,7 @@ if(!$res->EOF){
     $org_no=($res->fields[0])-1;
     $org_no=($org_no<0)?0:$org_no;
 }
-$q="select count(person_uuid.p_uuid) as cnt from person_uuid,person_status where person_status.isReliefWorker=1 and person_status.p_uuid=person_uuid.p_uuid";
-$res=$db->Execute($q);
-if(!$res->EOF){
-    $vol_no=$res->fields[0];
-}
+
 ?>
 <div id="home">
     <h2><?=_lc($conf['mod_or_name'])?></h2>
@@ -46,7 +42,7 @@ if(!$res->EOF){
     <thead>
         <td><strong><?=_("Organizations")?></strong></td>
         <td><strong><?=_("Please Register")?></strong></td>
-        <td><strong><?=_("Volunteers")?></strong></td>
+     <!--   <td><strong><?=_("Volunteers")?></strong></td>-->
     </thead>
     <tbody>
         <tr>
@@ -62,13 +58,8 @@ if(!$res->EOF){
 					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.")?>	    
 				</div>
 			</td>
-			<td>
-			    <div>
-				<a href="index.php?mod=or&act=view_vol">
-                    <strong><?php echo $vol_no?></strong><?=(" Volunteers have registered")?>
-                </a>
-                </div>
-            </td>
+			
+		
         </tr>
         </tbody>
         </table>

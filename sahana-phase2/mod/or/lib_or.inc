@@ -302,10 +302,11 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
 {
     if($value!=NULL){
         $extra_opts['value']=$value;
-        $extra_opts['req']=false;
+       // $extra_opts['req']=false;
     }else{
-        $extra_opts['req']=true;
+      //  $extra_opts['req']=true;
     }
+    $extra_opts['req']=true;
     if($multi){
         $select_opts="multiple='true'";
     }else{
