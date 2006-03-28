@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.5 2006-03-21 04:54:50 priyanga Exp $ */
+/* $Id: main.inc,v 1.6 2006-03-28 08:19:25 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Chamindra de Silva <chamindra@opensource.lk>
  * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author	   Jo <@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage mpr
@@ -45,7 +45,7 @@ function shn_sync_mainmenu()
     shn_mod_menuitem("inst",_("Sync With Sahana Instance"));
     shn_mod_menuitem("bcst",_("Broadcast Avalibility"));
     shn_mod_menuitem("down",_("Download Data"));
-    shn_mod_menuitem("up",_("Upload Data"));
+    shn_mod_menuitem("synup",_("Upload Data"));
 
     shn_mod_menuclose();
    
@@ -183,21 +183,22 @@ function shn_sync_default()
 /* {{{ Action: Find */
 /**
  * This function displays the basic search form
- * @deprecated 
  * @todo shn_mpr_fndmp to be removed 
  * @access public
  * @return void
  */
-function shn_mpr_fndmp()
+function shn_sync_synup()
 {
     global $global;
 
-    $header=array('method'=>'POST','action'=>'index.php?mod=mpr&act=addmp','id'=>'formset');
-    shn_form_open($header,false);
+    shn_form_fopen("synup",null,array('enctype'=>'enctype="multipart/form-data"'));
+    shn_form_hidden(array('seq'=>'upload_xml'));
+    shn_form_fsopen(_('Upload Sahana Dump File'));
+    shn_form_upload(_('File'),"file_dump");
+    shn_form_fsclose();
+    shn_form_submit(_('Next'));
 
-?>  <input type="text" value="hello"/>          <?php
-
-    shn_form_close();
+    shn_form_fclose();
 }
 /* }}} */
 
