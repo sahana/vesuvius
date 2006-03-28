@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.30 2006-03-21 07:22:59 janakawicks Exp $ */
+/* $Id: lib_form.inc,v 1.31 2006-03-28 04:39:22 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -273,11 +273,11 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
-
+    $name=($extra_opts['name'])?$extra_opts['name']:$opt_field;
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>" <?=$select_opts?> >
+    <select name="<?=$name?>" <?=$select_opts?>
 <?php
 		    $res = $global['db']->Execute
         ("select * from field_options where field_name='$opt_field'");
@@ -334,6 +334,44 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 <?php
     shn_form_extra_opts($extra_opts);
 }
+
+/**
+ * create a multi select field
+ *
+ * @param array $opt_field
+ * @param mixed $label
+ * @param string $select_opts
+ * @param mixed $extra_opts
+ * @access public
+ * @return void
+ */
+function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra_opts = null)
+{
+    global $global;
+
+   // $value = ($_POST[$options])? $_POST[$options] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <select name="<?=$name?>[]" <?=$select_opts?>
+<?php
+		  
+    foreach ($options as $opt_value => $desc ) {
+        if($value!=NULL){
+            $sel = ( (array_search($opt_value,$value)==true) || (array_search($opt_value,$value)===0) ) ? "selected" : null ;
+        }
+?>
+ <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
+<?php
+
+     
+      }
+      if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+ ?>
+    </select>
+<?php
+    shn_form_extra_opts($extra_opts);
+}
+
 
 /**
  * create a checkboxes field based on field option
