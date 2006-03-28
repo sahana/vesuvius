@@ -16,6 +16,18 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 
+function shn_or_org_list(){
+	    global $global;
+        $db=$global['db'];
+		$q = "select o_uuid,name,parent_id from org_main order by name";
+        $res_org=$db->Execute($q);
+        $org_list=array();
+        while(!$res_org==NULL && !$res_org->EOF){
+        		$org_list[$res_org->fields[0]]=$res_org->fields[1];
+        		$res_org->MoveNext();
+        }
+        return $org_list;
+}
 function _shn_or_get_start_loc()
 {
     global $global;
