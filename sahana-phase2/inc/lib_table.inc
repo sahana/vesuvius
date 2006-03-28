@@ -18,7 +18,7 @@
 
 function shn_html_table($body, $head = null, $foot = null, $attributes = null, $caption = null )
 {
-    _shn_html_table_open();
+    _shn_html_table_open($attributes, $caption);
 
     if ($head!= null)
         shn_html_addthead($head);
