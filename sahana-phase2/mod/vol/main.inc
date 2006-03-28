@@ -18,6 +18,7 @@
 global $global;
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
+include_once $global['approot']."/inc/lib_menu.inc";
 include_once ("lib_vol.inc");
 
 function shn_vol_mainmenu() 
@@ -26,24 +27,14 @@ function shn_vol_mainmenu()
     global $conf;
     $module = $global['module'];
     $loc=_shn_vol_get_start_loc();
-    
-?>
-   <div id="modmenuwrap"> 
-        <h2><?=_lc($conf['mod_vol_name'])?></h2>
-            <ul id="modulemenu">
-	        	<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-                
-              	    
-                        <li><a href="index.php?mod=<?=$module?>&act=search">Search </a></li>
-                        <li><a href="index.php?mod=<?=$module?>&act=reg">Register</a></li>
-                        <li><a href="index.php?mod=<?=$module?>&act=view">View and Edit</a></li>
-			            <li><a href="index.php?mod=<?=$module?>&act=drill_report&id=<?php echo $loc?>">Drill down by Location</a></li>
-    	                <li><a href="index.php?mod=<?=$module?>&act=sector_report"> Volunteers by Sector</a></li>
-                   
-   		       
-	        </ul>
-    </div>
-<?php 
+    shn_mod_menuopen(_lc($conf['mod_vol_name']));
+    shn_mod_menuitem("default","Home",$module);
+    shn_mod_menuitem("search","Search",$module);
+    shn_mod_menuitem("reg","Register",$module);
+    shn_mod_menuitem("view","View and Edit",$module);
+    shn_mod_menuitem("drill_report&id=".$loc,"Drill down by Location",$module);
+    shn_mod_menuitem("sector_report","Volunteers by Sector",$module);
+    shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
