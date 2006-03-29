@@ -18,20 +18,28 @@ require_once $global['approot'].'/inc/lib_modules.inc';
 require_once $global['approot'].'/inc/lib_menu.inc';
 
 shn_mainmenuopen(_('Main Menu'));
-shn_mainmenuitem('default',_('Sahana Home'),'home');
 
 // display the list of modules on the menu bar
 $module_list = shn_get_module_names();
 
+$module_names = array();
+$module_menuorder = array();
+$module_directory = array();
+
 foreach ($module_list as $i) {  
-    
-    if ( ( 'home' != $i ) && ('admin' != $i ) ) {
-        $module_name = $conf['mod_'.$i.'_name']; 
-        $module_name = ( null == $module_name )? $i : $module_name ;
-        shn_mainmenuitem('default',$module_name, $i);
-    }
+    $tmp = $conf['mod_'.$i.'_name']; 
+    array_push($module_names,( null == $tmp )? $i : $tmp);
+    $tmp = $conf['mod_'.$i.'_menuorder']; 
+    array_push($module_menuorder,( null == $tmp )? 5 : $tmp);
+    $tmp = $conf['mod_'.$i.'_directory']; 
+    array_push($module_directory, $i );
 } 
 
-shn_mainmenuitem('default',_('System Administration'),'admin');
+array_multisort($module_menuorder, $module_names, $module_directory);
+
+for ($i = 0; $i < count($module_menuorder); $i++) {
+    shn_mainmenuitem('default',$module_names[$i], $module_directory[$i]);
+}
+
 shn_mainmenuclose();
 ?>

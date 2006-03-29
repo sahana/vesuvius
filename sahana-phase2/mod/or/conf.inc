@@ -17,6 +17,7 @@
 // provide the nice display name for the OR  module
 global $conf;
 $conf['mod_or_name'] = _("Organization Registry");
+$conf['mod_or_menuorder'] = 4; 
 //set start_loc to -1 if you want all the locations
 $conf['mod_or_start_loc'] = 1;
 $conf['mod_or_loc_level_start']=1;
