@@ -59,15 +59,14 @@ function shn_front_controller()
     $action = $global['action'];
     $module = $global['module'];
    
+    // decipher the module function that needs to be called
+    $module_function='shn_'.$module.'_'.$action;
+
     // check the users access permissions for this action
-    $req_act='shn_'.$module.'_'.$action;
-   
 	$acl_enabled=shn_acl_get_state($module);
-    $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
+    $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$module_function) || 
              !$acl_enabled)? true : false;
-    // include the html head tags
-    include($approot."inc/handler_html_head.inc");
-    
+
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
@@ -95,6 +94,9 @@ function shn_front_controller()
     //Override config values with database ones
     shn_config_fetch('all');
 
+    // include the html head tags
+    shn_include_page_section('html_head', $module);
+
     // Start the body and the CSS container element
 ?>
     <body>
@@ -111,10 +113,8 @@ function shn_front_controller()
     <p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a href="#modulemenu"><?=_('Module Menu')?></a></p> 
 <?php
 
-    // include the mainmenu provided there is not a module override
+    // include the mainmenu and login provided there is not a module override
     shn_include_page_section('mainmenu',$module);
-
-    // include the mainmenu provided there is not a module override
     shn_include_page_section('login',$module);
 
     // now include the main content of the pageA
@@ -124,7 +124,6 @@ function shn_front_controller()
 <?php
     if($allow){
         // compose and call the relevant module function 
-        $module_function = 'shn_'.$module.'_'.$action;
         if (!function_exists($module_function)) {
             $module_function='shn_'.$module.'_default';
         }
@@ -132,16 +131,7 @@ function shn_front_controller()
         $_SESSION['last_action']=$action;
         $module_function(); 
     }else {
-?>
-    <div id="error">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
-        <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
-        </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
-    </div> <!-- /error -->
-<?php
+        shn_display_access_error();
     }
     #include($approot."test/testconf.inc"); 
 ?>
@@ -156,6 +146,20 @@ function shn_front_controller()
     </body>
     </html>
 <?php 
+}
+
+// tidy up function to encapsulate access error
+function shn_display_access_error()
+{ ?>
+    <div id="error">
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <ul>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
+        </ul>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
+    </div> <!-- /error -->
+<?php
 }
 ?>
 
