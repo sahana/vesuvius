@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.1 2006-03-09 09:17:32 janakawicks Exp $ */
+/* $Id: conf.inc,v 1.2 2006-03-29 05:40:46 chamindra Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -23,5 +23,7 @@
  * @global string $conf['mod_sync_name']
  */
 $conf['mod_sync_name'] = _("Synchronization");
+$conf['mod_sync_menuorder'] = 19; 
+
 
 ?>
