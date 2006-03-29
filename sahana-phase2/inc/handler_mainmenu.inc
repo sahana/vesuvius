@@ -30,7 +30,7 @@ foreach ($module_list as $i) {
     $tmp = $conf['mod_'.$i.'_name']; 
     array_push($module_names,( null == $tmp )? $i : $tmp);
     $tmp = $conf['mod_'.$i.'_menuorder']; 
-    array_push($module_menuorder,( null == $tmp )? 5 : $tmp);
+    array_push($module_menuorder,( null == $tmp )? 10 : $tmp);
     $tmp = $conf['mod_'.$i.'_directory']; 
     array_push($module_directory, $i );
 } 
