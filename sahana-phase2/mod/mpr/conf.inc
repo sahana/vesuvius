@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.6 2006-01-26 06:59:04 janakawicks Exp $ */
+/* $Id: conf.inc,v 1.7 2006-03-29 05:40:21 chamindra Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -23,6 +23,7 @@
  * @global string $conf['mod_mpr_name']
  */
 $conf['mod_mpr_name'] = _("Missing Person Registry");
+$conf['mod_mpr_menuorder'] = 3;
 
 /**
  * Sets the number of results shown in search query
