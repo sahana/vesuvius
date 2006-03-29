@@ -49,13 +49,15 @@ function _shn_admin_acl_default()
          echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install Sytem defaults</a><br />";
     return;
     }  
-    
-	_shn_admin_acl_module_sub_menu($module);
+   	//_shn_admin_acl_module_sub_menu($module);
 ?>
 
         <h2 align="center">Welcome to the Sahana ACL page for <?php echo $conf['mod_'.$module.'_name']?></h2>
 
 <?php
+ echo _("ACL is Installed,choose below to reinstall")."<br />";
+ echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
+ echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install Sytem defaults</a><br />";
 }
 
 function _shn_admin_acl_system()
@@ -266,7 +268,12 @@ function _shn_admin_acl_mod_install(){
 	    	include_once($module_file);
 	    	if (function_exists($module_function)) {
         		$module_function();
-        		$q="insert into config values('{$module}','acl_enabled',true)";
+        		$q = "SELECT value FROM config WHERE module_id='{$module}' AND confkey='acl_enabled'";
+    			$res_acl = $db->Execute($q);
+				if(($res_acl!=NULL) && (!$res_acl->EOF))
+      				$q="update config set value=true where confkey='acl_enabled' and module_id='{$module}'";
+      			else
+        			$q="insert into config values('{$module}','acl_enabled',true)";
 				$db->Execute($q);
         		return;
         	}else {
@@ -347,31 +354,47 @@ or_acl_setup to sahana setup script once its avaliable
     table and field level protection need to seperate "read","write"
     permissions , hence requires ACO
     */
-   $res=shn_acl_add_perm_type("execute","execute permission");
+   	$res=shn_acl_add_perm_type("execute","execute permission");
     // adds guest user with password and add the user to ACL users and add to 'guest' role
-    $guest=shn_add_user("Guest User","guest",$conf['guest'],"guest",1); 
+    $guest=shn_add_user("Guest User","guest",$conf['guest_pwd'],"guest",$conf['guest_id']); 
     //add a"guest" user to ACL users and add to 'guest' role
     $q="insert into org_users(org_id,user_id) values(0,{$conf['guest_id']})";
     $res=$db->Execute($q);
-    $root=shn_add_user("Root User","root",$conf['rootpwd'],"admin",0); 
+     // adds sahana user with password and add the user to ACL users and add to 'user' role
+    $guest=shn_add_user("Sahana User","sahana",$conf['user_pwd'],"user",$conf['user_id']); 
+    //add a"guest" user to ACL users and add to 'guest' role
+    $q="insert into org_users(org_id,user_id) values(0,{$conf['user_id']})";
+    $res=$db->Execute($q);
+    $root=shn_add_user("Root User","root",$conf['root_pwd'],"admin",$conf['root_id']); 
     //add a "root" user to ACL users and add to 'admin' role
     $q="insert into org_users(org_id,user_id) values(0,{$conf['root_id']})";
     $res=$db->Execute($q);
     /************************************/
     //give permission for the guest user to sahana home
-    // add a module named "home"
-    $res=shn_acl_add_module("home","Sahana Home");
+    // add a module named "admin"
+    $res=shn_acl_add_module("admin","Sahana Admin");
      // add an action group named "view" under the module "home"
-    $res=shn_acl_add_action_group("home","view","view group");
-    $res=shn_acl_add_action("home","view","shn_home_default","View function");
+    $res=shn_acl_add_action_group("admin","deny_admin","admin group");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_default","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_add_loc","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_acl_system","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_acl_module","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_lc_set","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_lc_db","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_lc_trns","admin function");
     //give permission for 'view' action group with in 'home' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','home','view');
+    $res=shn_acl_add_perms_action_group_role('guest','admin','deny_admin');
   //give permission for 'view' action group with in 'home' to 'user' role
-    $res=shn_acl_add_perms_action_group_role('user','home','view');
-  //give permission for 'view' action group with in 'home' to 'admin' role
-    $res=shn_acl_add_perms_action_group_role('admin','home','view');
-    
+    $res=shn_acl_add_perms_action_group_role('user','admin','deny_admin');
     $q="update config set value='installed' where module_id='admin' and confkey='acl_base'";
+    $res=$db->Execute($q);
+    $q="insert into config values('admin','acl_enabled',false)";
+	$db->Execute($q);
+	// add a module named "home"
+    $res=shn_acl_add_module("home","Sahana Home");
+    $q="insert into config values('home','acl_enabled',false)";
+	$db->Execute($q);
+    $q="insert into config values('home','acl_base','installed')";
     $res=$db->Execute($q);
     $msg="ACL Base was succesfully installed";
     }
