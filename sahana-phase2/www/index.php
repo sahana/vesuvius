@@ -59,12 +59,11 @@ function shn_front_controller()
     $action = $global['action'];
     $module = $global['module'];
    
-    // decipher the module function that needs to be called
-    $module_function='shn_'.$module.'_'.$action;
-
-    // check the users access permissions for this action
+   // check the users access permissions for this action
+    $req_act='shn_'.$module.'_'.$action;
+   
 	$acl_enabled=shn_acl_get_state($module);
-    $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$module_function) || 
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
              !$acl_enabled)? true : false;
 
     // Redirect the module based on the action performed
