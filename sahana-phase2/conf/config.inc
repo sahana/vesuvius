@@ -36,14 +36,14 @@ $conf['acl_mode']='deny';
 $conf['root_id'] = 0;
 
 # Root Password :The default root password
-$conf['rootpwd'] = 'password';
+$conf['root_pwd'] = 'password';
 
 # Guest ID :The user with this ID will have access to some but not all resources by default
 #but could be changed
 $conf['guest_id'] = 1;
 
 # Guest Password :The default guest password
-$conf['guestpwd'] = 'password';
+$conf['guest_pwd'] = 'password';
 
 # Normal user ID :The user with this ID will have access to some but not all resources by default
 #but could be changed
