@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.31 2006-03-28 04:39:22 ravids Exp $ */
+/* $Id: lib_form.inc,v 1.32 2006-04-06 17:45:24 sudheera Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -84,9 +84,9 @@ function shn_form_fclose()
  * @access public
  * @return void
  */
-function shn_form_submit($name)
+function shn_form_submit($name, $submit_opts = null)
 { ?>
-    <input type="submit" value="<?=$name?>"/>
+    <input type="submit" value="<?=$name?>" <?=$submit_opts?> />
 <?php
 }
 
