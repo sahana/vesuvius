@@ -97,4 +97,26 @@ function shn_include_page_section($section, $module=null)
     } 
 }
  
+
+/**
+ * Return the 'nice' name of the module 
+ * 
+ * @param mixed $module 
+ * @access public
+ * @return string
+ */
+function shn_get_module_name($module=null)
+{
+    global $global;
+    global $conf;
+    
+    if (!$module)
+    {
+        return $conf['mod_' . $global['module'] . '_name'];          
+    }
+    else
+    {
+        return $conf['mod_' . $module . '_name'];
+    }
+}
 ?>
