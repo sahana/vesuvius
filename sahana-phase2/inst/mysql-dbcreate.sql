@@ -525,11 +525,47 @@ CREATE TABLE sync_instance (
 DROP TABLE IF EXISTS person_image;
 CREATE TABLE person_image(
     image_id BIGINT NOT NULL AUTO_INCREMENT,
-    p_uuid BIGINT NOT NULL, 
+    p_uuid VARCHAR(60) NOT NULL, -- universally unique person id
     image BLOB NOT NULL,
+    image_type VARCHAR(100) NOT NULL,
+    image_height INT,
+    image_width INT,
+    created TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
     PRIMARY KEY (image_id)
 );
 
-    
-    
+/** 
+ * Incident 
+ * Modules : Framework
+ * Created : 28th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 28th-Mar-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS incident;
+CREATE TABLE incident(
+    incident_id BIGINT NOT NULL AUTO_INCREMENT,
+    parent_id BIGINT DEFAULT NULL,
+    search_id VARCHAR(60),
+    name VARCHAR(60),
+    FOREIGN KEY (parent_id) REFERENCES incident (incident_id),
+    PRIMARY KEY (incident_id)
+);
+
+/** 
+ * User Preferences
+ * Modules : Framework
+ * Created : 28th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 28th-Mar-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS user_preference;
+CREATE TABLE user_preference(
+    p_uuid BIGINT NOT NULL,
+    module_id VARCHAR(20) NOT NULL,
+    pref_key     VARCHAR(60) NOT NULL,
+    value   VARCHAR(100),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
+    FOREIGN KEY (module_id) REFERENCES modules (module_id),
+    PRIMARY KEY (p_uuid,module_id,pref_key)
+);
