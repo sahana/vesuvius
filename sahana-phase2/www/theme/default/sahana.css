@@ -419,7 +419,7 @@ div#formcontainer fieldset p#legend em {
 }
 
 
-#formset input,#formset select{ 
+#formset fieldset input,#formset select{ 
 	margin: 0px 10px 10px 10px;
 	max-width:50%;
 }
