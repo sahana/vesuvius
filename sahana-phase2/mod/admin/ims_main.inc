@@ -1,0 +1,107 @@
+<?php
+include_once $global['approot'].'/inc/lib_form.inc';
+
+function shn_admin_ims_config()
+{
+    global $global;
+    
+    require($global['approot'].'mod/admin/ims_config.inc');
+
+	switch ($_POST['seq']) {
+        case 'entry':
+            if(_shn_ims_config_validate()){
+               _shn_ims_config_form(false,true); 
+            }else{
+                _shn_ims_config_form(true,false);
+            }
+        break;
+
+        default:
+            _shn_ims_config_form();
+        break;
+    }
+}
+
+function shn_admin_ims_level1()
+{
+    global $global;
+    
+    require($global['approot'].'mod/admin/ims_level.inc');
+
+	switch ($_POST['seq']) {
+        case 'addnew':
+        case 'update':
+            if(_shn_ims_level1_validate()){
+               _shn_ims_level1_form(false,$type); 
+            }else{
+                _shn_ims_level1_form(true,$type);
+            }
+        break;
+
+        default:
+            _shn_ims_level1_form();
+        break;
+    }
+}
+
+function shn_admin_ims_level2()
+{
+    global $global;
+    
+    require($global['approot'].'mod/admin/ims_level.inc');
+
+	switch ($_POST['seq']) {
+        case 'addnew':
+        case 'update':
+            if(_shn_ims_level2_validate()){
+               _shn_ims_level2_form(false,$type); 
+            }else{
+                _shn_ims_level2_form(true,$type);
+            }
+        break;
+
+        default:
+            _shn_ims_level2_form();
+        break;
+    }
+}
+
+function shn_admin_ims_level3()
+{
+    global $global;
+    
+    require($global['approot'].'mod/admin/ims_level.inc');
+
+	switch ($_POST['seq']) {
+        case 'addnew':
+        case 'update':
+            if(_shn_ims_level3_validate()){
+               _shn_ims_level3_form(false,$type); 
+            }else{
+                _shn_ims_level3_form(true,$type);
+            }
+        break;
+
+        default:
+            _shn_ims_level3_form();
+        break;
+    }
+}
+
+/**
+ * This function cleans the POST values
+ * @todo Put this somewhere else, i.e. form handling
+ * @param mixed $local_post 
+ * @access public
+ * @return void
+ */
+function shn_tools_clean_post(&$local_post)
+{
+    //trim them all
+    foreach($_POST as $k => $v){
+        $v = trim($v);
+        if($v != '')
+            $local_post[$k] = $v;
+    }
+}
+?>

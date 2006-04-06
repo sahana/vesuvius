@@ -46,6 +46,8 @@ function _shn_admin_mainmenu()
                         <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?>
                     </ul>
 
+                    <li><a href="#"><?=_("Mutiple Incidents")?></a></li>
+                    <?php include $global['approot']."/mod/admin/ims_menus.inc"; ?>
 
                 <li><a href="#"><?=_("Security Config")?> </a></li>
                     <ul id="modsubmenu">
