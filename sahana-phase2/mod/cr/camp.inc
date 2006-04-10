@@ -163,10 +163,11 @@ $_SESSION['camp_comments']=$_POST['comments'];
 _shn_cr_cadd_commit_db();
 }
 
-function _shn_cr_create_cid(){
+function _shn_cr_create_cid($val){
 	global $global;
 	include_once($global['approot'].'/inc/lib_uuid.inc');
-	$id = shn_create_uuid('c');
+	$id = shn_create_uuid($val);
+	//echo "ID IS: $id";
 	return $id;
 }
 
@@ -202,15 +203,22 @@ function _shn_cr_sel_map(){
 	$db=$global['db'];
 	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
-
-	//if mod_gis
+	
+	global $conf;
+	include $global['approot']."/mod/gis/gis_fns.inc";
+	
+	//shn_gis_add_marker_map();
+	shn_gis_init_plugin();
+?>
+	<!--<script src="stream.php?mod=cr&act=loadmap&stream_type=txt&wkey=<?=$wkey;?>&ekey=<?=$ekey;?>" type="text/javascript" > </script>-->
+	<?php
+	/*if mod_gis
 	if($conf['gis']){
 	  include $global['approot']."/mod/gis/conf.inc";
 	  if($conf['mod_gis']=='google_maps'){
-	  	/*
+	  	
 		 	 * google maps
 		 	 *@todo check for online connectivity: exit gracefully
-	  	*/
 	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 			echo _("Enter Camp Location. Click on Map where camp exists");
 
@@ -230,12 +238,14 @@ function _shn_cr_sel_map(){
 			init_map($keys);
 		}
 	}
+	
 	else
 	{
 ?>
    <p>No Currently Selected GIS</p> 
 <?php
-  }
+  	}
+  	*/
 	shn_form_fsclose();
 	shn_form_fsopen(_("GPS Coordinates"));
 	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
@@ -244,13 +254,16 @@ function _shn_cr_sel_map(){
 			
 	shn_form_submit("Next");
 	shn_form_close();
+	include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 	add_footer();
-	load_map($wkey,$ekey);
+	load_map();
 	add_marker($_POST['camp_name']);
 	end_page();
 }
 
-
+function shn_cr_footer()
+{
+}
 
 function _shn_cr_validate_error(){
 	clean_errors();
@@ -317,7 +330,7 @@ global $global;
 $db = $global['db'];
 
 //call unique camp id
-$uid=_shn_cr_create_cid();
+$uid=_shn_cr_create_cid('c');
 
 /*--------Phonetic Insertions------------*/
 shn_db_insert_phonetic('camp_name',$uid);
@@ -326,35 +339,35 @@ shn_db_insert_phonetic('camp_name',$uid);
 $loc_id=_shn_cr_get_locid();
 
 //create admin id
-$puid = _shn_cr_create_cid();
+$puid = _shn_cr_create_cid('p');
 
 //echo "location is".$loc_id;
 //echo "camp is".$uid;
 
 //enter into camp table
-$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values($uid,'{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values('{$uid}','{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
 
 $res = $db->Execute($q);
 
 //enter into camp_reg table
 //$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
-$q="insert into camp_reg(c_uuid,admin_name,admin_no,men,women,family,children,total) values($uid,'{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+$q="insert into camp_reg(c_uuid,admin_name,admin_no,men,women,family,children,total) values('{$uid}','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
 
 $res = $db->Execute($q);
 
 // insert into camp admin
-$qa = "insert into camp_admin(c_uuid,contact_puuid) values($uid,$puid)";
+$qa = "insert into camp_admin(c_uuid,contact_puuid) values('{$uid}','{$puid}')";
 $resa = $db->Execute($qa);
 
 
 // insert into person_details
-$qb = "insert into person_details(p_uuid,occupation) values($puid,'{$_SESSION['occupation']}')";
+$qb = "insert into person_details(p_uuid,occupation) values('{$puid}','{$_SESSION['occupation']}')";
 $resb = $db->Execute($qb);
 
 
 // insert into admin contact
-$qc = "insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($puid,'cmob','{$_SESSION['contact_mob']}')";
+$qc = "insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$puid}','cmob','{$_SESSION['contact_mob']}')";
 $resc = $db->Execute($qc);
 /*
  * GIS Insertion
@@ -380,7 +393,7 @@ if($conf['gis']){
 	if(isset($_SESSION['opt_camp_service'])){
 	 foreach($_SESSION['opt_camp_service'] as $a => $b){
 	//currently add checked values.
-		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values($uid,'{$b}',1)";
+		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values('{$uid}','{$b}',1)";
 	 $res = $db->Execute($q);
 	 }
 	}

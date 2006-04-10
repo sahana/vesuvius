@@ -164,26 +164,27 @@ function shn_cr_acmp(){
 
 function shn_cr_gis_show(){
 	global $global;
+	global $conf;
   include($global['approot'].'/conf/config.inc');
 	if($conf['gis']){
 		global $global;
 		include($global['approot'].'/mod/gis/conf.inc');	
-		include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
+		//include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
-		echo _("GIS Map of Camps");
+		//echo _("GIS Map of Camps");
 		$q="select map_northing,map_easting,name from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
 		$res = $db->Execute($q);
-		
-		if($conf['mod_gis']=='google_maps'){
+		include_once ($global['approot'].'/mod/gis/gis_fns.inc');			
+		/*if($conf['mod_gis']=='google_maps'){
 			$a="select value from config where module_id='gis' and confkey='google_key'";
 			$ares=$db->Execute($a);
-			$key=$ares->fields[0];						
-			init_map($key);
+			$key=$ares->fields[0];			
+			shn_gis_init_plugin("GIS Map of Camps");
 		}
-		else
-			init_map();
+		*/
+		shn_gis_init_plugin("GIS Map of Camps");
 		add_footer();
-		load_map();
+		load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
 		//put values into array: even better, process directly ;)
 		while(!$res->EOF){
 			add_marker_db($res->fields[0],$res->fields[1],$res->fields[2]);
