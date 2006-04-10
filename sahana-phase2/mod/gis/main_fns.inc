@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.11 2006-03-21 08:55:03 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.12 2006-04-10 06:32:25 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -33,8 +33,11 @@ function shn_gis_default()
 
 function shn_gis_show()
 {
+	//echo "showing";
 	global $global;
 	include_once $global['approot']."/mod/gis/gis_fns.inc";
+	//echo "showing";
+	
 	shn_gis_show_map();
 }
 

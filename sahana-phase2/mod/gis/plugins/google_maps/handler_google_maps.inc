@@ -1,18 +1,36 @@
 <?php
 /*$id$*/
+/**Admin Module for GIS
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* Sahana - http://sahana.sourceforge.net
+* @author   Mifan Careem <mifan@opensource.lk>
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    module
+* @subpackage google_maps
+* @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
 
 function initialize_map(){
 	global $global;
+	global $conf;
 	$db=$global['db'];
+	/*
 	$q="select value from config where module_id='gis' and confkey='google_key'";
 	$res=$db->Execute($q);
 	$key=$res->fields[0];
+	*/
+	$key=$conf['gmap_key'];
 ?>
 		<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 		<div id="map" style="width: 500px; height: 400px"></div>
 
 <?php
-	add_footer();
 }
 
 function init_map($gmap_key){
@@ -31,8 +49,8 @@ function init_gmap(){
 
 function load_map($x='',$y=''){
 ?>
+<script type="text/javascript">
 	
-	  <script type="text/javascript">
 		   //<![CDATA[
        var map = new GMap(document.getElementById("map"));
 			 map.addControl(new GLargeMapControl());
@@ -58,10 +76,9 @@ function load_map($x='',$y=''){
 			 //var marker1 = new GMarker(point1);
 			 //map.addOverlay(marker1);
        //]]>
-    </script>
-	
+	</script>
 <?php
-   end_page();
+   //end_page();
 }
 
 /*

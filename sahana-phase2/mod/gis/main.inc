@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: main.inc,v 1.3 2006-04-10 06:32:25 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module

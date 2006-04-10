@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.3 2006-03-21 08:55:03 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.4 2006-04-10 06:32:25 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -59,12 +59,14 @@ function _shn_gis_check_gis()
  * Detects selected GIS plugin and calls functionalities from specified plugin
  * @access public
  * @param mixed  $name_of_map Custom Map Name
+ * @todo: nicer error messages
  */
 function shn_gis_init_plugin($name_of_map="Area Map")
 {
 	global $global;
 	global $conf;
 	$db=$global['db'];
+	echo $conf['mod_gis_name'];
 	if($conf['gis'])
 	{
 		echo "<h2>".$name_of_map."</h2>";
@@ -75,8 +77,14 @@ function shn_gis_init_plugin($name_of_map="Area Map")
 		
 	}
 	else{
-		//gis not enabled in config file
+		//@TODO: nicer message
+		echo "gis not enabled in config file";
 	}
+}
+
+function shn_gis_load_map()
+{
+	
 }
 
 /**
@@ -91,6 +99,44 @@ function shn_gis_show_map($name_of_map="Area Map")
 	global $conf;
 	shn_gis_init_plugin($name_of_map);
 	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
+	
+	//below if statement is to handle GoogleMaps-IE inconsistencies
+	if($conf['mod_gis_dflt'] == 'google_maps')
+		end_page();
+}
+
+/**
+ * Show GIS map for marker addition
+ * Centers at default center
+ * Allows addition of a single marker to plot location
+ * @access public
+ * @param mixed  $name_of_map Custom Map Name
+ * @param $nameOfPoint Assign name to point
+ */
+function shn_gis_add_marker_map($name_of_map="Area Map",$nameOfPoint="")
+{
+	global $global;
+	global $conf;
+	shn_gis_init_plugin($name_of_map);
+	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
+	add_marker($nameOfPoint);
+	
+	//below if statement is to handle GoogleMaps-IE inconsistencies
+	if($conf['mod_gis_dflt'] == 'google_maps')
+		end_page();
+}
+
+function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
+{
+	global $global;
+	global $conf;
+	shn_gis_init_plugin($name_of_map);
+	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
+	add_marker($nameOfPoint);
+	
+	//below if statement is to handle GoogleMaps-IE inconsistencies
+	if($conf['mod_gis_dflt'] == 'google_maps')
+		end_page();
 }
 
 ?>
