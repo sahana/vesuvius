@@ -4,29 +4,43 @@ function shn_lr_default()
 {
 ?>
 <div id="home">
-<h2><?php echo _("Location  Registry");?></h2>
+<h2><?php echo _("Landmark Location  Registry");?></h2>
+<ul>
+	<li><?php echo _('The Landmark Location Registry helps you keep track of landmarks');?></li>
+</ul>
+</div>
 <?php
 }
 
-function shn_lr_aloc ()
+function shn_lr_aloc ($errors=false)
 {
-	
-	//echo "Locations";
 	global $global;
 	include_once($global['approot'].'/inc/lib_form.inc');
 	include_once($global['approot'].'/inc/lib_validate.inc');
 	include_once($global['approot'].'/inc/lib_errors.inc');
-	
+	include $global['approot'].'/inc/lib_location.inc';
+	if($errors)
+		display_errors();
+		
 	shn_form_fopen(amap);
-	shn_form_fsopen(_("Add Location"));
-	shn_form_text(_("Location Name"),"location_name",'size="60"');
-	shn_form_opt_select("opt_camp_type",_("Location Type"));
+	shn_form_fsopen(_("Landmark Specific Details"));
+	shn_form_text(_("Landmark Name"),"location_name",'size="60"');
+	shn_form_opt_select("opt_landmark_type",_("Landmark Type"));
+	shn_form_fsclose();
+	shn_form_fsopen('Landmark\'s Location');
+	$range = shn_get_range();
+	shn_location($range);
+	shn_form_fsclose();
+
+	shn_form_fsopen(_('Main Contact Details'));
 	shn_form_text(_("Contact Person  Name"),"person_name",'size="60"');
-	shn_form_opt_select("opt_camp_type",_("Contact Type"));
+	shn_form_opt_select("opt_landmark_contact_type",_("Contact Type"));
 	shn_form_text(_("Contact Person  Address"),"person_address",'size="60"');
 	shn_form_text(_("Contact Person  Phone"),"person_phone",'size="60"');
-	shn_form_textarea(_("Directions to Location"),"direction",'size="60"');
-	shn_form_textarea(_("Comments on Location"),"comment",'size="60"');
+	shn_form_fsclose();
+	shn_form_fsopen(_('Other Details'));
+	shn_form_textarea(_("Directions to Landmark"),"direction",'size="60"');
+	shn_form_textarea(_("Significance of  Landmark"),"comment",'size="60"');
 	shn_form_fsclose();
 	shn_form_submit(_("Next"));
 	shn_form_fclose();
@@ -36,6 +50,19 @@ function shn_lr_amap()
 {
 	global $global;
 	include_once($global['approot'].'/inc/lib_form.inc');
+	include $global['approot'].'/inc/lib_location.inc';
+	$location_val = shn_get_range();
+	$location = $location_val['end'];
+	$_SESSION['location_name'] = $_POST['location_name'];
+	$_SESSION['opt_landmark_type'] = $_POST['opt_landmark_type'];
+	$_SESSION['person_name'] = $_POST['person_name'];
+	$_SESSION['opt_landmark_contact_type'] = $_POST['opt_landmark_contact_type'];
+	$_SESSION['person_address'] = $_POST['person_address'];
+	$_SESSION['person_phone'] = $_POST['person_phone'];
+	$_SESSION['direction'] = $_POST['direction'];
+	$_SESSION['comment'] = $_POST['comment'];
+	$_SESSION[$location] = $_POST[$location];
+
 	shn_form_fopen(com);
 	shn_form_fsopen(_("Location Information"));
 	echo _("Plot the Location OR Enter its GPS coordinates ");
@@ -66,6 +93,23 @@ function shn_lr_amap()
 
 function shn_lr_com ()
 {
+	global $global;
+	include_once($global['approot'].'/inc/lib_location.inc');
+	$db = $global['db'];
+	if((null==$_POST['gps_x']) && null==$_POST['gps_y']){
+			$_SESSION['gis_loc_x']=$_POST['loc_x'];
+			$_SESSION['gis_loc_y']=$_POST['loc_y'];
+		}
+		else{
+			$_POST['loc_x'] = $_POST['gps_x'];
+			$_POST['loc_y'] = $_POST['gps_y'];
+			$_SESSION['gis_loc_x']=$_POST['loc_x'];
+			$_SESSION['gis_loc_y']=$_POST['loc_y'];
+		}
+	$location_val = shn_get_range();
+	$location = $location_val['end'];
+	include_once($global['approot'].'/inc/lib_uuid.inc');
+	$id = shn_create_uuid('l');
 	echo "Done";
 }
 ?>
