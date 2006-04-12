@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.4 2006-04-09 18:16:17 sudheera Exp $ */
+/* $Id: lib_uuid.inc,v 1.5 2006-04-12 08:26:38 mifanc Exp $ */
 
 /**
  *
@@ -67,6 +67,11 @@ function shn_create_uuid($type='person')
         case 'camp':
         case 'c' :
                 $gen_id = 'c-'._shn_gen_id('camp');
+            break;
+            
+        case 'loc':
+        case 'l' :
+                $gen_id = 'l-'._shn_gen_id('location');
             break;
 
         case 'request' :
