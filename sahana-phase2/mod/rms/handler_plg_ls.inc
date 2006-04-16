@@ -1,6 +1,6 @@
 <?php
 /**
-* Description for file
+* The Sahana Resquest Management System
 *
 * PHP version 4 and 5
 *
@@ -8,190 +8,257 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Sudheera R. Fernando <sudheera@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package
-* @subpackage
+* @author       Sudheera R. Fernando <sudheera@opensource.lk>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package      sahana
+* @subpackage   rms
 * @tutorial
-* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* Public License (LGPL)
 */
 
+_shn_rms_print_hedder(_("Pledge List"));
 
-_shn_rms_show_headder(_("List of Current Pledges"));
-
-
-
-function _shn_rms_get_allplgs()
+function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = null)
 {
     global $global;
-
-    $filter = $_REQUEST['filter'];
-    $order  = $_REQUEST['order'];
-
+    $db = $global['db'];
+    $paging = false;
     $sql = "SELECT * FROM rms_pledge";
-
-    if(isset($filter) && trim($filter) != -1)
+    
+    // apply filters if any
+    if ($filter != null)
     {
-        $str = " WHERE cat_id=$filter";
-        $sql .= $str;
+        $requester = $filter['donor'];
+        $status = $filter['status'];
+        $fstr = ''; //filter string
+        
+        if ($filter['status'] == '' || !_shn_rms_is_plgstatus($status))
+            $status = false;
+            
+        if (isset($filter['donor']))
+        {
+            $fstr = " WHERE donor_uuid='$donor'";
+            
+            if ($status)
+                $fstr .= " AND status='$status'";
+        }
+        elseif ($status)
+        {
+            $fstr = " WHERE status='$status'";
+        }
+        
+        $sql .= $fstr;
     }
-
-    if(trim(isset($order)))
+    
+    if (!isset($page) || $page == '' || !is_numeric($page))
+        $page = 1;
+    
+    if (!isset($rows) || $rows == '' || !is_numeric($rows))
+        $rows = 10;
+    
+    // create pagnating links
+    $plg_count = _shn_rms_get_recordcount('rms_pledge', $fstr);
+    $page_count = ceil($plg_count/$rows);
+    
+    if (1 < $page_count)
     {
-        $str = " ORDER BY $order";
-        $sql .= $str;
-    }
+        $paging = true;
+        $page_list = _(":: ");
+        
+        if (1 < $page)
+        {
+            $page_list .= '<a href="index.php?mod=rms&amp;act=plg_ls' .
+                              '&amp;page_no=' . ($page - 1) . '"> ' . 
+                              _("Previous") . '</a> ';
+        }
+        
+        for ($i = 1; $i <= $page_count; $i++)
+        {
+            if ($page != $i)
+            {
+                $page_list .= ' <a href="index.php?mod=rms&amp;act=plg_ls' .
+                              '&amp;page_no=' . $i . '"> <small>' . $i . 
+                              '</small></a> ';
+            }
+            else
+            {
+                $page_list .= '<small>' . $i . '</small>';
+            }
+        }
+        
+        if ($page_count != $page)
+            $page_list .= '<a href="index.php?mod=rms&amp;act=plg_ls' .
+                              '&amp;page_no=' . ($page + 1) . '">' . 
+                              _("Next") . '</a>';
+    }        
+    
+    //set order-by
+    if ($odr_by != null && $odr_by != '')
+        $sql .= " ORDER BY '$odr_by'";
+    else
+        $sql .= " ORDER BY 'plg_date'";
 
-    $rs = $global['db']->Execute($sql);
-
-
-    if ($rs == null || $global['db']->ErrorMsg() != null)
-    {
-        _shn_rms_adderror($global['db']->ErrorMsg());
-        _shn_rms_showerrors();
-        return false;
-    }
-
-    $arr = $rs->GetArray();
-
-    return $arr;
-}
-
-function __add_order_url($str)
-{
-    switch ($str)
-    {
-        case 'ID' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=plg_id'>$str</a>";
-                    break;
-        case 'Status' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=status'>$str</a>";
-                    break;
-        case 'Category' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=cat_id'>$str</a>";
-                    break;
-        case 'Date' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=date'>$str</a>";
-                    break;
-        case 'Donor' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=user_id'>$str</a>";
-                    break;
-        case 'Item' : print "<a href='index.php?mod=rms&amp;act=vw_plgs&amp;order=item'>$str</a>";
-                    break;
-    }
-}
-
-function _shn_rms_show_plglist()
-{
-    _shn_rms_plg_showfilter();
-    $plgs = _shn_rms_get_allplgs();
-?>
-<div id ="result">
-<table>
-    <thead>
-        <td width=""><?php __add_order_url('ID') ?></td>
-        <td width="70"><?php __add_order_url('Status') ?></td>
-        <td width=""><?php __add_order_url('Date') ?></td>
-        <td width="120"><?php __add_order_url('Donor') ?></td>
-        <td width="100"><?php __add_order_url('Category') ?></td>
-        <td width="100"><?php __add_order_url('Item') ?></td>
-        <td width=""><?php print _("Change Status") ?></td>
-        <td width=""><?php print _("More Details") ?></td>
-    </thead>
-<?php
-
-    foreach($plgs as $plg)
-    {
-?>
-    <tr id="body">
-        <td><?php print  $plg['plg_id']; ?></td>
-        <td><?php print  $plg['status']; ?></td>
-        <td><?php print  $plg['date']; ?></td>
-        <td><?php print  get_donor_name($plg['user_id']); ?></td>
-        <td><?php print  get_plg_category($plg['cat_id']); ?></td>
-        <td><?php print  $plg['item']; ?></td>
-        <td>
-        <?php
-
-            shn_form_fopen("stat_plgs",null,array('req_message'=>false));
-            shn_form_hidden(array('seq'=>''));
-            shn_form_hidden(array('from'=>'list'));
-            shn_form_hidden(array('plg_id'=>$plg['plg_id']));
-            shn_form_submit('Change Status',"shorter");
-            shn_form_fclose();
-        ?>
-        </td>
-        <td>
-        <?php
-            #more details button
-            shn_form_fopen("vw_plgs",null,array('req_message'=>false));
-            shn_form_hidden(array('seq'=>'vw_plg'));
-            shn_form_hidden(array('id'=>$plg['plg_id']));
-            shn_form_submit('More',"shorter");
-            shn_form_fclose();
-        ?>
-        </td>
-
-    </tr>
-
-<?php
-    }
-?>
-</table>
-</div>
-<?php
-}
-
-function _shn_rms_show_plgdetails()
-{
-    _shn_rms_plg_view($_POST['id']);
-
-    #back button
-    shn_form_fopen("vw_plgs",null,array('req_message'=>false));
-    shn_form_hidden(array('seq'=>''));
-    shn_form_submit('Back',"short");
-    shn_form_fclose();
-
-}
-
-function _shn_rms_plg_showfilter()
-{
-    $value = $_REQUEST['filter'];
-    _shn_rms_fltcats($value);
-    print "<br/>";
-}
-
-function _shn_rms_fltcats($value)
-{
-    global $global;
-    $sql = "SELECT cat_id,category FROM  rms_req_category";
-    $rs = $global['db']->Execute($sql);
-
-    $url = "index.php?mod=rms&act=vw_req&amp;act=vw_plgs";
-
-    $select = "<div><form action='$url' name=req_fil_cat method=post>\n";
-    $select .= _("Filter by Category");
-    $select .= "<select name='filter' onChange='submit();'>\n";
-    $rs_arr = $rs->GetAll();
+    $rs = $db->PageExecute($sql, $rows, $page);
+    $rs_arr = $rs->GetArray();
+    
+    //create the filter list
+    $donors = array();
+    
     foreach ($rs_arr as $r)
     {
-        if($r[0] != $value)
-            $select .= "\t<option value=" . $r[0] . ">" . $r[1] . "</option>\n";
-        else
-            $select .= "\t<option selected='selected' value=" . $r[0] . ">" . $r[1] . "</option>\n";
+        $donor = _shn_rms_get_donor($r['donor_uuid']);
+        $donors[$r['donor_uuid']] = $donor['name'];
     }
-    $select .= "\t<option value='-1'> All </option>\n";
-    $select .= "</select>\n" .
-               "</form>\n" .
-               "</div>";
-    print $select;
+    
+    //Result table hedder
+    $th_res[] = array (
+                         _("ID"), 
+                         _("Donor"), 
+                         _("Date"), 
+                         _("status"),
+                         ''
+                        );
+                        
+    foreach ($rs_arr as $r)
+    {
+        $plg_id = $r['plg_uuid'];
+        
+        $donor = _shn_rms_get_donor($r['donor_uuid']);
+        $donor_d = '<strong>' . $donor['name'] . '</strong><br >' . 
+                    'Contact: <a href="mailto:' . $donor['email'] .'">' . $donor['email'] . '</a> , ' .
+                    $donor['mobile'];
+        
+        $plg_date = $r['plg_date'];
+        $plg_stat = $r['status'];
+        $shn_usr = $r['user_id'];
+        
+        $view_url = '<a href=index.php?mod=rms&amp;act=plg_ls' .
+                    '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
+                    _("Details") . '</a>';
+        
+        $tb_res[] = array ($plg_id, $donor_d, $plg_date, $plg_stat, $view_url);
+    }
+    
+    if (1 <= count($rs_arr))
+    {
+        shn_html_table_open(array('class'=>'wide'));
+        shn_html_tbody_open();
+        shn_html_tr_open();
+            shn_html_td_open();
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'filter'));
+            shn_form_select($donors, _("Donors"), 'donor', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_fclose();
+            shn_html_td_close();
+            
+            shn_html_td_open();
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'filter'));
+            $stat['all'] = _("All");
+            $stat['open'] = _("Confirmed");
+            $stat['Delivered'] = _("Delivered");
+            $stat['Not Delivered'] = _("Not Delivered");
+            shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_fclose();
+            shn_html_td_close();
+            
+            shn_html_td_open();
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'filter_clr'));
+            shn_form_submit(_("Clear Filter"));
+            shn_form_fclose();            
+            shn_html_td_close();
+            
+            shn_html_td_open(array('align'=>'right'));
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'rows'));
+            $opts = array ('1'=>'1', '2'=>'2', '10'=>'10', '25'=> '25');
+            shn_form_select($opts,_("Records"), 'rows', 'onChange="submit(this);"', array('value'=>$rows));
+            shn_form_fclose();
+            shn_html_td_close();
+        shn_html_tr_close();
+        shn_html_tbody_close();
+        shn_html_table_close();
+        
+            //temp stuff
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'rows'));
+            $opts = array ('1'=>'1', '2'=>'2', '10'=>'10', '25'=> '25');
+            shn_form_select($opts,_("Records"), 'rows', 'onChange="submit(this);"', array('value'=>$rows));
+            shn_form_fclose();
+            
+            shn_html_td_open();
+            shn_form_fopen("plg_ls",null, array('req_message'=>false));
+            shn_form_hidden(array('seq'=>'filter'));
+            $stat['all'] = _("All");
+            $stat['open'] = _("Confirmed");
+            $stat['Delivered'] = _("Delivered");
+            $stat['Not Delivered'] = _("Not Delivered");
+            shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_fclose();
+            shn_html_td_close();
+            //temp stuff - end
+            
+        print '<br />';
+        
+        if ($paging)
+            print $page_list;
+        
+        shn_html_table($tb_res, $th_res, null, array('class'=>'wide'));
+    }
+    else
+    {
+        _shn_html_print_alert(_("There are no Pledges on the Database that matches your criteria"));
+        print '<br />' .
+                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=plg_ls">' . _("Back to Pledge List") . '</a> ]';
+    }
 }
 
 switch ($_REQUEST['seq'])
 {
     case '':
-            _shn_rms_show_plglist();
+            $_SESSION['rms_plg_filter'] = null;
+            $_SESSION['rms_plg_orderby'] = null;
+            $page = $_REQUEST['page_no'];
+            $rows = $_SESSION['rms_plg_ls_rows'];
+            _shn_rms_plg_showlist($page, $rows);
             break;
-
-    case 'vw_plg':
-            _shn_rms_show_plgdetails();
+    case 'filter':
+            $page = $_REQUEST['page_no'];
+            $rows = $_SESSION['rms_plg_ls_rows'];
+            $_SESSION['rms_plg_filter']['donor'] = $_REQUEST['donor'];
+            $_SESSION['rms_plg_filter']['status'] = $_REQUEST['status'];
+            _shn_rms_plg_showlist($page, $rows, $_SESSION['rms_plg_filter']);
+            break;
+    case 'odr_by':
+            $page = $_REQUEST['page_no'];
+            $rows = $_SESSION['rms_plg_ls_rows'];
+            $_SESSION['rms_plg_orderby'] = $_GET['odr_by'];
+            _shn_rms_plg_showlist($page, $rows, $_SESSION['rms_plg_filter'], $_SESSION['rms_plg_orderby']);
+            break;
+    case 'rows':
+            $page = $_REQUEST['page_no'];
+            $_SESSION['rms_plg_ls_rows'] = $_POST['rows'];
+            $rows = $_SESSION['rms_plg_ls_rows'];
+            $_SESSION['rms_plg_orderby'] = $_GET['odr_by'];
+            _shn_rms_plg_showlist($page, $rows, $_SESSION['rms_plg_filter'], $_SESSION['rms_plg_orderby']);
+            break;
+    case 'filter_clr':
+            $_SESSION['rms_plg_filter'] = null;
+            $page = $_REQUEST['page_no'];
+            $rows = $_SESSION['rms_plg_ls_rows'];
+            _shn_rms_plg_showlist($page, $rows, $_SESSION['rms_plg_orderby']);
+            break;
+    case 'view_plg':
+            $plg_id = $_REQUEST['plg_id'];
+            _shn_rms_view_pledge($plg_id);
+            
+            print '<br />' .
+                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=plg_ls">' . _("Back to Pledge List") . '</a> ]';
             break;
 }
-
 
 ?>

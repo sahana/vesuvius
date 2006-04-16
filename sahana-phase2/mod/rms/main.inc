@@ -1,6 +1,6 @@
 <?php
 /**
-* Sahana Request Management System main page
+* The Sahana Resquest Management System
 *
 * PHP version 4 and 5
 *
@@ -8,151 +8,94 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Sudheera R. Fernando <sudheera@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package
-* @subpackage
+* @author		Sudheera R. Fernando <sudheera@opensource.lk>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package		sahana
+* @subpackage	rms
 * @tutorial
-* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* Public License (LGPL)
 */
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
+require_once $global['approot']."/inc/lib_menu.inc";
+include_once($global['approot']."/inc/lib_uuid.inc");
 require_once 'lib_rms.inc';
+require_once 'lib_rms_db.inc';
+require_once 'lib_rms_js.inc';
 
 
-/**
- * RMS main menu
- */
+function shn_rms_default()
+{
+    include_once ('handler_home.inc');
+}
+
 function shn_rms_mainmenu()
 {
-    global $global;
-    $module = $global['module'];
-    $user_id = $global['person_id'];
-
-?>
-
-   <div id="modmenuwrap">
-        <h2><?php print _("RMS Module Actions"); ?></h2>
-            <ul id="modmenu">
-                <li>
-                    <a href="index.php?mod=<?=$module?>">
-                    <?php print _("Home"); ?></a>
-                </li>
-                <li><a href="#">Requests</a></li>
-                <ul>
-	                <li><a href="index.php?mod=<?=$module?>&amp;act=new_req">
-	                <?php print _("New Request"); ?></a>
-	                </li>
-	                <li><a href="index.php?mod=<?=$module?>&amp;act=vw_req&amp;user=all">
-	                <?php print _("List All Requests"); ?></a>
-	                </li>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=sc_req">
-                    <?php print _("Search Requests"); ?></a>
-                    </li>
-                </ul>
-                <li><a href="#">Pledges</a></li>
-                <ul>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=new_plg">
-                    <?php print _("Add Pledges"); ?></a>
-                    </li>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=vw_plg">
-                    <?php print _("View Pledge"); ?></a>
-                    </li>
-                    <li><a href="index.php?mod=<?=$module?>&amp;act=vw_plgs">
-                    <?php print _("List Pledges"); ?></a>
-                    </li>
-                </ul>
-            </ul>
-    </div> <!-- /modmainwrap -->
-    <?php
+	global $global;
+    $module = $global['modlue'];
+    
+    shn_mod_menuopen(shn_get_module_name());
+    shn_mod_menuitem("default", "Home", $module);
+    shn_sub_mod_menuopen(_("Requests"));
+    shn_sub_mod_menuitem("req_new", _("Make Request"), $module);
+    shn_sub_mod_menuitem("req_ls", _("List Requests"), $module);
+    shn_sub_mod_menuitem("req_sch", _("Search Requests"), $module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Pledges"));
+    shn_sub_mod_menuitem("plg_new", _("New Pledge"), $module);
+    shn_sub_mod_menuitem("plg_ls", _("List Pledges"), $module);
+    shn_sub_mod_menuitem("plg_sch", _("Search Pledges"), $module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Manage"));
+    shn_sub_mod_menuitem("mng_ff", _("Fulfill Request"), $module);
+    shn_sub_mod_menuitem("mng_stat", _("View Statistics"), $module);
+    shn_sub_mod_menuclose();
+    shn_mod_menuclose() ;
+    
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
-/**
- * The Default RMS homepage
- */
-function shn_rms_default()
+function shn_rms_req_new()
 {
-    include_once ('handler_main.inc');
+    include_once ('handler_req_new.inc');
 }
 
-/**
- * Add New request form
- */
-function shn_rms_new_req()
+function shn_rms_req_ls()
 {
-    include_once ('handler_new_req.inc');
+    include_once ('handler_req_ls.inc');
 }
 
-/**
- * List Requests
- */
-function shn_rms_vw_req()
+function shn_rms_req_sch()
 {
-    include_once ('handler_view_req.inc');
+    include_once ('handler_req_sch.inc');
 }
 
-function shn_rms_v_req()
-{
-    include_once ('handler_vw_req.inc');
-}
-
-/**
- * Search Requests
- */
-function shn_rms_sc_req()
-{
-    include_once ('handler_sc_req.inc');
-}
-
-function shn_rms_mgt_req()
-{
-    include_once ('handler_mgt_req.inc');
-}
-
-/**
- * Pledges
- */
-function shn_rms_new_plg()
+function shn_rms_plg_new()
 {
     include_once ('handler_plg_new.inc');
 }
 
-function shn_rms_vw_plg()
-{
-    include_once ('handler_plg_vw.inc');
-}
-
-function shn_rms_vw_plgs()
+function shn_rms_plg_ls()
 {
     include_once ('handler_plg_ls.inc');
 }
 
-function shn_rms_del_plg()
+function shn_rms_plg_sch()
 {
-    include_once ('handler_plg_del.inc');
+    include_once ('handler_plg_sch.inc');
 }
 
-function shn_rms_stat_plgs()
+function shn_rms_mng_ff()
 {
-    include_once ('handler_plg_stat.inc');
+    include_once ('handler_mng_ff.inc');
 }
 
-/**
- * Enter Fulfilment information
- */
-function shn_rms_fulfill_req()
+function shn_rms_mng_stat()
 {
-    include_once ('handler_fulfill_req.inc');
+    include_once ('handler_mng_stat.inc');
 }
-
-function shn_rms_cstat_req()
-{
-    include_once ('handler_cstat_req.inc');
-}
-
 ?>
-

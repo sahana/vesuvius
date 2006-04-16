@@ -1,6 +1,6 @@
 <?php
 /**
-* The Sahana Resquest Management System Configuration File
+* The Sahana Resquest Management System
 *
 * PHP version 4 and 5
 *
@@ -17,10 +17,5 @@
 * Public License (LGPL)
 */
 
-
-/**
- * provides the nice display name for the RMS  module
- */
-$conf['mod_rms_name'] = _("Request Management System");
 
 ?>
