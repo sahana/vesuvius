@@ -18,7 +18,7 @@
 
 function shn_html_table($body, $head = null, $foot = null, $attributes = null, $caption = null )
 {
-    _shn_html_table_open($attributes, $caption);
+    shn_html_table_open($attributes, $caption);
 
     if ($head!= null)
         shn_html_addthead($head);
@@ -28,31 +28,31 @@ function shn_html_table($body, $head = null, $foot = null, $attributes = null, $
     if ($foot != null)
         shn_html_addthead($foot);
 
-    _shn_html_table_close();
+    shn_html_table_close();
 }
 
 function shn_html_addtbody($rows)
 {
-    _shn_html_tbody_open();
+    shn_html_tbody_open();
 
     foreach ($rows as $row)
     {
         shn_html_addtr($row);
     }
 
-    _shn_html_tbody_close();
+    shn_html_tbody_close();
 }
 
 function shn_html_addthead($rows)
 {
-    _shn_html_thead_open();
+    shn_html_thead_open();
 
     foreach ($rows as $row)
     {
         shn_html_addtr($row);
     }
 
-    _shn_html_thead_close();
+    shn_html_thead_close();
 }
 
 function shn_html_addtfoot($rows)
@@ -69,14 +69,14 @@ function shn_html_addtfoot($rows)
 
 function shn_html_addtr($cols)
 {
-    _shn_html_tr_open();
+    shn_html_tr_open();
 
     foreach ($cols as $col)
     {
         shn_html_addtd($col);
     }
 
-    _shn_html_tr_close();
+    shn_html_tr_close();
 }
 
 function shn_html_addtd($data, $colspan = null, $rowspan = null, $scope = null)
@@ -117,7 +117,7 @@ function shn_html_addth($data, $colspan = null, $rowspan = null, $scope = null)
 
 
 
-function _shn_html_table_open($attributes = null,$caption = null)
+function shn_html_table_open($attributes = null,$caption = null)
 {
     $str_attr = '';
 
@@ -141,35 +141,35 @@ function _shn_html_table_open($attributes = null,$caption = null)
     }
 }
 
-function _shn_html_table_close()
+function shn_html_table_close()
 {
 ?>
     </table>
 <?php
 }
 
-function _shn_html_thead_open()
+function shn_html_thead_open()
 {
 ?>
         <thead>
 <?php
 }
 
-function _shn_html_thead_close()
+function shn_html_thead_close()
 {
 ?>
         </thead>
 <?php
 }
 
-function _shn_html_tbody_open()
+function shn_html_tbody_open()
 {
 ?>
         <tbody>
 <?php
 }
 
-function _shn_html_tbody_close()
+function shn_html_tbody_close()
 {
 ?>
         </tbody>
@@ -192,7 +192,7 @@ function _shn_html_tfoot_close()
 
 
 
-function _shn_html_tr_open()
+function shn_html_tr_open()
 {
 ?>
         <tr>
@@ -200,11 +200,47 @@ function _shn_html_tr_open()
 }
 
 
-function _shn_html_tr_close()
+function shn_html_tr_close($attributes = null)
 {
+    $str_attr = '';
+    
+    
+    if($attributes != null)
+        foreach ($attributes as $k=>$v)
+            $str_attr .= "$k='$v'" . ' ';
+
 ?>
-        </tr>
+        </tr <?=$str_attr?>>
 <?php
 }
 
+function shn_html_td_open($attributes = null, $colspan = null, $rowspan = null, $scope = null)
+{
+    $str_attr = '';
+    
+    
+    if($attributes != null)
+        foreach ($attributes as $k=>$v)
+            $str_attr .= "$k='$v'" . ' ';
+        
+    if(isset($colspan))
+        $str_attr .= 'colspan="' . $colspan . '" ';
+
+    if(isset($rowspan))
+        $str_attr .= 'rowspan="' . $rowspan . '" ';
+
+    if($scope == 'row' || $scope == 'col')
+        $str_attr .= 'scope="' . $scope . '" ';
+
+?>
+            <td <?=$str_attr?>>
+<?php
+}
+
+function shn_html_td_close()
+{
+?>
+            </td>
+<?php
+}
 ?>
