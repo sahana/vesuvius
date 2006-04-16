@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.32 2006-04-06 17:45:24 sudheera Exp $ */
+/* $Id: lib_form.inc,v 1.33 2006-04-16 08:32:59 sudheera Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -52,7 +52,12 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 
     if (!isset($form_opts['style']))
         $form_opts['style'] = "formcontainer";
-
+    
+    if (isset($form_opts['anchor']))
+        $anchor = '#' . $form_opts['anchor'];
+    else
+        $anchor = '';
+    
     if($form_opts['req_message']){
 ?>
     <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
@@ -60,7 +65,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     }
 ?>
     <div id="<?=$form_opts['style']?>">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
 <?php
 }
 
@@ -209,7 +214,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 {
     global $global;
 
-    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <select name="<?=$name?>" <?=$select_opts?> >
