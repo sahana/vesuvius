@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.6 2006-04-12 21:07:15 sudheera Exp $ */
+/* $Id: lib_uuid.inc,v 1.7 2006-04-16 23:37:36 sudheera Exp $ */
 
 /**
  *
@@ -83,6 +83,11 @@ function shn_create_uuid($type='person')
         case 'plg' :
         case 'pl' :
                 $gen_id = 'pl-'._shn_gen_id('pledge');
+            break;
+        case 'fulfil' :
+        case 'ff' :
+        case 'f' :
+                $gen_id = 'f-'._shn_gen_id('fulfil');
             break;
         default :    
 
