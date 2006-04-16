@@ -616,3 +616,25 @@ div#footer {
 	background-color: #6181CA;
 	border-top: #058 1px solid;
 }
+
+/* temp styles */
+/* alert styles */
+div.alert {
+	margin: 0 0 10px 0;
+	padding: 5px 10px 5px 35px;
+	border: #FC6 1px solid;
+	background: url(img/oops.png) #FFC no-repeat 5px 5px;
+}
+
+/* info styles */
+div.info {
+	margin: 0 0 10px 0;
+	padding: 5px 10px 5px 35px;
+	border: #FC6 1px solid;
+	background: url(img/oops.png) #FFC no-repeat 5px 5px;
+}
+
+/* layout table*/
+table.layout {
+	
+}
