@@ -59,19 +59,19 @@ function shn_front_controller()
     $action = $global['action'];
     $module = $global['module'];
    
-   // check the users access permissions for this action
-    $module_function = 'shn_'.$module.'_'.$action;
-   
-	$acl_enabled=shn_acl_get_state($module);
-    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'], $module_function) || 
-             !$acl_enabled)? true : false;
-
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
         $module = 'admin';   
         $action = 'modadmin';
     }
+
+   // check the users access permissions for this action
+    $module_function = 'shn_'.$module.'_'.$action;
+   
+	$acl_enabled=shn_acl_get_state($module);
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'], $module_function) || 
+             !$acl_enabled)? true : false;
 
     // include the correct module file based on action and module
     $module_file = $approot.'mod/'.$module.'/main.inc';
