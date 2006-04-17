@@ -18,10 +18,36 @@
 $act=$_GET{"act"};
 if($act=='add_loc'){
     _shn_get_level_location();
-}else {
-    _shn_get_children();
-}
+}else if ($act=='sub_cat'){
+		_shn_get_sub_catalogs();
+	}else{
+	    _shn_get_children();
+	}
 
+
+function _shn_get_sub_catalogs(){
+require_once('../3rd/adodb/adodb.inc.php');
+require_once('../conf/config.inc');
+//Make the connection to $global['db']
+$db = NewADOConnection($conf['db_engine']);
+$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
+t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
+
+$cat=$_GET{"cat"};
+
+	$q="select ct_uuid,name from ct_catalogue where parentid=$cat";
+    $res_child=$db->Execute($q);
+   	if(!$res_child==NULL && !$res_child->EOF){
+    		while(!$res_child->EOF){
+        		$res=$res.",".$res_child->fields[0];
+        		$res=$res.",".$res_child->fields[1];
+        		$res_child->MoveNext();
+    		}
+		echo $res;
+   	}else{
+   		echo "null,";
+	}
+}
 
 function _shn_get_children(){
 require_once('../3rd/adodb/adodb.inc.php');
