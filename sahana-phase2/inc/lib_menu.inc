@@ -158,5 +158,28 @@ function shn_sub_mod_menuclose()
 	</li> <!-- /modmenuwrap -->
 <?php
 }
-?>
 
+function shn_adm_menuopen($desc=null) 
+{   
+?>
+    <div id="submenu_v">
+<?php
+}
+
+function shn_adm_menuclose() 
+{   
+?>
+    </div> 
+<?php
+}
+
+function shn_adm_menuitem($action, $desc, $module = null ) 
+{ 
+    global $global;
+    if ( null == $module ) $module = $global['module'];
+?>
+    <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a>
+<?php
+}
+
+?>
