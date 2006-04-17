@@ -67,8 +67,13 @@ function shn_admin_modadmin()
     // compose and call the relevant module function
     $module_function = "shn_".$global['module']."_".$global['action'];
     if (!function_exists($module_function)) {
-        $module_function="shn_".$module."_default";
+        $module_function="shn_".$global['module']."_adm_default";
     }
+
+    //select the menu
+    $admin_menu = "shn_".$global['module']."_adminmenu";
+    if(function_exists($admin_menu))
+        $admin_menu();    
     $module_function();
 }
 
