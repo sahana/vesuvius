@@ -23,17 +23,17 @@
  * @access public
  * @return void
  */
-function shn_cs_addmain_form($submit_func_name=null, $name=null,$description=null)
+
+
+function shn_cs_addmain_form()
 {
 	$extra_opts['req']=true;
-	shn_form_fopen($submit_func_name);
+	shn_form_fopen('addmain_form_submit');
 	shn_form_fsopen(_('Details Of the catalogue'));
-	$extra_opts['value']=$name;
-	shn_form_text(_("Category Name   : "),'main_cat_name','size="50"',$extra_opts);
-	$extra_opts['value']=$description;
-	shn_form_text(_("Description   : "),'description','size="50"',$extra_opts);
+	shn_form_text(_("Name   : "),'main_cat_name','size="50"',$extra_opts);
+	shn_form_text(_("Description   : "),'description','size="50"');
 	shn_form_fsclose();
-	shn_form_submit(_("Submit"));
+	shn_form_submit(_("Add"));
 	shn_form_fclose();
 
 }
@@ -44,17 +44,16 @@ function shn_cs_addmain_form($submit_func_name=null, $name=null,$description=nul
  * @access private
  * @return void
  */
-function _shn_cs_addmain_form_result($edit=false)
+function _shn_cs_addmain_form_result()
 {
 	global $global;
 	$db=$global["db"];
 	$parentid='0';
 	$name = trim($_POST['main_cat_name']);
     	$description = trim($_POST['description']);
-	if(!$edit)
-		{
-		$id = shn_create_uuid("catalogue");
-		}
+	
+	$id = shn_create_uuid("catalogue");
+
 	$q="insert into ct_catalogue (parentid,ct_uuid,name,description) values($parentid,'$id','$name','$description')";
 	$res=$db->Execute($q);
 ?>
@@ -66,9 +65,7 @@ function _shn_cs_addmain_form_result($edit=false)
 
 <?php
 
-	shn_cs_addmain_form();
 }
-
 
 
 /**
@@ -79,7 +76,7 @@ function _shn_cs_addmain_form_result($edit=false)
 
 function shn_cs_addsub_form1()
 {
-require_once("lib_cs.inc");
+	require_once("lib_cs.inc");
 	
 	shn_form_fopen("addsub_form1_submit");
 	shn_sub_cat(6);
@@ -105,11 +102,11 @@ function _shn_cs_addsub_form1_result()
 	
 		if($parent_id==null)
 		{
-		$parent_id = trim($_POST[$i-1]);
+		$parent_id = $_POST[$i-1];
 		break;
 		}
 	}
-
+	$extra_opts['req']=true;
 	shn_form_fopen("addsub_form2_submit");
 	shn_form_fsopen(_('Sub Category Details'));
 	shn_form_text(_("Name   : "),'sub_cat_name','size="50"',$extra_opts);
@@ -123,18 +120,19 @@ function _shn_cs_addsub_form1_result()
 
 	while(!$res==NULL && !$res->EOF)
 	{
-	$myoptions[$res->fields["unit_id"]] =$res->fields["name"] ;
+	$myoptions[$res->fields['unit_uuid']]=$res->fields['name'];
 	$res->MoveNext();
 	}
 
-	shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple' );
+	
+	shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple="multiple"' );
 	shn_form_fsclose();
 	
 	//the parent ID is submitted as a hidden variable
 	$parent_id_array=array($i => $parent_id);
 	shn_form_hidden($parent_id_array);
 
-	shn_form_submit(_("Submit"));
+	shn_form_submit(_("Add"));
 	shn_form_fclose();
 }
 
@@ -156,7 +154,7 @@ function _shn_cs_addsub_form2_result()
 	
 		if($parent_id!=null)
 		{
-		$parent_id = $_POST[$i];
+		$parent_id = trim($_POST[$i]);
 		break;
 		}
 	}
@@ -203,7 +201,7 @@ function shn_cs_addunit_form()
 	shn_form_fsopen(_('Measurement Unit'));
 	shn_form_text(_("Unit : "),'unit_name','size="50"',$extra_opts);
 	shn_form_fsclose();
-	shn_form_submit(_("Submit"));
+	shn_form_submit(_("Add"));
 	shn_form_fclose();
 
 }
@@ -220,8 +218,10 @@ function _shn_cs_addunit_form_result()
 	global $global;
 	$db=$global["db"];
 	
+	$unit_name=trim($_POST['unit_name']);
+
 	$unit_id=shn_create_uuid("unit");
-	$query="insert into ct_unit(unit_id,name) values('$unit_id','$unit_name')";
+	$query="insert into ct_unit(unit_uuid,name) values('$unit_id','$unit_name')";
 	$res=$db->Execute($query);
 	?>
 
@@ -230,8 +230,70 @@ function _shn_cs_addunit_form_result()
 
 	</div>
 
-<?php
-shn_cs_addunit_form();
+	<?php
+
+}
+
+
+
+/**
+ * This function validates the values entered in add main form.
+ *This function is called by shn_cs_addmain_form_submit() in main.inc
+ * @access private
+ * @return void
+ */
+
+function _shn_cs_validate_addmainform()
+{
+$error_flag=false;
+clean_errors();
+	
+	//this checks whether name entered in the add main form
+	if(trim($_POST['main_cat_name'])==null)
+	{
+	add_error(_("Please Enter the Catalogue Name"));
+	$error_flag=true;
+	}
+
+return $error_flag;
+}
+
+/**
+ * This function validates the values entered in add unit form.
+ *This function is called by shn_cs_addunit_form_submit() in main.inc
+ * @access private
+ * @return void
+ */
+
+function _shn_cs_validate_unitform()
+{
+$error_flag=false;
+clean_errors();
+	
+	//this checks whether name entered in the add unit form
+	if(trim($_POST['unit_name'])==null)
+	{
+	add_error(_("Please Enter the Unit Name"));
+	$error_flag=true;
+	}	
+
+return $error_flag;
+}
+
+
+function _shn_cs_validate_subcatform()
+{
+$error_flag=false;
+clean_errors();
+	
+	//this checks whether name entered in the add sub category form
+	if(trim($_POST['sub_cat_name'])==null)
+	{
+	add_error(_("Please Enter the Sub Category Name"));
+	$error_flag=true;
+	}	
+
+return $error_flag;
 }
 
 ?>

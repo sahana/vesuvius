@@ -37,7 +37,7 @@ function shn_cs_mainmenu()
 	shn_mod_menuitem("addmain",_("Add Main Catalogue"));
 	shn_mod_menuitem("addunit",_("Add Measurement Unit"));
 	shn_mod_menuitem("addsub",_("Add Sub Catalogue"));
-	shn_mod_menuitem("viewitems",_("View & Edit"));
+	shn_mod_menuitem("viewedit",_("View & Edit"));
 	shn_mod_menuclose();
    
     // include the main menu
@@ -54,31 +54,27 @@ function shn_cs_default()
 function shn_cs_search()
 {
 	echo "<h1>Search</h1>";
-	include_once('search.inc');
+	require_once('search.inc');
 	shn_cs_search_cat();
 }
 
-function shn_cs_search_view()
+function shn_cs_search_submit()
 {
 	echo "<h1>Search Result</h1>";
-	include_once('search.inc');
-	_shn_cs_search_view_result();
+	require_once('search.inc');
+	_shn_cs_search_submit_result();
 }
 
-function shn_cs_viewitems()
-{
-	echo "<h1>View Items</h1>";
-}
 
 function shn_cs_addmain()
 {
 	echo "<h1>Add Main Catalogue</h1>";
 	?>
-	<p><?= _(' This feature allows to add main categories that are not decendent of an other category. After adding the main category, sub-categories can be added under them.'); ?></p>
+	<p><?= _(' This feature allows to add root catalogues. After adding the root catalogues, sub-categories can be added under them.'); ?></p>
 	<?php
 
-	include_once('add.inc');
-	shn_cs_addmain_form('addmain_form_submit');
+	require_once('add.inc');
+	shn_cs_addmain_form();
 
 }
 
@@ -89,7 +85,7 @@ function shn_cs_addsub()
 	<p><?= _('This feature allows to add sub category under any category'); ?></p>
 	<?php
 
-	include_once('add.inc');
+	require_once('add.inc');
 	shn_cs_addsub_form1();
 }
 
@@ -99,7 +95,7 @@ function shn_cs_addunit()
 	?>
 	<p><?= _(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the purticular category.'); ?></p>
 	<?php
-	include_once('add.inc');
+	require_once('add.inc');
 	shn_cs_addunit_form();
 }
 
@@ -107,44 +103,97 @@ function shn_cs_addunit()
 function shn_cs_addmain_form_submit()
 {
 	echo "<h1>Add Main Catalogue Result</h1>";
-	include_once('add.inc');
-	_shn_cs_addmain_form_result(false);
+	require_once('add.inc');
+	
+	if(_shn_cs_validate_addmainform())
+	{
+	display_errors();
+	shn_cs_addmain_form();
+	}
+	else
+	{
+	_shn_cs_addmain_form_result();
+	}
 
 }
 
 function shn_cs_addsub_form1_submit()
 {
 	echo "<h1>Add Sub Catalogue Result</h1>";
-	include_once('add.inc');
+	require_once('add.inc');
 	_shn_cs_addsub_form1_result();
 }
 
 function shn_cs_addsub_form2_submit()
 {
 	echo "<h1>Add Sub Catalogue Result</h1>";
-	include_once('add.inc');
+	require_once('add.inc');
+	
+
+	if(_shn_cs_validate_subcatform())
+	{
+	display_errors();
+	_shn_cs_addsub_form1_result();
+	}
+	else
+	{
 	_shn_cs_addsub_form2_result();
+	}
+
+
+
 }
 
 function shn_cs_addunit_form_submit()
 {
 	echo "<h1>Add Measurement Unit</h1>";
-	include_once('add.inc');
+	require_once('add.inc');
+	
+	if(_shn_cs_validate_unitform())
+	{
+	display_errors();
+	shn_cs_addunit_form();
+	}
+	else
+	{
 	_shn_cs_addunit_form_result();
+	}
+
 }
 
-function shn_cs_edit_cat()
+
+function shn_cs_viewedit()
 {
-	echo"<h1>Edit Catalogue</h1>";
-	include_once('edit.inc');
+	echo "<h1>View And Edit</h1>";
+	require_once('edit.inc');
 	shn_cs_edit_form();
 }
 
-function shn_cs_edit_form_submit()
+function shn_cs_edit_submit()
 {
-	echo"<h1>Edit Catalogue Result</h1>";
-
+	echo "<h1>Edit Result</h1>";
+	require_once('edit.inc');
+	_shn_cs_edit_form_result();
 }
+
+function shn_cs_form1_submit()
+{
+	echo"<h1>Edit Result</h1>";
+	require_once('edit.inc');
+	shn_cs_edit_form1_result();
+	
+}
+
+function shn_cs_form2_submit()
+{
+	echo"<h1>Edit Result</h1>";
+	include_once('edit.inc');
+	shn_cs_edit_form1_submit_result();
+	
+}
+
+
+
 
 ?>
 
