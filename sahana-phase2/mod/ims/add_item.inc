@@ -150,7 +150,7 @@ function add_item($temp)
 	$extra_opts['value']=$amount;
 	shn_form_text(_("*  Amount : "),'amount','size="50"',$extra_opts);
 	
-/*sanjeewa editing*/
+/*------------------*/
 
 	global $global;
 	$db=$global["db"];
@@ -171,7 +171,7 @@ function add_item($temp)
 	shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple="multiple"' );
 
 	
-/*sanjeewa editing-end*/
+/*------------------*/
 	
 	global $global;
 	$db=$global["db"];
