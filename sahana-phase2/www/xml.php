@@ -35,7 +35,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 
 $cat=$_GET{"cat"};
 
-	$q="select ct_uuid,name from ct_catalogue where parentid=$cat";
+	$q="select ct_uuid,name from ct_catalogue where parentid='{$cat}'";
     $res_child=$db->Execute($q);
    	if(!$res_child==NULL && !$res_child->EOF){
     		while(!$res_child->EOF){
