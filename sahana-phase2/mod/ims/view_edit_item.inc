@@ -87,22 +87,13 @@ $module = $global['module'];
 			$suplier_telephone=$ims->fields["suplier_telephone"];
 			$suplier_email=$ims->fields["suplier_email"];
 
-		$sql1="SELECT name,parentid FROM ct_catalogue WHERE ct_uuid='$catalog_id';";
+		$sql1="SELECT name FROM ct_catalogue WHERE ct_uuid='$catalog_id';";
 		$ims1 = $db->Execute($sql1);
 			$category=$ims1->fields["name"];
-			$parent_id=$ims1->fields["parentid"];
+			//$parent_id=$ims1->fields["parentid"];
 
-	for($i=1;$i<5;$i++)
-	{
-	$parent_id = trim($_POST[$i]);
 	
-		if($parent_id==null)
-		{
-		$parent_id = $_POST[$i-1];
-		break;
-		}
-	}
-		echo $parent_id;	
+			
 ?>
 		<tr>
 		<td><?php print ($item_id); ?></td>
