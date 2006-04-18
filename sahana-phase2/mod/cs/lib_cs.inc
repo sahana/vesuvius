@@ -114,7 +114,7 @@ function shn_sub_cat_jscript($max,$form,$change){
     			if(i==curlevel){
         			name=name+x[0].options[x[0].selectedIndex].text;
         		}else{
-        			name=name+x[0].options[x[0].selectedIndex].text+"-";
+        			name=name+x[0].options[x[0].selectedIndex].text+"->";
         		}
         }
         
