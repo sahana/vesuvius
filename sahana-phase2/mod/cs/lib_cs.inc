@@ -24,7 +24,7 @@ include_once $global['approot']."/inc/lib_form.inc";
  * @access public
  * @return void
  */
-function shn_sub_cat_jscript($max){
+function shn_sub_cat_jscript($max,$form,$change){
     global $global;
     $fetch_server="xml.php?";
 ?>           
@@ -102,12 +102,36 @@ function shn_sub_cat_jscript($max){
         http.onreadystatechange = handleHttpResponse; 
         http.send(null);
     }
+    
+    	   function set_name_submit()
+    {
+    		var name="";
+    		var element="";
+    	    
+    	    for(i=0;i<=curlevel;i++){
+    	    		element="\""+i+"\"";
+    			var x=document.getElementsByName(i);
+    			if(i==curlevel){
+        			name=name+x[0].options[x[0].selectedIndex].text;
+        		}else{
+        			name=name+x[0].options[x[0].selectedIndex].text+"-";
+        		}
+        }
+        
+        var x=document.getElementsByName("<?php echo $change?>");
+        x[0].value=name;
+        document.<?php echo $form;?>.submit();
+        return;
+    }
+    
      var x=document.getElementsByName(0);
      x[0].selectedIndex=-1;
     for (i=max; i>0; i=i-1){
     		var x=document.getElementsByName(i);
         x[0].style.visibility='hidden';
 	}
+	
+
 </script>
 <?php
 }
@@ -121,7 +145,7 @@ function shn_sub_cat_jscript($max){
  * @access public
  * @return void
  */
-function shn_sub_cat($max)
+function shn_sub_cat($max,$form)
 {
 	
 	$parent_array=array();
@@ -158,11 +182,35 @@ function shn_sub_cat($max)
 	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';	
 	shn_form_select(null,'',$i,$select_opts,null);
 	}
-	shn_sub_cat_jscript($max);
+	shn_sub_cat_jscript($max,$form,"item_name");
+	shn_form_hidden(array('item_name'=>""));
+	//_shn_cs_item_name_javascript("item_name",$max,$form);
+	shn_form_button(_("Next"),"onClick='set_name_submit()'");
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	
+	//shn_form_submit(_("Next"));
 	}
 }
-
-
+function _shn_cs_item_name_javascript($change,$levels,$form)
+{
+?>
+<script type="text/javascript">
+    function set_name_submit()
+    {
+    		var lvl=<?php echo $levels;?>
+    	    var name;
+    	    alert(lvl);
+    	    for(i=0;i<lvl;i++){
+    			var x=document.getElementsByName("<?php echo $change?>");
+        		name=name+"-"+x[0].value;
+        }
+        
+        var x=document.getElementsByName("<?php echo $change?>");
+        x[0].value=name;
+        document.<?php echo $form;?>.submit();
+        return;
+    }
+</script>
+<?php
+}
 ?>

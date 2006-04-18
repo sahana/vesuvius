@@ -77,9 +77,11 @@ function _shn_cs_addmain_form_result()
 function shn_cs_addsub_form1()
 {
 	require_once("lib_cs.inc");
-	
-	shn_form_fopen("addsub_form1_submit");
-	shn_sub_cat(6);
+	$form_opts['name']='subcat';
+    //$form_opts['req_message']=false;
+   // shn_form_fopen("view_org_submit",null,$form_opts);
+	shn_form_fopen("addsub_form1_submit",null,$form_opts);
+	shn_sub_cat(6,'subcat');
 	shn_form_fclose();
 }
 
