@@ -1,0 +1,530 @@
+<?php
+/**
+* Sahana Inventory Management System main page
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @author		Mahesh Kaluarachchi <mahesh@opensource.lk>
+* @copyright		Lanka Software Foundation - http://www.opensource.lk
+* @package		Sahana
+* @subpackage		ims
+* @tutorial		
+* @license	  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+*/
+
+
+include_once $global['approot']."/inc/lib_modules.inc";
+include_once $global['approot']."/inc/lib_validate.inc";
+include_once $global['approot']."/inc/lib_form.inc";
+include_once $global['approot']."/inc/lib_table.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
+include_once "lib_ims.inc";
+include_once $global['approot'].'/mod/cs/lib_cs.inc';
+
+//global $global;
+
+/**
+ * RMS main menu
+ */
+function shn_ims_mainmenu()
+{
+    global $global;
+    $module = $global['module'];
+
+?>
+
+   <div id="modmenuwrap">
+        <h2><?php print _("IMS Module Actions"); ?></h2>
+            <ul id="modmenu">
+                <li>
+                	<a href="index.php?mod=<?=$module?>">
+                    	<?php print _("Home"); ?></a>
+                </li>
+		<li>
+			<a href="#">Item Management</a>
+		</li>
+		<ul>
+		<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=search_item">
+			<?php print _("Search"); ?></a>
+		</li>
+		<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=add_item_main_page">
+			<?php print _("Add Item"); ?>
+		</li></a>
+		<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=view_edit_item">
+			<?php print _("View and Edit");?>
+		</li></a>
+		</ul>
+		<li>
+			<a href="#">Reports</a></li>
+		<ul>
+			<li><a href="index.php?mod=<?=$module?>&amp;act=report_expired">
+			<?php print _("expired item"); ?></a></li>
+			<li><a href="index.php?mod=<?=$module?>&amp;act=report_minimum">
+			<?php print _("minimum quantity"); ?></a></li>
+		</ul>
+		
+
+		<li>
+		<a href="#">Multiple Inventory Management</a>
+		</li>
+		<ul>
+			<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=search">
+			<?php print _("Search"); ?></a>
+			</li>
+			<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=reg_inv">
+			<?php print _("Add Inventory"); ?></a>
+			</li>
+			<li>
+			<a href="index.php?mod=<?=$module?>&amp;act=view_inv">
+			<?php print _("View and Edit"); ?></a>
+			</li>
+			
+		</ul>
+
+<?php /**
+
+
+                <li><a href="#">Add Item</a></li>
+                <ul>
+	                <li><a href="index.php?mod=<?=$module?>&amp;act=new_act">
+	                <?php print _("New Request"); ?></li></a>
+			<li><a href="index.php?mod=<?=$module?>&amp;act=new_act">
+			<?php print _("Delete Item"); ?></a></li>
+			
+                </ul>
+*/?>
+            </ul>
+    </div> <!-- /modmainwrap -->
+    <?php
+    include $global['approot']."/inc/handler_mainmenu.inc";
+}
+
+/**
+ * The Default IMS homepage
+ */
+function shn_ims_default()
+{
+    include_once ('home.inc');
+    _shn_ims_default();	
+}
+
+/**
+* Add a new Search item form
+*/
+function shn_ims_search_item()
+{
+	include_once('search.inc');
+	_shn_ims_search_item();
+}
+
+/**
+ *  Add Category Selection form
+ */
+function shn_ims_add_item_main_page()
+{
+	global $global;
+    	include_once ('add_item.inc');
+    	_shn_ims_add_item_main_page();
+		
+}
+
+function shn_ims_add_item()
+{
+         global $global;
+	include_once('add_item.inc');
+	//global $global;
+	_shn_ims_add_item_header();
+	//_shn_ims_add_item_category_selection();
+	shn_form_fopen("add_item_db");
+	//_shn_ims_add_item_category_selection();
+	add_item($temp);
+	//shn_form_submit(_("Submit"));
+	shn_form_fclose();
+    	//shn_ims_add_item_main_page();
+}
+
+/**
+* Add new View and edit item form
+*/
+function shn_ims_view_edit_item()
+{
+    include_once ('view_edit_item.inc');
+    _shn_ims_view_edit_header();
+    _shn_ims_view_edit();
+}
+
+function shn_ims_report_minimum()
+{
+    include_once ('report.inc');
+    _shn_ims_report_minimum();
+}
+
+function shn_ims_report_expired()
+{
+	include_once ('report.inc');
+	_shn_ims_report_expired();
+}
+/**function shn_ims_add_item()
+{
+	//include_once ('add_item.inc');
+	include_once ('add_item_main_page.inc');
+	$category = $_POST['itemcat'];
+	if ($category=="Medical Drugs")
+	{
+		include_once ('add_item.inc');
+		add_item_medicaldrugs();
+	} 
+}*/
+
+function shn_ims_add_item_db()
+{
+	 
+	 include_once ('add_item_db.inc');
+  	 _shn_ims_add_item_db();
+    
+}
+
+function shn_ims_search_database()
+	{
+		include_once ('search.inc');
+			
+		global $global;
+		$db=$global["db"];
+		$item_search=$_POST['item_name_search'];
+		$category_search=$_POST['itemcat'];
+		//print ($item_search);
+		
+		$sql = "SELECT item_id,amount,unit,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE item_name='$item_search' AND category='$category_search';";
+		$ims = $db->Execute($sql);
+?>
+
+		<div id ="search_result">
+	<table>
+        <thead>
+            <td><?=_("Item ID")?></td>	
+	    <td><?=_("Amount")?></td>
+	    <td><?=_("Unit") ?></td>
+	    <td><?=_("Manufactured Date")?></td>
+            <td><?=_("Expire Date")?></td>	
+            <td><?=_("Suplier Name")?></td>
+            <td><?=_("Suplier Address")?></td>
+            <td><?=_("Suplier Contact Number")?></td>
+            <td><?=_("Suplier e-mail")?></td>
+            
+        </thead>
+	<tbody>
+	
+<?php
+
+		while (!$ims==NULL && !$ims->EOF)
+		{
+			$item_id=$ims->fields["item_id"];
+			$amount=$ims->fields["amount"];
+			$unit=$ims->fields["unit"];
+			$manufactured_date=$ims->fields["manufactured_date"];
+			$expire_date=$ims->fields["expire_date"];
+			$suplier_name=$ims->fields["suplier_name"];
+			$suplier_address=$ims->fields["suplier_address"];
+			$suplier_telephone=$ims->fields["suplier_telephone"];
+			$suplier_email=$ims->fields["suplier_email"];
+
+			
+
+?>
+	
+	<tr>
+	<td><?php print ($item_id); ?></td>
+	<td><?php print ($amount); ?></td>
+	<td><?php print ($unit); ?></td>
+	<td><?php print ($manufactured_date); ?></td>
+	<td><?php print ($expire_date); ?></td>
+	<td><?php print ($suplier_name); ?></td>
+	<td><?php print ($suplier_address); ?></td>
+	<td><?php print ($suplier_telephone); ?></td>
+	<td><?php print ($suplier_email); ?></td>
+	</tr>
+
+<?php
+	$ims->MoveNext();
+			
+		}
+?>
+	</tbody>
+	</table>
+<?php
+
+
+		//_shn_ims_search_item();
+	}
+
+/**
+**function to edit item in the view and edit page
+*/	
+function shn_ims_add_item1()
+{
+	global $global;
+	include_once ('view_edit_item.inc');
+	_shn_ims_view_edit_header();
+	$temp = trim($_REQUEST['item_id']);
+	include_once ('add_item.inc');
+	shn_form_fopen('edit_item_db');
+	add_item($temp);
+	shn_form_fclose();
+	
+}
+function shn_ims_edit_item_db()
+{
+		global $global;
+		include_once ("add_item.inc");
+		
+		$db=$global["db"];
+		$temp=$_POST['temp'];
+		//print ($temp);
+		$cate=$_POST['cat'];
+		$item=$_POST['item_name'];
+		//print ($item);
+		
+		//print ($cate);
+		$amou=$_POST['amount'];
+		$unit=$_POST['itemunit'];
+		$manufactured_date=$_POST['manufactured_date'];
+		$expire_date=$_POST['expire_date'];
+		$inv_id=$_POST['inv_id'];
+		$suply_person_name=$_POST['suplier_name'];
+		$suply_person_address=$_POST['suplier_address'];
+		$suply_person_telephone=$_POST['suplier_telephone'];
+		$suply_person_email=$_POST['suplier_email'];
+
+		//print ($cate);
+		
+    		$sql = "update ims_item_records set item_name='$item',amount='$amou',manufactured_date='$manufactured_date',expire_date='$expire_date',inventory='$inv_id' where item_id='$temp';"; 
+		$ims = $db->Execute($sql);
+
+		$_POST['item_name']="";	
+		$_POST['amount']="";
+		$_POST['manudate']="";
+		$_POST['expdate']="";
+		$_POST['suplier_name']="";
+		$_POST['suplier_address']="";
+		$_POST['suplier_telephone']="";
+		$_POST['suplier_email']="";
+
+		//shn_ims_add_item();
+		
+}
+
+/**
+**function to add add_inventory
+*/
+/*
+function shn_ims_add_inventory()
+{
+	include_once ('add_inventory.inc');
+	_shn_or_ims_regform_org($error);
+}*/
+
+/**
+**function to add the search inventory form
+*/
+/*
+function shn_ims_search_inventory()
+{
+	include_once ('search_inventory.inc');
+	_shn_or_ims_form_search();
+}
+*/
+/**
+**function to add the view and edit inventory form
+*/
+/*
+function shn_ims_view_edit_inventory()
+{
+	include_once ('view_edit_inventory.inc');
+	if(NULL == $_REQUEST['id'])
+	{
+?>
+	<h2> Inventory Registry</h2>
+<?php
+        _shn_or_ims_viewform_allorg();
+	}
+	else
+	{
+        _shn_or_ims_viewform_org($_REQUEST['id']);
+    	}
+}
+*/	
+
+/**function shn_ims_add_item_db()
+{
+    include_once ('add_item_db.inc');
+    _shn_ims_search_database();		
+}*/
+
+
+/*function shn_ims_reg_org_cr()
+{
+    include_once("process_org.inc");
+    _shn_or_ims_reg_org_cr();
+}*/
+
+function shn_ims_reg_inv($error=false)
+{
+    include_once ("reg_inv.inc"); 
+    _shn_ims_regform_org($error);
+}
+
+function shn_ims_reg_inv_cr()
+{
+    include_once("process_inv.inc");
+    _shn_ims_reg_inv_cr();
+}
+
+function shn_ims_reg_operation_cr(){
+    include_once("process_inv.inc");
+     _shn_ims_reg_operation_cr();
+}
+
+function shn_ims_view_inv_submit(){
+    include_once("process_inv.inc");
+    include_once ("view_inv.inc");
+    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+    $act=$_POST{"action"};
+    $acl_enabled=shn_acl_get_state("or");
+    $req_act="_shn_ims_".$act."_org";
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
+             !$acl_enabled)? true : false;
+    if(!$allow){
+    	?>
+    	<div id="error">
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <ul>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
+        </ul>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
+    	</div> <!-- /error -->
+    	<?
+    	return false;
+    }
+    switch ($act) {
+        case "edit":
+            _shn_ims_edit_org();
+            break;
+        case "del":
+            _shn_ims_del_org();
+            break;
+        default:
+            shn_ims_view_inv();
+            break;
+    }
+}
+
+function shn_ims_view_inv()
+{
+    include_once ("view_inv.inc");
+?>
+<?php
+    if(NULL == $_REQUEST['id']){
+    ?>
+<h2> Inventory Registry</h2>
+<?php
+        _shn_ims_viewform_allorg();
+    }else{
+        _shn_ims_viewform_org($_REQUEST['id']);
+    }
+}
+
+function shn_ims_drill_report()
+{
+    include_once("report.inc");
+    $parent=$_GET["id"];
+     _shn_ims_level($parent);
+}
+function shn_ims_org_sector()
+{
+    include_once("report.inc");
+    _shn_ims_report_org_sector();
+}
+// default page, welcome page 
+/*function shn_ims_default()
+{
+    include_once ("home.inc");
+}*/
+function shn_ims_search()
+{
+    include_once "search.inc";
+     _shn_ims_form_search();
+}
+function shn_ims_search_cr(){
+    global $global;
+    include_once $global['approot']."/inc/lib_location.inc";
+    include_once "view_inv.inc";
+    $VARCHAR=100;
+    $db=$global["db"];
+  //   list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Inventory Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    $post_loc=$_POST{"loc_sel"};
+	$locs=shn_location_get_descendants($post_loc);
+    $loc="($locs)";
+    $i=0;
+    $org=array();
+    $org_type=$_POST{"inventory_type"};
+    while($i<count($sector)){
+        $q="select inv_uuid from location_details,sector,ims_inventory_records where location_details.location_id in $loc and location_details.poc_uuid=sector.pgoc_uuid and  ims_inventory_records.inv_uuid=sector.pgoc_uuid";
+        $res_org=$db->Execute($q);
+        while(!$res_org==NULL && !$res_org->EOF){
+            array_push($org,$res_org->fields[0]);
+            $res_org->MoveNext();
+        }
+        $i=$i+1;
+    }
+?>
+<h2><?=_("Search Result")?></h2>
+    <div id ="result">
+        <table>
+            <thead>
+                <td><?=_("Inventory Name")?></td>
+                <td><?=_("Country of Origin")?></td>
+                <td><?=_("Contact Address")?></td>
+                <td><?=_("Contact Number")?></td>
+                <td><?=_("Contact Email")?></td>
+                <td><?=_("Man Power")?></td>
+                <td><?=_("Facilities")?></td>
+		<td><?=_("Space")?></td>
+            </thead>
+            <tbody>
+<?php
+    $i=0;
+    $org=array_unique($org);
+    $i=0;
+    while($i<count($org)){
+        _shn_display_org($org[$i],false,true);
+        $i=$i+1;
+    }
+?>
+        </tbody>
+    </table>
+</div>
+<?php
+}
+
+/*function shn_ims_add_item_temp()
+{
+	global $global;
+	include_once 'add_item.inc';
+	_shn_ims_add_item_header();
+	shn_form_fopen('add_item');
+	add_item($temp);
+	shn_form_fclose();
+}*/	
+
+?>
+
