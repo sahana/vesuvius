@@ -1,5 +1,6 @@
 <?php
-/* $Id: parser_contact.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
+/* $Id: parser_contact.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* last modify 2006/03/31  */
 
 /**
  * Data Import upload file 
@@ -61,6 +62,7 @@ global $global;
     function shn_imp_imp_per_init( ) {
 	global $global;
         include_once($global['approot'].'/mod/imp/Contact/bao/contact.inc');
+	
         $fields =& imp_Contact_BAO_Contact::shn_imp_imp_per_importableFields($this->_contactType);
 	$_SESSION['fields']= $fields; 
 	 

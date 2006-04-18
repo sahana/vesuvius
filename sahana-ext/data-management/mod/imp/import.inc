@@ -1,5 +1,6 @@
 <?php
-/* $Id: import.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
+/* $Id: import.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* last modify : 2006/04/03 */ 
 
 /**
  * Import data file of the Data Import Module 
@@ -25,6 +26,13 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
 
+/**
+* this imports individual contacts to the database
+*
+*@return void
+*@access public
+*
+*/ 
 
 
 function shn_imp_imp_per_Import_Individual()
@@ -98,8 +106,18 @@ PRIMARY KEY (p_id)
  
   $handle = fopen($filename, "r");
   $rows= 0; 
+
+  if ($_SESSION['individualtype']==1) 
+  { 
+   $insert_array['isvictim'] = 1; 
+	  
+  } 
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-     
+ 
+      if ($_SESSION['individualtype']==1) 
+      { 
+       $insert_array['isvictim'] = 1; 
+      } 
          	    
     for($i=0; $i<count($mapping); $i++)
     {
@@ -269,6 +287,7 @@ if((!$_SESSION['skipColumnHeader'])&& $rows ===0 ){
 continue; 
 }
 else {
+	
   shn_db_insert($insert_array,'imp_individual',true,'p_id');
  ++ $rowsimported ; 
  }
@@ -276,7 +295,7 @@ else {
    }//end of the while loop  
    shn_form_fopen("imp_per_summary",null,array('req'=> false));  
    shn_form_fsopen(_('Summary'));
-    echo 'Import has completed successfully. The information below summarizes the results.'; 
+    echo 'Import has completed successfully . The information below summarizes the results.'; 
     ?>
     <p></p>
     <p><?php echo('Total Number of Rows in the Upload File: ');
@@ -292,8 +311,17 @@ fclose($handle);
  
 } 
 
+/* }}} */
 
 
+
+/**
+* this imports organzation contacts to the database
+*
+*@return void
+*@access public
+*
+*/ 
 function shn_imp_imp_per_Import_Organization()
 { 
 global $global;
@@ -400,6 +428,142 @@ else {
 fclose($handle);
  
 } 
+/* }}}*/
+
+
+
+/**
+* this imports Camp contacts to the database
+*
+*@return void
+*@access public
+*
+*/ 
+function shn_imp_imp_per_Import_Camp()
+{ 
+global $global;
+    $db=$global['db']; 
+    
+$q = "CREATE TABLE IF NOT EXISTS Imp_Camp(
+ c_uuid BIGINT NOT NULL AUTO_INCREMENT,
+ name VARCHAR(60),
+ orgid BIGINT, 
+ contact_name VARCHAR(30),
+ contact_no INT (10),
+ comments VARCHAR(100),
+ services INT(2),
+ men INT,
+ women INT,
+ family INT,
+ children INT,
+ total INT, 
+ opt_camp_service VARCHAR(50),
+ value BOOL NOT NULL default 0,
+ PRIMARY KEY (c_uuid,opt_camp_service)); ";
+
+
+
+  $res_pers=$db->Execute($q);
+
+  $filename= $_SESSION['filename'];
+ 
+  $rowsimported = 0 ; 
+  
+  $mapping=$_SESSION['mapping']; 
+ 
+  $handle = fopen($filename, "r");
+  $rows= 0; 
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+     
+         	    
+    for($i=0; $i<count($mapping); $i++)
+    {
+     if( $mapping[$i]!= 'do_not_import'){		    
+      switch ($mapping[$i])
+      { 
+	 case 'c_uuid':
+		 $insert_array['c_uuid']= $data[$i] ; 
+	         break; 
+         case 'name': 
+	         $insert_array['name'] = $data[$i]; 
+	         break; 
+	 case 'orgid':
+		$insert_array['orgid'] = $data[$i];
+		break;
+	case 'contact_name' : 
+		$insert_array['contact_name']=$data[$i]; 
+		break; 
+	case 'contact_no':
+		$insert_array['contact_no'] = $data[$i]; 
+		break;
+	case 'comments': 
+	        $insert_array['comments'] = $data[$i]; 
+		break; 
+	case 'services': 
+		$insert_array['services'] = $data[$i]; 
+	case 'men': 
+		$insert_array['men']	= $data[$i];
+		break; 
+	case 'women': 
+		$insert_array['women'] = $data[$i];
+		break; 
+	case 'family': 
+		$insert_array['family'] = $data[$i];
+		break; 
+	case 'children': 
+		$insert_array['children'] = $data[$i];
+		break; 
+	case 'total': 
+		$insert_array['total'] = $data[$i];
+		break; 
+	case 'opt_camp_service': 
+		$insert_array['opt_camp_service'] = $data[$i];
+		break; 
+	case 'value': 
+		$insert_array['opt_camp_service'] = $data[$i];
+		break; 
+	default : 
+	 break;	
+		
+      } //end switch
+     
+    }//end if 
+    else { 
+	continue; 
+      }
+          
+    }//end of for loop	 
+    
+
+
+if((!$_SESSION['skipColumnHeader'])&& $rows ===0 ){
+++$rows	;
+continue; 
+}
+else {
+  shn_db_insert($insert_array,'Imp_camp',true,'c_uuid');
+ ++ $rowsimported ; 
+ }
+  ++$rows;
+   }//end of the while loop  
+   shn_form_fopen("imp_per_summary",null,array('req'=> false));  
+   shn_form_fsopen(_('Summary'));
+    echo 'Import has completed successfully. The information below summarizes the results.'; 
+    ?>
+    <p></p>
+    <p><?php echo('Total Number of Rows in the Upload File: ');
+      echo $rows; ?></p>
+    <?php
+   
+    echo 'Total Number of Imported Rows:'; 
+    echo $rowsimported ;
+    shn_form_fsclose();
+    shn_form_submit(_('Done')); 
+    shn_form_fclose();
+fclose($handle);
+ 
+} 
+/* }}}*/
 
 
 ?>

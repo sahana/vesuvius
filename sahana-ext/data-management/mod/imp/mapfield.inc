@@ -1,6 +1,6 @@
 <?php
-/* $Id: mapfield.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
-
+/* $Id: mapfield.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* Last modified : 31/03/2005 */
 
 /**
  * Data Import upload file 
@@ -27,7 +27,7 @@ require_once($global['approot'].'mod/imp/parser_contact.inc');
 
 
 /**
- * This class gets the name of the file to upload
+ * This class gets the name of the file to upload 
  */
 class imp_Import_Form_MapField {
 
@@ -37,7 +37,7 @@ class imp_Import_Form_MapField {
      * @var array
      * @access protected
      */
-    protected $_dataValues;
+    var $_dataValues;
 
     /**
      * mapper fields
@@ -45,7 +45,7 @@ class imp_Import_Form_MapField {
      * @var array
      * @access protected
      */
-    protected $_mapperFields;
+    var $_mapperFields;
 
     
     /**
@@ -54,7 +54,7 @@ class imp_Import_Form_MapField {
      * @var int
      * @access protected
      */
-    protected $_columnCount;
+    var $_columnCount;
 
 
     /**
@@ -63,7 +63,7 @@ class imp_Import_Form_MapField {
      * @var array
      * @access protected
      */
-    protected $_columnHeaders;
+    var $_columnHeaders;
 
     /**
      * an array of booleans to keep track of whether a field has been used in
@@ -72,9 +72,10 @@ class imp_Import_Form_MapField {
      * @var array
      * @access protected
      */
-    protected $_fieldUsed;
+    var $_fieldUsed;
     
 
+    /**{{{ */
     
     /**
      * Attempt to resolve the header with our mapper fields
@@ -99,6 +100,9 @@ class imp_Import_Form_MapField {
         return '';
     }
 
+    /**}}} */
+
+    /**{{{ */
     /**
      * Guess at the field names given the data and patterns from the schema
      *
@@ -135,6 +139,9 @@ class imp_Import_Form_MapField {
         return $best;
     }
 
+
+    /**}}} */
+
     /**
      * Function to set variables up before form is built
      *
@@ -160,6 +167,9 @@ class imp_Import_Form_MapField {
    
    }
 
+   /*}}} */
+
+   /**{{{ */
     /**
      * Function to actually build the form
      *
@@ -180,15 +190,11 @@ class imp_Import_Form_MapField {
             $this->_fieldUsed[$key] = false;
         }
 
-       // $sel1 = $this->_mapperFields;
-
-      //  $sel2[''] = null;  
-
-
+      
 //coding relate to perform mapping 
      for ( $i = 0; $i < $this->_columnCount; $i++ ){ 
        if ($hasHeaders) {
-                       $defaults["mapper[$i]"] = array($this->shn_imp_imp_per_defaultFromHeader($_SESSION['dataValues'][0][$i],                                                                                    $headerPatterns),0);
+             $defaults["mapper[$i]"] = array($this->shn_imp_imp_per_defaultFromHeader($_SESSION['dataValues'][0][$i],                                                                                    $headerPatterns),0);
                     
                 } else {
                     // Otherwise guess the default from the form of the data
@@ -249,12 +255,19 @@ class imp_Import_Form_MapField {
   } ?>  
 
   <?php
+	  
       $searchItem = $defaults["mapper[$i]"][0] ; 
         
 	  if (array_search($searchItem,$mapperKeys)){
 	    $mapperKeys[] = $searchItem;
 	    $_SESSION['mapper'] = $mapperKeys;
+	   
 	  }	 
+	  else { 
+              $mapperKeys[] = 'do_not_import';
+	    $_SESSION['mapper'] = $mapperKeys;
+		  
+	      }  
 ?>   
 	   <td><?php shn_form_select($_SESSION['mapper'],"","mappedvalue[$i]")?> </td>
 	   </tr>
@@ -277,9 +290,48 @@ class imp_Import_Form_MapField {
      
     }
 
-    
+  /**}}} */ 
  
 
 }
+
+
+/* {{{ */ 
+
+/* 
+* delete an given element from an array
+* access public 
+* to be discussed to put in a library
+
+*/ 
+
+function removeElement($item, $array) 
+{ 
+    if (($key = array_search($item, $array)) !== false) 
+    { 
+        if ($key == 0) 
+        { 
+            // Remove the first element 
+            array_shift($array); 
+        } 
+        elseif ($key < (count($array)-1)) // Not first or last item 
+        { 
+            // A fairly simple process of removing the middle element 
+            $arr1 = $arr2 = $array; 
+            array_splice($arr1, 0, ($key+1)); 
+            array_splice($arr2, $key); 
+            $array = array_merge($arr1, $arr2); 
+        } 
+        else 
+        { 
+            // Remove the last element 
+            array_pop($array); 
+        } 
+    } 
+    return $array; 
+} 
+
+
+/* }}} */ 
 
 ?>

@@ -1,5 +1,6 @@
 <?php
-/* $Id: main.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
+/* $Id: main.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* Last modified : 03/04/2006 */
 
 /**
  * Main Controller of the Data Import Module 
@@ -105,8 +106,14 @@ function shn_imp_imp_per()
    
  
 }
+/* }}} */
 
-
+/* {{{ Action: preview and import*/
+/**
+ * This is the preview and import Controller
+ * @access public
+ * @return void
+ */
 
 function shn_imp_imp_per_mapfield()
 { 
@@ -123,18 +130,26 @@ function shn_imp_imp_per_mapfield()
 
    case 'preview':
     echo '<h2 align="center">'._('Summary').'</h2>'; 
- 
-     if ($_SESSION['contactType'] === 'Organization')
+     if ($_SESSION['contactType'] === 'ORGANIZATION')
       shn_imp_imp_per_Import_Organization();
-     else shn_imp_imp_per_Import_Individual() ; 
-  
+     else if ($_SESSION['contactType'] === 'INDIVIDUAL')
+       shn_imp_imp_per_Import_Individual() ; 
+        else  
+         shn_imp_imp_per_Import_Camp();
    break;
    default :  
      break;
 } 
 }
+/*}}}*/
 
 
+/* {{{ Action: support to preview controller */
+/**
+ * this preview the matching 
+ * @access public
+ * @return void
+ */
 function shn_imp_imp_per_previewForm()
 {
    
@@ -227,7 +242,7 @@ function shn_imp_imp_per_previewForm()
 $_SESSION['mapping'] = $mapresult;
 
 }
-
+/* }}} */
 
 
 ?>

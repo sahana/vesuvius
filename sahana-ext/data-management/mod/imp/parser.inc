@@ -1,6 +1,6 @@
 <?php
-/* $Id: parser.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
-
+/* $Id: parser.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* last modified 2006/03/31
 /**
  * Data Import upload file 
  *
@@ -64,11 +64,12 @@ abstract class imp_import_parser
     /**
      * various Contact types
      */
-    const
+   /**
+     const
         CONTACT_INDIVIDUAL     = 1,
         CONTACT_ORGANIZATION   = 4;
-
-    protected $_fileName;
+ */
+    var $_fileName;
 
     /**#@+
      * @access protected
@@ -78,85 +79,85 @@ abstract class imp_import_parser
     /**
      * imported file size
      */
-    protected $_fileSize;
+    var $_fileSize;
 
     /**
      * seperator being used
      */
-    protected $_seperator;
+    var $_seperator;
 
     /**
      * total number of lines in file
      */
-    protected $_lineCount;
+    var $_lineCount;
 
     /**
      * total number of non empty lines
      */
-    protected $_totalCount;
+    var $_totalCount;
 
     /**
      * running total number of valid lines
      */
-    protected $_validCount;
+    var $_validCount;
 
     /**
      * running total number of invalid rows
      */
-    protected $_invalidRowCount;
+    var $_invalidRowCount;
 
     /**
      * maximum number of invalid rows to store
      */
-    protected $_maxErrorCount;
+    var $_maxErrorCount;
 
     /**
      * array of error lines, bounded by MAX_ERROR
      */
-    protected $_errors;
+    var $_errors;
 
     /**
      * total number of conflict lines
      */
-    protected $_conflictCount;
+    var $_conflictCount;
 
     /**
      * array of conflict lines
      */
-    protected $_conflicts;
+    var $_conflicts;
 
        
     /**
      * running total number of warnings
      */
-    protected $_warningCount;
+    var $_warningCount;
 
     /**
      * running total number of un matched Conact
      */
-    protected $_unMatchCount;
+    var $_unMatchCount;
 
     /**
      * array of unmatched lines
      */
-    protected $_unMatch;
+    var $_unMatch;
 
     /**
      * maximum number of warnings to store
      */
-    protected $_maxWarningCount;
+    var $_maxWarningCount;
 
     /**
      * array of warning lines, bounded by MAX_WARNING
      */
-    protected $_warnings;
+    var $_warnings;
 
     /**
      * array of all the fields that could potentially be part
      * of this import process
      * @var array
      */
-    protected $_fields;
+    var $_fields;
 
     /**
      * array of the fields that are actually part of the import process
@@ -164,28 +165,28 @@ abstract class imp_import_parser
      * file
      * @var array
      */
-    protected $_activeFields;
+    var $_activeFields;
 
     /**
      * cache the count of active fields
      *
      * @var int
      */
-    protected $_activeFieldCount;
+    var $_activeFieldCount;
 
     /**
      * maximum number of non-empty/comment lines to process
      *
      * @var int
      */
-    protected $_maxLinesToProcess;
+    var $_maxLinesToProcess;
 
     /**
      * cache of preview rows
      *
      * @var array
      */
-    protected $_rows;
+    var $_rows;
 
 
     /**
@@ -193,7 +194,7 @@ abstract class imp_import_parser
      *
      * @var string
      */
-    protected $_errorFileName;
+    var $_errorFileName;
 
 
     /**
@@ -201,7 +202,7 @@ abstract class imp_import_parser
      *
      * @var string
      */
-    protected $_conflictFileName;
+    var $_conflictFileName;
 
 
     /**
@@ -209,14 +210,14 @@ abstract class imp_import_parser
      *
      * @var string
      */
-    protected $_duplicateFileName;
+    var $_duplicateFileName;
 
     /**
      * filename of mismatch data
      *
      * @var string
      */
-    protected $_misMatchFilemName;
+    var $_misMatchFilemName;
 
 
     /**
@@ -225,18 +226,31 @@ abstract class imp_import_parser
      * @var int
      */
 
-    public $_contactType;
+   var $_contactType;
     
+   
+    /**
+     * this is the class constructor
+     *
+     * 
+     */
 
-    function __construct() {
+    function imp_import_parser() {
 	    $this->_maxWarningCount = $this->MAX_WARNINGS;
         $this->_maxLinesToProcess = 0;
 	$this->_maxErrorCount =$this->MAX_ERRORS;
     }
+/* }}} */
+     
 
-  abstract function shn_imp_imp_per_init();
-
-    static function shn_imp_imp_per_isNull( $value ) {
+   /**
+     * this is check the null values
+     * @return void
+     * @access public
+     * 
+     */
+    
+    function shn_imp_imp_per_isNull( $value ) {
         if ( ! isset( $value ) || $value === null || $value === '' ) {
             return true;
         }
@@ -252,6 +266,13 @@ abstract class imp_import_parser
     }
 
 
+    /**
+     * this processes the upload file
+     * @return void
+     * @access public
+     * 
+     */
+    
     function shn_imp_imp_per_run( $fileName,
                   $seperator = ',',
                   &$mapper,
@@ -267,7 +288,11 @@ abstract class imp_import_parser
             break;
         case 'ORGANIZATION' :
             $this->_contactType = 'Organization';
-            break;       
+            break;  
+        case 'CAMPS' :
+            $this->_contactType = 'Camps';
+            break;          
+	    
        	}
         
         $this->shn_imp_imp_per_init();
@@ -387,32 +412,13 @@ abstract class imp_import_parser
 
         fclose( $fd );
 
-        
-        if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
-
-            if ($this->_invalidRowCount) {
-                $this->_errorFileName = $fileName . '.errors';
-            }
-
-            if ($this->_conflictCount) {
-                
-                $this->_conflictFileName = $fileName . '.conflicts';
-            }
-
-           
-            if ($this->_unMatchCount) {
-                
-                $this->_misMatchFilemName = $fileName . '.mismatch';
                
-            }
-            
-        }
-       
         return $this->shn_imp_imp_per_fini();
-    }
+    } 
 
- abstract function shn_imp_imp_per_mapField( &$values );
-  
+    /* }}} */
+
+ 
 
     /**
      * Given a list of the importable field keys that the user has selected
@@ -434,6 +440,16 @@ abstract class imp_import_parser
         }
     }
     
+
+    /**
+     * 
+     * set the active fields value array to this list
+     *
+     * @param array 
+     *
+     * @return void
+     * @access public
+     */
     function shn_imp_imp_per_setActiveFieldValues( $elements ) {
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
         for ( $i = 0; $i < $maxCount; $i++ ) {
@@ -457,7 +473,15 @@ abstract class imp_import_parser
         return $valid;
     }
 
-   
+   /*}}} */ 
+
+   /**
+     * 
+     * get the selected title value to a array 
+     *
+     * @return void
+     * @access public
+     */
    
     function shn_imp_imp_per_getSelectValues() {
         $values = array();
@@ -467,7 +491,16 @@ abstract class imp_import_parser
         return $values;
     }
 
+    /* }}} */
+
     
+    /**
+     * 
+     * get header patterns  
+     *
+     * @return void
+     * @access public
+     */
 
     function shn_imp_imp_per_getHeaderPatterns() {
         $values = array();
@@ -477,6 +510,16 @@ abstract class imp_import_parser
         return $values;
     }
 
+    /*}}}*/
+    
+
+     /**
+     * 
+     * get data patterns  
+     *
+     * @return void
+     * @access public
+     */
     function shn_imp_imp_per_getDataPatterns() {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
@@ -485,6 +528,16 @@ abstract class imp_import_parser
         return $values;
     }
 
+
+    /* }}} */
+
+    /**
+     * 
+     * This adds the fileds to be imported
+     *
+     * @return void
+     * @access public
+     */
     function shn_imp_imp_per_addField( $name, $title, $type = imp_Utils_Type::T_INT,
                        $headerPattern = '//', $dataPattern = '//',
                        $hasLocationType = false) {
@@ -520,7 +573,7 @@ abstract class imp_import_parser
      * @static
      * @access public
      */
-    static function shn_imp_imp_per_encloseScrub(&$values, $enclosure = "'") {
+    function shn_imp_imp_per_encloseScrub(&$values, $enclosure = "'") {
         if (empty($values)) 
             return;
 

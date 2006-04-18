@@ -1,6 +1,6 @@
 <?php
-/* $Id: add.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
-
+/* $Id: add.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* last modify : 2006/03/31 */
 
 /**
  * Data Import upload file 
@@ -26,7 +26,7 @@ require_once($global['approot'].'mod/imp/mapfield.inc');
 
 /**
 *
-*This is upload_file Class which contain initial file upload functins
+*This is upload_file Class contains file upload functins
 *
 */
 
@@ -37,6 +37,14 @@ class Upload_Files {
     var $file_name; 
     var $upload_dir; 
     
+
+    /* {{{CSV file add Form */
+/**
+ * This validates the file type
+ * 
+ * @access public
+ * @return void
+ */
    
 function shn_imp_imp_per_validate_extension() { 
   
@@ -77,7 +85,7 @@ function shn_imp_imp_per_validate_extension() {
     } 
 } //end of the extension validate function
 
-
+/* }}} */
 }
 
 /**
@@ -117,10 +125,11 @@ echo '<p> Upload file should be in CSV format </p>';
 
     shn_form_fsopen(_('Contact Information')); 
      shn_js_toggle_layer();
-     shn_form_select(array("INDIVIDUAL"=>_('Individual'),"ORGANIZATION"=>_('Organization')),
+      /* To be discussed */
+     shn_form_select(array("INDIVIDUAL"=>_('Individual'),"ORGANIZATION"=>_('Organization'),"CAMPS"=>_('Camps')),
             'Contact Type',
             "contacttype",
-            'onchange="javascript:toggleLayer(\'toggle_reporter\');"');
+            'onchange="if(this.value ==\'INDIVIDUAL\'){javascript:toggleLayer(\'toggle_reporter\');} else{}"');
    
 
  ?>
@@ -217,7 +226,9 @@ function shn_imp_imp_per_postprocess()
   $_SESSION['skipColumnHeader'] =  $skipColumnHeader; 
    
   $contactType = $_POST["contacttype"]; 
-  $_SESSION['contactType'] = $contactType; 
+  $_SESSION['contactType'] = $contactType;
+  $_SESSION['individualtype'] = $_POST["Individualtype"] ;
+
  
 $seperator = ',';
 $mapper = array( );
@@ -231,7 +242,6 @@ $mapfield->shn_imp_imp_per_buildQuickForm();
 
 } //end function
 
-/* }}} */ 
 
 /* }}} */
 
@@ -248,6 +258,7 @@ function shn_js_toggle_layer()
 <script language="javascript">
 function toggleLayer(whichLayer)
 {
+
     if (document.getElementById) {
 		// this is the way the standards work
 		var style2 = document.getElementById(whichLayer).style;
@@ -261,9 +272,15 @@ function toggleLayer(whichLayer)
 		var style2 = document.layers[whichLayer].style;
 		style2.display = style2.display? "":"block";
 	}
+ 	
 }
+
+
+
 </script>
 <?php
 }
+
+
 
 ?>
