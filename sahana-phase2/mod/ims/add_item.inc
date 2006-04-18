@@ -65,8 +65,9 @@ function _shn_ims_add_item_main_page()
 </dev>
 
 <?php
-	shn_form_fopen("add_item");
-	shn_sub_cat(6);
+	$form_opts['name']='subcat';
+	shn_form_fopen("add_item",null,$form_opts);
+	shn_sub_cat(6,'subcat');
 	shn_form_fclose();
 	
 }
@@ -105,7 +106,8 @@ function _shn_ims_add_item_main_page()
 
 function add_item($temp) 
 {
-	print ($temp);
+	
+	//print ($temp);
 	//print ($cat);
 	if ($temp!=NULL)
 	{
