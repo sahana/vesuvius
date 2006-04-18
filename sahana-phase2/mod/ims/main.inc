@@ -291,7 +291,7 @@ function shn_ims_edit_item_db()
 		//print ($temp);
 		$cate=$_POST['cat'];
 		$item=$_POST['item_name'];
-		//print ($item);
+		//print ($temp);
 		
 		//print ($cate);
 		$amou=$_POST['amount'];
@@ -304,21 +304,21 @@ function shn_ims_edit_item_db()
 		$suply_person_telephone=$_POST['suplier_telephone'];
 		$suply_person_email=$_POST['suplier_email'];
 
-		//print ($cate);
+		//print ($expire_date);
 		
-    		$sql = "update ims_item_records set item_name='$item',amount='$amou',manufactured_date='$manufactured_date',expire_date='$expire_date',inventory='$inv_id' where item_id='$temp';"; 
+    		$sql = "UPDATE ims_item_records SET item_name='{$item}',amount='{$amou}', manufactured_date='{$manufactured_date}',expire_date='{$expire_date}',inv_id='{$inv_id}' WHERE item_id=$temp;";
+//echo $sql;
 		$ims = $db->Execute($sql);
-
 		$_POST['item_name']="";	
 		$_POST['amount']="";
-		$_POST['manudate']="";
-		$_POST['expdate']="";
+		$_POST['manufactured_date']="";
+		$_POST['expire_date']="";
 		$_POST['suplier_name']="";
 		$_POST['suplier_address']="";
 		$_POST['suplier_telephone']="";
 		$_POST['suplier_email']="";
 
-		//shn_ims_add_item();
+		shn_ims_view_edit_item();
 		
 }
 

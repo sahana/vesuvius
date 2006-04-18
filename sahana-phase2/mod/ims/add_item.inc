@@ -126,7 +126,26 @@ function add_item($temp)
 	}
 	else
 	{
-		$item_name="";
+	$parent_id = trim($_POST['0']);
+	// this 5 should be replaced by the $max that is retrieved from the DB
+	for($i=1;$i<5;$i++)
+	{
+	$parent_id = trim($_POST[$i]);
+	
+		if($parent_id==null)
+		{
+		$parent_id = $_POST[$i-1];
+		break;
+		}
+	}
+	//print ("test");	
+	echo $parent_id;
+
+		global $global;
+		$db=$global["db"];
+		$sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
+		$ims = $db->Execute($sql);
+		$item_name=$ims->fields["name"];
 		$amount="";
 		$manufactured_date="";
 		$expire_date="";
@@ -220,7 +239,7 @@ function add_item($temp)
 	
 	if ($temp==NULL)
 	{
-		$parent_id = trim($_POST['0']);
+		/*$parent_id = trim($_POST['0']);
 	// this 5 should be replaced by the $max that is retrieved from the DB
 	for($i=1;$i<5;$i++)
 	{
@@ -233,7 +252,7 @@ function add_item($temp)
 		}
 	}
 	//print ("test");	
-	echo $parent_id;
+	echo $parent_id;*/
 	
 		shn_form_hidden(array('parent_id'=>$parent_id));
 		shn_form_submit(_("Submit"));
