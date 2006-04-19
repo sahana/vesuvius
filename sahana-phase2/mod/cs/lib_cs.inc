@@ -32,6 +32,7 @@ function shn_sub_cat_jscript($max,$form,$change){
     var url = "<?php echo $fetch_server?>"; 
    	var curlevel=0;
  	var http;
+ 	var null_data;
   	var max=<?php echo $max ?>;
     function getHTTPObject() {
         var xmlhttp;
@@ -66,12 +67,13 @@ function shn_sub_cat_jscript($max,$form,$change){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
             	results = http.responseText.split(",");
             if (results[0]!="null"){
+            		null_data=false;
             		curlevel=curlevel+1;
      	    		var x=document.getElementsByName(curlevel);
      	    		x[0].style.visibility='visible';
         			j=0;
-			 var x=document.getElementsByName(curlevel);
-			for (i=0; i<=x[0].options.length+1; i++){
+			 	var x=document.getElementsByName(curlevel);
+				for (i=0; i<=x[0].options.length+1; i++){
 	            		x[0].options[0]=null;
             		}
             		for (i=1; i<results.length-1; i=i+2, j++){
@@ -81,6 +83,8 @@ function shn_sub_cat_jscript($max,$form,$change){
   			    		x[0].options[j] = opt;
                 		x[0].selectedIndex=-1;
             		}
+            	}else{
+            		null_data=true;
             	}
 
             for (i=max; i>curlevel; i=i-1){
@@ -107,11 +111,16 @@ function shn_sub_cat_jscript($max,$form,$change){
     {
     		var name="";
     		var element="";
-    	    
-    	    for(i=0;i<=curlevel;i++){
+    	    var last_lvl;
+    		if(null_data==true){
+    			last_lvl= curlevel+1 ;
+    		} else{
+    			last_lvl= curlevel;
+    		}
+    	    for(i=0;i<last_lvl;i++){
     	    		element="\""+i+"\"";
     			var x=document.getElementsByName(i);
-    			if(i==curlevel){
+    			if(i+1==last_lvl){
         			name=name+x[0].options[x[0].selectedIndex].text;
         		}else{
         			name=name+x[0].options[x[0].selectedIndex].text+"->";
