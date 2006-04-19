@@ -257,7 +257,7 @@ clean_errors();
 	$error_flag=true;
 	}
 
-return $error_flag;
+	return $error_flag;
 }
 
 /**
@@ -279,7 +279,7 @@ clean_errors();
 	$error_flag=true;
 	}	
 
-return $error_flag;
+	return $error_flag;
 }
 
 
@@ -295,7 +295,7 @@ clean_errors();
 	$error_flag=true;
 	}	
 
-return $error_flag;
+	return $error_flag;
 }
 
 ?>

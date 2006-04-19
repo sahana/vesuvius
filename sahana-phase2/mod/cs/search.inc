@@ -23,11 +23,25 @@
  */
 function shn_cs_search_cat()
 {
-	require_once("lib_cs.inc");
+	/*require_once("lib_cs.inc");
 	
 	shn_form_fopen("search_submit");
 	shn_sub_cat(6);
+	shn_form_fclose();*/
+
+
+	/**/
+	require_once("lib_cs.inc");
+	$form_opts['name']='subcat';
+
+	shn_form_fopen("search_submit",null,$form_opts);
+	shn_sub_cat(6,'subcat');
 	shn_form_fclose();
+
+
+
+
+
 
 }
 

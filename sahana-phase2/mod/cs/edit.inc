@@ -23,11 +23,21 @@
  */
 function shn_cs_edit_form()
 {
-	require_once("lib_cs.inc");
+	/*require_once("lib_cs.inc");
 	
 	shn_form_fopen("edit_submit");
 	shn_sub_cat(6);
+	shn_form_fclose();*/
+
+	require_once("lib_cs.inc");
+	$form_opts['name']='subcat';
+    //$form_opts['req_message']=false;
+   // shn_form_fopen("view_org_submit",null,$form_opts);
+	shn_form_fopen("edit_submit",null,$form_opts);
+	shn_sub_cat(6,'subcat');
 	shn_form_fclose();
+
+
 
 }
 
