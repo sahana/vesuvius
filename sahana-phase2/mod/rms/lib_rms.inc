@@ -464,10 +464,10 @@ function _shn_rms_get_recordcount($table, $fstr)
 {
     global $global;
     
-    $sql = "SELECT COUNT(plg_uuid) FROM $table";
+    $sql = "SELECT COUNT(*) FROM $table";
     $sql .= $fstr;
     $rs = $global['db']->Execute($sql);
-    //print $sql;
+    
     $rs = $rs->GetArray();
     return $rs[0][0];
 }
