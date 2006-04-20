@@ -222,4 +222,48 @@ function _shn_cs_item_name_javascript($change,$levels,$form)
 </script>
 <?php
 }
+
+/**.
+ *This function returns the unit array of the 
+ * @access public
+ * @return array
+ */
+function get_unitid_array()
+{
+	global $global;
+	$db=$global["db"];
+
+	$itemid = trim($_POST['0']);
+	// this 5 should be replaced by the $max that is retrieved from the DB
+	for($i=1;$i<5;$i++)
+	{
+	$itemid = trim($_POST[$i]);
+	
+		if($itemid==null)
+		{
+		$itemid = $_POST[$i-1];
+		break;
+		}
+	}
+
+	$itemarray=array();
+	$query="select * from ct_cat_unit where ct_uuid='$itemid'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+	$temp2=$res->fields['unit_uuid'];
+	$query="select name from ct_unit where unit_uuid ='$temp2'";
+	$unit_res=$db->Execute($query);	
+	$itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
+	$res->MoveNext();
+	}
+
+return $itemarray;
+}
+
+
+
+
+
 ?>
