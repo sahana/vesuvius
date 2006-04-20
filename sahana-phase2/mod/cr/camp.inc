@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: camp.inc,v 1.28 2006-04-20 06:04:49 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -190,6 +190,10 @@ function _shn_cr_sel_map(){
 	$_SESSION['cr_5']=$_POST['5'];
 		$_SESSION['contact_mob']=$_POST['contact_mob'];
 		$_SESSION['occupation']=$_POST['occupation'];
+	global $global;
+	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+	//shn_js_show();
+	//add_marker_out("some name");
 											
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("Location Information"));
@@ -199,17 +203,20 @@ function _shn_cr_sel_map(){
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_hidden(array('loc_x'=>''));
 	shn_form_hidden(array('loc_y'=>''));
-	global $global;
+
 	$db=$global['db'];
 	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
 	
 	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
-	
 	//shn_gis_add_marker_map();
-	shn_gis_init_plugin();
+	//shn_gis_init_plugin();
+	//shn_map_show();
+	shn_gis_map(null);
 ?>
+	<!--<div id="map" style="width: 500px; height: 400px"></div>
+	<script type="text/javascript">window.onload=show_map_js();</script>-->
 	<!--<script src="stream.php?mod=cr&act=loadmap&stream_type=txt&wkey=<?=$wkey;?>&ekey=<?=$ekey;?>" type="text/javascript" > </script>-->
 	<?php
 	/*if mod_gis
@@ -254,11 +261,11 @@ function _shn_cr_sel_map(){
 			
 	shn_form_submit("Next");
 	shn_form_close();
-	include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-	add_footer();
-	load_map();
-	add_marker($_POST['camp_name']);
-	end_page();
+	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+	//add_footer();
+	//load_map();
+	//add_marker($_POST['camp_name']);
+	//end_page();
 }
 
 function shn_cr_footer()

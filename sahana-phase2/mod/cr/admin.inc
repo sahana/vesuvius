@@ -26,17 +26,15 @@ function _shn_cr_adm_sub_menu(){
 <br>
 <?php
 }
+
 function shn_cr_adm_default()
 {
-    _shn_cr_adm_sub_menu();
-?>
-    <p><b> Welcome to the CR admin page </b></p>
-    <p> Use the Above Navigation to Administer Camps Registry</p>
-
-    
-
-
-<?php
+   // _shn_cr_adm_sub_menu();
+  ?>
+   <h2><?=_("Camps Registry Administration")?></h2>
+   <?php
+   shn_cr_adm_forms();
+   
 }
 function shn_cr_adm_forms()
 {

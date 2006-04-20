@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: main_fns.inc,v 1.33 2006-04-20 06:04:49 mifanc Exp $ */
 
 /**
 * Default functions of CR
