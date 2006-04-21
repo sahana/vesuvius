@@ -8,6 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+* @author    Sanjeewa Jayasinghe <sditfac@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -229,22 +230,11 @@ function _shn_cs_item_name_javascript($change,$levels,$form)
  * @return array
  */
 function get_unitid_array()
-{
+{	
 	global $global;
 	$db=$global["db"];
-
-	$itemid = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$itemid = trim($_POST[$i]);
 	
-		if($itemid==null)
-		{
-		$itemid = $_POST[$i-1];
-		break;
-		}
-	}
+	$itemid=get_itemid();
 
 	$itemarray=array();
 	$query="select * from ct_cat_unit where ct_uuid='$itemid'";
@@ -262,7 +252,24 @@ function get_unitid_array()
 return $itemarray;
 }
 
+function get_itemid()
+{
 
+	$itemid = trim($_POST['0']);
+	// this 5 should be replaced by the $max that is retrieved from the DB
+	for($i=1;$i<5;$i++)
+	{
+	$itemid = trim($_POST[$i]);
+	
+		if($itemid==null)
+		{
+		$itemid = $_POST[$i-1];
+		break;
+		}
+	}
+
+return $itemid;
+}
 
 
 
