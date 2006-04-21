@@ -24,7 +24,7 @@
 # or join with our irc channel #sahana-dev at freenode.org, 
 
 # specify the status (installed | uninstalled | unavailable )
-$conf['sahana_status'] = 'uninstalled';
+$conf['sahana_status'] = 'installed';
 
 # Disable the access control system
 $conf['disableACL'] = true;
