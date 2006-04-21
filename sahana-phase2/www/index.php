@@ -18,23 +18,57 @@
 // only the www sub directory should be exposed to the web
 
 $global['approot'] = realpath(dirname(__FILE__)).'/../';
-// $global['approot'] = '/usr/local/bin/sahana/';
+$approot = $global['approot'];
 $global['previous']=false;
-// === initialize configuration variables ===
-require_once ($global['approot'].'conf/sysconf.inc'); 
 
-if ($conf['sahana_status'] == 'installed' ) {
+// === include all base libraries ==
+require_once ($global['approot'].'inc/lib_config.inc');
+require_once ($global['approot'].'inc/lib_modules.inc'); 
 
-    require_once ($global['approot'].'inc/lib_modules.inc'); 
+// === filter the GET and POST ===
+shn_main_filter_getpost();
+
+// === Setup if not setup and load configuration === 
+
+// if installed the sysconf.inc will exist in the conf directory
+if (!file_exists($global['approot'].'conf/sysconf.inc')){
+
+    // launch the web setup
+    require_once ($global['approot'].'conf/sysconf.inc.tpl'); 
+    require ($global['approot'].'inst/setup.inc');
+
+} else {
+
+    require_once ($global['approot'].'conf/conf-order.inc');
+    require ($global['approot'].'conf/sysconf.inc'); 
     require_once ($global['approot'].'inc/handler_db.inc');
-    
-    require_once ($global['approot'].'inc/lib_config.inc');
-    //fetch config values : base values
-    shn_config_fetch('base');
-
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
+
+    // give database the priority or the conf files
+    if ('database' ==  $conf['sahana_conf_priority'] ) {
+        // database overrides conf files
+        shn_config_module_conf_fetch('all');
+        shn_config_module_conf_fetch($global['module']);
+        shn_config_database_fetch('base');
+        shn_config_database_fetch($global['module']);
+    } else {
+        // conf files overrides database
+        shn_config_database_fetch('base');
+        shn_config_database_fetch($global['module']);
+        require ($global['approot'].'conf/sysconf.inc'); 
+        shn_config_module_conf_fetch('all');
+        shn_config_module_conf_fetch($global['module']);
+    }
+
+    shn_main_front_controller();
+}
+
+// === process the GET and POST ===
+function shn_main_filter_getpost()
+{
+    global $global;
 
     if(!$global['previous']){
         $global['action'] = (NULL == $_REQUEST['act']) ? 
@@ -42,34 +76,31 @@ if ($conf['sahana_status'] == 'installed' ) {
         $global['module'] = (NULL == $_REQUEST['mod']) ? 
                                 "home" : $_REQUEST['mod'];
     }
-    shn_front_controller();
-
-} else { // Launch the web setup
-    
-    require ($global['approot'].'inst/setup.inc');
 }
 
-// === front controller ===
 
-function shn_front_controller() 
+// === front controller ===
+function shn_main_front_controller() 
 {
     global $global;
     global $conf;
     $approot = $global['approot'];
     $action = $global['action'];
     $module = $global['module'];
-   
+
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
-        $module = 'admin';   
+        $module = 'admin';
         $action = 'modadmin';
-    }
-
-   // check the users access permissions for this action
+    } // the orignal module and action is stored in $global
+  
+    // check the users access permissions for this action
     $module_function = 'shn_'.$module.'_'.$action;
    
 	$acl_enabled=shn_acl_get_state($module);
+
+    // @TODO: test against admin function is wrong
     $allow = (!shn_acl_check_perms_action($_SESSION['user_id'], $module_function) || 
              !$acl_enabled)? true : false;
 
@@ -81,17 +112,6 @@ function shn_front_controller()
     } else {
         include($approot.'mod/home/main.inc');
     }
-
-    // include the module configuration files 
-    $d = dir($approot.'mod/');
-    while (false !== ($f = $d->read())) {
-        if (file_exists($approot.'mod/'.$f.'/conf.inc')) {
-          include ($approot.'mod/'.$f.'/conf.inc');
-        }
-    } 
-
-    //Override config values with database ones
-    shn_config_fetch('all');
 
     // include the html head tags
     shn_include_page_section('html_head', $module);
@@ -130,7 +150,7 @@ function shn_front_controller()
         $_SESSION['last_action']=$action;
         $module_function(); 
     }else {
-        shn_display_access_error();
+        shn_error_display_restricted_access();
     }
     #include($approot."test/testconf.inc"); 
 ?>
@@ -146,19 +166,4 @@ function shn_front_controller()
     </html>
 <?php 
 }
-
-// tidy up function to encapsulate access error
-function shn_display_access_error()
-{ ?>
-    <div id="error">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
-        <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
-        </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
-    </div> <!-- /error -->
-<?php
-}
-?>
 
