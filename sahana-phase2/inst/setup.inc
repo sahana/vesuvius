@@ -1,4 +1,18 @@
 <?php
+/**
+* Sahana web setup. Initially launched to setup the database and sahana configuration 
+*
+* PHP version 4 and 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @package    Sahana - http://sahana.sourceforge.net
+* @author     http://www.linux.lk/~chamindra
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+*/
+
 
 require_once ($global['approot']."inc/handler_html_head.inc");
 require_once ($global['approot'].'inc/lib_modules.inc'); 
@@ -119,11 +133,11 @@ function shn_setup_form2()
     write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
     the Sahana <b>/conf</b> directory.</p>')?>
 <?php
-    $tmp_filename = tempnam('/tmp','config.inc');
+    $tmp_filename = tempnam('/tmp','sysconf.inc');
     // Need the temporary directory rather than the filename
-    $tmp_filename = preg_replace('/config.inc.*$/','config.inc',$tmp_filename); 
+    $tmp_filename = preg_replace('/sysconf.inc.*$/','sysconf.inc',$tmp_filename); 
 
-    shn_form_text(_('Location To Write Config File'),'conffile','size="50"',
+    shn_form_text(_('Location To Write Config File (sysconf.inc)'),'conffile','size="50"',
                 array('value'=>"$tmp_filename",'req'=>true ));
     shn_form_fsclose();
 
@@ -151,7 +165,7 @@ function shn_setup_form3()
     <p><?=_('To finish the configuration follow the steps below')?></p>
     <p> <b>1.</b><?=_(' Copy the temporary config file created from: ')?><br/>
         <u><?=$_POST['conffile']?></u> to: <br/>
-     <u><?=$global['approot']."conf/config.inc"?></u></p>
+     <u><?=$global['approot']."conf/sysconf.inc"?></u></p>
     <p> <b>2.</b><?=_(' For security reasons delete the temporary configuration file at ')?><u><?=$_POST['conffile']?></u></p>
     <p> <b>3.</b><?=_(' Once done click the button below to start Sahana or access it anytime using the url: ')?><a href="<?=$sahana_url?>"><?=$sahana_url?></a></p>
 
@@ -228,7 +242,7 @@ function shn_setup_config_update($tmp_configfile)
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
         '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
 
-    if ( @shn_config_update( $modify, $global['approot'].'conf/config.inc',
+    if ( @shn_config_update( $modify, $global['approot'].'conf/sysconf.inc',
                             $tmp_configfile) ) {
         return true;
     } else {
