@@ -22,5 +22,5 @@
 # Which will override the database conf values or the conf files 
 # To give the database conf priority value = 'database' 
 # To give conf files priority value = 'files' 
-$conf['sahana_conf_priority'] = 'database' 
-
+$conf['sahana_conf_priority'] = 'database';
+?>
