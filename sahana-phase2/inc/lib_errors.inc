@@ -134,4 +134,17 @@ function return_errors()
 	return $error_container;
 }
 
-?>
+
+function shn_error_display_restricted_access()
+{ ?>
+    <div id="error">
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <ul>
+        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_('Your username has not been given permission to access this section')?></li>
+        </ul>
+        <p><?=_('To gain access to this section please contact the administrator')?></p>
+    </div> <!-- /error -->
+<?php
+}
+

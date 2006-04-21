@@ -4,7 +4,7 @@
 
 # read int he list of files
 
-print "Listing the PHP Name space:\n";
+#print "Listing the PHP Name space:\n";
 @func_names = ();
     
 while (<>) {

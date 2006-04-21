@@ -63,17 +63,23 @@ function shn_admin_default()
 function shn_admin_modadmin()
 {
     global $global;
+
+    // include original module admin section
     include $global['approot']."/mod/".$global['module']."/admin.inc";
+
     // compose and call the relevant module function
     $module_function = "shn_".$global['module']."_".$global['action'];
+    
     if (!function_exists($module_function)) {
         $module_function="shn_".$global['module']."_adm_default";
-    }
+    } 
 
-    //select the menu
-    $admin_menu = "shn_".$global['module']."_adminmenu";
+    // @TODO remove. call the admin menu shn_<mod>_adminmenu if it exists
+    /*$admin_menu = "shn_".$global['module']."_adminmenu";
+
     if(function_exists($admin_menu))
-        $admin_menu();    
+        $admin_menu();    */
+
     $module_function();
 }
 
