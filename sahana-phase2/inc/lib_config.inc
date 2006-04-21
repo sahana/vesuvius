@@ -8,7 +8,7 @@
  * @access public
  * @return void
  */
-function shn_config_update($modify, $config_file, $output_file)
+function shn_config_file_update($modify, $config_file, $output_file)
 {
     global $global;
 
@@ -37,6 +37,27 @@ function shn_config_update($modify, $config_file, $output_file)
     return true;
 }
 
+// Load the repective module conf.inc file
+function shn_config_module_conf_fetch($module = 'all') 
+{
+    global $global;
+    global $conf;
+
+    $approot = $global['approot'];
+
+    if ('all' == $module) {
+        // include the module configuration files 
+        $d = dir($approot.'mod/');
+        while (false !== ($f = $d->read())) {
+            if (file_exists($approot.'mod/'.$f.'/conf.inc')) {
+              include ($approot.'mod/'.$f.'/conf.inc');
+            }
+        } 
+    } else {
+        include ($approot.'mod/'.$module.'/conf.inc');
+    }       
+}
+
 /**
  * shn_config_fetch 
  * 
@@ -48,7 +69,7 @@ function shn_config_update($modify, $config_file, $output_file)
  * @access public
  * @return void
  */
-function shn_config_fetch($type='base')
+function shn_config_database_fetch($type='base')
 {
     global $global;
     global $conf;
