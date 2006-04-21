@@ -1,0 +1,83 @@
+#!/usr/bin/perl -w
+# strrep-pipe - Perl script to replace a string from the files presented from stdin
+#
+# Version 0.1 alpha - Author: chamindra@opensource.lk (http://www.linux.lk/~chamindra)
+# TODO: 
+# - implement a switch for generic perl type substitutions from the command line
+
+$tmp="/tmp/searchstr.tmp";
+
+sub showUsageNotice {
+print <<"END";
+    strrep-pipe - tool to replace a string in the list of files provide in STDIN 
+    <file list command> | strrep-pipe <from string> <to string> [s]
+
+    Options:
+        s - option for simulate and display changes 
+
+    example usage:
+        ls | strrep-pipe this that 
+        find . | strrep-pipe foo bar s
+        grep -Rl 'fetch_config' * | strrep-pipe foo bar 
+
+    author: chamindra@opensource.lk
+END
+
+}
+
+sub validateArgs {
+    if ( $#ARGV < 1 ) {
+        &showUsageNotice;
+        die "Invalid number of arguments \n";
+    }
+}
+
+# main execution from here
+&validateArgs;
+
+# read int he list of files
+while (<STDIN>) {
+
+    $file = $_;
+    # print "examining $file";
+    chomp($file);
+  
+    if ( -w $file ) {
+
+        open(SRC,"<$file") or print "File $file does not exist\n";
+        open(TMP,">$tmp") or die "unable to create file $tmp\n";
+
+        $count = 0;
+        $changes = "";
+
+        while (<SRC>) {
+        
+           if (/$ARGV[0]/) {
+
+               s/$ARGV[0]/$ARGV[1]/g;
+               $count++; 
+               $changes .= " - $_";
+           }
+
+           print TMP;
+        }
+
+        if ($count > 0) {
+            print "\n";
+            print "$file ($count changes)\n"; 
+            print "---------------------------\n";
+            print $changes;
+        }
+        
+        close(SRC);
+        close(TMP);
+        system (cp,"$tmp","$file"`) unless ( $#ARGV >= 2 && $ARGV[2] =~ /s/ );
+        
+    } else {
+        print "File $file is not writable by this user or does not exist\n";
+    }
+}
+
+
+
+
