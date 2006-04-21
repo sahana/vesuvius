@@ -235,14 +235,13 @@ function shn_setup_config_update($tmp_configfile)
     global $global;
 
     $modify = array( 
-        '/\'sahana_status\'/' => '$conf[\'sahana_status\'] = \'installed\';' ,
         '/\'theme\'/' => '$conf[\'theme\'] = \''.$_POST['theme'].'\';' ,
         '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
         '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
         '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
 
-    if ( @shn_config_update( $modify, $global['approot'].'conf/sysconf.inc',
+    if ( @shn_config_file_update( $modify, $global['approot'].'conf/sysconf.inc.tpl',
                             $tmp_configfile) ) {
         return true;
     } else {
