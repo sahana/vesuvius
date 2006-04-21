@@ -16,15 +16,11 @@
 ######################################################################
 #                 Sahana Configuration Priority Setting              #
 ######################################################################
-# This file specifies how the configuration works
-# The default config evaluation order is. This means the latter one gets
-# priority as it is evaluated (and overrides) the prior
-#   3) /conf/sysconf.inc    = 'system'
-#   2) module conf.inc      = 'module' 
-#   1) database             = 'database'
+# Give database priority for a homogenous clustered deployment
+# Give files priority for a hetrogenous setup with a shared database 
 
-# the order in which config values get loaded. 
-# The last has the highest priority. You can omit certain config files 
-# through this scheme to, but be careful that all values are covered
-$conf['sahana_conf_order'] = array ('system','module','database')  ;
+# Which will override the database conf values or the conf files 
+# To give the database conf priority value = 'database' 
+# To give conf files priority value = 'files' 
+$conf['sahana_conf_priority'] = 'database' 
 
