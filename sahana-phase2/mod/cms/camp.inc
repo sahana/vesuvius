@@ -180,7 +180,6 @@ function _shn_cms_add_map()
 	shn_form_hidden(array('loc_y'=>''));
 	global $global;
 	$db=$global['db'];
-	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
 
 	//if mod_gis
@@ -273,7 +272,6 @@ function _shn_cms_camp_commit()
 	}
 	
 	// insert gis location
-	include $global['approot']."/conf/config.inc";
 	//if mod_gis
 	if($conf['gis']){
   		include $global['approot']."/mod/gis/conf.inc";

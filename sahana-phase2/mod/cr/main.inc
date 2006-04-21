@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.10 2006-04-20 06:04:49 mifanc Exp $
+* $Id: main.inc,v 1.11 2006-04-21 10:17:52 chamindra Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -20,7 +20,6 @@ include_once $global['approot']."/inc/lib_menu.inc";
 function shn_cr_mainmenud(){
 	global $global;
 	$module = $global['module'];
-	include $global['approot']."/conf/config.inc";
 ?>
 <div id="modmenuwrap">
 	<h2><?php echo _("Camps Registry Menu")?></h2>

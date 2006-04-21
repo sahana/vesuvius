@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.28 2006-04-20 06:04:49 mifanc Exp $ */
+/* $Id: camp.inc,v 1.29 2006-04-21 10:17:52 chamindra Exp $ */
 
 /**Camp library for  CR
 *
@@ -30,7 +30,6 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("General Details"));
 	//check for gis and goto mapping page
-	include $global['approot']."/conf/config.inc";
 	
 	if($conf['gis']=='true'){
 		shn_form_hidden(array('seq'=>'gis'));
@@ -100,7 +99,6 @@ function _shn_cr_cadd_chk($errors=false){
 if($errors)
 	display_errors;
 	global $global;
-	include $global['approot']."/conf/config.inc";
 	if($conf['gis']=='false'){
 		//add to session if GIS module is not enabled
 		$_SESSION['camp_name']=$_POST['camp_name'];
@@ -205,7 +203,6 @@ function _shn_cr_sel_map(){
 	shn_form_hidden(array('loc_y'=>''));
 
 	$db=$global['db'];
-	include $global['approot']."/conf/config.inc";
 	echo "<h2>"._("Area Map")."</h2>";
 	
 	global $conf;
@@ -381,7 +378,6 @@ $resc = $db->Execute($qc);
 */
 
 global $global;
-include $global['approot']."/conf/config.inc";
 	
 
 //if mod_gis

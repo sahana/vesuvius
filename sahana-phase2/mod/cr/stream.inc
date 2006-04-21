@@ -25,7 +25,6 @@
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									include($global['approot'].'/conf/config.inc');
 									if($conf['gis']=='false'){
 										if(_shn_cr_validate_error())
 											_shn_cr_cadd_start(true);

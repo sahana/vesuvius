@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.33 2006-04-20 06:04:49 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.34 2006-04-21 10:17:52 chamindra Exp $ */
 
 /**
 * Default functions of CR
@@ -139,7 +139,6 @@ function shn_cr_acmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									include($global['approot'].'/conf/config.inc');
 									if($conf['gis']=='false'){
 										if(_shn_cr_validate_error())
 											_shn_cr_cadd_start(true);
@@ -165,7 +164,6 @@ function shn_cr_acmp(){
 function shn_cr_gis_show(){
 	global $global;
 	global $conf;
-  include($global['approot'].'/conf/config.inc');
 	if($conf['gis']){
 		global $global;
 		include($global['approot'].'/mod/gis/conf.inc');	
