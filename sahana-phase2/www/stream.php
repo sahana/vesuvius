@@ -21,7 +21,7 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 $global['previous']=false;
 // === initialize configuration variables ===
-require_once ($global['approot'].'conf/config.inc'); 
+require_once ($global['approot'].'conf/sysconf.inc'); 
 
 if ($conf['sahana_status'] == 'installed' ) {
 

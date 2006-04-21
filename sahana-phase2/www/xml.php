@@ -27,7 +27,7 @@ if($act=='add_loc'){
 
 function _shn_get_sub_catalogs(){
 require_once('../3rd/adodb/adodb.inc.php');
-require_once('../conf/config.inc');
+require_once('../conf/sysconf.inc');
 //Make the connection to $global['db']
 $db = NewADOConnection($conf['db_engine']);
 $db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
@@ -51,7 +51,7 @@ $cat=$_GET{"cat"};
 
 function _shn_get_children(){
 require_once('../3rd/adodb/adodb.inc.php');
-require_once('../conf/config.inc');
+require_once('../conf/sysconf.inc');
 //Make the connection to $global['db']
 $db = NewADOConnection($conf['db_engine']);
 $db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
@@ -73,7 +73,7 @@ echo $res;
 
 function _shn_get_level_location(){
 require_once('../3rd/adodb/adodb.inc.php');
-require_once('../conf/config.inc');
+require_once('../conf/sysconf.inc');
 //Make the connection to $global['db']
 $db = NewADOConnection($conf['db_engine']);
 $db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
