@@ -20,7 +20,7 @@
 /**
  *provide a  nice display name for the GIS module
  */
-$conf['mod_gis_name'] = "GIS Mapping";
+$conf['mod_gis_name'] = _("GIS Mapping");
 $conf['mod_gis_menuorder'] = 18;
 
 
@@ -44,4 +44,3 @@ $conf['mod_gis_center_x'] = '79.5';
 $conf['mod_gis_center_y'] = '8.5338';
 	 
 ?>
-

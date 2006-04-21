@@ -22,7 +22,7 @@
  * Gives the nice name of the module
  * @global string $conf['mod_cs_name']
  */
+#global $conf;
+
 $conf['mod_cs_name'] = _("Catalogue System");
-
-
 ?>
