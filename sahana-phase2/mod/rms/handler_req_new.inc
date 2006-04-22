@@ -75,7 +75,10 @@ function _shn_rms_requester_new()
         _shn_rms_requester();
         // Unhide newrequester form
         _shn_rms_js_requester(true);
+        return false;
     }
+    
+    return true;
 }
 
 function _shn_rms_requester_update()
@@ -322,8 +325,14 @@ function _shn_rms_items($category = null)
 {
     $categories = array();
     $items = array();
-    $priorities = _shn_rms_get_priorities();
+    $priorities = array();
     
+    $pri_arr = _shn_rms_get_priorities(); 
+    foreach ($pri_arr as $pri)
+    {
+        $priorities[$pri['pri_uuid']] = $pri['priority'];
+    }
+
     $cat_arr = _shn_rms_get_categories();
     if ($category == null)
     {
@@ -420,8 +429,9 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'add_reqstr':
-            _shn_rms_requester_new();
-            _shn_rms_location();
+            $reqstr = _shn_rms_requester_new();
+            if ($reqstr)
+                _shn_rms_location();
             break;
             
     case 'reqstr_up':
