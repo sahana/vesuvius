@@ -38,6 +38,27 @@ function shn_config_file_update($modify, $config_file, $output_file)
 }
 
 // Load the repective module conf.inc file
+function shn_config_base_conf_fetch() 
+{
+    global $global;
+    global $conf;
+
+    $approot = $global['approot'];
+
+    require ($approot.'conf/sysconf.inc');
+
+    // include the module configuration files 
+/*    $d = dir($approot.'conf/');
+    while (false !== ($f = $d->read())) {
+        if (preg_match('^[0-9]*.*\.inc$',$f)) {
+          require ($approot.'conf/'.$f);
+        }
+    } */
+}
+
+
+
+// Load the repective module conf.inc file
 function shn_config_module_conf_fetch($module = 'all') 
 {
     global $global;

@@ -49,6 +49,7 @@ if (!file_exists($global['approot'].'conf/sysconf.inc')){
     // give database the priority or the conf files
     if ('database' ==  $conf['sahana_conf_priority'] ) {
         // database overrides conf files
+        shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
         shn_config_module_conf_fetch($global['module']);
         shn_config_database_fetch('base');
@@ -57,7 +58,7 @@ if (!file_exists($global['approot'].'conf/sysconf.inc')){
         // conf files overrides database
         shn_config_database_fetch('base');
         shn_config_database_fetch($global['module']);
-        require ($global['approot'].'conf/sysconf.inc'); 
+        shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
         shn_config_module_conf_fetch($global['module']);
     }
