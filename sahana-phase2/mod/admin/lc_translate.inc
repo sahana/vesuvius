@@ -18,7 +18,15 @@
 
 $locale = $_SESSION["locale"];
 $lc = $_SESSION["locale"];
-
+if (!function_exists('file_put_contents'))
+{
+    function file_put_contents($file_name, $content)
+    {
+        $file = fopen($file_name, 'w+');
+        fwrite($file, $content);
+        return fclose($file);
+    }
+}
 ?>
 <h3><?=_("Sahana Localization Module") ?></h3>
 <h4><?=_("Language Translation") ?></h4>
