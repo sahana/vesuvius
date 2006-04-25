@@ -3,7 +3,8 @@
         <h1><?=_("Sahana FOSS Disaster Management System")?></h1>
         <?php 
             global $conf;
-            if($conf['sahana_status'] == 'installed'){
+            if(file_exists($global['approot'].'conf/sysconf.inc'))
+            {
                 _shn_lc_lang_list(); 
             }
         ?>
