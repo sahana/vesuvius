@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.7 2006-03-29 05:40:21 chamindra Exp $ */
+/* $Id: conf.inc,v 1.8 2006-04-25 06:04:00 janakawicks Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -30,6 +30,7 @@ $conf['mod_mpr_menuorder'] = 3;
  * @global string $conf['mod_mpr']['search']['limit']
  */
 $conf['mod_mpr']['search']['limit'] = 5;
+$conf['mod_mpr_search_limit'] = 5;
 
 /**
  * Sets the upper limit of the location handler
@@ -43,7 +44,9 @@ $conf['mod_mpr']['location']['upper_limit'] = 1;
  */
 $conf['mod_mpr']['location']['lower_limit'] = 4;
 
-// $action_sequence => caption
-$conf['mod_mpr']['edit']['tabs'] = array(_('Edit Details'), _('Add Tracker'), 
-_('Upload Picture'), _('Confirm'));
+//Missing Person Picture Upload
+$conf['mod_mpr']['upload_picture']['savehandler'] = 'database';
+#$conf['mod_mpr']['upload_picture']['savehandler'] = 'file';
+$conf['mod_mpr_upload_pic_handler'] = 'file';
+
 ?>

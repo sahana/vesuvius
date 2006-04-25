@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.17 2006-03-15 11:18:33 janakawicks Exp $ */
+/* $Id: add.inc,v 1.18 2006-04-25 06:03:59 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -113,9 +113,11 @@ function shn_mpr_addmp_entry($errors=false)
                 $i > $conf['mod_mpr']['location']['upper_limit'] ) 
             $i--;
     //Ends
-    shn_location_form($conf['mod_mpr']['location']['upper_limit'],
-                        $conf['mod_mpr']['location']['lower_limit'],$_POST[$i]);
-
+    $range['start']=$conf['mod_mpr']['location']['upper_limit'];
+    $range['end']=$conf['mod_mpr']['location']['lower_limit'];
+    shn_form_fsopen(_('Select location'));
+    shn_location($range ,$_POST[$i]);
+    shn_form_fsclose();
 
     shn_form_fsopen(_('Physical Details'));
     shn_form_opt_select("opt_eye_color",_('Eye Colour'));
@@ -233,7 +235,7 @@ function shn_mpr_addmp_reporter($errors=false)
     
     shn_form_fsopen('Background Information');
     shn_form_select(array("yes"=>_('Yes'),"no"=>_('No')),
-            'Have you reported anyone before? ',
+            _('Have you reported anyone before? '),
             "reported_before",
             'onchange="javascript:toggleLayer(\'toggle_reporter\');"');
     shn_form_select(array("yes"=>'Yes',"no"=>'No'), _('Are you a disaster victim too? '), "is_dv");
@@ -354,6 +356,7 @@ function shn_mpr_addmp_upload_pic()
         return true;
     //Uploads 
     global $global;
+    global $conf;
     $info = getimagesize($_FILES['picture']['tmp_name']);
     //check the image type 
     if(! $info){
@@ -362,9 +365,21 @@ function shn_mpr_addmp_upload_pic()
     }
 
     list($ignore,$ext) = split("\/",$info['mime']);
+
+    //check for save handler
+    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+        $size = filesize($_FILES['picture']['tmp_name']);
+        $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
+        $_SESSION['mpr']['entry']['image'] = $pic;
+        $_SESSION['mpr']['entry']['image_type'] = $ext;
+        $_SESSION['mpr']['entry']['image_height'] = $info[1];
+        $_SESSION['mpr']['entry']['image_width'] = $info[0];
+        
+        return true;
+    }
+
     //putting a dot ;-) 
     $ext = '.'.$ext;
-
     $upload_dir = $global['approot'].'www/tmp/';
     $uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_add']['entry']['p_uuid'].$ext;
     move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
@@ -389,7 +404,7 @@ function shn_mpr_addmp_confirm()
     shn_form_fopen("addmp",null,array('req_message'=>false));
     shn_form_fsopen(_('Missing Person'));
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb($_SESSION['mpr_add']['entry']['p_uuid']);
+    shn_show_thumb($_SESSION['mpr_add']['entry']['p_uuid'],true);
 ?>
     <hr>
 <?php
@@ -760,6 +775,14 @@ function shn_mpr_addmp_commit()
     }else
         shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
 
+    //Insert Image if image save handler is set to database
+    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+        _shn_mpr_image_to_db($_SESSION['mpr_add']['entry']['p_uuid'],
+                            $_SESSION['mpr']['entry']['image'],
+                            $_SESSION['mpr']['entry']['image_type'],
+                            $_SESSION['mpr']['entry']['image_height'],
+                            $_SESSION['mpr']['entry']['image_width']);
+    } 
     //go back to the main menu
     shn_mpr_default();    
 }

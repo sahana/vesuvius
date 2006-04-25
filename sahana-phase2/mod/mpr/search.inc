@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.10 2006-01-25 09:36:32 janakawicks Exp $ */
+/* $Id: search.inc,v 1.11 2006-04-25 06:04:00 janakawicks Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -31,6 +31,7 @@ function shn_mpr_search_default()
     shn_form_fsopen(_('Basic Search'));
     shn_form_text(_('Any Card Number'),'idcard','size="30"');
     shn_form_text(_('Any Name'),'name','size="30"');
+    shn_form_checkbox(_('All incidents'),'all_incidents');
     shn_form_submit(_('Next'));
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
     shn_form_fsclose();
@@ -606,7 +607,7 @@ class SearchQuery
             $sql .= " ) ";
             
             if($this->isvictim)
-                $sql .= " AND person_status.isvictim = 'TRUE' ";
+                $sql .= " AND person_status.isvictim = TRUE ";
             if($this->missing_only)
                 $sql .= " AND person_status.opt_status = 'mis' ";
             $sql .= " GROUP BY 1";
