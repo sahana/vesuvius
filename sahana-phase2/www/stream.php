@@ -12,6 +12,7 @@
 * @author     http://www.linux.lk/~chamindra
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
+ob_start(); //starting output buffer
 
 // Specify the base location of the Sahana insallation
 // The base should not be exposed to the web for security reasons
@@ -128,6 +129,14 @@ function shn_front_controller()
     }else {
         //@todo : throw the error correctly
     }
+
 }
+/*
+ *the output buffer is closed here. if you want to set the headers in your method 
+ *you can clear the buffer using ob_clean() and then set the headers. If you dont want 
+ *to buffer data just turn off the buffer using ob_end_flush() you can find more details 
+ *under Output Control Functions in php manual.
+ */
+ob_end_flush() //closing the buffer output
 ?>
 
