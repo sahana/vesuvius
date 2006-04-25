@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.18 2006-04-25 06:03:59 janakawicks Exp $ */
+/* $Id: add.inc,v 1.19 2006-04-25 09:57:56 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -404,7 +404,7 @@ function shn_mpr_addmp_confirm()
     shn_form_fopen("addmp",null,array('req_message'=>false));
     shn_form_fsopen(_('Missing Person'));
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb($_SESSION['mpr_add']['entry']['p_uuid'],true);
+    shn_show_thumb_url($_SESSION['mpr_add']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img',true);
 ?>
     <hr>
 <?php
@@ -777,7 +777,7 @@ function shn_mpr_addmp_commit()
 
     //Insert Image if image save handler is set to database
     if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
-        _shn_mpr_image_to_db($_SESSION['mpr_add']['entry']['p_uuid'],
+        shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'],
                             $_SESSION['mpr']['entry']['image'],
                             $_SESSION['mpr']['entry']['image_type'],
                             $_SESSION['mpr']['entry']['image_height'],

@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.8 2006-01-25 09:36:32 janakawicks Exp $ */
+/* $Id: edit.inc,v 1.9 2006-04-25 09:57:56 janakawicks Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -291,7 +291,7 @@ function shn_mpr_editmp_upload($errors=false)
 
     shn_form_hidden(array('seq'=>'upload_pic'));
     shn_form_fsopen(_('Replace Current Picture'));
-    shn_show_thumb($_SESSION['mpr_edit']['entry']['p_uuid']);
+    shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img');
 ?>
     <br />
 <?
@@ -352,7 +352,7 @@ function shn_mpr_editmp_confirm()
     shn_form_fopen("editmp",null);
     shn_form_fsopen(_("Person"));
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb($_SESSION['mpr_edit']['entry']['p_uuid']);
+    shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid']);
 ?>
     <br />
 <?php
@@ -513,7 +513,7 @@ function shn_mpr_editmp_confirm()
     foreach($arr as $tracker){
 ?>
 <TR>
-    <TD><?php shn_show_thumb($tracker['p_uuid']); ?></TD>
+    <TD><?php shn_show_thumb_url($tracker['p_uuid']); ?></TD>
     <TD><?= $tracker['full_name']; ?>
     </TD>
     <TD><?= $tracker['relation']; ?>
@@ -748,7 +748,7 @@ function shn_edit_show_trackers($p_uuid)
     foreach($arr as $tracker){
 ?>
 <TR>
-    <TD><?php shn_show_thumb($tracker['p_uuid']); ?></TD>
+    <TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
     <TD>
 <?php echo '<a title="'._('View').'" '. 
            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.

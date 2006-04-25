@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.13 2006-04-25 06:04:00 janakawicks Exp $ */
+/* $Id: home.inc,v 1.14 2006-04-25 09:57:56 janakawicks Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -122,6 +122,7 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
 function shn_mpr_search_show_verticle($details)
 {
     global $global;
+    global $conf;
 ?>
 <DIV ID="result">
 <TABLE>
@@ -132,7 +133,7 @@ function shn_mpr_search_show_verticle($details)
     <TR>
         <TD>
 <?php
-	        if(shn_show_thumb($details[$i]['p_uuid']))
+	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
@@ -153,7 +154,7 @@ function shn_mpr_search_show_verticle($details)
 ?>
         <TD>
 <?php
-		        if(shn_show_thumb($details[$i+1]['p_uuid']))
+                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';

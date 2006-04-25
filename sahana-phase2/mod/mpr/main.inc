@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.20 2006-04-25 06:04:00 janakawicks Exp $ */
+/* $Id: main.inc,v 1.21 2006-04-25 09:57:56 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -25,6 +25,7 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot'].'mod/mpr/tools.inc';
+include_once $global['approot'].'/inc/lib_image.inc';
 
 /* {{{ Main Menu */
 /**
