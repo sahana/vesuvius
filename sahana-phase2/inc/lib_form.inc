@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.33 2006-04-16 08:32:59 sudheera Exp $ */
+/* $Id: lib_form.inc,v 1.34 2006-04-25 09:42:56 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -498,13 +498,12 @@ function shn_form_date($label, $name = 'date', $initdate = null )
     ($valueD = $_POST[$name.'D']) || ($valueD = ($initdate)? date('d',$initdate) : null);
     global $global;
 ?>
-    <label><?=$label?></label>
-    <p><?=_('Day')?></p>
-    <input type="text" name="<?=$name.'D'?>" value="<?=$valueD?>" size="2">
-    <?=_('Month')?>
-    <input type="text" name="<?=$name.'M'?>" value="<?=$valueM?>" size="2">
-    <?=_('Year')?>
-    <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4">
+    <label><?=$label._(" (dd-mm-yyyy)")?></label>
+    <input type="text" name="<?=$name.'D'?>" value="<?=$valueD?>" size="2" maxlength=2>&#175;
+   
+    <input type="text" name="<?=$name.'M'?>" value="<?=$valueM?>" size="2" maxlength=2>&#175;
+   
+    <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4" maxlength=4>
 <?php
 }
 
