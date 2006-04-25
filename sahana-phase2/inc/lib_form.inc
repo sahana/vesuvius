@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.34 2006-04-25 09:42:56 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.35 2006-04-25 09:46:25 sudheera Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -51,7 +51,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     if ( null == $mod ) $mod = $global['module'];
 
     if (!isset($form_opts['style']))
-        $form_opts['style'] = "formcontainer";
+        $form_opts['style'] = "formset";
     
     if (isset($form_opts['anchor']))
         $anchor = '#' . $form_opts['anchor'];
@@ -64,8 +64,8 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 <?php
     }
 ?>
-    <div id="<?=$form_opts['style']?>">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <div id="formcontainer">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="<?=$form_opts['style']?>" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
 <?php
 }
 
