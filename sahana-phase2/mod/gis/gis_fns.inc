@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.6 2006-04-27 04:51:19 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.7 2006-04-27 08:50:02 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -135,17 +135,18 @@ function shn_gis_show_map($name_of_map="Area Map")
  * @param mixed  $name_of_map Custom Map Name
  * @param $nameOfPoint Assign name to point
  */
-function shn_gis_add_marker_map($name_of_map="Area Map",$nameOfPoint="")
+function shn_gis_add_marker_map($name_of_map="Area Map",$name)
 {
 	global $global;
 	global $conf;
-	shn_gis_init_plugin($name_of_map);
-	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
-	add_marker($nameOfPoint);
+	if($conf['gis'])
+	{
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_add_marker_map($name);
+	}
 	
-	//below if statement is to handle GoogleMaps-IE inconsistencies
-	if($conf['mod_gis_dflt'] == 'google_maps')
-		end_page();
+
 }
 
 function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")

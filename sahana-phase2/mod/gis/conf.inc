@@ -42,6 +42,6 @@ $conf['mod_gis_dflt'] = 'google_maps';
  */
 $conf['mod_gis_center_x'] = '79.5';
 $conf['mod_gis_center_y'] = '8.5338';
-$conf['mod_gis_zoom'] = '5';
+$conf['mod_gis_zoom'] = '10';
 	 
 ?>

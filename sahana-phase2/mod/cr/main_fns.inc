@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.35 2006-04-27 04:43:29 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.36 2006-04-27 08:48:22 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -168,6 +168,7 @@ function shn_cr_gis_show(){
 	if($conf['gis']){
 		global $global;
 		include($global['approot'].'/mod/gis/conf.inc');	
+		global $conf;
 		//include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
 		//echo _("GIS Map of Camps");
@@ -183,6 +184,7 @@ function shn_cr_gis_show(){
 		*/
 		shn_gis_init_plugin("GIS Map of Camps");
 		add_footer();
+		global $conf;
 		load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
 		//put values into array: even better, process directly ;)
 		while(!$res->EOF){

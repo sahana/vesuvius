@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.30 2006-04-27 04:43:29 mifanc Exp $ */
+/* $Id: camp.inc,v 1.31 2006-04-27 08:48:23 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -210,9 +210,10 @@ function _shn_cr_sel_map(){
 	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	//shn_gis_add_marker_map();
-	//shn_gis_init_plugin();
+	shn_gis_init_plugin();
 	//shn_map_show();
-	shn_gis_map(null);
+	//shn_gis_map(null);
+	//shn_gis_add_marker_map("Area Map",$_POST['camp_name']);
 ?>
 	<!--<div id="map" style="width: 500px; height: 400px"></div>
 	<script type="text/javascript">window.onload=show_map_js();</script>-->
@@ -260,11 +261,11 @@ function _shn_cr_sel_map(){
 			
 	shn_form_submit("Next");
 	shn_form_close();
-	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-	//add_footer();
-	//load_map();
-	//add_marker($_POST['camp_name']);
-	//end_page();
+	include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+	add_footer();
+	load_map();
+	add_marker($_POST['camp_name']);
+	end_page();
 }
 
 function shn_cr_footer()
