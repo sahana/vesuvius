@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.7 2006-04-18 09:54:47 mifanc Exp $ */
+/* $Id: admin.inc,v 1.8 2006-04-27 04:51:19 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -72,6 +72,7 @@ function shn_gis_adm_find_mods()
 ?>
 <?php
 	global $global;
+	global $conf;
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
 	$count=1;
@@ -115,6 +116,7 @@ function shn_gis_adm_show_mods()
 <?php
 	shn_form_fclose();
 	global $global;
+	global $conf;
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
 	$count=1;

@@ -1,6 +1,7 @@
 <?php
-/*$id$*/
-/**Admin Module for GIS
+/**
+ * $id$
+ * Admin Module for GIS
 *
 * PHP version 4 and 5
 *
@@ -125,6 +126,35 @@ function add_marker($name)
 <?php
 }
 
+function add_marker_out($name)
+{
+?>
+	<script type="text/javascript">
+	function add_marker()
+	{
+		GEvent.addListener(map, 'click', function(overlay, point) {
+	  	if (overlay) {
+			var html = "<?php echo $name?>";
+			//var html = overlay;
+				overlay.openInfoWindowHtml(html);
+				//map.removeOverlay(overlay);
+			} 
+			else if (point) {
+				map.addOverlay(new GMarker(point));
+				// store x,y coords in hidden variables named loc_x, loc_y
+				// must be set via calling page
+				var x_point=document.getElementsByName("loc_x");
+				var y_point=document.getElementsByName("loc_y");
+				x_point[0].value=point.x;
+				y_point[0].value=point.y;
+				//alert(x_point[0].value);
+			}
+		});
+	}
+	</script>
+<?php
+}
+
 /**
  * info on existing markers
 */
@@ -173,5 +203,95 @@ function end_page(){
     </html>
 <?php 
 	exit(0);
+}
+
+function show_map($opt=null)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key=$conf['gmap_key'];
+	echo "value:".$conf['mod_gis_center_x'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_gm()
+	{
+			
+		//alert('map');
+	
+	       var map = new GMap(document.getElementById("map"));
+				 map.addControl(new GLargeMapControl());
+	       //map.addControl(new GSmallMapControl());
+				 map.addControl(new GMapTypeControl());//satellite image switch
+				 
+				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
+		
+	}		
+//]]>	
+</script>
+<div id="map" style="width: 500px; height: 400px"></div>
+<?
+}
+
+function show_map_with_markers($markers)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key=$conf['gmap_key'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_js()
+	{
+			
+		//alert('map');
+	
+	       var map = new GMap(document.getElementById("map"));
+				 map.addControl(new GLargeMapControl());
+	       //map.addControl(new GSmallMapControl());
+				 map.addControl(new GMapTypeControl());//satellite image switch
+				 
+				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
+		
+	}		
+	//]]>	
+	</script>
+<?php
+}
+
+function shn_map_show(){
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key=$conf['gmap_key'];
+?>
+<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
+<script type="text/javascript">
+  
+//<![CDATA[
+window.onload = function show_map_js()
+{
+		
+	//alert('map');
+
+       var map = new GMap(document.getElementById("map"));
+			 map.addControl(new GLargeMapControl());
+       //map.addControl(new GSmallMapControl());
+			 map.addControl(new GMapTypeControl());//satellite image switch
+			 
+			map.centerAndZoom(new GPoint(79.5, 8.5338), 10);
+	
+}		
+//]]>	
+</script>
+
+
+<?
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.5 2006-04-21 10:21:21 chamindra Exp $ */
+/* $Id: gis_fns.inc,v 1.6 2006-04-27 04:51:19 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -20,6 +20,23 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
 
 
+function shn_gis_map($opt_array=null)
+{
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	if($conf['gis'])
+	{
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_map($opt_array);
+	}
+	else
+	  	echo "GIS not enabled";
+?>
+	
+<?php
+}
 /**
  * Insert gis entry
 */
@@ -39,12 +56,18 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	
 }
 
+function shn_gis_map_with_markers_from_db()
+{
+	
+}
+
 /**
  * Check for GIS availability from config file
  */
 function _shn_gis_check_gis()
 {
 	global $global;
+	global $conf;
 	//only if gis is enabled
 	if($conf['gis' == 'true'])
 	{
