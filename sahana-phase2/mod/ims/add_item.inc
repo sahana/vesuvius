@@ -113,18 +113,13 @@ function add_item($temp)
 	{
 		global $global;
 		$db=$global["db"];
-		$sql="SELECT item_name,amount,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE item_id='$temp' ;";
+		$sql="SELECT item_name,amount,manufactured_date,expire_date FROM ims_item_records WHERE item_id='$temp' ;";
 		$ims = $db->Execute($sql);
 		$item_name=$ims->fields["item_name"];
 		$amount=$ims->fields["amount"];
 		$manufactured_date=$ims->fields["manufactured_date"];
 		$expire_date=$ims->fields["expire_date"];
-		$suplier_name=$ims->fields["suplier_name"];
-		$suplier_address=$ims->fields["suplier_address"];
-		$suplier_telephone=$ims->fields["suplier_telephone"];
-		$suplier_email=$ims->fields["suplier_email"];
-		//$extra_opts['value'] = $item_name;
-		//$extra_opts['value']=$amount;
+		
 	}
 	else
 	{
@@ -189,7 +184,8 @@ function add_item($temp)
 	}
 
 	
-	shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple="multiple"' );
+	//shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple="multiple"' );
+	shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',$extra_opts);
 
 	
 /*------------------*/

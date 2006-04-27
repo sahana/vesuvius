@@ -61,7 +61,7 @@ function _shn_ims_default() {
 		//$item_search=$_POST['item_name_search'];
 		//print ($item_search);
 		
-		$sql = "select item_id,item_name,amount,unit,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email from ims_item_records order by item_id desc ;";
+		$sql = "select item_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records order by item_id desc ;";
 		$ims = $db->Execute($sql);
 
 		while (!$ims==NULL && !$ims->EOF)
@@ -72,10 +72,10 @@ function _shn_ims_default() {
 			$unit=$ims->fields["unit"];
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
-			$suplier_name=$ims->fields["suplier_name"];
-			$suplier_address=$ims->fields["suplier_address"];
-			$suplier_telephone=$ims->fields["suplier_telephone"];
-			$suplier_email=$ims->fields["suplier_email"];
+			//$suplier_name=$ims->fields["suplier_name"];
+			//$suplier_address=$ims->fields["suplier_address"];
+			//$suplier_telephone=$ims->fields["suplier_telephone"];
+			//$suplier_email=$ims->fields["suplier_email"];
 
 ?>
 		<tr>

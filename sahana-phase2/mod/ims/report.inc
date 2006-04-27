@@ -105,10 +105,11 @@ function _shn_ims_report_expired()
 global $global;
 	$db=$global["db"];
 	$state="expired";
+	$state1="destroyed";
 		//$item_search=$_POST['item_name_search'];
 		//$category_search=$_POST['itemcat'];
 		//print ($item_search);
-	$sql1="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";	
+	$sql1="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";	
 	//$sql = "SELECT item_id,category,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";
 	$sql2="SELECT item_id,category,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
 	$ims = $db->Execute($sql1);
@@ -116,8 +117,10 @@ global $global;
 ?>
 <h1 align="center"><?php print _("Expired Item"); ?></h1>
 <div id="reports_expire">
-
 </div>
+<?php
+	shn_form_fopen("item_destroy");
+?>
 	<table>
 	<thead>
 	<tr>
@@ -168,6 +171,8 @@ global $global;
 	</tbody>
 	</table>
 <?php
+	shn_form_submit("Destroy");
+	shn_form_fclose();
 }
 
 
@@ -371,4 +376,15 @@ function _shn_ims_report_org_sector()
 </div>
 
 <?php
+}
+
+function _shn_ims_item_destroy()
+{
+	$old_state = "expired";
+	$new_state = "destroyed";
+	global $global;
+    	$db=$global["db"];
+	$sql="UPDATE ims_item_records SET state='$new_state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";
+	$ims = $db->Execute($sql);
+	print ($sql);
 }

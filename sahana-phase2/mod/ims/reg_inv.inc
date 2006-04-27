@@ -57,6 +57,8 @@ function _shn_ims_regform_org($error=false)
      shn_form_fsopen("Facilities Avaliable");
     _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
+
+	
  	//shn_form_fsopen("Extra Information");
     //_shn_or_ims_display_extra($error);
     //shn_form_fsclose();

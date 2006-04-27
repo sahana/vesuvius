@@ -22,6 +22,7 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
+include_once $global['approot']."/inc/lib_menu.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 
@@ -35,77 +36,31 @@ function shn_ims_mainmenu()
     global $global;
     $module = $global['module'];
 
-?>
+	shn_mod_menuopen(shn_get_module_name());
+	shn_mod_menuitem("default","Home",$module);
+	shn_sub_mod_menuopen(_("Item Management"));
+	shn_sub_mod_menuitem("search_item", _("Search"), $module);
+	shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
+	shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
+	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Reports"));
+	shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
+	shn_sub_mod_menuitem("report_minimum",_("minimum quantity"),$module);
+	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Multiple Inventory Management"));
+	shn_sub_mod_menuitem("search",_("Search"),$module);
+	shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
+	shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
+	shn_sub_mod_menuitem("minimum_quantity",_("Minimum Quantity"),$module);
+	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Inventory Transit"));
+	shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
+	shn_sub_mod_menuitem("receive_item",_("Receive Item"),$module);
+	shn_sub_mod_menuclose();
+	shn_mod_menuclose();
 
-   <div id="modmenuwrap">
-        <h2><?php print _("IMS Module Actions"); ?></h2>
-            <ul id="modmenu">
-                <li>
-                	<a href="index.php?mod=<?=$module?>">
-                    	<?php print _("Home"); ?></a>
-                </li>
-		<li>
-			<a href="#">Item Management</a>
-		</li>
-		<ul>
-		<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=search_item">
-			<?php print _("Search"); ?></a>
-		</li>
-		<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=add_item_main_page">
-			<?php print _("Add Item"); ?>
-		</li></a>
-		<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=view_edit_item">
-			<?php print _("View and Edit");?>
-		</li></a>
-		</ul>
-		<li>
-			<a href="#">Reports</a></li>
-		<ul>
-			<li><a href="index.php?mod=<?=$module?>&amp;act=report_expired">
-			<?php print _("expired item"); ?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&amp;act=report_minimum">
-			<?php print _("minimum quantity"); ?></a></li>
-		</ul>
-		
+	include $global['approot']."/inc/handler_mainmenu.inc";
 
-		<li>
-		<a href="#">Multiple Inventory Management</a>
-		</li>
-		<ul>
-			<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=search">
-			<?php print _("Search"); ?></a>
-			</li>
-			<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=reg_inv">
-			<?php print _("Add Inventory"); ?></a>
-			</li>
-			<li>
-			<a href="index.php?mod=<?=$module?>&amp;act=view_inv">
-			<?php print _("View and Edit"); ?></a>
-			</li>
-			
-		</ul>
-
-<?php /**
-
-
-                <li><a href="#">Add Item</a></li>
-                <ul>
-	                <li><a href="index.php?mod=<?=$module?>&amp;act=new_act">
-	                <?php print _("New Request"); ?></li></a>
-			<li><a href="index.php?mod=<?=$module?>&amp;act=new_act">
-			<?php print _("Delete Item"); ?></a></li>
-			
-                </ul>
-*/?>
-            </ul>
-    </div> <!-- /modmainwrap -->
-    <?php
-    include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
 /**
@@ -172,6 +127,12 @@ function shn_ims_report_expired()
 {
 	include_once ('report.inc');
 	_shn_ims_report_expired();
+}
+
+function shn_ims_item_destroy()
+{
+	include_once ('report.inc');
+	_shn_ims_item_destroy();
 }
 /**function shn_ims_add_item()
 {
@@ -524,7 +485,39 @@ function shn_ims_search_cr(){
 	shn_form_fopen('add_item');
 	add_item($temp);
 	shn_form_fclose();
-}*/	
+}*/
+function shn_ims_minimum_quantity()
+{
+	include_once 'mini_quantity.inc';
+	_shn_ims_mini_quantity();
+}	
 
+function shn_ims_send_item()
+{	
+	global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_send_main();
+}
+
+function shn_ims_receive_item()
+{
+	global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_receive();
+}
+
+function shn_ims_send_item_page()
+{
+	global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_send();
+}
+
+function shn_ims_send_item_db()
+{
+	global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_send_db();
+}
 ?>
 

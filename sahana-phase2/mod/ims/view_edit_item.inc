@@ -49,16 +49,13 @@ $module = $global['module'];
 	<table>
         <thead>
 	    <td><?=_("Item ID")?></td>
-	    <td><?= _("Category") ?></td>
-            <td><?=_("Item")?></td>
+	    <td><?=_("Item")?></td>
 	    <td><?=_("Amount");?></td>
 	    <td><?=_("Unit");?></td>
 	    <td><?=_("Manufactured Date")?></td>
             <td><?=_("Expire Date")?></td>
+	    <td><?=_("Available Inventory/ies")?></td>
             <td><?=_("Suplier Name")?></td>
-            <td><?=_("Suplier Address")?></td>
-            <td><?=_("Suplier Contact Number")?></td>
-            <td><?=_("Suplier e-mail")?></td>
             
         </thead>
 	<tbody>
@@ -68,7 +65,7 @@ $module = $global['module'];
 		//$item_search=$_POST['item_name_search'];
 		//print ($item_search);
 		
-		$sql = "select item_id,catalog_id,item_name,amount,unit,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email from ims_item_records order by item_name ;";
+		$sql = "select item_id,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records order by item_name ;";
 		//$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
 		$ims = $db->Execute($sql);
 
@@ -76,20 +73,22 @@ $module = $global['module'];
 		{
 			$item_id=$ims->fields["item_id"];
 			$catalog_id=$ims->fields["catalog_id"];
+			$inv_id=$ims->fields["inv_id"];
 			//$category=$ims->fields["category"];
 			$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
-			$suplier_name=$ims->fields["suplier_name"];
-			$suplier_address=$ims->fields["suplier_address"];
-			$suplier_telephone=$ims->fields["suplier_telephone"];
-			$suplier_email=$ims->fields["suplier_email"];
+			
 
 		$sql1="SELECT name FROM ct_catalogue WHERE ct_uuid='$catalog_id';";
 		$ims1 = $db->Execute($sql1);
 			$category=$ims1->fields["name"];
+
+		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+		$ims2= $db->Execute($sql2);
+		$inventory_name = $ims2->fields["inventory_name"];
 			//$parent_id=$ims1->fields["parentid"];
 
 	
@@ -97,16 +96,13 @@ $module = $global['module'];
 ?>
 		<tr>
 		<td><?php print ($item_id); ?></td>
-		<td><?php print ($category); ?></td>
 		<td><a href="index.php?mod=ims&act=add_item1&item_id=<?php echo $item_id;?>"><?php print ($item_name);?></a></td>
 		<td><?php print ($amount); ?></td>
 		<td><?php print ($unit); ?></td>
 		<td><?php print ($manufactured_date); ?></td>
 		<td><?php print ($expire_date);?></td>
-		<td><?php print ($suplier_name);?></td>
-		<td><?php print ($suplier_address);?></td>
-		<td><?php print ($suplier_telephone);?></td>
-		<td><?php print ($suplier_email);?></td>
+		<td><?php print ($inventory_name);?></td>
+		
 		</tr>
 
 	

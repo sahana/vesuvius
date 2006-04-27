@@ -47,7 +47,7 @@ function _shn_ims_add_item_db()
 
 		//print ($inv_id);
 		
-    		$sql = " insert into ims_item_records (category,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email,state) values ('$cate','$parent_id','$inv_id','$item','$amou','$unit','$manufactured_date','$expire_date','$suply_person_name','$suply_person_address','$suply_person_telephone','$suply_person_email','$state');";
+    		$sql = " insert into ims_item_records (category,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state) values ('$cate','$parent_id','$inv_id','$item','$amou','$unit','$manufactured_date','$expire_date','$state');";
 		$ims = $db->Execute($sql);
 		
 		$_POST['item_name']="";	

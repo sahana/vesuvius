@@ -14,11 +14,12 @@ CREATE TABLE ims_item_records
 	unit VARCHAR(20),
 	manufactured_date DATE,
 	expire_date DATE,
-	suplier_name VARCHAR(100),
-	suplier_address VARCHAR(100),
-	suplier_telephone VARCHAR(100),
-	suplier_email VARCHAR(100),
 	state VARCHAR(20),
+	transit_state VARCHAR(20),
+	item_send_to VARCHAR(20),
+	item_send_from VARCHAR(20),
+	amount_send BIGINT,
+	amount_received BIGINT,
 	PRIMARY KEY(item_id)
 );
 
@@ -26,7 +27,7 @@ DROP TABLE IF EXISTS `ims_inventory_records`;
 CREATE TABLE ims_inventory_records
 (
 
-	inv_uuid VARCHAR(60),
+	inv_uuid BIGINT NOT NULL AUTO_INCREMENT,
 	parent_id BIGINT,
 	inventory_name VARCHAR(100),
 	inventory_type VARCHAR(100),
