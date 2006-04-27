@@ -26,7 +26,8 @@ function initialize_map(){
 	$res=$db->Execute($q);
 	$key=$res->fields[0];
 	*/
-	$key=$conf['gmap_key'];
+	//$key=$conf['gmap_key'];
+	$key = $conf['mod_gis_google_key'];
 ?>
 		<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 		<div id="map" style="width: 500px; height: 400px"></div>
@@ -210,7 +211,8 @@ function show_map($opt=null)
 	global $global;
 	global $conf;
 	$db=$global['db'];
-	$key=$conf['gmap_key'];
+	//$key=$conf['gmap_key'];
+	$key = $conf['mod_gis_google_key'];
 	//echo "value:".$conf['mod_gis_center_x'];
 ?>
 	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
@@ -241,7 +243,8 @@ function show_map_with_markers($markers)
 	global $global;
 	global $conf;
 	$db=$global['db'];
-	$key=$conf['gmap_key'];
+	//$key=$conf['gmap_key'];
+	$key = $conf['mod_gis_google_key'];
 ?>
 	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -268,12 +271,15 @@ function show_map_with_markers($markers)
 <?php
 }
 
+/**
+ * show map with marker addition event
+ */
 function show_add_marker_map($name)
 {
 	global $global;
 	global $conf;
 	$db=$global['db'];
-	$key=$conf['gmap_key'];
+	$key = $conf['mod_gis_google_key'];
 ?>
 	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -281,22 +287,17 @@ function show_add_marker_map($name)
 	//<![CDATA[
 	window.onload=function show_map_add_mkr_js()
 	{
-			
-		//alert('map');
-	
-	       var map = new GMap(document.getElementById("map"));
-				 map.addControl(new GLargeMapControl());
+			var map = new GMap(document.getElementById("map"));
+			map.addControl(new GLargeMapControl());
 	       //map.addControl(new GSmallMapControl());
-				 map.addControl(new GMapTypeControl());//satellite image switch
+			map.addControl(new GMapTypeControl());//satellite image switch
 				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
-						
-		GEvent.addListener(map, 'click', function(overlay, point) {
-	  	if (overlay) {
-			var html = "<?php echo $name?>";
-			//var html = overlay;
-				overlay.openInfoWindowHtml(html);
-				//map.removeOverlay(overlay);
+			map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);			
+			GEvent.addListener(map, 'click', function(overlay, point) {
+	  		if (overlay) {
+				var html = "<?php echo $name?>";
+				//overlay.openInfoWindowHtml(html);
+				map.removeOverlay(overlay);
 			} 
 			else if (point) {
 				map.addOverlay(new GMarker(point));
@@ -307,9 +308,8 @@ function show_add_marker_map($name)
 				x_point[0].value=point.x;
 				y_point[0].value=point.y;
 				//alert(x_point[0].value);
-			}
-				
-				
+			}	
+		});		
 		
 	}		
 	//]]>	
@@ -323,7 +323,8 @@ function shn_map_show(){
 	global $global;
 	global $conf;
 	$db=$global['db'];
-	$key=$conf['gmap_key'];
+	//$key=$conf['gmap_key'];
+	$key = $conf['mod_gis_google_key'];
 ?>
 <script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 <script type="text/javascript">

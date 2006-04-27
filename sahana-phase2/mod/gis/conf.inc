@@ -33,7 +33,11 @@ $conf['mod_gis_dflt'] = 'google_maps';
 
  # if google maps, map api key
  # key should be registered to hosted url
+ //@deprecated
  $conf['gmap_key'] = 'ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
+ 
+ //new value
+ $conf['mod_gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
 /**
  * Default center coordinates of displayed maps

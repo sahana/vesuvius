@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.7 2006-04-27 08:50:02 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.8 2006-04-27 12:57:11 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -135,7 +135,7 @@ function shn_gis_show_map($name_of_map="Area Map")
  * @param mixed  $name_of_map Custom Map Name
  * @param $nameOfPoint Assign name to point
  */
-function shn_gis_add_marker_map($name_of_map="Area Map",$name)
+function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
 {
 	global $global;
 	global $conf;
@@ -145,21 +145,40 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name)
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_add_marker_map($name);
 	}
-	
 
 }
 
+/**
+ * Add marker map with form elements
+ * Outputs Map within form elements which listen for click events
+ * Includes additional GPS boxes
+ * @param string $name_of_map	Value over map
+ * @param string $nameOfPoint	Name of point to be stored
+ */
 function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 {
 	global $global;
 	global $conf;
-	shn_gis_init_plugin($name_of_map);
-	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
-	add_marker($nameOfPoint);
+	include_once($global['approot'].'/inc/lib_form.inc');
 	
-	//below if statement is to handle GoogleMaps-IE inconsistencies
-	if($conf['mod_gis_dflt'] == 'google_maps')
-		end_page();
+	if($conf['gis'])
+	{
+		shn_form_fsopen($name_of_map);
+		shn_form_hidden(array('loc_x'=>''));
+		shn_form_hidden(array('loc_y'=>''));
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_add_marker_map($nameOfPoint);
+		shn_form_fsclose();
+	}
+	else
+	{
+		//no gis
+	}
+	shn_form_fsopen(_("GPS Coordinates"));
+	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
+	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
+	shn_form_fsclose();
 }
 
 ?>
