@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.11 2006-04-21 10:17:52 chamindra Exp $
+* $Id: main.inc,v 1.12 2006-04-27 04:25:43 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -67,6 +67,7 @@ function shn_cr_mainmenu()
     	shn_mod_menuitem("gis_show",_("Location Map"),$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
+    include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
 
