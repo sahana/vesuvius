@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.31 2006-04-27 08:48:23 mifanc Exp $ */
+/* $Id: camp.inc,v 1.32 2006-04-27 12:57:58 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -191,6 +191,7 @@ function _shn_cr_sel_map(){
 		$_SESSION['contact_mob']=$_POST['contact_mob'];
 		$_SESSION['occupation']=$_POST['occupation'];
 	global $global;
+	
 	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 	//shn_js_show();
 	//add_marker_out("some name");
@@ -199,73 +200,43 @@ function _shn_cr_sel_map(){
 	shn_form_fsopen(_("Location Information"));
 	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
 	shn_form_fsclose();
+	/*
 	shn_form_fsopen(_("Plot Location on Map"));
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_hidden(array('loc_x'=>''));
 	shn_form_hidden(array('loc_y'=>''));
 
 	$db=$global['db'];
-	echo "<h2>"._("Area Map")."</h2>";
+	//echo "<h2>"._("Area Map")."</h2>";
 	
 	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	//shn_gis_add_marker_map();
-	shn_gis_init_plugin();
+	//shn_gis_init_plugin();
 	//shn_map_show();
 	//shn_gis_map(null);
-	//shn_gis_add_marker_map("Area Map",$_POST['camp_name']);
+	shn_gis_add_marker_map("Area Map",$_POST['camp_name']);
+	*/
+	include $global['approot']."/mod/gis/gis_fns.inc";
+	shn_gis_add_marker_map_form("GIS Map",$_POST['camp_name']);
 ?>
 	<!--<div id="map" style="width: 500px; height: 400px"></div>
 	<script type="text/javascript">window.onload=show_map_js();</script>-->
 	<!--<script src="stream.php?mod=cr&act=loadmap&stream_type=txt&wkey=<?=$wkey;?>&ekey=<?=$ekey;?>" type="text/javascript" > </script>-->
 	<?php
-	/*if mod_gis
-	if($conf['gis']){
-	  include $global['approot']."/mod/gis/conf.inc";
-	  if($conf['mod_gis']=='google_maps'){
-	  	
-		 	 * google maps
-		 	 *@todo check for online connectivity: exit gracefully
-	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-			echo _("Enter Camp Location. Click on Map where camp exists");
-
-			$a="select value from config where module_id='gis' and confkey='google_key'";
-      $ares=$db->Execute($a);
-			$keys=$ares->fields[0];
-
-	
-			$w="select value from config where module_id='gis' and confkey='center_x'";
-			$wres=$db->Execute($w);
-			$wkey=$wres->fields[0];
-
-			$e="select value from config where module_id='gis' and confkey='center_y'";
-			$eres=$db->Execute($e);
-			$ekey=$eres->fields[0];
-																		
-			init_map($keys);
-		}
-	}
-	
-	else
-	{
-?>
-   <p>No Currently Selected GIS</p> 
-<?php
-  	}
-  	*/
-	shn_form_fsclose();
+	/*shn_form_fsclose();
 	shn_form_fsopen(_("GPS Coordinates"));
 	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
 	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
 	shn_form_fsclose();
-			
+	*/		
 	shn_form_submit("Next");
 	shn_form_close();
-	include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-	add_footer();
-	load_map();
-	add_marker($_POST['camp_name']);
-	end_page();
+	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+	//add_footer();
+	//load_map();
+	//add_marker($_POST['camp_name']);
+	//end_page();
 }
 
 function shn_cr_footer()
