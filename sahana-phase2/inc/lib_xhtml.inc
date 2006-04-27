@@ -38,7 +38,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
         <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
 	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />
 	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
-<!--        <script type="javascript" src="theme/<?=$theme?>/sahana.js"/> -->
+    <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script> 
 <?php
     if ($arrPostfix != null) {
         foreach ($arrPostfix as $i) {
