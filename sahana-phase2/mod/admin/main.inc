@@ -23,7 +23,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once "menu.inc";
 include_once "acl.inc";
-include_once "forms.inc";
+include_once "location.inc";
 include_once $global['approot']."inc/lib_security/auth_form.inc";
 
 // Incident Management Module
@@ -124,6 +124,48 @@ function shn_admin_add_loc_cr()
 {
     shn_location_add();
     shn_admin_location_form();
+}
+
+function shn_admin_view_loc()
+{
+    shn_admin_location_view_form();
+}
+
+function shn_admin_view_loc_cr()
+{
+	if (isset($_POST{"chk_start"})){
+        $loc=0;
+    }else {
+        $level=$_POST{"opt_location_type"};
+        $loc=$_POST{$level};
+    }
+	shn_admin_location_edit_form($loc);
+}
+
+function shn_admin_edit_loc_cr()
+{
+	$act=$_POST{"action"};
+	$loc=$_POST{"loc_id"};
+	switch ($act) {
+        case "edit":
+        		$loc=array();
+        		$loc["loc"]=$_POST{"loc_id"};
+        		$loc["name"]=$_POST{"loc_name"};
+        		$loc["desc"]=$_POST{"desc"};
+        		$loc["iso"]=$_POST{"iso"};
+        		
+        		shn_location_edit($loc);
+            shn_admin_location_view_form();
+            break;
+        case "del":
+            shn_location_del($loc);
+            shn_admin_location_view_form();
+            break;
+        default:
+             shn_admin_location_view_form();
+            break;
+    }
+
 }
 
 /************************************/

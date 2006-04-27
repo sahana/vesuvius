@@ -281,6 +281,7 @@ function shn_location_jscript($to){
  * @return void
  */
 function shn_location($range,$value=null,$parent=null){
+	
 	shn_location_jscript($range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  
@@ -330,6 +331,41 @@ function shn_location_add()
         $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
         $res=$db->Execute($q);
     }
+}
+
+/**
+ * Deletes a location from the database.
+ * 
+ * @access public
+ * @return void
+ */
+function shn_location_del($loc)
+{
+    global $global;
+    $db=$global['db'];
+    $loc_str=shn_location_get_descendants($loc);
+    $loc_arr=split(",",$loc_str);
+    $q="delete from location where location_id=$loc";
+    $db->Execute($q);
+    foreach( $loc_arr as $val){
+    		$q="delete from location where location_id=$val";
+    		$db->Execute($q);
+    }
+ 
+}
+
+function shn_location_edit($loc)
+{
+    global $global;
+    $db=$global['db'];
+    $loc_id=$loc{"loc"};
+    $name=$loc{"name"};
+    $desc=$loc{"desc"};
+    $iso=$loc{"iso"};
+    $q="update location set name='{$name}',description='{$desc}',iso_code='{$iso}' where location_id=$loc_id";
+    $db->Execute($q);
+    
+ 
 }
 
 function _shn_location_form_parent($range,$parent){   
@@ -473,6 +509,7 @@ function _shn_location_form($range)
             else
                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
             $res_options=$db->Execute($q);
+            if($res_options==null){ return;}
             $options=array();
             if(!$res_options->EOF){
                 $selection=$res_options->fields[1];

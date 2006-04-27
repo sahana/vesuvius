@@ -19,11 +19,10 @@ function _shn_admin_mainmenu()
     global $global;
     global $conf;
     $module_list = shn_get_modules_with_admin();
-
-
     shn_mod_menuopen(shn_get_module_name());
-    shn_sub_mod_menuopen(_("System Config"));
+    shn_sub_mod_menuopen(_("Locations"));
     shn_sub_mod_menuitem("add_loc", _("Add Location"), $module);
+    shn_sub_mod_menuitem("view_loc", _("Edit & Delete Location"), $module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Localization"));
     shn_sub_mod_menuitem("lc_set", _("Set Locale"), $module);
@@ -43,8 +42,6 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("acl_module", _("Modules"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
-
-
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
