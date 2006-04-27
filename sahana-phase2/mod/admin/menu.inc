@@ -12,53 +12,39 @@
  *
  */
 
+require_once $global['approot']."/inc/lib_menu.inc";
+
 function _shn_admin_mainmenu()
 {
     global $global;
     global $conf;
     $module_list = shn_get_modules_with_admin();
-?>
-    <div id="modmenuwrap">
-        <h2><?=_("Administration")?></h2>
-            <ul id="modmenu">
-                <li><a href="#"><?=_("System Config")?> </a></li>
-                    <ul id="modsubmenu">
-                    <li>
-                        <a href="index.php?mod=admin&act=add_loc"><?=_("Add Location")?></a>
-                    </li>
-                    </ul>
-                    <li><a href="#"><?=_("Localization")?></a></li>
-                    <ul id="modsubmenu">
-                    	<li>
-                            <a href="index.php?mod=admin&amp;act=lc_set"><?=_("Set Locale")?></a>
-                        </li>
-                        <li>
-                            <a href="index.php?mod=admin&amp;act=lc_db"><?=_("Database L10N")?></a>
-                        </li>
-						<li>
-                            <a href="index.php?mod=admin&amp;act=lc_trns"><?=_("Language Translation")?></a>
-                        </li>
-                    </ul>
 
-               <li><a href="#"><?=_("Module Config")?> </a></li>
-                    <ul id="modsubmenu">
-<?php foreach ($module_list as $i) {  ?>
-                        <li><a href="index.php?mod=<?=$i?>&act=adm_default"><?=$conf['mod_'.$i.'_name']?></a></li><?php } ?>
-                    </ul>
 
-                    <li><a href="#"><?=_("Mutiple Incidents")?></a></li>
-                    <?php include $global['approot']."/mod/admin/ims_menus.inc"; ?>
+    shn_mod_menuopen(shn_get_module_name());
+    shn_sub_mod_menuopen(_("System Config"));
+    shn_sub_mod_menuitem("add_loc", _("Add Location"), $module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Localization"));
+    shn_sub_mod_menuitem("lc_set", _("Set Locale"), $module);
+    shn_sub_mod_menuitem("lc_db", _("Database L10N"), $module);
+    shn_sub_mod_menuitem("lc_trns", _("Language Translation"), $module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Module Config"));
+ foreach ($module_list as $i) {  
+    shn_sub_mod_menuitem("adm_default", $conf['mod_'.$i.'_name'], $i);
+ }
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Mutiple Incidents"));
+    include $global['approot']."/mod/admin/ims_menus.inc"; 
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Security Config"));
+    shn_sub_mod_menuitem("acl_system", _("System &amp; User"), $module);
+    shn_sub_mod_menuitem("acl_module", _("Modules"), $module);
+    shn_sub_mod_menuclose();
+    shn_mod_menuclose();
 
-                <li><a href="#"><?=_("Security Config")?> </a></li>
-                    <ul id="modsubmenu">
-<li><a href="index.php?mod=admin&act=acl_system"><?=_("System &amp; User")?></a></li>
-<li><a href="index.php?mod=admin&act=acl_module"><?=_("Modules")?></a></li>
-                   </ul>
-         </ul>
-        </dd>
-        </dt>
-    </div> <!-- /modmenuwrap -->
-<?php
+
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
