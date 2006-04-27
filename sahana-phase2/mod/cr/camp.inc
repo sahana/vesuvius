@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.29 2006-04-21 10:17:52 chamindra Exp $ */
+/* $Id: camp.inc,v 1.30 2006-04-27 04:43:29 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -23,6 +23,7 @@ function _shn_cr_cadd_start($errors=false){
 	if($errors)
 		display_errors();
 	global $global;
+	global $conf;
 	$db = $global['db'];
 ?>
 <h2 align="center"><?php echo _("Register New Camp")?></h2>
@@ -99,6 +100,7 @@ function _shn_cr_cadd_chk($errors=false){
 if($errors)
 	display_errors;
 	global $global;
+	global $conf;
 	if($conf['gis']=='false'){
 		//add to session if GIS module is not enabled
 		$_SESSION['camp_name']=$_POST['camp_name'];
@@ -378,6 +380,7 @@ $resc = $db->Execute($qc);
 */
 
 global $global;
+global $conf;
 	
 
 //if mod_gis

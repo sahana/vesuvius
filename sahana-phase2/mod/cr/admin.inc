@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: admin.inc,v 1.7 2006-04-27 04:43:29 mifanc Exp $ */
 
 /**Admin Module for CR
 *

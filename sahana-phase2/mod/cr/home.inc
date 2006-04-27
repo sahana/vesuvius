@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: home.inc,v 1.3 2006-04-27 04:43:29 mifanc Exp $ */
 
 /**
 * CMS Home page

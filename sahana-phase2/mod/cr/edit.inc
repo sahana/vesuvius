@@ -1,5 +1,5 @@
 <?php
-/* $Id; */
+/* $Id: edit.inc,v 1.12 2006-04-27 04:43:29 mifanc Exp $ */
 
 /**Update functions for  CR
 *

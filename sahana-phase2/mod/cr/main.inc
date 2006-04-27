@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.12 2006-04-27 04:25:43 mifanc Exp $
+* $Id: main.inc,v 1.13 2006-04-27 04:43:29 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -33,6 +33,7 @@ function shn_cr_mainmenud(){
 			<li><a href="index.php?mod=<?=$module?>&act=lrpt"><?php echo _("View By Location")?></a></li>
 			<li><a href="index.php?mod=<?=$module?>&act=contact"><?php echo _("View Admin Details")?></a></li>
 			<?php
+				global $conf;
 				if($conf['gis']=='true'){
 			?>
 				<li><a href="index.php?mod=<?=$module?>&act=gis_show"><?php echo _("Location Map")?></a></li>

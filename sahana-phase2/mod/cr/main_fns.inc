@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.34 2006-04-21 10:17:52 chamindra Exp $ */
+/* $Id: main_fns.inc,v 1.35 2006-04-27 04:43:29 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -133,6 +133,7 @@ function shn_cr_srch(){
 
 function shn_cr_acmp(){
 	global $global;
+	global $conf;
   include($global['approot'].'/mod/cr/camp.inc');
 	require_once($global['approot'].'/inc/handler_form.inc');
 
