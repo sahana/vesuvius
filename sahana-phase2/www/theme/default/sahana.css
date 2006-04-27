@@ -118,7 +118,9 @@ div#header h1 {
 	display:none;
 }
 
-#language form{	
+div#formcontainer #language{
+    background-color:transparent;
+    border:none;	
 	position: absolute;
 	top: 40px;
 	max-width:200px;
