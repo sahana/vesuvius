@@ -506,6 +506,14 @@ function shn_ims_receive_item()
 	_shn_ims_receive();
 }
 
+function shn_ims_receive_item_page()
+{
+	global $global;
+	$temp = trim($_REQUEST['item_id']);
+	include_once('transfer_inv.inc');
+	_shn_ims_receive_item_page($temp);
+}
+
 function shn_ims_send_item_page()
 {
 	global $global;

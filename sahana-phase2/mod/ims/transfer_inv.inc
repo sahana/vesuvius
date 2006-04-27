@@ -103,11 +103,60 @@ function _shn_ims_receive()
 ?>
 <h1 align="center"><?php print _("Receive Item from an Inventory")?> </h1>
 <div id="report">
-<?php
-	shn_form_fopen(null);
-	shn_form_fsopen("Item Transfer");
+</div>
 
-	$transit_state="send";
+	<table>
+        <thead>
+	    <td><?=_("Item")?></td>
+	    <td><?=_("Amount Sent");?></td>
+	    <td><?=_("Unit");?></td>
+	    <td><?=_("Inventory From")?></td>
+            <td><?=_("Inventory To")?></td>
+	    <td><?=_("Date")?></td>
+            <td><?=_("Authorized Person")?></td>
+            
+        </thead>
+	<tbody>
+<?php
+	$state="send";
+	global $global;
+	$db=$global["db"];
+	$sql1="SELECT item_id,item_name,amount_send,item_send_from,item_send_to FROM ims_item_records WHERE transit_state='$state';";
+	$ims1 = $db->Execute($sql1);
+	
+	while (!$ims1==NULL && !$ims1->EOF)
+	{	
+		$item_id=$ims1->fields['item_id'];
+		$item_name=$ims1->fields['item_name'];
+		$amount_send=$ims1->fields['amount_send'];
+		$item_send_from=$ims1->fields['item_send_from'];
+		$item_send_to=$ims1->fields['item_send_to'];
+
+		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_from';";
+		$ims2=$db->Execute($sql2);
+		$inventory_from=$ims2->fields['inventory_name'];
+
+		$sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_to';";
+		$ims3=$db->Execute($sql3);
+		$inventory_to=$ims3->fields['inventory_name'];
+	
+?>
+		<tr>
+		<td><a href="index.php?mod=ims&act=receive_item_page&item_id=<?php echo $item_id;?>"<?php print($item_name);?>></a></td>
+		<td><?php print($amount_send);?></td>
+		<td><?php print("");?></td>
+		<td><?php print($inventory_from);?></td>
+		<td><?php print($inventory_to);?></td>
+		</tr>
+<?php
+		$ims1->MoveNext();
+	}
+?>
+	</tbody>
+	</table>
+
+<?php
+	/**$transit_state="send";
 	global $global;
 	$db=$global["db"];
 	$sent_item_array=array();
@@ -155,7 +204,7 @@ function _shn_ims_receive()
 		$ims3->MoveNext();
 	}
 	shn_form_select($received_inventory_array,_("Received To the Inventory : "),'inv_id_to','size="1"',$extra_opts);
-	shn_form_text(_("Date Received : "),'date_received','size="50"',$extra_opts);
+	shn_form_text(_("Date Received : "),'date_received','size="50"',$extra_opts);*/
 	/*global $global;
 	$db=$global['db']; 
 	$sql-"SELECT item_name FROM ims_item_records";
@@ -169,9 +218,9 @@ function _shn_ims_receive()
 	{
 		shn_form_text("Hello",'hello','size="50"',null);
 	}*/
-	shn_form_fsclose();
+	/**shn_form_fsclose();
 	shn_form_submit("Received");
-	shn_form_fclose();
+	shn_form_fclose();*/
 }
 
 function _shn_ims_send_db()
@@ -205,8 +254,44 @@ function _shn_ims_send_db()
 	
 }
 
-function _shn_ims_receive_db()
+function _shn_ims_receive_item_page($temp)
 {
-	
+?>
+<h1 align="center"><?php print _("Receive Item ")?> </h1>
+<div id="report">
+<?php
+	global $global;
+	$db=$global["db"];
+	$sql = "SELECT item_name,amount_send,item_send_from,item_send_to FROM ims_item_records WHERE item_id='$temp';";
+	$ims = $db->Execute($sql);
+	//$inv_id=$ims->fields['inv_id'];
+	$item_received=$ims->fields['item_name'];
+	$received_amount=$ims->fields['amount_send'];
+	$inventory_from=$ims->fields['item_send_from'];
+	$inventory_to=$ims->fields['item_send_to'];
+
+	$sql1="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_from';";
+	$ims1=$db->Execute($sql1);
+	$inventory_from=$ims1->fields['inventory_name'];
+
+	$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_to';";
+	$ims2=$db->Execute($sql2);
+	$inventory_to=$ims2->fields['inventory_name'];
+		
+	shn_form_fopen(null);
+	shn_form_fsopen("Received Item");
+	$extra_opts['value'] = $item_received;
+	shn_form_text(_("Item Name : "),'item_received','size="50"',$extra_opts);
+	$extra_opts['value'] = $received_amount;
+	shn_form_text(_("Received Amount : "),'received_amount','size="50"',$extra_opts);
+	$extra_opts['value']=$inventory_from;
+	shn_form_text(_("From : "),'inventory_from','size="50"',$extra_opts);
+	$extra_opts['value']=$inventory_to;
+	shn_form_text(_("To : "),'inventory_to','size="50"',$extra_opts);
+	shn_form_text(_("Date Received : "),'received_date','size="50"',null);
+	shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',null);
+	shn_form_fsclose();
+	shn_form_submit(_("Received"));
+	shn_form_fclose();	
 }
 ?>
