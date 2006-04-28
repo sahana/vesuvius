@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.12 2006-01-26 07:20:50 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.13 2006-04-28 09:15:17 janakawicks Exp $ */
 
 /**
  *
@@ -132,6 +132,8 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
 
         if($v == '')
             $values .= "'NULL', ";
+        elseif ($v == 'TRUE')
+            $values .= "TRUE, ";
         else
             $values .= shn_db_clean($v).", ";
 
@@ -186,4 +188,57 @@ function shn_db_insert_phonetic($name,$pgl_uuid)
     }
 }
 
+function shn_db_config_update($module,$conf_key,$value)
+{
+    global $global;
+
+    $arr['module_id'] = $module;
+    $arr['confkey'] = $conf_key;
+    $arr['value'] = $value;
+
+    //delete
+    $global['db']->Execute("DELETE FROM config WHERE module_id LIKE '$module' AND confkey LIKE '$conf_key'");
+    //insert 
+    shn_db_insert($arr,'config',true,'module_id');
+}
+
+function shn_db_get_incident_name()
+{
+    global $global;
+    
+    $sql = "SELECT name FROM incident a inner JOIN user_preference b ON a.incident_id = b.value WHERE b.p_uuid = '{$_SESSION['user_id']}' AND b.pref_key = 'incident_id' "; 
+
+    $result = $global['db']->GetAll($sql);
+?>
+<div id="incident_name">
+   <strong>You are using <?=$result[0]['name'];?> </strong>
+</div>
+<?php
+}
+
+function shn_db_get_all_incidents($incident_id)
+{
+    global $global;
+
+    $return = array($incident_id);
+    $sql = "SELECT incident_id FROM incident WHERE parent_id = '$incident_id'";
+    $result = $global['db']->GetAll($sql);
+    if($result){
+        foreach($result as $result_id){
+            $return[] = $result_id['incident_id'];
+        }
+        $global['db']->Execute("CREATE TEMPORARY TABLE tmp_incident (incident_id BIGINT)");
+        $global['db']->Execute("INSERT INTO tmp_incident SELECT incident_id FROM incident WHERE parent_id = '$incident_id'");
+        $result_child = $global['db']->GetAll("SELECT a.incident_id FROM incident a INNER JOIN tmp_incident b ON a.parent_id = b.incident_id");
+        $global['db']->Execute("DROP TABLE tmp_incident");
+
+        if($result_child){
+            foreach($result_child as $result_id){
+                $return[] = $result_id['incident_id'];
+            }
+        }
+    }
+     
+    return $return;   
+}
 ?>
