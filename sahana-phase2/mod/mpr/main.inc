@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.21 2006-04-25 09:57:56 janakawicks Exp $ */
+/* $Id: main.inc,v 1.22 2006-04-28 09:45:09 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -436,9 +436,15 @@ function shn_mpr_search()
     	            $search_sql = new SearchQuery();
                     $search_sql->set_name($_POST['name']);
                     $search_sql->set_serial_no($_POST['idcard']);
-                    $search_sql->isvictim = true; 
-                    if ($_REQUEST['type'] == 'missing')
+                    #$search_sql->isvictim = true; 
+                    if(! isset($_POST['all_incidents']) && ! isset($_POST['list_incidents'])) 
+                        $search_sql->incident_id = $_SESSION['user_pref_ims_incident_id']; 
+                    elseif(isset($_POST['list_incidents']))
+                        $search_sql->incident_list = "'".implode(shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']),"','")."'";
+                    if ($_REQUEST['type'] == 'missing'){
                         $search_sql->missing_only = true; 
+                        $search_sql->isvictim = true; 
+                    }
                     #echo $search_sql->get_sql();
                     $arr = shn_mpr_search_result_vw($search_sql->get_sql());
                 }

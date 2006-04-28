@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.19 2006-04-25 09:57:56 janakawicks Exp $ */
+/* $Id: add.inc,v 1.20 2006-04-28 09:45:08 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -750,6 +750,13 @@ function shn_mpr_addmp_commit()
     $insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
     $insert_array['isvictim'] = 'TRUE';
     shn_db_insert($insert_array,'person_status',true,'p_uuid');
+    //reset $insert_array 
+    $insert_array = null;
+
+    //insert into mutiple incidents 
+    $insert_array['x_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    $insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+    shn_db_insert($insert_array,'resource_to_incident',true,'x_uuid');
     //reset $insert_array 
     $insert_array = null;
 

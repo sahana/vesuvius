@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.11 2006-04-25 06:04:00 janakawicks Exp $ */
+/* $Id: search.inc,v 1.12 2006-04-28 09:45:09 janakawicks Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -31,6 +31,10 @@ function shn_mpr_search_default()
     shn_form_fsopen(_('Basic Search'));
     shn_form_text(_('Any Card Number'),'idcard','size="30"');
     shn_form_text(_('Any Name'),'name','size="30"');
+    shn_form_checkbox(_('All incidents belongs to current incident'),'list_incidents');
+?>
+<br />
+<?php
     shn_form_checkbox(_('All incidents'),'all_incidents');
     shn_form_submit(_('Next'));
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
@@ -332,10 +336,14 @@ function shn_mpr_search_show_result($details)
     <TR>
         <TD>
 <?php
-    shn_show_thumb($detail['p_uuid']); 
+    shn_show_thumb_url($detail['p_uuid'],'mpr','addmp_img'); 
     echo '<hr><a title="'._('Audit').'" '.
             'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
             $detail['p_uuid'].'">'._('Audit').'</a>';
+
+    echo '<br /><a title="'._('Assign to more incidents').'" '.
+            'href="index.php?mod=admin&act=ims_assign&id='.
+            $detail['p_uuid'].'">'._('Assign to more incidents').'</a>';
 ?>
         </TD>
         <TD>
@@ -443,7 +451,7 @@ function shn_mpr_search_select($details)
     <TR>
         <TD>
 <?php
-    shn_show_thumb($detail['p_uuid']);
+    shn_show_thumb_url($detail['p_uuid'],'mpr','addmp_img');
 ?>
         </TD>
         <TD>
@@ -491,6 +499,8 @@ function shn_mpr_search_select($details)
  */
 class SearchQuery
 {
+/* {{{ Varibles */
+    /* {{{ private variables */
     var $__name;
     var $__address;
     var $__phone;
@@ -501,10 +511,23 @@ class SearchQuery
 
     var $__joins;
     var $__where;
+    /* }}} */
+
+    /* {{{ public variables */
 
     var $isvictim;
     var $missing_only;
 
+    var $incident_list;
+    var $incident_id;
+
+    /* }}} */
+
+/* }}} */
+
+/* {{{ Functions */
+
+    /* {{{ set name */
     /**
      * Sets the name field including soundex and metaphone
      * 
@@ -530,7 +553,9 @@ class SearchQuery
 
         $this->__where[] = " ( ($encode1) OR ($encode2) ) ";
     }
+    /* }}} */
 
+    /* {{{ set address */
     /**
      * Sets the address
      * 
@@ -552,7 +577,9 @@ class SearchQuery
 
         $this->__where[] = " location_details.address LIKE '$local_address' ";
     }
+    /* }}} */
 
+    /* {{{ set serial */
     /**
      * Sets any serial numeber
      * 
@@ -568,7 +595,9 @@ class SearchQuery
                 " person_status.p_uuid = identity_to_person.p_uuid ";
         $this->__where[] = " identity_to_person.serial LIKE '%{$this->__serial_no}%' ";
     }
+    /* }}} */
 
+    /* {{{ set phone */
     /**
      * Sets the phone number
      * 
@@ -584,7 +613,9 @@ class SearchQuery
             " person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
         $this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' "; 
     }
+    /* }}} */
 
+    /* {{{ get sql */
     /**
      * returns the generated sql
      * 
@@ -598,6 +629,10 @@ class SearchQuery
         foreach ($this->__joins as $joins)
             $sql .= $joins ;
         
+        //if incident_id is given join that
+        if(! empty ($this->incident_id) || ! empty ($this->incident_list) )
+           $sql .= " INNER JOIN resource_to_incident ON resource_to_incident.x_uuid = person_status.p_uuid ";
+        
         if($this->__where){
             $sql .= " WHERE (";
             foreach ($this->__where as $where)
@@ -606,6 +641,10 @@ class SearchQuery
             $sql = substr($sql,0,strlen($sql) - 3);
             $sql .= " ) ";
             
+            if(!  empty ($this->incident_id))
+                $sql .= " AND resource_to_incident.incident_id = '{$this->incident_id}' ";
+            elseif(!  empty ($this->incident_list))
+                $sql .= " AND resource_to_incident.incident_id IN ({$this->incident_list}) ";
             if($this->isvictim)
                 $sql .= " AND person_status.isvictim = TRUE ";
             if($this->missing_only)
@@ -614,6 +653,10 @@ class SearchQuery
         }       
         return $sql;
     } 
+    /* }}} */
+
+/* }}} */
+
 }
 /* }}} */
 ?>

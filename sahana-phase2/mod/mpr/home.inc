@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.14 2006-04-25 09:57:56 janakawicks Exp $ */
+/* $Id: home.inc,v 1.15 2006-04-28 09:45:09 janakawicks Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -75,6 +75,10 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
 {
     global $global; 
 
+    #$incident_ids = shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']);
+    #$incident_sql = implode($incident_ids,"','");
+    #$incident_sql = "'$incident_sql'";
+    $incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid ";
     $sql_missing = "
             SELECT
                 a.p_uuid AS p_uuid, a.full_name AS full_name, 
@@ -86,7 +90,10 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
             FROM person_uuid a 
             LEFT OUTER JOIN person_physical b USING (p_uuid) 
             INNER JOIN person_missing c USING (p_uuid)
-            INNER JOIN person_status d USING (p_uuid) WHERE d.opt_status = 'mis'
+            INNER JOIN person_status d USING (p_uuid) 
+            $incident_join 
+            WHERE d.opt_status = 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}' 
+            GROUP BY a.p_uuid 
             ORDER BY d.updated DESC";
 
     $sql_found = "
@@ -100,7 +107,10 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
             FROM person_uuid a 
             LEFT OUTER JOIN person_physical b USING (p_uuid) 
             INNER JOIN person_missing c USING (p_uuid)
-            INNER JOIN person_status d USING (p_uuid) WHERE d.opt_status != 'mis'
+            INNER JOIN person_status d USING (p_uuid) 
+            $incident_join
+            WHERE d.opt_status != 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}'
+            GROUP BY a.p_uuid
             ORDER BY d.updated DESC";
 
     if($type=='missing')
