@@ -5,19 +5,19 @@ function _shn_pref_config_form($errors=false,$updated=false)
     global $conf;
 	global $global;
 	$sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
-	$sql_level2 = "SELECT  a.incident_id , a.name, a.parent_id FROM incident a INNER JOIN incident b  ON a.parent_id = b.incident_id AND b.parent_id IS NULL";
-	$sql_level3 = "SELECT a.incident_id, a.name, b.incident_id as parent_id FROM incident a INNER JOIN incident b  ON a.parent_id = b.incident_id INNER JOIN incident c ON b.parent_id = c.incident_id AND c.parent_id IS NULL";
+	$sql_level2 = "SELECT  a.incident_id , a.name, a.parent_id, b.name as parent_name FROM incident a INNER JOIN incident b  ON a.parent_id = b.incident_id AND b.parent_id IS NULL";
+	$sql_level3 = "SELECT a.incident_id, a.name, b.incident_id as parent_id, b.name as parent_name,c.name as grand_parent_name FROM incident a INNER JOIN incident b  ON a.parent_id = b.incident_id INNER JOIN incident c ON b.parent_id = c.incident_id AND c.parent_id IS NULL";
 	$arr_level1 = $global['db']->GetAll($sql_level1);
 	$arr_level2 = $global['db']->GetAll($sql_level2);
 	$arr_level3 = $global['db']->GetAll($sql_level3);
 
     if($_POST['ims_level'] == 'level2' ){
         foreach($arr_level2 as $row){
-            $arr[$row['incident_id']] = $row['name'];
+            $arr[$row['incident_id']] = $row['parent_name'].' --> '.$row['name'];
         }
     }elseif($_POST['ims_level'] == 'level3' ){
         foreach($arr_level3 as $row){
-            $arr[$row['incident_id']] = $row['name'];
+            $arr[$row['incident_id']] = $row['grand_parent_name'].' --> '.$row['parent_name'].' --> '.$row['name'];
         }
     }else{
         foreach($arr_level1 as $row){
@@ -28,7 +28,7 @@ function _shn_pref_config_form($errors=false,$updated=false)
     if($errors)
         display_errors();
 
-    shn_form_fopen("ims",null);
+    shn_form_fopen("ims_config",null);
     
     if($updated){
         shn_form_fsopen(_(""));
