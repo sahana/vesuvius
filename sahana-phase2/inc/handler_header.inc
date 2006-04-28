@@ -6,6 +6,7 @@
             if(file_exists($global['approot'].'conf/sysconf.inc'))
             {
                 _shn_lc_lang_list(); 
+               shn_db_get_incident_name();
             }
         ?>
     </div>
