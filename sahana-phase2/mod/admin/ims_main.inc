@@ -88,6 +88,39 @@ function shn_admin_ims_level3()
     }
 }
 
+function shn_admin_ims_assign()
+{
+    global $global;
+    
+    require($global['approot'].'mod/admin/ims_assign.inc');
+
+	switch ($_POST['seq']) {
+        case 'entry':
+            if(_shn_ims_assign_validate()){
+               _shn_ims_assign_form(false,true); 
+            }else{
+                _shn_ims_assign_form(true,false);
+            }
+        break;
+        
+        case 'delete' :
+            if(isset($_POST['ims_delete'])){
+                foreach($_POST['ims_delete'] as $k => $v) {
+                    $v = trim($v);
+                    $k = trim($k);
+                    if($v != '')
+                       $global['db']->Execute("DELETE FROM resource_to_incident WHERE x_uuid = '{$_REQUEST['id']}' AND incident_id = '$k' "); 
+                }
+            }
+            _shn_ims_assign_form(true,false);
+        break;
+
+        default:
+            _shn_ims_assign_form();
+        break;
+    } 
+}
+
 /**
  * This function cleans the POST values
  * @todo Put this somewhere else, i.e. form handling
