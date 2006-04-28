@@ -46,6 +46,10 @@ if (!file_exists($global['approot'].'conf/sysconf.inc')){
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
 
+    //include the user preferences
+    include_once ($global['approot'].'inc/lib_user_pref.inc');
+    shn_user_pref_populate();
+
     // give database the priority or the conf files
     if ('database' ==  $conf['sahana_conf_priority'] ) {
         // database overrides conf files
