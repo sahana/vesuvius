@@ -105,8 +105,15 @@ function _shn_vol_reg_cr()
     <div id="result_msg">
        <?php echo $name?> was succesfully registered <br /><br />
        <? 
-       $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
-       shn_auth_form_user_add("Create an Account for Login",$header,false);
+       if(isset($_POST["chk_image"])){
+       		$_SESSION['vol_add']['entry']['p_uuid'];
+       		_shn_vol_image_upload($error) ;
+       }else if (isset($_POST["chk_login"])){
+       			$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
+       			shn_auth_form_user_add("Create an Account for Login",$header,false);
+       	}
+      // $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
+       //shn_auth_form_user_add("Create an Account for Login",$header,false);
        	return; 
        	?>
     </div>
@@ -237,5 +244,55 @@ function _shn_vol_del()
 <h2> Volunteer Registry</h2>
 <?php
         _shn_vol_viewform_all();   
+}
+
+/**
+ * This checks for the uploaded picture and make the thumbnail.
+ * @access public
+ * @return void
+ */
+function _shn_vol_upload_pic() 
+{
+    //No file was uploaded ignore
+    if($_FILES['picture']['error']==UPLOAD_ERR_NO_FILE)
+        return true;
+    //Uploads 
+    global $global;
+    global $conf;
+    $info = getimagesize($_FILES['picture']['tmp_name']);
+    //check the image type 
+    if(! $info){
+        add_error(_("Invalid Image Type Please try again"));
+        return false;    
+    }
+
+    list($ignore,$ext) = split("\/",$info['mime']);
+
+    //check for save handler
+    if($conf['mod_vol']['upload_picture']['savehandler'] == 'database'){
+        $size = filesize($_FILES['picture']['tmp_name']);
+        $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
+        $_SESSION['vol']['entry']['image'] = $pic;
+        $_SESSION['vol']['entry']['image_type'] = $ext;
+        $_SESSION['vol']['entry']['image_height'] = $info[1];
+        $_SESSION['vol']['entry']['image_width'] = $info[0];
+        
+        return true;
+    }
+
+    //putting a dot ;-) 
+    $ext = '.'.$ext;
+    $upload_dir = $global['approot'].'www/tmp/';
+    $uploadfile = $upload_dir .'ori_'. $_SESSION['vol_add']['entry']['p_uuid'].$ext;
+    move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
+    $desc_path = $upload_dir . 'thumb_'.$_SESSION['vol_add']['entry']['p_uuid'].$ext; 
+    //make thumb 100X100 or some thing like that ;-)
+    shn_image_resize($uploadfile,$desc_path,100,100);
+    
+    if (isset($_POST["chk_login"])){
+       			$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
+       			shn_auth_form_user_add("Create an Account for Login",$header,false);
+    }
+    return true;
 }
 ?>

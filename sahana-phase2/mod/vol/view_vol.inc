@@ -133,6 +133,9 @@ function _shn_vol_viewform($pid,$error=false)
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_submit",null,$form_opts);
+    shn_form_fsopen(_("Picture"));
+    shn_show_thumb($pid);
+    shn_form_fsclose();
    	shn_form_fsopen(_('Primary Details'));
     $extra_opts['value']=$name;
     $extra_opts['req']=true;
