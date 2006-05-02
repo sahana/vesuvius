@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: add.inc,v 1.3 2006-05-02 05:54:58 thushari Exp $ */
 /* last modify : 2006/03/31 */
 
 /**
@@ -19,7 +19,7 @@
  */
 global $global;
 
-require_once($global['approot'].'mod/imp/Contact/BAO/contact.inc');
+require_once($global['approot'].'mod/imp/contact/bao/contact.inc');
 require_once($global['approot'].'mod/imp/parser_contact.inc');
 
 require_once($global['approot'].'mod/imp/mapfield.inc');
