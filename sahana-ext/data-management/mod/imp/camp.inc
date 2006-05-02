@@ -1,7 +1,6 @@
 <?php
-/* $Id: camp.inc,v 1.1 2006-04-18 07:06:46 janakawicks Exp $ */
-
-
+/* $Id: camp.inc,v 1.2 2006-05-02 06:16:09 thushari Exp $ */
+/* Last Modify 2006/05/01 - Thushi Silva 
 /**
  * Data Import upload file 
  *
@@ -57,7 +56,7 @@ class imp_Contact_DAO_Camp {
     * @access public
     * @return imp_individual
     */
-    function __construct() 
+    function imp_Contact_DAO_Camp() 
     {
         
     }
@@ -245,16 +244,9 @@ class imp_Contact_DAO_Camp {
         return self::$_import;
     }
    
+
+
  
-
- /**
-    * returns the list of header pattern og the imported field
-    *
-    * @access public
-    * return array
-    */
-
-
     
 }
 ?>
