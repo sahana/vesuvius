@@ -36,7 +36,7 @@ function shn_ims_mainmenu()
     global $global;
     $module = $global['module'];
 
-	shn_mod_menuopen(shn_get_module_name());
+	shn_mod_menuopen("Information Communication Technology");
 	shn_mod_menuitem("default","Home",$module);
 	shn_sub_mod_menuopen(_("Item Management"));
 	shn_sub_mod_menuitem("search_item", _("Search"), $module);
@@ -45,17 +45,18 @@ function shn_ims_mainmenu()
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Reports"));
 	shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
-	shn_sub_mod_menuitem("report_minimum",_("minimum quantity"),$module);
+	shn_sub_mod_menuitem("report_destroyed",_("destriyed item"),$module);
+	shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Multiple Inventory Management"));
 	shn_sub_mod_menuitem("search",_("Search"),$module);
 	shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
 	shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
-	shn_sub_mod_menuitem("minimum_quantity",_("Minimum Quantity"),$module);
+	shn_sub_mod_menuitem("minimum_quantity",_("Re-Order Level"),$module);
 	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Inventory Transit"));
+	shn_sub_mod_menuopen(_("Inventory Transfer"));
 	shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
-	shn_sub_mod_menuitem("receive_item",_("Receive Item"),$module);
+	shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
@@ -68,6 +69,7 @@ function shn_ims_mainmenu()
  */
 function shn_ims_default()
 {
+    _shn_ims_expire_date_check();
     include_once ('home.inc');
     _shn_ims_default();	
 }
@@ -79,6 +81,12 @@ function shn_ims_search_item()
 {
 	include_once('search.inc');
 	_shn_ims_search_item();
+}
+
+function shn_ims_search_item_page()
+{
+	include_once('search.inc');
+	_shn_ims_search_item_page();
 }
 
 /**
@@ -129,10 +137,18 @@ function shn_ims_report_expired()
 	_shn_ims_report_expired();
 }
 
-function shn_ims_item_destroy()
+function shn_ims_report_destroyed()
 {
 	include_once ('report.inc');
-	_shn_ims_item_destroy();
+	_shn_ims_report_destroyed();
+}
+
+function shn_ims_destroy_item()
+{
+	global $global;
+	$item_id = trim($_REQUEST['item_id']);
+	include_once ('report.inc');
+	_shn_ims_destroy_item($item_id);
 }
 /**function shn_ims_add_item()
 {
@@ -148,23 +164,36 @@ function shn_ims_item_destroy()
 
 function shn_ims_add_item_db()
 {
-	 
-	 include_once ('add_item_db.inc');
-  	 _shn_ims_add_item_db();
-    
+
+	global $global;
+	require_once('add_item_db.inc');
+	
+	if(_shn_ims_validate_additemform())
+	{
+	display_errors();
+	shn_ims_add_item();
+	}
+	else
+	{
+	_shn_ims_add_item_db();
+	}
+	
 }
 
 function shn_ims_search_database()
 	{
 		include_once ('search.inc');
-			
+
+		$item_name=$_POST['item_name'];
+		$item_state=$_POST['item_state'];
+		$inventory_id=$_POST['inventory'];
+					
 		global $global;
 		$db=$global["db"];
-		$item_search=$_POST['item_name_search'];
-		$category_search=$_POST['itemcat'];
+		
 		//print ($item_search);
 		
-		$sql = "SELECT item_id,amount,unit,manufactured_date,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE item_name='$item_search' AND category='$category_search';";
+		$sql = "SELECT item_id,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state';";
 		$ims = $db->Execute($sql);
 ?>
 
@@ -172,14 +201,13 @@ function shn_ims_search_database()
 	<table>
         <thead>
             <td><?=_("Item ID")?></td>	
+	    <td><?=_("Item Name")?></td>
 	    <td><?=_("Amount")?></td>
 	    <td><?=_("Unit") ?></td>
 	    <td><?=_("Manufactured Date")?></td>
             <td><?=_("Expire Date")?></td>	
             <td><?=_("Suplier Name")?></td>
-            <td><?=_("Suplier Address")?></td>
-            <td><?=_("Suplier Contact Number")?></td>
-            <td><?=_("Suplier e-mail")?></td>
+            
             
         </thead>
 	<tbody>
@@ -189,29 +217,23 @@ function shn_ims_search_database()
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
+			//$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
-			$suplier_name=$ims->fields["suplier_name"];
-			$suplier_address=$ims->fields["suplier_address"];
-			$suplier_telephone=$ims->fields["suplier_telephone"];
-			$suplier_email=$ims->fields["suplier_email"];
-
 			
 
 ?>
 	
 	<tr>
 	<td><?php print ($item_id); ?></td>
+	<td><?php print ($item_name); ?></td>
 	<td><?php print ($amount); ?></td>
 	<td><?php print ($unit); ?></td>
 	<td><?php print ($manufactured_date); ?></td>
 	<td><?php print ($expire_date); ?></td>
-	<td><?php print ($suplier_name); ?></td>
-	<td><?php print ($suplier_address); ?></td>
-	<td><?php print ($suplier_telephone); ?></td>
-	<td><?php print ($suplier_email); ?></td>
+	
 	</tr>
 
 <?php
@@ -279,6 +301,7 @@ function shn_ims_edit_item_db()
 		$_POST['suplier_telephone']="";
 		$_POST['suplier_email']="";
 
+		_shn_ims_expire_date_check();
 		shn_ims_view_edit_item();
 		
 }
@@ -509,16 +532,33 @@ function shn_ims_receive_item()
 function shn_ims_receive_item_page()
 {
 	global $global;
-	$temp = trim($_REQUEST['item_id']);
+	$transit_id = trim($_REQUEST['transit_id']);
 	include_once('transfer_inv.inc');
-	_shn_ims_receive_item_page($temp);
+	_shn_ims_receive_item_page($transit_id);
 }
 
-function shn_ims_send_item_page()
+function shn_ims_receive_item_db()
 {
 	global $global;
 	include_once('transfer_inv.inc');
-	_shn_ims_send();
+	_shn_ims_receive_item_db();
+}
+
+function shn_ims_send_item_page($cate=null)
+{
+	global $global;
+	$catalog_id=$cate;
+	include_once('transfer_inv.inc');
+	//_shn_ims_send();
+	_shn_ims_send_item_table_view_($catalog_id);
+}
+
+function shn_ims_send_item_data_collectpage()
+{
+	global $global;
+	$item_id = trim($_REQUEST['item_id']);
+	include_once('transfer_inv.inc');
+	_shn_ims_send($item_id);
 }
 
 function shn_ims_send_item_db()

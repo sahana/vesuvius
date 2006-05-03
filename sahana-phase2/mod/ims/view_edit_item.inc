@@ -62,10 +62,11 @@ $module = $global['module'];
 <?php
 		global $global;
 		$db=$global["db"];
+		$state_des="destroyed";
 		//$item_search=$_POST['item_name_search'];
 		//print ($item_search);
 		
-		$sql = "select item_id,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records order by item_name ;";
+		$sql = "select item_id,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
 		//$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
 		$ims = $db->Execute($sql);
 

@@ -8,7 +8,7 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+* @author     Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -16,7 +16,7 @@
 
 // provide the nice display name for the OR  module
 global $conf;
-$conf['mod_ims_name'] = _("Inventory Management System");
+$conf['mod_ims_name'] = _("Information & Communication Technology");
 //set start_loc to -1 if you want all the locations
 $conf['mod_or_ims_start_loc'] = 1;
 $conf['mod_or_ims_loc_level_start']=1;

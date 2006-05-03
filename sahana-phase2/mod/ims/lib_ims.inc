@@ -8,6 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+	      Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -426,5 +427,17 @@ function _shn_ims_display_logininfo($error=false)
 function _shn_ims_display_extra($error=false)
 {
     shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
+}
+
+//-----------------------------------------------------------------------------------------------------------------
+function _shn_ims_expire_date_check()
+{
+	global $global;
+	$db=$global["db"];
+	$state="expired";
+	$state1="destroyed";
+		
+	$sql="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";
+	$ims=$db->Execute($sql);	
 }
 ?>

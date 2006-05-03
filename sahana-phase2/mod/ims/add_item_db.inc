@@ -22,6 +22,7 @@ global $global;
 //include_once ("search.inc");
 include_once ("add_item.inc");	
 include_once ("errors.inc");
+include_once ('lib_ims.inc');
 
 
 function _shn_ims_add_item_db()
@@ -35,6 +36,7 @@ function _shn_ims_add_item_db()
 		$parent_id=$_POST['parent_id'];
 		//print ($cate);
 		$amou=$_POST['amount'];
+		$cost_per_unit=$_POST['cost_per_unit'];
 		$unit=$_POST['itemunit'];
 		$inv_id=$_POST['inv_id'];
 		$manufactured_date=$_POST['manufactured_date'];
@@ -47,11 +49,12 @@ function _shn_ims_add_item_db()
 
 		//print ($inv_id);
 		
-    		$sql = " insert into ims_item_records (category,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state) values ('$cate','$parent_id','$inv_id','$item','$amou','$unit','$manufactured_date','$expire_date','$state');";
+    		$sql = " insert into ims_item_records (catalog_id,inv_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state) values ('$parent_id','$inv_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state');";
 		$ims = $db->Execute($sql);
 		
 		$_POST['item_name']="";	
 		$_POST['amount']="";
+		$_POST['cost_per_unit']="";
 		$_POST['manudate']="";
 		$_POST['expdate']="";
 		$_POST['suplier_name']="";
@@ -59,6 +62,7 @@ function _shn_ims_add_item_db()
 		$_POST['suplier_telephone']="";
 		$_POST['suplier_email']="";
 
+		_shn_ims_expire_date_check();
 		shn_ims_add_item_main_page();
 		
 		
@@ -76,4 +80,26 @@ function _shn_ims_add_item_db()
 		//_shn_ims_search_item();
 	}	
 */
+
+function _shn_ims_validate_additemform()
+{
+//include_once 'errors.inc';
+global $global;
+$error_flag=false;
+clean_errors();
+	
+	//this checks whether name entered in the add main form
+	if(trim($_POST['amount'])==null)
+	{
+	add_error(SHN_ERR_IMS_AMOUNT_INCOMPLETE);
+	$error_flag=true;
+	}
+	if(trim($_POST['inv_id']==null))
+	{
+	add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
+	$error_flag=true;
+	}
+
+	return $error_flag;
+}
 ?>

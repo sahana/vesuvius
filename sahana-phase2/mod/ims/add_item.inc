@@ -165,6 +165,8 @@ function add_item($temp)
 	shn_form_text(_("* Item : "),'item_name','size="50"',$extra_opts);
 	$extra_opts['value']=$amount;
 	shn_form_text(_("*  Amount : "),'amount','size="50"',$extra_opts);
+
+	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',null);
 	
 /*------------------*/
 

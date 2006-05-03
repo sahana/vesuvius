@@ -8,6 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+	      Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -102,35 +103,38 @@ function _shn_ims_report_minimum()
 ********/
 function _shn_ims_report_expired()
 {
-global $global;
+
+	_shn_ims_expire_date_check();
+	global $global;
 	$db=$global["db"];
 	$state="expired";
-	$state1="destroyed";
+	//$state1="destroyed";
 		//$item_search=$_POST['item_name_search'];
 		//$category_search=$_POST['itemcat'];
 		//print ($item_search);
-	$sql1="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";	
+	//$sql1="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";	
 	//$sql = "SELECT item_id,category,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";
-	$sql2="SELECT item_id,category,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
-	$ims = $db->Execute($sql1);
-	$ims = $db->Execute($sql2);
+	$sql="SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
+	//$ims = $db->Execute($sql1);
+	$ims = $db->Execute($sql);
 ?>
 <h1 align="center"><?php print _("Expired Item"); ?></h1>
 <div id="reports_expire">
 </div>
 <?php
-	shn_form_fopen("item_destroy");
+	
 ?>
 	<table>
 	<thead>
 	<tr>
 	    <td><?=_("Item ID")?></td>
-	    <td><?=_("Category")?></td>
 	    <td><?=_("Item")?></td>
 	    <td><?=_("Amount")?></td>
 	    <td><?=_("Unit")?></td>
 	    <td><?=_("Manufactured Date")?></td>
 	    <td><?=_("Expire Date")?></td>
+	    <td><?=_("Inventory")?></td>
+	    <td><?=_("Action")?></td>
             
 	</tr>
 	</thead>
@@ -143,25 +147,31 @@ global $global;
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
-			$category=$ims->fields["category"];
+			$inv_id=$ims->fields["inv_id"];
+			//$category=$ims->fields["category"];
 			$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
+
+		$sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+		$ims3=$db->Execute($sql3);
+
+			$inventory_name=$ims3->fields['inventory_name'];
 			
 
 ?>
 	
 	<tr>
 	<td><?php print ($item_id); ?></td>
-	<td><?php print ($category); ?></td>
 	<td><?php print ($item_name); ?></td>
 	<td><?php print ($amount); ?></td>
 	<td><?php print ($unit); ?></td>
 	<td><?php print ($manufactured_date); ?></td>
 	<td><?php print ($expire_date); ?></td>
-	
+	<td><?php print ($inventory_name); ?></td>
+	<td><a href="index.php?mod=ims&act=destroy_item&item_id=<?php echo $item_id;?>"><?php print ("Destroy Item");?></a></td>	
 	</tr>
 	
 <?php
@@ -171,11 +181,70 @@ global $global;
 	</tbody>
 	</table>
 <?php
-	shn_form_submit("Destroy");
-	shn_form_fclose();
+	//shn_form_submit("Destroy");
+	//shn_form_fclose();
 }
 
 
+//-----------------------------------------------------------------------------------------------------------------
+function _shn_ims_report_destroyed()
+{
+	global $global;
+	$state_des="destroyed";
+	$db=$global["db"];
+	$sql1="SELECT inv_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state_des';";
+	$ims1=$db->Execute($sql1);
+
+?>
+<h1 align="center"><?php print _("Destroyed Item"); ?></h1>
+<div id="report">
+</div>
+	<table>
+		<thead>
+		<tr>
+		<td><?=_("Item Name")?></td>
+		<td><?=_("Amount")?></td>
+		<td><?=_("Unit")?></td>
+		<td><?=_("Inventory")?></td>
+		<td><?=_("Manufactured Date")?></td>
+		<td><?=_("Expire_Date")?></td>
+		<td><?=_("Suplier")?></td>
+		</tr>
+		</thead>
+		<tbody>
+<?php
+		while (!$ims1==NULL && !$ims1->EOF)
+		{
+			//$item_id=$ims1->fields['item_id'];
+			$inv_id=$ims1->fields['inv_id'];
+			$item_name=$ims1->fields['item_name'];
+			$amount=$ims1->fields['amount'];
+			$unit=$ims1->fields['unit'];
+			$manufactured_date=$ims1->fields['manufactured_date'];
+			$expire_date=$ims1->fields['expire_date'];
+
+			$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+			$ims2=$db->Execute($sql2);
+			
+			$inventory_name=$ims2->fields['inventory_name'];
+			
+?>
+		<tr>
+		<td><?php print($item_name);?></td>
+		<td><?php print($amount);?></td>
+		<td><?php print($unit);?></td>
+		<td><?php print($inventory_name);?></td>
+		<td><?php print($manufactured_date);?></td>
+		<td><?php print($expire_date);?></td>
+		</tr>
+<?php
+		$ims1->MoveNext();
+		}
+?>
+		</tbody>
+	</table>
+<?php	
+}
 
 /**
 **Report Inventory
@@ -378,13 +447,14 @@ function _shn_ims_report_org_sector()
 <?php
 }
 
-function _shn_ims_item_destroy()
+function _shn_ims_destroy_item($item_id)
 {
 	$old_state = "expired";
 	$new_state = "destroyed";
 	global $global;
     	$db=$global["db"];
-	$sql="UPDATE ims_item_records SET state='$new_state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";
+	$sql="UPDATE ims_item_records SET state='$new_state' WHERE item_id='$item_id';";
 	$ims = $db->Execute($sql);
-	print ($sql);
+	//print ($sql);
+	shn_ims_report_expired();
 }

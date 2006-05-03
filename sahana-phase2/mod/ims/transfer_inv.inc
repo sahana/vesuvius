@@ -32,8 +32,14 @@ function _shn_ims_send_main()
 	shn_form_fclose();
 }
 
-function _shn_ims_send()
+/**
+**Function For Send Item table view page
+**/
+function _shn_ims_send_item_table_view_($catalog_id)
 {
+	//print $catalog_id;
+	if($catalog_id==NULL)
+	{
 	$parent_id = trim($_POST['0']);
 	// this 5 should be replaced by the $max that is retrieved from the DB
 	for($i=1;$i<5;$i++)
@@ -46,41 +52,125 @@ function _shn_ims_send()
 		break;
 		}
 	}
+	}
+	else
+	{
+		$parent_id=$catalog_id;
+	}
 	//print ("test");	
-	echo $parent_id;
+	//echo $parent_id;
+?>
+<h1 align="center"><?php print _("Send Item to an Inventory") ?></h1>
+<div id="report">
+	<table>
+	<thead>
+	    	<td><?=_("Item ID")?></td>
+	    	<td><?=_("Item")?></td>
+	    	<td><?=_("Amount");?></td>
+	    	<td><?=_("Unit");?></td>
+	    	<td><?=_("Manufactured Date")?></td>
+            	<td><?=_("Expire Date")?></td>
+	    	<td><?=_("Available Inventory")?></td>
+            	<td><?=_("state")?></td>
+        </thead>
+	<tbody>
+<?php
+		global $global;
+		$state_des="destroyed";
+		$db=$global["db"];
+				
+		$sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des' ;";
+
+		//print $sql1;
+		
+		$ims1 = $db->Execute($sql1);
+
+		while (!$ims1==NULL && !$ims1->EOF)
+		{
+			$item_id=$ims1->fields["item_id"];
+			$inv_id=$ims1->fields["inv_id"];
+			$item_name=$ims1->fields["item_name"];
+			$amount=$ims1->fields["amount"];
+			$unit=$ims1->fields["unit"];
+			$manufactured_date=$ims1->fields["manufactured_date"];
+			$expire_date=$ims1->fields["expire_date"];
+			$state=$ims1->fields["state"];
+			
+			
+		
+		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid=$inv_id;";
+		$ims2= $db->Execute($sql2);
+		//print $sql2;
+		$inventory_name = $ims2->fields["inventory_name"];			
+
+?>
+		<tr>
+		<td><?php print ($item_id); ?></td>
+		<td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>"><?php print ($item_name);?></a></td>
+		<td><?php print ($amount); ?></td>
+		<td><?php print ($unit); ?></td>
+		<td><?php print ($manufactured_date); ?></td>
+		<td><?php print ($expire_date);?></td>
+		<td><?php print ($inventory_name);?></td>
+		<td><?php print ($state); ?></td>		
+		</tr>
+
+<?php
+		$ims1->MoveNext();
+		//$ims2->MoveNext();
+		}
+?>
+			
+	</tbody>
+	</table>
+</div>
+<?php	
+}
+
+function _shn_ims_send($item_id)
+{
+	
+	global $global;
+	$db=$global["db"];
+	$sql1="SELECT item_name,inv_id,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
+	$ims1=$db->Execute($sql1);
+	$item_name=$ims1->fields['item_name'];
+	$inv_id_from=$ims1->fields['inv_id'];
+	$cost_per_unit=$ims1->fields['cost_per_unit'];
+
+	$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
+	$ims2=$db->Execute($sql2);
+	$inv_from=$ims2->fields['inventory_name'];
 	
 ?>
 <h1 align="center"><?php print _("Send Item to an Inventory")?> </h1>
 <div id="report">
 <?php
 	shn_form_fopen("send_item_db");
-	$extra_opts['req']=true;
+	//$extra_opts['req']=true;
 	shn_form_fsopen("Item Transfer");
 	
+	$extra_opts['value']=$item_name;
 	shn_form_text(_("Item Send : "),'item_name','size="50"',$extra_opts);
-	shn_form_text(_("Amount Send: "),'amount','size="50"',$extra_opts);
-
-	global $global;
-	$db=$global["db"];
-	$inventory_array=array();
-	//$inventory_array['0']="None";
-	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-	$ims=$db->Execute($q);
-	//$j=0;
-	while($ims!=NULL && !$ims->EOF)
-	{
-		
-		$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
-		$ims->MoveNext();
-		//$j=$j+1;
-		//print ($j);
-	}	
+	//$extra_opts['req']=true;
+	shn_form_text(_("Amount Send: "),'amount','size="50"',null);
 	
-	shn_form_select($inventory_array,_("From the Inventory : "),'inv_from','size="1"',$extra_opts);
+	$extra_opts['value']=$inv_from;
+	shn_form_text(_("From the Inventory : "),'inv_from','size="50"',$extra_opts);
+
+	$inventory_array=array();
+	$sql3="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid!='$inv_id_from';";
+	$ims3=$db->Execute($sql3);
+	while($ims3!=NULL && !$ims3->EOF)
+	{
+		$inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
+		$ims3->MoveNext();
+	}
 	shn_form_select($inventory_array,_("To the Inventory : "),'inv_to','size="1"',$extra_opts);
 
-	shn_form_text(_("Date"),'date','size="50"',$extra_opts);
-	shn_form_text(_("Cost Per Event"),'cost_per_event','size="50"',null);
+	shn_form_text(_("Date"),'date','size="50"',null);
+	$extra_opts['value']=$cost_per_unit;
+	shn_form_text(_("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 
 	shn_form_fsclose();
 
@@ -89,12 +179,62 @@ function _shn_ims_send()
 	shn_form_text(_("Requested by : "),'requested_person','size="50"',null);
 	shn_form_text(_("Destribution Method : "),'destribution','size="50"',null);
 	shn_form_textarea(_("Cause"),'cause','size="40"',null);
-	//shn_form_text(_("Cause : "),'cause','size="50"',null);
-	shn_form_hidden(array('parent_id'=>$parent_id));
+	
+	shn_form_hidden(array('item_id'=>$item_id));
+	shn_form_hidden(array('inv_id_from'=>$inv_id_from));
 	shn_form_fsclose();
 	shn_form_submit("Send");
 	shn_form_fclose();
 }
+
+
+function _shn_ims_send_db()
+{
+	$item_id = $_POST['item_id'];
+	$inv_id_from = $_POST['inv_id_from'];
+	$amount = $_POST['amount'];
+	//print $amount;
+	$person_send = $_POST['authorized_person'];
+	$date_send = $_POST['date'];
+	$cost_per_unit=$_POST['cost_per_unit'];
+	
+	//$inv_from = $_POST['inv_from'];
+	$inv_from = $_POST['inv_from'];
+	$inv_to = $_POST['inv_to'];
+	//print $item_id;
+
+	//print($item_id);
+	$state=-1;
+	
+	global $global;
+	$db=$global["db"];
+
+	$sql = "SELECT catalog_id,amount FROM ims_item_records WHERE item_id='$item_id';";
+	$ims = $db->Execute($sql);
+	$catalog_id = $ims->fields["catalog_id"];
+	$current_amount = $ims->fields["amount"];
+	$remaining_amount=$current_amount-$amount;
+		
+
+	$sql1 = "INSERT INTO ims_transfer_item (item_id,amount_send,inv_id_to,person_send,date_send,received_item_id,amount_received,person_received,date_received) VALUES ('$item_id','$amount','$inv_to','$person_send','$date_send','$state','$state','$state','$state');";  
+	$ims1 = $db->Execute($sql1);
+
+	$sql2="UPDATE ims_item_records SET amount='$remaining_amount',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
+	$ims2 = $db->Execute($sql2);
+
+	shn_ims_send_item_page($catalog_id);
+	
+	
+	//print($remaining_amount);
+	//print($sql);
+	//print($inv_from);
+	//print($inv_to);
+	
+	
+}
+/***********************************************************************************************************************************                  Receive Item                  ******************************************
+***************************************************************************************************************
+*/
 /**
 ***Function to Receive item
 **/
@@ -111,42 +251,54 @@ function _shn_ims_receive()
 	    <td><?=_("Amount Sent");?></td>
 	    <td><?=_("Unit");?></td>
 	    <td><?=_("Inventory From")?></td>
-            <td><?=_("Inventory To")?></td>
-	    <td><?=_("Date")?></td>
+	    <td><?=_("Inventory To")?></td>
+            <td><?=_("Date Sent")?></td>
             <td><?=_("Authorized Person")?></td>
             
         </thead>
 	<tbody>
 <?php
-	$state="send";
+	$state=-1;
 	global $global;
 	$db=$global["db"];
-	$sql1="SELECT item_id,item_name,amount_send,item_send_from,item_send_to FROM ims_item_records WHERE transit_state='$state';";
+	$sql1="SELECT transit_id,item_id,amount_send,inv_id_to,person_send,date_send FROM ims_transfer_item WHERE received_item_id='$state';";
 	$ims1 = $db->Execute($sql1);
 	
 	while (!$ims1==NULL && !$ims1->EOF)
 	{	
+		$transit_id=$ims1->fields['transit_id'];
 		$item_id=$ims1->fields['item_id'];
-		$item_name=$ims1->fields['item_name'];
 		$amount_send=$ims1->fields['amount_send'];
-		$item_send_from=$ims1->fields['item_send_from'];
-		$item_send_to=$ims1->fields['item_send_to'];
+		$inv_id_to=$ims1->fields['inv_id_to'];
+		$person_send=$ims1->fields['person_send'];
+		$date_send=$ims1->fields['date_send'];
 
-		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_from';";
+		/*$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
 		$ims2=$db->Execute($sql2);
-		$inventory_from=$ims2->fields['inventory_name'];
+		$inventory_from=$ims2->fields['inventory_name'];*/
 
-		$sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_to';";
+		$sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_to';";
 		$ims3=$db->Execute($sql3);
 		$inventory_to=$ims3->fields['inventory_name'];
+
+		$sql4="SELECT item_name,inv_id FROM ims_item_records WHERE item_id='$item_id';";
+		$ims4=$db->Execute($sql4);
+		$item_name=$ims4->fields['item_name'];
+		$inv_id_from=$ims4->fields['inv_id'];
+
+		$sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
+		$ims5=$db->Execute($sql5);
+		$inventory_from=$ims5->fields['inventory_name'];
 	
 ?>
 		<tr>
-		<td><a href="index.php?mod=ims&act=receive_item_page&item_id=<?php echo $item_id;?>"<?php print($item_name);?>></a></td>
+		<td><a href="index.php?mod=ims&act=receive_item_page&transit_id=<?php echo $transit_id;?>"<?php print($item_name);?>></a></td>
 		<td><?php print($amount_send);?></td>
 		<td><?php print("");?></td>
 		<td><?php print($inventory_from);?></td>
 		<td><?php print($inventory_to);?></td>
+		<td><?php print($date_send);?></td>
+		<td><?php print($person_send);?></td>
 		</tr>
 <?php
 		$ims1->MoveNext();
@@ -156,134 +308,53 @@ function _shn_ims_receive()
 	</table>
 
 <?php
-	/**$transit_state="send";
-	global $global;
-	$db=$global["db"];
-	$sent_item_array=array();
-
-	$sql1="SELECT item_id,item_name FROM ims_item_records WHERE transit_state='$transit_state';";
-	$ims1=$db->Execute($sql1);
-
-	while($ims1!=NULL && !$ims1->EOF)
-	{
-		$sent_item_array[$ims1->fields['item_id']]=$ims1->fields['item_name'];
-		$ims1->MoveNext();
-	}
-	shn_form_select($sent_item_array,_("Item Name : "),'item_received','size="1"',$extra_opts);
-	
-	//shn_form_text(_("Item Received : "),'item_received','size="50"',$extra_opts);
-	shn_form_text(_("Amount Received : "),'amount_received','size="50"',$extra_opts);
-	
-	$inventory_array=array();
-	//$inventory_array['0']="None";
-	$sql="SELECT item_send_to,item_send_from FROM ims_item_records ";
-	$ims2=$db->Execute($sql);
-	$item_send_to=$ims2->fields['item_send_to'];
-	$item_send_from=$ims2->fields['item_send_from'];
-
-	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_from';";
-	$ims=$db->Execute($q);
-	//$j=0;
-	while($ims!=NULL && !$ims->EOF)
-	{
-		
-		$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
-		$ims->MoveNext();
-		//$j=$j+1;
-		//print ($j);
-	}	
-	
-	shn_form_select($inventory_array,_("Received From the Inventory : "),'inv_id_from','size="1"',$extra_opts);
-
-	$sql3="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid='$item_send_to';";
-	$received_inventory_array=array();
-	$ims3=$db->Execute($sql3);
-	while($ims3!=NULL && !$ims3->EOF)
-	{
-		$received_inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
-		$ims3->MoveNext();
-	}
-	shn_form_select($received_inventory_array,_("Received To the Inventory : "),'inv_id_to','size="1"',$extra_opts);
-	shn_form_text(_("Date Received : "),'date_received','size="50"',$extra_opts);*/
-	/*global $global;
-	$db=$global['db']; 
-	$sql-"SELECT item_name FROM ims_item_records";
-	$ims=$db->Execute($sql);
-	while(!$ims==NULL && !$ims->EOF)
-	{
-		$name=$ims->fields["item_name"];
-		list($user, $pass, $uid, $gid, $extra) =  split("->", $name);
-	}
-	for ($i=0;$i<10;$i++)
-	{
-		shn_form_text("Hello",'hello','size="50"',null);
-	}*/
-	/**shn_form_fsclose();
-	shn_form_submit("Received");
-	shn_form_fclose();*/
-}
-
-function _shn_ims_send_db()
-{
-	$parent_id = $_POST['parent_id'];
-	$item_name = $_POST['item_name'];
-	$amount = $_POST['amount'];
-	$inv_from = $_POST['inv_from'];
-	$inv_to = $_POST['inv_to'];
-
-	$send="send";
-	
-	global $global;
-	$db=$global["db"];
-
-	$sql = "SELECT amount FROM ims_item_records WHERE catalog_id='$parent_id';";
-	$ims = $db->Execute($sql);
-	$current_amount = $ims->fields["amount"];
-	$remaining_amount=$current_amount-$amount;	
-
-	$sql1 = "UPDATE ims_item_records SET amount='{$remaining_amount}',item_send_to='{$inv_to}',item_send_from='{$inv_from}',amount_send='{$amount}',transit_state='{$send}' WHERE catalog_id='$parent_id';";
-	$ims1 = $db->Execute($sql1);
-	
-	
-	
-	print($remaining_amount);
-	//print($sql);
-	//print($inv_from);
-	//print($inv_to);
-	
 	
 }
 
-function _shn_ims_receive_item_page($temp)
+function _shn_ims_receive_item_page($transit_id)
 {
 ?>
 <h1 align="center"><?php print _("Receive Item ")?> </h1>
 <div id="report">
 <?php
+	
 	global $global;
 	$db=$global["db"];
-	$sql = "SELECT item_name,amount_send,item_send_from,item_send_to FROM ims_item_records WHERE item_id='$temp';";
+	$state=-1;
+	$sql = "SELECT item_id,amount_send,inv_id_to FROM ims_transfer_item WHERE transit_id='$transit_id';";
+	//print $sql;
 	$ims = $db->Execute($sql);
-	//$inv_id=$ims->fields['inv_id'];
-	$item_received=$ims->fields['item_name'];
+	
+	$item_id=$ims->fields['item_id'];
 	$received_amount=$ims->fields['amount_send'];
-	$inventory_from=$ims->fields['item_send_from'];
-	$inventory_to=$ims->fields['item_send_to'];
+	//$inv_id_from=$ims->fields['inv_id_from'];
+	$inv_id_to=$ims->fields['inv_id_to'];
+	
 
-	$sql1="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_from';";
+	$sql3="SELECT item_name,inv_id,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
+	$ims3=$db->Execute($sql3);
+	$item_name=$ims3->fields['item_name'];
+	$inv_id_from=$ims3->fields['inv_id'];
+	$cost_per_unit=$ims3->fields['cost_per_unit'];
+
+	$sql1="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
 	$ims1=$db->Execute($sql1);
 	$inventory_from=$ims1->fields['inventory_name'];
 
-	$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_to';";
+	$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_to';";
 	$ims2=$db->Execute($sql2);
 	$inventory_to=$ims2->fields['inventory_name'];
+
+	
 		
-	shn_form_fopen(null);
+	shn_form_fopen('receive_item_db');
 	shn_form_fsopen("Received Item");
-	$extra_opts['value'] = $item_received;
-	shn_form_text(_("Item Name : "),'item_received','size="50"',$extra_opts);
+	$extra_opts['value'] = $item_name;
+	shn_form_text(_("Item Name : "),'item_name','size="50"',$extra_opts);
 	$extra_opts['value'] = $received_amount;
 	shn_form_text(_("Received Amount : "),'received_amount','size="50"',$extra_opts);
+	$extra_opts['value'] = $cost_per_unit;
+	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 	$extra_opts['value']=$inventory_from;
 	shn_form_text(_("From : "),'inventory_from','size="50"',$extra_opts);
 	$extra_opts['value']=$inventory_to;
@@ -291,7 +362,63 @@ function _shn_ims_receive_item_page($temp)
 	shn_form_text(_("Date Received : "),'received_date','size="50"',null);
 	shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',null);
 	shn_form_fsclose();
+
+	shn_form_hidden(array('item_id'=>$item_id));
+	shn_form_hidden(array('inv_id_from'=>$inv_id_from));
+	shn_form_hidden(array('inv_id_to'=>$inv_id_to));
+	shn_form_hidden(array('transit_id'=>$transit_id));
+
 	shn_form_submit(_("Received"));
 	shn_form_fclose();	
+}
+
+function _shn_ims_receive_item_db()
+{
+	$item_id=$_POST['item_id'];
+	//$item_name=$_POST['item_name'];
+	$received_amount=$_POST['received_amount'];
+	$cost_per_unit=$_POST['cost_per_unit'];
+	$inventory_from=$_POST['inventory_from'];
+	$inventory_to=$_POST['inventory_to'];
+	$received_date=$_POST['received_date'];
+	$authorized_person=$_POST['authorized_person'];
+
+	$inv_id_from=$_POST['inv_id_from'];
+	$inv_id_to=$_POST['inv_id_to'];
+	$transit_id=$_POST['transit_id'];
+
+	global $global;
+	$db=$global["db"];
+	
+	
+
+	$sql2="SELECT catalog_id,item_name,manufactured_date,expire_date,state FROM ims_item_records WHERE item_id='$item_id';";
+	$ims2=$db->Execute($sql2);
+
+	$catlog_id=$ims2->fields['catalog_id'];
+	$item_name=$ims2->fields['item_name'];
+	//$unit=$ims2->fields['unit'];
+	$manufactured_date=$ims2->fields['manufactured_date'];
+	$expire_date=$ims2->fields['expire_date'];
+	$state=$ims2->fields['state'];
+
+	//print $item_name;
+	
+
+//------------------------unit has to be added ----------------------------------------------------------------
+	
+	$sql3="INSERT INTO ims_item_records(catalog_id,inv_id,item_name,amount,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$item_name','$received_amount','$manufactured_date','$expire_date','$cost_per_unit','$state');";
+	//print $sql3;
+	$ims3=$db->Execute($sql3);
+
+	$sql4="SELECT item_id FROM ims_item_records WHERE transit_id='$transit_id';";
+	$ims4=$db->Execute($sql4);
+	$item_id_new=$ims4->fields['item_id'];
+
+	$sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
+	$ims1=$db->Execute($sql1);
+
+	shn_ims_receive_item();
+	
 }
 ?>

@@ -19,16 +19,16 @@
 //function shn_ims_home(){
 function _shn_ims_default() {
 ?>
-<h1 align="center"><?php print _("Inventory Mananagement System Home")?> </h1>
+<h1 align="center"><?php print _("Information Communication Technologies Home")?> </h1>
 <div id="home_des">
 	<ul>
-		<li>The Inventory Management System is a system to manage Invetories</li>
+		<li>The Information Communication Technology system is a system to manage Invetories</li>
 		<br>
 		<li>It keeps the track of items in the warehouses</li>
 		<br>
 		<li>It facilitates to get reports and statistics about the inventory</li>
 		<br>
-		<li>The Inventory Management System facilitates to manage multiple inventories </li>
+		<li>The Information Communication Technology facilitates to manage multiple inventories </li>
 		<br>
 
 		
@@ -49,24 +49,26 @@ function _shn_ims_default() {
 	    <td><?=_("Unit")?></td>
 	    <td><?=_("Manufactured Date")?></td>
 	    <td><?=_("Expire Date")?></td>
+	    <td><?=_("Inventory")?></td>
             <td><?=_("Suplier Name")?></td>
-            <td><?=_("Suplier Address")?></td>
-            <td><?=_("Suplier Contact Number")?></td>
-            <td><?=_("Suplier e-mail")?></td>
+            
+            
 	</thead>
 	<tbody>
 	<?php
 		global $global;
 		$db=$global["db"];
+		$state_des="destroyed";
 		//$item_search=$_POST['item_name_search'];
 		//print ($item_search);
 		
-		$sql = "select item_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records order by item_id desc ;";
+		$sql = "select item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_id desc ;";
 		$ims = $db->Execute($sql);
 
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
+			$inv_id=$ims->fields["inv_id"];
 			$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
@@ -77,6 +79,12 @@ function _shn_ims_default() {
 			//$suplier_telephone=$ims->fields["suplier_telephone"];
 			//$suplier_email=$ims->fields["suplier_email"];
 
+		$sql1="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+		$ims1 = $db->Execute($sql1);
+
+			$inventory_name=$ims1->fields["inventory_name"];
+			
+
 ?>
 		<tr>
 		<td><?php print ($item_id);?></td>
@@ -85,10 +93,9 @@ function _shn_ims_default() {
 		<td><?php print ($unit); ?></td>
 		<td><?php print ($manufactured_date); ?></td>
 		<td><?php print ($expire_date);?></td>
+		<td><?php print ($inventory_name);?></td>
 		<td><?php print ($suplier_name);?></td>
-		<td><?php print ($suplier_address);?></td>
-		<td><?php print ($suplier_telephone);?></td>
-		<td><?php print ($suplier_email);?></td>
+		
 		</tr>
 
 <?php

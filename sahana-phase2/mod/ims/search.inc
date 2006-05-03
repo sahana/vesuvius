@@ -26,7 +26,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 
 function _shn_ims_search_item()
 {
-
+	
 ?>
 
 <h1 align="center"><?php print _("Search an inventory item"); ?></h1>
@@ -35,24 +35,66 @@ function _shn_ims_search_item()
 </div>
 
 <?php
+	$form_opts['name']='subcat';
+	shn_form_fopen("search_item_page",null,$form_opts);
+	shn_sub_cat(6,'subcat');
+
+
+	shn_form_fclose();
+}
+
+function _shn_ims_search_item_page()
+{
+$parent_id = trim($_POST['0']);
+	// this 5 should be replaced by the $max that is retrieved from the DB
+	for($i=1;$i<5;$i++)
+	{
+	$parent_id = trim($_POST[$i]);
+	
+		if($parent_id==null)
+		{
+		$parent_id = $_POST[$i-1];
+		break;
+		}
+	}
+	//print ("test");	
+	echo $parent_id;
+?>
+
+<h1 align="center"><?php print _("Search an inventory item"); ?></h1>
+<div id="search">
+
+<?php
 	$extra_opts['req']=true;
 
 	shn_form_fopen("search_database");
 	shn_form_fsopen(_('Search items '));
-	shn_form_text(_("Search by Item name   : "),'item_name_search','size="50"',$extra_opts);
-
-	$category_array=array();
-	$category_array["bla"]=_("Blankets and Shelter");
-	$category_array["med"]=_("Medical Drugs");
-	$category_array["food"]=_("Food and Nutrition");
-	$category_array["other"]=_("Other");
-	shn_form_select($category_array,_("Category"),'itemcat','size="1"',$extra_opts);
+	shn_form_text(_("Search by Item name   : "),'item_name','size="50"',$extra_opts);
 
 	$item_state_array=array();
-	$item_state_array["available"]=_("Items available");
-	$item_state_array["tobe_detroyed"]=_("Items to be destroyed");
-	$item_state_array["already_destroyed"]=_("Items already destroyed");
+	$item_state_array["available"]=_("Item available");
+	$item_state_array["expired"]=_("Item to be destroyed");
+	$item_state_array["destroyed"]=_("Item already destroyed");
 	shn_form_select($item_state_array,_("  State  : "),'item_state','size="1"',$extra_opts);
+
+	global $global;
+	$db=$global["db"];
+	$inventory_array=array();
+	//$inventory_array['0']="None";
+	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
+	$ims=$db->Execute($q);
+	//$j=0;
+	while($ims!=NULL && !$ims->EOF)
+	{
+		
+		$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
+		$ims->MoveNext();
+		//$j=$j+1;
+		//print ($j);
+	}	
+	
+	shn_form_select($inventory_array,_("Inventory : "),'inventory','size="1"',$extra_opts);
+	
 
 	shn_form_fsclose();
 
