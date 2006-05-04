@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_st_ajax.inc,v 1.1 2006-03-09 09:21:13 janakawicks Exp $ */
+/* $Id: lib_st_ajax.inc,v 1.2 2006-05-04 12:29:31 janakawicks Exp $ */
 
 /**
  *

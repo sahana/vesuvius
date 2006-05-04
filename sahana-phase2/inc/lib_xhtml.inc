@@ -39,6 +39,8 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />
 	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
     <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script> 
+    <script type="text/javascript" src="res/js/popup.js"></script> 
+    <script type="text/javascript" src="stream.php?stream_type=help"></script> 
 <?php
     if ($arrPostfix != null) {
         foreach ($arrPostfix as $i) {
@@ -49,3 +51,10 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
     echo "    </head>\n";
 }
 ?>
+<style>
+
+.popupLink { COLOR: red; outline: none }
+
+.popup { POSITION: absolute; VISIBILITY: hidden; BACKGROUND-COLOR: yellow; LAYER-BACKGROUND-COLOR: yellow; width: 200; BORDER-LEFT: 1px solid black; BORDER-TOP: 1px solid black; BORDER-BOTTOM: 3px solid black; BORDER-RIGHT: 3px solid black; PADDING: 3px; z-index: 10; }
+
+</style>

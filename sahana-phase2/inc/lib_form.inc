@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.35 2006-04-25 09:46:25 sudheera Exp $ */
+/* $Id: lib_form.inc,v 1.36 2006-05-04 12:29:31 janakawicks Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -19,6 +19,8 @@
  *
  */
 
+$shn_help_id;
+
 /**
  * You can add extra attributes to the given HTML element
  *
@@ -28,13 +30,21 @@
  */
 function shn_form_extra_opts($extra_opts)
 {
+    global $shn_help_id;
     // output a required flag
     if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n";
+
+    //Help
+    if(isset($extra_opts['help'])){
+        $shn_help_id++;
+        $_SESSION['form_help'][$shn_help_id] = $extra_opts['help'] ."<br /><br />[<a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'>close this tip</a>]";
+        #echo "<a href=\"stream.php?stream_type=help&help_id=$shn_help_id\">[Help]</a>\n";
+        echo '<a href="" class=popupLink onclick="return !showPopup(\'help_popup\', event,'.$shn_help_id.');">[Help]</a>';
+    }
+
     // output a break - default is true
     if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br />\n";
-
-
-    }
+}
 
 /**
  * This function will open the HTML Form
@@ -385,20 +395,22 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
  * @access public
  * @return void
  */
-function shn_form_opt_checkbox($opt_field){
+function shn_form_opt_checkbox($opt_field,$extra_opts=null){
     global $global;
-		$value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
-		$resu = $global['db']->Execute
-		       ("select * from field_options where field_name='$opt_field'");
-			     while(!resu==NULL && !$resu->EOF) {
-		            $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
+
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
+    $resu = $global['db']->Execute("select * from field_options where field_name='$opt_field'");
+
+    while(!resu==NULL && !$resu->EOF) {
+        $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 ?>
-				       <label><?=$resu->fields[2]?></label>
-				       <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
-     		       <br>
+        <label><?=$resu->fields[2]?></label>
+        <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
+        <br>
 <?php
-				       $resu->MoveNext();
-   		     }
+        $resu->MoveNext();
+    }
+    shn_form_extra_opts($extra_opts);
 }
 
 /**
