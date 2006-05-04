@@ -12,7 +12,6 @@
 * @author     http://www.linux.lk/~chamindra
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
-ob_start(); //starting output buffer
 
 // Specify the base location of the Sahana insallation
 // The base should not be exposed to the web for security reasons
@@ -22,7 +21,7 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 $global['previous']=false;
 // === initialize configuration variables ===
-require_once ($global['approot'].'conf/sysconf.inc'); 
+require_once ($global['approot'].'conf/config.inc'); 
 
 if ($conf['sahana_status'] == 'installed' ) {
 
@@ -31,7 +30,7 @@ if ($conf['sahana_status'] == 'installed' ) {
     
     require_once ($global['approot'].'inc/lib_config.inc');
     //fetch config values : base values
-    shn_config_fetch('base');
+    shn_config_database_fetch('base');
 
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
@@ -111,7 +110,7 @@ function shn_front_controller()
     } 
 
     //Override config values with database ones
-    shn_config_fetch('all');
+    shn_config_database_fetch('all');
 
     if($allow){
         // compose and call the relevant module function 
@@ -129,14 +128,6 @@ function shn_front_controller()
     }else {
         //@todo : throw the error correctly
     }
-
 }
-/*
- *the output buffer is closed here. if you want to set the headers in your method 
- *you can clear the buffer using ob_clean() and then set the headers. If you dont want 
- *to buffer data just turn off the buffer using ob_end_flush() you can find more details 
- *under Output Control Functions in php manual.
- */
-ob_end_flush() //closing the buffer output
 ?>
 
