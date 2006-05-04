@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.8 2006-04-25 06:04:00 janakawicks Exp $ */
+/* $Id: conf.inc,v 1.9 2006-05-04 13:17:05 janakawicks Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -45,8 +45,8 @@ $conf['mod_mpr']['location']['upper_limit'] = 1;
 $conf['mod_mpr']['location']['lower_limit'] = 4;
 
 //Missing Person Picture Upload
-$conf['mod_mpr']['upload_picture']['savehandler'] = 'database';
-#$conf['mod_mpr']['upload_picture']['savehandler'] = 'file';
+#$conf['mod_mpr']['upload_picture']['savehandler'] = 'database';
+$conf['mod_mpr']['upload_picture']['savehandler'] = 'file';
 $conf['mod_mpr_upload_pic_handler'] = 'file';
 
 ?>

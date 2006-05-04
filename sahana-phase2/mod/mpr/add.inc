@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.20 2006-04-28 09:45:08 janakawicks Exp $ */
+/* $Id: add.inc,v 1.21 2006-05-04 13:17:05 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -70,8 +70,8 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_hidden(array('seq'=>'entry'));
 
     shn_form_fsopen(_('Identity'));
-    shn_form_text(_('Identity Card Number'),'idcard','size="30"');
-    shn_form_text(_('Passport Number'),'passport','size="30"');
+    shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in quick searching for the person')));
+    shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number')));
     shn_form_text(_('Driving License'),'drv_license','size="30"');
     shn_form_fsclose();
 
@@ -80,22 +80,22 @@ function shn_mpr_addmp_entry($errors=false)
 <p><?= _('Please enter any of the following details on the person:'); ?></p> 
 <?php
 
-    shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true));
-    shn_form_text(_('Family Name'),'family_name','size="30"');
+    shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
+    shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>'Family Name to specify here'));
     shn_form_text(_('Local Name'),'local_name','size="30"');
     shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
     shn_form_opt_select("opt_age_group",_('Age Group'));
     shn_form_opt_select("opt_gender",_('Gender'));
     shn_form_opt_select("opt_marital_status",_('Marital Status'));
-    shn_form_opt_select("opt_religion",_('Religion'));
+    shn_form_opt_select("opt_religion",_('Religion'),null,array('help' => _('Religion')));
     shn_form_opt_select("opt_race",_('Race'));
 
     shn_form_fsclose();
 
     shn_form_fsopen(_('Contact Details'));
-    shn_form_textarea(_('Address'),"address");
-    shn_form_text(_('Postal Code'),'zip','size="10"');
-    shn_form_text(_('Home Phone'),'phone','size="10"');
+    shn_form_textarea(_('Address'),"address", null,array('help' => _('Address Please')));
+    shn_form_text(_('Postal Code'),'zip','size="10"',array('help'=>'specify the postal code'));
+    shn_form_text(_('Home Phone'),'phone','size="10"',array('help' => _('Specify the home phone')));
     shn_form_text(_('Mobile'),'mobile','size="10"');
     shn_form_fsclose();
 
