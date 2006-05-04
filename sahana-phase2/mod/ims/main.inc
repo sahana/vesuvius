@@ -36,7 +36,7 @@ function shn_ims_mainmenu()
     global $global;
     $module = $global['module'];
 
-	shn_mod_menuopen("Information Communication Technology");
+	shn_mod_menuopen(shn_get_module_name());
 	shn_mod_menuitem("default","Home",$module);
 	shn_sub_mod_menuopen(_("Item Management"));
 	shn_sub_mod_menuitem("search_item", _("Search"), $module);

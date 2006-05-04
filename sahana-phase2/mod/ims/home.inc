@@ -19,16 +19,16 @@
 //function shn_ims_home(){
 function _shn_ims_default() {
 ?>
-<h1 align="center"><?php print _("Information Communication Technologies Home")?> </h1>
+<h1 align="center"><?php print _("Inventory Management System Home")?> </h1>
 <div id="home_des">
 	<ul>
-		<li>The Information Communication Technology system is a system to manage Invetories</li>
+		<li>The Inventory Management system is a system to manage Invetories</li>
 		<br>
 		<li>It keeps the track of items in the warehouses</li>
 		<br>
 		<li>It facilitates to get reports and statistics about the inventory</li>
 		<br>
-		<li>The Information Communication Technology facilitates to manage multiple inventories </li>
+		<li>The Inventory Management System facilitates to manage multiple inventories </li>
 		<br>
 
 		
