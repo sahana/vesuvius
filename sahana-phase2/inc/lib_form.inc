@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.36 2006-05-04 12:29:31 janakawicks Exp $ */
+/* $Id: lib_form.inc,v 1.37 2006-05-04 13:07:15 janakawicks Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -57,6 +57,9 @@ function shn_form_extra_opts($extra_opts)
  */
 function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true))
 {
+?>
+<DIV onclick='event.cancelBubble = true;' class=popup id="help_popup"></DIV>
+<?php
     global $global;
     if ( null == $mod ) $mod = $global['module'];
 
