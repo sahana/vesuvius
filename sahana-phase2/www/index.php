@@ -124,7 +124,6 @@ function shn_main_front_controller()
     // Start the body and the CSS container element
 ?>
     <body>
-<DIV onclick='event.cancelBubble = true;' class=popup id="help_popup"></DIV>
     <div id="container">
 <?php
     
