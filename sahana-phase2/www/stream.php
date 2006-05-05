@@ -21,9 +21,8 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 $global['previous']=false;
 // === initialize configuration variables ===
-require_once ($global['approot'].'conf/config.inc'); 
 
-if ($conf['sahana_status'] == 'installed' ) {
+if (@ require_once ($global['approot'].'conf/sysconf.inc') ) {
 
     require_once ($global['approot'].'inc/lib_modules.inc'); 
     require_once ($global['approot'].'inc/handler_db.inc');
@@ -35,6 +34,7 @@ if ($conf['sahana_status'] == 'installed' ) {
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
+    include_once ($global['approot'].'inc/lib_user_pref.inc');
 
     if(!$global['previous']){
         $global['action'] = (NULL == $_REQUEST['act']) ? 
@@ -130,4 +130,3 @@ function shn_front_controller()
     }
 }
 ?>
-
