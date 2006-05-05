@@ -647,6 +647,24 @@ table.layout {
     padding: 5px 10px 5px 35px;
 }
 
-.popupLink { COLOR: red; outline: none }
+.popupLink {
+    position:absolute;
+    opacity:0.7;
+    font-size:0px;
+    outline: none;
+    height:20px;
+    width:50px;
+    background-image:url(img/help_off.gif);
+ }
+.popupLink:hover {
+    position:absolute;
+    opacity:0.7;
+    font-size:0px;
+    height:20px;
+    width:50px;
+    background-color:transparent;
+    background-image:url(img/help_on.gif);
+ }
+
 
 .popup { POSITION: absolute; VISIBILITY: hidden; BACKGROUND-COLOR: yellow; LAYER-BACKGROUND-COLOR: yellow; width: 200; BORDER-LEFT: 1px solid black; BORDER-TOP: 1px solid black; BORDER-BOTTOM: 3px solid black; BORDER-RIGHT: 3px solid black; PADDING: 3px; z-index: 10; }
