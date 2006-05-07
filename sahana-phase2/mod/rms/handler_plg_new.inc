@@ -67,6 +67,7 @@ function _shn_rms_donor_new()
         $msg = _("Your Donor id: $id, Please write down this ID");
         _shn_html_inform_add($msg);
         _shn_html_inform_show();
+        return true;
     }
     else
     {
@@ -75,6 +76,7 @@ function _shn_rms_donor_new()
         _shn_rms_donor();
         // Unhide newrequester form
         _shn_rms_js_donor(true);
+        return false;
     }
 }
 
@@ -360,8 +362,9 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'add_donor':
-            _shn_rms_donor_new();
-            _shn_rms_items();
+            $donor = _shn_rms_donor_new();
+            if ($donor)
+                _shn_rms_items();
             break;
             
     case 'donor_up':

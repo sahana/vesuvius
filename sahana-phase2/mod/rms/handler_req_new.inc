@@ -67,6 +67,7 @@ function _shn_rms_requester_new()
         $msg = _("Your Requester id: $id, Please write down this ID");
         _shn_html_inform_add($msg);
         _shn_html_inform_show();
+        return true;
     }
     else
     {
@@ -78,7 +79,6 @@ function _shn_rms_requester_new()
         return false;
     }
     
-    return true;
 }
 
 function _shn_rms_requester_update()
