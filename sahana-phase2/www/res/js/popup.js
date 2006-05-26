@@ -144,8 +144,8 @@ function moveObject(objectId, newXCoordinate, newYCoordinate) {
     // get a reference to the cross-browser style object and make sure the object exists
     var styleObject = getStyleObject(objectId);
     if(styleObject) {
-    styleObject.left = newXCoordinate;
-    styleObject.top = newYCoordinate;
+    styleObject.left = newXCoordinate + 'px';
+    styleObject.top = newYCoordinate + 'px';
     return true;
     } else {
     // we couldn't find the object, so we can't very well move it
