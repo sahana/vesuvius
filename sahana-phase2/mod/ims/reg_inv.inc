@@ -46,11 +46,36 @@ function _shn_ims_regform_org($error=false)
    // _shn_or_ims_display_sector($error);
    // shn_form_fsclose();
     // base location
+
+//----------------------------------------------------------------------------------------------------------------
+
+global $global; 
+    global $conf;
+    
+    
+    include_once($global['approot']."/inc/lib_location.inc");
+    /* This hack should be integrated with 
+        the lib_location
+    */
+    //Starts
+        $i = $conf['mod_mpr']['location']['lower_limit'];
+        while((! isset($_POST[$i])) && 
+                $i > $conf['mod_mpr']['location']['upper_limit'] ) 
+            $i--;
+    //Ends
+    $range['start']=$conf['mod_mpr']['location']['upper_limit'];
+    $range['end']=$conf['mod_mpr']['location']['lower_limit'];
+    shn_form_fsopen(_('Select location'));
+    shn_location($range ,$_POST[$i]);
+    shn_form_fsclose();
+
+
+//----------------------------------------------------------------------------------------------------------------
     $parent=_shn_ims_get_start_loc();
    	$range= shn_ims_get_loc_range();
- 	shn_form_fsopen("Base Location");
+ 	/*shn_form_fsopen("Base Location");
  	shn_location($range,$_POST[$range["end"]],$parent); 
-    shn_form_fsclose();
+    shn_form_fsclose();*/
     // Contact infomation
     shn_form_fsopen("Contact Information");
     _shn_ims_display_contact_person($error,true,null);
