@@ -71,16 +71,18 @@ CREATE TABLE field_options(
 
 DROP TABLE IF EXISTS location;
 CREATE TABLE location(
-    location_id BIGINT NOT NULL AUTO_INCREMENT,
-    parent_id BIGINT DEFAULT NULL,
-    search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
+    loc_uuid VARCHAR(60) NOT NULL, -- universally unique location id,
+    parent_id VARCHAR(60) DEFAULT NULL,
+ --   search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
     opt_location_type VARCHAR(10),
     name VARCHAR(100) NOT NULL,
     iso_code VARCHAR(20),
     description TEXT,
-    PRIMARY KEY (location_id),
-    FOREIGN KEY (parent_id) REFERENCES location(location_id)
+    PRIMARY KEY (loc_uuid),
+    FOREIGN KEY (parent_id) REFERENCES location(loc_uuid)
 );
+
+
 
 -- OPTIMIZATION  DEVEL
 DROP TABLE IF EXISTS devel_logsql;
@@ -197,13 +199,13 @@ CREATE TABLE contact (
 DROP TABLE IF EXISTS location_details;
 CREATE TABLE location_details ( 
     poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
-    location_id VARCHAR(20), -- This gives country,province,district,town - based on l10n 
+    location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
     opt_person_loc_type VARCHAR(10), -- the relation this location has to the person
     address TEXT, -- the street address        
     postcode VARCHAR(30), -- or ZIP code
     long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
     PRIMARY KEY (poc_uuid,location_id),
-    FOREIGN KEY (location_id) REFERENCES location(location_id)
+    FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
 );
 
 /**
@@ -302,15 +304,17 @@ CREATE TABLE person_deceased (
 DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
 	o_uuid VARCHAR(60) NOT NULL,
-    parent_id BIGINT DEFAULT 0,
+    parent_id VARCHAR(60) DEFAULT NULL,
     name VARCHAR(100) NOT NULL ,
 	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
     man_power VARCHAR(100),
-equipment VARCHAR(100),
+	equipment VARCHAR(100),
 	resources TEXT,
-    privacy INT(1) DEFAULT 1,
-	PRIMARY KEY (o_uuid)
+    privacy INT(1) DEFAULT 0,
+    archived BOOL DEFAULT 0, 
+	PRIMARY KEY (o_uuid),
+	FOREIGN KEY (parent_id) REFERENCES lorg_main(o_uuid)
 );
 
 -- ORG SECTOR  INFORMATION

@@ -117,7 +117,13 @@ INSERT INTO field_options VALUES('opt_org_type','ngo','NGO');
 INSERT INTO field_options VALUES('opt_org_type','ingo','International NGO');
 INSERT INTO field_options VALUES('opt_org_type','mngo','Multinational NGO');
 
+-- ORGANIZATION TYPES 
+INSERT INTO field_options VALUES('opt_org_sub_type','dep','Department');
+INSERT INTO field_options VALUES('opt_org_sub_type','subs','Subsidiary');
+INSERT INTO field_options VALUES('opt_org_sub_type','bra','Branch');
+
 -- ORGANIZATION SECTOR VALUES
+INSERT INTO field_options VALUES('opt_sector_type','sup','Supplier of Goods');
 INSERT INTO field_options VALUES('opt_sector_type','comm','Communications');
 INSERT INTO field_options VALUES('opt_sector_type','dana','DANA');
 INSERT INTO field_options VALUES('opt_sector_type','ems','EMS');
@@ -130,14 +136,6 @@ INSERT INTO field_options VALUES('opt_sector_type','sar','SAR');
 INSERT INTO field_options VALUES ('opt_location_type','1','Country');
 INSERT INTO field_options VALUES ('opt_location_type','2','District');
 INSERT INTO field_options VALUES ('opt_location_type','3','City/Village');
-
--- INSERT LOCATIONS (COUNTRY, PROVINCE, DISTRICT, ETC)
-INSERT INTO location VALUES (1,0,'1','1','Sri Lanka','lk','Sri Lanka added as a country');
-INSERT INTO location VALUES (2,1,'1.1','2','Colombo','cmb','Colombo added as a district in Srilanka ');
-INSERT INTO location VALUES (3,1,'1.2','2','Kalutara','klt','Colombo added as a district in Srilanka ');
-INSERT INTO location VALUES (4,2,'1.1.1','3','Pettah','pet','pettah added as a village');
-INSERT INTO location VALUES (5,2,'1.1.2','3','dehiwala','dwh','dehiwala added as a village ');
-INSERT INTO location VALUES (6,3,'1.2.1','3','panadura','pan','Panadura added as a village');
 
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
@@ -154,8 +152,8 @@ INSERT INTO config VALUES('admin','acl','false');
 INSERT INTO config VALUES('admin','acl_base','no');
 
 -- INSERT THE INBUILT SAHANA ORGANIZATION
-INSERT INTO org_main(o_uuid,parent_id,name,opt_org_type)VALUES(0,0,'sahana','gov');
-
+--INSERT INTO org_main(o_uuid,name,org_type,privacy,archive) VALUES(0,'sahana','gov','','','','',1,0);
+INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
 -- GIS
 
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'google_key', '');
