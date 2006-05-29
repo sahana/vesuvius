@@ -635,9 +635,24 @@ div.info {
 	background: url(img/oops.png) #FFC no-repeat 5px 5px;
 }
 
+
 /* layout table*/
 table.layout {
-	
+    border-collapse: collapse;
+    width:100%;
+}
+
+table.layout thead td{
+    text-align:center;
+    padding:0px;
+    background: #555; 
+    color:#fff;
+    font-size:100%;
+}
+
+table.layout td{
+    padding:0px 0px 0 0px;
+    border:0px solid #ccc;  
 }
 
 #incident_name{
