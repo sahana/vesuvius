@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.8 2006-04-27 12:57:11 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.9 2006-05-29 07:42:39 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -45,7 +45,7 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	$db = $global['db'];
 	
 	//@todo  generate id for gis entries
-	$gis_id=time();
+	$gis_id=shn_create_uuid('g');
 	
 	$q = "INSERT INTO gis_location ( poc_uuid , location_id , opt_gis_mod , map_northing , map_easting , map_projection , opt_gis_marker , gis_uid )
 	VALUES (
