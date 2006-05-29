@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.36 2006-04-27 08:48:22 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.37 2006-05-29 07:54:11 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -80,7 +80,7 @@ function shn_cr_home_pop(){
 function shn_cr_home_newcmp(){
 	global $global;
 	$db=$global['db'];
-	$query="select c.name,b.name from camp_reg a left outer join camp_general c using(c_uuid) left outer join location b on c.location_id=b.location_id order by a.c_uuid desc";
+	$query="select c.name,b.name from camp_reg a left outer join camp_general c using(c_uuid) left outer join location b on c.location_id=b.loc_uuid order by a.c_uuid desc";
 	$res =$db->Execute($query);
 	$count=0;
 ?>
@@ -124,6 +124,10 @@ function shn_cr_srch(){
 		case 'commit'	:
 									_shn_cr_srch_rst($_POST['cmp_id'],$_POST['opt_camp_type']);
 									break;
+									
+		case 'show' :
+									_shn_cr_srch_rst($_POST['cmp_id'],'all');
+									break;	
 		default :
 		            _shn_cr_srch();
 		            break;

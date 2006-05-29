@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.12 2006-04-27 04:43:29 mifanc Exp $ */
+/* $Id: edit.inc,v 1.13 2006-05-29 07:54:11 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -120,12 +120,12 @@ function shn_cr_all_view(){
 	_shn_cr_get_session($editid);
 	shn_form_fopen(srch);
 	shn_form_fsopen(_("General Details"));
-	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_hidden(array('seq'=>'show'));
 	//shn_form_hidden(array('cmp_id'=>$_REQUEST['cmp_id']));
 	shn_form_hidden(array('opt_camp_type'=>$_SESSION['opt_camp_type']));
 	
 	shn_form_label(_("Camp Name"),$_SESSION['camp_name'],array('br'=>'true'));
-	shn_form_label("opt_camp_type",$_SESSION['opt_camp_type'],array('br'=>'true'));
+	shn_form_label(_("Camp Type"),$_SESSION['opt_camp_type'],array('br'=>'true'));
 ?>
 <!--
 <label>Division</label>
@@ -166,7 +166,7 @@ function shn_cr_all_view(){
 					  $sql = " SELECT location.name , field_options.option_description FROM location ".
 				           " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
 				           " WHERE location.opt_location_type = '$i' AND " .
-				           " location.location_id = '{$_SESSION['opt_location_type']}' ";
+				           " location.loc_uuid = '{$_SESSION['opt_location_type']}' ";
 																																																											                $result = $global['db']->GetRow($sql);
 																																																																			                shn_form_label($result['option_description'] , $result['name']);
 																																																												
@@ -344,7 +344,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid=$camp_id";
+	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid='{$camp_id}'";
 	
 	$res = $db->Execute($query);
 

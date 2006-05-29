@@ -1,4 +1,5 @@
 <?php
+/* $id$ */
 
 /**Pre-defined Reports for the Camps Registry 
 *
@@ -89,7 +90,7 @@ function _shn_cr_rpt_all(){
     						$res_camp =$db->Execute($qcamp);
     						
     						$loc  =$res_camp->fields['location_id'];   
-    						$qloc = "select * from location where location_id='{$loc}'";
+    						$qloc = "select * from location where loc_uuid='{$loc}'";
     						$res_loc =$db->Execute($qloc);
     						
     						$type  =$res_camp->fields['opt_camp_type']; 
@@ -145,7 +146,7 @@ function _shn_cr_drill_location(){
 	$res_cmp = $db->Execute($q);
 	while (!$res_cmp->EOF){
 		$loc_id =$res_cmp->fields[1];
-		$qloc  = "select name from location where location_id='{$loc_id}'";
+		$qloc  = "select name from location where loc_uuid='{$loc_id}'";
 		$res_loc =$db->Execute($qloc);
 ?>
 				<tr>
@@ -184,7 +185,7 @@ global $global;
 $db=$global['db'];
 echo "<strong>"._("Camps in ").$locate." </strong>";
 
-$loc_q = "select location_id from location where name='{$locate}'";
+$loc_q = "select loc_uuid from location where name='{$locate}'";
 $loc_r = $db->Execute($loc_q);
 if(!$loc_r->EOF){
 	$location_id=$loc_r->fields[0];
@@ -195,7 +196,7 @@ $res_cmp = $db->Execute($q);
 while (!$res_cmp->EOF){
 				
 $loc_id =$res_cmp->fields[4];        
-$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
+$qloc  = "select * from location where loc_uuid='{$loc_id}'order by loc_uuid";
 $res_loc =$db->Execute($qloc);
 								
 $cmp_id =$res_cmp->fields[0];        
@@ -208,7 +209,7 @@ $res_type =$db->Execute($qtype);
 								
 ?>
 <tr>
-    				<td><?php echo $res_loc->fields[4]?></td>
+    				<td><?php echo $res_loc->fields['name']?></td>
   					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
   					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
@@ -286,7 +287,7 @@ function _shn_cr_rpt_summary(){
 						while (!$res_cmp->EOF){
      	   								
     						$loc_id =$res_cmp->fields[4];        
-    						$qloc  = "select * from location where location_id='{$loc_id}'order by location_id";
+    						$qloc  = "select * from location where loc_uuid='{$loc_id}'order by loc_uuid";
     						$res_loc =$db->Execute($qloc);
     						    						
     						$cmp_id =$res_cmp->fields[0];        

@@ -64,7 +64,7 @@ function _shn_cr_srch_rst($camp_name,$type){
    	           		$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
    						$res_maincmp =$db->Execute($qdetails);
     						$loc  =$res_cmp->fields[2];   
-    						$qloc = "select * from location where location_id='{$loc}'";
+    						$qloc = "select * from location where loc_uuid='{$loc}'";
     						$res_loc =$db->Execute($qloc);
     						$type  =$res_cmp->fields[3]; 
     						$qtype = "select * from field_options where option_code='{$type}'";
@@ -72,9 +72,9 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
+    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">
 						<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?>
-							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a><?php ;?></td>
+							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _("edit")?>]</a><?php ;?></td>
   					<td><?php echo $res_loc->fields['name']?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
   					<td><?php echo $res_type->fields['option_description']?></td>
@@ -113,7 +113,7 @@ function _shn_cr_srch_rst($camp_name,$type){
    	           		
     						$res_maincmp =$db->Execute($qdetails);
     						$loc  =$res_cmp->fields[2];   
-    						$qloc = "select * from location where location_id='{$loc}'";
+    						$qloc = "select * from location where loc_uuid='{$loc}'";
     						$res_loc =$db->Execute($qloc);
     						$type  =$res_cmp->fields[3]; 
     						$qtype = "select * from field_options where option_code='{$type}'";

@@ -94,7 +94,10 @@ function shn_lr_amap()
 function shn_lr_com ()
 {
 	global $global;
+	global $conf;
+	$db = $global['db'];
 	include_once($global['approot'].'/inc/lib_location.inc');
+	include_once ($global['approot'].'/mod/gis/gis_fns.inc');
 	$db = $global['db'];
 	if((null==$_POST['gps_x']) && null==$_POST['gps_y']){
 			$_SESSION['gis_loc_x']=$_POST['loc_x'];
@@ -109,7 +112,17 @@ function shn_lr_com ()
 	$location_val = shn_get_range();
 	$location = $location_val['end'];
 	include_once($global['approot'].'/inc/lib_uuid.inc');
-	$id = shn_create_uuid('l');
-	echo "Done";
+	$landmark_id = shn_create_uuid('l');
+	$gis_id = shn_create_uuid('g');
+	$land_query = "insert into landmark_location (landmark_uuid,name,opt_landmark_type,description,comments,gis_uid) values ('{$landmark_id}','{$_SESSION['location_name']}','{$_SESSION['opt_landmark_type']}','{$_SESSION['direction']}','{$_SESSION['comment']}','{$gis_id}') ";
+	$res = $db->Execute($land_query);	
+	if($conf['gis']){
+		shn_gis_dbinsert(0,0,null,$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],null,$gis_id);
+	}
+?>
+	<h2><?=_('Your Landmark has been succesfully added. ')?></h2>
+<?php
+
+	
 }
 ?>

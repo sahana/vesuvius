@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.32 2006-04-27 12:57:58 mifanc Exp $ */
+/* $Id: camp.inc,v 1.33 2006-05-29 07:54:11 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -80,10 +80,10 @@ function _shn_cr_cadd_start($errors=false){
 		
 //-------------------------
 	shn_form_fsopen(_("Contact Person Details"));
-	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"');
+	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('help'=>'Enter Details of the person in charge of the camp'));
 	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"');
 	shn_form_text(_("Mobile Number"),"contact_mob",'size="60"');
-	shn_form_text(_("Occupation"),"occupation",'size="60"');
+	shn_form_text(_("Occupation"),"occupation",'size="60"',array('help'=>'Official Occupation of Camp Administrator'));
 	shn_form_fsclose();
 	shn_form_fsopen(_("Camp Population"));
 	shn_form_text(_("Family Count"),"family",'size="10"');
@@ -199,6 +199,7 @@ function _shn_cr_sel_map(){
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("Location Information"));
 	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
+	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_fsclose();
 	/*
 	shn_form_fsopen(_("Plot Location on Map"));
@@ -323,7 +324,7 @@ $puid = _shn_cr_create_cid('p');
 //echo "camp is".$uid;
 
 //enter into camp table
-$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values('{$uid}','{$_SESSION['camp_name']}',$loc_id,'{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values('{$uid}','{$_SESSION['camp_name']}','{$loc_id}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
 
 
 $res = $db->Execute($q);
