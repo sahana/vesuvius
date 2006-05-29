@@ -24,32 +24,90 @@
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
+define (UNKNOWN,"unknown");
+/**
+ * Returns the $_POST location. In the form the user may have entered village
+ * some times he may not select a village ,but a district. Therefore
+ * this function will start from lowest level and find the first instance
+ * with a location set and return that location id.
+ * of course if the user has ticked the unknown check box UNKNOWN will be 
+ * returned and neither of these cases -1 will be returned to indicate
+ * the user has not completed the location section
+ *  
+ * 
+ * @param mixed $child 
+ * @access public
+ * @return location uuid
+ */
+function shn_location_get_form_submit_loc()
+{
 
+	if(isset($_POST["loc_unknown"])){//unknow checkbox is ticked
+		return UNKNOWN;
+	}
+	$lvl=$_POST["levels"];//the hidden $_POST variable which indicates the max no of levels
+	while($lvl>0){
+		if(isset($_POST["$lvl"])){
+			return $_POST["$lvl"];//as soon as you find a selected location return
+		}
+		$lvl--;
+	}
+	return -1;
+}
 
 /**
- * Returns a comma seperated string of descendants 
+ * Returns true if the location does not have any children 
  * 
  * @param mixed $loc 
  * @access public
  * @return void
  */
-function shn_location_get_descendants($loc)
+function shn_location_is_leaf($loc)
 {
     global $global;
     $db=$global["db"];
-    $q="select search_id from location where location_id=$loc";
+    $q="select loc_uuid from location where parent_id='{$loc}'";
+    
     $res=$db->Execute($q);
-    $search="'".$res->fields[0]."%'";
-    $q="select location_id from location where search_id LIKE $search";
-    $res=$db->Execute($q);
-    while(!$res==NULL && !$res->EOF){
-         $loc=$loc."{$res->fields[0]}";
-            $res->MoveNext();
-            if(!$res->EOF)
-                $loc=$loc.",";
+    if(!$res==NULL && !$res->EOF){
+    		return false;
+    		
+    }else{
+    		return true;
     }
-   return  $loc; 
+ 
 }
+
+
+
+/**
+ * Returns an array of descendants of a location 
+ * 
+ * @param mixed $loc 
+ * @access public
+ * @return void
+ */
+function shn_location_get_descendants($loc,&$loc_arr)
+{
+    global $global;
+    $db=$global["db"];
+    $q="select loc_uuid from location where parent_id='{$loc}'";
+    $res=$db->Execute($q);
+    if(!$res==NULL && !$res->EOF){
+    		array_push($loc_arr,$res->fields["loc_uuid"]);//add this location
+    		shn_location_get_descendants($res->fields["loc_uuid"],$loc_arr);
+    		//may be this location is not a leaf ,so call the same function again
+    }
+   return  $loc_arr; //well we reached the leaf ,return with all the parents up to this leaf
+}
+
+/**
+ * Displays the full range of location levels for the user to select a subrange
+ * 
+ * @param mixed $loc 
+ * @access public
+ * @return void
+ */
 
 function shn_location_level_range_form($name,$label,$sel)
 {
@@ -60,7 +118,6 @@ function shn_location_level_range_form($name,$label,$sel)
     $options=array();
     while(!$res==NULL && !$res->EOF){
         $options[$res->fields[0]]=$res->fields[0]."---".$res->fields[1];
-              
         $res->MoveNext();
     }
     $extra_opts['value']=$sel;
@@ -70,24 +127,67 @@ function shn_location_level_range_form($name,$label,$sel)
  	shn_form_fsclose();
 }
 
+function shn_location_get_x_uuid_loc_range()
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+    $loc=array();
+    $q="select value from config where module_id='or' and confkey='loc_range_start'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["start"]=$conf['mod_or_loc_level_start'];
+    }else {
+    	$loc["start"]=$res->fields[0];
+    }
+    $q="select value from config where module_id='or' and confkey='loc_range_end'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["end"]=$conf['mod_or_loc_level_end'];
+    }else {
+    	$loc["end"]=$res->fields[0];
+    }
+    return $loc;
+}
+
+
+
 /**
- * Returns the list of parents of the location. Starting from country for each
+ * Returns the list of parents of the location. Starting from the location to
+ * the parent,grand parent,ect. For each
  * level the name and location id is returned. 
  * 
  * @param mixed $child 
  * @access public
  * @return array
  */
-function shn_get_parents($child)
+function shn_get_parents($child,&$loc_arr)
 {
-    global $global;
+	global $global;
+	include_once $global['approot']."/inc/lib_validate.inc";
+	
+    if(shn_is_null($child)){
+    		return $loc_arr;
+    }
+    
     $db=$global['db'];
-    $q="select search_id,name,location_id from location where location_id=$child";
+   	$q="select parent_id from location where loc_uuid='{$child}'";
+    $res_temp=$db->Execute($q);
+    array_push(
+    		$loc_arr,
+        $child
+    );
+    shn_get_parents($res_temp->fields['parent_id'],$loc_arr);
+  	
+    
+    /*
+    $q="select search_id,name,loc_uuid from location where loc_uuid=$child";
     $res_temp=$db->Execute($q);
     $final=array();
     $final[0]=$res_temp->fields[0];
     $final[1]=$res_temp->fields[1];
     $final[2]=$res_temp->fields[2];
+    
     $bsd_village=$res_temp->fields[0];
     $loc=split("\.", $bsd_village);
     $loc_return=array();
@@ -95,7 +195,7 @@ function shn_get_parents($child)
         $cur=$cur.$loc[$k];
         $temp=array();
         $temp[0]=$cur;     
-        $q="select name,location_id from location where search_id='$cur'";
+        $q="select name,loc_uuid from location where search_id='$cur'";
         $res_loc=$db->Execute($q);
         $temp[1]=$res_loc->fields[0];
         $temp[2]=$res_loc->fields[1];
@@ -112,6 +212,7 @@ function shn_get_parents($child)
             $final
             );
      return $loc_return;
+     */
 }
 
 /**
@@ -124,7 +225,7 @@ function shn_get_parents($child)
 function shn_get_level($loc){
     global $global;
     $db=$global['db'];
-    $q="select option_code from field_options,location where field_options.option_code =location.opt_location_type and location.location_id=$loc and field_name='opt_location_type'";
+    $q="select option_code from field_options,location where field_options.option_code =location.opt_location_type and location.loc_uuid='{$loc}' and field_name='opt_location_type'";
     $res=$db->Execute($q);
     return $res->fields[0];
 }
@@ -142,8 +243,9 @@ function shn_is_last_level($loc){
     $q="select option_code from field_options where field_name='opt_location_type' order by option_code desc";
     $res=$db->Execute($q);
     $last=$res->fields[0];
-    $q="select option_code from field_options,location where field_options.option_code =location.opt_location_type and location.location_id=$loc and field_name='opt_location_type'";
+    $q="select option_code from field_options,location where field_options.option_code =location.opt_location_type and location.loc_uuid='{$loc}' and field_name='opt_location_type'";
     $res=$db->Execute($q);
+    echo $q;
     if($last==$res->fields[0]){
         return true;
     }else {
@@ -237,9 +339,12 @@ function shn_location_jscript($to){
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
             results = http.responseText.split(","); 
-
+							
             curlevel=curlevel+1;
             var x=document.getElementsByName(curlevel);
+         //   if(results.length==1){
+           // 		x[0].style.visibility='hidden';
+          //  }
             for (i=0; i<=x[0].options.length+1; i++){
 	            x[0].options[0]=null;
             }
@@ -252,6 +357,7 @@ function shn_location_jscript($to){
                 x[0].options[j] = opt;
                //x[0].appendChild(opt);
             }
+            x[0].selectedIndex=-1;
             if(curlevel<to){
                  update_next_level(next,curlevel);
             }
@@ -268,6 +374,22 @@ function shn_location_jscript($to){
         http.onreadystatechange = handleHttpResponse; 
         http.send(null);
     }
+
+    
+	
+</script>
+<?php
+}
+
+function shn_location_init_jscript($start,$end){
+?>
+<script type="text/javascript">
+var start = <?php echo $start;?>;
+var end = <?php echo $end;?>;
+	for(i=start;i<=end;i++){
+	  	var x=document.getElementsByName(i);
+  		x[0].selectedIndex=-1;
+  	}
 </script>
 <?php
 }
@@ -280,18 +402,31 @@ function shn_location_jscript($to){
  * @access public
  * @return void
  */
-function shn_location($range,$value=null,$parent=null){
+function shn_location($range,$value=null,$parent=null,$unknown=false){
 	
-	shn_location_jscript($range["end"]);
-	if($value!=NULL){
-        _shn_location_form_value($range,$value);  
-	}else {
-		if($parent==null){
-			_shn_location_form($range);
-		}else{
-        	_shn_location_form_parent($range,$parent);
-		}	  
+	if($unknown==true){
+	shn_form_label(null,"<b>If you do not know the location tick the location unknown checkbox, otherwise select from the dropdowns</b>",null);
+	?><br /><?
+	$chkbox_opts['value']=($value==UNKNOWN);
+	shn_form_checkbox(_("Location Unknown:"),'loc_unknown',null,$chkbox_opts);
+	?><br /><?
 	}
+	shn_form_hidden(array('levels'=>$range['end']));
+	if(($value!=NULL) && ($value!=UNKNOWN)){
+        _shn_location_form_value($range,$value);
+        $start=shn_get_level($value)+1;
+        shn_location_init_jscript($start,$range["end"]);  
+	}else {
+		
+		if(($parent==null)or ($parent==0)){
+			_shn_location_form($range);
+			shn_location_init_jscript("1",$range["end"]);
+		}else{
+        		_shn_location_form_parent($range,$parent);
+		}
+			  
+	}
+	shn_location_jscript($range["end"]);
 }
 
 
@@ -305,32 +440,16 @@ function shn_location($range,$value=null,$parent=null){
 function shn_location_add()
 {
     global $global;
+    include_once($global['approot']."/inc/lib_uuid.inc");
     $db=$global['db'];
-    $loc=$_POST{"loc_name"};
-    $desc=$_POST{"desc"};
-    $iso=$_POST{"iso"};
-    $level=$_POST{"opt_location_type"};
-    if($level==1){
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
-        $q="select location_id from location where name='{$loc}' and opt_location_type=1";
-        $res=$db->Execute($q);
-        $id=$res->fields[0];
-        $q="update location set search_id=$id where location_id=$id";
-        $res=$db->Execute($q);
-    }else {
-        $level=$level-1;
-        $parent=$_POST{"$level"};
-        $level=$level+1;
-        $q="select count(*) from location where parent_id=$parent";
-        $res=$db->Execute($q);
-        $count=$res->fields[0]+1;
-        $q="select search_id from location where location_id=$parent";
-        $res=$db->Execute($q);
-        $search_id=$res->fields[0].".".$count;
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
-    }
+    $insert_array['name']=$_POST{"loc_name"};
+    $insert_array['description']=$_POST{"desc"};
+    $insert_array['iso_code']=$_POST{"iso"};
+    $insert_array['opt_location_type']=$_POST{"opt_location_type"};
+    $insert_array['loc_uuid']= shn_create_uuid('location');
+    $insert_array['parent_id']=$_POST{$insert_array['opt_location_type']-1};
+    shn_db_insert($insert_array,'location', false, 'loc_uuid');
+  
 }
 
 /**
@@ -343,12 +462,13 @@ function shn_location_del($loc)
 {
     global $global;
     $db=$global['db'];
-    $loc_str=shn_location_get_descendants($loc);
+    $loc_str=array();
+    $loc_str=shn_location_get_descendants($loc,$loc_str);
     $loc_arr=split(",",$loc_str);
-    $q="delete from location where location_id=$loc";
+    $q="delete from location where loc_uuid='{$loc}'";
     $db->Execute($q);
     foreach( $loc_arr as $val){
-    		$q="delete from location where location_id=$val";
+    		$q="delete from location where loc_uuid='{$val}'";
     		$db->Execute($q);
     }
  
@@ -362,7 +482,7 @@ function shn_location_edit($loc)
     $name=$loc{"name"};
     $desc=$loc{"desc"};
     $iso=$loc{"iso"};
-    $q="update location set name='{$name}',description='{$desc}',iso_code='{$iso}' where location_id=$loc_id";
+    $q="update location set name='{$name}',description='{$desc}',iso_code='{$iso}' where loc_uuid='{$loc_id}'";
     $db->Execute($q);
     
  
@@ -372,8 +492,13 @@ function _shn_location_form_parent($range,$parent){
     global $global;
     $db=$global['db'];
     $value=$parent;
-    $loc=array();
-    $loc_arr=shn_get_parents($value);
+   // $loc=array();
+    $loc_arr=array();
+    if($value!=NULL){
+        shn_get_parents($value,$loc_arr);
+        //parents in the order child,parent,grand parent,..etc
+    }
+    
     $parent_level=shn_get_level($parent);
     $from=$range["start"];
     $to=$range["end"];
@@ -382,22 +507,25 @@ function _shn_location_form_parent($range,$parent){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
-            if($cur==$from)
-                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            else
-                $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
-	    	$res_options=$db->Execute($q);
+            if($cur==$from){
+                 $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
+            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
+"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
+"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
+            }else
+                $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
+	    		$res_options=$db->Execute($q);
             $options=array();
             if(!$res_options->EOF){
-                $selection=$loc_arr[$cur-1][2];
+                 $selection=array_pop($loc_arr);
             }
             while(!$res_options->EOF){
             
-                 $options[$res_options->fields[1]]=$res_options->fields[0];
+                 $options[$res_options->fields["loc_uuid"]]=$res_options->fields['name'];
                  $res_options->MoveNext();
             }
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            $extra_opts['value']=$loc_arr[$cur-1][2];
+            $extra_opts['value']=$selection;
             $extra_opts['req']=true;
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
@@ -412,7 +540,7 @@ function _shn_location_form_parent($range,$parent){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
-            $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
+            $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
             $res_options=$db->Execute($q);
             $options=array();
             if(!$res_options->EOF){
@@ -443,36 +571,59 @@ function _shn_location_form_parent($range,$parent){
  * @return void
  */
 function _shn_location_form_value($range,$value)
-{   
+{   /*assume the location is d ,and its parents are
+	a,b,c,d.
+	first of all we need to obtain the parents  
+	for that use shn_get_parents
+	then starting from the great ancesstor we display
+	the drop down boxes. 
+	that is we popluate a drop down box with all the children
+	of a and select b.
+	like wise we continue unitll we populate all the children
+	of c and select d
+	*/
     global $global;
     $db=$global['db'];
-    $from=$range["start"];
-    $to=$range["end"];
-    $loc=array();
+    $from=$range["start"];//starting level
+    $to=$range["end"];//ending level
+    $loc_arr=array();
     if($value!=NULL){
-        $loc_arr=shn_get_parents($value);
+        shn_get_parents($value,$loc_arr);
+        //parents in the order child,parent,grand parent,..etc
     }
-    $cur=$from;
+  
+    $cur=$from;//start from the starting level
     while($cur<=$to){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
-            if($cur==$from)
-                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            else
-                $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
+            if($cur==$from){
+            		//at this instance there is no parent
+                 $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
+            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
+"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
+"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
+            }else{
+            		//now there is a parent, so select all the children
+                $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
+            		unset($extra_opts['help']);
+            }
             $res_options=$db->Execute($q);
+            //$res_options contains all the children,but we want to select one of a,b,c
             $options=array();
             if(!$res_options->EOF){
-                $selection=$loc_arr[$cur-1][2];
+            		//returns and removes the last one ,i.e remaining great ancesstor
+                $selection=array_pop($loc_arr);
             }
             while(!$res_options->EOF){
-            
                  $options[$res_options->fields[1]]=$res_options->fields[0];
+                 //add all the locations e.g $options['sl'=>'sri lanka']
                  $res_options->MoveNext();
             }
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            $extra_opts['value']=$loc_arr[$cur-1][2];
+            $extra_opts['value']=$selection;
+           //which one to diplay out of all the locations.
+           //should be one of the parents
             $extra_opts['req']=true;
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
@@ -504,10 +655,15 @@ function _shn_location_form($range)
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
-            if($cur==$from)
-                 $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            else
-                $q = "select location.name,location.location_id from location where location.opt_location_type=".$res->fields[0]." and parent_id=".$selection;
+        		$extra_opts=array();
+            $extra_opts['req']=true;
+            if($cur==$from){
+                 $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
+            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
+"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
+"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
+            }else
+                $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
             $res_options=$db->Execute($q);
             if($res_options==null){ return;}
             $options=array();
@@ -519,8 +675,9 @@ function _shn_location_form($range)
                     $options[$res_options->fields[1]]=$res_options->fields[0];
                     $res_options->MoveNext();
             }
+            
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,array('req'=>true));
+            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -528,6 +685,54 @@ function _shn_location_form($range)
 
    
 }
+
+/********************************************************************************************************/
+/* functions that relied on the search id. I realised the difficulty in Data synchronization with search Id*/
+/* therefore all those function were rewritten to work without search id*/
+
+/**
+ * Adds a location to the database.Retrives the values to insert from the POST variables. 
+ * 
+ * @access public
+ * @return void
+ */
+ /*
+function shn_location_add()
+{
+    global $global;
+    $db=$global['db'];
+    $loc=$_POST{"loc_name"};
+    $desc=$_POST{"desc"};
+    $iso=$_POST{"iso"};
+    $level=$_POST{"opt_location_type"};
+    if($level==1){
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+        $q="select loc_uuid from location where name='{$loc}' and opt_location_type=1";
+        $res=$db->Execute($q);
+        $id=$res->fields[0];
+        $q="update location set search_id=$id where loc_uuid=$id";
+        $res=$db->Execute($q);
+    }else {
+        $level=$level-1;
+        $parent=$_POST{"$level"};
+        $level=$level+1;
+        $q="select count(*) from location where parent_id=$parent";
+        $res=$db->Execute($q);
+        $count=$res->fields[0]+1;
+        $q="select search_id from location where loc_uuid=$parent";
+        $res=$db->Execute($q);
+        $search_id=$res->fields[0].".".$count;
+        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
+        $res=$db->Execute($q);
+    }
+}
+*/
+
+
+
+
+
 
 /********************************************************************************************************/
 /* Deprecated functions ,will be removed on 11th april 2006 *********************************************/
