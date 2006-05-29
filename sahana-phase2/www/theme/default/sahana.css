@@ -348,16 +348,33 @@ div#loginform input#pswd {
 }
 
 
-div#content h1,div#content h2 ,div#contenth3 ,div#content h4{
-	color:#069;
-	font-size:15px;
-	font-weight:bolder;
-	background:#F3F6FF;
-	padding:3px 3px 3px 3px;
-	border:1px #C6D1F5 solid;
-	margin-bottom:10px;
+div#content h1,div#content h2 {
+    color:#069;
+    font-size:15px;
+    font-weight:bolder;
+    background:#F3F6FF;
+    padding:3px 3px 3px 3px;
+    border:1px #C6D1F5 solid;
+    margin-bottom:10px;
 }
 
+div#content h3{
+    color:#069;
+    font-size:14px;
+/*     text-decoration:underline; */
+    font-weight:bolder;
+    border-bottom:1px #069 solid; 
+    margin-bottom:10px;
+}
+
+div#content h4{
+    color:#069;
+    margin-top:10px;
+    font-size:13px;
+    font-weight:bolder;
+    border-bottom:1px #036 dotted;
+    margin-bottom:10px;
+}
 #home ul{
 	/*margin-left: 200px;*/
 	padding-bottom:112px;
@@ -513,6 +530,7 @@ div#formcontainer fieldset div.buttonrow {
 /* result styles */
 #result{
 background-color: #eee;
+margin-bottom:15px;
 }
 
 #result_msg{
