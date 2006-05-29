@@ -527,6 +527,13 @@ div#formcontainer fieldset div.buttonrow {
 	margin-left: 12em;
 }
 
+/* blank forms */
+div#formcontainer form#form_blank{
+    padding: 5px;
+    background-color: #fff;
+    border:none;
+}
+
 /* result styles */
 #result{
 background-color: #eee;
@@ -683,7 +690,7 @@ table.layout td{
     right:0px;
     background:#6181CA;
     color: white;
-    margin-left:90px;
+    margin-left:60%;
     padding:5px;
 }
 
