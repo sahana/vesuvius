@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.9 2006-05-29 07:57:05 mifanc Exp $ */
+/* $Id: lib_uuid.inc,v 1.10 2006-05-29 10:20:05 jayasinghe Exp $ */
 
 /**
  *
@@ -64,7 +64,7 @@ function shn_create_uuid($type='person')
                 $gen_id = 'o-'._shn_gen_id('organization');
             break;
 
-	    case 'location':
+	case 'location':
         case 'lc':
         		$gen_id = 'lc-'._shn_gen_id('loc_seq');
         		break;
@@ -76,25 +76,16 @@ function shn_create_uuid($type='person')
 
         case 'landmark':
         case 'l':
-        		$gen_id = 'l-'._shn_gen_id('landmark');
+        		$gen_id = 'o-'._shn_gen_id('landmark');
         		break;
 
-        case 'gis':
-        case 'g':
-        		$gen_id = 'g-'._shn_gen_id('gis');
-        		break;
 
         case 'request' :
         case 'req' :
         case 'r' : 
                 $gen_id = 'r-'._shn_gen_id('request');
 	break;
-    	case 'pledge' :
-        case 'pl' :
-                $gen_id = 'pl-'._shn_gen_id('pledge');
-	break;
-
-    case 'catalogue' :
+	case 'catalogue' :
         case 'cata' :
         case 'ct' : 
                 $gen_id = 'ct-'._shn_gen_id('catalogue');
