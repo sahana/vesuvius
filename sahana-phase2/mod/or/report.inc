@@ -17,41 +17,152 @@ global $global;
 include_once $global['approot']."/inc/lib_location.inc";
 include_once("lib_or.inc");
 
-function _shn_or_level($parent)
+function _shn_or_drill_org($parent=null)
 {
     global $global;
     $db=$global['db'];
+    if(($parent==null)){
+    		$parent="NULL";
+    		$lvl_child=1;
+    }else{
+    		$lvl_child=shn_get_level($parent);
+    		$lvl_child=$lvl_child+1;
+    }
+    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    
+    $res=$db->Execute($q);
+    $level=$res->fields["option_description"];
+    ?>
+	<h2><?=_("Organization Report By ". $level) ?></h2>
+    <div id="note">
+	<?=_("Each Row is a ".$level." ,Column is a  Service.")?><br />
+	<?php 
+    echo _("Intersection shows the number of organizations providng the service in the location and its sub locations.")."<br />";
+    ?>
+    </div>
+    <?
+  
+?>
+<!--</div>-->
+<div id ="result">
+    <table>
+        <thead>
+        <td><?=_("Location");?></td>
+        
+<?php
+    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $res_sector=$db->Execute($q);
+    while(!$res_sector==NULL && !$res_sector->EOF){
+       echo "<td>".$res_sector->fields["option_description"]."</td>";
+       $res_sector->MoveNext();
+    }
+       $res_sector->MoveFirst();
+?>       
+        </thead>
+    <tbody>
+<?php
+	$q = "select loc_uuid,name from location where parent_id='{$parent}' order by name";
+	$res_loc=$db->Execute($q);
+	
+    while(!$res_loc==NULL && !$res_loc->EOF){
+?>
+    <tr>
+        <td>
+<?php if(shn_location_is_leaf($res_loc->fields["loc_uuid"])){
+        echo $res_loc->fields["name"];
+      }else {
+        echo "<a href='index.php?mod=or&act=drill_report_org_next&parent=".$res_loc->fields["loc_uuid"]."'>".$res_loc->fields["name"]."</a>";
+      }
+?>
+        </td>
+<?php
+        while(!$res_sector==NULL && !$res_sector->EOF){
+        		$count=0;
+        		_shn_is_covered_org($res_loc->fields["loc_uuid"],$res_sector->fields[0],$count);
+        		if($count==0){
+        			echo "<td><b><font color=#FF0000>".$count."</font></b></td>";
+        		}else{
+        			echo "<td><b><font color=#2E8B57>".$count."</font></b></td>";
+        		}
+        		
+        
+            $res_sector->MoveNext();
+        }
+        $res_sector->MoveFirst();
+        $res_loc->MoveNext();
+?>
+    </tr>
+<?php
+    }
+?>    
+       </tbody>
+  </table>
+</div>
+
+<?php
+}
+
+function _shn_or_drill_loc($parent=null)
+{
+    global $global;
+    $db=$global['db'];
+    if(($parent==null)){
+    		$parent="NULL";
+    		$lvl_child=1;
+    }else{
+    		$lvl_child=shn_get_level($parent);
+    		$lvl_child=$lvl_child+1;
+    }
+    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    $res=$db->Execute($q);
+    $level1=$res->fields["option_description"];
+    $lvl_child=$lvl_child+1;
+    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    $res=$db->Execute($q);
+    $child_type=$res->fields["option_description"];
     if($parent<0){
     	$parent=NULL;
     }
-    $q="select option_description,option_code,name from field_options,location where field_options.option_code=location.opt_location_type and location.location_id=$parent and field_name='opt_location_type'"; 
-    $res_label=$db->Execute($q);
-    if($res_label!=NULL && !$res_label->EOF){
-        $parent_type="For  ".$res_label->fields[2];
-    }
-    $child=$res_label->fields[1]+1;
-    $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
-    $res_label=$db->Execute($q);
-    $child_type=$res_label->fields[0];
+    $parent_type=$level1;
+    
+  /*
     $child=$child+1;
     $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     $grand_child_type=$res_label->fields[0];
+    */
 ?>
-<h2><?=_("Organization Report By ". $child_type." ".$parent_type) ?></h2>
+	
+ <? 
+ 	$tmp=shn_get_last_level();
+ 	if($tmp[0]==$lvl_child-1){
+ 	?>
+ 	<h2><?=_("Organization Report for $parent_type") ?></h2>
     <div id="note">
-<?=_("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
-<?php 
-    $last=shn_get_last_level();
-    if ($last[0]!=$child-1){
-        echo _("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
-        echo _("For this report Sub-division is a  ".$grand_child_type.".");
-        echo _("If atleast one ".$last[1]. " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
-    }else {
-        echo _("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
-    }
+    <?
+ 	$tmp=shn_get_last_level();
+ 	$child_type=$tmp[1];
+ 	echo	_("Each Row is a ".$child_type." ,Column is a  Service.");
+ 	?>
+ 	</div><?
+ }else{
+ 	?>
+ 	<h2><?=_("Organization Report by $child_type for $parent_type") ?></h2>
+    <div id="note">
+    <?
+	echo	_("Each Row is a ".$parent_type." ,Column is a  Service.");?><br />
+
+<?php
+ 	   	echo	_("Each Row is a ".$parent_type." ,Column is a  Service.");
+        echo _("Intersection shows the precentage of ".$child_type." Covered per each service.")."<br />";
+        echo _("e.g. For a country how many districts have at least one organization providing the service. <br /> ");
+        echo _("If the country C has X no of district amd for the service S only Y no of districts have the presence of an organization the C/S intersection shows Y/X");
+ ?></div><?
+ }     
+
 ?>
-</div>
+
+
 <div id ="result">
     <table>
         <thead>
@@ -68,27 +179,24 @@ function _shn_or_level($parent)
         </thead>
     <tbody>
 <?php
-	if($parent==NULL){
-		$q = "select location_id,name from location where parent_id is NULL order by name";
-	}else {
-		$q = "select location_id,name from location where parent_id=$parent order by name";
-	}
+		$q = "select loc_uuid,name from location where parent_id='{$parent}' order by name";
+	
     $res_loc=$db->Execute($q);
     while(!$res_loc==NULL && !$res_loc->EOF){
 ?>
     <tr>
         <td>
-<?php if(shn_is_last_level($res_loc->fields[0])){
+<?php if(shn_location_is_leaf($res_loc->fields["loc_uuid"])){
         echo $res_loc->fields[1];
       }else {
-        echo "<a href='index.php?mod=or&act=drill_report&id=".$res_loc->fields[0]."'>".$res_loc->fields[1]."</a>";
+        echo "<a href='index.php?mod=or&act=drill_report_loc_next&parent=".$res_loc->fields["loc_uuid"]."'>".$res_loc->fields["name"]."</a>";
       }
 ?>
         </td>
 <?php
         while(!$res_sector==NULL && !$res_sector->EOF){
-            if(shn_is_last_level($res_loc->fields[0])){
-                echo ($res["active"]);
+            if(shn_location_is_leaf($res_loc->fields["loc_uuid"])){
+//                echo ($res["active"]);
                if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
                     $active=_("Covered");
 		            echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
@@ -97,7 +205,7 @@ function _shn_or_level($parent)
 		            echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
                 }
             }else {
-                $res=_shn_coverage_loc($res_loc->fields[0],$res_sector->fields[0]);
+                $res=_shn_coverage_loc($res_loc->fields["loc_uuid"],$res_sector->fields[0]);
                 $precent=0;
                 if($res["total"]>0){
                     $precent=round($res["active"]/$res["total"] *100,2);
@@ -127,12 +235,16 @@ function _shn_coverage_loc($loc,$sector)
     $result=array();
     $result["total"]=0;
     $result["active"]=0;
-    $q="select location_id,name from location where parent_id={$loc}";
+    /*
+    if(_shn_is_covered($loc,$sector)){    
+            $result["active"]=$result["active"]+1;
+    }*/
+    $q="select loc_uuid,name from location where parent_id='{$loc}'";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $result["total"]=$result["total"]+1;
         $next_lvl=$res_tmp->fields[0];
-        if(_shn_is_covered($res_tmp->fields[0],$sector)){    
+        if(_shn_is_covered($res_tmp->fields["loc_uuid"],$sector)){    
             $result["active"]=$result["active"]+1;
         }
         $res_tmp->MoveNext();
@@ -144,18 +256,37 @@ function _shn_is_covered($loc,$sector)
 {
     global $global;
     $db=$global["db"];
-    $q="select location_id from location_details,sector where location_details.location_id={$loc} and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
+    $q="select location_id from location_details,sector where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
     $res_village=$db->Execute($q);
      if(!$res_village==NULL && !$res_village->EOF){
             return true;
     }
-    $q="select location_id,name from location where parent_id={$loc}";
+    $q="select loc_uuid,name from location where parent_id='{$loc}'";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $next_lvl=$res_tmp->fields[0];
         if(_shn_is_covered($next_lvl,$sector)){
             return true;
         }
+        $res_tmp->MoveNext();
+    }
+   return false; 
+}
+
+function _shn_is_covered_org($loc,$sector,&$count)
+{
+    global $global;
+    $db=$global["db"];
+    $q="select location_id from location_details,sector where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
+    $res_village=$db->Execute($q);
+    if(!$res_village==NULL && !$res_village->EOF){
+            $count=$count+1;
+    }
+    $q="select loc_uuid,name from location where parent_id='{$loc}'";
+    $res_tmp=$db->Execute($q);
+    while(!$res_tmp==NULL && !$res_tmp->EOF){
+        $next_lvl=$res_tmp->fields["loc_uuid"];
+      	_shn_is_covered_org($next_lvl,$sector,$count);
         $res_tmp->MoveNext();
     }
    return false; 
@@ -172,10 +303,11 @@ function _shn_or_report_org_sector()
 <div id ="result">
     <table>
         <thead>
+        		<td><?=_("Service")?></td>
             <td><?=_("Organization Name")?></td>
             <td><?=_("Services Offered")?></td>
             <td><?=_("Organization Type")?></td>
-            <td><?=_("Country of Origin")?></td>
+           
             <td><?=_("Address")?></td>
             <td><?=_("Contact Number")?></td>
             <td><?=_("Man Power")?></td>

@@ -17,18 +17,106 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 
-function _shn_or_viewform_allorg($no=NULL)
+function _shn_or_display_page_links($total){
+	
+	$left=$total%5;
+	$pages=($total-$left)/5;
+	if($left>0){
+		$pages=$pages+1;
+	}
+	
+	;
+   	for($i=1;$i<=$pages;$i++){
+   		if((5*$i)<$total){
+   			$end=5*$i;
+   		}else{
+   			$end=$total;
+   		}
+   		
+   	    ?>
+    <a href="index.php?mod=or&act=view_page&page=<?php echo $i?>&end=<?php echo $end?>"><?php echo $i?></a> 
+    <?php
+   }
+}
+
+function _shn_or_display_page($page,$end){
+
+	global $global;
+	$db=$global["db"];
+	$no=$end-($page-1)*5;
+	$offset=($page-1)*5;
+	$q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where privacy=false and parent_id is NULL order by o_uuid";
+    $res_org=$db->SelectLimit($q,$no,$offset);
+    $orgs=array();
+    while(!$res_org==NULL && !$res_org->EOF){
+    		array_push(
+    			$orgs,
+    			$res_org->fields["o_uuid"]
+    		);
+        $res_org->MoveNext();
+    }
+   
+    _shn_display_orgs($orgs,true);
+}
+
+function _shn_display_orgs($orgs,$root=false)
+{
+	 global $global;
+	 $db=$global['db'];
+	
+	 foreach($orgs as $org_id){
+	 	$sub_orgs=array();
+	 	if($root==true){
+	 		$no=_shn_org_position($org_id,$_SESSION["incidents"],true);
+	 		_shn_display_org($org_id,$no);
+	 	}else{
+	    		_shn_display_org($org_id);
+	 	}
+        $q = "select o_uuid from org_main where parent_id='{$org_id}' order by name";
+		$res_org=$db->Execute($q);
+		if(!$res_org==NULL && !$res_org->EOF){
+			while(!$res_org==NULL && !$res_org->EOF){
+    			array_push(
+    				$sub_orgs,
+    				$res_org->fields["o_uuid"]
+    			);
+        		$res_org->MoveNext();
+    			}
+    		_shn_display_orgs($sub_orgs);
+		}
+	 }
+	  
+}
+
+function _shn_or_viewform_allorg($page=1,$end=NULL)
 {
     global $global;
     $db=$global['db'];
-?>
-<div id ="result">
+    ?>
+    <div id="note">
+	<?=_("Your are viewing page no $page ");?>
+	</div>
+	<?
+	
+	$total=shn_or_org_count($_SESSION["incidents"]);
+	if($page==1){
+		if($total<5){
+			$end=$total;
+		}else{
+			$end=5;
+		}
+	}
+	 _shn_or_display_page_links($total);
+	 ?>
+	<br /><br />
+    <div id ="result">
 	<table>
         <thead>
+        		<td></td>
             <td><?=_("Organization Name")?></td>
             <td><?=_("Services Provided")?></td>
             <td><?=_("Organization Type")?></td>
-            <td><?=_("Country of Origin")?></td>
+          <!--  <td><?//=_("Country of Origin")?></td>-->
             <td><?=_("Address")?></td>
             <td><?=_("Contact Numbers")?></td>
             <td><?=_("Man Power")?></td>
@@ -37,41 +125,22 @@ function _shn_or_viewform_allorg($no=NULL)
         </thead>
         <tbody>
 <?php
-    if($no==NULL){
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id=0 order by name";
-        $res_org=$db->Execute($q);
-    }else {
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id=0 order by o_uuid desc";
-        $res_org=$db->SelectLimit($q,$no);
-    }
-    while(!$res_org==NULL && !$res_org->EOF){
-        $org_id=$res_org->fields[0];
-        if($org_id!=0){
-        _shn_display_org($org_id);
-        $q = "select o_uuid from org_main where parent_id=$org_id order by name";
-        $res_operation=$db->Execute($q);
-        while(!$res_operation==NULL && !$res_operation->EOF){
-            $operation_id=$res_operation->fields[0];
-            _shn_display_org($operation_id);
-            $res_operation->MoveNext();
-        }
-        }
-        $res_org->MoveNext();
-    }
+	
+	_shn_or_display_page($page,$end);
 ?>
    </tbody>
   </table>
 </div>
-<?php
+<?
 }
 
-function _shn_display_org($org_id,$indent=true,$edit=false)
+function _shn_display_org($org_id,$no=null)
 {
     global $global;
     $db=$global["db"];
-    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid=$org_id";
+    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
-    $org_id=$res_org->fields[0];        
+    
     $q = "select address from location_details where poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
@@ -80,32 +149,43 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
     $res_mobile=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
+    /*
     $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields[0][0];
     $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
+    */
+    if($no==null){
+    		$type="opt_org_sub_type";
+    }else{
+		$type="opt_org_type";
+    }
     $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
-field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
+field_options.option_code=org_main.opt_org_type and field_options.field_name='".$type."'";
+    
     $res_type=$db->Execute($q); 
-    $org_type=$res_type->fields[0];
+    $org_type=$res_type->fields['option_description'];
     $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
 ?>
 <tr>
+	<td><?if ($no!=null){echo $no;}?></td>
     <td>
      <?php
+     /*
     $parent=$res_org->fields[1];
     if($parent>0 && $indent){
         echo "<div id='parent'>";
-    }
+    }*/
     ?>
-    <a href="index.php?mod=or&act=view_org&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
+    <a href="index.php?mod=or&act=edit_org&org_id=<?php echo $org_id ?>"><?php echo $res_org->fields['name']?></a> 
     <?php
+    /*
     if($parent>0 && $indent){
         echo "</div>";
-    }
+    }*/
     ?>
     </td>
     <td>
@@ -117,7 +197,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 ?>
     </td>
     <td><?php echo $org_type?></td>
-    <td><?php echo $res_bsd_country->fields[0]?></td>
+  <!-- <td><?php// echo $res_bsd_country->fields[0]?></td>-->
     <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
     <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
@@ -135,30 +215,49 @@ function _shn_or_viewform_org($org_id,$error=false)
     $q = "select o_uuid,parent_id,name,reg_no,man_power,resources from org_main where o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
     if(!$res_org==NULL && !$res_org->EOF){
-        $parent=($res_org->fields[1]=='0')?true:false;    
-        $org_name=$res_org->fields[2];
-        $reg_no=$res_org->fields[3]; 
+        $parent=_shn_or_is_root($org_id);    
+        $org_name=$res_org->fields["name"];
+        $reg_no=$res_org->fields["reg_no"]; 
+        if($parent){
+        		$type="opt_org_type";	
+        }else{
+        		$type="opt_org_sub_type";	
+        }
         $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
-field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
+field_options.option_code=org_main.opt_org_type and field_options.field_name='$type'";
         $res_type=$db->Execute($q); 
-        $org_type=$res_type->fields[0];
+        $org_type=$res_type->fields["option_code"];
         $q = "select option_code from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
-        $or_sector_arr=array();
         
+        $or_sector_arr=array();
         while(!$res_sector->EOF){
             array_push(
                 $or_sector_arr,
                 $res_sector->fields[0]
             );       
             $res_sector->MoveNext();
-        } 
+        }
+        
+        if($parent){
+        $q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$org_id}'";
+        $res_incident=$db->Execute($q);    
+        $or_incident_arr=array();
+        
+        while(!$res_incident->EOF){
+            array_push(
+                $or_incident_arr,
+                $res_incident->fields["incident_id"]
+            );       
+            $res_incident->MoveNext();
+        }  
+        }
     $q = "select location_id from location_details where poc_uuid='{$org_id}'";
+    
     $res_loc=$db->Execute($q);
-    $bsd_village=$res_loc->fields[0];
-   // $loc=_shn_or_get_org_loc_parents($org_id);
-    //$bsd_village=$loc[5][2];
+    $loc=$res_loc->fields["location_id"];
+
     }
 ?>
 <h2><?=_("Organization Registration Information of <em>").$org_name?></em></h2>
@@ -166,7 +265,6 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
  if($error==true)
         display_errors();
 ?>
-<div id="formcontainer">
 <?php
     $form_opts['name']='view';
     $form_opts['req_message']=false;
@@ -179,6 +277,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
     }
     shn_form_fsclose();
+     if($parent){
+     	shn_form_fsopen(_("Incidents related to the Organization"));
+    		_shn_or_display_incident($error,true,$or_incident_arr);
+    		shn_form_fsclose();
+     }
     shn_form_fsopen(_("Organization Type"));
     _shn_or_display_org_type($error,false,$org_type);
     shn_form_fsclose();
@@ -187,7 +290,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsclose();
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
-    shn_location($range,$bsd_village,null);
+    shn_location($range,$loc);
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,$org_id);
@@ -200,6 +303,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <center>
 <?php
 //create the submit button
+	$extra_opts['br']=false;
+	$extra_opts['req']=false;
     shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
 	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
     shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
@@ -213,7 +318,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         //close the form
     shn_form_close(false);
 ?>				     
-</div>
+
 <?php
 } 
 ?>

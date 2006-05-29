@@ -36,7 +36,8 @@ function _shn_or_regform_org($error=false)
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
     shn_form_text(_("Organization Name : "),'org_name','size="50"',$extra_opts); 
-    shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
+    $extra_opts['help']=_("If your organization is registered please enter your registration no");
+    shn_form_text(_("Registration Number : "),'reg_no','size="50"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen("Organization Type");
     _shn_or_display_org_type($error);
@@ -48,7 +49,7 @@ function _shn_or_regform_org($error=false)
     $parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
  	shn_form_fsopen("Base Location");
- 	shn_location($range,$_POST[$range["end"]],$parent); 
+ 	shn_location($range,$_POST[$range["end"]],$parent,true); 
     shn_form_fsclose();
     // Contact infomation
     shn_form_fsopen("Contact Information");
@@ -57,15 +58,14 @@ function _shn_or_regform_org($error=false)
      shn_form_fsopen("Facilities Avaliable");
     _shn_or_display_org_facilities($error);
     shn_form_fsclose();
- 	shn_form_fsopen("Extra Information");
-    _shn_or_display_extra($error);
-    shn_form_fsclose();
+    $_SESSION["incident"]=$_POST["incidents"];
+       // shn_form_hidden(array('incident[]'=>$_POST["incidents"]));
 ?>
 <br />
 <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Next"));
+    shn_form_submit(_("Save"));
 ?>
 </center>
 <br />
@@ -85,6 +85,9 @@ function _shn_or_regform_operation($error=false)
     $db=$global['db'];
 ?>
 <h2><?=_("Add an Operation/Branch under the Organization ").$_SESSION["parent_name"]?> </h2>
+<div id="note">
+<?=_("Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull ");?>
+</div>
 <?php
     if($error)
     display_errors();
@@ -92,10 +95,16 @@ function _shn_or_regform_operation($error=false)
 <div id="formcontainer">
 <?php
     shn_form_fopen("reg_operation_cr");
+    shn_form_fsopen('Parent Entity');
+     _shn_or_display_orgs(false,false);
+    shn_form_fsclose();
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
     shn_form_text(_("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
 	shn_form_fsclose();
+	shn_form_fsopen("Relationship to the parent Organization");
+    _shn_or_display_org_sub_type($error);
+    shn_form_fsclose();
     shn_form_fsopen("Organization Sector");
     _shn_or_display_sector($error);
     shn_form_fsclose();
@@ -111,15 +120,12 @@ shn_form_fsclose();
      shn_form_fsopen("Facilities Avaliable");
    _shn_or_display_org_facilities($error);
     shn_form_fsclose();
- 	shn_form_fsopen("Extra Information");
-    _shn_or_display_extra($error);
-    shn_form_fsclose();
 ?>
 <br />
 <center>
 <?php
 //create the submit button
-   shn_form_submit(_("Next"));
+   shn_form_submit(_("Save"));
 ?>
 </center>
 <br />

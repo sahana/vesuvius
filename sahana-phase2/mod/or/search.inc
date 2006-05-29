@@ -23,33 +23,43 @@ function _shn_or_form_search()
     global $conf;
     $db=$global["db"];
 ?>
-<h2><?= _("Search for Organizations by Service and Location")?></h2>
+<h2><?= _("Search for Organizations by Incident,Type,Service and Location")?></h2>
+     	<div id="note">
+	<?=_("Select location and then select the level(province,district,ect)," .
+			"the selected location field at the end of the form will be updated")?>
+	</div>
+	
     <div id="formcontainer">
 <?php
     shn_form_fopen("search_cr");
     _shn_or_update_loc();
+    shn_form_fsopen(_("Incidents related to the Organization"));
+    _shn_or_display_incident($error,true);
+    	shn_form_fsclose();
     shn_form_fsopen(_("Organization Type"));
-    _shn_or_display_org_type($error,false,'dummy');
+    _shn_or_display_org_type($error,true);
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Sector"));
-    _shn_or_display_sector($error,'dummy');
+    _shn_or_display_sector($error);
     shn_form_fsclose();
-    shn_form_fsopen(_("Selected Location"));
-    $extra_options['value']="All Locations";
-    shn_form_text(_("location"),'loc',NULL,$extra_options);
-    shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
+
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();
  // base location
     shn_form_fsopen(" Location");
-   	$parent=_shn_or_get_start_loc();
-   	$range= shn_or_get_loc_range();
-  	shn_location($range,null,$parent); 
+	$range= shn_get_range();
+    shn_location($range,null,null);; 
     shn_form_fsclose();
     ?><fieldset><?
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
     ?></fieldset><?
+    
+    shn_form_fsopen(_("Selected Location for Search"));
+    $extra_options['value']="All Locations";
+    $extra_options['size']=60;
+    shn_form_text(_("location"),'loc',"size=50",$extra_options);
+    shn_form_fsclose();
 ?>
 </br>
     <center>

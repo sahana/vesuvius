@@ -16,18 +16,113 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 
-function shn_or_org_list(){
+function _shn_org_position($org_id,$incidents=null,$rootsonly=false){
+	$org_list=shn_or_org_list($incidents,$rootsonly);
+	$i=0;
+	foreach($org_list as $key=>$name){
+		$i=$i+1;
+		if($org_id==$key){
+			return $i;
+		}
+		
+	}
+}
+function _shn_or_is_root($org_id){
+	global $global;
+	$db=$global["db"];
+	$q="select o_uuid from org_main where o_uuid='{$org_id}' and parent_id is NULL ";
+	$res=$db->Execute($q);
+	if(!$res==NULL && !$res_org->EOF){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function shn_or_create_database_IN_array($arr){
+	
+        if($arr!=null){
+        $list="(";
+        $j=0;
+        foreach ($arr as $i){
+        		$val="'$i'";
+        		if($j==0){
+        			$list=$list.$val;	
+        		}else{
+        			$list=$list.",".$val;	
+        		}
+        		$j++;
+        }
+        $list=$list.")";
+        }
+	return $list;
+}
+
+function shn_or_org_list($incidents=null,$rootsonly=false){
 	    global $global;
         $db=$global['db'];
-		$q = "select o_uuid,name,parent_id from org_main order by name";
+        if($incidents!=null){
+        $list="(";
+        $j=0;
+        foreach ($incidents as $i){
+        		if($j==0){
+        			$list=$list.$i;	
+        		}else{
+        			$list=$list.",".$i;	
+        		}
+        		$j++;
+        }
+        $list=$list.")";
+        }
+        if($rootsonly==true){
+        		$root=" and parent_id is NULL ";
+        }else{
+        		$root="";
+        }
+        
+        if($incidents==null)
+			$q = "select o_uuid,name from org_main where privacy=false".$root." order by o_uuid";
+		else
+			$q = "select o_uuid,name from org_main,resource_to_incident where privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
         $res_org=$db->Execute($q);
         $org_list=array();
         while(!$res_org==NULL && !$res_org->EOF){
-        		$org_list[$res_org->fields[0]]=$res_org->fields[1];
+        		$org_list[$res_org->fields["o_uuid"]]=$res_org->fields["name"];
         		$res_org->MoveNext();
         }
         return $org_list;
 }
+
+function shn_or_org_count($incidents=null,$rootsonly=false){
+	    global $global;
+        $db=$global['db'];
+        if($incidents!=null){
+        $list="(";
+        $j=0;
+        foreach ($incidents as $i){
+        		if($j==0){
+        			$list=$list.$i;	
+        		}else{
+        			$list=$list.",".$i;	
+        		}
+        		$j++;
+        }
+        $list=$list.")";
+        }
+        if($rootsonly==true){
+        		$root=" and parent_id is NULL ";
+        }else{
+        		$root="";
+        }
+        if($incidents==null)
+			$q = "select count(o_uuid) as cnt from org_main where privacy=false".$root;
+		else
+			$q = "select count(distinct o_uuid) as cnt  from org_main,resource_to_incident where privacy=false  ".$root." and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
+        
+        $res_org=$db->Execute($q);
+        return  $res_org->fields["cnt"];
+}
+
 function _shn_or_get_start_loc()
 {
     global $global;
@@ -35,10 +130,13 @@ function _shn_or_get_start_loc()
     $db=$global['db'];
     $q="select value from config where module_id='or' and confkey='loc_start'";
     $res=$db->Execute($q);
-    if($res->fields[0]==NULL){
-       	return $conf['mod_or_start_loc'];
-    }else {
-    	return $res->fields[0];
+ //   if($res->fields[0]==NULL){
+   //    	return $conf['mod_or_start_loc'];
+    //}else {
+    	if($res==NULL){
+    		return NULL;
+    }else{
+    		return $res->fields["value"];
     }
 }
 
@@ -324,8 +422,35 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
     }else{
         //$select_opts="multiple='false'";;
     }  
+    $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
+    if($multi){
+    		shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
+    }else{
     shn_form_opt_select('opt_org_type','',$select_opts,$extra_opts);
+    }
 }
+
+function _shn_or_display_org_sub_type($error=false,$multi=false,$value=NULL)
+{
+    if($value!=NULL){
+        $extra_opts['value']=$value;
+       // $extra_opts['req']=false;
+    }else{
+      //  $extra_opts['req']=true;
+    }
+    $extra_opts['req']=true;
+    if($multi){
+        $select_opts="multiple='true'";
+    }else{
+        //$select_opts="multiple='false'";;
+    }  
+    $extra_opts['help']=_("please select whether you are Department,Branch,ect of the parent organization");
+
+    shn_form_opt_select('opt_org_sub_type','',$select_opts,$extra_opts);
+     
+}
+
+
 
 function _shn_or_display_sector($error=false,$value=NULL)
 {
@@ -336,6 +461,7 @@ function _shn_or_display_sector($error=false,$value=NULL)
        // $extra_opts['req']=true;
     }
     $extra_opts['req']=true;
+    $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 
@@ -344,7 +470,7 @@ function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
-        $q = "select address from location_details where poc_uuid={$po_uuid}";
+        $q = "select address from location_details where poc_uuid='{$po_uuid}'";
         $res_addr=$db->Execute($q); 
         $contact_address=$res_addr->fields[0];
         $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='curr'";
@@ -418,9 +544,130 @@ function _shn_or_display_logininfo($error=false)
     ); // end of getting logging info
     return $login_info;
 }
+function _shn_or_display_orgs($error=false,$multi=false,$value=NULL)
+{
+    global $global;
+    $db=$global["db"];
+    if($value!=NULL){
+        $extra_opts['value']=$value;
+       // $extra_opts['req']=false;
+    }else{
+      //  $extra_opts['req']=true;
+    }
+    $extra_opts['req']=true;
+    if($multi){
+        $select_opts="multiple='true'";
+    }else{
+        //$select_opts="multiple='false'";;
+    }
+    $options=shn_or_org_list();
+    $extra_opts['help']=_("select the parent entity");
+    shn_form_select($options,'','parent',$select_opts,$extra_opts);
+}
+
+function _shn_or_display_incident_form($error=false,$act)
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+?>
+<h2><?=_("Select the Disaster/event/incident")?> </h2>
+<div id="note">
+<?=_("Since there are multiple incidents you required to select relevant incidents ");?>
+</div>
+<?php
+    if($error)
+    display_errors();
+?>               
+<div id="formcontainer">
+<?php
+    shn_form_fopen($act);
+    shn_form_fsopen('Choose related incidents:The Default Incident is Highlighted');
+    _shn_or_display_incident(false,true);
+    shn_form_fsclose();
+    shn_form_hidden(array('incident'=>"true"));
+    ?>
+<br />
+<center>
+<?php
+//create the submit button
+   shn_form_submit(_("Next"));
+?>
+</center>
+<br />
+<?php
+        //close the form
+    shn_form_fclose();
+?>				     
+</div>
+<?php
+    // end of form
+} 
+
+function _shn_or_display_incident($error=false,$multi=false,$value=NULL)
+{
+    global $global;
+    $db=$global["db"];
+    if($value==NULL){
+    		$q="select value from user_preference where module_id='ims' and pref_key='incident_id'";
+    		$res=$db->Execute($q);
+    		if(!$res==NULL && !$res->EOF){
+    			$value=array();
+    			array_push(
+    				$value,
+    				$res->fields["value"]
+    			);
+    			
+    		}
+   }
+    $extra_opts['req']=true;
+    if($multi){
+        $select_opts="multiple='true'";
+    }else{
+        //$select_opts="multiple='false'";;
+    }
+    $q = "select incident_id,name from incident";
+    
+    $res_options=$db->Execute($q) ; 
+    //$options['-1']="ALL incidents";
+    while(!$res_options->EOF){
+    		$options[$res_options->fields["incident_id"]]=$res_options->fields["name"];
+         //add all the locations e.g $options['sl'=>'sri lanka']
+        $res_options->MoveNext();
+    }
+    
+    if(!empty($value)){
+    		$extra_opts['value']=$value;	
+    }
+    $extra_opts['help']=_("select related incidents");
+    shn_form_multi_select('incidents',$options,'',$select_opts,$extra_opts);
+}
 
 function _shn_or_display_extra($error=false)
 {
     shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
+}
+
+function _shn_or_get_suplier_name($suplier_id)
+{
+	global $global;
+        $db=$global['db'];
+	$suplier_array=array();	
+	$sql="SELECT name FROM org_main WHERE o_uuid='$suplier_id';";
+	$or=$db->Execute($sql);
+	$suplier_array[$suplier_id]=$or->fields['name'];
+
+	$sql1="SELECT o_uuid,name FROM org_main WHERE o_uuid!='$suplier_id';";
+	$or1=$db->Execute($sql1);
+	
+	while($or1!=NULL && !$or1->EOF)
+	{
+	$suplier_array[$or1->fields['o_uuid']]=$or1->fields['name'];
+	$or1->MoveNext();
+	}
+	return $suplier_array;
+
+//$inventory_array[$inv_id]=$ims0->fields['inventory_name'];
+
 }
 ?>

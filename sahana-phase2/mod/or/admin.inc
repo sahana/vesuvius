@@ -73,8 +73,9 @@ function shn_or_adm_location_cr()
         $level=$_POST{"opt_location_type"};
         $loc=$_POST{$level};
     }
-    $q="update config set value={$loc} where module_id='or' and confkey='loc_start'";
+    $q="update config set value='{$loc}' where module_id='or' and confkey='loc_start'";
     $db->Execute($q);
+    
     shn_or_adm_location();
 }
 function shn_or_adm_or_type()
@@ -164,13 +165,11 @@ function shn_or_adm_acl_install()
     //add an action name 'shn_or_reg_org"  under above action groups
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_org","Display Organization Registration form");
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_org_cr","Save Organization Registration info");
+    $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation","Save Operation Registration form");
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation_cr","Save Operation Registration form");
     $res=shn_acl_add_action("or","deny_user","_shn_or_edit_org","edit Org Registration form");
     $res=shn_acl_add_action("or","deny_user","_shn_or_del_org","delete Org Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_edit_vol","edit vol Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_del_vol","delete vol Registration form");
-   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol","Display Volunteer Registration form");
-   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol_cr","Save Volunteer Registration info");
+ 
 
 	$res=shn_acl_add_perms_action_group_role('guest','or','deny_user');
          

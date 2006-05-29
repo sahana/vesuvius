@@ -64,9 +64,7 @@ if(!$res->EOF){
         </tbody>
         </table>
         <br />
-        <div id="note">
-           <strong><?=_("Last 10 Organizations to Register")?></strong>
-        </div>
+       
 <?php
-        _shn_or_viewform_allorg(10);
+       
 ?>
