@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.8 2006-04-18 11:11:58 jayasinghe Exp $ */
+/* $Id: lib_uuid.inc,v 1.9 2006-05-29 07:57:05 mifanc Exp $ */
 
 /**
  *
@@ -64,17 +64,37 @@ function shn_create_uuid($type='person')
                 $gen_id = 'o-'._shn_gen_id('organization');
             break;
 
+	    case 'location':
+        case 'lc':
+        		$gen_id = 'lc-'._shn_gen_id('loc_seq');
+        		break;
+
         case 'camp':
         case 'c' :
                 $gen_id = 'c-'._shn_gen_id('camp');
             break;
+
+        case 'landmark':
+        case 'l':
+        		$gen_id = 'l-'._shn_gen_id('landmark');
+        		break;
+
+        case 'gis':
+        case 'g':
+        		$gen_id = 'g-'._shn_gen_id('gis');
+        		break;
 
         case 'request' :
         case 'req' :
         case 'r' : 
                 $gen_id = 'r-'._shn_gen_id('request');
 	break;
-	case 'catalogue' :
+    	case 'pledge' :
+        case 'pl' :
+                $gen_id = 'pl-'._shn_gen_id('pledge');
+	break;
+
+    case 'catalogue' :
         case 'cata' :
         case 'ct' : 
                 $gen_id = 'ct-'._shn_gen_id('catalogue');
@@ -83,6 +103,11 @@ function shn_create_uuid($type='person')
 	case 'uni':
         case 'un' : 
                 $gen_id = 'un-'._shn_gen_id('unit');
+	break;
+
+	case 'unit_type':
+	case 'unt':
+                $gen_id = 'ut-'._shn_gen_id('unit_type');
 	break;
         default :    
 
