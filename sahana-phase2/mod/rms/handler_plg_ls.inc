@@ -29,7 +29,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     // apply filters if any
     if ($filter != null)
     {
-        $requester = $filter['donor'];
+        $donor = $filter['donor'];
         $status = $filter['status'];
         $fstr = ''; //filter string
         
@@ -107,8 +107,9 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     foreach ($rs_arr as $r)
     {
-        $donor = _shn_rms_get_donor($r['donor_uuid']);
-        $donors[$r['donor_uuid']] = $donor['name'];
+//        $donor = _shn_rms_get_donor($r['donor_uuid']);
+//        $donors[$r['donor_uuid']] = $donor['name'];
+        $donors = _shn_rms_get_donors();
     }
     
     //Result table hedder
@@ -142,7 +143,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     if (1 <= count($rs_arr))
     {
-        shn_html_table_open(array('class'=>'wide'));
+        shn_html_table_open(array('class'=>'layout'));
         shn_html_tbody_open();
         shn_html_tr_open();
             shn_html_td_open();
@@ -156,9 +157,11 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
             shn_form_hidden(array('seq'=>'filter'));
             $stat['all'] = _("All");
-            $stat['open'] = _("Confirmed");
-            $stat['Delivered'] = _("Delivered");
-            $stat['Not Delivered'] = _("Not Delivered");
+            $stat['not_confirmed'] = _("Not Confirmed");
+            $stat['confirmed'] = _("Confirmed");
+            $stat['delivered'] = _("Delivered");
+            $stat['discarded'] = _("Discarded");
+            
             shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
@@ -195,6 +198,26 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                   '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=plg_ls">' . _("Back to Pledge List") . '</a> ]';
     }
+}
+
+function _shn_rms_stat_pledge($plg_id)
+{
+    $plg = _shn_rms_get_pledge($plg_id);
+    if (!$plg_id)
+        return false;
+    
+    $status = $plg['status'];
+    
+    $stat['not_confirmed'] = _("Not Confirmed");
+    $stat['confirmed'] = _("Confirmed");
+    $stat['delivered'] = _("Delivered");
+    $stat['discarded'] = _("Discarded");
+            
+    shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
+    shn_form_hidden(array('seq'=>'chg_stat'));
+    shn_form_hidden(array('plg_id'=>$plg_id));
+    shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false,'value'=>$status));
+    shn_form_fclose();
 }
 
 switch ($_REQUEST['seq'])
@@ -235,10 +258,20 @@ switch ($_REQUEST['seq'])
     case 'view_plg':
             $plg_id = $_REQUEST['plg_id'];
             _shn_rms_view_pledge($plg_id);
-            
+            _shn_rms_stat_pledge($plg_id);
             print '<br />' .
                   '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=plg_ls">' . _("Back to Pledge List") . '</a> ]';
+            break;
+    case 'chg_stat':           
+            $plg_id = $_POST['plg_id'];
+            $stat = $_POST['status'];
+            _shn_rms_pledge_setstat($plg_id, $stat);
+            _shn_rms_view_pledge($plg_id);
+            _shn_rms_stat_pledge($plg_id);
+            print '<br />' .
+                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
             break;
 }
 

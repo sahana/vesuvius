@@ -52,7 +52,7 @@ function shn_rms_mainmenu()
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Manage"));
     shn_sub_mod_menuitem("mng_ff", _("Fulfill Request"), $module);
-    shn_sub_mod_menuitem("mng_stat", _("View Statistics"), $module);
+//    shn_sub_mod_menuitem("mng_stat", _("View Statistics"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
     

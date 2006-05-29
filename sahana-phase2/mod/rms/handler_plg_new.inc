@@ -32,7 +32,10 @@ function _shn_rms_donor()
     shn_form_text(_("Donor ID"),'donor_id',null,array('br'=>false));
     shn_form_submit(_("Next"), 'id="donor_next"');
     shn_form_fsclose();
-    shn_form_button(_("New Donor"),'onClick="showNewDonor();"');
+    $help = _("* Create New Donor: " .
+              "A new Person will be added to the Sahana Database, <br />" .
+              "* Only the Full Name is required, But in order to Contact the Donor please add some contact information with this");
+    shn_form_button(_("New Donor"),'onClick="showNewDonor();"',array('help'=>$help));
     shn_form_fclose();
     print '</div>';
     
@@ -40,7 +43,7 @@ function _shn_rms_donor()
     shn_form_fopen("plg_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'add_donor'));
     shn_form_fsopen(_("New Donor"));
-    shn_form_text(_("Full Name"),'name','class="wide"',array('req'=>true));
+    shn_form_text(_("Full Name"),'name','',array('req'=>true));
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
     shn_form_text(_("Telephone"),'telephone',null);
@@ -62,7 +65,7 @@ function _shn_rms_donor_new()
         $donor['telephone'] = $_POST['telephone'];
         $donor['address'] = $_POST['address'];
         
-        $id = _shn_rms_add_requester($donor);
+        $id = _shn_rms_add_donor($donor);
         $_SESSION['rms_donor_id'] = $id;
         $msg = _("Your Donor id: $id, Please write down this ID");
         _shn_html_inform_add($msg);

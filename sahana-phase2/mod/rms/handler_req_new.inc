@@ -32,7 +32,10 @@ function _shn_rms_requester($requester_id=null)
     shn_form_text(_("Requester ID"),'reqstr_id',null,array('br'=>false));
     shn_form_submit(_("Next"), 'id="reqstr_next"');
     shn_form_fsclose();
-    shn_form_button(_("New Requester"),'onClick="showNewReqster();"');
+    $help = _("* Create New Requester: " .
+              "A new Person will be added to the Sahana Database, <br />" .
+              "* Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
+    shn_form_button(_("New Requester"),'onClick="showNewReqster();"',array('help'=>$help));
     shn_form_fclose();
     print '</div>';
     

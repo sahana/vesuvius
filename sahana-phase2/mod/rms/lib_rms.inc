@@ -33,6 +33,7 @@ function _shn_rms_add_requester($requester)
     $p_uuid = shn_create_uuid('p');
     $name   = $requester['name'];
     $mobile = $requester['mobile'];
+    $tel    = $requester['telephone'];
     $email  = $requester['email'];
     $addr   = $requester['address'];
     
@@ -49,6 +50,8 @@ function _shn_rms_add_requester($requester)
     {
         if (trim($mobile) != '')
             _shn_rms_db_addcontact($p_uuid, 'mobile', $mobile);
+        if (trim($tel) != '')
+            _shn_rms_db_addcontact($p_uuid, 'telephone', $tel);
         if (trim($email) != '')
             _shn_rms_db_addcontact($p_uuid, 'email', $email);
         if (trim($addr) != '')
@@ -152,6 +155,37 @@ function _shn_rms_get_requester($id)
     return false;
 }
 
+function _shn_rms_get_requesters()
+{
+    global $global;
+    
+    $sql = "SELECT psn.p_uuid AS p_uuid, psn.full_name AS fullname " .
+           "FROM rms_request req, person_uuid psn " .
+           "WHERE req.reqstr_uuid=psn.p_uuid";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        $psn_arr = $rs->GetArray();
+        
+        foreach ($psn_arr as $psn)
+        {
+            $requesters[$psn['p_uuid']] = $psn['fullname'];
+        }
+
+        return $requesters;
+    }
+    
+    return false;
+}
+
 function _shn_rms_get_location($loc_id)
 {
     global $global;
@@ -171,6 +205,37 @@ function _shn_rms_get_location($loc_id)
     {
         $rs = $rs->GetArray();
         return $rs[0];
+    }
+    
+    return false;
+}
+
+function _shn_rms_get_locations()
+{
+    global $global;
+    
+    $sql = "SELECT loc.location_id " .
+           "FROM location_details loc,rms_request req " .
+           "WHERE loc.poc_uuid=req.reqstr_uuid";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        $rs = $rs->GetArray();
+        
+        foreach ($rs as $r)
+        {
+            $locations[$r[0]] = $r[0];
+        }
+        
+        return $locations;
     }
     
     return false;
@@ -246,7 +311,7 @@ function _shn_rms_get_categories()
 {
     global $global;
     
-    $sql = "SELECT * FROM ct_catalogue WHERE parentid=''";
+    $sql = "SELECT * FROM ct_catalogue WHERE parentid='0'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -611,6 +676,37 @@ function _shn_rms_get_donor($id)
     return false;
 }
 
+function _shn_rms_get_donors()
+{
+    global $global;
+    
+    $sql = "SELECT psn.p_uuid AS p_uuid, psn.full_name AS fullname " .
+           "FROM rms_pledge plg, person_uuid psn " .
+           "WHERE plg.donor_uuid=psn.p_uuid";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        $psn_arr = $rs->GetArray();
+        
+        foreach ($psn_arr as $psn)
+        {
+            $donors[$psn['p_uuid']] = $psn['fullname'];
+        }
+
+        return $donors;
+    }
+    
+    return false;
+}
+
 function _shn_rms_add_pledge($donor_uuid)
 {
     global $global;
@@ -915,11 +1011,13 @@ function _shn_rms_view_reqff($req_id)
         return false;
     }
     
-    $th_items[] = array (_("Item"), _("Priority"), _("Requested"), _("Fulfiled"), _("Date"), ''); 
+    $th_items[] = array (_("Item"), _("Priority"), _("Requested"), _("Fulfiled"), _("Date"), _("Select to Fulfil")); 
     foreach ($rms_items as $itm)
     {
         $sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
-                    '&amp;seq=sel_plg&amp;itm_id=' . $itm['item_uuid'] .'>' .
+                    '&amp;seq=sel_plg' .
+                    '&amp;req_id=' . $req_id .
+                    '&amp;itm_id=' . $itm['item_uuid'] .'>' .
                     _("Select") . '</a>';
                     
         $tb_items[] = array (
@@ -953,6 +1051,8 @@ function _shn_rms_view_request($req_id)
     _shn_rms_view_location($request['loc_uuid']);
     print '<br />';
     _shn_rms_view_reqitems($req_id);
+    print '<br />';
+    _shn_rms_view_reqff($req_id);
 }
 
 function _shn_rms_view_plgitems($plg_id)
@@ -989,4 +1089,41 @@ function _shn_rms_view_pledge($plg_id)
     _shn_rms_view_plgitems($plg_id);
 }
 
+function _shn_rms_request_setstat($req_id, $stat)
+{
+    global $global;
+    
+    $sql = "UPDATE rms_request SET status='$stat' WHERE req_uuid='$req_id'";
+            
+    if ($global['db']->Execute($sql) === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+function _shn_rms_pledge_setstat($plg_id, $stat)
+{
+    global $global;
+    
+    $sql = "UPDATE rms_pledge SET status='$stat' WHERE plg_uuid='$plg_id'";
+            
+    if ($global['db']->Execute($sql) === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
 ?>

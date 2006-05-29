@@ -17,5 +17,6 @@
 * Public License (LGPL)
 */
 
+_shn_rms_print_hedder(_("Request / Pledge Statistics"));
 
 ?>

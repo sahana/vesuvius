@@ -172,6 +172,7 @@ switch ($_REQUEST['seq'])
             break;
     
     case 'sel_plg';
+            $_SESSION['rms_req_id'] = $_REQUEST['req_id'];
             $_SESSION['rms_req_item'] = $_REQUEST['itm_id'];
             _shn_rms_mng_select_pledge();
             break;

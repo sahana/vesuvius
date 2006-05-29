@@ -118,11 +118,14 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     foreach ($rs_arr as $r)
     {
-        $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
-        $requesters[$r['reqstr_uuid']] = $reqstr['name'];
+//        $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
+//        $requesters[$r['reqstr_uuid']] = $reqstr['name'];
+        $requesters = _shn_rms_get_requesters();
         
-        $req_loc = _shn_rms_get_location($r['loc_uuid']);
-        $locations[$r['loc_uuid']] = $req_loc['location_id'];
+//        $req_loc = _shn_rms_get_location($r['loc_uuid']);
+//        $locations[$r['loc_uuid']] = $req_loc['location_id'];
+        
+        $locations = _shn_rms_get_locations();
     }
     
     //Result table hedder
@@ -160,7 +163,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     if (1 <= count($rs_arr))
     {
-        shn_html_table_open(array('class'=>'wide'));
+        shn_html_table_open(array('class'=>'layout'));
         shn_html_tbody_open();
         shn_html_tr_open();
             shn_html_td_open();
@@ -218,6 +221,24 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     }
 }
 
+function _shn_rms_stat_request($req_id)
+{
+    $request = _shn_rms_get_request($req_id);
+    if (!$request)
+        return false;
+    
+    $status = $request['status'];
+    
+    $stat['open'] = _("Open");
+    $stat['closed'] = _("Closed");
+            
+    shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>''));
+    shn_form_hidden(array('seq'=>'chg_stat'));
+    shn_form_hidden(array('req_id'=>$req_id));
+    shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false,'value'=>$status));
+    shn_form_fclose();
+}
+
 switch ($_REQUEST['seq'])
 {
     case '':
@@ -257,11 +278,22 @@ switch ($_REQUEST['seq'])
     case 'view_req':
             $req_id = $_REQUEST['req_id'];
             _shn_rms_view_request($req_id);
-            
+            _shn_rms_stat_request($req_id);
             print '<br />' .
                   '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
             break;
+    case 'chg_stat':           
+            $req_id = $_POST['req_id'];
+            $stat = $_POST['status'];
+            _shn_rms_request_setstat($req_id, $stat);
+            _shn_rms_view_request($req_id);
+            _shn_rms_stat_request($req_id);
+            print '<br />' .
+                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
+            break;
+            
 }
 
 ?>
