@@ -24,14 +24,38 @@
 function shn_cs_search_cat()
 {
 
-	require_once("lib_cs.inc");
-	$form_opts['name']='subcat';
-
-	shn_form_fopen("search_submit",null,$form_opts);
-	shn_sub_cat(6,'subcat');
+	$option_array=array('none' => '-----Select Search-----','Item' => 'Item/Catalogue','Unit' => 'Unit');
+	$form_opts['name']="select_type_form";
+	shn_form_fopen('select_type_submit',null,$form_opts);
+	shn_form_fsopen(_('Select Search Type'));
+	$select_opts='onChange="changeform()"';
+	shn_form_select($option_array,'','search_type',$select_opts,null);
+	shn_form_fsclose();
 	shn_form_fclose();
 
 }
+
+/**
+ * This function Displays the Form for selecting Catalogue.
+ * @access private
+ * @return void
+ */
+function _shn_cs_cat_form()
+{
+
+	//$extra_opts['req']=true;
+	//$extra_opts['help']=_("test");
+	shn_form_fopen('search_item_submit');
+	shn_form_fsopen(_('Search Details'));
+	shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/Catalogue to be searched')));
+	$options=array('item' => 'Item','catalogue' => 'Catalogue');
+	shn_form_radio($options,'','item_cat_radio');
+	shn_form_fsclose();
+	shn_form_submit(_("Search"));
+	shn_form_fclose();	
+	
+}
+
 
 /**
  * This function shows the result after processing the POST values from shn_cs_search_cat().
@@ -39,23 +63,31 @@ function shn_cs_search_cat()
  * @access private
  * @return void
  */
-function _shn_cs_search_submit_result()
+function _shn_cs_search_item_cat_submit_result()
 {
 
 	global $global;
 	$db=$global["db"];
 
-	$cat_id = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
+	$cat_item_name=trim($_POST['cat_item_name']);
+	$item_cat_radio=trim($_POST['item_cat_radio']);
+
+
+	if($item_cat_radio=='item')
 	{
-	$cat_id = trim($_POST[$i]);
+	$query="select * from ct_catalogue where name='$cat_item_name' and final_flag='1'";
+	$res=$db->Execute($query);
 	
-		if($cat_id==null)
-		{
-		$cat_id = $_POST[$i-1];
-		break;
-		}
+	$name=$res->fields["name"];
+	$description=$res->fields["description"];
+	}	
+	else if($item_cat_radio=='catalogue')
+	{
+	$query="select * from ct_catalogue where name='$cat_item_name' and final_flag='0'";
+	$res=$db->Execute($query);
+	
+	$name=$res->fields["name"];
+	$description=$res->fields["description"];
 	}
 
 ?>
@@ -65,20 +97,9 @@ function _shn_cs_search_submit_result()
 		<TD><strong><?=_("Description")?></strong></TD>
 	</THEAD>
 	<TBODY>
-	<?php
 
-	global $global;
-	$db=$global["db"];
-
-	$query="select name,description from ct_catalogue where ct_uuid='$cat_id' ";
-	$res=$db->Execute($query);
-
-	$name=$res->fields["name"];
-	$description=$res->fields["description"];
-
-	?>
 	<tr>
-		<td><?php print $name ;?></a></td>
+		<td><?php print $name ;?></td>
 		<td><?php print $description ;?></td>
 	</tr>
 
@@ -89,5 +110,189 @@ function _shn_cs_search_submit_result()
 
 <?php
 }
+
+/**
+ * This function Displays the Form for selecting Measurement Unit Type.
+ * @access private
+ * @return void
+ */
+function _shn_cs_unit_form()
+{	global $global;
+	$db=$global["db"];
+	echo "<b>Enter 'all' in the Unit Name feild without selecting any Unit type to search all units. Else Select a Unit type to search all Units under particular Unit type.</b>";
+	$option_array=array();
+	$query="select unit_type_uuid,name from ct_unit_type ";
+	$res=$db->Execute($query);
+	$option_array['none']='----Select Unit type----';
+	while(!$res==NULL && !$res->EOF)
+	{
+	$option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
+	$res->MoveNext();
+	}
+	
+	$form_opts['name']="unit_type";
+	shn_form_fopen("search_unit_submit");
+	shn_form_fsopen(_('Select Measurement Unit Type'));
+	shn_form_select($option_array,'','measurement_type',$select_opts,null);
+	shn_form_fsclose();
+	shn_form_fsopen(_('Search Details'));
+	//$extra_opts['req']=true;
+	shn_form_text(_("Unit Name   : "),'unit_name','size="50"',array('req'=>'true','help'=>_('Enter the Unit name to be searched.')));
+	shn_form_fsclose();
+	shn_form_submit(_("Search"));
+	shn_form_fclose();
+	
+}
+
+/**
+ * This function shows the result after processing the POST values from _shn_cs_unit_form().
+ *This function is called by shn_cs_search_unit_submit() in main.inc
+ * @access private
+ * @return void
+ */
+function _shn_cs_search_unit_submit_result()
+{
+	global $global;
+	$db=$global["db"];
+
+	$search_name=trim($_POST['unit_name']);
+	$unit_type_id=trim($_POST['measurement_type']);
+
+	
+	if($unit_type_id=='none' && $search_name=='all')
+		{
+	//echo "sdsd";
+		$query="select * from ct_unit";
+		$res=$db->Execute($query);
+		}
+	elseif($search_name=='all')
+		{
+	/*	$query="select name from ct_unit_type where unit_type_uuid='$unit_type_id' ";
+		$res3=$db->Execute($query);
+		$unit_type_name=$res3->fields["name"];*/
+
+		$query="select * from ct_unit where unit_type_uuid='$unit_type_id' ";
+		$res=$db->Execute($query);
+		}
+	else
+		{
+	/*	$query="select name from ct_unit_type where unit_type_uuid='$unit_type_id' ";
+		$res3=$db->Execute($query);
+		$unit_type_name=$res3->fields["name"];*/
+
+		$query="select * from ct_unit where name='$search_name' ";
+		$res=$db->Execute($query);
+		}
+
+
+?>
+<table>
+	<THEAD>
+		<TD><strong><?=_("Unit Type")?></strong></TD>
+		<TD><strong><?=_("Unit")?></strong></TD>
+		<TD><strong><?=_("Multiplier")?></strong></TD>
+	</THEAD>
+	<TBODY>
+
+	<?php 
+	while(!$res==NULL && !$res->EOF)
+	{
+		$unit_name=$res->fields["name"];
+		$multiplier=$res->fields["multiplier"];
+
+		$temp=$res->fields["unit_type_uuid"];
+		
+		$query="select name from ct_unit_type where unit_type_uuid='$temp' ";
+		$res3=$db->Execute($query);
+		$unit_type_name=$res3->fields["name"];		
+
+	?>
+
+
+	<tr>
+		<td><?php print $unit_type_name ;?></td>
+		<td><?php print $unit_name ;?></td>
+		<td><?php print $multiplier ;?></td>
+	</tr>
+	<?php 
+		$res->MoveNext();
+	}//end of while loop
+	?>
+
+	</TBODY>
+	
+</table>
+
+<?php
+
+
+}
+
+
+
+
+
+/******************java script ***************************/
+?>
+<script type="text/javascript">
+	function changeform()
+	{
+	var x=document.select_type_form.search_type.options[document.select_type_form.search_type.selectedIndex].value;
+	if(x!='none')
+		{
+		document.select_type_form.submit();
+		}
+	}
+</script>
+<?php
+/***************end of java script**********************/
+
+
+/****************Validate Functions**********************************************************/
+
+/**/
+
+function _shn_cs_validate_cat_form()
+{
+$error_flag=false;
+clean_errors();
+
+
+	if(trim($_POST['cat_item_name'])==null)
+	{
+	add_error(_("Please Enter the Item/Catalogue Name to be searched"));
+	$error_flag=true;
+	}	
+	if(trim($_POST['item_cat_radio'])==null)	
+	{
+	add_error(_("Please Select either Item or Catalogue radio button to search"));
+	$error_flag=true;
+	}
+
+	return $error_flag;
+}
+
+function _shn_cs_validate_unit_form()
+{
+$error_flag=false;
+clean_errors();
+
+	if(trim($_POST['measurement_type'])==null || trim($_POST['measurement_type'])=='none' && trim($_POST['unit_name'])!='all' )
+	{
+	add_error(_("Please Select the Measurement Unit Type"));
+	$error_flag=true;
+	}
+
+	if(trim($_POST['unit_name'])==null)
+	{
+	add_error(_("Please Enter the Unit Name to be searched"));
+	$error_flag=true;
+	}
+
+
+return $error_flag;
+}
+
+/****************End of Validate Functions **************************************************/
 
 ?>

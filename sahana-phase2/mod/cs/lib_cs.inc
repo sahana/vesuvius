@@ -25,7 +25,7 @@ include_once $global['approot']."/inc/lib_form.inc";
  * @access public
  * @return void
  */
-function shn_sub_cat_jscript($max,$form,$change){
+function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
     global $global;
     $fetch_server="xml.php?";
 ?>           
@@ -99,8 +99,9 @@ function shn_sub_cat_jscript($max,$form,$change){
 
     function update_next_level(selection,level){
      	curlevel=level;
+	var item_flag = "<?php echo $item_flag?>"; 
         http = getHTTPObject();
-        var url2=url + "act=sub_cat&cat="+selection;
+        var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
       	http.open("GET", url2, true); 
 //        http.onreadystatechange = null; 
         http.onreadystatechange = function(){}; 
@@ -155,21 +156,28 @@ function shn_sub_cat_jscript($max,$form,$change){
  * @access public
  * @return void
  */
-function shn_sub_cat($max,$form)
+function shn_sub_cat($max,$form,$item_flag=false)
 {
 	
 	$parent_array=array();
 	
 	global $global;
 	$db=$global["db"];
-	$query="select name,ct_uuid from ct_catalogue where parentid='0' ";
-	$res=$db->Execute($query);
+	if($item_flag==true)
+		{
+		$query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
+		$res=$db->Execute($query);
+		}
+	else
+		{
+		$query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+		$res=$db->Execute($query);
+		}
 	
 	while(!$res==NULL && !$res->EOF)
 	{
 	$parent_array[$res->fields["ct_uuid"]]=$res->fields["name"];
 	$res->MoveNext();
-
 	}
 	
 	if($parent_array==null){
@@ -192,7 +200,7 @@ function shn_sub_cat($max,$form)
 	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';	
 	shn_form_select(null,'',$i,$select_opts,null);
 	}
-	shn_sub_cat_jscript($max,$form,"item_name");
+	shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
 	shn_form_hidden(array('item_name'=>""));
 	//_shn_cs_item_name_javascript("item_name",$max,$form);
 	shn_form_button(_("Next"),"onClick='set_name_submit()'");
@@ -201,6 +209,7 @@ function shn_sub_cat($max,$form)
 	//shn_form_submit(_("Next"));
 	}
 }
+
 function _shn_cs_item_name_javascript($change,$levels,$form)
 {
 ?>
@@ -225,7 +234,7 @@ function _shn_cs_item_name_javascript($change,$levels,$form)
 }
 
 /**.
- *This function returns the unit array of the 
+ *This function returns the unit array of a particular item 
  * @access public
  * @return array
  */
@@ -252,6 +261,11 @@ function get_unitid_array()
 return $itemarray;
 }
 
+/**.
+ *This function returns the unit array of the 
+ * @access public
+ * @return varchar
+ */
 function get_itemid()
 {
 
@@ -271,6 +285,134 @@ function get_itemid()
 return $itemid;
 }
 
+/**.
+ *This function the multiplier of unit convertion
+ * @access public
+ * @return double
+ */
+function unit_converter($from_unit_id,$to_unit_id)
+{
+
+	global $global;
+	$db=$global["db"];
+
+	$query1="select multiplier from ct_unit where unit_uuid='$from_unit_id'";
+	$res1=$db->Execute($query1);
+	$from_multiplier=$res1->fields['multiplier'];
+	if ($from_multiplier==0)
+	{
+		$from_multiplier=1;
+	}
+
+	$query2="select multiplier from ct_unit where unit_uuid='$to_unit_id'";
+	$res2=$db->Execute($query2);
+	$to_multiplier=$res2->fields['multiplier'];
+	if ($to_multiplier==0)
+	{
+		$to_multiplier=1;
+	}
+
+	$multiplier=$to_multiplier/$from_multiplier;
+
+	return $multiplier;
+	
+}
+
+/**.
+ *This function return the unit name of given unit id
+ * @access public
+ * @return varchar
+ */
+function get_unit_name($unit_id)
+{
+	global $global;
+	$db=$global["db"];
+	$query="select name from ct_unit where unit_uuid='$unit_id'";
+	$res=$db->Execute($query);
+	$name=$res->fields['name'];
+
+	return $name;
+}
+
+
+/**
+ * This function validates the selected catalogue in sub_cat form.
+ *This function is called by shn_cs_additem_form1_submit() in main.inc
+ * @access private
+ * @return boolean
+ */
+function _shn_cs_validate_sub_cat_form()
+{
+$error_flag=false;
+clean_errors();
+
+$itemid=null;
+
+	for($i=0;$i<5;$i++)
+	{
+	$itemid = trim($_POST[$i]);
+		if($itemid!=null)
+		{
+		break;
+		}
+	}
+
+	if($itemid==null)
+	{
+	add_error(_("Please Select the Catalogue that you need"));
+	$error_flag=true;
+	}	
+
+return $error_flag;
+}
+
+
+/**.
+ *This function returns the unit array of a particular item 
+ * @access public
+ * @return array
+ */
+function _shn_cs_get_units($parent_id)
+{
+	global $global;
+	$db=$global["db"];
+
+	$myoptions=array();
+
+	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+	$temp2=$res->fields['unit_uuid'];
+	$query1="select name from ct_unit where unit_uuid ='$temp2'";
+	$res2=$db->Execute($query1);
+
+	$myoptions[$res->fields['unit_uuid']]=$res2->fields['name'];;
+	$res->MoveNext();
+	}
+	
+	return $myoptions;
+	
+}
+
+
+/**.
+ *This function returns the maximum depth of the catalogue/Item tree 
+ * @access public
+ * @return double
+ */
+function get_max_depth()
+{
+	global $global;
+	$db=$global['db'];
+
+	$query="select option_code from field_options where field_name='opt_cs_depth'";
+	$res=$db->Execute($query);
+	$depth=$res->fields["option_code"];
+
+	return $depth;
+}
 
 
 ?>

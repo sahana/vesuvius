@@ -19,7 +19,7 @@
 ?>
 <div id="home">
 <h2><?= _('Catalogue System'); ?></h2>
-<p><?= _('The Catalogue System helps to capture the Information about catalogues that are used by the Inventory Management System. "Add Main catalogue" will add root Items of the catalogue while "Add sub catalogue" adding sub Items under those root catalogues. Before go to add any sub catalogue add the measurement unit/units that are used to measure the particular Item. '); ?></p>
+<p><?= _('The Catalogue System helps to capture the Information about catalogues, sub catalogues, and Items that are used by the Inventory Management System. "Add Main catalogue" will add root Items of the catalogue while "Add sub catalogue" adding sub Items under those root catalogues. "Add Item" is capturing information about Items that you wish to use in Inventery Management System. Before go to add catalogues and Items add the measurement unit types and units that are used to measure the particular Item. '); ?></p>
 </div>
 
 
