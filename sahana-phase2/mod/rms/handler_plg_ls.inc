@@ -147,14 +147,14 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         shn_html_tbody_open();
         shn_html_tr_open();
             shn_html_td_open();
-            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
+            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
             shn_form_select($donors, _("Donors"), 'donor', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
             
             shn_html_td_open();
-            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
+            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
             $stat['all'] = _("All");
             $stat['not_confirmed'] = _("Not Confirmed");
@@ -167,14 +167,14 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_html_td_close();
             
             shn_html_td_open();
-            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
+            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter_clr'));
             shn_form_submit(_("Clear Filter"));
             shn_form_fclose();            
             shn_html_td_close();
             
             shn_html_td_open(array('align'=>'right'));
-            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>''));
+            shn_form_fopen("plg_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'rows'));
             $opts = array ('1'=>'1', '2'=>'2', '10'=>'10', '25'=> '25');
             shn_form_select($opts,_("Records"), 'rows', 'onChange="submit(this);"', array('value'=>$rows));
