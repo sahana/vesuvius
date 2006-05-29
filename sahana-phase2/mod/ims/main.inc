@@ -23,8 +23,10 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
+include_once $global['approot']."/inc/lib_location.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
+include_once $global['approot'].'/mod/or/lib_or.inc';
 
 //global $global;
 
@@ -43,20 +45,23 @@ function shn_ims_mainmenu()
 	shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
 	shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
 	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Reports"));
-	shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
-	shn_sub_mod_menuitem("report_destroyed",_("destriyed item"),$module);
-	shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
-	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Multiple Inventory Management"));
 	shn_sub_mod_menuitem("search",_("Search"),$module);
 	shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
 	shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
-	shn_sub_mod_menuitem("minimum_quantity",_("Re-Order Level"),$module);
+	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Re-Order Level"));
+	shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
+	shn_sub_mod_menuitem("view_edit_reorder_page",_("View and Edit"),$module);
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Inventory Transfer"));
 	shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
 	shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
+	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Reports"));
+	shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
+	shn_sub_mod_menuitem("report_destroyed",_("destroyed item"),$module);
+	shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
@@ -69,6 +74,7 @@ function shn_ims_mainmenu()
  */
 function shn_ims_default()
 {
+    global $global;
     _shn_ims_expire_date_check();
     include_once ('home.inc');
     _shn_ims_default();	
@@ -100,19 +106,31 @@ function shn_ims_add_item_main_page()
 		
 }
 
-function shn_ims_add_item()
+function shn_ims_add_item($parent_id=null)
 {
-         global $global;
-	include_once('add_item.inc');
-	//global $global;
-	_shn_ims_add_item_header();
-	//_shn_ims_add_item_category_selection();
-	shn_form_fopen("add_item_db");
-	//_shn_ims_add_item_category_selection();
-	add_item($temp);
-	//shn_form_submit(_("Submit"));
-	shn_form_fclose();
-    	//shn_ims_add_item_main_page();
+		global $global;
+		/*if(_shn_cs_validate_sub_cat_form())
+		{
+		display_errors();
+		shn_ims_add_item_main_page();
+		}
+		else
+		{
+		 
+		include_once('add_item.inc');
+		_shn_ims_add_item_header();
+		shn_form_fopen("add_item_db");
+		add_item($temp,$parent_id);
+		shn_form_fclose();
+    		}*/
+		include_once('add_item.inc');
+		_shn_ims_add_item_header();
+		shn_form_fopen("add_item_db");
+		add_item($temp,$parent_id);
+		shn_form_fclose();
+
+
+        
 }
 
 /**
@@ -120,6 +138,7 @@ function shn_ims_add_item()
 */
 function shn_ims_view_edit_item()
 {
+    global $global;
     include_once ('view_edit_item.inc');
     _shn_ims_view_edit_header();
     _shn_ims_view_edit();
@@ -150,28 +169,20 @@ function shn_ims_destroy_item()
 	include_once ('report.inc');
 	_shn_ims_destroy_item($item_id);
 }
-/**function shn_ims_add_item()
-{
-	//include_once ('add_item.inc');
-	include_once ('add_item_main_page.inc');
-	$category = $_POST['itemcat'];
-	if ($category=="Medical Drugs")
-	{
-		include_once ('add_item.inc');
-		add_item_medicaldrugs();
-	} 
-}*/
+
 
 function shn_ims_add_item_db()
 {
 
 	global $global;
 	require_once('add_item_db.inc');
+	$parent_id=trim($_POST['parent_id']);
 	
 	if(_shn_ims_validate_additemform())
 	{
+	//print $parent_id;
 	display_errors();
-	shn_ims_add_item();
+	shn_ims_add_item($parent_id);
 	}
 	else
 	{
@@ -180,72 +191,11 @@ function shn_ims_add_item_db()
 	
 }
 
-function shn_ims_search_database()
+function shn_ims_search_item_db()
 	{
-		include_once ('search.inc');
-
-		$item_name=$_POST['item_name'];
-		$item_state=$_POST['item_state'];
-		$inventory_id=$_POST['inventory'];
-					
 		global $global;
-		$db=$global["db"];
-		
-		//print ($item_search);
-		
-		$sql = "SELECT item_id,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state';";
-		$ims = $db->Execute($sql);
-?>
-
-		<div id ="search_result">
-	<table>
-        <thead>
-            <td><?=_("Item ID")?></td>	
-	    <td><?=_("Item Name")?></td>
-	    <td><?=_("Amount")?></td>
-	    <td><?=_("Unit") ?></td>
-	    <td><?=_("Manufactured Date")?></td>
-            <td><?=_("Expire Date")?></td>	
-            <td><?=_("Suplier Name")?></td>
-            
-            
-        </thead>
-	<tbody>
-	
-<?php
-
-		while (!$ims==NULL && !$ims->EOF)
-		{
-			$item_id=$ims->fields["item_id"];
-			//$item_name=$ims->fields["item_name"];
-			$amount=$ims->fields["amount"];
-			$unit=$ims->fields["unit"];
-			$manufactured_date=$ims->fields["manufactured_date"];
-			$expire_date=$ims->fields["expire_date"];
-			
-
-?>
-	
-	<tr>
-	<td><?php print ($item_id); ?></td>
-	<td><?php print ($item_name); ?></td>
-	<td><?php print ($amount); ?></td>
-	<td><?php print ($unit); ?></td>
-	<td><?php print ($manufactured_date); ?></td>
-	<td><?php print ($expire_date); ?></td>
-	
-	</tr>
-
-<?php
-	$ims->MoveNext();
-			
-		}
-?>
-	</tbody>
-	</table>
-<?php
-
-
+		include_once ('search.inc');
+		_shn_ims_search_item_db();
 		//_shn_ims_search_item();
 	}
 
@@ -258,52 +208,50 @@ function shn_ims_add_item1()
 	include_once ('view_edit_item.inc');
 	_shn_ims_view_edit_header();
 	$temp = trim($_REQUEST['item_id']);
+	$parent_id = trim($_REQUEST['parent_id']);
 	include_once ('add_item.inc');
 	shn_form_fopen('edit_item_db');
-	add_item($temp);
+	add_item($temp,$parent_id);
 	shn_form_fclose();
 	
 }
 function shn_ims_edit_item_db()
 {
-		global $global;
-		include_once ("add_item.inc");
-		
-		$db=$global["db"];
-		$temp=$_POST['temp'];
-		//print ($temp);
-		$cate=$_POST['cat'];
-		$item=$_POST['item_name'];
-		//print ($temp);
-		
-		//print ($cate);
-		$amou=$_POST['amount'];
-		$unit=$_POST['itemunit'];
-		$manufactured_date=$_POST['manufactured_date'];
-		$expire_date=$_POST['expire_date'];
-		$inv_id=$_POST['inv_id'];
-		$suply_person_name=$_POST['suplier_name'];
-		$suply_person_address=$_POST['suplier_address'];
-		$suply_person_telephone=$_POST['suplier_telephone'];
-		$suply_person_email=$_POST['suplier_email'];
 
-		//print ($expire_date);
+	global $global;
+	require_once('add_item_db.inc');
+	
+	if(_shn_ims_validate_additemform())
+	{
+	display_errors();
+	shn_ims_add_item1();
+	}
+	else
+	{
+	_shn_ims_edit_item_db();
+	}
 		
-    		$sql = "UPDATE ims_item_records SET item_name='{$item}',amount='{$amou}', manufactured_date='{$manufactured_date}',expire_date='{$expire_date}',inv_id='{$inv_id}' WHERE item_id=$temp;";
-//echo $sql;
-		$ims = $db->Execute($sql);
-		$_POST['item_name']="";	
-		$_POST['amount']="";
-		$_POST['manufactured_date']="";
-		$_POST['expire_date']="";
-		$_POST['suplier_name']="";
-		$_POST['suplier_address']="";
-		$_POST['suplier_telephone']="";
-		$_POST['suplier_email']="";
+	/**global $global;
+	include_once ('view_edit_item.inc');
+	_shn_ims_edit_item_db();
+	*/
+		
+}
 
-		_shn_ims_expire_date_check();
-		shn_ims_view_edit_item();
-		
+function shn_ims_delete_item_db()
+{
+	global $global;
+	$db=$global["db"];
+	require_once('view_edit_item.inc');
+	//$parent_id=$_REQUEST['parent_id'];
+	$item_id=$_REQUEST['item_id'];
+	$sql="DELETE FROM ims_item_records WHERE item_id='$item_id';";
+	$ims=$db->Execute($sql);
+?>
+<div>
+<h5 align="center" <?php print ("Successfully Deleated");?>></h5></div>
+<?php
+	shn_ims_view_edit_item();
 }
 
 /**
@@ -509,12 +457,72 @@ function shn_ims_search_cr(){
 	add_item($temp);
 	shn_form_fclose();
 }*/
-function shn_ims_minimum_quantity()
+function shn_ims_minimum_quantity_item()
 {
 	include_once 'mini_quantity.inc';
-	_shn_ims_mini_quantity();
+	_shn_ims_mini_quantity_item_select();
+}
+
+function shn_ims_minimum_quantity()
+{
+	
+	include_once 'mini_quantity.inc';
+	_shn_ims_mini_quantity($catalog_id=null,$inv_id=null);
+	
+}
+
+function shn_ims_mini_quantity_db()
+{
+	require_once 'mini_quantity.inc';
+	//$inv_id=trim($_POST['inv_id']);
+	//$catalog_id=trim($_POST['catalog_id']);
+	if (_shn_ims_validate_minimum_quantity())
+	{
+	display_errors();
+	shn_ims_reorder_level_edit();	
+	}
+	else
+	{
+	_shn_ims_mini_quantity_db();
+	}
+}
+
+function shn_ims_view_edit_reorder()
+{
+	include_once 'mini_quantity.inc';
+	_shn_ims_view_edit_reorder();
 }	
 
+function shn_ims_view_edit_reorder_page()
+{
+	include_once 'mini_quantity.inc';
+	_shn_ims_view_edit_reorder_page();
+}
+
+function shn_ims_reorder_level_edit()
+{
+	global $global;
+	include_once 'mini_quantity.inc';
+	$catalog_id = trim($_REQUEST['catalog_id']);
+	$inv_id = trim($_REQUEST['inv_id']);
+	_shn_ims_mini_quantity($catalog_id, $inv_id);
+	//shn_ims_minimum_quantity($catalog_id,$inv_id);
+	//$sql="UPDATE ims_reorder_level SET WHERE";
+}
+
+
+
+function shn_ims_reorder_level_delete()
+{
+	global $global;
+	include_once 'mini_quantity.inc';
+	$catalog_id = trim($_REQUEST['catalog_id']);
+	$inv_id = trim($_REQUEST['inv_id']);
+	$db=$global["db"];
+	$sql="DELETE FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+	$ims=$db->Execute($sql);
+	shn_ims_view_edit_reorder_page();
+}
 function shn_ims_send_item()
 {	
 	global $global;
@@ -539,9 +547,24 @@ function shn_ims_receive_item_page()
 
 function shn_ims_receive_item_db()
 {
+	
 	global $global;
-	include_once('transfer_inv.inc');
+	require_once('transfer_inv.inc');
+	
+	if(_shn_ims_validate_receive_item_page())
+	{
+	display_errors();
+	shn_ims_receive_item_page();
+	}
+	else
+	{
 	_shn_ims_receive_item_db();
+	}
+	/**global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_receive_item_db();*/
+
+
 }
 
 function shn_ims_send_item_page($cate=null)
@@ -557,15 +580,29 @@ function shn_ims_send_item_data_collectpage()
 {
 	global $global;
 	$item_id = trim($_REQUEST['item_id']);
+	$parent_id=trim($_REQUEST['parent_id']);
 	include_once('transfer_inv.inc');
-	_shn_ims_send($item_id);
+	_shn_ims_send($item_id,$parent_id);
 }
 
 function shn_ims_send_item_db()
 {
+
 	global $global;
-	include_once('transfer_inv.inc');
+	require_once('transfer_inv.inc');
+	
+	if(_shn_ims_validate_send_item_page())
+	{
+	display_errors();
+	shn_ims_send_item_data_collectpage();
+	}
+	else
+	{
 	_shn_ims_send_db();
+	}
+	/*global $global;
+	include_once('transfer_inv.inc');
+	_shn_ims_send_db();*/
 }
 ?>
 

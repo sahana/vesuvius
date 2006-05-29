@@ -16,6 +16,8 @@
 
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
+include_once $global['approot']."/inc/lib_location.inc";
+//include_once '';
 
 function shn_ims_org_list(){
 	    global $global;
@@ -64,6 +66,10 @@ function shn_ims_get_loc_range()
     	$loc["end"]=$res->fields[0];
     }
     return $loc;
+
+	
+
+	
 }
 
 function _shn_ims_action_change_javascript($change)
@@ -440,4 +446,105 @@ function _shn_ims_expire_date_check()
 	$sql="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";
 	$ims=$db->Execute($sql);	
 }
+
+function _shn_ims_date_validate($date)
+{
+	$error_flag1=false;
+	
+
+	list($year,$month,$day)=split('[/.-]', $date);
+	if($year<1900 || $year>2100)
+	{
+		//add_error("Year should be a value between 1900 and 2100");
+		$error_flag1=true;
+	}
+	if($month<0 || $month>12 )
+	{
+		//add_error("Invalid Month");
+		$error_flag1=true;
+	}
+	if($day<1)
+	{
+		//add_error("Invald Day");
+		$error_flag1=true;
+	}
+	if(($month==1 || $month==3 || $month==5 || $month==7 || $month==8 || $month==10 || $month==12) && $day>31)
+	{
+		//add_error("The month doesn't have such a date ");
+		$error_flag1=true;
+	}
+	if($month==2 && $day>29)
+	{
+		//add_error(SHN_ERR_IMS_INVALID_DATE);
+		$error_flag=true;
+	}
+	if(($month==4 || $month==6 || $month==9 || $month==11) && $day>30)
+	{
+		//add_error("The month doesn't have such a date ");
+		$error_flag1=true;
+	}
+	
+	add_error(SHN_ERR_IMS_INVALID_DATE);
+	return $error_flag1;
+	
+}
+
+function _shn_ims_find_catalogid($catalog_id)
+{
+	global $global;
+	$db=$global["db"];
+	$catalog_found=false;
+	$sql1="SELECT item_id FROM ims_item_records WHERE catalog_id='$catalog_id';";
+	$ims1=$db->Execute($sql1);
+	$item_id=$ims1->fields['item_id'];
+		
+					
+	$sql2="SELECT inv_id FROM ims_reorder_level WHERE catalog_id='$catalog_id';";
+	$ims2=$db->Execute($sql2);
+	$inv_id=$ims2->fields['inv_id'];
+
+	if($item_id!=null || $inv_id!=null)
+	{
+	$catalog_found=true;
+	}
+	else
+	{
+	$catalog_found=false;
+	}
+
+	return $catalog_found;
+}
+
+function _shn_ims_find_unitid($unit_id)
+{
+	global $global;
+	$db=$global["db"];
+	$unit_found=false;
+
+	$sql1="SELECT item_id FROM ims_item_records WHERE unit='$unit_id';";
+	$ims1=$db->Execute($sql1);
+	$item_id=$ims1->fields['item_id'];
+		
+					
+	$sql2="SELECT inv_id FROM ims_reorder_level WHERE unit='$unit_id';";
+	$ims2=$db->Execute($sql2);
+	$inv_id=$ims2->fields['inv_id'];
+
+	$sql3="SELECT item_id FROM ims_transfer_item WHERE unit='$unit_id';";
+	$ims3=$db->Execute($sql3);
+	$item_id3=$ims3->fields['item_id'];
+
+	if($item_id!=null || $inv_id!=null || $item_id3!=null)
+	{
+	$unit_found=true;
+	}
+	else
+	{
+	$unit_found=false;
+	}
+
+	return $unit_found;
+	
+}
+
 ?>

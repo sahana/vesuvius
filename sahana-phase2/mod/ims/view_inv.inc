@@ -16,7 +16,10 @@
 
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
+require_once $global['approot']."/inc/lib_location.inc";
+
+include_once "lib_ims.inc";
 
 function _shn_ims_viewform_allorg($no=NULL)
 {
@@ -131,25 +134,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
     if(!$res_org==NULL && !$res_org->EOF){
         $parent=($res_org->fields[1]=='0')?true:false;    
         $org_name=$res_org->fields[2];
-        /*
-        $reg_no=$res_org->fields[3]; 
-        $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
-field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
-        $res_type=$db->Execute($q); 
-        $org_type=$res_type->fields[0];
-        $q = "select option_code from field_options,sector where pgoc_uuid='{$org_id}' and
-field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-        $res_sector=$db->Execute($q);    
-        $or_sector_arr=array();
         
-        while(!$res_sector->EOF){
-            array_push(
-                $or_sector_arr,
-                $res_sector->fields[0]
-            );       
-            $res_sector->MoveNext();
-        } 
-        */
     $q = "select location_id from location_details where poc_uuid='{$org_id}'";
     $res_loc=$db->Execute($q);
     $bsd_village=$res_loc->fields[0];
@@ -171,18 +156,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
     shn_form_text(_("Inventory Name : "),'org_name','size="50"', $extra_opts); 
-   /*
-    if($parent){
-        shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
-    }
-    shn_form_fsclose();
-    shn_form_fsopen(_("Inventory Type"));
-    _shn_or_ims_display_org_type($error,false,$org_type);
-    shn_form_fsclose();
-    shn_form_fsopen(_("Inventory Sector"));
-    _shn_or_ims_display_sector($error,$or_sector_arr);
-    shn_form_fsclose();
-    */
+   
     shn_form_fsopen("Base Location");
     $range= shn_ims_get_loc_range();
     shn_location($range,$bsd_village,null);

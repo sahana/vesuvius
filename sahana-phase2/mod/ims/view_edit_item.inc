@@ -19,12 +19,15 @@
 /**
 **function for view edit header 
 **/
+include_once $global['approot'].'/mod/or/lib_or.inc';
+include_once ('lib_ims.inc');
+
 function _shn_ims_view_edit_header()
 {
 ?>
 
 <h1 align="center"><?php print _("View and Edit Items");?><br></h1>
-<dev id="reports">
+<dev id="result">
 
 </dev>
 <?php
@@ -45,17 +48,18 @@ $module = $global['module'];
 	shn_form_fsopen();
 	
 ?>
-	<div id ="report">
+	<div id ="result">
 	<table>
         <thead>
-	    <td><?=_("Item ID")?></td>
-	    <td><?=_("Item")?></td>
+	    <td><?=_("Item");?></td>
 	    <td><?=_("Amount");?></td>
 	    <td><?=_("Unit");?></td>
 	    <td><?=_("Manufactured Date")?></td>
             <td><?=_("Expire Date")?></td>
-	    <td><?=_("Available Inventory/ies")?></td>
+	    <td><?=_("Available Inventory")?></td>
             <td><?=_("Suplier Name")?></td>
+	    <td><?=_("Edit")?></td>
+	    <td><?=_("Delete")?></td>
             
         </thead>
 	<tbody>
@@ -66,7 +70,7 @@ $module = $global['module'];
 		//$item_search=$_POST['item_name_search'];
 		//print ($item_search);
 		
-		$sql = "select item_id,catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
+		$sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
 		//$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
 		$ims = $db->Execute($sql);
 
@@ -75,10 +79,12 @@ $module = $global['module'];
 			$item_id=$ims->fields["item_id"];
 			$catalog_id=$ims->fields["catalog_id"];
 			$inv_id=$ims->fields["inv_id"];
+			$suplier_id=$ims->fields['suplier_id'];
 			//$category=$ims->fields["category"];
 			$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
+			$unit_name=get_unit_name($unit);
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
 			
@@ -92,17 +98,23 @@ $module = $global['module'];
 		$inventory_name = $ims2->fields["inventory_name"];
 			//$parent_id=$ims1->fields["parentid"];
 
+		$org_list_array=shn_or_org_list();
+		$suplier_name=$org_list_array[$suplier_id];
+
 	
 			
 ?>
 		<tr>
-		<td><?php print ($item_id); ?></td>
-		<td><a href="index.php?mod=ims&act=add_item1&item_id=<?php echo $item_id;?>"><?php print ($item_name);?></a></td>
+		
+		<td><?php print ($item_name); ?></td>
 		<td><?php print ($amount); ?></td>
-		<td><?php print ($unit); ?></td>
+		<td><?php print ($unit_name); ?></td>
 		<td><?php print ($manufactured_date); ?></td>
 		<td><?php print ($expire_date);?></td>
 		<td><?php print ($inventory_name);?></td>
+		<td><?php print ($suplier_name);?></td>
+		<td><a href="index.php?mod=ims&act=add_item1&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Edit");?></a></td>
+		<td><a href="index.php?mod=ims&act=delete_item_db&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
 		
 		</tr>
 
@@ -117,5 +129,42 @@ $module = $global['module'];
 	</div>
 <?php
 	shn_form_fclose();
+}
+
+function _shn_ims_edit_item_db()
+{
+	global $global;
+		include_once ("add_item.inc");
+		
+		$db=$global["db"];
+		$temp=trim($_POST['temp']);
+		//print ($temp);
+		$cate=trim($_POST['cat']);
+		$item=trim($_POST['item_name']);
+		//print ($temp);
+		
+		//print ($cate);
+		$amou=trim($_POST['amount']);
+		$unit=trim($_POST['unit_select']);
+		$manufactured_date=trim($_POST['manufactured_date']);
+		$expire_date=trim($_POST['expire_date']);
+		$inv_id=trim($_POST['inv_id']);
+		$cost_per_unit=trim($_POST['cost_per_unit']);
+		$suplier_id=trim($_POST['suplier_id']);
+
+
+		//print ($expire_date);
+		
+    		$sql = "UPDATE ims_item_records SET item_name='{$item}',suplier_id='{$suplier_id}',amount='{$amou}',unit='{$unit}', manufactured_date='{$manufactured_date}',expire_date='{$expire_date}',inv_id='{$inv_id}',cost_per_unit='{$cost_per_unit}' WHERE item_id=$temp;";
+//echo $sql;
+		$ims = $db->Execute($sql);
+		$_POST['item_name']="";	
+		$_POST['amount']="";
+		$_POST['manufactured_date']="";
+		$_POST['expire_date']="";
+		$_POST['cost_per_unit']="";
+		
+		_shn_ims_expire_date_check();
+		shn_ims_view_edit_item();
 }
 ?>

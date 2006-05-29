@@ -30,68 +30,119 @@ function _shn_ims_report_minimum()
 		//$item_search=$_POST['item_name_search'];
 		//$category_search=$_POST['itemcat'];
 		//print ($item_search);
-		
-	$sql = "SELECT item_id,category,item_name,amount,unit,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE amount<200 ;";
-	$ims = $db->Execute($sql);
+	$sql1="SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
+	$ims1=$db->Execute($sql1);
+	
+	//$amount=0;
+	//print $sql1;	
+	
+	/*$sql = "SELECT item_id,category,item_name,amount,unit,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE amount<200 ;";
+	$ims = $db->Execute($sql);*/
 ?>
-<h1 align="center"><?php print _("Low quantity item available"); ?></h1>
-<div id="reports_minimum">
+<h1 align="center"><?php print _("Re-Order Level"); ?></h1>
+<div id="result">
 
-</div>
 	<table>
 	<thead>
 	<tr>
-	    <td><?=_("Item ID")?></td>
-	    <td><?=_("Category")?></td>
+	    
 	    <td><?=_("Item")?></td>
 	    <td><?=_("Amount")?></td>
 	    <td><?=_("Unit")?></td>
-	    <td><?=_("Expire Date")?></td>
-            <td><?=_("Suplier Name")?></td>
-            <td><?=_("Suplier Address")?></td>
-            <td><?=_("Suplier Contact Number")?></td>
-            <td><?=_("Suplier e-mail")?></td>
+	    <td><?=_("Inventory")?></td>
+	    
+            
 	</tr>
 	</thead>
 	<tbody>
 		
 <?php
+		$state = "destroyed";
+		//$state_des="destroyed";
+		$sum_amount=0;
+		//print time();
+		//print ("\n");
 		
-
-		while (!$ims==NULL && !$ims->EOF)
+		while (!$ims1==NULL && !$ims1->EOF)
 		{
-			$item_id=$ims->fields["item_id"];
-			$category=$ims->fields["category"];
-			$item_name=$ims->fields["item_name"];
-			$amount=$ims->fields["amount"];
-			$unit=$ims->fields["unit"];
+			$catalog_id_min=$ims1->fields['catalog_id'];
+			//print $item_id_min;
+			$inv_id_min=$ims1->fields['inv_id'];
+			//print $inv_id_min;
+			$minimum_quantity=$ims1->fields['minimum_quantity'];
+			//print $minimum_quantity;
+			$unit=$ims1->fields['unit'];
+			$unit_name=get_unit_name($unit);
+
+			$sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min' AND state!='$state';";
+			$ims2 =$db->Execute($sql2);
+			//print $sql2;
+			//print $sql2;
+			//print $sql2;
+			while(!$ims2==NULL && !$ims2->EOF)
+			{
+			//$sum_amount = $ims2->fields['SUM(amount)'];
+			$current_unit=$ims2->fields['unit'];
+			$current_amount=$ims2->fields['amount'];
+			
+			
+			
+	$multiplier=unit_converter($unit,$current_unit);
+	
+	
+	$current_amount_convert=$current_amount*$multiplier;
+	
+	$sum_amount=$sum_amount+$current_amount_convert;
+	$total_amount=$sum_amount;
+	
+	//print $sum_amount;
+	print ("\n");
+			$ims2->MoveNext();
+			}
+	
+
+		if($sum_amount<$minimum_quantity)
+			{
+			$sum_amount=0;
+			$sql3 = "SELECT item_id,item_name,unit FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min';";
+			$ims3 = $db->Execute($sql3);
+
+			$sql4 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_min';";
+			$ims4 = $db->Execute($sql4);
+			$inventory_name=$ims4->fields['inventory_name'];
+			//print $sql2;
+
+			$item_id=$ims3->fields["item_id"];
+			//$category=$ims2->fields["category"];
+			$item_name=$ims3->fields["item_name"];
+			//$amount=$ims2->fields["amount"];
+			//$amount=$current_amount + $amount;
+			$unit=$ims3->fields["unit"];
 			//$manufactured_date=$ims->fields["manufactured_date"];
-			$expire_date=$ims->fields["expire_date"];
-			$suplier_name=$ims->fields["suplier_name"];
-			$suplier_address=$ims->fields["suplier_address"];
-			$suplier_telephone=$ims->fields["suplier_telephone"];
-			$suplier_email=$ims->fields["suplier_email"];	
+			//$expire_date=$ims3->fields["expire_date"];
+			
 
 ?>
 	<tr>
-	<td><?php print ($item_id); ?></td>
-	<td><?php print ($category); ?></td>
+	
+	
 	<td><?php print ($item_name); ?></td>
-	<td><?php print ($amount); ?></td>
-	<td><?php print ($unit); ?></td>
-	<td><?php print ($expire_date); ?></td>
-	<td><?php print ($suplier_name); ?></td>
-	<td><?php print ($suplier_address); ?></td>
-	<td><?php print ($suplier_telephone); ?></td>
-	<td><?php print ($suplier_email); ?></td>
+	<td><?php print ($total_amount); ?></td>
+	<td><?php print ($unit_name); ?></td>
+	<td><?php print ($inventory_name); ?></td>
+		
 	</tr>
 	
 <?php
-	$ims->MoveNext();
 	}
+	$ims1->MoveNext();
+	}	
+			
+			
 ?>
 	</tbody>
 	</table>
+	</div>
 <?php
 
 }
@@ -108,32 +159,26 @@ function _shn_ims_report_expired()
 	global $global;
 	$db=$global["db"];
 	$state="expired";
-	//$state1="destroyed";
-		//$item_search=$_POST['item_name_search'];
-		//$category_search=$_POST['itemcat'];
-		//print ($item_search);
-	//$sql1="UPDATE ims_item_records SET state='$state' WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0 and state!='$state1');";	
-	//$sql = "SELECT item_id,category,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE ((TO_DAYS(expire_date) - TO_DAYS(CURRENT_DATE()))<0);";
-	$sql="SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
+	
+	$sql="SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
 	//$ims = $db->Execute($sql1);
 	$ims = $db->Execute($sql);
 ?>
 <h1 align="center"><?php print _("Expired Item"); ?></h1>
-<div id="reports_expire">
-</div>
+<div id="result">
 <?php
 	
 ?>
 	<table>
 	<thead>
 	<tr>
-	    <td><?=_("Item ID")?></td>
 	    <td><?=_("Item")?></td>
 	    <td><?=_("Amount")?></td>
 	    <td><?=_("Unit")?></td>
 	    <td><?=_("Manufactured Date")?></td>
 	    <td><?=_("Expire Date")?></td>
 	    <td><?=_("Inventory")?></td>
+	    <td><?=_("Suplier")?></td>
 	    <td><?=_("Action")?></td>
             
 	</tr>
@@ -142,16 +187,21 @@ function _shn_ims_report_expired()
 	
 		
 <?php
-		
+		$suplier_array=array();
 
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
 			$inv_id=$ims->fields["inv_id"];
+			$suplier_id=$ims->fields["suplier_id"];
+
+			$suplier_array=_shn_or_get_suplier_name($suplier_id);
+			$suplier_name=$suplier_array[$suplier_id];
 			//$category=$ims->fields["category"];
 			$item_name=$ims->fields["item_name"];
 			$amount=$ims->fields["amount"];
 			$unit=$ims->fields["unit"];
+			$unit_name=get_unit_name($unit);
 			$manufactured_date=$ims->fields["manufactured_date"];
 			$expire_date=$ims->fields["expire_date"];
 
@@ -164,13 +214,13 @@ function _shn_ims_report_expired()
 ?>
 	
 	<tr>
-	<td><?php print ($item_id); ?></td>
 	<td><?php print ($item_name); ?></td>
 	<td><?php print ($amount); ?></td>
-	<td><?php print ($unit); ?></td>
+	<td><?php print ($unit_name); ?></td>
 	<td><?php print ($manufactured_date); ?></td>
 	<td><?php print ($expire_date); ?></td>
 	<td><?php print ($inventory_name); ?></td>
+	<td><?php print ($suplier_name); ?></td>
 	<td><a href="index.php?mod=ims&act=destroy_item&item_id=<?php echo $item_id;?>"><?php print ("Destroy Item");?></a></td>	
 	</tr>
 	
@@ -180,6 +230,7 @@ function _shn_ims_report_expired()
 ?>
 	</tbody>
 	</table>
+	</div>
 <?php
 	//shn_form_submit("Destroy");
 	//shn_form_fclose();
@@ -192,13 +243,13 @@ function _shn_ims_report_destroyed()
 	global $global;
 	$state_des="destroyed";
 	$db=$global["db"];
-	$sql1="SELECT inv_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state_des';";
+	$sql1="SELECT inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state_des';";
 	$ims1=$db->Execute($sql1);
 
 ?>
 <h1 align="center"><?php print _("Destroyed Item"); ?></h1>
-<div id="report">
-</div>
+<div id="result">
+
 	<table>
 		<thead>
 		<tr>
@@ -217,9 +268,14 @@ function _shn_ims_report_destroyed()
 		{
 			//$item_id=$ims1->fields['item_id'];
 			$inv_id=$ims1->fields['inv_id'];
+			$suplier_id=$ims1->fields['suplier_id'];
+			$suplier_array=_shn_or_get_suplier_name($suplier_id);
+			$suplier_name=$suplier_array[$suplier_id];
+		
 			$item_name=$ims1->fields['item_name'];
 			$amount=$ims1->fields['amount'];
 			$unit=$ims1->fields['unit'];
+			$unit_name=get_unit_name($unit);
 			$manufactured_date=$ims1->fields['manufactured_date'];
 			$expire_date=$ims1->fields['expire_date'];
 
@@ -232,10 +288,11 @@ function _shn_ims_report_destroyed()
 		<tr>
 		<td><?php print($item_name);?></td>
 		<td><?php print($amount);?></td>
-		<td><?php print($unit);?></td>
+		<td><?php print($unit_name);?></td>
 		<td><?php print($inventory_name);?></td>
 		<td><?php print($manufactured_date);?></td>
 		<td><?php print($expire_date);?></td>
+		<td><?php print($suplier_name);?></td>
 		</tr>
 <?php
 		$ims1->MoveNext();
@@ -243,6 +300,7 @@ function _shn_ims_report_destroyed()
 ?>
 		</tbody>
 	</table>
+	</div>
 <?php	
 }
 

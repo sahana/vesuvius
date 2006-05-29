@@ -37,7 +37,8 @@ function _shn_ims_search_item()
 <?php
 	$form_opts['name']='subcat';
 	shn_form_fopen("search_item_page",null,$form_opts);
-	shn_sub_cat(6,'subcat');
+	$depth=get_max_depth();
+	shn_sub_cat($depth,'subcat');
 
 
 	shn_form_fclose();
@@ -58,7 +59,7 @@ $parent_id = trim($_POST['0']);
 		}
 	}
 	//print ("test");	
-	echo $parent_id;
+	//echo $parent_id;
 ?>
 
 <h1 align="center"><?php print _("Search an inventory item"); ?></h1>
@@ -67,9 +68,9 @@ $parent_id = trim($_POST['0']);
 <?php
 	$extra_opts['req']=true;
 
-	shn_form_fopen("search_database");
+	shn_form_fopen("search_item_db");
 	shn_form_fsopen(_('Search items '));
-	shn_form_text(_("Search by Item name   : "),'item_name','size="50"',$extra_opts);
+	shn_form_text(_("Search by Item name   : "),'item_name','size="50" readonly=true',$extra_opts);
 
 	$item_state_array=array();
 	$item_state_array["available"]=_("Item available");
@@ -116,6 +117,78 @@ $parent_id = trim($_POST['0']);
 	shn_form_fclose();
 }
 
+function _shn_ims_search_item_db()
+{
+		
+		$item_name=$_POST['item_name'];
+		$item_state=$_POST['item_state'];
+		$inventory_id=$_POST['inventory'];
+					
+		global $global;
+		$db=$global["db"];
+		
+		//print ($item_search);
+		
+		$sql = "SELECT item_id,unit,state,SUM(amount) FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id' GROUP BY (catalog_id AND inv_id);";
+		$ims = $db->Execute($sql);
+?>
+
+		<div id ="result">
+	<table>
+        <thead>
+            <td><?=_("Item Name")?></td>
+	    <td><?=_("Amount")?></td>
+	    <td><?=_("Unit") ?></td>
+	    <td><?=_("Inventory") ?></td>
+	    <td><?=_("State") ?></td>
+	    
+            
+            
+        </thead>
+	<tbody>
+	
+<?php
+
+		while (!$ims==NULL && !$ims->EOF)
+		{
+			$item_id=$ims->fields["item_id"];
+			//$inv_id=$ims->fields['inv_id'];
+			//$item_name=$ims->fields["item_name"];
+			$sum_amount=$ims->fields["SUM(amount)"];
+			$unit=$ims->fields["unit"];
+			$unit_name=get_unit_name($unit);
+			$state=$ims->fields['state'];
+			//$manufactured_date=$ims->fields["manufactured_date"];
+			//$expire_date=$ims->fields["expire_date"];
+
+		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
+		$ims2=$db->Execute($sql2);
+		
+		$inventory_name=$ims2->fields['inventory_name'];
+			
+
+?>
+	
+	<tr>
+	
+	<td><?php print ($item_name); ?></td>
+	<td><?php print ($sum_amount); ?></td>
+	<td><?php print ($unit_name); ?></td>
+	<td><?php print ($inventory_name); ?></td>
+	<td><?php print ($state); ?></td>
+		
+	</tr>
+
+<?php
+	$ims->MoveNext();
+			
+		}
+?>
+	</tbody>
+	</table>
+	</div>
+<?php
+}
 /**
 ** Function for searching inventories
 **/

@@ -22,8 +22,9 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";*/
 include_once ('view_edit_item.inc');
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
+include_once $global['approot'].'/mod/or/lib_or.inc';
 
-$category=$_POST['itemcat'];
+//$category=$_POST['itemcat'];
 
 
 /**
@@ -67,58 +68,39 @@ function _shn_ims_add_item_main_page()
 <?php
 	$form_opts['name']='subcat';
 	shn_form_fopen("add_item",null,$form_opts);
-	shn_sub_cat(6,'subcat');
+	$depth=get_max_depth();
+	shn_sub_cat($depth,'subcat');
 	shn_form_fclose();
 	
 }
 
-/** Function
-**
-**/
-/*function _shn_ims_add_item_category_selection()
-{
-	$parent_id = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$parent_id = trim($_POST[$i]);
-	
-		if($parent_id==null)
-		{
-		$parent_id = $_POST[$i-1];
-		break;
-		}
-	}
-	//print ("test");	
-	echo $parent_id;
-	global $global;
-	$db=$global["db"];
 
-	$sql = " insert into ims_item_records (catalog_id) values ('{$parent_id}');";
-	$ims = $db->Execute($sql);
-	//add_item($temp);
-	
-}*/
+
 
 /**
 *Form for Add medical drugs to the inventory
 */
 
-function add_item($temp) 
+function add_item($temp,$parent_id) 
 {
-	
+	$parent_id1=$parent_id;
 	//print ($temp);
 	//print ($cat);
-	if ($temp!=NULL)
+	if ($temp!=null || $parent_id!=null)
 	{
+		
 		global $global;
 		$db=$global["db"];
-		$sql="SELECT item_name,amount,manufactured_date,expire_date FROM ims_item_records WHERE item_id='$temp' ;";
+		$sql="SELECT item_name,inv_id,suplier_id,amount,unit,manufactured_date,expire_date,cost_per_unit FROM ims_item_records WHERE item_id='$temp' ;";
 		$ims = $db->Execute($sql);
 		$item_name=$ims->fields["item_name"];
+		$inv_id=$ims->fields['inv_id'];
+		$suplier_id=$ims->fields['suplier_id'];
 		$amount=$ims->fields["amount"];
+		$unit=$ims->fields['unit'];
 		$manufactured_date=$ims->fields["manufactured_date"];
 		$expire_date=$ims->fields["expire_date"];
+		$cost_per_unit=$ims->fields['cost_per_unit'];
 		
 	}
 	else
@@ -131,12 +113,12 @@ function add_item($temp)
 	
 		if($parent_id==null)
 		{
-		$parent_id = $_POST[$i-1];
+		$parent_id = trim($_POST[$i-1]);
 		break;
 		}
 	}
 	//print ("test");	
-	echo $parent_id;
+	//echo $parent_id;
 
 		global $global;
 		$db=$global["db"];
@@ -145,57 +127,30 @@ function add_item($temp)
 		$item_name=$ims->fields["name"];
 		$amount="";
 		$manufactured_date="";
+		$cost_per_unit="";
 		$expire_date="";
-		$suplier_name="";
-		$suplier_address="";
-		$suplier_telephone="";
-		$suplier_email="";
+		$suplier_id="";
+		
 	}
-
 	
-	
-
-	//$extra_opts['req']=true;
-	$cat=$category;
-	
-	//print ($cat);
-	//$category=$_POST['itemcat'];
 	shn_form_fsopen('Primary Details');
-	$extra_opts['value'] = $item_name;
-	shn_form_text(_("* Item : "),'item_name','size="50"',$extra_opts);
-	$extra_opts['value']=$amount;
-	shn_form_text(_("*  Amount : "),'amount','size="50"',$extra_opts);
+	shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
+	shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
 
-	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',null);
+	$unit_select_array=array();
 	
-/*------------------*/
-
-	global $global;
-	$db=$global["db"];
-	$myoptions=array();
-	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
-	$res=$db->Execute($query);
-
-	while(!$res==NULL && !$res->EOF)
-	{
-	$temp2=$res->fields['unit_uuid'];
-	$query="select name from ct_unit where unit_uuid ='$temp2'";
-	$res2=$db->Execute($query);	
-	$myoptions[$res->fields['ct_uuid']]=$res2->fields['name'];;
-	$res->MoveNext();
-	}
+	$unit_select_array=_shn_cs_get_units($parent_id);
+	shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',null);
 
 	
-	//shn_form_multi_select('unit_select',$myoptions, _("Unit"),'size=5 multiple="multiple"' );
-	shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',$extra_opts);
-
-	
-/*------------------*/
+	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
 	
 	global $global;
 	$db=$global["db"];
 	$inventory_array=array();
-	//$inventory_array['0']="None";
+	$q0="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims0=$db->Execute($q0);
+	$inventory_array[$inv_id]=$ims0->fields['inventory_name'];
 	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
 	$ims=$db->Execute($q);
 	//$j=0;
@@ -208,35 +163,37 @@ function add_item($temp)
 		//print ($j);
 	}	
 	
-	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',$extra_opts);
+	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box is empty please go to the Multiple Inventory Management System and add an Inventory first')));
 
 	shn_form_fsclose();
 
 	shn_form_fsopen(_('Secondry details'));
-	$extra_opts['value'] = $manufactured_date;
-	shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',$extra_opts);
-	$extra_opts['value'] = $expire_date;
-	shn_form_text(_("Expire Date (YYYY-mm-dd) :"),'expire_date','size="25"',$extra_opts);
+	//$extra_opts['value'] = $manufactured_date;
+	shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. .and / seperates are also accepted')));
+	//$extra_opts['value'] = $expire_date;
+	shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. .and / seperates are also accepted')));
 		
 	shn_form_fsclose();
 
 	
 
 	shn_form_fsopen('Supply details');
-	//shn_form_text(_("Organization Name"),'org_name','size="50"',null);
-	$extra_opts['value']=$suplier_name;
-	shn_form_text(_("Suply Person Name   : "),'suplier_name','size="50"',$extra_opts);
-	$extra_opts['value']=$suplier_address;
-	shn_form_text(_("Suply Person Address   : "),'suplier_address','size="50"',$extra_opts);
-	$extra_opts['value']=$suplier_telephone;
-	shn_form_text(_("Contact Number   : "),'suplier_telephone','size="50"',$extra_opts);
-	$extra_opts['value']=$suplier_email;
-	shn_form_text(_("e-mail address   : "),'suplier_email','size="50"',$extra_opts);
+//----------------------------------------------------------------------------------------------------------------
+	
+	$suplier_name_array=array();
+	$suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+	//$suplier_array[$suplier_id]=_shn_or_get_suplier_name($suplier_id);
+	
+	
+	//shn_or_org_list();
+	shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+//----------------------------------------------------------------------------------------------------------------
+	
 
 	shn_form_fsclose();
 
-	shn_form_hidden(array('cat'=>$category));
-	
+	//shn_form_hidden(array('cat'=>$category));
+	shn_form_hidden(array('parent_id'=>$parent_id));
 	if ($temp==NULL)
 	{
 		/*$parent_id = trim($_POST['0']);
@@ -254,12 +211,15 @@ function add_item($temp)
 	//print ("test");	
 	echo $parent_id;*/
 	
+		//print $parent_id;
 		shn_form_hidden(array('parent_id'=>$parent_id));
 		shn_form_submit(_("Submit"));
 	}
 	else
 	{
+		//print $parent_id;
 		shn_form_hidden(array('temp'=>$temp));
+		shn_form_hidden(array('parent_id'=>$parent_id));
 		shn_form_submit(_("Save"));
 		//shn_form_button("Delete");
 		//shn_form_button("Destroy");	
