@@ -12,7 +12,7 @@ function shn_home_default()
 	<ul>
 	<li><b><?=_("Missing Person Registry</b> <br/>Helping to reduce trauma by effectively finding missing persons")?> </li>
 	<li><b><?=_("Organization Registry</b> <br/>Coordinating and balancing the distribution of relief organizations in the affected areas and connecting relief groups allowing them to operate as one")?> </li>
-	<li><b><?=_("Request Management System</b> <br/>Registering and Tracking all incoming requests for support and relief upto fullfilment and helping donors connect to relief requirements")?> </li>
+	<li><b><?=_("Request Management System</b> <br/>Registering and Tracking all incoming requests for support and relief up to fulfilment and helping donors connect to relief requirements")?> </li>
 	<li><b><?=_("Camp Registry</b><br/>Tracking the location and numbers of victims in the various camps and temporary shelters setup all around the affected area")?> </li>
 	</ul>
     <p>
