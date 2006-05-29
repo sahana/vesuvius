@@ -564,33 +564,36 @@ margin-bottom:15px;
 }
 
 
+
 #result table{
-	background:white;
-	width:100%;
-	border-collapse:separate;
+    background:white;
+    width:100%;
+    border-collapse:collapse;
 }
 
 #result table thead td{
-	text-align:center;
-	padding:.25em .25em .25em .25em;
-	background: #777;
-	color:#fff;	
-	font-size:100%;
-	border:none;
+    text-align:center;
+    padding:.25em .25em .25em .25em;
+    background: #777;
+    color:#fff; 
+    font-size:100%;
+/*  border:none; */
+    border:1px solid #fff;
 }
 
 #result tr td{
-	text-align:left;
-	padding:.1em .1em .1em .1em;
-	font-size:90%;
-	color:#000;
-	background:#ddd;
-	border:none;
+    text-align:left;
+    padding:.1em .1em .1em .1em;
+    font-size:90%;
+    color:#000;
+    background:#ddd;
+    border:1px solid #fff;
+/*  border:none; */
 }
 
 #result tr:hover td{
-	background:#ccc;
-	border:none;
+    background:#ccc;
+    border:none;
 }
 
 #note{
