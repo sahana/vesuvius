@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.21 2006-05-04 13:17:05 janakawicks Exp $ */
+/* $Id: add.inc,v 1.22 2006-05-29 08:22:29 mahesh_kks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -70,9 +70,9 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_hidden(array('seq'=>'entry'));
 
     shn_form_fsopen(_('Identity'));
-    shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in quick searching for the person')));
-    shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number')));
-    shn_form_text(_('Driving License'),'drv_license','size="30"');
+    shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
+    shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
+    shn_form_text(_('Driving License'),'drv_license','size="30"',  array('help'=>_('Please Specify the driving License number, Although this is not required this will be useful in searching for the person')));
     shn_form_fsclose();
 
     shn_form_fsopen(_('Basic Details'));
@@ -81,21 +81,21 @@ function shn_mpr_addmp_entry($errors=false)
 <?php
 
     shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
-    shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>'Family Name to specify here'));
-    shn_form_text(_('Local Name'),'local_name','size="30"');
+    shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>_('Family name, or the surname could be specified for matching of people with similar Family names')));
+    shn_form_text(_('Local Name'),'local_name','size="30"', array('help'=>_('You may also specify the local name, even in different script than English')));
     shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
     shn_form_opt_select("opt_age_group",_('Age Group'));
     shn_form_opt_select("opt_gender",_('Gender'));
     shn_form_opt_select("opt_marital_status",_('Marital Status'));
-    shn_form_opt_select("opt_religion",_('Religion'),null,array('help' => _('Religion')));
+    shn_form_opt_select("opt_religion",_('Religion'),null);
     shn_form_opt_select("opt_race",_('Race'));
 
     shn_form_fsclose();
 
     shn_form_fsopen(_('Contact Details'));
-    shn_form_textarea(_('Address'),"address", null,array('help' => _('Address Please')));
-    shn_form_text(_('Postal Code'),'zip','size="10"',array('help'=>'specify the postal code'));
-    shn_form_text(_('Home Phone'),'phone','size="10"',array('help' => _('Specify the home phone')));
+    shn_form_textarea(_('Address'),"address", null,array('help' => _('Your address can be specified to contact you')));
+    shn_form_text(_('Postal Code'),'zip','size="10"',array('help'=>_('Specify a postal code, if it is available')));
+    shn_form_text(_('Home Phone'),'phone','size="10"');
     shn_form_text(_('Mobile'),'mobile','size="10"');
     shn_form_fsclose();
 
@@ -235,7 +235,7 @@ function shn_mpr_addmp_reporter($errors=false)
     
     shn_form_fsopen('Background Information');
     shn_form_select(array("yes"=>_('Yes'),"no"=>_('No')),
-            _('Have you reported anyone before? '),
+            _('Have you reported anyone? '),
             "reported_before",
             'onchange="javascript:toggleLayer(\'toggle_reporter\');"');
     shn_form_select(array("yes"=>'Yes',"no"=>'No'), _('Are you a disaster victim too? '), "is_dv");
@@ -507,7 +507,7 @@ function shn_mpr_addmp_confirm()
                 $sql = " SELECT location.name , field_options.option_description FROM location ".
                     " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
                     " WHERE location.opt_location_type = '$i' AND " .
-                    " location.location_id = '{$_SESSION['mpr_add']['entry'][$i]}' ";
+                    " location.loc_uuid = '{$_SESSION['mpr_add']['entry'][$i]}' ";
                 $result = $global['db']->GetRow($sql);
                 shn_form_label($result['option_description'] , $result['name']);
             }

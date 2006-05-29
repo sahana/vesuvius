@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.9 2006-04-25 09:57:56 janakawicks Exp $ */
+/* $Id: edit.inc,v 1.10 2006-05-29 08:22:29 mahesh_kks Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -202,6 +202,7 @@ function shn_mpr_editmp_entry($errors=false)
     shn_location_form($conf['mod_mpr']['location']['upper_limit'],
                         $conf['mod_mpr']['location']['lower_limit'],
                         $selected_loc_id); 
+    
 
     shn_form_fsopen(_("Physical Details"));
     shn_form_opt_select("opt_eye_color",_("Eye Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_eye_color']));
@@ -284,6 +285,7 @@ function shn_mpr_editmp_validate()
  */
 function shn_mpr_editmp_upload($errors=false) 
 {
+    global $conf;
     if($errors)
         display_errors();
 
@@ -311,11 +313,13 @@ function shn_mpr_editmp_upload($errors=false)
  */
 function shn_mpr_editmp_upload_pic() 
 {
+    global $global;
+    global $conf;
+
     //No file was uploaded ignore
     if($_FILES['picture']['error']==UPLOAD_ERR_NO_FILE)
         return true;
     //Uploads 
-    global $global;
     $info = getimagesize($_FILES['picture']['tmp_name']);
     //check the image type 
     if(! $info){
@@ -324,6 +328,19 @@ function shn_mpr_editmp_upload_pic()
     }
 
     list($ignore,$ext) = split("\/",$info['mime']);
+    
+    //check for save handler
+    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+        $size = filesize($_FILES['picture']['tmp_name']);
+        $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
+        $_SESSION['mpr']['entry']['image'] = $pic;
+        $_SESSION['mpr']['entry']['image_type'] = $ext;
+        $_SESSION['mpr']['entry']['image_height'] = $info[1];
+        $_SESSION['mpr']['entry']['image_width'] = $info[0];
+ 
+        return true;
+    }
+
     //putting a dot ;-) 
     $ext = '.'.$ext;
 
@@ -352,7 +369,7 @@ function shn_mpr_editmp_confirm()
     shn_form_fopen("editmp",null);
     shn_form_fsopen(_("Person"));
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid']);
+    shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img',true);
 ?>
     <br />
 <?php
@@ -459,7 +476,7 @@ function shn_mpr_editmp_confirm()
                 $sql = " SELECT location.name , field_options.option_description FROM location ".
                     " INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
                     " WHERE location.opt_location_type = '$i' AND " .
-                    " location.location_id = '{$_SESSION['mpr_edit']['entry'][$i]}' ";
+                    " location.loc_uuid = '{$_SESSION['mpr_edit']['entry'][$i]}' ";
                 $result = $global['db']->GetRow($sql);
                 shn_form_label($result['option_description'], $result['name']);
             }
@@ -513,7 +530,7 @@ function shn_mpr_editmp_confirm()
     foreach($arr as $tracker){
 ?>
 <TR>
-    <TD><?php shn_show_thumb_url($tracker['p_uuid']); ?></TD>
+    <TD><?php shn_show_thumb_url($tracker['p_uuid'], $conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
     <TD><?= $tracker['full_name']; ?>
     </TD>
     <TD><?= $tracker['relation']; ?>

@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.22 2006-04-28 09:45:09 janakawicks Exp $ */
+/* $Id: main.inc,v 1.23 2006-05-29 08:22:29 mahesh_kks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -46,6 +46,7 @@ function shn_mpr_mainmenu()
     shn_mod_menuitem("addmp&type=missing",_("Report a Missing Person"));
     shn_mod_menuitem("search&type=missing",_("Edit a Missing Person"));
     shn_mod_menuitem("addmp&type=found",_("Report a Found Person"));
+#    shn_mod_menuitem("manimg",_("Manage Images"));
 #    shn_mod_menuitem("test","Test");
 #    shn_mod_menuitem("stats","Statistics");
 
@@ -69,6 +70,23 @@ function shn_mpr_test()
 {
     global $global;
     require($global['approot'].'mod/mpr/test.inc');
+}
+/* }}} */
+
+/* {{{ Action: Tmp Manage Image*/
+/**
+ *
+ * This is a testing function.
+ *
+ * @todo remove shn_mpr_test
+ * @access public
+ * @return void
+ */
+function shn_mpr_manimg()
+{
+    global $global;
+    require($global['approot'].'mod/mpr/images.inc');
+    shn_mpr_manage_images_form('p-77','xx');
 }
 /* }}} */
 

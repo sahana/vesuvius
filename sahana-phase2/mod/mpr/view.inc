@@ -1,5 +1,5 @@
 <?php
-/* $Id: view.inc,v 1.3 2006-01-25 09:36:32 janakawicks Exp $ */
+/* $Id: view.inc,v 1.4 2006-05-29 08:22:29 mahesh_kks Exp $ */
 
 /**Main home page of the Missing Person Registry 
  *
@@ -27,7 +27,7 @@ function shn_mpr_view($p_uuid)
 {
     shn_form_fopen("",null);
     shn_form_fsopen(_("Details"));
-    shn_show_thumb($p_uuid);
+    shn_show_thumb_url($p_uuid,$conf['mod_mpr']['upload_picture']['savehandler' ],'mpr', 'addmp_img');
 ?>
     <hr>
 <?php
