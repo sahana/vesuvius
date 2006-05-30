@@ -70,8 +70,10 @@ function _shn_ims_report_minimum()
 			$inv_id_min=$ims1->fields['inv_id'];
 			//print $inv_id_min;
 			$minimum_quantity=$ims1->fields['minimum_quantity'];
+			
 			//print $minimum_quantity;
 			$unit=$ims1->fields['unit'];
+			
 			$unit_name=get_unit_name($unit);
 
 			$sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min' AND state!='$state';";
@@ -93,14 +95,18 @@ function _shn_ims_report_minimum()
 	$current_amount_convert=$current_amount*$multiplier;
 	
 	$sum_amount=$sum_amount+$current_amount_convert;
-	$total_amount=$sum_amount;
-	
+	//print $catalog_id_min;
+	//print ("-");
 	//print $sum_amount;
-	print ("\n");
+	//print ("\n");
+	$total_amount=$sum_amount;
+	//print $total_amount;
+	//print $sum_amount;
+	//print ("\n");
 			$ims2->MoveNext();
 			}
 	
-
+//$sum_amount=0;
 		if($sum_amount<$minimum_quantity)
 			{
 			$sum_amount=0;
@@ -134,6 +140,10 @@ function _shn_ims_report_minimum()
 	</tr>
 	
 <?php
+	}
+	else if($sum_amount>=$minimum_quantity)
+	{
+		$sum_amount=0;
 	}
 	$ims1->MoveNext();
 	}	

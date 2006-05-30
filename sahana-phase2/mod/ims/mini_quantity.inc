@@ -123,7 +123,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 		
 	}	
 	
-	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true));
+	shn_form_select($inventory_array,_("Inventory : "),'inventory_id','size="1"',array('req'=>true));
 	}
 
 	shn_form_fsclose();
@@ -158,10 +158,19 @@ function _shn_ims_mini_quantity_db()
 	$mini_quantity=trim($_POST['mini_quantity']);
 	$unit=trim($_POST['unit_select']);
 
+	$inventory_id=trim($_POST['inventory_id']);
+
+	print $catalog_id;
+	print $inv_id;
+	print $mini_quantity;
+	print $unit;
+	print ("\n");
+	print ($inventory_id);
+
 	if($flag==false)
 	{
 
-	$sql="INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inv_id','$mini_quantity','$unit');";
+	$sql="INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inventory_id','$mini_quantity','$unit');";
 	$ims=$db->Execute($sql);
 	
 	shn_ims_minimum_quantity_item();

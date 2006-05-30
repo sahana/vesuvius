@@ -119,7 +119,9 @@ $parent_id = trim($_POST['0']);
 
 function _shn_ims_search_item_db()
 {
-		
+?>
+		<h1 align="center"><?php print _("Search Results"); ?></h1>
+<?php
 		$item_name=$_POST['item_name'];
 		$item_state=$_POST['item_state'];
 		$inventory_id=$_POST['inventory'];
@@ -129,8 +131,9 @@ function _shn_ims_search_item_db()
 		
 		//print ($item_search);
 		
-		$sql = "SELECT item_id,unit,state,SUM(amount) FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id' GROUP BY (catalog_id AND inv_id);";
+		$sql = "SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
 		$ims = $db->Execute($sql);
+		//print $sql;
 ?>
 
 		<div id ="result">
@@ -141,6 +144,7 @@ function _shn_ims_search_item_db()
 	    <td><?=_("Unit") ?></td>
 	    <td><?=_("Inventory") ?></td>
 	    <td><?=_("State") ?></td>
+	    <td><?=_("Suplier") ?></td>
 	    
             
             
@@ -148,15 +152,28 @@ function _shn_ims_search_item_db()
 	<tbody>
 	
 <?php
+		//$sum_amount=0;
 
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
+			$suplier_id=$ims->fields["suplier_id"];
+			$suplier_name=_shn_or_get_suplier_name($suplier_id);
 			//$inv_id=$ims->fields['inv_id'];
 			//$item_name=$ims->fields["item_name"];
-			$sum_amount=$ims->fields["SUM(amount)"];
+			//$sum_amount=$ims->fields["SUM(amount)"];
+			$amount=$ims->fields["amount"];
+			
+			
 			$unit=$ims->fields["unit"];
+			$base_unit=convert_to_base_unit($unit);
+			
+			$converted_amount=$amount*unit_converter($base_unit,$unit);
+			//print $converted_amount;
+			$sum_amount=$sum_amount + $converted_amount;
+			//print $sum_amount;
 			$unit_name=get_unit_name($unit);
+			$base_unit_name=get_unit_name($base_unit);
 			$state=$ims->fields['state'];
 			//$manufactured_date=$ims->fields["manufactured_date"];
 			//$expire_date=$ims->fields["expire_date"];
@@ -165,6 +182,8 @@ function _shn_ims_search_item_db()
 		$ims2=$db->Execute($sql2);
 		
 		$inventory_name=$ims2->fields['inventory_name'];
+
+		
 			
 
 ?>
@@ -172,10 +191,11 @@ function _shn_ims_search_item_db()
 	<tr>
 	
 	<td><?php print ($item_name); ?></td>
-	<td><?php print ($sum_amount); ?></td>
+	<td><?php print ($amount); ?></td>
 	<td><?php print ($unit_name); ?></td>
 	<td><?php print ($inventory_name); ?></td>
 	<td><?php print ($state); ?></td>
+	<td><?php print ($suplier_name); ?></td>
 		
 	</tr>
 
@@ -186,7 +206,15 @@ function _shn_ims_search_item_db()
 ?>
 	</tbody>
 	</table>
+
 	</div>
+<div id="result">
+<h3 align="center"><?php print _("Total Amount");
+			print "\n";
+			print $sum_amount;
+			print "\n";
+			print $base_unit_name;?> </h3>
+</div>
 <?php
 }
 /**

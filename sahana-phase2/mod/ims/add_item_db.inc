@@ -98,11 +98,16 @@ function _shn_ims_validate_additemform()
 	$error_flag=true;
 	}
 	$cost_per_unit=trim($_POST['cost_per_unit']);
-	if(!is_numeric($cost_per_unit))
+	
+	if($cost_per_unit!=null)
 	{
-	add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
-	$error_flag=true;
+		if(!is_numeric($cost_per_unit))
+		{
+		add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
+		$error_flag=true;
+		}
 	}
+	
 	if($cost_per_unit<0)
 	{
 	add_error(SHN_ERR_IMS_INVALID_COST_PER_UNIT);
