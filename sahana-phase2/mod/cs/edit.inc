@@ -46,6 +46,7 @@ function show_item_cat_table()
 
 ?>
 <br>
+<div id="result">
 <table>
 	<thead>
 		<td><strong><?=_("Name")?></strong></td>
@@ -80,6 +81,7 @@ function show_item_cat_table()
 	?>
 	</TBODY>	
 </table>
+</div>
 <?php
 
 }
@@ -233,6 +235,7 @@ function show_unit_table()
 
 ?>
 <br>
+<div id="result">
 <table>
 	<thead>
 		<td><strong><?=_("Name")?></strong></td>
@@ -263,7 +266,7 @@ function show_unit_table()
 	</TBODY>
 	
 </table>
-
+</div>
 <?php
 }
 
@@ -393,6 +396,7 @@ function show_unit_type_table()
 
 ?>
 <br>
+<div id="result">
 <table>
 	<thead>
 		<td><strong><?=_("Name")?></strong></td>
@@ -423,7 +427,7 @@ function show_unit_type_table()
 	</TBODY>
 	
 </table>
-
+</div>
 <?php
 }
 

@@ -91,6 +91,7 @@ function _shn_cs_search_item_cat_submit_result()
 	}
 
 ?>
+<div id="result">
 <table>
 	<THEAD>
 		<TD><strong><?=_("Category Name")?></strong></TD>
@@ -107,7 +108,7 @@ function _shn_cs_search_item_cat_submit_result()
 	</TBODY>
 	
 </table>
-
+</div>
 <?php
 }
 
@@ -186,6 +187,7 @@ function _shn_cs_search_unit_submit_result()
 
 
 ?>
+<div id="result">
 <table>
 	<THEAD>
 		<TD><strong><?=_("Unit Type")?></strong></TD>
@@ -222,7 +224,7 @@ function _shn_cs_search_unit_submit_result()
 	</TBODY>
 	
 </table>
-
+</div>
 <?php
 
 
