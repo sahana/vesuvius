@@ -139,10 +139,11 @@ function _shn_ims_send($item_id,$parent_id)
 	
 	global $global;
 	$db=$global["db"];
-	$sql1="SELECT item_name,inv_id,unit,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
+	$sql1="SELECT item_name,inv_id,suplier_id,unit,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
 	$ims1=$db->Execute($sql1);
 	$item_name=$ims1->fields['item_name'];
 	$inv_id_from=$ims1->fields['inv_id'];
+	$suplier_id=$ims1->fields['suplier_id'];
 	$unit=$ims1->fields['unit'];
 	$cost_per_unit=$ims1->fields['cost_per_unit'];
 
@@ -222,6 +223,7 @@ function _shn_ims_send($item_id,$parent_id)
 	shn_form_hidden(array('item_id'=>$item_id));
 	shn_form_hidden(array('inv_id_from'=>$inv_id_from));
 	shn_form_hidden(array('parent_id'=>$parent_id));
+	shn_form_hidden(array('suplier_id'=>$suplier_id));
 	shn_form_submit("Send");
 	shn_form_fclose();
 }
@@ -231,6 +233,7 @@ function _shn_ims_send_db()
 {
 	$item_id = trim($_POST['item_id']);
 	$inv_id_from = trim($_POST['inv_id_from']);
+	$suplier_id = trim($_POST['suplier_id']);
 	$amount = trim($_POST['amount']);
 	$unit = trim($_POST['unit_select']);
 	//print $amount;
@@ -336,10 +339,11 @@ function _shn_ims_receive()
 		$ims3=$db->Execute($sql3);
 		$inventory_to=$ims3->fields['inventory_name'];
 
-		$sql4="SELECT item_name,inv_id FROM ims_item_records WHERE item_id='$item_id';";
+		$sql4="SELECT item_name,inv_id,suplier_id FROM ims_item_records WHERE item_id='$item_id';";
 		$ims4=$db->Execute($sql4);
 		$item_name=$ims4->fields['item_name'];
 		$inv_id_from=$ims4->fields['inv_id'];
+		$suplier_id=$ims4->fields['suplier_id'];
 
 		$sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
 		$ims5=$db->Execute($sql5);
@@ -354,7 +358,7 @@ function _shn_ims_receive()
 		<td><?php print($inventory_to);?></td>
 		<td><?php print($date_send);?></td>
 		<td><?php print($person_send);?></td>
-		<td><a href="index.php?mod=ims&act=receive_item_page&transit_id=<?php echo $transit_id;?>"><?php print("Received");?></a></td>
+		<td><a href="index.php?mod=ims&act=receive_item_page&transit_id=<?php echo $transit_id;?>&suplier_id=<?php echo $suplier_id;?>"><?php print("Received");?></a></td>
 		</tr>
 <?php
 		$ims1->MoveNext();
@@ -368,7 +372,7 @@ function _shn_ims_receive()
 	
 }
 
-function _shn_ims_receive_item_page($transit_id)
+function _shn_ims_receive_item_page($transit_id,$suplier_id)
 {
 ?>
 <h1 align="center"><?php print _("Item Transit ")?> </h1>
@@ -427,6 +431,7 @@ function _shn_ims_receive_item_page($transit_id)
 	shn_form_hidden(array('inv_id_from'=>$inv_id_from));
 	shn_form_hidden(array('inv_id_to'=>$inv_id_to));
 	shn_form_hidden(array('transit_id'=>$transit_id));
+	shn_form_hidden(array('suplier_id'=>$suplier_id));
 	shn_form_hidden(array('unit'=>$unit));
 
 	shn_form_submit(_("Received"));
@@ -448,6 +453,7 @@ function _shn_ims_receive_item_db()
 	$inv_id_from=trim($_POST['inv_id_from']);
 	$inv_id_to=trim($_POST['inv_id_to']);
 	$transit_id=trim($_POST['transit_id']);
+	$suplier_id=trim($_POST['suplier_id']);
 
 	global $global;
 	$db=$global["db"];
@@ -469,7 +475,7 @@ function _shn_ims_receive_item_db()
 
 //------------------------unit has to be added ----------------------------------------------------------------
 	
-	$sql3="INSERT INTO ims_item_records(catalog_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
+	$sql3="INSERT INTO ims_item_records(catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
 	//print $sql3;
 	$ims3=$db->Execute($sql3);
 
@@ -507,10 +513,13 @@ function _shn_ims_validate_send_item_page()
 	add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
 	$error_flag=true;
 	}
-	if(!is_numeric($cost_per_unit))
+	if($cost_per_unit!=null)
 	{
-	add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
-	$error_flag=true;
+		if(!is_numeric($cost_per_unit))
+		{
+		add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
+		$error_flag=true;
+		}
 	}
 
 	if (!shn_valid_date($date))
@@ -642,10 +651,13 @@ function _shn_ims_validate_receive_item_page()
 	add_error(SHN_ERR_IMS_INVALID_COST_PER_UNIT);
 	$error_flag=true;
 	}
-	if(!is_numeric($cost_per_unit))
+	if($cost_per_unit!=null)
 	{
-	add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
-	$error_flag=true;
+		if(!is_numeric($cost_per_unit))
+		{
+		add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST);
+		$error_flag=true;
+		}
 	}
 	
 	return $error_flag;

@@ -541,8 +541,9 @@ function shn_ims_receive_item_page()
 {
 	global $global;
 	$transit_id = trim($_REQUEST['transit_id']);
+	$suplier_id = trim($_REQUEST['suplier_id']);
 	include_once('transfer_inv.inc');
-	_shn_ims_receive_item_page($transit_id);
+	_shn_ims_receive_item_page($transit_id,$suplier_id);
 }
 
 function shn_ims_receive_item_db()
