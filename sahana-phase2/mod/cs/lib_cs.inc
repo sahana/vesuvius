@@ -414,5 +414,26 @@ function get_max_depth()
 	return $depth;
 }
 
+/**.
+ *This function returns base unit of the category that the given unit belongs to  
+ * @access public
+ * @return varchar unit_uuid
+ */
+
+function convert_to_base_unit($unit_id)
+{
+	global $global;
+	$db=$global['db'];
+
+	$query1="select unit_type_uuid from ct_unit where unit_uuid='$unit_id'";
+	$res1=$db->Execute($query1);
+	$unit_type_uuid=$res1->fields['unit_type_uuid'];
+
+	$query2="select unit_uuid from ct_unit where unit_type_uuid='$unit_type_uuid' and base_flag='1' ";
+	$res2=$db->Execute($query2);
+	$base_unit_uuid=$res2->fields['unit_uuid'];
+
+	return $base_unit_uuid;
+}
 
 ?>
