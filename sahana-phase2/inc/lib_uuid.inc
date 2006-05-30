@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.10 2006-05-29 10:20:05 jayasinghe Exp $ */
+/* $Id: lib_uuid.inc,v 1.11 2006-05-30 08:30:31 sudheera Exp $ */
 
 /**
  *
@@ -55,53 +55,59 @@ function shn_create_uuid($type='person')
     switch ($type){
         case 'person':
         case 'p' :
-                $gen_id = 'p-'._shn_gen_id('person');
+            $gen_id = 'p-'._shn_gen_id('person');
             break;
 
         case 'org':
         case 'o' :
         case 'organization':
-                $gen_id = 'o-'._shn_gen_id('organization');
+            $gen_id = 'o-'._shn_gen_id('organization');
             break;
 
-	case 'location':
+        case 'location':
         case 'lc':
-        		$gen_id = 'lc-'._shn_gen_id('loc_seq');
-        		break;
+            $gen_id = 'lc-'._shn_gen_id('loc_seq');
+            break;
 
         case 'camp':
         case 'c' :
-                $gen_id = 'c-'._shn_gen_id('camp');
+            $gen_id = 'c-'._shn_gen_id('camp');
             break;
 
         case 'landmark':
         case 'l':
-        		$gen_id = 'o-'._shn_gen_id('landmark');
-        		break;
-
+            $gen_id = 'o-'._shn_gen_id('landmark');
+            break;
 
         case 'request' :
         case 'req' :
         case 'r' : 
-                $gen_id = 'r-'._shn_gen_id('request');
-	break;
-	case 'catalogue' :
+            $gen_id = 'r-'._shn_gen_id('request');
+            break;
+            
+        case 'pledge' :
+        case 'pl' :
+            $gen_id = 'pl-'._shn_gen_id('pledge');
+            break;
+
+        case 'catalogue' :
         case 'cata' :
         case 'ct' : 
-                $gen_id = 'ct-'._shn_gen_id('catalogue');
-	break;
-	case 'unit':
-	case 'uni':
+            $gen_id = 'ct-'._shn_gen_id('catalogue');
+            break;
+
+        case 'unit':
+        case 'uni':
         case 'un' : 
-                $gen_id = 'un-'._shn_gen_id('unit');
-	break;
+            $gen_id = 'un-'._shn_gen_id('unit');
+            break;
 
-	case 'unit_type':
-	case 'unt':
-                $gen_id = 'ut-'._shn_gen_id('unit_type');
-	break;
+        case 'unit_type':
+        case 'unt':
+            $gen_id = 'ut-'._shn_gen_id('unit_type');
+            break;
+        
         default :    
-
             break;
     }
     
