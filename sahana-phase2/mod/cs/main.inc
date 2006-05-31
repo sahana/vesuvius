@@ -214,7 +214,7 @@ function shn_cs_addsub_form2_submit()
 
 }
 
-/****************Unit Functions**************************/
+/****************Unit Functions*********************************************************************/
 function shn_cs_addunit()
 {
 	echo "<h1>Add Measurement Unit</h1>";
@@ -253,7 +253,7 @@ function shn_cs_addunit_form_submit()
 
 }
 
-/************************End of Unit Functions***********************/
+/************************End of Unit Functions*****************************************/
 
 /************************Add item Functions*******************************************/
 function shn_cs_additem()
@@ -303,13 +303,11 @@ function shn_cs_additem_form2_submit()
 		shn_cs_additem_form2_result();
 
 		}
-
-
 }
 
 /************************End of Add item Functions*******************************************/
 
-/****************View and Edit functions********************/
+/************************View and Edit functions*********************************************/
 function shn_cs_viewedit()
 {
 	echo "<h1>View And Edit</h1>";
@@ -347,7 +345,6 @@ function shn_cs_edit_form_submit()
 		shn_cs_edit_form();
 		show_unit_type_table();
 		}
-	
 }
 
 function shn_cs_edit_cat_select_submit()
@@ -391,13 +388,18 @@ function shn_cs_edit_unit_type_form_submit()
 	require_once('edit.inc');
 	_shn_cs_edit_unit_type_form_submit_result();
 }
-/****************End of View and Edit functions********************/
+/*************************End of View and Edit functions************************/
 
-/************************  Add Unit type functions ******************************/
+/************************ Add Unit type functions ******************************/
 function shn_cs_addunittype()
 {
 	echo "<h1>Add Unit Type</h1>";
 	require_once('add.inc');
+	
+	?>
+	<p><?= _('Here you are able to add Unit type. For every Unit type you have to add a base unit. Eg. If you add volume as the unit type, Letre can be specified as the base unit.'); ?></p>
+	<?php
+	
 	shn_cs_add_unit_type_form();
 }
 
@@ -406,9 +408,6 @@ function shn_cs_addunitform_submit()
 	echo "<h1>Add Unit Type</h1>";
 	require_once('add.inc');
 
-	/**/
-	
-	
 
 	if(_shn_cs_validate_unit_type_form())
 	{
