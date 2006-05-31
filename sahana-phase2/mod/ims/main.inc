@@ -46,7 +46,7 @@ function shn_ims_mainmenu()
 	shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Multiple Inventory Management"));
-	shn_sub_mod_menuitem("search",_("Search"),$module);
+	//shn_sub_mod_menuitem("search",_("Search"),$module);
 	shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
 	shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
 	shn_sub_mod_menuclose();
