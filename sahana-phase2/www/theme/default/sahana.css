@@ -278,6 +278,17 @@ div#modmenuwrap ul li a
 	border-bottom: #058 1px solid;
 }
 
+div#modmenuwrap ul li a.smopen
+{
+    background:#069 url(img/down_arrow.gif) no-repeat right;
+}
+
+div#modmenuwrap ul li a.smclose
+{
+    background:#069 url(img/up_arrow.gif) no-repeat right;
+}
+
+
 div#modmenuwrap ul li a:link, 
 div#modmenuwrap ul li a:visited
 {
@@ -315,6 +326,12 @@ div#modmenuwrap ul ul li a:hover
 	border-top: #058 1px solid;
 	border-bottom: #07A 1px solid;
 }
+
+div#modmenuwrap ul ul
+{
+    display:none;
+}
+
 
 
 div#loginform {
