@@ -9,8 +9,9 @@ CREATE TABLE ims_item_records
 	catalog_id VARCHAR(100),
 	inv_id VARCHAR(60),
 	transit_id BIGINT,
+	suplier_id VARCHAR(60),
 	item_name VARCHAR(100),
-	amount BIGINT,
+	amount VARCHAR(50),
 	unit VARCHAR(20),
 	manufactured_date DATE,
 	expire_date DATE,
@@ -40,11 +41,13 @@ CREATE TABLE ims_transfer_item
 (
 	transit_id BIGINT NOT NULL AUTO_INCREMENT,
 	item_id BIGINT,
-	amount_send VARCHAR(20),
+	amount_send VARCHAR(50),
+	unit VARCHAR(20),
 	inv_id_to BIGINT,
 	person_send VARCHAR(100),
 	date_send DATE,
-	distribution_method VARCHAR(100),
+	destribution_method VARCHAR(100),
+	requested_person VARCHAR(100),
 	received_item_id BIGINT,
 	amount_received VARCHAR(20),
 	person_received VARCHAR(20),
@@ -53,4 +56,13 @@ CREATE TABLE ims_transfer_item
 	
 );
 
+DROP TABLE IF EXISTS `ims_reorder_level`;
+CREATE TABLE ims_reorder_level
+(
+	catalog_id VARCHAR(100),
+	inv_id BIGINT,
+	minimum_quantity VARCHAR(50),
+	unit VARCHAR(20),
+	PRIMARY KEY(catalog_id,inv_id)
+);
 
