@@ -60,7 +60,7 @@ function hideCurrentPopup() {
 // ***********************
 
 // initialize hacks whenever the page loads
-window.onload = initializeHacks;
+window.onload = function run(){initializeHacks();showMem();}
 
 // setup an event handler to hide popups for generic clicks on the document
 document.onclick = hideCurrentPopup;
