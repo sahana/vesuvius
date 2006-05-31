@@ -140,7 +140,7 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
 function shn_sub_mod_menuopen($desc) 
 {   
 ?>
-	<li><a href="#" onClick="expand('<?=$desc?>');"><?=$desc?></a>
+	<li><a href="#" onClick="expand('<?=$desc?>',this);" class="smopen"><?=$desc?></a>
 		<ul id="<?=$desc?>">
 <?php
 }
