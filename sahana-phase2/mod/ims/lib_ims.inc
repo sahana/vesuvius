@@ -453,7 +453,7 @@ function _shn_ims_date_validate($date)
 	
 
 	list($year,$month,$day)=split('[/.-]', $date);
-	if($year<1900 || $year>2100)
+	if($year<0 || $year>2100 )
 	{
 		//add_error("Year should be a value between 1900 and 2100");
 		$error_flag1=true;
@@ -463,7 +463,7 @@ function _shn_ims_date_validate($date)
 		//add_error("Invalid Month");
 		$error_flag1=true;
 	}
-	if($day<1)
+	if($day<0)
 	{
 		//add_error("Invald Day");
 		$error_flag1=true;

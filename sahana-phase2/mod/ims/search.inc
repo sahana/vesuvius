@@ -241,11 +241,23 @@ function _shn_ims_form_search()
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();
  // base location
-    shn_form_fsopen(" Location");
+    
+//-------------------------------------------
+$range=array("start"=>1,"end"=>3);
+ 	shn_form_fsopen("Base Location");
+ 	shn_location($range,$_POST[$range["end"]],null,true); 
+    shn_form_fsclose();
+
+/*shn_form_fsopen(" Location");
    	$parent=_shn_ims_get_start_loc();
    	$range= shn_ims_get_loc_range();
   	shn_location($range,null,$parent); 
-    shn_form_fsclose();
+    shn_form_fsclose();*/
+//-------------------------------------------
+
+
+	
+
     ?><fieldset><?
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
     ?></fieldset><?
