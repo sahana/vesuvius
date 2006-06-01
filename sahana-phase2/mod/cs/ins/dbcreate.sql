@@ -29,6 +29,3 @@ CREATE TABLE ct_unit_type
 	name varchar(100),
 	description varchar(100));
 
-INSERT INTO field_options
-	(field_name,option_code,option_description) 
-	VALUES('opt_cs_depth','1','Maximum Depth of catalogue / Items');
