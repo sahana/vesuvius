@@ -29,7 +29,7 @@ function shn_or_mainmenu()
     $loc=_shn_or_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_or_name']));
     shn_mod_menuitem("default","Home",$module);
-    shn_mod_menuitem("search","Search",$module);
+//     shn_mod_menuitem("search","Search",$module);
     shn_sub_mod_menuopen(_("Register"));
     shn_mod_menuitem("reg_org","Register an Organization",$module);
     shn_mod_menuitem("reg_operation","Register a Department/Branch",$module);
