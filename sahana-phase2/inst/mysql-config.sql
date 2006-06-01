@@ -159,3 +159,6 @@ INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'google_key', '');
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_x', '');
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_y', '');
+
+--INSERT THE CATALOGUE SYSTEM MAX DEPTH VALUE
+INSERT INTO field_options (field_name,option_code,option_description) VALUES('opt_cs_depth','3','Maximum Depth of catalogue / Items');
