@@ -92,20 +92,3 @@ DROP TABLE IF EXISTS `rms_tmp_sch`;
 CREATE TABLE rms_tmp_sch (
     sch_id VARCHAR(60)
 );
-
-DROP TABLE IF EXISTS `registration`;
-CREATE TABLE registration (
-    reg_id VARCHAR(60),
-    reg_date TIMESTAMP,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    contact VARCHAR(60),
-    email VARCHAR(100),
-    org VARCHAR(20),
-    org_name VARCHAR(100),
-    s_id VARCHAR(100),
-    status VARCHAR(100) DEFAULT 'registered',
-    event VARCHAR(100),
-    comment TEXT,
-    PRIMARY KEY (reg_id)
-);

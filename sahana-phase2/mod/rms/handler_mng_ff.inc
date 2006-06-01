@@ -80,15 +80,15 @@ function _shn_rms_mng_select_pledge()
     $_SESSION['rms_plg_id'] = null;
     $itm = $_SESSION['rms_req_item'];
     
-    print '<div id="req_id">';
-    shn_form_fopen("mng_ff",null, array('req_message'=>false));
-    shn_form_hidden(array('seq'=>'get_plg'));
-    shn_form_fsopen(_("Request"));
-    shn_form_text(_("Pledge ID"),'plg_id',null,array('br'=>false));
-    shn_form_submit(_("Next"));
-    shn_form_fsclose();
-    shn_form_fclose();
-    print '</div>';
+//    print '<div id="req_id">';
+//    shn_form_fopen("mng_ff",null, array('req_message'=>false));
+//    shn_form_hidden(array('seq'=>'get_plg'));
+//    shn_form_fsopen(_("Request"));
+//    shn_form_text(_("Pledge ID"),'plg_id',null,array('br'=>false));
+//    shn_form_submit(_("Next"));
+//    shn_form_fsclose();
+//    shn_form_fclose();
+//    print '</div>';
     
     $sql = "SELECT plg.plg_uuid AS plg_uuid, plg.item_uuid AS item_uuid, " .
                 "plg.quantity AS plg_qty, SUM(ff.quantity) AS ff_qty  " .

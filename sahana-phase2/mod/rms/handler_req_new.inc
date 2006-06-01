@@ -253,9 +253,9 @@ function _shn_rms_requester_conf($id)
     shn_form_hidden(array('seq'=>'reqstr_up'));
     shn_form_hidden(array('reqstr_id'=>$id));
     shn_form_fsopen(_("Confirm Person Information"));
-    shn_form_text(_("Full Name"),'name', 'class="wide"', array('req'=>true,'value'=>$psn['name']));
+    shn_form_text(_("Full Name"),'name', 'class=""', array('req'=>true,'value'=>$psn['name']));
     shn_form_text(_("Mobile"),'mobile', null, array('value'=>$psn['mobile']));
-    shn_form_text(_("Email"),'email', 'class="wide"', array('value'=>$psn['email']));
+    shn_form_text(_("Email"),'email', 'class=""', array('value'=>$psn['email']));
     shn_form_text(_("Telephone"),'telephone', null, array('value'=>$psn['telephone']));
     shn_form_textarea(_("Address"),'address', null, array('value'=>$psn['address']));
     shn_form_fsclose();
