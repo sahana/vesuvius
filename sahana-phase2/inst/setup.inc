@@ -193,7 +193,7 @@ function shn_setup_database()
     if ($_POST['dbcreate']=='y') {
         shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
         shn_setup_run_sqlscript($db,'inst/mysql-acl.sql');
-        shn_setup_run_sqlscript($db,'mod/rms/ins/rms.sql');
+        shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
         shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
         shn_setup_run_sqlscript($db,'mod/lr/dbcreate.sql');
          shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
