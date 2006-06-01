@@ -21,8 +21,11 @@ function _shn_admin_mainmenu()
     $module_list = shn_get_modules_with_admin();
     shn_mod_menuopen(shn_get_module_name());
     shn_sub_mod_menuopen(_("Locations"));
+    shn_sub_mod_menuitem("loc_lvl", _("Location Levels"), $module);
     shn_sub_mod_menuitem("add_loc", _("Add Location"), $module);
     shn_sub_mod_menuitem("view_loc", _("Edit & Delete Location"), $module);
+   // shn_sub_mod_menuitem("loc_range", _("Set Location Range"), $module);
+   // shn_sub_mod_menuitem("start_loc", _("Set Starting Location"), $module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Localization"));
     shn_sub_mod_menuitem("lc_set", _("Set Locale"), $module);

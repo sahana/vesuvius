@@ -117,18 +117,18 @@ function shn_admin_acl_state()
 /************************************/
 function shn_admin_add_loc()
 {
-    shn_admin_location_form();
+    _shn_admin_location_form();
 }
 
 function shn_admin_add_loc_cr()
 {
     shn_location_add();
-    shn_admin_location_form();
+    _shn_admin_location_form();
 }
 
 function shn_admin_view_loc()
 {
-    shn_admin_location_view_form();
+    _shn_admin_location_view_form();
 }
 
 function shn_admin_view_loc_cr()
@@ -139,7 +139,7 @@ function shn_admin_view_loc_cr()
         $level=$_POST{"opt_location_type"};
         $loc=$_POST{$level};
     }
-	shn_admin_location_edit_form($loc);
+	_shn_admin_location_edit_form($loc);
 }
 
 function shn_admin_edit_loc_cr()
@@ -155,17 +155,32 @@ function shn_admin_edit_loc_cr()
         		$loc["iso"]=$_POST{"iso"};
         		
         		shn_location_edit($loc);
-            shn_admin_location_view_form();
+            _shn_admin_location_view_form();
             break;
         case "del":
             shn_location_del($loc);
-            shn_admin_location_view_form();
+            _shn_admin_location_view_form();
             break;
         default:
-             shn_admin_location_view_form();
+             _shn_admin_location_view_form();
             break;
     }
 
+}
+
+function shn_admin_loc_range(){
+	
+}
+
+function shn_admin_loc_lvl(){
+	_shn_admin_levels_form();
+}
+function shn_admin_loc_lvl_cr(){
+	_shn_adm_loc_lvl_cr();
+}
+function shn_admin_start_loc()
+{
+    _shn_admin_location_view_form();
 }
 
 /************************************/

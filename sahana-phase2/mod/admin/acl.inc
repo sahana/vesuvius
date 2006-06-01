@@ -377,6 +377,9 @@ or_acl_setup to sahana setup script once its avaliable
     $res=shn_acl_add_action_group("admin","deny_admin","admin group");
     $res=shn_acl_add_action("admin","deny_admin","shn_admin_default","admin function");
     $res=shn_acl_add_action("admin","deny_admin","shn_admin_add_loc","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_loc_lvl","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_edit_loc_cr","admin function");
+    $res=shn_acl_add_action("admin","deny_admin","shn_admin_edit_loc_cr","admin function");
     $res=shn_acl_add_action("admin","deny_admin","shn_admin_acl_system","admin function");
     $res=shn_acl_add_action("admin","deny_admin","shn_admin_acl_module","admin function");
     $res=shn_acl_add_action("admin","deny_admin","shn_admin_lc_set","admin function");
