@@ -49,4 +49,13 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
     }
     echo "    </head>\n";
 }
+/*
+<STYLE>
+
+.popupLink { COLOR: red; outline: none }
+
+.popup { POSITION: absolute; VISIBILITY: hidden; BACKGROUND-COLOR: yellow; LAYER-BACKGROUND-COLOR: yellow; width: 200; BORDER-LEFT: 1px solid black; BORDER-TOP: 1px solid black; BORDER-BOTTOM: 3px solid black; BORDER-RIGHT: 3px solid black; PADDING: 3px; z-index: 10 }
+
+</STYLE>
+*/
 ?>

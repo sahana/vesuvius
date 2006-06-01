@@ -217,7 +217,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
             if(preg_match($pattern,$date))
                 return true;
             else{
-	            add_error($desc." You have to enter a Date (yyyy-mm-dd) for Date of Birth");
+	            add_error($desc." You have to enter a Date (yyyy-mm-dd)");
                 return false;
             }
     }

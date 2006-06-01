@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.38 2006-05-05 09:42:06 janakawicks Exp $ */
+/* $Id: lib_form.inc,v 1.39 2006-06-01 05:35:11 mahesh_kks Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -43,7 +43,7 @@ function shn_form_extra_opts($extra_opts)
     }
 
     // output a break - default is true
-    if (!isset($extra_opts['br']) || $extra_opts['br'] == true) echo "\n    <br />\n";
+    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <br />\n";
 }
 
 /**
@@ -144,12 +144,13 @@ function shn_form_fsclose()
  * @access public
  * @return void
  */
-function shn_form_button($name, $button_opts = null)
+function shn_form_button($name, $button_opts = null, $extra_opts = null)
 
 {
 ?>
     <input type="button" value="<?=$name?>" <?=$button_opts?> />
 <?php
+    shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -291,14 +292,20 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
+    $sort=$extra_opts['sort'];
     $name=($extra_opts['name'])?$extra_opts['name']:$opt_field;
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <select name="<?=$name?>" <?=$select_opts?>
 <?php
-		    $res = $global['db']->Execute
-        ("select * from field_options where field_name='$opt_field'");
+if($sort==null){
+	$q="select * from field_options where field_name='{$opt_field}'";
+}else{		    
+	$q="select * from field_options where field_name='{$opt_field}' order by $sort ";
+}
+		    $res = $global['db']->Execute($q);
+        
     while(!res==NULL && !$res->EOF) {
 
         $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
@@ -330,6 +337,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
     global $global;
 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+	
 ?>
     <label><?=$label?></label>
     <select name="<?=$opt_field?>[]" <?=$select_opts?>
@@ -366,8 +374,9 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
+    
+   $value =  $extra_opts['value'];
 
-   // $value = ($_POST[$options])? $_POST[$options] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
     <select name="<?=$name?>[]" <?=$select_opts?>

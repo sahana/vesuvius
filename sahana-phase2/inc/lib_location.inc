@@ -23,7 +23,7 @@
 
 
 global $global;
-include_once $global['approot']."/inc/handler_form.inc";
+//include_once $global['approot']."/inc/handler_form.inc";
 define (UNKNOWN,"unknown");
 /**
  * Returns the $_POST location. In the form the user may have entered village
@@ -591,7 +591,7 @@ function _shn_location_form_value($range,$value)
         shn_get_parents($value,$loc_arr);
         //parents in the order child,parent,grand parent,..etc
     }
-  
+	array_pop($loc_arr);
     $cur=$from;//start from the starting level
     while($cur<=$to){
         $q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
@@ -609,6 +609,7 @@ function _shn_location_form_value($range,$value)
             		unset($extra_opts['help']);
             }
             $res_options=$db->Execute($q);
+         
             //$res_options contains all the children,but we want to select one of a,b,c
             $options=array();
             if(!$res_options->EOF){
@@ -622,6 +623,7 @@ function _shn_location_form_value($range,$value)
             }
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             $extra_opts['value']=$selection;
+    
            //which one to diplay out of all the locations.
            //should be one of the parents
             $extra_opts['req']=true;
