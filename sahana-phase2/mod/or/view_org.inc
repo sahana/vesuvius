@@ -290,6 +290,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsclose();
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
+    
     shn_location($range,$loc);
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
@@ -316,7 +317,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <br />
 <?php
         //close the form
-    shn_form_close(false);
+    shn_form_fclose(false);
 ?>				     
 
 <?php

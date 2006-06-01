@@ -221,7 +221,7 @@ function shn_or_search_cr(){
     global $global;
     include_once $global['approot']."/inc/lib_location.inc";
     include_once "view_org.inc";
-    var_dump($_POST);
+    
     $VARCHAR=100;
     $db=$global["db"];
     $incident=$_POST["incidents"];
