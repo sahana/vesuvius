@@ -45,7 +45,7 @@ li, dd, blockquote {
 body {
 	font-size: 0.8em;
 	color: #000;
-	background: #6181CA;
+    background: #369;
 }
 
 form label {
@@ -111,7 +111,7 @@ div#header {
 	padding: 0 1em;
 	height: 70px;
 	position: relative;
-	background: url(img/sahana_logo.png) #6181CA no-repeat left top;	
+	background: url(img/sahana_logo.png) #369 no-repeat left top;	
 }
 
 div#header h1 {
@@ -129,8 +129,8 @@ div#formcontainer #language{
 
 #language select{
 	color:#fff;
-	border: 1px solid #6181CA;
-	background:#6181CA;
+	border: 1px solid #369;
+	background:#369;
 	font-size:10px;
 	float:right;
 }
@@ -660,7 +660,7 @@ div#footer {
 	padding: 10px;
 	clear: both;
 	color: #666;
-	background-color: #6181CA;
+	background-color: #369;
 	border-top: #058 1px solid;
 }
 
@@ -705,7 +705,7 @@ table.layout td{
     position:fixed;
     top:0px;
     right:0px;
-    background:#6181CA;
+    background:#369;
     color: white;
     margin-left:60%;
     padding:5px;
