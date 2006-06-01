@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.13 2006-04-28 09:15:17 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.14 2006-06-01 10:44:43 sudheera Exp $ */
 
 /**
  *
@@ -211,7 +211,7 @@ function shn_db_get_incident_name()
     $result = $global['db']->GetAll($sql);
 ?>
 <div id="incident_name">
-   <strong>You are using <?=$result[0]['name'];?> </strong>
+   <strong><?=$result[0]['name'];?> </strong>
 </div>
 <?php
 }
