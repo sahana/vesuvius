@@ -49,10 +49,10 @@ function _shn_vol_viewform_all()
     $res_mobile=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$pid}' and opt_contact_type='email'";
     $res_email=$db->Execute($q);
-    $country=$res_pers->fields[2];
-    $q="select name from location where location_id=$country";
+    $country=$res_pers->fields["opt_country"];
+    $q="select name from location where loc_uuid='{$country}'";
     $res_country=$db->Execute($q);
-    $country=$res_country->fields[0];
+    $country=$res_country->fields["name"];
     $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
@@ -121,6 +121,17 @@ function _shn_vol_viewform($pid,$error=false)
             );       
             $res_sector->MoveNext();
         } 
+        $q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$pid}'";
+        $res_incident=$db->Execute($q);    
+        $vol_incident_arr=array();
+        
+        while(!$res_incident->EOF){
+            array_push(
+                $vol_incident_arr,
+                $res_incident->fields["incident_id"]
+            );       
+            $res_incident->MoveNext();
+        }  
     }
 ?>
 <h2><?=_("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
@@ -155,6 +166,9 @@ function _shn_vol_viewform($pid,$error=false)
     shn_form_text(_("Passport No : "),'pas','size="50"',$extra_opts); 
     $extra_opts['value']=$dln;
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
+    shn_form_fsclose();
+    shn_form_fsopen(_("Incidents related to the Organization"));
+    _shn_vol_display_incident($error,true,$vol_incident_arr);
     shn_form_fsclose();
     $range= shn_vol_get_loc_range();
      // base location

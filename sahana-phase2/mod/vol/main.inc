@@ -32,17 +32,29 @@ function shn_vol_mainmenu()
     shn_mod_menuitem("search","Search",$module);
     shn_mod_menuitem("reg","Register",$module);
     shn_mod_menuitem("view","View and Edit",$module);
-    shn_mod_menuitem("drill_report&id=".$loc,"Drill down by Location",$module);
-    shn_mod_menuitem("sector_report","Volunteers by Sector",$module);
+  //  shn_mod_menuitem("drill_report&id=".$loc,"Drill down by Location",$module);
+  //  shn_mod_menuitem("sector_report","Volunteers by Sector",$module);
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
-
-function shn_vol_reg(){
-    include_once ("reg_vol.inc");
-	_shn_vol_regform();
+function shn_vol_reg($error=false)
+{
+    include_once ("reg_vol.inc"); 
+    if(isset($_POST["incident"])){
+    		if(empty($_POST["incidents"])){
+    			$error=true;
+        		add_error(_("You have to select an incident"));
+        		_shn_vol_display_incident_form(true,"reg");
+    		}else{
+    			_shn_vol_regform();
+    		}
+    }else{
+    		_shn_vol_display_incident_form(false,"reg");
+    }
 }
+
+
 function shn_vol_reg_cr(){
     include_once("process_vol.inc");
    _shn_vol_reg_cr();

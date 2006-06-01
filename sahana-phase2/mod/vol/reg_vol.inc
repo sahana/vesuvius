@@ -63,9 +63,12 @@ function _shn_vol_regform($error=false)
     shn_form_fsopen("Contact Information");
     _shn_vol_display_contact_person($error,true,null);
     shn_form_fsclose();
+    /*
     shn_form_fsopen("Extra Information");
     _shn_vol_display_extra(false);
     shn_form_fsclose();
+    */
+    $_SESSION["incident"]=$_POST["incidents"];
  ?>
 <br />
 <center>

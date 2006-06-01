@@ -164,15 +164,12 @@ function shn_or_adm_acl_install()
     //add an action name 'shn_or_reg_org"  under above action groups
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_org","Display Organization Registration form");
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_org_cr","Save Organization Registration info");
+    $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation","Save Operation Registration form");
     $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation_cr","Save Operation Registration form");
     $res=shn_acl_add_action("or","deny_user","_shn_or_edit_org","edit Org Registration form");
     $res=shn_acl_add_action("or","deny_user","_shn_or_del_org","delete Org Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_edit_vol","edit vol Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_del_vol","delete vol Registration form");
-   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol","Display Volunteer Registration form");
-   // $res=shn_acl_add_action("or","deny_user","shn_or_reg_vol_cr","Save Volunteer Registration info");
-
-	$res=shn_acl_add_perms_action_group_role('guest','or','deny_user');
+   
+  	$res=shn_acl_add_perms_action_group_role('guest','or','deny_user');
          
     if($res_acl->EOF)
 	 $q="insert into config values('or','acl_base','installed')";

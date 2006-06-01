@@ -21,6 +21,7 @@ function _shn_vol_reg_cr()
     include_once "reg_vol.inc";
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
+    $incidents=$_SESSION["incident"];
     $VARCHAR=100;
     $error=false;
     list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
@@ -35,15 +36,14 @@ function _shn_vol_reg_cr()
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-  	$range= shn_vol_get_loc_range();
-  	if (is_null($_POST{$range["end"]})){
+    $loc=shn_location_get_form_submit_loc();
+    if ($loc==-1){
         $error=true;
-        add_error(SHN_ERR_vol_LOCATION_INCOMPLETE);
-    }else {    
-        $bsd_village=trim($_POST{$range["end"]});
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }
-    $parents=shn_get_parents($bsd_village);
-    $bsd_country=$parents[0][0];
+    $parents=array();
+    shn_get_parents($loc,$parents);
+    $bsd_country=array_pop($parents);
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
@@ -82,13 +82,21 @@ function _shn_vol_reg_cr()
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$dln}','dln')";
     $res=$db->Execute($q);
     $i=0;
+    while($i<count($incidents)){
+    		$q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],$pid)";
+        echo $q;
+        $res=$db->Execute($q);
+        $i=$i+1;
+    }
+    
+    $i=0;
     while($i<count($sector)){
             $q="insert into sector(pgoc_uuid,opt_sector) values($pid,'{$sector[$i]}')";
            $res=$db->Execute($q);
            $i=$i+1;
         }
     }
-    $q="insert into location_details(poc_uuid,location_id,opt_person_loc_type,address) values($pid,'{$bsd_village}','hom','{$contact_address}')";
+    $q="insert into location_details(poc_uuid,location_id,opt_person_loc_type,address) values($pid,'{$loc}','hom','{$contact_address}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'curr','{$contact_phone}')";
     $res=$db->Execute($q);
@@ -105,13 +113,13 @@ function _shn_vol_reg_cr()
     <div id="result_msg">
        <?php echo $name?> was succesfully registered <br /><br />
        <? 
-       if(isset($_POST["chk_image"])){
-       		$_SESSION['vol_add']['entry']['p_uuid'];
-       		_shn_vol_image_upload($error) ;
-       }else if (isset($_POST["chk_login"])){
+      // if(isset($_POST["chk_image"])){
+       	//	$_SESSION['vol_add']['entry']['p_uuid'];
+       		//_shn_vol_image_upload($error) ;
+       //}else if (isset($_POST["chk_login"])){
        			$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
        			shn_auth_form_user_add("Create an Account for Login",$header,false);
-       	}
+       //	}
       // $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
        //shn_auth_form_user_add("Create an Account for Login",$header,false);
        	return; 
@@ -128,6 +136,7 @@ function _shn_vol_edit()
     global $global;
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
+    $incidents=$_POST["incidents"];
     $VARCHAR=100;
     $error=false;
     $pid=$_POST{"pid"};
@@ -145,19 +154,14 @@ function _shn_vol_edit()
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    if (is_null($_POST{"1"})){
+    $loc=shn_location_get_form_submit_loc();
+    if ($loc==-1){
         $error=true;
-        add_error(SHN_ERR_vol_LOCATION_INCOMPLETE);
-    }else {    
-        $bsd_country=$_POST{"1"};
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
     }
-   	$range= shn_vol_get_loc_range();
-    if (is_null($_POST{$range["end"]})){
-        $error=true;
-        add_error(SHN_ERR_vol_LOCATION_INCOMPLETE);
-    }else {    
-        $bsd_village=trim($_POST{$range["end"]});
-    }
+    $parents=array();
+    shn_get_parents($loc,$parents);
+    $bsd_country=array_pop($parents);
     $contact_name=$_POST{"contact_name"};
     $contact_address=$_POST{"contact_add"};
     $contact_phone=$_POST{"contact_phone"};
@@ -194,7 +198,16 @@ function _shn_vol_edit()
         $res=$db->Execute($q);
         $i=$i+1;
     }
-    $q="update location_details set location_id='{$bsd_village}',address='{$contact_address}' where poc_uuid=$pid";
+    
+    $q="delete from resource_to_incident where x_uuid='{$pid}'";
+    $res=$db->Execute($q);
+    $i=0;        
+    while($i<count($incidents)){
+    		$q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],'{$pid}')";
+        $res=$db->Execute($q);
+        $i=$i+1;
+    }
+    $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid=$pid";
     $res=$db->Execute($q);
     $q="update contact set contact_name='{$contact_name}' where pgoc_uuid=$pid and opt_contact_type='name'";
     $res=$db->Execute($q);

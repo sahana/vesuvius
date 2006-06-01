@@ -586,4 +586,75 @@ function shn_show_thumb($p_uuid,$session=false)
     return true;
 }
 
+function _shn_vol_display_incident_form($error=false,$act)
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+?>
+<h2><?=_("Select the Disaster/event/incident")?> </h2>
+<div id="note">
+<?=_("Since there are multiple incidents you required to select relevant incidents ");?>
+</div>
+<?php
+    if($error)
+    display_errors();
+?>               
+<div id="formcontainer">
+<?php
+    shn_form_fopen($act);
+    shn_form_fsopen('Choose related incidents');
+    _shn_vol_display_incident(false,true);
+    shn_form_fsclose();
+    shn_form_hidden(array('incident'=>"true"));
+    ?>
+<br />
+<center>
+<?php
+//create the submit button
+   shn_form_submit(_("Next"));
+?>
+</center>
+<br />
+<?php
+        //close the form
+    shn_form_fclose();
+?>				     
+</div>
+<?php
+    // end of form
+} 
+
+function _shn_vol_display_incident($error=false,$multi=false,$value=NULL)
+{
+    global $global;
+    $db=$global["db"];
+    if($value!=NULL){
+        $extra_opts['value']=$value;
+       // $extra_opts['req']=false;
+    }else{
+      //  $extra_opts['req']=true;
+    }
+    $extra_opts['req']=true;
+    if($multi){
+        $select_opts="multiple='true'";
+    }else{
+        //$select_opts="multiple='false'";;
+    }
+    $q = "select incident_id,name from incident";
+    
+    $res_options=$db->Execute($q) ; 
+    //$options['-1']="ALL incidents";
+    while(!$res_options->EOF){
+    		$options[$res_options->fields["incident_id"]]=$res_options->fields["name"];
+         //add all the locations e.g $options['sl'=>'sri lanka']
+        $res_options->MoveNext();
+    }
+    if(!empty($value)){
+    		$extra_opts['value']=$value;	
+    }
+    $extra_opts['help']=_("select related incidents");
+    shn_form_multi_select('incidents',$options,'',$select_opts,$extra_opts);
+}
+
 ?>
