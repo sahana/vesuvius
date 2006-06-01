@@ -31,7 +31,7 @@ if (!function_exists('file_put_contents'))
 <h3><?=_("Sahana Localization Module") ?></h3>
 <h4><?=_("Language Translation") ?></h4>
 <h3><?php print _("Current language : ") . _lc($lc) ?></h3>
-<table>
+<table class="layout">
 <tr>
 	<td>
 	<?php
