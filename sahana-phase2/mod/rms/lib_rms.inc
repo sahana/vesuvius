@@ -617,6 +617,7 @@ function _shn_rms_add_donor($donor)
     $p_uuid = shn_create_uuid('p');
     $name   = $donor['name'];
     $mobile = $donor['mobile'];
+    $tel    = $donor['telephone'];
     $email  = $donor['email'];
     $addr   = $donor['address'];
     
@@ -637,11 +638,11 @@ function _shn_rms_add_donor($donor)
             _shn_rms_db_addcontact($p_uuid, 'email', $email);
         if (trim($addr) != '')
             _shn_rms_db_addcontact($p_uuid, 'address', $addr);
+        if (trim($tel) != '')
+            _shn_rms_db_addcontact($p_uuid, 'telephone', $tel);
         
         return $p_uuid;
     }
-    
-    
 }
 
 function _shn_rms_is_donor($id)
