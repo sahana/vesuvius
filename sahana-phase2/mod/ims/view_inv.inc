@@ -30,7 +30,7 @@ function _shn_ims_viewform_allorg($no=NULL)
 	<table>
         <thead>
             <td><?=_("Inventory Name")?></td>
-            <td><?=_("Country of Origin")?></td>
+           <!-- <td><?=_("Country of Origin")?></td> -->
             <td><?=_("Address")?></td>
             <td><?=_("Contact Numbers")?></td>
             <td><?=_("Man Power")?></td>
@@ -85,9 +85,11 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
     $res_email=$db->Execute($q);
     $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
+	//print $q;
     $loc=$res_temp->fields[0][0];
     $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
+	//print $q;
     $q = "select option_description from field_options,ims_inventory_records where o_uuid='{$org_id}' and
 field_options.option_code=ims_inventory_records.inventory_type and field_options.field_name='inventory_type'";
     $res_type=$db->Execute($q); 
@@ -112,7 +114,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     ?>
     </td>
    
-    <td><?php echo $res_bsd_country->fields[0]?></td>
+   <!-- <td><?php echo $res_bsd_country->fields[0]?></td> -->
     <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
     <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
