@@ -1,3 +1,4 @@
+
 -- GROUP TYPES
 INSERT INTO field_options VALUES('opt_group_type','fam','family');
 INSERT INTO field_options VALUES('opt_group_type','com','company');
@@ -137,6 +138,8 @@ INSERT INTO field_options VALUES ('opt_location_type','1','Country');
 INSERT INTO field_options VALUES ('opt_location_type','2','State');
 INSERT INTO field_options VALUES ('opt_location_type','3','City');
 
+INSERT INTO field_options VALUES ('opt_cs_depth','3','depth');
+
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
 INSERT INTO modules VALUES ('or', '0.2', TRUE);
@@ -160,5 +163,4 @@ INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'google_key', 
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_x', '');
 INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_y', '');
 
---INSERT THE CATALOGUE SYSTEM MAX DEPTH VALUE
-INSERT INTO field_options (field_name,option_code,option_description) VALUES('opt_cs_depth','3','Maximum Depth of catalogue / Items');
+
