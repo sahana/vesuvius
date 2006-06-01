@@ -746,7 +746,3 @@ table.layout td{
     padding: 3px; 
     z-index: 10; 
 }
-div#toggle_reporter
-{
-display: none;
-}
