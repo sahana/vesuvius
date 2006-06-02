@@ -155,12 +155,14 @@ function _shn_ims_search_item_db()
 	
 <?php
 		//$sum_amount=0;
+		$suplier_name=array();
 
 		while (!$ims==NULL && !$ims->EOF)
 		{
 			$item_id=$ims->fields["item_id"];
 			$suplier_id=$ims->fields["suplier_id"];
 			$suplier_name=_shn_or_get_suplier_name($suplier_id);
+			//print $suplier_name;
 			//print $suplier_id;
 			//print $suplier_name;
 			//$inv_id=$ims->fields['inv_id'];
