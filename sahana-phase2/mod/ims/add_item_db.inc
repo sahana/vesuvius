@@ -82,6 +82,7 @@ function _shn_ims_validate_additemform()
 	global $global;
 	$error_flag=false;
 	clean_errors();
+	$item_name=trim($_POST['item_name']);
 	$parent_id=trim($_POST['parent_id']);
 	$amount=trim($_POST['amount']);
 	$manufactured_date=trim($_POST['manufactured_date']);
@@ -90,6 +91,11 @@ function _shn_ims_validate_additemform()
 	$unit=trim($_POST['unit_select']);
 	
 	//this checks whether name entered in the add main form
+	if($item_name==null)
+	{
+	add_error(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE);
+	$error_flag=true;
+	}
 	if($amount==null || $amount<0)
 	{
 	add_error(SHN_ERR_IMS_AMOUNT_INCOMPLETE);

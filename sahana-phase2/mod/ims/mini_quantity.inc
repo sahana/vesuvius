@@ -15,6 +15,7 @@
 * @tutorial		
 * @license	  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
+include_once 'errors.inc';
 
 function _shn_ims_mini_quantity_item_select()
 {
@@ -351,6 +352,11 @@ function _shn_ims_validate_minimum_quantity()
 	clean_errors();
 	$minimum_quantity=trim($_POST['mini_quantity']);
 
+	if(trim($_POST['item_name'])==null)
+	{
+	add_error(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE);
+	$error_flag=true;
+	}
 	if(trim($_POST['inv_id'])==null)
 	{
 	add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
@@ -358,7 +364,7 @@ function _shn_ims_validate_minimum_quantity()
 	}
 	if($minimum_quantity==null)
 	{
-	add_error(SHN_ERR_IMS_AMOUNT_INCOMPLETE);
+	add_error(SHN_ERR_IMS_REORDER_VALUE_NUMERIC);
 	$error_flag=true;
 	}
 	if($minimum_quantity<0)

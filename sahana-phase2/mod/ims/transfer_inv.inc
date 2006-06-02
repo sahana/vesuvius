@@ -539,7 +539,6 @@ function _shn_ims_validate_send_item_page()
 	$date=trim($_POST['date']);
 	$unit=trim($_POST['unit_select']);
 	
-	
 	if($amount==null)
 	{
 	add_error(SHN_ERR_IMS_AMOUNT_INCOMPLETE);

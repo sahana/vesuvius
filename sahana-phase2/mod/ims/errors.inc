@@ -29,9 +29,9 @@ define(SHN_ERR_OR_EMAIL,"Email Address is of the wrong format");
 define(SHN_ERR_DOB_INCORRECT,"You have to enter a Date (yyyy-mm-dd) for Date of Birth");
 define(SHN_ERR_or_ims_LOCATION_INCOMPLETE,"Location is essential for registration. Please select the location and submit again");
 
-
+define(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE,"Item Name is essential. Please Select an Item from Add-Item main page and submit the form again");
 define(SHN_ERR_IMS_AMOUNT_INCOMPLETE,"Amount is essential. Please Complete and Submit again");
-define(SHN_ERR_IMS_INVENTORY_INCOMPLETE,"You haven't add an Inventory yet. Please go through the Multiple Inventory Management Menu and add an Inventory first ");
+define(SHN_ERR_IMS_INVENTORY_INCOMPLETE,"Inventory is essential. Please Complete and Submit again ");
 define(SHN_ERR_IMS_INVALID_AMOUNT,"The Inventory doesn't have sufficient amount to transfer. Please check the amount again and resubmit the form");
 define(SHN_ERR_IMS_INVALID_DATE,"Invalid Date");
 define(SHN_ERR_IMS_AUTHORIZED_PERSON_INCOMPLETE,"Authorized Person is essential. Please Complete and Submit again");
@@ -42,5 +42,7 @@ define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE,"Please enter a numeric Value for amount"
 define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST,"Please enter a numeric Value for Cost per unit");
 
 define(SHN_ERR_IMS_REORDER_VALUE_NUMERIC,"Please enter a numeric value for item Re-Order Value");
+
+define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
 
 ?>
