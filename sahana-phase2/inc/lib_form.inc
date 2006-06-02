@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.39 2006-06-01 05:35:11 mahesh_kks Exp $ */
+/* $Id: lib_form.inc,v 1.40 2006-06-02 05:58:26 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -32,7 +32,7 @@ function shn_form_extra_opts($extra_opts)
 {
     global $shn_help_id;
     // output a required flag
-    if (true == $extra_opts['req']) echo "\n    <b>*(req)</b>\n";
+    if (true == $extra_opts['req']) echo "\n <b class='req'>*(req)</b>&#160;&#160;&#160;&#160;&#160;&#160; &#160;\n";
 
     //Help
     if(isset($extra_opts['help'])){
