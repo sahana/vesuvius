@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.6 2006-03-28 08:19:25 janakawicks Exp $ */
+/* $Id: main.inc,v 1.7 2006-06-02 05:28:06 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -41,11 +41,11 @@ function shn_sync_mainmenu()
     shn_mod_menuopen(_("Synchonization Module"));
 
     shn_mod_menuitem("default",_("Home"));
-    shn_mod_menuitem("dsc",_("Discovery Servers"));
-    shn_mod_menuitem("inst",_("Sync With Sahana Instance"));
-    shn_mod_menuitem("bcst",_("Broadcast Avalibility"));
+//    shn_mod_menuitem("dsc",_("Discovery Servers"));
+//    shn_mod_menuitem("inst",_("Sync With Sahana Instance"));
+//    shn_mod_menuitem("bcst",_("Broadcast Avalibility"));
     shn_mod_menuitem("down",_("Download Data"));
-    shn_mod_menuitem("synup",_("Upload Data"));
+//    shn_mod_menuitem("synup",_("Upload Data"));
 
     shn_mod_menuclose();
    
