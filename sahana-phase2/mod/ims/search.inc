@@ -18,6 +18,8 @@ global $global;
 include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
+include_once $global['approot'].'/mod/or/lib_or.inc';
+
 /**
 ** Function for searching items
 **/
@@ -144,7 +146,7 @@ function _shn_ims_search_item_db()
 	    <td><?=_("Unit") ?></td>
 	    <td><?=_("Inventory") ?></td>
 	    <td><?=_("State") ?></td>
-	    <td><?=_("Suplier") ?></td>
+	  <!--  <td><?=_("Suplier") ?></td> -->
 	    
             
             
@@ -159,6 +161,8 @@ function _shn_ims_search_item_db()
 			$item_id=$ims->fields["item_id"];
 			$suplier_id=$ims->fields["suplier_id"];
 			$suplier_name=_shn_or_get_suplier_name($suplier_id);
+			//print $suplier_id;
+			//print $suplier_name;
 			//$inv_id=$ims->fields['inv_id'];
 			//$item_name=$ims->fields["item_name"];
 			//$sum_amount=$ims->fields["SUM(amount)"];
@@ -195,7 +199,7 @@ function _shn_ims_search_item_db()
 	<td><?php print ($unit_name); ?></td>
 	<td><?php print ($inventory_name); ?></td>
 	<td><?php print ($state); ?></td>
-	<td><?php print ($suplier_name); ?></td>
+	<!--<td><?php print ($suplier_name); ?></td> -->
 		
 	</tr>
 

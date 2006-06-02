@@ -227,7 +227,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 	}
 	shn_form_select($inventory_array,_("To the Inventory : "),'inv_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
 
-	shn_form_text(_("Date"),'date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only -,.and / seperates are accepted')));
+	shn_form_text(_("Date"),'date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	$extra_opts['value']=$cost_per_unit;
 	shn_form_text(_("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 
@@ -452,7 +452,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	shn_form_text(_("From : "),'inventory_from','size="50"',$extra_opts);
 	$extra_opts['value']=$inventory_to;
 	shn_form_text(_("To : "),'inventory_to','size="50"',$extra_opts);
-	shn_form_text(_("Date Received : "),'received_date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only -,.and / seperates are accepted')));
+	shn_form_text(_("Date Received : "),'received_date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 	shn_form_fsclose();
 
