@@ -78,7 +78,17 @@ function shn_pref_mainmenu()
  */
 function shn_pref_default()
 {
-    echo "<h1>"._("Welcome to User Preferences")."</h1>";
+?>
+<div id="home">
+<h2><?=_("Welcome to User Preferences");?></h2>
+<p>User Preferences Module will allow you to set any preferred configuration. <br />
+Which will help you to customize Sahana to your preference.<br />
+Following Preferences can be set</p>
+<ul>
+    <li><b>Mutiple Incident Management</b></li>
+</ul>
+</div>
+<?php
 }
 
 /**
