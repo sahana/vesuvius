@@ -158,13 +158,21 @@ function _shn_ims_edit_item_db()
     		$sql = "UPDATE ims_item_records SET item_name='{$item}',suplier_id='{$suplier_id}',amount='{$amou}',unit='{$unit}', manufactured_date='{$manufactured_date}',expire_date='{$expire_date}',inv_id='{$inv_id}',cost_per_unit='{$cost_per_unit}' WHERE item_id=$temp;";
 //echo $sql;
 		$ims = $db->Execute($sql);
+		
+		
+		_shn_ims_expire_date_check();
+?>
+	<div id="result_msg">
+       <?php echo $item?> Item was succesfully Saved
+    </div>
+    <br />	
+
+<?php
 		$_POST['item_name']="";	
 		$_POST['amount']="";
 		$_POST['manufactured_date']="";
 		$_POST['expire_date']="";
 		$_POST['cost_per_unit']="";
-		
-		_shn_ims_expire_date_check();
 		shn_ims_view_edit_item();
 }
 ?>

@@ -484,6 +484,7 @@ function shn_ims_mini_quantity_db()
 	else
 	{
 	_shn_ims_mini_quantity_db();
+	
 	}
 }
 
@@ -582,8 +583,9 @@ function shn_ims_send_item_data_collectpage()
 	global $global;
 	$item_id = trim($_REQUEST['item_id']);
 	$parent_id=trim($_REQUEST['parent_id']);
+	$unit_id_send=trim($_REQUEST['unit_id']);
 	include_once('transfer_inv.inc');
-	_shn_ims_send($item_id,$parent_id);
+	_shn_ims_send($item_id,$parent_id,$unit_id_send);
 }
 
 function shn_ims_send_item_db()

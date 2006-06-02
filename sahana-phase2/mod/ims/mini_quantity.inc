@@ -216,9 +216,18 @@ function _shn_ims_mini_quantity_db()
 	{
 	$sql="UPDATE ims_reorder_level SET minimum_quantity='{$mini_quantity}',unit='{$unit}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims=$db->Execute($sql);
+?>
+	<div id="result_msg">
+       Re-Order Level was succesfully Added
+    </div>
+    <br />	
+
+<?php
 	//print $sql;
 	shn_ims_reorder_level_edit();
 	}
+
+
 
 		
 	//shn_ims_minimum_quantity_item();

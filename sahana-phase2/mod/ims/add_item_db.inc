@@ -52,15 +52,23 @@ function _shn_ims_add_item_db()
     		$sql = " insert into ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state) values ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state');";
 		$ims = $db->Execute($sql);
 		
+		
+		//$_POST['unit_select']=""
+		
+
+		_shn_ims_expire_date_check();
+?>
+	<div id="result_msg">
+       <?php echo $item?> Item was succesfully Added
+    </div>
+    <br />	
+
+<?php
 		$_POST['item_name']="";
 		$_POST['amount']="";
 		$_POST['cost_per_unit']="";
 		$_POST['manufactured_date']="";
 		$_POST['expire_date']="";
-		//$_POST['unit_select']=""
-		
-
-		_shn_ims_expire_date_check();
 		shn_ims_add_item_main_page();
 		
 		

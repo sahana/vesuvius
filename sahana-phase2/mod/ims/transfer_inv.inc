@@ -119,7 +119,7 @@ function _shn_ims_send_item_table_view_($catalog_id)
 		<td><?php print ($expire_date);?></td>
 		<td><?php print ($inventory_name);?></td>
 		<td><?php print ($state); ?></td>
-		<td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>&parent_id=<?php echo $parent_id; ?>"><?php print ("Send");?></a></td>		
+		<td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>&parent_id=<?php echo $parent_id; ?>&unit_id=<?php echo $unit;?>"><?php print ("Send");?></a></td>		
 		</tr>
 
 <?php
@@ -134,7 +134,7 @@ function _shn_ims_send_item_table_view_($catalog_id)
 <?php	
 }
 
-function _shn_ims_send($item_id,$parent_id)
+function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 {
 	
 	global $global;
@@ -172,8 +172,29 @@ function _shn_ims_send($item_id,$parent_id)
 	
 //-------------------------------------------------------------------------------------------------------------
 
-		
+		$cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit_id_send';";
+	$cms=$db->Execute($cq);
+	//print $cq;
+	$unit_select_array[$unit_id_send]=$cms->fields['name'];
+	
 	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+
+
+
+	$temp2=$res->fields['unit_uuid'];
+	$query1="select name from ct_unit where unit_uuid ='$temp2'";
+	$res2=$db->Execute($query1);
+	
+	$unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+	$res->MoveNext();
+	}	
+
+	shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
+	/*$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
 	$res=$db->Execute($query);
 	//print $query;
 
@@ -187,7 +208,7 @@ function _shn_ims_send($item_id,$parent_id)
 	$res->MoveNext();
 	}
 	
-	shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
+	shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));*/
 
 //-------------------------------------------------------------------------------------------------------------	
 
@@ -279,6 +300,14 @@ function _shn_ims_send_db()
 	$ims1 = $db->Execute($sql1);
 	$sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
 	$ims2 = $db->Execute($sql2);
+
+?>
+	<div id="result_msg">
+       Item Sent
+    </div>
+    <br />	
+
+<?php
 
 	shn_ims_send_item_page($catalog_id);
 	
@@ -485,6 +514,14 @@ function _shn_ims_receive_item_db()
 
 	$sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
 	$ims1=$db->Execute($sql1);
+
+?>
+	<div id="result_msg">
+       Item Received
+    </div>
+    <br />	
+
+<?php
 
 	shn_ims_receive_item();
 	

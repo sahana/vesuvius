@@ -24,7 +24,7 @@ function _shn_ims_default() {
 	<ul>
 		<li>The Inventory Management system is a system to manage Invetories</li>
 		<br>
-		<li>It keeps the track of items in warehouses</li>
+		<li>It keeps the track of items available in warehouses</li>
 		<br>
 		<li>It facilitates to get reports and statistics about the inventory</li>
 		<br>

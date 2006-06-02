@@ -26,12 +26,12 @@ function _shn_ims_reg_inv_cr()
    // list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
    // list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
     $range= shn_ims_get_loc_range();
-    if (is_null($_POST{$range["end"]})){
+    /*if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_or_ims_LOCATION_INCOMPLETE);
-    }else {    
+    }else {    */
         $bsd_village=trim($_POST{$range["end"]});
-    }
+    //}
     //if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
       //  add_error(SHN_ERR_or_ims_REG_MAX);
        // $error=true;
@@ -239,12 +239,12 @@ function _shn_ims_edit_org()
    // list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
    // list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
    	$range= shn_ims_get_loc_range();
-    if (is_null($_POST{$range["end"]})){
+    /*if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_or_ims_LOCATION_INCOMPLETE);
-    }else {    
+    }else {    */
         $bsd_village=trim($_POST{$range["end"]});
-    }
+   // }
   /*
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
