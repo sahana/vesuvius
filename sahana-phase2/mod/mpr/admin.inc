@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.2 2006-04-25 06:03:59 janakawicks Exp $ */
+/* $Id: admin.inc,v 1.3 2006-06-02 06:26:59 janakawicks Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -53,7 +53,7 @@ function shn_mpr_adm_default()
 {
 ?>
     <p><b><?=_("Welcome to the Missing Person Registry admin page");?> </b></p>
-    <p><?=_("TODO: Something should go here");?> </p>
+    <p><?=_("Please use the Security Config menu to Install the Access Control");?> </p>
 
     
 
