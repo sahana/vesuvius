@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_st_help.inc,v 1.2 2006-06-02 11:12:09 janakawicks Exp $ */
+/* $Id: lib_st_help.inc,v 1.3 2006-06-02 11:59:27 janakawicks Exp $ */
 
 /**
  *
@@ -31,7 +31,7 @@ function shn_stream_init()
     if(empty($_GET['help_id'])){
         echo "var help_arr = new Array(".count($_SESSION['form_help']).");\n";
         foreach($_SESSION['form_help'] as $help_id => $value){
-            $clean_value = preg_replace('@([\r\n])[\s]+@', ' ',$value);
+            $clean_value = preg_replace(array('@([\r\n])[\s]+@','@"@'), array(' ',"'"),$value);
             echo "help_arr[".$help_id."] = \"$clean_value\";\n";
         }
     }else{
