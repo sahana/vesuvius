@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.40 2006-06-02 05:58:26 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.41 2006-06-02 10:26:20 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -207,7 +207,7 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
     $disabled = $extra_opts['disabled']==NULL? false :$extra_opts['disabled'];
  ?>
     <label><?=$label?></label>
-    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?if ($value){ echo "checked='true'";}?> <?if ($disabled){ echo "disabled='true'";}?><?=$text_opts?>  />
+    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?if ($disabled){ echo "disabled='true'";}?><?=$text_opts?>  />
 <?php
     shn_form_extra_opts($extra_opts);
 }
