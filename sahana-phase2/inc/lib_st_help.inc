@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_st_help.inc,v 1.1 2006-05-04 12:29:31 janakawicks Exp $ */
+/* $Id: lib_st_help.inc,v 1.2 2006-06-02 11:12:09 janakawicks Exp $ */
 
 /**
  *
@@ -21,10 +21,18 @@
 
 function shn_stream_init()
 {
+    //for install hack
+    $my_approot = realpath(dirname(__FILE__)).'/../';
+    if(!file_exists($my_approot.'conf/sysconf.inc')){
+        session_start();
+    }
+    //install hack ends
+
     if(empty($_GET['help_id'])){
         echo "var help_arr = new Array(".count($_SESSION['form_help']).");\n";
         foreach($_SESSION['form_help'] as $help_id => $value){
-            echo "help_arr[".$help_id."] = \"$value\";\n";
+            $clean_value = preg_replace('@([\r\n])[\s]+@', ' ',$value);
+            echo "help_arr[".$help_id."] = \"$clean_value\";\n";
         }
     }else{
         echo $_SESSION['form_help'][$_GET['help_id']];

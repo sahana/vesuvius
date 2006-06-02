@@ -21,9 +21,9 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 $global['previous']=false;
 // === initialize configuration variables ===
+if (file_exists($global['approot'].'conf/sysconf.inc')){
 
-if (@ require_once ($global['approot'].'conf/sysconf.inc') ) {
-
+    require_once ($global['approot'].'conf/sysconf.inc');
     require_once ($global['approot'].'inc/lib_modules.inc'); 
     require_once ($global['approot'].'inc/handler_db.inc');
     
@@ -48,7 +48,10 @@ if (@ require_once ($global['approot'].'conf/sysconf.inc') ) {
 
 } else { // Launch the web setup
     
-    require ($global['approot'].'inst/setup.inc');
+    //Install hack     
+    //require ($global['approot'].'inst/setup.inc');
+    require_once ($global['approot'].'/inc/lib_st_'.$_GET['stream_type'].'.inc');
+    shn_stream_init();
 }
 
 // === front controller ===
