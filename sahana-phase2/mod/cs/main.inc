@@ -53,7 +53,6 @@ function shn_cs_mainmenu()
 } 
 
 
-
 function shn_cs_default()
 {
 	include_once ('home.inc');
