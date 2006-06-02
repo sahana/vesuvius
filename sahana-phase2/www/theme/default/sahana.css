@@ -756,3 +756,17 @@ table.layout td{
     width:50px;
     background-image:url(img/req.gif) ;
 }
+
+ul.paging{
+    list-style-type:none;
+}
+
+.paging li{
+    display:inline;
+}
+
+.paging li a{
+    display:inline;
+    text-decoration:none;
+    font-weight:bold;
+}
