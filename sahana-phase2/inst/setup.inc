@@ -33,6 +33,16 @@ function shn_setup_main()
     shn_setup_header();
     switch ($action) {
 
+    case 'dependancy':
+        if (shn_setup_check_dependancy()) { // check if database writing is a success
+            shn_setup_form1();
+        } else {
+            display_errors();
+            shn_setup_form_dependancy(); 
+        }
+      
+        break;
+
     case 'dbsetup': // second setup form
         if (shn_setup_database()) { // check if database writing is a success
             shn_setup_form2();
@@ -46,7 +56,7 @@ function shn_setup_main()
 
         if (shn_setup_config_update($_POST['conffile'])) { 
             // check if writing the file was a success
-            shn_setup_form3();
+            shn_setup_form_conffile();
         } else {
             display_errors();
             shn_setup_form2();
@@ -55,18 +65,94 @@ function shn_setup_main()
 
     default: 
         // first database setup form
-        shn_setup_form1();
+        shn_setup_form_dependancy();
 
     }
     shn_setup_footer();
+}
+
+function shn_setup_check_dependancy()
+{
+    global $global;
+
+    $continue = true;
+
+    if (!version_compare(phpversion(), '4.1', '>')) $continue = false;
+    if (!extension_loaded('gd')) $continue = false;
+    if (!extension_loaded('mysql')) $continue = false;
+    if (!is_writable($global['approot'].'www/tmp')) $continue = false;
+
+    return $continue;
+}
+
+function shn_setup_form_dependancy()
+{
+    global $global;
+?>
+    <h1><?=_('Sahana Web Setup')?></h1>
+
+    <p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
+
+    <p><?=_('First we need to check if all the relevant dependancies for the Sahana system to be install are available on your system')?></p>
+<?php
+
+    shn_form_fopen(_('dependancy'),null,array("req_message"=>false) );
+
+    shn_form_fsopen(_('PHP libraries'));
+?>
+    <p><?=_('The following checks if all the relevant Sahana libraries are installed and provides help on how to do this if not')?></p>
+<?php
+    
+    $value = (version_compare(phpversion(), '4.1', '>'))? 'checked':'';
+
+    shn_form_checkbox(_('PHP Version = ').phpversion(),'phpver',$value.' 
+                        disabled="true"',array('value'=>'y',
+                        'help'=>'The version of PHP installed has to
+                        be greater than 4.1')); 
+
+    $value = (extension_loaded('gd'))? 'checked':'';
+
+    shn_form_checkbox(_('PHP-GD library'),'phpgd',$value.' 
+                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+
+    $value = (extension_loaded('mysql'))? 'checked':'';
+
+    shn_form_checkbox(_('MySQL library'),'mysql',$value.' 
+                        disabled="true"',array('value'=>'y')); 
+
+    shn_form_fsclose();
+    shn_form_fsopen(_('File and Directory Permissions'));
+?>
+    <p><?=_('The following checks if certain files and directories have write persmissions for Sahana to function')?></p>
+<?php
+    $value = (is_writable($global['approot'].'www/tmp'))? 'checked':'';
+
+    shn_form_checkbox(_('Sahana dir www/tmp/ is writable?'),'write_tmp',$value.' 
+                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+
+/*   $value = (is_writable($global['approot'].'res/locale'))? 'checked':'';
+
+    shn_form_checkbox('Sahana res/locale is writable?','write_locale',$value.' 
+                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+*/
+    $value = (is_writable($global['approot'].'conf'))? 'checked':'';
+
+    shn_form_checkbox(_('Sahana dir conf/ is writable?'),'write_conf',$value.' 
+                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+
+   
+
+    shn_form_fsclose();
+
+    shn_form_submit(_('Next >>'));
+    shn_form_fclose();
 }
 
 // the database setup form
 function shn_setup_form1()
 {
  ?>
-    <h1><?=_('Sahaha Web Setup')?></h2>
-    <p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system ')?></p>
+    <h1><?=_('Sahana Databse Setup')?></h2>
 <?php
 
     shn_form_fopen('dbsetup');
@@ -89,7 +175,7 @@ function shn_setup_form1()
                         array('value'=>'y')); 
     shn_form_checkbox(_('Default Configuration'),'dbconfig',"checked",
                         array('value'=>'y')); 
-    shn_form_checkbox(_('Sample Data'),'dbsample','',
+    shn_form_checkbox(_('Default Taxomomies'),'dbsample','checked',
                         array('value'=>'y')); 
     shn_form_fsclose();
     shn_form_submit(_('Setup Database >>'));
@@ -126,19 +212,33 @@ function shn_setup_form2()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Configuration File'));
-?>
-    <p><?=_('The PHP/Web Server should normally not have access to write 
-    or modify the configuration file located in Sahana application <b>/conf</b> 
-    directory, as this is a security risk. Please specify where to
-    write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
-    the Sahana <b>/conf</b> directory.</p>')?>
-<?php
-    $tmp_filename = tempnam('/tmp','sysconf.inc');
-    // Need the temporary directory rather than the filename
-    $tmp_filename = preg_replace('/sysconf.inc.*$/','sysconf.inc',$tmp_filename); 
 
-    shn_form_text(_('Location To Write Config File (sysconf.inc)'),'conffile','size="50"',
-                array('value'=>"$tmp_filename",'req'=>true ));
+    if (is_writeable($global['approot'].'conf')) {
+    
+        echo '<p>The PHP/Web Server should normally not have access to write 
+    or modify the configuration file located in Sahana application <b>/conf</b> 
+    directory, as this is a security risk. As soon as we write the configuration in the next step please remove the write permission to this file </p>';
+
+        shn_form_hidden(array('conffile' => 
+            $global['approot'].'conf/sysconf.inc'));
+
+    } else {
+
+        echo '<p>The PHP/Web Server should normally not have access to write 
+    or modify the configuration file located in Sahana application <b>/conf</b> 
+    directory, as this is a security risk. Please specify where to write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
+    the Sahana <b>/conf</b> directory.</p>';
+
+        $tmp_filename = tempnam('/tmp','sysconf.inc');
+        // Need the temporary directory rather than the filename
+        $tmp_filename = preg_replace('/sysconf.inc.*$/','sysconf.inc',
+                        $tmp_filename); 
+
+        shn_form_text(_('Location To Write Config File (sysconf.inc)'),
+                'conffile','size="50"', array('value'=>"$tmp_filename",
+                'req'=>true ));
+
+    }
     shn_form_fsclose();
 
     shn_form_submit(_('Write Configuration File >>'));
@@ -147,7 +247,7 @@ function shn_setup_form2()
 }
 
 
-function shn_setup_form3()
+function shn_setup_form_conffile()
 {
 ?>
     <h1><?=_('Sahaha Web Setup - Step 3')?></h2>
@@ -157,9 +257,22 @@ function shn_setup_form3()
     global $global;
     shn_form_fopen('default','home');
     shn_form_fsopen(_('Configuration File'));
+
+    
     shn_form_hidden( array(
         'conffile' => $_POST['conffile'] )); 
     $sahana_url = 'http://'.$_SERVER['HTTP_HOST'].preg_replace('/index.php\?.*$/','',$_SERVER['REQUEST_URI']);
+
+    if (is_writeable($global['approot'].'conf')) {
+?>
+    <p><?=_('To secure the configuration you have to remove write 
+             permissions from the configuration file sysconf.inc located in 
+             the Sahana directory conf/')?></p>
+
+    <p><?=_('Click the button below to start Sahana')?>
+
+<?php
+    } else {
 ?>
 
     <p><?=_('To finish the configuration follow the steps below')?></p>
@@ -170,6 +283,7 @@ function shn_setup_form3()
     <p> <b>3.</b><?=_(' Once done click the button below to start Sahana or access it anytime using the url: ')?><a href="<?=$sahana_url?>"><?=$sahana_url?></a></p>
 
 <?php        
+    }
     shn_form_fsclose();
     shn_form_submit(_('Start Sahana'));    
     shn_form_fclose();
@@ -196,8 +310,8 @@ function shn_setup_database()
         shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
         shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
         shn_setup_run_sqlscript($db,'mod/lr/dbcreate.sql');
-         shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
+        shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
+        shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
     }
     if ($_POST['dbconfig']=='y') 
         shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
