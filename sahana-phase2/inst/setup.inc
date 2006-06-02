@@ -109,17 +109,23 @@ function shn_setup_form_dependancy()
     shn_form_checkbox(_('PHP Version = ').phpversion(),'phpver',$value.' 
                         disabled="true"',array('value'=>'y',
                         'help'=>'The version of PHP installed has to
-                        be greater than 4.1')); 
+                        be greater than 4.1', 'req'=>true)); 
 
     $value = (extension_loaded('gd'))? 'checked':'';
 
     shn_form_checkbox(_('PHP-GD library'),'phpgd',$value.' 
-                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+                        disabled="true"',array('value'=>'y','req'=>true,
+                        'help'=>'To find out how to do this for your 
+                        operating system see <a href="http://www.linux.lk">
+                        Sahana WIKI</a>')); 
 
     $value = (extension_loaded('mysql'))? 'checked':'';
 
     shn_form_checkbox(_('MySQL library'),'mysql',$value.' 
-                        disabled="true"',array('value'=>'y')); 
+                        disabled="true"',array('value'=>'y', 'req'=>true, 
+                        'help'=>'To find out how to do this for your 
+                        operating system see <a href="http://www.linux.lk">
+                        Sahana WIKI</a>')); 
 
     shn_form_fsclose();
     shn_form_fsopen(_('File and Directory Permissions'));
