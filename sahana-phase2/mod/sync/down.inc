@@ -1,5 +1,5 @@
 <?php
-/* $Id: down.inc,v 1.5 2006-06-02 05:28:06 janakawicks Exp $ */
+/* $Id: down.inc,v 1.6 2006-06-02 07:24:22 priyanga Exp $ */
 
 /**
  *
@@ -39,11 +39,11 @@ function shn_sync_dump_location()
 {
     global $global;
     // Location Dump
-    $sql_loc = "SELECT loc_uuid, parent_id, search_id, opt_location_type, 
+    $sql_loc = "SELECT loc_uuid, parent_id, opt_location_type, 
                 name, iso_code, description FROM location";
     $arr = $global['db']->GetAll($sql_loc);
     $all_xml .= _shn_sync_generate_xml('location',
-            array('loc_uuid', 'parent_id', 'search_id', 'opt_location_type',
+            array('loc_uuid', 'parent_id', 'opt_location_type',
             'name', 'iso_code', 'description'), $arr);
     echo $all_xml;
 }

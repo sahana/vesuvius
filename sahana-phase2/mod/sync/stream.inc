@@ -32,6 +32,7 @@ function shn_sync_download(){
 
         case 'xml' :
             global $global;
+            echo "<data>";
             require($global['approot'].'mod/sync/down.inc');
             //including all the files
             $sql = "SELECT module_id FROM modules WHERE active = TRUE group by 1";
@@ -49,7 +50,8 @@ function shn_sync_download(){
                     }
 		    }
                 }
-	break;
+            echo "</data>";
+	   break;
         default:
             return '';
         break;
