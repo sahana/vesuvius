@@ -13,6 +13,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+session_start();
 
 require_once ($global['approot']."inc/handler_html_head.inc");
 require_once ($global['approot'].'inc/lib_modules.inc'); 
