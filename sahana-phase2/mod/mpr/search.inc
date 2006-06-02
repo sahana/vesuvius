@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.12 2006-04-28 09:45:09 janakawicks Exp $ */
+/* $Id: search.inc,v 1.13 2006-06-02 04:53:46 janakawicks Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -268,8 +268,7 @@ function shn_mpr_search_nav()
 
     echo '<br /><strong>'._('Total').' '.$total.' '._('Records were found').'</strong><br />';    
 ?>  
-<DIV id="paging_nav">
-<UL>
+<ul class="paging">
 <?php   
     //Back Arrows
     if( $offset > 0 ){
@@ -298,8 +297,7 @@ function shn_mpr_search_nav()
             _('Last').'  '. $limit.' '._('Records').' &gt;&gt;|</a></li>';
     }
 ?>
-</UL>
-</DIV>
+</ul>
 <?php
 
 }
