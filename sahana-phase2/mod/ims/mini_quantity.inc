@@ -131,9 +131,46 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 	shn_form_fsopen("Item Quantity ");
 	shn_form_text(_("Re-Order Level : "),'mini_quantity','size="50"',array('req'=>true,'value'=>$minimum_quantity));
 	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 	$unit_array=array();
-	$unit_array=_shn_cs_get_units($parent_id);
-	shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box is empty go back to the catalogue system and add a measurement unit')));
+	
+	$cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+	$cms=$db->Execute($cq);
+	//print $cq;
+	$unit_array[$unit]=$cms->fields['name'];
+	
+	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+
+
+
+	$temp2=$res->fields['unit_uuid'];
+	$query1="select name from ct_unit where unit_uuid ='$temp2'";
+	$res2=$db->Execute($query1);
+	
+	$unit_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+	$res->MoveNext();
+	}	
+
+	shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------	
+
+
+
+
+	
+	//$unit_array=_shn_cs_get_units($parent_id);
+	//shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
 	shn_form_fsclose();
 	//shn_form_hidden(array('item_id'=>$item_id));
 	
@@ -160,12 +197,12 @@ function _shn_ims_mini_quantity_db()
 
 	$inventory_id=trim($_POST['inventory_id']);
 
-	print $catalog_id;
+	/*print $catalog_id;
 	print $inv_id;
 	print $mini_quantity;
 	print $unit;
 	print ("\n");
-	print ($inventory_id);
+	print ($inventory_id);*/
 
 	if($flag==false)
 	{

@@ -139,9 +139,31 @@ function add_item($temp,$parent_id)
 	shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
 	shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
 
-	$unit_select_array=array();
 	
-	$unit_select_array=_shn_cs_get_units($parent_id);
+	global $global;
+	$db=$global["db"];
+	
+	$cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+	$cms=$db->Execute($cq);
+	//print $cq;
+	$unit_select_array[$unit]=$cms->fields['name'];
+	
+	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+
+
+
+	$temp2=$res->fields['unit_uuid'];
+	$query1="select name from ct_unit where unit_uuid ='$temp2'";
+	$res2=$db->Execute($query1);
+	
+	$unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+	$res->MoveNext();
+	}	
+
 	shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',null);
 
 	
@@ -165,7 +187,7 @@ function add_item($temp,$parent_id)
 		//print ($j);
 	}	
 	
-	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box is empty please go to the Multiple Inventory Management System and add an Inventory first')));
+	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 
 	shn_form_fsclose();
 

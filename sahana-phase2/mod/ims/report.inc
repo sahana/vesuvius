@@ -76,7 +76,7 @@ function _shn_ims_report_minimum()
 			
 			$unit_name=get_unit_name($unit);
 
-			$sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min' AND state!='$state';";
+			$sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min'AND state!='$state';";
 			$ims2 =$db->Execute($sql2);
 			//print $sql2;
 			//print $sql2;
@@ -86,8 +86,7 @@ function _shn_ims_report_minimum()
 			//$sum_amount = $ims2->fields['SUM(amount)'];
 			$current_unit=$ims2->fields['unit'];
 			$current_amount=$ims2->fields['amount'];
-			
-			
+						
 			
 	$multiplier=unit_converter($unit,$current_unit);
 	
@@ -112,11 +111,15 @@ function _shn_ims_report_minimum()
 			$sum_amount=0;
 			$sql3 = "SELECT item_id,item_name,unit FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min';";
 			$ims3 = $db->Execute($sql3);
+	
+			
+			//print $sql3;
 
 			$sql4 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_min';";
 			$ims4 = $db->Execute($sql4);
 			$inventory_name=$ims4->fields['inventory_name'];
 			//print $sql2;
+			//print $sql4;
 
 			$item_id=$ims3->fields["item_id"];
 			//$category=$ims2->fields["category"];
@@ -129,10 +132,9 @@ function _shn_ims_report_minimum()
 			
 
 ?>
-	<tr>
-	
-	
+	<tr>	
 	<td><?php print ($item_name); ?></td>
+
 	<td><?php print ($total_amount); ?></td>
 	<td><?php print ($unit_name); ?></td>
 	<td><?php print ($inventory_name); ?></td>
@@ -140,6 +142,7 @@ function _shn_ims_report_minimum()
 	</tr>
 	
 <?php
+
 	}
 	else if($sum_amount>=$minimum_quantity)
 	{
