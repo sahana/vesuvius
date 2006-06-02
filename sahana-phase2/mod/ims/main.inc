@@ -40,16 +40,17 @@ function shn_ims_mainmenu()
 
 	shn_mod_menuopen(shn_get_module_name());
 	shn_mod_menuitem("default","Home",$module);
-	shn_sub_mod_menuopen(_("Item Management"));
-	shn_sub_mod_menuitem("search_item", _("Search"), $module);
-	shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
-	shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
-	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Multiple Inventory Management"));
 	//shn_sub_mod_menuitem("search",_("Search"),$module);
 	shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
 	shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
 	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_("Item Management"));
+	shn_sub_mod_menuitem("search_item", _("Search"), $module);
+	shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
+	shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
+	shn_sub_mod_menuclose();
+	
 	shn_sub_mod_menuopen(_("Re-Order Level"));
 	shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
 	shn_sub_mod_menuitem("view_edit_reorder_page",_("View and Edit"),$module);
