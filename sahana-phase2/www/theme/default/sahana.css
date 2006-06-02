@@ -524,7 +524,7 @@ div#formcontainer fieldset textarea:focus {
 #formset textarea{
 	margin: 0px 10px 10px 10px;
 	font-family:sans-serif;
-	width:50%;
+ 	width:50%; 
 }
 
 div#formcontainer fieldset div ul li {
@@ -707,7 +707,7 @@ table.layout td{
     right:0px;
     background:#369;
     color: white;
-    margin-left:60%;
+    margin-left:50%;
     padding:5px;
 }
 
@@ -769,4 +769,20 @@ ul.paging{
     display:inline;
     text-decoration:none;
     font-weight:bold;
+}
+
+div#submenu_v a{
+    background-color:#777;
+    padding:2px;
+    border:2px #000 outset;
+    color:white;
+    text-decoration:none;
+}
+
+div#submenu_v a:hover{
+    background-color:#777;
+    padding:2px;
+    border:2px #777 solid;
+    color:white;
+    text-decoration:none;
 }
