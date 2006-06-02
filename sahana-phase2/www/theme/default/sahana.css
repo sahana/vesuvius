@@ -746,3 +746,13 @@ table.layout td{
     padding: 3px; 
     z-index: 10; 
 }
+
+.req {
+    position:absolute;
+    text-indent:-2222px;
+    font-size:10px; 
+    text-decoration:none;
+    height:20px;
+    width:50px;
+    background-image:url(img/req.gif) ;
+}
