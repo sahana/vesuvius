@@ -13,7 +13,7 @@
 * @subpackage cs
 */
 
-function datacreate()
+function shn_cs_datacreate()
 {
 	global $global;
 	$db=$global["db"];
