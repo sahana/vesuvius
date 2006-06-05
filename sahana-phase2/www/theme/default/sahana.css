@@ -748,13 +748,8 @@ table.layout td{
 }
 
 .req {
-    position:absolute;
-    text-indent:-2222px;
-    font-size:10px; 
-    text-decoration:none;
-    height:20px;
-    width:50px;
-    background-image:url(img/req.gif) ;
+    color:red;
+    vertical-align:12px;
 }
 
 ul.paging{
