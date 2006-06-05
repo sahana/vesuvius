@@ -256,7 +256,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $q = "select location_id from location_details where poc_uuid='{$org_id}'";
     
     $res_loc=$db->Execute($q);
-    $loc=$res_loc->fields["location_id"];
+    if(!$res_loc==NULL && !$res_loc->EOF){
+    		$loc=$res_loc->fields["location_id"];
+    }else{
+    		$loc=-1;
+    }
 
     }
 ?>
@@ -290,8 +294,12 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsclose();
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
-    
-    shn_location($range,$loc);
+    if($loc==-1){
+    			shn_location($range,null,null,true);
+    }else{
+    			shn_location($range,$loc,null,true);	
+    }
+     
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,$org_id);
