@@ -313,6 +313,8 @@ function _shn_ims_view_edit_reorder_page()
 		$ims2=$db->Execute($sql2);
 		$item_id=$ims2->fields['item_id'];
 		$item_name=$ims2->fields['item_name'];
+		if ($item_name!=null)
+		{
 
 		$sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
 		$ims3= $db->Execute($sql3);
@@ -335,7 +337,7 @@ function _shn_ims_view_edit_reorder_page()
 
 	
 <?php
-	
+	}
 	$ims1->MoveNext();
 	}
 ?>

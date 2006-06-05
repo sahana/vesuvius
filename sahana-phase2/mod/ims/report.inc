@@ -118,6 +118,11 @@ function _shn_ims_report_minimum()
 			//print $sql4;
 
 			$item_id=$ims3->fields["item_id"];
+
+			if($item_id!=null)
+			{
+			
+			
 			//$category=$ims2->fields["category"];
 			$item_name=$ims3->fields["item_name"];
 			//$amount=$ims2->fields["amount"];
@@ -138,7 +143,7 @@ function _shn_ims_report_minimum()
 	</tr>
 	
 <?php
-
+	}
 	}
 	else if($sum_amount>=$minimum_quantity)
 	{
