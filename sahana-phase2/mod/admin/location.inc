@@ -146,9 +146,11 @@ function _shn_admin_location_edit_form($loc){
  	
 
 //create the submit button
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
-	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
+	$extra_opts['br']=false;
+	$extra_opts['req']=false;
+    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
      shn_form_hidden(array('loc_id'=>$loc));
     _shn_admin_action_change_javascript("action");
