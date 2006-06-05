@@ -652,12 +652,13 @@ function _shn_or_get_suplier_name($suplier_id)
 {
 	global $global;
         $db=$global['db'];
+	$org_id=0;
 	$suplier_array=array();	
 	$sql="SELECT name FROM org_main WHERE o_uuid='$suplier_id';";
 	$or=$db->Execute($sql);
 	$suplier_array[$suplier_id]=$or->fields['name'];
 
-	$sql1="SELECT o_uuid,name FROM org_main WHERE o_uuid!='$suplier_id';";
+	$sql1="SELECT o_uuid,name FROM org_main WHERE o_uuid!='$suplier_id' AND o_uuid!='$org_id';";
 	$or1=$db->Execute($sql1);
 	
 	while($or1!=NULL && !$or1->EOF)
