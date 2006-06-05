@@ -29,7 +29,7 @@ function shn_or_mainmenu()
     $loc=_shn_or_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_or_name']));
     shn_mod_menuitem("default","Home",$module);
-//     shn_mod_menuitem("search","Search",$module);
+    shn_mod_menuitem("search","Search",$module);
     shn_sub_mod_menuopen(_("Register"));
     shn_mod_menuitem("reg_org","Register an Organization",$module);
     shn_mod_menuitem("reg_operation","Register a Department/Branch",$module);
@@ -234,19 +234,20 @@ function shn_or_search_cr(){
     }
 	$locs=array();
 	shn_location_get_descendants($loc,$locs);
+	
 	$loc=shn_or_create_database_IN_array($locs);
    	$type=shn_or_create_database_IN_array($org_type);
    	$sector=shn_or_create_database_IN_array($sector);
    	$inci=shn_or_create_database_IN_array($incident);
 	$org=array();
     $q="select o_uuid from location_details,sector,org_main,resource_to_incident where location_details.location_id in $loc and location_details.poc_uuid=org_main.o_uuid and sector.opt_sector in $sector and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type in $type and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
-    
     $res_org=$db->Execute($q);
+   
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push($org,$res_org->fields["o_uuid"]);
         $res_org->MoveNext();
     }
-        $i=$i+1;
+       
     
 ?>
 <h2><?=_("Search Result")?></h2>
@@ -266,12 +267,16 @@ function shn_or_search_cr(){
         </thead>
         <tbody>
 <?php
-    $i=0;
+    $i=1;
     $org=array_unique($org);
    
-    while($i<count($org)){
-        _shn_display_org($org[$i],$i);
-        $i=$i+1;
+   foreach ($org as $o_id){
+  
+    		if(!$o_id==null){
+    			_shn_display_org($o_id,$i);
+    			 $i=$i+1;
+    		}
+       
     }
 ?>
         </tbody>
