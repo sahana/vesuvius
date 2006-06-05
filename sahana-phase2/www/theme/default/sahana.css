@@ -772,17 +772,16 @@ ul.paging{
 }
 
 div#submenu_v a{
-    background-color:#777;
-    padding:2px;
-    border:2px #000 outset;
-    color:white;
     text-decoration:none;
+    background-color:#888;
+    padding-left:2px;
+    padding-right:2px;
+    color:yellow;
+    line-height:25px;
+    border:2px #369 solid;
 }
 
 div#submenu_v a:hover{
-    background-color:#777;
-    padding:2px;
-    border:2px #777 solid;
     color:white;
-    text-decoration:none;
+    background-color:#555;
 }
