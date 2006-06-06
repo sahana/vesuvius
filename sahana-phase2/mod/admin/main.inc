@@ -46,8 +46,67 @@ function shn_admin_view()
 }
 
 function shn_admin_default()
-{ ?>
-    <div id="home">
+{ 
+    global $global;
+    $db = $global['db'];
+
+    $result = $db->Execute("select * from incident");
+    $isDisasterNamed = ($result->RecordCount() > 0);
+
+    $result = $db->Execute("select * from location");
+    $isLocationsEntered = ($result->RecordCount() > 0);
+
+    $result = $db->Execute("select * from gacl_acl");
+    $isSecurityInstalled = ($result->RecordCount() > 0);
+
+    $result = $db->Execute("select value from config where module_id='gis'
+                                 and confkey='google_key'");
+    $isGoogleSetup = ($result == "");
+
+    echo '<div id="home">';
+  
+    if (!$isLocationsEntered || !$isGoogleSetup 
+        || !$isSecurityInstalled || !$isDisasterNamed) {
+        echo '<h2>'._('Finalize Your Sahana Installation')."</h2>\n";
+        echo _("<p>There are still a few steps to be performed before you 
+                can start using your Sahana installation effectively. 
+                These items are given in priority order below:</p>")."\n";
+    }
+    echo "<ol>\n";
+    if (!$isDisasterNamed) {
+        echo '<li>'._('<b>Add Disaster</b> - As this system can handle 
+                multiple disasters in the same system you need to 
+                first add the name of the first disaster you are using 
+                Sahana for. To do this in the navigation bar click on 
+                "Multiple Incidents" 
+                followed by <a href="?mod=admin&act=ims_level1">
+                "Manage Disaster"</a> and add the disaster name').'</li>'; 
+    }
+   
+    if (!$isLocationsEntered) {
+        echo '<li>'._('<b>Add Locations</b> - Please enter some of the 
+                regions affected in the disaster by clicking the 
+                navigation bar on "Locations" 
+                followed by <a href="?mod=admin&act=add_loc">
+                "Add Location"</a>').'</li>'; 
+    }
+    if (!$isGoogleSetup) {
+        echo '<li>'._('<b>Setup Google Maps (optional)</b> - To get mapping to 
+                work you need to enter a Google Map key in the "Module Config"
+                -> <a href="?mod=gis&act=admin&submod=google_maps">
+                "GIS Mapping"</a> section.').'</li>'; 
+    }
+    if (!$isSecurityInstalled) {
+        echo '<li>'._('<b>Configure Security (optional)</b> - To prevent 
+                unauthorized access to the system configure security by
+                 clicking "Security Config" and then selecting on  
+                <a href="?mod=admin&act=acl_system">
+                "System &amp; User"</a>').'</li>'; 
+    }
+
+
+    echo "</ol>\n";
+?>
     <h2><?=_("Sahana System Administration")?></h2>
         <p><?=_("The System Adminisitration section allows you to configure and customize Sahana based on your requirements")?></p>
 	<ul>

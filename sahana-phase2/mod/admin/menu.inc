@@ -20,6 +20,7 @@ function _shn_admin_mainmenu()
     global $conf;
     $module_list = shn_get_modules_with_admin();
     shn_mod_menuopen(shn_get_module_name());
+    shn_sub_mod_menuitem("default", _("Admin Home"), 'admin');
     shn_sub_mod_menuopen(_("Locations"));
     shn_sub_mod_menuitem("loc_lvl", _("Location Levels"), 'admin');
     shn_sub_mod_menuitem("add_loc", _("Add Location"), 'admin');
