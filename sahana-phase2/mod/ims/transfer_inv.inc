@@ -423,8 +423,9 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	$inv_id_to=$ims->fields['inv_id_to'];
 	
 
-	$sql3="SELECT item_name,inv_id,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
+	$sql3="SELECT catalog_id,item_name,inv_id,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
 	$ims3=$db->Execute($sql3);
+	$parent_id=$ims3->fields['catalog_id'];
 	$item_name=$ims3->fields['item_name'];
 	$inv_id_from=$ims3->fields['inv_id'];
 	$cost_per_unit=$ims3->fields['cost_per_unit'];
@@ -442,18 +443,49 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	shn_form_fopen('receive_item_db');
 	shn_form_fsopen("Received Item");
 	$extra_opts['value'] = $item_name;
-	shn_form_text(_("Item Name : "),'item_name','size="50"',$extra_opts);
+	shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',$extra_opts);
 	//$extra_opts['value'] = $received_amount;
 	shn_form_text(_("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$received_amount));
-	shn_form_text(_("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
+
+$unit_select_array=array();
+	
+	$cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+	$cms=$db->Execute($cq);
+	//print $cq;
+	$unit_select_array[$unit]=$cms->fields['name'];
+	
+	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+	$res=$db->Execute($query);
+
+	while(!$res==NULL && !$res->EOF)
+	{
+
+
+
+	$temp2=$res->fields['unit_uuid'];
+	$query1="select name from ct_unit where unit_uuid ='$temp2'";
+	$res2=$db->Execute($query1);
+	
+	$unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+	$res->MoveNext();
+	}	
+
+	shn_form_select($unit_select_array,_("Unit : "),'unit','size="1"',null);
+	//shn_form_text(_("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
 	$extra_opts['value'] = $cost_per_unit;
 	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 	$extra_opts['value']=$inventory_from;
-	shn_form_text(_("From : "),'inventory_from','size="50"',$extra_opts);
+	shn_form_text(_("From : "),'inventory_from','size="50" readonly=true',$extra_opts);
 	$extra_opts['value']=$inventory_to;
-	shn_form_text(_("To : "),'inventory_to','size="50"',$extra_opts);
+	shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
 	shn_form_text(_("Date Received : "),'received_date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
+
+
+
+	
+
+
 	shn_form_fsclose();
 
 	shn_form_hidden(array('item_id'=>$item_id));
@@ -500,9 +532,6 @@ function _shn_ims_receive_item_db()
 	$state=$ims2->fields['state'];
 
 	//print $item_name;
-	
-
-//------------------------unit has to be added ----------------------------------------------------------------
 	
 	$sql3="INSERT INTO ims_item_records(catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
 	//print $sql3;
