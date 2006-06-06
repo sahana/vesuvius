@@ -1,5 +1,5 @@
 <?php
-/** search form for the Organization Registry 
+/** search form for the Inventory Management system 
 *
 * PHP version 4 and 5
 *

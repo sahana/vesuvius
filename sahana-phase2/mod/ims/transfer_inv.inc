@@ -1,6 +1,6 @@
 <?php
 /**
-* Sahana Inventory Management System main page
+* Sahana Inventory Management System Item transfer page
 *
 * PHP version 4 and 5
 *

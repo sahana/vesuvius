@@ -1,5 +1,5 @@
 <?php
-/**Reports of the Organization Registry 
+/**Reports of the Inventory Management System 
 *
 * PHP version 4 and 5
 *

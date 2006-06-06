@@ -1,5 +1,5 @@
 <?php
-/**Internal Library of the Organization Registry 
+/**Internal Library of the Inventory Management system 
 *
 * PHP version 4 and 5
 *

@@ -1,5 +1,5 @@
 <?php
-/**error defines of the Organization Registry 
+/**error defines of the Inventory Management System 
 *
 * PHP version 4 and 5
 *

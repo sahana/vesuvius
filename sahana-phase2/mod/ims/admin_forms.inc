@@ -1,5 +1,5 @@
 <?php
-/**Admin forms of the Organization Registry 
+/**Admin forms of the Inventory Management system 
 *
 * PHP version 4 and 5
 *

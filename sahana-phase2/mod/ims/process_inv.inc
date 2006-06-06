@@ -1,5 +1,5 @@
 <?php
-/**Processing functions(add ,edit,delete,ect) for Organizations of the Organization Registry 
+/**Processing functions(add ,edit,delete,ect) for Inventory Management System 
 *
 * PHP version 4 and 5
 *

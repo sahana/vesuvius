@@ -1,5 +1,5 @@
 <?php
-/** View ,Edit forms for Organizations of the Organization Registry 
+/** View ,Edit forms for Inventories of the Inventory Management System 
 *
 * PHP version 4 and 5
 *

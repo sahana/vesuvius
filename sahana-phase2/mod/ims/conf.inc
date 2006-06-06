@@ -1,5 +1,5 @@
 <?php
-/**This is the config file for the OR module, specifies configuration
+/**This is the config file for the IMS module, specifies configuration
 *  settings
 *
 * PHP version 4 and 5

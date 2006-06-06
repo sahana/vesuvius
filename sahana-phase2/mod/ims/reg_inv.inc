@@ -1,5 +1,5 @@
 <?php
-/**Registration related forms for Organizations of the Organization Registry 
+/**Registration related forms for Inventories of the Inventory Management System 
 *
 * PHP version 4 and 5
 *
