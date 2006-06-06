@@ -1,5 +1,3 @@
-CREATE DATABASE IF NOT EXISTS sahana;
-USE sahana;
 
 /* REQUEST MANAGEMENT SYSTEM TABLES */
 /* --------------------------------------------------------------------------*/

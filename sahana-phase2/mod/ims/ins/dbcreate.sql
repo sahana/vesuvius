@@ -1,4 +1,3 @@
-USE sahana;
 /* INVENTORY MANAGEMENT SYSTEM TABLES */
 /* --------------------------------------------------------------------------*/
 DROP TABLE IF EXISTS `ims_item_records`;

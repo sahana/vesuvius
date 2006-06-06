@@ -116,7 +116,7 @@ function shn_setup_form_dependancy()
     shn_form_checkbox(_('PHP-GD library'),'phpgd',$value.' 
                         disabled="true"',array('value'=>'y','req'=>true,
                         'help'=>'To find out how to do this for your 
-                        operating system see <a href="http://www.linux.lk">
+                        operating system see <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">
                         Sahana WIKI</a>')); 
 
     $value = (extension_loaded('mysql'))? 'checked':'';
@@ -124,7 +124,7 @@ function shn_setup_form_dependancy()
     shn_form_checkbox(_('MySQL library'),'mysql',$value.' 
                         disabled="true"',array('value'=>'y', 'req'=>true, 
                         'help'=>'To find out how to do this for your 
-                        operating system see <a href="http://www.linux.lk">
+                        operating system see <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">
                         Sahana WIKI</a>')); 
 
     shn_form_fsclose();
@@ -135,7 +135,10 @@ function shn_setup_form_dependancy()
     $value = (is_writable($global['approot'].'www/tmp'))? 'checked':'';
 
     shn_form_checkbox(_('Sahana dir www/tmp/ is writable?'),'write_tmp',$value.' 
-                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+                        disabled="true"',array('value'=>'y','req'=>true,
+                        'help'=>'Make sure this directory is writable by
+                        the web user. See how to do this for each system 
+                        by clicking <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">here</a>')); 
 
 /*   $value = (is_writable($global['approot'].'res/locale'))? 'checked':'';
 
@@ -145,7 +148,11 @@ function shn_setup_form_dependancy()
     $value = (is_writable($global['approot'].'conf'))? 'checked':'';
 
     shn_form_checkbox(_('Sahana dir conf/ is writable?'),'write_conf',$value.' 
-                        disabled="true"',array('value'=>'y','help'=>'hello')); 
+                        disabled="true"',array('value'=>'y',
+                        'help'=>'If you make this directory writable we will be
+                        able to automate the installation. See how to do this 
+                        for each system by clicking 
+                        <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">here</a>')); 
 
    
 

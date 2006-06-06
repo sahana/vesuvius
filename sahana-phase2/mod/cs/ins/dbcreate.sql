@@ -1,4 +1,3 @@
-USE sahana;
 /*CATALOGUE SYSTEM TABLES*/
 /*-----------------------*/
 

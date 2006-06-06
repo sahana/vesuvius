@@ -2,8 +2,8 @@
 * MySQL database structure creation table for Sahana
 */
 
-CREATE DATABASE IF NOT EXISTS sahana;
-USE sahana;
+/*CREATE DATABASE IF NOT EXISTS sahana;
+USE sahana;*/
 
 -- SESSIONS
 DROP TABLE IF EXISTS sessions;
