@@ -24,5 +24,6 @@
  * @global string $conf['mod_pref_name']
  */
 $conf['mod_pref_name'] = _("User Preferences");
+$conf['mod_pref_menuorder'] = 19;
 
 ?>
