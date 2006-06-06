@@ -89,6 +89,7 @@ function shn_setup_check_dependancy()
 function shn_setup_form_dependancy()
 {
     global $global;
+    $isOK = true;
 ?>
     <h1><?=_('Sahana Web Setup')?></h1>
 
@@ -105,6 +106,7 @@ function shn_setup_form_dependancy()
 <?php
     
     $value = (version_compare(phpversion(), '4.1', '>'))? 'checked':'';
+    $isOK &= ($value != '');
 
     shn_form_checkbox(_('PHP Version = ').phpversion(),'phpver',$value.' 
                         disabled="true"',array('value'=>'y',
@@ -112,6 +114,7 @@ function shn_setup_form_dependancy()
                         be greater than 4.1', 'req'=>true)); 
 
     $value = (extension_loaded('gd'))? 'checked':'';
+    $isOK &= ($value != '');
 
     shn_form_checkbox(_('PHP-GD library'),'phpgd',$value.' 
                         disabled="true"',array('value'=>'y','req'=>true,
@@ -120,6 +123,7 @@ function shn_setup_form_dependancy()
                         Sahana WIKI</a>')); 
 
     $value = (extension_loaded('mysql'))? 'checked':'';
+    $isOK &= ($value != '');
 
     shn_form_checkbox(_('MySQL library'),'mysql',$value.' 
                         disabled="true"',array('value'=>'y', 'req'=>true, 
@@ -133,6 +137,7 @@ function shn_setup_form_dependancy()
     <p><?=_('The following checks if certain files and directories have write persmissions for Sahana to function')?></p>
 <?php
     $value = (is_writable($global['approot'].'www/tmp'))? 'checked':'';
+    $isOK &= ($value != '');
 
     shn_form_checkbox(_('Sahana dir www/tmp/ is writable?'),'write_tmp',$value.' 
                         disabled="true"',array('value'=>'y','req'=>true,
@@ -158,7 +163,13 @@ function shn_setup_form_dependancy()
 
     shn_form_fsclose();
 
-    shn_form_submit(_('Next >>'));
+    if ($isOK) {
+        echo _('<p>Dependancies OK</p>')."\n";
+        shn_form_submit(_('Next >>'));
+    } else {
+        echo _('<p>Please correct the required dependancies above and</p>')."\n";
+        shn_form_submit(_('Try Again'));
+    }
     shn_form_fclose();
 }
 
@@ -229,9 +240,7 @@ function shn_setup_form2()
 
     if (is_writeable($global['approot'].'conf')) {
     
-        echo '<p>The PHP/Web Server should normally not have access to write 
-    or modify the configuration file located in Sahana application <b>/conf</b> 
-    directory, as this is a security risk. As soon as we write the configuration in the next step please remove the write permission to this file </p>';
+        echo '<p>The next set is to write the configuration file sysconf.inc in the Sahana /conf directory.';
 
         shn_form_hidden(array('conffile' => 
             $global['approot'].'conf/sysconf.inc'));
@@ -269,9 +278,8 @@ function shn_setup_form_conffile()
 
 <?php
     global $global;
-    shn_form_fopen('default','home');
-    shn_form_fsopen(_('Configuration File'));
-
+    shn_form_fopen('default','admin',array('req_message' => false));
+    shn_form_fsopen(_('Starting Sahana'));
     
     shn_form_hidden( array(
         'conffile' => $_POST['conffile'] )); 
@@ -279,6 +287,7 @@ function shn_setup_form_conffile()
 
     if (is_writeable($global['approot'].'conf')) {
 ?>
+    <p><b><u><?=_('WARNING: Security')?></u></b></p>
     <p><?=_('To secure the configuration you have to remove write 
              permissions from the configuration file sysconf.inc located in 
              the Sahana directory conf/')?></p>
