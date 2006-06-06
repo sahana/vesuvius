@@ -25,4 +25,5 @@
 #global $conf;
 
 $conf['mod_cs_name'] = _("Catalogue System");
+$conf['mod_cs_menuorder'] = 16;
 ?>
