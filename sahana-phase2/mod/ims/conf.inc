@@ -16,7 +16,7 @@
 
 // provide the nice display name for the OR  module
 global $conf;
-$conf['mod_ims_name'] = _("Inventory Management System");
+$conf['mod_ims_name'] = _("Inventory Management");
 //set start_loc to -1 if you want all the locations
 $conf['mod_or_ims_start_loc'] = 1;
 $conf['mod_or_ims_loc_level_start']=1;
