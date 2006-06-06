@@ -21,6 +21,6 @@
 /**
  * provides the nice display name for the RMS  module
  */
-$conf['mod_rms_name'] = _("Request Management System");
+$conf['mod_rms_name'] = _("Pledge/Request Management");
 
 ?>
