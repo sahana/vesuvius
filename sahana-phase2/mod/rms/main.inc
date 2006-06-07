@@ -23,6 +23,7 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
 require_once $global['approot']."/inc/lib_menu.inc";
 include_once($global['approot']."/inc/lib_uuid.inc");
+include_once($global['approot']."/inc/lib_dependency.inc");
 require_once 'lib_rms.inc';
 require_once 'lib_rms_db.inc';
 require_once 'lib_rms_js.inc';

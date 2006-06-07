@@ -17,6 +17,11 @@
 * Public License (LGPL)
 */
 
+/**
+ * Check for module dependancies.
+ */
+require_once 'handler_dep_check.inc';
+
 ?>
 
 <div id="home">
