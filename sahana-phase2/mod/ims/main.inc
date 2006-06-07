@@ -28,6 +28,8 @@ include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
 
+
+
 //global $global;
 
 /**
@@ -79,6 +81,7 @@ function shn_ims_default()
     _shn_ims_expire_date_check();
     include_once ('home.inc');
     _shn_ims_default();	
+
 }
 
 /**

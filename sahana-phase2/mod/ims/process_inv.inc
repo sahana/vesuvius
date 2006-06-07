@@ -135,6 +135,8 @@ function _shn_ims_reg_inv_cr()
             //no validation done on other fields as they are not unique
             $q="insert into  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space)values($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}')";
             $res=$db->Execute($q);
+//print
+		
            /*
             $i=0;
             while($i<count($sector)){
@@ -145,21 +147,29 @@ function _shn_ims_reg_inv_cr()
             */
             $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'pmob','{$contact_mobile}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
             $res=$db->Execute($q);
+//print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'web','{$contact_web}')";
             $res=$db->Execute($q);
+//print $q;
             //no validation as organization can have multiple locations
             $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
             $res=$db->Execute($q);
+//print $q;
     }
 }
     if((!$chk_branch) or $error){

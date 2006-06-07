@@ -34,7 +34,7 @@ function _shn_ims_default() {
 		
 	</ul>
 </div>
-<h2 align="center"><?php print _("Most recently added ten items ")?></h2>
+<h2 align="center"><?php print _("Most recently added items ")?></h2>
 <div id="result">
 
 <?php
