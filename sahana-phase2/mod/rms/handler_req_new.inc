@@ -17,14 +17,12 @@
 * Public License (LGPL)
 */
 
-
 _shn_rms_print_hedder(_("Make New Request"));
 
 
 function _shn_rms_requester($requester_id=null)
 {
-	$_SESSION['rms_reqstr_id'] = null;
-    
+    $_SESSION['rms_reqstr_id'] = null;
     print '<div id="reqstr_id">';
     shn_form_fopen("req_new",null);
     shn_form_hidden(array('seq'=>'get_reqstr'));
