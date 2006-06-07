@@ -18,6 +18,10 @@
 */
 
 $error  = false;
+
+/**
+ * List of tables that should exist
+ */
 $tables = array (
                     rms_request,
                     rms_req_item,
@@ -45,14 +49,22 @@ if($error)
     $error  = false;
 }
 
-$tables = array(ct_catalogue, ct_unit, ct_unit_type, ct_cat_unit);
+/**
+ * List of tables that should not be empty
+ */
+$tables = array (
+                    ct_catalogue,
+                    ct_unit,
+                    ct_unit_type,
+                    ct_cat_unit
+                );
 $error  = __check_empty_tables($tables);
 
 if ($error)
 {
-    add_error(_("<strong>Please contact the system admin <br />" .
-                        "populate the tables using the 'mod/rms/ins/rms.sql' " .
-                        "file</strong>"));
+    add_error(_("<strong>Please contact the system admin <br />and " .
+                        "and add the initial data thats required by " .
+                        "this module</strong>"));
     display_errors();
 }
 
