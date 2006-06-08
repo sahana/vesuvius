@@ -26,7 +26,7 @@ function _shn_ims_default() {
         <br>
         <li>It keeps the track of items available in warehouses</li>
         <br>
-        <li>It facilitates to get reports and statistics about the inventory</li>
+        <li>It facilitates to get reports and statistics about the inventories</li>
         <br>
         <li>The Inventory Management System facilitates to manage multiple inventories and also enables to transfer items between two inventories</li>
         <br>
