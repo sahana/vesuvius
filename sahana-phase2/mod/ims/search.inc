@@ -8,7 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-	      Mahesh Kaluarachchi <mahesh@opensource.lk>
+          Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -28,7 +28,7 @@ include_once $global['approot'].'/mod/or/lib_or.inc';
 
 function _shn_ims_search_item()
 {
-	
+    
 ?>
 
 <h1 align="center"><?php print _("Search an inventory item"); ?></h1>
@@ -37,191 +37,192 @@ function _shn_ims_search_item()
 </div>
 
 <?php
-	$form_opts['name']='subcat';
-	shn_form_fopen("search_item_page",null,$form_opts);
-	$depth=get_max_depth();
-	shn_sub_cat($depth,'subcat');
+    $form_opts['name']='subcat';
+    shn_form_fopen("search_item_page",null,$form_opts);
+    $depth=get_max_depth();
+    shn_sub_cat($depth,'subcat');
 
 
-	shn_form_fclose();
+    shn_form_fclose();
 }
 
 function _shn_ims_search_item_page()
 {
-$parent_id = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$parent_id = trim($_POST[$i]);
-	
-		if($parent_id==null)
-		{
-		$parent_id = $_POST[$i-1];
-		break;
-		}
-	}
-	//print ("test");	
-	//echo $parent_id;
+    $depth=get_max_depth();
+    $parent_id = trim($_POST['0']);
+    // this 5 should be replaced by the $max that is retrieved from the DB
+    for($i=1;$i<$depth;$i++)
+    {
+        $parent_id = trim($_POST[$i]);
+    
+        if($parent_id==null)
+        {
+            $parent_id = $_POST[$i-1];
+            break;
+        }
+    }
+    //print ("test");    
+    //echo $parent_id;
 ?>
 
 <h1 align="center"><?php print _("Search an inventory item"); ?></h1>
 <div id="search">
 
 <?php
-	$extra_opts['req']=true;
+    $extra_opts['req']=true;
 
-	shn_form_fopen("search_item_db");
-	shn_form_fsopen(_('Search items '));
-	shn_form_text(_("Search by Item name   : "),'item_name','size="50" readonly=true',$extra_opts);
+    shn_form_fopen("search_item_db");
+    shn_form_fsopen(_('Search items '));
+    shn_form_text(_("Search by Item name   : "),'item_name','size="50" readonly=true',$extra_opts);
 
-	$item_state_array=array();
-	$item_state_array["available"]=_("Item available");
-	$item_state_array["expired"]=_("Item to be destroyed");
-	$item_state_array["destroyed"]=_("Item already destroyed");
-	shn_form_select($item_state_array,_("  State  : "),'item_state','size="1"',$extra_opts);
+    $item_state_array=array();
+    $item_state_array["available"]=_("Item available");
+    $item_state_array["expired"]=_("Item to be destroyed");
+    $item_state_array["destroyed"]=_("Item already destroyed");
+    shn_form_select($item_state_array,_("  State  : "),'item_state','size="1"',$extra_opts);
 
-	global $global;
-	$db=$global["db"];
-	$inventory_array=array();
-	//$inventory_array['0']="None";
-	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-	$ims=$db->Execute($q);
-	//$j=0;
-	while($ims!=NULL && !$ims->EOF)
-	{
-		
-		$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
-		$ims->MoveNext();
-		//$j=$j+1;
-		//print ($j);
-	}	
-	
-	shn_form_select($inventory_array,_("Inventory : "),'inventory','size="1"',$extra_opts);
-	
+    global $global;
+    $db=$global["db"];
+    $inventory_array=array();
+    //$inventory_array['0']="None";
+    $q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
+    $ims=$db->Execute($q);
+    //$j=0;
+    while($ims!=NULL && !$ims->EOF)
+    {
+        
+        $inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
+        $ims->MoveNext();
+        //$j=$j+1;
+        //print ($j);
+    }    
+    
+    shn_form_select($inventory_array,_("Inventory : "),'inventory','size="1"',$extra_opts);
+    
 
-	shn_form_fsclose();
+    shn_form_fsclose();
 
-	
-	shn_form_submit(_("Submit"));
-	
-	
-	
+    
+    shn_form_submit(_("Submit"));
+    
+    
+    
 
-	//shn_form_fsopen();	
-	//$extra_opts['req']=false;
+    //shn_form_fsopen();    
+    //$extra_opts['req']=false;
 ?>
 
-		
+        
 </div>
-	
+    
 <?php
-	//shn_form_fsclose();
-	shn_form_fclose();
+    //shn_form_fsclose();
+    shn_form_fclose();
 }
 
 function _shn_ims_search_item_db()
 {
 ?>
-		<h1 align="center"><?php print _("Search Results"); ?></h1>
+        <h1 align="center"><?php print _("Search Results"); ?></h1>
 <?php
-		$item_name=$_POST['item_name'];
-		$item_state=$_POST['item_state'];
-		$inventory_id=$_POST['inventory'];
-					
-		global $global;
-		$db=$global["db"];
-		
-		//print ($item_search);
-		
-		$sql = "SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
-		$ims = $db->Execute($sql);
-		//print $sql;
+        $item_name=$_POST['item_name'];
+        $item_state=$_POST['item_state'];
+        $inventory_id=$_POST['inventory'];
+                    
+        global $global;
+        $db=$global["db"];
+        
+        //print ($item_search);
+        
+        $sql = "SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
+        $ims = $db->Execute($sql);
+        //print $sql;
 ?>
 
-		<div id ="result">
-	<table>
+        <div id ="result">
+    <table>
         <thead>
             <td><?=_("Item Name")?></td>
-	    <td><?=_("Amount")?></td>
-	    <td><?=_("Unit") ?></td>
-	    <td><?=_("Inventory") ?></td>
-	    <td><?=_("State") ?></td>
-	   <td><?=_("Suplier") ?></td> 
-	    
+        <td><?=_("Amount")?></td>
+        <td><?=_("Unit") ?></td>
+        <td><?=_("Inventory") ?></td>
+        <td><?=_("State") ?></td>
+        <td><?=_("Suplier") ?></td> 
+        
             
             
         </thead>
-	<tbody>
-	
+    <tbody>
+    
 <?php
-		//$sum_amount=0;
-		$suplier_name_array=array();
+        //$sum_amount=0;
+        $suplier_name_array=array();
 
-		while (!$ims==NULL && !$ims->EOF)
-		{
-			$item_id=$ims->fields["item_id"];
-			$suplier_id=$ims->fields["suplier_id"];
-			$suplier_name_array=_shn_or_get_suplier_name($suplier_id);
-			$suplier_name=$suplier_name_array[$suplier_id];
-			
-			//print $suplier_name;
-			//print $suplier_id;
-			//print $suplier_name;
-			//$inv_id=$ims->fields['inv_id'];
-			//$item_name=$ims->fields["item_name"];
-			//$sum_amount=$ims->fields["SUM(amount)"];
-			$amount=$ims->fields["amount"];
-			
-			
-			$unit=$ims->fields["unit"];
-			$base_unit=convert_to_base_unit($unit);
-			
-			$converted_amount=$amount*unit_converter($base_unit,$unit);
-			//print $converted_amount;
-			$sum_amount=$sum_amount + $converted_amount;
-			//print $sum_amount;
-			$unit_name=get_unit_name($unit);
-			$base_unit_name=get_unit_name($base_unit);
-			$state=$ims->fields['state'];
-			//$manufactured_date=$ims->fields["manufactured_date"];
-			//$expire_date=$ims->fields["expire_date"];
+        while (!$ims==NULL && !$ims->EOF)
+        {
+            $item_id=$ims->fields["item_id"];
+            $suplier_id=$ims->fields["suplier_id"];
+            $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+            $suplier_name=$suplier_name_array[$suplier_id];
+            
+            //print $suplier_name;
+            //print $suplier_id;
+            //print $suplier_name;
+            //$inv_id=$ims->fields['inv_id'];
+            //$item_name=$ims->fields["item_name"];
+            //$sum_amount=$ims->fields["SUM(amount)"];
+            $amount=$ims->fields["amount"];
+            
+            
+            $unit=$ims->fields["unit"];
+            $base_unit=convert_to_base_unit($unit);
+            
+            $converted_amount=$amount*unit_converter($base_unit,$unit);
+            //print $converted_amount;
+            $sum_amount=$sum_amount + $converted_amount;
+            //print $sum_amount;
+            $unit_name=get_unit_name($unit);
+            $base_unit_name=get_unit_name($base_unit);
+            $state=$ims->fields['state'];
+            //$manufactured_date=$ims->fields["manufactured_date"];
+            //$expire_date=$ims->fields["expire_date"];
 
-		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
-		$ims2=$db->Execute($sql2);
-		
-		$inventory_name=$ims2->fields['inventory_name'];
+        $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
+        $ims2=$db->Execute($sql2);
+        
+        $inventory_name=$ims2->fields['inventory_name'];
 
-		
-			
+        
+            
 
 ?>
-	
-	<tr>
-	
-	<td><?php print ($item_name); ?></td>
-	<td><?php print ($amount); ?></td>
-	<td><?php print ($unit_name); ?></td>
-	<td><?php print ($inventory_name); ?></td>
-	<td><?php print ($state); ?></td>
-	<td><?php print ($suplier_name); ?></td> 
-		
-	</tr>
+    
+    <tr>
+    
+    <td><?php print ($item_name); ?></td>
+    <td><?php print ($amount); ?></td>
+    <td><?php print ($unit_name); ?></td>
+    <td><?php print ($inventory_name); ?></td>
+    <td><?php print ($state); ?></td>
+    <td><?php print ($suplier_name); ?></td> 
+        
+    </tr>
 
 <?php
-	$ims->MoveNext();
-			
-		}
+    $ims->MoveNext();
+            
+        }
 ?>
-	</tbody>
-	</table>
+    </tbody>
+    </table>
 
-	</div>
+    </div>
 <div id="result">
 <h3 align="center"><?php print _("Total Amount");
-			print "\n";
-			print $sum_amount;
-			print "\n";
-			print $base_unit_name;?> </h3>
+            print "\n";
+            print $sum_amount;
+            print "\n";
+            print $base_unit_name;?> </h3>
 </div>
 <?php
 }
@@ -252,19 +253,19 @@ function _shn_ims_form_search()
     
 //-------------------------------------------
 $range=array("start"=>1,"end"=>3);
- 	shn_form_fsopen("Base Location");
- 	shn_location($range,$_POST[$range["end"]],null,true); 
+     shn_form_fsopen("Base Location");
+     shn_location($range,$_POST[$range["end"]],null,true); 
     shn_form_fsclose();
 
 /*shn_form_fsopen(" Location");
-   	$parent=_shn_ims_get_start_loc();
-   	$range= shn_ims_get_loc_range();
-  	shn_location($range,null,$parent); 
+       $parent=_shn_ims_get_start_loc();
+       $range= shn_ims_get_loc_range();
+      shn_location($range,null,$parent); 
     shn_form_fsclose();*/
 //-------------------------------------------
 
 
-	
+    
 
     ?><fieldset><?
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
@@ -281,7 +282,7 @@ $range=array("start"=>1,"end"=>3);
 <?php
         //close the form
     shn_form_fclose();
-?>				     
+?>                     
 </div>
 <?php
 }

@@ -8,12 +8,12 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author		Mahesh Kaluarachchi <mahesh@opensource.lk>
-* @copyright	Lanka Software Foundation - http://www.opensource.lk
-* @package		Sahana
-* @subpackage	
-* @tutorial		
-* @license	  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @author        Mahesh Kaluarachchi <mahesh@opensource.lk>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package        Sahana
+* @subpackage    
+* @tutorial        
+* @license          http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 /**include_once $global['approot']."/inc/lib_modules.inc";
@@ -37,13 +37,13 @@ function add_item_without_expire_date($category)
 
 function _shn_ims_add_item_header()
 {
-?>
+    ?>
 
 
-<h1 align="center"><?php print _("Add Item"); ?> </h1>
-<div id="add_item_medicaldrugs">
+    <h1 align="center"><?php print _("Add Item"); ?> </h1>
+    <div id="add_item_medicaldrugs">
 
-</div>
+    </div>
 
 
 
@@ -56,22 +56,22 @@ function _shn_ims_add_item_header()
 **/
 
 function _shn_ims_add_item_main_page() 
-{	
-	
+{    
+    
 ?>
 
-<h1 align="center"><?php print _("Add items to the Inventory");?><br></h1>
-<dev id="report">
+    <h1 align="center"><?php print _("Add items to the Inventory");?><br></h1>
+    <dev id="report">
 
-</dev>
+    </dev>
 
 <?php
-	$form_opts['name']='subcat';
-	shn_form_fopen("add_item",null,$form_opts);
-	$depth=get_max_depth();
-	shn_sub_cat($depth,'subcat');
-	shn_form_fclose();
-	
+    $form_opts['name']='subcat';
+    shn_form_fopen("add_item",null,$form_opts);
+    $depth=get_max_depth();
+    shn_sub_cat($depth,'subcat');
+    shn_form_fclose();
+    
 }
 
 
@@ -83,180 +83,181 @@ function _shn_ims_add_item_main_page()
 
 function add_item($temp,$parent_id) 
 {
-	$parent_id1=$parent_id;
-	//print ($temp);
-	//print ($cat);
-	if ($temp!=null || $parent_id!=null)
-	{
-		
-		global $global;
-		$db=$global["db"];
-		$sql="SELECT item_name,inv_id,suplier_id,amount,unit,manufactured_date,expire_date,cost_per_unit FROM ims_item_records WHERE item_id='$temp' ;";
-		$ims = $db->Execute($sql);
-		$item_name=$ims->fields["item_name"];
-		$inv_id=$ims->fields['inv_id'];
-		$suplier_id=$ims->fields['suplier_id'];
-		$amount=$ims->fields["amount"];
-		$unit=$ims->fields['unit'];
-		$manufactured_date=$ims->fields["manufactured_date"];
-		$expire_date=$ims->fields["expire_date"];
-		$cost_per_unit=$ims->fields['cost_per_unit'];
-		
-	}
-	else
-	{
+    $parent_id1=$parent_id;
+    //print ($temp);
+    //print ($cat);
+    if ($temp!=null || $parent_id!=null)
+    {
+        
+        global $global;
+        $db=$global["db"];
+        $sql="SELECT item_name,inv_id,suplier_id,amount,unit,manufactured_date,expire_date,cost_per_unit FROM ims_item_records WHERE item_id='$temp' ;";
+        $ims = $db->Execute($sql);
+        $item_name=$ims->fields["item_name"];
+        $inv_id=$ims->fields['inv_id'];
+        $suplier_id=$ims->fields['suplier_id'];
+        $amount=$ims->fields["amount"];
+        $unit=$ims->fields['unit'];
+        $manufactured_date=$ims->fields["manufactured_date"];
+        $expire_date=$ims->fields["expire_date"];
+        $cost_per_unit=$ims->fields['cost_per_unit'];
+        
+    }
+    else
+    {
+        $depth=get_max_depth();
 	$parent_id = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$parent_id = trim($_POST[$i]);
-	
-		if($parent_id==null)
-		{
-		$parent_id = trim($_POST[$i-1]);
-		break;
-		}
-	}
-	//print ("test");	
-	//echo $parent_id;
+    
+        for($i=1;$i<$depth;$i++)
+        {
+            $parent_id = trim($_POST[$i]);
+    
+            if($parent_id==null)
+            {
+                $parent_id = trim($_POST[$i-1]);
+                break;
+            }
+        }
+    //print ("test");    
+    //echo $parent_id;
 
-		global $global;
-		$db=$global["db"];
-		$sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
-		$ims = $db->Execute($sql);
-		$item_name=$ims->fields["name"];
-		$amount="";
-		$manufactured_date="";
-		$cost_per_unit="";
-		$expire_date="";
-		$suplier_id="";
-		
-	}
-
-
-	
-	shn_form_fsopen('Primary Details');
-	shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
-	shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
-
-	
-	global $global;
-	$db=$global["db"];
-	
-	$cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
-	$cms=$db->Execute($cq);
-	//print $cq;
-	$unit_select_array[$unit]=$cms->fields['name'];
-	
-	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
-	$res=$db->Execute($query);
-
-	while(!$res==NULL && !$res->EOF)
-	{
+        global $global;
+        $db=$global["db"];
+        $sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
+        $ims = $db->Execute($sql);
+        $item_name=$ims->fields["name"];
+        $amount="";
+        $manufactured_date="";
+        $cost_per_unit="";
+        $expire_date="";
+        $suplier_id="";
+        
+    }
 
 
+    
+    shn_form_fsopen('Primary Details');
+    shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
+    shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
 
-	$temp2=$res->fields['unit_uuid'];
-	$query1="select name from ct_unit where unit_uuid ='$temp2'";
-	$res2=$db->Execute($query1);
-	
-	$unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
-	$res->MoveNext();
-	}	
+    
+    global $global;
+    $db=$global["db"];
+    
+    $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+    $cms=$db->Execute($cq);
+    //print $cq;
+    $unit_select_array[$unit]=$cms->fields['name'];
+    
+    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $res=$db->Execute($query);
 
-	shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',null);
+    while(!$res==NULL && !$res->EOF)
+    {
 
-	
-	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
-	
-	global $global;
-	$db=$global["db"];
-	$inventory_array=array();
-	$q0="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
-	$ims0=$db->Execute($q0);
-	$inventory_array[$inv_id]=$ims0->fields['inventory_name'];
-	$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-	$ims=$db->Execute($q);
-	//$j=0;
-	while($ims!=NULL && !$ims->EOF)
-	{
-		
-		$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
-		$ims->MoveNext();
-		//$j=$j+1;
-		//print ($j);
-	}	
-	
-	shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 
-	shn_form_fsclose();
 
-	shn_form_fsopen(_('Secondry details'));
-	//$extra_opts['value'] = $manufactured_date;
-	shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
-	//$extra_opts['value'] = $expire_date;
-	shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
-		
-	shn_form_fsclose();
+    $temp2=$res->fields['unit_uuid'];
+    $query1="select name from ct_unit where unit_uuid ='$temp2'";
+    $res2=$db->Execute($query1);
+    
+    $unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+    $res->MoveNext();
+    }    
 
-	
+    shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',null);
 
-	shn_form_fsopen('Supply details');
+    
+    shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
+    
+    global $global;
+    $db=$global["db"];
+    $inventory_array=array();
+    $q0="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+    $ims0=$db->Execute($q0);
+    $inventory_array[$inv_id]=$ims0->fields['inventory_name'];
+    $q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
+    $ims=$db->Execute($q);
+    //$j=0;
+    while($ims!=NULL && !$ims->EOF)
+    {
+        
+        $inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
+        $ims->MoveNext();
+        //$j=$j+1;
+        //print ($j);
+    }    
+    
+    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+
+    shn_form_fsclose();
+
+    shn_form_fsopen(_('Secondry details'));
+    //$extra_opts['value'] = $manufactured_date;
+    shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    //$extra_opts['value'] = $expire_date;
+    shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+        
+    shn_form_fsclose();
+
+    
+
+    shn_form_fsopen('Supply details');
 //----------------------------------------------------------------------------------------------------------------
-	
-	$suplier_name_array=array();
-	$suplier_name_array=_shn_or_get_suplier_name($suplier_id);
-	//$suplier_array[$suplier_id]=_shn_or_get_suplier_name($suplier_id);
-	
-	
-	//shn_or_org_list();
-	shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+    
+    $suplier_name_array=array();
+    $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+    //$suplier_array[$suplier_id]=_shn_or_get_suplier_name($suplier_id);
+    
+    
+    //shn_or_org_list();
+    shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
 //----------------------------------------------------------------------------------------------------------------
-	
+    
 
-	shn_form_fsclose();
+    shn_form_fsclose();
 
-	//shn_form_hidden(array('cat'=>$category));
-	shn_form_hidden(array('parent_id'=>$parent_id));
-	if ($temp==NULL)
-	{
-		/*$parent_id = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$parent_id = trim($_POST[$i]);
-	
-		if($parent_id==null)
-		{
-		$parent_id = $_POST[$i-1];
-		break;
-		}
-	}
-	//print ("test");	
-	echo $parent_id;*/
-	
-		//print $parent_id;
-		shn_form_hidden(array('parent_id'=>$parent_id));
-		shn_form_submit(_("Submit"));
-	}
-	else
-	{
-		//print $parent_id;
-		shn_form_hidden(array('temp'=>$temp));
-		shn_form_hidden(array('parent_id'=>$parent_id));
-		shn_form_submit(_("Save"));
-		//shn_form_button("Delete");
-		//shn_form_button("Destroy");	
-	}
-
-
-	//shn_form_fclose();
-	
-	}
+    //shn_form_hidden(array('cat'=>$category));
+    shn_form_hidden(array('parent_id'=>$parent_id));
+    if ($temp==NULL)
+    {
+        /*$parent_id = trim($_POST['0']);
+    // this 5 should be replaced by the $max that is retrieved from the DB
+    for($i=1;$i<5;$i++)
+    {
+    $parent_id = trim($_POST[$i]);
+    
+        if($parent_id==null)
+        {
+        $parent_id = $_POST[$i-1];
+        break;
+        }
+    }
+    //print ("test");    
+    echo $parent_id;*/
+    
+        //print $parent_id;
+        shn_form_hidden(array('parent_id'=>$parent_id));
+        shn_form_submit(_("Submit"));
+    }
+    else
+    {
+        //print $parent_id;
+        shn_form_hidden(array('temp'=>$temp));
+        shn_form_hidden(array('parent_id'=>$parent_id));
+        shn_form_submit(_("Save"));
+        //shn_form_button("Delete");
+        //shn_form_button("Destroy");    
+    }
 
 
+    //shn_form_fclose();
+    
+    }
 
 
-	
+
+
+    
 
 
