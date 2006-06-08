@@ -20,7 +20,7 @@
 /**
  *provide a  nice display name for the GIS module
  */
-$conf['mod_gis_name'] = _("GIS Mapping");
+$conf['mod_gis_name'] = _("Incident Mapping");
 $conf['mod_gis_menuorder'] = 18;
 
 

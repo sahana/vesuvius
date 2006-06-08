@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.3 2006-04-10 06:32:25 mifanc Exp $; */
+/* $Id: main.inc,v 1.4 2006-06-08 13:19:09 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -16,17 +16,19 @@
 //var_dump($global[db]);
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
+include_once $global['approot']."/mod/gis/conf.inc";
 
 function shn_gis_mainmenu(){
 	global $global;
+	global $conf;
 	$module = $global['module'];
 ?>
 <div id="modmenuwrap">
-	<h2><?php echo _("GIS Mapping Module");?></h2>
+	<h2><?= $conf['mod_gis_name']?></h2>
 	<ul id="modmenu">
-		<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-		<!--<li><a href="index.php?mod=<?=$module?>&act=srch">Search</a></li>-->
-		<li><a href="index.php?mod=<?=$module?>&act=show">Show</a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=default"><?php echo _("Home")?></a></li>
+    <li><a href="index.php?mod=<?=$module?>&act=aloc"><?php echo _("Add Location")?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&act=show"><?= _('Show')?></a></li>
 	</ul><!--end div=modmenu-->
 </div><!--end div=modmenuwrap-->
 <?

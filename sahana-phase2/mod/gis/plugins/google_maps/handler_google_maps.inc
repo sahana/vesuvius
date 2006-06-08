@@ -210,16 +210,13 @@ function show_map($opt=null)
 {
 	global $global;
 	global $conf;
-	$db=$global['db'];
-	//$key=$conf['gmap_key'];
 	$key = $conf['mod_gis_google_key'];
-	//echo "value:".$conf['mod_gis_center_x'];
 ?>
 	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
 	<script type="text/javascript">
 	  
 	//<![CDATA[
-	window.onload=function show_map_gm()
+	window.onload=function show_map_gms()
 	{
 			
 		//alert('map');
@@ -229,7 +226,7 @@ function show_map($opt=null)
 	       //map.addControl(new GSmallMapControl());
 				 map.addControl(new GMapTypeControl());//satellite image switch
 				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
+				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']!=''?$conf['mod_gis_center_x']:79.5?>,<?=$conf['mod_gis_center_y']!=''?$conf['mod_gis_center_y']:8.5?>), <?=$conf['mod_gis_zoom']?>);
 		
 	}		
 //]]>	
@@ -273,6 +270,8 @@ function show_map_with_markers($markers)
 
 /**
  * show map with marker addition event
+ * allows people to enter markers over google map
+ * currently used
  */
 function show_add_marker_map($name)
 {
@@ -322,8 +321,6 @@ function show_add_marker_map($name)
 function shn_map_show(){
 	global $global;
 	global $conf;
-	$db=$global['db'];
-	//$key=$conf['gmap_key'];
 	$key = $conf['mod_gis_google_key'];
 ?>
 <script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
@@ -345,6 +342,7 @@ window.onload = function show_map_js()
 }		
 //]]>	
 </script>
+	<div id="map" style="width: 500px; height: 400px"></div>
 
 
 <?

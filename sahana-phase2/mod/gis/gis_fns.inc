@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.9 2006-05-29 07:42:39 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.10 2006-06-08 13:19:09 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -63,6 +63,7 @@ function shn_gis_map_with_markers_from_db()
 
 /**
  * Check for GIS availability from config file
+ * $deprecated
  */
 function _shn_gis_check_gis()
 {
@@ -104,6 +105,9 @@ function shn_gis_init_plugin($name_of_map="Area Map")
 	}
 }
 
+/**
+* @deprecated
+*/
 function shn_gis_load_map()
 {
 	
@@ -114,6 +118,7 @@ function shn_gis_load_map()
  * Centers at default center
  * @access public
  * @param mixed  $name_of_map Custom Map Name
+ * $deprecated
  */
 function shn_gis_show_map($name_of_map="Area Map")
 {
