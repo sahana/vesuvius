@@ -91,14 +91,14 @@ function shn_setup_form_dependancy()
     global $global;
     $isOK = true;
 ?>
-    <h1><?=_('Sahana Web Setup')?></h1>
+    <h1><?=_('Sahana Web Setup - Step 1')?></h1>
 
     <p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
 
     <p><?=_('First we need to check if all the relevant dependancies for the Sahana system to be install are available on your system')?></p>
 <?php
 
-    shn_form_fopen(_('dependancy'),null,array("req_message"=>false) );
+    shn_form_fopen(_('dependancy'));
 
     shn_form_fsopen(_('PHP libraries'));
 ?>
@@ -159,12 +159,11 @@ function shn_setup_form_dependancy()
                         for each system by clicking 
                         <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">here</a>')); 
 
-   
-
     shn_form_fsclose();
 
     if ($isOK) {
-        echo _('<p>Dependancies OK</p>')."\n";
+        echo _('<p>All the dependancies are OK and you may move to
+                the next step</p>')."\n";
         shn_form_submit(_('Next >>'));
     } else {
         echo _('<p>Please correct the required dependancies above and</p>')."\n";
@@ -177,7 +176,7 @@ function shn_setup_form_dependancy()
 function shn_setup_form1()
 {
  ?>
-    <h1><?=_('Sahana Databse Setup')?></h2>
+    <h1><?=_('Sahana Database Setup - Step 2')?></h2>
 <?php
 
     shn_form_fopen('dbsetup');
@@ -213,7 +212,7 @@ function shn_setup_form1()
 function shn_setup_form2()
 {
  ?>
-    <h1>Sahaha Web Setup - Step 2</h2>
+    <h1>Sahaha Web Setup - Step 3</h2>
     <p> Please follow the following steps to setup the Sahana configuration </p>
 <?php
     global $global;
@@ -240,7 +239,7 @@ function shn_setup_form2()
 
     if (is_writeable($global['approot'].'conf')) {
     
-        echo '<p>The next set is to write the configuration file sysconf.inc in the Sahana /conf directory.';
+        echo '<p>The next step is to write the configuration file sysconf.inc in the Sahana /conf directory.';
 
         shn_form_hidden(array('conffile' => 
             $global['approot'].'conf/sysconf.inc'));
