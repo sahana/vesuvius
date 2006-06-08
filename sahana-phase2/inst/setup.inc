@@ -227,12 +227,15 @@ function shn_setup_form2()
         'dbpass' => $_POST['dbpass'] ));           
 
     shn_form_fsopen(_('Settings'));
-    shn_form_select(
-        array( 'default' => _('Default Theme')), 
-                _('Theme'), 'theme');
+    shn_form_password(_('root (admin) Password'),'rootpwd','size="30"', 
+        array('req'=>true, 'help'=>'The root user is the administrator
+                of the system and has the greatest privilages'));
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
                 _('Access Control'),'acl');
+    shn_form_select(
+        array( 'default' => _('Default Theme')), 
+                _('Theme'), 'theme');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Configuration File'));
@@ -376,6 +379,7 @@ function shn_setup_config_update($tmp_configfile)
         '/\'theme\'/' => '$conf[\'theme\'] = \''.$_POST['theme'].'\';' ,
         '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
         '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
+        '/\'root_pwd\'/' => '$conf[\'root_pwd\'] = \''.$_POST['rootpwd'].'\';' ,
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
         '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
 
