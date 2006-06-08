@@ -469,7 +469,7 @@ $unit_select_array=array();
         $res->MoveNext();
     }    
 
-    shn_form_select($unit_select_array,_("Unit : "),'unit_received','size="1"',null);
+    shn_form_select($unit_select_array,_("Unit : "),'unit_received','size="1"',array('req'=>true));
     //shn_form_text(_("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
     $extra_opts['value'] = $cost_per_unit;
     shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
@@ -583,6 +583,11 @@ function _shn_ims_validate_send_item_page()
     {
         add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
         $error_flag=true;
+    }
+    if($unit==null)
+    {
+	add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
+	$error_flag=true;
     }
     if($cost_per_unit!=null)
     {
@@ -706,6 +711,11 @@ function _shn_ims_validate_receive_item_page()
     {
         add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
         $error_flag=true;
+    }
+    if($unit_received==null)
+    {
+	add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
+	$error_flag=true;
     }
     if($received_date==null)
     {

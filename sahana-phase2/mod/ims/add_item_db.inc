@@ -103,12 +103,19 @@ function _shn_ims_validate_additemform()
         add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
         $error_flag=true;
     }
+
+    if($unit==null)
+    {
+        add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
+	$error_flag=true;
+    }
+
     if(trim($_POST['inv_id'])==null)
     {
         add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
         $error_flag=true;
     }
-
+    
     $cost_per_unit=trim($_POST['cost_per_unit']);
     
     if($cost_per_unit!=null)

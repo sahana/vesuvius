@@ -43,7 +43,7 @@ define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST,"Please enter a numeric Value for Co
 
 define(SHN_ERR_IMS_REORDER_VALUE_NUMERIC,"Please enter a numeric value for item Re-Order Value");
 define(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT,"You have entered a larger amount than the amount that has been sent");
-
+define(SHN_ERR_IMS_UNIT_INCOMPLETE,"Unit is essential for registration. Please Complete and submit it again");
 define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
 
 ?>

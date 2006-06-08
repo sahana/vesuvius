@@ -164,7 +164,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     $res->MoveNext();
     }    
 
-    shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
+    shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
 
 
 
@@ -384,6 +384,11 @@ function _shn_ims_validate_minimum_quantity()
     {
         add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
         $error_flag=true;
+    }
+    if(trim($_POST['unit_select'])==null)
+    {
+	add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
+	$error_flag=true;
     }
     return $error_flag;
 }

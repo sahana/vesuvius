@@ -165,7 +165,7 @@ function add_item($temp,$parent_id)
     $res->MoveNext();
     }    
 
-    shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',null);
+    shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true));
 
     
     shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
@@ -211,7 +211,7 @@ function add_item($temp,$parent_id)
     
     
     //shn_or_org_list();
-    shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+    shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
 //----------------------------------------------------------------------------------------------------------------
     
 
