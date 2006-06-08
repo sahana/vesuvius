@@ -146,28 +146,7 @@ function _shn_ims_validate_additemform()
 		$error_flag=true;
 		}
 	}
-	//_shn_ims_date_validate($expire_date);
-	/*if(($manufactured_date=trim($_POST['manufactured_date']))!=null)
-	{
-	list($year_m,$month_m,$date_m)=split('[/.-]', $manufactured_date);
-	//list($year_e,$month_e,$date_e)=split('[/.-]', $expire_date);
-		if($month_m<0 || $month_m>12 || $month_e<0 || $month_e>12)
-		{
-		add_error(SHN_ERR_IMS_DATE_INCOMPLETE);
-		$error_flag=true;
-		}
-	}*/
-	//$manudate=$_POST['manudate'];
-	/*if (!shn_valid_number($amount))
-	{
-	add_error(SHN_ERR_IMS_INVALID);
-	$error_flag=true;
-	}
-	if(!shn_valid_number($cost_per_unit))
-	{
-	add_error(SHN_ERR_IMS_INVALID_COST_PER_UNIT);
-	$error_flag=true;
-	}*/
+	
 
 	return $error_flag;
 }

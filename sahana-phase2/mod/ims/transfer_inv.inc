@@ -416,7 +416,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	$ims = $db->Execute($sql);
 	
 	$item_id=$ims->fields['item_id'];
-	$received_amount=$ims->fields['amount_send'];
+	$amount=$ims->fields['amount_send'];
 	$unit=$ims->fields['unit'];
 	$unit_name=get_unit_name($unit);
 	//$inv_id_from=$ims->fields['inv_id_from'];
@@ -445,7 +445,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	$extra_opts['value'] = $item_name;
 	shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',$extra_opts);
 	//$extra_opts['value'] = $received_amount;
-	shn_form_text(_("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$received_amount));
+	shn_form_text(_("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$amount));
 
 $unit_select_array=array();
 	
@@ -470,7 +470,7 @@ $unit_select_array=array();
 	$res->MoveNext();
 	}	
 
-	shn_form_select($unit_select_array,_("Unit : "),'unit','size="1"',null);
+	shn_form_select($unit_select_array,_("Unit : "),'unit_received','size="1"',null);
 	//shn_form_text(_("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
 	$extra_opts['value'] = $cost_per_unit;
 	shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
@@ -481,11 +481,6 @@ $unit_select_array=array();
 	shn_form_text(_("Date Received : "),'received_date','size="50"',array('req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 
-
-
-	
-
-
 	shn_form_fsclose();
 
 	shn_form_hidden(array('item_id'=>$item_id));
@@ -493,7 +488,9 @@ $unit_select_array=array();
 	shn_form_hidden(array('inv_id_to'=>$inv_id_to));
 	shn_form_hidden(array('transit_id'=>$transit_id));
 	shn_form_hidden(array('suplier_id'=>$suplier_id));
+
 	shn_form_hidden(array('unit'=>$unit));
+	shn_form_hidden(array('amount'=>$amount));
 
 	shn_form_submit(_("Received"));
 	shn_form_fclose();	
@@ -509,13 +506,20 @@ function _shn_ims_receive_item_db()
 	$inventory_to=trim($_POST['inventory_to']);
 	$received_date=trim($_POST['received_date']);
 	$authorized_person=trim($_POST['authorized_person']);
-	$unit=trim($_POST['unit']);
+	$unit=trim($_POST['unit_received']);
+
+	
 
 	$inv_id_from=trim($_POST['inv_id_from']);
 	$inv_id_to=trim($_POST['inv_id_to']);
 	$transit_id=trim($_POST['transit_id']);
 	$suplier_id=trim($_POST['suplier_id']);
 
+	//$convert_amount_send=$amount_send*unit_converter($unit,$unit_send);
+	
+	
+	//if($convert_amount_send>$received_amount || $convert_amount_send==$received_amount)
+	//{
 	global $global;
 	$db=$global["db"];
 	
@@ -554,6 +558,9 @@ function _shn_ims_receive_item_db()
 
 	shn_ims_receive_item();
 	
+	//}
+	
+
 }
 
 function _shn_ims_validate_send_item_page()
@@ -595,19 +602,19 @@ function _shn_ims_validate_send_item_page()
 
 	if($date==null)
 	{
-	add_error(SHN_ERR_IMS_DATE_INCOMPLETE);
-	$error_flag=true;
+	    add_error(SHN_ERR_IMS_DATE_INCOMPLETE);
+	    $error_flag=true;
 	}
 
-	if($error_flag==false)
+	if($date!=null)
 	{
 		if(_shn_ims_date_validate($date))
 		{
-		$error_flag=true;
+			$error_flag=true;
 		}
 	}
 	
-
+	
 	if(trim($_POST['authorized_person'])==null)
 	{
 	add_error(SHN_ERR_IMS_AUTHORIZED_PERSON_INCOMPLETE);
@@ -624,10 +631,7 @@ function _shn_ims_validate_send_item_page()
 	$error_flag=true;
 	}
 
-//----------------------------------------------------------------------------------------------------------------
-
-
-global $global;
+	global $global;
 	$db=$global["db"];
 
 	$sql = "SELECT catalog_id,amount,unit FROM ims_item_records WHERE item_id='$item_id';";
@@ -661,6 +665,10 @@ global $global;
 	return $error_flag;
 }
 
+/*****************************************************************************************************************
+*****         Validate Receive_item page                                             *****************************
+*****************************************************************************************************************/
+
 function _shn_ims_validate_receive_item_page()
 {
 	global $global;
@@ -668,9 +676,27 @@ function _shn_ims_validate_receive_item_page()
 	
 	clean_errors();
 
+	$unit_send=trim($_POST['unit']);
+	$amount_send=trim($_POST['amount']);
+	
+	
 	$received_amount=trim($_POST['received_amount']);
+	$unit_received=trim($_POST['unit_received']);
+	
 	$cost_per_unit=trim($_POST['cost_per_unit']);
 	$received_date=trim($_POST['received_date']);
+	
+	$convert_amount_send=$amount_send*unit_converter($unit_received,$unit_send);
+	
+	
+	//if($convert_amount_send>$received_amount || $convert_amount_send==$received_amount)
+	
+
+	if($convert_amount_send<$received_amount)
+	{
+	add_error(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT);
+	$error_flag=true;
+	}
 
 	if($received_amount==null)
 	{
@@ -693,7 +719,7 @@ function _shn_ims_validate_receive_item_page()
 	
     	}
 
-	if($error_flag==false)
+	if($received_date!=null)
 	{
 		if(_shn_ims_date_validate($received_date))
 		{
