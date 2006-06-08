@@ -59,8 +59,6 @@ function shn_cs_default()
 
 }
 
-/*****************Search functions ********************************************************************/
-
 function shn_cs_search()
 {
 	echo "<h1>Search</h1>";
@@ -135,7 +133,7 @@ function shn_cs_search_unit_submit()
 	_shn_cs_search_unit_submit_result();
 	}
 }
-/********************End of Search Functions*****************************************************************/
+
 
 function shn_cs_addmain()
 {
@@ -213,7 +211,7 @@ function shn_cs_addsub_form2_submit()
 
 }
 
-/****************Unit Functions*********************************************************************/
+
 function shn_cs_addunit()
 {
 	echo "<h1>Add Measurement Unit</h1>";
@@ -252,9 +250,7 @@ function shn_cs_addunit_form_submit()
 
 }
 
-/************************End of Unit Functions*****************************************/
 
-/************************Add item Functions*******************************************/
 function shn_cs_additem()
 {
 	echo "<h1>Add Item</h1>";
@@ -304,9 +300,7 @@ function shn_cs_additem_form2_submit()
 		}
 }
 
-/************************End of Add item Functions*******************************************/
 
-/************************View and Edit functions*********************************************/
 function shn_cs_viewedit()
 {
 	echo "<h1>View And Edit</h1>";
@@ -387,9 +381,7 @@ function shn_cs_edit_unit_type_form_submit()
 	require_once('edit.inc');
 	_shn_cs_edit_unit_type_form_submit_result();
 }
-/*************************End of View and Edit functions************************/
 
-/************************ Add Unit type functions ******************************/
 function shn_cs_addunittype()
 {
 	echo "<h1>Add Unit Type</h1>";
@@ -421,6 +413,6 @@ function shn_cs_addunitform_submit()
 
 	
 }
-/*********************** End of Unit type functions ****************************/
+
 ?>
 

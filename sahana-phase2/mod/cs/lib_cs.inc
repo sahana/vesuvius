@@ -31,10 +31,10 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
 ?>           
 <script type="text/javascript">
     var url = "<?php echo $fetch_server?>"; 
-   	var curlevel=0;
- 	var http;
- 	var null_data;
-  	var max=<?php echo $max ?>;
+       var curlevel=0;
+     var http;
+     var null_data;
+      var max=<?php echo $max ?>;
     function getHTTPObject() {
         var xmlhttp;
         //conditional compliation
@@ -66,67 +66,67 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
     // The callback funtion
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
-            	results = http.responseText.split(",");
+                results = http.responseText.split(",");
             if (results[0]!="null"){
-            		null_data=false;
-            		curlevel=curlevel+1;
-     	    		var x=document.getElementsByName(curlevel);
-     	    		x[0].style.visibility='visible';
-        			j=0;
-			 	var x=document.getElementsByName(curlevel);
-				for (i=0; i<=x[0].options.length+1; i++){
-	            		x[0].options[0]=null;
-            		}
-            		for (i=1; i<results.length-1; i=i+2, j++){
-		 	    		opt = document.createElement("option") ;
-  			    		opt.value = results[i] ;
-  			    		opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
-  			    		x[0].options[j] = opt;
-                		x[0].selectedIndex=-1;
-            		}
-            	}else{
-            		null_data=true;
-            	}
+                    null_data=false;
+                    curlevel=curlevel+1;
+                     var x=document.getElementsByName(curlevel);
+                     x[0].style.visibility='visible';
+                    j=0;
+                 var x=document.getElementsByName(curlevel);
+                for (i=0; i<=x[0].options.length+1; i++){
+                        x[0].options[0]=null;
+                    }
+                    for (i=1; i<results.length-1; i=i+2, j++){
+                         opt = document.createElement("option") ;
+                          opt.value = results[i] ;
+                          opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
+                          x[0].options[j] = opt;
+                        x[0].selectedIndex=-1;
+                    }
+                }else{
+                    null_data=true;
+                }
 
             for (i=max; i>curlevel; i=i-1){
-             	var x=document.getElementsByName(i);
-             	x[0].style.visibility='hidden';
-		 	    
-		 	}
+                 var x=document.getElementsByName(i);
+                 x[0].style.visibility='hidden';
+                 
+             }
        
         } 
     }
 
     function update_next_level(selection,level){
-     	curlevel=level;
-	var item_flag = "<?php echo $item_flag?>"; 
+         curlevel=level;
+    var item_flag = "<?php echo $item_flag?>"; 
         http = getHTTPObject();
         var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
-      	http.open("GET", url2, true); 
+          http.open("GET", url2, true); 
 //        http.onreadystatechange = null; 
         http.onreadystatechange = function(){}; 
         http.onreadystatechange = handleHttpResponse; 
         http.send(null);
     }
     
-    	   function set_name_submit()
+           function set_name_submit()
     {
-    		var name="";
-    		var element="";
-    	    var last_lvl;
-    		if(null_data==true){
-    			last_lvl= curlevel+1 ;
-    		} else{
-    			last_lvl= curlevel;
-    		}
-    	    for(i=0;i<last_lvl;i++){
-    	    		element="\""+i+"\"";
-    			var x=document.getElementsByName(i);
-    			if(i+1==last_lvl){
-        			name=name+x[0].options[x[0].selectedIndex].text;
-        		}else{
-        			name=name+x[0].options[x[0].selectedIndex].text+"->";
-        		}
+            var name="";
+            var element="";
+            var last_lvl;
+            if(null_data==true){
+                last_lvl= curlevel+1 ;
+            } else{
+                last_lvl= curlevel;
+            }
+            for(i=0;i<last_lvl;i++){
+                    element="\""+i+"\"";
+                var x=document.getElementsByName(i);
+                if(i+1==last_lvl){
+                    name=name+x[0].options[x[0].selectedIndex].text;
+                }else{
+                    name=name+x[0].options[x[0].selectedIndex].text+"->";
+                }
         }
         
         var x=document.getElementsByName("<?php echo $change?>");
@@ -138,10 +138,10 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
      var x=document.getElementsByName(0);
      x[0].selectedIndex=-1;
     for (i=max; i>0; i=i-1){
-    		var x=document.getElementsByName(i);
+            var x=document.getElementsByName(i);
         x[0].style.visibility='hidden';
-	}
-	
+    }
+    
 
 </script>
 <?php
@@ -158,56 +158,56 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
  */
 function shn_sub_cat($max,$form,$item_flag=false)
 {
-	
-	$parent_array=array();
-	
-	global $global;
-	$db=$global["db"];
-	if($item_flag==true)
-		{
-		$query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
-		$res=$db->Execute($query);
-		}
-	else
-		{
-		$query="select name,ct_uuid from ct_catalogue where parentid='0' ";
-		$res=$db->Execute($query);
-		}
-	
-	while(!$res==NULL && !$res->EOF)
-	{
-	$parent_array[$res->fields["ct_uuid"]]=$res->fields["name"];
-	$res->MoveNext();
-	}
-	
-	if($parent_array==null){
-	$parent_array["1"]=_("None");
-	shn_form_fsopen(_('Information'));
-	?>
-	<p><?= _('There is no any root catalogue found. '); ?><a href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _(' First'); ?></p>
-	
-	<?php
-	shn_form_fsclose();
-	}
+    
+    $parent_array=array();
+    
+    global $global;
+    $db=$global["db"];
+    if($item_flag==true)
+        {
+        $query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
+        $res=$db->Execute($query);
+        }
+    else
+        {
+        $query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+        $res=$db->Execute($query);
+        }
+    
+    while(!$res==NULL && !$res->EOF)
+    {
+    $parent_array[$res->fields["ct_uuid"]]=$res->fields["name"];
+    $res->MoveNext();
+    }
+    
+    if($parent_array==null){
+    $parent_array["1"]=_("None");
+    shn_form_fsopen(_('Information'));
+    ?>
+    <p><?= _('There is no any root catalogue found. '); ?><a href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _(' First'); ?></p>
+    
+    <?php
+    shn_form_fsclose();
+    }
 
-	else{
-	shn_form_fsopen(_("Select the root Category"));
-	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,0)';	
-	shn_form_select($parent_array,'',0,$select_opts,null);
-	shn_form_fsclose();
-	shn_form_fsopen(_('Select the sub category'));
-	for($i=1;$i<$max+1;$i++){
-	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';	
-	shn_form_select(null,'',$i,$select_opts,null);
-	}
-	shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
-	shn_form_hidden(array('item_name'=>""));
-	//_shn_cs_item_name_javascript("item_name",$max,$form);
-	shn_form_button(_("Next"),"onClick='set_name_submit()'");
-	shn_form_fsclose();
-	
-	//shn_form_submit(_("Next"));
-	}
+    else{
+    shn_form_fsopen(_("Select the root Category"));
+    $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,0)';    
+    shn_form_select($parent_array,'',0,$select_opts,null);
+    shn_form_fsclose();
+    shn_form_fsopen(_('Select the sub category'));
+    for($i=1;$i<$max+1;$i++){
+    $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';    
+    shn_form_select(null,'',$i,$select_opts,null);
+    }
+    shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
+    shn_form_hidden(array('item_name'=>""));
+    //_shn_cs_item_name_javascript("item_name",$max,$form);
+    shn_form_button(_("Next"),"onClick='set_name_submit()'");
+    shn_form_fsclose();
+    
+    //shn_form_submit(_("Next"));
+    }
 }
 
 function _shn_cs_item_name_javascript($change,$levels,$form)
@@ -216,12 +216,12 @@ function _shn_cs_item_name_javascript($change,$levels,$form)
 <script type="text/javascript">
     function set_name_submit()
     {
-    		var lvl=<?php echo $levels;?>
-    	    var name;
-    	    alert(lvl);
-    	    for(i=0;i<lvl;i++){
-    			var x=document.getElementsByName("<?php echo $change?>");
-        		name=name+"-"+x[0].value;
+            var lvl=<?php echo $levels;?>
+            var name;
+            alert(lvl);
+            for(i=0;i<lvl;i++){
+                var x=document.getElementsByName("<?php echo $change?>");
+                name=name+"-"+x[0].value;
         }
         
         var x=document.getElementsByName("<?php echo $change?>");
@@ -239,24 +239,24 @@ function _shn_cs_item_name_javascript($change,$levels,$form)
  * @return array
  */
 function get_unitid_array()
-{	
-	global $global;
-	$db=$global["db"];
-	
-	$itemid=get_itemid();
+{    
+    global $global;
+    $db=$global["db"];
+    
+    $itemid=get_itemid();
 
-	$itemarray=array();
-	$query="select * from ct_cat_unit where ct_uuid='$itemid'";
-	$res=$db->Execute($query);
+    $itemarray=array();
+    $query="select * from ct_cat_unit where ct_uuid='$itemid'";
+    $res=$db->Execute($query);
 
-	while(!$res==NULL && !$res->EOF)
-	{
-	$temp2=$res->fields['unit_uuid'];
-	$query="select name from ct_unit where unit_uuid ='$temp2'";
-	$unit_res=$db->Execute($query);	
-	$itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
-	$res->MoveNext();
-	}
+    while(!$res==NULL && !$res->EOF)
+    {
+    $temp2=$res->fields['unit_uuid'];
+    $query="select name from ct_unit where unit_uuid ='$temp2'";
+    $unit_res=$db->Execute($query);    
+    $itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
+    $res->MoveNext();
+    }
 
 return $itemarray;
 }
@@ -269,18 +269,18 @@ return $itemarray;
 function get_itemid()
 {
 
-	$itemid = trim($_POST['0']);
-	// this 5 should be replaced by the $max that is retrieved from the DB
-	for($i=1;$i<5;$i++)
-	{
-	$itemid = trim($_POST[$i]);
-	
-		if($itemid==null)
-		{
-		$itemid = $_POST[$i-1];
-		break;
-		}
-	}
+    $itemid = trim($_POST['0']);
+    // this 5 should be replaced by the $max that is retrieved from the DB
+    for($i=1;$i<5;$i++)
+    {
+    $itemid = trim($_POST[$i]);
+    
+        if($itemid==null)
+        {
+        $itemid = $_POST[$i-1];
+        break;
+        }
+    }
 
 return $itemid;
 }
@@ -293,29 +293,29 @@ return $itemid;
 function unit_converter($from_unit_id,$to_unit_id)
 {
 
-	global $global;
-	$db=$global["db"];
+    global $global;
+    $db=$global["db"];
 
-	$query1="select multiplier from ct_unit where unit_uuid='$from_unit_id'";
-	$res1=$db->Execute($query1);
-	$from_multiplier=$res1->fields['multiplier'];
-	if ($from_multiplier==0)
-	{
-		$from_multiplier=1;
-	}
+    $query1="select multiplier from ct_unit where unit_uuid='$from_unit_id'";
+    $res1=$db->Execute($query1);
+    $from_multiplier=$res1->fields['multiplier'];
+    if ($from_multiplier==0)
+    {
+        $from_multiplier=1;
+    }
 
-	$query2="select multiplier from ct_unit where unit_uuid='$to_unit_id'";
-	$res2=$db->Execute($query2);
-	$to_multiplier=$res2->fields['multiplier'];
-	if ($to_multiplier==0)
-	{
-		$to_multiplier=1;
-	}
+    $query2="select multiplier from ct_unit where unit_uuid='$to_unit_id'";
+    $res2=$db->Execute($query2);
+    $to_multiplier=$res2->fields['multiplier'];
+    if ($to_multiplier==0)
+    {
+        $to_multiplier=1;
+    }
 
-	$multiplier=$to_multiplier/$from_multiplier;
+    $multiplier=$to_multiplier/$from_multiplier;
 
-	return $multiplier;
-	
+    return $multiplier;
+    
 }
 
 /**.
@@ -325,13 +325,13 @@ function unit_converter($from_unit_id,$to_unit_id)
  */
 function get_unit_name($unit_id)
 {
-	global $global;
-	$db=$global["db"];
-	$query="select name from ct_unit where unit_uuid='$unit_id'";
-	$res=$db->Execute($query);
-	$name=$res->fields['name'];
+    global $global;
+    $db=$global["db"];
+    $query="select name from ct_unit where unit_uuid='$unit_id'";
+    $res=$db->Execute($query);
+    $name=$res->fields['name'];
 
-	return $name;
+    return $name;
 }
 
 
@@ -348,20 +348,20 @@ clean_errors();
 
 $itemid=null;
 
-	for($i=0;$i<5;$i++)
-	{
-	$itemid = trim($_POST[$i]);
-		if($itemid!=null)
-		{
-		break;
-		}
-	}
+    for($i=0;$i<5;$i++)
+    {
+    $itemid = trim($_POST[$i]);
+        if($itemid!=null)
+        {
+        break;
+        }
+    }
 
-	if($itemid==null)
-	{
-	add_error(_("Please Select the Catalogue that you need"));
-	$error_flag=true;
-	}	
+    if($itemid==null)
+    {
+    add_error(_("Please Select the Catalogue that you need"));
+    $error_flag=true;
+    }    
 
 return $error_flag;
 }
@@ -374,26 +374,26 @@ return $error_flag;
  */
 function _shn_cs_get_units($parent_id)
 {
-	global $global;
-	$db=$global["db"];
+    global $global;
+    $db=$global["db"];
 
-	$myoptions=array();
+    $myoptions=array();
 
-	$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
-	$res=$db->Execute($query);
+    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $res=$db->Execute($query);
 
-	while(!$res==NULL && !$res->EOF)
-	{
-	$temp2=$res->fields['unit_uuid'];
-	$query1="select name from ct_unit where unit_uuid ='$temp2'";
-	$res2=$db->Execute($query1);
+    while(!$res==NULL && !$res->EOF)
+    {
+    $temp2=$res->fields['unit_uuid'];
+    $query1="select name from ct_unit where unit_uuid ='$temp2'";
+    $res2=$db->Execute($query1);
 
-	$myoptions[$res->fields['unit_uuid']]=$res2->fields['name'];;
-	$res->MoveNext();
-	}
-	
-	return $myoptions;
-	
+    $myoptions[$res->fields['unit_uuid']]=$res2->fields['name'];;
+    $res->MoveNext();
+    }
+    
+    return $myoptions;
+    
 }
 
 
@@ -404,14 +404,14 @@ function _shn_cs_get_units($parent_id)
  */
 function get_max_depth()
 {
-	global $global;
-	$db=$global['db'];
+    global $global;
+    $db=$global['db'];
 
-	$query="select option_code from field_options where field_name='opt_cs_depth'";
-	$res=$db->Execute($query);
-	$depth=$res->fields["option_code"];
+    $query="select option_code from field_options where field_name='opt_cs_depth'";
+    $res=$db->Execute($query);
+    $depth=$res->fields["option_code"];
 
-	return $depth;
+    return $depth;
 }
 
 /**.
@@ -422,18 +422,18 @@ function get_max_depth()
 
 function convert_to_base_unit($unit_id)
 {
-	global $global;
-	$db=$global['db'];
+    global $global;
+    $db=$global['db'];
 
-	$query1="select unit_type_uuid from ct_unit where unit_uuid='$unit_id'";
-	$res1=$db->Execute($query1);
-	$unit_type_uuid=$res1->fields['unit_type_uuid'];
+    $query1="select unit_type_uuid from ct_unit where unit_uuid='$unit_id'";
+    $res1=$db->Execute($query1);
+    $unit_type_uuid=$res1->fields['unit_type_uuid'];
 
-	$query2="select unit_uuid from ct_unit where unit_type_uuid='$unit_type_uuid' and base_flag='1' ";
-	$res2=$db->Execute($query2);
-	$base_unit_uuid=$res2->fields['unit_uuid'];
+    $query2="select unit_uuid from ct_unit where unit_type_uuid='$unit_type_uuid' and base_flag='1' ";
+    $res2=$db->Execute($query2);
+    $base_unit_uuid=$res2->fields['unit_uuid'];
 
-	return $base_unit_uuid;
+    return $base_unit_uuid;
 }
 
 ?>

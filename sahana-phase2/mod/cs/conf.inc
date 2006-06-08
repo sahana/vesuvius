@@ -10,7 +10,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Sanjeewa Jayasinghe <sditfac@opensource.lk>
+ * @author       Sanjeewa Jayasinghe <sditfac@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage cs
