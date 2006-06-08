@@ -59,13 +59,16 @@ function shn_admin_default()
     $result = $db->Execute("select * from gacl_acl");
     $isSecurityInstalled = ($result->RecordCount() > 0);
 
+    $result = $db->Execute("select * from ct_catalogue");
+    $isCatalogCreated = ($result->RecordCount() > 0);
+
     $result = $db->Execute("select value from config where module_id='gis'
                                  and confkey='google_key'");
-    $isGoogleSetup = ($result == "");
+    $isGoogleSetup = ($result->fields['value']  != "");
 
     echo '<div id="home">';
   
-    if (!$isLocationsEntered || !$isGoogleSetup 
+    if (!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
         || !$isSecurityInstalled || !$isDisasterNamed) {
         echo '<h2>'._('Finalize Your Sahana Installation')."</h2>\n";
         echo _("<p>There are still a few steps to be performed before you 
@@ -74,13 +77,13 @@ function shn_admin_default()
     }
     echo "<ol>\n";
     if (!$isDisasterNamed) {
-        echo '<li>'._('<b>Add Disaster</b> - As this system can handle 
+        echo '<li>'._('<b>Add Disaster Name</b> - As this system can handle 
                 multiple disasters in the same system you need to 
                 first add the name of the first disaster you are using 
                 Sahana for. To do this in the navigation bar click on 
                 "Multiple Incidents" 
                 followed by <a href="?mod=admin&act=ims_level1">
-                "Manage Disaster"</a> and add the disaster name').'</li>'; 
+                "Manage Disaster"</a> and add the disaster name').'</li><br/>'; 
     }
    
     if (!$isLocationsEntered) {
@@ -88,20 +91,29 @@ function shn_admin_default()
                 regions affected in the disaster by clicking the 
                 navigation bar on "Locations" 
                 followed by <a href="?mod=admin&act=add_loc">
-                "Add Location"</a>').'</li>'; 
+                "Add Location"</a>').'</li><br/>'; 
     }
-    if (!$isGoogleSetup) {
-        echo '<li>'._('<b>Setup Google Maps (optional)</b> - To get mapping to 
+    if (!$isCatalogCreated) {
+        echo '<li>'._('<b>Create the Aid Catalog</b> - The catalog 
+                of aid items has to be defined to use 
+                the Pledge/Request Management System and Inventory Management,
+                you need to define the type of aid items available. To do this 
+                click on the <a href="?mod=cs&act=default">
+                "Catalog System"</a> in the navigation bar and start adding 
+                aid items for the disaster ').'</li><br/>'; 
+    }
+   if (!$isGoogleSetup) {
+        echo '<li>'._('<b>Setup Google Maps</b> - To get mapping to 
                 work you need to enter a Google Map key in the "Module Config"
                 -> <a href="?mod=gis&act=admin&submod=google_maps">
-                "GIS Mapping"</a> section.').'</li>'; 
+                "GIS Mapping"</a> section.').'</li><br/>'; 
     }
     if (!$isSecurityInstalled) {
         echo '<li>'._('<b>Configure Security (optional)</b> - To prevent 
                 unauthorized access to the system configure security by
                  clicking "Security Config" and then selecting on  
                 <a href="?mod=admin&act=acl_system">
-                "System &amp; User"</a>').'</li>'; 
+                "System &amp; User"</a>').'</li><br/>'; 
     }
 
 
