@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.43 2006-06-08 05:41:43 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.44 2006-06-08 12:20:21 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -73,7 +73,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     
     if($form_opts['req_message']){
 ?>
-    <p class="req"><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
+    <p><b>Key:</b><b class='req'>*req</b> - Fields tagged with this have to be filled to submit the form successfully</p>
 <?php
     }
 ?>
