@@ -751,6 +751,9 @@ table.layout td{
     color:red;
     vertical-align:12px;
 }
+.red{
+    color:red;
+}
 
 ul.paging{
     list-style-type:none;
