@@ -157,10 +157,6 @@ INSERT INTO config VALUES('admin','acl_base','no');
 -- INSERT THE INBUILT SAHANA ORGANIZATION
 --INSERT INTO org_main(o_uuid,name,org_type,privacy,archive) VALUES(0,'sahana','gov','','','','',1,0);
 INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
--- GIS
 
-INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'google_key', '');
-INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_x', '');
-INSERT INTO config ( module_id , confkey , value ) VALUES ('gis', 'center_y', '');
 
 
