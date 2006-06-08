@@ -102,13 +102,15 @@ function shn_setup_form_dependancy()
 
     shn_form_fsopen(_('PHP libraries'));
 ?>
-    <p><?=_('The following checks if all the relevant Sahana libraries are installed and provides help on how to do this if not')?></p>
+    <p><?=_('The following checks if all the relevant Sahana libraries are installed')?></p>
 <?php
     
     $value = (version_compare(phpversion(), '4.1', '>'))? 'checked':'';
     $isOK &= ($value != '');
 
-    shn_form_checkbox(_('PHP Version = ').phpversion(),'phpver',$value.' 
+    echo "<p>Sahana needs PHP version 4 or higher. The current version is ".
+        phpversion()."</p>\n";
+    shn_form_checkbox(_('PHP Version'),'phpver',$value.' 
                         disabled="true"',array('value'=>'y',
                         'help'=>'The version of PHP installed has to
                         be greater than 4.1', 'req'=>true)); 
@@ -139,7 +141,7 @@ function shn_setup_form_dependancy()
     $value = (is_writable($global['approot'].'www/tmp'))? 'checked':'';
     $isOK &= ($value != '');
 
-    shn_form_checkbox(_('Sahana dir www/tmp/ is writable?'),'write_tmp',$value.' 
+    shn_form_checkbox(_('www/tmp/ is writable?'),'write_tmp',$value.' 
                         disabled="true"',array('value'=>'y','req'=>true,
                         'help'=>'Make sure this directory is writable by
                         the web user. See how to do this for each system 
@@ -152,7 +154,7 @@ function shn_setup_form_dependancy()
 */
     $value = (is_writable($global['approot'].'conf'))? 'checked':'';
 
-    shn_form_checkbox(_('Sahana dir conf/ is writable?'),'write_conf',$value.' 
+    shn_form_checkbox(_('dir conf/ is writable?'),'write_conf',$value.' 
                         disabled="true"',array('value'=>'y',
                         'help'=>'If you make this directory writable we will be
                         able to automate the installation. See how to do this 
@@ -195,12 +197,9 @@ function shn_setup_form1()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Schema\'s to Install'));
-    shn_form_checkbox(_('Create Main Database tables'),'dbcreate',"checked",
-                        array('value'=>'y')); 
-    shn_form_checkbox(_('Default Configuration'),'dbconfig',"checked",
-                        array('value'=>'y')); 
-    shn_form_checkbox(_('Default Taxomomies'),'dbsample','checked',
-                        array('value'=>'y')); 
+    shn_form_checkbox(_('Default Item Categories'),'dbsample','checked',
+                        array('value'=>'y', 'help'=>'Check this to 
+                        create the default categories for aid goods, units')); 
     shn_form_fsclose();
     shn_form_submit(_('Setup Database >>'));
  
@@ -317,6 +316,8 @@ function shn_setup_form_conffile()
 // connect to the database and run the scripts specified by the user
 function shn_setup_database()
 {
+    global $global;
+
     $db = &NewADOConnection('mysql');
     if (! $db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']) ) {
         add_error(_('Could not connect to the database. Please check the setting and try again'));
@@ -326,22 +327,23 @@ function shn_setup_database()
     // create the main database
     $db->Execute("CREATE DATABASE IF NOT EXISTS ".$_POST['dbname']);
     $db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
-
+    $global['db'] = $db;
 
     // setup the choosen sql scripts
-    if ($_POST['dbcreate']=='y') {
-        shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
-        shn_setup_run_sqlscript($db,'inst/mysql-acl.sql');
-        shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
-        shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
-        shn_setup_run_sqlscript($db,'mod/lr/dbcreate.sql');
-        shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
-        shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
-    }
-    if ($_POST['dbconfig']=='y') 
-        shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
-    if ($_POST['dbsample']=='y') 
+    shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
+    shn_setup_run_sqlscript($db,'inst/mysql-acl.sql');
+    shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
+
+    if ($_POST['dbsample']=='y') {
+        include_once($global['approot'].'inc/lib_uuid.inc');
         shn_setup_run_sqlscript($db,'inst/mysql-sampledata.sql');
+        include($global['approot'].'mod/cs/ins/setup.inc');
+        shn_cs_datacreate();
+    }
 
     return true;
 }
