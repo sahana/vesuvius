@@ -482,8 +482,9 @@ function shn_ims_mini_quantity_db()
     {
         display_errors();
         //_shn_ims_mini_quantity($catalog_id,$inv_id);
-        shn_ims_minimum_quantity_item();
-        //shn_ims_reorder_level_edit();    
+        
+	//shn_ims_minimum_quantity_item();
+        shn_ims_reorder_level_edit();    
     }
     else
     {

@@ -166,16 +166,6 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 
     shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
 
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------    
-
-
-
-
-    
     //$unit_array=_shn_cs_get_units($parent_id);
     //shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
     shn_form_fsclose();
@@ -231,6 +221,13 @@ function _shn_ims_mini_quantity_db()
 
 <?php
     //print $sql;
+    $flag="";
+    $catalog_id="";
+    $inv_id="";
+    $mini_quantity="";
+    $unit="";
+
+    $inventory_id="";
         shn_ims_reorder_level_edit();
     }
 
@@ -356,6 +353,7 @@ function _shn_ims_view_edit_reorder_page()
 
 function _shn_ims_validate_minimum_quantity()
 {
+    //$flag=trim($_POST['flag']);
     $error_flag=false;
     clean_errors();
     $minimum_quantity=trim($_POST['mini_quantity']);
@@ -390,6 +388,7 @@ function _shn_ims_validate_minimum_quantity()
 	add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
 	$error_flag=true;
     }
+
     return $error_flag;
 }
 
