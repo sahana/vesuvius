@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.10 2006-06-08 13:19:09 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.11 2006-06-12 11:08:17 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -159,6 +159,7 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
  * Includes additional GPS boxes
  * @param string $name_of_map	Value over map
  * @param string $nameOfPoint	Name of point to be stored
+ * used
  */
 function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 {
@@ -173,7 +174,7 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 		shn_form_hidden(array('loc_y'=>''));
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
-		show_add_marker_map($nameOfPoint);
+		show_add_marker_map_v2($nameOfPoint);
 		shn_form_fsclose();
 	}
 	else

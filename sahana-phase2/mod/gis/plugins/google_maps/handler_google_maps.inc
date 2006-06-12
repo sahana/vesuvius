@@ -1,7 +1,7 @@
 <?php
 /**
- * $id$
- * Admin Module for GIS
+ * $id$;
+ * Google Maps plugin for Sahana GIS
 *
 * PHP version 4 and 5
 *
@@ -83,6 +83,40 @@ function load_map($x='',$y=''){
    //end_page();
 }
 
+function load_map_v2($x='',$y=''){
+?>
+<script type="text/javascript">
+	
+		   //<![CDATA[
+       var map = new GMap2(document.getElementById("map"));
+			 map.addControl(new GLargeMapControl());
+       //map.addControl(new GSmallMapControl());
+			 map.addControl(new GMapTypeControl());//satellite image switch
+<?php
+		if($x=='' || $y==''){
+?>
+       	map.setCenter(new GLatLng(79.5, 8.5338), 10);
+<?php
+		}
+		else{
+?>
+				map.setCenter(new GLatLng(<?php echo $x?>,<?php echo $y?>), 10);
+<?php
+		}
+?>
+			 	//map.centerAndZoom(new GPoint(<?php echo $x?>,<?php echo $y?>), 4);<?php ;?>
+       //map.centerAndZoom(new GPoint(79.8000, 7.4419),8);
+
+			 //add marker test
+			 //var point1 = new GPoint(-122.1419, 37.4419);
+			 //var marker1 = new GMarker(point1);
+			 //map.addOverlay(marker1);
+       //]]>
+	</script>
+<?php
+   //end_page();
+}
+
 /*
  * add existing markers from db
 */
@@ -91,6 +125,21 @@ function add_marker_db($x,$y,$name)
 ?>
   <script type="text/javascript">
 		var point1 = new GPoint(<?php echo $x?>,<?php echo $y?>);
+		var marker1 = new GMarker(point1);
+		//marker1.openInfoWindowHtml(<?php echo $name?>);
+		map.addOverlay(marker1);
+	</script>
+<?php
+}
+
+/*
+ * add existing markers from db
+*/
+function add_marker_db_v2($x,$y,$name)
+{
+?>
+  <script type="text/javascript">
+		var point1 = new GLatLng(<?php echo $x?>,<?php echo $y?>);
 		var marker1 = new GMarker(point1);
 		//marker1.openInfoWindowHtml(<?php echo $name?>);
 		map.addOverlay(marker1);
@@ -292,6 +341,57 @@ function show_add_marker_map($name)
 			map.addControl(new GMapTypeControl());//satellite image switch
 				 
 			map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);			
+			GEvent.addListener(map, 'click', function(overlay, point) {
+	  		if (overlay) {
+				var html = "<?php echo $name?>";
+				//overlay.openInfoWindowHtml(html);
+				map.removeOverlay(overlay);
+			} 
+			else if (point) {
+				map.addOverlay(new GMarker(point));
+				// store x,y coords in hidden variables named loc_x, loc_y
+				// must be set via calling page
+				var x_point=document.getElementsByName("loc_x");
+				var y_point=document.getElementsByName("loc_y");
+				x_point[0].value=point.x;
+				y_point[0].value=point.y;
+				//alert(x_point[0].value);
+			}	
+		});		
+		
+	}		
+	//]]>	
+	
+	</script>
+	<div id="map" style="width: 500px; height: 400px"></div>
+<?php
+}
+
+/**
+ * show map with marker addition event
+ * allows people to enter markers over google map
+ * currently used
+ * version 2
+ */
+function show_add_marker_map_v2($name)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key = $conf['mod_gis_google_key'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_add_mkr_js()
+	{
+			var map = new GMap2(document.getElementById("map"));
+			map.addControl(new GLargeMapControl());
+	       //map.addControl(new GSmallMapControl());
+			map.addControl(new GMapTypeControl());//satellite image switch
+				 
+			map.setCenter(new GLatLng(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);			
 			GEvent.addListener(map, 'click', function(overlay, point) {
 	  		if (overlay) {
 				var html = "<?php echo $name?>";
