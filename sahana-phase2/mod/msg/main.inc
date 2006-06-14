@@ -34,9 +34,14 @@ function shn_msg_mainmenu()
 
     shn_mod_menuopen("Messaging" );
     shn_mod_menuitem("default", "Home", $module ) ;
+    shn_sub_mod_menuopen("XMMP");
+//    shn_sub_mod_menuitem("jab_new", "New Message", $module  );
+//    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
+    shn_sub_mod_menuclose();
     shn_sub_mod_menuopen("CAP");
-    shn_sub_mod_menuitem("cap_new", "New Message", $module  );
-    shn_sub_mod_menuitem("cap_view", "View Messages", $module);
+    shn_sub_mod_menuitem("cap_new", _("New"), $module  );
+    shn_sub_mod_menuitem("cap_view", _("View"), $module);
+    shn_sub_mod_menuitem("cap_edit", _("Edit"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
 
@@ -60,5 +65,21 @@ function shn_msg_cap_view()
 {
     include_once ('handler_cap_view.inc');
 }
+
+function shn_msg_cap_edit()
+{
+    include_once ('handler_cap_edit.inc');
+}
+
+//function shn_msg_jab_new()
+//{
+//    include_once ('handler_jab_new.inc');
+//}
+
+//function shn_msg_jab_disconnect()
+//{
+//    $global['msg_jabber']->Disconnect();
+//    print "<h2>No more Jabber</h3>";
+//}
 
 ?>

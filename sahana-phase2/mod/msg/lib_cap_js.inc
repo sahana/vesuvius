@@ -23,27 +23,51 @@ function _shn_msg_add_capjs()
 <script language="JavaScript" type="text/javascript">
     
     form = document.getElementsByTagName('form')[1];
-    form.restriction.disabled=true;
-    form.addresses.disabled=true;
+    rest = document.getElementById('scope_rest');
+    rest.style.display  = 'none';
+    addr = document.getElementById('scope_addr');
+    addr.style.display= 'none';
+    cap_note = document.getElementById('cap_note');
+    cap_note.style.display= 'none';
     
-    function changeScope(obj)
+    function changeId(ogj)
     {
-    	    form = document.getElementsByTagName('form')[1];
-            
-        if (obj.value=='Restricted')
+        form = document.getElementsByTagName('form')[1];
+        form.identifier.value = form.status.value+"-"+form.time.value;
+    }
+    
+    function showHideNote(obj)
+    {
+        cap_note = document.getElementById('cap_note');
+        if (obj.value=='Cancel' || obj.value=='Error')
         {
-            form.restriction.disabled=false;
-            form.addresses.disabled=true;
-        }
-        else if (obj.value=='Private')
-        {
-            form.restriction.disabled=true;
-            form.addresses.disabled=false;
+            cap_note.style.display= '';
         }
         else
         {
-        	    form.restriction.disabled=true;
-            form.addresses.disabled=true;
+            cap_note.style.display= 'none';
+        }
+    }
+    
+    function changeScope(obj)
+    {
+        rest = document.getElementById('scope_rest');
+        addr = document.getElementById('scope_addr');
+        
+        if (obj.value=='Restricted')
+        {
+            rest.style.display  = '';
+            addr.style.display= 'none';
+        }
+        else if (obj.value=='Private')
+        {
+            rest.style.display  = 'none';
+            addr.style.display= '';
+        }
+        else
+        {
+            rest.style.display  = 'none';
+            addr.style.display= 'none';
         }
     }
     
@@ -203,6 +227,58 @@ function _shn_msg_add_capjs()
     {
         obj.value = '';	
     }
+    
+//    function load_tab(tab)
+//    {
+//        if (tab == 'tab1')
+//        {
+//            tab1 = document.getElementById('tab1');
+//            tab1.style.display = '';
+//            
+//            tab2 = document.getElementById('tab2');
+//            tab2.style.display = 'none';
+//            
+//            tab1 = document.getElementById('tab3');
+//            tab1.style.display = 'none';
+//        }
+//        if (tab == 'tab2')
+//        {
+//            tab1 = document.getElementById('tab1');
+//            tab1.style.display = 'none';
+//            
+//            tab2 = document.getElementById('tab2');
+//            tab2.style.display = '';
+//            
+//            tab1 = document.getElementById('tab3');
+//            tab1.style.display = 'none';
+//        }
+//        
+//        if (tab == 'tab3')
+//        {
+//            tab1 = document.getElementById('tab1');
+//            tab1.style.display = 'none';
+//            
+//            tab2 = document.getElementById('tab2');
+//            tab2.style.display = 'none';
+//            
+//            tab1 = document.getElementById('tab3');
+//            tab1.style.display = '';
+//        }
+//        
+//        if (tab == '')
+//        {
+//            tab1 = document.getElementById('tab1');
+//            tab1.style.display = '';
+//            
+//            tab2 = document.getElementById('tab2');
+//            tab2.style.display = 'none';
+//            
+//            tab1 = document.getElementById('tab3');
+//            tab1.style.display = 'none';
+//        }
+//        
+//    }
+//    load_tab('tab1');
 </script>
   
 <?php

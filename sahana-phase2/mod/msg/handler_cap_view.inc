@@ -23,38 +23,73 @@ require_once('class_cap_resource.inc');
 require_once('class_cap_area.inc');
 require_once('lib_cap_js.inc');
 
-?>
 
-<h1>Sahana Messaging Module</h1>
-<h3>CAP Message Viewer</h3>
+print "<h1>" . _("Sahana Messaging Module") . "</h1>";
+print "<h3>" . _("CAP Message Viewer") . "</h3>";
 
-<?php
-
-function _shn_msg_get_cap_filelist()
+switch ($_REQUEST['seq'])
 {
-    $list = array();
-    $files = scandir('../res/msg');
-    foreach ($files as $file)
+    case '' :
+        //_shn_msg_cap_url_selector();
+        _shn_msg_cap_file_selector();
+        break;
+
+    case 'view_msg':
+               //_shn_msg_cap_url_selector();
+               _shn_msg_cap_file_selector();
+               _shn_msg_view_cap_message();
+                   break;
+    case 'view_tpl':
+                _shn_msg_cap_file_selector();
+                _shn_msg_view_cap_template();
+}
+
+
+function _shn_msg_get_cap_tpllist()
+{
+    $MSG_DIR = '../res/msg';
+    $templates = scandir($MSG_DIR.'/cap/templates');
+    
+    foreach ($templates as $template)
     {
-        if(strstr($file,'.xml') || strstr($file,'.XML'))
-            $list[$file]=$file;
+        if(strstr($template,'.xml') || strstr($template,'.XML'))
+            $list_tpl[$template]=$template;
     }
 
-    return $list;
+    return $list_tpl;
+}
+
+function _shn_msg_get_cap_msglist()
+{
+    $MSG_DIR = '../res/msg';
+    $messages = scandir($MSG_DIR.'/cap/messages');
+    
+    foreach ($messages as $message)
+    {
+        if(strstr($message,'.xml') || strstr($message,'.XML'))
+            $list_msg[$message]=$message;
+    }
+
+    return $list_msg;
 }
 
 function _shn_msg_cap_file_selector()
 {
 
     shn_form_fopen("cap_view",null,array('req_message'=>false));
-
-    shn_form_hidden(array('seq'=>'view_msg'));
-
-    //shn_form_fsopen(_("Select Message"));
-    shn_form_select(_shn_msg_get_cap_filelist(),"","file",'onChange=submit(this);',array('br'=>false));
+    shn_form_hidden(array('seq'=>'view_tpl'));
+    shn_form_fsopen(_("Select Template"));
+    shn_form_select(_shn_msg_get_cap_tpllist(),"","file",'onChange=submit(this);',array('br'=>false));
     shn_form_submit(_("View"));
-    //shn_form_fsclose();
+    shn_form_fsclose();
+    shn_form_fclose();
     
+    shn_form_fopen("cap_view",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'view_msg'));
+    shn_form_fsopen(_("Select Message"));
+    shn_form_select(_shn_msg_get_cap_msglist(),"","file",'onChange=submit(this);',array('br'=>false));
+    shn_form_submit(_("View"));
+    shn_form_fsclose();
     shn_form_fclose();
 }
 
@@ -75,7 +110,8 @@ function _shn_msg_cap_url_selector()
 function _shn_msg_view_cap_message()
 {
     $file = $_POST['file'];
-    $msg = new Msg_CapAlert('../res/msg/' . $file);
+    $MSG_DIR = '../res/msg';
+    $msg = new Msg_CapAlert($MSG_DIR.'/cap/messages/' . $file);
     print $msg->printFormattedMsg();
     
 //    shn_form_fopen("cap_xml_view",null,array('req_message'=>false));
@@ -84,19 +120,19 @@ function _shn_msg_view_cap_message()
 
 }
 
-switch ($_REQUEST['seq'])
+function _shn_msg_view_cap_template()
 {
-    case '' :
-            //_shn_msg_cap_url_selector();
-            _shn_msg_cap_file_selector();
-            break;
+    $file = $_POST['file'];
+    $MSG_DIR = '../res/msg';
+    $msg = new Msg_CapAlert($MSG_DIR.'/cap/templates/' . $file);
+    print $msg->printFormattedMsg();
+    
+//    shn_form_fopen("cap_xml_view",null,array('req_message'=>false));
+//    shn_form_textarea('','name','rows=20 cols=150',array('value'=>$msg->getXML()));
+//    shn_form_fclose();
 
-    case 'view_msg':
-                   //_shn_msg_cap_url_selector();
-                   _shn_msg_cap_file_selector();
-                   _shn_msg_view_cap_message();
-                   break;
 }
+
 ?>
 
 

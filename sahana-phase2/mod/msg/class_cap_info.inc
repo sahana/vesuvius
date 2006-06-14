@@ -80,14 +80,44 @@ class Msg_CapInfo
 
     function addResource($resource)
     {
-    	    if($resource->isValid())
+	    if($resource->isValid())
             $this->resource[] = $resource;
+    }
+    
+    function delResource($resource_index)
+    {
+        $res = $this->getResource();
+        
+        for ($i = 0; $i < count ($res); $i++)
+        {
+            if ($i != $resource_index)
+               $tmp_res[] = $res[$i];
+        }
+        
+        $this->setResource($tmp_res);
+        
+        return true;
     }
     
     function addArea($area)
     {
-    	    if($area->isValid())
+	    if($area->isValid())
             $this->area[] = $area;
+    }
+    
+    function delArea($area_index)
+    {
+        $ar = $this->getArea();
+
+        for ($i = 0; $i < count ($ar); $i++)
+        {
+            if ($i != $area_index)
+               $tmp_ar[] = $ar[$i];
+        }
+        
+        $this->setArea($tmp_ar);
+        
+        return true;
     }
     
     /**
@@ -250,7 +280,15 @@ class Msg_CapInfo
     
     function getCategory()
     {
-        return $this->category;
+        //return $this->category;
+        $categories = $this->category;
+        if (is_array($categories))
+        {
+            foreach ($categories as $category)
+                $cat_str .= $category . ',';
+        }
+            
+        return $cat_str;
     }
     
     function getEvent()

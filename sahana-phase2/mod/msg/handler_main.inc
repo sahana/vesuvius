@@ -18,7 +18,7 @@
 
 
 global $global;
-
+print $global['msg_jabber']->$connected;
 ?>
 <div id="home">
 <h2><?php print _("Messaging")?></h2>
@@ -33,4 +33,7 @@ temporary directory. You can view this file using 'View Messages' option</p>
 <p>Two sample messages are already added to the list. You can view them by selecting
 one of them and pressing the 'view' button </p>
 
+<br />
+<h3>XMMP Messaging</h3>
+<p>Comming soon to a Sahana near you ;-)</p>
 </div>

@@ -432,142 +432,141 @@ class Msg_CapAlert
         $this->xmlAddChild($dom, $alert, 'incidents', $this->getIncidents());
 
         //<info>
-        $info = $dom->createElement('info');
-        $alert->appendChild($info);
-        
         $inf = $this->info[0];
-        
-        $this->xmlAddChild($dom, $info, 'language', $inf->getLanguage());
-        if(is_array($inf->getCategory()))
+        if ($inf != null)
         {
-            foreach($inf->getCategory() as $cat)
+            $info = $dom->createElement('info');
+            $alert->appendChild($info);
+            
+            $this->xmlAddChild($dom, $info, 'language', $inf->getLanguage());
+            if(is_array($inf->getCategory()))
             {
-                $this->xmlAddChild($dom, $info, 'category', $cat);
-            }
-        }
-        
-        $this->xmlAddChild($dom, $info, 'event', $inf->getEvent());
-        
-        if(is_array($inf->getResponseType()))
-        {
-            foreach($inf->getResponseType() as $rt)
-            {
-                $this->xmlAddChild($dom, $info, 'responseType', $rt);
-            }
-        }
-        
-        $this->xmlAddChild($dom, $info, 'urgency', $inf->getUrgency());
-        $this->xmlAddChild($dom, $info, 'severity', $inf->getSeverity());
-        $this->xmlAddChild($dom, $info, 'certainty', $inf->getCertainty());
-        $this->xmlAddChild($dom, $info, 'audience', $inf->getAudience());
-        $this->xmlAddChild($dom, $info, 'effective', $inf->getEffective());
-        $this->xmlAddChild($dom, $info, 'onset', $inf->getOnset());
-        $this->xmlAddChild($dom, $info, 'expires', $inf->getExpires());
-        $this->xmlAddChild($dom, $info, 'senderName', $inf->getSendername());
-        $this->xmlAddChild($dom, $info, 'headline', $inf->getHeadline());
-        $this->xmlAddChild($dom, $info, 'description', $inf->getDescription());
-        $this->xmlAddChild($dom, $info, 'instruction', $inf->getInstruction());
-        $this->xmlAddChild($dom, $info, 'web', $inf->getWeb());
-        $this->xmlAddChild($dom, $info, 'contact', $inf->getContact());
-
-        if (is_array($inf->getEventCode()))
-        {
-            foreach ($inf->getEventCode() as $evnt)
-            {
-                $eventCode = $dom->createElement('eventCode');
-                $info->appendChild($eventCode);
-
-                foreach ($evnt as $evnt_key=>$evnt_val)
+                foreach($inf->getCategory() as $cat)
                 {
-                    $evnt_child = $dom->createElement($evnt_key);
-                    $evnt_child->appendChild($dom->createTextNode($evnt_val));
-                    $eventCode->appendChild($evnt_child);
+                    $this->xmlAddChild($dom, $info, 'category', $cat);
                 }
-
             }
-        }
-
-        if (is_array($inf->getParameter()))
-        {
-            foreach ($inf->getParameter() as $prm)
+            
+            $this->xmlAddChild($dom, $info, 'event', $inf->getEvent());
+            
+            if(is_array($inf->getResponseType()))
             {
-                $parameter = $dom->createElement('parameter');
-                $info->appendChild($parameter);
-
-                foreach ($prm as $prm_key=>$prm_val)
+                foreach($inf->getResponseType() as $rt)
                 {
-                    $prm_child = $dom->createElement($prm_key);
-                    $prm_child->appendChild($dom->createTextNode($prm_val));
-                    $parameter->appendChild($prm_child);
+                    $this->xmlAddChild($dom, $info, 'responseType', $rt);
                 }
-
             }
-
-        }
-        if(is_array($inf->getResource()))
-        {
-            foreach($inf->getResource() as $res)
+            
+            $this->xmlAddChild($dom, $info, 'urgency', $inf->getUrgency());
+            $this->xmlAddChild($dom, $info, 'severity', $inf->getSeverity());
+            $this->xmlAddChild($dom, $info, 'certainty', $inf->getCertainty());
+            $this->xmlAddChild($dom, $info, 'audience', $inf->getAudience());
+            $this->xmlAddChild($dom, $info, 'effective', $inf->getEffective());
+            $this->xmlAddChild($dom, $info, 'onset', $inf->getOnset());
+            $this->xmlAddChild($dom, $info, 'expires', $inf->getExpires());
+            $this->xmlAddChild($dom, $info, 'senderName', $inf->getSendername());
+            $this->xmlAddChild($dom, $info, 'headline', $inf->getHeadline());
+            $this->xmlAddChild($dom, $info, 'description', $inf->getDescription());
+            $this->xmlAddChild($dom, $info, 'instruction', $inf->getInstruction());
+            $this->xmlAddChild($dom, $info, 'web', $inf->getWeb());
+            $this->xmlAddChild($dom, $info, 'contact', $inf->getContact());
+    
+            if (is_array($inf->getEventCode()))
             {
-            	    $resource = $dom->createElement('resource');
-                $info->appendChild($resource);
-                
-                $this->xmlAddChild($dom, $resource, 'resourceDesc', $res->getResourceDesc());
-                $this->xmlAddChild($dom, $resource, 'mimeType', $res->getMimeType());
-                $this->xmlAddChild($dom, $resource, 'size', $res->getSize());
-                $this->xmlAddChild($dom, $resource, 'uri', $res->getUri());
-                $this->xmlAddChild($dom, $resource, 'derefUri', $res->getDerefUri());
-                $this->xmlAddChild($dom, $resource, 'digest', $res->getDigest());
-            }
-        }
-        
-        if(is_array($inf->getArea()))
-        {
-            foreach($inf->getArea() as $ar)
-            {
-                $area = $dom->createElement('area');
-                $info->appendChild($area);
-                
-                $this->xmlAddChild($dom, $area, 'areaDesc', $ar->getAreaDesc());
-                
-                if(is_array($ar->getPolygon()))
+                foreach ($inf->getEventCode() as $evnt)
                 {
-                    foreach($ar->getPolygon() as $poly)
-                        $this->xmlAddChild($dom, $area, 'polygon', $poly);
-                }
-                
-                if(is_array($ar->getCircle()))
-                {
-                    foreach($ar->getCircle() as $cle)
-                        $this->xmlAddChild($dom, $area, 'circle', $cle);
-                }
-                
-                if(is_array($ar->getGeocode()))
-                {
-                    foreach($ar->getGeocode() as $geo)
+                    $eventCode = $dom->createElement('eventCode');
+                    $info->appendChild($eventCode);
+    
+                    foreach ($evnt as $evnt_key=>$evnt_val)
                     {
-                        $geocode = $dom->createElement('geocode');
-                        $area->appendChild($geocode);
-                        
-                        $this->xmlAddChild($dom, $geocode, 'valueName', $geo['valueName']);
-                        $this->xmlAddChild($dom, $geocode, 'value', $geo['value']);
+                        $evnt_child = $dom->createElement($evnt_key);
+                        $evnt_child->appendChild($dom->createTextNode($evnt_val));
+                        $eventCode->appendChild($evnt_child);
                     }
+    
+                }
+            }
+    
+            if (is_array($inf->getParameter()))
+            {
+                foreach ($inf->getParameter() as $prm)
+                {
+                    $parameter = $dom->createElement('parameter');
+                    $info->appendChild($parameter);
+    
+                    foreach ($prm as $prm_key=>$prm_val)
+                    {
+                        $prm_child = $dom->createElement($prm_key);
+                        $prm_child->appendChild($dom->createTextNode($prm_val));
+                        $parameter->appendChild($prm_child);
+                    }
+    
                 }
     
-                $this->xmlAddChild($dom, $area, 'altitude', $ar->getAltitude());
-                $this->xmlAddChild($dom, $area, 'ceiling', $ar->getCeiling());           
+            }
+            if(is_array($inf->getResource()))
+            {
+                foreach($inf->getResource() as $res)
+                {
+                	    $resource = $dom->createElement('resource');
+                    $info->appendChild($resource);
+                    
+                    $this->xmlAddChild($dom, $resource, 'resourceDesc', $res->getResourceDesc());
+                    $this->xmlAddChild($dom, $resource, 'mimeType', $res->getMimeType());
+                    $this->xmlAddChild($dom, $resource, 'size', $res->getSize());
+                    $this->xmlAddChild($dom, $resource, 'uri', $res->getUri());
+                    $this->xmlAddChild($dom, $resource, 'derefUri', $res->getDerefUri());
+                    $this->xmlAddChild($dom, $resource, 'digest', $res->getDigest());
+                }
+            }
+            
+            if(is_array($inf->getArea()))
+            {
+                foreach($inf->getArea() as $ar)
+                {
+                    $area = $dom->createElement('area');
+                    $info->appendChild($area);
+                    
+                    $this->xmlAddChild($dom, $area, 'areaDesc', $ar->getAreaDesc());
+                    
+                    if(is_array($ar->getPolygon()))
+                    {
+                        foreach($ar->getPolygon() as $poly)
+                            $this->xmlAddChild($dom, $area, 'polygon', $poly);
+                    }
+                    
+                    if(is_array($ar->getCircle()))
+                    {
+                        foreach($ar->getCircle() as $cle)
+                            $this->xmlAddChild($dom, $area, 'circle', $cle);
+                    }
+                    
+                    if(is_array($ar->getGeocode()))
+                    {
+                        foreach($ar->getGeocode() as $geo)
+                        {
+                            $geocode = $dom->createElement('geocode');
+                            $area->appendChild($geocode);
+                            
+                            $this->xmlAddChild($dom, $geocode, 'valueName', $geo['valueName']);
+                            $this->xmlAddChild($dom, $geocode, 'value', $geo['value']);
+                        }
+                    }
+        
+                    $this->xmlAddChild($dom, $area, 'altitude', $ar->getAltitude());
+                    $this->xmlAddChild($dom, $area, 'ceiling', $ar->getCeiling());           
+                }
             }
         }
-
         return $dom->saveXML();
 
     }
 
-    function saveXML($fileName)
+    function saveXML($path, $file)
     {
-        $MSG_DIR = '../res/msg';
-        $file = "$MSG_DIR/$fileName";
-        if (is_writable($MSG_DIR))
-            file_put_contents($file, $this->getXML());
+        if (is_writable($path))
+            file_put_contents($path.$file, $this->getXML());
         else
             print "plesae make the path : $file writable";
     }
@@ -575,6 +574,88 @@ class Msg_CapAlert
     function printCapXML()
     {
         print '<pre>' . htmlspecialchars($this->getXML()) . '</pre>';
+    }
+    
+    /**
+     * Prints out the list of areas in a table
+     */
+    function printAreas($showDel=false)
+    {
+        $info = $this->getInfo();
+        
+        if(is_array($info->getArea()))
+        {
+            if (!$showDel)
+                $th_ar[] = array(_("Area Description"), _("Polygon"), _("Circle"), _("Geocode"), _("Altitude"), _("Ceiling"));
+            else
+                $th_ar[] = array(_("Area Description"), _("Polygon"), _("Circle"), _("Geocode"), _("Altitude"), _("Ceiling"), _("Remove"));
+            
+            $count = 0;
+            
+            foreach($info->getArea() as $area)
+            {
+                $del_str = '';
+                 if ($showDel)
+                    $del_str = '<a href="index.php?mod=msg&amp;act=cap_new' .
+                                '&amp;seq=del_cap_area&amp;area_id=' . 
+                                $count . '">' . _("Remove") . '</a>';
+                                
+                if(is_array($area->getGeocode()))
+                foreach($area->getGeocode() as $gc)
+                    $geo = $gc['valueName'] . ' : ' . $gc['value'] . '<br />';
+                
+                if(is_array($area->getPolygon()))
+                    foreach($area->getPolygon() as $p)
+                        $poly = $p . '<br />';
+                
+                if(is_array($area->getCircle()))
+                    foreach($area->getCircle() as $c)
+                        $crl = $c . '<br />';
+                    
+                $tb_ar[] = array($area->getAreaDesc(), $poly, $crl, $geo, 
+                                 $area->getAltitude(), $area->getCeiling(),
+                                 $del_str);
+            }
+            print "<br /><br /><h3>Area</h3>";
+            shn_html_table($tb_ar, $th_ar, null, array('class'=>'wide'), null);
+        }
+    }
+    
+    /**
+     * Prints out the resources in a table
+     */
+    function printResource($showDel=false)
+    {
+        $info = $this->getInfo();
+        
+        if(is_array($info->getResource()) && 0 < count($info->getResource()))
+        {
+            $th_res[0] = array(_("Resource Description"), _("Mime Type"), _("Size"), _("URI"), _("DerefUri"), _("Digest"));
+            
+            if ($showDel)
+                $th_res[0] = array(_("Resource Description"), _("Mime Type"), _("Size"), _("URI"), _("DerefUri"), _("Digest"), _("Remove"));
+            $count = 0;
+            foreach ($info->getResource() as $res)
+            {
+                 $del_str = '';
+                 if ($showDel)
+                    $del_str = '<a href="index.php?mod=msg&amp;act=cap_new' .
+                                '&amp;seq=del_cap_res&amp;res_id=' . 
+                                $count . '">' . _("Remove") . '</a>';
+                 $tb_res[] = array(
+                                    $res->getResourceDesc(),
+                                    $res->getMimeType(),
+                                    $res->getSize(),
+                                    $res->getUri(),
+                                    $res->getDerefUri(),
+                                    $res->getDigest(),
+                                    $del_str
+                                   );
+                $count++;
+            }
+            print "<br /><br /><h3>Resources</h3>";
+            shn_html_table($tb_res, $th_res, null, array('class'=>'wide'), null);
+        }
     }
     
     function alertElemValidate($elem)
@@ -594,10 +675,12 @@ class Msg_CapAlert
             $this->code[] = $code;
     }
     
-    function addInfo($info)
+    function addInfo($info,$index=null)
     {
-    	    if($info->isValid())
-            $this->info[] = $info;
+    	    if($info->isValid() && $index == null)
+                $this->info[] = $info;
+            elseif($index != null)
+                $this->info[$index] = $info;
     }
     
     /**
@@ -686,9 +769,9 @@ class Msg_CapAlert
         $this->incidents = $incidents;
     }
     
-    function setInfo($info)
+    function setInfo($info, $index)
     {
-        $this->info = $info;
+        $this->info[$index] = $info;
     }
     
     /**
@@ -741,7 +824,11 @@ class Msg_CapAlert
     
     function getCode()
     {
-        return $this->code;
+        $codes = $this->code;
+        foreach ($codes as $code)
+            $code_str .= $code . ' ';
+            
+        return $code_str;
     }
     
     function getNote()
@@ -759,10 +846,16 @@ class Msg_CapAlert
         return $this->incidents;
     }
     
-    function getInfo()
+    function getInfo($index=null)
     {
-        return $this->info;
+        if($index == null)
+            return $this->info[0];
+        else
+            return $this->info[$index];
     }
+    
+    function __autoload()
+    {}
 
 }
 

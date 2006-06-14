@@ -1,6 +1,6 @@
 <?php
 /**
-* Sahana <package_name>
+* The Sahana Resquest Management System
 *
 * PHP version 4 and 5
 *
@@ -8,95 +8,182 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author       Sudheera R. Fernando <sudheera@opensource.lk>
+* @author		Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package      Sahana
-* @subpackage
+* @package		sahana
+* @subpackage	rms
 * @tutorial
-* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* Public License (LGPL)
 */
 
-//$cap = new Msg_CapMessage('../res/msg/SampleAlerts.xml');
-
-//$cap->printCapXML();
-
+global $global;
+require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 require_once('class_cap_alert.inc');
 require_once('class_cap_info.inc');
 require_once('class_cap_resource.inc');
 require_once('class_cap_area.inc');
 require_once('lib_cap_js.inc');
 
-function _shn_msg_cap_newform()
+switch ($_REQUEST['seq'])
 {
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    case '' :
+            $_SESSION['cap_msg'] = null;
+            _shn_msg_cap_newmain();
+            break;
+    case 'new_cap_main':
+                    _shn_msg_cap_addmain();
+                    _shn_msg_cap_infonew();
+                    break;
+    case 'new_cap_info':
+                    _shn_msg_cap_addinfo();
+                    _shn_msg_cap_resourcenew();
+                    break;
+    case 'new_cap_res':
+                    _shn_msg_cap_add_res();
+                    _shn_msg_cap_resourcenew();
+                    break;
+    case 'del_cap_res':
+                    _shn_msg_cap_del_res();
+                    _shn_msg_cap_resourcenew();
+                    break;
+    case 'new_cap_area':
+                    _shn_msg_cap_new_area();
+                    break;
+    case 'add_cap_area':
+                    _shn_msg_cap_add_area();
+                    _shn_msg_cap_new_area();
+                    break;
+    case 'del_cap_area':
+                    _shn_msg_cap_del_area();
+                    _shn_msg_cap_new_area();
+                    break;
+    case 'new_cap_finish':
+                    _shn_msg_cap_finish();
+                    break;
+    case 'new_cap_save':
+                    _shn_msg_cap_save();
+                    break;
+}
 
-    shn_form_hidden(array('seq'=>'new_cap'));
+function _shn_msg_cap_newmain()
+{
+    require_once('lib_cap_help.inc');
     
-    	
-	$id = time();
-	$today = date("Y-m-d h:m:s");
-	$status = array('Actual'=>'Actual', 'Exercise'=>'Exercise', 'System'=>'System', 'Test'=>'Test', 'Draft'=>'Draft');
-	$msgType = array('Alert'=>'Alert', 'Update'=>'Update', 'Cancel'=>'Cancel', 'Ack'=>'Ack', 'Error'=>'Error');
-	$scope = array('Public'=>'Public', 'Restricted'=>'Restricted', 'Private'=>'Private');
+    $id = time();
+    $today = date("Y-m-d h:m:s");
+    
+    $status = array('Actual'=>'Actual', 'Exercise'=>'Exercise', 
+                     'System'=>'System', 'Test'=>'Test', 'Draft'=>'Draft');
+    $msgType = array('Alert'=>'Alert', 'Update'=>'Update', 
+                      'Cancel'=>'Cancel', 'Ack'=>'Ack', 'Error'=>'Error');
+    $scope = array('Public'=>'Public', 'Restricted'=>'Restricted', 
+                   'Private'=>'Private');
+    
+    print "<h2>" . _("Creating New Cap Template") . "</h2>";
+    
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'new_cap_main'));
+    shn_form_fsopen(_("New Cap Template"));
+    shn_form_hidden(array('time'=>$id,'stat'=>$status[_("Actual")]));
+    shn_form_text(_("Message Identifier"),'identifier',null,array('value'=>$status[_("Actual")] . "-$id",'help'=>$help_identifire));
+    shn_form_text(_("Date"),'sent',null,array('value'=>$today));
+    shn_form_text(_("Sender"),'sender','class=""',array('help'=>$help_sender));
+    shn_form_select($status, _("Status"), 'status', 'onChange="changeId(this);"', array('help'=>$help_status));
+    shn_form_select($msgType, _("Message Type"), 'msgType', 'onChange="showHideNote(this);"',array('help'=>$help_msgType));
+    print '<div id="cap_note">';
+    shn_form_textarea(_("Note"),'note');
+    print '</div>';
+    shn_form_text(_("Source"),'source',null, array('value'=>'Sahana',help=>$help_source));
+    
+    shn_form_select($scope, _("Scope"), 'scope','onChange="changeScope(this);"',array('help'=>$help_scope));
+    print '<div id="scope_rest">';
+    shn_form_text(_("Restriction [Restricted]"),'restriction');
+    print '</div><div id="scope_addr">';
+    shn_form_textarea(_("Addresses [private]"),'addresses');
+    print '</div>';
+
+    shn_form_fsopen(_("Optional"));    
+    shn_form_text(_("Code"),'code',null,array('br'=>false));
+    print "<strong>Enter space separated set of codes</strong> <br />";
+
+    
+    shn_form_text(_("References"),'references');
+    shn_form_text(_("incidents"),'incidents');
+    shn_form_fsclose();
+    
+    shn_form_submit(_("Next"), 'style="float: right"');
+    
+    shn_form_fsclose(); //Close capmessage form
+    
+    
+    shn_form_fclose();
+    
+    _shn_msg_add_capjs();
+}
+
+function _shn_msg_cap_infonew()
+{
+    require_once('lib_cap_help.inc');
     
     $category = array('Geo'=>'Geo', 'Met'=>'Met', 'Safety'=>'Safety', 
                       'Security'=>'Security', 'Rescue'=>'Rescue', 
                       'Fire'=>'Fire', 'Health'=>'Health', 'Env'=>'Env', 
                       'Transport'=>'Transport', 'Infra'=>'Infra', 
                       'CBRNE'=>'CBRNE', 'Other'=>'Other');
-	
     
-    shn_form_fsopen(_("New Cap Message"));
-    shn_form_text(_("Message Identifier"),'identifier',null,array('value'=>$id));
-    shn_form_text(_("Date"),'sent',null,array('value'=>$today));
-    shn_form_text(_("Sender"),'sender','class="wide"');
-    shn_form_select($status, _("Status"), 'status');
-    shn_form_select($msgType, _("Message Type"), 'msgType');
-    shn_form_text(_("Source"),'source');
-	
-	shn_form_fsopen(_("Scope"));
-	shn_form_select($scope, _("Scope"), 'scope','onChange="changeScope(this);"');
-	shn_form_text(_("Restriction [Restricted]"),'restriction');
-    shn_form_textarea(_("Addresses [private]"),'addresses');
-    shn_form_fsclose();
+    $session_lang = $_SESSION["locale"];
+    switch ($session_lang)
+    {
+        case 'de_DE':
+                $c_land = 'si_LK';
+                break;
+        default:
+                $c_land = $session_lang;
+    }
     
-    shn_form_text(_("Code"),'code',null,array('br'=>false));
-    print "<strong>Enter space separated set of codes</strong> <br />";
+    $language = array('si_LK'=>_("Sinhala"),'tm_LK'=>_("Tamil"),'en_US'=>_("English"));
+    
+    $cap_msg = unserialize($_SESSION['cap_msg']);
+    $sender_name = $cap_msg->getSender();
+    
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
 
-    shn_form_textarea(_("Note"),'note');
-    shn_form_text(_("References"),'references');
-    shn_form_text(_("incidents"),'incidents');
-
-    shn_form_fsopen(_("Cap Message Info"));
+    shn_form_hidden(array('seq'=>'new_cap_info'));
     
-    shn_form_text(_("Sender Name"),'info_senderName');
-    shn_form_text(_("Headline"),'info_headline');
-    shn_form_text(_("Description"),'info_description');
-    shn_form_text(_("Language"),'info_language');
-    shn_form_text(_("Event"),'info_event');
-    shn_form_text(_("Audience"),'info_audience');
+    shn_form_fsopen(_("Cap Message Information"));
+    shn_form_select($language, _("Language"), 'info_language', null, array('value'=>$c_land,'help'=>$help_language));
     
-    shn_form_fsopen(_("Category"));
     shn_form_select($category, _("Category"),'info_category_list',null,array('br'=>false));
-    shn_form_button("Add", 'onClick="addCategory(info_category_list.value);"');
+    shn_form_button("Add", 'onClick="addCategory(info_category_list.value);"',array('br'=>false));
     shn_form_text('','info_category',null,array('br'=>false));
     shn_form_button("Clear", 'onClick="clearValue(info_category)"');
-    shn_form_fsclose();
+    print '<br />';    
+    shn_form_text(_("Event"),'info_event',null,array('help'=>$help_event));
+    shn_form_text(_("Urgency"),'info_urgency',null,array('help'=>$help_urgency));
+    shn_form_text(_("Severity"),'info_severity');
+    shn_form_text(_("Certainty"),'info_certainty');
+    
+    
+    shn_form_fsopen(_("Optional"));
+    shn_form_text(_("Sender Name"),'info_senderName',null,array('value'=>$sender_name));
+    shn_form_text(_("Headline"),'info_headline');
+    shn_form_text(_("Description"),'info_description');
+    
+    shn_form_text(_("Audience"),'info_audience');
+    
     
     $responseType = array('Shelter'=>'Shelter', 'Evacuate'=>'Evacuate', 
                           'Prepare'=>'Prepare', 'Execute'=>'Execute', 
                           'Monitor'=>'Monitor', 'Assess'=>'Assess', 
                           'None'=>'None');
-    shn_form_fsopen(_("Response Type"));
-    shn_form_select($responseType, _("Response Type"),'info_responseType_list',null,array('br'=>false));
-    shn_form_button("Add", 'onClick="addResponseType(info_responseType_list.value);"');
-    shn_form_text('','info_responseType',null,array('br'=>false));
-    shn_form_button("Clear", 'onClick="clearValue(info_responseType)"');
-    shn_form_fsclose();
     
-    shn_form_text(_("Urgency"),'info_urgency');
-    shn_form_text(_("Severity"),'info_severity');
-    shn_form_text(_("Certainty"),'info_certainty');
+    shn_form_select($responseType, _("Response Type"),'info_responseType_list',null,array('br'=>false));
+    shn_form_button("Add", 'onClick="addResponseType(info_responseType_list.value);"',array('br'=>false));
+    shn_form_text('','info_responseType',null,array('br'=>false,'value'=>_("None")));
+    shn_form_button("Clear", 'onClick="clearValue(info_responseType)"');
+
+    print '<br />';    
     
     shn_form_text(_("Effective"),'info_effective',null,array('br'=>false));
     print "<small>(e. g., 2002-05-24T16:49:00-07:00 for 24 May 2002 at 16: 49 PDT)</small><br />";
@@ -105,10 +192,10 @@ function _shn_msg_cap_newform()
     shn_form_text(_("Expires"),'info_expires',null,array('br'=>false));
     print "<small>(e. g., 2002-05-24T16:49:00-07:00 for 24 May 2002 at 16: 49 PDT)</small><br />";
     
+    print "<hr />";
     shn_form_textarea(_("Instruction"),'info_instruction');
     shn_form_text(_("Web"),'info_web');
     shn_form_text(_("Contact"),'info_contact');
-    
     
     shn_form_fsopen(_("Cap Message Info - Event Code"));
     shn_form_text(_("ValueName"),'valueName');
@@ -126,70 +213,143 @@ function _shn_msg_cap_newform()
     shn_form_button("Clear", 'onClick="clearValue(info_parameter)"');
     shn_form_fsclose();
     
+    shn_form_fsclose();
+    
+    shn_form_submit(_("Next"), 'style="float: right"');
+    
+    shn_form_fclose();
+    
+    _shn_msg_add_capjs();
+}
+
+function _shn_msg_cap_resourcenew()
+{
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
     shn_form_fsopen(_("Cap Message Info - Resource"));
+
+    shn_form_hidden(array('seq'=>'new_cap_res'));
     shn_form_text(_("Resource Description"),'info_resDesc');
     shn_form_text(_("mime Type"),'info_mimeType');
     shn_form_text(_("Size"),'info_size');
-    shn_form_text(_("URI"),'info_uri','class="wide"');
+    shn_form_text(_("URI"),'info_uri','class=""');
     shn_form_text(_("Attach File"),'info_derefUri', 'disabled="true" value="null"');
     shn_form_text(_("Digest"),'info_digest');
-    shn_form_button("Add Resource", 'onClick="addResource(info_resDesc.value, info_mimeType.value, info_size.value, info_uri.value, info_derefUri.value, info_digest.value);"');
-    print "<br />";
-    shn_form_textarea(_("Resources"),'info_resource');
+    shn_form_submit(_("Add Resource"));
+
     shn_form_fsclose();
+    shn_form_fclose();
     
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'new_cap_area'));
+    print '<br />';
+    shn_form_submit(_("Next"));
+    shn_form_fclose();
+
+    _shn_msg_add_capjs();
     
+}
+
+function _shn_msg_cap_new_area()
+{
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
     shn_form_fsopen(_("Cap Message Info - Area"));
-    shn_form_text(_("Area Description"),'area_areaDesc');
+
+    shn_form_hidden(array('seq'=>'add_cap_area'));
+    shn_form_text(_("Area Description"),'area_areaDesc',null,array('value'=>''));
         
     shn_form_fsopen(_("Polygon"));
     shn_form_text(_("X "),'area_pX');
     shn_form_text(_("Y "),'area_pY',null,array('br'=>false));
-    shn_form_button("Add Point", 'onClick="addCoordinates(area_pX.value, area_pY.value);"');
-    shn_form_text('','area_poly_list');
+    shn_form_button("Add Point", 'onClick="addCoordinates(area_pX.value, area_pY.value);"',array('br'=>false));
+    shn_form_text('','area_poly_list',null,array('value'=>''));
     shn_form_fsclose();
   
     shn_form_fsopen(_("Circle"));
     shn_form_text(_("X "),'area_cX');
     shn_form_text(_("Y "),'area_cY');
     shn_form_text(_("Radius "),'area_r',null,array('br'=>false));
-    shn_form_button("Add Circle", 'onClick="addCircle(area_cX.value, area_cY.value, area_r.value);"');
-    shn_form_text('','area_crl_list');
+    shn_form_button("Add Circle", 'onClick="addCircle(area_cX.value, area_cY.value, area_r.value);"',array('br'=>false));
+    shn_form_text('','area_crl_list',null,array('value'=>''));
     shn_form_fsclose();
     
     shn_form_fsopen(_("Geocode"));
     shn_form_text(_("Value Name"),'gc_vn');
     shn_form_text(_("Value"),'gc_v',null,array('br'=>false));
-    shn_form_button("Add Geocode", 'onClick="addGeocode(gc_vn.value, gc_v.value);"');
-    shn_form_text('','gc_list');
+    shn_form_button("Add Geocode", 'onClick="addGeocode(gc_vn.value, gc_v.value);"',array('br'=>false));
+    shn_form_text('','gc_list',null,array('value'=>''));
     shn_form_fsclose();
     
-    shn_form_text(_("Altitude"),'area_altitude');
-    shn_form_text(_("Ceiling"),'area_ceiling');
+    shn_form_fsopen(_("Other"));
+    shn_form_text(_("Altitude"),'area_altitude',null,array('value'=>''));
+    shn_form_text(_("Ceiling"),'area_ceiling',null,array('value'=>''));
+    shn_form_fsclose();
     
     print "<br />";
-    shn_form_button("Add Area", 'onClick="addArea();"');
-    print "<br />";
-    shn_form_textarea('','info_area');    
-    
-    shn_form_fsclose();
-    
-    shn_form_fsclose();
+    shn_form_submit(_("Add Area"));
 
-	shn_form_fsclose(); //Close capmessage form
-	
-    shn_form_submit(_("New CAP Message"));
+    shn_form_fsclose();
     shn_form_fclose();
     
-    _shn_msg_add_capjs(); // the javascript has to be added after the form
-    
+    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'new_cap_finish'));
+    print '<br />';
+    shn_form_submit(_("Finish"));
+    shn_form_fclose();
+
+    _shn_msg_add_capjs();
 }
 
-function _shn_msg_cap_newmsg()
+function _shn_msg_cap_add_area()
+{
+    $alert = unserialize($_SESSION['cap_msg']);
+    $info   = $alert->getInfo();
+    
+    $ar = new Msg_CapArea();
+        
+    $ar->setAreaDesc($_POST['area_areaDesc']);
+    
+    $poly = split('-', $_POST['area_poly_list']);
+    $ar->addPolygon($poly);
+    
+    $circles = split('-', $_POST['area_crl_list']);
+    foreach ($circles as $circle)
+    {
+        $circle = split(',', $circle);
+        $ar->addCircle($circle[0],$circle[1],$circle[2]);
+    }
+    
+    $geoCodes = split('-', $_POST['gc_list']);
+    foreach ($geoCodes as $geoCode)
+    {
+        $geoCode = split(',', $geoCode);
+        $ar->addGeocode($geoCode[0],$geoCode[1]);
+    }
+    
+    $ar->setAltitude($_POST['area_altitude']);
+    $ar->setCeiling($_POST['area_ceiling']);
+    
+    $info->addArea($ar);
+    
+    $alert->setInfo($info,0);
+    $alert->printAreas(true);
+    $_SESSION['cap_msg'] = serialize($alert);
+}
+
+function _shn_msg_cap_del_area()
+{
+    $index = $_REQUEST['area_id'];
+    $alert = unserialize($_SESSION['cap_msg']);
+    $info   = $alert->getInfo();
+    $info->delArea($index);
+    $alert->setInfo($info,0);
+    $alert->printAreas(true);
+    $_SESSION['cap_msg'] = serialize($alert);
+}
+
+
+function _shn_msg_cap_addmain()
 {
     $alert  = new Msg_CapAlert();
-    $info   = new Msg_CapInfo();
-    
     
     $alert->setIdentifier($_POST['identifier']);
     $alert->setSender($_POST['sender']);
@@ -212,9 +372,16 @@ function _shn_msg_cap_newmsg()
     $alert->setReferences($_POST['references']);
     $alert->setIncidents($_POST['incidents']);
     
-    /***
-     * Building the info Object
-     */
+    $_SESSION['cap_msg'] = serialize($alert);
+    
+}
+
+function _shn_msg_cap_addinfo()
+{
+    //print_r();
+    $alert = unserialize($_SESSION['cap_msg']);
+    $info   = new Msg_CapInfo();
+    
     $info->setLanguage($_POST['info_language']);
     
     $category = split(' ', $_POST['info_category']);
@@ -264,101 +431,104 @@ function _shn_msg_cap_newmsg()
             $info->addParameter($parameter[0],$parameter[1]);
     }
     
-    $resources = split('\n\r', $_POST['info_resource']);
-    foreach($resources as $resource)
-    {
-        $res = new Msg_CapResource();
-    
-        $resource = split(',', $resource);
-        $res->setResourceDesc($resource[0]);
-        $res->setMimeType($resource[1]);
-        $res->setSize($resource[2]);
-        $res->setUri($resource[3]);
-        $res->setDerefUri($resource[4]);
-        $res->setDigest($resource[5]);
-        
-        $info->addResource($res);        
-    }
-    
+    $alert->addInfo($info);
+    $_SESSION['cap_msg'] = serialize($alert);
+//    $alert->printCapXML();
+}
 
+function _shn_msg_cap_add_res()
+{
+    $alert = unserialize($_SESSION['cap_msg']);
+    $info   = $alert->getInfo();
     
-    $areas = split('\n', $_POST['info_area']);
-    foreach($areas as $area)
+    $res = new Msg_CapResource();
+    $res->setResourceDesc($_POST['info_resDesc']);
+    $res->setMimeType($_POST['info_mimeType']);
+    $res->setSize($_POST['info_size']);
+    $res->setUri($_POST['info_uri']);
+    $res->setDerefUri($_POST['info_derefUri']);
+    $res->setDigest($_POST['info_digest']);
+    
+    $info->addResource($res);
+    $alert->setInfo($info,0);
+    $alert->printResource(true);
+    $_SESSION['cap_msg'] = serialize($alert);
+//    $alert->printCapXML();
+}
+
+function _shn_msg_cap_del_res()
+{
+    $index = $_REQUEST['res_id'];
+    $alert = unserialize($_SESSION['cap_msg']);
+    $info   = $alert->getInfo();
+    $info->delResource($index);
+    $alert->setInfo($info,0);
+    $alert->printResource(true);
+    $_SESSION['cap_msg'] = serialize($alert);
+}
+
+function _shn_msg_cap_finish()
+{
+    $index = $_REQUEST['res_id'];
+    $alert = unserialize($_SESSION['cap_msg']);
+?>
+    <div class="center"><h3>Save CAP AS:</h3></div>
+    <table class="layout">
+        <tr>
+        <td align="right">
+<?php
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'style'=>'form_blank'));
+    shn_form_hidden(array('seq'=>'new_cap_save','type'=>'template'));
+    print '<br />';
+    shn_form_submit(_("Template"));
+    shn_form_fclose();
+?>
+        </td>
+        <td>
+<?php
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'style'=>'form_blank'));
+    shn_form_hidden(array('seq'=>'new_cap_save','type'=>'message'));
+    print '<br />';
+    shn_form_submit(_("Message"));
+    shn_form_fclose();
+?>
+        </td>
+        </tr>
+    </table>
+<?php
+    $alert->printFormattedMsg();
+}
+
+function _shn_msg_cap_save()
+{
+    $type = $_POST['type'];
+    $alert = unserialize($_SESSION['cap_msg']);
+    
+    $MSG_DIR = '../res/msg';
+    $tpl_path = "$MSG_DIR/" . "cap/templates/";
+    $msg_path = "$MSG_DIR/" . "cap/messages/";
+        
+    switch($type)
     {
-        $ar = new Msg_CapArea();
-        
-        $area = split('//', $area);
-        $ar->setAreaDesc($area[0]);
-        
-        $poly = split('-', $area[1]);
-        $ar->addPolygon($poly);
-        
-        $circles = split('-', $area[2]);
-        foreach ($circles as $circle)
-        {
-            $circle = split(',', $circle);
-            $ar->addCircle($circle[0],$circle[1],$circle[2]);
-        }
-        
-        $geoCodes = split('-', $area[3]);
-        foreach ($geoCodes as $geoCode)
-        {
-            $geoCode = split(',', $geoCode);
-            $ar->addGeocode($geoCode[0],$geoCode[1]);
-        }
-        
-        $ar->setAltitude($area[4]);
-        $ar->setCeiling($area[5]);
-        
-        $info->addArea($ar);        
+        case 'template':
+                    $fileName = $alert->getIdentifier() . '.xml';
+                    $alert->saveXML($tpl_path, $fileName);
+                    print "<h3>" . _("CAP saved as a Template") . "</h3>";
+                    print _("File Name") . 
+                          "<strong>" . $tpl_path.$fileName . "</strong>";
+                    break;
+        case 'message':
+                    $fileName = $alert->getIdentifier() . '.xml';
+                    $alert->saveXML($msg_path, $fileName);
+                    print "<h3>" . _("CAP saved as a Message") . "</h3>";
+                    print _("File Name") . 
+                          ":<strong>" . $msg_path.$fileName . "</strong>";
+                    break;
     }
-    
-    $alert->addInfo($info);   
     
     $alert->printFormattedMsg();
-
-    $fileName = $_POST['identifier'] . '.xml';
-    $alert->saveXML($fileName);
-
-//    shn_form_fopen("cap_new",null);
-//
-//    shn_form_hidden(array('seq'=>'save_cap'));
-//    shn_form_text(_("File Name"),'file_name',null);
-//    shn_form_submit(_("Save CAP Message"));
-//    shn_form_fclose();
-
 }
-
-function _shn_msg_cap_savexml()
-{
-
-
-    unset($_POST['file_name']);
-
-    print ">>>>>>>>>>. $fileName";
-    $msg = new Msg_CapMessage();
-
-    foreach($_POST as $post_key=>$post_val)
-    {
-        $msg->$post_key = $post_val;
-    }
-
-    $msg->printFormattedMsg();
-}
-
-switch ($_REQUEST['seq'])
-{
-    case '' :
-            _shn_msg_cap_newform();
-            break;
-
-    case 'new_cap':
-                   _shn_msg_cap_newmsg();
-                   break;
-    case 'save_cap':
-                   _shn_msg_cap_savexml();
-                   break;
-}
-
 ?>
 
+
+        

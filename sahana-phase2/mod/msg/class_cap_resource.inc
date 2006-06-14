@@ -123,7 +123,8 @@ class Msg_CapResource
     function getDigest()
     {
         return $this->digest;
-    }    
+    }
+    
 }
 
 ?>
