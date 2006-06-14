@@ -825,10 +825,14 @@ class Msg_CapAlert
     function getCode()
     {
         $codes = $this->code;
-        foreach ($codes as $code)
-            $code_str .= $code . ' ';
-            
-        return $code_str;
+        if (is_array($codes))
+        {
+            foreach ($codes as $code)
+                $code_str .= $code . ' ';
+            return $code_str;
+        }
+        else
+            return null;
     }
     
     function getNote()
