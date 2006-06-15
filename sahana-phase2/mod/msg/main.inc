@@ -71,15 +71,13 @@ function shn_msg_cap_edit()
     include_once ('handler_cap_edit.inc');
 }
 
-//function shn_msg_jab_new()
-//{
-//    include_once ('handler_jab_new.inc');
-//}
-
-//function shn_msg_jab_disconnect()
-//{
-//    $global['msg_jabber']->Disconnect();
-//    print "<h2>No more Jabber</h3>";
-//}
+function shn_msg_cap_download()
+{
+    $file = $_POST['file'];
+    header("Content-type: text/xml");
+    header("Content-Disposition: attachment; filename=$file");
+    $file_str = file_get_contents($file);
+    print $file_str;
+}
 
 ?>

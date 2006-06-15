@@ -858,9 +858,6 @@ class Msg_CapAlert
             return $this->info[$index];
     }
     
-    function __autoload()
-    {}
-
 }
 
 ?>
