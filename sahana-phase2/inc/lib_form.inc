@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.45 2006-06-08 13:41:51 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.46 2006-06-16 13:41:01 sudheera Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -260,18 +260,26 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
-
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
 <?php
-    foreach ($options as $opt_value => $desc ) {
-
-#        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+    foreach ($options as $opt_value => $desc ) 
+    {
+        if($value == $opt_value)
+        {
 ?>
-        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
-<?=$sel?> /><?=$desc?>
+        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>" checked="true" />
+        <?=$desc?>
 <?php
+        }
+        else
+        {
+?>
+        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"/>
+        <?=$desc?>
+<?php
+        }        
     }
 ?>
 <?php
