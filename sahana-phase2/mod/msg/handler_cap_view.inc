@@ -75,22 +75,28 @@ function _shn_msg_get_cap_msglist()
 
 function _shn_msg_cap_file_selector()
 {
-    
-    shn_form_fopen("cap_view",null,array('req_message'=>false));
+    print '<table class="layout">';
+    print '<tr>';
+    print '<td>';
+    shn_form_fopen("cap_view",null,array('req_message'=>false,'style'=>'form_blank'));
     shn_form_hidden(array('seq'=>'view_tpl'));
     shn_form_fsopen(_("Select Template"));
     shn_form_select(_shn_msg_get_cap_tpllist(),"","file",'onChange=submit(this);',array('br'=>false));
     shn_form_submit(_("View"));
     shn_form_fsclose();
     shn_form_fclose();
-    
-    shn_form_fopen("cap_view",null,array('req_message'=>false));
+    print '</td>';
+    print '<td>';
+    shn_form_fopen("cap_view",null,array('req_message'=>false,'style'=>'form_blank'));
     shn_form_hidden(array('seq'=>'view_msg'));
     shn_form_fsopen(_("Select Message"));
     shn_form_select(_shn_msg_get_cap_msglist(),"","file",'onChange=submit(this);',array('br'=>false));
     shn_form_submit(_("View"));
     shn_form_fsclose();
     shn_form_fclose();
+    print '</td>';
+    print '</tr>';
+    print '</table>';
 }
 
 function _shn_msg_cap_url_selector()
@@ -114,6 +120,7 @@ function _shn_msg_view_cap_message()
     $msg = new Msg_CapAlert($MSG_DIR.'/cap/messages/' . $file);
     
     print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true&amp;filename=$file' id='formset' name=''>";
+    //print "Download : ";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/messages/' . $file));
     shn_form_submit(_("Dowload"));
     print "</form>";
@@ -129,15 +136,11 @@ function _shn_msg_view_cap_template()
     
     print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true&amp;filename=$file' id='formset' name=''>";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/templates/' . $file));
-    print "Download : ";
+    //print "Download : ";
     shn_form_submit(_("Dowload"));
     print "</form>";
     
     print $msg->printFormattedMsg();
-    
-//    shn_form_fopen("cap_xml_view",null,array('req_message'=>false));
-//    shn_form_textarea('','name','rows=20 cols=150',array('value'=>$msg->getXML()));
-//    shn_form_fclose();
 }
 
 ?>

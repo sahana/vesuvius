@@ -22,6 +22,7 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
+require_once $global['approot']."/inc/lib_misc.inc";
 
 
 /**
@@ -32,16 +33,17 @@ function shn_msg_mainmenu()
     global $global;
     $module = $global['module'];
 
-    shn_mod_menuopen("Messaging" );
-    shn_mod_menuitem("default", "Home", $module ) ;
+    shn_mod_menuopen("Messaging");
+    shn_mod_menuitem("default", "Home", $module) ;
     shn_sub_mod_menuopen("XMMP");
 //    shn_sub_mod_menuitem("jab_new", "New Message", $module  );
 //    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen("CAP");
-    shn_sub_mod_menuitem("cap_new", _("New"), $module  );
-    shn_sub_mod_menuitem("cap_view", _("View"), $module);
-    shn_sub_mod_menuitem("cap_edit", _("Edit"), $module);
+    shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
+    shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
+    shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
+    shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
 
@@ -69,6 +71,11 @@ function shn_msg_cap_view()
 function shn_msg_cap_edit()
 {
     include_once ('handler_cap_edit.inc');
+}
+
+function shn_msg_cap_upload()
+{
+    include_once ('handler_cap_upload.inc');
 }
 
 function shn_msg_cap_download()
