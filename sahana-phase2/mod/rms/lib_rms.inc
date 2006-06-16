@@ -828,7 +828,7 @@ function _shn_html_print_message($msg,$br = false)
         $br_str = '<br />';
 ?>
     <div class="message">
-    <strong><small><?php print $msg?></small></strong>
+    <strong><?php print $msg?></strong>
     <?php print $br_str ?>
     </div>
 <?php
