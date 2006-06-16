@@ -483,10 +483,16 @@ function _shn_ims_date_validate($date)
         //add_error("The month doesn't have such a date ");
         $error_flag1=true;
     }
-    
-    add_error(SHN_ERR_IMS_INVALID_DATE);
-    return $error_flag1;
-    
+
+    if($error_flag1==true)
+    {
+	add_error(SHN_ERR_IMS_INVALID_DATE);
+        return $error_flag1;
+    }
+    else
+    {
+        return $error_flag1;
+    }
 }
 
 function _shn_ims_find_catalogid($catalog_id)
