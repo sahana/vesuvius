@@ -193,7 +193,7 @@ shn_form_fsopen('Child Properties');
  print"<br/><br/>";
 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Drink Alcohol?','q6','',$childproperties[7]);
  print"<br/><br/>";
- 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Need TDH follow up?','q7','',$childproperties[8]);
+ 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Need Organization follow up?','q7','',$childproperties[8]);
  print"<br/><br/>";
  shn_form_textarea('Other Details','other','',array('value'=>$childproperties[9]));
 	shn_form_fsclose();

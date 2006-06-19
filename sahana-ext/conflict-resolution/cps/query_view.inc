@@ -354,7 +354,7 @@ shn_form_hidden(array('seq'=>'res'));
     shn_form_checkbox("Seems to be a beeting child",iq1,'',array('value'=>1));
      shn_form_checkbox("Is victim of sexualabuse",iq2,'',array('value'=>1));
      shn_form_checkbox("Seems to be a neglecting child",iq3,'',array('value'=>1));
-     shn_form_checkbox("TDH to follow up",iq4,'',array('value'=>1));
+     shn_form_checkbox("Organization to follow up",iq4,'',array('value'=>1));
     
      
 		 ?>

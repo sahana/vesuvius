@@ -84,7 +84,7 @@ shn_form_fsopen('Child Properties');
  print"<br/><br/>";
 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Drink Alcohol?','q6');
  print"<br/><br/>";
- 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Need TDH follow up?','q7');
+ 	shn_form_select(array('1'=>'Yes','0'=>'No'),'Need Organization  follow up?','q7');
  print"<br/><br/>";
  shn_form_textarea('Other Details','other');
 	shn_form_fsclose();
