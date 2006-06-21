@@ -568,7 +568,7 @@ class Msg_CapAlert
         if (is_writable($path))
             file_put_contents($path.$file, $this->getXML());
         else
-            print "plesae make the path : $file writable";
+            print "plesae make the path : $path writable";
     }
 
     function printCapXML()
