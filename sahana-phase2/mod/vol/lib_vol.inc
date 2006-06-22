@@ -58,6 +58,7 @@ function _shn_vol_action_change_javascript($change)
 ?>
 <script type="text/javascript">
     function change_action(action){
+
         var x=document.getElementsByName("<?php echo $change?>");
          x[0].value=action;
          document.view.submit();

@@ -144,9 +144,9 @@ function _shn_vol_viewform($pid,$error=false)
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_submit",null,$form_opts);
-    shn_form_fsopen(_("Picture"));
-    shn_show_thumb($pid);
-    shn_form_fsclose();
+   // shn_form_fsopen(_("Picture"));
+   // shn_show_thumb($pid);
+   // shn_form_fsclose();
    	shn_form_fsopen(_('Primary Details'));
     $extra_opts['value']=$name;
     $extra_opts['req']=true;
@@ -185,13 +185,17 @@ function _shn_vol_viewform($pid,$error=false)
 <br />
 <center>
 <?php
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'");
-	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'");
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
-    $change= array('type'=>'hidden', 'name'=>'action');
-	shn_form_add_component($change,false,false);
-    $p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
-	shn_form_add_component($p_id,false,false);
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    //$change= array('type'=>'hidden', 'name'=>'action');
+	shn_form_hidden(array('action'=>'0'));
+	//shn_form_add_component($change,false,false);
+    //$p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
+	shn_form_hidden(array('pid'=>$pid));
+	//shn_form_add_component($p_id,false,false);
     _shn_vol_action_change_javascript("action");
 ?>
 </center>
