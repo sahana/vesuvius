@@ -29,7 +29,7 @@ function shn_vol_mainmenu()
     $loc=_shn_vol_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_vol_name']));
     shn_mod_menuitem("default","Home",$module);
-    shn_mod_menuitem("search","Search",$module);
+  // shn_mod_menuitem("search","Search",$module);
     shn_mod_menuitem("reg","Register",$module);
     shn_mod_menuitem("view","View and Edit",$module);
   //  shn_mod_menuitem("drill_report&id=".$loc,"Drill down by Location",$module);

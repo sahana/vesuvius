@@ -30,7 +30,7 @@ function _shn_vol_viewform_all()
             <td><?=_("Name")?></td>
 	        <td><?=_("Services Offered")?></td>
             <td><?=_("Occupation")?></td>
-            <td><?=_("Country of Origin")?></td>
+           <!-- <td><?=_("Country of Origin")?></td>-->
             <td><?=_("Contact Address")?></td>
             <td><?=_("Contact Number")?></td>
             <td><?=_("Contact Mobile")?></td>
@@ -70,7 +70,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 ?>
     </td>
     <td><?php echo $res_pers->fields[3]?></td>
-    <td><?php echo $country?></td>
+    <!--<td><?php echo $country?></td>-->
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
     <td><?php echo $res_mobile->fields[0]?></td>
