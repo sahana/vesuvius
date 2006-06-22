@@ -29,7 +29,7 @@ define(SHN_ERR_OR_EMAIL,"Email Address is of the wrong format");
 define(SHN_ERR_DOB_INCORRECT,"You have to enter a Date (yyyy-mm-dd) for Date of Birth");
 define(SHN_ERR_or_ims_LOCATION_INCOMPLETE,"Location is essential for registration. Please select the location and submit again");
 define(SHN_ERR_or_ims_EMAIL,"Invalid e-mail address");
-define(SHN_ERR_or_ims_REG_MAX,"Your text fields should contain less than 200 characters. One of your text field has exceededit");
+define(SHN_ERR_or_ims_REG_MAX,"Your text fields should contain less than 200 characters. One of your text field has exceeded it");
 
 define(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE,"Item Name is essential. Please Select an Item from Add-Item main page and submit the form again");
 define(SHN_ERR_IMS_AMOUNT_INCOMPLETE,"Amount is essential. Please Complete and Submit again");
