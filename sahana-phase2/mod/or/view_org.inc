@@ -45,7 +45,10 @@ function _shn_or_display_page($page,$end){
 	$db=$global["db"];
 	$no=$end-($page-1)*5;
 	$offset=($page-1)*5;
-	$q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where privacy=false and parent_id is NULL order by o_uuid";
+	$incident=$_SESSION["incidents"];
+	$inci=shn_or_create_database_IN_array($incident);
+	$q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main,resource_to_incident where privacy=false and resource_to_incident.x_uuid=org_main.o_uuid and parent_id is NULL and incident_id IN $inci order by o_uuid";
+
     $res_org=$db->SelectLimit($q,$no,$offset);
     $orgs=array();
     while(!$res_org==NULL && !$res_org->EOF){
