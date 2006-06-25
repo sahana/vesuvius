@@ -80,7 +80,7 @@ function shn_msg_cap_upload()
 
 function shn_msg_cap_download()
 {
-    $file = $_POST['file'];
+    $file = $_GET['filename'];
     header("Content-type: text/xml");
     header("Content-Disposition: attachment; filename=$file");
     $file_str = file_get_contents($file);
