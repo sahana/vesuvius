@@ -54,86 +54,90 @@ class Msg_CapAlert
         $dom = new DomDocument();
         $dom->load($file);
         $xpath = new DomXPath($dom);
-        $nodes = $xpath->query("/alert/identifier", $dom->documentElement);
+        //print_r( get_class_methods( $xpath ) );
+        $xpath->registerNamespace("foo","urn:oasis:names:tc:emergency:cap:1.1");
+        $nodes = $xpath->query("/foo:alert/foo:identifier", $dom->documentElement);
+        //var_dump($nodes->item(0));
         $this->identifier = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/sender", $dom->documentElement);
+        //var_dump($this->identifier);
+        $nodes = $xpath->query("/foo:alert/foo:sender", $dom->documentElement);
         $this->sender = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/sent", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:sent", $dom->documentElement);
         $this->sent = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/status", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:status", $dom->documentElement);
         $this->status = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/msgType", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:msgType", $dom->documentElement);
         $this->msgType = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/source", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:source", $dom->documentElement);
         $this->source = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/scope", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:scope", $dom->documentElement);
         $this->scope = $nodes->item(0)->textContent;
 
-        $nodes = $xpath->query("/alert/restriction", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:restriction", $dom->documentElement);
         $this->restriction = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/address", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:address", $dom->documentElement);
         $this->address = $nodes->item(0)->textContent;
         
-        $nodes = $xpath->query("/alert/code", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:code", $dom->documentElement);
         foreach($nodes as $node)
             $this->addCode($nodes->item(0)->textContent);
 
-        $nodes = $xpath->query("/alert/note", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:note", $dom->documentElement);
         $this->note = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/references", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:references", $dom->documentElement);
         $this->references = $nodes->item(0)->textContent;
-        $nodes = $xpath->query("/alert/incidents", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:incidents", $dom->documentElement);
         $this->incidents = $nodes->item(0)->textContent;
 
         //Constructing info node
         $inf = new Msg_CapInfo();
         
-        $nodes = $xpath->query("/alert/info/language", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:language", $dom->documentElement);
         $inf->setLanguage($nodes->item(0)->textContent);
-        
-        $nodes = $xpath->query("/alert/info/category", $dom->documentElement);
+
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:category", $dom->documentElement);
         foreach($nodes as $node)
             $inf->addCategory($nodes->item(0)->textContent);
             
-        $nodes = $xpath->query("/alert/info/event", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:event", $dom->documentElement);
         $inf->setEvent($nodes->item(0)->textContent);
         
-        $nodes = $xpath->query("/alert/info/responseType", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:responseType", $dom->documentElement);
         foreach($nodes as $node)
             $inf->addResponseType($nodes->item(0)->textContent);
         
-        $nodes = $xpath->query("/alert/info/urgency", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:urgency", $dom->documentElement);
         $inf->setUrgency($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/severity", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:severity", $dom->documentElement);
         $inf->setSeverity($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/certainty", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:certainty", $dom->documentElement);
         $inf->setCertainty($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/audience", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:audience", $dom->documentElement);
         $inf->setAudience($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/effective", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:effective", $dom->documentElement);
         $inf->setEffective($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/onset", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:onset", $dom->documentElement);
         $inf->setOnset($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/expires", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:expires", $dom->documentElement);
         $inf->setExpires($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/senderName", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:senderName", $dom->documentElement);
         $inf->setSendername($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/headline", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:headline", $dom->documentElement);
         $inf->setHeadline($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/description", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:description", $dom->documentElement);
         $inf->setDescription($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/instruction", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:instruction", $dom->documentElement);
         $inf->setInstruction($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/web", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:web", $dom->documentElement);
         $inf->setWeb($nodes->item(0)->textContent);
-        $nodes = $xpath->query("/alert/info/contact", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:contact", $dom->documentElement);
         $inf->setContact($nodes->item(0)->textContent);
 
         /**
          * Extract eventCode information
          * There could be one or more eventCodes ???
          */
-        $nodes = $xpath->query("/alert/info/eventCode", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:eventCode", $dom->documentElement);
 
         foreach($nodes as $node)
         {
@@ -146,7 +150,7 @@ class Msg_CapAlert
          * Extract Parameter information
          * There could be one or more Parameters
          */
-        $nodes = $xpath->query("/alert/info/parameter", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:parameter", $dom->documentElement);
 
         foreach($nodes as $node)
         {
@@ -159,7 +163,7 @@ class Msg_CapAlert
          * Extract Reqource information
          * There could be one or more Reqources
          */
-        $nodes = $xpath->query("/alert/info/resource", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:resource", $dom->documentElement);
 
         foreach($nodes as $node)
         {
@@ -178,7 +182,7 @@ class Msg_CapAlert
          * Extract Area information
          * There can be one or more Areas
          */
-        $nodes = $xpath->query("/alert/info/area", $dom->documentElement);
+        $nodes = $xpath->query("/foo:alert/foo:info/foo:area", $dom->documentElement);
 
         foreach($nodes as $node)
         {
@@ -405,7 +409,7 @@ class Msg_CapAlert
         $dom = new DomDocument('1.0', 'utf-8');
 
         $alert = $dom->createElement('alert');
-        //$alert->setAttribute('xmlns', 'urn:oasis:names:tc:emergency:cap:1.1');
+        $alert->setAttribute('xmlns', 'urn:oasis:names:tc:emergency:cap:1.1');
 
         $dom->appendChild($alert);
 
@@ -568,7 +572,7 @@ class Msg_CapAlert
         if (is_writable($path))
             file_put_contents($path.$file, $this->getXML());
         else
-            print "plesae make the path : $path writable";
+            print "plesae make the path : $file writable";
     }
 
     function printCapXML()
