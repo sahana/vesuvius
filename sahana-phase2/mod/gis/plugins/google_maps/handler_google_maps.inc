@@ -148,6 +148,22 @@ function add_marker_db_v2($x,$y,$name)
 }
 
 /*
+ * add wiki markers from db
+ * used
+*/
+function add_wiki_marker_db($x,$y,$name)
+{
+?>
+  <script type="text/javascript">
+		var point1 = new GLatLng(<?php echo $x?>,<?php echo $y?>);
+		var marker1 = new GMarker(point1);
+		//marker1.openInfoWindowHtml(<?php echo $name?>);
+		map.addOverlay(marker1);
+	</script>
+<?php
+}
+
+/*
  * click and add markers
 */
 function add_marker($name)
