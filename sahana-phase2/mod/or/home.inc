@@ -49,7 +49,7 @@ if(!$res->EOF){
 			<td>
 				<div>
                 <a href="index.php?mod=or&act=view_org">
-                  <strong> <?php echo $org_no ?></strong><?=_(" Organizations have registered")?>
+                  <strong> <?php echo $org_no ?></strong><?=_(" Organizations/Departments/Branches have registered")?>
                 </a>
 				</div>
 			</td>

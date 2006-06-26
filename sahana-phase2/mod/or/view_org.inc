@@ -47,9 +47,8 @@ function _shn_or_display_page($page,$end){
 	$offset=($page-1)*5;
 	$incident=$_SESSION["incidents"];
 	$inci=shn_or_create_database_IN_array($incident);
-	$q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main,resource_to_incident where privacy=false and resource_to_incident.x_uuid=org_main.o_uuid and parent_id is NULL and incident_id IN $inci order by o_uuid";
-
-    $res_org=$db->SelectLimit($q,$no,$offset);
+	$q = "select distinct o_uuid,parent_id,name,man_power,equipment,resources from org_main,resource_to_incident where privacy=false and resource_to_incident.x_uuid=org_main.o_uuid and parent_id is NULL and incident_id IN $inci order by o_uuid";
+$res_org=$db->SelectLimit($q,$no,$offset);
     $orgs=array();
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push(
@@ -159,14 +158,15 @@ function _shn_display_org($org_id,$no=null)
     $q="select name from location where location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
     */
-    if($no==null){
+ 	$parent=_shn_or_is_root($org_id);
+        if($parent==false){
+    //if($no==null){
     		$type="opt_org_sub_type";
     }else{
 		$type="opt_org_type";
     }
     $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='".$type."'";
-    
     $res_type=$db->Execute($q); 
     $org_type=$res_type->fields['option_description'];
     $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
@@ -221,14 +221,15 @@ function _shn_or_viewform_org($org_id,$error=false)
         $parent=_shn_or_is_root($org_id);    
         $org_name=$res_org->fields["name"];
         $reg_no=$res_org->fields["reg_no"]; 
-        if($parent){
+	var_dump($parent);
+	if($parent==true){
         		$type="opt_org_type";	
         }else{
         		$type="opt_org_sub_type";	
         }
         $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='$type'";
-        $res_type=$db->Execute($q); 
+	$res_type=$db->Execute($q); 
         $org_type=$res_type->fields["option_code"];
         $q = "select option_code from field_options,sector where pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
@@ -290,7 +291,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     		shn_form_fsclose();
      }
     shn_form_fsopen(_("Organization Type"));
-    _shn_or_display_org_type($error,false,$org_type);
+    if($parent){
+    	_shn_or_display_org_type($error,false,$org_type);
+    }else{
+    	_shn_or_display_org_sub_type($error,false,$org_type);
+	}    
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,$or_sector_arr);

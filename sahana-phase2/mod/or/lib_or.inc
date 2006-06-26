@@ -32,10 +32,10 @@ function _shn_or_is_root($org_id){
 	$db=$global["db"];
 	$q="select o_uuid from org_main where o_uuid='{$org_id}' and parent_id is NULL ";
 	$res=$db->Execute($q);
-	if(!$res==NULL && !$res_org->EOF){
-		return true;
-	}else{
+	if(($res==NULL) || ($res->EOF)){
 		return false;
+	}else{
+		return true;
 	}
 }
 
@@ -96,30 +96,17 @@ function shn_or_org_list($incidents=null,$rootsonly=false){
 function shn_or_org_count($incidents=null,$rootsonly=false){
 	    global $global;
         $db=$global['db'];
-        if($incidents!=null){
-        $list="(";
-        $j=0;
-        foreach ($incidents as $i){
-        		if($j==0){
-        			$list=$list.$i;	
-        		}else{
-        			$list=$list.",".$i;	
-        		}
-        		$j++;
-        }
-        $list=$list.")";
-        }
+	$list=shn_or_create_database_IN_array($incidents);
         if($rootsonly==true){
-        		$root=" and parent_id is NULL ";
+        	$root=" and parent_id is NULL ";
         }else{
-        		$root="";
+        	$root="";
         }
         if($incidents==null)
 			$q = "select count(o_uuid) as cnt from org_main where privacy=false".$root;
 		else
-			$q = "select count(distinct o_uuid) as cnt  from org_main,resource_to_incident where privacy=false  ".$root." and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
-        
-        $res_org=$db->Execute($q);
+			$q = "select count(distinct o_uuid) as cnt  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
+	$res_org=$db->Execute($q);
         return  $res_org->fields["cnt"];
 }
 
