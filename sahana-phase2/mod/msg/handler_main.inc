@@ -34,6 +34,6 @@ temporary directory. You can view this file using 'View Messages' option</p>
 one of them and pressing the 'view' button </p>
 
 <br />
-<h3>XMMP Messaging</h3>
+<h3>XMPP Messaging</h3>
 <p>Comming soon to a Sahana near you ;-)</p>
 </div>

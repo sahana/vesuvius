@@ -35,7 +35,7 @@ function shn_msg_mainmenu()
 
     shn_mod_menuopen("Messaging");
     shn_mod_menuitem("default", "Home", $module) ;
-    shn_sub_mod_menuopen("XMMP");
+    shn_sub_mod_menuopen("XMPP");
 //    shn_sub_mod_menuitem("jab_new", "New Message", $module  );
 //    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
     shn_sub_mod_menuclose();
