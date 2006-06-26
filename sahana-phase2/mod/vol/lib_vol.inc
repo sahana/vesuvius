@@ -342,10 +342,6 @@ function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
         $res_web=$db->Execute($q);
         $contact_web=$res_web->fields[0];
     }
-    if($org){
-        $extra_opts['value']=$contact_name;
-        shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
-    }
     $extra_opts['value']=$contact_address;
     shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;

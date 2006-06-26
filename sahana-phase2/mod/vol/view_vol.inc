@@ -38,7 +38,7 @@ function _shn_vol_viewform_all()
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
-    $res_pers=$db->Execute($q);
+	$res_pers=$db->Execute($q);
     while(!$res_pers==NULL && !$res_pers->EOF){
     $pid=$res_pers->fields[0];        
     $q = "select address from location_details where poc_uuid='{$pid}'";
@@ -173,7 +173,7 @@ function _shn_vol_viewform($pid,$error=false)
     $range= shn_vol_get_loc_range();
      // base location
     shn_form_fsopen("Base Location");
-    shn_location($range,$bsd_village);
+	shn_location($range,$bsd_village);
     shn_form_fsclose();
     shn_form_fsopen(_("Services Offered"));
     _shn_vol_display_sector($error,$sector_arr);

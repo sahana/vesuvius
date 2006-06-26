@@ -19,7 +19,7 @@ global $conf;
 $conf['mod_vol_name'] = _("Volunteer Coordination");
 $conf['mod_vol_start_loc'] = 1;
 $conf['mod_vol_loc_level_start']=1;
-$conf['mod_vol_loc_level_end']=3;
+$conf['mod_vol_loc_level_end']=4;
 
 #$conf['mod_vol']['upload_picture']['savehandler'] = 'database';
 $conf['mod_mpr']['upload_picture']['savehandler'] = 'file';

@@ -84,7 +84,6 @@ function _shn_vol_reg_cr()
     $i=0;
     while($i<count($incidents)){
     		$q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],$pid)";
-        echo $q;
         $res=$db->Execute($q);
         $i=$i+1;
     }
@@ -117,8 +116,8 @@ function _shn_vol_reg_cr()
        	//	$_SESSION['vol_add']['entry']['p_uuid'];
        		//_shn_vol_image_upload($error) ;
        //}else if (isset($_POST["chk_login"])){
-       			$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
-       			shn_auth_form_user_add("Create an Account for Login",$header,false);
+       	//		$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
+       	//		shn_auth_form_user_add("Create an Account for Login",$header,false);
        //	}
       // $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
        //shn_auth_form_user_add("Create an Account for Login",$header,false);
