@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.12 2006-06-01 05:35:11 mahesh_kks Exp $ */
+/* $Id: lib_uuid.inc,v 1.13 2006-06-26 05:50:38 mifanc Exp $ */
 
 /**
  *
@@ -78,7 +78,15 @@ function shn_create_uuid($type='person')
         case 'l':
         		$gen_id = 'o-'._shn_gen_id('landmark');
         		break;
-
+        		
+        case 'gis':
+        case 'g':
+        		$gen_id = 'g-'._shn_gen_id('gis');
+        		break;
+		case 'wikimap':
+        case 'wm':
+        		$gen_id = 'wm-'._shn_gen_id('wikimap');
+        		break;
 
         case 'request' :
         case 'req' :
