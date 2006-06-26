@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the wm
-* $Id: main.inc,v 1.1 2006-06-22 09:44:55 mifanc Exp $
+* $Id: main.inc,v 1.2 2006-06-26 05:44:34 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -24,8 +24,9 @@ function shn_wm_mainmenu()
     $module = $global['module'];
     shn_mod_menuopen(_($conf['mod_wm_name']));
     shn_mod_menuitem("default",_("Home"),$module);
-    //shn_mod_menuitem("srch",_("Search"),$module);
-    //shn_mod_menuitem("acmp",_("Add Camp"),$module);
+    shn_mod_menuitem("swik",_("Show WikiMap"),$module);
+    shn_mod_menuitem("awik",_("Add Wiki Detail"),$module);
+    
     //shn_mod_menuitem("ecmp",_("Edit Camp"),$module);
     //shn_sub_mod_menuopen(_("Reports"));
     //shn_sub_mod_menuitem("arpt",_("View All Camps"),$module);
@@ -38,10 +39,18 @@ function shn_wm_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
+function shn_wm_awik()
+{
+	show_wiki_add_detail();
+}
+
 function shn_wm_default()
 {
 	show_wiki_map();
 }
 
-
+function shn_wm_swik()
+{
+	show_wiki_map();
+}
 ?>
