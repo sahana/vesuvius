@@ -1,8 +1,8 @@
 <?php
 /**
-* The Sahana Resquest Management System
+* The Sahana Messaging Module
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
