@@ -8,15 +8,16 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-          Mahesh Kaluarachchi <mahesh@opensource.lk>
+              Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
-* @subpackage or
+* @subpackage ims
 */
 
 global $global;
 include_once $global['approot']."/inc/lib_location.inc";
 include_once("lib_ims.inc");
+//include_once("optimize.inc");
 
 /**
 **Report Item
@@ -529,3 +530,121 @@ function _shn_ims_destroy_item($item_id)
     //print ($sql);
     shn_ims_report_expired();
 }
+
+//************************************** Report Prediction ****************************************************
+
+function _shn_ims_report_prediction()
+{
+?>
+<h1 align="center"><?php print(_("Item Prediction Report")); ?></h1>
+<div id="result">
+
+    <table>
+    <thead>
+    <tr>
+        
+        <td><?=_("Item")?></td>
+	<td><?=_("Inventory")?></td>
+	<td><?=_("Unit")?></td>
+        <td><?=_("Week 1-Amount")?></td>
+        <td><?=_("week 2-Amount")?></td>
+        <td><?=_("Week 3-Amount")?></td>
+        
+            
+    </tr>
+    </thead>
+    <tbody>
+<?php
+    	global $global;
+	$db=$global["db"];
+
+	$current_date=date("d m Y");
+	print $current_date;
+	$week=date("d m Y",time() - 604800);
+	print $week;
+	//$date_diff=$current_date-$week;
+	//print $date_diff;
+	//$diff=dateDiff($week,$current_date);
+	print ("M");
+	//print $diff;
+
+	$sql="SELECT catalog_id,inv_id FROM ims_item_records WHERE((TO_DAYS(CURRENT_DATE())-TO_DAYS(inserted_date))<7);";
+	$ims=$db->Execute($sql);
+	//print $sql;
+	
+	//print $item_name;
+
+	while(!$ims==NULL && !$ims->EOF)
+	{
+		//$item_name=$ims->fields["item_name"];
+		$catalog_id=$ims->fields["catalog_id"];
+		$inv_id=$ims->fields["inv_id"];
+		$state="destroyed";
+        	$sql0="SELECT item_id,item_name,amount,unit FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND state!='$state';";    
+    		$ims0 = $db->Execute($sql0);
+		
+		print $sql0;
+		$sum_amount=0;
+
+		while(!$ims0==NULL && !$ims0->EOF )
+		{
+		$item_id=$ims0->fields["item_id"];
+		$item_name=$ims0->fields["item_name"];
+		$amount=$ims0->fields["amount"];
+		$unit=$ims0->fields["unit"];
+
+		//$inv_id=$ims0->fields["inv_id"];
+		//$catalog_id=$ims0->fields["catalog_id"];
+
+		$base_unit=convert_to_base_unit($unit);
+            
+            $converted_amount=$amount*unit_converter($base_unit,$unit);
+            //print $converted_amount;
+            $sum_amount=$sum_amount + $converted_amount;
+		//$sum_amount=$sum_amount+$amount;
+		/*$sql1="SELECT amount,unit FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+		$ims1=$db->Execute($sql1);
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$amount=$ims1->fields["amount"];
+			$unit=$ims1->fields["unit"];*/
+
+		//$ims1->MoveNext();
+		//}
+		//$item_name=$ims0->fields["item_name"];
+		//$amount=$ims0->fields["amount"];
+		//$unit=$ims0->fields["unit"];
+		//$inserted_date=$ims0->fields["inserted_date"];
+
+		
+ 		//$date_diff=
+$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims2=$db->Execute($sql2);
+	$inventory_name=$ims2->fields["inventory_name"];
+
+	$unit_name=get_unit_name($base_unit);
+?>
+    
+<?php
+	$ims0->MoveNext();
+	}
+
+?>
+	
+    <tr>
+    <td><?php print $item_name;?></td>
+    <td><?php print $inventory_name; ?></td>
+    <td><?php print $unit_name; ?></td>
+    <td><?php print $sum_amount; ?></td>
+    </tr>
+    	
+<?php
+	$ims->MoveNext();
+	}
+?>
+</tbody>
+</table>
+</div>
+<?php 
+	}
+?>
