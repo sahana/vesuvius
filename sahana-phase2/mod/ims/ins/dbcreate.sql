@@ -1,5 +1,6 @@
 /* INVENTORY MANAGEMENT SYSTEM TABLES */
 /* --------------------------------------------------------------------------*/
+USE soc;
 DROP TABLE IF EXISTS `ims_item_records`;
 CREATE TABLE ims_item_records
 (
@@ -16,6 +17,7 @@ CREATE TABLE ims_item_records
 	expire_date DATE,
 	cost_per_unit VARCHAR(100),
 	state VARCHAR(20),
+    inserted_date DATE,
 	PRIMARY KEY(item_id)
 );
 
