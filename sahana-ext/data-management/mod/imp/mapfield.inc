@@ -1,5 +1,5 @@
 <?php
-/* $Id: mapfield.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
+/* $Id: mapfield.inc,v 1.4 2006-06-29 06:32:00 thushari Exp $ */
 /* Last modified : 31/03/2005 */
 
 /**

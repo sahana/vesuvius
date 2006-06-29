@@ -1,5 +1,5 @@
 <?php
-/* $Id: parser_contact.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
+/* $Id: parser_contact.inc,v 1.4 2006-06-29 06:32:01 thushari Exp $ */
 /* last modify 2006/03/31  */
 
 /**

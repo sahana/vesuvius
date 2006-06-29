@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.4 2006-06-29 06:06:28 thushari Exp $ */
+/* $Id: add.inc,v 1.5 2006-06-29 06:32:00 thushari Exp $ */
 /* last modify : 2006/03/31 */
 
 /**
