@@ -1,5 +1,5 @@
 <?php
-/* $Id: individual.inc,v 1.1 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: individual.inc,v 1.2 2006-06-29 06:06:28 thushari Exp $ */
 
 
 /**
@@ -322,7 +322,7 @@ class imp_Contact_DAO_Individual {
                     'title'=>_('Birth Date') ,
                     'import'=>true,
                     'where'=>'imp_individual.birth_date',
-                    'headerPattern'=>'/birth/i',
+                    'headerPattern'=>'/^(birth|dob)/i',
                     'dataPattern'=>'/\d{4}-?\d{2}-?\d{2}/',
                 
                 ) ,

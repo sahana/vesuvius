@@ -1,5 +1,5 @@
 <?php
-/* $Id: field.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: field.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
 /* last modify : 2006/03/31 */
 
 /**

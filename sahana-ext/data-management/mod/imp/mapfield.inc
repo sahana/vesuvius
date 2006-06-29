@@ -1,5 +1,5 @@
 <?php
-/* $Id: mapfield.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: mapfield.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
 /* Last modified : 31/03/2005 */
 
 /**
@@ -94,7 +94,7 @@ class imp_Import_Form_MapField {
 
             if (preg_match($re, $header)) {
                 $this->_fieldUsed[$key] = true;
-                return $key;
+		return $key;
             }
         }
         return '';
@@ -153,7 +153,7 @@ class imp_Import_Form_MapField {
     
      	$this->_mapperFields = $_SESSION['fields']; //mapper fields
         $this->_dataValues = $_SESSION['dataValues']; //csv data file 
-        $this->_columnCount = count($this->_dataValues[0]); //$_SESSION['columnCount'];
+        $this->_columnCount = count($this->_dataValues[0]); 
 	
 	$skipColumnHeader = $_SESSION['skipColumnHeader'];
           
@@ -184,7 +184,7 @@ class imp_Import_Form_MapField {
         $headerPatterns  = $_SESSION['headerpattern'];
         $dataPatterns    = $_SESSION['dataPattern'];
     
-	
+
        /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
             $this->_fieldUsed[$key] = false;
@@ -194,7 +194,7 @@ class imp_Import_Form_MapField {
 //coding relate to perform mapping 
      for ( $i = 0; $i < $this->_columnCount; $i++ ){ 
        if ($hasHeaders) {
-             $defaults["mapper[$i]"] = array($this->shn_imp_imp_per_defaultFromHeader($_SESSION['dataValues'][0][$i],                                                                                    $headerPatterns),0);
+             $defaults["mapper[$i]"] = array($this->shn_imp_imp_per_defaultFromHeader($_SESSION['dataValues'][0][$i],                                                                                 $headerPatterns),0);
                     
                 } else {
                     // Otherwise guess the default from the form of the data
@@ -224,10 +224,10 @@ class imp_Import_Form_MapField {
      $k =0; 	    
     ?>
      <thead>
-            <td><?=_("Field Name")?></td>
-	        <td><?=_("Row1 Data")?></td>
-            <td><?=_("Row2 Data ")?></td>
-           <td><?=_("Matching Fields")?></td> 
+            <td><?=_("Source Field Name")?></td>
+	        <td><?=_("Sample Row1 Data")?></td>
+            <td><?=_("Sample Row2 Data ")?></td>
+           <td><?=_("Target Matching Fields")?></td> 
         </thead>
     <?php
     }  
@@ -238,7 +238,7 @@ class imp_Import_Form_MapField {
             <td><?=_("Row1 Data")?></td>
             <td><?=_("Row2 Data")?></td>
 	    <td><?=_("Row3 Data")?></td>
-           <td><?=_("Matching Fields")?></td> 
+           <td><?=_("Target Matching Fields")?></td> 
         </thead>
     <?php
      }	    
@@ -259,17 +259,30 @@ class imp_Import_Form_MapField {
       $searchItem = $defaults["mapper[$i]"][0] ; 
         
 	  if (array_search($searchItem,$mapperKeys)){
-	    $mapperKeys[] = $searchItem;
-	    $_SESSION['mapper'] = $mapperKeys;
+		 //array_unshift($mapperKeys,$searchItem);
+       		  $mapperKeys[] = $searchItem;
+		 
+		  $_SESSION['mapper'] = $mapperKeys;
 	   
 	  }	 
 	  else { 
-              $mapperKeys[] = 'do_not_import';
-	    $_SESSION['mapper'] = $mapperKeys;
+		 
+	     $mapperKeys[] = 'do_not_import';
+	     $_SESSION['mapper'] = $mapperKeys;
+	   
 		  
 	      }  
+	    	     
 ?>   
-	   <td><?php shn_form_select($_SESSION['mapper'],"","mappedvalue[$i]")?> </td>
+              
+	 <td>
+ <?php shn_form_selectmody($_SESSION['mapper'],"","mappedvalue[$i]")?>
+
+<?php // function to display combobox value
+
+?>
+	 
+	 </td>
 	   </tr>
      <?php  
   
@@ -294,6 +307,9 @@ class imp_Import_Form_MapField {
  
 
 }
+
+
+
 
 
 /* {{{ */ 
@@ -333,5 +349,38 @@ function removeElement($item, $array)
 
 
 /* }}} */ 
+
+/**
+ * HTML dropdown list element
+ * 
+ * @param mixed $options 
+ * @param mixed $label 
+ * @param mixed $name 
+ * @param string $select_opts 
+ * @param mixed $extra_opts 
+ * @access public
+ * @return void
+ */
+function shn_form_selectmody($options,$label, $name,$select_opts = "", $extra_opts = null)
+{
+    global $global;
+
+    $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+?>
+    <label><?=$label?></label>
+    <select name="<?=$name?>" <?=$select_opts?> >
+<?php
+    foreach ($options as $opt_value => $desc ) {
+    
+        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+?>
+        <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
+<?php
+    }
+?>
+    </select> 
+<?php
+    shn_form_extra_opts($extra_opts);
+} 
 
 ?>

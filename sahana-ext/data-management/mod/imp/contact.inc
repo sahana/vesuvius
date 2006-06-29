@@ -1,5 +1,5 @@
 <?php
-/* $Id: contact.inc,v 1.1 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: contact.inc,v 1.2 2006-06-29 06:06:28 thushari Exp $ */
 
 /**
  * Data Import upload file 
@@ -68,17 +68,17 @@ class imp_Contact_BAO_Contact
  
          switch ($contactType) { 
 	     case 'Individual' : 
-		require_once($global['approot'].'mod/imp/Contact/DAO/individual.inc');
+		require_once($global['approot'].'mod/imp/contact/dao/individual.inc');
                   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Individual::import( ));');
                    $fields = array_merge( $fields, $tmpFields ); 
 		   break; 
 	     case 'Organization' : 
-		  require_once($global['approot'].'mod/imp/Contact/DAO/Organization.inc');
+		  require_once($global['approot'].'mod/imp/contact/dao/organization.inc');
 		   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Organization::import( ));');
                    $fields = array_merge( $fields, $tmpFields ); 
 		   break;
 	     case 'Camps' : 
-		  require_once($global['approot'].'mod/imp/Contact/DAO/Camp.inc');
+		  require_once($global['approot'].'mod/imp/contact/dao/camp.inc');
 		   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Camp::import( ));');
                    $fields = array_merge( $fields, $tmpFields ); 
 		   break;

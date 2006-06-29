@@ -1,5 +1,5 @@
 <?php
-/* $Id: type.inc,v 1.1 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: type.inc,v 1.2 2006-06-29 06:06:28 thushari Exp $ */
 
 
 /**

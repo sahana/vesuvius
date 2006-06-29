@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: main.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
 /* Last modified : 03/04/2006 */
 
 /**
@@ -33,7 +33,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
  * @return void
  */
 
- //$mapresult = array(); 
+ 
 function shn_imp_mainmenu() 
 {
     global $global;
@@ -43,7 +43,8 @@ function shn_imp_mainmenu()
     shn_mod_menuopen(_("Data Import Module"));
 
     shn_mod_menuitem("default",_("Home"));
-    shn_mod_menuitem("imp_per",_("Import Data"));
+    shn_mod_menuitem("imp_per",_("Import CSV Data"));
+    //shn_mod_menuitem("imp_xml",_("Import XML Data"));
     shn_mod_menuclose();
    
     // include the main menu
@@ -108,6 +109,48 @@ function shn_imp_imp_per()
 }
 /* }}} */
 
+
+/* {{{ Action: Upload */
+/**
+ * This is the XML upload Controller
+ * @access public
+ * @return void
+ */
+
+function shn_imp_imp_xml()
+{
+    global $global;
+    require($global['approot'].'mod/imp/add.inc');    
+
+   switch ($_REQUEST['seq']) {
+     case 'upload_file':
+
+         if(shn_imp_imp_xml_upload_form_valid()){
+                // shn_imp_imp_xml_postprocess();
+		echo 'file is a valid file';
+	 }
+	 else {
+            echo '<h2 align="center">'._('Upload File').'</h2>';
+            echo '<h2 align="center">('._('Upload CSV File').')</h2>';
+           shn_imp_imp_xml_upload(true);
+	 }
+
+       break;
+    
+    	     
+     default:
+            echo '<h2 align="center">'._('Upload File').'</h2>';
+            echo '<h2 align="center">('._('Upload XML File').')</h2>';
+	        shn_imp_imp_xml_upload();
+     break;
+
+   } 
+
+   
+ 
+}
+/* }}} */
+
 /* {{{ Action: preview and import*/
 /**
  * This is the preview and import Controller
@@ -158,6 +201,8 @@ function shn_imp_imp_per_previewForm()
     $map = $_SESSION['mapper']; 
     $colcount = count($matchresult);
    
+
+   
     //used to store the matching result.  
      global  $mapresult; 
     for ($i=0; $i< $colcount; $i++)
@@ -192,10 +237,10 @@ function shn_imp_imp_per_previewForm()
      $k = 0; 	    
     ?>
      <thead>
-            <td><?=_("Field Name")?></td>
-	     <td><?=_("Row1 Data")?></td>
-            <td><?=_("Row2 Data ")?></td>
-            <td><?=_("Matching Fields")?></td>
+            <td><?=_("Source Field Name")?></td>
+	     <td><?=_("Sample Row1 Data")?></td>
+            <td><?=_("Sample Row2 Data ")?></td>
+            <td><?=_("Traget Matching Fields")?></td>
         </thead>
     <?php
     }  
@@ -203,10 +248,10 @@ function shn_imp_imp_per_previewForm()
      $k = 1;     	    
      ?>
      <thead>
-            <td><?=_("Row1 Data")?></td>
-            <td><?=_("Row2 Data")?></td>
-	    <td><?=_("Row3 Data")?></td>
-	    <td><?=_("Matching Fields")?></td>
+            <td><?=_("Sample Row1 Data")?></td>
+            <td><?=_("Sample Row2 Data")?></td>
+	    <td><?=_("Sample Row3 Data")?></td>
+	    <td><?=_("Target Matching Fields")?></td>
             
         </thead>
     <?php

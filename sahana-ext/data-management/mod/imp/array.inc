@@ -1,5 +1,5 @@
 <?php
-/* $Id: array.inc,v 1.2 2006-05-02 06:16:09 thushari Exp $ */
+/* $Id: array.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
 
 
 /**

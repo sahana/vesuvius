@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
+/* $Id: home.inc,v 1.2 2006-06-29 06:06:28 thushari Exp $ */
 
 /** 
  * Home Page of the Data Import Module 
@@ -27,7 +27,7 @@
 <ul>
     <li><?= _('Upload File:allows to easily upload information which are related to people (victims) from other external data files which must be in comma-separated-values format (CSV) into Sahana'); ?></li>
     <li><?= _('Matching:provide intelligent mapping of import data fields with Sahana data fields.'); ?></li>
-    <li><?= _('Preview '); ?></li>
+    <li><?= _('Preview: Preview the result of the matching process '); ?></li>
     <li><?= _('Summary: Dispaly result of the process'); ?></li>
 </ul>
 </div>

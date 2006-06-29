@@ -1,5 +1,5 @@
 <?php
-/* $Id: import.inc,v 1.2 2006-04-18 07:06:46 janakawicks Exp $ */
+/* $Id: import.inc,v 1.3 2006-06-29 06:06:28 thushari Exp $ */
 /* last modify : 2006/04/03 */ 
 
 /**
@@ -25,6 +25,23 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
+/**
+*
+* This function converts date into valid MySql format
+*@return $date
+*@access public
+*/
+
+function dateconvert($date) { 
+            list($day, $month, $year) = split('[/.-]', $date);  
+            $date = "$year-$month-$day";  
+            return $date; 
+               
+}
+
+/*}}}*/
+
+
 
 /**
 * this imports individual contacts to the database
@@ -40,7 +57,7 @@ function shn_imp_imp_per_Import_Individual()
 global $global;
     $db=$global['db']; 
     
-$q = "CREATE TABLE IF NOT EXISTS Imp_individual (
+$q = "CREATE TABLE IF NOT EXISTS imp_individual (
  p_id BIGINT NOT NULL AUTO_INCREMENT,
  p_uuid BIGINT,
  full_name VARCHAR(100), 
@@ -175,7 +192,7 @@ PRIMARY KEY (p_id)
 	     $insert_array['next_kin_uuid']=  $data[$i];
 	     break;
         case 'birth_date':
-	     $insert_array['birth_date'] = $data[$i];
+	     $insert_array['birth_date'] =  dateconvert($data[$i]); 
 	     break; 
         case 'opt_age_group': 
 	     $insert_array['opt_age_group'] = $data[$i];
@@ -277,10 +294,6 @@ PRIMARY KEY (p_id)
       }
           
     }//end of for loop	 
-    
-//To be discussed 
-// if ($insert_array['p_uuid']== '')
- //   $insert_array['p_uuid'] = shn_create_uuid('p');	
 
 if((!$_SESSION['skipColumnHeader'])&& $rows ===0 ){
 ++$rows	;
@@ -289,7 +302,8 @@ continue;
 else {
 	
   shn_db_insert($insert_array,'imp_individual',true,'p_id');
- ++ $rowsimported ; 
+ $rowsaffect= $global['db']->Affected_Rows();
+ $rowsimported = $rowsaffect +  $rowsimported ; 
  }
   ++$rows;
    }//end of the while loop  
@@ -407,7 +421,8 @@ continue;
 }
 else {
   shn_db_insert($insert_array,'Imp_Organization',true,'o_id');
- ++ $rowsimported ; 
+$rowsaffected= $global['db']->Affected_Rows();
+ $rowsimported= $rowsimported+$rowsaffected ; 
  }
   ++$rows;
    }//end of the while loop  
@@ -542,7 +557,8 @@ continue;
 }
 else {
   shn_db_insert($insert_array,'Imp_camp',true,'c_uuid');
- ++ $rowsimported ; 
+ $rowsaffected= $global['db']->Affected_Rows();
+ $rowsimported= $rowsimported+ $rowsaffected ; 
  }
   ++$rows;
    }//end of the while loop  

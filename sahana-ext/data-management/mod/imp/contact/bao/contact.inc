@@ -1,5 +1,5 @@
 <?php
-/* $Id: contact.inc,v 1.1 2006-03-20 11:26:11 janakawicks Exp $ */
+/* $Id: contact.inc,v 1.2 2006-06-29 06:06:29 thushari Exp $ */
 
 /**
  * Data Import upload file 
@@ -34,7 +34,7 @@ class imp_Contact_BAO_Contact
     static $_importableFields = null;
 
    
-    function __construct()
+    function imp_Contact_BAO_Contact()
     {
       
     }
@@ -68,23 +68,24 @@ class imp_Contact_BAO_Contact
  
          switch ($contactType) { 
 	     case 'Individual' : 
-		require_once($global['approot'].'mod/imp/Contact/DAO/individual.inc');
+		require_once($global['approot'].'mod/imp/contact/dao/individual.inc');
                   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Individual::import( ));');
                    $fields = array_merge( $fields, $tmpFields ); 
 		   break; 
 	     case 'Organization' : 
-		  require_once($global['approot'].'mod/imp/Contact/DAO/Organization.inc');
+		  require_once($global['approot'].'mod/imp/contact/dao/organization.inc');
 		   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Organization::import( ));');
                    $fields = array_merge( $fields, $tmpFields ); 
 		   break;
+	     case 'Camps' : 
+		  require_once($global['approot'].'mod/imp/contact/dao/camp.inc');
+		   eval('$tmpFields = array_merge($fields, imp_Contact_DAO_Camp::import( ));');
+                   $fields = array_merge( $fields, $tmpFields ); 
+		   break;
+		   
 	 } 
 	   
-      
-                     
-           
-           
-           
-            self::$_importableFields[$contactType] = $fields;
+               self::$_importableFields[$contactType] = $fields;
         }
         return self::$_importableFields[$contactType];
     }
