@@ -17,15 +17,23 @@
  *
  */
 
-require_once ('spreadsheet/OpenOfficeSpreadsheet.class.php');
-
+require_once('../3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php');
 /*global variables*/
 global $calc;
 global $sheet;
+global $rep_title;
+global $keyword;
+global $owner;
 
 
-function shn_ods_report_fopen($file_name='',$file_type='')
+function shn_ods_report_fopen($file_name='',$keyword_in='',$owner_in='')
 {
+    global $keyword;
+    $keyword = $keyword_in;
+
+    global $owner;
+    $owner = $owner_in;
+    
     if($file_name!='')
     {
     global $calc;
@@ -46,6 +54,8 @@ function shn_ods_report_add_sheet($sheet_name='')
 
 function shn_ods_report_add_title($title='',$col='5',$row='2',$width='5',$height='0.75',$v_align='middle',$t_align='center',$f_size='19pt')
 {	global $sheet;
+	global $rep_title;
+	$rep_title = $title;
 	$title_content = $sheet->getCell($col, $row);
 	$title_content->setContent($title);
 	$title_content->setWidth($width.'cm');
@@ -136,22 +146,27 @@ function shn_ods_report_add_graph($img_path)
 function shn_ods_report_close()
 	{
 		global $calc;
-		$calc->save();
+		global $rep_title;
+		global $keyword;
+		global $owner;
+		$calc->save(true,$rep_title,$keyword,$owner);
 	}
 
 /**********************************End of spread sheet functions************************************************************/
 /********************************** Starting of pdf functions ****************************************************************/
 global $pdf;
 global $pdfreportname;
-function shn_pdf_report_fopen($reportname='')
+function shn_pdf_report_fopen($reportname='',$creator='',$keywords='')
 {
 
-require('fpdf.php');
+require('../3rd/fpdf/fpdf.php');
 global $pdf;
 global $pdfreportname;
 $pdfreportname = $reportname;
 $pdf=new FPDF();
 $pdf->AddPage();
+$pdf->SetCreator($creator);
+$pdf->SetKeywords($keywords);
 //$pdf->SetFont('Arial','B',16);
 }
 
@@ -160,12 +175,13 @@ function shn_pdf_report_add_page()
 global $pdf;
 $pdf->AddPage();
 $pdf->SetFont('Arial','B',16);
+
 }
 
 function shn_pdf_report_add_title($title='')
 {
 global $pdf;
-
+    $pdf->SetTitle($title);
     $pdf->SetFont('Arial','B',15);
     $w=$pdf->GetStringWidth($title)+6;
     $pdf->SetX((210-$w)/2);
@@ -223,7 +239,7 @@ function shn_pdf_report_add_summery($txt='')
 function shn_pdf_report_add_graph()
 {	
 	global $pdf;
-	$pdf->Image('tmp/cartoon001.jpg',10,8,33);
+	$pdf->Image('tmp/Pictures/cartoon001.jpg',10,8,33);
 }
 
 function shn_pdf_report_close()
@@ -239,9 +255,9 @@ $pdf->Output($pdfreportname.".pdf");
 
 global $graph;
 
-function base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width)
+function base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword_in,$owner)
 {
-include ( "phplot.php");
+include ( "../3rd/phplot/phplot.php");
 global $graph;
 $graph = new PHPlot($hight,$width);
 $graph->SetDataType("text-data");  
@@ -250,6 +266,9 @@ $graph->SetFileFormat("png");
 $graph->SetImageArea(700,500);
 $graph->SetTitleFontSize( "5");
 $graph->SetTitle( $title);
+
+$graph->Setkeyword($keyword_in);
+$graph->SetreportOwner($owner);
 
 $graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006")); // this values should be extracted from the data array 
 $graph->SetPlotBgColor( "red");
@@ -274,74 +293,74 @@ $graph->SetOutputFile($chart_file_name.".png");
 }
 
 
-function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "pie");
 $graph->DrawGraph();
 }
 
-function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "bars");
 $graph->DrawGraph();
 }
 
-function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "area");
 $graph->DrawGraph();
 }
 
-function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "lines");
 $graph->DrawGraph();
 }
 
-function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "linepoints");
 $graph->DrawGraph();
 }
 
-function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "points");
 $graph->DrawGraph();
 }
 
-function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "thinbarline");
 $graph->DrawGraph();
 }
 
-function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "squared");
 $graph->DrawGraph();
 }
 
-function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='')
+function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
 $graph->SetPlotType( "stackedbars");
 $graph->DrawGraph();
 }
@@ -350,7 +369,7 @@ $graph->DrawGraph();
 
 function shn_chart_test()
 {
-include ( "phplot.php");
+include ( "../3rd/phplot/phplot.php");
 $graph = new PHPlot(700,500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
@@ -371,12 +390,12 @@ $graph->SetDataValues($data);
 //Specify plotting area details
 $graph->SetImageArea(700,500);
 /*commented types are ok with the data*/
-//$graph->SetPlotType( "lines");
+$graph->SetPlotType( "lines");
 //$graph->SetPlotType( "linepoints");
 //$graph->SetPlotType( "points");
 //$graph->SetPlotType( "area");
 //$graph->SetPlotType( "thinbarline");
-$graph->SetPlotType( "squared");
+//$graph->SetPlotType( "squared");
 //$graph->SetPlotType( "pie");
 //$graph->SetPlotType( "bars");
 //$graph->SetPlotType( "stackedbars");
