@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.16 2006-07-03 10:09:55 priyanga Exp $ */
+/* $Id: handler_db.inc,v 1.17 2006-07-03 11:51:56 priyanga Exp $ */
 
 /**
  *
@@ -206,8 +206,37 @@ function shn_db_get_incident_select()
 {
 	global $global;
 ?>
+<script language="javascript">
+function changeIncident(ivalue)
+ {
+     if (window.XMLHttpRequest)
+     {
+         req = new XMLHttpRequest();
+     }
+     else if (window.ActiveXObject)
+     {
+         req = new ActiveXObject("Microsoft.XMLHTTP");
+     }
+     if(req)
+     {
+         req.onreadystatechange = changed();
+         req.open('GET', 'stream.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
+         req.setRequestHeader("content-type","application/x-www-form-urlencoded");
+         req.send(' ');
+     }
+     else
+     {
+         alert('Your browser does not seem to support XMLHttpRequest.');
+     }
+ }
+
+function changed()
+{
+    //alert('working');
+}
+</script>
 <form method="POST" action="index.php?mod=home&act=incident_set" id='incident_changer'>
-<select name="incident_id" onchange="submit(this);" >
+<select name="incident_id" onchange="changeIncident(this.value);" >
 <?php
 $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
 $result_leve1 = $global['db']->Execute($sql_level1);
