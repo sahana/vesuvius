@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the wm
-* $Id: main.inc,v 1.2 2006-06-26 05:44:34 mifanc Exp $
+* $Id: main.inc,v 1.3 2006-07-03 11:45:38 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -41,7 +41,25 @@ function shn_wm_mainmenu()
 
 function shn_wm_awik()
 {
-	show_wiki_add_detail();
+	if(isset($_REQUEST['seq'])){
+		switch($_REQUEST['seq']){
+			case 'map':
+				if($_POST['wiki_name']==""){
+					show_wiki_add_detail(true);
+				}
+				else{
+					show_wiki_add_map();
+				}
+				break;
+				
+			case 'default':
+				show_wiki_add_detail();
+				break;
+			
+		}
+	}
+	else
+		show_wiki_add_detail();
 }
 
 function shn_wm_default()
