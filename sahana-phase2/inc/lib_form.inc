@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.46 2006-06-16 13:41:01 sudheera Exp $ */
+/* $Id: lib_form.inc,v 1.47 2006-07-03 07:05:30 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -523,6 +523,8 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
  * @access public
  * @return void
  */
+
+/* This is the old date picker function
 function shn_form_date($label, $name = 'date', $initdate = null )
 {
     ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
@@ -537,7 +539,27 @@ function shn_form_date($label, $name = 'date', $initdate = null )
    
     <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4" maxlength=4>
 <?php
+}*/
+
+
+function shn_form_date($label,$name,$extra_opts = null)
+{
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+
+    //including the script file only once
+    static $script_include=false;
+    if(!$script_include){
+        echo "<script type='text/javascript' src='res/js/scw.js'></script>";
+        $script_include=true;
+    }
+?>
+
+<label><?=$label?></label>
+    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwShow(this,this);" size="10" maxlength="10">
+<?php
+    shn_form_extra_opts($extra_opts);
 }
+
 
 /* fancy popup calendar, however such systems are eyecandy and not efficient
 function shn_form_date($label, $name = 'date')
