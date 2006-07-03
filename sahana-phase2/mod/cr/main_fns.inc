@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.38 2006-07-03 05:47:44 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.39 2006-07-03 06:05:21 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -22,8 +22,8 @@ function shn_cr_default(){
 <div id="home">
 <h2><?php echo _("Camps and Shelter Registry");?></h2>
 <p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps and shelters in the
-region and the some basic data on the facilities they might have and the number of
-people in them. It also provides a GIS view to plot the location of the camps and shelters in the
+region and some basic data on the facilities they might have, the number of
+people in them etc. It also provides a GIS view to plot the location of the camps and shelters in the
 affected area.
 Current features include:")?></p>
 <ul>
