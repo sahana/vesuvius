@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.37 2006-05-29 07:54:11 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.38 2006-07-03 05:47:44 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -20,16 +20,16 @@
 function shn_cr_default(){
 ?>
 <div id="home">
-<h2><?php echo _("Camps Registry");?></h2>
-<p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps in the
+<h2><?php echo _("Camps and Shelter Registry");?></h2>
+<p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps and shelters in the
 region and the some basic data on the facilities they might have and the number of
-people in them. It also provides a GIS view to plot the location of the camps in the
+people in them. It also provides a GIS view to plot the location of the camps and shelters in the
 affected area.
 Current features include:")?></p>
 <ul>
-    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the camp")?></li>
+    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the camp or shelter")?></li>
     <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
-    <li><?php echo _("Ability to customize the list of important facilities needed at a camp")?></li>
+    <li><?php echo _("Ability to customize the list of important facilities needed at a camp or shelter")?></li>
     <li><?php echo _("Basic reports on the camps and drill-down by region")?></li>
 </ul>
 <!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
