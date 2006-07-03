@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.23 2006-05-29 08:22:29 mahesh_kks Exp $ */
+/* $Id: main.inc,v 1.24 2006-07-03 06:45:44 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -371,8 +371,9 @@ function shn_mpr_addmp()
 	
         case 'tracker_select' :
             $_SESSION['mpr_add']['entry']['tracker_id'] = $_GET['tracker_id'];
+	       	shn_mpr_addmp_commit();
             echo $heading;
-            echo '<h2 align="center">('._('Final Confirmation').')</h2>';
+            echo '<h2 align="center">('._('The missing person have been added').')</h2>';
             shn_mpr_addmp_confirm();
         break;
 
@@ -380,6 +381,8 @@ function shn_mpr_addmp()
 	        if(shn_mpr_addmp_reporter_validate() || isset($_GET['offset'])){
                 //if reported before then send to the search 
                 if($_POST['reported_before'] == 'yes' || isset($_GET['offset'])) {
+                    echo $heading;
+                    echo '<h2 align="center">('._('Please Select the person who is reporting').')</h2>';
                     require_once($global['approot'].'mod/mpr/search.inc');
                     if(isset($_GET['offset'])){
                         $arr = shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'], 
@@ -394,8 +397,9 @@ function shn_mpr_addmp()
                         shn_mpr_search_select($arr);
                     }
                 }else{
+	        		shn_mpr_addmp_commit();
                     echo $heading;
-                    echo '<h2 align="center">('._('Final Confirmation').')</h2>';
+                    echo '<h2 align="center">('._('The missing person have been added').')</h2>';
 	                shn_mpr_addmp_confirm();
                 }
 	        }else{
@@ -455,10 +459,7 @@ function shn_mpr_search()
                     $search_sql->set_name($_POST['name']);
                     $search_sql->set_serial_no($_POST['idcard']);
                     #$search_sql->isvictim = true; 
-                    if(! isset($_POST['all_incidents']) && ! isset($_POST['list_incidents'])) 
-                        $search_sql->incident_id = $_SESSION['user_pref_ims_incident_id']; 
-                    elseif(isset($_POST['list_incidents']))
-                        $search_sql->incident_list = "'".implode(shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']),"','")."'";
+                    $search_sql->incident_list = "'".implode(shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']),"','")."'";
                     if ($_REQUEST['type'] == 'missing'){
                         $search_sql->missing_only = true; 
                         $search_sql->isvictim = true; 

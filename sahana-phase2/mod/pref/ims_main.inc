@@ -16,4 +16,10 @@ function shn_pref_ims_config()
         break;
     }
 }
+
+function shn_pref_ims_set_incident()
+{
+	$incident_id = addslashes(strip_tags(trim($_REQUEST['incident_id'])));	
+   	shn_user_pref_update ('ims', 'incident_id',$incident_id);
+}
 ?>

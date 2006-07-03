@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.22 2006-05-29 08:22:29 mahesh_kks Exp $ */
+/* $Id: add.inc,v 1.23 2006-07-03 06:45:44 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -70,6 +70,9 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_hidden(array('seq'=>'entry'));
 
     shn_form_fsopen(_('Identity'));
+?>
+    <p><?= _('If you have any information about missing person\'s identity numbers, Please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
+<?php
     shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
     shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
     shn_form_text(_('Driving License'),'drv_license','size="30"',  array('help'=>_('Please Specify the driving License number, Although this is not required this will be useful in searching for the person')));
@@ -92,11 +95,11 @@ function shn_mpr_addmp_entry($errors=false)
 
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Contact Details'));
+    shn_form_fsopen(_('Missing Person\'s Contact Information'));
     shn_form_textarea(_('Address'),"address", null,array('help' => _('Your address can be specified to contact you')));
-    shn_form_text(_('Postal Code'),'zip','size="10"',array('help'=>_('Specify a postal code, if it is available')));
-    shn_form_text(_('Home Phone'),'phone','size="10"');
-    shn_form_text(_('Mobile'),'mobile','size="10"');
+    shn_form_text(_('Postal Code'),'zip','size="15"',array('help'=>_('Specify a postal code, if it is available')));
+    shn_form_text(_('Home Phone'),'phone','size="15"');
+    shn_form_text(_('Mobile'),'mobile','size="15"');
     shn_form_fsclose();
 
     global $global; 
@@ -115,7 +118,7 @@ function shn_mpr_addmp_entry($errors=false)
     //Ends
     $range['start']=$conf['mod_mpr']['location']['upper_limit'];
     $range['end']=$conf['mod_mpr']['location']['lower_limit'];
-    shn_form_fsopen(_('Select location'));
+    shn_form_fsopen(_('Select Missing Person\'s Origin'));
     shn_location($range ,$_POST[$i]);
     shn_form_fsclose();
 
@@ -125,15 +128,15 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_opt_select("opt_hair_color",_('Hair Colour'));
     shn_form_text(_('Height'),'height','size="10"');
     shn_form_text(_('Weight'),'weight','size="10"');
-    shn_form_textarea(_('Comments'),'physical_comments');
+    shn_form_textarea(_('Other Distinctive Features'),'physical_comments');
     shn_form_fsclose();
     
    
     shn_form_fsopen(_('Other Details'));
     shn_form_opt_select("opt_blood_type",_('Blood Type'));
-    shn_form_textarea(_('Last Seen'),'last_seen');
-    shn_form_textarea(_('Last Clothing'),'last_clothing');
-    shn_form_textarea(_('Comments'),'comments');
+    shn_form_textarea(_('Last Seen location'),'last_seen');
+    shn_form_textarea(_('Description of clothing and appearance when last seen'),'last_clothing');
+    shn_form_textarea(_('Other information that would help us to find this person'),'comments');
     shn_form_fsclose();
 
     shn_form_submit(_('Next'));
@@ -229,28 +232,64 @@ function shn_mpr_addmp_reporter($errors=false)
     shn_js_toggle_layer();
     // todo: Clean the $_GET['act'] baby ;-)
     shn_form_fopen($_GET['act'],null);
-
+?>
+    <p><?= _('We are collecting the information on the person who is reporting the missing person due to the following reasons. 
+	<ul>
+		<li>To inform back on finding the missing person</li>
+		<li>In a situation where the person who is reporting also a victim of the disaster. The details given here would help to associate he/she with his/her relatives.</li>
+	</ul>'); ?></p>
+<?php
     shn_form_hidden(array('seq'=>'report_person'));
-    shn_form_fsopen(_('Reporter Details'));
+
+    shn_form_fsopen(_('Details on Person who is reporting on missing person'));
     
-    shn_form_fsopen('Background Information');
+    shn_form_fsopen('Reported Before');
     shn_form_select(array("yes"=>_('Yes'),"no"=>_('No')),
             _('Have you reported anyone? '),
             "reported_before",
-            'onchange="javascript:toggleLayer(\'toggle_reporter\');"');
+            'onchange="javascript:toggleLayer(\'reporter_victim\',\'reporter_details\');"');
+?>
+<div id="reporter_victim" 
+<?php
+    if(isset($_POST['reported_before'])){
+        if($_POST['reported_before']=='yes'){
+            echo 'style="display:none;"';
+        }else{
+            echo 'style="display:block;"';
+        }   
+    }else{
+        echo 'style="display:none;"';
+    }   
+?>  
+>
+<?php
     shn_form_select(array("yes"=>'Yes',"no"=>'No'), _('Are you a disaster victim too? '), "is_dv");
     shn_form_opt_select('opt_status',_('If you are a victim, Please specify the status'),'',array('value'=>$_SESSION['mpr_reporter']['opt_status']));
-
+?>
+</div>
+<?php
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Personal Details'));
+    shn_form_fsopen(_('Details of the reporting person'));
 ?>
-<p><?= _('NOTE : If you have reproted before, we will use the following information to do a match'); ?></p>
+<p><?= _('NOTE : If you have reproted before, we will use the following information to preform a search to see you are in our database or not.'); ?></p>
 <?php
     shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
     shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
 ?>
-<div id="toggle_reporter">
+<div id="reporter_details" 
+<?php
+	if(isset($_POST['reported_before'])){
+		if($_POST['reported_before']=='yes'){
+			echo 'style="display:none;"';
+		}else{
+			echo 'style="display:block;"';
+		}
+	}else{
+		echo 'style="display:none;"';
+	}
+?>	
+>
 <p><?= _('IMPORTANT : At least one of the following contact method is required'); ?></p>
 <?php
     shn_form_textarea(_('Address'),'rep_address');
@@ -333,7 +372,9 @@ function shn_mpr_addmp_upload($errors=false)
         display_errors();
 
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
-
+?>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the preson. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
+<?php
     shn_form_hidden(array('seq'=>'upload_pic'));
     shn_form_fsopen(_('Upload Picture'));
     shn_form_upload(_('Upload Picture'),"picture");
@@ -401,7 +442,8 @@ function shn_mpr_addmp_confirm()
     global $global;
     global $conf;
 
-    shn_form_fopen("addmp",null,array('req_message'=>false));
+    //shn_form_fopen("addmp",null,array('req_message'=>false));
+    shn_form_fopen("default",null,array('req_message'=>false));
     shn_form_fsopen(_('Missing Person'));
     shn_form_hidden(array('seq'=>'commit'));
     shn_show_thumb_url($_SESSION['mpr_add']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img',true);
@@ -559,16 +601,22 @@ function shn_mpr_addmp_confirm()
         shn_form_label(_('Phone'),$_SESSION['mpr_add']['report_person']['rep_phone']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_email']))
         shn_form_label(_('Email'),$_SESSION['mpr_add']['report_person']['rep_email']);
-
     shn_form_fsclose();
 
  
+	/*
     shn_form_fsopen(_('Confirm'));
 ?>
     <p><?= _('Is the information that you\'ve entered correct?'); ?></p>
 <?php
     shn_form_submit(_('Next'));
     shn_form_fsclose();
+	*/
+?>
+    <p><?= _('Click on the "Next" Button to go back to the main screen.'); ?></p>
+<?php
+
+    shn_form_submit(_('Next'));
     shn_form_fclose();
 }
 /* }}} */
@@ -791,7 +839,7 @@ function shn_mpr_addmp_commit()
                             $_SESSION['mpr']['entry']['image_width']);
     } 
     //go back to the main menu
-    shn_mpr_default();    
+    //shn_mpr_default();    
 }
 
 /**
@@ -934,20 +982,29 @@ function shn_js_toggle_layer()
 {
 ?>
 <script language="javascript">
-function toggleLayer(whichLayer)
+function toggleLayer(whichLayer,whichLayer1)
 {
     if (document.getElementById) {
 		// this is the way the standards work
-		var style2 = document.getElementById(whichLayer).style;
-		style2.display = style2.display? "":"block";
+		var style1 = document.getElementById(whichLayer).style;
+		var style2 = document.getElementById(whichLayer1).style;
+		if(style1.display == 'none')
+			style1.display = 'block';
+		else
+			style1.display = 'none';
+		if(style2.display == 'none')
+			style2.display = 'block';
+		else
+			style2.display = 'none';
+		//style2.display = style2.display? "none":"block";
     } else if (document.all) {
 		// this is the way old msie versions work
 		var style2 = document.all[whichLayer].style;
-		style2.display = style2.display? "":"block";
+		style2.display = style2.display? "none":"block";
     } else if (document.layers) {
 		// this is the way nn4 works
 		var style2 = document.layers[whichLayer].style;
-		style2.display = style2.display? "":"block";
+		style2.display = style2.display? "none":"block";
 	}
 }
 </script>

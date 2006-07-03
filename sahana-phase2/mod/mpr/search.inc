@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.13 2006-06-02 04:53:46 janakawicks Exp $ */
+/* $Id: search.inc,v 1.14 2006-07-03 06:45:44 janakawicks Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -31,10 +31,7 @@ function shn_mpr_search_default()
     shn_form_fsopen(_('Basic Search'));
     shn_form_text(_('Any Card Number'),'idcard','size="30"');
     shn_form_text(_('Any Name'),'name','size="30"');
-    shn_form_checkbox(_('All incidents belongs to current incident'),'list_incidents');
-?>
-<br />
-<?php
+ #   shn_form_checkbox(_('All incidents belongs to current incident'),'list_incidents');
     shn_form_checkbox(_('All incidents'),'all_incidents');
     shn_form_submit(_('Next'));
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
