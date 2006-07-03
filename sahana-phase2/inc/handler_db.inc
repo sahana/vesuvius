@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.14 2006-06-01 10:44:43 sudheera Exp $ */
+/* $Id: handler_db.inc,v 1.15 2006-07-03 06:41:48 janakawicks Exp $ */
 
 /**
  *
@@ -202,13 +202,62 @@ function shn_db_config_update($module,$conf_key,$value)
     shn_db_insert($arr,'config',true,'module_id');
 }
 
-function shn_db_get_incident_name()
+function shn_db_get_incident_select()
+{
+	global $global;
+?>
+<div id="formcontainer">
+<form method="POST" action="index.php?mod=home&act=incident_set" >
+<select name="incident_id" onchange="submit(this);" >
+<?php
+$sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
+$result_leve1 = $global['db']->Execute($sql_level1);
+while($myresult_level1 = $result_leve1->FetchRow()){
+?>
+	<option value="<?=$myresult_level1['incident_id'];?>" <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected':'');?> ><?=$myresult_level1['name'];?></option>
+<?php
+	$sql_level2 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level1['incident_id']}'";
+	$result_leve2 = $global['db']->Execute($sql_level2);
+	while($myresult_level2 = $result_leve2->FetchRow() ){
+?>
+		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected':'');?>  ><?=$myresult_level1['name'];?>--&gt;<?=$myresult_level2['name'];?></option>
+<?php
+		$sql_level3 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level2['incident_id']}'";
+		$result_level3 = $global['db']->Execute($sql_level3);
+		while($myresult_level3 = $result_level3->FetchRow() ){
+?>
+			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected':'');?>  ><?=$myresult_level1['name'];?>--&gt;<?=$myresult_level2['name'];?>--&gt;<?=$myresult_level3['name'];?></option>
+<?php
+		}
+	}
+
+}
+?>
+</select>
+</form>
+</div>
+<?php
+}
+
+function shn_db_get_incident_list()
 {
     global $global;
     
     $sql = "SELECT name FROM incident a inner JOIN user_preference b ON a.incident_id = b.value WHERE b.p_uuid = '{$_SESSION['user_id']}' AND b.pref_key = 'incident_id' "; 
 
     $result = $global['db']->GetAll($sql);
+	/*
+?>
+<select name="sel_incident">
+<?php
+	$sql_all = "SELECT incident_id, parent_id, name FROM incident WHERE parent_id is NULL";
+	$result_all = $global['db']->Execute($sql_all);
+	while($my_disasters = $global['db']->FetchRow($result_all)){
+
+	}
+?>
+</select>
+*/
 ?>
 <div id="incident_name">
    <strong><?=$result[0]['name'];?> </strong>
