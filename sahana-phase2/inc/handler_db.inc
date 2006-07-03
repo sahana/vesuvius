@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.15 2006-07-03 06:41:48 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.16 2006-07-03 10:09:55 priyanga Exp $ */
 
 /**
  *
@@ -206,8 +206,7 @@ function shn_db_get_incident_select()
 {
 	global $global;
 ?>
-<div id="formcontainer">
-<form method="POST" action="index.php?mod=home&act=incident_set" >
+<form method="POST" action="index.php?mod=home&act=incident_set" id='incident_changer'>
 <select name="incident_id" onchange="submit(this);" >
 <?php
 $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
@@ -235,7 +234,6 @@ while($myresult_level1 = $result_leve1->FetchRow()){
 ?>
 </select>
 </form>
-</div>
 <?php
 }
 
