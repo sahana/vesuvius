@@ -2386,20 +2386,3 @@ msgstr ""
 #: rms_req_units/unit, 
 msgid "Bottle"
 msgstr ""
-
-#: rms_req_units/unit, 
-msgid "Other"
-msgstr ""
-
-#: rms_req_units/description, 
-msgid "Kilogram"
-msgstr "&#3482;&#3538;&#3517;&#3549; &#3484;&#3530;&#8205;&#3515;&#3537;&#3512;&#3530;"
-
-#: rms_req_units/description, 
-msgid "metre"
-msgstr ""
-
-#: rms_req_units/description, 
-msgid "Other unit"
-msgstr ""
-
