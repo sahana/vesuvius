@@ -118,13 +118,17 @@ div#header h1 {
 	display:none;
 }
 
+
+/* language selector  */
 div#formcontainer #language{
-    background-color:transparent;
-    border:none;	
-	position: absolute;
-	top: 40px;
-	max-width:200px;
-	right:12px;
+    position:absolute;
+    display:compact;
+    top:40px;
+    right:0px;
+    background:#369;
+    border:none;
+    color: white;
+    padding:0px;
 }
 
 #language select{
@@ -132,12 +136,32 @@ div#formcontainer #language{
 	border: 1px solid #369;
 	background:#369;
 	font-size:10px;
-	float:right;
 }
 
 #language label{
-	display:none;
+/* 	display:none; */
 }
+
+/* insident changer select box in the top */
+form#incident_changer {
+    position:fixed;
+    display:compact;
+    top:0px;
+    right:0px;
+    background:#369;
+    color: white;
+    padding:3px;
+}
+
+form#incident_changer select{
+    color:#fff;
+    border: 1px solid #369;
+    background:#369;
+    font-size:10px;
+}
+
+
+
 
 
 div#wrapper {
@@ -783,3 +807,4 @@ div#submenu_v a:hover{
     color:white;
     background-color:#555;
 }
+
