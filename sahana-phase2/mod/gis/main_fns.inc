@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: main_fns.inc,v 1.15 2006-06-08 13:19:09 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.16 2006-07-06 08:10:03 mifanc Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -20,11 +20,12 @@
 
 function shn_gis_default()
 {
+	global $conf;
 ?>
 <div id="home">
-<h2><?php echo _("Incident Mapping");?></h2>
+<h2><?=$conf['mod_gis_name']?></h2>
 <ul>
-	<li><?php echo _('The Incident Mapping module is a library that provides GIS and Spatial functionalities to other Sahana modules');?></li>
+	<li><?=_("The  {$conf['mod_gis_name']} module is a library that provides GIS and Spatial functionalities to other Sahana modules");?></li>
 	<li><?php echo _('It also allows users to identify and add landmarks of incidents');?></li>
 	<li><?php echo _('This library allows incidents to be mapped to GIS locations for advanced spatial functionality');?></li>
 </ul>
