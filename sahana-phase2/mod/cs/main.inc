@@ -152,6 +152,8 @@ function shn_cs_addsub()
 	echo "<h1>Add Sub Category</h1>";
 	?>
 	<p><?= _('Here you are able to add Sub catalogue types which are under Main catalogues. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogues. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
+<p><?= _('OR'); ?></p>
+<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -257,6 +259,8 @@ function shn_cs_additem()
 
 	?>
 	<p><?= _('Here you are able to add Items which are under catalogues. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
+<p><?= _('OR'); ?></p>
+<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -410,8 +414,29 @@ function shn_cs_addunitform_submit()
 	_shn_cs_add_unit_type_form_result();
 	}
 
+}
 
-	
+function shn_cs_keyword_search()
+{
+    require_once('add.inc');
+    _shn_cs_search_keyword_result();
+}
+
+function shn_cs_search_keyword_select_submit()
+{
+    require_once('add.inc');
+    $id = trim($_REQUEST['id']);
+    $type = trim($_REQUEST['type']);
+
+    if($type == 'item')
+        {
+	shn_cs_additem_form1_result(true);
+	}
+    else if($type == 'sub_catalogue')
+	{
+	_shn_cs_addsub_form1_result(true);
+	}
+
 }
 
 ?>
