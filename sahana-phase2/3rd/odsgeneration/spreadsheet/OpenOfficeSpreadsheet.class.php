@@ -26,8 +26,6 @@ var_dump($_openoffice_path);*/
 $_openoffice_path = implode('/', $_openoffice_path);
 /**/
 
-echo "</br>";
-
 //-------------
 
 
@@ -37,13 +35,12 @@ define ('TEMPLATE_FILE_PATH_CALC',PATH_CALC.'templates/');
 //define ('SAVE_FILE_PATH_CALC',PATH_CALC.'');
 
 
-//echo $_openoffice_path;
 $_openoffice_path = explode('/', $_openoffice_path);
 array_pop($_openoffice_path);
 array_pop($_openoffice_path);
 $_openoffice_path = implode('/', $_openoffice_path);
 $_openoffice_path = $_openoffice_path."/www/tmp";
-//echo $_openoffice_path;
+
 define ('SAVE_FILE_PATH_CALC',$_openoffice_path.'');
 
 require_once ('EasyZIP.class.php');
