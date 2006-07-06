@@ -52,6 +52,7 @@ function show_item_cat_table()
         <td><strong><?=_("Name")?></strong></td>
         <td><strong><?=_("Description")?></strong></td>
         <td><strong><?=_("Item/Catalogue")?></strong></td>
+	<td><strong><?=_("Keyword")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -65,6 +66,7 @@ function show_item_cat_table()
     $description=$res->fields["description"];
     $cat_id=$res->fields["ct_uuid"];
     $final_flag=$res->fields["final_flag"];
+    $keyword=$res->fields["keyword"];
     ?>
     <tr>
         <td><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
@@ -74,6 +76,7 @@ function show_item_cat_table()
         <?php } else { ?>
             <td><?php print "Item" ; ?></td>
         <?php } ?>
+           <td><?php print $keyword ;?></td>
     </tr>
     <?php  
     $res->MoveNext();
