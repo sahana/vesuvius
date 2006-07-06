@@ -432,5 +432,59 @@ $graph->DrawGraph();
 }
 /********************************* End of Graph generation Functions **********************************************/
 
+/******************************** Start of XHTML Report Generation Functions **************************************/
+
+function shn_xhtml_report_fopen()
+{
+
+}
+
+function shn_xhtml_test()
+{
+include("html_gen.php");
+$testobj = new genhtml();
+$testobj->setFileName('sdtest_xhtml_report');
+$testobj->setTitlePos("center");
+$testobj->addTitle("Sahana Disaster Management");
+$testobj->addSummary("Sahana is a Free and Open Source Disaster Management system. It is a web based collaboration tool that addresses the common coordination problems during a disaster from finding missing people, managing aid, managing volunteers, tracking camps effectively between Government groups, the civil society (NGOs) and the victims themselves.");
+
+$datasR1 = array(
+	array(
+		'ingredient'	=> 'aaaa',
+		'qte'			=> 150,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'bbbbb',
+		'qte'			=> 50,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'ccccc',
+		'qte'			=> 50,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'dddddddd',
+		'qte'			=> 2,
+		'unite'			=> 'kg'
+	),
+	array(
+		'ingredient'	=> 'eeeeeee',
+		'qte'			=> 1,
+		'unite'			=> 'kg'
+	),
+);
+
+$headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
+
+$testobj->addTable($headerarray,$datasR1);
+$testobj->addLink("http://www.sahana.lk/","SAHANA");
+$testobj->setImage("sunflower.jpg");
+
+$testobj->Output();
+}
+
+/******************************** End of XHTML Report Generation Functions **************************************/
 
 ?>
