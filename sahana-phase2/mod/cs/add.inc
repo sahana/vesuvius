@@ -53,11 +53,12 @@ function _shn_cs_addmain_form_result()
     $db=$global["db"];
     $parentid='0';
     $name = trim($_POST['main_cat_name']);
-        $description = trim($_POST['description']);
+    $description = trim($_POST['description']);
+    $keyword = trim($_POST['keyword']);
     
     $id = shn_create_uuid("catalogue");
 
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description) values($parentid,'$id','$name','$description')";
+    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values($parentid,'$id','$name','$description','$keyword')";
     $res=$db->Execute($q);
 ?>
 
@@ -86,6 +87,16 @@ function shn_cs_addsub_form1()
     $max_depth=get_max_depth();
     shn_sub_cat($max_depth,'subcat',true);
     shn_form_fclose();
+
+    print "<br><b>Do a keyword search to find the catalogue.</b>";
+    shn_form_fopen("keyword_search");
+    shn_form_fsopen(_('Keyword Search'));
+    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
+    shn_form_hidden(array('type' => 'sub_catalogue'));
+    shn_form_submit(_("Search"));
+    shn_form_fsclose();
+    shn_form_fclose();
+
 }
 
 
@@ -94,13 +105,20 @@ function shn_cs_addsub_form1()
  * @access private
  * @return void
  */
-function _shn_cs_addsub_form1_result()
+function _shn_cs_addsub_form1_result($is_keyword_search=false)
 {
     global $global;
     $db=$global["db"];
 
     require_once("lib_cs.inc");
+    if($is_keyword_search==false)
+    {
     $parent_id=get_itemid();
+    }
+    else
+   {
+    $parent_id = trim($_REQUEST['id']);
+   }
     
     $extra_opts['req']=true;
     shn_form_fopen("addsub_form2_submit");
@@ -109,7 +127,7 @@ function _shn_cs_addsub_form1_result()
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
+    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
     shn_form_fsclose();
     
     //the parent ID is submitted as a hidden variable
@@ -138,8 +156,9 @@ function _shn_cs_addsub_form2_result()
 
     $sub_cat_name=trim($_POST['sub_cat_name']);
     $sub_description=trim($_POST['sub_description']);
+    $sub_keyword =trim($_POST['sub_keyword']);
     $id = shn_create_uuid("catalogue");
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description) values('$parent_id','$id','$sub_cat_name','$sub_description')";
+    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword')";
     $res=$db->Execute($q);
 
 ?>
@@ -277,15 +296,31 @@ function shn_cs_additem_form1()
     $max_depth=get_max_depth();
     shn_sub_cat($max_depth,'subcat',true);
     shn_form_fclose();
+
+    print "<br><b>Do a keyword search to find the catalogue.</b>";
+    shn_form_fopen("keyword_search");
+    shn_form_fsopen(_('Keyword Search'));
+    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
+    shn_form_hidden(array('type' => 'item'));
+    shn_form_submit(_("Search"));
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 
 
-function shn_cs_additem_form1_result()
+function shn_cs_additem_form1_result($is_keyword_search=false)
 {
     global $global;
     $db=$global["db"];
     require_once("lib_cs.inc");
+    if($is_keyword_search==false)
+    {
     $parent_id=get_itemid();
+    }
+    else
+   {
+    $parent_id = trim($_REQUEST['id']);
+   }
     
     $option_array=array();
     $query="select unit_type_uuid,name from ct_unit_type ";
@@ -306,7 +341,7 @@ function shn_cs_additem_form1_result()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
+    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
     shn_form_fsclose();
     
     $select_opts='onChange=change_units(this.options[this.selectedIndex].value)';
@@ -339,9 +374,10 @@ function shn_cs_additem_form2_result()
     
     $item_name=trim($_POST['itemname']);
     $description=trim($_POST['item_description']);
+    $item_keyword=trim($_POST['item_keyword']);
 
     $id = shn_create_uuid("catalogue");
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,final_flag) values('$parent_id','$id','$item_name','$description','1')";
+    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag) values('$parent_id','$id','$item_name','$description','$item_keyword','1')";
     $res=$db->Execute($q);
 
     $unit_selected= $_POST["unit_select"];
@@ -411,6 +447,69 @@ function _shn_cs_add_unit_type_form_result()
 
 <?php
 }
+
+
+
+function _shn_cs_search_keyword_result()
+{
+    global $global;
+    $db=$global["db"];
+
+    print "Click on the parent catalogue that you need to add sub catalogue or Item under it.<br> ";
+
+    $search_keyword=$name = trim($_POST['search_keyword']);
+    $type=trim($_POST['type']);
+
+?>
+<br>
+<div id="result">
+<table>
+    <thead>
+        <td><strong><?=_("Name")?></strong></td>
+        <td><strong><?=_("Description")?></strong></td>
+        <td><strong><?=_("Item/Catalogue")?></strong></td>
+	<td><strong><?=_("Keyword")?></strong></td>
+    </thead>
+    <TBODY>
+    <?php
+
+    $first_3_letters=substr($search_keyword, 0, 2);
+    $query="select * from ct_catalogue where keyword like '$first_3_letters%' and final_flag!='1' ";
+    $res=$db->Execute($query);
+
+
+    while(!$res==NULL && !$res->EOF)
+    {
+    $name=$res->fields["name"];
+    $description=$res->fields["description"];
+    $cat_id=$res->fields["ct_uuid"];
+    $final_flag=$res->fields["final_flag"];
+    $keyword=$res->fields["keyword"];
+    ?>
+    <tr>
+        <td><a href="index.php?mod=cs&act=search_keyword_select_submit&id=<?php echo $cat_id ?>&type=<?php echo $type ?>"><?php print $name ;?></a></td>
+        <td><?php print $description ;?></td>
+        <?php if($final_flag=='0') { ?>
+            <td><?php print "Catalogue" ; ?></td>
+        <?php } else { ?>
+            <td><?php print "Item" ; ?></td>
+        <?php } ?>
+	<td><?php print $keyword ;?></td>
+    </tr>
+    <?php  
+    $res->MoveNext();
+    }//end of while loop
+    ?>
+    </TBODY>    
+</table>
+</div>
+<?php
+
+
+
+}
+
+
 
 
 
