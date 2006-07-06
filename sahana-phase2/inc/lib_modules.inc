@@ -119,4 +119,21 @@ function shn_get_module_name($module=null)
         return $conf['mod_' . $module . '_name'];
     }
 }
+
+/**
+ * Check if module exists 
+ * 
+ * @param mixed $module 
+ * @return boolean
+ */
+function shn_module_exists($module=null)
+{
+    global $global;
+ 
+    $module_file = $global['approot'].'mod/'.$module;
+
+    return file_exists($module_file);
+}
+
+    
 ?>
