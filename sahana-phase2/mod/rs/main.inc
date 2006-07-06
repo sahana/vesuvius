@@ -47,6 +47,7 @@ function shn_rs_mainmenu()
 	shn_sub_mod_menuopen(_("Test Reports & Charts"));
 	shn_mod_menuitem("spreadsheet",_("SpreadSheet"));
 	shn_mod_menuitem("pdf",_("PDF"));
+	shn_mod_menuitem("xhtml",_("XHTML"));
 	shn_mod_menuitem("chart",_("Chart"));
 	shn_mod_menuitem("piechart",_("Pie Chart"));
 	shn_mod_menuitem("barchart",_("Bar Chart"));
@@ -188,6 +189,10 @@ $data = array(
 generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,700,500,"bar chart keyword","mahesh kaluarachchi");
 }
 
+function shn_rs_xhtml()
+{
+shn_xhtml_test();
+}
 
 
 ?>
