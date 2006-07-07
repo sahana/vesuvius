@@ -49,18 +49,9 @@ function shn_or_mainmenu()
 function shn_or_reg_org($error=false)
 {
     include_once ("reg_org.inc"); 
-    if(isset($_POST["incident"])){
-    		if(empty($_POST["incidents"])){
-    			$error=true;
-        		add_error(_("You have to select an incident"));
-        		_shn_or_display_incident_form(true,"reg_org");
-    		}else{
-    			_shn_or_regform_org(true);
-    		}
-    }else{
-    		_shn_or_display_incident_form(false,"reg_org");
-    }
+    _shn_or_regform_org(true);
 }
+
 function shn_or_reg_org_cr()
 {
     include_once("process_org.inc");

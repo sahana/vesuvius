@@ -26,15 +26,16 @@ if(!$res->EOF){
 ?>
 <div id="home">
     <h2><?=_lc($conf['mod_or_name'])?></h2>
-		<div><?=_("The Organization Registry keeps track of all the relief organizations and civil society groups working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
+    		<div><b><i><?=_("\"who is doing what and where\"")?></i></b></div>
+        <br></br>
+		<div><?=_("The Organization Registry keeps track of all the relief organizations working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
 				Features Include:")?>
         </div>
 		<ul>
             <li><?=_("Capturing a comprehensive list of meta data on an relief organization and all the activities they have in the region")?></li>
-            <li><?=_("Registering ad-hoc volunteers willing to contribute")?></li>
             <li><?=_("Capturing the essential services each group is providing and where")?></li>
             <li><?=_("Reporting on the converge of services and support in the region and more")?></li>
-            <li><?=_("importantly where there are no aid services being provided")?></li>
+            <li><?=_("Importantly where there are no aid services being provided")?></li>
         </ul>
 </div>
 <br />
@@ -42,7 +43,7 @@ if(!$res->EOF){
     <thead>
         <td><strong><?=_("Organizations")?></strong></td>
         <td><strong><?=_("Please Register")?></strong></td>
-     <!--   <td><strong><?=_("Volunteers")?></strong></td>-->
+     
     </thead>
     <tbody>
         <tr>

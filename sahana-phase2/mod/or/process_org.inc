@@ -14,7 +14,6 @@
 */
 function _shn_or_reg_org_cr()
 {
-    $incidents=$_SESSION["incident"];
     global $global;
     include_once "reg_org.inc";
     include_once "errors.inc";
@@ -127,13 +126,7 @@ function _shn_or_reg_org_cr()
             //no validation done on other fields as they are not unique
             $q="insert into org_main(o_uuid,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values('{$org_id}','{$org_name}','{$opt_org_type}','{$reg_no}','{$man_power}','{$equipment}','{$resources}',$chk_avail)";
             $res=$db->Execute($q);
-            
-            $i=0;
-            while($i<count($incidents)){
-                $q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],'$org_id')";
-                $res=$db->Execute($q);
-                $i=$i+1;
-            }
+
             $i=0;
             while($i<count($sector)){
                 $q="insert into sector(pgoc_uuid,opt_sector) values('{$org_id}','{$sector[$i]}')";
@@ -164,9 +157,7 @@ function _shn_or_reg_org_cr()
     </div>
     <br />
 <?php
-		_shn_or_display_incident_form(false,"reg_org");
-     }else{
-        _shn_or_regform_org($error);
+	       _shn_or_regform_org($error);
         //return false;
     }
 }
