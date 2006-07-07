@@ -10,7 +10,8 @@ CREATE TABLE ct_catalogue
 	parentid varchar(60),
 	name varchar(100),
 	description varchar(100),
-	final_flag varchar(1) DEFAULT '0');
+	final_flag varchar(1) DEFAULT '0',
+	keyword varchar(100));
 
 CREATE TABLE ct_unit
 	(unit_type_uuid varchar(60),
