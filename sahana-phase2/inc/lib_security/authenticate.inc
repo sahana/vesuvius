@@ -135,15 +135,16 @@ function shn_authenticate_user()
 	 	return $user_data ;
     } else {
     //authentication is done only as the user requested to login
-        $user = $_POST{"user_name"};
-        $pwd =$_POST{"password"};
-     	$user_data["result"]=LOGGEDOUT;
+        $user= addslashes(strip_tags(trim($_POST{"user_name"})));
+        $pwd= addslashes(strip_tags(trim($_POST{"password"})));
+        $user_data["result"]=LOGGEDOUT;
          // Create a digest of the password collected from the challenge
         $password_digest = md5(trim($pwd));
         // Formulate the SQL to find the user
         $q = "  SELECT p_uuid  FROM users
                     WHERE user_name = '$user'
                     AND password = '$password_digest'";
+                    echo $q;
         $res=$db->Execute($q);
         if(!$res->EOF){
             $user_id=$res->fields[0];
