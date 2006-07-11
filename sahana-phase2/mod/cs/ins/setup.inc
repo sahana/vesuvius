@@ -77,15 +77,15 @@ function shn_cs_datacreate()
 	$res=$db->Execute($q);
 
 	$unit_id10=shn_create_uuid("unit");
-	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id10','Truck','1',0)";
+	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id10','Truck','0',1)";
 	$res=$db->Execute($query);
 
 	$unit_id11=shn_create_uuid("unit");
-	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id11','Box','0',0)";
+	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id11','Box','0',1)";
 	$res=$db->Execute($query);
 
 	$unit_id12=shn_create_uuid("unit");
-	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id12','Bottle','0',0)";
+	$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id4','$unit_id12','Bottle','0',1)";
 	$res=$db->Execute($query);
 
 	// INSERT MAIN CATALOGUES & SUB CATALOGUE TO THE DATABASE
