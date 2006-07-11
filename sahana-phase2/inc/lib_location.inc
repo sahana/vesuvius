@@ -402,7 +402,7 @@ var end = <?php echo $end;?>;
  * @access public
  * @return void
  */
-function shn_location($range,$value=null,$parent=null,$unknown=false){
+function shn_location($range,$value=null,$parent=null,$unknown=true){
 	
 	if($unknown==true){
 	shn_form_label(null,"<b>If you do not know the location tick the location unknown checkbox, otherwise select from the dropdowns</b>",null);
