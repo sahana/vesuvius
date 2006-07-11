@@ -16,98 +16,10 @@ function _shn_or_reg_org_cr()
 {
     global $global;
     include_once "reg_org.inc";
-    include_once "errors.inc";
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
-    include_once $global['approot']."/inc/lib_validate.inc"; 
     include_once($global['approot']."/inc/lib_uuid.inc");
-    $error=false;
-    $VARCHAR=100;
-    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-    list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
-    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    $loc=shn_location_get_form_submit_loc();
-    if ($loc==-1){
-        $error=true;
-        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
-    }
-    
-    if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $reg_no=$_POST{"reg_no"};
-    }
-    if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $contact_name=$_POST{"contact_name"};
-    }
-/*
-    if (trim(strlen($_POST{"contact_add"})) > $CONTACT_ADDRESS){
-        add_error(SHN_ERR_OR_REG_MAX);
-    }else {
-       $contact_address=$_POST{"contact_add"};
-    }
-*/
-    $contact_address=$_POST{"contact_add"};
-    if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $contact_phone=$_POST{"contact_phone"};
-    }
-     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $contact_mobile=$_POST{"contact_mobile"};
-    }
-    if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-         $contact_fax=$_POST{"contact_fax"};
-    }
-    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $contact_mail=$_POST{"contact_mail"};
-        if(!shn_valid_email($contact_mail)){
-            add_error(SHN_ERR_OR_EMAIL);
-            $error=true;
-        }
-    }
-     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $contact_web=$_POST{"contact_web"};
-    }
-    if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $man_power=$_POST{"man_power"};
-    }
-    if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
-        add_error(SHN_ERR_OR_REG_MAX);
-        $error=true;
-    }else {
-        $equipment=$_POST{"equipment"};
-    }
-    $resources=$_POST{"resources"};
-     if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
-        $error=true;
-        add_error(SHN_ERR_OR_REG_MAX);
-    }else {
-        $account_name=$_POST{"account_name"};
-    }
-    $chk_avail=(isset ($_POST{"chk_avail"}))?1:0;
-    $chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
-    $db=$global['db'];
-    if($error!=true){
+
+    		$db=$global['db'];
     		$org_id	=shn_create_uuid('org');
       //  $org_id = $db->GenID('org_seq',1);
         if (empty($org_id)){
@@ -124,41 +36,59 @@ function _shn_or_reg_org_cr()
         }
         if($error!=true){
             //no validation done on other fields as they are not unique
-            $q="insert into org_main(o_uuid,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values('{$org_id}','{$org_name}','{$opt_org_type}','{$reg_no}','{$man_power}','{$equipment}','{$resources}',$chk_avail)";
+            $privacy=0;
+            $q="insert into org_main(o_uuid,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values('{$org_id}','{$_SESSION['org']['name']}','{$_SESSION['org']['type']}','{$_SESSION['org']['reg_no']}','{$_SESSION['org']['man_power']}','{$_SESSION['org']['equipment']}','{$_SESSION['org']['resources']}',$privacy)";
             $res=$db->Execute($q);
-
-            $i=0;
-            while($i<count($sector)){
-                $q="insert into sector(pgoc_uuid,opt_sector) values('{$org_id}','{$sector[$i]}')";
+            
+            $q="insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
+            $res=$db->Execute($q);
+        		$i=0;
+            while($i<count($_SESSION['org']['sector'])){
+                $q="insert into sector(pgoc_uuid,opt_sector) values('{$org_id}','{$_SESSION['org']['sector'][$i]}')";
                 $res=$db->Execute($q);
                 $i=$i+1;
             }
-            $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$loc}','{$contact_address}')";
+            $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$_SESSION['org']['loc']}','{$_SESSION['org']['contact_address']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$_SESSION['org']['contact_mobile']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$_SESSION['org']['contact_name']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$_SESSION['org']['contact_fax']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$_SESSION['org']['contact_mail']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
+            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
             $res=$db->Execute($q);
 
     }
-}
+	
      if($error!=true){
 ?>
     <div id="result_msg">
-       <?php echo $org_name?> Organization was succesfully registered
+       <?php echo $_SESSION['org']['name']?> Organization was succesfully registered
+    <br /><br />
+   
+    Now you can add a Branch/Department Under  <?php echo $_SESSION['org']['name']?>
+    e.g. Health Department,Relief Operations Department.
+    <br />
+    If you need to register a Branch/Department ,click the link below
+    <br />
+     <a href="index.php?&mod=or&act=reg_operation&org=<?php echo $org_id;?>">Register a Department/Branch</a>
+    <br />
+    Of course you can add Branches/Departments later on through the
+    Register a Department/Branch link.
+    <br /> <br />
+
+    Instead if you wish to add another organization click the link below
+    <br />
+    <a href="index.php?&mod=or&act=reg_org">Register an Organization</a>
     </div>
     <br />
 <?php
-	       _shn_or_regform_org($error);
-        //return false;
+	 
     }
 }
 
@@ -219,6 +149,8 @@ function _shn_or_reg_operation_cr()
         
     //no validation done on other fields as they are not unique
         $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,man_power,equipment,resources)values('{$org_id}','{$parent_id}','{$org_name}','{$opt_org_sub_type}','{$man_power}','{$equipment}','{$resources}')";
+        $res=$db->Execute($q);
+        $q="insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
         $res=$db->Execute($q);
         $i=0;
         while($i<count($sector)){

@@ -29,7 +29,7 @@ function shn_or_mainmenu()
     $loc=_shn_or_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_or_name']));
     shn_mod_menuitem("default","Home",$module);
-//    shn_mod_menuitem("search","Search",$module);
+	shn_mod_menuitem("search","Search",$module);
     shn_sub_mod_menuopen(_("Register"));
     shn_mod_menuitem("reg_org","Register an Organization",$module);
     shn_mod_menuitem("reg_operation","Register a Department/Branch",$module);
@@ -49,18 +49,38 @@ function shn_or_mainmenu()
 function shn_or_reg_org($error=false)
 {
     include_once ("reg_org.inc"); 
-    _shn_or_regform_org(true);
+    _shn_or_regform_org(false);
+}
+
+function shn_or_reg_org_confirm()
+{
+    include_once("reg_org.inc");
+    $error=_shn_or_check_org_reg_info_complete();
+	if($error==true){
+		_shn_or_regform_org($error);
+	}else{
+    		_shn_or_regconfirm_org();
+	}
 }
 
 function shn_or_reg_org_cr()
-{
-    include_once("process_org.inc");
-    _shn_or_reg_org_cr();
+{ 
+	if($_POST["action"]=="edit"){
+		include_once("reg_org.inc");
+		_shn_or_regform_org(true);
+	}else{
+    		include_once("process_org.inc");
+    		_shn_or_reg_org_cr();
+	}
 }
 function shn_or_reg_operation($error=false)
 {
     include_once ("reg_org.inc"); 
-    _shn_or_regform_operation(false);
+    if($_GET["org"]==null){
+    		_shn_or_regform_operation(false);
+    }else{
+    		_shn_or_regform_operation(false,$_GET["org"]);	
+    }
 }
 function shn_or_reg_operation_cr(){
     include_once("process_org.inc");
@@ -104,32 +124,18 @@ function shn_or_view_org_submit(){
 
 function shn_or_view_page(){
 	include_once ("view_org.inc");
-	_shn_or_viewform_allorg($_GET["page"],$_GET["end"]);
+	_shn_or_display_page($_GET["page"]);
 }
 function shn_or_view_org()
 {
     include_once ("view_org.inc");
-?>
-<?php
-	if(isset($_POST["incident"])){
-    		if(empty($_POST["incidents"])){
-    			$error=true;
-        		add_error(_("You have to select an incident"));
-        		_shn_or_display_incident_form(true,"view_org");
-    		}else{
+	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
+	unset($_SESSION["org"]["total_pages"]);
+	unset($_SESSION["org"]["pages"]);
+	$org_list=shn_or_org_incident_list($_SESSION["incidents"]);
+	_shn_or_viewform_allorg($org_list);
     			
-    		?>
-<h2> Organization Registry</h2>
-			<?php
-				
-				$_SESSION["incidents"]=$_POST["incidents"];
-				_shn_or_viewform_allorg();
-    			
-    		}
-    }else{
-    		_shn_or_display_incident_form(false,"view_org");
-    }
-    
+    		   
 }
 function shn_or_edit_org()
 {
@@ -141,21 +147,10 @@ function shn_or_edit_org()
 function shn_or_drill_report_loc()
 {
     include_once("report.inc");
-    	if(isset($_POST["incident"])){
-    		if(empty($_POST["incidents"])){
-    			$error=true;
-        		add_error(_("You have to select an incident"));
-        		_shn_or_display_incident_form(true,"drill_report_loc");
-    		}else{
-    			$_SESSION["incidents"]=$_POST["incidents"];
+//	$_SESSION["incidents"]=$_POST["incidents"];
+	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
 			//$parent=$_GET["id"];
      		_shn_or_drill_loc();
-    			
-    		}
-    }else{
-    		_shn_or_display_incident_form(false,"drill_report_loc");
-    }
-
 }
 
 function shn_or_drill_report_loc_next()
@@ -176,21 +171,9 @@ function shn_or_drill_report_org_next()
 function shn_or_drill_report_org()
 {
     include_once("report.inc");
-    	if(isset($_POST["incident"])){
-    		if(empty($_POST["incidents"])){
-    			$error=true;
-        		add_error(_("You have to select an incident"));
-        		_shn_or_display_incident_form(true,"drill_report_org");
-    		}else{
-    			$_SESSION["incidents"]=$_POST["incidents"];
-			//$parent=$_GET["id"];
-     		_shn_or_drill_org();
-    			
-    		}
-    }else{
-    		_shn_or_display_incident_form(false,"drill_report_org");
-    }
-
+	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
+    _shn_or_drill_org();
+    		
 }
 
 function shn_or_org_sector()

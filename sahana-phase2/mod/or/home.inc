@@ -59,12 +59,16 @@ if(!$res->EOF){
 					Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.")?>	    
 				</div>
 			</td>
-			
-		
+					
         </tr>
+                
         </tbody>
         </table>
         <br />
+        <div id="note">
+           <strong><?=_("Last 5 Organizations to Register")?></strong>
+        </div>
+        <?php _shn_or_viewform_latest_orgs(5);?>
        
 <?php
        

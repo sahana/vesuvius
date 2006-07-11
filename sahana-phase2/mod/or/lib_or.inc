@@ -16,6 +16,72 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 
+function _shn_org_get_incidents($org_id)
+{
+	global $global;
+	$db=$global["db"];
+	$q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$org_id}'";
+    $res_incident=$db->Execute($q);   
+    $or_incident_arr=array();
+    	while(!$res_incident->EOF){
+    		    $temp=array($res_incident->fields["incident_id"],$res_incident->fields["name"]);
+            array_push(
+                $or_incident_arr,
+               // $res_incident->fields["incident_id"]
+               $temp
+            );       
+            $res_incident->MoveNext();
+    }  
+    return $or_incident_arr;
+}
+
+function _shn_org_get_incident_string($org_id)
+{
+	 $arr=_shn_org_get_incidents($org_id);
+	 $max=count($arr);
+   	 array_pop($arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($arr);
+   			$q="select name from incident where incident_id='{$x}'";
+    			$res=$db->Execute($q);
+    			//if($count==0 ){
+    				$str=$str.$res->Fields("name");
+    		//	}else{
+   			//	$location=$location."-->".$res->Fields("name");
+    			//}
+    			
+   		}
+    return $str;
+	
+}
+
+function _shn_org_location_string($loc)
+{
+	global $global;
+	$db=$global["db"];
+	$loc_arr=array();
+   	shn_get_parents($loc,&$loc_arr);
+   	if($loc_arr[0]=='unknown'){
+   		shn_form_label(_("Organization Location"),"Unknown");
+   	}else{
+   		
+   		$max=count($loc_arr)-1;
+   		array_pop($loc_arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($loc_arr);
+   			$q="select name from location where loc_uuid='{$x}'";
+    			$res=$db->Execute($q);
+    			if($count==0 ){
+    				$location=$location.$res->Fields("name");
+    			}else{
+   				$location=$location."-->".$res->Fields("name");
+    			}
+    			
+   		}
+   	}
+   	return $location;
+}
+
 function _shn_org_position($org_id,$incidents=null,$rootsonly=false){
 	$org_list=shn_or_org_list($incidents,$rootsonly);
 	$i=0;
@@ -93,21 +159,29 @@ function shn_or_org_list($incidents=null,$rootsonly=false){
         return $org_list;
 }
 
-function shn_or_org_count($incidents=null,$rootsonly=false){
+function shn_or_org_incident_list($incidents=null,$rootsonly=false){
 	    global $global;
         $db=$global['db'];
-	$list=shn_or_create_database_IN_array($incidents);
+		$list=shn_or_create_database_IN_array($incidents);
         if($rootsonly==true){
         	$root=" and parent_id is NULL ";
         }else{
         	$root="";
         }
         if($incidents==null)
-			$q = "select count(o_uuid) as cnt from org_main where privacy=false".$root;
+			$q = "select distinct o_uuid from org_main where privacy=false".$root;
 		else
-			$q = "select count(distinct o_uuid) as cnt  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
-	$res_org=$db->Execute($q);
-        return  $res_org->fields["cnt"];
+			$q = "select distinct o_uuid  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
+		$res_org=$db->Execute($q);
+		$orgs=array();
+    		while(!$res_org==NULL && !$res_org->EOF){
+    			array_push(
+    				$orgs,
+    				$res_org->fields["o_uuid"]
+    			);
+        		$res_org->MoveNext();
+    		}
+        return  $orgs;
 }
 
 function _shn_or_get_start_loc()
@@ -150,14 +224,14 @@ function shn_or_get_loc_range()
     return $loc;
 }
 
-function _shn_or_action_change_javascript($change)
+function _shn_or_action_change_javascript($form,$change)
 {
 ?>
 <script type="text/javascript">
     function change_action(action){
         var x=document.getElementsByName("<?php echo $change?>");
          x[0].value=action;
-         document.view.submit();
+         document.<?php echo $form?>.submit();
          return;
     }
 </script>
@@ -452,8 +526,26 @@ function _shn_or_display_sector($error=false,$value=NULL)
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 
-function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
+function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=null)
 {
+    if($confirm==true){
+    		shn_form_label(_("Name"),$_SESSION['org']['contact_name']);
+    		shn_form_label(_("Address"),$_SESSION['org']['contact_address']);
+    		shn_form_label(_("Phone"),$_SESSION['org']['contact_phone']);
+    		shn_form_label(_("Mobile"),$_SESSION['org']['contact_mobile']);
+    		shn_form_label(_("Fax"),$_SESSION['org']['contact_fax']);
+    		shn_form_label(_("Website"),$_SESSION['org']['contact_web']);
+    		return;
+    }
+   if($error==true){
+   		$contact_address=$_SESSION['org']['contact_address'];
+        $contact_phone=$_SESSION['org']['contact_phone'];
+        $contact_mobile=$_SESSION['org']['contact_mobile'];
+        $contact_name=$_SESSION['org']['contact_name'];
+        $contact_fax=$_SESSION['org']['contact_fax'];
+        $contact_email=$_SESSION['org']['contact_mail'];
+        $contact_web=$_SESSION['org']['contact_web'];
+    }
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
@@ -481,26 +573,42 @@ function _shn_or_display_contact_person($error=false,$org=true,$po_uuid=null)
         $res_web=$db->Execute($q);
         $contact_web=$res_web->fields[0];
     }
-    if($org){
-        $extra_opts['value']=$contact_name;
-        shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
-    }
+    $extra_opts['value']=$contact_name;
+    $extra_opts['help']=_("Name of the person to be contacted in a disaster");
+    shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_address;
+      $extra_opts['help']=_("Address to be contacted in a disaster");
     shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
+      $extra_opts['help']=_("Land line number to be contacted in a disaster");
     shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
+      $extra_opts['help']=_("Mobile Phone number to be contacted in a disaster");
     shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
     $extra_opts['value']=$contact_fax;
+      $extra_opts['help']=_("Fax number to be contacted in a disaster");
     shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_email;
+      $extra_opts['help']=_("Email address to be contacted in a disaster");
     shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_web;
+      $extra_opts['help']=_("Website of the Organization");
     shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
 }
 
-function _shn_or_display_org_facilities($error=false,$org_id=false)
+function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
 {
+    if($confirm==true){
+    		shn_form_label(_("Man Power"),$_SESSION['org']['man_power']);
+    		shn_form_label(_("Equipment"),$_SESSION['org']['equipment']);
+    		shn_form_label(_("Resources"),$_SESSION['org']['resources']);
+    		return;
+    }
+    if($error==true){
+        $man_power=$_SESSION['org']['man_power'];
+        $equipment=$_SESSION['org']['equipment']; 
+        $resources=$_SESSION['org']['resources'];	
+    }
     if(!shn_is_null($org_id)){
         global $global;
        $db=$global['db'];
@@ -513,10 +621,16 @@ function _shn_or_display_org_facilities($error=false,$org_id=false)
         }
     }
     $extra_opts['value']=$man_power;
+    $extra_opts['help']=_("Specify the workforce(Men/Women) in your organization. This amount would" .
+    		"be useful in identifying the potential number of volunteers in the event of a disaster");
     shn_form_text(_("Man Power : "),'man_power','size="50"',$extra_opts);
     $extra_opts['value']=$equipment;
+    $extra_opts['help']=_("Specify the kind of equipment you have,that will be useful in Disaster Relief" .
+    		" Operations");
     shn_form_text(_("Equipment : "),'equipment','size="50"',$extra_opts);
     $extra_opts['value']=$resources;
+    $extra_opts['help']=_("Specify any other resource that you think might be useful in Disaster Relief" .
+    	" Operations");
     shn_form_text(_("Other relevant resources : "),'resources','size="50"',$extra_opts);
 }
 
@@ -657,5 +771,98 @@ function _shn_or_get_suplier_name($suplier_id)
 
 //$inventory_array[$inv_id]=$ims0->fields['inventory_name'];
 
+}
+
+function _shn_or_check_org_reg_info_complete()
+{
+
+    include_once "errors.inc";
+    global $global;
+	include_once $global['approot']."/inc/lib_validate.inc";
+	$error=false;
+    $VARCHAR=100; 
+	list($error,$_SESSION['org']['name'])=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
+    list($error,$_SESSION['org']['type'])=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
+    list($error,$_SESSION['org']['sector'])=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    $loc=shn_location_get_form_submit_loc();
+    if ($loc==-1){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else{
+    		$_SESSION['org']['loc']=$loc;
+    }
+    
+    if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['reg_no']=$_POST{"reg_no"};
+    }
+    if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['contact_name']=$_POST{"contact_name"};
+    }
+    $_SESSION['org']['contact_address']=$_POST{"contact_add"};
+    if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['contact_phone']=$_POST{"contact_phone"};
+    }
+     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['contact_mobile']=$_POST{"contact_mobile"};
+    }
+    if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+         $_SESSION['org']['contact_fax']=$_POST{"contact_fax"};
+    }
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        
+        if(!shn_valid_email($contact_mail)){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }else{
+        		$_SESSION['org']['contact_mail']=$_POST{"contact_mail"};
+        }
+    }
+     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['contact_web']=$_POST{"contact_web"};
+    }
+    if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['man_power']=$_POST{"man_power"};
+    }
+    if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['org']['equipment']=$_POST{"equipment"};
+    }
+    $_SESSION['org']['resources']=$_POST{"resources"};
+    return $error;
+}
+
+function array_copy($src,&$dest,$start,$end)
+{
+	for($i=$start;$i<$end;$i++){
+		$dest[$i-$start]=$src[$i];
+	}
+	
+	
 }
 ?>
