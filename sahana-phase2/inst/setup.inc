@@ -15,12 +15,13 @@
 
 session_start();
 
-require_once ($global['approot']."inc/handler_html_head.inc");
+require_once ($global['approot'].'inc/handler_html_head.inc');
 require_once ($global['approot'].'inc/lib_modules.inc'); 
 require_once ($global['approot'].'inc/lib_form.inc'); 
 require_once ($global['approot'].'inc/lib_errors.inc'); 
 require_once ($global['approot'].'3rd/adodb/adodb.inc.php');
 require_once ($global['approot'].'inc/lib_config.inc');
+require_once ($global['approot'].'inc/lib_locale/handler_locale.inc');
 
 shn_setup_main();
 
