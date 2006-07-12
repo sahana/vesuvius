@@ -16,8 +16,6 @@
  */
 
 
-
-
 /**
  * This function shows a form to add main category and submit values to a function in the main.inc
  * @access public
@@ -60,14 +58,23 @@ function _shn_cs_addmain_form_result()
 
     $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values($parentid,'$id','$name','$description','$keyword')";
     $res=$db->Execute($q);
-?>
 
-    <div id="result_msg">
-    <?php echo $name." was succesfully saved.";?>
-
-    </div>
-
-<?php
+	if($res == true)
+	{
+	?>
+	<div id="result_msg">
+	<?php print $name." was succesfully saved in the database.";?>
+	</div>
+	<?php
+	}
+	else
+	{
+	?>
+	<div id="result_msg">
+	<?php print "Your Operation Aborted. <b>ct_catalogue</b> table not found in the Database."; ?>
+	</div>
+	<?php
+	}
 
 }
 
@@ -161,14 +168,22 @@ function _shn_cs_addsub_form2_result()
     $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword')";
     $res=$db->Execute($q);
 
-?>
-
-    <div id="result_msg">
-    <?php echo $sub_cat_name." was succesfully saved.";?>
-
-    </div>
-
-<?php
+	if($res == true)
+	{
+	?>
+	<div id="result_msg">
+	<?php echo $sub_cat_name." was succesfully saved in the database.";?>
+	</div>
+	<?php
+	}
+	else
+	{
+	?>
+	<div id="result_msg">
+	<?php print "Your Operation Aborted. <b>ct_catalogue</b> table not found in the Database."; ?>
+	</div>
+	<?php
+	}
 
 }
 
@@ -274,14 +289,23 @@ function _shn_cs_addunit_form_result()
     $query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id','$unit_id','$unit_name','0',$multiplier)";
     $res=$db->Execute($query);
 
-    ?>
 
-    <div id="result_msg">
-    <?php echo $unit_name." was succesfully saved."; ?>
-
-    </div>
-
-    <?php
+	if($res == true)
+	{
+	?>
+	<div id="result_msg">
+	<?php echo $unit_name." was succesfully saved in the Database."; ?>
+	</div>
+	<?php
+	}
+	else
+	{
+	?>
+	<div id="result_msg">
+	<?php print "Your Operation was not successfully completed. Found a Problem with Database.";?>
+	</div>
+	<?php
+	}
 
 }
 
@@ -289,6 +313,8 @@ function _shn_cs_addunit_form_result()
 
 function shn_cs_additem_form1()
 {
+    global $global;
+    $db=$global["db"];
     require_once("lib_cs.inc");
     $form_opts['name']='subcat';
  
@@ -297,6 +323,11 @@ function shn_cs_additem_form1()
     shn_sub_cat($max_depth,'subcat',true);
     shn_form_fclose();
 
+	
+    $query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+    $res=$db->Execute($query);
+    if($res == true)
+	{
     print "<br><b>Do a keyword search to find the catalogue.</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
@@ -305,6 +336,7 @@ function shn_cs_additem_form1()
     shn_form_submit(_("Search"));
     shn_form_fsclose();
     shn_form_fclose();
+	}
 }
 
 
@@ -369,6 +401,10 @@ function shn_cs_additem_form2_result()
     global $global;
     $db=$global["db"];
 
+$items_saved_ok =false;
+$all_units_saved_ok = false;
+$save_failed_units = array();
+
     require_once("lib_cs.inc");
     $parent_id=get_itemid();
     
@@ -380,6 +416,12 @@ function shn_cs_additem_form2_result()
     $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag) values('$parent_id','$id','$item_name','$description','$item_keyword','1')";
     $res=$db->Execute($q);
 
+	if($res == true)
+	{	
+	$items_saved_ok = true;
+	}
+
+
     $unit_selected= $_POST["unit_select"];
     $num = sizeof($unit_selected);
 
@@ -388,17 +430,57 @@ function shn_cs_additem_form2_result()
     $temp = $unit_selected[$i];
     $q="insert into ct_cat_unit (ct_uuid,unit_uuid) values('$id','$temp')";
     $res=$db->Execute($q);
-    
-    }
-    
-?>
+    		if($res == false)
+		{	
+		array_push($save_failed_units,$temp);
+		}
+    }//end of for
 
-    <div id="result_msg">
-    <?php echo $item_name." was succesfully saved.";?>
-
-    </div>
-
-<?php
+	if($save_failed_units == null)
+		{
+		$all_units_saved_ok = true;
+		}
+	else
+		{
+		$all_units_saved_ok = false;
+		}
+	
+	if($items_saved_ok == true && $all_units_saved_ok == true)
+		{
+			?>
+			<div id="result_msg">
+			<?php print $item_name." was succesfully saved in the Database.";?>
+			</div>
+			<?php
+		}
+	elseif($items_saved_ok == true && $all_units_saved_ok == false)
+		{	$del_query = "delete from ct_catalogue where ct_uuid = '$id' ";
+			$res=$db->Execute($del_query);
+			?>
+			<div id="result_msg">
+			<?php print "Your Operation Aborted. <b>ct_cat_unit</b> table not found in the Database."; ?>
+			</div>
+			<?php
+		}
+	elseif($items_saved_ok == false && $all_units_saved_ok == true)
+		{
+			$del_query = "delete from ct_cat_unit where ct_uuid = '$id' ";
+			$res=$db->Execute($del_query);
+			?>
+			<div id="result_msg">
+			<?php print "Your Operation Aborted. <b>ct_catalogue</b> table not found in the Database."; ?>
+			</div>
+			<?php
+		}
+	else
+		{
+			?>
+			<div id="result_msg">
+			<?php print "Your Operation Aborted. <b>ct_catalogue</b> and <b>ct_cat_unit</b> tables not found in the Database."; ?>
+			</div>
+			<?php
+		
+		}
 
     
 }
@@ -426,6 +508,9 @@ function _shn_cs_add_unit_type_form_result()
     global $global;
     $db=$global["db"];
 
+    $unit_type_saved_ok = false;
+    $base_unit_saved_ok = false;
+
     $unit_type_name=trim($_POST['unit_type_name']);
     $description=trim($_POST['unit_type_description']);
     $base_unit_name=trim($_POST['base_unit_name']);
@@ -433,19 +518,57 @@ function _shn_cs_add_unit_type_form_result()
     $unit_type_id = shn_create_uuid("unit_type");
     $q="insert into ct_unit_type (unit_type_uuid,name,description) values('$unit_type_id','$unit_type_name','$description')";
     $res=$db->Execute($q);
+	if($res == true)
+		{
+		$unit_type_saved_ok = true;
+		}
 
     $unit_id=shn_create_uuid("unit");
     $query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id','$unit_id','$base_unit_name','1',0)";
     $res=$db->Execute($query);
+	if($res == true)
+		{
+		$base_unit_saved_ok = true;
+		}
 
-?>
-
+    if($unit_type_saved_ok == true && $base_unit_saved_ok ==true)
+	{
+	?>
     <div id="result_msg">
-    <?php echo $unit_type_name." was succesfully saved.";?>
-
+    <?php echo $unit_type_name." was succesfully saved in the Database.";?>
     </div>
-
-<?php
+	<?php
+	}
+    elseif($unit_type_saved_ok == true && $base_unit_saved_ok ==false)
+	{
+	  $q="delete from ct_unit_type where unit_type_uuid = '$unit_type_id'";
+   	 $res=$db->Execute($q);
+	
+	?>
+    <div id="result_msg">
+    <?php print "Your Operation aborted. <b>ct_unit</b> table is not found in the Database";?>
+    </div>
+	<?php
+	}
+    elseif($unit_type_saved_ok == false && $base_unit_saved_ok ==true)
+	{
+	  $q="delete from ct_unit where unit_type_uuid = '$unit_type_id'";
+   	 $res=$db->Execute($q);
+	?>
+    <div id="result_msg">
+    <?php print "Your Operation aborted. <b>ct_unit_type</b> table is not found in the Database";?>
+    </div>
+	<?php
+	}
+    else
+	{
+		?>
+    <div id="result_msg">
+    <?php print "Your Operation aborted. <b>ct_unit_type</b> and <b>ct_unit</b> tables are not found in the Database";?>
+    </div>
+	<?php
+	}
+	
 }
 
 
