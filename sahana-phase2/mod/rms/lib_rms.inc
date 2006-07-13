@@ -897,7 +897,7 @@ function _shn_rms_is_reqstatus($status)
 
 function _shn_rms_is_plgstatus($status)
 {
-    $stats = array ('open', 'closed');
+    $stats = array ('delivered', 'not_confirmed', 'confirmed', 'discarded');
     
     foreach ($stats as $stat)
     {

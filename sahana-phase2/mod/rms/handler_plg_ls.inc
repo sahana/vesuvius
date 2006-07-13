@@ -271,7 +271,7 @@ switch ($_REQUEST['seq'])
             _shn_rms_stat_pledge($plg_id);
             print '<br />' .
                   '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
-                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
+                  '[ <a href="index.php?mod=rms&amp;act=plg_ls">' . _("Back to Pledge List") . '</a> ]';
             break;
 }
 
