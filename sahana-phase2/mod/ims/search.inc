@@ -40,7 +40,7 @@ function _shn_ims_search_item()
     $form_opts['name']='subcat';
     shn_form_fopen("search_item_page",null,$form_opts);
     $depth=get_max_depth();
-    shn_sub_cat($depth,'subcat');
+    shn_sub_cat($depth,'subcat',null);
 
 
     shn_form_fclose();

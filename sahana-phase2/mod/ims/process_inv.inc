@@ -199,6 +199,7 @@ function _shn_ims_reg_inv_cr()
          $_SESSION["resources"]=$resources;
 	 $_SESSION["space"]=$space;
          _shn_ims_regform_operation($error=false);
+	
     }
 }
 

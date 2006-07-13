@@ -42,7 +42,9 @@ function shn_ims_mainmenu()
 
     shn_mod_menuopen(shn_get_module_name());
     shn_mod_menuitem("default","Home",$module);
-    shn_sub_mod_menuopen(_("Multiple Inventory Management"));
+    shn_mod_menuitem("search_item",_("Find Items"),$module);
+    shn_mod_menuitem("view_inv",_("List Inventories"),$module);
+    /*shn_sub_mod_menuopen(_("Multiple Inventory Management"));
     //shn_sub_mod_menuitem("search",_("Search"),$module);
     shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
     shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
@@ -51,7 +53,7 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("search_item", _("Search"), $module);
     shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
     shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
-    shn_sub_mod_menuclose();
+    shn_sub_mod_menuclose();*/
     
     shn_sub_mod_menuopen(_("Re-Order Level"));
     shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
@@ -106,7 +108,9 @@ function shn_ims_add_item_main_page()
 {
     global $global;
     include_once ('add_item.inc');
-    _shn_ims_add_item_main_page();
+    $inventory_id=$_REQUEST['inv_id'];
+    //print $inventory_id;
+    _shn_ims_add_item_main_page($inventory_id);
         
 }
 
@@ -140,10 +144,11 @@ function shn_ims_add_item($parent_id=null)
 */
 function shn_ims_view_edit_item()
 {
+    $inventory_id=$_REQUEST['inv_id'];
     global $global;
     include_once ('view_edit_item.inc');
     _shn_ims_view_edit_header();
-    _shn_ims_view_edit();
+    _shn_ims_view_edit($inventory_id);
 }
 
 function shn_ims_report_minimum()

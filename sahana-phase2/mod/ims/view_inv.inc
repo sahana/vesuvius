@@ -23,6 +23,11 @@ include_once "lib_ims.inc";
 
 function _shn_ims_viewform_allorg($no=NULL)
 {
+	shn_form_fopen("reg_inv");
+	shn_form_fsopen("Register a New Inventory");
+	shn_form_submit(_("Add Inventory"));
+	shn_form_fsclose();
+
     global $global;
     $db=$global['db'];
 ?>
@@ -37,6 +42,7 @@ function _shn_ims_viewform_allorg($no=NULL)
             <td><?=_("Equipment")?></td>
             <td><?=_("Other <br /> Facilities")?></td>
 	    <td><?=_("Inventory Space")?></td>
+	    <td><?=_("Actions")?></td>
         </thead>
         <tbody>
 <?php
@@ -66,6 +72,7 @@ function _shn_ims_viewform_allorg($no=NULL)
   </table>
 </div>
 <?php
+	shn_form_fclose();
 }
 
 function _shn_display_org($org_id,$indent=true,$edit=false)
@@ -101,9 +108,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 <tr>
     <td>
      <?php
+$inv_id=$res_org->fields[0];
     $parent=$res_org->fields[1];
     if($parent>0 && $indent){
         echo "<div id='parent'>";
+	
     }
     ?>
     <a href="index.php?mod=ims&act=view_inv&id=<?php echo $res_org->fields[0] ?>"><?php echo $res_org->fields[2]?></a> 
@@ -119,8 +128,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
     <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
-    <td><?php echo $res_org->fields[5]?></td>
+    <td><?php echo $res_org->fields[5]?>
     <td><?php echo $res_org->fields[6]?></td>
+    <td><a href="index.php?mod=ims&act=add_item_main_page&inv_id=<?php echo $inv_id?>"><?php print ("Add Item"); ?></a><?php print "   ,"; ?><a href="index.php?mod=ims&act=view_edit_item&inv_id=<?php echo $inv_id?>"><?php print ("View and Edit");?></a></td>
+
+<!--<td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>&parent_id=<?php echo $parent_id; ?>&unit_id=<?php echo $unit;?>"><?php print ("Send");?></a></td>-->
 
 </tr>
 <?php

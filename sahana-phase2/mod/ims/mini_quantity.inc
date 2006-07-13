@@ -30,7 +30,7 @@ function _shn_ims_mini_quantity_item_select()
     $form_opts['name']='subcat';
     shn_form_fopen("minimum_quantity",null,$form_opts);
     $depth=get_max_depth();
-    shn_sub_cat($depth,'subcat');
+    shn_sub_cat($depth,'subcat',null);
     //shn_sub_cat(6,'subcat');
     shn_form_fclose();
     

@@ -55,9 +55,10 @@ function _shn_ims_add_item_header()
 **First page for Add item Page
 **/
 
-function _shn_ims_add_item_main_page() 
+function _shn_ims_add_item_main_page($inventory_id) 
 {    
-    
+    //print $inventory_id; 
+	//$inventory_id=5;
 ?>
 
     <h1 align="center"><?php print _("Add items to the Inventory");?><br></h1>
@@ -69,7 +70,7 @@ function _shn_ims_add_item_main_page()
     $form_opts['name']='subcat';
     shn_form_fopen("add_item",null,$form_opts);
     $depth=get_max_depth();
-    shn_sub_cat($depth,'subcat');
+    shn_sub_cat($depth,'subcat',$inventory_id);
     shn_form_fclose();
     
 }
@@ -83,6 +84,8 @@ function _shn_ims_add_item_main_page()
 
 function add_item($temp,$parent_id) 
 {
+	$inv_id=$_POST['inventory_id'];
+	print $inv_id;
     $parent_id1=$parent_id;
     //print ($temp);
     //print ($cat);
@@ -135,7 +138,7 @@ function add_item($temp,$parent_id)
     }
 
 
-    
+    print $item_name;
     shn_form_fsopen('Primary Details');
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));

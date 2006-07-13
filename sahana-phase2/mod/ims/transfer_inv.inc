@@ -23,14 +23,14 @@ include_once ('lib_ims.inc');
 function _shn_ims_send_main()
 {
 ?>
-    <h1 align="center"><?php print _("Send Item between Inventories"); ?> </h1>
+    <h1 align="center"><?php print _("Send Items between Inventories"); ?> </h1>
     <h1 align="center"><?php print _("Please select the Item to be sent"); ?></h1>
     <div id="result">
 <?php
     $form_opts['name']='subcat';
     shn_form_fopen("send_item_page",null,$form_opts);
     $depth=get_max_depth();
-    shn_sub_cat($depth,'subcat');
+    shn_sub_cat($depth,'subcat',null);
     //shn_sub_cat(6,'subcat');
 
 

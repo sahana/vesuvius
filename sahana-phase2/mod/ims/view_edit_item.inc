@@ -38,7 +38,7 @@ function _shn_ims_view_edit_header()
 **GUI for View edit form
 **/
 
-function _shn_ims_view_edit()
+function _shn_ims_view_edit($inv_id)
 {
 
 
@@ -70,7 +70,7 @@ function _shn_ims_view_edit()
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
-        $sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
+        $sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND inv_id='$inv_id' order by item_name ;";
         //$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
         $ims = $db->Execute($sql);
 
@@ -78,7 +78,7 @@ function _shn_ims_view_edit()
         {
             $item_id=$ims->fields["item_id"];
             $catalog_id=$ims->fields["catalog_id"];
-            $inv_id=$ims->fields["inv_id"];
+            //$inv_id=$ims->fields["inv_id"];
             $suplier_id=$ims->fields['suplier_id'];
             //$category=$ims->fields["category"];
             $item_name=$ims->fields["item_name"];
