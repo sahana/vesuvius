@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.5 2006-07-13 05:38:07 mifanc Exp $; */
+/* $Id: main.inc,v 1.6 2006-07-13 08:59:02 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -45,6 +45,9 @@ function shn_gis_awik()
 				else{
 					show_wiki_add_map();
 				}
+				break;
+			case 'com':
+				shn_wiki_map_commit();
 				break;
 				
 			case 'default':
