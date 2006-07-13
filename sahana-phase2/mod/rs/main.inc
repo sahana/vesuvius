@@ -1,8 +1,7 @@
 <?php
 
-
 /**
- * Main Controller of the Catalogue System. 
+ * Main Controller of the Report System. 
  *
  * PHP version 4 and 5
  *
@@ -13,7 +12,7 @@
  * @author	   Sanjeewa Jayasinghe <sditfac@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
- * @subpackage cs
+ * @subpackage rs
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
@@ -30,34 +29,9 @@ include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 
 function shn_rs_mainmenu() 
 {
-    global $global;
-    $module = $global['module'];
+	include_once ('menu.inc');
+	_shn_rs_main_menu();
 
-    // The  module menu
-	shn_mod_menuopen(_("Reporting System"));
-	shn_mod_menuitem("default",_("Home"));
-	shn_sub_mod_menuopen(_("Module Reports"));
-	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Sample Reports"));
-	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Reporting Search"));
-	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Download Reports"));
-	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Test Reports & Charts"));
-	shn_mod_menuitem("spreadsheet",_("SpreadSheet"));
-	shn_mod_menuitem("pdf",_("PDF"));
-	shn_mod_menuitem("xhtml",_("XHTML"));
-	shn_mod_menuitem("chart",_("Chart"));
-	shn_mod_menuitem("piechart",_("Pie Chart"));
-	shn_mod_menuitem("barchart",_("Bar Chart"));
-	shn_sub_mod_menuclose();
-
-
-	shn_mod_menuclose();
-   
-    // include the main menu
-    include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
 
@@ -66,10 +40,27 @@ function shn_rs_default()
 	include_once ('home.inc');
 }
 
+function shn_rs_mod_agg()
+{
+print "in aggregator";
+}
+
+
+
+
+function shn_rs_catalogue()
+{
+	include_once ('sample.inc');
+	shn_rs_search_cs_data();
+}
+function shn_rs_select_type_submit()
+{
+print "Hi";
+}
+
+
 function shn_rs_spreadsheet()
 {
-echo "Hi ....";
-
 $datasR1 = array(
 	array(
 		'ingredient'	=> 'aaaa',
@@ -190,6 +181,46 @@ generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$da
 }
 
 function shn_rs_xhtml()
+{
+$datasR1 = array(
+	array(
+		'ingredient'	=> 'aaaa',
+		'qte'			=> 150,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'bbbbb',
+		'qte'			=> 50,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'ccccc',
+		'qte'			=> 50,
+		'unite'			=> 'g'
+	),
+	array(
+		'ingredient'	=> 'dddddddd',
+		'qte'			=> 2,
+		'unite'			=> 'kg'
+	),
+	array(
+		'ingredient'	=> 'eeeeeee',
+		'qte'			=> 1,
+		'unite'			=> 'kg'
+	),
+);
+
+$headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
+shn_xhtml_report_fopen('testxhtmlfile','testxhtml','xhtmlowner');
+shn_xhtml_report_add_title('Sanjeewa Jayasinghe','left');
+shn_xhtml_report_add_summary('ssssssssssssssssssssssssssssssssssssssdddddddddddddd','right');
+shn_xhtml_report_add_table($headerarray,$datasR1,'center');
+shn_xhtml_report_add_image("Pictures/cartoon001.jpg",'center');
+shn_xhtml_report_close();
+}
+
+
+function shn_rs_xhtml_test()
 {
 shn_xhtml_test();
 }
