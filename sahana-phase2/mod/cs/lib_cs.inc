@@ -156,7 +156,7 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
  * @access public
  * @return void
  */
-function shn_sub_cat($max,$form,$item_flag=false)
+function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
 {
     
     $parent_array=array();
@@ -202,6 +202,7 @@ function shn_sub_cat($max,$form,$item_flag=false)
     }
     shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
     shn_form_hidden(array('item_name'=>""));
+    shn_form_hidden(array('inventory_id'=>$inventory_id));
     //_shn_cs_item_name_javascript("item_name",$max,$form);
     shn_form_button(_("Next"),"onClick='set_name_submit()'");
     shn_form_fsclose();
