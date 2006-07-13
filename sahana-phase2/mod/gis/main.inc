@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.4 2006-06-08 13:19:09 mifanc Exp $; */
+/* $Id: main.inc,v 1.5 2006-07-13 05:38:07 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -14,27 +14,57 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 //var_dump($global[db]);
-include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
 include_once $global['approot']."/mod/gis/conf.inc";
+include_once $global['approot']."/inc/lib_modules.inc";
+include_once $global['approot']."/mod/wm/wm_fns.php";
+include_once $global['approot']."/inc/lib_menu.inc";
+
 
 function shn_gis_mainmenu(){
 	global $global;
-	global $conf;
-	$module = $global['module'];
-?>
-<div id="modmenuwrap">
-	<h2><?= $conf['mod_gis_name']?></h2>
-	<ul id="modmenu">
-		<li><a href="index.php?mod=<?=$module?>&act=default"><?php echo _("Home")?></a></li>
-    <li><a href="index.php?mod=<?=$module?>&act=aloc"><?php echo _("Add Location")?></a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=show"><?= _('Show')?></a></li>
-	</ul><!--end div=modmenu-->
-</div><!--end div=modmenuwrap-->
-<?
-include $global['approot']."/inc/handler_mainmenu.inc";
+    global $conf;
+    $module = $global['module'];
+    shn_mod_menuopen(_($conf['mod_wm_name']));
+    shn_mod_menuitem("default",_("Home"),$module);
+    shn_mod_menuitem("aloc",_("Add Landmark"),$module);
+    shn_mod_menuitem("swik",_("View Situation Map"),$module);
+    shn_mod_menuitem("awik",_("Add Situation"),$module);
+    shn_mod_menuclose();
+    include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
+function shn_gis_awik()
+{
+	if(isset($_REQUEST['seq'])){
+		switch($_REQUEST['seq']){
+			case 'map':
+				if($_POST['wiki_name']==""){
+					show_wiki_add_detail(true);
+				}
+				else{
+					show_wiki_add_map();
+				}
+				break;
+				
+			case 'default':
+				show_wiki_add_detail();
+				break;
+			
+		}
+	}
+	else
+		show_wiki_add_detail();
+}
 
+function shn_wm_default()
+{
+	show_wiki_map();
+}
+
+function shn_gis_swik()
+{
+	show_wiki_map();
+}
 
 ?>
