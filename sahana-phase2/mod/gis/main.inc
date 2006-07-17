@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.6 2006-07-13 08:59:02 mifanc Exp $; */
+/* $Id: main.inc,v 1.7 2006-07-17 06:01:34 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -17,7 +17,7 @@
 include_once $global['approot']."/mod/gis/main_fns.inc";
 include_once $global['approot']."/mod/gis/conf.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
-include_once $global['approot']."/mod/wm/wm_fns.php";
+include_once $global['approot']."/mod/gis/wm_fns.php";
 include_once $global['approot']."/inc/lib_menu.inc";
 
 
@@ -27,9 +27,17 @@ function shn_gis_mainmenu(){
     $module = $global['module'];
     shn_mod_menuopen(_($conf['mod_wm_name']));
     shn_mod_menuitem("default",_("Home"),$module);
+    shn_mod_menuitem("show",_("Show Map"),$module);
+    shn_sub_mod_menuopen(_("Landmark Feature"));
     shn_mod_menuitem("aloc",_("Add Landmark"),$module);
-    shn_mod_menuitem("swik",_("View Situation Map"),$module);
+    shn_mod_menuitem("vloc",_("View Landmarks"),$module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Situation Feature"));
     shn_mod_menuitem("awik",_("Add Situation"),$module);
+    shn_mod_menuitem("swik",_("View Situation Map"),$module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Spatial Reports"));
+    shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
