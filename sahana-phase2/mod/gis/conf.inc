@@ -20,6 +20,8 @@
 /**
  *provide a  nice display name for the GIS module
  */
+global $conf;
+
 $conf['mod_gis_name'] = _("Situation Mapping");
 $conf['mod_gis_menuorder'] = 18;
 
@@ -46,6 +48,8 @@ $conf['mod_gis_dflt'] = 'google_maps';
  */
 $conf['mod_gis_center_x'] = '79.5';
 $conf['mod_gis_center_y'] = '8.5338';
-$conf['mod_gis_zoom'] = '2';
+$conf['mod_gis_zoom'] = '10';
+
+$conf['mod_gis_data_folder'] = 'data';
 	 
 ?>

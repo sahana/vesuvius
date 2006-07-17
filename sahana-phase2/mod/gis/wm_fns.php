@@ -27,9 +27,22 @@ function show_wiki_map()
  */
 function show_wiki_add_map()
 {
+	$_SESSION['wiki_name'] = $_POST['wiki_name'];
+	$_SESSION['opt_wikimap_type'] = $_POST['opt_wikimap_type'];
+	$_SESSION['wiki_text'] = $_POST['wiki_text'];
+	$_SESSION['wiki_url'] = $_POST['wiki_url'];
+	$_SESSION['wiki_evnt_date'] = $_POST['wiki_evnt_date'];
+	$_SESSION['wiki_author'] = $_POST['wiki_author'];
+	$_SESSION['edit_public'] = $_POST['edit_public'];
+	$_SESSION['view_public'] = $_POST['view_public'];
+	
+	
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
+	shn_form_fopen(awik);
+	shn_form_hidden(array('seq'=>'com'));
 	shn_gis_add_marker_map_form();
+	shn_form_submit(_("Next"));
 }
 
 function add_wiki_detail()
@@ -69,5 +82,30 @@ function show_wiki_add_detail($errors=false)
 	shn_form_fsclose();
 	shn_form_submit(_("Add Detail"));
 	shn_form_fclose();
+}
+
+function shn_wiki_map_commit()
+{
+	global $global;
+	include_once($global['approot'].'/inc/lib_uuid.inc');
+	$id = shn_create_uuid();
+	$_SESSION['loc_x']=$_POST['loc_x'];
+	$_SESSION['loc_y']=$_POST['loc_y'];
+
+	$db = $global['db'];
+	$wiki_id=shn_create_uuid('wm');
+	$gis_id=shn_create_uuid('g');
+	
+	$query = " insert into gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
+			 " values ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
+			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$_SESSION['edit_public']}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
+			 
+	$res=$db->Execute($query);
+	
+	include $global['approot']."/mod/gis/gis_fns.inc";
+	shn_gis_dbinsert($gis_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
+	echo "DONE";
+	
+	
 }
 ?>
