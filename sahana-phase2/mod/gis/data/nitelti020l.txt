@@ -1,0 +1,487 @@
+Identification_Information:
+  Citation:
+    Citation_Information:
+      Originator: National Geophysical Data Center
+      Publication_Date: 200301
+      Title: Nighttime Lights of North America
+      Publication_Information:
+        Publication_Place: Reston, VA
+        Publisher: National Atlas of the United States
+      Online_Linkage: <http://nationalatlas.gov/atlasftp.html>
+  Description
+    Abstract:
+      This map layer is an image of nighttime lights for North America,
+      including the Caribbean and most of Mexico.  The data were collected in
+      1996 and 1997 as part of the Defense Meteorological Satellite Program
+      (DMSP).  The data available through the National Atlas of the United 
+      States are in GeoTIFF format.  This is a revised version of the May 2002 
+      map layer, with a corrected shoreline for Greenland.
+
+    Purpose: 
+      These data are intended for geographic display and analysis at the
+      national level, and for large regional areas.  The data should be
+      displayed and analyzed at scales appropriate for 1:2,000,000-scale data.
+      No responsibility is assumed by the National Atlas of the United States in 
+      the use of these data.
+
+    Supplemental_Information:
+      The Defense Meteorological Satellite Program (DMSP) satellites collect
+      visible and infrared cloud imagery as well as monitoring the
+      atmospheric, oceanographic, hydrologic, cryospheric and near-Earth
+      space environments.  The DMSP program maintains a constellation of two,
+      sun-synchronous, near-polar orbiting satellites.  The orbital period is
+      101 minutes and inclination is 99 degrees.  The atmospheric and
+      oceanographic sensors record radiances at visible, infrared and
+      microwave wavelengths.  The solar-geophysical sensors measure
+      ionospheric plasma fluxes, densities, temperatures and velocities.
+
+      The OLS (Operational Linescan System) visible band (0.4-1.1 micrometers)
+      is used to locate recurring nighttime lights.  The thermal OLS band
+      (10.5-12.5 micrometers) is used to screen for cloud free orbits.  During
+      the periods 16-21 March, 1996, 5-14 January, 1997, and 3-12 February,
+      1997, the gain on the OLS sensor was turned down to 24 from the normal
+      64 decibels.  The result was an image in which urban centers do not
+      saturate the signal. 
+
+      DMSP visible and infrared imagery of clouds covers a 3,000 km swath,
+      thus each satellite provides global coverage of both daytime and
+      nighttime conditions each day.  The field view of the microwave imagers
+      and sounders is only 1,500 km, thus approximately 3 days data are
+      required for one instrument to provide global coverage at equatorial
+      latitudes.  The solar-geophysical instruments make in-situ measurements
+      of ionospheric parameters, some of which vary very rapidly.
+
+      This program is a joint effort with extensive collaboration between the
+      Defense Meteorological Satellite Program Office, Air Force Global
+
+ 
+      Weather Central, the Strategic Environmental Research and Development
+
+      Program, the Office of the Federal Coordinator for Meteorological
+      Services and Supporting Research, and the National Aeronautics and Space
+      Administration.
+
+      Further information on the Defense Meterological Satellite Program can be 
+      found at <http://dmsp.ngdc.noaa.gov/dmsp.html>.
+
+      The associated world file is included as part of the GeoTIFF.  The 
+      contents of the world file are:
+      >769.4780
+      >0.000000
+      >0.000000
+      >-769.4780
+      >-6086744.0000
+      >4485901.0000
+
+
+  Time_Period_of_Content:
+    Time_Period_Information:
+      Range_of_Dates/Times:
+        Beginning_Date: 19960316
+        Ending_Date: 19970212
+    Currentness_Reference: Ground condition
+
+  Status: 
+    Progress: Complete
+    Maintenance_and_Update_Frequency: As needed
+
+  Spatial_Domain:
+    Bounding_Coordinates:
+      West_Bounding_Coordinate: 166.00
+      East_Bounding_Coordinate: -4.00
+      North_Bounding_Coordinate: 83.00
+      South_Bounding_Coordinate: 15.00
+  Keywords:
+    Theme:
+      Theme_Keyword_Thesaurus: ISO 19115 Topic Category
+      Theme_Keyword: Imagery/Base Maps/Earth Cover
+      Theme_Keyword: Society
+    Theme:
+      Theme_Keyword_Thesaurus: None
+      Theme_Keyword: DMSP
+      Theme_Keyword: Global Change
+      Theme_Keyword: Meteorological Satellites
+      Theme_Keyword: Satellite Imagery
+      Theme_Keyword: Nighttime Lights
+      Theme_Keyword: Population 
+      Theme_Keyword: Visible
+      Theme_Keyword: City Lights
+      Theme_Keyword: Radiance
+      Theme_Keyword: Night lights
+      Theme_Keyword: Urban lights
+    Place:
+      Place_Keyword_Thesaurus: None
+      Place_Keyword: North America
+      Place_Keyword: USA
+      Place_Keyword: Alabama
+      Place_Keyword: Alaska
+      Place_Keyword: Arizona
+      Place_Keyword: Arkansas
+      Place_Keyword: California
+      Place_Keyword: Colorado
+      Place_Keyword: Connecticut
+      Place_Keyword: Delaware
+      Place_Keyword: District of Columbia
+      Place_Keyword: Florida
+      Place_Keyword: Georgia
+      Place_Keyword: Hawaii
+      Place_Keyword: Idaho
+      Place_Keyword: Illinois
+      Place_Keyword: Indiana
+      Place_Keyword: Iowa
+      Place_Keyword: Kansas
+      Place_Keyword: Kentucky
+      Place_Keyword: Louisiana
+      Place_Keyword: Maine
+      Place_Keyword: Maryland
+      Place_Keyword: Massachusetts
+      Place_Keyword: Michigan
+      Place_Keyword: Minnesota
+      Place_Keyword: Mississippi
+      Place_Keyword: Missouri
+      Place_Keyword: Montana
+      Place_Keyword: Nebraska
+      Place_Keyword: Nevada
+      Place_Keyword: New Hampshire
+      Place_Keyword: New Jersey
+      Place_Keyword: New Mexico
+      Place_Keyword: New York
+      Place_Keyword: North Carolina
+      Place_Keyword: North Dakota
+      Place_Keyword: Ohio
+      Place_Keyword: Oklahoma
+      Place_Keyword: Oregon
+      Place_Keyword: Pennsylvania
+      Place_Keyword: Rhode Island
+      Place_Keyword: South Carolina
+      Place_Keyword: South Dakota
+      Place_Keyword: Tennessee
+      Place_Keyword: Texas
+      Place_Keyword: Utah
+      Place_Keyword: Vermont
+      Place_Keyword: Virginia
+      Place_Keyword: Washington
+      Place_Keyword: West Virginia
+      Place_Keyword: Wisconsin
+      Place_Keyword: Wyoming
+      Place_Keyword: Puerto Rico
+      Place_Keyword: Virgin Islands
+      Place_Keyword: Greenland
+      Place_Keyword: Iceland
+      Place_Keyword: United States
+      Place_Keyword: Mexico
+      Place_Keyword: Caribbean
+
+  Access_Constraints: None
+  Use_Constraints: 
+    None.  Acknowledgment of the National Geophysical Data Center and (or) the 
+    National Atlas of the United States of America would be appreciated in 
+    products derived from these data.
+  Point_of_Contact:
+    Contact_Information:
+      Contact_Organization_Primary:
+        Contact_Organization: NOAA/NESDIS, National Geophysical Data Center
+        Contact_Person: Dr. Christopher D. Elvidge
+      Contact_Address:
+        Address_Type: Mailing and physical address
+        Address: E/GC2, 325 Broadway
+        City: Boulder
+        State_or_Province: CO
+        Postal_Code: 80305
+        Country: USA
+      Contact_Voice_Telephone: 303-497-6121
+      Contact_Facsimile_Telephone: 303-497-6513
+
+      Contact_Electronic_Mail_Address: Chris.Elvidge@noaa.gov
+
+Data_Quality_Information:
+  Logical_Consistency_Report: 
+    No checks for logical consistency were performed on this map layer.
+  Completeness_Report:
+    This map layer contains nighttime lights information for all of North
+    America excluding southern Mexico, and for the Caribbean, parts of Russia,
+    and Greenland.
+  Lineage:
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Geophysical Data Center
+          Publication_Date: 1997
+          Title: DMSP - OLS data
+          Publication_Information:
+            Publication_Place: Boulder, CO
+            Publisher: NOAA/NESDIS, National Geophysical Data Center
+      Type_of_Source_Media: magnetic tape
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times:
+            Beginning_Date: 19960316
+            Ending_Date: 19970212
+        Source_Currentness_Reference: Ground condition
+      Source_Citation_Abbreviation: DMSPOLS
+      Source_Contribution: Nighttime lights information
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Atlas of the United States
+          Publication_Date: 1999
+          Title: Shoreline file in Lambert Azimuthal Equal Area projection
+          Publication_Information:
+            Publication_Place: Reston, VA
+            Publisher: National Atlas of the United States
+      Type_of_Source_Media: internal file
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times:
+            Beginning_Date: 1972
+            Ending_Date: 1999
+        Source_Currentness_Reference: Ground condition
+      Source_Citation_Abbreviation: shorelp020l
+      Source_Contribution: Shoreline mask for area of coverage.
+
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Geophysical Data Center 
+          Publication_Date: 200105
+          Title: Nighttime Lights of North America 
+          Publication_Information:
+            Publication_Place: Reston, VA
+            Publisher: National Atlas of the United States
+      Type_of_Source_Media: online
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times: 
+            Beginning_Date: 19960316 
+            Ending_Date: 19970212 
+        Source_Currentness_Reference: Ground condition
+      Source_Citation_Abbreviation: LIGHTS_IMAGE2001
+      Source_Contribution: Nighttime Lights TIFF image.
+
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Atlas of the United States 
+          Publication_Date: 200205
+          Title: North America Land/Water Mask
+          Publication_Information:
+            Publication_Place: Reston, VA
+            Publisher: National Atlas of the United States
+      Type_of_Source_Media: ftp site
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Single_Date/Time:
+            Calendar_Date: 200205
+        Source_Currentness_Reference: Publication date
+      Source_Citation_Abbreviation: GRDMSKI 
+      Source_Contribution: Shoreline information
+
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Geophysical Data Center 
+          Publication_Date: 200205
+          Title: Nighttime Lights of North America 
+          Publication_Information:
+            Publication_Place: Reston, VA
+            Publisher: National Atlas of the United States
+      Type_of_Source_Media: online
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Range_of_Dates/Times: 
+            Beginning_Date: 19960316 
+            Ending_Date: 19970212 
+        Source_Currentness_Reference: Ground condition
+      Source_Citation_Abbreviation: LIGHTS_IMAGE200205
+      Source_Contribution: Nighttime Lights TIFF image.
+
+    Source_Information:
+      Source_Citation:
+        Citation_Information:
+          Originator: National Imagery and Mapping Agency 
+          Publication_Date: 1990
+          Title: World Vector Shoreline
+          Publication_Information:
+            Publication_Place: Bethesda, MD
+            Publisher: National Imagery and Mapping Agency
+          Online_Linkage:
+            <http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html>
+      Type_of_Source_Media: Online
+      Source_Time_Period_of_Content:
+        Time_Period_Information:
+          Single_Date/Time: 
+            Calendar_Date: 1990 
+        Source_Currentness_Reference: Publication date
+      Source_Citation_Abbreviation: WVS 
+      Source_Contribution: Shoreline information.
+
+    Process_Step:
+      Process_Description:
+        During the periods from 16-21 March, 1996, 5-14 January, 1997, and 3-
+        12 February, 1997, the gain on the OLS sensor was turned down to 24
+        from the normal 64 decibels.  The result was an image in which urban
+        centers do not saturate the signal.  The National Geophysical Data
+        Center (NGDC) received the complete DMSP data stream in the same form
+        in which it was received at Air Force Weather Agency.  NGDC processed 
+        the map layer to restore data lost during transmission and compute 
+        satellite positions.
+
+        In addition, very near infrared (VNIR) emission sources and clouds for
+        each of the suborbits were detected and geolocated, and the data were
+        composited.  Image time series analysis was used to distinguish lights
+        produced by cities, towns, and industrial facilities from sensor noise
+        and ephemeral lights arising from fires and lightning.  The time
+        series approach was required to ensure that each land area was covered
+        with sufficient cloud free observations to determine the presence or
+        absence of VNIR emission sources.
+
+        The worldwide nighttime lights data file (DMSPOLS) was received in
+        TIFF format.  The file was converted to JPEG format and resampled in
+        Adobe Photoshop to reduce the file size.  The file was then converted
+        to ESRI GRID format, the image was truncated using the shoreline mask
+        (shorelp020l), and the value of the water areas was set to 255.  The
+        file was converted back to TIFF format.
+      Source_Used_Citation_Abbreviation: DMSPOLS
+      Source_Used_Citation_Abbreviation: shorelp020l 
+      Process_Date: 1999
+      Source_Produced_Citation_Abbreviation: LIGHTS_IMAGE2001
+
+    Process_Step:
+      Process_Description:
+        Coastlines in Canada, Mexico, Russia, and in the Caribbean were
+        corrected.  A GeoTIFF Revision 1.0 header was added and PackBits
+        compression was applied to the image.
+      Source_Used_Citation_Abbreviation: LIGHTS_IMAGE2001
+      Source_Used_Citation_Abbreviation: GRDMSKI
+      Process_Date: 200205
+      Source_Produced_Citation_Abbreviation: LIGHTS_IMAGE200205
+
+    Process_Step:
+      Process_Description:
+        The coastline of Greenland was replaced by a new, corrected 
+        version derived from World Vector Shoreline (WVS). This image 
+        contains no thematic data for Greenland; the new data were 
+        inserted only to maintain consistency with other National Atlas 
+        data layers.
+      Source_Used_Citation_Abbreviation: LIGHTS_IMAGE200205
+      Source_Used_Citation_Abbreviation: WVS
+      Process_Date: 200212
+
+Spatial_Data_Organization_Information: 
+  Direct_Spatial_Reference_Method: Raster
+  Raster_Object_Information:
+    Raster_Object_Type: Grid Cell
+    Row_Count: 9448 
+    Column_Count: 13471
+
+Spatial_Reference_Information: 
+  Horizontal_Coordinate_System_Definition: 
+    Planar:
+      Map_Projection:
+        Map_Projection_Name: Lambert Azimuthal Equal Area
+        Lambert_Azimuthal_Equal_Area:
+          Longitude_of_Projection_Center: -100.00
+          Latitude_of_Projection_Center: 45.00
+          False_Easting: 0.0
+          False_Northing: 0.0
+
+      Planar_Coordinate_Information:
+        Planar_Coordinate_Encoding_Method: Row and column
+        Coordinate_Representation:
+          Abscissa_Resolution: 769.478
+          Ordinate_Resolution: 769.478
+        Planar_Distance_Units: Meters
+    Geodetic_Model:
+      Horizontal_Datum_Name: None
+      Ellipsoid_Name: Sphere
+      Semi-major_Axis: 6370997.0
+      Denominator_of_Flattening_Ratio: 1.0
+
+Entity_and_Attribute_Information:
+  Detailed_Description:
+    Entity_Type:
+      Entity_Type_Label: Nighttime lights grid cell
+      Entity_Type_Definition:
+        Any of the data elements in the nighttime lights file.
+      Entity_Type_Definition_Source: National Atlas of the United States 
+    Attribute:
+      Attribute_Label: Nighttime lights grid cell value
+      Attribute_Definition: 
+        The value is a measure of the intensity of nighttime lights in the
+        grid cell.  Light intensity is described by a range of values, where
+        smaller values represent higher intensity, and larger values represent
+        lower intensity.
+      Attribute_Definition_Source: National Atlas of the United States
+      Attribute_Domain_Values:
+        Range_Domain:
+          Range_Domain_Minimum: 0
+          Range_Domain_Maximum: 72
+      Attribute_Domain_Values:
+        Enumerated_Domain:
+          Enumerated_Domain_Value: 255
+          Enumerated_Domain_Value_Definition: Water
+          Enumerated_Domain_Value_Definition_Source: 
+            National Atlas of the United States
+
+Distribution_Information:
+  Distributor:
+    Contact_Information:
+      Contact_Organization_Primary:
+        Contact_Organization:
+          Earth Science Information Center, U.S. Geological Survey
+      Contact_Address:
+        Address_Type: Mailing address
+        Address: 507 National Center
+        City: Reston
+        State_or_Province: VA
+        Postal_Code: 20192
+      Contact_Voice_Telephone: 1-888-ASK-USGS (1-888-275-8747)
+      Contact_Voice_Telephone: 703-648-5920
+      Contact_Instructions:
+        In addition to the address above there are other ESIC offices
+        throughout the country.  A full list of these offices is at
+        <http://geography.usgs.gov/esic/esic_index.html>.
+  Distribution_Liability:
+    Although these data have been processed successfully on a computer system
+    at the U.S. Geological Survey, no warranty expressed or implied is made by
+    the U.S. Geological Survey regarding the utility of the data on any other
+    system, nor shall the act of distribution constitute any such warranty. 
+    No responsibility is assumed by the U.S. Geological Survey in the use of
+    these data.
+  Standard_Order_Process:
+    Digital_Form:
+      Digital_Transfer_Information:
+        Format_Name: TIFF
+      Digital_Transfer_Option:
+        Online_Option:
+          Computer_Contact_Information:
+            Network_Address:
+              Network_Resource_Name: <http://nationalatlas.gov/atlasftp.html> 
+    Fees:
+      There is no charge for the map layer.
+
+Metadata_Reference_Information:
+  Metadata_Date: 20050926
+  Metadata_Contact:
+    Contact_Information:
+      Contact_Person_Primary:
+        Contact_Person: Peg Rawson
+        Contact_Organization: National Atlas of the United States
+      Contact_Address:
+        Address_Type: Mailing address
+        Address: 12201 Sunrise Valley Drive
+        Address: MS-561 
+        City: Reston
+        State_or_Province: VA
+        Postal_Code: 20192
+        Country: USA
+      Contact_Voice_Telephone: 703-648-4183
+      Contact_Electronic_Mail_Address: atlasmail@usgs.gov
+  Metadata_Standard_Name: 
+    FGDC Content Standards for Digital Geospatial Metadata
+  Metadata_Standard_Version: FGDC-STD-001-1998
+  Metadata_Time_Convention: Universal time
+  Metadata_Security_Information:
+    Metadata_Security_Classification_System: None
+    Metadata_Security_Classification: Unclassified
+    Metadata_Security_Handling_Description: None
