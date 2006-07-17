@@ -1,0 +1,57 @@
+MAP
+    NAME USA1
+    STATUS ON
+    SIZE 800 500
+    IMAGETYPE PNG
+    IMAGECOLOR 240 240 240
+    SHAPEPATH "/home/nazgul/public_html/sahana-main/sahana-phase2/mod/gis/data/"
+    EXTENT -8000000 300000 5000000 1500000
+    UNITS METERS
+    PROJECTION
+		"proj=lcc" "lat_1=32" "lat_2=44" "lat_0=38" "lon_0=-100" "x_0=0" "y_0=0" "ellps=GRS80" "datum=NAD83"
+    END
+    WEB
+        IMAGEPATH "/home/nazgul/public_html/sahana-main/sahana-phase2/www/tmp/"
+		IMAGEURL "/~nazgul/sahana-main/sahana-phase2/www/tmp/"
+    END
+	
+	LAYER
+		NAME "US state boundaries"
+		TYPE POLYGON
+		STATUS ON
+		DATA "statesp020"
+		PROJECTION
+			"proj=latlong"
+			"ellps=GRS80"
+			"datum=NAD83"
+		END
+		CLASS
+			NAME "US states"
+			OUTLINECOLOR 60 60 60
+			COLOR 255 255 0
+			SYMBOL 0
+		END
+	END
+	
+	LAYER
+		NAME "credits"
+		STATUS DEFAULT
+		TRANSFORM FALSE
+		TYPE ANNOTATION
+		FEATURE
+			POINTS
+				10 480
+			END
+			TEXT 'Made with Mapserver.'
+		END
+		CLASS
+			LABEL
+				TYPE BITMAP
+				POSITION CR
+				COLOR 0 0 0
+			END
+		END
+	END
+	
+	
+END

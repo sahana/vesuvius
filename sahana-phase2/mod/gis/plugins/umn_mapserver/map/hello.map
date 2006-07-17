@@ -1,0 +1,33 @@
+MAP
+	NAME HELLO
+	STATUS ON
+	EXTENT 0 0 4000 3000
+	SIZE 400 300
+	IMAGECOLOR 200 255 255
+	WEB
+		IMAGEPATH "/home/nazgul/public_html/sahana-main/sahana-phase2/www/tmp/"
+		IMAGEURL "/~nazgul/sahana-main/sahana-phase2/www/tmp/"
+	END
+	
+	
+	LAYER
+		NAME "credits"
+		STATUS DEFAULT
+		TRANSFORM FALSE
+		TYPE ANNOTATION
+		FEATURE
+			POINTS
+				200 150
+			END
+			TEXT 'Hello world.  Mapserver rocks.'
+		END
+		CLASS
+			LABEL
+				TYPE BITMAP
+				COLOR 0 0 0
+			END
+		END
+	END
+	
+	
+END

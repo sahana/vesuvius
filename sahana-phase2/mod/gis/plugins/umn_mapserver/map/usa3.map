@@ -1,0 +1,39 @@
+MAP
+    NAME USA3
+    STATUS ON
+    IMAGETYPE PNG
+    SIZE 800 500
+    SHAPEPATH "/var/www/html/data"
+    EXTENT -6086744.000 -2784127 4278894 4485901
+    UNITS METERS
+    PROJECTION "proj=laea" "lat_0=45" "lon_0=-100" "ellps=GRS80" "datum=NAD83" END
+		WEB
+			IMAGEPATH "/var/www/html/tmp/"
+			IMAGEURL "/tmp/"
+		END
+
+		LAYER
+			NAME "Nighttime lights"
+			TYPE RASTER
+			STATUS ON
+			DATA "/var/www/html/data/nitelti020l.tif"
+		END
+
+		LAYER
+			NAME "US state boundaries"
+			TYPE POLYGON
+			STATUS ON
+			DATA "statesp020"
+			PROJECTION
+				"proj=latlong"
+				"ellps=GRS80"
+				"datum=NAD83"
+			END
+			CLASS
+				NAME "US states"
+				OUTLINECOLOR 50 50 50
+				SYMBOL 0
+			END
+		END
+
+END
