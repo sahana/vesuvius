@@ -54,7 +54,7 @@ if (function_exists("gettext")) {
         setcookie ('locale', $getlocale, $expire_cookie);
         $_SESSION['locale'] = $getlocale;
     } else if ( !isset ($_COOKIE['locale']) ) {
-        setcookie ('locale', $defaultlocale, $expire_cookie);
+        @ setcookie ('locale', $defaultlocale, $expire_cookie);
         $_SESSION['locale'] = $defaultlocale;
     }
 
