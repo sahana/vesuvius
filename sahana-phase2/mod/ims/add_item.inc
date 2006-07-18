@@ -84,7 +84,8 @@ function _shn_ims_add_item_main_page($inventory_id)
 
 function add_item($temp,$parent_id) 
 {
-	$inv_id=$_POST['inventory_id'];
+    //$form_opts['name']='additemform';
+    $inv_id=$_POST['inventory_id'];
 	//print $inv_id;
     $parent_id1=$parent_id;
     //print ($temp);

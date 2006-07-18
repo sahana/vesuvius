@@ -130,9 +130,9 @@ $inv_id=$res_org->fields[0];
     <td><?php echo $res_org->fields[4]?></td>
     <td><?php echo $res_org->fields[5]?>
     <td><?php echo $res_org->fields[6]?></td>
-    <td><a href="index.php?mod=ims&act=add_item_main_page&inv_id=<?php echo $inv_id?>"><?php print ("Add Item"); ?></a><?php print "   ,"; ?><a href="index.php?mod=ims&act=view_edit_item&inv_id=<?php echo $inv_id?>"><?php print ("View and Edit");?></a></td>
+    <td><a href="index.php?mod=ims&act=add_item_main_page&inv_id=<?php echo $inv_id?>"><?php print ("Add Item"); ?></a><?php print "   ,"; ?><a href="index.php?mod=ims&act=view_inv&id=<?php echo $res_org->fields[0] ?>"><?php print ("Edit Inventory");?></a></td>
 
-<!--<td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>&parent_id=<?php echo $parent_id; ?>&unit_id=<?php echo $unit;?>"><?php print ("Send");?></a></td>-->
+
 
 </tr>
 <?php

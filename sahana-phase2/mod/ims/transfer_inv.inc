@@ -140,11 +140,12 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     global $global;
     $db=$global["db"];
-    $sql1="SELECT item_name,inv_id,suplier_id,unit,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
+    $sql1="SELECT item_name,inv_id,suplier_id,amount,unit,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
     $ims1=$db->Execute($sql1);
     $item_name=$ims1->fields['item_name'];
     $inv_id_from=$ims1->fields['inv_id'];
     $suplier_id=$ims1->fields['suplier_id'];
+    $amount=$ims1->fields['amount'];
     $unit=$ims1->fields['unit'];
     $cost_per_unit=$ims1->fields['cost_per_unit'];
 
@@ -164,7 +165,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     $extra_opts['value']=$item_name;
     shn_form_text(_("Item Send : "),'item_name','size="50" readonly=true',$extra_opts);
     //$extra_opts['req']=true;
-    shn_form_text(_("Amount Send: "),'amount','size="50"',array('req'=>true));
+    shn_form_text(_("Amount Send: "),'amount','size="50"',array('req'=>true,'value'=>$amount));
 
     /*$myoptions=array();
     $myoptions=get_unitid_array();
@@ -195,21 +196,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     }    
 
     shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
-    /*$query="select * from ct_cat_unit where ct_uuid='$parent_id'";
-    $res=$db->Execute($query);
-    //print $query;
-
-    while(!$res==NULL && !$res->EOF)
-    {
-    $temp2=$res->fields['unit_uuid'];
-    $query1="select name from ct_unit where unit_uuid ='$temp2'";
-    $res2=$db->Execute($query1);
-    //print $query1;    
-    $myoptions[$res->fields['unit_uuid']]=$res2->fields['name'];;
-    $res->MoveNext();
-    }
-    
-    shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));*/
+    /*$;*/
 
 //-------------------------------------------------------------------------------------------------------------    
 
