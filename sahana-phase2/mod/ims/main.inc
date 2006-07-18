@@ -54,15 +54,15 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
     shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
     shn_sub_mod_menuclose();*/
-    
+    shn_mod_menuitem("view_edit_item",_("List Items"),$module);
     shn_sub_mod_menuopen(_("Re-Order Level"));
     shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
     shn_sub_mod_menuitem("view_edit_reorder_page",_("View and Edit"),$module);
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Inventory Transfer"));
-    shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
-    shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
-    shn_sub_mod_menuclose();
+    //shn_sub_mod_menuopen(_("Inventory Transfer"));
+    //shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
+    //shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
+    //shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Reports"));
     shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
     shn_sub_mod_menuitem("report_destroyed",_("destroyed item"),$module);
@@ -144,11 +144,19 @@ function shn_ims_add_item($parent_id=null)
 */
 function shn_ims_view_edit_item()
 {
-    $inventory_id=$_REQUEST['inv_id'];
+    //$inventory_id=$_REQUEST['inv_id'];
     global $global;
     include_once ('view_edit_item.inc');
     _shn_ims_view_edit_header();
-    _shn_ims_view_edit($inventory_id);
+    //_shn_ims_view_edit($inventory_id);
+    _shn_ims_view_edit();
+}
+
+function shn_ims_view_edit_item_actions()
+{
+    global $global;
+    require_once ('view_edit_item.inc');
+    _shn_ims_view_edit_item_actions();
 }
 
 function shn_ims_report_minimum()

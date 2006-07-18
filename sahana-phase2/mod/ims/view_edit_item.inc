@@ -38,14 +38,23 @@ function _shn_ims_view_edit_header()
 **GUI for View edit form
 **/
 
-function _shn_ims_view_edit($inv_id)
+function _shn_ims_view_edit()
 {
 
 
     global $global;
     $module = $global['module'];
-
-    shn_form_fsopen();
+    $form_opts['name']="edit_item";
+    shn_form_fopen("view_edit_item_actions",null,$form_opts);
+    shn_form_fsopen("Add Item");
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_button(_("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
+   // shn_form_submit(_("Add Item"));
+    shn_form_fsclose();
+    
+    shn_form_fsopen(null);
+    
     
 ?>
     <div id ="result">
@@ -70,15 +79,16 @@ function _shn_ims_view_edit($inv_id)
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
-        $sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND inv_id='$inv_id' order by item_name ;";
+        //$sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND inv_id='$inv_id' order by item_name ;";
         //$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
-        $ims = $db->Execute($sql);
+        $sql="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
+	$ims = $db->Execute($sql);
 
         while (!$ims==NULL && !$ims->EOF)
         {
             $item_id=$ims->fields["item_id"];
             $catalog_id=$ims->fields["catalog_id"];
-            //$inv_id=$ims->fields["inv_id"];
+            $inv_id=$ims->fields["inv_id"];
             $suplier_id=$ims->fields['suplier_id'];
             //$category=$ims->fields["category"];
             $item_name=$ims->fields["item_name"];
@@ -95,6 +105,7 @@ function _shn_ims_view_edit($inv_id)
 
         $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims2= $db->Execute($sql2);
+//print $sql2;
         $inventory_name = $ims2->fields["inventory_name"];
             //$parent_id=$ims1->fields["parentid"];
 
@@ -123,11 +134,30 @@ function _shn_ims_view_edit($inv_id)
     
     $ims->MoveNext();
     }
+
+	
 ?>
     </tbody>
     </table>
     </div>
 <?php
+shn_form_fsclose();
+shn_form_fsopen("Inventory Transfer");
+ $extra_opts['br']=false;
+    $extra_opts['req']=false;
+?>
+<center>
+<?php
+    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_("Send Item"),"onClick='change_action(\"send\")'",$extra_opts);
+    shn_form_button(_("Transit Item"),"onClick='change_action(\"transit\")'",$extra_opts);
+    //shn_form_button(_("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
+?>
+</center>
+<?php
+
+    shn_form_hidden(array('action'=>'0'));
+shn_form_fsclose();
     shn_form_fclose();
 }
 
@@ -175,4 +205,41 @@ function _shn_ims_edit_item_db()
         $_POST['cost_per_unit']="";
         shn_ims_view_edit_item();
 }
+
+function _shn_ims_view_edit_item_actions()
+{
+    global $global;
+    $db=$global["db"];
+
+    $action=trim($_POST['action']);
+
+    if($action=='close')
+    {
+        shn_ims_default();
+    }
+    if($action=='send')
+    {
+	shn_ims_send_item();
+    }
+    if($action=='transit')
+    {
+	shn_ims_receive_item();
+    }
+    if($action=='additem')
+    {
+	shn_ims_add_item_main_page();
+    }
+}
+?>
+
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.edit_item.submit();
+         return;
+    }
+</script>
+<?php
+
 ?>

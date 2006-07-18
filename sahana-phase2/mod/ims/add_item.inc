@@ -85,7 +85,7 @@ function _shn_ims_add_item_main_page($inventory_id)
 function add_item($temp,$parent_id) 
 {
 	$inv_id=$_POST['inventory_id'];
-	print $inv_id;
+	//print $inv_id;
     $parent_id1=$parent_id;
     //print ($temp);
     //print ($cat);
@@ -138,7 +138,7 @@ function add_item($temp,$parent_id)
     }
 
 
-    print $item_name;
+    //print $item_name;
     shn_form_fsopen('Primary Details');
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
