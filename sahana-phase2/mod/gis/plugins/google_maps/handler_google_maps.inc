@@ -139,7 +139,7 @@ function add_marker_db_v2($x,$y,$name)
 {
 ?>
   <script type="text/javascript">
-		var point1 = new GLatLng(<?php echo $x?>,<?php echo $y?>);
+		var point1 = new GLatLng(<?php echo $y?>,<?php echo $x?>);
 		var marker1 = new GMarker(point1);
 		//marker1.openInfoWindowHtml(<?php echo $name?>);
 		map.addOverlay(marker1);
@@ -271,13 +271,17 @@ function end_page(){
 	exit(0);
 }
 
+/**
+ * show map
+ * used
+ */
 function show_map($opt=null)
 {
 	global $global;
 	global $conf;
 	$key = $conf['mod_gis_google_key'];
 ?>
-	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
 	<script type="text/javascript">
 	  
 	//<![CDATA[
@@ -286,12 +290,12 @@ function show_map($opt=null)
 			
 		//alert('map');
 	
-	       var map = new GMap(document.getElementById("map"));
+	       var map = new GMap2(document.getElementById("map"));
 				 map.addControl(new GLargeMapControl());
 	       //map.addControl(new GSmallMapControl());
 				 map.addControl(new GMapTypeControl());//satellite image switch
 				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']!=''?$conf['mod_gis_center_x']:79.5?>,<?=$conf['mod_gis_center_y']!=''?$conf['mod_gis_center_y']:8.5?>), <?=$conf['mod_gis_zoom']?>);
+				map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']!=''?$conf['mod_gis_center_y']:8.5?>,<?=$conf['mod_gis_center_x']!=''?$conf['mod_gis_center_x']:79.5?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);
 		
 	}		
 //]]>	
@@ -322,7 +326,7 @@ function show_map_with_markers($markers)
 	       //map.addControl(new GSmallMapControl());
 				 map.addControl(new GMapTypeControl());//satellite image switch
 				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
+				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>);
 				
 				
 		
@@ -407,14 +411,14 @@ function show_add_marker_map_v2($name)
 	       //map.addControl(new GSmallMapControl());
 			map.addControl(new GMapTypeControl());//satellite image switch
 				 
-			map.setCenter(new GLatLng(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);			
+			map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);			
 			GEvent.addListener(map, 'click', function(overlay, point) {
 	  		if (overlay) {
 				var html = "<?php echo $name?>";
 				//overlay.openInfoWindowHtml(html);
 				map.removeOverlay(overlay);
 			} 
-			else if (point) {
+			else {
 				map.addOverlay(new GMarker(point));
 				// store x,y coords in hidden variables named loc_x, loc_y
 				// must be set via calling page
@@ -434,6 +438,9 @@ function show_add_marker_map_v2($name)
 <?php
 }
 
+/**
+ * deprecated
+ */
 function shn_map_show(){
 	global $global;
 	global $conf;
