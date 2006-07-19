@@ -202,16 +202,13 @@ function _shn_ims_search_item_db()
 		$query="SELECT inv_id FROM ims_item_records WHERE item_id='$item_id';";
 		$ims_query=$db->Execute($query);
 		$inventory_id=$ims_query->fields['inv_id'];
-		//$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
-        	//$ims2=$db->Execute($sql2);
-               	//$inventory_name=$ims2->fields['inventory_name'];
+		
 	}
-	//else
-	//{
+	
 		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
         	$ims2=$db->Execute($sql2);
                	$inventory_name=$ims2->fields['inventory_name'];
-	//}
+	
 
         
             
