@@ -81,9 +81,13 @@ function _shn_ims_search_item_page()
     $item_state_array["destroyed"]=_("Item already destroyed");
     shn_form_select($item_state_array,_("  State  : "),'item_state','size="1"',$extra_opts);
 
+
     global $global;
     $db=$global["db"];
     $inventory_array=array();
+    $inv_id=0;
+    $inventory_name="All Inventories";
+    $inventory_array[$inv_id]=$inventory_name;
     //$inventory_array['0']="None";
     $q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
     $ims=$db->Execute($q);
@@ -91,7 +95,7 @@ function _shn_ims_search_item_page()
     while($ims!=NULL && !$ims->EOF)
     {
         
-        $inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
+        $inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];
         $ims->MoveNext();
         //$j=$j+1;
         //print ($j);
@@ -128,13 +132,20 @@ function _shn_ims_search_item_db()
         $item_name=$_POST['item_name'];
         $item_state=$_POST['item_state'];
         $inventory_id=$_POST['inventory'];
-                    
+        
         global $global;
         $db=$global["db"];
+
+	//print ($item_search);
+	if($inventory_id==0)
+	{
+		$sql="SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state';";
+	}
+	else
+	{
         
-        //print ($item_search);
-        
-        $sql = "SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
+        	$sql = "SELECT item_id,suplier_id,unit,state,amount FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
+	}
         $ims = $db->Execute($sql);
         //print $sql;
 ?>
@@ -142,7 +153,7 @@ function _shn_ims_search_item_db()
         <div id ="result">
     <table>
         <thead>
-            <td><?=_("Item Name")?></td>
+        <td><?=_("Item Name")?></td>
         <td><?=_("Amount")?></td>
         <td><?=_("Unit") ?></td>
         <td><?=_("Inventory") ?></td>
@@ -186,11 +197,21 @@ function _shn_ims_search_item_db()
             $state=$ims->fields['state'];
             //$manufactured_date=$ims->fields["manufactured_date"];
             //$expire_date=$ims->fields["expire_date"];
-
-        $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
-        $ims2=$db->Execute($sql2);
-        
-        $inventory_name=$ims2->fields['inventory_name'];
+	if($inventory_id==0)
+	{
+		$query="SELECT inv_id FROM ims_item_records WHERE item_id='$item_id';";
+		$ims_query=$db->Execute($query);
+		$inventory_id=$ims_query->fields['inv_id'];
+		//$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
+        	//$ims2=$db->Execute($sql2);
+               	//$inventory_name=$ims2->fields['inventory_name'];
+	}
+	//else
+	//{
+		$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
+        	$ims2=$db->Execute($sql2);
+               	$inventory_name=$ims2->fields['inventory_name'];
+	//}
 
         
             

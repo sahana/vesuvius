@@ -19,6 +19,8 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 //include_once '';
 
+
+
 function shn_ims_org_list(){
         global $global;
         $db=$global['db'];
