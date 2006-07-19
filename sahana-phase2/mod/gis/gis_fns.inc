@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.12 2006-07-06 07:51:59 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.13 2006-07-19 22:44:38 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -20,6 +20,10 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
 
 
+/**
+ * Show GIS map
+ * used
+ */
 function shn_gis_map($opt_array=null)
 {
 	global $global;
@@ -83,6 +87,7 @@ function _shn_gis_check_gis()
  * @access public
  * @param mixed  $name_of_map Custom Map Name
  * @todo: nicer error messages
+ * deprecated
  */
 function shn_gis_init_plugin($name_of_map="Area Map")
 {
@@ -124,13 +129,17 @@ function shn_gis_show_map($name_of_map="Area Map")
 {
 	global $global;
 	global $conf;
+	/*
 	shn_gis_init_plugin($name_of_map);
 	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
 	
 	//below if statement is to handle GoogleMaps-IE inconsistencies
 	if($conf['mod_gis_dflt'] == 'google_maps')
 		end_page();
+	*/
 }
+
+
 
 /**
  * Show GIS map for marker addition
@@ -185,6 +194,14 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
 	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
 	shn_form_fsclose();
+}
+
+function shn_gis_map_with_markers(){
+	shn_gis_map();
+}
+
+function shn_gis_map_with_wiki_markers(){
+	
 }
 
 function shn_gis_get_coordinate_post()
