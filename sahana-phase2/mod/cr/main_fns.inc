@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.39 2006-07-03 06:05:21 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.40 2006-07-19 22:46:27 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -170,9 +170,6 @@ function shn_cr_gis_show(){
 	global $global;
 	global $conf;
 	if($conf['gis']){
-		global $global;
-		include($global['approot'].'/mod/gis/conf.inc');	
-		global $conf;
 		//include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
 		//echo _("GIS Map of Camps");
@@ -186,8 +183,7 @@ function shn_cr_gis_show(){
 			shn_gis_init_plugin("GIS Map of Camps");
 		}
 		*/
-		shn_gis_init_plugin("GIS Map of Camps");
-		add_footer();
+		shn_gis_init_plugin("GIS Maps of Camps");
 		global $conf;
 		load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
 		//put values into array: even better, process directly ;)
@@ -197,6 +193,25 @@ function shn_cr_gis_show(){
 			$res->MoveNext();	
 		}
 		end_page();
+		
+	}
+	
+}
+
+function shn_cr_gis_show2(){
+	global $global;
+	global $conf;
+	if($conf['gis']){
+		$db = $global['db'];
+		$q="select map_northing,map_easting,name from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
+		$res = $db->Execute($q);
+		include_once ($global['approot'].'/mod/gis/gis_fns.inc');			
+		shn_gis_map_with_markers();
+		while(!$res->EOF){
+			add_marker_db_v2($res->fields[0],$res->fields[1],$res->fields[2]);
+			//add_marker($res->fields[2]);
+			$res->MoveNext();	
+		}
 		
 	}
 	
