@@ -55,10 +55,11 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
     shn_sub_mod_menuclose();*/
     shn_mod_menuitem("view_edit_item",_("List Items"),$module);
-    shn_sub_mod_menuopen(_("Re-Order Level"));
+    shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
+    /*shn_sub_mod_menuopen(_("Re-Order Level"));
     shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
     shn_sub_mod_menuitem("view_edit_reorder_page",_("View and Edit"),$module);
-    shn_sub_mod_menuclose();
+    shn_sub_mod_menuclose();*/
     //shn_sub_mod_menuopen(_("Inventory Transfer"));
     //shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
     //shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
@@ -472,6 +473,12 @@ function shn_ims_search_cr(){
     add_item($temp);
     shn_form_fclose();
 }*/
+function shn_ims_minimum_quantity_action()
+{
+    global $global;
+    require_once 'mini_quantity.inc';
+    _shn_ims_minimum_quantity_action();
+}
 function shn_ims_minimum_quantity_item()
 {
     include_once 'mini_quantity.inc';

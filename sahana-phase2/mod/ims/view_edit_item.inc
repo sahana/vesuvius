@@ -26,7 +26,7 @@ function _shn_ims_view_edit_header()
 {
 ?>
 
-    <h1 align="center"><?php print _("View and Edit Items");?><br></h1>
+    <h1 align="center"><?php print _("Item Registry");?><br></h1>
     <dev id="result">
 
     </dev>
