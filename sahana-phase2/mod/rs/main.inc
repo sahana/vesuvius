@@ -26,7 +26,6 @@ include_once $global['approot']."/inc/lib_uuid.inc";
 
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 
-
 function shn_rs_mainmenu() 
 {
 	include_once ('menu.inc');
@@ -34,31 +33,78 @@ function shn_rs_mainmenu()
 
 } 
 
+function shn_rs_modreports()
+{
+    global $global;
+
+    // include original module report section
+    include $global['approot']."/mod/".$global['module']."/report.inc";
+
+    // compose and call the relevant module function
+    $module_function = "shn_".$global['module']."_".$global['action'];
+    
+    if (!function_exists($module_function)) {
+        $module_function="shn_".$global['module']."_rpt_default";
+    } 
+
+    $module_function();
+}
 
 function shn_rs_default()
 {
 	include_once ('home.inc');
 }
-
-function shn_rs_mod_agg()
+/*******************Search functions**********************************************/
+function shn_rs_search()
 {
-print "in aggregator";
+	include_once('search.inc');
+	shn_rs_search_main_form();
 }
 
+function shn_rs_search_submit_one()
+{
+	include_once('search.inc');
+	shn_rs_search_main_form();
+	shn_rs_search_submit_one_result();
+}
 
+/*********************End of search functions*************************************/
 
-
-function shn_rs_catalogue()
+/*********************Sample reports functions************************************/
+function shn_rs_sample()
 {
 	include_once ('sample.inc');
-	shn_rs_search_cs_data();
+	shn_rs_sample_report();
 }
-function shn_rs_select_type_submit()
+function shn_rs_sample_submit_one()
 {
-print "Hi";
+	include_once ('sample.inc');
+	shn_rs_sample_submit_one_result();
+}
+
+function shn_rs_sample_submit_two()
+{
+	include_once ('sample.inc');
+	_show_mod_select_form();
+	shn_rs_sample_submit_two_result();
+}
+
+function shn_rs_sample_submit_three()
+{
+	include_once ('sample.inc');
+	_show_mod_select_form();
+	shn_rs_sample_submit_two_result();
+	shn_rs_sample_submit_three_result();
+}
+
+function shn_rs_sample_submit_four()
+{
+	include_once ('sample.inc');
+	_shn_rs_report_creator();
 }
 
 
+/**************************End of sample Report functions****************************/
 function shn_rs_spreadsheet()
 {
 $datasR1 = array(
@@ -96,7 +142,7 @@ shn_ods_report_add_sheet('mysheetone');
 shn_ods_report_add_title('Project of the Month');
 shn_ods_report_add_table(5,5,$headerarray,$datasR1);
 shn_ods_report_add_summery( 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.' ,'5','15','5','0.75','middle','center');
-shn_ods_report_add_graph('cartoon001.jpg');
+shn_ods_report_add_image('cartoon001.jpg');
 shn_ods_report_add_sheet('mysheettwo');
 shn_ods_report_close();
 }
@@ -143,7 +189,7 @@ shn_pdf_report_add_table($table_header,$table_data);
 //shn_pdf_report_add_page();
 shn_pdf_report_add_summery($txt);
 shn_pdf_report_add_page();
-shn_pdf_report_add_graph();
+shn_pdf_report_add_image('tmp/Pictures/cartoon001.jpg');
 shn_pdf_report_close();
 }
 

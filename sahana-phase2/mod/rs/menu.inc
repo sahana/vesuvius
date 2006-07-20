@@ -27,19 +27,16 @@ function _shn_rs_main_menu()
 	shn_mod_menuopen(_("Reporting System"));
 	shn_mod_menuitem("default",_("Home"));
 	shn_sub_mod_menuopen(_("Module Reports Aggregator"));
-		shn_mod_menuitem("mod_agg",_("Module Aggregator"));
+	
 		 foreach ($report_mods as $i) 
 		{  
-    		shn_sub_mod_menuitem("rep_default", $conf['mod_'.$i.'_name'], $i);
+    		shn_sub_mod_menuitem("rpt_default", $conf['mod_'.$i.'_name'], $i);
  		}
 	shn_sub_mod_menuclose();
-
-	shn_sub_mod_menuopen(_("Generate Sample Reports"));
-		shn_mod_menuitem("catalogue",_("Catalogue System"));
-	shn_sub_mod_menuclose();
-
-	shn_sub_mod_menuopen(_("Report Search"));
-	shn_sub_mod_menuclose();
+	shn_mod_menuitem("sample",_("Generate Sample Reports"));
+	shn_mod_menuitem("search",_("Report Search"));
+	//shn_sub_mod_menuopen(_("Report Search"));
+	//shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Download Reports"));
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Test Reports & Charts"));
