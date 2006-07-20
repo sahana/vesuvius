@@ -123,7 +123,7 @@ div#header h1 {
 div#formcontainer #language{
     position:absolute;
     display:compact;
-    top:40px;
+    top:25px;
     right:0px;
     background:#369;
     border:none;
@@ -139,7 +139,9 @@ div#formcontainer #language{
 }
 
 #language label{
-/* 	display:none; */
+    font-weight:bold;
+    font-size:11px;
+    font-style:italic;
 }
 
 /* insident changer select box in the top */
@@ -159,7 +161,11 @@ form#incident_changer select{
     background:#369;
     font-size:10px;
 }
-
+form#incident_changer label{
+    font-weight:bold;
+    font-size:11px;
+    font-style:italic;
+}
 
 
 
