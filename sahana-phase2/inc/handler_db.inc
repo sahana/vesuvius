@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.17 2006-07-03 11:51:56 priyanga Exp $ */
+/* $Id: handler_db.inc,v 1.18 2006-07-20 07:37:36 priyanga Exp $ */
 
 /**
  *
@@ -236,6 +236,7 @@ function changed()
 }
 </script>
 <form method="POST" action="index.php?mod=home&act=incident_set" id='incident_changer'>
+<label>Incident</label>
 <select name="incident_id" onchange="changeIncident(this.value);" >
 <?php
 $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
@@ -248,13 +249,13 @@ while($myresult_level1 = $result_leve1->FetchRow()){
 	$result_leve2 = $global['db']->Execute($sql_level2);
 	while($myresult_level2 = $result_leve2->FetchRow() ){
 ?>
-		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected':'');?>  ><?=$myresult_level1['name'];?>--&gt;<?=$myresult_level2['name'];?></option>
+		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level2['name'];?></option>
 <?php
 		$sql_level3 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level2['incident_id']}'";
 		$result_level3 = $global['db']->Execute($sql_level3);
 		while($myresult_level3 = $result_level3->FetchRow() ){
 ?>
-			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected':'');?>  ><?=$myresult_level1['name'];?>--&gt;<?=$myresult_level2['name'];?>--&gt;<?=$myresult_level3['name'];?></option>
+			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level3['name'];?></option>
 <?php
 		}
 	}
