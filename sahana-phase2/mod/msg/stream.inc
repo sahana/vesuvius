@@ -17,5 +17,4 @@
 * Public License (LGPL)
 */
 
-
 ?>

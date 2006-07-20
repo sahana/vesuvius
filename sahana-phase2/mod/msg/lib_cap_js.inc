@@ -22,7 +22,7 @@ function _shn_msg_add_capjs()
 ?>
 <script language="JavaScript" type="text/javascript">
     
-    form = document.getElementsByTagName('form')[1];
+    form = document.getElementsByName('cap_new')[0];
     rest = document.getElementById('scope_rest');
     rest.style.display  = 'none';
     addr = document.getElementById('scope_addr');
@@ -32,7 +32,7 @@ function _shn_msg_add_capjs()
     
     function changeId(ogj)
     {
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('form')[1];
         form.identifier.value = form.status.value+"-"+form.time.value;
     }
     
@@ -73,7 +73,7 @@ function _shn_msg_add_capjs()
     
     function addCategory(val)
     {
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_category.value == '')
             form.info_category.value = val;
         else
@@ -82,7 +82,7 @@ function _shn_msg_add_capjs()
     
     function addResponseType(val)
     {
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_responseType.value == '')
             form.info_responseType.value = val;
         else
@@ -91,7 +91,7 @@ function _shn_msg_add_capjs()
     
     function addUrgency(val)
     {
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_urgency.value == '')
             form.info_urgency.value = val;
         else
@@ -103,7 +103,7 @@ function _shn_msg_add_capjs()
         valname = (valname=='')?'null':valname;
         val = (val=='')?'null':val;
         
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_eventCode.value == '')
             form.info_eventCode.value = valname + ':' + val;
         else
@@ -118,7 +118,7 @@ function _shn_msg_add_capjs()
         valname = (valname=='')?'null':valname;
         val = (val=='')?'null':val;
         
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_parameter.value == '')
             form.info_parameter.value = valname + ':' + val;
         else
@@ -137,7 +137,7 @@ function _shn_msg_add_capjs()
         derefUri = (derefUri=='')?'null':derefUri;
         digest = (digest=='')?'null':digest;
         
-        form = document.getElementsByTagName('form')[1];
+        form = document.getElementsByName('cap_new')[0];
         if (form.info_resource.value == '')
             form.info_resource.value = resDesc+','+mimeType+','+size+','+uri+','+derefUri+','+digest;
         else
@@ -155,7 +155,7 @@ function _shn_msg_add_capjs()
     {
         if (x!='' && y!='' && parseFloat(x) && parseFloat(y))
         {
-            form = document.getElementsByTagName('form')[1];
+            form = document.getElementsByName('cap_new')[0];
             if (form.area_poly_list.value == '')
                 form.area_poly_list.value = x + ',' + y;
             else
@@ -170,7 +170,7 @@ function _shn_msg_add_capjs()
     {
         if (x!='' && y!='' && r!='' && parseFloat(x) && parseFloat(y) && parseFloat(r))
         {
-            form = document.getElementsByTagName('form')[1];
+            form = document.getElementsByName('cap_new')[0];
             if (form.area_crl_list.value == '')
                 form.area_crl_list.value = x + ',' + y + ',' + r;
             else
@@ -186,7 +186,7 @@ function _shn_msg_add_capjs()
     {
         if (vn!='' && v!='')
         {
-            form = document.getElementsByTagName('form')[1];
+            form = document.getElementsByName('cap_new')[0];
             if (form.gc_list.value == '')
                 form.gc_list.value = vn + ',' + v;
             else
@@ -199,7 +199,7 @@ function _shn_msg_add_capjs()
     
     function addArea()
     {
-    	    form = document.getElementsByTagName('form')[1];
+    	form = document.getElementsByName('cap_new')[0];
         
         poly    = form.area_poly_list.value;
         circle  = form.area_crl_list.value;

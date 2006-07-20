@@ -82,7 +82,7 @@ function _shn_msg_cap_newmain()
     
     print "<h2>" . _("Creating New Cap Template") . "</h2>";
     
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
     shn_form_hidden(array('seq'=>'new_cap_main'));
     shn_form_fsopen(_("New Cap Template"));
     shn_form_hidden(array('time'=>$id,'stat'=>$status[_("Actual")]));
@@ -147,7 +147,7 @@ function _shn_msg_cap_infonew()
     $cap_msg = unserialize($_SESSION['cap_msg']);
     $sender_name = $cap_msg->getSender();
     
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
 
     shn_form_hidden(array('seq'=>'new_cap_info'));
     
@@ -224,7 +224,7 @@ function _shn_msg_cap_infonew()
 
 function _shn_msg_cap_resourcenew()
 {
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
     shn_form_fsopen(_("Cap Message Info - Resource"));
 
     shn_form_hidden(array('seq'=>'new_cap_res'));
@@ -239,7 +239,7 @@ function _shn_msg_cap_resourcenew()
     shn_form_fsclose();
     shn_form_fclose();
     
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
     shn_form_hidden(array('seq'=>'new_cap_area'));
     print '<br />';
     shn_form_submit(_("Next"));
@@ -251,7 +251,7 @@ function _shn_msg_cap_resourcenew()
 
 function _shn_msg_cap_new_area()
 {
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
     shn_form_fsopen(_("Cap Message Info - Area"));
 
     shn_form_hidden(array('seq'=>'add_cap_area'));
@@ -290,7 +290,7 @@ function _shn_msg_cap_new_area()
     shn_form_fsclose();
     shn_form_fclose();
     
-    shn_form_fopen("cap_new",null,array('req_message'=>false));
+    shn_form_fopen("cap_new",null,array('req_message'=>false,'name'=>'cap_new'));
     shn_form_hidden(array('seq'=>'new_cap_finish'));
     print '<br />';
     shn_form_submit(_("Finish"));
