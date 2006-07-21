@@ -39,6 +39,8 @@ function shn_ods_report_fopen($file_name='',$keyword_in='',$owner_in='')
     global $calc;
     $calc = new OpenOfficeSpreadsheet($file_name);
     }
+
+
 }
 
 function shn_ods_report_add_sheet($sheet_name='')
@@ -132,7 +134,7 @@ function shn_ods_report_add_summery($summery='',$col='5',$row='2',$width='5',$he
 
 }
 
-function shn_ods_report_add_graph($img_path)
+function shn_ods_report_add_image($img_path='')
 {
 	global $sheet;
 	$cellPict = $sheet->getCell(5, 18);
@@ -150,6 +152,12 @@ function shn_ods_report_close()
 		global $keyword;
 		global $owner;
 		$calc->save(true,$rep_title,$keyword,$owner);
+
+print "<br>";
+$backtrace = debug_backtrace();
+//var_dump($backtrace);
+print $backtrace['1']["function"];
+print "<br>";
 	}
 
 /**********************************End of spread sheet functions************************************************************/
@@ -168,6 +176,7 @@ $pdf->AddPage();
 $pdf->SetCreator($creator);
 $pdf->SetKeywords($keywords);
 //$pdf->SetFont('Arial','B',16);
+
 }
 
 function shn_pdf_report_add_page()
@@ -236,10 +245,10 @@ function shn_pdf_report_add_summery($txt='')
     	$pdf->Ln(10);
 }
 
-function shn_pdf_report_add_graph()
+function shn_pdf_report_add_image($img_path='')
 {	
 	global $pdf;
-	$pdf->Image('tmp/Pictures/cartoon001.jpg',10,8,33);
+	$pdf->Image($img_path,10,8,33);
 }
 
 function shn_pdf_report_close()
@@ -248,6 +257,14 @@ global $pdf;
 global $pdfreportname;
 //$pdf->Output('','S');
 $pdf->Output($pdfreportname.".pdf");
+print "<br>The PDF report created<br>";
+
+
+print "<br>";
+$backtrace = debug_backtrace();
+//var_dump($backtrace);
+print $backtrace['1']["function"];
+print "<br>";
 }
 /**********************************End of pdf functions************************************************************/
 
@@ -434,19 +451,72 @@ $graph->DrawGraph();
 
 /******************************** Start of XHTML Report Generation Functions **************************************/
 
-function shn_xhtml_report_fopen()
+include("html_gen.php");
+global $xhtml;
+function shn_xhtml_report_fopen($file_name='',$keyword='',$owner='')
 {
+//print "<br>";
+$backtrace = debug_backtrace();
+//var_dump($backtrace);
+//print $backtrace['1']["function"];
+//print "<br>";
+$rep_id = $backtrace['1']["function"];
 
+global $xhtml;
+$xhtml = new genhtml();
+$xhtml->setFileName($file_name);
+$xhtml->setKeyword($keyword);
+$xhtml->setOwner($owner);
+$xhtml->setReportID($rep_id);
+}
+
+function shn_xhtml_report_add_title($Title='',$position='center')
+{
+global $xhtml;
+$xhtml->setTitlePos($position);
+$xhtml->addTitle($Title);
+}
+
+function shn_xhtml_report_add_summary($summary='',$summary_pos_in='center')
+{
+global $xhtml;
+$xhtml->setSummaryPos($summary_pos_in);
+$xhtml->addSummary($summary);
+}
+
+function shn_xhtml_report_add_table($tab_header='',$tab_data='',$tab_pos='center')
+{
+global $xhtml;
+$xhtml->setTablePos($tab_pos);
+$xhtml->addTable($tab_header,$tab_data);
+}
+
+function shn_xhtml_report_add_image($img_path_in='',$image_pos_in='center')
+{
+global $xhtml;
+$xhtml->setImagePos($image_pos_in);
+$xhtml->addImage('Pictures/'.$img_path_in);
+}
+
+function shn_xhtml_report_close()
+{
+global $xhtml;
+$xhtml->Output();
 }
 
 function shn_xhtml_test()
 {
-include("html_gen.php");
+//include("html_gen.php");
 $testobj = new genhtml();
 $testobj->setFileName('sdtest_xhtml_report');
-$testobj->setTitlePos("center");
+$testobj->setKeyword("xhtml_key");
+$testobj->setOwner("html_rep_owner");
+$testobj->setTitlePos("left");
 $testobj->addTitle("Sahana Disaster Management");
+
+$testobj->setSummaryPos("left");
 $testobj->addSummary("Sahana is a Free and Open Source Disaster Management system. It is a web based collaboration tool that addresses the common coordination problems during a disaster from finding missing people, managing aid, managing volunteers, tracking camps effectively between Government groups, the civil society (NGOs) and the victims themselves.");
+
 
 $datasR1 = array(
 	array(
@@ -477,10 +547,11 @@ $datasR1 = array(
 );
 
 $headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
-
+$testobj->setTablePos("left");
 $testobj->addTable($headerarray,$datasR1);
 $testobj->addLink("http://www.sahana.lk/","SAHANA");
-$testobj->setImage("sunflower.jpg");
+$testobj->setImagePos("left");
+$testobj->addImage("cartoon001.jpg");
 
 $testobj->Output();
 }
