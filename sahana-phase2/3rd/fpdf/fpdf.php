@@ -70,6 +70,7 @@ var $creator;            //creator
 var $AliasNbPages;       //alias for total number of pages
 var $PDFVersion;         //PDF version number
 
+var $report_id;
 
 /*******************************************************************************
 *                                                                              *
@@ -991,6 +992,11 @@ function SetXY($x,$y)
 	$this->SetX($x);
 }
 
+function SetReportID($rep_id_in = '')
+{
+	$this->report_id = $rep_id_in; 
+}
+
 
 function Output($name='',$dest='')
 {
@@ -1080,10 +1086,11 @@ function Output($name='',$dest='')
 			$file_name =$name;
 			$the_keyword = $this->keywords;
 			$the_owner = $this->creator;
+			$the_report_ID = $this->report_id;
 
 			global $global;
     			$db=$global["db"];
-			$q="insert into report_files(file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			$q="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
     			$res=$db->Execute($q);
 
 			echo "Your File has been created in ".$_sd_path;
