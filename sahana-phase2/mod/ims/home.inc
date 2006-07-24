@@ -22,14 +22,14 @@ function _shn_ims_default() {
 <h1 align="center"><?= _("Inventory Management System Home")?> </h1>
 <div id="home">
     <div>
-    <?= (_("The Inventory Management system is a system to manage Invetories. It not only keeps the track of items available in warehouses but also all the inventories which are related to the relief works in disaster region.")) ?></div>
+    <?= (_("The Inventory Management system is a system to manage Inventories. It not only keep the track of items available in warehouses but also all of the inventories which are related to relief works in disaster region.")) ?></div>
     <br></br>
-    <div><h3><b><i><?= (_("Features Include:")) ?></i></b></h3></div>
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
       
     <ul>
         <li><b><?= (_("Find Items:"))?></b><?= (_(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
         <li><b><?= (_("List Inventories:"))?></b><?= (_(" Facilitates to manage multiple Inventories and enables end-user to add,edit or delete Inventories."))?></li>
-        <li><b><?= (_("List Items:"))?></b><?= (_(" Enables end-user to add,edit or delete item and also enables to transfer items between two inventories"))?></li>
+        <li><b><?= (_("List Items:"))?></b><?= (_(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
         <li><b><?= (_("Re-Order Level:"))?></b><?= (_(" Enables end-user to add,edit or delete defined Re-Order Level for an inventory for  perticular items "))?></li>
         <li><b><?= (_("Reports:"))?></b><?= (_(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
         
