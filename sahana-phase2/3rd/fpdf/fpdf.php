@@ -1090,10 +1090,39 @@ function Output($name='',$dest='')
 
 			global $global;
     			$db=$global["db"];
-			$q="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
-    			$res=$db->Execute($q);
+			
+			$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+			$res_found = $db->Execute($query);
 
-			echo "Your File has been created in ".$_sd_path;
+			if($res_found->fields['rep_id'] != null)
+			{
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , date_of_created ='$current_date' , time_of_created = '$current_time' , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			}
+			else
+			{
+			$query="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			}
+			
+    			$res=$db->Execute($query);
+
+			print "<h1>Report Information</h1>";
+			if($res == true)
+			{
+			print "<h1> Report - ".$title."</h1>";
+			print "<b>Report ID : </b>".$the_report_ID." <br>";
+			print "<b>Report File Name : </b>". $file_name."<br>";
+			print "<b>Date : </b>".$current_date."<br>";
+			print "<b>Time : </b>".$current_time."<br>";
+			print "<b>Report Owner :</b>".$the_owner."<br>";
+			print "<b>File Type : </b>".$file_type."<br>";
+			print "<b>File Size : </b>".$file_size." kb <br>";
+			print "<b>Keyword :</b>".$the_keyword."<br>";
+			}
+			else
+			{
+			print "<b>Report Creation Failed..</b>";
+			}
+			
 			break;
 		case 'S':
 			//Return as a string
