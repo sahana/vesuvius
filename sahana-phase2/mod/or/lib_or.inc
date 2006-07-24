@@ -184,6 +184,33 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
         return  $orgs;
 }
 
+
+function shn_or_org_loc_sector_incident_list($loc,$sector,$incidents=null,$rootsonly=false){
+	    global $global;
+        $db=$global['db'];
+		$list=shn_or_create_database_IN_array($incidents);
+        if($rootsonly==true){
+        		$root=" and org_main.parent_id is NULL ";
+        }else{
+        		$root="";
+        }
+        if($incidents==null)
+			$q = "select distinct o_uuid from org_main,location,location_details where privacy=false and loc_uuid='{$loc}' and loc_uuid=location_id and org_main.o_uuid=poc_uuid".$root;
+		else
+			$q = "select distinct o_uuid  from org_main,resource_to_incident,location,location_details where privacy=false  ".$root." and org_main.parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list and loc_uuid='{$loc}' and loc_uuid=location_id and org_main.o_uuid=poc_uuid";
+		echo $q;
+		$res_org=$db->Execute($q);
+		$orgs=array();
+    		while(!$res_org==NULL && !$res_org->EOF){
+    			array_push(
+    				$orgs,
+    				$res_org->fields["o_uuid"]
+    			);
+        		$res_org->MoveNext();
+    		}
+        return  $orgs;
+}
+
 function _shn_or_get_start_loc()
 {
     global $global;

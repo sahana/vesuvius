@@ -82,7 +82,7 @@ function _shn_or_drill_org($parent=null)
         		if($count==0){
         			echo "<td><b><font color=#FF0000>".$count."</font></b></td>";
         		}else{
-        			echo "<td><b><font color=#2E8B57>".$count."</font></b></td>";
+        			echo "<td><a href='index.php?mod=or&act=drill_report_org_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#FF0000>".$count."</font></b></a></td>";
         		}
         		
         

@@ -176,6 +176,17 @@ function shn_or_drill_report_org()
     		
 }
 
+function shn_or_drill_report_org_show_orgs()
+{
+    include_once ("view_org.inc");
+	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
+	unset($_SESSION["org"]["total_pages"]);
+	unset($_SESSION["org"]["pages"]);
+	$org_list=shn_or_org_loc_sector_incident_list($_GET["loc"],$_GET["sec"],$_SESSION["incidents"]);
+	_shn_or_viewform_allorg($org_list);
+  		   
+}
+
 function shn_or_org_sector()
 {
     include_once("report.inc");

@@ -51,7 +51,7 @@ function _shn_or_display_page($page){
 	$incident=$_SESSION["incidents"];
 	$inci=shn_or_create_database_IN_array($incident);
 	$q = "select distinct o_uuid,parent_id,name,man_power,equipment,resources from org_main,resource_to_incident where privacy=false and resource_to_incident.x_uuid=org_main.o_uuid and parent_id is NULL and incident_id IN $inci order by o_uuid";
-$res_org=$db->SelectLimit($q,$no,$offset);
+    $res_org=$db->SelectLimit($q,$no,$offset);
     $orgs=array();
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push(
@@ -62,6 +62,9 @@ $res_org=$db->SelectLimit($q,$no,$offset);
     }
     */
    $orgs=$_SESSION["org"]["pages"][$page];
+   if($page==1){
+   		$_SESSION["or_rec_no"]=1;
+   }
     _shn_display_orgs($orgs,true);
     ?>
    </tbody>
@@ -93,7 +96,7 @@ function _shn_display_orgs($orgs,$root=false)
 {
 	 global $global;
 	 $db=$global['db'];
-	 $count=1;
+	 $count=$_SESSION["or_rec_no"];
 	 if(empty($orgs)){
 	 	?><h2> No Records </h2><?
 	 	return;
@@ -121,6 +124,7 @@ function _shn_display_orgs($orgs,$root=false)
     		_shn_display_orgs($sub_orgs);
 		}
 	 }
+	 $_SESSION["or_rec_no"]=$count;
 	  
 }
 function _shn_or_page_generator($org_list)
