@@ -38,9 +38,11 @@ CREATE TABLE modules(
 */
 DROP TABLE IF EXISTS config;
 CREATE TABLE config(
+    config_id BIGINT NOT NULL AUTO_INCREMENT,
     module_id VARCHAR(20), -- the directory name of the module e.g. dvr, or, mpr
 	confkey VARCHAR(50) NOT NULL, -- the configuration key for the module
 	value VARCHAR(100), -- the value 
+    PRIMARY KEY(config_id),
 	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
@@ -296,7 +298,7 @@ CREATE TABLE person_deceased (
     comments TEXT,
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
-    FOREIGN KEY (location) REFERENCES location(location_id)
+    FOREIGN KEY (location) REFERENCES location(loc_uuid)
 );
 
 
@@ -314,7 +316,7 @@ CREATE TABLE org_main(
     privacy INT(1) DEFAULT 0,
     archived BOOL DEFAULT 0, 
 	PRIMARY KEY (o_uuid),
-	FOREIGN KEY (parent_id) REFERENCES lorg_main(o_uuid)
+	FOREIGN KEY (parent_id) REFERENCES org_main(o_uuid)
 );
 
 -- ORG SECTOR  INFORMATION
@@ -372,7 +374,7 @@ CREATE TABLE camp_general (
 		area VARCHAR(20),
 		personsPerShelter INT,
     PRIMARY KEY (c_uuid),
-    FOREIGN KEY (location_id) REFERENCES location(location_id)
+    FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
 );
 
 /**
