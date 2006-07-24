@@ -33,6 +33,7 @@ shn_main_filter_getpost();
 // if installed the sysconf.inc will exist in the conf directory
 if (!file_exists($global['approot'].'conf/sysconf.inc')){
 
+    //@TODO: What about other streams
     // launch the web setup
     require_once ($global['approot'].'conf/sysconf.inc.tpl'); 
     require ($global['approot'].'inst/setup.inc');
@@ -93,6 +94,14 @@ function shn_main_front_controller()
     $action = $global['action'];
     $module = $global['module'];
 
+    if(isset($_REQUEST['stream']) && file_exists($global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
+        require_once $global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc";
+        $prefix = $_REQUEST['stream']."_";
+    }else{
+        require_once $global['approot']."/inc/lib_stream_html.inc";
+        $prefix = null;
+    }
+
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
@@ -101,7 +110,7 @@ function shn_main_front_controller()
     } // the orignal module and action is stored in $global
   
     // check the users access permissions for this action
-    $module_function = 'shn_'.$module.'_'.$action;
+    $module_function = 'shn_'.$prefix.$module.'_'.$action;
    
 	$acl_enabled=shn_acl_get_state($module);
 
@@ -118,38 +127,12 @@ function shn_main_front_controller()
         include($approot.'mod/home/main.inc');
     }
 
-    // include the html head tags
-    shn_include_page_section('html_head', $module);
+    shn_stream_init();
 
-    // Start the body and the CSS container element
-?>
-    <body>
-    <div id="container">
-<?php
-    
-    // include the page header provided there is not a module override
-    shn_include_page_section('header',$module);
-    
-    // Now include the wrapper for the main content
-?>     
-    <div id="wrapper" class="clearfix"> 
-    <div id="wrapper_menu">
-    <p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a href="#modulemenu"><?=_('Module Menu')?></a></p> 
-<?php
-
-    // include the mainmenu and login provided there is not a module override
-    shn_include_page_section('mainmenu',$module);
-    shn_include_page_section('login',$module);
-
-    // now include the main content of the pageA
-?>  
-    </div> <!-- Left hand side menus & login form -->
-    <div id="content" class="clearfix">      
-<?php
     if($allow){
         // compose and call the relevant module function 
         if (!function_exists($module_function)) {
-            $module_function='shn_'.$module.'_default';
+            $module_function='shn_'.$prefix_.$module.'_default';
         }
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
@@ -157,18 +140,6 @@ function shn_main_front_controller()
     }else {
         shn_error_display_restricted_access();
     }
-    #include($approot."test/testconf.inc"); 
-?>
-    </div> <!-- /content -->
-<?php
 
-    // include the footer provided there is not a module override
-    shn_include_page_section('footer',$module);
-?>
-    </div> <!-- /wrapper -->
-    </div> <!-- /container -->
-    </body>
-    </html>
-<?php 
+    shn_stream_close();
 }
-
