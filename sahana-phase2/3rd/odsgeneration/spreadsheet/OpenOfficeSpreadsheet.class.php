@@ -138,7 +138,6 @@ class OpenOfficeSpreadsheet {
 		$this->pathTemplates    = Fonction::removeLastSlash($path_templates);
 		
 		$this->pathSave         = Fonction::removeLastSlash($path_save).'/'.$docSave;
-		echo $this->pathSave;
 		$this->documentName     = Fonction::checkFileName($document_name, $this->extension);
 		
 		try {
@@ -166,7 +165,7 @@ class OpenOfficeSpreadsheet {
 	 * @param 	boolean			$in_file		
 	 * @return 	object|boolean							
 	 */
-	public function save($in_file = true,$report_title='',$keyword='',$owner='') 
+	public function save($in_file = true,$report_title='',$keyword='',$owner='',$report_id_in = '') 
 		{
 		$this->_saveFile();
 		$zip = new EasyZIP();
@@ -186,7 +185,7 @@ class OpenOfficeSpreadsheet {
 			closedir($handle);
 		}
 		$fileName = ($in_file) ? $this->documentName : '';
-		$result = $zip->zipFile($fileName,$report_title,$keyword,$owner);
+		$result = $zip->zipFile($fileName,$report_title,$keyword,$owner,$report_id_in);
 
 			Fonction::delDir($this->pathSave);
 

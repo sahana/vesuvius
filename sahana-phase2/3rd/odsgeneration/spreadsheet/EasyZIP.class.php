@@ -90,7 +90,7 @@ class EasyZIP {
 	}
 
 
-	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='') 
+	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '') 
 		{
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
@@ -124,16 +124,42 @@ class EasyZIP {
 		$file_name = $zipfilename;
 		$the_keyword = $keyword_in;
 		$the_owner = $owner_in;
-
+		$the_report_ID = $report_id;
 
 		global $global;
     		$db=$global["db"];
-		$q="insert into report_files(file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
-    		$res=$db->Execute($q);
 
+		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+		$res_found = $db->Execute($query);
 
+			if($res_found->fields['rep_id'] != null)
+			{
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , date_of_created ='$current_date' , time_of_created = '$current_time' , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			}
+			else
+			{
+			$query="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			}
 
-			//echo "Your File has been created in ".$_sd_path;
+    			$res=$db->Execute($query);
+
+			if($res == true)
+			{
+			print "<h1> Report - ".$title."</h1>";
+			print "<b>Report ID : </b>".$the_report_ID." <br>";
+			print "<b>Report File Name : </b>". $file_name."<br>";
+			print "<b>Date : </b>".$current_date."<br>";
+			print "<b>Time : </b>".$current_time."<br>";
+			print "<b>Report Owner :</b>".$the_owner."<br>";
+			print "<b>File Type : </b>".$file_type."<br>";
+			print "<b>File Size : </b>".$file_size." kb <br>";
+			print "<b>Keyword :</b>".$the_keyword."<br>";
+			}
+			else
+			{
+			print "<b>Report Creation Failed..</b>";
+			}
+
 			return true;
 		} else {
 			return $zip;
