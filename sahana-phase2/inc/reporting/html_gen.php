@@ -158,7 +158,7 @@ class genhtml
 			fwrite($f,$this->output_code,strlen($this->output_code));
 			fclose($f);
 
-		echo "Your XHTML report has been created in ".$_sd_path;
+		//echo "Your XHTML report has been created in ".$_sd_path;
 			
 		$fp = fopen($_sd_path.$this->file_name.$this->extention, "rb");
 			while(!feof($fp)) 
@@ -178,12 +178,41 @@ class genhtml
 		$file_name = $this->file_name.$this->extention;
 		$the_keyword = $this->keyword;
 		$the_owner = $this->report_owner;
-		$the_rep_id = $this->report_id;
+		$the_report_ID = $this->report_id;
 
 		global $global;
     		$db=$global["db"];
-		$q="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_rep_id','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
-    		$res=$db->Execute($q);
+
+		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+		$res_found = $db->Execute($query);
+
+		if($res_found->fields['rep_id'] != null)
+			{
+		$query="update report_files set file_name = '$file_name' , file_data='$data' , date_of_created ='$current_date' , time_of_created = '$current_time' , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			}
+		else
+			{
+		$query="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			}
+
+    		$res=$db->Execute($query);
+
+			if($res == true)
+			{
+			print "<h1> Report - ".$title."</h1>";
+			print "<b>Report ID : </b>".$the_report_ID." <br>";
+			print "<b>Report File Name : </b>". $file_name."<br>";
+			print "<b>Date : </b>".$current_date."<br>";
+			print "<b>Time : </b>".$current_time."<br>";
+			print "<b>Report Owner :</b>".$the_owner."<br>";
+			print "<b>File Type : </b>".$file_type."<br>";
+			print "<b>File Size : </b>".$file_size." kb <br>";
+			print "<b>Keyword :</b>".$the_keyword."<br>";
+			}
+			else
+			{
+			print "<b>Report Creation Failed..</b>";
+			}
 	
 		}
 
