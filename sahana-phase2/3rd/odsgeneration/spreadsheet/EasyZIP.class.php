@@ -90,7 +90,7 @@ class EasyZIP {
 	}
 
 
-	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '') 
+	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '',$print_ok = '') 
 		{
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
@@ -142,23 +142,27 @@ class EasyZIP {
 			}
 
     			$res=$db->Execute($query);
-
-			if($res == true)
+		
+			print $print_ok;
+			if($print_ok)
 			{
-			print "<h1> Report - ".$title."</h1>";
-			print "<b>Report ID : </b>".$the_report_ID." <br>";
-			print "<b>Report File Name : </b>". $file_name."<br>";
-			print "<b>Date : </b>".$current_date."<br>";
-			print "<b>Time : </b>".$current_time."<br>";
-			print "<b>Report Owner :</b>".$the_owner."<br>";
-			print "<b>File Type : </b>".$file_type."<br>";
-			print "<b>File Size : </b>".$file_size." kb <br>";
-			print "<b>Keyword :</b>".$the_keyword."<br>";
-			}
-			else
-			{
-			print "<b>Report Creation Failed..</b>";
-			}
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br>";
+				print "<b>Report File Name : </b>". $file_name."<br>";
+				print "<b>Date : </b>".$current_date."<br>";
+				print "<b>Time : </b>".$current_time."<br>";
+				print "<b>Report Owner :</b>".$the_owner."<br>";
+				print "<b>File Type : </b>".$file_type."<br>";
+				print "<b>File Size : </b>".$file_size." kb <br>";
+				print "<b>Keyword :</b>".$the_keyword."<br>";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
+			}	
 
 			return true;
 		} else {

@@ -165,7 +165,7 @@ class OpenOfficeSpreadsheet {
 	 * @param 	boolean			$in_file		
 	 * @return 	object|boolean							
 	 */
-	public function save($in_file = true,$report_title='',$keyword='',$owner='',$report_id_in = '') 
+	public function save($in_file = true,$report_title='',$keyword='',$owner='',$report_id_in = '',$print_ok = '') 
 		{
 		$this->_saveFile();
 		$zip = new EasyZIP();
@@ -185,7 +185,7 @@ class OpenOfficeSpreadsheet {
 			closedir($handle);
 		}
 		$fileName = ($in_file) ? $this->documentName : '';
-		$result = $zip->zipFile($fileName,$report_title,$keyword,$owner,$report_id_in);
+		$result = $zip->zipFile($fileName,$report_title,$keyword,$owner,$report_id_in,$print_ok);
 
 			Fonction::delDir($this->pathSave);
 
