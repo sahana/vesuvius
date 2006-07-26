@@ -225,9 +225,8 @@ function _shn_or_del_org()
        <?php echo $org_name?> Organization was succesfully Deleted
     </div>
     <br />
-<h2> Organization Registry</h2>
 <?php
-        _shn_or_viewform_allorg();    
+       shn_or_view_org();    
 }
 
 function _shn_or_edit_org()
@@ -364,13 +363,14 @@ function _shn_or_edit_org()
        <?php echo $org_name?> Organization was succesfully Updated
     </div>
     <br />
-<h2> Organization Registry</h2>
+
 <?php
     }
      if($error==true){
 		_shn_or_viewform_org($org_id,$error);
         	return false;
 	 }
-        _shn_or_viewform_allorg();    
+        //_shn_or_viewform_allorg(); 
+       shn_or_view_org();   
 }
 ?>
