@@ -1,6 +1,6 @@
 /* INVENTORY MANAGEMENT SYSTEM TABLES */
 /* --------------------------------------------------------------------------*/
-USE soc;
+
 DROP TABLE IF EXISTS `ims_item_records`;
 CREATE TABLE ims_item_records
 (
@@ -53,6 +53,7 @@ CREATE TABLE ims_transfer_item
 	amount_received VARCHAR(20),
 	person_received VARCHAR(20),
 	date_received DATE,
+	cause VARCHAR(500),
 	PRIMARY KEY(transit_id)
 	
 );
