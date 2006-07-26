@@ -215,7 +215,6 @@ function shn_or_org_loc_sector_incident_list($loc,$sector,$incidents=null,$roots
 			$q = "select distinct o_uuid from org_main,location,location_details where privacy=false and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid".$root;
 		else
 			$q = "select distinct o_uuid  from org_main,resource_to_incident,location,location_details,sector where privacy=false  ".$root." and org_main.parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $inc_list and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
-		echo $q;
 		$res_org=$db->Execute($q);
 		$orgs=array();
     		while(!$res_org==NULL && !$res_org->EOF){

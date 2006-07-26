@@ -82,8 +82,8 @@ function _shn_or_drill_org($parent=null)
         		if($count==0){
         			echo "<td><b><font color=#FF0000>".$count."</font></b></td>";
         		}else{
-        			echo "<td><b><font color=#FF0000>".$count."</font></b></a></td>";
-        			//echo "<td><a href='index.php?mod=or&act=drill_report_org_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#FF0000>".$count."</font></b></a></td>";
+        			//echo "<td><b><font color=#FF0000>".$count."</font></b></a></td>";
+        			echo "<td><a href='index.php?mod=or&act=drill_report_org_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#FF0000>".$count."</font></b></a></td>";
         		}
         		
         
@@ -278,19 +278,13 @@ function _shn_is_covered_org($loc,$sector,&$count)
 {
     global $global;
     $db=$global["db"];
-    $q="select location_id from location_details,sector where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
-    $res_village=$db->Execute($q);
-    if(!$res_village==NULL && !$res_village->EOF){
-            $count=$count+1;
-    }
-    $q="select loc_uuid,name from location where parent_id='{$loc}'";
-    $res_tmp=$db->Execute($q);
-    while(!$res_tmp==NULL && !$res_tmp->EOF){
-        $next_lvl=$res_tmp->fields["loc_uuid"];
-      	_shn_is_covered_org($next_lvl,$sector,$count);
-        $res_tmp->MoveNext();
-    }
-   return false; 
+  //  $q="select location_id from location_details,sector,org_main,incident where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
+    	$incident_arr=array($_SESSION['user_pref_ims_incident_id']);
+	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident_arr);
+	$loc_arr=array($loc);
+	shn_location_get_descendants($loc,&$loc_arr);
+	$org_list=shn_or_org_loc_sector_incident_list($loc_arr,$sector,$incident_arr);
+    $count=count($org_list);
 }
 
 function _shn_or_report_org_sector()
