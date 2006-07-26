@@ -62,9 +62,6 @@ function _shn_or_display_page($page){
     }
     */
    $orgs=$_SESSION["org"]["pages"][$page];
-   if($page==1){
-   		$_SESSION["or_rec_no"]=1;
-   }
     _shn_display_orgs($orgs,true);
     ?>
    </tbody>
@@ -96,21 +93,21 @@ function _shn_display_orgs($orgs,$root=false)
 {
 	 global $global;
 	 $db=$global['db'];
-	 $count=$_SESSION["or_rec_no"];
 	 if(empty($orgs)){
 	 	?><h2> No Records </h2><?
 	 	return;
 	 }
 	 foreach($orgs as $org_id){
+	 	
 	 	$sub_orgs=array();
-	 if($root==true){
-	 	//	$no=_shn_org_position($org_id,$_SESSION["incidents"],true);
-	 		//_shn_display_org($org_id,$no);
-	 	_shn_display_org($org_id,$count);
-	 	$count++;
-	 }else{
+	 	if($root==true){
+	  		$org_no=split(",",$org_id);
+	 		$org_id=$org_no[1];
+	 		_shn_display_org($org_id,$org_no[0]);
+	 		
+	 	}else{
 	    		_shn_display_org($org_id);
-	 }
+	 	}
         $q = "select o_uuid from org_main where parent_id='{$org_id}' order by name";
 		$res_org=$db->Execute($q);
 		if(!$res_org==NULL && !$res_org->EOF){
@@ -145,7 +142,11 @@ function _shn_or_page_generator($org_list)
    			$end=$total;
    		}
    		$list=array();
-   		array_copy($org_list,$list,$start,$end);
+   		for($j=$start;$j<$end;$j++){
+   			$list[$j-$start]=($j+1).",".$org_list[$j];
+   		}
+   		
+   	//	array_copy($org_list,$list,$start,$end);
    		$start=$end;
    		$_SESSION["org"]["pages"][$i]=$list;	
     }
