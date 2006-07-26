@@ -17,28 +17,49 @@
 * Public License (LGPL)
 */
 
-_shn_rms_print_hedder(_("Make New Request"));
 
 
 function _shn_rms_requester($requester_id=null)
 {
     $_SESSION['rms_reqstr_id'] = null;
     print '<div id="reqstr_id">';
-    shn_form_fopen("req_new",null);
+    _shn_rms_print_hedder(_("Make New Request"));
+    
+    print '<div class="info"><strong>';
+    print _("If you are a registered requester, Please enter your request ID ");
+    print '<br />';
+    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
+    print '</strong><br />';
+    print '</div>';
+    shn_form_fopen("req_new",null,array('req_message'=>true));
     shn_form_hidden(array('seq'=>'get_reqstr'));
     shn_form_fsopen(_("Existing Requester"));
-    shn_form_text(_("Requester ID"),'reqstr_id',null,array('br'=>false));
+    shn_form_text(_("Requester ID"),'reqstr_id',null,array('req'=>true,'br'=>false));
     shn_form_submit(_("Next"), 'id="reqstr_next"');
     shn_form_fsclose();
-    $help = _("* Create New Requester: " .
-              "A new Person will be added to the Sahana Database, <br />" .
-              "* Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
-    shn_form_button(_("New Requester"),'onClick="showNewReqster();"',array('help'=>$help));
     shn_form_fclose();
+    print '<br />';
+    include_once('lib_ajax.inc');
+    _shn_rms_ajax_init('reqstr_id');
+    shn_form_button(_("New Requester"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=new_requester\",\"\")'",array('br'=>false));
+    print '</div>';
+}
+
+function _shn_rms_new_requester()
+{
+	print '<div id="reqstr_new">';
+    
+    _shn_rms_print_hedder(_("Make New Request"));
+    
+    print '<div class="info"><strong>';
+    print _("Create New Requester: ");
+    print _("A new Person will be added to the Sahana Database,");
+    print '<br />';
+    print _("Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
+    print '</strong><br />';
     print '</div>';
     
-    print '<div id="reqstr_new">';
-    shn_form_fopen("req_new",null,array('req_message'=>false));
+    shn_form_fopen("req_new",null,array('req_message'=>true));
     shn_form_hidden(array('seq'=>'add_reqstr'));
     shn_form_fsopen(_("New Requester"));
     shn_form_text(_("Full Name"),'name',null,array('req'=>true));
@@ -49,8 +70,11 @@ function _shn_rms_requester($requester_id=null)
     shn_form_fsclose();
     shn_form_submit(_("Next"));
     shn_form_fclose();
+    print '<br />';
+    include_once('lib_ajax.inc');
+    _shn_rms_ajax_init('reqstr_new');
+    shn_form_button(_("Back (Existing Requester)"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=\",\"\")'",array('br'=>false));
     print '</div>';
-    
 }
 
 function _shn_rms_requester_new()
@@ -267,7 +291,26 @@ function _shn_rms_location($id = null)
         $id = $_SESSION['rms_reqstr_id'];
     
     _shn_rms_view_requester($id);
+    
+    
     print '<br />';
+    
+    include_once('lib_ajax.inc');
+    _shn_rms_ajax_init('loc_camp');
+    shn_form_button(_("Camp"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp\",\"\")'",array('br'=>false));
+    shn_form_button(_("Organization"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org\",\"\")'",array('br'=>false));
+    shn_form_button(_("Other"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other\",\"\")'",array('br'=>false));
+    
+    print '<div id="loc_camp">';
+    
+    print '</div>';
+}
+
+function _shn_rms_ax_location_other($id=null)
+{
+	if ($id == null)
+        $id = $_SESSION['rms_reqstr_id'];
+        
     if (_shn_rms_get_requester_locs($id))
     {
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
@@ -278,7 +321,7 @@ function _shn_rms_location($id = null)
         shn_form_submit(_("Next"));
         shn_form_fclose();
     }
-    else
+    
     {
         print '<div id="loc_new">';
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
@@ -295,6 +338,7 @@ function _shn_rms_location($id = null)
         shn_form_fclose();
         print '</div>';
     }
+    
 }
 
 function _shn_rms_location_add()
@@ -428,7 +472,10 @@ switch ($_REQUEST['seq'])
             // Add required js functions
             _shn_rms_js_requester();
             break;
-            
+    
+    case 'new_requester':
+             _shn_rms_new_requester();
+             break;       
     case 'add_reqstr':
             $reqstr = _shn_rms_requester_new();
             if ($reqstr)
@@ -473,6 +520,10 @@ switch ($_REQUEST['seq'])
             print '<br />';
             
             _shn_rms_items();
+            break;
+    
+    case 'ax_loc_other':
+            _shn_rms_ax_location_other();
             break;
             
     case 'add_item':
