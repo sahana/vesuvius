@@ -259,6 +259,7 @@ function _shn_ims_send_db()
     $authorized_person=trim($_POST['authorized_person']);
     $requested_person=trim($_POST['requested_person']);
     $destribution=trim($_POST['destribution']);
+    $cause=trim($_POST['cause']);
 
     //print($item_id);
     $state=-1;
@@ -286,7 +287,7 @@ function _shn_ims_send_db()
     
     
 
-    $sql1 = "INSERT INTO ims_transfer_item (item_id,amount_send,unit,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received) VALUES ('$item_id','$amount','$unit','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state');";  
+    $sql1 = "INSERT INTO ims_transfer_item (item_id,amount_send,unit,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause) VALUES ('$item_id','$amount','$unit','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause');";  
     $ims1 = $db->Execute($sql1);
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
     $ims2 = $db->Execute($sql2);
