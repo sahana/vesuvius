@@ -203,7 +203,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     
     $extra_opts['value']=$inv_from;
-    shn_form_text(_("From the Inventory : "),'inv_from','size="50" readonly=true',$extra_opts);
+    shn_form_text(_("Inventory From : "),'inv_from','size="50" readonly=true',$extra_opts);
 
     $inventory_array=array();
     $sql3="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid!='$inv_id_from';";
@@ -213,11 +213,11 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
         $inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
         $ims3->MoveNext();
     }
-    shn_form_select($inventory_array,_("To the Inventory : "),'inv_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
+    shn_form_select($inventory_array,_("Inventory To : "),'inv_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
 
     $date=date("Y-m-d");
 	
-    shn_form_text(_("Date"),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     $extra_opts['value']=$cost_per_unit;
     shn_form_text(_("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 
