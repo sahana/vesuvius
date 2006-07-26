@@ -293,8 +293,9 @@ function _shn_get_lang_list()
 {
     $l_list = array(
                     'de_DE'=>_("Sinhala"),
-                    'zh_TW'=>_("Chinese Traditional"),
-                    'en_US'=>_("English")
+                    'ta_IN'=>_("Tamil"),
+                    'en_US'=>_("English"),
+                    'zh_TW'=>_("Chinese Traditional"),                    
                    );
     return $l_list;
 }
