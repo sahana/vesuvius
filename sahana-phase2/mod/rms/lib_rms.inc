@@ -358,7 +358,7 @@ function _shn_rms_get_items($cat_id)
 {
     global $global;
     
-    $sql = "SELECT * FROM ct_catalogue WHERE parentid='$cat_id'";
+    $sql = "SELECT * FROM ct_catalogue WHERE parentid='$cat_id' AND final_flag='1'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -376,11 +376,58 @@ function _shn_rms_get_items($cat_id)
     return false;
 }
 
-function _shn_rms_add_item2session($itm, $qty, $pri)
+function _shn_rms_get_itm_units($itm_id)
+{
+	global $global;
+    
+    $sql = "SELECT * FROM ct_unit, ct_cat_unit WHERE ct_uuid='$itm_id' " .
+            "AND ct_unit.unit_uuid=ct_cat_unit.unit_uuid";
+
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        return $rs->GetArray();
+    }
+    
+    return false;
+}
+
+function _shn_rms_get_sub_cat($cat_id)
+{
+    global $global;
+    
+    $sql = "SELECT * FROM ct_catalogue WHERE parentid='$cat_id' AND final_flag='0'";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        return $rs->GetArray();
+    }
+    
+    return false;
+}
+
+function _shn_rms_add_item2session($itm, $qty, $pri, $unit)
 {
     if ($qty != '' && is_numeric($qty))
     {
-        $_SESSION['rms_items'][] = array ($itm, $qty, $pri);
+        $_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit);
+        print "$unit" . '<br />';
         return true;    
     }
     else
@@ -390,11 +437,11 @@ function _shn_rms_add_item2session($itm, $qty, $pri)
     }
 }
 
-function _shn_rms_add_item2session_pl($itm, $qty, $stat)
+function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 {
     if ($qty != '' && is_numeric($qty))
     {
-        $_SESSION['rms_items'][] = array ($itm, $qty, $stat);
+        $_SESSION['rms_items'][] = array ($itm, $qty, $stat, $unit);
         return true;    
     }
     else
@@ -434,6 +481,29 @@ function _shn_rms_get_itemname($itm_id)
     global $global;
     
     $sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$itm_id'";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        $rs = $rs->GetArray();
+        return $rs[0][0];
+    }
+    
+    return false;
+}
+
+function _shn_rms_get_iunit_name($unit_id)
+{
+    global $global;
+    
+    $sql = "SELECT name FROM ct_unit WHERE unit_uuid='$unit_id'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -910,52 +980,95 @@ function _shn_rms_is_plgstatus($status)
     return false;
 }
 
-function _shn_rms_view_requester($reqstr_id)
+function _shn_rms_view_requester($reqstr_id, $summary=false)
 {
-    print '<h4>' . _("Requester Contact Information") . '</h4>';
+    print '<div id="note2">';
+    print '<h4>' . _("Requester Information") . '</h4>';
     
     $requester = _shn_rms_get_person($reqstr_id);
-    $tmp_str = '<strong>' . _("RequesterID") . '</strong>';
-    $tb_reqstr[] = array($tmp_str , '<strong>' . $reqstr_id . '</strong>');
-    $tb_reqstr[] = array(_("Full Name"), $requester['name']);
-    $tb_reqstr[] = array(_("Address"), $requester['address']);
-    $tb_reqstr[] = array(_("email"), $requester['email']);
-    $tb_reqstr[] = array(_("Mobile"), $requester['mobile']);
-    $tb_reqstr[] = array(_("Telephone"), $requester['telephone']);
     
-    shn_html_table($tb_reqstr,null,null,array('class'=>'wide'));
+    if (!$summary)
+    {
+        $tmp_str = '<strong>' . _("RequesterID") . '</strong>';
+        $tb_reqstr[] = array($tmp_str , $reqstr_id);
+        $tb_reqstr[] = array('<strong>' . _("Full Name") . '</strong>', $requester['name']);
+        $tb_reqstr[] = array('<strong>' . _("Address") . '</strong>', $requester['address']);
+        $tb_reqstr[] = array('<strong>' . _("email") . '</strong>', $requester['email']);
+        $tb_reqstr[] = array('<strong>' . _("Mobile") . '</strong>', $requester['mobile']);
+        $tb_reqstr[] = array('<strong>' . _("Telephone") . '</strong>', $requester['telephone']);
+        
+        $width=array('20%');
+        shn_html_table($tb_reqstr,null,null,array('class'=>'layout','width'=>$width));
+    }
+    else
+    {
+?>
+        <strong>Requester ID</strong> :  <?=$reqstr_id?>
+        <br />
+        <strong>Requester Name</strong> :  <?=$requester['name']?>
+<?php
+    }
+    print '</div>';
 }
 
-function _shn_rms_view_donor($donor_id)
+function _shn_rms_view_donor($donor_id, $summary=false)
 {
+    print '<div id="note2">';
     print '<h4>' . _("Donor Contact Information") . '</h4>';
     
-    $requester = _shn_rms_get_person($donor_id);
-    $tmp_str = '<strong>' . _("Donor ID") . '</strong>';
-    $tb_reqstr[] = array($tmp_str , '<strong>' . $donor_id . '</strong>');
-    $tb_reqstr[] = array(_("Full Name"), $requester['name']);
-    $tb_reqstr[] = array(_("email"), $requester['email']);
-    $tb_reqstr[] = array(_("Mobile"), $requester['mobile']);
-    $tb_reqstr[] = array(_("Telephone"), $requester['telephone']);
-    $tb_reqstr[] = array(_("Address"), $requester['address']);
-    
-    shn_html_table($tb_reqstr,null,null,array('class'=>'wide'));
+    $donor = _shn_rms_get_person($donor_id);
+    if (!$summary)
+    {
+        $tmp_str = '<strong>' . _("Donor ID") . '</strong>';
+        $tb_donor[] = array($tmp_str , $donor_id);
+        $tb_donor[] = array('<strong>' . _("Full Name") . '</strong>', $donor['name']);
+        $tb_donor[] = array('<strong>' . _("email") . '</strong>', $donor['email']);
+        $tb_donor[] = array('<strong>' . _("Mobile") . '</strong>', $donor['mobile']);
+        $tb_donor[] = array('<strong>' . _("Telephone") . '</strong>', $donor['telephone']);
+        $tb_donor[] = array('<strong>' . _("Address") . '</strong>', $donor['address']);
+        
+        $width=array('20%');
+        shn_html_table($tb_donor,null,null,array('class'=>'layout','width'=>$width));
+    }
+    else
+    {
+?>
+        <strong>Donor ID</strong> :  <?=$donor_id?>
+        <br />
+        <strong>Donor Name</strong> :  <?=$donor['name']?>
+<?php    	
+    }
+    print '</div>';
 }
 
-function _shn_rms_view_location($loc_id)
+function _shn_rms_view_location($loc_id, $summary=false)
 {
+    print '<div id="note2">';
     print '<h4>' . _("Request Location Information") . '</h4>';
 
     $location = _shn_rms_get_location($loc_id);
-    $tmp_str = '<strong>' . _("Location ID") . '</strong>';
-    $tb_loc[] = array($tmp_str , '<strong>' . $loc_id . '</strong>');
-    $tb_loc[] = array(_("Name"), $location['location_id']);
-    $tb_loc[] = array(_("Location Type"), $location['opt_person_loc_type']);
-    $tb_loc[] = array(_("Address"), $location['address']);
-    $tb_loc[] = array(_("Post code"), $location['postcode']);
-    $tb_loc[] = array(_("GIS"), $location['long_lat']);
-    
-    shn_html_table($tb_loc,null,null,array('class'=>'wide'));
+    if (!$summary)
+    {
+        $tmp_str = '<strong>' . _("Location ID") . '</strong>';
+        $tb_loc[] = array($tmp_str , $loc_id);
+        $tb_loc[] = array('<strong>' . _("Name") . '</strong>', $location['location_id']);
+        $tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
+        $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
+        $tb_loc[] = array('<strong>' . _("Post code") . '</strong>', $location['postcode']);
+        $tb_loc[] = array('<strong>' . _("GIS") . '</strong>', $location['long_lat']);
+        
+        $width=array('20%');
+        shn_html_table($tb_loc,null,null,array('class'=>'layout','width'=>$width));
+    }
+    else
+    {
+?>
+        <strong>Location ID</strong> :  <?=$location['location_id']?>
+        <br />
+        <strong>Location Address</strong> :  <?=$location['address']?>
+<?php       
+    }
+    print '</div>';
 }
 
 function _shn_rms_view_reqitems($req_id)
@@ -976,6 +1089,7 @@ function _shn_rms_view_reqitems($req_id)
     print '<h4>' . _("Request Items") . '</h4>';
     shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
     print '<br />';
+    
 }
 
 function _shn_rms_view_reqff($req_id)
@@ -1125,6 +1239,203 @@ function _shn_rms_pledge_setstat($plg_id, $stat)
     else
     {
         return true;
+    }
+}
+
+/**
+ * category tmp
+ */
+ 
+/**
+ * Generates the java script required for AJAX functionality 
+ * 
+ * @param mixed $to 
+ * @access public
+ * @return void
+ */
+function _shn_rms_ct_cat_js($max,$form,$change,$item_flag=false){
+    global $global;
+    $fetch_server="xml.php?";
+?>           
+<script type="text/javascript">
+    var url = "<?php echo $fetch_server?>"; 
+       var curlevel=0;
+     var http;
+     var null_data;
+      var max=<?php echo $max ?>;
+    function getHTTPObject() {
+        var xmlhttp;
+        //conditional compliation
+        /*@cc_on
+        @if (@_jscript_version >= 5)
+            try {
+                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                try {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (E) {
+                    xmlhttp = false;
+                }
+            }
+        @else
+            xmlhttp = false;
+        @end @*/
+
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            try {
+                xmlhttp = new XMLHttpRequest();
+            } catch (e) {
+            xmlhttp = false;
+            }
+        }
+    return xmlhttp;
+    }
+
+    // The callback funtion
+    function handleHttpResponse(){
+        if (http.readyState == 4) { // Split the comma delimited response into an array  
+                results = http.responseText.split(",");
+            if (results[0]!="null"){
+                    null_data=false;
+                    curlevel=curlevel+1;
+                     var x=document.getElementsByName(curlevel);
+                     x[0].style.visibility='visible';
+                    j=0;
+                 var x=document.getElementsByName(curlevel);
+                for (i=0; i<=x[0].options.length+1; i++){
+                        x[0].options[0]=null;
+                    }
+                    for (i=1; i<results.length-1; i=i+2, j++){
+                         opt = document.createElement("option") ;
+                          opt.value = results[i] ;
+                          opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
+                          x[0].options[j] = opt;
+                        x[0].selectedIndex=-1;
+                    }
+                }else{
+                    null_data=true;
+                }
+
+            for (i=max; i>curlevel; i=i-1){
+                 var x=document.getElementsByName(i);
+                 x[0].style.visibility='hidden';
+                 
+             }
+       
+        } 
+    }
+
+    function update_next_level(selection,level){
+         curlevel=level;
+    var item_flag = "<?php echo $item_flag?>"; 
+        http = getHTTPObject();
+        var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
+          http.open("GET", url2, true); 
+//        http.onreadystatechange = null; 
+        http.onreadystatechange = function(){}; 
+        http.onreadystatechange = handleHttpResponse; 
+        http.send(null);
+    }
+    
+           function set_name_submit()
+    {
+            var name="";
+            var element="";
+            var last_lvl;
+            if(null_data==true){
+                last_lvl= curlevel+1 ;
+            } else{
+                last_lvl= curlevel;
+            }
+            for(i=0;i<last_lvl;i++){
+                    element="\""+i+"\"";
+                var x=document.getElementsByName(i);
+                if(i+1==last_lvl){
+                    name=name+x[0].options[x[0].selectedIndex].text;
+                }else{
+                    name=name+x[0].options[x[0].selectedIndex].text+"->";
+                }
+        }
+        
+        var x=document.getElementsByName("<?php echo $change?>");
+        x[0].value=name;
+        document.<?php echo $form;?>.submit();
+        return;
+    }
+    
+     var x=document.getElementsByName(0);
+     x[0].selectedIndex=-1;
+    for (i=max; i>0; i=i-1){
+            var x=document.getElementsByName(i);
+        x[0].style.visibility='hidden';
+    }
+    
+
+</script>
+<?php
+}
+
+
+/**
+ * shn_location 
+ * Generates a set of select boxes with locations with in the given levels. Will add to the form. 
+ * @param mixed $from 
+ * @param mixed $to 
+ * @access public
+ * @return void
+ */
+function _shn_rms_ct_cat($max,$form,$item_flag=false)
+{
+    
+    $parent_array=array();
+    
+    global $global;
+    $db=$global["db"];
+    
+    if($item_flag==true)
+    {
+        $query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
+        $res=$db->Execute($query);
+    }
+    else
+    {
+        $query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+        $res=$db->Execute($query);
+    }
+    
+    while(!$res==NULL && !$res->EOF)
+    {
+    $parent_array[$res->fields["ct_uuid"]]=$res->fields["name"];
+    $res->MoveNext();
+    }
+    
+    if($parent_array==null){
+    $parent_array["1"]=_("None");
+    shn_form_fsopen(_('Information'));
+    ?>
+    <p><?= _('There is no any root catalogue found. '); ?><a href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _(' First'); ?></p>
+    
+    <?php
+    shn_form_fsclose();
+    }
+
+    else{
+    shn_form_fsopen(_("Select the root Category"));
+    $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,0)';    
+    shn_form_select($parent_array,'',0,$select_opts,null);
+    shn_form_fsclose();
+    shn_form_fsopen(_('Select the sub category'));
+    for($i=1;$i<$max+1;$i++){
+    $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';    
+    shn_form_select(null,'',$i,$select_opts,null);
+    }
+    _shn_rms_ct_cat_js($max,$form,"item_name",$item_flag);
+    shn_form_hidden(array('item_name'=>""));
+    //_shn_cs_item_name_javascript("item_name",$max,$form);
+    //shn_form_button(_("Next"),"onClick='set_name_submit()'");
+    shn_form_fsclose();
+    
+    //shn_form_submit(_("Next"));
     }
 }
 ?>

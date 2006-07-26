@@ -22,46 +22,23 @@
 function _shn_rms_requester($requester_id=null)
 {
     $_SESSION['rms_reqstr_id'] = null;
+    
+    _shn_rms_print_hedder(_("Make New Request"));
+    
+    
+    shn_form_fopen("req_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'add_reqstr'));
+    shn_form_fsopen(_("New Requester"));
+    
     print '<div id="reqstr_id">';
-    _shn_rms_print_hedder(_("Make New Request"));
-    
-    print '<div class="info"><strong>';
-    print _("If you are a registered requester, Please enter your request ID ");
-    print '<br />';
-    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
-    print '</strong><br />';
-    print '</div>';
-    shn_form_fopen("req_new",null,array('req_message'=>true));
-    shn_form_hidden(array('seq'=>'get_reqstr'));
-    shn_form_fsopen(_("Existing Requester"));
-    shn_form_text(_("Requester ID"),'reqstr_id',null,array('req'=>true,'br'=>false));
-    shn_form_submit(_("Next"), 'id="reqstr_next"');
-    shn_form_fsclose();
-    shn_form_fclose();
-    print '<br />';
-    include_once('lib_ajax.inc');
-    _shn_rms_ajax_init('reqstr_id');
-    shn_form_button(_("New Requester"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=new_requester\",\"\")'",array('br'=>false));
-    print '</div>';
-}
-
-function _shn_rms_new_requester()
-{
-	print '<div id="reqstr_new">';
-    
-    _shn_rms_print_hedder(_("Make New Request"));
-    
-    print '<div class="info"><strong>';
+    print '<div class="info">';
     print _("Create New Requester: ");
     print _("A new Person will be added to the Sahana Database,");
     print '<br />';
     print _("Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
-    print '</strong><br />';
+    print '<br />';
     print '</div>';
-    
-    shn_form_fopen("req_new",null,array('req_message'=>true));
-    shn_form_hidden(array('seq'=>'add_reqstr'));
-    shn_form_fsopen(_("New Requester"));
+    print '<br />';
     shn_form_text(_("Full Name"),'name',null,array('req'=>true));
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
@@ -71,11 +48,57 @@ function _shn_rms_new_requester()
     shn_form_submit(_("Next"));
     shn_form_fclose();
     print '<br />';
-    include_once('lib_ajax.inc');
-    _shn_rms_ajax_init('reqstr_new');
-    shn_form_button(_("Back (Existing Requester)"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=\",\"\")'",array('br'=>false));
+    
+    shn_form_fopen("req_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'get_reqstr'));
+    shn_form_fsopen(_("Existing Requester"));
+    print '<div class="info">';
+    print _("If you are a registered requester, Please enter your request ID ");
+    print '<br />';
+    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
+    print '<br />';
+    print '</div>';
+    print '<br />';
+    shn_form_text(_("Requester ID"),'reqstr_id',null,array('req'=>true,'br'=>false));
+    shn_form_fsclose();
+    shn_form_submit(_("Next"), 'id="reqstr_next"');
+    shn_form_fclose();
+    print '<br />';
+    
     print '</div>';
 }
+
+//function _shn_rms_new_requester()
+//{
+//	print '<div id="reqstr_new">';
+//    
+//    _shn_rms_print_hedder(_("Make New Request"));
+//    
+//    print '<div class="info"><strong>';
+//    print _("Create New Requester: ");
+//    print _("A new Person will be added to the Sahana Database,");
+//    print '<br />';
+//    print _("Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
+//    print '</strong><br />';
+//    print '</div>';
+//    
+//    shn_form_fopen("req_new",null,array('req_message'=>true));
+//    shn_form_hidden(array('seq'=>'add_reqstr'));
+//    shn_form_fsopen(_("New Requester"));
+//    shn_form_text(_("Full Name"),'name',null,array('req'=>true));
+//    shn_form_text(_("Mobile"),'mobile');
+//    shn_form_text(_("Email"),'email');
+//    shn_form_text(_("Telephone"),'telephone',null);
+//    shn_form_textarea(_("Address"),'address',null);
+//    shn_form_fsclose();
+//    shn_form_submit(_("Next"));
+//    shn_form_fclose();
+//    print '<br />';
+//    include_once('lib_ajax.inc');
+//    _shn_rms_ajax_init('reqstr_new');
+//    shn_form_button(_("Back (Existing Requester)"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=\",\"\")'",array('br'=>false));
+//    print '</div>';
+//}
 
 function _shn_rms_requester_new()
 {
@@ -290,20 +313,38 @@ function _shn_rms_location($id = null)
     if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
     
-    _shn_rms_view_requester($id);
+    _shn_rms_view_requester($id,true);
     
     
     print '<br />';
-    
+    shn_form_fopen("req_new",null,array('req_message'=>false));
+    shn_form_fsopen(_("Request Location"));
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('loc_camp');
-    shn_form_button(_("Camp"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp\",\"\")'",array('br'=>false));
-    shn_form_button(_("Organization"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org\",\"\")'",array('br'=>false));
-    shn_form_button(_("Other"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other\",\"\")'",array('br'=>false));
     
-    print '<div id="loc_camp">';
-    
+    print '<div class="info">';
+    print _("<strong>Select Request Location:</strong><br /> ");
+    print _("Please select the Location Type, ");
+    print _("Then select an <strong>Existing Location</strong> that is associated with the requester or ");
+    print _("if it doesn't contain the the location you need create a <strong>New Location</strong>.'");
+    print '<br />';
     print '</div>';
+?>
+  <input type="radio" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
+  <input type="radio" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
+  <input type="radio" checked="Checked" name="location" value="Other" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other","")' /> Other
+<?php
+//    shn_form_button(_("Camp"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp\",\"\")'",array('br'=>false));
+//    shn_form_button(_("Organization"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org\",\"\")'",array('br'=>false));
+//    shn_form_button(_("Other"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other\",\"\")'",array('br'=>false));
+    print '<br />';
+    print '<br />';
+    print '<div id="loc_camp">';
+    _shn_rms_ax_location_other();
+    print '</div>';
+    
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 
 function _shn_rms_ax_location_other($id=null)
@@ -311,17 +352,6 @@ function _shn_rms_ax_location_other($id=null)
 	if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
         
-    if (_shn_rms_get_requester_locs($id))
-    {
-        shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
-        shn_form_hidden(array('seq'=>'get_loc'));
-        shn_form_fsopen(_("Select Location"));
-        shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
-        shn_form_fsclose();
-        shn_form_submit(_("Next"));
-        shn_form_fclose();
-    }
-    
     {
         print '<div id="loc_new">';
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
@@ -336,9 +366,20 @@ function _shn_rms_ax_location_other($id=null)
         shn_form_fsclose();
         shn_form_submit(_("Add Location"));
         shn_form_fclose();
-        print '</div>';
+        print '</div><br />';
     }
     
+    if (_shn_rms_get_requester_locs($id))
+    {
+        shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
+        shn_form_hidden(array('seq'=>'get_loc'));
+        shn_form_fsopen(_("Existing Location"));
+        //$help = _("This");
+        shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
+        shn_form_fsclose();
+        shn_form_submit(_("Next"));
+        shn_form_fclose();
+    }    
 }
 
 function _shn_rms_location_add()
@@ -362,7 +403,6 @@ function _shn_rms_location_add()
         print _shn_rms_add_requester_loc($id, $loc);
         _shn_rms_location();
     }
-    
     
 }
 
@@ -396,18 +436,23 @@ function _shn_rms_items($category = null)
         $categories[$cat['ct_uuid']] = $cat['name'];
     }
     
-    foreach ($item_arr as $item)
+    if (!empty($item_arr))
     {
-        if (empty($_SESSION['rms_items']))
+        foreach ($item_arr as $item)
         {
-            $items[$item['ct_uuid']] = $item['name'];
+            if (empty($_SESSION['rms_items']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+            elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+                
         }
-        elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
-        {
-            $items[$item['ct_uuid']] = $item['name'];
-        }
-            
     }
+    
+    $units = _shn_rms_get_items($items);
     
     print '<a name="items"></a>';
     print '<div id="item_new">';
@@ -415,9 +460,30 @@ function _shn_rms_items($category = null)
     shn_form_hidden(array('seq'=>'add_item'));
     shn_form_hidden(array('cat_sel'=>'false'));
     shn_form_fsopen(_("New Item"));
-    shn_form_select($categories, _("Category"),'category','onChange="selectCat();"', array('value'=>$category));
-    shn_form_select($items, _("Item"),'item');
-    shn_form_text(_("Quantity"),'qty',null,array('req'=>true));
+    
+//    global $global;
+//    include_once $global['approot'].'/mod/cs/lib_cs.inc';
+//    $depth=get_max_depth();
+//    shn_sub_cat($depth,'subcat',null);
+    include_once('lib_ajax.inc');
+    _shn_rms_ajax_init('sub_cat');
+    //shn_form_select($categories, _("Category"),'category','onChange="selectCat();"', array('value'=>$category));
+    shn_form_select($categories, _("Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
+    
+    
+    print '<div id="sub_cat">';
+    print '</div>';
+    
+    print '<div id="itm_unit">';
+    print '</div>';
+//    
+//    global $global;
+//    include_once $global['approot'].'/mod/cs/lib_cs.inc';
+//    $depth=get_max_depth();
+    //shn_sub_cat($depth,'subcat','null');
+    
+    //_shn_rms_ct_cat($depth,'subcat',null);
+    shn_form_text(_("Quantity"),'qty',null,array('req'=>true,'value'=>''));
     shn_form_select($priorities, _("Priority"), 'priority');
     shn_form_fsclose();
     shn_form_submit(_("Add"));
@@ -427,11 +493,63 @@ function _shn_rms_items($category = null)
     _shn_rms_js_category();
 }
 
+function _shn_rms_get_subcat($cat_id)
+{
+	$car_arr = _shn_rms_get_sub_cat($cat_id);
+    //print ">>>>>$cat_id";
+    //print_r($car_arr);
+    if (empty($car_arr))
+    {
+    	$item_arr = _shn_rms_get_items($cat_id);
+        
+        
+        //$items_blank[''] = '';
+        foreach ($item_arr as $item)
+        {
+            if (empty($_SESSION['rms_items']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+            elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+                
+        }
+        
+        
+        if (!isset($items) || empty($items))
+        {
+            print "<div class=info>" . _("No items (left) for this category please select another category") . "</div>";
+            return false;            
+        }
+        else
+        {
+            array_push($items,'');
+            array_reverse($items);
+            shn_form_select($items, _("Item"),'item',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_unit_itm\",this.value,showUnit)'");
+            return true;
+        }
+        
+    }
+    else
+    {
+    	$categories['0000'] = '';
+        foreach ($car_arr as $cat)
+        {
+            $categories[$cat['ct_uuid']] = $cat['name'];
+        }
+        shn_form_select($categories, _("Sub Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
+    }
+    
+}
+
 function _shn_rms_show_items()
 {
     if (is_array($_SESSION['rms_items']))
     {        
         $rms_items = $_SESSION['rms_items'];
+
         $th_items[] = array (_("Item"), _("Quantity"), _("Item Priority"), '&nbsp;');
          
         foreach ($rms_items as $itm)
@@ -442,7 +560,7 @@ function _shn_rms_show_items()
                            
             $tb_items[] = array (
                                  _shn_rms_get_itemname($itm[0]), 
-                                 $itm[1], 
+                                 $itm[1] . " " . _shn_rms_get_iunit_name($itm[3]) . "", 
                                  _shn_rms_get_priorityname($itm[2]),
                                  $remove_link
                                 );
@@ -469,8 +587,6 @@ switch ($_REQUEST['seq'])
             $_SESSION['rms_req_added'] = false;
                 
             _shn_rms_requester();
-            // Add required js functions
-            _shn_rms_js_requester();
             break;
     
     case 'new_requester':
@@ -514,9 +630,9 @@ switch ($_REQUEST['seq'])
             $_SESSION['rms_reqstr_loc'] = $loc;
             $_SESSION['rms_items'] = null;
             
-            _shn_rms_view_requester($_SESSION['rms_reqstr_id']);
+            _shn_rms_view_requester($_SESSION['rms_reqstr_id'],true);
             print '<br />';
-            _shn_rms_view_location($_SESSION['rms_reqstr_loc']);
+            _shn_rms_view_location($_SESSION['rms_reqstr_loc'],true);
             print '<br />';
             
             _shn_rms_items();
@@ -525,11 +641,29 @@ switch ($_REQUEST['seq'])
     case 'ax_loc_other':
             _shn_rms_ax_location_other();
             break;
+    case 'ax_sub_cat':
+            $cat_id=$_REQUEST['par'];
+            //print_r($_REQUEST);
+            _shn_rms_get_subcat($cat_id);
+            break;
             
+    case 'ax_unit_itm':
+            $itm_id=$_REQUEST['par'];
+            $units_arr = _shn_rms_get_itm_units($itm_id);
+            if(empty($units_arr))
+                return false;
+                
+            foreach ($units_arr as $unit)
+            {
+                $units[$unit['unit_uuid']] = $unit['name'];                    
+            }
+            shn_form_select($units, _("Unit"),'unit');
+            break;
+    
     case 'add_item':
-            _shn_rms_view_requester($_SESSION['rms_reqstr_id']);
+            _shn_rms_view_requester($_SESSION['rms_reqstr_id'],true);
             print '<br />';
-            _shn_rms_view_location($_SESSION['rms_reqstr_loc']);
+            _shn_rms_view_location($_SESSION['rms_reqstr_loc'],true);
             print '<br />';
             
             if ($_POST['cat_sel'] == 'true')
@@ -541,7 +675,9 @@ switch ($_REQUEST['seq'])
                 $itm = $_POST['item'];
                 $qty = $_POST['qty'];
                 $pri = $_POST['priority'];
-                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty, $pri))
+                $unit = $_POST['unit'];
+
+                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty, $pri, $unit))
                 {
                     unset($_POST);
                     _shn_rms_items();
@@ -558,9 +694,9 @@ switch ($_REQUEST['seq'])
             
     case 'del_item':
             _shn_rms_del_itemfromsession($_REQUEST['itm_id']);
-            _shn_rms_view_requester($_SESSION['rms_reqstr_id']);
+            _shn_rms_view_requester($_SESSION['rms_reqstr_id'],true);
             print '<br />';
-            _shn_rms_view_location($_SESSION['rms_reqstr_loc']);
+            _shn_rms_view_location($_SESSION['rms_reqstr_loc'],true);
             print '<br />';
             _shn_rms_items();
             _shn_rms_show_items();

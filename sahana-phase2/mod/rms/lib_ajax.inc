@@ -44,7 +44,43 @@ function replaceContent()
     
 }
 
-function makeRequest(url, parameters)
+function ct_list() 
+{
+    if (http_request.readyState == 4)
+    {
+        if (http_request.status == 200)
+        {
+            //alert(http_request.responseText);
+            result = http_request.responseText;
+            document.getElementById('sub_cat').innerHTML += result; 
+        }
+        else
+        {
+            alert(http_request.status + 'There was a problem with the request.');
+        }
+    }
+    
+}
+
+function showUnit() 
+{
+    if (http_request.readyState == 4)
+    {
+        if (http_request.status == 200)
+        {
+            //alert(http_request.responseText);
+            result = http_request.responseText;
+            document.getElementById('itm_unit').innerHTML = result; 
+        }
+        else
+        {
+            alert(http_request.status + 'There was a problem with the request.');
+        }
+    }
+    
+}
+
+function makeRequest(url, parameters, callback)
 {
     http_request = false;
     if (window.XMLHttpRequest)
@@ -76,9 +112,16 @@ function makeRequest(url, parameters)
         alert('Cannot create XMLHTTP instance');
         return false;
     }
-
-    http_request.onreadystatechange = replaceContent;
-    http_request.open('GET', url + parameters, true);
+    
+    if (callback==null)
+    {
+        http_request.onreadystatechange = replaceContent;
+    }
+    else
+    {
+    	http_request.onreadystatechange = callback;
+    }
+    http_request.open('GET', url + '&par='+parameters, true);
     http_request.send(null);
 }
 
