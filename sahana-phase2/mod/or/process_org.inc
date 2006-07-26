@@ -66,29 +66,38 @@ function _shn_or_reg_org_cr()
     }
 	
      if($error!=true){
+     ?><strong>	<?php echo $_SESSION['org']['name']?> Organization was succesfully registered</strong>
+     <br /><br /><?
 ?>
     <div id="result_msg">
-       <?php echo $_SESSION['org']['name']?> Organization was succesfully registered
-    <br /><br />
-   
-    Now you can add a Branch/Department Under  <?php echo $_SESSION['org']['name']?>
-    e.g. Health Department,Relief Operations Department.
-    <br />
-    If you need to register a Branch/Department ,click the link below
-    <br />
-     <a href="index.php?&mod=or&act=reg_operation&org=<?php echo $org_id;?>">Register a Department/Branch</a>
-    <br />
-    Of course you can add Branches/Departments later on through the
-    Register a Department/Branch link.
-    <br /> <br />
-
-    Instead if you wish to add another organization click the link below
-    <br />
-    <a href="index.php?&mod=or&act=reg_org">Register an Organization</a>
-    </div>
-    <br />
+    <?php
+    $form_opts['name']='confirm';
+    $form_opts['req_message']=false;
+    shn_form_fopen("reg_org_finalize",null,$form_opts);
+    	$extra_opts['br']=false;
+	$extra_opts['req']=false;
+	shn_form_fsopen('Register a Branch/Department');
+	$msg=_("Now you can add a Branch/Department Under ")."<strong>". $_SESSION['org']['name']."</strong><br />"._("e.g. Health Department,Relief Operations Department. : ")."<br />";
+	$msg=$msg._("Of course you can add Branches/Departments later on through the Register a Department/Branch link.")."<br />";
+    shn_form_label("",$msg);
+    shn_form_button(_("Register a Branch/Department"),"onClick='change_action(\"operation\")'",$extra_opts);
+	shn_form_fsclose();
+	
+	shn_form_fsopen('Register another Organization');
+	$msg=_("Instead if you wish to add another organization click the button below ")."<br />";
+    shn_form_label("",$msg);
+	shn_form_button(_("Register an Organization"),"onClick='change_action(\"org\")'",$extra_opts);
+	shn_form_fsclose();
+    shn_form_hidden(array('action'=>'0'));
+    shn_form_hidden(array('org_id'=>$org_id));
+    _shn_or_action_change_javascript("confirm","action");
+?>
+</center>
+<br />
 <?php
-	 
+        //close the form
+    shn_form_fclose(false);
+ 
     }
 }
 

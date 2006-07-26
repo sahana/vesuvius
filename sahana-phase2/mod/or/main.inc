@@ -73,13 +73,23 @@ function shn_or_reg_org_cr()
     		_shn_or_reg_org_cr();
 	}
 }
+function shn_or_reg_org_finalize()
+{ 
+	include_once("reg_org.inc");
+	if($_POST["action"]=="org"){
+		_shn_or_regform_org(false);
+	}else{
+		_shn_or_regform_operation(false,$_POST["org_id"]);
+	}
+}
+
 function shn_or_reg_operation($error=false)
 {
     include_once ("reg_org.inc"); 
-    if($_GET["org"]==null){
+    if($_POST["org_id"]==null){
     		_shn_or_regform_operation(false);
     }else{
-    		_shn_or_regform_operation(false,$_GET["org"]);	
+    		_shn_or_regform_operation(false,$_POST["org_id"]);	
     }
 }
 function shn_or_reg_operation_cr(){
