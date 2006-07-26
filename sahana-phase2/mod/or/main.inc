@@ -132,7 +132,9 @@ function shn_or_view_org()
 	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
 	unset($_SESSION["org"]["total_pages"]);
 	unset($_SESSION["org"]["pages"]);
-	$org_list=shn_or_org_incident_list($_SESSION["incidents"]);
+	$incident_arr=array($_SESSION['user_pref_ims_incident_id']);
+	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident_arr);
+	$org_list=shn_or_org_incident_list($incident_arr);
 	_shn_or_viewform_allorg($org_list);
     			
     		   
@@ -182,7 +184,11 @@ function shn_or_drill_report_org_show_orgs()
 	$_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
 	unset($_SESSION["org"]["total_pages"]);
 	unset($_SESSION["org"]["pages"]);
-	$org_list=shn_or_org_loc_sector_incident_list($_GET["loc"],$_GET["sec"],$_SESSION["incidents"]);
+	$incident_arr=array($_SESSION['user_pref_ims_incident_id']);
+	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident_arr);
+	$loc_arr=array($_GET["loc"]);
+	shn_location_get_descendants($_GET["loc"],&$loc_arr);
+	$org_list=shn_or_org_loc_sector_incident_list($loc_arr,$_GET["sec"],$incident_arr);
 	_shn_or_viewform_allorg($org_list);
   		   
 }

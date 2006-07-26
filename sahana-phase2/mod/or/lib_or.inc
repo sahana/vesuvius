@@ -159,14 +159,30 @@ function shn_or_org_list($incidents=null,$rootsonly=false){
         return $org_list;
 }
 
+function shn_get_incident_descendants($parent,&$incident_arr)
+{
+	global $global; 
+    $db=$global['db'];
+   	$q="select incident_id from incident where parent_id='{$parent}'";
+    $res=$db->Execute($q);
+    if(!$res==NULL && !$res->EOF){
+    		array_push(
+    			$incident_arr,
+        		$res->fields['incident_id']
+    		);
+    		shn_get_incident_descendants($res->fields['incident_id'],$incident_arr);
+    } 
+    return $incident_arr;
+ }
+
 function shn_or_org_incident_list($incidents=null,$rootsonly=false){
 	    global $global;
         $db=$global['db'];
 		$list=shn_or_create_database_IN_array($incidents);
-        if($rootsonly==true){
-        	$root=" and parent_id is NULL ";
+		if($rootsonly==true){
+        		$root=" and parent_id is NULL ";
         }else{
-        	$root="";
+        		$root="";
         }
         if($incidents==null)
 			$q = "select distinct o_uuid from org_main where privacy=false".$root;
@@ -188,16 +204,17 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
 function shn_or_org_loc_sector_incident_list($loc,$sector,$incidents=null,$rootsonly=false){
 	    global $global;
         $db=$global['db'];
-		$list=shn_or_create_database_IN_array($incidents);
+		$inc_list=shn_or_create_database_IN_array($incidents);
+		$loc_list=shn_or_create_database_IN_array($loc);
         if($rootsonly==true){
         		$root=" and org_main.parent_id is NULL ";
         }else{
         		$root="";
         }
         if($incidents==null)
-			$q = "select distinct o_uuid from org_main,location,location_details where privacy=false and loc_uuid='{$loc}' and loc_uuid=location_id and org_main.o_uuid=poc_uuid".$root;
+			$q = "select distinct o_uuid from org_main,location,location_details where privacy=false and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid".$root;
 		else
-			$q = "select distinct o_uuid  from org_main,resource_to_incident,location,location_details where privacy=false  ".$root." and org_main.parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list and loc_uuid='{$loc}' and loc_uuid=location_id and org_main.o_uuid=poc_uuid";
+			$q = "select distinct o_uuid  from org_main,resource_to_incident,location,location_details,sector where privacy=false  ".$root." and org_main.parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $inc_list and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
 		echo $q;
 		$res_org=$db->Execute($q);
 		$orgs=array();
