@@ -49,9 +49,9 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuopen(_("Security Config"));
     shn_sub_mod_menuitem("acl_system", _("System &amp; User"), 'admin');
     shn_sub_mod_menuitem("acl_module", _("Modules"), 'admin');
-    shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
     shn_sub_mod_menuclose();
 
+    shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
