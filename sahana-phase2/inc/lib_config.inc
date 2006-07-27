@@ -146,4 +146,26 @@ function shn_config_database_fetch($conf, $type='base')
                 $conf['mod_'.$result['module_id'].'_'.$result['confkey']] = $result['value'];
     }
 }
+
+
+function shn_config_database_update($key, $value, $type='base')
+{
+    global $global;
+
+    $sql = "SELECT module_id, confkey, value FROM config 
+                WHERE confkey = '$key' AND module_id = '$type'";
+
+    if($results = $global['db']->GetALL($sql)) {
+        $sql = "UPDATE config SET value = '$value' 
+                WHERE confkey = '$key' AND module_id = '$type'";
+        $global['db']->Execute($sql);
+
+    } else {
+
+        $sql = "INSERT INTO config VALUES (NULL,'$type', '$key', '$value')";
+        $global['db']->Execute($sql);
+    }
+
+
+}
 ?>
