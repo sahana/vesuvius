@@ -21,30 +21,37 @@ function _shn_admin_mainmenu()
     $module_list = shn_get_modules_with_admin();
     shn_mod_menuopen(shn_get_module_name());
     shn_sub_mod_menuitem("default", _("Admin Home"), 'admin');
+
     shn_sub_mod_menuopen(_("Locations"));
     shn_sub_mod_menuitem("loc_lvl", _("Location Levels"), 'admin');
     shn_sub_mod_menuitem("add_loc", _("Add Location"), 'admin');
     shn_sub_mod_menuitem("view_loc", _("Edit & Delete Location"), 'admin');
-   // shn_sub_mod_menuitem("loc_range", _("Set Location Range"), $module);
-   // shn_sub_mod_menuitem("start_loc", _("Set Starting Location"), $module);
+    // shn_sub_mod_menuitem("loc_range", _("Set Location Range"), $module);
+    // shn_sub_mod_menuitem("start_loc", _("Set Starting Location"), $module);
     shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen(_("Localization"));
     shn_sub_mod_menuitem("lc_set", _("Set Locale"), 'admin');
     shn_sub_mod_menuitem("lc_db", _("Database L10N"), 'admin');
     shn_sub_mod_menuitem("lc_trns", _("Language Translation"), 'admin');
     shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen(_("Module Config"));
- foreach ($module_list as $i) {  
-    shn_sub_mod_menuitem("adm_default", $conf['mod_'.$i.'_name'], $i);
- }
+    foreach ($module_list as $i) {  
+        shn_sub_mod_menuitem("adm_default", $conf['mod_'.$i.'_name'], $i);
+    }
     shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen(_("Mutiple Incidents"));
     include $global['approot']."/mod/admin/ims_menus.inc"; 
     shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen(_("Security Config"));
     shn_sub_mod_menuitem("acl_system", _("System &amp; User"), 'admin');
     shn_sub_mod_menuitem("acl_module", _("Modules"), 'admin');
+    shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
     shn_sub_mod_menuclose();
+
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }

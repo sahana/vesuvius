@@ -28,6 +28,7 @@ include_once $global['approot']."inc/lib_security/auth_form.inc";
 
 // Incident Management Module
 include_once $global['approot']."mod/admin/ims_main.inc";
+include_once $global['approot']."mod/admin/conf_admin.inc";
 
 function shn_admin_mainmenu()
 {
