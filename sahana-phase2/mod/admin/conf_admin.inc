@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.1 2006-07-27 21:48:31 chamindra Exp $ */
+/* $Id: conf_admin.inc,v 1.2 2006-07-27 23:46:23 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -25,6 +25,13 @@ function shn_admin_conf_list()
 {
     global $conf;
 
+    if (isset($_POST['conf_key'])) {
+
+        shn_config_database_update($_POST['conf_key'],$_POST['conf_value']);
+        echo '<p>'.$_POST['conf_key']." has been updated with value ".
+                $_POST['conf_value'].'</p>';
+    }
+
     ksort($conf);
     shn_config_database_fetch(&$dconf,'all');
 ?>
@@ -48,4 +55,21 @@ function shn_admin_conf_list()
     </div>
 <?php
 }
+
+
+function shn_admin_conf_var() 
+{
+    global $conf;
+
+    shn_form_fopen('conf_list');
+    shn_form_fsopen(_('Change Config Value'));
+    shn_form_hidden(array('conf_key'=>$_GET['key']));
+    shn_form_text($_GET['key'],'conf_value',null,array('value'=>$conf[$_GET['key']]));
+
+
+    shn_form_fsclose();
+    shn_form_submit(_('Change value'));
+    shn_form_fclose();
+}
+
 ?>
