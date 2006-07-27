@@ -427,7 +427,6 @@ function _shn_rms_add_item2session($itm, $qty, $pri, $unit)
     if ($qty != '' && is_numeric($qty))
     {
         $_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit);
-        print "$unit" . '<br />';
         return true;    
     }
     else

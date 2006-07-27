@@ -24,6 +24,11 @@ function _shn_rms_mng_request()
     $_SESSION['rms_req_id'] = null;
     
     print '<div id="req_id">';
+    print '<div class="info">';
+    print _("Request / Pledge Matching ");
+    print _("Please add the Request ID of the request you want to fulfill. You can also select a Request fron the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
+    print '<br />';
+    print '</div>';
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
     shn_form_hidden(array('seq'=>'get_req'));
     shn_form_fsopen(_("Request"));

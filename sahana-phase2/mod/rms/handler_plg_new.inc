@@ -25,24 +25,18 @@ function _shn_rms_donor()
 {
     $_SESSION['rms_donor_id'] = null;
     
-    print '<div id="donor_id">';
-    shn_form_fopen("plg_new",null);
-    shn_form_hidden(array('seq'=>'get_donor'));
-    shn_form_fsopen(_("Existing Donor"));
-    shn_form_text(_("Donor ID"),'donor_id',null,array('br'=>false));
-    shn_form_submit(_("Next"), 'id="donor_next"');
-    shn_form_fsclose();
-    $help = _("* Create New Donor: " .
-              "A new Person will be added to the Sahana Database, <br />" .
-              "* Only the Full Name is required, But in order to Contact the Donor please add some contact information with this");
-    shn_form_button(_("New Donor"),'onClick="showNewDonor();"',array('help'=>$help));
-    shn_form_fclose();
-    print '</div>';
-    
-    print '<div id="donor_new">';
-    shn_form_fopen("plg_new",null,array('req_message'=>false));
+    shn_form_fopen("plg_new",null,array('req_message'=>true));
     shn_form_hidden(array('seq'=>'add_donor'));
     shn_form_fsopen(_("New Donor"));
+    print '<div id="reqstr_id">';
+    print '<div class="info">';
+    print _("Create New Donor: ");
+    print _("A new Person will be added to the Sahana Database,");
+    print '<br />';
+    print _("Only the Full Name is required, But in order to Contact the Donor please add some contact information with this");
+    print '<br />';
+    print '</div>';
+    print '<br />';
     shn_form_text(_("Full Name"),'name','',array('req'=>true));
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
@@ -51,7 +45,28 @@ function _shn_rms_donor()
     shn_form_fsclose();
     shn_form_submit(_("Next"));
     shn_form_fclose();
+    
+    print '<br />';
+    
+    shn_form_fopen("plg_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'get_donor'));
+    shn_form_fsopen(_("Existing Donor"));
+    
+    print '<div class="info">';
+    print _("If you are a registered Donor, Please enter your Donor ID ");
+    print '<br />';
+    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer, requester etc...");
+    print '<br />';
     print '</div>';
+    print '<br />';
+    
+    shn_form_text(_("Donor ID"),'donor_id',null,array('br'=>false));
+    shn_form_submit(_("Next"), 'id="donor_next"');
+    shn_form_fsclose();
+    $help = _("* Create New Donor: " .
+              "A new Person will be added to the Sahana Database, <br />" .
+              "* Only the Full Name is required, But in order to Contact the Donor please add some contact information with this");
+    shn_form_fclose();
     
 }
 
@@ -291,17 +306,20 @@ function _shn_rms_items($category = null)
         $categories[$cat['ct_uuid']] = $cat['name'];
     }
     
-    foreach ($item_arr as $item)
+    if (!empty($item_arr))
     {
-        if (empty($_SESSION['rms_items']))
+        foreach ($item_arr as $item)
         {
-            $items[$item['ct_uuid']] = $item['name'];
+            if (empty($_SESSION['rms_items']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+            elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+                
         }
-        elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
-        {
-            $items[$item['ct_uuid']] = $item['name'];
-        }
-            
     }
     
     print '<a name="items"></a>';
@@ -311,8 +329,18 @@ function _shn_rms_items($category = null)
     shn_form_hidden(array('seq'=>'add_item'));
     shn_form_hidden(array('cat_sel'=>'false'));
     shn_form_fsopen(_("New Item"));
-    shn_form_select($categories, _("Category"),'category','onChange="selectCat();"', array('value'=>$category));
-    shn_form_select($items, _("Item"),'item');
+    include_once('lib_ajax.inc');
+    _shn_rms_ajax_init('sub_cat');
+    shn_form_select($categories, _("Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
+    //shn_form_select($categories, _("Category"),'category','onChange="selectCat();"', array('value'=>$category));
+    //shn_form_select($items, _("Item"),'item');
+    
+    print '<div id="sub_cat">';
+    print '</div>';
+    
+    print '<div id="itm_unit">';
+    print '</div>';
+    
     shn_form_text(_("Quantity"),'qty',null,array('req'=>true));
     shn_form_fsclose();
     shn_form_submit(_("Add"));
@@ -327,6 +355,7 @@ function _shn_rms_show_items()
     if (is_array($_SESSION['rms_items']))
     {        
         $rms_items = $_SESSION['rms_items'];
+
         $th_items[] = array (_("Item"), _("Quantity"), '&nbsp;'); 
         foreach ($rms_items as $itm)
         {
@@ -335,7 +364,7 @@ function _shn_rms_show_items()
                            $itm[0] . '">' . _("Remove Item") . '</a>';
             $tb_items[] = array (
                                  _shn_rms_get_itemname($itm[0]), 
-                                 $itm[1], 
+                                 $itm[1] . " " . _shn_rms_get_iunit_name($itm[3]) . "" , 
                                  $remove_link
                                 );
         }
@@ -349,6 +378,52 @@ function _shn_rms_show_items()
         _shn_html_print_message($msg);
         shn_form_submit(_("Finish"));
         shn_form_fclose();
+    }
+    
+}
+
+function _shn_rms_get_subcat($cat_id)
+{
+    $car_arr = _shn_rms_get_sub_cat($cat_id);
+
+    if (empty($car_arr))
+    {
+        $item_arr = _shn_rms_get_items($cat_id);
+        
+        foreach ($item_arr as $item)
+        {
+            if (empty($_SESSION['rms_items']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+            elseif (!_shn_rms_is_itemadded($item['ct_uuid']))
+            {
+                $items[$item['ct_uuid']] = $item['name'];
+            }
+                
+        }
+        
+        if (!isset($items) || empty($items))
+        {
+            print "<div class=info>" . _("No items (left) for this category please select another category") . "</div>";
+            return false;            
+        }
+        else
+        {
+            array_push($items,'-- Select item --');
+            shn_form_select($items, _("Item"),'item',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=plg_new&amp;seq=ax_unit_itm\",this.value,showUnit)'");
+            return true;
+        }
+        
+    }
+    else
+    {
+        $categories[''] = '-- Select Category --';
+        foreach ($car_arr as $cat)
+        {
+            $categories[$cat['ct_uuid']] = $cat['name'];
+        }
+        shn_form_select($categories, _("Sub Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=plg_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
     }
     
 }
@@ -395,6 +470,24 @@ switch ($_REQUEST['seq'])
                 _shn_rms_js_donor();
             }
             break;
+    
+    case 'ax_sub_cat':
+            $cat_id=$_REQUEST['par'];
+            _shn_rms_get_subcat($cat_id);
+            break;
+            
+    case 'ax_unit_itm':
+            $itm_id=$_REQUEST['par'];
+            $units_arr = _shn_rms_get_itm_units($itm_id);
+            if(empty($units_arr))
+                return false;
+                
+            foreach ($units_arr as $unit)
+            {
+                $units[$unit['unit_uuid']] = $unit['name'];                    
+            }
+            shn_form_select($units, _("Unit"),'unit');
+            break;
             
     case 'add_item':
             _shn_rms_view_donor($_SESSION['rms_donor_id']);
@@ -406,8 +499,8 @@ switch ($_REQUEST['seq'])
             {
                 $itm = $_POST['item'];
                 $qty = $_POST['qty'];
-                //$stat = $_POST['status'];
-                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty,''))
+                $unit = $_POST['unit'];
+                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty,'',$unit))
                 {
                     unset($_POST);
                     _shn_rms_items();

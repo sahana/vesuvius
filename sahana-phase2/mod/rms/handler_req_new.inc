@@ -24,13 +24,9 @@ function _shn_rms_requester($requester_id=null)
     $_SESSION['rms_reqstr_id'] = null;
     
     _shn_rms_print_hedder(_("Make New Request"));
-    
-    
     shn_form_fopen("req_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'add_reqstr'));
     shn_form_fsopen(_("New Requester"));
-    
-    print '<div id="reqstr_id">';
     print '<div class="info">';
     print _("Create New Requester: ");
     print _("A new Person will be added to the Sahana Database,");
@@ -65,40 +61,7 @@ function _shn_rms_requester($requester_id=null)
     shn_form_fclose();
     print '<br />';
     
-    print '</div>';
 }
-
-//function _shn_rms_new_requester()
-//{
-//	print '<div id="reqstr_new">';
-//    
-//    _shn_rms_print_hedder(_("Make New Request"));
-//    
-//    print '<div class="info"><strong>';
-//    print _("Create New Requester: ");
-//    print _("A new Person will be added to the Sahana Database,");
-//    print '<br />';
-//    print _("Only the Full Name is required, But in order to Contact the Requester please add some contact information with this");
-//    print '</strong><br />';
-//    print '</div>';
-//    
-//    shn_form_fopen("req_new",null,array('req_message'=>true));
-//    shn_form_hidden(array('seq'=>'add_reqstr'));
-//    shn_form_fsopen(_("New Requester"));
-//    shn_form_text(_("Full Name"),'name',null,array('req'=>true));
-//    shn_form_text(_("Mobile"),'mobile');
-//    shn_form_text(_("Email"),'email');
-//    shn_form_text(_("Telephone"),'telephone',null);
-//    shn_form_textarea(_("Address"),'address',null);
-//    shn_form_fsclose();
-//    shn_form_submit(_("Next"));
-//    shn_form_fclose();
-//    print '<br />';
-//    include_once('lib_ajax.inc');
-//    _shn_rms_ajax_init('reqstr_new');
-//    shn_form_button(_("Back (Existing Requester)"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=\",\"\")'",array('br'=>false));
-//    print '</div>';
-//}
 
 function _shn_rms_requester_new()
 {
@@ -122,8 +85,6 @@ function _shn_rms_requester_new()
         add_error(_("Please fill all the required fields"));
         display_errors();
         _shn_rms_requester();
-        // Unhide newrequester form
-        _shn_rms_js_requester(true);
         return false;
     }
     
@@ -334,9 +295,6 @@ function _shn_rms_location($id = null)
   <input type="radio" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
   <input type="radio" checked="Checked" name="location" value="Other" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other","")' /> Other
 <?php
-//    shn_form_button(_("Camp"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp\",\"\")'",array('br'=>false));
-//    shn_form_button(_("Organization"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org\",\"\")'",array('br'=>false));
-//    shn_form_button(_("Other"), "onClick='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other\",\"\")'",array('br'=>false));
     print '<br />';
     print '<br />';
     print '<div id="loc_camp">';
@@ -374,7 +332,6 @@ function _shn_rms_ax_location_other($id=null)
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'get_loc'));
         shn_form_fsopen(_("Existing Location"));
-        //$help = _("This");
         shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
         shn_form_fsclose();
         shn_form_submit(_("Next"));
@@ -461,28 +418,16 @@ function _shn_rms_items($category = null)
     shn_form_hidden(array('cat_sel'=>'false'));
     shn_form_fsopen(_("New Item"));
     
-//    global $global;
-//    include_once $global['approot'].'/mod/cs/lib_cs.inc';
-//    $depth=get_max_depth();
-//    shn_sub_cat($depth,'subcat',null);
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('sub_cat');
-    //shn_form_select($categories, _("Category"),'category','onChange="selectCat();"', array('value'=>$category));
     shn_form_select($categories, _("Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
-    
     
     print '<div id="sub_cat">';
     print '</div>';
     
     print '<div id="itm_unit">';
     print '</div>';
-//    
-//    global $global;
-//    include_once $global['approot'].'/mod/cs/lib_cs.inc';
-//    $depth=get_max_depth();
-    //shn_sub_cat($depth,'subcat','null');
-    
-    //_shn_rms_ct_cat($depth,'subcat',null);
+
     shn_form_text(_("Quantity"),'qty',null,array('req'=>true,'value'=>''));
     shn_form_select($priorities, _("Priority"), 'priority');
     shn_form_fsclose();
@@ -496,14 +441,11 @@ function _shn_rms_items($category = null)
 function _shn_rms_get_subcat($cat_id)
 {
 	$car_arr = _shn_rms_get_sub_cat($cat_id);
-    //print ">>>>>$cat_id";
-    //print_r($car_arr);
+
     if (empty($car_arr))
     {
     	$item_arr = _shn_rms_get_items($cat_id);
         
-        
-        //$items_blank[''] = '';
         foreach ($item_arr as $item)
         {
             if (empty($_SESSION['rms_items']))
@@ -517,7 +459,6 @@ function _shn_rms_get_subcat($cat_id)
                 
         }
         
-        
         if (!isset($items) || empty($items))
         {
             print "<div class=info>" . _("No items (left) for this category please select another category") . "</div>";
@@ -525,7 +466,7 @@ function _shn_rms_get_subcat($cat_id)
         }
         else
         {
-            array_push($items,'');
+            array_push($items,'-- Select item --');
             array_reverse($items);
             shn_form_select($items, _("Item"),'item',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_unit_itm\",this.value,showUnit)'");
             return true;
@@ -534,7 +475,7 @@ function _shn_rms_get_subcat($cat_id)
     }
     else
     {
-    	$categories['0000'] = '';
+    	$categories[''] = '-- Select Category --';
         foreach ($car_arr as $cat)
         {
             $categories[$cat['ct_uuid']] = $cat['name'];
@@ -643,13 +584,13 @@ switch ($_REQUEST['seq'])
             break;
     case 'ax_sub_cat':
             $cat_id=$_REQUEST['par'];
-            //print_r($_REQUEST);
             _shn_rms_get_subcat($cat_id);
             break;
             
     case 'ax_unit_itm':
             $itm_id=$_REQUEST['par'];
             $units_arr = _shn_rms_get_itm_units($itm_id);
+            
             if(empty($units_arr))
                 return false;
                 
