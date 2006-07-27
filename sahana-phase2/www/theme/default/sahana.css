@@ -781,6 +781,7 @@ table.layout td{
     color:red;
     vertical-align:12px;
 }
+
 .red{
     color:red;
 }
@@ -809,8 +810,15 @@ div#submenu_v a{
     border:2px #369 solid;
 }
 
-div#submenu_v a:hover{
+div#submenu_v a:hover {
     color:white;
     background-color:#555;
 }
+
+div#tick{
+    background: url(img/tic.png) no-repeat right;
+    width: 10px;
+    height: 10px;
+}
+
 
