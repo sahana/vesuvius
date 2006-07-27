@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.13 2006-05-29 07:54:11 mifanc Exp $ */
+/* $Id: edit.inc,v 1.14 2006-07-27 09:38:24 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -384,7 +384,7 @@ $loc_id=_shn_cr_get_locid();
 //call unique camp id
 //$uid=_shn_cr_create_cid();
 //enter into camp table
-$q="update camp_general set name='{$_SESSION['camp_name']}',location_id=$loc_id,opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp_general set name='{$_SESSION['camp_name']}',location_id='{$loc_id}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
 
 
 $res = $db->Execute($q);
