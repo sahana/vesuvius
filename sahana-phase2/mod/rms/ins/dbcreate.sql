@@ -21,6 +21,7 @@ CREATE TABLE rms_req_item (
     quantity INTEGER,
     pri_uuid VARCHAR(255),
     req_uuid VARCHAR(60) NOT NULL,
+    unit VARCHAR(60),
     PRIMARY KEY (item_uuid, req_uuid),
     FOREIGN KEY (item_uuid) REFERENCES ct_catalogue (ct_uuid),
     FOREIGN KEY (pri_uuid) REFERENCES rms_priority (pri_uuid),
@@ -65,6 +66,7 @@ CREATE TABLE rms_plg_item (
     quantity INTEGER NOT NULL,
     status VARCHAR(255) DEFAULT 'Not Confirmed',
     plg_uuid VARCHAR(60) NOT NULL,
+    unit VARCHAR(60),
     PRIMARY KEY (item_uuid, plg_uuid),
     FOREIGN KEY (item_uuid) REFERENCES ct_catalogue (ct_uuid),
     FOREIGN KEY (plg_uuid) REFERENCES rms_pledge (plg_uuid)

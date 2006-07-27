@@ -581,9 +581,10 @@ function _shn_rms_add_reqitems($req_uuid)
         $item_uuid = $item[0];
         $quantity = $item[1];
         $pri_uuid = $item[2];
+        $unit = $item[3];
         
         $sql = "INSERT INTO rms_req_item " .
-                "VALUES ('$item_uuid', $quantity, '$pri_uuid', '$req_uuid')";
+                "VALUES ('$item_uuid', $quantity, '$pri_uuid', '$req_uuid', '$unit')";
         
         if ($global['db']->Execute($sql) === false)
         {
@@ -800,7 +801,6 @@ function _shn_rms_add_pledge($donor_uuid)
         _shn_rms_add_plgitems($plg_uuid);
         return $plg_uuid;
     }
-    
 }
 
 function _shn_rms_add_plgitems($plg_uuid)
@@ -811,9 +811,10 @@ function _shn_rms_add_plgitems($plg_uuid)
     {
         $item_uuid = $item[0];
         $quantity = $item[1];
+        $unit = $item[3];
         
-        $sql = "INSERT INTO rms_plg_item (item_uuid, quantity, plg_uuid) " .
-                "VALUES ('$item_uuid', $quantity, '$plg_uuid')";
+        $sql = "INSERT INTO rms_plg_item (item_uuid, quantity, plg_uuid, unit) " .
+                "VALUES ('$item_uuid', $quantity, '$plg_uuid', '$unit')";
         
         if ($global['db']->Execute($sql) === false)
         {
@@ -1078,9 +1079,10 @@ function _shn_rms_view_reqitems($req_id)
     $th_items[] = array (_("Item"), _("Quantity"), _("Item Priority")); 
     foreach ($rms_items as $itm)
     {
+        //print_r($itm);
         $tb_items[] = array (
                              _shn_rms_get_itemname($itm[0]), 
-                             $itm[1], 
+                             $itm[1] . " " . _shn_rms_get_iunit_name($itm[4]) . "", 
                              _shn_rms_get_priorityname($itm[2])
                             );
     }
@@ -1097,7 +1099,7 @@ function _shn_rms_view_reqff($req_id)
     $rms_items = array();
     
     // @TODO: check compatibility of the sql statement
-    $sql = "SELECT req.req_uuid AS req_uuid, req.item_uuid AS item_uuid, " .
+    $sql = "SELECT req.req_uuid AS req_uuid, req.unit AS unit, req.item_uuid AS item_uuid, " .
                 "req.pri_uuid AS pri_uuid, " .
                 "ff.plg_uuid AS plg_uuid, req.quantity AS req_qty, " .
                 "ff.quantity AS ff_qty, ff.ff_date AS ff_date " .
@@ -1137,7 +1139,7 @@ function _shn_rms_view_reqff($req_id)
         $tb_items[] = array (
                              _shn_rms_get_itemname($itm['item_uuid']), 
                              _shn_rms_get_priorityname($itm['pri_uuid']),
-                             $itm['req_qty'],
+                             $itm['req_qty'] . " " . _shn_rms_get_iunit_name($itm['unit']) . "",
                              $itm['ff_qty'],
                              $itm['ff_date'],
                              $sel_url
@@ -1179,7 +1181,7 @@ function _shn_rms_view_plgitems($plg_id)
     {
         $tb_items[] = array (
                              _shn_rms_get_itemname($itm[0]), 
-                             $itm[1]
+                             $itm[1] . " " . _shn_rms_get_iunit_name($itm[4]) . ""
                             );
     }
     
