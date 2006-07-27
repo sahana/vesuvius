@@ -91,6 +91,9 @@ function shn_setup_form_dependancy()
 {
     global $global;
     $isOK = true;
+    $tick_img = '<img align="top" src="theme/default/img/tic.png"/>';
+    $cross_img = '<img align="top" src="theme/default/img/cross.png"/>';
+    $oops_img = '<img align="bottom" src="theme/default/img/oops.png"/>';
 ?>
     <h1><?=_('Sahana Web Setup - Step 1')?></h1>
 
@@ -106,61 +109,65 @@ function shn_setup_form_dependancy()
     <p><?=_('The following checks if all the relevant Sahana libraries are installed')?></p>
 <?php
     
-    $value = (version_compare(phpversion(), '4.1', '>'))? 'checked':'';
-    $isOK &= ($value != '');
+    $value = (version_compare(phpversion(), '4.1', '>'));
+    $isOK &= $value;
 
-    echo "<p>Sahana needs PHP version 4 or higher. The current version is ".
-        phpversion()."</p>\n";
-    shn_form_checkbox(_('PHP Version'),'phpver',$value.' 
-                        disabled="true"',array('value'=>'y',
-                        'help'=>'The version of PHP installed has to
-                        be greater than 4.1', 'req'=>true)); 
+    //if ($isOK) echo "is OK"; 
+    if ($value) {
+        shn_form_label(_('PHP Version'), $tick_img.phpversion()." is installed");
+    } else {
+        shn_form_label(_('PHP Version'), $cross_img.phpversion()." is installed");
+        echo "<p><br/>$oops_img Sahana needs PHP version 4.1 or higher. Please upgrate your version of PHP</p>";
+    }
+    
+    $value = (extension_loaded('gd'));
+    $isOK &= $value;
 
-    $value = (extension_loaded('gd'))? 'checked':'';
-    $isOK &= ($value != '');
+    if ($value) {
+        shn_form_label(_('PHP-GD Library'), $tick_img."installed");
+    } else {
+        shn_form_label(_('PHP-GD Library'), $cross_img."is not installed");
+        echo "<p><br/>$oops_img Sahana needs PHP-GD for image manipulations. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
+    }
+ 
+    $value = (extension_loaded('mysql'));
+    $isOK &= $value;
 
-    shn_form_checkbox(_('PHP-GD library'),'phpgd',$value.' 
-                        disabled="true"',array('value'=>'y','req'=>true,
-                        'help'=>'To find out how to do this for your 
-                        operating system see <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">
-                        Sahana WIKI</a>')); 
-
-    $value = (extension_loaded('mysql'))? 'checked':'';
-    $isOK &= ($value != '');
-
-    shn_form_checkbox(_('MySQL library'),'mysql',$value.' 
-                        disabled="true"',array('value'=>'y', 'req'=>true, 
-                        'help'=>'To find out how to do this for your 
-                        operating system see <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">
-                        Sahana WIKI</a>')); 
+    if ($value) {
+        shn_form_label(_('MySQL library'), $tick_img."installed");
+    } else {
+        shn_form_label(_('MySQL library'), $cross_img."is not installed");
+        echo "<p><br/>$oops_img Sahana needs PHP-MySQL library and MySQL for database operation. Please install PHP-MySQL library and MySQL and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
+    }
 
     shn_form_fsclose();
     shn_form_fsopen(_('File and Directory Permissions'));
 ?>
     <p><?=_('The following checks if certain files and directories have write persmissions for Sahana to function')?></p>
 <?php
-    $value = (is_writable($global['approot'].'www/tmp'))? 'checked':'';
-    $isOK &= ($value != '');
+    $value = is_writable($global['approot'].'www/tmp');
+    $isOK &= $value;
 
-    shn_form_checkbox(_('www/tmp/ is writable?'),'write_tmp',$value.' 
-                        disabled="true"',array('value'=>'y','req'=>true,
-                        'help'=>'Make sure this directory is writable by
-                        the web user. See how to do this for each system 
-                        by clicking <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">here</a>')); 
+    if ($value) {
+        shn_form_label(_('www/tmp/ is writable?'), $tick_img."directory writable");
+    } else {
+        shn_form_label(_('www/tmp/ is writable?'), $cross_img."directory not writable");
+        echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
+    }
 
 /*   $value = (is_writable($global['approot'].'res/locale'))? 'checked':'';
 
     shn_form_checkbox('Sahana res/locale is writable?','write_locale',$value.' 
                         disabled="true"',array('value'=>'y','help'=>'hello')); 
 */
-    $value = (is_writable($global['approot'].'conf'))? 'checked':'';
+    $value = is_writable($global['approot'].'conf');
 
-    shn_form_checkbox(_('dir conf/ is writable?'),'write_conf',$value.' 
-                        disabled="true"',array('value'=>'y',
-                        'help'=>'If you make this directory writable we will be
-                        able to automate the installation. See how to do this 
-                        for each system by clicking 
-                        <a href="http://www.sahana.lk/wiki/doku.php?id=manual:install">here</a>')); 
+    if ($value) {
+        shn_form_label(_('www/conf/ is writable?'), $tick_img."directory writable");
+    } else {
+        shn_form_label(_('www/conf/ is writable?'), "directory not writable");
+        echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
+    }
 
     shn_form_fsclose();
 
@@ -280,6 +287,8 @@ function shn_setup_form_conffile()
 
 <?php
     global $global;
+    $oops_img = '<img align="bottom" src="theme/default/img/oops.png"/>';
+
     shn_form_fopen('default','admin',array('req_message' => false));
     shn_form_fsopen(_('Starting Sahana'));
     
@@ -289,8 +298,8 @@ function shn_setup_form_conffile()
 
     if (is_writeable($global['approot'].'conf')) {
 ?>
-    <p><b><u><?=_('WARNING: Security')?></u></b></p>
-    <p><?=_('To secure the configuration you have to remove write 
+    <p><b><u><?php echo $oops_img._('WARNING: Security')?></u></b></p>
+    <p><?php echo _('To secure the configuration you have to remove write 
              permissions from the configuration file sysconf.inc located in 
              the Sahana directory conf/')?></p>
 
