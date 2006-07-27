@@ -291,8 +291,8 @@ function _shn_rms_location($id = null)
     print '<br />';
     print '</div>';
 ?>
-  <input type="radio" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
-  <input type="radio" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
+  <input type="radio" disabled="disabled" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
+  <input type="radio" disabled="disabled" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
   <input type="radio" checked="Checked" name="location" value="Other" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other","")' /> Other
 <?php
     print '<br />';
