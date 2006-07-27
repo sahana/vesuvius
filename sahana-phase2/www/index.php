@@ -51,23 +51,11 @@ if (!file_exists($global['approot'].'conf/sysconf.inc')){
     include_once ($global['approot'].'inc/lib_user_pref.inc');
     shn_user_pref_populate();
 
-    // give database the priority or the conf files
-    if ('database' ==  $conf['sahana_conf_priority'] ) {
-        // database overrides conf files
-        shn_config_base_conf_fetch();
-        shn_config_module_conf_fetch('all');
-        shn_config_module_conf_fetch($global['module']);
-        shn_config_database_fetch('base');
-        shn_config_database_fetch($global['module']);
-    } else {
-        // conf files overrides database
-        shn_config_database_fetch('base');
-        shn_config_database_fetch($global['module']);
-        shn_config_base_conf_fetch();
-        shn_config_module_conf_fetch('all');
-        shn_config_module_conf_fetch($global['module']);
-    }
+    // load all the configurations based on the priority specified 
+    // files and database, base and mods
+    shn_config_load_in_order();
 
+    // start the front controller pattern
     shn_main_front_controller();
 }
 
@@ -94,6 +82,8 @@ function shn_main_front_controller()
     $action = $global['action'];
     $module = $global['module'];
 
+    // define which stream library to use base on POST "stream" 
+    // default to the HTML stream
     if(isset($_REQUEST['stream']) && file_exists($global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
         require_once $global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc";
         $prefix = $_REQUEST['stream']."_";
@@ -111,7 +101,6 @@ function shn_main_front_controller()
   
     // check the users access permissions for this action
     $module_function = 'shn_'.$prefix.$module.'_'.$action;
-   
 	$acl_enabled=shn_acl_get_state($module);
 
     // @TODO: test against admin function is wrong
