@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.47 2006-07-03 07:05:30 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.48 2006-07-27 20:40:27 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -580,6 +580,29 @@ function shn_form_date($label, $name = 'date')
     shn_form_extra_opts($extra_opts);
 }
 */
+
+// this function enumerates through an array and displays it as elements 
+// of a row. You may have many arrays within arrays.
+function shn_form_table_row($elements, $text_opts) {
+
+    static $depth = 0;
+
+    if ($depth == 0) echo "<tr $text_opts>";
+
+    foreach ( $elements as $value) {
+
+        if (is_array($value)) {
+            $depth++;
+            // recurse if it is an array
+            shn_form_print_row($value);
+            $depth--;
+        } else {
+           echo "<td>$value </td>";
+        }
+    }
+
+    if ($depth == 0) echo "</tr>";
+}
 
 function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
 {
