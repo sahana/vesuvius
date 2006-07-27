@@ -76,6 +76,13 @@ function _shn_rms_mng_getrequest($req_id)
 function _shn_rms_mng_select_item()
 {
     $req_id = $_SESSION['rms_req_id'];
+    
+    print '<div class="info">';
+    print _("This shows the current fulfilment status of the request, ");
+    print _("Please select an item from the request to be fulfilled.");
+    print '<br />';
+    print '</div>';
+    
     _shn_rms_view_reqff($req_id);
 }
 
@@ -128,6 +135,14 @@ function _shn_rms_mng_select_pledge()
                                 );
         }
         
+        /**
+         * Display the list of pledges
+         */
+        print '<div class="info">';
+        print _("This shows the list of pledges that have the selected item, ");
+        print _("Please select a pledge from the request to be fulfilled.");
+        print '<br />';
+        print '</div>';
         print '<br />';
         shn_html_table($tb_plg, $th_plg, null, array('class'=>'wide'));
     }  

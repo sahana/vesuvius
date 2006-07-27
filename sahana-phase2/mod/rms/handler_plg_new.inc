@@ -25,7 +25,7 @@ function _shn_rms_donor()
 {
     $_SESSION['rms_donor_id'] = null;
     
-    shn_form_fopen("plg_new",null,array('req_message'=>true));
+    shn_form_fopen("plg_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'add_donor'));
     shn_form_fsopen(_("New Donor"));
     print '<div id="reqstr_id">';
