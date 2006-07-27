@@ -141,7 +141,7 @@ function shn_config_database_fetch($conf, $type='base')
     if($results = $global['db']->GetAll($sql)){
         foreach($results as $result)
             if($result['module_id'] == 'base')
-                $conf[$result['module_id'].'_'.$result['confkey']] = $result['value'];
+                $conf[$result['confkey']] = $result['value'];
             else    
                 $conf['mod_'.$result['module_id'].'_'.$result['confkey']] = $result['value'];
     }
