@@ -155,6 +155,12 @@ function _shn_rms_mng_addff($max_qty)
     $req_item = $_SESSION['rms_req_item'];
     $plg_id = $_SESSION['rms_req_plg'];
     
+    print '<div class="info">';
+    print _("Allocate items from a pledge to fulfill a request, ");
+    print _("The 'Maximum Allocatable Quantity' is the maximum you are allowed to allocate.");
+    print '<br />';
+    print '</div>';
+    
     _shn_rms_view_reqff($req_id);
     
     _shn_html_print_message(_("Allocate items from the selected pledge to the request"));
@@ -166,6 +172,14 @@ function _shn_rms_mng_addff($max_qty)
     shn_form_text(_("Maximum Allocatable Quantity"),'max_qty','readonly="true"',array('value'=>$max_qty));
     shn_form_text(_("Quantity"),'qty',null);
     shn_form_submit(_("Next"));
+    shn_form_fsclose();
+    shn_form_fclose();
+    
+    print '<br />';
+    shn_form_fopen("mng_ff",null, array('req_message'=>false));
+    shn_form_hidden(array('seq'=>''));
+    shn_form_fsopen(_("Cancel Fulfilment Process"));
+    shn_form_submit(_("Cancel !!"));
     shn_form_fsclose();
     shn_form_fclose();
     
