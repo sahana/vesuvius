@@ -92,16 +92,6 @@ function _shn_rms_mng_select_pledge()
     $_SESSION['rms_plg_id'] = null;
     $itm = $_SESSION['rms_req_item'];
     
-//    print '<div id="req_id">';
-//    shn_form_fopen("mng_ff",null, array('req_message'=>false));
-//    shn_form_hidden(array('seq'=>'get_plg'));
-//    shn_form_fsopen(_("Request"));
-//    shn_form_text(_("Pledge ID"),'plg_id',null,array('br'=>false));
-//    shn_form_submit(_("Next"));
-//    shn_form_fsclose();
-//    shn_form_fclose();
-//    print '</div>';
-    
     $sql = "SELECT plg.plg_uuid AS plg_uuid, plg.item_uuid AS item_uuid, " .
                 "plg.quantity AS plg_qty, SUM(ff.quantity) AS ff_qty  " .
            "FROM rms_plg_item AS plg LEFT JOIN rms_fulfil AS ff " .
@@ -111,6 +101,7 @@ function _shn_rms_mng_select_pledge()
            "OR plg.quantity>ff.quantity " .
            "GROUP BY item_uuid";
     
+    //print ">>>>>>>>>>$sql";
     $rs = $global['db']->Execute($sql);
     $rs_arr = $rs->GetArray(); 
     
@@ -145,7 +136,17 @@ function _shn_rms_mng_select_pledge()
         print '</div>';
         print '<br />';
         shn_html_table($tb_plg, $th_plg, null, array('class'=>'wide'));
-    }  
+    }
+    else
+    {
+    	print '<div id="reqstr_id">';
+        print '<div class="info">';
+        print _("No Pledges registered !!!");
+        print '<br />';
+        print _("Please try again after adding some pledges.");
+        print '<br />';
+        print '</div>';
+    }
 
 }
 
