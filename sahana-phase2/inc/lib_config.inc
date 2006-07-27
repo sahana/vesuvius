@@ -25,12 +25,12 @@ function shn_config_load_in_order() {
         shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
         shn_config_module_conf_fetch($global['module']);
-        shn_config_database_fetch('base');
-        shn_config_database_fetch($global['module']);
+        shn_config_database_fetch(&$conf,'base');
+        shn_config_database_fetch(&$conf,$global['module']);
     } else {
         // conf files overrides database
-        shn_config_database_fetch('base');
-        shn_config_database_fetch($global['module']);
+        shn_config_database_fetch(&$conf,'base');
+        shn_config_database_fetch(&$conf,$global['module']);
         shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
         shn_config_module_conf_fetch($global['module']);
@@ -129,10 +129,9 @@ function shn_config_module_conf_fetch($module = 'all')
  * @access public
  * @return void
  */
-function shn_config_database_fetch($type='base')
+function shn_config_database_fetch($conf, $type='base')
 {
     global $global;
-    global $conf;
 
     if($type == 'all')
         $sql = "SELECT module_id, confkey, value FROM config";
