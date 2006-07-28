@@ -138,7 +138,7 @@ INSERT INTO field_options VALUES ('opt_location_type','1','Country');
 INSERT INTO field_options VALUES ('opt_location_type','2','State');
 INSERT INTO field_options VALUES ('opt_location_type','3','City');
 
-INSERT INTO field_options VALUES ('opt_cs_depth','3','depth');
+INSERT INTO field_options VALUES ('opt_cs_depth','6','depth');
 
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
