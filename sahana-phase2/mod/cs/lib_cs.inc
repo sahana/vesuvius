@@ -91,7 +91,7 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
             for (i=max; i>curlevel; i=i-1){
                  var x=document.getElementsByName(i);
                  x[0].style.visibility='hidden';
-                 
+
              }
        
         } 
@@ -174,6 +174,7 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
         $res=$db->Execute($query);
         }
     
+	$parent_array["none"]="";
     while(!$res==NULL && !$res->EOF)
     {
     $parent_array[$res->fields["ct_uuid"]]=$res->fields["name"];
@@ -210,6 +211,7 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     //shn_form_submit(_("Next"));
     }
 }
+
 
 function _shn_cs_item_name_javascript($change,$levels,$form)
 {
@@ -263,7 +265,7 @@ return $itemarray;
 }
 
 /**.
- *This function returns the unit array of the 
+ *This function returns the item ID 
  * @access public
  * @return varchar
  */
@@ -272,7 +274,8 @@ function get_itemid()
 
     $itemid = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
-    for($i=1;$i<5;$i++)
+	$max_depth = get_max_depth();
+    for($i=1;$i<$max_depth;$i++)
     {
     $itemid = trim($_POST[$i]);
     
@@ -348,8 +351,8 @@ $error_flag=false;
 clean_errors();
 
 $itemid=null;
-
-    for($i=0;$i<5;$i++)
+$max_depth = get_max_depth();
+    for($i=0;$i<$max_depth;$i++)
     {
     $itemid = trim($_POST[$i]);
         if($itemid!=null)
@@ -358,7 +361,7 @@ $itemid=null;
         }
     }
 
-    if($itemid==null)
+    if($itemid==null || $itemid=='none')
     {
     add_error(_("Please Select the Catalogue that you need"));
     $error_flag=true;

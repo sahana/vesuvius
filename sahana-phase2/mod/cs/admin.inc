@@ -42,7 +42,7 @@ function shn_cs_adm_max_depth_form()
     $res=$db->Execute($query);    
     $current_depth=$res->fields["option_code"];
     
-    $options=array('1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10');
+    $options=array('1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15');
     shn_form_fopen("adm_max_depth_form_submit");
     shn_form_fsopen(_("Current Value of Maximum Depth"));
 

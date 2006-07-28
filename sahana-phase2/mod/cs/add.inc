@@ -92,7 +92,7 @@ function shn_cs_addsub_form1()
      
     shn_form_fopen("addsub_form1_submit",null,$form_opts);
     $max_depth=get_max_depth();
-    shn_sub_cat($max_depth,'subcat',true);
+    shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
     print "<br><b>Do a keyword search to find the catalogue.</b>";
@@ -320,7 +320,7 @@ function shn_cs_additem_form1()
  
     shn_form_fopen("additem_form1_submit",null,$form_opts);
     $max_depth=get_max_depth();
-    shn_sub_cat($max_depth,'subcat',true);
+    shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
 	
