@@ -77,6 +77,8 @@ $flag=$_GET{"flag"};
     		$res_child=$db->Execute($q);
 		}
 
+        		$res=$res.","."";
+        		$res=$res.","."";
 
    	if(!$res_child==NULL && !$res_child->EOF){
     		while(!$res_child->EOF){
