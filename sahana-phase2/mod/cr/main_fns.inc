@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.40 2006-07-19 22:46:27 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.41 2006-07-31 19:54:56 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -166,52 +166,26 @@ function shn_cr_acmp(){
 																																																						
 }
 
+
 function shn_cr_gis_show(){
 	global $global;
 	global $conf;
 	if($conf['gis']){
-		//include($global['approot'].'/mod/gis/plugins/'.$conf["mod_gis"].'/'.'handler_'.$conf['mod_gis'].'.inc');
 		$db = $global['db'];
-		//echo _("GIS Map of Camps");
-		$q="select map_northing,map_easting,name from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
+		$q="select map_northing,map_easting,name,c_uuid from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
 		$res = $db->Execute($q);
-		include_once ($global['approot'].'/mod/gis/gis_fns.inc');			
-		/*if($conf['mod_gis']=='google_maps'){
-			$a="select value from config where module_id='gis' and confkey='google_key'";
-			$ares=$db->Execute($a);
-			$key=$ares->fields[0];			
-			shn_gis_init_plugin("GIS Map of Camps");
-		}
-		*/
-		shn_gis_init_plugin("GIS Maps of Camps");
-		global $conf;
-		load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
-		//put values into array: even better, process directly ;)
-		while(!$res->EOF){
-			add_marker_db($res->fields[0],$res->fields[1],$res->fields[2]);
-			//add_marker($res->fields[2]);
-			$res->MoveNext();	
-		}
-		end_page();
+		include_once ($global['approot'].'/mod/gis/gis_fns.inc');
 		
-	}
-	
-}
-
-function shn_cr_gis_show2(){
-	global $global;
-	global $conf;
-	if($conf['gis']){
-		$db = $global['db'];
-		$q="select map_northing,map_easting,name from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
-		$res = $db->Execute($q);
-		include_once ($global['approot'].'/mod/gis/gis_fns.inc');			
-		shn_gis_map_with_markers();
+		//create array
+		$map_array=array();
+		
+		//populate aray
 		while(!$res->EOF){
-			add_marker_db_v2($res->fields[0],$res->fields[1],$res->fields[2]);
-			//add_marker($res->fields[2]);
-			$res->MoveNext();	
-		}
+				array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+					"id"=>$res->fields['c_uuid']));
+				$res->MoveNext();	
+		}			
+		shn_gis_map_with_markers($map_array);
 		
 	}
 	
