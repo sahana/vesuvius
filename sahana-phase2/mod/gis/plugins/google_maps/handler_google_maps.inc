@@ -322,39 +322,6 @@ function show_map($opt=null)
 <?
 }
 
-function show_map_with_markers($markers)
-{
-	global $global;
-	global $conf;
-	$db=$global['db'];
-	//$key=$conf['gmap_key'];
-	$key = $conf['mod_gis_google_key'];
-?>
-	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
-	<script type="text/javascript">
-	  
-	//<![CDATA[
-	window.onload=function show_map_js()
-	{
-			
-		//alert('map');
-	
-	       var map = new GMap(document.getElementById("map"));
-				 map.addControl(new GLargeMapControl());
-	       //map.addControl(new GSmallMapControl());
-				 map.addControl(new GMapTypeControl());//satellite image switch
-				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>);
-				
-				
-		
-	}		
-	//]]>
-		</script>
-<div id="map" style="width: 500px; height: 400px"></div>
-<?php
-}
-
 /**
  * show map with marker addition event
  * allows people to enter markers over google map
@@ -500,6 +467,69 @@ function show_map_with_marker($array)
 	<div id="map" style="width: 500px; height: 400px"></div>
 <?php
 }
+
+/**
+ * show map with markers
+ * currently used
+ * version 2
+ */
+function show_map_with_markers($array)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key = $conf['mod_gis_google_key'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_markers_js()
+	{
+			if(GBrowserIsCompatible())
+			{
+				function createMarker(point,html) {
+        			var marker = new GMarker(point);
+        			GEvent.addListener(marker, "click", function() {
+          				marker.openInfoWindowHtml(html);
+        			});
+        		return marker;
+      			}
+      			
+      			var map = new GMap2(document.getElementById("map"));
+      			map.addControl(new GLargeMapControl());
+	       		//map.addControl(new GSmallMapControl());
+				map.addControl(new GMapTypeControl());//satellite image switch
+				
+				map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);
+<?php
+				for($i=0;$i< sizeof($array);$i++){
+					$lat=$array[$i]["lat"];
+					$lon=$array[$i]["lon"];
+					$name=$array[$i]["name"];
+					$url=$array[$i]["id"];
+					$pre_url="index.php?mod=cr&act=ecmp&seq=view&cmp_id=";
+					$url=$pre_url.$name;
+?>	
+					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><a href="<?=$url?>">View</a></div>');
+      				map.addOverlay(marker);
+<?php
+				}
+?>
+      		}
+      		else{
+      			alert("Incompatible");
+      			}      			
+		
+	}		
+	//]]>	
+	
+	</script>
+	<div id="map" style="width: 500px; height: 400px"></div>
+<?php
+}
+
 
 /**
  * show map with markerst
