@@ -95,12 +95,12 @@ function load_map_v2($x='',$y=''){
 <?php
 		if($x=='' || $y==''){
 ?>
-       	map.setCenter(new GLatLng(79.5, 8.5338), 10);
+       	map.setCenter(new GLatLng(8.5338,79.5), 10);
 <?php
 		}
 		else{
 ?>
-				map.setCenter(new GLatLng(<?php echo $x?>,<?php echo $y?>), 10);
+				map.setCenter(new GLatLng(<?php echo $y?>,<?php echo $x?>), 10);
 <?php
 		}
 ?>
@@ -155,9 +155,27 @@ function add_wiki_marker_db($x,$y,$name)
 {
 ?>
   <script type="text/javascript">
-		var point1 = new GLatLng(<?php echo $x?>,<?php echo $y?>);
+		var point1 = new GPoint(<?php echo $x?>,<?php echo $y?>);
 		var marker1 = new GMarker(point1);
-		//marker1.openInfoWindowHtml(<?php echo $name?>);
+		var html = "<?=$name?>";
+  		GEvent.addListener(marker1, 'click', function() {
+			marker1.openInfoWindowHtml(html);
+  		});
+		map.addOverlay(marker1);
+	</script>
+<?php
+}
+
+/*
+ * add wiki markers from db
+ * used
+*/
+function add_wiki_marker_db2($x,$y,$name)
+{
+?>
+  <script type="text/javascript">
+		var point1 = new GLatLng(<?php echo $y?>,<?php echo $x?>);
+		var marker1 = new GMarker(point1);
 		map.addOverlay(marker1);
 	</script>
 <?php
@@ -437,6 +455,113 @@ function show_add_marker_map_v2($name)
 	<div id="map" style="width: 500px; height: 400px"></div>
 <?php
 }
+
+/**
+ * show map with markerst
+ * currently used
+ * version 2
+ */
+function show_map_with_marker($array)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key = $conf['mod_gis_google_key'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_add_mkr_js()
+	{
+			var map = new GMap2(document.getElementById("map"));
+			map.addControl(new GLargeMapControl());
+	       //map.addControl(new GSmallMapControl());
+			map.addControl(new GMapTypeControl());//satellite image switch
+				 
+			map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);			
+			GEvent.addListener(map, 'click', function(overlay, point) {
+	  		if (overlay) {
+				//var html = "<?php echo $name?>";
+				overlay.openInfoWindowHtml(html);
+				//map.removeOverlay(overlay);
+			} 
+			else {
+				map.addOverlay(new GMarker(point));
+			}	
+		});		
+<?php
+?>
+		
+	}		
+	//]]>	
+	
+	</script>
+	<div id="map" style="width: 500px; height: 400px"></div>
+<?php
+}
+
+/**
+ * show map with markerst
+ * currently used
+ * version 2
+ */
+function show_map_with_wiki_marker($array)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	$key = $conf['mod_gis_google_key'];
+?>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+	window.onload=function show_map_wiki_js()
+	{
+			if(GBrowserIsCompatible())
+			{
+				function createMarker(point,html) {
+        			var marker = new GMarker(point);
+        			GEvent.addListener(marker, "click", function() {
+          				marker.openInfoWindowHtml(html);
+        			});
+        		return marker;
+      			}
+      			
+      			var map = new GMap2(document.getElementById("map"));
+      			map.addControl(new GLargeMapControl());
+	       		//map.addControl(new GSmallMapControl());
+				map.addControl(new GMapTypeControl());//satellite image switch
+				
+				map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);
+<?php
+				for($i=0;$i< sizeof($array);$i++){
+					$lat=$array[$i]["lat"];
+					$lon=$array[$i]["lon"];
+					$name=$array[$i]["name"];
+					$desc=$array[$i]["desc"];
+					$url=$array[$i]["url"];
+?>	
+					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><a href="<?=$url?>">Link</a></div>');
+      				map.addOverlay(marker);
+<?php
+				}
+?>
+      		}
+      		else{
+      			alert("Incompatible");
+      			}      			
+		
+	}		
+	//]]>	
+	
+	</script>
+	<div id="map" style="width: 500px; height: 400px"></div>
+<?php
+}
+
 
 /**
  * deprecated
