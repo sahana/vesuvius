@@ -14,12 +14,44 @@
 
 /**
  * Show GIS Map with Wiki info
+ * reference function
  */
-function show_wiki_map()
+function show_wiki_map($category="all",$date=0)
 {
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
-	shn_gis_map();
+	
+	$db = $global['db'];
+	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid";
+	$res = $db->Execute($query);
+	
+	//create array
+	$map_array=array();
+	
+	//populate aray
+	while(!$res->EOF){
+			array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+				"desc"=>$res->fields['description'],"url"=>$res->fields['url']));
+			$res->MoveNext();	
+	}
+	
+	shn_gis_map_with_wiki_markers($map_array);
+	
+	
+	/*
+	shn_gis_init_plugin("GIS Maps of Camps");
+	global $conf;
+	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
+		//put values into array: even better, process directly ;)
+	$db = $global['db'];
+	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid";
+	$res = $db->Execute($query);
+		while(!$res->EOF){
+			add_wiki_marker_db($res->fields['map_northing'],$res->fields['map_easting'],$res->fields['name']);
+			$res->MoveNext();
+		}
+	end_page();
+	*/
 }
 
 /**
@@ -94,7 +126,8 @@ function shn_wiki_map_commit()
 
 	$db = $global['db'];
 	$wiki_id=shn_create_uuid('wm');
-	$gis_id=shn_create_uuid('g');
+	//$gis_id=shn_create_uuid('g');
+	$gis_id=0;
 	
 	$query = " insert into gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
 			 " values ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
@@ -103,7 +136,7 @@ function shn_wiki_map_commit()
 	$res=$db->Execute($query);
 	
 	include $global['approot']."/mod/gis/gis_fns.inc";
-	shn_gis_dbinsert($gis_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
+	shn_gis_dbinsert($wiki_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
 	echo "DONE";
 	
 	
