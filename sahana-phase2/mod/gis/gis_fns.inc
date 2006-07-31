@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.13 2006-07-19 22:44:38 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.14 2006-07-31 20:01:38 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -145,6 +145,7 @@ function shn_gis_show_map($name_of_map="Area Map")
  * Show GIS map for marker addition
  * Centers at default center
  * Allows addition of a single marker to plot location
+ * Without form element
  * @access public
  * @param mixed  $name_of_map Custom Map Name
  * @param $nameOfPoint Assign name to point
@@ -196,17 +197,41 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 	shn_form_fsclose();
 }
 
-function shn_gis_map_with_markers(){
-	shn_gis_map();
-}
-
-function shn_gis_map_with_wiki_markers(){
-	
-}
-
-function shn_gis_get_coordinate_post()
+/**
+ * Add map with simple markers from database
+ * @param mixed $array 2d array of marker info to be shown
+ * @access public
+ * @return void
+ */
+function shn_gis_map_with_markers($array)
 {
-	
+	global $global;
+	global $conf;
+	if($conf['gis'])
+	{
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_map_with_markers($array);
+	}	
 }
+
+/**
+ * Add map with markers with wiki like info
+ * @param mixed $array 2d array of info to be added
+ * @access public
+ * @return void
+ */
+function shn_gis_map_with_wiki_markers($array)
+{
+	global $global;
+	global $conf;
+	if($conf['gis'])
+	{
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_map_with_wiki_marker($array);
+	}	
+}
+
 
 ?>
