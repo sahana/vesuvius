@@ -29,8 +29,9 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fsclose();
 	shn_form_submit(_("Filter"));
 	shn_form_fclose();
+	
 	$db = $global['db'];
-	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid and opt_category='{<?$category?>}'";
+	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ";
 	$res = $db->Execute($query);
 	
 	//create array
