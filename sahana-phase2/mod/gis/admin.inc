@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.9 2006-08-01 11:22:25 mifanc Exp $ */
+/* $Id: admin.inc,v 1.10 2006-08-01 11:46:56 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -119,8 +119,19 @@ function shn_gis_adm_show_mods()
 	shn_form_fclose();
 	global $global;
 	global $conf;
+	
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
+	
+	$db=$global['db'];
+	$query_mod="select value from config where module_id='gis' and confkey='dflt'";
+	$result=$db->Execute($query_mod);
+	if(!$res->EOF){
+		$mod_name=$result->fields['value'];
+	}
+	
+	
+	
 	$count=1;
 	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
@@ -138,8 +149,9 @@ function shn_gis_adm_show_mods()
 	shn_form_fopen(adm_mod,null,array('req_message'=>false));
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
-	$extra_opts['br']='true';
-	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,$extra_opts);
+	//$extra_opts['br']='true';
+	
+	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,array("value"=>$mod_name));
 	shn_form_fsclose();
 	shn_form_submit("Done");
 	shn_form_fclose();	
