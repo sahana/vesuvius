@@ -79,13 +79,13 @@ function _shn_or_reg_org_cr()
 	shn_form_fsopen('Register a Branch/Department');
 	$msg=_("Now you can add a Branch/Department Under ")."<strong>". $_SESSION['org']['name']."</strong><br />"._("e.g. Health Department,Relief Operations Department. : ")."<br />";
 	$msg=$msg._("Of course you can add Branches/Departments later on through the Register a Department/Branch link.")."<br />";
-    shn_form_label("",$msg);
+    ?><div class="info"><? echo $msg?></div><br /><?
     shn_form_button(_("Register a Branch/Department"),"onClick='change_action(\"operation\")'",$extra_opts);
 	shn_form_fsclose();
 	
 	shn_form_fsopen('Register another Organization');
 	$msg=_("Instead if you wish to add another organization click the button below ")."<br />";
-    shn_form_label("",$msg);
+     ?><div class="info"><? echo $msg?></div><br /><?
 	shn_form_button(_("Register an Organization"),"onClick='change_action(\"org\")'",$extra_opts);
 	shn_form_fsclose();
     shn_form_hidden(array('action'=>'0'));
@@ -333,6 +333,7 @@ function _shn_or_edit_org()
                 $res=$db->Execute($q);
                 $i=$i+1;
             }
+            /*
             $q="delete from resource_to_incident where x_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $i=0;
@@ -342,7 +343,7 @@ function _shn_or_edit_org()
                 $res=$db->Execute($q);
                 $i=$i+1;
             }
-            
+            */
             $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";

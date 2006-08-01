@@ -33,8 +33,10 @@ function _shn_or_regform_org($error=false)
 <div id="formcontainer">
 <?php
     shn_form_fopen("reg_org_confirm");
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
+    ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
+    but registration  no is optional");?> </div><br /><?
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
@@ -47,6 +49,7 @@ function _shn_or_regform_org($error=false)
     shn_form_text(_("Registration Number(if any) : "),'reg_no','size="50"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen("Organization Type");
+   
     if($error==true){
     		_shn_or_display_org_type($error,false,$_SESSION['org']['type']);
     }else{
@@ -54,6 +57,7 @@ function _shn_or_regform_org($error=false)
     }
     shn_form_fsclose();
     shn_form_fsopen("Organization Sector");
+    
     if($error==true){
     		_shn_or_display_sector($error,$_SESSION['org']['sector']);
     }else{

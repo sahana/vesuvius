@@ -41,23 +41,29 @@ function shn_vol_mainmenu()
 function shn_vol_reg($error=false)
 {
     include_once ("reg_vol.inc"); 
-    if(isset($_POST["incident"])){
-    		if(empty($_POST["incidents"])){
-    			$error=true;
-        		add_error(_("You have to select an incident"));
-        		_shn_vol_display_incident_form(true,"reg");
-    		}else{
-    			_shn_vol_regform();
-    		}
-    }else{
-    		_shn_vol_display_incident_form(false,"reg");
-    }
+ 	_shn_vol_regform(false);
+ }
+
+function shn_vol_reg_vol_confirm()
+{
+    include_once("reg_vol.inc");
+    $error=_shn_vol_check_vol_reg_info_complete();
+	if($error==true){
+		_shn_vol_regform($error);
+	}else{
+    		_shn_vol_regconfirm();
+	}
 }
 
-
 function shn_vol_reg_cr(){
-    include_once("process_vol.inc");
-   _shn_vol_reg_cr();
+
+   	if($_POST["action"]=="edit"){
+		include_once("reg_vol.inc");
+		_shn_vol_regform(true);
+	}else{
+   		include_once("process_vol.inc");
+   		_shn_vol_reg_cr();
+	}
 }
 
 function shn_vol_add_user_cr()
@@ -112,6 +118,7 @@ function shn_vol_view_submit(){
 function shn_vol_view()
 {
     include_once ("view_vol.inc");
+    $_SESSION["incidents"]=array($_SESSION['user_pref_ims_incident_id']);
     if(NULL == $_REQUEST['id']){
          ?>
         <h2> Volunteer Registry</h2>

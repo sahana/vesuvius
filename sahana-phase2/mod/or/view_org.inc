@@ -36,7 +36,15 @@ function _shn_or_display_page_links(){
 
 function _shn_or_display_page($page){
 	?><h2> Organization Registry</h2><?
-	_shn_or_display_page_links();
+	if(($_SESSION["org"]["total_pages"])<1){
+	?>	    <div id="note">
+	<?=_("No Organizations ");?>
+	</div><?
+		return;
+	}else{
+		_shn_or_display_page_links();
+	}
+	
 	?>
     <div id="note">
 	<?=_("Your are viewing page no $page ");?>
@@ -158,7 +166,7 @@ function _shn_or_viewform_allorg($org_list)
 {
     global $global;
     $db=$global['db'];
-	_shn_or_page_generator($org_list);
+   	_shn_or_page_generator($org_list);
 	_shn_or_display_page(1);
 
 }
@@ -313,6 +321,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     $form_opts['req_message']=false;
     shn_form_fopen("view_org_submit",null,$form_opts);
     shn_form_fsopen(_('Primary Details'));
+       ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
+    but registration  no is optional");?> </div><br /><?
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
     shn_form_text(_("Organization Name : "),'org_name','size="50"', $extra_opts); 
@@ -320,13 +330,13 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
     }
     shn_form_fsclose();
-    
+    /*
      if($parent){
      	shn_form_fsopen(_("Incidents related to the Organization"));
     		_shn_or_display_incident($error,true,$or_incident_arr);
     		shn_form_fsclose();
      }
-     
+     */
     shn_form_fsopen(_("Organization Type"));
     if($parent){
     	_shn_or_display_org_type($error,false,$org_type);

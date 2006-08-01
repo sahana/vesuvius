@@ -34,10 +34,11 @@ function _shn_or_drill_org($parent=null)
     $level=$res->fields["option_description"];
     ?>
 	<h2><?=_("Organization Report By ". $level) ?></h2>
-    <div id="note">
-	<?=_("Each Row is a ".$level." ,Column is a  Service.")?><br />
+    <div class="info">
+    <? echo	 _("Each Row is a ")."<strong>".$level."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";?>
+	
 	<?php 
-    echo _("Intersection shows the number of organizations providng the service in the location and its sub locations.")."<br />";
+    echo _("Intersection shows the number of organizations providing the service in the location and its sub locations.")."<br />";
     ?>
     </div>
     <?
@@ -80,10 +81,11 @@ function _shn_or_drill_org($parent=null)
         		$count=0;
         		_shn_is_covered_org($res_loc->fields["loc_uuid"],$res_sector->fields[0],$count);
         		if($count==0){
-        			echo "<td><b><font color=#FF0000>".$count."</font></b></td>";
+        			//echo "<td><b><font color=#FF0000>".$count."</font></b></td>";
+        			echo "<td><b><font color=#FF0000>Not Covered</font></b></td>";
         		}else{
         			//echo "<td><b><font color=#FF0000>".$count."</font></b></a></td>";
-        			echo "<td><a href='index.php?mod=or&act=drill_report_org_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#FF0000>".$count."</font></b></a></td>";
+        			echo "<td><a href='index.php?mod=or&act=drill_report_org_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#2E8B57>".$count."</font></b></a></td>";
         		}
         		
         
@@ -143,21 +145,26 @@ function _shn_or_drill_loc($parent=null)
     <?
  	$tmp=shn_get_last_level();
  	$child_type=$tmp[1];
- 	echo	_("Each Row is a ".$child_type." ,Column is a  Service.");
+ 	//echo	_("Each Row is a ".$child_type." ,Column is a  Service.");
  	?>
  	</div><?
  }else{
  	?>
  	<h2><?=_("Organization Report by $child_type for $parent_type") ?></h2>
     <div id="note">
-    <?
-	echo	_("Each Row is a ".$parent_type." ,Column is a  Service.");?><br />
-
+ 
 <?php
- 	   	echo	_("Each Row is a ".$parent_type." ,Column is a  Service.");
-        echo _("Intersection shows the precentage of ".$child_type." Covered per each service.")."<br />";
-        echo _("e.g. For a country how many districts have at least one organization providing the service. <br /> ");
-        echo _("If the country C has X no of district amd for the service S only Y no of districts have the presence of an organization the C/S intersection shows Y/X");
+ 	   	echo "<strong>". _("This report provides the coverage of services Regional wise ")."</strong><br />";
+ 	   	echo	 _("Each Row is a ")."<strong>".$parent_type."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";
+        //echo _("This report provides the coverage of services Regional wise ")."<strong>".$child_type."</strong>"._(" for each " )."<strong>"."$parent_type"."</strong><br />"; 
+        
+        echo _("A Region is considered covered for a service if there is at least one organization providing the service")."<br />";
+       // echo _("Intersection shows the precentage of ".$child_type." Covered per each service.")."<br />";
+       // echo _("e.g. For a country how many districts have at least one organization providing the service. <br /> ");
+        echo _("If the country ")."<strong><em>C</em></strong>"._(" has ")."<strong><em>X</em></strong>"._(" no of districts and for the service ")."<strong><em>S</em></strong>"._(" only ")."<strong><em>Y</em></strong>"._(" no of districts have the presence of an organization then ")."<strong><em>C/S</em></strong>". _(" intersection shows ")."<strong><em>Y/X</em></strong><br />";
+ 		echo _("Percentage of ")."<strong><em>Y/X</em></strong>"." is also given for emphasis"."<br />";
+ 		echo _("Please provide attention to locations with the note ")."<strong>Not covered</strong>"._(" in Red as that means there is not a single organization " .
+ 				"providing that particular service in its sub locations");
  ?></div><?
  }     
 
@@ -198,9 +205,13 @@ function _shn_or_drill_loc($parent=null)
         while(!$res_sector==NULL && !$res_sector->EOF){
             if(shn_location_is_leaf($res_loc->fields["loc_uuid"])){
 //                echo ($res["active"]);
-               if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
+			   $count=0;
+			   _shn_is_covered_org($res_loc->fields["loc_uuid"],$res_sector->fields[0],$count);
+               //if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
+               if($count>0){
                     $active=_("Covered");
-		            echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
+		            //echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
+                		echo "<td><a href='index.php?mod=or&act=drill_report_loc_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#2E8B57>".$active."</font></b></a></td>";
                 }else {
                     $active=_("Not Covered");
 		            echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
@@ -210,8 +221,15 @@ function _shn_or_drill_loc($parent=null)
                 $precent=0;
                 if($res["total"]>0){
                     $precent=round($res["active"]/$res["total"] *100,2);
+                    if($res["active"]>0){
+                    		echo "<td><a href='index.php?mod=or&act=drill_report_loc_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></a></td>";
+                    }else{
+                    		$active=_("Not Covered");
+		            		echo "<td><b><font color=#FF0000>".$active."</font></b></td>";	
+                    }
                 }
-                echo "<td><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></td>";
+                
+                //echo "<td><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></td>";
             }
             $res_sector->MoveNext();
         }
@@ -245,7 +263,10 @@ function _shn_coverage_loc($loc,$sector)
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $result["total"]=$result["total"]+1;
         $next_lvl=$res_tmp->fields[0];
-        if(_shn_is_covered($res_tmp->fields["loc_uuid"],$sector)){    
+        $count=0;
+        _shn_is_covered_org($res_tmp->fields["loc_uuid"],$sector,$count);
+        if($count>0){
+        //if(_shn_is_covered($res_tmp->fields["loc_uuid"],$sector)){    
             $result["active"]=$result["active"]+1;
         }
         $res_tmp->MoveNext();
@@ -300,14 +321,12 @@ function _shn_or_report_org_sector()
         <thead>
         		<td><?=_("Service")?></td>
             <td><?=_("Organization Name")?></td>
+            <td><?=_("Incidents")?></td>
             <td><?=_("Services Offered")?></td>
             <td><?=_("Organization Type")?></td>
-           
+            <td><?=_("Location")?></td>
             <td><?=_("Address")?></td>
             <td><?=_("Contact Number")?></td>
-            <td><?=_("Man Power")?></td>
-            <td><?=_("Equipment")?></td>
-            <td><?=_("Facilities")?></td>
         </thead>
         <tbody>
 <?php    

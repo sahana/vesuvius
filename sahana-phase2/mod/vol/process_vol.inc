@@ -21,45 +21,25 @@ function _shn_vol_reg_cr()
     include_once "reg_vol.inc";
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
-    $incidents=$_SESSION["incident"];
-    $VARCHAR=100;
-    $error=false;
-    list($error,$name)=(shn_validate_field($_POST{"name"},"Full Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
-    if (!shn_valid_date($_POST{"dob"})){
-        $error=true;
-    }else {    
-        $dob=$_POST{"dob"};	
-    }
-    list($error,$male)=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
-    $job=$_POST{"job"};
-    $nic=trim($_POST{"nic"});
-    $pas=trim($_POST{"pas"});
-    $dln=trim($_POST{"dln"});
-    list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    $loc=shn_location_get_form_submit_loc();
-    if ($loc==-1){
-        $error=true;
-        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
-    }
+   
     $parents=array();
-    shn_get_parents($loc,$parents);
+    shn_get_parents($_SESSION['vol']['loc'],$parents);
+    $loc=$_SESSION['vol']['loc'];
     $bsd_country=array_pop($parents);
-    $contact_name=$_POST{"contact_name"};
-    $contact_address=$_POST{"contact_add"};
-    $contact_phone=$_POST{"contact_phone"};
-    $contact_mobile=$_POST{"contact_mobile"};
-    $contact_fax=$_POST{"contact_fax"};
-    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
-        add_error(SHN_ERR_vol_REG_MAX);
-        $error=true;
-    }else {
-        $contact_mail=$_POST{"contact_mail"};
-        if(!shn_valid_email($contact_mail)){
-            add_error(SHN_ERR_vol_EMAIL);
-            $error=true;
-        }
-    }
-    $contact_web=$_POST{"contact_web"};
+    $name=$_SESSION['vol']['name'];
+    $dob=$_SESSION['vol']['dob'];
+    $male=$_SESSION['vol']['gender'];
+    $job=$_SESSION['vol']['job'];
+    $nic=$_SESSION['vol']['nic'];
+    $pas=$_SESSION['vol']['pas'];
+    $dln=$_SESSION['vol']['dln'];
+    $sector=$_SESSION['vol']['sector'];
+    $contact_address=$_SESSION['vol']['contact_address'];
+    $contact_phone=$_SESSION['vol']['contact_phone'];
+    $contact_mobile=$_SESSION['vol']['contact_mobile'];
+    $contact_fax=$_SESSION['vol']['contact_fax'];
+    $contact_mail=$_SESSION['vol']['contact_mail'];
+    $contact_web=$_SESSION['vol']['contact_web'];
     $db=$global['db'];
     $pid = $db->GenID('person_seq',1);
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
@@ -81,12 +61,9 @@ function _shn_vol_reg_cr()
     $res=$db->Execute($q);
 	$q="insert into identity_to_person(p_uuid,serial,opt_id_type) values($pid,'{$dln}','dln')";
     $res=$db->Execute($q);
-    $i=0;
-    while($i<count($incidents)){
-    		$q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],$pid)";
-        $res=$db->Execute($q);
-        $i=$i+1;
-    }
+   	$q="insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}',$pid)";
+    $res=$db->Execute($q);
+       
     
     $i=0;
     while($i<count($sector)){
@@ -172,7 +149,7 @@ function _shn_vol_edit()
     }else {
         $contact_mail=$_POST{"contact_mail"};
         if(!shn_valid_email($contact_mail)){
-            add_error(SHN_ERR_vol_EMAIL);
+            add_error(SHN_ERR_OR_EMAIL);
             $error=true;
         }
     }
@@ -198,14 +175,7 @@ function _shn_vol_edit()
         $i=$i+1;
     }
     
-    $q="delete from resource_to_incident where x_uuid='{$pid}'";
-    $res=$db->Execute($q);
-    $i=0;        
-    while($i<count($incidents)){
-    		$q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],'{$pid}')";
-        $res=$db->Execute($q);
-        $i=$i+1;
-    }
+ 
     $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid=$pid";
     $res=$db->Execute($q);
     $q="update contact set contact_name='{$contact_name}' where pgoc_uuid=$pid and opt_contact_type='name'";

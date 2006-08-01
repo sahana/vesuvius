@@ -74,7 +74,7 @@ function _shn_org_location_string($loc)
     			if($count==0 ){
     				$location=$location.$res->Fields("name");
     			}else{
-   				$location=$location."-->".$res->Fields("name");
+   				$location=$location." -->".$res->Fields("name");
     			}
     			
    		}
@@ -526,7 +526,8 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
     }else{
         //$select_opts="multiple='false'";;
     }  
-    $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
+     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization ect.");?></div><br /><?
+   // $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
     if($multi){
     		shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
     }else{
@@ -564,13 +565,15 @@ function _shn_or_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
+    ?><div class="info"><?=_("Select the services your organization provides ,that is what you do as an organization or services your organization can provide in a disaster. e.g. if you offer medical services select it");?></div><br /><?
     $extra_opts['req']=true;
-    $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
+  //  $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 
 function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=null)
 {
+        
     if($confirm==true){
     		shn_form_label(_("Name"),$_SESSION['org']['contact_name']);
     		shn_form_label(_("Address"),$_SESSION['org']['contact_address']);
@@ -580,6 +583,7 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
     		shn_form_label(_("Website"),$_SESSION['org']['contact_web']);
     		return;
     }
+    ?><div class="info"><?= _("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
    if($error==true){
    		$contact_address=$_SESSION['org']['contact_address'];
         $contact_phone=$_SESSION['org']['contact_phone'];
@@ -641,6 +645,7 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
 {
+    ?><div class="info"><?= _("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br /><?
     if($confirm==true){
     		shn_form_label(_("Man Power"),$_SESSION['org']['man_power']);
     		shn_form_label(_("Equipment"),$_SESSION['org']['equipment']);
@@ -871,14 +876,14 @@ function _shn_or_check_org_reg_info_complete()
         $error=true;
     }else {
         
-        if(!shn_valid_email($contact_mail)){
+        if(!shn_valid_email($_POST{"contact_mail"})){
             add_error(SHN_ERR_OR_EMAIL);
             $error=true;
         }else{
         		$_SESSION['org']['contact_mail']=$_POST{"contact_mail"};
         }
     }
-     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+    if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
         $error=true;
     }else {

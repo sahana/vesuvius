@@ -121,17 +121,7 @@ function _shn_vol_viewform($pid,$error=false)
             );       
             $res_sector->MoveNext();
         } 
-        $q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$pid}'";
-        $res_incident=$db->Execute($q);    
-        $vol_incident_arr=array();
-        
-        while(!$res_incident->EOF){
-            array_push(
-                $vol_incident_arr,
-                $res_incident->fields["incident_id"]
-            );       
-            $res_incident->MoveNext();
-        }  
+ 
     }
 ?>
 <h2><?=_("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
@@ -148,6 +138,7 @@ function _shn_vol_viewform($pid,$error=false)
    // shn_show_thumb($pid);
    // shn_form_fsclose();
    	shn_form_fsopen(_('Primary Details'));
+   	?><div class="info"><?= _("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
     $extra_opts['value']=$name;
     $extra_opts['req']=true;
     shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
@@ -160,6 +151,7 @@ function _shn_vol_viewform($pid,$error=false)
     _shn_vol_display_gender($error,$sex);
     shn_form_fsclose();
     shn_form_fsopen(_('Identity Information'));
+    ?><div class="info"><?= _("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
     $extra_opts['value']=$nic;
     shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
     $extra_opts['value']=$pas;
@@ -167,9 +159,7 @@ function _shn_vol_viewform($pid,$error=false)
     $extra_opts['value']=$dln;
     shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
-    shn_form_fsopen(_("Incidents related to the Organization"));
-    _shn_vol_display_incident($error,true,$vol_incident_arr);
-    shn_form_fsclose();
+
     $range= shn_vol_get_loc_range();
      // base location
     shn_form_fsopen("Base Location");
@@ -196,7 +186,7 @@ function _shn_vol_viewform($pid,$error=false)
     //$p_id= array('type'=>'hidden', 'name'=>'pid','value'=>$pid);
 	shn_form_hidden(array('pid'=>$pid));
 	//shn_form_add_component($p_id,false,false);
-    _shn_vol_action_change_javascript("action");
+    _shn_vol_action_change_javascript("view","action");
 ?>
 </center>
 <br />

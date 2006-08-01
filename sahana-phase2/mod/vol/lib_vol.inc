@@ -53,6 +53,47 @@ function shn_vol_get_loc_range()
     return $loc;
 }
 
+function _shn_vol_action_change_javascript($form,$change)
+{
+?>
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName("<?php echo $change?>");
+         x[0].value=action;
+         document.<?php echo $form?>.submit();
+         return;
+    }
+</script>
+<?php
+}
+
+function _shn_vol_location_string($loc)
+{
+	global $global;
+	$db=$global["db"];
+	$loc_arr=array();
+   	shn_get_parents($loc,&$loc_arr);
+   	if($loc_arr[0]=='unknown'){
+   		shn_form_label(_("Organization Location"),"Unknown");
+   	}else{
+   		
+   		$max=count($loc_arr)-1;
+   		array_pop($loc_arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($loc_arr);
+   			$q="select name from location where loc_uuid='{$x}'";
+    			$res=$db->Execute($q);
+    			if($count==0 ){
+    				$location=$location.$res->Fields("name");
+    			}else{
+   				$location=$location." -->".$res->Fields("name");
+    			}
+    			
+   		}
+   	}
+   	return $location;
+}
+/*
 function _shn_vol_action_change_javascript($change)
 {
 ?>
@@ -66,7 +107,7 @@ function _shn_vol_action_change_javascript($change)
     }
 </script>
 <?php
-}
+}*/
 
 function _shn_vol_admin_javascript($name)
 {
@@ -296,6 +337,9 @@ function _shn_vol_display_gender($error=false,$value=NULL,$label=NULL)
     }else{
 	    //$extra_opts['req']=true;
     }
+    if($error==true){
+    		$extra_opts['value']=$_SESSION['vol']['job'];
+    }
     $label=($label==NULL)?_("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
@@ -309,12 +353,14 @@ function _shn_vol_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
+    ?><div class="info"><?=_("Select the services you provide ,that is what you do as your occupation or services you can provide in a disaster. e.g. if you offer medical services select it");?></div><br /><?
     $extra_opts['req']=true;
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
-
+/*
 function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
 {
+    ?><div class="info"><?= _("Please provide contact details that can be used to contact your in a disaster");?> </div><br /><?
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
@@ -353,6 +399,71 @@ function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
     $extra_opts['value']=$contact_email;
     shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_web;
+    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
+}*/
+
+function _shn_vol_display_contact_person($error=false,$confirm=false,$po_uuid=null)
+{
+        
+    if($confirm==true){
+    		
+    		shn_form_label(_("Address"),$_SESSION['vol']['contact_address']);
+    		shn_form_label(_("Phone"),$_SESSION['vol']['contact_phone']);
+    		shn_form_label(_("Mobile"),$_SESSION['vol']['contact_mobile']);
+    		shn_form_label(_("Fax"),$_SESSION['vol']['contact_fax']);
+    		shn_form_label(_("Website"),$_SESSION['vol']['contact_web']);
+    		return;
+    }
+    ?><div class="info"><?= _("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
+   if($error==true){
+   		$contact_address=$_SESSION['vol']['contact_address'];
+        $contact_phone=$_SESSION['vol']['contact_phone'];
+        $contact_mobile=$_SESSION['vol']['contact_mobile'];
+        $contact_name=$_SESSION['vol']['contact_name'];
+        $contact_fax=$_SESSION['vol']['contact_fax'];
+        $contact_email=$_SESSION['vol']['contact_mail'];
+        $contact_web=$_SESSION['vol']['contact_web'];
+    }
+    if(!shn_is_null($po_uuid)){
+        global $global;
+        $db=$global['db'];
+        $q = "select address from location_details where poc_uuid='{$po_uuid}'";
+        $res_addr=$db->Execute($q); 
+        $contact_address=$res_addr->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='curr'";
+        $res_phone=$db->Execute($q);
+        $contact_phone=$res_phone->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='pmob'";
+        $res_mobile=$db->Execute($q);
+        $contact_mobile=$res_mobile->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='fax'";
+        $res_fax=$db->Execute($q);
+        $contact_fax=$res_fax->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='email'";
+        $res_email=$db->Execute($q);
+        $contact_email=$res_email->fields[0];
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='web'";
+        $res_web=$db->Execute($q);
+        $contact_web=$res_web->fields[0];
+    }
+ 
+    $extra_opts['value']=$contact_address;
+      $extra_opts['help']=_("Address to be contacted in a disaster");
+    shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_phone;
+      $extra_opts['help']=_("Land line number to be contacted in a disaster");
+    shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_mobile;
+      $extra_opts['help']=_("Mobile Phone number to be contacted in a disaster");
+    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
+    $extra_opts['value']=$contact_fax;
+      $extra_opts['help']=_("Fax number to be contacted in a disaster");
+    shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_email;
+      $extra_opts['help']=_("Email address to be contacted in a disaster");
+    shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+    $extra_opts['value']=$contact_web;
+      $extra_opts['help']=_("Website of the Organization");
     shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
 }
 
@@ -652,6 +763,75 @@ function _shn_vol_display_incident($error=false,$multi=false,$value=NULL)
     }
     $extra_opts['help']=_("select related incidents");
     shn_form_multi_select('incidents',$options,'',$select_opts,$extra_opts);
+}
+
+function _shn_vol_check_vol_reg_info_complete()
+{
+
+    include_once "errors.inc";
+    global $global;
+	include_once $global['approot']."/inc/lib_validate.inc";
+	$error=false;
+    $VARCHAR=100; 
+	list($error,$_SESSION['vol']['name'])=(shn_validate_field($_POST{"name"},"Volunteer Name",$VARCHAR,true))?array($error,$_POST{"name"}):array(true,NULL);
+    if (!shn_valid_date($_POST{"dob"})){
+        $error=true;
+    }else {    
+        $_SESSION['vol']['dob']=$_POST{"dob"};	
+    }
+    $_SESSION['vol']['job']=$_POST{"job"};
+    $_SESSION['vol']['nic']=trim($_POST{"nic"});
+    $_SESSION['vol']['pas']=trim($_POST{"pas"});
+    $_SESSION['vol']['dln']=trim($_POST{"dln"});
+    
+    list($error,$_SESSION['vol']['gender'])=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
+    list($error,$_SESSION['vol']['sector'])=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    $loc=shn_location_get_form_submit_loc();
+    if ($loc==-1){
+        $error=true;
+        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else{
+    		$_SESSION['vol']['loc']=$loc;
+    }
+    $_SESSION['vol']['contact_address']=$_POST{"contact_add"};
+    if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['vol']['contact_phone']=$_POST{"contact_phone"};
+    }
+     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['vol']['contact_mobile']=$_POST{"contact_mobile"};
+    }
+    if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+         $_SESSION['vol']['contact_fax']=$_POST{"contact_fax"};
+    }
+    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        
+        if(!shn_valid_email($_POST{"contact_mail"})){
+            add_error(SHN_ERR_OR_EMAIL);
+            $error=true;
+        }else{
+        		$_SESSION['vol']['contact_mail']=$_POST{"contact_mail"};
+        }
+    }
+    if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $_SESSION['vol']['contact_web']=$_POST{"contact_web"};
+    }
+ 
+    return $error;
 }
 
 ?>
