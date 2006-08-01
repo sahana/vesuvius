@@ -1,0 +1,56 @@
+<?php
+/**
+ * This Library contains functions to dump data from the database.
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     J P Fonseka <jo@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage sync
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
+
+
+function _shn_sync_dump_xml($tables){
+    global $global;
+    echo "<?xml version='1.0' ?>\n";
+    //print the meta data
+    echo "<sahana_data_dump timestamp='".time()."' instanceid='".$conf['base_uuid']."'>\n";
+    //loop through each table
+    foreach($tables as $table)
+        _dump_xml_table($table);
+    echo "</sahana_data_dump>";
+}
+
+function _dump_xml_table($table){
+    global $global;
+//create sql
+    $sql="SELECT * FROM ".$table;
+//get the record set
+    $rs=$global['db']->Execute($sql);
+//get the field names
+    $fc=$rs->FieldCount();
+    for($x=0;$x<$fc;$x++)
+    $fields[$x]=$rs->FetchField($x)->name;
+//ouput the xml
+//print container
+    echo "\t<".$table.">\n";
+//itrate through record set
+    foreach($rs as $row){
+        echo "\t\t<recorde>\n";
+        foreach($fields as $k=>$field){
+            $row[$k]=(isset($row[$k]))?$row[$k]:'null';
+            echo "\t\t\t<".$field."><![CDATA[".$row[$k]."]]></".$field.">\n";
+        }
+        echo "\t\t</recorde>\n";
+    }
+    echo "\t</".$table.">\n";
+}
+
+?>

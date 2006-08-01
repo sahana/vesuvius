@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<module name='sync'>
+  <description>The base data of the system</description>
+<data>
+  <description>Location Data</description>
+  <table name='location'>
+    <primarykeys>
+      <primarykey field_id='loc_uuid' />
+    </primarykeys>
+    <foreign_keys>
+      <foreign_key ref_table="location" ref_field="loc_uuid" field_id="parent_id"/>
+    </foreign_keys>
+  </table>
+</data>
+<data>
+  <description>Field Options Data</description>
+  <table name='field_options'>
+    <primarykeys>
+      <primarykey name='field_name' />
+      <primarykey name='option_code' />
+    </primarykeys>
+  </table>
+</data>
+</module>
