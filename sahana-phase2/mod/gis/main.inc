@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.7 2006-07-17 06:01:34 mifanc Exp $; */
+/* $Id: main.inc,v 1.8 2006-08-01 11:50:21 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -75,7 +75,7 @@ function shn_wm_default()
 
 function shn_gis_swik()
 {
-	show_wiki_map();
+	show_wiki_map($_POST['opt_wikimap_type']);
 }
 
 ?>

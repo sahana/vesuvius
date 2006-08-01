@@ -18,11 +18,19 @@
  */
 function show_wiki_map($category="all",$date=0)
 {
+	
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
+	include_once $global['approot']."/inc/lib_form.inc";
 	
+	shn_form_fopen(swik);
+	shn_form_fsopen("Filter Options");
+	shn_form_opt_select("opt_wikimap_type",_("Situation Type"),null,array('help'=>$type_help));
+	shn_form_fsclose();
+	shn_form_submit(_("Filter"));
+	shn_form_fclose();
 	$db = $global['db'];
-	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid";
+	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid and opt_category='{<?$category?>}'";
 	$res = $db->Execute($query);
 	
 	//create array
