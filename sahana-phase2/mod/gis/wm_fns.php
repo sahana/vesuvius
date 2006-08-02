@@ -85,7 +85,7 @@ function show_wiki_add_map()
 	
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
-	shn_form_fopen(awik);
+	shn_form_fopen(awik,null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'com'));
 	shn_gis_add_marker_map_form();
 	shn_form_submit(_("Next"));
