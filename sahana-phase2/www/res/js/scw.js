@@ -287,22 +287,22 @@
             '/* IMPORTANT:  The SCW calendar script requires all '      +
             '               the classes defined here.'                  +
             '*/'                                                        +
-            'table.scw      {padding:       1px;'                       +
+            'table.scw      {padding:       0px;'                       +
                             'vertical-align:middle;'                    +
-                            'border:        ridge 2px;'                 +
+                            'border:        solid 0px;'                 +
                             'font-size:     10pt;'                      +
                             'font-family:   Arial,Helvetica,Sans-Serif;'+
                             'font-weight:   bold;}'                     +
             'td.scwDrag,'                                               +
-            'td.scwHead                 {padding:       0px 0px;'       +
+            'td.scwHead                 {border:0px;padding:       0px;'       +
                                         'text-align:    center;}'       +
             'td.scwDrag                 {font-size:     8pt;}'          +
-            'select.scwHead             {margin:        3px 1px;}'      +
+            'select.scwHead             {margin: none;    }'      +
             'input.scwHead              {height:        22px;'          +
                                         'width:         22px;'          +
                                         'vertical-align:middle;'        +
                                         'text-align:    center;'        +
-                                        'margin:        2px 1px;'       +
+                                        'margin:        0px;'       +
                                         'font-weight:   bold;'          +
                                         'font-size:     10pt;'          +
                                         'font-family:   fixedSys;}'     +
@@ -343,7 +343,7 @@
                                         'vertical-align:    middle;}'   +
             '/* Blend the colours into your page here...    */'         +
             '/* Calendar background */'                                 +
-            'table.scw                  {background-color:  #CCC;}'  +
+            'table.scw                  {background-color:  #f8f8f8;}'  +
             '/* Drag Handle */'                                         +
             'td.scwDrag                 {background-color:  #9999CC;'   +
                                         'color:             #CCCCFF;}'  +
@@ -356,20 +356,20 @@
                                         'color:             #CCCCCC;}'  +
             '/* Enabled Days */'                                        +
             '/* Week Day */'                                            +
-            'td.scwCells                {background-color:  #CCCCCC;'   +
+            'td.scwCells                {background-color:  #fbfbfb;'   +
                                         'color:             #000000;}'  +
             '/* Day matching the input date */'                         +
             'td.scwInputDate            {background-color:  #CC9999;'   +
                                         'color:             #FF0000;}'  +
             '/* Weekend Day */'                                         +
-            'td.scwCellsWeekend         {background-color:  #CCCCCC;'   +
+            'td.scwCellsWeekend         {background-color:  #f4f4f4;'   +
                                         'color:             #CC6666;}'  +
             '/* Day outside the current month */'                       +
-            'td.scwCellsExMonth         {background-color:  #CCCCCC;'   +
+            'td.scwCellsExMonth         {background-color:  #e8e8e8;'   +
                                         'color:             #666666;}'  +
             '/* Today selector */'                                      +
             'td.scwFoot                 {background-color:  #777;'   +
-                                        'color:             #FFFFFF;}'  +
+                                        'font-weight:bold;color:             #FFFFFF;}'  +
             '/* MouseOver/Hover formatting '                            +
             '       If you want to "turn off" any of the formatting '   +
             '       then just set to the same as the standard format'   +
