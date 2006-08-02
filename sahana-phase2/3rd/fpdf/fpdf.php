@@ -71,6 +71,7 @@ var $AliasNbPages;       //alias for total number of pages
 var $PDFVersion;         //PDF version number
 
 var $report_id;
+var $print_enable;
 
 /*******************************************************************************
 *                                                                              *
@@ -997,6 +998,10 @@ function SetReportID($rep_id_in = '')
 	$this->report_id = $rep_id_in; 
 }
 
+function printInfoEnable($is_ok)
+{
+	$this->print_enable = $is_ok;
+}
 
 function Output($name='',$dest='')
 {
@@ -1077,9 +1082,6 @@ function Output($name='',$dest='')
 			$data = addslashes($data);
 			$data = addcslashes($data, "\0");
 
-			$today = getdate();
-			$current_date = $today["year"]."-".$today["mon"]."-".$today["mday"];
-			$current_time = $today["hours"].":".$today["minutes"].":".$today["seconds"]; 
 			$file_size = filesize($_sd_path.$name)/1000; 
 			$file_type = "pdf"; 
 			$title = $this->title;
@@ -1096,31 +1098,35 @@ function Output($name='',$dest='')
 
 			if($res_found->fields['rep_id'] != null)
 			{
-			$query="update report_files set file_name = '$file_name' , file_data='$data' , date_of_created ='$current_date' , time_of_created = '$current_time' , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(),report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
 			}
 			else
 			{
-			$query="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			$query="insert into report_files(rep_id,file_name,file_data,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$the_owner','$file_type','$file_size','$the_keyword','$title')";
 			}
 			
     			$res=$db->Execute($query);
 
-			print "<h1>Report Information</h1>";
-			if($res == true)
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
+
+			if($this->print_enable)
 			{
-			print "<h1> Report - ".$title."</h1>";
-			print "<b>Report ID : </b>".$the_report_ID." <br>";
-			print "<b>Report File Name : </b>". $file_name."<br>";
-			print "<b>Date : </b>".$current_date."<br>";
-			print "<b>Time : </b>".$current_time."<br>";
-			print "<b>Report Owner :</b>".$the_owner."<br>";
-			print "<b>File Type : </b>".$file_type."<br>";
-			print "<b>File Size : </b>".$file_size." kb <br>";
-			print "<b>Keyword :</b>".$the_keyword."<br>";
-			}
-			else
-			{
-			print "<b>Report Creation Failed..</b>";
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br>";
+				print "<b>Report File Name : </b>". $file_name."<br>";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
+				print "<b>Report Owner :</b>".$the_owner."<br>";
+				print "<b>File Type : </b>".$file_type."<br>";
+				print "<b>File Size : </b>".$file_size." kb <br>";
+				print "<b>Keyword :</b>".$the_keyword."<br>";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
 			}
 			
 			break;
