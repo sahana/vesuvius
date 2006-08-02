@@ -75,7 +75,7 @@ function initializeHacks() {
     }
     resizeBlankDiv();
     // this next function creates a placeholder object for older browsers
-    createFakeEventObj();
+    // createFakeEventObj();
 }
 
 function createFakeEventObj() {
