@@ -15,13 +15,19 @@
  *
  */
 include_once('lib_sync.inc');
-//loop through tables
-foreach($_SESSION['sync']['tables'] as $table){
-//read the sync.xml file
-//get the nessary function or the handeler
-    shn_sync_merge($table);
-//mearge data
-}
 
+//controler to handel the threshold value
+switch ($_SESSION['threshold']){
+
+    case '1': //case to check locations
+        include_once('handler_location_sync.inc');
+    break;
+    case '0':
+        //loop through tables
+        foreach($_SESSION['sync']['tables'] as $table){
+            shn_sync_merge($table);
+        }
+    break;
+}
 //
 ?>
