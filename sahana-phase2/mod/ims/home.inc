@@ -22,7 +22,7 @@ function _shn_ims_default() {
 <h1 align="center"><?= _("Inventory Management System Home")?> </h1>
 <div id="home">
     <div>
-    <?= (_("The Inventory Management system is a system to manage Inventories. It not only keep the track of items available in warehouses but also all of the inventories which are related to relief works in disaster region.")) ?></div>
+    <p><?= (_("The Inventory Management system is a system to manage Inventories. It not only keep the track of items available in warehouses but also all of the inventories which are related to relief works in disaster region.")) ?></p></div>
     <br></br>
     <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
       
