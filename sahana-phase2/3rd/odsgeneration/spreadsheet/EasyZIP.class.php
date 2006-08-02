@@ -92,6 +92,8 @@ class EasyZIP {
 
 	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '',$print_ok = '') 
 		{
+
+		/*
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
 		array_pop($_sd_path);
@@ -99,7 +101,33 @@ class EasyZIP {
 		array_pop($_sd_path);
 		$_sd_path = implode('/', $_sd_path);
 		$_sd_path = $_sd_path."/www/tmp/";
+
+		*/
+
+	
+		//testing -----------------------------------------------------
+
+
+		$temp = tmpfile();
+
+		$zip = $this -> packFiles();
+		if ($zipfilename != '')
+		{
+		fwrite($temp,$zip,strlen($zip));
+		fseek($temp, 0);
+		while(!feof($temp)) 
+		{
+		$data .= fread($temp, 1024); 
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
 		
+
+		//end of testing --------------------------------------------
+
+		/*
 		$zip = $this -> packFiles();
 		if ($zipfilename != '') {
 		    $fp = fopen($_sd_path.$zipfilename, "w");
@@ -114,8 +142,11 @@ class EasyZIP {
 			fclose($fp);
 				$data = addslashes($data);
 				$data = addcslashes($data, "\0");
+		*/
 
-		$file_size = filesize($_sd_path.$zipfilename)/1000; 
+		
+		//$file_size = filesize($_sd_path.$zipfilename)/1000; 
+		$file_size = strlen($data)/1000;
 		$file_type = "ods"; 
 		$title = $report_title_in;
 		$file_name = $zipfilename;
@@ -161,6 +192,8 @@ class EasyZIP {
 				print "<b>Report Creation Failed..</b>";
 				}
 			}	
+
+						
 
 			return true;
 		} else {
