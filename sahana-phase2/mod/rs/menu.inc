@@ -25,7 +25,7 @@ function _shn_rs_main_menu()
 	$report_mods = _shn_get_mod_reports();
     // The  module menu
 	shn_mod_menuopen(_("Reporting System"));
-	shn_mod_menuitem("default",_("Home"));
+	shn_mod_menuitem("default",_("Home"),'rs');
 	shn_sub_mod_menuopen(_("Module Reports Aggregator"));
 	
 		 foreach ($report_mods as $i) 
@@ -33,20 +33,16 @@ function _shn_rs_main_menu()
     		shn_sub_mod_menuitem("rpt_default", $conf['mod_'.$i.'_name'], $i);
  		}
 	shn_sub_mod_menuclose();
-	shn_mod_menuitem("sample",_("Generate Sample Reports"));
-	shn_mod_menuitem("search",_("Report Search"));
-	//shn_sub_mod_menuopen(_("Report Search"));
-	//shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Download Reports"));
-	shn_sub_mod_menuclose();
+	shn_mod_menuitem("sample",_("Generate Sample Reports"),'rs');
+	shn_mod_menuitem("search",_("Report Search"),'rs');
+	shn_mod_menuitem("download",_("Download Reports"),'rs');
 	shn_sub_mod_menuopen(_("Test Reports & Charts"));
-	shn_mod_menuitem("spreadsheet",_("SpreadSheet"));
-	shn_mod_menuitem("pdf",_("PDF"));
-	shn_mod_menuitem("xhtml",_("XHTML"));
-	shn_mod_menuitem("chart",_("Chart"));
-	shn_mod_menuitem("piechart",_("Pie Chart"));
-	shn_mod_menuitem("barchart",_("Bar Chart"));
-	shn_mod_menuitem("xhtml_test",_("Test XHTML"));
+	shn_mod_menuitem("spreadsheet",_("SpreadSheet"),'rs');
+	shn_mod_menuitem("pdf",_("PDF"),'rs');
+	shn_mod_menuitem("xhtml",_("XHTML"),'rs');
+	shn_mod_menuitem("chart",_("Chart"),'rs');
+	shn_mod_menuitem("piechart",_("Pie Chart"),'rs');
+	shn_mod_menuitem("barchart",_("Bar Chart"),'rs');
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
    

@@ -25,6 +25,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
 
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
+include_once $global['approot']."/inc/reporting/lib_chart.inc";
 
 function shn_rs_mainmenu() 
 {
@@ -64,8 +65,18 @@ function shn_rs_search()
 function shn_rs_search_submit_one()
 {
 	include_once('search.inc');
+
+	if(_shn_rs_validate_search_reports())
+	{
+	display_errors();
+	shn_rs_search_main_form();
+	}
+	else
+	{
 	shn_rs_search_main_form();
 	shn_rs_search_submit_one_result();
+	}
+
 }
 
 /*********************End of search functions*************************************/
@@ -79,7 +90,17 @@ function shn_rs_sample()
 function shn_rs_sample_submit_one()
 {
 	include_once ('sample.inc');
+
+	if(shn_rs_validate_sample_report())
+	{
+	display_errors();
+	shn_rs_sample_report();
+	}
+	else
+	{
 	shn_rs_sample_submit_one_result();
+	}
+	
 }
 
 function shn_rs_sample_submit_two()
@@ -105,6 +126,15 @@ function shn_rs_sample_submit_four()
 
 
 /**************************End of sample Report functions****************************/
+
+/**************************Download functions **************************************/
+function shn_rs_download()
+{
+print "Hi this is download page...";
+}
+
+/************************* End of Download functions *********************************/
+
 function shn_rs_spreadsheet()
 {
 $datasR1 = array(
@@ -141,7 +171,7 @@ shn_ods_report_fopen('mytestreport','testodskey','pradeeper');
 shn_ods_report_add_sheet('mysheetone');
 shn_ods_report_add_title('Project of the Month');
 shn_ods_report_add_table(5,5,$headerarray,$datasR1);
-shn_ods_report_add_summery( 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.' ,'5','15','5','0.75','middle','center');
+shn_ods_report_add_summery( 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.' );
 shn_ods_report_add_image('cartoon001.jpg');
 shn_ods_report_add_sheet('mysheettwo');
 shn_ods_report_close();
@@ -188,7 +218,7 @@ shn_pdf_report_add_title($title);
 shn_pdf_report_add_table($table_header,$table_data);
 //shn_pdf_report_add_page();
 shn_pdf_report_add_summery($txt);
-shn_pdf_report_add_page();
+//shn_pdf_report_add_page();
 shn_pdf_report_add_image('tmp/Pictures/cartoon001.jpg');
 shn_pdf_report_close();
 }
@@ -259,18 +289,11 @@ $datasR1 = array(
 $headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
 shn_xhtml_report_fopen('testxhtmlfile','testxhtml','xhtmlowner');
 shn_xhtml_report_add_title('Sanjeewa Jayasinghe','left');
-shn_xhtml_report_add_summary('ssssssssssssssssssssssssssssssssssssssdddddddddddddd','right');
+shn_xhtml_report_add_summary('ssssssssssssssssssssssssssssssssssssssddddddddddddddxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx','right');
 shn_xhtml_report_add_table($headerarray,$datasR1,'center');
 shn_xhtml_report_add_image("Pictures/cartoon001.jpg",'center');
 shn_xhtml_report_close();
 }
-
-
-function shn_rs_xhtml_test()
-{
-shn_xhtml_test();
-}
-
 
 ?>
 

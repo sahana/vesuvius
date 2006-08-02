@@ -59,18 +59,17 @@ $selected_report_type = trim($_POST['report_type']);
 $selected_file_type = trim($_POST['file_type']);
 $report_owner = trim($_POST['report_owner']);
 
-
 $upload_dir = $global['approot'].'www/tmp/Pictures/';
 $upload_dir = $upload_dir.basename( $_FILES['image']['name']);
-if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir)) 
+	if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir)) 
 	{
     	//echo "The file ".  basename( $_FILES['image']['name']). " has been uploaded";
 	chmod($upload_dir, 0777);
 	$img_upload_ok = true;
 	$img_name = basename( $_FILES['image']['name']);
 	} 
-else{
-   // echo "There was an error uploading the file, please try again!";
+	else
+	{
 	$img_upload_ok = false;
 	}
 
@@ -86,10 +85,11 @@ $report_data_arr = array('file_name' => $rep_file_name , 'title' => $report_titl
 	}
 	else
 	{
-	print "<h1>Under construction</h1>";
+	_show_custom_report_form();
 	}
 
 }
+
 function _show_mod_select_form($report_data_arr_in='')
 {
     $option_array=array('none' => '-----Select -----','cs' => 'Catalogue System');
@@ -99,6 +99,17 @@ function _show_mod_select_form($report_data_arr_in='')
     $select_opts='onChange="changeform()"';
     shn_form_select($option_array,'','mod_name',$select_opts,null);
     shn_form_fsclose();
+    shn_form_fclose();
+}
+
+function _show_custom_report_form()
+{
+print "<h1>Add More content to the Custom Report</h1>";
+    shn_form_fopen('sample_submit_four',null,'');
+    shn_form_fsopen(_('Report Content'));
+    shn_form_textarea("",'content' , '', '');
+    shn_form_fsclose();
+    shn_form_submit(_("Create Report"));
     shn_form_fclose();
 }
 
@@ -228,7 +239,6 @@ function _show_unit_table($keyword_in = '',$exact_in = true)
     global $global;
     $db=$global["db"];
 
-
     shn_form_fopen('sample_submit_four',null,'');
 
 ?>
@@ -299,7 +309,7 @@ function _show_unit_type_table($keyword_in = '',$exact_in = true)
 {
     global $global;
     $db=$global["db"];
-//print_r($_SESSION['report_data']);
+
 
 shn_form_fopen('sample_submit_four',null,'');
 
@@ -357,7 +367,6 @@ shn_form_fopen('sample_submit_four',null,'');
 </div>
 <?php
 
-
     shn_form_submit(_("Add Table & Create Report"));
     shn_form_fclose();
 
@@ -370,49 +379,97 @@ $report_data_array = $_SESSION['report_data'];
 $table_headers = $_SESSION['table_headers'];
 $table_data = $_SESSION['table_data'];
 
+$content =  trim($_POST['content']);
+
 	if($report_data_array['file_type'] == 'ods')
 	{
-	print $report_data_array['title'];
 	shn_ods_report_fopen($report_data_array['file_name'],$report_data_array['meta'],$report_data_array['report_owner']);
 	shn_ods_report_add_sheet('sheet1');
 	shn_ods_report_add_title($report_data_array['title']);
-	shn_ods_report_add_table(5,5,$table_headers,$table_data);
-	shn_ods_report_add_summery($report_data_array['summary'],'5','15','5','0.75','middle','center');
-	shn_ods_report_add_image($report_data_array['img_name']);
+		
+	shn_ods_report_add_summery($report_data_array['summary']);
+	
+		if($content != null)
+		{
+		shn_ods_report_add_summery($content,'5','25','5','10','middle','center');
+		}
+		else
+		{
+		shn_ods_report_add_table(5,15,$table_headers,$table_data);
+		}
+
+		if($report_data_array['img_name'] != null)
+		{
+		shn_ods_report_add_image($report_data_array['img_name']);
+		}
+
 	shn_ods_report_close();
 	}
 	elseif($report_data_array['file_type'] == 'pdf')
 	{
 	shn_pdf_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$report_data_array['meta']);
 	shn_pdf_report_add_title($report_data_array['title']);
-	//shn_pdf_report_add_page();
 	shn_pdf_report_add_summery($report_data_array['summary']);
-	shn_pdf_report_add_table($table_headers,$table_data);
-
-	//shn_pdf_report_add_page();
+	
+		if($content != null)
+		{
+		shn_pdf_report_add_summery($content);
+		}
+		else
+		{
+		shn_pdf_report_add_table($table_headers,$table_data);
+		}
 	shn_pdf_report_add_image('tmp/Pictures/'.$report_data_array['img_name']);
 	shn_pdf_report_close();
 	}
 	else
 	{
-	print $report_data_array['owner'];
 	shn_xhtml_report_fopen($report_data_array['file_name'],$report_data_array['meta'],$report_data_array['report_owner']);
 	shn_xhtml_report_add_title($report_data_array['title'],'left');
 	shn_xhtml_report_add_summary($report_data_array['summary'],'left');
-	shn_xhtml_report_add_table($table_headers,$table_data,'left');
+
+		if($content != null)
+		{
+		shn_xhtml_report_add_summary($content,'left');
+		}
+		else
+		{
+		shn_xhtml_report_add_table($table_headers,$table_data,'left');
+		}
+
+
 	shn_xhtml_report_add_image($report_data_array['img_name'],'center');
 	shn_xhtml_report_close();
 	}
 
-
-
-
-
 }
 
+function shn_rs_validate_sample_report()
+{
+$error_flag=false;
+clean_errors();
 
+    //this checks whether name entered in the add unit form
+    if(trim($_POST['rep_file_name'])==null)
+    {
+    add_error(_("Enter the File Name"));
+    $error_flag=true;
+    }
 
+ if(trim($_POST['report_type'])==null || trim($_POST['report_type'])=='none')
+    {
+    add_error(_("Select the report type to continue"));
+    $error_flag=true;
+    }
 
+  if(trim($_POST['file_type'])==null || trim($_POST['file_type'])=='none')
+    {
+    add_error(_("Select the file type to continue"));
+    $error_flag=true;
+    }
+
+    return $error_flag;
+}
 
 ?>
 <script type="text/javascript">
