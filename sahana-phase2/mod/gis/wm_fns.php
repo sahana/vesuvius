@@ -22,6 +22,8 @@ function show_wiki_map($category="all",$date=0)
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	include_once $global['approot']."/inc/lib_form.inc";
+	if(!isset($category))
+		$category="all";
 	
 	//$type_help="Help Me";
 	
@@ -33,7 +35,8 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ";
+	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
 	//create array
@@ -131,7 +134,8 @@ function shn_wiki_map_commit()
 {
 	global $global;
 	include_once($global['approot'].'/inc/lib_uuid.inc');
-	$id = shn_create_uuid();
+	include_once $global['approot']."/inc/lib_form.inc";
+	//$id = shn_create_uuid();
 	$_SESSION['loc_x']=$_POST['loc_x'];
 	$_SESSION['loc_y']=$_POST['loc_y'];
 
@@ -148,7 +152,16 @@ function shn_wiki_map_commit()
 	
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_dbinsert($wiki_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
-	echo "DONE";
+	
+	shn_form_fopen(null,null,array('req'=>false));
+	shn_form_fsopen(_(" Added Wiki Item"));
+?>
+	<div class="error">
+		<?=shn_form_label(_("Succesfully added wiki item :"),_("{$_SESSION['wiki_name']}"));?>
+	</div>
+<?php
+	shn_form_fsclose();
+	shn_form_fclose();
 	
 	
 }
