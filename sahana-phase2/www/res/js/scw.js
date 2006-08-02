@@ -143,11 +143,11 @@
 
     // Displayed "Today" date format
 
-    var scwDateDisplayFormat = 'dd-mm-yyyy';     // e.g. 'MMM-DD-YYYY' for the US
+    var scwDateDisplayFormat = 'yyyy-mm-dd';     // e.g. 'MMM-DD-YYYY' for the US
 
     // Output date format
 
-    var scwDateOutputFormat  = 'dd-mm-yyyy'; // e.g. 'MMM-DD-YYYY' for the US
+    var scwDateOutputFormat  = 'yyyy-mm-dd'; // e.g. 'MMM-DD-YYYY' for the US
 
     // The input date is fully parsed so a format is not required,
     // but there is no way to differentiate the sequence reliably.
@@ -161,7 +161,7 @@
     // The sequence should always contain one D, one M and one Y only,
     // in any order.
 
-    var scwDateInputSequence = 'DMY';           // e.g. 'MDY' for the US
+    var scwDateInputSequence = 'YMD';           // e.g. 'MDY' for the US
 
     // Note: Because the user may select a date then trigger the
     //       calendar again to select another, it is necessary to
@@ -297,7 +297,7 @@
             'td.scwHead                 {border:0px;padding:       0px;'       +
                                         'text-align:    center;}'       +
             'td.scwDrag                 {font-size:     8pt;}'          +
-            'select.scwHead             {margin: none;    }'      +
+            'select.scwHead             {margin: 0px;    }'      +
             'input.scwHead              {height:        22px;'          +
                                         'width:         22px;'          +
                                         'vertical-align:middle;'        +
