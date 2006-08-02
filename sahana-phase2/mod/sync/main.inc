@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.9 2006-08-01 08:05:42 priyanga Exp $ */
+/* $Id: main.inc,v 1.10 2006-08-02 11:27:14 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -100,7 +100,12 @@ function shn_sync_upload()
     echo "<h2>Upload File</h2>";
     //Check the file upload and display its messages;
     $_SESSION['sync']['file']="./tmp/".basename($_FILES['file_dump']['name']);
-    if (move_uploaded_file($_FILES['file_dump']['tmp_name'],$_SESSION['sync']['file']))
+    
+    //check for tmp file permision
+    if(!is_writable("./tmp")){
+        echo "make sure the tmp folder is writerble<br />";
+    }
+    else if (move_uploaded_file($_FILES['file_dump']['tmp_name'],$_SESSION['sync']['file']))
     {
         include 'handler_upload_file.inc';
         return;
@@ -122,6 +127,8 @@ function shn_sync_upload()
 function shn_sync_synchronize(){
     global $global;
     $global['xajax']= new xajaxResponse();
+    //checking and setting the threshold value
+    $_SESSION['threshold']=(isset($_POST['threshold']))?$_POST['threshold']:$_SESSION['threshold'];
     //function to populate tmp database
     function process_file(){
         global $global;
@@ -139,13 +146,18 @@ function shn_sync_synchronize(){
         }
         $global['xajax']->addAssign("console","innerHTML", "Combining Data.....");
         $global['xajax']->addScript("xajax_start_sync();");
+        
+        //creating the report object
+        $_SESSION['report']=new report();
+        $_SESSION['report']=serialize($_SESSION['report']);
         return $global['xajax']->getXML();
     }
 
     //function to synchronize
-    function start_sync(){
+    function start_sync($form=array()){
         global $global;
-        $_SESSION['report']=new report();
+        $global['form_post']=$form;
+        $_SESSION['report']=unserialize($_SESSION['report']);
         $_SESSION['report']->set_tables($_SESSION['sync']['tables']);
         $_SESSION['report']->set_all_number();
         include_once('sync_tmp_data.inc');
@@ -194,6 +206,6 @@ function shn_sync_ads(){
 }
 
 function shn_sync_sws(){
-
+    
 }
 ?>
