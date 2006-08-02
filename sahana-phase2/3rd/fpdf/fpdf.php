@@ -1060,6 +1060,26 @@ function Output($name='',$dest='')
 			break;
 		case 'F':
 			//Save to local file
+
+		//testing-----------------------------------------------------
+
+		$temp = tmpfile();
+		fwrite($temp,$this->buffer);
+		fseek($temp, 0);
+		while(!feof($temp)) 
+		{
+		$data .= fread($temp, 1024); 
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
+
+		//end of testing---------------------------------------------
+
+
+
+		/*
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
 		array_pop($_sd_path);
@@ -1082,7 +1102,10 @@ function Output($name='',$dest='')
 			$data = addslashes($data);
 			$data = addcslashes($data, "\0");
 
-			$file_size = filesize($_sd_path.$name)/1000; 
+			*/
+
+			//$file_size = filesize($_sd_path.$name)/1000; 
+			$file_size = strlen($data)/1000;
 			$file_type = "pdf"; 
 			$title = $this->title;
 			$file_name =$name;
@@ -1128,6 +1151,8 @@ function Output($name='',$dest='')
 				print "<b>Report Creation Failed..</b>";
 				}
 			}
+
+			
 			
 			break;
 		case 'S':
