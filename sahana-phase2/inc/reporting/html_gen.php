@@ -31,6 +31,7 @@ class genhtml
 	var $report_owner;
 	var $extention;
 	var $report_id;
+	var $print_enable;
 	/*
 	* The constructor 
 	*/
@@ -92,13 +93,9 @@ class genhtml
 
 	function addImage($img_path='')
 		{
-		$this->output_code .= "<img src='".$img_path."' align='".$this->image_pos."'/>\n<br>\n";
+		$this->output_code .= "<img src='".$img_path."/>\n<br>\n";
 		}
 
-	function setImagePos($img_pos_in='center')
-		{
-		$this->image_pos = $img_pos_in;
-		}
 
 	function lineBrake()
 		{
@@ -140,9 +137,33 @@ class genhtml
 		$this->output_code .= "<br><a href ='".$linkLocatoin."'>".$linkText."</a>";
 		}
 
+	function printInfoEnable($is_ok)
+		{
+		$this->print_enable = $is_ok;
+		}
+
 	function Output()
 		{
 		$this->output_code .= "</body>\n</html>\n";
+
+		//testing---------------------------
+
+		$temp = tmpfile();
+		fwrite($temp,$this->output_code);
+		fseek($temp, 0);
+		while(!feof($temp)) 
+		{
+		$data .= fread($temp, 1024); 
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
+
+		//end of testing---------------------
+
+		/*
+
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
 		array_pop($_sd_path);
@@ -158,9 +179,7 @@ class genhtml
 			fwrite($f,$this->output_code,strlen($this->output_code));
 			fclose($f);
 
-		//echo "Your XHTML report has been created in ".$_sd_path;
-			
-		$fp = fopen($_sd_path.$this->file_name.$this->extention, "rb");
+			$fp = fopen($_sd_path.$this->file_name.$this->extention, "rb");
 			while(!feof($fp)) 
 			{
 			$data .= fread($fp, 1024); 
@@ -168,11 +187,11 @@ class genhtml
 			fclose($fp);
 			$data = addslashes($data);
 			$data = addcslashes($data, "\0");
+		*/
+		//$file_size = filesize($_sd_path.$this->file_name.$this->extention)/1000; 
+		//$file_size = filesize($temp)/1000; 
 		
-		$today = getdate();
-		$current_date = $today["year"]."-".$today["mon"]."-".$today["mday"];
-		$current_time = $today["hours"].":".$today["minutes"].":".$today["seconds"]; 
-		$file_size = filesize($_sd_path.$this->file_name.$this->extention)/1000; 
+		$file_size = strlen($data)/1000;
 		$file_type = $this->file_format; 
 		$title = $this->title_txt;
 		$file_name = $this->file_name.$this->extention;
@@ -180,44 +199,59 @@ class genhtml
 		$the_owner = $this->report_owner;
 		$the_report_ID = $this->report_id;
 
+		//print $file_size." ".$file_type." ".$title." ".$file_name." ".$the_keyword." ".$the_owner." ".$the_report_ID;
+
 		global $global;
     		$db=$global["db"];
 
 		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
 		$res_found = $db->Execute($query);
 
+		
 		if($res_found->fields['rep_id'] != null)
 			{
-		$query="update report_files set file_name = '$file_name' , file_data='$data' , date_of_created ='$current_date' , time_of_created = '$current_time' , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+		$query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			
 			}
 		else
 			{
-		$query="insert into report_files(rep_id,file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+			//print "iam inserting..";
+			//print "<br><br>size=".$file_size."<br>type= ".$file_type."<br>title= ".$title."<br>fname= ".$file_name."<br>key= ".$the_keyword."<br>own= ".$the_owner."<br>id= ".$the_report_ID;
+			//print $data;
+			$query="insert into report_files(rep_id,file_name,file_data,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$the_owner','$file_type','$file_size','$the_keyword','$title')";
+
 			}
 
-    		$res=$db->Execute($query);
+    			$res=$db->Execute($query);
+			
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
 
-			if($res == true)
+			if($this->print_enable)
 			{
-			print "<h1> Report - ".$title."</h1>";
-			print "<b>Report ID : </b>".$the_report_ID." <br>";
-			print "<b>Report File Name : </b>". $file_name."<br>";
-			print "<b>Date : </b>".$current_date."<br>";
-			print "<b>Time : </b>".$current_time."<br>";
-			print "<b>Report Owner :</b>".$the_owner."<br>";
-			print "<b>File Type : </b>".$file_type."<br>";
-			print "<b>File Size : </b>".$file_size." kb <br>";
-			print "<b>Keyword :</b>".$the_keyword."<br>";
-			}
-			else
-			{
-			print "<b>Report Creation Failed..</b>";
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br>";
+				print "<b>Report File Name : </b>". $file_name."<br>";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
+				print "<b>Report Owner :</b>".$the_owner."<br>";
+				print "<b>File Type : </b>".$file_type."<br>";
+				print "<b>File Size : </b>".$file_size." kb <br>";
+				print "<b>Keyword :</b>".$the_keyword."<br>";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
 			}
 	
+			
+
 		}
 
 
-	}
+	}//end of html_gen class
 
 
 ?>
