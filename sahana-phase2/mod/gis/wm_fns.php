@@ -23,9 +23,11 @@ function show_wiki_map($category="all",$date=0)
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	include_once $global['approot']."/inc/lib_form.inc";
 	
-	shn_form_fopen(swik);
+	//$type_help="Help Me";
+	
+	shn_form_fopen(swik,null,array('req'=>false));
 	shn_form_fsopen("Filter Options");
-	shn_form_opt_select("opt_wikimap_type",_("Situation Type"),null,array('help'=>$type_help));
+	shn_form_opt_select("opt_wikimap_type",_("Situation Type"),null,array('all'=>true));
 	shn_form_fsclose();
 	shn_form_submit(_("Filter"));
 	shn_form_fclose();
