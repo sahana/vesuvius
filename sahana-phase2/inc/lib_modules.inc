@@ -23,12 +23,14 @@
 function shn_get_module_names()
 {
     global $global;
+    global $conf;
     $module_list = array();
 
     $approot = $global['approot'];
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
-        if (file_exists($approot."mod/".$f."/main.inc")) {
+        if ($conf['mod_'.$f.'_enabled'] && 
+                file_exists($approot."mod/".$f."/main.inc")) {
           array_push($module_list, $f);
         }
     }
@@ -61,16 +63,22 @@ function shn_get_modules_with_admin()
  * shn_include_module_conf 
  * 
  * @access public
+ * @depracted
  * @return void
  */
-function shn_include_module_conf()
+function shn_include_module_conf() // DEPCRATED
 {
     global $global;
+    global $conf;
+
     $approot = $global['approot'];
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
         if (file_exists($approot."mod/".$f."/conf.inc")) {
-          include_once ($approot."mod/".$f."/conf.inc");
+              include_once ($approot."mod/".$f."/conf.inc");
+             if (!defined($conf['shn_'.$f.'_enabled'])) {
+                $conf['shn_'.$f.'_enabled'] = true;
+            }
         }
     }
 }

@@ -110,7 +110,12 @@ function shn_config_module_conf_fetch($module = 'all')
         $d = dir($approot.'mod/');
         while (false !== ($f = $d->read())) {
             if (file_exists($approot.'mod/'.$f.'/conf.inc')) {
-              include ($approot.'mod/'.$f.'/conf.inc');
+                include_once($approot.'mod/'.$f.'/conf.inc');
+
+                // if module enabled flag is not set add it to conf
+                if (!defined($conf['shn_'.$f.'_enabled'])) {
+                    $conf['mod_'.$f.'_enabled'] = true;
+                }
             }
         } 
     } else {
