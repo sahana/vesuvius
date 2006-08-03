@@ -26,7 +26,7 @@ global $owner;
 global $ods_row_counter;
 global $ods_rep_ID;
 global $ods_rep_gen_ok;
-function shn_ods_report_fopen($file_name='',$keyword_in='',$owner_in='')
+function shn_ods_report_fopen($file_name='',$owner_in='',$keyword_in='')
 {
     global $global;
     $db=$global["db"];
@@ -283,7 +283,6 @@ $db=$global["db"];
 $pdfreportname = $reportname;
 $pdf=new FPDF();
 $backtrace = debug_backtrace();
-
 $rep_id = $backtrace['1']["function"];
 
 //check the timestamp and set whether the update should be taken place or not
@@ -443,7 +442,7 @@ function shn_pdf_report_close()
 include("html_gen.php");
 global $xhtml;
 global $html_rep_gen_ok;
-function shn_xhtml_report_fopen($file_name='',$keyword='',$owner='')
+function shn_xhtml_report_fopen($file_name='',$owner='',$keyword='')
 {
 global $xhtml;
 global $html_rep_gen_ok;
@@ -498,7 +497,7 @@ global $html_rep_gen_ok;
 global $xhtml;
 	if($html_rep_gen_ok)
 	{
-	$xhtml->setTitlePos($position);
+	$xhtml->setTitlePos('center');
 	$xhtml->addTitle($Title);
 	}
 
@@ -510,31 +509,30 @@ global $html_rep_gen_ok;
 global $xhtml;
 	if($html_rep_gen_ok)
 	{
-	$xhtml->setSummaryPos($summary_pos_in);
+	$xhtml->setSummaryPos('center');
 	$xhtml->addSummary($summary);
 	}
 
 }
 
-function shn_xhtml_report_add_table($tab_header='',$tab_data='',$tab_pos='center')
+function shn_xhtml_report_add_table($tab_header='',$tab_data='')
 {
 global $html_rep_gen_ok;
 global $xhtml;
 	if($html_rep_gen_ok)
 	{
-	$xhtml->setTablePos($tab_pos);
+	$xhtml->setTablePos('center');
 	$xhtml->addTable($tab_header,$tab_data);
 	}
 
 }
 
-function shn_xhtml_report_add_image($img_path_in='',$image_pos_in='center')
+function shn_xhtml_report_add_image($img_path_in='')
 {
 global $html_rep_gen_ok;
 global $xhtml;
 	if($html_rep_gen_ok)
 	{
-	$xhtml->setImagePos($image_pos_in);
 	$xhtml->addImage('Pictures/'.$img_path_in);
 	}
 
@@ -553,8 +551,7 @@ global $xhtml;
 
 /******************************** End of XHTML Report Generation Functions **************************************/
 
-/*********************************private Functions ***********************************************************/
-
+/*********************************private Functions *************************************************************/
 function _shn_is_report_update_OK($last_updated_time_stamp)
 {
 	$today = getdate();	
@@ -571,10 +568,5 @@ function _shn_is_report_update_OK($last_updated_time_stamp)
 	return false;
 	}	
 }
-
-
-
 /*********************************End of private functions *****************************************************/
-
-
 ?>

@@ -93,20 +93,8 @@ class EasyZIP {
 	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '',$print_ok = '') 
 		{
 
-		/*
-		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
-		$_sd_path = explode('/', dirname(__FILE__));
-		array_pop($_sd_path);
-		array_pop($_sd_path);
-		array_pop($_sd_path);
-		$_sd_path = implode('/', $_sd_path);
-		$_sd_path = $_sd_path."/www/tmp/";
-
-		*/
-
-	
-		//testing -----------------------------------------------------
-
+		global $global;
+    		$db=$global["db"];
 
 		$temp = tmpfile();
 
@@ -123,53 +111,55 @@ class EasyZIP {
 		$data = addcslashes($data, "\0");
 
 		fclose($temp); // this removes the file
-		
 
-		//end of testing --------------------------------------------
-
-		/*
-		$zip = $this -> packFiles();
-		if ($zipfilename != '') {
-		    $fp = fopen($_sd_path.$zipfilename, "w");
-			fwrite($fp, $zip, strlen($zip));
-			fclose($fp);
-
-			$fp = fopen($_sd_path.$zipfilename, "rb");
-				while(!feof($fp)) 
-				{
-				$data .= fread($fp, 1024); 
-				}
-			fclose($fp);
-				$data = addslashes($data);
-				$data = addcslashes($data, "\0");
-		*/
-
-		
-		//$file_size = filesize($_sd_path.$zipfilename)/1000; 
 		$file_size = strlen($data)/1000;
 		$file_type = "ods"; 
 		$title = $report_title_in;
 		$file_name = $zipfilename;
-		$the_keyword = $keyword_in;
 		$the_owner = $owner_in;
 		$the_report_ID = $report_id;
 
-		global $global;
-    		$db=$global["db"];
+		$keyword_arr = $keyword_in;
+
 
 		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
 		$res_found = $db->Execute($query);
 
 			if($res_found->fields['rep_id'] != null)
 			{
-			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() , report_chart_owner = '$the_owner' , file_size_kb = '$file_size' , keyword = '$the_keyword' , title = '$title' where rep_id='$the_report_ID' ";
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() , report_chart_owner = '$the_owner' , file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+			$res=$db->Execute($query);
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+			$del_res=$db->Execute($del_query);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
 			}
 			else
 			{
-			$query="insert into report_files(rep_id,file_name,file_data,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$the_report_ID','$file_name','$data','$the_owner','$file_type','$file_size','$the_keyword','$title')";
-			}
+			$query="insert into report_files(rep_id,file_name,file_data,report_chart_owner,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$the_owner','$file_type','$file_size','$title')";
+			$res=$db->Execute($query);
 
-    			$res=$db->Execute($query);
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+			}
 
 			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
 			$timestamp_found = $db->Execute($query_ts);
@@ -185,7 +175,7 @@ class EasyZIP {
 				print "<b>Report Owner :</b>".$the_owner."<br>";
 				print "<b>File Type : </b>".$file_type."<br>";
 				print "<b>File Size : </b>".$file_size." kb <br>";
-				print "<b>Keyword :</b>".$the_keyword."<br>";
+				//print "<b>Keyword :</b>".$the_keyword."<br>";
 				}
 				else
 				{
