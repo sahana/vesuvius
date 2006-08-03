@@ -380,10 +380,13 @@ $table_headers = $_SESSION['table_headers'];
 $table_data = $_SESSION['table_data'];
 
 $content =  trim($_POST['content']);
+$keyword_arr = explode(",", $report_data_array['meta']);
+
+
 
 	if($report_data_array['file_type'] == 'ods')
 	{
-	shn_ods_report_fopen($report_data_array['file_name'],$report_data_array['meta'],$report_data_array['report_owner']);
+	shn_ods_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
 	shn_ods_report_add_sheet('sheet1');
 	shn_ods_report_add_title($report_data_array['title']);
 		
@@ -391,11 +394,11 @@ $content =  trim($_POST['content']);
 	
 		if($content != null)
 		{
-		shn_ods_report_add_summery($content,'5','25','5','10','middle','center');
+		shn_ods_report_add_summery($content);
 		}
 		else
 		{
-		shn_ods_report_add_table(5,15,$table_headers,$table_data);
+		shn_ods_report_add_table($table_headers,$table_data);
 		}
 
 		if($report_data_array['img_name'] != null)
@@ -407,7 +410,7 @@ $content =  trim($_POST['content']);
 	}
 	elseif($report_data_array['file_type'] == 'pdf')
 	{
-	shn_pdf_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$report_data_array['meta']);
+	shn_pdf_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
 	shn_pdf_report_add_title($report_data_array['title']);
 	shn_pdf_report_add_summery($report_data_array['summary']);
 	
@@ -424,21 +427,21 @@ $content =  trim($_POST['content']);
 	}
 	else
 	{
-	shn_xhtml_report_fopen($report_data_array['file_name'],$report_data_array['meta'],$report_data_array['report_owner']);
-	shn_xhtml_report_add_title($report_data_array['title'],'left');
-	shn_xhtml_report_add_summary($report_data_array['summary'],'left');
+	shn_xhtml_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
+	shn_xhtml_report_add_title($report_data_array['title']);
+	shn_xhtml_report_add_summary($report_data_array['summary']);
 
 		if($content != null)
 		{
-		shn_xhtml_report_add_summary($content,'left');
+		shn_xhtml_report_add_summary($content);
 		}
 		else
 		{
-		shn_xhtml_report_add_table($table_headers,$table_data,'left');
+		shn_xhtml_report_add_table($table_headers,$table_data);
 		}
 
 
-	shn_xhtml_report_add_image($report_data_array['img_name'],'center');
+	shn_xhtml_report_add_image($report_data_array['img_name']);
 	shn_xhtml_report_close();
 	}
 

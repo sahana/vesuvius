@@ -128,9 +128,21 @@ function shn_rs_sample_submit_four()
 /**************************End of sample Report functions****************************/
 
 /**************************Download functions **************************************/
-function shn_rs_download()
+function shn_rs_download_report()
 {
-print "Hi this is download page...";
+	global $global;
+    	$db=$global["db"];
+ 	
+	$rep_id = trim($_REQUEST['rep_id']);
+	$query = "select file_name,file_data from report_files where rep_id = '$rep_id' ";	
+	$res = $db->Execute($query);
+
+	$file_name = $res->fields['file_name'];
+	$data = $res->fields['file_data'];
+       //header("Content-type: text/xml");
+       header("Content-Disposition: attachment; filename=".$file_name);
+       header("Cache-Control: no-cache, must-revalidate");
+	print $data;
 }
 
 /************************* End of Download functions *********************************/
@@ -165,12 +177,14 @@ $datasR1 = array(
 	),
 );
 
-	$headerarray=array( 'ss'	=> 'sssssssssss', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
+$headerarray=array( 'ss'	=> 'sssssssssss', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
 
-shn_ods_report_fopen('mytestreport','testodskey','pradeeper');
+$rs_test_ods_keyword_arr = array('mod'=>'rs','report'=>'ods','users'=>'amila','purpose'=>'test','towhom'=>'testing users');
+
+shn_ods_report_fopen('mytestreport','pradeeper',$rs_test_ods_keyword_arr);
 shn_ods_report_add_sheet('mysheetone');
 shn_ods_report_add_title('Project of the Month');
-shn_ods_report_add_table(5,5,$headerarray,$datasR1);
+shn_ods_report_add_table($headerarray,$datasR1);
 shn_ods_report_add_summery( 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.' );
 shn_ods_report_add_image('cartoon001.jpg');
 shn_ods_report_add_sheet('mysheettwo');
@@ -212,13 +226,12 @@ $title='Project of the Month';
 
 $txt = 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.';
 
-shn_pdf_report_fopen("mypdfreport","sudeera","testkeyword");
+$rs_test_pdf_keyword_arr = array('mod'=>'rs','report'=>'pdf','users'=>'jo priyanga','purpose'=>'test pdf reports');
+
+shn_pdf_report_fopen("mypdfreport","janaka",$rs_test_pdf_keyword_arr);
 shn_pdf_report_add_title($title);
-//shn_pdf_report_add_page();
 shn_pdf_report_add_table($table_header,$table_data);
-//shn_pdf_report_add_page();
 shn_pdf_report_add_summery($txt);
-//shn_pdf_report_add_page();
 shn_pdf_report_add_image('tmp/Pictures/cartoon001.jpg');
 shn_pdf_report_close();
 }
@@ -287,13 +300,16 @@ $datasR1 = array(
 );
 
 $headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
-shn_xhtml_report_fopen('testxhtmlfile','testxhtml','xhtmlowner');
-shn_xhtml_report_add_title('Sanjeewa Jayasinghe','left');
-shn_xhtml_report_add_summary('ssssssssssssssssssssssssssssssssssssssddddddddddddddxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx','right');
-shn_xhtml_report_add_table($headerarray,$datasR1,'center');
-shn_xhtml_report_add_image("Pictures/cartoon001.jpg",'center');
+
+$summary = "Ubuntu's first release was on October 20, 2004, which began by making a temporary fork of the Debian Linux project.[6] This was done so that a new version of Ubuntu could be released every six months, resulting in a more frequently updated system. Ubuntu releases always include the most recent GNOME release, and are scheduled to be released about a month after GNOME. In contrast with previous general-purpose forks of Debian—such as MEPIS, Xandros, Linspire, Progeny and Libranet, many of which relied on closed-source add-ons as part of their business model—Ubuntu has stayed closer to Debian's philosophy and uses free (libre) software most of the time";
+
+$xhtml_key_arr = array('report'=>'for test','xhtml'=>'xhtml','mod'=>'rs','users'=>'ajith','purpose'=>'testing update');
+
+shn_xhtml_report_fopen('testxhtmlfile','xhtmlowner',$xhtml_key_arr);
+shn_xhtml_report_add_title("Ubuntu Linux distribution");
+shn_xhtml_report_add_summary($summary);
+shn_xhtml_report_add_table($headerarray,$datasR1);
+shn_xhtml_report_add_image("ubuntu_logo.png");
 shn_xhtml_report_close();
 }
-
 ?>
-
