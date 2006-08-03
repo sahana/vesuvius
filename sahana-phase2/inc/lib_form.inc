@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.49 2006-07-27 21:47:36 chamindra Exp $ */
+/* $Id: lib_form.inc,v 1.50 2006-08-03 07:30:19 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -552,10 +552,18 @@ function shn_form_date($label,$name,$extra_opts = null)
         echo "<script type='text/javascript' src='res/js/scw.js'></script>";
         $script_include=true;
     }
+    $format=(isset($extra_opts['format']))?$extra_opts['format']:'yyyy-mm-dd';
+    $string = strtoupper($format);
+    $f=substr($string,  0, 1);
+    $l=substr($string, -1, 1);
+    $m=($f=='Y'||$l=='Y')?$m:'Y';
+    $m=($f=='M'||$l=='M')?$m:'M';
+    $m=($f=='D'||$l=='D')?$m:'D';
+    $seq=$f.$m.$l;
 ?>
 
 <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwShow(this,this);" size="10" maxlength="10">
+    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(this,this);" size="12" maxlength="12">
 <?php
     shn_form_extra_opts($extra_opts);
 }
