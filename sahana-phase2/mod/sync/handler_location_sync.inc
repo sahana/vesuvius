@@ -28,6 +28,13 @@ function send_responce(){
     exit(0);
 }
 
+function get_select_html($name,$arr){
+    $html="<select name='".$name."'>";
+    foreach($arr as $rec)$html.="<option value=\"".$rec[0]."\">".$rec[1]."</option>";
+    $html.="</select>";
+    return $html;
+}
+
 //setting up the sequence variable if it is not set
 $_SESSION['step']=((!isset($_SESSION['step']))||$_SESSION['step']==6)?'1':$_SESSION['step'];
 
@@ -35,19 +42,18 @@ $_SESSION['step']=((!isset($_SESSION['step']))||$_SESSION['step']==6)?'1':$_SESS
 switch($_SESSION['step']){
     case '1':
         //###################################
-        //get a sample of root records
-
         //get the number of records
-
+        $sql="SELECT count(*) FROM tmp_location WHERE opt_location_type='1'";
+        $count=$global['db']->GetOne($sql);
         //
             $con="<div id='formcontainer'>
-<form method='POST' action='#' id='loc_form' enctype='multipart/form-data' name='' onsubmit=\"xajax_start_sync(xajax.getFormValues('loc_form'));return false;\">
+<form method='POST' action='#' id='loc_form' enctype='multipart/form-data' name='' onsubmit=\"return false;\">
 <fieldset>
 <legend>Location Info</legend>
-<input type='text' value='t1'  />
+<strong>there are <em>".$count."</em> root level locations in imported data. Do you want to merge data manually.<strong>
 </fieldset>
-<input type='submit' value='Skip' name='submit' />
-<input type='submit' value='Next' name='submit' />
+<input type='submit' value='Skip' onclick=\"xajax_start_sync('skip');\"/>
+<input type='submit' value='Next' onclick=\"xajax_start_sync('next');\"/>
 </form></div>";
         //###################################
         $global['xajax']->addAssign("console","innerHTML", $con);
@@ -55,25 +61,100 @@ switch($_SESSION['step']){
         send_responce();
     break;
     case '2':
-        $global['form_post']['submit'];
+        $x=$global['form_post'];
         //If skip is clicked jump out and continue
-        if($x=='Skip'){
+        if($x=='skip'){
             $global['xajax']->addScript("xajax_start_sync()");
             $global['xajax']->addAssign("console","innerHTML", 'Skiping Location......');
-            $_SESSION['step']='6';
+            $_SESSION['step']='exit';
             send_responce();
         }
-        $global['xajax']->addAssign("console","innerHTML", $x);
-        $global['xajax']->addScript("");
+        //get sample 
+        $sample=$global['db']->GetAll('Select name from tmp_location where opt_location_type=1 limit 5');
+        foreach($sample as $loc) $sam.=" ".$loc['name'].", ";
+        //field option
+        $arr=$global['db']->GetAll("Select option_code , option_description from field_options where field_name='opt_location_type' order by option_code");
+
+        $arr2=$global['db']->GetAll("select distinct opt_location_type,opt_location_type from tmp_location");
+//################################################
+$con="<div id='formcontainer'>
+<form method='POST' action='#' id='loc_form' enctype='multipart/form-data' name='' onsubmit=\"xajax_start_sync(xajax.getFormValues('loc_form'));return false;\">
+<fieldset>
+<legend>Root Location Type</legend><center>
+<strong>Sample of the imported root locations are given bellow</strong><br />
+(".$sam.")<br />
+<strong>Specify which level does this root locations belongs to.</strong><br />
+<strong>Current Level ".get_select_html("current",$arr)." is equal to ".get_select_html("import",$arr2)." imported level<strong>
+</center>
+</fieldset>
+<input type='submit' value='Next' name='submit' />
+</form></div>";
+//################################################
+        $global['xajax']->addAssign("console","innerHTML",$con);
         $_SESSION['step']='3';
         send_responce();
     break;
     case '3':
-        
-        $global['xajax']->addAssign("console","innerHTML", "three");
-        $global['xajax']->addScript("xajax_start_sync();");
-        $_SESSION['step']='6';
+        $impo=$global['form_post']['import'];
+        $curr=$global['form_post']['current'];
+        //getting equal locations
+        $arr=$global['db']->GetAll("select loc_uuid,name from location where opt_location_type='".$curr."'");
+
+        //loop and change the opt_location_type
+        $val=(int)$curr-1;
+        $_SESSION['opt_location_type']=$val;
+        $sql="update tmp_location set opt_location_type=opt_location_type+".$val;
+        $global['db']->Execute($sql);
+
+        $_SESSION['sync']['loc']['limit_index']=1;
+        //get 1 locaton
+        $sql="Select loc_uuid, name, description, iso_code from tmp_location where opt_location_type='".++$val."' limit   0 , 1";
+        $rec=$global['db']->GetAll($sql);
+//################################################
+$con="<div id='formcontainer'>
+<form method='POST' action='#' id='loc_form' enctype='multipart/form-data' name='' onsubmit=\"xajax_start_sync(xajax.getFormValues('loc_form'));return false;\">
+<fieldset>
+<legend>Set the location root</legend>
+<input type='hidden' value='".$rec[0]['loc_uuid']."' name='loc_uuid' id='loc_uuid'>
+<center><strong>Location <input type='text' size='10' id='loc_name' value='".$rec[0]['name']."' /> is a child of 
+location ".get_select_html("loc_pare",$arr)."</strong></center>
+</fieldset>
+<input type='submit' value='Next' name='submit' />
+</form></div>";
+//################################################
+        $global['xajax']->addAssign("console","innerHTML", $con);
+        $_SESSION['step']='4';
         send_responce();
     break;
+    case '4':
+        $impo=$global['form_post']['loc_uuid'];
+        $curr=$global['form_post']['loc_pare'];
+        $sql="update tmp_location set parent_id='".$curr."' where loc_uuid='".$impo."';";
+        $global['db']->Execute($sql);
+
+        $sql="Select loc_uuid, name, description, iso_code from tmp_location where opt_location_type='".++$_SESSION['opt_location_type']."' limit ".(int)$_SESSION['sync']['loc']['limit_index']++." , 1";
+        $rec=$global['db']->GetAll($sql);
+        if(count($rec)==0){
+            $global['xajax']->addAssign("console","innerHTML", "Finish Location Sync.....");
+            $global['xajax']->addScript("xajax_start_sync();");
+            $_SESSION['step']='exit';
+            send_responce();
+        }
+        $global['xajax']->addAssign('loc_uuid','value',$rec[0][0]);
+        $global['xajax']->addAssign('loc_name','value',$rec[0][1]);
+        send_responce();
+    break;
+    case 'skip':
+        $global['xajax']->addAssign("console","innerHTML", "Skiping Location Sync.....");
+    break;
+    case 'exit':
+        $global['xajax']->addAssign("console","innerHTML", "Mergeing Other Data.....");
+    break;
 }
+        foreach($_SESSION['sync']['tables'] as $table){
+            shn_sync_merge($table);
+        }
+        $global['xajax']->addScript("xajax_get_report();");
+        $_SESSION['step']='6';
+        send_responce();
 ?>
