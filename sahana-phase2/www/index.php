@@ -95,8 +95,8 @@ function shn_main_front_controller()
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
-        $module = 'admin';
-        $action = 'modadmin';
+        $global['effective_module'] = $module = 'admin';
+        $global['effective_action'] = $action = 'modadmin';
     } // the orignal module and action is stored in $global
   
     // check the users access permissions for this action

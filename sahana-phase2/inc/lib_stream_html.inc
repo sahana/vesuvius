@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.1 2006-07-24 10:58:26 janakawicks Exp $ */
+/* $Id: lib_stream_html.inc,v 1.2 2006-08-04 12:16:11 chamindra Exp $ */
 
 /**
  *
@@ -23,8 +23,10 @@ function shn_stream_init()
     global $global;
     global $conf;
 
+    $module = $global['module'];
+
     // include the html head tags
-    shn_include_page_section('html_head',$global['module']);  
+    shn_include_page_section('html_head',$module);  
 
     // Start the body and the CSS container element
 ?>
@@ -41,6 +43,12 @@ function shn_stream_init()
     <div id="wrapper_menu">
     <p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a href="#modulemenu"><?=_('Module Menu')?></a></p> 
 <?php
+
+    // hack for the admin section such that the mene and login come from 
+    // the admin section
+    if ($global['effective_module'] != null) {
+        $module = $global['effective_module'];
+    }
 
     // include the mainmenu and login provided there is not a module override
     shn_include_page_section('mainmenu',$module);
