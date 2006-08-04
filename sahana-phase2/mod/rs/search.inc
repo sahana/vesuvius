@@ -55,16 +55,16 @@ function shn_rs_search_submit_one_result()
 
 	if($exact_relative == 'exact' && $search_type != 'all')
 	{
-	$query = "select rep_id,file_name,t_stamp,report_chart_owner,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
+	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
 	}
 	elseif($search_type == 'all')
 	{
-	$query = "select rep_id,file_name,t_stamp,report_chart_owner,file_type,file_size_kb,title from report_files";
+	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
 	}
 	elseif($search_type != 'all' && $search_for !='')
 	{
 	$first_3_letters=substr($search_for, 0, 3);
-	$query = "select rep_id,file_name,t_stamp,report_chart_owner,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
+	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
 	}
 	else
 	{
@@ -82,7 +82,6 @@ function shn_rs_search_submit_one_result()
         <td><strong><?=_("File Name")?></strong></td>
         <td><strong><?=_("Title")?></strong></td>
 	<td><strong><?=_("Date/Time")?></strong></td>
-	<td><strong><?=_("Report Owner")?></strong></td>
 	<td><strong><?=_("File Type")?></strong></td>
 	<td><strong><?=_("File Size (kb) ")?></strong></td>
     </thead>
@@ -97,7 +96,6 @@ function shn_rs_search_submit_one_result()
     $file_name =$res->fields["file_name"];
     $file_type = $res->fields["file_type"];
     $date_time= $res->fields["t_stamp"];
-    $report_chart_owner = $res->fields["report_chart_owner"];
     $file_size_kb = $res->fields["file_size_kb"];
     $title = $res->fields["title"];
     ?>
@@ -106,7 +104,6 @@ function shn_rs_search_submit_one_result()
         <td><a href="stream.php?mod=rs&act=download_report&rep_id=<?php echo $rep_id ?>"><?php print $file_name ;?></a></td>
         <td><?php print $title ;?></td>
 	<td><?php print $date_time ;?></td>
-	<td><?php print $report_chart_owner ;?></td>
 	<td><?php print $file_type ;?></td>
 	<td><?php print $file_size_kb ;?></td>
     </tr>

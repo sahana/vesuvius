@@ -27,6 +27,9 @@ include_once $global['approot']."/inc/lib_uuid.inc";
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
 
+require_once 'lib_rs_js.inc';
+include_once 'lib_rs_validate.inc';
+
 function shn_rs_mainmenu() 
 {
 	include_once ('menu.inc');
@@ -64,7 +67,6 @@ function shn_rs_search()
 
 function shn_rs_search_submit_one()
 {
-	include_once ('lib_rs_validate.inc');
 	include_once('search.inc');
 
 	if(shn_rs_validate_search_reports())
@@ -90,7 +92,6 @@ function shn_rs_sample()
 }
 function shn_rs_sample_submit_one()
 {
-	include_once ('lib_rs_validate.inc');
 	include_once ('sample.inc');
 	if(shn_rs_validate_sample_report())
 	{

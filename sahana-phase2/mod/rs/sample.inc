@@ -28,7 +28,6 @@ function shn_rs_sample_report()
     shn_form_fsclose();
     shn_form_fsopen(_('Meta Data'));
     shn_form_text(_("Keyword / Keywords :"),'keyword','size="50"', array('help'=>_('Here you can enter keywords for your report which will help you to search the report later. If you have more than one keyword enter them in the tesx box by seperting coma.')));
-    shn_form_text(_("Report Owner :"),'report_owner','size="50"', array('help'=>_('Here you can mention the owner of the report')));
     shn_form_fsclose();
 
     shn_form_fsopen(_('Report Type'));
@@ -57,7 +56,6 @@ $report_summary = trim($_POST['rep_summary']);
 $keyword = trim($_POST['keyword']);
 $selected_report_type = trim($_POST['report_type']);
 $selected_file_type = trim($_POST['file_type']);
-$report_owner = trim($_POST['report_owner']);
 
 $upload_dir = $global['approot'].'www/tmp/Pictures/';
 $upload_dir = $upload_dir.basename( $_FILES['image']['name']);
@@ -73,7 +71,7 @@ $upload_dir = $upload_dir.basename( $_FILES['image']['name']);
 	$img_upload_ok = false;
 	}
 
-$report_data_arr = array('file_name' => $rep_file_name , 'title' => $report_title , 'summary' => $report_summary, 'meta' => $keyword , 'report_type' => $selected_report_type , 'file_type' => $selected_file_type, 'report_owner' =>$report_owner,'img_name' => $img_name);
+$report_data_arr = array('file_name' => $rep_file_name , 'title' => $report_title , 'summary' => $report_summary, 'meta' => $keyword , 'report_type' => $selected_report_type , 'file_type' => $selected_file_type,'img_name' => $img_name);
 
 	session_start();
 	$_SESSION['report_data'] = $report_data_arr;
@@ -100,6 +98,8 @@ function _show_mod_select_form($report_data_arr_in='')
     shn_form_select($option_array,'','mod_name',$select_opts,null);
     shn_form_fsclose();
     shn_form_fclose();
+
+shn_sample_change_form();
 }
 
 function _show_custom_report_form()
@@ -151,7 +151,6 @@ function shn_rs_sample_submit_three_result()
     {
 	_show_unit_type_table($keyword,$exact_relative);
      }
-
 
 }
 
@@ -386,10 +385,9 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 
 	if($report_data_array['file_type'] == 'ods')
 	{
-	shn_ods_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
+	shn_ods_report_fopen($report_data_array['file_name'],$keyword_arr);
 	shn_ods_report_add_sheet('sheet1');
 	shn_ods_report_add_title($report_data_array['title']);
-		
 	shn_ods_report_add_summery($report_data_array['summary']);
 	
 		if($content != null)
@@ -410,7 +408,7 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 	}
 	elseif($report_data_array['file_type'] == 'pdf')
 	{
-	shn_pdf_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
+	shn_pdf_report_fopen($report_data_array['file_name'],$keyword_arr);
 	shn_pdf_report_add_title($report_data_array['title']);
 	shn_pdf_report_add_summery($report_data_array['summary']);
 	
@@ -427,7 +425,7 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 	}
 	else
 	{
-	shn_xhtml_report_fopen($report_data_array['file_name'],$report_data_array['report_owner'],$keyword_arr);
+	shn_xhtml_report_fopen($report_data_array['file_name'],$keyword_arr);
 	shn_xhtml_report_add_title($report_data_array['title']);
 	shn_xhtml_report_add_summary($report_data_array['summary']);
 
@@ -444,21 +442,5 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 	shn_xhtml_report_add_image($report_data_array['img_name']);
 	shn_xhtml_report_close();
 	}
-
 }
-
-
-?>
-<script type="text/javascript">
-    function changeform()
-    {
-    var x=document.mod_select.mod_name.options[document.mod_select.mod_name.selectedIndex].value;
-    if(x!='none')
-        {
-        document.mod_select.submit();
-        }
-    }
-</script>
-<?php
-
 ?>
