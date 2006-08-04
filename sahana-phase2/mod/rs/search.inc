@@ -125,21 +125,4 @@ function shn_rs_search_submit_one_result()
 print "<b>".$record_counter." reports found</b>";
 
 }
-
-
-function _shn_rs_validate_search_reports()
-{
-$error_flag=false;
-clean_errors();
-
-    if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none')
-    {
-    add_error(_("Select the Search type"));
-    $error_flag=true;
-    }
-
-    return $error_flag;
-}
-
-
 ?>

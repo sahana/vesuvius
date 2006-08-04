@@ -447,32 +447,6 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 
 }
 
-function shn_rs_validate_sample_report()
-{
-$error_flag=false;
-clean_errors();
-
-    //this checks whether name entered in the add unit form
-    if(trim($_POST['rep_file_name'])==null)
-    {
-    add_error(_("Enter the File Name"));
-    $error_flag=true;
-    }
-
- if(trim($_POST['report_type'])==null || trim($_POST['report_type'])=='none')
-    {
-    add_error(_("Select the report type to continue"));
-    $error_flag=true;
-    }
-
-  if(trim($_POST['file_type'])==null || trim($_POST['file_type'])=='none')
-    {
-    add_error(_("Select the file type to continue"));
-    $error_flag=true;
-    }
-
-    return $error_flag;
-}
 
 ?>
 <script type="text/javascript">

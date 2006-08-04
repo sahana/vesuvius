@@ -64,9 +64,10 @@ function shn_rs_search()
 
 function shn_rs_search_submit_one()
 {
+	include_once ('lib_rs_validate.inc');
 	include_once('search.inc');
 
-	if(_shn_rs_validate_search_reports())
+	if(shn_rs_validate_search_reports())
 	{
 	display_errors();
 	shn_rs_search_main_form();
@@ -89,8 +90,8 @@ function shn_rs_sample()
 }
 function shn_rs_sample_submit_one()
 {
+	include_once ('lib_rs_validate.inc');
 	include_once ('sample.inc');
-
 	if(shn_rs_validate_sample_report())
 	{
 	display_errors();
