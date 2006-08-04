@@ -99,7 +99,7 @@ function _show_mod_select_form($report_data_arr_in='')
     shn_form_fsclose();
     shn_form_fclose();
 
-shn_sample_change_form();
+shn_sample_change_form_js();
 }
 
 function _show_custom_report_form()

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Main Controller of the Report System. 
  *
@@ -183,7 +182,7 @@ $headerarray=array( 'ss'	=> 'sssssssssss', 'dd' => 'dddddddddd', 'sd' => 'sdsdsd
 
 $rs_test_ods_keyword_arr = array('mod'=>'rs','report'=>'ods','users'=>'amila','purpose'=>'test','towhom'=>'testing users');
 
-shn_ods_report_fopen('mytestreport','pradeeper',$rs_test_ods_keyword_arr);
+shn_ods_report_fopen('mytestreport',$rs_test_ods_keyword_arr);
 shn_ods_report_add_sheet('mysheetone');
 shn_ods_report_add_title('Project of the Month');
 shn_ods_report_add_table($headerarray,$datasR1);
@@ -230,7 +229,7 @@ $txt = 'Sahana is a secure Web portal that provides applications for coordinatio
 
 $rs_test_pdf_keyword_arr = array('mod'=>'rs','report'=>'pdf','users'=>'jo priyanga','purpose'=>'test pdf reports');
 
-shn_pdf_report_fopen("mypdfreport","janaka",$rs_test_pdf_keyword_arr);
+shn_pdf_report_fopen("mypdfreport",$rs_test_pdf_keyword_arr);
 shn_pdf_report_add_title($title);
 shn_pdf_report_add_table($table_header,$table_data);
 shn_pdf_report_add_summery($txt);
@@ -307,7 +306,7 @@ $summary = "Ubuntu's first release was on October 20, 2004, which began by makin
 
 $xhtml_key_arr = array('report'=>'for test','xhtml'=>'xhtml','mod'=>'rs','users'=>'ajith','purpose'=>'testing update');
 
-shn_xhtml_report_fopen('testxhtmlfile','xhtmlowner',$xhtml_key_arr);
+shn_xhtml_report_fopen('testxhtmlfile',$xhtml_key_arr);
 shn_xhtml_report_add_title("Ubuntu Linux distribution");
 shn_xhtml_report_add_summary($summary);
 shn_xhtml_report_add_table($headerarray,$datasR1);

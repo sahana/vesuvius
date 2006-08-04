@@ -48,11 +48,12 @@ function shn_rs_validate_search_reports()
 $error_flag=false;
 clean_errors();
 
-    if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none')
+    if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none' && trim($_POST['keyword']) =='')
     {
-    add_error(_("Select the Search type"));
+    add_error(_("Select the Search type OR Do a keyword search"));
     $error_flag=true;
     }
+
 
     return $error_flag;
 }

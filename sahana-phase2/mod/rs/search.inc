@@ -17,18 +17,32 @@
 
 function shn_rs_search_main_form()
 {
-    global $global;
+    $option_array=array('none' => '--- Select ---','file_name' => 'File Name','rep_id'=>'Report ID','file_type' => 'File Type','file_size_kb'=>'File Size','title'=>'Report Title','all' =>'All Reports');
+    $form_opts['name']="rep_search";
 
-    $option_array=array('none' => '--- Select ---','file_name' => 'Report Name','report_chart_owner' => 'Report Owner','keyword' => 'Keyword', 'file_type' => 'File Type','all' =>'All Reports');
-    shn_form_fopen('search_submit_one','','');
+    shn_form_fopen('search_submit_one',null,$form_opts);
     shn_form_fsopen(_('Select Details'));
-    shn_form_select($option_array,'Search By :','search_type',null);
-    shn_form_text('Phrase : ','search_for','size="50"',$extra_opts);
+
+    //$select_opts='onChange="setkeyword_search()"';
+    shn_form_select($option_array,'Search By :','search_type');
+
+    shn_form_text('Phrase : ','search_for','size="50"');
     $extra_opts['value'] = 'exact';
     shn_form_checkbox("Do Exact Search :", 'exact_relative','',$extra_opts);
     shn_form_fsclose();
+
+    print "<b>OR</b> Do a keyword search<br><br>";
+
+    shn_form_fsopen(_('Keyword Search'));
+    shn_form_text('Keyword : ','keyword','size="50"');
+    shn_form_fsclose();
+
+
+
     shn_form_submit(_("Search"));
     shn_form_fclose();
+
+//shn_search_setkeyword_search_js();
 }
 
 function shn_rs_search_submit_one_result()
@@ -51,28 +65,46 @@ function shn_rs_search_submit_one_result()
 
     $search_type = trim($_POST['search_type']);
     $search_for = trim($_POST['search_for']);
+    $keyword =  trim($_POST['keyword']);
+
     $exact_relative = $_POST['exact_relative'];
+
+
+	if($keyword !='')
+	{
+	$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' ";
+	$keyword_result=$db->Execute($keyword_query);
+
+	_printTable($keyword_result);
+	}
 
 	if($exact_relative == 'exact' && $search_type != 'all')
 	{
 	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
+	$res=$db->Execute($query);
+	_printTable($res);
 	}
 	elseif($search_type == 'all')
 	{
 	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
+	$res=$db->Execute($query);
+	_printTable($res);
 	}
 	elseif($search_type != 'all' && $search_for !='')
 	{
 	$first_3_letters=substr($search_for, 0, 3);
 	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
+	$res=$db->Execute($query);
+	_printTable($res);
 	}
 	else
 	{
 	
 	}
-	
-    $res=$db->Execute($query);
+}
 
+function _printTable($res)
+{
 ?>
 <br>
 <div id="result">
@@ -122,4 +154,5 @@ function shn_rs_search_submit_one_result()
 print "<b>".$record_counter." reports found</b>";
 
 }
+
 ?>

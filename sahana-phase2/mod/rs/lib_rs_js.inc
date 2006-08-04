@@ -15,7 +15,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
-function shn_sample_change_form()
+function shn_sample_change_form_js()
 {
 ?>
 <script type="text/javascript">
@@ -30,4 +30,26 @@ function shn_sample_change_form()
 </script>
 <?php
 }
+/*
+function shn_search_setkeyword_search_js()
+{
+?>
+<script type="text/javascript">
+    function setkeyword_search()
+    {
+    //var x=document.rep_search.getElementsByName("search_type");
+var x=document.rep_search.search_type.value;
+	//var y = x.value;
+	//alert(x);
+ document.getElementById('search_for').value = "sanjeewa";
+ document.getElementById('exact_relative').style.visibility = 'hidden';
+//document.rep_search.exact_relative.style.visibility = 'hidden';
+
+    }
+</script>
+
+<?php
+}*/
+
+
 ?>
