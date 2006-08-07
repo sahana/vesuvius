@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.10 2006-08-01 11:46:56 mifanc Exp $ */
+/* $Id: admin.inc,v 1.11 2006-08-07 07:00:39 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -150,8 +150,8 @@ function shn_gis_adm_show_mods()
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
-	
-	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,array("value"=>$mod_name));
+	//echo "module: $mod_name";
+	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit("Done");
 	shn_form_fclose();	
@@ -206,12 +206,12 @@ function shn_gis_adm_mod()
 			$db->Execute($q);
 		}
 		else{
-			$insert = "insert into config values ('gis','dflt','{$_POST['mod_gis']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
 		
 	}
-	echo "<strong>"._("Your Changed Were Saved")."</strong>";
+	echo "<strong>"._("Your Changes Were Saved")."</strong>";
 	shn_gis_adm_default();	
 }
 /**
@@ -232,7 +232,7 @@ function shn_gis_adm_commit(){
 			$db->Execute($q);
 		}
 		else{
-			$insert = "insert into config values ('gis','center_x','{$_POST['x_center']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','center_x','{$_POST['x_center']}')";
 			$db->Execute($insert);
 		}
 	}
@@ -245,7 +245,7 @@ function shn_gis_adm_commit(){
 			$db->Execute($r);
 		}
 		else{
-			$insert = "insert into config values ('gis','center_y','{$_POST['y_center']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','center_y','{$_POST['y_center']}')";
 			$db->Execute($insert);
 		}
 	}
