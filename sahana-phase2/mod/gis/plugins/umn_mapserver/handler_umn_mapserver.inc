@@ -153,14 +153,6 @@ function add_marker_db_v2($x,$y,$name)
 */
 function add_wiki_marker_db($x,$y,$name)
 {
-?>
-  <script type="text/javascript">
-		var point1 = new GLatLng(<?php echo $x?>,<?php echo $y?>);
-		var marker1 = new GMarker(point1);
-		//marker1.openInfoWindowHtml(<?php echo $name?>);
-		map.addOverlay(marker1);
-	</script>
-<?php
 }
 
 /*
@@ -168,57 +160,12 @@ function add_wiki_marker_db($x,$y,$name)
 */
 function add_marker($name)
 {
-?>
-	<script type="text/javascript">
-		GEvent.addListener(map, 'click', function(overlay, point) {
-	  	if (overlay) {
-			var html = "<?php echo $name?>";
-			//var html = overlay;
-				overlay.openInfoWindowHtml(html);
-				//map.removeOverlay(overlay);
-			} 
-			else if (point) {
-				map.addOverlay(new GMarker(point));
-				// store x,y coords in hidden variables named loc_x, loc_y
-				// must be set via calling page
-				var x_point=document.getElementsByName("loc_x");
-				var y_point=document.getElementsByName("loc_y");
-				x_point[0].value=point.x;
-				y_point[0].value=point.y;
-				//alert(x_point[0].value);
-			}
-		});
-	</script>
-<?php
+
 }
 
 function add_marker_out($name)
 {
-?>
-	<script type="text/javascript">
-	function add_marker()
-	{
-		GEvent.addListener(map, 'click', function(overlay, point) {
-	  	if (overlay) {
-			var html = "<?php echo $name?>";
-			//var html = overlay;
-				overlay.openInfoWindowHtml(html);
-				//map.removeOverlay(overlay);
-			} 
-			else if (point) {
-				map.addOverlay(new GMarker(point));
-				// store x,y coords in hidden variables named loc_x, loc_y
-				// must be set via calling page
-				var x_point=document.getElementsByName("loc_x");
-				var y_point=document.getElementsByName("loc_y");
-				x_point[0].value=point.x;
-				y_point[0].value=point.y;
-				//alert(x_point[0].value);
-			}
-		});
-	}
-	</script>
-<?php
+
 }
 
 /**
@@ -244,53 +191,34 @@ function info_event($query_results){
 
 
 /**
- *adding the footer
-*/
-function add_footer(){
-?>
-    </div> <!-- /content -->
-<?php
-
-    // include the footer provided there is not a module override
-    shn_include_page_section('footer',$module);
-?>
-    </div> <!-- /wrapper -->
-    </div> <!-- /container -->
-
-<?php
-}
-
-/**
- *used to close the page
+ * Show Map
+ * @TODO: handle windows dll
  */
-function end_page(){
-?>
-    </body>
-    </html>
-<?php 
-	exit(0);
-}
-
 function show_map($opt=null)
 {
 	global $global;
 	global $conf;
-
-	$key = $conf['mod_gis_google_key'];
 	
 	dl("php_mapscript.so");
 	//$map_file="./hello.map";
 	$map_file="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/usa1.map";
+	
 	$map = ms_newMapObj($map_file);
 	$image=$map->draw();
 	$image_url=$image->saveWebImage();
 ?>
 
 <div id="map" style="width: 500px; height: 400px">
-	<img SRC="<?php echo $image_url?>">
+	<img src="<?php echo $image_url?>">
 </div>
 <?
 }
+
+/**
+ * Show map layers
+ * get layer information dynamically
+ */
+function show_map_layers()
 
 function show_map_with_markers($markers)
 {
