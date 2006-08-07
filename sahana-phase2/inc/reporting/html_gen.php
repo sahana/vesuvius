@@ -176,7 +176,7 @@ class genhtml
 		
 		if($res_found->fields['rep_id'] != null)
 			{
-		$query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),report_chart_owner = '$the_owner' , file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
+		$query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
 			$res=$db->Execute($query);
 
 			$num_of_keywords=count($keyword_arr);
@@ -198,7 +198,7 @@ class genhtml
 			}
 		else
 			{
-			$query="insert into report_files(rep_id,file_name,file_data,report_chart_owner,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$the_owner','$file_type','$file_size','$title')";
+			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
 			$res=$db->Execute($query);
 			
 			$num_of_keywords=count($keyword_arr);
@@ -225,7 +225,7 @@ class genhtml
 				print "<b>Report ID : </b>".$the_report_ID." <br>";
 				print "<b>Report File Name : </b>". $file_name."<br>";
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-				print "<b>Report Owner :</b>".$the_owner."<br>";
+				//print "<b>Report Owner :</b>".$the_owner."<br>";
 				print "<b>File Type : </b>".$file_type."<br>";
 				print "<b>File Size : </b>".$file_size." kb <br>";
 				//print "<b>Keyword :</b>".$the_keyword."<br>";

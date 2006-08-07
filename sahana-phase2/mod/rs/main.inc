@@ -148,6 +148,20 @@ function shn_rs_download_report()
 
 /************************* End of Download functions *********************************/
 
+/*************************config functions *******************************************/
+function shn_rs_config()
+{
+include_once('config.inc');
+shn_rs_config_main_form();
+}
+
+function shn_rs_config_main_form_submit()
+{
+include_once('config.inc');
+shn_rs_config_main_form_submit_result();
+}
+/*************************End of config functions*************************************/
+
 function shn_rs_spreadsheet()
 {
 $datasR1 = array(
@@ -237,39 +251,6 @@ shn_pdf_report_add_image('tmp/Pictures/cartoon001.jpg');
 shn_pdf_report_close();
 }
 
-
-function shn_rs_chart()
-{
-shn_chart_test();
-}
-
-function shn_rs_piechart()
-{
-
-$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);
-generate_piechart("Piechart","This is a testing pie chart","x axis","y axis",$data,700,500,"sd keyword","sanjeewa jayasinghe");
-}
-function shn_rs_barchart()
-{
-
-$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);
-generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,700,500,"bar chart keyword","mahesh kaluarachchi");
-}
-
 function shn_rs_xhtml()
 {
 $datasR1 = array(
@@ -312,5 +293,53 @@ shn_xhtml_report_add_summary($summary);
 shn_xhtml_report_add_table($headerarray,$datasR1);
 shn_xhtml_report_add_image("ubuntu_logo.png");
 shn_xhtml_report_close();
+}
+
+
+function shn_rs_chart()
+{
+shn_chart_test();
+}
+
+function shn_rs_piechart()
+{
+/*
+$data = array(
+    array("a", 2000,1500, 0, 100, 600,200),
+    array("b", 2010,1000, 100, 150,200,300),
+    array("c", 2015,500, 700, 179, 400,500),
+    array("dd",2020,200,1000,979, 1000,600),
+    array("e", 2025,100,1200,78,150,700),
+    array("f", 2030,50, 1450,343, 1300,800)
+);
+*/
+$data = array(
+			array("sanjeewa",100,200,300,400)
+			);
+
+$keyword_arr = array('chart'=>'pie chart','mod'=>'inventory');
+generate_piechart("Piechart","This is a testing pie chart","x axis","y axis",$data,$keyword_arr);
+}
+function shn_rs_barchart()
+{
+/*
+$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);*/
+
+$data = array(
+			array("sanjeewa",100),
+			array("mahesh",90),
+			array("ajith",70),
+			array("saranga",110)
+			);
+
+$keyword_arr = array('chart'=>'bar chart','mod'=>'catalogue');
+generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,$keyword_arr);
 }
 ?>

@@ -77,30 +77,33 @@ function shn_rs_search_submit_one_result()
 
 	_printTable($keyword_result);
 	}
-
-	if($exact_relative == 'exact' && $search_type != 'all')
-	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
-	$res=$db->Execute($query);
-	_printTable($res);
-	}
-	elseif($search_type == 'all')
-	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
-	$res=$db->Execute($query);
-	_printTable($res);
-	}
-	elseif($search_type != 'all' && $search_for !='')
-	{
-	$first_3_letters=substr($search_for, 0, 3);
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
-	$res=$db->Execute($query);
-	_printTable($res);
-	}
 	else
 	{
-	
+		if($exact_relative == 'exact' && $search_type != 'all')
+		{
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
+		elseif($search_type == 'all')
+		{
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
+		elseif($search_type != 'all' && $search_for !='')
+		{
+		$first_3_letters=substr($search_for, 0, 3);
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
+		else
+		{
+		
+		}
 	}
+
 }
 
 function _printTable($res)

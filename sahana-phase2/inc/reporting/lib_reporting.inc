@@ -26,7 +26,7 @@ global $owner;
 global $ods_row_counter;
 global $ods_rep_ID;
 global $ods_rep_gen_ok;
-function shn_ods_report_fopen($file_name='',$owner_in='',$keyword_in='')
+function shn_ods_report_fopen($file_name='',$keyword_in='')
 {
     global $global;
     $db=$global["db"];
@@ -120,7 +120,7 @@ function shn_ods_report_add_title($title='')
 
 }
 
-function shn_ods_report_add_table($colBase,$rowBase,$headerArray,$dataArray)
+function shn_ods_report_add_table($headerArray,$dataArray)
 {
 	global $sheet;
 	global $ods_row_counter;
@@ -140,7 +140,7 @@ function shn_ods_report_add_table($colBase,$rowBase,$headerArray,$dataArray)
 		{
 		$col=$col+$i;
 		$cell_i = $sheet->getCell($col, $row);
-		$cell_i->setContent($headerArray[$header_array_keys[$i]].$col.$i);
+		$cell_i->setContent($headerArray[$header_array_keys[$i]]);
 		$cell_i->setBorder('', '0.005cm solid #555555');
 		//$cell_i->setTextAlign('start');
 		$cell_i->setBackgroundColor('#9491AD');
@@ -240,9 +240,7 @@ function shn_ods_report_close()
 {
 	global $ods_rep_gen_ok;
 	$backtrace = debug_backtrace();
-	if($ods_rep_gen_ok)
-	{
-	// this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
+// this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
 	$print_ok = $backtrace['3']["function"];
 	if($print_ok == 'shn_rs_search_submit_one_result')	
 	{
@@ -253,14 +251,32 @@ function shn_ods_report_close()
 	$print_enable = true;
 	}
 
-	global $calc;
-	global $rep_title;
-	global $keyword;
-	global $owner;
-	global $ods_rep_ID;
-	
-	$calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
+
+	if($ods_rep_gen_ok)
+	{	
+		global $calc;
+		global $rep_title;
+		global $keyword;
+		global $owner;
+		global $ods_rep_ID;
+		
+		$calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
 	}//end of $ods_rep_gen_ok 'if'
+	else if(!$ods_rep_gen_ok && $print_enable)
+	{
+	global $global;
+    	$db=$global["db"];
+	global $ods_rep_ID;
+	$query = "select * from report_files where rep_id = '$ods_rep_ID' ";	
+	$res = $db->Execute($query);
+
+	print "<h1> Report - ".$res->fields['title']."</h1>";
+	print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
+	print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
+	print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
+	print "<b>File Type : </b>".$res->fields['file_type']."<br>";
+	print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
+	}
 
 }
 
@@ -269,13 +285,17 @@ function shn_ods_report_close()
 global $pdf;
 global $pdfreportname;
 global $pdf_rep_gen_ok;
-function shn_pdf_report_fopen($reportname='',$creator='',$keywords='')
+global $pdf_print_enable;
+global $pdf_rep_ID;
+function shn_pdf_report_fopen($reportname='',$keywords='')
 {
 
 require('../3rd/fpdf/fpdf.php');
 global $pdf;
 global $pdfreportname;
 global $pdf_rep_gen_ok;
+global $pdf_print_enable;
+global $pdf_rep_ID;
 
 global $global;
 $db=$global["db"];
@@ -284,7 +304,7 @@ $pdfreportname = $reportname;
 $pdf=new FPDF();
 $backtrace = debug_backtrace();
 $rep_id = $backtrace['1']["function"];
-
+$pdf_rep_ID = $rep_id;
 //check the timestamp and set whether the update should be taken place or not
 $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
 $res_found = $db->Execute($query);
@@ -305,10 +325,13 @@ $pdf_rep_gen_ok = true;
 	if($print_ok == 'shn_rs_search_submit_one_result')	
 	{
 	$pdf->printInfoEnable(false);
+	$pdf_print_enable = false;
+	
 	}
 	else
 	{
 	$pdf->printInfoEnable(true);
+	$pdf_print_enable = true;
 	}
 
 	//if report gen is OK it will start generation
@@ -425,13 +448,30 @@ function shn_pdf_report_add_image($img_path='')
 
 function shn_pdf_report_close()
 {
+	global $global;
+    	$db=$global["db"];
 	global $pdf_rep_gen_ok;
 	global $pdf;
 	global $pdfreportname;
+	global $pdf_print_enable;
+	global $pdf_rep_ID;
+
 	if($pdf_rep_gen_ok)
 	{
 	//$pdf->Output('','S');
 	$pdf->Output($pdfreportname.".pdf");
+	}
+	else if(!$pdf_rep_gen_ok && $pdf_print_enable)
+	{
+	$query = "select * from report_files where rep_id = '$pdf_rep_ID' ";	
+	$res = $db->Execute($query);
+
+	print "<h1> Report - ".$res->fields['title']."</h1>";
+	print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
+	print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
+	print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
+	print "<b>File Type : </b>".$res->fields['file_type']."<br>";
+	print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
 	}
 
 }
@@ -442,16 +482,21 @@ function shn_pdf_report_close()
 include("html_gen.php");
 global $xhtml;
 global $html_rep_gen_ok;
-function shn_xhtml_report_fopen($file_name='',$owner='',$keyword='')
+global $html_print_enable;
+global $html_rep_ID;
+function shn_xhtml_report_fopen($file_name='',$keyword='')
 {
 global $xhtml;
 global $html_rep_gen_ok;
+global $html_print_enable;
+global $html_rep_ID;
+
 global $global;
 $db=$global["db"];
 
 $backtrace = debug_backtrace();
 $rep_id = $backtrace['1']["function"];
-
+$html_rep_ID = $rep_id;
 //check the timestamp and set whether the update should be taken place or not
 $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
 $res_found = $db->Execute($query);
@@ -471,18 +516,21 @@ $html_rep_gen_ok = true;
 // this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
 	$print_ok = $backtrace['3']["function"];
 
+		$xhtml = new genhtml();
+
+		if($print_ok == 'shn_rs_search_submit_one_result')	
+		{
+		$xhtml->printInfoEnable(false);
+		$html_print_enable = false;
+		}
+		else
+		{
+		$xhtml->printInfoEnable(true);
+		$html_print_enable = true;
+		}
+
 		if($html_rep_gen_ok)
-		{	$xhtml = new genhtml();
-
-			if($print_ok == 'shn_rs_search_submit_one_result')	
-			{
-			$xhtml->printInfoEnable(false);
-			}
-			else
-			{
-			$xhtml->printInfoEnable(true);
-			}	
-
+		{	
 		$xhtml->setFileName($file_name);
 		$xhtml->setKeyword($keyword);
 		$xhtml->setOwner($owner);
@@ -540,11 +588,28 @@ global $xhtml;
 
 function shn_xhtml_report_close()
 {
+global $global;
+$db=$global["db"];
 global $html_rep_gen_ok;
+global $html_print_enable;
+global $html_rep_ID;
+
 global $xhtml;
 	if($html_rep_gen_ok)
 	{
 	$xhtml->Output();
+	}
+	else if(!$html_rep_gen_ok && $html_print_enable)
+	{
+	$query = "select * from report_files where rep_id = '$html_rep_ID' ";	
+	$res = $db->Execute($query);
+
+	print "<h1> Report - ".$res->fields['title']."</h1>";
+	print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
+	print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
+	print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
+	print "<b>File Type : </b>".$res->fields['file_type']."<br>";
+	print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
 	}
 
 }
@@ -554,12 +619,17 @@ global $xhtml;
 /*********************************private Functions *************************************************************/
 function _shn_is_report_update_OK($last_updated_time_stamp)
 {
-	$today = getdate();	
-	$cur_unix_ts = mktime($today["hours"], $today["minutes"],$today["seconds"], $today["mon"], $today["mday"] , $today["year"]);
-	$rep_unix_ts = mktime(substr($last_updated_time_stamp, 10, 3),substr($last_updated_time_stamp, 14, 2),substr($last_updated_time_stamp, 17, 2), substr($last_updated_time_stamp, 5, 2),substr($last_updated_time_stamp, 8, 2) , substr($last_updated_time_stamp, 0, 4));
+    global $global;
+    $db=$global["db"];
+    $today = getdate();	
+    $cur_unix_ts = mktime($today["hours"], $today["minutes"],$today["seconds"], $today["mon"], $today["mday"] , $today["year"]);
+    $rep_unix_ts = mktime(substr($last_updated_time_stamp, 10, 3),substr($last_updated_time_stamp, 14, 2),substr($last_updated_time_stamp, 17, 2), substr($last_updated_time_stamp, 5, 2),substr($last_updated_time_stamp, 8, 2) , substr($last_updated_time_stamp, 0, 4));
 
-	$time_diff = ($cur_unix_ts-$rep_unix_ts)/60;
-	if($time_diff>1)
+    $time_diff = ($cur_unix_ts-$rep_unix_ts)/60;
+    $query="select option_code from field_options where field_name='opt_rs_freq'";
+    $res=$db->Execute($query);
+    $frequency=$res->fields["option_code"];
+ 	if($time_diff>$frequency)
 	{
 	return true;
 	}

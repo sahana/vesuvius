@@ -17,14 +17,19 @@
  *
  */
 
-
+include_once $global['approot']."/inc/lib_uuid.inc";
 global $graph;
 
-function base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword_in,$owner)
+function base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr_in)
 {
 include ( "../3rd/phplot/phplot.php");
 global $graph;
-$graph = new PHPlot($hight,$width);
+
+$graph = new PHPlot(700,500);
+
+$rep_id =  shn_create_uuid('report');
+$graph->Setchartid($rep_id);
+
 $graph->SetDataType("text-data");  
 $graph->SetDataValues($dataArray);
 $graph->SetFileFormat("png"); 
@@ -32,10 +37,15 @@ $graph->SetImageArea(700,500);
 $graph->SetTitleFontSize( "5");
 $graph->SetTitle( $title);
 
-$graph->Setkeyword($keyword_in);
-$graph->SetreportOwner($owner);
+$graph->Setkeyword($keyword_arr_in);
 
-$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006")); // this values should be extracted from the data array 
+$legend_arr = array();
+foreach($dataArray as $xval)
+{
+array_push($legend_arr,$xval[0]);
+}
+
+$graph->SetLegend($legend_arr); 
 $graph->SetPlotBgColor( "red");
 $graph->SetPlotBorderType( "left");
 $graph->SetBackgroundColor( "orange");
@@ -43,89 +53,88 @@ $graph->SetBackgroundColor( "orange");
 $graph->SetXTitle($xtitle, "plotdown"); // para = ($title, $position); $postion= plotup or plotdown or both or none
 $graph->SetYTitle($ytitle,"plotleft"); // plotright or plotleft or both or both
 
-$graph->SetHorizTickIncrement( "5");
-$graph->SetVertTickIncrement( "500"); 
+$graph->SetHorizTickIncrement( "5"); //this should be set according to the data
+$graph->SetVertTickIncrement( "500"); //this should be set according to the data
 
 $graph->SetPrecisionX("1");
 $graph->SetPrecisionY( "0"); 
 
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
-$graph->SetPlotAreaWorld(0,0,7,2000);
+$graph->SetPlotAreaWorld(0,0,7,2000);//this should be modified
 
 $graph->SetOutputFile($chart_file_name.".png");
 
 }
 
-
-function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "pie");
 $graph->DrawGraph();
 }
 
-function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "bars");
 $graph->DrawGraph();
 }
 
-function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "area");
 $graph->DrawGraph();
 }
 
-function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "lines");
 $graph->DrawGraph();
 }
 
-function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "linepoints");
 $graph->DrawGraph();
 }
 
-function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "points");
 $graph->DrawGraph();
 }
 
-function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "thinbarline");
 $graph->DrawGraph();
 }
 
-function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "squared");
 $graph->DrawGraph();
 }
 
-function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$hight='',$width='',$keyword='',$owner='')
+function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
 global $graph;
-base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$hight,$width,$keyword,$owner);
+base_elements_of_chart($chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
 $graph->SetPlotType( "stackedbars");
 $graph->DrawGraph();
 }

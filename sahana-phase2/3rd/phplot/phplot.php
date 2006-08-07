@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: phplot.php,v 1.1 2006-06-30 09:45:40 jayasinghe Exp $ */
+/* $Id: phplot.php,v 1.2 2006-08-07 07:16:06 jayasinghe Exp $ */
 
 /*
  * PHPLOT Version 5.0.rc1
@@ -183,8 +183,9 @@ class PHPlot {
     var $draw_plot_area_background = FALSE;
     var $draw_broken_lines = FALSE;          // Tells not to draw lines for missing Y data.
 
-    var $keyword = 'default keyword';
-    var $report_chart_owner = 'default owner';
+    var $keyword;
+    var $chart_id;
+
 
 
 //////////////////////////////////////////////////////
@@ -1084,15 +1085,15 @@ class PHPlot {
 
 /**************************************************/
 
-    function Setkeyword($keyword_in)
+    function Setkeyword($keyword_arr_in)
     {
-     $this->keyword = $keyword_in;
+     $this->keyword = $keyword_arr_in;
      return TRUE;
     }
 
-    function SetreportOwner($owner)
+    function Setchartid($id_in)
     {
-     $this->report_chart_owner = $owner;
+     $this->chart_id = $id_in;
      return TRUE;
     }
 
@@ -1105,7 +1106,10 @@ class PHPlot {
      * destroys the image resource.
      */
     function PrintImage()
-    {
+    {				
+		global $global;
+    		$db=$global["db"];
+
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
 		array_pop($_sd_path);
@@ -1115,7 +1119,7 @@ class PHPlot {
 		$data='';
 	
 		ImagePng($this->img, $_sd_path.$this->output_file);
-		echo "Your chart/Graph has been created in ".$_sd_path;
+		//echo "Your chart/Graph has been created in ".$_sd_path;
 
 		$fp = fopen($_sd_path.$this->output_file, "rb");
 			while(!feof($fp)) 
@@ -1126,22 +1130,41 @@ class PHPlot {
 			$data = addslashes($data);
 			$data = addcslashes($data, "\0");
 
-		$today = getdate();
-		$current_date = $today["year"]."-".$today["mon"]."-".$today["mday"];
-		$current_time = $today["hours"].":".$today["minutes"].":".$today["seconds"]; 
 		$file_size = filesize($_sd_path.$this->output_file)/1000; 
 		$file_type = $this->file_format; 
 		$title = $this->title_txt;
 		$file_name = $this->output_file;
-		$the_keyword = $this->keyword;
-		$the_owner = $this->report_chart_owner;
+		$keyword_arr = $this->keyword;
+		$the_chart_ID = $this->chart_id;
+
+		unlink($_sd_path.$this->output_file);//delete the file
+			
+		$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_chart_ID','$file_name','$data','$file_type','$file_size','$title')";
+			$res=$db->Execute($query);
+		
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_chart_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
 
 
-		global $global;
-    		$db=$global["db"];
-		$q="insert into report_files(file_name,file_data,date_of_created,time_of_created,report_chart_owner,file_type,file_size_kb,keyword,title) values ('$file_name','$data','$current_date','$current_time','$the_owner','$file_type','$file_size','$the_keyword','$title')";
-    		$res=$db->Execute($q);
-	
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_chart_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
+
+				print "<h1> Chart - ".$title."</h1>";
+				print "<b>Chart ID : </b>".$the_chart_ID." <br>";
+				print "<b>Chart File Name : </b>". $file_name."<br>";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
+				print "<b>File Type : </b>".$file_type."<br>";
+				print "<b>File Size : </b>".$file_size." kb <br>";
+
 
 	//-----------------------------------
 
