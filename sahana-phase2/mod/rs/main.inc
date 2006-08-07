@@ -158,7 +158,17 @@ shn_rs_config_main_form();
 function shn_rs_config_main_form_submit()
 {
 include_once('config.inc');
-shn_rs_config_main_form_submit_result();
+    if(shn_rs_validate_config_val())
+    {
+    display_errors();
+    shn_rs_config_main_form();
+    }
+    else
+    {
+    shn_rs_config_main_form_submit_result();
+    shn_rs_config_main_form();
+    }
+   
 }
 /*************************End of config functions*************************************/
 

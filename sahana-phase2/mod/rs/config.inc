@@ -19,6 +19,8 @@ function shn_rs_config_main_form()
 {
     global $global;
     $db=$global["db"];
+    $extra_opts['value'] = '';
+
     $query="select option_code from field_options where field_name='opt_rs_freq'";
     $res=$db->Execute($query);
     $current_freq=$res->fields["option_code"];
@@ -43,25 +45,35 @@ function shn_rs_config_main_form_submit_result()
     $db=$global["db"];
     $new_freq = trim($_POST['new_freq']);
 
-    $query="update field_options set option_code='$new_freq' where field_name='opt_rs_freq' ";
-    $res=$db->Execute($query); 
+	if(ereg("^[0-9]*$",$new_freq))
+	{
+	$query="update field_options set option_code='$new_freq' where field_name='opt_rs_freq' ";
+	$res=$db->Execute($query);
+		if($res == true)
+		{
+		?>
+			<div id="result_msg">
+			<?php print "New Frequency ".$new_freq."  was successfully saved";?>
+			</div>
+		<?php
+		}
+		else
+		{
+		?>
+			<div id="result_msg">
+			<?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating New frequency.";?>
+			</div>
+		<?php
+		}
+	}
+	else
+	{
+		?>
+			<div id="result_msg">
+			<?php print "<b>You entered value is not a valide digit. Please enter valid number.</b>";?>
+			</div>
+		<?php
+	}
 
-    if($res == true)
-    {
-    ?>
-            <div id="result_msg">
-               <?php print "New Frequency ".$new_freq."  was successfully saved";?>
-            </div>
-    <?php
-    }
-    else
-    {
-    ?>
-            <div id="result_msg">
-               <?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating New frequency.";?>
-            </div>
-    <?php
-    }
-shn_rs_config_main_form();
 }
 ?>
