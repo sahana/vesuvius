@@ -218,7 +218,7 @@ function show_map($opt=null)
  * Show map layers
  * get layer information dynamically
  */
-function show_map_layers()
+function show_map_layers(){}
 
 function show_map_with_markers($markers)
 {
