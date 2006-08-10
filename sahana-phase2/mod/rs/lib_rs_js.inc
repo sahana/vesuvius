@@ -30,26 +30,23 @@ function shn_sample_change_form_js()
 </script>
 <?php
 }
-/*
-function shn_search_setkeyword_search_js()
+
+function shn_rs_search_cat_js()
 {
 ?>
 <script type="text/javascript">
-    function setkeyword_search()
+    function changeform()
     {
-    //var x=document.rep_search.getElementsByName("search_type");
-var x=document.rep_search.search_type.value;
-	//var y = x.value;
-	//alert(x);
- document.getElementById('search_for').value = "sanjeewa";
- document.getElementById('exact_relative').style.visibility = 'hidden';
-//document.rep_search.exact_relative.style.visibility = 'hidden';
-
+ var x=document.rep_search.search_rep_chart.options[document.rep_search.search_rep_chart.selectedIndex].value;
+	
+  if(x!='none')
+        {
+        document.rep_search.submit();
+        }
     }
 </script>
-
 <?php
-}*/
+}
 
 
 ?>

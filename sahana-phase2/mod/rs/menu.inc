@@ -34,7 +34,7 @@ function _shn_rs_main_menu()
  		}
 	shn_sub_mod_menuclose();
 	shn_mod_menuitem("sample",_("Generate Sample Report"),'rs');
-	shn_mod_menuitem("search",_("Report Search"),'rs');
+	shn_mod_menuitem("search",_("Report/Chart Search"),'rs');
 	shn_mod_menuitem("config",_("Configuration"),'rs');
 	shn_sub_mod_menuopen(_("Test Reports & Charts"));
 	shn_mod_menuitem("spreadsheet",_("SpreadSheet"),'rs');

@@ -63,12 +63,15 @@ function shn_rs_default()
 	<a href="<?php echo $chart_link ?>">test</a>
 	<?php
 }
+
 /*******************Search functions**********************************************/
 function shn_rs_search()
 {
 	include_once('search.inc');
+	shn_rs_search_type_select();
 	shn_rs_search_main_form();
 }
+
 
 function shn_rs_search_submit_one()
 {
@@ -77,10 +80,12 @@ function shn_rs_search_submit_one()
 	if(shn_rs_validate_search_reports())
 	{
 	display_errors();
+	shn_rs_search_type_select();
 	shn_rs_search_main_form();
 	}
 	else
 	{
+	shn_rs_search_type_select();
 	shn_rs_search_main_form();
 	shn_rs_search_submit_one_result();
 	}

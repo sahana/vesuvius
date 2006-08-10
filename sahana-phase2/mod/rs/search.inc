@@ -15,36 +15,55 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+
+function shn_rs_search_type_select()
+{
+    $form_opts['name']="rep_search";
+    $search_type_array=array('none'=>'---select---','report'=>'Report','chart'=>'Chart');
+    shn_form_fopen('search',null,$form_opts);
+    shn_form_fsopen(_('Select the Search category'));
+    $select_opts='onChange="changeform()"';
+    shn_form_select($search_type_array,'Search By :','search_rep_chart',$select_opts,null);
+    shn_form_fsclose();
+    shn_form_fclose();
+    print "<br>";
+    shn_rs_search_cat_js();
+}
+
+
 function shn_rs_search_main_form()
 {
-    $option_array=array('none' => '--- Select ---','file_name' => 'File Name','rep_id'=>'Report ID','file_type' => 'File Type','file_size_kb'=>'File Size','title'=>'Report Title','chart'=>'Chart','all' =>'All');
-
-
-    $form_opts['name']="rep_search";
-
-    shn_form_fopen('search_submit_one',null,$form_opts);
-
-
+    $search_rep_chart = trim($_POST['search_rep_chart']);
+    shn_form_fopen('search_submit_one',null,'');
     shn_form_fsopen(_('Select Details'));
 
-    shn_form_select($option_array,'Search By :','search_type');
+    if($search_rep_chart == 'report')
+     {
+     $option_array=array('none' => '--- Select ---','file_name' => 'File Name','rep_id'=>'Report ID','file_type' => 'File Type','file_size_kb'=>'File Size','title'=>'Report Title','all' =>'All Reports');
+     }
+    elseif($search_rep_chart == 'chart')
+     {
+    $option_array=array('none' => '--- Select ---','file_name' => 'Chart Name','rep_id'=>'Chart ID','file_size_kb'=>'File Size','all' =>'All Charts');
+     }
+    else
+     {
+    $option_array=array('none' => '--- Select Category First---');
+     }
 
+    shn_form_select($option_array,'Search By :','search_type');
     shn_form_text('Phrase : ','search_for','size="50"');
     $extra_opts['value'] = 'exact';
     shn_form_checkbox("Do Exact Search :", 'exact_relative','',$extra_opts);
     shn_form_fsclose();
-
     print "<b>OR</b> Do a keyword search<br><br>";
-
     shn_form_fsopen(_('Keyword Search'));
     shn_form_text('Keyword : ','keyword','size="50"');
     shn_form_fsclose();
-
+    shn_form_hidden(array('search_cat' => $search_rep_chart));
     shn_form_submit(_("Search"));
     shn_form_fclose();
-
-
 }
+
 
 function shn_rs_search_submit_one_result()
 {
@@ -66,50 +85,76 @@ function shn_rs_search_submit_one_result()
  	}
 	*/
 
-
     $search_type = trim($_POST['search_type']);
     $search_for = trim($_POST['search_for']);
     $keyword =  trim($_POST['keyword']);
-
+    $search_cat =  trim($_POST['search_cat']);
     $exact_relative = $_POST['exact_relative'];
 
 
 	if($keyword !='')
 	{
-	$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' ";
+		switch($search_cat)
+		{
+		case 'report':
+		$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' and report_files.file_type != 'png' ";
+		break;
+		case 'chart':
+		$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' and report_files.file_type = 'png'";
+		break;
+		}
+	
 	$keyword_result=$db->Execute($keyword_query);
 
 	_printTable($keyword_result);
 	}
 	else
 	{
-		if($exact_relative == 'exact' && $search_type != 'all' && $search_type !='chart')
+		if($exact_relative == 'exact' && $search_type != 'all' && $search_cat == 'report')
 		{
-		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for' and file_type != 'png' ";
 		$res=$db->Execute($query);
 		_printTable($res);
 		}
-		elseif($search_type == 'all')
+		elseif($exact_relative == 'exact' && $search_type != 'all' && $search_cat == 'chart')
 		{
-		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for' and file_type = 'png' ";
 		$res=$db->Execute($query);
-		_printTable($res);
+		_printTable($res);		
 		}
-		elseif($search_type != 'all' && $search_for !='')
+		elseif($exact_relative != 'exact' && $search_type != 'all' && $search_cat == 'report')
 		{
 		$first_3_letters=substr($search_for, 0, 3);
-		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' ";
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' and file_type != 'png' ";
 		$res=$db->Execute($query);
 		_printTable($res);
 		}
-		else
+		elseif($exact_relative != 'exact' && $search_type != 'all' && $search_cat == 'chart')
+		{
+		$first_3_letters=substr($search_for, 0, 3);
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' and file_type = 'png' ";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
+		elseif($search_type == 'all' && $search_cat == 'report')
+		{
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where file_type != 'png'";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
+		elseif($search_type == 'all' && $search_cat == 'chart')
 		{
 		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where file_type = 'png'";
 		$res=$db->Execute($query);
 		_printTable($res);
 		}
+		else
+		{
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
+		$res=$db->Execute($query);
+		_printTable($res);
+		}
 	}
-
 }
 
 function _printTable($res)
