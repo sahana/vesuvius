@@ -92,13 +92,14 @@ class EasyZIP {
 
 	function zipFile($zipfilename='',$report_title_in='',$keyword_in='',$owner_in='',$report_id = '',$print_ok = '') 
 		{
-
 		global $global;
     		$db=$global["db"];
 
+		unset($data);
+		$data='';
 		$temp = tmpfile();
-
 		$zip = $this -> packFiles();
+
 		if ($zipfilename != '')
 		{
 		fwrite($temp,$zip,strlen($zip));
@@ -112,7 +113,7 @@ class EasyZIP {
 
 		fclose($temp); // this removes the file
 
-		$file_size = strlen($data)/1000;
+		$file_size = strlen($data)/1024;
 		$file_type = "ods"; 
 		$title = $report_title_in;
 		$file_name = $zipfilename;
@@ -120,7 +121,6 @@ class EasyZIP {
 		$the_report_ID = $report_id;
 
 		$keyword_arr = $keyword_in;
-
 
 		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
 		$res_found = $db->Execute($query);
@@ -160,6 +160,8 @@ class EasyZIP {
 				$res1=$db->Execute($query1);
 				}
 			}
+
+			unset($data);
 
 			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
 			$timestamp_found = $db->Execute($query_ts);

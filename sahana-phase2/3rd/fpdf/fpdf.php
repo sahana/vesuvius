@@ -1064,6 +1064,9 @@ function Output($name='',$dest='')
 		global $global;
     		$db=$global["db"];
 
+		//print $this->buffer;
+		unset($data);
+		$data='';
 		$temp = tmpfile();
 		fwrite($temp,$this->buffer);
 		fseek($temp, 0);
@@ -1076,11 +1079,10 @@ function Output($name='',$dest='')
 
 		fclose($temp); // this removes the file
 
-			$file_size = strlen($data)/1000;
+			$file_size = strlen($data)/1024;
 			$file_type = "pdf"; 
 			$title = $this->title;
 			$file_name =$name;
-			$the_owner = $this->creator;
 			$the_report_ID = $this->report_id;
 
 			$keyword_arr = $this->keywords;
@@ -1126,10 +1128,11 @@ function Output($name='',$dest='')
 			}
 			
     			
+			unset($data);			
 
 			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
 			$timestamp_found = $db->Execute($query_ts);
-
+			/**/
 			if($this->print_enable)
 			{
 				if($res == true)
@@ -1613,11 +1616,15 @@ function _parsejpg($file)
 	$bpc=isset($a['bits']) ? $a['bits'] : 8;
 	//Read whole file
 	$f=fopen($file,'rb');
+	unset($data);
 	$data='';
+
 	while(!feof($f))
 		$data.=fread($f,4096);
+		
 	fclose($f);
 	return array('w'=>$a[0],'h'=>$a[1],'cs'=>$colspace,'bpc'=>$bpc,'f'=>'DCTDecode','data'=>$data);
+	unset($data);
 }
 
 function _parsepng($file)
@@ -1656,6 +1663,10 @@ function _parsepng($file)
 	fread($f,4);
 	$parms='/DecodeParms <</Predictor 15 /Colors '.($ct==2 ? 3 : 1).' /BitsPerComponent '.$bpc.' /Columns '.$w.'>>';
 	//Scan chunks looking for palette, transparency and image data
+	
+	unset($pal);
+	unset($trns);
+	unset($data);
 	$pal='';
 	$trns='';
 	$data='';

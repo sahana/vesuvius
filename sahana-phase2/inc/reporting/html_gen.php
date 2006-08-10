@@ -148,7 +148,7 @@ class genhtml
 		
 		global $global;
     		$db=$global["db"];
-
+		$data='';
 		$temp = tmpfile();
 		fwrite($temp,$this->output_code);
 		fseek($temp, 0);
@@ -161,7 +161,7 @@ class genhtml
 
 		fclose($temp); // this removes the file
 		
-		$file_size = strlen($data)/1000;
+		$file_size = strlen($data)/1024;
 		$file_type = $this->file_format; 
 		$title = $this->title_txt;
 		$file_name = $this->file_name.$this->extention;
@@ -225,10 +225,8 @@ class genhtml
 				print "<b>Report ID : </b>".$the_report_ID." <br>";
 				print "<b>Report File Name : </b>". $file_name."<br>";
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-				//print "<b>Report Owner :</b>".$the_owner."<br>";
 				print "<b>File Type : </b>".$file_type."<br>";
 				print "<b>File Size : </b>".$file_size." kb <br>";
-				//print "<b>Keyword :</b>".$the_keyword."<br>";
 				}
 				else
 				{

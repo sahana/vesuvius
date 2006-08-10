@@ -66,9 +66,7 @@ class Table extends XMLElement {
 		array_pop($_sd_path);
 		$_sd_path = implode('/', $_sd_path);
 		$_sd_path = $_sd_path."/www/tmp/Pictures/";
-		//echo $_sd_path;
-		echo "<br/>";
-
+	
 		$pict = new Picture($this->core, $this->xpath, $_sd_path.$img, $this->sheetName);
 		$this->pictures[] = $pict;
 		return $pict;
