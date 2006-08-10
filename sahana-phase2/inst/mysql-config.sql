@@ -138,7 +138,12 @@ INSERT INTO field_options VALUES ('opt_location_type','1','Country');
 INSERT INTO field_options VALUES ('opt_location_type','2','State');
 INSERT INTO field_options VALUES ('opt_location_type','3','City');
 
+-- CATALOGUE MAX_DEPTH VALUE
 INSERT INTO field_options VALUES ('opt_cs_depth','6','depth');
+
+-- REPORT AND CHART UPDATE FREQUENCY VALUES
+INSERT INTO field_options VALUES ('opt_rs_rep_freq','30','the frequency of report update');
+INSERT INTO field_options VALUES ('opt_rs_cht_freq','30','the frequency of chart update');
 
 -- INSERT MODULE VALUES
 INSERT INTO modules VALUES ('cr', '0.2', TRUE);
