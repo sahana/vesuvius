@@ -519,7 +519,7 @@ function _shn_is_chart_update_OK($last_updated_time_stamp)
     $rep_unix_ts = mktime(substr($last_updated_time_stamp, 10, 3),substr($last_updated_time_stamp, 14, 2),substr($last_updated_time_stamp, 17, 2), substr($last_updated_time_stamp, 5, 2),substr($last_updated_time_stamp, 8, 2) , substr($last_updated_time_stamp, 0, 4));
 
     $time_diff = ($cur_unix_ts-$rep_unix_ts)/60;
-    $query="select option_code from field_options where field_name='opt_rs_freq'";
+    $query="select option_code from field_options where field_name='opt_rs_cht_freq'";
     $res=$db->Execute($query);
     $frequency=$res->fields["option_code"];
  	if($time_diff>$frequency)

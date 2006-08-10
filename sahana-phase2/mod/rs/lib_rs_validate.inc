@@ -61,17 +61,5 @@ clean_errors();
     return $error_flag;
 }
 
-function shn_rs_validate_config_val()
-{
-$error_flag=false;
-clean_errors();
-
-    if(trim($_POST['new_freq'])==null)
-    {
-    add_error(_("Please enter the new frequency of updating reports"));
-    $error_flag=true;
-    }
-    return $error_flag;
-}
 
 ?>

@@ -419,7 +419,7 @@ $keyword_arr = explode(",", $report_data_array['meta']);
 		{
 		shn_pdf_report_add_table($table_headers,$table_data);
 		}
-	shn_pdf_report_add_image('tmp/Pictures/'.$report_data_array['img_name']);
+	shn_pdf_report_add_image($report_data_array['img_name']);
 	shn_pdf_report_close();
 	}
 	else
