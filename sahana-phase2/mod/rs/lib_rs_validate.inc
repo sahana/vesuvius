@@ -20,7 +20,6 @@ function shn_rs_validate_sample_report()
 $error_flag=false;
 clean_errors();
 
-    //this checks whether name entered in the add unit form
     if(trim($_POST['rep_file_name'])==null)
     {
     add_error(_("Enter the File Name"));
@@ -42,7 +41,6 @@ clean_errors();
     return $error_flag;
 }
 
-
 function shn_rs_validate_search_reports()
 {
 $error_flag=false;
@@ -50,9 +48,16 @@ clean_errors();
 
     if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none' && trim($_POST['keyword']) =='')
     {
-    add_error(_("Select the Search type OR Do a keyword search"));
+    add_error(_("Select Search type and enter the phrase OR Do a keyword search"));
     $error_flag=true;
     }
+
+    if(trim($_POST['search_type'])!='none' && trim($_POST['search_type'])!='all' && trim($_POST['search_for']) =='' && trim($_POST['keyword']) =='')
+    {
+    add_error(_("Enter the phrase to search OR Do a keyword search"));
+    $error_flag=true;
+    }
+
     return $error_flag;
 }
 

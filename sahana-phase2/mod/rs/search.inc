@@ -17,13 +17,16 @@
 
 function shn_rs_search_main_form()
 {
-    $option_array=array('none' => '--- Select ---','file_name' => 'File Name','rep_id'=>'Report ID','file_type' => 'File Type','file_size_kb'=>'File Size','title'=>'Report Title','all' =>'All Reports');
+    $option_array=array('none' => '--- Select ---','file_name' => 'File Name','rep_id'=>'Report ID','file_type' => 'File Type','file_size_kb'=>'File Size','title'=>'Report Title','chart'=>'Chart','all' =>'All');
+
+
     $form_opts['name']="rep_search";
 
     shn_form_fopen('search_submit_one',null,$form_opts);
+
+
     shn_form_fsopen(_('Select Details'));
 
-    //$select_opts='onChange="setkeyword_search()"';
     shn_form_select($option_array,'Search By :','search_type');
 
     shn_form_text('Phrase : ','search_for','size="50"');
@@ -37,12 +40,10 @@ function shn_rs_search_main_form()
     shn_form_text('Keyword : ','keyword','size="50"');
     shn_form_fsclose();
 
-
-
     shn_form_submit(_("Search"));
     shn_form_fclose();
 
-//shn_search_setkeyword_search_js();
+
 }
 
 function shn_rs_search_submit_one_result()
@@ -50,6 +51,7 @@ function shn_rs_search_submit_one_result()
     global $global;
     $db=$global["db"];
 
+/*
     $module = $global['module'];
     $report_mods = _shn_get_mod_reports();
 
@@ -62,6 +64,8 @@ function shn_rs_search_submit_one_result()
 		$function_name();
 		}
  	}
+	*/
+
 
     $search_type = trim($_POST['search_type']);
     $search_for = trim($_POST['search_for']);
@@ -79,7 +83,7 @@ function shn_rs_search_submit_one_result()
 	}
 	else
 	{
-		if($exact_relative == 'exact' && $search_type != 'all')
+		if($exact_relative == 'exact' && $search_type != 'all' && $search_type !='chart')
 		{
 		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for'";
 		$res=$db->Execute($query);
@@ -100,7 +104,9 @@ function shn_rs_search_submit_one_result()
 		}
 		else
 		{
-		
+		$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where file_type = 'png'";
+		$res=$db->Execute($query);
+		_printTable($res);
 		}
 	}
 
@@ -138,7 +144,7 @@ function _printTable($res)
 	<td><?php print $rep_id ;?></td>
         <td><a href="stream.php?mod=rs&act=download_report&rep_id=<?php echo $rep_id ?>"><?php print $file_name ;?></a></td>
         <td><?php print $title ;?></td>
-	<td><?php print $date_time ;?></td>
+	<td><center><?php print $date_time ;?></center></td>
 	<td><?php print $file_type ;?></td>
 	<td><?php print $file_size_kb ;?></td>
     </tr>

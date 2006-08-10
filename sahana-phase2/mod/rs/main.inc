@@ -22,12 +22,12 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
-
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
 
 require_once 'lib_rs_js.inc';
 include_once 'lib_rs_validate.inc';
+
 
 function shn_rs_mainmenu() 
 {
@@ -56,6 +56,12 @@ function shn_rs_modreports()
 function shn_rs_default()
 {
 	include_once ('home.inc');
+	print "This is to check chart download link";
+	$chart_link = chart_download_link("shn_rs_piechart");
+
+	?>
+	<a href="<?php echo $chart_link ?>">test</a>
+	<?php
 }
 /*******************Search functions**********************************************/
 function shn_rs_search()
@@ -131,20 +137,56 @@ function shn_rs_sample_submit_four()
 /**************************Download functions **************************************/
 function shn_rs_download_report()
 {
-	global $global;
-    	$db=$global["db"];
- 	
-	$rep_id = trim($_REQUEST['rep_id']);
-	$query = "select file_name,file_data from report_files where rep_id = '$rep_id' ";	
-	$res = $db->Execute($query);
+    include_once ('menu.inc');
+    global $global;
+    $db=$global["db"];
 
-	$file_name = $res->fields['file_name'];
-	$data = $res->fields['file_data'];
-       //header("Content-type: text/xml");
-       header("Content-Disposition: attachment; filename=".$file_name);
-       header("Cache-Control: no-cache, must-revalidate");
-	print $data;
+    $rep_id = trim($_REQUEST['rep_id']);
+
+    $module = $global['module'];
+    $report_mods = _shn_get_mod_reports();
+
+	foreach ($report_mods as $i) 
+	{
+    	include $global['approot']."/mod/".$i."/report.inc";
+	$function_name = $rep_id;
+		if(function_exists($function_name))
+		{
+		$function_name();
+		break;
+		}
+ 	}
+
+    $query = "select file_name,file_data,file_type from report_files where rep_id = '$rep_id' ";	
+    $res = $db->Execute($query);
+
+    $file_name = $res->fields['file_name'];
+    $data = $res->fields['file_data'];
+    $file_type = $res->fields['file_type'];
+
+        switch($file_type)
+	{
+            case 'pdf':
+		header("Content-type: application/pdf");
+            break;
+            case 'ods':
+		header("Content-type: application/vnd.oasis.opendocument.spreadsheet");
+            break;
+            case 'xhtml':
+		header("Content-type: text/html");
+            break;
+            case 'png':
+		header("Content-type: image/png");
+            break;
+	
+        }
+
+
+    header("Content-Disposition: attachment; filename=".$file_name);
+    header("Cache-Control: no-cache, must-revalidate");
+    print $data;
 }
+
 
 /************************* End of Download functions *********************************/
 
@@ -257,7 +299,7 @@ shn_pdf_report_fopen("mypdfreport",$rs_test_pdf_keyword_arr);
 shn_pdf_report_add_title($title);
 shn_pdf_report_add_table($table_header,$table_data);
 shn_pdf_report_add_summery($txt);
-shn_pdf_report_add_image('tmp/Pictures/cartoon001.jpg');
+shn_pdf_report_add_image('cartoon001.jpg');
 shn_pdf_report_close();
 }
 
@@ -332,7 +374,7 @@ generate_piechart("Piechart","This is a testing pie chart","x axis","y axis",$da
 }
 function shn_rs_barchart()
 {
-/*
+
 $data = array(
     array(  "a", 2000,1500, 0, 100, 600,200),
     array(  "b", 2010,1000, 100, 150,200,300),
@@ -340,8 +382,21 @@ $data = array(
     array(  "dd",2020,200,1000,979, 1000,600),
     array(  "e", 2025,100,1200,78,150,700),
     array(  "f", 2030,50, 1450,343, 1300,800)
-);*/
+);
+/*
+$data = array(
+			array("sanjeewa",100),
+			array("mahesh",90),
+			array("ajith",70),
+			array("saranga",110)
+			);*/
 
+$keyword_arr = array('chart'=>'bar chart','mod'=>'catalogue');
+generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,$keyword_arr);
+}
+
+function shn_rs_linechart()
+{
 $data = array(
 			array("sanjeewa",100),
 			array("mahesh",90),
@@ -349,7 +404,8 @@ $data = array(
 			array("saranga",110)
 			);
 
-$keyword_arr = array('chart'=>'bar chart','mod'=>'catalogue');
-generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,$keyword_arr);
+$keyword_arr = array('chart'=>'line chart','mod'=>'catalogue');
+generate_linechart("Linechart","This is a testing line chart","x axis","y axis",$data,$keyword_arr);
+
 }
 ?>

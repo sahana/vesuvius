@@ -44,36 +44,35 @@ function shn_rs_config_main_form_submit_result()
     global $global;
     $db=$global["db"];
     $new_freq = trim($_POST['new_freq']);
-
-	if(ereg("^[0-9]*$",$new_freq))
+    
+    if(ereg("^[0-9]*$",$new_freq))
+    {
+    $query="update field_options set option_code='$new_freq' where field_name='opt_rs_freq' ";
+    $res=$db->Execute($query);
+        if($res == true)
 	{
-	$query="update field_options set option_code='$new_freq' where field_name='opt_rs_freq' ";
-	$res=$db->Execute($query);
-		if($res == true)
-		{
-		?>
-			<div id="result_msg">
-			<?php print "New Frequency ".$new_freq."  was successfully saved";?>
-			</div>
-		<?php
-		}
-		else
-		{
-		?>
-			<div id="result_msg">
-			<?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating New frequency.";?>
-			</div>
-		<?php
-		}
+	?>
+	<div id="result_msg">
+	<?php print "New Frequency ".$new_freq."  was successfully saved";?>
+	</div>
+	<?php
 	}
 	else
 	{
-		?>
-			<div id="result_msg">
-			<?php print "<b>You entered value is not a valide digit. Please enter valid number.</b>";?>
-			</div>
-		<?php
+	?>
+	<div id="result_msg">
+	<?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating New frequency.";?>
+	</div>
+	<?php
 	}
-
+    }
+    else
+    {
+	?>
+	<div id="result_msg">
+	<?php print "<b>You entered value is not a valide digit. Please enter valid number.</b>";?>
+	</div>
+	<?php
+    }
 }
 ?>

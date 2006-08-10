@@ -43,6 +43,7 @@ function _shn_rs_main_menu()
 	shn_mod_menuitem("chart",_("Chart"),'rs');
 	shn_mod_menuitem("piechart",_("Pie Chart"),'rs');
 	shn_mod_menuitem("barchart",_("Bar Chart"),'rs');
+	shn_mod_menuitem("linechart",_("Line Chart"),'rs');
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
    

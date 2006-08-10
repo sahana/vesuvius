@@ -37,7 +37,6 @@ function shn_ods_report_fopen($file_name='',$keyword_in='')
     $keyword = $keyword_in;
 
     global $owner;
-    $owner = $owner_in;
 
 		$backtrace = debug_backtrace();
 		$ods_rep_ID = $backtrace['1']["function"];
@@ -239,12 +238,14 @@ function shn_ods_report_add_image($img_path='')
 function shn_ods_report_close()
 {
 	global $ods_rep_gen_ok;
-	$backtrace = debug_backtrace();
-// this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
-	$print_ok = $backtrace['3']["function"];
-	if($print_ok == 'shn_rs_search_submit_one_result')	
+
+	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
 	{
 	$print_enable = false;	
+	}
+	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+	{
+	$print_enable = false;
 	}
 	else
 	{
@@ -289,7 +290,6 @@ global $pdf_print_enable;
 global $pdf_rep_ID;
 function shn_pdf_report_fopen($reportname='',$keywords='')
 {
-
 require('../3rd/fpdf/fpdf.php');
 global $pdf;
 global $pdfreportname;
@@ -320,13 +320,15 @@ $pdf_rep_gen_ok = true;
 	$rep_id =  shn_create_uuid('report');
 	}
 
-// this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
-	$print_ok = $backtrace['3']["function"];
-	if($print_ok == 'shn_rs_search_submit_one_result')	
+	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
 	{
 	$pdf->printInfoEnable(false);
 	$pdf_print_enable = false;
-	
+	}
+	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+	{
+	$pdf->printInfoEnable(false);
+	$pdf_print_enable = false;
 	}
 	else
 	{
@@ -338,7 +340,6 @@ $pdf_rep_gen_ok = true;
 	if($pdf_rep_gen_ok)
 	{
 	$pdf->AddPage();
-	$pdf->SetCreator($creator);
 	$pdf->SetKeywords($keywords);
 	$pdf->SetReportID($rep_id);
 	
@@ -441,7 +442,7 @@ function shn_pdf_report_add_image($img_path='')
 	{
 	$pdf->AddPage();
 	$pdf->SetFont('Arial','B',16);
-	$pdf->Image($img_path,10,10,150);	
+	$pdf->Image("tmp/Pictures/".$img_path,10,10,150);	
 	}
 
 }
@@ -472,6 +473,7 @@ function shn_pdf_report_close()
 	print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
 	print "<b>File Type : </b>".$res->fields['file_type']."<br>";
 	print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
+	
 	}
 
 }
@@ -513,29 +515,30 @@ $html_rep_gen_ok = true;
 	$rep_id =  shn_create_uuid('report');
 	}
 
-// this is to check whether this function is calling by 'shn_rs_search_submit_one_result'. If it is, then printing report information is disabled
-	$print_ok = $backtrace['3']["function"];
+	$xhtml = new genhtml();
 
-		$xhtml = new genhtml();
+	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+	{
+	$xhtml->printInfoEnable(false);
+	$html_print_enable = false;
+	}
+	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+	{
+	$xhtml->printInfoEnable(false);
+	$html_print_enable = false;
+	}
+	else
+	{
+	$xhtml->printInfoEnable(true);
+	$html_print_enable = true;
+	}
 
-		if($print_ok == 'shn_rs_search_submit_one_result')	
-		{
-		$xhtml->printInfoEnable(false);
-		$html_print_enable = false;
-		}
-		else
-		{
-		$xhtml->printInfoEnable(true);
-		$html_print_enable = true;
-		}
-
-		if($html_rep_gen_ok)
-		{	
-		$xhtml->setFileName($file_name);
-		$xhtml->setKeyword($keyword);
-		$xhtml->setOwner($owner);
-		$xhtml->setReportID($rep_id);	
-		}
+	if($html_rep_gen_ok)
+	{	
+	$xhtml->setFileName($file_name);
+	$xhtml->setKeyword($keyword);
+	$xhtml->setReportID($rep_id);	
+	}
 
 }
 
@@ -616,6 +619,11 @@ global $xhtml;
 
 /******************************** End of XHTML Report Generation Functions **************************************/
 
+function report_download_link($report_id)
+{
+return "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
+}
+
 /*********************************private Functions *************************************************************/
 function _shn_is_report_update_OK($last_updated_time_stamp)
 {
@@ -639,4 +647,6 @@ function _shn_is_report_update_OK($last_updated_time_stamp)
 	}	
 }
 /*********************************End of private functions *****************************************************/
+
+
 ?>
