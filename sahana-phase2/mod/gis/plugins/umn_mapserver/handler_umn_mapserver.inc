@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * $id$;
  * Google Maps plugin for Sahana GIS
@@ -172,38 +172,127 @@ function add_marker_out($name)
  * info on existing markers
 */
 function info_event($query_results){
-?>
- <script type="text/javascript">
- 	GEvent.addListener(map, 'click', function(overlay, point) {
-  	if (overlay) { 
-			//display information on marker
-			var html = "test";
-			overlay.openInfoWindowHtml(html);
-		}
-		else if (point){
-			map.addOverlay(new GMarker(point));
-			
-		}
-	});
- </script>			 
+?>			 
 <?php
 }
 
+/**
+ * Show zoom and pan
+ */
+function toolbar()
+{
+	global $global;
+	include_once $global['approot']."/inc/lib_form.inc";
+	if(!isset($category))
+		$category="all";
+	
+	//$type_help="Help Me";
+	
+	shn_form_fopen("show",null,array('req'=>false));
+	shn_form_fsopen("Controls");
+	
+	$zoom_array=array();
+	$zoom_array["1"]=_("Zoom In");
+	$zoom_array["-1"]="Zoom Out";
+	
+	//shn_form_select($zoom_array,_("Zoom Level"),null);
+	shn_form_radio($zoom_array,_("Control"),"map_control");
+	shn_form_fsclose();
+	shn_form_submit(_("Filter"));
+	shn_form_fclose();
+}
 
 /**
  * Show Map
  * @TODO: handle windows dll
+ * with zoom
  */
 function show_map($opt=null)
 {
 	global $global;
 	global $conf;
-	
+	//var_dump($_POST);
 	dl("php_mapscript.so");
 	//$map_file="./hello.map";
-	$map_file="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/usa1.map";
+	$map_path="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/";
+	$map_file="usa1.map";
 	
-	$map = ms_newMapObj($map_file);
+	$map = ms_newMapObj($map_path.$map_file);
+	
+	if ( isset($_POST["mapa_x"]) && isset($_POST["mapa_y"])) {
+      $extent_to_set = explode(" ",$_POST["extent"]); 
+      $map->setextent($extent_to_set[0],$extent_to_set[1],
+                      $extent_to_set[2],$extent_to_set[3]);
+      $my_point = ms_newpointObj();
+      $my_point->setXY($_POST["mapa_x"],$_POST["mapa_y"]);
+      $my_extent = ms_newrectObj();
+      $my_extent->setextent($extent_to_set[0],$extent_to_set[1],
+                              $extent_to_set[2],$extent_to_set[3]);
+
+      switch($_POST['map_control']){
+      	case 'zo':
+      			$map->zoompoint(-2,$my_point,$map->width,$map->height,$my_extent);
+      			break;
+      	case 'zi':
+      			$map->zoompoint(2,$my_point,$map->width,$map->height,$my_extent);
+      			break;
+      	case 'pan':
+      			break;
+      	default:
+      			break;
+      }
+	  
+    }
+	
+	$image=$map->draw();
+	$image_url=$image->saveWebImage();
+	
+	$extent_to_html = $map->extent->minx." ".$map->extent->miny." "
+		.$map->extent->maxx." ".$map->extent->maxy;
+	
+	include_once $global['approot']."/inc/lib_form.inc";
+	//shn_form_fopen("show",null,array('req'=>false));
+?>
+	<div id="formcontainer">
+		<form method="post" action="" id="formset" name="">
+<?php
+	shn_form_fsopen(_("Map Controls"));
+	
+	$zoom_array=array();
+	$zoom_array["zi"]=_("Zoom In");
+	$zoom_array["zo"]=_("Zoom Out");
+	$zoom_array["pan"]=_("Pan");
+	
+	//shn_form_select($zoom_array,_("Zoom Level"),"zoom");
+	shn_form_radio($zoom_array,_("Control"),"map_control");
+	shn_form_fsclose();
+	shn_form_fsopen("Map");
+?>
+	<input type="image" name="mapa" src="<?=$image_url?>">
+	<input type="hidden" name="extent" value="<?=$extent_to_html?>">
+<?php
+	shn_form_fsclose();
+	shn_form_submit(_("Re-Draw"));
+	shn_form_fclose();
+
+}
+
+/**
+ * Show Map
+ * @TODO: handle windows dll
+ */
+function show_map_no_zoom($opt=null)
+{
+	global $global;
+	global $conf;
+	
+	toolbar();
+	dl("php_mapscript.so");
+	//$map_file="./hello.map";
+	$map_path="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/";
+	$map_file="usa1.map";
+	
+	$map = ms_newMapObj($map_path.$map_file);
 	$image=$map->draw();
 	$image_url=$image->saveWebImage();
 ?>
@@ -381,6 +470,6 @@ window.onload = function show_map_js()
 	<div id="map" style="width: 500px; height: 400px"></div>
 
 
-<?
+<?php
 }
 ?>
