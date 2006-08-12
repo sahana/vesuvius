@@ -243,7 +243,9 @@ function show_map($opt=null)
       }
 	  
     }
-	
+	$layer_array= $map->getAllLayerNames();
+	//echo $val[1];
+	//echo count($val);
 	$image=$map->draw();
 	$image_url=$image->saveWebImage();
 	
@@ -266,13 +268,19 @@ function show_map($opt=null)
 	//shn_form_select($zoom_array,_("Zoom Level"),"zoom");
 	shn_form_radio($zoom_array,_("Control"),"map_control");
 	shn_form_fsclose();
+	shn_form_fsopen("Layers");
+	for($i=0;$i<count($layer_array);$i++){
+		shn_form_checkbox("$layer_array[$i]","$layer_array[$i]",null,array('br'=>true));
+	}
+	//shn_form_checkbox("name","valu");
+	shn_form_fsclose();
 	shn_form_fsopen("Map");
 ?>
 	<input type="image" name="mapa" src="<?=$image_url?>">
 	<input type="hidden" name="extent" value="<?=$extent_to_html?>">
 <?php
 	shn_form_fsclose();
-	shn_form_submit(_("Re-Draw"));
+	//shn_form_submit(_("Re-Draw"));
 	shn_form_fclose();
 
 }
