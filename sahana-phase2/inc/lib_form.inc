@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.50 2006-08-03 07:30:19 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.51 2006-08-15 00:43:06 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -260,26 +260,18 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
+
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
 <?php
-    foreach ($options as $opt_value => $desc ) 
-    {
-        if($value == $opt_value)
-        {
+    foreach ($options as $opt_value => $desc ) {
+
+#        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
-        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>" checked="true" />
-        <?=$desc?>
+        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
+<?=$sel?> /><?=$desc?>
 <?php
-        }
-        else
-        {
-?>
-        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"/>
-        <?=$desc?>
-<?php
-        }        
     }
 ?>
 <?php
@@ -350,8 +342,13 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
     <label><?=$label?></label>
     <select name="<?=$opt_field?>[]" <?=$select_opts?>
 <?php
-		    $res = $global['db']->Execute
-        ("select * from field_options where field_name='$opt_field'");
+	if($extra_opts["sort"]==true){
+		$q="select * from field_options where field_name='$opt_field' order by option_code";
+	} else{
+		$q="select * from field_options where field_name='$opt_field'";
+	}
+	    
+	$res = $global['db']->Execute($q);
     while(!res==NULL && !$res->EOF) {
         if($value!=NULL){
             $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? "selected" : null ;
@@ -366,7 +363,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
  ?>
     </select>
 <?php
-    shn_form_extra_opts($extra_opts);
+	shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -523,8 +520,6 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
  * @access public
  * @return void
  */
-
-/* This is the old date picker function
 function shn_form_date($label, $name = 'date', $initdate = null )
 {
     ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
@@ -539,35 +534,7 @@ function shn_form_date($label, $name = 'date', $initdate = null )
    
     <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4" maxlength=4>
 <?php
-}*/
-
-
-function shn_form_date($label,$name,$extra_opts = null)
-{
-    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
-
-    //including the script file only once
-    static $script_include=false;
-    if(!$script_include){
-        echo "<script type='text/javascript' src='res/js/scw.js'></script>";
-        $script_include=true;
-    }
-    $format=(isset($extra_opts['format']))?$extra_opts['format']:'yyyy-mm-dd';
-    $string = strtoupper($format);
-    $f=substr($string,  0, 1);
-    $l=substr($string, -1, 1);
-    $m=($f=='Y'||$l=='Y')?$m:'Y';
-    $m=($f=='M'||$l=='M')?$m:'M';
-    $m=($f=='D'||$l=='D')?$m:'D';
-    $seq=$f.$m.$l;
-?>
-
-<label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(this,this);" size="12" maxlength="12">
-<?php
-    shn_form_extra_opts($extra_opts);
 }
-
 
 /* fancy popup calendar, however such systems are eyecandy and not efficient
 function shn_form_date($label, $name = 'date')
@@ -588,29 +555,6 @@ function shn_form_date($label, $name = 'date')
     shn_form_extra_opts($extra_opts);
 }
 */
-
-// this function enumerates through an array and displays it as elements 
-// of a row. You may have many arrays within arrays.
-function shn_form_table_row($elements, $text_opts=null) {
-
-    static $depth = 0;
-
-    if ($depth == 0) echo "    <tr $text_opts>\n";
-
-    foreach ( $elements as $value) {
-
-        if (is_array($value)) {
-            $depth++;
-            // recurse if it is an array
-            //shn_form_print_row($value);
-            $depth--;
-        } else {
-           echo "        <td>$value </td>\n";
-        }
-    }
-
-    if ($depth == 0) echo "    </tr>\n";
-}
 
 function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
 {
