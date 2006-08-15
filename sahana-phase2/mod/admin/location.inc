@@ -1,6 +1,6 @@
 <?php
 /**
-* This library helps uses phpgacl library to manage ACL
+* This file is to add,edit,delete locations through the admin interface
 *
 * PHP version 4 and 5
 *
@@ -16,40 +16,7 @@
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
-/*
-function _shn_admin_location_form(){
-?>
-<h1 align="center"><?=_("Add Locations")?></h1>
-<div id="note">
-<?=_("Fields marked with * are required (entry is compulsory)")?>
-</div>
-<?php
-    if($error==true)
-        display_errors();
-?>
-<div id="formcontainer">
-<?php
-    shn_form_fopen("add_loc_cr");
-    _shn_admin_location_form();
- ?>
-</center>
-<br />
-<center>
-<?php
- 	shn_form_submit("Submit");
-?>
-</center>
-<br />
-<?php
-    //close the form
-    shn_form_fclose(false);
-?>
-</div>
-<?php
-    // end of form
 
-}
-*/
 function _shn_admin_location_view_form(){
 ?>
 <h1 align="center"><?=_("First select the location to Edit & Delete")?></h1>
@@ -66,13 +33,11 @@ function _shn_admin_location_view_form(){
     	shn_form_fopen("view_loc_cr");
     	_shn_or_update_loc();
     	?>
-    	<div id="note">
+    	<div id="info">
 	<?=_("Select location and then select the level(province,district,ect)," .
 			"the selected location field at the end of the form will be updated")?>
 	</div>
 	<?
-
-
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();
@@ -170,10 +135,12 @@ function _shn_admin_location_edit_form($loc){
 
 function _shn_admin_levels_form()
 {
+	global $global;
+	include_once($global['approot'].'/inc/lib_misc.inc');
 ?>
 <h2><?=_("Location Levels")?></h2>
-<div id="note">
-<?=_("The Location you add will be added after remaining ones)")?>
+<div id="info">
+<?=_("The Location you add will be added after remaining ones")?>
 </div>
 <?php
     if($error==true)
@@ -181,14 +148,14 @@ function _shn_admin_levels_form()
 ?>
 <div id="formcontainer">
 <?php
-	$last=shn_get_last_level();
-    shn_form_fopen("loc_lvl_cr");
-    _shn_admin_loc_javascript("opt_location_type",$last[0]);
+	$loc_arr=shn_admin_location_level_list();
+	$form_opts['name']='add_loc_lvl';
+    shn_form_fopen("loc_lvl_cr",null,$form_opts);
+    _shn_add_remove_javascript("opt_location_type[]",$loc_arr,false);
     shn_form_fsopen("Add New Level Information");
     shn_form_text(_("New Level : "),'type','size="50"',null); 
-  //  shn_form_text(_("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null); 
-    shn_form_hidden(array("added"=>'0'));
-    shn_form_hidden(array("removed"=>'0'));
+    shn_form_hidden(array("added"=>','));
+    shn_form_hidden(array("removed"=>','));
     shn_form_button(_("Add"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
@@ -196,7 +163,8 @@ function _shn_admin_levels_form()
 <?php
     shn_form_fsopen("Remove Levels");
     $select_opts="multiple='true'";
-    shn_form_opt_select('opt_location_type','',$select_opts,$extra_opts);
+    $extra_opts["sort"]=true;
+    shn_form_opt_multi_select('opt_location_type','',$select_opts,$extra_opts);
   //  _shn_or_display_org_type($error,true);
      shn_form_button(_("Remove"),"onClick='remove_types()'");
     shn_form_fsclose();
@@ -205,7 +173,14 @@ function _shn_admin_levels_form()
 <br />
 <center>
 <?php
-   shn_form_submit(_("Save"))
+	$extra_opts['br']=false;
+	$extra_opts['req']=false;
+    	shn_form_button(_("Save"),"onClick='save()'",$extra_opts);
+    shn_form_button(_("Reset"),"onClick='change_action(\"reset\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    shn_form_hidden(array('loc_str'=>','));
+   	_shn_reset_form_javascript("add_loc_lvl","opt_location_type[]");
+   	_shn_save_form_javascript("add_loc_lvl","opt_location_type[]","loc_str");
 ?>
 </center>
 <br />
@@ -217,24 +192,60 @@ function _shn_admin_levels_form()
 <?php
     // end of form
 } 
+/*theres a generic form reset and submit javascript in lib_misc
+,but for locations there is the need to fill a string with a values
+from a multi select box,therefore following function is there*/
+
+function _shn_save_form_javascript($form,$save_what,$fill){
+?>
+<script type="text/javascript">
+    function save(){
+    		var tmp_str=",";
+    		var x=document.getElementsByName("<?php echo $save_what?>");
+    		for (i=(x[0].options.length); i>0; i--){
+    				tmp_str=tmp_str+x[0].options[(x[0].options.length)-i].text+",";
+	      
+        }
+            
+        var y=document.getElementsByName("<?php echo $fill?>");
+        y[0].value=tmp_str;
+        document.<?php echo $form?>.submit();
+        return;
+    		
+    } 
+</script>
+<?	
+}
 
 function _shn_adm_loc_lvl_cr()
 {
     global $global;
+    include_once $global['approot'].'inc/lib_misc.inc';
     $db=$global['db'];
-    $add = explode(":", $_POST{"added"});
-    $remove = explode(":", $_POST{"removed"});
-    for($i=1;$i<count($add);$i++){
-        $temp = explode("|", $add[$i]);
-        $q="insert into field_options(field_name,option_code,option_description) values('opt_location_type','{$temp[0]}','{$temp[1]}')";
+    $add = explode(",", $_POST{"loc_str"});
+    $q="delete from field_options where field_name='opt_location_type'";
+    $res=$db->Execute($q);
+    for($i=1;$i<count($add)-1;$i++){
+    		$q="insert into field_options(field_name,option_code,option_description) values('opt_location_type','$i','$add[$i]')";
         $res=$db->Execute($q);
     }
-    for($i=1;$i<count($remove);$i++){
-        $temp = explode("|", $remove[$i]);
-        $q="delete from field_options where field_name='opt_location_type' and option_code='".$temp[0]."'";
-        $res=$db->Execute($q);
-    }
+
     _shn_admin_levels_form();
+}
+
+function shn_admin_location_level_list(){
+	global $global;
+	$q="select * from field_options where field_name='opt_location_type'";
+	$res = $global['db']->Execute($q);
+    $loc_arr=array();
+    while((!$res==NULL) && (!$res->EOF)) {
+    		array_push(
+    			 $loc_arr,
+    			 $res->fields["option_description"]
+    		);	
+    		$res->MoveNext();
+    }
+    return $loc_arr;
 }
 
 function _shn_admin_location_range_form()
@@ -300,14 +311,19 @@ function _shn_admin_location_form()
     shn_form_text(_("Description : "),'desc','size="50"',$extra_opts);
     shn_form_text(_("ISO code : "),'iso','size="50"',$extra_opts);
     shn_form_fsclose();
+    /*
     shn_form_fsopen(_("Location Type (level)"));
     $extra_opts["req"]=true;
     $extra_opts["sort"]="option_code";
     shn_form_opt_select('opt_location_type','',$select_opts,$extra_opts);
     shn_form_fsclose();
+    */
     shn_form_fsopen(_("Now Select the parent Location"));
+    ?><div class="info"><?= _("It is required to select the Parent location, the new location" .
+    		" will be created as child of the parent, if you do not select a parent" .
+    		" the new location is considered as a top level location");?> </div><br /><?
     $range= shn_get_range();
-    shn_location($range,null,null);
+    shn_location($range,null,null,false);
     shn_form_fsclose();
     ?>
 	</center>
@@ -366,7 +382,10 @@ function _shn_admin_loc_javascript($name,$last)
 {
 ?>
 <script type="text/javascript">
-var last=<?php echo $last?>;
+<?php if ($last==NULL){
+	$last=0;
+}
+echo "var last=".$last.";"?>;
  // sort function - ascending (case-insensitive)
         function sortFuncAsc(record1, record2) {
             var value1 = record1.optValue.toLowerCase();
@@ -414,24 +433,28 @@ var last=<?php echo $last?>;
         function add_types(){
         		last=last+1;
             var y=document.getElementsByName("type");
-          //  var z=document.getElementsByName("type_abbr");
             var add=document.getElementsByName("added");
             var remove=document.getElementsByName("removed");
-            var exist=search(add[0].value,last,true,y[0].value);
-            if(exist){
-                alert("The Type Exists,you just added it");
-                return;
+            if(last>1){
+            		var exist=search(add[0].value,last,true,y[0].value);
+            		if(exist){
+                		alert("The Type Exists,you just added it");
+                		return;
+            		}
             }
             var x=document.getElementsByName("<?php echo $name?>");
+            if(last>0){
             exist=search_select_box(x[0],last,true,y[0].value);
             if(exist){
                 alert("The Type Exists in the DataBase");
                 return;
             }
+            
             exist=search(remove[0].value,last,true,y[0].value);
             if(exist){
                 remove[0]=del(remove[0].value,last);
                 return;
+            }
             }
             opt = document.createElement("option") ;
             opt.text = y[0].value ;

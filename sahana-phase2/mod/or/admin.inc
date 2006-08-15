@@ -87,17 +87,17 @@ function shn_or_adm_or_type()
 function shn_or_adm_type_cr()
 {
     global $global;
+    include_once $global['approot'].'inc/lib_misc.inc';
     $db=$global['db'];
-    $add = explode(":", $_POST{"added"});
-    $remove = explode(":", $_POST{"removed"});
-    for($i=1;$i<count($add);$i++){
-        $temp = explode("|", $add[$i]);
-        $q="insert into field_options(field_name,option_code,option_description) values('opt_org_type','{$temp[0]}','{$temp[1]}')";
+    $add = explode(",", $_POST{"added"});
+    $remove = explode(",", $_POST{"removed"});
+    for($i=1;$i<count($add)-1;$i++){
+    		$key=_shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
+        $q="insert into field_options(field_name,option_code,option_description) values('opt_org_type','$key','$add[$i]')";
         $res=$db->Execute($q);
     }
     for($i=1;$i<count($remove);$i++){
-        $temp = explode("|", $remove[$i]);
-        $q="delete from field_options where field_name='opt_org_type' and option_code='".$temp[0]."'";
+        $q="delete from field_options where field_name='opt_org_type' and option_code='".$remove[$i]."'";
         $res=$db->Execute($q);
     }
     shn_or_adm_or_type();
@@ -110,18 +110,19 @@ function shn_or_adm_sector()
 }
 
 function shn_or_adm_sector_cr(){
+	
     global $global;
+    include_once $global['approot'].'inc/lib_misc.inc';
     $db=$global['db'];
-    $add = explode(":", $_POST{"added"});
-    $remove = explode(":", $_POST{"removed"});
-    for($i=1;$i<count($add);$i++){
-        $temp = explode("|", $add[$i]);
-        $q="insert into field_options(field_name,option_code,option_description) values('opt_sector_type','{$temp[0]}','{$temp[1]}')";
+    $add = explode(",", $_POST{"added"});
+    $remove = explode(",", $_POST{"removed"});
+    for($i=1;$i<count($add)-1;$i++){
+    		$key=_shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
+        $q="insert into field_options(field_name,option_code,option_description) values('opt_sector_type','$key','$add[$i]')";
         $res=$db->Execute($q);
     }
     for($i=1;$i<count($remove);$i++){
-        $temp = explode("|", $remove[$i]);
-        $q="delete from field_options where field_name='opt_sector_type' and option_code='".$temp[0]."'";
+        $q="delete from field_options where field_name='opt_sector_type' and option_code='".$remove[$i]."'";
         $res=$db->Execute($q);
     }
     shn_or_adm_sector();

@@ -102,6 +102,9 @@ function shn_or_adm_location_range_form()
 
 function shn_or_adm_or_type_form()
 {
+	global $global;
+	include_once($global['approot'].'/inc/lib_misc.inc');
+	include_once("api.inc"); 
 ?>
 <h2><?=_("Organization Types")?></h2>
 <?php
@@ -110,13 +113,13 @@ function shn_or_adm_or_type_form()
 ?>
 <div id="formcontainer">
 <?php
+    $type_arr=shn_or_type_list();
     shn_form_fopen("adm_type_cr");
-    _shn_or_admin_javascript("opt_org_type");
+    _shn_add_remove_javascript("opt_org_type[]",$type_arr);
     shn_form_fsopen("Add New Type Information");
     shn_form_text(_("Organization Type : "),'type','size="50"',null); 
-    shn_form_text(_("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null); 
-    shn_form_hidden(array("added"=>'0'));
-    shn_form_hidden(array("removed"=>'0'));
+    shn_form_hidden(array("added"=>','));
+    shn_form_hidden(array("removed"=>','));
     shn_form_button(_("Add"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
@@ -146,6 +149,9 @@ function shn_or_adm_or_type_form()
 
 function shn_or_adm_or_sector_form()
 {
+	global $global;
+	include_once($global['approot'].'/inc/lib_misc.inc') ;
+	include_once("api.inc");
 ?>
 <h2><?=_("Organization Sectors")?></h1>
 <?php
@@ -154,20 +160,20 @@ function shn_or_adm_or_sector_form()
 ?>
 <div id="formcontainer">
 <?php
-    shn_form_fopen("adm_sector_cr");
-    _shn_or_admin_javascript("opt_sector_type[]");
+	$service_arr=shn_or_service_list();
+	shn_form_fopen("adm_sector_cr");
+    _shn_add_remove_javascript("opt_sector_type[]",$service_arr);
     shn_form_fsopen("Add New Sector Information");
     shn_form_text(_("Organization Sector : "),'type','size="50"',null); 
-    shn_form_text(_("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null); 
-    shn_form_hidden(array("added"=>'0'));
-    shn_form_hidden(array("removed"=>'0'));
+    shn_form_hidden(array("added"=>','));
+    shn_form_hidden(array("removed"=>','));
     shn_form_button(_("Add"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
 </center>
 <?php
     shn_form_fsopen("Remove Types");
-    _shn_or_display_sector($error,true);
+    _shn_or_display_sector($error,true,false);
     shn_form_button(_("Remove"),"onClick='remove_types()'");
     shn_form_fsclose();
  ?>

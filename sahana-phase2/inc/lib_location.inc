@@ -265,6 +265,9 @@ function shn_get_last_level(){
     $db=$global['db'];
     $q="select option_code,option_description from field_options where field_name='opt_location_type' order by option_code desc";
     $res=$db->Execute($q);
+    if(($res==NULL)or($res->EOF==true)){
+    		$last=0;
+    }
     $last=array();
     $last[0]=$res->fields[0];
     $last[1]=$res->fields[1];
@@ -405,11 +408,10 @@ var end = <?php echo $end;?>;
 function shn_location($range,$value=null,$parent=null,$unknown=true){
 	
 	if($unknown==true){
-
-	   echo _('<p>If you do not know the location tick the location unknown checkbox, otherwise select from the dropdowns</p>');
-
-        $chkbox_opts['value']=($value==UNKNOWN);
-        shn_form_checkbox(_("Location Unknown:"),'loc_unknown',null,$chkbox_opts);
+	 ?><div class="info"><?=_("If you do not know the exact location , tick the location unknown checkbox, otherwise you have to select from locations in the drop downs");?></div><br /><?
+	
+	$chkbox_opts['value']=($value==UNKNOWN);
+	shn_form_checkbox(_("Location Unknown:"),'loc_unknown',null,$chkbox_opts);
 	?><br /><?
 	}
 	shn_form_hidden(array('levels'=>$range['end']));
@@ -446,9 +448,16 @@ function shn_location_add()
     $insert_array['name']=$_POST{"loc_name"};
     $insert_array['description']=$_POST{"desc"};
     $insert_array['iso_code']=$_POST{"iso"};
-    $insert_array['opt_location_type']=$_POST{"opt_location_type"};
+    $loc=shn_location_get_form_submit_loc();
+    if($loc==-1){
+		$loc=null;
+		$lvl=1;
+    }else{
+    		$lvl=shn_get_level($loc)+1;
+    }
+    $insert_array['opt_location_type']=$lvl;
     $insert_array['loc_uuid']= shn_create_uuid('location');
-    $insert_array['parent_id']=$_POST{$insert_array['opt_location_type']-1};
+    $insert_array['parent_id']=$loc;
     shn_db_insert($insert_array,'location', false, 'loc_uuid');
   
 }
@@ -527,7 +536,7 @@ function _shn_location_form_parent($range,$parent){
             }
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             $extra_opts['value']=$selection;
-            $extra_opts['req']=true;
+         //   $extra_opts['req']=true;
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
@@ -627,7 +636,7 @@ function _shn_location_form_value($range,$value)
     
            //which one to diplay out of all the locations.
            //should be one of the parents
-            $extra_opts['req']=true;
+           // $extra_opts['req']=true;
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
@@ -659,7 +668,7 @@ function _shn_location_form($range)
         $res=$db->Execute($q);
         while(!$res==NULL && !$res->EOF){
         		$extra_opts=array();
-            $extra_opts['req']=true;
+            //$extra_opts['req']=true;
             if($cur==$from){
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
             		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
