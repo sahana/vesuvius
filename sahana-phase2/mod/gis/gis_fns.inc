@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.14 2006-07-31 20:01:38 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.15 2006-08-15 18:25:48 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -19,6 +19,24 @@
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
 
+
+/**
+ * Retrieve GPS coords from REST url
+ * store in db with id
+ */
+function shn_gis_gps_from_rest($uuid,$lat,$lon)
+{
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	
+	include_once $global['approot']."/inc/lib_uuid.inc";
+	$gis_id=shn_create_uuid('gis');
+	$query="insert into gis_location (poc_uuid,map_northing,map_easting,gis_uid) " .
+			" values ('{$uuid}','{$lat}','{$lon}','{$gis_id}') ";
+	$db->Execute($query);
+	echo _("Coordinates Added");
+}
 
 /**
  * Show GIS map
