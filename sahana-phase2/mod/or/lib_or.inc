@@ -512,7 +512,7 @@ function _shn_or_display_gender($error=false,$value=NULL,$label=NULL)
     $label=($label==NULL)?_("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
-function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
+function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=true)
 {
     if($value!=NULL){
         $extra_opts['value']=$value;
@@ -525,8 +525,10 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL)
         $select_opts="multiple='true'";
     }else{
         //$select_opts="multiple='false'";;
-    }  
-     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization ect.");?></div><br /><?
+    } 
+    if ($info){ 
+     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization ect.");?></div><br />
+     <?}
    // $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
     if($multi){
     		shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
@@ -557,7 +559,7 @@ function _shn_or_display_org_sub_type($error=false,$multi=false,$value=NULL)
 
 
 
-function _shn_or_display_sector($error=false,$value=NULL)
+function _shn_or_display_sector($error=false,$value=NULL,$info=true)
 {
     if($value!=NULL){
         $extra_opts['value']=$value;
@@ -565,7 +567,9 @@ function _shn_or_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
-    ?><div class="info"><?=_("Select the services your organization provides ,that is what you do as an organization or services your organization can provide in a disaster. e.g. if you offer medical services select it");?></div><br /><?
+    if ($info){
+    ?><div class="info"><?=_("Select the services your organization provides ,that is what you do as an organization or services your organization can provide in a disaster. e.g. if you offer medical services select it");?></div><br />
+    <?}
     $extra_opts['req']=true;
   //  $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);

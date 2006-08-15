@@ -126,7 +126,7 @@ function shn_or_adm_or_type_form()
 </center>
 <?php
     shn_form_fsopen("Remove Types");
-    _shn_or_display_org_type($error,true);
+    _shn_or_display_org_type($error,true,null,false);
      shn_form_button(_("Remove"),"onClick='remove_types()'");
     shn_form_fsclose();
  ?>
