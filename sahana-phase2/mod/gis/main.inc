@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.9 2006-08-15 18:26:05 mifanc Exp $; */
+/* $Id: main.inc,v 1.10 2006-08-16 20:01:39 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -18,7 +18,6 @@ include_once $global['approot']."/mod/gis/main_fns.inc";
 include_once $global['approot']."/mod/gis/conf.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/wm_fns.php";
-include_once $global['approot']."/mod/gis/gis_fns.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 
 
@@ -82,6 +81,8 @@ function shn_gis_swik()
 //dynamic gps coordinate update via REST
 function shn_gis_gps_rest()
 {
+	global $global;
+  	include_once $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_gps_from_rest($_REQUEST['gps_id'],$_REQUEST['gps_lat'],$_REQUEST['gps_lon']);
 }
 
