@@ -1,8 +1,6 @@
 <?php
-
-
 /** 
- * Home Page of the Catalogue System. 
+ * Home Page of the Reporting System. 
  *
  * PHP version 4 and 5
  *
@@ -16,11 +14,12 @@
  * @subpackage cs
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
-?>
-<div id="home">
-<h2><?= _('Reporting System'); ?></h2>
-<p><?= _('The Reporting System is helpful in generating reports based on Sahana database.'); ?></p>
-</div>
+
+    ?>
+    <div id="home">
+    <h2><?= _('Reporting System'); ?></h2>
+    <p><?= _('The Reporting System is helpful in generating reports based on Sahana database.'); ?></p>
+    </div>
 
 
 

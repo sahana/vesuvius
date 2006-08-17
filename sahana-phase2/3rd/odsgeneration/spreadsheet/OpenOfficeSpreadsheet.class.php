@@ -1,33 +1,9 @@
 <?php
 
 $_openoffice_path = str_replace('\\', '/', dirname(__FILE__));
-
-
-
-//----------
-/*echo dirname(__FILE__);
-echo "</br>";
-echo $_openoffice_path;*/
-
 $_openoffice_path = explode('/', $_openoffice_path);
-/*echo "</br>";
-var_dump($_openoffice_path);*/
-
-//array_pop($_openoffice_path);
-
-/*echo "</br>";
-var_dump($_openoffice_path);*/
-
 array_pop($_openoffice_path);
-/*
-echo "</br>";
-var_dump($_openoffice_path);*/
-
 $_openoffice_path = implode('/', $_openoffice_path);
-/**/
-
-//-------------
-
 
 define ('PATH_ROOT',$_openoffice_path.'/');
 define ('PATH_CALC',PATH_ROOT.'');
@@ -136,7 +112,6 @@ class OpenOfficeSpreadsheet {
 		$this->keepGeneratedRep = false;
 		
 		$this->pathTemplates    = Fonction::removeLastSlash($path_templates);
-		
 		$this->pathSave         = Fonction::removeLastSlash($path_save).'/'.$docSave;
 		$this->documentName     = Fonction::checkFileName($document_name, $this->extension);
 		

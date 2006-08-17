@@ -15,19 +15,24 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+/**
+ * This is the sample report main form which is used to enter the report Details..
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_report()
 {
-
     //$extra_opts['req']=true;
-    shn_form_fopen('sample_submit_one','',array('enctype'=>'enctype="multipart/form-data"'));
+    shn_form_fopen('sample_submit_one','',array('enctype'=>'enctype="multipart/form-data"','name'=>'sample_rep_form'));
     shn_form_fsopen(_('Report Details'));
     shn_form_text(_("Report File Name   : "),'rep_file_name','size="50"',$extra_opts);
     shn_form_text(_("Report Title   : "),'rep_title','size="50"',$extra_opts);
-    shn_form_textarea("Summary :",'rep_summary' , '', '');
+    shn_form_textarea("Content :",'rep_summary' , '', '');
     shn_form_upload("Image :", 'image', '');
     shn_form_fsclose();
     shn_form_fsopen(_('Meta Data'));
     shn_form_text(_("Keyword / Keywords :"),'keyword','size="50"', array('help'=>_('Here you can enter keywords for your report which will help you to search the report later. If you have more than one keyword enter them in the tesx box by seperting coma.')));
+    shn_form_textarea("Description :",'description' , '', '');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Report Type'));
@@ -40,28 +45,39 @@ function shn_rs_sample_report()
     shn_form_select($option_array,'','file_type','',null);
     shn_form_fsclose();
 
-    shn_form_submit(_("Next"));
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    
+    shn_form_button(_("Create Report"),"onClick='change_action(\"create_rep\")'",$extra_opts);
+    shn_form_button(_("Continue to add more content"),"onClick='change_action(\"continue\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+
     shn_form_fclose();
 
+    shn_sample_change_action_js();
 }
 
+/**
+ * This function processes the POST values that are passed from the shn_rs_sample_report() in sample.inc
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_one_result()
 {
-global $global;
-$img_upload_ok = false;
+    global $global;
+    $img_upload_ok = false;
 
-$rep_file_name =  trim($_POST['rep_file_name']);
-$report_title = trim($_POST['rep_title']);
-$report_summary = trim($_POST['rep_summary']);
-$keyword = trim($_POST['keyword']);
-$selected_report_type = trim($_POST['report_type']);
-$selected_file_type = trim($_POST['file_type']);
+    $rep_file_name =  trim($_POST['rep_file_name']);
+    $report_title = trim($_POST['rep_title']);
+    $report_summary = trim($_POST['rep_summary']);
+    $keyword = trim($_POST['keyword']);
+    $selected_report_type = trim($_POST['report_type']);
+    $selected_file_type = trim($_POST['file_type']);
 
-$upload_dir = $global['approot'].'www/tmp/Pictures/';
-$upload_dir = $upload_dir.basename( $_FILES['image']['name']);
+    $upload_dir = $global['approot'].'www/tmp/Pictures/';
+    $upload_dir = $upload_dir.basename( $_FILES['image']['name']);
 	if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir)) 
 	{
-    	//echo "The file ".  basename( $_FILES['image']['name']). " has been uploaded";
 	chmod($upload_dir, 0777);
 	$img_upload_ok = true;
 	$img_name = basename( $_FILES['image']['name']);
@@ -71,24 +87,32 @@ $upload_dir = $upload_dir.basename( $_FILES['image']['name']);
 	$img_upload_ok = false;
 	}
 
-$report_data_arr = array('file_name' => $rep_file_name , 'title' => $report_title , 'summary' => $report_summary, 'meta' => $keyword , 'report_type' => $selected_report_type , 'file_type' => $selected_file_type,'img_name' => $img_name);
+    $report_data_arr = array('file_name' => $rep_file_name , 'title' => $report_title , 'summary' => $report_summary, 'meta' => $keyword , 'report_type' => $selected_report_type , 'file_type' => $selected_file_type,'img_name' => $img_name);
 
 	session_start();
 	$_SESSION['report_data'] = $report_data_arr;
+	$action=trim($_POST['action']);
 
-
-	if($selected_report_type == 'mod')
+	if(($selected_report_type == 'custom' && $action == 'create_rep'))
 	{
-	_show_mod_select_form($report_data_arr);
+	_shn_rs_report_creator();
 	}
-	else
+	elseif(($selected_report_type == 'custom' && $action == 'continue'))
 	{
 	_show_custom_report_form();
 	}
-
+	else
+	{
+	_show_mod_select_form();
+	}
 }
 
-function _show_mod_select_form($report_data_arr_in='')
+/**
+ * This function displays the module selection form.
+ * @access public
+ * @return void
+ */
+function _show_mod_select_form()
 {
     $option_array=array('none' => '-----Select -----','cs' => 'Catalogue System');
     $form_opts['name']="mod_select";
@@ -101,9 +125,14 @@ function _show_mod_select_form($report_data_arr_in='')
     shn_sample_change_form_js();
 }
 
+/**
+ * This function displays the custom report form.
+ * @access public
+ * @return void
+ */
 function _show_custom_report_form()
 {
-print "<h1>Add More content to the Custom Report</h1>";
+    print "<h1>Add More content to the Custom Report</h1>";
     shn_form_fopen('sample_submit_four',null,'');
     shn_form_fsopen(_('Report Content'));
     shn_form_textarea("",'content' , '', '');
@@ -112,6 +141,11 @@ print "<h1>Add More content to the Custom Report</h1>";
     shn_form_fclose();
 }
 
+/**
+ * This function shows the form to search data from the catalogue system module tables
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_two_result()
 {
     print "<b>Search data from Database and include them in the Report</b>";
@@ -135,7 +169,6 @@ function shn_rs_sample_submit_three_result()
     $keyword =  trim($_POST['keyword']);
     $exact_relative = $_POST['exact_relative'];
 
-
     if($tab_name == 'item')
     {
 	_show_item_table($keyword,$exact_relative);
@@ -150,7 +183,6 @@ function shn_rs_sample_submit_three_result()
     {
 	_show_unit_type_table($keyword,$exact_relative);
      }
-
 }
 
 /**
@@ -165,10 +197,10 @@ function _show_item_table($keyword_in = '',$exact_in = true)
 
     shn_form_fopen('sample_submit_four',null,'');
 
-?>
-<br>
-<div id="result">
-<table>
+    ?>
+    <br>
+    <div id="result">
+    <table>
     <thead>
         <td><strong><?=_("Name")?></strong></td>
         <td><strong><?=_("Description")?></strong></td>
@@ -177,22 +209,23 @@ function _show_item_table($keyword_in = '',$exact_in = true)
     <tbody>
     <?php
 
-	if($exact_in)
-	{
-	$query="select * from ct_catalogue where name = '$keyword_in' ";
-	}
-	else
-	{
-	$query= "select * from ct_catalogue where name = '$keyword_in' or keyword = '$keyword_in' " ;
-	}
+    if($exact_in)
+    {
+    $query="select * from ct_catalogue where name = '$keyword_in' ";
+    }
+    else
+    {
+    $first_letters=substr($keyword_in, 0, 1);
+    $query= "select * from ct_catalogue where name like '$first_letters%' " ;
+    }
 
     $res=$db->Execute($query);
     $data_arr = array();
     $row_coount = 0;
     while(!$res==NULL && !$res->EOF)
     {
-	$table_row = "row".$row_coount++;
-	$table_row = array();
+    $table_row = "row".$row_coount++;
+    $table_row = array();
 
     $name=$res->fields["name"];
     $description=$res->fields["description"];
@@ -208,8 +241,7 @@ function _show_item_table($keyword_in = '',$exact_in = true)
     $table_row ["name"]= $res->fields["name"];
     $table_row ["description"]= $res->fields["description"];
     $table_row ["keyword"]= $res->fields["keyword"];
-	array_push($data_arr, $table_row);
-
+    array_push($data_arr, $table_row);
     $res->MoveNext();
     }
 	$table_headers = array('name' => 'Name' , 'description' => 'Description' , 'keyword' => 'Keyword');
@@ -217,15 +249,12 @@ function _show_item_table($keyword_in = '',$exact_in = true)
 	$_SESSION['table_data'] = $data_arr;
 	?>
     </tbody>
-</table>
-</div>
-<?php
-
+    </table>
+    </div>
+    <?php
     shn_form_submit(_("Add Table & Create Report"));
     shn_form_fclose();
-
 }
-
 
 /**
  * This function shows the Unit table.
@@ -236,66 +265,58 @@ function _show_unit_table($keyword_in = '',$exact_in = true)
 {
     global $global;
     $db=$global["db"];
-
     shn_form_fopen('sample_submit_four',null,'');
-
-?>
-<br>
-<div id="result">
-<table>
+    ?>
+    <br>
+    <div id="result">
+    <table>
     <thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Multiplier")?></strong></td>
+    <td><strong><?=_("Name")?></strong></td>
+    <td><strong><?=_("Multiplier")?></strong></td>
     </thead>
     <tbody>
     <?php
-	if($exact_in)
-	{
-	$query="select * from ct_unit where name = '$keyword_in' ";
-	}
-	else
-	{
-	$first_letters=substr($keyword_in, 0, 1);
-	$query="select * from ct_unit where name like '$first_letters%' ";
-	} 
+    if($exact_in)
+    {
+    $query="select * from ct_unit where name = '$keyword_in' ";
+    }
+    else
+    {
+    $first_letters=substr($keyword_in, 0, 1);
+    $query="select * from ct_unit where name like '$first_letters%' ";
+    } 
     $res=$db->Execute($query);
     $data_arr = array();
     $row_coount = 0;
     while(!$res==NULL && !$res->EOF)
     {
-	$table_row = "row".$row_coount++;
-	$table_row = array();
-
+    $table_row = "row".$row_coount++;
+    $table_row = array();
     $name=$res->fields["name"];
     $multiplier=$res->fields["multiplier"];
-
     ?>
     <tr>
-        <td><?php print $name ;?></td>
-        <td><?php print $multiplier ;?></td>
+    <td><?php print $name ;?></td>
+    <td><?php print $multiplier ;?></td>
     </tr>
     <?php  
 
     $table_row ["name"]= $res->fields["name"];
     $table_row ["multiplier"]= $res->fields["multiplier"];
-	array_push($data_arr, $table_row);
-
+    array_push($data_arr, $table_row);
     $res->MoveNext();
     }//end of while loop
 
-	$table_headers = array('name' => 'Name' , 'multiplier' => 'Multiplier');
-	$_SESSION['table_headers'] = $table_headers; 
-   $_SESSION['table_data'] = $data_arr;
- ?>
+    $table_headers = array('name' => 'Name' , 'multiplier' => 'Multiplier');
+    $_SESSION['table_headers'] = $table_headers; 
+    $_SESSION['table_data'] = $data_arr;
+    ?>
     </tbody>
-</table>
-</div>
-<?php
-
-
+    </table>
+    </div>
+    <?php
     shn_form_submit(_("Add Table & Create Report"));
     shn_form_fclose();
-
 }
 
 /**
@@ -307,139 +328,128 @@ function _show_unit_type_table($keyword_in = '',$exact_in = true)
 {
     global $global;
     $db=$global["db"];
-
-
-shn_form_fopen('sample_submit_four',null,'');
-
-?>
-<br>
-<div id="result">
-<table>
+    shn_form_fopen('sample_submit_four',null,'');
+    ?>
+    <br>
+    <div id="result">
+    <table>
     <thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Description")?></strong></td>
+    <td><strong><?=_("Name")?></strong></td>
+    <td><strong><?=_("Description")?></strong></td>
     </thead>
     <tbody>
     <?php
-
-	if($exact_in)
-	{
-	$query="select * from ct_unit_type where name = '$keyword_in' ";
-	}
-	else
-	{
-	$first_letters=substr($keyword_in, 0, 2);
-	$query="select * from ct_unit_type where name like '$first_letters%' ";
-	} 
+    if($exact_in)
+    {
+    $query="select * from ct_unit_type where name = '$keyword_in' ";
+    }
+    else
+    {
+    $first_letters=substr($keyword_in, 0, 2);
+    $query="select * from ct_unit_type where name like '$first_letters%' ";
+    } 
     $res=$db->Execute($query);
     $data_arr = array();
     $row_coount = 0;
     while(!$res==NULL && !$res->EOF)
     {
-	$table_row = "row".$row_coount++;
-	$table_row = array();
-
+    $table_row = "row".$row_coount++;
+    $table_row = array();
     $name=$res->fields["name"];
     $description=$res->fields["description"];
     ?>
     <tr>
-        <td><?php print $name ;?></td>
-        <td><?php print $description ;?></td>
+    <td><?php print $name ;?></td>
+    <td><?php print $description ;?></td>
     </tr>
-    <?php  
-
+    <?php
     $table_row ["name"]= $res->fields["name"];
     $table_row ["description"]= $res->fields["description"];
-	array_push($data_arr, $table_row);
-
+    array_push($data_arr, $table_row);
     $res->MoveNext();
     }//end of while loop
-	$table_headers = array('name' => 'Name' , 'description' => 'Description');
-	$_SESSION['table_headers'] = $table_headers; 
-       $_SESSION['table_data'] = $data_arr;
-	
-	?>
-
+    $table_headers = array('name' => 'Name' , 'description' => 'Description');
+    $_SESSION['table_headers'] = $table_headers; 
+    $_SESSION['table_data'] = $data_arr;
+    ?>
     </tbody>
-</table>
-</div>
-<?php
-
+    </table>
+    </div>
+    <?php
     shn_form_submit(_("Add Table & Create Report"));
     shn_form_fclose();
-
 }
 
-
+/**
+ * This function creates reports.
+ * @access public
+ * @return void
+ */
 function _shn_rs_report_creator()
 {
-$report_data_array = $_SESSION['report_data'];
-$table_headers = $_SESSION['table_headers'];
-$table_data = $_SESSION['table_data'];
+    $report_data_array = $_SESSION['report_data'];
+    $table_headers = $_SESSION['table_headers'];
+    $table_data = $_SESSION['table_data'];
+    $content =  trim($_POST['content']);
+    $keyword_arr = explode(",", $report_data_array['meta']);
 
-$content =  trim($_POST['content']);
-$keyword_arr = explode(",", $report_data_array['meta']);
-
-
-
-	if($report_data_array['file_type'] == 'ods')
+    if($report_data_array['file_type'] == 'ods')
+    {
+    shn_ods_report_fopen($report_data_array['file_name'],$keyword_arr);
+    shn_ods_report_add_sheet('sheet1');
+    shn_ods_report_add_title($report_data_array['title']);
+    shn_ods_report_add_summery($report_data_array['summary']);
+        if($content != null)
 	{
-	shn_ods_report_fopen($report_data_array['file_name'],$keyword_arr);
-	shn_ods_report_add_sheet('sheet1');
-	shn_ods_report_add_title($report_data_array['title']);
-	shn_ods_report_add_summery($report_data_array['summary']);
-	
-		if($content != null)
-		{
-		shn_ods_report_add_summery($content);
-		}
-		else
-		{
-		shn_ods_report_add_table($table_headers,$table_data);
-		}
-
-		if($report_data_array['img_name'] != null)
-		{
-		shn_ods_report_add_image($report_data_array['img_name']);
-		}
-
+	shn_ods_report_add_summery($content);
+	}
+	if($table_headers != null && $table_data != null)
+	{
+	shn_ods_report_add_table($table_headers,$table_data);
+	}
+	if($report_data_array['img_name'] != null)
+	{
+	shn_ods_report_add_image($report_data_array['img_name']);
+	}
 	shn_ods_report_close();
-	}
-	elseif($report_data_array['file_type'] == 'pdf')
+    }
+    elseif($report_data_array['file_type'] == 'pdf')
+    {
+    shn_pdf_report_fopen($report_data_array['file_name'],$keyword_arr);
+    shn_pdf_report_add_title($report_data_array['title']);
+    shn_pdf_report_add_summery($report_data_array['summary']);
+	if($content != null)
 	{
-	shn_pdf_report_fopen($report_data_array['file_name'],$keyword_arr);
-	shn_pdf_report_add_title($report_data_array['title']);
-	shn_pdf_report_add_summery($report_data_array['summary']);
-	
-		if($content != null)
-		{
-		shn_pdf_report_add_summery($content);
-		}
-		else
-		{
-		shn_pdf_report_add_table($table_headers,$table_data);
-		}
+	shn_pdf_report_add_summery($content);
+	}
+	if($table_headers != null && $table_data != null)
+	{
+	shn_pdf_report_add_table($table_headers,$table_data);
+	}
+	if($report_data_array['img_name'] != null)
+	{
 	shn_pdf_report_add_image($report_data_array['img_name']);
+	}
 	shn_pdf_report_close();
-	}
-	else
+    }
+    else
+    {
+    shn_xhtml_report_fopen($report_data_array['file_name'],$keyword_arr);
+    shn_xhtml_report_add_title($report_data_array['title']);
+    shn_xhtml_report_add_summary($report_data_array['summary']);
+	if($content != null)
 	{
-	shn_xhtml_report_fopen($report_data_array['file_name'],$keyword_arr);
-	shn_xhtml_report_add_title($report_data_array['title']);
-	shn_xhtml_report_add_summary($report_data_array['summary']);
-
-		if($content != null)
-		{
-		shn_xhtml_report_add_summary($content);
-		}
-		else
-		{
-		shn_xhtml_report_add_table($table_headers,$table_data);
-		}
-
-
-	shn_xhtml_report_add_image($report_data_array['img_name']);
-	shn_xhtml_report_close();
+	shn_xhtml_report_add_summary($content);
 	}
+	if($table_headers != null && $table_data != null)
+	{
+	shn_xhtml_report_add_table($table_headers,$table_data);
+	}
+	if($report_data_array['img_name'] != null)
+	{
+	shn_xhtml_report_add_image($report_data_array['img_name']);
+	}
+	shn_xhtml_report_close();
+    }
 }
 ?>

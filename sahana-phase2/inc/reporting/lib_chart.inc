@@ -17,7 +17,6 @@
  *
  */
 
-include_once $global['approot']."/inc/lib_uuid.inc";
 global $graph;
 
 function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr_in)
@@ -38,30 +37,42 @@ $graph->SetTitle( $title);
 
 $graph->Setkeyword($keyword_arr_in);
 
-$legend_arr = array();
-foreach($dataArray as $xval)
-{
-array_push($legend_arr,$xval[0]);
-}
+	$legend_arr = array();
+	foreach($dataArray as $xval)
+	{
+	array_push($legend_arr,$xval[0]);
+	}
 
 $graph->SetLegend($legend_arr); 
 $graph->SetPlotBgColor( "red");
 $graph->SetPlotBorderType( "left");
-$graph->SetBackgroundColor( "orange");
+$graph->SetBackgroundColor('white');
 
 $graph->SetXTitle($xtitle, "plotdown"); // para = ($title, $position); $postion= plotup or plotdown or both or none
 $graph->SetYTitle($ytitle,"plotleft"); // plotright or plotleft or both or both
 
-//$graph->SetHorizTickIncrement( "5"); //this should be set according to the data
-$graph->SetVertTickIncrement( "500"); //this should be set according to the data
+	$xval_counter=0;
+	$temp_arr = array();
+	foreach($dataArray as $xval)
+	{
+	$xval_counter++;
+	sort($xval,SORT_NUMERIC);
+	array_push($temp_arr,$xval[count($xval)-1]);
+	}
+	sort($temp_arr,SORT_NUMERIC);
+	$max_val_y = $temp_arr[count($temp_arr)-1];
+	$xval_counter = $xval_counter+1;
+	$y_unit = (round($max_val_y, (-(strlen($max_val_y)) + 1)))/10;
 
-//$graph->SetPrecisionX("1");
+$graph->SetHorizTickIncrement( "1"); 
+$graph->SetVertTickIncrement($y_unit);
+
+$graph->SetPrecisionX("0");
 $graph->SetPrecisionY( "0"); 
 
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
-$graph->SetPlotAreaWorld(0,0,7,2030);//this should be modified
-
+$graph->SetPlotAreaWorld(0,0,$xval_counter,$max_val_y);
 $graph->SetOutputFile($chart_file_name.".png");
 
 }
@@ -102,9 +113,7 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
 function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
@@ -142,9 +151,7 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
 function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
@@ -183,9 +190,7 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
 function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
@@ -224,9 +229,7 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
 function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
@@ -265,9 +268,7 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
 function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
@@ -504,7 +505,12 @@ $graph->DrawGraph();
 }
 
 
-function chart_download_link($chart_id)
+function shn_chart_download_link($chart_id)
+{
+return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+}
+
+function shn_chart_display_link($chart_id)
 {
 return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
 }

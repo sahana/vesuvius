@@ -57,11 +57,18 @@ function shn_rs_default()
 {
 	include_once ('home.inc');
 	print "This is to check chart download link";
-	$chart_link = chart_download_link("shn_rs_piechart");
+	$chart_link = shn_chart_download_link("shn_rs_piechart");
 
 	?>
 	<a href="<?php echo $chart_link ?>">test</a>
 	<?php
+	
+	$image = shn_chart_display_link("shn_cs_barchart");
+
+	?>
+	<img src="<?php echo $image ?>"/>
+	<?php
+
 }
 
 /*******************Search functions**********************************************/
@@ -103,6 +110,7 @@ function shn_rs_sample()
 function shn_rs_sample_submit_one()
 {
 	include_once ('sample.inc');
+
 	if(shn_rs_validate_sample_report())
 	{
 	display_errors();
@@ -186,7 +194,6 @@ function shn_rs_download_report()
 	
         }
 
-
     header("Content-Disposition: attachment; filename=".$file_name);
     header("Cache-Control: no-cache, must-revalidate");
     print $data;
@@ -194,6 +201,21 @@ function shn_rs_download_report()
 
 
 /************************* End of Download functions *********************************/
+
+/*************************display image in a page**************************************/
+
+function shn_rs_showgraph()
+{
+    global $global;
+    $db=$global["db"];
+    $query = "select file_name,file_data,file_type from report_files where rep_id = 'shn_cs_linechart' ";	
+    $res = $db->Execute($query);
+    $data = $res->fields['file_data'];
+header("Content-type: image/png");
+print $data;
+}
+
+/************************end of display image in a page*********************************/
 
 /*************************config functions *******************************************/
 function shn_rs_config()

@@ -15,24 +15,27 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+/**
+ * This function validates shn_rs_sample_report()
+ * @access public
+ * @return void
+ */
 function shn_rs_validate_sample_report()
 {
-$error_flag=false;
-clean_errors();
+    $error_flag=false;
+    clean_errors();
 
     if(trim($_POST['rep_file_name'])==null)
     {
     add_error(_("Enter the File Name"));
     $error_flag=true;
     }
-
- if(trim($_POST['report_type'])==null || trim($_POST['report_type'])=='none')
+    if(trim($_POST['report_type'])==null || trim($_POST['report_type'])=='none')
     {
     add_error(_("Select the report type to continue"));
     $error_flag=true;
     }
-
-  if(trim($_POST['file_type'])==null || trim($_POST['file_type'])=='none')
+    if(trim($_POST['file_type'])==null || trim($_POST['file_type'])=='none')
     {
     add_error(_("Select the file type to continue"));
     $error_flag=true;
@@ -41,10 +44,15 @@ clean_errors();
     return $error_flag;
 }
 
+/**
+ * This function validates shn_rs_search_main_form()
+ * @access public
+ * @return void
+ */
 function shn_rs_validate_search_reports()
 {
-$error_flag=false;
-clean_errors();
+    $error_flag=false;
+    clean_errors();
 
     if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none' && trim($_POST['keyword']) =='')
     {
@@ -57,9 +65,6 @@ clean_errors();
     add_error(_("Enter the phrase to search OR Do a keyword search"));
     $error_flag=true;
     }
-
     return $error_flag;
 }
-
-
 ?>

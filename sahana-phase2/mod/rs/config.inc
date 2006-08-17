@@ -15,6 +15,11 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+/**
+ * This is the configuration form which is used to set the frequency of generating reports and charts.
+ * @access public
+ * @return void
+ */
 function shn_rs_config_main_form()
 {
     global $global;
@@ -44,6 +49,11 @@ function shn_rs_config_main_form()
     shn_form_fclose();
 }
 
+/**
+ * This function processes the POST values that are passed from the shn_rs_config_main_form() in config.inc
+ * @access public
+ * @return void
+ */
 function shn_rs_config_main_form_submit_result()
 {
     global $global;
