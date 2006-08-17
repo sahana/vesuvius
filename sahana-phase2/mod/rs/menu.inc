@@ -39,16 +39,6 @@ function _shn_rs_main_menu()
     shn_mod_menuitem("sample",_("Generate Sample Report"),'rs');
     shn_mod_menuitem("search",_("Report/Chart Search"),'rs');
     shn_mod_menuitem("config",_("Configuration"),'rs');
-    shn_sub_mod_menuopen(_("Test Reports & Charts"));
-    shn_mod_menuitem("spreadsheet",_("SpreadSheet"),'rs');
-    shn_mod_menuitem("pdf",_("PDF"),'rs');
-    shn_mod_menuitem("xhtml",_("XHTML"),'rs');
-    shn_mod_menuitem("chart",_("Chart"),'rs');
-    shn_mod_menuitem("piechart",_("Pie Chart"),'rs');
-    shn_mod_menuitem("barchart",_("Bar Chart"),'rs');
-    shn_mod_menuitem("linechart",_("Line Chart"),'rs');
-    shn_mod_menuitem("showgraph",_("image test"),'rs');
-    shn_sub_mod_menuclose();
     shn_mod_menuclose();
 
     // include the main menu

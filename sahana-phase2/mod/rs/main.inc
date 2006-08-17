@@ -28,21 +28,28 @@ include_once $global['approot']."/inc/reporting/lib_chart.inc";
 require_once 'lib_rs_js.inc';
 include_once 'lib_rs_validate.inc';
 
-
+/**
+ * This function includes the main menu of reporting module.
+ * @access public
+ * @return void
+ */
 function shn_rs_mainmenu() 
 {
-	include_once ('menu.inc');
-	_shn_rs_main_menu();
+    include_once ('menu.inc');
+    _shn_rs_main_menu();
 
 } 
 
+/**
+ * This function finds modules that are having report.inc.
+ * @access public
+ * @return void
+ */
 function shn_rs_modreports()
 {
     global $global;
-
     // include original module report section
     include $global['approot']."/mod/".$global['module']."/report.inc";
-
     // compose and call the relevant module function
     $module_function = "shn_".$global['module']."_".$global['action'];
     
@@ -53,101 +60,131 @@ function shn_rs_modreports()
     $module_function();
 }
 
+/**
+ * Default function of the reporting module. Includes home.inc.
+ * @access public
+ * @return void
+ */
 function shn_rs_default()
 {
-	include_once ('home.inc');
-	print "This is to check chart download link";
-	$chart_link = shn_chart_download_link("shn_rs_piechart");
+    include_once ('home.inc');
+    print "This is to check chart download link";
+    $chart_link = shn_chart_download_link("shn_rs_piechart");
 
-	?>
-	<a href="<?php echo $chart_link ?>">test</a>
-	<?php
-	
-	$image = shn_chart_display_link("shn_cs_barchart");
-
-	?>
-	<img src="<?php echo $image ?>"/>
-	<?php
-
+    ?>
+    <a href="<?php echo $chart_link ?>">test</a>
+    <?php
+    $image = shn_chart_display_link("shn_cs_barchart");
+    ?>
+    <img src="<?php echo $image ?>"/>
+    <?php
 }
 
-/*******************Search functions**********************************************/
+/**
+ * This function includes the search,inc, which will display the search form.
+ * @access public
+ * @return void
+ */
 function shn_rs_search()
 {
-	include_once('search.inc');
-	shn_rs_search_type_select();
-	shn_rs_search_main_form();
+    include_once('search.inc');
+    shn_rs_search_type_select();
+    shn_rs_search_main_form();
 }
 
-
+/**
+ * Calls to validate functions for POST data from shn_rs_search_main_form() in search.inc and direct to the result function.
+ * @access public
+ * @return void
+ */
 function shn_rs_search_submit_one()
 {
-	include_once('search.inc');
-
-	if(shn_rs_validate_search_reports())
-	{
-	display_errors();
-	shn_rs_search_type_select();
-	shn_rs_search_main_form();
-	}
-	else
-	{
-	shn_rs_search_type_select();
-	shn_rs_search_main_form();
-	shn_rs_search_submit_one_result();
-	}
-
+    include_once('search.inc');
+    if(shn_rs_validate_search_reports())
+    {
+    display_errors();
+    shn_rs_search_type_select();
+    shn_rs_search_main_form();
+    }
+    else
+    {
+    shn_rs_search_type_select();
+    shn_rs_search_main_form();
+    shn_rs_search_submit_one_result();
+    }
 }
 
-/*********************End of search functions*************************************/
-
-/*********************Sample reports functions************************************/
+/**
+ * Calls to sample report generate form by including sample.inc
+ * @access public
+ * @return void
+ */
 function shn_rs_sample()
 {
-	include_once ('sample.inc');
-	shn_rs_sample_report();
+    include_once ('sample.inc');
+    shn_rs_sample_report();
 }
+
+/**
+ * Calls to validate functions for POST data from shn_rs_sample_report() in sample.inc and direct to the result function.
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_one()
 {
-	include_once ('sample.inc');
-
-	if(shn_rs_validate_sample_report())
-	{
-	display_errors();
-	shn_rs_sample_report();
-	}
-	else
-	{
-	shn_rs_sample_submit_one_result();
-	}
-	
+    include_once ('sample.inc');
+    if(shn_rs_validate_sample_report())
+    {
+    display_errors();
+    shn_rs_sample_report();
+    }
+    else
+    {
+    shn_rs_sample_submit_one_result();
+    }
 }
 
+/**
+ * displays the module select form to generate module specific reports.
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_two()
 {
-	include_once ('sample.inc');
-	_show_mod_select_form();
-	shn_rs_sample_submit_two_result();
+    include_once ('sample.inc');
+    _show_mod_select_form();
+    shn_rs_sample_submit_two_result();
 }
 
+/**
+ * displays the result of the search
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_three()
 {
-	include_once ('sample.inc');
-	_show_mod_select_form();
-	shn_rs_sample_submit_two_result();
-	shn_rs_sample_submit_three_result();
+    include_once ('sample.inc');
+    _show_mod_select_form();
+    shn_rs_sample_submit_two_result();
+    shn_rs_sample_submit_three_result();
 }
 
+/**
+ * Calls to the report creator function to create the sample report.
+ * @access public
+ * @return void
+ */
 function shn_rs_sample_submit_four()
 {
-	include_once ('sample.inc');
-	_shn_rs_report_creator();
+    include_once ('sample.inc');
+    _shn_rs_report_creator();
 }
 
-
-/**************************End of sample Report functions****************************/
-
-/**************************Download functions **************************************/
+/**
+ * Download report/chart..
+ * @access public
+ * @return void
+ */
 function shn_rs_download_report()
 {
     include_once ('menu.inc');
@@ -155,7 +192,6 @@ function shn_rs_download_report()
     $db=$global["db"];
 
     $rep_id = trim($_REQUEST['rep_id']);
-
     $module = $global['module'];
     $report_mods = _shn_get_mod_reports();
 
@@ -172,7 +208,6 @@ function shn_rs_download_report()
 
     $query = "select file_name,file_data,file_type from report_files where rep_id = '$rep_id' ";	
     $res = $db->Execute($query);
-
     $file_name = $res->fields['file_name'];
     $data = $res->fields['file_data'];
     $file_type = $res->fields['file_type'];
@@ -199,231 +234,26 @@ function shn_rs_download_report()
     print $data;
 }
 
-
-/************************* End of Download functions *********************************/
-
-/*************************display image in a page**************************************/
-
-function shn_rs_showgraph()
-{
-    global $global;
-    $db=$global["db"];
-    $query = "select file_name,file_data,file_type from report_files where rep_id = 'shn_cs_linechart' ";	
-    $res = $db->Execute($query);
-    $data = $res->fields['file_data'];
-header("Content-type: image/png");
-print $data;
-}
-
-/************************end of display image in a page*********************************/
-
-/*************************config functions *******************************************/
+/**
+ * Includes the config.inc and displays the main configuration form.
+ * @access public
+ * @return void
+ */
 function shn_rs_config()
 {
-include_once('config.inc');
-shn_rs_config_main_form();
-}
-
-function shn_rs_config_main_form_submit()
-{
-include_once('config.inc');
-    shn_rs_config_main_form_submit_result();
+    include_once('config.inc');
     shn_rs_config_main_form();
 }
-/*************************End of config functions*************************************/
 
-function shn_rs_spreadsheet()
+/**
+ * Calls to the function that save the configuration values in the database..
+ * @access public
+ * @return void
+ */
+function shn_rs_config_main_form_submit()
 {
-$datasR1 = array(
-	array(
-		'ingredient'	=> 'aaaa',
-		'qte'			=> 150,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'bbbbb',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'ccccc',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'dddddddd',
-		'qte'			=> 2,
-		'unite'			=> 'kg'
-	),
-	array(
-		'ingredient'	=> 'eeeeeee',
-		'qte'			=> 1,
-		'unite'			=> 'kg'
-	),
-);
-
-$headerarray=array( 'ss'	=> 'sssssssssss', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
-
-$rs_test_ods_keyword_arr = array('mod'=>'rs','report'=>'ods','users'=>'amila','purpose'=>'test','towhom'=>'testing users');
-
-shn_ods_report_fopen('mytestreport',$rs_test_ods_keyword_arr);
-shn_ods_report_add_sheet('mysheetone');
-shn_ods_report_add_title('Project of the Month');
-shn_ods_report_add_table($headerarray,$datasR1);
-shn_ods_report_add_summery( 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.' );
-shn_ods_report_add_image('cartoon001.jpg');
-shn_ods_report_add_sheet('mysheettwo');
-shn_ods_report_close();
-}
-
-function shn_rs_pdf()
-{
-$table_header=array('1' =>'aaaaaaaa', '2' => 'bbbbbbb' , '3' => 'cccccccccc');
-$table_data = array(
-	array(
-		'ingredient'	=> 'aaaa',
-		'qte'			=> 150,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'bbbbb',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'ccccc',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'dddddddd',
-		'qte'			=> 2,
-		'unite'			=> 'kg'
-	),
-	array(
-		'ingredient'	=> 'eeeeeee',
-		'qte'			=> 1,
-		'unite'			=> 'kg'
-	),
-);
-
-$title='Project of the Month';
-
-$txt = 'Sahana is a secure Web portal that provides applications for coordination and collaboration in the aftermath of disasters. Applications include finding missing people, connecting organizations, reporting on the distribution of aid and services, matching donations to requests, tracking temporary shelters, and, overall, providing transparency and visibility to groups working in a disaster. Key features include GIS, biometrics, PDA support, and availability in the form of a live CD.';
-
-$rs_test_pdf_keyword_arr = array('mod'=>'rs','report'=>'pdf','users'=>'jo priyanga','purpose'=>'test pdf reports');
-
-shn_pdf_report_fopen("mypdfreport",$rs_test_pdf_keyword_arr);
-shn_pdf_report_add_title($title);
-shn_pdf_report_add_table($table_header,$table_data);
-shn_pdf_report_add_summery($txt);
-shn_pdf_report_add_image('cartoon001.jpg');
-shn_pdf_report_close();
-}
-
-function shn_rs_xhtml()
-{
-$datasR1 = array(
-	array(
-		'ingredient'	=> 'aaaa',
-		'qte'			=> 150,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'bbbbb',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'ccccc',
-		'qte'			=> 50,
-		'unite'			=> 'g'
-	),
-	array(
-		'ingredient'	=> 'dddddddd',
-		'qte'			=> 2,
-		'unite'			=> 'kg'
-	),
-	array(
-		'ingredient'	=> 'eeeeeee',
-		'qte'			=> 1,
-		'unite'			=> 'kg'
-	),
-);
-
-$headerarray=array( 'ss'	=> 'sssssssssssxxxx', 'dd' => 'dddddddddd', 'sd' => 'sdsdsdsdsd');
-
-$summary = "Ubuntu's first release was on October 20, 2004, which began by making a temporary fork of the Debian Linux project.[6] This was done so that a new version of Ubuntu could be released every six months, resulting in a more frequently updated system. Ubuntu releases always include the most recent GNOME release, and are scheduled to be released about a month after GNOME. In contrast with previous general-purpose forks of Debian—such as MEPIS, Xandros, Linspire, Progeny and Libranet, many of which relied on closed-source add-ons as part of their business model—Ubuntu has stayed closer to Debian's philosophy and uses free (libre) software most of the time";
-
-$xhtml_key_arr = array('report'=>'for test','xhtml'=>'xhtml','mod'=>'rs','users'=>'ajith','purpose'=>'testing update');
-
-shn_xhtml_report_fopen('testxhtmlfile',$xhtml_key_arr);
-shn_xhtml_report_add_title("Ubuntu Linux distribution");
-shn_xhtml_report_add_summary($summary);
-shn_xhtml_report_add_table($headerarray,$datasR1);
-shn_xhtml_report_add_image("ubuntu_logo.png");
-shn_xhtml_report_close();
-}
-
-
-function shn_rs_chart()
-{
-shn_chart_test();
-}
-
-function shn_rs_piechart()
-{
-/*
-$data = array(
-    array("a", 2000,1500, 0, 100, 600,200),
-    array("b", 2010,1000, 100, 150,200,300),
-    array("c", 2015,500, 700, 179, 400,500),
-    array("dd",2020,200,1000,979, 1000,600),
-    array("e", 2025,100,1200,78,150,700),
-    array("f", 2030,50, 1450,343, 1300,800)
-);
-*/
-$data = array(
-			array("sanjeewa",100,200,300,400)
-			);
-
-$keyword_arr = array('chart'=>'pie chart','mod'=>'inventory');
-generate_piechart("Piechart","This is a testing pie chart","x axis","y axis",$data,$keyword_arr);
-}
-function shn_rs_barchart()
-{
-
-$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);
-/*
-$data = array(
-			array("sanjeewa",100),
-			array("mahesh",90),
-			array("ajith",70),
-			array("saranga",110)
-			);*/
-
-$keyword_arr = array('chart'=>'bar chart','mod'=>'catalogue');
-generate_barchart("Barchart","This is a testing bar chart","x axis","y axis",$data,$keyword_arr);
-}
-
-function shn_rs_linechart()
-{
-$data = array(
-			array("sanjeewa",100),
-			array("mahesh",90),
-			array("ajith",70),
-			array("saranga",110)
-			);
-
-$keyword_arr = array('chart'=>'line chart','mod'=>'catalogue');
-generate_linechart("Linechart","This is a testing line chart","x axis","y axis",$data,$keyword_arr);
-
+    include_once('config.inc');
+    shn_rs_config_main_form_submit_result();
+    shn_rs_config_main_form();
 }
 ?>
