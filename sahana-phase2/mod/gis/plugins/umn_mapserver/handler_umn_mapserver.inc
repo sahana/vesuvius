@@ -217,6 +217,7 @@ function show_map($opt=null)
 	$map_path="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/";
 	$map_file="usa1.map";
 	
+	global $map;
 	$map = ms_newMapObj($map_path.$map_file);
 	
 	if ( isset($_POST["mapa_x"]) && isset($_POST["mapa_y"])) {
@@ -239,6 +240,12 @@ function show_map($opt=null)
       	case 'pan':
       			break;
       	default:
+      			//Convert pixels to map units
+				$map_pt = click2map($_POST["mapa_x"],$_POST["mapa_y"],$map->extent);
+				//Create the point
+				$pt = ms_newPointObj();
+				$pt-> setXY($map_pt[0],$map_pt[1]);
+				$click=true;
       			break;
       }
 	  
@@ -247,6 +254,13 @@ function show_map($opt=null)
 	//echo $val[1];
 	//echo count($val);
 	$image=$map->draw();
+	if($click){
+		$layer = $map->getLayerByName('INLINE');
+		$pt->draw($map, $layer, $image, 0 ,'yuhuu');
+		$click=false;
+		//print_r($pt);
+		//print_r($_POST);
+	}
 	$image_url=$image->saveWebImage();
 	
 	$extent_to_html = $map->extent->minx." ".$map->extent->miny." "
@@ -319,35 +333,21 @@ function show_map_layers(){}
 
 function show_map_with_markers($markers)
 {
-	global $global;
-	global $conf;
-	$db=$global['db'];
-	//$key=$conf['gmap_key'];
-	$key = $conf['mod_gis_google_key'];
-?>
-	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
-	<script type="text/javascript">
-	  
-	//<![CDATA[
-	window.onload=function show_map_js()
-	{
-			
-		//alert('map');
-	
-	       var map = new GMap(document.getElementById("map"));
-				 map.addControl(new GLargeMapControl());
-	       //map.addControl(new GSmallMapControl());
-				 map.addControl(new GMapTypeControl());//satellite image switch
-				 
-				map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);
-				
-				
-		
-	}		
-	//]]>
-		</script>
-<div id="map" style="width: 500px; height: 400px"></div>
-<?php
+
+}
+
+/**
+ *Convert pixels to map units (got from PHPMapscriptSnippet1)
+ */
+function click2map ($click_x, $click_y,$map) {
+    global $map;
+    $e= &$map->extent; //for saving writing
+    $x_pct = ($click_x / $map->width);
+    $y_pct = 1 - ($click_y / $map->height);
+    $x_map = $e->minx + ( ($e->maxx - $e->minx) * $x_pct);
+    $y_map = $e->miny + ( ($e->maxy - $e->miny) * $y_pct);
+
+    return array($x_map, $y_map);
 }
 
 /**
@@ -361,41 +361,45 @@ function show_add_marker_map($name)
 	global $conf;
 	$db=$global['db'];
 	$key = $conf['mod_gis_google_key'];
-?>
-	<script src="http://maps.google.com/maps?file=api&v=1&key=<?php echo $key?>" type="text/javascript"></script>
-	<script type="text/javascript">
-	  
-	//<![CDATA[
-	window.onload=function show_map_add_mkr_js()
-	{
-			var map = new GMap(document.getElementById("map"));
-			map.addControl(new GLargeMapControl());
-	       //map.addControl(new GSmallMapControl());
-			map.addControl(new GMapTypeControl());//satellite image switch
-				 
-			map.centerAndZoom(new GPoint(<?=$conf['mod_gis_center_x']?>,<?=$conf['mod_gis_center_y']?>), <?=$conf['mod_gis_zoom']?>);			
-			GEvent.addListener(map, 'click', function(overlay, point) {
-	  		if (overlay) {
-				var html = "<?php echo $name?>";
-				//overlay.openInfoWindowHtml(html);
-				map.removeOverlay(overlay);
-			} 
-			else if (point) {
-				map.addOverlay(new GMarker(point));
-				// store x,y coords in hidden variables named loc_x, loc_y
-				// must be set via calling page
-				var x_point=document.getElementsByName("loc_x");
-				var y_point=document.getElementsByName("loc_y");
-				x_point[0].value=point.x;
-				y_point[0].value=point.y;
-				//alert(x_point[0].value);
-			}	
-		});		
-		
-	}		
-	//]]>	
 	
-	</script>
+	//Load the dynamic library.
+	dl('php_mapscript.so');
+	//dl('php_mapscript_42.dll'); //For WinDoS Users
+	
+	//$map_file="./hello.map";
+	$map_path="{$global['approot']}/mod/gis/plugins/umn_mapserver/map/";
+	$map_file="usa1.map";
+	
+	$map = ms_newMapObj($map_path.$map_file);
+	
+
+	//Convert pixels to map units
+	$map_pt = click2map($_GET['mapa_x'],$_GET['mapa_y'],$map->extent);
+	//Create the point
+	$pt = ms_newPointObj();
+	$pt-> setXY($map_pt[0],$map_pt[1]);
+
+	//Draw the map and add the point
+	$img = $map->draw();
+	$layer = $map->getLayerByName('INLINE');
+	$pt->draw($map, $layer, $img, 0 ,'yuhuu');
+	$url = $img->saveWebImage();
+
+	include_once $global['approot']."/inc/lib_form.inc";
+	//shn_form_fopen("show",null,array('req'=>false));
+?>
+	<div id="formcontainer">
+		<form method="get" action="" id="formset" name="">
+		<input type="image" name="mapa" src="<?=$url?>">
+	</div>
+< pre>
+<!-- Debug Lines -->
+<?php
+echo "GET\n";
+print_r($_GET);
+echo "Point:\n";
+print_r($pt); ?>
+
 	<div id="map" style="width: 500px; height: 400px"></div>
 <?php
 }
