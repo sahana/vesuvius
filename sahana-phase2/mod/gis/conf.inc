@@ -43,13 +43,28 @@ $conf['mod_gis_dflt'] = 'google_maps';
 
 /**
  * Default center coordinates of displayed maps
- * Currently set to display Sri Lanka
+ * Currently set to display Sri Lanka as default
  * Can be changed via the admin interface for GIS
  */
 $conf['mod_gis_center_x'] = '79.4';//longitude
 $conf['mod_gis_center_y'] = '7.5338';//latitude
 $conf['mod_gis_zoom'] = '7';
 
+/**
+ * folder that contains gis data files
+ */
 $conf['mod_gis_data_folder'] = 'data';
+
+/**
+ * Map dimensions
+ */
+$conf['mod_gis_height']=600;
+$conf['mod_gis_width']=760;
+
+/**
+ * folder to store custom markers
+ * given from sahana root
+ */
+$conf['mod_gis_marker_folder'] = 'theme/default/img/';
 	 
 ?>
