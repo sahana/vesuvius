@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.42 2006-08-20 17:44:14 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.43 2006-08-20 20:37:25 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -244,7 +244,28 @@ function shn_cr_gis_infect(){
 	<h1><?=_("Map of Shelters by Infected Population")?></h1>
 <?php
 		shn_gis_density_map($map_array);
-		
+	?>
+<br>
+<h3><?=_("Legend")?></h3>
+
+<div id="result">
+<table>
+
+ <tbody>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
+ 	<td><?="Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
+ 	<td><?="More than ".($conf['mod_cr_perc_f']*100)."%"?></td>
+ </tbody>
+</table>
+</div>
+<?php
 	}
 	
 }
@@ -303,7 +324,28 @@ function shn_cr_gis_population(){
 	<h1><?=("Map of Shelters by Population / Capacity percentage")?></h1>
 <?php
 		shn_gis_density_map($map_array);
-		
+?>
+<br>
+<h3><?=_("Legend")?></h3>
+
+<div id="result">
+<table>
+
+ <tbody>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
+ 	<td><?="Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
+ 	<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
+ 	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
+ 	<td><?="More than ".($conf['mod_cr_perc_f']*100)."%"?></td>
+ </tbody>
+</table>
+</div>
+<?php		
 	}
 	
 }
