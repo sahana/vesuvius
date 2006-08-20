@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.15 2006-08-15 18:25:48 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.16 2006-08-20 19:40:01 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module
@@ -15,14 +15,30 @@
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* 
+* This file contains the GIS API which provides an abstract view to GIS functions implemented as plugins
 */
+
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
 
+/**
+ * Error Message for disabled GIS
+ * @access public
+ * @return void
+ */
+function shn_gis_print_msg()
+{
+?>
+	<h3><?=_("GIS Mapping has been disabled. Please contact the Administrator to enable it")?></h3>
+<?php
+}
 
 /**
  * Retrieve GPS coords from REST url
  * store in db with id
+ * @access public
+ * @return void
  */
 function shn_gis_gps_from_rest($uuid,$lat,$lon)
 {
@@ -39,8 +55,9 @@ function shn_gis_gps_from_rest($uuid,$lat,$lon)
 }
 
 /**
- * Show GIS map
- * used
+ * Show basic GIS map without further functionalities
+ * @access public
+ * @return void
  */
 function shn_gis_map($opt_array=null)
 {
@@ -54,13 +71,11 @@ function shn_gis_map($opt_array=null)
 		show_map($opt_array);
 	}
 	else
-	  	echo "GIS not enabled";
-?>
-	
-<?php
+		shn_gis_print_msg();
 }
+
 /**
- * Insert gis entry
+ * Database entry api for gis data
 */
 function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	global $global;
@@ -74,96 +89,14 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	'{$uuid}', '{$loc_id}', '{$gis}', '{$xcoord}', '{$ycoord}', '{$projection}', NULL , '{$gis_id}'
 	)";
 	
-	$res = $db->Execute($q);	
-	
+	$res = $db->Execute($q);		
 }
-
-function shn_gis_map_with_markers_from_db()
-{
-	
-}
-
-/**
- * Check for GIS availability from config file
- * $deprecated
- */
-function _shn_gis_check_gis()
-{
-	global $global;
-	global $conf;
-	//only if gis is enabled
-	if($conf['gis' == 'true'])
-	{
-		
-	}
-	
-}
-
-/**
- * Initialize GIS plugin
- * Detects selected GIS plugin and calls functionalities from specified plugin
- * @access public
- * @param mixed  $name_of_map Custom Map Name
- * @todo: nicer error messages
- * deprecated
- */
-function shn_gis_init_plugin($name_of_map="Area Map")
-{
-	global $global;
-	global $conf;
-	$db=$global['db'];
-	echo $conf['mod_gis_name'];
-	if($conf['gis'])
-	{
-		echo "<h2>".$name_of_map."</h2>";
-		//include $global['approot']."/mod/gis/conf.inc";
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
-		initialize_map();
-		
-	}
-	else{
-		//@TODO: nicer message
-		echo "gis not enabled in config file";
-	}
-}
-
-/**
-* @deprecated
-*/
-function shn_gis_load_map()
-{
-	
-}
-
-/**
- * Show plain GIS map for viewing purposes
- * Centers at default center
- * @access public
- * @param mixed  $name_of_map Custom Map Name
- * $deprecated
- */
-function shn_gis_show_map($name_of_map="Area Map")
-{
-	global $global;
-	global $conf;
-	/*
-	shn_gis_init_plugin($name_of_map);
-	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
-	
-	//below if statement is to handle GoogleMaps-IE inconsistencies
-	if($conf['mod_gis_dflt'] == 'google_maps')
-		end_page();
-	*/
-}
-
-
 
 /**
  * Show GIS map for marker addition
  * Centers at default center
  * Allows addition of a single marker to plot location
- * Without form element
+ * Without form element or gps boxes
  * @access public
  * @param mixed  $name_of_map Custom Map Name
  * @param $nameOfPoint Assign name to point
@@ -177,6 +110,9 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_add_marker_map($name);
+	}
+	else{
+		shn_gis_print_msg();
 	}
 
 }
@@ -202,12 +138,12 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 		shn_form_hidden(array('loc_y'=>''));
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
-		show_add_marker_map_v2($nameOfPoint);
+		show_add_marker_map($nameOfPoint);
 		shn_form_fsclose();
 	}
 	else
 	{
-		//no gis
+		shn_gis_print_msg();
 	}
 	shn_form_fsopen(_("GPS Coordinates"));
 	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
@@ -231,6 +167,9 @@ function shn_gis_map_with_markers($array)
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_markers($array);
 	}	
+	else{
+		shn_gis_print_msg();
+	}
 }
 
 /**
@@ -248,6 +187,32 @@ function shn_gis_map_with_wiki_markers($array)
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_wiki_marker($array);
+	}
+	else{
+		shn_gis_print_msg();
+	}	
+}
+
+/**
+ * GIS reporting function
+ * shows density based markers in different colors
+ * statistical info and markers are specified in array
+ * @param mixed $array 2d associative array of information
+ * @access public
+ * @return void
+ */
+function shn_gis_density_map($array)
+{
+	global $global;
+	global $conf;
+	if($conf['gis'])
+	{
+		$plugin_name = $conf['mod_gis_dflt'];
+		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		show_map_with_custom_markers($array);
+	}
+	else{
+		shn_gis_print_msg();
 	}	
 }
 
