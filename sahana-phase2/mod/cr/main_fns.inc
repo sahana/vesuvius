@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.41 2006-07-31 19:54:56 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.42 2006-08-20 17:44:14 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -186,6 +186,123 @@ function shn_cr_gis_show(){
 				$res->MoveNext();	
 		}			
 		shn_gis_map_with_markers($map_array);
+		
+	}
+	
+}
+
+/**
+ * Spatial report by number of infections
+ */
+function shn_cr_gis_infect(){
+	global $global;
+	global $conf;
+	if($conf['gis']){
+		$db = $global['db'];
+		$q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
+				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
+		$res = $db->Execute($q);
+		include_once ($global['approot'].'/mod/gis/gis_fns.inc');
+		
+		//create array
+		$map_array=array();
+		
+		//populate aray
+		while(!$res->EOF){
+				$infected=$res->fields['family'];
+				$capacity=$res->fields['capacity'];
+				if($capacity!=0){
+					$perc = $infected / $capacity;
+				}
+				else
+					$perc=0;
+				$desc = $perc * 100;
+				$desc = $desc."% "._("Infected");
+				
+				$marker_n="marker";
+				if($perc < $conf['mod_cr_perc_0']){
+					$marker_n=$conf['mod_cr_perc_0_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_0'] && $perc < $conf['mod_cr_perc_1']){
+					$marker_n=$conf['mod_cr_perc_1_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_1'] && $perc < $conf['mod_cr_perc_2']){
+					$marker_n=$conf['mod_cr_perc_2_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_2'] && $perc < $conf['mod_cr_perc_3']){
+					$marker_n=$conf['mod_cr_perc_3_mk'];
+				}
+				else{
+					$marker_n=$conf['mod_cr_perc_f_mk'];
+				}
+				
+				array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+					"id"=>$res->fields['c_uuid'],"desc"=>$desc,"marker"=>$marker_n));
+				$res->MoveNext();	
+		}			
+?>
+	<h1><?=_("Map of Shelters by Infected Population")?></h1>
+<?php
+		shn_gis_density_map($map_array);
+		
+	}
+	
+}
+
+/**
+ * Spatial report by population
+ */
+function shn_cr_gis_population(){
+	global $global;
+	global $conf;
+	if($conf['gis']){
+		$db = $global['db'];
+		$q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
+				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
+		$res = $db->Execute($q);
+		include_once ($global['approot'].'/mod/gis/gis_fns.inc');
+		
+		//create array
+		$map_array=array();
+		
+		//populate aray
+		while(!$res->EOF){
+				$infected=$res->fields['total'];
+				$capacity=$res->fields['capacity'];
+				if($capacity!=0){
+					$perc = $infected / $capacity;
+				}
+				else
+					$perc=0;
+				$desc = $perc * 100;
+				$desc = $desc."% "._("Filled");
+				
+				$marker_n="marker";
+				if($perc < $conf['mod_cr_perc_0']){
+					$marker_n=$conf['mod_cr_perc_0_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_0'] && $perc < $conf['mod_cr_perc_1']){
+					$marker_n=$conf['mod_cr_perc_1_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_1'] && $perc < $conf['mod_cr_perc_2']){
+					$marker_n=$conf['mod_cr_perc_2_mk'];
+				}
+				else if($perc > $conf['mod_cr_perc_2'] && $perc < $conf['mod_cr_perc_3']){
+					$marker_n=$conf['mod_cr_perc_3_mk'];
+				}
+				else{
+					$marker_n=$conf['mod_cr_perc_f_mk'];
+				}
+				
+				array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+					"id"=>$res->fields['c_uuid'],"desc"=>$desc,"marker"=>$marker_n));
+				$res->MoveNext();	
+		}			
+		//show_map_with_custom_markers($map_array);
+?>
+	<h1><?=("Map of Shelters by Population / Capacity percentage")?></h1>
+<?php
+		shn_gis_density_map($map_array);
 		
 	}
 	
