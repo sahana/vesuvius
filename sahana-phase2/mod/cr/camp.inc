@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.33 2006-05-29 07:54:11 mifanc Exp $ */
+/* $Id: camp.inc,v 1.34 2006-08-20 19:38:52 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -12,6 +12,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author   Chathra Hendehewa <chathra@opensource.lk>
 * @author   Mifan Careem <mifan@opensource.lk>
+* @edited by Isuru Samaraweera <isuru@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -26,7 +27,7 @@ function _shn_cr_cadd_start($errors=false){
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2 align="center"><?php echo _("Register New Camp")?></h2>
+<h2 align="center"><?php echo _("Register New Shelter")?></h2>
 <?php
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("General Details"));
@@ -39,8 +40,8 @@ function _shn_cr_cadd_start($errors=false){
 		shn_form_hidden(array('seq'=>'chk'));
 	}
 	
-	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
-	shn_form_opt_select("opt_camp_type",_("Camp Type"));
+	shn_form_text(_("Shelter Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_form_opt_select("opt_camp_type",_("Shelter Type"));
 ?>
 
 <!--<label>Division</label>
@@ -49,8 +50,8 @@ function _shn_cr_cadd_start($errors=false){
 <?php
 /*
 // Display selected Division type only
-	$q="select value from config where confkey='division_type' && module_id='cr'";
-	//$q ="select option_description from field_options where field_name='cr_pref_div'";
+	$q="select value from config where confkey='division_type' && module_id='sr'";
+	//$q ="select option_dessription from field_options where field_name='sr_pref_div'";
 	$ref = $db->Execute($q);
 		$val=$ref->fields[0];
 	$q ="select location_id,name from location where opt_location_type=$val";
@@ -80,20 +81,53 @@ function _shn_cr_cadd_start($errors=false){
 		
 //-------------------------
 	shn_form_fsopen(_("Contact Person Details"));
-	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('help'=>'Enter Details of the person in charge of the camp'));
+	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('help'=>'Enter Details of the person in charge of the Shelter'));
 	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"');
 	shn_form_text(_("Mobile Number"),"contact_mob",'size="60"');
-	shn_form_text(_("Occupation"),"occupation",'size="60"',array('help'=>'Official Occupation of Camp Administrator'));
+	shn_form_text(_("Occupation"),"occupation",'size="60"',array('help'=>'Official Occupation of Shelter Administrator'));
 	shn_form_fsclose();
-	shn_form_fsopen(_("Camp Population"));
-	shn_form_text(_("Family Count"),"family",'size="10"');
+	shn_form_fsopen(_("Shelter Population"));
+	shn_form_text(_("Infected Count"),"family",'size="10"');
+
 	shn_form_text(_("Total Count"),"total",'size="10"');
+        shn_form_text(_("Capacity"),"capacity",'size="10"');
 	shn_form_text(_("Men"),"men",'size="10"');
 	shn_form_text(_("Women"),"women",'size="10"');
 	shn_form_text(_("Children"),"children",'size="10"');
 	shn_form_fsclose();
+	$hospital_help=_("Check this if you want to enter hospital information related to this shelter");
+	shn_form_fsopen(_("Hospital Metadata"));
+	shn_form_checkbox(_("Shelter is of type hospital"),"hospital",null,array('help'=>$hospital_help));
+	shn_form_fsclose();
 	shn_form_submit(_("Next"));
 	shn_form_fclose();
+}
+
+function _shn_cr_hos_bed($errors=false)
+{
+	if($errors)
+	display_errors;
+
+	$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
+	$_SESSION['camp_comments']=$_POST['comments'];
+	
+	
+	global $global;
+	global $conf;
+	
+	shn_form_fopen(acmp);
+?>
+	<h1><?=_("Hospital Capabilities")?></h1>
+<?php
+	shn_form_fsopen(_("Number of Beds"));
+	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_text(_("ICU"),"icu",'size="5"');
+	shn_form_text(_("Medicine"),"med",'size="5"');
+	shn_form_text(_("Surgery"),"sur",'size="5"');
+	shn_form_text(_("Paediatrics"),"paed",'size="5"');
+	shn_form_text(_("Obstetrics"),"obs",'size="5"');
+	shn_form_fsclose();
+	shn_form_submit(_("Next"));
 }
 
 function _shn_cr_cadd_chk($errors=false){
@@ -122,6 +156,10 @@ if($errors)
 		$_SESSION['cr_3']=$_POST['3'];
 		$_SESSION['cr_4']=$_POST['4'];
 		$_SESSION['cr_5']=$_POST['5'];
+		
+		if(isset($_POST['hospital'])){
+			$_SESSION['hospital']=true;
+		}
 					
 	}
 	else{
@@ -136,12 +174,19 @@ if($errors)
 			$_SESSION['gis_loc_y']=$_POST['loc_y'];
 		}
 	}
+	
 ?>
-<h2>Camp Checklist</h2>
+<h2>Shelter Checklist</h2>
 <?php
+//var_dump($_SESSION);
 shn_form_fopen(acmp);
 shn_form_fsopen(_("Services / Facilities Available"));
-shn_form_hidden(array('seq'=>'commit'));
+if(isset($_SESSION['hospital'])){
+	shn_form_hidden(array('seq'=>'hos'));
+}
+else{
+	shn_form_hidden(array('seq'=>'commit'));
+}
 shn_form_opt_checkbox("opt_camp_service");
 shn_form_textarea(_("Other Facilities"),"comments");
 shn_form_fsclose();
@@ -153,8 +198,19 @@ shn_form_fclose();
 function _shn_cr_cadd_commit(){
 global $global;
 //write to database
-$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
-$_SESSION['camp_comments']=$_POST['comments'];
+if(!isset($_SESSION['hospital'])){
+	$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
+	$_SESSION['camp_comments']=$_POST['comments'];
+}
+
+
+	if(isset($_SESSION['hospital'])){
+		$_SESSION['icu']=$_POST['icu'];
+		$_SESSION['med']=$_POST['med'];
+		$_SESSION['sur']=$_POST['sur'];
+		$_SESSION['paed']=$_POST['paed'];
+		$_SESSION['obs']=$_POST['obs'];
+	}
 //foreach($_SESSION['opt_camp_service'] as $a=>$b){
 //echo "value is $b";
 //}
@@ -183,6 +239,11 @@ function _shn_cr_sel_map(){
 	$_SESSION['camp_women']=$_POST['women'];
 	$_SESSION['camp_children']=$_POST['children'];
 	$_SESSION['camp_total']=$_POST['total'];
+      $_SESSION['camp_capacity']=$_POST['capacity'];	
+//var_dump($_POST);
+	if(isset($_POST['hospital'])){
+		$_SESSION['hospital']=true;
+	}
 	$_SESSION['cr_1']=$_POST['1'];
 	$_SESSION['cr_2']=$_POST['2'];
 	$_SESSION['cr_3']=$_POST['3'];
@@ -190,7 +251,9 @@ function _shn_cr_sel_map(){
 	$_SESSION['cr_5']=$_POST['5'];
 		$_SESSION['contact_mob']=$_POST['contact_mob'];
 		$_SESSION['occupation']=$_POST['occupation'];
+
 	global $global;
+	
 	
 	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 	//shn_js_show();
@@ -198,51 +261,22 @@ function _shn_cr_sel_map(){
 											
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("Location Information"));
-	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
+	echo _("Plot the Shelter Location OR Enter its GPS coordinates below");
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_fsclose();
-	/*
-	shn_form_fsopen(_("Plot Location on Map"));
-	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_hidden(array('loc_x'=>''));
-	shn_form_hidden(array('loc_y'=>''));
-
-	$db=$global['db'];
-	//echo "<h2>"._("Area Map")."</h2>";
 	
-	global $conf;
-	include $global['approot']."/mod/gis/gis_fns.inc";
-	//shn_gis_add_marker_map();
-	//shn_gis_init_plugin();
-	//shn_map_show();
-	//shn_gis_map(null);
-	shn_gis_add_marker_map("Area Map",$_POST['camp_name']);
-	*/
+	//call gis api
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_add_marker_map_form("GIS Map",$_POST['camp_name']);
 ?>
-	<!--<div id="map" style="width: 500px; height: 400px"></div>
-	<script type="text/javascript">window.onload=show_map_js();</script>-->
-	<!--<script src="stream.php?mod=cr&act=loadmap&stream_type=txt&wkey=<?=$wkey;?>&ekey=<?=$ekey;?>" type="text/javascript" > </script>-->
+	
 	<?php
-	/*shn_form_fsclose();
-	shn_form_fsopen(_("GPS Coordinates"));
-	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
-	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
-	shn_form_fsclose();
-	*/		
+	
 	shn_form_submit("Next");
 	shn_form_close();
-	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-	//add_footer();
-	//load_map();
-	//add_marker($_POST['camp_name']);
-	//end_page();
+
 }
 
-function shn_cr_footer()
-{
-}
 
 function _shn_cr_validate_error(){
 	clean_errors();
@@ -250,16 +284,24 @@ function _shn_cr_validate_error(){
 
 
 	if(null == ($_POST['camp_name'])){
-			add_error(_("Please Enter the Camp Name"));
+			add_error(_("Please Enter the Shelter Name"));
 			$error_flag=true;
 	}
 	//echo $_POST['family'];
 	if(!(null == ($_POST['family']))){
 		if(!is_numeric(trim($_POST['family']))){
-			add_error(_("The Family Count is not a valid number"));
+			add_error(_("The Infected Count is not a valid number"));
 			$error_flag=true;
 		}
 	}
+
+ if(!(null == ($_POST['capacity']))){
+                if(!is_numeric(trim($_POST['capacity']))){
+                        add_error(_("The Capacity is not a valid number"));
+                        $error_flag=true;
+                }
+        }
+
 	if(!(null == ($_POST['total']))){
 		if(!is_numeric(trim($_POST['total']))){
 			add_error(_("The Total Count is not a valid number"));
@@ -324,7 +366,7 @@ $puid = _shn_cr_create_cid('p');
 //echo "camp is".$uid;
 
 //enter into camp table
-$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address) values('{$uid}','{$_SESSION['camp_name']}','{$loc_id}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}')";
+$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address,capacity) values('{$uid}','{$_SESSION['camp_name']}','{$loc_id}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}','{$_SESSION['camp_capacity']}')";
 
 
 $res = $db->Execute($q);
@@ -348,6 +390,12 @@ $resb = $db->Execute($qb);
 // insert into admin contact
 $qc = "insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$puid}','cmob','{$_SESSION['contact_mob']}')";
 $resc = $db->Execute($qc);
+
+//insert hospital meta
+if(isset($_SESSION['hospital'])){
+	$qc = "insert into hospital_beds (c_uuid,icu,med,surg,paed,obs) values ('{$uid}',{$_SESSION['icu']},{$_SESSION['med']},{$_SESSION['sur']},{$_SESSION['paed']},{$_SESSION['obs']})";
+	$resc = $db->Execute($qc);
+}
 /*
  * GIS Insertion
 */
@@ -377,11 +425,11 @@ if($conf['gis']){
 	 }
 	}
 ?>
-<h2><?=_("You Have Succesfully Registered camp'{$_SESSION[camp_name]}'")?></h2>
+<h2><?=_("You Have Succesfully Registered shelter '{$_SESSION[camp_name]}'")?></h2>
 
 <br>
 <br>
-<?php echo _("The Availability of Services & Facilities of the Camp are as follows:")?></h3>
+<?php echo _("The Availability of Services & Facilities of the Shelter are as follows:")?></h3>
 <!--<p>Facilities / Services Availability</p>-->
 <ul>
 
@@ -435,6 +483,6 @@ while(!$ref->EOF){
 <p><?php echo _("Use the Left Navigation Menu to Continue.")?></p>
 
 <?php	
+unset($_SESSION['hospital']);
 }
 ?>
-
