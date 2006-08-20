@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.14 2006-07-27 09:17:20 mifanc Exp $
+* $Id: main.inc,v 1.15 2006-08-20 19:39:08 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -33,8 +33,11 @@ function shn_cr_mainmenu()
     shn_sub_mod_menuitem("arpt",_("View All Camps"),$module);
     shn_mod_menuitem("lrpt",_("View By Location"),$module);
     shn_mod_menuitem("contact",_("View Admin Details"),$module);
-    if($conf['gis'])
-    	shn_mod_menuitem("gis_show",_("Location Map"),$module);
+    if($conf['gis']){
+    	shn_mod_menuitem("gis_show",_("Map by Location"),$module);
+    	shn_mod_menuitem("gis_infect",_("Map by Infection"),$module);
+    	shn_mod_menuitem("gis_population",_("Map by Population"),$module);
+    }
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
