@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.10 2006-08-16 20:01:39 mifanc Exp $; */
+/* $Id: main.inc,v 1.11 2006-08-21 11:58:50 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -73,9 +73,28 @@ function shn_wm_default()
 	show_wiki_map();
 }
 
+function shn_gis_wm_edit()
+{
+	
+	if(isset($_REQUEST['seq'])){
+		switch($_REQUEST['seq']){
+			case 'ewmp':
+					//echo "{$_REQUEST['wmid']}";
+					shn_wiki_edit($_REQUEST['wmid']);
+				break;
+			default:
+		}
+	}
+}
+
 function shn_gis_swik()
 {
 	show_wiki_map($_POST['opt_wikimap_type']);
+}
+
+function shn_gis_ewik()
+{
+	shn_wiki_edit_com($_REQUEST['wiki_id']);
 }
 
 //dynamic gps coordinate update via REST
