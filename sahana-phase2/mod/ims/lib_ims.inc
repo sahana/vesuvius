@@ -11,7 +11,7 @@
           Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
-* @subpackage or
+* @subpackage ims
 */
 
 global $global;
@@ -19,7 +19,7 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 //include_once '';
 include_once $global['approot'].'/mod/or/lib_or.inc';
-include_once $global['approot'].'/3rd//phplot/phplot.php';
+include_once $global['approot'].'/3rd//phplot/phplot_ims.php';
 
 
 function shn_ims_org_list(){
