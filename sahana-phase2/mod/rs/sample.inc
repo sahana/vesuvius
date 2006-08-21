@@ -22,6 +22,10 @@
  */
 function shn_rs_sample_report()
 {
+    print "<h1>Sample Reports Generation</h1>";
+    ?>
+    <p><?= _('Here you can generate reports based on sahana database or custom reports.'); ?></p> 
+    <?php
     //$extra_opts['req']=true;
     shn_form_fopen('sample_submit_one','',array('enctype'=>'enctype="multipart/form-data"','name'=>'sample_rep_form'));
     shn_form_fsopen(_('Report Details'));

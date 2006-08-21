@@ -22,6 +22,11 @@
  */
 function shn_rs_search_type_select()
 {
+    print "<h1>Search</h1>";
+    ?>
+    <p><?= _('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
+    <?php
+
     $form_opts['name']="rep_search";
     $search_type_array=array('none'=>'---select---','report'=>'Report','chart'=>'Chart');
     shn_form_fopen('search',null,$form_opts);
