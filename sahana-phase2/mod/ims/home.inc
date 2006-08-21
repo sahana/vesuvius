@@ -43,6 +43,13 @@ function _shn_ims_default() {
 <?php
     //shn_form_fopen(null);
     shn_form_fsopen();
+/*$name1="Mahesh";
+$name2="Kalu";
+
+$name=$name1."-".$name2;
+print $name;*/
+//print dateDiff1("-","01-10-2006","01-01-2006");
+//print dateDiff("01-10-2006","01-01-2006");
 ?>    
     <table>
     <thead>

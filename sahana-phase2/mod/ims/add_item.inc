@@ -190,7 +190,7 @@ function add_item($temp,$parent_id)
         //print ($j);
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the List Inventories Menu and add an Inventory first')));
 
     shn_form_fsclose();
 
@@ -217,6 +217,10 @@ function add_item($temp,$parent_id)
 //----------------------------------------------------------------------------------------------------------------
     
 
+    shn_form_fsclose();
+
+    shn_form_fsopen(null);
+    
     shn_form_fsclose();
 
     //shn_form_hidden(array('cat'=>$category));

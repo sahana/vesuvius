@@ -535,6 +535,18 @@ function _shn_ims_destroy_item($item_id)
 
 function _shn_ims_report_prediction()
 {
+
+$catalog_id=$_POST['parent_id'];
+$inv_id=$_POST['inv_id'];
+$time_amount=$_POST['time_amount'];
+$time_period1=$_POST['time_period1'];
+$time_period2=$_POST['time_period2'];
+$time_period3=$_POST['time_period3'];
+
+print $catalog_id;
+print $inv_id;
+print $time_amount;
+print $time_period1;
 ?>
 <h1 align="center"><?php print(_("Item Prediction Report")); ?></h1>
 <div id="result">
@@ -546,9 +558,9 @@ function _shn_ims_report_prediction()
         <td><?=_("Item")?></td>
 	<td><?=_("Inventory")?></td>
 	<td><?=_("Unit")?></td>
-        <td><?=_("Week 1-Amount")?></td>
-        <td><?=_("week 2-Amount")?></td>
-        <td><?=_("Week 3-Amount")?></td>
+        <td><?=_("Prediction-1")?></td>
+        <td><?=_("Prediction-2")?></td>
+        <td><?=_("Prediction-3")?></td>
         
             
     </tr>
@@ -558,33 +570,38 @@ function _shn_ims_report_prediction()
     	global $global;
 	$db=$global["db"];
 
-	$current_date=date("d m Y");
+	$current_date=date("d-m-Y");
 	print $current_date;
-	$week=date("d m Y",time() - 604800);
-	print $week;
-	//$date_diff=$current_date-$week;
-	//print $date_diff;
-	//$diff=dateDiff($week,$current_date);
-	print ("M");
-	//print $diff;
-
-	$sql="SELECT catalog_id,inv_id FROM ims_item_records WHERE((TO_DAYS(CURRENT_DATE())-TO_DAYS(inserted_date))<7);";
-	$ims=$db->Execute($sql);
-	//print $sql;
+	$week=date("d-m-Y",time() - 604800);
+	print "\n";
+	//print $week;
+	$next_date="01-06-2006";
+	// ".";
+	//print dateDiff("-",$current_date,$next_date);
 	
-	//print $item_name;
+//------------------------------------------------------------------------------------------------
 
-	while(!$ims==NULL && !$ims->EOF)
-	{
-		//$item_name=$ims->fields["item_name"];
-		$catalog_id=$ims->fields["catalog_id"];
-		$inv_id=$ims->fields["inv_id"];
+	
 		$state="destroyed";
-        	$sql0="SELECT item_id,item_name,amount,unit FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND state!='$state';";    
+        	$sql0="SELECT item_id,item_name,amount,unit,inserted_date FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND state!='$state' AND (TO_DAYS(CURRENT_DATE())-TO_DAYS(inserted_date))<8;";    
     		$ims0 = $db->Execute($sql0);
-		
-		print $sql0;
+print $sql0;
+		//print $sql0;
+		//print $sql0;
 		$sum_amount=0;
+		$sum_amount2=0;
+
+		/*list($year,$month,$date) = split('-', $inserted_date);
+		//$inserted_date=$day+$month+$year;
+		$inserted_date=unixtojd();
+		//print $inserted_date;
+
+		$jd = gregoriantojd(12,12,2006);
+		print ("HI");
+		$unix = jdtounix($jd);
+		//echo($unix);
+
+		print (unixtojd($inserteddate-$unix));*/
 
 		while(!$ims0==NULL && !$ims0->EOF )
 		{
@@ -592,33 +609,36 @@ function _shn_ims_report_prediction()
 		$item_name=$ims0->fields["item_name"];
 		$amount=$ims0->fields["amount"];
 		$unit=$ims0->fields["unit"];
+		$inserted_date=$ims0->fields["inserted_date"];
 
-		//$inv_id=$ims0->fields["inv_id"];
-		//$catalog_id=$ims0->fields["catalog_id"];
+		//$inserted_date=strrev($inserted_date);
+		
+// Delimiters may be slash, dot, or hyphen
+//$date = "04/30/1973";
+		
+//echo "Month: $month; Day: $day; Year: $year<br />\n";
+
+		
+		
 
 		$base_unit=convert_to_base_unit($unit);
+		$previous_sum_amount=0;
+
+		//if(dateDiff("-",$current_date,$inserted_date)<$time_period1)
+		//{
             
             $converted_amount=$amount*unit_converter($base_unit,$unit);
             //print $converted_amount;
             $sum_amount=$sum_amount + $converted_amount;
-		//$sum_amount=$sum_amount+$amount;
-		/*$sql1="SELECT amount,unit FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
-		$ims1=$db->Execute($sql1);
-		while(!$ims1==NULL && !$ims1->EOF)
-		{
-			$amount=$ims1->fields["amount"];
-			$unit=$ims1->fields["unit"];*/
-
-		//$ims1->MoveNext();
 		//}
-		//$item_name=$ims0->fields["item_name"];
-		//$amount=$ims0->fields["amount"];
-		//$unit=$ims0->fields["unit"];
-		//$inserted_date=$ims0->fields["inserted_date"];
-
+		//if(dateDiff("-",$current_date,$inserted_date)<$time_period2)
+		//{
+		//$converted_amount2=$amount*unit_converter($base_unit,$unit);
+            //print $converted_amount;
+            	$sum_amount2=$sum_amount2 + $converted_amount2;
+		//}
 		
- 		//$date_diff=
-$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+        $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
 	$ims2=$db->Execute($sql2);
 	$inventory_name=$ims2->fields["inventory_name"];
 
@@ -626,9 +646,9 @@ $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id'
 ?>
     
 <?php
-	$ims0->MoveNext();
-	}
-
+	//$ims0->MoveNext();
+	//}
+	$sum_amount2=_shn_ims_smoothing(0,$sum_amount);
 ?>
 	
     <tr>
@@ -636,10 +656,11 @@ $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id'
     <td><?php print $inventory_name; ?></td>
     <td><?php print $unit_name; ?></td>
     <td><?php print $sum_amount; ?></td>
+    <td><?php print $sum_amount2; ?></td>
     </tr>
     	
 <?php
-	$ims->MoveNext();
+	$ims0->MoveNext();
 	}
 ?>
 </tbody>
@@ -647,4 +668,110 @@ $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id'
 </div>
 <?php 
 	}
+
+function _shn_ims_prediction_inv()
+{
+global $global;
+$db=$global["db"];
+$inv_id=$_POST['inv_id'];
+
+?>
+<h1 align="center"><?php print(_("Inventory Prediction Report")); ?></h1>
+<div id="result">
+
+    <table>
+    <thead>
+    <tr>
+        
+        <td><?=_("Item")?></td>
+	<td><?=_("Inventory")?></td>
+	<td><?=_("Unit")?></td>
+	<td><?=_("Available amount")?></td>
+        <td><?=_("Prediction-1")?></td>
+        <td><?=_("Prediction-2")?></td>
+        <td><?=_("Prediction-3")?></td>
+        
+            
+    </tr>
+    </thead>
+    <tbody>
+<?php
+	$sql2="SELECT * FROM ims_optimization WHERE inv_id='$inv_id';";
+	$ims2=$db->Execute($sql2);
+	$optim_id=$ims2->fields['optim_id'];
+	
+	
+
+	$sql="SELECT added_date FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims=$db->Execute($sql);
+	$inv_date=$ims->fields['added_date'];
+	$inv_date=_shn_ims_date_conversion($inv_date);	
+	print $inv_date;
+	$week=date("d-m-Y",time() + 604800);
+	print $week;
+
+	$state="destroyed";
+	//$sql0="SELECT item_id,catalog_id,item_name,amount,unit,inserted_date FROM ims_item_records WHERE  inv_id='$inv_id' AND state!='$state' AND (TO_DAYS(CURRENT_DATE())-TO_DAYS(inserted_date))<8;";
+	$sql0="SELECT item_id,catalog_id,item_name,amount,unit,inserted_date FROM ims_item_records WHERE  inv_id='$inv_id' AND state!='$state';";
+	$ims0=$db->Execute($sql0);
+	print $sql0;
+	
+
+	while(!$ims0==NULL && !$ims0->EOF)
+	{
+		$item_id=$ims0->fields['item_id'];
+		$item_name=$ims0->fields['item_name'];
+		$catalog_id=$ims0->fields['catalog_id'];
+		$amount=$ims0->fields['amount'];
+		//$unit=$ims0->fields['unit'];
+		$inserted_date=$ims0->fields['inserted_date'];
+		$inserted_date=_shn_ims_date_conversion($inserted_date );
+		print $inserted_date;
+		$sum_amount=0;
+
+		if(_shn_ims_datediff('-',$inserted_date,$inv_date)<8)
+		{
+			$sql1="SELECT item_name,amount,unit FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		$ims1=$db->Execute($sql1);
+		print $sql1;
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$item_name=$ims1->fields['item_name'];
+			//$item=$item_name;
+			$amount=$ims1->fields['amount'];
+			$unit=$ims1->fields['unit'];
+			$base_unit=convert_to_base_unit($unit);
+			$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                	$sum_amount=$sum_amount + $converted_amount;
+		
+            		//$sum_amount2=$sum_amount2 + $converted_amount2;
+			$ims1->MoveNext();
+		}
+
+
+		}
+
+		
+		
+?>
+		<tr>
+		<td><?php print $item_name?></td>
+		<td><?php print ("Inventory");?></td>
+		<td><?php print ("Unit");?></td>
+		<td><?php print $sum_amount;?></td>
+		<td><?php ?></td>
+		<td><?php ?></td>
+		<td><?php ?></td>
+		</tr>
+		
+<?php
+		
+		$ims0->MoveNext();
+	}
+?>
+	</tbody>
+	</table>
+<?php
+}
 ?>

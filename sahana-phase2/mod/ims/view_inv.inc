@@ -11,7 +11,7 @@
 	      Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
-* @subpackage or
+* @subpackage ims
 */
 
 global $global;

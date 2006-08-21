@@ -44,32 +44,24 @@ function shn_ims_mainmenu()
     shn_mod_menuitem("default","Home",$module);
     shn_mod_menuitem("search_item",_("Find Items"),$module);
     shn_mod_menuitem("view_inv",_("List Inventories"),$module);
-    /*shn_sub_mod_menuopen(_("Multiple Inventory Management"));
-    //shn_sub_mod_menuitem("search",_("Search"),$module);
-    shn_sub_mod_menuitem("reg_inv",_("Add Inventory"),$module);
-    shn_sub_mod_menuitem("view_inv",_("View and Edit"),$module);
-    shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Item Management"));
-    shn_sub_mod_menuitem("search_item", _("Search"), $module);
-    shn_sub_mod_menuitem("add_item_main_page",_("Add Item"),$module);
-    shn_sub_mod_menuitem("view_edit_item",_("View and Edit"),$module);
-    shn_sub_mod_menuclose();*/
+    
     shn_mod_menuitem("view_edit_item",_("List Items"),$module);
     shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
-    /*shn_sub_mod_menuopen(_("Re-Order Level"));
-    shn_sub_mod_menuitem("minimum_quantity_item",_("Re-Order Level"),$module);
-    shn_sub_mod_menuitem("view_edit_reorder_page",_("View and Edit"),$module);
-    shn_sub_mod_menuclose();*/
-    //shn_sub_mod_menuopen(_("Inventory Transfer"));
-    //shn_sub_mod_menuitem("send_item",_("Send Item"),$module);
-    //shn_sub_mod_menuitem("receive_item",_("Transit Item"),$module);
-    //shn_sub_mod_menuclose();
+    
     shn_sub_mod_menuopen(_("Reports"));
     shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
     shn_sub_mod_menuitem("report_destroyed",_("destroyed item"),$module);
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
+    shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Optimization"));
+    shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
+    shn_sub_mod_menuitem("relation_item",_("Set Relation"),$module);
+    shn_sub_mod_menuitem("optim_item",_("Prediction by Item"),$module);
+    shn_sub_mod_menuitem("optim_inventory",_("Prediction by Inventory"),$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
+    //shn_sub_menuitem("Optim_main_page",_("Optimization"),$module);
 
     include $global['approot']."/inc/handler_mainmenu.inc";
 
@@ -176,6 +168,12 @@ function shn_ims_report_destroyed()
 {
     include_once ('report.inc');
     _shn_ims_report_destroyed();
+}
+
+function shn_ims_report_prediction()
+{
+    include_once ('report.inc');
+    _shn_ims_report_prediction();
 }
 
 function shn_ims_destroy_item()
@@ -632,5 +630,120 @@ function shn_ims_send_item_db()
     include_once('transfer_inv.inc');
     _shn_ims_send_db();*/
 }
+
+//Item Prediction Reports
+function shn_ims_optim_item()
+{
+	include_once ("optimize.inc");
+	_shn_ims_optim_item_main_page();
+}
+
+function shn_ims_optim_inventory()
+{
+    include_once("optimize.inc");
+    _shn_ims_optim_inventory();
+}
+
+function shn_ims_prediction_inv()
+{
+    global $global;
+    include_once("optimize.inc");
+    _shn_ims_prediction_inv_actions();
+}
+
+function shn_ims_optim_relation_inventories()
+{
+	global $global;
+	$catalog_id=trim($_REQUEST['catalog_id']);
+	$inv_id=trim($_REQUEST['inv_id']);
+	$time_period=trim($_REQUEST['time_period']);
+
+	include_once("optimize.inc");
+	_shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period);
+}
+
+function shn_ims_prediction_page()
+{
+	include_once ("optimize.inc");
+	_shn_ims_prediction_page();
+
+}
+
+function shn_ims_prediction_report()
+{
+	global $global;
+	include_once ("optimize.inc");
+	_shn_ims_optim_item_actions();
+}
+
+function shn_ims_optimize_relation_items()
+{
+	global $global;
+	include_once ("optimize.inc");
+	_shn_ims_optimize_relation_items();
+}
+
+/*function shn_ims_optim_main_page()
+{
+    include_once('optimize.inc');
+    _shn_ims_optim_main_page();
+}*/
+
+function shn_ims_alternate_item()
+{
+	include_once ("optimize.inc");
+	_shn_ims_alternate_item();
+}
+
+function shn_ims_alternate_item_page()
+{
+	include_once ("optimize.inc");
+	_shn_ims_alternate_item_page();
+}
+
+function shn_ims_alternate_item_table()
+{
+	include_once ('optimize.inc');
+	_shn_ims_alternate_item_table();
+}
+
+function shn_ims_alternate_item_db()
+{
+	global $global;
+        $parent_id=$_REQUEST['parent_id'];
+	$catalog_id=$_REQUEST['catalog_id'];
+	$inv_id=$_REQUEST['inv_id'];
+	include_once ('optimize.inc');
+	_shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id);
+}
+
+function shn_ims_relation_item()
+{
+	include_once("optimize.inc");
+	_shn_ims_relation_item();
+}
+
+function shn_ims_relation_item_page()
+{
+	include_once("optimize.inc");
+	_shn_ims_relation_item_page();
+}
+
+function shn_ims_relation_item_table()
+{
+	include_once("optimize.inc");
+	_shn_ims_relation_item_table();
+}
+
+function shn_ims_relation_item_db()
+{
+	global $global;
+	$parent_id=$_REQUEST['parent_id'];
+	$catalog_id=$_REQUEST['catalog_id'];
+	$inv_id=$_REQUEST['inv_id'];
+	include_once ('optimize.inc');
+	_shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id);
+}
+
 ?>
 

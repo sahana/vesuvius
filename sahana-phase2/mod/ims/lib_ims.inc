@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**Internal Library of the Inventory Management system 
 *
 * PHP version 4 and 5
@@ -18,7 +18,8 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 //include_once '';
-
+include_once $global['approot'].'/mod/or/lib_or.inc';
+include_once $global['approot'].'/3rd//phplot/phplot.php';
 
 
 function shn_ims_org_list(){
@@ -554,5 +555,523 @@ function _shn_ims_find_unitid($unit_id)
     return $unit_found;
     
 }
+
+//*******************************************************SOC*******************************************************
+function _shn_ims_date_conversion($date)
+{
+	list($year,$month,$day) = split("-",$date);
+	$convert_date=$month."-".$day."-".$year;
+	return $convert_date;
+}
+function _shn_ims_count_days($start, $end)
+{
+    if( $start != '0000-00-00' and $end != '0000-00-00' )
+    {
+        $timestamp_start = strtotime($start);
+        $timestamp_end = strtotime($end);
+        if( $timestamp_start >= $timestamp_end ) return 0;
+        $start_year = date("Y",$timestamp_start);
+        $end_year = date("Y", $timestamp_end);
+        $num_days_start = date("z",strtotime($start));
+        $num_days_end = date("z", strtotime($end));
+        $num_days = 0;
+        $i = 0;
+        if( $end_year > $start_year )
+        {
+           while( $i < ( $end_year - $start_year ) )
+           {
+              $num_days = $num_days + date("z", strtotime(($start_year + $i)."-12-31"));
+              $i++;
+           }
+         }
+         return ( $num_days_end + $num_days ) - $num_days_start;
+    }
+    else
+    {
+         return 0;
+     }
+}
+
+function _shn_ims_smoothing($forcasted_value,$actual_value,$alpha)
+{
+	 //ft+1=(1-?)ft+?*at
+	
+	//$alpha=0.3;
+	$forcast_value=((1-$alpha)*$forcasted_value)+($alpha*$actual_value);
+	return $forcast_value;
+	
+}
+
+function _shn_ims_datediff($dformat, $endDate, $beginDate)
+{
+$date_parts1=explode($dformat, $beginDate);
+$date_parts2=explode($dformat, $endDate);
+$start_date=gregoriantojd($date_parts1[0], $date_parts1[1], $date_parts1[2]);
+$end_date=gregoriantojd($date_parts2[0], $date_parts2[1], $date_parts2[2]);
+return $end_date - $start_date;
+
+}
+
+function _shn_ims_total_amount($catalog_id,$inv_id)
+{
+	global $global;
+	$db=$global["db"];
+
+	//if(!$inv_id==NULL)
+	//{
+		$sql1="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id';";
+		$ims1=$db->Execute($sql1);
+		$sum_amount=0;
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$amount=$ims2->fields['amount'];
+			$unit=$ims2->fields['unit'];
+			
+			$base_unit=convert_to_base_unit($unit);
+			$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                	$sum_amount=$sum_amount + $converted_amount;
+			$ims1->MoveNext();			
+		}
+		
+	//}
+
+	return $sum_amount;
+
+	
+}
+
+function _shn_ims_sum_amount($catalog_id,$inv_id)
+{
+	global $global;
+	$db=$global["db"];
+	if($inv_id=="all")
+	{
+		$sql1="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		$ims1=$db->Execute($sql1);
+	}
+	else
+	{
+		$sql1="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id';";
+		$ims1=$db->Execute($sql1);
+	}
+	$sum_amount=0;
+	while(!$ims1==NULL && !$ims1->EOF)
+	{
+		$amount=$ims1->fields['amount'];
+		$unit=$ims1->fields['unit'];
+			
+		$base_unit=convert_to_base_unit($unit);
+		$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                $sum_amount=$sum_amount + $converted_amount;
+		$ims1->MoveNext();			
+	}
+	return $sum_amount;
+}
+
+function _shn_ims_first_data($inv_id,$catalog_id)
+{
+	global $global;
+	$db=$global["db"];
+	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	$date_inv=$ims1->fields['added_date'];
+	$date_inv_convert=_shn_ims_date_conversion($date_inv);
+//has to be commented	
+	$date_inv_convert="01-08-2006";
+	
+	$current_date=date("m-d-Y");
+	$number_of_days=_shn_ims_datediff('-',$current_date,$date_inv_convert);
+	$temp=$number_of_days-7;
+	if($temp>0)
+	{
+		$days_after_inv_date=date("Y-m-d",time() - ($temp*24*60*60));
+	}
+	if($temp<0)
+	{
+		$days_after_inv_date=date("Y-m-d",time() -($number_of_days*24*60*60));
+		
+	}
+
+	$sql2="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv))<7;";
+	$ims2=$db->Execute($sql2);
+	$sum_amount=0;
+	while(!$ims2==NULL && !$ims2->EOF)
+	{
+		$amount=$ims1->fields['amount'];
+		$unit=$ims1->fields['unit'];
+			
+		$base_unit=convert_to_base_unit($unit);
+		$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                $sum_amount=$sum_amount + $converted_amount;
+		$ims2->MoveNext();		
+	}
+	//return $sum_amount;
+	//$week=date("d-m-Y",time() + 604800);
+	//$date_amount_inv=date("Y-m-d",time() - 604800);
+	//$date_inv_week=_shn_ims_datediff('-',$date_inv_week,$date);
+	
+}
+
+function _shn_ims_smoothing_constant($catalog_id,$inv_id)
+{
+	global $global;
+	$db=$global["db"];
+
+	$sql1="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' ORDER BY week DESC;";
+	$ims1=$db->Execute($sql1);
+	
+	$week=$ims1->fields['week'];
+	
+	$temp=$week+1;
+	$alpha=2/$temp;
+
+	return $alpha;
+	
+} 
+
+function _shn_ims_weekafter($fyear, $fmonth, $fday)
+{
+	return date ("Y-m-d", mktime (0,0,0,$fmonth,$fday+7,$fyear));
+}
+
+function _shn_ims_timeafter($fyear, $fmonth, $fday,$time_period)
+{
+	return date ("Y-m-d", mktime (0,0,0,$fmonth,$fday+$time_period,$fyear));
+}
+
+function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
+{
+	global $global;
+	$db=$global["db"];
+
+	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	$date_inv=$ims1->fields['added_date'];
+	$date_inv_convert=_shn_ims_date_conversion($date_inv);
+	$current_date=date("Y-m-d");
+
+	$week=0;
+	$date_diff=_shn_ims_count_days($date_inv,$current_date);
+
+	$item_state_destroyed="destroyed";
+	print $date_diff;
+	print ("M");
+	for($i=$date_diff;$i>=0;$i-=$time_period)	
+	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
+	{
+		$date_inv_temp=$date_inv;
+		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
+		$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND state!='$item_state_destroyed';";
+		$ims2=$db->Execute($sql2);
+		//print $sql2;
+		$sum_amount=0;
+		while(!$ims2==NULL && !$ims2->EOF)
+		{
+			$amount=$ims2->fields['amount'];
+			$unit=$ims2->fields['unit'];
+			$inserted_date=$ims2->fields['inserted_date'];
+
+			if(_shn_ims_count_days($date_inv_temp,$current_date)<1)
+			{
+			
+			$base_unit=convert_to_base_unit($unit);
+			$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                	$sum_amount=$sum_amount + $converted_amount;
+			}
+			$ims2->MoveNext();
+		}
+		$actual_value=$sum_amount;
+		$week=$week+1;
+		$temp=$week+1;
+		$alpha=2/$temp;
+		print "\n";
+		//print $week;
+		if($week==1)
+		{
+			$forecasted_value=0;
+			
+			$forecasted_value_temp=_shn_ims_smoothing($forcasted_value,$actual_value,$alpha);
+		}
+		else
+		{
+			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+		}
+		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount','$forecasted_value','$base_unit');"; 
+		$ims3=$db->Execute($sql3);
+		//print $sql3;
+		list($year,$month,$day) = split("-",$date_inv);
+		$date_inv=_shn_ims_timeafter($year, $month, $day, $time_period);
+		//print $date_inv;
+		if($week==1)
+		{
+			$forecasted_value=$forecasted_value_temp;
+		}
+	}
+
+	$sql4="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' ORDER BY week DESC;";
+	$ims4=$db->Execute($sql4);
+	//print $sql4;
+	$week=$ims4->fields['week'];
+	//print $week;
+	
+}
+
+function _shn_ims_bar_chart($data)
+{
+	$graph = new PHPlot(700,500);
+
+//$graph->SetDataType( "linear-linear"); //text-data
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
+
+// Specify some data
+/*$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);*/
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
+
+//Specify plotting area details
+$graph->SetImageArea(700,500);
+/*commented types are ok with the data*/
+//$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "linepoints");
+//$graph->SetPlotType( "points");
+//$graph->SetPlotType( "area");
+//$graph->SetPlotType( "thinbarline");
+//$graph->SetPlotType( "squared");
+//$graph->SetPlotType( "pie");
+$graph->SetPlotType( "bars");
+//$graph->SetPlotType( "stackedbars");
+
+$graph->SetTitleFontSize( "5"); // the max value of font size is 5
+$graph->SetTitle( "Forecasting by item");
+
+$graph->SetLegend(array("actual value","forecasted value"));
+//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
+$graph->SetPlotBgColor( "red");
+$graph->SetPlotBorderType( "left");
+$graph->SetBackgroundColor( "orange"); // set the chart background
+
+//you can set the x title by one line or as commented three lines
+$graph->SetXTitle("time", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('amount',"both"); // plotright or plotleft or both or both
+
+//Define the X axis
+/*$graph->SetXLabel( "Year");
+$graph->SetHorizTickIncrement( "5");
+$graph->SetXGridLabelType( "title");*/
+
+//Define the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
+//$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetYGridLabelType( "data");
+$graph->SetLightGridColor( "blue");
+$graph->SetOutputFile("barChart.png");
+
+
+//$graph->SetNewPlotAreaPixels(70,120,375,220);
+$graph->SetPlotAreaWorld(0,0,10,10000);
+$graph->DrawGraph();
+}
+
+function _shn_ims_line_chart($data)
+{
+	$graph = new PHPlot(700,500);
+
+//$graph->SetDataType( "linear-linear"); //text-data
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
+
+// Specify some data
+/*$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);*/
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
+
+//Specify plotting area details
+$graph->SetImageArea(700,500);
+/*commented types are ok with the data*/
+$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "linepoints");
+//$graph->SetPlotType( "points");
+//$graph->SetPlotType( "area");
+//$graph->SetPlotType( "thinbarline");
+//$graph->SetPlotType( "squared");
+//$graph->SetPlotType( "pie");
+//$graph->SetPlotType( "bars");
+//$graph->SetPlotType( "stackedbars");
+
+$graph->SetTitleFontSize( "5"); // the max value of font size is 5
+$graph->SetTitle( "Forecasting by Item");
+
+$graph->SetLegend(array("actual value","forecasted value"));
+//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
+$graph->SetPlotBgColor( "red");
+$graph->SetPlotBorderType( "left");
+$graph->SetBackgroundColor( "orange"); // set the chart background
+
+//you can set the x title by one line or as commented three lines
+$graph->SetXTitle("time", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('amount',"both"); // plotright or plotleft or both or both
+
+//Define the X axis
+/*$graph->SetXLabel( "Year");
+$graph->SetHorizTickIncrement( "5");
+$graph->SetXGridLabelType( "title");*/
+
+//Define the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
+$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetYGridLabelType( "data");
+$graph->SetLightGridColor( "blue");
+$graph->SetOutputFile("lineChart.png");
+
+
+//$graph->SetNewPlotAreaPixels(70,120,375,220);
+$graph->SetPlotAreaWorld(0,0,100,10000);
+$graph->DrawGraph();
+}
+
+function _shn_ims_pie_chart()
+{
+	$graph = new PHPlot(700,500);
+
+//$graph->SetDataType( "linear-linear"); //text-data
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
+
+// Specify some data
+$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
+
+//Specify plotting area details
+$graph->SetImageArea(700,500);
+/*commented types are ok with the data*/
+//$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "linepoints");
+//$graph->SetPlotType( "points");
+//$graph->SetPlotType( "area");
+//$graph->SetPlotType( "thinbarline");
+//$graph->SetPlotType( "squared");
+$graph->SetPlotType( "pie");
+//$graph->SetPlotType( "bars");
+//$graph->SetPlotType( "stackedbars");
+
+$graph->SetTitleFontSize( "5"); // the max value of font size is 5
+$graph->SetTitle( "This is test chart");
+
+$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
+//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
+$graph->SetPlotBgColor( "red");
+$graph->SetPlotBorderType( "left");
+$graph->SetBackgroundColor( "orange"); // set the chart background
+
+//you can set the x title by one line or as commented three lines
+$graph->SetXTitle("SD X title", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('SD Y title',"both"); // plotright or plotleft or both or both
+
+//Define the X axis
+/*$graph->SetXLabel( "Year");
+$graph->SetHorizTickIncrement( "5");
+$graph->SetXGridLabelType( "title");*/
+
+//Define the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
+$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetYGridLabelType( "data");
+$graph->SetLightGridColor( "blue");
+$graph->SetOutputFile("pieChart.png");
+
+
+//$graph->SetNewPlotAreaPixels(70,120,375,220);
+$graph->SetPlotAreaWorld(0,0,7,2000);
+$graph->DrawGraph();
+}
+function _shn_ims_chart_test()
+{
+//include ( "../3rd/phplot1/phplot.php");
+$graph = new PHPlot(700,500);
+
+//$graph->SetDataType( "linear-linear"); //text-data
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
+
+// Specify some data
+$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
+
+//Specify plotting area details
+$graph->SetImageArea(700,500);
+/*commented types are ok with the data*/
+$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "linepoints");
+//$graph->SetPlotType( "points");
+//$graph->SetPlotType( "area");
+//$graph->SetPlotType( "thinbarline");
+//$graph->SetPlotType( "squared");
+//$graph->SetPlotType( "pie");
+//$graph->SetPlotType( "bars");
+//$graph->SetPlotType( "stackedbars");
+
+$graph->SetTitleFontSize( "5"); // the max value of font size is 5
+$graph->SetTitle( "This is test chart");
+
+$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
+//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
+$graph->SetPlotBgColor( "red");
+$graph->SetPlotBorderType( "left");
+$graph->SetBackgroundColor( "orange"); // set the chart background
+
+//you can set the x title by one line or as commented three lines
+$graph->SetXTitle("SD X title", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('SD Y title',"both"); // plotright or plotleft or both or both
+
+//Define the X axis
+/*$graph->SetXLabel( "Year");
+$graph->SetHorizTickIncrement( "5");
+$graph->SetXGridLabelType( "title");*/
+
+//Define the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
+$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetYGridLabelType( "data");
+$graph->SetLightGridColor( "blue");
+$graph->SetOutputFile("testpieChart.png");
+
+
+//$graph->SetNewPlotAreaPixels(70,120,375,220);
+$graph->SetPlotAreaWorld(0,0,7,2000);
+$graph->DrawGraph();
+}
+
+
 
 ?>

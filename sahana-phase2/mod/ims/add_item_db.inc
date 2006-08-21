@@ -43,12 +43,22 @@ function _shn_ims_add_item_db()
     $inv_id=trim($_POST['inv_id']);
     $manufactured_date=trim($_POST['manufactured_date']);
     $expire_date=trim($_POST['expire_date']);
+
+    $date=date("Y-m-d");
+    //$date=strrev($date);
+	//print $date;
+    $total_amount=_shn_ims_sum_amount($parent_id,$inv_id);
+    $base_unit=convert_to_base_unit($unit);
+    $converted_amount=$amou*unit_converter($base_unit,$unit);
+    $total_amount=$total_amount+$converted_amount;
+    $predict_amount=0;
+
         
     $state="available";
 
-    $sql = " insert into ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state) values ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state');";
+    $sql = " insert into ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state,inserted_date,total_amount,predict_amount) values ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state','$date','$total_amount','$predeict_amount');";
     $ims = $db->Execute($sql);
-        
+       
         
     //$_POST['unit_select']=""
         

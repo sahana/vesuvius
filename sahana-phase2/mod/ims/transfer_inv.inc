@@ -219,7 +219,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	
-    //shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    //shn_form_text(_("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     $extra_opts['value']=$cost_per_unit;
     shn_form_text(_("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 
@@ -472,7 +472,7 @@ $unit_select_array=array();
     shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
     shn_form_date(_("Date Received : "),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
-   // shn_form_text(_("Date Received : "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    //shn_form_text(_("Date Received (YYYY-mm-dd): "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 
     shn_form_fsclose();
@@ -532,7 +532,7 @@ function _shn_ims_receive_item_db()
     //print $item_name;
     
     $sql3="INSERT INTO ims_item_records(catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
-    print $sql3;
+    //print $sql3;
     $ims3=$db->Execute($sql3);
 
     $sql4="SELECT item_id FROM ims_item_records WHERE transit_id='$transit_id';";

@@ -132,8 +132,9 @@ function _shn_ims_reg_inv_cr()
             return false;
         }
         if($error!=true){
+	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
-            $q="insert into  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space)values($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}')";
+            $q="insert into  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date)values($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
             $res=$db->Execute($q);
 //print
 		
