@@ -35,17 +35,27 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+	$query="select a.wiki_uuid,a.name,a.description,a.url,a.placement_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
 	//create array
 	$map_array=array();
 	
+	
+	
 	//populate aray
 	while(!$res->EOF){
+			
+			$editable=$res->fields['editable'];
+			if($editable==1){
+				$edit_url= "<a href="."index.php?mod=gis&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid']."> Edit</a>";
+			}
+			else
+				$edit_url="";
+			
 			array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-				"desc"=>$res->fields['description'],"url"=>$res->fields['url']));
+				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['placement_date'],"wiki_id"=>$res->fields['wiki_uuid']));
 			$res->MoveNext();	
 	}
 	
@@ -123,11 +133,48 @@ function show_wiki_add_detail($errors=false)
 	shn_form_fsclose();
 	shn_form_fsopen(_("Wikimap Options"));
 	shn_form_text(_("Author"),"wiki_author",'size="50"',array('help'=>$type_help));
-	shn_form_checkbox(_("Publicly Editable"),"edit_public");
-	shn_form_checkbox(_("Publicly Viewable"),"view_public");
+	shn_form_checkbox(_("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
+	shn_form_checkbox(_("Publicly Viewable"),"view_public","view");
 	shn_form_fsclose();
 	shn_form_submit(_("Add Detail"));
 	shn_form_fclose();
+}
+
+function shn_wiki_edit($id)
+{
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	$query="select wiki_uuid,description from gis_wiki where wiki_uuid='{$id}'";
+	$res=$db->Execute($query);
+	$desc=$res->fields['description'];
+	
+	include_once $global['approot']."/inc/lib_form.inc";
+	shn_form_fopen(ewik);
+	shn_form_fsopen(_("Update Detail"));
+	shn_form_textarea(_("Detail Summary"),"wiki_text",'size="50"',array('value'=>$desc));
+?>
+	<input type="hidden" name="wiki_id" value="<?=$res->fields['wiki_uuid']?>">
+<?php
+	shn_form_fsclose();
+	shn_form_submit(_("Commit Detail"));
+	shn_form_fclose();
+}
+
+function shn_wiki_edit_com($id)
+{
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	//echo $id;
+	//echo "{$_REQUEST['wiki_text']}";
+	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' where wiki_uuid='{$id}'";
+	$res=$db->Execute($query);
+?>
+<div id="note">
+	<p><?=_('Succesfully Updated Description')?></p>
+</div>
+<?php
 }
 
 function shn_wiki_map_commit()
@@ -144,9 +191,11 @@ function shn_wiki_map_commit()
 	//$gis_id=shn_create_uuid('g');
 	$gis_id=0;
 	
+	$edit=($_SESSION['edit_public']=='edit')?1:0;
+	
 	$query = " insert into gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
 			 " values ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
-			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$_SESSION['edit_public']}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
+			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
 			 
 	$res=$db->Execute($query);
 	
@@ -160,6 +209,7 @@ function shn_wiki_map_commit()
 		<?=shn_form_label(_("Succesfully added wiki item :"),_("{$_SESSION['wiki_name']}"));?>
 	</div>
 <?php
+	//echo $_SESSION['edit_public'];
 	shn_form_fsclose();
 	shn_form_fclose();
 	
