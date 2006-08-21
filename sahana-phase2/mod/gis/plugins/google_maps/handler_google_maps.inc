@@ -1,6 +1,6 @@
 <?php
 /**
- * $id$;
+ * $id$
  * Google Maps plugin for Sahana GIS
 *
 * PHP version 4 and 5
@@ -207,10 +207,14 @@ function show_map_with_wiki_marker($array)
 					$lon=$array[$i]["lon"];
 					$name=$array[$i]["name"];
 					$desc=$array[$i]["desc"];
-					$url=$array[$i]["url"];
+					$url=_('Link: ').$array[$i]["url"];
+					$date=_('Date: ').date('l dS \of F Y',$array[$i]["date"]);
+					$author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
+					$edit=$array[$i]["edit"];
+					//$edit="help";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><a href="<?=$url?>">Link</a></div>');
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
       				map.addOverlay(marker);
 <?php
 				}
