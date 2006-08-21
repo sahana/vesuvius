@@ -69,7 +69,7 @@ function shn_rs_default()
 {
     include_once ('home.inc');
     print "This is to check chart download link";
-    $chart_link = shn_chart_download_link("shn_rs_piechart");
+    $chart_link = shn_chart_download_link("shn_cs_barchart");
 
     ?>
     <a href="<?php echo $chart_link ?>">test</a>

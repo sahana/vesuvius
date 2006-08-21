@@ -717,7 +717,7 @@ function shn_xhtml_report_close()
  */
 function report_download_link($report_id)
 {
-return "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
+    return "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
 }
 
 /**

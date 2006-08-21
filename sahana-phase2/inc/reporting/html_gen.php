@@ -12,6 +12,7 @@
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
+
 class genhtml
 	{
 
@@ -233,11 +234,6 @@ class genhtml
 				print "<b>Report Creation Failed..</b>";
 				}
 			}
-	
-		}
-
-
+		}//end of out put function
 	}//end of html_gen class
-
-
 ?>

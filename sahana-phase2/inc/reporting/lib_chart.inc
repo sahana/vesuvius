@@ -17,39 +17,46 @@
  *
  */
 
+/**
+ * This function is a internal one which uses by other functions
+ *
+ * @param string $chart_ID
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
+
 global $graph;
 
 function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr_in)
 {
-include_once( "../3rd/phplot/phplot.php");
-global $graph;
-
-$graph = new PHPlot(350,200);
-
-$graph->Setchartid($chart_ID);
-
-$graph->SetDataType("text-data");  
-$graph->SetDataValues($dataArray);
-$graph->SetFileFormat("png"); 
-$graph->SetImageArea(350,200);
-$graph->SetTitleFontSize( "5");
-$graph->SetTitle( $title);
-
-$graph->Setkeyword($keyword_arr_in);
-
+    include_once( "../3rd/phplot/phplot.php");
+    global $graph;
+    $graph = new PHPlot(350,200);
+    $graph->Setchartid($chart_ID);
+    $graph->SetDataType("text-data");  
+    $graph->SetDataValues($dataArray);
+    $graph->SetFileFormat("png"); 
+    $graph->SetImageArea(350,200);
+    $graph->SetTitleFontSize( "5");
+    $graph->SetTitle( $title);
+    $graph->Setkeyword($keyword_arr_in);
 	$legend_arr = array();
 	foreach($dataArray as $xval)
 	{
 	array_push($legend_arr,$xval[0]);
 	}
-
-$graph->SetLegend($legend_arr); 
-$graph->SetPlotBgColor( "red");
-$graph->SetPlotBorderType( "left");
-$graph->SetBackgroundColor('white');
-
-$graph->SetXTitle($xtitle, "plotdown"); // para = ($title, $position); $postion= plotup or plotdown or both or none
-$graph->SetYTitle($ytitle,"plotleft"); // plotright or plotleft or both or both
+    $graph->SetLegend($legend_arr); 
+    $graph->SetPlotBgColor( "red");
+    $graph->SetPlotBorderType( "left");
+    $graph->SetBackgroundColor('white');
+    $graph->SetXTitle($xtitle, "plotdown"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+    $graph->SetYTitle($ytitle,"plotleft"); // plotright or plotleft or both or both
 
 	$xval_counter=0;
 	$temp_arr = array();
@@ -64,31 +71,40 @@ $graph->SetYTitle($ytitle,"plotleft"); // plotright or plotleft or both or both
 	$xval_counter = $xval_counter+1;
 	$y_unit = (round($max_val_y, (-(strlen($max_val_y)) + 1)))/10;
 
-$graph->SetHorizTickIncrement( "1"); 
-$graph->SetVertTickIncrement($y_unit);
-
-$graph->SetPrecisionX("0");
-$graph->SetPrecisionY( "0"); 
-
-$graph->SetYGridLabelType( "data");
-$graph->SetLightGridColor( "blue");
-$graph->SetPlotAreaWorld(0,0,$xval_counter,$max_val_y);
-$graph->SetOutputFile($chart_file_name.".png");
-
+    $graph->SetHorizTickIncrement( "1"); 
+    $graph->SetVertTickIncrement($y_unit);
+    $graph->SetPrecisionX("0");
+    $graph->SetPrecisionY( "0"); 
+    $graph->SetYGridLabelType( "data");
+    $graph->SetLightGridColor( "blue");
+    $graph->SetPlotAreaWorld(0,0,$xval_counter,$max_val_y);
+    $graph->SetOutputFile($chart_file_name.".png");
 }
 
+/**
+ * This function is used to generate pie charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-global $graph;
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    global $graph;
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -116,17 +132,29 @@ $chart_gen_ok = true;
 	}
 }
 
+/**
+ * This function is used to generate bar charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-global $graph;
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $graph;
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -154,18 +182,29 @@ $chart_gen_ok = true;
 	}
 }
 
+/**
+ * This function is used to generate area charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
-
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -193,18 +232,30 @@ $chart_gen_ok = true;
 	}
 }
 
+/**
+ * This function is used to generate line charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -232,18 +283,30 @@ $chart_gen_ok = true;
 	}
 }
 
+/**
+ * This function is used to generate Line point charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -271,19 +334,30 @@ $chart_gen_ok = true;
 	}
 }
 
+/**
+ * This function is used to generate point charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
-;
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -308,28 +382,38 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
+/**
+ * This function is used to generate thin bar line charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
-if($res_found->fields['t_stamp'] != null)
-{
-$chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true : false;
-}
+	if($res_found->fields['t_stamp'] != null)
+	{
+	$chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true : false;
+	}
 
 	if($chart_gen_ok)
 	{
@@ -349,28 +433,38 @@ $chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true :
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
+/**
+ * This function is used to generate squared charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
-if($res_found->fields['t_stamp'] != null)
-{
-$chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true : false;
-}
+	if($res_found->fields['t_stamp'] != null)
+	{
+	$chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true : false;
+	}
 
 	if($chart_gen_ok)
 	{
@@ -390,25 +484,33 @@ $chart_gen_ok= (_shn_is_chart_update_OK($res_found->fields['t_stamp'])) ? true :
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
+/**
+ * This function is used to generate stack bar charts
+ *
+ * @param string $chart_file_name
+ * @param string $title
+ * @param string $xtitle
+ * @param string $ytitle
+ * @param mixed $dataArray
+ * @param mixed $keyword_arr_in
+ * @access public
+ * @return void
+ */
 function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
 {
-$backtrace = debug_backtrace();
-$chart_ID = $backtrace['1']["function"];
+    $backtrace = debug_backtrace();
+    $chart_ID = $backtrace['1']["function"];
 
-global $graph;
-
-global $global;
-$db=$global["db"];
-//check the timestamp and set whether the update should be taken place or not
-$query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
-$res_found = $db->Execute($query);
-$chart_gen_ok = true;
-
+    global $graph;
+    global $global;
+    $db=$global["db"];
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select rep_id,file_name,file_type,file_size_kb,title,t_stamp from report_files where rep_id = '$chart_ID' ";	
+    $res_found = $db->Execute($query);
+    $chart_gen_ok = true;
 
 	if($res_found->fields['t_stamp'] != null)
 	{
@@ -433,89 +535,38 @@ $chart_gen_ok = true;
 		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
 		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
 		}
-
 	}
-
 }
 
-
-
-function shn_chart_test()
-{
-include ( "../3rd/phplot/phplot.php");
-$graph = new PHPlot(700,500);
-
-//$graph->SetDataType( "linear-linear"); //text-data
-$graph->SetDataType("text-data");  //Must be called before SetDataValues
-
-// Specify some data
-$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);
-$graph->SetDataValues($data);
- $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
-
-//Specify plotting area details
-$graph->SetImageArea(700,500);
-/*commented types are ok with the data*/
-$graph->SetPlotType( "lines");
-//$graph->SetPlotType( "linepoints");
-//$graph->SetPlotType( "points");
-//$graph->SetPlotType( "area");
-//$graph->SetPlotType( "thinbarline");
-//$graph->SetPlotType( "squared");
-//$graph->SetPlotType( "pie");
-//$graph->SetPlotType( "bars");
-//$graph->SetPlotType( "stackedbars");
-
-$graph->SetTitleFontSize( "5"); // the max value of font size is 5
-$graph->SetTitle( "This is SD test chart");
-
-$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
-//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
-$graph->SetPlotBgColor( "red");
-$graph->SetPlotBorderType( "left");
-$graph->SetBackgroundColor( "orange"); // set the chart background
-
-//you can set the x title by one line or as commented three lines
-$graph->SetXTitle("SD X title", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
-$graph->SetYTitle('SD Y title',"both"); // plotright or plotleft or both or both
-
-//Define the X axis
-/*$graph->SetXLabel( "Year");
-$graph->SetHorizTickIncrement( "5");
-$graph->SetXGridLabelType( "title");*/
-
-//Define the Y axis
-$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
-$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
-$graph->SetYGridLabelType( "data");
-$graph->SetLightGridColor( "blue");
-$graph->SetOutputFile("sdtestpieChart.png");
-
-
-//$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,7,2000);
-$graph->DrawGraph();
-}
-
-
+/**
+ * This function will return the url to download the chart
+ *
+ * @param string $chart_id
+ * @return string
+ */
 function shn_chart_download_link($chart_id)
 {
-return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
 }
 
+/**
+ * This functionwill return the url to display the chart
+ *
+ * @param string $chart_id
+ * @return string
+ */
 function shn_chart_display_link($chart_id)
 {
-return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
 }
 
-/*********************************private Functions *************************************************************/
+/**
+ * This function return boolean value of whether the chart generation ok or not.
+ *
+ * @param string $last_updated_time_stamp
+ * @access private
+ * @return boolean
+ */
 function _shn_is_chart_update_OK($last_updated_time_stamp)
 {
     global $global;
@@ -538,6 +589,13 @@ function _shn_is_chart_update_OK($last_updated_time_stamp)
 	}	
 }
 
+/**
+ * This function return boolean value of whether the chart infomation print ok or not..
+ *
+ * @param string $last_updated_time_stamp
+ * @access private
+ * @return boolean
+ */
 function _shn_is_print_ok()
 {
     if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
@@ -553,6 +611,4 @@ function _shn_is_print_ok()
     return true;
     }
 }
-/*********************************End of private functions *****************************************************/
-
 ?>
