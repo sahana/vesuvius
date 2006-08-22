@@ -637,8 +637,16 @@ function shn_acl_check_perms_action($user,$action){
 	// here if the userid is equal to the root id specified
 	// in the conf return true, but by default (unless conf is edited)
 	// the default root is root
-    if($user==shn_acl_get_root_id()){return false;}
+	//return true;
+	  
+ //   if($user==shn_acl_get_root_id()){return false;}
+    if($user=='0'){return false;}
+    
     $acl=new SahanaACL(NULL);
+    if(($user==null) or ($action==null)){
+    		return true;
+    }
+    
     $res=$acl->_shn_check_permission('permissions','execute','users',$user,'actions',$action);
     return $res;
 }
@@ -776,7 +784,7 @@ function shn_acl_get_state($module)
     $res=$db->Execute($q);
     if(!$res->EOF){
         
-        if($res->fields[0]==true){
+        if($res->fields["value"]==true){
         	return true;
         }
 	return false;

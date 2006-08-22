@@ -35,7 +35,7 @@ function shn_acl_form_users($multi=false){
   global $global;
     $db=$global['db'];
     
-  $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.org_id=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
+  $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.o_uuid=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
   
     $res=$db->Execute($q);
     $users=array();

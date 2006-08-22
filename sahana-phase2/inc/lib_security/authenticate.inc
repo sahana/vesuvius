@@ -37,6 +37,7 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
 {
     global $global;
     $db=$global['db'];
+    include_once($global['approot']."/inc/lib_uuid.inc");
     if (shn_is_user($user_name)){
         add_error(SHN_ERR_OR_USER_EXISTS);
    		return false;
@@ -49,7 +50,8 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
     }
 */
     if($pid==-1){
-        $pid = $db->GenID('person_seq',10);
+       // $pid = $db->GenID('person_seq',10);
+       $pid=shn_create_uuid($type='person');
     }
     $q="select p_uuid from person_uuid where p_uuid='{$pid}'";
     $res=$db->Execute($q);
@@ -58,20 +60,21 @@ function shn_add_user($account_name,$user_name, $user_password,$role,$pid=NULL)
         add_error(SHN_ERR_OR_PERSON_EXISTS);
     }
     if(!$error){
-        $q="insert into person_uuid(p_uuid,full_name) values($pid,'{$account_name}')";
+        $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
         $res=$db->Execute($q);
    // Create the encrypted password
    $stored_password = md5(trim($user_password));
-
+	
    // Insert a new user into the users table
    $q = "INSERT INTO users SET 
-             p_uuid={$pid},
+             p_uuid='{$pid}',
 		password = '{$stored_password}',
              user_name = '{$user_name}'";
+    
 	$res=$db->Execute($q);
 	if ($res){
-    	$res=shn_acl_add_user($pid,$user_name);
-    	$res=shn_acl_add_to_role($pid,$role);
+    		$res=shn_acl_add_user($pid,$user_name);
+    		$res=shn_acl_add_to_role($pid,$role);
 	}
 }
 	return $pid;
@@ -144,7 +147,7 @@ function shn_authenticate_user()
         $q = "  SELECT p_uuid  FROM users
                     WHERE user_name = '$user'
                     AND password = '$password_digest'";
-                    echo $q;
+                    
         $res=$db->Execute($q);
         if(!$res->EOF){
             $user_id=$res->fields[0];
@@ -188,7 +191,7 @@ function shn_change_password($user,$old_pwd,$new_pwd)
                     AND password = '$password_digest'";
         $res=$db->Execute($q);
 	if($res->EOF){
-		return false;
+		return true;
 	}
 	$password_digest = md5(trim($new_pwd));
         // Formulate the SQL to find the user

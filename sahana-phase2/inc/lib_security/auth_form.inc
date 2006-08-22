@@ -73,9 +73,9 @@ $user=$_POST{"users"};
  $db=$global["db"];
 $VARCHAR=100;
 for($i=0;$i<count($user);$i++){
-      $q="delete from org_users where user_id=$user[$i]";
+      $q="delete from org_users where user_id='{$user[$i]}'";
                 $res=$db->Execute($q);
-$q="delete from users where p_uuid=$user[$i]";
+$q="delete from users where p_uuid='{$user[$i]}'";
                 $res=$db->Execute($q);
 }
 shn_admin_del_user(false);
@@ -150,28 +150,31 @@ function _shn_admin_add_user_cr(){
     list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
     if (is_null($_POST{"re_password"})){
         $error=true;
-        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+        add_error(SHN_ERR_ADMIN_REPWD_INCOMPLETE);
     }else {    
         $re_password=trim($_POST{"re_password"});
     }
     if (!($password==$re_password)){
         $error=true;
-        add_error(SHN_ERR_OR_REPWD_WRONG);
+        add_error(SHN_ERR_ADMIN_REPWD_WRONG);
     }
 	 if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
         $error=true;
-        add_error(SHN_ERR_OR_REG_MAX);
+        add_error(SHN_ERR_ADMIN_REG_MAX);
     }else {
         $account_name=$_POST{"account_name"};
     }
     if (is_null($_POST{"org"})){
         $error=true;
-        add_error(SHN_ERR_OR_INCOMPLETE);
+        add_error(SHN_ERR_ADMIN_INCOMPLETE);
     }else {    
         $org_id=trim($_POST{"org"});
     }
+    if($error==true){
+    		return $error;
+    }
 	$pid=shn_add_user($account_name,$user_name,$password,"user",-1);
-    $q="insert into org_users(org_id,user_id) values($org_id,$pid)";
+    $q="insert into org_users(o_uuid,user_id) values('{$org_id}','{$pid}')";
     $res=$db->Execute($q);
     return $error;
 }
@@ -238,16 +241,22 @@ function _shn_admin_ch_pwd_cr(){
     list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
     if (is_null($_POST{"re_password"})){
         $error=true;
-        add_error(SHN_ERR_OR_REPWD_INCOMPLETE);
+        add_error(SHN_ERR_ADMIN_REPWD_INCOMPLETE);
     }else {    
         $re_password=trim($_POST{"re_password"});
     }
     if (!($password==$re_password)){
         $error=true;
-        add_error(SHN_ERR_OR_REPWD_WRONG);
+        add_error(SHN_ERR_ADMIN_REPWD_WRONG);
     }
-        $old_password=trim($_POST{"old_password"});
-        $user_id=trim($_POST{"user"});
+	if($error==true){
+    		return $error;
+    }
+    $old_password=trim($_POST{"old_password"});
+    $user_id=trim($_POST{"user"});
     $error=shn_change_password($user_id,$old_password,$password);
+   	if($error==true){
+    		return $error;
+    }
     shn_admin_ch_pwd($error);
 }

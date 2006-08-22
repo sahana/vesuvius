@@ -98,8 +98,11 @@ Rows are Modules ,Intersection shows whether the Module has ACL entries installe
  	</td>
  	<td>
  <?php
-  	$chkbox_opts['value']=shn_acl_get_state($i);
-	shn_form_checkbox('',$i,null,$chkbox_opts);
+  	if(shn_acl_get_state($i)==1){
+  		$text_opts="checked='true'";
+  	}
+  	//echo $chkbox_opts['value'];
+	shn_form_checkbox('',$i,$text_opts,$chkbox_opts);
  ?>
  	</td>
  </tr>
@@ -166,8 +169,13 @@ function shn_acl_generic_module_status($module_list=NULL)
  	</td>
  	<td>
  <?php
-  	$chkbox_opts['value']=shn_acl_get_state($i);
-	shn_form_checkbox('',$i,null,$chkbox_opts);
+  	if(shn_acl_get_state($i)==1){
+  		$text_opts="checked='true'";
+  	}else{
+  		$text_opts="";
+  	}
+  	
+	shn_form_checkbox('',$i,$text_opts,$chkbox_opts);
  ?>
  	</td>
  </tr>

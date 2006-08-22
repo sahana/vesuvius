@@ -67,8 +67,7 @@ shn_form_open($header,false);
     </thead>
      <tbody>
 <?php    
-    $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.org_id=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
-
+    $q = "select user_id,full_name,name,user_name from org_users,person_uuid,org_main,users where org_users.user_id=person_uuid.p_uuid and org_users.o_uuid=org_main.o_uuid and users.p_uuid=person_uuid.p_uuid order by name";
     $res=$db->Execute($q);
     
     while((!$res->EOF) && (!$res==NULL)){
@@ -83,17 +82,18 @@ shn_form_open($header,false);
 <?php
 $k=0;
         while($k<count($role_arr)){
- 	$role_id=$role_arr[$k]["id"];
- 	$role=$role_arr[$k]["value"];
-       	$perms=$perms.$user.":".$role.";";
-	$name=trim($user.$role);
+ 			$role_id=$role_arr[$k]["id"];
+ 			$role=$role_arr[$k]["value"];
+       		$perms=$perms.$user.":".$role.";";
+			$name=trim($user.$role);
  	
 	if ($acl->_shn_is_user_role($user,$role_id)) {
 	 	$allow=true;
-}else{
-                $allow=false;
-            }
-      	?><td><input type="checkbox" name="<?php echo $name?>" <?php if ($allow) echo "checked='checked'";?> algin="right" /></td>
+	}else{
+         $allow=false;
+    }
+   
+      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if ($user=='0') echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
 <?php
 
        $k=$k+1;

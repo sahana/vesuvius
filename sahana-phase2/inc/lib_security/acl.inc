@@ -254,7 +254,7 @@ adds the $aro of $section to $group
 */
 function _shn_add_to_aro_group($group,$section,$aro){
 
-    $this->add_group_object($group,$section,$aro,'ARO'); 
+    $res=$this->add_group_object($group,$section,$aro,'ARO'); 
 	if ($res !== FALSE) {
     	//echo "added to ARO group sucessfully. <br>\n";
 	} else {
@@ -319,11 +319,13 @@ function _shn_get_roles(){
 *@param string user
 */
 function _shn_is_user_role($user,$role){
+	if($user=='0'){
+		return true;
+	}
     $q="select id from gacl_aro_groups where value='sahana'";
     $res=$this->db->Execute($q);
     $group_id=$res->fields[0];
     $q="select gacl_aro_groups.id from gacl_aro_groups,gacl_groups_aro_map,gacl_aro where parent_id={$group_id} and gacl_aro.value='{$user}' and gacl_groups_aro_map.aro_id=gacl_aro.id and gacl_groups_aro_map.group_id={$role}";
-
     $res=$this->db->Execute($q);
     if(!$res->EOF)
 	    return true;
