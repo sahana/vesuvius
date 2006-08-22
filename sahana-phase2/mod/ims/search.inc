@@ -148,7 +148,7 @@ function _shn_ims_search_item_db()
 	else
 	{
         
-        	$sql = "SELECT item_id,suplier_id,unit,state,amount,inv_id FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inventory_id';";
+        	$sql = "SELECT item_id,suplier_id,unit,state,amount,inv_id FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inv_id';";
 	}
         $ims = $db->Execute($sql);
         //print $sql;
@@ -268,6 +268,7 @@ function _shn_ims_search_item_db()
 	//$alternate_sum_amount=0;
 	$sql3="SELECT * FROM ims_alternate WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims3=$db->Execute($sql3);
+	//print $sql3;
 	while(!$ims3==NULL && !$ims3->EOF)
 	{
 		$alternate=$ims3->fields['alternate'];
@@ -278,7 +279,7 @@ function _shn_ims_search_item_db()
 		}
 		else
 		{
-			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_id AND state='$item_state';";
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_id' AND state='$item_state';";
 		}
 		$ims4=$db->Execute($sql4);
 		//print $sql4;

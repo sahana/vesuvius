@@ -804,7 +804,7 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 		$ims3=$db->Execute($sql3);
 		//print $sql3;
 		list($year,$month,$day) = split("-",$date_inv);
-		$date_inv=_shn_ims_timeafter($year, $month, $day, $time_period);
+		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
 		//print $date_inv;
 		if($week==1)
 		{
@@ -820,9 +820,142 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 	
 }
 
+function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
+{
+	$item_state="destroyed";
+	$sql3="SELECT * FROM ims_alternate WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+	$ims3=$db->Execute($sql3);
+	//print $sql3;
+	while(!$ims3==NULL && !$ims3->EOF)
+	{
+		$alternate=$ims3->fields['alternate'];
+		
+		if($inv_id==0)
+		{
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND state!='$item_state';";
+		}
+		else
+		{
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_id' AND state!='$item_state';";
+		}
+		$ims4=$db->Execute($sql4);
+		//print $sql4;
+		while(!$ims4==NULL && !$ims4->EOF)
+		{
+			$item_id=$ims4->fields["item_id"];
+            		$suplier_id=$ims4->fields["suplier_id"];
+            		$suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+            		$suplier_name=$suplier_name_array[$suplier_id];
+	    		$item_name=$ims4->fields['item_name'];
+
+	    		$inventory_id=$ims4->fields['inv_id'];
+            
+            
+            		$amount=$ims4->fields["amount"];
+            
+            
+            		$unit=$ims4->fields["unit"];
+            		$base_unit=convert_to_base_unit($unit);
+            
+            		$converted_amount=$amount*unit_converter($base_unit,$unit);
+            		//print $converted_amount;
+            		$sum_amount=$sum_amount + $converted_amount;
+	    		$alternate_sum_amount=$alternate_sum_amount + $converted_amount;
+            		//print $sum_amount;
+            		$unit_name=get_unit_name($unit);
+            		$base_unit_name=get_unit_name($base_unit);
+            		$state=$ims->fields['state'];
+         
+	
+			$sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
+        		$ims5=$db->Execute($sql5);
+               		$inventory_name=$ims5->fields['inventory_name'];
+
+			$ims4->MoveNext();
+		}
+
+		$ims3->MoveNext();
+	}
+
+}
+
+
+
+
+function _shn_ims_bar_chart_inventory($temp)
+{
+//include ( "../3rd/phplot1/phplot.php");
+$graph = new PHPlot(700,500);
+
+//$graph->SetDataType( "linear-linear"); //text-data
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
+
+// Specify some data
+/*$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);*/
+$data = array($temp);
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
+
+//Specify plotting area details
+$graph->SetImageArea(700,500);
+/*commented types are ok with the data*/
+//$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "linepoints");
+//$graph->SetPlotType( "points");
+//$graph->SetPlotType( "area");
+//$graph->SetPlotType( "thinbarline");
+//$graph->SetPlotType( "squared");
+//$graph->SetPlotType( "pie");
+$graph->SetPlotType( "bars");
+//$graph->SetPlotType( "stackedbars");
+
+$graph->SetTitleFontSize( "5"); // the max value of font size is 5
+$graph->SetTitle( "Forecasting by Inventory");
+
+$graph->SetLegend(array("actual","forecasted value"));
+//$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
+$graph->SetPlotBgColor( "red");
+$graph->SetPlotBorderType( "left");
+$graph->SetBackgroundColor( "orange"); // set the chart background
+
+//you can set the x title by one line or as commented three lines
+$graph->SetXTitle("Item", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('Amount',"both"); // plotright or plotleft or both or both
+
+//Define the X axis
+/*$graph->SetXLabel( "Year");
+$graph->SetHorizTickIncrement( "5");
+$graph->SetXGridLabelType( "title");*/
+
+//Define the Y axis
+$graph->SetVertTickIncrement( "1000"); //the gap between two values in the Y axis
+$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetYGridLabelType( "data");
+$graph->SetLightGridColor( "blue");
+$graph->SetOutputFile("barChart.png");
+
+
+//$graph->SetNewPlotAreaPixels(70,120,375,220);
+$graph->SetPlotAreaWorld(0,0,1.42,2000);
+$graph->DrawGraph();
+}
+
+
+
+
+
+
 function _shn_ims_bar_chart($data)
 {
-	$graph = new PHPlot(700,500);
+//include ( "../3rd/phplot1/phplot.php");
+$graph = new PHPlot(700,500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
@@ -862,8 +995,8 @@ $graph->SetPlotBorderType( "left");
 $graph->SetBackgroundColor( "orange"); // set the chart background
 
 //you can set the x title by one line or as commented three lines
-$graph->SetXTitle("time", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
-$graph->SetYTitle('amount',"both"); // plotright or plotleft or both or both
+$graph->SetXTitle("Time Period", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+$graph->SetYTitle('Amount',"both"); // plotright or plotleft or both or both
 
 //Define the X axis
 /*$graph->SetXLabel( "Year");
@@ -872,14 +1005,14 @@ $graph->SetXGridLabelType( "title");*/
 
 //Define the Y axis
 $graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
-//$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
+$graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
 $graph->SetOutputFile("barChart.png");
 
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,10,10000);
+$graph->SetPlotAreaWorld(0,0,7,2000);
 $graph->DrawGraph();
 }
 
@@ -946,22 +1079,27 @@ $graph->SetPlotAreaWorld(0,0,100,10000);
 $graph->DrawGraph();
 }
 
-function _shn_ims_pie_chart()
+function _shn_ims_pie_chart($data,$catalog_array)
 {
 	$graph = new PHPlot(700,500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
-$graph->SetDataType("text-data");  //Must be called before SetDataValues
+$graph->SetDataType("data-data");  //Must be called before SetDataValues
+
+$data2 = array($data);
 
 // Specify some data
-$data = array(
+$data1 = array(
     array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
+    //array(  "b", 2010,1000, 100, 150,200,300),
+   // array(  "c", 2015,500, 700, 179, 400,500),
+   // array(  "dd",2020,200,1000,979, 1000,600),
+   // array(  "e", 2025,100,1200,78,150,700),
+    //array(  "f", 2030,50, 1450,343, 1300,800)
 );
+//print ("<br>");
+//print ("Mahesh");
+//print_r($data2);
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -979,17 +1117,18 @@ $graph->SetPlotType( "pie");
 //$graph->SetPlotType( "stackedbars");
 
 $graph->SetTitleFontSize( "5"); // the max value of font size is 5
-$graph->SetTitle( "This is test chart");
+$graph->SetTitle( "Forecasting by Inventory");
 
-$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
+//$graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
+$graph->SetLegend($catalog_array);
 //$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
 $graph->SetPlotBgColor( "red");
 $graph->SetPlotBorderType( "left");
 $graph->SetBackgroundColor( "orange"); // set the chart background
 
 //you can set the x title by one line or as commented three lines
-$graph->SetXTitle("SD X title", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
-$graph->SetYTitle('SD Y title',"both"); // plotright or plotleft or both or both
+//$graph->SetXTitle("SD X title", "both"); // para = ($title, $position); $postion= plotup or plotdown or both or none
+//$graph->SetYTitle('SD Y title',"both"); // plotright or plotleft or both or both
 
 //Define the X axis
 /*$graph->SetXLabel( "Year");
@@ -1008,37 +1147,42 @@ $graph->SetOutputFile("pieChart.png");
 $graph->SetPlotAreaWorld(0,0,7,2000);
 $graph->DrawGraph();
 }
-function _shn_ims_chart_test()
+
+
+
+function _shn_ims_chart_test($data)
 {
 //include ( "../3rd/phplot1/phplot.php");
-$graph = new PHPlot(700,500);
+$graph = new PHPlot(700,2500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
 
 // Specify some data
 $data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
+  array(  "a",200,300,400,500),
+  array(  "b", 1000,1100,1200,1300)
+   // array(  "c", 2015,500, 700, 179, 400,500),
+   // array(  "d",2020,200,1000,979, 1000,600),
+   // array(  "e", 2025,100,1200,78,150,700),
+   // array(  "f", 2030,50, 1450,343, 1300,800)
 );
+//$data1[]=array();
+$data1[] = array(  "a",0.5,0.7,1.1);
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
 //Specify plotting area details
 $graph->SetImageArea(700,500);
 /*commented types are ok with the data*/
-$graph->SetPlotType( "lines");
+//$graph->SetPlotType( "lines");
 //$graph->SetPlotType( "linepoints");
 //$graph->SetPlotType( "points");
 //$graph->SetPlotType( "area");
 //$graph->SetPlotType( "thinbarline");
 //$graph->SetPlotType( "squared");
 //$graph->SetPlotType( "pie");
-//$graph->SetPlotType( "bars");
+$graph->SetPlotType( "bars");
 //$graph->SetPlotType( "stackedbars");
 
 $graph->SetTitleFontSize( "5"); // the max value of font size is 5
@@ -1060,15 +1204,15 @@ $graph->SetHorizTickIncrement( "5");
 $graph->SetXGridLabelType( "title");*/
 
 //Define the Y axis
-$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
+$graph->SetVertTickIncrement( "100"); //the gap between two values in the Y axis
 $graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
-$graph->SetOutputFile("testpieChart.png");
+$graph->SetOutputFile("barChart.png");
 
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,7,2000);
+$graph->SetPlotAreaWorld(0,0,3,2000);
 $graph->DrawGraph();
 }
 

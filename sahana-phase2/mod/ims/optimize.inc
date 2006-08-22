@@ -503,9 +503,92 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	</div>
 <?php
 
+	shn_form_fclose();
+
+	$sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
+	$ims9=$db->Execute($sql9);
+	$j=0;
+	while(!$ims9==NULL && !$ims9->EOF)
+	{
+		$j=$j+1;
+		$ims9->MoveNext();
+	}
+//Prediction by inventory Pie chart Creation
+	$temp=array();
+	$catalog_array=array();
+	$data=array();
+	$forecast=0;
+	//$temp[0]="a";
+	$i=1;
+	$sql6="SELECT * FROM ims_optimization GROUP BY catalog_id";
+	$ims6=$db->Execute($sql6);
+	while(!$ims6==NULL && !$ims6->EOF)
+	{
+		$catalog_id=$ims6->fields['catalog_id'];
+		$temp[0]=$catalog_id;
+		$sql8="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		$ims8=$db->Execute($sql8);
+		$catalog_array[$i]=$ims8->fields['item_name'];
+		
+			
+
+		$sql7="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
+		$ims7=$db->Execute($sql7);
+		//while(!$ims3==NULL && !$ims3->EOF)
+		//{
+		$actual_value=$ims7->fields['actual_value'];
+		$forecasted_value=$ims7->fields['forecasted_value'];
+		$week=$ims7->fields['week'];
+		$unit=$ims7->fields['unit'];
+		$unit_name=get_unit_name($unit);
+		
+		//$temp = array($forecast);
+		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
+
+		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+
+		
+		//array_push($temp,$forecast);
+		for($a=1;$a<$j+1;$a++)
+		{
+			if($a==$i)
+			{
+				$temp[$a]=$forecast;
+			}
+			else
+			{
+				$temp[$a]=0;
+			}
+
+		}
+		
+		$i=$i+1;
+		
+
+		//$data=array($temp);
+		array_push($data,$temp);
+
+		//$data[0][$i]=$temp;
+		
+		$ims6->MoveNext();
+
+	}
+
+// 	
+	print_r($data);
+	_shn_ims_pie_chart($data,$catalog_array);
+	//print ("<br>");
+	_shn_ims_bar_chart_inventory($data);
+
+?>
+	<image src="tmp/pieChart.png"></image>
+	print ("<br>");
+	<image src="tmp/barChart.png"></image>
+<?php
+
 	//$sql6="SELECT * FROM ims_optimization WHERE ";
 	//shn_form_button(_("View Charts"),"onClick='change_action(\"dailyreport\")'",$extra_opts);
-	shn_form_fclose();
+	
 }
 
 function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
@@ -562,7 +645,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 
 //}
 //******************************************************************************************************************
-//*********************************      optimize item ************************************************************
+//*********************************    optimize item ***********************************************************
 //******************************************************************************************************************
 
 function _shn_ims_optim_item_main_page()
@@ -840,6 +923,7 @@ function _shn_ims_optim_item_actions()
 	$sql4="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims4=$db->Execute($sql4);
 	//print $sql4;
+	$j=0;
 	while(!$ims4==NULL && !$ims4->EOF)
 	{
 		$week_chart=$ims4->fields['week'];
@@ -849,17 +933,73 @@ function _shn_ims_optim_item_actions()
 		$alpha_temp=$week_chart+1;
 		$alpha_chart=2/$alpha_temp;
 
-		$forecast_chart=_shn_ims_smoothing($forecasted_value_chart,$actual_value_chart,$alpha_chart);
+		//print $week_chart;
 
-		$temp = array($week_chart,$actual_value_chart,$forecast_chart);
-		array_push($data,$temp);
+		$forecast_chart=_shn_ims_smoothing($forecasted_value_chart,$actual_value_chart,$alpha_chart);
+		//print $forecast_chart;
+		if($week_chart==1)
+		{
+			//$temp=$temp.$j;
+			$temp = array($week_chart,$actual_value_chart,$forecast_chart);
+			print_r($temp);
+			print "<br>";
+			$data= array(
+				array( $week_chart, $actual_value_chart, $forecast_chart)
+			);
+		}
+		
+			print_r($data);
+			print "<br>";
+$data1 = array(
+    array(  "a", 2000,1000),
+    array(  "b", 2010,1000),
+    //array(  "c", 2015,500),
+    //array(  "dd",2020,200),
+    //array(  "e", 2025,100),
+    //array(  "f", 2030,50)
+);
+
+			//print_r($data1);
+		//array_push($data,$temp);
+		//$data[$j][$week_chart]=array($week_chart,$actual_value_chart,$forecast_chart);
+		//$data = array(
+			//array($week_chart,$actual_value_chart,$forecast_chart),
+			//);
+		$j=$j+1;
+
+		//$data=array($week_chart => array($week_chart,$actual_value_chart,$forecast_chart));
+
+		/*
+		 = array(
+			"Bill" => array("21","Male","Customer Service Rep"),
+			"Lisa" => array("22","Female","Intranet Site Admin"),
+			"Tre" => array("23","Male","Mailroom Geek")
+			); 
+
+
+		$data = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);
+		*/
 
 		//$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];
 		$ims4->MoveNext();
 	}
 	
-	_shn_ims_bar_chart($data);
-	_shn_ims_line_chart($data);
+	//var_dump($data);
+?>
+	<br>
+<?php
+	//var_dump($data1);
+	//_shn_ims_bar_chart($data1);
+	//_shn_ims_line_chart($data1);
+	_shn_ims_chart_test($data1);
+	
 ?>
 	<image src="tmp/barChart.png"></image>
 <br>
@@ -910,19 +1050,30 @@ function _shn_ims_optimize_relation_items()
 
 		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 
-		print $catalog_id;
+		//print $catalog_id;
+		$q1="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		$i1=$db->Execute($q1);
+		$item_name=$i1->fields['item_name'];
+		shn_form_label(_("Item Name :"),$item_name,null);
 ?>
 	<br>
 <?php
-		print $inv_id;
+		//print $inv_id;
+		$q2="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+		$i2=$db->Execute($q2);
+		$inventory_name=$i2->fields['inventory_name'];
+		shn_form_label(_("Inventory Name :"),$inventory_name,null);
 ?>
 	<br>
 <?php
 		print $forecast;
+		shn_form_label(_("Forecasted Value :"),$forecast,null);
 ?>
 	<br>
 <?php
-		print $unit;
+		//print $unit;
+		$unit_name1=get_unit_name($unit);
+		shn_form_label(_("Unit :"),$unit_name1,null);
 
 		$ims2->MoveNext();
 	}
@@ -949,9 +1100,24 @@ function _shn_ims_optimize_relation_items()
     $minimum_unit=$ims1->fields['unit'];
     $minimum_quantity=$minimum_quantity*convert_to_base_unit($minimum_unit);
 
+    $unit_name=get_unit_name($minimum_unit);
+
+    $q1="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+    $i1=$db->Execute($q1);
+    $item_name=$i1->fields['item_name'];
+
+    $q2="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+    $i2=$db->Execute($q2);
+    $inventory_name=$i2->fields['inventory_name'];
+		
+
     if($forecasted_value<$minimum_quantity)
     {
-	print ("Hi");
+	shn_form_label(_("Item_name :"),$item_name,null);
+	shn_form_label(_("Inventory :"),$inventory_name,null);
+	shn_form_label(_("Forecasted Value :"),$forecasted_value,null);
+	shn_form_label(_("Unit :"),$unit_name,null);
+	
     }
 
     
