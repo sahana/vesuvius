@@ -67,11 +67,12 @@ function _shn_or_regform_org($error=false)
     // base location
     $parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
+   	//$extra_opts["camps"]=true;
  	shn_form_fsopen("Base Location");
  	if($error==true){
- 		shn_location($range,$_SESSION['org']['loc']);
+ 		shn_location($range,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
- 		shn_location($range);
+ 		shn_location($range,null,null,$extra_opts);
  	} 
     shn_form_fsclose();
     // Contact infomation

@@ -609,11 +609,10 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
         $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='pmob'";
         $res_mobile=$db->Execute($q);
         $contact_mobile=$res_mobile->fields[0];
-        if($org){
-            $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='name'";
-            $res_name=$db->Execute($q);
-            $contact_name=$res_name->fields[0];
-        }
+        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='name'";
+        $res_name=$db->Execute($q);
+        $contact_name=$res_name->fields[0];
+        
         $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='fax'";
         $res_fax=$db->Execute($q);
         $contact_fax=$res_fax->fields[0];

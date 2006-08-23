@@ -92,7 +92,7 @@ function shn_or_adm_type_cr()
     $add = explode(",", $_POST{"added"});
     $remove = explode(",", $_POST{"removed"});
     for($i=1;$i<count($add)-1;$i++){
-    		$key=_shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
+    		$key=shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
         $q="insert into field_options(field_name,option_code,option_description) values('opt_org_type','$key','$add[$i]')";
         $res=$db->Execute($q);
     }
@@ -117,7 +117,7 @@ function shn_or_adm_sector_cr(){
     $add = explode(",", $_POST{"added"});
     $remove = explode(",", $_POST{"removed"});
     for($i=1;$i<count($add)-1;$i++){
-    		$key=_shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
+    		$key=shn_create_unique_database_field_value($add[$i],2,"field_options","option_code");
         $q="insert into field_options(field_name,option_code,option_description) values('opt_sector_type','$key','$add[$i]')";
         $res=$db->Execute($q);
     }

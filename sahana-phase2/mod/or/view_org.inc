@@ -347,12 +347,14 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error,$or_sector_arr);
     shn_form_fsclose();
+    //$extra_opts["camps"]=true;
+   	//$extra_opts["org"]=true;
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
     if($loc==-1){
-    			shn_location($range,null,null,true);
+    			shn_location($range,null,null,$extra_opts);
     }else{
-    			shn_location($range,$loc,null,true);	
+    			shn_location($range,$loc,null,$extra_opts);	
     }
      
     shn_form_fsclose();
@@ -405,10 +407,10 @@ function _shn_or_viewform_latest_orgs($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL order by name";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by name";
         $res_org=$db->Execute($q);
     }else {
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL order by o_uuid desc";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by o_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
     }
    
