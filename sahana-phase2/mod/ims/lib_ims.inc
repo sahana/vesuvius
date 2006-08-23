@@ -882,7 +882,7 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 
 
 
-function _shn_ims_bar_chart_inventory($temp)
+function _shn_ims_bar_chart_inventory($data,$i)
 {
 //include ( "../3rd/phplot1/phplot.php");
 $graph = new PHPlot(700,500);
@@ -899,7 +899,7 @@ $graph->SetDataType("text-data");  //Must be called before SetDataValues
     array(  "e", 2025,100,1200,78,150,700),
     array(  "f", 2030,50, 1450,343, 1300,800)
 );*/
-$data = array($temp);
+//$data = array($temp);
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -935,7 +935,7 @@ $graph->SetHorizTickIncrement( "5");
 $graph->SetXGridLabelType( "title");*/
 
 //Define the Y axis
-$graph->SetVertTickIncrement( "1000"); //the gap between two values in the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
 $graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
@@ -943,7 +943,7 @@ $graph->SetOutputFile("barChart.png");
 
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,1.42,2000);
+$graph->SetPlotAreaWorld(0,0,$i,10000);
 $graph->DrawGraph();
 }
 
@@ -1150,25 +1150,35 @@ $graph->DrawGraph();
 
 
 
-function _shn_ims_chart_test($data)
+function _shn_ims_chart_test()
 {
-//include ( "../3rd/phplot1/phplot.php");
-$graph = new PHPlot(700,2500);
+$graph = new PHPlot(700,500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
 
-// Specify some data
 $data = array(
-  array(  "a",200,300,400,500),
-  array(  "b", 1000,1100,1200,1300)
-   // array(  "c", 2015,500, 700, 179, 400,500),
-   // array(  "d",2020,200,1000,979, 1000,600),
-   // array(  "e", 2025,100,1200,78,150,700),
-   // array(  "f", 2030,50, 1450,343, 1300,800)
+    array(  "a", 2000,1500),
+    array(  "b", 2010,1000),
+    array(  "c", 2015,500),
+    array(  "dd",2020,2000),
+    array(  "e", 2025,100),
+    //array(  "f", 2030,50),
+   // array(  "f", 2030,50),
+    //array(  "f", 2030,50)
 );
-//$data1[]=array();
-$data1[] = array(  "a",0.5,0.7,1.1);
+
+// Specify some data
+$data123 = array(
+    array(  "a", 2000,1500, 0, 100, 600,200),
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "d",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+   // array(  "g", 2030,50, 1450,343, 1300,800),
+    //array(  "h", 2030,50, 1450,343, 1300,800)
+);
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -1186,7 +1196,7 @@ $graph->SetPlotType( "bars");
 //$graph->SetPlotType( "stackedbars");
 
 $graph->SetTitleFontSize( "5"); // the max value of font size is 5
-$graph->SetTitle( "This is test chart");
+$graph->SetTitle( "This is SD test chart");
 
 $graph->SetLegend(array("2000","2001","2002","2003", "2004", "2005", "2006", "2007"));
 //$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
@@ -1204,7 +1214,7 @@ $graph->SetHorizTickIncrement( "5");
 $graph->SetXGridLabelType( "title");*/
 
 //Define the Y axis
-$graph->SetVertTickIncrement( "100"); //the gap between two values in the Y axis
+$graph->SetVertTickIncrement( "500"); //the gap between two values in the Y axis
 $graph->SetPrecisionY( "0"); // determine how many decimal points should be there in Y axis values
 $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
@@ -1212,7 +1222,7 @@ $graph->SetOutputFile("barChart.png");
 
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,3,2000);
+$graph->SetPlotAreaWorld(0,0,6,2000);
 $graph->DrawGraph();
 }
 

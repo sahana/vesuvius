@@ -330,7 +330,8 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
 
 
 /**
-***************************************************************************************************************************************************      Optimize Inventory  ***************************************************
+****************************************************************************************************************
+**********************************     Optimize Inventory  *****************************************************
 ****************************************************************************************************************
 **/
 
@@ -567,6 +568,9 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	$temp=array();
 	$catalog_array=array();
 	$data=array();
+
+	$data_array=array();
+	$temp_array=array();
 	$forecast=0;
 	//$temp[0]="a";
 	$i=1;
@@ -576,6 +580,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	{
 		$catalog_id=$ims6->fields['catalog_id'];
 		$temp[0]=$catalog_id;
+		$temp_array[0]="next period";
 		$sql8="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
 		$ims8=$db->Execute($sql8);
 		$catalog_array[$i]=$ims8->fields['item_name'];
@@ -597,6 +602,8 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 
 		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 
+		
+		array_push($temp_array,$forecast);
 		
 		//array_push($temp,$forecast);
 		for($a=1;$a<$j+1;$a++)
@@ -623,16 +630,81 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 		$ims6->MoveNext();
 
 	}
+
+	array_push($data_array,$temp_array);
+	print_r($data_array);
+	
+	print $i;
 	/*$data = array ( array ( "ct-68", 1500, 0 ,0 ),
 			array ("ct-69", 0 , 975 , 0 ),
 			array ( "ct-75",0 ,0 , 975 ) );*/
 
 
  	//print_r($catalog_array);
-	print_r($data);
+//-------------------------------------------Draw bar charts---------------------------------------------
+	/*$sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
+	$ims9=$db->Execute($sql9);
+	//$i=0;
+	while(!$ims9==NULL && !$ims9->EOF)
+	{
+		$catalog_id=$ims9->fields['catalog_id'];
+		//$temp[0]=$catalog_id;
+		//$sql8="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		//$ims8=$db->Execute($sql8);
+		//$catalog_array[$i]=$ims8->fields['item_name'];
+		
+		$sql10="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
+		$ims10=$db->Execute($sql10);
+		//while(!$ims3==NULL && !$ims3->EOF)
+		//{
+		$actual_value=$ims10->fields['actual_value'];
+		$forecasted_value=$ims10->fields['forecasted_value'];
+		$week=$ims10->fields['week'];
+		$unit=$ims10->fields['unit'];
+		$unit_name=get_unit_name($unit);
+		
+		//$temp = array($forecast);
+		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
+
+		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+
+		$temp_array=
+		
+		//array_push($temp,$forecast);
+		for($a=1;$a<$j+1;$a++)
+		{
+			if($a==$i)
+			{
+				$temp[$a]=$forecast;
+			}
+			else
+			{
+				$temp[$a]=0;
+			}
+
+		}
+		
+		$i=$i+1;
+		
+
+		//$data=array($temp);
+		array_push($data,$temp);
+
+		//$data[0][$i]=$temp;
+		
+		$ims6->MoveNext();
+
+	}*/
+
+//---------------------------------------------
+
+	//print_r($data);
 	_shn_ims_pie_chart($data,$catalog_array);
-	//print ("<br>");
-	_shn_ims_bar_chart_inventory($data);
+	print "<br>";
+	$i=2;
+	_shn_ims_bar_chart_inventory($data_array,$i);
+
+	
 
 ?>
 	<image src="tmp/pieChart.png"></image>
@@ -771,7 +843,8 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 /**
 ****************************************************************************************************************
 *********************************    optimize item *************************************************************
-******************************************************************************************************************/
+****************************************************************************************************************
+**/
 
 function _shn_ims_optim_item_main_page()
 {
@@ -1084,37 +1157,13 @@ $data1 = array(
     //array(  "f", 2030,50)
 );
 
-			//print_r($data1);
-		//array_push($data,$temp);
-		//$data[$j][$week_chart]=array($week_chart,$actual_value_chart,$forecast_chart);
-		//$data = array(
-			//array($week_chart,$actual_value_chart,$forecast_chart),
-			//);
+			
 		$j=$j+1;
 
-		//$data=array($week_chart => array($week_chart,$actual_value_chart,$forecast_chart));
-
-		/*
-		 = array(
-			"Bill" => array("21","Male","Customer Service Rep"),
-			"Lisa" => array("22","Female","Intranet Site Admin"),
-			"Tre" => array("23","Male","Mailroom Geek")
-			); 
-
-
-		$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);
-		*/
-
-		//$inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];
+		
 		$ims4->MoveNext();
 	}
+	shn_form_fclose();
 	
 	//var_dump($data);
 ?>
@@ -1123,14 +1172,14 @@ $data1 = array(
 	//var_dump($data1);
 	//_shn_ims_bar_chart($data1);
 	//_shn_ims_line_chart($data1);
-	_shn_ims_chart_test($data1);
+	_shn_ims_chart_test();
 	
 ?>
 	<image src="tmp/barChart.png"></image>
 <br>
-	<image src="tmp/lineChart.png"></image>
+	<!--<image src="tmp/lineChart.png"></image>-->
 <?php
-	shn_form_fclose();
+	
 }
 
 function _shn_ims_optimize_relation_items()
