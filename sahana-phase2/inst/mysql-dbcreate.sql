@@ -330,11 +330,11 @@ CREATE TABLE sector(
 -- ORG USER INFORMATION
 DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
-    org_id BIGINT NOT NULL,
-	user_id BIGINT NOT NULL,
-	PRIMARY KEY (org_id,user_id),
+    o_uuid VARCHAR(60) NOT NULL,
+    user_id VARCHAR(60) NOT NULL,
+	PRIMARY KEY (o_uuid,user_id),
 	FOREIGN KEY (user_id) REFERENCES users(p_uuid),
-	FOREIGN KEY (org_id) REFERENCES org_main(o_uuid)
+	FOREIGN KEY (o_uuid) REFERENCES org_main(o_uuid)
 	
 );
 

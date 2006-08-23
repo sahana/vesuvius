@@ -153,15 +153,15 @@ INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
-INSERT INTO config VALUES ( 'or', 'loc_start', NULL);
-INSERT INTO config VALUES ( 'or', 'loc_range_start', 1);
-INSERT INTO config VALUES ( 'or', 'loc_range_end', 3);
-INSERT INTO config VALUES('admin','acl','false');
-INSERT INTO config VALUES('admin','acl_base','no');
+--INSERT INTO config VALUES ( 'or', 'loc_start', NULL);
+--INSERT INTO config VALUES ( 'or', 'loc_range_start', 1);
+--INSERT INTO config VALUES ( 'or', 'loc_range_end', 3);
+--INSERT INTO config VALUES('admin','acl','false');
+--INSERT INTO config VALUES('admin','acl_base','no');
 
 -- INSERT THE INBUILT SAHANA ORGANIZATION
 --INSERT INTO org_main(o_uuid,name,org_type,privacy,archive) VALUES(0,'sahana','gov','','','','',1,0);
-INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
+--INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
 
 
 
