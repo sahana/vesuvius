@@ -20,6 +20,12 @@
 //include_once $global['approot']."/inc/lib_errors.inc";
 include_once "lib_ims.inc";
 
+/**
+****************************************************************************************************************
+*******************************            Relation Item            ********************************************
+****************************************************************************************************************
+**/
+
 function _shn_ims_relation_item()
 {
 ?>
@@ -112,7 +118,7 @@ function _shn_ims_relation_item_table()
 	{
 		$sql1="SELECT * FROM ims_item_records WHERE catalog_id!='$parent_id';";
 		$ims1=$db->Execute($sql1);
-		$inventory_name1="All Inventories";
+		//$inventory_name1="All Inventories";
 	}
 	else
 	{
@@ -125,6 +131,15 @@ function _shn_ims_relation_item_table()
 	}
 	while(!$ims1==NULL && !$ims1->EOF)
 	{
+
+		if($inv_id='all')
+		{
+			$inv_id_temp=$ims1->fields['inv_id'];
+			$query="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id_temp';";
+			$ims_query=$db->Execute($query);
+			$inventory_name1=$ims_query->fields['inventory_name'];
+		}
+
 		$catalog_id=$ims1->fields['catalog_id'];
 		$item_name=$ims1->fields['item_name'];
 		$amount=$ims1->fields['amount'];
@@ -141,7 +156,7 @@ function _shn_ims_relation_item_table()
 	<td><?php print $inventory_name1; ?></td>
 	<td><?php print $unit_name;?></td>
 	<td><?php print $sum_amount;?></td>
-	<td><!--<a href="index.php?mod=ims&act=alternate_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Alternate");?></a>--><?php print (" , ");?><a href="index.php?mod=ims&act=relation_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Relation");?></a></td>
+	<td><!--<a href="index.php?mod=ims&act=alternate_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Alternate");?></a>--><?php print (" , ");?><a href="index.php?mod=ims&act=relation_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id_temp;?>"><?php print ("Relation");?></a></td>
 	</tr>
 <?php
 	$ims1->MoveNext();	
@@ -161,11 +176,14 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 
 	$sql1="INSERT INTO ims_relation (catalog_id,inv_id,relation) VALUES ('$parent_id','$inv_id','$relation');";
 	$ims1=$db->Execute($sql1);
-	print $sql1;
+	//print $sql1;
 }
 
-//*********************************** Alternate Item ***************************************************************
-
+/**
+****************************************************************************************************************
+********************************* Alternate Item ***************************************************************
+****************************************************************************************************************
+**/
 function _shn_ims_alternate_item()
 {
     ?>
@@ -311,8 +329,10 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
 
 
 
-//*******************************************************************************************************************//***********************************      Optimize Inventory ******************************************************
-//******************************************************************************************************************
+/**
+***************************************************************************************************************************************************      Optimize Inventory  ***************************************************
+****************************************************************************************************************
+**/
 
 function _shn_ims_optim_inventory()
 {
@@ -450,6 +470,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	<td><?php print (_("Item name"));?></td>
 	<td><?php print (_("Inventory"));?></td>
 	<td><?php print (_("Forecasted Value"));?></td>
+	<td><?php print (_("Re-Order Level"));?></td>
 	<td><?php print (_("Unit"));?></td>
 	<td><?php print (_("Actions"));?></td>
 	</thead>
@@ -460,7 +481,22 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	//print $sql2;
 	while(!$ims2==NULL && !$ims2->EOF)
 	{
+		
 		$catalog_id=$ims2->fields['catalog_id'];
+
+		$q1="SELECT * from ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+		$ims_q1=$db->Execute($q1);
+
+		$minimum_quantity=$ims_q1->fields['minimum_quantity'];
+		$minimum_unit=$ims_q1->fields['unit'];
+		
+		$multiplier=unit_converter($minimum_unit,convert_to_base_unit($minimum_unit));
+		$minimum_quantity=$minimum_quantity*$multiplier;
+
+		
+		//print $multiplier;
+		//print (convert_to_base_unit($minimum_unit));
+		//$minimum_quantity=$minimum_quantity*convert_to_base_unit($minimum_unit);
 
 		$sql3="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
 		$ims3=$db->Execute($sql3);
@@ -488,6 +524,20 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	<td><?php print $item_name; ?></td>
 	<td><?php print $inventory_name; ?></td>
 	<td><?php print $forecast; ?></td>
+<?php
+	if($minimum_quantity==0)
+	{
+?>
+	<td><a href="index.php?mod=ims&act=view_edit_reorder_page&catalog_id=<?php echo $catalog_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Not Set");?></a></td>
+<?php
+	}
+	else
+	{
+?>
+		<td><?php print $minimum_quantity; ?></td>
+<?php
+	}
+?>
 	<td><?php print $unit_name;?></td>
 	<td><a href="index.php?mod=ims&act=optim_relation_inventories&catalog_id=<?php echo $catalog_id;?>&inv_id=<?php echo $inv_id;?>&time_period=<?php echo $time_period;?>"><?php print ("Relative Items");?></a></td>
 	</tr>
@@ -573,8 +623,12 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 		$ims6->MoveNext();
 
 	}
+	/*$data = array ( array ( "ct-68", 1500, 0 ,0 ),
+			array ("ct-69", 0 , 975 , 0 ),
+			array ( "ct-75",0 ,0 , 975 ) );*/
 
- 	print_r($catalog_array);
+
+ 	//print_r($catalog_array);
 	print_r($data);
 	_shn_ims_pie_chart($data,$catalog_array);
 	//print ("<br>");
@@ -598,6 +652,11 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 	
 	$sql="DELETE FROM ims_optimization;";
 	$ims=$db->Execute($sql);
+?>
+	<h1 align="center"><?php print(_("Prediction Report for Relative items"));?></h1>
+<?php
+	//shn_form_fopen(null);
+	//shn_form_fsopen("Prediction Relative Items");
 
 	$sql1="SELECT * FROM ims_relation WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims1=$db->Execute($sql1);
@@ -607,7 +666,23 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 		_shn_ims_insert_data_to_predict($relation,$inv_id,$time_period);
 		$ims1->MoveNext();
 	}
-
+	//$catalog_id_relation_to=$catalog_id;
+	$sql7="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+	$ims7=$db->Execute($sql7);
+	$item_name_relation_to=$ims7->fields['item_name'];
+?>
+	<div id="result">
+	<table>
+	<thead>
+	<td><?php print(_("Item Name"));?></td>
+	<td><?php print(_("Inventory"));?></td>
+	<td><?php print(_("Forecasted Amount"));?></td>
+	<td><?php print(_("Re-Order Level"));?></td>
+	<td><?php print(_("Unit"));?></td>
+	<td><?php print(_("Relation to"));?></td>
+	</thead>
+	
+<?php
 	$sql2="SELECT * FROM ims_optimization GROUP BY catalog_id;";
 	$ims2=$db->Execute($sql2);
 	while(!$ims2==NULL && !$ims2->EOF)
@@ -623,30 +698,80 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
 		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 
-		print $catalog_id;
 ?>
 	<br>
 <?php
-		print $inv_id;
+		//print $catalog_id;
+		$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+		$ims4=$db->Execute($sql4);
+		$item_name=$ims4->fields['item_name'];
+		shn_form_label(_("Item : "),$item_name,null);
 ?>
 	<br>
 <?php
-		print $forecast;
+		//print $inv_id;
+		$sql5="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+		$ims5=$db->Execute($sql5);
+		$inventory_name=$ims5->fields['inventory_name'];
+		shn_form_label(_("Inventory :"),$inventory_name,null);
 ?>
 	<br>
 <?php
-		print $unit;
+		//print $forecast;
+		shn_form_label(_("Forecasted Value :"),$forecast,null);
+?>
+	<br>
+<?php
+		//print $unit;
+		$unit_name=get_unit_name($unit);
+		shn_form_label(_("Unit :"),$unit_name,null);
+
+		$sql6="SELECT * FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+		$ims6=$db->Execute($sql6);
+		$minimum_quantity=$ims6->fields['minimum_quantity'];
+		$minimum_unit=$ims6->fields['unit'];
+
+		$multiplier=unit_converter($minimum_unit,convert_to_base_unit($minimum_unit));
+		$minimum_quantity=$minimum_quantity*$multiplier;
+		if($minimum_quantity==0)
+		{
+			$minimum_quantity="Not Set";
+		}
+		else
+		{
+			;
+		}
+
+		
+
+?>
+	<br>
+	<tr>
+	<td><?php print $item_name;?></td>
+	<td><?php print $inventory_name;?></td>
+	<td><?php print $forecast;?></td>
+	<td><?php print $minimum_quantity;?></td>
+	<td><?php print $unit_name;?></td>
+	<td><?php print ($item_name_relation_to);?></td>
+	</tr>
+<?php
 
 		$ims2->MoveNext();
 	}
 
+?>	
+	<tbody></tbody></table></div>
+<?php
+	//shn_form_fsclose();
+	//shn_form_fclose();
+
 	
 }
 
-//}
-//******************************************************************************************************************
-//*********************************    optimize item ***********************************************************
-//******************************************************************************************************************
+/**
+****************************************************************************************************************
+*********************************    optimize item *************************************************************
+******************************************************************************************************************/
 
 function _shn_ims_optim_item_main_page()
 {
@@ -1121,8 +1246,6 @@ function _shn_ims_optimize_relation_items()
     }
 
     
-
-	//print ("Hi");
 }
 }
 

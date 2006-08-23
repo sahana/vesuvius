@@ -157,7 +157,11 @@ function _shn_ims_report_minimum()
     </tbody>
     </table>
     </div>
+
+    
 <?php
+
+	
 
 }
 
