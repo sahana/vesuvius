@@ -151,7 +151,7 @@ function _shn_admin_levels_form()
 	$loc_arr=shn_admin_location_level_list();
 	$form_opts['name']='add_loc_lvl';
     shn_form_fopen("loc_lvl_cr",null,$form_opts);
-    _shn_add_remove_javascript("opt_location_type[]",$loc_arr,false);
+    shn_add_remove_javascript("opt_location_type[]",$loc_arr,false);
     shn_form_fsopen("Add New Level Information");
     shn_form_text(_("New Level : "),'type','size="50"',null); 
     shn_form_hidden(array("added"=>','));
@@ -179,7 +179,7 @@ function _shn_admin_levels_form()
     shn_form_button(_("Reset"),"onClick='change_action(\"reset\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_hidden(array('loc_str'=>','));
-   	_shn_reset_form_javascript("add_loc_lvl","opt_location_type[]");
+   	shn_reset_form_javascript("add_loc_lvl","opt_location_type[]");
    	_shn_save_form_javascript("add_loc_lvl","opt_location_type[]","loc_str");
 ?>
 </center>
@@ -323,7 +323,7 @@ function _shn_admin_location_form()
     		" will be created as child of the parent, if you do not select a parent" .
     		" the new location is considered as a top level location");?> </div><br /><?
     $range= shn_get_range();
-    shn_location($range,null,null,false);
+    shn_location($range,null,null,array("unknown"=>false));
     shn_form_fsclose();
     ?>
 	</center>

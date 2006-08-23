@@ -177,6 +177,16 @@ function shn_admin_acl_install()
 {
     _shn_admin_acl_install();
 }
+function shn_admin_acl_install_done()
+{
+    if($_POST{"action"}=='system'){
+    		shn_admin_acl_system();	
+    }
+    if($_POST{"action"}=='module'){
+    		shn_admin_acl_module();	
+    }
+}
+
 function shn_admin_acl_mod_install()
 {
     _shn_admin_acl_mod_install();
@@ -354,7 +364,22 @@ function shn_admin_add_user($error=false)
 
 function shn_admin_add_user_cr()
 {
-    _shn_admin_add_user_cr();
+   include_once "errors.inc";
+   $error= _shn_admin_add_user_cr();
+   ?><div id="result_msg"><?
+   if($error==true){
+   	   $msg="An error ocurred";
+   }else{ 
+   		$msg="User was succesfully added";
+   }
+   
+    echo $msg;
+    if($error)
+    display_errors();
+    ?>
+   </div><?
+   _shn_admin_acl_system_menu();
+   
 }
 
 function shn_admin_del_user($error=false)
@@ -376,7 +401,21 @@ function shn_admin_ch_pwd($error=false)
 
 function shn_admin_ch_pwd_cr()
 {
-    _shn_admin_ch_pwd_cr();
+   include_once "errors.inc";
+   $error=_shn_admin_ch_pwd_cr();
+   ?><div id="result_msg"><?
+   if($error){
+   	   $msg="An error ocurred";
+   }else{ 
+   		$msg="User was succesfully added";
+   }
+   
+    echo $msg;
+    if($error)
+    display_errors();
+    ?>
+   </div><?
+   _shn_admin_acl_system_menu();
 }
 
 /***

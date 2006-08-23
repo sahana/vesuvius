@@ -263,25 +263,32 @@ function _shn_admin_acl_mod_install(){
    	if($_GET{"script"}==true){
    		$module_function='shn_'.$module.'_adm_acl_install';
    		 // include the correct module file based on action and module
-    	$module_file = $global['approot'].'/mod/'.$module.'/admin.inc';
-    	if (file_exists($module_file)) {
-	    	include_once($module_file);
-	    	if (function_exists($module_function)) {
-        		$module_function();
-        		$q = "SELECT value FROM config WHERE module_id='{$module}' AND confkey='acl_enabled'";
-    			$res_acl = $db->Execute($q);
-				if(($res_acl!=NULL) && (!$res_acl->EOF))
-      				$q="update config set value=true where confkey='acl_enabled' and module_id='{$module}'";
-      			else
-        			$q="insert into config values('{$module}','acl_enabled',true)";
-				$db->Execute($q);
-        		return;
-        	}else {
-        		echo  _("Sorry ! It seems you do not have an ACL script");
-            	return;
+    		$module_file = $global['approot'].'/mod/'.$module.'/admin.inc';
+    		if (file_exists($module_file)) {
+	    		include_once($module_file);
+	    			if (function_exists($module_function)) {
+        				$module_function();
+        				$q = "SELECT value FROM config WHERE module_id='{$module}' AND confkey='acl_enabled'";
+    					$res_acl = $db->Execute($q);
+					if(($res_acl!=NULL) && (!$res_acl->EOF))
+      					$q="update bconfig set value=true where confkey='acl_enabled' and module_id='{$module}'";
+      				else
+        					$q="insert into config(module_id,confkey,value) values('{$module}','acl_enabled',true)";
+					$db->Execute($q);
+					$q = "SELECT value FROM config WHERE module_id='{$module}' AND confkey='acl_base'";
+    					$res_acl = $db->Execute($q);
+					if(($res_acl!=NULL) && (!$res_acl->EOF))
+      					$q="update config set value='installed' where confkey='acl_base' and module_id='{$module}'";
+      				else
+        					$q="insert into config(module_id,confkey,value) values('{$module}','acl_base','installed')";
+					$db->Execute($q);
+        				return;
+        			}else {
+        				echo  _("Sorry ! It seems you do not have an ACL script");
+           			return;
         	}
-    	} else {
-        	echo  _("Sorry ! It seems you do not have an ACL script");
+    		} else {
+        		echo  _("Sorry ! It seems you do not have an ACL script");
             return;
    		}
    	   
@@ -298,11 +305,12 @@ function _shn_admin_acl_mod_install(){
         return;
     }
     if($res_acl->EOF){
-    	$q="insert into config values('{$module}','acl_enabled',true)";
+    		$q="insert into config(module_id,confkey,value) values('{$module}','acl_enabled',true)";
 		$db->Execute($q);
-        $q="insert into config values('$module','acl_base','installed')";
+        $q="insert into config(module_id,confkey,value) values('$module','acl_base','installed')";
     }else
          $q="update config set value='installed' where module_id='$module' and confkey='acl_base'";
+  
     $res=$db->Execute($q);
     echo  _("Default ACL was succesfully installed");
 
@@ -314,12 +322,18 @@ function _shn_admin_acl_install(){
     $db=$global["db"];
     $q="select value from config where module_id='admin' and confkey='acl_base'";
     $res=$db->Execute($q);
+    if(($res==null)or($res->EOF==true)){
+    		$acl_base_empty=true;
+    }else{
+    		$acl_base_empty=false;
+    }
     if($res->fields[0]=='installed'){
         $msg="ACL Base is already installed";
     }else {
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot'].'inc/lib_security/authenticate.inc';
+    include_once($global['approot']."/inc/lib_uuid.inc");
     $acl=new SahanaACL(NULL);
 
 /*****************************************************************/
@@ -357,17 +371,20 @@ or_acl_setup to sahana setup script once its avaliable
    	$res=shn_acl_add_perm_type("execute","execute permission");
     // adds guest user with password and add the user to ACL users and add to 'guest' role
     $guest=shn_add_user("Guest User","guest",$conf['guest_pwd'],"guest",$conf['guest_id']); 
+    $org_id=shn_create_uuid('org');
+    $q="insert into org_main(o_uuid,name,privacy,archived) values('{$org_id}','sahana',1,0)";
+    $res=$db->Execute($q);
     //add a"guest" user to ACL users and add to 'guest' role
-    $q="insert into org_users(org_id,user_id) values(0,{$conf['guest_id']})";
+    $q="insert into org_users(o_uuid,user_id) values('{$org_id}',{$conf['guest_id']})";
     $res=$db->Execute($q);
      // adds sahana user with password and add the user to ACL users and add to 'user' role
     $guest=shn_add_user("Sahana User","sahana",$conf['user_pwd'],"user",$conf['user_id']); 
     //add a"guest" user to ACL users and add to 'guest' role
-    $q="insert into org_users(org_id,user_id) values(0,{$conf['user_id']})";
+    $q="insert into org_users(o_uuid,user_id) values('{$org_id}',{$conf['user_id']})";
     $res=$db->Execute($q);
     $root=shn_add_user("Root User","root",$conf['root_pwd'],"admin",$conf['root_id']); 
     //add a "root" user to ACL users and add to 'admin' role
-    $q="insert into org_users(org_id,user_id) values(0,{$conf['root_id']})";
+    $q="insert into org_users(o_uuid,user_id) values('{$org_id}',{$conf['root_id']})";
     $res=$db->Execute($q);
     /************************************/
     //give permission for the guest user to sahana home
@@ -389,25 +406,52 @@ or_acl_setup to sahana setup script once its avaliable
     $res=shn_acl_add_perms_action_group_role('guest','admin','deny_admin');
   //give permission for 'view' action group with in 'home' to 'user' role
     $res=shn_acl_add_perms_action_group_role('user','admin','deny_admin');
-    $q="update config set value='installed' where module_id='admin' and confkey='acl_base'";
+    if($acl_base_empty==true){
+    		$q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";	
+    }else{
+    		$q="update config set value='installed' where module_id='admin' and confkey='acl_base'";
+    }
+  
     $res=$db->Execute($q);
-    $q="insert into config values('admin','acl_enabled',false)";
+    $q="insert into config(module_id,confkey,value) values('admin','acl_enabled',false)";
 	$db->Execute($q);
 	// add a module named "home"
     $res=shn_acl_add_module("home","Sahana Home");
-    $q="insert into config values('home','acl_enabled',false)";
+    $q="insert into config(module_id,confkey,value) values('home','acl_enabled',false)";
 	$db->Execute($q);
-    $q="insert into config values('home','acl_base','installed')";
+    $q="insert into config(module_id,confkey,value) values('home','acl_base','installed')";
     $res=$db->Execute($q);
     $msg="ACL Base was succesfully installed";
+    $continue=true;
     }
 
 ?>
     <div id="result_msg">
-        <?php echo $msg; ?>
-    </div>
-    </br>
-<?php
+        <?php echo $msg; ?>    <br />
+    <?if($continue==true){
+    		$form_opts['name']='acl_result';
+    		$form_opts['req_message']=false;
+    		shn_form_fopen("acl_install_done",null,$form_opts);
+	    $extra_opts['br']=false;
+		$extra_opts['req']=false;
+		shn_form_fsopen('Manage Roles and Users');
+		$msg=_("Now you can add/edit/delete Roles and Users ")."<br />";
+		$msg=$msg._("Of course you can add/edit/delete Roles and Users later on through the System & User link.")."<br />";
+	    ?><div class="info"><? echo $msg?></div><br /><?
+	    shn_form_button(_("Roles & Users"),"onClick='change_action(\"system\")'",$extra_opts);
+		shn_form_fsclose();
+		
+		shn_form_fsopen('Manage Modules');
+		$msg=_("If you would like to install ACL for modules or enable/disable ACL click the button below ")."<br />";
+	     ?><div class="info"><? echo $msg?></div><br /><?
+		shn_form_button(_("Modules"),"onClick='change_action(\"module\")'",$extra_opts);
+		shn_form_fsclose();
+	    shn_form_hidden(array('action'=>'0'));
+	   	include_once($global['approot']."/inc/lib_misc.inc");
+	    shn_action_change_javascript("acl_result","action");
+    }
+	?></div><?
+
 }
 
 function _shn_admin_acl_user_edit_roles($module=NULL,$error=false){
