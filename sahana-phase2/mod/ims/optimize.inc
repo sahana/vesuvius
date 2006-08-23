@@ -574,7 +574,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 
 	}
 
-// 	
+ 	print_r($catalog_array);
 	print_r($data);
 	_shn_ims_pie_chart($data,$catalog_array);
 	//print ("<br>");
