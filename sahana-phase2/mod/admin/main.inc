@@ -407,12 +407,12 @@ function shn_admin_ch_pwd_cr()
    if($error){
    	   $msg="An error ocurred";
    }else{ 
-   		$msg="User was succesfully added";
+   		$msg="The Password was succesfully updated ";
    }
    
     echo $msg;
     if($error)
-    display_errors();
+    		display_errors();
     ?>
    </div><?
    _shn_admin_acl_system_menu();
