@@ -571,6 +571,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 
 	$data_array=array();
 	$temp_array=array();
+	$temp_array1=array();
 	$forecast=0;
 	//$temp[0]="a";
 	$i=1;
@@ -580,7 +581,8 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	{
 		$catalog_id=$ims6->fields['catalog_id'];
 		$temp[0]=$catalog_id;
-		$temp_array[0]="next period";
+		$temp_array[0]="next Period";
+		$temp_array1[0]="Present Period";
 		$sql8="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
 		$ims8=$db->Execute($sql8);
 		$catalog_array[$i]=$ims8->fields['item_name'];
@@ -604,6 +606,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 
 		
 		array_push($temp_array,$forecast);
+		array_push($temp_array1,$actual_value);
 		
 		//array_push($temp,$forecast);
 		for($a=1;$a<$j+1;$a++)
@@ -630,7 +633,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 		$ims6->MoveNext();
 
 	}
-
+	array_push($data_array,$temp_array1);
 	array_push($data_array,$temp_array);
 	print_r($data_array);
 	
@@ -701,7 +704,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	//print_r($data);
 	_shn_ims_pie_chart($data,$catalog_array);
 	print "<br>";
-	$i=2;
+	$i=3;
 	_shn_ims_bar_chart_inventory($data_array,$i);
 
 	
