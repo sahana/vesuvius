@@ -14,17 +14,19 @@
 *
 */
 
-/* }}} */
 $act=$_GET{"act"};
+
 if($act=='add_loc'){
     _shn_get_level_location();
 }else if ($act=='sub_cat'){
 		_shn_get_sub_catalogs();
 }else if($act=='unit_cat'){
 		_shn_get_units();
-	}else{
+	}else if($act=='get_loc_val'){
+			_shn_get_locations();
+		}else{
 	    _shn_get_children();
-	}
+		}
 
 
 function _shn_get_units()
@@ -100,9 +102,11 @@ $db = NewADOConnection($conf['db_engine']);
 $db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
 t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 
-$level=$_GET{"lvl"}+1;
-$parent=$_GET{"sel"};
-$q = "select location.name,location.loc_uuid,parent_id from location where location.opt_location_type={$level} and parent_id='{$parent}'";
+	$level=$_GET{"lvl"}+1;
+	$parent=$_GET{"sel"};
+
+	$q = "select location.name,location.loc_uuid,parent_id from location where location.opt_location_type='{$level}' and parent_id='{$parent}'";
+    //echo $q;
     $res_child=$db->Execute($q);
     if($res_child->EOF)
         return;
@@ -113,6 +117,73 @@ $q = "select location.name,location.loc_uuid,parent_id from location where locat
     }
 echo $res;
 }
+
+function _shn_get_locations(){
+require_once('../3rd/adodb/adodb.inc.php');
+require_once('../conf/sysconf.inc');
+//Make the connection to $global['db']
+$db = NewADOConnection($conf['db_engine']);
+$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
+t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
+
+	$level=1;
+	$sel_id=$_GET{"sel"};
+	
+	if($_GET{"type"}=="camp"){
+		$q="select location_id from camp_general where c_uuid='{$sel_id}'";
+		$res=$db->Execute($q);
+    		if($res->EOF)
+        		return;
+    			$loc_id=$res->fields["location_id"];
+	}else if($_GET{"type"}=="poc"){
+		$q = "select location_id from location_details where poc_uuid='{$sel_id}'";
+		$res=$db->Execute($q);
+    		if($res->EOF)
+        		return;
+    			$loc_id=$res->fields["location_id"];
+		}else{
+			$loc_id=$_GET{"sel"};
+		}
+	
+	
+	
+	$q = "select parent_id,opt_location_type from location where loc_uuid='{$loc_id}'";
+	$res=$db->Execute($q);
+    	if($res->EOF)
+        	return;
+        	
+    	$parent=$res->fields["parent_id"];
+    	$header.="loc_dir".",".$parent;
+    $header.=",".$res->fields["opt_location_type"];
+    	
+    $level=$res->fields["opt_location_type"];
+   	
+	$q = "select location.name,location.loc_uuid from location where location.opt_location_type='{$level}' and parent_id='{$parent}'";
+    //echo $q;
+    $res_child=$db->Execute($q);
+    if($res_child->EOF)
+        return;
+    $count=0;
+    while(!$res_child->EOF){
+    		if($count==0){
+    			$res_data=$res_data.$res_child->fields["loc_uuid"];
+        		$res_data=$res_data.":".$res_child->fields["name"];
+    		}else{
+        		$res_data=$res_data.",".$res_child->fields["loc_uuid"];
+        		$res_data=$res_data.":".$res_child->fields["name"];
+    		}
+    		if($res_child->fields["loc_uuid"]==$loc_id){
+    			$header.=",".$count;
+    		}
+    		$count++;
+        $res_child->MoveNext();
+    }
+    //echo $header;
+   // echo $res_data;
+   
+   echo $header.";".$res_data;
+}
+
 
 function _shn_get_level_location(){
 require_once('../3rd/adodb/adodb.inc.php');
