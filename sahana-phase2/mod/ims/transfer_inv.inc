@@ -77,7 +77,7 @@ function _shn_ims_send_item_table_view_($catalog_id)
                 <td><?=_("Expire Date")?></td>
             <td><?=_("Available Inventory")?></td>
                 <td><?=_("state")?></td>
-        <td><?=_("Send Item")?></td>
+        <td><?=_("Action")?></td>
         </thead>
     <tbody>
 <?php
@@ -132,7 +132,84 @@ function _shn_ims_send_item_table_view_($catalog_id)
     </tbody>
     </table>
 </div>
+
+    <div><b><em><h3><?php print("Alternate Items Table");?></h3></em></b></div>
+    
+    <div id="result">
+    <table>
+    <thead>
+            <td><?=_("Item")?></td>
+	    <td><?=_("Amount");?></td>
+            <td><?=_("Unit");?></td>
+            <td><?=_("Manufactured Date")?></td>
+                <td><?=_("Expire Date")?></td>
+            <td><?=_("Available Inventory")?></td>
+                <td><?=_("state")?></td>
+        <td><?=_("Action")?></td>
+        </thead>
+    <tbody>
+<?php
+	$sql3="SELECT * FROM ims_alternate WHERE catalog_id='$parent_id';";
+	$ims3=$db->Execute($sql3);
+	while(!$ims3==NULL && !$ims3->EOF)
+	{
+		$inv_alternate=$ims3->fields['inv_id'];
+		$alternate=$ims3->fields['alternate'];
+
+		if($inv_alternate==0)
+		{
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND state!='$state_des';";
+		}
+		else
+		{
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_alternate' AND state!='$state_des';";
+		}
+		$ims4=$db->Execute($sql4);
+		
+		while(!$ims4==NULL && !$ims4->EOF)
+		{
+			$item_id=$ims4->fields["item_id"];
+            		$inv_id=$ims4->fields["inv_id"];
+            		$item_name=$ims4->fields["item_name"];
+            		$amount=$ims4->fields["amount"];
+            		$unit=$ims4->fields["unit"];
+            		$manufactured_date=$ims4->fields["manufactured_date"];
+            		$expire_date=$ims4->fields["expire_date"];
+            		$state=$ims4->fields["state"];
+
+            		$unit_name=get_unit_name($unit);
+            
+            
+        
+        $sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid=$inv_id;";
+        $ims5= $db->Execute($sql5);
+        //print $sql2;
+        $inventory_name = $ims5->fields["inventory_name"];            
+
+?>
+        <tr>
+        <td><?php print ($item_name);?></td>
+        <td><?php print ($amount); ?></td>
+        <td><?php print ($unit_name); ?></td>
+        <td><?php print ($manufactured_date); ?></td>
+        <td><?php print ($expire_date);?></td>
+        <td><?php print ($inventory_name);?></td>
+        <td><?php print ($state); ?></td>
+        <td><a href="index.php?mod=ims&act=send_item_data_collectpage&item_id=<?php echo $item_id;?>&parent_id=<?php echo $parent_id; ?>&unit_id=<?php echo $unit;?>"><?php print ("Send");?></a></td>        
+        </tr>
+
+<?php
+			$ims4->MoveNext();
+		}
+
+		$ims3->MoveNext();
+	}
+?>
+    </tbody>
+    </table>
+    </div>
 <?php    
+
 }
 
 function _shn_ims_send($item_id,$parent_id,$unit_id_send)
