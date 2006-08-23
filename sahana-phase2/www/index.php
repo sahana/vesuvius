@@ -102,10 +102,9 @@ function shn_main_front_controller()
     // check the users access permissions for this action
     $module_function = 'shn_'.$prefix.$module.'_'.$action;
 	$acl_enabled=shn_acl_get_state($module);
-
     // @TODO: test against admin function is wrong
-    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'], $module_function) || 
-             !$acl_enabled)? true : false;
+    $allow = ((!shn_acl_check_perms_action($_SESSION['user_id'], $module_function)) || 
+             (!$acl_enabled))? true : false;
 
     // include the correct module file based on action and module
     $module_file = $approot.'mod/'.$module.'/main.inc';

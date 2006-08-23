@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.51 2006-08-15 00:43:06 ravids Exp $ */
+/* $Id: lib_form.inc,v 1.52 2006-08-23 10:12:12 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -270,7 +270,7 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 #        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
         <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
-<?=$sel?> /><?=$desc?>
+<?=$select_opts?> /><?=$desc?>
 <?php
     }
 ?>
@@ -520,6 +520,7 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
  * @access public
  * @return void
  */
+/*
 function shn_form_date($label, $name = 'date', $initdate = null )
 {
     ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
@@ -535,26 +536,32 @@ function shn_form_date($label, $name = 'date', $initdate = null )
     <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4" maxlength=4>
 <?php
 }
-
-/* fancy popup calendar, however such systems are eyecandy and not efficient
-function shn_form_date($label, $name = 'date')
+*/
+function shn_form_date($label,$name,$extra_opts = null)
 {
-    #$today = date("Y-m-d");
-    $today = date("d/m/Y");
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
-    global $global;
-?>
-    <script language="javascript" type="text/javascript" src="res/js/calendar.core.js"></script>
-    <label><?=$label?></label>
-<?php
-    require_once $global['approot']."/3rd/popupcal/cal_class.php";
-    $calendario=new Calendar("en");
-    $calendario->CreateCalendar($today,$name,"1/1/2000","12/30/2000");
-    # @TODO handle localization and remove fixed date range above
 
+    //including the script file only once
+    static $script_include=false;
+    if(!$script_include){
+        echo "<script type='text/javascript' src='res/js/scw.js'></script>";
+        $script_include=true;
+    }
+    $format=(isset($extra_opts['format']))?$extra_opts['format']:'yyyy-mm-dd';
+    $string = strtoupper($format);
+    $f=substr($string,  0, 1);
+    $l=substr($string, -1, 1);
+    $m=($f=='Y'||$l=='Y')?$m:'Y';
+    $m=($f=='M'||$l=='M')?$m:'M';
+    $m=($f=='D'||$l=='D')?$m:'D';
+    $seq=$f.$m.$l;
+?>
+    <label><?=$label?></label>
+    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(this,this);" size="12" maxlength="12">
+<?php
     shn_form_extra_opts($extra_opts);
 }
-*/
+
 
 function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
 {

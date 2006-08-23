@@ -51,7 +51,7 @@ function _shn_html_print_message($msg,$br = false)
  * @return string
  */
 
-function _shn_create_unique_database_field_value($base,$width,$table,$field,$constraints=null){
+function shn_create_unique_database_field_value($base,$width,$table,$field,$constraints=null){
 	global $global;
 	$db=$global["db"];
 	$not_done=true;
@@ -77,7 +77,7 @@ function _shn_create_unique_database_field_value($base,$width,$table,$field,$con
 	return $uuid;
 }
 
-function _shn_reset_form_javascript($form,$reset_what){
+function shn_reset_form_javascript($form,$reset_what){
 ?>
 <script type="text/javascript">
     function change_action(action){
@@ -96,9 +96,11 @@ function _shn_reset_form_javascript($form,$reset_what){
                 x[0].options[i] = opt;
                
             }
+           	var remove=document.getElementsByName("removed");
+		    var add=document.getElementsByName("added");
+		    add[0].value=",";
+		    remove[0].value=",";
     		}else{
-        		//var x=document.getElementsByName("<?php echo $change?>");
-         	//x[0].value=action;
          	document.<?php echo $form?>.submit();
          	return;
     		}
@@ -107,7 +109,7 @@ function _shn_reset_form_javascript($form,$reset_what){
 <?	
 }
 
-function _shn_add_remove_javascript($name,$db_arr,$sort=true)
+function shn_add_remove_javascript($name,$db_arr,$sort=true)
 {
 	$count=0;
 	foreach ($db_arr as $x) {
@@ -262,6 +264,20 @@ var sort=<?php if($sort==true) {echo "true";}else{ echo "false";}?>;
         		return new String(str_obj);
         }
 	
+</script>
+<?php
+}
+
+function shn_action_change_javascript($form,$change)
+{
+?>
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName("<?php echo $change?>");
+         x[0].value=action;
+         document.<?php echo $form?>.submit();
+         return;
+    }
 </script>
 <?php
 }

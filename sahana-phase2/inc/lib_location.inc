@@ -93,9 +93,10 @@ function shn_location_get_descendants($loc,&$loc_arr)
     $db=$global["db"];
     $q="select loc_uuid from location where parent_id='{$loc}'";
     $res=$db->Execute($q);
-    if(!$res==NULL && !$res->EOF){
+    while((!$res==NULL) && (!$res->EOF)){
     		array_push($loc_arr,$res->fields["loc_uuid"]);//add this location
     		shn_location_get_descendants($res->fields["loc_uuid"],$loc_arr);
+    		$res->MoveNext();
     		//may be this location is not a leaf ,so call the same function again
     }
    return  $loc_arr; //well we reached the leaf ,return with all the parents up to this leaf
@@ -301,7 +302,7 @@ function shn_get_range(){
  * @access public
  * @return void
  */
-function shn_location_jscript($to){
+function shn_location_jscript($start,$to){
     global $global;
     $fetch_server="xml.php?";
 ?>           
@@ -310,6 +311,8 @@ function shn_location_jscript($to){
     var curlevel=0;
     var http;
     var to=<?php echo $to ?>;
+    var start = <?php echo $start;?>;
+	var previous="nothing";
     function getHTTPObject() {
         var xmlhttp;
         //conditional compliation
@@ -342,8 +345,7 @@ function shn_location_jscript($to){
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
             results = http.responseText.split(","); 
-							
-            curlevel=curlevel+1;
+			curlevel=curlevel+1;
             var x=document.getElementsByName(curlevel);
          //   if(results.length==1){
            // 		x[0].style.visibility='hidden';
@@ -352,7 +354,13 @@ function shn_location_jscript($to){
 	            x[0].options[0]=null;
             }
             var next=results[1];
-            j=0;
+            
+            opt = document.createElement("option") ;
+  			opt.value = "" ;
+  			opt.text = "";
+            x[0].options[0] = opt;
+            j=1;
+               //x[0].appendChild(opt);
             for (i=1; i<results.length-1; i=i+2, j++){
 		 	    opt = document.createElement("option") ;
   			    opt.value = results[i] ;
@@ -363,6 +371,43 @@ function shn_location_jscript($to){
             x[0].selectedIndex=-1;
             if(curlevel<to){
                  update_next_level(next,curlevel);
+            }
+        } 
+    }
+    
+        // The callback funtion
+    function handleHttpResponseComplex(){
+    		var selection=0;
+        if (http.readyState == 4) { // Split the comma delimited response into an array  
+            var all_arr=http.responseText.split(";"); 
+            var header=all_arr[0];
+            header_arr = header.split(","); 
+            type=header_arr[0];
+            next=header_arr[1];
+            cur_lvl=header_arr[2];
+            selection=header_arr[3]*1+1;//multiplication required to convert to number
+
+            var data=all_arr[1];
+            		results = data.split(","); 
+				var x=document.getElementsByName(cur_lvl);
+            		opt = document.createElement("option") ;
+  				opt.value = "" ;
+  				opt.text = "";
+            		x[0].options[0] = opt;
+
+            		for (i=0; i<results.length;i++){
+		 	    		opt = document.createElement("option") ;
+		 	    		var option_data=results[i].split(":");
+		 	    		opt.value = option_data[0] ;
+  			    		opt.text = option_data[1].replace(/[^A-Za-z]$/,"");
+                		x[0].options[i+1] = opt;
+               
+            		}
+            		
+            		x[0].selectedIndex=selection;
+            		
+            if(cur_lvl>0){
+            		update_location(next,type);
             }
         } 
     }
@@ -377,12 +422,86 @@ function shn_location_jscript($to){
         http.onreadystatechange = handleHttpResponse; 
         http.send(null);
     }
-
     
+    function update_location(selection,type){
+    	
+    		if(type!='loc_dir'){
+    			for(j=1;j<=to;j++){
+    				var x=document.getElementsByName(j);
+            		for (i=0; i<=x[0].options.length+1; i++){
+	            		x[0].options[0]=null;
+            		}
+            	}
+        }
+        http = getHTTPObject();
+        var url2=url + "act=get_loc_val&type="+type+"&sel="+selection;
+        http.open("GET", url2, true); 
+        http.onreadystatechange = function(){}; 
+        http.onreadystatechange = handleHttpResponseComplex; 
+        http.send(null);
+    }
+    
+	
+	
+	
+	function radio_click(div){
+		
+		if(div=='loc_dir'){
+			for(i=start;i<=to;i++){
+	  				var x=document.getElementsByName(i);
+  					x[0].selectedIndex=-1;
+  					var y=document.getElementById(i);
+  				
+  					y.style.display='block';
+  			}
+
+
+		}else{
+			var y=document.getElementById(div);
+			
+			y.style.display='block';
+		}
+		
+		
+		
+		if(previous=='loc_dir'){
+
+			for(i=start;i<=to;i++){
+	  				var x=document.getElementsByName(i);
+  					x[0].selectedIndex=-1;
+  					var y=document.getElementById(i);
+  					
+  					y.style.display='none';
+  			}
+		}else{
+			if(previous!="nothing"){
+				var y=document.getElementById(previous);
+				
+				y.style.display='none';
+			}
+		}
+		previous=div;
+		return;
+}
+    
+	for(i=start;i<=to;i++){
+	  	var x=document.getElementsByName(i);
+  		x[0].selectedIndex=-1;
+  		//var y=document.getElementById(i);
+  		//y.style.display='none';
+  		
+  	}
+  	var y=document.getElementById("loc_org");
+  	y.style.display='none';
+  
+  	var y=document.getElementById("loc_camp");
+  	y.style.display='none';
+  
 	
 </script>
 <?php
 }
+
 
 function shn_location_init_jscript($start,$end){
 ?>
@@ -392,7 +511,13 @@ var end = <?php echo $end;?>;
 	for(i=start;i<=end;i++){
 	  	var x=document.getElementsByName(i);
   		x[0].selectedIndex=-1;
+  		var y=document.getElementById(i);
+  		y.style.visibility='hidden';
   	}
+  	var y=document.getElementById("loc_org");
+  	y.style.visibility='hidden';
+  	var y=document.getElementById("loc_camp");
+  	y.style.visibility='hidden';
 </script>
 <?php
 }
@@ -405,8 +530,63 @@ var end = <?php echo $end;?>;
  * @access public
  * @return void
  */
-function shn_location($range,$value=null,$parent=null,$unknown=true){
-	
+function shn_location($range,$value=null,$parent=null,$extra_opts=null){
+
+	$info=_("If you know any of the following, please select Only one of them first" .
+			" , the selection will populate the set of Location select boxes ")."<br />";
+	if($extra_opts["camps"]==true){
+		 $info.=_("* Camp/Shelter ")."<br /> ";
+	}
+	if($extra_opts["inv"]==true){
+		 $info.=_("* an Inventory ")."<br /> ";
+	}
+	if($extra_opts["org"]==true){
+		 $info.=_("* an Organization ")."<br /> ";
+	}
+	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["orgs"]==true)){
+		//$info.=_("a Location ");
+		?><div class="info"><? echo $info;?></div><br /><?
+	}
+	if($extra_opts["camps"]==true){
+		 $options=array("loc_camp"=>"Select a Camp/Shelter");
+		 $select_opts='onChange=radio_click("loc_camp")';
+		 shn_form_radio($options,null, "loc",$select_opts);
+		 $camps=_shn_location_camp_list();
+		 $options=array();
+		 $options[0]="";
+		 foreach ($camps as $id => $name){
+		 	$options[$id]=$name;
+         }
+         ?><div id='loc_camp'><?
+         $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
+        	shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
+        ?>	</div><?
+          		
+	}
+	if($extra_opts["org"]==true){
+		 global $global;
+		 include_once $global['approot']."/mod/or/api.inc";
+		 $orgs=shn_or_organization_list();
+		 $options=array("loc"=>"Select an Organization");
+		 $select_opts='onChange=radio_click("loc_org")';
+		 shn_form_radio($options,null, "loc",$select_opts);
+		 $options=array();
+		 $options[0]="";
+		 foreach ($orgs as $id => $name){
+		 	$options[$id]=$name;
+         }
+         ?><div id='loc_org'><?
+         $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"poc")';
+    		 shn_form_select($options,'Organizations','orgs',$select_opts,$extra_opts);
+ 		?>	</div><?
+	}
+	//$options=array("loc_direct"=>"Select a Location (Country,City,ect)");
+	//$select_opts='onChange=radio_click("loc_dir")';
+	//shn_form_radio($options,null, "loc",$select_opts);
+	?><br /><?
+	if(($extra_opts==null)or (!isset($extra_opts["unknown"]))){
+		$unknown=true;
+	}
 	if($unknown==true){
 	 ?><div class="info"><?=_("If you do not know the exact location , tick the location unknown checkbox, otherwise you have to select from locations in the drop downs");?></div><br /><?
 	
@@ -415,24 +595,45 @@ function shn_location($range,$value=null,$parent=null,$unknown=true){
 	?><br /><?
 	}
 	shn_form_hidden(array('levels'=>$range['end']));
+	$start='1';
 	if(($value!=NULL) && ($value!=UNKNOWN)){
         _shn_location_form_value($range,$value);
         $start=shn_get_level($value)+1;
-        shn_location_init_jscript($start,$range["end"]);  
+          
 	}else {
 		
 		if(($parent==null)or ($parent==0)){
 			_shn_location_form($range);
-			shn_location_init_jscript("1",$range["end"]);
+			//$start='1';
+			
 		}else{
         		_shn_location_form_parent($range,$parent);
 		}
 			  
 	}
-	shn_location_jscript($range["end"]);
+	shn_location_jscript($start,$range["end"]);
+	
+
 }
 
-
+/**
+ * Retrieves a list of camps 
+ * 
+ * @access private
+ * @return void
+ */
+function _shn_location_camp_list(){
+	global $global;
+    $db=$global['db'];
+    $q="select c_uuid,name from camp_general";
+    	$res=$db->Execute($q);
+	$camps=array();
+    	while(!$res==NULL && !$res->EOF){
+    			$camps[$res->fields["c_uuid"]]=$res->fields["name"];
+        		$res->MoveNext();
+    		}
+    return  $camps;
+}
 
 /**
  * Adds a location to the database.Retrives the values to insert from the POST variables. 
@@ -529,6 +730,7 @@ function _shn_location_form_parent($range,$parent){
             if(!$res_options->EOF){
                  $selection=array_pop($loc_arr);
             }
+            $options[0]="";
             while(!$res_options->EOF){
             
                  $options[$res_options->fields["loc_uuid"]]=$res_options->fields['name'];
@@ -562,8 +764,10 @@ function _shn_location_form_parent($range,$parent){
                     $options[$res_options->fields[1]]=$res_options->fields[0];
                     $res_options->MoveNext();
             }
+            ?><div id='<?php echo $res->fields[0]."'>";
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,array('req'=>true));
+            ?></div><?
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -626,18 +830,22 @@ function _shn_location_form_value($range,$value)
             		//returns and removes the last one ,i.e remaining great ancesstor
                 $selection=array_pop($loc_arr);
             }
+            $options[0]="";
             while(!$res_options->EOF){
                  $options[$res_options->fields[1]]=$res_options->fields[0];
                  //add all the locations e.g $options['sl'=>'sri lanka']
                  $res_options->MoveNext();
             }
+            
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             $extra_opts['value']=$selection;
     
            //which one to diplay out of all the locations.
            //should be one of the parents
            // $extra_opts['req']=true;
+           ?><div id='<?php echo $res->fields[0]."'>";
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
+            ?></div><?
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -682,14 +890,17 @@ function _shn_location_form($range)
             if(!$res_options->EOF){
                 $selection=$res_options->fields[1];
             }
+            $options[0]="";
             while(!$res_options->EOF){
                 
                     $options[$res_options->fields[1]]=$res_options->fields[0];
                     $res_options->MoveNext();
             }
             
+            ?><div id='<?php echo $res->fields[0]."'>";
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
+            ?></div><?
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -753,7 +964,7 @@ function shn_location_form($from,$to,$value=NULL){
 	$range["start"]=$from;
 	$range["end"]=$to;
 	shn_form_fsopen("Base Location");
-	shn_location_jscript($range["end"]);
+	shn_location_jscript($from,$range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  
 	}else {
@@ -770,7 +981,7 @@ function shn_location_form_org($from,$to,$value=NULL){
 	$range["start"]=$from;
 	$range["end"]=$to;
 	shn_form_fsopen("Base Location");
-	shn_location_jscript($range["end"]);
+	shn_location_jscript($from,$range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  
 	}else {
