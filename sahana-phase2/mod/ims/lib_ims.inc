@@ -1084,19 +1084,19 @@ function _shn_ims_pie_chart($data,$catalog_array)
 	$graph = new PHPlot(700,500);
 
 //$graph->SetDataType( "linear-linear"); //text-data
-$graph->SetDataType("data-data");  //Must be called before SetDataValues
+$graph->SetDataType("text-data");  //Must be called before SetDataValues
 
 $data2 = array($data);
 
 // Specify some data
-$data1 = array(
+/*$data1 = array(
     array(  "a", 2000,1500, 0, 100, 600,200),
-    //array(  "b", 2010,1000, 100, 150,200,300),
-   // array(  "c", 2015,500, 700, 179, 400,500),
-   // array(  "dd",2020,200,1000,979, 1000,600),
-   // array(  "e", 2025,100,1200,78,150,700),
-    //array(  "f", 2030,50, 1450,343, 1300,800)
-);
+    array(  "b", 2010,1000, 100, 150,200,300),
+    array(  "c", 2015,500, 700, 179, 400,500),
+    array(  "dd",2020,200,1000,979, 1000,600),
+    array(  "e", 2025,100,1200,78,150,700),
+    array(  "f", 2030,50, 1450,343, 1300,800)
+);*/
 //print ("<br>");
 //print ("Mahesh");
 //print_r($data2);
