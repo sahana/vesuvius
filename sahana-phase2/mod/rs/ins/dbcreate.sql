@@ -1,4 +1,3 @@
-use `sahana_main`;
 create table report_files
 	(rep_id varchar(100),
 	file_name varchar(100),
