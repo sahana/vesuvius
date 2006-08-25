@@ -824,33 +824,25 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
 		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 
-?>
-	<br>
-<?php
+
 		//print $catalog_id;
 		$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 		$ims4=$db->Execute($sql4);
 		$item_name=$ims4->fields['item_name'];
-		shn_form_label(_("Item : "),$item_name,null);
-?>
-	<br>
-<?php
+		//shn_form_label(_("Item : "),$item_name,null);
+
 		//print $inv_id;
 		$sql5="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
 		$ims5=$db->Execute($sql5);
 		$inventory_name=$ims5->fields['inventory_name'];
-		shn_form_label(_("Inventory :"),$inventory_name,null);
-?>
-	<br>
-<?php
+		//shn_form_label(_("Inventory :"),$inventory_name,null);
+
 		//print $forecast;
-		shn_form_label(_("Forecasted Value :"),$forecast,null);
-?>
-	<br>
-<?php
+		//shn_form_label(_("Forecasted Value :"),$forecast,null);
+
 		//print $unit;
 		$unit_name=get_unit_name($unit);
-		shn_form_label(_("Unit :"),$unit_name,null);
+		//shn_form_label(_("Unit :"),$unit_name,null);
 
 		$sql6="SELECT * FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 		$ims6=$db->Execute($sql6);
