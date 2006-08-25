@@ -47,7 +47,7 @@ function _shn_ims_relation_item_page()
 {
 	$depth=get_max_depth();
     $parent_id = trim($_POST['0']);
-    // this 5 should be replaced by the $max that is retrieved from the DB
+    
     for($i=1;$i<$depth;$i++)
     {
         $parent_id = trim($_POST[$i]);
@@ -91,8 +91,8 @@ function _shn_ims_relation_item_table()
 	global $global;
 	$db=$global["db"];
 
-	$parent_id=$_POST['parent_id'];
-	$inv_id=$_POST['inv_id'];
+	$parent_id=trim($_POST['parent_id']);
+	$inv_id=trim($_POST['inv_id']);
 	print $inv_id;
 ?>
 <h1 align="center"><?php print(_("Relational Item Selection")); ?></h1>
@@ -130,15 +130,20 @@ function _shn_ims_relation_item_table()
 		$ims1=$db->Execute($sql1);
 		//print $sql1;
 	}
+	print $inv_id;
 	while(!$ims1==NULL && !$ims1->EOF)
 	{
 
-		if($inv_id='all')
+		if($inv_id=="all")
 		{
 			$inv_id_temp=$ims1->fields['inv_id'];
 			$query="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id_temp';";
 			$ims_query=$db->Execute($query);
 			$inventory_name1=$ims_query->fields['inventory_name'];
+		}
+		else
+		{
+			$inv_id_temp=$inv_id;
 		}
 
 		$catalog_id=$ims1->fields['catalog_id'];
@@ -157,7 +162,7 @@ function _shn_ims_relation_item_table()
 	<td><?php print $inventory_name1; ?></td>
 	<td><?php print $unit_name;?></td>
 	<td><?php print $sum_amount;?></td>
-	<td><!--<a href="index.php?mod=ims&act=alternate_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Alternate");?></a>--><?php print (" , ");?><a href="index.php?mod=ims&act=relation_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id_temp;?>"><?php print ("Relation");?></a></td>
+	<td><!--<a href="index.php?mod=ims&act=alternate_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Alternate");?></a>--><a href="index.php?mod=ims&act=relation_item_db&catalog_id=<?php echo $catalog_id;?>&parent_id=<?php echo $parent_id;?>&inv_id=<?php echo $inv_id;?>"><?php print ("Relation");?></a></td>
 	</tr>
 <?php
 	$ims1->MoveNext();	
@@ -174,10 +179,29 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 	$db=$global["db"];
 	
 	$relation=$catalog_id;
+	
+	if($inv_id=="all")
+	{
+		$sql1="SELECT * FROM ims_inventory_records;";
+		$ims1=$db->Execute($sql1);
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$inv_id_all=$ims1->fields['inv_uuid'];
+			
+			$sql2="INSERT INTO ims_relation (catalog_id,inv_id,relation) VALUES ('$parent_id','$inv_id_all','$relation');";
+			$ims2=$db->Execute($sql2);
 
-	$sql1="INSERT INTO ims_relation (catalog_id,inv_id,relation) VALUES ('$parent_id','$inv_id','$relation');";
-	$ims1=$db->Execute($sql1);
-	//print $sql1;
+			$ims1->MoveNext();
+		}
+		//$inv_id=-1;
+	}
+	//if($inv_id!=-1 || $inv_id!="all")
+	else
+	{
+		$sql3="INSERT INTO ims_relation (catalog_id,inv_id,relation) VALUES ('$parent_id','$inv_id','$relation');";
+		$ims3=$db->Execute($sql3);
+		//print $sql1;
+	}
 }
 
 /**
@@ -1284,6 +1308,10 @@ function _shn_ims_optimize_relation_items()
 	$time_period=trim($_POST['time_period']);
 	$forecasted_value=trim($_POST['forecasted_value']);
 
+	$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+	$ims4=$db->Execute($sql4);
+	$item_name_relation_to=$ims4->fields['item_name'];
+
 	if($action=="relation")
 	{
 
@@ -1298,6 +1326,30 @@ function _shn_ims_optimize_relation_items()
 		_shn_ims_insert_data_to_predict($relation,$inv_id,$time_period);
 		$ims1->MoveNext();
 	}
+
+	$string="Relative item forecast for item ".$item_name_relation_to;
+
+	$current_date=date("Y-m-d");
+	list($year,$month,$day) = split("-",$current_date);
+	$time_after_date=_shn_ims_timeafter($year, $month, $day, $time_period);
+
+	$string1="Forecast since ".$current_date.""."To"." ".$time_after_date;
+
+?>
+	<h1 align="center"><?php print $string;?></h1>
+	<h1 align="center"><?php print $string1;?></h1>
+	<div id="result">
+	<table>
+	<thead>
+	<td><?php print (_("Item"));?></td>
+	<td><?php print (_("Inventory"));?></td>
+	<td><?php print (_("Relation to"));?></td>
+	<td><?php print (_("Forecast"));?></td>
+	<td><?php print (_("Unit"));?></td>
+	</thead>
+	<tbody>
+	
+<?php
 
 	$sql2="SELECT * FROM ims_optimization GROUP BY catalog_id;";
 	$ims2=$db->Execute($sql2);
@@ -1319,29 +1371,36 @@ function _shn_ims_optimize_relation_items()
 		$q1="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
 		$i1=$db->Execute($q1);
 		$item_name=$i1->fields['item_name'];
-		shn_form_label(_("Item Name :"),$item_name,null);
-?>
-	<br>
-<?php
+		//shn_form_label(_("Item Name :"),$item_name,null);
 		//print $inv_id;
 		$q2="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
 		$i2=$db->Execute($q2);
 		$inventory_name=$i2->fields['inventory_name'];
-		shn_form_label(_("Inventory Name :"),$inventory_name,null);
-?>
-	<br>
-<?php
-		print $forecast;
-		shn_form_label(_("Forecasted Value :"),$forecast,null);
-?>
-	<br>
-<?php
+		//shn_form_label(_("Inventory Name :"),$inventory_name,null);
+
+		//print $forecast;
+		//shn_form_label(_("Forecasted Value :"),$forecast,null);
+
 		//print $unit;
 		$unit_name1=get_unit_name($unit);
-		shn_form_label(_("Unit :"),$unit_name1,null);
+		//shn_form_label(_("Unit :"),$unit_name1,null);
+?>
+		<tr>
+		<td><?php print $item_name;?></td>
+		<td><?php print $inventory_name;?></td>
+		<td><?php print $item_name_relation_to;?></td>
+		<td><?php print $forecast;?></td>
+		<td><?php print $unit_name1;?></td>
+		</tr>
+<?php
 
 		$ims2->MoveNext();
 	}
+?>
+	</tbody>
+	</table>
+	</div>
+<?php
 	}
 
 	if($action=="reorderlevel")

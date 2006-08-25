@@ -740,7 +740,7 @@ function shn_ims_relation_item_db()
 	global $global;
 	$parent_id=$_REQUEST['parent_id'];
 	$catalog_id=$_REQUEST['catalog_id'];
-	$inv_id=$_REQUEST['inv_id_temp'];
+	$inv_id=$_REQUEST['inv_id'];
 	include_once ('optimize.inc');
 	_shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id);
 }

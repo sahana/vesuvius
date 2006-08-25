@@ -875,11 +875,11 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		while(!$ims2==NULL && !$ims2->EOF)
 		{
 			$amount=$ims2->fields['amount_send'];
-			
+			//print $amount;
 			$unit=$ims2->fields['unit'];
 			$inserted_date=$ims2->fields['date_send'];
 
-			if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)||_shn_ims_count_days($inserted_date,$current_date))
+			if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			{
 			
 			$base_unit=convert_to_base_unit($unit);
@@ -1041,6 +1041,112 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 	}
 
 }
+
+
+
+function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
+{
+
+	global $global;
+	$db=$global["db"];
+
+	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	$date_inv=$ims1->fields['added_date'];
+	$date_inv_convert=_shn_ims_date_conversion($date_inv);
+	$current_date=date("Y-m-d");
+
+	$week=0;
+	$date_diff=_shn_ims_count_days($date_inv,$current_date);
+
+	$received_item_id=-1;
+
+	$item_state_destroyed="destroyed";
+	//print $date_diff;
+	//print ("M");
+	//$sum_amount=0;
+	for($i=$date_diff;$i>=0;$i-=$time_period)	
+	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
+	{
+		$date_inv_temp=$date_inv;
+		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
+		$sql2="SELECT * FROM ims_transfer_item WHERE inv_id_to='$inv_id' AND catalog_id='$catalog_id' AND received_item_id!='$received_item_id';";
+		$ims2=$db->Execute($sql2);
+		//print $sql2;
+		$sum_amount=0;
+		$sum_amount_temp=0;
+		while(!$ims2==NULL && !$ims2->EOF)
+		{
+			$amount=$ims2->fields['amount_received'];
+			
+			$unit=$ims2->fields['unit'];
+			$inserted_date=$ims2->fields['date_received'];
+
+			if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			{
+			
+			$base_unit=convert_to_base_unit($unit);
+			$converted_amount=$amount*unit_converter($base_unit,$unit);
+            
+                	$sum_amount=$sum_amount + $converted_amount;
+			$sum_amount_temp=$sum_amount;
+			}
+			else
+			{
+				$sum_amount_temp=$sum_amount;
+			}
+			$ims2->MoveNext();
+		}
+		$actual_value=$sum_amount_temp;
+		//print $actua_value;
+		//print ("kkk");
+		$week=$week+1;
+		$temp=$week+1;
+		$alpha=2/$temp;
+		
+		//print $alpha;
+		//print "\n";
+		//print $week;
+		if($week==1)
+		{
+			$forecasted_value=0;
+			
+			$forecasted_value_temp=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+		}
+		else
+		{
+			/*print $actual_value;
+			print "<br>";
+			print $forecasted_value;
+			print "<br>";
+			print $alpha;
+			print "<br>";*/
+			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+			
+		}
+		//print $forecasted_value.",";
+		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
+		$ims3=$db->Execute($sql3);
+		//print $sql3;
+
+		$sum_amount=0;
+		
+		list($year,$month,$day) = split("-",$date_inv);
+		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
+		//print $date_inv;
+		if($week==1)
+		{
+			$forecasted_value=$forecasted_value_temp;
+		}
+		else
+		{
+			;
+		}
+	}
+
+}
+
+
 
 function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 {
