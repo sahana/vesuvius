@@ -44,8 +44,10 @@ CREATE TABLE ims_transfer_item
 (
 	transit_id BIGINT NOT NULL AUTO_INCREMENT,
 	item_id BIGINT,
+	catalog_id VARCHAR(100),
 	amount_send VARCHAR(50),
 	unit VARCHAR(20),
+	inv_id_from BIGINT,
 	inv_id_to BIGINT,
 	person_send VARCHAR(100),
 	date_send DATE,
