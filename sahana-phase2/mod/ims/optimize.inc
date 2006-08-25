@@ -60,7 +60,7 @@ function _shn_ims_relation_item_page()
     }
 	global $global;
 	$db=$global["db"];
-	print $parent_id;
+	//print $parent_id;
 	shn_form_fopen("relation_item_table");
 	shn_form_fsopen("Inventory Selection");
 
@@ -93,7 +93,7 @@ function _shn_ims_relation_item_table()
 
 	$parent_id=trim($_POST['parent_id']);
 	$inv_id=trim($_POST['inv_id']);
-	print $inv_id;
+	//print $inv_id;
 ?>
 <h1 align="center"><?php print(_("Relational Item Selection")); ?></h1>
 <div id="result">
@@ -130,7 +130,7 @@ function _shn_ims_relation_item_table()
 		$ims1=$db->Execute($sql1);
 		//print $sql1;
 	}
-	print $inv_id;
+	//print $inv_id;
 	while(!$ims1==NULL && !$ims1->EOF)
 	{
 
@@ -244,7 +244,7 @@ function _shn_ims_alternate_item_page()
     }
 	global $global;
 	$db=$global["db"];
-	print $parent_id;
+	//print $parent_id;
 	shn_form_fopen("alternate_item_table");
 	shn_form_fsopen("Inventory Selection");
 
@@ -276,7 +276,7 @@ function _shn_ims_alternate_item_table()
 
 	$parent_id=$_POST['parent_id'];
 	$inv_id=$_POST['inv_id'];
-	print $inv_id;
+	//print $inv_id;
 ?>
 <h1 align="center"><?php print(_("Alternate Item Selection")); ?></h1>
 <div id="result">
@@ -349,7 +349,7 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
 
 	$sql1="INSERT INTO ims_alternate (catalog_id,inv_id,alternate) VALUES ('$parent_id','$inv_id','$alternate');";
 	$ims1=$db->Execute($sql1);
-	print $sql1;
+	//print $sql1;
 }
 
 
@@ -497,7 +497,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type)
 	{
 		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
 	}
-	print $prediction_type;
+	//print $prediction_type;
 //-------
 		$ims1->MoveNext();	
 	}
@@ -686,7 +686,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type)
 	}
 	array_push($data_array,$temp_array1);
 	array_push($data_array,$temp_array);
-	print_r($data_array);
+	//print_r($data_array);
 	
 	print $i;
 	/*$data = array ( array ( "ct-68", 1500, 0 ,0 ),
@@ -891,6 +891,112 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period)
 	//shn_form_fsclose();
 	//shn_form_fclose();
 
+//****************
+//Chart Generation
+//******************
+
+	
+$sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
+	$ims9=$db->Execute($sql9);
+	$j=0;
+	while(!$ims9==NULL && !$ims9->EOF)
+	{
+		$j=$j+1;
+		$ims9->MoveNext();
+	}
+//Prediction by inventory Pie chart Creation
+	$temp=array();
+	$catalog_array=array();
+	$data=array();
+
+	$data_array=array();
+	$temp_array=array();
+	$temp_array1=array();
+	$forecast=0;
+	//$temp[0]="a";
+	$i=1;
+	$sql6="SELECT * FROM ims_optimization GROUP BY catalog_id";
+	$ims6=$db->Execute($sql6);
+	while(!$ims6==NULL && !$ims6->EOF)
+	{
+		$catalog_id=$ims6->fields['catalog_id'];
+		$temp[0]=$catalog_id;
+		$temp_array[0]="next Period";
+		$temp_array1[0]="Present Period";
+		$sql8="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
+		$ims8=$db->Execute($sql8);
+		$catalog_array[$i]=$ims8->fields['item_name'];
+		
+			
+
+		$sql7="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
+		$ims7=$db->Execute($sql7);
+		//while(!$ims3==NULL && !$ims3->EOF)
+		//{
+		$actual_value=$ims7->fields['actual_value'];
+		$forecasted_value=$ims7->fields['forecasted_value'];
+		$week=$ims7->fields['week'];
+		$unit=$ims7->fields['unit'];
+		$unit_name=get_unit_name($unit);
+		
+		//$temp = array($forecast);
+		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
+
+		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+
+		
+		array_push($temp_array,$forecast);
+		array_push($temp_array1,$actual_value);
+		
+		//array_push($temp,$forecast);
+		for($a=1;$a<$j+1;$a++)
+		{
+			if($a==$i)
+			{
+				$temp[$a]=$forecast;
+			}
+			else
+			{
+				$temp[$a]=0;
+			}
+
+		}
+		
+		$i=$i+1;
+		
+
+		//$data=array($temp);
+		array_push($data,$temp);
+
+		//$data[0][$i]=$temp;
+		
+		$ims6->MoveNext();
+
+	}
+	array_push($data_array,$temp_array1);
+	array_push($data_array,$temp_array);
+	//print_r($data_array);
+	
+	//print $i;
+	
+	_shn_ims_pie_chart($data,$catalog_array);
+	print "<br>";
+	$i=3;
+	_shn_ims_bar_chart_inventory($data_array,$i);
+
+	
+
+?>
+	<image src="tmp/pieChart.png"></image>
+<?php
+	print "<br>";
+?>
+	<image src="tmp/barChart.png"></image>
+<?php
+//********************
+//Chart Generation End
+//********************
+
 	
 }
 
@@ -1024,7 +1130,7 @@ function _shn_ims_optim_item_actions()
 
     $action=trim($_POST['action']);
     $prediction_type=trim($_POST['prediction_type']);
-    print $prediction_type;
+    //print $prediction_type;
 
     if($action=='dailyreport')
     {
@@ -1278,7 +1384,7 @@ function _shn_ims_optim_item_actions()
 	shn_form_fclose();
 
 	$j=$j+2;
-	print $j;
+	//print $j;
 	
 	//var_dump($data);
 ?>
@@ -1341,7 +1447,7 @@ function _shn_ims_optimize_relation_items()
 	<div id="result">
 	<table>
 	<thead>
-	<td><?php print (_("Item"));?></td>
+	<td><?php print (_("Relational Item"));?></td>
 	<td><?php print (_("Inventory"));?></td>
 	<td><?php print (_("Relation to"));?></td>
 	<td><?php print (_("Forecast"));?></td>
@@ -1484,9 +1590,9 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 	}
 	array_push($data_array,$temp_array1);
 	array_push($data_array,$temp_array);
-	print_r($data_array);
+	//print_r($data_array);
 	
-	print $i;
+	//print $i;
 	
 	_shn_ims_pie_chart($data,$catalog_array);
 	print "<br>";
@@ -1497,7 +1603,9 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 
 ?>
 	<image src="tmp/pieChart.png"></image>
-	print ("<br>");
+<?php
+	print "<br>";
+?>
 	<image src="tmp/barChart.png"></image>
 <?php
 
@@ -1569,7 +1677,7 @@ function _shn_ims_optim_item_db()
 	$current_date=date("Y-m-d");
 
 	$date_diff=_shn_ims_count_days($date_inv,$current_date);
-	print $date_diff;
+	//print $date_diff;
 	//if($date_diff<8 && $date_diff>0)
 	//{
 	_shn_ims_insert_data_to_predict($catalog_id,$inv_id);
