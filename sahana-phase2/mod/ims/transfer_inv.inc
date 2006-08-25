@@ -294,7 +294,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     $date=date("Y-m-d");
 
-    shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	
     //shn_form_text(_("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     $extra_opts['value']=$cost_per_unit;
@@ -326,6 +326,7 @@ function _shn_ims_send_db()
     $suplier_id = trim($_POST['suplier_id']);
     $amount = trim($_POST['amount']);
     $unit = trim($_POST['unit_select']);
+    $parent_id=trim($_POST['parent_id']);
     //print $amount;
     $person_send = trim($_POST['authorized_person']);
     $date_send = trim($_POST['date']);
@@ -366,7 +367,7 @@ function _shn_ims_send_db()
     
     
 
-    $sql1 = "INSERT INTO ims_transfer_item (item_id,amount_send,unit,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause) VALUES ('$item_id','$amount','$unit','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause');";  
+    $sql1 = "INSERT INTO ims_transfer_item (item_id,catalog_id,amount_send,unit,inv_id_from,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause) VALUES ('$item_id','$parent_id','$amount','$unit','$inv_id_from','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause');";  
     $ims1 = $db->Execute($sql1);
 //print $sql1;
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
@@ -548,7 +549,7 @@ $unit_select_array=array();
     $extra_opts['value']=$inventory_to;
     shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
-    shn_form_date(_("Date Received : "),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_text(_("Date :") ,'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     //shn_form_text(_("Date Received (YYYY-mm-dd): "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 

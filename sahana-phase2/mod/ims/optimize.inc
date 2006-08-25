@@ -79,6 +79,7 @@ function _shn_ims_relation_item_page()
     
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 	shn_form_fsclose();
+
 	shn_form_hidden(array('parent_id'=>$parent_id));
 	shn_form_submit("Submit");
 	shn_form_fclose();
@@ -356,6 +357,14 @@ function _shn_ims_optim_inventory()
     
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
+
+    shn_form_fsopen("Prediction Type");
+    $prediction_array=array();
+    $prediction_array["send"]="SEND";
+    $prediction_array["receive"]="RECEIVE";
+    $prediction_array["available"]="AVAILABLE";
+    shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
+    shn_form_fsclose();
 ?>
 <center>
 <?php
@@ -396,10 +405,12 @@ function _shn_ims_prediction_inv_actions()
 	$time_amount=trim($_POST['time_amount']);
 	$time=trim($_POST['time_period']);
 	$action=trim($_POST['action']);
+	$prediction_type=trim($_POST['prediction_type']);
 
 	if($action=="dailyreport")
 	{
 		$time_period=1;
+		
 		//_shn_ims_optim_inventory_db($inv_id,$time_period);
 	}
 	if($action=="weeklyreport")
@@ -427,10 +438,11 @@ function _shn_ims_prediction_inv_actions()
 
 	}
 
-	_shn_ims_optim_inventory_db($inv_id,$time_period);
+	
+	_shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type);
 }
 
-function _shn_ims_optim_inventory_db($inv_id,$time_period)
+function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type)
 {
 	global $global;
 	$db=$global["db"];
@@ -447,7 +459,22 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period)
 	while(!$ims1==NULL && !$ims1->EOF)
 	{
 		$catalog_id=$ims1->fields['catalog_id'];
+		//_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+//-------test
+	if($prediction_type=="send")
+	{
+		_shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="receive")
+	{
+		_shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="available")
+	{
 		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	}
+	print $prediction_type;
+//-------
 		$ims1->MoveNext();	
 	}
 	
@@ -915,6 +942,14 @@ $depth=get_max_depth();
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 	shn_form_fsclose();
 
+	shn_form_fsopen("Prediction Type");
+	$prediction_array=array();
+	$prediction_array["send"]="SEND";
+	$prediction_array["receive"]="RECEIVE";
+	$prediction_array["available"]="AVAILABLE";
+	shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
+	shn_form_fsclose();
+
 	shn_form_fsopen("Time Period one to predict");
 	//shn_form_text();
 	
@@ -964,6 +999,8 @@ function _shn_ims_optim_item_actions()
     $ims_q1=$db->Execute($q1);
 
     $action=trim($_POST['action']);
+    $prediction_type=trim($_POST['prediction_type']);
+    print $prediction_type;
 
     if($action=='dailyreport')
     {
@@ -977,15 +1014,27 @@ function _shn_ims_optim_item_actions()
 	$catalog_id=$_POST['parent_id'];
 	$inv_id=$_POST['inv_id'];
 	$time_period=1;
+
+	if($prediction_type=="send")
+	{
+		_shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="receive")
+	{
+		_shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="available")
+	{
+		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	}
 	
-	_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	
 
 	
 
-	//print ("Mahesh");
-	//_shn_ims_chart_test();
+	
 ?>
-	<!--<image src="tmp/Barchart.png"></image>-->
+	
 <?php
 
     }
@@ -1001,7 +1050,18 @@ function _shn_ims_optim_item_actions()
 	$inv_id=$_POST['inv_id'];
 	$time_period=7;
 	
-	_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	if($prediction_type=="send")
+	{
+		_shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="receive")
+	{
+		_shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="available")
+	{
+		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	}
     }
     if($action=='monthlyreport')
     {
@@ -1015,7 +1075,18 @@ function _shn_ims_optim_item_actions()
 	$inv_id=$_POST['inv_id'];
 	$time_period=30;
 	
-	_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	if($prediction_type=="send")
+	{
+		_shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="receive")
+	{
+		_shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="available")
+	{
+		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	}
     }
     if($action=='customizedreport')
     {
@@ -1043,7 +1114,18 @@ function _shn_ims_optim_item_actions()
 	}
 	
 	
-	_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	if($prediction_type=="send")
+	{
+		_shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="receive")
+	{
+		_shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period);
+	}
+	if($prediction_type=="available")
+	{
+		_shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period);
+	}
     }
 
 	$current_date=date("Y-m-d");
@@ -1138,27 +1220,27 @@ function _shn_ims_optim_item_actions()
 
 		$forecast_chart=_shn_ims_smoothing($forecasted_value_chart,$actual_value_chart,$alpha_chart);
 		//print $forecast_chart;
-		if($week_chart==1)
-		{
-			//$temp=$temp.$j;
-			$temp = array($week_chart,$actual_value_chart,$forecast_chart);
-			print_r($temp);
-			print "<br>";
-			$data= array(
-				array( $week_chart, $actual_value_chart, $forecast_chart)
-			);
-		}
 		
-			print_r($data);
-			print "<br>";
-$data1 = array(
-    array(  "a", 2000,1000),
-    array(  "b", 2010,1000),
+			//$temp=$temp.$j;
+			$temp = array($week_chart,$actual_value_chart);
+			array_push($data,$temp);
+			//print_r($temp);
+			//print "<br>";
+			//$data= array(
+				//array( $week_chart, $actual_value_chart, $forecast_chart)
+			//);
+		
+		
+			//print_r($data);
+			//print "<br>";
+//$data1 = array(
+   // array(  "a", 2000,1000),
+   // array(  "b", 2010,1000),
     //array(  "c", 2015,500),
     //array(  "dd",2020,200),
     //array(  "e", 2025,100),
     //array(  "f", 2030,50)
-);
+//);
 
 			
 		$j=$j+1;
@@ -1166,16 +1248,22 @@ $data1 = array(
 		
 		$ims4->MoveNext();
 	}
+	
+	$temp = array($week_chart+1,$forecast_chart);
+	array_push($data,$temp);
 	shn_form_fclose();
+
+	$j=$j+2;
+	print $j;
 	
 	//var_dump($data);
 ?>
 	<br>
 <?php
 	//var_dump($data1);
-	//_shn_ims_bar_chart($data1);
+	_shn_ims_bar_chart($data,$j);
 	//_shn_ims_line_chart($data1);
-	_shn_ims_chart_test();
+	//_shn_ims_chart_test();
 	
 ?>
 	<image src="tmp/barChart.png"></image>
