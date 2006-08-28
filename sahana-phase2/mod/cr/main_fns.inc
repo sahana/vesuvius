@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.43 2006-08-20 20:37:25 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.44 2006-08-28 15:03:49 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -18,9 +18,10 @@
 
 
 function shn_cr_default(){
+global $conf;
 ?>
 <div id="home">
-<h2><?php echo _("Camps and Shelter Registry");?></h2>
+<h2><?php echo _($conf['mod_cr_name'])?></h2>
 <p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps and shelters in the
 region and some basic data on the facilities they might have, the number of
 people in them etc. It also provides a GIS view to plot the location of the camps and shelters in the
@@ -30,18 +31,18 @@ Current features include:")?></p>
     <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the camp or shelter")?></li>
     <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
     <li><?php echo _("Ability to customize the list of important facilities needed at a camp or shelter")?></li>
-    <li><?php echo _("Basic reports on the camps and drill-down by region")?></li>
+    <li><?php echo _("Basic reports on the shelter and drill-down by region")?></li>
 </ul>
 <!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
 	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
 	-->
 </div>
     <div id="home_recent">		
-	<h1><?php echo _("Most Populated Camps");?></h1>
+	<h1><?php echo _("Most Populated Shelters");?></h1>
 	<?php shn_cr_home_pop(); 
 	?>	
 	
-	<h1><?php echo _("Newest Camps");?></h1>
+	<h1><?php echo _("Newest Shelters");?></h1>
 	<?php shn_cr_home_newcmp(); 
 	?>
     </div>
@@ -58,7 +59,7 @@ function shn_cr_home_pop(){
 <div id="result">
 <table>
 <thead>
-	<td><?=_("Camp Name")?></td>
+	<td><?=_("Shelter Name")?></td>
 	<td><?=_("Population")?></td>
 </thead>
 
@@ -87,7 +88,7 @@ function shn_cr_home_newcmp(){
 <div id="result">
 <table>
 <thead>
-	<td><?=_("Camp Name")?></td>
+	<td><?=_("Shelter Name")?></td>
 	<td><?=_("Location")?></td>
 </thead>
 
@@ -144,7 +145,7 @@ function shn_cr_acmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									if($conf['gis']=='false'){
+									if(!$conf['gis']){
 										if(_shn_cr_validate_error())
 											_shn_cr_cadd_start(true);
 									}
