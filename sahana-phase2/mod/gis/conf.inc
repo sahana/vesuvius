@@ -17,6 +17,8 @@
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
+include_once ('conf_help.inc');
+
 /**
  *provide a  nice display name for the GIS module
  */
@@ -47,7 +49,7 @@ $conf['mod_gis_dflt'] = 'google_maps';
  * Can be changed via the admin interface for GIS
  */
 $conf['mod_gis_center_x'] = '79.4';//longitude
-$conf['mod_gis_center_y'] = '7.5338';//latitude
+$conf['mod_gis_center_y'] = '6';//latitude
 $conf['mod_gis_zoom'] = '7';
 
 /**
@@ -66,5 +68,5 @@ $conf['mod_gis_width']=760;
  * given from sahana root
  */
 $conf['mod_gis_marker_folder'] = 'theme/default/img/';
-	 
+
 ?>
