@@ -800,7 +800,7 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 		$alpha=2/$temp;
 		
 		//print $alpha;
-		//print "\n";
+		//print "<br>";
 		//print $week;
 		if($week==1)
 		{
@@ -810,14 +810,12 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 		}
 		else
 		{
-			/*print $actual_value;
-			print "<br>";
-			print $forecasted_value;
-			print "<br>";
-			print $alpha;
-			print "<br>";*/
-			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 			
+			//$alpha_smoothing=1-$alpha;
+			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+			//$actual_value_smoothing=$alpha*$actual_value;
+			//$forecasted_value_smoothing=$alpha_smoothing*$forcasted_value;
+			//$forecasted_value=$forecasted_value_smoothing + $actual_value_smoothing;
 		}
 		//print $forecasted_value.",";
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
@@ -1107,7 +1105,7 @@ function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
 		//print $alpha;
 		//print "\n";
 		//print $week;
-		if($week==1)
+		/*if($week==1)
 		{
 			$forecasted_value=0;
 			
@@ -1115,15 +1113,16 @@ function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
 		}
 		else
 		{
-			/*print $actual_value;
+			print $actual_value;
 			print "<br>";
 			print $forecasted_value;
 			print "<br>";
 			print $alpha;
-			print "<br>";*/
+			print "<br>";
 			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 			
-		}
+		}*/
+		$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 		//print $forecasted_value.",";
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
@@ -1134,14 +1133,14 @@ function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
 		//print $date_inv;
-		if($week==1)
+		/*if($week==1)
 		{
 			$forecasted_value=$forecasted_value_temp;
 		}
 		else
 		{
 			;
-		}
+		}*/
 	}
 
 }
@@ -1210,7 +1209,7 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 
 
 
-function _shn_ims_bar_chart_inventory($data,$i)
+function _shn_ims_bar_chart_inventory($data,$catalog_array,$i)
 {
 //include ( "../3rd/phplot1/phplot.php");
 $graph = new PHPlot(700,500);
@@ -1247,7 +1246,7 @@ $graph->SetPlotType( "bars");
 $graph->SetTitleFontSize( "5"); // the max value of font size is 5
 $graph->SetTitle( "Forecasting by Inventory");
 
-$graph->SetLegend(array("actual","forecasted value"));
+$graph->SetLegend($catalog_array);
 //$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
 $graph->SetPlotBgColor( "red");
 $graph->SetPlotBorderType( "left");
@@ -1344,7 +1343,7 @@ $graph->SetPlotAreaWorld(0,0,$j,10000);
 $graph->DrawGraph();
 }
 
-function _shn_ims_line_chart($data)
+function _shn_ims_line_chart($data,$x)
 {
 	$graph = new PHPlot(700,500);
 
@@ -1360,6 +1359,12 @@ $graph->SetDataType("text-data");  //Must be called before SetDataValues
     array(  "e", 2025,100,1200,78,150,700),
     array(  "f", 2030,50, 1450,343, 1300,800)
 );*/
+
+/*$data = array(
+	array("a",2000,1000),
+	array("b",2000,1000)
+);*/
+
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -1379,7 +1384,7 @@ $graph->SetPlotType( "lines");
 $graph->SetTitleFontSize( "5"); // the max value of font size is 5
 $graph->SetTitle( "Forecasting by Item");
 
-$graph->SetLegend(array("actual value","forecasted value"));
+$graph->SetLegend(array("Re-Order level","forecasted value"));
 //$graph->SetPlotAreaWorld(2000,0,2050,2500); // parameters = ($starting_val_of_x_axis, $s_val_of_y, $ending_val_of_x, $e_val_of_y)
 $graph->SetPlotBgColor( "red");
 $graph->SetPlotBorderType( "left");
@@ -1403,7 +1408,7 @@ $graph->SetOutputFile("lineChart.png");
 
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,100,10000);
+$graph->SetPlotAreaWorld(0,0,$x,3000);
 $graph->DrawGraph();
 }
 
@@ -1554,6 +1559,44 @@ $graph->SetPlotAreaWorld(0,0,6,2000);
 $graph->DrawGraph();
 }
 
+function _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period)
+{
+	global $global;
+	$db=$global["db"];
 
+	$sql1="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	while(!$ims1==NULL && !$ims1->EOF)
+	{
+		$week=$ims1->fields['week'];
+		$forecasted_value=$ims1->fields['forecasted_value'];
+
+		$beta=2/($week+1);
+
+		if($week==1)
+		{
+			$double_forecasted_value=0;
+			//continue;
+		}
+		else
+		{
+			$double_forecasted_value=($beta*($forecasted_value-$temp)) + ((1-$beta)*$double_forecasted_value_temp);
+			
+		}
+
+	$sql2="UPDATE ims_optimization SET double_forecasted_value='{$double_forecasted_value}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND week='$week';";
+	$ims2=$db->Execute($sql2);
+
+
+
+		$double_forecasted_value_temp=$double_forecasted_value;
+		$temp=$forecasted_value;
+		$ims1->MoveNext();
+	}
+
+	return $double_forecasted_value_temp;
+}
+
+ 
 
 ?>

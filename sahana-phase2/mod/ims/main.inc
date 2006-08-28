@@ -657,9 +657,10 @@ function shn_ims_optim_relation_inventories()
 	$catalog_id=trim($_REQUEST['catalog_id']);
 	$inv_id=trim($_REQUEST['inv_id']);
 	$time_period=trim($_REQUEST['time_period']);
+	$algorithm=trim($_REQUEST['algorithm']);
 
 	include_once("optimize.inc");
-	_shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period);
+	_shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$algorithm);
 }
 
 function shn_ims_prediction_page()
