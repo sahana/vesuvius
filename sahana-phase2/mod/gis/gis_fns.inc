@@ -1,8 +1,10 @@
 <?php
-/* $Id: gis_fns.inc,v 1.16 2006-08-20 19:40:01 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.17 2006-08-28 15:28:30 mifanc Exp $ */
 
 /**
-* Functions Page of the GIS Module
+* Functions Page of the GIS Module and API
+* Controller functions that dynamically uses selected plugin
+* 
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -30,15 +32,22 @@ include_once $global['approot']."/mod/gis/main_fns.inc";
 function shn_gis_print_msg()
 {
 ?>
-	<h3><?=_("GIS Mapping has been disabled. Please contact the Administrator to enable it")?></h3>
+<div id="error">
+	<p><?=_("GIS Mapping has been disabled. Please contact the Administrator to enable it")?></p>
+</div>
 <?php
 }
 
 /**
  * Retrieve GPS coords from REST url
- * store in db with id
+ * store in db with entity id
+ * Can be used to modify coordinates of existing entities
+ * @param string $uuid uuid of entity to store
+ * @param numeric $lat latitude
+ * @param numeric $lon longitude
  * @access public
  * @return void
+ * @todo enhance capabilities. Do edit of existing entities.Add speed and direction info
  */
 function shn_gis_gps_from_rest($uuid,$lat,$lon)
 {
@@ -76,6 +85,17 @@ function shn_gis_map($opt_array=null)
 
 /**
  * Database entry api for gis data
+ * Use to enter GIS coords into database
+ * @param char $uuid uuid of entity
+ * @param char $loc_id uuid of location
+ * @param char gis gis module name
+ * @param numeric xcoord x coordinate value
+ * @param numeric ycoord y coordinate value
+ * @param char projection projection type
+ * @access public
+ * @return void
+ * @todo change coordinate data type to standard format
+ * @todo handle projection information and module specific functions
 */
 function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	global $global;
@@ -123,7 +143,8 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
  * Includes additional GPS boxes
  * @param string $name_of_map	Value over map
  * @param string $nameOfPoint	Name of point to be stored
- * used
+ * @access public
+ * @return void 
  */
 function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 {
