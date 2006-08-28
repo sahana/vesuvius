@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.34 2006-08-20 19:38:52 mifanc Exp $ */
+/* $Id: camp.inc,v 1.35 2006-08-28 15:02:38 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -33,7 +33,7 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_fsopen(_("General Details"));
 	//check for gis and goto mapping page
 	
-	if($conf['gis']=='true'){
+	if($conf['gis']){
 		shn_form_hidden(array('seq'=>'gis'));
 	}
 	else{
@@ -135,7 +135,7 @@ if($errors)
 	display_errors;
 	global $global;
 	global $conf;
-	if($conf['gis']=='false'){
+	if(!$conf['gis']){
 		//add to session if GIS module is not enabled
 		$_SESSION['camp_name']=$_POST['camp_name'];
 		$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
