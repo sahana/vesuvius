@@ -150,7 +150,7 @@ $conf['locale'] = 'en_US';
 # GIS Funcitionality
 # true: to enable GIS/Mapping Capabilities
 
-$conf['gis'] = 'true';
+$conf['gis'] = true;
 ###############################
 
 
