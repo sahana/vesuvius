@@ -13,7 +13,7 @@
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    module
-* @subpackage google_maps
+* @subpackage umn_mapserver
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -192,12 +192,24 @@ function click2map ($click_x, $click_y,$map) {
     return array($x_map, $y_map);
 }
 
+function show_add_marker_map()
+{
+echo $_SERVER['SCRIPT_NAME'];
+global $global;
+global $conf;
+?>
+<script>
+ window.open("../mod/gis/plugins/umn_mapserver/add_markers.php?approot=<?=$global['approot']?>&mapfile=usa1.map","","width=800,height=600,top=20,left=20," +
+        "toolbar=no,menubar=no,resizable=no,scrollbars=no,status=no,location=no,directories=no");
+</script>
+<?php
+}
 /**
  * show map with marker addition event
  * allows people to enter markers over google map
  * currently used
  */
-function show_add_marker_map($name)
+function show_add_marker_map_j($name)
 {
 	global $global;
 	global $conf;

@@ -1,20 +1,27 @@
 <?php
+/* $id$ */
 /** 
-* $id$
+ * Wikimaps functionality for GIS module
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
+* 
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    module
+* @subpackage gis
 */
 
 /**
- * Show GIS Map with Wiki info
- * reference function
+ * Show GIS Map with Wiki information as markers
+ * @param string $category filter subtype
+ * @param date $date
+ * @access public
+ * @return void
+ * @TODO filter by date
  */
 function show_wiki_map($category="all",$date=0)
 {
@@ -22,10 +29,12 @@ function show_wiki_map($category="all",$date=0)
 	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	include_once $global['approot']."/inc/lib_form.inc";
+	
+	//default to all categories
+	//set to something else if load problems occur, especially online
 	if(!isset($category))
 		$category="all";
 	
-	//$type_help="Help Me";
 	
 	shn_form_fopen(swik,null,array('req'=>false));
 	shn_form_fsopen("Filter Options");
@@ -59,30 +68,46 @@ function show_wiki_map($category="all",$date=0)
 			$res->MoveNext();	
 	}
 	
+	//call gis api
 	shn_gis_map_with_wiki_markers($map_array);
 	
 	
-	/*
-	shn_gis_init_plugin("GIS Maps of Camps");
-	global $conf;
-	load_map($conf['mod_gis_center_x'],$conf['mod_gis_center_y']);
-		//put values into array: even better, process directly ;)
-	$db = $global['db'];
-	$query="select a.name,a.description,a.url,a.event_date,a.author,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid";
-	$res = $db->Execute($query);
-		while(!$res->EOF){
-			add_wiki_marker_db($res->fields['map_northing'],$res->fields['map_easting'],$res->fields['name']);
-			$res->MoveNext();
-		}
-	end_page();
-	*/
 }
 
 /**
- * Show GIS Map with Wiki info
+ * Image Upload Form as part of adding situations
+ * @access public
+ * @return void
+ */
+function show_wiki_add_image()
+{
+	var_dump($_POST);
+	if(isset($_POST['loc_x']) && $_POST['loc_x']!=''){
+		$_SESSION['loc_x']=$_POST['loc_x'];
+		$_SESSION['loc_y']=$_POST['loc_y'];
+	}
+	
+	global $global;
+	include_once ($global['approot'].'/inc/lib_form.inc');
+	shn_form_fopen(awik,null,array('enctype'=>'enctype="multipart/form-data"'));
+	shn_form_hidden(array('seq'=>'com'));
+	shn_form_fsopen(_("Situation Image"));
+	shn_form_upload(_("Upload Image"),'image');
+	shn_form_fsclose();
+	shn_form_submit(_('Next'));
+	shn_form_fclose();
+	
+}
+/**
+ * Show GIS Map with Wiki addition event listener
+ * Part of add situation sequence
+ * @access public
+ * @return void 
  */
 function show_wiki_add_map()
 {
+	global $global;
+	
 	$_SESSION['wiki_name'] = $_POST['wiki_name'];
 	$_SESSION['opt_wikimap_type'] = $_POST['opt_wikimap_type'];
 	$_SESSION['wiki_text'] = $_POST['wiki_text'];
@@ -92,11 +117,10 @@ function show_wiki_add_map()
 	$_SESSION['edit_public'] = $_POST['edit_public'];
 	$_SESSION['view_public'] = $_POST['view_public'];
 	
-	
-	global $global;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_form_fopen(awik,null,array('req'=>false));
-	shn_form_hidden(array('seq'=>'com'));
+	shn_form_hidden(array('seq'=>'img'));
+	//call gis api
 	shn_gis_add_marker_map_form();
 	shn_form_submit(_("Next"));
 }
@@ -106,33 +130,44 @@ function add_wiki_detail()
 	
 }
 
+/**
+ * Situation add form
+ * start of sequence with error checking
+ * @param boolean $errors true if errors exist,false otherwise
+ * @access public
+ * @return void
+ * @TODO: add javascript calender for date input
+ */
 function show_wiki_add_detail($errors=false)
 {
 	if($errors){
-		echo "Errors";
+?>
+<div id="error">
+	<?=_("Detail Name Cannot be empty")?>
+</div>
+<?php
+
 	}
 	global $global;
+	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
 ?>
 	<h2><?=_("Add Situation Detail")?></h2>
 <?php
-	$type_help="yo";
-	$url_help="type url";
-	$date_help="type date";
 	
 	shn_form_fopen(awik);
 	shn_form_fsopen(_("Main Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_text(_("Name of Detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>$type_help));
-	shn_form_opt_select("opt_wikimap_type",_("Wiki Type"),null,array('help'=>$type_help));
+	shn_form_text(_("Name of Detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gis_situation_name_help'])));
+	shn_form_opt_select("opt_wikimap_type",_("Wiki Type"),null,array('help'=>_($conf['mod_gis_situation_type_help'])));
 	shn_form_textarea(_("Detail Summary"),"wiki_text",'size="50"');
 	shn_form_fsclose();
 	shn_form_fsopen(_("Extra Details"));
-	shn_form_text(_("URL"),"wiki_url",'size="50"',array('help'=>$url_help));
-	shn_form_text(_("Date of Event"),"wiki_evnt_date",'size="50"',array('help'=>$date_help));
+	shn_form_text(_("URL"),"wiki_url",'size="50"',array('help'=>_($conf['mod_gis_situation_url_help'])));
+	shn_form_text(_("Date of Event"),"wiki_evnt_date",'size="50"',array('help'=>_($conf['mod_gis_situation_date_help'])));
 	shn_form_fsclose();
 	shn_form_fsopen(_("Wikimap Options"));
-	shn_form_text(_("Author"),"wiki_author",'size="50"',array('help'=>$type_help));
+	shn_form_text(_("Author"),"wiki_author",'size="50"',array('help'=>_($conf['mod_gis_situation_author_help'])));
 	shn_form_checkbox(_("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
 	shn_form_checkbox(_("Publicly Viewable"),"view_public","view");
 	shn_form_fsclose();
@@ -182,9 +217,8 @@ function shn_wiki_map_commit()
 	global $global;
 	include_once($global['approot'].'/inc/lib_uuid.inc');
 	include_once $global['approot']."/inc/lib_form.inc";
+	include_once $global['approot']."/inc/lib_image.inc";
 	//$id = shn_create_uuid();
-	$_SESSION['loc_x']=$_POST['loc_x'];
-	$_SESSION['loc_y']=$_POST['loc_y'];
 
 	$db = $global['db'];
 	$wiki_id=shn_create_uuid('wm');
@@ -198,9 +232,36 @@ function shn_wiki_map_commit()
 			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
 			 
 	$res=$db->Execute($query);
-	
+	var_dump($_SESSION);
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_dbinsert($wiki_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
+	
+	if(!($_FILES['image']['error']==UPLOAD_ERR_NO_FILE))
+	{
+	
+		//handle image upload from previous page
+		$info = getimagesize($_FILES['image']['tmp_name']);
+		//if($info){
+	    	//valid image
+	    	list($ignore,$ext) = split("\/",$info['mime']);
+	    //}
+	    $ext = '.'.$ext;
+		$upload_dir = $global['approot'].'www/tmp/';
+		
+		$uploadfile = $upload_dir .'wiki_'.$wiki_id.$ext;
+		
+	    if(move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile))
+	    {
+	    	//success
+	    }
+	    else
+	    {
+			//false;
+	    }
+	    $thumb_path = $upload_dir .'wiki_thumb_'.$wiki_id.$ext;
+	    //create thumbnail
+	    shn_image_resize($uploadfile,$thumb_path,100,100);
+	}
 	
 	shn_form_fopen(null,null,array('req'=>false));
 	shn_form_fsopen(_(" Added Wiki Item"));
@@ -212,6 +273,9 @@ function shn_wiki_map_commit()
 	//echo $_SESSION['edit_public'];
 	shn_form_fsclose();
 	shn_form_fclose();
+	
+	
+	
 	
 	
 }
