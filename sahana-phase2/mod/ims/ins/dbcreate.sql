@@ -83,6 +83,7 @@ CREATE TABLE ims_optimization
 	actual_value VARCHAR(50),
 	forecasted_value VARCHAR(50),
 	unit VARCHAR(20),
+	double_forecasted_value VARCHAR(50),
 	PRIMARY KEY(catalog_id,inv_id,week)
 );
 
