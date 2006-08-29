@@ -579,14 +579,17 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 		$forecasted_value=$ims3->fields['forecasted_value'];
 		$unit=$ims3->fields['unit'];
 		$unit_name=get_unit_name($unit);
+		$week=$ims3->fields['week'];
 
-		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
-
-		$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
-
+		if($algorithm=="single")
+		{
+			$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
+			$forecast=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
+		}
 		if($algorithm=="double")
 		{
-			$double_forecasted_value=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 		}
 
 		$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
@@ -702,7 +705,8 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 		}
 		if($algorithm=="double")
 		{
-			$forecast=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 			print $forecast;
 		}
 
@@ -825,6 +829,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
 		$actual_value=$ims3->fields['actual_value'];
 		$forecasted_value=$ims3->fields['forecasted_value'];
 		$unit=$ims3->fields['unit'];
+		$week=$ims3->fields['week'];
 
 
 		if($algorithm=="single")
@@ -835,7 +840,8 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
 		
 		if($algorithm=="double")
 		{
-			$forecast=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 		}
 
 		//print $catalog_id;
@@ -952,7 +958,8 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 		}
 		if($algorithm=="double")
 		{
-			$forecast=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+			$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 		}
 		
 		array_push($temp_array,$forecast);
@@ -1292,7 +1299,8 @@ function _shn_ims_optim_item_actions()
 	$actual_value=$ims1->fields['actual_value'];
 	$forecasted_value=$ims1->fields['forecasted_value'];
 	$unit=$ims1->fields['unit'];
-
+	$week=$ims1->fields['week'];
+	
 	if($algorithm=="single")
 	{
 		$alpha=_shn_ims_smoothing_constant($catalog_id,$inv_id);
@@ -1300,7 +1308,8 @@ function _shn_ims_optim_item_actions()
 	}
 	if($algorithm=="double")
 	{
-		$forecasted_value=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+		_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+		$forecasted_value=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 	}
 	$sql2="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
 	$ims2=$db->Execute($sql2);
@@ -1316,6 +1325,7 @@ function _shn_ims_optim_item_actions()
 
 
 	shn_form_label(_("Item Name :"),$item_name,null);
+	//print $algorithm;
 ?>
 	<br>
 <?php
@@ -1361,21 +1371,27 @@ function _shn_ims_optim_item_actions()
 		$week_chart=$ims4->fields['week'];
 		$actual_value_chart=$ims4->fields['actual_value'];
 		$forecasted_value_chart=$ims4->fields['forecasted_value'];
+		$double_forecasted_value=$ims4->fields['double_forecasted_value'];
 
-		//if($algorithm=="single")
-		//{
+		if($algorithm=="single")
+		{
 			$alpha_temp=$week_chart+1;
 			$alpha_chart=2/$alpha_temp;
 
 		//print $week_chart;
 
 			$forecast_chart=_shn_ims_smoothing($forecasted_value_chart,$actual_value_chart,$alpha_chart);
-		//}
-		//if($algorithm=="double")
+			$temp = array($week_chart,$actual_value_chart,$forecasted_value_chart);
+		}
+		if($algorithm=="double")
+		{
+			$forecast_chart=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
+			$temp = array($week_chart,$actual_value_chart,$double_forecasted_value);
+		}
 		//print $forecast_chart;
 		
 			//$temp=$temp.$j;
-			$temp = array($week_chart,$actual_value_chart,$forecasted_value_chart);
+			
 			array_push($data,$temp);
 			
 
@@ -1478,6 +1494,7 @@ function _shn_ims_optimize_relation_items()
 			$actual_value=$ims3->fields['actual_value'];
 			$forecasted_value=$ims3->fields['forecasted_value'];
 			$unit=$ims3->fields['unit'];
+			$week=$ims3->fields['week'];
 
 			if($algorithm=="single")
 			{
@@ -1486,7 +1503,8 @@ function _shn_ims_optimize_relation_items()
 			}
 			if($algorithm=="double")
 			{
-				$forecast=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+				_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+				$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 			}
 			//print $catalog_id;
 			$q1="SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
@@ -1561,6 +1579,7 @@ function _shn_ims_optimize_relation_items()
 
 			$sql7="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
 			$ims7=$db->Execute($sql7);
+			$xcoardination=0;
 			//while(!$ims3==NULL && !$ims3->EOF)
 			//{
 			$actual_value=$ims7->fields['actual_value'];
@@ -1577,11 +1596,12 @@ function _shn_ims_optimize_relation_items()
 			}
 			if($algorithm=="double")
 			{
-				$forecast=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+				_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
+				$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
 			}
 		
-			array_push($temp_array,$forecast);
-			array_push($temp_array1,$actual_value);
+			array_push($temp_array,0,$forecast);
+			array_push($temp_array1,$actual_value,$forecasted_value);
 		
 			//array_push($temp,$forecast);
 			for($a=1;$a<$j+1;$a++)
@@ -1604,20 +1624,22 @@ function _shn_ims_optimize_relation_items()
 			array_push($data,$temp);
 
 			//$data[0][$i]=$temp;
+			$xcoardination=$xcoardination+1;
 		
 			$ims6->MoveNext();
 
 		}
+		//}
 		array_push($data_array,$temp_array1);
 		array_push($data_array,$temp_array);
 		//print_r($data_array);
-	
+		//}
 		//print $i;
 	
 		_shn_ims_pie_chart($data,$catalog_array);
 		print "<br>";
-		$i=3;
-		_shn_ims_bar_chart_inventory($data_array,$i);
+		$i=$xcoardination+1;
+		_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i);
 
 	
 
@@ -1631,7 +1653,7 @@ function _shn_ims_optimize_relation_items()
 
 
 	}
-
+	
 	if($action=="reorderlevel")
 	{
 ?>

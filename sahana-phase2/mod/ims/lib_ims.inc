@@ -1594,9 +1594,43 @@ function _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period)
 		$ims1->MoveNext();
 	}
 
-	return $double_forecasted_value_temp;
+	//return $double_forecasted_value_temp;
 }
 
- 
+function _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week)
+{
+	global $global;
+	$db=$global["db"];
+
+	$week=$week-1;
+
+	$query1="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND week>='$week';";
+	$ims_query1=$db->Execute($query1);
+	//print $query1;
+	while(!$ims_query1==NULL && !$ims_query1->EOF)
+	{
+		$forecasted_value=$ims_query1->fields['forecasted_value'];
+		$double_forecasted_value=$ims_query1->fields['double_forecasted_value'];
+		$time=$ims_query1->fields['week'];
+		$beta=2/($time+1);
+
+		if($time==$week)
+		{
+			$forecasted_temp=$forecasted_value;
+			$double_forecasted_temp=$double_forecasted_value;
+		}
+		else
+		{
+			;
+		}
+
+		$ims_query1->MoveNext();
+	}
+
+	$double_forecast=($beta*($forecasted_value-$forecasted_temp)) + ((1-$beta)*$double_forecasted_temp);
+	
+	return $double_forecast;
+	
+} 
 
 ?>
