@@ -32,22 +32,98 @@
  */
 
 global $graph;
+global $chat_type_flag;
 
-function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr_in)
+global $d_arr;
+$d_arr = array();
+global $d_arr_index;
+$d_arr_index = 0;
+
+function add_data($x_val,$y_val)
+{
+global $d_arr;
+global $d_arr_index;
+$d_arr[$d_arr_index] = array($x_val,$y_val);
+$d_arr_index++;
+}
+
+
+function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr_in,$dataArray)
 {
     include_once( "../3rd/phplot/phplot.php");
     global $graph;
+    global $chat_type_flag;
+   
+	if($chat_type_flag == 'pie')
+	{	
+	$num_arrs=count($dataArray);
+	$final_arr_count = 0;
+	$arr_count = 1;
+	$final_data_arr = array();
+		foreach($dataArray as $arr)
+		{	
+			$temp = array();
+			for($i=0;$i<$num_arrs;$i++)
+			{
+			$temp[$i] = 0;
+			}
+			$temp[0] = $arr[0];
+			$temp[$arr_count] = $arr[1];
+			$arr_count++;
+
+			$final_data_arr[$final_arr_count] = $temp;
+			$final_arr_count++;
+		}
+	}
+	else
+	{
+        //print_r($dataArray);
+	$num_arrs=count($dataArray);	
+		$final_arr_count = 0;
+		$final_data_arr = array();
+	//print $num_arrs;	
+		for($i=0;$i<$num_arrs;$i++)
+		{
+		$temp_x1 = $dataArray[$i][0];
+		$temp_y1 = $dataArray[$i][1];
+		//print $temp_x1."<br>";
+		//print $temp_y1."<br>";
+		//print $i;
+
+
+		$temp = array($temp_x1,$temp_y1);
+			for($j=$i+1;$j<$num_arrs;$j++)
+			{	//print $num_arrs;
+				$temp_x2 = $dataArray[$j][0];
+				if($temp_x1 == $temp_x2)
+				{
+				//print $dataArray[$j][1];
+				array_push($temp,$dataArray[$j][1]);
+
+				$i++;
+				}
+
+			}
+				//print_r($temp);
+		$final_data_arr[$final_arr_count] = $temp;
+		$final_arr_count++;
+		}
+	//$final_data_arr = $dataArray;
+	}
+
+	//print_r($final_data_arr);
+
     $graph = new PHPlot(350,200);
     $graph->Setchartid($chart_ID);
     $graph->SetDataType("text-data");  
-    $graph->SetDataValues($dataArray);
+    $graph->SetDataValues($final_data_arr);
     $graph->SetFileFormat("png"); 
     $graph->SetImageArea(350,200);
     $graph->SetTitleFontSize( "5");
     $graph->SetTitle( $title);
     $graph->Setkeyword($keyword_arr_in);
 	$legend_arr = array();
-	foreach($dataArray as $xval)
+	foreach($final_data_arr as $xval)
 	{
 	array_push($legend_arr,$xval[0]);
 	}
@@ -60,7 +136,7 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 
 	$xval_counter=0;
 	$temp_arr = array();
-	foreach($dataArray as $xval)
+	foreach($final_data_arr as $xval)
 	{
 	$xval_counter++;
 	sort($xval,SORT_NUMERIC);
@@ -93,8 +169,11 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
  * @access public
  * @return void
  */
-function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'pie';
+    global $d_arr;
     global $graph;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
@@ -113,10 +192,13 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "pie");
 	$graph->DrawGraph();
+
 	}
 	else
 	{
@@ -144,8 +226,12 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
  * @access public
  * @return void
  */
-function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'bar';
+
+    global $d_arr;
     global $graph;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
@@ -163,10 +249,13 @@ function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "bars");
 	$graph->DrawGraph();
+	unset($d_arr);
 	}
 	else
 	{
@@ -194,8 +283,11 @@ function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
  * @access public
  * @return void
  */
-function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'area';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
     global $graph;
@@ -213,7 +305,9 @@ function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "area");
 	$graph->DrawGraph();
@@ -244,8 +338,11 @@ function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',
  * @access public
  * @return void
  */
-function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'line';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -264,7 +361,9 @@ function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "lines");
 	$graph->DrawGraph();
@@ -295,8 +394,11 @@ function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',
  * @access public
  * @return void
  */
-function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'line_point';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -315,7 +417,9 @@ function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitl
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "linepoints");
 	$graph->DrawGraph();
@@ -346,8 +450,11 @@ function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitl
  * @access public
  * @return void
  */
-function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'points';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -366,7 +473,9 @@ function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "points");
 	$graph->DrawGraph();
@@ -397,8 +506,11 @@ function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='
  * @access public
  * @return void
  */
-function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'thin_bar';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -417,7 +529,9 @@ function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$yti
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "thinbarline");
 	$graph->DrawGraph();
@@ -448,8 +562,11 @@ function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$yti
  * @access public
  * @return void
  */
-function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'squred';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -468,7 +585,9 @@ function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle=
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "squared");
 	$graph->DrawGraph();	
@@ -499,8 +618,11 @@ function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle=
  * @access public
  * @return void
  */
-function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$dataArray='',$keyword_arr='')
+function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
 {
+    global $chat_type_flag;
+    $chat_type_flag = 'stacked';
+    global $d_arr;
     $backtrace = debug_backtrace();
     $chart_ID = $backtrace['1']["function"];
 
@@ -519,7 +641,9 @@ function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$yti
 
 	if($chart_gen_ok)
 	{
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$dataArray,$keyword_arr);
+	global $d_arr_index;
+	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "stackedbars");
 	$graph->DrawGraph();
@@ -611,4 +735,6 @@ function _shn_is_print_ok()
     return true;
     }
 }
+
+
 ?>
