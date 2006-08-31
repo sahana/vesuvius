@@ -67,14 +67,20 @@ function show_item_cat_table()
     $cat_id=$res->fields["ct_uuid"];
     $final_flag=$res->fields["final_flag"];
     $keyword=$res->fields["keyword"];
+
     ?>
     <tr>
+	<?php if($res->fields["parentid"] == '0') { ?>
         <td><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
+	<?php }else { ?>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
+	<?php }?>
+
         <td><?php print $description ;?></td>
         <?php if($final_flag=='0') { ?>
             <td><?php print "Catalogue" ; ?></td>
         <?php } else { ?>
-            <td><?php print "Item" ; ?></td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print "Item" ; ?></td>
         <?php } ?>
            <td><?php print $keyword ;?></td>
     </tr>
