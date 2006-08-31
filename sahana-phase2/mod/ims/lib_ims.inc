@@ -870,6 +870,8 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		//print $sql2;
 		$sum_amount=0;
 		$sum_amount_temp=0;
+		$amount=0;
+		$converted_amount=0;
 		while(!$ims2==NULL && !$ims2->EOF)
 		{
 			$amount=$ims2->fields['amount_send'];
@@ -877,7 +879,8 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 			$unit=$ims2->fields['unit'];
 			$inserted_date=$ims2->fields['date_send'];
 
-			if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			//if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			if(_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			{
 			
 			$base_unit=convert_to_base_unit($unit);
@@ -922,6 +925,7 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		//print $forecasted_value.",";
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
+		$sum_amount_temp=0;
 		//print $sql3;
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
@@ -976,7 +980,8 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 			$unit=$ims2->fields['unit'];
 			$inserted_date=$ims2->fields['date_received'];
 
-			if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			//if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			if(_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			{
 			
 			$base_unit=convert_to_base_unit($unit);
