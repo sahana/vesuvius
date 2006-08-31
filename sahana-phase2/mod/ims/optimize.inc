@@ -673,6 +673,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 	$forecast=0;
 	//$temp[0]="a";
 	$i=1;
+	$actual_value_max=0;
 	$sql6="SELECT * FROM ims_optimization GROUP BY catalog_id";
 	$ims6=$db->Execute($sql6);
 	while(!$ims6==NULL && !$ims6->EOF)
@@ -696,6 +697,19 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 		$week=$ims7->fields['week'];
 		$unit=$ims7->fields['unit'];
 		$unit_name=get_unit_name($unit);
+
+//finding the maximum value
+
+		if($actual_value>$actual_value_max)
+		{
+			$actual_value_max=$actual_value;
+		}
+		else
+		{
+			;
+		}
+
+//end of finding the maximum value
 		
 		//$temp = array($forecast);
 		if($algorithm=="single")
@@ -753,7 +767,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 	
 	
 	$i=3;
-	_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i);
+	_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i,$actual_value_max);
 
 	
 
@@ -928,6 +942,7 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 	$i=1;
 	$sql6="SELECT * FROM ims_optimization GROUP BY catalog_id";
 	$ims6=$db->Execute($sql6);
+	$actual_value_max=0;
 	while(!$ims6==NULL && !$ims6->EOF)
 	{
 		$catalog_id=$ims6->fields['catalog_id'];
@@ -938,8 +953,6 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 		$ims8=$db->Execute($sql8);
 		$catalog_array[$i]=$ims8->fields['item_name'];
 		
-			
-
 		$sql7="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' ORDER BY week DESC;";
 		$ims7=$db->Execute($sql7);
 		//while(!$ims3==NULL && !$ims3->EOF)
@@ -949,6 +962,18 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 		$week=$ims7->fields['week'];
 		$unit=$ims7->fields['unit'];
 		$unit_name=get_unit_name($unit);
+
+//Finding the maximum actual value to set the Y coardinate
+		
+		if($actual_value>$actual_value_max)
+		{
+			$actual_value_max=$actual_value;
+		}
+		else
+		{
+			;
+		}
+//end of Finding the maximum value
 		
 		//$temp = array($forecast);
 		if($algorithm=="single")
@@ -1006,7 +1031,7 @@ $sql9="SELECT * FROM ims_optimization GROUP BY catalog_id";
 	print "<br>";
 
 	$i=3;
-	_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i);
+	_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i,$actual_value_max);
 
 	
 
@@ -1340,6 +1365,7 @@ function _shn_ims_optim_item_actions()
 	shn_form_label(_("Unit :"),$unit_name,null);
 	
 	shn_form_fsclose();
+
 	$extra_opts['br']=false;
     	$extra_opts['req']=false;
 	shn_form_button(_("Relative Items"),"onClick='change_action_relation(\"relation\")'",$extra_opts);
@@ -1358,6 +1384,10 @@ function _shn_ims_optim_item_actions()
 ?>
 <?php
 
+//****************************
+//*** Bar Chart Generation ***
+//****************************
+
 	$data = array();
 	$temp = array();
 	//push($inventory_array,$temp);
@@ -1366,12 +1396,23 @@ function _shn_ims_optim_item_actions()
 	$ims4=$db->Execute($sql4);
 	//print $sql4;
 	$j=0;
+	$actual_value_temp=0;
 	while(!$ims4==NULL && !$ims4->EOF)
 	{
 		$week_chart=$ims4->fields['week'];
 		$actual_value_chart=$ims4->fields['actual_value'];
 		$forecasted_value_chart=$ims4->fields['forecasted_value'];
 		$double_forecasted_value=$ims4->fields['double_forecasted_value'];
+
+//Finding the maximum value
+		if($actual_value_chart>$actual_value_temp)
+		{
+			$actual_value_temp=$actual_value_chart;
+		}
+		else
+		{
+			;
+		}
 
 		if($algorithm=="single")
 		{
@@ -1414,7 +1455,7 @@ function _shn_ims_optim_item_actions()
 	<br>
 <?php
 	//var_dump($data1);
-	_shn_ims_bar_chart($data,$j);
+	_shn_ims_bar_chart($data,$j,$actual_value_temp);
 	//_shn_ims_line_chart($data1);
 	//_shn_ims_chart_test();
 	
@@ -1563,6 +1604,7 @@ function _shn_ims_optimize_relation_items()
 		$forecast=0;
 		//$temp[0]="a";
 		$i=1;
+		$actual_value_max=0;
 		$sql6="SELECT * FROM ims_optimization GROUP BY catalog_id";
 		$ims6=$db->Execute($sql6);
 		while(!$ims6==NULL && !$ims6->EOF)
@@ -1587,6 +1629,18 @@ function _shn_ims_optimize_relation_items()
 			$week=$ims7->fields['week'];
 			$unit=$ims7->fields['unit'];
 			$unit_name=get_unit_name($unit);
+
+//Finding the maximum actual value
+
+			if($actual_value>$actual_value_max)
+			{
+				$actual_value_max=$actual_value;
+			}
+			else
+			{
+				;
+			}
+//end of finding the maximum actual value
 		
 			//$temp = array($forecast);
 			if($algorithm=="single")
@@ -1635,11 +1689,11 @@ function _shn_ims_optimize_relation_items()
 		//print_r($data_array);
 		//}
 		//print $i;
-	
+		
 		_shn_ims_pie_chart($data,$catalog_array);
 		print "<br>";
 		$i=$xcoardination+1;
-		_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i);
+		_shn_ims_bar_chart_inventory($data_array,$catalog_array,$i,$actual_value_max);
 
 	
 
@@ -1727,6 +1781,8 @@ function _shn_ims_optimize_relation_items()
 		$array1=array();
 		$data_array_line=array();
 
+		$forecasted_value_max=0;
+
 		$sql2="SELECT * FROM ims_optimization;";
 		$ims2=$db->Execute($sql2);
 		while(!$ims2==NULL && !$ims2->EOF)
@@ -1745,6 +1801,19 @@ function _shn_ims_optimize_relation_items()
 			$array1[1]=$converted_minimum_quantity;
 			$array1[2]=$forecasted_value;
 
+//Finding maximum forecasted value
+
+			if($forecasted_value>$forecasted_value_max)
+			{
+				$forecasted_value_max=$forecasted_value;
+			}
+			else
+			{
+				;
+			}				
+
+//end of finding maximum forecasted value
+
 			array_push($data_array_line,$array1);
 
 			$ims2->MoveNext();		
@@ -1752,8 +1821,16 @@ function _shn_ims_optimize_relation_items()
 		}
 		//print_r($data_array_line);
 		$x=$week+2;
-	
-		_shn_ims_line_chart($data_array_line,$x);
+		$ycoardinate=0;
+		if($forecasted_value_max<$converted_minimum_quantity)
+		{
+			$ycoardinate=$converted_minimum_quantity;	
+		}
+		else
+		{
+			$ycoardinate=$forecasted_value_max;
+		}
+		_shn_ims_line_chart($data_array_line,$x,$ycoardinate);
 ?>
 		<br>
 		<br>

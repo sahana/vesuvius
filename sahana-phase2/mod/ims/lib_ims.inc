@@ -1214,7 +1214,7 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 
 
 
-function _shn_ims_bar_chart_inventory($data,$catalog_array,$i)
+function _shn_ims_bar_chart_inventory($data,$catalog_array,$i,$y)
 {
 //include ( "../3rd/phplot1/phplot.php");
 $graph = new PHPlot(700,500);
@@ -1273,9 +1273,9 @@ $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
 $graph->SetOutputFile("barChart.png");
 
-
+$y=$y+2000;
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,$i,10000);
+$graph->SetPlotAreaWorld(0,0,$i,$y);
 $graph->DrawGraph();
 }
 
@@ -1284,7 +1284,7 @@ $graph->DrawGraph();
 
 
 
-function _shn_ims_bar_chart($data,$j)
+function _shn_ims_bar_chart($data,$j,$max)
 {
 //include ( "../3rd/phplot1/phplot.php");
 $graph = new PHPlot(700,500);
@@ -1342,13 +1342,15 @@ $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
 $graph->SetOutputFile("barChart.png");
 
+$max=$max+2000;
+
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,$j,10000);
+$graph->SetPlotAreaWorld(0,0,$j,$max);
 $graph->DrawGraph();
 }
 
-function _shn_ims_line_chart($data,$x)
+function _shn_ims_line_chart($data,$x,$y)
 {
 	$graph = new PHPlot(700,500);
 
@@ -1411,9 +1413,10 @@ $graph->SetYGridLabelType( "data");
 $graph->SetLightGridColor( "blue");
 $graph->SetOutputFile("lineChart.png");
 
+$y=$y+2000;
 
 //$graph->SetNewPlotAreaPixels(70,120,375,220);
-$graph->SetPlotAreaWorld(0,0,$x,3000);
+$graph->SetPlotAreaWorld(0,0,$x,$y);
 $graph->DrawGraph();
 }
 
