@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.18 2006-07-20 07:37:36 priyanga Exp $ */
+/* $Id: handler_db.inc,v 1.19 2006-08-31 06:59:27 janakawicks Exp $ */
 
 /**
  *
@@ -318,4 +318,17 @@ function shn_db_get_all_incidents($incident_id)
      
     return $return;   
 }
+function debug($str,$exit=false)
+{
+    echo "<hr>";
+    if(is_array($str)){
+        var_dump($str);
+    }else{
+        echo "<pre>$str</pre>";
+    }
+    echo "<hr>";
+    if($exit)
+        exit();
+}
+
 ?>
