@@ -67,14 +67,16 @@ function show_item_cat_table()
     $cat_id=$res->fields["ct_uuid"];
     $final_flag=$res->fields["final_flag"];
     $keyword=$res->fields["keyword"];
-
+    $parent_ID=$res->fields["parentid"];
 
     ?>
     <tr>
         <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print $description ;?></td>
-        <?php if($final_flag=='0') { ?>
-            <td><?php print "Catalogue" ; ?></td>
+        <?php if($final_flag=='0' && $parent_ID == '0') { ?>
+            <td><?php print "Main catalogue" ; ?></td>
+        <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
+	    <td><?php print "Sub catalogue" ; ?></td>
         <?php } else { ?>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print "Item" ; ?></td>
         <?php } ?>
@@ -389,18 +391,12 @@ function _shn_cs_edit_unit_form_submit_result()
         $res=$db->Execute($query);
         echo "Item/Catalogue was Deleted";
         }
-
-
     }//end of else if
-
 }
 
 function unit_inuse($unit_id_input)
 {
-
     $inuse_flag=false;
-    
-
         if(_shn_ims_find_unitid($unit_id_input))
         {
         $inuse_flag=true;
@@ -415,7 +411,6 @@ function show_unit_type_table()
     global $global;
     $db=$global["db"];
 
-
 ?>
 <br>
 <div id="result">
@@ -429,7 +424,6 @@ function show_unit_type_table()
 
     $query="select * from ct_unit_type";
     $res=$db->Execute($query);
-
 
     while(!$res==NULL && !$res->EOF)
     {
@@ -563,6 +557,4 @@ function _shn_cs_edit_unit_type_form_submit_result()
 </script>
 
 <?php
-
-
 ?>
