@@ -440,4 +440,92 @@ function convert_to_base_unit($unit_id)
     return $base_unit_uuid;
 }
 
+/**.
+ *This function returns the array of parent ID array of a purticular item 
+ * @access public
+ * @return array
+ */
+function shn_cs_get_parentid_arr($in_id)
+{
+    global $global;
+    $db=$global['db'];
+    $temp_cat_parent_arr=array();
+    $final_parent_id_array = array();
+
+    $query="select parentid from ct_catalogue where ct_uuid ='$in_id'";
+    $res=$db->Execute($query);
+    $par_id = $res->fields["parentid"];
+
+    $final_parent_id_array = _shn_cs_recursive_parent_search($temp_cat_parent_arr,$par_id);
+
+    return $final_parent_id_array;
+}
+
+/**.
+ *This function do a recurcive search to find the parents of a particular catalogue/ item
+ * @access private
+ * @return array
+ */
+function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
+{
+    global $global;
+    $db=$global['db'];
+
+    if($parent_id_in == '0')
+    {
+    array_push($in_array,$parent_id_in);
+    return $in_array;
+    }
+    else
+    {
+    array_push($in_array,$parent_id_in);
+    $query="select parentid from ct_catalogue where ct_uuid ='$parent_id_in'";
+    $res=$db->Execute($query);
+    $par_par_id = $res->fields["parentid"];
+    return _shn_cs_recursive_parent_search($in_array,$par_par_id);
+    }
+}
+
+/**.
+ *This function returns the array of child ID array of a purticular item 
+ * @access public
+ * @return array
+ * @todo
+ */
+function shn_cs_get_child_id_arr($in_id)
+{
+
+}
+
+/**.
+ *This function returns the array of next level child ID array of a purticular item catalogue
+ * @access public
+ * @return array
+ * @todo
+ */
+function shn_cs_get_next_level_child_id_arr($in_id)
+{
+    $next_level_ID_arr = array();
+    global $global;
+    $db=$global['db'];
+    $query="select ct_uuid from ct_catalogue where parentid ='$in_id'";
+    $res=$db->Execute($query);
+
+    while(!$res==NULL && !$res->EOF)
+    {
+    array_push($next_level_ID_arr,$res->fields["ct_uuid"]);
+    $res->MoveNext();
+    }
+   return $next_level_ID_arr;
+}
+
+/**.
+ *This function returns the level number of the item/catalogue 
+ * @access public
+ * @return int
+ */
+function shn_cs_get_level_count($in_id)
+{
+    return count(shn_cs_get_parentid_arr($in_id));
+}
 ?>

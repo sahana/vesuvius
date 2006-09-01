@@ -68,21 +68,17 @@ function show_item_cat_table()
     $final_flag=$res->fields["final_flag"];
     $keyword=$res->fields["keyword"];
 
+
     ?>
     <tr>
-	<?php if($res->fields["parentid"] == '0') { ?>
-        <td><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
-	<?php }else { ?>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
-	<?php }?>
-
-        <td><?php print $description ;?></td>
+        <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print $description ;?></td>
         <?php if($final_flag=='0') { ?>
             <td><?php print "Catalogue" ; ?></td>
         <?php } else { ?>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print "Item" ; ?></td>
         <?php } ?>
-           <td><?php print $keyword ;?></td>
+           <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print $keyword ;?></td>
     </tr>
     <?php  
     $res->MoveNext();
@@ -93,6 +89,22 @@ function show_item_cat_table()
 </div>
 <?php
 
+}
+
+/**
+ * This function adds spaces to the item catalogue table according to the level it exists
+ * @access private
+ * @return void
+ */
+function _shn_cs_add_spaces_to_table($cat_id)
+{
+    require_once('lib_cs.inc');
+    $level = shn_cs_get_level_count($cat_id);
+	for($i=0;$i<$level;$i++)
+	{
+	$space_string .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+	}
+    print $space_string;
 }
 
 /**
