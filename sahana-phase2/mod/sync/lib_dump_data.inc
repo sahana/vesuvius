@@ -19,6 +19,7 @@
 
 function _shn_sync_dump_xml($tables){
     global $global;
+    global $conf;
     echo "<?xml version='1.0' ?>\n";
     //print the meta data
     echo "<sahana_data_dump timestamp='".time()."' instanceid='".$conf['base_uuid']."'>\n";
