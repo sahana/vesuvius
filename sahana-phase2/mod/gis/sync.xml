@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<module name='gis'>
+  <description>GIS Data</description>
+<data>
+  <description>GIS Data</description>
+  <table name='gis_location'>
+    <primarykeys>
+      <primarykey field_id='gis_uid' />
+    </primarykeys>
+  </table>
+  <table name='gis_wiki'>
+    <primarykeys>
+      <primarykey field_id='wiki_uuid' />
+    </primarykeys>
+    <foreign_keys>
+      <foreign_key ref_table="gis_location" ref_field="gis_uuid" field_id="gis_uid"/>
+    </foreign_keys>
+  </table>
+</data>
+</module>
