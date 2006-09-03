@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.35 2006-08-28 15:02:38 mifanc Exp $ */
+/* $Id: camp.inc,v 1.36 2006-09-03 16:31:19 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -406,7 +406,8 @@ global $conf;
 
 //if mod_gis
 if($conf['gis']){
-  include $global['approot']."/mod/gis/conf.inc";
+  //include $global['approot']."/mod/gis/conf.inc";
+  global $conf;
   include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
 }
