@@ -81,4 +81,3 @@ $conf['mod_gis_image_folder'] = 'www/tmp/';
  */
 $conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
 ?>
-?>
