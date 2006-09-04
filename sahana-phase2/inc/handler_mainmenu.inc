@@ -14,6 +14,7 @@
 */
 
 global $conf;
+global $global;
 require_once $global['approot'].'/inc/lib_modules.inc';
 require_once $global['approot'].'/inc/lib_menu.inc';
 
@@ -42,4 +43,5 @@ for ($i = 0; $i < count($module_menuorder); $i++) {
 }
 
 shn_mainmenuclose();
+
 ?>

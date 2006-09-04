@@ -75,7 +75,9 @@ function shn_mainmenuclose()
 function shn_mod_menuitem($action, $desc, $module = null ) 
 { 
     global $global;
+
     if ( null == $module ) $module = $global['module'];
+    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
 ?>
     <li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
 <?php
@@ -125,6 +127,7 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
 { 
     global $global;
     if ( null == $module ) $module = $global['module'];
+    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
 ?>
 		<li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
 <?php
@@ -177,9 +180,56 @@ function shn_adm_menuitem($action, $desc, $module = null )
 { 
     global $global;
     if ( null == $module ) $module = $global['module'];
+    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
 ?>
     <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a>
 <?php
 }
 
+// BREAD CRUMB functions
+
+// pushes a link onto the breadcrumb stack
+function shn_breadcrumb_push($nicename, $action = null, $module = null)
+{
+    global $global;
+    if ( null == $module ) $module = $global['module'];
+    if ( null == $action ) $action = $global['action'];
+
+    if ( !array_key_exists('shn_breadcrumb', $_SESSION ))
+        $_SESSION['shn_breadcrumb'] = array();
+
+    array_push($_SESSION['shn_breadcrumb'], array($nicename, $action, $module));
+
+    if (count($_SESSION['shn_breadcrumb']) > 3)
+        array_shift($_SESSION['shn_breadcrumb']);
+}
+
+// pops a breadcrumb item off the top of the stack
+function shn_breadcrumb_pop()
+{
+    return array_pop($_SESSION['shn_breadcrumb']);
+}
+
+// displays the breadcrumb within the navigation section
+function shn_breadcrumb_display()
+{
+    global $conf;
+    $current_mod = '';
+
+    echo '<p>';
+
+    foreach ($_SESSION['shn_breadcrumb'] as $i ) {
+
+        // only prefix the module name if the next item is different
+        if ($current_mod != $i[2]) {
+            $module_name = $conf['mod_'.$i[2].'_name'];
+            echo $module_name.":";
+            $current_mod = $i[2];
+        }
+        echo '<a href="?mod='.$i[2].'&act='.$i[1].'">'.$i[0].'</a> > ';
+    }
+
+    echo '</p>';
+
+}
 ?>
