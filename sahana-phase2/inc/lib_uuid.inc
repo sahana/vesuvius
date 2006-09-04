@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.13 2006-06-26 05:50:38 mifanc Exp $ */
+/* $Id: lib_uuid.inc,v 1.14 2006-09-04 06:55:30 chamindra Exp $ */
 
 /**
  *
@@ -29,12 +29,12 @@
  * @access public
  * @return void
  */
-function shn_generate_uuid($width=2)
+function shn_generate_uuid($width)
 {
    //random number between 0-36
     for($i=0;$i<$width;$i++){
-        if(($num = rand(0,36)) < 27 ) 
-            $uuid .= chr($num+97);
+        if(($num = rand(1,36)) < 27 ) 
+            $uuid .= chr($num+96);
         else
             $uuid .= 36 - $num;
     }
