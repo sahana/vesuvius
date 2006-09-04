@@ -40,7 +40,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
     <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script> 
     <script type="text/javascript" src="res/js/popup.js"></script> 
-    <script type="text/javascript" src="stream.php?stream_type=help"></script> 
+    <script type="text/javascript" src="index.php?stream=text&mod=home&act=help"></script> 
 <?php
     if ($arrPostfix != null) {
         foreach ($arrPostfix as $i) {
