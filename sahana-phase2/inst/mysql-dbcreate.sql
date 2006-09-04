@@ -505,20 +505,18 @@ CREATE TABLE lc_tmp_po (
  * Synchronization Related Tables
  * Modules : Framework, sync
  * Created : 22nd-Feb-2006 - janaka@opensource.lk
- * Last Change : 22nd-Feb-2006  - janaka@opensource.lk
+ * Last Change : 4th-Sep-2006  - jo@opensource.lk
  */
 
 DROP TABLE IF EXISTS sync_instance;
 CREATE TABLE sync_instance (
-    uuid_prefix VARCHAR(4) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    url TEXT NOT NULL,
-    is_dsc_server BOOLEAN NOT NULL DEFAULT FALSE, -- is a discovery server
-    cron_status BOOLEAN NOT NULL DEFAULT FALSE, -- cron for checking the status of the instance
-    last_sync TIMESTAMP NOT NULL, -- Last Time sync with the instance
-    updates_available BOOLEAN NOT NULL DEFAULT FALSE, -- This gets updated by the cron or update button
-    active BOOLEAN NOT NULL DEFAULT TRUE, -- Active or deactive the instance NOTE: not remove unless the data also delete.. well
-    PRIMARY KEY(uuid_prefix)
+    base_uuid VARCHAR(4) NOT NULL, -- Instance id
+    owner VARCHAR(100), -- Instance owner's name
+    contact TEXT, -- Contact details of the instance owner
+    inst_type VARCHAR(20), -- Installation type of the sahana instance ex:- laptop, server
+    last_update TIMESTAMP NOT NULL, -- Last Time sync with the instance
+    sync_count INT DEFAULT 0, -- Number of times synchronized
+    PRIMARY KEY(base_uuid)
 );
 
 /** 
