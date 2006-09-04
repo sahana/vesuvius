@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.4 2006-02-20 11:40:25 mifanc Exp $ */
+/* $Id: main_old.inc,v 1.2 2006-09-04 09:05:47 mifanc Exp $ */
 
 /**Main home page of the CMS
 *
