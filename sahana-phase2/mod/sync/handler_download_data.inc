@@ -66,8 +66,7 @@ global $global;
 
 //get all the modules
 $modules=shn_get_module_names();
-echo "<div id='formcontainer'>";
-echo "<form method='POST' action='stream.php?mod=sync&act=download_file' id='formset' name=''>";
+shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false));
 echo "<h4>Select data to download</h4>";
 //loop through all the modules to find sync.xml
 echo "<center><table class='layout'><tr><td rowspan='2'>";
@@ -82,7 +81,6 @@ echo "</center><br /></td>";
 echo "<br /><br />";
 echo "<td>";
 shn_form_fsopen(_("Select File Type"));
-
 
 ?>
     <label>XML File</label><input type="radio" name="file_type" value="xml" checked="true" /><br />

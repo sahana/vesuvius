@@ -35,23 +35,25 @@ function _dump_xml_table($table){
     $sql="SELECT * FROM ".$table;
 //get the record set
     $rs=$global['db']->Execute($sql);
-//get the field names
-    $fc=$rs->FieldCount();
-    for($x=0;$x<$fc;$x++)
-    $fields[$x]=$rs->FetchField($x)->name;
-//ouput the xml
-//print container
-    echo "\t<".$table.">\n";
-//itrate through record set
-    foreach($rs as $row){
-        echo "\t\t<recorde>\n";
-        foreach($fields as $k=>$field){
-            $row[$k]=(isset($row[$k]))?$row[$k]:'null';
-            echo "\t\t\t<".$field."><![CDATA[".$row[$k]."]]></".$field.">\n";
+    if($rs){
+    //get the field names
+        $fc=$rs->FieldCount();
+        for($x=0;$x<$fc;$x++)
+        $fields[$x]=$rs->FetchField($x)->name;
+    //ouput the xml
+    //print container
+        echo "\t<".$table.">\n";
+    //itrate through record set
+        foreach($rs as $row){
+            echo "\t\t<recorde>\n";
+            foreach($fields as $k=>$field){
+                $row[$k]=(isset($row[$k]))?$row[$k]:'null';
+                echo "\t\t\t<".$field."><![CDATA[".$row[$k]."]]></".$field.">\n";
+            }
+            echo "\t\t</recorde>\n";
         }
-        echo "\t\t</recorde>\n";
+        echo "\t</".$table.">\n";
     }
-    echo "\t</".$table.">\n";
 }
 
 ?>
