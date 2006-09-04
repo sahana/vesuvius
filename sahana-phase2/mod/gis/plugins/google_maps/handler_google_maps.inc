@@ -211,13 +211,18 @@ function show_map_with_wiki_marker($array)
 					$date=_('Date: ').date('l dS \of F Y',$array[$i]["date"]);
 					$author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
 					$edit=$array[$i]["edit"];
+					if($array[$i]["image"]!=null){
+						$image = $array[$i]["image"];
+					}
+					$image=($image?"<img src=$image width=100 height=100 ><br>":'');
 					//$edit="help";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
       				map.addOverlay(marker);
 <?php
 				}
+				$image=null;
 ?>
       		}
       		else{
