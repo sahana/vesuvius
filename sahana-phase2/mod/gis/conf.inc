@@ -38,7 +38,7 @@ $conf['mod_gis_dflt'] = 'google_maps';
  # if google maps, map api key
  # key should be registered to hosted url
  //@deprecated
- $conf['gmap_key'] = 'ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
+ //$conf['gmap_key'] = 'ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
  
  //new value
  $conf['mod_gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
@@ -69,4 +69,16 @@ $conf['mod_gis_width']=760;
  */
 $conf['mod_gis_marker_folder'] = 'theme/default/img/';
 
+/**
+ * folder to store wiki images
+ * given from sahana root
+ */
+$conf['mod_gis_image_folder'] = 'www/tmp/';
+
+/**
+ * folder to store temp images of maps
+ * given from sahana root
+ */
+$conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
+?>
 ?>
