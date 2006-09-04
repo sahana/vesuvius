@@ -23,6 +23,11 @@
 # if you have problem please visit http://sahana.sourceforge.org/
 # or join with our irc channel #sahana-dev at freenode.org, 
 
+# Specify the name of this Sahana instance. This should be a unique identifier
+# of this instance of Sahana. 
+# It has to be a 4 character alphanumeric 
+$conf['base_uuid'] = "saha";
+
 # Disable the access control system
 $conf['disableACL'] = true;
 
@@ -31,6 +36,15 @@ $conf['acl_mode']='deny';
 
 # Root ID :The user with this ID will be skipped from ACL checking
 $conf['root_id'] = 0;
+
+# Root Name :The owner of the machine
+$conf['root_name'] = 'Administrator';
+
+# Root Email :The email address of the admin
+$conf['root_email'] = 'root@localhost';
+
+# Root Telephone :The telephone of the admin
+$conf['root_tel'] = '';
 
 # Root Password :The default root password
 $conf['root_pwd'] = 'password';
