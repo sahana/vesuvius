@@ -26,6 +26,7 @@ require_once ($global['approot'].'inc/lib_modules.inc');
 require_once ($global['approot'].'inc/lib_form.inc'); 
 require_once ($global['approot'].'inc/lib_errors.inc'); 
 require_once ($global['approot'].'3rd/adodb/adodb.inc.php');
+require_once ($global['approot'].'inc/lib_uuid.inc');
 require_once ($global['approot'].'inc/lib_config.inc');
 //require_once ($global['approot'].'inc/lib_locale/handler_locale.inc');
 
@@ -239,23 +240,40 @@ function shn_setup_form2()
         'dbuser' => $_POST['dbuser'] ,
         'dbpass' => $_POST['dbpass'] ));           
 
+    shn_form_fsopen(_('Installation Details'));
+
+    echo '<p>The following details is needed to uniquely identify your Sahana installation</p>';
+
+    $help_txt = "The following field is randomly generated to help uniquely identify \
+                 this Sahana installation. Please use this unless you have a \
+                 convention defined";
+    shn_form_text(_('Unique Installation ID'),'base_uuid','size="4" maxlength="4"',
+                array('value'=> shn_generate_uuid(4),'req'=>true , 'help' => $help_txt));
+    shn_form_text(_('Administrator Name'),'root_name','size="40"' );
+    shn_form_text(_('Administrator Email'),'root_email','size="40"' );
+    shn_form_text(_('Administrator Telephone'),'root_tel','size="30"' );
+
+    shn_form_fsclose();
+
     shn_form_fsopen(_('Settings'));
-    shn_form_password(_('root (admin) Password'),'rootpwd','size="30"', 
+    shn_form_password(_('Administrator Password'),'root_pwd','size="30"', 
         array('req'=>true, 'help'=>'The root user is the administrator
                 of the system and has the greatest privilages'));
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
                 _('Access Control'),'acl');
     shn_form_select(
-        array( 'default' => _('Default Theme')), 
-                _('Theme'), 'theme');
+        array( 'default' => _('Default Theme'),
+               'classic' => _('Classic Theme'),
+               'green'   => _('Green Theme') 
+             ), ('Theme'), 'theme');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Configuration File'));
 
     if (is_writeable($global['approot'].'conf')) {
     
-        echo '<p>The next step is to write the configuration file sysconf.inc in the Sahana /conf directory.';
+        echo '<p>The next step is to write the configuration file sysconf.inc in the Sahana /conf directory.</p>';
 
         shn_form_hidden(array('conffile' => 
             $global['approot'].'conf/sysconf.inc'));
@@ -397,7 +415,11 @@ function shn_setup_config_update($tmp_configfile)
         '/\'theme\'/' => '$conf[\'theme\'] = \''.$_POST['theme'].'\';' ,
         '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
         '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
-        '/\'root_pwd\'/' => '$conf[\'root_pwd\'] = \''.$_POST['rootpwd'].'\';' ,
+        '/\'base_uuid\'/' => '$conf[\'base_uuid\'] = \''.$_POST['base_uuid'].'\';' ,
+        '/\'root_pwd\'/' => '$conf[\'root_pwd\'] = \''.$_POST['root_pwd'].'\';' ,
+        '/\'root_name\'/' => '$conf[\'root_name\'] = \''.$_POST['root_name'].'\';' ,
+        '/\'root_tel\'/' => '$conf[\'root_tel\'] = \''.$_POST['root_tel'].'\';' ,
+        '/\'root_email\'/' => '$conf[\'root_email\'] = \''.$_POST['root_email'].'\';' ,
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
         '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';' );           
 
