@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.3 2006-09-04 10:32:47 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.4 2006-09-04 11:34:25 chamindra Exp $ */
 
 /**
  *
@@ -55,7 +55,9 @@ function shn_stream_init()
     shn_include_page_section('login',$module);
 
     // display the breadcrumbs: It is important that this happens after the menu definition
-    shn_breadcrumb_push($global['shn_'.$global['module'].'_'.$global['action'].'_nicename']);
+    $nicename = 'shn_'.$global['module'].'_'.$global['action'].'_nicename';
+    if ( array_key_exists($nicename, $global ))
+        shn_breadcrumb_push($global[$nicename]);
 
     shn_breadcrumb_display(); 
     // now include the main content of the page
