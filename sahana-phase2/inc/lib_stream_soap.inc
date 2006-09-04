@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.1 2006-07-24 10:58:26 janakawicks Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.2 2006-09-04 04:52:43 janakawicks Exp $ */
 
 /**
  *
@@ -20,7 +20,7 @@
  
 require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
 
-function shn_stream_init($filename)
+function shn_stream_init()
 {
     global $global;
     $global['soap_server'] = new soap_server();
@@ -29,7 +29,7 @@ function shn_stream_init($filename)
     $global['soap_server']->configureWSDL($global['module'],$namespace);
 
     //open the file and create the wsdl file
-    $content = file($filename);
+    $content = file($global['module_file']);
 
     $flag_in = false;
     foreach($content as $line){
@@ -42,7 +42,7 @@ function shn_stream_init($filename)
             $use = 'encoded';
             $documentation = null;
         }
-        if(preg_match('/function (.*)\(/',$line,$matches) && $flag_in){
+        if(preg_match('/function shn_soap_(.*)\(/',$line,$matches) && $flag_in){
             $flag_in = false;
             $function_name = $matches[1];
             $global['soap_server']->register($function_name,
@@ -68,7 +68,7 @@ function shn_stream_init($filename)
     }
 }
 
-function shn_stream_close($function,$output)
+function shn_stream_close()
 {
     global $global;
 
