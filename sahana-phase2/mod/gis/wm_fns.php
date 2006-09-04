@@ -27,6 +27,7 @@ function show_wiki_map($category="all",$date=0)
 {
 	
 	global $global;
+	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	include_once $global['approot']."/inc/lib_form.inc";
 	
@@ -63,8 +64,31 @@ function show_wiki_map($category="all",$date=0)
 			else
 				$edit_url="";
 			
+			//handle images
+			//@todo: image type
+			$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.jpeg';
+			$image_path="tmp/".$image_name;
+			$image_file=$global['approot'].$conf['mod_gis_image_folder'].$image_name;
+			
+			//no image available and other format support
+			if(!file_exists($image_file)){
+				//check jpg
+				$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.jpg';
+				$image_path="tmp/".$image_name;
+				$image_file=$global['approot'].$conf['mod_gis_image_folder'].$image_name;
+				if(!file_exists($image_file)){
+					//check png
+					$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.png';
+					$image_path="tmp/".$image_name;
+					$image_file=$global['approot'].$conf['mod_gis_image_folder'].$image_name;
+					if(!file_exists($image_file)){
+						$image_path=null;
+					}
+				}
+			}
+			
 			array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['placement_date'],"wiki_id"=>$res->fields['wiki_uuid']));
+				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['placement_date'],"wiki_id"=>$res->fields['wiki_uuid'],"image"=>$image_path,"img_w"=>100,"img_h"=>100));
 			$res->MoveNext();	
 	}
 	
@@ -81,7 +105,7 @@ function show_wiki_map($category="all",$date=0)
  */
 function show_wiki_add_image()
 {
-	var_dump($_POST);
+	//var_dump($_POST);
 	if(isset($_POST['loc_x']) && $_POST['loc_x']!=''){
 		$_SESSION['loc_x']=$_POST['loc_x'];
 		$_SESSION['loc_y']=$_POST['loc_y'];
@@ -215,6 +239,7 @@ function shn_wiki_edit_com($id)
 function shn_wiki_map_commit()
 {
 	global $global;
+	global $conf;
 	include_once($global['approot'].'/inc/lib_uuid.inc');
 	include_once $global['approot']."/inc/lib_form.inc";
 	include_once $global['approot']."/inc/lib_image.inc";
@@ -232,7 +257,7 @@ function shn_wiki_map_commit()
 			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
 			 
 	$res=$db->Execute($query);
-	var_dump($_SESSION);
+	//var_dump($_SESSION);
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_dbinsert($wiki_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
 	
