@@ -9,7 +9,7 @@ CREATE TABLE ct_catalogue
 	(ct_uuid varchar(60) NOT NULL PRIMARY KEY, 
 	parentid varchar(60),
 	name varchar(100),
-	description varchar(100),
+	description varchar(200),
 	final_flag varchar(1) DEFAULT '0',
 	keyword varchar(100));
 
@@ -29,3 +29,8 @@ CREATE TABLE ct_unit_type
 	name varchar(100),
 	description varchar(100));
 
+CREATE TABLE ct_suppliers
+	(
+	ct_uuid varchar(60),
+	supplier varchar(100)
+	);
