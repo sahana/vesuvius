@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Main Controller of the Catalogue System. 
  *
@@ -26,6 +24,14 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
 include_once $global['approot'].'/mod/ims/lib_ims.inc';
 
+include_once $global['approot']."/inc/reporting/lib_reporting.inc";
+include_once $global['approot']."/inc/reporting/lib_chart.inc";
+
+include_once $global['approot'].'/mod/or/api.inc';
+//catalogue system libraries
+include_once $global['approot'].'/mod/cs/lib_cs_js.inc';
+include_once $global['approot'].'/mod/cs/lib_cs_ajax.inc';
+include_once $global['approot'].'/mod/cs/lib_cs_validate.inc';
 
 function shn_cs_mainmenu() 
 {
@@ -46,6 +52,8 @@ function shn_cs_mainmenu()
 	shn_mod_menuitem("addunit",_("Add Measurement Unit"));
 	shn_sub_mod_menuclose();
 	shn_mod_menuitem("viewedit",_("View & Edit"));
+	shn_mod_menuitem("supplier_report",_("Supplier Report"));
+
 	shn_mod_menuclose();
    
     // include the main menu
@@ -54,9 +62,8 @@ function shn_cs_mainmenu()
 
 
 function shn_cs_default()
-{
+{	
 	include_once ('home.inc');
-
 }
 
 function shn_cs_search()
@@ -95,16 +102,13 @@ function shn_cs_select_type_submit()
 		shn_cs_search_cat();
 		_shn_cs_unit_form();
 		}	
-
 }
-
 
 function shn_cs_search_item_submit()
 {
-	echo "<h1>Search Result</h1>";
+	print "<h1>Search Result</h1>";
 	require_once('search.inc');
 	
-
 	if(_shn_cs_validate_cat_form())
 	{
 	display_errors();
@@ -115,7 +119,6 @@ function shn_cs_search_item_submit()
 	{
 	_shn_cs_search_item_cat_submit_result();
 	}
-	
 }
 
 function shn_cs_search_unit_submit()
@@ -149,7 +152,7 @@ function shn_cs_addmain()
 
 function shn_cs_addsub()
 {
-	echo "<h1>Add Sub Category</h1>";
+	echo "<h1>Add Sub Catalogue</h1>";
 	?>
 	<p><?= _('Here you are able to add Sub catalogue types which are under Main catalogues. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogues. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
 <p><?= _('OR'); ?></p>
@@ -270,7 +273,7 @@ function shn_cs_additem()
 
 function shn_cs_additem_form1_submit()
 {
-	echo "<h1>Add Item Result</h1>";
+	echo "<h1>Add Item</h1>";
 	require_once('add.inc');
 	require_once('lib_cs.inc');
 
@@ -403,7 +406,6 @@ function shn_cs_addunitform_submit()
 	echo "<h1>Add Unit Type</h1>";
 	require_once('add.inc');
 
-
 	if(_shn_cs_validate_unit_type_form())
 	{
 	display_errors();
@@ -439,5 +441,10 @@ function shn_cs_search_keyword_select_submit()
 
 }
 
+function shn_cs_supplier_report()
+{
+    require_once('supplier_report.inc');
+    shn_cs_show_supplier_report();
+}
 ?>
 

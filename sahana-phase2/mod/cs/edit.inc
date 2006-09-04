@@ -1,6 +1,6 @@
 <?php
 /**
- * Edit  
+ * View & Edit  
  *
  * PHP version 4 and 5
  *
@@ -27,10 +27,12 @@ function shn_cs_edit_form()
     $form_opts['name']="select_edit_type_form";
     shn_form_fopen('edit_form_submit',null,$form_opts);
     shn_form_fsopen(_('Select Category'));
-    $select_opts='onChange="changeform()"';
+    $select_opts='onChange="select_edit_type_form_submit()"';
     shn_form_select($option_array,'','edit_type',$select_opts,null);
     shn_form_fsclose();
     shn_form_fclose();
+
+    shn_cs_select_edit_type_form_submit_js();
 }
 
 
@@ -44,13 +46,53 @@ function show_item_cat_table()
     global $global;
     $db=$global["db"];
 
+
+    //------new development
+    $query1="select ct_uuid,name from ct_catalogue where parentid = '0' ";
+    $res1=$db->Execute($query1);
+
+    $main_cat_arr = array('all' => 'All');
+    while(!$res1==NULL && !$res1->EOF)
+    {
+    $main_cat_arr[$res1->fields["ct_uuid"]]=$res1->fields["name"];
+    $res1->MoveNext();
+    }
+
+    $cat_item_level_arr = array('all' => 'All','l1' =>'Level 1','l2' =>'Level 2','l3' =>'Level 3','l4' =>'Level 4');
+    $num_of_rec = array('all'=>'All','10'=>'10','20'=>'20','30'=>'30');
+
+	print "<br><br>";
+    	shn_form_fopen(null,null,$form_opts);
+   	?>
+    <div id="result">
+    <table>
+
+	<tr>
+        <td><?php print "Filter by : Main catalogue"; ?></td>
+        <td><?php print "Filter by : Level"; ?></td>
+	<td><?php print "Filter by : Number of Records"; ?></td>
+	<td><?php print ""; ?></td>
+	</tr>
+
+	<tr>
+        <td><?php shn_form_select($main_cat_arr,'','edit_type',$select_opts,null); ?></td>
+        <td><?php shn_form_select($cat_item_level_arr,'','edit_type',$select_opts,null); ?></td>
+	<td><?php shn_form_select($num_of_rec,'','edit_type',$select_opts,null); ?></td>
+	<td><?php shn_form_submit(_("Clear Filters"));; ?></td>
+	</tr>
+	</table>
+	</div>	
+		<?php
+	shn_form_fclose();
+//-----------------------------------------------------------------------------------------------------------------------
+
 ?>
 <br>
 <div id="result">
 <table>
     <thead>
         <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Description")?></strong></td>
+
         <td><strong><?=_("Item/Catalogue")?></strong></td>
 	<td><strong><?=_("Keyword")?></strong></td>
     </thead>
@@ -72,11 +114,10 @@ function show_item_cat_table()
     ?>
     <tr>
         <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print $description ;?></td>
         <?php if($final_flag=='0' && $parent_ID == '0') { ?>
             <td><?php print "Main catalogue" ; ?></td>
         <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
-	    <td><?php print "Sub catalogue" ; ?></td>
+	    <td>&nbsp;&nbsp;<?php print "Sub catalogue" ; ?></td>
         <?php } else { ?>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print "Item" ; ?></td>
         <?php } ?>
@@ -90,7 +131,6 @@ function show_item_cat_table()
 </table>
 </div>
 <?php
-
 }
 
 /**
@@ -153,17 +193,18 @@ function _shn_cs_edit_cat_select_submit_result()
     $extra_opts['br']=false;
     $extra_opts['req']=false;
     
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    shn_form_button(_("Close"),"onClick='shn_cs_edit_cat_select_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='shn_cs_edit_cat_select_submit_result_js(\"edit\")'",$extra_opts);
+    shn_form_button(_("Delete"),"onClick='shn_cs_edit_cat_select_submit_result_js(\"del\")'",$extra_opts);
 
     shn_form_hidden(array('action'=>'0'));
     ?>
     </center>
     <br />
     <?php
-
     shn_form_fclose();
+
+    shn_cs_edit_cat_select_submit_result_js();
 }
 
 
@@ -404,8 +445,6 @@ function unit_inuse($unit_id_input)
 return $inuse_flag;
 }
 
-
-
 function show_unit_type_table()
 {
     global $global;
@@ -531,30 +570,4 @@ function _shn_cs_edit_unit_type_form_submit_result()
     }//end of else if
 
 }
-
-
-?>
-<script type="text/javascript">
-    function changeform()
-    {
-    var x=document.select_edit_type_form.edit_type.options[document.select_edit_type_form.edit_type.selectedIndex].value;
-    if(x!='none')
-        {
-        document.select_edit_type_form.submit();
-        }
-    }
-</script>
-<?php
-
-?>
-<script type="text/javascript">
-    function change_action(action){
-        var x=document.getElementsByName('action');
-         x[0].value=action;
-         document.edit_form.submit();
-         return;
-    }
-</script>
-
-<?php
 ?>

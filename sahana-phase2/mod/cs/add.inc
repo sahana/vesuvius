@@ -21,8 +21,6 @@
  * @access public
  * @return void
  */
-
-
 function shn_cs_addmain_form()
 {
     $extra_opts['req']=true;
@@ -103,7 +101,6 @@ function shn_cs_addsub_form1()
     shn_form_submit(_("Search"));
     shn_form_fsclose();
     shn_form_fclose();
-
 }
 
 
@@ -187,8 +184,6 @@ function _shn_cs_addsub_form2_result()
 
 }
 
-
-
 /**
  * This function shows a form to add Measurement Unit
  * @access public
@@ -227,12 +222,13 @@ function shn_cs_addunit_form()
     $form_opts['name']="select_unit_type_form";
     shn_form_fopen("addunit_select_utype_submit",null,$form_opts);
     shn_form_fsopen(_("Select Measurement Unit Type"));
-    $select_opts='onChange="changeform()"';
+    $select_opts='onChange="select_unit_type_form_js()"';
     shn_form_select($option_array,'','unit_type',$select_opts,null);
     shn_form_fsclose();
     shn_form_fclose();
     }
 
+    shn_cs_addunit_form_js();
 }
 
 function _shn_cs_utype_select_submit_result()
@@ -385,14 +381,17 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
 
+    $suppliers=shn_or_organization_list(null,array("Supplier of Goods"));
+    shn_form_fsopen(_('Suppliers'));
+    shn_form_multi_select('supplier_select',$suppliers, _("Suppliers :"),'size=5 multiple="multiple"' );
+    shn_form_fsclose();
 
     $parent_id_array=array('0' => $parent_id);
     shn_form_hidden($parent_id_array);
 
     shn_form_submit(_("Add"));
     shn_form_fclose();
-
-    
+    shn_cs_additem_form1_result_ajax();
 }
 
 function shn_cs_additem_form2_result()
@@ -401,9 +400,9 @@ function shn_cs_additem_form2_result()
     global $global;
     $db=$global["db"];
 
-$items_saved_ok =false;
-$all_units_saved_ok = false;
-$save_failed_units = array();
+    $items_saved_ok =false;
+    $all_units_saved_ok = false;
+    $save_failed_units = array();
 
     require_once("lib_cs.inc");
     $parent_id=get_itemid();
@@ -435,6 +434,27 @@ $save_failed_units = array();
 		array_push($save_failed_units,$temp);
 		}
     }//end of for
+
+    $suppliers_selected= $_POST["supplier_select"];
+
+    if($suppliers_selected!=null)
+    {
+    $numOfsuppliers=count($suppliers_selected);
+    $supplier_arr_keys=array_keys($suppliers_selected);
+    $save_failed_suppliers = array();
+
+    for($i=0;$i<$numOfsuppliers;$i++)
+    {
+    $temp = $suppliers_selected[$supplier_arr_keys[$i]];
+    $q="insert into ct_suppliers (ct_uuid,supplier) values('$id','$temp')";
+    $res=$db->Execute($q);
+    		if($res == false)
+		{	
+		array_push($save_failed_suppliers,$temp);
+		}
+    }//end of for
+    }
+
 
 	if($save_failed_units == null)
 		{
@@ -600,7 +620,6 @@ function _shn_cs_search_keyword_result()
     $query="select * from ct_catalogue where keyword like '$first_3_letters%' and final_flag!='1' ";
     $res=$db->Execute($query);
 
-
     while(!$res==NULL && !$res->EOF)
     {
     $name=$res->fields["name"];
@@ -627,225 +646,5 @@ function _shn_cs_search_keyword_result()
 </table>
 </div>
 <?php
-
-
-
 }
-
-
-
-
-
-/**
- * This function validates the values entered in add main form.
- *This function is called by shn_cs_addmain_form_submit() in main.inc
- * @access private
- * @return boolean
- */
-
-function _shn_cs_validate_addmainform()
-{
-$error_flag=false;
-clean_errors();
-    
-    //this checks whether name entered in the add main form
-    if(trim($_POST['main_cat_name'])==null)
-    {
-    add_error(_("Please Enter the Catalogue Name"));
-    $error_flag=true;
-    }
-
-    return $error_flag;
-}
-
-/**
- * This function validates the values entered in add unit form.
- *This function is called by shn_cs_addunit_form_submit() in main.inc
- * @access private
- * @return boolean
- */
-
-function _shn_cs_validate_unitform()
-{
-$error_flag=false;
-clean_errors();
-    
-    //this checks whether name entered in the add unit form
-    if(trim($_POST['unit_name'])==null)
-    {
-    add_error(_("Please Enter the Unit Name"));
-    $error_flag=true;
-    }    
-
-    if(trim($_POST['multiplier'])==null)
-    {
-    add_error(_("Please Enter the Multiplier"));
-    $error_flag=true;
-    }
-
-
-
-    return $error_flag;
-}
-
-
-function _shn_cs_validate_subcatform()
-{
-$error_flag=false;
-clean_errors();
-    
-    //this checks whether name entered in the add sub category form
-    if(trim($_POST['sub_cat_name'])==null)
-    {
-    add_error(_("Please Enter the Sub Category Name"));
-    $error_flag=true;
-    }    
-
-    return $error_flag;
-}
-
-function _shn_cs_validate_additem_form()
-{
-$error_flag=false;
-clean_errors();
-
-    //this checks whether name entered in the add Item form
-    if(trim($_POST['itemname'])==null)
-    {
-    add_error(_("Please Enter the Item Name"));
-    $error_flag=true;
-    }    
-
-    if(trim($_POST['measurement_type'])==null || trim($_POST['measurement_type'])=='none')
-    {
-    add_error(_("Please Select the Unit Type"));
-    $error_flag=true;
-    }
-
-    if(trim($_POST['unit_select'])==null)
-    {
-    add_error(_("Please Select Unit/Units"));
-    $error_flag=true;
-    }
-    
-
-    return $error_flag;
-}
-
-function _shn_cs_validate_unit_type_form()
-{
-$error_flag=false;
-clean_errors();
-
-    //this checks whether name entered in the add Item form
-    if(trim($_POST['unit_type_name'])==null)
-    {
-    add_error(_("Please Enter the Unit Type Name"));
-    $error_flag=true;
-    }    
-
-    if(trim($_POST['base_unit_name'])==null)
-    {
-    add_error(_("Please Enter the Base Unit Name"));
-    $error_flag=true;
-    }
-    
-
-    return $error_flag;
-}
-
-
-?>
-<script type="text/javascript">
-    function changeform()
-    {
-    //document.select_unit_type_form.submit();
-    var x=document.select_unit_type_form.unit_type.options[document.select_unit_type_form.unit_type.selectedIndex].value;
-    if(x!='none')
-        {
-        document.select_unit_type_form.submit();
-        }
-    }
-</script>
-<?php
-
-
-?>
-<script type="text/javascript">
-    var url = "xml.php?"; 
-     var http;
-        
-    function getHTTPObject() 
-    {
-        var xmlhttp;
-        
-        //conditional compliation
-        /*@cc_on
-        @if (@_jscript_version >= 5)
-            try {
-                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (e) {
-                try {
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (E) {
-                    xmlhttp = false;
-                }
-            }
-        @else
-            xmlhttp = false;
-        @end @*/
-
-        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-            try {
-                xmlhttp = new XMLHttpRequest();
-
-            } catch (e) {
-            xmlhttp = false;
-            }
-        }
-
-    return xmlhttp;
-    }
-
-function handleHttpResponse(){
-        if (http.readyState == 4) 
-    { // Split the comma delimited response into an array  
-                results = http.responseText.split(",");
-                if (results[0]!="null")
-            {                
-                var x=document.getElementsByName('unit_select[]');
-
-                    for (i=0; i<=x[0].options.length+1; i++)
-                    {
-                            x[0].options[0]=null;
-                            }
-
-                j=0;
-                for (i=1; i<results.length-1; i=i+2, j++)
-                    {
-                    //alert(results[i]);
-                         opt = document.createElement("option") ;
-                          opt.value = results[i] ;
-                          opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
-                          x[0].options[j] = opt;
-                            }
-                    }
-        } 
-    }
-
-    function change_units(selection){
-    
-        http = getHTTPObject();
-
-        var url2=url + "act=unit_cat&cat="+selection;
-          http.open("GET", url2, true); 
-        http.onreadystatechange = function(){}; 
-        http.onreadystatechange = handleHttpResponse; 
-        http.send(null);
-    }
-
-
-</script>
-<?php
-
 ?>

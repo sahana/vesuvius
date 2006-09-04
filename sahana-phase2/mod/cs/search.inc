@@ -15,7 +15,6 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
-
 /**
  * This function shows a form to select the category.Submit the result to shn_cs_search_submit() in main.inc.
  * @access private
@@ -23,16 +22,15 @@
  */
 function shn_cs_search_cat()
 {
-
     $option_array=array('none' => '-----Select Search-----','Item' => 'Item/Catalogue','Unit' => 'Unit');
     $form_opts['name']="select_type_form";
     shn_form_fopen('select_type_submit',null,$form_opts);
     shn_form_fsopen(_('Select Search Type'));
-    $select_opts='onChange="changeform()"';
+    $select_opts='onChange="shn_cs_search_cat_js()"';
     shn_form_select($option_array,'','search_type',$select_opts,null);
     shn_form_fsclose();
     shn_form_fclose();
-
+    shn_cs_search_cat_js();
 }
 
 /**
@@ -42,9 +40,6 @@ function shn_cs_search_cat()
  */
 function _shn_cs_cat_form()
 {
-
-    //$extra_opts['req']=true;
-    //$extra_opts['help']=_("test");
     shn_form_fopen('search_item_submit');
     shn_form_fsopen(_('Search Details'));
     shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/Catalogue to be searched')));
@@ -52,10 +47,8 @@ function _shn_cs_cat_form()
     shn_form_radio($options,'','item_cat_radio');
     shn_form_fsclose();
     shn_form_submit(_("Search"));
-    shn_form_fclose();    
-    
+    shn_form_fclose();
 }
-
 
 /**
  * This function shows the result after processing the POST values from shn_cs_search_cat().
@@ -65,13 +58,11 @@ function _shn_cs_cat_form()
  */
 function _shn_cs_search_item_cat_submit_result()
 {
-
     global $global;
     $db=$global["db"];
 
     $cat_item_name=trim($_POST['cat_item_name']);
     $item_cat_radio=trim($_POST['item_cat_radio']);
-
 
     if($item_cat_radio=='item')
     {
@@ -91,8 +82,8 @@ function _shn_cs_search_item_cat_submit_result()
     }
 
 ?>
-<div id="result">
-<table>
+    <div id="result">
+    <table>
     <THEAD>
         <TD><strong><?=_("Category Name")?></strong></TD>
         <TD><strong><?=_("Description")?></strong></TD>
@@ -104,11 +95,9 @@ function _shn_cs_search_item_cat_submit_result()
         <td><?php print $description ;?></td>
     </tr>
 
-
-    </TBODY>
-    
-</table>
-</div>
+    </TBODY> 
+    </table>
+    </div>
 <?php
 }
 
@@ -142,7 +131,6 @@ function _shn_cs_unit_form()
     shn_form_fsclose();
     shn_form_submit(_("Search"));
     shn_form_fclose();
-    
 }
 
 /**
@@ -159,7 +147,6 @@ function _shn_cs_search_unit_submit_result()
     $search_name=trim($_POST['unit_name']);
     $unit_type_id=trim($_POST['measurement_type']);
 
-    
     if($unit_type_id=='none' && $search_name=='all')
         {
         $query="select * from ct_unit";
@@ -176,17 +163,15 @@ function _shn_cs_search_unit_submit_result()
         $res=$db->Execute($query);
         }
 
-
 ?>
-<div id="result">
-<table>
+    <div id="result">
+    <table>
     <THEAD>
         <TD><strong><?=_("Unit Type")?></strong></TD>
         <TD><strong><?=_("Unit")?></strong></TD>
         <TD><strong><?=_("Multiplier")?></strong></TD>
     </THEAD>
     <TBODY>
-
     <?php 
     while(!$res==NULL && !$res->EOF)
     {
@@ -200,8 +185,6 @@ function _shn_cs_search_unit_submit_result()
         $unit_type_name=$res3->fields["name"];        
 
     ?>
-
-
     <tr>
         <td><?php print $unit_type_name ;?></td>
         <td><?php print $unit_name ;?></td>
@@ -211,73 +194,9 @@ function _shn_cs_search_unit_submit_result()
         $res->MoveNext();
     }//end of while loop
     ?>
-
     </TBODY>
-    
-</table>
-</div>
-<?php
-
-
+    </table>
+    </div>
+    <?php
 }
-
-
-/******************java script ***************************/
-?>
-<script type="text/javascript">
-    function changeform()
-    {
-    var x=document.select_type_form.search_type.options[document.select_type_form.search_type.selectedIndex].value;
-    if(x!='none')
-        {
-        document.select_type_form.submit();
-        }
-    }
-</script>
-<?php
-
-
-function _shn_cs_validate_cat_form()
-{
-$error_flag=false;
-clean_errors();
-
-
-    if(trim($_POST['cat_item_name'])==null)
-    {
-    add_error(_("Please Enter the Item/Catalogue Name to be searched"));
-    $error_flag=true;
-    }    
-    if(trim($_POST['item_cat_radio'])==null)    
-    {
-    add_error(_("Please Select either Item or Catalogue radio button to search"));
-    $error_flag=true;
-    }
-
-    return $error_flag;
-}
-
-function _shn_cs_validate_unit_form()
-{
-$error_flag=false;
-clean_errors();
-
-    if(trim($_POST['measurement_type'])==null || trim($_POST['measurement_type'])=='none' && trim($_POST['unit_name'])!='all' )
-    {
-    add_error(_("Please Select the Measurement Unit Type"));
-    $error_flag=true;
-    }
-
-    if(trim($_POST['unit_name'])==null)
-    {
-    add_error(_("Please Enter the Unit Name to be searched"));
-    $error_flag=true;
-    }
-
-
-return $error_flag;
-}
-
-
-
 ?>
