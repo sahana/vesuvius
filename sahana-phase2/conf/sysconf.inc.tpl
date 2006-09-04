@@ -38,7 +38,7 @@ $conf['acl_mode']='deny';
 $conf['root_id'] = 0;
 
 # Root Name :The owner of the machine
-$conf['root_name'] = 'Administrator';
+$conf['root_name'] = '';
 
 # Root Email :The email address of the admin
 $conf['root_email'] = 'root@localhost';
