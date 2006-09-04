@@ -98,13 +98,19 @@ function shn_main_front_controller()
         $global['effective_module'] = $module = 'admin';
         $global['effective_action'] = $action = 'modadmin';
     } // the orignal module and action is stored in $global
+
+    if (preg_match('/^rpt/',$action)) {
+        $global['effective_module'] = $module = 'rs';
+        $global['effective_action'] = $action = 'modreports';
+    }
   
     // check the users access permissions for this action
     $module_function = 'shn_'.$prefix.$module.'_'.$action;
 	$acl_enabled=shn_acl_get_state($module);
+
     // @TODO: test against admin function is wrong
-    $allow = ((!shn_acl_check_perms_action($_SESSION['user_id'], $module_function)) || 
-             (!$acl_enabled))? true : false;
+    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'], $module_function) || 
+             !$acl_enabled)? true : false;
 
     // include the correct module file based on action and module
     $module_file = $approot.'mod/'.$module.'/main.inc';
@@ -120,7 +126,7 @@ function shn_main_front_controller()
     if($allow){
         // compose and call the relevant module function 
         if (!function_exists($module_function)) {
-            $module_function='shn_'.$prefix_.$module.'_default';
+            $module_function='shn_'.$prefix.$module.'_default';
         }
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
