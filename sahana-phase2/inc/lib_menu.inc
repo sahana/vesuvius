@@ -216,7 +216,10 @@ function shn_breadcrumb_display()
     global $conf;
     $current_mod = '';
 
-    echo '<p>';
+    if ( !array_key_exists('shn_breadcrumb', $_SESSION ))
+        $_SESSION['shn_breadcrumb'] = array();
+
+    echo '<div id="breadcrumbs">';
 
     foreach ($_SESSION['shn_breadcrumb'] as $i ) {
 
@@ -229,7 +232,7 @@ function shn_breadcrumb_display()
         echo '<a href="?mod='.$i[2].'&act='.$i[1].'">'.$i[0].'</a> > ';
     }
 
-    echo '</p>';
+    echo '</div>';
 
 }
 ?>
