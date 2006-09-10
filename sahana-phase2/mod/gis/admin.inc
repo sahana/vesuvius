@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.11 2006-08-07 07:00:39 mifanc Exp $ */
+/* $Id: admin.inc,v 1.12 2006-09-10 19:22:16 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -19,15 +19,6 @@
 
 include_once($global['approot'].'/inc/lib_form.inc');
 
-function _shn_gis_adm_sub_menu(){
-?>
-<div id="submenu_v">
-<!--<a href="index.php?mod=cr&act=adm_forms">Configure Form Display</a>-->
-</div>
-<br>
-<?php
-}
-
 
 function shn_gis_adm_default()
 {
@@ -40,7 +31,7 @@ function shn_gis_adm_default()
 									shn_plugin_commit();
 									break;
 		}
-		_shn_gis_adm_sub_menu();
+		shn_gis_adm_show_mod_menu();
 		echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
 		shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
@@ -49,12 +40,13 @@ function shn_gis_adm_default()
 	else if(isset($_REQUEST['submod']))
 	{
 		global $global;
+		shn_gis_adm_show_mod_menu();
 		include_once ($global['approot'].'/mod/gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
 		shn_plugin_default();
 	}
 	else
 	{
-    	_shn_gis_adm_sub_menu();
+    	shn_gis_adm_show_mod_menu();
 		echo "<h2>"._($conf['mod_gis_name']." Admin Page")."</h2>";
 		shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
@@ -93,6 +85,43 @@ function shn_gis_adm_find_mods()
 	}
 	shn_form_fsclose();
 	shn_form_fclose();	
+}
+
+/**
+ * Find and show GIS plugin configuration links at top
+ * Auto-detects plugins 
+ * @access public
+ * @return void
+ */
+function shn_gis_adm_show_mod_menu()
+{
+?>
+<?php
+	global $global;
+	global $conf;
+	include_once($global['approot'].'/inc/lib_modules.inc');
+	include_once($global['approot'].'/inc/lib_form.inc');
+	$count=1;
+	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$dir = opendir($gis_plugins_dir);
+?>
+	<div id="submenu_v">
+		<a href="index.php?mod=gis&act=admin"><?=_("General Mapping")?></a>
+<?php
+	while($file = readdir($dir)){
+		if(!is_dir($file)){
+			//shows nice name of plugin
+			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			$name = $conf['plugin_name'];
+?>
+<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_($name)?></a>
+<?php
+			$count++;
+		}
+	}
+?>
+	</div><!--/div id=submenu_v-->
+<?php
 }
 
 /**
@@ -150,7 +179,7 @@ function shn_gis_adm_show_mods()
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
-	//echo "module: $mod_name";
+	echo "module: $mod_name";
 	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit("Done");
@@ -211,7 +240,11 @@ function shn_gis_adm_mod()
 		}
 		
 	}
-	echo "<strong>"._("Your Changes Were Saved")."</strong>";
+?>
+<div id="result_msg">
+	<strong><?=_("Your Changes Were Saved")?></strong>
+</div>
+<?php
 	shn_gis_adm_default();	
 }
 /**
@@ -219,7 +252,12 @@ function shn_gis_adm_mod()
  * @access private
  */
 function shn_gis_adm_commit(){
-	echo "<h3>"._("Your Changes Were Saved")."</h3>";
+?>
+<div id="info">
+	<?=_("Your Changes Were Saved")?>
+</div>
+<?php
+	
 	global $global;
 	$db = $global['db'];
 	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
