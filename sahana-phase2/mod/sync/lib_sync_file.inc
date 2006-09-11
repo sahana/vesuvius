@@ -52,4 +52,31 @@ function _shn_sync_data_tables($module,$arr,$tables=array()){
     }
     return $tables;
 }
+
+
+function _shn_add_reference_tables($table,$tables){
+    global $global;
+    static $dbsql;
+    if(!isset($dbsql)){
+        $files=_shn_get_dbfiles();
+        foreach($files as $key=>$file)
+            $dbsql.=file_get_contents($file);
+    }
+    echo $dbsql;
+    
+
+}
+
+function _shn_get_dbfiles(){
+    global $global;
+    $files=array();
+    array_push($files,$global['approot']."/inst/mysql-dbcreate.sql");
+    $modules=shn_get_module_names();
+    foreach($modules as $module){
+        if(file_exists($file=$global['approot'].'/mod/'.$module.'/ins/dbcreate.sql'))
+            array_push($files,$file);
+    }
+    return $files;
+}
+
 ?>
