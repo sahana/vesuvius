@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.12 2006-09-10 19:22:16 mifanc Exp $ */
+/* $Id: admin.inc,v 1.13 2006-09-12 16:04:28 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -179,7 +179,7 @@ function shn_gis_adm_show_mods()
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
-	echo "module: $mod_name";
+	//echo "module: $mod_name";
 	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit("Done");
