@@ -16,7 +16,7 @@
  *
  */
 global $global;
-
+global $conf;
 include_once('lib_sync_file.inc');
 include_once('lib_dump_data.inc');
 
@@ -58,7 +58,7 @@ switch ($_POST['file_type']){
     case 'xml':
         //creating headers
         header("Content-type: text/xml");
-        header("Content-Disposition: attachment; filename=sahana_data_dump_".time().".xml");
+        header("Content-Disposition: attachment; filename=sahana_data_dump_".$conf['base_uuid']."_".time().".xml");
         header("Cache-Control: no-cache, must-revalidate");
         //dump the data in the tables
         _shn_sync_dump_xml($tables);

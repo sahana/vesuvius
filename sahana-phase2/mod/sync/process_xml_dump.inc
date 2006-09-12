@@ -1,6 +1,6 @@
 <?php
 /**
- * Library to process files 
+ * Handler to process XML dump files 
  *
  * PHP version 4 and 5
  *
@@ -30,6 +30,12 @@ function startElement($parser, $name, $attrs)
     global $mem;
     $depth++;
     switch ($depth){
+        case 1:
+            $_SESSION['timestamp']=$attrs['timestamp'];
+            $_SESSION['instanceid']=$attrs['instanceid'];
+            $_SESSION['contact']=$attrs['contact'];
+            $_SESSION['owner']=$attrs['owner'];
+        break;
         case 2:
             array_push($_SESSION['sync']['tables'],$name);
             $mem['table']=$name;

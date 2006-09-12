@@ -18,7 +18,7 @@
 
 //calculate the file creation date
 $time=(int)substr($_FILES['file_dump']['name'], -14, 10);
-$ins=substr($_FILES['file_dump']['name'], -18, 4);
+$ins=substr($_FILES['file_dump']['name'], -19, 4);
 ?>
 <center><strong>The file was uploaded successfully...</strong></center>
 <br />

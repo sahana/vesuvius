@@ -1,6 +1,6 @@
 <?php
 /**
- * Library to process files 
+ * Library to creat temporary data
  *
  * PHP version 4 and 5
  *

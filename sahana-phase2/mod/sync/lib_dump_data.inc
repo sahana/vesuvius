@@ -22,7 +22,10 @@ function _shn_sync_dump_xml($tables){
     global $conf;
     echo "<?xml version='1.0' ?>\n";
     //print the meta data
-    echo "<sahana_data_dump timestamp='".time()."' instanceid='".$conf['base_uuid']."'>\n";
+    echo "<sahana_data_dump timestamp='".time()."' 
+    instanceid='".htmlspecialchars($conf['base_uuid'],ENT_QUOTES)."' 
+    owner='".htmlspecialchars($conf['root_name'],ENT_QUOTES)."' 
+    contact='".htmlspecialchars($conf['root_email'].",".$conf['root_tel'],ENT_QUOTES)."'>\n";
     //loop through each table
     foreach($tables as $table)
         _dump_xml_table($table);
