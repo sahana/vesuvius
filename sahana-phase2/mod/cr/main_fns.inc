@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.45 2006-09-12 15:04:32 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.46 2006-09-12 15:24:32 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -382,6 +382,9 @@ function shn_cr_ecmp(){
 		case 'del'	  :
 									_shn_cr_del_camp($_REQUEST['cmp_id']);
 									break;
+		case 'eplcnt'        :
+                                    _shn_cr_edt_ppl($_REQUEST['cmp_id']);
+                                    break;
 		default 			:	
 		            	shn_cr_edt_srch();
 		            	break;
@@ -389,6 +392,95 @@ function shn_cr_ecmp(){
 																																																						
 }
 
+function shn_cr_eppl()
+{
+
+        global $global;
+  include($global['approot'].'/mod/cr/edit_ppl.inc');
+        require_once($global['approot'].'/inc/handler_form.inc');
+
+        // check action sequence
+        switch($_REQUEST['seq']){
+                case 'chk'      :
+                                                                        if(_shn_cr_validate_error())
+                                                                                _shn_cr_cedt_start(true);
+                                                                        else
+                                                                          {
+                     //                                                    _shn_cr_cedt_commit();
+                                                                            _shn_cr_cedt_chk();
+_shn_cr_cedt_commit();
+}
+                                                                        break;
+
+              
+                case 'disp'             :
+                                                                                _shn_cr_cedt_start();
+                                                                        break;
+                case 'view'             :
+                                                                        shn_cr_all_view();
+                                                                        break;
+               
+
+ case 'eplcnt'        :
+                                                                        _shn_cr_edt_ppl($_REQUEST['cmp_id']);
+                                                                        break;
+
+
+
+default                         :
+                                shn_cr_edt_srch();
+                                break;
+                }
+
+
+}
+
+
+//added by isuru
+function shn_cr_ebed()
+{
+
+        global $global;
+  include($global['approot'].'/mod/cr/edit_bed.inc');
+        require_once($global['approot'].'/inc/handler_form.inc');
+
+        // check action sequence
+        switch($_REQUEST['seq']){
+                case 'chk'      :
+                                                                        if(_shn_cr_validate_error())
+                                                                                _shn_cr_cedt_start(true);
+                                                                        else
+                                                                          {
+                     //                                                    _shn_cr_cedt_commit();
+                                                                            _shn_cr_cedt_chk();
+_shn_cr_cedt_commit();
+}
+                                                                        break;
+
+
+                case 'disp'             :
+                                                                                _shn_cr_cedt_start();
+                                                                        break;
+                case 'view'             :
+                                                                        shn_cr_all_view();
+                                                                        break;
+
+
+ case 'eplcnt'        :
+                                                                        _shn_cr_edt_bed($_REQUEST['cmp_id']);
+                                                                        break;
+
+
+
+default                         :
+                                shn_cr_edt_srch();
+                                break;
+}                          
+
+
+}
+
+        
 
 function shn_cr_rpt(){
  global $global;

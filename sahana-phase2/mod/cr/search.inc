@@ -11,6 +11,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author   Chathra Hendehewa <chathra@opensource.lk>
 * @author   Mifan Careem <mifan@opensource.lk>
+*@edited by Isuru Samaraweera on 11th August 2006
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -26,10 +27,10 @@ function _shn_cr_srch_rst($camp_name,$type){
 		<div id ="result">
     	<table>
         <thead>
-        		<td><?php echo _("Camp Name")?></td>
+        		<td><?php echo _("Shelter Name")?></td>
             <td><?php echo _("Location")?></td>
             <td><?php echo _("Address")?></td>
-         	<td><?php echo _("Camp Type")?></td>
+         	<td><?php echo _("Shelter Type")?></td>
             <td><?php echo _("No: of Males")?></td>
             <td><?php echo _("No: of Females")?></td>
             <td><?php echo _("No: of Children")?></td>
@@ -39,6 +40,7 @@ function _shn_cr_srch_rst($camp_name,$type){
         
         <tbody>
         
+
         <?php
        	if($_REQUEST['edt']=='true')
 					$edt=true;
@@ -50,7 +52,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 
 						if((!null==$camp_name) && (!null==$type)){
 								
-   					$q = "select * from camp_general where name='{$camp_name}'AND opt_camp_type='{$type}'";	
+   				$q = "select * from camp_general where name='{$camp_name}'AND opt_camp_type='{$type}'";	
     		     		$res_cmp =$db->Execute($q);
 						}
 						else if((null==$camp_name) && (!null==$type)){
@@ -61,7 +63,7 @@ function _shn_cr_srch_rst($camp_name,$type){
    	           while (!$res_cmp->EOF){
    	           		$c_uuid  =$res_cmp->fields[0];   
    	           		 
-   	           		$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+	$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
    						$res_maincmp =$db->Execute($qdetails);
     						$loc  =$res_cmp->fields[2];   
     						$qloc = "select * from location where loc_uuid='{$loc}'";
@@ -72,9 +74,16 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">
-						<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?>
-							<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _("edit")?>]</a><?php ;?></td>
+<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields['name']?>">
+<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?>
+<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("edit")?>]</a>
+<a href="index.php?mod=cr&act=eppl&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("eplcnt")?>]</a>
+<a href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("ebdcnt")?>]</a>
+
+
+
+
+<?php ;?></td>
   					<td><?php echo $res_loc->fields['name']?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
   					<td><?php echo $res_type->fields['option_description']?></td>
@@ -121,9 +130,14 @@ function _shn_cr_srch_rst($camp_name,$type){
     					
     		?> 
 			<tr>
-    				<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
-						<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d
-						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]</a></td>
+ <td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>">
+<?php echo $res_cmp->fields[1]?>&nbsp;</a><?php if($edt)?><a href="index.php?mod=cr&act=ecmp&seq=d						isp&cmp_id=<?php echo $res_cmp->fields[1]?>">[<?php echo _("edit")?>]
+
+<a href="index.php?mod=cr&act=eppl&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("eplcnt")?>]</a>
+<a href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("ebdcnt")?>]</a>
+
+
+</a></td>
   					
   					<td><?php echo $res_loc->fields['name']?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
@@ -163,16 +177,16 @@ function _shn_cr_srch_rst($camp_name,$type){
 	
 function _shn_cr_srch($edit=false){		
 ?>
-	 	  <h1><center><?=_("Search for a Camp")?></center></h1>
+	 	  <h1><center><?=_("Search for a Shelter")?></center></h1>
  <?php
 			shn_form_fopen("srch");
 			shn_form_fsopen(_("SEARCH"));
 			shn_form_hidden(array('seq'=>'commit'));
-			shn_form_text(_("Name of the Camp"),'cmp_id','size="20"');
+			shn_form_text(_("Name of the Shelter"),'cmp_id','size="20"');
  			?>
  			<br>		
 			<?php
-		   shn_form_opt_select("opt_camp_type",_("Camp Type"),null,array('all'=>true));
+		   shn_form_opt_select("opt_camp_type",_("Shelter Type"),null,array('all'=>true));
 			 if($edit=='true')
 			 	shn_form_hidden(array('edt'=>'true'));
 		   shn_form_fsclose();

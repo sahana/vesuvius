@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.15 2006-07-27 12:39:55 mifanc Exp $ */
+/* $Id: edit.inc,v 1.16 2006-09-12 15:24:54 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -12,6 +12,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author   Chathra Hendehewa <chathra@opensource.lk>
 * @author   Mifan Careem <mifan@opensource.lk>
+* @edited by Isuru Samaraweera <isuru@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -26,7 +27,7 @@ function _shn_cr_cedt_start($errors=false){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2><?php echo _("Update Existing Camp")?></h2>
+<h2><?php echo _("Update Existing Shelter")?></h2>
 <?php
 	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -37,8 +38,8 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_fopen(ecmp);
 	shn_form_fsopen(_("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
-	shn_form_opt_select("opt_camp_type",_("Camp Type"),array('value'=>$_SESSION['opt_camp_type']));
+	shn_form_text(_("Shelter Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
+	shn_form_opt_select("opt_camp_type",_("Shelter Type"),array('value'=>$_SESSION['opt_camp_type']));
 	shn_form_textarea(_("Address"),"camp_address",null,array('value'=>$_SESSION['camp_address']));
 	shn_form_fsclose();
 ?>
@@ -82,9 +83,11 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
 	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
 	shn_form_fsclose();
-	shn_form_fsopen(_("Camp Population"));
-	shn_form_text(_("Family Count"),"family",'size="10"',array('value'=>$_SESSION['camp_family']));
+	shn_form_fsopen(_("Shelter Population"));
+	shn_form_text(_("Infected Count"),"family",'size="10"',array('value'=>$_SESSION['camp_family']));
 	shn_form_text(_("Total Count"),"total",'size="10"',array('value'=>$_SESSION['camp_total']));
+ shn_form_text(_("Capacity"),"capacity",'size="10"',array('value'=>$_SESSION['camp_capacity']));
+
 	shn_form_text(_("Men"),"men",'size="10"',array('value'=>$_SESSION['camp_men']));
 	shn_form_text(_("Women"),"women",'size="10"',array('value'=>$_SESSION['camp_women']));
 	shn_form_text(_("Children"),"children",'size="10"',array('value'=>$_SESSION['camp_children']));
@@ -110,7 +113,7 @@ function shn_cr_all_view(){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2><?=_("Camp Details")?></h2>
+<h2><?=_("Shelter Details")?></h2>
 <?php
 	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -118,14 +121,14 @@ function shn_cr_all_view(){
 	$_SESSION['editid']=$editid;
 	
 	_shn_cr_get_session($editid);
-	shn_form_fopen(srch);
+	shn_form_fopen(crch);
 	shn_form_fsopen(_("General Details"));
 	shn_form_hidden(array('seq'=>'show'));
 	//shn_form_hidden(array('cmp_id'=>$_REQUEST['cmp_id']));
 	shn_form_hidden(array('opt_camp_type'=>$_SESSION['opt_camp_type']));
 	
-	shn_form_label(_("Camp Name"),$_SESSION['camp_name'],array('br'=>'true'));
-	shn_form_label(_("Camp Type"),$_SESSION['opt_camp_type'],array('br'=>'true'));
+	shn_form_label(_("Shelter Name"),$_SESSION['camp_name'],array('br'=>'true'));
+	shn_form_label(_("Shelter Type"),$_SESSION['opt_camp_type'],array('br'=>'true'));
 ?>
 <!--
 <label>Division</label>
@@ -180,9 +183,11 @@ function shn_cr_all_view(){
 	shn_form_label(_("Full Name"),$_SESSION['camp_contact_name']);
 	shn_form_label(_("Phone Number"),$_SESSION['camp_contact_number']);
 	shn_form_fsclose();
-	shn_form_fsopen(_("Camp Population"));
-	shn_form_label(_("Family Count"),$_SESSION['camp_family']);
+	shn_form_fsopen(_("Shelter Population"));
+	shn_form_label(_("Infected Count"),$_SESSION['camp_family']);
 	shn_form_label(_("Total Count"),$_SESSION['camp_total']);
+ shn_form_label(_("Capacity"),$_SESSION['camp_capacity']);
+
 	shn_form_label(_("Men"),$_SESSION['camp_men']);
 	shn_form_label(_("Women"),$_SESSION['camp_women']);
 	shn_form_label(_("Children"),$_SESSION['camp_children']);
@@ -211,6 +216,9 @@ if($errors)
 	$_SESSION['camp_contact_name']=$_POST['camp_contact_name'];
 	$_SESSION['camp_contact_number']=$_POST['camp_contact_number'];
 	$_SESSION['camp_family']=$_POST['family'];
+
+ $_SESSION['camp_capacity']=$_POST['capacity'];
+
 	$_SESSION['camp_men']=$_POST['men'];
 	$_SESSION['camp_women']=$_POST['women'];
 	$_SESSION['camp_children']=$_POST['children'];
@@ -223,7 +231,7 @@ if($errors)
 							
 	//var_dump($_SESSION);
 ?>
-<h2><?=("Camp Checklist")?></h2>
+<h2><?=("Shelter Checklist")?></h2>
 <?php
 shn_form_fopen(ecmp);
 shn_form_fsopen(_("Services / Facilities Available"));
@@ -245,8 +253,8 @@ function _shn_cr_del_camp($id){
 	$db->Execute($q);
 	$db->Execute($r);
 	$db->Execute($s);
-	echo _("Deleted Camp Succesfully");
-	//shn_cr_srch
+	echo _("Deleted Shelter Succesfully");
+	//shn_cr_crch
 }
 
 function _shn_cr_cadd_commit(){
@@ -271,11 +279,11 @@ return $id;
 }
 
 function _shn_cr_search_edt_frm(){
-?><h2 align="center">Edit Existing Camp</h2><?php
+?><h2 align="center">Edit Existing Shelter</h2><?php
 	shn_form_fopen("ecmp");
-	shn_form_fsopen(_("Edit Camp"));
+	shn_form_fsopen(_("Edit Shelter"));
 	shn_form_hidden(array('seq'=>'disp'));
-	shn_form_text(_("Name of Camp to edit"),'cmp_id','size="20"');
+	shn_form_text(_("Name of Shelter to edit"),'cmp_id','size="20"');
 	shn_form_fsclose();
 	shn_form_submit(_("Edit"));
 	shn_form_fclose();
@@ -295,7 +303,7 @@ function _shn_cr_validate_error(){
 
 
 	if(null == ($_POST['camp_name'])){
-			add_error(_("Please Enter the Camp Name"));
+			add_error(_("Please Enter the Shelter  Name"));
 			$error_flag=true;
 	}
 	//echo $_POST['family'];
@@ -311,6 +319,15 @@ function _shn_cr_validate_error(){
 			$error_flag=true;
 		}
 	}
+
+
+  if(!(null == ($_POST['capacity']))){
+                if(!is_numeric(trim($_POST['capacity']))){
+                        add_error(_("The Capacity is not a valid number"));
+                        $error_flag=true;
+                }
+        }
+
 	if(!(null == ($_POST['men']))){
 		if(!is_numeric(trim($_POST['men']))){
 			add_error(_("The Men Count is not a valid number"));
@@ -344,7 +361,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid='{$camp_id}'";
+	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children,capacity from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid='{$camp_id}'";
 	
 	$res = $db->Execute($query);
 
@@ -359,6 +376,8 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['camp_women']=$res->fields['women'];
 	$_SESSION['camp_children']=$res->fields['children'];
 	$_SESSION['camp_total']=$res->fields['total'];
+
+ $_SESSION['camp_capacity']=$res->fields['capacity'];
 											
 }
 function _shn_cr_get_locid(){
@@ -384,12 +403,12 @@ $loc_id=_shn_cr_get_locid();
 //call unique camp id
 //$uid=_shn_cr_create_cid();
 //enter into camp table
-$q="update camp_general set name='{$_SESSION['camp_name']}',location_id='{$loc_id}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp_general set name='{$_SESSION['camp_name']}',location_id='{$loc_id}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}',capacity={$_SESSION['camp_capacity']} where c_uuid='{$_SESSION['editid']}'";
 
 
 $res = $db->Execute($q);
 //enter into camp_reg table
-$q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_family']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
+$q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family={$_SESSION['camp_family']},children='{$_SESSION['camp_children']}',total={$_SESSION['camp_total']} where c_uuid='{$_SESSION['editid']}'";
 
 $res = $db->Execute($q);
 
@@ -403,9 +422,9 @@ $res = $db->Execute($q);
 */
 ?>
 
-<h2><?=_("You Have Succesfully Edited camp {$_SESSION[camp_name]}")?></h2>
+<h2><?=_("You Have Succesfully Edited shelter {$_SESSION[camp_name]}")?></h2>
 <br>
-<h3><?=_("The availability of Services & Facilities of the camp are as follows")?></h3>
+<h3><?=_("The availability of Services & Facilities of the shelter are as follows")?></h3>
 
 <ul>
 
