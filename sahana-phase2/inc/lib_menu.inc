@@ -198,7 +198,11 @@ function shn_breadcrumb_push($nicename, $action = null, $module = null)
     if ( !array_key_exists('shn_breadcrumb', $_SESSION ))
         $_SESSION['shn_breadcrumb'] = array();
 
-    array_push($_SESSION['shn_breadcrumb'], array($nicename, $action, $module));
+    // only push the breadcrumb if it is not the home page and
+    // if it is not the immidiately previous page in the history
+    if ( 'default' != $action ) { 
+        array_push($_SESSION['shn_breadcrumb'], array($nicename, $action, $module));
+    }
 
     if (count($_SESSION['shn_breadcrumb']) > 3)
         array_shift($_SESSION['shn_breadcrumb']);
@@ -216,18 +220,26 @@ function shn_breadcrumb_display()
     global $conf;
     $current_mod = '';
 
-    if ( !array_key_exists('shn_breadcrumb', $_SESSION ))
+    if ( !array_key_exists('shn_breadcrumb', $_SESSION )) {
         $_SESSION['shn_breadcrumb'] = array();
+    }
 
-    echo '<div id="breadcrumbs">';
+    // @TODO: Remove the space hack and make this a proper list for CSS
+    echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;';
 
     foreach ($_SESSION['shn_breadcrumb'] as $i ) {
 
-        // only prefix the module name if the next item is different
-        if ($current_mod != $i[2]) {
+        $pos = strpos($i[1], 'adm_');
+        if ( 0 === $pos ) {
+            $module_name = $conf['mod_admin_name'];
+        } else {
             $module_name = $conf['mod_'.$i[2].'_name'];
-            echo $module_name.":";
-            $current_mod = $i[2];
+        }
+
+        // only prefix the module name if the next item is different
+        if ($current_mod != $module_name) {
+            echo '<a href="?mod='.$i[2].'"><b>'.$module_name.'</b></a>: ';
+            $current_mod = $module_name;
         }
         echo '<a href="?mod='.$i[2].'&act='.$i[1].'">'.$i[0].'</a> > ';
     }
