@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.12 2006-08-28 15:29:29 mifanc Exp $; */
+/* $Id: main.inc,v 1.13 2006-09-13 05:58:52 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -15,7 +15,7 @@
 */
 //var_dump($global[db]);
 include_once $global['approot']."/mod/gis/main_fns.inc";
-include_once $global['approot']."/mod/gis/conf.inc";
+//include_once $global['approot']."/mod/gis/conf.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/wm_fns.php";
 include_once $global['approot']."/inc/lib_menu.inc";
