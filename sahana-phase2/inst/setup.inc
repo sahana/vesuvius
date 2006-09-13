@@ -89,6 +89,7 @@ function shn_setup_check_dependancy()
     if (!version_compare(phpversion(), '4.1', '>')) $continue = false;
     if (!extension_loaded('gd')) $continue = false;
     if (!extension_loaded('mysql')) $continue = false;
+    if (!extension_loaded('gettext')) $continue = false;
     if (!is_writable($global['approot'].'www/tmp')) $continue = false;
 
     return $continue;
@@ -126,7 +127,8 @@ function shn_setup_form_dependancy()
         shn_form_label(_('PHP Version'), $cross_img.phpversion()." is installed");
         echo "<p><br/>$oops_img Sahana needs PHP version 4.1 or higher. Please upgrate your version of PHP</p>";
     }
-    
+   
+    // Check if php-gd is loaded  
     $value = (extension_loaded('gd'));
     $isOK &= $value;
 
@@ -136,7 +138,18 @@ function shn_setup_form_dependancy()
         shn_form_label(_('PHP-GD Library'), $cross_img."is not installed");
         echo "<p><br/>$oops_img Sahana needs PHP-GD for image manipulations. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
     }
- 
+
+    // Check if php-gettext is loaded
+    $value = (extension_loaded('gettext'));
+    $isOK &= $value;
+
+    if ($value) {
+        shn_form_label(_('PHP-gettext Library'), $tick_img."installed");
+    } else {
+        shn_form_label(_('PHP-gettext Library'), $cross_img."is not installed");
+        echo "<p><br/>$oops_img Sahana needs PHP-gettext for to support local languages. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
+    }
+
     $value = (extension_loaded('mysql'));
     $isOK &= $value;
 
