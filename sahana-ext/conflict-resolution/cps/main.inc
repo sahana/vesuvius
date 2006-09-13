@@ -16,87 +16,59 @@
 //var_dump($global[db]);
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cps/main_fns.inc";
+include_once $global['approot']."/inc/lib_menu.inc";
+
 
 function shn_cps_mainmenu(){
 	global $global;
 	global $conf;
 $server= $conf['servername'] ;
 	$module = $global['module'];
-?>
-<div id="modmenuwrap">
-	<h2>Children Registry Menu</h2>
-	<ul id="modmenu">
-<li><a href="index.php?mod=<?=$module?>&act=default">Home</a></li>
-     
-<li><a href="#">Add Child</a></li>
-<ul id="modsubmenu">
-<li><a href="index.php?mod=<?=$module?>&act=achildcenter">AddChildCenter</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildpersonal">AddPersonalData</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildreporter">ReportersData</a></li>
+	
+	shn_mod_menuopen(_($conf['mod_cps_name']));
+	shn_sub_mod_menuopen("Add Child");
+    shn_mod_menuitem("achildcenter","Add Child Center",$module);
+    shn_mod_menuitem("achildpersonal","Add Child Personal",$module);
+  shn_mod_menuitem("achildreporter","Add Child Reporter",$module);
+ shn_mod_menuitem("achildrelation","Add Child Relation",$module);
+ shn_mod_menuitem("achildeducation","Add Child Education",$module);
+ shn_mod_menuitem("achildhealth","Add Child Health",$module);
+ shn_mod_menuitem("achildbehaviour","Add Child Behaviour",$module);
+ shn_mod_menuitem("achildproperties","Add Child Properties",$module);
 
 
-<li><a href="index.php?mod=<?=$module?>&act=achildrelation">AddChildRelation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildfstatus">AddChildFamilyStatus</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildeducation">AddChildEducation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildhealth">AddChildHealth</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=achildbehaviour">AddChildBehaviour</a></li>
-	<li><a href="index.php?mod=<?=$module?>&act=achildproperties">AddChildProperties</a></li>
-		</ul>                
+    shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen("Sch/Edt/Del Child Center");
+	shn_mod_menuitem("edtchildcenter","Sch/Edt/Del Child Center",$module);
+    shn_mod_menuitem("edtchildpersonal","Sch/Edt/Del Child Personal",$module);
+  shn_mod_menuitem("edtchildreporter","Sch/Edt/Del Child Reporter",$module);
+ shn_mod_menuitem("edtchildrelation","Sch/Edt/Del Child Relation",$module);
+ shn_mod_menuitem("edtchildeducation","Sch/Edt/Del Child Education",$module);
+ shn_mod_menuitem("edtchildhealth","Sch/Edt/Del Child Health",$module);
+ shn_mod_menuitem("edtchildbehaviour","Sch/Edt/Del Child Behaviour",$module);
+ shn_mod_menuitem("edtchildproperties","Sch/Edt/Del Child Properties",$module);
+shn_sub_mod_menuclose();
 
-<li><a href="#">Search/Edit/Delete Child</a></li>
-<ul id="modsubmenu">
-<li><a href="index.php?mod=<?=$module?>&act=edtchildcenter">Sch/Edt/Del ChildCenter</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildpersonal">Sch/Edt/Del PersonalData</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildreporter">Sch/Edt/Del ReportersData</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildrelation">Sch/Edt/Del EditChildRelation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildfstatus">Sch/Edt/Del ChildFamilyStatus</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildeducation">Sch/Edt/Del EditChildEducation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildhealth">Sch/Edt/Del EditChildHealth</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=edtchildbehaviour">Sch/Edt/Del EditChildBehaviour</a></li>
-	<li><a href="index.php?mod=<?=$module?>&act=edtchildproperties">Sch/Edt/Del EditChildProperties</a></li>
-		</ul>                
+shn_sub_mod_menuopen("Backup/Restore Database");
+//shn_mod_menuitem("backuprestore","Backup/Restore Database",$module);
+print '<a href="http://localhost/~isuru/sahana-phase2/mod/cps/backuprestore/backup.php">BackUp/Restore</a>';
 
-<!--
-<li><a href="#">Search Child</a></li>
-<ul id="modsubmenu">
-<li><a href="index.php?mod=<?=$module?>&act=schchildcenter">SearchChildCenter</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildpersonal">SearchPersonalData</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildrelation">SearchChildRelation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildfstatus">SearchChildFamilyStatus</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildeducation">SearchChildEducation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildhealth">SearchChildHealth</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=schchildbehaviour">SearchChildBehaviour</a></li>
-</ul>           
+shn_sub_mod_menuclose();
+shn_sub_mod_menuopen("Query View");
 
-
-<li><a href="#">Delete Child</a></li>
-<ul id="modsubmenu">
-<li><a href="index.php?mod=<?=$module?>&act=delchildcenter">DeleteChildCenter</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildpersonal">DeletePersonalData</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildrelation">DeleteChildRelation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildfstatus">DeleteChildFamilyStatus</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildeducation">DeleteChildEducation</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildhealth">DeleteChildHealth</a></li>
-<li><a href="index.php?mod=<?=$module?>&act=delchildbehaviour">DeleteChildBehaviour</a></li>
-		</ul>-->                
-<li><a href="#">Backup/Restore Database</a></li>
-<ul id="modsubmenu">
-<li><a href="http://<?php print $server?>/sahana-phase2/mod/cps/backuprestore/backup.php">BackUp/Restore Database</a></li>
-<!--<li><a href="index.php?mod=<?=$module?>&act=restoredatabase">RestoreDatabase</a></li>-->
-</ul>
-
-   <li><a href="#">Query View</a></li>
-		  <ul id="modsubmenu">
-		  <li><a href="index.php?mod=<?=$module?>&act=queryview">GotoQueryView</a></li>
-			
-		</ul>
-		
-		
-													
-	</ul><!--end div=modmenu-->
-</div><!--end div=modmenuwrap-->
-<?php
+shn_mod_menuitem("queryview","GoToQueryView",$module);
+//print '<a href="http://localhost/sahana-phase2/mod/cps/backuprestore/backup.php">Query</a>';
+shn_sub_mod_menuclose();
+shn_mod_menuclose();
 include $global['approot']."/inc/handler_mainmenu.inc";
+	
+	
+
+?>
+
+
+<?php
+//include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
 
