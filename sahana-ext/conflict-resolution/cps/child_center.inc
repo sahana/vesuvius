@@ -17,7 +17,7 @@
 include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
-require_once ($global['approot'].'conf/config.inc'); 
+require_once ($global['approot'].'/conf/sysconf.inc'); 
 
 //print child center 
 function _shn_cps_print(){

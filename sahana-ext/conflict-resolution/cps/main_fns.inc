@@ -794,6 +794,14 @@ break;
 																																												
 } 
 
+
+function shn_cps_backuprestore()
+{
+include('backuprestore/backup.php');
+}
+
+
+
 //query view
 function shn_cps_queryview()
 
