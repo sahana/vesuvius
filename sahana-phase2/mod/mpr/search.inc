@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.14 2006-07-03 06:45:44 janakawicks Exp $ */
+/* $Id: search.inc,v 1.15 2006-09-14 06:45:42 janakawicks Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -318,11 +318,11 @@ function shn_mpr_search_show_result($details)
 ?>
 <TABLE>
 <THEAD>
-    <TD><?= _('Picture');?></TD>
-    <TD><?= _('Name');?></TD>
-    <TD><?= _('Appearance');?></TD>
+    <TD><?= _('Person');?></TD>
+    <TD><?= _('Details');?></TD>
+    <TD><?= _('Associated People');?></TD>
     <TD><?= _('Missing Details');?></TD>
-    <TD><?= _('Status');?></TD>
+    <TD><?= _('Actions');?></TD>
     <?=($select?'<TD>'._('Select').'</TD>':''); ?>
 </THEAD>
 <?php
@@ -332,34 +332,10 @@ function shn_mpr_search_show_result($details)
         <TD>
 <?php
     shn_show_thumb_url($detail['p_uuid'],'mpr','addmp_img'); 
-    echo '<hr><a title="'._('Audit').'" '.
-            'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-            $detail['p_uuid'].'">'._('Audit').'</a>';
-
-    echo '<br /><a title="'._('Assign to more incidents').'" '.
-            'href="index.php?mod=admin&act=ims_assign&id='.
-            $detail['p_uuid'].'">'._('Assign to more incidents').'</a>';
-?>
-        </TD>
-        <TD>
-<?php
-    echo '<a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
+    echo '<br><a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
             $detail['p_uuid'].'">'.
             $detail['full_name'].'</a>'.
         '<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
-    echo '<hr><b>'._('Tracked by').'</b><br />';
-    $arr = shn_mpr_search_get_trackers($detail['p_uuid']);
-    foreach($arr as $fullname)
-        echo "&nbsp;".'<a title="'._('View').'"'.
-            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
-            $fullname['p_uuid'].'">'.
-            $fullname['full_name'].'</a><br />';
-    
-    echo "<br />";
-    echo '<a title="'._('Add Tracker').'"'.
-        'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
-        $detail['p_uuid'].'&name='.$detail['full_name'].'">'.
-        _("Add a tracker").'</a>';
 ?>
         </TD>
         <TD>
@@ -369,6 +345,21 @@ function shn_mpr_search_show_result($details)
         ($detail['opt_eye_color']?_('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').
         ($detail['opt_skin_color']?_('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').
         ($detail['opt_hair_color']?_('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
+?>
+        </TD>
+        <TD>
+<?php
+
+    $arr = shn_mpr_search_get_trackers($detail['p_uuid']);
+    foreach($arr as $fullname)
+        echo "&nbsp;".'<a title="'._('View').'"'.
+            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
+            $fullname['p_uuid'].'">'.
+            $fullname['full_name'].'</a><br />';
+    echo '<hr><a title="'._('Add Tracker').'"'.
+        'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
+        $detail['p_uuid'].'&name='.$detail['full_name'].'">'.
+        _("Associate another person").'</a>';
 ?>
         </TD>
         <TD>
@@ -385,6 +376,13 @@ function shn_mpr_search_show_result($details)
         echo '</br /><a title="'._('Change the status to Alive & Well').'"
 href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><br
 />('._('Click to change to found').')</a>';
+    echo '<br /><a title="'._('Assign to more incidents').'" '.
+            'href="index.php?mod=admin&act=ims_assign&id='.
+            $detail['p_uuid'].'">'._('Assign to more incidents').'</a>';
+    echo '<br />';
+    echo '<a title="'._('Audit').'" '.
+            'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
+            $detail['p_uuid'].'">'._('Audit').'</a>';
 ?>      </TD>
         <?=($select?'<TD><a title="'._('Select').'" href="index.php?'.
             $_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].

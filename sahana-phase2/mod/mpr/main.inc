@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.24 2006-07-03 06:45:44 janakawicks Exp $ */
+/* $Id: main.inc,v 1.25 2006-09-14 06:45:42 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -27,6 +27,22 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot'].'mod/mpr/tools.inc';
 include_once $global['approot'].'/inc/lib_image.inc';
 
+/* {{{ Hack Need to fix */
+if(empty($_SESSION['user_pref_ims_incident_id'])){
+    $sql = "SELECT incident_id FROM incident ORDER BY incident_id";
+    $rs = $global['db']->GetAll($sql);
+    if($rs){
+        $_SESSION['user_pref_ims_incident_id'] = $rs[0][0];
+    }else{
+?>
+<script>
+alert('There are no incidents added. Please use the admin console to add atleast one incident.');
+</script>
+<?php
+    }
+}
+/* }}} */
+
 /* {{{ Main Menu */
 /**
  * This function defines the menu list.
@@ -35,6 +51,7 @@ include_once $global['approot'].'/inc/lib_image.inc';
  */
 function shn_mpr_mainmenu() 
 {
+    #debug($_SESSION,1);
     global $global;
     $module = $global['module'];
 
@@ -102,6 +119,7 @@ function shn_mpr_default()
 {
     global $global;
     require($global['approot'].'mod/mpr/home.inc');
+
 }
 /* }}} */
 
@@ -456,10 +474,17 @@ function shn_mpr_search()
                         $_GET['offset']);
                 else{
     	            $search_sql = new SearchQuery();
-                    $search_sql->set_name($_POST['name']);
-                    $search_sql->set_serial_no($_POST['idcard']);
+                    if(!empty($_POST['name']))
+                        $search_sql->set_name($_POST['name']);
+                    if(!empty($_POST['idcard']))
+                        $search_sql->set_serial_no($_POST['idcard']);
+                    if(empty($_POST['idcard']) && empty($_POST['name'])){
+                        $search_sql->set_name($_POST['name']);
+                        $search_sql->set_serial_no($_POST['idcard']);
+                    }
                     #$search_sql->isvictim = true; 
-                    $search_sql->incident_list = "'".implode(shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']),"','")."'";
+                    if(! isset($_REQUEST['all_incidents']))
+                        $search_sql->incident_list = "'".implode(shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']),"','")."'";
                     if ($_REQUEST['type'] == 'missing'){
                         $search_sql->missing_only = true; 
                         $search_sql->isvictim = true; 
@@ -546,4 +571,41 @@ function shn_mpr_status()
 }
 /* }}} */
 
+
+/**
+ * shn_soap_mpr_addmp 
+ * 
+ * @access public
+ * @return string
+ */
+function shn_soap_mpr_addmp()
+{
+
+
+}
+
+/**
+ * shn_soap_mpr_findmp 
+ * 
+ * @param mixed $strAnyName 
+ * @param mixed $strAnyID 
+ * @param mixed $strIncident 
+ * @access public
+ * @return string
+ */
+function shn_soap_mpr_findmp()
+{
+
+}
+
+/**
+ * shn_soap_mpr_default 
+ * 
+ * @access public
+ * @return string
+ */
+function shn_soap_mpr_default()
+{
+    return "hello";
+}
 ?>

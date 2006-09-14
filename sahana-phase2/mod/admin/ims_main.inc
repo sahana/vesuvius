@@ -1,6 +1,4 @@
 <?php
-include_once $global['approot'].'/inc/lib_form.inc';
-
 function shn_admin_ims_config()
 {
     global $global;

@@ -30,6 +30,9 @@ include_once $global['approot']."inc/lib_security/auth_form.inc";
 include_once $global['approot']."mod/admin/ims_main.inc";
 include_once $global['approot']."mod/admin/conf_admin.inc";
 
+// Module Management Console
+include_once $global['approot']."mod/admin/mmc_main.inc";
+
 function shn_admin_mainmenu()
 {
     _shn_admin_mainmenu() ;

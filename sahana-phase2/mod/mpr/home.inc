@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.15 2006-04-28 09:45:09 janakawicks Exp $ */
+/* $Id: home.inc,v 1.16 2006-09-14 06:45:42 janakawicks Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -19,8 +19,17 @@
 ?>
 <div id="home">
 <h2><?= _('Missing Person Registry'); ?></h2>
-<!-- <img src="theme/default/img/mpr.png"/> -->
-<p><?= _('The Missing person registry is an online bulletin board of missing and found people.
+<?php
+global $global;
+if(file_exists($global['approot'].'/www/tmp/mprfound.png')){
+?>
+<img src="tmp/mprfound.png"/>
+<img src="tmp/mprfound.png"/>
+<?php
+}
+?>
+<p>
+<?= _('The Missing person registry is an online bulletin board of missing and found people.
 It not only captures information about the people missing and found, but the
 information of the person seeking them is also captured, which adds to the chances
 of people finding each other. For example if two members of the a family unit is
@@ -93,7 +102,6 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
             INNER JOIN person_status d USING (p_uuid) 
             $incident_join 
             WHERE d.opt_status = 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}' 
-            GROUP BY a.p_uuid 
             ORDER BY d.updated DESC";
 
     $sql_found = "
@@ -110,16 +118,16 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
             INNER JOIN person_status d USING (p_uuid) 
             $incident_join
             WHERE d.opt_status != 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}'
-            GROUP BY a.p_uuid
             ORDER BY d.updated DESC";
 
     if($type=='missing')
         $rs = $global['db']->SelectLimit($sql_missing,$limit);
     elseif($type=='found')
         $rs = $global['db']->SelectLimit($sql_found,$limit);
-
-    $arr = $rs->GetAll();
-    shn_mpr_search_show_verticle($arr);
+    if($rs){
+        $arr = $rs->GetAll();
+        shn_mpr_search_show_verticle($arr);
+    }
 }
 
 /**

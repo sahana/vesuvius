@@ -1,5 +1,4 @@
 <?php
-include_once $global['approot'].'/inc/lib_form.inc';
 
 /*{{{ Level1 Form */
 /**

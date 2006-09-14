@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.10 2006-05-29 08:22:29 mahesh_kks Exp $ */
+/* $Id: edit.inc,v 1.11 2006-09-14 06:45:42 janakawicks Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -263,7 +263,7 @@ function shn_mpr_editmp_validate()
     //set session
     $local_post['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     //clean
-    session_unset($_SESSION['mpr_edit']['entry']);
+    $_SESSION['mpr_edit']['entry']=null;
     $_SESSION['mpr_edit']['entry']=$local_post;
 
     if($error_flag)

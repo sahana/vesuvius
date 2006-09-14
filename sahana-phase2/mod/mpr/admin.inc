@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.3 2006-06-02 06:26:59 janakawicks Exp $ */
+/* $Id: admin.inc,v 1.4 2006-09-14 06:45:42 janakawicks Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -54,32 +54,29 @@ function shn_mpr_adm_default()
 ?>
     <p><b><?=_("Welcome to the Missing Person Registry admin page");?> </b></p>
     <p><?=_("Please use the Security Config menu to Install the Access Control");?> </p>
-
-    
-
-
 <?php
+shn_mpr_adm_gen();
 }
 /* }}} */
 
 function shn_mpr_adm_gen()
 {
+    shn_mpr_adminmenu();
+    if($_POST['seq']=='general'){
+        if(_shn_mpr_adm_gen_validate()){
+            _shn_mpr_adm_gen(false,true);
+        }else{
+            _shn_mpr_adm_gen(true);
+        }
+    }else{
+        _shn_mpr_adm_gen();
+    }
 ?><br /><h2><?=_("General Configuration"); ?></h2>
 <?php
-    _shn_mpr_adm_gen_form();
-
 }
-/* {{{ General Configuration Form */
-/**
- * shn_mpr_adm_gen
- * 
- * @access public
- * @return void
- */
-function _shn_mpr_adm_gen_form($errors=false,$updated=false)
-{
-    global $conf;
 
+function _shn_mpr_adm_gen($errors=false,$updated=false)
+    global $conf;
     if($errors)
         display_errors();
    
@@ -91,8 +88,16 @@ function _shn_mpr_adm_gen_form($errors=false,$updated=false)
 
     shn_form_fopen("adm_gen",null);
     
-    shn_form_hidden(array('seq'=>'entry'));
+    shn_form_hidden(array('seq'=>'general'));
     
+    shn_form_fsopen(_('Name'));
+    if(!isset($_POST['name']))
+        $val = array('value'=>$conf['mod_mpr_name']);
+    else
+        $val = null;
+    shn_form_text(_('Module Name'),'name','size="15"',$val);
+    shn_form_fsclose();
+
     shn_form_fsopen(_('Search'));
     if(!isset($_POST['search_limit']))
         $val = array('value'=>$conf['mod_mpr_search_limit']);
@@ -101,10 +106,10 @@ function _shn_mpr_adm_gen_form($errors=false,$updated=false)
     shn_form_text(_('Search results display limit'),'search_limit','size="15"',$val);
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Upload Pictures'));
-    shn_form_select(array('database'=>_('To Database'),
-                        'file'=>_('To File')), _('Image save handler'), 'upload_pic_handler');
-    shn_form_fsclose();
+#    shn_form_fsopen(_('Upload Pictures'));
+#    shn_form_select(array('database'=>_('To Database'),
+#                        'file'=>_('To File')), _('Image save handler'), 'upload_pic_handler');
+#    shn_form_fsclose();
 
     shn_form_submit(_('Update'));
 

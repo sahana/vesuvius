@@ -1,4 +1,4 @@
- <?php
+<?php
 /**Internal Library of the Inventory Management system 
 *
 * PHP version 4 and 5
@@ -1566,6 +1566,8 @@ $graph->SetOutputFile("barChart.png");
 $graph->SetPlotAreaWorld(0,0,6,2000);
 $graph->DrawGraph();
 }
+<<<<<<< lib_ims.inc
+=======
 
 function _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period)
 {
@@ -1641,4 +1643,5 @@ function _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week)
 	
 } 
 
+>>>>>>> 1.16
 ?>
