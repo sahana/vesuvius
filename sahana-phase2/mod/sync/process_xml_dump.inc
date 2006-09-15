@@ -24,6 +24,7 @@ $cref='';
 $recorde=array();
 $mem=array();
 
+
 function startElement($parser, $name, $attrs)
 {
     global $depth;

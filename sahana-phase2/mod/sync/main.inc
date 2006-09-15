@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.11 2006-09-04 09:46:38 priyanga Exp $ */
+/* $Id: main.inc,v 1.12 2006-09-15 10:12:04 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -46,9 +46,10 @@ function shn_sync_mainmenu()
     shn_sub_mod_menuitem("sws",_("Sync with Servers"));
     shn_sub_mod_menuitem("ads",_("Add Server"));
     shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_("Pony Express"));
     shn_mod_menuitem("download",_("Download Data"));
     shn_mod_menuitem("upload",_("Upload Data"));
-
+    shn_sub_mod_menuclose();
     shn_mod_menuclose();
    
     // include the main menu
@@ -202,7 +203,6 @@ function shn_text_sync_download_file()
 }
 
 function shn_sync_ads(){
-
 }
 
 function shn_sync_sws(){

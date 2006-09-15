@@ -20,25 +20,30 @@ function shn_sync_merge($table){
     global $global;
     //getting the primary keys of the tables
     $primary=$global['db']->MetaPrimaryKeys($table);
-
     //creating the delete query
-    $del_sql="DELETE FROM tmp_".$table." WHERE ";
-    switch(count($primary)){
-        case 0:
-            $del_sql.="1<0";
-        break;
-        case 1:
-            $del_sql.=$primary[0]." IN (select ".$primary[0]." from ".$table.")";
-        break;
-        default:
-            $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
-            foreach($primary as $key){
-                $del_sql.= "a.".$key."=b.".$key." AND ";
-            }
-            $del_sql.="1>0";
+    if(!is_array($primary)){
+        $primary=$global['db']->MetaColumnNames($table);
+        $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
+        foreach($primary as $key){
+            $del_sql.= "a.".$key."=b.".$key." AND ";
+        }
+        $del_sql.="1>0";
     }
+    else if(1==count($primary)){
+        $del_sql="DELETE FROM tmp_".$table." WHERE ";
+        $del_sql.=$primary[0]." IN (select ".$primary[0]." from ".$table.")";
+    }
+    else{
+        $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
+        foreach($primary as $key){
+            $del_sql.= "a.".$key."=b.".$key." AND ";
+        }
+        $del_sql.="1>0";
+    }
+
     //deleting the existing tables
     if ($global['db']->Execute($del_sql) === false) {
+        print_r($primary);
         print '36 error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
     }
     $del_no=$global['db']->Affected_Rows();
@@ -58,20 +63,24 @@ function shn_sync_delete_duplicate($table){
     //getting the primary keys of the tables
     $primary=$global['db']->MetaPrimaryKeys($table);
     //creating the delete query
-    $del_sql="DELETE FROM tmp_".$table." WHERE ";
-    switch(count($primary)){
-        case 0:
-            $del_sql.="1<0";
-        break;
-        case 1:
-            $del_sql.=$primary[0]." IN (select ".$primary[0]." from ".$table.")";
-        break;
-        default:
-            $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
-            foreach($primary as $key){
-                $del_sql.= "a.".$key."=b.".$key." AND ";
-            }
-            $del_sql.="1>0";
+    if(!is_array($primary)){
+        $primary=$global['db']->MetaColumnNames($table);
+        $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
+        foreach($primary as $key){
+            $del_sql.= "a.".$key."=b.".$key." AND ";
+        }
+        $del_sql.="1>0";
+    }
+    else if(1==count($primary)){
+        $del_sql="DELETE FROM tmp_".$table." WHERE ";
+        $del_sql.=$primary[0]." IN (select ".$primary[0]." from ".$table.")";
+    }
+    else{
+        $del_sql="DELETE a FROM tmp_".$table." as a , ".$table." as b WHERE ";
+        foreach($primary as $key){
+            $del_sql.= "a.".$key."=b.".$key." AND ";
+        }
+        $del_sql.="1>0";
     }
     //deleting the existing tables
     if ($global['db']->Execute($del_sql) === false) {
