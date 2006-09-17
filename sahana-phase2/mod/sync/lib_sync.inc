@@ -106,4 +106,16 @@ function shn_sync_insert($table){
 function shn_sync_delete_pattern(){
 
 }
+
+
+
+//function to upate the sync instance table
+function _shn_sync_update_instance(){
+    global $global;
+    if ($global['db']->Replace('sync_instance',$_SESSION['sync_instance'], 'base_uuid') === false) {
+        print_r($primary);
+        print '36 error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+    }
+}
+
 ?>

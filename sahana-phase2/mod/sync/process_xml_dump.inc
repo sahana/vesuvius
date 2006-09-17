@@ -32,10 +32,10 @@ function startElement($parser, $name, $attrs)
     $depth++;
     switch ($depth){
         case 1:
-            $_SESSION['timestamp']=$attrs['timestamp'];
-            $_SESSION['instanceid']=$attrs['instanceid'];
-            $_SESSION['contact']=$attrs['contact'];
-            $_SESSION['owner']=$attrs['owner'];
+            $_SESSION['sync_instance']['last_update']=$attrs['timestamp'];
+            $_SESSION['sync_instance']['base_uuid']=$attrs['instanceid'];
+            $_SESSION['sync_instance']['contact']=$attrs['contact'];
+            $_SESSION['sync_instance']['owner']=$attrs['owner'];
         break;
         case 2:
             array_push($_SESSION['sync']['tables'],$name);
