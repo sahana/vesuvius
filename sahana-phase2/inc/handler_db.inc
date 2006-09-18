@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.19 2006-08-31 06:59:27 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.20 2006-09-18 10:32:00 janakawicks Exp $ */
 
 /**
  *
@@ -200,6 +200,16 @@ function shn_db_config_update($module,$conf_key,$value)
     $global['db']->Execute("DELETE FROM config WHERE module_id LIKE '$module' AND confkey LIKE '$conf_key'");
     //insert 
     shn_db_insert($arr,'config',true,'module_id');
+}
+
+function shn_db_get_config($module,$conf_key)
+{
+    global $global;
+    $rs = $global['db']->GetOne("SELECT value FROM config WHERE module_id LIKE '$module' AND confkey LIKE '$conf_key'");
+    if($rs){
+        return $rs;
+    }else
+        return false;
 }
 
 function shn_db_get_incident_select()

@@ -134,6 +134,15 @@ function return_errors()
 	return $error_container;
 }
 
+function is_errors()
+{
+    global $error_container;
+    if(empty($error_container))
+        return false;
+    else
+        return true;
+}
+
 
 function shn_error_display_restricted_access()
 { ?>
@@ -147,4 +156,4 @@ function shn_error_display_restricted_access()
     </div> <!-- /error -->
 <?php
 }
-
+?>
