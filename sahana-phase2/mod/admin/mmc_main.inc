@@ -1,7 +1,30 @@
 <?php
 function shn_admin_mmc_default()
 {
-    echo "hello";
+    //|--mod prefix--|--Modules--|--Version--|--Author--|
+?>
+<h2>Installed Modules</h2>
+<div id="result">
+<table>
+<thead>
+    <td><?=_('Module Prefix');?></td>
+    <td><?=_('Module Name');?></td>
+    <td><?=_('Version');?></td>
+    <td><?=_('Author');?></td>
+</thead>
+<?php
+    foreach(shn_get_module_names() as $module){
+        echo "<tr>";
+        echo "<td>".$module."</td>";
+        echo "<td>".shn_get_module_name($module)."</td>";
+        echo "<td>".shn_db_get_config($module,'version')."</td>";
+        echo "<td>".shn_db_get_config($module,'authors')."</td>";
+        echo "</tr>";
+    }
+?>
+</table>
+</div>
+<?php  
 }
 
 function shn_admin_mmc_add()
@@ -18,6 +41,7 @@ function shn_admin_mmc_add()
         break;
 
         default :
+            $_SESSION['admin']['mmc'] = null;
             if(_shn_admin_mmc_check_system())
                 _shn_admin_mmc_upload_form();
             else
@@ -127,7 +151,8 @@ function _shn_admin_mmc_upload_form_validate()
     //check module exists or not
     if(shn_module_exists($module_info['mod_prefix'])){
         //if same version don't upgrade
-        if(shn_db_get_config($module_info['mod_prefix'],'version') == $module_info['version']){
+        $cur_version = shn_db_get_config($module_info['mod_prefix'],'version');
+        if($cur_version == $module_info['version']){
             add_error(_("The module you uploaded is the same version of what is already installed."));
             return false;
         }
