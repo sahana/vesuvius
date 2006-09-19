@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.12 2006-09-15 10:12:04 priyanga Exp $ */
+/* $Id: main.inc,v 1.13 2006-09-19 08:09:51 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -10,7 +10,6 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
  * @author	   J P Fonseka <jo@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
@@ -57,7 +56,6 @@ function shn_sync_mainmenu()
 } 
 /* }}} */	
 
-
 /* {{{ Action: Default (Home Page) */
 /**
  * 
@@ -98,13 +96,13 @@ function shn_sync_download()
 function shn_sync_upload()
 {
     global $global;
-    echo "<h2>Upload File</h2>";
+    echo "<h2>"._('Upload File')."</h2>";
     //Check the file upload and display its messages;
     $_SESSION['sync']['file']="./tmp/".basename($_FILES['file_dump']['name']);
     
     //check for tmp file permision
-    if(!is_writable("./tmp")){
-        echo "make sure the tmp folder is writerble<br />";
+    if(!is_writable('./tmp')){
+        echo _('make sure the tmp folder is writerble')."<br />";
     }
     else if (move_uploaded_file($_FILES['file_dump']['tmp_name'],$_SESSION['sync']['file']))
     {
@@ -113,12 +111,14 @@ function shn_sync_upload()
     }
 
     //Print the error message If an error occord with the Upload File
-    if($_GET['up']=='true'){echo 'error with the upload file';}
+    if($_GET['up']=='true'){
+        echo _('error with the upload file');
+    }
 
     //Upload Data Dump Form
     shn_form_fopen("upload&up=true",null,array('enctype'=>'enctype="multipart/form-data"'));
     shn_form_fsopen(_('Upload Sahana Dump File'));
-    shn_form_upload(_('File'),"file_dump");
+    shn_form_upload(_('File'),'file_dump');
     shn_form_fsclose();
     shn_form_submit(_('Next'));
     shn_form_fclose();
@@ -133,9 +133,9 @@ function shn_sync_synchronize(){
     //function to populate tmp database
     function process_file(){
         global $global;
-        switch("xml"){
-            case "xml":
-                $xml=require("process_xml_dump.inc");
+        switch('xml'){
+            case 'xml':
+                $xml=require('process_xml_dump.inc');
                 if($xml)return $xml;
             break;
             case 'csv':
@@ -145,8 +145,8 @@ function shn_sync_synchronize(){
             case 'sqlite':
             break;
         }
-        $global['xajax']->addAssign("console","innerHTML", "Combining Data.....");
-        $global['xajax']->addScript("xajax_start_sync();");
+        $global['xajax']->addAssign('console','innerHTML', _('Combining Data.....'));
+        $global['xajax']->addScript('xajax_start_sync();');
         
         //creating the report object
         $_SESSION['report']=new report();
@@ -162,8 +162,8 @@ function shn_sync_synchronize(){
         $_SESSION['report']->set_tables($_SESSION['sync']['tables']);
         $_SESSION['report']->set_all_number();
         include_once('sync_tmp_data.inc');
-        $global['xajax']->addAssign("console","innerHTML", "Finish Synchronizing.....");
-        $global['xajax']->addScript("xajax_get_report();");
+        $global['xajax']->addAssign('console', 'innerHTML', _('Finish Synchronizing.....'));
+        $global['xajax']->addScript('xajax_get_report();');
         $_SESSION['report']=serialize($_SESSION['report']);
         return $global['xajax']->getXML();
     }
@@ -172,21 +172,21 @@ function shn_sync_synchronize(){
         global $global;
         $_SESSION['report']=unserialize($_SESSION['report']);
         $report=$_SESSION['report']->print_report();
-        $global['xajax']->addAssign("head","innerHTML", "Synchronize Report");
-        $global['xajax']->addAssign("console","innerHTML", $report);
+        $global['xajax']->addAssign('head','innerHTML', 'Synchronize Report');
+        $global['xajax']->addAssign('console','innerHTML', $report);
         return $global['xajax']->getXML();
     }
 
     //Ajax controler for synchronization 
-    $xajax = new xajax("stream.php?mod=sync&act=synchronize");
-    $xajax->registerFunction("process_file");
-    $xajax->registerFunction("start_sync");
-    $xajax->registerFunction("get_report");
+    $xajax = new xajax('stream.php?mod=sync&act=synchronize');
+    $xajax->registerFunction('process_file');
+    $xajax->registerFunction('start_sync');
+    $xajax->registerFunction('get_report');
     $xajax->processRequests();
     $xajax->printJavascript("../3rd/xajax");
-    echo "<h2 id='head'>Synchronize</h2>";
-    echo "<div id='console'>Creating Temp Tables.....</div>";
-    echo "<script type='text/javascript'>xajax_process_file();</script>";
+    echo '<h2 id="head">Synchronize</h2>';
+    echo '<div id="console">'._('Creating Temp Tables.....').'</div>';
+    echo '<script type="text/javascript">xajax_process_file();</script>';
 }
 
 
@@ -202,10 +202,46 @@ function shn_text_sync_download_file()
     include_once('handler_download_file.inc');
 }
 
+
+function shn_text_sync_ads(){
+    global $global;
+    require_once('lib_server_ajax.inc');
+    $global['xajax']= new xajaxResponse();
+    $xajax = new xajax();
+    $xajax->registerFunction('_shn_server_ajax_add_server');
+    $xajax->registerFunction('_shn_server_ajax_connect');
+    $xajax->processRequests();
+}
+
 function shn_sync_ads(){
+    global $global;
+    require_once('lib_server_ajax.inc');
+    $xajax = new xajax('index.php?stream=text&mod=sync&act=ads');
+    $xajax->registerFunction('_shn_server_ajax_add_server');
+    $xajax->registerFunction('_shn_server_ajax_connect');
+    
+    echo '<div id="console">';
+    echo '<h2>'._('Add Sahana Server').'</h2>';
+    shn_form_fopen("ads",null,array('enctype'=>"onSubmit='connect(document.getElementById(\"server_url\").value);return false;'",'style'=>'add'));
+    shn_form_fsopen(_('Add Sahana Server'));
+    shn_form_text(_('Server Url'),'server_url','size="60" id="server_url"',array('value'=>'http://'));
+    shn_form_fsclose();
+    shn_form_submit(_('Next >>'));
+    shn_form_fclose();
+    echo '</div>';
+    $xajax->printJavascript("../3rd/xajax");
+    echo '<script type="text/javascript" src="index.php?stream=text&mod=sync&act=js"></script>';
 }
 
 function shn_sync_sws(){
-    
+
 }
+
+function shn_text_sync_js(){
+    header("Content-type: text");
+    header("Content-Disposition: attachment; filename=sync.js");
+    header("Cache-Control: max-age=0, must-revalidate");
+    include "sync.js";
+}
+
 ?>
