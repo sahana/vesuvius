@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.13 2006-09-19 08:09:51 priyanga Exp $ */
+/* $Id: main.inc,v 1.14 2006-09-21 10:10:51 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -236,12 +236,86 @@ function shn_sync_ads(){
 function shn_sync_sws(){
 
 }
-
+/** This function will stream out sync.js javascript file
+ * @return void
+ */
 function shn_text_sync_js(){
     header("Content-type: text");
     header("Content-Disposition: attachment; filename=sync.js");
     header("Cache-Control: max-age=0, must-revalidate");
     include "sync.js";
+}
+
+function shn_text_sync_server(){
+// Pull in the NuSOAP code
+require_once('../3rd/nusoap/lib/nusoap.php');
+// Create the server instance
+$server = new soap_server();
+// Initialize WSDL support
+$server->configureWSDL('hellowsdl', 'urn:hellowsdl',htmlspecialchars("http://192.168.0.107/sahanacvs/www/index.php?mod=sync&act=server&stream=text"));
+// Register the method to expose
+$server->register('hello',                // method name
+    array('name' => 'xsd:string'),        // input parameters
+    array('return' => 'xsd:string'),      // output parameters
+    'urn:hellowsdl',                      // namespace
+    'urn:hellowsdl#hello',                // soapaction
+    'rpc',                                // style
+    'encoded',                            // use
+    'Says hello to the caller'            // documentation
+);
+// Define the method as a PHP function
+function hello($name) {
+        return 'Hello, ' . $name;
+}
+// Use the request to (try to) invoke the service
+$roughHTTPPOST = file_get_contents("php://input");
+$server->service($roughHTTPPOST);
+}
+
+function shn_text_sync_client(){
+// Pull in the NuSOAP code
+//read the raw data in
+require_once('../3rd/nusoap/lib/nusoap.php');
+$client = new nusoapclient('http://localhost/sahanacvs/www/index.php?mod=sync&act=server&stream=text', true);
+// Check for an error
+$err = $client->getError();
+if ($err) {
+    // Display the error
+    echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
+    // At this point, you know the call that follows will fail
+}
+// Call the SOAP method
+$result = $client->call('hello', array('name' => 'Scott'));
+// Check for a fault
+if ($client->fault) {
+    echo '<h2>Fault</h2><pre>';
+    print_r($result);
+    echo '</pre>';
+} else {
+    // Check for errors
+    $err = $client->getError();
+    if ($err) {
+        // Display the error
+        echo '<h2>Error</h2><pre>' . $err . '</pre>';
+    } else {
+        // Display the result
+        echo '<h2>Result</h2><pre>';
+        print_r($result);
+    echo '</pre>';
+    }
+}
+// Display the request and response
+echo '<h2>Request</h2>';
+echo '<pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
+echo '<h2>Response</h2>';
+echo '<pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
+// Display the debug messages
+echo '<h2>Debug</h2>';
+echo '<pre>' . htmlspecialchars($client->debug_str, ENT_QUOTES) . '</pre>';
+}
+
+function shn_soap_sync_test($name=' ccccc'){
+    return  array('name'=>$name);
 }
 
 ?>
