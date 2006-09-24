@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.14 2006-09-21 10:10:51 priyanga Exp $ */
+/* $Id: main.inc,v 1.15 2006-09-24 17:59:59 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -49,6 +49,7 @@ function shn_sync_mainmenu()
     shn_mod_menuitem("download",_("Download Data"));
     shn_mod_menuitem("upload",_("Upload Data"));
     shn_sub_mod_menuclose();
+    shn_mod_menuitem("history",_("History"));
     shn_mod_menuclose();
    
     // include the main menu
@@ -192,7 +193,7 @@ function shn_sync_synchronize(){
 
 /**
  *
- * This function out pu the download file
+ * This function out put the download file
  *
  * @access public
  * @return void
@@ -246,76 +247,35 @@ function shn_text_sync_js(){
     include "sync.js";
 }
 
-function shn_text_sync_server(){
-// Pull in the NuSOAP code
-require_once('../3rd/nusoap/lib/nusoap.php');
-// Create the server instance
-$server = new soap_server();
-// Initialize WSDL support
-$server->configureWSDL('hellowsdl', 'urn:hellowsdl',htmlspecialchars("http://192.168.0.107/sahanacvs/www/index.php?mod=sync&act=server&stream=text"));
-// Register the method to expose
-$server->register('hello',                // method name
-    array('name' => 'xsd:string'),        // input parameters
-    array('return' => 'xsd:string'),      // output parameters
-    'urn:hellowsdl',                      // namespace
-    'urn:hellowsdl#hello',                // soapaction
-    'rpc',                                // style
-    'encoded',                            // use
-    'Says hello to the caller'            // documentation
-);
-// Define the method as a PHP function
-function hello($name) {
-        return 'Hello, ' . $name;
-}
-// Use the request to (try to) invoke the service
-$roughHTTPPOST = file_get_contents("php://input");
-$server->service($roughHTTPPOST);
-}
-
-function shn_text_sync_client(){
-// Pull in the NuSOAP code
-//read the raw data in
-require_once('../3rd/nusoap/lib/nusoap.php');
-$client = new nusoapclient('http://localhost/sahanacvs/www/index.php?mod=sync&act=server&stream=text', true);
-// Check for an error
-$err = $client->getError();
-if ($err) {
-    // Display the error
-    echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
-    // At this point, you know the call that follows will fail
-}
-// Call the SOAP method
-$result = $client->call('hello', array('name' => 'Scott'));
-// Check for a fault
-if ($client->fault) {
-    echo '<h2>Fault</h2><pre>';
-    print_r($result);
-    echo '</pre>';
-} else {
-    // Check for errors
-    $err = $client->getError();
-    if ($err) {
-        // Display the error
-        echo '<h2>Error</h2><pre>' . $err . '</pre>';
-    } else {
-        // Display the result
-        echo '<h2>Result</h2><pre>';
-        print_r($result);
-    echo '</pre>';
+/**
+ *
+ * This function will display the history of synchronization
+ *
+ * @access public
+ * @return void
+ */
+function shn_sync_history(){
+    global $global;
+    echo "<h2>"._('Synchronization History')."</h2>";
+    $sql="SELECT * FROM sync_instance";
+    $rs=$global['db']->GetAll($sql);
+    echo "<div id ='result'>
+            <table><thead><td>"._('Instance ID')."</td>
+            <td>"._('Owner')."</td>
+            <td>"._('Contacts')."</td>
+            <td>"._('Last Update')."</td>
+            <td>"._('Update Count')."</td>
+            </thead>";
+    foreach($rs as $row){
+        echo "<tr>";
+            echo "<td>".$row[0]."</td>";
+            echo "<td>".$row[1]."</td>";
+            echo "<td>".$row[2]."</td>";
+            echo "<td>".$row[4]."</td>";
+            echo "<td>".$row[5]."</td>";
+        echo "</tr>";
     }
-}
-// Display the request and response
-echo '<h2>Request</h2>';
-echo '<pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
-echo '<h2>Response</h2>';
-echo '<pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
-// Display the debug messages
-echo '<h2>Debug</h2>';
-echo '<pre>' . htmlspecialchars($client->debug_str, ENT_QUOTES) . '</pre>';
-}
-
-function shn_soap_sync_test($name=' ccccc'){
-    return  array('name'=>$name);
+    echo "</table></div>";
 }
 
 ?>
