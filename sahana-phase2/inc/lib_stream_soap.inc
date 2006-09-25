@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.2 2006-09-04 04:52:43 janakawicks Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.3 2006-09-25 10:26:42 priyanga Exp $ */
 
 /**
  *
@@ -26,8 +26,8 @@ function shn_stream_init()
     $global['soap_server'] = new soap_server();
     
     $namespace = 'urn:'.$global['module'];
-    $global['soap_server']->configureWSDL($global['module'],$namespace);
-
+    $global['soap_server']->configureWSDL($global['module'],$namespace,"");
+    $global['module_file'] = "../mod/".$global['module']."/main.inc";
     //open the file and create the wsdl file
     $content = file($global['module_file']);
 
@@ -44,7 +44,7 @@ function shn_stream_init()
         }
         if(preg_match('/function shn_soap_(.*)\(/',$line,$matches) && $flag_in){
             $flag_in = false;
-            $function_name = $matches[1];
+            $function_name = "shn_soap_{$matches[1]}";
             $global['soap_server']->register($function_name,
                                             $input_param,
                                             $output_param,
@@ -58,7 +58,7 @@ function shn_stream_init()
         if($flag_in){
             if(preg_match('/ \* @param (.*?)\s+\$(.*)/',$line, $matches))
                 $input_param[$matches[2]] = 'xsd:'.$matches[1];
-            
+
             if(preg_match('/ \* @return (.*)/',$line, $matches))
                 $output_param = array('return'=>$matches[1]);
 
@@ -71,9 +71,8 @@ function shn_stream_init()
 function shn_stream_close()
 {
     global $global;
-
+    global $HTTP_RAW_POST_DATA;
     $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
     $global['soap_server']->service($HTTP_RAW_POST_DATA);
 }
-
 ?>
