@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.4 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: admin.inc,v 1.5 2006-09-25 06:41:30 janakawicks Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -36,6 +36,13 @@ function shn_mpr_adminmenu(){
 
     shn_adm_menuitem("adm_gen",_("General Configuration"));
     shn_adm_menuitem("adm_images",_("Manage Images"));
+    shn_adm_menuitem("adm_opt_age_group",_("Manage Age Groups"));
+    shn_adm_menuitem("adm_opt_race",_("Manage Race"));
+    shn_adm_menuitem("adm_opt_religion",_("Manage Religion"));
+    shn_adm_menuitem("adm_opt_blood_type",_("Manage Blood Group"));
+    shn_adm_menuitem("adm_opt_eye_color",_("Manage Eye Colors"));
+    shn_adm_menuitem("adm_opt_hair_color",_("Manage Hair Colors"));
+    shn_adm_menuitem("adm_opt_skin_color",_("Manage Skin Colors"));
 
     shn_adm_menuclose();
 
@@ -59,6 +66,7 @@ shn_mpr_adm_gen();
 }
 /* }}} */
 
+/* {{{ shn_mpr_adm_gen */
 function shn_mpr_adm_gen()
 {
     shn_mpr_adminmenu();
@@ -74,8 +82,91 @@ function shn_mpr_adm_gen()
 ?><br /><h2><?=_("General Configuration"); ?></h2>
 <?php
 }
+/* }}} */
 
+/* {{{ shn_mpr_adm_images */
+function shn_mpr_adm_images()
+{
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Images"); ?></h2>
+<?php
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_age_group()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Age Groups"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_age_group');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_race()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Race"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_race');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_religion()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Religion"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_religion');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_blood_type()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Blood Groups"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_blood_type');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_eye_color()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Eye Color"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_eye_color');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_hair_color()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Hair Color"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_hair_color');
+}   
+/* }}} */
+
+/* {{{ shn_mpr_adm_age */
+function shn_mpr_adm_opt_skin_color()
+{       
+    shn_mpr_adminmenu();
+?><br /><h2><?=_("Manage Skin Color"); ?></h2>
+<?php
+    _shn_mpr_adm_field_options_controller('opt_skin_color');
+}   
+/* }}} */
+
+
+/* {{{ */
 function _shn_mpr_adm_gen($errors=false,$updated=false)
+{
     global $conf;
     if($errors)
         display_errors();
@@ -174,4 +265,75 @@ function shn_mpr_adm_acl_install(){
 <?php
 }
 /* }}} */
+
+
+function _shn_mpr_adm_field_options_controller($type){
+    switch ($_POST['seq']) {
+        case 'update':
+            if(_shn_mpr_adm_field_options_validate()){
+                _shn_mpr_adm_field_options_form($type,false);
+            }else{
+                _shn_mpr_adm_field_options_form($type,true);
+            }
+        break;
+
+        default:
+            _shn_mpr_adm_field_options_form($type);
+        break;
+    }
+}
+
+function _shn_mpr_adm_field_options_form($type)
+{
+    global $global;
+    global $conf;
+
+    if($errors)
+        display_errors();
+
+    $sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '$type'";
+    $arr = $global['db']->GetAll($sql);
+    if(! empty($arr)){
+        shn_form_fopen('adm_'.$type,null);
+        shn_form_fsopen(_('Update'));
+        shn_form_hidden(array('seq'=>'update'));
+?>
+<table>
+<thead>
+    <td><strong><?=_('Code');?></strong></td>
+    <td width="100%"><strong><?=_('Description');?></strong></td>
+    <td width="100%"><strong><?=_('Delete');?></strong></td>
+</thead>
+<?php
+        foreach($arr as $row){
+?>
+<tr>
+    <td><input type="text" name="code[<?=$row['option_code'];?>]" 
+            value="<?=$row['option_code'];?>" />
+    </td>
+    <td><input type="text" name="description[<?=$row['option_description'];?>]" 
+            value="<?=$row['option_description'];?>" />
+    </td>
+    <td><input type="checkbox" name="delete[<?=$row['option_code'];?>]" />
+    </td>
+</tr>
+<?php
+        }
+?>
+</table>
+<?php
+        shn_form_submit(_('Update'));
+        shn_form_fsclose();
+    }
+    shn_form_fsopen(_('Add New '));
+    shn_form_text(_("Code"),'new_code');
+    shn_form_text(_("Description"),'new_desc');
+    shn_form_submit(_('Add New'));
+    shn_form_fclose(); 
+}
+
+function _shn_mpr_adm_field_options_validate($type,$error=false)
+{
+
+}
 ?>
