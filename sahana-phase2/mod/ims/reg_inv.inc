@@ -18,6 +18,7 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 require_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot']."/mod/gis/gis_fns.inc";
 include_once "lib_ims.inc";
 
 function _shn_ims_regform_org($error=false)
@@ -33,7 +34,8 @@ function _shn_ims_regform_org($error=false)
 ?>
 <div id="formcontainer">
 <?php
-    shn_form_fopen("reg_inv_cr");
+    //shn_form_fopen("reg_inv_cr");
+    shn_form_fopen("reg_inv_gis");
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
     shn_form_text(_("Inventory Name : "),'org_name','size="50"',$extra_opts); 
@@ -47,6 +49,7 @@ function _shn_ims_regform_org($error=false)
    // shn_form_fsclose();
     // base location
    	$range=array("start"=>1,"end"=>3);
+	//$end=$_POST[$range['end']];
  	shn_form_fsopen("Base Location");
  	shn_location($range,$_POST[$range["end"]],null,true); 
     shn_form_fsclose();
@@ -138,5 +141,49 @@ shn_form_fsclose();
 <?php
     // end of form
   
+
+
+function _shn_ims_reg_inv_gis()
+{
+
+	//$bsd_village=trim($_POST[$range["end"]]);
+    $end=trim($_POST[$range["end"]]);
+    $org_name=trim($_POST{"org_name"});
+    $contact_name=trim($_POST{"contact_name"});
+    $contact_add=trim($_POST{"contact_add"});
+    $contact_phone=trim($_POST['contact_phone']);
+    $contact_mobile=trim($_POST{"contact_mobile"});
+    $contact_fax=trim($_POST{"contact_fax"});
+    $contact_mail=trim($_POST{"contact_mail"});
+    $contact_web=trim($_POST{"contact_web"});
+    $man_power=trim($_POST{"man_power"});
+    $equipment=trim($_POST{"equipment"});
+    $resources=trim($_POST{"resources"});
+    $space=trim($_POST{"space"});
+    $range=trim($_POST['range']);
+    
+
+    shn_form_fopen("reg_inv_cr",null,array('req'=>false));
+    //optionally, add additional form details, sequence information
+    shn_form_hidden(array('seq'=>'img'));
+    //call appropriate gis api method
+    shn_gis_add_marker_map_form();
+
+    shn_form_hidden(array('end'=>$end));
+    shn_form_hidden(array('org_name'=>$org_name));
+    shn_form_hidden(array('contact_name'=>$contact_name));
+    shn_form_hidden(array('contact_add'=>$contact_add));
+    shn_form_hidden(array('contact_phone'=>$contact_phone));
+    shn_form_hidden(array('contact_mobile'=>$contact_mobile));
+    shn_form_hidden(array('contact_fax'=>$contact_fax));
+    shn_form_hidden(array('contact_mail'=>$contact_mail));
+    shn_form_hidden(array('contact_web'=>$contact_web));
+    shn_form_hidden(array('man_power'=>$man_power));
+    shn_form_hidden(array('equipment'=>$equipment));
+    shn_form_hidden(array('resources'=>$resources));
+    shn_form_hidden(array('space'=>$space));
+    shn_form_hidden(array('range'=>$range));
+    shn_form_submit(_("Next"));
+}
 
 ?>

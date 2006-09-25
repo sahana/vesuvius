@@ -27,6 +27,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
+include_once $global['approot']."/mod/gis/gis_fns.inc";
 
 
 
@@ -326,6 +327,12 @@ function shn_ims_reg_inv($error=false)
 {
     include_once ("reg_inv.inc"); 
     _shn_ims_regform_org($error);
+}
+
+function shn_ims_reg_inv_gis()
+{
+    include_once("reg_inv.inc");
+    _shn_ims_reg_inv_gis();
 }
 
 function shn_ims_reg_inv_cr()

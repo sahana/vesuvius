@@ -20,6 +20,9 @@ function _shn_ims_reg_inv_cr()
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once $global['approot']."/inc/lib_validate.inc"; 
+    include_once $global['approot']."/mod/gis/gis_fns.inc";
+
+    
     $error=false;
     $VARCHAR=100;
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
@@ -30,7 +33,9 @@ function _shn_ims_reg_inv_cr()
         $error=true;
         add_error(SHN_ERR_or_ims_LOCATION_INCOMPLETE);
     }else {    */
-        $bsd_village=trim($_POST{$range["end"]});
+
+        //$bsd_village=trim($_POST[$range["end"]]);
+	$bsd_village=trim($_POST["end"]);
     //}
     //if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
       //  add_error(SHN_ERR_or_ims_REG_MAX);
@@ -124,6 +129,9 @@ function _shn_ims_reg_inv_cr()
             //("add_org(): ORG_ID generation failed!");
             return false;
         }
+	
+	//shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+
         $q="select inv_uuid from ims_inventory_records where inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
         if(!$res->EOF){
@@ -146,7 +154,7 @@ function _shn_ims_reg_inv_cr()
                 $i=$i+1;
             }
             */
-            $q="insert into location_details(poc_uuid,location_id,address) values($org_id,'{$bsd_village}','{$contact_address}')";
+            $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
 //print $q;
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
