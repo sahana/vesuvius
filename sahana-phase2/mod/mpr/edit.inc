@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.11 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: edit.inc,v 1.12 2006-09-25 05:16:03 janakawicks Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -146,7 +146,7 @@ function shn_mpr_editmp_entry($errors=false)
     if($errors)
         display_errors();
 
-    shn_form_fopen("editmp",null);
+    shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 
     shn_form_hidden(array('seq'=>'entry'));
 
@@ -176,6 +176,15 @@ function shn_mpr_editmp_entry($errors=false)
     shn_form_opt_select("opt_race",_("Race"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_race']));
 
     shn_form_fsclose();
+
+    shn_form_fsopen(_('Replace Current Picture'));
+    shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img');
+?>
+    <br />
+<?
+    shn_form_upload(_("Upload Picture"),"picture");
+    shn_form_fsclose();
+
 
     shn_form_fsopen(_("Contact Details"));
     shn_form_textarea(_("Address"),"address",'',array('value'=>$_SESSION['mpr_edit']['entry']['address']));
@@ -234,6 +243,9 @@ function shn_mpr_editmp_entry($errors=false)
  */
 function shn_mpr_editmp_validate() 
 {
+    global $global;
+    global $conf;
+
     $error_flag=false;
     
     //trim them all
@@ -265,6 +277,40 @@ function shn_mpr_editmp_validate()
     //clean
     $_SESSION['mpr_edit']['entry']=null;
     $_SESSION['mpr_edit']['entry']=$local_post;
+
+    //No file was uploaded ignore
+    if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
+	    //Uploads 
+	    $info = getimagesize($_FILES['picture']['tmp_name']);
+	    //check the image type 
+	    if(! $info){
+	        add_error(_("Invalid Image Type Please try again"));
+            $error_flag=true;
+	    }
+	
+	    list($ignore,$ext) = split("\/",$info['mime']);
+	    
+	    //check for save handler
+	    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+	        $size = filesize($_FILES['picture']['tmp_name']);
+	        $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
+	        $_SESSION['mpr']['entry']['image'] = $pic;
+	        $_SESSION['mpr']['entry']['image_type'] = $ext;
+	        $_SESSION['mpr']['entry']['image_height'] = $info[1];
+	        $_SESSION['mpr']['entry']['image_width'] = $info[0];
+	    }
+	
+	    //putting a dot ;-) 
+	    $ext = '.'.$ext;
+	
+	    $upload_dir = $global['approot'].'www/tmp/';
+	    $uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_edit']['entry']['p_uuid'].$ext;
+	    move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
+	    $desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_edit']['entry']['p_uuid'].$ext; 
+	    //make thumb 100X100 or some thing like that ;-)
+	    shn_image_resize($uploadfile,$desc_path,100,100);
+    }
+   
 
     if($error_flag)
         return false;

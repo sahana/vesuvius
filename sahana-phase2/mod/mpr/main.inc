@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.25 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: main.inc,v 1.26 2006-09-25 05:16:03 janakawicks Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -168,16 +168,9 @@ function shn_mpr_editmp()
 	    
         case 'trackers' :
             echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
-            shn_mpr_editmp_upload();
+	        shn_mpr_editmp_confirm();
         break;
-	    case 'upload_pic' :
-            echo '<h1 align="center">'._('Edit Missing Person Entry').'</h1>';
-	        if(! shn_mpr_editmp_upload_pic())
-	            shn_mpr_editmp_upload(true);
-	        else
-	            shn_mpr_editmp_confirm();
-	    break;
-	
+
 	    case 'commit' :
 	        shn_mpr_editmp_commit();
             //Send Back to the Main Page
@@ -372,8 +365,8 @@ function shn_mpr_addmp()
 	            //clean the $_POST to remove the conflicts
 	            $_POST = null;
                 echo $heading;
-                echo '<h2 align="center">('._('Upload Person\'s Picture').')</h2>';
-	            shn_mpr_addmp_upload();
+                echo '<h2 align="center">('._('Reporting Person').')</h2>';
+                shn_mpr_addmp_reporter();
 	        }else{
                 echo $heading;
                 echo '<h2 align="center">('._('Person Details').')</h2>';
@@ -427,18 +420,6 @@ function shn_mpr_addmp()
             }
 	    break;
 	
-	    case 'upload_pic' :
-	        if(shn_mpr_addmp_upload_pic()){
-                echo $heading;
-                echo '<h2 align="center">('._('Reporting Person').')</h2>';
-                shn_mpr_addmp_reporter();
-	        }else{
-                echo $heading;
-                echo '<h2 align="center">('._('Upload Person\'s Picture').')</h2>';
-                shn_mpr_addmp_upload(true);
-            }
-	    break;
-	
 	    case 'commit' :
 	        shn_mpr_addmp_commit();
 	    break;
@@ -447,6 +428,7 @@ function shn_mpr_addmp()
             echo $heading;
             echo '<h2 align="center">('._('Reporting Person').')</h2>';
 	        shn_mpr_addmp_entry();
+            $_SESSION['mpr_add'] = null;
         break;
 	}
 }
@@ -489,7 +471,7 @@ function shn_mpr_search()
                         $search_sql->missing_only = true; 
                         $search_sql->isvictim = true; 
                     }
-                    #echo $search_sql->get_sql();
+                    #debug($search_sql->get_sql());
                     $arr = shn_mpr_search_result_vw($search_sql->get_sql());
                 }
 	        break;

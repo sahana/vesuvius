@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.23 2006-07-03 06:45:44 janakawicks Exp $ */
+/* $Id: add.inc,v 1.24 2006-09-25 05:16:03 janakawicks Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -53,7 +53,7 @@ function shn_mpr_addmp_entry($errors=false)
     if($errors)
         display_errors();
 
-    shn_form_fopen("addmp",null);
+    shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
     shn_form_fsopen(_('WARNING'));
 ?>
     <p><?= _('Please do a search and check whether the person you are looking for is already exists'); ?></p>
@@ -94,6 +94,13 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_opt_select("opt_race",_('Race'));
 
     shn_form_fsclose();
+    shn_form_fsopen(_('Upload Picture'));
+?>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the preson. <br />It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
+<?php
+    shn_form_upload(_('Upload Picture'),"picture");
+    shn_form_fsclose();
+
 
     shn_form_fsopen(_('Missing Person\'s Contact Information'));
     shn_form_textarea(_('Address'),"address", null,array('help' => _('Your address can be specified to contact you')));
@@ -153,11 +160,20 @@ function shn_mpr_addmp_entry($errors=false)
  */
 function shn_mpr_addmp_validate() 
 {
+    global $global;
+    global $conf;
+
     $error_flag=false;
-    
+   
     //clean the post
     shn_tools_clean_post(&$local_post);
     
+    $_SESSION['mpr_add']['entry']=$local_post;
+    if(! isset($_SESSION['mpr_add']['entry']['p_uuid'])){
+        $_SESSION['mpr_add']['entry']['p_uuid'] = shn_create_uuid();
+    }
+
+
     //anything entered?
     if(empty($local_post)){
         add_error(_("You have not completed the form"));
@@ -170,47 +186,41 @@ function shn_mpr_addmp_validate()
         $error_flag=true;
     }
 
-/*
- * todo: Shift to reproting person validation function
-             
-    if(isset($local_post['dob']) && ! shn_valid_date($local_post['dob'])){
-        add_error(_("Invalid Date of Birth"));
-        $error_flag=true;
+    //Picture upload part
+    //No file was uploaded ignore else do the following
+    if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
+        $info = getimagesize($_FILES['picture']['tmp_name']);
+        //check the image type 
+        if(! $info){
+            add_error(_("Invalid Image Type Please try again"));
+            $error_flag=true;
+        }
+        list($ignore,$ext) = split("\/",$info['mime']);
+
+        //check for save handler
+        if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+            $size = filesize($_FILES['picture']['tmp_name']);
+            $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
+            $_SESSION['mpr']['entry']['image'] = $pic;
+            $_SESSION['mpr']['entry']['image_type'] = $ext;
+            $_SESSION['mpr']['entry']['image_height'] = $info[1];
+            $_SESSION['mpr']['entry']['image_width'] = $info[0];
+        }
+
+        //putting a dot ;-) 
+        $ext = '.'.$ext;
+        $upload_dir = $global['approot'].'www/tmp/';
+        $uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_add']['entry']['p_uuid'].$ext;
+        move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
+        $desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext; 
+        //make thumb 100X100 or some thing like that ;-)
+        shn_image_resize($uploadfile,$desc_path,100,100);
     }
-
-*/
-
-/*    if(shn_is_opt_field($opt_age_group)){
-        add_error(_("Invalid Age Group"));
-        $error_flag=true;
-    }
-
-    if(shn_is_opt_field($opt_gender)){
-        add_error(_("Invalid Gender"));
-        $error_flag=true;
-    }
-
-    if(shn_is_opt_field($opt_marital_status)){
-        add_error(_("Invalid Marital Status"));
-        $error_flag=true;
-    }
-
-    if(shn_is_opt_field($opt_religion)){
-        add_error(_("Invalid Religion"));
-        $error_flag=true;
-    }
-
-    if(shn_is_opt_field($opt_race)){
-        add_error(_("Invalid Race"));
-        $error_flag=true;
-    }    
-*/
+   
     if($error_flag)
         return false;
     else{
         //set session
-        $local_post['p_uuid'] = shn_create_uuid();
-        $_SESSION['mpr_add']['entry']=$local_post;
         return true;
     }
 } 
