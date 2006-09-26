@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+$Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -59,7 +59,7 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
 class nusoap_base {
@@ -83,7 +83,7 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.3 $';
+	var $revision = '$Revision: 1.4 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -910,7 +910,7 @@ function usleepWindows($usec)
 * Mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access public
 */
 class soap_fault extends nusoap_base {
@@ -996,7 +996,7 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
 class XMLSchema extends nusoap_base  {
@@ -1899,7 +1899,7 @@ class XMLSchema extends nusoap_base  {
 * xsd:anyType and user-defined types.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -2000,7 +2000,7 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -3038,7 +3038,7 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
 class soap_server extends nusoap_base {
@@ -4069,7 +4069,7 @@ class soap_server extends nusoap_base {
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access public 
 */
 class wsdl extends nusoap_base {
@@ -5794,7 +5794,7 @@ class wsdl extends nusoap_base {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
 class soap_parser extends nusoap_base {
@@ -6387,24 +6387,24 @@ class soap_parser extends nusoap_base {
 
 /**
 *
-* soapclient higher level class for easy usage.
+* nusoapclient higher level class for easy usage.
 *
 * usage:
 *
 * // instantiate client with server info
-* $soapclient = new soapclient( string path [ ,boolean wsdl] );
+* $nusoapclient = new nusoapclient( string path [ ,boolean wsdl] );
 *
 * // call method, get results
-* echo $soapclient->call( string methodname [ ,array parameters] );
+* echo $nusoapclient->call( string methodname [ ,array parameters] );
 *
 * // bye bye client
-* unset($soapclient);
+* unset($nusoapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.3 2006-09-25 10:17:54 priyanga Exp $
+* @version  $Id: nusoap.php,v 1.4 2006-09-26 06:08:22 priyanga Exp $
 * @access   public
 */
-class soapclient extends nusoap_base  {
+class nusoapclient extends nusoap_base  {
 
 	var $username = '';
 	var $password = '';
@@ -6471,7 +6471,7 @@ class soapclient extends nusoap_base  {
 	* @param	integer $response_timeout set the response timeout
 	* @access   public
 	*/
-	function soapclient($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = 0, $response_timeout = 30){
+	function nusoapclient($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = 0, $response_timeout = 30){
 		parent::nusoap_base();
 		$this->endpoint = $endpoint;
 		$this->proxyhost = $proxyhost;
@@ -7051,7 +7051,7 @@ class soapclient extends nusoap_base  {
 				unset($paramCommentStr);
 			}
 		}
-		$evalStr = 'class soap_proxy_'.$r.' extends soapclient {
+		$evalStr = 'class soap_proxy_'.$r.' extends nusoapclient {
 	'.$evalStr.'
 }';
 		return $evalStr;
