@@ -1,7 +1,8 @@
 <?php
 /**
- * $id$
- * Google Maps plugin for Sahana GIS
+* $id$
+* 
+* Openlayers Plugin for GIS 
 *
 * PHP version 4 and 5
 *
@@ -13,7 +14,7 @@
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    module
-* @subpackage google_maps
+* @subpackage openlayers
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -44,16 +45,40 @@ function show_map($opt=null)
         
 		map = new OpenLayers.Map($('map'));
 		
+		
+		//Check software proxy
+		//OpenLayers.ProxyHost="/cgi-bin/proxy.cgi?url=";
+		
 		//map = new OpenLayers.Map( $('map') ,{controls:[new OpenLayers.Control.MouseDefaults()]});
 		//var google = new OpenLayers.Layer.Google( "Google Hybrid" , {type: G_HYBRID_MAP });
+		
+		   // WMS
 	       var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS", 
 	                      "http://labs.metacarta.com/wms/vmap0", 
 	                      {layers: 'basic'} );
 	       
+	       // MSN VirtualEearth
 	       velayer = new OpenLayers.Layer.VirtualEarth( "VE",
             { minZoomLevel: 4, maxZoomLevel: 6 }); 
+           
+           // KaMap satellite Mapping
+           var kamap = new OpenLayers.Layer.KaMap("KaMap","http://openlayers.org/world/index.php",{g:"satellite",map:"world"}); 
             
-            map.addLayers([wms,velayer]);
+            
+            // WMS Transparent Overlay
+            var twms = new OpenLayers.Layer.WMS( "World Map","http://world.freemap.in/cgi-bin/mapserv?",
+				{map: '/www/freemap.in/world/map/factbooktrans.map',transparent:'true', 
+					layers: 'factbook', 'format':'png'} );
+					
+			//WFS
+			var layer = new OpenLayers.Layer.WFS( "Owl Survey","http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?",
+        		{typename: "OWLS", maxfeatures: 30});
+        		
+        	//GeoRSS Feed
+			var georss = new OpenLayers.Layer.GeoRSS( "GeoRSS","http://earthquake.usgs.gov/recenteqsww/eqs7day-M2.5.xml" );
+			
+            
+            map.addLayers([wms,velayer,kamap,twms,layer,georss]);
             
             markers = new OpenLayers.Layer.Markers("markers");
             map.addLayer(markers);
@@ -255,12 +280,6 @@ function show_map_with_wiki_marker($array)
 <?php
 }
 
-
-
-
-/**
- * Map with custom markers
- * called by shn_gis_density_map in gis api
 
 /**
  * map with custom markers
