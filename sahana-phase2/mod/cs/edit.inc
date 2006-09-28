@@ -60,6 +60,7 @@ function show_item_cat_table()
 
     $cat_item_level_arr = array('all' => 'All','l1' =>'Level 1','l2' =>'Level 2','l3' =>'Level 3','l4' =>'Level 4');
     $num_of_rec = array('all'=>'All','10'=>'10','20'=>'20','30'=>'30');
+    $cat_item_arr = array('all'=>'All','cat' => 'Catalogs', 'item' => 'Items');
 
 	print "<br><br>";
     	shn_form_fopen(null,null,$form_opts);
@@ -69,6 +70,7 @@ function show_item_cat_table()
 
 	<tr>
         <td><?php print "Filter by : Main catalogue"; ?></td>
+        <td><?php print "Filter by : Cataolg/Item"; ?></td>
         <td><?php print "Filter by : Level"; ?></td>
 	<td><?php print "Filter by : Number of Records"; ?></td>
 	<td><?php print ""; ?></td>
@@ -76,9 +78,10 @@ function show_item_cat_table()
 
 	<tr>
         <td><?php shn_form_select($main_cat_arr,'','edit_type',$select_opts,null); ?></td>
+        <td><?php shn_form_select($cat_item_arr,'','edit_type',$select_opts,null); ?></td>
         <td><?php shn_form_select($cat_item_level_arr,'','edit_type',$select_opts,null); ?></td>
 	<td><?php shn_form_select($num_of_rec,'','edit_type',$select_opts,null); ?></td>
-	<td><?php shn_form_submit(_("Clear Filters"));; ?></td>
+	<td><?php shn_form_submit(_("Filters"));; ?></td>
 	</tr>
 	</table>
 	</div>	

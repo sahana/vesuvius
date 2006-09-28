@@ -16,17 +16,16 @@
  *
  */
 
-include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
-include_once $global['approot'].'/mod/ims/lib_ims.inc';
 
+//reprting Libs
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
-
+//other module APIs.
+include_once $global['approot'].'/mod/ims/lib_ims.inc';
 include_once $global['approot'].'/mod/or/api.inc';
 //catalogue system libraries
 include_once $global['approot'].'/mod/cs/lib_cs_js.inc';
@@ -53,7 +52,6 @@ function shn_cs_mainmenu()
 	shn_sub_mod_menuclose();
 	shn_mod_menuitem("viewedit",_("View & Edit"));
 	shn_mod_menuitem("supplier_report",_("Supplier Report"));
-
 	shn_mod_menuclose();
    
     // include the main menu
@@ -66,6 +64,11 @@ function shn_cs_default()
 	include_once ('home.inc');
 }
 
+/**
+ * This function calls to shn_cs_search_cat() in search.inc which enables search for a catalog,item, Units or unit types
+ * @access public
+ * @return void
+ */
 function shn_cs_search()
 {
 	echo "<h1>Search</h1>";
@@ -75,7 +78,6 @@ function shn_cs_search()
 	require_once('search.inc');
 	shn_cs_search_cat();
 }
-
 
 /**
  * This function recieves submited result from the shn_cs_search_cat() in search.inc.
@@ -178,7 +180,6 @@ function shn_cs_addmain_form_submit()
 	{
 	_shn_cs_addmain_form_result();
 	}
-
 }
 
 function shn_cs_addsub_form1_submit()
