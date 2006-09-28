@@ -28,14 +28,18 @@ function _shn_ims_reg_inv_cr()
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
    // list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
    // list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    $range= shn_ims_get_loc_range();
+
+
+    //$range= shn_ims_get_loc_range();
+
+
     /*if (is_null($_POST{$range["end"]})){
         $error=true;
         add_error(SHN_ERR_or_ims_LOCATION_INCOMPLETE);
     }else {    */
 
         //$bsd_village=trim($_POST[$range["end"]]);
-	$bsd_village=trim($_POST["end"]);
+	$bsd_village=trim($_POST["bsd_village"]);
     //}
     //if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
       //  add_error(SHN_ERR_or_ims_REG_MAX);
@@ -130,7 +134,7 @@ function _shn_ims_reg_inv_cr()
             return false;
         }
 	
-	//shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+	shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
         $q="select inv_uuid from ims_inventory_records where inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
@@ -190,7 +194,8 @@ function _shn_ims_reg_inv_cr()
     <br />
 <?php
         }
-        _shn_ims_regform_org($error);
+	shn_ims_view_inv();
+        //_shn_ims_regform_org($error);
         //return false;
     }else {
          $_SESSION["parent_name"]=$org_name;

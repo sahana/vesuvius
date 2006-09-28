@@ -48,11 +48,25 @@ function _shn_ims_regform_org($error=false)
    // _shn_or_ims_display_sector($error);
    // shn_form_fsclose();
     // base location
-   	$range=array("start"=>1,"end"=>3);
+	//$extra_opts["camps"]=true;
+$range=array("start"=>1,"end"=>3);
+shn_form_fsopen("Base Location");
+//shn_location($range,$_SESSION['inv']['loc'],null,true);
+shn_location($range,$_POST[$range["end"]],null,true);
+shn_form_fsclose();
+
+/**
+*********************************
+*/
+
+
+   	/*$range=array("start"=>1,"end"=>3);
 	//$end=$_POST[$range['end']];
  	shn_form_fsopen("Base Location");
- 	shn_location($range,$_POST[$range["end"]],null,true); 
-    shn_form_fsclose();
+ 	shn_location($range,$_POST[$range["end"]],null,true);
+//shn_location($range,$_SESSION['org']['loc'],null,true);
+//shn_location($range,null,null,true); 
+    shn_form_fsclose();*/
     // Contact infomation
     shn_form_fsopen("Contact Information");
     _shn_ims_display_contact_person($error,true,null);
@@ -70,6 +84,7 @@ function _shn_ims_regform_org($error=false)
 <center>
 <?php
 //create the submit button
+   // shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
 ?>
 </center>
@@ -147,7 +162,7 @@ function _shn_ims_reg_inv_gis()
 {
 
 	//$bsd_village=trim($_POST[$range["end"]]);
-    $end=trim($_POST[$range["end"]]);
+    //$end=trim($_POST[$range["end"]]);
     $org_name=trim($_POST{"org_name"});
     $contact_name=trim($_POST{"contact_name"});
     $contact_add=trim($_POST{"contact_add"});
@@ -160,7 +175,15 @@ function _shn_ims_reg_inv_gis()
     $equipment=trim($_POST{"equipment"});
     $resources=trim($_POST{"resources"});
     $space=trim($_POST{"space"});
-    $range=trim($_POST['range']);
+	//$range=trim($_POST["range"]);
+
+    //$range1= array();
+    //$range1=trim($_POST['range']);
+    //$bsd_village=array();
+    $range= shn_ims_get_loc_range();
+    $bsd_village=trim($_POST{$range["end"]});
+    print $bsd_village;
+   // print ("Mahesh");
     
 
     shn_form_fopen("reg_inv_cr",null,array('req'=>false));
@@ -168,8 +191,9 @@ function _shn_ims_reg_inv_gis()
     shn_form_hidden(array('seq'=>'img'));
     //call appropriate gis api method
     shn_gis_add_marker_map_form();
+    //shn_form_fclose();
 
-    shn_form_hidden(array('end'=>$end));
+    //shn_form_hidden(array('end'=>$end));
     shn_form_hidden(array('org_name'=>$org_name));
     shn_form_hidden(array('contact_name'=>$contact_name));
     shn_form_hidden(array('contact_add'=>$contact_add));
@@ -182,8 +206,10 @@ function _shn_ims_reg_inv_gis()
     shn_form_hidden(array('equipment'=>$equipment));
     shn_form_hidden(array('resources'=>$resources));
     shn_form_hidden(array('space'=>$space));
-    shn_form_hidden(array('range'=>$range));
+    shn_form_hidden(array('bsd_village'=>$bsd_village));
+    //shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
+    shn_form_fclose();
 }
 
 ?>
