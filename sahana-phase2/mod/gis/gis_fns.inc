@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.17 2006-08-28 15:28:30 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.18 2006-09-28 06:30:13 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -99,6 +99,7 @@ function shn_gis_map($opt_array=null)
 */
 function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	global $global;
+	include_once $global['approot']."/inc/lib_uuid.inc";
 	$db = $global['db'];
 	
 	//@todo  generate id for gis entries
