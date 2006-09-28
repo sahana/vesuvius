@@ -48,6 +48,9 @@ function show_map($opt=null)
 		
 		//Check software proxy
 		//OpenLayers.ProxyHost="/cgi-bin/proxy.cgi?url=";
+		OpenLayers.ProxyHost='';
+        //$fp = fopen("http://earthquake.usgs.gov/recenteqsww/eqs7day-M2.5.xmL","r")
+       //or die("Error reading RSS data."); 
 		
 		//map = new OpenLayers.Map( $('map') ,{controls:[new OpenLayers.Control.MouseDefaults()]});
 		//var google = new OpenLayers.Layer.Google( "Google Hybrid" , {type: G_HYBRID_MAP });
@@ -75,7 +78,10 @@ function show_map($opt=null)
         		{typename: "OWLS", maxfeatures: 30});
         		
         	//GeoRSS Feed
-			var georss = new OpenLayers.Layer.GeoRSS( "GeoRSS","http://earthquake.usgs.gov/recenteqsww/eqs7day-M2.5.xml" );
+            var url = "http://earthquake.usgs.gov/recenteqsww/eqs7day-M2.5.xml";
+            var parts = url.split("/");
+
+			var georss = new OpenLayers.Layer.GeoRSS(parts[parts.length-1], url );
 			
             
             map.addLayers([wms,velayer,kamap,twms,layer,georss]);
