@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.15 2006-09-24 17:59:59 priyanga Exp $ */
+/* $Id: main.inc,v 1.16 2006-09-29 06:07:29 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -278,4 +278,13 @@ function shn_sync_history(){
     echo "</table></div>";
 }
 
+
+function shn_text_sync_info(){
+    global $conf;
+    echo $conf['base_uuid']."\n";
+# Root Name :The owner of the machine
+    echo $conf['root_name']."\n";
+# Root Email :The email address of the admin
+    echo $conf['root_email'].", ".$conf['root_tel']."\n";
+}
 ?>

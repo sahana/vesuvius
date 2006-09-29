@@ -23,11 +23,18 @@
 
 function _shn_server_ajax_connect($url){
     global $global;
+    $para="?mod=sync&act=info&stream=text";
+    try{
+        $xml=file($url.$para);
+    } catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    }
+    $connect=$xml;
 //access the web service
     if($connect){
-        $html="<ul><li>Instance ID: test</li>
-                <li>Owner: test</li>
-                <li>Contact: test</li>
+        $html="<ul><li>Instance ID:".$xml[0]."</li>
+                <li>Owner:".$xml[1]."</li>
+                <li>Contact:".$xml[2]."</li>
                 </ul>";
         $global['xajax']->addAssign("status", "innerHTML", $html);
     }
@@ -39,4 +46,7 @@ function _shn_server_ajax_connect($url){
     //$global['xajax']->addScript('alert("'.$url.'");');
     return $global['xajax']->getXML();
 }
+
+
+
 ?>
