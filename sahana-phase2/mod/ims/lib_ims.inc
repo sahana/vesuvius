@@ -602,7 +602,7 @@ function _shn_ims_get_location($inv_id)
 	
 	$location_id=$ims1->fields['location_id'];
 
-	$parent_id="test";
+	//$parent_id="test";
 	$string_array=array();
 	$i=0;
 
@@ -622,8 +622,8 @@ function _shn_ims_get_location($inv_id)
 
 	for($j=$i-2;$j>=0;$j--)
 	{
-		print $string_array[$j];
-		print "\n";
+		//print $string_array[$j];
+		//print "\n";
 		$string=$string_array[$j];
 		if($j==$i-2)
 		{
