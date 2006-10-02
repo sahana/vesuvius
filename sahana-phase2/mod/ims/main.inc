@@ -53,7 +53,8 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
     shn_sub_mod_menuitem("report_destroyed",_("destroyed item"),$module);
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
-    shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
+    //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
+    shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Optimization"));
     shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
@@ -751,6 +752,23 @@ function shn_ims_relation_item_db()
 	$inv_id=$_REQUEST['inv_id'];
 	include_once ('optimize.inc');
 	_shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id);
+}
+
+function shn_ims_gis_inv(){
+	
+	//global $global;
+		//$inv_id="all";		
+		$inv_id=$_REQUEST['id'];
+		//print_r($map_array);
+		shn_form_fopen(null);
+		//shn_form_fsopen(null);
+		$array=_shn_ims_gis_inv($inv_id);		
+		shn_gis_map_with_markers($array);
+		//shn_form_fsclose();
+		shn_form_fclose();
+		
+	//}
+	
 }
 
 ?>

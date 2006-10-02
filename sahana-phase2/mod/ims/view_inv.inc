@@ -35,7 +35,7 @@ function _shn_ims_viewform_allorg($no=NULL)
 	<table>
         <thead>
             <td><?=_("Inventory Name")?></td>
-           <!-- <td><?=_("Country of Origin")?></td> -->
+            <td><?=_("Country of Origin/GIS")?></td> 
             <td><?=_("Address")?></td>
             <td><?=_("Contact Numbers")?></td>
             <td><?=_("Man Power")?></td>
@@ -122,6 +122,10 @@ $inv_id=$res_org->fields[0];
     }
     ?>
     </td>
+<?php
+	$location_display=_shn_ims_get_location($inv_id);
+?>
+    <td><?php print $location_display;?><br><a href="index.php?mod=ims&act=gis_inv&id=<?php echo $res_org->fields[0] ?>"><?php echo "GIS Map";?></a> </td>
    
    <!-- <td><?php echo $res_bsd_country->fields[0]?></td> -->
     <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>

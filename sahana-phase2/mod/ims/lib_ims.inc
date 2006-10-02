@@ -20,6 +20,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 //include_once '';
 include_once $global['approot'].'/mod/or/lib_or.inc';
 include_once $global['approot'].'/3rd//phplot/phplot_ims.php';
+//include_once $global['approot']."/mod/gis/gis_fns.inc";
 
 
 function shn_ims_org_list(){
@@ -554,6 +555,88 @@ function _shn_ims_find_unitid($unit_id)
 
     return $unit_found;
     
+}
+
+function _shn_ims_gis_inv($inv_id)
+{
+    global $global;
+    $db=$global['db'];
+    $map_array=array();
+
+    if($inv_id==NULL)
+    {
+	
+		//$db = $global['db'];
+		
+		$sql1="SELECT * FROM ims_inventory_records;";
+		$ims1=$db->Execute($sql1);
+
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$inv_id=$ims1->fields['inv_uuid'];
+			$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
+			$ims2=$db->Execute($sql2);
+
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims2->fields['name'],"id"=>$ims2->fields['poc_uuid']));
+			$ims1->MoveNext();	
+		}
+    }
+    else
+    {
+	$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
+			$ims2=$db->Execute($sql2);
+
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims2->fields['name'],"id"=>$ims2->fields['poc_uuid']));
+    }
+
+	return $map_array;
+}
+
+function _shn_ims_get_location($inv_id)
+{
+	global $global;
+	$db=$global['db'];
+
+	$sql1="SELECT * FROM location_details WHERE poc_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	
+	$location_id=$ims1->fields['location_id'];
+
+	$parent_id="test";
+	$string_array=array();
+	$i=0;
+
+	while($location_id!=NULL)
+	{
+		$sql2="SELECT * FROM location WHERE loc_uuid='$location_id';";
+		$ims2=$db->Execute($sql2);
+//print $sql2;
+		$parent_id=$ims2->fields['parent_id'];
+		$name=$ims2->fields['name'];
+		//array_push($string_array,$location_id=>$name);
+		$string_array[$i]=$name;
+		$i=$i+1;
+
+		$location_id=$parent_id;
+	}
+
+	for($j=$i-2;$j>=0;$j--)
+	{
+		print $string_array[$j];
+		print "\n";
+		$string=$string_array[$j];
+		if($j==$i-2)
+		{
+			$location=$string;
+		}
+		else
+		{
+			$location=$location."->".$string;
+		}
+		
+	}
+	
+   	return $location;
 }
 
 //*******************************************************SOC*******************************************************
