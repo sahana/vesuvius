@@ -2,33 +2,8 @@
 * MySQL database structure creation table for Sahana
 */
 
-/*CREATE DATABASE IF NOT EXISTS sahana;
-USE sahana;*/
 
--- SESSIONS
-DROP TABLE IF EXISTS sessions;
-CREATE TABLE sessions(
-	sesskey VARCHAR(32) NOT NULL,
-	expiry INT NOT NULL,
-	expireref VARCHAR(64),
-	data TEXT NOT NULL,
-	PRIMARY KEY (sesskey)
-);
-
--- MODULES
-
-/**
-* The central table to store the status of available modules
-* Modules: all
-* Last changed: 2-NOV-2005 - chamindra@opensource.lk 
-*/
-DROP TABLE IF EXISTS modules;
-CREATE TABLE modules(
-	module_id VARCHAR(20) NOT NULL, -- the directory name of the module e.g. dvr, or, mpr
-	version VARCHAR(10) NOT NULL, -- the module version
-	active BOOL NOT NULL DEFAULT 0, -- is the module active or disabled
-	PRIMARY KEY (module_id)
-);
+/**================= System and Config Tables =======================**/
 
 /**
 * The central table to store all configuration details of the base system
@@ -46,7 +21,6 @@ CREATE TABLE config(
 	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
-
 /**
 * Field options meta table
 * Give a custom list of options for each filed in this schema 
@@ -62,21 +36,138 @@ CREATE TABLE field_options(
    option_description VARCHAR(50) -- The nice name of the value 
 );
 
+/** 
+ * Synchronization Related Tables
+ * Modules : Framework, sync
+ * Created : 22nd-Feb-2006 - janaka@opensource.lk
+ * Last Change : 4th-Sep-2006  - jo@opensource.lk
+ */
 
-/*** Location Classification ***/
+DROP TABLE IF EXISTS sync_instance;
+CREATE TABLE sync_instance (
+    base_uuid VARCHAR(4) NOT NULL, -- Instance id
+    owner VARCHAR(100), -- Instance owner's name
+    contact TEXT, -- Contact details of the instance owner
+    inst_type VARCHAR(20), -- Installation type of the sahana instance ex:- laptop, server
+    last_update TIMESTAMP NOT NULL, -- Last Time sync with the instance
+    sync_count INT DEFAULT 0, -- Number of times synchronized
+    PRIMARY KEY(base_uuid)
+);
+
+
+
+/**================= Shared Tables ===========================**/
+
+/**
+* The phonetic search table stores the encoding (for Soundx, metafore, etc) 
+* Modules: dvr, mpr, cms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS phonetic_word;
+CREATE TABLE phonetic_word(
+    encode1 VARCHAR(50),
+    encode2 VARCHAR(50),
+    pgl_uuid VARCHAR(60)
+);
+
+
+/**
+* Contact Information for a person, org or camp
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS contact;
+CREATE TABLE contact (
+    pgoc_uuid VARCHAR(60) NOT NULL, -- be either c_uuid, p_uuid or g_uuid
+    opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
+    contact_value VARCHAR(100), 
+    PRIMARY KEY (pgoc_uuid,opt_contact_type,contact_value)
+    /**only pgoc_uuid should not be primary key 
+    as for a person there can be several contact types 
+    and values (email and mobile) or multiple mobiles
+    **/
+);
+
+/**
+* Contains the Sahana system user details
+* Modules: all
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
+    user_name VARCHAR(100) NOT NULL,
+    password VARCHAR(100),
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
+
+/** 
+ * User Preferences
+ * Modules : Framework
+ * Created : 28th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 28th-Mar-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS user_preference;
+CREATE TABLE user_preference(
+    p_uuid VARCHAR(60) NOT NULL,
+    module_id VARCHAR(20) NOT NULL,
+    pref_key     VARCHAR(60) NOT NULL,
+    value   VARCHAR(100),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
+    FOREIGN KEY (module_id) REFERENCES modules (module_id),
+    PRIMARY KEY (p_uuid,module_id,pref_key)
+);
+
+
+/**
+* Contains the the information on the sector that the org 
+* group or person is involved in 
+* Modules: all
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS sector;
+CREATE TABLE sector(
+	pgoc_uuid VARCHAR(60) NOT NULL,
+	opt_sector VARCHAR(100),
+    PRIMARY KEY (pgoc_uuid, opt_sector)
+);
+
+/**
+* Auditor log table 
+* Modules: dvr, mpr, 
+* Created : 21-Dec-2005 - janaka@opensource.lk
+*/
+DROP TABLE IF EXISTS audit;
+CREATE TABLE audit (
+    audit_id BIGINT NOT NULL AUTO_INCREMENT,
+    updated TIMESTAMP NOT NULL DEFAULT NOW(),
+    x_uuid VARCHAR(60) NOT NULL,
+    u_uuid VARCHAR(60) NOT NULL,
+    change_type VARCHAR(3) NOT NULL,
+    change_table VARCHAR(100) NOT NULL,
+    change_field VARCHAR(100) NOT NULL,
+    prev_val TEXT,
+    new_val TEXT,
+    PRIMARY KEY(audit_id)
+);
+
+
+
+/**================= Entity: Location, GIS, GPS  ===================**/
 
 /**
 * The central table to store loactions
 * Modules: dvr, mpr, rms, or, cms 
 * Last changed: 28-OCT-2005 - janaka@opensource.lk  
 */
-
 DROP TABLE IF EXISTS location;
 CREATE TABLE location(
     loc_uuid VARCHAR(60) NOT NULL, -- universally unique location id,
-    parent_id VARCHAR(60) DEFAULT NULL,
+    parent_id VARCHAR(60) DEFAULT NULL, -- parent location id
  --   search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
-    opt_location_type VARCHAR(10),
+    opt_location_type VARCHAR(10), -- location type taken from field_opts
     name VARCHAR(100) NOT NULL,
     iso_code VARCHAR(20),
     description TEXT,
@@ -84,18 +175,25 @@ CREATE TABLE location(
     FOREIGN KEY (parent_id) REFERENCES location(loc_uuid)
 );
 
+/**
+* Details on the location of an entity (person, camp, organization)
+* Modules: dvr, mpr, or, cms, rms 
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS location_details;
+CREATE TABLE location_details ( 
+    poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
+    location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
+    opt_person_loc_type VARCHAR(10), -- the relation this location has to the person
+    address TEXT, -- the street address        
+    postcode VARCHAR(30), -- or ZIP code
+    long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
+    PRIMARY KEY (poc_uuid,location_id),
+    FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
+);
 
 
--- OPTIMIZATION  DEVEL
-DROP TABLE IF EXISTS devel_logsql;
-CREATE TABLE devel_logsql (
-    created timestamp NOT NULL, 
-    sql0 varchar(250) NOT NULL,
-    sql1 text NOT NULL,
-    params text NOT NULL,
-    tracer text NOT NULL,
-    timer decimal(16,6) NOT NULL
-); 
+/**================= Entity: Person oriented  ===================**/
 
 /*** PERSON TABLES ***/
 
@@ -125,114 +223,7 @@ CREATE TABLE identity_to_person (
     serial VARCHAR(100), -- id card #, passport #, Driving License # etc
     opt_id_type VARCHAR(10), -- can be customized in the field options table
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
-);
-    
-/**
-* Contains the Sahana system user details
-* Modules: all
-* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
-*/
-
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-    p_uuid VARCHAR(60) NOT NULL,
-    user_name VARCHAR(100) NOT NULL,
-    password VARCHAR(100),
-    PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
-);
-
-
-/**
-* Main entry table as there can be multiple entries
-* per person.
-* Modules: dvr, mpr 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-/*DROP TABLE IF EXISTS person_entry;
-    CREATE TABLE person_entry (
-    e_uuid VARCHAR(60) NOT NULL AUTO_INCREMENT,
-    entry_date TIMESTAMP,
-    user_uuid VARCHAR(60),      -- details on the user who did the data entry
-    reporter_uuid VARCHAR(60),  -- details on the person who reported the entry
-    p_uuid VARCHAR(60) NOT NULL,
-    PRIMARY KEY (e_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
-    FOREIGN KEY (user_uuid) REFERENCES person_uuid(p_uuid)
-);*/
-    
-/**
-* Details on the person's status
-* Modules: dvr, mpr, or
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS person_status;
-CREATE TABLE person_status (
-    p_uuid VARCHAR(60) NOT NULL,
-    isReliefWorker TINYINT, 
-    opt_status VARCHAR(10), -- missing, ingured, etc. customizable
-    updated TIMESTAMP DEFAULT NOW(),
-    isvictim BOOL DEFAULT 1,
-    PRIMARY KEY (p_uuid)
-);
-
-/**
-* Contact Information for a person, org or camp
-* Modules: dvr, mpr, or, cms, rms 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS contact;
-CREATE TABLE contact (
-    pgoc_uuid VARCHAR(60) NOT NULL, -- be either c_uuid, p_uuid or g_uuid
-    opt_contact_type VARCHAR(10), -- mobile, home phone, email, IM, etc
-    contact_value VARCHAR(100), 
-    PRIMARY KEY (pgoc_uuid,opt_contact_type,contact_value)
-    /**only pgoc_uuid should not be primary key 
-    as for a person there can be several contact types 
-    and values (email and mobile) or multiple mobiles
-    **/
-);
-
-/**
-* Details on the location of an entity (person, camp, organization)
-* Modules: dvr, mpr, or, cms, rms 
-* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS location_details;
-CREATE TABLE location_details ( 
-    poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
-    location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
-    opt_person_loc_type VARCHAR(10), -- the relation this location has to the person
-    address TEXT, -- the street address        
-    postcode VARCHAR(30), -- or ZIP code
-    long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
-    PRIMARY KEY (poc_uuid,location_id),
-    FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
-);
-
-/**
-* Contains the list of groups of people
-* Modules: dvr, mpr, or
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS pgroup;
-CREATE TABLE pgroup (
-    g_uuid VARCHAR(60) NOT NULL, -- universally unique group id
-    name VARCHAR(100), -- name of the group
-    opt_group_type VARCHAR(10), -- type of the group
-    PRIMARY KEY (g_uuid)
-);
-
-/**
-* A person can belong to multiple groups
-* Modules: dvr, mpr
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS person_to_pgroup;
-CREATE TABLE person_to_pgroup (   
-    p_uuid VARCHAR(60),
-    g_uuid VARCHAR(60)
-);
+)
 
 /**
 * The main details on a person
@@ -256,6 +247,21 @@ CREATE TABLE person_details (
     occupation VARCHAR(100),
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
+
+/**
+* Details on the person's status
+* Modules: dvr, mpr, or
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS person_status;
+CREATE TABLE person_status (
+    p_uuid VARCHAR(60) NOT NULL,
+    isReliefWorker TINYINT, 
+    opt_status VARCHAR(10), -- missing, ingured, etc. customizable
+    updated TIMESTAMP DEFAULT NOW(),
+    isvictim BOOL DEFAULT 1,
+    PRIMARY KEY (p_uuid)
 );
 
 /**
@@ -301,8 +307,47 @@ CREATE TABLE person_deceased (
     FOREIGN KEY (location) REFERENCES location(loc_uuid)
 );
 
+/**
+* The person who reported about this person
+* Modules: dvr, mpr, 
+* Created : 21-Dec-2005 - janaka@opensource.lk
+*/
+DROP TABLE IF EXISTS person_to_report;
+CREATE TABLE person_to_report (
+    p_uuid VARCHAR(60) NOT NULL,
+    rep_uuid VARCHAR(60) NOT NULL,
+    relation VARCHAR(100),
+    PRIMARY KEY (p_uuid,rep_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (rep_uuid) REFERENCES person_uuid(p_uuid)
+);
 
--- ORG MAIN
+/**
+* Contains the list of groups of people
+* Modules: dvr, mpr, or
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS pgroup;
+CREATE TABLE pgroup (
+    g_uuid VARCHAR(60) NOT NULL, -- universally unique group id
+    name VARCHAR(100), -- name of the group
+    opt_group_type VARCHAR(10), -- type of the group
+    PRIMARY KEY (g_uuid)
+);
+
+/**
+* A person can belong to multiple groups
+* Modules: dvr, mpr
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS person_to_pgroup;
+CREATE TABLE person_to_pgroup (   
+    p_uuid VARCHAR(60),
+    g_uuid VARCHAR(60)
+);
+
+/**================= Entity: Organizations related  ===================**/
+
 DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
 	o_uuid VARCHAR(60) NOT NULL,
@@ -319,14 +364,6 @@ CREATE TABLE org_main(
 	FOREIGN KEY (parent_id) REFERENCES org_main(o_uuid)
 );
 
--- ORG SECTOR  INFORMATION
-DROP TABLE IF EXISTS sector;
-CREATE TABLE sector(
-	pgoc_uuid VARCHAR(60) NOT NULL,
-	opt_sector VARCHAR(100),
-    PRIMARY KEY (pgoc_uuid, opt_sector)
-);
-
 -- ORG USER INFORMATION
 DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
@@ -335,26 +372,10 @@ CREATE TABLE org_users(
 	PRIMARY KEY (o_uuid,user_id),
 	FOREIGN KEY (user_id) REFERENCES users(p_uuid),
 	FOREIGN KEY (o_uuid) REFERENCES org_main(o_uuid)
-	
 );
 
 
-/* ------------ TO BE USED ---------------- */
-
-/**
-* The phonetic search table stores the encoding (for Soundx, metafore, etc) 
-* Modules: dvr, mpr, cms 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS phonetic_word;
-CREATE TABLE phonetic_word(
-    encode1 VARCHAR(50),
-    encode2 VARCHAR(50),
-    pgl_uuid VARCHAR(60)
-);
-    
-/* SHELTER AND CAMP TABLES */
-/* --------------------------------------------------------------------------*/
+/**================= Entity: Camp Tables ===========================**/
 
 /**
 * Camp Management System and CR  Specific Tables added
@@ -369,10 +390,10 @@ CREATE TABLE camp_general (
     location_id VARCHAR(20),
     opt_camp_type VARCHAR(10),
     address TEXT,
-		capacity INT,
-		shelters INT,
-		area VARCHAR(20),
-		personsPerShelter INT,
+    capacity INT,
+    shelters INT,
+    area VARCHAR(20),
+    personsPerShelter INT,
     PRIMARY KEY (c_uuid),
     FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
 );
@@ -386,8 +407,8 @@ DROP TABLE IF EXISTS camp_reg;
 CREATE TABLE camp_reg (
     c_uuid VARCHAR(60) NOT NULL,
     admin_name VARCHAR(60),
-		admin_no VARCHAR(60),
-		men INT,
+    admin_no VARCHAR(60),
+    men INT,
     women INT,
     family INT,
     children INT,
@@ -409,6 +430,109 @@ CREATE TABLE person_camp(
     p_uuid VARCHAR(60) NOT NULL
 );
 
+/**================= Localization Tables ===========================**/
+
+/**
+* I18N/L10N specific tables
+* Modules	: Framework, admin 
+* Created 	: 08-Feb-2006 - sudheera@opensource.lk
+* Last changed	: 21-Feb-2006 - sudheera@opensource.lk
+*/
+
+DROP TABLE IF EXISTS lc_fields;
+CREATE TABLE lc_fields (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    tablename VARCHAR(32) NOT NULL,
+    fieldname VARCHAR(32) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS lc_tmp_po;
+CREATE TABLE lc_tmp_po (
+    string TEXT,
+    comment TEXT
+);
+
+/**================= Resource/Multimedia Tables ===========================**/
+
+/** 
+ * Image storage table 
+ * Modules : Framework, sync
+ * Created : 20th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 20th-Mar-2006  - janaka@opensource.lk
+ */
+DROP TABLE IF EXISTS image;
+CREATE TABLE image(
+    image_id BIGINT NOT NULL AUTO_INCREMENT,
+    x_uuid VARCHAR(60) NOT NULL, -- universally unique person id
+    image BLOB NOT NULL,
+    image_type VARCHAR(100) NOT NULL,
+    image_height INT,
+    image_width INT,
+    created TIMESTAMP DEFAULT NOW(),
+    PRIMARY KEY (image_id)
+);
+
+/**================ Multiple Incident Tables ========================**/
+/** 
+ * Incident 
+ * Modules : Framework
+ * Created : 28th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 28th-Mar-2006  - janaka@opensource.lk
+ */
+DROP TABLE IF EXISTS incident;
+CREATE TABLE incident(
+    incident_id BIGINT NOT NULL AUTO_INCREMENT,
+    parent_id BIGINT DEFAULT NULL,
+    search_id VARCHAR(60),
+    name VARCHAR(60),
+    FOREIGN KEY (parent_id) REFERENCES incident (incident_id),
+    PRIMARY KEY (incident_id)
+);
+
+/** 
+ * Resources to Incidents
+ * Modules : Framework
+ * Created : 28th-Mar-2006 - janaka@opensource.lk
+ * Last Change : 28th-Mar-2006  - janaka@opensource.lk
+ */
+
+DROP TABLE IF EXISTS resource_to_incident;
+CREATE TABLE resource_to_incident(
+    incident_id BIGINT NOT NULL,
+    x_uuid VARCHAR(60),
+    FOREIGN KEY (incident_id) REFERENCES incident (incident_id),
+    PRIMARY KEY (incident_id,x_uuid)
+);
+
+/**================ PHP and 3rd Party Tables ========================**/
+
+/**
+* This is the sessions table that stores the PHP session in the database 
+* Modules: all
+*/
+DROP TABLE IF EXISTS sessions;
+CREATE TABLE sessions(
+	sesskey VARCHAR(32) NOT NULL,
+	expiry INT NOT NULL,
+	expireref VARCHAR(64),
+	data TEXT NOT NULL,
+	PRIMARY KEY (sesskey)
+);
+
+-- OPTIMIZATION  DEVEL - @depracated ?
+DROP TABLE IF EXISTS devel_logsql;
+CREATE TABLE devel_logsql (
+    created timestamp NOT NULL, 
+    sql0 varchar(250) NOT NULL,
+    sql1 text NOT NULL,
+    params text NOT NULL,
+    tracer text NOT NULL,
+    timer decimal(16,6) NOT NULL
+); 
+
+
+/**================= TO BE REMOVED =======================**/
 DROP TABLE IF EXISTS camp_org;
 CREATE TABLE camp_org(
     c_uuid VARCHAR(60) NOT NULL,
@@ -444,146 +568,4 @@ CREATE TABLE configlist(
 	FOREIGN KEY (config_id) REFERENCES config (config_id)
 );
 
-/**
-* Person to Report (Contact person)  
-* Modules: dvr, mpr, 
-* Created : 21-Dec-2005 - janaka@opensource.lk
-*/
-DROP TABLE IF EXISTS person_to_report;
-CREATE TABLE person_to_report (
-    p_uuid VARCHAR(60) NOT NULL,
-    rep_uuid VARCHAR(60) NOT NULL,
-    relation VARCHAR(100),
-    PRIMARY KEY (p_uuid,rep_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
-    FOREIGN KEY (rep_uuid) REFERENCES person_uuid(p_uuid)
-);
 
-/**
-* Audit  
-* Modules: dvr, mpr, 
-* Created : 21-Dec-2005 - janaka@opensource.lk
-*/
-
-DROP TABLE IF EXISTS audit;
-CREATE TABLE audit (
-    audit_id BIGINT NOT NULL AUTO_INCREMENT,
-    updated TIMESTAMP NOT NULL DEFAULT NOW(),
-    x_uuid VARCHAR(60) NOT NULL,
-    u_uuid VARCHAR(60) NOT NULL,
-    change_type VARCHAR(3) NOT NULL,
-    change_table VARCHAR(100) NOT NULL,
-    change_field VARCHAR(100) NOT NULL,
-    prev_val TEXT,
-    new_val TEXT,
-    PRIMARY KEY(audit_id)
-);
-
-
-/**
-* I18N/L10N specific tables
-* Modules	: Framework, admin 
-* Created 	: 08-Feb-2006 - sudheera@opensource.lk
-* Last changed	: 21-Feb-2006 - sudheera@opensource.lk
-*/
-
-DROP TABLE IF EXISTS lc_fields;
-CREATE TABLE lc_fields (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    tablename VARCHAR(32) NOT NULL,
-    fieldname VARCHAR(32) NOT NULL,
-    PRIMARY KEY(id)
-);
-
-DROP TABLE IF EXISTS lc_tmp_po;
-CREATE TABLE lc_tmp_po (
-    string TEXT,
-    comment TEXT
-);
-
-/** 
- * Synchronization Related Tables
- * Modules : Framework, sync
- * Created : 22nd-Feb-2006 - janaka@opensource.lk
- * Last Change : 4th-Sep-2006  - jo@opensource.lk
- */
-
-DROP TABLE IF EXISTS sync_instance;
-CREATE TABLE sync_instance (
-    base_uuid VARCHAR(4) NOT NULL, -- Instance id
-    owner VARCHAR(100), -- Instance owner's name
-    contact TEXT, -- Contact details of the instance owner
-    url VARCHAR(100) DEFAULT NULL, -- Server url if exists
-    last_update TIMESTAMP NOT NULL, -- Last Time sync with the instance
-    sync_count INT DEFAULT 0, -- Number of times synchronized
-    PRIMARY KEY(base_uuid)
-);
-
-/** 
- * Person Image
- * Modules : Framework, sync
- * Created : 20th-Mar-2006 - janaka@opensource.lk
- * Last Change : 20th-Mar-2006  - janaka@opensource.lk
- */
-
-DROP TABLE IF EXISTS image;
-CREATE TABLE image(
-    image_id BIGINT NOT NULL AUTO_INCREMENT,
-    x_uuid VARCHAR(60) NOT NULL, -- universally unique person id
-    image BLOB NOT NULL,
-    image_type VARCHAR(100) NOT NULL,
-    image_height INT,
-    image_width INT,
-    created TIMESTAMP DEFAULT NOW(),
-    PRIMARY KEY (image_id)
-);
-
-/** 
- * Incident 
- * Modules : Framework
- * Created : 28th-Mar-2006 - janaka@opensource.lk
- * Last Change : 28th-Mar-2006  - janaka@opensource.lk
- */
-
-DROP TABLE IF EXISTS incident;
-CREATE TABLE incident(
-    incident_id BIGINT NOT NULL AUTO_INCREMENT,
-    parent_id BIGINT DEFAULT NULL,
-    search_id VARCHAR(60),
-    name VARCHAR(60),
-    FOREIGN KEY (parent_id) REFERENCES incident (incident_id),
-    PRIMARY KEY (incident_id)
-);
-
-/** 
- * Resources to Incidents
- * Modules : Framework
- * Created : 28th-Mar-2006 - janaka@opensource.lk
- * Last Change : 28th-Mar-2006  - janaka@opensource.lk
- */
-
-DROP TABLE IF EXISTS resource_to_incident;
-CREATE TABLE resource_to_incident(
-    incident_id BIGINT NOT NULL,
-    x_uuid VARCHAR(60),
-    FOREIGN KEY (incident_id) REFERENCES incident (incident_id),
-    PRIMARY KEY (incident_id,x_uuid)
-);
-
-/** 
- * User Preferences
- * Modules : Framework
- * Created : 28th-Mar-2006 - janaka@opensource.lk
- * Last Change : 28th-Mar-2006  - janaka@opensource.lk
- */
-
-DROP TABLE IF EXISTS user_preference;
-CREATE TABLE user_preference(
-    p_uuid VARCHAR(60) NOT NULL,
-    module_id VARCHAR(20) NOT NULL,
-    pref_key     VARCHAR(60) NOT NULL,
-    value   VARCHAR(100),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
-    FOREIGN KEY (module_id) REFERENCES modules (module_id),
-    PRIMARY KEY (p_uuid,module_id,pref_key)
-);
