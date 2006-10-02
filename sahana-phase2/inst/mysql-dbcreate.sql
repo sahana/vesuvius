@@ -72,14 +72,38 @@ CREATE TABLE users (
 );
 
 /** 
+* Contains the system user groups 
+* Modules: framework
+* Last changed: 2-OCT-2006 - chamindra@opensource.lk
+**/
+DROP TABLE IF EXISTS sys_user_groups;
+CREATE TABLE sys_user_groups (
+    group_id INT NOT NULL,
+    group_name VARCHAR(40) NOT NULL,
+    PRIMARY KEY (group_id)
+);
+
+/** 
+* Contains the mapping from a user to a system group
+* Modules: framework
+* Last changed: 2-OCT-2006 - chamindra@opensource.lk
+**/
+DROP TABLE IF EXISTS sys_user_to_group;
+CREATE TABLE sys_user_to_group (
+    group_id INT NOT NULL,
+    p_uuid VARCHAR(60) NOT NULL,
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
+    FOREIGN KEY (group_id) REFERENCES sys_user_groups(group_id) 
+);
+ 
+/** 
 * Contains the access rules tables 
 * Modules: framework
 * Last changed: 2-OCT-2006 - chamindra@opensource.lk
 **/
-
 DROP TABLE IF EXISTS sys_access_rules;
 CREATE TABLE sys_access_rules (
-    ruleID INT NOT NULL, 
+    rule_id INT NOT NULL, 
     priority INT NOT NULL, -- priority order of the rule. this is unique
     accept_or_deny VARCHAR(6) NOT NULL, -- "accept" or "deny"
     modules VARCHAR(100), -- blank is ANY or a comma seperated series of module names
