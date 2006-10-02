@@ -48,7 +48,7 @@ CREATE TABLE sync_instance (
     base_uuid VARCHAR(4) NOT NULL, -- Instance id
     owner VARCHAR(100), -- Instance owner's name
     contact TEXT, -- Contact details of the instance owner
-    inst_type VARCHAR(20), -- Installation type of the sahana instance ex:- laptop, server
+    url VARCHAR(100) DEFAULT NULL, -- Server url if exists
     last_update TIMESTAMP NOT NULL, -- Last Time sync with the instance
     sync_count INT DEFAULT 0, -- Number of times synchronized
     PRIMARY KEY(base_uuid)
