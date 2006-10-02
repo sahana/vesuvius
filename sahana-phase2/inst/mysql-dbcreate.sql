@@ -55,8 +55,40 @@ CREATE TABLE sync_instance (
 );
 
 
+/**================= Security Tables ================================**/
 
-/**================= Shared Tables ===========================**/
+/**
+* Contains the Sahana system user details
+* Modules: all
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
+    user_name VARCHAR(100) NOT NULL,
+    password VARCHAR(100), -- encrypted password
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
+
+/** 
+* Contains the access rules tables 
+* Modules: framework
+* Last changed: 2-OCT-2006 - chamindra@opensource.lk
+**/
+
+DROP TABLE IF EXISTS sys_access_rules;
+CREATE TABLE sys_access_rules (
+    ruleID INT NOT NULL, 
+    priority INT NOT NULL, -- priority order of the rule. this is unique
+    accept_or_deny VARCHAR(6) NOT NULL, -- "accept" or "deny"
+    modules VARCHAR(100), -- blank is ANY or a comma seperated series of module names
+    actions VARCHAR(100), -- blank is ANY or a comma seperated series of action names
+    user_group_roles VARCHAR(100), -- blank or a comma seperate series of names
+    machines VARCHAR(100) -- blank of or a comma seperated series of IP addresses
+);
+
+/**================= Shared Tables ==================================**/
 
 /**
 * The phonetic search table stores the encoding (for Soundx, metafore, etc) 
@@ -86,20 +118,6 @@ CREATE TABLE contact (
     as for a person there can be several contact types 
     and values (email and mobile) or multiple mobiles
     **/
-);
-
-/**
-* Contains the Sahana system user details
-* Modules: all
-* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
-    user_name VARCHAR(100) NOT NULL,
-    password VARCHAR(100),
-    PRIMARY KEY (p_uuid),
-    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
 
 /** 
