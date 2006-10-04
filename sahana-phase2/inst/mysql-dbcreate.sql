@@ -420,8 +420,8 @@ CREATE TABLE org_users(
 /**================= Entity: Camp Tables ===========================**/
 
 /**
-* Camp Management System and CR  Specific Tables added
-* Modules: cms
+* Physical Details of Camps/Shelters
+* Modules: cr
 * Last changed: 21-Feb-2006 - mifan@opensource.lk  
 */
 
@@ -441,8 +441,8 @@ CREATE TABLE camp_general (
 );
 
 /**
-* Camp Management System and CR Specific Tables added
-* Modules: cms
+* Human Resource Details of Camps/Shelters
+* Modules: cr
 * Last changed: 21-Feb-2006 - mifan@opensource.lk  
 */
 DROP TABLE IF EXISTS camp_reg;
@@ -458,6 +458,11 @@ CREATE TABLE camp_reg (
     PRIMARY KEY (c_uuid)
 );
 
+/**
+* Services offered by camps
+* Modules: cr
+* Last changed: 21-Feb-2006 - mifan@opensource.lk  
+*/
 DROP TABLE IF EXISTS camp_services;
 CREATE TABLE camp_services (
     c_uuid VARCHAR(60) NOT NULL,
@@ -466,11 +471,18 @@ CREATE TABLE camp_services (
     PRIMARY KEY (c_uuid,opt_camp_service)
 );
 
-DROP TABLE IF EXISTS person_camp;
-CREATE TABLE person_camp(
+/**
+* Camp to Admin Mapping
+* Modules: cr
+* Last changed: 21-Feb-2006 - mifan@opensource.lk  
+*/
+DROP TABLE IF EXISTS camp_admin;
+CREATE TABLE camp_admin(
     c_uuid VARCHAR(60) NOT NULL,
-    p_uuid VARCHAR(60) NOT NULL
+    contact_puuid VARCHAR(60) NOT NULL,
+		PRIMARY KEY (c_uuid,contact_puuid)
 );
+
 
 /**================= Localization Tables ===========================**/
 
@@ -583,13 +595,11 @@ CREATE TABLE camp_org(
 		PRIMARY KEY (c_uuid,opt_camp_service,o_uuid)
 );
 
-DROP TABLE IF EXISTS camp_admin;
-CREATE TABLE camp_admin(
+DROP TABLE IF EXISTS person_camp;
+CREATE TABLE person_camp(
     c_uuid VARCHAR(60) NOT NULL,
-    contact_puuid VARCHAR(60) NOT NULL,
-		PRIMARY KEY (c_uuid,contact_puuid)
+    p_uuid VARCHAR(60) NOT NULL
 );
-
 /**
 * Camps in Camp Management System
 */
