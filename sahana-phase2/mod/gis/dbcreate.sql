@@ -1,8 +1,10 @@
-/*$id$*/
-/* 
-*Landmark Location Registry Tables and sample-data 
-*@author: mifan@opensource.lk
-*----------------------------------------------------
+/* $id$ */
+
+/**====================== GIS / GPS / Location Tables=============**/
+/**
+* Table to store Landmark Locations
+* Modules: gis 
+* Last Edited: 4-OCT-2006 mifan@opensource.lk
 */
 
 DROP TABLE IF EXISTS `landmark_location`;
@@ -16,21 +18,27 @@ CREATE TABLE `landmark_location` (
 	PRIMARY KEY  (`landmark_uuid`)
 );
 
-/*Sample data for landmark types*/
+/**
+* Sample data for landmark types
+*/
 INSERT INTO field_options VALUES('opt_landmark_type','vil','Village');
 INSERT INTO field_options VALUES('opt_landmark_type','tem','Temple');
 INSERT INTO field_options VALUES('opt_landmark_type','vil','School');
 
-/*Sample data for landmark types*/
+/**
+* Sample data for landmark contact types
+*/
 INSERT INTO field_options VALUES('opt_landmark_contact_type','cor','Coordinator');
 INSERT INTO field_options VALUES('opt_landmark_contact_type','cof','Chief Of Village');
 INSERT INTO field_options VALUES('opt_landmark_contact_type','mon','Monk');
 
 
-/* Geographic Information System and Mapping Tables
-----------------------------------------------------
+/**
+* Table for Geograhical Information Systems
+* Stores basic coordinates providing basic spatial functionality
+* Modules: all
+* Last changed: 04-Oct-2006: mifan@opensource.lk
 */
-
 DROP TABLE IF EXISTS `gis_location`;
 CREATE TABLE `gis_location` (
   `poc_uuid` varchar(60) NOT NULL,
@@ -44,15 +52,17 @@ CREATE TABLE `gis_location` (
 	PRIMARY KEY  (`gis_uid`)
 );
 
-
+/**
+* Default Config Data for gis mapping
+*/
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'google_key', '');
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_x', '79.5');
 INSERT INTO `config` ( `module_id` , `confkey` , `value` ) VALUES ('gis', 'center_y', '8.5');
 
-/*
-*GIS-WikiMaps Schema
-*@author: mifan@opensource.lk
-*----------------------------------------------------
+/**
+* Table for GIS-WikiMaps functionality
+* Modules: gis
+* Last edited: 04-Oct-2006: mifan@opensource.lk
 */
 
 DROP TABLE IF EXISTS `gis_wiki`;
@@ -72,7 +82,7 @@ CREATE TABLE `gis_wiki` (
     FOREIGN KEY (gis_uuid) REFERENCES gis_location(gis_uid)
 );
 
-/*
+/**
  * Sample Data for WIKIMap Types
 */
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','gen','General');
