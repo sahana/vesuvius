@@ -42,6 +42,7 @@ $conf['mod_gis_dflt'] = 'google_maps';
  
  //new value
  $conf['mod_gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
+ //$conf['mod_gis_google_key']='ABQIAAAAb-bE-';
 
 /**
  * Default center coordinates of displayed maps
