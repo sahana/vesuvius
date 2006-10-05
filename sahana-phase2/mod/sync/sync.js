@@ -23,7 +23,7 @@ function connect(server_url){
    // var server_url=document.getElementById("server_url").value;
     //print inner html
     var console=document.getElementById("console");
-    var html="<h2>Add Sahana Server</h2><center><b>"+server_url+"</b><br /><img src='res/img/sahana_server.png' /><br /><div id='status'>Connecting.... <img src='res/img/wait.gif' /></div></center>";
+    var html="<h2>Add Sahana Server</h2><center><b>"+server_url+"</b><br /><img src='res/img/sahana_server.png' /><br /><div id='status'><img src='res/img/wait.gif' />Connecting.... </div></center>";
     console.innerHTML=html;
     xajax__shn_server_ajax_connect(server_url);
     //call the server
