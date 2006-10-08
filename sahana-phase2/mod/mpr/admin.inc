@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.5 2006-09-25 06:41:30 janakawicks Exp $ */
+/* $Id: admin.inc,v 1.6 2006-10-08 18:36:39 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -66,6 +66,11 @@ shn_mpr_adm_gen();
 }
 /* }}} */
 
+//temporary fix
+function _shn_mpr_adm_gen_validate()
+{
+	return true;
+}
 /* {{{ shn_mpr_adm_gen */
 function shn_mpr_adm_gen()
 {
@@ -265,12 +270,13 @@ function shn_mpr_adm_acl_install(){
 <?php
 }
 /* }}} */
+//temporary fix
 
 
 function _shn_mpr_adm_field_options_controller($type){
     switch ($_POST['seq']) {
         case 'update':
-            if(_shn_mpr_adm_field_options_validate()){
+            if(_shn_mpr_adm_field_options_validate($type)){
                 _shn_mpr_adm_field_options_form($type,false);
             }else{
                 _shn_mpr_adm_field_options_form($type,true);
