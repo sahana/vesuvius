@@ -48,12 +48,12 @@ function _dump_xml_table($table){
         echo "\t<".$table.">\n";
     //itrate through record set
         foreach($rs as $row){
-            echo "\t\t<recorde>\n";
+            echo "\t\t<record>\n";
             foreach($fields as $k=>$field){
                 $row[$k]=(isset($row[$k]))?$row[$k]:'null';
                 echo "\t\t\t<".$field."><![CDATA[".$row[$k]."]]></".$field.">\n";
             }
-            echo "\t\t</recorde>\n";
+            echo "\t\t</record>\n";
         }
         echo "\t</".$table.">\n";
     }

@@ -41,7 +41,7 @@ function create_tmp_table($table){
     $global['db']->Execute($sql);
 }
 
-function insert_recorde($rec,$table){
+function insert_record($rec,$table){
     global $global;
 //    $GLOBALS['ADODB_FORCE_TYPE']=1;
     $global['db']->AutoExecute("tmp_".$table,$rec,'INSERT');

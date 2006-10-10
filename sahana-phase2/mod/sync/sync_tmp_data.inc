@@ -42,7 +42,7 @@ switch ($_SESSION['threshold']){
     }
     $rs=$global['db']->Execute($sql);
     if ($rs=== false) {
-        print '41 error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+        print 'error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
     }
     
 //

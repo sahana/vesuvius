@@ -21,7 +21,7 @@ $file=$_SESSION['sync']['file'];
 $_SESSION['sync']['tables']=array();
 $depth = 0;
 $cref='';
-$recorde=array();
+$record=array();
 $mem=array();
 
 
@@ -43,10 +43,10 @@ function startElement($parser, $name, $attrs)
             create_tmp_table($name);
         break;
         case 3:
-            $mem['recorde']=array();
+            $mem['record']=array();
         break;
         case 4:
-            $GLOBALS['cref']=&$mem['recorde'][$name];
+            $GLOBALS['cref']=&$mem['record'][$name];
     }
 }
 
@@ -66,7 +66,7 @@ function endElement($parser, $name)
             $mem['table']='';
         break;
         case 3:
-            insert_recorde($mem['recorde'],$mem['table']);
+            insert_record($mem['record'],$mem['table']);
         break;
         case 4:
     }
