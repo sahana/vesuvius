@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.17 2006-10-05 03:51:41 priyanga Exp $ */
+/* $Id: main.inc,v 1.18 2006-10-10 10:42:58 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -126,60 +126,23 @@ function shn_sync_upload()
 }
 /* }}} */
 
+/**
+ * 
+ * This function is the main controler for synchronization 
+ * It will handell all the ajax calls used in synchronization.
+ *
+ * @access public
+ * @return void
+ */
 function shn_sync_synchronize(){
     global $global;
+    include_once('lib_sync_ajax.inc');
     $global['xajax']= new xajaxResponse();
     //checking and setting the threshold value
     $_SESSION['threshold']=(isset($_POST['threshold']))?$_POST['threshold']:$_SESSION['threshold'];
     //function to populate tmp database
-    function process_file(){
-        global $global;
-        switch('xml'){
-            case 'xml':
-                $xml=require('process_xml_dump.inc');
-                if($xml)return $xml;
-            break;
-            case 'csv':
-            break;
-            case 'sql':
-            break;
-            case 'sqlite':
-            break;
-        }
-        $global['xajax']->addAssign('console','innerHTML', _('Combining Data.....'));
-        $global['xajax']->addScript('xajax_start_sync();');
-        
-        //creating the report object
-        $_SESSION['report']=new report();
-        $_SESSION['report']=serialize($_SESSION['report']);
-        return $global['xajax']->getXML();
-    }
-
-    //function to synchronize
-    function start_sync($form=array()){
-        global $global;
-        $global['form_post']=$form;
-        $_SESSION['report']=unserialize($_SESSION['report']);
-        $_SESSION['report']->set_tables($_SESSION['sync']['tables']);
-        $_SESSION['report']->set_all_number();
-        include_once('sync_tmp_data.inc');
-        $global['xajax']->addAssign('console', 'innerHTML', _('Finish Synchronizing.....'));
-        $global['xajax']->addScript('xajax_get_report();');
-        $_SESSION['report']=serialize($_SESSION['report']);
-        return $global['xajax']->getXML();
-    }
-
-    function get_report(){
-        global $global;
-        $_SESSION['report']=unserialize($_SESSION['report']);
-        $report=$_SESSION['report']->print_report();
-        $global['xajax']->addAssign('head','innerHTML', 'Synchronize Report');
-        $global['xajax']->addAssign('console','innerHTML', $report);
-        return $global['xajax']->getXML();
-    }
-
     //Ajax controler for synchronization 
-    $xajax = new xajax('stream.php?mod=sync&act=synchronize');
+    $xajax = new xajax('index.php?mod=sync&act=synchronize&stream=text');
     $xajax->registerFunction('process_file');
     $xajax->registerFunction('start_sync');
     $xajax->registerFunction('get_report');
@@ -190,7 +153,23 @@ function shn_sync_synchronize(){
     echo '<script type="text/javascript">xajax_process_file();</script>';
 }
 
-
+/**
+ * 
+ * This function will handell all the ajax calls used in synchronization.
+ *
+ * @access public
+ * @return void
+ */
+function shn_text_sync_synchronize(){
+    global $global;
+    require_once('lib_sync_ajax.inc');
+    $global['xajax']= new xajaxResponse();
+    $xajax = new xajax();
+    $xajax->registerFunction('process_file');
+    $xajax->registerFunction('start_sync');
+    $xajax->registerFunction('get_report');
+    $xajax->processRequests();
+}
 /**
  *
  * This function out put the download file
@@ -284,5 +263,9 @@ function shn_text_sync_info(){
     echo $conf['base_uuid']."\n";
     echo $conf['root_name']."\n";
     echo $conf['root_email'].", ".$conf['root_tel']."\n";
+}
+
+function shn_soap_sync_test(){
+    return "test";
 }
 ?>
