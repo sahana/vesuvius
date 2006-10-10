@@ -36,6 +36,7 @@ CREATE TABLE rms_req_item (           -- rms_req_item table
 
 DROP TABLE IF EXISTS 'rms_priority';
 CREATE TABLE rms_priority (           -- rms_priority table
+    pri_uuid VARCHAR(60) NOT NULL,   -- unique id
     priority VARCHAR(100),            -- priority
     pri_desc VARCHAR(255),            -- description on priority  
     PRIMARY KEY (pri_uuid)
