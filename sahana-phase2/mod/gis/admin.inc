@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.13 2006-09-12 16:04:28 mifanc Exp $ */
+/* $Id: admin.inc,v 1.14 2006-10-11 07:07:18 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -33,7 +33,7 @@ function shn_gis_adm_default()
 		}
 		shn_gis_adm_show_mod_menu();
 		echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
-		shn_gis_adm_showform();
+		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
 	}
@@ -48,7 +48,7 @@ function shn_gis_adm_default()
 	{
     	shn_gis_adm_show_mod_menu();
 		echo "<h2>"._($conf['mod_gis_name']." Admin Page")."</h2>";
-		shn_gis_adm_showform();
+		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
 	}
@@ -132,10 +132,38 @@ function shn_gis_adm_show_mod_menu()
  */
 function shn_gis_adm_show_mods()
 {
+	global $global;
+	global $conf;
+	$db=$global['db'];
+	include_once($global['approot'].'/inc/lib_modules.inc');
+	include_once($global['approot'].'/inc/lib_form.inc');
 ?>
-	<br/><h3><?php echo _("GIS Plugins Detected");?></h3>
+	<br /><h3><?php echo _("Main Configuration");?></h3>
 <?php	
 	shn_form_fopen(null,null,array('req_message'=>false));
+?>
+	<ul>
+
+	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
+	<li><?php echo _("In order to set the map display for a particular region, ") .
+			_("you should know the Longitude and the Latitude of that region");?></li>
+    <li><?php echo _("If these values are known, you can set them below:");?> </li>
+	</ul>
+<?php
+	shn_form_fclose();
+	shn_form_fopen(adm_commit,null,array('req_message'=>false));
+	
+	shn_form_fsopen(_("Default Center Coordinates"));
+	
+	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator" .
+			" and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the " .
+			"prime meridian (Greenwich Mean Time) and is positive to the east, " .
+			"across Europe and Asia.  Longitude is negative to the west, " .
+			"across the Atlantic and the Americas.");
+	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
+	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	shn_form_fsclose();
 ?>
 	<ul>
 	<li><?php echo _("Sahana supports a modular GIS plugin architecture ");?> </li>
@@ -145,14 +173,8 @@ function shn_gis_adm_show_mods()
     		"refer to the documentation within the mod/gis subdirectory");?> </li>
 	</ul>
 <?php
-	shn_form_fclose();
-	global $global;
-	global $conf;
+	//shn_form_fclose();
 	
-	include_once($global['approot'].'/inc/lib_modules.inc');
-	include_once($global['approot'].'/inc/lib_form.inc');
-	
-	$db=$global['db'];
 	$query_mod="select value from config where module_id='gis' and confkey='dflt'";
 	$result=$db->Execute($query_mod);
 	if(!$res->EOF){
@@ -175,7 +197,7 @@ function shn_gis_adm_show_mods()
 		}
 	}
 	$extra_opts_form['req_message'] = 'false';
-	shn_form_fopen(adm_mod,null,array('req_message'=>false));
+	//shn_form_fopen(adm_mod,null,array('req_message'=>false));
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
@@ -286,6 +308,19 @@ function shn_gis_adm_commit(){
 			$insert = "insert into config(module_id,confkey,value) values ('gis','center_y','{$_POST['y_center']}')";
 			$db->Execute($insert);
 		}
+	}
+	if(!null==$_POST['mod_gis']){
+		$query = "select * from config where confkey='dflt' and module_id='gis'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='dflt'";
+			$db->Execute($q);
+		}
+		else{
+			$insert = "insert into config(module_id,confkey,value) values ('gis','dflt','{$_POST['mod_gis']}')";
+			$db->Execute($insert);
+		}
+		
 	}
 	shn_gis_adm_default();	
 }
