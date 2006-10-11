@@ -20,9 +20,8 @@
 $time=(int)substr($_FILES['file_dump']['name'], -14, 10);
 $ins=substr($_FILES['file_dump']['name'], -19, 4);
 ?>
-<center><strong>The file was uploaded successfully...</strong></center>
+<center><strong>The file was uploaded successfully...</strong>
 <br />
-<center>
 <table>
 <thead><td colspan="2">Uploaded File Info</td></thead>
 <tr><td>Name </td><td><?=$_FILES['file_dump']['name']?></td></tr>
@@ -31,17 +30,23 @@ $ins=substr($_FILES['file_dump']['name'], -19, 4);
 <tr><td colspan="2"></td></tr>
 <tr><td>Time Created</td><td><?=date("F j, Y, g:i a",$time)?></td></tr>
 <tr><td>Dump Instance</td><td><?=$ins?></td></tr>
-</table>
+</table >
 </center>
 <br />
-<center>
-<form action="index.php?mod=sync&act=synchronize" method="POST">
-<label>Threshold</label>
-<select name="threshold">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-</select>
-<input type="submit" value="Start Synchronize">
-</form>
-</center>
+<?php
+    shn_form_fopen('synchronize',NULL,array('req_message'=>false));
+    echo "<center>";
+    echo "<a href=\"#\" onclick=\"document.getElementById('adv_opt').style.display='block';\">Advance Options</a>";
+    shn_form_submit('Start Synchronizing');
+    echo "</center>";
+    echo "<div id='adv_opt' style='display:none'>";
+    shn_form_fsopen('Advance Options');
+    $options=array('0'=>'0','1'=>'1','2'=>'2');
+    shn_form_select($options,'Threshold', 'threshold');
+    $options=array('yes'=>'Yes','no'=>'No');
+    shn_form_select($options,'Overwrite existing data','oed');
+    shn_form_fsclose();
+    echo "</div>";
+    shn_form_fclose();
+?>
+<br />
