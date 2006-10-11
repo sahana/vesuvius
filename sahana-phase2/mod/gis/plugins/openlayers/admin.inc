@@ -31,14 +31,8 @@ function _shn_gis_gm_form(){
 	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">
 <?php
 	shn_form_fsopen("Information");
-	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
-	echo _("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
-	echo _("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/'>Google Maps</a>");
+	echo _("<p>Under Development</p>");
 	shn_form_fsclose();
-	shn_form_fsopen(_("Configure Google Maps"));
-	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="110"');
-	shn_form_fsclose();
-	shn_form_submit(_("Done"));
 	shn_form_fclose();
 	
 }
