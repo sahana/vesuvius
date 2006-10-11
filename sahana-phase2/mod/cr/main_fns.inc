@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.46 2006-09-12 15:24:32 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.47 2006-10-11 06:00:46 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -139,7 +139,7 @@ function shn_cr_srch(){
 function shn_cr_acmp(){
 	global $global;
 	global $conf;
-  include($global['approot'].'/mod/cr/camp.inc');
+  	include($global['approot'].'/mod/cr/camp.inc');
 	require_once($global['approot'].'/inc/handler_form.inc');
 
 	// check action sequence
@@ -190,7 +190,8 @@ function shn_cr_gis_show(){
 				array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
 					"id"=>$res->fields['c_uuid']));
 				$res->MoveNext();	
-		}			
+		}	
+		//global $conf;		
 		shn_gis_map_with_markers($map_array);
 		
 	}
