@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.36 2006-09-03 16:31:19 mifanc Exp $ */
+/* $Id: camp.inc,v 1.37 2006-10-11 05:37:15 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -253,7 +253,7 @@ function _shn_cr_sel_map(){
 		$_SESSION['occupation']=$_POST['occupation'];
 
 	global $global;
-	
+	global $conf;
 	
 	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
 	//shn_js_show();
@@ -268,6 +268,7 @@ function _shn_cr_sel_map(){
 	//call gis api
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_add_marker_map_form("GIS Map",$_POST['camp_name']);
+	
 ?>
 	
 	<?php
