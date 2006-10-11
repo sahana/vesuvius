@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.7 2006-04-27 04:43:29 mifanc Exp $ */
+/* $Id: admin.inc,v 1.8 2006-10-11 05:32:11 mifanc Exp $ */
 
 /**Admin Module for CR
 *
@@ -44,6 +44,7 @@ function shn_cr_adm_forms()
 
 function _shn_cr_adm_form_change(){
 	global $global;
+	/*
 	shn_form_fopen(adm_form_setdivision);
 	shn_form_fsopen("Select Division");
 	shn_form_hidden(array('seq'=>'commit'));
@@ -51,9 +52,9 @@ function _shn_cr_adm_form_change(){
 	shn_form_fsclose();
 	shn_form_submit("Set Division");
 	shn_form_fclose();
-	
-	shn_form_fopen(adm_form_commit);
-  shn_form_fsopen("Add Service / Facility");
+	*/
+	shn_form_fopen(adm_form_commit,null,array("req"=>false));
+  	shn_form_fsopen("Add Service / Facility");
 	shn_form_opt_select("opt_camp_service","Currently Available Services/Facilities");
 	shn_form_text("Service Name","service_name",'size="30"');
 	shn_form_text("Service Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
