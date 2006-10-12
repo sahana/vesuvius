@@ -81,4 +81,10 @@ $conf['mod_gis_image_folder'] = 'www/tmp/';
  * given from sahana root
  */
 $conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
+
+/**
+ * GeoRSS Feed default URL
+ * @todo: get values from GIS Catalogue Registry || Database
+ */
+ $conf['mod_gis_georss_feed']= 'http://earthquake.usgs.gov/eqcenter/recenteqsww/catalogs/eqs7day-M2.5.xml';
 ?>
