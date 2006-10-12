@@ -166,7 +166,7 @@ CREATE TABLE user_preference(
 /**
 * Contains the the information on the sector that the org 
 * group or person is involved in 
-* Modules: all
+* Modules: or
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 DROP TABLE IF EXISTS sector;
@@ -241,7 +241,7 @@ CREATE TABLE location_details (
 
 /**
 * The central table on a person, with their associated names
-* Modules: dvr, mpr, rms, or, cms 
+* Modules: dvr, mpr, rms, cms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS person_uuid;
@@ -293,7 +293,7 @@ CREATE TABLE person_details (
 
 /**
 * Details on the person's status
-* Modules: dvr, mpr, or
+* Modules: dvr, mpr
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS person_status;
@@ -308,7 +308,7 @@ CREATE TABLE person_status (
 
 /**
 * Physical details of a person
-* Modules: dvr, mpr, or, cms, rms 
+* Modules: dvr, mpr, cms, rms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS person_physical;
@@ -366,7 +366,7 @@ CREATE TABLE person_to_report (
 
 /**
 * Contains the list of groups of people
-* Modules: dvr, mpr, or
+* Modules: dvr, mpr
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS pgroup;
@@ -389,6 +389,11 @@ CREATE TABLE person_to_pgroup (
 );
 
 /**================= Entity: Organizations related  ===================**/
+/**
+* Information about an organization is stored here
+* Modules:
+* Last changed: 12-OCT-2006 - ravindra@opensource.lk  
+*/
 
 DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
@@ -407,6 +412,13 @@ CREATE TABLE org_main(
 );
 
 -- ORG USER INFORMATION
+/**
+* Information about organization users is stored here
+* Modules:
+* Last changed: 12-OCT-2006 - ravindra@opensource.lk  
+*/
+
+
 DROP TABLE IF EXISTS org_users;
 CREATE TABLE org_users(
     o_uuid VARCHAR(60) NOT NULL,
@@ -546,7 +558,7 @@ CREATE TABLE incident(
 
 /** 
  * Resources to Incidents
- * Modules : Framework
+ * Modules : Framework, or
  * Created : 28th-Mar-2006 - janaka@opensource.lk
  * Last Change : 28th-Mar-2006  - janaka@opensource.lk
  */
