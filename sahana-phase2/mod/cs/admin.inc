@@ -15,26 +15,9 @@
 
 include_once($global['approot'].'/inc/lib_form.inc');
 
-function _shn_cs_adm_sub_menu(){
-?>
-<div id="submenu_v">
-<a href="index.php?mod=cs&act=adm_max_depth_form">Go to Add Maximum Depth</a> 
-<br>
-<?php
-}
+
 function shn_cs_adm_default()
 {
-
-?>
-<p><b> Welcome to the Catalogue System admin page </b></p>
-<p>Use this to Set the maximum depth of Catalogue/ Item level</p>
-<?php
-
-_shn_cs_adm_sub_menu();
-}
-
-function shn_cs_adm_max_depth_form()
-{    
     global $global;
     $db=$global['db'];
 
@@ -58,6 +41,7 @@ function shn_cs_adm_max_depth_form()
 
 }
 
+
 function shn_cs_adm_max_depth_form_submit()
 {
     global $global;
@@ -68,9 +52,9 @@ function shn_cs_adm_max_depth_form_submit()
     $res=$db->Execute($query); 
     
     ?>
-            <div id="result_msg">
-               <?php echo "Maximum Depth ".$depth."  was successfully saved";?>
-            </div>
+	<div id="result_msg">
+	<?php echo "Maximum Depth ".$depth."  was successfully saved";?>
+	</div>
     <?php
     shn_cs_adm_max_depth_form();
 }
