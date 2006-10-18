@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.18 2006-10-10 10:42:58 priyanga Exp $ */
+/* $Id: main.inc,v 1.19 2006-10-18 18:19:02 priyanga Exp $ */
 
 /**
  * Main Controller of the Synchronization Module
@@ -17,14 +17,15 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-include_once('lib_report.inc');
+
+
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
-include_once($global['approot']."/3rd/xajax/xajax.inc.php");
-
+include_once $global['approot']."/3rd/xajax/xajax.inc.php";
+include_once 'lib_report.inc';
 
 /* {{{ Main Menu */
 /**
@@ -137,9 +138,10 @@ function shn_sync_upload()
 function shn_sync_synchronize(){
     global $global;
     include_once('lib_sync_ajax.inc');
-    $global['xajax']= new xajaxResponse();
+    //$global['xajax']= new xajaxResponse();
     //checking and setting the threshold value
     $_SESSION['threshold']=(isset($_POST['threshold']))?$_POST['threshold']:$_SESSION['threshold'];
+    $_SESSION['oed']=(isset($_POST['oed']))?$_POST['oed']:$_SESSION['oed'];
     //function to populate tmp database
     //Ajax controler for synchronization 
     $xajax = new xajax('index.php?mod=sync&act=synchronize&stream=text');

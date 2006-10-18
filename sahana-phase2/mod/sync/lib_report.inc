@@ -20,6 +20,7 @@ class report{
     private $tables;
     private $all=array();
     private $duplicate=array();
+    private $update=array();
     private $insert=array();
 
     function set_tables($t=array()){
@@ -41,15 +42,23 @@ class report{
         $this->duplicate[$table]=$num;
     }
 
+    function set_update_number($table,$num){
+        $this->update[$table]=$num;
+    }
+
     function set_insert_number($table,$num){
         $this->insert[$table]=$num;
     }
 
     function print_report(){
-        $report="<div id ='result'><table><thead><td>"._('Table Name')."</td><td>"._('Records Imported')."</td><td>"._('Duplicate Records')."</td><td>"._('Inserted Records')."</td></thead>";
+        $report="<div id ='result'><table><thead><td>"._('Table Name')."</td><td>"._('Records Imported')."</td><td>"._('Duplicate Records')."</td><td>"._('Updated Records')."</td><td>"._('Inserted Records')."</td></thead>";
         foreach($this->tables as $table){
             $report.="<tr>";
-            $report.="<td>".$table."</td><td>".$this->all[$table]."</td><td>".$this->duplicate[$table]."</td><td>".$this->insert[$table]."</td>";
+            $report.="<td>".$table."</td><td>".
+                        $this->all[$table]."</td><td>".
+                        $this->duplicate[$table]."</td><td>".
+                        $this->update[$table]."</td><td>".
+                        $this->insert[$table]."</td>";
             $report.="</tr>";
         }
         

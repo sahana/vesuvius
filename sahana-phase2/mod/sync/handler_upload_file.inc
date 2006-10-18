@@ -26,7 +26,7 @@ $ins=substr($_FILES['file_dump']['name'], -19, 4);
 <thead><td colspan="2">Uploaded File Info</td></thead>
 <tr><td>Name </td><td><?=$_FILES['file_dump']['name']?></td></tr>
 <tr><td>Type </td><td><?=$_FILES['file_dump']['type']?></td></tr>
-<tr><td>Size </td><td><?=$_FILES['file_dump']['size'].' kb'?></td></tr>
+<tr><td>Size </td><td><?php echo ((int)$_FILES['file_dump']['size']/1000).' kb'?></td></tr>
 <tr><td colspan="2"></td></tr>
 <tr><td>Time Created</td><td><?=date("F j, Y, g:i a",$time)?></td></tr>
 <tr><td>Dump Instance</td><td><?=$ins?></td></tr>
