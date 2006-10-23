@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.16 2006-09-12 15:24:54 mifanc Exp $ */
+/* $Id: edit.inc,v 1.17 2006-10-23 18:46:30 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -75,8 +75,8 @@ function _shn_cr_cedt_start($errors=false){
 	include $global['approot']."/inc/lib_location.inc";
 	$range=array("start"=>1,"end"=>5);
 	//shn_location_form_org($range);
-	shn_location_form_org($range,$_SESSION['opt_location_type']);
-		
+	//shn_location_form_org($range,$_SESSION['opt_location_type']);
+	shn_location_form(1,5,$_SESSION['opt_location_type']);	
 			
 //-----------------------------------------
 	shn_form_fsopen(_("Contact Person Details"));
