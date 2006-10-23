@@ -106,7 +106,7 @@ INSERT INTO field_options VALUES ('opt_camp_type','tmp','Temporary Shelter');
 INSERT INTO field_options VALUES ('opt_camp_type','gov','Government Evacuation Center');
 
 -- CAMP SERVICES 
-INSERT INTO field_options VALUES ('opt_camp_service','mdc','Administrative Facilities');
+INSERT INTO field_options VALUES ('opt_camp_service','adm','Administrative Facilities');
 INSERT INTO field_options VALUES ('opt_camp_service','snt','Sanitation Facilities');
 INSERT INTO field_options VALUES ('opt_camp_service','wat','Water Facilities');
 INSERT INTO field_options VALUES ('opt_camp_service','mdc','Medical Facilities');
