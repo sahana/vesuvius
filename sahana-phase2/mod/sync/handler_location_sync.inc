@@ -70,12 +70,12 @@ switch($_SESSION['step']){
             send_responce();
         }
         //get sample 
-        $sample=$global['db']->GetAll('Select name from tmp_location where opt_location_type=1 limit 5');
+        $sample=$global['db']->GetAll('SELECT name FROM tmp_location WHERE opt_location_type=1 LIMIT 5');
         foreach($sample as $loc) $sam.=" ".$loc['name'].", ";
         //field option
-        $arr=$global['db']->GetAll("Select option_code , option_description from field_options where field_name='opt_location_type' order by option_code");
+        $arr=$global['db']->GetAll("SELECT option_code , option_description FROM field_options WHERE field_name='opt_location_type' ORDER BY option_code");
 
-        $arr2=$global['db']->GetAll("select distinct opt_location_type,opt_location_type from tmp_location");
+        $arr2=$global['db']->GetAll("SELECT DISTINCT opt_location_type,opt_location_type FROM tmp_location");
 //################################################
 $con="<div id='formcontainer'>
 <form method='POST' action='#' id='loc_form' enctype='multipart/form-data' name='' onsubmit=\"xajax_start_sync(xajax.getFormValues('loc_form'));return false;\">
@@ -98,17 +98,17 @@ $con="<div id='formcontainer'>
         $impo=$global['form_post']['import'];
         $curr=$global['form_post']['current'];
         //getting equal locations
-        $arr=$global['db']->GetAll("select loc_uuid,name from location where opt_location_type='".$curr."'");
+        $arr=$global['db']->GetAll("SELECT loc_uuid,name FROM location WHERE opt_location_type='".$curr."'");
 
         //loop and change the opt_location_type
         $val=(int)$curr-1;
         $_SESSION['opt_location_type']=$val;
-        $sql="update tmp_location set opt_location_type=opt_location_type+".$val;
+        $sql="UPDATE tmp_location SET opt_location_type=opt_location_type+".$val;
         $global['db']->Execute($sql);
 
         $_SESSION['sync']['loc']['limit_index']=1;
         //get 1 locaton
-        $sql="Select loc_uuid, name, description, iso_code from tmp_location where opt_location_type='".++$val."' limit   0 , 1";
+        $sql="SELECT loc_uuid, name, description, iso_code FROM tmp_location WHERE opt_location_type='".++$val."' LIMIT   0 , 1";
         $rec=$global['db']->GetAll($sql);
 //################################################
 $con="<div id='formcontainer'>
@@ -129,10 +129,10 @@ location ".get_select_html("loc_pare",$arr)."</strong></center>
     case '4':
         $impo=$global['form_post']['loc_uuid'];
         $curr=$global['form_post']['loc_pare'];
-        $sql="update tmp_location set parent_id='".$curr."' where loc_uuid='".$impo."';";
+        $sql="UPDATE tmp_location SET parent_id='".$curr."' WHERE loc_uuid='".$impo."';";
         $global['db']->Execute($sql);
 
-        $sql="Select loc_uuid, name, description, iso_code from tmp_location where opt_location_type='".++$_SESSION['opt_location_type']."' limit ".(int)$_SESSION['sync']['loc']['limit_index']++." , 1";
+        $sql="SELECT loc_uuid, name, description, iso_code FROM tmp_location WHERE opt_location_type='".++$_SESSION['opt_location_type']."' LIMIT ".(int)$_SESSION['sync']['loc']['limit_index']++." , 1";
         $rec=$global['db']->GetAll($sql);
         if(count($rec)==0){
             $global['xajax']->addAssign("console","innerHTML", "Finish Location Sync.....");
