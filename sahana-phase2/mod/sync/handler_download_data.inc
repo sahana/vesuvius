@@ -101,15 +101,17 @@ echo "</div>";
 function handel_syncfile($syncfile)
 {
     $scema=simplexml_load_file($syncfile); // loading the sync.xml file
-    //print_r($scema);
-    //printing the main check box
-?>
-    <a onclick="expand('b<?=$scema['name'];?>')" href="#">+</a><input type="checkbox" name="modules[]" value="<?=$scema['name'];?>" onchange="selectAll(this,'<?=$scema['name'];?>[]');" id="<?=$scema['name'];?>"><?=$scema->description;?><br />
-    
-<?php
+
+    $html0="<b onclick=\"expand('b{$scema['name']}')\" style=\"cursor:pointer\">+</b>";
+	$html1="<input type=\"checkbox\" name=\"modules[]\" value=\"{$scema['name']}\" onchange=\"selectAll(this,'{$scema['name']}[]');\" id=\"{$scema['name']}\">";
+    $html1.=$scema->description;
+    $html1.='<br />';
+
     //If there is only one data Block dont print the sub sections
     if(isset($scema->data[1]))
     {
+    	echo $html0;
+    	echo $html1;
         //print the data blocks
         echo "<div id='b".$scema['name']."' style='display:none'>";
         $block=0;
@@ -120,6 +122,8 @@ function handel_syncfile($syncfile)
         }
         echo "</div>";
     }
+    else
+    	echo "&nbsp;&nbsp;&nbsp;".$html1;
     //print data
 }
 ?>
