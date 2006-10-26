@@ -261,7 +261,15 @@ function _shn_cs_edit_cat_form_submit_result()
         {
         $query="delete from ct_catalogue where ct_uuid='$id' ";
         $res=$db->Execute($query);
-        echo "Item/Catalogue was Deleted";
+
+        $query2="delete from ct_cat_unit where ct_uuid='$id' ";
+        $res2=$db->Execute($query2);
+	?>
+	<div id="result_msg">
+        <?php print "Item/Catalogue was Deleted";?>
+	</div>
+	<br>
+	<?php
         shn_cs_edit_form();
         }
 
