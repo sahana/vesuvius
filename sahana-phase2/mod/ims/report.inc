@@ -333,17 +333,17 @@ function _shn_ims_level($parent)
     if($parent<0){
         $parent=NULL;
     }
-    $q="select option_description,option_code,name from field_options,location where field_options.option_code=location.opt_location_type and location.location_id=$parent and field_name='opt_location_type'"; 
+    $q="SELECT option_description,option_code,name FROM field_options,location WHERE field_options.option_code=location.opt_location_type AND location.location_id=$parent AND field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     if($res_label!=NULL && !$res_label->EOF){
         $parent_type="For  ".$res_label->fields[2];
     }
     $child=$res_label->fields[1]+1;
-    $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
+    $q="SELECT option_description FROM field_options WHERE field_options.option_code=$child AND field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     $child_type=$res_label->fields[0];
     $child=$child+1;
-    $q="select option_description from field_options where field_options.option_code=$child and field_name='opt_location_type'"; 
+    $q="SELECT option_description FROM field_options WHERE field_options.option_code=$child AND field_name='opt_location_type'"; 
     $res_label=$db->Execute($q);
     $grand_child_type=$res_label->fields[0];
 ?>
@@ -366,7 +366,7 @@ function _shn_ims_level($parent)
         <thead>
         <td>
 <?php
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
        echo "<td>".$res_sector->fields[1]."</td>";
@@ -378,9 +378,9 @@ function _shn_ims_level($parent)
     <tbody>
 <?php
     if($parent==NULL){
-        $q = "select location_id,name from location where parent_id is NULL order by name";
+        $q = "SELECT location_id,name FROM location WHERE parent_id is NULL ORDER BY name";
     }else {
-        $q = "select location_id,name from location where parent_id=$parent order by name";
+        $q = "SELECT location_id,name FROM location WHERE parent_id=$parent ORDER BY name";
     }
     $res_loc=$db->Execute($q);
     while(!$res_loc==NULL && !$res_loc->EOF){
@@ -436,7 +436,7 @@ function _shn_coverage_loc($loc,$sector)
     $result=array();
     $result["total"]=0;
     $result["active"]=0;
-    $q="select location_id,name from location where parent_id={$loc}";
+    $q="SELECT location_id,name FROM location WHERE parent_id={$loc}";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $result["total"]=$result["total"]+1;
@@ -453,12 +453,12 @@ function _shn_is_covered($loc,$sector)
 {
     global $global;
     $db=$global["db"];
-    $q="select location_id from location_details,sector where location_details.location_id={$loc} and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
+    $q="SELECT location_id FROM location_details,sector WHERE location_details.location_id={$loc} AND location_details.poc_uuid=sector.pgoc_uuid AND sector.opt_sector='{$sector}'";
     $res_village=$db->Execute($q);
      if(!$res_village==NULL && !$res_village->EOF){
             return true;
     }
-    $q="select location_id,name from location where parent_id={$loc}";
+    $q="SELECT location_id,name FROM location WHERE parent_id={$loc}";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $next_lvl=$res_tmp->fields[0];
@@ -493,11 +493,11 @@ function _shn_ims_report_org_sector()
         </thead>
         <tbody>
 <?php    
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
         $option_code=$res_sector->fields[0];
-        $q = "select inv_uuid,parent_id,inventory_name,man_power,equipment,resources from  ims_inventory_records,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=ims_inventory_records.inv_uuid order by name";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources FROM  ims_inventory_records,sector WHERE sector.opt_sector='{$option_code}' AND sector.pgoc_uuid=ims_inventory_records.inv_uuid ORDER BY name";
         $res_org=$db->Execute($q);
         if(!$res_org->EOF){
         ?>

@@ -432,7 +432,7 @@ function shn_ims_search_cr(){
     $org=array();
     $org_type=$_POST{"inventory_type"};
     while($i<count($sector)){
-        $q="select inv_uuid from location_details,sector,ims_inventory_records where location_details.location_id in $loc and location_details.poc_uuid=sector.pgoc_uuid and  ims_inventory_records.inv_uuid=sector.pgoc_uuid";
+        $q="SELECT inv_uuid FROM location_details,sector,ims_inventory_records WHERE location_details.location_id in $loc AND location_details.poc_uuid=sector.pgoc_uuid AND  ims_inventory_records.inv_uuid=sector.pgoc_uuid";
         $res_org=$db->Execute($q);
         while(!$res_org==NULL && !$res_org->EOF){
             array_push($org,$res_org->fields[0]);

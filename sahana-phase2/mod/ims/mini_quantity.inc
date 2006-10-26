@@ -143,7 +143,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     //print $cq;
     $unit_array[$unit]=$cms->fields['name'];
     
-    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $query="SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
@@ -152,7 +152,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 
 
     $temp2=$res->fields['unit_uuid'];
-    $query1="select name from ct_unit where unit_uuid ='$temp2'";
+    $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
     $res2=$db->Execute($query1);
     
     $unit_array[$res->fields['unit_uuid']]=$res2->fields['name'];

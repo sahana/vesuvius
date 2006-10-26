@@ -47,17 +47,17 @@ function _shn_ims_viewform_allorg($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "select inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space from  ims_inventory_records where parent_id=0 order by inventory_name";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inventory_name";
         $res_org=$db->Execute($q);
     }else {
-        $q = "select inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space from  ims_inventory_records where parent_id=0 order by inv_uuid desc";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inv_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
     }
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
         if($org_id!=0){
         _shn_display_org($org_id);
-        $q = "select inv_uuid from  ims_inventory_records where parent_id=$org_id order by name";
+        $q = "SELECT inv_uuid FROM  ims_inventory_records WHERE parent_id=$org_id ORDER BY name";
         $res_operation=$db->Execute($q);
         while(!$res_operation==NULL && !$res_operation->EOF){
             $operation_id=$res_operation->fields[0];
@@ -79,30 +79,30 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
 {
     global $global;
     $db=$global["db"];
-    $q = "select inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space from  ims_inventory_records where inv_uuid=$org_id";
+    $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid=$org_id";
     $res_org=$db->Execute($q);
     $org_id=$res_org->fields[0];        
-    $q = "select address from location_details where poc_uuid='{$org_id}'";
+    $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='pmob'";
     $res_mobile=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
     $res_email=$db->Execute($q);
-    $q="select search_id from location_details,location where poc_uuid='{$org_id}' and location_details.location_id=location.location_id";
+    $q="SELECT search_id FROM location_details,location WHERE poc_uuid='{$org_id}' AND location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
 	//print $q;
     $loc=$res_temp->fields[0][0];
-    $q="select name from location where location_id='{$loc}'";
+    $q="SELECT name FROM location WHERE location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
 	//print $q;
-    $q = "select option_description from field_options,ims_inventory_records where o_uuid='{$org_id}' and
-field_options.option_code=ims_inventory_records.inventory_type and field_options.field_name='inventory_type'";
+    $q = "SELECT option_description FROM field_options,ims_inventory_records WHERE o_uuid='{$org_id}' AND
+field_options.option_code=ims_inventory_records.inventory_type AND field_options.field_name='inventory_type'";
     $res_type=$db->Execute($q); 
     $org_type=$res_type->fields[0];
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
-field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+    $q = "SELECT option_description FROM field_options,sector WHERE pgoc_uuid='{$org_id}' AND
+field_options.option_code=sector.opt_sector AND field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
 ?>
 <tr>
@@ -147,13 +147,13 @@ function _shn_ims_viewform_org($org_id,$error=false)
     include_once "lib_ims.inc";
     global $global;
     $db=$global['db'];
-    $q = "select inv_uuid,parent_id,inventory_name,reg_no,man_power,resources,space from  ims_inventory_records where inv_uuid='{$org_id}'";
+    $q = "SELECT inv_uuid,parent_id,inventory_name,reg_no,man_power,resources,space FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
     if(!$res_org==NULL && !$res_org->EOF){
         $parent=($res_org->fields[1]=='0')?true:false;    
         $org_name=$res_org->fields[2];
         
-    $q = "select location_id from location_details where poc_uuid='{$org_id}'";
+    $q = "SELECT location_id FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_loc=$db->Execute($q);
     $bsd_village=$res_loc->fields[0];
    // $loc=_shn_or_ims_get_org_loc_parents($org_id);

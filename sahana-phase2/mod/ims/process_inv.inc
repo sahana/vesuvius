@@ -136,7 +136,7 @@ function _shn_ims_reg_inv_cr()
 	
 	shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
-        $q="select inv_uuid from ims_inventory_records where inv_uuid='{$org_id}'";
+        $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
         if(!$res->EOF){
             $error=true;
@@ -146,7 +146,7 @@ function _shn_ims_reg_inv_cr()
         if($error!=true){
 	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
-            $q="insert into  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date)values($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
+            $q="INSERT INTO  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date) VALUES($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
             $res=$db->Execute($q);
 //print
 		
@@ -158,29 +158,29 @@ function _shn_ims_reg_inv_cr()
                 $i=$i+1;
             }
             */
-            $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$bsd_village}','{$contact_address}')";
+            $q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'curr','{$contact_phone}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'curr','{$contact_phone}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'pmob','{$contact_mobile}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'pmob','{$contact_mobile}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'name','{$contact_name}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'name','{$contact_name}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'fax','{$contact_fax}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'fax','{$contact_fax}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'email','{$contact_mail}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'email','{$contact_mail}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($org_id,'web','{$contact_web}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'web','{$contact_web}')";
             $res=$db->Execute($q);
 //print $q;
             //no validation as organization can have multiple locations
-            $q="insert into org_location(org_id,location_id) values($org_id,'{$bsd_village}')";
+            $q="INSERT INTO org_location(org_id,location_id) VALUES($org_id,'{$bsd_village}')";
             $res=$db->Execute($q);
 //print $q;
     }
@@ -225,16 +225,16 @@ function _shn_ims_del_org()
     global $global;
     $db=$global['db'];
     $org_id=$_POST{"org_id"};
-    $q="select inventory_name from  ims_inventory_records where inv_uuid=$org_id";
+    $q="SELECT inventory_name FROM  ims_inventory_records WHERE inv_uuid=$org_id";
     $res=$db->Execute($q);
     $org_name=$res->fields[0];
-    $q="delete from  ims_inventory_records where inv_uuid=$org_id";
+    $q="DELETE FROM  ims_inventory_records WHERE inv_uuid=$org_id";
     $res=$db->Execute($q);
-    $q="delete from sector where pgoc_uuid=$org_id";
+    $q="DELETE FROM sector WHERE pgoc_uuid=$org_id";
     $res=$db->Execute($q);
-    $q="delete from location_details where poc_uuid=$org_id";
+    $q="DELETE FROM location_details WHERE poc_uuid=$org_id";
     $res=$db->Execute($q);
-    $q="delete from contact where pgoc_uuid=$org_id";
+    $q="DELETE FROM contact WHERE pgoc_uuid=$org_id";
     $res=$db->Execute($q);
 /*
   if($error==true){
@@ -343,7 +343,7 @@ function _shn_ims_edit_org()
     if(!$error){
     $db=$global['db'];
            //no validation done on other fields as they are not unique
-            $q="update ims_inventory_records set inventory_name='{$org_name}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}',space='{$space}' where inv_uuid=$org_id";
+            $q="UPDATE ims_inventory_records SET inventory_name='{$org_name}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}',space='{$space}' WHERE inv_uuid=$org_id";
             $res=$db->Execute($q);
             /*
             $q="delete from sector where pgoc_uuid=$org_id";
@@ -355,19 +355,19 @@ function _shn_ims_edit_org()
                 $i=$i+1;
             }
             */
-            $q="update location_details set location_id='{$bsd_village}',address='{$contact_address}' where poc_uuid=$org_id";
+            $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid=$org_id";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_name}' where pgoc_uuid=$org_id and opt_contact_type='name'";
+            $q="UPDATE contact SET contact_value='{$contact_name}' WHERE pgoc_uuid=$org_id AND opt_contact_type='name'";
             $res=$db->Execute($q);
-    		$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid=$org_id and opt_contact_type='curr'";
+    		$q="UPDATE contact SET contact_value='{$contact_phone}' WHERE pgoc_uuid=$org_id AND opt_contact_type='curr'";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid=$org_id and opt_contact_type='pmob'";
+            $q="UPDATE contact SET contact_value='{$contact_mobile}' WHERE pgoc_uuid=$org_id AND opt_contact_type='pmob'";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid=$org_id and opt_contact_type='fax'";
+            $q="UPDATE contact SET contact_value='{$contact_fax}' WHERE pgoc_uuid=$org_id AND opt_contact_type='fax'";
             $res=$db->Execute($q);
-           	$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid=$org_id and opt_contact_type='email'";
+           	$q="UPDATE contact SET contact_value='{$contact_mail}' WHERE pgoc_uuid=$org_id AND opt_contact_type='email'";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_web}' where pgoc_uuid=$org_id and opt_contact_type='web'";
+            $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid=$org_id AND opt_contact_type='web'";
             $res=$db->Execute($q);
            
   ?>
