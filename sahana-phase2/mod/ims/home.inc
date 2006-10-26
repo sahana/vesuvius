@@ -73,7 +73,7 @@ print $name;*/
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
-        $sql = "select item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_id desc ;";
+        $sql = "SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state!='$state_des' ORDER BY item_id DESC ;";
         $ims = $db->Execute($sql);
 
         $i=0;

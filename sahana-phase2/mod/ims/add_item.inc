@@ -160,7 +160,7 @@ function add_item($temp,$parent_id)
 
 
     $temp2=$res->fields['unit_uuid'];
-    $query1="select name from ct_unit where unit_uuid ='$temp2'";
+    $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
     $res2=$db->Execute($query1);
     
     $unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];

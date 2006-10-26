@@ -49,10 +49,13 @@ function _shn_ims_regform_org($error=false)
    // shn_form_fsclose();
     // base location
 	//$extra_opts["camps"]=true;
-$range=array("start"=>1,"end"=>3);
+$parent=_shn_or_get_start_loc();
+   	$range= shn_or_get_loc_range();
+//$range=array("start"=>1,"end"=>3);
 shn_form_fsopen("Base Location");
 //shn_location($range,$_SESSION['inv']['loc'],null,true);
-shn_location($range,$_POST[$range["end"]],null,true);
+//shn_location($range,$_POST[$range["end"]],null,true);
+shn_location($range,$_SESSION['inv']['loc'],null,$extra_opts);
 shn_form_fsclose();
 
 /**

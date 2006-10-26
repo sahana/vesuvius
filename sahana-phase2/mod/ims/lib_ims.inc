@@ -26,7 +26,7 @@ include_once $global['approot'].'/3rd//phplot/phplot_ims.php';
 function shn_ims_org_list(){
         global $global;
         $db=$global['db'];
-        $q = "select inv_uuid,inventory_name,parent_id from  ims_inventory_records order by inventory_name";
+        $q = "SELECT inv_uuid,inventory_name,parent_id FROM  ims_inventory_records ORDER BY inventory_name";
         $res_org=$db->Execute($q);
         $org_list=array();
         while(!$res_org==NULL && !$res_org->EOF){
@@ -40,7 +40,7 @@ function _shn_ims_get_start_loc()
     global $global;
     global $conf;
     $db=$global['db'];
-    $q="select value from config where module_id='or' and confkey='loc_start'";
+    $q="SELECT value FROM config WHERE module_id='or' AND confkey='loc_start'";
     $res=$db->Execute($q);
     if($res->fields[0]==NULL){
            return $conf['mod_or_ims_start_loc'];
@@ -55,14 +55,14 @@ function shn_ims_get_loc_range()
     global $conf;
     $db=$global['db'];
     $loc=array();
-    $q="select value from config where module_id='or' and confkey='loc_range_start'";
+    $q="SELECT value FROM config WHERE module_id='or' AND confkey='loc_range_start'";
     $res=$db->Execute($q);
     if($res->fields[0]==NULL){
            $loc["start"]=$conf['mod_or_ims_loc_level_start'];
     }else {
         $loc["start"]=$res->fields[0];
     }
-    $q="select value from config where module_id='or' and confkey='loc_range_end'";
+    $q="SELECT value FROM config WHERE module_id='or' AND confkey='loc_range_end'";
     $res=$db->Execute($q);
     if($res->fields[0]==NULL){
            $loc["end"]=$conf['mod_or_ims_loc_level_end'];
@@ -275,7 +275,7 @@ function _shn_ims_get_org_loc_parents($child)
 {
     global $global;
     $db=$global['db'];
-    $q="select search_id,name,location.location_id from location_details,location where poc_uuid='{$child}' and location_details.location_id=location.location_id";
+    $q="SELECT search_id,name,location.location_id FROM location_details,location WHERE poc_uuid='{$child}' AND location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
     $final=array();
     $final[0]=$res_temp->fields[0];
@@ -289,7 +289,7 @@ function _shn_ims_get_org_loc_parents($child)
         $cur=$cur.$loc[$k];
         $temp=array();
         $temp[0]=$cur;     
-        $q="select name,location_id from location where search_id='$cur'";
+        $q="SELECT name,location_id FROM location WHERE search_id='$cur'";
         $res_loc=$db->Execute($q);
         $temp[1]=$res_loc->fields[0];
         $temp[2]=$res_loc->fields[1];
@@ -355,27 +355,27 @@ function _shn_ims_display_contact_person($error=false,$org=true,$po_uuid=null)
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
-        $q = "select address from location_details where poc_uuid={$po_uuid}";
+        $q = "SELECT address FROM location_details WHERE poc_uuid={$po_uuid}";
         $res_addr=$db->Execute($q); 
         $contact_address=$res_addr->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='curr'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='curr'";
         $res_phone=$db->Execute($q);
         $contact_phone=$res_phone->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='pmob'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='pmob'";
         $res_mobile=$db->Execute($q);
         $contact_mobile=$res_mobile->fields[0];
         if($org){
-            $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='name'";
+            $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='name'";
             $res_name=$db->Execute($q);
             $contact_name=$res_name->fields[0];
         }
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='fax'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='fax'";
         $res_fax=$db->Execute($q);
         $contact_fax=$res_fax->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='email'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='email'";
         $res_email=$db->Execute($q);
         $contact_email=$res_email->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='web'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='web'";
         $res_web=$db->Execute($q);
         $contact_web=$res_web->fields[0];
     }
@@ -402,7 +402,7 @@ function _shn_ims_display_org_facilities($error=false,$org_id=false)
     if(!shn_is_null($org_id)){
         global $global;
        $db=$global['db'];
-        $q = "select man_power,equipment,resources,space from  ims_inventory_records where inv_uuid='{$org_id}'";
+        $q = "SELECT man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res_org=$db->Execute($q);
         if(!$res_org==NULL && !$res_org->EOF){
             $man_power=$res_org->fields[0];

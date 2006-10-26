@@ -310,6 +310,13 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     shn_form_fsclose();
 
+    shn_form_fsopen("Transport/Transporter Details");
+    shn_form_text(_("Vehicle Number : "),'ship_number','size="50"',array('help'=>_('Registered Number of Your ')));
+    shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('help'=>_('Name of the Driver who is going to carry the vehicle')));
+    shn_form_text(_("Driver Mobile : "),'driver_contacts','size="50"',array('help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driver Address : "),'driver_contacts','size="50"',array('help'=>_('Contact Details of the Driver')));
+    shn_form_fsclose();
+
     shn_form_hidden(array('item_id'=>$item_id));
     shn_form_hidden(array('inv_id_from'=>$inv_id_from));
     shn_form_hidden(array('parent_id'=>$parent_id));
