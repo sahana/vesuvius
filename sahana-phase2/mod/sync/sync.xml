@@ -12,13 +12,4 @@
     </foreign_keys>
   </table>
 </data>
-<data>
-  <description>Field Options Data</description>
-  <table name='field_options'>
-    <primarykeys>
-      <primarykey name='field_name' />
-      <primarykey name='option_code' />
-    </primarykeys>
-  </table>
-</data>
 </module>
