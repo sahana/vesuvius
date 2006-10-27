@@ -28,3 +28,45 @@ function connect(server_url){
     xajax__shn_server_ajax_connect(server_url);
     //call the server
 }
+
+function selectAll(el,arr){
+    var child=document.getElementsByName(arr);
+    var st=false;
+    if(el.checked == true)
+        st=true;
+    else
+        st=false;
+    for (var i=0;i<child.length;i++){
+    child[i].checked=st;
+    }
+}
+
+function checkHead(hname){
+    var he=document.getElementById(hname);
+    var arr=hname+"[]";
+    var child=document.getElementsByName(arr);
+    var st=true;
+    for (var i=0;i<child.length;i++){
+     if(child[i].checked==false){
+      st=false;
+      break;
+     }
+    }
+    he.checked=st;
+}
+
+function check(st){
+    var box=document.getElementsByTagName('input');
+    for(var i=0;i<box.length;i++){
+        if(box[i].type=='checkbox')
+            box[i].checked=st;
+    }
+}
+
+function expandblock(id){
+    var el=document.getElementById(id);
+    if(el.style.display=='block')
+        el.style.display='none';
+    else
+        el.style.display='block';
+}
