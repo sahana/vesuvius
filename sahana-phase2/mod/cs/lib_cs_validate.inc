@@ -193,4 +193,25 @@ function _shn_cs_validate_unit_form()
 
     return $error_flag;
 }
+
+/**
+ * This function validates the search unit type form.
+ * This function is called by shn_cs_search_unit_type_submit() in main.inc
+ * @access private
+ * @return boolean 
+ */
+function _shn_cs_validate_search_unit_type_form()
+{
+    $error_flag=false;
+    clean_errors();
+
+    if(trim($_POST['unit_type_name'])==null || trim($_POST['unit_type_name'])== '')
+    {
+    add_error(_("Please Enter the Unit type Name to be searched"));
+    $error_flag=true;
+    }
+
+    return $error_flag;
+}
+
 ?>
