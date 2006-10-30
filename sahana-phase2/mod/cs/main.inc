@@ -113,7 +113,7 @@ function shn_cs_select_type_submit()
 
 function shn_cs_search_item_submit()
 {
-	print "<h1>Search Result</h1>";
+	print "<h1>Search catalog/item</h1>";
 	require_once('search.inc');
 	
 	if(_shn_cs_validate_cat_form())
@@ -124,29 +124,26 @@ function shn_cs_search_item_submit()
 	}
 	else
 	{
+	shn_cs_search_cat();
+	_shn_cs_cat_form();
 	_shn_cs_search_item_cat_submit_result();
 	}
 }
 
 function shn_cs_search_unit_submit()
 {
-	echo "<h1>Search Result</h1>";
+	echo "<h1>Search units</h1>";
 	require_once('search.inc');
-	if(_shn_cs_validate_unit_form())
-	{
-	display_errors();
+
 	shn_cs_search_cat();
 	_shn_cs_unit_form();
-	}
-	else
-	{
 	_shn_cs_search_unit_submit_result();
-	}
+	
 }
 
 function shn_cs_search_unit_type_submit()
 {
-	echo "<h1>Search Result</h1>";
+	echo "<h1>Search unit types</h1>";
 	require_once('search.inc');
 
 	if(_shn_cs_validate_search_unit_type_form())
@@ -157,6 +154,8 @@ function shn_cs_search_unit_type_submit()
 	}
 	else
 	{
+	shn_cs_search_cat();
+	_shn_cs_unit_type_form();
 	_shn_cs_search_unit_type_submit_result();
 	}
 	

@@ -82,6 +82,7 @@ function _shn_cs_search_item_cat_submit_result()
     }
 
 ?>
+    <br><br>
     <div id="result">
     <table>
     <THEAD>
@@ -109,7 +110,6 @@ function _shn_cs_search_item_cat_submit_result()
 function _shn_cs_unit_form()
 {    global $global;
     $db=$global["db"];
-    echo "<b>Enter 'all' in the Unit Name feild without selecting any Unit type to search all units. Else Select a Unit type to search all Units under particular Unit type.</b>";
     $option_array=array();
     $query="select unit_type_uuid,name from ct_unit_type ";
     $res=$db->Execute($query);
@@ -147,12 +147,12 @@ function _shn_cs_search_unit_submit_result()
     $search_name=trim($_POST['unit_name']);
     $unit_type_id=trim($_POST['measurement_type']);
 
-    if($unit_type_id=='none' && $search_name=='all')
+    if($unit_type_id=='none' && $search_name=='')
         {
         $query="select * from ct_unit";
         $res=$db->Execute($query);
         }
-    elseif($search_name=='all')
+    elseif($search_name=='')
         {
         $query="select * from ct_unit where unit_type_uuid='$unit_type_id' ";
         $res=$db->Execute($query);
@@ -164,6 +164,7 @@ function _shn_cs_search_unit_submit_result()
         }
 
 ?>
+    <br><br>
     <div id="result">
     <table>
     <THEAD>
@@ -238,6 +239,7 @@ function _shn_cs_search_unit_type_submit_result()
     $description=$res->fields["description"];
 
 ?>
+    <br><br>
     <div id="result">
     <table>
     <THEAD>

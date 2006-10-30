@@ -168,31 +168,6 @@ function _shn_cs_validate_cat_form()
     return $error_flag;
 }
 
-/**
- * This function validates the search unit form.
- * This function is called by shn_cs_search_unit_submit() in main.inc
- * @access private
- * @return boolean 
- */
-function _shn_cs_validate_unit_form()
-{
-    $error_flag=false;
-    clean_errors();
-
-    if(trim($_POST['measurement_type'])==null || trim($_POST['measurement_type'])=='none' && trim($_POST['unit_name'])!='all' )
-    {
-    add_error(_("Please Select the Measurement Unit Type"));
-    $error_flag=true;
-    }
-
-    if(trim($_POST['unit_name'])==null)
-    {
-    add_error(_("Please Enter the Unit Name to be searched"));
-    $error_flag=true;
-    }
-
-    return $error_flag;
-}
 
 /**
  * This function validates the search unit type form.
