@@ -104,6 +104,11 @@ function shn_cs_select_type_submit()
 		shn_cs_search_cat();
 		_shn_cs_unit_form();
 		}	
+	else if($selected=='Unit_type')
+		{
+		shn_cs_search_cat();
+		_shn_cs_unit_type_form();
+		}
 }
 
 function shn_cs_search_item_submit()
@@ -137,6 +142,24 @@ function shn_cs_search_unit_submit()
 	{
 	_shn_cs_search_unit_submit_result();
 	}
+}
+
+function shn_cs_search_unit_type_submit()
+{
+	echo "<h1>Search Result</h1>";
+	require_once('search.inc');
+
+	if(_shn_cs_validate_search_unit_type_form())
+	{
+	display_errors();
+	shn_cs_search_cat();
+	_shn_cs_unit_type_form();
+	}
+	else
+	{
+	_shn_cs_search_unit_type_submit_result();
+	}
+	
 }
 
 
