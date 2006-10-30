@@ -196,9 +196,11 @@ function add_item($temp,$parent_id)
 
     shn_form_fsopen(_('Secondry details'));
     //$extra_opts['value'] = $manufactured_date;
-    shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    shn_form_date(_("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+   // shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
     //$extra_opts['value'] = $expire_date;
-    shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    shn_form_date(_("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    //shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
         
     shn_form_fsclose();
 

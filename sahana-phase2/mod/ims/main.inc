@@ -760,10 +760,15 @@ function shn_ims_gis_inv(){
 		//$inv_id="all";		
 		$inv_id=$_REQUEST['id'];
 		//print_r($map_array);
-		shn_form_fopen(null);
+		shn_form_fopen('view_inv');
 		//shn_form_fsopen(null);
 		$array=_shn_ims_gis_inv($inv_id);		
 		shn_gis_map_with_markers($array);
+		//shn_form_fclose();
+		//shn_form_fopen('view_inv');
+		shn_form_fsopen(null);
+		shn_form_submit("Go Back");
+		shn_form_fsclose();
 		//shn_form_fsclose();
 		shn_form_fclose();
 		

@@ -294,7 +294,8 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     $date=date("Y-m-d");
 
-    shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    //shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	
     //shn_form_text(_("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     $extra_opts['value']=$cost_per_unit;
@@ -303,18 +304,19 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     shn_form_fsclose();
 
     shn_form_fsopen("Contacts");
-    shn_form_text(_("Authorized by : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who send Item')));
+    shn_form_text(_("Authorized by : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who is sending Item')));
     shn_form_text(_("Requested by : "),'requested_person','size="50"',array('req'=>true));
     shn_form_text(_("Destribution Method : "),'destribution','size="50"',array('req'=>true));
-    shn_form_textarea(_("Cause"),'cause','size="40"',null);
+    shn_form_textarea(_("Cause : "),'cause','size="40"',null);
     
     shn_form_fsclose();
 
     shn_form_fsopen("Transport/Transporter Details");
-    shn_form_text(_("Vehicle Number : "),'ship_number','size="50"',array('help'=>_('Registered Number of Your ')));
+    shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('help'=>_('Registered Number of Your ')));
     shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('help'=>_('Name of the Driver who is going to carry the vehicle')));
-    shn_form_text(_("Driver Mobile : "),'driver_contacts','size="50"',array('help'=>_('Contact Details of the Driver')));
-    shn_form_text(_("Driver Address : "),'driver_contacts','size="50"',array('help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driver Address : "),'driver_address','size="50"',array('help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driving Licence Number : "),'driving_licence','size="50"',array('help'=>_('Driving Licence Number')));
     shn_form_fsclose();
 
     shn_form_hidden(array('item_id'=>$item_id));
@@ -348,6 +350,12 @@ function _shn_ims_send_db()
     $destribution=trim($_POST['destribution']);
     $cause=trim($_POST['cause']);
 
+    $vehicle_number=trim($_POST['vehicle_number']);
+    $driver_name=trim($_POST['driver_name']);
+    $driver_mobile=trim($_POST['driver_mobile']);
+    $driver_address=trim($_POST['driver_address']);
+    $driving_licence=trim($_POST['driving_licence']);
+    
     //print($item_id);
     $state=-1;
     
@@ -374,7 +382,7 @@ function _shn_ims_send_db()
     
     
 
-    $sql1 = "INSERT INTO ims_transfer_item (item_id,catalog_id,amount_send,unit,inv_id_from,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause) VALUES ('$item_id','$parent_id','$amount','$unit','$inv_id_from','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause');";  
+    $sql1 = "INSERT INTO ims_transfer_item (item_id,catalog_id,amount_send,unit,inv_id_from,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause,vehicle_number,driver_name,driver_mobile,driver_address,driving_licence) VALUES ('$item_id','$parent_id','$amount','$unit','$inv_id_from','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause','$vehicle_number','$driver_name','$driver_mobile','$driver_address','$driving_licence');";  
     $ims1 = $db->Execute($sql1);
 //print $sql1;
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
@@ -484,13 +492,13 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 {
 ?>
 <h1 align="center"><?php print _("Item Transit ")?> </h1>
-<div id="result">
+<div id="result1">
 <?php
     
     global $global;
     $db=$global["db"];
     $state=-1;
-    $sql = "SELECT item_id,amount_send,unit,inv_id_to FROM ims_transfer_item WHERE transit_id='$transit_id';";
+    $sql = "SELECT item_id,amount_send,unit,inv_id_to,vehicle_number,driver_name,driver_mobile,driver_address,driving_licence FROM ims_transfer_item WHERE transit_id='$transit_id';";
     //print $sql;
     $ims = $db->Execute($sql);
     
@@ -500,6 +508,12 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     $unit_name=get_unit_name($unit);
     //$inv_id_from=$ims->fields['inv_id_from'];
     $inv_id_to=$ims->fields['inv_id_to'];
+    $vehicle_number=$ims->fields['vehicle_number'];
+    $driver_name=$ims->fields['driver_name'];
+    $driver_mobile=$ims->fields['driver_mobile'];
+    $driver_address=$ims->fields['driver_address'];
+    $driving_licence=$ims->fields['driving_licence'];
+    
     
 
     $sql3="SELECT catalog_id,item_name,inv_id,cost_per_unit FROM ims_item_records WHERE item_id='$item_id';";
@@ -556,10 +570,19 @@ $unit_select_array=array();
     $extra_opts['value']=$inventory_to;
     shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
-    shn_form_text(_("Date :") ,'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_date(_("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    //shn_form_text(_("Date :") ,'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     //shn_form_text(_("Date Received (YYYY-mm-dd): "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 
+    shn_form_fsclose();
+
+    shn_form_fsopen("Transport/Transporter Details");
+    shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('value'=>$vehicle_number,'help'=>_('Registered Number of Your ')));
+    shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('value'=>$driver_name,'help'=>_('Name of the Driver who is going to carry the vehicle')));
+    shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('value'=>$driver_mobile,'help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driver Address : "),'driver_address','size="50"',array('value'=>$driver_address,'help'=>_('Contact Details of the Driver')));
+    shn_form_text(_("Driving Licence Number : "),'driving_licence','size="50"',array('value'=>$driving_licence,'help'=>_('Driving Licence Number')));
     shn_form_fsclose();
 
     shn_form_hidden(array('item_id'=>$item_id));
@@ -572,7 +595,7 @@ $unit_select_array=array();
     shn_form_hidden(array('amount'=>$amount));
 
     shn_form_submit(_("Received"));
-    shn_form_fclose();    
+    shn_form_fclose();
 }
 
 function _shn_ims_receive_item_db()
