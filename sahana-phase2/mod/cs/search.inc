@@ -22,7 +22,7 @@
  */
 function shn_cs_search_cat()
 {
-    $option_array=array('none' => '-----Select Search-----','Item' => 'Item/Catalogue','Unit' => 'Unit');
+    $option_array=array('none' => '-----Select Search-----','Item' => 'Item/Catalogue','Unit' => 'Unit','Unit_type' => 'Unit Type');
     $form_opts['name']="select_type_form";
     shn_form_fopen('select_type_submit',null,$form_opts);
     shn_form_fsopen(_('Select Search Type'));
@@ -199,4 +199,64 @@ function _shn_cs_search_unit_submit_result()
     </div>
     <?php
 }
+
+
+//
+
+/**
+ * This function Displays the Form for selecting Unit type
+ * @access private
+ * @return void
+ */
+function _shn_cs_unit_type_form()
+{
+    shn_form_fopen('search_unit_type_submit');
+    shn_form_fsopen(_('Search Details'));
+    shn_form_text(_("Unit type   : "),'unit_type_name','size="50"',array('req' =>'true', 'help'=>_('Enter the unit type to be searched')));
+    shn_form_fsclose();
+    shn_form_submit(_("Search"));
+    shn_form_fclose();
+}
+
+
+/**
+ * This function shows the result after processing the POST values from shn_cs_search_cat().
+ * This function is called by shn_cs_search_unit_type_submit() in main.inc
+ * @access private
+ * @return void
+ */
+function _shn_cs_search_unit_type_submit_result()
+{
+    global $global;
+    $db=$global["db"];
+
+    $unit_type_name=trim($_POST['unit_type_name']);
+    $query="select * from ct_unit_type where name='$unit_type_name'";
+    $res=$db->Execute($query);
+    
+    $name=$res->fields["name"];
+    $description=$res->fields["description"];
+
+?>
+    <div id="result">
+    <table>
+    <THEAD>
+        <TD><strong><?=_("Unit Type Name")?></strong></TD>
+        <TD><strong><?=_("Description")?></strong></TD>
+    </THEAD>
+    <TBODY>
+
+    <tr>
+        <td><?php print $name ;?></td>
+        <td><?php print $description ;?></td>
+    </tr>
+
+    </TBODY> 
+    </table>
+    </div>
+<?php
+}
+//
+
+
 ?>
