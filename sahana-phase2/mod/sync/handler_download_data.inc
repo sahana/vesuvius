@@ -15,7 +15,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-echo "<h2>Download Data</h2>";
+echo "<h2>"._('Download Data')."</h2>";
 //javascript files used in download UI
 ?>
 <script type="text/javascript" src="index.php?stream=text&mod=sync&act=js"></script>
@@ -26,7 +26,7 @@ global $global;
 $modules=shn_get_module_names();
 shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false));
 echo "<center>";
-echo "<a href=\"#\" onclick=\"document.getElementById('down').style.display='block';\">Advance Options</a>";
+echo "<a href=\"#\" onclick=\"document.getElementById('down').style.display='block';\">"._('Advance Options')."</a>";
 shn_form_submit(_("Download"));
 echo "</center>";
 //loop through all the modules to find sync.xml
@@ -45,10 +45,10 @@ shn_form_fsclose();
 shn_form_fsopen(_("Select File Type"));
 
 ?>
-    <label>XML File</label><input type="radio" name="file_type" value="xml" checked="true" /><br />
-    <label>CSV File</label><input type="radio" name="file_type" value="csv" /><br />
-    <label>SQL File</label><input type="radio" name="file_type" value="sql" /><br />
-    <label>SQLite File</label><input type="radio" name="file_type" value="sqlite" /><br />
+    <label><?=_('XML File')?></label><input type="radio" name="file_type" value="xml" checked="true" /><br/>
+    <label><?=_('CSV File')?></label><input type="radio" name="file_type" value="csv" /><br/>
+    <label><?=_('SQL File')?></label><input type="radio" name="file_type" value="sql" /><br/>
+    <label><?=_('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" /><br/>
 <?php
 shn_form_fsclose();
 echo "</div>";
@@ -78,7 +78,6 @@ function handel_syncfile($syncfile)
         <label><?=$data->description;?></label><input type="checkbox" name="<?=$scema['name']."[]"?>" value="<?=$block++;?>" onchange="checkHead('<?=$scema['name'];?>')" /><br />
 <?php
         }
-
         echo "</div>";
     }
     else
