@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.18 2006-09-28 06:30:13 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.19 2006-11-01 05:26:17 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -61,6 +61,42 @@ function shn_gis_gps_from_rest($uuid,$lat,$lon)
 			" values ('{$uuid}','{$lat}','{$lon}','{$gis_id}') ";
 	$db->Execute($query);
 	echo _("Coordinates Added");
+}
+
+/**
+ * GeoRSS Feed Display
+ * @access private
+ * @return void
+ * @todo get rss feed from aggregator or registered source
+ *       currently gets it from conf value
+ */
+function shn_gis_show_georss()
+{
+	global $global;
+	global $conf;
+	
+	include_once($global['approot'].'/inc/lib_gis/lib_georss.inc');
+	
+	// Create lastRSS object
+	$rss = new lastRSS;
+	// Set cache dir and cache time limit (1200 seconds)
+	// (don't forget to chmod cache dir to 777 to allow writing)
+	$rss->cache_dir = '';
+	$rss->cache_time = 0;
+	$rss->cp = 'US-ASCII';
+	$rss->date_format = 'l';
+	
+	// Try to load and parse RSS file as stated in conf
+	$rssurl = $conf['mod_gis_georss_feed'];
+	
+	if ($rs = $rss->get($rssurl)) {
+	    echo '<pre>';
+	    print_r($rs);
+	    echo '</pre>';
+	    }
+	else {
+	    echo "Error: It's not possible to get $rssurl...";
+	} 
 }
 
 /**
