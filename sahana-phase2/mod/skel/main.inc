@@ -40,7 +40,7 @@ function shn_skel_mainmenu()
 {
     global $global;
     $module = $global['module'];
-
+    
     // Create the module menu
     shn_mod_menuopen(_('Skeleton Module'));
 
@@ -58,6 +58,7 @@ function shn_skel_mainmenu()
    
     // include the main menu so that the user can navigate outside the module
     include $global['approot'].'/inc/handler_mainmenu.inc';
+
 } 
 
 /** 
@@ -76,6 +77,9 @@ function shn_skel_mainmenu()
  */
 function shn_skel_default()
 {
+
+    global $global;
+
 ?>
 <div id="home">
 <h2><?= _('Skeleton Module'); ?></h2>
@@ -83,7 +87,7 @@ function shn_skel_default()
 give on the first page with it\' features listed below')?>
 <?= _('Features include:');?></p>
 <ul>
-    <li><?= _('Feature 1')?></li>
+    <li><?=$global['shn_rs_sample_nicename']?></li>
     <li><?= _('Feature 2')?></li>
 </ul>
 </div>
@@ -100,6 +104,7 @@ give on the first page with it\' features listed below')?>
 function shn_skel_mio()
 {
     echo '<p>'._('You called menu item one action').'</p>';
+    add_confirmation('This is a sample confirmation message after a form submit');
 }
 
 /**
