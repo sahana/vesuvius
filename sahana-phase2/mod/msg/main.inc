@@ -46,6 +46,9 @@ function shn_msg_mainmenu()
     shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
     shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen("Email");
+    shn_sub_mod_menuitem("compose", _("Compose"), $module);
+    shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
 
     include $global['approot']."/inc/handler_mainmenu.inc";
@@ -88,4 +91,17 @@ function shn_msg_cap_download()
     print $file_str;
 }
 
+
+function shn_msg_compose()
+{
+    include_once ('mail_forms.inc');
+    _shn_msg_compose_mail_form(false);
+}
+
+function shn_text_msg_send_mail()
+{
+    include_once ('lib_mail.inc');
+    _shn_msg_send_mail();
+    
+}
 ?>
