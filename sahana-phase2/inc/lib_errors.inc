@@ -13,39 +13,74 @@
  * @package    framework
  * @subpackage presentation
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Chaindra de Silva <chaindra@opensource.lk>
+ * @author     Chamindra de Silva <chaindra@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
+// The following are three global containers to hold the messages or 
+// confirmation, warning and error following a submit
+$global['submit_errors'] = array();
+$global['submit_warnings'] = array();
+$global['submit_confirmations'] = array();
 
-$error_container = array();
+function add_warning($warning)
+{
+	global $global;
+    array_push($global['submit_warnings'],$warning);
+}	
+
+function add_confirmation($confirmation)
+{
+	global $global;
+    array_push($global['submit_confirmations'],$confirmation);
+}	
+
+// this function will display the submit message of a 
+// certain type as contained in the container specified by the type
+// @TODO: add generic check for container existance
+function display_submit_message($type = 'warning',
+              $msg = 'please note the following:')
+{
+    global $global;
+    $container = 'submit_'.$type.'s';
+
+    // return if there are no errors
+    if (count($global[$container]) == 0 ) return;
+?>
+    <div id="<?=$type?>">
+     <p><em><?=$msg?></em></p>
+     <ul>
+<?php
+	foreach ($global[$container] as $i){
+		echo '<li>'.$i.'<br></li>';
+	}
+?>
+     </ul>
+    </div>
+<?php
+	$global[$container] = null;
+}
+
 
 /**
  * If you want to display the errors call this function.  
- *
- * 
- * @param bool $return 
- * @param bool $clean_errors 
- * @param bool $exit 
- * @access public
- * @return mixed
  */
 function display_errors($return=false,$clean_errors=true,$exit=false)
 {
-    global $error_container;
+    global $global;
 
     // return if there are no errors
-    if (count($error_container) == 0 ) return;
+    if (count($global['submit_errors']) == 0 ) return;
     
     $output = "<div id=\"error\">";
 	if($exit){
 //		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
 	}else{
-        $output .= '<p><em>Oops. There were a few errors :</em><p>';
+        $output .= '<p><em>'._('Oops. There were a few errors :').'</em><p>';
 	}
     $output .= "<ul>";
-	foreach ($error_container as $error){
+	foreach ($global['submit_errors'] as $error){
 		$output .= "<li>"._($error).'<br></li>';
 	}
     $output .= "</ul>";
@@ -67,82 +102,30 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
     }
 }
 
-/**
- * Insert an error to the container
- * 
- * @param string $error 
- * @access public
- * @return void
- */
+
 function add_error($error)
 {
-	global $error_container;
+	global $global;
     if(is_array($error))
-    	array_push($error_container,$error);
+    	array_push($global['submit_errors'],$error);
     else
-        $error_container[] = $error;
+        $global['submit_errors'][] = $error;
 }	
-/**
- * Insert an error debug message to the container
- * 
- * @param string $file 
- * @param integer $line 
- * @param integer $intNumber 
- * @param string  $strmessage 
- * @access public
- * @return void
- */
-function add_error_debug($file,$line,$intNumber,$strmessage)
-{
-	global $error_container;
-	array_push($error_container,array($file,$line,$intNumber,$strmessage));
-}
-/**
- * Remove an error from the container
- * 
- * @param integer $index 
- * @access public
- * @return void
- * @todo code this function remove_error
- */
-function remove_error($index)
-{
-	
-}
 
-/**
- * Clean the error container
- * 
- * @access public
- * @return void
- */
 function clean_errors()
 {
-	global $error_container;
-	$error_container = NULL;
-}
-
-/**
- * This function will return errors from the error container
- * 
- * @access public
- * @return void
- */
-function return_errors()
-{
-	global $error_container;
-	return $error_container;
+	global $global;
+	$global['submit_errors'] = NULL;
 }
 
 function is_errors()
 {
-    global $error_container;
-    if(empty($error_container))
+    global $global;
+    if(empty($global['submit_errors']))
         return false;
     else
         return true;
 }
-
 
 function shn_error_display_restricted_access()
 { ?>
