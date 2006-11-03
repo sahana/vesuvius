@@ -124,6 +124,9 @@ function shn_main_front_controller()
     shn_stream_init();
 
     if($allow){
+
+        ob_start(); // start output buffer
+
         // compose and call the relevant module function 
         if (!function_exists($module_function)) {
             $module_function='shn_'.$prefix.$module.'_default';
@@ -131,6 +134,16 @@ function shn_main_front_controller()
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
         $module_function(); 
+
+        $output = ob_get_contents();
+
+        ob_end_clean(); 
+
+        // display the errors first before the rest of the module output
+        display_errors();
+        display_submit_message('confirmation');
+        echo $output;
+
     }else {
         shn_error_display_restricted_access();
     }
