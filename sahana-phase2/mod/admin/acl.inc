@@ -46,7 +46,7 @@ function _shn_admin_acl_default()
     if($res->EOF || $res->fields[0]!='installed'){
          echo "ACL for the Module is not Installed! You need to Install Module Default ACL<br /> ";
          echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
-         echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install Sytem defaults</a><br />";
+         echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install system defaults</a><br />";
     return;
     }  
    	//_shn_admin_acl_module_sub_menu($module);
@@ -57,7 +57,7 @@ function _shn_admin_acl_default()
 <?php
  echo _("ACL is Installed,choose below to reinstall")."<br />";
  echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
- echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install Sytem defaults</a><br />";
+ echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install system defaults</a><br />";
 }
 
 function _shn_admin_acl_system()
