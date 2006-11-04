@@ -21,7 +21,7 @@ o Extract the downloaded file to a proper place (if apt-get use, then it'll do i
 
   and create a symlink to exact location,
 
-    ln -s /usr/share/sahana/ /var/www/sahana
+    ln -s /usr/share/sahana/www/ /var/www/sahana
     
   or even extracting directly to /var/www/ (no syminks is necessary in this case).
   
