@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.4 2006-09-04 11:34:25 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.5 2006-11-06 12:31:54 chamindra Exp $ */
 
 /**
  *
@@ -12,6 +12,7 @@
  *
  * @package    <package>
  * @subpackage <subpackage>
+ * @author     Chamindra de Silva <chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -66,11 +67,23 @@ function shn_stream_init()
     <div id="content" class="clearfix">      
 <?php
 
+    ob_start(); // start output buffer for the module output
 }
 
 function shn_stream_close()
 {
     global $global;
+
+    // flush the output buffer
+    $output = ob_get_contents();
+
+    ob_end_clean(); 
+
+    // display the errors first before the rest of the module output
+    display_errors();
+    display_submit_message('confirmation');
+    echo $output;
+
 ?>
     </div> <!-- /content -->
 <?php
