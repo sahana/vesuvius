@@ -48,7 +48,7 @@ function display_submit_message($type = 'warning',
     // return if there are no errors
     if (count($global[$container]) == 0 ) return;
 ?>
-    <div id="<?=$type?>">
+    <div class="<?=$type?> message">
      <p><em><?=$msg?></em></p>
      <ul>
 <?php
@@ -73,7 +73,7 @@ function display_errors($return=false,$clean_errors=true,$exit=false)
     // return if there are no errors
     if (count($global['submit_errors']) == 0 ) return;
     
-    $output = "<div id=\"error\">";
+    $output = "<div class=\"error message\">";
 	if($exit){
 //		$output .= '<b>'._('O my god you killed Kenny !!!').'</b><br>'; 
 	}else{
@@ -129,7 +129,7 @@ function is_errors()
 
 function shn_error_display_restricted_access()
 { ?>
-    <div id="error">
+    <div id="error message">
         <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
         <ul>
         <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
