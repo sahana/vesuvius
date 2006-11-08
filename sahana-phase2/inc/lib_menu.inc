@@ -77,7 +77,7 @@ function shn_mod_menuitem($action, $desc, $module = null )
     global $global;
 
     if ( null == $module ) $module = $global['module'];
-    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
+    shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
     <li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
 <?php
@@ -127,7 +127,7 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
 { 
     global $global;
     if ( null == $module ) $module = $global['module'];
-    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
+    shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
 		<li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
 <?php
@@ -180,7 +180,7 @@ function shn_adm_menuitem($action, $desc, $module = null )
 { 
     global $global;
     if ( null == $module ) $module = $global['module'];
-    $global['shn_'.$module.'_'.$action.'_nicename'] = $desc;
+    shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
     <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a>
 <?php
@@ -188,10 +188,18 @@ function shn_adm_menuitem($action, $desc, $module = null )
 
 // BREAD CRUMB functions
 
+// set a nicename
+function shn_breadcrumb_set_nicename($module, $action, $desc)
+{
+    global $global;
+    $global['shn_q_mod='.$module.'&act='.$action.'_nicename'] = $desc;
+}
+
 // pushes a link onto the breadcrumb stack
 function shn_breadcrumb_push($nicename, $action = null, $module = null)
 {
     global $global;
+
     if ( null == $module ) $module = $global['module'];
     if ( null == $action ) $action = $global['action'];
 
@@ -200,11 +208,14 @@ function shn_breadcrumb_push($nicename, $action = null, $module = null)
 
     $last_crumb = end($_SESSION['shn_breadcrumb']); 
     $last_nicename = $last_crumb[0]; 
+
+    // create the query string. $action might have more appended
+    $query_string = 'mod='.$module.'&act='.$action;
     
     // only push the breadcrumb if it is not the home page and
     // if it is not the immidiately previous page in the history
     if ( 'default' != $action && $last_nicename != $nicename) { 
-        array_push($_SESSION['shn_breadcrumb'], array($nicename, $action, $module));
+        array_push($_SESSION['shn_breadcrumb'], array($nicename, $query_string, $module));
     }
 
     if (count($_SESSION['shn_breadcrumb']) > 3)
@@ -232,11 +243,12 @@ function shn_breadcrumb_display()
 
     foreach ($_SESSION['shn_breadcrumb'] as $i ) {
 
-        $pos = strpos($i[1], 'adm_');
-        if ( 0 === $pos ) {
-            $module_name = $conf['mod_admin_name'];
-        } else {
+        // check if this is an admin function, else report it under administration
+        $pos = strpos($i[1], 'act=adm_');
+        if ( false === $pos ) {
             $module_name = $conf['mod_'.$i[2].'_name'];
+        } else {
+            $module_name = $conf['mod_admin_name'];
         }
 
         // only prefix the module name if the next item is different
@@ -244,7 +256,8 @@ function shn_breadcrumb_display()
             echo '<a href="?mod='.$i[2].'"><b>'.$module_name.'</b></a>: ';
             $current_mod = $module_name;
         }
-        echo '<a href="?mod='.$i[2].'&act='.$i[1].'">'.$i[0].'</a> > ';
+        echo '<a href="?'.$i[1].'">'.$i[0].'</a> > ';
+
     }
 
     echo '</div>';

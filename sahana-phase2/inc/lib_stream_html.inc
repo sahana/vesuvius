@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.5 2006-11-06 12:31:54 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.6 2006-11-08 14:06:54 chamindra Exp $ */
 
 /**
  *
@@ -56,7 +56,9 @@ function shn_stream_init()
     shn_include_page_section('login',$module);
 
     // display the breadcrumbs: It is important that this happens after the menu definition
-    $nicename = 'shn_'.$global['module'].'_'.$global['action'].'_nicename';
+    // the nice name is constructed from the query string
+    $nicename = 'shn_q_'.$_SERVER['QUERY_STRING'].'_nicename';
+
     if ( array_key_exists($nicename, $global ))
         shn_breadcrumb_push($global[$nicename]);
 
