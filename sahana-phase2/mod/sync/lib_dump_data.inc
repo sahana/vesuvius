@@ -59,4 +59,47 @@ function _dump_xml_table($table){
     }
 }
 
+
+function shn_sync_dump_xml($tables,$tmp_file,$open,$close,$write){
+    global $global;
+    global $conf;
+    $fp=$open($tmp_file,'w');
+    $write($fp,"<?xml version='1.0' ?>\n");
+    //print the meta data
+    $write($fp,"<sahana_data_dump timestamp='".time()."' 
+    instanceid='".htmlspecialchars($conf['base_uuid'],ENT_QUOTES)."' 
+    owner='".htmlspecialchars($conf['root_name'],ENT_QUOTES)."' 
+    contact='".htmlspecialchars($conf['root_email'].",".$conf['root_tel'],ENT_QUOTES)."'>\n");
+    //loop through each table
+    foreach($tables as $table)
+        dump_xml_table($table,$write,$fp);
+    $write($fp,"</sahana_data_dump>");
+}
+
+function dump_xml_table($table,$write,$fp){
+    global $global;
+//create sql
+    $sql="SELECT * FROM ".$table;
+//get the record set
+    $rs=$global['db']->Execute($sql);
+    if($rs){
+    //get the field names
+        $fc=$rs->FieldCount();
+        for($x=0;$x<$fc;$x++)
+        $fields[$x]=$rs->FetchField($x)->name;
+    //ouput the xml
+    //print container
+        $write($fp,"\t<".$table.">\n");
+    //itrate through record set
+        foreach($rs as $row){
+            $write($fp,"\t\t<record>\n");
+            foreach($fields as $k=>$field){
+                $row[$k]=(isset($row[$k]))?$row[$k]:'null';
+                $write($fp,"\t\t\t<".$field."><![CDATA[".$row[$k]."]]></".$field.">\n");
+            }
+            $write($fp,"\t\t</record>\n");
+        }
+        $write($fp,"\t</".$table.">\n");
+    }
+}
 ?>

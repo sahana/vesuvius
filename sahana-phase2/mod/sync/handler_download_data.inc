@@ -42,6 +42,7 @@ shn_form_submit(_("Select All")," onclick='check(true);return false;'");
 shn_form_submit(_("Clear")," onclick='check(false);return false;'");
 echo "<br />";
 shn_form_fsclose();
+echo "<table class='layout'><tr><td>";
 shn_form_fsopen(_("Select File Type"));
 
 ?>
@@ -51,6 +52,17 @@ shn_form_fsopen(_("Select File Type"));
     <label><?=_('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" /><br/>
 <?php
 shn_form_fsclose();
+echo "</td><td>";
+shn_form_fsopen(_("Select Compression Type"));
+
+?>
+    <label><?=_('None')?></label><input type="radio" name="compression" value="none"  /><br/>
+    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" /><br/>
+    <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" /><br/>
+    <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" /><br/>
+<?php
+shn_form_fsclose();
+echo "</td></tr></table>";
 echo "</div>";
 shn_form_fclose();
 

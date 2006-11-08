@@ -53,15 +53,17 @@ foreach($tables as $table){
     }
 }
 
-
+require_once('compressor.inc');
+$fp = fopen($tmp_file, 'rb');
 switch ($_POST['file_type']){
     case 'xml':
         //creating headers
         header("Content-type: text/xml");
-        header("Content-Disposition: attachment; filename=sahana_data_dump_".$conf['base_uuid']."_".time().".xml");
+        header("Content-Disposition: attachment; filename=sahana_data_dump_".$conf['base_uuid']."_".time().".xml".$com);
         header("Cache-Control: no-cache, must-revalidate");
+        fpassthru($fp);
         //dump the data in the tables
-        _shn_sync_dump_xml($tables);
+        
         exit();
     case 'csv':
         echo "csv";
