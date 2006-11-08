@@ -169,9 +169,9 @@ function shn_setup_form_dependancy()
     $isOK &= $value;
 
     if ($value) {
-        shn_form_label(_('www/tmp/ is writable?'), $tick_img."directory writable");
+        shn_form_label(_('Sahana www/tmp/ is writable?'), $tick_img."The Sahana sub-directory writable");
     } else {
-        shn_form_label(_('www/tmp/ is writable?'), $cross_img."directory not writable");
+        shn_form_label(_('Sahana www/tmp/ is writable?'), $cross_img."The Sahana sub-directory not writable");
         echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
     }
 
@@ -183,9 +183,9 @@ function shn_setup_form_dependancy()
     $value = is_writable($global['approot'].'conf');
 
     if ($value) {
-        shn_form_label(_('www/conf/ is writable?'), $tick_img."directory writable");
+        shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
     } else {
-        shn_form_label(_('www/conf/ is writable?'), "directory not writable");
+        shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
         echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
     }
 
