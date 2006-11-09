@@ -116,6 +116,8 @@ function shn_skel_mio()
 function shn_skel_mit()
 {
     echo '<p>'._('You called menu item two action').'</p>';
+    add_warning('This is a sample warning message after a form submit');
+    add_confirmation('This is a sample confirmation message after a form submit');
 }
 
 /**
