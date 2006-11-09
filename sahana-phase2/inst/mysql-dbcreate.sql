@@ -26,7 +26,7 @@ CREATE TABLE config(
 * Give a custom list of options for each filed in this schema 
 * prefixed with opt_. This is customizable then at deployment
 * See the mysql-config.sql for default customizations
-* Modules: dvr, mpr, or, cms, rms 
+* Modules: dvr, mpr, or, cr, rms, gis 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS field_options;
@@ -116,7 +116,7 @@ CREATE TABLE sys_access_rules (
 
 /**
 * The phonetic search table stores the encoding (for Soundx, metafore, etc) 
-* Modules: dvr, mpr, cms 
+* Modules: dvr, mpr, cr 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS phonetic_word;
@@ -129,7 +129,7 @@ CREATE TABLE phonetic_word(
 
 /**
 * Contact Information for a person, org or camp
-* Modules: dvr, mpr, or, cms, rms 
+* Modules: dvr, mpr, or, cr, rms 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS contact;
@@ -201,7 +201,7 @@ CREATE TABLE audit (
 
 /**
 * The central table to store loactions
-* Modules: dvr, mpr, rms, or, cms 
+* Modules: dvr, mpr, rms, or, cr, gis 
 * Last changed: 28-OCT-2005 - janaka@opensource.lk  
 */
 DROP TABLE IF EXISTS location;
@@ -219,7 +219,7 @@ CREATE TABLE location(
 
 /**
 * Details on the location of an entity (person, camp, organization)
-* Modules: dvr, mpr, or, cms, rms 
+* Modules: dvr, mpr, or, cr, rms, gis 
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 DROP TABLE IF EXISTS location_details;
@@ -241,7 +241,7 @@ CREATE TABLE location_details (
 
 /**
 * The central table on a person, with their associated names
-* Modules: dvr, mpr, rms, cms 
+* Modules: dvr, mpr, rms, cr 
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS person_uuid;
@@ -269,7 +269,7 @@ CREATE TABLE identity_to_person (
 
 /**
 * The main details on a person
-* Modules: dvr, mpr, 
+* Modules: dvr, mpr, cr
 * Created : 27-OCT-2005 - chamindra@opensource.lk  
 * Last Updated : 07-Nov-2005 - janaka@opensource.lk
 * Note: Removed the NOT NULL Constraint on next_kin_uuid
