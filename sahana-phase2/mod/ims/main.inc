@@ -92,8 +92,18 @@ function shn_ims_search_item()
 
 function shn_ims_search_item_page()
 {
-    include_once('search.inc');
-    _shn_ims_search_item_page();
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_search_item();
+    }
+    else
+    {
+	include_once('search.inc');
+        _shn_ims_search_item_page();
+    
+    }
+    
 }
 
 /**
@@ -112,26 +122,20 @@ function shn_ims_add_item_main_page()
 function shn_ims_add_item($parent_id=null)
 {
     global $global;
-    /*if(_shn_cs_validate_sub_cat_form())
+    if(_shn_cs_validate_sub_cat_form())
     {
-    display_errors();
-    shn_ims_add_item_main_page();
+        display_errors();
+        shn_ims_view_edit_item();
     }
     else
     {
-         
-    include_once('add_item.inc');
-    _shn_ims_add_item_header();
-    shn_form_fopen("add_item_db");
-    add_item($temp,$parent_id);
-    shn_form_fclose();
-    }*/
-    include_once('add_item.inc');
-    _shn_ims_add_item_header();
-    shn_form_fopen("add_item_db");
-    add_item($temp,$parent_id);
-    shn_form_fclose();
-        
+        include_once('add_item.inc');
+        _shn_ims_add_item_header();
+        shn_form_fopen("add_item_db");
+        add_item($temp,$parent_id);
+        shn_form_fclose();
+    }
+
 }
 
 /**
@@ -493,9 +497,16 @@ function shn_ims_minimum_quantity_item()
 
 function shn_ims_minimum_quantity()
 {
-    
-    include_once 'mini_quantity.inc';
-    _shn_ims_mini_quantity($catalog_id=null,$inv_id=null);
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_view_edit_reorder_page();
+    }
+    else
+    {
+        include_once 'mini_quantity.inc';
+        _shn_ims_mini_quantity($catalog_id=null,$inv_id=null);
+    }
     
 }
 
@@ -603,10 +614,18 @@ function shn_ims_receive_item_db()
 function shn_ims_send_item_page($cate=null)
 {
     global $global;
-    $catalog_id=$cate;
-    include_once('transfer_inv.inc');
-    //_shn_ims_send();
-    _shn_ims_send_item_table_view_($catalog_id);
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_view_edit_item();
+    }
+    else
+    {
+        $catalog_id=$cate;
+        include_once('transfer_inv.inc');
+        //_shn_ims_send();
+        _shn_ims_send_item_table_view_($catalog_id);
+    }
 }
 
 function shn_ims_send_item_data_collectpage()
@@ -673,8 +692,16 @@ function shn_ims_optim_relation_inventories()
 
 function shn_ims_prediction_page()
 {
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_optim_item();
+    }
+    else
+    {
 	include_once ("optimize.inc");
 	_shn_ims_prediction_page();
+    }
 
 }
 
@@ -706,8 +733,16 @@ function shn_ims_alternate_item()
 
 function shn_ims_alternate_item_page()
 {
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_alternate_item();
+    }
+    else
+    {
 	include_once ("optimize.inc");
 	_shn_ims_alternate_item_page();
+    }
 }
 
 function shn_ims_alternate_item_table()
@@ -734,8 +769,16 @@ function shn_ims_relation_item()
 
 function shn_ims_relation_item_page()
 {
+    if(_shn_cs_validate_sub_cat_form())
+    {
+        display_errors();
+        shn_ims_relation_item();
+    }
+    else
+    {
 	include_once("optimize.inc");
 	_shn_ims_relation_item_page();
+    }
 }
 
 function shn_ims_relation_item_table()
