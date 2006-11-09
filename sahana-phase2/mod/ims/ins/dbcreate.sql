@@ -1,5 +1,8 @@
 /* INVENTORY MANAGEMENT SYSTEM TABLES */
 /* --------------------------------------------------------------------------*/
+/*
+*ims_item_records table keeps the track of particular items
+*/
 DROP TABLE IF EXISTS `ims_item_records`;
 CREATE TABLE ims_item_records
 (
@@ -22,6 +25,9 @@ CREATE TABLE ims_item_records
 	PRIMARY KEY(item_id)
 );
 
+/*
+*ims_inventory records table keeps the track of inventories
+*/
 DROP TABLE IF EXISTS `ims_inventory_records`;
 CREATE TABLE ims_inventory_records
 (
@@ -38,6 +44,10 @@ CREATE TABLE ims_inventory_records
 	added_date DATE,
 	PRIMARY KEY(inv_uuid)	
 );
+
+/*
+*ims_transfer_item table keeps the track of items that are transfered to other inventries. Mean while this table keeps the records about the inventories which transfered items and which received items
+*/
 
 DROP TABLE IF EXISTS `ims_transfer_item`;
 CREATE TABLE ims_transfer_item
@@ -58,10 +68,18 @@ CREATE TABLE ims_transfer_item
 	person_received VARCHAR(20),
 	date_received DATE,
 	cause VARCHAR(500),
+	vehicle_number VARCHAR(50),
+	driver_name VARCHAR(100),
+	driver_mobile VARCHAR(50),
+	driver_address VARCHAR(200),
+	driving_licence VARCHAR(50),
 	PRIMARY KEY(transit_id)
 	
 );
 
+/*
+*ims_reorder_level table keeps the track of re-order level for particular item in particular inventories
+*/
 DROP TABLE IF EXISTS `ims_reorder_level`;
 CREATE TABLE ims_reorder_level
 (
@@ -72,6 +90,9 @@ CREATE TABLE ims_reorder_level
 	PRIMARY KEY(catalog_id,inv_id)
 );
 
+/*
+*ims_optimization table is a tempory table which stores the predicted amount of a particular item with in a given time period 
+*/
 DROP TABLE IF EXISTS `ims_optimization`;
 CREATE TABLE ims_optimization
 (
@@ -87,6 +108,9 @@ CREATE TABLE ims_optimization
 	PRIMARY KEY(catalog_id,inv_id,week)
 );
 
+/*
+*ims_alternate table keeps the track of items which can be used as an alternate for another type of items
+*/
 
 DROP TABLE IF EXISTS `ims_alternate`;
 CREATE TABLE ims_alternate
@@ -97,6 +121,10 @@ CREATE TABLE ims_alternate
 	alternate VARCHAR(100),
 	PRIMARY KEY(alternate_id)
 );
+
+/*
+*ims_relation table keeps the track of items which are related to other items
+*/
 
 DROP TABLE IF EXISTS `ims_relation`;
 CREATE TABLE ims_relation
