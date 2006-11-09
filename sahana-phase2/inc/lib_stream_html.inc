@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.6 2006-11-08 14:06:54 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.7 2006-11-09 07:11:55 chamindra Exp $ */
 
 /**
  *
@@ -83,7 +83,8 @@ function shn_stream_close()
 
     // display the errors first before the rest of the module output
     display_errors();
-    display_submit_message('confirmation');
+    display_submit_message('confirmation','Submission Successful');
+    display_submit_message('warning','Warning');
     echo $output;
 
 ?>
