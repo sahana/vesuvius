@@ -26,7 +26,7 @@ CREATE TABLE config(
 * Give a custom list of options for each filed in this schema 
 * prefixed with opt_. This is customizable then at deployment
 * See the mysql-config.sql for default customizations
-* Modules: dvr, mpr, or, cr, rms, gis 
+* Modules: dvr, mpr, or, cr, rms, gis ,cs
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS field_options;
