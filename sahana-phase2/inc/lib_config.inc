@@ -1,6 +1,7 @@
 <?php
 /**
 * Sahana config library 
+* Sahana - http://sahana.sourceforge.net
 *
 * PHP version 4 and 5
 *
@@ -8,7 +9,8 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
+* @package    framework
+* @subpackage config 
 * @author     http://www.linux.lk/~chamindra
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */

@@ -10,7 +10,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @package    framework
- * @subpackage presentation
+ * @subpackage zz_deprecated
  * @author     Pradeeper <pradeeper@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

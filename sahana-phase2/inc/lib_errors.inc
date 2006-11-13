@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
- * @subpackage presentation
+ * @package    moduleAPI
+ * @subpackage errors
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @author     Chamindra de Silva <chaindra@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk

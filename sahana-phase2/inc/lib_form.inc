@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.53 2006-09-04 07:05:12 chamindra Exp $ */
+/* $Id: lib_form.inc,v 1.54 2006-11-13 17:46:26 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
- * @subpackage presentation
+ * @package    moduleAPI
+ * @subpackage form 
  * @author     Chamindra de Silva (chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk

@@ -11,7 +11,7 @@
 * @author		Sudheera R. Fernando <sudheera@opensource.lk>
 * @author		Ravindra De Silva <ravindra@opensource.lk><ravi@computer.org>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
+* @package		framework
 * @subpackage	rms
 * @tutorial
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General

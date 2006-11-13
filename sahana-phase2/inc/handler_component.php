@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_component.php,v 1.4 2006-01-25 06:21:43 janakawicks Exp $ */
+/* $Id: handler_component.php,v 1.5 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -13,7 +13,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @package    framework
- * @subpackage presentation
+ * @subpackage zz_deprecated
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

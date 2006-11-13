@@ -1,14 +1,15 @@
 <?php  
 /**
 * This handler displays the mainmenu dynamically based on action  
-*
+* Sahana - http://sahana.sourceforge.net
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
+* @package    framework
+* @subpackage    handler 
 * @author     http://www.linux.lk/~chamindra
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */

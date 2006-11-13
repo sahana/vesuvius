@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_image.inc,v 1.1 2006-04-25 10:04:04 janakawicks Exp $ */
+/* $Id: lib_image.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -15,7 +15,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
+ * @package    moduleAPI
  * @subpackage image
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk

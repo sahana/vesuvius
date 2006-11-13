@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_st_soap.inc,v 1.1 2006-03-09 09:21:13 janakawicks Exp $ */
+/* $Id: lib_st_soap.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -10,7 +10,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    <package>
+ * @package    framework
  * @subpackage <subpackage>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
