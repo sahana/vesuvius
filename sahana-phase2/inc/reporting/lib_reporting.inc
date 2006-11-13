@@ -9,8 +9,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
- * @subpackage presentation
+ * @package    moduleAPI
+ * @subpackage reporting
  * @author     Sanjeewa Jayasinghe <sditfac@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

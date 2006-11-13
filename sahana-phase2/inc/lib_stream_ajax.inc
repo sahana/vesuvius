@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_ajax.inc,v 1.1 2006-09-04 04:52:43 janakawicks Exp $ */
+/* $Id: lib_stream_ajax.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    <package>
- * @subpackage <subpackage>
+ * @package    framework
+ * @subpackage stream_ajax
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

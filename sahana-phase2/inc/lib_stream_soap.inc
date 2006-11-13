@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.3 2006-09-25 10:26:42 priyanga Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.4 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    <package>
- * @subpackage <subpackage>
+ * @package    framework
+ * @subpackage stream_soap
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

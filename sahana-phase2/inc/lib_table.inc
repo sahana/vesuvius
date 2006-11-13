@@ -11,7 +11,7 @@
 * @author     Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    framework
-* @subpackage presentation
+* @subpackage zz_deprecated
 * @tutorial   comming soon!
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */

@@ -14,7 +14,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
+ * @package    moduleAPI
  * @subpackage validation
  * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>

@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.14 2006-09-04 06:55:30 chamindra Exp $ */
+/* $Id: lib_uuid.inc,v 1.15 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -14,8 +14,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    framework
- * @subpackage not_define
+ * @package    moduleAPI
+ * @subpackage UUID
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

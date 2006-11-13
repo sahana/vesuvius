@@ -10,8 +10,8 @@
 *
 * @author		Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
-* @subpackage	rms
+* @package		framework
+* @subpackage	localization
 * @tutorial
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)

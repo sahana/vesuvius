@@ -8,8 +8,8 @@
 * http://www.gnu.org/copyleft/lesser.html
 * Sahana - http://sahana.sourceforge.net
 * 
-* @package inc
-* @subpackage     
+* @package    framework 
+* @subpackage rss    
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)

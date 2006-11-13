@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.7 2006-11-09 07:11:55 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.8 2006-11-13 17:46:26 chamindra Exp $ */
 
 /**
  *
@@ -10,8 +10,8 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @package    <package>
- * @subpackage <subpackage>
+ * @package    framework
+ * @subpackage stream_html
  * @author     Chamindra de Silva <chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
