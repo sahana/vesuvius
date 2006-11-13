@@ -1,7 +1,8 @@
 /* 
 Sahana - Default Theme - Stylesheet 
 -----------------------------------------------------------------------------------
-Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
+designer : Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
+maintainer : Priyanga Fonseka  - jo@opensource.lk 
 
 Selectors are listed in their order of appearance in the html, where applicable.
 ---------------------------------------------------------------------------------- */
@@ -728,10 +729,11 @@ div.alert {
 
 /* info styles */
 div.info {
-	margin: 0 0 10px 0;
-	padding: 5px 10px 5px 35px;
-	border: #FC6 1px solid;
-	background: url(img/oops.png) #FFC no-repeat 5px 5px;
+	color:#666;
+/*  	margin: 0 0 10px 0;  */
+ 	padding: 5px 5px 5px 5px; 
+/* 	border: #FC6 1px solid; */
+/*  	background: url(img/dialog-information.png) no-repeat 5px 5px;   */
 }
 
 
@@ -823,25 +825,31 @@ ul.paging{
     font-weight:bold;
 }
 
-div#submenu_v a{
-    text-decoration:none;
-    background-color:#888;
-    padding-left:2px;
-    padding-right:2px;
-    color:yellow;
-    line-height:25px;
-    border:2px #369 solid;
-}
-
-div#submenu_v a:hover {
-    color:white;
-    background-color:#555;
-}
-
 div#tick{
     background: url(img/tic.png) no-repeat right;
     width: 10px;
     height: 10px;
 }
 
+div#submenu_v{
+    padding-left:5px; 
+    margin-left: 0; 
+    border-bottom: 1px solid #C6D1F5;  
+}
 
+div#submenu_v a{
+    color:#069;
+    padding: 0 0.5em 1px 0.5em;  
+    line-height:18px;
+    border: 1px solid #C6D1F5; 
+    border-bottom: none; 
+    background: #F3F6FF; 
+    text-decoration: none;
+    font-weight:bolder;
+}
+
+div#submenu_v a:hover {
+    color: #069; 
+    background:#C3CFFF;
+    border-bottom:1px solid #C3CFFF; 
+}
