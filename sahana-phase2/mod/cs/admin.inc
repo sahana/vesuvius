@@ -21,7 +21,7 @@ function shn_cs_adm_default()
     global $global;
     $db=$global['db'];
 
-    $query="select option_code from field_options where field_name='opt_cs_depth'";
+    $query="SELECT option_code FROM field_options WHERE field_name='opt_cs_depth'";
     $res=$db->Execute($query);
     $current_depth=$res->fields["option_code"];
     
@@ -48,7 +48,7 @@ function shn_cs_adm_max_depth_form_submit()
     $db=$global['db'];
     $depth = trim($_POST['max_depth']);
 
-    $query="update field_options set option_code='$depth' where field_name='opt_cs_depth' ";
+    $query="UPDATE field_options SET option_code='$depth' WHERE field_name='opt_cs_depth' ";
     $res=$db->Execute($query); 
     
     ?>
@@ -56,7 +56,7 @@ function shn_cs_adm_max_depth_form_submit()
 	<?php echo "Maximum Depth ".$depth."  was successfully saved";?>
 	</div>
     <?php
-    shn_cs_adm_max_depth_form();
+    shn_cs_adm_default();
 }
 
 ?>

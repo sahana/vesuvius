@@ -26,7 +26,7 @@
 
 <li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main catalogue'); ?> </b> </a><?= _(' - Enables user to add root catalogues.'); ?></li>
 <li><a href="index.php?mod=cs&act=addsub"><b><?= _('Add sub catalogue'); ?></b></a><?= _(' - Enables user to add sub catalogues under root catalogues. Sub catalogues might have several levels. '); ?></li>
-<li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Item'); ?></b></a><?= _(' - Enables user to add Items that is used in Inventery Management System.'); ?>
+<li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Item'); ?></b></a><?= _(' - Enables user to add Items that is used in Inventory Management System.'); ?>
 </li></ul>
 
 <em><p><?=_('Eg: Medicine --> Paracetamol --> ... --> Tablets ')?><br> <?=_('<b>Medicine</b> can be considered as an example for a Main Catalogue while <b>Paracetamol</b> is one of the sub catalogues under <b>Medicine</b>. There May be several levels upto the Item level and finally <b>Tablet</b> is an item which is under Paracetamol. ')?></p></em>

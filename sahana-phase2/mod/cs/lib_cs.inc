@@ -165,12 +165,12 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     $db=$global["db"];
     if($item_flag==true)
         {
-        $query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
+        $query="SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' AND final_flag='0' ";
         $res=$db->Execute($query);
         }
     else
         {
-        $query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+        $query="SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' ";
         $res=$db->Execute($query);
         }
     
@@ -249,13 +249,13 @@ function get_unitid_array()
     $itemid=get_itemid();
 
     $itemarray=array();
-    $query="select * from ct_cat_unit where ct_uuid='$itemid'";
+    $query="SELECT * FROM ct_cat_unit WHERE ct_uuid='$itemid'";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
     {
     $temp2=$res->fields['unit_uuid'];
-    $query="select name from ct_unit where unit_uuid ='$temp2'";
+    $query="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
     $unit_res=$db->Execute($query);    
     $itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
     $res->MoveNext();
@@ -300,7 +300,7 @@ function unit_converter($from_unit_id,$to_unit_id)
     global $global;
     $db=$global["db"];
 
-    $query1="select multiplier from ct_unit where unit_uuid='$from_unit_id'";
+    $query1="SELECT multiplier FROM ct_unit WHERE unit_uuid='$from_unit_id'";
     $res1=$db->Execute($query1);
     $from_multiplier=$res1->fields['multiplier'];
     if ($from_multiplier==0)
@@ -308,7 +308,7 @@ function unit_converter($from_unit_id,$to_unit_id)
         $from_multiplier=1;
     }
 
-    $query2="select multiplier from ct_unit where unit_uuid='$to_unit_id'";
+    $query2="SELECT multiplier FROM ct_unit WHERE unit_uuid='$to_unit_id'";
     $res2=$db->Execute($query2);
     $to_multiplier=$res2->fields['multiplier'];
     if ($to_multiplier==0)
@@ -331,7 +331,7 @@ function get_unit_name($unit_id)
 {
     global $global;
     $db=$global["db"];
-    $query="select name from ct_unit where unit_uuid='$unit_id'";
+    $query="SELECT name FROM ct_unit WHERE unit_uuid='$unit_id'";
     $res=$db->Execute($query);
     $name=$res->fields['name'];
 
@@ -383,13 +383,13 @@ function _shn_cs_get_units($parent_id)
 
     $myoptions=array();
 
-    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $query="SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
     {
     $temp2=$res->fields['unit_uuid'];
-    $query1="select name from ct_unit where unit_uuid ='$temp2'";
+    $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
     $res2=$db->Execute($query1);
 
     $myoptions[$res->fields['unit_uuid']]=$res2->fields['name'];;
@@ -411,7 +411,7 @@ function get_max_depth()
     global $global;
     $db=$global['db'];
 
-    $query="select option_code from field_options where field_name='opt_cs_depth'";
+    $query="SELECT option_code FROM field_options WHERE field_name='opt_cs_depth'";
     $res=$db->Execute($query);
     $depth=$res->fields["option_code"];
 
@@ -429,11 +429,11 @@ function convert_to_base_unit($unit_id)
     global $global;
     $db=$global['db'];
 
-    $query1="select unit_type_uuid from ct_unit where unit_uuid='$unit_id'";
+    $query1="SELECT unit_type_uuid FROM ct_unit WHERE unit_uuid='$unit_id'";
     $res1=$db->Execute($query1);
     $unit_type_uuid=$res1->fields['unit_type_uuid'];
 
-    $query2="select unit_uuid from ct_unit where unit_type_uuid='$unit_type_uuid' and base_flag='1' ";
+    $query2="SELECT unit_uuid FROM ct_unit WHERE unit_type_uuid='$unit_type_uuid' AND base_flag='1' ";
     $res2=$db->Execute($query2);
     $base_unit_uuid=$res2->fields['unit_uuid'];
 
@@ -452,7 +452,7 @@ function shn_cs_get_parentid_arr($in_id)
     $temp_cat_parent_arr=array();
     $final_parent_id_array = array();
 
-    $query="select parentid from ct_catalogue where ct_uuid ='$in_id'";
+    $query="SELECT parentid FROM ct_catalogue WHERE ct_uuid ='$in_id'";
     $res=$db->Execute($query);
     $par_id = $res->fields["parentid"];
 
@@ -479,7 +479,7 @@ function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
     else
     {
     array_push($in_array,$parent_id_in);
-    $query="select parentid from ct_catalogue where ct_uuid ='$parent_id_in'";
+    $query="SELECT parentid FROM ct_catalogue WHERE ct_uuid ='$parent_id_in'";
     $res=$db->Execute($query);
     $par_par_id = $res->fields["parentid"];
     return _shn_cs_recursive_parent_search($in_array,$par_par_id);
@@ -508,7 +508,7 @@ function shn_cs_get_next_level_child_id_arr($in_id)
     $next_level_ID_arr = array();
     global $global;
     $db=$global['db'];
-    $query="select ct_uuid from ct_catalogue where parentid ='$in_id'";
+    $query="SELECT ct_uuid FROM ct_catalogue WHERE parentid ='$in_id'";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)

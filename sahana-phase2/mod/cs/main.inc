@@ -244,7 +244,7 @@ function shn_cs_addunit()
 {
 	echo "<h1>Add Measurement Unit</h1>";
 	?>
-	<p><?= _(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the purticular category.'); ?></p>
+	<p><?= _(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the particular category.'); ?></p>
 	<?php
 	require_once('add.inc');
 	shn_cs_addunit_form();
@@ -284,7 +284,7 @@ function shn_cs_additem()
 	echo "<h1>Add Item</h1>";
 
 	?>
-	<p><?= _('Here you are able to add Items which are under catalogues. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
+	<p><?= _('Here you are able to add Items which are under catalogues. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator have to specify the Maximum Depth of the Catalogue / Item hierarchy(tree). Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
 <p><?= _('OR'); ?></p>
 <p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
 	<?php

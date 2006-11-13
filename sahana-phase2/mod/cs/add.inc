@@ -30,7 +30,7 @@ function shn_cs_addmain_form()
     shn_form_text(_("Description   : "),'description','size="50"');
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
+    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
     shn_form_fsclose();
     shn_form_submit(_("Add"));
     shn_form_fclose();
@@ -54,7 +54,7 @@ function _shn_cs_addmain_form_result()
     
     $id = shn_create_uuid("catalogue");
 
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values($parentid,'$id','$name','$description','$keyword')";
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword) VALUES($parentid,'$id','$name','$description','$keyword')";
     $res=$db->Execute($q);
 
 	if($res == true)
@@ -131,7 +131,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
+    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
     shn_form_fsclose();
     
     //the parent ID is submitted as a hidden variable
@@ -162,7 +162,7 @@ function _shn_cs_addsub_form2_result()
     $sub_description=trim($_POST['sub_description']);
     $sub_keyword =trim($_POST['sub_keyword']);
     $id = shn_create_uuid("catalogue");
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword) values('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword')";
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword) VALUES('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword')";
     $res=$db->Execute($q);
 
 	if($res == true)
@@ -196,7 +196,7 @@ function shn_cs_addunit_form()
     
     $option_array=array();
 
-    $query="select unit_type_uuid,name from ct_unit_type ";
+    $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
     $option_array['none']='----Select Unit type----';
     while(!$res==NULL && !$res->EOF)
@@ -239,7 +239,7 @@ function _shn_cs_utype_select_submit_result()
     $unit_type_id=trim($_POST['unit_type']);
     
 
-    $query="select name from ct_unit where unit_type_uuid ='$unit_type_id' and base_flag ='1'";
+    $query="SELECT name FROM ct_unit WHERE unit_type_uuid ='$unit_type_id' AND base_flag ='1'";
     $res=$db->Execute($query);
     
     $base_unit_name=$res->fields['name'];
@@ -282,7 +282,7 @@ function _shn_cs_addunit_form_result()
     $unit_type_id=trim($_POST['unit_type_id']);
     
     $unit_id=shn_create_uuid("unit");
-    $query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id','$unit_id','$unit_name','0',$multiplier)";
+    $query="INSERT INTO ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) VALUES('$unit_type_id','$unit_id','$unit_name','0',$multiplier)";
     $res=$db->Execute($query);
 
 
@@ -320,7 +320,7 @@ function shn_cs_additem_form1()
     shn_form_fclose();
 
 	
-    $query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+    $query="SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' ";
     $res=$db->Execute($query);
     if($res == true)
 	{
@@ -351,7 +351,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
    }
     
     $option_array=array();
-    $query="select unit_type_uuid,name from ct_unit_type ";
+    $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
     $option_array['none']='----Select Unit type----';
     while(!$res==NULL && !$res->EOF)
@@ -369,7 +369,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsclose();
 
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search purticular catalogue/Item easily.')));
+    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
     shn_form_fsclose();
     
     $select_opts='onChange=change_units(this.options[this.selectedIndex].value)';
@@ -412,7 +412,7 @@ function shn_cs_additem_form2_result()
     $item_keyword=trim($_POST['item_keyword']);
 
     $id = shn_create_uuid("catalogue");
-    $q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag) values('$parent_id','$id','$item_name','$description','$item_keyword','1')";
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag) VALUES('$parent_id','$id','$item_name','$description','$item_keyword','1')";
     $res=$db->Execute($q);
 
 	if($res == true)
@@ -427,7 +427,7 @@ function shn_cs_additem_form2_result()
     for($i=0;$i<$num;$i++)
     {
     $temp = $unit_selected[$i];
-    $q="insert into ct_cat_unit (ct_uuid,unit_uuid) values('$id','$temp')";
+    $q="INSERT INTO ct_cat_unit (ct_uuid,unit_uuid) VALUES('$id','$temp')";
     $res=$db->Execute($q);
     		if($res == false)
 		{	
@@ -446,7 +446,7 @@ function shn_cs_additem_form2_result()
     for($i=0;$i<$numOfsuppliers;$i++)
     {
     $temp = $suppliers_selected[$supplier_arr_keys[$i]];
-    $q="insert into ct_suppliers (ct_uuid,supplier) values('$id','$temp')";
+    $q="INSERT INTO ct_suppliers (ct_uuid,supplier) VALUES('$id','$temp')";
     $res=$db->Execute($q);
     		if($res == false)
 		{	
@@ -474,7 +474,7 @@ function shn_cs_additem_form2_result()
 			<?php
 		}
 	elseif($items_saved_ok == true && $all_units_saved_ok == false)
-		{	$del_query = "delete from ct_catalogue where ct_uuid = '$id' ";
+		{	$del_query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
 			$res=$db->Execute($del_query);
 			?>
 			<div id="result_msg">
@@ -484,7 +484,7 @@ function shn_cs_additem_form2_result()
 		}
 	elseif($items_saved_ok == false && $all_units_saved_ok == true)
 		{
-			$del_query = "delete from ct_cat_unit where ct_uuid = '$id' ";
+			$del_query = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
 			$res=$db->Execute($del_query);
 			?>
 			<div id="result_msg">
@@ -536,7 +536,7 @@ function _shn_cs_add_unit_type_form_result()
     $base_unit_name=trim($_POST['base_unit_name']);
 
     $unit_type_id = shn_create_uuid("unit_type");
-    $q="insert into ct_unit_type (unit_type_uuid,name,description) values('$unit_type_id','$unit_type_name','$description')";
+    $q="INSERT INTO ct_unit_type (unit_type_uuid,name,description) VALUES('$unit_type_id','$unit_type_name','$description')";
     $res=$db->Execute($q);
 	if($res == true)
 		{
@@ -544,7 +544,7 @@ function _shn_cs_add_unit_type_form_result()
 		}
 
     $unit_id=shn_create_uuid("unit");
-    $query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$unit_type_id','$unit_id','$base_unit_name','1',0)";
+    $query="INSERT INTO ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) VALUES('$unit_type_id','$unit_id','$base_unit_name','1',0)";
     $res=$db->Execute($query);
 	if($res == true)
 		{
@@ -561,7 +561,7 @@ function _shn_cs_add_unit_type_form_result()
 	}
     elseif($unit_type_saved_ok == true && $base_unit_saved_ok ==false)
 	{
-	  $q="delete from ct_unit_type where unit_type_uuid = '$unit_type_id'";
+	  $q="DELETE FROM ct_unit_type WHERE unit_type_uuid = '$unit_type_id'";
    	 $res=$db->Execute($q);
 	
 	?>
@@ -572,7 +572,7 @@ function _shn_cs_add_unit_type_form_result()
 	}
     elseif($unit_type_saved_ok == false && $base_unit_saved_ok ==true)
 	{
-	  $q="delete from ct_unit where unit_type_uuid = '$unit_type_id'";
+	  $q="DELETE FROM ct_unit WHERE unit_type_uuid = '$unit_type_id'";
    	 $res=$db->Execute($q);
 	?>
     <div id="result_msg">
@@ -617,7 +617,7 @@ function _shn_cs_search_keyword_result()
     <?php
 
     $first_3_letters=substr($search_keyword, 0, 2);
-    $query="select * from ct_catalogue where keyword like '$first_3_letters%' and final_flag!='1' ";
+    $query="SELECT * FROM ct_catalogue WHERE keyword like '$first_3_letters%' AND final_flag!='1' ";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)

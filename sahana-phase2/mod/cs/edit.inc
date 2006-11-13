@@ -48,7 +48,7 @@ function show_item_cat_table()
 
 
     //------new development
-    $query1="select ct_uuid,name from ct_catalogue where parentid = '0' ";
+    $query1="SELECT ct_uuid,name FROM ct_catalogue WHERE parentid = '0' ";
     $res1=$db->Execute($query1);
 
     $main_cat_arr = array('all' => 'All');
@@ -81,7 +81,7 @@ function show_item_cat_table()
         <td><?php shn_form_select($cat_item_arr,'','edit_type',$select_opts,null); ?></td>
         <td><?php shn_form_select($cat_item_level_arr,'','edit_type',$select_opts,null); ?></td>
 	<td><?php shn_form_select($num_of_rec,'','edit_type',$select_opts,null); ?></td>
-	<td><?php shn_form_submit(_("Filters"));; ?></td>
+	<td><?php shn_form_submit(_("Filter"));; ?></td>
 	</tr>
 	</table>
 	</div>	
@@ -102,7 +102,7 @@ function show_item_cat_table()
     <TBODY>
     <?php
 
-    $query="select * from ct_catalogue";
+    $query="SELECT * FROM ct_catalogue";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
@@ -170,7 +170,7 @@ function _shn_cs_edit_cat_select_submit_result()
 
     $id = trim($_REQUEST['id']);
 
-    $query="select name,description from ct_catalogue where ct_uuid='$id' ";
+    $query="SELECT name,description FROM ct_catalogue WHERE ct_uuid='$id' ";
     $res=$db->Execute($query);
 
     $name=$res->fields["name"];
@@ -237,7 +237,7 @@ function _shn_cs_edit_cat_form_submit_result()
             $description = trim($_POST['description']);
         $id = trim($_POST['id']);
     
-        $query="update ct_catalogue set name='$name' , description='$description' where ct_uuid='$id' ";
+        $query="UPDATE ct_catalogue SET name='$name' , description='$description' WHERE ct_uuid='$id' ";
         $res=$db->Execute($query);    
 
         ?>
@@ -259,10 +259,10 @@ function _shn_cs_edit_cat_form_submit_result()
         }
         else
         {
-        $query="delete from ct_catalogue where ct_uuid='$id' ";
+        $query="DELETE FROM ct_catalogue WHERE ct_uuid='$id' ";
         $res=$db->Execute($query);
 
-        $query2="delete from ct_cat_unit where ct_uuid='$id' ";
+        $query2="DELETE FROM ct_cat_unit WHERE ct_uuid='$id' ";
         $res2=$db->Execute($query2);
 	?>
 	<div id="result_msg">
@@ -283,7 +283,7 @@ function item_cat_inuse($item_cat_id)
     $db=$global["db"];
     $inuse_flag=false;
     
-        $query="select * from ct_catalogue where parentid='$item_cat_id' ";
+        $query="SELECT * FROM ct_catalogue WHERE parentid='$item_cat_id' ";
         $res=$db->Execute($query);
         if(!$res==NULL && !$res->EOF)
         {
@@ -319,7 +319,7 @@ function show_unit_table()
     <TBODY>
     <?php
 
-    $query="select * from ct_unit";
+    $query="SELECT * FROM ct_unit";
     $res=$db->Execute($query);
 
 
@@ -352,7 +352,7 @@ function _shn_cs_edit_unit_select_submit_result()
 
     $id = trim($_REQUEST['id']);
 
-    $query="select * from ct_unit where unit_uuid='$id' ";
+    $query="SELECT * FROM ct_unit WHERE unit_uuid='$id' ";
     $res=$db->Execute($query);
 
     $name=$res->fields["name"];
@@ -419,7 +419,7 @@ function _shn_cs_edit_unit_form_submit_result()
             $multiplier = trim($_POST['multiplier']);
         $id = trim($_POST['id']);
     
-        $query="update ct_unit set name='$name' , multiplier=$multiplier where unit_uuid='$id' ";
+        $query="UPDATE ct_unit SET name='$name' , multiplier=$multiplier WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);    
 
         ?>
@@ -439,7 +439,7 @@ function _shn_cs_edit_unit_form_submit_result()
         }
         else
         {
-        $query="delete from ct_unit where unit_uuid='$id' ";
+        $query="DELETE FROM ct_unit WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);
         echo "Item/Catalogue was Deleted";
         }
@@ -472,7 +472,7 @@ function show_unit_type_table()
     <TBODY>
     <?php
 
-    $query="select * from ct_unit_type";
+    $query="SELECT * FROM ct_unit_type";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
@@ -505,7 +505,7 @@ function _shn_cs_edit_unittype_select_submit_result()
 
     $id = trim($_REQUEST['id']);
 
-    $query="select name,description from ct_unit_type where unit_type_uuid='$id' ";
+    $query="SELECT name,description FROM ct_unit_type WHERE unit_type_uuid='$id' ";
     $res=$db->Execute($query);
 
     $name=$res->fields["name"];
@@ -565,7 +565,7 @@ function _shn_cs_edit_unit_type_form_submit_result()
             $description = trim($_POST['description']);
         $id = trim($_POST['id']);
     
-        $query="update ct_unit_type set name='$name' , description='$description' where unit_type_uuid='$id' ";
+        $query="UPDATE ct_unit_type SET name='$name' , description='$description' WHERE unit_type_uuid='$id' ";
         $res=$db->Execute($query);    
 
         ?>

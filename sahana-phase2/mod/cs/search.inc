@@ -66,7 +66,7 @@ function _shn_cs_search_item_cat_submit_result()
 
     if($item_cat_radio=='item')
     {
-    $query="select * from ct_catalogue where name='$cat_item_name' and final_flag='1'";
+    $query="SELECT * FROM ct_catalogue WHERE name='$cat_item_name' AND final_flag='1'";
     $res=$db->Execute($query);
     
     $name=$res->fields["name"];
@@ -74,14 +74,21 @@ function _shn_cs_search_item_cat_submit_result()
     }    
     else if($item_cat_radio=='catalogue')
     {
-    $query="select * from ct_catalogue where name='$cat_item_name' and final_flag='0'";
+    $query="SELECT * FROM ct_catalogue WHERE name='$cat_item_name' AND final_flag='0'";
     $res=$db->Execute($query);
     
     $name=$res->fields["name"];
     $description=$res->fields["description"];
     }
 
-?>
+    if($name == null && $description == null)
+    {
+    print "<br><br><b>There is no match found.</b>";
+    }
+
+    else
+    {
+    ?>
     <br><br>
     <div id="result">
     <table>
@@ -99,7 +106,9 @@ function _shn_cs_search_item_cat_submit_result()
     </TBODY> 
     </table>
     </div>
-<?php
+    <?php
+    }
+
 }
 
 /**
@@ -108,10 +117,10 @@ function _shn_cs_search_item_cat_submit_result()
  * @return void
  */
 function _shn_cs_unit_form()
-{    global $global;
+{   global $global;
     $db=$global["db"];
     $option_array=array();
-    $query="select unit_type_uuid,name from ct_unit_type ";
+    $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
     $option_array['none']='----Select Unit type----';
     while(!$res==NULL && !$res->EOF)
@@ -149,17 +158,17 @@ function _shn_cs_search_unit_submit_result()
 
     if($unit_type_id=='none' && $search_name=='')
         {
-        $query="select * from ct_unit";
+        $query="SELECT * FROM ct_unit";
         $res=$db->Execute($query);
         }
     elseif($search_name=='')
         {
-        $query="select * from ct_unit where unit_type_uuid='$unit_type_id' ";
+        $query="SELECT * FROM ct_unit WHERE unit_type_uuid='$unit_type_id' ";
         $res=$db->Execute($query);
         }
     else
         {
-        $query="select * from ct_unit where name='$search_name' ";
+        $query="SELECT * FROM ct_unit WHERE name='$search_name' ";
         $res=$db->Execute($query);
         }
 
@@ -181,7 +190,7 @@ function _shn_cs_search_unit_submit_result()
 
         $temp=$res->fields["unit_type_uuid"];
         
-        $query="select name from ct_unit_type where unit_type_uuid='$temp' ";
+        $query="SELECT name FROM ct_unit_type WHERE unit_type_uuid='$temp' ";
         $res3=$db->Execute($query);
         $unit_type_name=$res3->fields["name"];        
 
@@ -232,7 +241,7 @@ function _shn_cs_search_unit_type_submit_result()
     $db=$global["db"];
 
     $unit_type_name=trim($_POST['unit_type_name']);
-    $query="select * from ct_unit_type where name='$unit_type_name'";
+    $query="SELECT * FROM ct_unit_type WHERE name='$unit_type_name'";
     $res=$db->Execute($query);
     
     $name=$res->fields["name"];
