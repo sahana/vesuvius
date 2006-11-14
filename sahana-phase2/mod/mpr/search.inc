@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.16 2006-11-14 08:23:48 isurunishan Exp $ */
+/* $Id: search.inc,v 1.17 2006-11-14 11:28:58 isurunishan Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -53,7 +53,7 @@ function shn_mpr_search_default()
 function shn_mpr_search_advance()
 {
     shn_form_fopen("search",null); 
-    shn_form_fsopen(_('Advance Search'));
+    shn_form_fsopen(_('Advanced Search'));
 
     shn_form_fsopen(_('Identity'));
     shn_form_text(_('Identity'),'idcard','size="30"');
@@ -397,7 +397,7 @@ href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><
 ?>      </TD>
         <?=($select?'<TD><a title="'._('Select').'" href="index.php?'.
             $_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].
-            '&tracker_relation='.$_POST['rep_relation'].'&seq=tracker_select" > '._('Select').' </a>'.
+            '&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._('Select').' </a>'.
             '</TD>':''); ?>
     </TR>
 <?php
