@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.24 2006-09-25 05:16:03 janakawicks Exp $ */
+/* $Id: add.inc,v 1.25 2006-11-14 11:26:24 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -285,7 +285,8 @@ function shn_mpr_addmp_reporter($errors=false)
 <p><?= _('NOTE : If you have reproted before, we will use the following information to preform a search to see you are in our database or not.'); ?></p>
 <?php
     shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
-    shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
+  shn_form_opt_select('opt_relationship_type','RelationshiptoPerson');
+  //  shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
 ?>
 <div id="reporter_details" 
 <?php
@@ -344,7 +345,7 @@ function shn_mpr_addmp_reporter_validate()
     }
 
     //Reporting person relation
-    if(! isset($local_post['rep_relation'])){
+    if(! isset($local_post['opt_relationship_type'])){
         add_error(_("Please enter the relationship of the reporting person"));
         $error_flag=true;
     }
@@ -603,8 +604,8 @@ function shn_mpr_addmp_confirm()
 
     if(isset($_SESSION['mpr_add']['report_person']['rep_full_name']))
         shn_form_label(_('Name'),$_SESSION['mpr_add']['report_person']['rep_full_name']);
-    if(isset($_SESSION['mpr_add']['report_person']['rep_relation']))
-        shn_form_label(_('Relation'),$_SESSION['mpr_add']['report_person']['rep_relation']);
+    if(isset($_SESSION['mpr_add']['report_person']['opt_relationship_type']))
+        shn_form_label(_('Relation'),$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_address']))
         shn_form_label(_('Address'),$_SESSION['mpr_add']['report_person']['rep_address']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_phone']))
@@ -836,7 +837,7 @@ function shn_mpr_addmp_commit()
     if($_SESSION['mpr_add']['entry']['tracker_id']){
         shn_add_person_to_report ($_SESSION['mpr_add']['entry']['p_uuid'],
                 $_SESSION['mpr_add']['entry']['tracker_id'],
-                $_SESSION['mpr_add']['report_person']['rep_relation']);
+                $_SESSION['mpr_add']['report_person']['opt_relationship_type']);
     }else
         shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
 
@@ -858,6 +859,8 @@ function shn_mpr_addmp_commit()
  * @access public
  * @return void
  */
+ 
+ 
 function shn_mpr_addmp_insert_reporter($p_uuid)
 {
     //Reported person entry 
@@ -931,7 +934,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
     /*
      * Insert into the person_to_report
      */
-    shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['rep_relation']);
+    shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
 
 
 }
