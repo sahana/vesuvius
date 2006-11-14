@@ -23,6 +23,20 @@ INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 INSERT INTO field_options VALUES ('opt_gender','mal','Male');
 INSERT INTO field_options VALUES ('opt_gender','fml','Female');
 
+--PERSON RELATIONSHIPS
+INSERT INTO field_options VALUES('opt_relationship_type','fat','Father');
+INSERT INTO field_options VALUES('opt_relationship_type','mot','Mother');
+INSERT INTO field_options VALUES('opt_relationship_type','bro','Brother');
+INSERT INTO field_options VALUES('opt_relationship_type','sis','Sister');
+INSERT INTO field_options VALUES('opt_relationship_type','gft','GrandFather');
+INSERT INTO field_options VALUES('opt_relationship_type','gmt','GrandMother');
+INSERT INTO field_options VALUES('opt_relationship_type','gfpat','GrandFatherPaternal');
+INSERT INTO field_options VALUES('opt_relationship_type','gfmat','GrandFatherMaternal');
+INSERT INTO field_options VALUES('opt_relationship_type','gmpat','GrandMotherPaternal');
+INSERT INTO field_options VALUES('opt_relationship_type','gmmat','GrandMotherMaternal');
+INSERT INTO field_options VALUES('opt_relationship_type','fnd','Friend');
+INSERT INTO field_options VALUES('opt_relationship_type','oth','Other');
+
 
 
 -- PERSON CONTACT TYPES
