@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.15 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: search.inc,v 1.16 2006-11-14 08:23:48 isurunishan Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -205,8 +205,16 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
         $rs = $global['db']->SelectLimit($sql,$limit,$offset);
         $rs_count = $global['db']->Execute($sql);
     }
+    
+    
+    if($rs!=null)
     $arr = $rs->GetAll();
+    
+    
+    if($rs_count!=null)
     $_SESSION['mpr']['search']['record_count'] =  $rs_count->RecordCount();
+    else
+    $_SESSION['mpr']['search']['record_count'] =  0;
     if($return){
         return $arr;
     }else{
@@ -220,7 +228,8 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 <?php
         shn_mpr_search_nav();
     }
-}
+    }
+
 /* }}} */
 
 /* {{{ Navigation Controll */
@@ -326,6 +335,8 @@ function shn_mpr_search_show_result($details)
     <?=($select?'<TD>'._('Select').'</TD>':''); ?>
 </THEAD>
 <?php
+if($details!=null)
+{
     foreach($details as $detail){
 ?>
     <TR>
@@ -391,6 +402,7 @@ href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><
     </TR>
 <?php
     }
+}
 ?>
 </TABLE>
 <?php
