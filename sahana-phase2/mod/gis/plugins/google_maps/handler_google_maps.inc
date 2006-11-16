@@ -144,9 +144,9 @@ function show_map_with_markers($array)
 					$lat=$array[$i]["lat"];
 					$lon=$array[$i]["lon"];
 					$name=$array[$i]["name"];
-					$url=$array[$i]["id"];
-					$pre_url="index.php?mod=cr&act=ecmp&seq=view&cmp_id=";
-					$url=$pre_url.$name;
+					$url=$array[$i]["url"];
+					$pre_url="index.php?";
+					$url=$pre_url.$url;
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
       				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><a href="<?=$url?>">View</a></div>');
