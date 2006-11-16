@@ -21,8 +21,8 @@ function _shn_or_adm_sub_menu(){
 <div id="submenu_v">
 <a href="index.php?mod=or&act=adm_or_type">Organization Types</a> 
 <a href="index.php?mod=or&act=adm_sector">Organization Sectors</a>
-<a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
-<a href="index.php?mod=or&act=adm_location">Set starting Location</a>
+<!--<a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
+<a href="index.php?mod=or&act=adm_location">Set starting Location</a> -->
 </div>
 
 <br>
