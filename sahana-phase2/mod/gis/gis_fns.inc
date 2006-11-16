@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.19 2006-11-01 05:26:17 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.20 2006-11-16 09:26:16 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -23,6 +23,7 @@
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/main_fns.inc";
+include_once $global['approot']."/inc/lib_errors.inc";
 
 /**
  * Error Message for disabled GIS
@@ -31,11 +32,7 @@ include_once $global['approot']."/mod/gis/main_fns.inc";
  */
 function shn_gis_print_msg()
 {
-?>
-<div id="error">
-	<p><?=_("GIS Mapping has been disabled. Please contact the Administrator to enable it")?></p>
-</div>
-<?php
+	add_warning(_('GIS Functionality has been disabled. Please contact your administrator to enable it'));
 }
 
 /**
