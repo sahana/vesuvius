@@ -561,32 +561,40 @@ function _shn_ims_gis_inv($inv_id)
 {
     global $global;
     $db=$global['db'];
+    print $inv_id;
     $map_array=array();
+    $url="mod=ims&act=view_inv&id=$inv_id";
 
     if($inv_id==NULL)
     {
-	
+		
 		//$db = $global['db'];
 		
 		$sql1="SELECT * FROM ims_inventory_records;";
 		$ims1=$db->Execute($sql1);
+		
 
 		while(!$ims1==NULL && !$ims1->EOF)
 		{
 			$inv_id=$ims1->fields['inv_uuid'];
+			$url="mod=ims&act=view_inv&id=$inv_id";
 			$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
 			$ims2=$db->Execute($sql2);
 
-			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims2->fields['name'],"id"=>$ims2->fields['poc_uuid']));
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims1->fields['inventory_name'],"id"=>$ims2->fields['poc_uuid'],"url"=>$url));
 			$ims1->MoveNext();	
 		}
     }
     else
     {
+	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	print $sql1;
+
 	$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
 			$ims2=$db->Execute($sql2);
 
-			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims2->fields['name'],"id"=>$ims2->fields['poc_uuid']));
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims1->fields['inventory_name'],"id"=>$ims2->fields['poc_uuid'],"url"=>$url));
     }
 
 	return $map_array;

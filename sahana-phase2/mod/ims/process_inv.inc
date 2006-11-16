@@ -132,8 +132,10 @@ function _shn_ims_reg_inv_cr()
             $error=true;
             //("add_org(): ORG_ID generation failed!");
             return false;
+
         }
 	
+	print $org_id;
 	shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
         $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";

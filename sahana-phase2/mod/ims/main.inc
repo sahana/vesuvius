@@ -160,25 +160,25 @@ function shn_ims_view_edit_item_actions()
 
 function shn_ims_report_minimum()
 {
-    include_once ('report.inc');
+    include_once ('ims_report.inc');
     _shn_ims_report_minimum();
 }
 
 function shn_ims_report_expired()
 {
-    include_once ('report.inc');
+    include_once ('ims_report.inc');
     _shn_ims_report_expired();
 }
 
 function shn_ims_report_destroyed()
 {
-    include_once ('report.inc');
+    include_once ('ims_report.inc');
     _shn_ims_report_destroyed();
 }
 
 function shn_ims_report_prediction()
 {
-    include_once ('report.inc');
+    include_once ('ims_report.inc');
     _shn_ims_report_prediction();
 }
 
@@ -186,7 +186,7 @@ function shn_ims_destroy_item()
 {
     global $global;
     $item_id = trim($_REQUEST['item_id']);
-    include_once ('report.inc');
+    include_once ('ims_report.inc');
     _shn_ims_destroy_item($item_id);
 }
 
@@ -403,13 +403,13 @@ function shn_ims_view_inv()
 
 function shn_ims_drill_report()
 {
-    include_once("report.inc");
+    include_once("ims_report.inc");
     $parent=$_GET["id"];
      _shn_ims_level($parent);
 }
 function shn_ims_org_sector()
 {
-    include_once("report.inc");
+    include_once("ims_report.inc");
     _shn_ims_report_org_sector();
 }
 // default page, welcome page 
@@ -648,6 +648,7 @@ function shn_ims_send_item_db()
     {
         display_errors();
         shn_ims_send_item_data_collectpage();
+        
     }
     else
     {
