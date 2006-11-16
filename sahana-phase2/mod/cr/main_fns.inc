@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.47 2006-10-11 06:00:46 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.48 2006-11-16 05:23:58 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -187,8 +187,9 @@ function shn_cr_gis_show(){
 		
 		//populate aray
 		while(!$res->EOF){
+				$camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['name'];
 				array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-					"id"=>$res->fields['c_uuid']));
+					"id"=>$res->fields['c_uuid'],"url"=>$camp_url));
 				$res->MoveNext();	
 		}	
 		//global $conf;		
