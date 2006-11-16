@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.37 2006-10-11 05:37:15 mifanc Exp $ */
+/* $Id: camp.inc,v 1.38 2006-11-16 05:02:27 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -346,133 +346,117 @@ function _shn_cr_get_locid(){
 		return $_SESSION['cr_1'];
 }
 
-function _shn_cr_cadd_commit_db(){
-//insert to database;
-global $global;
-$db = $global['db'];
-
-//call unique camp id
-$uid=_shn_cr_create_cid('c');
-
-/*--------Phonetic Insertions------------*/
-shn_db_insert_phonetic('camp_name',$uid);
-/*---------------------------------------*/
-
-$loc_id=_shn_cr_get_locid();
-
-//create admin id
-$puid = _shn_cr_create_cid('p');
-
-//echo "location is".$loc_id;
-//echo "camp is".$uid;
-
-//enter into camp table
-$q="insert into camp_general(c_uuid,name,location_id,opt_camp_type,address,capacity) values('{$uid}','{$_SESSION['camp_name']}','{$loc_id}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}','{$_SESSION['camp_capacity']}')";
-
-
-$res = $db->Execute($q);
-
-//enter into camp_reg table
-//$q="insert into camp_reg(c_uuid,name,orgid,contact_name,contact_no,comments,services,men,women,family,children,total) values($uid,'{$_SESSION['camp_name']}','orgid','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_comments']}','ser','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
-$q="insert into camp_reg(c_uuid,admin_name,admin_no,men,women,family,children,total) values('{$uid}','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
-
-$res = $db->Execute($q);
-
-// insert into camp admin
-$qa = "insert into camp_admin(c_uuid,contact_puuid) values('{$uid}','{$puid}')";
-$resa = $db->Execute($qa);
-
-
-// insert into person_details
-$qb = "insert into person_details(p_uuid,occupation) values('{$puid}','{$_SESSION['occupation']}')";
-$resb = $db->Execute($qb);
-
-
-// insert into admin contact
-$qc = "insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$puid}','cmob','{$_SESSION['contact_mob']}')";
-$resc = $db->Execute($qc);
-
-//insert hospital meta
-if(isset($_SESSION['hospital'])){
-	$qc = "insert into hospital_beds (c_uuid,icu,med,surg,paed,obs) values ('{$uid}',{$_SESSION['icu']},{$_SESSION['med']},{$_SESSION['sur']},{$_SESSION['paed']},{$_SESSION['obs']})";
-	$resc = $db->Execute($qc);
-}
-/*
- * GIS Insertion
-*/
-
-global $global;
-global $conf;
+/**
+ * Database inserts for Sheter Registry
+ * @access private
+ */
+function _shn_cr_cadd_commit_db()
+{
+	global $global;
+	global $conf;
 	
+	include_once($global['approot'].'/inc/lib_uuid.inc');
+	$db = $global['db'];
+	
+	$uid = shn_create_uuid('c');
+	$puid = shn_create_uuid('p');
+	
+	shn_db_insert_phonetic('camp_name',$uid);
+	$loc_id=_shn_cr_get_locid();
 
-//if mod_gis
-if($conf['gis']){
-  //include $global['approot']."/mod/gis/conf.inc";
-  global $conf;
-  include $global['approot']."/mod/gis/gis_fns.inc";
-	shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
-}
-				
-
-
-
-/*insert services into camp_services table
- *currently add checked values.
-*/								
-	if(isset($_SESSION['opt_camp_service'])){
-	 foreach($_SESSION['opt_camp_service'] as $a => $b){
-	//currently add checked values.
-		$q = "insert into camp_services(c_uuid,opt_camp_service,value) values('{$uid}','{$b}',1)";
-	 $res = $db->Execute($q);
-	 }
+	//enter into camp table
+	$q="INSERT INTO camp_general(c_uuid,name,location_id,opt_camp_type,address,capacity) " .
+		"VALUES('{$uid}','{$_SESSION['camp_name']}','{$loc_id}','{$_SESSION['opt_camp_type']}','{$_SESSION['camp_address']}','{$_SESSION['camp_capacity']}')";
+	$res = $db->Execute($q);
+	
+	//enter into camp_reg table
+	$q="INSERT INTO camp_reg (c_uuid,admin_name,admin_no,men,women,family,children,total) " .
+		"VALUES ('{$uid}','{$_SESSION['camp_contact_name']}','{$_SESSION['camp_contact_number']}','{$_SESSION['camp_men']}','{$_SESSION['camp_women']}','{$_SESSION['camp_family']}','{$_SESSION['camp_children']}','{$_SESSION['camp_total']}')";
+	$res = $db->Execute($q);
+	
+	// insert into camp admin
+	$qa = "INSERT INTO camp_admin(c_uuid,contact_puuid) VALUES ('{$uid}','{$puid}')";
+	$resa = $db->Execute($qa);
+	
+	// insert into person_details
+	$qb = "INSERT INTO person_details(p_uuid,occupation) " .
+		  "VALUES('{$puid}','{$_SESSION['occupation']}')";
+	$resb = $db->Execute($qb);
+	
+	// insert into admin contact
+	$qc = "INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) " .
+		  "VALUES ('{$puid}','cmob','{$_SESSION['contact_mob']}')";
+	$resc = $db->Execute($qc);
+	
+	//insert hospital meta
+	if(isset($_SESSION['hospital'])){
+		$qc = "INSERT INTO hospital_beds (c_uuid,icu,med,surg,paed,obs) " .
+			  "VALUES ('{$uid}',{$_SESSION['icu']},{$_SESSION['med']},{$_SESSION['sur']},{$_SESSION['paed']},{$_SESSION['obs']})";
+		$resc = $db->Execute($qc);
 	}
-?>
-<h2><?=_("You Have Succesfully Registered shelter '{$_SESSION[camp_name]}'")?></h2>
 
-<br>
-<br>
-<?php echo _("The Availability of Services & Facilities of the Shelter are as follows:")?></h3>
-<!--<p>Facilities / Services Availability</p>-->
-<ul>
+	if($conf['gis']){
+	  include $global['approot']."/mod/gis/gis_fns.inc";
+		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
+	}
 
-<!--To have the results shown in table format-->
-<div id ="result">
-<table>
-        <thead>
-        		<td><?php echo _("Service Type")?></td>
-            <td><?php echo _("Availability")?></td>
-        </thead>
-        
-<tbody>
-<tr>
-<?php
-$a="select option_code,option_description from field_options where field_name='opt_camp_service'";
-$ref=$db->Execute($a);
-while(!$ref->EOF){
-	$val=$ref->fields[0];
-	$name=$ref->fields[1];
-	$flag=false;
-	if(isset($_SESSION['opt_camp_service'])){
-	 foreach($_SESSION['opt_camp_service'] as $a => $b){
-		if($val==$b){
-					
-    		echo "<td>$name</td>";
-    		echo "<td>". _("Available"). "</td>";
-					
-			//echo "<li>$name :  Available </li><br>";
-			$flag=true;			
+	/*insert services into camp_services table
+	 *currently add checked values.
+	*/								
+		if(isset($_SESSION['opt_camp_service'])){
+		 foreach($_SESSION['opt_camp_service'] as $a => $b){
+		//currently add checked values.
+			$q = "insert into camp_services(c_uuid,opt_camp_service,value) values('{$uid}','{$b}',1)";
+		 $res = $db->Execute($q);
+		 }
 		}
-	 }
-	}
-	if(!$flag){
-		echo "<td>$name</td>";
-		echo "<td>"._("NOT AVAILABLE")."</td>";
-		//echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
-	}
 	?>
-	</tr>
+	<h2><?=_("You Have Succesfully Registered shelter '{$_SESSION[camp_name]}'")?></h2>
+	
+	<br>
+	<br>
+	<?php echo _("The Availability of Services & Facilities of the Shelter are as follows:")?></h3>
+	<!--<p>Facilities / Services Availability</p>-->
+	<ul>
+	
+	<!--To have the results shown in table format-->
+	<div id ="result">
+	<table>
+	        <thead>
+	        		<td><?php echo _("Service Type")?></td>
+	            <td><?php echo _("Availability")?></td>
+	        </thead>
+	        
+	<tbody>
+	<tr>
 	<?php
-	$ref->MoveNext();
+	$a="select option_code,option_description from field_options where field_name='opt_camp_service'";
+	$ref=$db->Execute($a);
+	while(!$ref->EOF){
+		$val=$ref->fields[0];
+		$name=$ref->fields[1];
+		$flag=false;
+		if(isset($_SESSION['opt_camp_service'])){
+		 foreach($_SESSION['opt_camp_service'] as $a => $b){
+			if($val==$b){
+						
+	    		echo "<td>$name</td>";
+	    		echo "<td>". _("Available"). "</td>";
+						
+				//echo "<li>$name :  Available </li><br>";
+				$flag=true;			
+			}
+		 }
+		}
+		if(!$flag){
+			echo "<td>$name</td>";
+			echo "<td>"._("NOT AVAILABLE")."</td>";
+			//echo "<li class=\"fontspecial\">$name : NOT AVAILABLE </li><br>";
+		}
+		?>
+		</tr>
+		<?php
+		$ref->MoveNext();
 }
 
 ?>
