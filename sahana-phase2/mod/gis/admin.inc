@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.14 2006-10-11 07:07:18 mifanc Exp $ */
+/* $Id: admin.inc,v 1.15 2006-11-16 08:54:33 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -18,6 +18,7 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'].'/inc/lib_errors.inc');
 
 
 function shn_gis_adm_default()
@@ -262,11 +263,7 @@ function shn_gis_adm_mod()
 		}
 		
 	}
-?>
-<div id="result_msg">
-	<strong><?=_("Your Changes Were Saved")?></strong>
-</div>
-<?php
+	add_confirmation(_("Changes were saved"));
 	shn_gis_adm_default();	
 }
 /**
@@ -274,12 +271,8 @@ function shn_gis_adm_mod()
  * @access private
  */
 function shn_gis_adm_commit(){
-?>
-<div id="info">
-	<?=_("Your Changes Were Saved")?>
-</div>
-<?php
-	
+
+	add_confirmation(_("Changes were saved"));
 	global $global;
 	$db = $global['db'];
 	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
