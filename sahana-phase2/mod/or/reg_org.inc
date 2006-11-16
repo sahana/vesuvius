@@ -32,7 +32,7 @@ function _shn_or_regform_org($error=false)
 ?>  
 <div id="formcontainer">
 <?php
-    shn_form_fopen("reg_org_confirm");
+    shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
     ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
@@ -67,6 +67,7 @@ function _shn_or_regform_org($error=false)
     // base location
     $parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
+  // 	$range=array('start'=>2,'end'=>3);
    	//$extra_opts["camps"]=true;
  	shn_form_fsopen("Base Location");
  	if($error==true){
@@ -87,7 +88,7 @@ function _shn_or_regform_org($error=false)
 <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Submit"));
+    shn_form_submit(_("Next"));
 ?>
 </center>
 <br />
@@ -99,6 +100,29 @@ function _shn_or_regform_org($error=false)
 <?php
     // end of form
 } 
+
+function _shn_or_reg_gis_map()
+{
+	global $global;
+	include_once $global['approot']."/mod/gis/gis_fns.inc";
+	shn_form_fopen("reg_org_confirm",null,array('req'=>false));
+	shn_form_hidden(array('seq'=>'img'));
+    shn_gis_add_marker_map_form();
+    ?>
+    <br />
+<center>
+<?php
+//create the submit button
+    shn_form_submit(_("Next"));
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_fclose();
+	
+    
+}
 
 function _shn_or_regconfirm_org()
 {
@@ -132,7 +156,9 @@ function _shn_or_regconfirm_org()
    	*/
    	shn_form_fsopen("Base Location");
 	$location=_shn_org_location_string($_SESSION['org']['loc']);
+	$map_location="Latitude= ".$_SESSION['org']['loc_x']." Longitude= ".$_SESSION['org']['loc_x'];
  	shn_form_label(_("Organization Location"),$location);
+ 	shn_form_label(_("Map Location"),$map_location);
    	shn_form_fsclose();
     
     // Contact infomation

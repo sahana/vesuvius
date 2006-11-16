@@ -18,6 +18,7 @@ function _shn_or_reg_org_cr()
     include_once "reg_org.inc";
     include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once($global['approot']."/inc/lib_uuid.inc");
+    include_once $global['approot']."/mod/gis/gis_fns.inc";
 
     		$db=$global['db'];
     		$org_id	=shn_create_uuid('org');
@@ -62,6 +63,7 @@ function _shn_or_reg_org_cr()
             $res=$db->Execute($q);
             $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
             $res=$db->Execute($q);
+            shn_gis_dbinsert($org_id,0,null,$_SESSION['org']['loc_x'],$_SESSION['org']['loc_y'],null);
 
     }
 	
@@ -252,6 +254,8 @@ function _shn_or_edit_org()
     		add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
         $error=true;
     }
+	$lat=$_POST{"lat_edited"};
+	$lon=$_POST{"lon_edited"};
 	
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -345,6 +349,8 @@ function _shn_or_edit_org()
             }
             */
             $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid='{$org_id}'";
+            $res=$db->Execute($q);
+            $q="update gis_location set map_northing={$lat},map_easting={$lon} where poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
             $res=$db->Execute($q);

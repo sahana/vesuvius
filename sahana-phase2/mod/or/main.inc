@@ -55,12 +55,25 @@ function shn_or_reg_org($error=false)
 function shn_or_reg_org_confirm()
 {
     include_once("reg_org.inc");
-    $error=_shn_or_check_org_reg_info_complete();
+    $error=_shn_or_check_org_reg_map_info_complete();
 	if($error==true){
 		_shn_or_regform_org($error);
 	}else{
     		_shn_or_regconfirm_org();
 	}
+}
+
+function shn_or_reg_org_gis_map()
+{
+    include_once("reg_org.inc");
+    $error=_shn_or_check_org_reg_info_complete();
+    _shn_or_reg_gis_map();
+    /*
+	if($error==true){
+		_shn_or_regform_org($error);
+	}else{
+    		_shn_or_regconfirm_org();
+	}*/
 }
 
 function shn_or_reg_org_cr()
@@ -120,6 +133,9 @@ function shn_or_view_org_submit(){
     	return false;
     }
     switch ($act) {
+    		case "gis":
+			_shn_or_view_map_form_org();
+			     break;
         case "edit":
             _shn_or_edit_org();
             break;

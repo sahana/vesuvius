@@ -824,6 +824,14 @@ function _shn_or_get_suplier_name($suplier_id)
 
 }
 
+function _shn_or_check_org_reg_map_info_complete()
+{
+    
+        $_SESSION['org']['loc_x']=$_POST{"loc_x"};
+        $_SESSION['org']['loc_y']=$_POST{"loc_y"};
+    
+}
+
 function _shn_or_check_org_reg_info_complete()
 {
 

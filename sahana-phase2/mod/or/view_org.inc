@@ -308,6 +308,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }else{
     		$loc=-1;
     }
+    $q = "select * from gis_location where poc_uuid='{$org_id}'";
+	$res=$db->Execute($q);
+	
+	$lat=$res->fields["map_northing"];
+	$lon=$res->fields["map_easting"];
 
     }
 ?>
@@ -356,7 +361,18 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }else{
     			shn_location($range,$loc,null,$extra_opts);	
     }
-     
+    shn_form_fsclose();
+    shn_form_fsopen("Map Location");
+    $extra_opts['req']=false;
+    $extra_opts['value']=$lat;
+    shn_form_text(_("Latitude : "),'lat_edited','size="50"', $extra_opts);
+    $extra_opts['value']=$lon;
+    shn_form_text(_("Longitude : "),'lon_edited','size="50"', $extra_opts);
+    	$extra_opts['br']=false;
+	
+    shn_form_button(_("GIS Map"),"onClick='change_action(\"gis\")'",$extra_opts);
+    shn_form_hidden(array('lat'=>$lat));
+   	shn_form_hidden(array('lon'=>$lon));
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,false,$org_id);
@@ -376,6 +392,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
      shn_form_hidden(array('org_id'=>$org_id));
+     shn_form_hidden(array('org_name'=>$org_name));
     _shn_or_action_change_javascript("view","action");
 ?>
 </center>
@@ -503,5 +520,26 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 </tr>
 <?php
 }
-
+function _shn_or_view_map_form_org()
+{
+	global $global;
+	include_once $global['approot']."/mod/gis/gis_fns.inc";
+    			shn_form_fopen("edit_org_gis_map");
+    			$map_arr=array();
+    			array_push($map_arr,array('lat'=>$_POST{"lat"},'lon'=>$_POST{"lon"},'name'=>$_POST{"org_name"},'id'=>$_POST{"org_id"}));
+			shn_gis_map_with_markers($map_arr);
+			?>
+			<br />
+			<center>
+<?php
+//create the submit button
+    shn_form_submit(_("Next"));
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_fclose();
+}   
+    
 ?>
