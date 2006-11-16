@@ -526,7 +526,8 @@ function _shn_or_view_map_form_org()
 	include_once $global['approot']."/mod/gis/gis_fns.inc";
     			shn_form_fopen("edit_org_gis_map");
     			$map_arr=array();
-    			array_push($map_arr,array('lat'=>$_POST{"lat"},'lon'=>$_POST{"lon"},'name'=>$_POST{"org_name"},'id'=>$_POST{"org_id"}));
+    			$url="mod=or&act=edit_org&org_id=".$_POST{"org_id"};
+    			array_push($map_arr,array('lat'=>$_POST{"lat"},'lon'=>$_POST{"lon"},'name'=>$_POST{"org_name"},'id'=>$_POST{"org_id"},'url'=>$url));
 			shn_gis_map_with_markers($map_arr);
 			?>
 			<br />
