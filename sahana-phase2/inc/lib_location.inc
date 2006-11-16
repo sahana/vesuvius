@@ -994,5 +994,45 @@ function shn_location_form_org($from,$to,$value=NULL){
 	shn_form_fsclose();
 }
 
+function shn_location_get_start_loc()
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+    $q="select value from config where module_id='admin' and confkey='loc_start'";
+    $res=$db->Execute($q);
+ //   if($res->fields[0]==NULL){
+   //    	return $conf['mod_or_start_loc'];
+    //}else {
+    	if($res==NULL){
+    		return NULL;
+    }else{
+    		return $res->fields["value"];
+    }
+}
+
+function shn_location_get_loc_range()
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+    $loc=array();
+    $q="select value from config where module_id='admin' and confkey='loc_range_start'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["start"]=$conf['mod_or_loc_level_start'];
+    }else {
+    	$loc["start"]=$res->fields[0];
+    }
+    $q="select value from config where module_id='admin' and confkey='loc_range_end'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["end"]=$conf['mod_or_loc_level_end'];
+    }else {
+    	$loc["end"]=$res->fields[0];
+    }
+    return $loc;
+}
+
 
 ?>
