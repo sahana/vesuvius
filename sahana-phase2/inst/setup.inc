@@ -383,6 +383,7 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
 
     if ($_POST['dbsample']=='y') {
