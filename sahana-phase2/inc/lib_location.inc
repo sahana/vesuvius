@@ -302,7 +302,7 @@ function shn_get_range(){
  * @access public
  * @return void
  */
-function shn_location_jscript($start,$to){
+function shn_location_jscript($start,$to,$parent=false){
     global $global;
     $fetch_server="xml.php?";
 ?>           
@@ -312,6 +312,12 @@ function shn_location_jscript($start,$to){
     var http;
     var to=<?php echo $to ?>;
     var start = <?php echo $start;?>;
+    <?php if($parent){
+    		echo "var parent=true;";    
+    	}else{
+    		echo "var parent=false;"; 
+    	}
+    	?>
 	var previous="nothing";
     function getHTTPObject() {
         var xmlhttp;
@@ -483,6 +489,19 @@ function shn_location_jscript($start,$to){
 		previous=div;
 		return;
 }
+    if(parent==true){
+    
+    			for(i=1;i<=to;i++){
+    		//	alert("start"+start);
+    				if(i<=start){
+	  				var x=document.getElementsByName(i);
+  					x[0].selectedIndex=-1;
+  				}
+  			}
+  		//var y=document.getElementById(i);
+  		//y.style.display='none';
+  		
+  	}else{
     
 	for(i=start;i<=to;i++){
 	  	var x=document.getElementsByName(i);
@@ -490,6 +509,7 @@ function shn_location_jscript($start,$to){
   		//var y=document.getElementById(i);
   		//y.style.display='none';
   		
+  		}
   	}
   	var y=document.getElementById("loc_org");
   	y.style.display='none';
@@ -532,6 +552,9 @@ var end = <?php echo $end;?>;
  */
 function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 
+	$range=shn_location_get_loc_range();
+	$parent=shn_location_get_start_loc();
+	$keepparent=false;
 	$info=_("If you know any of the following, please select Only one of them first" .
 			" , the selection will populate the set of Location select boxes ")."<br />";
 	if($extra_opts["camps"]==true){
@@ -602,16 +625,18 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
           
 	}else {
 		
-		if(($parent==null)or ($parent==0)){
+		if($parent==null){
 			_shn_location_form($range);
 			//$start='1';
 			
 		}else{
+
         		_shn_location_form_parent($range,$parent);
+        		$keepparent=true;
 		}
 			  
 	}
-	shn_location_jscript($start,$range["end"]);
+	shn_location_jscript($start,$range["end"],$keepparent);
 	
 
 }
@@ -1001,9 +1026,7 @@ function shn_location_get_start_loc()
     $db=$global['db'];
     $q="select value from config where module_id='admin' and confkey='loc_start'";
     $res=$db->Execute($q);
- //   if($res->fields[0]==NULL){
-   //    	return $conf['mod_or_start_loc'];
-    //}else {
+
     	if($res==NULL){
     		return NULL;
     }else{

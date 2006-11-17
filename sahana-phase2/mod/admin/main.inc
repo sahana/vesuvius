@@ -254,7 +254,20 @@ function shn_admin_edit_loc_cr()
 }
 
 function shn_admin_loc_range(){
-	
+	 _shn_admin_location_range_form();
+}
+
+function shn_admin_loc_range_cr(){
+	_shn_admin_loc_range_cr();
+}
+
+
+function shn_admin_loc_start(){
+	_shn_admin_location_start_form();
+}
+
+function shn_admin_loc_start_cr(){
+	_shn_admin_loc_start_cr();
 }
 
 function shn_admin_loc_lvl(){

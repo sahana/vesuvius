@@ -263,8 +263,8 @@ function _shn_admin_location_range_form()
 ?>
 <div id="formcontainer">
 <?php
-	$range= shn_or_get_loc_range();
-    shn_form_fopen("adm_location_range_cr",NULL,array('req_message'=>false));
+	$range= shn_location_get_loc_range();
+    shn_form_fopen("loc_range_cr",NULL,array('req_message'=>false));
     shn_location_level_range_form('start','Set Starting Level',$range["start"]);
  	shn_location_level_range_form('end','Set End Level',$range["end"]);
 ?>
@@ -286,6 +286,95 @@ function _shn_admin_location_range_form()
 	
 }
 
+function _shn_admin_loc_range_cr()
+{
+	global $global;
+    $db=$global['db'];
+    $start=$_POST{"start"};
+   	$end=$_POST{"end"};
+   	$q="select value from config where module_id='admin' and confkey='loc_range_start'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$q=" INSERT INTO config(module_id,confkey,value ) VALUES ( 'admin', 'loc_range_start', '{$start}')";
+    }else {
+    	 	$q="update config set value={$start} where module_id='admin' and confkey='loc_range_start'";
+    }
+    $q="select value from config where module_id='admin' and confkey='loc_range_end'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$q="INSERT INTO config(module_id,confkey,value ) VALUES ( 'admin', 'loc_range_end', '{$end}')";
+    }else {
+    		$q="update config set value={$end} where module_id='admin' and confkey='loc_range_end'";
+    }
+   	  
+    $db->Execute($q);
+    _shn_admin_location_range_form();
+}
+
+function _shn_admin_location_start_form()
+{
+    global $global;
+    $db=$global["db"];
+?>
+<h2><?=_("Set the Starting Location")?></h2>
+<div id="note">
+<?=_("When a Disaster happens,typically only organizations,people located in a certain region get involved. Therefore when you select a location its a waste of time to select from all the locations. Hence ,for example If you know the country ,specify it here in this form,and you will only see sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
+</div>
+<?php
+    if($error==true)
+        display_errors();
+?>
+<div id="formcontainer">
+<?php
+    shn_form_fopen("loc_start_cr");
+    shn_form_fsopen(_("Select the Location"));
+  //  $range= shn_location_get_loc_range();
+   $extra_opts["unknown"]=false;
+    shn_location($range,null,null,$extra_opts);
+    shn_form_fsclose();
+   // shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
+ ?>
+<br />
+<center>
+<?php
+//create the submit button
+    shn_form_submit(_("Save"));
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_fclose();
+?>				     
+</div>
+<?php
+    // end of form
+	
+}
+
+function _shn_admin_loc_start_cr(){
+	global $global;
+    $db=$global['db'];
+    $loc=shn_location_get_form_submit_loc();
+    if ($loc==-1){
+     //   $error=true;
+    //    add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+    }else{
+    		$q="select value from config where module_id='admin' and confkey='loc_start'";
+    		$res=$db->Execute($q);
+    		
+	    	if(($res!=null)&& (!$res->EOF)){
+			$q="update config set value='{$loc}' where module_id='admin' and confkey='loc_start'";    			
+    		}else{
+    			$q="insert into  config(module_id,confkey,value) values('admin','loc_start','{$loc}')";
+    			
+    		}
+    		
+    		$db->Execute($q);
+
+    }
+	_shn_admin_location_start_form();
+}
 
 function _shn_admin_location_form()
 {
@@ -566,6 +655,9 @@ echo "var last=".$last.";"?>;
 	
 </script>
 <?php
+
+
+
 }
 
 

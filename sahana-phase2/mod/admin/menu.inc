@@ -26,6 +26,8 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("loc_lvl", _("Location Levels"), 'admin');
     shn_sub_mod_menuitem("add_loc", _("Add Location"), 'admin');
     shn_sub_mod_menuitem("view_loc", _("Edit & Delete Location"), 'admin');
+    shn_sub_mod_menuitem("loc_range", _("Set Location Range"), 'admin');
+    shn_sub_mod_menuitem("loc_start", _("Set Starting Location"), 'admin');
     // shn_sub_mod_menuitem("loc_range", _("Set Location Range"), $module);
     // shn_sub_mod_menuitem("start_loc", _("Set Starting Location"), $module);
     shn_sub_mod_menuclose();
