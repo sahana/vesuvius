@@ -65,15 +65,16 @@ function _shn_or_regform_org($error=false)
     }
     shn_form_fsclose();
     // base location
-    $parent=_shn_or_get_start_loc();
-   	$range= shn_or_get_loc_range();
+  //  $parent=_shn_or_get_start_loc();
+  // $parent="fw1hlc-7";
+  // 	$range= shn_or_get_loc_range();
   // 	$range=array('start'=>2,'end'=>3);
    	//$extra_opts["camps"]=true;
  	shn_form_fsopen("Base Location");
  	if($error==true){
- 		shn_location($range,$_SESSION['org']['loc'],null,$extra_opts);
+ 		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
- 		shn_location($range,null,null,$extra_opts);
+ 		shn_location(null,null,null,$extra_opts);
  	} 
     shn_form_fsclose();
     // Contact infomation

@@ -40,44 +40,9 @@ function shn_or_adm_default()
 
 <?php
 }
-function shn_or_adm_location_range()
-{
-    _shn_or_adm_sub_menu();
-    shn_or_adm_location_range_form();
-}
-function shn_or_adm_location_range_cr()
-{
-    global $global;
-    $db=$global['db'];
-    $start=$_POST{"start"};
-   	$end=$_POST{"end"};
-    $q="update config set value={$start} where module_id='or' and confkey='loc_range_start'";
-    $db->Execute($q);
-    $q="update config set value={$end} where module_id='or' and confkey='loc_range_end'";
-    $db->Execute($q);
-    shn_or_adm_location_range();
-}
 
-function shn_or_adm_location()
-{
-    _shn_or_adm_sub_menu();
-    shn_or_adm_location_form();
-}
-function shn_or_adm_location_cr()
-{
-    global $global;
-    $db=$global['db'];
-    if (isset($_POST{"chk_start"})){
-        $loc=0;
-    }else {
-        $level=$_POST{"opt_location_type"};
-        $loc=$_POST{$level};
-    }
-    $q="update config set value='{$loc}' where module_id='or' and confkey='loc_start'";
-    $db->Execute($q);
-    
-    shn_or_adm_location();
-}
+
+
 function shn_or_adm_or_type()
 {
     _shn_or_adm_sub_menu();
