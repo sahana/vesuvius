@@ -51,18 +51,30 @@ function _shn_or_reg_org_cr()
             }
             $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$_SESSION['org']['loc']}','{$_SESSION['org']['contact_address']}')";
             $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
-            $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$_SESSION['org']['contact_mobile']}')";
-            $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$_SESSION['org']['contact_name']}')";
-            $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$_SESSION['org']['contact_fax']}')";
-            $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$_SESSION['org']['contact_mail']}')";
-            $res=$db->Execute($q);
-            $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
-            $res=$db->Execute($q);
+            if($_SESSION['org']['contact_phone']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
+            		$res=$db->Execute($q);
+            }
+            if($_SESSION['org']['contact_mobile']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$_SESSION['org']['contact_mobile']}')";
+            		$res=$db->Execute($q);
+            }
+            if($_SESSION['org']['contact_name']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$_SESSION['org']['contact_name']}')";
+            		$res=$db->Execute($q);
+            }
+            if($_SESSION['org']['contact_fax']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$_SESSION['org']['contact_fax']}')";
+            		$res=$db->Execute($q);
+            }
+            if($_SESSION['org']['contact_mail']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$_SESSION['org']['contact_mail']}')";
+            		$res=$db->Execute($q);
+            }
+            if($_SESSION['org']['contact_web']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
+            		$res=$db->Execute($q);
+            }
             shn_gis_dbinsert($org_id,0,null,$_SESSION['org']['loc_x'],$_SESSION['org']['loc_y'],null);
 
     }
@@ -172,19 +184,30 @@ function _shn_or_reg_operation_cr()
     }
     $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$loc}','{$contact_address}')";
     $res=$db->Execute($q);
-  
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
-    $res=$db->Execute($q);
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
-    $res=$db->Execute($q);
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
-    $res=$db->Execute($q);
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
-    $res=$db->Execute($q);
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
-    $res=$db->Execute($q);
-    $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
-    $res=$db->Execute($q);
+  	if($contact_name!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
+    		$res=$db->Execute($q);
+  	}
+    if($contact_phone!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
+    		$res=$db->Execute($q);
+    }
+    if($contact_mobile!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
+    		$res=$db->Execute($q);
+    }
+    if($contact_fax!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
+    		$res=$db->Execute($q);
+    }
+    if($contact_mail!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
+    		$res=$db->Execute($q);
+    }
+    if($contact_web!=null){
+    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
+    		$res=$db->Execute($q);
+    }
     if(!$error){
      ?>
     <div id="result_msg">
@@ -352,19 +375,30 @@ function _shn_or_edit_org()
             $res=$db->Execute($q);
             $q="update gis_location set map_northing={$lat},map_easting={$lon} where poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
-            $res=$db->Execute($q);
-    		$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
-            $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
-            $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_fax}' where pgoc_uuid='{$org_id}' and opt_contact_type='fax'";
-            $res=$db->Execute($q);
-           	$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
-            $res=$db->Execute($q);
-            $q="update contact set contact_value='{$contact_web}' where pgoc_uuid='{$org_id}' and opt_contact_type='web'";
-            $res=$db->Execute($q);
-           
+            if($contact_name!=null){
+            		$q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
+            		$res=$db->Execute($q);
+            }
+            if($contact_phone!=null){
+    				$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+            		$res=$db->Execute($q);
+            }
+            if($contact_mobile!=null){
+            		$q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+            		$res=$db->Execute($q);
+            }
+            if($contact_fax!=null){
+            		$q="update contact set contact_value='{$contact_fax}' where pgoc_uuid='{$org_id}' and opt_contact_type='fax'";
+            		$res=$db->Execute($q);
+            }
+            if($contact_mail!=null){
+           		$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+            		$res=$db->Execute($q);
+            }
+            if($contact_web!=null){
+            		$q="update contact set contact_value='{$contact_web}' where pgoc_uuid='{$org_id}' and opt_contact_type='web'";
+            		$res=$db->Execute($q);
+            }
   ?>
     <div id="result_msg">
        <?php echo $org_name?> Organization was succesfully Updated
