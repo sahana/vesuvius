@@ -55,6 +55,9 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
     //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
     shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);
+    //shn_sub_mod_menuitem("expired_item_report1",_("Expired Item"),$module);
+    //shn_sub_mod_menuitem('destroyed_item_pdf',_("Destroyed Item"),$module);
+    //shn_sub_mod_menuitem('reorder_level_pdf',_("Re-Order Level"),$module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Optimization"));
     shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
@@ -818,6 +821,30 @@ function shn_ims_gis_inv(){
 		
 	//}
 	
+}
+
+function shn_ims_expired_item_report1()
+{
+    //global $global;
+    //require_once 'ims_report.inc';
+    include_once 'report.inc';
+    //shn_ims_rpt_default();
+    shn_ims_expired_item_report();
+    include_once $global['approot']."/inc/reporting/lib_reporting.inc";
+    report_download_link('shn_ims_expired_item_report');
+}
+
+function shn_ims_destroyed_item_pdf()
+{
+    //global $global;
+    include_once 'report.inc';
+    shn_ims_destroyed_item();
+}
+
+function shn_ims_reorder_level_pdf()
+{
+    include_once 'report.inc';
+    _shn_ims_reorder_level_report_pdf();
 }
 
 ?>

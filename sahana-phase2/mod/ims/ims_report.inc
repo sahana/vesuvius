@@ -41,6 +41,20 @@ function _shn_ims_report_minimum()
     $ims = $db->Execute($sql);*/
 ?>
 <h1 align="center"><?php print _("Re-Order Level"); ?></h1>
+<?php
+    $module = $global['module'];
+    $form_opts['name']="report_reorder";
+    //shn_form_fopen("view_edit_item_actions",null,$form_opts);
+
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_fopen("reorder_level_pdf",null,$form_opts);
+    shn_form_fsopen("Generate Reports");
+    shn_form_button(_("PDF"),"onClick='change_action(\"pdf_reorder\")'",$extra_opts);
+    shn_form_button(_("ODS"),"onClick='change_action(\"ods_reorder\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    shn_form_fsclose();
+?>
 <div id="result">
 
     <table>
@@ -181,12 +195,25 @@ function _shn_ims_report_expired()
     $sql="SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state='$state';";
     //$ims = $db->Execute($sql1);
     $ims = $db->Execute($sql);
+    
+   
 ?>
 <h1 align="center"><?php print _("Expired Item"); ?></h1>
-<div id="result">
 <?php
-    
+    $module = $global['module'];
+    $form_opts['name']="report_expired";
+    //shn_form_fopen("view_edit_item_actions",null,$form_opts);
+
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_fopen("expired_item_report1",null,$form_opts);
+    shn_form_fsopen("Generate Reports");
+    shn_form_button(_("PDF"),"onClick='change_action_expired(\"pdf_expired\")'",$extra_opts);
+    shn_form_button(_("ODS"),"onClick='change_action_expired(\"ods_expired\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    shn_form_fsclose();
 ?>
+<div id="result">
     <table>
     <thead>
     <tr>
@@ -250,6 +277,7 @@ function _shn_ims_report_expired()
     </table>
     </div>
 <?php
+     shn_form_fclose();
     //shn_form_submit("Destroy");
     //shn_form_fclose();
 }
@@ -266,6 +294,19 @@ function _shn_ims_report_destroyed()
 
 ?>
 <h1 align="center"><?php print _("Destroyed Item"); ?></h1>
+<?php
+    $module = $global['module'];
+    $form_opts['name']="report_destroyed";
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_fopen("destroyed_item_pdf",null,$form_opts);
+    shn_form_fsopen("Generate Reports");
+    shn_form_button(_("PDF"),"onClick='change_action_destroyed(\"pdf_destroyed\")'",$extra_opts);
+    shn_form_button(_("ODS"),"onClick='change_action_destroyed(\"ods_destroyed\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    shn_form_fsclose();
+    shn_form_fclose();
+?>
 <div id="result">
 
     <table>
@@ -778,4 +819,34 @@ $inv_id=$_POST['inv_id'];
 	</table>
 <?php
 }
+?>
+
+<script type="text/javascript">
+    function change_action_expired(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.report_expired.submit();
+         return;
+    }
+</script>
+
+<script type="text/javascript">
+    function change_action_destroyed(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.report_destroyed.submit();
+         return;
+    }
+</script>
+
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.report_reorder.submit();
+         return;
+    }
+</script>
+<?php
+
 ?>
