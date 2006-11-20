@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.54 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_form.inc,v 1.55 2006-11-20 10:46:34 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -581,7 +581,7 @@ function shn_form_date($label,$name,$extra_opts = null)
     $seq=$f.$m.$l;
 ?>
     <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(this,this);" size="12" maxlength="12">
+    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" size="12" maxlength="12"><img src="res/img/x-office-calendar.png" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(document.getElementById('<?=$name?>'),this);" alt="Click Here"/>
 <?php
     shn_form_extra_opts($extra_opts);
 }
