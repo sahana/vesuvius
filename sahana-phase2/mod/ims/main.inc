@@ -826,10 +826,19 @@ function shn_ims_gis_inv(){
 function shn_ims_expired_item_report1()
 {
     //global $global;
-    //require_once 'ims_report.inc';
+    include_once 'ims_report.inc';
+    $action=trim($_POST['action']);
     include_once 'report.inc';
-    //shn_ims_rpt_default();
-    shn_ims_expired_item_report();
+    if($action=='pdf_expired')
+    {
+	shn_ims_expired_item_report();
+    }
+    else if($action=='ods_expired')
+    {
+	_shn_ims_expired_item_ods();
+    }
+    
+    
     include_once $global['approot']."/inc/reporting/lib_reporting.inc";
     report_download_link('shn_ims_expired_item_report');
 }
@@ -837,14 +846,32 @@ function shn_ims_expired_item_report1()
 function shn_ims_destroyed_item_pdf()
 {
     //global $global;
+    include_once 'ims_report.inc';
+    $action=trim($_POST['action']);
     include_once 'report.inc';
-    shn_ims_destroyed_item();
+    if($action=='pdf_destroyed')
+    {
+	shn_ims_destroyed_item();
+    }
+    else if($action=='ods_destroyed')
+    {
+	_shn_ims_destroyed_item_ods();
+    }
 }
 
 function shn_ims_reorder_level_pdf()
 {
+    include_once 'ims_report.inc';
+    $action=trim($_POST['action']);
     include_once 'report.inc';
-    _shn_ims_reorder_level_report_pdf();
+    if($action=='pdf_reorder')
+    {
+	_shn_ims_reorder_level_report_pdf();
+    }
+    else if($action=='ods_reorder')
+    {
+	_shn_ims_reorder_level_report_ods();
+    }
 }
 
 ?>

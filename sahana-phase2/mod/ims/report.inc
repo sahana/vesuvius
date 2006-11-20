@@ -99,7 +99,7 @@ function shn_ims_expired_item_report()
     
 }
 
-/*function _shn_ims_expired_item_ods()
+function _shn_ims_expired_item_ods()
 {
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
@@ -108,13 +108,13 @@ function shn_ims_expired_item_report()
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
 
-    shn_pdf_report_fopen('expired_items',$ims_report_keyword_arr );
-    shn_pdf_report_add_page('pageone');
-    shn_pdf_report_add_title($title);
-    shn_pdf_report_add_table($table_header,$table_data);
-    shn_pdf_report_close();
+    shn_ods_report_fopen('expired_items',$ims_report_keyword_arr );
+    shn_ods_report_add_sheet('pageone');
+    shn_ods_report_add_title($title);
+    shn_ods_report_add_table($table_header,$table_data);
+    shn_ods_report_close();
 
-}*/
+}
 
 function shn_ims_destroyed_item()
 {
@@ -184,6 +184,23 @@ function shn_ims_destroyed_item()
 	report_download_link('shn_ims_expired_item_report');
 
         
+
+}
+
+function _shn_ims_destroyed_item_ods()
+{
+    $table_data=array();
+    $table_data=_shn_ims_destroyed_item_report();
+    $title="Destroyed Items Report";
+    $text="These Are the records about items that are already expired";
+	
+    $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
+
+    shn_ods_report_fopen('destroyed_items',$ims_report_keyword_arr );
+    shn_ods_report_add_sheet('pageone');
+    shn_ods_report_add_title($title);
+    shn_ods_report_add_table($table_header,$table_data);
+    shn_ods_report_close();
 
 }
 
@@ -312,6 +329,22 @@ function _shn_ims_reorder_level_report_pdf()
 	report_download_link('shn_ims_expired_item_report');	
 
 
+}
+
+function _shn_ims_reorder_level_report_ods()
+{
+    $table_data=array();
+    $table_data=_shn_ims_destroyed_item_report();
+    $title="Item Re-Order Level Report";
+    $text="These Are the records about items that are already gone below the re-order level of particular inventory";
+	
+    $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
+
+    shn_ods_report_fopen('reorder_level',$ims_report_keyword_arr );
+    shn_ods_report_add_sheet('pageone');
+    shn_ods_report_add_title($title);
+    shn_ods_report_add_table($table_header,$table_data);
+    shn_ods_report_close();
 }
 
 
