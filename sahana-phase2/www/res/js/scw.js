@@ -40,11 +40,11 @@
     // alternatively, hard code a date like this...
     //      var scwBaseYear = 1990;
 
-    var scwBaseYear        = scwDateNow.getFullYear()-10;
+    var scwBaseYear        = scwDateNow.getFullYear()-70;
 
     // How many years do want to be valid and to show in the drop-down list?
 
-    var scwDropDownYears   = 20;
+    var scwDropDownYears   = 80;
 
     // All language-dependent changes can be made here...
 
