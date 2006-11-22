@@ -56,10 +56,10 @@ echo "</td><td>";
 shn_form_fsopen(_("Select Compression Type"));
 
 ?>
-    <label><?=_('None')?></label><input type="radio" name="compression" value="none"  /><br/>
+    <label><?=_('None')?></label><input type="radio" name="compression" value="none" checked="true"/><br/>
     <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" /><br/>
     <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" /><br/>
-    <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" /><br/>
+<!--     <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" /><br/> -->
 <?php
 shn_form_fsclose();
 echo "</td></tr></table>";
