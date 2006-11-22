@@ -14,5 +14,3 @@
 $conf['mod_vr_name'] = _("Volunteer Registry and Portal");
 //$conf['mod_vr_menuorder'] = 2;
 ?>
-
-
