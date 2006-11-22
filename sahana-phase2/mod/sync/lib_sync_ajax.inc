@@ -18,6 +18,7 @@
 
 function process_file(){
     global $global;
+    require_once("decompressor.inc");
     switch('xml'){
         case 'xml':
             $xml=require('process_xml_dump.inc');
