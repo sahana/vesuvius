@@ -1743,7 +1743,7 @@ function _shn_ims_expired_item_report()
     $db=$global['db'];
     $state="expired";
 
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
+    
     $table_data = array();
     $row_count = 0;
 
@@ -1799,7 +1799,7 @@ function _shn_ims_destroyed_item_report()
     $db=$global['db'];
     $state="destroyed";
 
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
+    
     $table_data = array();
     $row_count = 0;
 
@@ -1853,7 +1853,7 @@ function _shn_ims_reorder_level_report()
 {
     global $global;
     $db=$global["db"];
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
+    
     $table_data = array();
     $row_count = 0;
         //$item_search=$_POST['item_name_search'];

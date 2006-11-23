@@ -38,12 +38,8 @@ function shn_ims_rpt_default()
 
 function shn_ims_expired_item_report()
 {
-   /* 
-
-    }*/
-    //global $global;
-    //$db=$global["db"];
-
+  
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
 	$table_data=array();
 	$table_data=_shn_ims_expired_item_report();
 	$title="Expired Items Report";
@@ -64,6 +60,7 @@ function shn_ims_expired_item_report()
 
 function _shn_ims_expired_item_ods()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
     $title="Expired Items Report";
@@ -81,6 +78,7 @@ function _shn_ims_expired_item_ods()
 
 function _shn_ims_expired_item_xhtml()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
     $title="Expired Items Report";
@@ -97,14 +95,10 @@ function _shn_ims_expired_item_xhtml()
 
 function shn_ims_destroyed_item()
 {
-    /*
-    }*/
-
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
 	$table_data=array();
 	$table_data=_shn_ims_destroyed_item_report();
-	//print("Mahesh");
-	//print_r($table_data);
-    
+	    
 	$title="Destroyed Items Report";
 	$text="These Are the records about items that are already destroyed";
 	
@@ -124,6 +118,7 @@ function shn_ims_destroyed_item()
 
 function _shn_ims_destroyed_item_ods()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
     $title="Destroyed Items Report";
@@ -141,6 +136,7 @@ function _shn_ims_destroyed_item_ods()
 
 function _shn_ims_destroyed_item_xhtml()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
     $title="Destroyed Items Report";
@@ -157,7 +153,7 @@ function _shn_ims_destroyed_item_xhtml()
 
 function _shn_ims_reorder_level_report_pdf()
 {
-
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
 	$table_data=array();
 	$table_data=_shn_ims_reorder_level_report();
 
@@ -179,6 +175,7 @@ function _shn_ims_reorder_level_report_pdf()
 
 function _shn_ims_reorder_level_report_ods()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
     $title="Item Re-Order Level Report";
@@ -195,6 +192,7 @@ function _shn_ims_reorder_level_report_ods()
 
 function _shn_ims_reorder_level_report_xhtml()
 {
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
     $title="Item Re-Order Level Report";
