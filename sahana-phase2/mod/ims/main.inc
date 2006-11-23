@@ -837,6 +837,10 @@ function shn_ims_expired_item_report1()
     {
 	_shn_ims_expired_item_ods();
     }
+    else if($action=='xhtml_expired')
+    {
+	_shn_ims_expired_item_xhtml();
+    }
     
     
     include_once $global['approot']."/inc/reporting/lib_reporting.inc";
@@ -857,6 +861,10 @@ function shn_ims_destroyed_item_pdf()
     {
 	_shn_ims_destroyed_item_ods();
     }
+    else if($action=='xhtml_destroyed')
+    {
+	_shn_ims_destroyed_item_xhtml();
+    }
 }
 
 function shn_ims_reorder_level_pdf()
@@ -871,6 +879,10 @@ function shn_ims_reorder_level_pdf()
     else if($action=='ods_reorder')
     {
 	_shn_ims_reorder_level_report_ods();
+    }
+    else if($action=='xhtml_reorder')
+    {
+	_shn_ims_reorder_level_report_xhtml();
     }
 }
 

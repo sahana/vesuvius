@@ -52,6 +52,7 @@ function _shn_ims_report_minimum()
     shn_form_fsopen("Generate Reports");
     shn_form_button(_("PDF"),"onClick='change_action(\"pdf_reorder\")'",$extra_opts);
     shn_form_button(_("ODS"),"onClick='change_action(\"ods_reorder\")'",$extra_opts);
+    shn_form_button(_("XHTML"),"onClick='change_action(\"xhtml_reorder\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
 ?>
@@ -210,6 +211,7 @@ function _shn_ims_report_expired()
     shn_form_fsopen("Generate Reports");
     shn_form_button(_("PDF"),"onClick='change_action_expired(\"pdf_expired\")'",$extra_opts);
     shn_form_button(_("ODS"),"onClick='change_action_expired(\"ods_expired\")'",$extra_opts);
+    shn_form_button(_("XHTML"),"onClick='change_action_expired(\"xhtml_expired\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
 ?>
@@ -303,6 +305,7 @@ function _shn_ims_report_destroyed()
     shn_form_fsopen("Generate Reports");
     shn_form_button(_("PDF"),"onClick='change_action_destroyed(\"pdf_destroyed\")'",$extra_opts);
     shn_form_button(_("ODS"),"onClick='change_action_destroyed(\"ods_destroyed\")'",$extra_opts);
+    shn_form_button(_("XHTML"),"onClick='change_action_destroyed(\"xhtml_destroyed\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
     shn_form_fclose();
