@@ -46,6 +46,7 @@ function startElement($parser, $name, $attrs)
             $mem['record']=array();
         break;
         case 4:
+            $mem['record'][$name]='';
             $GLOBALS['cref']=&$mem['record'][$name];
     }
 }
@@ -53,7 +54,7 @@ function startElement($parser, $name, $attrs)
 function characterData($parser, $data)
 {
     $GLOBALS['cref']=$data;
-    $GLOBALS['cref']=&$c;
+    unset($GLOBALS['cref']);
 }
 
 function endElement($parser, $name)
@@ -69,6 +70,7 @@ function endElement($parser, $name)
             insert_record($mem['record'],$mem['table']);
         break;
         case 4:
+            unset($GLOBALS['cref']);
     }
     $depth--;
 }
