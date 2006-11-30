@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.25 2006-11-14 11:26:24 isurunishan Exp $ */
+/* $Id: add.inc,v 1.26 2006-11-30 09:53:34 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -54,11 +54,10 @@ function shn_mpr_addmp_entry($errors=false)
         display_errors();
 
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
-    shn_form_fsopen(_('WARNING'));
-?>
-    <p><?= _('Please do a search and check whether the person you are looking for is already exists'); ?></p>
-<?php
-    shn_form_fsclose(); 
+   
+
+add_warning(_('Please do a search and check whether the person you are looking for is already exists'));
+ 
     if($_GET['type']=='found'){
         shn_form_fsopen(_('Status'));
         shn_form_opt_select('opt_status',_('Status'));
