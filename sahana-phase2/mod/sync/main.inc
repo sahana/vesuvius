@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.22 2006-11-30 09:07:16 priyanga Exp $ */
+/* $Id: main.inc,v 1.23 2006-11-30 10:13:09 priyanga Exp $ */
 /*test*/
 /**
  * Main Controller of the Synchronization Module
@@ -17,7 +17,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-
+//
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
