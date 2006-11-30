@@ -14,7 +14,7 @@
 * @package    sahana
 * @subpackage or
 */
-
+/**/
 global $global;
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
