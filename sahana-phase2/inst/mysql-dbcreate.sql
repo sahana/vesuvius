@@ -177,6 +177,25 @@ CREATE TABLE sector(
 );
 
 /**
+* Chronolology table gives a history of events on data
+* Modules: all 
+* Created : 28-Nov-2006 - chamindra@opensource.lk
+*/
+DROP TABLE IF EXISTS chronology;
+CREATE TABLE chronology(
+    log_uuid VARCHAR(60) NOT NULL, -- the log identifier
+    event_date DATETIME,           -- the date and time of the event
+    pgoc_uuid VARCHAR(60),         -- the entity uuid that this associates to
+    opt_cron_type VARCHAR(3),      -- type of event
+    module VARCHAR(10),             
+    action VARCHAR(10),            -- action
+    user_uuid VARCHAR(60), 
+    comments VARCHAR(100),         -- description of changes
+    details VARCHAR(200)           -- more detailed description of the changes
+); 
+    
+
+/**
 * Auditor log table 
 * Modules: dvr, mpr, 
 * Created : 21-Dec-2005 - janaka@opensource.lk
@@ -210,6 +229,22 @@ CREATE TABLE location(
     parent_id VARCHAR(60) DEFAULT NULL, -- parent location id
  --   search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
     opt_location_type VARCHAR(10), -- location type taken from field_opts
+    name VARCHAR(100) NOT NULL,
+    iso_code VARCHAR(20),
+    description TEXT,
+    PRIMARY KEY (loc_uuid),
+    FOREIGN KEY (parent_id) REFERENCES location(loc_uuid)
+);
+
+/**
+* Details on the location of an entity (person, camp, organization)
+* Modules: dvr, mpr, or, cr, rms, gis 
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS location_details;
+CREATE TABLE location_details ( 
+    poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
+    location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
     name VARCHAR(100) NOT NULL,
     iso_code VARCHAR(20),
     description TEXT,
@@ -608,22 +643,6 @@ CREATE TABLE camp_org(
 );
 
 DROP TABLE IF EXISTS person_camp;
-CREATE TABLE person_camp(
-    c_uuid VARCHAR(60) NOT NULL,
-    p_uuid VARCHAR(60) NOT NULL
-);
-/**
-* Camps in Camp Management System
-*/
- 
-DROP TABLE IF EXISTS camp_cms;
-CREATE TABLE camp_cms(
-    c_uuid VARCHAR(60) NOT NULL,
-    camp_status VARCHAR(60) NOT NULL,
-		PRIMARY KEY (c_uuid)
-);
-
---CUSTOM CONFIGURATION LISTS (SELECT)
 DROP TABLE IF EXISTS configlist;
 CREATE TABLE configlist(
 	description TEXT NOT NULL,
