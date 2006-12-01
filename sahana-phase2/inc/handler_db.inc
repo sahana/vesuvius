@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.20 2006-09-18 10:32:00 janakawicks Exp $ */
+/* $Id: handler_db.inc,v 1.21 2006-12-01 13:56:26 chamindra Exp $ */
 
 /**
  *
@@ -85,11 +85,14 @@ function shn_db_update($arr,$table, $key){
 
     $sql = substr($sql,0,strlen($sql)-2);
 
+    if($conf['debug']) {
+        echo $sql."<hr>";
+    }
+
     if($key)
         $sql .= " $key";
     if($key)
         $global['db']->Execute($sql);
-#    echo $sql;
 }
 
 /**
@@ -150,11 +153,15 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
     $sql .= "( $keys ) VALUES ( $values ) ";
 
     $global['db']->Execute($sql);
-    #echo $sql."<hr>";
+
+    if($conf['debug']) {
+        echo $sql."<hr>";
+    }
+
     #var_dump($sql_audit);
     if($audit){
         foreach($sql_audit as $sqls){
-            #echo $sqls ."<hr>";
+            //echo $sqls ."<hr>";
             $global['db']->Execute($sqls);
         }
     }
