@@ -486,7 +486,7 @@ div#formcontainer fieldset p#legend em {
 }
 
 
-#formset fieldset input,#formset select{ 
+div#formcontainer form fieldset input,div#formcontainer form select{ 
 	margin: 0px 10px 10px 10px;
 }
 
@@ -547,12 +547,12 @@ div#formcontainer fieldset textarea:focus {
 	border-color: #FC6;
 }
 
-/*div#formset div ul {
+/*div#formcontainer form div ul {
 	margin: 1.25em 0 1em 10em;
 	list-style: none;
 }
 */
-#formset textarea{
+div#formcontainer form textarea{
 	margin: 0px 10px 10px 10px;
 	font-family:sans-serif;
  	width:50%; 
@@ -562,7 +562,7 @@ div#formcontainer fieldset div ul li {
 	float: none;
 }
 
-div#formcontainer fieldset div.controlset label, div#formset fieldset div.controlset input {
+div#formcontainer fieldset div.controlset label, div#formcontainer form fieldset div.controlset input {
 	display: inline;
 	float: none;
 }
