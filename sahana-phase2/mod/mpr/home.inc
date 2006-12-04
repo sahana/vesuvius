@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.16 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: home.inc,v 1.17 2006-12-04 06:14:35 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -49,13 +49,17 @@ algorithms)'); ?></li>
 /*
  *  Recent Found People people Top 6
  */
+ global $global;
+	require ($global['approot'] . 'mod/mpr/mpr_lib.inc');
 ?>
 <div id="home_recent">
 <h1><?= _('Latest updates on Found People'); ?></h1>
 <?php
 $limit = 6;
 $type = "found";
-shn_mpr_home_show_mpr($type,$limit);
+$rs=shn_mpr_home_show_mpr($type,$limit,0);
+shn_mpr_search_show_verticle($_SESSION['result']);
+
 ?>
 <?php
 
@@ -68,7 +72,8 @@ shn_mpr_home_show_mpr($type,$limit);
 <?php
 $limit = 6;
 $type = "missing";
-shn_mpr_home_show_mpr($type,$limit);
+shn_mpr_home_show_mpr($type,$limit,0);
+shn_mpr_search_show_verticle($_SESSION['result']);
 ?>
 </div>
 <?php
@@ -80,7 +85,7 @@ shn_mpr_home_show_mpr($type,$limit);
  * @access public
  * @return void
  */
-function shn_mpr_home_show_mpr($type="missing",$limit=5)
+function shn_mpr_home_show_mpr1($type="missing",$limit=5)
 {
     global $global; 
 
@@ -137,7 +142,7 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5)
  * @access public
  * @return void
  */
-function shn_mpr_search_show_verticle($details)
+function shn_mpr_search_show_verticle1($details)
 {
     global $global;
     global $conf;

@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.26 2006-11-30 09:53:34 isurunishan Exp $ */
+/* $Id: add.inc,v 1.27 2006-12-04 06:12:57 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -284,7 +284,7 @@ function shn_mpr_addmp_reporter($errors=false)
 <p><?= _('NOTE : If you have reproted before, we will use the following information to preform a search to see you are in our database or not.'); ?></p>
 <?php
     shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
-  shn_form_opt_select('opt_relationship_type','RelationshiptoPerson');
+  shn_form_opt_select('opt_relationship_type','Relationship to Person');
   //  shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
 ?>
 <div id="reporter_details" 

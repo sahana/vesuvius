@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.12 2006-09-25 05:16:03 janakawicks Exp $ */
+/* $Id: edit.inc,v 1.13 2006-12-04 06:14:12 isurunishan Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -277,14 +277,13 @@ function shn_mpr_editmp_validate()
     //clean
     $_SESSION['mpr_edit']['entry']=null;
     $_SESSION['mpr_edit']['entry']=$local_post;
-
     //No file was uploaded ignore
     if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
 	    //Uploads 
 	    $info = getimagesize($_FILES['picture']['tmp_name']);
 	    //check the image type 
 	    if(! $info){
-	        add_error(_("Invalid Image Type Please try again"));
+	        add_error(_("Invalid Image type.Please try again!"));
             $error_flag=true;
 	    }
 	
