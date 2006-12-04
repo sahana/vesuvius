@@ -9,6 +9,34 @@
  * @copyright   Lanka Software Foundation - http://www.opensource.lk
  */
 
+//incident changing functions
+function changeIncident(ivalue)
+ {
+     if (window.XMLHttpRequest)
+     {
+         req = new XMLHttpRequest();
+     }
+     else if (window.ActiveXObject)
+     {
+         req = new ActiveXObject("Microsoft.XMLHTTP");
+     }
+     if(req)
+     {
+         req.onreadystatechange = changed();
+         req.open('GET', 'stream.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
+         req.setRequestHeader("content-type","application/x-www-form-urlencoded");
+         req.send(' ');
+     }
+     else
+     {
+         alert('Your browser does not seem to support XMLHttpRequest.');
+     }
+ }
+
+function changed(){
+         alert('Incident was changed successfully.');
+}
+
 
 //functions related to tabs
 var tabFieldSet=new Array();
@@ -34,10 +62,10 @@ function tabFieldset(id){
             li.innerHTML="<a href='#' onclick='changeTab("+k+");'>"+legend.innerHTML+"</a>";
             tabFieldSet[k].removeChild(legend);
             ul.appendChild(li);
-            tabList[k]=li;
-            root.removeChild(tabFieldSet[k]);
-            div.appendChild(tabFieldSet[k++]);
+            tabList[k++]=li;
         }
+    for(var i=0;i<tabFieldSet.length;i++)
+        div.appendChild(tabFieldSet[i]);
     curTab=0;
     changeTab(0);
 }
