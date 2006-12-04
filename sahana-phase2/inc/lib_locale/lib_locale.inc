@@ -135,7 +135,7 @@ function _shn_lc_lang_list($mode=1)
 
         $locale = $_SESSION['locale'];
 
-        shn_form_fopen("lc_set",null,array('req_message'=>false,'style'=>"language"));
+        shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
 
         shn_form_hidden(array('seq'=>'set_locale'));
 
