@@ -853,3 +853,30 @@ div#submenu_v a:hover {
     background:#C3CFFF;
     border-bottom:1px solid #C3CFFF; 
 }
+
+
+ul#tab{
+    display:inline;
+}
+
+ul#tab li{
+    display:inline;
+}
+ul#tab li a{
+     color:#666;
+     text-decoration:none;
+     font-weight:bold;
+     border:#ccc 1px solid;
+    padding:3px 5px 0px 5px;
+    background:#efefef;
+}
+
+ul#tab li a:hover{
+    background:#FFC;
+}
+
+ul#tab li#activeTab a{
+    background:#999;
+    color:white;
+    padding:3px 5px 0px 5px;
+}
