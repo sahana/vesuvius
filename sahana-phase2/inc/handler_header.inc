@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_header.inc,v 1.16 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: handler_header.inc,v 1.17 2006-12-04 16:31:14 priyanga Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -26,9 +26,8 @@
             global $conf;
             if(file_exists($global['approot'].'conf/sysconf.inc'))
             {
+                shn_db_get_incident_select();
                 _shn_lc_lang_list(); 
-               #shn_db_get_incident_list();
-               shn_db_get_incident_select();
             }
         ?>
     </div>
