@@ -3,6 +3,7 @@
 INSERT INTO field_options VALUES('opt_group_type','fam','family');
 INSERT INTO field_options VALUES('opt_group_type','com','company');
 INSERT INTO field_options VALUES('opt_group_type','soc','society');
+INSERT INTO field_options VALUES('opt_group_type','tor','tourists');
 INSERT INTO field_options VALUES('opt_group_type','oth','other');
 
 -- IDENTITY CARD / PASSPORT TYPES
