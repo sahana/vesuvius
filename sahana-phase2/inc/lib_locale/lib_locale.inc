@@ -135,13 +135,14 @@ function _shn_lc_lang_list($mode=1)
 
         $locale = $_SESSION['locale'];
 
-        shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
+        //shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
+        echo "<form method=\"post\" action=\"index.php?mod=sync&act=lc_set\" id=\"language\" class=\"head\"  >\n";
 
         shn_form_hidden(array('seq'=>'set_locale'));
 
         shn_form_select($lc_list,"Language","locale",'onChange=submit(this);',array('value'=>"$locale"));
 
-        shn_form_fclose();
+        echo "</form>";
     }
 
 }
