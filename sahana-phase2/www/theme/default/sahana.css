@@ -120,53 +120,37 @@ div#header h1 {
 }
 
 
-/* language selector  */
-div#formcontainer #language{
+form.head{
     position:absolute;
-    display:compact;
-    top:25px;
-    right:0px;
     background:#369;
-    border:none;
     color: white;
-    padding:0px;
-}
-
-#language select{
-	color:#fff;
-	border: 1px solid #369;
-	background:#369;
-	font-size:10px;
-}
-
-#language label{
-    font-weight:bold;
+    right:0px;
     font-size:11px;
+}
+
+form.head select{
+    background:#369;
+    color:white;
+    border: 1px solid #369;
+}
+
+form.head label{
+    font-weight:bold;
     font-style:italic;
+}
+/* language selector  */
+form#language{
+     top:25px; 
 }
 
 /* insident changer select box in the top */
 form#incident_changer {
-    position:fixed;
-    display:compact;
-    top:0px;
-    right:0px;
-    background:#369;
-    color: white;
-    padding:3px;
+     position:fixed;
+     float:right;
+     padding:2px 0px 2px 2px; 
+     z-index:1; 
 }
 
-form#incident_changer select{
-    color:#fff;
-    border: 1px solid #369;
-    background:#369;
-    font-size:10px;
-}
-form#incident_changer label{
-    font-weight:bold;
-    font-size:11px;
-    font-style:italic;
-}
 
 
 
