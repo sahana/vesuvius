@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.55 2006-11-20 10:46:34 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.56 2006-12-04 04:19:04 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -20,7 +20,8 @@
  */
 
 $shn_help_id;
-
+$shn_form_id;
+$shn_tab_enabled=false;
 /**
  * You can add extra attributes to the given HTML element
  *
@@ -61,11 +62,19 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 <div onclick='event.cancelBubble = true;' class="popup" id="help_popup" ></div>
 <?php
     global $global;
+    global $shn_form_id;
     if ( null == $mod ) $mod = $global['module'];
 
-    if (!isset($form_opts['style']))
-        $form_opts['style'] = "formset";
-    
+    static $idno=0; // generate a form id if the id is not set
+    if (!isset($form_opts['id']))
+        $form_opts['id'] = "form".$idno++;
+    $shn_form_id=$form_opts['id'];
+
+    if (isset($form_opts['tab'])){  //check to see if the tabing is enable
+        global $shn_tab_enabled;
+        $shn_tab_enabled=true;
+    }
+
     if (isset($form_opts['anchor']))
         $anchor = '#' . $form_opts['anchor'];
     else
@@ -78,8 +87,11 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     }
 ?>
     <div id="formcontainer">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="<?=$form_opts['style']?>" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <form method="post" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="<?=$form_opts['id']?>" <?=$form_opts['enctype']?> name="<?=$form_opts['name']?>">
 <?php
+    //print the tab postion div
+    if($shn_tab_enabled & !($form_opts['tab']=='enable'))
+        shn_form_drawtab();
 }
 
 /**
@@ -89,7 +101,16 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
  * @return void
  */
 function shn_form_fclose()
-{ ?>
+{ 
+    global $shn_form_id;
+
+    //print the tabscript and the tabposition div tag
+    global $shn_tab_enabled;
+    if($shn_tab_enabled){
+        shn_form_drawtab();
+        echo "<script language=\"JavaScript\">tabFieldset(\"$shn_form_id\");</script>";
+    }
+?>
     </form>
     </div> <!-- /formcontainer -->
 <?php
@@ -186,7 +207,7 @@ function shn_form_hidden($hidden_vars)
 {
     foreach ($hidden_vars as $name => $value) {
 ?>
-    <input type="hidden" name="<?=$name?>" value="<?=$value?>">
+    <input type="hidden" name="<?=$name?>" value="<?=$value?>" />
 <?php
     }
 }
@@ -297,7 +318,7 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?=$label?></label>
-    <select name="<?=$name?>" <?=$select_opts?>
+    <select name="<?=$name?>" <?=$select_opts?> >
 <?php
 if($sort==null){
 	$q="select * from field_options where field_name='{$opt_field}'";
@@ -340,7 +361,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 	
 ?>
     <label><?=$label?></label>
-    <select name="<?=$opt_field?>[]" <?=$select_opts?>
+    <select name="<?=$opt_field?>[]" <?=$select_opts?> >
 <?php
 	if($extra_opts["sort"]==true){
 		$q="select * from field_options where field_name='$opt_field' order by option_code";
@@ -384,7 +405,7 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
 
 ?>
     <label><?=$label?></label>
-    <select name="<?=$name?>[]" <?=$select_opts?>
+    <select name="<?=$name?>[]" <?=$select_opts?> >
 <?php
 		  
     foreach ($options as $opt_value => $desc ) {
@@ -587,6 +608,25 @@ function shn_form_date($label,$name,$extra_opts = null)
 }
 
 
+/**
+ * This function can be used to set the tab place.
+ * To use this function you have set the 'tab'=>'float' in the fopen function.
+ *
+ * @param mixed $label
+ * @param string $name
+ * @param mixed $initdate
+ * @access public
+ * @return void
+ */
+function shn_form_drawtab(){
+    static $draw=true;
+    if($draw){
+        echo "<br/><div id='tabPosition'></div>";
+        $draw=false;
+    }
+}
+
+
 function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
 {
     global $global;
@@ -600,7 +640,7 @@ function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=
     }
 ?>
     <div id="<?=$form_id?>">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?>name="<?=$form_opts['name']?>">
+    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?> name="<?=$form_opts['name']?>">
 <?php
 }
 ?>
