@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.21 2006-12-01 13:56:26 chamindra Exp $ */
+/* $Id: handler_db.inc,v 1.22 2006-12-04 16:29:18 priyanga Exp $ */
 
 /**
  *
@@ -223,36 +223,7 @@ function shn_db_get_incident_select()
 {
 	global $global;
 ?>
-<script language="javascript">
-function changeIncident(ivalue)
- {
-     if (window.XMLHttpRequest)
-     {
-         req = new XMLHttpRequest();
-     }
-     else if (window.ActiveXObject)
-     {
-         req = new ActiveXObject("Microsoft.XMLHTTP");
-     }
-     if(req)
-     {
-         req.onreadystatechange = changed();
-         req.open('GET', 'stream.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
-         req.setRequestHeader("content-type","application/x-www-form-urlencoded");
-         req.send(' ');
-     }
-     else
-     {
-         alert('Your browser does not seem to support XMLHttpRequest.');
-     }
- }
-
-function changed()
-{
-    //alert('working');
-}
-</script>
-<form method="POST" action="index.php?mod=home&act=incident_set" id='incident_changer'>
+<form method="post" action="index.php?mod=home&act=incident_set" id='incident_changer' class="head" >
 <label>Incident</label>
 <select name="incident_id" onchange="changeIncident(this.value);" >
 <?php
@@ -280,6 +251,7 @@ while($myresult_level1 = $result_leve1->FetchRow()){
 }
 ?>
 </select>
+<br/>
 </form>
 <?php
 }
