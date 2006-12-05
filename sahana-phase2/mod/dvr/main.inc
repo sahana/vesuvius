@@ -57,6 +57,12 @@ function shn_dvr_mainmenu() {
 	shn_sub_mod_menuitem('search_group', _('Search Person'));
 	shn_sub_mod_menuclose();
 
+shn_sub_mod_menuopen(_('List'));
+	shn_sub_mod_menuitem('dd_grp_rpt', _('List All groups '));
+	shn_sub_mod_menuitem('dd_grp_rpt', _('List All persons'));
+shn_sub_mod_menuclose();
+
+
 	shn_sub_mod_menuopen(_('Reports'));
 	shn_sub_mod_menuitem('dd_grp_rpt', _('Drill Down By Group'));
 	shn_sub_mod_menuitem('dd_grp_rpt', _('Drill Down By Shelter'));
