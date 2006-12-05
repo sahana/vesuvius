@@ -24,7 +24,7 @@
 
 	print _("The SAHANA Disaster Victim Registry is a central online repository " .
 	"where information on all the disaster victims can be stored.Information like name,age" .
-	",contact number,id card number,religion,race,displaced location,currentlocation and other " .
+	",contact number,id card number,religion,race,displaced location,current location and other " .
 	"physical details are captured.Also victims picture and finger print details can be uploaded to" .
 	"the system .Also the groupwise information is captured.This module can be used by" .
 	" any NGO/organization prior or after to a disaster"  );
@@ -36,7 +36,7 @@
     <li>
     <?php
 
-	print _("Capture Information on Disaster Victimg groups(Toursists,Passengers" .
+	print _("Capture Information on Disaster Victim groups(Toursists,Passengers" .
 			",Families,etc..)")
 ?>
     </li>
@@ -44,7 +44,7 @@
     <?php print _("Capture Information on each disaster victim") ?>
     </li>
     <li>
-    <?php print _("Picture upload and fingure print upload facility")?>
+    <?php print _("Picture upload and finger print upload facility")?>
     </li>
     <li>
     <?php print _("Searching for different groups and individuals") ?>
