@@ -241,9 +241,12 @@ function shn_breadcrumb_display()
     }
 
     // @TODO: Remove the space hack and make this a proper list for CSS
-    echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;<b>Go back to </b>';
 
-    foreach ($_SESSION['shn_breadcrumb'] as $i ) {
+    //foreach ($_SESSION['shn_breadcrumb'] as $i ) {
+    for ($j=0 ; $j < sizeof($_SESSION['shn_breadcrumb'])-1 ; $j++) { 
+
+        $i = $_SESSION['shn_breadcrumb'][$j];
 
         // check if this is an admin function, else report it under administration
         $pos = strpos($i[1], 'act=adm_');
