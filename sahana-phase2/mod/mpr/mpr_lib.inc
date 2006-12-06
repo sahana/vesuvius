@@ -9,7 +9,7 @@
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
- *
+ *@author     Janaka wickramasinghe<janakaopensource.lk>
  * @author	   Isuru Samaraweera<isuru@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
@@ -144,7 +144,7 @@ $final_sql="";
     if($type=='missing')
     {
         $final_sql=$sql_missing;
-        $rs = $global['db']->SelectLimit($sql_missing,$limit);
+        $rs = $global['db']->SelectLimit($sql_missing,$limit,$offset);
         
     }
     elseif($type=='found')
