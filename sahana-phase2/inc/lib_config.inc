@@ -26,14 +26,12 @@ function shn_config_load_in_order() {
         // database overrides conf files
         shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
-        // shn_config_module_conf_fetch($global['module']);
         shn_config_database_fetch(&$conf,'all');
     } else {
         // conf files overrides database
         shn_config_database_fetch(&$conf,'all');
         shn_config_base_conf_fetch();
         shn_config_module_conf_fetch('all');
-        // shn_config_module_conf_fetch($global['module']);
     }
 }
 
@@ -85,14 +83,6 @@ function shn_config_base_conf_fetch()
     $approot = $global['approot'];
 
     require ($approot.'conf/sysconf.inc');
-
-    // include the module configuration files 
-/*    $d = dir($approot.'conf/');
-    while (false !== ($f = $d->read())) {
-        if (preg_match('^[0-9]*.*\.inc$',$f)) {
-          require ($approot.'conf/'.$f);
-        }
-    } */
 }
 
 
@@ -146,14 +136,11 @@ function shn_config_database_fetch($conf, $type='base')
     if($results = $global['db']->GetAll($sql)){
         foreach($results as $result) {
 
-            if ($result['value'] == 'true') $result['value'] = true;
-            if ($result['value'] == 'false') $result['value'] = false;
+            // translate the boolean strings to actual boolean values
+            if ($result['value'] === 'true') $result['value'] = true;
+            if ($result['value'] === 'false') $result['value'] = false;
 
-            if($result['module_id'] == 'base') {
-                $conf[$result['confkey']] = $result['value'];
-            } else {    
-                $conf['mod_'.$result['module_id'].'_'.$result['confkey']] = $result['value'];
-            }
+            $conf[$result['confkey']] = $result['value'];
         }
     }
 }
@@ -176,8 +163,5 @@ function shn_config_database_update($key, $value, $type='base')
         $sql = "INSERT INTO config VALUES (NULL,'$type', '$key', '$value')";
         $global['db']->Execute($sql);
     }
-    add_warning($sql);
-
-
 }
 ?>
