@@ -27,8 +27,8 @@ function _shn_or_regform_org($error=false)
 ?>
 <h2><?= _('Organization Registration')?></h2>
 <?php
-    if($error)
-    display_errors();
+/*    if($error)
+    display_errors();*/
 ?>  
 <div id="formcontainer">
 <?php
