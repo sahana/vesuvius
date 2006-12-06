@@ -167,7 +167,7 @@ function shn_config_database_update($key, $value, $type='base')
 
     } else {
 
-        $sql = "INSERT INTO config VALUES (NULL,'$type', '$key', '$value')";
+        $sql = "INSERT INTO config VALUES ('$type', '$key', '$value')";
         $global['db']->Execute($sql);
     }
 
