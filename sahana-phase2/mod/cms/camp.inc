@@ -184,7 +184,6 @@ function _shn_cms_add_map()
 
 	//if mod_gis
 	if($conf['gis']){
-	  include $global['approot']."/mod/gis/conf.inc";
 	  if($conf['mod_gis']=='google_maps'){
 	  	/*
 		 	 * google maps
@@ -274,7 +273,6 @@ function _shn_cms_camp_commit()
 	// insert gis location
 	//if mod_gis
 	if($conf['gis']){
-  		include $global['approot']."/mod/gis/conf.inc";
   		include $global['approot']."/mod/gis/gis_fns.inc";
 		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
 	}
