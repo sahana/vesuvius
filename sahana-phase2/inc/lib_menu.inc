@@ -208,16 +208,17 @@ function shn_breadcrumb_push($nicename, $action = null, $module = null)
         $_SESSION['shn_breadcrumb'] = array();
 
     $last_crumb = end($_SESSION['shn_breadcrumb']); 
-    $last_nicename = $last_crumb[0]; 
+    $last_module = $last_crumb[2]; 
 
     // create the query string. $action might have more appended
     $query_string = 'mod='.$module.'&act='.$action;
     
     // only push the breadcrumb if it is not the home page and
     // if it is not the immidiately previous page in the history
-    if ( 'default' != $action && $last_nicename != $nicename) { 
-        array_push($_SESSION['shn_breadcrumb'], array($nicename, $query_string, $module));
+    if ( $last_module == $module) { 
+        array_pop($_SESSION['shn_breadcrumb']);
     }
+    array_push($_SESSION['shn_breadcrumb'], array($nicename, $query_string, $module));
 
     if (count($_SESSION['shn_breadcrumb']) > 3)
         array_shift($_SESSION['shn_breadcrumb']);
