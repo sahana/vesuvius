@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.3 2006-12-06 13:03:45 chamindra Exp $ */
+/* $Id: conf_admin.inc,v 1.4 2006-12-06 13:04:50 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -51,8 +51,6 @@ function shn_admin_conf_list()
         // truncate the strings if they are too long
         $str_value = shn_html_bool2str(shn_html_truncate($value,25));
         $str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
-
-        if (is_bool($dconf[$key])) add_warning("$key is $str_dconf");
 
         shn_form_table_row(array($key,$str_value,$str_dconf,$edit));
         //echo "<tr><td>$key</td><td>$str_value</td><td>$str_dconf</td><td>$edit</td></tr>"; 
