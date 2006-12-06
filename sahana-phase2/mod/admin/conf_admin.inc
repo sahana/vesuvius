@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.4 2006-12-06 13:04:50 chamindra Exp $ */
+/* $Id: conf_admin.inc,v 1.5 2006-12-06 17:24:44 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -39,7 +39,7 @@ function shn_admin_conf_list()
     <table>
     <thead>
 <?php
-    shn_form_table_row(array('Config Variable','Current Value','Database Value','Action'));
+    shn_form_table_row(array('Config Variable','Current Value','Modified Value','Action'));
 ?> 
     </thead>
 <?php
@@ -50,10 +50,9 @@ function shn_admin_conf_list()
 
         // truncate the strings if they are too long
         $str_value = shn_html_bool2str(shn_html_truncate($value,25));
-        $str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
+        $str_dconf = shn_html_bool2str($dconf[$key],25);
 
         shn_form_table_row(array($key,$str_value,$str_dconf,$edit));
-        //echo "<tr><td>$key</td><td>$str_value</td><td>$str_dconf</td><td>$edit</td></tr>"; 
     }
 ?>
     </table>
@@ -64,7 +63,7 @@ function shn_admin_conf_list()
 function shn_html_bool2str($boolean) 
 {
     if (is_bool($boolean)) {
-        $boolean = $boolean? "true":"false";
+        $boolean = ($boolean == true)? "true":"false";
     }
     return $boolean;
 
@@ -90,7 +89,6 @@ function shn_admin_conf_var()
     shn_form_hidden(array('conf_key'=>$_GET['key']));
 
     if ( is_bool($conf[$_GET['key']]) ) {
-    //if ( is_bool($dd) ) {
         shn_form_select(array('true'=>'true','false'=>'false'),$_GET['key'],'conf_value',null,
                         array('value'=> shn_html_bool2str($conf[$_GET['key']])));
     } else {
