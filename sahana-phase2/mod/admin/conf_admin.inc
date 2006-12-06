@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.2 2006-07-27 23:46:23 chamindra Exp $ */
+/* $Id: conf_admin.inc,v 1.3 2006-12-06 13:03:45 chamindra Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -28,8 +28,8 @@ function shn_admin_conf_list()
     if (isset($_POST['conf_key'])) {
 
         shn_config_database_update($_POST['conf_key'],$_POST['conf_value']);
-        echo '<p>'.$_POST['conf_key']." has been updated with value ".
-                $_POST['conf_value'].'</p>';
+        add_confirmation($_POST['conf_key']." has been updated with value ".
+                $_POST['conf_value']);
     }
 
     ksort($conf);
@@ -39,21 +39,47 @@ function shn_admin_conf_list()
     <table>
     <thead>
 <?php
-    shn_form_table_row(array('Config Variable','Action',
-                            'Database Value','Current Value'));
+    shn_form_table_row(array('Config Variable','Current Value','Database Value','Action'));
 ?> 
     </thead>
 <?php
 
     foreach ($conf as $key => $value) {
 
-        $str_edit ='<a href="?mod=admin&act=conf_var&key='.$key.'">(edit)</a>';
-        shn_form_table_row(array($key,$str_edit,$dconf[$key],$value));
+        $edit ='<a href="?mod=admin&act=conf_var&key='.$key.'">(edit)</a>';
+
+        // truncate the strings if they are too long
+        $str_value = shn_html_bool2str(shn_html_truncate($value,25));
+        $str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
+
+        if (is_bool($dconf[$key])) add_warning("$key is $str_dconf");
+
+        shn_form_table_row(array($key,$str_value,$str_dconf,$edit));
+        //echo "<tr><td>$key</td><td>$str_value</td><td>$str_dconf</td><td>$edit</td></tr>"; 
     }
 ?>
     </table>
     </div>
 <?php
+}
+
+function shn_html_bool2str($boolean) 
+{
+    if (is_bool($boolean)) {
+        $boolean = $boolean? "true":"false";
+    }
+    return $boolean;
+
+}
+
+function shn_html_truncate($string, $max_length) 
+{
+    if (is_string($string) && strlen($string) > $max_length) {
+        $string = substr($string, 0, ($max_length/2)-1 ).
+               "<a href=\"#\" title=\"$string\">...</a>".
+                substr($string, -($max_length/2)+1);
+    }
+    return $string; 
 }
 
 
@@ -64,8 +90,14 @@ function shn_admin_conf_var()
     shn_form_fopen('conf_list');
     shn_form_fsopen(_('Change Config Value'));
     shn_form_hidden(array('conf_key'=>$_GET['key']));
-    shn_form_text($_GET['key'],'conf_value',null,array('value'=>$conf[$_GET['key']]));
 
+    if ( is_bool($conf[$_GET['key']]) ) {
+    //if ( is_bool($dd) ) {
+        shn_form_select(array('true'=>'true','false'=>'false'),$_GET['key'],'conf_value',null,
+                        array('value'=> shn_html_bool2str($conf[$_GET['key']])));
+    } else {
+        shn_form_text($_GET['key'],'conf_value','size="60"',array('value'=>$conf[$_GET['key']]));
+    }
 
     shn_form_fsclose();
     shn_form_submit(_('Change value'));
