@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <module name='ims'>
-  <description>Inventory Management System</description>
+  <description>Inventory Data</description>
   <data>
-	<description>Inventory Management System</description>
+	<description>Inventory Data</description>
     <table name='ims_item_recrds'>
         <primarykeys>
 	      <primarykey field_id='item_id' />
