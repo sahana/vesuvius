@@ -1,6 +1,6 @@
 <?php
 /**
- * Data Dump Interface Handler 
+ * Data Download Interface Handler 
  *
  * PHP version 4 and 5
  *
@@ -15,23 +15,27 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
+
+global $global;
 echo "<h2>"._('Download Data')."</h2>";
 //javascript files used in download UI
 ?>
-<script type="text/javascript" src="index.php?stream=text&mod=sync&act=js"></script>
+<script type="text/javascript" src="index.php?stream=text&amp;mod=sync&amp;act=js"></script>
 <?php
-global $global;
-
 //get all the modules
 $modules=shn_get_module_names();
-shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false));
+
+//draw download form
+shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false,'tab'=>'enable'));
 echo "<center>";
-echo "<a href=\"#\" onclick=\"document.getElementById('down').style.display='block';\">"._('Advance Options')."</a>";
 shn_form_submit(_("Download"));
 echo "</center>";
 //loop through all the modules to find sync.xml
-echo "<div id='down' style='display:none;'>";
-shn_form_fsopen(_("Select data to download"));
+
+shn_form_fsopen(_("Select Data"));
+?>
+<p><?= _("The following list shows the data which are available to download. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
+<?
 foreach($modules as $module){
     if (file_exists($syncfile=$global['approot']."mod/".$module."/sync.xml"))
     handel_syncfile($syncfile);
@@ -42,28 +46,25 @@ shn_form_submit(_("Select All")," onclick='check(true);return false;'");
 shn_form_submit(_("Clear")," onclick='check(false);return false;'");
 echo "<br />";
 shn_form_fsclose();
-echo "<table class='layout'><tr><td>";
-shn_form_fsopen(_("Select File Type"));
-
+shn_form_fsopen(_("File Type"));
 ?>
+    <p><?=_("The data can be exported in the following formats please select the format you want to export.")?></p>
     <label><?=_('XML File')?></label><input type="radio" name="file_type" value="xml" checked="true" /><br/>
-    <label><?=_('CSV File')?></label><input type="radio" name="file_type" value="csv" /><br/>
-    <label><?=_('SQL File')?></label><input type="radio" name="file_type" value="sql" /><br/>
-    <label><?=_('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" /><br/>
+    <label><?=_('CSV File')?></label><input type="radio" name="file_type" value="csv" disabled="true" /><br/>
+    <label><?=_('SQL File')?></label><input type="radio" name="file_type" value="sql" disabled="true"/><br/>
+    <label><?=_('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" disabled="true"/><br/>
 <?php
 shn_form_fsclose();
-echo "</td><td>";
-shn_form_fsopen(_("Select Compression Type"));
+shn_form_fsopen(_("Compression Type"));
 
 ?>
-    <label><?=_('None')?></label><input type="radio" name="compression" value="none" checked="true"/><br/>
-    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" /><br/>
+    <p><?=_("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")."<strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
+    <label><?=_('None')?></label><input type="radio" name="compression" value="none"/><br/>
+    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" checked="true" /><br/>
     <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" /><br/>
-<!--     <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" /><br/> -->
+    <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" disabled="true"/><br/> 
 <?php
 shn_form_fsclose();
-echo "</td></tr></table>";
-echo "</div>";
 shn_form_fclose();
 
 
@@ -75,7 +76,7 @@ function handel_syncfile($syncfile)
 
     $html0="<b onclick=\"expandblock('b{$scema['name']}')\" style=\"cursor:pointer\">+</b>";
     $html1.="<label>".$scema->description."</label>";
-	$html1.="<input type=\"checkbox\" name=\"modules[]\" checked='true' value=\"{$scema['name']}\" onchange=\"selectAll(this,'{$scema['name']}[]');\" id=\"{$scema['name']}\">";
+	$html1.="<input type=\"checkbox\" name=\"modules[]\" checked='true' value=\"{$scema['name']}\" onchange=\"selectAll(this,'{$scema['name']}[]');\" id=\"{$scema['name']}\" />";
     $html1.='<br/>';
 
     //If there is only one data Block dont print the sub sections
