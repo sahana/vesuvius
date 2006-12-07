@@ -26,7 +26,7 @@ echo "<h2>"._('Download Data')."</h2>";
 $modules=shn_get_module_names();
 
 //draw download form
-shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false,'tab'=>'enable'));
+shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false,'tab'=>'float'));
 echo "<center>";
 shn_form_submit(_("Download"));
 echo "</center>";
