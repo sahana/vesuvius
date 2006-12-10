@@ -131,7 +131,7 @@ form.head{
 form.head select{
     background:#369;
     color:white;
-    border: 1px solid #369;
+    border: 1px inset #369;
 }
 
 form.head label{
@@ -860,4 +860,9 @@ ul#tab li#activeTab a{
     background:#999;
     color:white;
     padding:3px 5px 0px 5px;
+}
+
+#breadcrumbs ,#breadcrumbs b,#breadcrumbs a, #breadcrumbs a:hover{
+    color:#999;
+    font-size:0.9em; 
 }
