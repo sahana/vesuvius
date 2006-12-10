@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.56 2006-12-04 04:19:04 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.57 2006-12-10 15:38:53 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -90,7 +90,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     <form method="post" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="<?=$form_opts['id']?>" <?=$form_opts['enctype']?> name="<?=$form_opts['name']?>">
 <?php
     //print the tab postion div
-    if($shn_tab_enabled & !($form_opts['tab']=='enable'))
+    if($shn_tab_enabled & !($form_opts['tab']=='float'))
         shn_form_drawtab();
 }
 
@@ -256,7 +256,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 <?php
     foreach ($options as $opt_value => $desc )
     {
-        $sel = ( $opt_value == $value ) ? "selected" : null ;
+        $sel = ( $opt_value == $value ) ? 'selected="selected"' : null ;
 ?>
         <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
 <?php
@@ -329,7 +329,7 @@ if($sort==null){
         
     while(!res==NULL && !$res->EOF) {
 
-        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+        $sel = ( $res->fields[1] == $value ) ? 'selected="selected"' : null ;
 ?>
  <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
 <?php
@@ -372,7 +372,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 	$res = $global['db']->Execute($q);
     while(!res==NULL && !$res->EOF) {
         if($value!=NULL){
-            $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? "selected" : null ;
+            $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? 'selected="selected"' : null ;
         }
 ?>
  <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
@@ -410,7 +410,7 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
 		  
     foreach ($options as $opt_value => $desc ) {
         if($value!=NULL){
-            $sel = ( (array_search($opt_value,$value)==true) || (array_search($opt_value,$value)===0) ) ? "selected" : null ;
+            $sel = ( (array_search($opt_value,$value)==true) || (array_search($opt_value,$value)===0) ) ? 'selected="selected"' : null ;
         }
 ?>
  <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>

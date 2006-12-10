@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.22 2006-12-04 16:29:18 priyanga Exp $ */
+/* $Id: handler_db.inc,v 1.23 2006-12-10 15:38:53 priyanga Exp $ */
 
 /**
  *
@@ -223,7 +223,7 @@ function shn_db_get_incident_select()
 {
 	global $global;
 ?>
-<form method="post" action="index.php?mod=home&act=incident_set" id='incident_changer' class="head" >
+<form method="post" action="index.php?mod=home&amp;act=incident_set" id='incident_changer' class="head" >
 <label>Incident</label>
 <select name="incident_id" onchange="changeIncident(this.value);" >
 <?php
@@ -231,19 +231,19 @@ $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
 $result_leve1 = $global['db']->Execute($sql_level1);
 while($myresult_level1 = $result_leve1->FetchRow()){
 ?>
-	<option value="<?=$myresult_level1['incident_id'];?>" <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected':'');?> ><?=$myresult_level1['name'];?></option>
+	<option value="<?=$myresult_level1['incident_id'];?>" <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected="selected"':'');?> ><?=$myresult_level1['name'];?></option>
 <?php
 	$sql_level2 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level1['incident_id']}'";
 	$result_leve2 = $global['db']->Execute($sql_level2);
 	while($myresult_level2 = $result_leve2->FetchRow() ){
 ?>
-		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level2['name'];?></option>
+		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level2['name'];?></option>
 <?php
 		$sql_level3 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level2['incident_id']}'";
 		$result_level3 = $global['db']->Execute($sql_level3);
 		while($myresult_level3 = $result_level3->FetchRow() ){
 ?>
-			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level3['name'];?></option>
+			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level3['name'];?></option>
 <?php
 		}
 	}

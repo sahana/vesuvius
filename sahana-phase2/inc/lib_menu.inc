@@ -29,7 +29,7 @@ function shn_mainmenuitem($action, $desc, $module = null )
     global $global;
     if ( null == $module ) $module = $global['module'];
 ?>
-    <li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
+    <li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
 <?php
 }
 
@@ -80,7 +80,7 @@ function shn_mod_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-    <li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
+    <li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
 <?php
 }
 
@@ -130,7 +130,7 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-		<li><a href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a></li>
+		<li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
 <?php
 }
 
@@ -183,7 +183,7 @@ function shn_adm_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-    <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&act=<?=$action?>"><?=$desc?></a>
+    <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a>
 <?php
 }
 
@@ -211,7 +211,7 @@ function shn_breadcrumb_push($nicename, $action = null, $module = null)
     $last_module = $last_crumb[2]; 
 
     // create the query string. $action might have more appended
-    $query_string = 'mod='.$module.'&act='.$action;
+    $query_string = 'mod='.$module.'&amp;act='.$action;
     
     // only push the breadcrumb if it is not the home page and
     // if it is not the immidiately previous page in the history

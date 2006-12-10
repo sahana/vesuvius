@@ -21,7 +21,7 @@ global $conf;
 if ($_SESSION['logged_in'] != true ) {
 ?>
     <div id="loginform">
-	<form method="POST" action="index.php?act=login">
+	<form method="post" action="index.php?act=login">
         <fieldset><legend><?=_('Login')?></legend>
         <label><?=_('User Name')?></label><input type="text" name="user_name" id="userName" />
         <label><?=_('Password')?></label><input type="password" name="password" id="pswd" />
