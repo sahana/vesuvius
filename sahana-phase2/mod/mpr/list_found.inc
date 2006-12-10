@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: list_found.inc,v 1.2 2006-12-10 15:08:52 isurunishan Exp $ */
+/* $Id: list_found.inc,v 1.3 2006-12-10 15:10:03 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support
@@ -18,7 +18,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 ?>
-<script language="JavaScript" src="mpr_print.js">
+<script language="JavaScript">
 
 function printImages(title,division)
 {
@@ -98,7 +98,7 @@ if ($count > $limit) {
 }
 print '<BR/><BR/>';
 ?>
-<input type="button"  value="Print Current Page" onClick="printImages2('Found People','home_recent')"/>
+<input type="button"  value="Print Current Page" onClick="printImages('Found People','home_recent')"/>
   
   
   
