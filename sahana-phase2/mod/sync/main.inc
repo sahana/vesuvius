@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.24 2006-12-07 12:10:28 priyanga Exp $ */
+/* $Id: main.inc,v 1.25 2006-12-12 10:14:47 priyanga Exp $ */
 /*test*/
 /**
  * Main Controller of the Synchronization Module
@@ -97,33 +97,7 @@ function shn_sync_download()
  */
 function shn_sync_upload()
 {
-    global $global;
-    echo "<h2>"._('Upload File')."</h2>";
-    //Check the file upload and display its messages;
-    $_SESSION['sync']['file']="./tmp/".basename($_FILES['file_dump']['name']);
-    
-    //check for tmp file permision
-    if(!is_writable('./tmp')){
-        echo _('make sure the tmp folder is writerble')."<br />";
-    }
-    else if (move_uploaded_file($_FILES['file_dump']['tmp_name'],$_SESSION['sync']['file']))
-    {
-        include 'handler_upload_file.inc';
-        return;
-    }
-
-    //Print the error message If an error occord with the Upload File
-    if($_GET['up']=='true'){
-        echo _('error with the upload file');
-    }
-
-    //Upload Data Dump Form
-    shn_form_fopen("upload&up=true",null,array('enctype'=>'enctype="multipart/form-data"'));
-    shn_form_fsopen(_('Upload Sahana Dump File'));
-    shn_form_upload(_('File'),'file_dump');
-    shn_form_fsclose();
-    shn_form_submit(_('Next'));
-    shn_form_fclose();
+    include_once('handler_upload.inc');
 }
 /* }}} */
 
