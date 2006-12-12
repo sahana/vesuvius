@@ -35,27 +35,36 @@ function _shn_rms_requester($requester_id=null)
     print '<br />';
     print '</div>';
     print '<br />';
+    
+    
     shn_form_text(_("Full Name"),'name',null,array('req'=>true));
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
+    shn_form_opt_select("opt_id_type",_("Available Card type"));
+    shn_form_text(_("Card Number"),"card_number",null,array('req'=>true));
     shn_form_text(_("Telephone"),'telephone',null);
     shn_form_textarea(_("Address"),'address',null);
+   // shn_form_textarea(_("Address"),'address',null);
+    
+    
     shn_form_fsclose();
     shn_form_submit(_("Next"));
     shn_form_fclose();
     print '<br />';
     
+    
     shn_form_fopen("req_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'get_reqstr'));
     shn_form_fsopen(_("Existing Requester"));
     print '<div class="info">';
-    print _("If you are a registered requester, Please enter your request ID ");
+    print _("If you are a registered requester, Please enter the card number ");
     print '<br />';
-    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
-    print '<br />';
+    //print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
+    //print '<br />';
+    
     print '</div>';
     print '<br />';
-    shn_form_text(_("Requester ID"),'reqstr_id',null,array('req'=>true,'br'=>false));
+    shn_form_text(_("Any Card Number"),'card_number',null,array('req'=>true,'br'=>false));
     shn_form_fsclose();
     shn_form_submit(_("Next"), 'id="reqstr_next"');
     shn_form_fclose();
@@ -63,22 +72,30 @@ function _shn_rms_requester($requester_id=null)
     
 }
 
+
 function _shn_rms_requester_new()
 {
-    if (trim($_POST['name']) != '')
+    if (trim($_POST['name']) != '' & $_POST['card_number']!='')
     {
         $requester['name'] = $_POST['name'];
         $requester['mobile'] = $_POST['mobile'];
         $requester['email'] = $_POST['email'];
         $requester['telephone'] = $_POST['telephone'];
         $requester['address'] = $_POST['address'];
+        $requester['opt_id_type']=$_POST['opt_id_type'];
+        $requester['card_number']=$_POST['card_number'];
+        
         
         $id = _shn_rms_add_requester($requester);
+        
         $_SESSION['rms_reqstr_id'] = $id;
-        $msg = _("Your Requester id: $id, Please write down this ID");
-        _shn_html_inform_add($msg);
-        _shn_html_inform_show();
+        
+        
+       // $msg = _("Your Requester id: $id, Please write down this ID");
+       // _shn_html_inform_add($msg);
+      //  _shn_html_inform_show();
         return true;
+        
     }
     else
     {
@@ -101,8 +118,8 @@ function _shn_rms_requester_update()
     $email = $_POST['email']; 
     $telephone = $_POST['telephone']; 
     $address = $_POST['address'];
-    
     $requester = _shn_rms_get_person($id);
+    
     
     //Add or update Full Name
     if ($requester['name'] != $name)
@@ -327,6 +344,8 @@ function _shn_rms_ax_location_other($id=null)
         print '</div><br />';
     }
     
+    
+    
     if (_shn_rms_get_requester_locs($id))
     {
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
@@ -545,15 +564,15 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'get_reqstr':
-            $id = trim($_POST['reqstr_id']);
+            $id = trim($_POST['card_number']);
             $_SESSION['rms_reqstr_id'] = $id;
             if ($id != '' && _shn_rms_is_requester($id))
                 _shn_rms_location($id);
-            elseif (_shn_rms_is_person($id))
+            else if (_shn_rms_is_person($id))
                 _shn_rms_requester_conf($id);
             else
             {
-                add_error(_("Please enter a valid 'Requester Id'"));
+                add_error(_("Please enter a valid Requester Id"));
                 display_errors();
                 
                 _shn_rms_requester();
