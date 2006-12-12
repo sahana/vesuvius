@@ -40,6 +40,8 @@ function _shn_rms_donor()
     shn_form_text(_("Full Name"),'name','',array('req'=>true));
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
+     shn_form_opt_select("opt_id_type",_("Available Card type"));
+    shn_form_text(_("Card Number"),"card_number",null,array('req'=>true));
     shn_form_text(_("Telephone"),'telephone',null);
     shn_form_textarea(_("Address"),'address',null);
     shn_form_fsclose();
@@ -53,14 +55,15 @@ function _shn_rms_donor()
     shn_form_fsopen(_("Existing Donor"));
     
     print '<div class="info">';
-    print _("If you are a registered Donor, Please enter your Donor ID ");
+    print _("If you are a registered Donor, Please enter the card number ");
     print '<br />';
-    print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer, requester etc...");
-    print '<br />';
+    //print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
+    //print '<br />';
+    
     print '</div>';
     print '<br />';
     
-    shn_form_text(_("Donor ID"),'donor_id',null,array('br'=>false));
+    shn_form_text(_("Any Card Number"),'donor_id',null,array('br'=>false));
     shn_form_submit(_("Next"), 'id="donor_next"');
     shn_form_fsclose();
     $help = _("* Create New Donor: " .
@@ -72,16 +75,18 @@ function _shn_rms_donor()
 
 function _shn_rms_donor_new()
 {
-    if (trim($_POST['name']) != '')
+    if (trim($_POST['name']) != '' & trim($_POST['card_number']) != '')
     {
         $donor['name'] = $_POST['name'];
         $donor['mobile'] = $_POST['mobile'];
         $donor['email'] = $_POST['email'];
         $donor['telephone'] = $_POST['telephone'];
         $donor['address'] = $_POST['address'];
+        $donor['card_number']=$_POST['card_number'];
+        $donor['card_type']=$_POST['opt_id_type'];
         
         $id = _shn_rms_add_donor($donor);
-        $_SESSION['rms_donor_id'] = $id;
+        $_SESSION['rms_donor_id'] = $donor['card_number'];
         $msg = _("Your Donor id: $id, Please write down this ID");
         _shn_html_inform_add($msg);
         _shn_html_inform_show();
