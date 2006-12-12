@@ -26,6 +26,17 @@ function _shn_rms_print_hedder($string=null)
         print '<h2>' . $string . '</h2>';
 }
 
+//added by isuru
+function _shn_rms_add_identity($p_uuid,$cardno,$type)
+{
+	
+global $global;
+$sql="INSERT INTO identity_to_person (p_uuid,serial,opt_id_type) values('$p_uuid','$cardno','$type') ";
+$global['db']->Execute($sql);
+
+}
+
+
 function _shn_rms_add_requester($requester)
 {
     global $global;
@@ -36,7 +47,9 @@ function _shn_rms_add_requester($requester)
     $tel    = $requester['telephone'];
     $email  = $requester['email'];
     $addr   = $requester['address'];
-    
+    $id_type=$requester['opt_id_type'];
+    $card_number=$requester['card_number'];
+  
     $sql = "INSERT INTO person_uuid (p_uuid, full_name) " .
             "VALUES ('$p_uuid', '$name')";
     
@@ -57,6 +70,11 @@ function _shn_rms_add_requester($requester)
         if (trim($addr) != '')
             _shn_rms_db_addcontact($p_uuid, 'address', $addr);
         
+        if(trim($card_number))
+        {
+        	_shn_rms_add_identity($p_uuid,$card_number,$id_type);
+        }
+        
         return $p_uuid;
     }
     
@@ -67,7 +85,7 @@ function _shn_rms_is_person($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM person_uuid WHERE p_uuid='$id'";
+    $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.serial='$id'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -89,7 +107,7 @@ function _shn_rms_get_person($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM person_uuid WHERE p_uuid='$id'";
+    $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.serial='$id'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -102,6 +120,7 @@ function _shn_rms_get_person($id)
     elseif (1 <= $rs->RecordCount())
     {
         $psn_arr = $rs->GetArray();
+        
         $person['uuid'] = $psn_arr[0]['p_uuid'];
         $person['name'] = $psn_arr[0]['full_name'];
         
@@ -127,7 +146,7 @@ function _shn_rms_is_requester($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM rms_request WHERE reqstr_uuid='$id'";
+    $sql = "SELECT * FROM rms_request r,identity_to_person i WHERE i.p_uuid=r.reqstr_uuid and i.serial='$id' ";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -690,7 +709,9 @@ function _shn_rms_add_donor($donor)
     $tel    = $donor['telephone'];
     $email  = $donor['email'];
     $addr   = $donor['address'];
-    
+     $card_number=  $donor['card_number'];
+      $card_type=  $donor['card_type'];
+        
     $sql = "INSERT INTO person_uuid (p_uuid, full_name) " .
             "VALUES ('$p_uuid', '$name')";
     
@@ -710,7 +731,10 @@ function _shn_rms_add_donor($donor)
             _shn_rms_db_addcontact($p_uuid, 'address', $addr);
         if (trim($tel) != '')
             _shn_rms_db_addcontact($p_uuid, 'telephone', $tel);
-        
+        if(trim($card_number))
+        {
+        	_shn_rms_add_identity($p_uuid,$card_number,$card_type);
+        }
         return $p_uuid;
     }
 }
