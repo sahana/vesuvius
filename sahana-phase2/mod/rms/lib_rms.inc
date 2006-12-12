@@ -70,12 +70,13 @@ function _shn_rms_add_requester($requester)
         if (trim($addr) != '')
             _shn_rms_db_addcontact($p_uuid, 'address', $addr);
         
+        
         if(trim($card_number))
         {
         	_shn_rms_add_identity($p_uuid,$card_number,$id_type);
         }
         
-        return $p_uuid;
+        return $card_number;//return $p_uuid
     }
     
     
