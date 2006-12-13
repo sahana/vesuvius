@@ -1,6 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.25 2006-12-12 10:14:47 priyanga Exp $ */
-/*test*/
+/* $Id: main.inc,v 1.26 2006-12-13 06:27:33 priyanga Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -17,7 +16,6 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-//
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -27,9 +25,10 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/3rd/xajax/xajax.inc.php";
 include_once 'lib_report.inc';
 
-/* {{{ Main Menu */
+
 /**
  * This function defines the menu list.
+ *
  * @access public
  * @return void
  */
@@ -56,11 +55,10 @@ function shn_sync_mainmenu()
     // include the main menu
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
-/* }}} */	
 
-/* {{{ Action: Default (Home Page) */
+
+
 /**
- * 
  * This function displays the home page of the Synchronization Module
  *
  * @access public
@@ -71,11 +69,10 @@ function shn_sync_default()
     global $global;
     require($global['approot'].'mod/sync/home.inc');
 }
-/* }}} */
 
-/* {{{ Action: Default (Home Page) */
-/**
- * 
+
+
+/** 
  * This function display the Data Download Form
  *
  * @access public
@@ -85,11 +82,10 @@ function shn_sync_download()
 {
     include_once('handler_download_data.inc');
 }
-/* }}} */
 
-/* {{{ Action: Default (Home Page) */
+
+
 /**
- * 
  * This function display the Upload Form and If a upload file detected it will display its Information
  *
  * @access public
@@ -99,10 +95,10 @@ function shn_sync_upload()
 {
     include_once('handler_upload.inc');
 }
-/* }}} */
+
+
 
 /**
- * 
  * This function is the main controler for synchronization 
  * It will handell all the ajax calls used in synchronization.
  *
@@ -129,8 +125,9 @@ function shn_sync_synchronize(){
     echo '<script type="text/javascript">xajax_process_file();</script>';
 }
 
+
+
 /**
- * 
  * This function will handell all the ajax calls used in synchronization.
  *
  * @access public
@@ -146,8 +143,10 @@ function shn_text_sync_synchronize(){
     $xajax->registerFunction('get_report');
     $xajax->processRequests();
 }
+
+
+
 /**
- *
  * This function out put the download file
  *
  * @access public
@@ -159,6 +158,44 @@ function shn_text_sync_download_file()
 }
 
 
+
+/**
+ * This function will stream out sync.js javascript file
+ *
+ * @access public
+ * @return void
+ */
+function shn_text_sync_js(){
+    header("Content-type: text");
+    header("Content-Disposition: attachment; filename=sync.js");
+    header("Cache-Control: max-age=0, must-revalidate");
+    include "sync.js";
+}
+
+
+
+/**
+ * This function will display the history of synchronization
+ *
+ * @access public
+ * @return void
+ */
+function shn_sync_history(){
+    include_once('handler_history.inc');
+}
+
+
+/* following functions are still under development */
+
+function shn_text_sync_info(){
+    global $conf;
+    echo $conf['base_uuid']."\n";
+    echo $conf['root_name']."\n";
+    echo $conf['root_email'].", ".$conf['root_tel']."\n";
+}
+
+
+
 function shn_text_sync_ads(){
     global $global;
     require_once('lib_server_ajax.inc');
@@ -168,6 +205,8 @@ function shn_text_sync_ads(){
     $xajax->registerFunction('_shn_server_ajax_connect');
     $xajax->processRequests();
 }
+
+
 
 function shn_sync_ads(){
     global $global;
@@ -189,59 +228,9 @@ function shn_sync_ads(){
     echo '<script type="text/javascript" src="index.php?stream=text&mod=sync&act=js"></script>';
 }
 
+
+
 function shn_sync_sws(){
 
-}
-/** This function will stream out sync.js javascript file
- * @return void
- */
-function shn_text_sync_js(){
-    header("Content-type: text");
-    header("Content-Disposition: attachment; filename=sync.js");
-    header("Cache-Control: max-age=0, must-revalidate");
-    include "sync.js";
-}
-
-/**
- *
- * This function will display the history of synchronization
- *
- * @access public
- * @return void
- */
-function shn_sync_history(){
-    global $global;
-    echo "<h2>"._('Synchronization History')."</h2>";
-    $sql="SELECT * FROM sync_instance";
-    $rs=$global['db']->GetAll($sql);
-    echo "<div id ='result'>
-            <table><thead><td>"._('Instance ID')."</td>
-            <td>"._('Owner')."</td>
-            <td>"._('Contacts')."</td>
-            <td>"._('Last Update')."</td>
-            <td>"._('Update Count')."</td>
-            </thead>";
-    foreach($rs as $row){
-        echo "<tr>";
-            echo "<td>".$row[0]."</td>";
-            echo "<td>".$row[1]."</td>";
-            echo "<td>".$row[2]."</td>";
-            echo "<td>".$row[4]."</td>";
-            echo "<td>".$row[5]."</td>";
-        echo "</tr>";
-    }
-    echo "</table></div>";
-}
-
-
-function shn_text_sync_info(){
-    global $conf;
-    echo $conf['base_uuid']."\n";
-    echo $conf['root_name']."\n";
-    echo $conf['root_email'].", ".$conf['root_tel']."\n";
-}
-
-function shn_soap_sync_test(){
-    return "test";
 }
 ?>
