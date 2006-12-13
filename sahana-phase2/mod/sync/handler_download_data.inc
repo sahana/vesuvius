@@ -17,7 +17,7 @@
  */
 
 global $global;
-echo "<h2>"._('Download Data')."</h2>";
+echo "<h2>"._('Export Data')."</h2>";
 //javascript files used in download UI
 ?>
 <script type="text/javascript" src="index.php?stream=text&amp;mod=sync&amp;act=js"></script>
@@ -28,13 +28,13 @@ $modules=shn_get_module_names();
 //draw download form
 shn_form_fopen('download_file&stream=text',$global['module'],array('req_message'=>false,'tab'=>'float'));
 echo "<center>";
-shn_form_submit(_("Download"));
+shn_form_submit(_("Export"));
 echo "</center>";
 //loop through all the modules to find sync.xml
 
 shn_form_fsopen(_("Select Data"));
 ?>
-<p><?= _("The following list shows the data which are available to download. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
+<p><?= _("The following list shows the data which are available to export. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
 <?
 foreach($modules as $module){
     if (file_exists($syncfile=$global['approot']."mod/".$module."/sync.xml"))
@@ -58,7 +58,7 @@ shn_form_fsclose();
 shn_form_fsopen(_("Compression Type"));
 
 ?>
-    <p><?=_("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")."<strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
+    <p><?=_("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")." <strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
     <label><?=_('None')?></label><input type="radio" name="compression" value="none"/><br/>
     <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" checked="true" /><br/>
     <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" /><br/>

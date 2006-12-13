@@ -19,7 +19,7 @@
 global $global;
 $file=$_FILES['file_dump'];
 //allowed upload file extention list 
-$extentions=array('xml','.gz','bz2','zip');
+$extentions=array('xml','.gz','bz2');
 
 //check weather a file was uploaed
 if(isset($file)){
@@ -72,6 +72,7 @@ _shn_sync_upload_form();
 function _shn_sync_upload_form(){
     shn_form_fopen("upload&amp",null,array('enctype'=>'enctype="multipart/form-data"'));
     shn_form_fsopen(_('Upload Sahana Dump File'));
+    echo '<p>'._('Upload a data file you want to import. ')."<em><strong>"._('important: ')."</strong></em>"._('This system will only accept data files which have been exported by Sahana Instances.')."</p>";
     shn_form_upload(_('File'),'file_dump');
     shn_form_fsclose();
     shn_form_submit(_('Next'));
@@ -84,11 +85,15 @@ function _shn_sync_file_details(){
     $time=(int)substr($_FILES['file_dump']['name'], -14, 10);
     $ins=substr($_FILES['file_dump']['name'], -19, 4);
     $_SESSION['fileinfo']=$_FILES['file_dump'];
+
+    echo "<h2>"._('Import File')."</h2>";
+    add_confirmation(_('The information about the uploaded file are given bellow.'));
+    display_submit_message('confirmation',_('The file was uploaded successfully...'));
 ?>
-    <center><strong>The file was uploaded successfully...</strong>
+    <center>
     <br />
     <table>
-    <thead><td colspan="2">Uploaded File Info</td></thead>
+    <thead><td colspan="2"><?=_('Upload File Info')?></td></thead>
     <tr><td>Name </td><td><?=$_FILES['file_dump']['name']?></td></tr>
     <tr><td>Type </td><td><?=$_FILES['file_dump']['type']?></td></tr>
     <tr><td>Size </td><td><?php echo ((int)$_FILES['file_dump']['size']/1000).' kb'?></td></tr>
@@ -102,7 +107,7 @@ function _shn_sync_file_details(){
     shn_form_fopen('synchronize',NULL,array('req_message'=>false));
     echo "<center>";
     echo "<a href=\"#\" onclick=\"document.getElementById('adv_opt').style.display='block';\">Advance Options</a>";
-    shn_form_submit('Start Synchronizing');
+    shn_form_submit('Import');
     echo "</center>";
     echo "<div id='adv_opt' style='display:none'>";
     shn_form_fsopen('Advance Options');

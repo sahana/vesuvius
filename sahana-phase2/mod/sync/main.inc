@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.26 2006-12-13 06:27:33 priyanga Exp $ */
+/* $Id: main.inc,v 1.27 2006-12-13 17:29:09 priyanga Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -38,17 +38,17 @@ function shn_sync_mainmenu()
     $module = $global['module'];
 
     // Create the module menu
-    shn_mod_menuopen(_("Synchonization Module"));
+    shn_mod_menuopen(_("Synchronization Module"));
 
     shn_mod_menuitem("default",_("Home"));
 //     shn_sub_mod_menuopen(_("Sahana Servers"));
 //     shn_sub_mod_menuitem("sws",_("Sync with Servers"));
 //     shn_sub_mod_menuitem("ads",_("Add Server"));
 //     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Pony Express"));
-    shn_mod_menuitem("download",_("Download Data"));
-    shn_mod_menuitem("upload",_("Upload Data"));
-    shn_sub_mod_menuclose();
+//     shn_sub_mod_menuopen(_("Pony Express"));
+    shn_mod_menuitem("download",_("Export Data"));
+    shn_mod_menuitem("upload",_("Import Data"));
+//     shn_sub_mod_menuclose();
     shn_mod_menuitem("history",_("History"));
     shn_mod_menuclose();
    

@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.4 2006-08-01 08:05:41 priyanga Exp $ */
+/* $Id: home.inc,v 1.5 2006-12-13 17:29:09 priyanga Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -11,6 +11,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author	   J P Fonseka <jo@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage mpr
@@ -18,15 +19,15 @@
  */
 ?>
 <div id="home">
-<h2><?= _('Sahana to Sahana Synchonization Module'); ?></h2>
+<h2><?= _('Sahana to Sahana Synchronization Module'); ?></h2>
 <!-- <img src="theme/default/img/mpr.png"/> -->
-<p><?= _('This module helps you to synchonize data between sahana instances and work sahana in a larger network.'); ?><br /><br />
+<p><?= _('This module helps you to synchronize and share data between Sahana instances and work Sahana in a larger network.'); ?><br /><br />
 <?= _('Features include:');?>
-<ul>
-    <li><?= _('Join to Discovery Servers'); ?></li>
-    <li><?= _('Synchonize with different Sahana Instance and Keep a track of updates'); ?></li>
-    <li><?= _('Broadcast data that is to be shared'); ?></li>
-</ul>
-<center><em class="red">This module is still under heavy development It is not advisable to use it for practical purposes</em></center>
 </p>
+<ul>
+    <li><?= _('System data Import and Export.'); ?></li>
+    <li><?= _('Browsing history of data sharing and synchronizing. Tracking other Sahana instances.'); ?></li>
+</ul>
+
+<!--<center><em class="red">This module is still under heavy development It is not advisable to use it for practical purposes</em></center> -->
 </div>
