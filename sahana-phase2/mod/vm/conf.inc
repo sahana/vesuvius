@@ -15,4 +15,3 @@ $conf['mod_vm_name'] = _("Volunteer Management");
 $conf['mod_vm_hack'] = 1;
 //$conf['mod_vm_menuorder'] = 1;
 ?>
-
