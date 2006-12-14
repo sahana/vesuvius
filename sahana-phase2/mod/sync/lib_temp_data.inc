@@ -17,11 +17,11 @@
  */
 
 function create_tmp_table($table){
-//get the field info
+    //get the field info
     global $global;
     $fields=$global['db']->MetaColumns($table,true);
     //print_r($fields);
-//create the sql
+    //create the sql
     $sql="CREATE TABLE tmp_".$table."(";
     foreach($fields as $field){
         $sql.="\n".$field->name." ".$field->type;
@@ -34,16 +34,15 @@ function create_tmp_table($table){
     }
     $sql=rtrim($sql,",");
     $sql.=")";
-//drop the previous table
+    //drop the previous table
     $sql_drop="DROP TABLE tmp_".$table.
-//create the table
+    //create the table
     $global['db']->DropSequence("tmp_".$table);
     $global['db']->Execute($sql);
 }
 
 function insert_record($rec,$table){
     global $global;
-//    $GLOBALS['ADODB_FORCE_TYPE']=1;
     $global['db']->AutoExecute("tmp_".$table,$rec,'INSERT');
 }
 
