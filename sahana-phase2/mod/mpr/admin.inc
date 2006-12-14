@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: admin.inc,v 1.7 2006-12-14 11:11:25 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.8 2006-12-14 19:02:38 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -88,12 +88,15 @@ function _shn_mpr_adm_gen_validate() {
 	return $error_flag;
 
 }
-
+//added by isuru
 function shn_mpr_insert_to_config($val) {
 	global $global;
 	$db = $global["db"];
-	$q = "insert into config values('','mpr','mod_mpr_pictures_per_page','$val')";
-	$res_acl = $db->Execute($q);
+	$q1="delete from config where confkey='mod_mpr_pictures_per_page'";
+	 $db->Execute($q1);
+	
+	$q2 = "insert into config values('','mpr','mod_mpr_pictures_per_page','$val')";
+	 $db->Execute($q2);
 
 }
 
