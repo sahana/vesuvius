@@ -52,7 +52,7 @@ function shn_mpr_search_show_verticle($details)
 	            echo ($details[$i]['last_clothing']?_('Last Clothing : ').$details[$i]['last_clothing'].'<br>':'');
 	            echo ($details[$i]['comments']?_('Comments : ').$details[$i]['comments']:'');
 	        } 
-            echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._('Assign to more incidents').'</a>';
+            echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php
@@ -73,7 +73,7 @@ function shn_mpr_search_show_verticle($details)
 	                echo ($details[$i+1]['last_clothing']?_('Last Clothing : ').$details[$i+1]['last_clothing'].'<br>':'');
 	                echo ($details[$i+1]['comments']?_('Comments : ').$details[$i+1]['comments']:'');
 		        } 
-                echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._('Assign to more incidents').'</a>';
+                echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php
