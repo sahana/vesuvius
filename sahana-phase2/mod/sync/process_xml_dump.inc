@@ -80,17 +80,18 @@ xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
 xml_set_element_handler($xml_parser, "startElement", "endElement");
 xml_set_character_data_handler($xml_parser, "characterData");
 if (!($fp = $file_open($file, "r"))) {
-    $global['xajax']->addAssign("console","innerHTML", "Can not open file......");
+    add_error(_("Can not open file."));
+    $global['xajax']->addAssign("console","innerHTML", display_errors(true));
     return $global['xajax']->getXML();
 }
 
 while ($data = $read($fp, 4096)) {
     if (!xml_parse($xml_parser, $data, feof($fp))) {
-        $error=sprintf("XML error: %s at line %d",
-                    xml_error_string(xml_get_error_code($xml_parser)),
-                    xml_get_current_line_number($xml_parser));
-                $global['xajax']->addAssign("console","innerHTML", $error);
-                return $global['xajax']->getXML();
+        $error=sprintf(_("XML error: %s at line %d"),  xml_error_string(xml_get_error_code($xml_parser)), xml_get_current_line_number($xml_parser));
+        add_error(_("Error in upload file: Unable to continue importing."));
+        add_error($error);
+        $global['xajax']->addAssign("console","innerHTML", display_errors(true));
+        return $global['xajax']->getXML();
     }
 }
 xml_parser_free($xml_parser);
