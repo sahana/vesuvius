@@ -142,10 +142,11 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
  * @return void
  */
 function shn_sub_mod_menuopen($desc) 
-{   
+{
+    $id=str_replace(" ", "_", $desc);
 ?>
-	<li><a href="#" onClick="expand('<?=$desc?>',this);" class="smopen"><?=$desc?></a>
-		<ul id="<?=$desc?>">
+	<li><a href="#" onclick="expand('<?=$id?>',this);" class="smopen"><?=$desc?></a>
+		<ul id="<?=$id?>">
 <?php
 }
 
