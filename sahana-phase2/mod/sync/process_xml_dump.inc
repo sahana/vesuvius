@@ -86,15 +86,16 @@ if (!($fp = $file_open($file, "r"))) {
 }
 
 while ($data = $read($fp, 4096)) {
+    set_time_limit(10);
     if (!xml_parse($xml_parser, $data, feof($fp))) {
         $error=sprintf(_("XML error: %s at line %d"),  xml_error_string(xml_get_error_code($xml_parser)), xml_get_current_line_number($xml_parser));
         add_error(_("Error in upload file: Unable to continue importing."));
         add_error($error);
-        $global['xajax']->addAssign("console","innerHTML", display_errors(true));
+        throw new Exception($error);
         return $global['xajax']->getXML();
     }
 }
 xml_parser_free($xml_parser);
 $file_close($fp);
-return false;
+
 ?>

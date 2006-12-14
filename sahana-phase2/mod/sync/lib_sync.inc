@@ -15,48 +15,6 @@
  *
  */
 
-
-function shn_sync_merge($table){
-    global $global;
-    //getting the primary keys of the tables
-    $primary=$global['db']->MetaPrimaryKeys($table);
-    //creating the delete query
-    if(!is_array($primary)){
-        $primary=$global['db']->MetaColumnNames($table);
-        $del_sql="DELETE a FROM tmp_".$table." AS a , ".$table." AS b WHERE ";
-        foreach($primary as $key){
-            $del_sql.= "a.".$key."=b.".$key." AND ";
-        }
-        $del_sql.="1>0";
-    }
-    else if(1==count($primary)){
-        $del_sql="DELETE FROM tmp_".$table." WHERE ";
-        $del_sql.=$primary[0]." IN (SELECT ".$primary[0]." FROM ".$table.")";
-    }
-    else{
-        $del_sql="DELETE a FROM tmp_".$table." AS a , ".$table." AS b WHERE ";
-        foreach($primary as $key){
-            $del_sql.= "a.".$key."=b.".$key." AND ";
-        }
-        $del_sql.="1>0";
-    }
-
-    //deleting the existing tables
-    if ($global['db']->Execute($del_sql) === false) {
-        print_r($primary);
-        print 'Error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
-    }
-    $del_no=$global['db']->Affected_Rows();
-    $_SESSION['report']->set_delete_number($table,$del_no);
-    //mearging the tables
-    $in_sql="INSERT INTO ".$table." SELECT * FROM tmp_".$table;
-    if (($rs=$global['db']->Execute($in_sql)) === false) {
-        print 'Error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
-    }
-    $ins_no=$global['db']->Affected_Rows();
-    $_SESSION['report']->set_insert_number($table,$ins_no);
-}
-
 //this function will delete the duplicate records considering the uuid
 function shn_sync_delete_duplicate($table){
     global $global;
@@ -85,7 +43,8 @@ function shn_sync_delete_duplicate($table){
 
     //deleting the existing tables
     if ($global['db']->Execute($del_sql) === false) {
-        print 'Error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+        add_error('Error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n");
+        throw new Exception($error);
     }
     $del_no=$global['db']->Affected_Rows();
     $_SESSION['report']->set_delete_number($table,$del_no);
@@ -120,8 +79,8 @@ function shn_sync_update_duplicate($table){
 
     //update the existing tables
     if ($global['db']->Execute($sql) === false) {
-        echo $sql;
-        echo 'Error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+        add_error('Error upating: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n");
+        throw new Exception($error);
     }
     $no=$global['db']->Affected_Rows();
     $_SESSION['report']->set_update_number($table,$no);
@@ -137,25 +96,21 @@ function shn_sync_insert($table){
     //mearging the tables
     $in_sql="INSERT INTO ".$table." SELECT * FROM tmp_".$table;
     if (($rs=$global['db']->Execute($in_sql)) === false) {
-        print '41 error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+        add_error('Error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n");
+        throw new Exception($error);
     }
     $ins_no=$global['db']->Affected_Rows();
     $_SESSION['report']->set_insert_number($table,$ins_no);
 }
-
-//this function will delete records with same patterns
-function shn_sync_delete_pattern(){
-
-}
-
 
 
 //function to upate the sync instance table
 function _shn_sync_update_instance(){
     global $global;
     if ($global['db']->Replace('sync_instance',$_SESSION['sync_instance'], 'base_uuid') === false) {
-        print_r($primary);
-        print '36 error deleting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
+        add_error("Error updating instance information");
+        add_error('Error updating: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n");
+        throw new Exception($error);
     }
 }
 

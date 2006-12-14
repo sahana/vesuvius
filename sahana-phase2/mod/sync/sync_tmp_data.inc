@@ -17,6 +17,9 @@
 global $global;
 include_once('lib_sync.inc');
 
+//this process must not end in the middle
+ignore_user_abort(true);
+
 //if the overwrite data is yes update the tables;
 if($_SESSION['oed']=='yes'){
         foreach($_SESSION['sync']['tables'] as $table)
@@ -33,10 +36,12 @@ switch ($_SESSION['threshold']){
 }
 
 //loop through remaining temperory tables and merge
-foreach($_SESSION['sync']['tables'] as $table){
+foreach($_SESSION['sync']['tables'] as $table)
     shn_sync_delete_duplicate($table);
+
+foreach($_SESSION['sync']['tables'] as $table)
     shn_sync_insert($table);
-}
+
 //
 
 //add the instance data to the instance table
@@ -52,6 +57,6 @@ $rs=$global['db']->Execute($sql);
 if ($rs=== false) {
     print 'error inserting: '.$global['db']->ErrorNo().$global['db']->ErrorMsg()."\n";
 }
-    
-//
+
+
 ?>
