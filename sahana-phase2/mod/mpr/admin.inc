@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: admin.inc,v 1.8 2006-12-14 19:02:38 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.9 2006-12-14 19:05:18 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
