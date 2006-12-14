@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: list_found.inc,v 1.3 2006-12-10 15:10:03 isurunishan Exp $ */
+/* $Id: list_found.inc,v 1.4 2006-12-14 11:14:17 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support
@@ -18,26 +18,6 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 ?>
-<script language="JavaScript">
-
-function printImages(title,division)
-{
-	
-  var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
-      disp_setting+="scrollbars=yes,width=650, height=600, left=100, top=25"; 
-  var content_vlue = document.getElementById(division).innerHTML; 
-  
-  var docprint=window.open("","",disp_setting); 
-   docprint.document.open(); 
-   docprint.document.write('<html><head><title>'+title+'</title>'); 
-   docprint.document.write('</head><body onLoad="self.print()"><center>');          
-   docprint.document.write(content_vlue);          
-   docprint.document.write('</center></body></html>'); 
-   docprint.document.close(); 
-   docprint.focus(); 
-	
-}
-</script>
 
 <div id="home_recent">
 <h1><?= _('Found People'); ?></h1>
@@ -63,7 +43,8 @@ if ($count > $limit) {
 
 	for ($i = 0; $i < $no_of_pages_required; $i++) {
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>"><?=$i+1?></a>
+<!--<div class="hide">-->
+<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>" class="hideprint"><?=$i+1?></a>
 
 <?php
 
@@ -74,7 +55,7 @@ if ($count > $limit) {
 		$next = 0;
 ?>
 
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>">Next</a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>" class="hideprint">Next</a>
 
 <?php
 
@@ -83,13 +64,14 @@ if ($count > $limit) {
 
 	for ($i = 0; $i < $no_of_pages_required; $i++) {
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>"><?=$i+1?></a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>" class="hideprint"><?=$i+1?></a>
 
 <?php
 
 	}
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>">Next</a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>" class="hideprint">Next</a>
+<!--</div>-->
 <?php
 
 } else {
@@ -98,7 +80,7 @@ if ($count > $limit) {
 }
 print '<BR/><BR/>';
 ?>
-<input type="button"  value="Print Current Page" onClick="printImages('Found People','home_recent')"/>
+<input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/>
   
   
   
