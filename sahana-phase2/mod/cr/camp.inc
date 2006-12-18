@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.38 2006-11-16 05:02:27 mifanc Exp $ */
+/* $Id: camp.inc,v 1.39 2006-12-18 10:09:57 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -410,12 +410,12 @@ function _shn_cr_cadd_commit_db()
 		 $res = $db->Execute($q);
 		 }
 		}
+	add_confirmation(_("You Have Succesfully Registered shelter $_SESSION[camp_name]"));
 	?>
-	<h2><?=_("You Have Succesfully Registered shelter '{$_SESSION[camp_name]}'")?></h2>
-	
-	<br>
-	<br>
-	<?php echo _("The Availability of Services & Facilities of the Shelter are as follows:")?></h3>
+	<br />
+	<div id="note">
+		<?php echo _("The Availability of Services & Facilities of the Shelter are as follows:")?>
+	</div>
 	<!--<p>Facilities / Services Availability</p>-->
 	<ul>
 	
@@ -465,8 +465,10 @@ function _shn_cr_cadd_commit_db()
 </div>
 
 </ul>
-<br><br>
-<p><?php echo _("Use the Left Navigation Menu to Continue.")?></p>
+<br/>
+<div id="note">
+	<?php echo _("Use the Left Navigation Menu to Continue.")?>
+</div>
 
 <?php	
 unset($_SESSION['hospital']);
