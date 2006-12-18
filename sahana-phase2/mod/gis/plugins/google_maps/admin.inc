@@ -51,6 +51,7 @@ function shn_plugin_commit()
 		
 	if(!null==($_POST['gmap_key'])){
 		echo "Changes Saved";
+		add_confirmation(_("Changes were saved"));
 		$query = "select * from config where confkey='google_key' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF)
