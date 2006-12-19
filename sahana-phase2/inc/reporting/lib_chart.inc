@@ -113,12 +113,12 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 
 	//print_r($final_data_arr);
 
-    $graph = new PHPlot(350,200);
+    $graph = new PHPlot(350,275);
     $graph->Setchartid($chart_ID);
     $graph->SetDataType("text-data");  
     $graph->SetDataValues($final_data_arr);
     $graph->SetFileFormat("png"); 
-    $graph->SetImageArea(350,200);
+    $graph->SetImageArea(350,275);
     $graph->SetTitleFontSize( "5");
     $graph->SetTitle( $title);
     $graph->Setkeyword($keyword_arr_in);

@@ -720,6 +720,12 @@ function report_download_link($report_id)
     return "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
 }
 
+function shn_report_download($report_id,$string)
+{
+    $link = "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
+    print "<a href= ".$link."> ".$string." </a>";
+}
+
 /**
  * This function return boolean value of whether the report generation ok or not.
  *
