@@ -674,7 +674,7 @@ function shn_chart_download_link($chart_id)
 }
 
 /**
- * This functionwill return the url to display the chart
+ * This function will return the url to display the chart
  *
  * @param string $chart_id
  * @return string
@@ -682,6 +682,30 @@ function shn_chart_download_link($chart_id)
 function shn_chart_display_link($chart_id)
 {
     return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+}
+
+/**
+ * This function will prompt user to download the chart
+ *
+ * @param string $chart_id
+ * @return string
+ */
+function shn_chart_download($chart_id,$string)
+{
+    $link = "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    print "<a href= ".$link."> ".$string." </a>";
+}
+
+/**
+ * This function will display the chart
+ *
+ * @param string $chart_id
+ * @return string
+ */
+function shn_chart_display($chart_id)
+{
+    $link = "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    print "<img src = '".$link."' /> ";
 }
 
 /**
