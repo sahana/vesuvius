@@ -48,4 +48,6 @@ define(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT,"You have entered a larger amount tha
 define(SHN_ERR_IMS_UNIT_INCOMPLETE,"Unit is essential for registration. Please Complete and submit it again");
 define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
 
+define(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE,"Time Amount is essential for the Prediction. Please Complete it and Submit again");
+
 ?>

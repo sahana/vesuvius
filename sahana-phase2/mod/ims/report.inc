@@ -31,9 +31,7 @@ function shn_ims_rpt_default()
     _shn_ims_expired_item_xhtml();
     _shn_ims_destroyed_item_xhtml();
     _shn_ims_reorder_level_report_xhtml();
-    //shn_ims_cat_item_pdf_report();
-    //shn_cs_cat_item_ods_report();
-    //shn_cs_cat_item_xhtml_report();
+    
 }
 
 function shn_ims_expired_item_report()
@@ -53,7 +51,7 @@ function shn_ims_expired_item_report()
    	shn_pdf_report_add_table($table_header,$table_data);
     	shn_pdf_report_close();
 
-	report_download_link('shn_ims_expired_item_report');
+	report_download_link("shn_ims_expired_item_report");
 
     
 }

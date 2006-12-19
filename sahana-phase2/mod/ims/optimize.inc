@@ -19,6 +19,7 @@
 //include_once $global['approot']."/inc/lib_form.inc";
 //include_once $global['approot']."/inc/lib_errors.inc";
 include_once "lib_ims.inc";
+include_once "errors.inc";
 
 /**
 ****************************************************************************************************************
@@ -384,9 +385,9 @@ function _shn_ims_optim_inventory()
 
     shn_form_fsopen("Prediction Type");
     $prediction_array=array();
-    $prediction_array["send"]="SEND";
-    $prediction_array["receive"]="RECEIVE";
-    $prediction_array["available"]="AVAILABLE";
+    $prediction_array["send"]="Sent";
+    $prediction_array["receive"]="Receive";
+    $prediction_array["available"]="Available";
     shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
     shn_form_fsclose();
 
@@ -397,6 +398,21 @@ function _shn_ims_optim_inventory()
     shn_form_select($algorithm_array,_("Algorithm Selection : "),'algorithm','size="1"',null);
     shn_form_fsclose();
     
+
+shn_form_fsopen("Time Period to make Prediction");
+	//shn_form_text();
+	
+	shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
+	$time_period_array=array();
+	$time_period_array["day"]="day/days";
+	$time_period_array["week"]="week";
+	$time_period_array["month"]="month";
+	shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
+	shn_form_fsclose();
+	shn_form_button(_("Customized Report"),"onClick='change_action_inventory(\"customizedreport\")'",$extra_opts);
+	shn_form_hidden(array('action'=>'0'));
+    //shn_form_submit("Predict");
+	
 ?>
 <center>
 <?php
@@ -412,19 +428,6 @@ function _shn_ims_optim_inventory()
 ?>
 </center>
 <?php
-shn_form_fsopen("Time Period to make Prediction");
-	//shn_form_text();
-	
-	shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
-	$time_period_array=array();
-	$time_period_array["day"]="day/days";
-	$time_period_array["week"]="week";
-	$time_period_array["month"]="month";
-	shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
-	shn_form_fsclose();
-	shn_form_button(_("Customized Report"),"onClick='change_action_inventory(\"customizedreport\")'",$extra_opts);
-	shn_form_hidden(array('action'=>'0'));
-    //shn_form_submit("Predict");
 	shn_form_fclose();
 }
 
@@ -1126,14 +1129,15 @@ $depth=get_max_depth();
 
 	shn_form_fsopen("Prediction Type");
 	$prediction_array=array();
-	$prediction_array["send"]="SEND";
-	$prediction_array["receive"]="RECEIVE";
-	$prediction_array["available"]="AVAILABLE";
+	$prediction_array["send"]="Sent";
+	$prediction_array["receive"]="Received";
+	$prediction_array["available"]="Available";
 	shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
 	shn_form_fsclose();
 
 	shn_form_fsopen("Algorithm Selection");
         $algorithm_array=array();
+	//$algorithm_array["moving_average"]="Simple Moving Average";
         $algorithm_array["single"]="Single Exponential Smoothing";
         $algorithm_array["double"]="Double Exponential Smoothing";
         shn_form_select($algorithm_array,_("Algorithm Selection : "),'algorithm','size="1"',null);
@@ -1145,8 +1149,8 @@ $depth=get_max_depth();
 	shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
 	$time_period_array=array();
 	$time_period_array["day"]="day/days";
-	$time_period_array["week"]="week";
-	$time_period_array["month"]="month";
+	$time_period_array["week"]="week/weeks";
+	$time_period_array["month"]="month/months";
 	shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
 	$extra_opts['br']=false;
     	$extra_opts['req']=false;
@@ -1279,6 +1283,7 @@ function _shn_ims_optim_item_actions()
 	$catalog_id=$_POST['parent_id'];
 	$inv_id=$_POST['inv_id'];
 	$time_amount=trim($_POST['time_amount']);
+	
 	$time=trim($_POST['time_period']);
 	if($time=="day")
 	{
@@ -1465,6 +1470,29 @@ function _shn_ims_optim_item_actions()
 	<!--<image src="tmp/lineChart.png"></image>-->
 <?php
 	
+}
+
+/**
+***************************************** Validate Prediction Page ****************************************************
+*/
+
+function _shn_ims_validate_prediction_page()
+{
+    global $global;
+    $db=$global["db"];
+
+    $error_flag=false;
+
+    $time_amount=trim($_POST['time_amount']);
+
+    if($time_amount==null)
+    {
+        add_error(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE);
+        $error_flag=true;
+    }
+
+    return $error_flag;
+
 }
 
 function _shn_ims_optimize_relation_items()

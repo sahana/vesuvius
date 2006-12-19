@@ -679,7 +679,22 @@ function shn_ims_prediction_inv()
 {
     global $global;
     include_once("optimize.inc");
-    _shn_ims_prediction_inv_actions();
+    $action=trim($_POST['action']);
+    if($action=='customizedreport')
+    {
+    	if(_shn_ims_validate_prediction_page())
+	{
+	    shn_ims_optim_inventory();
+	}
+	else
+	{
+	    _shn_ims_prediction_inv_actions();
+	}
+    }
+    else
+    {
+        _shn_ims_prediction_inv_actions();
+    }
 }
 
 function shn_ims_optim_relation_inventories()
@@ -711,9 +726,26 @@ function shn_ims_prediction_page()
 
 function shn_ims_prediction_report()
 {
-	global $global;
-	include_once ("optimize.inc");
+    global $global;
+
+    include_once ("optimize.inc");
+    $action=trim($_POST['action']);
+
+    if($action=='customizedreport')
+    {
+	if(_shn_ims_validate_prediction_page())
+        {
+	    shn_ims_optim_item();
+        }
+	else
+        {
+	    _shn_ims_optim_item_actions();
+        }
+    }
+    else
+    {
 	_shn_ims_optim_item_actions();
+    }
 }
 
 function shn_ims_optimize_relation_items()
@@ -841,6 +873,7 @@ function shn_ims_expired_item_report1()
     {
 	_shn_ims_expired_item_xhtml();
     }
+    
     
     
     include_once $global['approot']."/inc/reporting/lib_reporting.inc";
