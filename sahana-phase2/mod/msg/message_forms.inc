@@ -261,9 +261,9 @@ function _shn_validate_edit_group()
 	    $email_address=$email_array[$i];
 	    if(!shn_valid_email($email_address))
 	    {
-		add_error(SHN_ERR_MSG_EMAIL);
+		add_error($email_address." ".SHN_ERR_MSG_EMAIL);
                 $error=true;
-  		break;
+  		//break;
 	    }
 	}
     }
@@ -274,9 +274,9 @@ function _shn_validate_edit_group()
 	    $mobile_temp=$mobile_array[$i];
 	    if(!is_numeric($mobile_temp))
             {
-                add_error(SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
+                add_error($mobile_temp." ".SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
                 $error_flag=true;
-		break;
+		//break;
             }
 	}
     }
@@ -392,6 +392,8 @@ function _shn_msg_send_group()
     shn_form_textarea(_("Message : "),'message','size="40"',array('req'=>true, 'help'=>_('Enter Your message here')));
 
     shn_form_multi_select('group_select',$group_array,_("Group/s Selection"),'size="5" multiple="true"',array('req'=>true,'help'=>_('Select the Group or Groups')));
+   // shn_form_select($group_array,_('Group Selection'),'group_select','size="1"',null);
+    //shn_form_opt_multi_select('group_select','','multiple="true"',$extra_opts);
     shn_form_fsclose();
 
     //shn_form_radio(null,_("Undefined"),'undefined','size="2"',null);
@@ -421,14 +423,10 @@ function _shn_msg_send_group_action()
     $email=trim($_POST['email']);
     $phone=trim($_POST['phone']);
 
-    if($undefined)
-    {
-	print ("true");
-    }
-    else
-    {
-	print ("false");
-    }
+    //print_r($group_select);
+    print $group_select;
+
+    
 }
 
 ?>
