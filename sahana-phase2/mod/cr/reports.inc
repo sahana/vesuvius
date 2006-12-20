@@ -67,7 +67,7 @@ function _shn_cr_rpt_all(){
             <td><?=_("Shelter Type")?></td>
             <td><?=_("Address")?></td> 
             <td><?=_("Location")?></td>
-            <td><?=_("No: of Families")?></td>
+            <!--<td><?=_("No: of Families")?></td>-->
             <td><?=_("No: of Males")?></td>
             <td><?=_("No: of Females")?></td>
             <td><?=_("No: of Children")?></td>
@@ -106,7 +106,7 @@ function _shn_cr_rpt_all(){
 					<td><?php echo $res_type->fields['option_description']?></td>
   					<td><?php echo $res_camp->fields['address']?></td>
   					<td><?php echo $res_loc->fields['name']?></td>
-    				<td><?php echo $res_cmp->fields['family']?></td>
+    				<!--<td><?php echo $res_cmp->fields['family']?></td>-->
     				<td><?php echo $res_cmp->fields['men']?></td>
     				<td><?php echo $res_cmp->fields['women']?></td>
     				<td><?php echo $res_cmp->fields['children']?></td>
