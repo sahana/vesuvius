@@ -124,8 +124,8 @@ function _shn_rms_get_person($id)
         
         $person['uuid'] = $psn_arr[0]['p_uuid'];
         $person['name'] = $psn_arr[0]['full_name'];
-        
-        $sql = "SELECT * FROM contact WHERE pgoc_uuid='$id'";
+        $person_uuid = $person['uuid'];
+        $sql = "SELECT * FROM contact WHERE pgoc_uuid='$person_uuid'";
         $rs_cnt = $global['db']->Execute($sql);
         
         if ($rs_cnt !== null)
