@@ -79,6 +79,14 @@ function _shn_msg_validate_add_group()
     $email=trim($_POST['email']);
     $mobile_number=trim($_POST['mobile_number']);
 
+    $email_array=array();
+    $email_array=split(",",$email);
+    $number_of_address=count($email_array);
+
+    $mobile_array=array();
+    $mobile_array=split(",",$mobile_number);
+    $number_of_mobiles=count($mobile_array);
+
     if($group_name==NULL)
     {
 	add_error(SHN_ERR_MSG_GROUP_NAME_INCOMPLETE);
@@ -88,6 +96,30 @@ function _shn_msg_validate_add_group()
     {
 	add_error(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE);
         $error_flag=true;
+    }
+    if(!$email==NULL)
+    {
+	for($i=0;$i<$number_of_address;$i++)
+	{
+	    $email_address=$email_array[$i];
+	    if(!shn_valid_email($email_address))
+	    {
+		add_error(SHN_ERR_MSG_EMAIL);
+                $error=true;
+	    }
+	}
+    }
+    if(!$mobile_number==NULL)
+    {
+	for($i=0;$i<$number_of_mobiles;$i++)
+	{
+	    $mobile_temp=$mobile_array[$i];
+	    if(!is_numeric($mobile_temp))
+            {
+                add_error(SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
+                $error_flag=true;
+            }
+	}
     }
 
     return $error_flag;
@@ -204,6 +236,14 @@ function _shn_validate_edit_group()
     $email=trim($_POST['email']);
     $mobile_number=trim($_POST['mobile_number']);
 
+    $email_array=array();
+    $email_array=split(",",$email);
+    $number_of_address=count($email_array);
+
+    $mobile_array=array();
+    $mobile_array=split(",",$mobile_number);
+    $number_of_mobiles=count($mobile_array);
+
     if($group_name==NULL)
     {
 	add_error(SHN_ERR_MSG_GROUP_NAME_INCOMPLETE);
@@ -213,6 +253,30 @@ function _shn_validate_edit_group()
     {
 	add_error(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE);
         $error_flag=true;
+    }
+    if(!$email==NULL)
+    {
+	for($i=0;$i<$number_of_address;$i++)
+	{
+	    $email_address=$email_array[$i];
+	    if(!shn_valid_email($email_address))
+	    {
+		add_error(SHN_ERR_MSG_EMAIL);
+                $error=true;
+	    }
+	}
+    }
+    if(!$mobile_number==NULL)
+    {
+	for($i=0;$i<$number_of_mobiles;$i++)
+	{
+	    $mobile_temp=$mobile_array[$i];
+	    if(!is_numeric($mobile_temp))
+            {
+                add_error(SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
+                $error_flag=true;
+            }
+	}
     }
 
     return $error_flag;
@@ -345,6 +409,24 @@ function _shn_msg_send_group()
 <?php
     shn_form_fclose();
 
+}
+
+function _shn_msg_send_group_action()
+{
+    $message=trim($_POST['message']);
+    $group_select=trim($_POST['group_select']);
+    $undefined=trim($_POST['undefined']);
+    $email=trim($_POST['email']);
+    $phone=trim($_POST['phone']);
+
+    if($undefined)
+    {
+	print ("true");
+    }
+    else
+    {
+	print ("false");
+    }
 }
 
 ?>
