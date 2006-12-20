@@ -24,6 +24,7 @@ include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
+include_once 'errors.inc';
 require_once $global['approot']."/inc/lib_misc.inc";
 
 
@@ -134,7 +135,14 @@ function shn_msg_add_group_actions()
     }
     if($action=="save")
     {
-	_shn_msg_add_group_actions();
+	if(_shn_msg_validate_add_group())
+	{
+	    shn_msg_add_group();
+	}
+	else
+	{
+	    _shn_msg_add_group_actions();
+	}
     }
 }
 
@@ -160,9 +168,16 @@ function shn_msg_view_edit_group_actions()
     
     if($action=="edit")
     {
-	$sql_edit="UPDATE messaging_group SET group_name='{$group_name}',address='{$email}',mobile='{$mobile_number}' WHERE group_uuid='$group_uuid';";
-	$msg_edit=$db->Execute($sql_edit);
-	shn_msg_edit_group();
+	if(_shn_validate_edit_group())
+	{
+	    shn_msg_edit_group_item();
+	}
+	else
+	{
+	    $sql_edit="UPDATE messaging_group SET group_name='{$group_name}',address='{$email}',mobile='{$mobile_number}' WHERE group_uuid='$group_uuid';";
+	    $msg_edit=$db->Execute($sql_edit);
+	    shn_msg_edit_group();
+	}
     }
     if($action=="delete")
     {
