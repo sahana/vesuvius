@@ -300,7 +300,7 @@ CREATE TABLE identity_to_person (
     serial VARCHAR(100), -- id card #, passport #, Driving License # etc
     opt_id_type VARCHAR(10), -- can be customized in the field options table
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
-)
+);
 
 /**
 * The main details on a person
