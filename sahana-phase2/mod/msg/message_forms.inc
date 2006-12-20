@@ -31,8 +31,11 @@ function _shn_msg_add_group()
     shn_form_fopen("add_group_actions",null,$form_opts);
     shn_form_fsopen("Add Group");
     shn_form_text(_("Group Name : "),'group_name','size="50"',array('req'=>true,'help'=>_('Name of the Group')));
-    shn_form_textarea(_("e-mail address/es : "),'email','size="40"',array('req'=>true, 'help'=>_('If you want to enter multiple e-mail addresses please seperate them by using a comma')));
-    shn_form_textarea(_("Mobile Number/s : "),'mobile_number','size="40"',array('req'=>true, 'help'=>_('If you want to enter multiple mobile numbers please seperate them by using a comma')));
+
+    ?><div class="info"><?=_("If you want to enter multiple e-mail addresses and multiple mobile numbers, please seperate them by only using a comma.");?></div><br /><?
+
+    shn_form_textarea(_("e-mail address/es : "),'email','size="40"',array('req'=>true));
+    shn_form_textarea(_("Mobile Number/s : "),'mobile_number','size="40"',array('req'=>true));
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
@@ -60,34 +63,35 @@ function _shn_msg_add_group_actions()
     $mobile_number=trim($_POST['mobile_number']);
 
     $id = shn_create_uuid("messaging");
-    print $id;
+    //print $id;
 
     $sql1="INSERT INTO messaging_group (group_uuid,group_name,address,mobile) VALUES ('$id','$group_name','$email','$mobile_number');";
 	$msg1 = $db->Execute($sql1);
-   /* $array_words=array();
-    $array_words=split(",",$email);
-    $number_of_words=count($array_words);
+   
 
-    $flag="e-mail";
+}
+
+function _shn_msg_validate_add_group()
+{
+    $error_flag=false;
     
-    for($i=0;$i<$number_of_words;$i++)
+    $group_name=trim($_POST['group_name']);
+    $email=trim($_POST['email']);
+    $mobile_number=trim($_POST['mobile_number']);
+
+    if($group_name==NULL)
     {
-	$sql1="INSERT INTO messaging_group (group_name,message_type,address) VALUES ('$group_name','$flag','$array_words[$i]');";
-	$msg1 = $db->Execute($sql1);
+	add_error(SHN_ERR_MSG_GROUP_NAME_INCOMPLETE);
+        $error_flag=true;
+    }
+    if($email==null && $mobile_number==NULL)
+    {
+	add_error(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE);
+        $error_flag=true;
     }
 
-    $flag="sms";
-
-    $array_mobile=array();
-    $array_mobile=split(",",$mobile_number);
-    $number_of_words=count($array_mobile);
-
-    for($i=0;$i<$number_of_words;$i++)
-    {
-	$sql2="INSERT INTO messaging_group (group_name,message_type,address) VALUES ('$group_name','$flag','$array_mobile[$i]');";
-	$msg2 = $db->Execute($sql2);
-    }*/
-
+    return $error_flag;
+    
 }
 
 function _shn_msg_edit_group()
@@ -102,8 +106,8 @@ function _shn_msg_edit_group()
     <div id ="result">
     <table>
         <thead>
-        <td><?=_("Group");?></td>
-        <td><?=_("Count");?></td>
+        <td><?=_("Group Name");?></td>
+        <td><?=_("Mail IDs/Phone Numbers Count");?></td>
         <td><?=_("Action");?></td>
         </thead>
     <tbody>
@@ -132,8 +136,8 @@ function _shn_msg_edit_group()
 ?>
 	<tr>
 	<td><?php print $group_name;?></td>
-	<td><?php print ($number_of_address." e-mails/".$number_of_mobiles." sms messages");?></td>
-	<td><a href="index.php?mod=msg&act=edit_group_item&group_uuid=<?php echo $group_uuid;?>"><?php print ("Edit");?></a></td>
+	<td><?php print ($number_of_address." mail IDs/".$number_of_mobiles." phone numbers");?></td>
+	<td><a href="index.php?mod=msg&act=edit_group_item&group_uuid=<?php echo $group_uuid;?>"><?php print ("View and Edit");?></a></td>
 	</tr>
 <?php
 	
@@ -178,7 +182,7 @@ function _shn_msg_edit_group_form($group_uuid)
 ?>
 <center>
 <?php
-    shn_form_button(_("Edit"),"onClick='change_action_view_edit(\"edit\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='change_action_view_edit(\"edit\")'",$extra_opts);
     shn_form_button(_("Delete"),"onClick='change_action_view_edit(\"delete\")'",$extra_opts);
     shn_form_button(_("Close"),"onClick='change_action_view_edit(\"close\")'",$extra_opts);
 
@@ -190,6 +194,28 @@ function _shn_msg_edit_group_form($group_uuid)
 </center>
 <?php
     shn_form_fclose();	
+}
+
+function _shn_validate_edit_group()
+{
+    $error_flag=false;
+
+    $group_name=trim($_POST['group_name']);
+    $email=trim($_POST['email']);
+    $mobile_number=trim($_POST['mobile_number']);
+
+    if($group_name==NULL)
+    {
+	add_error(SHN_ERR_MSG_GROUP_NAME_INCOMPLETE);
+        $error_flag=true;
+    }
+    if($email==NULL && $mobile_number==NULL)
+    {
+	add_error(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE);
+        $error_flag=true;
+    }
+
+    return $error_flag;
 }
 
 
@@ -205,9 +231,9 @@ function _shn_msg_list_group()
     <div id ="result">
     <table>
         <thead>
-        <td><?=_("Group");?></td>
-        <td><?=_("e-mails");?></td>
-        <td><?=_("SMS messages");?></td>
+        <td><?=_("Group Name");?></td>
+        <td><?=_("e-mails IDs");?></td>
+        <td><?=_("Mobile Numbers");?></td>
         </thead>
     <tbody>
 <?php
