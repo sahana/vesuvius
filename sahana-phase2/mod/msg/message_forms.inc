@@ -20,7 +20,7 @@
 function _shn_msg_add_group()
 {
 ?>
-    <h1 align="center"><?php print _("Add Group"); ?> </h1>
+    <h1 align="center"><?php print _("Add Groups"); ?> </h1>
 <?php
 
     global $global;
@@ -29,7 +29,7 @@ function _shn_msg_add_group()
     
     
     shn_form_fopen("add_group_actions",null,$form_opts);
-    shn_form_fsopen("Add Group");
+    shn_form_fsopen("Add Groups");
     shn_form_text(_("Group Name : "),'group_name','size="50"',array('req'=>true,'help'=>_('Name of the Group')));
 
     ?><div class="info"><?=_("If you want to enter multiple e-mail addresses and multiple mobile numbers, please seperate them by only using a comma.");?></div><br /><?
@@ -67,6 +67,12 @@ function _shn_msg_add_group_actions()
 
     $sql1="INSERT INTO messaging_group (group_uuid,group_name,address,mobile) VALUES ('$id','$group_name','$email','$mobile_number');";
 	$msg1 = $db->Execute($sql1);
+
+    $_POST['group_name']="";
+    $_POST['email']="";
+    $_POST['mobile_number']="";
+    add_confirmation('Your data has been submitted successfully');
+    shn_msg_add_group();
    
 
 }
@@ -130,6 +136,10 @@ function _shn_msg_edit_group()
 {
     global $global;
     $db=$global["db"];
+
+?>
+    <h1 align="center"><?php print _("Edit Groups"); ?> </h1>
+<?php
     
     shn_form_fopen(null);
     shn_form_fsopen(null);
@@ -167,9 +177,9 @@ function _shn_msg_edit_group()
 
 ?>
 	<tr>
-	<td><?php print $group_name;?></td>
-	<td><?php print ($number_of_address." mail IDs/".$number_of_mobiles." phone numbers");?></td>
-	<td><a href="index.php?mod=msg&act=edit_group_item&group_uuid=<?php echo $group_uuid;?>"><?php print ("View and Edit");?></a></td>
+	<td><center><?php print $group_name;?></center></td>
+	<td><center><?php print ($number_of_address." mail IDs/".$number_of_mobiles." phone numbers");?></center></td>
+	<td><center><a href="index.php?mod=msg&act=edit_group_item&group_uuid=<?php echo $group_uuid;?>"><?php print ("View and Edit");?></a></center></td>
 	</tr>
 <?php
 	
@@ -289,6 +299,10 @@ function _shn_msg_list_group()
 {
     global $global;
     $db=$global["db"];
+
+?>
+    <h1 align="center"><?php print _("List Groups"); ?> </h1>
+<?php
     
     shn_form_fopen(null);
     shn_form_fsopen(null);
@@ -324,8 +338,8 @@ function _shn_msg_list_group()
 
 ?>
     <tr>
-    <td><?php print $group_name;?></td>
-    <td>
+    <td><center><?php print $group_name;?></center></td>
+    <td><center>
 <?php
     for($i=0;$i<$count_addresses;$i++)
     {
@@ -337,8 +351,10 @@ function _shn_msg_list_group()
     }
     $count_addresses=0;
 ?>
+    </center>
     </td>
     <td>
+    <center>
 <?php
 
     for($j=0;$j<$count_mobiles;$j++)
@@ -350,6 +366,7 @@ function _shn_msg_list_group()
     }
     $count_mobiles=0;
 ?>
+    </center>
     </td>
     </tr>
 <?php
@@ -398,6 +415,8 @@ function _shn_msg_send_group()
 
     //shn_form_radio(null,_("Undefined"),'undefined','size="2"',null);
     shn_form_fsopen("Undefined");
+    //$options=array('item' => 'Item','catalogue' => 'Catalogue');
+    //shn_form_radio($options,'','item_cat_radio');
     shn_form_checkbox(_("Undefined:"),'undefined',null,null);
     //shn_form_radio(null,_("Undefined"),'undefined','size="2"',null);
     shn_form_textarea(_("e-mail : "),'email','size="40"',array('req'=>true, 'help'=>_('Enter Your email here')));
@@ -418,13 +437,13 @@ function _shn_msg_send_group()
 function _shn_msg_send_group_action()
 {
     $message=trim($_POST['message']);
-    $group_select=trim($_POST['group_select']);
+    $group_select=$_POST['group_select'];
     $undefined=trim($_POST['undefined']);
     $email=trim($_POST['email']);
     $phone=trim($_POST['phone']);
 
     //print_r($group_select);
-    print $group_select;
+    print_r($group_select);
 
     
 }

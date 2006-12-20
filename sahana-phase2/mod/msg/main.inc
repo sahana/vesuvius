@@ -179,13 +179,19 @@ function shn_msg_view_edit_group_actions()
 	{
 	    $sql_edit="UPDATE messaging_group SET group_name='{$group_name}',address='{$email}',mobile='{$mobile_number}' WHERE group_uuid='$group_uuid';";
 	    $msg_edit=$db->Execute($sql_edit);
-	    shn_msg_edit_group();
+
+	    $_POST['group_name']="";
+            $_POST['email']="";
+            $_POST['mobile_number']="";
+            add_confirmation('Your data has been submitted successfully');
+    	    shn_msg_edit_group();
 	}
     }
     if($action=="delete")
     {
 	$sql_delete="DELETE FROM messaging_group WHERE group_uuid='$group_uuid';";
 	$msg_delete=$db->Execute($sql_delete);
+	add_warning('Data has been deleated from the database');
 	shn_msg_edit_group();
     }
     if($action=="close")
