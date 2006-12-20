@@ -321,7 +321,7 @@ function _shn_msg_send_group()
     $form_opts['name']="send_group_form";
     
     
-    shn_form_fopen(null);
+    shn_form_fopen("send_group_action");
     shn_form_fsopen("Message Details");
     shn_form_textarea(_("Message : "),'message','size="40"',array('req'=>true, 'help'=>_('Enter Your message here')));
 
