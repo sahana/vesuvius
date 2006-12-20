@@ -38,27 +38,30 @@ function shn_msg_mainmenu()
 
     shn_mod_menuopen("Messaging");
     shn_mod_menuitem("default", "Home", $module) ;
-    shn_sub_mod_menuopen("XMPP");
+   // shn_sub_mod_menuopen("XMPP");
 //    shn_sub_mod_menuitem("jab_new", "New Message", $module  );
 //    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
+    //shn_sub_mod_menuclose();
+    
+    shn_sub_mod_menuopen("Messages");
+    shn_sub_mod_menuitem("compose", _("Send SMS/e-mail"), $module);
+    shn_sub_mod_menuitem('send_group',_("Send to Groups"),$module);
     shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen("Manage Groups");
+    shn_sub_mod_menuitem('add_group',_("Add Group"),$module);
+    shn_sub_mod_menuitem('edit_group',_("Edit Group"),$module);
+    shn_sub_mod_menuitem('list_group',_("List Group"),$module);
+    shn_sub_mod_menuclose();
+    
+    //shn_sub_mod_menuclose();
     shn_sub_mod_menuopen("CAP");
     shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
     shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
     shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
     shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen("Email");
-    shn_sub_mod_menuitem("compose", _("Compose"), $module);
-    shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen("Message Group");
-    shn_sub_mod_menuitem('add_group',_("Add Group"),$module);
-    shn_sub_mod_menuitem('edit_group',_("Edit Group"),$module);
-    shn_sub_mod_menuitem('list_group',_("List Group"),$module);
-    shn_sub_mod_menuclose();
-    shn_sub_mod_menuitem('send_group',_("Send Group"),$module);
-    //shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
+    
 
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
@@ -210,5 +213,10 @@ function shn_msg_send_group()
 {
     include_once('message_forms.inc');
     _shn_msg_send_group();
+}
+
+function shn_msg_send_group_action()
+{
+	;
 }
 ?>
