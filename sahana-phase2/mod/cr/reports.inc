@@ -233,11 +233,11 @@ function _shn_cr_contact(){
 	<div id = "result">
 		  <table>
 			  <thead>
-			    <td>Camp Name </td>
-			    <td>Admin Name</td>
-			    <td>Admin Phone</td>
-			    <td>Admin Mobile</td>
-			    <td>Admin Occupation</td>
+			    <td><?=_("Camp Name")?> </td>
+			    <td><?=_("Admin Name")?></td>
+			    <td><?=_("Admin Phone")?></td>
+			    <td><?=_("Admin Mobile")?></td>
+			    <td><?=_("Admin Occupation")?></td>
 			  </thead>
 	      <tbody>
 				<?php
