@@ -46,7 +46,7 @@ function _shn_cr_rpt(){
 	  
  <?php
 			shn_form_fopen("rpt");
-			shn_form_fsopen(_("Report for all camps"));
+			shn_form_fsopen(_("Report for all Shelters"));
 			shn_form_hidden(array('seq'=>'commit'));
 			shn_form_fsclose();
 			shn_form_submit(_("Generate Report"));
@@ -59,12 +59,12 @@ function _shn_cr_rpt(){
 
 function _shn_cr_rpt_all(){
 	?>
-	<h1><center><?=_("Camp Information")?></center></h1>
+	<h1><center><?=_("Shelter Information")?></center></h1>
 	<div id ="result">
    <table>
         <thead>
-            <td><?=_("Camp Name")?></td>
-            <td><?=_("Camp Type")?></td>
+            <td><?=_("Shelter Name")?></td>
+            <td><?=_("Shelter Type")?></td>
             <td><?=_("Address")?></td> 
             <td><?=_("Location")?></td>
             <td><?=_("No: of Families")?></td>
@@ -130,12 +130,12 @@ function _shn_cr_rpt_all(){
 
 function _shn_cr_drill_location(){
 ?>
-<h1><center><?=_("Camp Information by Location")?></center></h1>
+<h1><center><?=_("Shelter Information by Location")?></center></h1>
   <div id ="result">
 	   <table>
 		   <thead>
 		     	<td><?=_("Location")?></td>
-					<td><?=_("Total Number of Victims in Camps")?></td>
+					<td><?=_("Total Number of Victims in Shelters")?></td>
 			 </thead>
 			 <tbody>
 <?php
@@ -167,13 +167,13 @@ function _shn_cr_drill_location(){
 
 function _shn_cr_rpt_loc($locate){
 ?>
-<h1><center><?=_("Camp Information by Location Drilled")?></center></h1>
+<h1><center><?=_("Shelter Information by Location Drilled")?></center></h1>
 <div id ="result">
 <table>
 <thead>
 <td><?=_("Location")?></td>
-<td><?=_("Camp Name")?> </td>
-<td><?=_("Camp Type")?></td>
+<td><?=_("Shelter Name")?> </td>
+<td><?=_("Shelter Type")?></td>
 <td><?=_("Address")?></td>
 <td><?=_("Total Victims")?></td>
 </thead>
@@ -183,7 +183,7 @@ function _shn_cr_rpt_loc($locate){
 <?php    
 global $global;
 $db=$global['db'];
-echo "<strong>"._("Camps in ").$locate." </strong>";
+echo "<strong>"._("Shelters in ").$locate." </strong>";
 
 $loc_q = "select loc_uuid from location where name='{$locate}'";
 $loc_r = $db->Execute($loc_q);
@@ -233,7 +233,7 @@ function _shn_cr_contact(){
 	<div id = "result">
 		  <table>
 			  <thead>
-			    <td><?=_("Camp Name")?> </td>
+			    <td><?=_("Shelter Name")?> </td>
 			    <td><?=_("Admin Name")?></td>
 			    <td><?=_("Admin Phone")?></td>
 			    <td><?=_("Admin Mobile")?></td>
