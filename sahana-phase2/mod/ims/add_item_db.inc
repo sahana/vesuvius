@@ -44,6 +44,7 @@ function _shn_ims_add_item_db()
     $manufactured_date=trim($_POST['manufactured_date']);
     $expire_date=trim($_POST['expire_date']);
 
+    
     $date=date("Y-m-d");
     //$date=strrev($date);
 	//print $date;
@@ -64,13 +65,8 @@ function _shn_ims_add_item_db()
         
 
     _shn_ims_expire_date_check();
-?>
-    <div id="result_msg">
-       <?php echo $item?> Item was succesfully Added
-        </div>
-        <br />    
+    add_confirmation($item.' Item was successfully Added');
 
-<?php
     $_POST['item_name']="";
     $_POST['amount']="";
     $_POST['cost_per_unit']="";

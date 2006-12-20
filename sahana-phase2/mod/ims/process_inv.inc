@@ -189,12 +189,10 @@ function _shn_ims_reg_inv_cr()
 }
     if((!$chk_branch) or $error){
         if($error!=true){
-?>
-    <div id="result_msg">
-       <?php echo $org_name?> Inventory was succesfully Added
-    </div>
-    <br />
-<?php
+
+	    add_confirmation($org_name.' Inventory was successfully added');
+
+
         }
 	shn_ims_view_inv();
         //_shn_ims_regform_org($error);
@@ -244,11 +242,9 @@ function _shn_ims_del_org()
         	return false;
 	    }
 */
+    add_warning($org_name.' Inventory was successfully Deleted');
   ?>
-    <div id="result_msg">
-       <?php echo $org_name?> Inventory was succesfully Deleted
-    </div>
-    <br />
+    
 <h2>Inventory Registry</h2>
 <?php
         _shn_ims_viewform_allorg();    
@@ -372,11 +368,9 @@ function _shn_ims_edit_org()
             $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid=$org_id AND opt_contact_type='web'";
             $res=$db->Execute($q);
            
+	add_confirmation($org_name.' Inventory was successfully Updated');
   ?>
-    <div id="result_msg">
-       <?php echo $org_name?> Inventory was succesfully Updated
-    </div>
-    <br />
+    
 <h2>Inventory Registry</h2>
 <?php
     }

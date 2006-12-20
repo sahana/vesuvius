@@ -201,19 +201,17 @@ function _shn_ims_mini_quantity_db()
 
         $sql="INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inv_id','$mini_quantity','$unit');";
         $ims=$db->Execute($sql);
+	add_confirmation('Re-Order Level was succesfully Added');
         shn_ims_minimum_quantity_item();
     }
     if($flag==true)
     {
         $sql="UPDATE ims_reorder_level SET minimum_quantity='{$mini_quantity}',unit='{$unit}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
         $ims=$db->Execute($sql);
-?>
-        <div id="result_msg">
-        Re-Order Level was succesfully Added
-        </div>
-        <br />    
 
-<?php
+    add_confirmation('Re-Order Level was succesfully Added');
+    //print ('q');
+
     //print $sql;
     $flag="";
     $catalog_id="";

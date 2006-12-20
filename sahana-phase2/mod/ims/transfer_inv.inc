@@ -388,13 +388,7 @@ function _shn_ims_send_db()
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
     $ims2 = $db->Execute($sql2);
 
-?>
-    <div id="result_msg">
-       Item Sent
-    </div>
-    <br />    
-
-<?php
+    add_confirmation('Item sent successfully');
 
     shn_ims_send_item_page($catalog_id);
     
@@ -650,13 +644,7 @@ function _shn_ims_receive_item_db()
     $sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
     $ims1=$db->Execute($sql1);
 
-?>
-    <div id="result_msg">
-       Item Received
-    </div>
-    <br />    
-
-<?php
+    add_confirmation('Item Received successfully');
 
     shn_ims_receive_item();
     

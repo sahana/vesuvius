@@ -221,9 +221,7 @@ function add_item($temp,$parent_id)
 
     shn_form_fsclose();
 
-    shn_form_fsopen(null);
     
-    shn_form_fsclose();
 
     //shn_form_hidden(array('cat'=>$category));
     shn_form_hidden(array('parent_id'=>$parent_id));

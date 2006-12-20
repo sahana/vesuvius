@@ -191,13 +191,8 @@ function _shn_ims_edit_item_db()
         
         
         _shn_ims_expire_date_check();
-?>
-    <div id="result_msg">
-       <?php echo $item?> Item was succesfully Saved
-    </div>
-    <br />    
+	add_confirmation($item.' Item was successfully updated');
 
-<?php
         $_POST['item_name']="";    
         $_POST['amount']="";
         $_POST['manufactured_date']="";
