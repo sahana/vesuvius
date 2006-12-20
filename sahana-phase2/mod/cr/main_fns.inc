@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.48 2006-11-16 05:23:58 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.49 2006-12-20 16:25:10 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -201,6 +201,7 @@ function shn_cr_gis_show(){
 
 /**
  * Spatial report by number of infections
+ * infected / total
  */
 function shn_cr_gis_infect(){
 	global $global;
@@ -217,8 +218,8 @@ function shn_cr_gis_infect(){
 		
 		//populate aray
 		while(!$res->EOF){
-				$infected=$res->fields['family'];
-				$capacity=$res->fields['capacity'];
+				$infected=$res->fields['family']; //points to infected values
+				$capacity=$res->fields['total'];
 				if($capacity!=0){
 					$perc = $infected / $capacity;
 				}
@@ -228,16 +229,16 @@ function shn_cr_gis_infect(){
 				$desc = $desc."% "._("Infected");
 				
 				$marker_n="marker";
-				if($perc < $conf['mod_cr_perc_0']){
+				if($perc <= $conf['mod_cr_perc_0']){
 					$marker_n=$conf['mod_cr_perc_0_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_0'] && $perc < $conf['mod_cr_perc_1']){
+				else if($perc > $conf['mod_cr_perc_0'] && $perc <= $conf['mod_cr_perc_1']){
 					$marker_n=$conf['mod_cr_perc_1_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_1'] && $perc < $conf['mod_cr_perc_2']){
+				else if($perc > $conf['mod_cr_perc_1'] && $perc <= $conf['mod_cr_perc_2']){
 					$marker_n=$conf['mod_cr_perc_2_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_2'] && $perc < $conf['mod_cr_perc_3']){
+				else if($perc > $conf['mod_cr_perc_2'] && $perc <= $conf['mod_cr_perc_3']){
 					$marker_n=$conf['mod_cr_perc_3_mk'];
 				}
 				else{
@@ -269,7 +270,7 @@ function shn_cr_gis_infect(){
  	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
  	<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
  	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
- 	<td><?="More than ".($conf['mod_cr_perc_f']*100)."%"?></td>
+ 	<td><?="More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
  </tbody>
 </table>
 </div>
@@ -280,6 +281,7 @@ function shn_cr_gis_infect(){
 
 /**
  * Spatial report by population
+ * total / capacity
  */
 function shn_cr_gis_population(){
 	global $global;
@@ -307,16 +309,16 @@ function shn_cr_gis_population(){
 				$desc = $desc."% "._("Filled");
 				
 				$marker_n="marker";
-				if($perc < $conf['mod_cr_perc_0']){
+				if($perc <= $conf['mod_cr_perc_0']){
 					$marker_n=$conf['mod_cr_perc_0_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_0'] && $perc < $conf['mod_cr_perc_1']){
+				else if($perc > $conf['mod_cr_perc_0'] && $perc <= $conf['mod_cr_perc_1']){
 					$marker_n=$conf['mod_cr_perc_1_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_1'] && $perc < $conf['mod_cr_perc_2']){
+				else if($perc > $conf['mod_cr_perc_1'] && $perc <= $conf['mod_cr_perc_2']){
 					$marker_n=$conf['mod_cr_perc_2_mk'];
 				}
-				else if($perc > $conf['mod_cr_perc_2'] && $perc < $conf['mod_cr_perc_3']){
+				else if($perc > $conf['mod_cr_perc_2'] && $perc <= $conf['mod_cr_perc_3']){
 					$marker_n=$conf['mod_cr_perc_3_mk'];
 				}
 				else{
@@ -349,7 +351,7 @@ function shn_cr_gis_population(){
  	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
  	<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
  	<td><img src="<?=$conf['mod_gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
- 	<td><?="More than ".($conf['mod_cr_perc_f']*100)."%"?></td>
+ 	<td><?="More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
  </tbody>
 </table>
 </div>
