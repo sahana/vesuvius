@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.17 2006-12-20 04:38:26 mahesh_kks Exp $ */
+/* $Id: lib_uuid.inc,v 1.18 2006-12-20 07:12:59 chamindra Exp $ */
 
 /**
  *
@@ -56,28 +56,32 @@ function shn_create_uuid($type='person')
         case 'person':
         case 'p' :
                 $gen_id = 'p-'._shn_gen_id('person');
-            break;
+                break;
 
         case 'org':
         case 'o' :
         case 'organization':
                 $gen_id = 'o-'._shn_gen_id('organization');
-            break;
+                break;
 
 	    case 'location':
         case 'lc':
         		$gen_id = 'lc-'._shn_gen_id('loc_seq');
         		break;
 
-        case 'camp':
-        case 'c' :
-                $gen_id = 'c-'._shn_gen_id('camp');
-            break;
-
         case 'landmark':
         case 'l':
         		$gen_id = 'o-'._shn_gen_id('landmark');
         		break;
+
+        case 'log':
+                $gen_id = 'lg-'._shn_gen_id('log');
+                break;
+
+        case 'camp':
+        case 'c' :
+                $gen_id = 'c-'._shn_gen_id('camp');
+                break;
         		
         case 'gis':
         case 'g':
@@ -92,39 +96,38 @@ function shn_create_uuid($type='person')
         case 'req' :
         case 'r' : 
                 $gen_id = 'r-'._shn_gen_id('request');
-	break;
+                break;
     	case 'pledge' :
         case 'pl' :
                 $gen_id = 'pl-'._shn_gen_id('pledge');
-	break;
+                break;
 
-    case 'catalogue' :
+        case 'catalogue' :
         case 'cata' :
         case 'ct' : 
                 $gen_id = 'ct-'._shn_gen_id('catalogue');
-	break;
-	case 'unit':
-	case 'uni':
+                break;
+        case 'unit':
+        case 'uni':
         case 'un' : 
                 $gen_id = 'un-'._shn_gen_id('unit');
-	break;
+                break;
 
-	case 'unit_type':
-	case 'unt':
+        case 'unit_type':
+        case 'unt':
                 $gen_id = 'ut-'._shn_gen_id('unit_type');
-	break;
-	case 'report':
-	case 'rep':
-               $gen_id = 'rpt-'._shn_gen_id('report');
-	break;
-  	
-	case 'messaging':
-	case 'msg':
-               $gen_id = 'msg-'._shn_gen_id('messaging');
-	break;
+                break;
+        case 'report':
+        case 'rep':
+                $gen_id = 'rpt-'._shn_gen_id('report');
+                break;
+        
+        case 'messaging':
+        case 'msg':
+                $gen_id = 'msg-'._shn_gen_id('messaging');
+                break;
         default :
-
-            break;
+                break;
     }
     
     return $conf['base_uuid'].$gen_id;
