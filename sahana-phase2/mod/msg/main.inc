@@ -217,6 +217,7 @@ function shn_msg_send_group()
 
 function shn_msg_send_group_action()
 {
-	;
+    include_once('message_forms.inc');
+    _shn_msg_send_group_action();
 }
 ?>

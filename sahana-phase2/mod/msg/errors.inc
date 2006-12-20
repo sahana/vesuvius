@@ -19,4 +19,4 @@
 define(SHN_ERR_MSG_GROUP_NAME_INCOMPLETE,"Group Name is essential. Please Complete and Submit again");
 define(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE,"e-mails or mobile numbers are is essential. Please Complete and Submit again");
 define(SHN_ERR_MSG_NUMERIC_VALUE_MOBILE,"Please enter a numeric value for mobile numbers");
-define(SHN_ERR_MSG_EMAIL,"e-mail address is of the wrong format");
+define(SHN_ERR_MSG_EMAIL,"e-mail address/es is/are of the wrong format");

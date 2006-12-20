@@ -263,6 +263,7 @@ function _shn_validate_edit_group()
 	    {
 		add_error(SHN_ERR_MSG_EMAIL);
                 $error=true;
+  		break;
 	    }
 	}
     }
@@ -275,6 +276,7 @@ function _shn_validate_edit_group()
             {
                 add_error(SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
                 $error_flag=true;
+		break;
             }
 	}
     }
