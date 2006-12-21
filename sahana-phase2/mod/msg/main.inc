@@ -44,7 +44,7 @@ function shn_msg_mainmenu()
     //shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Messages");
-    shn_sub_mod_menuitem("compose", _("Send SMS/e-mail"), $module);
+    shn_sub_mod_menuitem("customized_messaging", _("Send SMS/e-mail"), $module);
     shn_sub_mod_menuitem('send_group',_("Send to Groups"),$module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen("Manage Groups");
@@ -225,5 +225,41 @@ function shn_msg_send_group_action()
 {
     include_once('message_forms.inc');
     _shn_msg_send_group_action();
+}
+
+function shn_msg_customized_messaging()
+{
+    include_once('message_forms.inc');
+    _shn_msg_customized_messaging();
+}
+
+function shn_msg_customized_messaging_actions()
+{
+    include_once('message_forms.inc');
+
+    $action=$_POST['action'];
+    
+    if($action=="send")
+    {
+	if(_shn_msg_validate_customized_messaging())
+	{
+	     shn_msg_customized_messaging(); 
+	}
+	else
+	{
+	    _shn_msg_customized_messaging_actions();
+	}
+    }
+    if($action=="clear")
+    {
+	$_POST['message']="";
+	$_POST['email']="";
+	$_POST['mobile_number']="";
+	shn_msg_customized_messaging();
+    }
+    if($action=="close")
+    {
+	;
+    }
 }
 ?>

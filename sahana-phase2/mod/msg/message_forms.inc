@@ -448,6 +448,104 @@ function _shn_msg_send_group_action()
     
 }
 
+function _shn_msg_customized_messaging()
+{
+?>
+    <h1 align="center"><?php print _("Customized Messaging"); ?> </h1>
+<?php
+
+    global $global;
+    $db=$global['db'];
+
+    $form_opts['name']="customized_messaging_form";
+    
+    
+    shn_form_fopen("customized_messaging_actions",null,$form_opts);
+    shn_form_fsopen("Messaging");
+    shn_form_textarea(_("Message : "),'message','size="40" maxlength="10"',array('req'=>true));
+    shn_form_textarea(_("e-mail address/es : "),'email','size="40"',array('req'=>true));
+    shn_form_textarea(_("Mobile Number/s : "),'mobile_number','size="40"',array('req'=>true));
+    shn_form_fsclose();
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+?>
+<center>
+<?php
+    shn_form_button(_("Send"),"onClick='change_action_customized_messaging(\"send\")'",$extra_opts);
+    shn_form_button(_("Clear"),"onClick='change_action_customized_messaging(\"clear\")'",$extra_opts);
+    //shn_form_button(_("Close"),"onClick='change_action_customized_messaging(\"close\")'",$extra_opts);
+
+    //shn_form_hidden(array('group_uuid'=>$group_uuid));
+    
+    shn_form_hidden(array('action'=>'0'));
+    //shn_form_submit(_("Save"));
+?>
+</center>
+<?php
+    shn_form_fclose();	
+}
+
+function _shn_msg_validate_customized_messaging()
+{
+    $error_flag=false;
+
+    $message=trim($_POST['message']);
+    $email=trim($_POST['email']);
+    $mobile_number=trim($_POST['mobile_number']);
+
+    $email_array=array();
+    $email_array=split(",",$email);
+    $number_of_address=count($email_array);
+
+    $mobile_array=array();
+    $mobile_array=split(",",$mobile_number);
+    $number_of_mobiles=count($mobile_array);
+
+    if($message==NULL)
+    {
+	add_error(SHN_ERR_MSG_MESSAGE_INCOMPLETE);
+        $error_flag=true;
+    }
+    if($email==NULL && $mobile_number==NULL)
+    {
+	add_error(SHN_ERR_MSG_EMAIL_MOBILE_INCOMPLETE);
+        $error_flag=true;
+    }
+    if(!$email==NULL)
+    {
+	for($i=0;$i<$number_of_address;$i++)
+	{
+	    $email_address=$email_array[$i];
+	    if(!shn_valid_email($email_address))
+	    {
+		add_error($email_address." ".SHN_ERR_MSG_EMAIL);
+                $error=true;
+  		//break;
+	    }
+	}
+    }
+    if(!$mobile_number==NULL)
+    {
+	for($i=0;$i<$number_of_mobiles;$i++)
+	{
+	    $mobile_temp=$mobile_array[$i];
+	    if(!is_numeric($mobile_temp))
+            {
+                add_error($mobile_temp." ".SHN_ERR_MSG_NUMERIC_VALUE_MOBILE);
+                $error_flag=true;
+		//break;
+            }
+	}
+    }
+
+    return $error_flag;
+}
+
+function _shn_msg_customized_messaging_actions()
+{
+    ;
+}
+
 ?>
 
 <script type="text/javascript">
@@ -464,6 +562,15 @@ function _shn_msg_send_group_action()
         var x=document.getElementsByName('action');
          x[0].value=action;
          document.view_edit_group_form.submit();
+         return;
+    }
+</script>
+
+<script type="text/javascript">
+    function change_action_customized_messaging(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.customized_messaging_form.submit();
          return;
     }
 </script>
