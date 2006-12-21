@@ -468,8 +468,8 @@ class PHPMailer
         	echo "connection failed";
             return false;
         }
-        echo $this->Sender;
-        echo $this->From;
+        //echo $this->Sender;
+        //echo $this->From;
         $smtp_from = ($this->Sender == "") ? $this->From : $this->Sender;
         if(!$this->smtp->Mail($smtp_from))
         {
@@ -548,7 +548,7 @@ class PHPMailer
                 $host = $hosts[$index];
                 $port = $this->Port;
             }
-            $host="smtp.opensource.lk";
+            //$host="";
  	
             if($this->smtp->Connect($host, $port, $this->Timeout))
             {
