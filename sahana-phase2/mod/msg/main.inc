@@ -9,9 +9,10 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author		Sudheera R. Fernando <sudheera@opensource.lk>
+* @author		Sriganeshan<sri@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package		sahana
-* @subpackage	rms
+* @subpackage  msg
 * @tutorial
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
@@ -43,17 +44,20 @@ function shn_msg_mainmenu()
 //    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
     //shn_sub_mod_menuclose();
     
+
+
     shn_sub_mod_menuopen("Messages");
     shn_sub_mod_menuitem("customized_messaging", _("Send SMS/e-mail"), $module);
     shn_sub_mod_menuitem('send_group',_("Send to Groups"),$module);
     shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen("Manage Groups");
     shn_sub_mod_menuitem('add_group',_("Add Group"),$module);
     shn_sub_mod_menuitem('edit_group',_("Edit Group"),$module);
     shn_sub_mod_menuitem('list_group',_("List Group"),$module);
     shn_sub_mod_menuclose();
     
-    //shn_sub_mod_menuclose();
+
     shn_sub_mod_menuopen("CAP");
     shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
     shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
@@ -104,7 +108,7 @@ function shn_msg_cap_download()
 }
 
 
-function shn_msg_compose()
+/*function shn_msg_compose()
 {
     include_once ('mail_forms.inc');
     _shn_msg_compose_mail_form(false);
@@ -115,7 +119,7 @@ function shn_text_msg_send_mail()
     include_once ('lib_mail.inc');
     _shn_msg_send_mail();
     
-}
+}*/
 
 function shn_msg_add_group()
 {
@@ -183,7 +187,7 @@ function shn_msg_view_edit_group_actions()
 	    $_POST['group_name']="";
             $_POST['email']="";
             $_POST['mobile_number']="";
-            add_confirmation('Your data has been submitted successfully');
+            add_confirmation('Your changes have been saved successfully');
     	    shn_msg_edit_group();
 	}
     }
@@ -223,7 +227,8 @@ function shn_msg_send_group()
 
 function shn_msg_send_group_action()
 {
-    include_once('message_forms.inc');
+
+   include_once('message_forms.inc');
     _shn_msg_send_group_action();
 }
 
@@ -248,6 +253,10 @@ function shn_msg_customized_messaging_actions()
 	else
 	{
 	    _shn_msg_customized_messaging_actions();
+           	$_POST['message']="";
+	$_POST['email']="";
+	$_POST['mobile_number']="";
+            shn_msg_customized_messaging();
 	}
     }
     if($action=="clear")
@@ -257,9 +266,7 @@ function shn_msg_customized_messaging_actions()
 	$_POST['mobile_number']="";
 	shn_msg_customized_messaging();
     }
-    if($action=="close")
-    {
-	;
-    }
+
 }
+
 ?>

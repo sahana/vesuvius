@@ -23,28 +23,24 @@ include_once $global['approot']."/inc/lib_errors.inc"
 <?php
     if($error)
     display_errors();
-?>  
-<div id="formcontainer">
-<?php
-    shn_form_fopen("send_mail&stream=text");
 ?>
- 	<table>
-<tr><td width="100px">To: </td><td><input type="text" name="receipient" size = "50"></td></tr>
-	<tr><td width="100px">Subject: </td><td><input type="text" name="subject" size = "50"></td></tr>
-	<tr><td width="100px">Cc: </td><td><input type="text" name="ccreceipients" size = "50"></td></tr>
-	 <tr><td width="100px">Bcc: </td><td><input type="text" name="bccreceipients" size = "50"></td></tr>
+    <div id="formcontainer">
+<?
+    shn_form_fopen("send_mail&stream=text");
+    shn_form_fsopen("individual mails");
+    shn_form_textarea(_("Message : "),'message','size="30"',array('req'=>true,'value'=>$val,'help'=>_('Enter Your<br/> message here<br/>')));
 
-
-	 <tr><td width="100px">Attachments: </td><td><input type="text" name="attachments" size = "50"></td></tr>
-	</table><br>
-	<label>body<br>
-	<textarea name ="contents" rows ="20" cols="70"></textarea>
-	<input type="submit" value="Send"/>
-<input type="reset" value="Clear"/>
-	<?php
-    //close the form
+shn_form_textarea(_("Phone Number : "),'phone','size="30"',array('req'=>true, 'help'=>_('Enter multiple Phone Numbers here,comma seperatedly')));
+    
+    shn_form_textarea(_("e-mail : "),'email','size="30"',array('req'=>true, 'help'=>_('Enter multiple mail addresses here,comma seperatedly')));
+    
+    
+    shn_form_fsclose();
     shn_form_fclose();
+?>
+</div>
+<?
 }			     
-
+?>
 
 

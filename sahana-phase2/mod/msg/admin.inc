@@ -16,4 +16,9 @@
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
+function shn_msg_adm_default()
+{
+   include_once ('admin_settings.inc');
+}
+
 ?>

@@ -61,7 +61,7 @@ class InheritPhpMailer extends PHPMailer
 function _shn_msg_send_mail()
 {
 // Grab our config settings
-require_once('mail_info.inc');
+require_once('mail_settings.inc');
 
 // Grab the InheritPhpMailer class
 //require_once('MailClass.inc');
