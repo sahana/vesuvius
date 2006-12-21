@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.8 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.9 2006-12-21 10:45:19 chamindra Exp $ */
 
 /**
  *
@@ -53,7 +53,10 @@ function shn_stream_init()
 
     // include the mainmenu and login provided there is not a module override
     shn_include_page_section('mainmenu',$module);
-    shn_include_page_section('login',$module);
+    if ($conf['acl_base'] ) {
+        shn_include_page_section('login',$module);
+    }
+
 
     // display the breadcrumbs: It is important that this happens after the menu definition
     // the nice name is constructed from the query string
