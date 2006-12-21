@@ -216,8 +216,9 @@ function _shn_msg_edit_group_form($group_uuid)
     shn_form_fopen("view_edit_group_actions",null,$form_opts);
     shn_form_fsopen("Add Group");
     shn_form_text(_("Group Name : "),'group_name','size="50"',array('req'=>true,'value'=>$group_name,'help'=>_('Name of the Group')));
-    shn_form_textarea(_("e-mail address/es : "),'email','size="40"',array('req'=>true,'value'=>$address,'help'=>_('If you want to enter multiple e-mail addresses please seperate them by using a comma')));
-    shn_form_textarea(_("Mobile Number/s : "),'mobile_number','size="40"',array('req'=>true,'value'=>$mobile,'help'=>_('If you want to enter multiple mobile numbers please seperate them by using a comma')));
+    ?><div class="info"><?=_("If you want to enter multiple e-mail addresses and multiple mobile numbers, please seperate them by only using a comma.");?></div><br /><?
+    shn_form_textarea(_("e-mail address/es : "),'email','size="40"',array('req'=>true,'value'=>$address));
+    shn_form_textarea(_("Mobile Number/s : "),'mobile_number','size="40"',array('req'=>true,'value'=>$mobile));
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
