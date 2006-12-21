@@ -29,7 +29,7 @@
 $conf['base_uuid'] = "saha";
 
 # Disable the access control system
-$conf['disableACL'] = true;
+$conf['acl_base'] = false;
 
 #set the mode of ACL ( deny or allow)
 $conf['acl_mode']='deny';
