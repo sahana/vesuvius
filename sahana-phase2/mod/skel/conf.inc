@@ -30,7 +30,7 @@ $conf['mod_skel_name'] = _("Skeleton Module");
 /**
  * Gives the priority order in the main menu when listed
  */
-$conf['mod_skel_menuorder'] = 5; 
+$conf['mod_skel_menuorder'] = 21; 
 
 
 ?>

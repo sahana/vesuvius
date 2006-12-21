@@ -25,7 +25,7 @@ include_once ('conf_help.inc');
 global $conf;
 
 $conf['mod_gis_name'] = _("Situation Mapping");
-$conf['mod_gis_menuorder'] = 18;
+$conf['mod_gis_menuorder'] = 2;
 
 
 /**
