@@ -543,7 +543,17 @@ function _shn_msg_validate_customized_messaging()
 
 function _shn_msg_customized_messaging_actions()
 {
-    ;
+    $message=trim($_POST['message']);
+    $email=trim($_POST['email']);
+    $mobile_number=trim($_POST['mobile_number']);
+
+    $email_array=array();
+    $email_array=split(",",$email);
+    $number_of_address=count($email_array);
+
+    $mobile_array=array();
+    $mobile_array=split(",",$mobile_number);
+    $number_of_mobiles=count($mobile_array);
 }
 
 ?>
