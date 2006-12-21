@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.18 2006-12-20 07:12:59 chamindra Exp $ */
+/* $Id: lib_uuid.inc,v 1.19 2006-12-21 11:01:56 mahesh_kks Exp $ */
 
 /**
  *
@@ -126,6 +126,12 @@ function shn_create_uuid($type='person')
         case 'msg':
                 $gen_id = 'msg-'._shn_gen_id('messaging');
                 break;
+
+	case 'inventory':
+	case 'inv':
+		$gen_id = 'inv-'._shn_gen_id('inventory');
+		break;
+
         default :
                 break;
     }
