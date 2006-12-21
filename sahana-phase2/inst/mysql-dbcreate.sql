@@ -216,7 +216,7 @@ CREATE TABLE audit (
 
 
 
-/**================= Entity: Location, GIS, GPS  ===================**/
+/**================= Entity: Location  ===================**/
 
 /**
 * The central table to store loactions
@@ -245,28 +245,32 @@ DROP TABLE IF EXISTS location_details;
 CREATE TABLE location_details ( 
     poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
     location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
-    name VARCHAR(100) NOT NULL,
-    iso_code VARCHAR(20),
-    description TEXT,
-    PRIMARY KEY (loc_uuid),
-    FOREIGN KEY (parent_id) REFERENCES location(loc_uuid)
-);
-
-/**
-* Details on the location of an entity (person, camp, organization)
-* Modules: dvr, mpr, or, cr, rms, gis 
-* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS location_details;
-CREATE TABLE location_details ( 
-    poc_uuid VARCHAR(60) NOT NULL, -- this can be a person, camp or organization location
-    location_id VARCHAR(60), -- This gives country,province,district,town - based on l10n 
     opt_person_loc_type VARCHAR(10), -- the relation this location has to the person
     address TEXT, -- the street address        
     postcode VARCHAR(30), -- or ZIP code
     long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
     PRIMARY KEY (poc_uuid,location_id),
     FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
+);
+
+/**================= Entity: Spatial Location: GIS  ===================**/
+
+/**
+* Under Development
+* The central table on GIS
+* Adheres to OGC OpenGIS Geographic Information - Simple Feature Access Specifications
+* Ref: http://www.opengeospatial.org/ 
+* Modules: cr,or,ics 
+* Last changed: 27-OCT-2005 - mifan@opensource.lk  
+*/
+DROP TABLE IF EXISTS gis_feature;
+CREATE TABLE gis_feature (
+    feature_uuid VARCHAR(60) NOT NULL, --spatial location key
+    poc_uuid VARCHAR(60) NOT NULL,     --mapped entity key
+    feature_coords GEOMETRY NOT NULL,  --coordinates of feature type
+    entry_time TIMESTAMP DEFAULT now(),--entry time for log purposes 
+    PRIMARY KEY  (feature_uuid),
+    SPATIAL KEY  (feature_coords)
 );
 
 
