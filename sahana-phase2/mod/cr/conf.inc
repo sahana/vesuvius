@@ -1,6 +1,7 @@
 <?php
 // provide the nice display name for the CR module
 $conf['mod_cr_name'] = _("Shelter Registry");
+$conf['mod_cr_menuorder'] = 4;
 
 /**
  * Spatial Density Report Configs
