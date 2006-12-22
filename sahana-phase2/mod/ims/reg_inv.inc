@@ -185,7 +185,7 @@ function _shn_ims_reg_inv_gis()
     //$bsd_village=array();
     $range= shn_ims_get_loc_range();
     $bsd_village=trim($_POST{$range["end"]});
-    //print $bsd_village;
+   // print $bsd_village;
    // print ("Mahesh");
     
 

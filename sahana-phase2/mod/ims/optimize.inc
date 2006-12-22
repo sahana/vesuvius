@@ -724,7 +724,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 		{
 			_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
 			$forecast=_shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
-			print $forecast;
+			//print $forecast;
 		}
 
 		array_push($temp_array,$forecast);
@@ -759,7 +759,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 	array_push($data_array,$temp_array);
 	//print_r($data_array);
 	
-	print $i;
+	//print $i;
 	
 
 //---------------------------------------------

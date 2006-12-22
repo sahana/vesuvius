@@ -127,7 +127,11 @@ function _shn_ims_reg_inv_cr()
     //$chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
     $db=$global['db'];
     if($error!=true){
-        $org_id = $db->GenID('org_seq',1);
+
+        $org_id = shn_create_uuid('inventory');
+	//print $org_id;
+	//print ("org_id");
+        //$org_id = $db->GenID('org_seq',1);
         if (empty($org_id)){
             $error=true;
             //("add_org(): ORG_ID generation failed!");
@@ -135,7 +139,7 @@ function _shn_ims_reg_inv_cr()
 
         }
 	
-	print $org_id;
+	//print $org_id;
 	shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
         $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";
@@ -148,8 +152,9 @@ function _shn_ims_reg_inv_cr()
         if($error!=true){
 	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
-            $q="INSERT INTO  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date) VALUES($org_id,0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
+            $q="INSERT INTO  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date) VALUES('{$org_id}',0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
             $res=$db->Execute($q);
+//print $q;
 //print
 		
            /*
@@ -163,26 +168,26 @@ function _shn_ims_reg_inv_cr()
             $q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'curr','{$contact_phone}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','curr','{$contact_phone}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'pmob','{$contact_mobile}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','pmob','{$contact_mobile}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'name','{$contact_name}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','name','{$contact_name}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'fax','{$contact_fax}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','fax','{$contact_fax}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'email','{$contact_mail}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','email','{$contact_mail}')";
             $res=$db->Execute($q);
 //print $q;
-            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES($org_id,'web','{$contact_web}')";
+            $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','web','{$contact_web}')";
             $res=$db->Execute($q);
 //print $q;
             //no validation as organization can have multiple locations
-            $q="INSERT INTO org_location(org_id,location_id) VALUES($org_id,'{$bsd_village}')";
+            $q="INSERT INTO org_location(org_id,location_id) VALUES('{$org_id}','{$bsd_village}')";
             $res=$db->Execute($q);
 //print $q;
     }

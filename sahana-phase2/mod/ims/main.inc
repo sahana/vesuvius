@@ -24,6 +24,7 @@ include_once $global['approot']."/inc/lib_table.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot']."/inc/lib_uuid.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
@@ -50,8 +51,8 @@ function shn_ims_mainmenu()
     shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
     
     shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("report_expired",_("expired item"),$module);
-    shn_sub_mod_menuitem("report_destroyed",_("destroyed item"),$module);
+    shn_sub_mod_menuitem("report_expired",_("expired items"),$module);
+    shn_sub_mod_menuitem("report_destroyed",_("destroyed items"),$module);
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
     //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
     shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);

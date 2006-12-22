@@ -24,7 +24,7 @@ function shn_ims_rpt_default()
 {
     shn_ims_expired_item_report();
     shn_ims_destroyed_item();
-    shn_ims_reorder_level_report_pdf();
+    _shn_ims_reorder_level_report_pdf();
     _shn_ims_expired_item_ods();
     _shn_ims_destroyed_item_ods();
     _shn_ims_reorder_level_report_ods();
@@ -40,7 +40,7 @@ function shn_ims_expired_item_report()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
 	$table_data=array();
 	$table_data=_shn_ims_expired_item_report();
-	$title="Expired Items Report";
+	$title="Expired Items Report-pdf";
 	$text="These Are the records about items that are already expired";
 	
 	$ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -61,7 +61,7 @@ function _shn_ims_expired_item_ods()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
-    $title="Expired Items Report";
+    $title="Expired Items Report-ods";
     $text="These Are the records about items that are already expired";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -79,7 +79,7 @@ function _shn_ims_expired_item_xhtml()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
-    $title="Expired Items Report";
+    $title="Expired Items Report-xhtml";
     $text="These Are the records about items that are already expired";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -97,7 +97,7 @@ function shn_ims_destroyed_item()
 	$table_data=array();
 	$table_data=_shn_ims_destroyed_item_report();
 	    
-	$title="Destroyed Items Report";
+	$title="Destroyed Items Report-pdf";
 	$text="These Are the records about items that are already destroyed";
 	
 	$ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -119,7 +119,7 @@ function _shn_ims_destroyed_item_ods()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
-    $title="Destroyed Items Report";
+    $title="Destroyed Items Report-ods";
     $text="These Are the records about items that are already expired";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -137,7 +137,7 @@ function _shn_ims_destroyed_item_xhtml()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
-    $title="Destroyed Items Report";
+    $title="Destroyed Items Report-xhtml";
     $text="These Are the records about items that are already expired";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -155,7 +155,7 @@ function _shn_ims_reorder_level_report_pdf()
 	$table_data=array();
 	$table_data=_shn_ims_reorder_level_report();
 
-	$title="Items Re-Order Level Report";
+	$title="Items Re-Order Level Report-pdf";
 	$text="These Are the records about items that are already gone below the re-order level of particular inventory";
 	
 	$ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -176,7 +176,7 @@ function _shn_ims_reorder_level_report_ods()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
-    $title="Item Re-Order Level Report";
+    $title="Item Re-Order Level Report-ods";
     $text="These Are the records about items that are already gone below the re-order level of particular inventory";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
@@ -193,7 +193,7 @@ function _shn_ims_reorder_level_report_xhtml()
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
     $table_data=_shn_ims_destroyed_item_report();
-    $title="Item Re-Order Level Report";
+    $title="Item Re-Order Level Report-xhtml";
     $text="These Are the records about items that are already gone below the re-order level of particular inventory";
 	
     $ims_report_keyword_arr = array('mod'=>'ims','report'=>'inventory','report1'=>'items','users'=>'all');
