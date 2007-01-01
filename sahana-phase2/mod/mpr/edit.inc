@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.13 2006-12-04 06:14:12 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.14 2007-01-01 06:44:58 isurunishan Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -143,10 +143,10 @@ function shn_mpr_editmp_load($p_uuid)
  */
 function shn_mpr_editmp_entry($errors=false) 
 {
-    if($errors)
+if($errors)
         display_errors();
 
-    shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
+   shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 
     shn_form_hidden(array('seq'=>'entry'));
 
@@ -255,11 +255,8 @@ function shn_mpr_editmp_validate()
             $local_post[$k] = $v;
     }
 
-    //anything entered?
-    if(empty($local_post)){
-        add_error(_("You have not completed the form"));
-        return false;
-    }
+   
+ 
     
     //fullname is entered?
     if(! isset($local_post['full_name'])){
@@ -801,7 +798,7 @@ function shn_edit_show_trackers($p_uuid)
 <DIV ID="result">
 <TABLE>
 <THEAD>
-    <TD><?= _('Picture'); ?></TD>
+
     <TD><?= _('Name'); ?></TD>
     <TD><?= _('Relationship'); ?></TD>
     <TD><?= _('Remove'); ?></TD>
@@ -810,7 +807,8 @@ function shn_edit_show_trackers($p_uuid)
     foreach($arr as $tracker){
 ?>
 <TR>
-    <TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
+    <!--<TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
+    -->
     <TD>
 <?php echo '<a title="'._('View').'" '. 
            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
@@ -818,7 +816,7 @@ function shn_edit_show_trackers($p_uuid)
             $tracker['full_name'].'</a><br />';
 ?>
     </TD>
-    <TD><?= $tracker['relation']; ?>
+    <TD><?= ($tracker['relation']=='NULL')?'unknown':$tracker['relation']; ?>
     </TD>
     <TD><a title="<?= _('Remove'); ?>"
 href="<?='index.php?mod='.$global['module'].
