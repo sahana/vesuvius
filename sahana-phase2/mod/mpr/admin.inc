@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: admin.inc,v 1.9 2006-12-14 19:05:18 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.10 2007-01-01 06:44:05 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -32,11 +32,11 @@ function shn_mpr_adminmenu() {
 	global $global;
 	$module = $global['module'];
 
-	// Create the module menu
+	// Create the module menuj
 	shn_adm_menuopen(_("Missing Person Registry"));
-
+ 
 	shn_adm_menuitem("adm_gen", _("General Configuration"));
-	shn_adm_menuitem("adm_images", _("Manage Images"));
+//	shn_adm_menuitem("adm_images", _("Manage Images"));
 	shn_adm_menuitem("adm_opt_age_group", _("Manage Age Groups"));
 	shn_adm_menuitem("adm_opt_race", _("Manage Race"));
 	shn_adm_menuitem("adm_opt_religion", _("Manage Religion"));
@@ -207,8 +207,11 @@ function _shn_mpr_adm_gen($errors = false, $updated = false) {
 
 	if ($updated) {
 ?>
-    <p align="center">Updated. </p> 
-<?php
+    <p align="center">
+    
+<?php    add_confirmation(_("Updated"));
+   
+
 
 	}
 
@@ -225,7 +228,7 @@ function _shn_mpr_adm_gen($errors = false, $updated = false) {
 		);
 	else
 		$val = null;
-	shn_form_text(_('Module Name'), 'name', 'size="15"', $val);
+	shn_form_text(_('Module Name'), 'name', 'size="20"', $val);
 	shn_form_fsclose();
 
 	shn_form_fsopen(_('Search'));
