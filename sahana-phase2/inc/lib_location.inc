@@ -554,26 +554,32 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 
 	$range=shn_location_get_loc_range();
 	$parent=shn_location_get_start_loc();
+	$count=0;
 	$keepparent=false;
 	$info=_("If you know any of the following, please select Only one of them first" .
 			" , the selection will populate the set of Location select boxes ")."<br />";
 	if($extra_opts["camps"]==true){
 		 $info.=_("* Camp/Shelter ")."<br /> ";
+		 $count=$count+1;
 	}
 	if($extra_opts["inv"]==true){
 		 $info.=_("* an Inventory ")."<br /> ";
+		 $count=$count+1;
 	}
 	if($extra_opts["org"]==true){
 		 $info.=_("* an Organization ")."<br /> ";
+		 $count=$count+1;
 	}
 	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["orgs"]==true)){
 		//$info.=_("a Location ");
 		?><div class="info"><? echo $info;?></div><br /><?
 	}
 	if($extra_opts["camps"]==true){
-		 $options=array("loc_camp"=>"Select a Camp/Shelter");
-		 $select_opts='onChange=radio_click("loc_camp")';
-		 shn_form_radio($options,null, "loc",$select_opts);
+		 if($count>1){
+		 	$options=array("loc_camp"=>"Select a Camp/Shelter");
+		 	$select_opts='onChange=radio_click("loc_camp")';
+			shn_form_radio($options,null, "loc",$select_opts);
+		 }
 		 $camps=_shn_location_camp_list();
 		 $options=array();
 		 $options[0]="";
@@ -582,7 +588,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
          }
          ?><div id='loc_camp'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
-        	shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
+        	 shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
         ?>	</div><?
           		
 	}
@@ -590,9 +596,11 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 global $global;
 		 include_once $global['approot']."/mod/or/api.inc";
 		 $orgs=shn_or_organization_list();
-		 $options=array("loc"=>"Select an Organization");
-		 $select_opts='onChange=radio_click("loc_org")';
-		 shn_form_radio($options,null, "loc",$select_opts);
+		 if($count>1){
+		 	$options=array("loc"=>"Select an Organization");
+		 	$select_opts='onChange=radio_click("loc_org")';
+		 	shn_form_radio($options,null, "loc",$select_opts);
+		 }
 		 $options=array();
 		 $options[0]="";
 		 foreach ($orgs as $id => $name){
@@ -685,6 +693,14 @@ function shn_location_add()
     $insert_array['loc_uuid']= shn_create_uuid('location');
     $insert_array['parent_id']=$loc;
     shn_db_insert($insert_array,'location', false, 'loc_uuid');
+    
+    	$q="select * from field_options where field_name='opt_location_type' and option_code='$lvl'";
+	$res = $global['db']->Execute($q);
+    if((!$res==NULL) && (!$res->EOF)) {
+		$loc_lvl_name= $res->fields["option_description"];
+    }
+    $msg= $_POST{"loc_name"}." Location was succesfully added as a ".$loc_lvl_name;
+    add_confirmation($msg);
   
 }
 
@@ -707,6 +723,8 @@ function shn_location_del($loc)
     		$q="delete from location where loc_uuid='{$val}'";
     		$db->Execute($q);
     }
+    $msg= "Location was succesfully deleted";
+    add_confirmation($msg);
  
 }
 
@@ -720,8 +738,9 @@ function shn_location_edit($loc)
     $iso=$loc{"iso"};
     $q="update location set name='{$name}',description='{$desc}',iso_code='{$iso}' where loc_uuid='{$loc_id}'";
     $db->Execute($q);
-    
- 
+    $msg= $name." Location was succesfully updated ";
+    add_confirmation($msg);
+   
 }
 
 function _shn_location_form_parent($range,$parent){   
