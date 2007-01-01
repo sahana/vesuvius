@@ -147,7 +147,7 @@ function _shn_rms_is_requester($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM rms_request r,identity_to_person i WHERE i.p_uuid=r.reqstr_uuid and i.serial='$id' ";
+    $sql = "SELECT * FROM rms_request r,identity_to_person i WHERE i.serial=r.reqstr_uuid and i.serial='$id' ";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)

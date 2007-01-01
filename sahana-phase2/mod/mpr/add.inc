@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.27 2006-12-04 06:12:57 isurunishan Exp $ */
+/* $Id: add.inc,v 1.28 2007-01-01 06:43:34 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -189,9 +189,10 @@ function shn_mpr_addmp_validate()
     //No file was uploaded ignore else do the following
     if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
         $info = getimagesize($_FILES['picture']['tmp_name']);
-        //check the image type 
+        //check the image type
+       
         if(! $info){
-            add_error(_("Invalid Image Type Please try again"));
+            add_error(_("Invalid Image Type Please try again1"));
             $error_flag=true;
         }
         list($ignore,$ext) = split("\/",$info['mime']);
@@ -281,10 +282,10 @@ function shn_mpr_addmp_reporter($errors=false)
 
     shn_form_fsopen(_('Details of the reporting person'));
 ?>
-<p><?= _('NOTE : If you have reproted before, we will use the following information to preform a search to see you are in our database or not.'); ?></p>
+<p><?= _('NOTE : If you have reproted before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
 <?php
-    shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
-  shn_form_opt_select('opt_relationship_type','Relationship to Person');
+  shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
+  shn_form_text('Relationship to Person','opt_relationship_type');
   //  shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
 ?>
 <div id="reporter_details" 
@@ -330,10 +331,9 @@ function shn_mpr_addmp_reporter_validate()
     
     //clean the post
     shn_tools_clean_post(&$local_post);
-
-    //anything entered?
+//tmp fix
     if(empty($local_post)){
-        add_error(_("You have not completed the form"));
+        //add_error(_("You have not completed the form"));
         return false;
     }
 
@@ -343,11 +343,20 @@ function shn_mpr_addmp_reporter_validate()
         $error_flag=true;
     }
 
+$email=$local_post['rep_email'];
+if($email!=null)
+{
+if(!shn_valid_email($email))
+{
+	add_error(_("Please enter a valid E-mail"));
+        $error_flag=true;
+}
+}
     //Reporting person relation
-    if(! isset($local_post['opt_relationship_type'])){
+   /* if(! isset($local_post['opt_relationship_type'])){
         add_error(_("Please enter the relationship of the reporting person"));
         $error_flag=true;
-    }
+    }*/
 
     //Reporting person contact
     if(! ( isset($local_post['rep_address']) || 
@@ -767,6 +776,7 @@ function shn_mpr_addmp_commit()
     if(isset($_SESSION['mpr_add']['entry']['physical_comments']))
         $insert_array['comments'] = $_SESSION['mpr_add']['entry']['physical_comments'];
 
+
     shn_db_insert($insert_array,'person_physical',true,'p_uuid');
     //reset $insert_array 
     $insert_array = null;
@@ -904,6 +914,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
                             $_SESSION['mpr_add']['report_person']['rep_address'];
         $insert_array['opt_person_loc_type'] = 'hom';
     }
+    
     shn_db_insert($insert_array,'location_details',true,'poc_uuid');
     //reset $insert_array 
     $insert_array = null;
@@ -930,7 +941,7 @@ $_SESSION['mpr_add']['report_person']['opt_status'];
     //reset $insert_array 
     $insert_array = null;
     
-    /*
+    /* 
      * Insert into the person_to_report
      */
     shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
