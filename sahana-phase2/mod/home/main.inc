@@ -40,7 +40,7 @@ function shn_home_default()
 	<li><b><?=_("Request Management System</b> <br/>Registering and Tracking all incoming requests for support and relief up to fulfilment and helping donors connect to relief requirements")?> </li>
 	<li><b><?=_("Camp Registry</b><br/>Tracking the location and numbers of victims in the various camps and temporary shelters setup all around the affected area")?> </li>
 	<li><b><?=_("Inventory Management System</b><br/> Effectively and efficiently manage relief aid, enables  transfer of inventory items to different inventories and notify when items are required to refill.")?> </li>
-	<li><b><?=_("Catalogue System</b><br/> Captures information on different catalogues and messurement units. Which is used in systems such as Inverntory Management System and Request Management System.")?> </li>
+	<li><b><?=_("Catalogue System</b><br/> Captures information on different catalogues and measurement units. Which is used in systems such as Inventory Management System and Request Management System.")?> </li>
 	</ul>
     <p>
     <?php
