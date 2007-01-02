@@ -265,10 +265,10 @@ CREATE TABLE location_details (
 */
 DROP TABLE IF EXISTS gis_feature;
 CREATE TABLE gis_feature (
-    feature_uuid VARCHAR(60) NOT NULL, --spatial location key
-    poc_uuid VARCHAR(60) NOT NULL,     --mapped entity key
-    feature_coords GEOMETRY NOT NULL,  --coordinates of feature type
-    entry_time TIMESTAMP DEFAULT now(),--entry time for log purposes 
+    feature_uuid VARCHAR(60) NOT NULL, -- spatial location key
+    poc_uuid VARCHAR(60) NOT NULL,     -- mapped entity key
+    feature_coords GEOMETRY NOT NULL,  -- coordinates of feature type
+    entry_time TIMESTAMP DEFAULT now(),-- entry time for log purposes 
     PRIMARY KEY  (feature_uuid),
     SPATIAL KEY  (feature_coords)
 );
