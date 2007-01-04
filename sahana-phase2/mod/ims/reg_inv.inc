@@ -199,8 +199,8 @@ function _shn_ims_reg_inv_gis()
     //$range1= array();
     //$range1=trim($_POST['range']);
     //$bsd_village=array();
-    $range= shn_ims_get_loc_range();
-    $bsd_village=_shn_ims_get_locid();
+    //$range= shn_ims_get_loc_range();
+    
     //print $bsd_village;
    // print ("Mahesh");
 
@@ -209,6 +209,8 @@ function _shn_ims_reg_inv_gis()
     $_SESSION['ims_3']=$_POST['3'];
     $_SESSION['ims_4']=$_POST['4'];
     $_SESSION['ims_5']=$_POST['5'];
+
+    $bsd_village=_shn_ims_get_locid();
     
 
     shn_form_fopen("reg_inv_cr",null,array('req'=>false));

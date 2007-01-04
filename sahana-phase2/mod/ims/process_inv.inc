@@ -41,7 +41,9 @@ function _shn_ims_reg_inv_cr()
         //$bsd_village=trim($_POST[$range["end"]]);
 
 
-	$bsd_village=trim($_POST["bsd_village"]);
+	$bsd_village=$_POST["bsd_village"];
+
+	$_SESSION=array();
 	//$bsd_village=_shn_ims_get_locid();
 
 
@@ -284,6 +286,8 @@ function _shn_ims_edit_org()
 
 
     $bsd_village=_shn_ims_get_locid();
+
+    $_SESSION=array();
 	//$bsd_village=trim($_POST{$range["end"]});
    // }
   /*
