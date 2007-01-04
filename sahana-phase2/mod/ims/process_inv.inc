@@ -253,7 +253,7 @@ function _shn_ims_del_org()
         	return false;
 	    }
 */
-    add_warning($org_name.' Inventory was successfully Deleted');
+    add_confirmation($org_name.' Inventory was successfully Deleted');
   ?>
     
 <h2>Inventory Registry</h2>

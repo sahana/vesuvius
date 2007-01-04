@@ -29,7 +29,7 @@ define(SHN_ERR_OR_EMAIL,"Email Address is of the wrong format");
 define(SHN_ERR_DOB_INCORRECT,"You have to enter a Date (yyyy-mm-dd) for Date of Birth");
 define(SHN_ERR_or_ims_LOCATION_INCOMPLETE,"Location is essential for registration. Please select the location and submit again");
 define(SHN_ERR_or_ims_EMAIL,"Invalid e-mail address");
-define(SHN_ERR_or_ims_REG_MAX,"Your text fields should contain less than 200 characters. One of your text field has exceeded it");
+define(SHN_ERR_or_ims_REG_MAX,"Your text fields should contain less than 100 characters. One of your text field has exceeded it");
 
 define(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE,"Item Name is essential. Please Select an Item from Add-Item main page and submit the form again");
 define(SHN_ERR_IMS_AMOUNT_INCOMPLETE,"Amount is essential. Please Complete and Submit again");
@@ -42,6 +42,7 @@ define(SHN_ERR_IMS_REQUESTED_PERSON_INCOMPLETE,"Requested Person is essential. P
 define(SHN_ERR_IMS_DESTRIBUTION_METHOD_INCOMPLETE,"Destribution Method is essential. Please Complete and Submit again");
 define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE,"Please enter a numeric Value for amount");
 define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST,"Please enter a numeric Value for Cost per unit");
+define(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID,_("Expire date should be greater than Manufactured date"));
 
 define(SHN_ERR_IMS_REORDER_VALUE_NUMERIC,"Please enter a numeric value for item Re-Order Value");
 define(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT,"You have entered a larger amount than the amount that has been sent");

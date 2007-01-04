@@ -93,7 +93,7 @@ function _shn_ims_validate_additemform()
     $cost_per_unit=trim($_POST['cost_per_unit']);
     $unit=trim($_POST['unit_select']);
 
-    print ("    ".$parent_id);
+   // print ("    ".$parent_id);
     
     //this checks whether name entered in the add main form
     if($item_name==null)
@@ -106,10 +106,13 @@ function _shn_ims_validate_additemform()
         add_error(SHN_ERR_IMS_AMOUNT_INCOMPLETE);
         $error_flag=true;
     }
-    if(!is_numeric($amount))
+    if($amount!=NULL)
     {
-        add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
-        $error_flag=true;
+        if(!is_numeric($amount))
+        {
+            add_error(SHN_ERR_IMS_ENTER_NUMERIC_VALUE);
+            $error_flag=true;
+        }
     }
 
     if($unit==null)
@@ -158,6 +161,15 @@ function _shn_ims_validate_additemform()
         {
             $error_flag=true;
         }
+	
+	$date_diff=_shn_ims_count_days($manufactured_date,$expire_date);
+	
+
+	if($date_diff==0 || $date_diff<0)
+	{
+	    add_error(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID);
+	    $error_flag=true;
+	}
     }
     
 
