@@ -31,7 +31,7 @@ function _shn_ims_relation_item()
 {
 ?>
 
-    <h1 align="center"><?php print _("Select Relation Item/Items");?><br></h1>
+    <h1 align="center"><?php print _("Select Relative Item/Items");?><br></h1>
     <dev id="report">
 
     </dev>
@@ -96,7 +96,7 @@ function _shn_ims_relation_item_table()
 	$inv_id=trim($_POST['inv_id']);
 	//print $inv_id;
 ?>
-<h1 align="center"><?php print(_("Relational Item Selection")); ?></h1>
+<h1 align="center"><?php print(_("Relative Items Selection")); ?></h1>
 <div id="result">
 
     <table>
@@ -214,7 +214,7 @@ function _shn_ims_alternate_item()
 {
     ?>
 
-    <h1 align="center"><?php print _("Select Alternate Item/Items");?><br></h1>
+    <h1 align="center"><?php print _("Select Alternative Item/Items");?><br></h1>
     <dev id="report">
 
     </dev>
@@ -279,7 +279,7 @@ function _shn_ims_alternate_item_table()
 	$inv_id=$_POST['inv_id'];
 	//print $inv_id;
 ?>
-<h1 align="center"><?php print(_("Alternate Item Selection")); ?></h1>
+<h1 align="center"><?php print(_("Alternative Items Selection")); ?></h1>
 <div id="result">
 
     <table>
@@ -405,8 +405,8 @@ shn_form_fsopen("Time Period to make Prediction");
 	shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
 	$time_period_array=array();
 	$time_period_array["day"]="day/days";
-	$time_period_array["week"]="week";
-	$time_period_array["month"]="month";
+	$time_period_array["week"]="week/weeks";
+	$time_period_array["month"]="month/months";
 	shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
 	shn_form_fsclose();
 	shn_form_button(_("Customized Report"),"onClick='change_action_inventory(\"customizedreport\")'",$extra_opts);

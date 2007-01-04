@@ -355,7 +355,7 @@ function _shn_ims_display_contact_person($error=false,$org=true,$po_uuid=null)
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
-        $q = "SELECT address FROM location_details WHERE poc_uuid='{$po_uuid}';";
+        $q = "SELECT address FROM location_details WHERE poc_uuid={$po_uuid}";
         $res_addr=$db->Execute($q); 
         $contact_address=$res_addr->fields[0];
         $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='curr'";
@@ -1959,6 +1959,71 @@ function _shn_ims_reorder_level_report()
     }
 
     return $table_data; 
+}
+
+function _shn_ims_validate_sub_cat_form()
+{
+$error_flag=false;
+clean_errors();
+
+$itemid=null;
+$max_depth = get_max_depth();
+    for($i=0;$i<$max_depth;$i++)
+    {
+    $itemid = trim($_POST[$i]);
+        if($itemid!=null)
+        {
+        break;
+        }
+    }
+
+    if($itemid==null || $itemid=='none')
+    {
+   //add_error(_(SHN_IMS_CATALOGUE_MISSING));
+    $error_flag=true;
+    }    
+
+return $error_flag;
+}
+
+function _shn_ims_location_string($loc)
+{
+	global $global;
+	$db=$global["db"];
+	$loc_arr=array();
+   	shn_get_parents($loc,&$loc_arr);
+   	if($loc_arr[0]=='unknown'){
+   		shn_form_label(_("Organization Location"),"Unknown");
+   	}else{
+   		
+   		$max=count($loc_arr)-1;
+   		array_pop($loc_arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($loc_arr);
+   			$q="select name from location where loc_uuid='{$x}'";
+    			$res=$db->Execute($q);
+    			if($count==0 ){
+    				$location=$location.$res->Fields("name");
+    			}else{
+   				$location=$location." -->".$res->Fields("name");
+    			}
+    			
+   		}
+   	}
+   	return $location;
+}
+
+function _shn_ims_get_locid(){
+	if($_SESSION['ims_5']!=null)
+		return $_SESSION['ims_5'];
+	else if($_SESSION['ims_4']!=null)
+		return $_SESSION['ims_4'];
+	else if($_SESSION['ims_3']!=null)
+		return $_SESSION['ims_3'];
+	else if($_SESSION['ims_2']!=null)
+		return $_SESSION['ims_2'];
+	else 
+		return $_SESSION['ims_1'];
 }
 
 ?>

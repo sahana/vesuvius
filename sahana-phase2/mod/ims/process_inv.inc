@@ -39,7 +39,13 @@ function _shn_ims_reg_inv_cr()
     }else {    */
 
         //$bsd_village=trim($_POST[$range["end"]]);
+
+
 	$bsd_village=trim($_POST["bsd_village"]);
+	//$bsd_village=_shn_ims_get_locid();
+
+
+
     //}
     //if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
       //  add_error(SHN_ERR_or_ims_REG_MAX);
@@ -127,11 +133,7 @@ function _shn_ims_reg_inv_cr()
     //$chk_branch=(isset ($_POST{"chk_branch"}))?1:0;
     $db=$global['db'];
     if($error!=true){
-
         $org_id = shn_create_uuid('inventory');
-	//print $org_id;
-	//print ("org_id");
-        //$org_id = $db->GenID('org_seq',1);
         if (empty($org_id)){
             $error=true;
             //("add_org(): ORG_ID generation failed!");
@@ -154,7 +156,6 @@ function _shn_ims_reg_inv_cr()
             //no validation done on other fields as they are not unique
             $q="INSERT INTO  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date) VALUES('{$org_id}',0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
             $res=$db->Execute($q);
-//print $q;
 //print
 		
            /*
@@ -165,8 +166,11 @@ function _shn_ims_reg_inv_cr()
                 $i=$i+1;
             }
             */
-            $q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
+            /*$q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
+            $res=$db->Execute($q);*/
+	$q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
+	    //print $q;
 //print $q;
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','curr','{$contact_phone}')";
             $res=$db->Execute($q);
@@ -230,16 +234,16 @@ function _shn_ims_del_org()
     global $global;
     $db=$global['db'];
     $org_id=$_POST{"org_id"};
-    $q="SELECT inventory_name FROM  ims_inventory_records WHERE inv_uuid=$org_id";
+    $q="SELECT inventory_name FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res=$db->Execute($q);
     $org_name=$res->fields[0];
-    $q="DELETE FROM  ims_inventory_records WHERE inv_uuid=$org_id";
+    $q="DELETE FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res=$db->Execute($q);
-    $q="DELETE FROM sector WHERE pgoc_uuid=$org_id";
+    $q="DELETE FROM sector WHERE pgoc_uuid='{$org_id}'";
     $res=$db->Execute($q);
-    $q="DELETE FROM location_details WHERE poc_uuid=$org_id";
+    $q="DELETE FROM location_details WHERE poc_uuid='{$org_id}'";
     $res=$db->Execute($q);
-    $q="DELETE FROM contact WHERE pgoc_uuid=$org_id";
+    $q="DELETE FROM contact WHERE pgoc_uuid='{$org_id}'";
     $res=$db->Execute($q);
 /*
   if($error==true){
@@ -271,7 +275,16 @@ function _shn_ims_edit_org()
         $error=true;
         add_error(SHN_ERR_or_ims_LOCATION_INCOMPLETE);
     }else {    */
-        $bsd_village=trim($_POST{$range["end"]});
+        
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
+
+
+    $bsd_village=_shn_ims_get_locid();
+	//$bsd_village=trim($_POST{$range["end"]});
    // }
   /*
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
@@ -346,7 +359,7 @@ function _shn_ims_edit_org()
     if(!$error){
     $db=$global['db'];
            //no validation done on other fields as they are not unique
-            $q="UPDATE ims_inventory_records SET inventory_name='{$org_name}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}',space='{$space}' WHERE inv_uuid=$org_id";
+            $q="UPDATE ims_inventory_records SET inventory_name='{$org_name}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}',space='{$space}' WHERE inv_uuid='{$org_id}'";
             $res=$db->Execute($q);
             /*
             $q="delete from sector where pgoc_uuid=$org_id";
@@ -358,19 +371,19 @@ function _shn_ims_edit_org()
                 $i=$i+1;
             }
             */
-            $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid=$org_id";
+            $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
-            $q="UPDATE contact SET contact_value='{$contact_name}' WHERE pgoc_uuid=$org_id AND opt_contact_type='name'";
+            $q="UPDATE contact SET contact_value='{$contact_name}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='name'";
             $res=$db->Execute($q);
-    		$q="UPDATE contact SET contact_value='{$contact_phone}' WHERE pgoc_uuid=$org_id AND opt_contact_type='curr'";
+    		$q="UPDATE contact SET contact_value='{$contact_phone}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
             $res=$db->Execute($q);
-            $q="UPDATE contact SET contact_value='{$contact_mobile}' WHERE pgoc_uuid=$org_id AND opt_contact_type='pmob'";
+            $q="UPDATE contact SET contact_value='{$contact_mobile}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='pmob'";
             $res=$db->Execute($q);
-            $q="UPDATE contact SET contact_value='{$contact_fax}' WHERE pgoc_uuid=$org_id AND opt_contact_type='fax'";
+            $q="UPDATE contact SET contact_value='{$contact_fax}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='fax'";
             $res=$db->Execute($q);
-           	$q="UPDATE contact SET contact_value='{$contact_mail}' WHERE pgoc_uuid=$org_id AND opt_contact_type='email'";
+           	$q="UPDATE contact SET contact_value='{$contact_mail}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
             $res=$db->Execute($q);
-            $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid=$org_id AND opt_contact_type='web'";
+            $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='web'";
             $res=$db->Execute($q);
            
 	add_confirmation($org_name.' Inventory was successfully Updated');

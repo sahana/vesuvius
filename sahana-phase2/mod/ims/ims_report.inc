@@ -199,7 +199,7 @@ function _shn_ims_report_expired()
     
    
 ?>
-<h1 align="center"><?php print _("Expired Item"); ?></h1>
+<h1 align="center"><?php print _("Expired Items"); ?></h1>
 <?php
     $module = $global['module'];
     $form_opts['name']="report_expired";
@@ -295,7 +295,7 @@ function _shn_ims_report_destroyed()
     $ims1=$db->Execute($sql1);
 
 ?>
-<h1 align="center"><?php print _("Destroyed Item"); ?></h1>
+<h1 align="center"><?php print _("Destroyed Items"); ?></h1>
 <?php
     $module = $global['module'];
     $form_opts['name']="report_destroyed";

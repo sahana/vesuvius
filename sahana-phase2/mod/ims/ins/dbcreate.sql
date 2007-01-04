@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `ims_inventory_records`;
 CREATE TABLE ims_inventory_records
 (
 
-	inv_uuid BIGINT NOT NULL AUTO_INCREMENT,
+	inv_uuid VARCHAR(15),
 	parent_id BIGINT,
 	inventory_name VARCHAR(100),
 	inventory_type VARCHAR(100),

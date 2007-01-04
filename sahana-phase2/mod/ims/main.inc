@@ -29,6 +29,7 @@ include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
 include_once $global['approot']."/mod/gis/gis_fns.inc";
+include_once 'errors.inc';
 
 
 
@@ -123,12 +124,16 @@ function shn_ims_add_item_main_page()
         
 }
 
-function shn_ims_add_item($parent_id=null)
+function shn_ims_add_item($parent_id=false)
 {
     global $global;
-    if(_shn_cs_validate_sub_cat_form())
+    
+    
+    if(_shn_ims_validate_sub_cat_form() && $parent_id==null)
     {
-        display_errors();
+        //display_errors();
+	//print ("kaluarachchi");
+	add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
         shn_ims_view_edit_item();
     }
     else
@@ -158,7 +163,7 @@ function shn_ims_view_edit_item()
 function shn_ims_view_edit_item_actions()
 {
     global $global;
-    require_once ('view_edit_item.inc');
+    include_once ('view_edit_item.inc');
     _shn_ims_view_edit_item_actions();
 }
 
@@ -199,12 +204,12 @@ function shn_ims_add_item_db()
 {
 
     global $global;
-    require_once('add_item_db.inc');
+    include_once('add_item_db.inc');
     $parent_id=trim($_POST['parent_id']);
     
     if(_shn_ims_validate_additemform())
     {
-    //print $parent_id;
+    //print ("kalu");
     display_errors();
     shn_ims_add_item($parent_id);
     }
@@ -341,7 +346,15 @@ function shn_ims_reg_inv($error=false)
 function shn_ims_reg_inv_gis()
 {
     include_once("reg_inv.inc");
-    _shn_ims_reg_inv_gis();
+    if(_shn_ims_validate_reg_inv())
+    {
+	display_errors();
+	shn_ims_reg_inv();
+    }
+    else
+    {
+        _shn_ims_reg_inv_gis();
+    }
 }
 
 function shn_ims_reg_inv_cr()
@@ -868,11 +881,11 @@ function shn_ims_expired_item_report1()
     }
     else if($action=='ods_expired')
     {
-	_shn_ims_expired_item_ods();
+	shn_ims_expired_item_ods();
     }
     else if($action=='xhtml_expired')
     {
-	_shn_ims_expired_item_xhtml();
+	shn_ims_expired_item_xhtml();
     }
     
     
@@ -893,11 +906,11 @@ function shn_ims_destroyed_item_pdf()
     }
     else if($action=='ods_destroyed')
     {
-	_shn_ims_destroyed_item_ods();
+	shn_ims_destroyed_item_ods();
     }
     else if($action=='xhtml_destroyed')
     {
-	_shn_ims_destroyed_item_xhtml();
+	shn_ims_destroyed_item_xhtml();
     }
 }
 
@@ -908,17 +921,19 @@ function shn_ims_reorder_level_pdf()
     include_once 'report.inc';
     if($action=='pdf_reorder')
     {
-	_shn_ims_reorder_level_report_pdf();
+	shn_ims_reorder_level_report_pdf();
     }
     else if($action=='ods_reorder')
     {
-	_shn_ims_reorder_level_report_ods();
+	shn_ims_reorder_level_report_ods();
     }
     else if($action=='xhtml_reorder')
     {
-	_shn_ims_reorder_level_report_xhtml();
+	shn_ims_reorder_level_report_xhtml();
     }
 }
+
+
 
 ?>
 

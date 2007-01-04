@@ -14,14 +14,14 @@
 * @subpackage or
 */
 
-define(SHN_ERR_OR_NAME_INCOMPLETE,"Organization name is essential for registration. Please Complete and Submit again");
-define(SHN_ERR_OR_TYPE_INCOMPLETE,"Organization Type is essential for registration. Please Complete and Submit again");
-define(SHN_ERR_OR_SECTOR_INCOMPLETE,"Organization Sector is essential for registration. Please Complete and Submit again");
-define(SHN_ERR_OR_LOCATION_INCOMPLETE,"Organization Location is essential for registration. Please Complete and Submit again");
+define(SHN_ERR_OR_NAME_INCOMPLETE,"Inventory name is essential for registration. Please Complete and Submit again");
+define(SHN_ERR_OR_TYPE_INCOMPLETE,"Inventory Type is essential for registration. Please Complete and Submit again");
+define(SHN_ERR_OR_SECTOR_INCOMPLETE,"Inventory Sector is essential for registration. Please Complete and Submit again");
+define(SHN_ERR_OR_LOCATION_INCOMPLETE,"Inventory Location is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_UNAME_INCOMPLETE,"User Name is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_PWD_INCOMPLETE,"Password is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_REPWD_INCOMPLETE,"Password confirmation is essential for registration. Please Complete and Submit again");
-define(SHN_ERR_OR_NAME_INCOMPLETE,"Organization name is essential for registration. Please Complete and Submit again");
+define(SHN_ERR_OR_NAME_INCOMPLETE,"Inventory name is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_ADD_OPTION,"Choose group or individual enrty.");
 define(SHN_ERR_OR_ADD_TYPE,"Select the type of the entry");
 define(SHN_ERR_OR_PREFER,"Select the preference of form display");
@@ -49,5 +49,7 @@ define(SHN_ERR_IMS_UNIT_INCOMPLETE,"Unit is essential for registration. Please C
 define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
 
 define(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE,"Time Amount is essential for the Prediction. Please Complete it and Submit again");
+
+define(SHN_ERR_IMS_CATALOGUE_MISSING,_("Please Select the Catalogue that you need"));
 
 ?>

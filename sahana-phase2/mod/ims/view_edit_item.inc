@@ -225,6 +225,10 @@ function _shn_ims_view_edit_item_actions()
 	shn_ims_add_item_main_page();
     }
 }
+
+
+
+
 ?>
 
 <script type="text/javascript">

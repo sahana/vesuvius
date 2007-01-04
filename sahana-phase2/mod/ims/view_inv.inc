@@ -47,23 +47,18 @@ function _shn_ims_viewform_allorg($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inventory_name;";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inventory_name";
         $res_org=$db->Execute($q);
-//print $q;
     }else {
-        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inv_uuid desc;";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inv_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
-//print $q;
     }
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
-//print $org_id."ll";
         if($org_id!=NULL){
-//print $org_id;
         _shn_display_org($org_id);
-        $q = "SELECT inv_uuid FROM  ims_inventory_records WHERE parent_id=$org_id ORDER BY name";
+        $q = "SELECT inv_uuid FROM  ims_inventory_records WHERE parent_id='{$org_id}' ORDER BY name";
         $res_operation=$db->Execute($q);
-//print $q;
         while(!$res_operation==NULL && !$res_operation->EOF){
             $operation_id=$res_operation->fields[0];
             _shn_display_org($operation_id);
@@ -84,16 +79,13 @@ function _shn_display_org($org_id,$indent=true,$edit=false)
 {
     global $global;
     $db=$global["db"];
-    $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid='$org_id'";
+    $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
-//print $q;
     $org_id=$res_org->fields[0];        
     $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-//print $q;
     $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-//print $q;
     $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='pmob'";
     $res_mobile=$db->Execute($q);
     $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
@@ -184,9 +176,12 @@ function _shn_ims_viewform_org($org_id,$error=false)
     shn_form_text(_("Inventory Name : "),'org_name','size="50"', $extra_opts); 
    
     shn_form_fsopen("Base Location");
-    $range= shn_ims_get_loc_range();
+    //$range= shn_ims_get_loc_range();
+    $range=array("start"=>1,"end"=>5);
+    
     shn_location($range,$bsd_village,null);
     shn_form_fsclose();
+
     shn_form_fsopen(_("Contact Information"));
     _shn_ims_display_contact_person($error,true,$org_id);
     shn_form_fsclose();

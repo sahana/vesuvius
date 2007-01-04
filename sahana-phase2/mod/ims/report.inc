@@ -24,13 +24,13 @@ function shn_ims_rpt_default()
 {
     shn_ims_expired_item_report();
     shn_ims_destroyed_item();
-    _shn_ims_reorder_level_report_pdf();
-    _shn_ims_expired_item_ods();
-    _shn_ims_destroyed_item_ods();
-    _shn_ims_reorder_level_report_ods();
-    _shn_ims_expired_item_xhtml();
-    _shn_ims_destroyed_item_xhtml();
-    _shn_ims_reorder_level_report_xhtml();
+    shn_ims_reorder_level_report_pdf();
+    shn_ims_expired_item_ods();
+    shn_ims_destroyed_item_ods();
+    shn_ims_reorder_level_report_ods();
+    shn_ims_expired_item_xhtml();
+    shn_ims_destroyed_item_xhtml();
+    shn_ims_reorder_level_report_xhtml();
     
 }
 
@@ -53,10 +53,12 @@ function shn_ims_expired_item_report()
 
 	report_download_link("shn_ims_expired_item_report");
 
+	
+
     
 }
 
-function _shn_ims_expired_item_ods()
+function shn_ims_expired_item_ods()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
@@ -72,9 +74,11 @@ function _shn_ims_expired_item_ods()
     shn_ods_report_add_table($table_header,$table_data);
     shn_ods_report_close();
 
+    report_download_link("shn_ims_expired_item_ods");
+
 }
 
-function _shn_ims_expired_item_xhtml()
+function shn_ims_expired_item_xhtml()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
     $table_data=array();
@@ -89,6 +93,8 @@ function _shn_ims_expired_item_xhtml()
     shn_xhtml_report_add_title($title);
     shn_xhtml_report_add_table($table_header,$table_data);
     shn_xhtml_report_close();
+
+    report_download_link("shn_ims_expired_item_xhtml");
 }
 
 function shn_ims_destroyed_item()
@@ -114,7 +120,7 @@ function shn_ims_destroyed_item()
 
 }
 
-function _shn_ims_destroyed_item_ods()
+function shn_ims_destroyed_item_ods()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
@@ -130,9 +136,11 @@ function _shn_ims_destroyed_item_ods()
     shn_ods_report_add_table($table_header,$table_data);
     shn_ods_report_close();
 
+    report_download_link('shn_ims_destroyed_item_ods');
+
 }
 
-function _shn_ims_destroyed_item_xhtml()
+function shn_ims_destroyed_item_xhtml()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier');
     $table_data=array();
@@ -147,9 +155,11 @@ function _shn_ims_destroyed_item_xhtml()
     shn_xhtml_report_add_title($title);
     shn_xhtml_report_add_table($table_header,$table_data);
     shn_xhtml_report_close();
+
+    report_download_link('shn_ims_destroyed_item_xhtml');
 }
 
-function _shn_ims_reorder_level_report_pdf()
+function shn_ims_reorder_level_report_pdf()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
 	$table_data=array();
@@ -166,12 +176,12 @@ function _shn_ims_reorder_level_report_pdf()
    	shn_pdf_report_add_table($table_header,$table_data);
     	shn_pdf_report_close();
 
-	report_download_link('shn_ims_expired_item_report');	
+	report_download_link('shn_ims_reorder_level_report_pdf');	
 
 
 }
 
-function _shn_ims_reorder_level_report_ods()
+function shn_ims_reorder_level_report_ods()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
@@ -186,9 +196,11 @@ function _shn_ims_reorder_level_report_ods()
     shn_ods_report_add_title($title);
     shn_ods_report_add_table($table_header,$table_data);
     shn_ods_report_close();
+
+    report_download_link('shn_ims_reorder_level_report_ods');	
 }
 
-function _shn_ims_reorder_level_report_xhtml()
+function shn_ims_reorder_level_report_xhtml()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
@@ -203,6 +215,8 @@ function _shn_ims_reorder_level_report_xhtml()
     shn_xhtml_report_add_title($title);
     shn_xhtml_report_add_table($table_header,$table_data);
     shn_xhtml_report_close();
+
+    report_download_link('shn_ims_reorder_level_report_xhtml');
 }
 
 

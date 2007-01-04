@@ -24,7 +24,7 @@ include_once "lib_ims.inc";
 function _shn_ims_regform_org($error=false)
 {
     global $global;
-    global $conf;
+   // global $conf;
     $db=$global['db'];
 ?>
 <h2><?= _('Add an Inventory')?></h2>
@@ -49,14 +49,30 @@ function _shn_ims_regform_org($error=false)
    // shn_form_fsclose();
     // base location
 	//$extra_opts["camps"]=true;
-$parent=_shn_or_get_start_loc();
-   	$range= shn_or_get_loc_range();
-//$range=array("start"=>1,"end"=>3);
+$parent=_shn_ims_get_start_loc();
+//print $parent;
+   	//$range= shn_or_get_loc_range();
+//print_r($range);
+/*$range=array("start"=>1,"end"=>5);
 shn_form_fsopen("Base Location");
-//shn_location($range,$_SESSION['inv']['loc'],null,true);
+shn_location($range,$_SESSION['inv']['loc'],null,true);
 //shn_location($range,$_POST[$range["end"]],null,true);
-shn_location($range,$_SESSION['inv']['loc'],null,$extra_opts);
-shn_form_fsclose();
+//shn_location($range,$_SESSION['inv']['loc'],null,$extra_opts);
+//shn_location($range,null,null,$extra_opts);
+shn_form_fsclose();*/
+
+	//shn_form_fsopen("Base Location");
+        $range=array("start"=>1,"end"=>5);
+	shn_location_form_org(1,5);
+	//shn_form_fsclose();
+
+/*shn_form_fsopen("Base Location");
+ 	if($error==true){
+ 		shn_location(null,$_SESSION['inv']['loc'],null,$extra_opts);
+ 	}else{
+ 		shn_location(null,null,null,$extra_opts);
+ 	} 
+    shn_form_fsclose();*/
 
 /**
 *********************************
@@ -184,9 +200,15 @@ function _shn_ims_reg_inv_gis()
     //$range1=trim($_POST['range']);
     //$bsd_village=array();
     $range= shn_ims_get_loc_range();
-    $bsd_village=trim($_POST{$range["end"]});
-   // print $bsd_village;
+    $bsd_village=_shn_ims_get_locid();
+    //print $bsd_village;
    // print ("Mahesh");
+
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
     
 
     shn_form_fopen("reg_inv_cr",null,array('req'=>false));
@@ -213,6 +235,87 @@ function _shn_ims_reg_inv_gis()
     //shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
     shn_form_fclose();
+}
+
+function _shn_ims_validate_reg_inv()
+{
+    $error_flag=false;
+    $VARCHAR=100;
+
+	//$bsd_village=trim($_POST[$range["end"]]);
+    //$end=trim($_POST[$range["end"]]);
+    $inv_name=trim($_POST{"org_name"});
+    $contact_name=trim($_POST{"contact_name"});
+    $contact_add=trim($_POST{"contact_add"});
+    $contact_phone=trim($_POST['contact_phone']);
+    $contact_mobile=trim($_POST{"contact_mobile"});
+    $contact_fax=trim($_POST{"contact_fax"});
+    $contact_mail=trim($_POST{"contact_mail"});
+    $contact_web=trim($_POST{"contact_web"});
+    $man_power=trim($_POST{"man_power"});
+    $equipment=trim($_POST{"equipment"});
+    $resources=trim($_POST{"resources"});
+    $space=trim($_POST{"space"});
+
+    if($inv_name==null)
+    {
+	add_error("Inventory Incompleted");
+	$error_flag=true;
+    }
+    if ($contact_name > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+
+    //$contact_address=$_POST{"contact_add"};
+    if ($contact_phone > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if ($contact_mobile > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if ($contact_fax > $VARCHAR){
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if ($contact_mail > $VARCHAR){
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if(!shn_valid_email($contact_mail))
+    {
+        add_error(SHN_ERR_or_ims_EMAIL);
+        $error_flag=true;
+    }
+    if ($contact_web > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if ($man_power > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    if ($equipment > $VARCHAR)
+    {
+        add_error(SHN_ERR_or_ims_REG_MAX);
+        $error_flag=true;
+    }
+    //$resources=$_POST{"resources"};
+    if ($space>$VARCHAR)
+    {
+	add_error(SHN_ERR_ims_SPACE);
+	$error_flag=true;
+    }
+
+    return $error_flag;
+
 }
 
 ?>
