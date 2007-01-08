@@ -19,12 +19,12 @@
 global $global;
 $file=$_FILES['file_dump'];
 //allowed upload file extention list 
-$extentions=array('xml','.gz','bz2');
+$extentions=array('xml','gz','bz2');
 
 //check weather a file was uploaed
 if(isset($file)){
     //get the extention and the tmp name of the file
-    $ext = substr($_FILES['file_dump']['name'], -3);
+    $ext=end(explode('.',$_FILES['file_dump']['name']));
     $_SESSION['sync']['file']="./tmp/".basename($_FILES['file_dump']['name']);
     //check for tmp file permision
     if(!is_writable('./tmp')){
@@ -82,8 +82,11 @@ function _shn_sync_upload_form(){
 //this function print file details and sync form
 function _shn_sync_file_details(){
     //calculate the file creation date
-    $time=(int)substr($_FILES['file_dump']['name'], -14, 10);
-    $ins=substr($_FILES['file_dump']['name'], -19, 4);
+    $name=explode('.',$_FILES['file_dump']['name']);
+    $name=$name[0];
+    $time=(int)substr($name, -10, 10);
+    $ins=substr($name, -15, 4);
+
     $_SESSION['fileinfo']=$_FILES['file_dump'];
 
     echo "<h2>"._('Import File')."</h2>";
