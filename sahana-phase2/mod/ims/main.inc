@@ -610,7 +610,9 @@ function shn_ims_receive_item_db()
 {
     
     global $global;
-    require_once('transfer_inv.inc');
+    include_once('transfer_inv.inc');
+    //$parent_id=trim($_POST['parent_id']);
+    //print $parent_id
     
     if(_shn_ims_validate_receive_item_page())
     {
@@ -628,11 +630,13 @@ function shn_ims_receive_item_db()
 
 }
 
-function shn_ims_send_item_page($cate=null)
+function shn_ims_send_item_page($cate=false)
 {
     global $global;
-    if(_shn_cs_validate_sub_cat_form())
+    //print $cate;
+    if(_shn_ims_validate_sub_cat_form() && $cate==NULL)
     {
+	add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
         display_errors();
         shn_ims_view_edit_item();
     }
@@ -663,7 +667,7 @@ function shn_ims_send_item_db()
     
     if(_shn_ims_validate_send_item_page())
     {
-        display_errors();
+	display_errors();
         shn_ims_send_item_data_collectpage();
         
     }

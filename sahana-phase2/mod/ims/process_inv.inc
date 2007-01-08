@@ -241,6 +241,14 @@ function _shn_ims_del_org()
     $org_name=$res->fields[0];
     $q="DELETE FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res=$db->Execute($q);
+    $q="DELETE FROM ims_item_records WHERE inv_id='{$org_id}';";
+    $res=$db->Execute($q);
+    $q="DELETE FROM ims_reorder_level WHERE inv_id='{$org_id}';";
+    $res=$db->Execute($q);
+    $q="DELETE FROM ims_alternate WHERE inv_id='{$org_id}';";
+    $res=$db->Execute($q);
+    $q="DELETE FROM ims_relation WHERE inv_id='{$org_id}';";
+    $res=$db->Execute($q);
     $q="DELETE FROM sector WHERE pgoc_uuid='{$org_id}'";
     $res=$db->Execute($q);
     $q="DELETE FROM location_details WHERE poc_uuid='{$org_id}'";

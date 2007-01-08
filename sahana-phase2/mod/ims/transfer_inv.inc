@@ -106,7 +106,7 @@ function _shn_ims_send_item_table_view_($catalog_id)
             
             
         
-        $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid=$inv_id;";
+        $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims2= $db->Execute($sql2);
         //print $sql2;
         $inventory_name = $ims2->fields["inventory_name"];            
@@ -181,7 +181,7 @@ function _shn_ims_send_item_table_view_($catalog_id)
             
             
         
-        $sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid=$inv_id;";
+        $sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims5= $db->Execute($sql5);
         //print $sql2;
         $inventory_name = $ims5->fields["inventory_name"];            
