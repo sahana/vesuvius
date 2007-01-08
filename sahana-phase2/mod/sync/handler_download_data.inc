@@ -57,11 +57,15 @@ shn_form_fsopen(_("File Type"));
 shn_form_fsclose();
 shn_form_fsopen(_("Compression Type"));
 
+
+//check the avalable compression functions and enable them
+    $bzip2=(function_exists('bzopen'))?'':'disabled="true"';
+    $gzip=(function_exists('gzopen'))?'':'disabled="true"';
 ?>
     <p><?=_("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")." <strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
     <label><?=_('None')?></label><input type="radio" name="compression" value="none"/><br/>
-    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" checked="true" /><br/>
-    <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" /><br/>
+    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" <?=$gzip?> checked="true" /><br/>
+    <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" <?=$bzip2?> /><br/>
     <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" disabled="true"/><br/> 
 <?php
 shn_form_fsclose();
