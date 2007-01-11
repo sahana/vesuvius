@@ -46,6 +46,7 @@ function shn_ims_mainmenu()
     shn_mod_menuopen(shn_get_module_name());
     shn_mod_menuitem("default","Home",$module);
     shn_mod_menuitem("search_item",_("Find Items"),$module);
+    shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
     shn_mod_menuitem("view_inv",_("List Inventories"),$module);
     
     shn_mod_menuitem("view_edit_item",_("List Items"),$module);
@@ -296,13 +297,19 @@ function shn_ims_add_inventory()
 /**
 **function to add the search inventory form
 */
-/*
+
 function shn_ims_search_inventory()
 {
-    include_once ('search_inventory.inc');
-    _shn_or_ims_form_search();
+    include_once ('search.inc');
+    _shn_ims_form_search();
 }
-*/
+
+function shn_ims_search_inventory_db()
+{
+    include_once ('search.inc');
+    _shn_ims_search_inventory_db();
+}
+
 /**
 **function to add the view and edit inventory form
 */

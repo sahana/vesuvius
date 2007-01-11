@@ -375,8 +375,96 @@ function _shn_ims_search_item_db()
 ** Function for searching inventories
 **/
 
-
 function _shn_ims_form_search()
+{
+    global $global;
+    $db=$global['db'];
+?>
+<h2 align="center"><?= _("Search for Inventories by name and by Location")?></h2>
+    <div id="formcontainer">
+<?php
+
+    shn_form_fopen('search_inventory_db');
+    shn_form_fsopen('Inventiry Name');
+    shn_form_text(_("Search by Inventory name   : "),'inventory_name','size="50"',null);
+    shn_form_fsclose();
+    $range=array("start"=>1,"end"=>5);
+    shn_location_form_org(1,5);
+    shn_form_submit('Search');
+    shn_form_fclose();
+}
+
+function _shn_ims_search_inventory_db()
+{
+    global $global;
+    $db=$global['db'];
+
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
+
+    $bsd_village=_shn_ims_get_locid();
+
+    //print $bsd_village;
+
+    $name_temp=trim($_POST['inventory_name']);
+    $name=soundex($name_temp);
+
+?>
+<div id='result'>
+    <table>
+    <thead>
+    <td><?=_("Inventory Name")?></td>
+    <td><?=_("Country of Origin/GIS")?></td> 
+    <td><?=_("Address")?></td>
+    <td><?=_("Contact Numbers")?></td>
+    <td><?=_("Man Power")?></td>
+    <td><?=_("Equipment")?></td>
+    <td><?=_("Other <br /> Facilities")?></td>
+    <td><?=_("Inventory Space")?></td>
+    </thead>
+    <tbody>
+
+<?php
+
+    if($name_temp!=NULL && $bsd_village==0)
+    {
+	$sql="SELECT * FROM ims_inventory_records;";
+        $ims=$db->Execute($sql);
+    }
+    if($name_temp==NULL && $bsd_village!=NULL)
+    {
+	;
+    }
+    if($name_temp!=NULL && $bsd_village!=NULL)
+    {
+	;
+    }
+
+    include_once ('view_inv.inc');
+    while(!$ims==NULL&&!$ims->EOF)
+    {
+	$inventory_name=$ims->fields['inventory_name'];
+	$inv_uuid=$ims->fields['inv_uuid'];
+	$inventory_name=soundex($inventory_name);
+	if($inventory_name==$name)
+	{
+	    _shn_display_org($flag=false,$inv_uuid);	 
+	    
+	}
+	$ims->MoveNext();
+    }
+?>
+    </tbody>
+    </table>
+</div>
+<?php
+    
+}
+
+function _shn_ims_form_search_old()
 {
     global $global;
     global $conf;
