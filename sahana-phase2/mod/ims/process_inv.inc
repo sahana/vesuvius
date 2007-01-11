@@ -153,6 +153,7 @@ function _shn_ims_reg_inv_cr()
             add_error(SHN_ERR_or_ims_ORG_EXISTS);
             return false;
         }
+	
         if($error!=true){
 	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
@@ -239,29 +240,42 @@ function _shn_ims_del_org()
     $q="SELECT inventory_name FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res=$db->Execute($q);
     $org_name=$res->fields[0];
-    $q="DELETE FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
+    $q="SELECT * FROM ims_transfer_item WHERE (inv_id_from='{$org_id}' OR inv_id_to='{$org_id}') AND amount_received='-1' AND person_received='-1';";
     $res=$db->Execute($q);
-    $q="DELETE FROM ims_item_records WHERE inv_id='{$org_id}';";
-    $res=$db->Execute($q);
-    $q="DELETE FROM ims_reorder_level WHERE inv_id='{$org_id}';";
-    $res=$db->Execute($q);
-    $q="DELETE FROM ims_alternate WHERE inv_id='{$org_id}';";
-    $res=$db->Execute($q);
-    $q="DELETE FROM ims_relation WHERE inv_id='{$org_id}';";
-    $res=$db->Execute($q);
-    $q="DELETE FROM sector WHERE pgoc_uuid='{$org_id}'";
-    $res=$db->Execute($q);
-    $q="DELETE FROM location_details WHERE poc_uuid='{$org_id}'";
-    $res=$db->Execute($q);
-    $q="DELETE FROM contact WHERE pgoc_uuid='{$org_id}'";
-    $res=$db->Execute($q);
+    $transit_id=$res->fields['transit_id'];
+    //print $q;
+    if($transit_id!=NULL)
+    {
+	
+	add_error($org_name." ".SHN_ERR_IMS_INVENTORY_IN_USE);
+    }
+    else
+    {
+        $q="DELETE FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
+        $res=$db->Execute($q);
+        $q="DELETE FROM ims_item_records WHERE inv_id='{$org_id}';";
+        $res=$db->Execute($q);
+        $q="DELETE FROM ims_reorder_level WHERE inv_id='{$org_id}';";
+        $res=$db->Execute($q);
+        $q="DELETE FROM ims_alternate WHERE inv_id='{$org_id}';";
+        $res=$db->Execute($q);
+        $q="DELETE FROM ims_relation WHERE inv_id='{$org_id}';";
+        $res=$db->Execute($q);
+        $q="DELETE FROM sector WHERE pgoc_uuid='{$org_id}'";
+        $res=$db->Execute($q);
+        $q="DELETE FROM location_details WHERE poc_uuid='{$org_id}'";
+        $res=$db->Execute($q);
+        $q="DELETE FROM contact WHERE pgoc_uuid='{$org_id}'";
+        $res=$db->Execute($q);
+    
 /*
   if($error==true){
 		_shn_or_ims_viewform_org($org_id,$error);
         	return false;
 	    }
 */
-    add_confirmation($org_name.' Inventory was successfully Deleted');
+        add_confirmation($org_name.' Inventory was successfully Deleted');
+    }
   ?>
     
 <h2>Inventory Registry</h2>

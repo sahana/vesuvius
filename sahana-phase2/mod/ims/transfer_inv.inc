@@ -380,7 +380,15 @@ function _shn_ims_send_db()
     $remaining_amount_new=$remaining_amount/$multiplier;
     
     
+    $q="SELECT * FROM ims_transfer_item;";
+    $ims=$db->Execute($q);
     
+    if(!$ims->EOF)
+    {
+	//$error=true;
+        add_error(SHN_ERR_IMS_TRANSFER_TABLE_EXISTS);
+        //return false;
+    }
 
     $sql1 = "INSERT INTO ims_transfer_item (item_id,catalog_id,amount_send,unit,inv_id_from,inv_id_to,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause,vehicle_number,driver_name,driver_mobile,driver_address,driving_licence) VALUES ('$item_id','$parent_id','$amount','$unit','$inv_id_from','$inv_to','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause','$vehicle_number','$driver_name','$driver_mobile','$driver_address','$driving_licence');";  
     $ims1 = $db->Execute($sql1);

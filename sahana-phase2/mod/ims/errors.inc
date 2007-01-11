@@ -30,6 +30,14 @@ define(SHN_ERR_DOB_INCORRECT,"You have to enter a Date (yyyy-mm-dd) for Date of 
 define(SHN_ERR_or_ims_LOCATION_INCOMPLETE,"Location is essential for registration. Please select the location and submit again");
 define(SHN_ERR_or_ims_EMAIL,"Invalid e-mail address");
 define(SHN_ERR_or_ims_REG_MAX,"Your text fields should contain less than 100 characters. One of your text field has exceeded it");
+define(SHN_ERR_or_ims_ORG_EXISTS,_("'ims_inventory_records' table does not exist"));
+define(SHN_ERR_IMS_TRANSFER_TABLE_EXISTS,_("ims_transfer_item table does not exist"));
+define(SHN_ERR_IMS_REORDER_TABLE_EXISTS,_("ims_reorder_level table does not exist"));
+define(SHN_ERR_IMS_ITEM_TABLE_EXISTS,_("ims_item_records table does not exist"));
+define(SHN_ERR_IMS_RELATION_TABLE_EXISTS,_("ims_relation table does not exist"));
+define(SHN_ERR_IMS_ALTERNATE_TABLE_EXISTS,_("ims_alternate table does not exist"));
+define(SHN_ERR_IMS_INVENTORY_IN_USE,_("Inventory is already in use"));
+
 
 define(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE,"Item Name is essential. Please Select an Item from Add-Item main page and submit the form again");
 define(SHN_ERR_IMS_AMOUNT_INCOMPLETE,"Amount is essential. Please Complete and Submit again");

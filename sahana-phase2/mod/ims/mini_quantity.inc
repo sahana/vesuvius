@@ -196,6 +196,15 @@ function _shn_ims_mini_quantity_db()
     print ("\n");
     print ($inventory_id);*/
 
+    $q="SELECT * FROM ims_reorder_level;";
+    $ims=$db->Execute($q);
+    if(!$ims->EOF)
+    {
+	$error=true;
+        add_error(SHN_ERR_IMS_REORDER_TABLE_EXISTS);
+        return false;
+    }
+
     if($flag==false)
     {
 
