@@ -670,7 +670,8 @@ function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$yti
  */
 function shn_chart_download_link($chart_id)
 {
-    return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    return "index.php?mod=rs&act=download_report&stream=text&rep_id=".$chart_id;
+    #return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
 }
 
 /**
@@ -681,7 +682,7 @@ function shn_chart_download_link($chart_id)
  */
 function shn_chart_display_link($chart_id)
 {
-    return "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    return "index.php?mod=rs&act=download_report&stream=text&rep_id=".$chart_id;
 }
 
 /**
@@ -692,7 +693,7 @@ function shn_chart_display_link($chart_id)
  */
 function shn_chart_download($chart_id,$string)
 {
-    $link = "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    $link = "index.php?mod=rs&act=download_report&stream=text&rep_id=".$chart_id;
     print "<a href= ".$link."> ".$string." </a>";
 }
 
@@ -704,7 +705,7 @@ function shn_chart_download($chart_id,$string)
  */
 function shn_chart_display($chart_id)
 {
-    $link = "stream.php?mod=rs&act=download_report&rep_id=".$chart_id;
+    $link = "index.php?mod=rs&act=download_report&stream=text&rep_id=".$chart_id;
     print "<img src = '".$link."' /> ";
 }
 
