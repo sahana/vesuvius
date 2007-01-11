@@ -717,12 +717,12 @@ function shn_xhtml_report_close()
  */
 function report_download_link($report_id)
 {
-    return "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
+    return "index.php?mod=rs&act=download_report&stream=text&rep_id=".$report_id;
 }
 
 function shn_report_download($report_id,$string)
 {
-    $link = "stream.php?mod=rs&act=download_report&rep_id=".$report_id;
+    $link = "index.php?mod=rs&act=download_report&stream=text&rep_id=".$report_id;
     print "<a href= ".$link."> ".$string." </a>";
 }
 

@@ -188,7 +188,7 @@ function _printTable($res)
     ?>
     <tr>
     <td><?php print $rep_id ;?></td>
-    <td><a href="stream.php?mod=rs&act=download_report&rep_id=<?php echo $rep_id ?>"><?php print $file_name ;?></a></td>
+    <td><?php shn_report_download($rep_id,$file_name); ?></td>
     <td><?php print $title ;?></td>
     <td><center><?php print $date_time ;?></center></td>
     <td><?php print $file_type ;?></td>

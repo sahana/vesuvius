@@ -68,16 +68,6 @@ function shn_rs_modreports()
 function shn_rs_default()
 {
     include_once ('home.inc');
-    print "This is to check chart download link";
-    $chart_link = shn_chart_download_link("shn_cs_barchart");
-
-    ?>
-    <a href="<?php echo $chart_link ?>">test</a>
-    <?php
-    $image = shn_chart_display_link("shn_cs_barchart");
-    ?>
-    <img src="<?php echo $image ?>"/>
-    <?php
 }
 
 /**
@@ -185,7 +175,7 @@ function shn_rs_sample_submit_four()
  * @access public
  * @return void
  */
-function shn_rs_download_report()
+function shn_text_rs_download_report()
 {
     include_once ('menu.inc');
     global $global;
