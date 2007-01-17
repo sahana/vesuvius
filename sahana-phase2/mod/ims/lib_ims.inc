@@ -2026,4 +2026,45 @@ function _shn_ims_get_locid(){
 		return $_SESSION['ims_1'];
 }
 
+function _shn_ims_get_parent_locations($location_id)
+{
+    global $global;
+    $db=$global['db'];
+
+    $flag=false;
+    $i=1;
+
+    $locatiion_array=array();
+    $location_array[0]=$location_id;
+
+    $sql="SELECT * FROM location;";
+    $ims=$db->Execute($sql);
+
+    while(!$ims==NULL && !$ims->EOF)
+    {
+        $parent_id=$ims->fields['parent_id'];
+	$loc_uuid=$ims->fields['loc_uuid'];
+
+	//print $parent_id;
+
+	if($parent_id==$location_id)
+	{
+	    $flag=true;
+//print $flag;
+	    //$locatiion_array[1]=$loc_uuid;
+	}
+
+	if($flag==true)
+	{
+	    $location_array[$i]=$loc_uuid;
+	    $i=$i+1;
+//print $loc_uuid;
+	}
+
+	$ims->MoveNext();
+    }
+
+    return $location_array;
+}
+
 ?>

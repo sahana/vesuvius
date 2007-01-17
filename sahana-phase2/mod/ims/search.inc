@@ -407,7 +407,11 @@ function _shn_ims_search_inventory_db()
 
     $bsd_village=_shn_ims_get_locid();
 
-    //print $bsd_village;
+   // print $bsd_village;
+
+    $loc=array();
+    $loc=_shn_ims_get_parent_locations($bsd_village);
+    print(count($loc));
 
     $name_temp=trim($_POST['inventory_name']);
     $name=soundex($name_temp);
@@ -433,27 +437,54 @@ function _shn_ims_search_inventory_db()
     {
 	$sql="SELECT * FROM ims_inventory_records;";
         $ims=$db->Execute($sql);
+	$temp_flag=-1;
     }
     if($name_temp==NULL && $bsd_village!=NULL)
     {
-	;
+	$sql="SELECT * FROM location_details;";
+        $ims=$db->Execute($sql);
+	$temp_flag=0;
     }
     if($name_temp!=NULL && $bsd_village!=NULL)
     {
-	;
+	$temp_flag=1;
     }
 
     include_once ('view_inv.inc');
     while(!$ims==NULL&&!$ims->EOF)
     {
-	$inventory_name=$ims->fields['inventory_name'];
-	$inv_uuid=$ims->fields['inv_uuid'];
-	$inventory_name=soundex($inventory_name);
+	 $inventory_name=$ims->fields['inventory_name'];
+	 $inventory_name=soundex($inventory_name);   
 	if($inventory_name==$name)
 	{
+	    $inv_uuid=$ims->fields['inv_uuid'];
 	    _shn_display_org($flag=false,$inv_uuid);	 
 	    
 	}
+	if($temp_flag==0)
+	{
+	    
+	    $location_id=$ims->fields['location_id'];
+
+	    for($i=0;$i<count($loc);$i++)
+	    {
+		$temp=$loc[$i];
+		//print($temp.'='.$location_id."\n");
+		if($temp==$location_id)
+		{
+		    $poc_uuid=$ims->fields['poc_uuid'];
+		    _shn_display_org($flag=false,$poc_uuid);
+		    print $poc_uuid;
+		    break;
+		}
+		
+		
+	    }
+		
+		//print $ims1;
+	}
+	   // $sql1="SELECT * FROM ";
+	//}
 	$ims->MoveNext();
     }
 ?>
