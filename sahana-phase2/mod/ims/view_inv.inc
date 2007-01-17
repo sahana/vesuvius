@@ -56,12 +56,12 @@ function _shn_ims_viewform_allorg($no=NULL)
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
         if($org_id!=NULL){
-        _shn_display_org($org_id);
+        _shn_display_org($flag=true,$org_id);
         $q = "SELECT inv_uuid FROM  ims_inventory_records WHERE parent_id='{$org_id}' ORDER BY name";
         $res_operation=$db->Execute($q);
         while(!$res_operation==NULL && !$res_operation->EOF){
             $operation_id=$res_operation->fields[0];
-            _shn_display_org($operation_id);
+            _shn_display_org($flag=true,$operation_id);
             $res_operation->MoveNext();
         }
         }
@@ -75,7 +75,7 @@ function _shn_ims_viewform_allorg($no=NULL)
 	shn_form_fclose();
 }
 
-function _shn_display_org($org_id,$indent=true,$edit=false)
+function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
 {
     global $global;
     $db=$global["db"];
@@ -134,7 +134,18 @@ $inv_id=$res_org->fields[0];
     <td><?php echo $res_org->fields[4]?></td>
     <td><?php echo $res_org->fields[5]?>
     <td><?php echo $res_org->fields[6]?></td>
+<?php
+    if($flag==true)
+    {
+?>
     <td><a href="index.php?mod=ims&act=add_item_main_page&inv_id=<?php echo $inv_id?>"><?php print ("Add Item"); ?></a><?php print "   ,"; ?><a href="index.php?mod=ims&act=view_inv&id=<?php echo $res_org->fields[0] ?>"><?php print ("Edit Inventory");?></a></td>
+<?php
+    }
+    else
+    {
+	;
+    }
+?>
 
 
 
