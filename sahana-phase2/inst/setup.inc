@@ -163,12 +163,22 @@ function shn_setup_form_dependancy()
     shn_form_fsclose();
     shn_form_fsopen(_('File and Directory Permissions'));
 ?>
-    <p><?=_('The following checks if certain files and directories have write persmissions for Sahana to function')?></p>
+    <p><?=_('The following checks if certain files and sub-directories have write persmissions for Sahana to function,')?></p>
 <?php
     $value = is_writable($global['approot'].'www/tmp');
     $isOK &= $value;
 
+
     if ($value) {
+        //shn_form_label(_('Sahana www/tmp/ is writable?'),"The Sahana sub-directory writable");
+        shn_form_label(_('<i>sahana/www/tmp/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
+    } else {
+        //shn_form_label(_('Sahana www/tmp/ is writable?'),"The Sahana sub-directory not writable");
+        shn_form_label(_('<i>sahana/www/tmp/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
+        //echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
+    }
+
+/* if ($value) {
         shn_form_label(_('Sahana www/tmp/ is writable?'), $tick_img."The Sahana sub-directory writable");
     } else {
         shn_form_label(_('Sahana www/tmp/ is writable?'), $cross_img."The Sahana sub-directory not writable");
@@ -183,12 +193,15 @@ function shn_setup_form_dependancy()
     $value = is_writable($global['approot'].'conf');
 
     if ($value) {
-        shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
+        //shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
+        shn_form_label(_('<i>sahana/www/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
     } else {
-        shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
-        echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
+        //shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
+        shn_form_label(_('<i>sahana/www/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
+        //echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
     }
 
+    echo "<p>Note: <font color=gray>both <i>sahana/conf/</i> and <i>sahana/www/tmp/</i> need to be writable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
     shn_form_fsclose();
 
     if ($isOK) {
