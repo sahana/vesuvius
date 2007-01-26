@@ -411,7 +411,7 @@ function _shn_ims_search_inventory_db()
 
     $loc=array();
     $loc=_shn_ims_get_parent_locations($bsd_village);
-    print(count($loc));
+    //print(count($loc));
 
     $name_temp=trim($_POST['inventory_name']);
     $name=soundex($name_temp);
@@ -441,30 +441,42 @@ function _shn_ims_search_inventory_db()
     }
     if($name_temp==NULL && $bsd_village!=NULL)
     {
+	//print ("Hello");
 	$sql="SELECT * FROM location_details;";
         $ims=$db->Execute($sql);
 	$temp_flag=0;
     }
-    if($name_temp!=NULL && $bsd_village!=NULL)
+    if($name_temp!=NULL && !$bsd_village==0)
     {
+	$sql="SELECT * FROM ims_inventory_records;";
+        $ims=$db->Execute($sql);
 	$temp_flag=1;
     }
 
     include_once ('view_inv.inc');
-    while(!$ims==NULL&&!$ims->EOF)
+    while(!$ims==NULL && !$ims->EOF)
     {
+	//print $temp_flag;
+	if($temp_flag==-1)
+	{
+	
 	 $inventory_name=$ims->fields['inventory_name'];
 	 $inventory_name=soundex($inventory_name);   
 	if($inventory_name==$name)
 	{
 	    $inv_uuid=$ims->fields['inv_uuid'];
-	    _shn_display_org($flag=false,$inv_uuid);	 
+	    if($inv_uuid!=NULL)
+	    {
+	        _shn_display_org($flag=false,$inv_uuid);
+	    }	 
 	    
+	}
 	}
 	if($temp_flag==0)
 	{
 	    
 	    $location_id=$ims->fields['location_id'];
+//print $location_id;
 
 	    for($i=0;$i<count($loc);$i++)
 	    {
@@ -474,7 +486,7 @@ function _shn_ims_search_inventory_db()
 		{
 		    $poc_uuid=$ims->fields['poc_uuid'];
 		    _shn_display_org($flag=false,$poc_uuid);
-		    print $poc_uuid;
+		    //print $poc_uuid;
 		    break;
 		}
 		
@@ -482,6 +494,43 @@ function _shn_ims_search_inventory_db()
 	    }
 		
 		//print $ims1;
+	}
+
+	if($temp_flag==1)
+	{
+	    $inventory_name=$ims->fields['inventory_name'];
+	    $inventory_name=soundex($inventory_name);
+	    if($inventory_name==$name)
+	    {
+		$inv_uuid=$ims->fields['inv_uuid'];
+		
+		$sql1="SELECT * FROM location_details WHERE poc_uuid='$inv_uuid';";
+		$ims1=$db->Execute($sql1);
+		$location_id=$ims1->fields['location_id'];
+
+	    for($i=0;$i<count($loc);$i++)
+	    {
+		$temp=$loc[$i];
+		//print($temp.'='.$location_id."\n");
+		if($temp==$location_id)
+		{
+		    //$poc_uuid=$ims->fields['poc_uuid'];
+		    _shn_display_org($flag=false,$inv_uuid);
+		    //print $poc_uuid;
+		    break;
+		}
+		
+	    }
+	    
+		
+	    }
+
+
+
+
+
+
+		
 	}
 	   // $sql1="SELECT * FROM ";
 	//}

@@ -198,7 +198,7 @@ function _shn_ims_mini_quantity_db()
 
     $q="SELECT * FROM ims_reorder_level;";
     $ims=$db->Execute($q);
-    if(!$ims->EOF)
+    if($ims==NULL)
     {
 	$error=true;
         add_error(SHN_ERR_IMS_REORDER_TABLE_EXISTS);

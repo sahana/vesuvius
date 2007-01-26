@@ -59,12 +59,14 @@ function _shn_ims_add_item_db()
 
     $q="SELECT * FROM ims_item_records;";
     $ims=$db->Execute($q);
-    if(!$ims->EOF)
+    if($ims==NULL)
     {
-	$error=true;
-        add_error(SHN_ERR_IMS_ITEM_TABLE_EXISTS);
-        return false;
+	//$error=true;
+	add_error(SHN_ERR_IMS_ITEM_TABLE_EXISTS);
+        //return false;
     }
+    else
+    {
 
     $sql = " INSERT INTO ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state,inserted_date,total_amount,predict_amount) VALUES ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state','$date','$total_amount','$predeict_amount');";
     $ims = $db->Execute($sql);
@@ -81,6 +83,7 @@ function _shn_ims_add_item_db()
     $_POST['cost_per_unit']="";
     $_POST['manufactured_date']="";
     $_POST['expire_date']="";
+    }
     shn_ims_add_item_main_page();
     
         
