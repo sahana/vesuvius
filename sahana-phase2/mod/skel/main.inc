@@ -51,6 +51,7 @@ function shn_skel_mainmenu()
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_('Sub Menu 2'));
+    shn_mod_menuitem('form',_('Form'));
     shn_mod_menuitem('report',_('Report'));
     shn_sub_mod_menuclose();
 
@@ -120,8 +121,9 @@ function shn_skel_mit()
     add_confirmation('This is a sample confirmation message after a form submit');
 }
 
+
 /**
- * This is the call for the action rpt 
+ * This is the call for the action rpt
  *
  * @access public
  * @return void
@@ -129,4 +131,41 @@ function shn_skel_mit()
 function shn_skel_report()
 {
     echo '<p>'._('You called the report action').'</p>';
+}
+
+/**
+ * This is function generate a form
+ *
+ * @access public
+ * @return void
+ */
+function shn_skel_form()
+{
+    echo '<h2>'._('Example Form').'</h2>';
+
+    shn_form_fopen("form", null,array('req_message'=>true));
+    shn_form_fsopen("Fieldset One");
+    shn_form_text("Text Field 0","tf",null,array("req"=>true, "help"=>"testing help"));
+    shn_form_text("Text Field 1","tf2","size='40'");
+    shn_form_submit("Clear", $submit_opts = null);
+    shn_form_fsclose();
+    shn_form_fsopen("Fieldset Two");
+    shn_form_button("Button", $button_opts = null, $extra_opts = null);
+    shn_form_hidden(array("h1"=>"hidden value"));
+    shn_form_checkbox("Check Box", "check", $text_opts = null, $extra_opts = null);
+    shn_form_select(array("o1"=>"option1","o2"=>"option2","o3"=>"option3"),"Select", "sel",$select_opts = "", $extra_opts = null);
+    shn_form_radio(array("o1"=>"Option1","o2"=>"Option2","o3"=>"Option3"),"Radio",'op[]',$select_opts = "", $extra_opts = null);
+    shn_form_opt_select('opt_camp_service', "Opt Select", $select_opts = "", $extra_opts = null);
+    shn_form_opt_multi_select('opt_camp_service',"Opt multi Select", $select_opts = "", $extra_opts = null);
+    shn_form_multi_select("ms",array("o1"=>"option1","o2"=>"option2","o3"=>"option3"),"Multi Select", $select_opts = "", $extra_opts = null);
+    shn_form_opt_checkbox('opt_camp_service',$extra_opts=null);
+    shn_form_textarea("Text area", "add", $text_opt, $extra_opts = null);
+    shn_form_upload("Upload File", 'file', $extra_opts = null);
+    shn_form_label("Label", "cap", $extra_opts = null);
+    shn_form_password("Password", "pass", null, $extra_opts = null);
+    shn_form_date("Input Date","dob",$extra_opts = null);
+    shn_form_fsclose();
+    shn_form_submit("Add", $submit_opts = null);
+    shn_form_submit("Delete", $submit_opts = null);
+    shn_form_fclose();
 }
