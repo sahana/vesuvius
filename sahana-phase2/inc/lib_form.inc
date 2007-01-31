@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.57 2006-12-10 15:38:53 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.58 2007-01-31 15:59:22 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -20,8 +20,9 @@
  */
 
 $shn_help_id;
-$shn_form_id;
-$shn_tab_enabled=false;
+$shn_form_id; //this variable is used by the tab functions
+$shn_tab_enabled=false; //this variable is used by the tab functions
+
 /**
  * You can add extra attributes to the given HTML element
  *
@@ -33,18 +34,18 @@ function shn_form_extra_opts($extra_opts)
 {
     global $shn_help_id;
     // output a required flag
-    if (true == $extra_opts['req']) echo "\n <b class='req'>*req</b>\n";
+    if (true == $extra_opts['req']) echo "\n <span class='req'>*req</span>\n";
 
     //Help
     if(isset($extra_opts['help'])){
         $shn_help_id++;
         $_SESSION['form_help'][$shn_help_id] = $extra_opts['help'] ."<br /><br />[<a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'>close this tip</a>]";
         #echo "<a href=\"stream.php?stream_type=help&help_id=$shn_help_id\">[Help]</a>\n";
-        echo '<a href="" class=popupLink onclick="return !showPopup(\'help_popup\', event,'.$shn_help_id.');">[Help]</a>';
+        echo '<a href="#" class="popupLink" onclick="return !showPopup(\'help_popup\', event,'.$shn_help_id.');"><span>[Help]</span></a>';
     }
 
     // output a break - default is true
-    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <br />\n";
+    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <br /><div class='brake'></div>\n";
 }
 
 /**
@@ -58,9 +59,6 @@ function shn_form_extra_opts($extra_opts)
  */
 function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true))
 {
-?>
-<div onclick='event.cancelBubble = true;' class="popup" id="help_popup" ></div>
-<?php
     global $global;
     global $shn_form_id;
     if ( null == $mod ) $mod = $global['module'];
@@ -79,17 +77,24 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
         $anchor = '#' . $form_opts['anchor'];
     else
         $anchor = '';
-    
+
+    //if the class is not given set it to default
+    if(!isset($form_opts['class']))
+        $form_opts['class']='form-container';
+?>
+    <div onclick='event.cancelBubble = true;' class="popup" id="help_popup" ></div>
+    <div class="<?php echo $form_opts['class']?>">
+<?php
     if($form_opts['req_message']){
 ?>
+
     <p><b>Key:</b><b class='red'> *req </b> - Fields tagged with this have to be filled to submit the form successfully</p>
 <?php
     }
 ?>
-    <div id="formcontainer">
-    <form method="post" action="index.php?mod=<?=$mod?>&act=<?=$act?><?=$anchor?>" id="<?=$form_opts['id']?>" <?=$form_opts['enctype']?> name="<?=$form_opts['name']?>">
+    <form method="post" action="index.php?mod=<?php echo $mod?>&amp;act=<?php echo $act?><?php echo $anchor?>" id="<?php echo $form_opts['id']?>" <?php echo $form_opts['enctype']?> name="<?php echo $form_opts['id']?>">
 <?php
-    //print the tab postion div
+    //print the tab position div
     if($shn_tab_enabled & !($form_opts['tab']=='float'))
         shn_form_drawtab();
 }
@@ -125,7 +130,7 @@ function shn_form_fclose()
  */
 function shn_form_submit($name, $submit_opts = null)
 { ?>
-    <input type="submit" value="<?=$name?>" <?=$submit_opts?> />
+    <input type="submit" value="<?php echo $name?>" <?php echo $submit_opts?> />
 <?php
 }
 
@@ -140,7 +145,7 @@ function shn_form_submit($name, $submit_opts = null)
 function shn_form_fsopen($label = null)
 { ?>
     <fieldset>
-    <legend><?=$label?></legend>
+    <legend><?php echo $label?></legend>
 <?php
 }
 
@@ -166,10 +171,8 @@ function shn_form_fsclose()
  * @return void
  */
 function shn_form_button($name, $button_opts = null, $extra_opts = null)
-
-{
-?>
-    <input type="button" value="<?=$name?>" <?=$button_opts?> />
+{ ?>
+    <input type="button" value="<?php echo $name?>" <?php echo $button_opts?> />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -190,8 +193,8 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
     if(get_magic_quotes_gpc())
         $value = stripslashes($value);
 ?>
-    <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> />
+    <label for="<?php echo $name?>"><?php echo $label?></label>
+    <input type="text" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -207,7 +210,7 @@ function shn_form_hidden($hidden_vars)
 {
     foreach ($hidden_vars as $name => $value) {
 ?>
-    <input type="hidden" name="<?=$name?>" value="<?=$value?>" />
+    <input type="hidden" name="<?php echo $name?>" value="<?php echo $value?>" />
 <?php
     }
 }
@@ -227,8 +230,8 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     $disabled = $extra_opts['disabled']==NULL? false :$extra_opts['disabled'];
  ?>
-    <label><?=$label?></label>
-    <input type="checkbox" name="<?=$name?>" value="<?=$value?>" <?if ($disabled){ echo "disabled='true'";}?><?=$text_opts?>  />
+    <label for="<?php echo $name?>"><?php echo $label?></label>
+    <input type="checkbox" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?if ($disabled){ echo "disabled='true'";}?><?php echo $text_opts?>  />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -248,17 +251,16 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
-
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
-    <label><?=$label?></label>
-    <select name="<?=$name?>" <?=$select_opts?> >
+    <label for="<?php echo $name?>"><?php echo $label?></label>
+    <select name="<?php echo $name?>" id="<?php echo $name?>" <?php echo $select_opts?>  >
 <?php
     foreach ($options as $opt_value => $desc )
     {
         $sel = ( $opt_value == $value ) ? 'selected="selected"' : null ;
 ?>
-        <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
+        <option value="<?php echo $opt_value?>" <?php echo $sel?>><?php echo $desc?></option>
 <?php
     }
 ?>
@@ -284,14 +286,14 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
-    <label><?=$label?></label>
+    <label><?php echo $label?></label>
 <?php
     foreach ($options as $opt_value => $desc ) {
 
 #        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
 ?>
-        <input type="radio" name="<?=$name?>" value="<?=$opt_value?>"
-<?=$select_opts?> /><?=$desc?>
+        <input type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>"
+<?php echo $select_opts?> /><?php echo $desc?>
 <?php
     }
 ?>
@@ -317,8 +319,8 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
     $name=($extra_opts['name'])?$extra_opts['name']:$opt_field;
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
-    <label><?=$label?></label>
-    <select name="<?=$name?>" <?=$select_opts?> >
+    <label><?php echo $label?></label>
+    <select name="<?php echo $name?>" <?php echo $select_opts?> >
 <?php
 if($sort==null){
 	$q="select * from field_options where field_name='{$opt_field}'";
@@ -331,7 +333,7 @@ if($sort==null){
 
         $sel = ( $res->fields[1] == $value ) ? 'selected="selected"' : null ;
 ?>
- <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
+ <option value="<?php echo $res->fields[1]?>" <?php echo $sel?>><?php echo $res->fields[2]?></option>
 <?php
 
         $res->MoveNext();
@@ -360,8 +362,8 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 	
 ?>
-    <label><?=$label?></label>
-    <select name="<?=$opt_field?>[]" <?=$select_opts?> >
+    <label><?php echo $label?></label>
+    <select name="<?php echo $opt_field?>[]" <?php echo $select_opts?> >
 <?php
 	if($extra_opts["sort"]==true){
 		$q="select * from field_options where field_name='$opt_field' order by option_code";
@@ -375,7 +377,7 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
             $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? 'selected="selected"' : null ;
         }
 ?>
- <option value="<?=$res->fields[1]?>" <?=$sel?>><?=$res->fields[2]?></option>
+        <option value="<?php echo $res->fields[1]?>" <?php echo $sel?>><?php echo $res->fields[2]?></option>
 <?php
 
         $res->MoveNext();
@@ -404,8 +406,8 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
    $value =  $extra_opts['value'];
 
 ?>
-    <label><?=$label?></label>
-    <select name="<?=$name?>[]" <?=$select_opts?> >
+    <label><?php echo $label?></label>
+    <select name="<?php echo $name?>[]" <?php echo $select_opts?> >
 <?php
 		  
     foreach ($options as $opt_value => $desc ) {
@@ -413,7 +415,7 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
             $sel = ( (array_search($opt_value,$value)==true) || (array_search($opt_value,$value)===0) ) ? 'selected="selected"' : null ;
         }
 ?>
- <option value="<?=$opt_value?>" <?=$sel?>><?=$desc?></option>
+        <option value="<?php echo $opt_value?>" <?php echo $sel?>><?php echo $desc?></option>
 <?php
 
      
@@ -442,9 +444,9 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
     while(!resu==NULL && !$resu->EOF) {
         $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 ?>
-        <label><?=$resu->fields[2]?></label>
-        <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
-        <br>
+    <label><?php echo $resu->fields[2]?></label>
+    <input type="checkbox" name="<?php echo $opt_field?>[]" value="<?php echo $resu->fields[1]?>" <?php echo $sel?>></input>
+    <br/>
 <?php
         $resu->MoveNext();
     }
@@ -461,15 +463,17 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
  * @access public
  * @return void
  */
-function shn_form_textarea($label, $name, $text_opts = null, $extra_opts = null)
+function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
 {
+    $cols=(isset($extra_opts['cols']))?$extra_opts['cols']:'30';
+    $rows=(isset($extra_opts['rows']))?$extra_opts['rows']:'4';
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     if(get_magic_quotes_gpc())
         $value = stripslashes($value);
 
 ?>
-    <label><?=$label?></label>
-    <textarea name="<?=$name?>" <?=$text_opts?> ><?=$value?></textarea>
+    <label for="<?php echo $name?>"><?php echo $label?></label>
+    <textarea name="<?php echo $name?>" id="<?php echo $name?>" cols="<?php echo $cols?>" rows="<?php echo $rows?>" <?php echo $text_opts?> ><?php echo $value?></textarea>
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -486,8 +490,8 @@ function shn_form_textarea($label, $name, $text_opts = null, $extra_opts = null)
 function shn_form_upload($label, $name, $extra_opts = null)
 {
 ?>
-    <label><?=$label?></label>
-    <input type="file" name="<?=$name?>" />
+    <label><?php echo $label?></label>
+    <input type="file" name="<?php echo $name?>" />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -506,8 +510,8 @@ function shn_form_label($label, $caption, $extra_opts = null)
     if(get_magic_quotes_gpc())
         $caption = stripslashes($caption);
 ?>
-    <label><?=$label?></label>
-    <?=$caption?>
+    <label><?php echo $label?></label>
+    <label class="value"><?php echo $caption?></label>
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -526,8 +530,8 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
-    <label><?=$label?></label>
-    <input type="password" name="<?=$name?>" value="<?=$value?>" <?=$text_opts?> />
+    <label for="<?php echo $name?>"><?php echo $label?></label>
+    <input type="password" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -565,23 +569,6 @@ function shn_form_table_row($elements, $text_opts=null) {
  * @access public
  * @return void
  */
-/*
-function shn_form_date($label, $name = 'date', $initdate = null )
-{
-    ($valueM = $_POST[$name.'M']) || ($valueM = ($initdate)? date('m',$initdate) : null);
-    ($valueY = $_POST[$name.'Y']) || ($valueY = ($initdate)? date('Y',$initdate) : null);
-    ($valueD = $_POST[$name.'D']) || ($valueD = ($initdate)? date('d',$initdate) : null);
-    global $global;
-?>
-    <label><?=$label._(" (dd-mm-yyyy)")?></label>
-    <input type="text" name="<?=$name.'D'?>" value="<?=$valueD?>" size="2" maxlength=2>&#175;
-   
-    <input type="text" name="<?=$name.'M'?>" value="<?=$valueM?>" size="2" maxlength=2>&#175;
-   
-    <input type="text" name="<?=$name.'Y'?>" value="<?=$valueY?>" size="4" maxlength=4>
-<?php
-}
-*/
 function shn_form_date($label,$name,$extra_opts = null)
 {
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
@@ -601,8 +588,9 @@ function shn_form_date($label,$name,$extra_opts = null)
     $m=($f=='D'||$l=='D')?$m:'D';
     $seq=$f.$m.$l;
 ?>
-    <label><?=$label?></label>
-    <input type="text" name="<?=$name?>" value="<?=$value?>" id="<?=$name?>" size="12" maxlength="12"><img src="res/img/x-office-calendar.png" onclick="scwDateOutputFormat='<?=$format?>';scwDateInputSequence='<?=$seq?>';scwShow(document.getElementById('<?=$name?>'),this);" alt="Click Here"/>
+    <label><?php echo $label?></label>
+    <input type="text" name="<?php echo $name?>" value="<?php echo $value?>" id="<?php echo $name?>" size="12" maxlength="12" /><span>
+    <img src="res/img/x-office-calendar.png" onclick="scwDateOutputFormat='<?php echo $format?>';scwDateInputSequence='<?php echo $seq?>';scwShow(document.getElementById('<?php echo $name?>'),this);" alt="Click Here"/></span>
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -639,8 +627,8 @@ function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=
 <?php
     }
 ?>
-    <div id="<?=$form_id?>">
-    <form method="POST" action="index.php?mod=<?=$mod?>&act=<?=$act?>" id="formset" <?=$form_opts['enctype']?> name="<?=$form_opts['name']?>">
+    <div id="<?php echo $form_id?>">
+    <form method="POST" action="index.php?mod=<?php echo $mod?>&amp;act=<?php echo $act?>" id="formset" <?php echo $form_opts['enctype']?> name="<?php echo $form_opts['name']?>">
 <?php
 }
 ?>
