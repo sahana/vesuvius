@@ -243,7 +243,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	<p align='center'>
 	<?php
 
-	print 'headid is' . $_SESSION['dvr']['group']['headid'];
+	//print 'headid is' . $_SESSION['dvr']['group']['headid'];
 
 	shn_show_thumb_url($_SESSION['dvr']['group']['headid'], 'database', 'dvr', 'addvictim_img', false);
 ?>
@@ -320,7 +320,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 
 	shn_form_fsclose();
 	shn_form_submit(_("Edit Location Check Details"), "name=location_button");
-	shn_form_submit(_("Finish"));
+//	shn_form_submit(_("Finish"));
 	shn_form_fclose();
 	print '<br />';
 }
@@ -382,11 +382,22 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	shn_gis_add_marker_map_form("GIS Map", "Disaster Victims Registry");
 	shn_form_submit(_("Check List"), "name=checklist_button");
-	shn_form_submit(_("Finish"));
+	//shn_form_submit(_("Finish"));
 	shn_form_fclose();
 
 	print '<br />';
 
+}
+
+function _shn_dvr_group_location_validate_error() {
+	$error = false;
+	$loc = shn_location_get_form_submit_loc();
+	if ($loc == -1) {
+		$error = true;
+		add_error(SHN_ERR_DVR_LOCATION_INCOMPLETE);
+
+	}
+	return $error;
 }
 
 function shn_dvr_set_location_details() {
@@ -428,7 +439,7 @@ function shn_dvr_cklst_and_desc() {
 	if ($_SESSION['edit_dvr'] == null) {
 		$_SESSION['dvr']['group']['opt_dvr_service'] = explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);
 
-		print 'services are' . $_SESSION['dvr']['group']['opt_dvr_service'];
+	//	print 'services are' . $_SESSION['dvr']['group']['opt_dvr_service'];
 	}
 	$extra_opts['selected'] = $_SESSION['dvr']['group']['opt_dvr_service'];
 
