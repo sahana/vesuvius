@@ -137,7 +137,7 @@ function shn_dvr_add_new_grp() {
 									}
 								}
 
-								print 'gis loc' . $_SESSION['dvr']['group']['gis_loc_x'];
+								//print 'gis loc' . $_SESSION['dvr']['group']['gis_loc_x'];
 
 						}
 
