@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * 
  * This file represents the main links of the DVR module
@@ -17,10 +18,6 @@
  *
  */
 
-/**
- * Place all your dependant libraries below. Given are some typical ones
- * required for the module
- */
 include_once $global['approot'] . '/inc/lib_menu.inc';
 include_once $global['approot'] . '/inc/lib_form.inc';
 include_once $global['approot'] . '/inc/lib_validate.inc';
@@ -49,30 +46,23 @@ function shn_dvr_mainmenu() {
 	shn_sub_mod_menuclose();
 
 	shn_sub_mod_menuopen(_('Edit Disaster Victim(s)'));
-	shn_sub_mod_menuitem('search_group', _('Edit Group'));
-	shn_sub_mod_menuitem('search_individual', _('Edit Individual'));
+	shn_sub_mod_menuitem('search_group', _('Search and Edit Group'));
+	shn_sub_mod_menuitem('search_individual', _('Search and Edit Individual'));
 	shn_sub_mod_menuclose();
 
-	shn_sub_mod_menuopen(_('Search Disaster Victim(s)'));
+	/*shn_sub_mod_menuopen(_('Search Disaster Victim(s)'));
 	shn_sub_mod_menuitem('search_group', _('Search Person'));
+	shn_sub_mod_menuclose();*/
+
+	shn_sub_mod_menuopen(_('List groups '));
+	shn_sub_mod_menuitem('list_groups', _('List groups/View members '));
+	//shn_sub_mod_menuitem('list_persons', _('List All persons'));
 	shn_sub_mod_menuclose();
-
-shn_sub_mod_menuopen(_('List'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('List All groups '));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('List All persons'));
-shn_sub_mod_menuclose();
-
 
 	shn_sub_mod_menuopen(_('Reports'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Drill Down By Group'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Drill Down By Shelter'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Drill Down By Incident '));
-	shn_sub_mod_menuclose();
-
-	shn_sub_mod_menuopen(_('Statistics'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Forecast Disaster'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Forecast No of Victims'));
-	shn_sub_mod_menuitem('dd_grp_rpt', _('Forcast Item Checklist '));
+	shn_sub_mod_menuitem('drill_downby_group', _('Drill Down By Group'));
+	shn_sub_mod_menuitem('drill_downby_shelter', _('Drill Down By Shelter'));
+	shn_sub_mod_menuitem('drill_downby_incident', _('Drill Down By Incident '));
 	shn_sub_mod_menuclose();
 
 	shn_mod_menuclose();
