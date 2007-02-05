@@ -25,5 +25,6 @@ $conf['mod_dvr_name'] = _("Disaster Victim Registry");
 /**
  * Gives the priority order in the main menu when listed
  */
+ 
 $conf['mod_dvr_menuorder'] = 4;
 ?>
