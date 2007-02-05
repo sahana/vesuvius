@@ -451,6 +451,27 @@ function _shn_dvr_update_group() {
 	$db->Execute($q6);
 
 }
+
+
+function _shn_dvr_delete_group($g_uuid)
+{
+global $global;
+$db = $global['db'];	
+	//todo by isuru
+	
+
+	
+}
+
+function _shn_dvr_delete_individual($p_uuid)
+{//todo by isuru
+	
+	global $global;
+	$db = $global['db'];
+	
+}
+
+
 ?>
 
 
