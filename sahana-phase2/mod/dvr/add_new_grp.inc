@@ -279,7 +279,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 
 	shn_form_fsclose();
 	shn_form_submit(_("Add Location Check Details"), "name=location_button");
-	shn_form_submit(_("Finish"));
+	//shn_form_submit(_("Finish"));
 	shn_form_fclose();
 	print '<br />';
 }
@@ -337,7 +337,7 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	shn_gis_add_marker_map_form("GIS Map", "Disaster Victims Registry");
 	shn_form_submit(_("Check List"), "name=checklist_button");
-	shn_form_submit(_("Finish"));
+	//shn_form_submit(_("Finish"));
 	shn_form_fclose();
 
 	print '<br />';
@@ -420,25 +420,6 @@ function _shn_dvr_regconfirm_group() {
 <?php
 
 
-	/*$_SESSION['dvr']['group']['typ_of_grp'] = $_POST['typ_of_grp'];
-	$_SESSION['dvr']['group']['full_name'] = $_POST['full_name'];
-	$_SESSION['dvr']['group']['family_name'] = $_POST['family_name'];
-	$_SESSION['dvr']['group']['local_name'] = $_POST['local_name'];
-	$_SESSION['dvr']['group']['nic'] = $_POST['nic'];
-	$_SESSION['dvr']['group']['picture'] = $_POST['picture'];
-	
-	$_SESSION['dvr']['group']['mobile'] = $_POST['mobile'];
-	$_SESSION['dvr']['group']['telephone'] = $_POST['telephone'];
-	$_SESSION['dvr']['group']['email'] = $_POST['email'];
-	$_SESSION['dvr']['group']['address'] = $_POST['address'];
-	$_SESSION['dvr']['group']['adlt_mls'] = $_POST['adlt_mls'];
-	$_SESSION['dvr']['group']['adlt_fmls'] = $_POST['adlt_fmls'];
-	$_SESSION['dvr']['group']['chldrn'] = $_POST['chldrn'];
-	$_SESSION['dvr']['group']['dsplcd'] = $_POST['dsplcd'];
-	$_SESSION['dvr']['group']['misng'] = $_POST['misng'];
-	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
-	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
-	*/
 	shn_form_fopen("add_new_grp", null);
 
 	shn_form_fsopen('Group type and head details');

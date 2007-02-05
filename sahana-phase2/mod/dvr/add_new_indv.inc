@@ -187,7 +187,7 @@ function shn_dvr_set_person_major_details() {
 	$_SESSION['dvr']['person']['p_uuid'] = shn_create_uuid();
 	$_SESSION['dvr']['person']['typ_of_grp'] = $_POST['opt_group_type'];
 
-	print 'head name is' . $_POST['head_name'];
+	//print 'head name is' . $_POST['head_name'];
 	$_SESSION['dvr']['person']['head_name'] = $_POST['head_name'];
 	//$group=_shn_dvr_get_group_id($_POST['head_name']);
 
@@ -253,12 +253,12 @@ function _shn_dvr_individual_physical_details_validate_error() {
 
 	$pics = $_POST['finger_picture'];
 
-	print 'picture is' . $pics;
+	//print 'picture is' . $pics;
 
 	if ($_FILES['finger_picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['finger_picture']['tmp_name']);
 
-		print 'here' . $info;
+	//	print 'here' . $info;
 		//check the image type 
 
 		if (!$info) {
