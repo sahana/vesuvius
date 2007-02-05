@@ -25,7 +25,61 @@
  */
 function shn_dvr_adm_default() {
 ?>
-    <p><b><?=_("Welcome to dvr admin page")?> </b></p>
-<?php
+<p><b>
+<?=_("Welcome to the Disaster Victim Registry admin page");?> </b></p>
+    <p>
+    <?php
+   shn_dvr_adminmenu();
 
 }
+
+
+function shn_dvr_adminmenu() {
+	global $global;
+	$module = $global['module'];
+	// Create the module menuj
+	shn_adm_menuopen(_("Disaster Victim Registry"));
+ 	shn_adm_menuitem("adm_checklist", _("Manage CheckList"));
+
+	//shn_adm_menuitem("adm_opt_age_group", _("Manage Groups"));
+	shn_adm_menuclose();
+
+}
+
+
+function shn_dvr_adm_checklist()
+{
+global $global;	
+shn_dvr_adminmenu();
+shn_form_fopen("adm_form_commit",null,array("req"=>false));
+  	shn_form_fsopen("Add Service / Facility");
+	shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities");
+	shn_form_text("Item Name","service_name",'size="30"');
+	shn_form_text("Item Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
+	shn_form_fsclose();
+	shn_form_submit("Add Item");
+	shn_form_fclose();
+} 
+
+
+function shn_dvr_adm_form_commit()
+{
+	
+global $global;
+	$db = $global['db'];
+	
+	if(!empty($_POST['service_name'])){
+		if(!empty($_POST['service_abbr'])){
+				$q = "insert into field_options(field_name,option_code,option_description) values('opt_dvr_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
+				$res = $db->Execute($q);
+		}
+	 shn_dvr_adm_checklist();
+	}
+}
+
+
+?>
+
+
+
+
