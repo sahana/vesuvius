@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.28 2007-01-01 06:43:34 isurunishan Exp $ */
+/* $Id: add.inc,v 1.29 2007-02-06 00:31:02 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -856,7 +856,7 @@ function shn_mpr_addmp_commit()
                             $_SESSION['mpr']['entry']['image'],
                             $_SESSION['mpr']['entry']['image_type'],
                             $_SESSION['mpr']['entry']['image_height'],
-                            $_SESSION['mpr']['entry']['image_width']);
+                            $_SESSION['mpr']['entry']['image_width'],'','person');
     } 
     //go back to the main menu
     //shn_mpr_default();    
