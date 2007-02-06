@@ -61,4 +61,6 @@ define(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE,"Time Amount is essential for the Pred
 
 define(SHN_ERR_IMS_CATALOGUE_MISSING,_("Please Select the Catalogue that you need"));
 
+define(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR,_("Please complete either inventory name or Base location"));
+
 ?>

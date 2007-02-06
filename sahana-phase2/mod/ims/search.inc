@@ -406,6 +406,7 @@ function _shn_ims_search_inventory_db()
     $_SESSION['ims_5']=$_POST['5'];
 
     $bsd_village=_shn_ims_get_locid();
+    //print $bsd_village;
 
    // print $bsd_village;
 
@@ -523,15 +524,9 @@ function _shn_ims_search_inventory_db()
 	    }
 	    
 		
-	    }
-
-
-
-
-
-
-		
+	    }		
 	}
+	
 	   // $sql1="SELECT * FROM ";
 	//}
 	$ims->MoveNext();
@@ -542,6 +537,29 @@ function _shn_ims_search_inventory_db()
 </div>
 <?php
     
+}
+
+function _shn_ims_validate_search_inventories()
+{
+    $error_flag=false;
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
+
+    $bsd_village=_shn_ims_get_locid();
+    print $bsd_village;
+    $name=trim($_POST['inventory_name']);
+
+    if($bsd_village==0 && $name==NULL)
+    {
+	$error_flag=true;
+    }
+
+    return $error_flag;
+    
+	
 }
 
 function _shn_ims_form_search_old()

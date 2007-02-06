@@ -200,10 +200,12 @@ function _shn_ims_mini_quantity_db()
     $ims=$db->Execute($q);
     if($ims==NULL)
     {
-	$error=true;
+	//$error=true;
         add_error(SHN_ERR_IMS_REORDER_TABLE_EXISTS);
-        return false;
+        //return false;
     }
+    else
+    {
 
     if($flag==false)
     {
@@ -231,7 +233,7 @@ function _shn_ims_mini_quantity_db()
     $inventory_id="";
         shn_ims_reorder_level_edit();
     }
-
+    }
 
 
         

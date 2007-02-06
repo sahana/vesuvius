@@ -183,12 +183,14 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 
 	$q="SELECT * FROM ims_relation;";
 	$ims=$db->Execute($q);
-	if(!$ims->EOF)
+	if($ims==NULL)
 	{
-	    $error=true;
+	    //$error=true;
             add_error(SHN_ERR_IMS_RELATION_TABLE_EXISTS);
-            return false;
+            //return false;
 	}
+	else
+	{
 	
 	if($inv_id=="all")
 	{
@@ -211,6 +213,7 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 		$sql3="INSERT INTO ims_relation (catalog_id,inv_id,relation) VALUES ('$parent_id','$inv_id','$relation');";
 		$ims3=$db->Execute($sql3);
 		//print $sql1;
+	}
 	}
 }
 
@@ -359,16 +362,19 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
 
 	$q="SELECT * FROM ims_alternate;";
 	$ims=$db->Execute($q);
-	if(!$ims->EOF)
+	if($ims==NULL)
 	{
 	    $error=true;
             add_error(SHN_ERR_IMS_ALTERNATE_TABLE_EXISTS);
             return false;
 	}
+	else
+	{
 
 	$sql1="INSERT INTO ims_alternate (catalog_id,inv_id,alternate) VALUES ('$parent_id','$inv_id','$alternate');";
 	$ims1=$db->Execute($sql1);
 	//print $sql1;
+	}
 }
 
 

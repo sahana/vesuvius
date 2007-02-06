@@ -307,7 +307,15 @@ function shn_ims_search_inventory()
 function shn_ims_search_inventory_db()
 {
     include_once ('search.inc');
-    _shn_ims_search_inventory_db();
+    if(_shn_ims_validate_search_inventories())
+    {
+        add_error(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR);
+	shn_ims_search_inventory();
+    }
+    else
+    {
+	_shn_ims_search_inventory_db();
+    }
 }
 
 /**
