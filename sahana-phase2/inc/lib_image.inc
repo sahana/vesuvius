@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_image.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_image.inc,v 1.3 2007-02-06 00:18:09 isurunishan Exp $ */
 
 /**
  *
@@ -174,6 +174,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
                 $width = $arr[0]['image_width']+20;
             } 
 	        $src_ori = "stream.php?stream_type=image&mod=$mod&act=$act&x_uuid=".$x_uuid.$type;
+	      
             $src_tmp = "stream.php?stream_type=image&mod=$mod&act=$act&thumbnail=true&x_uuid=".$x_uuid.$type;
         }
     }else{
@@ -272,7 +273,7 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
  * @access public
  * @return void
  */
-function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null)
+function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category)
 {
     global $global;
     
@@ -286,11 +287,11 @@ function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_wi
                     image_width = '$image_width',
                 WHERE image_id = '$replace_id'";
     }else{
-        $sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width) 
-                VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width')";
+        $sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category) 
+                VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
     }
     $global['db']->Execute($sql);
-    exit();
+   // exit();
 }
 /* }}} */
 ?>
