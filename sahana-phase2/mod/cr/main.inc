@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.15 2006-08-20 19:39:08 mifanc Exp $
+* $Id: main.inc,v 1.16 2007-02-08 10:26:07 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -12,7 +12,7 @@
 * @author   Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
-//var_dump($global[db]);
+
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/cr/main_fns.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -27,10 +27,10 @@ function shn_cr_mainmenu()
     shn_mod_menuopen(_($conf['mod_cr_name']));
     shn_mod_menuitem("default",_("Home"),$module);
     shn_mod_menuitem("srch",_("Search"),$module);
-    shn_mod_menuitem("acmp",_("Add Camp"),$module);
-    shn_mod_menuitem("ecmp",_("Edit Camp"),$module);
+    shn_mod_menuitem("acmp",_("Add {$conf['mod_cr_alt']}"),$module);
+    shn_mod_menuitem("ecmp",_("Edit {$conf['mod_cr_alt']}"),$module);
     shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("arpt",_("View All Camps"),$module);
+    shn_sub_mod_menuitem("arpt",_("View All {$conf['mod_cr_alt']}s"),$module);
     shn_mod_menuitem("lrpt",_("View By Location"),$module);
     shn_mod_menuitem("contact",_("View Admin Details"),$module);
     if($conf['gis']){
