@@ -3,6 +3,9 @@
 $conf['mod_cr_name'] = _("Shelter Registry");
 $conf['mod_cr_menuorder'] = 4;
 
+//Alternate wording for Camp
+$conf['mod_cr_alt']=_("Shelter");
+
 /**
  * Spatial Density Report Configs
  * Modify Values here
