@@ -136,7 +136,7 @@ function _shn_lc_lang_list($mode=1)
         $locale = $_SESSION['locale'];
 
         //shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
-        echo "<form method=\"post\" action=\"index.php?mod=sync&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
+        echo "<form method=\"post\" action=\"index.php?mod=".$global['module']."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
 
         shn_form_hidden(array('seq'=>'set_locale'));
 
