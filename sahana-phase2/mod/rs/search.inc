@@ -27,7 +27,7 @@ function shn_rs_search_type_select()
     <p><?= _('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
     <?php
 
-    $form_opts['name']="rep_search";
+    $form_opts['id']="rep_search";
     $search_type_array=array('none'=>'---select---','report'=>'Report','chart'=>'Chart');
     shn_form_fopen('search',null,$form_opts);
     shn_form_fsopen(_('Select the Search category'));
