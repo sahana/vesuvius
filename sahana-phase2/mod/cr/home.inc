@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.3 2006-04-27 04:43:29 mifanc Exp $ */
+/* $Id: home.inc,v 1.4 2007-02-08 10:25:41 mifanc Exp $ */
 
 /**
 * CMS Home page
@@ -16,11 +16,3 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-function shn_cr_default(){
-?>
-<h1>The Camp Registry</h1>
-<br>
-<p>The Camps Registry is the central Registry to manage Camps and Camp Management Systems</p><br>
-<?
-}
-?>
