@@ -182,9 +182,9 @@ function shn_text_rs_download_report()
     $db=$global["db"];
 
     $rep_id = trim($_REQUEST['rep_id']);
-    $module = $global['module'];
     $report_mods = _shn_get_mod_reports();
 
+	/*
 	foreach ($report_mods as $i) 
 	{
     	include $global['approot']."/mod/".$i."/report.inc";
@@ -195,6 +195,11 @@ function shn_text_rs_download_report()
 		break;
 		}
  	}
+*/
+
+    $rep_mod = explode('_', $rep_id);
+    include_once $global['approot']."mod/".$rep_mod[1]."/report.inc";// extract the module name from the report/chart.eg: shn_cs_chart; then this will return "cs"
+    $rep_id();
 
     $query = "select file_name,file_data,file_type from report_files where rep_id = '$rep_id' ";	
     $res = $db->Execute($query);
@@ -214,7 +219,7 @@ function shn_text_rs_download_report()
 		header("Content-type: text/html");
             break;
             case 'png':
-		header("Content-type: image/png");
+		#header("Content-type: image/png");
             break;
 	
         }
