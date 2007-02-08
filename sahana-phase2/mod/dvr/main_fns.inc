@@ -362,6 +362,39 @@ function shn_dvr_view_members() {
 	//_shn_dvr_home_show_dvr();
 }
 
+
+function shn_dvr_delete_individual()
+{
+	
+	global $global;
+	include ($global['approot'] . '/mod/dvr/data_access.inc');
+	
+	$person_id=$_GET['p_uuid'];
+	
+	_shn_dvr_delete_person($person_id);
+	$msg = $person_id . "person was succesfully deleted ";
+	add_confirmation($msg);
+
+}
+	
+	
+function shn_dvr_delete_group()
+{
+	
+	global $global;
+	include ($global['approot'] . '/mod/dvr/data_access.inc');
+	
+	$group_id=$_GET['groupid'];
+	
+	_shn_dvr_delete_group($group_id);
+	$msg = $group_id. "group was succesfully deleted ";
+	add_confirmation($msg);
+
+}
+		
+
+
+
 function shn_dvr_edit_individual() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/edt_indv.inc');
