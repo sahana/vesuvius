@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.58 2007-01-31 15:59:22 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.59 2007-02-08 09:09:08 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -64,8 +64,12 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     if ( null == $mod ) $mod = $global['module'];
 
     static $idno=0; // generate a form id if the id is not set
-    if (!isset($form_opts['id']))
-        $form_opts['id'] = "form".$idno++;
+    if (!isset($form_opts['id'])){
+        if (isset($form_opts['name']))// name and the id should be same XHTML
+            $form_opts['id']=$form_opts['name']; // use the name value for id also
+        else
+            $form_opts['id'] = "form".$idno++;
+    }
     $shn_form_id=$form_opts['id'];
 
     if (isset($form_opts['tab'])){  //check to see if the tabing is enable
