@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: phplot.php,v 1.3 2006-08-10 05:01:52 jayasinghe Exp $ */
+/* $Id: phplot.php,v 1.4 2007-02-08 06:48:15 jayasinghe Exp $ */
 
 /*
  * PHPLOT Version 5.0.rc1
@@ -1289,7 +1289,7 @@ class PHPlot {
                         $error_message, 'center', 'center');
 
         $this->PrintImage();
-        exit;
+        //exit;
 //        return TRUE;
     }
 
