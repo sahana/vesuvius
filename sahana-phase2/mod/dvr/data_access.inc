@@ -72,6 +72,8 @@ function _shn_dvr_add_group() {
 
 }
 
+
+
 function _dvr_add_contact($uuid, $contacttype, $contactvalue) {
 
 	global $global;
@@ -84,6 +86,8 @@ function _dvr_add_contact($uuid, $contacttype, $contactvalue) {
 
 }
 
+
+
 function _dvr_update_contact($uuid, $contacttype, $contactvalue) {
 
 	global $global;
@@ -93,6 +97,8 @@ function _dvr_update_contact($uuid, $contacttype, $contactvalue) {
 	$contact_query = "update contact set (opt_contact_value='{$contactvalue}') where pgoc_uuid={'$uuid'} and opt_contact_type='{$contacttype}'}";
 	$db->Execute($contact_query);
 }
+
+
 
 function _shn_dvr_commit_individual() {
 
@@ -149,6 +155,7 @@ function _shn_dvr_commit_individual() {
 	$res = $db->Execute($q7);
 
 }
+
 
 function _shn_dvr_get_headid($group_id) {
 
@@ -209,36 +216,36 @@ function _shn_dvr_get_individual_search_results($card, $name, $incident) {
 
 	if ($card == null & $name == null & $incident == null) {
 		//$search_q1="select pn.full_name,pn,family_name,pn.l10n_name,id.serial,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id where persontopg.g_uuid=pg.g_uuid and persontopg.p_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard'";
-		$search = " select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' ";
+		$search = " select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res  where persontopg.p_uuid=pn.p_uuid  and pg.g_uuid=persontopg.g_uuid  and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' ";
 	} else
 		if ($card == null & $name == null & $incident != null) {
-			$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic'  "; //all incidents
+			$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic'  "; //all incidents
 
 		} else
 			if ($card == null & $name != null & $incident == null) {
-				$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%')";
+				$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%')";
 
 			} else
 				if ($card == null & $name != null & $incident != null) {
-					$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%')";
+					$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%')";
 
 				} else
 					if ($card != null & $name == null & $incident == null) {
-						$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and id.serial='{$card}'";
+						$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid  and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and id.serial='{$card}'";
 
 					} else
 						if ($card != null & $name == null & $incident != null) {
-							$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic'  and id.serial='{$card}'";
+							$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic'  and id.serial='{$card}'";
 
 						} else
 							if ($card != null & $name != null & $incident == null) {
 
-								$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%') and id.serial='{$card}' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}'";
+								$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%') and id.serial='{$card}' and res.incident_id='{$_SESSION['user_pref_ims_incident_id']}'";
 
 							} else
 								if ($card != null & $name != null & $incident != null) {
 
-									$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%') and id.serial='{$card}'";
+									$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,pg.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='nic' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%') and id.serial='{$card}'";
 
 								}
 	$results = $db->Execute($search);
@@ -444,12 +451,59 @@ function _shn_dvr_update_group() {
 	//creating the comma seperated sevices string
 	if ($dvr_services == null)
 		$dvr_services = array ();
-	$services_string = implode($dvr_services, ',');
+	$services_string = implode($dvr_services, ',');//haha
 	$other = $_SESSION['dvr']['group']['other'];
 
 	$q6 = "update group_description no_of_adult_males='{$_SESSION['dvr']['group']['adlt_mls']}',no_of_adult_females='{$_SESSION['dvr']['group']['adlt_fmls']}',no_of_children='{$_SESSION['dvr']['group']['chldrn']}',no_displaced='{$_SESSION['dvr']['group']['dsplcd']}',no_missing='{$_SESSION['dvr']['group']['misng']}',no_dead='{$_SESSION['dvr']['group']['dead']}',no_rehabilitated='{$_SESSION['dvr']['group']['rehbd']}',checklist='{$services_string}',description={'$other'}) where g_uuid='{$_SESSION['dvr']['group']['headid']}'";
 	$db->Execute($q6);
 
+
+
+
+}
+
+
+function _shn_dvr_get_members($g_uuid)
+{
+$sql="select p_uuid from person_to_pgroup p  where p.g_uuid='{$g_uuid}'";
+global $global;
+$db = $global['db'];	
+
+$res=$db->Execute($sql);
+
+return $res;
+}
+
+/*function _shn_dvr_get_persons($g_uuid)
+{
+	$sql="select "
+}*/
+//$x=select id from person where personid=fgfg
+
+//count >0
+
+function _shn_dvr_delete_person($p_uuid)
+{
+	
+global $global;
+$db = $global['db'];	
+	//todo by isuru
+	
+$q1="delete from person_uuid  where p_uuid='{$p_uuid}' ";
+$db->Execute($q1);
+$q2="delete from identity_to_person where p_uuid='{$p_uuid}'";
+$db->Execute($q2);
+$q3="delete from person_details where p_uuid='{$p_uuid}'";
+$db->Execute($q3);
+$q4="delete from contact where pgoc_uuid='{$p_uuid}' ";
+$db->Execute($q4);
+$q5="delete from resource_to_incident where x_uuid='{$p_uuid}'";
+$db->Execute($q5);
+
+
+
+	
+	
 }
 
 
@@ -458,18 +512,39 @@ function _shn_dvr_delete_group($g_uuid)
 global $global;
 $db = $global['db'];	
 	//todo by isuru
-	
+$q1="delete from pgroup where g_uuid='{$g_uuid}' ";
+$db->Execute($q1);
+
+$q2="delete from person_to_pgroup where g_uuid='{$g_uuid}' ";
+$db->Execute($q2);
+
+$q3="delete from resource_to_incident where resource_to_incident='{$g_uuid}'";
+$db->Execute($q3);
+
+
+$members=_shn_dvr_get_members($g_uuid);
+
+
+while(!$members->EOF)
+{
+	$id=$members->fields['p_uuid'];
+     _shn_dvr_delete_person($id);
+
+
+//$q3="delete from person_to_pgroup where g_uuid='{$}'";
+
 
 	
 }
+}
 
-function _shn_dvr_delete_individual($p_uuid)
+/*function _shn_dvr_delete_individual($p_uuid)
 {//todo by isuru
 	
 	global $global;
 	$db = $global['db'];
 	
-}
+}*/
 
 
 ?>

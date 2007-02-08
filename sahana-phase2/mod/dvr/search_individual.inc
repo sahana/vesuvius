@@ -21,7 +21,7 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 
 <?php
-/* $Id: search_individual.inc,v 1.2 2007-02-05 22:42:00 isurunishan Exp $ */
+/* $Id: search_individual.inc,v 1.3 2007-02-08 07:44:02 isurunishan Exp $ */
 /**
  * 
  * Search groups and individuals in disaster victims registry
@@ -84,10 +84,10 @@ function shn_dvr_individual_search_results()
 		$all_incidents=null;
 	}
 	
-	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 include_once ($global['approot'] . '/mod/dvr/lib.inc');
 $results=_shn_dvr_get_individual_search_results($card,$name,$all_incidents);
-print 'all incidents'.$all_incidents;
+//print 'all incidents'.$all_incidents;
 	
 	?>
 	
@@ -119,7 +119,9 @@ print 'all incidents'.$all_incidents;
         <td><?=$results->fields['serial']?></td>
         <td><?=$results->fields['address']?></td>
         <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$results->fields['pid']?>'>Edit</a></td>
-        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$results->fields['address']?>' onClick="javascript: return confirmdelete('<?=$results->fields['pid']?>')">Delete</a></td>
+      
+        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['pid']?>')">Delete</a></td>
+      
         </tr>
         <?php
         $results->MoveNext();

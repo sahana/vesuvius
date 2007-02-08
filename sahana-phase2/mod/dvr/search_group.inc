@@ -5,7 +5,7 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 }
 </script>
 <?php
-/* $Id: search_group.inc,v 1.2 2007-02-05 22:39:43 isurunishan Exp $ */
+/* $Id: search_group.inc,v 1.3 2007-02-08 07:43:35 isurunishan Exp $ */
 /**
  * 
  * Search groups and individuals in disaster victims registry
@@ -118,7 +118,7 @@ $results=_shn_dvr_get_group_search_results($group,$card,$name);
             <td><?=$results->fields['address']?></td>
             
             <td><a href='index.php?mod=dvr&act=edit_group&groupid=<?=$results->fields['group_id']?>'>Edit</a></td>
- <td><a href='index.php?mod=dvr&act=delete_grp' onClick="javascript: return confirmdelete('<?=$results->fields['group_id']?>')">Delete</a></td>
+ <td><a href='index.php?mod=dvr&act=delete_group&groupid=<?=$results->fields['group_id']?>' onClick="javascript: return confirmdelete('<?=$results->fields['group_id']?>')">Delete</a></td>
         
         </tr>
  <?php
