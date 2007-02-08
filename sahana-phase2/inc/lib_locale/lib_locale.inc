@@ -134,7 +134,7 @@ function _shn_lc_lang_list($mode=1)
         $lc_list = _shn_get_lang_list();
 
         $locale = $_SESSION['locale'];
-
+        global $global;
         //shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
         echo "<form method=\"post\" action=\"index.php?mod=".$global['module']."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
 
