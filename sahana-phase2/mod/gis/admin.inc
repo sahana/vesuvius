@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.15 2006-11-16 08:54:33 mifanc Exp $ */
+/* $Id: admin.inc,v 1.16 2007-02-12 08:30:49 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -278,39 +278,39 @@ function shn_gis_adm_commit(){
 	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
 	if(!null==$_POST['x_center'])
 	{
-		$query = "select * from config where confkey='center_x' and module_id='gis'";
+		$query = "select * from config where confkey='mod_gis_center_x' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'center_x'";       
+			$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
 			$db->Execute($q);
 		}
 		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','center_x','{$_POST['x_center']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_x','{$_POST['x_center']}')";
 			$db->Execute($insert);
 		}
 	}
 	if(!null==$_POST['y_center'])
 	{
-		$query = "select * from config where confkey='center_y' and module_id='gis'";
+		$query = "select * from config where confkey='mod_gis_center_y' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'center_y'";       
+			$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_y'";       
 			$db->Execute($r);
 		}
 		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','center_y','{$_POST['y_center']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_y','{$_POST['y_center']}')";
 			$db->Execute($insert);
 		}
 	}
 	if(!null==$_POST['mod_gis']){
-		$query = "select * from config where confkey='dflt' and module_id='gis'";
+		$query = "select * from config where confkey='mod_gis_dflt' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='dflt'";
+			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='mod_gis_dflt'";
 			$db->Execute($q);
 		}
 		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','dflt','{$_POST['mod_gis']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
 		
