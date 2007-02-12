@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.49 2006-12-20 16:25:10 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.50 2007-02-12 09:37:29 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -18,36 +18,33 @@
 
 
 function shn_cr_default(){
-global $conf;
+	global $conf;
 ?>
-<div id="home">
-<h2><?php echo _($conf['mod_cr_name'])?></h2>
-<p> <?php echo _("This sub application of Sahana keeps track of the location of all the camps and shelters in the
-region and some basic data on the facilities they might have, the number of
-people in them etc. It also provides a GIS view to plot the location of the camps and shelters in the
-affected area.
-Current features include:")?></p>
-<ul>
-    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the camp or shelter")?></li>
-    <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
-    <li><?php echo _("Ability to customize the list of important facilities needed at a camp or shelter")?></li>
-    <li><?php echo _("Basic reports on the shelter and drill-down by region")?></li>
-</ul>
-<!--<p>The Camps Registry is the central Registry to manage Camps and individual Camp Management Systems<br>
-	This Registry can be used to add camps, edit camps, view information on camps based on different categories and to search for camps.  </p><br/>
-	-->
-</div>
-    <div id="home_recent">		
-	<h1><?php echo _("Most Populated Shelters");?></h1>
-	<?php shn_cr_home_pop(); 
-	?>	
-	
-	<h1><?php echo _("Newest Shelters");?></h1>
-	<?php shn_cr_home_newcmp(); 
-	?>
-    </div>
-	<?php
-	}
+	<div id="home">
+	<h2><?php echo _($conf['mod_cr_name'])?></h2>
+	<p> <?php echo _("This sub application of Sahana keeps track of the location of all the {$conf['mod_cr_alt']}s in the
+	region and some basic data on the facilities they might have, the number of
+	people in them etc. It also provides a GIS view to plot the location of the {$conf['mod_cr_alt']}s in the
+	affected area.
+	Current features include:")?></p>
+	<ul>
+	    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
+	    <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
+	    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
+	    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
+	</ul>
+	</div>
+	    <div id="home_recent">		
+		<h2><?php echo _("Most Populated Shelters");?></h2>
+		<?php shn_cr_home_pop(); 
+		?>	
+		
+		<h2><?php echo _("Newest Shelters");?></h2>
+		<?php shn_cr_home_newcmp(); 
+		?>
+	    </div>
+		<?php
+		}
 
 function shn_cr_home_pop(){
 	global $global;
@@ -110,8 +107,6 @@ function shn_cr_home_newcmp(){
 
 
 
-function shn_cr_stat(){
-}
 
 function shn_cr_srch(){
 
@@ -131,6 +126,29 @@ function shn_cr_srch(){
 									break;	
 		default :
 		            _shn_cr_srch();
+		            break;
+		}
+  
+}
+
+function shn_cr_srch_address(){
+
+  global $global;
+  include($global['approot'].'/mod/cr/search.inc');
+  require_once($global['approot'].'/inc/handler_form.inc');
+  switch($_REQUEST['seq']){
+		case 'next'		:
+		            	echo _("Search Results");
+		           	 	break;
+		case 'commit'	:
+									_shn_cr_srch_rst($_POST['cmp_id'],$_POST['opt_camp_type']);
+									break;
+									
+		case 'show' :
+									_shn_cr_srch_rst($_POST['cmp_id'],'all');
+									break;	
+		default :
+		            _shn_cr_srch_address();
 		            break;
 		}
   
