@@ -1,6 +1,6 @@
 <?php
 /**Main home page of the CR
-* $Id: main.inc,v 1.16 2007-02-08 10:26:07 mifanc Exp $
+* $Id: main.inc,v 1.17 2007-02-12 09:37:12 mifanc Exp $
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -26,7 +26,10 @@ function shn_cr_mainmenu()
     $module = $global['module'];
     shn_mod_menuopen(_($conf['mod_cr_name']));
     shn_mod_menuitem("default",_("Home"),$module);
-    shn_mod_menuitem("srch",_("Search"),$module);
+    shn_sub_mod_menuopen(_("Search"));
+    shn_mod_menuitem("srch",_("Search by name"),$module);
+    shn_mod_menuitem("srch_address",_("Search by address"),$module);
+    shn_sub_mod_menuclose();
     shn_mod_menuitem("acmp",_("Add {$conf['mod_cr_alt']}"),$module);
     shn_mod_menuitem("ecmp",_("Edit {$conf['mod_cr_alt']}"),$module);
     shn_sub_mod_menuopen(_("Reports"));
