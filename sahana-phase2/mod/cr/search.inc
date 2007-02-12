@@ -176,25 +176,47 @@ function _shn_cr_srch_rst($camp_name,$type){
 /*The Form to handle the Search Functionality*/
 	
 function _shn_cr_srch($edit=false){		
+	global $conf;
 ?>
-	 	  <h1><center><?=_("Search for a Shelter")?></center></h1>
- <?php
-			shn_form_fopen("srch");
-			shn_form_fsopen(_("SEARCH"));
-			shn_form_hidden(array('seq'=>'commit'));
-			shn_form_text(_("Name of the Shelter"),'cmp_id','size="20"');
- 			?>
- 			<br>		
-			<?php
-		   shn_form_opt_select("opt_camp_type",_("Shelter Type"),null,array('all'=>true));
-			 if($edit=='true')
-			 	shn_form_hidden(array('edt'=>'true'));
-		   shn_form_fsclose();
-			shn_form_submit(_("Search"));
-			shn_form_fclose();
-				
-
+	<h1><?=_("Search for {$conf['mod_cr_alt']} by Name")?></h1>
+<?php
+	shn_form_fopen("srch",null,array('req_message'=>false));
+	shn_form_fsopen(_("SEARCH"));
+	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_text(_("Name of {$conf['mod_cr_alt']}"),'cmp_id','size="20"');
+?>
+ 	<br />		
+<?php
+   	shn_form_opt_select("opt_camp_type",_("{$conf['mod_cr_alt']} Type"),null,array('all'=>true));
+   	if($edit=='true')
+	 	shn_form_hidden(array('edt'=>'true'));
+   	shn_form_fsclose();
+ 	shn_form_submit(_("Search"));
+	shn_form_fclose();
 }
+?>
+
+<?php
+function _shn_cr_srch_address($edit=false){		
+	global $conf;
+?>
+	<h1><?=_("Search for {$conf['mod_cr_alt']} by Address")?></h1>
+<?php
+	shn_form_fopen("srch",null,array('req_message'=>false));
+	shn_form_fsopen(_("SEARCH"));
+	shn_form_hidden(array('seq'=>'commit'));
+	shn_form_text(_("Name of "),'cmp_id','size="20"');
+?><br/>		
+<?php
+   	shn_form_opt_select("opt_camp_type",_("Shelter Type"),null,array('all'=>true));
+   	if($edit=='true')
+   		shn_form_hidden(array('edt'=>'true'));
+   	shn_form_fsclose();
+	shn_form_submit(_("Search"));
+	shn_form_fclose();
+}
+
+
 
 ?>
 
