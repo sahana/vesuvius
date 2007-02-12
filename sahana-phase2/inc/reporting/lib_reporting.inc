@@ -437,31 +437,90 @@ function shn_pdf_report_add_table($header,$data)
 
     if($pdf_rep_gen_ok)
     {
-    $pdf->SetFillColor(255,0,0);
-    $pdf->SetTextColor(255);
-    $pdf->SetDrawColor(128,0,0);
-    $pdf->SetLineWidth(.3);
-    $pdf->SetFont('','B');
-    //Header
-	foreach($header as $col)
-	$pdf->Cell(40,7,$col,1,0,'C',1);
-	$pdf->Ln();
-	$pdf->SetFillColor(224,235,255);
-	$pdf->SetTextColor(0);
-	$pdf->SetDrawColor(128,0,0);
-	$pdf->SetLineWidth(.3);
-	$pdf->SetFont('','');
-		//data
-		foreach($data as $row)
+   //---------------------------------------------begin-------
+
+	#this code will check all the rows of the table, verify whether they have all colomns which are specified in the table header.
+	#And this will replace empty colomn values to 10 underscores.
+	#if there are colomns, which has only the key but not the value, then it also will replace with 10 underscores.
+	$row_arr_keys = array_keys($header);
+	$new_data = array();
+	foreach($data as $row)
+	{	
+		$current_row = array_pop($data);
+		for($y=0;$y<count($row_arr_keys);$y++)
 		{
-			foreach($row as $col)
+			if(!(array_key_exists($row_arr_keys[$y], $current_row)))
 			{
-			$pdf->Cell(40,7,$col,1,0,'C',1);
+			$current_row[$row_arr_keys[$y]]="__________________";
 			}
-			$pdf->Ln();
+			if((array_key_exists($row_arr_keys[$y], $current_row)) && !isset($current_row[$row_arr_keys[$y]]))
+			{
+			$current_row[$row_arr_keys[$y]]="__________________";
+			}
+
+			
 		}
-		$pdf->Ln(10);	
+	array_push($new_data,$current_row);
 	}
+	$data = $new_data;
+	#end of replacement
+
+
+	#this code will check for the maximum colomn width of each colomn data
+	$size_col_arr = array();
+	foreach($data as $row)
+	{	
+	    $row_arr_keys = array_keys($row);
+	    for($i=0;$i<count($row_arr_keys);$i++)
+	    {	
+		if(!isset($size_col_arr[$row_arr_keys[$i]]))
+		{
+		$size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
+		}	
+		else
+		{
+		    if($size_col_arr[$row_arr_keys[$i]] < strlen($row[$row_arr_keys[$i]]))
+		    {
+		    $size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
+		    }
+		}		
+	    }
+	}# end of checking max value
+
+	# this will reduce the size of each colomn by one at each time, until the total of colomn widths are compatible with the page size
+	$size_col_arr_keys = array_keys($size_col_arr);
+	while((array_sum(array_values($size_col_arr)))> 190 )
+	{
+	    for($x=0;$x<count($size_col_arr_keys);$x++)
+	    {
+	    $size_col_arr[$size_col_arr_keys[$x]] = $size_col_arr[$size_col_arr_keys[$x]] - 1;
+	    }
+	}
+
+	$pdf->SetFont('Arial','B',12);
+	#$pdf->SetWidths(array(30,50,30,40));
+ 	$pdf->SetWidths(array_values($size_col_arr));
+
+    //Table Header
+    #$pdf->SetFillColor(255,0,0);
+    $pdf->SetTextColor(0);
+    $pdf->SetDrawColor(128,0,0);
+    #$pdf->SetLineWidth(.7);
+
+	$pdf->Row(array_values($header));
+    //Table body
+	$pdf->SetFont('Arial','',9);
+    $pdf->SetTextColor(0);
+    $pdf->SetDrawColor(128,0,0);
+    #$pdf->SetLineWidth(.3);
+	foreach($data as $row)
+	{
+	$pdf->Row(array_values($row));
+	}
+		
+
+//-----------------------------------------------end---------------
+	}  
 }
 
 /**
@@ -477,7 +536,7 @@ function shn_pdf_report_add_summery($txt='')
     global $pdf;
     if($pdf_rep_gen_ok)
     {
-    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
     $pdf->SetTextColor(0);
     $pdf->MultiCell(175,5,$txt);
     $pdf->Ln(10);	
