@@ -551,8 +551,8 @@ function _shn_ims_validate_search_inventories()
 
     $bsd_village=_shn_ims_get_locid();
     $name=trim($_POST['inventory_name']);
-    print $name;
-    print $bsd_village;
+    //print $name;
+    //print $bsd_village;
     //if ($name==null)
     //{
 	if($bsd_village=='0' && $name==null)

@@ -81,7 +81,15 @@ function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
     $db=$global["db"];
     $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
-    $org_id=$res_org->fields[0];        
+    $org_id=$res_org->fields[0];
+    //print $q;
+    if($org_id==NULL)
+    {
+	;
+    }
+    else
+    {
+            
     $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
     $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
@@ -151,6 +159,7 @@ $inv_id=$res_org->fields[0];
 
 </tr>
 <?php
+}
 }
 
 function _shn_ims_viewform_org($org_id,$error=false)
