@@ -264,28 +264,28 @@ function _shn_ims_validate_reg_inv()
 	add_error("Inventory Incompleted");
 	$error_flag=true;
     }
-    if ($contact_name > $VARCHAR)
+    if (strlen($contact_name) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
 
     //$contact_address=$_POST{"contact_add"};
-    if ($contact_phone > $VARCHAR)
+    if (strlen($contact_phone) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
-    if ($contact_mobile > $VARCHAR)
+    if (strlen($contact_mobile) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
-    if ($contact_fax > $VARCHAR){
+    if (strlen($contact_fax) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
-    if ($contact_mail > $VARCHAR){
+    if (strlen($contact_mail) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
@@ -294,23 +294,23 @@ function _shn_ims_validate_reg_inv()
         add_error(SHN_ERR_or_ims_EMAIL);
         $error_flag=true;
     }
-    if ($contact_web > $VARCHAR)
+    if (strlen($contact_web) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
-    if ($man_power > $VARCHAR)
+    if (strlen($man_power) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
-    if ($equipment > $VARCHAR)
+    if (strlen($equipment) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error_flag=true;
     }
     //$resources=$_POST{"resources"};
-    if ($space>$VARCHAR)
+    if (strlen($space)>$VARCHAR)
     {
 	add_error(SHN_ERR_ims_SPACE);
 	$error_flag=true;

@@ -472,6 +472,7 @@ function _shn_ims_search_inventory_db()
 	    }	 
 	    
 	}
+	
 	}
 	if($temp_flag==0)
 	{
@@ -549,14 +550,17 @@ function _shn_ims_validate_search_inventories()
     $_SESSION['ims_5']=$_POST['5'];
 
     $bsd_village=_shn_ims_get_locid();
-    print $bsd_village;
     $name=trim($_POST['inventory_name']);
-
-    if($bsd_village==0 && $name==NULL)
-    {
-	$error_flag=true;
-    }
-
+    print $name;
+    print $bsd_village;
+    //if ($name==null)
+    //{
+	if($bsd_village=='0' && $name==null)
+	{
+	    $error_flag=true;
+	}
+    //}
+    //print $error_flag;
     return $error_flag;
     
 	
