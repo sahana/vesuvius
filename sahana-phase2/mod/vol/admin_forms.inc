@@ -14,123 +14,52 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
-include_once "lib_or.inc";
+include_once "lib_vol.inc";
 
-function shn_or_adm_location_form()
+function shn_vol_adm_skill_form()
 {
-    global $global;
-    $db=$global["db"];
+	global $global;
+	include_once($global['approot'].'/inc/lib_misc.inc');
+	include_once("api.inc"); 
 ?>
-<h2><?=_("Set the Starting Location")?></h2>
-<div id="note">
-<?=_("When a Disaster happens,typically organizations located in a certain region get involved. Therefore when you select a location its a waste of time to always start from country. If you know the country ,give it in this form,and you can start with sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
-</div>
+<h2><?=_("Volunteer Skills")?></h2>
 <?php
     if($error==true)
         display_errors();
 ?>
 <div id="formcontainer">
 <?php
-    shn_form_fopen("adm_location_cr");
-    shn_form_fsopen(_("I want all the Locations ,so don't set a starting point"));
-    shn_form_checkbox('','chk_start',null,$chkbox_opts);
-    shn_form_fsclose();
-    shn_form_fsopen(_("Select the Location Level you want fix"));
-    shn_form_opt_select('opt_location_type','',$select_opts,array('req'=>true));
-    shn_form_fsclose();
-    shn_form_fsopen(_("Now Select the Location"));
-    shn_location_all();
-    shn_form_fsclose();
-   // shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
- ?>
-<br />
-<center>
-<?php
-//create the submit button
-    shn_form_submit(_("Save"));
-?>
-</center>
-<br />
-<?php
-    //close the form
-    shn_form_fclose();
-?>				     
-</div>
-<?php
-    // end of form
-	
-}
+    $type_arr=shn_vol_skill_list();
+    $form_opts['name']='add_type';
+    shn_form_fopen("adm_skill_cr",null,$form_opts);
+    shn_add_remove_javascript("opt_skill_type[]",$type_arr);
+  //  shn_form_fsopen("Add New Type Information");
 
-function shn_or_adm_location_range_form()
-{
-    global $global;
-    $db=$global["db"];
-?>
-<h2><?=_("Set the Location Range")?></h2>
-<div id="note">
-<?=_("In a Disaster,all the location levels might not be important ,set the range here")?>
-</div>
-<?php
-    if($error==true)
-        display_errors();
-?>
-<div id="formcontainer">
-<?php
-	$range= shn_or_get_loc_range();
-    shn_form_fopen("adm_location_range_cr",NULL,array('req_message'=>false));
-    shn_location_level_range_form('start','Set Starting Level',$range["start"]);
- 	shn_location_level_range_form('end','Set End Level',$range["end"]);
-?>
-<br />
-<center>
-<?php
-//create the submit button
-    shn_form_submit(_("Save"));
-?>
-</center>
-<br />
-<?php
-    //close the form
-    shn_form_fclose();
-?>				     
-</div>
-<?php
-    // end of form
-	
-}
-
-function shn_or_adm_or_type_form()
-{
-?>
-<h2><?=_("Organization Types")?></h2>
-<?php
-    if($error==true)
-        display_errors();
-?>
-<div id="formcontainer">
-<?php
-    shn_form_fopen("adm_type_cr");
-    _shn_or_admin_javascript("opt_org_type");
-    shn_form_fsopen("Add New Type Information");
-    shn_form_text(_("Organization Type : "),'type','size="50"',null); 
-    shn_form_text(_("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null); 
-    shn_form_hidden(array("added"=>'0'));
-    shn_form_hidden(array("removed"=>'0'));
-    shn_form_button(_("Add"),"onClick='add_types()'");
-    shn_form_fsclose();
+    shn_form_hidden(array("added"=>','));
+    shn_form_hidden(array("removed"=>','));
+ 
+ //   shn_form_fsclose();
  ?>
 </center>
 <?php
-    shn_form_fsopen("Remove Types");
-    _shn_or_display_org_type($error,true);
+    shn_form_fsopen("Add and Remove Skills");
+    _shn_vol_display_skills($error,true,null,false);
      shn_form_button(_("Remove"),"onClick='remove_types()'");
+    
+      shn_form_button(_("Add More"),"onClick='add_types()'");
+      shn_form_text(_("New Skill : "),'type','size="50"',null);
     shn_form_fsclose();
  ?>
 </center>
 <br />
 <center>
 <?php
-   shn_form_submit(_("Save"))
+    $extra_opts['br']=false;
+	$extra_opts['req']=false;
+    	shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
+    shn_form_button(_("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    	shn_reset_form_javascript("add_type","opt_skill_type[]");
 ?>
 </center>
 <br />
