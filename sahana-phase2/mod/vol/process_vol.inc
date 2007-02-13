@@ -34,6 +34,7 @@ function _shn_vol_reg_cr()
     $pas=$_SESSION['vol']['pas'];
     $dln=$_SESSION['vol']['dln'];
     $sector=$_SESSION['vol']['sector'];
+    $skills=$_SESSION['vol']['skills'];
     $contact_address=$_SESSION['vol']['contact_address'];
     $contact_phone=$_SESSION['vol']['contact_phone'];
     $contact_mobile=$_SESSION['vol']['contact_mobile'];
@@ -71,7 +72,19 @@ function _shn_vol_reg_cr()
            $res=$db->Execute($q);
            $i=$i+1;
         }
+        
+        $i=0;
+    while($i<count($skills)){
+            $q="insert into vol_skills(p_uuid,opt_skill_code) values('{$pid}','{$skills[$i]}')";
+           $res=$db->Execute($q);
+           $i=$i+1;
+        }
+        
     }
+    
+
+    
+    
     $q="insert into location_details(poc_uuid,location_id,opt_person_loc_type,address) values($pid,'{$loc}','hom','{$contact_address}')";
     $res=$db->Execute($q);
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'curr','{$contact_phone}')";
@@ -85,24 +98,8 @@ function _shn_vol_reg_cr()
     $q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values($pid,'web','{$contact_web}')";
     $res=$db->Execute($q);
     if($error!=true){
-?>
-    <div id="result_msg">
-       <?php echo $name?> was succesfully registered <br /><br />
-       <? 
-      // if(isset($_POST["chk_image"])){
-       	//	$_SESSION['vol_add']['entry']['p_uuid'];
-       		//_shn_vol_image_upload($error) ;
-       //}else if (isset($_POST["chk_login"])){
-       	//		$header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
-       	//		shn_auth_form_user_add("Create an Account for Login",$header,false);
-       //	}
-      // $header=array('method'=>'POST','action'=>'index.php?mod=vol&act=add_user_cr','id'=>'formset');
-       //shn_auth_form_user_add("Create an Account for Login",$header,false);
-       	return; 
-       	?>
-    </div>
-    <br />
-<?php
+		$msg=$name." was succesfully registered as a volunteer";
+		add_confirmation($msg);
     }
     _shn_vol_regform($error);
 }
@@ -130,6 +127,7 @@ function _shn_vol_edit()
     $pas=trim($_POST{"pas"});
     $dln=trim($_POST{"dln"});
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Volunteer Service",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    list($error,$skills)=(shn_validate_opt_field('opt_skill_type',$_POST{"opt_skill_type"},"Volunteer Skills",$VARCHAR,true))?array($error,$_POST{"opt_skill_type"}):array(true,NULL);
     $loc=shn_location_get_form_submit_loc();
     if ($loc==-1){
         $error=true;
@@ -175,6 +173,14 @@ function _shn_vol_edit()
         $i=$i+1;
     }
     
+    $q="delete from vol_skills where p_uuid='{$pid}'";
+    $res=$db->Execute($q);
+    $i=0;
+    while($i<count($skills)){
+            $q="insert into vol_skills(p_uuid,opt_skill_code) values('{$pid}','{$skills[$i]}')";
+           $res=$db->Execute($q);
+           $i=$i+1;
+    }
  
     $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid=$pid";
     $res=$db->Execute($q);

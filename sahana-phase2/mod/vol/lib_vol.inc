@@ -328,6 +328,21 @@ function _shn_vol_get_loc_parents($child)
 }
 
 
+function _shn_vol_display_skills($error=false,$value=NULL,$label=NULL)
+{
+    if($value!=NULL){
+	    $extra_opts['value']=$value;
+	    //$extra_opts['req']=false;
+    }else{
+	    //$extra_opts['req']=true;
+    }
+    if($error==true){
+    		$extra_opts['value']=$_SESSION['vol']['skill'];
+    }
+   ?><div class="info"><?=_("Select the skills you have");?></div><br /><?
+    shn_form_opt_multi_select('opt_skill_type','','multiple="true"',$extra_opts);
+
+}
 
 function _shn_vol_display_gender($error=false,$value=NULL,$label=NULL)
 {
@@ -338,7 +353,7 @@ function _shn_vol_display_gender($error=false,$value=NULL,$label=NULL)
 	    //$extra_opts['req']=true;
     }
     if($error==true){
-    		$extra_opts['value']=$_SESSION['vol']['job'];
+    		$extra_opts['value']=$_SESSION['vol']['gender'];
     }
     $label=($label==NULL)?_("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
@@ -353,7 +368,7 @@ function _shn_vol_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
-    ?><div class="info"><?=_("Select the services you provide ,that is what you do as your occupation or services you can provide in a disaster. e.g. if you offer medical services select it");?></div><br /><?
+    ?><div class="info"><?=_("Select the sector you are in ,e.g. if you are a medical practitioner then you are in the medical sector");?></div><br /><?
     $extra_opts['req']=true;
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
@@ -785,6 +800,7 @@ function _shn_vol_check_vol_reg_info_complete()
     $_SESSION['vol']['dln']=trim($_POST{"dln"});
     
     list($error,$_SESSION['vol']['gender'])=(shn_validate_opt_field('opt_gender',$_POST{"opt_gender"},"Gender",$VARCHAR,false))?array($error,$_POST{"opt_gender"}):array(true,NULL);
+    list($error,$_SESSION['vol']['skills'])=(shn_validate_opt_field('opt_skill_type',$_POST{"opt_skill_type"},"Skills",$VARCHAR,true))?array($error,$_POST{"opt_skill_type"}):array(true,NULL);
     list($error,$_SESSION['vol']['sector'])=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
     $loc=shn_location_get_form_submit_loc();
     if ($loc==-1){

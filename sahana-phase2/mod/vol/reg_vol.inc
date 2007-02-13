@@ -46,9 +46,12 @@ function _shn_vol_regform($error=false)
     }
     shn_form_text(_("Date of Birth (yyyy-mm-dd) : "),'dob','size="10"',$extra_opts); 
     //shn_form_date(_("Date of Birth: "),'dob', null ) ;
-
-    shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
-    _shn_vol_display_gender($error,NULL);
+     _shn_vol_display_gender($error,NULL);
+     shn_form_fsopen("Skills");
+	_shn_vol_display_skills($error,NULL);
+	 shn_form_fsclose();
+   // shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
+   
     shn_form_fsclose();
     shn_form_fsopen('Identity Information');
     ?><div class="info"><?= _("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
@@ -122,7 +125,7 @@ function _shn_vol_regconfirm()
     shn_form_fsopen('Primary Details');
     shn_form_label(_("Volunteer Name : "),$_SESSION['vol']['name']); 
     shn_form_label(_("Date of Birth : "),$_SESSION['vol']['dob']);
-    shn_form_label(_("Occupation : "),$_SESSION['vol']['job']);  
+   // shn_form_label(_("Occupation : "),$_SESSION['vol']['job']);  
  	shn_form_label(_("National Identity No : "),$_SESSION['vol']['nic']);
  	shn_form_label(_("Passport No : "),$_SESSION['vol']['pas']);
  	shn_form_label(_("Driving License No : "),$_SESSION['vol']['dln']); 
@@ -133,7 +136,15 @@ function _shn_vol_regconfirm()
     		$sector=$sector." ".$count.".".$res->Fields("option_description"); 
     		$count++;
     }
-    shn_form_label(_("Volunteer Services"),$sector);
+    shn_form_label(_("Sectors"),$sector);
+        $count=1;
+    foreach ($_SESSION['vol']['skills'] as $i){
+    		$q="select option_description from field_options where field_name='opt_skill_type' and option_code='{$i}'";
+    		$res=$db->Execute($q);
+    		$skill=$skill." ".$count.".".$res->Fields("option_description"); 
+    		$count++;
+    }
+    shn_form_label(_("Volunteer Skills"),$skill);
     shn_form_fsclose();
     /*
     // base location

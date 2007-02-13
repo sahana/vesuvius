@@ -29,7 +29,7 @@ function _shn_vol_viewform_all()
         <thead>
             <td><?=_("Name")?></td>
 	        <td><?=_("Services Offered")?></td>
-            <td><?=_("Occupation")?></td>
+            <td><?=_("Skills")?></td>
            <!-- <td><?=_("Country of Origin")?></td>-->
             <td><?=_("Contact Address")?></td>
             <td><?=_("Contact Number")?></td>
@@ -56,6 +56,9 @@ function _shn_vol_viewform_all()
     $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
+    $q = "select option_description from field_options,vol_skills where p_uuid='{$pid}' and
+field_options.option_code=vol_skills.opt_skill_code and field_options.field_name='opt_skill_type'";
+    $res_skills=$db->Execute($q);
 ?>
 <tr>
     <td>
@@ -69,7 +72,14 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }
 ?>
     </td>
-    <td><?php echo $res_pers->fields[3]?></td>
+    <td>
+<?php
+    while(!$res_skills->EOF){
+        echo $res_skills->fields[0]."<br />";
+        $res_skills->MoveNext();
+    }
+?>
+    </td>
     <!--<td><?php echo $country?></td>-->
     <td><?php echo $res_addr->fields[0]?></td>
     <td><?php echo $res_phone->fields[0]?></td>
@@ -121,6 +131,17 @@ function _shn_vol_viewform($pid,$error=false)
             );       
             $res_sector->MoveNext();
         } 
+        
+        $q = "select option_code from field_options,vol_skills where p_uuid='{$pid}' and field_options.option_code=vol_skills.opt_skill_code and field_options.field_name='opt_skill_type'";
+        $res_skill=$db->Execute($q);    
+        $skill_arr=array();
+        while(!$res_skill->EOF){
+            array_push(
+                $skill_arr,
+                $res_skill->fields[0]
+            );       
+            $res_skill->MoveNext();
+        } 
  
     }
 ?>
@@ -165,8 +186,11 @@ function _shn_vol_viewform($pid,$error=false)
     shn_form_fsopen("Base Location");
 	shn_location($range,$bsd_village);
     shn_form_fsclose();
-    shn_form_fsopen(_("Services Offered"));
+	shn_form_fsopen(_("Services Offered"));
     _shn_vol_display_sector($error,$sector_arr);
+    shn_form_fsclose();
+    shn_form_fsopen(_("Skills"));
+    _shn_vol_display_skills($error,$skill_arr);
     shn_form_fsclose();
     shn_form_fsopen(_("Contact Information"));
      _shn_vol_display_contact_person(false,false,$pid);
