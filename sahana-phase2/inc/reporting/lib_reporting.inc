@@ -437,11 +437,9 @@ function shn_pdf_report_add_table($header,$data)
 
     if($pdf_rep_gen_ok)
     {
-   //---------------------------------------------begin-------
-
 	#this code will check all the rows of the table, verify whether they have all colomns which are specified in the table header.
-	#And this will replace empty colomn values to 10 underscores.
-	#if there are colomns, which has only the key but not the value, then it also will replace with 10 underscores.
+	#And this will replace empty colomn values to 20 underscores.
+	#if there are colomns, which has only the key but not the value, then it also will replace with 20 underscores.
 	$row_arr_keys = array_keys($header);
 	$new_data = array();
 	foreach($data as $row)
@@ -451,20 +449,17 @@ function shn_pdf_report_add_table($header,$data)
 		{
 			if(!(array_key_exists($row_arr_keys[$y], $current_row)))
 			{
-			$current_row[$row_arr_keys[$y]]="__________________";
+			$current_row[$row_arr_keys[$y]]="____________________";
 			}
 			if((array_key_exists($row_arr_keys[$y], $current_row)) && !isset($current_row[$row_arr_keys[$y]]))
 			{
-			$current_row[$row_arr_keys[$y]]="__________________";
-			}
-
-			
+			$current_row[$row_arr_keys[$y]]="____________________";
+			}	
 		}
 	array_push($new_data,$current_row);
 	}
 	$data = $new_data;
 	#end of replacement
-
 
 	#this code will check for the maximum colomn width of each colomn data
 	$size_col_arr = array();
@@ -501,26 +496,23 @@ function shn_pdf_report_add_table($header,$data)
 	#$pdf->SetWidths(array(30,50,30,40));
  	$pdf->SetWidths(array_values($size_col_arr));
 
-    //Table Header
-    #$pdf->SetFillColor(255,0,0);
-    $pdf->SetTextColor(0);
-    $pdf->SetDrawColor(128,0,0);
-    #$pdf->SetLineWidth(.7);
-
+    	//Table Header
+    	#$pdf->SetFillColor(255,0,0);
+    	$pdf->SetTextColor(0);
+    	$pdf->SetDrawColor(128,0,0);
+   	#$pdf->SetLineWidth(.7);
 	$pdf->Row(array_values($header));
-    //Table body
+
+    	//Table body
 	$pdf->SetFont('Arial','',9);
-    $pdf->SetTextColor(0);
-    $pdf->SetDrawColor(128,0,0);
-    #$pdf->SetLineWidth(.3);
+    	$pdf->SetTextColor(0);
+    	$pdf->SetDrawColor(128,0,0);
+    	#$pdf->SetLineWidth(.3);
 	foreach($data as $row)
 	{
-	$pdf->Row(array_values($row));
+		$pdf->Row(array_values($row));
 	}
-		
-
-//-----------------------------------------------end---------------
-	}  
+    }#end of if($pdf_rep_gen_ok)
 }
 
 /**
