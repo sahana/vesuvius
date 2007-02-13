@@ -19,7 +19,7 @@ include_once "admin_forms.inc";
 function _shn_vol_adm_sub_menu(){
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=vol&act=adm_skills">Add/Remove Skills</a> 
+<a href="index.php?mod=vol&act=adm_skills">Add Skills</a> 
 <!--<a href="index.php?mod=or&act=adm_sector">Organization Sectors</a>
 <a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
 <a href="index.php?mod=or&act=adm_location">Set starting Location</a> -->
@@ -54,7 +54,7 @@ function shn_vol_adm_skill_cr()
     global $global;
     include_once $global['approot'].'inc/lib_misc.inc';
     $db=$global['db'];
-    var_dump($_POST);
+    
     $add = explode(",", $_POST{"added"});
     $remove = explode(",", $_POST{"removed"});
     for($i=1;$i<count($add)-1;$i++){
@@ -66,7 +66,7 @@ function shn_vol_adm_skill_cr()
         $q="delete from field_options where field_name='opt_skill_type' and option_code='".$remove[$i]."'";
         $res=$db->Execute($q);
     }
-    	    $msg= "Skills were succesfully added/removed ";
+    	    $msg= "Skills were succesfully added ";
     add_confirmation($msg);
     shn_vol_adm_skills();
 }

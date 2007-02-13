@@ -42,9 +42,9 @@ function shn_vol_adm_skill_form()
  ?>
 </center>
 <?php
-    shn_form_fsopen("Add and Remove Skills");
+    shn_form_fsopen("Add Skills");
     _shn_vol_display_skills($error,true,null,false);
-     shn_form_button(_("Remove"),"onClick='remove_types()'");
+   //  shn_form_button(_("Remove"),"onClick='remove_types()'");
     
       shn_form_button(_("Add More"),"onClick='add_types()'");
       shn_form_text(_("New Skill : "),'type','size="50"',null);
