@@ -56,7 +56,7 @@ function _shn_vol_viewform_all()
     $q = "select option_description from field_options,sector where pgoc_uuid='{$pid}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
-    $q = "select option_description from field_options,vol_skills where p_uuid='{$pid}' and
+    $q = "select distinct(option_description) from field_options,vol_skills where p_uuid='{$pid}' and
 field_options.option_code=vol_skills.opt_skill_code and field_options.field_name='opt_skill_type'";
     $res_skills=$db->Execute($q);
 ?>
@@ -74,7 +74,7 @@ field_options.option_code=vol_skills.opt_skill_code and field_options.field_name
     </td>
     <td>
 <?php
-    while(!$res_skills->EOF){
+    while((!$res_skills->NULL)&&(!$res_skills->EOF)){
         echo $res_skills->fields[0]."<br />";
         $res_skills->MoveNext();
     }

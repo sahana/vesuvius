@@ -74,10 +74,10 @@ function _shn_vol_reg_cr()
         }
         
         $i=0;
-    while($i<count($skills)){
-            $q="insert into vol_skills(p_uuid,opt_skill_code) values('{$pid}','{$skills[$i]}')";
+    foreach ($skills as $i){
+            $q="insert into vol_skills(p_uuid,opt_skill_code) values('{$pid}','{$i}')";
            $res=$db->Execute($q);
-           $i=$i+1;
+         //  $i=$i+1;
         }
         
     }

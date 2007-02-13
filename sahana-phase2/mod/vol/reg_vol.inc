@@ -144,6 +144,7 @@ function _shn_vol_regconfirm()
     		$skill=$skill." ".$count.".".$res->Fields("option_description"); 
     		$count++;
     }
+    var_dump($skill);
     shn_form_label(_("Volunteer Skills"),$skill);
     shn_form_fsclose();
     /*
