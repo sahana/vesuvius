@@ -21,7 +21,8 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 $approot = $global['approot'];
 $global['previous']=false;
 
-// === include all base libraries ==
+// include the base libraries for both the web installer and main app 
+//require_once ($global['approot'].'inc/handler_error.inc');
 require_once ($global['approot'].'inc/lib_config.inc');
 require_once ($global['approot'].'inc/lib_modules.inc'); 
 
@@ -31,17 +32,24 @@ shn_main_filter_getpost();
 // === Setup if not setup and load configuration === 
 
 // if installed the sysconf.inc will exist in the conf directory
+// if not start the web installer
 if (!file_exists($global['approot'].'conf/sysconf.inc')){
 
-    //@TODO: What about other streams
-    // launch the web setup
+    // include the sysconfig template for basic conf dependancies
     require_once ($global['approot'].'conf/sysconf.inc.tpl'); 
+
+    // launch the web setup wizard
     require ($global['approot'].'inst/setup.inc');
 
 } else {
 
+    // define the configuration priority order
     require_once ($global['approot'].'conf/conf-order.inc');
+
+    // include the main sysconf file
     require ($global['approot'].'conf/sysconf.inc'); 
+
+    // include the main libraries the system depends 
     require_once ($global['approot'].'inc/handler_db.inc');
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
     require_once ($global['approot'].'inc/lib_security/authenticate.inc');
@@ -83,29 +91,34 @@ function shn_main_front_controller()
     $module = $global['module'];
 
     // define which stream library to use base on POST "stream" 
+    if(isset($_REQUEST['stream']) && file_exists($approot."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
+
+        require_once $approot."/inc/lib_stream_{$_REQUEST['stream']}.inc";
+        $stream_ = $_REQUEST['stream']."_";
+
+    } else {
     // default to the HTML stream
-    if(isset($_REQUEST['stream']) && file_exists($global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
-        require_once $global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc";
-        $prefix = $_REQUEST['stream']."_";
-    }else{
         require_once $global['approot']."/inc/lib_stream_html.inc";
-        $prefix = null;
+        $stream_ = null;
     }
 
     // Redirect the module based on the action performed
     // redirect admin functions through the admin module
     if (preg_match('/^adm/',$action)) {
+
         $global['effective_module'] = $module = 'admin';
         $global['effective_action'] = $action = 'modadmin';
     } // the orignal module and action is stored in $global
 
+    // This is a redirect for the report action
     if (preg_match('/^rpt/',$action)) {
+
         $global['effective_module'] = $module = 'rs';
         $global['effective_action'] = $action = 'modreports';
     }
   
     // check the users access permissions for this action
-    $module_function = 'shn_'.$prefix.$module.'_'.$action;
+    $module_function = 'shn_'.$stream_.$module.'_'.$action;
 	$acl_enabled=shn_acl_get_state($module);
 
     // @TODO: test against admin function is wrong
@@ -115,27 +128,34 @@ function shn_main_front_controller()
     // include the correct module file based on action and module
     $module_file = $approot.'mod/'.$module.'/main.inc';
 
+    // default to the home page if the module main does not exist
     if (file_exists($module_file)) {
         include($module_file); 
     } else {
         include($approot.'mod/home/main.inc');
     }
 
+    // stream (XHTML, XML, TEXT, etc) initialization
+    // this includes the inclusion of various sections in XHTML including the HTTP header,
+    // content header, menubar, login
     shn_stream_init();
 
-    if($allow){
+    if($allow){ // if permission is allowed for user
 
         // compose and call the relevant module function 
         if (!function_exists($module_function)) {
-            $module_function='shn_'.$prefix.$module.'_default';
+            $module_function='shn_'.$stream_.$module.'_default';
         }
+
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
         $module_function(); 
 
-    }else {
+    }else { 
+        // otherwise show a unauthorized access message
         shn_error_display_restricted_access();
     }
 
+    // close up the stream. In HTML send the footer
     shn_stream_close();
 }
