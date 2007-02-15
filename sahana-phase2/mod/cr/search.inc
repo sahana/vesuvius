@@ -19,15 +19,15 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 /*Displaying Results for the Search*/
 
-function _shn_cr_srch_rst($camp_name,$type){
+function _shn_cr_srch_rst3($camp_name,$type){
 		global $global;
 		$db=$global['db'];
 		?>
-		<h1><center><?php echo _("Search Results")?></center></h1>
+		<h1><?php echo _("Search Results")?></h1>
 		<div id ="result">
     	<table>
         <thead>
-        		<td><?php echo _("Shelter Name")?></td>
+        	<td><?php echo _("Shelter Name")?></td>
             <td><?php echo _("Location")?></td>
             <td><?php echo _("Address")?></td>
          	<td><?php echo _("Shelter Type")?></td>
@@ -44,26 +44,28 @@ function _shn_cr_srch_rst($camp_name,$type){
         <?php
        	if($_REQUEST['edt']=='true')
 					$edt=true;
-             /* Search for a given Camp Name with the matching for the specific Camp Type*/
-	
-			if($type != "all"){
-					        	global $global;
-								$db=$global['db'];
+					
+					
+		
 
-						if((!null==$camp_name) && (!null==$type)){
-								
-   				$q = "select * from camp_general where name='{$camp_name}'AND opt_camp_type='{$type}'";	
-    		     		$res_cmp =$db->Execute($q);
-						}
-						else if((null==$camp_name) && (!null==$type)){
-   					$q = "select * from camp_general where opt_camp_type='{$type}'";	
-    		     		$res_cmp =$db->Execute($q);
-						}
-   	
-   	           while (!$res_cmp->EOF){
-   	           		$c_uuid  =$res_cmp->fields[0];   
+		// Specific Type search	
+		if($type != "all"){
+        	global $global;
+			$db=$global['db'];
+			if((!null==$camp_name) && (!null==$type)){
+				// like search instead of specific search
+				$q = "select * from camp_general where name like '%{$camp_name}%'and opt_camp_type='{$type}'";	
+		     	$res_cmp =$db->Execute($q);
+			}
+			else if((null==$camp_name) && (!null==$type)){
+				$q = "select * from camp_general where opt_camp_type='{$type}'";	
+		    	$res_cmp =$db->Execute($q);
+			}
+
+           while (!$res_cmp->EOF){
+           		$c_uuid  =$res_cmp->fields['c_uuid'];   
    	           		 
-	$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+			$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
    						$res_maincmp =$db->Execute($qdetails);
     						$loc  =$res_cmp->fields[2];   
     						$qloc = "select * from location where loc_uuid='{$loc}'";
@@ -170,8 +172,72 @@ function _shn_cr_srch_rst($camp_name,$type){
   }
   
   
+  
+
+  
 			
 	}
+
+function _shn_cr_srch_rst($camp_name,$type){
+	global $global;
+	$db=$global['db'];
+?>
+	<h1><?php echo _("Search Results")?></h1>
+	<div id ="result">
+	<table>
+        <thead>
+        	<td><?php echo _("Shelter Name")?></td>
+            <td><?php echo _("Location")?></td>
+            <td><?php echo _("Address")?></td>
+         	<td><?php echo _("Shelter Type")?></td>
+            <td><?php echo _("Total Count")?></td>
+            <td><?php echo _("Capacity")?></td>
+        </thead>
+        <tbody>
+<?php
+       	if($_REQUEST['edt']=='true')
+			$edt=true;
+		
+		// Specific Type search
+			
+		$query = " select cg.name,cg.address,loc.name as loc_name,option_description," .
+				" total,capacity from camp_general as cg, camp_reg as cr,location as loc," .
+				" field_options as fo where cg.c_uuid=cr.c_uuid AND cg.location_id=loc.loc_uuid " .
+				" AND option_code='{$type}' AND field_name='opt_camp_type' ".
+				(($type=="all")?"":" AND opt_camp_type='{$type}' ") .
+				((null==$camp_name)?"":" AND cg.name LIKE '%{$camp_name}%' ") ;
+		echo "q=".$query;
+				
+		$res_cmp =$db->Execute($query);   
+		while (!$res_cmp->EOF){ 					
+?> 
+			<tr>
+			<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields['name']?>">
+<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?>
+<a href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("edit")?>]</a>
+<a href="index.php?mod=cr&act=eppl&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("eplcnt")?>]</a>
+<a href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("ebdcnt")?>]</a>
+
+
+
+
+<?php ;?></td>
+  					<td><?php echo $res_loc->fields['loc.name']?></td>
+  					<td><?php echo $res_cmp->fields['address']?></td>
+  					<td><?php echo $res_type->fields['option_description']?></td>
+  					<td><?php echo $res_maincmp->fields['total']?></td>
+  					<td><?php echo $res_maincmp->fields['capacity']?></td>
+    		</tr>
+<?php
+    				$res_cmp->MoveNext();
+   	  		 } 
+   	  		   	 
+?>
+   		</tbody>
+   	</table>
+   </div>
+  <?php	
+}
 
 /*The Form to handle the Search Functionality*/
 	
