@@ -90,7 +90,7 @@ $conf['db_pass'] = '';
 
 #debug variable
 # true/false
-$conf['debug'] = false;
+$conf['debug'] = true;
 
 ##########################
 # Database Configuration #
