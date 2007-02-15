@@ -197,6 +197,13 @@ function shn_breadcrumb_set_nicename($module, $action, $desc)
     $global['shn_q_mod='.$module.'&act='.$action.'_nicename'] = $desc;
 }
 
+function shn_breadcrumb_get_nicename($module, $action)
+{
+    global $global;
+    return $global['shn_q_mod='.$module.'&act='.$action.'_nicename'];
+}
+
+
 // pushes a link onto the breadcrumb stack
 function shn_breadcrumb_push($nicename, $action = null, $module = null)
 {
