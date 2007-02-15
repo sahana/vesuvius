@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.23 2006-12-10 15:38:53 priyanga Exp $ */
+/* $Id: handler_db.inc,v 1.24 2007-02-15 18:31:24 chamindra Exp $ */
 
 /**
  *
@@ -73,7 +73,7 @@ function shn_db_clean($str)
  * @todo integrate the auditing
  */
 function shn_db_update($arr,$table, $key){
-    global $global;
+    global $global, $conf;
     $sql = "UPDATE $table SET ";
 
     foreach($arr as $k => $v){
@@ -157,7 +157,6 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field=''){
     if($conf['debug']) {
         echo $sql."<hr>";
     }
-
     #var_dump($sql_audit);
     if($audit){
         foreach($sql_audit as $sqls){
