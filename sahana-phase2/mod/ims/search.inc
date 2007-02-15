@@ -389,7 +389,7 @@ function _shn_ims_form_search()
     $form_opts['name']="search_inventory";
     shn_form_fopen('search_inventory_db',null,$form_opts);
     shn_form_fsopen('Inventiry Name');
-    shn_form_text(_("Search by Inventory name   : "),'inventory_name','size="50"',null);
+    shn_form_text(_("Search by Inventory name   : "),'inventory_name','size="50"',array('help'=>_("Enter either the name of the inventory or the location of the inventory or both Inventory name and location and click on the search button below")));
     shn_form_fsclose();
     $range=array("start"=>1,"end"=>5);
     shn_location_form_org(1,5);
@@ -402,7 +402,7 @@ function _shn_ims_form_search()
 <br>
 <?php
     shn_form_fsopen("Search by Address");
-    shn_form_textarea(_("Address : "),'address','size="100"',null);
+    shn_form_textarea(_("Address : "),'address','size="20"',array('req'=>true,'help'=>_("Enter the address or a part of the address of the Inventory that you want to search and click on the Search button below")));
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;

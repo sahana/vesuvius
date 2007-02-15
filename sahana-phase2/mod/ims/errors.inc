@@ -63,4 +63,6 @@ define(SHN_ERR_IMS_CATALOGUE_MISSING,_("Please Select the Catalogue that you nee
 
 define(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR,_("Please complete either inventory name or Base location"));
 
+define(SHN_ERR_IMS_INVENTORY_ADDRESS_ERROR,_("Address is essential. Please Complete the address and submit again."));
+
 ?>
