@@ -78,9 +78,11 @@ function _shn_ims_viewform_allorg($no=NULL)
 function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
 {
     global $global;
+    
     $db=$global["db"];
     $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
+
     $org_id=$res_org->fields[0];
     //print $q;
     if($org_id==NULL)

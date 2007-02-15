@@ -304,17 +304,34 @@ function shn_ims_search_inventory()
     _shn_ims_form_search();
 }
 
+
 function shn_ims_search_inventory_db()
 {
     include_once ('search.inc');
-    if(_shn_ims_validate_search_inventories())
+    $action=$_POST['action'];
+    if($action=='search_name')
     {
-        add_error(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR);
-	shn_ims_search_inventory();
+        if(_shn_ims_validate_search_inventories())
+        {
+            add_error(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR);
+	    shn_ims_search_inventory();
+        }
+        else
+        {
+	    _shn_ims_search_inventory_db();
+        }
     }
-    else
+    if($action=='search_address')
     {
-	_shn_ims_search_inventory_db();
+	if(_shn_ims_validate_search_inventories())
+        {
+            add_error(SHN_ERR_IMS_INVENTORY_ADDRESS_ERROR);
+	    shn_ims_search_inventory();
+        }
+	else
+	{
+	    _shn_ims_search_address();
+	}
     }
 }
 

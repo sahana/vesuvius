@@ -19,7 +19,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
 include_once $global['approot'].'/mod/or/lib_or.inc';
-
+//include_once ('view_inv.inc');
 /**
 ** Function for searching items
 **/
@@ -379,19 +379,38 @@ function _shn_ims_form_search()
 {
     global $global;
     $db=$global['db'];
+
+    //global $global;
+    $module = $global['module'];
 ?>
 <h2 align="center"><?= _("Search for Inventories by name and by Location")?></h2>
     <div id="formcontainer">
 <?php
-
-    shn_form_fopen('search_inventory_db');
+    $form_opts['name']="search_inventory";
+    shn_form_fopen('search_inventory_db',null,$form_opts);
     shn_form_fsopen('Inventiry Name');
     shn_form_text(_("Search by Inventory name   : "),'inventory_name','size="50"',null);
     shn_form_fsclose();
     $range=array("start"=>1,"end"=>5);
     shn_location_form_org(1,5);
-    shn_form_submit('Search');
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    //shn_form_submit('Search');
+    shn_form_button(_("Search"),"onClick='change_action(\"search_name\")'",$extra_opts);
+?>
+<br>
+<br>
+<?php
+    shn_form_fsopen("Search by Address");
+    shn_form_textarea(_("Address : "),'address','size="100"',null);
+    shn_form_fsclose();
+    $extra_opts['br']=false;
+    $extra_opts['req']=false;
+    shn_form_button(_("Search"),"onClick='change_action(\"search_address\")'",$extra_opts);
+    shn_form_hidden(array('action'=>'0'));
+    //shn_form_button("Search")
     shn_form_fclose();
+
 }
 
 function _shn_ims_search_inventory_db()
@@ -543,6 +562,10 @@ function _shn_ims_search_inventory_db()
 function _shn_ims_validate_search_inventories()
 {
     $error_flag=false;
+
+    $action=$_POST['action'];
+    if($action=='search_name')
+    {
     $_SESSION['ims_1']=$_POST['1'];
     $_SESSION['ims_2']=$_POST['2'];
     $_SESSION['ims_3']=$_POST['3'];
@@ -559,11 +582,68 @@ function _shn_ims_validate_search_inventories()
 	{
 	    $error_flag=true;
 	}
+    }
+    if($action=='search_address')
+    {
+	$address=trim($_POST['address']);
+	if($address==null)
+	{
+	    $error_flag=true;
+	}
+    }
     //}
     //print $error_flag;
     return $error_flag;
     
 	
+}
+
+function _shn_ims_search_address()
+{
+    global $global;
+    $db=$global['db'];
+    $address=trim($_POST['address']);
+
+?>
+<div id='result'>
+    <table>
+    <thead>
+    <td><?=_("Inventory Name")?></td>
+    <td><?=_("Country of Origin/GIS")?></td> 
+    <td><?=_("Address")?></td>
+    <td><?=_("Contact Numbers")?></td>
+    <td><?=_("Man Power")?></td>
+    <td><?=_("Equipment")?></td>
+    <td><?=_("Other <br /> Facilities")?></td>
+    <td><?=_("Inventory Space")?></td>
+    </thead>
+    <tbody>
+
+<?php
+    include_once ('view_inv.inc');
+
+    $sql="SELECT * FROM ims_inventory_records;";
+    $ims=$db->Execute($sql);
+    while(!$ims==NULL && !$ims->EOF)
+    {
+	$inv_uuid=$ims->fields['inv_uuid'];
+
+        $q = "select * from location_details where address like '%{$address}%' AND poc_uuid='{$inv_uuid}' order by address";	
+        $ims1 =$db->Execute($q);
+	//print $q;
+	$poc_uuid=$ims1->fields['poc_uuid'];
+	//print $poc_uuid;
+	$org_id=$poc_uuid;
+
+	 _shn_display_org($flag=false,$org_id);
+	
+        $ims->MoveNext();
+    }
+?>
+    </tbody>
+    </table>
+<?php
+    
 }
 
 function _shn_ims_form_search_old()
@@ -637,6 +717,16 @@ function _shn_ims_update_loc(){
         return;
     }
 </script>
+
+
 <?php
 }
 ?>
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.search_inventory.submit();
+         return;
+    }
+</script>
