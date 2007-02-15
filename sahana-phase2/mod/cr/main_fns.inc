@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.50 2007-02-12 09:37:29 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.51 2007-02-15 10:18:33 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -141,11 +141,11 @@ function shn_cr_srch_address(){
 		            	echo _("Search Results");
 		           	 	break;
 		case 'commit'	:
-									_shn_cr_srch_rst($_POST['cmp_id'],$_POST['opt_camp_type']);
+									_shn_cr_srch_rst_address($_POST['cmp_id'],null);
 									break;
 									
 		case 'show' :
-									_shn_cr_srch_rst($_POST['cmp_id'],'all');
+									_shn_cr_srch_rst_address($_POST['cmp_id'],'all');
 									break;	
 		default :
 		            _shn_cr_srch_address();
