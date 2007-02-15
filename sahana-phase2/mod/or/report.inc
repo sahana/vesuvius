@@ -167,7 +167,7 @@ function _shn_or_drill_org($parent=null)
 	<h2><?=_("Organization Report By ". $level) ?></h2>
     <p>
     
-    <? 
+    <?php 
     /*
     echo	 _("Each Row is a ")."<strong>".$level."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";
 	echo _("Intersection shows the number of organizations providing the service in the location and its sub locations.")."<br />";
@@ -280,7 +280,7 @@ function _shn_or_drill_loc($parent=null)
     */
 ?>
 	
- <? 
+ <?php 
  	$tmp=shn_get_last_level();
  	if($tmp[0]==$lvl_child-1){
  	?>
@@ -465,7 +465,7 @@ function _shn_or_report_org_sector()
     
 ?>
 <h2><?=_("Organization Report by Sector")?></h2>
-<? 
+<?php 
 	shn_report_download("shn_or_service_coverage_pdf","Download as PDF");
 ?>
 <div id ="result">

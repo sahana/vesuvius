@@ -437,13 +437,13 @@ or_acl_setup to sahana setup script once its avaliable
 		shn_form_fsopen('Manage Roles and Users');
 		$msg=_("Now you can add/edit/delete Roles and Users ")."<br />";
 		$msg=$msg._("Of course you can add/edit/delete Roles and Users later on through the System & User link.")."<br />";
-	    ?><div class="info"><? echo $msg?></div><br /><?
+	    ?><div class="info"><?php echo $msg?></div><br /><?
 	    shn_form_button(_("Roles & Users"),"onClick='change_action(\"system\")'",$extra_opts);
 		shn_form_fsclose();
 		
 		shn_form_fsopen('Manage Modules');
 		$msg=_("If you would like to install ACL for modules or enable/disable ACL click the button below ")."<br />";
-	     ?><div class="info"><? echo $msg?></div><br /><?
+	     ?><div class="info"><?php echo $msg?></div><br /><?
 		shn_form_button(_("Modules"),"onClick='change_action(\"module\")'",$extra_opts);
 		shn_form_fsclose();
 	    shn_form_hidden(array('action'=>'0'));

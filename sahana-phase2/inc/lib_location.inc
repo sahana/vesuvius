@@ -572,7 +572,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	}
 	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["orgs"]==true)){
 		//$info.=_("a Location ");
-		?><div class="info"><? echo $info;?></div><br /><?
+		?><div class="info"><?php echo $info;?></div><br /><?
 	}
 	if($extra_opts["camps"]==true){
 		 if($count>1){

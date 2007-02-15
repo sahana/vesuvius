@@ -50,7 +50,7 @@ if(!$res->EOF){
 </div>
 <br />
 <div>
-<? shn_chart_display("shn_or_service_coverage_chart"); ?>
+<?php shn_chart_display("shn_or_service_coverage_chart"); ?>
 </div>
 <table>
     <thead>

@@ -91,7 +91,7 @@ shn_admin_del_user(false);
 function shn_auth_form_user_add($title="Add an User",$header=null,$error=false)
 {
 ?>
-<center><h2><? echo $title ?></h2></center>
+<center><h2><?php echo $title ?></h2></center>
 <h3>Fields marked with * are required (entry is compulsory)</h3>
 <?php
     if($error)

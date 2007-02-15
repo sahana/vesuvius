@@ -167,7 +167,7 @@ function _shn_vol_report_sector()
     global $global;
     $db=$global['db'];
   ?><h2>Under construction</h2>
-  <?  
+  <?php  
   return
 ?>
 <h2><?=_("Organization Report by Sector")?></h2>

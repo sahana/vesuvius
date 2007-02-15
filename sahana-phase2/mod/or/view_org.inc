@@ -38,7 +38,7 @@ function _shn_or_display_page_links(){
 function _shn_or_display_page($page){
 	?><h2> Organization Registry</h2>
 	<div>
-	<? 
+	<?php 
 	shn_report_download("shn_or_all_orgs_pdf","Download as PDF");
 	 ?>
 	</div>
