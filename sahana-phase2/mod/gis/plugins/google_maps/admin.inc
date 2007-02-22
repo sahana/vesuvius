@@ -25,21 +25,30 @@ function shn_plugin_default(){
 }
 
 function _shn_gis_gm_form(){
+	global $global;
+	$db = $global['db'];
 	//shn_form_fopen(abc);
 	// @todo: using small hack at the moment to bypass front controller. correct later
 ?>
 	<div id="formcontainer">
-	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">
+	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 	
 <?php
-	//shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
+	/*
+	$query = "select * from config where confkey={'mod_gis_google_key'} and module_id={'gis'}";
+	$res = $db->Execute($query);
+	if(!res->EOF){
+		$value = $res->fields['value'];
+	}
+	*/
+	shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
 	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
 	echo _("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
 	echo _("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/'>Google Maps</a>");
 	shn_form_fsclose();
 	shn_form_fsopen(_("Configure Google Maps"));
-	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="110"');
+	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="110"',array('value'=>$value));
 	shn_form_fsclose();
 	shn_form_submit(_("Done"));
 	shn_form_fclose();
@@ -52,7 +61,6 @@ function shn_plugin_commit()
 	$db = $global['db'];
 		
 	if(!null==($_POST['gmap_key'])){
-		echo "Chan Saved";
 		add_confirmation(_("Changes were saved"));
 		$query = "select * from config where confkey='mod_gis_google_key' and module_id='gis'";
 		$res = $db->Execute($query);
