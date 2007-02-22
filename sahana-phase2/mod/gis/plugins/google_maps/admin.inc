@@ -34,13 +34,13 @@ function _shn_gis_gm_form(){
 	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 	
 <?php
-	/*
-	$query = "select * from config where confkey={'mod_gis_google_key'} and module_id={'gis'}";
+	//Show stored value
+	$query = "select value from config where confkey='mod_gis_google_key' and module_id='gis'";
 	$res = $db->Execute($query);
-	if(!res->EOF){
+	if(!$res->EOF){
 		$value = $res->fields['value'];
 	}
-	*/
+	
 	shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
 	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
