@@ -52,16 +52,16 @@ function shn_plugin_commit()
 	if(!null==($_POST['gmap_key'])){
 		echo "Changes Saved";
 		add_confirmation(_("Changes were saved"));
-		$query = "select * from config where confkey='google_key' and module_id='gis'";
+		$query = "select * from config where confkey='mod_gis_google_key' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF)
 		{
-			$gm="UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";
+			$gm="UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_google_key'";
 			$db->Execute($gm);
 		}
 		else
 		{
-			$insert = "insert into config values ('gis','google_key','{$_POST['gmap_key']})";
+			$insert = "insert into config values ('gis','mod_gis_google_key','{$_POST['gmap_key']})";
 			$db->Execute($insert);
 		}
 		
