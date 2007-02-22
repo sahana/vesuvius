@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.16 2007-02-12 08:30:49 mifanc Exp $ */
+/* $Id: admin.inc,v 1.17 2007-02-22 06:20:44 mifanc Exp $ */
 
 /**Admin Module for GIS
 *
@@ -254,11 +254,11 @@ function shn_gis_adm_mod()
 		$query = "select * from config where confkey='dflt' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='dflt'";
+			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='mod_gis_dflt'";
 			$db->Execute($q);
 		}
 		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','dflt','{$_POST['mod_gis']}')";
+			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
 		
