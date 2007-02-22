@@ -30,7 +30,9 @@ function _shn_gis_gm_form(){
 ?>
 	<div id="formcontainer">
 	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">
+	
 <?php
+	//shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
 	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
 	echo _("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
