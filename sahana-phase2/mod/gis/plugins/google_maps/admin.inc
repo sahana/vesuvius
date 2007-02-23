@@ -48,7 +48,7 @@ function _shn_gis_gm_form(){
 	echo _("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/'>Google Maps</a>");
 	shn_form_fsclose();
 	shn_form_fsopen(_("Configure Google Maps"));
-	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="110"',array('value'=>$value));
+	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="100"',array('value'=>$value));
 	shn_form_fsclose();
 	shn_form_submit(_("Done"));
 	shn_form_fclose();
