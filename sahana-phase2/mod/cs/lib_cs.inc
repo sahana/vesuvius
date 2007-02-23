@@ -199,7 +199,8 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     shn_form_fsopen(_('Select the sub category'));
     for($i=1;$i<$max+1;$i++){
     $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';    
-    shn_form_select(null,'',$i,$select_opts,null);
+    
+    shn_form_select(array(),'',$i,$select_opts,null);
     }
     shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
     shn_form_hidden(array('item_name'=>""));
