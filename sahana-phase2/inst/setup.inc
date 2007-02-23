@@ -107,7 +107,7 @@ function shn_setup_form_dependancy()
 
     <p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
 
-    <p><?=_('First we need to check if all the relevant dependancies for the Sahana system to be install are available on your system')?></p>
+    <p><?=_('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
 <?php
 
     shn_form_fopen(_('dependancy'));
@@ -163,7 +163,7 @@ function shn_setup_form_dependancy()
     shn_form_fsclose();
     shn_form_fsopen(_('File and Directory Permissions'));
 ?>
-    <p><?=_('The following checks if certain files and sub-directories have write persmissions for Sahana to function,')?></p>
+    <p><?=_('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
 <?php
     $value = is_writable($global['approot'].'www/tmp');
     $isOK &= $value;
@@ -194,10 +194,10 @@ function shn_setup_form_dependancy()
 
     if ($value) {
         //shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
-        shn_form_label(_('<i>sahana/www/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
+        shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
     } else {
         //shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
-        shn_form_label(_('<i>sahana/www/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
+        shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
         //echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
     }
 
@@ -205,11 +205,11 @@ function shn_setup_form_dependancy()
     shn_form_fsclose();
 
     if ($isOK) {
-        echo _('<p>All the dependancies are OK and you may move to
+        echo _('<p>All the dependencies are OK and you may move to
                 the next step</p>')."\n";
         shn_form_submit(_('Next >>'));
     } else {
-        echo _('<p>Please correct the required dependancies above and</p>')."\n";
+        echo _('<p>Please correct the required dependencies above and</p>')."\n";
         shn_form_submit(_('Try Again'));
     }
     shn_form_fclose();
