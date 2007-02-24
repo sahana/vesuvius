@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.27 2006-12-13 17:29:09 priyanga Exp $ */
+/* $Id: main.inc,v 1.28 2007-02-24 12:59:52 priyanga Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -80,7 +80,7 @@ function shn_sync_default()
  */
 function shn_sync_download()
 {
-    include_once('handler_download_data.inc');
+    include_once('handler_download.inc');
 }
 
 

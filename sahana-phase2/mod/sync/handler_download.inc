@@ -34,7 +34,7 @@ echo "</center>";
 
 shn_form_fsopen(_("Select Data"));
 ?>
-<p><?= _("The following list shows the data which are available to export. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
+<p><?php echo _("The following list shows the data which are available to export. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
 <?
 foreach($modules as $module){
     if (file_exists($syncfile=$global['approot']."mod/".$module."/sync.xml"))
@@ -48,11 +48,11 @@ echo "<br />";
 shn_form_fsclose();
 shn_form_fsopen(_("File Type"));
 ?>
-    <p><?=_("The data can be exported in the following formats please select the format you want to export.")?></p>
-    <label><?=_('XML File')?></label><input type="radio" name="file_type" value="xml" checked="true" /><br/>
-    <label><?=_('CSV File')?></label><input type="radio" name="file_type" value="csv" disabled="true" /><br/>
-    <label><?=_('SQL File')?></label><input type="radio" name="file_type" value="sql" disabled="true"/><br/>
-    <label><?=_('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" disabled="true"/><br/>
+    <p><?php echo _("The data can be exported in the following formats please select the format you want to export.")?></p>
+    <label><?php echo _('XML File')?></label><input type="radio" name="file_type" value="xml" checked="true" /><br/>
+    <label><?php echo _('CSV File')?></label><input type="radio" name="file_type" value="csv" disabled="true" /><br/>
+    <label><?php echo _('SQL File')?></label><input type="radio" name="file_type" value="sql" disabled="true"/><br/>
+    <label><?php echo _('SQLite File')?></label><input type="radio" name="file_type" value="sqlite" disabled="true"/><br/>
 <?php
 shn_form_fsclose();
 shn_form_fsopen(_("Compression Type"));
@@ -62,11 +62,11 @@ shn_form_fsopen(_("Compression Type"));
     $bzip2=(function_exists('bzopen'))?'':'disabled="true"';
     $gzip=(function_exists('gzopen'))?'':'disabled="true"';
 ?>
-    <p><?=_("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")." <strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
-    <label><?=_('None')?></label><input type="radio" name="compression" value="none"/><br/>
-    <label><?=_('Gzip')?></label><input type="radio" name="compression" value="gz" <?=$gzip?> checked="true" /><br/>
-    <label><?=_('Bzip2')?></label><input type="radio" name="compression" value="bz2" <?=$bzip2?> /><br/>
-    <label><?=_('Zip')?></label><input type="radio" name="compression" value="zip" disabled="true"/><br/> 
+    <p><?php echo _("The export file can be compressed using the formats in the list bellow. Select 'None' if you do not want the file to be compressed.")." <strong><em>"._("Important:")."</em></strong>"._("Compressing the export file will reduce the download time significantly.")."</p>"?>
+    <label><?php echo _('None')?></label><input type="radio" name="compression" value="none"/><br/>
+    <label><?php echo _('Gzip')?></label><input type="radio" name="compression" value="gz" <?php echo $gzip?> checked="true" /><br/>
+    <label><?php echo _('Bzip2')?></label><input type="radio" name="compression" value="bz2" <?php echo $bzip2?> /><br/>
+    <label><?php echo _('Zip')?></label><input type="radio" name="compression" value="zip" disabled="true"/><br/> 
 <?php
 shn_form_fsclose();
 shn_form_fclose();
@@ -92,7 +92,7 @@ function handel_syncfile($syncfile)
         $block=0;
         foreach($scema->data as $key=>$data){
 ?>
-        <label><?=$data->description;?></label><input type="checkbox" name="<?=$scema['name']."[]"?>" value="<?=$block++;?>" onchange="checkHead('<?=$scema['name'];?>')" /><br />
+        <label><?php echo $data->description;?></label><input type="checkbox" name="<?php echo $scema['name']."[]"?>" value="<?php echo $block++;?>" onchange="checkHead('<?php echo $scema['name'];?>')" /><br />
 <?php
         }
         echo "</div>";
