@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.59 2007-02-08 09:09:08 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.60 2007-02-26 09:03:40 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -444,17 +444,28 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
     $resu = $global['db']->Execute("select * from field_options where field_name='$opt_field'");
-
+ 
+ $selected=$extra_opts['selected'];
     while(!resu==NULL && !$resu->EOF) {
-        $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
+    	$sel=null;
+    for($i=0;$i<count($selected);$i++)
+    {
+    	if($selected[$i]==$resu->fields[1])
+    	{
+    		$sel='checked';
+    	}
+    }
+       // $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 ?>
-    <label><?php echo $resu->fields[2]?></label>
-    <input type="checkbox" name="<?php echo $opt_field?>[]" value="<?php echo $resu->fields[1]?>" <?php echo $sel?>></input>
-    <br/>
+        <label><?=$resu->fields[2]?></label>
+        <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
+     
+<br>   
 <?php
         $resu->MoveNext();
     }
-    shn_form_extra_opts($extra_opts);
+    
+ shn_form_extra_opts($extra_opts);  
 }
 
 /**
