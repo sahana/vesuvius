@@ -18,6 +18,8 @@
  *
  */
 
+
+
 include_once ('lib.inc');
 include_once ($global['approot'] . '/inc/lib_form.inc');
 include_once ($global['approot'] . '/inc/lib_validate.inc');
@@ -61,7 +63,8 @@ function shn_dvr_add_new_individual($errors = false) {
 	$type = $_POST['opt_group_type'];
 
 	$heads = _shn_dvr_getgroupheadspertype($type);
-
+//print 'fff'.count($heads);
+//print 'gggg'.$heads[1];
 	array_push($heads, 'Other');
 	$extra_opts['help'] = _("Please Select the Head Name");
 	$extra_opts['req'] = true;
@@ -129,7 +132,7 @@ function shn_dvr_add_new_individual($errors = false) {
 	shn_form_text(_('Driving License'), 'drv_license', 'size="30"', $extra_opts);
 	shn_form_fsclose();
 
-	if ($_SESSION['edit_individual_clicked']) {
+	if ($_SESSION['dvr']['person']['edit_individual_clicked']==true) {
 		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['person']['picture']);
 ?>
 	<p align='center'>
@@ -184,6 +187,7 @@ function shn_dvr_add_new_individual($errors = false) {
 
 function shn_dvr_set_person_major_details() {
 	global $global;
+	if($_SESSION['dvr']['person']['edit_individual_clicked'] != true)
 	$_SESSION['dvr']['person']['p_uuid'] = shn_create_uuid();
 	$_SESSION['dvr']['person']['typ_of_grp'] = $_POST['opt_group_type'];
 
@@ -218,7 +222,7 @@ function shn_dvr_set_person_major_details() {
 	$_SESSION['dvr']['person']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['person']['rehbd'] = $_POST['rehbd'];
 
-	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
+	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {	
 		$info = getimagesize($_FILES['picture']['tmp_name']);
 		//check the image type 
 		if ($info) {
@@ -246,6 +250,9 @@ function shn_dvr_set_person_major_details() {
 
 	}
 }
+
+
+
 function _shn_dvr_individual_physical_details_validate_error() {
 
 	clean_errors();
@@ -270,6 +277,12 @@ function _shn_dvr_individual_physical_details_validate_error() {
 	return $error_flag;
 
 }
+
+
+
+
+
+
 
 function _shn_dvr_individual_validate_error() {
 	clean_errors();
@@ -303,14 +316,17 @@ function _shn_dvr_individual_validate_error() {
 
 }
 
+
 //add location dettails
 
 function _shn_dvr_regconfirm_individual() {
+	
+shn_dvr_set_person_physical_details();
 	global $global;
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _('Confirm  Details of').$_SESSION['dvr']['person']['name'] ?></h2>
+<h2><?= _('Confirm  Details of').$_SESSION['dvr']['person']['full_name'] ?></h2>
 <div id="formcontainer">
 <?php
 
@@ -374,7 +390,7 @@ function _shn_dvr_regconfirm_individual() {
 	<p align='center'>
 	<?php
 
-	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'adddvr_img', true);
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,"finger");
 ?>
 	
 	</p>
@@ -421,6 +437,7 @@ function _shn_dvr_regconfirm_individual() {
 
 
 }
+
 
 function shn_dvr_person_confirm() {
 
@@ -497,6 +514,8 @@ function shn_dvr_disp_and_crnt_loc() {
 }
 
 function shn_dvr_set_person_physical_details() {
+	
+global $global;
 	$_SESSION['dvr']['person']['opt_eye_color'] = $_POST['opt_eye_color'];
 	$_SESSION['dvr']['person']['opt_skin_color'] = $_POST['opt_skin_color'];
 	$_SESSION['dvr']['person']['opt_hair_color'] = $_POST['opt_hair_color'];
@@ -507,10 +526,12 @@ function shn_dvr_set_person_physical_details() {
 	$_SESSION['dvr']['person']['comments'] = $_POST['comments'];
 	$_SESSION['dvr']['person']['finger_picture'] = $_POST['finger_picture'];
 
-	if ($_FILES['finger_picture']['error'] != UPLOAD_ERR_NO_FILE) {
+	//print 'here';
+	if ($_FILES['finger_picture']['error'] != UPLOAD_ERR_NO_FILE) {	
 		$info = getimagesize($_FILES['finger_picture']['tmp_name']);
+	//print 'in';
 		//check the image type 
-
+	
 		if ($info) {
 			list ($ignore, $ext) = split("\/", $info['mime']);
 
@@ -524,6 +545,16 @@ function shn_dvr_set_person_physical_details() {
 			$_SESSION['dvr']['person']['finger_image_width'] = $info[0];
 
 		}
+
+		$ext = '.' . $ext;
+		$upload_dir = $global['approot'] . 'www/tmp/';
+		$uploadfile = $upload_dir . 'ori_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
+		move_uploaded_file($_FILES['finger_picture']['tmp_name'], $uploadfile);
+		print 'moved';
+		$desc_path = $upload_dir . 'thumb_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
+		//resize the image size
+
+		shn_image_resize($uploadfile, $desc_path, 100, 100);
 
 	}
 
@@ -555,6 +586,7 @@ function shn_dvr_set_person_location_details() {
 
 }
 
+
 function shn_dvr_physical_information($errors = false) {
 
 	if ($errors)
@@ -569,6 +601,21 @@ function shn_dvr_physical_information($errors = false) {
 
 	shn_form_fsopen(_('Upload FingerPrint'));
 	print '<br />';
+	
+	if ($_SESSION['dvr']['person']['edit_individual_clicked']==true) {
+		shn_form_label(_("Current Finger Print"), $_SESSION['dvr']['person']['picture']);
+?>
+	<p align='center'>
+	<?php
+
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,'finger');
+?>
+	
+	</p>
+	<?php
+
+	}
+	$_SESSION['dvr']['person']['edit_individual_clicked']==false;
 	shn_form_upload(_('Upload Picture'), "finger_picture");
 	shn_form_fsclose();
 	print '<br />';
