@@ -68,9 +68,13 @@ function _shn_dvr_getgroupheadspertype($grp_type)
 	$db = $global['db'];
 	$head_names= array ();
 	$i=0;
-	$q = "select p.full_name,pg.g_uuid as groupid from person_uuid p,pgroup pg where p.p_uuid=pg.head_uuid and pg.opt_group_type='{$grp_type}'";
+	$q = "select p.full_name,pg.g_uuid as groupid from person_uuid p,pgroup pg,group_details gd where p.p_uuid=gd.head_uuid and pg.g_uuid=gd.g_uuid and pg.opt_group_type='{$grp_type}'";
 	$res = $db->Execute($q);
+	while(!$res->EOF)
+	{
 	$head_names[$res->fields['groupid']]=$res->fields['full_name'];
+	$res->MoveNext();
+	}
 	return $head_names;
 }
 
