@@ -3,7 +3,7 @@
 
 /**
  * 
- * This file represents the main links of the DVR module
+ * This file includes the main links of the DVR module
  * PHP version 4 and 5
  *
  * LICENSE: This source file is subject to LGPL license
