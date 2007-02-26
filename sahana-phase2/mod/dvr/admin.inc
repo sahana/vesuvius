@@ -52,7 +52,7 @@ function shn_dvr_adm_checklist()
 global $global;	
 shn_dvr_adminmenu();
 shn_form_fopen("adm_form_commit",null,array("req"=>false));
-  	shn_form_fsopen("Add Service / Facility");
+shn_form_fsopen("Add Service / Facility");
 	shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities");
 	shn_form_text("Item Name","service_name",'size="30"');
 	shn_form_text("Item Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
