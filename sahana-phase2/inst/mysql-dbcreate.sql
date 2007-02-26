@@ -2,6 +2,13 @@
 * MySQL database structure creation table for Sahana
 */
 
+/**
+creating the sahana database
+*/
+DROP DATABASE IF EXISTS sahana;
+CREATE DATABASE sahana;
+use sahana;
+
 
 /**================= System and Config Tables =======================**/
 
@@ -403,23 +410,51 @@ CREATE TABLE person_to_report (
     FOREIGN KEY (rep_uuid) REFERENCES person_uuid(p_uuid)
 );
 
+
 /**
 * Contains the list of groups of people
 * Modules: dvr, mpr
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Last changed: 26-FEB-2007 - isuru@opensource.lk  
 */
 DROP TABLE IF EXISTS pgroup;
 CREATE TABLE pgroup (
     g_uuid VARCHAR(60) NOT NULL, -- universally unique group id
-    name VARCHAR(100), -- name of the group
     opt_group_type VARCHAR(10), -- type of the group
     PRIMARY KEY (g_uuid)
+    
 );
+
+
+/**
+* Contains the description of the group
+* Modules: dvr, mpr
+* Last changed: 26-FEB-2007 - isuru@opensource.lk  
+*/
+--group-details
+DROP TABLE IF EXISTS group_details;
+CREATE TABLE group_details(
+g_uuid VARCHAR(60) NOT NULL, -- universally unique group id
+head_uuid VARCHAR(60),
+no_of_adult_males INT,
+no_of_adult_females INT,
+no_of_children INT, 
+no_displaced INT, 
+no_missing INT,
+no_dead INT,
+no_rehabilitated INT,
+checklist TEXT,
+description TEXT,
+PRIMARY KEY(g_uuid),
+FOREIGN KEY (head_uuid) REFERENCES person_uuid(p_uuid)
+
+);
+
+
 
 /**
 * A person can belong to multiple groups
 * Modules: dvr, mpr
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+* Last changed: 26-FEB-2007 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS person_to_pgroup;
 CREATE TABLE person_to_pgroup (   
@@ -560,11 +595,12 @@ CREATE TABLE lc_tmp_po (
 
 /**================= Resource/Multimedia Tables ===========================**/
 
+
 /** 
  * Image storage table 
  * Modules : Framework, sync
  * Created : 20th-Mar-2006 - janaka@opensource.lk
- * Last Change : 20th-Mar-2006  - janaka@opensource.lk
+ * Last Change : 26th-FEB-2007  - isuru@opensource.lk
  */
 DROP TABLE IF EXISTS image;
 CREATE TABLE image(
@@ -575,8 +611,10 @@ CREATE TABLE image(
     image_height INT,
     image_width INT,
     created TIMESTAMP DEFAULT NOW(),
+    category varchar(32),
     PRIMARY KEY (image_id)
 );
+
 
 /**================ Multiple Incident Tables ========================**/
 /** 
