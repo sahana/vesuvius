@@ -37,7 +37,7 @@ include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 function get_dvr_populate_group_major_details() {
 	$head_details = get_group_type_and_head_details($_GET['groupid']);
 
-	print 'head details are' . $head_details->fields['group_type'];
+	//print 'head details are' . $head_details->fields['group_type'];
 	$_SESSION['dvr']['group']['id'] = $_GET['groupid'];
 	$_SESSION['dvr']['group']['typ_of_grp'] = $head_details->fields['group_type'];
 	$_SESSION['dvr']['group']['full_name'] = $head_details->fields['full_name'];
@@ -81,7 +81,7 @@ function get_dvr_populate_group_major_details() {
 
 //add group type and group head details
 function shn_dvr_edit_grouptype_and_head_details_start($errors = false) {
-	if ($_SESSION['edit_dvr'] == null)
+	if ($_SESSION['dvr']['editgroup']['edit_clicked']  == false)
 		get_dvr_populate_group_major_details();
 	_shn_dvr_print_header(_("Edit Group"));
 	shn_dvr_grouptype_and_head_details($errors);
@@ -95,10 +95,10 @@ function _shn_dvr_group_validate_error() {
 	$gt = $_POST['opt_group_type'];
 	$full_name = $_POST['full_name'];
 
-	if (!isset ($_SESSION['dvr']['group']['headid'])) {
+/*	if (!isset ($_SESSION['dvr']['group']['headid'])) {
 		$_SESSION['dvr']['group']['headid'] = shn_create_uuid();
 
-	}
+	}*/
 
 	if (trim($gt) == null | trim($gt) == '===') {
 		add_error(_("Please  select the group type"));
@@ -238,7 +238,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 
 	shn_form_text(_("NIC No"), 'nic', null, $extra_opts);
 
-	shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+/*	shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
@@ -249,9 +249,43 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 ?>
 	
 	</p>
+	<?php*/
+
+	if (	$_SESSION['dvr']['editgroup']['edit_clicked']==true) {
+		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+?>
+	<p align='center'>
 	<?php
 
+		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'adddvr_img', true);
+?>
+	
+	</p>
+	<?php
 
+	}
+	
+	else
+	{
+		
+shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+?>
+	<p align='center'>
+	<?php
+//print 'here'.$_SESSION['dvr']['group']['headid'];
+		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'adddvr_img', false);
+?>
+	
+	</p>
+	<?php
+
+	}
+		
+		
+		
+	
+	
+	
 	$extra_opts['value'] = $_SESSION['dvr']['group']['picture'];
 	$extra_opts['help'] = _("Upload the photograph if available");
 	$extra_opts['req'] = false;
@@ -362,7 +396,7 @@ function shn_dvr_loc_dtls($errors = false) {
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 
 	$locid = get_group_location_details($_SESSION['dvr']['group']['id']);
-	if ($_SESSION['edit_dvr'] == null)
+	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
 		shn_location($range, $locid, null, $extra_opts);
 	else
 		shn_location($range, $_SESSION['dvr']['group']['current_loc'], null, $extra_opts);
@@ -436,7 +470,7 @@ function shn_dvr_cklst_and_desc() {
 	$extra_opts['help'] = _("Please select items " .
 	"tick the Check Box (Optional)");
 
-	if ($_SESSION['edit_dvr'] == null) {
+	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false) {
 		$_SESSION['dvr']['group']['opt_dvr_service'] = explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);
 
 	//	print 'services are' . $_SESSION['dvr']['group']['opt_dvr_service'];
@@ -457,7 +491,7 @@ function shn_dvr_cklst_and_desc() {
 	$extra_opts['help'] = _("Enter the group description. (Optional)");
 	shn_form_textarea(_("Description"), 'desc', null, $extra_opts);
 	shn_form_submit(_("Finish"), 'name="end_button"');
-
+$_SESSION['dvr']['editgroup']['edit_clicked'] ='false';
 	shn_form_fsclose();
 
 	shn_form_fclose();
@@ -478,7 +512,7 @@ function _shn_dvr_regconfirm_group() {
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _('Confirm Group Details  Headed by').$_SESSION['org']['name'] ?></h2>
+<h2><?= _('Confirm Group Details  Headed by').$_SESSION['dvr']['group']['full_name'] ?></h2>
 
 <div id="formcontainer">
 
@@ -511,10 +545,10 @@ function _shn_dvr_regconfirm_group() {
 	<p align='center'>
 	<?php
 
-	if ($_SESSION['dvr']['group']['picture'] != null)
+//	if ($_SESSION['dvr']['group']['picture'] != null)
 		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'addvictim_img', true);
-	else
-		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], 'database', 'dvr', 'addvictim_img', false);
+	//else
+		//shn_show_thumb_url($_SESSION['dvr']['group']['headid'], 'database', 'dvr', 'addvictim_img', false);
 ?>
 	
 	</p>
