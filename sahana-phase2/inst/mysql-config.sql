@@ -5,7 +5,7 @@ INSERT INTO field_options VALUES('opt_group_type','com','company');
 INSERT INTO field_options VALUES('opt_group_type','soc','society');
 INSERT INTO field_options VALUES('opt_group_type','tor','tourists');
 INSERT INTO field_options VALUES('opt_group_type','oth','other');
-
+INSERT INTO field_options VALUES('opt_group_type','===','==Select Option==');
 -- IDENTITY CARD / PASSPORT TYPES
 INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
 INSERT INTO field_options VALUES('opt_id_type','pas','Passport');
