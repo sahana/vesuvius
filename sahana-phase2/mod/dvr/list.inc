@@ -1,5 +1,5 @@
 <?php
-/* $Id: list.inc,v 1.1 2007-02-05 22:35:53 isurunishan Exp $ */
+/* $Id: list.inc,v 1.2 2007-02-26 04:04:17 isurunishan Exp $ */
 /**
  * 
  * List groups in disaster victims registry
@@ -25,7 +25,7 @@
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 include_once ($global['approot'] . '/mod/dvr/lib.inc');
-   $results=_shn_dvr_get_all_groups();
+   $results=_shn_dvr_get_all_groups(null);
    	
    ?>
    	 <div id ="result">
