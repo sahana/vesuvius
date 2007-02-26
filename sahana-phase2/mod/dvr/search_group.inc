@@ -5,7 +5,7 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 }
 </script>
 <?php
-/* $Id: search_group.inc,v 1.3 2007-02-08 07:43:35 isurunishan Exp $ */
+/* $Id: search_group.inc,v 1.4 2007-02-26 04:05:46 isurunishan Exp $ */
 /**
  * 
  * Search groups and individuals in disaster victims registry
@@ -44,9 +44,7 @@ function shn_dvr_search_default()
     
    
     
-$extra_opts['value']= $typ_of_grp;
-$extra_opts['help']=_("Enter the National Identity Card Number if available. (Optional)");
-$extra_opts['req']=true;
+
     
     
 
@@ -74,7 +72,9 @@ shn_form_fsclose();
 
 
 function shn_dvr_group_search_results()
-{global $global ;
+{
+	
+global $global ;
 	
 	$group=$_POST['opt_group_type'];
 	$card=$_POST['card'];
