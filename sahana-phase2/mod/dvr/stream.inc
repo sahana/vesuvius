@@ -55,7 +55,7 @@ function shn_dvr_addvictim_img()
     switch ($_GET['stream_type']){
         case 'image' :
             if($_GET['session']){
-                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['entry'],true);
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['image'],true);
             }else{
                 if($_GET['thumbnail'])
                     shn_show_image_stream($x_uuid,true); 
@@ -64,5 +64,26 @@ function shn_dvr_addvictim_img()
             }
         break;
     }
+}
+    
+    function shn_dvr_addfingerprint_img()
+{
+    global $global; 
+
+    
+    $x_uuid = $_GET['x_uuid'];
+    switch ($_GET['stream_type']){
+        case 'image' :
+            if($_GET['session']){
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['finger_image'],true);
+            }else{
+                if($_GET['thumbnail'])
+                    shn_show_image_stream($x_uuid,true); 
+                else
+                    shn_show_image_stream($x_uuid,false); 
+            }
+        break;
+    }
+    
 }
 ?>
