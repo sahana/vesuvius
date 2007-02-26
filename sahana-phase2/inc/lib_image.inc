@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_image.inc,v 1.3 2007-02-06 00:18:09 isurunishan Exp $ */
+/* $Id: lib_image.inc,v 1.4 2007-02-26 06:07:16 isurunishan Exp $ */
 
 /**
  *
@@ -101,6 +101,7 @@ function shn_image_resize_from_string($img,$width,$height)
 }
 /* }}} */
 
+
 function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=false)
 {
     global $global;    
@@ -150,7 +151,7 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
  * @access public
  * @return void
  */
-function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false)
+function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
 {
     global $global;
     global $conf;
@@ -166,6 +167,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
             $src_tmp = "stream.php?stream_type=image&mod=$mod&act=$act&session=true&thumbnail=true";
         }else{
             //need to get the type
+            
             $sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid'";
             $arr = $global['db']->GetAll($sql);
             if(isset($arr[0]['image_type'])){
@@ -181,6 +183,45 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
         //Since we don't know the extension
         $dir = $global['approot'].'www/tmp/';
  
+ if($type!=null)
+ {
+        //Need a better way
+        $d = dir($dir);
+        while (false !== ($f = $d->read())){
+            if(preg_match('/thumb_fin'.$x_uuid.'(.*)/',$f,&$matches)){
+                $filename = $dir.trim($f);
+                $ext = $matches[1];
+                break; 
+            }
+        }
+        $filename = trim($filename);
+    
+	    //if image is not available 
+	    if(! file_exists($global['approot']."www/tmp/ori_fin$x_uuid"."$ext") ){
+	        echo _("Image Not Available");
+	        return false;
+	    }
+	        
+	
+	    $info = getimagesize($global['approot']."www/tmp/ori_fin$x_uuid"."$ext");
+	    $height = $info[1]+20;
+	    $width = $info[0]+20;
+	 
+	    $url = $_SERVER["SERVER_NAME"].$_SERVER["PHP_SELF"];
+	    //remove the index.php
+	    $url = substr($url,0,strlen($url)-9);
+	    //add http://
+	    $src_ori = 'http://'.$url."/tmp/ori_fin$x_uuid"."$ext";
+        $src_tmp = "tmp/thumb_fin$x_uuid"."$ext";
+  
+ }
+ 
+ 
+ else
+ {
+ 	
+ 	
+ 	
         //Need a better way
         $d = dir($dir);
         while (false !== ($f = $d->read())){
@@ -209,6 +250,26 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	    //add http://
 	    $src_ori = 'http://'.$url."/tmp/ori_$x_uuid"."$ext";
         $src_tmp = "tmp/thumb_$x_uuid"."$ext";
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 
+ }
+  
     }
 ?>
     <a title="<?= _('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
@@ -273,6 +334,8 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
  * @access public
  * @return void
  */
+ 
+ 
 function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category)
 {
     global $global;
