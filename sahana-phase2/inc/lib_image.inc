@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_image.inc,v 1.4 2007-02-26 06:07:16 isurunishan Exp $ */
+/* $Id: lib_image.inc,v 1.5 2007-02-26 06:15:32 isurunishan Exp $ */
 
 /**
  *
@@ -336,7 +336,7 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
  */
  
  
-function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category)
+function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null)
 {
     global $global;
     
