@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * 
  * Functions to add group in DVR
@@ -31,8 +30,11 @@ include_once ($global['approot'] . '/inc/lib_uuid.inc');
 
 //add group type and group head details
 function shn_dvr_grouptype_and_head_details_start($errors = false) {
+	
+//unset($_SESSION['dvr_add_group']['entry']['p_uuid']);
 	_shn_dvr_print_header(_("Add New Group"));
 	shn_dvr_grouptype_and_head_details($errors);
+	
 }
 
 
@@ -44,15 +46,16 @@ function _shn_dvr_group_validate_error() {
 	$gt = $_POST['opt_group_type'];
 	$full_name = $_POST['full_name'];
 
-	if (!isset ($_SESSION['dvr_add_group']['entry']['p_uuid'])) {
+
 		$_SESSION['dvr_add_group']['entry']['p_uuid'] = shn_create_uuid();
 
-	}
+
 
 	if (trim($gt) == null | trim($gt) == '===') {
 		add_error(_("Please  select the group type"));
 		$error_flag = true;
 	}
+
 	if (trim($full_name) == null | trim($full_name) == '') {
 		add_error(_("Please fill the full name"));
 		$error_flag = true;
@@ -82,6 +85,7 @@ function _shn_dvr_group_location_validate_error() {
 	}
 	return $error;
 }
+
 
 //setting the group major details
 function shn_dvr_set_group_major_details() {
@@ -198,7 +202,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	shn_form_text(_("NIC No"), 'nic', null, $extra_opts);
 
 
-	if ($_SESSION['edit_clicked']) {
+	if (	$_SESSION['dvr']['group']['edit_clicked']==true) {
 		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
@@ -211,7 +215,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	<?php
 
 	}
-
+$_SESSION['dvr']['group']['edit_clicked'] = false;
 	$extra_opts['help'] = _("Upload the photograph if available");
 	$extra_opts['req'] = false;
 	shn_form_upload(_('Upload Photograph'), "picture");
@@ -256,8 +260,10 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	$extra_opts['help'] = _("Enter the Children count  (Optional)");
 	shn_form_text(_("Children"), 'chldrn', null, $extra_opts);
 	shn_form_fsclose();
+	
 	print '<br />';
 	//member status
+	
 	shn_form_fsopen(_("Status Of Members In Group"));
 	print '<br />';
 
@@ -305,7 +311,7 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	$range = shn_dvr_get_loc_range();
 
-	shn_location($range, null, null, $extra_opts);
+	shn_location($range, null, null,null);
 
 	shn_form_fsclose();
 	shn_form_fclose();
@@ -415,7 +421,7 @@ function _shn_dvr_regconfirm_group() {
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _('Confirm Group Details  Headed by').$_SESSION['dvr']['group']['opt_dvr_full_name']?></h2>
+<h2><?= _('Confirm Group Details  Headed by').$_SESSION['dvr']['group']['full_name']?></h2>
 <div id="formcontainer">
 <?php
 
