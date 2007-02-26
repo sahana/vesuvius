@@ -16,28 +16,68 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
+ 
+ 
+ 
+ 
 function _shn_drill_downby_group() {
-?>
+?>	
+ 	 <h2><?=_("Disaster Victim Report by group") ?></h2>
  	 
+ 	 <?php
+ 	 
+   global $global;
+   	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+include_once ($global['approot'] . '/mod/dvr/lib.inc');
+$incident_id=$_GET['incident_id'];
+if($incident_id!=null)
+{
+	$results=_shn_dvr_get_all_groups($incident_id);
+}
+   else
+   {$results=_shn_dvr_get_all_groups(null);
+   }
+   ?>
    	 <div id ="result">
 	<table>
         <thead>
-        		<td></td>
+        		 <td><?=_("Group Id")?></td>
             <td><?=_("Group Type")?></td>
             <td><?=_("Group Head Name")?></td>
             <td><?=_("Family Name")?></td>
-            <td><?=_("Local Name")?></td>
+           <!-- <td><?=_("Local Name")?></td>-->
           	<td><?=_("NIC")?></td>
             <td><?=_("Address")?></td>
-         <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
+            
         </thead>
+        <?php
+        while(!$results->EOF)
+        {
+        ?>
+        
+        <tr>
+          <td><a href='index.php?mod=dvr&act=view_members&groupid=<?=$results->fields['group_id']?>'><?=$results->fields['group_id']?></a></td>
+        <td><?=_shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
+            
+            <td><?=$results->fields['full_name']?></td>
+            <td><?=$results->fields['family_name']?></td>
+           <!-- <td><?=$results->fields['local_name']?></td>-->
+          	<td><?=$results->fields['serial']?></td>
+            <td><?=$results->fields['address']?></td>
+            
+            
+
+        
+        </tr>
+ <?php
+ $results->MoveNext();
+        }
+        ?>
         <table>
         </div>
    <?php
-
-
-}
-
+   }
+   
 function _shn_drill_downby_shelter() {
 ?>
  	 
@@ -61,20 +101,37 @@ function _shn_drill_downby_shelter() {
 }
 
 function _shn_drill_downby_incident() {
+		 
+   global $global;
+   	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+$incidents=_shn_dvr_get_incidents();
+
 ?>
- 	 
+ 	  <h2><?=_("Disaster Victim Report by Incident") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
-        		<td></td>
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-            <td><?=_("Local Name")?></td>
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
-         <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
+        		
+            <td><?=_("Incident Id")?></td>
+            <td><?=_("Incident Name")?></td>
+            
+         
+         
         </thead>
+        
+<?php
+        while(!$incidents->EOF)
+{
+	
+?>
+<tr>
+	<td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?= $incidents->fields['incident_id']?>'><?= $incidents->fields['incident_id']?></a></td>
+	<td><?=$incidents->fields['name']?></td>
+</tr>
+<?php
+$incidents->MoveNext();
+}
+?>        
         <table>
         </div>
    <?php
