@@ -21,7 +21,7 @@
 # Welcome to Sahana the disaster management system.
 # feel free to edit this config file.
 # if you have problem please visit http://sahana.sourceforge.org/
-# or join with our irc channel #sahana-dev at freenode.org, 
+# or join with our irc channel #sahana at freenode.org, 
 
 # Specify the name of this Sahana instance. This should be a unique identifier
 # of this instance of Sahana. 
