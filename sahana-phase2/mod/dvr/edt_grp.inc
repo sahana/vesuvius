@@ -81,7 +81,7 @@ function get_dvr_populate_group_major_details() {
 
 //add group type and group head details
 function shn_dvr_edit_grouptype_and_head_details_start($errors = false) {
-	if ($_SESSION['dvr']['editgroup']['edit_clicked']  == false)
+	if ($_SESSION['dvr']['editgroup']['edit_clicked']  == false | $_SESSION['dvr']['editgroup']['edit_clicked']==null)
 		get_dvr_populate_group_major_details();
 	_shn_dvr_print_header(_("Edit Group"));
 	shn_dvr_grouptype_and_head_details($errors);
@@ -127,7 +127,7 @@ function shn_dvr_set_group_major_details() {
 
 	global $global;
 	global $conf;
-	$_SESSION['dvr']['group']['typ_of_grp'] = $_POST['typ_of_grp'];
+	$_SESSION['dvr']['group']['typ_of_grp'] = $_POST['opt_group_type'];
 	$_SESSION['dvr']['group']['full_name'] = $_POST['full_name'];
 	$_SESSION['dvr']['group']['family_name'] = $_POST['family_name'];
 	$_SESSION['dvr']['group']['local_name'] = $_POST['local_name'];
@@ -257,7 +257,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	<p align='center'>
 	<?php
 
-		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'adddvr_img', true);
+		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'addvictim_img', true);
 ?>
 	
 	</p>
@@ -273,7 +273,7 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	<p align='center'>
 	<?php
 //print 'here'.$_SESSION['dvr']['group']['headid'];
-		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], '', 'dvr', 'adddvr_img', false);
+		shn_show_thumb_url($_SESSION['dvr']['group']['headid'], 'database', 'dvr', 'addvictim_img', false);
 ?>
 	
 	</p>
@@ -473,9 +473,10 @@ function shn_dvr_cklst_and_desc() {
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false) {
 		$_SESSION['dvr']['group']['opt_dvr_service'] = explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);
 
-	//	print 'services are' . $_SESSION['dvr']['group']['opt_dvr_service'];
+	
 	}
 	$extra_opts['selected'] = $_SESSION['dvr']['group']['opt_dvr_service'];
+$_SESSION['dvr']['editgroup']['edit_clicked'] =false;
 
 	shn_form_opt_checkbox(_("opt_dvr_service"), $extra_opts);
 
@@ -491,7 +492,7 @@ function shn_dvr_cklst_and_desc() {
 	$extra_opts['help'] = _("Enter the group description. (Optional)");
 	shn_form_textarea(_("Description"), 'desc', null, $extra_opts);
 	shn_form_submit(_("Finish"), 'name="end_button"');
-$_SESSION['dvr']['editgroup']['edit_clicked'] ='false';
+
 	shn_form_fsclose();
 
 	shn_form_fclose();
