@@ -89,7 +89,7 @@ function shn_dvr_home_show_dvr()
     $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid order by im.created ";
             
 
-           $rs = $global['db']->SelectLimit($sql,6);
+           $rs = $global['db']->SelectLimit($sql,16);
    
     if($rs){
         $arr = $rs->GetAll();
