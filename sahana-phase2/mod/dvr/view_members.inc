@@ -20,7 +20,7 @@
  */
 
 include_once ($global['approot'] . '/inc/lib_image.inc');
-/* $Id: view_members.inc,v 1.2 2007-02-26 04:06:28 isurunishan Exp $ */
+/* $Id: view_members.inc,v 1.3 2007-02-27 06:33:30 isurunishan Exp $ */
 /**
  * 
  * View Members in disaster victims registry
@@ -78,7 +78,7 @@ function shn_dvr_home_show_dvr() {
 	$groupid = $_GET['groupid'];
 	$sql = "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im,person_to_pgroup p where im.x_uuid=a.p_uuid and p.p_uuid=a.p_uuid and p.g_uuid='{$groupid}' order by im.created ";
 
-	$rs = $global['db']->SelectLimit($sql, 6);
+	$rs = $global['db']->SelectLimit($sql, 16);
 
 	if ($rs) {
 		$arr = $rs->GetAll();
