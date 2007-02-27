@@ -10,6 +10,7 @@
 *
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     http://www.linux.lk/~chamindra
+* @author     Pradeeper http://www.linux.lk/~pradeeper
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -43,7 +44,7 @@ function shn_setup_main()
     switch ($action) {
 
     case 'dependancy':
-        if (shn_setup_check_dependancy()) { // check if database writing is a success
+        if (shn_setup_check_dependancy()) { // check if all the dependencies are fullfill
             shn_setup_form1();
         } else {
             display_errors();
@@ -238,9 +239,13 @@ function shn_setup_form1()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Schema\'s to Install'));
+    // please add somedescription,
+    ?> <p><?=_('Check this to create the default categories for aid goods,units.')?></p> <?
     shn_form_checkbox(_('Default Item Categories'),'dbsample','checked',
-                        array('value'=>'y', 'help'=>'Check this to 
-                        create the default categories for aid goods, units')); 
+                        array('value'=>'y'));
+                        // this 'help' is to be removed :
+                        //, 'help'=>'Check this to 
+                        //create the default categories for aid goods, units')); 
     shn_form_fsclose();
     shn_form_submit(_('Setup Database >>'));
  
