@@ -98,6 +98,7 @@ function _shn_ims_view_edit()
             $manufactured_date=$ims->fields["manufactured_date"];
             $expire_date=$ims->fields["expire_date"];
             
+	//print $suplier_id;
 
         $sql1="SELECT name FROM ct_catalogue WHERE ct_uuid='$catalog_id';";
         $ims1 = $db->Execute($sql1);
@@ -109,9 +110,14 @@ function _shn_ims_view_edit()
         $inventory_name = $ims2->fields["inventory_name"];
             //$parent_id=$ims1->fields["parentid"];
 
-        $org_list_array=shn_or_org_list();
+        /*$org_list_array=shn_or_org_list();
+	print_r($org_list_array);
         $suplier_name=$org_list_array[$suplier_id];
+	print $suplier_name;*/
 
+	$suplier_name_array=array();
+    $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+	$suplier_name=$suplier_name_array[$suplier_id];
     
             
 ?>
