@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.60 2007-02-26 09:03:40 isurunishan Exp $ */
+/* $Id: lib_form.inc,v 1.61 2007-02-27 06:54:27 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -256,6 +256,8 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 {
     global $global;
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    //to privent warnings set $options to array() if it is null
+    $options=($options==null)?array():$options;
 ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
     <select name="<?php echo $name?>" id="<?php echo $name?>" <?php echo $select_opts?>  >
