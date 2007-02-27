@@ -550,7 +550,7 @@ global $global;
 		$upload_dir = $global['approot'] . 'www/tmp/';
 		$uploadfile = $upload_dir . 'ori_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
 		move_uploaded_file($_FILES['finger_picture']['tmp_name'], $uploadfile);
-		print 'moved';
+		
 		$desc_path = $upload_dir . 'thumb_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
 		//resize the image size
 
@@ -615,7 +615,7 @@ function shn_dvr_physical_information($errors = false) {
 	<?php
 
 	}
-	$_SESSION['dvr']['person']['edit_individual_clicked']==false;
+	$_SESSION['dvr']['person']['edit_individual_clicked']=false;
 	shn_form_upload(_('Upload Picture'), "finger_picture");
 	shn_form_fsclose();
 	print '<br />';
