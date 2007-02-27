@@ -110,7 +110,7 @@ function _shn_dvr_populate_individual_details() {
 
 function _shn_dvr_edit_individual_start($errors = false) {
 
-	if ($_SESSION['edit_individual'] == null) {
+	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == false | $_SESSION['dvr']['person']['edit_individual_clicked']==null) {
 		_shn_dvr_populate_individual_details();
 	}
 	if ($errors)
@@ -217,33 +217,36 @@ function _shn_dvr_edit_individual_start($errors = false) {
 	print '<br />';
 	shn_form_fsopen(_('Upload Picture'));
 	print '<br />';
-
-	if ($_SESSION['edit_individual_clicked']) {
-		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['person']['picture']);
+if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
+		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
 
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'adddvr_img', true);
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addvictim_img', true);
 ?>
 	
 	</p>
 	<?php
 
 	}
-	if ($_SESSION['edit_individual'] == null) {
-		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['person']['picture']);
+	
+	else
+	{
+		
+shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
-
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addvictim_img', false)
+//print 'here'.$_SESSION['dvr']['group']['headid'];
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
 ?>
 	
 	</p>
 	<?php
 
-}
+	}
+		
 
 	shn_form_upload(_('Upload Picture'), "picture");
 	shn_form_fsclose();
@@ -480,7 +483,7 @@ function _shn_dvr_regconfirm_individual() {
 	<p align='center'>
 	<?php
 
-	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'adddvr_img', true);
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,"fingerprint");
 ?>
 	
 	</p>
@@ -680,10 +683,51 @@ function shn_dvr_physical_information($errors = false) {
 
 	shn_form_fsopen(_('Upload FingerPrint'));
 	print '<br />';
-	shn_form_upload(_('Upload Picture'), "finger_picture");
+	
+	
+	
+	
+	
+	
+	
+	if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
+		shn_form_label(_("Current Finger Print"), $_SESSION['dvr']['group']['picture']);
+?>
+	<p align='center'>
+	<?php
+
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,'fingerprint');
+?>
+	
+	</p>
+	<?php
+
+	}
+	
+	else
+	{
+		
+shn_form_label(_("Current FingerPrint"), $_SESSION['dvr']['group']['picture']);
+?>
+	<p align='center'>
+	<?php
+//print 'here'.$_SESSION['dvr']['group']['headid'];
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addfingerprint_img', false,'fingerprint');
+?>
+	
+	</p>
+	<?php
+
+	}
+		
+	
+	
+	
+	
+	shn_form_upload(_('Upload FingerPrint'), "finger_picture");
 	shn_form_fsclose();
 	print '<br />';
-
+$_SESSION['dvr']['person']['edit_individual_clicked']=false;
 	shn_form_fsopen(_('Physical Details'));
 
 	print '<br />';
