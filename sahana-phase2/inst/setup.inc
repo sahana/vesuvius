@@ -43,7 +43,7 @@ function shn_setup_main()
     shn_setup_header();
     switch ($action) {
 
-    case 'dependancy':
+    case 'dependancy': // first setup form
         if (shn_setup_check_dependancy()) { // check if all the dependencies are fullfill
             shn_setup_form1();
         } else {
@@ -227,7 +227,7 @@ function shn_setup_form1()
 
     shn_form_fsopen(_('Database'));
     shn_form_select(
-        array( 'mysql' => 'MySQL 4.1 or above'), 
+        array( 'mysql' => 'MySQL 4.1 or above','pgsql"disabled="disabled' => 'PostgreSQL'), 
                 'Database Types', 'dbtype');
     shn_form_text(_('Database Host:Port'),'dbhost','size="30"',
                 array('value'=>'localhost','req'=>true ));
@@ -240,7 +240,9 @@ function shn_setup_form1()
 
     shn_form_fsopen(_('Schema\'s to Install'));
     // please add somedescription,
+/*
     ?> <p><?=_('Check this to create the default categories for aid goods,units.')?></p> <?
+*/
     shn_form_checkbox(_('Default Item Categories'),'dbsample','checked',
                         array('value'=>'y'));
                         // this 'help' is to be removed :
