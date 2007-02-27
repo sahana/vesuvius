@@ -275,7 +275,7 @@ function _shn_dvr_get_individual_search_results($card, $name, $incident) {
 function get_person_major_details($person_uuid) {
 	global $global;
 	$db = $global['db'];
-	$sql = " select pgr.g_uuid as groupid,pgr.opt_group_type as group_type,pgr.head_uuid as head_id from person_to_pgroup pg,pgroup pgr where pgr.g_uuid=pg.g_uuid and pg.p_uuid=";
+	$sql = " select pgr.g_uuid as groupid,pgr.opt_group_type as group_type,gls.head_uuid as head_id from person_to_pgroup pg,pgroup pgr,group_details gls where gls.g_uuid=pgr.g_uuid and gls.g_uuid=pg.g_uuid and pgr.g_uuid=pg.g_uuid and pg.p_uuid='{$person_uuid}'";
 	$results = $db->Execute($sql);
 
 	return $results;
