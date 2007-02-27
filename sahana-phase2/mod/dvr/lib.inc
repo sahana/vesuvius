@@ -97,7 +97,7 @@ function _shn_dvr_get_person_full_name($person_uuid)
 global $global;
 
 $db = $global['db'];
-$sql="select full_name from person_uuid where p_uuid ='{$person_uuid} ";
+$sql="select full_name from person_uuid where p_uuid ='{$person_uuid}'";
 $res = $db->Execute($sql);
 $group=$res->fields['full_name'];
 return $group;
