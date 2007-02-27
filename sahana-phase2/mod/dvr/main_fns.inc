@@ -404,6 +404,8 @@ function shn_dvr_edit_group() {
 								if (_shn_dvr_group_validate_error()) {
 									shn_dvr_edit_grouptype_and_head_details_start(true);
 								} else {
+									
+								
 									shn_dvr_set_group_major_details();
 									shn_dvr_loc_dtls();
 								}
@@ -541,8 +543,8 @@ function shn_dvr_edit_individual() {
 
 			} else
 				if ($_REQUEST['edit_details']) {
-					$_SESSION['edit_individual_clicked'] = true;
-					shn_dvr_add_new_individual();
+					$_SESSION['dvr']['person']['edit_individual_clicked'] = true;
+					_shn_dvr_edit_individual_start();
 				} else
 					if ($_REQUEST['save']) {
 						_shn_dvr_update_individual_todb();
