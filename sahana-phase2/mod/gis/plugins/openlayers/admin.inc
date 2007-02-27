@@ -18,7 +18,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function shn_plugin_default(){
 ?>
-<h2><?php echo _("Google Maps Admin Page")?></h2>	
+<h2><?php echo _("Openlayers Admin Page")?></h2>	
 <?php
 	_shn_gis_gm_form();
 }
@@ -28,8 +28,9 @@ function _shn_gis_gm_form(){
 	// @todo: using small hack at the moment to bypass front controller. correct later
 ?>
 	<div id="formcontainer">
-	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">
+	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 <?php
+    shn_form_fopen("adm_default&submod=open_layers&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
 	echo _("<p>Under Development</p>");
 	shn_form_fsclose();
