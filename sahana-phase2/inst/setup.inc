@@ -202,7 +202,9 @@ function shn_setup_form_dependancy()
         //echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
     }
 
-    echo "<p>Note: <font color=gray>both <i>sahana/conf/</i> and <i>sahana/www/tmp/</i> need to be writable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
+    //echo "<p>Note: <font color=gray>both <i>sahana/conf/</i> and <i>sahana/www/tmp/</i> need to be writable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
+    echo "<p>Note: <font color=gray><strong>sahana/conf/</strong></i> need to be readable, writable and executable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
+    
     shn_form_fsclose();
 
     if ($isOK) {
@@ -405,6 +407,7 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
+    
 
     if ($_POST['dbsample']=='y') {
         include_once($global['approot'].'inc/lib_uuid.inc');
@@ -424,19 +427,19 @@ function shn_setup_run_sqlscript($db, $relative_script_path)
     $script = $global['approot'].$relative_script_path;
 
     if ($fh = fopen($script,'r')) {
-        $sql='';
+        $sql=''; // clear the bucket
         
         while (! feof($fh) ) { // a fix as Execute gets confused over carriage returns 
-            $t = fgets($fh,1024);
-            $sql=$sql.$t;
-            if(preg_match('/;/',$t)) {
+            $buffer = fgets($fh,1024); // read the script and fill the buffer
+            $sql=$sql.$buffer; // fill the buffer until ';' appear
+            if(preg_match('/;/',$buffer)) { // look after ';'
                 $db->Execute($sql);
-                $sql='';
+                $sql=''; // clear the bucket again
             }
         }
         //$sql = fread($fh,filesize($script));
         fclose($fh);
-    }
+    } 
     // @todo error handler if file does not exist
 }
 
