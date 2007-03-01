@@ -333,17 +333,14 @@ function shn_cs_additem_form2_submit()
 
 function shn_cs_viewedit()
 {
-	echo "<h1>View And Edit</h1>";
-	?>
-	<p><?= _('Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. <b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b>'); ?></p>
-	<?php
+
 	require_once('edit.inc');
 	shn_cs_edit_form();
 }
 
 function shn_cs_edit_form_submit()
 {
-	echo "<h1>View And Edit</h1>";
+	
 	require_once('edit.inc');
 
 	$selected = trim($_POST['edit_type']);
@@ -411,6 +408,14 @@ function shn_cs_edit_unit_type_form_submit()
 	require_once('edit.inc');
 	_shn_cs_edit_unit_type_form_submit_result();
 }
+
+function shn_cs_edit_filter()
+{
+    require_once('edit.inc');
+	shn_cs_edit_form();
+	show_item_cat_table();
+}
+
 
 function shn_cs_addunittype()
 {

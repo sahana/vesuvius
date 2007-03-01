@@ -45,32 +45,34 @@ function shn_cs_addmain_form()
  */
 function _shn_cs_addmain_form_result()
 {
+    require_once("lib_cs.inc");
     global $global;
     $db=$global["db"];
     $parentid='0';
     $name = trim($_POST['main_cat_name']);
     $description = trim($_POST['description']);
     $keyword = trim($_POST['keyword']);
-    
     $id = shn_create_uuid("catalogue");
 
-    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword) VALUES($parentid,'$id','$name','$description','$keyword')";
+    $serial = shn_cs_generate_maincat_serial();
+
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES($parentid,'$id','$name','$description','$keyword','$serial')";
     $res=$db->Execute($q);
 
 	if($res == true)
 	{
 	?>
-	<div id="result_msg">
-	<?php print $name." was succesfully saved in the database.";?>
-	</div>
+		<div id="result_msg">
+		<?php print $name." was succesfully saved in the database.";?>
+		</div>
 	<?php
 	}
 	else
 	{
 	?>
-	<div id="result_msg">
-	<?php print "Your Operation Aborted. <b>ct_catalogue</b> table not found in the Database."; ?>
-	</div>
+		<div id="result_msg">
+		<?php print "Your Operation Aborted. <b>ct_catalogue</b> table not found in the Database."; ?>
+		</div>
 	<?php
 	}
 
@@ -123,7 +125,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
    {
     $parent_id = trim($_REQUEST['id']);
    }
-    
+
     $extra_opts['req']=true;
     shn_form_fopen("addsub_form2_submit");
     shn_form_fsopen(_('Sub Catalogue Details'));
@@ -157,12 +159,13 @@ function _shn_cs_addsub_form2_result()
     require_once("lib_cs.inc");
     $parent_id=get_itemid();
 
+    $serial = shn_cs_generate_subcat_item_serial($parent_id);
 
     $sub_cat_name=trim($_POST['sub_cat_name']);
     $sub_description=trim($_POST['sub_description']);
     $sub_keyword =trim($_POST['sub_keyword']);
     $id = shn_create_uuid("catalogue");
-    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword) VALUES('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword')";
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword','$serial')";
     $res=$db->Execute($q);
 
 	if($res == true)
@@ -338,7 +341,7 @@ function shn_cs_additem_form1()
 
 function shn_cs_additem_form1_result($is_keyword_search=false)
 {
-    global $global;
+global $global;
     $db=$global["db"];
     require_once("lib_cs.inc");
     if($is_keyword_search==false)
@@ -363,6 +366,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     $form_opts['name']="select_unit_type_form1";
     $extra_opts['req']=true;
     shn_form_fopen("additem_form2_submit",null,$form_opts);
+
     shn_form_fsopen(_('Item Details'));
     shn_form_text(_("Name   : "),'itemname','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'item_description','size="50"',null);
@@ -371,12 +375,12 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsopen(_('Keyword'));
     shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
     shn_form_fsclose();
-    
+
     $select_opts='onChange=change_units(this.options[this.selectedIndex].value)';
     shn_form_fsopen(_('Measurement Type'));
     shn_form_select($option_array,_('Measurement Type :'),'measurement_type',$select_opts,null);
     shn_form_fsclose();
-
+    $myoptions = array();
     shn_form_fsopen(_('Measurement Unit'));
     shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
@@ -389,9 +393,10 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     $parent_id_array=array('0' => $parent_id);
     shn_form_hidden($parent_id_array);
 
+    shn_cs_additem_form1_result_ajax();
     shn_form_submit(_("Add"));
     shn_form_fclose();
-    shn_cs_additem_form1_result_ajax();
+
 }
 
 function shn_cs_additem_form2_result()
@@ -407,12 +412,14 @@ function shn_cs_additem_form2_result()
     require_once("lib_cs.inc");
     $parent_id=get_itemid();
     
+    $serial = shn_cs_generate_subcat_item_serial($parent_id);
+
     $item_name=trim($_POST['itemname']);
     $description=trim($_POST['item_description']);
     $item_keyword=trim($_POST['item_keyword']);
 
     $id = shn_create_uuid("catalogue");
-    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag) VALUES('$parent_id','$id','$item_name','$description','$item_keyword','1')";
+    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag,serial) VALUES('$parent_id','$id','$item_name','$description','$item_keyword','1','$serial')";
     $res=$db->Execute($q);
 
 	if($res == true)

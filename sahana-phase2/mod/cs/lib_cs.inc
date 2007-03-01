@@ -529,4 +529,85 @@ function shn_cs_get_level_count($in_id)
 {
     return count(shn_cs_get_parentid_arr($in_id));
 }
+
+function shn_cs_generate_maincat_serial()
+{
+    global $global;
+    $db=$global['db'];
+	$temp_serial_arr = array();
+
+    	$serial_query="SELECT serial FROM ct_catalogue WHERE parentid='0'";
+    	$serial_res=$db->Execute($serial_query);
+	    	while(!$serial_res==NULL && !$serial_res->EOF)
+    		{
+		array_push($temp_serial_arr,($serial_res->fields["serial"]));
+		$serial_res->MoveNext();
+		}
+	rsort($temp_serial_arr,SORT_NUMERIC);
+	$next_serial = $temp_serial_arr[0] + 1;
+	$next_serial .= ".";
+
+    return $next_serial;
+}
+
+function shn_cs_generate_subcat_item_serial($parent_id_in)
+{
+    global $global;
+    $db=$global['db'];
+
+	#this will give the parents serial number
+    	$parent_serial_query="SELECT serial FROM ct_catalogue WHERE ct_uuid='$parent_id_in'";
+    	$parent_serial_res=$db->Execute($parent_serial_query);
+
+	$serial_item_arr = explode(".",$parent_serial_res->fields["serial"]);
+	array_pop($serial_item_arr);
+
+    	$child_serials_query="SELECT serial FROM ct_catalogue";
+    	$child_serials_res=$db->Execute($child_serials_query);
+
+	    $child_serial_arr = array();
+	    while(!$child_serials_res==NULL && !$child_serials_res->EOF)
+    	    {
+	    $child_item_arr = explode(".",$child_serials_res->fields["serial"]);
+	    array_pop($child_item_arr);
+
+		$flag = false;
+		for($x=0;$x<count($serial_item_arr);$x++)
+		{ 
+		    if(($serial_item_arr[$x]) == ($child_item_arr[$x]))
+		    {
+		    $flag = true;
+		    continue;
+		    }
+		    else
+		    {
+		    $flag = false;
+		    break;
+		    }
+		}
+
+		if($flag == true)
+		{
+		    $num = count($serial_item_arr);
+			
+		    if(isset($child_item_arr[$num]))
+		    {
+		    array_push($child_serial_arr,$child_item_arr[$num]);
+		    }
+		    else
+		    {
+		    array_push($child_serial_arr,'0');
+		    }
+		}
+		$child_serials_res->MoveNext();
+	    }
+
+	rsort($child_serial_arr,SORT_NUMERIC);
+	$next_serial_suffix = $child_serial_arr[0] + 1;
+	$next_serial_suffix .= ".";
+	$next_serial = ($parent_serial_res->fields["serial"]).$next_serial_suffix;
+
+    return $next_serial;
+}
+
 ?>

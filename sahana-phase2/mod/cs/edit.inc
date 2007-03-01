@@ -23,6 +23,10 @@
  */
 function shn_cs_edit_form()
 {
+    echo "<h1>View And Edit</h1>";
+    ?>
+    <p><?= _('Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. <b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b>'); ?></p>
+    <?php
     $option_array=array('none' => '-----Select -----','Item' => 'Item/Catalogue','Unit' => 'Unit','Unit_types'=>'Unit Types');
     $form_opts['name']="select_edit_type_form";
     shn_form_fopen('edit_form_submit',null,$form_opts);
@@ -43,6 +47,7 @@ function shn_cs_edit_form()
  */
 function show_item_cat_table()
 {
+    require_once('lib_cs.inc');
     global $global;
     $db=$global["db"];
 
@@ -50,20 +55,37 @@ function show_item_cat_table()
     //------new development
     $query1="SELECT ct_uuid,name FROM ct_catalogue WHERE parentid = '0' ";
     $res1=$db->Execute($query1);
-
+    # start filling main_catalog array
     $main_cat_arr = array('all' => 'All');
     while(!$res1==NULL && !$res1->EOF)
     {
     $main_cat_arr[$res1->fields["ct_uuid"]]=$res1->fields["name"];
     $res1->MoveNext();
-    }
+    }# end of filling catalog array
 
-    $cat_item_level_arr = array('all' => 'All','l1' =>'Level 1','l2' =>'Level 2','l3' =>'Level 3','l4' =>'Level 4');
-    $num_of_rec = array('all'=>'All','10'=>'10','20'=>'20','30'=>'30');
-    $cat_item_arr = array('all'=>'All','cat' => 'Catalogs', 'item' => 'Items');
+    # start filling levels array
+    $cat_item_level_arr = array();
+    $cat_item_level_arr['all']='All';
+
+    	for($i=1;$i<=get_max_depth();$i++)
+	{
+	$cat_item_level_arr['l'.$i]='Level'.$i;
+	}
+    # end of filling levels array
+
+    $count_query="SELECT count(ct_uuid) FROM ct_catalogue";
+    $count_res=$db->Execute($count_query);
+
+    $num_of_rec['all']='All';
+	for($i=1;$i<=round(($count_res->fields[0])/10);$i++)
+	{
+	$num_of_rec[$i.'0']=$i.'0';
+	}
+
+    $cat_item_arr = array('all'=>'All','sub_cat' => 'Sub Catalogs', 'item' => 'Items');
 
 	print "<br><br>";
-    	shn_form_fopen(null,null,$form_opts);
+    	shn_form_fopen('edit_filter',null,$form_opts);
    	?>
     <div id="result">
     <table>
@@ -77,11 +99,24 @@ function show_item_cat_table()
 	</tr>
 
 	<tr>
-        <td><?php shn_form_select($main_cat_arr,'','edit_type',$select_opts,null); ?></td>
-        <td><?php shn_form_select($cat_item_arr,'','edit_type',$select_opts,null); ?></td>
-        <td><?php shn_form_select($cat_item_level_arr,'','edit_type',$select_opts,null); ?></td>
-	<td><?php shn_form_select($num_of_rec,'','edit_type',$select_opts,null); ?></td>
-	<td><?php shn_form_submit(_("Filter"));; ?></td>
+
+		<?php $extra_opts['value'] = isset($_POST['filter_main_cat'])  ? $_POST['filter_main_cat'] : 'all' ;?>
+
+        <td><?php shn_form_select($main_cat_arr,'','filter_main_cat','',$extra_opts); ?></td>
+
+		<?php $extra_opts['value'] = isset($_POST['filter_item_cat'])  ? $_POST['filter_item_cat'] : 'all' ;?>
+
+        <td><?php shn_form_select($cat_item_arr,'','filter_item_cat','',$extra_opts); ?></td>
+
+		<?php $extra_opts['value'] = isset($_POST['filter_levels'])  ? $_POST['filter_levels'] : 'all' ;?>
+	
+        <td><?php shn_form_select($cat_item_level_arr,'','filter_levels',"",$extra_opts); ?></td>
+
+		<?php $extra_opts['value'] = isset($_POST['filter_num_rec'])  ? $_POST['filter_num_rec'] : 'all' ;?>
+
+	<td><?php shn_form_select($num_of_rec,'','filter_num_rec',$select_opts,$extra_opts); ?></td>
+
+	<td><?php shn_form_submit(_("Filter")); ?></td>
 	</tr>
 	</table>
 	</div>	
@@ -102,7 +137,27 @@ function show_item_cat_table()
     <TBODY>
     <?php
 
+    if(isset($_POST['filter_main_cat']) && $_POST['filter_main_cat'] != 'all')
+    {
+    $filter_main_cat = $_POST['filter_main_cat'];
+    $query="SELECT * FROM ct_catalogue WHERE ct_uuid='$filter_main_cat' or parentid='$filter_main_cat'";
+    }
+   /* if(isset($_POST['filter_item_cat']) && $_POST['filter_item_cat'] != 'all')
+    {
+    $filter_item_cat = $_POST['filter_item_cat'];
+	if($filter_item_cat == 'sub_cat')
+	$final_flag = '0';
+	else
+	$final_flag = '1';
+	
+    $query="SELECT * FROM ct_catalogue WHERE final_flag='$final_flag'";
+    }*/
+    else
+    {
     $query="SELECT * FROM ct_catalogue";
+    }
+
+    
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
