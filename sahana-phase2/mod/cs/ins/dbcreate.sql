@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `ct_unit_type`;
 /**
 * Table to store catalogs and items
 * Modules: cs,rms,ims
-* Last Edited: 26-OCT-2006 sditfac@opensource.lk
+* Last Edited: 1-MARCH-2007 sditfac@opensource.lk
 */
 
 CREATE TABLE ct_catalogue 
@@ -22,7 +22,8 @@ CREATE TABLE ct_catalogue
 	parentid varchar(60), 
 	name varchar(100), 
 	description varchar(200), 
-	final_flag varchar(1) DEFAULT '0', 
+	final_flag varchar(1) DEFAULT '0',
+	serial varchar(100) DEFAULT '1.',
 	keyword varchar(100)); 
 
 /**
