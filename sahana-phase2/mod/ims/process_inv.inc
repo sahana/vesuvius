@@ -308,9 +308,9 @@ function _shn_ims_edit_org()
 
 
     $location=_shn_ims_get_locid();
-    print $location;
+    //print $location;
     $location_previous=$_POST['bsd_village'];
-    print('+'.$location_previous);
+   // print('+'.$location_previous);
 
     if($location=='0')
     {
