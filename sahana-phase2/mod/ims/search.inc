@@ -401,8 +401,8 @@ function _shn_ims_form_search()
 <br>
 <br>
 <?php
-    shn_form_fsopen("Search by Address");
-    shn_form_textarea(_("Address : "),'address','size="20"',array('req'=>true,'help'=>_("Enter the address or a part of the address of the Inventory that you want to search and click on the Search button below")));
+    shn_form_fsopen("Search by Inventory Owner's Details");
+    shn_form_textarea(_("Any of the Details of Inventory Owner : "),'address','size="20"',array('req'=>true,'help'=>_("Enter any of the details of the Inventory Owner and click on the Search button below. Name of the Inventory Owner, Address of the Inventory Owner, Contact Numbers of the Inventory Owner, e-mail address of the Inventory Owner or web site of the inventory are accepted to the search")));
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
@@ -629,11 +629,21 @@ function _shn_ims_search_address()
 	$inv_uuid=$ims->fields['inv_uuid'];
 
         $q = "select * from location_details where address like '%{$address}%' AND poc_uuid='{$inv_uuid}' order by address";	
+	//$q = "select * from location_details where (address like '%{$address}%' AND poc_uuid='{$inv_uuid}') OR ";
         $ims1 =$db->Execute($q);
-	//print $q;
 	$poc_uuid=$ims1->fields['poc_uuid'];
 	//print $poc_uuid;
 	$org_id=$poc_uuid;
+	//print $ims1;
+	if($org_id==NULL)
+	{
+		$q="SELECT * FROM contact WHERE contact_value LIKE '%{$address}%' AND pgoc_uuid='{$inv_uuid}' ORDER BY contact_value;";
+		$ims1=$db->Execute($q);
+		$poc_uuid=$ims1->fields['pgoc_uuid'];
+		$org_id=$poc_uuid;
+	}
+	//print $q;
+	
 
 	 _shn_display_org($flag=false,$org_id);
 	

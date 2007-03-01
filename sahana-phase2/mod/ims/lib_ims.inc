@@ -355,7 +355,7 @@ function _shn_ims_display_contact_person($error=false,$org=true,$po_uuid=null)
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
-        $q = "SELECT address FROM location_details WHERE poc_uuid={$po_uuid}";
+        $q = "SELECT address FROM location_details WHERE poc_uuid='{$po_uuid}'";
         $res_addr=$db->Execute($q); 
         $contact_address=$res_addr->fields[0];
         $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='curr'";
