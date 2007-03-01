@@ -234,13 +234,11 @@ DROP TABLE IF EXISTS location;
 CREATE TABLE location(
     loc_uuid VARCHAR(60) NOT NULL, -- universally unique location id,
     parent_id VARCHAR(60) DEFAULT NULL, -- parent location id
- --   search_id VARCHAR(20), -- a heirarchical id expressing the heirarachy
     opt_location_type VARCHAR(10), -- location type taken from field_opts
     name VARCHAR(100) NOT NULL,
     iso_code VARCHAR(20),
     description TEXT,
-    PRIMARY KEY (loc_uuid),
-    FOREIGN KEY (parent_id) REFERENCES location(loc_uuid)
+    PRIMARY KEY (loc_uuid)
 );
 
 /**
