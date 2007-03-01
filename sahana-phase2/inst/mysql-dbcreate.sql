@@ -676,15 +676,6 @@ CREATE TABLE devel_logsql (
 
 
 /**================= TO BE REMOVED =======================**/
-DROP TABLE IF EXISTS camp_org;
-CREATE TABLE camp_org(
-    c_uuid VARCHAR(60) NOT NULL,
-		opt_camp_service VARCHAR(50),
-    o_uuid VARCHAR(60) NOT NULL,
-		PRIMARY KEY (c_uuid,opt_camp_service,o_uuid)
-);
-
-DROP TABLE IF EXISTS person_camp;
 DROP TABLE IF EXISTS configlist;
 CREATE TABLE configlist(
 	description TEXT NOT NULL,
