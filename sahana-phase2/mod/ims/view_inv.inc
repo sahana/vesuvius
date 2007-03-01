@@ -223,6 +223,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
     shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
      shn_form_hidden(array('org_id'=>$org_id));
+    shn_form_hidden(array('bsd_village'=>$bsd_village));
     _shn_ims_action_change_javascript("action");
 ?>
 </center>

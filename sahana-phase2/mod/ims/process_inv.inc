@@ -307,7 +307,20 @@ function _shn_ims_edit_org()
     $_SESSION['ims_5']=$_POST['5'];
 
 
-    $bsd_village=_shn_ims_get_locid();
+    $location=_shn_ims_get_locid();
+    print $location;
+    $location_previous=$_POST['bsd_village'];
+    print('+'.$location_previous);
+
+    if($location=='0')
+    {
+	$bsd_village=$location_previous;
+    }
+    else
+    {
+	$bsd_village=$location;
+    }
+    //print $bsd_village;
     //print $bsd_village;
     //$_SESSION=array();
 	//$bsd_village=trim($_POST{$range["end"]});
@@ -397,6 +410,7 @@ function _shn_ims_edit_org()
                 $i=$i+1;
             }
             */
+	    
             $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $q="UPDATE contact SET contact_value='{$contact_name}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='name'";
