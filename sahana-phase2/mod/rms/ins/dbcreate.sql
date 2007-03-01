@@ -6,7 +6,7 @@
 
 
 
-DROP TABLE IF EXISTS 'rms_request';
+DROP TABLE IF EXISTS `rms_request`;
 CREATE TABLE rms_request (          -- rms_request table    
     req_uuid VARCHAR(60) NOT NULL,  -- unique id for request
     reqstr_uuid VARCHAR(60),        -- unique requester id 
@@ -21,7 +21,7 @@ CREATE TABLE rms_request (          -- rms_request table
 );
 
 
-DROP TABLE IF EXISTS 'rms_req_item';
+DROP TABLE IF EXISTS `rms_req_item`;
 CREATE TABLE rms_req_item (           -- rms_req_item table
     item_uuid VARCHAR(60) NOT NULL,   -- unique id
     quantity INTEGER,                 -- actual quantity
@@ -34,7 +34,7 @@ CREATE TABLE rms_req_item (           -- rms_req_item table
     FOREIGN KEY (req_uuid) REFERENCES rms_request (req_uuid)
 );
 
-DROP TABLE IF EXISTS 'rms_priority';
+DROP TABLE IF EXISTS `rms_priority`;
 CREATE TABLE rms_priority (           -- rms_priority table
     pri_uuid VARCHAR(60) NOT NULL,   -- unique id
     priority VARCHAR(100),            -- priority
@@ -47,7 +47,7 @@ INSERT INTO rms_priority VALUES ('pri_1','Immediate','');
 INSERT INTO rms_priority VALUES ('pri_2','Modarate','');
 INSERT INTO rms_priority VALUES ('pri_3','Low Pirority','');
 
-DROP TABLE IF EXISTS 'rms_status';
+DROP TABLE IF EXISTS `rms_status`;
 CREATE TABLE rms_status (          -- rms_status table
     stat_uuid VARCHAR(60),         -- unique is
     status VARCHAR(100),           -- status
@@ -55,7 +55,7 @@ CREATE TABLE rms_status (          -- rms_status table
     PRIMARY KEY (stat_uuid)
 );
 
-DROP TABLE IF EXISTS 'rms_pledge';  
+DROP TABLE IF EXISTS `rms_pledge`;  
 CREATE TABLE rms_pledge (           -- rms_pledge table
     plg_uuid VARCHAR(60) NOT NULL,  -- unique id
     donor_uuid VARCHAR(60),         -- donor_uuid  
@@ -67,7 +67,7 @@ CREATE TABLE rms_pledge (           -- rms_pledge table
     FOREIGN KEY (user_id) REFERENCES users (p_uuid)
 );
 
-DROP TABLE IF EXISTS 'rms_plg_item';
+DROP TABLE IF EXISTS `rms_plg_item`;
 CREATE TABLE rms_plg_item (         -- rms_plg_item table
     item_uuid VARCHAR(60) NOT NULL, -- unique id
     quantity INTEGER NOT NULL,      -- quantity
@@ -79,7 +79,7 @@ CREATE TABLE rms_plg_item (         -- rms_plg_item table
     FOREIGN KEY (plg_uuid) REFERENCES rms_pledge (plg_uuid)
 );
 
-DROP TABLE IF EXISTS 'rms_fulfil';
+DROP TABLE IF EXISTS `rms_fulfil`;
 CREATE TABLE rms_fulfil (          -- rms_fulfil table
     req_uuid VARCHAR(60),          -- unique id
     item_uuid VARCHAR(60),         -- unique id 
@@ -94,7 +94,7 @@ CREATE TABLE rms_fulfil (          -- rms_fulfil table
     FOREIGN KEY (user_id) REFERENCES users (p_uuid)
 );
 
-DROP TABLE IF EXISTS 'rms_tmp_sch';
+DROP TABLE IF EXISTS `rms_tmp_sch`;
 CREATE TABLE rms_tmp_sch ( -- tmp table for searching
     sch_id VARCHAR(60)
 );
