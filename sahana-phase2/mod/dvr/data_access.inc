@@ -37,12 +37,12 @@ shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr
 	$q2 = "insert into pgroup(g_uuid,opt_group_type) values ('{$groupid}','{$_SESSION['dvr']['group']['typ_of_grp']}')";
 	$db->Execute($q2);
 
-	//insert displaced location todo by isuru
-	$q3 = "insert into location_details(poc_uuid,location_id,address) values('{$groupid}','{$_SESSION['dvr']['group']['displaced_loc']}','')";
-	//$res=$db->Execute($q3);
+	//insert displaced location
+	$q3 = "insert into location_details(poc_uuid,location_id,address) values('{$groupid}-disp','{$_SESSION['dvr']['group']['displaced_loc']}','')";
+	$res=$db->Execute($q3);
 
 	//insert current location            
-	$q4 = "insert into location_details(poc_uuid,location_id,address) values('{$groupid}','{$_SESSION['dvr']['group']['current_loc']}','')";
+	$q4 = "insert into location_details(poc_uuid,location_id,address) values('{$groupid}-curr','{$_SESSION['dvr']['group']['current_loc']}','')";
 	$res = $db->Execute($q4);
 
 	$q5 = "insert into identity_to_person (p_uuid,serial,opt_id_type) values ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}','{$_SESSION['dvr']['group']['nic']}','idcard')";
@@ -121,6 +121,7 @@ function _shn_dvr_commit_individual() {
 	$db->Execute($q2);
 
 	$group = $_SESSION['dvr']['person']['group_id'];
+	
 	if ($group == '0')
 		$group = 'notrelavant';
 	$q3 = "insert into person_to_pgroup (p_uuid,g_uuid) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$group}') ";
@@ -157,6 +158,15 @@ function _shn_dvr_commit_individual() {
 	$res = $db->Execute($q6);
 	$q7 = "insert into identity_to_person (p_uuid,serial,opt_id_type) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['drv_licence']}','dln')";
 	$res = $db->Execute($q7);
+	
+	//insert displaced location
+	$q8 = "insert into location_details(poc_uuid,location_id,address) values('{$_SESSION['dvr']['person']['p_uuid']}-disp','{$_SESSION['dvr']['person']['displaced_loc']}','')";
+	$res=$db->Execute($q8);
+
+	//insert current location            
+	$q9 = "insert into location_details(poc_uuid,location_id,address) values('{$_SESSION['dvr']['person']['p_uuid']}-curr','{$_SESSION['dvr']['person']['current_loc']}','')";
+	$res = $db->Execute($q9);
+	
 
 }
 
@@ -332,7 +342,7 @@ function get_group_description($group_id) {
 	global $global;
 	$db = $global['db'];
 
-	$sql = "select no_of_adult_males,no_of_adult_females,no_of_children,no_displaced,no_missing,no_dead,no_rehabilitated,checklist,description from group_description where g_uuid ='{$group_id}'";
+	$sql = "select no_of_adult_males,no_of_adult_females,no_of_children,no_displaced,no_missing,no_dead,no_rehabilitated,checklist,description from group_details where g_uuid ='{$group_id}'";
 
 	$results = $db->Execute($sql);
 	return $results;
@@ -351,7 +361,7 @@ function get_person_location_details($person_id) {
 
 	global $global;
 	$db = $global['db'];
-	$q = "select loc_uuid from location,location_details where poc_uuid='{$person_id_id}' and location_details.location_id=location.loc_uuid";
+	$q = "select loc_uuid from location,location_details where poc_uuid='{$person_id}' and location_details.location_id=location.loc_uuid";
 	$result = $db->Execute($q);
 	return $result->fields['loc_uuid'];
 }
@@ -472,7 +482,7 @@ function _shn_dvr_update_group() {
 	$services_string = implode($dvr_services, ',');//haha
 	$other = $_SESSION['dvr']['group']['other'];
 
-	$q6 = "update group_description no_of_adult_males='{$_SESSION['dvr']['group']['adlt_mls']}',no_of_adult_females='{$_SESSION['dvr']['group']['adlt_fmls']}',no_of_children='{$_SESSION['dvr']['group']['chldrn']}',no_displaced='{$_SESSION['dvr']['group']['dsplcd']}',no_missing='{$_SESSION['dvr']['group']['misng']}',no_dead='{$_SESSION['dvr']['group']['dead']}',no_rehabilitated='{$_SESSION['dvr']['group']['rehbd']}',checklist='{$services_string}',description={'$other'}) where g_uuid='{$_SESSION['dvr']['group']['headid']}'";
+	$q6 = "update group_details set no_of_adult_males='{$_SESSION['dvr']['group']['adlt_mls']}',no_of_adult_females='{$_SESSION['dvr']['group']['adlt_fmls']}',no_of_children='{$_SESSION['dvr']['group']['chldrn']}',no_displaced='{$_SESSION['dvr']['group']['dsplcd']}',no_missing='{$_SESSION['dvr']['group']['misng']}',no_dead='{$_SESSION['dvr']['group']['dead']}',no_rehabilitated='{$_SESSION['dvr']['group']['rehbd']}',checklist='{$services_string}',description={'$other'}) where g_uuid='{$_SESSION['dvr']['group']['headid']}'";
 	$db->Execute($q6);
 
 
