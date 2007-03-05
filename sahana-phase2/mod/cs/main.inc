@@ -346,7 +346,7 @@ function shn_cs_viewedit()
 <?php
 
 	require_once('edit.inc');
-	shn_cs_edit_form();
+	#shn_cs_edit_form();
 	show_item_cat_table();
 }
 
@@ -359,23 +359,23 @@ function shn_cs_edit_form_submit()
 
 	if(!isset($selected))
 		{
-		shn_cs_edit_form();
+		#shn_cs_edit_form();
 		show_item_cat_table();
 		}
 	else if($selected=='item')
 		{
-		shn_cs_edit_form();
+		#shn_cs_edit_form();
 		show_item_cat_table();
 		}
 	else if($selected=='unit')
 		{
-		shn_cs_edit_form();
+		#shn_cs_edit_form();
 		show_unit_table();
 		
 		}
 	else if($selected=='unit_types')
 		{
-		shn_cs_edit_form();
+		#shn_cs_edit_form();
 		show_unit_type_table();
 		}
 }
@@ -391,9 +391,6 @@ function shn_cs_edit_cat_select_submit()
 
 function shn_cs_edit_cat_form_submit()
 {
-	?>
-	<h1><?= (_("Edit Catalogue / Item Result")) ?></h1>
-	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_cat_form_submit_result();
 }

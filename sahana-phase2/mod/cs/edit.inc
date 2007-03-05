@@ -23,13 +23,13 @@
  */
 function shn_cs_edit_form()
 {	
-    ?>
+  /*  ?>
 	<div id="submenu_v">
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
 	</div>
-    <?php
+    <?php*/
 }
 
 
@@ -40,6 +40,16 @@ function shn_cs_edit_form()
  */
 function show_item_cat_table()
 {
+
+    ?>
+	<div id="submenu_v">
+	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	</div>
+    <?php
+
+
     ?>
     <br /><div><h3><b><em><?= (_("Catalogues and Items")) ?></em></b></h3></div>
     <?php
@@ -278,8 +288,7 @@ function _shn_cs_edit_cat_form_submit_result()
 
     if($action=='close')
     {
-        echo "<h1>Edit closed</h1>";
-        shn_cs_edit_form();
+        show_item_cat_table();
     }//end of if
 
     else if($action=='edit')
@@ -290,13 +299,10 @@ function _shn_cs_edit_cat_form_submit_result()
     
         $query="UPDATE ct_catalogue SET name='$name' , description='$description' WHERE ct_uuid='$id' ";
         $res=$db->Execute($query);    
+	
+	add_confirmation($name." was succesfully saved in the database");
 
-        ?>
-        <div id="result_msg">
-        <?php echo $name." was succesfully Saved.";?>
-        </div>
-        <?php
-        shn_cs_edit_form();
+        show_item_cat_table();
     }//end of else if
 
     else if($action=='del')
@@ -356,6 +362,14 @@ return $inuse_flag;
  */
 function show_unit_table()
 {
+    ?>
+	<div id="submenu_v">
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
+	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	</div>
+    <?php
+
     ?>
     <br /><div><h3><b><em><?= (_("Units")) ?></em></b></h3></div>
     <?php
@@ -513,6 +527,15 @@ return $inuse_flag;
 
 function show_unit_type_table()
 {
+    ?>
+	<div id="submenu_v">
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
+	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	</div>
+    <?php
+
+
     ?>
     <br /><div><h3><b><em><?= (_("Unit Types")) ?></em></b></h3></div>
     <?php
