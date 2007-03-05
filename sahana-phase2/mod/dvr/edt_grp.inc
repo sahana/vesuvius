@@ -75,6 +75,7 @@ function get_dvr_populate_group_major_details() {
 	$_SESSION['dvr']['group']['dead'] = $group_content->fields['no_dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $group_content->fields['no_rehabilitated'];
 	$_SESSION['dvr']['group']['opt_dvr_service'] = $group_content->fields['checklist'];
+//print 'got'.$_SESSION['dvr']['group']['opt_dvr_service'];
 	$_SESSION['dvr']['group']['other'] = $group_content->fields['description'];
 
 }
@@ -146,6 +147,9 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
 
+$loc = shn_location_get_form_submit_loc();
+$_SESSION['dvr']['group']['displaced_loc']=$loc;
+
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
 		//check the image type 
@@ -185,8 +189,6 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	));
 ?>
     <?php
-
-
 	shn_form_hidden(array (
 		'seq' => 'chk'
 	));
@@ -353,6 +355,19 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_text(_("Rehabilitated"), 'rehbd', null, $extra_opts);
 
 	shn_form_fsclose();
+	
+	shn_form_fsopen(_("Displaced Location"));
+$parent = _shn_dvr_get_start_loc();
+	$range = shn_dvr_get_loc_range();
+
+	$locid = get_group_location_details($_SESSION['dvr']['group']['id'].'-disp');
+	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
+		shn_location($range, $locid, null, $extra_opts);
+	else
+		shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null, $extra_opts);
+
+	shn_form_fsclose();
+	
 	shn_form_submit(_("Edit Location Check Details"), "name=location_button");
 //	shn_form_submit(_("Finish"));
 	shn_form_fclose();
@@ -375,17 +390,15 @@ function shn_dvr_loc_dtls($errors = false) {
 		'seq' => 'chk'
 	));
 
-	shn_form_fsopen(_("Displaced Location"));
+	/*shn_form_fsopen(_("Displaced Location"));
 
 	$range = shn_dvr_get_loc_range();
 
 	shn_location($range, null, null, $extra_opts);
 
 	shn_form_fsclose();
-	shn_form_fclose();
-	shn_form_fopen("edit_group", null, array (
-		'req_message' => false
-	));
+	*/
+
 	shn_form_fsopen(_("Current Location"));
 
 	$parent = _shn_dvr_get_start_loc();
@@ -395,7 +408,7 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 
-	$locid = get_group_location_details($_SESSION['dvr']['group']['id']);
+	$locid = get_group_location_details($_SESSION['dvr']['group']['id'].'-curr');
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
 		shn_location($range, $locid, null, $extra_opts);
 	else
@@ -448,7 +461,7 @@ function shn_dvr_set_location_details() {
 		$_SESSION['dvr']['group']['gis_loc_y'] = $_POST['loc_y'];
 	}
 
-	$_SESSION['dvr']['group']['displaced_loc'] = '';
+	//$_SESSION['dvr']['group']['displaced_loc'] = '';
 	$_SESSION['dvr']['group']['current_loc'] = $loc;
 
 	$location = _shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
@@ -471,10 +484,15 @@ function shn_dvr_cklst_and_desc() {
 	"tick the Check Box (Optional)");
 
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false) {
-		$_SESSION['dvr']['group']['opt_dvr_service'] = explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);
-
-	
+//	$list=split( $_SESSION['dvr']['group']['opt_dvr_service'],',');
+		
+	$sel= explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);		
+		//$_SESSION['dvr']['group']['opt_dvr_service'] = explode(',', $_SESSION['dvr']['group']['opt_dvr_service']);
+//print 'hell'.$x[1];
+	$extra_opts['selected']=$sel;
 	}
+	else
+	
 	$extra_opts['selected'] = $_SESSION['dvr']['group']['opt_dvr_service'];
 $_SESSION['dvr']['editgroup']['edit_clicked'] =false;
 
