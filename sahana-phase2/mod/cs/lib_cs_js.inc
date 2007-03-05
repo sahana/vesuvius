@@ -15,27 +15,6 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
-/**
- * This function prints the javascript function to submit the "select_edit_type_form" in edit.inc
- * called in shn_cs_edit_form() in edit.inc
- * @access private
- * @return void
- */
-function shn_cs_select_edit_type_form_submit_js()
-{
-?>
-<script type="text/javascript">
-    function select_edit_type_form_submit()
-    {
-    var x=document.select_edit_type_form.edit_type.options[document.select_edit_type_form.edit_type.selectedIndex].value;
-    if(x!='none')
-        {
-        document.select_edit_type_form.submit();
-        }
-    }
-</script>
-<?php
-}
 
 /**
  * This function prints the javascript function to submit the "edit_cat_form_submit" in edit.inc

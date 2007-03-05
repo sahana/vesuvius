@@ -71,8 +71,8 @@ function shn_cs_default()
  */
 function shn_cs_search()
 {
-	echo "<h1>Search</h1>";
 	?>
+	<h1><?= (_("Search")) ?></h1>
 	<p><?= _('Select the Search Type in the select box that you need to search. By selecting Catalogue/Item, you are able to Search for a Item or a Catalogue and by selecting Unit, you are able to search for Units.'); ?></p> 
 	<?php
 	require_once('search.inc');
@@ -86,7 +86,9 @@ function shn_cs_search()
  */
 function shn_cs_select_type_submit()
 {
-	echo "<h1>Search</h1>";
+	?>
+	<h1><?= (_("Search")) ?></h1>
+	<?php
 	require_once('search.inc');
 	$selected = trim($_POST['search_type']);
 
@@ -113,7 +115,9 @@ function shn_cs_select_type_submit()
 
 function shn_cs_search_item_submit()
 {
-	print "<h1>Search catalog/item</h1>";
+	?>
+	<h1><?= (_("Search catalog/item")) ?></h1>
+	<?php
 	require_once('search.inc');
 	
 	if(_shn_cs_validate_cat_form())
@@ -132,7 +136,9 @@ function shn_cs_search_item_submit()
 
 function shn_cs_search_unit_submit()
 {
-	echo "<h1>Search units</h1>";
+	?>
+	<h1><?= (_("Search units")) ?></h1>
+	<?php
 	require_once('search.inc');
 
 	shn_cs_search_cat();
@@ -143,7 +149,9 @@ function shn_cs_search_unit_submit()
 
 function shn_cs_search_unit_type_submit()
 {
-	echo "<h1>Search unit types</h1>";
+	?>
+	<h1><?= (_("Search unit types")) ?></h1>
+	<?php
 	require_once('search.inc');
 
 	if(_shn_cs_validate_search_unit_type_form())
@@ -164,8 +172,8 @@ function shn_cs_search_unit_type_submit()
 
 function shn_cs_addmain()
 {
-	echo "<h1>Add Main Catalogue</h1>";
 	?>
+	<h1><?= (_("Add Main Catalogue")) ?></h1>
 	<p><?= _('Here you are able to add Main catalogue types which are the root Items of the Item tree. Eg. Food, Medicine, clothing, etc.'); ?></p>
 	<?php
 
@@ -176,11 +184,11 @@ function shn_cs_addmain()
 
 function shn_cs_addsub()
 {
-	echo "<h1>Add Sub Catalogue</h1>";
 	?>
+	<h1><?= (_("Add Sub Catalogue")) ?></h1>
 	<p><?= _('Here you are able to add Sub catalogue types which are under Main catalogues. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogues. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
-<p><?= _('OR'); ?></p>
-<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
+	<p><?= _('OR'); ?></p>
+	<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -190,7 +198,6 @@ function shn_cs_addsub()
 
 function shn_cs_addmain_form_submit()
 {
-	echo "<h1>Add Main Catalogue Result</h1>";
 	require_once('add.inc');
 	
 	if(_shn_cs_validate_addmainform())
@@ -206,7 +213,9 @@ function shn_cs_addmain_form_submit()
 
 function shn_cs_addsub_form1_submit()
 {
-	echo "<h1>Add Sub Catalogue Result</h1>";
+	?>
+	<h1><?= (_("Add Sub Catalogue Result")) ?></h1>	
+	<?php
 	require_once('add.inc');
 	require_once('lib_cs.inc');
 	
@@ -224,7 +233,6 @@ function shn_cs_addsub_form1_submit()
 
 function shn_cs_addsub_form2_submit()
 {
-	echo "<h1>Add Sub Catalogue Result</h1>";
 	require_once('add.inc');
 	
 	if(_shn_cs_validate_subcatform())
@@ -236,14 +244,13 @@ function shn_cs_addsub_form2_submit()
 	{
 	_shn_cs_addsub_form2_result();
 	}
-
 }
 
 
 function shn_cs_addunit()
 {
-	echo "<h1>Add Measurement Unit</h1>";
 	?>
+	<h1><?= (_("Add Measurement Unit")) ?></h1>
 	<p><?= _(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the particular category.'); ?></p>
 	<?php
 	require_once('add.inc');
@@ -252,7 +259,9 @@ function shn_cs_addunit()
 
 function shn_cs_addunit_select_utype_submit()
 {
-	echo "<h1>Add Measurement Unit</h1>";
+	?>
+	<h1><?= (_("Add Measurement Unit")) ?></h1>
+	<?php
 	require_once('add.inc');
 	shn_cs_addunit_form();
 	_shn_cs_utype_select_submit_result();
@@ -261,10 +270,8 @@ function shn_cs_addunit_select_utype_submit()
 
 function shn_cs_addunit_form_submit()
 {
-	echo "<h1>Add Measurement Unit</h1>";
-	require_once('add.inc');
+    require_once('add.inc');
 	
-
 	if(_shn_cs_validate_unitform())
 	{
 	display_errors();
@@ -275,18 +282,17 @@ function shn_cs_addunit_form_submit()
 	{
 	_shn_cs_addunit_form_result();
 	}
-
 }
 
 
 function shn_cs_additem()
 {
-	echo "<h1>Add Item</h1>";
 
 	?>
+	<h1><?= (_("Add Item")) ?></h1>
 	<p><?= _('Here you are able to add Items which are under catalogues. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator have to specify the Maximum Depth of the Catalogue / Item hierarchy(tree). Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
-<p><?= _('OR'); ?></p>
-<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
+	<p><?= _('OR'); ?></p>
+	<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -296,7 +302,10 @@ function shn_cs_additem()
 
 function shn_cs_additem_form1_submit()
 {
-	echo "<h1>Add Item</h1>";
+	?>
+	<h1><?= (_("Add Item")) ?></h1>
+	<?php
+
 	require_once('add.inc');
 	require_once('lib_cs.inc');
 
@@ -314,8 +323,6 @@ function shn_cs_additem_form1_submit()
 
 function shn_cs_additem_form2_submit()
 {
-	echo "<h1>Add Item Result</h1>";
-	
 	require_once('add.inc');
 	//shn_cs_additem_form2_result();
 		if(_shn_cs_validate_additem_form())
@@ -333,34 +340,40 @@ function shn_cs_additem_form2_submit()
 
 function shn_cs_viewedit()
 {
+?>
+    <h1><?= (_("View And Edit")) ?></h1>
+    <p><?= _('Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. <b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b>'); ?></p>
+<?php
 
 	require_once('edit.inc');
 	shn_cs_edit_form();
+	show_item_cat_table();
 }
 
 function shn_cs_edit_form_submit()
 {
-	
 	require_once('edit.inc');
 
-	$selected = trim($_POST['edit_type']);
+	#$selected = trim($_POST['edit_type']);
+	$selected = $_REQUEST['view_type'];
 
-	if($selected=='none')
-		{
-		shn_cs_edit_form();
-		}
-	else if($selected=='Item')
+	if(!isset($selected))
 		{
 		shn_cs_edit_form();
 		show_item_cat_table();
 		}
-	else if($selected=='Unit')
+	else if($selected=='item')
+		{
+		shn_cs_edit_form();
+		show_item_cat_table();
+		}
+	else if($selected=='unit')
 		{
 		shn_cs_edit_form();
 		show_unit_table();
 		
 		}
-	else if($selected=='Unit_types')
+	else if($selected=='unit_types')
 		{
 		shn_cs_edit_form();
 		show_unit_type_table();
@@ -369,42 +382,54 @@ function shn_cs_edit_form_submit()
 
 function shn_cs_edit_cat_select_submit()
 {
-	echo"<h1>Edit Catalogue / Item</h1>";
+	?>
+	<h1><?= (_("Edit Catalogue / Item")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_cat_select_submit_result();
 }
 
 function shn_cs_edit_cat_form_submit()
 {
-	echo"<h1>Edit Catalogue / Item Result</h1>";
+	?>
+	<h1><?= (_("Edit Catalogue / Item Result")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_cat_form_submit_result();
 }
 
 function shn_cs_edit_unit_select_submit()
 {
-	echo"<h1>Edit Unit</h1>";
+	?>
+	<h1><?= (_("Edit Unit")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unit_select_submit_result();
 }
 
 function shn_cs_edit_unit_form_submit()
 {
-	echo"<h1>Edit Unit Result</h1>";
+	?>
+	<h1><?= (_("Edit Unit Result")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unit_form_submit_result();
 }
 
 function shn_cs_edit_unittype_select_submit()
 {
-	echo"<h1>Edit Unit Type</h1>";
+	?>
+	<h1><?= (_("Edit Unit Type")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unittype_select_submit_result();
 }
 
 function shn_cs_edit_unit_type_form_submit()
 {
-	echo"<h1>Edit Unit Type Result</h1>";
+	?>
+	<h1><?= (_("Edit Unit Type Result")) ?></h1>
+	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unit_type_form_submit_result();
 }
@@ -419,7 +444,9 @@ function shn_cs_edit_filter()
 
 function shn_cs_addunittype()
 {
-	echo "<h1>Add Unit Type</h1>";
+	?>
+	<h1><?= (_("Add Unit Type")) ?></h1>
+	<?php
 	require_once('add.inc');
 	
 	?>
@@ -431,7 +458,6 @@ function shn_cs_addunittype()
 
 function shn_cs_addunitform_submit()
 {
-	echo "<h1>Add Unit Type</h1>";
 	require_once('add.inc');
 
 	if(_shn_cs_validate_unit_type_form())
@@ -443,7 +469,6 @@ function shn_cs_addunitform_submit()
 	{
 	_shn_cs_add_unit_type_form_result();
 	}
-
 }
 
 function shn_cs_keyword_search()

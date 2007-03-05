@@ -22,21 +22,14 @@
  * @return void
  */
 function shn_cs_edit_form()
-{
-    echo "<h1>View And Edit</h1>";
+{	
     ?>
-    <p><?= _('Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. <b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b>'); ?></p>
+	<div id="submenu_v">
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	</div>
     <?php
-    $option_array=array('none' => '-----Select -----','Item' => 'Item/Catalogue','Unit' => 'Unit','Unit_types'=>'Unit Types');
-    $form_opts['name']="select_edit_type_form";
-    shn_form_fopen('edit_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Select Category'));
-    $select_opts='onChange="select_edit_type_form_submit()"';
-    shn_form_select($option_array,'','edit_type',$select_opts,null);
-    shn_form_fsclose();
-    shn_form_fclose();
-
-    shn_cs_select_edit_type_form_submit_js();
 }
 
 
@@ -47,6 +40,9 @@ function shn_cs_edit_form()
  */
 function show_item_cat_table()
 {
+    ?>
+    <br /><div><h3><b><em><?= (_("Catalogues and Items")) ?></em></b></h3></div>
+    <?php
     require_once('lib_cs.inc');
     global $global;
     $db=$global["db"];
@@ -360,6 +356,10 @@ return $inuse_flag;
  */
 function show_unit_table()
 {
+    ?>
+    <br /><div><h3><b><em><?= (_("Units")) ?></em></b></h3></div>
+    <?php
+
     global $global;
     $db=$global["db"];
 
@@ -513,6 +513,10 @@ return $inuse_flag;
 
 function show_unit_type_table()
 {
+    ?>
+    <br /><div><h3><b><em><?= (_("Unit Types")) ?></em></b></h3></div>
+    <?php
+
     global $global;
     $db=$global["db"];
 
