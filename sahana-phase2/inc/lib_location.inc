@@ -586,6 +586,18 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 foreach ($camps as $id => $name){
 		 	$options[$id]=$name;
          }
+         if($extra_opts["camp_id"]!=null){
+         	$q="select location_id from camp_general where c_uuid='".$extra_opts["camp_id"]."'";
+         	global $global;
+         	$db=$global["db"];
+         	$res=$db->Execute($q);
+			if(($res==NULL) || ($res->EOF)){
+				$value=UNKNOWN;
+			}else{
+				$value=$res->fields["location_id"];
+			}
+           	$extra_opts["value"]=$extra_opts["camp_id"];
+         }
          ?><div id='loc_camp'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
         	 shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
