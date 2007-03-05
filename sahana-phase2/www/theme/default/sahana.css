@@ -735,6 +735,11 @@ div#submenu_v a:hover {
     border-bottom:1px solid #C3CFFF; 
 }
 
+div#submenu_v a.selected ,div#submenu_v a.selected:hover{
+    background-color:#FFF;
+    border-bottom:1px solid #FFF;
+}
+
 
 ul#tab{
     display:inline;
