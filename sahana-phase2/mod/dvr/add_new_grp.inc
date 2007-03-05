@@ -6,7 +6,7 @@
  * 
  *
  *  PHP version 4 and 5
- *
+ *in
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
@@ -28,10 +28,12 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 include_once ($global['approot'] . '/mod/or/lib_or.inc');
 include_once ($global['approot'] . '/inc/lib_uuid.inc');
 
+
+
 //add group type and group head details
 function shn_dvr_grouptype_and_head_details_start($errors = false) {
 	
-//unset($_SESSION['dvr_add_group']['entry']['p_uuid']);
+    //unset($_SESSION['dvr_add_group']['entry']['p_uuid']);
 	_shn_dvr_print_header(_("Add New Group"));
 	shn_dvr_grouptype_and_head_details($errors);
 	
@@ -110,6 +112,9 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['mising'] = $_POST['misng'];
 	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
+
+$loc = shn_location_get_form_submit_loc();
+$_SESSION['dvr']['group']['displaced_loc'] = $loc;
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
@@ -202,7 +207,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	shn_form_text(_("NIC No"), 'nic', null, $extra_opts);
 
 
-	if (	$_SESSION['dvr']['group']['edit_clicked']==true) {
+	if ($_SESSION['dvr']['group']['edit_clicked']==true) {
 		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
@@ -215,7 +220,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	<?php
 
 	}
-$_SESSION['dvr']['group']['edit_clicked'] = false;
+    $_SESSION['dvr']['group']['edit_clicked'] = false;
 	$extra_opts['help'] = _("Upload the photograph if available");
 	$extra_opts['req'] = false;
 	shn_form_upload(_('Upload Photograph'), "picture");
@@ -284,6 +289,16 @@ $_SESSION['dvr']['group']['edit_clicked'] = false;
 	shn_form_text(_("Rehabilitated"), 'rehbd', null, $extra_opts);
 
 	shn_form_fsclose();
+	
+	
+	shn_form_fsopen(_("Displaced Location"));
+
+	$range = shn_dvr_get_loc_range();
+
+	shn_location($range,  $_SESSION['dvr']['group']['displaced_loc'], null,null);
+
+	shn_form_fsclose();
+	
 	shn_form_submit(_("Add Location Check Details"), "name=location_button");
 	//shn_form_submit(_("Finish"));
 	shn_form_fclose();
@@ -307,17 +322,17 @@ function shn_dvr_loc_dtls($errors = false) {
 		'seq' => 'chk'
 	));
 
-	shn_form_fsopen(_("Displaced Location"));
+	/*shn_form_fsopen(_("Displaced Location"));
 
 	$range = shn_dvr_get_loc_range();
 
 	shn_location($range, null, null,null);
 
-	shn_form_fsclose();
-	shn_form_fclose();
+	shn_form_fsclose();*/
+/*	shn_form_fclose();
 	shn_form_fopen("add_new_grp", null, array (
 		'req_message' => false
-	));
+	));*/
 	shn_form_fsopen(_("Current Location"));
 
 	$parent = _shn_dvr_get_start_loc();
@@ -364,10 +379,11 @@ function shn_dvr_set_location_details() {
 		$_SESSION['dvr']['group']['gis_loc_y'] = $_POST['loc_y'];
 	}
 
-	$_SESSION['dvr']['group']['displaced_loc'] = '';
+//	$_SESSION['dvr']['group']['displaced_loc'] = '';
+
 	$_SESSION['dvr']['group']['current_loc'] = $loc;
 
-	$location = _shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
+//	$location = _shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
 
 		//	shn_dvr_set_location_details();
 }
