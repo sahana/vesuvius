@@ -26,6 +26,7 @@ function shn_cs_addmain_form()
     $extra_opts['req']=true;
     shn_form_fopen('addmain_form_submit');
     shn_form_fsopen(_('Details Of the catalogue'));
+    unset($_POST);
     shn_form_text(_("Name   : "),'main_cat_name','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'description','size="50"');
     shn_form_fsclose();
@@ -62,6 +63,7 @@ function _shn_cs_addmain_form_result()
 	if($res == true)
 	{
 	add_confirmation($name." was succesfully saved in the database");
+	shn_cs_addmain_form();
 	}
 	else
 	{
@@ -162,6 +164,12 @@ function _shn_cs_addsub_form2_result()
 	if($res == true)
 	{
 	add_confirmation($sub_cat_name." was succesfully saved in the database");
+
+	?>
+	<p><?= _('<b>Add another sub catalog</b>'); ?></p>
+	<?php
+
+	shn_cs_addsub_form1();
 	}
 	else
 	{
@@ -273,6 +281,10 @@ function _shn_cs_addunit_form_result()
 	if($res == true)
 	{
 	add_confirmation($unit_name." was succesfully saved in the database");
+	?>
+	<p><?= _('<b>Add another Unit</b>'); ?></p>
+	<?php
+	shn_cs_addunit_form();
 	}
 	else
 	{
@@ -447,6 +459,10 @@ function shn_cs_additem_form2_result()
 	if($items_saved_ok == true && $all_units_saved_ok == true)
 		{
 			add_confirmation($item_name." was succesfully saved in the database");
+			?>
+			<p><?= _('<b>Add another Item</b>'); ?></p>
+			<?php
+			shn_cs_additem_form1();
 		}
 	elseif($items_saved_ok == true && $all_units_saved_ok == false)
 		{	$del_query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
@@ -473,6 +489,7 @@ function shn_cs_additem_form2_result()
 function shn_cs_add_unit_type_form()
 {
     $extra_opts['req']=true;
+    unset($_POST);
     shn_form_fopen("addunitform_submit");
     shn_form_fsopen(_('Unit Type Details'));
     shn_form_text(_("Name   : "),'unit_type_name','size="50"',$extra_opts);
@@ -503,9 +520,9 @@ function _shn_cs_add_unit_type_form_result()
     $q="INSERT INTO ct_unit_type (unit_type_uuid,name,description) VALUES('$unit_type_id','$unit_type_name','$description')";
     $res=$db->Execute($q);
 	if($res == true)
-		{
-		$unit_type_saved_ok = true;
-		}
+	{
+	$unit_type_saved_ok = true;
+	}
 
     $unit_id=shn_create_uuid("unit");
     $query="INSERT INTO ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) VALUES('$unit_type_id','$unit_id','$base_unit_name','1',0)";
@@ -518,6 +535,10 @@ function _shn_cs_add_unit_type_form_result()
     if($unit_type_saved_ok == true && $base_unit_saved_ok ==true)
 	{
 	add_confirmation($unit_type_name." was succesfully saved in the database");
+	?>
+	<p><?= _('<b>Add another Unit Type</b>'); ?></p>
+	<?php
+	shn_cs_add_unit_type_form();
 	}
     elseif($unit_type_saved_ok == true && $base_unit_saved_ok ==false)
 	{
