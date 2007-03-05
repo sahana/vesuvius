@@ -277,6 +277,32 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_text(_('Mobile'), 'mobile', 'size="15"');
 	shn_form_fsclose();
 
+
+
+shn_form_fsopen(_('Displaced Location Of The Victim'));
+	print '<br />';
+	$typ_of_grp = array ();
+	//array_push($typ_of_grp, '-- Select Option --');
+	array_reverse($typ_of_grp);
+
+	$typ_of_grp[1] = "Same As Group";
+	$typ_of_grp[2] = "Other";
+	$extra_opts['value'] = $_SESSION['dvr']['person']['displacedlocationtypeof_group'];
+
+	shn_form_select($typ_of_grp, _("Displaced Location"), 'displacedlocationtypeof_group', '', $extra_opts);
+
+	$range = shn_dvr_get_loc_range();
+
+	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-disp');
+	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
+		shn_location($range, $locid, null, $extra_opts);
+	else
+		shn_location($range, $_SESSION['dvr']['person']['displaced_loc'], null, $extra_opts);
+
+	shn_form_fsclose();
+
+
+
 	shn_form_submit("Next", "name=location_individual");
 
 	shn_form_fclose();
@@ -311,6 +337,31 @@ function shn_dvr_set_person_major_details() {
 	$_SESSION['dvr']['person']['telephone'] = $_POST['telephone'];
 	$_SESSION['dvr']['person']['email'] = $_POST['email'];
 	$_SESSION['dvr']['person']['address'] = $_POST['address'];
+	
+	
+	
+	
+	
+	$loc = shn_location_get_form_submit_loc();
+
+	//$_SESSION['dvr']['person']['displaced_loc'] = '';
+	$_SESSION['dvr']['person']['displaced_loc'] = $loc;
+
+	//$location=_shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
+
+	$disloctype = $_POST['displacedlocationtypeof_group'];
+	//$curloctype = $_POST['currentlocationtypeof_group'];
+
+	//$_SESSION['dvr']['person']['currentlocationtypeof_group'] = $curloctype;
+	$_SESSION['dvr']['person']['displacedlocationtypeof_group'] = $disloctype;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
@@ -547,7 +598,7 @@ function shn_dvr_disp_and_crnt_loc() {
 	shn_form_hidden(array (
 		'seq' => 'entry'
 	));
-	shn_form_fsopen(_('Displaced Location Of The Victim'));
+	/*shn_form_fsopen(_('Displaced Location Of The Victim'));
 	print '<br />';
 	$typ_of_grp = array ();
 	//array_push($typ_of_grp, '-- Select Option --');
@@ -563,7 +614,7 @@ function shn_dvr_disp_and_crnt_loc() {
 
 	shn_location($range, null, null, $extra_opts);
 
-	shn_form_fsclose();
+	shn_form_fsclose();*/
 	shn_form_fsopen(_('Current Location Of The Victim'));
 
 	print '<br />';
@@ -581,8 +632,8 @@ function shn_dvr_disp_and_crnt_loc() {
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 
-	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid']);
-	if ($_SESSION['edit_indicvidual'] == null)
+	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-curr');
+	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
 		shn_location($range, $locid, null, $extra_opts);
 	else
 		shn_location($range, $_SESSION['dvr']['person']['current_loc'], null, $extra_opts);
@@ -655,7 +706,7 @@ function shn_dvr_set_person_location_details() {
 		$_SESSION['dvr']['person']['gis_loc_y'] = $_POST['loc_y'];
 	}
 
-	$_SESSION['dvr']['person']['displaced_loc'] = '';
+	//$_SESSION['dvr']['person']['displaced_loc'] = '';
 	$_SESSION['dvr']['person']['current_loc'] = $loc;
 
 	//$location=_shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
@@ -664,7 +715,7 @@ function shn_dvr_set_person_location_details() {
 	$curloctype = $_POST['currentlocationtypeof_group'];
 
 	$_SESSION['dvr']['person']['currentlocationtypeof_group'] = $curloctype;
-	$_SESSION['dvr']['person']['displacedlocationtypeof_group'] = $disloctype;
+	//$_SESSION['dvr']['person']['displacedlocationtypeof_group'] = $disloctype;
 
 	
 }
