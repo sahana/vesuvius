@@ -76,7 +76,7 @@ function _shn_dvr_populate_individual_details() {
 				$_SESSION['dvr']['person']['passport'] = $val;
 			} else
 				if ($id == 'dln') {
-					$_SESSION['dvr']['person']['dln'] = $val;
+					$_SESSION['dvr']['person']['drv_licence'] = $val;
 				}
 		$id_results->MoveNext();
 	}
@@ -211,7 +211,7 @@ function _shn_dvr_edit_individual_start($errors = false) {
 	$extra_opts['value'] = $_SESSION['dvr']['person']['drv_licence'];
 	$extra_opts['help'] = 'Please Specify the driving License number, Although this is not required this will be useful in searching for the person';
 
-	shn_form_text(_('Driving License'), 'drv_license', 'size="30"', $extra_opts);
+	shn_form_text(_('Driving License'), 'drv_licence', 'size="30"', $extra_opts);
 	shn_form_fsclose();
 
 	print '<br />';
@@ -292,10 +292,10 @@ shn_form_fsopen(_('Displaced Location Of The Victim'));
 	shn_form_select($typ_of_grp, _("Displaced Location"), 'displacedlocationtypeof_group', '', $extra_opts);
 
 	$range = shn_dvr_get_loc_range();
-
+$extra_opts["camps_id"]="iswoc-1";
 	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-disp');
 	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
-		shn_location($range, $locid, null, $extra_opts);
+		shn_location($range, null, null, $extra_opts);
 	else
 		shn_location($range, $_SESSION['dvr']['person']['displaced_loc'], null, $extra_opts);
 
@@ -430,7 +430,13 @@ function _shn_dvr_individual_validate_error() {
 		add_error(_("Please fill the full name"));
 		$error_flag = true;
 	}
-
+$email=$_POST['email'];
+if(!shn_valid_email($email,false))
+{
+add_error(_("Invalid Email entered"));	
+$error_flag = true;
+}
+	
 	$pics = $_POST['picture'];
 
 
@@ -481,6 +487,7 @@ function _shn_dvr_regconfirm_individual() {
 	<?php
 
 	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'adddvr_img', true);
+	
 ?>
 	
 	</p>
@@ -504,7 +511,7 @@ function _shn_dvr_regconfirm_individual() {
 	shn_form_fsopen("Identity");
 	shn_form_label(_("Identity Card Number"), $_SESSION['dvr']['person']['nic']);
 	shn_form_label(_("Passport Number"), $_SESSION['dvr']['person']['passport']);
-	shn_form_label(_("Driving License"), $_SESSION['dvr']['person']['driving_licence']);
+	shn_form_label(_("Driving License"), $_SESSION['dvr']['person']['drv_licence']);
 
 	shn_form_fsclose();
 
