@@ -2,12 +2,7 @@
 * MySQL database structure creation table for Sahana
 */
 
-/**
-creating the sahana database
-*/
-DROP DATABASE IF EXISTS sahana;
-CREATE DATABASE sahana;
-use sahana;
+
 
 
 /**================= System and Config Tables =======================**/
