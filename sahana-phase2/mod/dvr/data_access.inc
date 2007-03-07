@@ -59,7 +59,7 @@ shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr
 	shn_gis_dbinsert($_SESSION['dvr_add_group']['entry']['p_uuid'], 0, null, $_SESSION['dvr']['group']['gis_loc_x'], $_SESSION['dvr']['group']['gis_loc_y'], null);
 
 	$q5 = "insert into person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) values ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}'," .
-	"'{$_SESSION['dvr']['group']['full_name']}','{$_SESSION['dvr_add_group']['entry']['family_name']}','{$_SESSION['dvr_add_group']['entry']['local_name']}','')";
+	"'{$_SESSION['dvr']['group']['full_name']}','{$_SESSION['dvr']['group']['family_name']}','{$_SESSION['dvr']['group']['local_name']}','')";
 
 	$db->Execute($q5);
 
@@ -528,7 +528,8 @@ $db->Execute($q4);
 $q5="delete from resource_to_incident where x_uuid='{$p_uuid}'";
 $db->Execute($q5);
 
-
+$q6="delete from image where x_uuid='{$p_uuid}'";
+$db->Execute($q6);
 
 	
 	
@@ -560,10 +561,13 @@ while(!$members->EOF)
 
 
 //$q3="delete from person_to_pgroup where g_uuid='{$}'";
-
-
 	
 }
+
+//delete head
+$q4="delete from image i,group_details gd where  i.x_uuid=gd.head_uuid and gd.g_uuid='{$g_uuid}' ";
+$db->Execute($q4);
+
 }
 
 
