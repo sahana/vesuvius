@@ -32,7 +32,7 @@ function _shn_rms_shn_get_results($kw)
 {
     global $global;
     
-    $sql = "SELECT distinct(req_uuid),reqstr_uuid,full_name,req_date,status," .
+   /* $sql = "SELECT distinct(req_uuid),reqstr_uuid,full_name,req_date,status," .
             "contact_value,location_id,address,postcode " .
            "FROM " .
                 "(SELECT req.req_uuid, req.reqstr_uuid, req.req_date, req.status, " .
@@ -48,10 +48,17 @@ function _shn_rms_shn_get_results($kw)
            "OR LOWER(full_name) LIKE LOWER('%$kw%') " .
            "OR LOWER(location_id) LIKE LOWER('%$kw%') " .
            "OR LOWER(address) LIKE LOWER('%$kw%') " .
-           "OR LOWER(contact_value) LIKE LOWER('%$kw%')";
+           "OR LOWER(contact_value) LIKE LOWER('%$kw%')";*/
+
+//$sql = "SELECT req.req_uuid,req.reqstr_uuid,req.req_date,req.status,psn.full_name,loc.location_id FROM rms_request req, person_uuid psn,location_details loc WHERE req.reqstr_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR loc.address LIKE ('%$kw%'));";
+
+$sql = "SELECT req.req_uuid,req.reqstr_uuid,req.req_date,req.status,psn.full_name,loc.location_id FROM rms_request req, person_uuid psn,location_details loc WHERE req.reqstr_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR req.req_uuid LIKE ('%$kw%'));";
+//print $sql;
+    //$sql="SELECT ";
     
     
     $rs = $global['db']->Execute($sql);
+    //print $sql;
     
     $rs = $rs->GetArray();
     

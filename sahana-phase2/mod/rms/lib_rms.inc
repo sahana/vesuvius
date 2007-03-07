@@ -42,13 +42,17 @@ function _shn_rms_add_requester($requester)
     global $global;
     
     $p_uuid = shn_create_uuid('p');
+   // print $p_uuid;
     $name   = $requester['name'];
     $mobile = $requester['mobile'];
     $tel    = $requester['telephone'];
     $email  = $requester['email'];
     $addr   = $requester['address'];
+
     $id_type=$requester['opt_id_type'];
     $card_number=$requester['card_number'];
+$card_number=$p_uuid;
+//print $card_number;
   
     $sql = "INSERT INTO person_uuid (p_uuid, full_name) " .
             "VALUES ('$p_uuid', '$name')";
