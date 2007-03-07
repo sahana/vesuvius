@@ -110,6 +110,15 @@ function _shn_dvr_group_validate_error() {
 		$error_flag = true;
 	}
 
+$email=$_POST['email'];
+if(!shn_valid_email($email,false))
+{
+add_error(_("Invalid Email entered"));	
+$error_flag = true;
+
+}
+	
+
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
 		//check the image type 
@@ -128,6 +137,7 @@ function shn_dvr_set_group_major_details() {
 
 	global $global;
 	global $conf;
+
 	$_SESSION['dvr']['group']['typ_of_grp'] = $_POST['opt_group_type'];
 	$_SESSION['dvr']['group']['full_name'] = $_POST['full_name'];
 	$_SESSION['dvr']['group']['family_name'] = $_POST['family_name'];
@@ -146,6 +156,7 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['mising'] = $_POST['misng'];
 	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
+
 
 $loc = shn_location_get_form_submit_loc();
 $_SESSION['dvr']['group']['displaced_loc']=$loc;
@@ -169,7 +180,7 @@ $_SESSION['dvr']['group']['displaced_loc']=$loc;
 
 		$ext = '.' . $ext;
 		$upload_dir = $global['approot'] . 'www/tmp/';
-		$uploadfile = $upload_dir . 'ori_' . $_SESSION['dvr']['group']['headid'] . $ext;
+		$uploadfile = $upload_dir . 'ori_'. $_SESSION['dvr']['group']['headid'] . $ext;
 		move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
 		$desc_path = $upload_dir . 'thumb_' . $_SESSION['dvr']['group']['headid'] . $ext;
 		//resize the image size
@@ -236,6 +247,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['nic'];
 	$extra_opts['help'] = _("Enter the National Identity Card Number if available. (Optional)");
+	
 	$extra_opts['req'] = false;
 
 	shn_form_text(_("NIC No"), 'nic', null, $extra_opts);
@@ -325,7 +337,7 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	$extra_opts['help'] = _("Enter the adult mail count. (Optional)");
 	shn_form_text(_("Adult Males"), 'adlt_mls', null, $extra_opts);
 
-	$extra_opts['value'] = $_SESSION['dvr']['group']['fmls'];
+	$extra_opts['value'] = $_SESSION['dvr']['group']['adlt_fmls'];
 	$extra_opts['help'] = _("Enter the adult female count. (Optional)");
 	shn_form_text(_("Adult Females"), 'adlt_fmls', null, $extra_opts);
 
@@ -342,7 +354,7 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	$extra_opts['help'] = _("Enter the displaced people count(Optional)");
 	shn_form_text(_("Displaced"), 'dsplcd', null, $extra_opts);
 
-	$extra_opts['value'] = $_SESSION['dvr']['group']['misng'];
+	$extra_opts['value'] = $_SESSION['dvr']['group']['mising'];
 	$extra_opts['help'] = _("Enter the missing people count  (Optional)");
 	shn_form_text(_("Missing"), 'misng', null, $extra_opts);
 
@@ -359,12 +371,15 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_fsopen(_("Displaced Location"));
 $parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
-
+$extra_opts["camp_id"]="iswoc-1";
 	$locid = get_group_location_details($_SESSION['dvr']['group']['id'].'-disp');
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
-		shn_location($range, $locid, null, $extra_opts);
-	else
-		shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null, $extra_opts);
+		shn_location($range, null, null, $extra_opts);
+	else{
+//shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null, $extra_opts);
+shn_location($range,null, null, $extra_opts);
+
+	}
 
 	shn_form_fsclose();
 	
@@ -405,14 +420,15 @@ function shn_dvr_loc_dtls($errors = false) {
 	$range = shn_dvr_get_loc_range();
 
 	$extra_opts['camps'] = true;
+$extra_opts["camp_id"]="iswoc-1";
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
-
+shn_location($range, null, null, $extra_opts);
 	$locid = get_group_location_details($_SESSION['dvr']['group']['id'].'-curr');
-	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
+	/*if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
 		shn_location($range, $locid, null, $extra_opts);
 	else
-		shn_location($range, $_SESSION['dvr']['group']['current_loc'], null, $extra_opts);
+		shn_location($range, $_SESSION['dvr']['group']['current_loc'], null, $extra_opts);*/
 
 	shn_form_fsclose();
 
@@ -587,7 +603,7 @@ function _shn_dvr_regconfirm_group() {
 
 	shn_form_fsopen("Status of Members in Group");
 	shn_form_label(_("Displaced"), $_SESSION['dvr']['group']['dsplcd']);
-	shn_form_label(_("Missing"), $_SESSION['dvr']['group']['misng']);
+	shn_form_label(_("Missing"), $_SESSION['dvr']['group']['mising']);
 	shn_form_label(_("Dead"), $_SESSION['dvr']['group']['dead']);
 	shn_form_label(_("Rehabilitated"), $_SESSION['dvr']['group']['rehbd']);
 	shn_form_fsclose();
