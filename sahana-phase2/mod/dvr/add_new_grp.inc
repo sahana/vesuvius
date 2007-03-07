@@ -47,12 +47,7 @@ function _shn_dvr_group_validate_error() {
 
 	$gt = $_POST['opt_group_type'];
 	$full_name = $_POST['full_name'];
-
-
-		$_SESSION['dvr_add_group']['entry']['p_uuid'] = shn_create_uuid();
-
-
-
+	$_SESSION['dvr_add_group']['entry']['p_uuid'] = shn_create_uuid();
 	if (trim($gt) == null | trim($gt) == '===') {
 		add_error(_("Please  select the group type"));
 		$error_flag = true;
@@ -62,6 +57,16 @@ function _shn_dvr_group_validate_error() {
 		add_error(_("Please fill the full name"));
 		$error_flag = true;
 	}
+	
+	
+$email=$_POST['email'];
+if(!shn_valid_email($email,false))
+{
+add_error(_("Invalid Email entered"));	
+$error_flag = true;
+}
+	
+	
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
