@@ -20,7 +20,7 @@
  */
 
 include_once ($global['approot'] . '/inc/lib_image.inc');
-/* $Id: view_members.inc,v 1.3 2007-02-27 06:33:30 isurunishan Exp $ */
+/* $Id: view_members.inc,v 1.4 2007-03-07 11:30:30 isurunishan Exp $ */
 /**
  * 
  * View Members in disaster victims registry
@@ -57,6 +57,7 @@ $headid = _shn_dvr_get_headid($p_uuid);
 <?php
 
 shn_show_thumb_url($headid, 'database', 'dvr', 'addvictim_img', false);
+
 ?>
 <center>
 <?php
