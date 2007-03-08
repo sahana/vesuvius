@@ -52,7 +52,7 @@ function _shn_rms_shn_get_results($kw)
 
 //$sql = "SELECT req.req_uuid,req.reqstr_uuid,req.req_date,req.status,psn.full_name,loc.location_id FROM rms_request req, person_uuid psn,location_details loc WHERE req.reqstr_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR loc.address LIKE ('%$kw%'));";
 
-$sql = "SELECT req.req_uuid,req.reqstr_uuid,req.req_date,req.status,psn.full_name,loc.location_id FROM rms_request req, person_uuid psn,location_details loc WHERE req.reqstr_uuid=psn.p_uuid AND req.reqstr_uuid=loc.poc_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR req.req_uuid LIKE ('%$kw%') OR loc.address LIKE ('%$kw%') OR loc.location_id LIKE ('%$kw%'));";
+    $sql = "SELECT req.req_uuid,req.reqstr_uuid,req.req_date,req.status,psn.full_name,loc.location_id FROM rms_request req, person_uuid psn,location_details loc,contact cnt WHERE req.reqstr_uuid=psn.p_uuid AND req.reqstr_uuid=loc.poc_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR req.req_uuid LIKE ('%$kw%') OR loc.address LIKE ('%$kw%') OR loc.location_id LIKE ('%$kw%'));";
 //print $sql;
     //$sql="SELECT ";
     
