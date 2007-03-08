@@ -294,12 +294,7 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	<?php
 
 	}
-		
-		
-		
-	
-	
-	
+
 	$extra_opts['value'] = $_SESSION['dvr']['group']['picture'];
 	$extra_opts['help'] = _("Upload the photograph if available");
 	$extra_opts['req'] = false;
@@ -371,13 +366,13 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_fsopen(_("Displaced Location"));
 $parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
-$extra_opts["camp_id"]="iswoc-1";
+//$extra_opts["camp_id"]="iswoc-1";
 	$locid = get_group_location_details($_SESSION['dvr']['group']['id'].'-disp');
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
-		shn_location($range, null, null, $extra_opts);
+		shn_location($range, $locid, null, $extra_opts);
 	else{
 //shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null, $extra_opts);
-shn_location($range,null, null, $extra_opts);
+shn_location($range,$_SESSION['dvr']['group']['displaced_loc'], null, $extra_opts);
 
 	}
 
@@ -413,14 +408,14 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	shn_form_fsclose();
 	*/
-
+$extra_opts["camp_id"]="iswoc-1";
 	shn_form_fsopen(_("Current Location"));
 
 	$parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
 
 	$extra_opts['camps'] = true;
-$extra_opts["camp_id"]="iswoc-1";
+$extra_opts['camp_id']='5cn2c-2';
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 shn_location($range, null, null, $extra_opts);
