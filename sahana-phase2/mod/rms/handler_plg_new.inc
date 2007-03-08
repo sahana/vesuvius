@@ -86,7 +86,9 @@ function _shn_rms_donor_new()
         $donor['card_type']=$_POST['opt_id_type'];
         
         $id = _shn_rms_add_donor($donor);
-        $_SESSION['rms_donor_id'] = $donor['card_number'];
+	//print $id;
+        //$_SESSION['rms_donor_id'] = $donor['card_number'];
+	$_SESSION['rms_donor_id'] = $id;
         $msg = _("Your Donor id: $id, Please write down this ID");
       //  _shn_html_inform_add($msg);
         _shn_html_inform_show();

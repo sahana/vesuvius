@@ -32,7 +32,7 @@ function _shn_rms_shn_get_results($kw)
 {
     global $global;
     
-    $sql = "SELECT distinct(plg_uuid),donor_uuid,full_name,plg_date,status," .
+    /*$sql = "SELECT distinct(plg_uuid),donor_uuid,full_name,plg_date,status," .
             "contact_value " .
            "FROM " .
                 "(SELECT plg.plg_uuid, plg.donor_uuid, plg.plg_date, plg.status, " .
@@ -43,10 +43,12 @@ function _shn_rms_shn_get_results($kw)
            "WHERE plg_uuid='$kw' " .
            "OR donor_uuid='$kw' " .
            "OR LOWER(full_name) LIKE LOWER('%$kw%') " .
-           "OR LOWER(contact_value) LIKE LOWER('%$kw%')";
+           "OR LOWER(contact_value) LIKE LOWER('%$kw%')";*/
+
+    $sql = "SELECT plg.plg_uuid,plg.donor_uuid,plg.plg_date,plg.status,psn.full_name FROM rms_pledge plg, person_uuid psn WHERE plg.donor_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR plg.donor_uuid LIKE ('%$kw%'));";
     
     $rs = $global['db']->Execute($sql);
-    
+    //print $sql;
     $rs = $rs->GetArray();
     
     foreach ($rs as $r)

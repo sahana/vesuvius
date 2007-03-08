@@ -112,9 +112,9 @@ function _shn_rms_get_person($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.serial='$id'";
+    $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.p_uuid='$id'";
     $rs = $global['db']->Execute($sql);
-    
+    //print $sql;
     if ($rs === false)
     {
         $msg = $global['db']->ErrorMsg();
@@ -716,6 +716,9 @@ function _shn_rms_add_donor($donor)
     $addr   = $donor['address'];
      $card_number=  $donor['card_number'];
       $card_type=  $donor['card_type'];
+    //print $p_uuid;
+    $card_number=$p_uuid;
+    //print $card_number;
         
     $sql = "INSERT INTO person_uuid (p_uuid, full_name) " .
             "VALUES ('$p_uuid', '$name')";
@@ -810,7 +813,7 @@ function _shn_rms_get_donors()
 function _shn_rms_add_pledge($donor_uuid)
 {
     global $global;
-    
+    //print $donor_uuid;
     $plg_uuid = shn_create_uuid('pl');
     $status = 'Not Delivered';
     $user_id = 'u-1';

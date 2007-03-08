@@ -30,6 +30,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     if ($filter != null)
     {
         $donor = $filter['donor'];
+
         $status = $filter['status'];
         $fstr = ''; //filter string
         
@@ -100,6 +101,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         $sql .= " ORDER BY 'plg_date'";
 
     $rs = $db->PageExecute($sql, $rows, $page);
+//print $sql;
     $rs_arr = $rs->GetArray();
     
     //create the filter list
@@ -110,6 +112,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
 //        $donor = _shn_rms_get_donor($r['donor_uuid']);
 //        $donors[$r['donor_uuid']] = $donor['name'];
         $donors = _shn_rms_get_donors();
+	//print_r($donors);
     }
     
     //Result table hedder
@@ -124,8 +127,11 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     foreach ($rs_arr as $r)
     {
         $plg_id = $r['plg_uuid'];
-        
+        //$donor_id = $r['donor_uuid'];
+	//print $donor_id;
         $donor = _shn_rms_get_donor($r['donor_uuid']);
+	//$donor = _shn_rms_get_donor($donor_id);
+	//print $donor;
         $donor_d = '<strong>' . $donor['name'] . '</strong><br >' . 
                     'Contact: <a href="mailto:' . $donor['email'] .'">' . $donor['email'] . '</a> , ' .
                     $donor['mobile'];
