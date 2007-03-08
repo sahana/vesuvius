@@ -515,7 +515,7 @@ function shn_dvr_disp_and_crnt_loc() {
 	$range = shn_dvr_get_loc_range();
 
 	$extra_opts['camps'] = true;
-
+$extra_opts['camp_id']='5cn2c-2';
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 
 	shn_location($range, $_SESSION['dvr']['person']['current_loc'], null, $extra_opts);
@@ -606,7 +606,7 @@ function shn_dvr_set_person_location_details() {
 	$_SESSION['dvr']['person']['current_loc'] = $loc;
 
 $camps =$_POST['camps'];
-print 'camp is'.$camps;
+//print 'camp is'.$camps;
 
 $_SESSION['dvr']['person']['shelter_id']=$camps;
 	//$location=_shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);

@@ -262,7 +262,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	$extra_opts['help'] = _("Enter the adult mail count. (Optional)");
 	shn_form_text(_("Adult Males"), 'adlt_mls', null, $extra_opts);
 
-	$extra_opts['value'] = $_SESSION['dvr']['group']['fmls'];
+	$extra_opts['value'] = $_SESSION['dvr']['group']['adlt_fmls'];
 	$extra_opts['help'] = _("Enter the adult female count. (Optional)");
 	shn_form_text(_("Adult Females"), 'adlt_fmls', null, $extra_opts);
 
@@ -300,7 +300,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 
 	$range = shn_dvr_get_loc_range();
 
-	shn_location($range,  $_SESSION['dvr']['group']['displaced_loc'], null,null);
+	shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null,null);
 
 	shn_form_fsclose();
 	
@@ -344,7 +344,7 @@ function shn_dvr_loc_dtls($errors = false) {
 	$range = shn_dvr_get_loc_range();
 
 	$extra_opts['camps'] = true;
-
+$extra_opts['camp_id']='5cn2c-2';
 	
 	shn_location($range, $_SESSION['dvr']['group']['current_loc'], null, $extra_opts);
 
