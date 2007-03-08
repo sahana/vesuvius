@@ -45,7 +45,7 @@ function _shn_rms_shn_get_results($kw)
            "OR LOWER(full_name) LIKE LOWER('%$kw%') " .
            "OR LOWER(contact_value) LIKE LOWER('%$kw%')";*/
 
-    $sql = "SELECT plg.plg_uuid,plg.donor_uuid,plg.plg_date,plg.status,psn.full_name FROM rms_pledge plg, person_uuid psn WHERE plg.donor_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR plg.donor_uuid LIKE ('%$kw%'));";
+    $sql = "SELECT plg.plg_uuid,plg.donor_uuid,plg.plg_date,plg.status,psn.full_name,cnt.contact_value FROM rms_pledge plg, person_uuid psn,contact cnt WHERE plg.donor_uuid=psn.p_uuid AND plg.donor_uuid=cnt.pgoc_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR plg.donor_uuid LIKE ('%$kw%') OR cnt.contact_value LIKE ('%$kw%'));";
     
     $rs = $global['db']->Execute($sql);
     //print $sql;
