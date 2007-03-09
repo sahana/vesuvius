@@ -176,19 +176,21 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
 
     //add_error("the error message was ".$errmsg);
     //echo "the error message was ".$errmsg;
+    if ($conf['debug']) {
+        add_warning('Error Message :'.$errmsg);
+        add_warning('Filename '.$filename.' at line '.$linenum); 
+        //add_warning($vars); 
+    }
 
     // analyse error message
     if (preg_match("/Can't connect to local MySQL/",$errmsg)) {
         add_error(_('The Sahana database is currently inaccesible'));
     } else {
-        add_error(_('The system is currently unavailable'));
-    }
-
-    if ($conf['debug']) {
-        add_warning('Error Message :'.$errmsg);
-        add_warning('Filename '.$filename); 
-        add_warning('Line Number '.$linenum); 
-        add_warning($vars); 
+        if ($errno == E_WARNING ) {   
+            return; 
+        } else {
+            add_error(_('The system is currently unavailable'));
+        }
     }
 
     $included_files = get_included_files();
@@ -217,7 +219,7 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
         }
 
         if ($conf['root_name'] != '') {
-            echo '<br/>'._('For urgent assistance, please contact the Administrator below:');
+            echo '<br/>'._('For urgent assistance, please contact the system administrator below:');
             echo '<br/>'._('Name: ').$conf['root_name'].
                    '.<br/>Email: '.$conf['root_email'].' Telephone: '.$conf['root_tel'];
         }
@@ -229,5 +231,6 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
         }
 
     }
+    exit(0);
 
 }

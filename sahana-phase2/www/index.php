@@ -48,7 +48,6 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars)
 
             require_once($global['approot'].'inc/lib_errors.inc');
             shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars);
-            exit(0);
             break;
 
         default:                   // Ignore other errors
