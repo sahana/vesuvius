@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.39 2006-12-18 10:09:57 mifanc Exp $ */
+/* $Id: camp.inc,v 1.40 2007-03-09 11:38:33 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -16,6 +16,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
+
 include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
@@ -29,7 +30,9 @@ function _shn_cr_cadd_start($errors=false){
 ?>
 <h2 align="center"><?php echo _("Register New Shelter")?></h2>
 <?php
+	
 	shn_form_fopen(acmp);
+	
 	shn_form_fsopen(_("General Details"));
 	//check for gis and goto mapping page
 	
@@ -129,6 +132,8 @@ function _shn_cr_hos_bed($errors=false)
 	shn_form_fsclose();
 	shn_form_submit(_("Next"));
 }
+
+
 
 function _shn_cr_cadd_chk($errors=false){
 if($errors)
@@ -295,6 +300,8 @@ function _shn_cr_validate_error(){
 			$error_flag=true;
 		}
 	}
+	
+	
 
  if(!(null == ($_POST['capacity']))){
                 if(!is_numeric(trim($_POST['capacity']))){
@@ -327,11 +334,53 @@ function _shn_cr_validate_error(){
 			$error_flag=true;
 		}
 	}
-	
-
-	
-	return $error_flag;
 }
+	
+	function _shn_cr_bed_validate_error(){
+		
+		//if(isset($_SESSION['hospital'])){
+		
+				clean_errors();
+				$error_flag=false;			
+	
+					
+
+ 					if(!(null == ($_POST['icu']))){
+               			 if(!is_numeric(trim($_POST['icu']))){
+                        	add_error(_("The ICU Beds is not a valid number"));
+                       		 $error_flag=true;
+                		}
+        			}
+
+					if(!(null == ($_POST['med']))){
+						if(!is_numeric(trim($_POST['med']))){
+							add_error(_("The Medicine Beds is not a valid number"));
+							$error_flag=true;
+						}
+					}
+					if(!(null == ($_POST['sur']))){
+						if(!is_numeric(trim($_POST['sur']))){
+							add_error(_("The Surgery Beds is not a valid number"));
+							$error_flag=true;
+						}
+					}
+					if(!(null == ($_POST['paed']))){
+						if(!is_numeric(trim($_POST['paed']))){
+							add_error(_("The Paediatrics Beds is not a valid number"));
+							$error_flag=true;
+						}
+					}
+					if(!(null == ($_POST['obs']))){
+				    	if(!is_numeric(trim($_POST['obs']))){
+							add_error(_("The Obstetrics Beds is not a valid number"));
+							$error_flag=true;
+					}
+	}	
+	
+	return $error_flag;	
+	
+}
+
 
 function _shn_cr_get_locid(){
 	if($_SESSION['cr_5']!=null)
@@ -362,7 +411,7 @@ function _shn_cr_cadd_commit_db()
 	$puid = shn_create_uuid('p');
 	
 	shn_db_insert_phonetic('camp_name',$uid);
-	$loc_id=_shn_cr_get_locid();
+	$loc_id= _shn_cr_get_locid();
 
 	//enter into camp table
 	$q="INSERT INTO camp_general(c_uuid,name,location_id,opt_camp_type,address,capacity) " .

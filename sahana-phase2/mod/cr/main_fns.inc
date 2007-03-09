@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.51 2007-02-15 10:18:33 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.52 2007-03-09 11:34:53 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -170,11 +170,16 @@ function shn_cr_acmp(){
 										_shn_cr_cadd_chk();
 									break;
 		case 'commit'	:
-		            	_shn_cr_cadd_commit();
+						if(_shn_cr_bed_validate_error())
+							_shn_cr_hos_bed();
+						else
+		            		_shn_cr_cadd_commit();
 		            	break;
 		
 		case 'hos'  :
-                        _shn_cr_hos_bed();
+															
+                        	_shn_cr_hos_bed();
+                        	//_shn_cr_cadd_start(true);
                         break;
 		
 		case 'gis'		:
