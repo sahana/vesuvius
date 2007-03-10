@@ -18,7 +18,21 @@
 
 function shn_msg_adm_default()
 {
+    include_once ('admin_settings.inc');
+    _shn_kannel_config_setfile();
+}
+
+function shn_msg_adm_set()
+{
    include_once ('admin_settings.inc');
+   if(shn_msg_validate_settings())
+   {
+      _shn_kannel_config_setfile();
+   }
+   else
+   {
+       _shn_kannel_config_savefile();
+   }
 }
 
 ?>
