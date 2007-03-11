@@ -25,7 +25,7 @@ include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
-include_once 'errors.inc';
+include_once $global['approot']."/mod/msg/errors.inc";
 require_once $global['approot']."/inc/lib_misc.inc";
 
 
@@ -39,34 +39,26 @@ function shn_msg_mainmenu()
 
     shn_mod_menuopen("Messaging");
     shn_mod_menuitem("default", "Home", $module) ;
-   // shn_sub_mod_menuopen("XMPP");
-//    shn_sub_mod_menuitem("jab_new", "New Message", $module  );
-//    shn_sub_mod_menuitem("jab_view", "View Messages", $module);
-    //shn_sub_mod_menuclose();
-    
-
-
     shn_sub_mod_menuopen("Messages");
-    shn_sub_mod_menuitem("customized_messaging", _("Send SMS/e-mail"), $module);
-    shn_sub_mod_menuitem('send_group',_("Send to Groups"),$module);
+    shn_sub_mod_menuitem("customized_messaging", _("Customized Messaging"), $module);
+    shn_sub_mod_menuitem("send_group",_("Group Messaging"),$module);
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen("Manage Groups");
-    shn_sub_mod_menuitem('add_group',_("Add Group"),$module);
-    shn_sub_mod_menuitem('edit_group',_("Edit Group"),$module);
-    shn_sub_mod_menuitem('list_group',_("List Group"),$module);
+    shn_sub_mod_menuitem("add_group",_("Add Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_("Edit Group"),$module);
+    shn_sub_mod_menuitem("list_group",_("List Group"),$module);
     shn_sub_mod_menuclose();
     
-
     shn_sub_mod_menuopen("CAP");
     shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
     shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
     shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
     shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
+    
     shn_mod_menuclose() ;
     
-
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
@@ -108,34 +100,21 @@ function shn_msg_cap_download()
 }
 
 
-/*function shn_msg_compose()
-{
-    include_once ('mail_forms.inc');
-    _shn_msg_compose_mail_form(false);
-}
-
-function shn_text_msg_send_mail()
-{
-    include_once ('lib_mail.inc');
-    _shn_msg_send_mail();
-    
-}*/
-
 function shn_msg_add_group()
 {
     include_once('message_forms.inc');
     _shn_msg_add_group();
+    
 }
 
 function shn_msg_add_group_actions()
 {
     include_once('message_forms.inc');
-    //_shn_msg_add_group_actions();
     $action=trim($_POST['action']);
     
     if($action=="clear")
     {
-	$_POST['group_name']="";
+	$_POST['new_group_name']="";
 	$_POST['email']="";
 	$_POST['mobile_number']="";
 	_shn_msg_add_group();
@@ -169,19 +148,20 @@ function shn_msg_view_edit_group_actions()
     $action=trim($_POST['action']);
     $group_uuid=trim($_POST['group_uuid']);
     $group_name=trim($_POST['group_name']);
+    $new_group_name=trim($_POST['new_group_name']);
     $email=trim($_POST['email']);
     $mobile_number=trim($_POST['mobile_number']);
 
     
     if($action=="edit")
     {
-	if(_shn_validate_edit_group())
+	if(_shn_msg_validate_add_group($group_name))
 	{
 	    shn_msg_edit_group_item();
 	}
 	else
 	{
-	    $sql_edit="UPDATE messaging_group SET group_name='{$group_name}',address='{$email}',mobile='{$mobile_number}' WHERE group_uuid='$group_uuid';";
+	    $sql_edit="UPDATE messaging_group SET group_name='{$new_group_name}',address='{$email}',mobile='{$mobile_number}' WHERE group_uuid='$group_uuid';";
 	    $msg_edit=$db->Execute($sql_edit);
 
 	    $_POST['group_name']="";
@@ -195,7 +175,7 @@ function shn_msg_view_edit_group_actions()
     {
 	$sql_delete="DELETE FROM messaging_group WHERE group_uuid='$group_uuid';";
 	$msg_delete=$db->Execute($sql_delete);
-	add_warning('Data has been deleated from the database');
+	add_confirmation('The group you selected was successfully deleted from the database');
 	shn_msg_edit_group();
     }
     if($action=="close")
@@ -209,7 +189,6 @@ function shn_msg_edit_group_item()
     global $global;
     include_once('message_forms.inc');
     $group_uuid=trim($_REQUEST['group_uuid']);
-    //print $temp;
     _shn_msg_edit_group_form($group_uuid);
 }
 
@@ -248,14 +227,16 @@ function shn_msg_customized_messaging_actions()
     {
 	if(_shn_msg_validate_customized_messaging())
 	{
+              
 	     shn_msg_customized_messaging(); 
 	}
 	else
 	{
+            
 	    _shn_msg_customized_messaging_actions();
-           	$_POST['message']="";
-	$_POST['email']="";
-	$_POST['mobile_number']="";
+            $_POST['message']="";
+	    $_POST['email']="";
+	    $_POST['mobile_number']="";
             shn_msg_customized_messaging();
 	}
     }
