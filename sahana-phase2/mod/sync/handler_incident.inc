@@ -20,15 +20,21 @@ global $global;
 ob_start();
 /* check if incident differ */
 //get the disasters which are not in the incident table
+echo "<pre>";
     $list=array(array('',''));
     while(count($list)>0){
         $dist=array_pop($list);
-        $dist[2]=($dist[2]=='')?'IS NULL':' = '.$dist[2];
-        $imdist=$global['db']->GetAll("SELECT name, incident_id, parent_id  FROM tmp_incident WHERE parent_id {$dist[2]} AND name NOT IN (SELECT name FROM incident WHERE parent_id {$dist[2]} )");
-        $chdist=$global['db']->GetAll("SELECT a.incident_id , b.incident_id FROM tmp_incident AS a JOIN incident AS b ON a.name = b.name AND a.parent_id {$dist[2]};");
+        $dist[1]=($dist[1]=='')?'IS NULL':' = '.$dist[1];
+        echo $sql="SELECT name, incident_id, parent_id  FROM tmp_incident WHERE parent_id {$dist[1]} AND name NOT IN (SELECT name FROM incident WHERE parent_id {$dist[1]} )\n";
+        $imdist=$global['db']->GetAll($sql);
+        echo $sql="SELECT a.incident_id , b.incident_id FROM tmp_incident AS a JOIN incident AS b ON a.name = b.name AND a.parent_id {$dist[1]};\n";
+        $chdist=$global['db']->GetAll($sql);
+        print_r($imdist);
+        print_r($chdist);
         import_disaster($imdist);
         change_resource($chdist);
         $list = array_merge($list, $chdist);
+        
     }
 
 //import them one by one
@@ -36,10 +42,11 @@ function change_resource($list){
     global $global;
     while(count($list)>0){
         $dist=array_pop($list);
-        $sql="UPDATE tmp_resource_to_incident SET incident_id = {$dist[2]} WHERE incident_id={$dist[1]}";
+        if($dist[1]==$dist[0])continue;
+        echo $sql="UPDATE tmp_resource_to_incident SET incident_id = {$dist[1]} WHERE incident_id={$dist[0]}\n";
         $global['db']->Execute($sql);
         //update clild id
-        $sql="UPDATE tmp_incident SET parent_id = {$dist[2]} WHERE parent_id = {$dist[1]}";
+        echo $sql="UPDATE tmp_incident SET parent_id = {$dist[1]} WHERE parent_id = {$dist[0]}\n";
         $global['db']->Execute($sql);
     }
 }
@@ -65,7 +72,6 @@ function import_disaster($list){
         $list = array_merge($list, $children);
     }
 }
-echo "done";
 //construct the xajax responce
 $console = ob_get_contents();
 if(isset($console))
