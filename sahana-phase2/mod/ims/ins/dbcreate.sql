@@ -57,8 +57,8 @@ CREATE TABLE ims_transfer_item
 	catalog_id VARCHAR(100),
 	amount_send VARCHAR(50),
 	unit VARCHAR(20),
-	inv_id_from BIGINT,
-	inv_id_to BIGINT,
+	inv_id_from VARCHAR(15),
+	inv_id_to VARCHAR(15),
 	person_send VARCHAR(100),
 	date_send DATE,
 	destribution_method VARCHAR(100),
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `ims_reorder_level`;
 CREATE TABLE ims_reorder_level
 (
 	catalog_id VARCHAR(100),
-	inv_id BIGINT,
+	inv_id VARCHAR(15),
 	minimum_quantity VARCHAR(50),
 	unit VARCHAR(20),
 	PRIMARY KEY(catalog_id,inv_id)
@@ -99,7 +99,7 @@ CREATE TABLE ims_optimization
 /*	optim_id BIGINT NOT NULL AUTO_INCREMENT,*/
 
 	catalog_id VARCHAR(100),
-	inv_id BIGINT,
+	inv_id VARCHAR(15),
 	week BIGINT,
 	actual_value VARCHAR(50),
 	forecasted_value VARCHAR(50),
@@ -117,7 +117,7 @@ CREATE TABLE ims_alternate
 (
 	alternate_id BIGINT NOT NULL AUTO_INCREMENT,
 	catalog_id VARCHAR(100),
-	inv_id BIGINT,
+	inv_id VARCHAR(15),
 	alternate VARCHAR(100),
 	PRIMARY KEY(alternate_id)
 );
@@ -131,7 +131,7 @@ CREATE TABLE ims_relation
 (
 	relation_id BIGINT NOT NULL AUTO_INCREMENT,
 	catalog_id VARCHAR(100),
-	inv_id BIGINT,
+	inv_id VARCHAR(15),
 	relation VARCHAR(100),
 	PRIMARY KEY(relation_id)
 );
