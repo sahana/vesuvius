@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.17 2006-10-23 18:46:30 mifanc Exp $ */
+/* $Id: edit.inc,v 1.18 2007-03-12 18:52:28 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -422,7 +422,7 @@ $res = $db->Execute($q);
 */
 ?>
 
-<h2><?=_("You Have Succesfully Edited shelter {$_SESSION[camp_name]}")?></h2>
+<h2><? add_confirmation(_("You Have Succesfully Edited shelter {$_SESSION[camp_name]}"));?></h2>
 <br>
 <h3><?=_("The availability of Services & Facilities of the shelter are as follows")?></h3>
 
