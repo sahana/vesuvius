@@ -463,10 +463,13 @@ function _shn_rms_get_subcat($cat_id)
 
     if (empty($car_arr))
     {
+	$item_arr = array();
     	$item_arr = _shn_rms_get_items($cat_id);
         
-        foreach ($item_arr as $item)
+        //foreach ($item_arr as $item)
+	for($i=0;$i<count($item_arr);$i++)
         {
+	    $item=$item_arr[$i];
             if (empty($_SESSION['rms_items']))
             {
                 $items[$item['ct_uuid']] = $item['name'];
