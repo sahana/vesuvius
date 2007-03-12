@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_ppl.inc,v 1.2 2006-09-12 15:12:08 mifanc Exp $ */
+/* $Id: edit_ppl.inc,v 1.3 2007-03-12 18:49:46 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -201,7 +201,7 @@ $q="update camp_reg set men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_wo
 $res = $db->Execute($q);
 ?>
 
-<?=_("You Have Succesfully Edited the People Count {$_SESSION[camp_name]}")?></h2>
+<?= add_confirmation(_("You Have Succesfully Edited the People Count {$_SESSION[camp_name]}"));?></h2>
 
 
 </tbody>
