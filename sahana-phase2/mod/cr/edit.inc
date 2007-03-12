@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.18 2007-03-12 18:52:28 mifanc Exp $ */
+/* $Id: edit.inc,v 1.19 2007-03-12 18:58:11 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -10,6 +10,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
+* @subpackage cr
 * @author   Chathra Hendehewa <chathra@opensource.lk>
 * @author   Mifan Careem <mifan@opensource.lk>
 * @edited by Isuru Samaraweera <isuru@opensource.lk>
