@@ -37,6 +37,46 @@ function shn_cs_edit_cat_select_submit_result_js()
 }
 
 /**
+ * This function prints the javascript function to submit the "edit_unit_select_submit_result" in edit.inc
+ * called in _shn_cs_edit_unit_select_submit_result() in edit.inc
+ * @access private
+ * @return void
+ */
+function shn_cs_edit_unit_select_submit_result_js()
+{
+?>
+<script type="text/javascript">
+    function shn_cs_edit_unit_select_submit_result_js(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.edit_form.submit();
+         return;
+    }
+</script>
+<?php
+}
+
+/**
+ * This function prints the javascript function to submit the "edit_unit_select_submit_result" in edit.inc
+ * called in _shn_cs_edit_unit_select_submit_result() in edit.inc
+ * @access private
+ * @return void
+ */
+function shn_cs_edit_unit_type_form_submit_result_js()
+{
+?>
+<script type="text/javascript">
+    function shn_cs_edit_unit_type_form_submit_result_js(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.edit_form.submit();
+         return;
+    }
+</script>
+<?php
+}
+
+/**
  * This function prints the javascript function to submit the "select_unit_type_form" in edit.inc
  * called in shn_cs_addunit_form() in add.inc
  * @access private

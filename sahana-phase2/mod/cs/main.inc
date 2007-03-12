@@ -406,9 +406,6 @@ function shn_cs_edit_unit_select_submit()
 
 function shn_cs_edit_unit_form_submit()
 {
-	?>
-	<h1><?= (_("Edit Unit Result")) ?></h1>
-	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unit_form_submit_result();
 }
@@ -424,9 +421,6 @@ function shn_cs_edit_unittype_select_submit()
 
 function shn_cs_edit_unit_type_form_submit()
 {
-	?>
-	<h1><?= (_("Edit Unit Type Result")) ?></h1>
-	<?php
 	require_once('edit.inc');
 	_shn_cs_edit_unit_type_form_submit_result();
 }

@@ -49,10 +49,6 @@ function show_item_cat_table()
 	</div>
     <?php
 
-
-    ?>
-    <br /><div><h3><b><em><?= (_("Catalogues and Items")) ?></em></b></h3></div>
-    <?php
     require_once('lib_cs.inc');
     global $global;
     $db=$global["db"];
@@ -143,28 +139,56 @@ function show_item_cat_table()
     <TBODY>
     <?php
 
+
+
     if(isset($_POST['filter_main_cat']) && $_POST['filter_main_cat'] != 'all')
     {
-    $filter_main_cat = $_POST['filter_main_cat'];
-    $query="SELECT * FROM ct_catalogue WHERE ct_uuid='$filter_main_cat' or parentid='$filter_main_cat'";
-    }
-   /* if(isset($_POST['filter_item_cat']) && $_POST['filter_item_cat'] != 'all')
-    {
-    $filter_item_cat = $_POST['filter_item_cat'];
-	if($filter_item_cat == 'sub_cat')
-	$final_flag = '0';
-	else
-	$final_flag = '1';
-	
-    $query="SELECT * FROM ct_catalogue WHERE final_flag='$final_flag'";
-    }*/
-    else
-    {
-    $query="SELECT * FROM ct_catalogue";
+    	$filter_main_cat = $_POST['filter_main_cat'];
+	#print $filter_main_cat;
+	$query1 = "SELECT serial FROM ct_catalogue WHERE ct_uuid= '$filter_main_cat' ";
+    	$res1=$db->Execute($query1);
+
+	while(!$res1==NULL && !$res1->EOF)
+    	{
+	$filter_main_cat_serial = $res1->fields["serial"];
+	$res1->MoveNext();
+	}
+	#print $filter_main_cat_serial;
+		if(isset($_POST['filter_item_cat']) && $_POST['filter_item_cat'] != 'all')
+		{
+		$filter_item_cat = $_POST['filter_item_cat'];
+		#print $filter_item_cat;
+			if($filter_item_cat == 'sub_cat')
+			{
+			$final_flag = '0';
+			}
+				
+			else
+			{
+			$final_flag = '1';
+			}
+				
+
+		$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' and final_flag='$final_flag' and parentid != '0' ORDER BY serial";
+		#print $query;
+		$res=$db->Execute($query);
+
+
+		}
+		else
+		{
+		$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' ORDER BY serial";
+		$res=$db->Execute($query);
+		}
     }
 
-    
+    else
+    {
+    $query = "SELECT * FROM ct_catalogue ORDER BY serial";
     $res=$db->Execute($query);
+    }
+
+    $num_of_rec_counter = 0;
 
     while(!$res==NULL && !$res->EOF)
     {
@@ -189,6 +213,16 @@ function show_item_cat_table()
     </tr>
     <?php  
     $res->MoveNext();
+    	
+	$num_of_rec_counter++;
+
+    	if(isset($_POST['filter_num_rec']) && $_POST['filter_num_rec'] != 'all' && ($num_of_rec_counter == $_POST['filter_num_rec']))
+    	{
+	break;
+	}
+
+
+
     }//end of while loop
     ?>
     </TBODY>    
@@ -301,7 +335,6 @@ function _shn_cs_edit_cat_form_submit_result()
         $res=$db->Execute($query);    
 	
 	add_confirmation($name." was succesfully saved in the database");
-
         show_item_cat_table();
     }//end of else if
 
@@ -327,7 +360,7 @@ function _shn_cs_edit_cat_form_submit_result()
 	</div>
 	<br>
 	<?php
-        shn_cs_edit_form();
+        show_item_cat_table();
         }
 
     }//end of else if
@@ -368,10 +401,6 @@ function show_unit_table()
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
 	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
 	</div>
-    <?php
-
-    ?>
-    <br /><div><h3><b><em><?= (_("Units")) ?></em></b></h3></div>
     <?php
 
     global $global;
@@ -455,9 +484,9 @@ function _shn_cs_edit_unit_select_submit_result()
     $extra_opts['br']=false;
     $extra_opts['req']=false;
 
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    shn_form_button(_("Close"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"edit\")'",$extra_opts);
+    shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"del\")'",$extra_opts);
 
     shn_form_hidden(array('action'=>'0'));
     ?>
@@ -466,6 +495,7 @@ function _shn_cs_edit_unit_select_submit_result()
     <?php
 
     shn_form_fclose();
+    shn_cs_edit_unit_select_submit_result_js();
 }
 
 function _shn_cs_edit_unit_form_submit_result()
@@ -477,13 +507,11 @@ function _shn_cs_edit_unit_form_submit_result()
 
     if($action=='close')
     {
-        echo "<h1>Edit closed</h1>";
-        shn_cs_edit_form();
+    show_unit_table();
     }//end of if
 
     else if($action=='edit')
     {
-        echo "<h1>Unit Saved</h1>";
         $name = trim($_POST['unit_name']);
             $multiplier = trim($_POST['multiplier']);
         $id = trim($_POST['id']);
@@ -491,11 +519,8 @@ function _shn_cs_edit_unit_form_submit_result()
         $query="UPDATE ct_unit SET name='$name' , multiplier=$multiplier WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);    
 
-        ?>
-        <div id="result_msg">
-        <?php echo $name." was succesfully Saved.";?>
-        </div>
-        <?php
+	add_confirmation($name." was succesfully saved in the database");
+        show_unit_table();
     }//end of else if
 
     else if($action=='del')
@@ -535,10 +560,6 @@ function show_unit_type_table()
 	</div>
     <?php
 
-
-    ?>
-    <br /><div><h3><b><em><?= (_("Unit Types")) ?></em></b></h3></div>
-    <?php
 
     global $global;
     $db=$global["db"];
@@ -613,9 +634,9 @@ function _shn_cs_edit_unittype_select_submit_result()
     <?php
     $extra_opts['br']=false;
     $extra_opts['req']=false;
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    //shn_form_button(_("Delete"),"onClick='change_action(\"del\")'");
+    shn_form_button(_("Close"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"edit\")'",$extra_opts);
+    //shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"del\")'");
 
     shn_form_hidden(array('action'=>'0'));
     ?>
@@ -624,7 +645,7 @@ function _shn_cs_edit_unittype_select_submit_result()
     <?php
 
     shn_form_fclose();
-
+    shn_cs_edit_unit_type_form_submit_result_js();
 }
 
 function _shn_cs_edit_unit_type_form_submit_result()
@@ -636,25 +657,20 @@ function _shn_cs_edit_unit_type_form_submit_result()
 
     if($action=='close')
     {
-        echo "<h1>Edit closed</h1>";
-        shn_cs_edit_form();
+	show_unit_type_table();
     }//end of if
 
     else if($action=='edit')
     {
-        echo "<h1>Unit Type Saved</h1>";
         $name = trim($_POST['unit_type_name']);
-            $description = trim($_POST['description']);
+        $description = trim($_POST['description']);
         $id = trim($_POST['id']);
     
         $query="UPDATE ct_unit_type SET name='$name' , description='$description' WHERE unit_type_uuid='$id' ";
         $res=$db->Execute($query);    
 
-        ?>
-        <div id="result_msg">
-        <?php echo $name." was succesfully Saved.";?>
-        </div>
-        <?php
+	add_confirmation($name." was succesfully saved in the database");
+	show_unit_type_table();
     }//end of else if
 
     else if($action=='del')
