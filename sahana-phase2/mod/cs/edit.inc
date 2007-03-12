@@ -188,6 +188,7 @@ function show_item_cat_table()
     $res=$db->Execute($query);
     }
 
+
     $num_of_rec_counter = 0;
 
     while(!$res==NULL && !$res->EOF)
@@ -345,7 +346,8 @@ function _shn_cs_edit_cat_form_submit_result()
     $inuse_flag_return=item_cat_inuse($id);
         if($inuse_flag_return==true)
         {
-        echo "You can not Delete this Catalogue/ Item. Because there sub catalogues/Items under this catalogue OR it has been used by the INVENTORY MANAGEMENT SYSTEM";
+	add_warning("Operation failed. You can not Delete this Catalogue/ Item. Because there are sub catalogues/Items under this catalogue OR it has been used by the INVENTORY MANAGEMENT SYSTEM.");
+	show_item_cat_table();
         }
         else
         {
@@ -354,12 +356,8 @@ function _shn_cs_edit_cat_form_submit_result()
 
         $query2="DELETE FROM ct_cat_unit WHERE ct_uuid='$id' ";
         $res2=$db->Execute($query2);
-	?>
-	<div id="result_msg">
-        <?php print "Item/Catalogue was Deleted";?>
-	</div>
-	<br>
-	<?php
+
+	add_confirmation("Item/Catalogue was Deleted");
         show_item_cat_table();
         }
 
@@ -526,16 +524,18 @@ function _shn_cs_edit_unit_form_submit_result()
     else if($action=='del')
     {
         $id = trim($_POST['id']);
-    $inuse_flag_return=unit_inuse($id);
+    	$inuse_flag_return=unit_inuse($id);
         if($inuse_flag_return==true)
         {
-        echo "You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM.";
+	add_warning("Operation failed. You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM.");
+	show_unit_table();
         }
         else
         {
         $query="DELETE FROM ct_unit WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);
-        echo "Item/Catalogue was Deleted";
+	add_confirmation("Unit was Deleted");
+	show_unit_table();
         }
     }//end of else if
 }
@@ -636,7 +636,7 @@ function _shn_cs_edit_unittype_select_submit_result()
     $extra_opts['req']=false;
     shn_form_button(_("Close"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"close\")'",$extra_opts);
     shn_form_button(_("Save"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"edit\")'",$extra_opts);
-    //shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"del\")'");
+    shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"del\")'");
 
     shn_form_hidden(array('action'=>'0'));
     ?>
@@ -675,8 +675,37 @@ function _shn_cs_edit_unit_type_form_submit_result()
 
     else if($action=='del')
     {
-    echo "<h1>Delete Unit Type Under Construction</h1>";
+        $id = trim($_POST['id']);
+    	$inuse_flag_return= _is_units_under_this_type($id);
+        if($inuse_flag_return==true)
+        {
+	add_warning("Operation failed. You can not Delete this Unit type. There are units added under this unit type.");
+	show_unit_type_table();
+        }
+        else
+        {
+        $query="DELETE FROM ct_unit_type WHERE unit_type_uuid='$id' ";
+        $res=$db->Execute($query);
+	add_confirmation("Unit type was Deleted");
+	show_unit_type_table();
+        }
     }//end of else if
 
+}
+
+function _is_units_under_this_type($unit_type_id_in)
+{
+    global $global;
+    $db=$global["db"];
+    $inuse_flag=false;
+    
+        $query="SELECT * FROM ct_unit WHERE unit_type_uuid='$unit_type_id_in' ";
+        $res=$db->Execute($query);
+        if(!$res==NULL && !$res->EOF)
+        {
+        $inuse_flag=true;
+        }
+
+return $inuse_flag;
 }
 ?>
