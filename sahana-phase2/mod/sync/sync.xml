@@ -11,5 +11,16 @@
       <foreign_key ref_table="location" ref_field="loc_uuid" field_id="parent_id"/>
     </foreign_keys>
   </table>
+  <table name='incident'>
+      <primarykeys>
+          <primarykey field_id='incident_id' />
+      </primarykeys>
+  </table>
+  <table name='resource_to_incident'>
+      <primarykeys>
+          <primarykey field_id='incident_id' />
+          <primarykey field_id='x_uuid' />
+      </primarykeys>
+  </table>
 </data>
 </module>
