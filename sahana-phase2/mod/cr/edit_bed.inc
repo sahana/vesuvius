@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_bed.inc,v 1.2 2006-09-12 15:11:41 mifanc Exp $ */
+/* $Id: edit_bed.inc,v 1.3 2007-03-12 18:29:18 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -307,7 +307,7 @@ $res = $db->Execute($q);
 //$res = $db->Execute($q);
 ?>
 
-<?=_("You Have Succesfully Edited the Bed Count {$_SESSION[camp_name]}")?></h2>
+<?  add_confirmation(_("You Have Succesfully Edited the Bed Count {$_SESSION[camp_name]}")); ?></h2>
 
 
 </tbody>
