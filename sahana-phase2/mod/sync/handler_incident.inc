@@ -19,18 +19,53 @@
 global $global;
 ob_start();
 /* check if incident differ */
-
 //get the disasters which are not in the incident table
-    $imdist=$global['db']->GetAll('SELECT name FROM tmp_incident WHERE parent_id IS NULL AND name NOT IN (SELECT name FROM incident WHERE parent_id IS NULL)');
-    foreach($imdist as $dist){
-        import_disaster($dist);
+    $list=array(array('',''));
+    while(count($list)>0){
+        $dist=array_pop($list);
+        $dist[2]=($dist[2]=='')?'IS NULL':' = '.$dist[2];
+        $imdist=$global['db']->GetAll("SELECT name, incident_id, parent_id  FROM tmp_incident WHERE parent_id {$dist[2]} AND name NOT IN (SELECT name FROM incident WHERE parent_id {$dist[2]} )");
+        $chdist=$global['db']->GetAll("SELECT a.incident_id , b.incident_id FROM tmp_incident AS a JOIN incident AS b ON a.name = b.name AND a.parent_id {$dist[2]};");
+        import_disaster($imdist);
+        change_resource($chdist);
+        $list = array_merge($list, $chdist);
     }
-//import them one by one
 
-//get the disasters 
-function import_disaster($id){
-    //go level by level and add the disaster
+//import them one by one
+function change_resource($list){
+    global $global;
+    while(count($list)>0){
+        $dist=array_pop($list);
+        $sql="UPDATE tmp_resource_to_incident SET incident_id = {$dist[2]} WHERE incident_id={$dist[1]}";
+        $global['db']->Execute($sql);
+        //update clild id
+        $sql="UPDATE tmp_incident SET parent_id = {$dist[2]} WHERE parent_id = {$dist[1]}";
+        $global['db']->Execute($sql);
+    }
 }
+//get the disasters 
+function import_disaster($list){
+    global $global;
+    while(count($list)>0){
+        $dist=array_pop($list);
+        //add the disaster to the incident table
+        $dist['parent_id']=($dist['parent_id']=='')?'NULL':$dist['parent_id'];
+        $sql = "INSERT INTO incident (name,parent_id) VALUES ('{$dist['name']}',{$dist['parent_id']})";
+        $global['db']->Execute($sql);
+        //get the new id of it
+        $newid = $global['db']->insert_id();
+        //change the parent_id of child incidents
+        $sql="UPDATE tmp_incident SET parent_id = $newid WHERE parent_id = {$dist['incident_id']}";
+        $global['db']->Execute($sql);
+        //change the import resource_to_incident idvalues
+        $sql="UPDATE tmp_resource_to_incident SET incident_id = $newid WHERE incident_id={$dist['incident_id']}";
+        $global['db']->Execute($sql);
+        //get the child elements and do the same
+        $children=$global['db']->GetAll("SELECT name, incident_id, parent_id  FROM tmp_incident WHERE parent_id = $newid");
+        $list = array_merge($list, $children);
+    }
+}
+echo "done";
 //construct the xajax responce
 $console = ob_get_contents();
 if(isset($console))
