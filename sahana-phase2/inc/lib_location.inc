@@ -633,8 +633,9 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	if($unknown==true){
 	 ?><div class="info"><?=_("If you do not know the exact location , tick the location unknown checkbox, otherwise you have to select from locations in the drop downs");?></div><br /><?
 	
-	$chkbox_opts['value']=($value==UNKNOWN);
-	shn_form_checkbox(_("Location Unknown:"),'loc_unknown',null,$chkbox_opts);
+	$checked =($value==UNKNOWN) ? "checked" : null;
+	shn_form_checkbox(_("Location Unknown:"), 'loc_unknown', $checked);
+
 	?><br /><?
 	}
 	shn_form_hidden(array('levels'=>$range['end']));
