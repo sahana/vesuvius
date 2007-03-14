@@ -60,6 +60,12 @@ function _shn_cs_validate_unitform()
     $error_flag=true;
     }
 
+    if(trim($_POST['multiplier']) != strval(floatval(trim($_POST['multiplier']))) && trim($_POST['multiplier'])!=null) 
+    {
+    add_error(_("Entered Multiplier is not a valid number"));
+    $error_flag=true;
+    }
+
     return $error_flag;
 }
 
