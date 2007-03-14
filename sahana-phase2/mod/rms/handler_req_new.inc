@@ -406,7 +406,7 @@ function _shn_rms_items($category = null)
     
     if ($cat_arr == false)
         return;
-    
+    $categories["none"] = "";
     foreach ($cat_arr as $cat)
     {
         $categories[$cat['ct_uuid']] = $cat['name'];
