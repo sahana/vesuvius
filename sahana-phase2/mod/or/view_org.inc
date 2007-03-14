@@ -301,17 +301,21 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         foreach ($incidents as $i){
         		$org_data["incidents"]=$org_data["incidents"].",".$i[1];
         }
-   
+   $count=0;
     while(!$res_sector->EOF){
       //  echo $res_sector->fields[0]."<br />";
-      $sector=$sector.",".$res_sector->fields[0];
+      	if($count==0){
+      		$sector=$res_sector->fields[0];
+      	}else{
+      		$sector=$sector.",".$res_sector->fields[0];
+    	}
        $res_sector->MoveNext();
     }
    	$org_data["type"]= $org_type;
    	$org_data["sector"]= $sector;
   	$org_data["location"]=$location;
-    $org_data["address"]= $res_addr->fields[0];
-    $org_data["phone"]= $res_phone->fields[0];
+    $org_data["address"]= $res_addr->fields["contact_value"];
+    $org_data["phone"]= $res_phone->fields["contact_value"];
 	return $org_data;
 }
 

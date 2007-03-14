@@ -74,6 +74,7 @@ function shn_or_service_coverage_pdf()
     			$table_row ["Service"]= $option_code;
     			array_push($table_data, $table_row);
         }
+
         while(!$res_org==NULL && !$res_org->EOF){
             $org_id=$res_org->fields["o_uuid"];
             $org_data=_shn_get_org_data($org_id,false);
@@ -84,7 +85,12 @@ function shn_or_service_coverage_pdf()
             $table_row ["Organization_Type"]=$org_data["type"];
             $table_row ["Location"]=$org_data["location"];
             $table_row ["Address"]=$org_data["address"];
-           // $table_row ["Contact_Number"]=$org_data["phone"];
+            $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+        	$res_contact=$db->Execute($q);
+            if(!$res_contact==NULL && !$res_contact->EOF){
+            	$table_row ["Contact_Number"]=$res_contact->fields["contact_value"];
+        	}
+
             array_push($table_data, $table_row);
             $res_org->MoveNext();
         }
@@ -111,9 +117,10 @@ function shn_or_all_orgs_pdf()
     $db=$global["db"];
  //   $table_header=array('Service' =>'Service', 'name' => 'Organization Name','Service' =>'Service',
    // 'Incidents' =>'Incidents','Services_Offered' =>'Services Offered','Organization_Type' =>'Organization Type','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
-    $table_header=array('name' => 'Organization Name','Organization_Type' =>'Organization Type','services'=>'Services','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
+    //$table_header=array('name' => 'Name','Organization_Type' =>'Type','services'=>'Services','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
+    $table_header=array('name' => 'Organization Name','Organization_Type' =>'Organization Type','Service' =>'Service','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
     $table_data = array();
-    $row_count = 0;
+   // $row_count = 0;
 
         $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main order by name";
         $res_org=$db->Execute($q);
@@ -121,24 +128,26 @@ function shn_or_all_orgs_pdf()
         while(!$res_org==NULL && !$res_org->EOF){
             $org_id=$res_org->fields["o_uuid"];
             $org_data=_shn_get_org_data($org_id,false);
-            
+           
             $table_row ["name"]=$res_org->fields["name"];
           //  $table_row ["Incidents"]=$org_data["incidents"];
        //     $table_row ["Services_Offered"]=$org_data["services"];
             $table_row ["Organization_Type"]=$org_data["type"];
-            $table_row ["services"]=$org_data["sector"];;
+            $table_row ["Service"]=$org_data["sector"];;
             $table_row ["Location"]=$org_data["location"];
             $table_row ["Address"]=$org_data["address"];
-           // $table_row ["Contact_Number"]=$org_data["phone"];
+            $table_row ["Contact_Number"]=$org_data["phone"];
+
+      
             array_push($table_data, $table_row);
-            $res_org->MoveNext();
+           $res_org->MoveNext();
         }
        
 
 
     $title='Organization Report';
     $txt = 'This a listing of Organizations of all incidents';
-    $or_report1_keyword_arr = array('mod'=>'or','report'=>'by service','report1'=>'orgs','users'=>'all');
+    $or_report1_keyword_arr = array('mod'=>'or','report'=>'all orgs','report1'=>'orgs','users'=>'all');
 
     shn_pdf_report_fopen("orgs",$or_report1_keyword_arr);
     shn_pdf_report_add_title($title);
