@@ -271,7 +271,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 				(($type=="all")?"":" AND field_name='opt_camp_type' ").
 				(($type=="all")?"":" AND opt_camp_type='{$type}' ") .
 				((null==$camp_name)?"":" AND cg.name LIKE '%{$camp_name}%' ") ;
-		//echo "q=".$query;
+		echo "q=".$query;
 				
 		$res_cmp =$db->Execute($query);   
 		while (!$res_cmp->EOF){ 					
@@ -287,9 +287,9 @@ function _shn_cr_srch_rst($camp_name,$type){
 
 
 <?php ;?></td>
-  					<td><?php echo $res_cmp->fields['loc.name']?></td>
+  					<td><?php echo $res_cmp->fields['loc_name']?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
-  					<td><?php echo (($type=="all")?"All": "{$res_type->fields['option_description']}")?></td>
+  					<td><?php echo (($type=="all")?"All": "{$res_cmp->fields['option_description']}")?></td>
   					<td><?php echo $res_cmp->fields['total']?></td>
   					<td><?php echo $res_cmp->fields['capacity']?></td>
     		</tr>
