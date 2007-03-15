@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.9 2007-03-15 08:12:54 mifanc Exp $ */
+/* $Id: admin.inc,v 1.10 2007-03-15 08:23:49 mifanc Exp $ */
 
 /**Admin Module for CR
 *
@@ -30,8 +30,9 @@ function _shn_cr_adm_sub_menu(){
 function shn_cr_adm_default()
 {
    // _shn_cr_adm_sub_menu();
+   global $conf;
   ?>
-   <h2><?=_("Camps Registry Administration")?></h2>
+   <h2><?=$conf['mod_cr_name']._(" Administration")?></h2>
    <?php
    shn_cr_adm_forms();
    
@@ -65,7 +66,7 @@ function _shn_cr_adm_form_change(){
 }
 
 function shn_cr_adm_form_commit(){
-	echo "done";
+
 	global $global;
 	$db = $global['db'];
 
@@ -73,13 +74,16 @@ function shn_cr_adm_form_commit(){
 		if(!empty($_POST['service_abbr'])){
 				$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 				$res = $db->Execute($q);
+				add_confirmation(_("Added Values"));
 		}
 		else{
 			//error: enter code
+			add_error(_("Please fill in empty values"));
 		}
 	}
 	else{
 		// do not store new services
+		add_warning(_("Nothing to add"));
 	}
 	shn_cr_adm_default();
 	
