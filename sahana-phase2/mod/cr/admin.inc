@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.10 2007-03-15 08:23:49 mifanc Exp $ */
+/* $Id: admin.inc,v 1.11 2007-03-15 08:32:25 mifanc Exp $ */
 
 /**Admin Module for CR
 *
@@ -72,9 +72,13 @@ function shn_cr_adm_form_commit(){
 
 	if(!empty($_POST['service_name'])){
 		if(!empty($_POST['service_abbr'])){
+			if(strlen($_POST['service_abbr'])==3){
 				$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 				$res = $db->Execute($q);
 				add_confirmation(_("Added Values"));
+			}
+			else
+				add_error(_("Abbrevation should in 3 characters"));
 		}
 		else{
 			//error: enter code
