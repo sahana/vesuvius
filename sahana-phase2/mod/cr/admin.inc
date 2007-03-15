@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.8 2006-10-11 05:32:11 mifanc Exp $ */
+/* $Id: admin.inc,v 1.9 2007-03-15 08:12:54 mifanc Exp $ */
 
 /**Admin Module for CR
 *
@@ -56,6 +56,7 @@ function _shn_cr_adm_form_change(){
 	shn_form_fopen(adm_form_commit,null,array("req"=>false));
   	shn_form_fsopen("Add Service / Facility");
 	shn_form_opt_select("opt_camp_service","Currently Available Services/Facilities");
+	echo "<br/>";
 	shn_form_text("Service Name","service_name",'size="30"');
 	shn_form_text("Service Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
 	shn_form_fsclose();
