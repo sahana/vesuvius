@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.14 2006-11-16 05:08:17 mifanc Exp $; */
+/* $Id: main.inc,v 1.15 2007-03-15 06:03:43 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -25,7 +25,7 @@ function shn_gis_mainmenu(){
 	global $global;
     global $conf;
     $module = $global['module'];
-    shn_mod_menuopen(_($conf['mod_wm_name']));
+    shn_mod_menuopen($conf['mod_gis_name']);
     shn_mod_menuitem("default",_("Home"),$module);
     shn_mod_menuitem("show",_("Mapping Client"),$module);
     
