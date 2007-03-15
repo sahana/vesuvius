@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_fns.inc,v 1.52 2007-03-09 11:34:53 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.53 2007-03-15 07:06:37 mifanc Exp $ */
 
 /**
 * Default functions of CR
@@ -166,8 +166,15 @@ function shn_cr_acmp(){
 									if(!$conf['gis']){
 										if(_shn_cr_validate_error())
 											_shn_cr_cadd_start(true);
+										else
+											_shn_cr_cadd_chk();
 									}
-										_shn_cr_cadd_chk();
+									else{
+										if(_shn_cr_validate_gps())
+											_shn_cr_sel_map(true);
+										else
+											_shn_cr_cadd_chk();
+									}
 									break;
 		case 'commit'	:
 						if(_shn_cr_bed_validate_error())

@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.40 2007-03-09 11:38:33 mifanc Exp $ */
+/* $Id: camp.inc,v 1.41 2007-03-15 07:07:14 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -232,7 +232,10 @@ function _shn_cr_create_cid($val){
 	return $id;
 }
 
-function _shn_cr_sel_map(){
+function _shn_cr_sel_map($errors=false){
+	if($errors)
+		display_errors();
+	
 	$_SESSION['camp_name']=$_POST['camp_name'];
 	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
 	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
@@ -282,7 +285,26 @@ function _shn_cr_sel_map(){
 	shn_form_close();
 
 }
-
+function _shn_cr_validate_gps(){
+	clean_errors();
+	$error_flag=false;
+	
+	if(!(null == ($_POST['gps_x']))){
+		if(!is_numeric(trim($_POST['gps_x']))){
+			add_error(_("The GPS X values are not valid coordinates"));
+			$error_flag=true;
+		}
+	}
+	if(!(null == ($_POST['gps_y']))){
+		if(!is_numeric(trim($_POST['gps_y']))){
+			add_error(_("The GPS Y values are not valid coordinates"));
+			$error_flag=true;
+		}
+	}
+	return $error_flag;
+	
+	
+}
 
 function _shn_cr_validate_error(){
 	clean_errors();
