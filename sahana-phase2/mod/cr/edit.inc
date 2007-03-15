@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.20 2007-03-15 06:12:02 mifanc Exp $ */
+/* $Id: edit.inc,v 1.21 2007-03-15 11:25:19 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -40,7 +40,7 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_fsopen(_("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
 	shn_form_text(_("Shelter Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
-	shn_form_opt_select("opt_camp_type",_("Shelter Type"),array('value'=>$_SESSION['opt_camp_type']));
+	shn_form_opt_select("opt_camp_type",_("Shelter Type"),null,array('value'=>$_SESSION['opt_camp_type']));
 	shn_form_textarea(_("Address"),"camp_address",null,array('value'=>$_SESSION['camp_address']));
 	shn_form_fsclose();
 ?>
