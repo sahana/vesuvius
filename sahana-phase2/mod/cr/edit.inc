@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.19 2007-03-12 18:58:11 mifanc Exp $ */
+/* $Id: edit.inc,v 1.20 2007-03-15 06:12:02 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -254,7 +254,7 @@ function _shn_cr_del_camp($id){
 	$db->Execute($q);
 	$db->Execute($r);
 	$db->Execute($s);
-	echo _("Deleted Shelter Succesfully");
+	add_confirmation("Deleted Shelter Succesfully");
 	//shn_cr_crch
 }
 
