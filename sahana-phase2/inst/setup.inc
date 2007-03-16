@@ -277,7 +277,7 @@ function shn_setup_form2()
 
     shn_form_fsopen(_('Installation Details'));
 
-    echo '<p>The following details is needed to uniquely identify your Sahana installation</p>';
+    echo '<p>The following details are needed to uniquely identify your Sahana installation</p>'; // some spellings corrected by chamath 2007-03-15 09:50
 
     $help_txt = "The following field is randomly generated to help uniquely identify \
                  this Sahana installation. Please use this unless you have a \
@@ -405,6 +405,7 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
     
