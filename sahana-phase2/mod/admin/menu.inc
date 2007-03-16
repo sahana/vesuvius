@@ -22,7 +22,11 @@ function _shn_admin_mainmenu()
     shn_mod_menuopen(shn_get_module_name());
     shn_sub_mod_menuitem("default", _("Admin Home"), 'admin');
 
-    shn_sub_mod_menuopen(_("Locations"));
+    shn_sub_mod_menuopen(_("Disaster Incidents"));
+    include $global['approot']."/mod/admin/ims_menus.inc"; 
+    shn_sub_mod_menuclose();
+
+    shn_sub_mod_menuopen(_("Location Config"));
     shn_sub_mod_menuitem("loc_lvl", _("Location Levels"), 'admin');
     shn_sub_mod_menuitem("add_loc", _("Add Location"), 'admin');
     shn_sub_mod_menuitem("view_loc", _("Edit & Delete Location"), 'admin');
@@ -30,6 +34,11 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("loc_start", _("Set Starting Location"), 'admin');
     // shn_sub_mod_menuitem("loc_range", _("Set Location Range"), $module);
     // shn_sub_mod_menuitem("start_loc", _("Set Starting Location"), $module);
+    shn_sub_mod_menuclose();
+
+    shn_sub_mod_menuopen(_("GIS Config"));
+    shn_sub_mod_menuitem("gis_form", _("Plugin Management"), 'admin');
+    //shn_sub_mod_menuitem("gis_mapserver", _("Mapserver Management"), 'admin');
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Localization"));
@@ -44,10 +53,6 @@ function _shn_admin_mainmenu()
     }
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_("Mutiple Incidents"));
-    include $global['approot']."/mod/admin/ims_menus.inc"; 
-    shn_sub_mod_menuclose();
-
     //shn_sub_mod_menuopen(_("Module Management Console"));
     //include $global['approot']."/mod/admin/mmc_menus.inc"; 
     //shn_sub_mod_menuclose();
@@ -57,11 +62,6 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("acl_module", _("Modules"), 'admin');
     shn_sub_mod_menuclose();
     
-    shn_sub_mod_menuopen(_("GIS Config"));
-    shn_sub_mod_menuitem("gis_form", _("Plugin Management"), 'admin');
-    //shn_sub_mod_menuitem("gis_mapserver", _("Mapserver Management"), 'admin');
-    shn_sub_mod_menuclose();
-
     shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
