@@ -27,6 +27,7 @@ function shn_text_home_help()
 function shn_home_default()
 {
     global $conf;
+    
     ?>
 
     <div id="home">
@@ -48,8 +49,13 @@ function shn_home_default()
 			  '<a href="http://www.sahana.lk">' .
 			  _("Sahana Website </a><br/>"); 
         if ($conf['root_name'] != '') {
-            echo '<br/>'._('Administrator: ').$conf['root_name'].
-                   '.<br/>Email: '.$conf['root_email'].'<br/>Telephone: '.$conf['root_tel'];
+            echo '<br/>'._('Administrator: ').$conf['root_name'];
+        }
+        if ($conf['root_email'] != '') {
+            echo '.<br/>Email: '.$conf['root_email'];
+        }
+        if ($conf['root_tel'] != '') {
+            echo '<br/>Telephone: '.$conf['root_tel'];
         }
     ?>
 	</p>
