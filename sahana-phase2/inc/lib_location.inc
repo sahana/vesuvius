@@ -679,6 +679,11 @@ function _shn_location_camp_list(){
  */
 function shn_location_add()
 {
+    if($_POST{"loc_name"}==null){
+        $msg= " You cant add a NULL(empty) value for location ";
+    	add_error($msg);
+    	return;
+	}
     global $global;
     include_once($global['approot']."/inc/lib_uuid.inc");
     $db=$global['db'];
