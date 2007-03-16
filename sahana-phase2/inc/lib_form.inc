@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.61 2007-02-27 06:54:27 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.62 2007-03-16 01:42:22 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -380,10 +380,10 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 	$res = $global['db']->Execute($q);
     while(!res==NULL && !$res->EOF) {
         if($value!=NULL){
-            $sel = ( (array_search($res->fields[1],$value)==true) || (array_search($res->fields[1],$value)===0) ) ? 'selected="selected"' : null ;
+            $sel = ( (array_search($res->fields["option_code"],$value)==true) || (array_search($res->fields["option_code"],$value)===0) ) ? 'selected="selected"' : null ;
         }
 ?>
-        <option value="<?php echo $res->fields[1]?>" <?php echo $sel?>><?php echo $res->fields[2]?></option>
+        <option value="<?php echo $res->fields["option_code"]?>" <?php echo $sel?>><?php echo $res->fields["option_description"]?></option>
 <?php
 
         $res->MoveNext();
