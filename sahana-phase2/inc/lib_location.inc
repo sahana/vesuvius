@@ -551,7 +551,11 @@ var end = <?php echo $end;?>;
  * @return void
  */
 function shn_location($range,$value=null,$parent=null,$extra_opts=null){
-
+	if($extra_opts['req']==true){
+	shn_form_label(null,"Please Select a location", array("req"=>true));
+	?> <br />
+	<?}
+	
 	$range=shn_location_get_loc_range();
 	$parent=shn_location_get_start_loc();
 	$count=0;
@@ -623,21 +627,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
     		 shn_form_select($options,'Organizations','orgs',$select_opts,$extra_opts);
  		?>	</div><?
 	}
-	//$options=array("loc_direct"=>"Select a Location (Country,City,ect)");
-	//$select_opts='onChange=radio_click("loc_dir")';
-	//shn_form_radio($options,null, "loc",$select_opts);
-	?><br /><?
-	if(($extra_opts==null)or (!isset($extra_opts["unknown"]))){
-		$unknown=true;
-	}
-	if($unknown==true){
-	 ?><div class="info"><?=_("If you do not know the exact location , tick the location unknown checkbox, otherwise you have to select from locations in the drop downs");?></div><br /><?
-	
-	$checked =($value==UNKNOWN) ? "checked" : null;
-	shn_form_checkbox(_("Location Unknown:"), 'loc_unknown', $checked);
 
-	?><br /><?
-	}
 	shn_form_hidden(array('levels'=>$range['end']));
 	$start='1';
 	if(($value!=NULL) && ($value!=UNKNOWN)){
