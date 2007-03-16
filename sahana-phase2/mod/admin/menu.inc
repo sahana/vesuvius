@@ -48,9 +48,9 @@ function _shn_admin_mainmenu()
     include $global['approot']."/mod/admin/ims_menus.inc"; 
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_("Module Management Console"));
-    include $global['approot']."/mod/admin/mmc_menus.inc"; 
-    shn_sub_mod_menuclose();
+    //shn_sub_mod_menuopen(_("Module Management Console"));
+    //include $global['approot']."/mod/admin/mmc_menus.inc"; 
+    //shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Security Config"));
     shn_sub_mod_menuitem("acl_system", _("System &amp; User"), 'admin');

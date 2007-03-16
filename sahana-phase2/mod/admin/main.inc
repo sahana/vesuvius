@@ -72,7 +72,7 @@ function shn_admin_default()
     $isCatalogCreated = ($result->RecordCount() > 0);
 
     $result = $db->Execute("select value from config where module_id='gis'
-                                 and confkey='google_key'");
+                                 and confkey='mod_gis_google_key'");
     $isGoogleSetup = ($result->fields['value']  != "");
 
     echo '<div id="home">';
@@ -129,11 +129,15 @@ function shn_admin_default()
     echo "</ol>\n";
 ?>
     <h2><?=_("Sahana System Administration")?></h2>
-        <p><?=_("The System Adminisitration section allows you to configure and customize Sahana based on your requirements")?></p>
+        <p><?=_("The System Adminisitration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
 	<ul>
-	<li><b><?=_("System Config")?></b> <br/><?=_("Contains all the configuration sections that apply across the Sahana application such as localization to location")?></li>
+	<li><b><?=_("Disaster Incidents")?></b> <br/><?=_("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
+	<li><b><?=_("Locations")?></b> <br/><?=_("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
+	<li><b><?=_("GIS Config")?></b> <br/><?=_("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
+	<li><b><?=_("Localization")?></b> <br/><?=_("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
 	<li><b><?=_("Module Config")?></b> <br/><?=_("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?> </li>
-	<li><b><?=_("Security Config")?></b> <br/><?=_("Allows the system administrator to configure who gets access to what modules and to what degree to high degree of granularity if required.")?></li>
+	<li><b><?=_("Security Config")?></b> <br/><?=_("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
+	<li><b><?=_("Config Value")?></b> <br/><?=_("This section give you access to all the raw configuration values that can be changed in the system")?></li>
 	</ul>
     </div>
 
