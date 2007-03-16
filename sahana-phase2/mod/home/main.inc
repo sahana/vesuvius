@@ -36,18 +36,30 @@ function shn_home_default()
 <!--        <img src="theme/default/img/home_pic1.png" align="left" /> -->
     <p><?=_("Sahana is an set of web based disaster management applications that provide solutions to large-scale humanitarian coordination and collaboration problems in the aftermath of a disaster. The applications and problems they address are as follows:")?></p>
 	<ul>
-	<li><b><?=_("Missing Person Registry</b> <br/>Helping to reduce trauma by effectively finding missing persons")?> </li>
-	<li><b><?=_("Organization Registry</b> <br/>Coordinating and balancing the distribution of relief organizations in the affected areas and connecting relief groups allowing them to operate as one")?> </li>
-	<li><b><?=_("Request Management System</b> <br/>Registering and Tracking all incoming requests for support and relief up to fulfilment and helping donors connect to relief requirements")?> </li>
-	<li><b><?=_("Camp Registry</b><br/>Tracking the location and numbers of victims in the various camps and temporary shelters setup all around the affected area")?> </li>
-	<li><b><?=_("Inventory Management System</b><br/> Effectively and efficiently manage relief aid, enables  transfer of inventory items to different inventories and notify when items are required to refill.")?> </li>
-	<li><b><?=_("Catalogue System</b><br/> Captures information on different catalogues and measurement units. Which is used in systems such as Inventory Management System and Request Management System.")?> </li>
+    
+<?php
+	_shn_home_module_info('gis','Giving you the current situation awareness on a map');
+	_shn_home_module_info('mpr','Helping to reduce trauma by effectively finding missing persons');
+	_shn_home_module_info('dvr','Tracing internally displaced people (IDPs) and their needs');
+    _shn_home_module_info('or','Listing "Who is doing What, Where" allow relief agencies to self-distribute themselves better to address the gaps in disasters');
+    _shn_home_module_info('rms',"Tracking all the requests for aid from the field and matching them against donars who have pledged aid");
+    _shn_home_module_info('cr',"Tracking the location, distibution, capacity and breakdown of victims in shelter");
+    _shn_home_module_info('ims',"Effectively and efficiently manage relief aid, enables  transfer of inventory items to different inventories and notify when items are required to refill.");
+    _shn_home_module_info('msg',"Message through email and mobile phones to groups");
+    _shn_home_module_info('vol',"Capturing all volunteers, their skills, availability and allocation");
+    _shn_home_module_info('cs',"Captures information on different catalogues and measurement units. Which is used in systems such as Inventory Management System and Request Management System.");
+    _shn_home_module_info('sync',"Syncronize of data between instances of Sahana.");
+?>
+
 	</ul>
     <p>
     <?php
     	echo _("For more detail on the Sahana system see the ") .
 			  '<a href="http://www.sahana.lk">' .
-			  _("Sahana Website </a><br/>"); 
+			  _("Sahana Website").'</a><br/>';
+        echo _('For live help from the Sahana community on using this application goto the ').
+              '<a href="http://www.sahana.lk/chat">'._('Sahana Community Chat').'</a><br/>';
+
         if ($conf['root_name'] != '') {
             echo '<br/>'._('Administrator: ').$conf['root_name'];
         }
@@ -62,6 +74,17 @@ function shn_home_default()
     </div>
 
 <?php
+}
+
+function _shn_home_module_info($module, $description) 
+{
+    global $conf;
+
+    if ($conf['mod_'.$module.'_enabled']) {
+        echo '<li><b>'.$conf['mod_'.$module.'_name'].'</b> - ';
+        echo _($description).'</li>';
+    }
+
 }
 
 ?>
