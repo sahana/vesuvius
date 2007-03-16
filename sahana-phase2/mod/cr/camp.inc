@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.41 2007-03-15 07:07:14 mifanc Exp $ */
+/* $Id: camp.inc,v 1.42 2007-03-16 10:32:14 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -356,6 +356,7 @@ function _shn_cr_validate_error(){
 			$error_flag=true;
 		}
 	}
+	return $error_flag;
 }
 	
 	function _shn_cr_bed_validate_error(){
