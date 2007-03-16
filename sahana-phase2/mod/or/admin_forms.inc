@@ -183,7 +183,7 @@ function shn_or_adm_or_sector_form()
 </center>
 <?php
     shn_form_fsopen("Add & Remove Sectors");
-    _shn_or_display_sector($error,true,false);
+    _shn_or_display_sector($error,null,false);
     shn_form_button(_("Remove"),"onClick='remove_types()'");
     shn_form_button(_("Add More"),"onClick='add_types()'");
     shn_form_text(_("New Organization Sector : "),'type','size="50"',null);
