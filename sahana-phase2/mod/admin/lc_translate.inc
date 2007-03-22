@@ -111,7 +111,7 @@ function _shn_admin_lc_load($file_n = null)
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save'));
     shn_form_fsopen('Translation');
-    shn_form_textarea('','msgs','rows=30 cols=100',array('value'=>$value));
+    shn_form_textarea('','msgs',null,array('value'=>$value,'rows'=>'30', 'cols'=>'100'));
     shn_form_fsclose();
     shn_form_submit('Save');
     shn_form_fclose();
