@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * This handler will import incidents from the import daya
  *
  * PHP version 4 and 5
  *
@@ -18,6 +18,10 @@
 
 global $global;
 ob_start();
+
+//check weather there is an incident table in import data
+if(array_search('incident', $_SESSION['sync']['tables'])===false)return 0;
+
 /* check if incident differ */
 //get the disasters which are not in the incident table
 echo "<pre>";
@@ -34,8 +38,12 @@ echo "<pre>";
         import_disaster($imdist);
         change_resource($chdist);
         $list = array_merge($list, $chdist);
-        
     }
+
+//remove the incident table from the table list
+$tables= &$_SESSION['sync']['tables'];
+$key = array_search('incident', $tables);
+unset($tables[$key]);
 
 //import them one by one
 function change_resource($list){
@@ -77,11 +85,11 @@ $console = ob_get_contents();
 if(isset($console))
 $global['xajax']->addAssign("console","innerHTML", $console);
 ob_end_clean();
-
+/*
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Content-type: text/xml");
 echo ($global['xajax']->getXML());
 $_SESSION['report']=serialize($_SESSION['report']);
-exit(0);
+exit(0);*/
 ?>
