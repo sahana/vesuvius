@@ -61,14 +61,20 @@ wrapper{
 
 /* Form styles */
 
-#formcontainer input[type="text"] {  
+.form-container input[type="text"] {  
 	color: black; 
 	border-width: 0; 
 	border: 1px solid #000;
 	margin: 0px 10px 10px 10px; 
 } 
-
-#formcontainer textArea { 
+.form-container img{
+	display:none;
+}
+.form-container input[type="file"]{
+	display:none;
+	
+}
+.form-container textArea { 
 	color: black; 
 	width:300px;
 	border-width: 0; 
@@ -78,22 +84,30 @@ wrapper{
 
 /* Removing the buttons */
 
-#formcontainer input[type="submit"]{
+.form-container input[type="submit"]{
 	display:none;
 }
 
-#formcontainer select{
+.form-container select{
 	width:0;
 	right-margin:200pt; 
 	visibility:hidden;
 }
 
-#formcontainer label { 
+.form-container label { 
 	width: 30%; 	
 	float: left; 
-	text-align: right;
+	text-align: left;
 	margin: 0px 10px 10px 10px; 
 	clear: both;
+}
+.form-container label[id="value"] { 
+	text-align: right;
+	//margin: 0px 0px 0px 0px; 
+	
+}
+.form-container legend{
+	font-weight:bold;
 }
 /* hide help and req */
 .popupLink{
@@ -103,6 +117,22 @@ wrapper{
 .req{
     display:none;
 }
+/*hide warnings, confirmations*/
+.warning{
+	display:none;
+}
+.confirmation{
+	display:none;
+}
+#error_message{
+	display:none;
+}
+
+/*hide message*/
+#req_message{
+	display:none;
+}
+
 /* result tables */
 
 #result{
@@ -153,6 +183,10 @@ wrapper{
 	text-align:center; 
 	font-size:100%;
 	border:1px solid black;
+	color:black;
+}
+#result td a{
+	color:black;	
 }
 
 #result hr{
