@@ -222,7 +222,7 @@ function shn_setup_form_dependancy()
 function shn_setup_form1()
 {
  ?>
-    <h1><?=_('Sahana Database Setup - Step 2')?></h2>
+    <h2><?=_('Sahana Database Setup - Step 2')?></h2>
 <?php
 
     shn_form_fopen('dbsetup');
