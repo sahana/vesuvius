@@ -88,7 +88,7 @@ function shn_cs_addsub_form1()
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print "<br><b>Do a keyword search to find the catalogue.</b>";
+    print "<br /><b>Do a keyword search to find the catalogue.</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
     shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
@@ -203,7 +203,7 @@ function shn_cs_addunit_form()
     shn_form_fopen(null);
     shn_form_fsopen(_("Information"));
     ?>
-    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&act=addunittype">Add Unit category</a><?= _(' First'); ?></p>
+    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&amp;act=addunittype">Add Unit category</a><?= _(' First'); ?></p>
     
     <?php
     shn_form_fsclose();
@@ -311,7 +311,7 @@ function shn_cs_additem_form1()
     $res=$db->Execute($query);
     if($res == true)
     {
-    print "<br><b>Do a keyword search to find the catalogue.</b>";
+    print "<br /><b>Do a keyword search to find the catalogue.</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
     shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
@@ -565,13 +565,13 @@ function _shn_cs_search_keyword_result()
     global $global;
     $db=$global["db"];
 
-    print "Click on the parent catalogue that you need to add sub catalogue or Item under it.<br> ";
+    print "Click on the parent catalogue that you need to add sub catalogue or Item under it.<br /> ";
 
     $search_keyword=$name = trim($_POST['search_keyword']);
     $type=trim($_POST['type']);
 
 ?>
-<br>
+<br />
 <div id="result">
 <table>
     <thead>
@@ -596,7 +596,7 @@ function _shn_cs_search_keyword_result()
     $keyword=$res->fields["keyword"];
     ?>
     <tr>
-        <td><a href="index.php?mod=cs&act=search_keyword_select_submit&id=<?php echo $cat_id ?>&type=<?php echo $type ?>"><?php print $name ;?></a></td>
+        <td><a href="index.php?mod=cs&amp;act=search_keyword_select_submit&amp;id=<?php echo $cat_id ?>&amp;type=<?php echo $type ?>"><?php print $name ;?></a></td>
         <td><?php print $description ;?></td>
         <?php if($final_flag=='0') { ?>
             <td><?php print "Catalogue" ; ?></td>
