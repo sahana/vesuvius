@@ -86,7 +86,7 @@ function show_item_cat_table()
 
     $cat_item_arr = array('all'=>'All','sub_cat' => 'Sub Catalogs', 'item' => 'Items');
 
-	print "<br><br>";
+	print "<br /><br />";
     	shn_form_fopen('edit_filter',null,$form_opts);
    	?>
     <div id="result">
@@ -127,7 +127,7 @@ function show_item_cat_table()
 //-----------------------------------------------------------------------------------------------------------------------
 
 ?>
-<br>
+<br />
 <div id="result">
 <table>
     <thead>
@@ -405,7 +405,7 @@ function show_unit_table()
     $db=$global["db"];
 
 ?>
-<br>
+<br />
 <div id="result">
 <table>
     <thead>
@@ -565,7 +565,7 @@ function show_unit_type_table()
     $db=$global["db"];
 
 ?>
-<br>
+<br />
 <div id="result">
 <table>
     <thead>
