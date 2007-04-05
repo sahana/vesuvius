@@ -43,9 +43,9 @@ function show_item_cat_table()
 
     ?>
 	<div id="submenu_v">
-	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>
     <?php
 
@@ -202,7 +202,7 @@ function show_item_cat_table()
 
     ?>
     <tr>
-        <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&act=edit_cat_select_submit&id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
+        <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&amp;act=edit_cat_select_submit&amp;id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
         <?php if($final_flag=='0' && $parent_ID == '0') { ?>
             <td><?php print "Main catalogue" ; ?></td>
         <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
@@ -395,9 +395,9 @@ function show_unit_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
-	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>
     <?php
 
@@ -426,7 +426,7 @@ function show_unit_table()
     $unit_id=$res->fields["unit_uuid"];
     ?>
     <tr>
-        <td><a href="index.php?mod=cs&act=edit_unit_select_submit&id=<?php echo $unit_id ?>"><?php print $name ;?></a></td>
+        <td><a href="index.php?mod=cs&amp;act=edit_unit_select_submit&amp;id=<?php echo $unit_id ?>"><?php print $name ;?></a></td>
         <td><?php print $multiplier ;?></td>
     </tr>
     <?php  
@@ -554,9 +554,9 @@ function show_unit_type_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
-	<a class = "selected" href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>
     <?php
 
@@ -585,7 +585,7 @@ function show_unit_type_table()
     $unit_type_id=$res->fields["unit_type_uuid"];
     ?>
     <tr>
-        <td><a href="index.php?mod=cs&act=edit_unittype_select_submit&id=<?php echo $unit_type_id ?>"><?php print $name ;?></a></td>
+        <td><a href="index.php?mod=cs&amp;act=edit_unittype_select_submit&amp;id=<?php echo $unit_type_id ?>"><?php print $name ;?></a></td>
         <td><?php print $description ;?></td>
     </tr>
     <?php  
