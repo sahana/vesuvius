@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS `report_files`;
+DROP TABLE IF EXISTS `report_keywords`;
+
 create table report_files
 	(rep_id varchar(100),
 	file_name varchar(100),

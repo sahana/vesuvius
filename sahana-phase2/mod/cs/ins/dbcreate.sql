@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `ct_catalogue`;
 DROP TABLE IF EXISTS `ct_unit`;
 DROP TABLE IF EXISTS `ct_cat_unit`;
 DROP TABLE IF EXISTS `ct_unit_type`;
+DROP TABLE IF EXISTS `ct_suppliers`;
 
 /**
 * Table to store catalogs and items
