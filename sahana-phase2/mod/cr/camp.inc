@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.43 2007-04-09 18:03:43 mifanc Exp $ */
+/* $Id: camp.inc,v 1.44 2007-04-09 18:12:51 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -43,8 +43,8 @@ function _shn_cr_cadd_start($errors=false){
 		shn_form_hidden(array('seq'=>'chk'));
 	}
 	
-	shn_form_text(_("Shelter Name"),"camp_name",'size="50"',array('req'=>true));
-	shn_form_opt_select("opt_camp_type",_("Shelter Type"));
+	shn_form_text(_("{$conf['mod_cr_alt']} Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_form_opt_select("opt_camp_type",_("{$conf['mod_cr_alt']} Type"));
 ?>
 
 <!--<label>Division</label>
@@ -89,7 +89,7 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_text(_("Mobile Number"),"contact_mob",'size="60"');
 	shn_form_text(_("Occupation"),"occupation",'size="60"',array('help'=>'Official Occupation of Shelter Administrator'));
 	shn_form_fsclose();
-	shn_form_fsopen(_("Shelter Population"));
+	shn_form_fsopen(_("{$conf['mod_cr_alt']} Population"));
 	shn_form_text(_("Infected Count"),"family",'size="10"');
 
 	shn_form_text(_("Total Count"),"total",'size="10"');
@@ -98,9 +98,9 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_text(_("Women"),"women",'size="10"');
 	shn_form_text(_("Children"),"children",'size="10"');
 	shn_form_fsclose();
-	$hospital_help=_("Check this if you want to enter hospital information related to this shelter");
+	$hospital_help=_("Check this if you want to enter hospital information related to this {$conf['mod_cr_alt']}");
 	shn_form_fsopen(_("Hospital Metadata"));
-	shn_form_checkbox(_("Shelter is of type hospital"),"hospital",null,array('help'=>$hospital_help));
+	shn_form_checkbox(_("{$conf['mod_cr_alt']} is of type hospital"),"hospital",null,array('help'=>$hospital_help));
 	shn_form_fsclose();
 	shn_form_submit(_("Next"));
 	shn_form_fclose();
