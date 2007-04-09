@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.42 2007-03-16 10:32:14 mifanc Exp $ */
+/* $Id: camp.inc,v 1.43 2007-04-09 18:03:43 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -28,7 +28,7 @@ function _shn_cr_cadd_start($errors=false){
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2 align="center"><?php echo _("Register New Shelter")?></h2>
+<h2 align="center"><?php echo _("Register New ").$conf['mod_cr_alt']?></h2>
 <?php
 	
 	shn_form_fopen(acmp);
