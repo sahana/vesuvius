@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.44 2007-04-09 18:12:51 mifanc Exp $ */
+/* $Id: camp.inc,v 1.45 2007-04-09 18:17:43 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -181,7 +181,7 @@ if($errors)
 	}
 	
 ?>
-<h2>Shelter Checklist</h2>
+<h2><?php echo _("{$conf['mod_cr_alt']} Checklist")?></h2>
 <?php
 //var_dump($_SESSION);
 shn_form_fopen(acmp);
