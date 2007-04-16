@@ -80,7 +80,7 @@ function shn_vm_vol_add($error=false)
 <h3><?=_("Your registration will be confirmed via phone or email.")?> </h3>
 <?php
     if($error)
-       // display_errors();
+        display_errors();
 ?>               
 <div id="formcontainer">
 <?php
@@ -149,7 +149,7 @@ shn_form_date(_("Start Date : "),'start_date',$extra_opts=NULL);
 <h3><?=_("Fill in as many of the below fields as possible.  When you are finished, click \"Submit\".")?> </h3>
 <?php
     if($error)
-       // display_errors();
+        display_errors();
 ?>               
 <div id="formcontainer">
 <?php

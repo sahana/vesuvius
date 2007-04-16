@@ -83,7 +83,7 @@ class Project {
 	    $this->opt_skill_code=$result->fields[0];   
 	}
    }
-   }  
+   
 /**
  *  This function declares a destructor method that will be called 
  *  when all references to a project object are gone.   

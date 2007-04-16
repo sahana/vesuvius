@@ -59,7 +59,7 @@ function _shn_vm_proj_display($no=NULL)
    
 	_shn_vm_viewform_allproj();
 	?><div><br></div><?php
-        //_shn_vm_proj_locate_all();   
+        _shn_vm_proj_locate_all();   
     } else {
 	    ?><div id="note">
 	    <strong><?=_("No Current Projects")?></strong>

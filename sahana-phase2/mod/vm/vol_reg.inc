@@ -164,21 +164,15 @@ $uuid = 0;
 
     if($error!=true){
 ?>
-<!--
     <div id="error">
-       <p>Personal Details for <?php //echo $name?> have been accepted.  Please enter account information.</p>
+       <p>Personal Details for <?php echo $name?> have been accepted.  Please enter account information.</p>
     </div>
     <br />
- -->
 <?php
-//$header=array('method'=>'POST','action'=>'index.php?mod=vm&act=vol_add','id'=>'formset');
-  //  shn_auth_form_user_add($title="Create Your User Name and Password", $header, $error=false, $uuid);//add user form
-    		  	$msg= $name. " Volunteer succesfully registered";
-    		add_confirmation($msg);
-    		shn_vm_vol_add(false);
-    		    		
+$header=array('method'=>'POST','action'=>'index.php?mod=vm&act=vol_add','id'=>'formset');
+    shn_auth_form_user_add($title="Create Your User Name and Password", $header, $error=false, $uuid);//add user form
     }else{
-//display_errors();
+display_errors();
 shn_vm_vol_add($error);
 
 }

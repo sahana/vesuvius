@@ -107,14 +107,14 @@ function _shn_vm_vol_assign($error=false) {
    // This subsection of the form enables the user to select a project and optionally an organization.
 
   shn_form_fopen($actiont="vol_assign");                // Opens a <form> element
-  shn_form_fsopen($label='Project/Volunteer Selection');         // Open a subsection 
+  shn_form_fsopen($label='Project Selection');         // Open a subsection 
   $extra_opts['req']=true;
   _shn_form_select_project($error, $value_selected=NULL, $label="Choose a Project : ", $select_opts=NULL, $extra_opts);
   $extra_opts['req']=false;
   $extra_opts['all_org']=true;
   _shn_form_select_organization($error, $value_selected=$org_id, $label="Filter by Organization : ", $select_opts=NULL, $extra_opts);
   shn_form_text(_("Search Name (optional) : "),"search_string",'size="30"',array('req'=>false));
-  shn_form_submit($name="Search");
+  shn_form_submit($name="Submit");
   shn_form_fsclose();                          // Close the subsection
      
   // DB Query: Query the vm_projects and person_uuid tables for information about the selected project.

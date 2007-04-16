@@ -37,7 +37,7 @@ include_once $global['approot']."/mod/vm/vol_locate.inc";
 function shn_vm_vol_display($no=NULL){
    _display_all_volunteers();
    ?><div><br></div><?php
-  // _shn_vm_vol_locate_all();
+   _shn_vm_vol_locate_all();
    
 }   
 

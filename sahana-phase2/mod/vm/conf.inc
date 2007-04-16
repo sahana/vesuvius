@@ -12,7 +12,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL) 
  */
 $conf['mod_vm_name'] = _("Volunteer Management");
-$conf['mod_vm_menuorder'] = 6;
-$conf['mod_vm_hack'] = 1;
+$conf['mod_vm_hack'] = 0;
 //$conf['mod_vm_menuorder'] = 1;
 ?>
+

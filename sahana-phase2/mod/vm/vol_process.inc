@@ -163,9 +163,12 @@ function _shn_vm_reg_vol_cr()
     } // if(!error)
 
     if($error!=true){
-
-	    $msg= $name." was succesfully registered ";
-     	add_confirmation($msg);
+?>
+    <div id="result_msg">
+       <?php echo $name?> was succesfully registered
+    </div>
+    <br />
+<?php
     }
     _shn_vm_vol_add($error);
 }
@@ -258,10 +261,12 @@ function _shn_vm_edit_vol()
       _shn_vm_viewform_vol($pid,$error);
       return false;
     }
-    $msg= $name." was succesfully updated";
-    add_confirmation($msg);
+    
 ?>
-
+    <div id="result_msg">
+       <?php echo $name?> was succesfully Updated
+    </div>
+    <br />
 <h2> Volunteer Registry</h2>
 <?php
         _shn_vm_viewform_allvol();    
@@ -281,10 +286,10 @@ function _shn_vm_del_vol()
     $name=$res->fields[0];
     $q="update person_status set isReliefWorker=0 where p_uuid=$pid";
     $res=$db->Execute($q);
-  	$msg= "Volunteer was succesfully deleted";
-    add_confirmation($msg);
      ?>
-
+    <div id="result_msg">
+       <?php echo $name?> Volunteer was succesfully Deleted
+    </div>
     <br />
 <h2> Volunteer Registry</h2>
 <?php

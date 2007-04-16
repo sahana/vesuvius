@@ -18,6 +18,7 @@
  * @author     Jonathan Damon <jonathan.damon@trincoll.edu>
  * @author     Ravindra <ravindra@opensource.lk>
  * @author     Pradeeper <pradeeper@opensource.lk>
+ * @author     Chathra <chathra@opensource.lk>
  * sample text
  */
 
@@ -59,15 +60,14 @@ function shn_vm_mainmenu()
     global $global;
     global $conf;
     $module = $global['module'];
-/*
+
 if(0==$conf['mod_vm_hack']){
 if($_SESSION['logged_in'] == true){
     //user section
-     
     shn_mod_menuopen(_lc("Volunteer Management"));
     shn_mod_menuitem("default","Home",$module);
     shn_mod_menuitem("vol_add","Edit Details for {$_SESSION['user']}",$module);
-   // shn_mod_menuitem("ch_pwd","Change Password",$module);
+    shn_mod_menuitem("ch_pwd","Change Password",$module);
     shn_mod_menuclose();
 }else{
     //guest section
@@ -79,27 +79,8 @@ if($_SESSION['logged_in'] == true){
     //admin section
     shn_mod_menuopen(_lc("Volunteer Management"));
     shn_mod_menuitem("portal","Home",$module);
-    shn_mod_menuitem("proj_report","Work Summaries",$module);
+    //shn_mod_menuitem("proj_report","Work Summaries",$module);
     shn_sub_mod_menuopen(_("Volunteers"));
-    shn_mod_menuitem("vol_display","Show All",$module);
-    shn_mod_menuitem("vol_assign","Assign to Project",$module);
-    shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Projects"));
-    shn_mod_menuitem("proj_display","Show All",$module);
-    shn_mod_menuitem("proj_add","Add New",$module);
-    shn_sub_mod_menuclose();
-    shn_mod_menuitem("vol_add","Edit Details for {$_SESSION['user']}",$module);
-  //  shn_mod_menuitem("ch_pwd","Change Password",$module);
-    shn_mod_menuclose();
-}
-*/
-/** ravi **/
-    shn_mod_menuopen(_lc("Volunteer Management"));
-    shn_mod_menuitem("default","Home",$module);
-    shn_mod_menuitem("default","Register to Volunteer",$module);
-   // shn_mod_menuitem("proj_report","Work Summaries",$module);
-    shn_sub_mod_menuopen(_("Volunteers"));
-  //  shn_mod_menuitem("vol_display","Show All",$module);
     shn_mod_menuitem("vol_display","Show Assigned",$module);
     shn_mod_menuitem("vol_assign","Assign to Project",$module);
     shn_sub_mod_menuclose();
@@ -107,7 +88,12 @@ if($_SESSION['logged_in'] == true){
     shn_mod_menuitem("proj_display","Show All",$module);
     shn_mod_menuitem("proj_add","Add New",$module);
     shn_sub_mod_menuclose();
+    shn_mod_menuitem("vol_add","Edit Details for {$_SESSION['user']}",$module);
+    shn_mod_menuitem("ch_pwd","Change Password",$module);
     shn_mod_menuclose();
+}
+
+    
 /** */
 include $global['approot']."/inc/handler_mainmenu.inc";
 

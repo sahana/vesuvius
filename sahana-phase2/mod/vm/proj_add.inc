@@ -97,8 +97,8 @@ function _shn_vm_regform_proj_add($error=false)
             $res_man->MoveNext();
         }
 
-        shn_form_select($managers, 'Project Manager: (A Volunteer with SITE MANAGER skill) ', 'manager_id', NULL, NULL);
-        shn_form_opt_multi_select('opt_skill_type','Specialties : <br />(Hold the CTRL-Key to choose more than one skill)','multiple="true"',array('req'=>true));
+        shn_form_select($managers, 'Project Manager : ', 'manager_id', NULL, NULL);
+        shn_form_opt_multi_select('opt_skill_type','Specialties : <br>(Hold the CTRL-Key to choose more than one skill)','multiple="true"',array('req'=>true));
 //   	_shn_form_select_specialities($error);
 	shn_form_fsclose();
 	
@@ -109,8 +109,7 @@ function _shn_vm_regform_proj_add($error=false)
 //    shn_location(null,null,null,$extra_opts=NULL);
 //  RAM Hack: The following call to shn_location is copied from reg_org.inc. The checkbox
 //  doesn't seem to work if the second parameter is NULL.
-//    shn_location(null,$_SESSION['org']['loc'],null,$extra_opts=NULL);
-    shn_location(null,null,null,$extra_opts);
+    shn_location(null,$_SESSION['org']['loc'],null,$extra_opts=NULL);
     shn_form_fsclose();
 ?>
 <br />
@@ -194,24 +193,32 @@ while($i<count($specialty)){
 // RAM: This code is added to handle the check box in the base location subform.  If the checkbox is checked, then the location_id is set to 0.
 // This will occur even if the user has entered values in the locations fields (country, state, city).
 
-/** ravi **/
-    $location_id=shn_location_get_form_submit_loc();
-    if ($location_id==-1){
-        $error=true;
-        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
-    }
+if ($_POST['loc_unknown']) {
+//    echo "Location is unknown\n";
+    $location_id=0;
+}
+else {
+//    echo "Location is known\n";
+    if ($_POST['3'])
+       $location_id=$_POST['3'];
+    else if ($_POST['2'])
+       $location_id=$_POST['2'];
+    else if ($_POST['1'])
+       $location_id=$_POST['1'];
+    else
+       $location_id=0;
+}
 
-//echo "Location_id = " . $location_id;
+echo "Location_id = " . $location_id;
 
 //$q="insert into vm_projects (proj_id, name, mgr_id, location_id, start_date, end_date, description) VALUES ('$proj_id','{$_POST['project_name']}','{$_POST['manager_id']}','{$_POST['3']}','{$_POST['start_date']}','{$_POST['end_date']}','{$_POST['project_description']}')";
 
 // RAM: Modification required to add Location Unknown checkbox.  Changed $_POST['3'] to $location_id, which is set above.
-$q="insert into vm_projects (proj_id, name, mgr_id, location_id, start_date, end_date, description) VALUES ('$proj_id','{$_POST['project_name']}','{$_POST['manager_id']}','{$location_id}','{$_POST['start_date']}','{$_POST['end_date']}','{$_POST['project_description']}')";
-	 
+$q="insert into vm_projects (proj_id, name, mgr_id, location_id, start_date, end_date, description) VALUES ('$proj_id','{$_POST['project_name']}','{$_POST['manager_id']}',$location_id,'{$_POST['start_date']}','{$_POST['end_date']}','{$_POST['project_description']}')";
+	 // echo $q;
 	$result=$db->Execute($q);
-	//echo "<div id=\"note\"><p><strong>Your project has been successfully added!</strong><p></div>";
-	    $msg= "Your project has been successfully added! ";
-     	add_confirmation($msg);
+	echo "<div id=\"note\"><p><strong>Your project has been successfully added!</strong><p></div>";
+
 
 }
 
