@@ -107,7 +107,7 @@ CREATE TABLE `vm_projects` (
   `proj_id` bigint(20) NOT NULL default '0',
   `name` varchar(50) default NULL,
   `mgr_id` bigint(20) NOT NULL default '0',
-  `location_id` bigint(20) default NULL,
+  `location_id` varchar(60) default NULL,
   `start_date` date default NULL,
   `end_date` date default NULL,
   `description` text NOT NULL,
