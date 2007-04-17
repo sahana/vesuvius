@@ -1,6 +1,6 @@
 <?php
 /**
-* $id$
+* $id$;
 * 
 * Openlayers Plugin for GIS 
 *
@@ -28,6 +28,7 @@ function show_map($opt=null)
 {
 	global $global;
 	global $conf;
+	include_once('openlayers_fns.php');
 ?>
 	<!--<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>-->
 	<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
@@ -56,6 +57,7 @@ function show_map($opt=null)
  function init_ol_map()
  {
  	global $conf;
+ 	global $global;
 ?>
 		var lon = <?=$conf['mod_gis_center_x']?>;
         var lat = <?=$conf['mod_gis_center_y']?>;
@@ -64,7 +66,8 @@ function show_map($opt=null)
         
 		map = new OpenLayers.Map($('map'));
 		
-		OpenLayers.ProxyHost='';
+		OpenLayers.ProxyHost='<?="../".$conf['proxy_path']?>';
+		//OpenLayers.ProxyHost='http://localhost/~nazgul/sahana-main/sahana-phase2/www/../inc/lib_proxy.php?url=';
 			// WMS
 	    var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS", 
 	                      "http://labs.metacarta.com/wms/vmap0", 
@@ -88,7 +91,7 @@ function show_map($opt=null)
         		{typename: "OWLS", maxfeatures: 30});
         		
         	//GeoRSS Feed
-        var url = "http://earthquake.usgs.gov/recenteqsww/eqs7day-M2.5.xml";
+        var url = "http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml";
         var parts = url.split("/");
 
 			var georss = new OpenLayers.Layer.GeoRSS(parts[parts.length-1], url );
@@ -117,44 +120,110 @@ function show_add_marker_map($name)
 	global $global;
 	global $conf;
 	$db=$global['db'];
+	include_once('openlayers_fns.php');
+?>
+	<script src="../3rd/openlayers-2.0/lib/OpenLayers.js"></script>
+	<script type="text/javascript">
+	  
+	window.onload=function show_ol_marker()
+	{
+<?php
+		//alert("marker");
+		//ol_basic_map();
+		marker_map();
+?>		
+	}			
+	
+	</script>
+	<div id="map" style="width: <?=$conf['mod_gis_width']?>px; height: <?=$conf['mod_gis_height']?>px"></div>
+	
+<?php
+}
+
+/**
+ * show map with markers
+ * called by shn_gis_map_with_markers in gis api
+ * 
+ */
+function show_map_with_markers($array)
+{
+	global $global;
+	global $conf;
+	$db=$global['db'];
 	$key = $conf['mod_gis_google_key'];
 ?>
-	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<!--<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>-->
+	<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
+	<script src="../3rd/openlayers-2.0/lib/OpenLayers.js"></script>
 	<script type="text/javascript">
 	  
 	//<![CDATA[
-	window.onload=function show_map_add_mkr_js()
+	window.onload=function show_map_markers_js()
 	{
-			var map = new GMap2(document.getElementById("map"));
-			map.addControl(new GLargeMapControl());
-	       //map.addControl(new GSmallMapControl());
-			map.addControl(new GMapTypeControl());//satellite image switch
-				 
-			map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']?>,<?=$conf['mod_gis_center_x']?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);			
-			GEvent.addListener(map, 'click', function(overlay, point) {
-	  		if (overlay) {
-				var html = "<?php echo $name?>";
-				//overlay.openInfoWindowHtml(html);
-				map.removeOverlay(overlay);
-			} 
-			else {
-				map.addOverlay(new GMarker(point));
-				// store x,y coords in hidden variables named loc_x, loc_y
-				// must be set via calling page
-				var x_point=document.getElementsByName("loc_x");
-				var y_point=document.getElementsByName("loc_y");
-				x_point[0].value=point.x;
-				y_point[0].value=point.y;
-				//alert(x_point[0].value);
-			}	
-		});		
+			/*
+				
+				function createMarker(pointarr) {
+        			var location = new OpenLayers.LonLat(pointarr[0],[pointarr[1]]);
+        			
+        			return marker;
+      			}
+      			*/
+      			
+      			
+      			
+      			
+      			
+<?php
+				init_ol_map();
+				
+				
+				//add marker overlay
+				
+				for($i=0;$i< sizeof($array);$i++){
+					$lat=$array[$i]["lat"];
+					$lon=$array[$i]["lon"];
+					$name=$array[$i]["name"];
+					$url=$array[$i]["id"];
+					$pre_url="index.php?mod=cr&act=ecmp&seq=view&cmp_id=";
+					$url=$pre_url.$name;
+?>	
+      				var size = new OpenLayers.Size(21,25); // icon size
+	 				var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	   				// Offset of top left of icon from latlon point
+	 				var icon = new  OpenLayers.Icon('http://openlayers.org/dev/img/marker.png',size,offset);
+	 				//var feature = new OpenLayers.Feature("osm_wms",new OpenLayers.LonLat(<?=$lat?>,<?=$lon?>));
+	 				//var store_marker = feature.createMarker();
+	 				marker = new OpenLayers.Marker(new OpenLayers.LonLat(<?=$lat?>,<?=$lon?>),icon);
+	 				markers.addMarker(marker); 	
+	 				
+	 				/*
+	 				store_marker.events.register("mousedown", feature,function (evt) {
+			         if (popup == null) {
+			                 popup = feature.createPopup();
+			                 popup.setContentHTML(i);
+			                 popup.setBackgroundColor("yellow");
+			                 popup.setOpacity(0.7);
+			                 markers.map.addPopup(popup);
+			         } else {
+			                 markers.map.removePopup(popup);
+			                 popup.destroy();
+			                 popup = null;
+			         }
+			         Event.stop(evt);
+			 	   });
+ 					*/
+      				
+<?php
+				}
+				
+?>    
+					
 		
 	}		
 	//]]>	
 	
 	</script>
-	<div id="map" style="width: <?=$conf['mod_gis_width']?>px; height: <?=$conf['mod_gis_height']?>px"></div>
-	
+<div id="map" style="width: <?=$conf['mod_gis_width']?>px; height: <?=$conf['mod_gis_height']?>px"></div>
 <?php
 }
 
