@@ -135,7 +135,7 @@ function _shn_display_proj($proj_id,$indent=true,$edit=false)
      <td>
      	<div>
 			<a href="index.php?mod=vm&act=proj_locate&project=<?php echo $proj_id?>">
-	                   <?php echo get_project_location_string($proj_id) ?>
+	                   <?php echo _shn_vm_location_string($location); ?>
         	        </a>
 	</div>
      </td>

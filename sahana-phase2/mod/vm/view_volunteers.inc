@@ -97,7 +97,7 @@ function _shn_vm_proj_detail(){
           <td><?php echo $end?></td>
           <td>
            <div>
-            <a href="index.php?mod=vm&act=proj_locate&project=<?php echo $proj_id?>"><?php echo get_project_location_string($proj_id) ?></a>
+            <a href="index.php?mod=vm&act=proj_locate&project=<?php echo $proj_id?>"><?php echo _shn_vm_location_string($location) ?></a>
            </div>
           </td>
           <td><?php echo get_project_skills_list($project_id_param) ?></td>

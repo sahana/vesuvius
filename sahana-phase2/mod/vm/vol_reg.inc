@@ -211,7 +211,7 @@ $db=$global['db'];
     $avail_end=$_POST{"date_avail_end"};
     $hrs_start=$_POST{"hrs_avail_start"};
     $hrs_end=$_POST{"hrs_avail_end"};
-    $country_id='4';   // 4 = USA
+    $country_id=$_POST{"1"};
     $state_id=$_POST{"2"};
     $city_id=$_POST{"3"};
     $street_address=$_POST{"address"};

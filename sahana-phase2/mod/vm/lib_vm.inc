@@ -450,4 +450,35 @@ function _shn_vm_display_org_type($error=false,$multi=false,$value=NULL)
     shn_form_opt_select('opt_org_type','',$select_opts,$extra_opts);
 }
 */
+
+/**
+The function generates a location string by given location id
+
+Most of the code was borrowed from the OR Module Library and modified to fit the needs of the VM Module
+*/
+function _shn_vm_location_string($loc_id)
+{
+	error_reporting(E_ALL);
+        global $global;
+        $db=$global["db"];
+        $loc_arr=array();
+        shn_get_parents($loc_id,&$loc_arr);
+	if($loc_arr[0]=='unknown'){
+                shn_form_label(_("Location"),"Unknown");
+        }else{
+                $max=count($loc_arr)-1;
+                array_pop($loc_arr);
+                for($count=0;$count<$max;$count++){
+                        $x=array_pop($loc_arr);
+                        $q="select name from location where loc_uuid='{$x}'";
+                        $res=$db->Execute($q);
+                        if($count==0 ){
+                                $location=$location.$res->Fields("name");
+                        }else{
+                                $location=$res->Fields("name").", ".$location;
+                        }
+                }
+	}
+	return $location;
+}
 ?>

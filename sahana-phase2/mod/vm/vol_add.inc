@@ -108,11 +108,12 @@ function shn_vm_vol_add($error=false)
     shn_form_fsclose();
 
     shn_form_fsopen("Availability");
-shn_form_date(_("Start Date : "),'start_date',$extra_opts=NULL);
+    $extra_opts['req']=true;
+shn_form_date(_("Start Date : "),'start_date',$extra_opts);
 	echo "<br>";
-	shn_form_date(_("End Date : "),'end_date',$extra_opts=NULL);
+	shn_form_date(_("End Date : "),'end_date',$extra_opts);
 	echo "<br>";
-
+	$extra_opts['req']=false;
    // _shn_form_date(_("Start Date : "),'date_avail_start', $initdate=NULL, $required=true, $format='YYYY-MM-DD');
    // _shn_form_date(_("End Date : "),'date_avail_end', $initdate=NULL, $required=true, $format='YYYY-MM-DD');
     shn_form_text(_("Start Hours (e.g. 08:00) : "),'hrs_avail_start','size="10"',$extra_opts); 
@@ -196,12 +197,13 @@ shn_form_date(_("Start Date : "),'start_date',$extra_opts=NULL);
     shn_form_fsclose();
 
     shn_form_fsopen("Availability");
-$extra_opts['req']=false;
+$extra_opts['req']=true;
     $extra_opts['value']=$vol->start_date;
     shn_form_text(_("Start Date : "),'date_avail_start','size="10"',$extra_opts);
-     $extra_opts['req']=false;
+     $extra_opts['req']=true;
     $extra_opts['value']=$vol->stop_date;
     shn_form_text(_("End Date : "),'date_avail_end','size="10"',$extra_opts);
+    $extra_opts['req']=false;
 
 //    _shn_form_date(_("Start Date : "),'date_avail_start', $vol->start_date, $required=true, $format='YYYY-MM-DD');
    // _shn_form_date(_("End Date : "),'date_avail_end', $vol->stop_date, $required=true, $format='YYYY-MM-DD');

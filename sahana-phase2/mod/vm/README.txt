@@ -8,6 +8,3 @@ Run the db_setup.sql script (from the ins folder) to create vm_ tables and deplo
 (we use this command to run the script.  $mysql -u sahana_admin -p < db_setup.sql)
 text
 ~ After executing the script change the config value found in Sahana's administration->config values menu called mod_vm_hack to 1, if you do not have ACL enabled. 
-
-COMMIT LOG:
-17/04/2007: Added revised admin.inc file to cvs 
