@@ -70,4 +70,29 @@ function ol_basic_map()
             });
 <?php
 }
+
+function marker_map()
+{
+	global $conf;
+?>
+	//OpenLayers.ProxyHost="";
+	var lon = <?=$conf['mod_gis_center_x']?>;
+    var lat = <?=$conf['mod_gis_center_y']?>;
+    var zoom = 5;
+    var map, velayer, layer,marker;
+    map = new OpenLayers.Map($('map'));
+	var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS", 
+	                      "http://labs.metacarta.com/wms/vmap0", 
+	                      {layers: 'basic'} );
+
+	var layer = new OpenLayers.Layer.WFS( "Owl Survey",
+						"http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?",
+						{typename: "OWLS", maxfeatures: 30});	                      
+	map.addLayers([wms,layer]);
+	map.zoomToMaxExtent();
+	map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            map.addControl( new OpenLayers.Control.LayerSwitcher() );
+            map.addControl( new OpenLayers.Control.PanZoomBar() );
+<?php
+}
 ?>
