@@ -141,6 +141,9 @@ $conf['locale'] = 'en_US';
 # true: to enable GIS/Mapping Capabilities
 
 $conf['gis'] = true;
+
+$conf['proxy_path']='';
+
 ###############################
 
 
