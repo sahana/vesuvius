@@ -404,6 +404,7 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
+    shn_setup_run_sqlscript($db,'mod/vm/ins/dbcreate.sql'); // for Volunteer management
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
