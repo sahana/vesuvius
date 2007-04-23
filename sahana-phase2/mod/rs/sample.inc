@@ -35,7 +35,7 @@ function shn_rs_sample_report()
     shn_form_upload("Image :", 'image', '');
     shn_form_fsclose();
     shn_form_fsopen(_('Meta Data'));
-    shn_form_text(_("Keyword / Keywords :"),'keyword','size="50"', array('help'=>_('Here you can enter keywords for your report which will help you to search the report later. If you have more than one keyword enter them in the tesx box by seperting coma.')));
+    shn_form_text(_("Keyword / Keywords :"),'keyword','size="50"', array('help'=>_('Here you can enter keywords for your report which will help you to search the report later. If you have more than one keyword enter them in the tesx box by separating coma.')));
     shn_form_textarea("Description :",'description' , '', '');
     shn_form_fsclose();
 
