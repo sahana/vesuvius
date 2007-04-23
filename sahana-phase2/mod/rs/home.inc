@@ -18,7 +18,7 @@
     ?>
     <div id="home">
     <h2><?= _('Reporting System'); ?></h2>
-    <div><p><?= _('The Reporting System helps to generate reports based on sahana database. It aggregates all the module reports in one place for making easier the user to view, search reports and charts. On the other hand it performes as the administrator interface for sahana module reports.'); ?></p></div>
+    <div><p><?= _('The Reporting System helps to generate reports based on sahana database. It aggregates all the module reports in one place for making easier the user to view, search reports and charts. On the other hand it performs as the administrator interface for sahana module reports.'); ?></p></div>
 
     <br></br>
     <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
