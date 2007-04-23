@@ -441,7 +441,7 @@ function shn_cs_addunittype()
 	require_once('add.inc');
 	
 	?>
-	<p><?= _('Here you are able to add Unit type. For every Unit type you have to add a base unit. Eg. If you add volume as the unit type, Letre can be specified as the base unit.'); ?></p>
+	<p><?= _('Here you are able to add Unit type. For every Unit type you have to add a base unit. Eg. If you add volume as the unit type, Litre can be specified as the base unit.'); ?></p>
 	<?php
 	
 	shn_cs_add_unit_type_form();
