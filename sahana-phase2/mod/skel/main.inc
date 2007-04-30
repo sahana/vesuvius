@@ -28,6 +28,8 @@ include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
 
 
+include_once($global['approot'].'inc/lib_log.inc');
+
 
 /**
  * This function allows you to override the mainmenu. This is often done 
@@ -88,8 +90,8 @@ function shn_skel_default()
 give on the first page with it\' features listed below')?>
 <?= _('Features include:');?></p>
 <ul>
-    <li><?=$global['shn_rs_sample_nicename']?></li>
-    <li><?= _('Feature 2')?></li>
+    <li><?=_('Give a description of the features')?></li>
+    <li><?=_('Feature 2')?></li>
 </ul>
 </div>
 
@@ -131,6 +133,13 @@ function shn_skel_mit()
 function shn_skel_report()
 {
     echo '<p>'._('You called the report action').'</p>';
+
+    global $global;
+
+    //shn_log_event('rr','report','skeleton update');
+
+    //shn_log_display('rr');
+     
 }
 
 /**
