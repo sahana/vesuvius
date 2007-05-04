@@ -71,7 +71,7 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
- 	shn_form_fsopen("Base Location");
+ 	shn_form_fsopen("Base Location <span class='req'>   *req </span>");
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
