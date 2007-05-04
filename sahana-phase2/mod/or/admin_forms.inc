@@ -130,8 +130,9 @@ function shn_or_adm_or_type_form()
     _shn_or_display_org_type($error,true,null,false);
      shn_form_button(_("Remove"),"onClick='remove_types()'");
     
-      shn_form_button(_("Add More"),"onClick='add_types()'");
+      
       shn_form_text(_("New Organization Type : "),'type','size="50"',null);
+      shn_form_button(_("Add"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
 </center>
