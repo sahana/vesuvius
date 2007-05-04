@@ -552,7 +552,7 @@ var end = <?php echo $end;?>;
  */
 function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	if($extra_opts['req']==true){
-	shn_form_label(null,"Please Select a location", array("req"=>true));
+		shn_form_label(null,"Please Select a location", array("req"=>true));
 	?> <br />
 	<?}
 	
@@ -642,7 +642,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 			
 		}else{
 
-        		_shn_location_form_parent($range,$parent);
+        	_shn_location_form_parent($range,$parent);
         		$keepparent=true;
 		}
 			  
@@ -830,8 +830,7 @@ function _shn_location_form_parent($range,$parent){
 /**
  * _shn_location_form_value 
  * 
- * @param mixed $from 
- * @param mixed $to 
+ * @param mixed $range
  * @param mixed $value 
  * @access protected
  * @return void
@@ -961,56 +960,49 @@ function _shn_location_form($range)
    
 }
 
-/********************************************************************************************************/
-/* functions that relied on the search id. I realised the difficulty in Data synchronization with search Id*/
-/* therefore all those function were rewritten to work without search id*/
-
-/**
- * Adds a location to the database.Retrives the values to insert from the POST variables. 
- * 
- * @access public
- * @return void
- */
- /*
-function shn_location_add()
+function shn_location_get_start_loc()
 {
     global $global;
+    global $conf;
     $db=$global['db'];
-    $loc=$_POST{"loc_name"};
-    $desc=$_POST{"desc"};
-    $iso=$_POST{"iso"};
-    $level=$_POST{"opt_location_type"};
-    if($level==1){
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES (0,'0','1','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
-        $q="select loc_uuid from location where name='{$loc}' and opt_location_type=1";
-        $res=$db->Execute($q);
-        $id=$res->fields[0];
-        $q="update location set search_id=$id where loc_uuid=$id";
-        $res=$db->Execute($q);
-    }else {
-        $level=$level-1;
-        $parent=$_POST{"$level"};
-        $level=$level+1;
-        $q="select count(*) from location where parent_id=$parent";
-        $res=$db->Execute($q);
-        $count=$res->fields[0]+1;
-        $q="select search_id from location where loc_uuid=$parent";
-        $res=$db->Execute($q);
-        $search_id=$res->fields[0].".".$count;
-        $q="INSERT INTO location(parent_id,search_id,opt_location_type,name,iso_code,description) VALUES ($parent,'{$search_id}','{$level}','{$loc}','{$iso}','{$desc}')";
-        $res=$db->Execute($q);
+    $q="select value from config where module_id='admin' and confkey='loc_start'";
+    $res=$db->Execute($q);
+
+    	if($res==NULL){
+    		return NULL;
+    }else{
+    		return $res->fields["value"];
     }
 }
-*/
 
 
-
+function shn_location_get_loc_range()
+{
+    global $global;
+    global $conf;
+    $db=$global['db'];
+    $loc=array();
+    $q="select value from config where module_id='admin' and confkey='loc_range_start'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["start"]=$conf['mod_or_loc_level_start'];
+    }else {
+    	$loc["start"]=$res->fields[0];
+    }
+    $q="select value from config where module_id='admin' and confkey='loc_range_end'";
+    $res=$db->Execute($q);
+    if($res->fields[0]==NULL){
+       	$loc["end"]=$conf['mod_or_loc_level_end'];
+    }else {
+    	$loc["end"]=$res->fields[0];
+    }
+    return $loc;
+}
 
 
 
 /********************************************************************************************************/
-/* Deprecated functions ,will be removed on 11th april 2006 *********************************************/
+/* Deprecated functions ,will be removed from 0.5-stable release *********************************************/
 
 function shn_location_form($from,$to,$value=NULL){
 	$range["start"]=$from;
@@ -1044,44 +1036,6 @@ function shn_location_form_org($from,$to,$value=NULL){
 		}	  
 	}
 	shn_form_fsclose();
-}
-
-function shn_location_get_start_loc()
-{
-    global $global;
-    global $conf;
-    $db=$global['db'];
-    $q="select value from config where module_id='admin' and confkey='loc_start'";
-    $res=$db->Execute($q);
-
-    	if($res==NULL){
-    		return NULL;
-    }else{
-    		return $res->fields["value"];
-    }
-}
-
-function shn_location_get_loc_range()
-{
-    global $global;
-    global $conf;
-    $db=$global['db'];
-    $loc=array();
-    $q="select value from config where module_id='admin' and confkey='loc_range_start'";
-    $res=$db->Execute($q);
-    if($res->fields[0]==NULL){
-       	$loc["start"]=$conf['mod_or_loc_level_start'];
-    }else {
-    	$loc["start"]=$res->fields[0];
-    }
-    $q="select value from config where module_id='admin' and confkey='loc_range_end'";
-    $res=$db->Execute($q);
-    if($res->fields[0]==NULL){
-       	$loc["end"]=$conf['mod_or_loc_level_end'];
-    }else {
-    	$loc["end"]=$res->fields[0];
-    }
-    return $loc;
 }
 
 
