@@ -232,7 +232,7 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
     _shn_or_display_sector($error);
     shn_form_fsclose();
   // base location
-    shn_form_fsopen("Base Location");
+    shn_form_fsopen("Base Location <span class='req'>   *req </span>");
    	$parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
     shn_location($range,$_POST[$range["end"]],$parent); 
