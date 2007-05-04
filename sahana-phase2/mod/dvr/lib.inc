@@ -104,6 +104,31 @@ return $group;
 	
 }
 
+function _shn_dvr_get_groupdisplaced_location($groupid)
+{
+	global $global;
+
+$db = $global['db'];
+$sql="select location_id from location_details where p_uuid ='{$groupid}-disp'";
+$res = $db->Execute($sql);
+$loc=$res->fields['location_id'];
+return $loc;
+}
+
+
+
+
+function _shn_dvr_get_groupcurrent_shelter($groupid)
+{
+	global $global;
+
+$db = $global['db'];
+$sql="select full_name from person_uuid where p_uuid ='{$person_uuid}'";
+$res = $db->Execute($sql);
+$group=$res->fields['full_name'];
+return $group;
+}
+
 
 
 

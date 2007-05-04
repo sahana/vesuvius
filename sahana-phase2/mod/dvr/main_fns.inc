@@ -84,7 +84,6 @@ function shn_dvr_add_new_indv() {
 	unset($_SESSION['dvr']['person']['typ_of_grp']);
 	unset($_SESSION['dvr']['person']['head_name']);
 	
-
 	unset($_SESSION['dvr']['person']['group_id']) ;
 	unset($_SESSION['dvr']['person']['full_name']);
 	unset($_SESSION['dvr']['person']['family_name']);
@@ -139,6 +138,7 @@ unset($_SESSION['dvr']['person']['opt_eye_color']);
 						
 							unset($_SESSION['dvr']['person']['gis_loc_x']);
 		unset($_SESSION['dvr']['person']['gis_loc_y']);;
+	unset($_SESSION['dvr']['person']['camps']);
 	
 
 	unset($_SESSION['dvr']['person']['displaced_loc']) ;
@@ -256,7 +256,7 @@ function shn_dvr_add_new_grp() {
 	unset($_SESSION['dvr']['group']['adlt_fmls']);
 	unset($_SESSION['dvr']['group']['chldrn']) ;
 	unset($_SESSION['dvr']['group']['dsplcd']) ;
-	unset($_SESSION['dvr']['group']['mising']) ;
+	unset($_SESSION['dvr']['group']['misng']) ;
 	unset($_SESSION['dvr']['group']['dead']) ;
 	unset($_SESSION['dvr']['group']['rehbd']);
 	unset($_SESSION['dvr']['group']['image']);
@@ -265,6 +265,7 @@ function shn_dvr_add_new_grp() {
 	unset($_SESSION['dvr']['group']['image_width']) ;
 	
 	//unset group location details
+	unset($_SESSION['dvr']['group']['camps']);
 	
 	unset($_SESSION['dvr']['group']['gis_loc_x']);
 	unset($_SESSION['dvr']['group']['gis_loc_y']);
@@ -276,7 +277,7 @@ function shn_dvr_add_new_grp() {
 	unset($_SESSION['dvr']['group']['opt_dvr_service']);
 	unset($_SESSION['dvr']['group']['other']);
 	
-	
+	unset($_SESSION['dvr']['group']['camps']);
 	shn_dvr_grouptype_and_head_details_start();
 									}
 

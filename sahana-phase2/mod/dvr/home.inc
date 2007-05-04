@@ -27,7 +27,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 	"where information on all the disaster victims can be stored.Information like name,age" .
 	",contact number,id card number,religion,race,displaced location,current location and other " .
 	"physical details are captured.Also victims picture and finger print details can be uploaded to" .
-	"the system .Also the groupwise information is captured.This module can be used by" .
+	"the system dependending on the legal aspects of the deployement .Also the groupwise information is captured.This module can be used by" .
 	" any NGO/organization prior or after to a disaster"  );
 ?>
 

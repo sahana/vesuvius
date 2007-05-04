@@ -28,10 +28,12 @@
       <primarykeys>
         <primarykey field_id='p_uuid' />
       </primarykeys>
+      
       <foreign_keys>
         <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
       </foreign_keys>
     </table>
+    
     <table name='identity_to_person'>
       <foreign_keys>
         <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>

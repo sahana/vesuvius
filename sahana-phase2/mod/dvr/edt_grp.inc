@@ -408,14 +408,18 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	shn_form_fsclose();
 	*/
-$extra_opts["camp_id"]="iswoc-1";
+	
 	shn_form_fsopen(_("Current Location"));
 
 	$parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
-
+if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false)
+$extra_opts["camp_id"]=_shn_dvr_get_shelter($_SESSION['dvr']['group']['id']);
+	else
+$extra_opts["camp_id"]=$_SESSION['dvr']['group']['camps'];
+	
 	$extra_opts['camps'] = true;
-$extra_opts['camp_id']='5cn2c-2';
+//$extra_opts['camp_id']='5cn2c-2';
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 shn_location($range, null, null, $extra_opts);
@@ -461,7 +465,7 @@ function _shn_dvr_group_location_validate_error() {
 function shn_dvr_set_location_details() {
 
 	$loc = shn_location_get_form_submit_loc();
-
+$_SESSION['dvr']['group']['camps']=$_POST['camps'];
 	if ((null == $_POST['gps_x']) && null == $_POST['gps_y']) {
 		$_SESSION['dvr']['group']['gis_loc_x'] = $_POST['loc_x'];
 		$_SESSION['dvr']['group']['gis_loc_y'] = $_POST['loc_y'];

@@ -30,9 +30,14 @@ function _shn_drill_downby_group() {
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 include_once ($global['approot'] . '/mod/dvr/lib.inc');
 $incident_id=$_GET['incident_id'];
+$camp_id=$_GET['camp_id'];
 if($incident_id!=null)
 {
-	$results=_shn_dvr_get_all_groups($incident_id);
+	$results=_shn_dvr_get_all_groups($incident_id,null);
+}
+else if($camp_id!=null)
+{
+	$results=_shn_dvr_get_all_groups(null,$camp_id);
 }
    else
    {$results=_shn_dvr_get_all_groups(null);
@@ -78,24 +83,42 @@ if($incident_id!=null)
    <?php
    }
    
-function _shn_drill_downby_shelter() {
+function _shn_drill_downby_shelter() 
+{
+  global $global;
+   	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+$camps=_shn_dvr_get_camps();
+
 ?>
- 	 
+ 	  <h2><?=_("Disaster Victim Report by Shelter") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
-        		<td></td>
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-            <td><?=_("Local Name")?></td>
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
-         <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
+        		
+            <td><?=_("Camp Id")?></td>
+            <td><?=_("Camp Name")?></td>
+            
+         
+         
         </thead>
+        
+<?php
+        while(!$camps->EOF)
+{
+	
+?>
+<tr>
+	<td><a href='index.php?mod=dvr&act=drill_downby_group&camp_id=<?= $camps->fields['c_uuid']?>'><?= $camps->fields['c_uuid']?></a></td>
+	<td><?=$camps->fields['name']?></td>
+</tr>
+<?php
+$incidents->MoveNext();
+}
+?>        
         <table>
         </div>
    <?php
+
 
 
 }

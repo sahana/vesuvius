@@ -39,7 +39,7 @@ function shn_dvr_adminmenu() {
 	$module = $global['module'];
 	// Create the module menuj
 	shn_adm_menuopen(_("Disaster Victim Registry"));
- 	shn_adm_menuitem("adm_checklist", _("Manage CheckList"));
+ 	shn_adm_menuitem("adm_checklist", _("Manage Checklist"));
 
 	//shn_adm_menuitem("adm_opt_age_group", _("Manage Groups"));
 	shn_adm_menuclose();
@@ -53,12 +53,36 @@ global $global;
 shn_dvr_adminmenu();
 shn_form_fopen("adm_form_commit",null,array("req"=>false));
 shn_form_fsopen("Add Service / Facility");
-	shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities");
+
+?>
+<table>
+<tr>
+<td><?php
+shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities");
+	?>
+	
+	</td></tr>
+	<tr>
+	<td>
+	<?php
+		
 	shn_form_text("Item Name","service_name",'size="30"');
+	?>
+	</td></tr>
+	<tr><td>
+	<?php
+	
+		
 	shn_form_text("Item Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
+	?>
+	</td></tr>
+	</table>
+	<?php
+	
 	shn_form_fsclose();
 	shn_form_submit("Add Item");
 	shn_form_fclose();
+
 } 
 
 

@@ -1,7 +1,7 @@
 <?php
 
 /** 
- * Disaster Victims Registry Configuration file
+ * Disaster Victims Registry Configuration File
  *
  * PHP version 4 and 5
  *

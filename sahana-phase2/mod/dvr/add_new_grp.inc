@@ -66,8 +66,98 @@ add_error(_("Invalid Email entered"));
 $error_flag = true;
 }
 	
+	$adltmales=$_POST['adlt_mls'];
+	$adltfmales=$_POST['adlt_fmls'];
+	$chldrn=$_POST['chldrn'];
+	
+	$dsplcd=$_POST['dsplcd'];
+	$misng= $_POST['misng'];
+$dead=	$_POST['dead'];
+$rehbd=	 $_POST['rehbd'];
+	
+	if($adltmales!=null)
+	{
+	if(!shn_valid_number($adltmales))
+	{
+		add_error(_("Adult Male count should be a number"));
+			$error_flag = true;
+	}
+	}
+	
+	if($adltfmales!=null)
+	{
+	if(!shn_valid_number($adltfmales))
+	{
+		add_error(_("Adult Female count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
+	
+	
+	if($chldrn!=null)
+	{
+	if(!shn_valid_number($chldrn))
+	{
+		add_error(_("Children count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
+	
+	
+	
+	
+	
+	if($dsplcd!=null)
+	{
+	if(!shn_valid_number($dsplcd))
+	{
+		add_error(_("Displaced count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
+	
+	
+	
+	if($misng!=null)
+	{
+	if(!shn_valid_number($misng))
+	{
+		add_error(_("Missing People count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
 	
 
+	
+	if($dead!=null)
+	{
+	if(!shn_valid_number($dead))
+	{
+		add_error(_("Death count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
+	
+	
+	
+	
+	
+	if($rehbd!=null)
+	{
+	if(!shn_valid_number($rehbd))
+	{
+		add_error(_("Rehabilitated count should be a number"));
+			$error_flag = true;
+	}
+	
+	}
+	
+	
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
 		//check the image type 
@@ -79,6 +169,7 @@ $error_flag = true;
 
 	}
 
+
 	return $error_flag;
 }
 
@@ -87,7 +178,7 @@ function _shn_dvr_group_location_validate_error() {
 	$loc = shn_location_get_form_submit_loc();
 	if ($loc == -1) {
 		$error = true;
-		add_error(SHN_ERR_DVR_LOCATION_INCOMPLETE);
+		add_error("Please Select  a valid location");
 
 	}
 	return $error;
@@ -114,7 +205,7 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['adlt_fmls'] = $_POST['adlt_fmls'];
 	$_SESSION['dvr']['group']['chldrn'] = $_POST['chldrn'];
 	$_SESSION['dvr']['group']['dsplcd'] = $_POST['dsplcd'];
-	$_SESSION['dvr']['group']['mising'] = $_POST['misng'];
+	$_SESSION['dvr']['group']['misng'] = $_POST['misng'];
 	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
 
@@ -290,7 +381,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	shn_form_text(_("Dead"), 'dead', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['rehbd'];
-	$extra_opts['help'] = _("Enter the rehabilated  people count(Optional)");
+	$extra_opts['help'] = _("Enter the rehabilitated  people count(Optional)");
 	shn_form_text(_("Rehabilitated"), 'rehbd', null, $extra_opts);
 
 	shn_form_fsclose();
@@ -344,7 +435,7 @@ function shn_dvr_loc_dtls($errors = false) {
 	$range = shn_dvr_get_loc_range();
 
 	$extra_opts['camps'] = true;
-$extra_opts['camp_id']='5cn2c-2';
+$extra_opts['camp_id']=$_SESSION['dvr']['group']['camps'];
 	
 	shn_location($range, $_SESSION['dvr']['group']['current_loc'], null, $extra_opts);
 
@@ -373,6 +464,7 @@ $extra_opts['camp_id']='5cn2c-2';
 function shn_dvr_set_location_details() {
 
 	$loc = shn_location_get_form_submit_loc();
+$_SESSION['dvr']['group']['camps']=$_POST['camps'];
 
 	if ((null == $_POST['gps_x']) && null == $_POST['gps_y']) {
 		$_SESSION['dvr']['group']['gis_loc_x'] = $_POST['loc_x'];
