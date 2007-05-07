@@ -69,13 +69,35 @@ shn_main_filter_getpost();
 // if installed the sysconf.inc will exist in the conf directory
 // if not start the web installer
 if (!file_exists($global['approot'].'conf/sysconf.inc')){
+    // The 'help' action is a special case. The following allows the popup help text
+    // to be accessed before the sysconf.inc file has been created.
+    if ($global['action'] == "help"){
+        require_once $global['approot']."/inc/lib_stream_{$_REQUEST['stream']}.inc";
 
-    // include the sysconfig template for basic conf dependancies
-    require_once ($global['approot'].'conf/sysconf.inc.tpl'); 
+        $module = $global['module'];
 
-    // launch the web setup wizard
-    require ($global['approot'].'inst/setup.inc');
+        $module_file = $approot.'mod/'.$module.'/main.inc';
 
+        include($module_file);
+
+        shn_stream_init();
+
+        $module_function='shn_'.$_REQUEST['stream'].'_'.$module.'_'.$global['action'];
+
+        $_SESSION['last_module']=$module;
+        $_SESSION['last_action']=$action; 
+
+        $module_function();
+
+        shn_stream_close();
+    }
+    else{ 
+        // include the sysconfig template for basic conf dependancies
+        require_once ($global['approot'].'conf/sysconf.inc.tpl'); 
+
+        // launch the web setup wizard
+        require ($global['approot'].'inst/setup.inc');
+    }
 } else {
 
     // define the configuration priority order
