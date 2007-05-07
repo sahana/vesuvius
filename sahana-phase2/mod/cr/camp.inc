@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.47 2007-05-07 08:16:03 mifanc Exp $ */
+/* $Id: camp.inc,v 1.48 2007-05-07 14:34:44 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -266,19 +266,25 @@ function _shn_cr_sel_map($errors=false){
 	shn_form_close();
 
 }
+
+/**
+ * @todo: change variables to lat=y. lon=x
+ */
 function _shn_cr_validate_gps(){
 	clean_errors();
 	$error_flag=false;
 	
+	// latitude
 	if(!(null == ($_POST['gps_x']))){
-		if(!is_numeric(trim($_POST['gps_x']))){
-			add_error(_("The GPS X values are not valid coordinates"));
+		if(!shn_valid_y_coordinate(trim($_POST['gps_x']))){
+			add_error(_("Coordinates invalid: should be between -180 & 180"));
 			$error_flag=true;
 		}
 	}
+	//longitude
 	if(!(null == ($_POST['gps_y']))){
-		if(!is_numeric(trim($_POST['gps_y']))){
-			add_error(_("The GPS Y values are not valid coordinates"));
+		if(!shn_valid_x_coordinate(trim($_POST['gps_y']))){
+			add_error(_("Coordinates invalid: should be between -180 & 180"));
 			$error_flag=true;
 		}
 	}
