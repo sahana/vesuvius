@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.50 2007-05-07 19:16:38 mifanc Exp $ */
+/* $Id: camp.inc,v 1.51 2007-05-07 19:39:14 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -214,6 +214,10 @@ function _shn_cr_create_cid($val){
 }
 
 function _shn_cr_sel_map($errors=false){
+	if($errors){
+		display_errors();
+	}
+	else{
 	$_SESSION['camp_name']=$_POST['camp_name'];
 	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
 	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
@@ -236,18 +240,14 @@ function _shn_cr_sel_map($errors=false){
 	$_SESSION['cr_5']=$_POST['5'];
 	$_SESSION['contact_mob']=$_POST['contact_mob'];
 	$_SESSION['occupation']=$_POST['occupation'];
+	}
 	
-	if($errors)
-		display_errors();
 	
 	
 
 	global $global;
 	global $conf;
 	
-	//include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-	//shn_js_show();
-	//add_marker_out("some name");
 											
 	shn_form_fopen(acmp);
 	shn_form_fsopen(_("Location Information"));
