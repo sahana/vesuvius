@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.21 2007-03-15 11:25:19 mifanc Exp $ */
+/* $Id: edit.inc,v 1.22 2007-05-07 19:19:25 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -44,40 +44,15 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_textarea(_("Address"),"camp_address",null,array('value'=>$_SESSION['camp_address']));
 	shn_form_fsclose();
 ?>
-<!--
-<label>Division</label>
-<select name="opt_location_type" >-->
-<?php
-// Display selected Division type only
-/*
-	$q="select value from config where confkey='division_type' && module_id='cr'";
-	//$q ="select option_description from field_options where field_name='cr_pref_div'";
-	$ref = $db->Execute($q);
-		$val=$ref->fields[0];
-	$q ="select location_id,name from location where opt_location_type=$val";
-	$ref = $db->Execute($q);
-	while(!$ref->EOF){	
-		$val=$ref->fields[0];
-		$name=$ref->fields[1];
-*/
-?>
-<!--
-<option value='<?=$val?>'><?=$name?></option>-->
-<?php
-/*
-		$ref->MoveNext();
-	}
-*/
-?>
-<!--</select><br>-->
+
 <?php
 
 	global $global;
 	include $global['approot']."/inc/lib_location.inc";
-	$range=array("start"=>1,"end"=>5);
-	//shn_location_form_org($range);
-	//shn_location_form_org($range,$_SESSION['opt_location_type']);
-	shn_location_form(1,5,$_SESSION['opt_location_type']);	
+	global $range;
+	shn_form_fsopen(_("Location Details"));
+	shn_location($range,$_SESSION['opt_location_type']);
+	shn_form_fsclose();	
 			
 //-----------------------------------------
 	shn_form_fsopen(_("Contact Person Details"));
