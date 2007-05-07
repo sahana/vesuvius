@@ -64,7 +64,7 @@ function _shn_rms_requester($requester_id=null)
     
     print '</div>';
     print '<br />';
-    shn_form_text(_("Any Card Number"),'card_number',null,array('req'=>true,'br'=>false));
+    shn_form_text(_("Requester ID"),'card_number',null,array('req'=>true,'br'=>false));
     shn_form_fsclose();
     shn_form_submit(_("Next"), 'id="reqstr_next"');
     shn_form_fclose();
@@ -84,22 +84,39 @@ function _shn_rms_requester_new()
         $requester['address'] = $_POST['address'];
         $requester['opt_id_type']=$_POST['opt_id_type'];
         $requester['card_number']=$_POST['card_number'];
+
+	
         
-        
+        if(!shn_valid_email($requester['email']))
+	{
+	    add_error(_("Invalid e-mail Address"));
+	    _shn_rms_requester();
+	    return false;
+	}
+	else
+	{
         $id = _shn_rms_add_requester($requester);
         
         $_SESSION['rms_reqstr_id'] = $id;
+        //_shn_rms_add_identity($p_uuid,$_POST['card_number'],$_POST['opt_id_type']);
         
-        
-       // $msg = _("Your Requester id: $id, Please write down this ID");
+       $msg = _("Your Requester id: $id, Please write down this ID");
+       add_warning($msg);
        // _shn_html_inform_add($msg);
       //  _shn_html_inform_show();
         return true;
+	}
         
     }
     else
     {
+	$requester['email'] = $_POST['email'];
         add_error(_("Please fill all the required fields"));
+	if(!shn_valid_email($requester['email']))
+	{
+	    add_error(_("Invalid e-mail Address"));
+	    
+	}
         display_errors();
         _shn_rms_requester();
         return false;
@@ -304,7 +321,7 @@ function _shn_rms_location($id = null)
     print _("<strong>Select Request Location:</strong><br /> ");
     print _("Please select the Location Type, ");
     print _("Then select an <strong>Existing Location</strong> that is associated with the requester or ");
-    print _("if it doesn't contain the the location you need create a <strong>New Location</strong>.'");
+    print _("if it doesn't contain the location you need create a <strong>New Location</strong>.'");
     print '<br />';
     print '</div>';
 ?>
@@ -376,7 +393,8 @@ function _shn_rms_location_add()
     else
     {
         $id = $_SESSION['rms_reqstr_id'];
-        print _shn_rms_add_requester_loc($id, $loc);
+        //print _shn_rms_add_requester_loc($id, $loc);
+	_shn_rms_add_requester_loc($id, $loc);
         _shn_rms_location();
     }
     

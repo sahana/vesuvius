@@ -148,8 +148,15 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                     $reqstr['mobile'];
         
         $req_loc = _shn_rms_get_location($r['loc_uuid']);
-        $loc_d = '<strong>' . $req_loc['location_id'] . '</strong> [' . 
+	if($req_loc['opt_person_loc_type']=='')
+	{
+	    $loc_d = '<strong>' . $req_loc['location_id'] . '</strong>';
+	}
+	else
+	{
+            $loc_d = '<strong>' . $req_loc['location_id'] . '</strong> [' . 
                     $req_loc['opt_person_loc_type'] . ']';
+	}
         
         $req_date = $r['req_date'];
         $req_stat = $r['status'];

@@ -50,7 +50,7 @@ function _shn_rms_add_requester($requester)
     $addr   = $requester['address'];
 
     $id_type=$requester['opt_id_type'];
-    $card_number=$requester['card_number'];
+    $card_number_pre=$requester['card_number'];
 $card_number=$p_uuid;
 //print $card_number;
   

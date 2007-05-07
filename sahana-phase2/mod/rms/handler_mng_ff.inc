@@ -26,7 +26,7 @@ function _shn_rms_mng_request()
     print '<div id="req_id">';
     print '<div class="info">';
     print _("Request / Pledge Matching ");
-    print _("Please add the Request ID of the request you want to fulfill. You can also select a Request fron the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
+    print _("Please add the Request ID of the request you want to fulfill. You can also select a Request from the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
     print '<br />';
     print '</div>';
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
@@ -78,7 +78,7 @@ function _shn_rms_mng_select_item()
     $req_id = $_SESSION['rms_req_id'];
     
     print '<div class="info">';
-    print _("This shows the current fulfilment status of the request, ");
+    print _("This shows the current fulfillment status of the request, ");
     print _("Please select an item from the request to be fulfilled.");
     print '<br />';
     print '</div>';
@@ -179,7 +179,7 @@ function _shn_rms_mng_addff($max_qty)
     print '<br />';
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
     shn_form_hidden(array('seq'=>''));
-    shn_form_fsopen(_("Cancel Fulfilment Process"));
+    shn_form_fsopen(_("Cancel Fulfillment Process"));
     shn_form_submit(_("Cancel !!"));
     shn_form_fsclose();
     shn_form_fclose();
@@ -240,7 +240,7 @@ switch ($_REQUEST['seq'])
             
             if ($_SESSION['rms_mng_ff_added'])
             {
-                _shn_html_print_alert(_("The Fulfilment Data was successfully added"));
+                _shn_html_print_alert(_("The Fulfillment Data was successfully added"));
                 _shn_rms_view_reqff($_SESSION['rms_req_id']);
             }
             

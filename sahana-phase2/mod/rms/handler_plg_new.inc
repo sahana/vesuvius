@@ -55,7 +55,7 @@ function _shn_rms_donor()
     shn_form_fsopen(_("Existing Donor"));
     
     print '<div class="info">';
-    print _("If you are a registered Donor, Please enter the card number ");
+    print _("If you are a registered Donor, Please enter the Donor ID ");
     print '<br />';
     //print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
     //print '<br />';
@@ -63,7 +63,7 @@ function _shn_rms_donor()
     print '</div>';
     print '<br />';
     
-    shn_form_text(_("Any Card Number"),'donor_id',null,array('br'=>false));
+    shn_form_text(_("Donor ID"),'donor_id',null,array('br'=>false));
     shn_form_submit(_("Next"), 'id="donor_next"');
     shn_form_fsclose();
     $help = _("* Create New Donor: " .
@@ -84,19 +84,36 @@ function _shn_rms_donor_new()
         $donor['address'] = $_POST['address'];
         $donor['card_number']=$_POST['card_number'];
         $donor['card_type']=$_POST['opt_id_type'];
+
+	if(!shn_valid_email($donor['email']))
+	{
+	    add_error(_("Invalid e-mail address format"));
+	    _shn_rms_donor();
+	    return false;
+	}
+	else
+	{
         
         $id = _shn_rms_add_donor($donor);
 	//print $id;
         //$_SESSION['rms_donor_id'] = $donor['card_number'];
 	$_SESSION['rms_donor_id'] = $id;
         $msg = _("Your Donor id: $id, Please write down this ID");
+	add_warning($msg);
       //  _shn_html_inform_add($msg);
         _shn_html_inform_show();
         return true;
+	}
     }
     else
     {
+	$donor['email'] = $_POST['email'];
         add_error(_("Please fill all the required fields"));
+	if(!shn_valid_email($donor['email']))
+	{
+	    add_error(_("Invalid e-mail address format"));
+	    
+	}
         display_errors();
         _shn_rms_donor();
         // Unhide newrequester form
@@ -307,6 +324,7 @@ function _shn_rms_items($category = null)
     
     if ($cat_arr == false)
         return;
+    $categories["none"] = "";
     
     foreach ($cat_arr as $cat)
     {

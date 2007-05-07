@@ -41,8 +41,13 @@ print _("The Sahana request management system is a central online repository " .
         "tracking request to fulfillment."
         );
 ?>
+
 </p>
-<strong>Features include:</strong>
+
+<br></br>
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+<br></br>
+
 <ul>
     <li>
     <?php print _("Basic meta data on the request and pledges such as " .
