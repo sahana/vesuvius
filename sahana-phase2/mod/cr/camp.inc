@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.46 2007-05-07 05:50:42 mifanc Exp $ */
+/* $Id: camp.inc,v 1.47 2007-05-07 08:16:03 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -304,6 +304,19 @@ function _shn_cr_validate_error(){
 		}
 	}
 	
+	if(!(null == ($_POST['camp_contact_number']))){
+       if(!shn_valid_phone(trim($_POST['camp_contact_number']))){
+                       add_error(_("The Phone Number is not valid"));
+                       $error_flag=true;
+               }
+       }
+       
+     if(!(null == ($_POST['contact_mob']))){
+       if(!shn_valid_phone(trim($_POST['contact_mob']))){
+                       add_error(_("The Mobile Phone Number is not valid"));
+                       $error_flag=true;
+               }
+       }
 	
 
  if(!(null == ($_POST['capacity']))){
