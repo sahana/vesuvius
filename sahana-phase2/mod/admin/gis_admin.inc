@@ -159,8 +159,9 @@ function shn_gis_adm_show_mods()
 			"prime meridian (Greenwich Mean Time) and is positive to the east, " .
 			"across Europe and Asia.  Longitude is negative to the west, " .
 			"across the Atlantic and the Americas. a.k.a X value");
-	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
+	
 	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
 	shn_form_fsclose();
 ?>
 	<ul>
