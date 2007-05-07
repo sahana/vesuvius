@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.14 2007-01-01 06:44:58 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.15 2007-05-07 07:00:09 isurunishan Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -208,7 +208,7 @@ if($errors)
             $i--;
     //Ends
     $selected_loc_id = (isset($_POST[$i]) ? $_POST[$i] : $_SESSION['mpr_edit']['entry']['location_id']);
-    shn_location_form($conf['mod_mpr']['location']['upper_limit'],
+    _shn_location_form($conf['mod_mpr']['location']['upper_limit'],
                         $conf['mod_mpr']['location']['lower_limit'],
                         $selected_loc_id); 
     
