@@ -56,6 +56,7 @@ function shn_setup_main()
     case 'dbsetup': // second setup form
         if (shn_setup_database()) { // check if database writing is a success
             shn_setup_form2();
+            
         } else {
             display_errors();
             shn_setup_form1();
@@ -64,7 +65,15 @@ function shn_setup_main()
         
     case 'cfgsetup': // third setup form
 
-        if (shn_setup_config_update($_POST['conffile'])) { 
+		shn_email_validate();// try to catch the invalid emailaddresses of "second settup form"
+		
+		if(!shn_setup_acl()){
+			display_errors();
+            shn_setup_form2();
+            break;
+		}
+		
+		if (shn_setup_config_update($_POST['conffile'])) { 
             // check if writing the file was a success
             shn_setup_form_conffile();
         } else {
@@ -80,6 +89,19 @@ function shn_setup_main()
     }
     shn_setup_footer();
 }
+
+function shn_email_validate()
+{
+	$email = $_POST['root_email'];
+	if((eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email))||($email=="")) {
+	// if email is a valid one then do nothing ;-)
+	}
+	else {
+		echo "<b><font color=red>$email</font> is an Invalid email address!</b>";// this is till we come up some nice screen
+		shn_setup_form2();
+		break;
+	}
+}// end of shn_email_validate
 
 function shn_setup_check_dependancy()
 {
@@ -258,6 +280,7 @@ function shn_setup_form1()
 
 
 // the config file setup form
+// the config file setup form
 function shn_setup_form2()
 {
  ?>
@@ -291,9 +314,7 @@ function shn_setup_form2()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Settings'));
-    shn_form_password(_('Administrator Password'),'root_pwd','size="30"', 
-        array('req'=>true, 'help'=>'The root user is the administrator
-                of the system and has the greatest privilages'));
+
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
                 _('Access Control'),'acl');
@@ -303,6 +324,20 @@ function shn_setup_form2()
                'green'   => _('Green Theme') 
              ), ('Theme'), 'theme');
     shn_form_fsclose();
+    
+    shn_form_fsopen(_('Administrator Account'));
+    	shn_form_text(_('Admin User Name'),'admin_name','size="40"', array('req'=>true, 'value'=>'admin','help'=>'The root user is the administrator
+                of the system and has the greatest privilages') );
+	 	shn_form_password(_('Password'),'root_pwd','size="30"', 
+        array('req'=>true));
+        shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
+  	shn_form_fsclose();
+	
+	shn_form_fsopen(_('Create Normal User Account'));
+        shn_form_text(_('Normal User Name'),'user_name','size="40"', array('req'=>true,'value'=>'sahana', 'help'=>'Please login as this user for non-admin work') );
+		shn_form_password(_('Password'),'user_pwd','size="30"',array('req'=>true));
+		shn_form_password(_('Confirm Password'),'user_pwd_confirm','size="30"',array('req'=>true));
+	shn_form_fsclose();
 
     shn_form_fsopen(_('Configuration File'));
 
@@ -404,7 +439,6 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
-    shn_setup_run_sqlscript($db,'mod/vm/ins/dbcreate.sql'); // for Volunteer management
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
@@ -455,7 +489,6 @@ function shn_setup_config_update($tmp_configfile)
         '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
         '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
         '/\'base_uuid\'/' => '$conf[\'base_uuid\'] = \''.$_POST['base_uuid'].'\';' ,
-        '/\'root_pwd\'/' => '$conf[\'root_pwd\'] = \''.$_POST['root_pwd'].'\';' ,
         '/\'root_name\'/' => '$conf[\'root_name\'] = \''.$_POST['root_name'].'\';' ,
         '/\'root_tel\'/' => '$conf[\'root_tel\'] = \''.$_POST['root_tel'].'\';' ,
         '/\'root_email\'/' => '$conf[\'root_email\'] = \''.$_POST['root_email'].'\';' ,
@@ -469,6 +502,67 @@ function shn_setup_config_update($tmp_configfile)
         add_error(_('Could not write to file $tmp_configfile. Try another location'));
         return false;
     }
+}
+
+// install the ACL base
+function shn_setup_acl(){
+	$error=false;
+	if ((null==$_POST["admin_name"])or(is_null($_POST["admin_name"]))){
+        $error=true;
+        add_error(_("Admin user name cannot be empty"));
+	}
+	if ((null==$_POST["root_pwd"])or(is_null($_POST["root_pwd"]))){
+        $error=true;
+        add_error(_("Root password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"root_pwd_confirm"});
+    }
+	if ((null==$_POST["root_pwd_confirm"])or(is_null($_POST["root_pwd_confirm"]))){
+        $error=true;
+        add_error(_("Root Confirm password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"root_pwd_confirm"});
+    }
+    if (!($_POST{"root_pwd"}==$re_password)){
+        $error=true;
+        add_error("Root password and confirm password should match");
+    }
+    if ((null==$_POST["user_name"])or(is_null($_POST["user_name"]))){
+        $error=true;
+        add_error(_("Normal user name cannot be empty"));
+	}
+    if ((null==$_POST["user_pwd"])or(is_null($_POST["user_pwd"]))){
+        $error=true;
+        add_error(_("User password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"user_pwd_confirm"});
+    }
+	if ((null==$_POST["user_pwd_confirm"])or(is_null($_POST["user_pwd_confirm"]))){
+        $error=true;
+        add_error(_("User Confirm password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"user_pwd_confirm"});
+    }
+    if (!($_POST{"user_pwd"}==$re_password)){
+        $error=true;
+        add_error("User password and confirm password should match");
+    }
+
+    if($error){
+		return false;
+    }
+    $_SESSION['dbhost']=null;
+    $_SESSION['dbname']=null;
+    $_SESSION['dbuser']=null;
+    $_SESSION['dbpass']=null;
+	$_SESSION['dbhost']=$_POST['dbhost'];
+	$_SESSION['dbname']=$_POST['dbname'];
+	$_SESSION['dbuser']=$_POST['dbuser'];
+	$_SESSION['dbpass']=$_POST['dbpass'];
+   	global $global;
+    include_once $global['approot']. 'inc/lib_security/acl_api.inc';
+	return (shn_acl_install(NULL));
+	
 }
 
 function shn_setup_header() 
