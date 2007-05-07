@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.20 2006-11-16 09:26:16 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.21 2007-05-07 10:57:58 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -145,6 +145,33 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	
 	$res = $db->Execute($q);		
 }
+
+/**
+ * Database entry api for gis data
+ * Use to enter GIS coords into database
+ * Used with OGC compliant Databases
+ * @param char $uuid uuid of matching entity
+ * @param numeric $latcoord lat (y) coordinate value
+ * @param numeric $loncoord lon (x) coordinate value
+ * @param timestamp $time time value
+ * @access public
+ * @return void
+*/
+function shn_gis_dbinsert_feature($uuid,$latcoord,$loncoord,$time=null){
+	global $global;
+	include_once $global['approot']."/inc/lib_uuid.inc";
+	$db = $global['db'];
+	
+	$gis_id=shn_create_uuid('g');
+	
+	// @TODO: Check for type of insertion. POINT assumed.
+	
+	$query = "INSERT INTO gis_feature (feature_uuid,poc_uuid,feature_coords) " .
+			 " VALUES ('{$gis_id}', '{$uuid}', GeomFromText('POINT($latcoord $loncoord)'))";
+	
+	$res = $db->Execute($query);		
+}
+
 
 /**
  * Show GIS map for marker addition
