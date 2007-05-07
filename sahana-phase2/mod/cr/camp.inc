@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.45 2007-04-09 18:17:43 mifanc Exp $ */
+/* $Id: camp.inc,v 1.46 2007-05-07 05:50:42 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -51,36 +51,17 @@ function _shn_cr_cadd_start($errors=false){
 <select name="opt_location_type" >-->
 
 <?php
-/*
-// Display selected Division type only
-	$q="select value from config where confkey='division_type' && module_id='sr'";
-	//$q ="select option_dessription from field_options where field_name='sr_pref_div'";
-	$ref = $db->Execute($q);
-		$val=$ref->fields[0];
-	$q ="select location_id,name from location where opt_location_type=$val";
-	$ref = $db->Execute($q);
-	while(!$ref->EOF){	
-		$val=$ref->fields[0];
-		$name=$ref->fields[1];
-?>
-<option value='<?=$val?>'><?=$name?></option>
-<?php
-		$ref->MoveNext();
-	}
-?>
-</select><br>
-<?php
-*/			
+		
 //-----------------------------------------
 	shn_form_textarea(_("Address"),"camp_address");
 	shn_form_fsclose();
 //-------------------------
 	global $global;
 	include $global['approot']."/inc/lib_location.inc";
-	$range=array("start"=>1,"end"=>5);
-	//small hack until lib_location is corrected
-	//shn_location_form_org($range);
-	shn_location_form_org(1,5);
+	global $range;
+	shn_form_fsopen(_("Location Details"));
+	shn_location($range);
+	shn_form_fsclose();
 		
 //-------------------------
 	shn_form_fsopen(_("Contact Person Details"));
