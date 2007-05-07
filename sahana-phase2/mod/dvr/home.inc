@@ -24,11 +24,11 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <?php
 
 	print _("The SAHANA Disaster Victim Registry is a central online repository " .
-	"where information on all the disaster victims can be stored.Information like name,age" .
-	",contact number,id card number,religion,race,displaced location,current location and other " .
-	"physical details are captured.Also victims picture and finger print details can be uploaded to" .
-	"the system dependending on the legal aspects of the deployement .Also the groupwise information is captured.This module can be used by" .
-	" any NGO/organization prior or after to a disaster"  );
+	"where information on all the disaster victims can be stored. Information like name, age" .
+	", contact number, id card number, religion, race, displaced location, current location and other " .
+	"physical details are captured. Also victims picture and finger print details can be uploaded to " .
+	"the system dependending on the legal aspects of the deployement. Also the groupwise information is captured. This module can be used by" .
+	" any NGO/organization prior or after to a disaster."  );
 ?>
 
 </p>
@@ -38,8 +38,8 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
     <li>
     <?php
 
-	print _("Capture Information on Disaster Victim groups(Toursists,Passengers" .
-			",Families,etc..)")
+	print _("Capture Information on Disaster Victim groups (Toursists, Passengers" .
+			", Families, etc.)")
 ?>
     </li>
     <li>
