@@ -271,7 +271,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 				(($type=="all")?"":" AND field_name='opt_camp_type' ").
 				(($type=="all")?"":" AND opt_camp_type='{$type}' ") .
 				((null==$camp_name)?"":" AND cg.name LIKE '%{$camp_name}%' ") ;
-		echo "q=".$query;
+		//echo "q=".$query;
 				
 		$res_cmp =$db->Execute($query);   
 		while (!$res_cmp->EOF){ 					
