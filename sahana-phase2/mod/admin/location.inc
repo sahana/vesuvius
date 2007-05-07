@@ -408,9 +408,9 @@ function _shn_admin_location_form()
     shn_form_fsclose();
     */
     shn_form_fsopen(_("Now Select the parent Location"));
-    ?><div class="info"><?= _("It is required to select the Parent location, the new location" .
-    		" will be created as child of the parent, if you do not select a parent" .
-    		" the new location is considered as a top level location");?> </div><br /><?
+    ?><div class="info"><?= _("Select the parent or super region (e.g. country, state, etc) of" .
+    		" the location you have typed above. If no parent region is given, the location" .
+            " being added will become a top most region (usually country)");?></div><br /><?
     $range= shn_get_range();
     shn_location($range,null,null,array("unknown"=>false));
     shn_form_fsclose();
