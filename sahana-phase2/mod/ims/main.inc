@@ -29,6 +29,7 @@ include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
 include_once $global['approot']."/mod/gis/gis_fns.inc";
+include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once 'errors.inc';
 
 
@@ -47,9 +48,9 @@ function shn_ims_mainmenu()
     shn_mod_menuitem("default","Home",$module);
     shn_mod_menuitem("search_item",_("Find Items"),$module);
     shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
-    shn_mod_menuitem("view_inv",_("List Inventories"),$module);
+    shn_mod_menuitem("view_inv",_("Add/List Inventories"),$module);
     
-    shn_mod_menuitem("view_edit_item",_("List Items"),$module);
+    shn_mod_menuitem("view_edit_item",_("Add/List Items"),$module);
     shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
     
     shn_sub_mod_menuopen(_("Reports"));
@@ -58,9 +59,6 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
     //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
     shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);
-    //shn_sub_mod_menuitem("expired_item_report1",_("Expired Item"),$module);
-    //shn_sub_mod_menuitem('destroyed_item_pdf',_("Destroyed Item"),$module);
-    //shn_sub_mod_menuitem('reorder_level_pdf',_("Re-Order Level"),$module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Optimization"));
     shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
@@ -914,20 +912,23 @@ function shn_ims_expired_item_report1()
     if($action=='pdf_expired')
     {
 	shn_ims_expired_item_report();
+	shn_report_download('shn_ims_expired_item_report',_('Download The PDF report here'));
     }
     else if($action=='ods_expired')
     {
 	shn_ims_expired_item_ods();
+	shn_report_download('shn_ims_expired_item_ods',_('Download the ODS report here'));
     }
     else if($action=='xhtml_expired')
     {
 	shn_ims_expired_item_xhtml();
+	shn_report_download('shn_ims_expired_item_xhtml',_('Download the XHTML report here'));
     }
     
     
     
-    include_once $global['approot']."/inc/reporting/lib_reporting.inc";
-    report_download_link('shn_ims_expired_item_report');
+    
+    //report_download_link('shn_ims_expired_item_report');
 }
 
 function shn_ims_destroyed_item_pdf()
@@ -939,14 +940,17 @@ function shn_ims_destroyed_item_pdf()
     if($action=='pdf_destroyed')
     {
 	shn_ims_destroyed_item();
+	shn_report_download('shn_ims_destroyed_item',_('Download the PDF report here'));
     }
     else if($action=='ods_destroyed')
     {
 	shn_ims_destroyed_item_ods();
+	shn_report_download('shn_ims_destroyed_item_ods',_('Download the ODS report here'));
     }
     else if($action=='xhtml_destroyed')
     {
 	shn_ims_destroyed_item_xhtml();
+	shn_report_download('shn_ims_destroyed_item_xhtml',_('Download the XHTML report here'));
     }
 }
 
@@ -958,14 +962,17 @@ function shn_ims_reorder_level_pdf()
     if($action=='pdf_reorder')
     {
 	shn_ims_reorder_level_report_pdf();
+	shn_report_download('shn_ims_reorder_level_report_pdf',_('Download the PDF report here'));
     }
     else if($action=='ods_reorder')
     {
 	shn_ims_reorder_level_report_ods();
+	shn_report_download('shn_ims_reorder_level_report_ods',_('Download the ODS report here'));
     }
     else if($action=='xhtml_reorder')
     {
 	shn_ims_reorder_level_report_xhtml();
+	shn_report_download('shn_ims_reorder_level_report_xhtml',_('Download the XHTML report here'));
     }
 }
 

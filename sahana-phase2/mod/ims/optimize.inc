@@ -181,6 +181,36 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 	
 	$relation=$catalog_id;
 
+//-------------------------------- Validation ----------------------------
+
+
+	if($inv_id=='all')
+	{
+	    $sql="SELECT * FROM ims_relation WHERE catalog_id='$parent_id' AND relation='$relation';";
+	    $ims=$db->Execute($sql);
+	    //print $sql;
+	    if($ims->fields['catalog_id']!=null)
+	    {
+		add_error(SHN_ERR_IMS_RELATION_ITEM_EXISTS);
+		shn_ims_relation_item();
+		return false;
+	    }
+	}
+	if($inv_id!='all')
+	{
+	    $sql="SELECT * FROM ims_relation WHERE catalog_id='$parent_id' AND relation='$relation' AND inv_id='$inv_id';";
+	    $ims=$db->Execute($sql);
+	    //print $sql;
+	    if($ims->fields['catalog_id']!=null)
+	    {
+		add_error(SHN_ERR_IMS_RELATION_ITEM_EXISTS);
+		shn_ims_relation_item();
+		return false;
+	    }
+	}
+
+//-------------------------------- Validation End ------------------------
+
 	$q="SELECT * FROM ims_relation;";
 	$ims=$db->Execute($q);
 	if($ims==NULL)
@@ -214,6 +244,8 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
 		$ims3=$db->Execute($sql3);
 		//print $sql1;
 	}
+		add_confirmation(_("Relative Item successfully set"));
+		shn_ims_relation_item();
 	}
 }
 
@@ -274,7 +306,7 @@ function _shn_ims_alternate_item_page()
         
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 	shn_form_fsclose();
 	shn_form_hidden(array('parent_id'=>$parent_id));
 	shn_form_submit("Submit");
@@ -360,6 +392,44 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
 	
 	$alternate=$catalog_id;
 
+	$q="SELECT unit FROM ims_item_records WHERE catalog_id='$parent_id';";
+	$i=$db->Execute($q);
+
+	$q1="SELECT unit FROM ims_item_records WHERE catalog_id='$catalog_id';";
+	$i1=$db->Execute($q1);
+
+	if(convert_to_base_unit($i->fields['unit'])!=convert_to_base_unit($i1->fields['unit']))
+	{
+	    add_error(SHN_ERR_IMS_UNIT_MISMATCH);
+	    shn_ims_alternate_item();
+	    return false;
+	}
+
+	if($inv_id=='all')
+	{
+	    $sql="SELECT * FROM ims_alternate WHERE catalog_id='$parent_id' AND alternate='$alternate';";
+	    $ims=$db->Execute($sql);
+	    //print $sql;
+	    if($ims->fields['catalog_id']!=null)
+	    {
+		add_error(SHN_ERR_IMS_ALTERNATE_ITEM_EXISTS);
+		shn_ims_alternate_item();
+		return false;
+	    }
+	}
+	if($inv_id!='all')
+	{
+	    $sql="SELECT * FROM ims_alternate WHERE catalog_id='$parent_id' AND alternate='$alternate' AND inv_id='$inv_id';";
+	    $ims=$db->Execute($sql);
+	    //print $sql;
+	    if($ims->fields['catalog_id']!=null)
+	    {
+		add_error(SHN_ERR_IMS_ALTERNATE_ITEM_EXISTS);
+		shn_ims_alternate_item();
+		return false;
+	    }
+	}
+
 	$q="SELECT * FROM ims_alternate;";
 	$ims=$db->Execute($q);
 	if($ims==NULL)
@@ -368,11 +438,15 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
             add_error(SHN_ERR_IMS_ALTERNATE_TABLE_EXISTS);
             return false;
 	}
+	
+	
 	else
 	{
 
 	$sql1="INSERT INTO ims_alternate (catalog_id,inv_id,alternate) VALUES ('$parent_id','$inv_id','$alternate');";
 	$ims1=$db->Execute($sql1);
+	add_confirmation(_('Alternate item successfully set'));
+	shn_ims_alternate_item();
 	//print $sql1;
 	}
 }
@@ -1148,7 +1222,7 @@ $depth=get_max_depth();
         //print ($j);
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
 	shn_form_fsclose();
 
 	shn_form_fsopen("Prediction Type");

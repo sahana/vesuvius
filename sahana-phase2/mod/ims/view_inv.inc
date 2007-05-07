@@ -202,13 +202,15 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $range=array("start"=>1,"end"=>5);
     
     //shn_location($range,$bsd_village,null);
-    shn_location_form(1,5,$bsd_village);
-    //shn_form_fsclose();
+    shn_form_fsopen(_("Base Location"));
+    //shn_location_form(1,5,$bsd_village);
+    shn_location($range,$value=$bsd_village,$parent=null,$extra_opts=null);
+    shn_form_fsclose();
 
     shn_form_fsopen(_("Contact Information"));
     _shn_ims_display_contact_person($error,true,$org_id);
     shn_form_fsclose();
-    shn_form_fsopen(_("Facilities Avaliable"));
+    shn_form_fsopen(_("Facilities Available"));
     _shn_ims_display_org_facilities($error,$org_id);
     shn_form_fsclose();
 ?>

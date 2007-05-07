@@ -436,7 +436,7 @@ function _shn_ims_display_logininfo($error=false)
 
 function _shn_ims_display_extra($error=false)
 {
-    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
+    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is useful : )"),'chk_branch',null,$chkbox_opts);
 }
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -753,7 +753,9 @@ function _shn_ims_sum_amount($catalog_id,$inv_id)
 		$unit=$ims1->fields['unit'];
 			
 		$base_unit=convert_to_base_unit($unit);
+		//print unit_converter($base_unit,$unit);
 		$converted_amount=$amount*unit_converter($base_unit,$unit);
+		//print unit_converter($base_unit,$unit);
             
                 $sum_amount=$sum_amount + $converted_amount;
 		$ims1->MoveNext();			

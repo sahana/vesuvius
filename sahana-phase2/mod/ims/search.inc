@@ -266,6 +266,15 @@ function _shn_ims_search_item_db()
 	<tbody>
 <?php
 	//$alternate_sum_amount=0;
+	//print $inv_id;
+	if($inv_id==0)
+	{
+		$inv_id='all';
+	}
+	else
+	{
+		;
+	}
 	$sql3="SELECT * FROM ims_alternate WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims3=$db->Execute($sql3);
 	//print $sql3;
@@ -273,7 +282,7 @@ function _shn_ims_search_item_db()
 	{
 		$alternate=$ims3->fields['alternate'];
 		
-		if($inv_id==0)
+		if($inv_id=='all')
 		{
 			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND state='$item_state';";
 		}
@@ -392,7 +401,10 @@ function _shn_ims_form_search()
     shn_form_text(_("Search by Inventory name   : "),'inventory_name','size="50"',array('help'=>_("Enter either the name of the inventory or the location of the inventory or both Inventory name and location and click on the search button below")));
     shn_form_fsclose();
     $range=array("start"=>1,"end"=>5);
-    shn_location_form_org(1,5);
+    //shn_location_form_org(1,5);
+    shn_form_fsopen(_("Search by Location"));
+    shn_location($range,$value=null,$parent=null,$extra_opts=null);
+    shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
     //shn_form_submit('Search');
@@ -670,7 +682,7 @@ function _shn_ims_form_search_old()
     shn_form_fsopen(_("Selected Location"));
     $extra_options['value']="All Locations";
     shn_form_text(_("location"),'loc',NULL,$extra_options);
-    shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
+    shn_form_label(_("Select location and then select the level(province,district,etc)"),NULL);
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();

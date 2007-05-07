@@ -66,7 +66,7 @@ function _shn_ims_view_edit()
         <td><?=_("Manufactured Date")?></td>
             <td><?=_("Expire Date")?></td>
         <td><?=_("Available Inventory")?></td>
-            <td><?=_("Suplier Name")?></td>
+            <td><?=_("Supplier Name")?></td>
         <td><?=_("Edit")?></td>
         <td><?=_("Delete")?></td>
             

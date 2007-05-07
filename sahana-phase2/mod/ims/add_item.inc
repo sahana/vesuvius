@@ -190,16 +190,16 @@ function add_item($temp,$parent_id)
         //print ($j);
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the List Inventories Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the List Inventories Menu and add an Inventory first')));
 
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Secondry details'));
+    shn_form_fsopen(_('Secondary details'));
     //$extra_opts['value'] = $manufactured_date;
-    shn_form_date(_("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    shn_form_date(_("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
    // shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
     //$extra_opts['value'] = $expire_date;
-    shn_form_date(_("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    shn_form_date(_("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
     //shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
         
     shn_form_fsclose();
@@ -215,7 +215,7 @@ function add_item($temp,$parent_id)
     
     
     //shn_or_org_list();
-    shn_form_select($suplier_name_array,_("Suplier Organization : "),'suplier_id','size="1"',array('help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+    shn_form_select($suplier_name_array,_("Supplier Organization : "),'suplier_id','size="1"',array('help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
 //----------------------------------------------------------------------------------------------------------------
     
 

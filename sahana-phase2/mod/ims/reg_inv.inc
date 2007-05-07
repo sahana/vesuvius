@@ -63,7 +63,10 @@ shn_form_fsclose();*/
 
 	//shn_form_fsopen("Base Location");
         $range=array("start"=>1,"end"=>5);
-	shn_location_form_org(1,5);
+	shn_form_fsopen(_("Location"));
+	//shn_location_form_org(1,5);
+	shn_location($range,$value=null,$parent=null,$extra_opts=null);
+	shn_form_fsclose();
 	//shn_form_fsclose();
 
 /*shn_form_fsopen("Base Location");

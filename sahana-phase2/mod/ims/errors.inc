@@ -58,11 +58,12 @@ define(SHN_ERR_IMS_UNIT_INCOMPLETE,"Unit is essential for registration. Please C
 define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
 
 define(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE,"Time Amount is essential for the Prediction. Please Complete it and Submit again");
-
 define(SHN_ERR_IMS_CATALOGUE_MISSING,_("Please Select the Catalogue that you need"));
-
 define(SHN_ERR_IMS_INVENTORY_SEARCH_ERROR,_("Please complete either inventory name or Base location"));
+define(SHN_ERR_IMS_INVENTORY_ADDRESS_ERROR,_("Please enter any of the details of the owner of the inventory and submit again."));
+define(SHN_ERR_IMS_ALTERNATE_ITEM_EXISTS,_("Alternete item has already been set"));
+define(SHN_ERR_IMS_UNIT_MISMATCH,_("Units Mismatching of selected items"));
+define(SHN_ERR_IMS_RELATION_ITEM_EXISTS,_("Relation item has already been set"));
 
-define(SHN_ERR_IMS_INVENTORY_ADDRESS_ERROR,_("Address is essential. Please Complete the address and submit again."));
 
 ?>

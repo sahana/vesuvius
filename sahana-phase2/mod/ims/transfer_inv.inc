@@ -294,7 +294,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     $date=date("Y-m-d");
 
-    shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - separator is accepted')));
     //shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
 	
     //shn_form_text(_("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
@@ -575,7 +575,7 @@ $unit_select_array=array();
     $extra_opts['value']=$inventory_to;
     shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
-    shn_form_date(_("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_date(_("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - separator is accepted')));
     //shn_form_text(_("Date :") ,'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     //shn_form_text(_("Date Received (YYYY-mm-dd): "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
     shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
