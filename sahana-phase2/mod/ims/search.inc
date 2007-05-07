@@ -366,7 +366,13 @@ function _shn_ims_search_item_db()
 	<div id="result">
 <h3 align="center"><?php print _("Total Alternate Items Amount");
             print "\n";
+	    if(0==$alternate_sum_amount){
+	    print "0";
+	    }
+	    else
+	    {
             print $alternate_sum_amount;
+	    }
             print "\n";
             print $base_unit_name;?> </h3>
 </div>
