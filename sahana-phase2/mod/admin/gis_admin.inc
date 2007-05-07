@@ -30,7 +30,7 @@ function shn_gis_adm_default()
 									break;
 		}
 		shn_gis_adm_show_mod_menu();
-		echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
+echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
@@ -45,7 +45,7 @@ function shn_gis_adm_default()
 	else
 	{
     	shn_gis_adm_show_mod_menu();
-		echo "<h2>"._($conf['mod_gis_name']." Admin Page")."</h2>";
+		echo "<h2>"._($conf['mod_gis_adm_name']." Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
@@ -154,13 +154,13 @@ function shn_gis_adm_show_mods()
 	shn_form_fsopen(_("Default Center Coordinates"));
 	
 	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator" .
-			" and positive in the northern hemisphere and negative in the southern hemisphere");
+			" and positive in the northern hemisphere and negative in the southern hemisphere. a.k.a Y value");
 	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the " .
 			"prime meridian (Greenwich Mean Time) and is positive to the east, " .
 			"across Europe and Asia.  Longitude is negative to the west, " .
-			"across the Atlantic and the Americas.");
-	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+			"across the Atlantic and the Americas. a.k.a X value");
+	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
+	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lat_help));
 	shn_form_fsclose();
 ?>
 	<ul>
@@ -270,36 +270,41 @@ function shn_gis_adm_mod()
  */
 function shn_gis_adm_commit(){
 
-	add_confirmation(_("Changes were saved"));
-	global $global;
-	$db = $global['db'];
-	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
-	if(!null==$_POST['x_center'])
+	if ((shn_valid_x_coordinate($_POST['x_center'])) && (shn_valid_y_coordinate($_POST['y_center'])))
 	{
-		$query = "select * from config where confkey='mod_gis_center_x' and module_id='gis'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
-			$db->Execute($q);
+		add_confirmation(_("Changes were saved"));
+		global $global;
+		$db = $global['db'];
+		//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
+		if(!null==$_POST['x_center'])
+		{
+			$query = "select * from config where confkey='mod_gis_center_x' and module_id='gis'";
+			$res = $db->Execute($query);
+			if(!$res->EOF){
+				$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
+				$db->Execute($q);
+			}
+			else{
+				$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_x','{$_POST['x_center']}')";
+				$db->Execute($insert);
+			}
 		}
-		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_x','{$_POST['x_center']}')";
-			$db->Execute($insert);
+		if(!null==$_POST['y_center'])
+		{
+			$query = "select * from config where confkey='mod_gis_center_y' and module_id='gis'";
+			$res = $db->Execute($query);
+			if(!$res->EOF){
+				$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_y'";       
+				$db->Execute($r);
+			}
+			else{
+				$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_y','{$_POST['y_center']}')";
+				$db->Execute($insert);
+			}
 		}
-	}
-	if(!null==$_POST['y_center'])
-	{
-		$query = "select * from config where confkey='mod_gis_center_y' and module_id='gis'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_y'";       
-			$db->Execute($r);
-		}
-		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_y','{$_POST['y_center']}')";
-			$db->Execute($insert);
-		}
-	}
+	} else {
+		add_error(_("Coordinates invalid: should be between -180 & 180"));
+	}	
 	if(!null==$_POST['mod_gis']){
 		$query = "select * from config where confkey='mod_gis_dflt' and module_id='gis'";
 		$res = $db->Execute($query);
