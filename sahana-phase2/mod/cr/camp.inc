@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.49 2007-05-07 15:20:03 mifanc Exp $ */
+/* $Id: camp.inc,v 1.50 2007-05-07 19:16:38 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -214,9 +214,6 @@ function _shn_cr_create_cid($val){
 }
 
 function _shn_cr_sel_map($errors=false){
-	if($errors)
-		display_errors();
-	
 	$_SESSION['camp_name']=$_POST['camp_name'];
 	$_SESSION['opt_camp_type']=$_POST['opt_camp_type'];
 	$_SESSION['opt_location_type']=$_POST['opt_location_type'];
@@ -228,8 +225,7 @@ function _shn_cr_sel_map($errors=false){
 	$_SESSION['camp_women']=$_POST['women'];
 	$_SESSION['camp_children']=$_POST['children'];
 	$_SESSION['camp_total']=$_POST['total'];
-      $_SESSION['camp_capacity']=$_POST['capacity'];	
-//var_dump($_POST);
+    $_SESSION['camp_capacity']=$_POST['capacity'];	
 	if(isset($_POST['hospital'])){
 		$_SESSION['hospital']=true;
 	}
@@ -238,8 +234,13 @@ function _shn_cr_sel_map($errors=false){
 	$_SESSION['cr_3']=$_POST['3'];
 	$_SESSION['cr_4']=$_POST['4'];
 	$_SESSION['cr_5']=$_POST['5'];
-		$_SESSION['contact_mob']=$_POST['contact_mob'];
-		$_SESSION['occupation']=$_POST['occupation'];
+	$_SESSION['contact_mob']=$_POST['contact_mob'];
+	$_SESSION['occupation']=$_POST['occupation'];
+	
+	if($errors)
+		display_errors();
+	
+	
 
 	global $global;
 	global $conf;
