@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.22 2007-05-07 15:16:54 mifanc Exp $ */
+/* $Id: gis_fns.inc,v 1.23 2007-05-07 15:48:03 mifanc Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -130,7 +130,7 @@ function shn_gis_map($opt_array=null)
  * @todo change coordinate data type to standard format
  * @todo handle projection information and module specific functions
 */
-function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
+function shn_gis_dbinsert($uuid,$loc_id,$gis,$ycoord,$xcoord,$projection){
 	global $global;
 	include_once $global['approot']."/inc/lib_uuid.inc";
 	$db = $global['db'];
@@ -140,7 +140,7 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	
 	$q = "INSERT INTO gis_location ( poc_uuid , location_id , opt_gis_mod , map_northing , map_easting , map_projection , opt_gis_marker , gis_uid )
 	VALUES (
-	'{$uuid}', '{$loc_id}', '{$gis}', '{$xcoord}', '{$ycoord}', '{$projection}', NULL , '{$gis_id}'
+	'{$uuid}', '{$loc_id}', '{$gis}', '{$ycoord}', '{$xcoord}', '{$projection}', NULL , '{$gis_id}'
 	)";
 	
 	$res = $db->Execute($q);		
