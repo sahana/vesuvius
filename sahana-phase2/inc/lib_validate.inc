@@ -407,15 +407,17 @@ function shn_validate_password($field){
 }
 
 /**
- * Validates an x Coordinate 
+ * Validates a Longitude/Easting (X coordinate) 
  * 
  * @param mixed $field 
  * @access public
  * @return bool
  */
 function shn_valid_x_coordinate($field){
+   $LONG_ERROR="Longitude/Easting should be between -180 & 180";
    if (!preg_match ("/^([0-9.,-]+)$/", $field))
    {
+      add_error($LONG_ERROR);
       return false;
    }
    
@@ -423,19 +425,22 @@ function shn_valid_x_coordinate($field){
    {
       return true;
    }
+   add_error($LONG_ERROR);
    return false;
 }
 
 /**
- * Validates a y Coordinate 
+ * Validates a Latitude/Northing (Y coordinate) 
  * 
  * @param mixed $field 
  * @access public
  * @return bool
  */
 function shn_valid_y_coordinate($field){
+   $LAT_ERROR="Latitude/Northing should be between -90 & 90";
    if (!preg_match ("/^([0-9.,-]+)$/", $field))
    {
+      add_error($LAT_ERROR);
       return false;
    }
    
@@ -443,6 +448,7 @@ function shn_valid_y_coordinate($field){
    {
       return true;
    }
+   add_error($LAT_ERROR);
    return false;
 }
 
