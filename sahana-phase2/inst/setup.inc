@@ -111,6 +111,23 @@ function shn_email_validate()
 	}
 }// end of shn_email_validate
 
+function shn_pwd_validate()
+{
+	$pwd=$_POST['root_pwd'];
+	$re_pwd=$_POST['root_pwd_confirm'];
+	if($pwd==""){ // if password slot is empty
+		echo "<b><font color=red>Passwords</font> are empty!</b>";
+		echo "";
+		shn_setup_form2();
+		break;
+	} elseif (!($pwd==$re_pwd)) { // if password and retyped one are not matched
+		echo "<b><font color=red>Passwords</font> are not matched!</b>";
+		echo "";
+		shn_setup_form2();
+		break;
+	}
+} // end of shn_root_pwd_validation
+
 function shn_setup_form_dependancy()
 {
     global $global;
@@ -308,9 +325,12 @@ function shn_setup_form2()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Settings'));
+    // check root password, should match
     shn_form_password(_('Administrator Password'),'root_pwd','size="30"', 
         array('req'=>true, 'help'=>'The root user is the administrator
                 of the system and has the greatest privilages'));
+    shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
+        
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
                 _('Access Control'),'acl');
