@@ -89,8 +89,8 @@ function show_add_marker_map($name)
 				// must be set via calling page
 				var x_point=document.getElementsByName("loc_x");
 				var y_point=document.getElementsByName("loc_y");
-				x_point[0].value=point.x;
-				y_point[0].value=point.y;
+				x_point[0].value=point.lng();
+				y_point[0].value=point.lat();
 				//alert(x_point[0].value);
 			}	
 		});		
