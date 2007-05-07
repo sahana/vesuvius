@@ -188,11 +188,11 @@ function shn_setup_form_dependancy()
 ?>
     <p><?=_('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
 <?php
-    $value = is_writable($global['approot'].'www/tmp');
-    $isOK &= $value;
+    $tmpWritable = is_writable($global['approot'].'www/tmp');
+    $isOK &= $tmpWritable;
 
 
-    if ($value) {
+    if ($tmpWritable) {
         //shn_form_label(_('Sahana www/tmp/ is writable?'),"The Sahana sub-directory writable");
         shn_form_label(_('<i>sahana/www/tmp/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
     } else {
@@ -213,19 +213,21 @@ function shn_setup_form_dependancy()
     shn_form_checkbox('Sahana res/locale is writable?','write_locale',$value.' 
                         disabled="true"',array('value'=>'y','help'=>'hello')); 
 */
-    $value = is_writable($global['approot'].'conf');
+    $confWritable = is_writable($global['approot'].'conf');
 
-    if ($value) {
+    if ($confWritable) {
         //shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
         shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
     } else {
         //shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
         shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
-        //echo "<p><br/>$oops_img The directory ".$global['approot']."conf/ is not writable. However this you can still copy the configuration file to the conf/ directory later.</p>";
     }
 
-    //echo "<p>Note: <font color=gray>both <i>sahana/conf/</i> and <i>sahana/www/tmp/</i> need to be writable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
-    echo "<p>Note: <font color=gray><strong>sahana/conf/</strong></i> need to be readable, writable and executable by the web server at least. Please change the permissions of this directory and try again.</font></p>";
+    if (!$tmpWritable || !$confWritable) {
+        $both = (!$tmpWritable && !$confWritable);
+
+        echo "<p>Note: <font color=gray>" . (($both ? "both " : "")) . ((!$confWritable) ? "<strong>sahana/conf/</strong>" : "") . (($both) ? " and " : " ") . ((!$tmpWritable) ? "<strong>sahana/www/tmp/</strong>" : "") . " need" . ((!$both) ? "s" : "") . " to be writable by the web server at least. Please change the permissions of " . ((!$both) ? "this directory" : "these directories") . " and try again.</font></p>";
+    }
     
     shn_form_fsclose();
 
@@ -284,7 +286,7 @@ function shn_setup_form1()
 function shn_setup_form2()
 {
  ?>
-    <h1>Sahaha Web Setup - Step 3</h2>
+    <h1>Sahaha Web Setup - Step 3</h1>
     <p> Please follow the following steps to setup the Sahana configuration </p>
 <?php
     global $global;
@@ -376,7 +378,7 @@ function shn_setup_form2()
 function shn_setup_form_conffile()
 {
 ?>
-    <h1><?=_('Sahaha Web Setup - Step 3')?></h2>
+    <h1><?=_('Sahaha Web Setup - Step 3')?></h1>
     <p><?=_('Configuration file ')?><?=$_POST['conffile']?> <?=_(' has been successfully written.')?></p>
 
 <?php
