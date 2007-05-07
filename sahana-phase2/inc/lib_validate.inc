@@ -405,4 +405,45 @@ function shn_validate_password($field){
             return false;
     }
 }
+
+/**
+ * Validates an x Coordinate 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return bool
+ */
+function shn_valid_x_coordinate($field){
+   if (!preg_match ("/^([0-9.,-]+)$/", $field))
+   {
+      return false;
+   }
+   
+   if (($field > -180) && ($field < 180))
+   {
+      return true;
+   }
+   return false;
+}
+
+/**
+ * Validates a y Coordinate 
+ * 
+ * @param mixed $field 
+ * @access public
+ * @return bool
+ */
+function shn_valid_y_coordinate($field){
+   if (!preg_match ("/^([0-9.,-]+)$/", $field))
+   {
+      return false;
+   }
+   
+   if (($field > -90) && ($field < 90))
+   {
+      return true;
+   }
+   return false;
+}
+
 ?>
