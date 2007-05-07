@@ -218,8 +218,8 @@ function _shn_cms_add_map()
   }
 	shn_form_fsclose();
 	shn_form_fsopen(_("GPS Coordinates"));
-	shn_form_text(_("Northing / Latitude"),"gps_x",'size="60"');
-	shn_form_text(_("Easting / Longitude"),"gps_y",'size="60"');
+	shn_form_text(_("Northing / Latitude"),"gps_y",'size="60"');
+	shn_form_text(_("Easting / Longitude"),"gps_x",'size="60"');
 	shn_form_fsclose();
 			
 	shn_form_submit("Next");
