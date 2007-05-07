@@ -45,7 +45,7 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.wiki_uuid,a.name,a.description,a.url,a.placement_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+	$query="select a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as placement_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
@@ -164,13 +164,11 @@ function add_wiki_detail()
  */
 function show_wiki_add_detail($errors=false)
 {
+	global $global;
+	include_once $global['approot'] . "/inc/lib_errors.inc";
+	
 	if($errors){
-?>
-<div id="error">
-	<?=_("Detail Name Cannot be empty")?>
-</div>
-<?php
-
+		add_error(_("Detail Name Cannot be empty"));
 	}
 	global $global;
 	global $conf;
@@ -229,11 +227,7 @@ function shn_wiki_edit_com($id)
 	//echo "{$_REQUEST['wiki_text']}";
 	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' where wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
-?>
-<div id="note">
-	<p><?=_('Succesfully Updated Description')?></p>
-</div>
-<?php
+	add_confirmation(_('Succesfully Updated Description'));
 }
 
 function shn_wiki_map_commit()
@@ -243,6 +237,7 @@ function shn_wiki_map_commit()
 	include_once($global['approot'].'/inc/lib_uuid.inc');
 	include_once $global['approot']."/inc/lib_form.inc";
 	include_once $global['approot']."/inc/lib_image.inc";
+	include_once $global['approot'] . "/inc/lib_errors.inc";
 	//$id = shn_create_uuid();
 
 	$db = $global['db'];
@@ -260,6 +255,8 @@ function shn_wiki_map_commit()
 	//var_dump($_SESSION);
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_dbinsert($wiki_id,0,null,$_SESSION['loc_x'],$_SESSION['loc_y'],NULL);
+	
+	shn_gis_dbinsert_feature($wiki_id,$_SESSION['loc_y'],$_SESSION['loc_x']);
 	
 	if(!($_FILES['image']['error']==UPLOAD_ERR_NO_FILE))
 	{
@@ -290,11 +287,7 @@ function shn_wiki_map_commit()
 	
 	shn_form_fopen(null,null,array('req'=>false));
 	shn_form_fsopen(_(" Added Wiki Item"));
-?>
-	<div class="error">
-		<?=shn_form_label(_("Succesfully added wiki item :"),_("{$_SESSION['wiki_name']}"));?>
-	</div>
-<?php
+	add_confirmation(_("Succesfully added wiki item {$_SESSION['wiki_name']}"));
 	//echo $_SESSION['edit_public'];
 	shn_form_fsclose();
 	shn_form_fclose();
