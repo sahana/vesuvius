@@ -381,7 +381,7 @@ function shn_chk_root_pwd()
 	clean_errors();
 	// check whether the password is empty or not
 	if ($_POST['root_pwd']==null) {
-		add_error("<b>Root password can not be empty!</b>");
+		add_error("Root password can not be empty!");
 		display_errors();
 		shn_setup_form2();
 		break;
