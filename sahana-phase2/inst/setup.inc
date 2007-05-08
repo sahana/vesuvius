@@ -65,6 +65,7 @@ function shn_setup_main()
     case 'cfgsetup': // third setup form
 
 		shn_email_validate();// try to catch the invalid emailaddresses of "second settup form"
+		shn_chk_root_pwd();// check root passwd validation
 
         if (shn_setup_config_update($_POST['conffile'])) { 
             // check if writing the file was a success
@@ -374,9 +375,26 @@ function shn_setup_form2()
     shn_form_fclose();
 }
 
+function shn_chk_root_pwd()
+{
+	// check whether the password is empty or not
+	if ($_POST['root_pwd']==null) {
+		echo "<b>Root password can not be ampty!</b>";
+		shn_setup_form2();
+		break;
+	// if it's not empty then check whether those are matching			
+	} elseif (!($_POST['root_pwd']==$_POST['root_pwd_confirm'])) {
+		echo "<b>Root passwords are not matching!</b>";
+		shn_setup_form2();
+		break;
+	}	
+} // end of shn_chk_root_pwd
 
 function shn_setup_form_conffile()
 {
+	//shn_chk_root_pwd();
+	
+	
 ?>
     <h1><?=_('Sahaha Web Setup - Step 3')?></h1>
     <p><?=_('Configuration file ')?><?=$_POST['conffile']?> <?=_(' has been successfully written.')?></p>
