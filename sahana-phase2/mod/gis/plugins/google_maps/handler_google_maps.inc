@@ -208,7 +208,11 @@ function show_map_with_wiki_marker($array)
 					$name=$array[$i]["name"];
 					$desc=$array[$i]["desc"];
 					$url=_('Link: ').$array[$i]["url"];
-					$date=_('Date: ').date('l dS \of F Y',$array[$i]["date"]);
+					if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
+						$date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
+					} else {
+						$date="";
+					}
 					$author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
 					$edit=$array[$i]["edit"];
 					if($array[$i]["image"]!=null){
