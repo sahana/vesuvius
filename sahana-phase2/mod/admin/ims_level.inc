@@ -419,7 +419,7 @@ foreach($arr as $row){
     shn_form_hidden(array('seq'=>'addnew'));
     shn_form_fsopen(_('Add New ')._($conf['mod_admin_ims_level3']));
     shn_form_text(_("Name"),'level3_name_new');
-    shn_form_select($parent_ids,_($conf['mod_admin_ims_level1']),"level3_new_parent_id");
+    shn_form_select($parent_ids,_($conf['mod_admin_ims_level2']),"level3_new_parent_id");
     shn_form_fsclose();
 
     shn_form_submit(_('Add New'));
