@@ -783,7 +783,8 @@ function shn_ims_prediction_report()
     {
 	if(_shn_ims_validate_prediction_page())
         {
-	    shn_ims_optim_item();
+	    //shn_ims_optim_item();
+	    _shn_ims_prediction_page();
         }
 	else
         {
