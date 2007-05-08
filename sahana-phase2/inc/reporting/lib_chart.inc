@@ -86,8 +86,8 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 		{
 		$temp_x1 = $dataArray[$i][0];
 		$temp_y1 = $dataArray[$i][1];
-		//print $temp_x1."<br>";
-		//print $temp_y1."<br>";
+		//print $temp_x1."<br />";
+		//print $temp_y1."<br />";
 		//print $i;
 
 
@@ -205,11 +205,11 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -262,11 +262,11 @@ function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -317,11 +317,11 @@ function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -373,11 +373,11 @@ function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -429,11 +429,11 @@ function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitl
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -485,11 +485,11 @@ function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -541,11 +541,11 @@ function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$yti
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -597,11 +597,11 @@ function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle=
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
@@ -653,11 +653,11 @@ function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$yti
 		if(_shn_is_print_ok())
 		{
 		print "<h1> Chart - ".$res_found->fields['title']."</h1>";
-		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br>";
-		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br>";
-		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$res_found->fields['file_type']."<br>";
-		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br>";
+		print "<b>Chart ID : </b>".$res_found->fields['rep_id']." <br />";
+		print "<b>Chart File Name : </b>". $res_found->fields['file_name']."<br />";
+		print "<b>Date/Time : </b>".$res_found->fields['t_stamp']."<br />";
+		print "<b>File Type : </b>".$res_found->fields['file_type']."<br />";
+		print "<b>File Size : </b>".$res_found->fields['file_size_kb']." kb <br />";
 		}
 	}
 }
