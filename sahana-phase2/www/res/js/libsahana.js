@@ -77,3 +77,14 @@ function changeTab(n){
     tabFieldSet[curTab].style.display='block';
     tabList[curTab].id='activeTab';
 }
+
+function toggle_visibility(id){
+    var el=document.getElementById(id).style;
+    if(el.display=='block')
+    {
+	el.display='none';
+    } 
+    else{
+        el.display='block';
+    }
+}
