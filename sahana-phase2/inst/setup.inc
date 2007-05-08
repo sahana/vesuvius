@@ -327,15 +327,20 @@ function shn_setup_form2()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Settings'));
+    shn_form_select(
+        array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
+                _('Access Control'),'acl',"onchange='toggle_visibility(\"acl_pass\")'");
+?>
+    <div id='acl_pass' style="display:none">
+<?php
     // check root password, should match
     shn_form_password(_('Administrator Password'),'root_pwd','size="30"', 
         array('req'=>true, 'help'=>'The root user is the administrator
                 of the system and has the greatest privilages'));
     shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
-        
-    shn_form_select(
-        array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
-                _('Access Control'),'acl');
+?>
+    </div>
+<?
     shn_form_select(
         array( 'default' => _('Default Theme'),
                'classic' => _('Classic Theme'),
