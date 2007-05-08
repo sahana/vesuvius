@@ -387,6 +387,11 @@ function _shn_ims_search_item_db()
 	//}
 }
 /**
+***************************************************************************************************************************************************
+******************************************** Search Inventories ***********************************************************************************
+***************************************************************************************************************************************************
+**/
+/**
 ** Function for searching inventories
 **/
 
@@ -452,6 +457,7 @@ function _shn_ims_search_inventory_db()
     //print(count($loc));
 
     $name_temp=trim($_POST['inventory_name']);
+    //print $name_temp;
     $name=soundex($name_temp);
 
 ?>
@@ -473,8 +479,14 @@ function _shn_ims_search_inventory_db()
 
     if($name_temp!=NULL && $bsd_village==0)
     {
-	$sql="SELECT * FROM ims_inventory_records;";
+	$sql="SELECT * FROM ims_inventory_records WHERE SOUNDEX(inventory_name)=SOUNDEX('$name_temp');";
         $ims=$db->Execute($sql);
+	if($ims->fields['inv_uuid']==NULL)
+	{
+		$sql="SELECT * FROM ims_inventory_records WHERE inventory_name LIKE '%{$name_temp}%'";
+		$ims=$db->Execute($sql);
+	}
+	//print $sql;
 	$temp_flag=-1;
     }
     if($name_temp==NULL && $bsd_village!=NULL)
@@ -497,19 +509,11 @@ function _shn_ims_search_inventory_db()
 	//print $temp_flag;
 	if($temp_flag==-1)
 	{
-	
-	 $inventory_name=$ims->fields['inventory_name'];
-	 $inventory_name=soundex($inventory_name);   
-	if($inventory_name==$name)
-	{
 	    $inv_uuid=$ims->fields['inv_uuid'];
 	    if($inv_uuid!=NULL)
 	    {
 	        _shn_display_org($flag=false,$inv_uuid);
-	    }	 
-	    
-	}
-	
+	    }
 	}
 	if($temp_flag==0)
 	{
