@@ -330,6 +330,7 @@ function shn_setup_form2()
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
                 _('Access Control'),'acl',"onchange='toggle_visibility(\"acl_pass\")'");
+    
 ?>
     <div id='acl_pass' style="display:none">
 <?php
@@ -385,6 +386,8 @@ function shn_chk_root_pwd()
 {
 	clean_errors();
 	// check whether the password is empty or not
+	if ($_POST['acl']=='enable'){	
+	
 	if ($_POST['root_pwd']==null) {
 		add_error("Root password can not be empty!");
 		display_errors();
@@ -396,7 +399,8 @@ function shn_chk_root_pwd()
 		display_errors();
 		shn_setup_form2();
 		break;
-	}	
+	}
+	}
 } // end of shn_chk_root_pwd
 
 function shn_setup_form_conffile()
