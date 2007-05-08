@@ -106,7 +106,8 @@ function shn_email_validate()
 	// if email is a valid one then do nothing ;-)
 	}
 	else {
-		echo "<b><font color=red>$email</font> is an Invalid email address!</b>";// this is till we come up some nice screen
+		add_error("<b>$email</b> is an invalid email address! please check the 'Administrator Email' again.");
+		display_errors();
 		shn_setup_form2();
 		break;
 	}
@@ -377,14 +378,17 @@ function shn_setup_form2()
 
 function shn_chk_root_pwd()
 {
+	clean_errors();
 	// check whether the password is empty or not
 	if ($_POST['root_pwd']==null) {
-		echo "<b>Root password can not be ampty!</b>";
+		add_error("<b>Root password can not be empty!</b>");
+		display_errors();
 		shn_setup_form2();
 		break;
 	// if it's not empty then check whether those are matching			
 	} elseif (!($_POST['root_pwd']==$_POST['root_pwd_confirm'])) {
-		echo "<b>Root passwords are not matching!</b>";
+		add_error("Root passwords do not match! Please re-type the root password and try again.");
+		display_errors();
 		shn_setup_form2();
 		break;
 	}	
