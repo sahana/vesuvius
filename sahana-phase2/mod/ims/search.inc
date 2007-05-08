@@ -141,7 +141,7 @@ function _shn_ims_search_item_db()
         $db=$global["db"];
 
 	//print ($item_search);
-	if($inv_id==0)
+	if($inv_id=='0')
 	{
 		$sql="SELECT item_id,suplier_id,unit,state,amount,inv_id FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state';";
 	}
