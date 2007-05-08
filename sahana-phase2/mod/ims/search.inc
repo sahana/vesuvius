@@ -244,7 +244,14 @@ function _shn_ims_search_item_db()
 <div id="result">
 <h3 align="center"><?php print _("Total Amount");
             print "\n";
-            print $sum_amount;
+	    if($sum_amount==null)
+	    {
+		print ("0");
+	    }
+	    else
+	    {
+		print $sum_amount;
+	    }
             print "\n";
             print $base_unit_name;?> </h3>
 </div>
@@ -379,7 +386,14 @@ function _shn_ims_search_item_db()
 	<div id="result">
 <h3 align="center"><?php print _("Total Amount");
             print "\n";
-            print $sum_amount;
+	    if($sum_amount==null)
+	    {
+		print ("0");
+	    }
+	    else
+	    {
+                print $sum_amount;
+	    }
             print "\n";
             print $base_unit_name;?> </h3>
 </div>
