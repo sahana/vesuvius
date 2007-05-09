@@ -587,7 +587,7 @@ function shn_ims_view_edit_reorder()
 function shn_ims_view_edit_reorder_page()
 {
     include_once 'mini_quantity.inc';
-    _shn_ims_view_edit_reorder_page();
+    _shn_ims_view_edit_reorder_page($page_number=0);
 }
 
 function shn_ims_reorder_level_edit()
@@ -995,6 +995,19 @@ function shn_ims_list_items_paging()
     $i=$page_number;
     _shn_ims_view_edit_header();
     _shn_ims_view_edit($i);
+
+}
+
+function shn_ims_reorder_level_paging()
+{
+    global $global;
+
+    include_once('mini_quantity.inc');
+    $page_number=$_REQUEST['$i'];
+?>
+    <b><?php print (_("Page Number : ").$page_number)?></b>
+<?php
+    _shn_ims_view_edit_reorder_page($page_number);
 
 }
 

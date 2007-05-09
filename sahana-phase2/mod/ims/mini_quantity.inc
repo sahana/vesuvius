@@ -261,7 +261,7 @@ function _shn_ims_view_edit_reorder()
 
 }
 
-function _shn_ims_view_edit_reorder_page()
+function _shn_ims_view_edit_reorder_page($page_number)
 {
     $parent_id = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
@@ -279,6 +279,8 @@ function _shn_ims_view_edit_reorder_page()
 <h1 align="center"><?php print _("Re-Order Level");?><br></h1>
 <div id="result">
 <?php
+    global $global;
+    $db=$global["db"];
     $form_opts['name']='reorder_form';
     shn_form_fopen("minimum_quantity_action",null,$form_opts);
     shn_form_fsopen("Add Re-Order Level");
@@ -289,7 +291,35 @@ function _shn_ims_view_edit_reorder_page()
     //shn_form_submit(_("Add Re-Order level"));
     shn_form_fsclose();
     shn_form_fsopen();
+
+    $Limit=20;
+	
+	if($page_number!=0)
+        {
+	    $page_number=($page_number-1)*$Limit;
+        }
+        else 
+        {
+	    $page_number=0;
+        }
     
+    $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level LIMIT $page_number,$Limit;";  
+    $ims1 = $db->Execute($sql1);
+//print $sql1;
+    $sql ="SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
+
+    $SearchResult=mysql_query($sql) or die(mysql_error()); 
+    $NumberOfResults=mysql_num_rows($SearchResult); 
+	//print $NumberOfResults;
+    $NumberOfPages=ceil($NumberOfResults/$Limit); 
+    print(_("Go to Page : "));
+
+    for($i=1;$i<$NumberOfPages+1;$i++)
+    {
+		//print $i." ";
+	?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	print "\n";
+    }
     
 ?>
     
@@ -306,14 +336,12 @@ function _shn_ims_view_edit_reorder_page()
         </thead>
     <tbody>
 <?php
-        global $global;
-        $db=$global["db"];
+        
         //$state_des="destroyed";
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
-        $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";  
-        $ims1 = $db->Execute($sql1);
+        
 
         while (!$ims1==NULL && !$ims1->EOF)
         {
