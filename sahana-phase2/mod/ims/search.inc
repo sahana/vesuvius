@@ -512,8 +512,17 @@ function _shn_ims_search_inventory_db()
     }
     if($name_temp!=NULL && !$bsd_village==0)
     {
-	$sql="SELECT * FROM ims_inventory_records;";
+	/*$sql="SELECT * FROM ims_inventory_records;";
         $ims=$db->Execute($sql);
+	$temp_flag=1;*/
+	$sql="SELECT * FROM ims_inventory_records WHERE SOUNDEX(inventory_name)=SOUNDEX('$name_temp');";
+        $ims=$db->Execute($sql);
+	if($ims->fields['inv_uuid']==NULL)
+	{
+		$sql="SELECT * FROM ims_inventory_records WHERE inventory_name LIKE '%{$name_temp}%'";
+		$ims=$db->Execute($sql);
+	}
+	//print $sql;
 	$temp_flag=1;
     }
 
@@ -555,10 +564,10 @@ function _shn_ims_search_inventory_db()
 
 	if($temp_flag==1)
 	{
-	    $inventory_name=$ims->fields['inventory_name'];
-	    $inventory_name=soundex($inventory_name);
-	    if($inventory_name==$name)
-	    {
+	    //$inventory_name=$ims->fields['inventory_name'];
+	    //$inventory_name=soundex($inventory_name);
+	    //if($inventory_name==$name)
+	    //{
 		$inv_uuid=$ims->fields['inv_uuid'];
 		
 		$sql1="SELECT * FROM location_details WHERE poc_uuid='$inv_uuid';";
@@ -580,7 +589,7 @@ function _shn_ims_search_inventory_db()
 	    }
 	    
 		
-	    }		
+	   // }		
 	}
 	
 	   // $sql1="SELECT * FROM ";
