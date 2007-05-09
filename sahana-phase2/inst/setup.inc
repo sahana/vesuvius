@@ -477,7 +477,7 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
-    
+    shn_setup_run_sqlscript($db,'mod/hr/ins/dbcreate.sql');//hr
 
     if ($_POST['dbsample']=='y') {
         include_once($global['approot'].'inc/lib_uuid.inc');
