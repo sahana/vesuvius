@@ -155,8 +155,9 @@ function shn_ims_view_edit_item()
     global $global;
     include_once ('view_edit_item.inc');
     _shn_ims_view_edit_header();
+    //$i=0;
     //_shn_ims_view_edit($inventory_id);
-    _shn_ims_view_edit();
+    _shn_ims_view_edit($i=0);
 }
 
 function shn_ims_view_edit_item_actions()
@@ -977,6 +978,25 @@ function shn_ims_reorder_level_pdf()
     }
 }
 
+/**
+**********Paging*********
+**/
+
+function shn_ims_list_items_paging()
+{
+    global $global;
+
+    include_once('view_edit_item.inc');
+    $page_number=$_REQUEST['$i'];
+    //add_confirmation(_("Page Number :").$page_number);
+?>
+    <b><?php print (_("Page Number : ").$page_number)?></b>
+<?php
+    $i=$page_number;
+    _shn_ims_view_edit_header();
+    _shn_ims_view_edit($i);
+
+}
 
 
 ?>

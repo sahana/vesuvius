@@ -38,10 +38,10 @@ function _shn_ims_view_edit_header()
 **GUI for View edit form
 **/
 
-function _shn_ims_view_edit()
+function _shn_ims_view_edit($i)
 {
 
-
+    
     global $global;
     $module = $global['module'];
     $form_opts['name']="edit_item";
@@ -81,11 +81,43 @@ function _shn_ims_view_edit()
         
         //$sql = "select item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND inv_id='$inv_id' order by item_name ;";
         //$sql1 = "SELECT name FROM ct_catalogue WHERE (SELECT catalog_id FROM ims_item_records );";
-        $sql="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name ;";
-	$ims = $db->Execute($sql);
 
+	$Limit=20;
+	
+	if($i!=0)
+        {
+	    $i=($i-1)*$Limit;
+        }
+        else 
+        {
+	    $i=0;
+        }
+
+	$sql1="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name LIMIT $i,$Limit;";
+	$ims = $db->Execute($sql1);
+        
+
+	$sql="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name;";
+
+	$SearchResult=mysql_query($sql) or die(mysql_error()); 
+	$NumberOfResults=mysql_num_rows($SearchResult); 
+	//print $NumberOfResults;
+	
+	$NumberOfPages=ceil($NumberOfResults/$Limit); 
+	//print $NumberOfPages;
+	
+	for($i=1;$i<$NumberOfPages+1;$i++)
+	{
+		//print $i." ";
+	    ?><a href="index.php?mod=ims&act=list_items_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	    print "\n";
+	}
+	
+//print $sql1;
         while (!$ims==NULL && !$ims->EOF)
         {
+	    $numberofresults=$numberofresults+1;
+
             $item_id=$ims->fields["item_id"];
             $catalog_id=$ims->fields["catalog_id"];
             $inv_id=$ims->fields["inv_id"];
