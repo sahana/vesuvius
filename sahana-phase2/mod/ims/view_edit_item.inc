@@ -105,6 +105,7 @@ function _shn_ims_view_edit($i)
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	//print $NumberOfPages;
+	print(_("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
