@@ -1011,6 +1011,22 @@ function shn_ims_reorder_level_paging()
 
 }
 
+function shn_ims_inventory_paging()
+{
+    global $global;
+
+    include_once('view_inv.inc');
+    $page_number=$_REQUEST['$i'];
+
+    //print $page_number;
+?>
+    <b><?php print (_("Page Number : ").$page_number)?></b>
+<?php
+
+    _shn_ims_viewform_allorg($no=NULL,$page_number);
+
+}
+
 
 ?>
 

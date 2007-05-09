@@ -21,7 +21,7 @@ require_once $global['approot']."/inc/lib_location.inc";
 
 include_once "lib_ims.inc";
 
-function _shn_ims_viewform_allorg($no=NULL)
+function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL)
 {
 	shn_form_fopen("reg_inv");
 	shn_form_fsopen("Register a New Inventory");
@@ -30,6 +30,33 @@ function _shn_ims_viewform_allorg($no=NULL)
 
     global $global;
     $db=$global['db'];
+
+    $Limit=20;
+	
+    if($page_number!=0)
+    {
+	$page_number=($page_number-1)*$Limit;
+    }
+    else 
+    {
+	$page_number=0;
+    }
+
+    $sql="SELECT * FROM ims_inventory_records ORDER BY inventory_name;";
+
+    $SearchResult=mysql_query($sql) or die(mysql_error()); 
+	$NumberOfResults=mysql_num_rows($SearchResult); 
+	
+	$NumberOfPages=ceil($NumberOfResults/$Limit); 
+	
+	print(_("Go to Page : "));
+	
+	for($i=1;$i<$NumberOfPages+1;$i++)
+	{
+		
+	    ?><a href="index.php?mod=ims&act=inventory_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	    print "\n";
+	}
 ?>
 <div id ="result">
 	<table>
@@ -47,12 +74,13 @@ function _shn_ims_viewform_allorg($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inventory_name";
+        $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inventory_name LIMIT $page_number,$Limit";
         $res_org=$db->Execute($q);
     }else {
         $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inv_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
     }
+//print $q;
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
         if($org_id!=NULL){
