@@ -38,9 +38,9 @@ function _shn_ims_view_edit_header()
 **GUI for View edit form
 **/
 
-function _shn_ims_view_edit($i)
+function _shn_ims_view_edit($i,$Limit=null)
 {
-
+    //print $Limit;
     
     global $global;
     $module = $global['module'];
@@ -55,8 +55,10 @@ function _shn_ims_view_edit($i)
     
     shn_form_fsopen(null);
     
-    
+    shn_form_text(_("Records Per Page : "),'status','onChange="submit(this);"',array('value'=>$Limit));
+    //shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',null);
 ?>
+
     <div id ="result">
     <table>
         <thead>
@@ -78,7 +80,7 @@ function _shn_ims_view_edit($i)
         $state_des="destroyed";
         
 
-	$Limit=20;
+	//$Limit=20;
 	
 	if($i!=0)
         {
@@ -101,12 +103,13 @@ function _shn_ims_view_edit($i)
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	//print $NumberOfPages;
+	
 	print(_("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
 		//print $i." ";
-	    ?><a href="index.php?mod=ims&act=list_items_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	    ?><a href="index.php?mod=ims&act=list_items_paging&$i=<?php echo $i;?>&Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
 	
@@ -192,7 +195,7 @@ shn_form_fsopen("Inventory Transfer");
 <?php
 
     shn_form_hidden(array('action'=>'0'));
-shn_form_fsclose();
+    shn_form_fsclose();
     shn_form_fclose();
 }
 
@@ -243,6 +246,13 @@ function _shn_ims_view_edit_item_actions()
 
     $action=trim($_POST['action']);
 
+//print $action;
+    $stat=$_POST['status'];
+//print ($stat);
+    if($action=='0')
+    {
+	shn_ims_list_items_paging($stat);
+    }
     if($action=='close')
     {
         shn_ims_default();

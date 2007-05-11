@@ -157,7 +157,7 @@ function shn_ims_view_edit_item()
     _shn_ims_view_edit_header();
     //$i=0;
     //_shn_ims_view_edit($inventory_id);
-    _shn_ims_view_edit($i=0,$Limit=1);
+    _shn_ims_view_edit($i=0,$Limit=20);
 }
 
 function shn_ims_view_edit_item_actions()
