@@ -367,6 +367,13 @@ function shn_ims_view_edit_inventory()
     include_once("process_org.inc");
     _shn_or_ims_reg_org_cr();
 }*/
+function shn_ims_reg_inv_actions()
+{
+    include_once ('view_inv.inc');
+    $action=trim($_POST['action']);
+    _shn_ims_reg_inv_actions($action);
+
+}
 
 function shn_ims_reg_inv($error=false)
 {
@@ -442,10 +449,10 @@ function shn_ims_view_inv()
     if(NULL == $_REQUEST['id']){
     ?>
 <h2> Inventory Registry</h2>
-<?php
-        _shn_ims_viewform_allorg();
+<?php	$Limit=20;
+        _shn_ims_viewform_allorg(null,null,$Limit);
     }else{
-        _shn_ims_viewform_org($_REQUEST['id']);
+        _shn_ims_viewform_org($_REQUEST['id'],$Limit=20);
     }
 }
 
@@ -1020,19 +1027,24 @@ function shn_ims_reorder_level_paging($Limit=null)
 
 }
 
-function shn_ims_inventory_paging()
+function shn_ims_inventory_paging($Limit=null)
 {
     global $global;
 
     include_once('view_inv.inc');
     $page_number=$_REQUEST['$i'];
 
+    if($page_number!=NULL)
+    {
+	$Limit=$_REQUEST['$Limit'];
+    }
+
     //print $page_number;
 ?>
     <b><?php print (_("Page Number : ").$page_number)?></b>
 <?php
 
-    _shn_ims_viewform_allorg($no=NULL,$page_number);
+    _shn_ims_viewform_allorg($no=NULL,$page_number,$Limit);
 
 }
 

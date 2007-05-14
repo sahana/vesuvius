@@ -21,17 +21,24 @@ require_once $global['approot']."/inc/lib_location.inc";
 
 include_once "lib_ims.inc";
 
-function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL)
+function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 {
-	shn_form_fopen("reg_inv");
+	$form_opts['name']="view_inv";
+	shn_form_fopen("reg_inv_actions",null,$form_opts);
 	shn_form_fsopen("Register a New Inventory");
-	shn_form_submit(_("Add Inventory"));
+	$extra_opts['br']=false;
+        $extra_opts['req']=false;
+	shn_form_button(_("Add Inventory"),"onClick='change_action(\"addinventory\")'",$extra_opts);
+	//shn_form_submit(_("Add Inventory"));
 	shn_form_fsclose();
 
     global $global;
     $db=$global['db'];
 
-    $Limit=20;
+    //$Limit=20;
+    shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+
+    shn_form_hidden(array('action'=>'0'));
 	
     if($page_number!=0)
     {
@@ -54,7 +61,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL)
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
 		
-	    ?><a href="index.php?mod=ims&act=inventory_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	    ?><a href="index.php?mod=ims&act=inventory_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
 ?>
@@ -265,4 +272,26 @@ function _shn_ims_viewform_org($org_id,$error=false)
 </div>
 <?php
 } 
+
+function _shn_ims_reg_inv_actions($action)
+{
+    if($action=='addinventory')
+    {
+	shn_ims_reg_inv();
+    }
+    if($action=='0')
+    {
+	$Limit=trim($_POST['records']);
+	shn_ims_inventory_paging($Limit);
+    }
+}
 ?>
+
+<script type="text/javascript">
+    function change_action(action){
+        var x=document.getElementsByName('action');
+         x[0].value=action;
+         document.view_inv.submit();
+         return;
+    }
+</script>
