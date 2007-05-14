@@ -251,6 +251,16 @@ function _shn_ims_view_edit_item_actions()
 //print ($stat);
     if($action=='0')
     {
+	if(!is_numeric($stat))
+	{
+	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    shn_ims_list_items_paging($stat=20);
+	}
+	if($stat=='0' || $stat<0)
+	{
+	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    shn_ims_list_items_paging($stat=20);
+	}
 	shn_ims_list_items_paging($stat);
     }
     if($action=='close')

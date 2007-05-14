@@ -55,7 +55,7 @@ define(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID,_("Expire date should be greater th
 define(SHN_ERR_IMS_REORDER_VALUE_NUMERIC,"Please enter a numeric value for item Re-Order Value");
 define(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT,"You have entered a larger amount than the amount that has been sent");
 define(SHN_ERR_IMS_UNIT_INCOMPLETE,"Unit is essential for registration. Please Complete and submit it again");
-define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a Numeric value");
+define(SHN_ERR_IMS_AMOUNT_NUMERIC,"Please enter a positive Numeric value");
 
 define(SHN_ERR_IMS_TIME_AMOUNT_INCOMPLETE,"Time Amount is essential for the Prediction. Please Complete it and Submit again");
 define(SHN_ERR_IMS_CATALOGUE_MISSING,_("Please Select the Catalogue that you need"));

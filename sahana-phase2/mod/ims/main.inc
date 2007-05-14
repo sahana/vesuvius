@@ -535,6 +535,7 @@ function shn_ims_minimum_quantity_action()
 {
     global $global;
     require_once 'mini_quantity.inc';
+    //$Limit=trim($_POST['records']);
     _shn_ims_minimum_quantity_action();
 }
 function shn_ims_minimum_quantity_item()
@@ -587,7 +588,8 @@ function shn_ims_view_edit_reorder()
 function shn_ims_view_edit_reorder_page()
 {
     include_once 'mini_quantity.inc';
-    _shn_ims_view_edit_reorder_page($page_number=0);
+    //$Limit=20;
+    _shn_ims_view_edit_reorder_page($page_number=0,$Limit=20);
 }
 
 function shn_ims_reorder_level_edit()
@@ -1001,16 +1003,20 @@ function shn_ims_list_items_paging($Limit=NULL)
 
 }
 
-function shn_ims_reorder_level_paging()
+function shn_ims_reorder_level_paging($Limit=null)
 {
     global $global;
 
     include_once('mini_quantity.inc');
     $page_number=$_REQUEST['$i'];
+    if($page_number!=NULL)
+    {
+	$Limit=$_REQUEST['$Limit'];
+    }
 ?>
     <b><?php print (_("Page Number : ").$page_number)?></b>
 <?php
-    _shn_ims_view_edit_reorder_page($page_number);
+    _shn_ims_view_edit_reorder_page($page_number,$Limit);
 
 }
 

@@ -261,7 +261,7 @@ function _shn_ims_view_edit_reorder()
 
 }
 
-function _shn_ims_view_edit_reorder_page($page_number)
+function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
 {
     $parent_id = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
@@ -277,7 +277,7 @@ function _shn_ims_view_edit_reorder_page($page_number)
     }
 ?>
 <h1 align="center"><?php print _("Re-Order Level");?><br></h1>
-<div id="result">
+<div id="result1">
 <?php
     global $global;
     $db=$global["db"];
@@ -292,7 +292,8 @@ function _shn_ims_view_edit_reorder_page($page_number)
     shn_form_fsclose();
     shn_form_fsopen();
 
-    $Limit=20;
+    //$Limit=20;
+    shn_form_text(_("Records per Page"),'records','onChange="submit(this);"',array('value'=>$Limit));
 	
 	if($page_number!=0)
         {
@@ -311,18 +312,23 @@ function _shn_ims_view_edit_reorder_page($page_number)
     $SearchResult=mysql_query($sql) or die(mysql_error()); 
     $NumberOfResults=mysql_num_rows($SearchResult); 
 	//print $NumberOfResults;
+    //if($NumberOfResults!='0' || $Limit!='0')
+   // {
     $NumberOfPages=ceil($NumberOfResults/$Limit); 
+    //}
+    
     print(_("Go to Page : "));
 
     for($i=1;$i<$NumberOfPages+1;$i++)
     {
 		//print $i." ";
-	?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i;?>"><?php print ($i." ");?></a><?php
+	?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	print "\n";
     }
     
 ?>
-    
+    </div>
+    <div id="result">
     <table>
         <thead>
         <td><?=_("Item");?></td>
@@ -446,10 +452,32 @@ function _shn_ims_minimum_quantity_action()
     $db=$global["db"];
 
     $action=trim($_POST['action']);
+    $Limit=trim($_POST['records']);
+    //print $Limit;
 
     if($action=='reorder')
     {
         shn_ims_minimum_quantity_item();
+    }
+    if($action=='0')
+    {
+	//print $Limit;
+	
+	if(!is_numeric($Limit))
+	{
+		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+		shn_ims_reorder_level_paging($Limit=20);
+	}
+	else if($Limit=='0' || $Limit<0)
+	{
+		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+		shn_ims_reorder_level_paging($Limit=20);
+	}
+	else
+	{
+	   	shn_ims_reorder_level_paging($Limit);
+	}
+	
     }
 }
 
