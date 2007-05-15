@@ -177,7 +177,7 @@ function _shn_ims_validate_additemform()
 	$date_diff=_shn_ims_count_days($manufactured_date,$expire_date);
 	
 
-	if($date_diff==0 || $date_diff<0)
+	if($date_diff<0)
 	{
 	    add_error(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID);
 	    $error_flag=true;
