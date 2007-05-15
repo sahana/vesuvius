@@ -282,7 +282,20 @@ function _shn_ims_reg_inv_actions($action)
     if($action=='0')
     {
 	$Limit=trim($_POST['records']);
-	shn_ims_inventory_paging($Limit);
+	if(!is_numeric($Limit))
+	{
+	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    shn_ims_inventory_paging($Limit=20);
+	}
+	else if($Limit=='0' || $Limit<0)
+	{
+	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    shn_ims_inventory_paging($Limit=20);
+	}
+	else
+	{
+	    shn_ims_inventory_paging($Limit);
+	}	
     }
 }
 ?>
