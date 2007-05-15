@@ -1057,7 +1057,11 @@ function shn_ims_list_items_paging($Limit=NULL)
     if($page_number!=NULL)
     {
         $Limit=$_REQUEST['Limit'];
-    }//add_confirmation(_("Page Number :").$page_number);
+    }
+    else
+    {
+	$page_number=1;
+    }
 ?>
     <b><?php print (_("Page Number : ").$page_number)?></b>
 <?php
@@ -1077,6 +1081,10 @@ function shn_ims_reorder_level_paging($Limit=null)
     {
 	$Limit=$_REQUEST['$Limit'];
     }
+    else
+    {
+	$page_number=1;
+    }
 ?>
     <b><?php print (_("Page Number : ").$page_number)?></b>
 <?php
@@ -1090,10 +1098,15 @@ function shn_ims_inventory_paging($Limit=null)
 
     include_once('view_inv.inc');
     $page_number=$_REQUEST['$i'];
+    
 
     if($page_number!=NULL)
     {
 	$Limit=$_REQUEST['$Limit'];
+    }
+    else
+    {
+	$page_number=1;
     }
 
     //print $page_number;
