@@ -281,11 +281,8 @@ function shn_ims_delete_item_db()
     $item_id=$_REQUEST['item_id'];
     $sql="DELETE FROM ims_item_records WHERE item_id='$item_id';";
     $ims=$db->Execute($sql);
-    add_confirmation(_("Your Record has been deleted successfully"));
-?>
-<div>
-<h5 align="center" <?php print ("Successfully Deleated");?>></h5></div>
-<?php
+    add_confirmation(_("Record has been deleted successfully"));
+
     shn_ims_view_edit_item();
 }
 
