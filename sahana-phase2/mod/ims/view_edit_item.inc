@@ -163,7 +163,8 @@ function _shn_ims_view_edit($i,$Limit=null)
         <td><?php print ($inventory_name);?></td>
         <td><?php print ($suplier_name);?></td>
         <td><a href="index.php?mod=ims&act=add_item1&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Edit");?></a></td>
-        <td><a href="index.php?mod=ims&act=delete_item_db&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
+        <!--<td><a href="index.php?mod=ims&act=delete_item_db&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>-->
+        <td><a href="index.php?mod=ims&act=delete_item_confirm&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
         
         </tr>
 

@@ -377,7 +377,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
         <td><?php print ($unit_name); ?></td>
         <td><?php print ($inventory_name);?></td>
         <td><a href="index.php?mod=ims&act=reorder_level_edit&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>"><?php print ("Edit");?></a></td>
-        <td><a href="index.php?mod=ims&act=reorder_level_delete&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
+        <td><a href="index.php?mod=ims&act=reorder_level_delete_confirm&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
         
         
         

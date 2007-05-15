@@ -267,20 +267,51 @@ function shn_ims_edit_item_db()
         
 }
 
+
+
 function shn_ims_delete_item_db()
 {
     global $global;
     $db=$global["db"];
+?>
+
+<?php
     require_once('view_edit_item.inc');
     //$parent_id=$_REQUEST['parent_id'];
     $item_id=$_REQUEST['item_id'];
     $sql="DELETE FROM ims_item_records WHERE item_id='$item_id';";
     $ims=$db->Execute($sql);
+    add_confirmation(_("Your Record has been deleted successfully"));
 ?>
 <div>
 <h5 align="center" <?php print ("Successfully Deleated");?>></h5></div>
 <?php
     shn_ims_view_edit_item();
+}
+
+function shn_ims_delete_item_confirm()
+{
+    global $global;
+    require_once('view_edit_item.inc');
+    $parent_id=$_REQUEST['parent_id'];
+    $item_id=$_REQUEST['item_id'];
+?>
+    <SCRIPT language="JavaScript">
+
+
+    var where_to= confirm("Are You Sure you want to delete this record?");
+    if (where_to== true)
+    {
+   //window.location="http://yourplace.com/yourpage.htm";
+         window.location="index.php?mod=ims&act=delete_item_db&item_id=<?php echo $item_id;?>&parent_id=<?php echo $catalog_id;?>";
+    }
+    else
+    {
+         window.location="index.php?mod=ims&act=view_edit_item";
+     }
+
+</SCRIPT>
+<?php
 }
 
 /**
@@ -621,8 +652,37 @@ function shn_ims_reorder_level_delete()
     $db=$global["db"];
     $sql="DELETE FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
     $ims=$db->Execute($sql);
+    add_confirmation(_("Record has been deleted successfully"));
     shn_ims_view_edit_reorder_page();
 }
+
+function shn_ims_reorder_level_delete_confirm()
+{
+    global $global;
+    include_once 'mini_quantity.inc';
+    $catalog_id = trim($_REQUEST['catalog_id']);
+    $inv_id = trim($_REQUEST['inv_id']);
+
+?>
+    <SCRIPT language="JavaScript">
+
+
+    var where_to= confirm("Are You Sure you want to delete this record?");
+    if (where_to== true)
+    {
+   //window.location="http://yourplace.com/yourpage.htm";
+         window.location="index.php?mod=ims&act=reorder_level_delete&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>";
+    }
+    else
+    {
+         window.location="index.php?mod=ims&act=view_edit_reorder_page";
+     }
+
+</SCRIPT>
+<?php
+
+}
+
 function shn_ims_send_item()
 {    
     global $global;
