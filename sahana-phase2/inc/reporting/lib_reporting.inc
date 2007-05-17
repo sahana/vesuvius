@@ -759,6 +759,201 @@ function shn_xhtml_report_close()
     }
 }
 
+
+global $excel;
+global $excelreportname;
+global $excel_rep_gen_ok;
+global $excel_print_enable;
+global $excel_rep_ID;
+
+/**
+ * This function will open the excel report
+ *
+ * @param string $reportname
+ * @param mixed $keywords
+ * @access public
+ * @return void
+ */
+function shn_excel_report_fopen($reportname='',$keywords='')
+{
+    require('../3rd/excelwriter/excelwriter.inc.php');
+    global $excel;
+    global $excelreportname;
+    global $excel_rep_gen_ok;
+    global $excel_print_enable;
+    global $excel_rep_ID;
+    global $global;
+    $db=$global["db"];
+
+    $excelreportname = $reportname;
+    $excel=new ExcelWriter($excelreportname);
+    $backtrace = debug_backtrace();
+    $rep_id = $backtrace['1']["function"];
+    $excel_rep_ID = $rep_id;
+
+    //check the timestamp and set whether the update should be taken place or not
+    $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
+    $res_found = $db->Execute($query);
+    $excel_rep_gen_ok = true;
+
+    if($res_found->fields['t_stamp'] != null)
+    {
+    $excel_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
+    } 
+
+    if($rep_id=='_shn_rs_report_creator')
+    {
+    $rep_id =  shn_create_uuid('report');
+    }
+
+    if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+    {
+    $excel->printInfoEnable(false);
+    $excel_print_enable = false;
+    }
+    elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+    {
+    $excel->printInfoEnable(false);
+    $excel_print_enable = false;
+    }
+    else
+    {
+    $excel->printInfoEnable(true);
+    $excel_print_enable = true;
+    }
+
+    //if report gen is OK it will start generation
+    if($excel_rep_gen_ok)
+    {
+    $excel->SetKeywords($keywords);
+    $excel->SetReportID($rep_id);	
+    $excel->SetFileName($excelreportname);
+    }
+}
+
+
+/**
+ * This function will add a title to the excel report
+ *
+ * @param string $title
+ * @access public
+ * @return void
+ */
+function shn_excel_report_add_title($title='')
+{
+    global $excel_rep_gen_ok;
+    global $excel;
+    if($excel_rep_gen_ok)
+    {
+    $excel->SetReportTitle($title);
+	$tile_arr = array();
+	array_push($tile_arr,$title);
+	$excel->writeLine($tile_arr);
+
+    }
+}
+
+/**
+ * This function will add a table to the excel report
+ *
+ * @param mixed $header
+ * @param mixed $data
+ * @access public
+ * @return void
+ */
+function shn_excel_report_add_table($header,$data)
+{
+    global $excel_rep_gen_ok;
+    global $excel;
+    if($excel_rep_gen_ok)
+    {
+	#write the table header
+	$excel->writeLine($header);
+
+	foreach ($data as $row)
+	{
+	$excel->writeRow();
+		foreach ($row as $col)
+		{
+		$excel->writeCol($col);
+		}
+	}	 
+
+
+
+    }#end of if($excel_rep_gen_ok)
+}
+
+/**
+ * This function will add a paragraph to the excel report
+ *
+ * @param string $txt
+ * @access public
+ * @return void
+ */
+function shn_excel_report_add_summery($txt='')
+{
+    global $excel_rep_gen_ok;
+    global $excel;
+    if($excel_rep_gen_ok)
+    {
+	# todo	
+    }
+}
+
+/**
+ * This function will add an image to the excel report
+ *
+ * @param string $img_path
+ * @access public
+ * @return void
+ */
+function shn_excel_report_add_image($img_path='')
+{	
+    global $excel_rep_gen_ok;
+    global $excel;
+    if($excel_rep_gen_ok)
+    {
+	#todo
+    }
+}
+
+/**
+ * This function will close the pdf report
+ *
+ * @access public
+ * @return void
+ */
+function shn_excel_report_close()
+{
+    global $global;
+    $db=$global["db"];
+
+    global $excel;
+    global $excelreportname;
+    global $excel_rep_gen_ok;
+    global $excel_print_enable;
+    global $excel_rep_ID;
+
+    if($excel_rep_gen_ok)
+    {
+    $excel->close();
+    }
+    else if(!$excel_rep_gen_ok && $excel_print_enable)
+    {
+    $query = "select * from report_files where rep_id = '$excel_rep_ID' ";	
+    $res = $db->Execute($query);
+
+    print "<h1> Report - ".$res->fields['title']."</h1>";
+    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+    }
+}
+
+
 /**
  * This function will return the download url for the purticular report/chart ID.
  *
