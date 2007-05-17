@@ -1138,13 +1138,13 @@ function Output($name='',$dest='')
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
-				print "<b>Report ID : </b>".$the_report_ID." <br>";
-				print "<b>Report File Name : </b>". $file_name."<br>";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-				//print "<b>Report Owner :</b>".$the_owner."<br>";
-				print "<b>File Type : </b>".$file_type."<br>";
-				print "<b>File Size : </b>".$file_size." kb <br>";
-				//print "<b>Keyword :</b>".$the_keyword."<br>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				//print "<b>Report Owner :</b>".$the_owner."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
+				//print "<b>Keyword :</b>".$the_keyword."<br />";
 				}
 				else
 				{

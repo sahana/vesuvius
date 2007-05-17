@@ -299,11 +299,11 @@ function shn_ods_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br>";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
+    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 }
 
@@ -581,11 +581,11 @@ function shn_pdf_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br>";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
+    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 }
 
@@ -751,11 +751,11 @@ function shn_xhtml_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br>";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br>";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br>";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br>";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br>";
+    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 }
 

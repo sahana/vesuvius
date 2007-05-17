@@ -171,11 +171,11 @@ class EasyZIP {
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
-				print "<b>Report ID : </b>".$the_report_ID." <br>";
-				print "<b>Report File Name : </b>". $file_name."<br>";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-				print "<b>File Type : </b>".$file_type."<br>";
-				print "<b>File Size : </b>".$file_size." kb <br>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
 				}
 				else
 				{

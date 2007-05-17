@@ -218,6 +218,9 @@ function shn_text_rs_download_report()
             case 'xhtml':
 		header("Content-type: text/html");
             break;
+            case 'xls':
+		#header("Content-type: text/html");
+            break;
             case 'png':
 		#header("Content-type: image/png");
             break;

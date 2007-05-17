@@ -73,7 +73,7 @@ class genhtml
 
 	function addTitle($title_in='')
 		{
-		$this->output_code .= "<h3 align='".$this->title_pos."'>".$title_in."</h3>\n<br>\n";
+		$this->output_code .= "<h3 align='".$this->title_pos."'>".$title_in."</h3>\n<br />\n";
 		$this->title_txt = $title_in;
 		}
 
@@ -84,7 +84,7 @@ class genhtml
 	
 	function addSummary($summary_in='')
 		{
-		$this->output_code .= "<p align='".$this->summary_pos."'>".$summary_in."</p>\n<br>\n";
+		$this->output_code .= "<p align='".$this->summary_pos."'>".$summary_in."</p>\n<br />\n";
 		}
 
 	function setSummaryPos($summary_pos_in="center")
@@ -94,13 +94,13 @@ class genhtml
 
 	function addImage($img_path='')
 		{
-		$this->output_code .= "<img src='".$img_path."/>\n<br>\n";
+		$this->output_code .= "<img src='".$img_path."/>\n<br />\n";
 		}
 
 
 	function lineBrake()
 		{
-		$this->output_code .= "<br>\n";
+		$this->output_code .= "<br />\n";
 		}
 	
 	function addTable($header_array='',$data_array='')
@@ -125,7 +125,7 @@ class genhtml
 						}	
 					$this->output_code .= "</tr>\n";
 			}
-			$this->output_code .= "</table>\n<br>\n";
+			$this->output_code .= "</table>\n<br />\n";
 		}
 	
 	function setTablePos($table_pos_in='center')
@@ -135,7 +135,7 @@ class genhtml
 
 	function addLink($linkLocatoin='',$linkText='')
 		{
-		$this->output_code .= "<br><a href ='".$linkLocatoin."'>".$linkText."</a>";
+		$this->output_code .= "<br /><a href ='".$linkLocatoin."'>".$linkText."</a>";
 		}
 
 	function printInfoEnable($is_ok)
@@ -223,11 +223,11 @@ class genhtml
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
-				print "<b>Report ID : </b>".$the_report_ID." <br>";
-				print "<b>Report File Name : </b>". $file_name."<br>";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-				print "<b>File Type : </b>".$file_type."<br>";
-				print "<b>File Size : </b>".$file_size." kb <br>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
 				}
 				else
 				{
