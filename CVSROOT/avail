@@ -1,10 +1,12 @@
 unavail
+# Admins
 avail | pradeeper, chamindra
-avail | pradeeper, chamindra, ravids, mifanc, jayasinghe, priyanga, isurunishan
-mahesh_kks
-avail | priyanga | sahana-phase2/mod/sync
-avail | sriganeshan | sahana-phase2/mod/msg
+# Sahana Core
+avail | pradeeper, chamindra, ravids, mifanc, jayasinghe, priyanga, isurunishan, mahesh_kks
+# Trinitty
 avail | trishan, participate | sahana-phase2/mod/vm
+# Doc team
 avail | mifanc, rbcsoriano | sahana-phase2/docs
-avail | mahesh_kks | sahana-phase2 | rel_nyc_csp
+# NYC-CSP deployment
+avail | ishanul, prabath321 | sahana-phase2 | rel_nyc_csp
 
