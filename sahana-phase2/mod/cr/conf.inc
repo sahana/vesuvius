@@ -3,7 +3,9 @@
 $conf['mod_cr_name'] = _("Shelter Registry");
 $conf['mod_cr_menuorder'] = 4;
 
-//Alternate wording for Camp
+/**
+ * Alternate wording for Camp in singular form
+ */
 $conf['mod_cr_alt']=_("Shelter");
 
 /**
