@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.17 2006-12-04 06:14:35 isurunishan Exp $ */
+/* $Id: home.inc,v 1.18 2007-05-22 11:29:56 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -31,7 +31,7 @@ if(file_exists($global['approot'].'/www/tmp/mprfound.png')){
 <p>
 <?= _('The Missing person registry is an online bulletin board of missing and found people.
 It not only captures information about the people missing and found, but the
-information of the person seeking them is also captured, which adds to the chances
+information of the person seeking them is also captured, which increases to the chances
 of people finding each other. For example if two members of the a family unit is
 looking for the head of the family, we can use this data at least to connect those two
 family members.'); ?>
@@ -156,7 +156,7 @@ function shn_mpr_search_show_verticle1($details)
     <TR>
         <TD>
 <?php
-	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr_upload_pic_handler'],'mpr','addmp_img'))
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
@@ -177,7 +177,7 @@ function shn_mpr_search_show_verticle1($details)
 ?>
         <TD>
 <?php
-                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr_upload_pic_handler'],'mpr','addmp_img'))
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';

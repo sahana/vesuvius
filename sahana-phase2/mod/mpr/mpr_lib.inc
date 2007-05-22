@@ -39,7 +39,8 @@ function shn_mpr_search_show_verticle($details)
     <TR>
         <TD>
 <?php
-	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+	     
+	        if(shn_show_thumb_url($details[$i]['p_uuid'],'database','mpr','addmp_img',false))
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
@@ -60,7 +61,7 @@ function shn_mpr_search_show_verticle($details)
 ?>
         <TD>
 <?php
-                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+                if(shn_show_thumb_url($details[$i+1]['p_uuid'],'database','mpr','addmp_img'))
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';

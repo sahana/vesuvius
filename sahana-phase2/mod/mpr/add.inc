@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.29 2007-02-06 00:31:02 isurunishan Exp $ */
+/* $Id: add.inc,v 1.30 2007-05-22 11:29:39 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -85,7 +85,9 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
     shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>_('Family name, or the surname could be specified for matching of people with similar Family names')));
     shn_form_text(_('Local Name'),'local_name','size="30"', array('help'=>_('You may also specify the local name, even in different script than English')));
-    shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
+   
+   shn_form_date(_("Date of Birth"),'dob',$extra_opts=NULL);
+    //shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
     shn_form_opt_select("opt_age_group",_('Age Group'));
     shn_form_opt_select("opt_gender",_('Gender'));
     shn_form_opt_select("opt_marital_status",_('Marital Status'));
@@ -95,7 +97,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_fsclose();
     shn_form_fsopen(_('Upload Picture'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the preson. <br />It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
 <?php
     shn_form_upload(_('Upload Picture'),"picture");
     shn_form_fsclose();
@@ -171,7 +173,13 @@ function shn_mpr_addmp_validate()
     if(! isset($_SESSION['mpr_add']['entry']['p_uuid'])){
         $_SESSION['mpr_add']['entry']['p_uuid'] = shn_create_uuid();
     }
-
+$dob=$_POST['dob'];
+	
+if(!shn_valid_date($dob))
+{
+	//add_error(_("Please Check the Date format"));	
+$error_flag = true;
+}	
 
     //anything entered?
     if(empty($local_post)){
@@ -192,13 +200,13 @@ function shn_mpr_addmp_validate()
         //check the image type
        
         if(! $info){
-            add_error(_("Invalid Image Type Please try again1"));
+            add_error(_("Invalid Image Type Please try again"));
             $error_flag=true;
         }
         list($ignore,$ext) = split("\/",$info['mime']);
 
         //check for save handler
-        if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+        if($conf['mod_mpr_upload_pic_handler'] == 'database'){
             $size = filesize($_FILES['picture']['tmp_name']);
             $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
             $_SESSION['mpr']['entry']['image'] = $pic;
@@ -282,7 +290,7 @@ function shn_mpr_addmp_reporter($errors=false)
 
     shn_form_fsopen(_('Details of the reporting person'));
 ?>
-<p><?= _('NOTE : If you have reproted before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
+<p><?= _('NOTE : If you have reported before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
 <?php
   shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
   shn_form_text('Relationship to Person','opt_relationship_type');
@@ -392,7 +400,7 @@ function shn_mpr_addmp_upload($errors=false)
 
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the preson. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
 <?php
     shn_form_hidden(array('seq'=>'upload_pic'));
     shn_form_fsopen(_('Upload Picture'));
@@ -425,9 +433,9 @@ function shn_mpr_addmp_upload_pic()
     }
 
     list($ignore,$ext) = split("\/",$info['mime']);
-
+//print 'save handler is'.$conf['mod_mpr']['upload_picture']['savehandler'];
     //check for save handler
-    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+    if($conf['mod_mpr_upload_pic_handler'] == 'database'){
         $size = filesize($_FILES['picture']['tmp_name']);
         $pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
         $_SESSION['mpr']['entry']['image'] = $pic;
@@ -851,7 +859,7 @@ function shn_mpr_addmp_commit()
         shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
 
     //Insert Image if image save handler is set to database
-    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+    if($conf['mod_mpr_upload_pic_handler']== 'database'){
         shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'],
                             $_SESSION['mpr']['entry']['image'],
                             $_SESSION['mpr']['entry']['image_type'],
