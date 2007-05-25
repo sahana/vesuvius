@@ -66,6 +66,7 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("optim_item",_("Prediction by Item"),$module);
     shn_sub_mod_menuitem("optim_inventory",_("Prediction by Inventory"),$module);
     shn_sub_mod_menuclose();
+    shn_mod_menuitem("locations",_("Locations"),$module);
     shn_mod_menuclose();
     //shn_sub_menuitem("Optim_main_page",_("Optimization"),$module);
 
@@ -83,6 +84,17 @@ function shn_ims_default()
     include_once ('home.inc');
     _shn_ims_default();    
 
+}
+
+function shn_ims_locations()
+{
+    shn_form_fopen(null);
+    shn_form_fsopen("locations");
+    //$parent=_shn_ims_get_start_loc();
+    $range=array("start"=>1,"end"=>5);
+    shn_location($range,$value=null,$parent=null,$extra_opts=null);
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 
 /**
