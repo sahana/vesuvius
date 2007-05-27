@@ -193,6 +193,24 @@ function shn_acl_install(){
 
 }
 
+function shn_acl_sys_data_tables(){
+	global $global;
+    $db=$global['db'];
+  
+    $q="select table_field,level_id from sys_tablefields_to_data_classification order by table_field";
+	$res=$db->Execute($q);
+    $levels=array();
+        
+    while(!$res->EOF){
+    	//$name=$res->fields[2].".".$res->fields["full_name"];
+    	$name=$res->fields["level_id"];
+       	$levels[$res->fields["table_field"]]=$name;
+        $res->MoveNext();
+    }
+
+	return $levels;
+}
+
 function shn_acl_data_classifications_list(){
   	global $global;
     $db=$global['db'];

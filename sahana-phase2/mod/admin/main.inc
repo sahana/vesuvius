@@ -350,6 +350,12 @@ function shn_admin_acl_role_edit_perms(){
 function  shn_admin_acl_role_edit_perms_cr(){
 	_shn_admin_acl_role_edit_perms_cr();
 }
+function shn_admin_acl_data_classifications_tables(){
+	_shn_admin_acl_data_classifications_tables();
+}
+function shn_admin_acl_data_classifications_tables_cr(){
+	_shn_admin_acl_data_classifications_tables_cr();
+}
 /*
 function shn_admin_acl_existing_perms_tab()
 {

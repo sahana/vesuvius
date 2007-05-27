@@ -238,5 +238,36 @@ shn_form_submit(_("Save"));
 <?php	
 }
 
+function shn_acl_form_classifications_to_data(){
+    global $global;
+    $db=$global['db'];
+ ?>
+<div id="home">
+Edit the Data Classification for each table
+</div>
+
+<div id="formcontainer">
+<?php
+	shn_form_fopen("acl_data_classifications_tables_cr","admin");
+	//$extra_opts['req']=true;
+	$levels=shn_acl_data_classifications_list();
+	$tables=shn_acl_sys_data_tables();
+	foreach ($tables as $table=>$level){
+		shn_form_fsopen($table);
+		$extra_opts["value"]=$level;
+		shn_form_select($levels,"",$table,null,$extra_opts);
+    	shn_form_fsclose();
+	}
+
+	shn_form_submit(_("Save"));
+?>
+</center>
+<?php
+    //close the form
+    shn_form_fclose();
+?>
+</div>
+<?php	
+}
 
 ?>
