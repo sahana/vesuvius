@@ -21,7 +21,7 @@
 global $global;
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
-include_once "acl_form_lib.inc";
+
 
 /**
  * Generates a form to edit roles of an user
