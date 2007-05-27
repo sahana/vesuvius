@@ -58,8 +58,10 @@ function _shn_admin_mainmenu()
     //shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Security Config"));
-    shn_sub_mod_menuitem("acl_system", _("System &amp; User"), 'admin');
-    shn_sub_mod_menuitem("acl_module", _("Modules"), 'admin');
+    shn_sub_mod_menuitem("acl_user_roles", _("Roles &amp; Users"), 'admin');
+    shn_sub_mod_menuitem("acl_data_classifications", _("Data Classifications"), 'admin');
+    shn_sub_mod_menuitem("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
+    shn_sub_mod_menuitem("acl_data_classifications_tables", _("Data Classifications & System Data "), 'admin');
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
@@ -68,74 +70,30 @@ function _shn_admin_mainmenu()
 }
 
 
-function _shn_admin_acl_module_menu(){
-	global $conf;
-	global $global;
-	include_once $global['approot']."inc/lib_security/acl_module_form.inc";
-	$module_list = shn_get_modules_with_admin();
-	$visible=shn_acl_is_base_installed();
-	if($visible==true){
-?>
-<div id="submenu_v">
-<?php
-foreach ($module_list as $i) {
-    ?>
-    <a href="index.php?mod=admin&act=acl_default&sel=<?php echo $i ?>"><?php echo $conf['mod_'.$i.'_name']?></a>
-    <?php
-    } ?>
-</div>
-<br />
- <h2 align="center"><?=_("Welcome to the Sahana ACL Module Configuration page")?></h2>
-<br />
- <h2 align="center"><?=_("Current Status (Installed/Enabled)")?></h2>
- <br />
-<?php
-	shn_acl_module_status($module_list);
-}else {
-?>
-<a href='index.php?mod=admin&act=acl_install'><?=_("ACL is not Installed! You need to Install ACL Base")?></a>
-<?php
-}
-}
-
-function _shn_admin_acl_system_menu()
+function _shn_admin_acl_user_roles_menu()
 {
-    $visible=shn_acl_is_base_installed();
+
  ?>
 <div id="submenu_v">
-<?php
-
-if($visible==true){
-?>
-<a href="index.php?mod=admin&act=acl_install"><?=_("<strong>A</strong>CL Base Install")?></a>
-<a href="index.php?mod=admin&act=acl_user&sel=admin"><?=_("<strong>U</strong>sers")?></a>
-<a href="index.php?mod=admin&act=acl_role&sel=admin"><?=_("<strong>R</strong>oles")?></a>
+<a href="index.php?mod=admin&amp;act=acl_user"><?=_("<strong>U</strong>sers")?></a>
+<a href="index.php?mod=admin&amp;act=acl_role"><?=_("<strong>R</strong>oles")?></a>
 </div>
 <br>
-<!--<h2 align="center"><?=_("Welcome to the Sahana ACL System Configuration page")?></h2>-->
-<?php
-} else {
-?>
-<a href="index.php?mod=admin&act=acl_install"><?=_("<strong>A</strong>CL Base Install")?></a>
-<?php
-}
-}
+<div id="home">
+<h2><?= _('Welcome to Users and Roles section'); ?></h2>
 
-function _shn_admin_acl_module_sub_menu($module)
-{
-?>
-<div id="submenu_v">
-<a href="index.php?mod=<?php echo $module?>&act=adm_acl_install"><strong><?=_("Install Default ACL")?></strong></a>
-<a href="index.php?mod=admin&act=acl_user_perms&sel=<?php echo $module?>"><?=_("User  Permissions")?></a>
-<a href="index.php?mod=admin&act=acl_role&sel=<?php echo $module?>"><?=_("Role Permissions")?></a>
-<a href="index.php?mod=admin&act=acl_action&sel=<?php echo $module?>"><?=_("Add &amp; Remove Actions")?></a>
-<a href="index.php?mod=admin&act=acl_action_group&sel=<?php echo $module?>"><?=_("Action Groups")?></a>
+<ul>
+    <li><?=_('Click <strong>Users</strong> to add,remove Users or edit User Roles')?></li>
+    <li><?=_('Else Choose  <strong>Roles</strong> to edit permissions of Roles ')?></li>
+</ul>
 </div>
-<br />
 <?php
+
+
 }
 
-function _shn_admin_acl_user_menu($module)
+
+function _shn_admin_acl_user_menu()
 {
 ?>
 <div id="submenu_v">
@@ -148,30 +106,21 @@ if($_SESSION['logged_in']==true) {
 <?php
 }
 ?>
-<a href="index.php?mod=admin&act=acl_user_edit_roles&sel=<?php echo $module?>"><?=_("Edit Roles of an User")?></a>
-<a href="index.php?mod=admin&act=acl_user_add_roles&sel=<?php echo $module?>"><?=_("Add Users to Role")?></a>
+<a href="index.php?mod=admin&act=acl_user_edit_roles"><?=_("Edit Roles of an User")?></a>
 </div>
 <br>
+
 <?php
 }
 
-function _shn_admin_acl_role_menu($module)
+function _shn_admin_acl_role_menu($module=null)
 {
 ?>
 <div id="submenu_v">
-<?php
-if($module=='admin') {
-?>
-<a href="index.php?mod=admin&act=add_role"><?=_("Add Role")?></a>
-<a href="index.php?mod=admin&act=del_role"><?=_("Remove Role")?></a>
-<?php
-} else {
-?>
-<a href="index.php?mod=admin&act=acl_role_perms&sel=<?php echo $module?>"><?=_("Existing Role Permissions")?></a>
-<a href="index.php?mod=admin&act=acl_role_edit_perms&sel=<?php echo $module?>"><?=_("Add &amp; Remove Role Permissions")?></a>
-<?php
-}
-?>
+<a href="index.php?mod=admin&amp;act=add_role"><?=_("Add Role")?></a>
+<a href="index.php?mod=admin&amp;act=del_role"><?=_("Remove Role")?></a>
+<a href="index.php?mod=admin&amp;act=acl_role_perms"><?=_("Existing Role Permissions")?></a>
+<a href="index.php?mod=admin&amp;act=acl_role_edit_perms"><?=_("Modify Role Permissions")?></a>
 </div>
 <br>
 <?php

@@ -18,10 +18,8 @@
 
 global $global;
 
-    include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
     include_once $global['approot'].'inc/lib_security/acl_form.inc';
-	include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
     include_once "menu.inc";
