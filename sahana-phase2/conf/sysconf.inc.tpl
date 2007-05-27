@@ -31,12 +31,6 @@ $conf['base_uuid'] = "saha";
 # Disable the access control system
 $conf['acl_base'] = false;
 
-#set the mode of ACL ( deny or allow)
-$conf['acl_mode']='deny';
-
-# Root ID :The user with this ID will be skipped from ACL checking
-$conf['root_id'] = 0;
-
 # Root Name :The owner of the machine
 $conf['root_name'] = '';
 
@@ -46,22 +40,8 @@ $conf['root_email'] = 'root@localhost';
 # Root Telephone :The telephone of the admin
 $conf['root_tel'] = '';
 
-# Root Password :The default root password
-$conf['root_pwd'] = 'password';
 
-# Guest ID :The user with this ID will have access to some but not all resources by default
-#but could be changed
-$conf['guest_id'] = 1;
 
-# Guest Password :The default guest password
-$conf['guest_pwd'] = 'password';
-
-# Normal user ID :The user with this ID will have access to some but not all resources by default
-#but could be changed
-$conf['user_id'] = 2;
-
-# Guest Password :The default guest password
-$conf['user_pwd'] = 'password';
 
 # specify the host ip address of the database reside.
 # if it's the same server that Sahana reside then put 'localhost'
