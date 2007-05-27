@@ -245,7 +245,15 @@ INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,15);
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
-
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "users", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_groups", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "users", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_to_group", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_data_classifications", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_group_to_data_classification", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_uuid", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "identity_to_person", 1);
 
 
