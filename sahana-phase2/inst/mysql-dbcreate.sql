@@ -94,25 +94,53 @@ DROP TABLE IF EXISTS sys_user_to_group;
 CREATE TABLE sys_user_to_group (
     group_id INT NOT NULL,
     p_uuid VARCHAR(60) NOT NULL,
+    PRIMARY KEY(group_id,p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid),
     FOREIGN KEY (group_id) REFERENCES sys_user_groups(group_id) 
 );
  
 /** 
-* Contains the access rules tables 
+* Contains the data classification levels
 * Modules: framework
-* Last changed: 2-OCT-2006 - chamindra@opensource.lk
+* Last changed: 1-May-2007 - ravindra@opensource.lk
 **/
-DROP TABLE IF EXISTS sys_access_rules;
-CREATE TABLE sys_access_rules (
-    rule_id INT NOT NULL, 
-    priority INT NOT NULL, -- priority order of the rule. this is unique
-    accept_or_deny VARCHAR(6) NOT NULL, -- "accept" or "deny"
-    modules VARCHAR(100), -- blank is ANY or a comma seperated series of module names
-    actions VARCHAR(100), -- blank is ANY or a comma seperated series of action names
-    user_group_roles VARCHAR(100), -- blank or a comma seperate series of names
-    machines VARCHAR(100) -- blank of or a comma seperated series of IP addresses
+DROP TABLE IF EXISTS sys_data_classifications;
+CREATE TABLE sys_data_classifications(
+    level_id INT NOT NULL,
+    level VARCHAR(60) NOT NULL,
+    PRIMARY KEY (level_id)
 );
+
+
+/** 
+* Contains the mapping from a role to a data classification 
+* Modules: framework
+* Last changed: 1-May-2007 - ravindra@opensource.lk
+**/
+DROP TABLE IF EXISTS sys_group_to_data_classification;
+CREATE TABLE sys_group_to_data_classification (
+    group_id INT NOT NULL,
+    level_id INT NOT NULL,
+    crud INT NOT NULL,
+    PRIMARY KEY (group_id,level_id),
+    FOREIGN KEY (group_id) REFERENCES sys_user_groups(group_id),
+    FOREIGN KEY (level_id) REFERENCES sys_data_classifications(level_id) 
+);
+
+
+/** 
+* Contains the data classification levels
+* Modules: framework
+* Last changed: 1-May-2007 - ravindra@opensource.lk
+**/
+DROP TABLE IF EXISTS sys_tablefields_to_data_classification;
+CREATE TABLE sys_tablefields_to_data_classification(
+    table_field VARCHAR(50) NOT NULL,
+    level_id INT NOT NULL,
+    FOREIGN KEY (level_id) REFERENCES sys_data_classifications(level_id),
+    PRIMARY KEY (table_field,level_id)
+);
+
 
 /**================= Shared Tables ==================================**/
 
