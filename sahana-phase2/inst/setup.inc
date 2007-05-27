@@ -65,8 +65,10 @@ function shn_setup_main()
     case 'cfgsetup': // third setup form
 
 		shn_email_validate();// try to catch the invalid emailaddresses of "second settup form"
-		shn_chk_root_pwd();// check root passwd validation
-
+		//shn_chk_root_pwd();// check root passwd validation
+		if(!shn_setup_acl()){
+            break;
+		}
         if (shn_setup_config_update($_POST['conffile'])) { 
             // check if writing the file was a success
             shn_setup_form_conffile();
@@ -292,12 +294,14 @@ function shn_setup_form1()
     shn_form_fclose();
 }
 
-
-// the config file setup form
+/** 
+* Last changed: 28-May-2007 - ravindra@opensource.lk
+* Added the admin and normal user account fields
+**/
 function shn_setup_form2()
 {
  ?>
-    <h1>Sahaha Web Setup - Step 3</h1>
+    <h1>Sahaha Web Setup - Step 3</h2>
     <p> Please follow the following steps to setup the Sahana configuration </p>
 <?php
     global $global;
@@ -327,27 +331,30 @@ function shn_setup_form2()
     shn_form_fsclose();
 
     shn_form_fsopen(_('Settings'));
+
     shn_form_select(
         array( 'disable' => _('Disable'),'enable' =>_('Enable')), 
-                _('Access Control'),'acl',"onchange='toggle_visibility(\"acl_pass\")'");
-    
-?>
-    <div id='acl_pass' style="display:none">
-<?php
-    // check root password, should match
-    shn_form_password(_('Administrator Password'),'root_pwd','size="30"', 
-        array('req'=>true, 'help'=>'The root user is the administrator
-                of the system and has the greatest privilages'));
-    shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
-?>
-    </div>
-<?
+                _('Access Control'),'acl');
     shn_form_select(
         array( 'default' => _('Default Theme'),
                'classic' => _('Classic Theme'),
                'green'   => _('Green Theme') 
              ), ('Theme'), 'theme');
     shn_form_fsclose();
+    
+    shn_form_fsopen(_('Administrator Account'));
+    	shn_form_text(_('Admin User Name'),'admin_name','size="40"', array('req'=>true, 'value'=>'admin','help'=>'The root user is the administrator
+                of the system and has the greatest privilages') );
+	 	shn_form_password(_('Password'),'root_pwd','size="30"', 
+        array('req'=>true));
+        shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
+  	shn_form_fsclose();
+	
+	shn_form_fsopen(_('Create Normal User Account'));
+        shn_form_text(_('Normal User Name'),'user_name','size="40"', array('req'=>true,'value'=>'sahana', 'help'=>'Please login as this user for non-admin work') );
+		shn_form_password(_('Password'),'user_pwd','size="30"',array('req'=>true));
+		shn_form_password(_('Confirm Password'),'user_pwd_confirm','size="30"',array('req'=>true));
+	shn_form_fsclose();
 
     shn_form_fsopen(_('Configuration File'));
 
@@ -523,7 +530,6 @@ function shn_setup_config_update($tmp_configfile)
         '/\'db_host\'/' => '$conf[\'db_host\'] = \''.$_POST['dbhost'].'\';' ,
         '/\'db_name\'/' => '$conf[\'db_name\'] = \''.$_POST['dbname'].'\';' ,
         '/\'base_uuid\'/' => '$conf[\'base_uuid\'] = \''.$_POST['base_uuid'].'\';' ,
-        '/\'root_pwd\'/' => '$conf[\'root_pwd\'] = \''.$_POST['root_pwd'].'\';' ,
         '/\'root_name\'/' => '$conf[\'root_name\'] = \''.$_POST['root_name'].'\';' ,
         '/\'root_tel\'/' => '$conf[\'root_tel\'] = \''.$_POST['root_tel'].'\';' ,
         '/\'root_email\'/' => '$conf[\'root_email\'] = \''.$_POST['root_email'].'\';' ,
@@ -565,3 +571,65 @@ function shn_setup_footer()
     </html>
 <?php
 }
+
+// install the ACL base
+function shn_setup_acl(){
+	//var_dump($_POST);
+	global $global;
+	$db = &NewADOConnection('mysql');
+	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
+    $global['db'] = $db;
+ 
+	$error=false;
+	if ((null==$_POST["admin_name"])or(is_null($_POST["admin_name"]))){
+        $error=true;
+        add_error(_("Admin user name cannot be empty"));
+	}
+	if ((null==$_POST["root_pwd"])or(is_null($_POST["root_pwd"]))){
+        $error=true;
+        add_error(_("Root password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"root_pwd_confirm"});
+    }
+	if ((null==$_POST["root_pwd_confirm"])or(is_null($_POST["root_pwd_confirm"]))){
+        $error=true;
+        add_error(_("Root Confirm password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"root_pwd_confirm"});
+    }
+    if (!($_POST{"root_pwd"}==$re_password)){
+        $error=true;
+        add_error("Root password and confirm password should match");
+    }
+    if ((null==$_POST["user_name"])or(is_null($_POST["user_name"]))){
+        $error=true;
+        add_error(_("Normal user name cannot be empty"));
+	}
+    if ((null==$_POST["user_pwd"])or(is_null($_POST["user_pwd"]))){
+        $error=true;
+        add_error(_("User password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"user_pwd_confirm"});
+    }
+	if ((null==$_POST["user_pwd_confirm"])or(is_null($_POST["user_pwd_confirm"]))){
+        $error=true;
+        add_error(_("User Confirm password cannot be empty"));
+    }else {    
+        $re_password=trim($_POST{"user_pwd_confirm"});
+    }
+    if (!($_POST{"user_pwd"}==$re_password)){
+        $error=true;
+        add_error("User password and confirm password should match");
+    }
+
+    if($error){
+		return false;
+    }
+
+   	global $global;
+    include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
+	return (shn_acl_install());
+	
+}
+
+?>
