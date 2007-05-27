@@ -168,15 +168,84 @@ INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
 -- INSERT CONFIG VALUES
 INSERT INTO config VALUES ( 'cr', 'division_type', '2');
---INSERT INTO config VALUES ( 'or', 'loc_start', NULL);
---INSERT INTO config VALUES ( 'or', 'loc_range_start', 1);
---INSERT INTO config VALUES ( 'or', 'loc_range_end', 3);
---INSERT INTO config VALUES('admin','acl','false');
---INSERT INTO config VALUES('admin','acl_base','no');
 
--- INSERT THE INBUILT SAHANA ORGANIZATION
---INSERT INTO org_main(o_uuid,name,org_type,privacy,archive) VALUES(0,'sahana','gov','','','','',1,0);
---INSERT INTO org_main(o_uuid,name,privacy,archived) VALUES(0,'sahana',1,0);
+-- INSERT DEFAULT DATA CLASSIFICATION LEVELS
+INSERT INTO sys_data_classifications VALUES ( 1, 'Person Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 2, 'Organization Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 3, 'Legally Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 4, 'National Security Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 5, 'Socially Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 6, 'System Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 7, 'Not Sensitive');
+INSERT INTO sys_data_classifications VALUES ( 8, 'Unclassified');
+
+-- INSERT DEFAULT SYS USER GROUPS
+INSERT INTO sys_user_groups VALUES ( 1, 'Administrator (Admin)');
+INSERT INTO sys_user_groups VALUES ( 2, 'Main Operations Coordinator (MainOps)');
+INSERT INTO sys_user_groups VALUES ( 3, 'Head Organization Contact (OrgHead)');
+INSERT INTO sys_user_groups VALUES ( 4, 'Trusted User (Trusted)');
+INSERT INTO sys_user_groups VALUES ( 5, 'Registered User');
+INSERT INTO sys_user_groups VALUES ( 6, 'Anonymous User');
+
+-- INSERT DEFAULT SYS USER GROUP TO DATA CLASSIFICATION MAPPINGS
+-- admin role
+-- admin(1) can create(8),read(4),update(2),delete(1) (totaling 15) System sensitive(6) data  
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 1,0);
+-- no perms
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 2,4);
+-- read only
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 3,4);
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 4,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 5,4);
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 6,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 8,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 4,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,4);
+-- he is not repsonsible for system tasks
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 4,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 5,4);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 6,0);
+-- he is not repsonsible for system tasks
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 8,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 1,4);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 2,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 3,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 4,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 5,4);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 6,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 8,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 1,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 2,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 3,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 4,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 5,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 8,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 2,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 4,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,0);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,15);
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,15);
+
+-- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
+
 
 
 
