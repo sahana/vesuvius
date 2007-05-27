@@ -23,7 +23,7 @@
 e.g write sessions to the database or files 
 */
 
-require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
 
 global $global;
 switch ($conf["session_writer"]){
@@ -59,7 +59,7 @@ default:
 shn_session_start();
 
 // authenticate user
-$user_data = shn_authenticate_user();
+//$user_data = shn_authenticate_user();
 
 switch ($user_data["result"]){
     case LOGGEDIN:
