@@ -25,7 +25,7 @@ include_once "menu.inc";
 include_once "acl.inc";
 include_once "location.inc";
 include_once $global['approot']."inc/lib_security/auth_form.inc";
-
+include_once $global['approot']."inc/lib_security/lib_auth.inc";
 // Incident Management Module
 include_once $global['approot']."mod/admin/ims_main.inc";
 include_once $global['approot']."mod/admin/conf_admin.inc";
@@ -126,7 +126,7 @@ function shn_admin_default()
                 unauthorized access to the system configure security by
                  clicking ').
                  '&#34;'._('Security Config').'&#34; '._('and then selecting ').  
-                '<a href="?mod=admin&act=acl_system">'.
+                '<a href="?mod=admin&act=acl_user_roles">'.
                 '&#34;'._('System &amp User').'&#34;'.'</a>'.'</li><br/>';
     }
 
@@ -173,45 +173,74 @@ function shn_admin_modadmin()
 }
 
 
-function shn_admin_acl_default()
+/******************************************/
+
+function shn_admin_add_user($error=false)
 {
-    _shn_admin_acl_default();
+    _shn_admin_acl_user_menu($module);
+    shn_auth_form_user_add($error);
 }
 
-function shn_admin_acl_system()
+function shn_admin_add_user_cr()
 {
-    _shn_admin_acl_system();
-}
-function shn_admin_acl_module()
-{
-    _shn_admin_acl_module();
-}
-function shn_admin_acl_module_cr()
-{
-    _shn_admin_acl_module_cr();
-}
-function shn_admin_acl_install()
-{
-    _shn_admin_acl_install();
-}
-function shn_admin_acl_install_done()
-{
-    if($_POST{"action"}=='system'){
-    		shn_admin_acl_system();	
-    }
-    if($_POST{"action"}=='module'){
-    		shn_admin_acl_module();	
-    }
+   include_once "errors.inc";
+    shn_auth_add_user_cr();
+ 
+    _shn_admin_acl_user_menu();
+   
 }
 
-function shn_admin_acl_mod_install()
+function shn_admin_del_user($error=false)
 {
-    _shn_admin_acl_mod_install();
+    _shn_admin_acl_user_menu($module);
+    shn_auth_form_user_del();
 }
+
+function shn_admin_del_user_cr()
+{
+    _shn_auth_del_user_cr();
+    _shn_admin_acl_user_menu();
+}
+
+function shn_admin_ch_pwd($error=false)
+{
+    _shn_admin_acl_user_menu($module);
+    shn_auth_form_ch_pwd($error);
+}
+
+function shn_admin_ch_pwd_cr()
+{
+   include_once "errors.inc";
+   $error=_shn_admin_ch_pwd_cr();
+   ?><div id="result_msg"><?
+   if($error){
+   	   $msg="An error ocurred";
+   }else{ 
+   		$msg="The Password was succesfully updated ";
+   }
+   
+    echo $msg;
+    if($error)
+    		display_errors();
+    ?>
+   </div><?
+   _shn_admin_acl_system_menu();
+}
+
+
+
+
+function shn_admin_acl_user_roles()
+{
+    _shn_admin_acl_user_roles();
+}
+
 function shn_admin_acl_state()
 {
     _shn_admin_acl_state();
 }
+
+
 
 /************************************/
 function shn_admin_add_loc()
@@ -295,28 +324,33 @@ function shn_admin_start_loc()
     _shn_admin_location_view_form();
 }
 
-/************************************/
-function shn_admin_acl_action_group()
-{
-    _shn_admin_acl_action_group();
-}
-
-function shn_admin_acl_action_group_cr()
-{
-    _shn_admin_acl_action_group_cr();
-}
-
-function shn_admin_acl_action()
-{
-    _shn_admin_acl_action();
-}
-
-function shn_admin_acl_action_cr()
-{
-    _shn_admin_acl_action_cr();
-}
 
 /************************************/
+function shn_admin_acl_user()
+{
+    _shn_admin_acl_user();
+}
+function shn_admin_acl_user_edit_roles($error=false)
+{
+    _shn_admin_acl_user_edit_roles();
+}
+function shn_admin_acl_user_edit_roles_cr($error=false)
+{
+    _shn_admin_acl_user_edit_roles_cr();
+}
+
+function shn_admin_acl_data_privacy(){
+	_shn_admin_acl_data_privacy();
+}
+function shn_admin_acl_role_edit_perms(){
+	
+	_shn_admin_acl_role_edit_perms();
+}
+
+function  shn_admin_acl_role_edit_perms_cr(){
+	_shn_admin_acl_role_edit_perms_cr();
+}
+/*
 function shn_admin_acl_existing_perms_tab()
 {
     _shn_admin_acl_existing_perms_tab();
@@ -327,10 +361,7 @@ function shn_admin_acl_user_cr()
     _shn_admin_acl_user_cr();
 }
 
-function shn_admin_acl_user()
-{
-    _shn_admin_acl_user();
-}
+
 
 function shn_admin_acl_user_perms()
 {
@@ -356,8 +387,10 @@ function shn_admin_acl_user_edit_roles_cr($error=false)
 {
     _shn_admin_acl_user_edit_roles_cr();
 }
+*/
 
 /**************************************/
+/*
 function shn_admin_acl_role_perms()
 {
     _shn_admin_acl_role_perms();
@@ -383,70 +416,7 @@ function shn_admin_acl_role_cr()
 {
     _shn_admin_acl_role_cr();
 }
-
-/******************************************/
-
-function shn_admin_add_user($error=false)
-{
-    _shn_admin_acl_user_menu($module);
-    shn_auth_form_user_add($error);
-}
-
-function shn_admin_add_user_cr()
-{
-   include_once "errors.inc";
-   $error= _shn_admin_add_user_cr();
-   ?><div id="result_msg"><?
-   if($error==true){
-   	   $msg="An error ocurred";
-   }else{ 
-   		$msg="User was succesfully added";
-   }
-   
-    echo $msg;
-    if($error)
-    display_errors();
-    ?>
-   </div><?
-   _shn_admin_acl_system_menu();
-   
-}
-
-function shn_admin_del_user($error=false)
-{
-    _shn_admin_acl_user_menu($module);
-    shn_auth_form_user_del();
-}
-
-function shn_admin_del_user_cr()
-{
-    _shn_admin_del_user_cr();
-}
-
-function shn_admin_ch_pwd($error=false)
-{
-    _shn_admin_acl_user_menu($module);
-    shn_auth_form_ch_pwd($error);
-}
-
-function shn_admin_ch_pwd_cr()
-{
-   include_once "errors.inc";
-   $error=_shn_admin_ch_pwd_cr();
-   ?><div id="result_msg"><?
-   if($error){
-   	   $msg="An error ocurred";
-   }else{ 
-   		$msg="The Password was succesfully updated ";
-   }
-   
-    echo $msg;
-    if($error)
-    		display_errors();
-    ?>
-   </div><?
-   _shn_admin_acl_system_menu();
-}
+*/
 
 /***
  * Localization interface for language translation
