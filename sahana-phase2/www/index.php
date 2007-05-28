@@ -21,6 +21,9 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 $approot = $global['approot'];
 $global['previous']=false;
 
+// Include error handling routines
+require_once($global['approot'].'inc/lib_errors.inc');
+
 // handle error reporting seperately 
 error_reporting(0);
 
@@ -36,7 +39,7 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars)
 
         case E_ERROR:              // Fatal run-time errors
         case E_WARNING:            // Run-time warnings (non-fatal errors)
-        case E_PARSE:            // Compile-time parse errors
+        case E_PARSE:              // Compile-time parse errors
         //case E_NOTICE:           // Run-time notices.
         case E_CORE_ERROR:         // Fatal errors that occur during PHP's initial startup
         //case E_CORE_WARNING:     // Warnings (non-fatal errors) that occur during PHP's initial startu
@@ -46,18 +49,17 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars)
         //case E_USER_WARNING:     // User-generated warning messages
         //case E_USER_NOTICE:      // User-generated notices
 
-            require_once($global['approot'].'inc/lib_errors.inc');
             shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars);
             break;
 
         default:                   // Ignore other errors
     }
 }
-// define our error handler
+// set our own error handler
 set_error_handler('shn_sahana_error_handler');
 
 // include the base libraries for both the web installer and main app 
-//require_once ($global['approot'].'inc/handler_error.inc');
+// require_once ($global['approot'].'inc/handler_error.inc');
 require_once ($global['approot'].'inc/lib_config.inc');
 require_once ($global['approot'].'inc/lib_modules.inc'); 
 
@@ -69,6 +71,7 @@ shn_main_filter_getpost();
 // if installed the sysconf.inc will exist in the conf directory
 // if not start the web installer
 if (!file_exists($global['approot'].'conf/sysconf.inc')){
+
     // The 'help' action is a special case. The following allows the popup help text
     // to be accessed before the sysconf.inc file has been created.
     if ($global['action'] == "help"){
