@@ -28,7 +28,7 @@ function _shn_or_regform_org($error=false)
     
    $tables= array(
 				'field_options'=>'4',
-				'org_main'=>'4'
+				'org_main'=>'8'
 				);
    if(shn_acl_check_table_only_perms($tables)==DENIED){
    	 return false;
