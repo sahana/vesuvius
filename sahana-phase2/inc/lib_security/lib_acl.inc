@@ -128,7 +128,8 @@ function _shn_acl_get_roles($user=null){
     $db=$global['db'];
     $roles=array();
 
-    if(($user==NULL)&& ($user!=0)){
+  //  if(($user==NULL)&& ($user!=0)){
+    if(($user==NULL)){
     	$q="select * from sys_user_groups";
     }else{
     	$q="select sys_user_groups.group_id,group_name from sys_user_to_group,sys_user_groups where p_uuid='{$user}' and sys_user_groups.group_id= sys_user_to_group.group_id ";
