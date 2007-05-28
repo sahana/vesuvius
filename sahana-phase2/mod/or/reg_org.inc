@@ -17,6 +17,7 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 require_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 include_once "lib_or.inc";
 
 function _shn_or_regform_org($error=false)
@@ -24,6 +25,14 @@ function _shn_or_regform_org($error=false)
     global $global;
     global $conf;
     $db=$global['db'];
+    
+   $tables= array(
+				'field_options'=>'4',
+				'org_main'=>'4'
+				);
+   if(shn_acl_check_table_only_perms($tables)==DENIED){
+   	 return false;
+   }
 ?>
 <h2><?= _('Organization Registration')?></h2>
 <?php
