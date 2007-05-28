@@ -66,7 +66,10 @@ function shn_setup_main()
 
 		shn_email_validate();// try to catch the invalid emailaddresses of "second settup form"
 		//shn_chk_root_pwd();// check root passwd validation
+		
 		if(!shn_setup_acl()){
+			display_errors();
+            shn_setup_form2();
             break;
 		}
         if (shn_setup_config_update($_POST['conffile'])) { 
