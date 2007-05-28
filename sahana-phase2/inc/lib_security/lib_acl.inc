@@ -51,17 +51,20 @@ function _shn_acl_check_table_only_perms($table,$crud){
     $db=$global['db'];
 	
 	$user=$_SESSION["user_id"];
-	$user=0;
+
 	$roles=_shn_acl_get_roles($user);
+	
 	$q="select level_id from sys_tablefields_to_data_classification where table_field='{$table}' ";
+    
     $res_acl=$db->Execute($q);
     if(($res_acl!=null) &&(!$res_acl->EOF)){
     	$level_id=$res_acl->fields["level_id"];
-    	foreach ($roles as $role){
+    	foreach ($roles as $role=>$role_name){
 			$q="select crud from sys_group_to_data_classification where group_id={$role} and level_id={$level_id}";
-    		$res=$db->Execute($q);
+
+     		$res=$db->Execute($q);
     		if(($res!=null) &&(!$res->EOF)){
-    			
+    
     			if($res->fields["crud"]>=$crud){
     				return ALLOWED;
     			}else{
@@ -124,15 +127,17 @@ function _shn_acl_get_roles($user=null){
 	global $global;
     $db=$global['db'];
     $roles=array();
-    if($user==null){
+
+    if(($user==NULL)&& ($user!=0)){
     	$q="select * from sys_user_groups";
     }else{
-    	$q="select group_id,group_name from sys_user_to_group,sys_user_groups where p_uuid='{$user}' and sys_user_groups.group_id= sys_user_to_group.group_id ";
+    	$q="select sys_user_groups.group_id,group_name from sys_user_to_group,sys_user_groups where p_uuid='{$user}' and sys_user_groups.group_id= sys_user_to_group.group_id ";
     }
+
     $res=$db->Execute($q);
     if(($res==null) ||($res->EOF)){
     	$roles[ANONYMOUS]="Anonymous User";
-    	return;
+    	return $roles;
     }
     //	array_push(
     	//	$roles,
@@ -171,11 +176,11 @@ function shn_acl_install(){
    
    
     $conf['user_id']=2;
-    $guest=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,$conf['user_id']); 
+    $guest=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null); 
     //add a"guest" user to ACL users and add to 'guest' role
 
     $conf['root_id']=1;
-    $root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,$conf['root_id']); 
+    $root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null); 
     //add a "root" user to ACL users and add to 'admin' role
 
 

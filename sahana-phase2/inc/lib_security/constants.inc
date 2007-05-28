@@ -22,6 +22,8 @@ define(LOGGEDOUT,"logged out");
 define(DENIED,1);
 define(ALLOWED,2);
 
+define(ANONYMOUS_USER,-2);
+
 define(ADMIN,1);
 define(MAINOPS,2);
 define(ORGHEAD,3);

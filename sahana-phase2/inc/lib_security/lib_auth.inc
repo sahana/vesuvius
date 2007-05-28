@@ -46,7 +46,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
    		return false;
     }
 
-    if($pid==-1){
+    if($pid==null){
        // $pid = $db->GenID('person_seq',10);
        $pid=shn_create_uuid($type='person');
     }
@@ -78,7 +78,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
         if($res==false){
 				add_error($db->ErrorMsg());
 		}
-		$role=REGISTERED;
+		//$role=REGISTERED;
 		if ($res){
     		//$res=shn_acl_add_user($pid,$user_name);
     		$res=shn_acl_adduser_to_role($pid,$role);
@@ -145,13 +145,13 @@ function shn_authenticate_user()
 	/*need to modify the function to work with the sahana database scheme
 	and adodb code, till then return true. 
 	*/
-  
+
     global $global;
     $db=$global['db'];
-	$user_data=array("user_id"=>1,"user"=>"guest");
+	$user_data=array("user_id"=>ANONYMOUS_USER,"user"=>"Anonymous");
     if("logout"==$_GET['act']){
-     	$user_data["user_id"]=1;
-     	$user_data["user"]="guest";
+     	$user_data["user_id"]=ANONYMOUS_USER;
+     	$user_data["user"]="Anonymous";
      	$user_data["result"]=LOGGEDOUT;
 	 	return $user_data ;
     }
@@ -173,30 +173,22 @@ function shn_authenticate_user()
         $q = "  SELECT p_uuid  FROM users
                     WHERE user_name = '$user'
                     AND password = '$password_digest'";
-                    
+       
         $res=$db->Execute($q);
-        if(!$res->EOF){
-            $user_id=$res->fields[0];
-            if($user_id!=1){
-     		    $user_data["user_id"]=$user_id;
-     		    $user_data["user"]=$user;
-     	        $user_data["result"]=LOGGEDIN;
-			    return $user_data;
-            }
-            else{
-                /* no result ,so return 1 ,which is  not a valid user_id , the calling
-                application can identify authentication was attempted,but failed
-                */	
-        	    $user_data["user_id"]=1;
-                return $user_data;
-            }
-        }
-        else{
+        if(($res==null)||($res->EOF)){
             /* no result ,so return 1 ,which is  not a valid user_id , the calling
             application can identify authentication was attempted,but failed
             */	
-        	$user_data["user_id"]=1;
+        	$user_data["user_id"]=ANONYMOUS_USER;
+        	$user_data["user"]="Anonymous";
             return $user_data;
+
+        }else{
+
+                $user_data["user_id"]=$res->fields["p_uuid"];
+     		    $user_data["user"]=$user;
+     	        $user_data["result"]=LOGGEDIN;
+			    return $user_data;
         }
     }
 }
