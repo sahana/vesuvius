@@ -697,12 +697,4 @@ CREATE TABLE devel_logsql (
 
 
 /**================= TO BE REMOVED =======================**/
-DROP TABLE IF EXISTS configlist;
-CREATE TABLE configlist(
-	description TEXT NOT NULL,
-	value VARCHAR(50),
-	config_id BIGINT NOT NULL,
-	FOREIGN KEY (config_id) REFERENCES config (config_id)
-);
-
 
