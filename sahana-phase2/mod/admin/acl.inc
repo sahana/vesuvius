@@ -165,7 +165,7 @@ function _shn_admin_acl_role_edit_perms_cr(){
      	} 
   	  	shn_acl_update_role_perms($role,$level,$total);
  	}
-	shn_acl_form_classifications_to_data();
+	shn_acl_form_role_perms_grid($role);
 
 }
 
