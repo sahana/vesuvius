@@ -24,38 +24,8 @@ $global['previous']=false;
 // Include error handling routines
 require_once($global['approot'].'inc/lib_errors.inc');
 
-// handle error reporting seperately 
+// handle error reporting seperately and set our own error handler
 error_reporting(0);
-
-// user defined error handling function
-function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) 
-{
-    global $global;
-
-    switch ($errno) {
-
-        // Decide which errors you want the system to report actively. 
-        // The ones uncommented are reported
-
-        case E_ERROR:              // Fatal run-time errors
-        case E_WARNING:            // Run-time warnings (non-fatal errors)
-        case E_PARSE:              // Compile-time parse errors
-        //case E_NOTICE:           // Run-time notices.
-        case E_CORE_ERROR:         // Fatal errors that occur during PHP's initial startup
-        //case E_CORE_WARNING:     // Warnings (non-fatal errors) that occur during PHP's initial startu
-        case E_COMPILE_ERROR:      // Fatal compile-time errors
-        // case E_COMPILE_WARNING: // Compile-time warnings (non-fatal errors
-        case E_USER_ERROR:         // User-generated error messages
-        //case E_USER_WARNING:     // User-generated warning messages
-        //case E_USER_NOTICE:      // User-generated notices
-
-            shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars);
-            break;
-
-        default:                   // Ignore other errors
-    }
-}
-// set our own error handler
 set_error_handler('shn_sahana_error_handler');
 
 // include the base libraries for both the web installer and main app 

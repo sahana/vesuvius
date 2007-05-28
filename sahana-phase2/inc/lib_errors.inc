@@ -167,6 +167,58 @@ global $global;
 <?php
 }
 
+/**
+ * Sahana's custom PHP error handler
+ * 
+ * @param int $errorno 
+ * @param string $errmsg 
+ * @param string $filename 
+ * @param int $linenum 
+ * @param array $vars 
+ * @access public
+ * @return void
+ */
+function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) 
+{
+    global $global;
+
+    switch ($errno) {
+
+        // Decide which errors you want the system to report actively. 
+        // The ones uncommented are reported
+
+        case E_ERROR:              // Fatal run-time errors
+        case E_WARNING:            // Run-time warnings (non-fatal errors)
+        case E_PARSE:              // Compile-time parse errors
+        //case E_NOTICE:           // Run-time notices.
+        case E_CORE_ERROR:         // Fatal errors that occur during PHP's initial startup
+        //case E_CORE_WARNING:     // Warnings (non-fatal errors) that occur during PHP's initial startu
+        case E_COMPILE_ERROR:      // Fatal compile-time errors
+        // case E_COMPILE_WARNING: // Compile-time warnings (non-fatal errors
+        case E_USER_ERROR:         // User-generated error messages
+        //case E_USER_WARNING:     // User-generated warning messages
+        //case E_USER_NOTICE:      // User-generated notices
+
+            shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars);
+            break;
+
+        default:                   // Ignore other errors
+    }
+}
+
+/**
+ * Intelligent analysis of error message and environmental conditions and reporting
+ * of probable error in user friendly terms
+ * 
+ * @param int $errno 
+ * @param string $errmsg 
+ * @param string $filename 
+ * @param int $linenum 
+ * @param array $vars 
+ * @access public
+ * @return void
+ */
+
 function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars)
 {
     global $global;
