@@ -59,7 +59,7 @@ default:
 shn_session_start();
 
 // authenticate user
-//$user_data = shn_authenticate_user();
+$user_data = shn_authenticate_user();
 
 switch ($user_data["result"]){
     case LOGGEDIN:
@@ -96,7 +96,7 @@ function shn_session_start(){
    try to fix or hijack their session, so let the attackers
     hijack this useless session
   */
-  if ('guest'==$_SESSION['user']){
+  if (ANONYMOUS_USER==$_SESSION['user_id']){
    		return true;
    }
    /*If user is guest then he has privileges ,so we have to protect the    
@@ -127,8 +127,8 @@ function shn_session_start(){
         $_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
         $_SESSION['initiated'] = true;
         $_SESSION['logged_in'] = false;
-   		$_SESSION["user"]="guest";
-		$_SESSION["user_id"]=1;// guest user id is 0
+   		$_SESSION["user"]="Anonymous";
+		$_SESSION["user_id"]=ANONYMOUS_USER;// guest user id is 0
 		$_SESSION["user_log_id"]=$log_id;
 		return true;
     }
