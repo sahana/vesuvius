@@ -193,12 +193,11 @@ permissions to the  Data Classificatons
         <?php echo $level_name?>
         </td>
 <?php
-
+	$crud_value=_shn_acl_get_role_data_classification_crud($role,$level);
 	foreach($cruds as $crud=>$crud_name){
  		$perms=$perms.":".$crud;
  		$name=trim($level.$crud);
- 		$crud_value=_shn_acl_get_role_data_classification_crud($role,$level);
- 		
+ 				
 		if ( _shn_acl_is_crud_group($crud,$crud_value)) {
 			
 	 		$allow=true;

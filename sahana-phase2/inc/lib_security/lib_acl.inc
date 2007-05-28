@@ -49,6 +49,11 @@ function shn_acl_check_table_only_perms($tables){
 function _shn_acl_check_table_only_perms($table,$crud){
 	global $global;
     $db=$global['db'];
+  
+	$length=strlen($crud);
+	for ($i=0;$i<$length;$i++){
+		$crud_pattern=$crud_pattern."%".substr($crud, $i, 1)."%";
+	}
 	
 	$user=$_SESSION["user_id"];
 
@@ -60,17 +65,14 @@ function _shn_acl_check_table_only_perms($table,$crud){
     if(($res_acl!=null) &&(!$res_acl->EOF)){
     	$level_id=$res_acl->fields["level_id"];
     	foreach ($roles as $role=>$role_name){
-			$q="select crud from sys_group_to_data_classification where group_id={$role} and level_id={$level_id}";
+		
+			$q="select crud from sys_group_to_data_classification where group_id={$role} and level_id={$level_id}  and crud LIKE '$crud_pattern'";
 
      		$res=$db->Execute($q);
     		if(($res!=null) &&(!$res->EOF)){
     
-    			if($res->fields["crud"]>=$crud){
-    				return ALLOWED;
-    			}else{
-    				shn_error_display_restricted_access();
-    				return DENIED;
-    			}
+    			return ALLOWED;
+    			
     		}else{
     			shn_error_display_restricted_access();
     			return DENIED;
@@ -80,6 +82,7 @@ function _shn_acl_check_table_only_perms($table,$crud){
     	return DENIED;
    
     }
+    
 }
 
 function shn_acl_deluser_roles($users){
@@ -252,21 +255,15 @@ function _shn_acl_get_role_data_classification_crud($role,$data_level){
 	
 }
 function _shn_acl_is_crud_group($crud,$crud_value){
-	$crud_arr= array(
-			"delete_arr"=>array(1,3,5,7,9,11,13,15),
-			"update_arr"=>array(2,3,6,7,10,11,14,15),
-			"read_arr"=>array(4,5,6,7,12,13,14,15),
-			"create_arr"=>array(8,9,10,11,12,13,14,15)	
-			);
-	$array=$crud."_arr";
-	$res=array_search($crud_value,$crud_arr[$array],false);
-	if(FALSE !== $res){
-		
-		return true;
-	}else{
-		
+
+	$chr= substr($crud, 0, 1);
+
+	if(stristr($crud_value,$chr)==FALSE){
 		return false;
+	}else{
+		return true;
 	}
+
 }
 
 function shn_acl_delrole_perms($role){
@@ -282,12 +279,12 @@ function shn_acl_delrole_perms($role){
 	return $res;
 }
 
-function shn_acl_update_role_perms($role,$level,$total){
+function shn_acl_update_role_perms($role,$level,$crud){
 	global $global;
     $db=$global['db'];
   
-   $q="update sys_group_to_data_classification set crud=$total where group_id=$role and level_id=$level";
- 
+   $q="update sys_group_to_data_classification set crud='{$crud}' where group_id=$role and level_id=$level";
+
    $res=$db->Execute($q);
  	if($res==false){
 				add_error($db->ErrorMsg());

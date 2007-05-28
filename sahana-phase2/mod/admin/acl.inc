@@ -146,24 +146,27 @@ function _shn_admin_acl_role_edit_perms_cr(){
 	
 	
 	for ($i=1;$i<count($perms);$i++){
+		$save="";
     	$rule=explode(":",$perms[$i]);
     	$level=$rule[0];
     	//if(!shn_acl_delrole_perms($level))
    			//return false;
      	$cruds=array(
-     			"create"=>8,
-     			"read"=>4,
-     			"update"=>2,
-     			"delete"=>1
+     			"create"=>"c",
+     			"read"=>"r",
+     			"update"=>"u",
+     			"delete"=>"d"
      			);
      	$total=0;
      	foreach($cruds as $crud=>$crud_value){
        		$name=$level.$crud;
        		if(isset($_POST{trim($name)})){
-       			$total=$total+$crud_value;
+       			$save=$save.$crud_value;
+    		}else{
+    			$save=$save."-";
     		}
      	} 
-  	  	shn_acl_update_role_perms($role,$level,$total);
+  	  	shn_acl_update_role_perms($role,$level,$save);
  	}
 	shn_acl_form_role_perms_grid($role);
 

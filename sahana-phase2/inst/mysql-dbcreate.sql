@@ -121,7 +121,7 @@ DROP TABLE IF EXISTS sys_group_to_data_classification;
 CREATE TABLE sys_group_to_data_classification (
     group_id INT NOT NULL,
     level_id INT NOT NULL,
-    crud INT NOT NULL,
+    crud VARCHAR(4) NOT NULL,
     PRIMARY KEY (group_id,level_id),
     FOREIGN KEY (group_id) REFERENCES sys_user_groups(group_id),
     FOREIGN KEY (level_id) REFERENCES sys_data_classifications(level_id) 
