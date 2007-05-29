@@ -83,9 +83,6 @@
 			$this->file_data .= $this->GetHeader();
 		}
 
-
-#==============================================================================================
-
 		function SetReportID($rep_id_in = '')
 		{
 			$this->report_id = $rep_id_in; 
@@ -110,10 +107,6 @@
 		{
 			$this->keywords = $keyword_arr_in;
 		}
-
-
-
-#==============================================================================================
 		
 		function close()
 		{
@@ -133,8 +126,6 @@
 			$this->file_data .= $this->GetFooter();
 			#fclose($this->fp);
 
-
-#############################################################################################################
 
 		global $global;
     		$db=$global["db"];
@@ -217,21 +208,13 @@
 				//print "<b>Report Owner :</b>".$the_owner."<br />";
 				print "<b>File Type : </b>".$file_type."<br />";
 				print "<b>File Size : </b>".$file_size." kb <br />";
-				//print "<b>Keyword :</b>".$the_keyword."<br>";
+				//print "<b>Keyword :</b>".$the_keyword."<br />";
 				}
 				else
 				{
 				print "<b>Report Creation Failed..</b>";
 				}
 			}
-
-
-#############################################################################################################
-
-
-
-
-
 
 			$this->state="CLOSED";
 			return ;
