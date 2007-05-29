@@ -17,7 +17,7 @@
  *
  */
 
-require_once('../3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php');
+#require_once('../3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php');
 global $calc;
 global $sheet;
 global $rep_title;
@@ -38,6 +38,7 @@ global $ods_rep_gen_ok;
 function shn_ods_report_fopen($file_name='',$keyword_in='')
 {
     global $global;
+    require $global['approot']."3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php";
     $db=$global["db"];
     global $ods_rep_ID;
     global $keyword;
@@ -323,20 +324,21 @@ global $pdf_rep_ID;
  */
 function shn_pdf_report_fopen($reportname='',$keywords='')
 {
-    require('../3rd/fpdf/fpdf.php');
+    global $global;
+    require $global['approot']."3rd/fpdf/fpdf.php";
+
     global $pdf;
     global $pdfreportname;
     global $pdf_rep_gen_ok;
     global $pdf_print_enable;
     global $pdf_rep_ID;
-    global $global;
     $db=$global["db"];
 
     $pdfreportname = $reportname;
     $pdf=new FPDF();
     $backtrace = debug_backtrace();
     $rep_id = $backtrace['1']["function"];
-    $pdf_rep_ID = $rep_id;
+    $pdf_rep_ID = $rep_id;    #global $global;
     //check the timestamp and set whether the update should be taken place or not
     $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
     $res_found = $db->Execute($query);
@@ -426,7 +428,7 @@ function shn_pdf_report_add_title($title='')
  * This function will add a table to the pdf report
  *
  * @param mixed $header
- * @param mixed $data
+ * @param mixed $data    #global $global;
  * @access public
  * @return void
  */
@@ -435,7 +437,7 @@ function shn_pdf_report_add_table($header,$data)
     global $pdf_rep_gen_ok;
     global $pdf;
 
-    if($pdf_rep_gen_ok)
+    if($pdf_rep_gen_ok)    #global $global;
     {
 	#this code will check all the rows of the table, verify whether they have all colomns which are specified in the table header.
 	#And this will replace empty colomn values to 20 underscores.
@@ -589,7 +591,7 @@ function shn_pdf_report_close()
     }
 }
 
-include("html_gen.php");
+#include("html_gen.php");
 global $xhtml;
 global $html_rep_gen_ok;
 global $html_print_enable;
@@ -605,11 +607,13 @@ global $html_rep_ID;
  */
 function shn_xhtml_report_fopen($file_name='',$keyword='')
 {
+    global $global;
+    require $global['approot']."inc/reporting/html_gen.php";
+
     global $xhtml;
     global $html_rep_gen_ok;
     global $html_print_enable;
     global $html_rep_ID;
-    global $global;
     $db=$global["db"];
 
     $backtrace = debug_backtrace();
@@ -712,7 +716,7 @@ function shn_xhtml_report_add_table($tab_header='',$tab_data='')
 /**
  * This function will add a image to the xhtml report
  *
- * @param string $img_path_in
+ * @param string $img_path_in    #global $global;
  * @access public
  * @return void
  */
@@ -776,13 +780,14 @@ global $excel_rep_ID;
  */
 function shn_excel_report_fopen($reportname='',$keywords='')
 {
-    require('../3rd/excelwriter/excelwriter.inc.php');
+    global $global;
+    require $global['approot']."3rd/excelwriter/excelwriter.inc.php";
+
     global $excel;
     global $excelreportname;
     global $excel_rep_gen_ok;
     global $excel_print_enable;
     global $excel_rep_ID;
-    global $global;
     $db=$global["db"];
 
     $excelreportname = $reportname;
