@@ -244,16 +244,42 @@ INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "config", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sync_instance", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "users", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_groups", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_to_group", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_data_classifications", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_group_to_data_classification", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_tablefields_to_data_classification", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "chronology", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "audit", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_fields", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_tmp_po", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "image", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "resource_to_incident", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sessions", 6);
+
+
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
+
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
+
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_uuid", 1);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "identity_to_person", 1);
-
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "contact", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_details", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_status", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_physical", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_missing", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_deceased", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_to_report", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "pgroup", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_to_pgroup", 1);
