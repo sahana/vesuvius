@@ -506,22 +506,6 @@ CREATE TABLE org_main(
 	FOREIGN KEY (parent_id) REFERENCES org_main(o_uuid)
 );
 
--- ORG USER INFORMATION
-/**
-* Information about organization users is stored here
-* Modules:
-* Last changed: 12-OCT-2006 - ravindra@opensource.lk  
-*/
-
-
-DROP TABLE IF EXISTS org_users;
-CREATE TABLE org_users(
-    o_uuid VARCHAR(60) NOT NULL,
-    user_id VARCHAR(60) NOT NULL,
-	PRIMARY KEY (o_uuid,user_id),
-	FOREIGN KEY (user_id) REFERENCES users(p_uuid),
-	FOREIGN KEY (o_uuid) REFERENCES org_main(o_uuid)
-);
 
 
 /**================= Entity: Camp Tables ===========================**/
