@@ -17,7 +17,8 @@
 * Public License (LGPL)
 */
 
-
+global $global;
+include_once $global['approot']."/mod/ims/lib_ims.inc";
 
 function _shn_rms_requester($requester_id=null)
 {
@@ -341,6 +342,9 @@ function _shn_rms_location($id = null)
 
 function _shn_rms_ax_location_other($id=null)
 {
+	//$id = $_SESSION['rms_reqstr_id'];
+    
+
 	if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
         
@@ -348,45 +352,85 @@ function _shn_rms_ax_location_other($id=null)
         print '<div id="loc_new">';
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'add_loc'));
-        shn_form_fsopen(_("New Location"));
-        shn_form_text(_("Location Name"),'loc_name',null,array('req'=>true));
-        shn_form_text(_("Location ID"),'location_id',null,array('req'=>true));
-        shn_form_text(_("Type"),'opt_person_loc_type');
-        shn_form_text(_("Code"),'postcode',null);
-        shn_form_textarea(_("Address"),'loc_address',null,array('req'=>true));
-        shn_form_textarea(_("GIS"),'gis',null);
-        shn_form_fsclose();
+        //shn_form_fsopen(_("New Location"));
+        //shn_form_text(_("Location Name"),'loc_name',null,array('req'=>true));
+        //shn_form_text(_("Location ID"),'location_id',null,array('req'=>true));
+        //shn_form_text(_("Type"),'opt_person_loc_type');
+        //shn_form_text(_("Code"),'postcode',null);
+        //shn_form_textarea(_("Address"),'loc_address',null,array('req'=>true));
+        //shn_form_textarea(_("GIS"),'gis',null);
+        //shn_form_fsclose();
+
+
+	shn_form_fsopen("Location");
+	$range=array("start"=>1,"end"=>5);
+	shn_location($range,$value=null,$parent=null,$extra_opts=null);
+	
+	shn_form_fsclose();
+
+	shn_form_hidden(array('seq'=>'img'));
+        //call appropriate gis api method
+        shn_gis_add_marker_map_form();
+	shn_form_hidden(array('seq'=>'add_loc'));
+
+
         shn_form_submit(_("Add Location"));
         shn_form_fclose();
         print '</div><br />';
+
     }
-    
-    
     
     if (_shn_rms_get_requester_locs($id))
     {
+	$bsd_village=_shn_ims_get_locid();
+//print $bsd_village;
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'get_loc'));
         shn_form_fsopen(_("Existing Location"));
-        shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
+        //shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
+	//shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true));
+	$location_array=array();
+	$location_array[$bsd_village]=_shn_rms_get_location_name($bsd_village);
+	shn_form_select($location_array,_("Location"), 'loc');
         shn_form_fsclose();
         shn_form_submit(_("Next"));
         shn_form_fclose();
     }    
+    
+    
 }
 
 function _shn_rms_location_add()
 {
-    $loc['name'] = trim($_POST['loc_name']);
-    $loc['id'] = trim($_POST['location_id']);
-    $loc['type'] = trim($_POST['opt_person_loc_type']);
+    global $global;
+    $db=$global['db'];
+
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
+
+    $bsd_village=_shn_ims_get_locid();
+    //print $bsd_village;
+    $location=_shn_rms_get_location_name($bsd_village);
+    
+
+    $loc['name'] = $location;
+    //$loc['id'] = trim($_POST['location_id']);
+    $loc['id'] = $bsd_village;
+    $loc['type'] = null;
+    $loc['postcode'] = null;
+    $loc['address'] = null;
+    $loc['gis'] = null;
+    /*$loc['type'] = trim($_POST['opt_person_loc_type']);
     $loc['postcode'] = trim($_POST['postcode']);
     $loc['address'] = trim($_POST['loc_address']);
-    $loc['gis'] = trim($_POST['gis']);
+    $loc['gis'] = trim($_POST['gis']);*/
     
-    if ($loc['name'] == '' || $loc['id'] == '' || $loc['address'] == '')
+    if ($bsd_village == '')
     {
-        add_error(_("Please fill all the required fields"));
+        add_error(_("Location is Essential. Please Complete and submit again"));
         display_errors();
         _shn_rms_location();
     }
@@ -394,8 +438,18 @@ function _shn_rms_location_add()
     {
         $id = $_SESSION['rms_reqstr_id'];
         //print _shn_rms_add_requester_loc($id, $loc);
-	_shn_rms_add_requester_loc($id, $loc);
-        _shn_rms_location();
+	
+    
+
+    
+    //print $bsd_village;
+    shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+
+    //$q="INSERT INTO location_details(poc_uuid,location_id) VALUES('{$id}','{$bsd_village}')";
+    //$res=$db->Execute($q);
+
+    _shn_rms_add_requester_loc($id, $loc);
+    _shn_rms_location();
     }
     
 }

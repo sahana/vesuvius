@@ -60,7 +60,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         
         $sql .= $fstr;
     }
-    
+   // print $sql;
     if (!isset($page) || $page == '' || !is_numeric($page))
         $page = 1;
     
@@ -118,14 +118,22 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     foreach ($rs_arr as $r)
     {
-//        $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
+ //       $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
 //        $requesters[$r['reqstr_uuid']] = $reqstr['name'];
-        $requesters = _shn_rms_get_requesters();
+       $requesters = _shn_rms_get_requesters();
         
-//        $req_loc = _shn_rms_get_location($r['loc_uuid']);
-//        $locations[$r['loc_uuid']] = $req_loc['location_id'];
-        
+ //       $req_loc = _shn_rms_get_location($r['loc_uuid']);
+        $locations[$r['loc_uuid']] = $req_loc['location_id'];
+  //      
         $locations = _shn_rms_get_locations();
+	//print_r($locations);
+	/*$location_array=array();
+	print(count($locations));
+	print("gg");
+	for($i=0;$i<count($locations);$i++)
+	{
+	    $location_array[$locations[$i]]=_shn_rms_get_location_name($locations[$i]);
+	}*/
     }
     
     //Result table hedder
@@ -148,13 +156,22 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                     $reqstr['mobile'];
         
         $req_loc = _shn_rms_get_location($r['loc_uuid']);
+	//$req_loc = _shn_ims_get_location($inv_id);
+
+	$location_name=_shn_rms_get_location_name($req_loc['location_id']);
+
+
 	if($req_loc['opt_person_loc_type']=='')
 	{
-	    $loc_d = '<strong>' . $req_loc['location_id'] . '</strong>';
+	    //$loc_d = '<strong>' . $req_loc['location_id'] . '</strong>';
+	    $loc_d = '<strong>' . $location_name . '</strong>';
+	    //print $loc_d;
 	}
 	else
 	{
-            $loc_d = '<strong>' . $req_loc['location_id'] . '</strong> [' . 
+           /* $loc_d = '<strong>' . $req_loc['location_id'] . '</strong> [' . 
+                    $req_loc['opt_person_loc_type'] . ']';*/
+	    $loc_d = '<strong>' .$location_name . '</strong> [' . 
                     $req_loc['opt_person_loc_type'] . ']';
 	}
         
@@ -183,6 +200,9 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
+	    //$location_array=array();
+	    //print_r($location_array);
+	    //print_r($locations);
             shn_form_select($locations, _("Locations"), 'loc_id', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();

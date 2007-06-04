@@ -256,7 +256,10 @@ function _shn_rms_get_locations()
         
         foreach ($rs as $r)
         {
-            $locations[$r[0]] = $r[0];
+            //$locations[$r[0]] = $r[0];
+	    $id=$r[0];
+	    //print $id;
+	    $locations[$r[0]] = _shn_rms_get_location_name($id);
         }
         
         return $locations;
@@ -1084,10 +1087,10 @@ function _shn_rms_view_location($loc_id, $summary=false)
         $tmp_str = '<strong>' . _("Location ID") . '</strong>';
         $tb_loc[] = array($tmp_str , $loc_id);
         $tb_loc[] = array('<strong>' . _("Name") . '</strong>', $location['location_id']);
-        $tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
-        $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
-        $tb_loc[] = array('<strong>' . _("Post code") . '</strong>', $location['postcode']);
-        $tb_loc[] = array('<strong>' . _("GIS") . '</strong>', $location['long_lat']);
+        //$tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
+       // $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
+       // $tb_loc[] = array('<strong>' . _("Post code") . '</strong>', $location['postcode']);
+        //$tb_loc[] = array('<strong>' . _("GIS") . '</strong>', $location['long_lat']);
         
         $width=array('20%');
         shn_html_table($tb_loc,null,null,array('class'=>'layout','width'=>$width));
@@ -1470,5 +1473,49 @@ function _shn_rms_ct_cat($max,$form,$item_flag=false)
     
     //shn_form_submit(_("Next"));
     }
+}
+
+function _shn_rms_get_location_name($bsd_village)
+{
+    global $global;
+    $db=$global['db'];
+
+    $string_array=array();
+	$i=0;
+
+	while($bsd_village!=NULL)
+	{
+		$sql2="SELECT * FROM location WHERE loc_uuid='$bsd_village';";
+		$ims2=$db->Execute($sql2);
+//print $sql2;
+		$parent_id=$ims2->fields['parent_id'];
+		$name=$ims2->fields['name'];
+		//array_push($string_array,$location_id=>$name);
+		$string_array[$i]=$name;
+//print_r($string_array[$i]);
+		$i=$i+1;
+
+		$bsd_village=$parent_id;
+	}
+
+	for($j=$i-2;$j>=0;$j--)
+	{
+		//print $string_array[$j];
+		//print "\n";
+		$string=$string_array[$j];
+		if($j==$i-2)
+		{
+			$location=$string;
+		}
+		else
+		{
+			$location=$location."->".$string;
+		}
+		
+	}
+	
+   	return $location;
+
+ 
 }
 ?>
