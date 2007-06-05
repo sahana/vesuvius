@@ -17,7 +17,6 @@
  *
  */
 
-#require_once('../3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php');
 global $calc;
 global $sheet;
 global $rep_title;
@@ -26,6 +25,7 @@ global $owner;
 global $ods_row_counter;
 global $ods_rep_ID;
 global $ods_rep_gen_ok;
+global $ods_file_name;
 
 /**
  * This function will open the ods report
@@ -44,7 +44,10 @@ function shn_ods_report_fopen($file_name='',$keyword_in='')
     global $keyword;
     global $ods_rep_gen_ok;
     global $owner;
+    global $ods_file_name;
+    $ods_file_name = $file_name;
     $keyword = $keyword_in;
+
 
     $backtrace = debug_backtrace();
     $ods_rep_ID = $backtrace['1']["function"];
@@ -112,6 +115,7 @@ function shn_ods_report_add_title($title='')
     global $ods_rep_gen_ok;
 
     $rep_title = $title;
+
     $span = strlen($title) / 5;
     if($ods_rep_gen_ok)
     {
@@ -150,6 +154,7 @@ function shn_ods_report_add_table($headerArray,$dataArray)
     //$row=$rowBase;
     $row = $ods_row_counter;
     $numOftabHeads=count($headerArray);
+    $header_array_keys = array();
     $header_array_keys=array_keys($headerArray);
 
 	for($i=0;$i<$numOftabHeads;$i++)
@@ -189,7 +194,7 @@ function shn_ods_report_add_table($headerArray,$dataArray)
 	}
 	$ods_row_counter = $row;
 	$ods_row_counter = $ods_row_counter + 2;	
-	}//end of $ods_rep_gen_ok 'if'
+	}//end of $ods_rep_gen_ok 'if' 
 }
 
 /**
@@ -198,7 +203,7 @@ function shn_ods_report_add_table($headerArray,$dataArray)
  * @param string $summery
  * @access public
  * @return void
- */
+  */
 function shn_ods_report_add_summery($summery='')
 {
     global $sheet;
@@ -268,7 +273,7 @@ function shn_ods_report_add_image($img_path='')
 function shn_ods_report_close()
 {
     global $ods_rep_gen_ok;
-
+    global $rep_title;
     if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
     {
     $print_enable = false;	
@@ -282,15 +287,112 @@ function shn_ods_report_close()
     $print_enable = true;
     }
 
-    if($ods_rep_gen_ok)
+   if($ods_rep_gen_ok)
     {	
     global $calc;
     global $rep_title;
     global $keyword;
     global $owner;
     global $ods_rep_ID;
-    $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
-    }//end of $ods_rep_gen_ok 'if'
+    global $ods_file_name;
+    $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
+
+
+		global $global;
+    		$db=$global["db"];
+
+		unset($data);
+		$data='';
+		$temp = tmpfile();
+
+
+		if ($ods_file_name != '')
+		{
+		fwrite($temp,$calc_file_data);
+		fseek($temp, 0);
+			while(!feof($temp)) 
+			{
+			$data .= fread($temp, 1024); 
+			}
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
+
+		$file_size = strlen($data)/1024;
+		$file_type = "ods"; 
+		$title = $rep_title;
+		$file_name = $ods_file_name.".ods";
+		$the_owner = $owner;
+		$the_report_ID = $ods_rep_ID;
+
+		$keyword_arr = $keyword;
+
+		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+		$res_found = $db->Execute($query);
+
+			if($res_found->fields['rep_id'] != null)
+			{
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() ,file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+			$res=$db->Execute($query);
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+			$del_res=$db->Execute($del_query);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+			}
+			else
+			{
+			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+			$res=$db->Execute($query);
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+			}
+			
+			unset($data);
+
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
+
+			if($print_enable)
+			{
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
+			}	
+ 
+
+} // end of if($ods_rep_gen_ok) 
+
     else if(!$ods_rep_gen_ok && $print_enable)
     {
     global $global;
@@ -915,7 +1017,6 @@ function shn_xhtml_report_close()
 
 				$res1=$db->Execute($query1);
 				}
-
 			}
 		else
 			{
