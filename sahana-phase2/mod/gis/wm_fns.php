@@ -187,7 +187,7 @@ function show_wiki_add_detail($errors=false)
 	shn_form_fsopen(_("Extra Details"));
 	shn_form_text(_("URL"),"wiki_url",'size="50"',array('help'=>_($conf['mod_gis_situation_url_help'])));
 	//shn_form_text(_("Date of //Event"),"wiki_evnt_date",'size="50"',array('help'=>_($conf['mod_gis_situation_date_help'])));
-	shn_form_date(_("Date of Event"),"wiki_evnt_date",array('help'=>_($conf['mod_gis_situation_date_help'])));
+	shn_form_date(_("Date of Event"),"wiki_evnt_date",array('req'=>true,'help'=>_($conf['mod_gis_situation_date_help'])));
 	shn_form_fsclose();
 	shn_form_fsopen(_("Wikimap Options"));
 	shn_form_text(_("Author"),"wiki_author",'size="50"',array('help'=>_($conf['mod_gis_situation_author_help'])));
