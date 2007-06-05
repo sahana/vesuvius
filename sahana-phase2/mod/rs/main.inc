@@ -222,7 +222,7 @@ function shn_text_rs_download_report()
 		header("Content-type: application/vnd.ms-excel");
             break;
             case 'png':
-		#header("Content-type: image/png");
+		header("Content-type: image/png");
             break;
 	
         }
