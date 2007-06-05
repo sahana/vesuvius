@@ -308,12 +308,19 @@ function shn_ods_report_close()
     }
 }
 
+
+
+
+
+
+
 global $pdf;
 global $pdfreportname;
 global $pdf_rep_gen_ok;
 global $pdf_print_enable;
 global $pdf_rep_ID;
-
+global $keyword_arr;
+global $rep_title;
 /**
  * This function will open the pdf report
  *
@@ -332,6 +339,8 @@ function shn_pdf_report_fopen($reportname='',$keywords='')
     global $pdf_rep_gen_ok;
     global $pdf_print_enable;
     global $pdf_rep_ID;
+	global $keyword_arr;
+
     $db=$global["db"];
 
     $pdfreportname = $reportname;
@@ -409,6 +418,8 @@ function shn_pdf_report_add_title($title='')
 {
     global $pdf_rep_gen_ok;
     global $pdf;
+global $rep_title;
+	$rep_title = $title;
     if($pdf_rep_gen_ok)
     {
     $pdf->SetTitle($title);
@@ -571,11 +582,103 @@ function shn_pdf_report_close()
     global $pdfreportname;
     global $pdf_print_enable;
     global $pdf_rep_ID;
-
+    global $rep_title;
+    global $keyword_arr;
+	
+    $keyword_arr = array();
     if($pdf_rep_gen_ok)
     {
-    //$pdf->Output('','S');
-    $pdf->Output($pdfreportname.".pdf");
+    $buffer = $pdf->Output($pdfreportname.".pdf");
+
+		unset($data);
+		$data='';
+		$temp = tmpfile();
+		fwrite($temp,$buffer);
+		fseek($temp, 0);
+		while(!feof($temp)) 
+		{
+		$data .= fread($temp, 1024); 
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
+
+			$file_size = strlen($data)/1024;
+			$file_type = "pdf"; 
+			$title = $rep_title;
+			$file_name =$pdfreportname.".pdf";
+			$the_report_ID = $pdf_rep_ID;
+
+			#$keyword_arr = $this->keywords;
+			
+			$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+			$res_found = $db->Execute($query);
+
+			if($res_found->fields['rep_id'] != null)
+			{
+			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+			$res=$db->Execute($query);
+
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+			$del_res=$db->Execute($del_query);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+			}
+			else
+			{
+			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+			$res=$db->Execute($query);
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+			}
+			
+    			
+			unset($data);			
+
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
+			/**/
+			if($pdf_print_enable)
+			{
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				//print "<b>Report Owner :</b>".$the_owner."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
+				//print "<b>Keyword :</b>".$the_keyword."<br />";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
+			}
+
+###
+
     }
     else if(!$pdf_rep_gen_ok && $pdf_print_enable)
     {
@@ -590,6 +693,12 @@ function shn_pdf_report_close()
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 }
+
+
+
+
+
+
 
 #include("html_gen.php");
 global $xhtml;
