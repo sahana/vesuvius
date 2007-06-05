@@ -20,12 +20,26 @@ include_once $global['approot']."/inc/lib_errors.inc";
 require_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/mod/gis/gis_fns.inc";
 include_once "lib_ims.inc";
+include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 
 function _shn_ims_regform_org($error=false)
 {
     global $global;
-   // global $conf;
+    //global $conf;
     $db=$global['db'];
+
+     $tables= array(
+			'location_details'=>'c',
+			'ims_inventory_records'=>'c',
+			'contact'=>'c'
+		);
+ /*$tables= array(
+				'field_options'=>'4',
+				'org_main'=>'8'
+				);*/
+   if(shn_acl_check_table_only_perms($tables)==DENIED){
+   	 return false;
+   }
 ?>
 <h2><?= _('Add an Inventory')?></h2>
 <?php
@@ -41,55 +55,15 @@ function _shn_ims_regform_org($error=false)
     shn_form_text(_("Inventory Name : "),'org_name','size="50"',$extra_opts); 
    // shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
-   // shn_form_fsopen("Inventory Type");
-   // _shn_or_ims_display_org_type($error);
-   // shn_form_fsclose();
-   // shn_form_fsopen("Inventory Sector");
-   // _shn_or_ims_display_sector($error);
-   // shn_form_fsclose();
-    // base location
-	//$extra_opts["camps"]=true;
-$parent=_shn_ims_get_start_loc();
-//print $parent;
-   	//$range= shn_or_get_loc_range();
-//print_r($range);
-/*$range=array("start"=>1,"end"=>5);
-shn_form_fsopen("Base Location");
-shn_location($range,$_SESSION['inv']['loc'],null,true);
-//shn_location($range,$_POST[$range["end"]],null,true);
-//shn_location($range,$_SESSION['inv']['loc'],null,$extra_opts);
-//shn_location($range,null,null,$extra_opts);
-shn_form_fsclose();*/
+   
+    $parent=_shn_ims_get_start_loc();
 
-	//shn_form_fsopen("Base Location");
-        $range=array("start"=>1,"end"=>5);
+      $range=array("start"=>1,"end"=>5);
 	shn_form_fsopen(_("Location"));
 	//shn_location_form_org(1,5);
 	shn_location($range,$value=null,$parent=null,$extra_opts=null);
 	shn_form_fsclose();
-	//shn_form_fsclose();
-
-/*shn_form_fsopen("Base Location");
- 	if($error==true){
- 		shn_location(null,$_SESSION['inv']['loc'],null,$extra_opts);
- 	}else{
- 		shn_location(null,null,null,$extra_opts);
- 	} 
-    shn_form_fsclose();*/
-
-/**
-*********************************
-*/
-
-
-   	/*$range=array("start"=>1,"end"=>3);
-	//$end=$_POST[$range['end']];
- 	shn_form_fsopen("Base Location");
- 	shn_location($range,$_POST[$range["end"]],null,true);
-//shn_location($range,$_SESSION['org']['loc'],null,true);
-//shn_location($range,null,null,true); 
-    shn_form_fsclose();*/
-    // Contact infomation
+	
     shn_form_fsopen("Contact Information");
     _shn_ims_display_contact_person($error,true,null);
     shn_form_fsclose();
@@ -97,10 +71,6 @@ shn_form_fsclose();*/
     _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
 
-	
- 	//shn_form_fsopen("Extra Information");
-    //_shn_or_ims_display_extra($error);
-    //shn_form_fsclose();
 ?>
 <br />
 <center>

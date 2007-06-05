@@ -25,6 +25,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
+include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot'].'/mod/or/lib_or.inc';
