@@ -297,7 +297,6 @@ function shn_ods_report_close()
     global $ods_file_name;
     $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
 
-
 		global $global;
     		$db=$global["db"];
 
@@ -378,11 +377,14 @@ function shn_ods_report_close()
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
+				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
 				print "<b>Report ID : </b>".$the_report_ID." <br />";
 				print "<b>Report File Name : </b>". $file_name."<br />";
+				
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
 				print "<b>File Type : </b>".$file_type."<br />";
 				print "<b>File Size : </b>".$file_size." kb <br />";
+				
 				}
 				else
 				{
@@ -400,13 +402,16 @@ function shn_ods_report_close()
     global $ods_rep_ID;
     $query = "select * from report_files where rep_id = '$ods_rep_ID' ";	
     $res = $db->Execute($query);
-
+    
     print "<h1> Report - ".$res->fields['title']."</h1>";
+    print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$res->fields['file_name']); print "<br />";
     print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
     print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+    
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
     print "<b>File Type : </b>".$res->fields['file_type']."<br />";
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+    
     }
 }
 
@@ -760,6 +765,7 @@ function shn_pdf_report_close()
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
+				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
 				print "<b>Report ID : </b>".$the_report_ID." <br />";
 				print "<b>Report File Name : </b>". $file_name."<br />";
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
@@ -781,6 +787,7 @@ function shn_pdf_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
+    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
     print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
     print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
@@ -1044,6 +1051,7 @@ function shn_xhtml_report_close()
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
+				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
 				print "<b>Report ID : </b>".$the_report_ID." <br />";
 				print "<b>Report File Name : </b>". $file_name."<br />";
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
@@ -1062,6 +1070,7 @@ function shn_xhtml_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
+    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
     print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
     print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
@@ -1334,6 +1343,7 @@ function shn_excel_report_close()
 				if($res == true)
 				{
 				print "<h1> Report - ".$title."</h1>";
+				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
 				print "<b>Report ID : </b>".$the_report_ID." <br />";
 				print "<b>Report File Name : </b>". $file_name."<br />";
 				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
@@ -1355,6 +1365,7 @@ function shn_excel_report_close()
     $res = $db->Execute($query);
 
     print "<h1> Report - ".$res->fields['title']."</h1>";
+    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
     print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
     print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
