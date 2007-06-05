@@ -59,6 +59,7 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
     // include the main libraries the system depends on
     require_once ($APPROOT.'inc/handler_db.inc');
     require_once ($APPROOT.'inc/lib_session/handler_session.inc');
+    require_once ($global['approot'].'inc/lib_security/handler_openid.inc');
     require_once ($APPROOT.'inc/lib_security/lib_auth.inc');
  	require_once ($APPROOT.'inc/lib_security/constants.inc');
     require_once ($APPROOT.'inc/lib_locale/handler_locale.inc'); 
