@@ -771,3 +771,44 @@ ul#tab li#activeTab a{
     color:#999;
     font-size:0.9em; 
 }
+
+
+div#openid_loginform {
+	padding: 0 10px;
+	width: 100px;
+	margin-top: 1em;
+	margin-bottom:6.2em;
+	float: left;
+	clear: left;
+}
+
+div#openid_loginform form fieldset {
+	padding: 10px;
+	border-color: #DED;
+	border-width: 2px;
+	border-style: groove;
+}
+
+div#openid_loginform form legend {
+	font-size: 120%;
+	color: #555;
+}
+
+div#openid_loginform form label {
+}
+
+div#openid_loginform form input#userName, 
+div#openid_loginform input#pswd {
+	margin-right: 10px;
+	width:140px;
+}
+
+#openid_login {
+   background: url(img/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: center left;
+   color: #000;
+   width:122px;
+   padding-left: 18px;
+}
+
