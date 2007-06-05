@@ -1,0 +1,93 @@
+==Introduction==
+
+OpenID is a decentralized identity system, and simply provides a way of
+proving that someone owns a URL.  The URL is the user's identity.  An
+OpenID consumer will need to confirm the identity of users by talking
+to an OpenID server.  The PHP OpenID library does the heavy-lifting of
+this interaction, leaving you to spend more time on your application.
+It is highly recommended that you have a look at the OpenID homepage
+and specification.  http://www.openid.net
+
+The PHP OpenID library has been ported directly from the high-quality 
+Python OpenID library.  See http://openid.schtuff.com.  For the most part, 
+both the PHP and Python versions share a common API, making it simpler to 
+port a server or client from one language to the other.  It is my goal to 
+incorporate new fixes and features from the Python library over time and 
+to keep the libraries in sync.  Currently, all of the examples are direct 
+ports from the Python package as well.  Also, the version number matches
+that of the Python package, and should reflect them in the future, though
+possibly with an additional minor number.
+
+Be aware that as of this writing, the PHP port has not been heavily tested 
+or used in any production environment.  The PHP OpenID consumer has been verified to work with both the
+Python OpenID server and the PHP server.  Also, the PHP server has been
+verified to work with the Python consumer.  More testing with
+other servers needs to be done, and there are bound to be bugs and 
+gotchas.  A compliance test suite would be a really nice tool for ensuring
+interoperability.
+
+
+==What does PHP OpenID do?==
+
+The PHP OpenID library fully implements the OpenID specification.  The 
+library takes care of all consumer to server interaction logic and 
+identity verification intricacies.  In a nutshell, the library provides 
+building blocks upon which you can base your own OpenID server or 
+consumer.  It does NOT make assumptions about your page processing or 
+attempt to dispatch incoming requests.  Nor does it display any HTML pages 
+or forms to the user.  That is all left to you, although some examples are 
+provided.  
+
+
+==PHP Compatibility==
+
+PHP OpenID is intended to run on any version of PHP >= 4.1.0, although
+to date it has only been tested with PHP5. If you encounter problems
+running with other versions, please let me know.  Great care has been taken
+to use PHP extensions when available and to provide fallback routines in
+case the extension is not present. These fallback routines are often slower
+and may not be as secure or "rock-solid". For production use of the library, 
+I recommend installation of these extensions: gmp, mhash, curl, and tidy2.
+PHP OpenID does not use or require PEAR.
+
+
+==Installation==
+
+1) Extract files.
+
+tar -xzvf PHP-OpenID-<version>.tar.gz
+
+2) Move all files somewhere beneath your webserver docroot.
+
+
+That's it! You should now be able to load the simple.php example in your
+browser.  You may also wish to install additional PHP extensions for
+performance or compatibility reasons.  See the "PHP Compatibility" section.
+
+
+==Contact / Reporting Bugs==
+
+Please send an email to php-openid@videntity.org.
+
+
+==Final Words==
+
+OpenID is an idea whose time has come.  No one likes filling out yet another
+registration form on the web just so you can post a comment on a blog
+or forum.  OpenID has the power to simplify our lives just a little bit.
+Although it may seem a bit daunting at first, it is worth taking some time
+to integrate into your website.
+
+If you do choose to use openid on your site, you may also wish to link to 
+Videntity.org.  Videntity.org is a site with the simple aim to explain the 
+OpenID concept to users, and to provide them with a unique identity page 
+that is easily machine-readable via vcard, rss, xprofile, and other web 
+technologies.  Each user will receive a simple, unique identity such as 
+"sally.videntity.org".  By linking to videntity.org on your login or 
+registration forms, you can avoid the hassle of educating users about 
+OpenID yourself.  Further, your site can act as an OpenID consumer 
+only, without needing to implement an OpenID server component.  
+
+As of this writing, the Videntity.org website is in testing and should be
+operational within 1 week.  Please visit the site for more details.
+

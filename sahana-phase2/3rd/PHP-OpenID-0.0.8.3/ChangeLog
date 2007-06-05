@@ -1,0 +1,103 @@
+2005-09-15 18:05  danda
+
+	* openid/oid_util.php: BUGfix: _hmacsha1 was incorrectly hex
+	  encoding return value. BUGfix: _base_convert called with wrong
+	  args. BUGfix: _base_convert() was returning empty string
+
+2005-09-15 18:02  danda
+
+	* openid/httpclient.php: Send port with host
+
+2005-09-15 18:01  danda
+
+	* examples/sampleserver.php: php4 compat: deal with fact that mkdir
+	  in php4 does not support recursive option
+
+2005-09-15 18:01  danda
+
+	* examples/httpconsumer.php: php4 compat: add file_get_contents()
+	  and file_put_contents(). BUG: fix retrieval of consumer secret.
+	  php4 compat: use best available httpclient. minor fix: home link
+	  returns to self instead of /
+
+2005-09-15 11:57  danda
+
+	* examples/httpconsumer.php: fix another file_put_contents()
+	  php5-ism
+
+2005-09-15 00:18  danda
+
+	* examples/httpconsumer.php: removed file_put_contents() call,
+	  which is PHP5 specific.  Reported by Jason Levine
+	  <jason@queso.com>.
+
+2005-09-14 23:22  danda
+
+	* openid/: consumer.php, server.php: Login and logout succeed!
+
+2005-09-14 04:38  danda
+
+	* openid/trustroot.php: login consumer begins to work...
+
+2005-09-13 20:11  danda
+
+	* openid/trustroot.php: not handling TLD's < 3 chars in length
+	  correctly.  Reported by Christian Stocker
+	  <christian.stocker@bitflux.ch>
+
+2005-09-08 06:27  danda
+
+	* ChangeLog: update changelog
+
+2005-09-08 06:26  danda
+
+	* openid/consumer.php: 1) Fix php error. Correct array access on
+	  parsed link attributes when a delegate is used.
+
+	  2) normalize_url() now handles the case when neither 'http://'
+	  nor trailing '/' are present.  It also allows eg 'ftp://' without
+	  prepending 'http://'.
+
+2005-09-07 08:44  danda
+
+	* ChangeLog: changelog update
+
+2005-09-07 08:44  danda
+
+	* openid/httpclient.php: add a comment about validating urls before
+	  fetching
+
+2005-09-07 08:39  danda
+
+	* openid/consumer.php: normalize url better, per spec and feedback
+	  at
+	  http://lists.danga.com/pipermail/yadis/2005-September/001401.html
+
+2005-09-07 07:55  danda
+
+	* examples/simple.php, openid/httpclient.php: from Martin Atkins
+	  mart at degeneration.co.uk
+
+	  Attached is a small patch containing the changes I had to make
+	  firstly to get it to run properly on my server here and to work
+	  with LiveJournal. It also features some more general fixes. In
+	  particular: * no SCRIPT_URI was being set on my server, so I
+	  added a best-guess fallback * you were sending the full URL in
+	  the HTTP request line rather than just the path component, which
+	  upset LiveJournal's mod_perl code.  (Apache by default simply
+	  disregards the scheme and host part, but LiveJournal replaces the
+	  component that would normally do that and doesn't handle that
+	  case) * the return_url check was failing where there's no port
+	  number component in the URL.
+
+2005-09-06 09:15  danda
+
+	* COPYING, LICENSE, README, docs/simple_intro.txt, examples/README,
+	  examples/associations.php, examples/exutil.php,
+	  examples/httpconsumer.php, examples/sampleserver.php,
+	  examples/simple.php, openid/association.php, openid/consumer.php,
+	  openid/httpclient.php, openid/interface.php,
+	  openid/oid_parse.php, openid/oid_util.php, openid/server.php,
+	  openid/trustroot.php, ChangeLog: adding initial PHP-OpenID port,
+	  0.0.8
+
