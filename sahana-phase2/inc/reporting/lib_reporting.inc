@@ -698,7 +698,9 @@ global $xhtml;
 global $html_rep_gen_ok;
 global $html_print_enable;
 global $html_rep_ID;
-
+global $html_file_name;
+global $html_keyword_arr;
+global $html_title;
 /**
  * This function will open the xhtml report
  *
@@ -716,6 +718,12 @@ function shn_xhtml_report_fopen($file_name='',$keyword='')
     global $html_rep_gen_ok;
     global $html_print_enable;
     global $html_rep_ID;
+    global $html_file_name;
+    global $html_keyword_arr;
+
+    $html_keyword_arr = $keyword;
+    $html_file_name = $file_name;
+
     $db=$global["db"];
 
     $backtrace = debug_backtrace();
@@ -771,6 +779,10 @@ function shn_xhtml_report_add_title($Title='',$position='center')
 {
     global $html_rep_gen_ok;
     global $xhtml;
+    global $html_title;
+
+    $html_title = $Title;
+
     if($html_rep_gen_ok)
     {
     $xhtml->setTitlePos('center');
@@ -847,9 +859,101 @@ function shn_xhtml_report_close()
     global $html_print_enable;
     global $html_rep_ID;
     global $xhtml;
+    global $html_file_name;
+    global $html_keyword_arr;
+    global $html_title;
+
     if($html_rep_gen_ok)
     {
-    $xhtml->Output();
+    $output_code = $xhtml->Output();
+
+		global $global;
+    		$db=$global["db"];
+		$data='';
+		$temp = tmpfile();
+		fwrite($temp,$output_code);
+		fseek($temp, 0);
+		while(!feof($temp)) 
+		{
+		$data .= fread($temp, 1024); 
+		}
+		$data = addslashes($data);
+		$data = addcslashes($data, "\0");
+
+		fclose($temp); // this removes the file
+		
+		$file_size = strlen($data)/1024;
+		$file_type = "xhtml"; 
+		$title = $html_title;
+		$file_name = $html_file_name.".html";
+		#$the_owner = $this->report_owner;
+		$the_report_ID = $html_rep_ID;
+
+		$keyword_arr = $html_keyword_arr;
+		
+		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+		$res_found = $db->Execute($query);
+
+		
+		if($res_found->fields['rep_id'] != null)
+			{
+		$query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
+			$res=$db->Execute($query);
+
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+			$del_res=$db->Execute($del_query);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+
+				$res1=$db->Execute($query1);
+				}
+
+			}
+		else
+			{
+			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+			$res=$db->Execute($query);
+			
+			$num_of_keywords=count($keyword_arr);
+			$keyword_arr_keys=array_keys($keyword_arr);
+
+				for($i=0;$i<$num_of_keywords;$i++)
+				{
+				$the_keyword_key = $keyword_arr_keys[$i];
+				$the_keyword = $keyword_arr[$the_keyword_key];
+				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+				$res1=$db->Execute($query1);
+				}
+
+			}
+
+			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+			$timestamp_found = $db->Execute($query_ts);
+
+			if($html_print_enable)
+			{
+				if($res == true)
+				{
+				print "<h1> Report - ".$title."</h1>";
+				print "<b>Report ID : </b>".$the_report_ID." <br />";
+				print "<b>Report File Name : </b>". $file_name."<br />";
+				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+				print "<b>File Type : </b>".$file_type."<br />";
+				print "<b>File Size : </b>".$file_size." kb <br />";
+				}
+				else
+				{
+				print "<b>Report Creation Failed..</b>";
+				}
+			}
     }
     else if(!$html_rep_gen_ok && $html_print_enable)
     {
