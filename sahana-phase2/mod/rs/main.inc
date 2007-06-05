@@ -219,7 +219,7 @@ function shn_text_rs_download_report()
 		header("Content-type: text/html");
             break;
             case 'xls':
-		#header("Content-type: text/html");
+		header("Content-type: application/vnd.ms-excel");
             break;
             case 'png':
 		#header("Content-type: image/png");
