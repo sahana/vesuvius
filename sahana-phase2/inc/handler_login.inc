@@ -31,7 +31,16 @@ if ($_SESSION['logged_in'] != true ) {
         </fieldset>
     </form>
     </div><!-- /loginform -->
-
+    <div id="openid_loginform">
+    	<form action="" method="get">
+    		<fieldset><legend><?=_('OpenId Login')?></legend>
+    			<label><?=_('URL')?></label><input type="text" name="identity_url" id="openid_login" />
+				<input type="submit" value="Verify" />
+				<br />
+				<i>For example: <tt>happygirl.bloghost.com</tt></i>
+			</fieldset>
+		</form>
+    </div>
 <?php
 } else {
 ?>
@@ -41,6 +50,7 @@ if ($_SESSION['logged_in'] != true ) {
         <br />
         <center><a href="index.php?act=logout"><?=_('Logout')?></a></center>
     </div>
+
 <?php
 }
 
