@@ -37,6 +37,7 @@ function add_item_without_expire_date($category)
 
 function _shn_ims_add_item_header()
 {
+
     ?>
 
 
@@ -57,6 +58,22 @@ function _shn_ims_add_item_main_page($inventory_id)
 {    
     //print $inventory_id; 
 	//$inventory_id=5;
+global $global;
+    //global $conf;
+    $db=$global['db'];
+
+     $tables= array(
+			'ims_item_records'=>'c',
+			'ims_inventory_records'=>'c',
+			'ct_catalogue'=>'c'
+		);
+ /*$tables= array(
+				'field_options'=>'4',
+				'org_main'=>'8'
+				);*/
+   if(shn_acl_check_table_only_perms($tables)==DENIED){
+   	 return false;
+   }
 ?>
 
     <h1 align="center"><?php print _("Add items to the Inventory");?><br></h1>

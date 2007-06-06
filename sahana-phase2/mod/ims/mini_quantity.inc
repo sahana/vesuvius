@@ -19,6 +19,23 @@ include_once 'errors.inc';
 
 function _shn_ims_mini_quantity_item_select()
 {
+global $global;
+    //global $conf;
+    $db=$global['db'];
+
+     $tables= array(
+			'ims_item_records'=>'c',
+			'ims_inventory_records'=>'c',
+			'ct_catalogue'=>'c',
+			'ims_reorder_level'=>'c'
+		);
+ /*$tables= array(
+				'field_options'=>'4',
+				'org_main'=>'8'
+				);*/
+   if(shn_acl_check_table_only_perms($tables)==DENIED){
+   	 return false;
+   }
 ?>
 
     <h1 align="center"><?php print _("Item Selection for Re-Order Level");?><br></h1>
