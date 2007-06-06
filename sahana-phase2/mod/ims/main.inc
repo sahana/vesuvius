@@ -693,7 +693,8 @@ function shn_ims_receive_item()
 {
     global $global;
     include_once('transfer_inv.inc');
-    _shn_ims_receive();
+    
+    _shn_ims_receive($Limit=20,0);
 }
 
 function shn_ims_receive_item_page()
@@ -1118,6 +1119,20 @@ function shn_ims_inventory_paging($Limit=null)
 
     _shn_ims_viewform_allorg($no=NULL,$page_number,$Limit);
 
+}
+
+function shn_ims_receive_item_paging()
+{
+    $Limit=trim($_POST['records']);
+    //print $Limit;
+    $page_number=$_REQUEST['$i'];
+    if($page_number!=0)
+    {
+        $Limit=$_REQUEST['$Limit'];
+    }
+    
+    include_once('transfer_inv.inc');
+    _shn_ims_receive($Limit,$page_number);
 }
 
 

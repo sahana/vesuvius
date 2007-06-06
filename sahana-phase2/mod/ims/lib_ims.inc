@@ -2069,4 +2069,9 @@ function _shn_ims_get_parent_locations($location_id)
     return $location_array;
 }
 
+function _shn_ims_paging($sql)
+{
+    
+}
+
 ?>

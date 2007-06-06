@@ -65,7 +65,7 @@ global $global;
      $tables= array(
 			'ims_item_records'=>'c',
 			'ims_inventory_records'=>'c',
-			'ct_catalogue'=>'c'
+			'ct_catalogue'=>'r'
 		);
  /*$tables= array(
 				'field_options'=>'4',

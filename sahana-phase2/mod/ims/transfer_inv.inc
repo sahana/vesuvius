@@ -414,13 +414,61 @@ function _shn_ims_send_db()
 /**
 ***Function to Receive item
 **/
-function _shn_ims_receive()
+function _shn_ims_receive($Limit,$page_number=null)
 {
+$state=-1;
+    global $global;
+    $db=$global["db"];
+    print '<b>';
+    if($page_number==0)
+    {
+	$page=$page_number+1;
+        print ("Page Number  ".$page);
+    }
+    else
+    {
+	print ('Page Number  '.$page_number);
+    }
+    print '</b>';
 ?>
 <h1 align="center"><?php print _("Item Transit")?> </h1>
+
 <div id="result">
 
+<?php
+ $form_opts['name']="edit_item";
+shn_form_fopen('receive_item_paging',null,$form_opts);
+//$Limit=20;
+shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+shn_form_fclose();
+$sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send FROM ims_transfer_item WHERE received_item_id='$state';";
 
+    $SearchResult=mysql_query($sql) or die(mysql_error()); 
+	$NumberOfResults=mysql_num_rows($SearchResult); 
+	//print $NumberOfResults;
+	$NumberOfPages=ceil($NumberOfResults/$Limit); 
+	
+	print(_("Go to Page : "));
+	
+	for($i=1;$i<$NumberOfPages+1;$i++)
+	{
+		
+	    ?><a href="index.php?mod=ims&act=receive_item_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
+	    print "\n";
+	}
+    
+    if($page_number!=0)
+    {
+	$page_number=($page_number-1)*$Limit;
+    }
+    else 
+    {
+	$page_number=0;
+    }
+    $sql1="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send FROM ims_transfer_item WHERE received_item_id='$state' LIMIT $page_number,$Limit;";
+    $ims1 = $db->Execute($sql1);
+   // print $sql1;
+?>
     <table>
         <thead>
         <td><?=_("Item")?></td>
@@ -435,11 +483,7 @@ function _shn_ims_receive()
         </thead>
     <tbody>
 <?php
-    $state=-1;
-    global $global;
-    $db=$global["db"];
-    $sql1="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send FROM ims_transfer_item WHERE received_item_id='$state';";
-    $ims1 = $db->Execute($sql1);
+    
     
     while (!$ims1==NULL && !$ims1->EOF)
     {    

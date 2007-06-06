@@ -26,7 +26,7 @@ global $global;
      $tables= array(
 			'ims_item_records'=>'c',
 			'ims_inventory_records'=>'c',
-			'ct_catalogue'=>'c',
+			'ct_catalogue'=>'r',
 			'ims_reorder_level'=>'c'
 		);
  /*$tables= array(
