@@ -1,6 +1,6 @@
 <?php
 /**
-* 
+* $id$
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -14,11 +14,11 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
-* GeoRSS import library and parser
-* based on lastRSS 0.9.1
-* by Vojtech Semecky, webmaster @ webdot . cz
-* Latest version, features, manual and examples:
-* http://lastrss.webdot.cz/
+* GeoRSS import library and parser for Sahana GIS
+* 	based on lastRSS 0.9.1 by Vojtech Semecky, webmaster @ webdot . cz
+* 	http://lastrss.webdot.cz/
+* 
+* @todo handle dc:subject multiple levels
 * 
 */
 
@@ -39,8 +39,9 @@ class lastRSS {
 	// Private variables
 	// -------------------------------------------------------------------
 	var $channeltags = array ('title', 'link', 'description', 'language', 'copyright', 'managingEditor', 'webMaster', 'lastBuildDate', 'rating', 'docs');
+	
 	//adding additional tags to handle georss functionality
-	var $itemtags = array('title', 'link', 'description', 'author', 'category', 'comments', 'enclosure', 'guid', 'pubDate', 'source','geo:lat','geo:long');
+	var $itemtags = array('title', 'link', 'description', 'author', 'category', 'comments', 'enclosure', 'guid', 'pubDate', 'source','geo:lat','geo:long','dc:subject');
 	var $imagetags = array('title', 'url', 'link', 'width', 'height');
 	var $textinputtags = array('title', 'description', 'name', 'link');
 
