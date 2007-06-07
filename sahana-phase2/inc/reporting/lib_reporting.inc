@@ -17,6 +17,7 @@
  *
  */
 
+
 global $calc;
 global $sheet;
 global $rep_title;
@@ -50,19 +51,18 @@ function shn_ods_report_fopen($file_name='',$keyword_in='',$dynamic_rep=false)
     $ods_dynamic_rep = false;
     $ods_file_name = $file_name;
     $keyword = $keyword_in;
-
-
     $backtrace = debug_backtrace();
     $ods_rep_ID = $backtrace['1']["function"];
+
 	if($ods_rep_ID=='_shn_rs_report_creator')
 	{
-	$ods_rep_ID =  shn_create_uuid('report');
+	   $ods_rep_ID =  shn_create_uuid('report');
 	}
 
 	if($dynamic_rep)
 	{
-	$ods_rep_ID = "dynamic_".shn_create_uuid('report');
-	$ods_dynamic_rep = true;
+            $ods_rep_ID = "dynamic_".shn_create_uuid('report');
+            $ods_dynamic_rep = true;
 	}
 
     //check the timestamp and set whether the update should be taken place or not
@@ -70,22 +70,22 @@ function shn_ods_report_fopen($file_name='',$keyword_in='',$dynamic_rep=false)
     $res_found = $db->Execute($query);
     $ods_rep_gen_ok = true;
 
-    if($res_found->fields['t_stamp'] != null)
-    {
-    $ods_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
-    }
+        if($res_found->fields['t_stamp'] != null)
+        {
+            $ods_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
+        }
 
-    if($ods_rep_gen_ok)
-    {
-	if($file_name=='')
-	{
-	$file_name = "report";
-	}
-    	global $calc;
-    	global $ods_row_counter;
-    	$calc = new OpenOfficeSpreadsheet($file_name);
-    	$ods_row_counter = 2;
-    	}
+        if($ods_rep_gen_ok)
+        {
+            if($file_name=='')
+            {
+                $file_name = "report";
+            }
+            global $calc;
+            global $ods_row_counter;
+            $calc = new OpenOfficeSpreadsheet($file_name);
+            $ods_row_counter = 2;
+        }
 }
 
 /**
@@ -102,11 +102,11 @@ function shn_ods_report_add_sheet($sheet_name='')
     {	
 	if($sheet_name=='')
 	{
-	$sheet_name = "sheet1";
+	   $sheet_name = "sheet1";
 	}
-    global $calc;
-    global $sheet;
-    $sheet = $calc->addSheet($sheet_name);
+        global $calc;
+        global $sheet;
+        $sheet = $calc->addSheet($sheet_name);
     }
 }
 
@@ -129,17 +129,17 @@ function shn_ods_report_add_title($title='')
     $span = strlen($title) / 5;
     if($ods_rep_gen_ok)
     {
-    $title_content = $sheet->getCell(3, $ods_row_counter);
-    $title_content->setContent($title);
-    $title_content->setWidth('5cm');
-    $title_content->setHeight('0.75cm');
-    $title_content->setVerticalAlign('middle');
-    $title_content->setTextAlign('center');
-    $title_content->setFontWeight('bold');
-    $title_content->setSpannedCols($span);
-    $title_content->setFontSize('15pt');
-    $title_content->setBackgroundColor('#C0E7FF');
-    $ods_row_counter = $ods_row_counter + 2;
+        $title_content = $sheet->getCell(3, $ods_row_counter);
+        $title_content->setContent($title);
+        $title_content->setWidth('5cm');
+        $title_content->setHeight('0.75cm');
+        $title_content->setVerticalAlign('middle');
+        $title_content->setTextAlign('center');
+        $title_content->setFontWeight('bold');
+        $title_content->setSpannedCols($span);
+        $title_content->setFontSize('15pt');
+        $title_content->setBackgroundColor('#C0E7FF');
+        $ods_row_counter = $ods_row_counter + 2;
     }
 }
 
@@ -159,52 +159,52 @@ function shn_ods_report_add_table($headerArray,$dataArray)
 
     if($ods_rep_gen_ok)
     {
-    $colBase = 3;
-    $col=$colBase;
-    //$row=$rowBase;
-    $row = $ods_row_counter;
-    $numOftabHeads=count($headerArray);
-    $header_array_keys = array();
-    $header_array_keys=array_keys($headerArray);
-
-	for($i=0;$i<$numOftabHeads;$i++)
-	{
-	$col=$col+$i;
-	$cell_i = $sheet->getCell($col, $row);
-	$cell_i->setContent($headerArray[$header_array_keys[$i]]);
-	$cell_i->setBorder('', '0.005cm solid #555555');
-	//$cell_i->setTextAlign('start');
-	$cell_i->setBackgroundColor('#9491AD');
-	$cell_i->setVerticalAlign('middle');
-	$cell_i->setTextAlign('center');
-	$cell_i->setFontWeight('bold');
-	$col=$colBase;
-	}
-	$row++;
-	$col=$colBase;
-
-	foreach ($dataArray as $subdataArray) 
-	{
-	$numOfcols=count($subdataArray);
-	$array_keys=array_keys($subdataArray);
-		for($i=0;$i<$numOfcols;$i++)
-		{
-		$col=$col+$i;
-		$cell_i = $sheet->getCell($col, $row);
-		$cell_i->setContent($subdataArray[$array_keys[$i]]);
-		$cell_i->setBorder('', '0.005cm solid #555555');
-		$cell_i->setTextAlign('start');
-		$cell_i->setBackgroundColor('#C0C0FF');
-		$cell_i->setVerticalAlign('middle');
-		$cell_i->setTextAlign('center');
-		$col=$colBase;
-		}
-		$col=$colBase;
-		$row++;
-	}
-	$ods_row_counter = $row;
-	$ods_row_counter = $ods_row_counter + 2;	
-	}//end of $ods_rep_gen_ok 'if' 
+        $colBase = 3;
+        $col=$colBase;
+        //$row=$rowBase;
+        $row = $ods_row_counter;
+        $numOftabHeads=count($headerArray);
+        $header_array_keys = array();
+        $header_array_keys=array_keys($headerArray);
+    
+            for($i=0;$i<$numOftabHeads;$i++)
+            {
+                $col=$col+$i;
+                $cell_i = $sheet->getCell($col, $row);
+                $cell_i->setContent($headerArray[$header_array_keys[$i]]);
+                $cell_i->setBorder('', '0.005cm solid #555555');
+                //$cell_i->setTextAlign('start');
+                $cell_i->setBackgroundColor('#9491AD');
+                $cell_i->setVerticalAlign('middle');
+                $cell_i->setTextAlign('center');
+                $cell_i->setFontWeight('bold');
+                $col=$colBase;
+            }
+            $row++;
+            $col=$colBase;
+    
+            foreach ($dataArray as $subdataArray) 
+            {
+                $numOfcols=count($subdataArray);
+                $array_keys=array_keys($subdataArray);
+                        for($i=0;$i<$numOfcols;$i++)
+                        {
+                            $col=$col+$i;
+                            $cell_i = $sheet->getCell($col, $row);
+                            $cell_i->setContent($subdataArray[$array_keys[$i]]);
+                            $cell_i->setBorder('', '0.005cm solid #555555');
+                            $cell_i->setTextAlign('start');
+                            $cell_i->setBackgroundColor('#C0C0FF');
+                            $cell_i->setVerticalAlign('middle');
+                            $cell_i->setTextAlign('center');
+                            $col=$colBase;
+                        }
+                        $col=$colBase;
+                        $row++;
+            }
+            $ods_row_counter = $row;
+            $ods_row_counter = $ods_row_counter + 2;	
+    }//end of $ods_rep_gen_ok 'if' 
 }
 
 /**
@@ -222,30 +222,32 @@ function shn_ods_report_add_summery($summery='')
 
     if($ods_rep_gen_ok)
     {
-    $pieces = explode(" ", $summery);
-    $temp = array();
-    $desc_height = 0;
-	for($i=0;$i<count($pieces);$i++)
-	{
-	array_push($temp, $pieces[$i]);
-		if($i!=0 && $i%10 == 0)
-		{
-		$desc_height++;
-		array_push($temp, "\n");
-		}
-	}
-    $desc_height = $desc_height - 2.5;
-    $new_description = implode(" ", $temp);
-    $summery_content = $sheet->getCell('3', $ods_row_counter);
-    $summery_content->setContent($new_description);
-    $summery_content->setWidth('2cm');
-    $summery_content->setHeight($desc_height.'cm');
-    $summery_content->setVerticalAlign('middle');
-    $summery_content->setTextAlign('center');
-    $summery_content->setFontWeight('bold');
-    $summery_content->setBackgroundColor('#C0E7FF');
-    $summery_content->setSpannedCols(7);
-    $ods_row_counter = $ods_row_counter + 2;	
+        $pieces = explode(" ", $summery);
+        $temp = array();
+        $desc_height = 0;
+
+            for($i=0;$i<count($pieces);$i++)
+            {
+                array_push($temp, $pieces[$i]);
+                        if($i!=0 && $i%10 == 0)
+                        {
+                            $desc_height++;
+                            array_push($temp, "\n");
+                        }
+            }
+
+        $desc_height = $desc_height - 2.5;
+        $new_description = implode(" ", $temp);
+        $summery_content = $sheet->getCell('3', $ods_row_counter);
+        $summery_content->setContent($new_description);
+        $summery_content->setWidth('2cm');
+        $summery_content->setHeight($desc_height.'cm');
+        $summery_content->setVerticalAlign('middle');
+        $summery_content->setTextAlign('center');
+        $summery_content->setFontWeight('bold');
+        $summery_content->setBackgroundColor('#C0E7FF');
+        $summery_content->setSpannedCols(7);
+        $ods_row_counter = $ods_row_counter + 2;	
     }//end of $ods_rep_gen_ok 'if'
 }
 
@@ -264,12 +266,12 @@ function shn_ods_report_add_image($img_path='')
 
     if($ods_rep_gen_ok)
     {
-    $cellPict = $sheet->getCell(3, $ods_row_counter);
-    $pict = $sheet->addPicture($img_path);
-    $pict->setBottomRightCorner('10cm', '10cm', $cellPict);
-    $pict->setSVG('0cm', '0cm');
-    $pict->setSize('10cm', '10cm');
-    $ods_row_counter = $ods_row_counter + 2;	
+        $cellPict = $sheet->getCell(3, $ods_row_counter);
+        $pict = $sheet->addPicture($img_path);
+        $pict->setBottomRightCorner('10cm', '10cm', $cellPict);
+        $pict->setSVG('0cm', '0cm');
+        $pict->setSize('10cm', '10cm');
+        $ods_row_counter = $ods_row_counter + 2;	
     }//end of $ods_rep_gen_ok 'if'
 }
 
@@ -282,161 +284,147 @@ function shn_ods_report_add_image($img_path='')
  */
 function shn_ods_report_close()
 {
-
     global $calc;
     global $rep_title;
     global $keyword;
     global $owner;
     global $ods_rep_ID;
     global $ods_file_name;
-
     global $ods_rep_gen_ok;
     global $rep_title;
     global $ods_dynamic_rep;
+    global $global;
+    $db=$global["db"];
 
     if($ods_dynamic_rep == true)
     {
-    $print_enable = false;
+        $print_enable = false;
     }
     else
     {
 	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
 	{
-	$print_enable = false;	
+	   $print_enable = false;	
 	}
 	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
 	{
-	$print_enable = false;
+	   $print_enable = false;
 	}
 	else
 	{
-	$print_enable = true;
+	   $print_enable = true;
 	}
     }
 
    if($ods_rep_gen_ok)
     {	
-    $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
-
-		global $global;
-    		$db=$global["db"];
-
-		unset($data);
-		$data='';
-		$temp = tmpfile();
-
-
-		if ($ods_file_name != '')
-		{
-		fwrite($temp,$calc_file_data);
-		fseek($temp, 0);
-			while(!feof($temp)) 
-			{
-			$data .= fread($temp, 1024); 
-			}
-		}
-		$data = addslashes($data);
-		$data = addcslashes($data, "\0");
-
-		fclose($temp); // this removes the file
-
-		$file_size = strlen($data)/1024;
-		$file_type = "ods"; 
-		$title = $rep_title;
-		$file_name = $ods_file_name.".ods";
-		$the_owner = $owner;
-		$the_report_ID = $ods_rep_ID;
-
-		$keyword_arr = $keyword;
-
-		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
-		$res_found = $db->Execute($query);
-
-			if($res_found->fields['rep_id'] != null)
-			{
-			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() ,file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-			$res=$db->Execute($query);
-
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
-
-			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-			$del_res=$db->Execute($del_query);
-
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
-			else
-			{
-			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-			$res=$db->Execute($query);
-
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
-
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
-			
-			unset($data);
-
-			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
-			$timestamp_found = $db->Execute($query_ts);
-
-			if($print_enable)
-			{
-				if($res == true)
-				{
-				print "<h1> Report - ".$title."</h1>";
-				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-				print "<b>Report ID : </b>".$the_report_ID." <br />";
-				print "<b>Report File Name : </b>". $file_name."<br />";
-				
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-				print "<b>File Type : </b>".$file_type."<br />";
-				print "<b>File Size : </b>".$file_size." kb <br />";
-				
-				}
-				else
-				{
-				print "<b>Report Creation Failed..</b>";
-				}
-			}	
- 
-
-} // end of if($ods_rep_gen_ok) 
+        $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
+    
+        unset($data);
+        $data='';
+        $temp = tmpfile();
+    
+        if ($ods_file_name != '')
+        {
+            fwrite($temp,$calc_file_data);
+            fseek($temp, 0);
+                    while(!feof($temp)) 
+                    {
+                        $data .= fread($temp, 1024); 
+                    }
+        }
+        $data = addslashes($data);
+        $data = addcslashes($data, "\0");
+        fclose($temp); // this removes the file
+    
+        $file_size = strlen($data)/1024;
+        $file_type = "ods"; 
+        $title = $rep_title;
+        $file_name = $ods_file_name.".ods";
+        $the_owner = $owner;
+        $the_report_ID = $ods_rep_ID;
+        $keyword_arr = $keyword;
+    
+        $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+        $res_found = $db->Execute($query);
+    
+        if($res_found->fields['rep_id'] != null)
+        {
+            $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() ,file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+            $res=$db->Execute($query);
+    
+            $num_of_keywords=count($keyword_arr);
+            $keyword_arr_keys=array_keys($keyword_arr);
+    
+            $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+            $del_res=$db->Execute($del_query);
+    
+                    for($i=0;$i<$num_of_keywords;$i++)
+                    {
+                        $the_keyword_key = $keyword_arr_keys[$i];
+                        $the_keyword = $keyword_arr[$the_keyword_key];
+                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                        $res1=$db->Execute($query1);
+                    }
+        }
+        else
+        {
+            $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+            $res=$db->Execute($query);
+    
+            $num_of_keywords=count($keyword_arr);
+            $keyword_arr_keys=array_keys($keyword_arr);
+    
+                    for($i=0;$i<$num_of_keywords;$i++)
+                    {
+                        $the_keyword_key = $keyword_arr_keys[$i];
+                        $the_keyword = $keyword_arr[$the_keyword_key];
+                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                        $res1=$db->Execute($query1);
+                    }
+        }
+                            
+        unset($data);    
+        $query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+        $timestamp_found = $db->Execute($query_ts);
+    
+        if($print_enable)
+        {
+            if($res == true)
+            {
+                print "<h1> Report - ".$title."</h1>";
+                print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
+                print "<b>Report ID : </b>".$the_report_ID." <br />";
+                print "<b>Report File Name : </b>". $file_name."<br />";
+                
+                print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+                print "<b>File Type : </b>".$file_type."<br />";
+                print "<b>File Size : </b>".$file_size." kb <br />";
+            }
+            else
+            {
+                print "<b>Report Creation Failed..</b>";
+            }
+        }	
+    } // end of if($ods_rep_gen_ok) 
 
     else if(!$ods_rep_gen_ok && $print_enable)
     {
-    global $global;
-    $db=$global["db"];
-    global $ods_rep_ID;
-    $query = "select * from report_files where rep_id = '$ods_rep_ID' ";	
-    $res = $db->Execute($query);
-    
-    print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$res->fields['file_name']); print "<br />";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-    
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+        $query = "select * from report_files where rep_id = '$ods_rep_ID' ";	
+        $res = $db->Execute($query);
+        
+        print "<h1> Report - ".$res->fields['title']."</h1>";
+        print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$res->fields['file_name']); print "<br />";
+        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 
     if($ods_dynamic_rep)
     {
-    print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$ods_file_name.".ods"); print "<br />";
+        print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$ods_file_name.".ods"); print "<br />";
     }
 }
 
@@ -461,7 +449,6 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/fpdf/fpdf.php";
-
     global $pdf;
     global $pdfreportname;
     global $pdf_rep_gen_ok;
@@ -469,14 +456,14 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     global $pdf_rep_ID;
     global $keyword_arr;
     global $pdf_dynamic_rep;
-
     $db=$global["db"];
-
     $pdfreportname = $reportname;
+
     $pdf=new FPDF();
     $backtrace = debug_backtrace();
     $rep_id = $backtrace['1']["function"];
     $pdf_rep_ID = $rep_id;
+
     //check the timestamp and set whether the update should be taken place or not
     $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
     $res_found = $db->Execute($query);
@@ -484,46 +471,46 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 
     if($res_found->fields['t_stamp'] != null)
     {
-    $pdf_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
+        $pdf_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
     }
 
     if($rep_id=='_shn_rs_report_creator')
     {
-    $rep_id =  shn_create_uuid('report');
+        $rep_id =  shn_create_uuid('report');
     }
 
     if($dynamic_rep)
     {
-    $pdf_rep_ID = "dynamic_".shn_create_uuid('report');
-    $pdf_dynamic_rep = true;
-    $pdf_print_enable = false;
+        $pdf_rep_ID = "dynamic_".shn_create_uuid('report');
+        $pdf_dynamic_rep = true;
+        $pdf_print_enable = false;
     }
     else
     {
 	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
 	{
-	$pdf->printInfoEnable(false);
-	$pdf_print_enable = false;
+            $pdf->printInfoEnable(false);
+            $pdf_print_enable = false;
 	}
 	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
 	{
-	$pdf->printInfoEnable(false);
-	$pdf_print_enable = false;
+            $pdf->printInfoEnable(false);
+            $pdf_print_enable = false;
 	}
 	else
 	{
-	$pdf->printInfoEnable(true);
-	$pdf_print_enable = true;
+            $pdf->printInfoEnable(true);
+            $pdf_print_enable = true;
 	}
     }
 
     //if report gen is OK it will start generation
     if($pdf_rep_gen_ok)
     {
-    $pdf->AddPage();
-    $pdf->SetKeywords($keywords);
-    $pdf->SetReportID($rep_id);	
-    //$pdf->SetFont('Arial','B',16);
+        $pdf->AddPage();
+        $pdf->SetKeywords($keywords);
+        $pdf->SetReportID($rep_id);	
+        //$pdf->SetFont('Arial','B',16);
     }
 }
 
@@ -540,8 +527,8 @@ function shn_pdf_report_add_page()
     global $pdf;
     if($pdf_rep_gen_ok)
     {
-    $pdf->AddPage();
-    $pdf->SetFont('Arial','B',16);
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
     }
 }
 
@@ -556,20 +543,21 @@ function shn_pdf_report_add_title($title='')
 {
     global $pdf_rep_gen_ok;
     global $pdf;
-global $rep_title;
-	$rep_title = $title;
+    global $rep_title;
+    $rep_title = $title;
+
     if($pdf_rep_gen_ok)
     {
-    $pdf->SetTitle($title);
-    $pdf->SetFont('Arial','B',15);
-    $w=$pdf->GetStringWidth($title)+6;
-    $pdf->SetX((210-$w)/2);
-    $pdf->SetDrawColor(0,80,180);
-    $pdf->SetFillColor(200,230,0);
-    $pdf->SetTextColor(220,50,50);
-    $pdf->SetLineWidth(0);
-    $pdf->Cell($w,9,$title,1,1,'C',1);
-    $pdf->Ln(10);
+        $pdf->SetTitle($title);
+        $pdf->SetFont('Arial','B',15);
+        $w=$pdf->GetStringWidth($title)+6;
+        $pdf->SetX((210-$w)/2);
+        $pdf->SetDrawColor(0,80,180);
+        $pdf->SetFillColor(200,230,0);
+        $pdf->SetTextColor(220,50,50);
+        $pdf->SetLineWidth(0);
+        $pdf->Cell($w,9,$title,1,1,'C',1);
+        $pdf->Ln(10);
     }
 }
 
@@ -586,83 +574,84 @@ function shn_pdf_report_add_table($header,$data)
     global $pdf_rep_gen_ok;
     global $pdf;
 
-    if($pdf_rep_gen_ok)    #global $global;
+    if($pdf_rep_gen_ok)
     {
-	#this code will check all the rows of the table, verify whether they have all colomns which are specified in the table header.
-	#And this will replace empty colomn values to 20 underscores.
-	#if there are colomns, which has only the key but not the value, then it also will replace with 20 underscores.
-	$row_arr_keys = array_keys($header);
-	$new_data = array();
-	foreach($data as $row)
-	{	
-		$current_row = array_pop($data);
-		for($y=0;$y<count($row_arr_keys);$y++)
-		{
-			if(!(array_key_exists($row_arr_keys[$y], $current_row)))
-			{
-			$current_row[$row_arr_keys[$y]]="____________________";
-			}
-			if((array_key_exists($row_arr_keys[$y], $current_row)) && !isset($current_row[$row_arr_keys[$y]]))
-			{
-			$current_row[$row_arr_keys[$y]]="____________________";
-			}	
-		}
-	array_push($new_data,$current_row);
-	}
-	$data = $new_data;
-	#end of replacement
-
-	#this code will check for the maximum colomn width of each colomn data
-	$size_col_arr = array();
-	foreach($data as $row)
-	{	
-	    $row_arr_keys = array_keys($row);
-	    for($i=0;$i<count($row_arr_keys);$i++)
-	    {	
-		if(!isset($size_col_arr[$row_arr_keys[$i]]))
-		{
-		$size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
-		}	
-		else
-		{
-		    if($size_col_arr[$row_arr_keys[$i]] < strlen($row[$row_arr_keys[$i]]))
-		    {
-		    $size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
-		    }
-		}		
-	    }
-	}# end of checking max value
-
-	# this will reduce the size of each colomn by one at each time, until the total of colomn widths are compatible with the page size
-	$size_col_arr_keys = array_keys($size_col_arr);
-	while((array_sum(array_values($size_col_arr)))> 190 )
-	{
-	    for($x=0;$x<count($size_col_arr_keys);$x++)
-	    {
-	    $size_col_arr[$size_col_arr_keys[$x]] = $size_col_arr[$size_col_arr_keys[$x]] - 1;
-	    }
-	}
-
-	$pdf->SetFont('Arial','B',12);
-	#$pdf->SetWidths(array(30,50,30,40));
- 	$pdf->SetWidths(array_values($size_col_arr));
-
-    	//Table Header
-    	#$pdf->SetFillColor(255,0,0);
-    	$pdf->SetTextColor(0);
-    	$pdf->SetDrawColor(128,0,0);
-   	#$pdf->SetLineWidth(.7);
-	$pdf->Row(array_values($header));
-
-    	//Table body
-	$pdf->SetFont('Arial','',9);
-    	$pdf->SetTextColor(0);
-    	$pdf->SetDrawColor(128,0,0);
-    	#$pdf->SetLineWidth(.3);
-	foreach($data as $row)
-	{
-		$pdf->Row(array_values($row));
-	}
+        #this code will check all the rows of the table, verify whether they have all colomns which are specified in the table header.
+        #And this will replace empty colomn values to 20 underscores.
+        #if there are colomns, which has only the key but not the value, then it also will replace with 20 underscores.
+        $row_arr_keys = array_keys($header);
+        $new_data = array();
+        foreach($data as $row)
+        {	
+            $current_row = array_pop($data);
+            for($y=0;$y<count($row_arr_keys);$y++)
+            {
+                if(!(array_key_exists($row_arr_keys[$y], $current_row)))
+                {
+                    $current_row[$row_arr_keys[$y]]="____________________";
+                }
+                if((array_key_exists($row_arr_keys[$y], $current_row)) && !isset($current_row[$row_arr_keys[$y]]))
+                {
+                    $current_row[$row_arr_keys[$y]]="____________________";
+                }	
+            }
+            array_push($new_data,$current_row);
+        }
+    
+        $data = $new_data;
+        #end of replacement
+    
+        #this code will check for the maximum colomn width of each colomn data
+        $size_col_arr = array();
+        foreach($data as $row)
+        {	
+            $row_arr_keys = array_keys($row);
+            for($i=0;$i<count($row_arr_keys);$i++)
+            {	
+                if(!isset($size_col_arr[$row_arr_keys[$i]]))
+                {
+                    $size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
+                }	
+                else
+                {
+                    if($size_col_arr[$row_arr_keys[$i]] < strlen($row[$row_arr_keys[$i]]))
+                    {
+                        $size_col_arr[$row_arr_keys[$i]] = strlen($row[$row_arr_keys[$i]]);
+                    }
+                }		
+            }
+        }# end of checking max value
+    
+        # this will reduce the size of each colomn by one at each time, until the total of colomn widths are compatible with the page size
+        $size_col_arr_keys = array_keys($size_col_arr);
+        while((array_sum(array_values($size_col_arr)))> 190 )
+        {
+            for($x=0;$x<count($size_col_arr_keys);$x++)
+            {
+                $size_col_arr[$size_col_arr_keys[$x]] = $size_col_arr[$size_col_arr_keys[$x]] - 1;
+            }
+        }
+    
+        $pdf->SetFont('Arial','B',12);
+        #$pdf->SetWidths(array(30,50,30,40));
+        $pdf->SetWidths(array_values($size_col_arr));
+    
+        //Table Header
+        #$pdf->SetFillColor(255,0,0);
+        $pdf->SetTextColor(0);
+        $pdf->SetDrawColor(128,0,0);
+        #$pdf->SetLineWidth(.7);
+        $pdf->Row(array_values($header));
+    
+        //Table body
+        $pdf->SetFont('Arial','',9);
+        $pdf->SetTextColor(0);
+        $pdf->SetDrawColor(128,0,0);
+        #$pdf->SetLineWidth(.3);
+        foreach($data as $row)
+        {
+            $pdf->Row(array_values($row));
+        }
     }#end of if($pdf_rep_gen_ok)
 }
 
@@ -679,10 +668,10 @@ function shn_pdf_report_add_summery($txt='')
     global $pdf;
     if($pdf_rep_gen_ok)
     {
-    $pdf->SetFont('Arial','',12);
-    $pdf->SetTextColor(0);
-    $pdf->MultiCell(175,5,$txt);
-    $pdf->Ln(10);	
+        $pdf->SetFont('Arial','',12);
+        $pdf->SetTextColor(0);
+        $pdf->MultiCell(175,5,$txt);
+        $pdf->Ln(10);	
     }
 }
 
@@ -699,9 +688,9 @@ function shn_pdf_report_add_image($img_path='')
     global $pdf;
     if($pdf_rep_gen_ok)
     {
-    $pdf->AddPage();
-    $pdf->SetFont('Arial','B',16);
-    $pdf->Image("tmp/Pictures/".$img_path,10,10,150);	
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Image("tmp/Pictures/".$img_path,10,10,150);	
     }
 }
 
@@ -727,115 +716,111 @@ function shn_pdf_report_close()
     $keyword_arr = array();
     if($pdf_rep_gen_ok)
     {
-    $buffer = $pdf->Output($pdfreportname.".pdf");
+        $buffer = $pdf->Output($pdfreportname.".pdf");
+        unset($data);
+        $data='';
+        $temp = tmpfile();
+        fwrite($temp,$buffer);
+        fseek($temp, 0);
 
-		unset($data);
-		$data='';
-		$temp = tmpfile();
-		fwrite($temp,$buffer);
-		fseek($temp, 0);
-		while(!feof($temp)) 
-		{
-		$data .= fread($temp, 1024); 
-		}
-		$data = addslashes($data);
-		$data = addcslashes($data, "\0");
+        while(!feof($temp)) 
+        {
+            $data .= fread($temp, 1024); 
+        }
+        $data = addslashes($data);
+        $data = addcslashes($data, "\0");
+        fclose($temp); // this removes the file
 
-		fclose($temp); // this removes the file
-
-			$file_size = strlen($data)/1024;
-			$file_type = "pdf"; 
-			$title = $rep_title;
-			$file_name =$pdfreportname.".pdf";
-			$the_report_ID = $pdf_rep_ID;
-
-			#$keyword_arr = $this->keywords;
+        $file_size = strlen($data)/1024;
+        $file_type = "pdf"; 
+        $title = $rep_title;
+        $file_name =$pdfreportname.".pdf";
+        $the_report_ID = $pdf_rep_ID;
 			
-			$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
-			$res_found = $db->Execute($query);
+        $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+        $res_found = $db->Execute($query);
 
-			if($res_found->fields['rep_id'] != null)
-			{
-			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-			$res=$db->Execute($query);
+            if($res_found->fields['rep_id'] != null)
+            {
+                $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+                $res=$db->Execute($query);
 
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
+    
+                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+                $del_res=$db->Execute($del_query);
 
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
+                for($i=0;$i<$num_of_keywords;$i++)
+                {
+                    $the_keyword_key = $keyword_arr_keys[$i];
+                    $the_keyword = $keyword_arr[$the_keyword_key];
+                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                    $res1=$db->Execute($query1);
+                }
+            }
+            else
+            {
+                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+                $res=$db->Execute($query);
+    
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
 
-			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-			$del_res=$db->Execute($del_query);
+                for($i=0;$i<$num_of_keywords;$i++)
+                {
+                    $the_keyword_key = $keyword_arr_keys[$i];
+                    $the_keyword = $keyword_arr[$the_keyword_key];
+                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                    $res1=$db->Execute($query1);
+                }
+            }
 
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
-			else
-			{
-			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-			$res=$db->Execute($query);
+            unset($data);			
 
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
+            $query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+            $timestamp_found = $db->Execute($query_ts);
 
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
-			
-    			
-			unset($data);			
-
-			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
-			$timestamp_found = $db->Execute($query_ts);
-			/**/
-			if($pdf_print_enable)
-			{
-				if($res == true)
-				{
-				print "<h1> Report - ".$title."</h1>";
-				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-				print "<b>Report ID : </b>".$the_report_ID." <br />";
-				print "<b>Report File Name : </b>". $file_name."<br />";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-				//print "<b>Report Owner :</b>".$the_owner."<br />";
-				print "<b>File Type : </b>".$file_type."<br />";
-				print "<b>File Size : </b>".$file_size." kb <br />";
-				//print "<b>Keyword :</b>".$the_keyword."<br />";
-				}
-				else
-				{
-				print "<b>Report Creation Failed..</b>";
-				}
-			}
+            if($pdf_print_enable)
+            {
+                if($res == true)
+                {
+                    print "<h1> Report - ".$title."</h1>";
+                    print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
+                    print "<b>Report ID : </b>".$the_report_ID." <br />";
+                    print "<b>Report File Name : </b>". $file_name."<br />";
+                    print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+                    //print "<b>Report Owner :</b>".$the_owner."<br />";
+                    print "<b>File Type : </b>".$file_type."<br />";
+                    print "<b>File Size : </b>".$file_size." kb <br />";
+                    //print "<b>Keyword :</b>".$the_keyword."<br />";
+                }
+                else
+                {
+                    print "<b>Report Creation Failed..</b>";
+                }
+            }
 
     }
     else if(!$pdf_rep_gen_ok && $pdf_print_enable)
     {
-    $query = "select * from report_files where rep_id = '$pdf_rep_ID' ";	
-    $res = $db->Execute($query);
-
-    print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+        $query = "select * from report_files where rep_id = '$pdf_rep_ID' ";	
+        $res = $db->Execute($query);
+    
+        print "<h1> Report - ".$res->fields['title']."</h1>";
+        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
+        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 
-    if($pdf_dynamic_rep)
-    {
-    print "<b>Download : </b>"; shn_report_download($pdf_rep_ID,$pdfreportname.".pdf"); print "<br />";
-    }
+        if($pdf_dynamic_rep)
+        {
+            print "<b>Download : </b>"; shn_report_download($pdf_rep_ID,$pdfreportname.".pdf"); 
+            print "<br />";
+        }
 }
 
 global $xhtml;
@@ -858,7 +843,6 @@ function shn_xhtml_report_fopen($file_name='',$keyword='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."inc/reporting/html_gen.php";
-
     global $xhtml;
     global $html_rep_gen_ok;
     global $html_print_enable;
@@ -866,60 +850,60 @@ function shn_xhtml_report_fopen($file_name='',$keyword='',$dynamic_rep=false)
     global $html_file_name;
     global $html_keyword_arr;
     global $html_dynamic_rep;
-
     $html_keyword_arr = $keyword;
     $html_file_name = $file_name;
-
     $db=$global["db"];
 
     $backtrace = debug_backtrace();
     $rep_id = $backtrace['1']["function"];
     $html_rep_ID = $rep_id;
+
     //check the timestamp and set whether the update should be taken place or not
     $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
     $res_found = $db->Execute($query);
     $html_rep_gen_ok = true;
+
     if($res_found->fields['t_stamp'] != null)
     {
-    $html_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
+        $html_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
     }
     if($rep_id=='_shn_rs_report_creator')
     {
-    $rep_id =  shn_create_uuid('report');
+        $rep_id =  shn_create_uuid('report');
     }
 
     $xhtml = new genhtml();
 
     if($dynamic_rep)
     {
-    $html_rep_ID = "dynamic_".shn_create_uuid('report');
-    $html_dynamic_rep = true;
-    $html_print_enable = false;
+        $html_rep_ID = "dynamic_".shn_create_uuid('report');
+        $html_dynamic_rep = true;
+        $html_print_enable = false;
     }
     else
     {
         if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
         {
-        $xhtml->printInfoEnable(false);
-        $html_print_enable = false;
+            $xhtml->printInfoEnable(false);
+            $html_print_enable = false;
         }
         elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
         {
-        $xhtml->printInfoEnable(false);
-        $html_print_enable = false;
+            $xhtml->printInfoEnable(false);
+            $html_print_enable = false;
         }
         else
         {
-        $xhtml->printInfoEnable(true);
-        $html_print_enable = true;
+            $xhtml->printInfoEnable(true);
+            $html_print_enable = true;
         }    
     }
 
     if($html_rep_gen_ok)
     {	
-    $xhtml->setFileName($file_name);
-    $xhtml->setKeyword($keyword);
-    $xhtml->setReportID($rep_id);	
+        $xhtml->setFileName($file_name);
+        $xhtml->setKeyword($keyword);
+        $xhtml->setReportID($rep_id);	
     }
 }
 
@@ -936,13 +920,12 @@ function shn_xhtml_report_add_title($title='',$position='center')
     global $html_rep_gen_ok;
     global $xhtml;
     global $html_title;
-
     $html_title = $title;
 
     if($html_rep_gen_ok)
     {
-    $xhtml->setTitlePos('center');
-    $xhtml->addTitle($title);
+        $xhtml->setTitlePos('center');
+        $xhtml->addTitle($title);
     }
 }
 
@@ -959,8 +942,8 @@ function shn_xhtml_report_add_summary($summary='',$summary_pos_in='center')
     global $xhtml;
     if($html_rep_gen_ok)
     {
-    $xhtml->setSummaryPos('center');
-    $xhtml->addSummary($summary);
+        $xhtml->setSummaryPos('center');
+        $xhtml->addSummary($summary);
     }
 }
 
@@ -978,8 +961,8 @@ function shn_xhtml_report_add_table($tab_header='',$tab_data='')
     global $xhtml;
     if($html_rep_gen_ok)
     {
-    $xhtml->setTablePos('center');
-    $xhtml->addTable($tab_header,$tab_data);
+        $xhtml->setTablePos('center');
+        $xhtml->addTable($tab_header,$tab_data);
     }
 }
 
@@ -994,9 +977,10 @@ function shn_xhtml_report_add_image($img_path_in='')
 {
     global $html_rep_gen_ok;
     global $xhtml;
+
     if($html_rep_gen_ok)
     {
-    $xhtml->addImage('Pictures/'.$img_path_in);
+        $xhtml->addImage('Pictures/'.$img_path_in);
     }
 }
 
@@ -1022,115 +1006,111 @@ function shn_xhtml_report_close()
 
     if($html_rep_gen_ok)
     {
-    $output_code = $xhtml->Output();
+        $output_code = $xhtml->Output();
 
-		global $global;
-    		$db=$global["db"];
-		$data='';
-		$temp = tmpfile();
-		fwrite($temp,$output_code);
-		fseek($temp, 0);
-		while(!feof($temp)) 
-		{
-		$data .= fread($temp, 1024); 
-		}
-		$data = addslashes($data);
-		$data = addcslashes($data, "\0");
+        $data='';
+        $temp = tmpfile();
+        fwrite($temp,$output_code);
+        fseek($temp, 0);
 
-		fclose($temp); // this removes the file
+            while(!feof($temp)) 
+            {
+                $data .= fread($temp, 1024); 
+            }
+
+        $data = addslashes($data);
+        $data = addcslashes($data, "\0");
+        fclose($temp); // this removes the file
 		
-		$file_size = strlen($data)/1024;
-		$file_type = "xhtml"; 
-		$title = $html_title;
-		$file_name = $html_file_name.".html";
-		#$the_owner = $this->report_owner;
-		$the_report_ID = $html_rep_ID;
-
-		$keyword_arr = $html_keyword_arr;
+        $file_size = strlen($data)/1024;
+        $file_type = "xhtml"; 
+        $title = $html_title;
+        $file_name = $html_file_name.".html";
+        #$the_owner = $this->report_owner;
+        $the_report_ID = $html_rep_ID;
+        $keyword_arr = $html_keyword_arr;
 		
-		$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
-		$res_found = $db->Execute($query);
+        $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+        $res_found = $db->Execute($query);
 
-		
-		if($res_found->fields['rep_id'] != null)
-			{
-		$query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
-			$res=$db->Execute($query);
+            if($res_found->fields['rep_id'] != null)
+            {
+                $query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
+                $res=$db->Execute($query);
 
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
+    
+                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+                $del_res=$db->Execute($del_query);
 
-			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-			$del_res=$db->Execute($del_query);
+                for($i=0;$i<$num_of_keywords;$i++)
+                {
+                    $the_keyword_key = $keyword_arr_keys[$i];
+                    $the_keyword = $keyword_arr[$the_keyword_key];
+    
+                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+    
+                    $res1=$db->Execute($query1);
+                }
+            }
+            else
+            {
+                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+                $res=$db->Execute($query);
+                
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
 
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
+                for($i=0;$i<$num_of_keywords;$i++)
+                {
+                    $the_keyword_key = $keyword_arr_keys[$i];
+                    $the_keyword = $keyword_arr[$the_keyword_key];
+                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                    $res1=$db->Execute($query1);
+                }
+            }
 
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+        $query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+        $timestamp_found = $db->Execute($query_ts);
 
-				$res1=$db->Execute($query1);
-				}
-			}
-		else
-			{
-			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-			$res=$db->Execute($query);
-			
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
-
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-
-			}
-
-			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
-			$timestamp_found = $db->Execute($query_ts);
-
-			if($html_print_enable)
-			{
-				if($res == true)
-				{
-				print "<h1> Report - ".$title."</h1>";
-				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-				print "<b>Report ID : </b>".$the_report_ID." <br />";
-				print "<b>Report File Name : </b>". $file_name."<br />";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-				print "<b>File Type : </b>".$file_type."<br />";
-				print "<b>File Size : </b>".$file_size." kb <br />";
-				}
-				else
-				{
-				print "<b>Report Creation Failed..</b>";
-				}
-			}
+            if($html_print_enable)
+            {
+                if($res == true)
+                {
+                    print "<h1> Report - ".$title."</h1>";
+                    print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
+                    print "<b>Report ID : </b>".$the_report_ID." <br />";
+                    print "<b>Report File Name : </b>". $file_name."<br />";
+                    print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+                    print "<b>File Type : </b>".$file_type."<br />";
+                    print "<b>File Size : </b>".$file_size." kb <br />";
+                }
+                else
+                {
+                    print "<b>Report Creation Failed..</b>";
+                }
+            }
     }
     else if(!$html_rep_gen_ok && $html_print_enable)
     {
-    $query = "select * from report_files where rep_id = '$html_rep_ID' ";	
-    $res = $db->Execute($query);
-
-    print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+        $query = "select * from report_files where rep_id = '$html_rep_ID' ";	
+        $res = $db->Execute($query);
+    
+        print "<h1> Report - ".$res->fields['title']."</h1>";
+        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
+        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 
-    if($html_dynamic_rep)
-    {
-    print "<b>Download : </b>"; shn_report_download($html_rep_ID,$html_file_name.".html"); 
-    print "<br />";
-    }
+        if($html_dynamic_rep)
+        {
+            print "<b>Download : </b>"; shn_report_download($html_rep_ID,$html_file_name.".html"); 
+            print "<br />";
+        }
 }
 
 
@@ -1154,7 +1134,6 @@ function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/excelwriter/excelwriter.inc.php";
-
     global $excel;
     global $excelreportname;
     global $excel_rep_gen_ok;
@@ -1162,11 +1141,9 @@ function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     global $excel_rep_ID;
     global $excel_keyword_arr;
     global $excel_dynamic_rep;
-
-    $excel_keyword_arr = $keywords;
-
     $db=$global["db"];
 
+    $excel_keyword_arr = $keywords;
     $excelreportname = $reportname;
     $excel=new ExcelWriter($excelreportname);
     $backtrace = debug_backtrace();
@@ -1180,45 +1157,45 @@ function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 
     if($res_found->fields['t_stamp'] != null)
     {
-    $excel_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
+        $excel_rep_gen_ok= (_shn_is_report_update_OK($res_found->fields['t_stamp'])) ? true : false;
     } 
 
     if($rep_id=='_shn_rs_report_creator')
     {
-    $rep_id =  shn_create_uuid('report');
+        $rep_id =  shn_create_uuid('report');
     }
 
     if($dynamic_rep)
     {
-    $excel_rep_ID = "dynamic_".shn_create_uuid('report');
-    $excel_dynamic_rep = true;
-    $excel_print_enable = false;
+        $excel_rep_ID = "dynamic_".shn_create_uuid('report');
+        $excel_dynamic_rep = true;
+        $excel_print_enable = false;
     }
     else
     {
         if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
         {
-        $excel->printInfoEnable(false);
-        $excel_print_enable = false;
+            $excel->printInfoEnable(false);
+            $excel_print_enable = false;
         }
         elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
         {
-        $excel->printInfoEnable(false);
-        $excel_print_enable = false;
+            $excel->printInfoEnable(false);
+            $excel_print_enable = false;
         }
         else
         {
-        $excel->printInfoEnable(true);
-        $excel_print_enable = true;
+            $excel->printInfoEnable(true);
+            $excel_print_enable = true;
         }
     }
 
     //if report gen is OK it will start generation
     if($excel_rep_gen_ok)
     {
-    $excel->SetKeywords($keywords);
-    $excel->SetReportID($rep_id);	
-    $excel->SetFileName($excelreportname);
+        $excel->SetKeywords($keywords);
+        $excel->SetReportID($rep_id);	
+        $excel->SetFileName($excelreportname);
     }
 }
 
@@ -1240,11 +1217,10 @@ function shn_excel_report_add_title($title='')
 
     if($excel_rep_gen_ok)
     {
-    $excel->SetReportTitle($title);
+        $excel->SetReportTitle($title);
 	$tile_arr = array();
 	array_push($tile_arr,$title);
 	$excel->writeLine($tile_arr);
-
     }
 }
 
@@ -1260,22 +1236,20 @@ function shn_excel_report_add_table($header,$data)
 {
     global $excel_rep_gen_ok;
     global $excel;
+
     if($excel_rep_gen_ok)
     {
-	#write the table header
-	$excel->writeLine($header);
-
-	foreach ($data as $row)
-	{
-	$excel->writeRow();
-		foreach ($row as $col)
-		{
-		$excel->writeCol($col);
-		}
-	}	 
-
-
-
+        #write the table header
+        $excel->writeLine($header);
+        
+        foreach ($data as $row)
+        {
+            $excel->writeRow();
+            foreach ($row as $col)
+            {
+                $excel->writeCol($col);
+            }
+        }	 
     }#end of if($excel_rep_gen_ok)
 }
 
@@ -1323,7 +1297,6 @@ function shn_excel_report_close()
 {
     global $global;
     $db=$global["db"];
-
     global $excel;
     global $excelreportname;
     global $excel_rep_gen_ok;
@@ -1335,115 +1308,114 @@ function shn_excel_report_close()
 
     if($excel_rep_gen_ok)
     {
-    $file_data = $excel->close();
+        $file_data = $excel->close();
 
-		unset($data);
-		$data='';
-		$temp = tmpfile();
-		fwrite($temp,$file_data);
-		fseek($temp, 0);
-		while(!feof($temp)) 
-		{
-		$data .= fread($temp, 1024); 
-		}
-		$data = addslashes($data);
-		$data = addcslashes($data, "\0");
+        unset($data);
+        $data='';
+        $temp = tmpfile();
+        fwrite($temp,$file_data);
+        fseek($temp, 0);
 
-		fclose($temp); // this removes the file
+            while(!feof($temp)) 
+            {
+            $data .= fread($temp, 1024); 
+            }
 
-			$file_size = strlen($data)/1024;
-			$file_type = "xls"; 
-			$title = $excel_title;
-			$file_name =$excelreportname.".xls";
-			$the_report_ID = $excel_rep_ID;
-			$keyword_arr = $excel_keyword_arr;
+        $data = addslashes($data);
+        $data = addcslashes($data, "\0");
+        fclose($temp); // this removes the file
+
+        $file_size = strlen($data)/1024;
+        $file_type = "xls"; 
+        $title = $excel_title;
+        $file_name =$excelreportname.".xls";
+        $the_report_ID = $excel_rep_ID;
+        $keyword_arr = $excel_keyword_arr;
 			
-			$query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
-			$res_found = $db->Execute($query);
+        $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
+        $res_found = $db->Execute($query);
 
-			if($res_found->fields['rep_id'] != null)
-			{
-			$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-			$res=$db->Execute($query);
+            if($res_found->fields['rep_id'] != null)
+            {
+                $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+                $res=$db->Execute($query);
+        
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
+        
+                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+                $del_res=$db->Execute($del_query);
+        
+                    for($i=0;$i<$num_of_keywords;$i++)
+                    {
+                        $the_keyword_key = $keyword_arr_keys[$i];
+                        $the_keyword = $keyword_arr[$the_keyword_key];
+                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                        $res1=$db->Execute($query1);
+                    }
+            }
+            else
+            {
+                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+                $res=$db->Execute($query);
+    
+                $num_of_keywords=count($keyword_arr);
+                $keyword_arr_keys=array_keys($keyword_arr);
 
+                    for($i=0;$i<$num_of_keywords;$i++)
+                    {
+                        $the_keyword_key = $keyword_arr_keys[$i];
+                        $the_keyword = $keyword_arr[$the_keyword_key];
+                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+                        $res1=$db->Execute($query1);
+                    }
+            }
+				
+        unset($data);			
 
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
-
-			$del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-			$del_res=$db->Execute($del_query);
-
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
-			else
-			{
-			$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-			$res=$db->Execute($query);
-
-			$num_of_keywords=count($keyword_arr);
-			$keyword_arr_keys=array_keys($keyword_arr);
-
-				for($i=0;$i<$num_of_keywords;$i++)
-				{
-				$the_keyword_key = $keyword_arr_keys[$i];
-				$the_keyword = $keyword_arr[$the_keyword_key];
-				$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-				$res1=$db->Execute($query1);
-				}
-			}
+        $query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
+        $timestamp_found = $db->Execute($query_ts);
 			
-    			
-			unset($data);			
-
-			$query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
-			$timestamp_found = $db->Execute($query_ts);
-			
-			if($excel_print_enable)
-			{
-				if($res == true)
-				{
-				print "<h1> Report - ".$title."</h1>";
-				print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-				print "<b>Report ID : </b>".$the_report_ID." <br />";
-				print "<b>Report File Name : </b>". $file_name."<br />";
-				print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-				//print "<b>Report Owner :</b>".$the_owner."<br />";
-				print "<b>File Type : </b>".$file_type."<br />";
-				print "<b>File Size : </b>".$file_size." kb <br />";
-				//print "<b>Keyword :</b>".$the_keyword."<br />";
-				}
-				else
-				{
-				print "<b>Report Creation Failed..</b>";
-				}
-			}
+        if($excel_print_enable)
+        {
+            if($res == true)
+            {
+                print "<h1> Report - ".$title."</h1>";
+                print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
+                print "<b>Report ID : </b>".$the_report_ID." <br />";
+                print "<b>Report File Name : </b>". $file_name."<br />";
+                print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
+                //print "<b>Report Owner :</b>".$the_owner."<br />";
+                print "<b>File Type : </b>".$file_type."<br />";
+                print "<b>File Size : </b>".$file_size." kb <br />";
+                //print "<b>Keyword :</b>".$the_keyword."<br />";
+            }
+            else
+            {
+                print "<b>Report Creation Failed..</b>";
+            }
+        }
 
     }
     else if(!$excel_rep_gen_ok && $excel_print_enable)
     {
-    $query = "select * from report_files where rep_id = '$excel_rep_ID' ";	
-    $res = $db->Execute($query);
-
-    print "<h1> Report - ".$res->fields['title']."</h1>";
-    print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-    print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-    print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-    print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-    print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-    print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+        $query = "select * from report_files where rep_id = '$excel_rep_ID' ";	
+        $res = $db->Execute($query);
+    
+        print "<h1> Report - ".$res->fields['title']."</h1>";
+        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
+        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
+        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
+        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
+        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
+        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
 
-    if($excel_dynamic_rep)
-    {
-    print "<b>Download : </b>"; shn_report_download($excel_rep_ID,$excelreportname.".xls"); 
-    print "<br />";
-    }
+        if($excel_dynamic_rep)
+        {
+        print "<b>Download : </b>"; shn_report_download($excel_rep_ID,$excelreportname.".xls"); 
+        print "<br />";
+        }
 }
 
 
@@ -1484,13 +1456,14 @@ function _shn_is_report_update_OK($last_updated_time_stamp)
     $query="select option_code from field_options where field_name='opt_rs_rep_freq'";
     $res=$db->Execute($query);
     $frequency=$res->fields["option_code"];
+
  	if($time_diff>$frequency)
 	{
-	return true;
+	   return true;
 	}
 	else
 	{
-	return false;
+	   return false;
 	}	
 }
 ?>
