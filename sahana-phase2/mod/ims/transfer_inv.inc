@@ -71,13 +71,17 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 
     if($page_number!=0)
     {
+	$page_temp=$page_number;
 	$page_number=($page_number-1)*$Limit;
     }
     else 
     {
 	$page_number=0;
+	$page_temp=1;
     }
-
+    print '<b>';
+    print (_('Page Number : ').$page_temp);
+    print '</b>';
 ?>
     <h1 align="center"><?php print _("Send Item between Inventories") ?></h1>
 <?php
@@ -87,7 +91,9 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     $form_opts['name']='send_item_table_form';
     shn_form_fopen('send_item_paging',null,$form_opts);
    // shn_form_hidden(array('catalog_id'=>$parent_id));
+     print '<b>';
     shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+     print '</b>';
     shn_form_fclose();
     $sql = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des';";
 
@@ -95,7 +101,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 	$NumberOfResults=mysql_num_rows($SearchResult); 
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
-	
+	 print '<b>';
 	print(_("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
@@ -104,6 +110,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 	    ?><a href="index.php?mod=ims&act=send_item_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
+	 print '</b>';
 ?>
     <div id="result">
     <table>

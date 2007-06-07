@@ -307,9 +307,10 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
     shn_form_hidden(array('action'=>'0'));
     //shn_form_submit(_("Add Re-Order level"));
     shn_form_fsclose();
-    shn_form_fsopen();
+    //shn_form_fsopen();
 
     //$Limit=20;
+    print '<b>';
     shn_form_text(_("Records per Page"),'records','onChange="submit(this);"',array('value'=>$Limit));
 	
 	if($page_number!=0)
@@ -342,7 +343,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
 	?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	print "\n";
     }
-    
+    print '</b>';
 ?>
     </div>
     <div id="result">
@@ -410,7 +411,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
     </table>
     </div>
 <?php
-    shn_form_fsclose();
+    //shn_form_fsclose();
     shn_form_fclose();
     
 }
@@ -483,11 +484,13 @@ function _shn_ims_minimum_quantity_action()
 	if(!is_numeric($Limit))
 	{
 		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+		display_errors();
 		shn_ims_reorder_level_paging($Limit=20);
 	}
 	else if($Limit=='0' || $Limit<0)
 	{
 		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+		display_errors();
 		shn_ims_reorder_level_paging($Limit=20);
 	}
 	else

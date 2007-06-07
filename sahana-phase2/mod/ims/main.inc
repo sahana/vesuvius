@@ -1123,22 +1123,60 @@ function shn_ims_inventory_paging($Limit=null)
 
 function shn_ims_receive_item_paging()
 {
+    include_once('transfer_inv.inc');
     $Limit=trim($_POST['records']);
-    //print $Limit;
     $page_number=$_REQUEST['$i'];
     if($page_number!=0)
     {
         $Limit=$_REQUEST['$Limit'];
     }
+    if(!is_numeric($Limit))
+    {
+	add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	display_errors();
+	_shn_ims_receive(20,$page_number=0);
+    }
+    if($Limit=='0' || $Limit<0)
+    {
+	add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	display_errors();
+	_shn_ims_receive(20,$page_number=0);
+    }
     
-    include_once('transfer_inv.inc');
-    _shn_ims_receive($Limit,$page_number);
+    if(is_numeric($Limit))
+    {
+    //print $Limit;
+        
+    
+    
+        _shn_ims_receive($Limit,$page_number);
+    }
 }
 
 function shn_ims_send_item_paging()
 {
     include_once 'transfer_inv.inc';
     $Limit=trim($_POST['records']);
+    $catalog_id=$_SESSION['catalog_id'];
+    $page_number=$_REQUEST['$i'];
+    if($page_number!=0)
+    {
+        $Limit=$_REQUEST['$Limit'];
+    }
+    if(!is_numeric($Limit))
+    {
+	add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	display_errors();
+	_shn_ims_send_item_table_view_($catalog_id,20,$page_number=0);
+    }
+    if($Limit=='0' || $Limit<0)
+    {
+	add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	display_errors();
+	_shn_ims_send_item_table_view_($catalog_id,20,$page_number=0);
+    }
+    if(is_numeric($Limit))
+    {
     //print $Limit;
    /* if($Limit%2==1)
     {
@@ -1149,15 +1187,13 @@ function shn_ims_send_item_paging()
 	;
     }*/
     //$parent_id=trim($_POST['parent_id']);
-    $catalog_id=$_SESSION['catalog_id'];
-    $page_number=$_REQUEST['$i'];
     
-    if($page_number!=0)
-    {
-        $Limit=$_REQUEST['$Limit'];
-    }
+    
+    
+    
     //print $Limit;
     _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number);
+    }
 }
 
 

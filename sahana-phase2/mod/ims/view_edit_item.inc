@@ -53,8 +53,8 @@ function _shn_ims_view_edit($i,$Limit=null)
    // shn_form_submit(_("Add Item"));
     shn_form_fsclose();
     
-    shn_form_fsopen(null);
-    
+    //shn_form_fsopen(null);
+    print '<b>';
     shn_form_text(_("Records Per Page : "),'status','onChange="submit(this);"',array('value'=>$Limit));
     //shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',null);
 ?>
@@ -103,6 +103,8 @@ function _shn_ims_view_edit($i,$Limit=null)
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	//print $NumberOfPages;
+
+	//print '<b>';
 	
 	print(_("Go to Page : "));
 	
@@ -112,7 +114,7 @@ function _shn_ims_view_edit($i,$Limit=null)
 	    ?><a href="index.php?mod=ims&act=list_items_paging&$i=<?php echo $i;?>&Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
-	
+	 print '</b>';
 //print $sql1;
         while (!$ims==NULL && !$ims->EOF)
         {
@@ -180,7 +182,7 @@ function _shn_ims_view_edit($i,$Limit=null)
     </table>
     </div>
 <?php
-shn_form_fsclose();
+//shn_form_fsclose();
 shn_form_fsopen("Inventory Transfer");
  $extra_opts['br']=false;
     $extra_opts['req']=false;
@@ -255,14 +257,16 @@ function _shn_ims_view_edit_item_actions()
 	if(!is_numeric($stat))
 	{
 	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    display_errors();
 	    shn_ims_list_items_paging($stat=20);
 	}
 	if($stat=='0' || $stat<0)
 	{
 	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    display_errors();
 	    shn_ims_list_items_paging($stat=20);
 	}
-	shn_ims_list_items_paging($stat);
+	//shn_ims_list_items_paging($stat);
     }
     if($action=='close')
     {

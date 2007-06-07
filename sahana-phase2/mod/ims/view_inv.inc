@@ -36,8 +36,9 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
     $db=$global['db'];
 
     //$Limit=20;
+    print '<b>';
     shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
-
+    print '</b>';
     shn_form_hidden(array('action'=>'0'));
 	
     if($page_number!=0)
@@ -55,7 +56,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 	$NumberOfResults=mysql_num_rows($SearchResult); 
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
-	
+	 print '<b>';
 	print(_("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
@@ -64,6 +65,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 	    ?><a href="index.php?mod=ims&act=inventory_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
+	 print '</b>';
 ?>
 <div id ="result">
 	<table>
@@ -285,11 +287,13 @@ function _shn_ims_reg_inv_actions($action)
 	if(!is_numeric($Limit))
 	{
 	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    display_errors();
 	    shn_ims_inventory_paging($Limit=20);
 	}
 	else if($Limit=='0' || $Limit<0)
 	{
 	    add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+	    display_errors();
 	    shn_ims_inventory_paging($Limit=20);
 	}
 	else
