@@ -392,14 +392,7 @@ function shn_ods_report_close()
         {
             if($res == true)
             {
-                print "<h1> Report - ".$title."</h1>";
-                print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-                print "<b>Report ID : </b>".$the_report_ID." <br />";
-                print "<b>Report File Name : </b>". $file_name."<br />";
-                
-                print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-                print "<b>File Type : </b>".$file_type."<br />";
-                print "<b>File Size : </b>".$file_size." kb <br />";
+                _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
             }
             else
             {
@@ -412,14 +405,8 @@ function shn_ods_report_close()
     {
         $query = "select * from report_files where rep_id = '$ods_rep_ID' ";	
         $res = $db->Execute($query);
-        
-        print "<h1> Report - ".$res->fields['title']."</h1>";
-        print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$res->fields['file_name']); print "<br />";
-        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+
+        _shn_print_report_info($res->fields['title'],$res->fields['rep_id'],$res->fields['file_name'],$res->fields['t_stamp'],$res->fields['file_type'],$res->fields['file_size_kb']);
     }
 
     if($ods_dynamic_rep)
@@ -785,15 +772,7 @@ function shn_pdf_report_close()
             {
                 if($res == true)
                 {
-                    print "<h1> Report - ".$title."</h1>";
-                    print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-                    print "<b>Report ID : </b>".$the_report_ID." <br />";
-                    print "<b>Report File Name : </b>". $file_name."<br />";
-                    print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-                    //print "<b>Report Owner :</b>".$the_owner."<br />";
-                    print "<b>File Type : </b>".$file_type."<br />";
-                    print "<b>File Size : </b>".$file_size." kb <br />";
-                    //print "<b>Keyword :</b>".$the_keyword."<br />";
+                    _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
                 }
                 else
                 {
@@ -806,14 +785,8 @@ function shn_pdf_report_close()
     {
         $query = "select * from report_files where rep_id = '$pdf_rep_ID' ";	
         $res = $db->Execute($query);
-    
-        print "<h1> Report - ".$res->fields['title']."</h1>";
-        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+
+        _shn_print_report_info($res->fields['title'],$res->fields['rep_id'],$res->fields['file_name'],$res->fields['t_stamp'],$res->fields['file_type'],$res->fields['file_size_kb']);
     }
 
         if($pdf_dynamic_rep)
@@ -1078,13 +1051,7 @@ function shn_xhtml_report_close()
             {
                 if($res == true)
                 {
-                    print "<h1> Report - ".$title."</h1>";
-                    print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-                    print "<b>Report ID : </b>".$the_report_ID." <br />";
-                    print "<b>Report File Name : </b>". $file_name."<br />";
-                    print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-                    print "<b>File Type : </b>".$file_type."<br />";
-                    print "<b>File Size : </b>".$file_size." kb <br />";
+                    _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
                 }
                 else
                 {
@@ -1096,14 +1063,8 @@ function shn_xhtml_report_close()
     {
         $query = "select * from report_files where rep_id = '$html_rep_ID' ";	
         $res = $db->Execute($query);
-    
-        print "<h1> Report - ".$res->fields['title']."</h1>";
-        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+
+        _shn_print_report_info($res->fields['title'],$res->fields['rep_id'],$res->fields['file_name'],$res->fields['t_stamp'],$res->fields['file_type'],$res->fields['file_size_kb']);
     }
 
         if($html_dynamic_rep)
@@ -1380,15 +1341,7 @@ function shn_excel_report_close()
         {
             if($res == true)
             {
-                print "<h1> Report - ".$title."</h1>";
-                print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
-                print "<b>Report ID : </b>".$the_report_ID." <br />";
-                print "<b>Report File Name : </b>". $file_name."<br />";
-                print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br />";
-                //print "<b>Report Owner :</b>".$the_owner."<br />";
-                print "<b>File Type : </b>".$file_type."<br />";
-                print "<b>File Size : </b>".$file_size." kb <br />";
-                //print "<b>Keyword :</b>".$the_keyword."<br />";
+                _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
             }
             else
             {
@@ -1402,13 +1355,7 @@ function shn_excel_report_close()
         $query = "select * from report_files where rep_id = '$excel_rep_ID' ";	
         $res = $db->Execute($query);
     
-        print "<h1> Report - ".$res->fields['title']."</h1>";
-        print "<b>Download : </b>"; shn_report_download($res->fields['rep_id'],$res->fields['file_name']); print "<br />";
-        print "<b>Report ID : </b>".$res->fields['rep_id']." <br />";
-        print "<b>Report File Name : </b>". $res->fields['file_name']."<br />";
-        print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
-        print "<b>File Type : </b>".$res->fields['file_type']."<br />";
-        print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+        _shn_print_report_info($res->fields['title'],$res->fields['rep_id'],$res->fields['file_name'],$res->fields['t_stamp'],$res->fields['file_type'],$res->fields['file_size_kb']);
     }
 
         if($excel_dynamic_rep)
@@ -1465,5 +1412,29 @@ function _shn_is_report_update_OK($last_updated_time_stamp)
 	{
 	   return false;
 	}	
+}
+
+/**
+ * This function will print information about a report.
+ *
+ * @param string $title
+ * @param string $the_report_ID
+ * @param string $file_name
+ * @param string $timestamp
+ * @param string $file_type
+ * @param string $file_size
+ * @access private
+ * @return void
+ */
+
+function _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp,$file_type,$file_size)
+{
+    print "<h1> Report - ".$title."</h1>";
+    print "<b>Download : </b>"; shn_report_download($the_report_ID,$file_name); print "<br />";
+    print "<b>Report ID : </b>".$the_report_ID." <br />";
+    print "<b>Report File Name : </b>". $file_name."<br />";
+    print "<b>Date/Time : </b>".$timestamp."<br />";
+    print "<b>File Type : </b>".$file_type."<br />";
+    print "<b>File Size : </b>".$file_size." kb <br />";
 }
 ?>
