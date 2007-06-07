@@ -26,6 +26,7 @@ global $ods_row_counter;
 global $ods_rep_ID;
 global $ods_rep_gen_ok;
 global $ods_file_name;
+global $ods_dynamic_rep;
 
 /**
  * This function will open the ods report
@@ -35,7 +36,7 @@ global $ods_file_name;
  * @access public
  * @return void
  */
-function shn_ods_report_fopen($file_name='',$keyword_in='')
+function shn_ods_report_fopen($file_name='',$keyword_in='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php";
@@ -45,6 +46,8 @@ function shn_ods_report_fopen($file_name='',$keyword_in='')
     global $ods_rep_gen_ok;
     global $owner;
     global $ods_file_name;
+    global $ods_dynamic_rep;
+    $ods_dynamic_rep = false;
     $ods_file_name = $file_name;
     $keyword = $keyword_in;
 
@@ -55,6 +58,13 @@ function shn_ods_report_fopen($file_name='',$keyword_in='')
 	{
 	$ods_rep_ID =  shn_create_uuid('report');
 	}
+
+	if($dynamic_rep)
+	{
+	$ods_rep_ID = "dynamic_".shn_create_uuid('report');
+	$ods_dynamic_rep = true;
+	}
+
     //check the timestamp and set whether the update should be taken place or not
     $query = "select t_stamp from report_files where rep_id = '$ods_rep_ID' ";	
     $res_found = $db->Execute($query);
@@ -272,29 +282,40 @@ function shn_ods_report_add_image($img_path='')
  */
 function shn_ods_report_close()
 {
-    global $ods_rep_gen_ok;
-    global $rep_title;
-    if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
-    {
-    $print_enable = false;	
-    }
-    elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
-    {
-    $print_enable = false;
-    }
-    else
-    {
-    $print_enable = true;
-    }
 
-   if($ods_rep_gen_ok)
-    {	
     global $calc;
     global $rep_title;
     global $keyword;
     global $owner;
     global $ods_rep_ID;
     global $ods_file_name;
+
+    global $ods_rep_gen_ok;
+    global $rep_title;
+    global $ods_dynamic_rep;
+
+    if($ods_dynamic_rep == true)
+    {
+    $print_enable = false;
+    }
+    else
+    {
+	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+	{
+	$print_enable = false;	
+	}
+	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+	{
+	$print_enable = false;
+	}
+	else
+	{
+	$print_enable = true;
+	}
+    }
+
+   if($ods_rep_gen_ok)
+    {	
     $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
 
 		global $global;
@@ -411,7 +432,11 @@ function shn_ods_report_close()
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
     print "<b>File Type : </b>".$res->fields['file_type']."<br />";
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
-    
+    }
+
+    if($ods_dynamic_rep)
+    {
+    print "<b>Download : </b>"; shn_report_download($ods_rep_ID,$ods_file_name.".ods"); print "<br />";
     }
 }
 
@@ -423,6 +448,7 @@ global $pdf_print_enable;
 global $pdf_rep_ID;
 global $keyword_arr;
 global $rep_title;
+global $pdf_dynamic_rep;
 /**
  * This function will open the pdf report
  *
@@ -431,7 +457,7 @@ global $rep_title;
  * @access public
  * @return void
  */
-function shn_pdf_report_fopen($reportname='',$keywords='')
+function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/fpdf/fpdf.php";
@@ -441,7 +467,8 @@ function shn_pdf_report_fopen($reportname='',$keywords='')
     global $pdf_rep_gen_ok;
     global $pdf_print_enable;
     global $pdf_rep_ID;
-	global $keyword_arr;
+    global $keyword_arr;
+    global $pdf_dynamic_rep;
 
     $db=$global["db"];
 
@@ -449,7 +476,7 @@ function shn_pdf_report_fopen($reportname='',$keywords='')
     $pdf=new FPDF();
     $backtrace = debug_backtrace();
     $rep_id = $backtrace['1']["function"];
-    $pdf_rep_ID = $rep_id;    #global $global;
+    $pdf_rep_ID = $rep_id;
     //check the timestamp and set whether the update should be taken place or not
     $query = "select t_stamp from report_files where rep_id = '$rep_id' ";	
     $res_found = $db->Execute($query);
@@ -465,20 +492,29 @@ function shn_pdf_report_fopen($reportname='',$keywords='')
     $rep_id =  shn_create_uuid('report');
     }
 
-    if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+    if($dynamic_rep)
     {
-    $pdf->printInfoEnable(false);
-    $pdf_print_enable = false;
-    }
-    elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
-    {
-    $pdf->printInfoEnable(false);
+    $pdf_rep_ID = "dynamic_".shn_create_uuid('report');
+    $pdf_dynamic_rep = true;
     $pdf_print_enable = false;
     }
     else
     {
-    $pdf->printInfoEnable(true);
-    $pdf_print_enable = true;
+	if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+	{
+	$pdf->printInfoEnable(false);
+	$pdf_print_enable = false;
+	}
+	elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+	{
+	$pdf->printInfoEnable(false);
+	$pdf_print_enable = false;
+	}
+	else
+	{
+	$pdf->printInfoEnable(true);
+	$pdf_print_enable = true;
+	}
     }
 
     //if report gen is OK it will start generation
@@ -686,6 +722,7 @@ function shn_pdf_report_close()
     global $pdf_rep_ID;
     global $rep_title;
     global $keyword_arr;
+    global $pdf_dynamic_rep;
 	
     $keyword_arr = array();
     if($pdf_rep_gen_ok)
@@ -794,15 +831,13 @@ function shn_pdf_report_close()
     print "<b>File Type : </b>".$res->fields['file_type']."<br />";
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
+
+    if($pdf_dynamic_rep)
+    {
+    print "<b>Download : </b>"; shn_report_download($pdf_rep_ID,$pdfreportname.".pdf"); print "<br />";
+    }
 }
 
-
-
-
-
-
-
-#include("html_gen.php");
 global $xhtml;
 global $html_rep_gen_ok;
 global $html_print_enable;
@@ -810,6 +845,7 @@ global $html_rep_ID;
 global $html_file_name;
 global $html_keyword_arr;
 global $html_title;
+global $html_dynamic_rep;
 /**
  * This function will open the xhtml report
  *
@@ -818,7 +854,7 @@ global $html_title;
  * @access public
  * @return void
  */
-function shn_xhtml_report_fopen($file_name='',$keyword='')
+function shn_xhtml_report_fopen($file_name='',$keyword='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."inc/reporting/html_gen.php";
@@ -829,6 +865,7 @@ function shn_xhtml_report_fopen($file_name='',$keyword='')
     global $html_rep_ID;
     global $html_file_name;
     global $html_keyword_arr;
+    global $html_dynamic_rep;
 
     $html_keyword_arr = $keyword;
     $html_file_name = $file_name;
@@ -850,22 +887,32 @@ function shn_xhtml_report_fopen($file_name='',$keyword='')
     {
     $rep_id =  shn_create_uuid('report');
     }
+
     $xhtml = new genhtml();
 
-    if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+    if($dynamic_rep)
     {
-    $xhtml->printInfoEnable(false);
-    $html_print_enable = false;
-    }
-    elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
-    {
-    $xhtml->printInfoEnable(false);
+    $html_rep_ID = "dynamic_".shn_create_uuid('report');
+    $html_dynamic_rep = true;
     $html_print_enable = false;
     }
     else
     {
-    $xhtml->printInfoEnable(true);
-    $html_print_enable = true;
+        if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+        {
+        $xhtml->printInfoEnable(false);
+        $html_print_enable = false;
+        }
+        elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+        {
+        $xhtml->printInfoEnable(false);
+        $html_print_enable = false;
+        }
+        else
+        {
+        $xhtml->printInfoEnable(true);
+        $html_print_enable = true;
+        }    
     }
 
     if($html_rep_gen_ok)
@@ -884,18 +931,18 @@ function shn_xhtml_report_fopen($file_name='',$keyword='')
  * @access public
  * @return void
  */
-function shn_xhtml_report_add_title($Title='',$position='center')
+function shn_xhtml_report_add_title($title='',$position='center')
 {
     global $html_rep_gen_ok;
     global $xhtml;
     global $html_title;
 
-    $html_title = $Title;
+    $html_title = $title;
 
     if($html_rep_gen_ok)
     {
     $xhtml->setTitlePos('center');
-    $xhtml->addTitle($Title);
+    $xhtml->addTitle($title);
     }
 }
 
@@ -971,6 +1018,7 @@ function shn_xhtml_report_close()
     global $html_file_name;
     global $html_keyword_arr;
     global $html_title;
+    global $html_dynamic_rep;
 
     if($html_rep_gen_ok)
     {
@@ -1077,6 +1125,12 @@ function shn_xhtml_report_close()
     print "<b>File Type : </b>".$res->fields['file_type']."<br />";
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
     }
+
+    if($html_dynamic_rep)
+    {
+    print "<b>Download : </b>"; shn_report_download($html_rep_ID,$html_file_name.".html"); 
+    print "<br />";
+    }
 }
 
 
@@ -1087,6 +1141,7 @@ global $excel_print_enable;
 global $excel_rep_ID;
 global $excel_keyword_arr;
 global $excel_title;
+global $excel_dynamic_rep;
 /**
  * This function will open the excel report
  *
@@ -1095,7 +1150,7 @@ global $excel_title;
  * @access public
  * @return void
  */
-function shn_excel_report_fopen($reportname='',$keywords='')
+function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/excelwriter/excelwriter.inc.php";
@@ -1106,7 +1161,8 @@ function shn_excel_report_fopen($reportname='',$keywords='')
     global $excel_print_enable;
     global $excel_rep_ID;
     global $excel_keyword_arr;
-    
+    global $excel_dynamic_rep;
+
     $excel_keyword_arr = $keywords;
 
     $db=$global["db"];
@@ -1132,20 +1188,29 @@ function shn_excel_report_fopen($reportname='',$keywords='')
     $rep_id =  shn_create_uuid('report');
     }
 
-    if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+    if($dynamic_rep)
     {
-    $excel->printInfoEnable(false);
-    $excel_print_enable = false;
-    }
-    elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
-    {
-    $excel->printInfoEnable(false);
+    $excel_rep_ID = "dynamic_".shn_create_uuid('report');
+    $excel_dynamic_rep = true;
     $excel_print_enable = false;
     }
     else
     {
-    $excel->printInfoEnable(true);
-    $excel_print_enable = true;
+        if(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='search_submit_one')
+        {
+        $excel->printInfoEnable(false);
+        $excel_print_enable = false;
+        }
+        elseif(trim($_REQUEST['mod'])=='rs' && trim($_REQUEST['act']) =='download_report')
+        {
+        $excel->printInfoEnable(false);
+        $excel_print_enable = false;
+        }
+        else
+        {
+        $excel->printInfoEnable(true);
+        $excel_print_enable = true;
+        }
     }
 
     //if report gen is OK it will start generation
@@ -1266,6 +1331,7 @@ function shn_excel_report_close()
     global $excel_rep_ID;
     global $excel_keyword_arr;
     global $excel_title;
+    global $excel_dynamic_rep;
 
     if($excel_rep_gen_ok)
     {
@@ -1371,6 +1437,12 @@ function shn_excel_report_close()
     print "<b>Date/Time : </b>".$res->fields['t_stamp']."<br />";
     print "<b>File Type : </b>".$res->fields['file_type']."<br />";
     print "<b>File Size : </b>".$res->fields['file_size_kb']." kb <br />";
+    }
+
+    if($excel_dynamic_rep)
+    {
+    print "<b>Download : </b>"; shn_report_download($excel_rep_ID,$excelreportname.".xls"); 
+    print "<br />";
     }
 }
 
