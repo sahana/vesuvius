@@ -745,7 +745,7 @@ function shn_ims_send_item_page($cate=false)
         $catalog_id=$cate;
         include_once('transfer_inv.inc');
         //_shn_ims_send();
-        _shn_ims_send_item_table_view_($catalog_id);
+        _shn_ims_send_item_table_view_($catalog_id,$Limit=20,$page_number=0);
     }
 }
 
@@ -1133,6 +1133,31 @@ function shn_ims_receive_item_paging()
     
     include_once('transfer_inv.inc');
     _shn_ims_receive($Limit,$page_number);
+}
+
+function shn_ims_send_item_paging()
+{
+    include_once 'transfer_inv.inc';
+    $Limit=trim($_POST['records']);
+    //print $Limit;
+   /* if($Limit%2==1)
+    {
+	$Limit=$Limit+1;
+    }
+    else
+    {
+	;
+    }*/
+    //$parent_id=trim($_POST['parent_id']);
+    $catalog_id=$_SESSION['catalog_id'];
+    $page_number=$_REQUEST['$i'];
+    
+    if($page_number!=0)
+    {
+        $Limit=$_REQUEST['$Limit'];
+    }
+    //print $Limit;
+    _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number);
 }
 
 

@@ -40,7 +40,7 @@ function _shn_ims_send_main()
 /**
 **Function For Send Item table view page
 **/
-function _shn_ims_send_item_table_view_($catalog_id)
+function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 {
     //print $catalog_id;
     $depth=get_max_depth();
@@ -63,10 +63,48 @@ function _shn_ims_send_item_table_view_($catalog_id)
     {
         $parent_id=$catalog_id;
     }
-    //print ("test");    
-    //echo $parent_id;
+    //print $parent_id;
+    $_SESSION['catalog_id']=$parent_id;
+     
+    //$Limit=20;
+    //$Limit=$Limit/2;
+
+    if($page_number!=0)
+    {
+	$page_number=($page_number-1)*$Limit;
+    }
+    else 
+    {
+	$page_number=0;
+    }
+
 ?>
     <h1 align="center"><?php print _("Send Item between Inventories") ?></h1>
+<?php
+    global $global;
+        $state_des="destroyed";
+        $db=$global["db"];
+    $form_opts['name']='send_item_table_form';
+    shn_form_fopen('send_item_paging',null,$form_opts);
+   // shn_form_hidden(array('catalog_id'=>$parent_id));
+    shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+    shn_form_fclose();
+    $sql = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des';";
+
+    $SearchResult=mysql_query($sql) or die(mysql_error()); 
+	$NumberOfResults=mysql_num_rows($SearchResult); 
+	
+	$NumberOfPages=ceil($NumberOfResults/$Limit); 
+	
+	print(_("Go to Page : "));
+	
+	for($i=1;$i<$NumberOfPages+1;$i++)
+	{
+		
+	    ?><a href="index.php?mod=ims&act=send_item_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
+	    print "\n";
+	}
+?>
     <div id="result">
     <table>
     <thead>
@@ -81,11 +119,9 @@ function _shn_ims_send_item_table_view_($catalog_id)
         </thead>
     <tbody>
 <?php
-        global $global;
-        $state_des="destroyed";
-        $db=$global["db"];
+        
                 
-        $sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des' ;";
+        $sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des' LIMIT $page_number,$Limit;";
 
         //print $sql1;
         
@@ -158,11 +194,11 @@ function _shn_ims_send_item_table_view_($catalog_id)
 
 		if($inv_alternate==0)
 		{
-			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND state!='$state_des';";
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND state!='$state_des' LIMIT $page_number,$Limit;";
 		}
 		else
 		{
-			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_alternate' AND state!='$state_des';";
+			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_alternate' AND state!='$state_des' LIMIT $page_number,$Limit;";
 		}
 		$ims4=$db->Execute($sql4);
 		
