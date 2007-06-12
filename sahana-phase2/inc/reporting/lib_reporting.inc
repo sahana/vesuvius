@@ -350,38 +350,14 @@ function shn_ods_report_close()
     
         if($res_found->fields['rep_id'] != null)
         {
-            $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now() ,file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-            $res=$db->Execute($query);
-    
-            $num_of_keywords=count($keyword_arr);
-            $keyword_arr_keys=array_keys($keyword_arr);
-    
-            $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-            $del_res=$db->Execute($del_query);
-    
-                    for($i=0;$i<$num_of_keywords;$i++)
-                    {
-                        $the_keyword_key = $keyword_arr_keys[$i];
-                        $the_keyword = $keyword_arr[$the_keyword_key];
-                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                        $res1=$db->Execute($query1);
-                    }
+            $updated = _shn_update_report_file_table($file_name,$data,$file_size,$title,$the_report_ID);
+            _shn_delete_report_keywords($the_report_ID);
+            _shn_insert_report_keywords($the_report_ID,$keyword_arr);
         }
         else
         {
-            $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-            $res=$db->Execute($query);
-    
-            $num_of_keywords=count($keyword_arr);
-            $keyword_arr_keys=array_keys($keyword_arr);
-    
-                    for($i=0;$i<$num_of_keywords;$i++)
-                    {
-                        $the_keyword_key = $keyword_arr_keys[$i];
-                        $the_keyword = $keyword_arr[$the_keyword_key];
-                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                        $res1=$db->Execute($query1);
-                    }
+            $updated = _shn_insert_report_file_table($the_report_ID,$file_name,$data,$file_type,$file_size,$title);
+            _shn_insert_report_keywords($the_report_ID,$keyword_arr);
         }
                             
         unset($data);    
@@ -390,7 +366,7 @@ function shn_ods_report_close()
     
         if($print_enable)
         {
-            if($res == true)
+            if($updated)
             {
                 _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
             }
@@ -421,7 +397,7 @@ global $pdfreportname;
 global $pdf_rep_gen_ok;
 global $pdf_print_enable;
 global $pdf_rep_ID;
-global $keyword_arr;
+global $pdf_keyword_arr;
 global $rep_title;
 global $pdf_dynamic_rep;
 /**
@@ -441,10 +417,11 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     global $pdf_rep_gen_ok;
     global $pdf_print_enable;
     global $pdf_rep_ID;
-    global $keyword_arr;
+    global $pdf_keyword_arr;
     global $pdf_dynamic_rep;
     $db=$global["db"];
     $pdfreportname = $reportname;
+    $pdf_keyword_arr = $keywords;
 
     $pdf=new FPDF();
     $backtrace = debug_backtrace();
@@ -495,7 +472,7 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     if($pdf_rep_gen_ok)
     {
         $pdf->AddPage();
-        $pdf->SetKeywords($keywords);
+        #$pdf->SetKeywords($keywords);
         $pdf->SetReportID($rep_id);	
         //$pdf->SetFont('Arial','B',16);
     }
@@ -697,7 +674,7 @@ function shn_pdf_report_close()
     global $pdf_print_enable;
     global $pdf_rep_ID;
     global $rep_title;
-    global $keyword_arr;
+    global $pdf_keyword_arr;
     global $pdf_dynamic_rep;
 	
     $keyword_arr = array();
@@ -723,44 +700,21 @@ function shn_pdf_report_close()
         $title = $rep_title;
         $file_name =$pdfreportname.".pdf";
         $the_report_ID = $pdf_rep_ID;
+        $keyword_arr = $pdf_keyword_arr;
 			
         $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
         $res_found = $db->Execute($query);
 
             if($res_found->fields['rep_id'] != null)
             {
-                $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-                $res=$db->Execute($query);
-
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-    
-                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-                $del_res=$db->Execute($del_query);
-
-                for($i=0;$i<$num_of_keywords;$i++)
-                {
-                    $the_keyword_key = $keyword_arr_keys[$i];
-                    $the_keyword = $keyword_arr[$the_keyword_key];
-                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                    $res1=$db->Execute($query1);
-                }
+                $updated = _shn_update_report_file_table($file_name,$data,$file_size,$title,$the_report_ID);    
+                _shn_delete_report_keywords($the_report_ID);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
             else
             {
-                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-                $res=$db->Execute($query);
-    
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-
-                for($i=0;$i<$num_of_keywords;$i++)
-                {
-                    $the_keyword_key = $keyword_arr_keys[$i];
-                    $the_keyword = $keyword_arr[$the_keyword_key];
-                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                    $res1=$db->Execute($query1);
-                }
+                $updated = _shn_insert_report_file_table($the_report_ID,$file_name,$data,$file_type,$file_size,$title);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
 
             unset($data);			
@@ -770,7 +724,7 @@ function shn_pdf_report_close()
 
             if($pdf_print_enable)
             {
-                if($res == true)
+                if($updated)
                 {
                     _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
                 }
@@ -1008,40 +962,14 @@ function shn_xhtml_report_close()
 
             if($res_found->fields['rep_id'] != null)
             {
-                $query="update report_files set file_name = '$file_name' , file_data='$data' ,t_stamp=now(),file_size_kb = '$file_size' ,title = '$title' where rep_id='$the_report_ID' ";
-                $res=$db->Execute($query);
-
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-    
-                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-                $del_res=$db->Execute($del_query);
-
-                for($i=0;$i<$num_of_keywords;$i++)
-                {
-                    $the_keyword_key = $keyword_arr_keys[$i];
-                    $the_keyword = $keyword_arr[$the_keyword_key];
-    
-                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-    
-                    $res1=$db->Execute($query1);
-                }
+                $updated = _shn_update_report_file_table($file_name,$data,$file_size,$title,$the_report_ID);
+                _shn_delete_report_keywords($the_report_ID);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
             else
             {
-                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-                $res=$db->Execute($query);
-                
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-
-                for($i=0;$i<$num_of_keywords;$i++)
-                {
-                    $the_keyword_key = $keyword_arr_keys[$i];
-                    $the_keyword = $keyword_arr[$the_keyword_key];
-                    $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                    $res1=$db->Execute($query1);
-                }
+                $updated = _shn_insert_report_file_table($the_report_ID,$file_name,$data,$file_type,$file_size,$title);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
 
         $query_ts = "select t_stamp from report_files where rep_id = '$the_report_ID' ";	
@@ -1049,7 +977,7 @@ function shn_xhtml_report_close()
 
             if($html_print_enable)
             {
-                if($res == true)
+                if($updated)
                 {
                     _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
                 }
@@ -1298,38 +1226,14 @@ function shn_excel_report_close()
 
             if($res_found->fields['rep_id'] != null)
             {
-                $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
-                $res=$db->Execute($query);
-        
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-        
-                $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
-                $del_res=$db->Execute($del_query);
-        
-                    for($i=0;$i<$num_of_keywords;$i++)
-                    {
-                        $the_keyword_key = $keyword_arr_keys[$i];
-                        $the_keyword = $keyword_arr[$the_keyword_key];
-                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                        $res1=$db->Execute($query1);
-                    }
+                $updated = _shn_update_report_file_table($file_name,$data,$file_size,$title,$the_report_ID);
+                _shn_delete_report_keywords($the_report_ID);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
             else
             {
-                $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
-                $res=$db->Execute($query);
-    
-                $num_of_keywords=count($keyword_arr);
-                $keyword_arr_keys=array_keys($keyword_arr);
-
-                    for($i=0;$i<$num_of_keywords;$i++)
-                    {
-                        $the_keyword_key = $keyword_arr_keys[$i];
-                        $the_keyword = $keyword_arr[$the_keyword_key];
-                        $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
-                        $res1=$db->Execute($query1);
-                    }
+                $updated = _shn_insert_report_file_table($the_report_ID,$file_name,$data,$file_type,$file_size,$title);
+                _shn_insert_report_keywords($the_report_ID,$keyword_arr);
             }
 				
         unset($data);			
@@ -1339,7 +1243,7 @@ function shn_excel_report_close()
 			
         if($excel_print_enable)
         {
-            if($res == true)
+            if($updated)
             {
                 _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp_found->fields['t_stamp'],$file_type,$file_size);
             }
@@ -1412,6 +1316,53 @@ function _shn_is_report_update_OK($last_updated_time_stamp)
 	{
 	   return false;
 	}	
+}
+
+function _shn_update_report_file_table($file_name,$data,$file_size,$title,$the_report_ID)
+{
+    global $global;
+    $db=$global["db"];
+
+    $query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_report_ID' ";
+    $res=$db->Execute($query);
+
+    return true;
+}
+
+function _shn_insert_report_file_table($the_report_ID,$file_name,$data,$file_type,$file_size,$title)
+{
+    global $global;
+    $db=$global["db"];
+
+    $query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_report_ID','$file_name','$data','$file_type','$file_size','$title')";
+    $res=$db->Execute($query);
+
+    return true;
+}
+
+function _shn_delete_report_keywords($the_report_ID)
+{
+    global $global;
+    $db=$global["db"];
+
+    $del_query="delete from report_keywords where rep_id='$the_report_ID' ";
+    $del_res=$db->Execute($del_query);
+}
+
+function _shn_insert_report_keywords($the_report_ID,$keyword_arr)
+{
+    global $global;
+    $db=$global["db"];
+
+    $num_of_keywords=count($keyword_arr);
+    $keyword_arr_keys=array_keys($keyword_arr);
+        for($i=0;$i<$num_of_keywords;$i++)
+        {
+            $the_keyword_key = $keyword_arr_keys[$i];
+            $the_keyword = $keyword_arr[$the_keyword_key];
+            $query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_report_ID','$the_keyword_key','$the_keyword')";
+            $res1=$db->Execute($query1);
+        }
 }
 
 /**
