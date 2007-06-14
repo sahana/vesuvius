@@ -17,11 +17,137 @@
  *
  */
 
+global $report_type;
+
+function shn_report_fopen($rep_type,$file_name='',$keyword_in='',$dynamic_rep=false)
+{
+    global $report_type;
+    $report_type = $rep_type;
+
+    $backtrace = debug_backtrace();
+    $rep_ID = $backtrace['1']["function"];
+
+    switch($report_type)
+    {
+            case 'pdf':
+		shn_pdf_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+            break;
+            case 'ods':
+		shn_ods_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+                shn_ods_report_add_sheet();
+            break;
+            case 'xhtml':
+                shn_xhtml_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+            break;
+            case 'xls':
+		shn_excel_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+            break;
+    }
+        
+}
+
+function shn_report_add_title($title='')
+{
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'pdf':
+		shn_pdf_report_add_title($title);
+            break;
+            case 'ods':
+		shn_ods_report_add_title($title);
+            break;
+            case 'xhtml':
+                shn_xhtml_report_add_title($title);
+            break;
+            case 'xls':
+		shn_excel_report_add_title($title);
+            break;
+    }
+
+}
+
+function shn_report_add_table($headerArray,$dataArray)
+{   
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'pdf':
+                shn_pdf_report_add_table($headerArray,$dataArray);
+		#header("Content-type: application/pdf");
+            break;
+            case 'ods':
+		shn_ods_report_add_table($headerArray,$dataArray);
+            break;
+            case 'xhtml':
+                shn_xhtml_report_add_table($headerArray,$dataArray);
+            break;
+            case 'xls':
+		shn_excel_report_add_table($headerArray,$dataArray);
+            break;
+    }
+
+}
+
+function shn_report_add_summary($summary='')
+{
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'pdf':
+		shn_pdf_report_add_summery($summary);
+            break;
+            case 'ods':
+		shn_ods_report_add_summery($summary);
+            break;
+            case 'xhtml':
+                shn_xhtml_report_add_summary($summary);
+            break;
+            case 'xls':
+		shn_excel_report_add_summery($summary);
+            break;
+    }
+}
+
+function shn_report_add_image($img_path='')
+{
+    global $report_type;
+    //todo
+}
+
+function shn_report_close()
+{
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'pdf':
+		shn_pdf_report_close();
+            break;
+            case 'ods':
+		shn_ods_report_close();
+            break;
+            case 'xhtml':
+		shn_xhtml_report_close();
+            break;
+            case 'xls':
+		shn_excel_report_close();
+            break;
+    }
+}
+
+
+
+
+
 
 global $calc;
 global $sheet;
 global $rep_title;
-global $keyword;
+global $ods_keyword;
 global $owner;
 global $ods_row_counter;
 global $ods_rep_ID;
@@ -37,22 +163,25 @@ global $ods_dynamic_rep;
  * @access public
  * @return void
  */
-function shn_ods_report_fopen($file_name='',$keyword_in='',$dynamic_rep=false)
+function shn_ods_report_fopen($rep_id,$file_name='',$keyword_in='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php";
     $db=$global["db"];
     global $ods_rep_ID;
-    global $keyword;
+    global $ods_keyword;
     global $ods_rep_gen_ok;
     global $owner;
     global $ods_file_name;
     global $ods_dynamic_rep;
     $ods_dynamic_rep = false;
     $ods_file_name = $file_name;
-    $keyword = $keyword_in;
-    $backtrace = debug_backtrace();
-    $ods_rep_ID = $backtrace['1']["function"];
+    $ods_keyword = $keyword_in;
+
+    #$backtrace = debug_backtrace();
+    #$ods_rep_ID = $backtrace['1']["function"];
+
+    $ods_rep_ID = $rep_id;
 
 	if($ods_rep_ID=='_shn_rs_report_creator')
 	{
@@ -286,7 +415,7 @@ function shn_ods_report_close()
 {
     global $calc;
     global $rep_title;
-    global $keyword;
+    global $ods_keyword;
     global $owner;
     global $ods_rep_ID;
     global $ods_file_name;
@@ -318,7 +447,7 @@ function shn_ods_report_close()
 
    if($ods_rep_gen_ok)
     {	
-        $calc_file_data = $calc->save(true,$rep_title,$keyword,$owner,$ods_rep_ID,$print_enable);	
+        $calc_file_data = $calc->save(true,$rep_title,$ods_keyword,$owner,$ods_rep_ID,$print_enable);	
     
         unset($data);
         $data='';
@@ -343,7 +472,7 @@ function shn_ods_report_close()
         $file_name = $ods_file_name.".ods";
         $the_owner = $owner;
         $the_report_ID = $ods_rep_ID;
-        $keyword_arr = $keyword;
+        $keyword_arr = $ods_keyword;
     
         $query = "select rep_id from report_files where rep_id = '$the_report_ID' ";	
         $res_found = $db->Execute($query);
@@ -408,7 +537,7 @@ global $pdf_dynamic_rep;
  * @access public
  * @return void
  */
-function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
+function shn_pdf_report_fopen($rep_id,$reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/fpdf/fpdf.php";
@@ -424,8 +553,9 @@ function shn_pdf_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     $pdf_keyword_arr = $keywords;
 
     $pdf=new FPDF();
-    $backtrace = debug_backtrace();
-    $rep_id = $backtrace['1']["function"];
+    #$backtrace = debug_backtrace();
+    #$rep_id = $backtrace['1']["function"];
+
     $pdf_rep_ID = $rep_id;
 
     //check the timestamp and set whether the update should be taken place or not
@@ -766,7 +896,7 @@ global $html_dynamic_rep;
  * @access public
  * @return void
  */
-function shn_xhtml_report_fopen($file_name='',$keyword='',$dynamic_rep=false)
+function shn_xhtml_report_fopen($rep_id,$file_name='',$keyword='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."inc/reporting/html_gen.php";
@@ -781,8 +911,9 @@ function shn_xhtml_report_fopen($file_name='',$keyword='',$dynamic_rep=false)
     $html_file_name = $file_name;
     $db=$global["db"];
 
-    $backtrace = debug_backtrace();
-    $rep_id = $backtrace['1']["function"];
+    #$backtrace = debug_backtrace();
+    #$rep_id = $backtrace['1']["function"];
+
     $html_rep_ID = $rep_id;
 
     //check the timestamp and set whether the update should be taken place or not
@@ -1019,7 +1150,7 @@ global $excel_dynamic_rep;
  * @access public
  * @return void
  */
-function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
+function shn_excel_report_fopen($rep_id,$reportname='',$keywords='',$dynamic_rep=false)
 {
     global $global;
     require $global['approot']."3rd/excelwriter/excelwriter.inc.php";
@@ -1035,8 +1166,10 @@ function shn_excel_report_fopen($reportname='',$keywords='',$dynamic_rep=false)
     $excel_keyword_arr = $keywords;
     $excelreportname = $reportname;
     $excel=new ExcelWriter($excelreportname);
-    $backtrace = debug_backtrace();
-    $rep_id = $backtrace['1']["function"];
+
+    #$backtrace = debug_backtrace();
+    #$rep_id = $backtrace['1']["function"];
+
     $excel_rep_ID = $rep_id;
 
     //check the timestamp and set whether the update should be taken place or not
@@ -1353,7 +1486,7 @@ function _shn_insert_report_keywords($the_report_ID,$keyword_arr)
 {
     global $global;
     $db=$global["db"];
-
+    $keyword_arr = array();
     $num_of_keywords=count($keyword_arr);
     $keyword_arr_keys=array_keys($keyword_arr);
         for($i=0;$i<$num_of_keywords;$i++)
