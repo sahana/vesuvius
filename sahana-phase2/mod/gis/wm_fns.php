@@ -45,7 +45,7 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as placement_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+	$query="select a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
