@@ -96,8 +96,11 @@ function show_map($opt=null)
 
 			var georss = new OpenLayers.Layer.GeoRSS(parts[parts.length-1], url );
 			
-            
-            map.addLayers([georss,velayer,kamap,twms,layer,wms]);
+        // Local Mapserver via WMS
+		var lwms = new OpenLayers.Layer.WMS( "Local Map Server", "http://localhost/cgi-bin/mapserv?map=/home/nazgul/public_html/gis/sahana_gis/service/config.map&service=WMS", {layers: 'land_shallow_topo_2048'} );
+        
+        map.addLayers([georss,velayer,kamap,twms,layer,wms,lwms]);
+        //map.addLayer(lwms);
             
             markers = new OpenLayers.Layer.Markers("markers");
             map.addLayer(markers);
