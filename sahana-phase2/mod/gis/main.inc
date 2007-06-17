@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.15 2007-03-15 06:03:43 mifanc Exp $; */
+/* $Id: main.inc,v 1.16 2007-06-17 07:56:24 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -19,6 +19,7 @@ include_once $global['approot']."/mod/gis/main_fns.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/mod/gis/wm_fns.php";
 include_once $global['approot']."/inc/lib_menu.inc";
+include_once $global['approot']."/inc/lib_validate.inc";
 
 
 function shn_gis_mainmenu(){
@@ -62,8 +63,18 @@ function shn_gis_awik()
 				}
 				break;
 			case 'img':
-				show_wiki_add_image();
-				break;
+				// Map used to enter location
+				// Patch by Fran Boon
+               if(!($_POST['loc_x']=="")){
+                       show_wiki_add_image();
+               }
+               elseif ((shn_valid_x_coordinate($_POST['gps_x']))&&(shn_valid_y_coordinate($_POST['gps_y']))){
+                       show_wiki_add_image();
+               }
+               else{
+                       show_wiki_add_map(true);                              }
+                break;
+				
 			case 'com':
 				shn_wiki_map_commit();
 				break;
