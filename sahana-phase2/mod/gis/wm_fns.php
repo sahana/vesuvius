@@ -88,7 +88,7 @@ function show_wiki_map($category="all",$date=0)
 			}
 			
 			array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['placement_date'],"wiki_id"=>$res->fields['wiki_uuid'],"image"=>$image_path,"img_w"=>100,"img_h"=>100));
+				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['event_date'],"wiki_id"=>$res->fields['wiki_uuid'],"image"=>$image_path,"img_w"=>100,"img_h"=>100));
 			$res->MoveNext();	
 	}
 	
@@ -106,10 +106,15 @@ function show_wiki_map($category="all",$date=0)
 function show_wiki_add_image()
 {
 	//var_dump($_POST);
-	if(isset($_POST['loc_x']) && $_POST['loc_x']!=''){
+	if(isset($_POST['loc_x']) && $_POST['loc_y']!=''){
 		$_SESSION['loc_x']=$_POST['loc_x'];
 		$_SESSION['loc_y']=$_POST['loc_y'];
 	}
+	if(isset($_POST['gps_x']) && $_POST['gps_y']!=''){
+        $_SESSION['loc_x']=$_POST['gps_x'];
+        $_SESSION['loc_y']=$_POST['gps_y'];
+    }
+	
 	
 	global $global;
 	include_once ($global['approot'].'/inc/lib_form.inc');
@@ -127,20 +132,25 @@ function show_wiki_add_image()
  * Part of add situation sequence
  * @access public
  * @return void 
+ * patch by Fran Boon
  */
-function show_wiki_add_map()
+function show_wiki_add_map($errors=false)
 {
 	global $global;
-	
-	$_SESSION['wiki_name'] = $_POST['wiki_name'];
-	$_SESSION['opt_wikimap_type'] = $_POST['opt_wikimap_type'];
-	$_SESSION['wiki_text'] = $_POST['wiki_text'];
-	$_SESSION['wiki_url'] = $_POST['wiki_url'];
-	$_SESSION['wiki_evnt_date'] = $_POST['wiki_evnt_date'];
-	$_SESSION['wiki_author'] = $_POST['wiki_author'];
-	$_SESSION['edit_public'] = $_POST['edit_public'];
-	$_SESSION['view_public'] = $_POST['view_public'];
-	
+	if($errors){
+       display_errors();
+    }
+    else{
+		$_SESSION['wiki_name'] = $_POST['wiki_name'];
+		$_SESSION['opt_wikimap_type'] = $_POST['opt_wikimap_type'];
+		$_SESSION['wiki_text'] = $_POST['wiki_text'];
+		$_SESSION['wiki_url'] = $_POST['wiki_url'];
+		$_SESSION['wiki_evnt_date'] = $_POST['wiki_evnt_date'];
+		$_SESSION['wiki_author'] = $_POST['wiki_author'];
+		$_SESSION['edit_public'] = $_POST['edit_public'];
+		$_SESSION['view_public'] = $_POST['view_public'];
+    }
+    
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_form_fopen(awik,null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'img'));
