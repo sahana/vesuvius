@@ -207,7 +207,7 @@ function show_map_with_wiki_marker($array)
 					$lon=$array[$i]["lon"];
 					$name=$array[$i]["name"];
 					$desc=$array[$i]["desc"];
-					$url=_('Link: ').$array[$i]["url"];
+					$url=$array[$i]["url"];
 					if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
 						$date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
 					} else {
@@ -217,8 +217,13 @@ function show_map_with_wiki_marker($array)
 					$edit=$array[$i]["edit"];
 					if($array[$i]["image"]!=null){
 						$image = $array[$i]["image"];
+						//$image="{<img src='{$image}' width='100' height='100' >}";
+						$image=($image?"<img src=$image width=100 height=100 ><br>":'');
+						
 					}
-					$image=($image?"<img src=$image width=100 height=100 ><br>":'');
+					else
+						$image='';
+					
 					//$edit="help";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
