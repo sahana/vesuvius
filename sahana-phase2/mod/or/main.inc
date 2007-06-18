@@ -130,7 +130,7 @@ function shn_or_reg_operation_cr(){
 function shn_or_view_org_submit(){
     include_once("process_org.inc");
     include_once ("view_org.inc");
-    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+   // require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     $act=$_POST{"action"};
     $acl_enabled=shn_acl_get_state("or");
     $req_act="_shn_or_".$act."_org";

@@ -25,14 +25,20 @@ function _shn_or_regform_org($error=false)
     global $global;
     global $conf;
     $db=$global['db'];
-    
+   /* 
    $tables= array(
 				'field_options'=>'r',
-				'org_main'=>'c'
+				'org_main'=>'r'
+				);
+				*/
+				/*
+   $tables= array(
+				'field_options'=>'r'
+				
 				);
    if(shn_acl_check_table_only_perms($tables)==DENIED){
    	 return false;
-   }
+   }*/
 ?>
 <h2><?= _('Organization Registration')?></h2>
 <?php

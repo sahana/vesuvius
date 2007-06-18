@@ -108,7 +108,7 @@ function shn_or_adm_acl_install()
     }
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
-    include_once $global['approot'].'inc/lib_security/authenticate.inc';
+  //  include_once $global['approot'].'inc/lib_security/authenticate.inc';
     $acl=new SahanaACL(NULL);
 
  /** start of or specifc ACL entries

@@ -16,7 +16,7 @@ function _shn_or_reg_org_cr()
 {
     global $global;
     include_once "reg_org.inc";
-    include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
+   // include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once($global['approot']."/inc/lib_uuid.inc");
     include_once $global['approot']."/mod/gis/gis_fns.inc";
 
