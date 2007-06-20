@@ -91,4 +91,40 @@ $conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
  * @todo: get values from GIS Catalogue Registry || Database
  */
  $conf['mod_gis_georss_feed']= 'http://earthquake.usgs.gov/eqcenter/recenteqsww/catalogs/eqs7day-M2.5.xml';
+ 
+ /**
+  * Configuration specific to OpenLayers
+  * @TODO: move functionality to upcoming GeoCatalogue module :)
+  */
+  
+  /**
+   * Switch for MS Virtual Earth
+   * false for off; actual key for on
+   */
+  $conf['ol_virtual_earth']=false;
+  
+    /**
+   * Switch for Googlemaps
+   * false for off; actual key for on
+   */
+  $conf['ol_google_maps']=false;
+  
+    /**
+   * Switch for Yahoo! maps
+   * false for off; actual key for on
+   */
+  $conf['ol_yahoo_maps']=false;
+  
+    /**
+   * Switch for OpenLayers WMS layer
+   * false for off; WMS location for on
+   */
+  $conf['ol_wms']=false;
+  
+  /**
+   * Switch for OpenLayers WMS layer
+   * false for off; WMS location for on
+   */
+  $conf['ol_local_wms']='location';
+  
 ?>
