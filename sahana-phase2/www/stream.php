@@ -32,7 +32,7 @@ if (file_exists($global['approot'].'conf/sysconf.inc')){
     shn_config_database_fetch('base');
 
     require_once ($global['approot'].'inc/lib_session/handler_session.inc');
-    require_once ($global['approot'].'inc/lib_security/authenticate.inc');
+   // require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     require_once ($global['approot'].'inc/lib_locale/handler_locale.inc'); 
     include_once ($global['approot'].'inc/lib_user_pref.inc');
 
@@ -66,12 +66,12 @@ function shn_front_controller()
    
     // check the users access permissions for this action
     $req_act='shn_'.$module.'_'.$action;
-    $acl_enabled=shn_acl_get_state($module);
+  //  $acl_enabled=shn_acl_get_state($module);
     //@todo Errors should be thrown properly
     
 //    $module_enabled=shn_acl_is_enabled($module);
-    $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
-             !$acl_enabled)? true : false;
+  //  $allow = (shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
+  //           !$acl_enabled)? true : false;
     
     
     // Redirect the module based on the action performed
@@ -115,7 +115,7 @@ function shn_front_controller()
     //Override config values with database ones
     shn_config_database_fetch('all');
 
-    if($allow){
+//    if($allow){
         // compose and call the relevant module function 
         $module_function = 'shn_'.$module.'_'.$action;
         if (!function_exists($module_function)) {
@@ -128,8 +128,8 @@ function shn_front_controller()
         if($default_file == 'stream.inc')
             shn_stream_close($module_function,$output);
 
-    }else {
+//   }else {
         //@todo : throw the error correctly
-    }
+//    }
 }
 ?>
