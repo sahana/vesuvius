@@ -18,7 +18,7 @@ function _shn_ims_reg_inv_cr()
     global $global;
     include_once "reg_inv.inc";
     include_once "errors.inc";
-    include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
+    //include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once $global['approot']."/inc/lib_validate.inc"; 
     include_once $global['approot']."/mod/gis/gis_fns.inc";
 
