@@ -112,6 +112,34 @@ function shn_report_add_summary($summary='')
     }
 }
 
+function shn_report_add_sheet($sheet_name ='')
+{
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'ods':
+		shn_ods_report_add_sheet($sheet_name);
+            break;
+//             case 'xls':
+// 		shn_excel_report_add_summery($summary);
+//             break;
+    }
+}
+
+function shn_report_add_page()
+{
+    global $report_type;
+
+    switch($report_type)
+    {
+            case 'pdf':
+		shn_pdf_report_add_page();
+            break;
+    }
+}
+
+
 function shn_report_add_image($img_path='')
 {
     global $report_type;
@@ -726,7 +754,7 @@ function shn_pdf_report_add_table($header,$data)
             }
         }
     
-        $pdf->SetFont('Arial','B',12);
+        $pdf->SetFont('Arial','B',6);
         #$pdf->SetWidths(array(30,50,30,40));
         $pdf->SetWidths(array_values($size_col_arr));
     
@@ -738,7 +766,7 @@ function shn_pdf_report_add_table($header,$data)
         $pdf->Row(array_values($header));
     
         //Table body
-        $pdf->SetFont('Arial','',9);
+        $pdf->SetFont('Arial','',6);
         $pdf->SetTextColor(0);
         $pdf->SetDrawColor(128,0,0);
         #$pdf->SetLineWidth(.3);
@@ -762,7 +790,7 @@ function shn_pdf_report_add_summery($txt='')
     global $pdf;
     if($pdf_rep_gen_ok)
     {
-        $pdf->SetFont('Arial','',12);
+        $pdf->SetFont('Arial','',6);
         $pdf->SetTextColor(0);
         $pdf->MultiCell(175,5,$txt);
         $pdf->Ln(10);	
