@@ -131,4 +131,14 @@ function shn_vm_html_head()
 		"3" => '<script type="text/javascript" src="'.TREE_JS_PATH.'checkbox_node.js"></script>'
 	));
 }
+
+// sorry!
+function shn_vm_fix_tables() {
+	global $global;
+	$queries = explode(';', implode('',file('ins/dbcreate.sql')));
+	foreach($queries as $q) {
+		$global['db']->Execute($q);
+	}
+}
+
 ?>
