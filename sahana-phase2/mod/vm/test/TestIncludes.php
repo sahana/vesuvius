@@ -1,6 +1,6 @@
 <?php
 /**
-* Admin page entry point
+* TestIncludes
 *
 * PHP version 5
 *
@@ -22,19 +22,21 @@
 * Public License (LGPL)
 */
 
-	/**
-	 * Handles all administrative functions under the 'Module Config' section
-	 * of the 'Admin' module by passing control to the AdminController
-	 */
-
-	function shn_vm_adm_default()
-	{
-		global $global;
-		require_once('main.inc');
-		shn_vm_load_db();
-
-		$adc = new AdminController();
-		$adc->controlHandler($_REQUEST);
-	}
+// include our own classes.
+require_once('../lib/Constants.php');
+require_once('../model/Model.php');
+require_once('../model/dao.php');
+require_once('../view/View.php');
+require_once('../model/Volunteer.php');
+require_once('../view/VolunteerView.php');
+require_once('../controller/Controller.php');
+require_once('../controller/VolunteerController.php');
+require_once('../view/ProjectView.php');
+require_once('../controller/ProjectController.php');
+require_once('../model/Project.php');
+require_once('../tree/tree.inc');
+require_once('../tree/node.inc');
+require_once('../whiz/Whiz.php');
+require_once('../lib/vm_validate.inc');
 
 ?>

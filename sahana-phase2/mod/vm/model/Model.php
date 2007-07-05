@@ -1,6 +1,7 @@
 <?php
+
 /**
-* Admin page entry point
+* Model superclass which has a reference to the DAO
 *
 * PHP version 5
 *
@@ -22,19 +23,12 @@
 * Public License (LGPL)
 */
 
-	/**
-	 * Handles all administrative functions under the 'Module Config' section
-	 * of the 'Admin' module by passing control to the AdminController
-	 */
-
-	function shn_vm_adm_default()
-	{
-		global $global;
-		require_once('main.inc');
-		shn_vm_load_db();
-
-		$adc = new AdminController();
-		$adc->controlHandler($_REQUEST);
+class Model {
+	public $dao;
+	function Model() {
+		global $dao;
+		$this->dao = &$dao;
 	}
+}
 
 ?>

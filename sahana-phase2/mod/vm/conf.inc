@@ -1,17 +1,31 @@
 <?php
-/* $Id: conf.inc,v 1.0 2006/06/12  */
 /**
- *
- * Volunteer Management Module -- create the "Volunteer Management" module name.
- *
- *  <p>This file is part of the Volunteer Management module. It
- *  generates the module named Volunteer Management in the Sahana menu. </p>
- *
- * @package    Trinity_College_VM_Module
- * @copyright  Copyright {@link http://www.opensource.lk Lanka Software Foundation} 2006
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL) 
- */
-$conf['mod_vm_name'] = _("Volunteer Management");
-$conf['mod_vm_hack'] = 0;
-//$conf['mod_vm_menuorder'] = 1;
+* Main configuration file
+*
+* PHP version 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @author       Antonio Alcorn
+* @author       Giovanni Capalbo
+* @author		Sylvia Hristakeva
+* @author		Kumud Nepal
+* @author		Ernel Wint
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @copyright    Trinity Humanitarian-FOSS Project - http://www.cs.trincoll.edu/hfoss
+* @package      sahana
+* @subpackage   vm
+* @tutorial
+* @license        http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* Public License (LGPL)
+*/
+
+	/**
+	 * Set the name of the module as well as its order in the menu
+	 */
+
+    $conf['mod_vm_name'] = "Volunteer Management";
+    $conf['mod_vm_menuorder'] = 0;
 ?>

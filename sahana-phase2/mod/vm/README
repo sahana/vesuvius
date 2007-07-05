@@ -1,0 +1,18 @@
+Sahana Volunteer Management Module
+Trinity Humanitarian-FOSS Project - http://www.cs.trincoll.edu/hfoss
+
+Developers: Antonio Alcorn, Giovanni Capalbo, Sylvia Hristakeva, Kumud Nepal, Ernel Wint
+Advisors: Ralph Morelli, Trishan de Lanerolle
+
+The Volunteer Module (VM) for Sahana is a system to track volunteers and projects in the context of an incident.
+
+INSTALLATION
+
+If you already have a copy of Sahana installed:
+* place the 'vm' directory inside the 'mod' subdirectory of your Sahana installation
+* run the 'dbcreate.sql' script located in the 'ins' directory
+
+If you plan on installing a new copy of Sahana, just make sure the 'vm' directory is inside your 'mod' directory.
+The Sahana installer will take care of running the MySQL script.
+
+For more info, see: http://www.cs.trincoll.edu/hfoss/svm/wiki/UserGuide

@@ -1,6 +1,9 @@
 <?php
 /**
-* Admin page entry point
+* Controller interface
+*
+* The Controller interface is to be implemented by each Controller in the
+* module to ensure consistency across the system with regards to controllers.
 *
 * PHP version 5
 *
@@ -22,19 +25,17 @@
 * Public License (LGPL)
 */
 
+interface Controller
+{
 	/**
-	 * Handles all administrative functions under the 'Module Config' section
-	 * of the 'Admin' module by passing control to the AdminController
+	 * The function that decides what to do and which page to view.
+	 *
+	 * @param $getvars an associative array, representing the GET variables
+	 *                 from the URL
+	 * @return void
 	 */
 
-	function shn_vm_adm_default()
-	{
-		global $global;
-		require_once('main.inc');
-		shn_vm_load_db();
-
-		$adc = new AdminController();
-		$adc->controlHandler($_REQUEST);
-	}
+	public function controlHandler($getvars);
+}
 
 ?>
