@@ -138,6 +138,7 @@ function shn_vm_fix_tables() {
 	$queries = explode(';', implode('',file('ins/dbcreate.sql')));
 	foreach($queries as $q) {
 		$global['db']->Execute($q);
+		echo "executing: $q<br />";
 	}
 }
 

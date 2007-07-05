@@ -1735,6 +1735,11 @@
 										 AND 		vm_access_constraint.constraint_id = vm_access_constraint_to_request.constraint_id");
 			$access = array();
 
+			if($result == null) {
+				shn_vm_fix_tables();
+				return;
+			}
+			else
 			while(!$result->EOF)
 			{
 				$act = $result->fields['act'];
@@ -1752,8 +1757,7 @@
 					$access[$act][$vm_action]['extra'] = array();
 
 				$access[$act][$vm_action]['extra'][] = $constraint;
-
-				$result->MoveNext();
+					$result->MoveNext();
 			}
 
 			//next get Sahana-specific data classification constraints
