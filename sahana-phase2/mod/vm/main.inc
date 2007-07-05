@@ -135,7 +135,7 @@ function shn_vm_html_head()
 // sorry!
 function shn_vm_fix_tables() {
 	global $global;
-	$queries = explode(';', implode('',file('ins/dbcreate.sql')));
+	$queries = explode(';', implode('',file('../mod/vm/ins/dbcreate.sql')));
 	foreach($queries as $q) {
 		$global['db']->Execute($q);
 		echo "executing: $q<br />";
