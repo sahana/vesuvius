@@ -1735,30 +1735,28 @@
 										 AND 		vm_access_constraint.constraint_id = vm_access_constraint_to_request.constraint_id");
 			$access = array();
 
-			if($result == null) {
-				shn_vm_fix_tables();
-				return;
-			}
+			if($result == null)
+				return false;
 			else
-			while(!$result->EOF)
-			{
-				$act = $result->fields['act'];
-				$vm_action = $result->fields['vm_action'];
-				$constraint = $result->fields['constraint_id'];
-				$req_desc = $result->fields['req_desc'];
+				while(!$result->EOF)
+				{
+					$act = $result->fields['act'];
+					$vm_action = $result->fields['vm_action'];
+					$constraint = $result->fields['constraint_id'];
+					$req_desc = $result->fields['req_desc'];
 
-				if(!is_array($access[$act]))
-					$access[$act] = array();
+					if(!is_array($access[$act]))
+						$access[$act] = array();
 
-				if(!is_array($access[$act][$vm_action]))
-					$access[$act][$vm_action] = array();
+					if(!is_array($access[$act][$vm_action]))
+						$access[$act][$vm_action] = array();
 
-				if(!is_array($access[$act][$vm_action]['extra']))
-					$access[$act][$vm_action]['extra'] = array();
+					if(!is_array($access[$act][$vm_action]['extra']))
+						$access[$act][$vm_action]['extra'] = array();
 
-				$access[$act][$vm_action]['extra'][] = $constraint;
-					$result->MoveNext();
-			}
+					$access[$act][$vm_action]['extra'][] = $constraint;
+						$result->MoveNext();
+				}
 
 			//next get Sahana-specific data classification constraints
 
