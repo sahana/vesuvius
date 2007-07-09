@@ -22,6 +22,6 @@
 * Public License (LGPL)
 */
 
-$package['mod_mpr_version'] = '0.9';
+$package['mod_vm_version'] = '1.0';
 
 ?>
