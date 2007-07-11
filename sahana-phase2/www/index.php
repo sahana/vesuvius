@@ -23,7 +23,7 @@ $global['approot'] = $APPROOT;
 $global['previous'] = false;
 
 // Include error handling routines
-require_once($global['approot'].'inc/lib_errors.inc');
+require_once($APPROOT.'inc/lib_errors.inc');
 
 // handle error reporting seperately and set our own error handler
 if (true) { // set to false if you want to develop without the custom error handler
@@ -59,7 +59,7 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
     // include the main libraries the system depends on
     require_once ($APPROOT.'inc/handler_db.inc');
     require_once ($APPROOT.'inc/lib_session/handler_session.inc');
-    require_once ($global['approot'].'inc/lib_security/handler_openid.inc');
+    require_once ($APPROOT.'inc/lib_security/handler_openid.inc');
     require_once ($APPROOT.'inc/lib_security/lib_auth.inc');
  	require_once ($APPROOT.'inc/lib_security/constants.inc');
     require_once ($APPROOT.'inc/lib_locale/handler_locale.inc'); 
@@ -166,7 +166,7 @@ function shn_main_web_installer()
 
         $module = $global['module'];
 
-        $module_file = $approot.'mod/'.$module.'/main.inc';
+        $module_file = $APPROOT.'mod/'.$module.'/main.inc';
 
         include($module_file);
 
