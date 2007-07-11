@@ -173,7 +173,7 @@ function _shn_kannel_config_savefile()
 function _shn_kannel_operation_file()
 {
     print '<h2>' . _("Kannel Operations") .'</h2>';
-    add_confirmation(_("your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and covert it into an executable file and proceed with Kannel Operations"));
+    add_confirmation(_("your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and convert it into an executable file and proceed with Kannel Operations"));
  
     $form_opts['name']="Kannel_operations";
     $form_opts['req_message']=false;
@@ -181,13 +181,23 @@ function _shn_kannel_operation_file()
     shn_form_fsopen(_("Starting Kannel"));
 
 ?>
-    <ul>
-	<li><?php echo "Make sure you have copied the configuration file to the specified location";?> </li>
-        <li><?php echo "Open two terminals and go to the folder /etc/kannel as root";?> </li>
-	<li><?php echo "In one of the terminals type the command ".'<b>'."bearerbox kannel.conf".'</b>' ;?></li>
-	<li><?php echo "Then in the next terminal type the command ".'<b>'."smsbox kannel.conf".'</b>' ;?></li>
-	<li><?php echo "On successful configuration Kannel would output ".'<b>'." AT SMSC successfully opened".'</b>'." in the first terminal.If not recheck and re-eneter your configuration values";?></li>
-    </ul>
+	<ul>
+	<li><?php echo "Make sure you have copied the configuration file kannel.conf to /etc/kannel";?> </li>
+	<li><?php echo "Open a terminal and, as the root user, type the commands:";?> </li>
+	<ul>
+	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
+	<li><?php echo '<b>'."bearerbox kannel.conf".'</b>' ;?></li>
+	</ul>
+	<li><?php echo "Open a 2nd terminal and, as the root user, type the commands:";?> </li>
+	<ul>
+	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
+	<li><?php echo '<b>'."smsbox kannel.conf".'</b>' ;?></li>
+	</ul>
+	</ul>
+	<ul>
+	<li><?php echo "On successful configuration Kannel should output in the 1st terminal: ".'<b>'." AT SMSC successfully opened".'</b>'."";?></li>
+	<li><?php echo "If not re-check and re-enter your configuration values";?></li>
+	</ul>
 <?php
     shn_form_fsclose();
     print "<br/>";
