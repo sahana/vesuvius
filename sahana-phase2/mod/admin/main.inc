@@ -90,7 +90,7 @@ function shn_admin_default()
                 multiple disasters in the same system you need to 
                 first add the name of the first disaster you are using 
                 Sahana for. To do this in the navigation bar click on '). 
-                '&#34;'._('Multiple Incidents').'&#34;'.
+                '&#34;'._('Disaster Incidents').'&#34;'.
                 _(' followed by ').'<a href="?mod=admin&act=ims_level1">'
                 .'&#34;'._('Manage Disaster').'&#34;'.'</a> '.
         		_('and add the disaster name.').'</li><br/>'; 
@@ -100,7 +100,7 @@ function shn_admin_default()
         echo '<li>'._('<b>Add Locations</b> - Please enter some of the 
                 regions affected in the disaster by clicking the 
                 navigation bar on ').
-                '&#34;'._('Locations').'&#34;'.
+                '&#34;'._('Location Config').'&#34;'.
                 _(' followed by ').'<a href="?mod=admin&act=add_loc">'.
                 '&#34;'._('Add Location').'&#34;'.'</a></li><br/>'; 
     }
@@ -118,7 +118,7 @@ function shn_admin_default()
                 work you need to enter a Google Map key in the ') 
                 .'&#34;'._('Module Config').'&#34;'.'->' .
                 		'<a href="?mod=gis&act=admin&submod=google_maps">'.
-                '&#34;'._('GIS Mapping').'&#34; '.'</a>'._('section').'</li><br/>'; 
+                '&#34;'._('Situation Mapping').'&#34; '.'</a>'._('section').'</li><br/>'; 
     }
     
     if (!$isSecurityInstalled) {
