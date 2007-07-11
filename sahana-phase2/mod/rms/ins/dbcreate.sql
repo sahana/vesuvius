@@ -44,8 +44,8 @@ CREATE TABLE rms_priority (           -- rms_priority table
 
 --initial configurations
 INSERT INTO rms_priority VALUES ('pri_1','Immediate','');
-INSERT INTO rms_priority VALUES ('pri_2','Modarate','');
-INSERT INTO rms_priority VALUES ('pri_3','Low Pirority','');
+INSERT INTO rms_priority VALUES ('pri_2','Moderate','');
+INSERT INTO rms_priority VALUES ('pri_3','Low Priority','');
 
 DROP TABLE IF EXISTS `rms_status`;
 CREATE TABLE rms_status (          -- rms_status table
