@@ -183,7 +183,7 @@ function _shn_or_regconfirm_org()
    	*/
    	shn_form_fsopen("Base Location");
 	$location=_shn_org_location_string($_SESSION['org']['loc']);
-	$map_location="Latitude= ".$_SESSION['org']['loc_x']." Longitude= ".$_SESSION['org']['loc_x'];
+	$map_location="Latitude= ".$_SESSION['org']['loc_y']." Longitude= ".$_SESSION['org']['loc_x'];
  	shn_form_label(_("Organization Location"),$location);
  	shn_form_label(_("Map Location"),$map_location);
    	shn_form_fsclose();

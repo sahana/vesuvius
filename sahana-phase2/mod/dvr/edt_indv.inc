@@ -539,7 +539,7 @@ function _shn_dvr_regconfirm_individual() {
 	shn_form_label(_("Displaced Location"), $location);
 	
 	$location = _shn_org_location_string($_SESSION['dvr']['person']['current_loc']);
-	$map_location = "Latitude= " . $_SESSION['dvr']['person']['gis_loc_x'] . " Longitude= " . $_SESSION['dvr']['person']['gis_loc_y'];
+	$map_location = "Latitude= " . $_SESSION['dvr']['person']['gis_loc_y'] . " Longitude= " . $_SESSION['dvr']['person']['gis_loc_x'];
 	shn_form_label(_("Current Location"), $location);
 	shn_form_label(_("Map Location"), $map_location);
 	shn_form_fsclose();

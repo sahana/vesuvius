@@ -587,7 +587,7 @@ function _shn_dvr_regconfirm_group() {
 	shn_form_label(_("Displaced Location"), $location);
 	$location = _shn_org_location_string($_SESSION['dvr']['group']['current_loc']);
 
-	$map_location = "Latitude= " . $_SESSION['dvr']['group']['gis_loc_x'] . " Longitude= " . $_SESSION['dvr']['group']['gis_loc_y'];
+	$map_location = "Latitude= " . $_SESSION['dvr']['group']['gis_loc_y'] . " Longitude= " . $_SESSION['dvr']['group']['gis_loc_x'];
 
 	shn_form_label(_("Current Location"), $location);
 	shn_form_label(_("Current Map Location"), $map_location);
