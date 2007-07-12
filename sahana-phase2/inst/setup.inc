@@ -139,9 +139,9 @@ function shn_setup_form_dependancy()
 {
     global $global;
     $isOK = true;
-    $tick_img = '<img align="top" src="theme/default/img/tic.png"/>';
-    $cross_img = '<img align="top" src="theme/default/img/cross.png"/>';
-    $oops_img = '<img align="bottom" src="theme/default/img/oops.png"/>';
+    $tick_img = '<img align="top" src="theme/default/img/tic.png" alt="tick"/>';
+    $cross_img = '<img align="top" src="theme/default/img/cross.png" alt="cross"/>';
+    $oops_img = '<img align="bottom" src="theme/default/img/oops.png" alt="oops"/>';
 ?>
     <h1><?=_('Sahana Web Setup - Step 1')?></h1>
 
