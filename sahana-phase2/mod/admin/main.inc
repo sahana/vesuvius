@@ -127,7 +127,7 @@ function shn_admin_default()
                  clicking ').
                  '&#34;'._('Security Config').'&#34; '._('and then selecting ').  
                 '<a href="?mod=admin&act=acl_user_roles">'.
-                '&#34;'._('System &amp User').'&#34;'.'</a>'.'</li><br/>';
+                '&#34;'._('Roles &amp Users').'&#34;'.'</a>'.'</li><br/>';
     }
 
 
