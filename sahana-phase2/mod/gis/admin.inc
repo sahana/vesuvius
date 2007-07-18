@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.17 2007-02-22 06:20:44 mifanc Exp $ */
+/* $Id: admin.inc,v 1.18 2007-07-18 20:33:38 franboon Exp $ */
 
 /**Admin Module for GIS
 *
@@ -140,9 +140,6 @@ function shn_gis_adm_show_mods()
 	include_once($global['approot'].'/inc/lib_form.inc');
 ?>
 	<br /><h3><?php echo _("Main Configuration");?></h3>
-<?php	
-	shn_form_fopen(null,null,array('req_message'=>false));
-?>
 	<ul>
 
 	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
@@ -151,7 +148,6 @@ function shn_gis_adm_show_mods()
     <li><?php echo _("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
-	shn_form_fclose();
 	shn_form_fopen(adm_commit,null,array('req_message'=>false));
 	
 	shn_form_fsopen(_("Default Center Coordinates"));
@@ -174,7 +170,6 @@ function shn_gis_adm_show_mods()
     		"refer to the documentation within the mod/gis subdirectory");?> </li>
 	</ul>
 <?php
-	//shn_form_fclose();
 	
 	$query_mod="select value from config where module_id='gis' and confkey='dflt'";
 	$result=$db->Execute($query_mod);
@@ -198,7 +193,6 @@ function shn_gis_adm_show_mods()
 		}
 	}
 	$extra_opts_form['req_message'] = 'false';
-	//shn_form_fopen(adm_mod,null,array('req_message'=>false));
 	shn_form_fsopen(_("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
@@ -281,7 +275,7 @@ function shn_gis_adm_commit(){
 		$query = "select * from config where confkey='mod_gis_center_x' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
+			$q = "UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
 			$db->Execute($q);
 		}
 		else{
