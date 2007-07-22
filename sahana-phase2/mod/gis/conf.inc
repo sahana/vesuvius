@@ -95,9 +95,9 @@ $conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
    * Switch for Googlemaps
    * 0 for off; 1 for on
    */
-  $conf['ol_google_hybrid']='1';
-  $conf['ol_google_maps']='1';
-  $conf['ol_google_sat']='1';
+  $conf['ol_google_hybrid']='0';
+  $conf['ol_google_maps']='0';
+  $conf['ol_google_sat']='0';
  
   /**
    * Switch for MS Virtual Earth
