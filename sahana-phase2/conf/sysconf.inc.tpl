@@ -122,7 +122,7 @@ $conf['locale'] = 'en_US';
 
 $conf['gis'] = true;
 
-$conf['proxy_path']='inc/lib_proxy.php?url=';
+$conf['proxy_path']='res/lib_proxy.php?url=';
 
 ###############################
 

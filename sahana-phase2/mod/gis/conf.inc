@@ -86,45 +86,73 @@ $conf['mod_gis_image_folder'] = 'www/tmp/';
  */
 $conf['mod_gis_tmp_image_folder'] = 'theme/default/img/';
 
-/**
- * GeoRSS Feed default URL
- * @todo: get values from GIS Catalogue Registry || Database
- */
- $conf['mod_gis_georss_feed']= 'http://earthquake.usgs.gov/eqcenter/recenteqsww/catalogs/eqs7day-M2.5.xml';
- 
  /**
   * Configuration specific to OpenLayers
   * @TODO: move functionality to upcoming GeoCatalogue module :)
   */
   
   /**
-   * Switch for MS Virtual Earth
-   * false for off; actual key for on
-   */
-  $conf['ol_virtual_earth']=false;
-  
-    /**
    * Switch for Googlemaps
-   * false for off; actual key for on
+   * 0 for off; 1 for on
    */
-  $conf['ol_google_maps']=false;
-  
-    /**
+  $conf['ol_google_hybrid']='1';
+  $conf['ol_google_maps']='1';
+  $conf['ol_google_sat']='1';
+ 
+  /**
+   * Switch for MS Virtual Earth
+   * 0 for off; 1 for on
+   */
+  $conf['ol_virtualearth']='1';
+
+  /**
+   * Switch for MultiMap
+   * 0 for off; 1 for on
+   */
+  $conf['ol_multimap']='1';
+  $conf['mod_gis_multimap_key']='metacarta_04';
+ 
+  /**
    * Switch for Yahoo! maps
-   * false for off; actual key for on
+   * 0 for off; 1 for on
    */
-  $conf['ol_yahoo_maps']=false;
-  
-    /**
-   * Switch for OpenLayers WMS layer
-   * false for off; WMS location for on
-   */
-  $conf['ol_wms']=false;
+  $conf['ol_yahoo_maps']='1';
+  $conf['mod_gis_yahoo_key']='euzuro-openlayers';
   
   /**
-   * Switch for OpenLayers WMS layer
-   * false for off; WMS location for on
+   * Counter for OpenLayers WMS layers
+   * 0 for off; positive integer for how many layers are on
    */
-  $conf['ol_local_wms']='location';
-  
+  $conf['ol_wms']='1';
+ 
+$conf['ol_wms_1_description'] = '';
+$conf['ol_wms_1_name'] = 'VMap0';
+$conf['ol_wms_1_type'] = 'base';
+$conf['ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';
+$conf['ol_wms_1_layers'] = 'basic';
+$conf['ol_wms_1_img'] = '';
+$conf['ol_wms_1_transparency'] = '0';
+$conf['ol_wms_1_min'] = '';
+$conf['ol_wms_1_max'] = '';
+
+$conf['ol_wms_2_description'] = '';
+$conf['ol_wms_2_name'] = 'VMap1';
+$conf['ol_wms_2_type'] = 'base';
+$conf['ol_wms_2_url'] = 'http://labs.metacarta.com/wms/vmap0';
+$conf['ol_wms_2_layers'] = 'basic';
+$conf['ol_wms_2_img'] = '';
+$conf['ol_wms_2_transparency'] = '0';
+$conf['ol_wms_2_min'] = '';
+$conf['ol_wms_2_max'] = '';
+ 
+  /**
+   * Counter for OpenLayers GeoRSS layers
+   * 0 for off; positive integer for how many layers are on
+   */
+  $conf['ol_georss'] ='0';
+
+$conf['ol_georss_1_description'] = '';
+$conf['ol_georss_1_name'] = 'Earthquakes';
+$conf['ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
+
 ?>
