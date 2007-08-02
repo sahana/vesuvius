@@ -119,6 +119,13 @@
 		echo "{layers: '$layers'} );\n";
 	echo "map.addLayer(wmslayer$i);\n";
 	}
+
+	for ($i = 1; $i <= $conf['ol_georss']; $i++) {
+	$name = $conf["ol_georss_".$i."_name"];
+	$url = $conf["ol_georss_".$i."_url"];
+	echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\");\n"; 
+	echo "map.addLayer(georsslayer$i);\n";
+	}
 ?>
             
 	map.setCenter( new OpenLayers.LonLat(lon, lat), zoom);
