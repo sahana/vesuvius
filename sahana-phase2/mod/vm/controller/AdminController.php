@@ -39,43 +39,13 @@ class AdminController extends AdminView implements Controller
 		if(!$ac->isAuthorized())
 			return;
 
-
 		View::View();
-		$this->displayAdminVMenu();
+		$this->displayAdminHMenu();
 
 		global $dao;
 
 		switch($getvars['vm_action'])
 		{
-			case 'display_modify_skills':
-				$this->displayAdminSkills();
-			break;
-
-			case 'process_add_skill':
-				global $global;
-				require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
-
-				if(empty($getvars['skill_desc']) || empty($getvars['skill_code']))
-					add_error('Please specify both a skill description and skill code');
-				else
-				{
-					$find = array("/\s*".VM_SKILLS_DELIMETER."\s*/", "/^\s+/", "/\s+$/");
-					$replace = array(VM_SKILLS_DELIMETER, '', '');
-					$description = preg_replace($find, $replace, $getvars['skill_desc']);
-
-					if(!$dao->addSkill($getvars['skill_code'], $description))
-						add_error('The specified skill code already exists. Please choose another');
-				}
-				$this->displayAdminSkills();
-			break;
-
-			case 'process_remove_skill':
-				if(!empty($_REQUEST['skills']))
-					foreach($_REQUEST['skills'] as $code)
-						$dao->removeSkill($code);
-				$this->displayAdminSkills();
-			break;
-
 			case 'display_acl_situations':
 				$this->displayAdminACL($dao->getAccessRequestsForDisplay());
 			break;
@@ -159,20 +129,93 @@ class AdminController extends AdminView implements Controller
 				$this->displayAdminACL($dao->getAccessRequestsForDisplay());
 			break;
 
-			case 'display_approve_managers':
-				$this->displaySiteManagerApprovalForm($dao->getSiteManagers(VM_MGR_ALL));
-			break;
-
-			case 'process_manager_approval':
-				$dao->updateManagerStatus($getvars['mgr_id'], isset($getvars['approve']));
-				add_confirmation('Site manager approval information has been updated');
-				$this->displaySiteManagerApprovalForm($dao->getSiteManagers(VM_MGR_ALL));
-			break;
-
 			case 'process_clear_cache':
 				$this->engine->clear_cache();
 				add_confirmation('Template cache has been cleared');
 				$this->displayDefaultAdminPage();
+			break;
+
+			case 'process_audit_acl':
+				global $global;
+
+				//first process any changes if necessary
+				if($getvars['process_action'] != '')
+				{
+					if($getvars['process_action'] == 'add_request')
+					{
+						$dao->addAccessRequest($getvars['request_act'], $getvars['request_vm_action'], $getvars['request_desc']);
+					}
+					else if($getvars['process_action'] == 'remove_request')
+					{
+						$dao->removeAccessRequest($getvars['request_act'], $getvars['request_vm_action']);
+					}
+					else //($getvars['process_action'] == 'classify_table')
+					{
+						$dao->classifyTable($getvars['table_to_classify'], $getvars['classification_level']);
+					}
+					add_confirmation('ACL settings have been updated.');
+				}
+
+				$path = $global['approot'].'mod/vm/controller/';
+
+				//an array for all controller files to test with each key being the 'act' URL parameter associated with it
+				$files = array('adm_default' => 'AdminController.php', 'project' => 'ProjectController.php', 'volunteer' => 'VolunteerController.php');
+
+				//an array to store all act and vm_action combinations that are not in the database
+				$bad_requests = array();
+				$current_requests = $dao->getAccessRequests();
+
+				foreach($files as $act => $file_name)
+				{
+					$handle = fopen($path.$file_name, 'r');
+					$contents = fread($handle, filesize($path.$file_name));
+
+					//temporary, should restrict results to within controlHandler() function
+					preg_match_all("/case\s+('|\")(\w+)('|\")\s*?:/", $contents, $cases);
+
+					foreach($cases[2] as $vm_action)
+					{
+						if(isset($current_requests[$act]))
+						{
+							if(isset($current_requests[$act][$vm_action]))
+							{
+								unset($current_requests[$act][$vm_action]);
+							}
+							else
+							{
+								$bad_requests[] = array('act' => $act, 'vm_action' => $vm_action);
+							}
+						}
+						else
+						{
+							$bad_requests[] = array('act' => $act, 'vm_action' => $vm_action);
+						}
+					}
+
+					//ignore default cases that aren't referenced because they will get picked up by the controller's default action
+					unset($current_requests[$act]['default']);
+					if(empty($current_requests[$act]))
+						unset($current_requests[$act]);
+
+					fclose($handle);
+				}
+
+				//now look for any unclassified tables/views
+
+				$tables = $dao->getDBTables();
+				$unclassified_tables = array();
+
+				foreach($tables as $table)
+				{
+					if(substr($table, 0, 3) == 'vm_')
+					{
+						if(!$dao->isClassified($table))
+							$unclassified_tables[] = $table;
+					}
+				}
+
+				//display the information
+				$this->displayACLAudit($bad_requests, $current_requests, $unclassified_tables, $dao->getDataClassificationLevels());
 			break;
 
 			default:

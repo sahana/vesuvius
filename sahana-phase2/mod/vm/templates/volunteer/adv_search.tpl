@@ -18,6 +18,7 @@
 	shn_form_fsopen('Skills');
 	shn_form_radio(array('and_skills' => 'Require ALL skills below', 'or_skills' => 'Require ANY skills below'), 'Skills Matching:', 'skills_matching');
 	$skills->display('', 'Node.toggleChildren(0, 0, true);');
+	$resources->display('', Node.toggleChildren(0, 0, true);');
     shn_form_fsclose();
 
     shn_form_submit(_('Search'));

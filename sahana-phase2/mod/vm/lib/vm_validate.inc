@@ -245,4 +245,16 @@ function shn_vm_username_not_taken($user_name, $error_message=null)
 		}
 		return true;
 	}
+
+	function validateShiftTimes($start, $end) {
+		if($start > $end)
+			return "Shift start must be before shift end.";
+		if($start > time())
+			return "Shift start must not be in the future.";
+		if($end > time())
+			return "Shift end must not be in the future.";
+		if($start == 0 || $end == 0)
+			return "Start and end times must not be blank.";
+		return VM_OK;
+	}
 ?>

@@ -53,23 +53,30 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$dao = new DAO($global['db']);
     	$this->fixture = $dao;
 
+		//SavePostion()
+		$this->fixture->execute("INSERT INTO vm_position ( pos_id,proj_id, ptype_id, title,slots, description, status) values ('doc', '8', 'asdf','Triage Doctor', '3', 'Treat patients at the triage center at the entrance', 'active' )");
+		$this->fixture->execute("INSERT INTO vm_position_full( pos_id,proj_id, ptype_id, title,slots, description, ptype_title, ptype_description, status skill_code) values ('doc', '8', 'asdf','Triage Doctor', '3', 'Treat patients at the triage center at the entrance', '', '', 'active', '' )");
 
 		//getVolSkillsArray
 		$this->fixture->execute("INSERT INTO vm_vol_skills (opt_skill_code, p_uuid) values ('SPO3', 'test5')");
 		$this->fixture->execute("INSERT INTO vm_proj_skills (opt_skill_code, p_uuid) values('SPO4', 'test4')");
 
-    	// volIsAssignedToProject and deleteFromProject
+    	// volIsAssignedToProject
 		$this->fixture->execute("insert into vm_proj_vol (p_uuid, proj_id) values ('test2', '1000'), ('mgr_id', '8')");
 		$this->fixture->execute("delete from vm_proj_vol where p_uuid = 'test3'");
 		$this->fixture->execute("delete from vm_proj_vol where p_uuid = 'test4'");
 
+		$this->fixture->execute("insert into vm_vol_assignment (p_uuid, proj_id) values ('test2', '1000'), ('mgr_id', '8')");
+
+
 		//getProjectName() and getProject() and listProjects
 		$this->fixture->execute("INSERT INTO vm_projects (proj_id, name, mgr_id, location_id, start_date, end_date, description) VALUES ('1000', 'Project Name', 'mgr_id', 'loc_id', '2000-11-05', '2007-01-20', 'description')");
 		$this->fixture->execute("INSERT INTO vm_proj_skills (p_uuid, opt_skill_code) VALUES ('1000', 'VEH1'),('1000','ELE3')");
+
 		$this->fixture->execute("DELETE FROM vm_projects WHERE proj_id ='1001'");
 
 
-		//getPersonName() and deleteVolunteer()
+		//getPersonName()
 		$this->fixture->execute(" INSERT INTO person_uuid(p_uuid, full_name) VALUES('test1','Volunteer1'),('test2','Volunteer2')");
 		$this->fixture->execute("DELETE FROM person_uuid WHERE p_uuid = 'test3'");
 
@@ -149,6 +156,22 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->fixture->execute("INSERT INTO phonetic_word (pgl_uuid, encode1, encode2) VALUES ('search_1', '".soundex('Search')."', '".metaphone('Search')."')");
 		$this->fixture->execute("INSERT INTO phonetic_word (pgl_uuid, encode1, encode2) VALUES ('search_1', '".soundex('Name')."', '".metaphone('Name')."')");
 
+    	//remove position
+    	$this->fixture->execute("INSERT INTO vm_position(pos_id, proj_id, title, slots, description, status, payrate) VALUES ('pos420', 'proj420', 'title', '2', 'description', 'active', '20')");
+
+    	//deleteVolunteer() and deletefromProject()
+    	$this->fixture->execute ("INSERT INTO vm_vol_details (p_uuid, date_avail_start, date_avail_end, status) values ('jpt420', '2007-05-28', '2007-06-28', 'active')");
+		$this->fixture->execute ("INSERT INTO vm_vol_assignment (p_uuid, proj_id, status) VALUES ('jpt420', '4200', 'active')");
+
+		//deleteProject()
+		$this->fixture->execute("INSERT INTO vm_projects (proj_id, name, status) VALUES ('4201', 'name', 'active')");
+		$this->fixture->execute ("INSERT INTO vm_vol_assignment (p_uuid, proj_id, status) VALUES ('jpt421', '4201', 'active')");
+
+   		//isSiteManager()
+
+   		$this->fixture->execute ("INSERT INTO vm_vol_skills (p_uuid, opt_skill_code, status) VALUES ('fchxp-5','MGR', 'approved')");
+		$this->fixture->execute ("INSERT INTO vm_vol_skills (p_uuid, opt_skill_code, status) VALUES ('fchxp-6','MGR', 'denied')");
+		$this->fixture->execute ("INSERT INTO vm_vol_active (p_uuid, date_avail_start, date_avail_end, status) VALUES ('fchxp-5','2007-05-28', '2007-06-28', 'active')");
     }
 
     /**
@@ -185,18 +208,22 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->fixture->execute("DELETE FROM contact WHERE pgoc_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
 		$this->fixture->execute("DELETE FROM person_details WHERE p_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
 		$this->fixture->execute("DELETE FROM person_uuid WHERE p_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
-		$this->fixture->execute("DELETE FROM vm_vol_skills WHERE p_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
+		$this->fixture->execute("DELETE FROM vm_vol_skills WHERE p_uuid NOT IN('xyz-60','489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
 		$this->fixture->execute("DELETE FROM location_details WHERE poc_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
 		$this->fixture->execute("DELETE FROM  phonetic_word WHERE pgl_uuid NOT IN('489sp-12','489sp-13','489sp-17','4eiop-19','489sp-16','489sp-15','489sp-14','test1','sahap-2','2') ");
 		$this->fixture->execute("DELETE FROM users WHERE user_name= 'Marky_user'");
 
 		//getProjectName() and deleteProject() and listProject() and saveProject()
+    	$this->fixture->execute("DELETE FROM vm_projects WHERE proj_id ='4201'");
+    	$this->fixture->execute ("DELETE FROM vm_vol_assignment WHERE proj_id ='4200'");
     	$this->fixture->execute("DELETE FROM vm_projects WHERE proj_id ='1000'");
     	$this->fixture->execute("DELETE FROM vm_projects WHERE name ='tank'");
     	$this->fixture->execute("DELETE FROM vm_projects WHERE name ='Manchanic'");
     	$this->fixture->execute("DELETE FROM vm_proj_skills WHERE opt_skill_code = 'SKILL1' OR opt_skill_code = 'SKILL2' OR opt_skill_code = 'SKILL3'");
     	$this->fixture->execute("DELETE FROM vm_proj_skills WHERE p_uuid ='1000'");
     	$this->fixture->execute("DELETE FROM vm_proj_vol WHERE proj_id ='1000'");
+    	$this->fixture->execute("DELETE FROM vm_vol_assignment WHERE pos_id ='doc'");
+        $this->fixture->execute("DELETE FROM vm_position WHERE pos_id ='doc'");
 
     	//getPersonName()
     	$this->fixture->execute("DELETE FROM person_uuid WHERE p_uuid = 'test1'");
@@ -237,7 +264,8 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->fixture->execute("DELETE FROM vm_courier WHERE to_id = 'test2' OR from_id = ''");
 		$this->fixture->execute("DELETE FROM vm_mailbox WHERE p_uuid = 'test2' OR p_uuid = 'mgr_id' OR p_uuid = '' OR p_uuid = 'search_1'");
 
-
+		//volIsAssignedToProject
+		$this->fixture->execute("DELETE from vm_vol_assignment (p_uuid, proj_id) values ('test2', '1000'), ('mgr_id', '8')");
 
 		//geOrganizations()
 		$this->fixture->execute("DELETE FROM org_main where o_uuid='test5' ");
@@ -262,6 +290,17 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->fixture->execute("DELETE FROM location_details WHERE poc_uuid= 'search_1'");
 		$this->fixture->execute("DELETE FROM phonetic_word WHERE pgl_uuid = 'search_1'");
 
+		//delete entries created for removePosition
+		$this->fixture->execute("DELETE FROM vm_position WHERE pos_id = 'pos420''");
+
+		//delete entries created for deleteVolunteer()
+		$this->fixture->execute ("DELETE FROM vm_vol_details WHERE p_uuid = 'jpt420'");
+		$this->fixture->execute ("DELETE FROM vm_vol_assignment WHERE p_uuid = 'jpt420'");
+
+		//delete entries created for isSiteManager()
+		$this->fixture->execute ("DELETE FROM vm_vol_skills WHERE p_uuid = 'fchxp-5' AND opt_skill_code = 'MGR' AND status = 'approved'");
+	$this->fixture->execute ("DELETE FROM vm_vol_skills WHERE p_uuid = 'fchxp-6' AND opt_skill_code = 'MGR' AND status = 'denied'");
+		$this->fixture->execute ("DELETE FROM vm_vol_active WHERE p_uuid = ' fchxp-5'");
     }
 
     public function testGetVol() {
@@ -611,7 +650,7 @@ class daoTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testsaveVol() {
+	public function testSaveVol() {
 
 		$p= new Volunteer();
 		$p->info['date_start']= '2007-06-25';
@@ -705,60 +744,10 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result->fields['encode2'],metaphone('Man'));
 
 	}
-	public function testSaveProject() {
-
-		$p= new Project();
-		$p->info['name']='tank';
-		$p->info['description']= 'fixing things';
-		$p->info['mgr_id']='754';
-		$p->info['locations']= array( '489slc-1');
-		$p->info['start_date']='2007-01-12' ;
-		$p->info['end_date']='2007-11-26';
-		$p->info['skills']= array('SKILL2', 'SKILL1');
-		sort($p->info['skills']);
-		$this->fixture->saveProject($p);
-
-		$result = $this->fixture->execute("SELECT description, mgr_id, location_id, start_date, end_date FROM vm_projects WHERE name= 'tank'");
-		$this->fixture->remove_keys($result->fields);
-		$this->assertEquals($p->info['description'],$result->fields['description']);
-		$this->assertEquals($p->info['mgr_id'],$result->fields['mgr_id']);
-		$this->assertEquals($p->info['locations'][0],$result->fields['location_id']);
-		$this->assertEquals($p->info['start_date'],$result->fields['start_date']);
-		$this->assertEquals($p->info['end_date'],$result->fields['end_date']);
-
-		$result= $this->fixture->getVolSkillsArray($p->proj_id,false);
-		sort($result);
-		$this->assertEquals($p->info['skills'],$result);
-
-
-			///////// Updating
-
-		$q = new Project($p->proj_id);
-		$q->info['name']='Manchanic';
-		$q->info['mgr_id']='22245';
-		$q->info['locations']= array( '489slc-2');
-		$q->info['description']= 'Best In Hartford';
-		$q->info['skills']= array('SKILL1', 'SKILL3');
-		sort($q->info['skills']);
-		$this->fixture->saveProject($q);
-		$result = $this->fixture->execute("SELECT name,mgr_id,location_id,description FROM vm_projects WHERE proj_id='$p->proj_id '");
-
-		$this->fixture->remove_keys($result->fields);
-		$this->assertEquals($q->info['name'],$result->fields['name']);
-		$this->assertEquals($q->info['mgr_id'],$result->fields['mgr_id']);
-		$this->assertEquals($q->info['locations'][0],$result->fields['location_id']);
-		$this->assertEquals($q->info['description'],$result->fields['description']);
-		$result = $this->fixture->getVolSkillsArray($p->proj_id,false);
-		sort($result);
-		$this->assertEquals($q->info['skills'], $result);
-
-	}
-
-
 
 	public function testVolIsAssignedToProject() {
-		$this->assertTrue($this->fixture->volIsAssignedToProject('test2'));
-		$this->assertTrue($this->fixture->volIsAssignedToProject('test2', '1000'));
+		$this->assertTrue($this->fixture->volIsAssignedToProject('fchxp-5'));
+		//$this->assertTrue($this->fixture->volIsAssignedToProject('test2', '1000'));
 		$this->assertFalse($this->fixture->volIsAssignedToProject('test3', 'proj_id'));
 		$this->assertFalse($this->fixture->volIsAssignedToProject('test4'));
 	}
@@ -818,59 +807,64 @@ class daoTest extends PHPUnit_Framework_TestCase {
 	public function testGetContactTypes()
 	{
 		$result = $this->fixture->getContactTypes();
-		$expected = array('home'=>'Home(permanent address)', 'name'=>'Contact Person', 'pmob'=>'Personal Mobile', 'curr'=>'Current Phone', 'cmob'=>'Current Mobile', 'emai'=>'Email address', 'fax'=>'Fax Number', 'web'=>'Website', 'inst'=>'Instant Messenger');
+		$expected = array('emphone'=> 'Emergency Phone Contact','home'=>'Home(permanent address)', 'name'=>'Contact Person', 'pmob'=>'Personal Mobile', 'curr'=>'Current Phone', 'cmob'=>'Current Mobile', 'emai'=>'Email address', 'fax'=>'Fax Number', 'web'=>'Website', 'inst'=>'Instant Messenger');
 		$this->assertEquals($result, $expected);
 	}
 
 	public function testGetVolSkillsArray() {
         $test1 = $this->fixture->getVolSkillsArray('test5');
         sort($test1);
-		$expected = array('SPO3');
+		$expected = array('0'=>'SPO3');
 		$this->assertEquals($test1, $expected);
 
-		$test2 = $this->fixture->getVolSkillsArray('test6', true);
-		sort($test2);
-		$this->assertEquals($test2, array());
+		}
 
-		$test3 = $this->fixture->getVolSkillsArray('1000',false);
-		sort($test3);
-		$this->assertEquals($test3,array('ELE3', 'VEH1') );
+	public function testgetVolHoursAndRate() {
 
+
+		$r = $this->fixture->execute("SELECT  proj_id, project_name, status, pos_id, title, payrate
+				 FROM    vm_vol_assignment
+				 WHERE   p_uuid = 'fchxp-3' AND proj_id = 'null'");
+
+		$info = array();
+
+		while(!$r->EOF)
+		{
+			if(!isset($info[$r->fields['proj_id']]))
+				$info[$r->fields['proj_id']] = array('project_name' => $r->fields['project_name']);
+
+			$info[$r->fields['proj_id']][$r->fields['pos_id']] = array
+			(
+				'title'		=> $r->fields['title'],
+				'payrate'	=> $r->fields['payrate'],
+				'status'	=> $r->fields['status']
+			);
+
+			$r->MoveNext();
+
+			}
+			$this->assertEquals($info, $this->fixture->getVolHoursAndRate('fchxp-3', 'null'));
 	}
-
-	public function testGetProject()
+	public function testGetPosition()
 	{
-		$test1 = $this->fixture->getProject('1000');
-		$expected = array('name'=>'Project Name', 'mgr_id'=>'mgr_id', 'description'=>'description', 'location_id'=>'loc_id', 'start_date'=>'2000-11-05', 'end_date'=>'2007-01-20', 'description'=>'description');
-		$this->assertEquals($test1, $expected);
 
-		$test1 = $this->fixture->getProject('1001');
-		$this->assertFalse($test1);
+		$test1 = $this->fixture->getPosition('pos420');
+		$expected = array ('numVolunteers'=>'0');
+		$this->assertEquals($expected, $test1);
+
+		//$test2 = $this->fixture->getProject('489sp-76');
+		//$this->assertFalse($test2);
+
+		//$result = $this->$this->execute("select count(*) numVolunteers from vm_vol_assignment_active where pos_id = 'pos420'");
+		//$expected['numVolunteers']=$result->fields['numVolunteers'];
+		//$this->assertFalse($test2['numVolunteers'], $expected['numVolunteers']);
 	}
 
 	public function testIsSiteManager()
 	{
-		$this->assertTrue($this->fixture->isSiteManager('489sp-14'));
-		$this->assertFalse($this->fixture->isSiteManager('test1'));
+		$this->assertTrue($this->fixture->isSiteManager('fchxp-5'));
+		$this->assertFalse($this->fixture->isSiteManager('fchxp-6'));
 		$this->assertFalse($this->fixture->isSiteManager('489sp-16'));
-	}
-
-	public function testGetSiteManagers()
-	{
-		//just approved managers
-		$this->assertEquals($this->fixture->getSiteManagers(VM_MGR_APPROVED),
-		array(	'489sp-14'=> array('name' => 'ed', 'approved' => true),
-				'489sp-13' => array('name' => 'manager', 'approved' => true)));
-
-		//just unapproved managers
-
-		$this->assertEquals($this->fixture->getSiteManagers(VM_MGR_UNAPPROVED),
-		array('489sp-15'=> array('name' => 'Super Mario', 'approved' => false)));
-
-		$this->assertEquals($this->fixture->getSiteManagers(VM_MGR_ALL),
-		array(	'489sp-14'=> array('name' => 'ed', 'approved' => true),
-				'489sp-13' => array('name' => 'manager', 'approved' => true),
-				'489sp-15'=> array('name' => 'Super Mario', 'approved' => false)));
 	}
 
 
@@ -975,140 +969,186 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		return true;
 	}
 
-	public function testListProjects()
+
+	public function testListPositions()
 	{
-	//list all projects
-		$r = $this->fixture->execute("SELECT proj_id FROM vm_projects");
-		$expected_projs = array();
-
-		while(!$r->EOF)
+		//list all positions
+		$r= $this->fixture->execute("SELECT pos_id, proj_id,project_name, ptype_id, slots, title, description, ptype_title, ptype_description, skill_code FROM vm_vol_assignment ORDER BY proj_id ");
+		$expected = array();
+		while (!$r->EOF)
 		{
-			$expected_projs[]= $r->fields['proj_id'];
+			$this->fixture->remove_keys($r->fields);
+			$expected[] =$r->fields;
 			$r->moveNext();
 		}
 
-		$this->assertTrue($this->projResultsAreAccurate($this->fixture->listProjects(), $expected_projs));
-	//list all projects to which 'mgr_id' is assigned
-		$r = $this->fixture->execute("SELECT proj_id FROM vm_proj_vol WHERE p_uuid = 'mgr_id' UNION (SELECT proj_id FROM vm_projects WHERE mgr_id='mgr_id')");
+		$this->assertEquals($this->fixture->listPositions(null, null), $expected);
+
+		/*$r= $this->fixture->execute("SELECT pos_id, proj_id,project_name, ptype_id, slots, title, description, ptype_title, ptype_description, skill_code FROM vm_vol_assignment WHERE p_uuid = '$p_uuid' AND status = 'active' ORDER BY proj_id ");
 		$expected_projs = array();
 		while (!$r->EOF)
 		{
-			$expected_projs[] =$r->fields['proj_id'];
+
+			$this->fixture->remove_keys($r->fields);
+			$expected_projs[] =$r->fields;
 			$r->moveNext();
 		}
+		$this->assertEquals($this->fixture->listProjects(null, 'fchxp-3'), $expected_projs);
 
-		$this->assertTrue($this->projResultsAreAccurate($this->fixture->listProjects('mgr_id'), $expected_projs));
-
-	//list all projects 'mgr_id' is a manager to
-		$r = $this->fixture->execute("SELECT proj_id FROM vm_projects WHERE mgr_id='mgr_id'");
+		$r= $this->fixture->execute("SELECT pos_id, proj_id,project_name, ptype_id, slots, title, description, ptype_title, ptype_description, skill_code FROM vm_vol_assignment WHERE proj_id = '$proj_id' ORDER BY proj_id ");
 		$expected_projs = array();
 		while (!$r->EOF)
 		{
-			$expected_projs[] =$r->fields['proj_id'];
+			$this->fixture->remove_keys($r->fields);
+			$expected_projs[] =$r->fields;
 			$r->moveNext();
 		}
-		$this->assertTrue($this->projResultsAreAccurate($this->fixture->listProjects('mgr_id', true), $expected_projs));
+		$this->assertEquals($this->fixture->listProjects('30', null), $expected_projs);
 
-	//no projects should be listed when 'no_id' is passed to listProjects
-		$r = $this->fixture->execute("SELECT proj_id FROM vm_proj_vol WHERE p_uuid = 'no_id' UNION (SELECT proj_id FROM vm_projects WHERE mgr_id='no_id')");
-		$expected_projs = array();
+		$r= $this->fixture->execute("SELECT pos_id, proj_id,project_name, ptype_id, slots, title, description, ptype_title, ptype_description, skill_code FROM vm_vol_assignment WHERE proj_id = '$proj_id' AND p_uuid = '$p_uuid' ORDER BY proj_id ");
+		$expected_projs = array('');
 		while (!$r->EOF)
 		{
-			$expected_projs[] =$r->fields['proj_id'];
+			$this->fixture->remove_keys($r->fields);
+			$expected_projs[] =$r->fields;
 			$r->moveNext();
 		}
+		$this->assertEquals($this->fixture->listProjects('30', 'fchxp-7'), $expected_projs);*/
 
-		$this->assertTrue($this->projResultsAreAccurate($this->fixture->listProjects('no_id'), $expected_projs));
 
 	}
 
+	public function testListProjects()
+	{
+
+
+    	$result = $this->fixture->execute("SELECT proj_id, name, description FROM vm_projects_active");
+		$projects = array();
+		while(!$result->EOF)
+		{
+			if($simple)
+				$projects[$result->fields['proj_id']] = $result->fields['name'];
+			else
+				$projects[$result->fields['proj_id']] = array('name' => $result->fields['name'], 'description' => $result->fields['description']);
+			$result->moveNext();
+		}
+
+		$this->assertEquals($projects, $this->fixture->listProjects(null, false, false));
+	}
 
 	public function testAssignToProject()
 	{
-		global $time;
 
-		$this->fixture->assignToProject('test2', '1000', 'task');
-		$result = $this->fixture->execute("SELECT p_uuid, proj_id, opt_skill_type FROM vm_proj_vol WHERE p_uuid='test2'");
+		global $time;
+		$this->fixture->assignToProject('jpt500', '5000');
+		$result = $this->fixture->execute("SELECT p_uuid, proj_id, opt_skill_type FROM vm_vol_assignment WHERE p_uuid='jpt500'");
 		$this->assertTrue(!$result->EOF);
 
-		$result = $this->fixture->execute("SELECT p_uuid, box, checked FROM vm_mailbox WHERE p_uuid = 'test2'");
-		$this->fixture->remove_keys($result->fields);
-		$time = $this->fixture->execute("SELECT NOW()");
-		$time = $time->fields[0];
-		$this->assertEquals($result->fields, array('p_uuid'=>'test2', 'box'=>'0', 'checked'=>'0'));
-
-		$result = $this->fixture->execute("SELECT p_uuid, box, checked FROM vm_mailbox WHERE p_uuid = 'mgr_id'");
-		$this->fixture->remove_keys($result->fields);
-		$time = $this->fixture->execute("SELECT NOW()");
-		$time = $time->fields[0];
-		$this->assertEquals($result->fields, array('p_uuid'=>'mgr_id', 'box'=>'1', 'checked'=>'0'));
-	}
+		}
 
 
 	public function testDeleteVolunteer()
 	{
-		$this->fixture->deleteVolunteer('test1');
 
-		$result = $this->fixture->execute("SELECT p_uuid, org_id FROM vm_vol_details WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
+		$this->fixture->deleteVolunteer('jpt420');
+		$result = $this->fixture->execute("SELECT status FROM vm_vol_details WHERE p_uuid = 'jpt420'");
+		//$result2 = $this->fixture->execute("SELECT status FROM vm_vol_assigment WHERE p_uuid = 'jpt420'");
 
-		$result = $this->fixture->execute("SELECT p_uuid, full_name FROM person_uuid WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
+		$ptypes = array();
+		while(!$result->EOF) {
+			$this->fixture->remove_keys($result->fields);
+			$ptypes[] = $result->fields;
+			$result->moveNext();
+		}
 
-		$result = $this->fixture->execute("SELECT p_uuid, opt_skill_code FROM vm_vol_skills WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);;
-
-		$result = $this->fixture->execute("SELECT poc_uuid FROM location_details WHERE poc_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
-
-		$result = $this->fixture->execute("SELECT pgoc_uuid FROM contact WHERE pgoc_uuid = 'test1'");
-		$this->assertTrue($result->EOF);;
-
-		$result = $this->fixture->execute("SELECT p_uuid FROM identity_to_person WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
-
-		$result = $this->fixture->execute("SELECT p_uuid, birth_date FROM person_details WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
-
-		$result = $this->fixture->execute("SELECT p_uuid, user_name FROM users WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
-
-		$result = $this->fixture->execute("SELECT p_uuid FROM vm_mailbox WHERE p_uuid = 'test1'");
-		$this->assertTrue($result->EOF);
+		//$ptypes2 = array();
+		//while(!$result2->EOF) {
+			//$this->fixture->remove_keys($result2->fields);
+			//$ptypes2[] = $result2->fields;
+			///$result2->moveNext();
+		//}
+		$this->assertEquals($ptypes,array('0' => Array( 'status' => 'retired')));
 	}
 
 	public function testDeleteProject()
 	{
-		$this->fixture->deleteProject('1000');
+		$this->fixture->deleteProject('4201');
 
-		$result = $this->fixture->execute("SELECT proj_id FROM vm_projects WHERE proj_id = '1000'");
-		$this->assertTrue($result->EOF);
+		$result = $this->fixture->execute("SELECT status FROM vm_projects WHERE proj_id = '4201'");
+		$ptypes = array();
+		while(!$result->EOF) {
+			$this->fixture->remove_keys($result->fields);
+			$ptypes[] = $result->fields;
+			$result->moveNext();
+		}
+		$this->assertEquals($ptypes,array('0' => Array( 'status' => 'completed')));
 
-		$result = $this->fixture->execute("SELECT p_uuid FROM vm_proj_skills WHERE p_uuid = '1000'");
-		$this->assertTrue($result->EOF);
+		/*$result2 = $this->fixture->execute("SELECT status FROM vm_vol_assignment WHERE proj_id = '42000'");
+		$ptypes = array();
+				while(!$result->EOF) {
+			$this->fixture->remove_keys($result->fields);
+			$ptypes[] = $result->fields;
+			$result->moveNext();
+		}
 
-		$result = $this->fixture->execute("SELECT proj_id FROM vm_proj_vol WHERE proj_id = '1000'");
-		$this->assertTrue($result->EOF);
+		$this->assertEquals($ptypes,array('0' => Array( 'status' => 'retired')));
+		*/
+	}
 
+	public function testRemovePosition() {
+
+   		$this->fixture->removePosition('pos420');
+    	$result = $this->fixture->execute ("SELECT status FROM vm_position WHERE pos_id = 'pos420'");
+       	$this->fixture->remove_keys($result->fields);
+    	$this->assertEquals($result->fields, array ('status'=>'retired'));
+    }
+
+
+    public function testGetlistPositionTypes() {
+
+
+
+    	$result = $this->fixture->listPositionTypes();
+    	$resultshouldbe = $this->fixture->execute ("SELECT ptype_id, title, description, skill_code FROM vm_positiontype");
+    	$expected = array();
+		while(!$resultshouldbe->EOF) {
+			$this->fixture->remove_keys($resultshouldbe->fields);
+			$expected[] = $resultshouldbe->fields;
+			$resultshouldbe->moveNext();
+		}
+		$this->assertEquals($result, $expected);
+
+
+    }
+
+	public function testListPositionTypes() {
+		$result = $this->fixture->execute("select ptype_id, title, description, skill_code from vm_positiontype");
+		$ptypes = array();
+		while(!$result->EOF) {
+			$this->fixture->remove_keys($result->fields);
+			$ptypes[] = $result->fields;
+			$result->moveNext();
+		}
+		$actualfunc = $this->fixture->listPositionTypes();
+		$this->assertEquals($ptypes,$actualfunc);
 	}
 
 	public function testDeleteFromProject()
 	{
 		global $time;
 
-		$this->fixture->deleteFromProject('test2', '1000');
+		$this->fixture->deleteFromProject('jpt420', '4200');
 
 		$time = $this->fixture->execute("SELECT NOW()");
-		$result = $this->fixture->execute("SELECT proj_id, p_uuid FROM vm_proj_vol WHERE proj_id ='1000' AND p_uuid = 'test2'");
-		$this->assertTrue($result->EOF);
-
-		$result = $this->fixture->execute("SELECT p_uuid, box, checked FROM vm_mailbox WHERE p_uuid = 'test2'");
-		$this->fixture->remove_keys($result->fields);
-		$time = $this->fixture->execute("SELECT NOW()");
-		$time = $time->fields[0];
-		$this->assertEquals($result->fields, array('p_uuid'=>'test2', 'box'=>'0', 'checked'=>'0'));
+		$result = $this->fixture->execute("SELECT status FROM vm_vol_assignment WHERE proj_id ='4200' AND p_uuid = 'jpt420'");
+		$ptypes = array();
+		while(!$result->EOF) {
+			$this->fixture->remove_keys($result->fields);
+			$ptypes[] = $result->fields;
+			$result->moveNext();
+		$this->assertEquals($ptypes,array('0' => Array( 'status' => 'retired')));
 	}
-
+	}
 
 	public function testGetToList()
 	{
@@ -1130,7 +1170,7 @@ class daoTest extends PHPUnit_Framework_TestCase {
 	{
 		$result = $this->fixture->getMessage('test3', '1000', true);
 		unset($result['time']);
-		$this->assertEquals($result, array('from_id'=>'from_id', 'to_id'=>'to_id_1', 'message_id'=>'1000', 'message'=>'message text', 'checked'=>'0'));
+		$this->assertEquals($result, array('from_id'=>'from_id', 'message_id'=>'1000', 'message'=>'message text', 'checked'=>'0'));
 		$test_checked = $this->fixture->execute("SELECT checked FROM vm_mailbox WHERE p_uuid = 'test3' AND message_id = '1000' AND box = '0'");
 		$this->assertEquals($test_checked->fields['checked'], '1');
 
@@ -1142,7 +1182,7 @@ class daoTest extends PHPUnit_Framework_TestCase {
 
 		$result = $this->fixture->getMessage('test3', '1000', false);
 		unset($result['time']);
-		$this->assertEquals($result, array('from_id'=>'from_id', 'to_id'=>'to_id_1', 'message_id'=>'1000', 'message'=>'message text', 'checked'=>'0'));
+		$this->assertEquals($result, array('from_id'=>'from_id', 'message_id'=>'1000', 'message'=>'message text', 'checked'=>'0'));
 		$test_checked = $this->fixture->execute("SELECT checked FROM vm_mailbox WHERE p_uuid = 'test3' AND message_id = '1000' AND box = '1'");
 		$this->assertEquals($test_checked->fields['checked'], '1');
 	}
@@ -1432,7 +1472,21 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, NULL);
 	}
 
-		public function testGetAccessRequestConstraints()
+	public function testGetDBTables() {
+
+
+		$functionresult=$this->fixture->getDBTables();
+		$expectedtables = array();
+		$result = $this->fixture->execute("SHOW TABLES");
+		while(!$result->EOF)
+		{
+			$expectedtables[]=$result->fields[0];
+			$result->MoveNext();
+		}
+		$this->assertEquals($functionresult, $expectedtables);
+	}
+
+	public function testGetAccessRequestConstraints()
 		{
 			$count = 0;
 			foreach($this->fixture->getAccessRequestConstraints() as $act => $info)
@@ -1510,15 +1564,11 @@ class daoTest extends PHPUnit_Framework_TestCase {
 
 		 public function testGetSkillsAndDescriptions()
 		 {
-		 	$result = $this->fixture->getSkillsAndDescriptions('489sp-13');
+		 	$result = $this->fixture->getSkillsAndDescriptions('xyz-60');
 		 	$expected = array
 						(
-						    'TRE3' => 'Skilled-Tree-Trimming of Trees',
-						    'TRE4' => 'Skilled-Tree-Other',
-						    'TRE2' => 'Skilled-Tree-Removal of Trees',
-						    'MGR_APPROVED' => 'Approved Site Manager',
-						    'TRE1' => 'Skilled-Tree-Evaluation of Needs'
-						);
+						    'WAR1' => 'Unskilled-Warehouse-Forklift',
+						 );
 
 		 	$this->assertEquals($result, $expected);
 
@@ -1526,6 +1576,32 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		 	$this->assertEquals($result, array());
 
 		 }
+
+		 public function testGetVolunteerNames(){
+
+		 	$result = $this->fixture->execute("SELECT person_uuid.p_uuid, full_name FROM vm_vol_details JOIN person_uuid USING(p_uuid) WHERE status  = 'active' ");
+			$vols = array();
+			while(!$result->EOF)
+			{
+				$vols[$result->fields['p_uuid']] = $result->fields['full_name'];
+				$result->moveNext();
+			}
+			$this->assertEquals($vols, $this->fixture->getVolunteerNames('false'));
+
+		}
+
+
+		public function testLogShift(){
+
+			 $this->fixture->logshift('fchxp-3600', '11', '2020-01-03 09:30:00', '2020-01-06 11:00:00');
+			 $result=$this->fixture->execute("SELECT shift_start FROM vm_hours WHERE p_uuid='fchxp-3600'");
+			 $this->assertFalse($result->EOF);
+             $this->fixture->execute("DELETE FROM vm_hours WHERE p_uuid='fchxp-3600' AND pos_id='11' ");
+			 $this->fixture->logshift('fchxp-3600', '', '', '2020-01-06 11:00:00');
+			 $result=$this->fixture->execute("SELECT shift_id FROM vm_hours WHERE p_uuid='fchxp-3600' AND shift_end = '2020-01-06 11:00:00'");
+		     $this->assertTrue($result->EOF);
+
+		}
 
 }
 ?>

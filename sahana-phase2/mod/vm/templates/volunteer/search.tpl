@@ -44,7 +44,9 @@
 			shn_form_radio(array('and_skills' => 'Require ALL skills below'), '', 'skills_matching', ($_POST['skills_matching']=='and_skills')?'checked':'');
 			shn_form_radio(array('or_skills' => 'Require ANY skills below'), '', 'skills_matching', ($_POST['skills_matching']!='and_skills')?'checked':'');
 			$skills->display('', 'Node.toggleChildren(0, 0, true); tree_tmp.expandParentsOfChecked(); Tree.checkTree(tree_tmp.root);');
-	    shn_form_fsclose();
+			shn_form_fsclose();
+			
+			
 {/php}
 
 {* This line is included as a temporary fix for a bug that made elements (in the fieldset under the fieldset containing the tree) float around when expanding and collapsing tree nodes *}

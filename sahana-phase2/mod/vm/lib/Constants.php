@@ -45,11 +45,7 @@ define('VM_SHOW_ALL_VOLUNTEERS_UNASSIGNED', 1);
 define('VM_SHOW_ALL_VOLUNTEERS', 2);
 define('VM_SKILLS_ALL', 0);
 define('VM_SKILLS_ANY', 1);
-
-//site manager constants
-define('VM_MGR_APPROVED', 1);
-define('VM_MGR_UNAPPROVED', 2);
-define('VM_MGR_ALL', 3);
+define('VM_OK', 1);	// returned by validation functions on success
 
 //some info access constants for viewing a list of volunteers
 define('VM_ACCESS_MINIMAL', 1);		//access to bare minimum info (regular volunteer)
@@ -100,7 +96,6 @@ define('SHN_ERR_VM_NO_PROJECT',					'Please select a project');
 define('SHN_ERR_VM_NO_MGR',						'Please specify a project manager');
 define('SHN_ERR_VM_NO_START_DATE',				'If you specify an end date for availability, please specify a start date as well');
 define('SHN_ERR_VM_BAD_DATE_RANGE',				'If you specify searching for an entire available date range, please specify both a start and end date');
-define('SHN_ERR_VM_NO_TASK',					'Please specify a task');
 define('SHN_ERR_VM_NO_REQUEST',					'Please specify a situation to modify access to');
 
 ?>

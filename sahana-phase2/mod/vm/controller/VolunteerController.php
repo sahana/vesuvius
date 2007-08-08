@@ -90,6 +90,7 @@
 				$v->info['hour_end'] = $getvars['hrs_avail_end'];
 				$v->info['occupation'] = $getvars['occupation'];
 				$v->info['affiliation'] = $getvars['affiliation'];
+				$v->info['special_needs'] = $getvars['special_needs'];
 
 
 				$v->info['locations'] = array();
@@ -210,16 +211,41 @@
 				$v->delete($getvars['p_uuid']);
 				View::View();
 				$this->displayConfirmation('The requested user was deleted.');
-				$this->listVolunteers($dao->getVolunteers());
+
+				$extra_opts = array
+				(
+					'showPictures'			=> true,
+					'showAvailability'		=> true,
+					'showLocation'			=> true,
+					'showStatus'			=> true,
+					'showAffiliation'		=> true
+				);
+				$this->listVolunteers($dao->getVolunteers(), $extra_opts);
 			break;
 
 			case 'display_list_all':
 				View::View();
-				$this->listVolunteers($dao->getVolunteers());
+				$extra_opts = array
+				(
+					'showPictures'			=> true,
+					'showAvailability'		=> true,
+					'showLocation'			=> true,
+					'showStatus'			=> true,
+					'showAffiliation'		=> true
+				);
+				$this->listVolunteers($dao->getVolunteers(), $extra_opts);
 			break;
 			case 'display_list_assigned':
 				View::View();
-				$this->listVolunteers($dao->getVolunteers(null, VM_SHOW_ALL_VOLUNTEERS_ASSIGNED));
+				$extra_opts = array
+				(
+					'showPictures'			=> true,
+					'showAvailability'		=> true,
+					'showLocation'			=> true,
+					'showStatus'			=> true,
+					'showAffiliation'		=> true
+				);
+				$this->listVolunteers($dao->getVolunteers(null, VM_SHOW_ALL_VOLUNTEERS_ASSIGNED), $extra_opts);
 			break;
 
 			case 'display_mailbox':
@@ -306,6 +332,7 @@
 			    $advanced = $getvars['advanced'] == 'true';			//true if we are using an advanced search
 			    $just_assigned_vol = $getvars['p_uuid'] != '' && $assigning;		//true if we just assigned a volunteer to a project (nice to know if no results are found to not display an error)
 				$date_constraint = $getvars['date_constraint'] == 'full_date';		//true if we must check for availability for the entire date range specified, false to check for any portion of the data range
+				$positions = $getvars['positions'];
 
 			    if($assigning)
 			    	$assigning_proj = $getvars['proj_id'];
@@ -319,11 +346,10 @@
 
 			    $skills = array();
 				$skill_ids = $dao->getSkillIDs();
+
 				foreach($skill_ids as $sk)
-				{
 					if($getvars["SKILL_$sk"] == 'on')
 						$skills[] = $sk;
-				}
 
 			    //Validate the fields
 			    if($this->validateSearchForm($getvars))
@@ -331,7 +357,7 @@
 					//get the search results and display them
 
 				    $results = $dao->getVolSearchResults($vol_id, $vol_name, $skills, $skills_matching, $start_date, $end_date, $location, $date_constraint, $unassigned, $loose, $assigning_proj);
-				    $this->displaySearchResults($results, $assigning, $assigning_proj, $advanced, $just_assigned_vol);
+				    $this->displaySearchResults($results, $assigning, $assigning_proj, $advanced, $just_assigned_vol, $positions);
 			    }
 
 				if(!$assigning)
@@ -360,16 +386,148 @@
 				$this->displayPortal();
 			break;
 
+			case 'display_report_all':
+				View::View();
+				$this->displayVolunteerReport($dao->getVolunteersForReport());
+			break;
+
+			case 'display_custom_report_select_for_mgrs':
+				$this->displayCustomReportFilterForMgrs($dao->listProjects($_SESSION['user_id'], true, true));
+			break;
+
+			case 'display_custom_report_select':
+				View::View();
+
+				$projects = array('ALL_PROJECTS' => '(all)') + $dao->listProjects(null, false, true);
+				$orgs = array('ALL_ORGS' => '(all)') + $dao->getOrganizations(true);
+
+				$this->displayCustomReportFilter($projects, $orgs, $dao->getVolunteerNames(true));
+			break;
+
+			case 'display_custom_report':
+				View::View();
+				$extra_opts = array();
+
+				$proj_id = null;
+				$org_id = null;
+				$vols = array();
+
+				if(isset($getvars['proj_id']) && $getvars['proj_id'] != 'ALL_PROJECTS')
+				{
+					$proj_id = $getvars['proj_id'];
+					$extra_opts['reportProjName'] = $dao->getProjectName($proj_id);
+				}
+
+				if(isset($getvars['org_id']) && $getvars['org_id'] != 'ALL_ORGS')
+				{
+					$org_id = $getvars['org_id'];
+					$temp = $dao->getOrganizationInfo($org_id);
+					$extra_opts['reportOrgName'] = $temp['name'];
+				}
+
+				if(!empty($getvars['vols']) && is_array($getvars['vols']))
+				{
+					$extra_opts['reportingSpecificVolunteers'] = true;
+					$vols = $getvars['vols'];
+				}
+
+				$this->displayVolunteerReport($dao->getVolunteersForReport($proj_id, $org_id, $vols), $extra_opts);
+			break;
+
+			case 'display_modify_skills':
+				$this->displayModifySkills();
+			break;
+
+			case 'process_add_skill':
+				global $global;
+				require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
+
+				if(empty($getvars['skill_desc']) || empty($getvars['skill_code']))
+					add_error('Please specify both a skill description and skill code');
+				else
+				{
+					$find = array("/\s*".VM_SKILLS_DELIMETER."\s*/", "/^\s+/", "/\s+$/");
+					$replace = array(VM_SKILLS_DELIMETER, '', '');
+					$description = preg_replace($find, $replace, $getvars['skill_desc']);
+
+					if(!$dao->addSkill($getvars['skill_code'], $description))
+						add_error('The specified skill code already exists. Please choose another');
+				}
+				$this->displayModifySkills();
+			break;
+
+			case 'process_remove_skill':
+				if(!empty($_REQUEST['skills']))
+					foreach($_REQUEST['skills'] as $code)
+						$dao->removeSkill($code);
+				$this->displayModifySkills();
+			break;
+
+			case 'display_approval_management':
+				//currently only site manager approval is allowed, later credential approval will be added
+				$this->displayApprovalForm($dao->getVolunteerNames(),  $dao->getVolunteersByAbility('MGR'));
+			break;
+
+			case 'process_approval_modifications':
+				//currently only site manager approval is allowed, later credential approval will be added
+				$dao->updateAbilityStatus($getvars['vol_id'], 'MGR', isset($getvars['approve']));
+				add_confirmation('Approval information has been updated');
+				$this->displayApprovalForm($dao->getVolunteerNames(), $dao->getVolunteersByAbility('MGR'));
+			break;
+
+			case 'process_approval_upgrades':
+				//currently only site manager approval is allowed, later credential approval will be added
+				$dao->updateAbilityStatus($getvars['vol_id'], 'MGR', true);
+				add_confirmation('Approval information has been updated');
+				$this->displayApprovalForm($dao->getVolunteerNames(), $dao->getVolunteersByAbility('MGR'));
+			break;
+
+			case 'display_log_time_form':
+				$this->showLogTime($getvars['p_uuid'], $getvars['pos_id']);
+			break;
+
+			case 'process_log_time':
+				$start = strtotime($getvars['startDate'].' '.$getvars['startTime']);
+				if(empty($getvars['numHours']))
+					$end = strtotime($getvars['endDate'].' '.$getvars['endTime']);
+				else
+					$end = $start + $getvars['numHours'] * 60 * 60;
+
+				if(($e = validateShiftTimes($start, $end)) === VM_OK) {
+					if($dao->logShift($getvars['p_uuid'], $getvars['pos_id'], $start, $end)) {
+						$this->displayConfirmation('Your time was logged successfully.');
+						$v = new Volunteer($getvars['p_uuid']);
+						View::View($v);
+						$this->displayVolunteer($getvars['p_uuid']);
+					}
+					else
+						add_error("There was a problem logging your time. Please go back and try again.");
+				} else {
+					add_error("Error logging time: $e");
+					$this->showLogTime($getvars['p_uuid'], $getvars['pos_id']);
+				}
+			break;
+
+			case 'review_hours':
+				if(empty($getvars['proj_id'])) {
+					$this->displaySelectReviewHours();
+				} else {
+					$this->displayReviewHours($getvars['proj_id']);
+				}
+			break;
+
+			case 'process_review_hours':
+				$this->dao->reviewShift($getvars['shift_id'], $getvars['status']);
+				$this->displayReviewHours($getvars['p_uuid'], $getvars['pos_id']);
+			break;
+
 			default:
 				if($_SESSION['logged_in'])
 				{
 					View::View(new Volunteer($_SESSION['user_id']));
 					$this->displayPortal();
 				}
-			break;
 		}
-
-
  	}
 
  	/**

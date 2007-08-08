@@ -25,7 +25,7 @@
  * Represents the Volunteer object.
  *
  * @var string p_uuid - volunteer's id
- * @var dao - reference to the global dao object
+ * @var array proj_pos_id - array of project position IDs
  * @var array info - stores the information retrieved fotm the queries to the DB
  */
 class Volunteer extends Model {
@@ -33,7 +33,7 @@ class Volunteer extends Model {
 	public $p_uuid;
 	public $img_uuid;
 	public $info = array();
-	public $proj_id = array();
+	public $proj_pos_id = array();
 
 /**
  * The Volunteer function declares a constructor method that is called on each newly-created volunteer object.
@@ -90,6 +90,18 @@ class Volunteer extends Model {
 
 	function getPictureID($p_uuid=null) {
 		return $this->dao->getPictureID($p_uuid==null?$this->p_uuid:$p_uuid);
+	}
+
+	function getVolunteerAssignments() {
+		$volunteers = $this->dao->getVolunteers();
+
+		$positions = array();
+		foreach(array_keys($volunteers) as $p_uuid)
+			foreach($this->dao->listPositions(null,$p_uuid) as $thisPosition){
+				$positions[$p_uuid][] = $thisPosition;
+
+		}
+		return $positions;
 	}
 }
 

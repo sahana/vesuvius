@@ -10,6 +10,10 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author       Antonio Alcorn
+* @author       Giovanni Capalbo
+* @author		Sylvia Hristakeva
+* @author		Kumud Nepal
+* @author		Ernel Wint
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @copyright    Trinity Humanitarian-FOSS Project - http://www.cs.trincoll.edu/hfoss
 * @package      sahana
@@ -29,11 +33,15 @@ $global=array('approot'=>realpath(dirname(__FILE__)).'/../../../');
 require_once($global['approot'].'mod/vm/main.inc');
 
 // Define the correct constants for your DB here.
-define (TEST_DB_HOST,"localhost");
-define (TEST_DB_NAME,"sahana");
-define (TEST_DB_USER,"root");
-define (TEST_DB_PASSWD,"");
+define (TEST_DB_HOST,"storage1");
+define (TEST_DB_NAME,"sahana2_summer07_testing");
+define (TEST_DB_USER,"sahana_admin");
+define (TEST_DB_PASSWD,"trysahana");
 
+//define ('TEST_DB_HOST',"localhost");
+//define ('TEST_DB_NAME',"sahana");
+//define ('TEST_DB_USER',"root");
+//define ('TEST_DB_PASSWD',"");
 
 $test = $_REQUEST['test'];
 $title = empty($test)? 'RunTest' : $test;

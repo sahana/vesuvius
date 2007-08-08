@@ -1,16 +1,27 @@
-<h2>Personal Info</h2>
+{if $edit_auth || $delete_auth}
+	<div id="submenu_v">
+		{if $edit_auth}
+			<a href = '?mod=vm&act=volunteer&vm_action=display_edit&p_uuid={$p_uuid}'>Edit</a>
+		{/if}
+		{if $delete_auth && $p_uuid != $_SESSION['user_id']}
+			<a href = '?mod=vm&act=volunteer&vm_action=display_confirm_delete&p_uuid={$p_uuid}'>Delete</a>
+		{/if}
+	</div>
+{/if}
+<br>
 {if !empty($pictureID)}
 <center><img style="padding-bottom: 1em;" src="?mod=vm&amp;act=display_image&amp;stream=image&amp;size=full&amp;id={$pictureID}" /></center>
-{/if}
+{/if} </br>
 <table align="center" border="0">
 	<tr>
+		<br>
 		<td><b>Name:</b></td>
 		<td>{$info.full_name}</td>
 	</tr>
 	<tr>
 		<td><b>Gender:</b></td>
 		<td>{$info.gender}</td>
-	</tr>
+	</tr> </br>
 	{if $view_auth == VM_ACCESS_ALL && !empty($ids)}
 	<tr>
 		<td><b>ID:</b></td>
@@ -86,34 +97,61 @@
 		<td>{$occupation}</td>
 	</tr>
 	{/if}
+
+
 	{if !empty($affiliation)}
 	<tr>
 		<td><b>Affiliation:</b></td>
 		<td>{$affiliation}</td>
 	</tr>
+	</table>
 	{/if}
-	<tr>
-		<td><b>Project(s):</b></td>
-		<td>
 			{if count($projects) > 0}
-				{foreach $projects as $id => $name}
-				<a href="?mod=vm&amp;act=project&amp;vm_action=display_single&amp;proj_id={$id}">{$name}</a><br />
-				{/foreach}
+	<table align= "center">
+		<thead><tr> <td>  Project </td>
+				<td>Position</td>
+					<td>Log Time</td>
+				</tr>
+		</thead>
+		<tbody>
+
+		{foreach  $VolPositions as $position}
+			<tr>
+				<td><a href="?mod=vm&amp;act=project&amp;vm_action=display_single&amp;proj_id={$position.proj_id}">{$position.project_name}</a></td>
+				<td>{$position.title}</td>
+				<td style="text-align: center">
+					{php}
+						if($ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_log_time_form', array('pos_id' => $position['pos_id'], 'p_uuid' => $p_uuid))))
+						{
+					{/php}
+						<a href="?mod=vm&amp;act=volunteer&amp;vm_action=display_log_time_form&amp;p_uuid={$p_uuid}&amp;pos_id={$position.pos_id}">Log time</a>
+					{else}
+						---
+					{/if}
+				</td>
+			</tr>
+		{/foreach}
+
+		</tbody>
+	</table>
+
 			{else}
 			(none)
 			{/if}
-		</td>
-	</tr>
+
+
 </table>
 <br />
-<h2>Skills</h2>
+<h2>Skills and Work Restrictions</h2>
 <?
 $vol_skills->display();
 ?>
-<br />
-{if $edit_auth}
-<a href = '?mod=vm&act=volunteer&vm_action=display_edit&p_uuid={$p_uuid}'>Edit</a>
+{if !empty($special_needs)}
+	<tr>
+	<br>
+		<td><b>Special Needs: </b></td>
+		<td>{$special_needs}</td>
+	</br>
+	</tr>
 {/if}
-{if $delete_auth && $p_uuid != $_SESSION['user_id']}
-<a href = '?mod=vm&act=volunteer&vm_action=display_confirm_delete&p_uuid={$p_uuid}'>Delete</a>
-{/if}
+

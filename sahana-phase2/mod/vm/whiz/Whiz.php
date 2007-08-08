@@ -53,6 +53,7 @@ class Whiz {
 		if(!file_exists($cache_path) || filemtime($cache_path) <= filemtime($template_path)) {
 			require('tags.inc');
 			$compiled = preg_replace($find, $replace, file_get_contents($template_path));
+			$compiled = preg_replace($empty_blocks, "\n", $compiled);
 			if(empty($compiled)||!$compiled) {
 				add_error("Template error: Error caching template file: $template");
 				return false;

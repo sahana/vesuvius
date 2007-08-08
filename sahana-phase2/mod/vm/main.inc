@@ -1,4 +1,4 @@
-<?php
+<?
 
 /**
 * Main include file for Sahana
@@ -36,12 +36,15 @@ include_once($global['approot'].'/inc/lib_location.inc');
 
 // include our own classes.
 require_once('lib/Constants.php');
+require_once('lib/vm_validate.inc');
 
 //Model
 require_once('model/Model.php');
 require_once('model/dao.php');
 require_once('model/Volunteer.php');
 require_once('model/Project.php');
+require_once('model/PositionType.php');
+require_once('model/Position.php');
 require_once('model/VMPicture.php');
 
 //View
@@ -131,3 +134,4 @@ function shn_vm_html_head()
 		"3" => '<script type="text/javascript" src="'.TREE_JS_PATH.'checkbox_node.js"></script>'
 	));
 }
+?>

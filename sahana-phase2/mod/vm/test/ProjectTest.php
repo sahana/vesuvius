@@ -66,9 +66,9 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
     public function testProject() {
     	global $dao;
-		$this->fixture->Project(8);
+		$this->fixture->Project(39);
 		asort($this->fixture->info);
-		$expected = $dao->getProject(8);
+		$expected = $dao->getProject(39);
 		asort($expected);
 		$this->assertEquals($this->fixture->info, $expected);
     }

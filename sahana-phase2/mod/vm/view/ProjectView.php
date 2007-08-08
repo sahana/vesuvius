@@ -33,10 +33,6 @@ class ProjectView extends View
 		$volunteers = $dao->getVolunteers($p->proj_id);
 		$numVolunteers = count($volunteers);
 
-		// get manager name
-		$v = new Volunteer($p->info['mgr_id']);
-		$this->engine->assign('mgr_name', $v->info['full_name']);
-
 		// get location hierarchy
 		require_once($global['approot']. 'inc/lib_location.inc');
 		$parents = array();
@@ -54,21 +50,38 @@ class ProjectView extends View
 		$this->engine->assign('start_date', ($p->info['start_date'] == '0000-00-00')?'':$p->info['start_date']);
 		$this->engine->assign('end_date', ($p->info['end_date'] == '0000-00-00')?'':$p->info['end_date']);
 		$this->engine->assign('location', $locations);
-		$this->engine->assign('skills', $dao->getVolSkillsTree($p->proj_id, false));
-		$this->engine->assign('mgr_id', $p->info['mgr_id']);
+		$this->engine->assign('skills', $dao->getVolSkillsTree($p->proj_id, true));
+
 		$this->engine->assign('numVolunteers', $numVolunteers);
 		$this->engine->assign('showVolunteersAssigned', $showVolunteersAssigned);
 		$this->engine->assign('proj_id', $p->proj_id);
+		$this->engine->assign('position_title',$p->ptype_title);
+
+		$this->engine->assign('positions',$p->positions);
 
 		$ac = new AccessController();
 		$this->engine->assign('edit_auth', $ac->isAuthorized(false, $ac->buildURLParams('project', 'display_edit', array('proj_id' => $p->proj_id))));
 		$this->engine->assign('delete_auth', $ac->isAuthorized(false, $ac->buildURLParams('project', 'display_confirm_delete', array('proj_id' => $p->proj_id))));
 
+
+		$this->engine->assign('add_pos_auth', $ac->isAuthorized(false, $ac->buildURLParams('project', 'add_position', array('proj_id' => $p->proj_id))));
+		$this->engine->assign('delete_pos_auth', $ac->isAuthorized(false, $ac->buildURLParams('project', 'remove_position', array('proj_id' => $p->proj_id))));
+		$this->engine->assign('assign_auth', $ac->isAuthorized(false, $ac->buildURLParams('project', 'display_assign', array('proj_id' => $p->proj_id))));
+
 		$this->engine->display('project/display.tpl');
 		if($showVolunteersAssigned && $numVolunteers > 0)
 		{
+			$extra_opts = array
+			(
+				'showPictures'			=> true,
+				'showLocation'			=> true,
+				'showRemove'			=> true,
+				'modifyProjId'			=> $p->proj_id,
+				'showPositions'         => true,
+				'showHours'             => true
+ 			);
 			$vView = new VolunteerView();
-			$vView->listVolunteers($volunteers, $p->proj_id, true);
+			$vView->listVolunteers($volunteers, $extra_opts);
 		}
 	}
 
@@ -96,16 +109,12 @@ class ProjectView extends View
 
 		global $dao;
 		$this->engine->assign('action',($p==null)?"Add":"Edit");
-		$raw_mgr_data = $dao->getSiteManagers(VM_MGR_APPROVED);
+		$raw_mgr_data = $dao->getVolunteersByAbility('MGR', 'approved');
 		$mgrs_select = array();
 		foreach($raw_mgr_data as $p_uuid => $info)
 			$mgrs_select[$p_uuid] = $info['name'];
 		$this->engine->assign('managers', $mgrs_select);
 
-		if($p == null)
-			$this->engine->assign('skills', $dao->getSelectSkillsTree(null, false, null, true));
-		else
-			$this->engine->assign('skills', $dao->getSelectSkillsTree($p->proj_id, false));
 
 		$this->engine->assign('info', $p->info);
 		$this->engine->assign('start_date', ($p->info['start_date'] == '0000-00-00')?'':$p->info['start_date']);
@@ -125,7 +134,7 @@ class ProjectView extends View
 	 * Displays a form for assigning volunteers to a project
 	 */
 
-	function assignVol ($proj_id)
+	function assignVol($proj_id, $positions=null)
 	{
 		$p = new Project($proj_id);
 		$this->engine->assign('proj_id', $proj_id);
@@ -133,7 +142,8 @@ class ProjectView extends View
 
 		$this->engine->display('volunteer/assign_header.tpl');
 		$this->engine->assign('proj_name', $p->info['name']);
-		$getvars = array_merge($_REQUEST, array('act' => 'volunteer', 'vm_action' => 'process_search', 'assigning' => true, 'proj_id' => $p->proj_id));
+		$getvars = array_merge($_REQUEST, array('act' => 'volunteer', 'vm_action' => 'process_search', 'assigning' => true, 'proj_id' => $p->proj_id, 'positions' => $positions));
+
 		$vc = new VolunteerController();
 		$vc->controlHandler($getvars);
 	}
@@ -167,21 +177,24 @@ class ProjectView extends View
 		$this->engine->display('project/assign.tpl');
 	}
 
-	/**
-	 * Displays a form to edit a volunteer's task
-	 *
-	 * @param $p_uuid		- the volunteer's p_uuid
-	 * @param $proj_id		- the project to change the volunteer's task for
-	 * @param $current_task	- the volunteer's current task
+	/*
+	 *Adds a new Position to a project
 	 */
-	function displayEditTaskForm($p_uuid, $proj_id, $current_task)
-	{
-		$this->engine->assign('p_uuid', $p_uuid);
-		$this->engine->assign('proj_id', $proj_id);
-		$this->engine->assign('current_task', addslashes($current_task));
-		$this->engine->display('project/edit_task.tpl');
+	function addPosition($p=null) {
+		global $dao;
+		if ($p != null) {
+			$this->engine->assign('pos_id',$p->pos_id);
+			$this->engine->assign('proj_id',$p->proj_id);
+			$this->engine->assign('ptype_id',$p->ptype_id);
+			$this->engine->assign('position_title',$p->position_title);
+			$this->engine->assign('numSlots',$p->numSlots);
+			$this->engine->assign('title', $p->title);
+			$this->engine->assign('description', $p->description);
+			$this->engine->assign('payrate', $p->payrate);
+		}
+		$this->engine->assign('position_types', $dao->getSkillList());
+		$this->engine->display('project/position.tpl');
 	}
-
 }
 
 ?>

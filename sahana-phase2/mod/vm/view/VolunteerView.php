@@ -1,8 +1,11 @@
 <?php
 
 /**
-* Volunteer view
+* VolunteerView.php - define the view for volunteer-related functions
 *
+* The VolunteerView class handles any view functionality with regards to
+* volunteers. It is a subclass of the View class, so it inherits the reference
+* to the engine object for use of PHP templates.
 * PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -22,14 +25,6 @@
 * @license        http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 */
-
-/**
- * VolunteerView.php - define the VolunteerView class.
- *
- * The VolunteerView class handles any view functionality with regards to
- * volunteers. It is a subclass of the View class, so it inherits the reference
- * to the engine object for use of PHP templates.
- */
 
 // think this is required for running phpunit
 require_once('View.php');
@@ -75,9 +70,11 @@ class VolunteerView extends View
 			$this->engine->assign('p_uuid', $this->model->p_uuid);
 			$this->engine->assign('date_format', vm_date_format);
 			$this->engine->assign('occupation', $info['occupation']);
-
+			$this->engine->assign('VolPositions',$dao->listPositions(null,$p_uuid));
 			$org_info = $dao->getOrganizationInfo($info['affiliation']);
 			$this->engine->assign('affiliation', $org_info['name']);
+			$this->engine->assign('special_needs', $info['special_needs']);
+
 
 			$contact_types=$dao->getContactTypes();
 			$this->engine->assign('contact_types',$contact_types);
@@ -118,6 +115,7 @@ class VolunteerView extends View
 			$ac = new AccessController();
 			$this->engine->assign('edit_auth', $ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_edit', array('p_uuid' => $p_uuid))));
 			$this->engine->assign('delete_auth', $ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_confirm_delete', array('p_uuid' => $p_uuid))));
+			$this->engine->assign('ac', $ac);
 
 			//check to see how much info to display about the person
 
@@ -136,49 +134,91 @@ class VolunteerView extends View
 	/**
 	 * Display a small subset of all volunteers' information
 	 *
+	 * @access public
 	 * @param $volunteers		- an array of volunteers to display (result from DAO::getVolunteers())
-	 * @param $proj_id			- (optional) if using this volunteer list to assign or remove volunteers from a project, set this to the project ID
-	 * @param $showRemove		- (optional, default false) true to show a link to remove the volunteer from a project (only applies to a call to this method from ProjectView::displayProject())
-	 * @param $showAvailability - (optional, default false) true to show volunteer's availability
-	 * @param $showIDs 			- (optional, default false) true to show volunteer's identification numbers
-	 * @param $showSkills	 	- (optional, default false) true to show a drop-down list of all skills
-	 * @param $showAssignButton - (optional, default false) true to show a button to assign the volunteer to a project (only applies to a call to this method from ProjectView::assignVol())
-	 * @param $search_params		- (optional, default empty array) list of optional parameters that apply to using this volunteer list as a search result list
+	 * @param $extra_opts		- an array specifying any of the following optional parameters:
+	 * 		'showPictures'		- true to show pictures of volunteers
+	 *		'showAvailability 	- true to show volunteer's availability
+	 *		'showIDs 			- true to show volunteer's identification numbers
+	 * 		'showSkills'	 	- true to show a drop-down list of all skills
+	 * 		'searchParams'		- list of optional parameters that apply to using this volunteer list as a search result list:
+	 * 							- 'justAssignedVol'	- true if we just assigned a volunteer
+	 * 							- 'advanced'		- true if it is an advanced search
+	 * 		'showStatus'		- true to show the volunteer's status
+	 * 		'showAffiliation'	- true to show the volunteer's affiliation
+	 * 		'showLocation'		- true to show the volunteer's location
+	 * 		'modifyProjId'		- set this to the appropriate project ID if using this volunteer list to assign or remove volunteers from a project
+	 * 		'showAssignButton'  - true to show a button to assign the volunteer to a project (must also specify modifyProjId)
+	 *  	'showRemove'			- true to show a link to remove the volunteer from a project (must also specify modifyProjId)
+	 *		'reporting'			- true to show reporting information (payrate, hours, etc.)
+	 *		'reportProjId'		- if reporting, the project ID of the project that we're reporting about
+	 *		'reportOrgId'		- if reporting, the organization ID of the organization that we're reporting about
+	 * 		'rowHeight'			- if specified, will define the height (in pixels) of the rows displayed, otherwise will default to VM_IMAGE_THUMB_HEIGHT
 	 * @return void
 	 */
 
-	function listVolunteers($volunteers, $proj_id=null, $showRemove=false, $showAvailability=false, $showIDs=false, $showSkills=false, $showAssignButton=false, $search_params = array())
+	function listVolunteers($volunteers, $extra_opts=array())
 	{
 		global $dao;
-
 		$ac = new AccessController();
+		View :: View(new Volunteer());
+		//get the display options from extra_options
+		$modifyProjId 		= isset($extra_opts['modifyProjId'])?$extra_opts['modifyProjId']:null;
+		$showPictures 		= isset($extra_opts['showPictures'])?$extra_opts['showPictures']:false;
+		$showRemove 			= isset($extra_opts['showRemove'])?$extra_opts['showRemove']:false;
+		$showAvailability	= isset($extra_opts['showAvailability'])?$extra_opts['showAvailability']:false;
+		$showIDs 			= isset($extra_opts['showIDs'])?$extra_opts['showIDs']:false;
+		$showSkills			= isset($extra_opts['showSkills'])?$extra_opts['showSkills']:false;
+		$showAssignButton	= isset($extra_opts['showAssignButton'])?$extra_opts['showAssignButton']:false;
+		$searchParams		=!empty($extra_opts['searchParams'])?$extra_opts['searchParams']:array();
+		$reporting 			= isset($extra_opts['reporting'])?$extra_opts['reporting']:false;
+		$rowHeight 			= isset($extra_opts['rowHeight'])?$extra_opts['rowHeight']:VM_IMAGE_THUMB_HEIGHT;
+		$showStatus			= isset($extra_opts['showStatus'])?$extra_opts['showStatus']:false;
+		$showAffiliation	= isset($extra_opts['showAffiliation'])?$extra_opts['showAffiliation']:false;
+		$showLocation		= isset($extra_opts['showLocation'])?$extra_opts['showLocation']:false;
+		$reportProjName		= isset($extra_opts['reportProjName'])?$extra_opts['reportProjName']:null;
+		$reportOrgName		= isset($extra_opts['reportOrgName'])?$extra_opts['reportOrgName']:null;
+		$showHours		    = isset($extra_opts['showHours'])?$extra_opts['showHours']:false;
+		$showPositions		= isset($extra_opts['showPositions'])?$extra_opts['showPositions']:false;
+		$positions			= empty($extra_opts['positions'])?array():$extra_opts['positions'];
 
 		// if we're displaying images here, get the IDs
-		if(VM_LIST_PICTURES)
+		if(VM_LIST_PICTURES && $showPictures)
 			foreach($volunteers as $p_uuid => $vol)
 				if($img_uuid = $dao->getPictureID($p_uuid))
 					$volunteers[$p_uuid]['pictureID'] = $img_uuid;
 
-		//a few booleans to tell what to display
-		$this->engine->assign('showRemove', $showRemove);
-		$this->engine->assign('showAvailability', $showAvailability);
-		$this->engine->assign('showIDs', $showIDs);
-		$this->engine->assign('showSkills',$showSkills);
-		$this->engine->assign('showAssignButton', $showAssignButton);
-		$this->engine->assign('listPictures', VM_LIST_PICTURES);
+		//assign the booleans to tell what to display
+		$this->engine->assign('modifyProjId', 		$modifyProjId);
+		$this->engine->assign('showPictures', 		VM_LIST_PICTURES && $showPictures);
+		$this->engine->assign('showRemove', 		$showRemove);
+		$this->engine->assign('showAvailability', 	$showAvailability);
+		$this->engine->assign('showIDs', 			$showIDs);
+		$this->engine->assign('showSkills',			$showSkills);
+		$this->engine->assign('showAssignButton', 	$showAssignButton);
+		$this->engine->assign('reporting', 			$reporting);
+		$this->engine->assign('rowHeight', 			$rowHeight);
+		$this->engine->assign('showStatus', 		$showStatus);
+		$this->engine->assign('showAffiliation', 	$showAffiliation);
+		$this->engine->assign('showLocation', 		$showLocation);
+		$this->engine->assign('reportProjName', 	$reportProjName);
+		$this->engine->assign('reportOrgName', 		$reportOrgName);
+		$this->engine->assign('showHours', 		    $showHours);
+		$this->engine->assign('showPositions', 		$showPositions);
 
-		$this->engine->assign('searching', $search_params['searching']);
-		$this->engine->assign('just_assigned_vol', $search_params['just_assigned_vol']);
-		$this->engine->assign('advanced', $search_params['advanced']);
+		$this->engine->assign('searching', 			!empty($searchParams));
+		$this->engine->assign('justAssignedVol', 	isset($searchParams['justAssignedVol'])?$searchParams['justAssignedVol']:false);
+		$this->engine->assign('advancedSearch',		isset($searchParams['advanced'])?$searchParams['advanced']:false);
 
 		$this->engine->assign('volunteers', $volunteers);
-		$this->engine->assign('proj_id', $proj_id);
-		if(!is_null($proj_id) && !$showAssignButton)
-		{
-			$this->engine->assign('showTask', true);
-			$this->engine->assign('showEditTask', true);
-		}
+		$this->engine->assign('positions', $positions);
 
+
+		$this->engine->assign("myPositions", $this->model->getVolunteerAssignments());
+
+		$this->engine->assign("volPositions", $this->model->getVolunteerAssignments());
+
+		//suppress certain data based on access control
 		if($ac->dataAccessIsAuthorized($ac->access['volunteer']['display_single']['tables'], false))
 			$this->engine->assign('view_auth', VM_ACCESS_ALL);
 		else if($dao->isSiteManager($_SESSION['user_id']))
@@ -255,6 +295,9 @@ class VolunteerView extends View
 		else
 			$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree($v->p_uuid));
 
+		//special needs information
+		$this->engine->assign('special_needs', $v->info['special_needs']);
+
 		//Handle whether or not the user must register a Sahana account
 		$this->engine->assign('reg_account', !$_SESSION['logged_in']);
 
@@ -296,8 +339,8 @@ class VolunteerView extends View
 	 * @access public
 	 */
 
-	 function displayPortal()
-	 {
+	function displayPortal()
+	{
 	 	//display links and their descriptions according to access control
 		$ac = new AccessController();
 
@@ -317,7 +360,7 @@ class VolunteerView extends View
 	 	$this->engine->assign('p_uuid', $this->model->p_uuid);
 	 	$this->engine->assign('messages', $this->model->info['messages']);
 	 	$this->engine->display('volunteer/portal.tpl');
-	 }
+	}
 
 	 /**
 	  * Displays a form for changing user's password.
@@ -327,10 +370,10 @@ class VolunteerView extends View
 	  * @return void
 	  */
 
-	  function changePass($p_uuid) {
+	 function changePass($p_uuid) {
 			$this->engine->assign('p_uuid', $p_uuid);
 			$this->engine->display('volunteer/change_pass.tpl');
-	  }
+	 }
 
 	  /**
 	   * Displays a volunteer's inbox or outbox
@@ -339,9 +382,9 @@ class VolunteerView extends View
 	   * @return void
 	   */
 
-	   function displayMailbox($box='inbox')
-	   {
-	   		global $dao;
+	function displayMailbox($box='inbox')
+	{
+		global $dao;
 
 	   		//set up regular expressions for special syntax rules
 
@@ -379,7 +422,10 @@ class VolunteerView extends View
 
 				//get the list of message recipients as well as who the message is from
 
-				$messages[$key]['from'] = $dao->getPersonName($value['from_id']);
+				if($value['from_id'] == 'SYS_MSG')
+					$messages[$key]['from'] = 'System Message';
+				else
+					$messages[$key]['from'] = $dao->getPersonName($value['from_id']);
 
     			$list = $dao->getToList($messages[$key]['message_id']);
     			end($list);
@@ -402,7 +448,7 @@ class VolunteerView extends View
 	   		$this->engine->assign('box', $box!='outbox');
 	   		$this->engine->assign('box_name', ($box!='outbox')?'inbox':$box);
 	   		$this->engine->display('message/mailbox.tpl');
-	   }
+	}
 
 	   /**
 	    * Display a message
@@ -419,15 +465,18 @@ class VolunteerView extends View
 	    * HTML syntax is displayed and not allowed to be parsed by the browser
 	    */
 
-	    function displayMessage($p_uuid, $message_id, $box='inbox')
-	    {
+	function displayMessage($p_uuid, $message_id, $box='inbox')
+	{
 	    	global $dao;
 	    	$message = $dao->getMessage($p_uuid, $message_id, $box!='outbox');
 
 			if(!empty($message))
 			{
 				//get who the message is from
-				$message['from'] = $dao->getPersonName($message['from_id']);
+				if($message['from_id'] == 'SYS_MSG')
+					$message['from'] = 'System Message';
+				else
+					$message['from'] = $dao->getPersonName($message['from_id']);
 
 		    	//get the list of message recipients
 		    	$list = $dao->getToList($message['message_id']);
@@ -465,7 +514,7 @@ class VolunteerView extends View
 	    	$this->engine->assign('message', $message);
 	    	$this->engine->display('message/message.tpl');
 
-	    }
+	}
 
 	    /**
 	     * Displays a form to send a message
@@ -475,21 +524,13 @@ class VolunteerView extends View
 	     * @return void
 	     */
 
-	    function displaySendMessageForm($to=array())
-	    {
-	    	global $dao;
-	    	$all_vols = $dao->getVolunteers();
-
-	    	$to_list = array();
-	    	foreach($all_vols as $p_uuid => $vol)
-	    	{
-	    		$to_list[$p_uuid] = $vol['full_name'];
-	    	}
-
-	    	$this->engine->assign('to_list', $to_list);
-	    	$this->engine->assign('to', $to);
-	    	$this->engine->display('message/send_message.tpl');
-	    }
+	function displaySendMessageForm($to=array())
+	{
+		global $dao;
+		$this->engine->assign('to_list', $dao->getVolunteerNames());
+		$this->engine->assign('to', $to);
+		$this->engine->display('message/send_message.tpl');
+	}
 
 	    /**
 	     * Displays a search form for a volunteer
@@ -528,12 +569,120 @@ class VolunteerView extends View
 	     * @param $just_assigned_vol	- 	true if $assigning is true and we just assigned a volunteer (nice to know if no search results are found to not display an error)
 	     */
 
-	    function displaySearchResults($results, $assigning=false, $proj_id=null, $advanced=false, $just_assigned_vol=false)
+	    function displaySearchResults($results, $assigning=false, $proj_id=null, $advanced=false, $just_assigned_vol=false, $positions=null)
 	    {
-			//function listVolunteers($volunteers, $proj_id=null, $showRemove=false, $showAvailability=false, $showIDs=false, $showSkills=false, $showAssignButton=false, $search_params = array())
-	    	$this->listVolunteers($results, $proj_id, false, true, false, true, $assigning, array('advanced' => $advanced, 'just_assigned_vol' => $just_assigned_vol, 'searching' => true));
+	    	$extra_opts = array
+			(
+				'showPictures'			=> true,
+				'showAvailability'		=> true,
+				'showLocation'			=> true,
+				'showStatus'			=> true,
+				'showAffiliation'		=> true,
+				'showSkills'			=> true,
+				'searchParams'			=> array('advancedSearch' => $advanced, 'justAssignedVol' => $just_assigned_vol),
+				'showAssignButton'		=> $assigning,
+				'modifyProjId'			=> $proj_id,
+				'positions'				=> $positions
+			);
+	    	$this->listVolunteers($results, $extra_opts);
 	    }
 
+	    /**
+	     * Displays a form to filter report information by
+	     */
+
+	    function displayCustomReportFilter($projects, $orgs, $vols)
+	    {
+	    	$this->engine->assign('projects', $projects);
+	    	$this->engine->assign('orgs', $orgs);
+	    	$this->engine->assign('vols', $vols);
+	    	$this->engine->display('volunteer/custom_report_select.tpl');
+	    }
+
+	    /**
+	     * Displays a form to filter report information intended for only site managers
+	     */
+
+	    function displayCustomReportFilterForMgrs($projects)
+	    {
+	    	$this->engine->assign('projects', $projects);
+	    	$this->engine->display('volunteer/custom_report_select_for_mgrs.tpl');
+	    }
+
+	    /**
+	     * Displays a volunteer report
+	     *
+	     * @param	$volunteers		- an array of volunteer information to report (typically a result from DAO::getVolunteersForReport())
+	     * @param	$extra_opts		- an array of optional extra options to specify, with the following structure:
+	     * Array
+	     * (
+	     * 		'reportProjName'					=> the name of the project reporting on
+	     * 		'reportOrgName'					=> the name of the organization reporting on
+	     * 		'reportingSpecificVolunteers'	=> true if reporting only on specificly chosen volunteers
+	     * )
+	     */
+
+	    function displayVolunteerReport($volunteers, $extra_opts=array())
+	    {
+	    	$this->engine->assign('volunteers', $volunteers);
+	    	$this->engine->assign('reportProjName', isset($extra_opts['reportProjName'])?$extra_opts['reportProjName']:null);
+	    	$this->engine->assign('reportOrgName', isset($extra_opts['reportOrgName'])?$extra_opts['reportOrgName']:null);
+	    	$this->engine->assign('reportingSpecificVolunteers', isset($extra_opts['reportingSpecificVolunteers'])?$extra_opts['reportingSpecificVolunteers']:false);
+	    	$this->engine->display('volunteer/report.tpl');
+	    }
+
+	    /**
+		 * Displays a form to handle adding/removing skills
+		 */
+
+		function displayModifySkills()
+		{
+			$v = new Volunteer();
+			$this->engine->assign('skills', $v->getSkillList());
+			$this->engine->display('volunteer/modify_skills.tpl');
+		}
+
+		/**
+		 * Displays a form to approve site managers (later credential approval should be added)
+		 */
+
+		function displayApprovalForm($vols, $mgrs)
+		{
+			$this->engine->assign('managers', $mgrs);
+			$this->engine->assign('volunteers', $vols);
+			$this->engine->display('volunteer/approve.tpl');
+		}
+
+	function showLogTime($p_uuid, $pos_id) {
+		if(!empty($p_uuid) && !empty($pos_id)) {
+			$v = new Volunteer($p_uuid);
+			$p = new Position($pos_id);
+
+			$this->engine->assign('p_uuid', $p_uuid);
+			$this->engine->assign('pos_id', $pos_id);
+			$this->engine->assign('info', $v->info);
+			$this->engine->assign('pos_title', $p->title);
+			$this->engine->assign('proj_name', $p->proj_name);
+			$this->engine->assign('nowDate', date('Y/m/d'));
+			$this->engine->assign('startTime', date('g:00 a'));
+			$this->engine->assign('nowTime', date('g:i a'));
+
+			$this->engine->display('volunteer/log_time.tpl');
+		} else {
+			echo "Invalid user or position.";
+		}
+	}
+
+	function displayReviewHours($proj_id) {
+		if(!empty($proj_id)) {
+			$this->engine->assign('proj_id', $proj_id);
+			$this->engine->display('volunteer/reviewListHours.tpl');
+		}
+	}
+
+	function displaySelectReviewHours() {
+		$this->engine->display('volunteer/showListHours.tpl');
+	}
 }
 
 ?>

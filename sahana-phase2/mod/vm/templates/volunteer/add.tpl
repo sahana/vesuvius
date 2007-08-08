@@ -38,15 +38,18 @@ shn_form_fopen('default&vm_action=process_add', null, array('enctype' => 'enctyp
 	shn_form_fsclose();
 
 	shn_form_fsopen('Skills');
-		echo "<b>Please select your skills below. </b>";
+		echo "<b>Please select your skills and limitations below. </b>";
 		shn_form_extra_opts(array('req' => true));
-		echo "<b>NOTE: Selecting a category will select all skills below it.</b>";
+		echo "<b>NOTE: Selecting a category will select all options below it.</b>";
 		shn_form_extra_opts(array("help" => "When you select a checkbox that has a <img src='".TREE_IMAGE_PATH."plus' />
-		                                     next to it, you are selecting all skills that fall under that category. For this
-		                                     reason, make sure that you review the skills you select by expanding until you see a
+		                                     next to it, you are selecting all options that fall under that category. For this
+		                                     reason, make sure that you review the options you select by expanding until you see a
 		                                     <img src='".TREE_IMAGE_PATH."minus' />"));
 		$select_skills_tree->display('', 'Node.toggleChildren(0, 0, true); tree_tmp.expandParentsOfChecked(); Tree.checkTree(tree_tmp.root);');
-	shn_form_fsclose();
+
+		echo '<p>' . _('Optionally, you may enter any special needs. Please use commas to separate multiple needs:') . '</p>';
+		shn_form_textarea('Special needs:', 'special_needs', '', array('value' => $special_needs));
+		shn_form_fsclose();
 {/php}
 
 {* This line is included as a temporary fix for a bug that made elements (in the fieldset under the fieldset containing the tree) float around when expanding and collapsing tree nodes *}
@@ -58,6 +61,7 @@ shn_form_fopen('default&vm_action=process_add', null, array('enctype' => 'enctyp
 		shn_form_date('End Date :', 'end_date', array('value' => $date_end, 'req' => true));
 		shn_form_text('Start Hours (e.g. 08:00) :', 'hrs_avail_start', '', array('value' => $hour_start));
 		shn_form_text('End Hours (e.g. 17:00) :', 'hrs_avail_end', '', array('value' => $hour_end));
+
 	shn_form_fsclose();
 
 	shn_form_fsopen('Base Location');

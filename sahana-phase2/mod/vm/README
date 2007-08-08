@@ -16,3 +16,7 @@ If you plan on installing a new copy of Sahana, just make sure the 'vm' director
 The Sahana installer will take care of running the MySQL script.
 
 For more info, see: http://www.cs.trincoll.edu/hfoss/svm/wiki/UserGuide
+
+CHANGELOG
+8/8/2007: v1.1: Added positions to projects; improved ACL; fixed bugs.
+7/5/2007: v1.0: First release of refactored Volunteer Module.

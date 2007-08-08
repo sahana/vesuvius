@@ -50,4 +50,7 @@ $replace = array(
 	"<?php "," ?>",
 	""
 );
+
+$empty_blocks = "/\?\>\s+\<\?php/";
+
 ?>

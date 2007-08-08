@@ -1,5 +1,0 @@
-UNIT TESTING
-
-These unit tests were written using the PHPUnit framework. To run these tests you can download and install the package from <http://www.phpunit.de/>.
-You can either install it with pear, or just drop the PHPUnit folder into this directory.
-RunTest.php is a small web-based wrapper which allowed us to run the tests from our browser. It's pretty ugly, so be warned.

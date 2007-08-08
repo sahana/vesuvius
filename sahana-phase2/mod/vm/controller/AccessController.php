@@ -79,7 +79,6 @@ class AccessController
 		else
 			$auth_vars = $new_getvars;
 
-
 		//store a variable to represent if 'act' is set and present in our list
 
 		if(isset($auth_vars['act']))
@@ -125,102 +124,79 @@ class AccessController
 		}
 
 		//assume the user passes to begin with
-		$passed_tables = true;
-		$passed = true;
+
+		$passed_sahana_acl = true;
+		$passed_vm_acl = true;
 
 		//check for database information access
 
 		if(is_array($this->access[$act][$vm_action]['tables']))
 		{
-			$passed_tables = $this->dataAccessIsAuthorized($this->access[$act][$vm_action]['tables'], false);
-			if($passed_tables)
-				return true;
+			$passed_sahana_acl = $this->dataAccessIsAuthorized($this->access[$act][$vm_action]['tables'], false);
 		}
 
-		//check for possible constraints imposed through the 'extra' array
+		//check for possible constraints/overrides imposed through the 'extra' array
 
 		if(is_array($this->access[$act][$vm_action]['extra']))
 		{
-			//store each constraint
-
-			$req_login = false;
-			$req_volunteer = false;
-			$req_manager = false;
-			$ovr_manager = false;
-			$ovr_my_info = false;
-			$ovr_my_proj = false;
-			$ovr_mgr_proj = false;
-
 			foreach($this->access[$act][$vm_action]['extra'] as $value)
 			{
 				//user must be logged in
 
 				if($value == 'req_login')
-					$req_login = true;
+					$passed_vm_acl = $passed_vm_acl && $_SESSION['logged_in'];
 
 				//user must be a volunteer
 
 				if($value == 'req_volunteer')
-					$req_volunteer = true;
+					$passed_vm_acl = $passed_vm_acl && $dao->isVolunteer($_SESSION['user_id']);
 
 				//user must be an approved site manager
 
 				if($value == 'req_manager')
-					$req_manager = true;
+					$passed_vm_acl = $passed_vm_acl && $dao->isSiteManager($_SESSION['user_id']);
 
 				//override if user is an approved site manager
 
 				if($value == 'ovr_manager')
-					$ovr_manager = true;
+					if($dao->isSiteManager($_SESSION['user_id']))
+						return true;
 
 				//override if user is requesting access to his own information
 
 				if($value == 'ovr_my_info')
-					$ovr_my_info = true;
+					if($auth_vars['p_uuid'] == $_SESSION['user_id'])
+						return true;
 
 				//override if user is requesting access to one of his own project's information
 
 				if($value == 'ovr_my_proj')
-					$ovr_my_proj = true;
+					if(in_array($auth_vars['proj_id'], array_keys($dao->listProjects($_SESSION['user_id']))))
+						return true;
 
 				//override if the user is requesting access to one of the projects he is a site manager for
 
 				if($value == 'ovr_mgr_proj')
-					$ovr_mgr_proj = true;
-			}
+				{
+					if($dao->isSiteManagerForProject($_SESSION['user_id'], $auth_vars['proj_id']))
+						return true;
+				}
 
-			//check all constraints/overrides
+				//override if the user has the Main Operations handler role
 
-			if($req_login)
-				$passed = $passed && $_SESSION['logged_in'];
+				if($value == 'ovr_mainops')
+					if(in_array(MAINOPS, array_keys(_shn_acl_get_roles($_SESSION['user_id']))))
+						return true;
 
-			if($req_volunteer)
-				$passed = $passed && $dao->isVolunteer($_SESSION['user_id']);
+				//override if the user is a site manager who is requesting access to one of his projects' positions' information (active or retired)
 
-			if($req_manager)
-				$passed = $passed && $dao->isSiteManager($_SESSION['user_id']);
-
-			if($ovr_manager)
-				if($dao->isSiteManager($_SESSION['user_id']))
-					return true;
-
-			if($ovr_my_info)
-				if($auth_vars['p_uuid'] == $_SESSION['user_id'])
-					return true;
-
-			if($ovr_my_proj)
-				if(in_array($auth_vars['proj_id'], array_keys($dao->listProjects($_SESSION['user_id']))))
-					return true;
-
-			if($ovr_mgr_proj)
-			{
-				$p = $dao->getProject($auth_vars['proj_id']);
-				if($p['mgr_id'] == $_SESSION['user_id'])
-					return true;
+				if($value == 'ovr_mgr_pos')
+					if($dao->isPositionUnderManager($auth_vars['pos_id'], $_SESSION['user_id']))
+						return true;
 			}
 		}
 
-		if($passed && $passed_tables)
+		if($passed_vm_acl && $passed_sahana_acl)
 		{
 			return true;
 		}

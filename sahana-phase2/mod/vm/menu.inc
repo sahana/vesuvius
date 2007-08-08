@@ -24,7 +24,7 @@
 */
 
 /**
- * Displays the 'Volunteers' submenu only if any of its submenu items are present
+ * Displays the 'Volunteers' submenu only if any of its submenu items can be displayed
  */
 
 function shn_vm_volunteer_submenu()
@@ -35,18 +35,20 @@ function shn_vm_volunteer_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_list_assigned')) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_list_all')) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_search')))
+
 	{
 		shn_sub_mod_menuopen(_("Volunteers"));
 		    $ac->addMenuItem('Assign to Project', $ac->buildURLParams('project', 'display_select_project'), true);
 		    $ac->addMenuItem('Show Assigned', $ac->buildURLParams('volunteer', 'display_list_assigned'), true);
 		    $ac->addMenuItem('View All', $ac->buildURLParams('volunteer', 'display_list_all'), true);
 		    $ac->addMenuItem('Search for a Volunteer', $ac->buildURLParams('volunteer', 'display_search'), true);
+
 	    shn_sub_mod_menuclose();
 	}
 }
 
 /**
- * Displays the 'Projects' submenu only if any of its submenu items are present
+ * Displays the 'Projects' submenu only if any of its submenu items can be displayed
  */
 
 function shn_vm_project_submenu()
@@ -66,7 +68,7 @@ function shn_vm_project_submenu()
 }
 
 /**
- * Displays the 'Messaging' submenu only if any of its submenu items are present
+ * Displays the 'Messaging' submenu only if any of its submenu items can be displayed
  */
 
 function shn_vm_messaging_submenu()
@@ -84,6 +86,45 @@ function shn_vm_messaging_submenu()
 		shn_sub_mod_menuclose();
 	}
 }
+
+/**
+ * Displays the 'Reports' submenu only if any of its submenu items can be displayed
+ */
+
+function shn_vm_reports_submenu()
+{
+	$ac = new AccessController();
+
+	if(	$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_report_all')) ||
+		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_custom_report_select')) ||
+		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs')))
+	{
+		shn_sub_mod_menuopen(_("Reporting"));
+			$ac->addMenuItem('Report All Volunteers', $ac->buildURLParams('volunteer', 'display_report_all'), true);
+			$ac->addMenuItem('Custom Report', $ac->buildURLParams('volunteer', 'display_custom_report_select'), true);
+			$ac->addMenuItem('Report On My Projects', $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs'), true);
+		shn_sub_mod_menuclose();
+	}
+}
+
+/**
+ * Displays the 'Managing' submenu only if any of its submenu items can be displayed
+ */
+
+function shn_vm_management_submenu()
+{
+	$ac = new AccessController();
+
+	if(	$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_modify_skills')) ||
+		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_approval_management')))
+	{
+		shn_sub_mod_menuopen(_("Management"));
+			$ac->addMenuItem('Modify Abilities/Limitations', $ac->buildURLParams('volunteer', 'display_modify_skills'), true);
+			$ac->addMenuItem('Approve Abilities', $ac->buildURLParams('volunteer', 'display_approval_management'), true);
+		shn_sub_mod_menuclose();
+	}
+}
+
 
 /**
  * Display the main menu for the VM module.
@@ -105,6 +146,8 @@ function shn_vm_mainmenu()
 		shn_vm_volunteer_submenu();
 		shn_vm_project_submenu();
 		shn_vm_messaging_submenu();
+		shn_vm_reports_submenu();
+		shn_vm_management_submenu();
 
 		if($dao->isVolunteer($_SESSION['user_id']))
 			$ac->addMenuItem('Edit Your Details', $ac->buildURLParams('volunteer', 'display_edit', array('p_uuid' => $_SESSION['user_id'])), true);
@@ -115,8 +158,7 @@ function shn_vm_mainmenu()
 
 	shn_mod_menuclose();
 
-    // include the main menu
-    include $global['approot']."/inc/handler_mainmenu.inc";
+	include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
+
 /**
-* Setup script
+* PositionType model
 *
 * PHP version 5
 *
@@ -22,6 +23,37 @@
 * Public License (LGPL)
 */
 
-$package['mod_vm_version'] = '1.1';
+class PositionType extends Model {
+	public $ptype_id;
+	public $position_title;
+	public $position_description;
+	public $skill_code;
+
+	function PositionType($ptype_id=null) {
+		$this->ptype_id = $ptype_id;
+		$this->skills = array();
+	}
+
+	function setSkill($skill_code) {
+		$this->skill_code = $skill_code;
+	}
+
+	function getSkill() {
+		return $this->skill_code;
+	}
+
+	function save() {
+		$this->dao->savePositionType($this);
+	}
+
+	function delete($pos_id) {
+		$this->dao->deletePositionType($pos_id);
+	}
+
+	function getPosition($pos_id=null) {
+		return $this->dao->getPositionType($pos_id);
+	}
+
+}
 
 ?>

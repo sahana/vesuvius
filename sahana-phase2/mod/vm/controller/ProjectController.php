@@ -24,10 +24,10 @@
 */
 
 /**
- * VolunteerController.php - define the VolunteerController class
+ * ProjectController.php - define the ProjectController class
  *
- * This class, a subclass of the VolunteerView, implements the Controller interface
- * and decides which pages in the VolunteerView to show or act upon.
+ * This class, a subclass of the ProjectView, implements the Controller interface
+ * and decides which pages in the ProjectView to show or act upon.
  */
 
  class ProjectController extends ProjectView implements Controller
@@ -59,6 +59,7 @@
 				$p = new Project($getvars['proj_id']);
 				View::View($p);
 				$this->displayProject($p);
+
 			break;
 
 			case 'display_add':
@@ -80,14 +81,6 @@
 				$p->info['mgr_id']=$getvars['manager'];
 				$p->info['locations'] = array();
 				shn_get_parents(shn_location_get_form_submit_loc(), $p->info['locations']);
-				$p_skills = array();
-				$skill_ids = $dao->getSkillIDs();
-				foreach($skill_ids as $skill)
-				{
-					if($getvars["SKILL_$skill"] == 'on')
-						$p_skills[] = $skill;
-				}
-				$p->info['skills'] = $p_skills;
 
 				if($this->validateAddForm($getvars))
 				{
@@ -131,6 +124,7 @@
 				{
 					add_error(SHN_ERR_VM_NO_PROJECT);
 
+					//if the user is just a site manager who got here due to overriding access control, only display his projects, otherwise display all
 					if($dao->isSiteManager($_SESSION['user_id']) && !$ac->dataAccessIsAuthorized(array('vm_proj_vol' => 'ru'), false))
 						$projects = $dao->listProjects($_SESSION['user_id'], true);
 					else
@@ -140,13 +134,13 @@
 				}
 				else
 				{
-					if($getvars['p_uuid'] != '' && $this->validateAssignForm($getvars))
+					if($this->validateAssignForm($getvars))
 					{
-						$dao->assignToProject($getvars['p_uuid'], $getvars['proj_id'], $getvars["{$getvars['p_uuid']}_task"]);
+						$dao->assignVolunteerToPosition($getvars['p_uuid'], $getvars['pos_id_'.$getvars['p_uuid']]);
 						add_confirmation('Volunteer has been successfully assigned');
 					}
-
-					$this->assignVol($getvars['proj_id']);
+					$p = new Project($getvars['proj_id']);
+					$this->assignVol($getvars['proj_id'], $p->positions);
 				}
 			break;
 
@@ -161,33 +155,41 @@
 				$this->listProjects($_SESSION['user_id']);
 			break;
 
-			case 'display_edit_task':
-				$this->displayEditTaskForm($getvars['p_uuid'], $getvars['proj_id'], $dao->getVolTask($getvars['p_uuid'], $getvars['proj_id']));
-			break;
-
-			case 'process_edit_task':
-				global $global;
-				require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
-
-				if(shn_vm_not_empty($getvars['task']))
-				{
-					$dao->setVolTask($getvars['p_uuid'], $getvars['proj_id'], $getvars['task']);
-					add_confirmation('Task has been updated');
-
-					$p = new Project($getvars['proj_id']);
-					View::View($p);
-					$this->displayProject($p);
-				}
+			case 'process_add_position':
+				if ($getvars['pos_id'] != null)
+					$p = new Position($getvars['pos_id']);
 				else
-				{
-					add_error(SHN_ERR_VM_NO_TASK);
-					$this->displayEditTaskForm($getvars['p_uuid'], $getvars['proj_id'], $dao->getVolTask($getvars['p_uuid'], $getvars['proj_id']));
-				}
+					$p= new Position();
+				$p->proj_id= $getvars['proj_id'];
+				$p->ptype_id = $getvars['ptype_id'];
+				$p->description= $getvars['description'];
+				$p->title= $getvars['title'];
+				$p->numSlots= $getvars['numSlots'];
+				$p->payrate= $getvars['payrate'];
+
+			    $dao->savePosition($p);
+			    //$this->displayConfirmation("Position assignment has been added to {$p->position_title}");
+				$this->controlHandler(array('vm_action' => 'display_single', 'proj_id' => $p->proj_id));
 			break;
 
-			default:
-				$this->listProjects();
+			case 'add_position':
+				if($getvars['pos_id'])
+					$p= new Position($getvars['pos_id']);
+				else
+			 		$p= new Position();
+
+			 	if(isset($getvars['proj_id']))
+			 		$p->proj_id = $getvars['proj_id'];
+
+			 	$this->addPosition($p);
 			break;
+
+			case 'remove_position':
+				$dao->removePosition($getvars['pos_id']);
+				$this->controlHandler(array('vm_action' => 'display_single', 'proj_id'=> $getvars['proj_id']));
+			break;
+
+			default: $this->listProjects();
 		}
 
  	}
@@ -199,19 +201,13 @@
  	 * @access public
  	 * @return true if the form is valid, false otherwise
  	 */
-
+// Needed to be added - check if a valid position has been selected
  	function validateAssignForm($getvars)
  	{
  		global $global;
 		require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
 
- 		if(!shn_vm_not_empty($getvars["{$getvars['p_uuid']}_task"]))
- 		{
- 			add_error(SHN_ERR_VM_NO_TASK);
- 			return false;
- 		}
-
- 		return true;
+ 		return $getvars['p_uuid'] != '';
  	}
 
  	/**
@@ -234,11 +230,9 @@
 		//validate that there is a name entered
  	 	$validated = $validated && shn_vm_not_empty($getvars['name'], SHN_ERR_VM_NO_NAME);
 
- 	 	//validate that a site manager has been selected
- 	 	$validated = $validated && shn_vm_not_empty($getvars['manager'], SHN_ERR_VM_NO_MGR);
-
- 	 	//validate that at least one required skill is selected
- 	 	$validated = $validated && shn_vm_skill_selected($getvars, SHN_ERR_VM_NO_SKILLS_SELECTED);
+ 	 	//validate that a site manager has been selected only if we're adding
+ 	 	if(!isset($getvars['proj_id']))
+ 	 		$validated = $validated && shn_vm_not_empty($getvars['manager'], SHN_ERR_VM_NO_MGR);
 
  	 	//validate that the dates if specified are in the correct format and if both specified the start date is before the end date;
 

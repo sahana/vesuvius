@@ -34,26 +34,14 @@ class AdminView extends View
 	 * Displays the menu at the top of each admin page
 	 */
 
-	function displayAdminVMenu()
+	function displayAdminHMenu()
 	{
 		$ac = new AccessController();
-		$this->engine->assign('skills', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_modify_skills')));
 		$this->engine->assign('acl', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_acl_situations')));
-		$this->engine->assign('managers', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_approve_managers')));
 		$this->engine->assign('search_registry', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_update_phonetics')));
 		$this->engine->assign('clear_cache', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_clear_cache')));
-		$this->engine->display('admin/vmenu.tpl');
-	}
-
-	/**
-	 * Displays a form to handle adding/removing skills
-	 */
-
-	function displayAdminSkills()
-	{
-		$v = new Volunteer();
-		$this->engine->assign('skills', $v->getSkillList());
-		$this->engine->display('admin/skills.tpl');
+		$this->engine->assign('audit_acl', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_audit_acl')));
+		$this->engine->display('admin/hmenu.tpl');
 	}
 
 	/**
@@ -96,31 +84,49 @@ class AdminView extends View
 	}
 
 	/**
-	 * Displays a form to allow site manager approval
-	 *
-	 * @param $managers	- 	an array of unapproved site managers, where each key is each p_uuid and each value
-	 * 						is each name
-	 */
-
-	function displaySiteManagerApprovalForm($managers)
-	{
-		$this->engine->assign('managers', $managers);
-		$this->engine->display('admin/approve_managers.tpl');
-	}
-
-	/**
 	 * Displays the default admin page, which simply contains instructions on what each administrative function does
 	 */
 
 	function displayDefaultAdminPage()
 	{
 		$ac = new AccessController();
-		$this->engine->assign('skills', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_modify_skills')));
 		$this->engine->assign('acl', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_acl_situations')));
-		$this->engine->assign('managers', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'display_approve_managers')));
 		$this->engine->assign('search_registry', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_update_phonetics')));
 		$this->engine->assign('clear_cache', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_clear_cache')));
+		$this->engine->assign('audit_acl', $ac->isAuthorized(false, array('act' => 'adm_default', 'vm_action' => 'process_audit_acl')));
 		$this->engine->display('admin/default.tpl');
+	}
+
+	/**
+	 * Displays the result from auditing the ACL system
+	 *
+	 * @param	$bad_requests - an array requests that are not found in the database but are in the code
+	 * 	Array
+	 * 	(
+	 * 		'act'		=> the act parameter
+	 * 		'vm_action'	=> the vm_action parameter
+	 * 	)
+	 *
+	 * @param	$extra_requests - an array of requests that are in the database but not in the code:
+	 * 	Array
+	 * 	(
+	 * 		'act'		=> Array
+	 * 						(
+	 * 							'vm_action'	=> a brief description of the access request
+	 * 						)
+	 * 	)
+	 *
+	 * @param	$unclassified_tables - an array of tables that have not been given any classification level at all
+	 * @param 	$classification_levels - an array of all classification ids paired with descriptions for use in classifying the tables if necessary
+	 */
+
+	function displayACLAudit($bad_requests, $extra_requests, $unclassified_tables, $classification_levels)
+	{
+		$this->engine->assign('bad_requests', $bad_requests);
+		$this->engine->assign('extra_requests', $extra_requests);
+		$this->engine->assign('unclassified_tables', $unclassified_tables);
+		$this->engine->assign('classification_levels', $classification_levels);
+		$this->engine->display('admin/acl_audit.tpl');
 	}
 
 }

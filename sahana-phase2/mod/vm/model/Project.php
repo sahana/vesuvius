@@ -27,12 +27,15 @@
  */
 class Project extends Model {
 	public $proj_id;
+	public $positions; // array of positions
 	public $info;
 
 	function Project($proj_id=null) {
 		Model::Model();
 		if ($proj_id != null) {
 			$this->info = $this->dao->getProject($proj_id);
+			$this->positions = $this->info['positions'];
+			unset($this->info['positions']);
 			$this->proj_id = $proj_id;
 		}
 	}
