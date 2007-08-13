@@ -48,7 +48,7 @@ function shn_home_default()
     _shn_home_module_info('msg',"Message through email and mobile phones to groups");
     _shn_home_module_info('vol',"Capturing all volunteers, their skills, availability and allocation");
     _shn_home_module_info('cs',"Captures information on different catalogues and measurement units. Which is used in systems such as Inventory Management System and Request Management System.");
-    _shn_home_module_info('sync',"Syncronize of data between instances of Sahana.");
+    _shn_home_module_info('sync',"Synchronize of data between instances of Sahana.");
 ?>
 
 	</ul>
