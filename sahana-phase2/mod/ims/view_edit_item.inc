@@ -250,6 +250,7 @@ function _shn_ims_view_edit_item_actions()
     $action=trim($_POST['action']);
 
 //print $action;
+//print '<br/>';
     $stat=$_POST['status'];
 //print ($stat);
     if($action=='0')
@@ -266,7 +267,7 @@ function _shn_ims_view_edit_item_actions()
 	    display_errors();
 	    shn_ims_list_items_paging($stat=20);
 	}
-	//shn_ims_list_items_paging($stat);
+	shn_ims_list_items_paging($stat);
     }
     if($action=='close')
     {
