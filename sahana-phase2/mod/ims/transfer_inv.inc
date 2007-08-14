@@ -15,6 +15,7 @@
 * @tutorial        
 * @license          http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
+global $global;
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once ("errors.inc");
@@ -95,7 +96,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
      print '</b>';
     shn_form_fclose();
-    $sql = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des';";
+    $sql = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND amount!=0 AND state!='$state_des';";
 
     $SearchResult=mysql_query($sql) or die(mysql_error()); 
 	$NumberOfResults=mysql_num_rows($SearchResult); 
@@ -128,7 +129,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 <?php
         
                 
-        $sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND state!='$state_des' LIMIT $page_number,$Limit;";
+        $sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND amount!=0 AND state!='$state_des' LIMIT $page_number,$Limit;";
 
         //print $sql1;
         
