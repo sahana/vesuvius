@@ -15,10 +15,11 @@ function shn_text_home_help()
 {
     if(empty($_GET['help_id'])){
         echo "var help_arr = new Array(".count($_SESSION['form_help']).");\n";
-        foreach($_SESSION['form_help'] as $help_id => $value){
-            $clean_value = preg_replace(array('@([\r\n])[\s]+@','@"@'), array(' ',"'"),$value);
-            echo "help_arr[".$help_id."] = \"$clean_value\";\n";
-        }
+        if(isset($_SESSION['form_help']))
+            foreach($_SESSION['form_help'] as $help_id => $value){
+                $clean_value = preg_replace(array('@([\r\n])[\s]+@','@"@'), array(' ',"'"),$value);
+                echo "help_arr[".$help_id."] = \"$clean_value\";\n";
+            }
     }else{
         echo $_SESSION['form_help'][$_GET['help_id']];
     }
