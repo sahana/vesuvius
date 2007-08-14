@@ -91,11 +91,11 @@ function _shn_ims_view_edit($i,$Limit=null)
 	    $i=0;
         }
 
-	$sql1="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name LIMIT $i,$Limit;";
+	$sql1="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND amount!=0 order by item_name LIMIT $i,$Limit;";
 	$ims = $db->Execute($sql1);
         
 
-	$sql="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' order by item_name;";
+	$sql="SELECT item_id,catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date from ims_item_records WHERE state!='$state_des' AND amount!=0 order by item_name;";
 
 	$SearchResult=mysql_query($sql) or die(mysql_error()); 
 	$NumberOfResults=mysql_num_rows($SearchResult); 
