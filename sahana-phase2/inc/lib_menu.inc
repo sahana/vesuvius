@@ -29,7 +29,7 @@ function shn_mainmenuitem($action, $desc, $module = null )
     global $global;
     if ( null == $module ) $module = $global['module'];
 ?>
-    <li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
+    <li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li>
 <?php
 }
 
@@ -80,7 +80,7 @@ function shn_mod_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-    <li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
+    <li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li>
 <?php
 }
 
@@ -130,7 +130,7 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-		<li><a href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a></li>
+		<li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li>
 <?php
 }
 
@@ -145,8 +145,8 @@ function shn_sub_mod_menuopen($desc)
 {
     $id=str_replace(" ", "_", $desc);
 ?>
-	<li><a href="#" onclick="expand('<?=$id?>',this);" class="smopen"><?=$desc?></a>
-		<ul id="<?=$id?>">
+	<li><a href="#" onclick="expand('<?php echo $id;?>',this);" class="smopen"><?php echo $desc;?></a>
+		<ul id="<?php echo $id;?>">
 <?php
 }
 
@@ -275,5 +275,54 @@ function shn_breadcrumb_display()
 
     echo '</div>';
 
+}
+
+
+/**
+ * Open tab menu
+ * 
+ * @access public
+ * @return void
+ */
+function shn_tabmenu_open(){
+?>
+    <ul id="tabmenu">
+<?
+}
+
+
+/**
+ * Close tab menu
+ * 
+ * @access public
+ * @return void
+ */
+function shn_tabmenu_close(){
+?>
+    </ul>
+<?
+}
+
+
+/**
+ * Add an tab menu item 
+ * 
+ * @param mixed $action
+ * @param mixed $desc 
+ * @param mixed $module
+ * @access public
+ * @return void
+ */
+function shn_tabmenu_item($action, $desc, $module = null){
+    global $global;
+    if ( null == $module ) $module = $global['module'];
+    static $count=0;
+    $active=($count == $_GET['tabid'])?"id='active'":'';
+    $tabid='&tabid='.$count++;
+    shn_breadcrumb_set_nicename($module, $action, $desc);
+?>
+        <li <?php echo $active ?>>
+        <a href="index.php?mod=<?php echo $module?>&amp;act=<?php echo $action.$tabid?>"><span><?php echo $desc?></span></a></li>
+<?php
 }
 ?>
