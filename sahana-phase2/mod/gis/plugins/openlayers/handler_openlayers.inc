@@ -55,7 +55,7 @@ function show_map_with_markers($array)
 	$db=$global['db'];
 	include_once('openlayers_fns.php');
 	
-  ol_js_loaders();
+  	ol_js_loaders();
 	ol_layers();
 	ol_show_markers($array);
 ?>            
@@ -78,9 +78,9 @@ function show_map_with_wiki_marker($array)
 	global $conf;
 	include_once('openlayers_fns.php');
 	
-  ol_js_loaders();
+  	ol_js_loaders();
 	ol_layers();
-	ol_show_markers($array);
+	ol_show_wiki_markers($array);
 ?>            
 	}		
 

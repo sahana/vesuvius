@@ -9,6 +9,7 @@
 *
 * @package    Sahana - http://sahana.sourceforge.net
 * @author   Mifan Careem <mifan@opensource.lk>
+* @author	Fran Boon <flavour@partyvibe.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -67,8 +68,8 @@
  	global $global;
 ?>
 	var lon = <?=$conf['mod_gis_center_x']?>;
-  var lat = <?=$conf['mod_gis_center_y']?>;
-  var zoom = 5;
+  	var lat = <?=$conf['mod_gis_center_y']?>;
+  	var zoom = 5;
 	var map = new OpenLayers.Map($('map'));
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
@@ -138,12 +139,12 @@
 
 
 /**
- * Show the Markers layer
+ * Show the Markers layer with Wiki information
  * called by show_map in openlayers plugin handler
  * @access private
  * @todo get layers from catalogue module instead of conf.inc
  */
- function ol_show_markers($array)
+ function ol_show_wiki_markers($array)
  {
  	global $conf;
  	global $global;
@@ -194,6 +195,66 @@
 			} else {
 				echo "\");\n";
 			}
+			echo "popup.setBackgroundColor(\"yellow\");\n";
+			echo "popup.setOpacity(0.7);\n";
+			echo "markers.map.addPopup(popup);\n";
+		echo "} else {\n";
+			echo "markers.map.removePopup(popup);\n";
+			echo "popup.destroy();\n";
+			echo "popup = null;\n";
+		echo "}\n";
+		echo "Event.stop(evt);\n";
+	echo "}\n";
+	}
+}
+
+/**
+ * Show the Markers layer
+ * called by show_map in openlayers plugin handler
+ * @access private
+ * @todo get layers from catalogue module instead of conf.inc
+ */
+ function ol_show_markers($array)
+ {
+ 	global $conf;
+ 	global $global;
+  	$db=$global['db'];
+?>
+
+	var markers = new OpenLayers.Layer.Markers( "Markers" );
+	map.addLayer(markers);
+	var size = new OpenLayers.Size(21,25); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+	var popup;
+
+<?php
+	for($i=0;$i< sizeof($array);$i++){
+	$lon=$array[$i]["lat"];
+	$lat=$array[$i]["lon"];
+	$name=$array[$i]["name"];
+  	$url=$array[$i]["url"];
+  	$pre_url="index.php?";
+	$url=$pre_url.$url;
+	
+	echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+	echo "var marker$i = feature$i.createMarker();\n";
+	echo "markers.addMarker(marker$i);\n";
+	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
+	echo "function mousedown$i(evt) {\n";
+		// check to see if the popup was hidden by the close box
+		// if so, then destroy it before continuing
+		echo "if (popup != null) {\n";
+			echo "if (!popup.visible()) {\n";
+				echo "markers.map.removePopup(popup);\n";
+				echo "popup.destroy();\n";
+				echo "popup = null;\n";
+			echo "}\n";
+		echo "}\n";
+		echo "if (popup == null) {\n";
+			echo "popup = feature$i.createPopup(true);\n";
+			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url' target='_blank'>Link</a><br /></p>";
+			echo "\");\n";
 			echo "popup.setBackgroundColor(\"yellow\");\n";
 			echo "popup.setOpacity(0.7);\n";
 			echo "markers.map.addPopup(popup);\n";
