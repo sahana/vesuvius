@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.62 2007-03-16 01:42:22 ravids Exp $ */
+/* $Id: lib_form.inc,v 1.63 2007-08-18 23:54:29 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -14,6 +14,7 @@
  * @subpackage form 
  * @author     Chamindra de Silva (chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
@@ -291,15 +292,23 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
     global $global;
 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
+    $req=(true == $extra_opts['req'])?'<em> * </em>':'';
+    global $shn_tabindex;
 ?>
-    <label><?php echo $label?></label>
+    <label><?php echo $label.$req?></label>
 <?php
+
+$checked='';
     foreach ($options as $opt_value => $desc ) {
 
 #        $sel = ( $res->fields[1] == $value ) ? "selected" : null ;
+if($value==$opt_value)
+$checked='checked';
+else
+$checked='';
 ?>
-        <input type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>"
-<?php echo $select_opts?> /><?php echo $desc?>
+        <input type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>" tabindex="<?php echo ++$shn_tabindex?>"
+<?php echo $select_opts?>   <?=$checked?>/><?php echo $desc?>
 <?php
     }
 ?>
