@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.22 2007-05-07 19:19:25 mifanc Exp $ */
+/* $Id: edit.inc,v 1.23 2007-08-18 13:13:17 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -427,7 +427,8 @@ while(!$ref->EOF){
 		if($val==$b){
 			echo "<td>$name</td>";
     		echo "<td>". _("Available"). "</td>";
-    		echo "<br>";
+    		$flag = true;
+    		//echo "<br>";
 		}
 	 }
 	}
