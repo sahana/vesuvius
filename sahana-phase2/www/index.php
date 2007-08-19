@@ -58,12 +58,16 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 
     // include the main libraries the system depends on
     require_once ($APPROOT.'inc/handler_db.inc');
+  
+    require_once ($APPROOT.'inc/lib_security/lib_crypt.inc');
     require_once ($APPROOT.'inc/lib_session/handler_session.inc');
     require_once ($APPROOT.'inc/lib_security/handler_openid.inc');
     require_once ($APPROOT.'inc/lib_security/lib_auth.inc');
  	require_once ($APPROOT.'inc/lib_security/constants.inc');
     require_once ($APPROOT.'inc/lib_locale/handler_locale.inc'); 
-
+	require_once ($APPROOT.'3rd/htmlpurifier/library/HTMLPurifier.auto.php');
+	require_once ($APPROOT.'3rd/htmlpurifier/smoketests/common.php');
+	shn_main_clean_getpost();
     //include the user preferences
     include_once ($APPROOT.'inc/lib_user_pref.inc');
     shn_user_pref_populate();
@@ -71,11 +75,34 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
     // load all the configurations based on the priority specified 
     // files and database, base and mods
     shn_config_load_in_order();
-
+    $mods=shn_get_allowed_mods_current_user();
+    foreach ($mods as $mod){
+    	$conf['mod_'.$mod.'_enabled']=true;
+    }
     // start the front controller pattern
     shn_main_front_controller();
+    
 }
 
+// === cleans the GET and POST ===
+function shn_main_clean_getpost()
+{
+	
+	$purifier = new HTMLPurifier();
+	
+	foreach ($_POST as $key=>$val){
+		if(is_array($_POST[$key])==true){
+			
+		}else{
+			//$val=shn_db_clean($val);
+			$val = $purifier->purify($val);
+			$val=escapeHTML($val);
+			$_POST[$key]=$val;
+		}
+
+	}
+	
+}
 // === process the GET and POST ===
 function shn_main_filter_getpost()
 {
@@ -148,10 +175,16 @@ function shn_main_front_controller()
 
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
-        $module_function(); 
+        $mods=shn_get_allowed_mods_current_user();
+
+        $res=array_search($module,$mods,false);
+        if(FALSE !== $res){
+			$module_function();
+        }
 
     // close up the stream. In HTML send the footer
     shn_stream_close();
+    
 }
 
 // Call the web installer 
