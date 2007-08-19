@@ -68,10 +68,49 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
     user_name VARCHAR(100) NOT NULL,
-    password VARCHAR(100), -- encrypted password
+    password VARCHAR(128), -- encrypted password
+    salt VARCHAR(100), -- encrypted password
+    changed_timestamp BIGINT NOT NULL,
+    status VARCHAR(60) DEFAULT "active",
     PRIMARY KEY (p_uuid),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
 );
+
+alter table users add unique (user_name);
+
+/** 
+* Contains the last three passwords of users,to block reusing of passwords 
+* Modules: framework
+* Last changed: 18-JUL-2007 - ravindra@opensource.lk
+**/
+
+DROP TABLE IF EXISTS old_passwords;
+CREATE TABLE old_passwords (
+    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
+    password VARCHAR(100), -- encrypted password
+    changed_timestamp BIGINT NOT NULL,
+    PRIMARY KEY (p_uuid,password),
+    FOREIGN KEY (p_uuid) REFERENCES users(p_uuid)
+);
+
+/** 
+* Contains the log of events(mainly login, password cracking attempts)
+* Modules: framework
+* Last changed: 18-JUL-2007 - ravindra@opensource.lk
+**/
+
+DROP TABLE IF EXISTS password_event_log;
+CREATE TABLE password_event_log (
+    log_id BIGINT NOT NULL AUTO_INCREMENT,
+    changed_timestamp BIGINT NOT NULL ,
+    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
+    user_name VARCHAR(100) NOT NULL,
+    comment VARCHAR(100) NOT NULL,
+    event_type INT DEFAULT 1,
+    PRIMARY KEY (log_id),
+    FOREIGN KEY (p_uuid) REFERENCES users(p_uuid)
+);
+
 
 /** 
 * Contains the system user groups 
@@ -661,11 +700,13 @@ CREATE TABLE resource_to_incident(
 */
 DROP TABLE IF EXISTS sessions;
 CREATE TABLE sessions(
-	sesskey VARCHAR(32) NOT NULL,
-	expiry INT NOT NULL,
-	expireref VARCHAR(64),
-	data TEXT NOT NULL,
-	PRIMARY KEY (sesskey)
+	session_id VARCHAR(64) NOT NULL,
+	sess_key VARCHAR(64) NOT NULL,
+	secret VARCHAR(64) NOT NULL,
+	inactive_expiry BIGINT NOT NULL,
+	expiry BIGINT NOT NULL,
+	data TEXT ,
+	PRIMARY KEY (session_id)
 );
 
 -- OPTIMIZATION  DEVEL - @depracated ?

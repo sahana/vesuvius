@@ -21,7 +21,7 @@
 global $global;
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
-include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
+
 
 /**
  * Generates a form to edit roles of an user
@@ -34,7 +34,6 @@ function shn_acl_form_user_edit_roles()
     global $global;
     $db=$global['db'];
  ?>
- <h3>Edit User-Role Assignments</h3> 
 <div id="home">
 Rows are User ,Columns are Roles ,Intersection shows whether the User is a member of the Role or not
 </div>
@@ -71,7 +70,7 @@ Rows are User ,Columns are Roles ,Intersection shows whether the User is a membe
    ?>
     <tr>
         <td>
-        <?php echo $uname;?>
+        <?php echo $uname?>
         </td>
 <?php
 
@@ -269,253 +268,5 @@ Edit the Data Classification for each table
 </div>
 <?php	
 }
-
-function shn_acl_form_change_user_status(){
-    global $global;
-    $db=$global['db'];
- ?>
-<div id="home">
-Rows are Users ,Columns are the possible status values
-</div>
-
-<div id="formcontainer">
-<?php
-	shn_form_fopen("acl_change_user_status_cr","admin");
-  ?>
-<div id ="result">
-    <table>
-        <thead>
-        <td>
-        <strong>User</strong>
-        </td>
-		<td>
-			Active
-		</td>  
-		<td>
-			Locked
-		</td>
-		<td>
-			Banned
-		</td>     
-    </thead>
-     <tbody>
-<?php    
-    
-    $users=shn_auth_user_list_and_status();
-
-    
-    foreach ($users as $user=>$uarray){
-    	 //this will be used in a hidden field to identify all the checkboxes
-        $user=$user;
-       
-        $uname=$uarray[0];
-   ?>
-    <tr>
-        <td>
-        <?php echo $uname;?>
-        </td>
-        <td>
-        <?php 
-          $options=array("active"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-        <td>
-        <?php 
-          $options=array("locked"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-        <td>
-        <?php 
-          $options=array("banned"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-    </tr>
-<?php
-    }
-?>    
-       </tbody>
-  </table>
-</div>
-<br />
-
-<center>
-<?php
-shn_form_hidden(array("perms"=>$perms));
-shn_form_hidden(array("users"=>$users));
-shn_form_submit(_("Save"));
-?>
-</center>
-<?php
-    //close the form
-    shn_form_fclose();
-?>
-</div>
-<?php		
-}
-
-
-function shn_acl_form_unlock_user(){
-    global $global;
-    $db=$global['db'];
- ?>
-<div id="home">
-Rows are Locked Users ,Columns are the possible status values
-</div>
-
-<div id="formcontainer">
-<?php
-	shn_form_fopen("acl_unlock_user_cr","admin");
-  ?>
-<div id ="result">
-    <table>
-        <thead>
-        <td>
-        <strong>Locked User</strong>
-        </td>
-		<td>
-			Active
-		</td>  
-		<td>
-			Locked
-		</td>
-		<td>
-			Banned
-		</td>     
-    </thead>
-     <tbody>
-<?php    
-    
-    $users=shn_auth_locked_user_list();
-
-    
-    foreach ($users as $user=>$uarray){
-    	 //this will be used in a hidden field to identify all the checkboxes
-        $user=$user;
-       
-        $uname=$uarray[0];
-   ?>
-    <tr>
-        <td>
-        <?php echo $uname;?>
-        </td>
-        <td>
-        <?php 
-          $options=array("active"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-        <td>
-        <?php 
-          $options=array("locked"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-        <td>
-        <?php 
-          $options=array("banned"=>"");
-         shn_form_radio($options,"", $user,$select_opts = "", array('value'=>$uarray[1]));?>
-        </td>
-    </tr>
-<?php
-    }
-?>    
-       </tbody>
-  </table>
-</div>
-<br />
-
-<center>
-<?php
-shn_form_hidden(array("perms"=>$perms));
-shn_form_hidden(array("users"=>$users));
-shn_form_submit(_("Save"));
-?>
-</center>
-<?php
-    //close the form
-    shn_form_fclose();
-?>
-</div>
-<?php		
-}
-
-function shn_acl_form_event_log()
-{
-    global $global;
-    $db=$global['db'];
- ?>
-
-<div id ="result">
-    <table>
-     <thead>
-        <td>
-        <strong>Date</strong>
-        </td>
-        <td>
-        <strong>Time</strong>
-        </td>
-        <td>
-        <strong>User Name</strong>
-        </td>
-        <td>
-        <strong>Full Name</strong>
-        </td>
-        <td>
-        <strong>Event Type</strong>
-        </td>
-        <td>
-        <strong>Event</strong>
-        </td>
-     </thead>
-     <tbody>
-<?php    
-    
-   	$sql="select * from password_event_log order by changed_timestamp DESC";
-   	$res=$db->Execute($sql);
-    while(($res!=null) &&(!$res->EOF)){
-    	$timestamp=$res->fields["changed_timestamp"];
-    	$full_name=shn_get_user_details($res->fields["p_uuid"]);
-    	$date=date("m.d.y",$timestamp);
-    	$time=date("H:m:s",$timestamp);
-    	$type=($res->fields["event_type"]==null)?1:$res->fields["event_type"];
-    	$sql="select option_description from field_options where option_code='{$type}' and field_name='opt_acl_event_type'";
-    	$res2=$db->Execute($sql);
-    	$type=$res2->fields["option_description"];
-    ?>
-    <tr>
-        <td>
-        	<?php echo $date;?>
-        </td>
-        <td>
-        	<?php echo $time;?>
-        </td>
-        <td>
-        	<?php echo $res->fields["user_name"];?>
-        </td>
-        <td>
-        	<?php echo $full_name;?>
-        </td>
-        <td style=" color:red; font-weight:bold;">
-        	<?php echo $type;?>
-        </td>
-        <td>
-        	<?php echo $res->fields["comment"];?>
-        </td>
-    </tr>
-    <?php	
-    	$res->MoveNext();
-    }
-    
-   
-
-    
-?>    
-       </tbody>
-  </table>
-</div>
-<br />
-
-
-<?php	
-}
-
 
 ?>

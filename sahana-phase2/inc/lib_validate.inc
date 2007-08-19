@@ -384,26 +384,36 @@ function shn_validate_user_name($field){
  * @access public
  * @return bool
  */
-function shn_validate_password($field){
-   //return true;
-   $PWDPOLICY="password must adhere to following rules:
-    1. only numbers and letters.
-    2. minimum length is 8.
-    3. at least one number and one letter in the expression."; 
-    $pattern='/([0-9]+[a-z]\+){8}/';
-    if (shn_validate_field($field,"Password",100,true)){
-            return true;
-        /*
-        if(preg_match($pattern,$field))
-            return true;
-        else{
-            add_error($PWDPOLICY);
-            return false;
-        }
-        */
-    }else {
-            return false;
+function shn_validate_password($user=null,$pwd){
+	global $global;
+	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
+	$PWDPOLICY="	<h4>Password must adhere to following rules:</h4>
+    1. Minimum length is 8.<br />
+    2. At least one letter in the expression.<br />
+    3. At least one character is numeric or special.<br />";
+
+	$chars_to_escape='$\*%#@!~';
+	$user=addcslashes($user, $chars_to_escape);
+	
+    if($user!=null){
+    	
+    		if (preg_match("/$user/", $pwd)) {
+    			add_error("User Name cannot be part of the password");
+    			shn_acl_log_error("Password Change error:User Name cannot be part of the password");
+    			return false;
+			}
     }
+
+
+	$pwd=addcslashes($pwd, $chars_to_escape);
+    if (preg_match("/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[^a-zA-Z]).*$/", $pwd)) {
+    	return true;
+	} else {
+		add_error($PWDPOLICY);
+		shn_acl_log_error("Password Change error: password does not comply with the policy");
+    	return false;
+	} 
+ 
 }
 
 /**

@@ -167,13 +167,37 @@ function shn_admin_modadmin()
     /*$admin_menu = "shn_".$global['module']."_adminmenu";
 
     if(function_exists($admin_menu))
-        $admin_menu();    */
+        $admin_menu();    
+    */
 
     $module_function();
 }
 
 
-/******************************************/
+
+function shn_admin_acl_change_user_status($error=false)
+{
+ 	shn_acl_form_change_user_status();
+}
+function shn_admin_acl_change_user_status_cr($error=false)
+{
+ 	_shn_admin_acl_change_user_status_cr();
+ 	shn_admin_acl_change_user_status();	
+}
+function shn_admin_acl_unlock_user($error=false)
+{
+ 	shn_acl_form_unlock_user();
+}
+function shn_admin_acl_unlock_user_cr($error=false)
+{
+ 	_shn_admin_acl_unlock_user_cr();
+ 	shn_admin_acl_unlock_user();	
+}
+
+function shn_admin_acl_event_log($error=false)
+{
+ 	shn_acl_form_event_log();
+}
 
 function shn_admin_add_user($error=false)
 {
@@ -184,7 +208,10 @@ function shn_admin_add_user($error=false)
 function shn_admin_add_user_cr()
 {
    include_once "errors.inc";
-    shn_auth_add_user_cr();
+    if(shn_auth_add_user_cr()==true){
+    	shn_admin_add_user();
+    	return;
+    }
  
     _shn_admin_acl_user_menu();
    
@@ -202,6 +229,22 @@ function shn_admin_del_user_cr()
     _shn_admin_acl_user_menu();
 }
 
+function shn_admin_reset_pwd($error=false)
+{
+    _shn_admin_acl_user_menu();
+    shn_auth_form_reset_pwd($error);
+}
+
+function shn_admin_reset_pwd_cr()
+{
+   include_once "errors.inc";
+   $done=_shn_admin_reset_pwd_cr();
+
+ 
+    _shn_admin_acl_user_menu();
+   
+}
+
 function shn_admin_ch_pwd($error=false)
 {
     _shn_admin_acl_user_menu($module);
@@ -212,18 +255,17 @@ function shn_admin_ch_pwd_cr()
 {
    include_once "errors.inc";
    $error=_shn_admin_ch_pwd_cr();
-   ?><div id="result_msg"><?
+   ?><div id="result_msg"><?php
    if($error){
    	   $msg="An error ocurred";
    }else{ 
    		$msg="The Password was succesfully updated ";
    }
-   
-    echo $msg;
+
     if($error)
     		display_errors();
     ?>
-   </div><?
+   </div><?php
    _shn_admin_acl_system_menu();
 }
 
@@ -232,8 +274,14 @@ function shn_admin_ch_pwd_cr()
 
 function shn_admin_acl_user_roles()
 {
+    
     _shn_admin_acl_user_roles();
 }
+
+
+
+
+
 
 function shn_admin_acl_state()
 {
@@ -242,7 +290,7 @@ function shn_admin_acl_state()
 
 
 
-/************************************/
+
 function shn_admin_add_loc()
 {
     _shn_admin_location_form();

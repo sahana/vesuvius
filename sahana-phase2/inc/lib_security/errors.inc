@@ -18,7 +18,7 @@
 
 define(SHN_AUTH_ERR_USER_EXISTS,"User Name already taken, Please Complete and Submit again");
 define(SHN_AUTH_ERR_PERSON_EXISTS,"A person by that Name already exists, Please Complete and Submit again");
-
+define(SHN_AUTH_ERR_PERSON_NOT_EXISTS,"The Person UUID does not exist, Please Complete and Submit again");
 
 define(SHN_ERR_OR_UNAME_INCOMPLETE,"User Name is essential for registration. Please Complete and Submit again");
 define(SHN_ERR_OR_PWD_INCOMPLETE,"Password is essential for registration. Please Complete and Submit again");

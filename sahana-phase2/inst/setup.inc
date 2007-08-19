@@ -11,6 +11,7 @@
 * @package    Sahana - http://sahana.sourceforge.net
 * @author     http://www.linux.lk/~chamindra
 * @author     Pradeeper http://www.linux.lk/~pradeeper
+* @author     Ravindra http://r4vi.org
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -21,13 +22,15 @@ if (!function_exists("gettext"))
     global $global;
     include_once ($global['approot'].'inc/lib_locale/lib_gettext.inc');
 }
-
+require_once ($global['approot'] . 'inc/lib_security/constants.inc');
+require_once ($global['approot'] . 'inc/lib_security/lib_auth.inc');
 require_once ($global['approot'].'inc/handler_html_head.inc');
 require_once ($global['approot'].'inc/lib_modules.inc'); 
 require_once ($global['approot'].'inc/lib_form.inc'); 
 require_once ($global['approot'].'inc/lib_errors.inc'); 
 require_once ($global['approot'].'3rd/adodb/adodb.inc.php');
 require_once ($global['approot'].'inc/lib_uuid.inc');
+require_once ($global['approot'].'inc/lib_validate.inc');
 require_once ($global['approot'].'inc/lib_config.inc');
 //require_once ($global['approot'].'inc/lib_locale/handler_locale.inc');
 
@@ -577,11 +580,19 @@ function shn_setup_footer()
 
 // install the ACL base
 function shn_setup_acl(){
-	//var_dump($_POST);
 	global $global;
 	$db = &NewADOConnection('mysql');
 	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
     $global['db'] = $db;
+
+	if (shn_validate_password(null,$_POST["root_pwd"])==false){
+		$error=true;
+		return false;
+	}
+   if (shn_validate_password(null,$_POST["user_pwd"])==false){
+		$error=true;
+		return false;
+	}
  
 	$error=false;
 	if ((null==$_POST["admin_name"])or(is_null($_POST["admin_name"]))){
@@ -612,7 +623,7 @@ function shn_setup_acl(){
         $error=true;
         add_error(_("User password cannot be empty"));
     }else {    
-        $re_password=trim($_POST{"user_pwd_confirm"});
+        $password=trim($_POST{"user_pwd"});
     }
 	if ((null==$_POST["user_pwd_confirm"])or(is_null($_POST["user_pwd_confirm"]))){
         $error=true;

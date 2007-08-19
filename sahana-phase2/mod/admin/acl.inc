@@ -242,6 +242,32 @@ for ($i=0;$i<count($perms)-1;$i++){
 	shn_acl_form_user_edit_roles();
 
 }
+
+
+function _shn_admin_acl_change_user_status_cr(){
+	$users=shn_auth_user_list();
+	global $global;
+	$db=$global["db"];
+	foreach ($users as $user=>$uname){
+		$status=$_POST[$user];
+		$sql="update users set status='{$status}' where p_uuid='{$user}'";
+		$res=$db->Execute($sql);
+	}
+	
+}
+
+
+function _shn_admin_acl_unlock_user_cr(){
+	$users=shn_auth_locked_user_list();
+	global $global;
+	$db=$global["db"];
+	foreach ($users as $user=>$uname){
+		$status=$_POST[$user];
+		$sql="update users set status='{$status}' where p_uuid='{$user}'";
+		$res=$db->Execute($sql);
+	}
+	
+}
 function _shn_admin_acl_user_add_roles($module=NULL,$error=false)
 {
 

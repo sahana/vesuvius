@@ -58,10 +58,14 @@ function _shn_admin_mainmenu()
     //shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Security Config"));
-    shn_sub_mod_menuitem("acl_user_roles", _("Roles &amp; Users"), 'admin');
+    shn_sub_mod_menuitem("acl_user_roles", _("User Config"), 'admin');
+    shn_sub_mod_menuitem("acl_change_user_status", _("Change User Status"), 'admin');
+    shn_sub_mod_menuitem("acl_unlock_user", _("Unlock User"), 'admin');
     shn_sub_mod_menuitem("acl_data_classifications", _("Data Classifications"), 'admin');
     shn_sub_mod_menuitem("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
     shn_sub_mod_menuitem("acl_data_classifications_tables", _("Data Classifications & System Data "), 'admin');
+    shn_sub_mod_menuitem("acl_event_log", _("Event Log"), 'admin');
+
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
@@ -72,19 +76,22 @@ function _shn_admin_mainmenu()
 
 function _shn_admin_acl_user_roles_menu()
 {
-
+	
+	shn_tabmenu_open();
+	shn_tabmenu_item("add_user", "Add Users", "admin");
+	shn_tabmenu_item("del_user", "Remove Users", "admin");
+	shn_tabmenu_item("acl_user_edit_roles", "Edit Roles of an User", "admin");
+	shn_tabmenu_item("reset_pwd", "Reset Password of an User", "admin");
+	shn_tabmenu_close();
  ?>
-<div id="submenu_v">
-<a href="index.php?mod=admin&amp;act=acl_user"><?=_("<strong>U</strong>sers")?></a>
-<a href="index.php?mod=admin&amp;act=acl_role"><?=_("<strong>R</strong>oles")?></a>
-</div>
+
 <br>
 <div id="home">
-<h2><?= _('Welcome to Users and Roles section'); ?></h2>
+<h2><?= _('Welcome to Users section'); ?></h2>
 
 <ul>
     <li><?=_('Click <strong>Users</strong> to add,remove Users or edit User Roles')?></li>
-    <li><?=_('Else Choose  <strong>Roles</strong> to edit permissions of Roles ')?></li>
+    
 </ul>
 </div>
 <?php
@@ -95,22 +102,7 @@ function _shn_admin_acl_user_roles_menu()
 
 function _shn_admin_acl_user_menu()
 {
-?>
-<div id="submenu_v">
-<a href="index.php?mod=admin&act=add_user"><?=_("Add User")?></a>
-<a href="index.php?mod=admin&act=del_user"><?=_("Remove User")?></a>
-<?php
-if($_SESSION['logged_in']==true) {
-?>
-<a href="index.php?mod=admin&act=ch_pwd"><?=_("Change Password")?></a>
-<?php
-}
-?>
-<a href="index.php?mod=admin&act=acl_user_edit_roles"><?=_("Edit Roles of an User")?></a>
-</div>
-<br>
-
-<?php
+	_shn_admin_acl_user_roles_menu();
 }
 
 function _shn_admin_acl_role_menu($module=null)
@@ -121,28 +113,6 @@ function _shn_admin_acl_role_menu($module=null)
 <a href="index.php?mod=admin&amp;act=del_role"><?=_("Remove Role")?></a>
 <a href="index.php?mod=admin&amp;act=acl_role_perms"><?=_("Existing Role Permissions")?></a>
 <a href="index.php?mod=admin&amp;act=acl_role_edit_perms"><?=_("Modify Role Permissions")?></a>
-</div>
-<br>
-<?php
-}
-
-function _shn_admin_acl_action_menu($module)
-{
-?>
-<div id="submenu_v">
-<a href="index.php?mod=admin&act=acl_role_default&sel=<?php echo $module?>"><?=_("Add Action")?></a>
-<a href="index.php?mod=admin&act=acl_user_edit_perms&sel=<?php echo $module?>"><?=_("Remove Action")?></a>
-</div>
-<br>
-<?php
-}
-
-function _shn_admin_acl_action_group_menu($module)
-{
-?>
-<div id="submenu_v">
-<a href="index.php?mod=admin&act=acl_role_default&sel=<?php echo $module?>"><?=_("Add Action Group")?></a>
-<a href="index.php?mod=admin&act=acl_user_edit_perms&sel=<?php echo $module?>"><?=_("Remove Action Action Group")?></a>
 </div>
 <br>
 <?php

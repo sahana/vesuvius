@@ -22,38 +22,10 @@
 /* following code decides the session management approach
 e.g write sessions to the database or files 
 */
-
+global $global;
+require_once ($global['approot'].'inc/lib_security/constants.inc');
 require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
 
-global $global;
-switch ($conf["session_writer"]){
-
-case "database":
-
-	switch ($conf["session_database"]){
-	
-	case "adodb":
-	//	shn_db_session();
-		break;
-		
-	case "phpdb":
-        if($session_encrypt){
-            include "php_session_db_encrypt.inc";
-        } else {
-		    include "php_session_db.inc";
-        }
-		break;
-	
-	default:
-        break;
-    }
-
-case "files":
-	break;
-
-default:
-	break;
-}
 
 //start the session
 shn_session_start();
@@ -78,6 +50,7 @@ switch ($user_data["result"]){
         break;
 }
 
+session_update_activity();
 
 /**
  * this function is a wrapper around session_start()
@@ -96,9 +69,11 @@ function shn_session_start(){
    try to fix or hijack their session, so let the attackers
     hijack this useless session
   */
+ //var_dump($_SESSION);
   if (ANONYMOUS_USER==$_SESSION['user_id']){
    		return true;
    }
+ 
    /*If user is guest then he has privileges ,so we have to protect the    
       session ,lets  try to make it hard for session hijacking
     the use of IPADDRESS to prevent session hijacking has
@@ -114,24 +89,81 @@ function shn_session_start(){
 	*/
         if (isset($_SESSION['HTTP_USER_AGENT'])){
             if ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) {
-            	return false;
+            	change_session_to_anonymous();
             }
-        }else {
-			return true;
-		}
+        }
+        
+        	if(session_is_valid()==true){
+        		//echo "hurray";
+        	}else{
+        		change_session_to_anonymous();
+        	}
+        		
+        	
+		
 		
     }else {
-	 	$ip=$_SERVER['REMOTE_ADDR'];
+	 	//$ip=$_SERVER['REMOTE_ADDR'];
 		//create an entry in the user log and obtain the automatically generated id
 	   	// $log_id=shn_db_insert("cre_userlog",array("userid"=>$user_id,"ip"=>$ip));
-        $_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
+		change_session_to_anonymous();
+		//$_SESSION["user_log_id"]=$log_id;
+		//return true;
+    }
+}
+
+function session_is_valid(){
+	global $global;
+	$db=$global['db'];
+	$time=time();
+	$sess_id=session_id();
+	$sql="select inactive_expiry,expiry,secret from sessions where session_id='{$sess_id}'";
+	$res=$db->Execute($sql);
+	if(($res==null) or ($res->EOF)){
+        return false;
+    }else {
+        $in_expiry=$res->fields["inactive_expiry"];
+        $expiry=$res->fields["expiry"];
+        $secret=$res->fields["secret"];
+        if(($time < $in_expiry+900)&&($time < $expiry+3600)){
+        	return true;
+        		/*
+        	if (isset($_COOKIE['secret'])){
+
+        		if($secret==$_COOKIE['secret']){
+        			return true;
+        		}else{
+        			return false;
+        		}
+        	}else{
+        		return false;
+        	}
+        	*/
+        }else{
+        	return false;
+        }
+    }
+	
+	
+}
+
+function session_update_activity(){
+	global $global;
+	$db=$global['db'];
+	$time=time();
+	$sess_id=session_id();
+	$sql="update sessions set inactive_expiry={$time} where session_id='{$sess_id}'";
+	$res=$db->Execute($sql);
+	return $res;
+	
+}
+function change_session_to_anonymous(){
+		session_regenerate_id();
+	    $_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
         $_SESSION['initiated'] = true;
         $_SESSION['logged_in'] = false;
    		$_SESSION["user"]="Anonymous";
-		$_SESSION["user_id"]=ANONYMOUS_USER;// guest user id is 0
-		$_SESSION["user_log_id"]=$log_id;
-		return true;
-    }
+		$_SESSION["user_id"]=ANONYMOUS_USER;
 }
 /**
  * when the user changes privilege levels (e.g login)
@@ -150,9 +182,47 @@ function shn_session_change($user_data){
 	*/ 
 	session_regenerate_id();
     $_SESSION['logged_in'] = true;
+    $sess_id=session_id();
+    $key=genkey($sess_id);
+    $secret=genkey($sess_id);
+    write_session($sess_id,$key,$secret);
+    $expiry=time()+3600;
+   // setcookie("secret", $secret,$expiry);
+    //$_SESSION['user'] = encrypt($user_data["user"],$key);
+    //$_SESSION['user_id'] =encrypt($user_data["user_id"],$key);
     $_SESSION['user'] = $user_data["user"];
+
+    // quick hack to get the display name for session
+    global $global;
+    $sql="select p.full_name,p.custom_name,u.user_name from users as u inner join person_uuid as p on u.p_uuid = p.p_uuid where u.user_name='".$user_data["user"]."'";
+    $res=$global['db']->GetRow($sql);
+    if($res)
+        $user_name=$res[0]." ".$res[1];
+    $_SESSION['user_name']=($user_name==" " || $user_name=='')?$user_data["user"]:$user_name;
+
     $_SESSION['user_id'] =$user_data["user_id"];
+    //var_dump($_SESSION);
 	return ;
+}
+
+function decrypt_sess($data){
+	
+}
+function write_session($sess_id,$key,$secret){
+	global $global;
+	$db=$global['db'];
+	$time=time();
+	$sql="insert into sessions(session_id,sess_key,secret,inactive_expiry,expiry) values('{$sess_id}','{$key}','{$secret}',{$time},{$time})";
+	$res=$db->Execute($sql);
+	return $res;
+}
+
+function delete_session($sess_id){
+	global $global;
+	$db=$global['db'];
+	$sql="delete from session_keys where session_id='{$sess_id}'";
+	$res=$db->Execute($sql);
+	return $res;
 }
 /**
  * this function is a wrapper around session_regenerate_id()
@@ -166,10 +236,15 @@ function shn_session_end($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
 	*/ 
+	$sess_id=session_id();
+	//setcookie ("secret", "", time() - 3600);
+	delete_session($sess_id);
 	session_regenerate_id();
     $_SESSION['logged_in'] = false;
-    $_SESSION['user'] = $user_data["user"];
-    $_SESSION['user_id'] =$user_data["user_id"];
+    $_SESSION['user'] = "Anonymous";
+    $_SESSION['user_id'] =ANONYMOUS_USER;
+   // $_SESSION['user'] = $user_data["user"];
+   // $_SESSION['user_id'] =$user_data["user_id"];
 	return ;
 }
 /**

@@ -21,76 +21,6 @@
 
 require_once "constants.inc";
 
-function shn_acl_log_error($comment,$p_uuid=null,$user_name=null,$event_type=1){
-	global $global;
-	$db=$global["db"];
-	$timestamp=time();
-	if($p_uuid==null){
-		$p_uuid=$_SESSION['user_id'];
-	}
-	if($user_name==null){
-		$user_name=$_SESSION['user'];
-	}
-	$sql="insert into password_event_log(changed_timestamp,p_uuid,user_name,comment,event_type) values($timestamp,'{$p_uuid}','{$user_name}','{$comment}',{$event_type})";
-	$res=$db->Execute($sql);
-}
-
-function shn_get_allowed_mods_current_user(){
-	$user=shn_current_user();
-	if($user==null){
-		$user=ANONYMOUS;
-	}
-	$roles=_shn_acl_get_roles($user);
-    $mods=array();
-   	array_push($mods,'home');
-   	if ($_SESSION['logged_in'] == true ){
-   		array_push($mods,'pref');
-	}	
-	foreach($roles as $role=>$name){
-		
-		switch ($role){
-			case 1:
-				array_push($mods,'vm');
-				array_push($mods,'sts');
-				array_push($mods,'cr');
-				array_push($mods,'admin');
-				array_push($mods,'sands');
-                                array_push($mods,'rep');
-				break;
-			case 2:
-				array_push($mods,'vm');
-				array_push($mods,'sts');
-				array_push($mods,'cr');
-				//array_push($mods,'admin');
-				array_push($mods,'sands');
-                                array_push($mods,'rep');
-				break;
-			case 3:
-				array_push($mods,'sands');
-				array_push($mods,'sts');
-				
-				break; 
-			case 4:
-				break; 
-			case 5:
-				
-				array_push($mods,'vm');
-				
-				break; 
-			case 6:
-				
-				array_push($mods,'vm');
-				
-				break; 
-			default:
-				
-		}
-	}
-	
-	$mods=array_unique($mods);
-	return $mods;
-	
-}
 
 function shn_acl_check_perms($tables_only, $tables_with_fields=null){
 	//$acl_enabled=shn_acl_get_state($module);
@@ -238,26 +168,6 @@ function _shn_acl_is_user_role($user,$role){
 
 }
 
-function _shn_acl_is_user_role_only($user,$role){
-	global $global;
-    $db=$global['db'];
-   	$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role";
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	return false;
-    }else{
-   		$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id <> $role ";
-    	$res=$db->Execute($q);
-    	if(($res==null) ||($res->EOF)){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
-
-}
-
 function shn_acl_install(){
 	global $global;
     global $conf;
@@ -269,16 +179,12 @@ function shn_acl_install(){
     $db=$global["db"];
    
    
-    //$conf['user_id']=2;
-    //$guest=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null); 
+    $conf['user_id']=2;
+    $guest=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null); 
     //add a"guest" user to ACL users and add to 'guest' role
 
     $conf['root_id']=1;
     $root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null); 
-    
-   
-    $oem=shn_auth_add_user("OEM User","oem","nyccsp2007",OEMADMIN,null); 
-    $sts=shn_auth_add_user("STS User","sts","nyccsp2007",STSUSER,null); 
     //add a "root" user to ACL users and add to 'admin' role
 
 
