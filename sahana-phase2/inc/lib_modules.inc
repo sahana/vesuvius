@@ -141,13 +141,13 @@ function shn_include_page_section($section, $module=null)
     		if (function_exists($module_function)) {
         		$res=array_search($module,$mods,false);
         		if(FALSE !== $res){
-				$module_function();
-        	}
-    	} else {
-        	include($global['approot'].'inc/handler_'.$section.'.inc');
+					$module_function();
+        		}
+    		} else {
+        		include($global['approot'].'inc/handler_'.$section.'.inc');
     	} 
-    }else{
-       	include($global['approot'].'inc/handler_'.$section.'.inc');
+    	}else{
+       		include($global['approot'].'inc/handler_'.$section.'.inc');
        }
 }
  
