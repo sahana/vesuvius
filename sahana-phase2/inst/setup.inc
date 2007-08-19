@@ -120,7 +120,7 @@ function shn_email_validate()
 		break;
 	}
 }// end of shn_email_validate
-
+/*
 function shn_pwd_validate()
 {
 	$pwd=$_POST['root_pwd'];
@@ -137,7 +137,7 @@ function shn_pwd_validate()
 		break;
 	}
 } // end of shn_root_pwd_validation
-
+*/
 function shn_setup_form_dependancy()
 {
     global $global;
@@ -309,7 +309,9 @@ function shn_setup_form2()
  ?>
     <h1>Sahaha Web Setup - Step 3</h2>
     <p> Please follow the following steps to setup the Sahana configuration </p>
+    
 <?php
+	echo PWDPOLICY."<br />";
     global $global;
 
     shn_form_fopen('cfgsetup');
@@ -324,7 +326,7 @@ function shn_setup_form2()
     shn_form_fsopen(_('Installation Details'));
 
     echo '<p>The following details are needed to uniquely identify your Sahana installation</p>'; // some spellings corrected by chamath 2007-03-15 09:50
-
+	
     $help_txt = "The following field is randomly generated to help uniquely identify \
                  this Sahana installation. Please use this unless you have a \
                  convention defined";
@@ -394,7 +396,7 @@ function shn_setup_form2()
  
     shn_form_fclose();
 }
-
+/*
 function shn_chk_root_pwd()
 {
 	clean_errors();
@@ -415,7 +417,7 @@ function shn_chk_root_pwd()
 	}
 	}
 } // end of shn_chk_root_pwd
-
+*/
 function shn_setup_form_conffile()
 {
 	//shn_chk_root_pwd();
@@ -585,14 +587,7 @@ function shn_setup_acl(){
 	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
     $global['db'] = $db;
 
-	if (shn_validate_password(null,$_POST["root_pwd"])==false){
-		$error=true;
-		return false;
-	}
-   if (shn_validate_password(null,$_POST["user_pwd"])==false){
-		$error=true;
-		return false;
-	}
+
  
 	$error=false;
 	if ((null==$_POST["admin_name"])or(is_null($_POST["admin_name"]))){
@@ -640,6 +635,14 @@ function shn_setup_acl(){
 		return false;
     }
 
+	if (shn_validate_password(null,$_POST["root_pwd"])==false){
+		$error=true;
+		return false;
+	}
+    if (shn_validate_password(null,$_POST["user_pwd"])==false){
+		$error=true;
+		return false;
+	}
    	global $global;
     include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 	return (shn_acl_install());

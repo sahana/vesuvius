@@ -387,10 +387,7 @@ function shn_validate_user_name($field){
 function shn_validate_password($user=null,$pwd){
 	global $global;
 	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
-	$PWDPOLICY="	<h4>Password must adhere to following rules:</h4>
-    1. Minimum length is 8.<br />
-    2. At least one letter in the expression.<br />
-    3. At least one character is numeric or special.<br />";
+
 
 	$chars_to_escape='$\*%#@!~';
 	$user=addcslashes($user, $chars_to_escape);
@@ -409,7 +406,7 @@ function shn_validate_password($user=null,$pwd){
     if (preg_match("/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*[^a-zA-Z]).*$/", $pwd)) {
     	return true;
 	} else {
-		add_error($PWDPOLICY);
+		add_error(PWDPOLICY);
 		shn_acl_log_error("Password Change error: password does not comply with the policy");
     	return false;
 	} 

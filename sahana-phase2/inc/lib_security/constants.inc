@@ -37,8 +37,7 @@ $crud_arr= array(
 			"read_arr"=>array(4,5,6,7,12,13,14,15),
 			"create_arr"=>array(8,9,10,11,12,13,14,15)	
 			);
-define    ($PWDPOLICY,"	<h4>Password must adhere to following rules:</h4>
-    1. Only numbers and letters.<br />
-    2. Minimum length is 8.<br />
-    3. At least one number and one letter in the expression.<br />
-    4. At least one uppercase letter and one lowercase letter.<br />"); 
+define(PWDPOLICY,"<h4>Password must adhere to following rules:</h4>
+    1. Minimum length is 8.<br />
+    2. At least one letter in the expression.<br />
+    3. At least one character is numeric or special.<br />"); 
