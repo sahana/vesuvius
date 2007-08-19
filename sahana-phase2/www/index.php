@@ -44,12 +44,12 @@ shn_main_filter_getpost();
 // if installed the sysconf.inc will exist in the conf directory
 // if not start the web installer
 if (!file_exists($APPROOT.'conf/sysconf.inc')){
-
+	$global["setup"]=true;
     // Call the web installer 
     shn_main_web_installer();
 
 } else {
-
+	$global["setup"]=false;
     // define the configuration priority order
     require_once ($APPROOT.'conf/conf-order.inc');
 
@@ -217,7 +217,7 @@ function shn_main_web_installer()
     else{ 
         // include the sysconfig template for basic conf dependancies
         require_once ($APPROOT.'conf/sysconf.inc.tpl'); 
-
+		
         // launch the web setup wizard
         require ($APPROOT.'inst/setup.inc');
     }
