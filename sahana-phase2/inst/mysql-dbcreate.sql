@@ -181,6 +181,20 @@ CREATE TABLE sys_tablefields_to_data_classification(
 );
 
 
+/** 
+* specifies whether a module is enabled for a sys group or not
+* Modules: framework
+* Last changed: 19-AUG-2007 -ravindra@opensource.lk
+**/
+DROP TABLE IF EXISTS sys_group_to_module;
+CREATE TABLE sys_group_to_module (
+    group_id INT NOT NULL,
+    module VARCHAR(60) NOT NULL,
+    status VARCHAR(60) NOT NULL,
+    PRIMARY KEY(group_id,module),
+    FOREIGN KEY (group_id) REFERENCES sys_user_groups(group_id) 
+);
+ 
 /**================= Shared Tables ==================================**/
 
 /**
