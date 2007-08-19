@@ -6,7 +6,7 @@
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
+* that is available throughacl_user_roles the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
@@ -279,9 +279,23 @@ function shn_admin_acl_user_roles()
 }
 
 
+function shn_admin_acl_privacy()
+{
+    
+   _shn_admin_acl_privacy_menu();
+}
 
+function shn_admin_acl_enable_mods()
+{
+    
+   _shn_admin_acl_enable_mods();
+}
 
-
+function shn_admin_acl_enable_mods_cr()
+{
+    
+   _shn_admin_acl_enable_mods_cr();
+}
 
 function shn_admin_acl_state()
 {

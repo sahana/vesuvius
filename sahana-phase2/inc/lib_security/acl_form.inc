@@ -24,6 +24,96 @@ include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
 
 /**
+ * Generates a form to enable/disable modules
+ * @access public
+ * @return void
+ */
+
+function shn_acl_form_enable_mods()
+{
+    global $global;
+    $db=$global['db'];
+ ?>
+ <h3>Enable/Disable Modules</h3> 
+<div id="home">
+Rows are Modules ,Columns are Roles ,Intersection shows whether the module is enabled for that role or not
+</div>
+
+<div id="formcontainer">
+<?php
+	shn_form_fopen("acl_enable_mods_cr","admin");
+  ?>
+<div id ="result">
+    <table>
+        <thead>
+        <td>
+        <strong>Role</strong>
+        </td>
+<?php
+    
+    $roles=_shn_acl_get_roles();
+	foreach ($roles as $role=>$role_name){
+ 
+       echo "<td>".$role_name."</td>";
+     }
+?>       
+    </thead>
+     <tbody>
+<?php    
+    
+   $mods=shn_get_all_modules();
+    
+   foreach($mods as $mod=>$mod_arr){
+
+   ?>
+    <tr>
+        <td>
+        <?php echo $mod_arr[1];?>
+        </td>
+<?php
+
+      foreach ($roles as $role=>$role_name){
+ 		$perms=$perms.$mod_arr[0].":".$role.";";
+ 		$name=trim($mod_arr[0].$role);
+ 	$allow=false;	
+	if ( _shn_acl_is_module_role( $mod_arr[0],$role)==true) {
+	 	$allow=true;
+	}else{
+        $allow=false;
+    }
+   
+      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if ($role==ADMIN) echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
+<?php
+
+    
+        }
+
+?>
+    </tr>
+<?php
+    }
+?>    
+       </tbody>
+  </table>
+</div>
+<br />
+
+<center>
+<?php
+shn_form_hidden(array("perms"=>$perms));
+
+shn_form_submit(_("Save"));
+?>
+</center>
+<?php
+    //close the form
+    shn_form_fclose();
+?>
+</div>
+<?php	
+}
+
+/**
  * Generates a form to edit roles of an user
  * @access public
  * @return void

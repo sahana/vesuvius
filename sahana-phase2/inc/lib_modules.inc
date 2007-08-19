@@ -12,8 +12,34 @@
 * @package    framework
 * @subpackage module 
 * @author     http://www.linux.lk/~chamindra
+* @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
+
+// get all available modules regardless of weather they are enabled or not
+
+/**
+ * shn_get_all_modules
+ * 
+ * @access public
+ * @return void
+ */
+function shn_get_all_modules()
+{
+    global $global;
+    global $conf;
+    $module_list = array();
+
+    $approot = $global['approot'];
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+        if (file_exists($approot."mod/".$f."/main.inc")) {
+          $nice_name=$conf['mod_'.$f.'_name'];
+          array_push($module_list, array($f,$nice_name));
+        }
+    }
+    return $module_list; 
+}
 
 // get all available modules regardless of weather they are enabled or not
 /**
@@ -27,13 +53,24 @@ function shn_get_module_names()
     global $global;
     global $conf;
     $module_list = array();
-
+    $mods=shn_get_allowed_mods_current_user();
+    
     $approot = $global['approot'];
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
-        if ($conf['mod_'.$f.'_enabled'] && 
-                file_exists($approot."mod/".$f."/main.inc")) {
-          array_push($module_list, $f);
+        if (file_exists($approot."mod/".$f."/main.inc")) {
+           if($_SESSION['logged_in']==false){
+                	if(($f=='vm')||($f=='home')){
+         		 		array_push($module_list, $f);
+                	}
+           }else{
+           		
+           		 $res=array_search($f,$mods,false);
+           		if(FALSE !== $res){
+					array_push($module_list, $f);
+           		}	
+           		
+           }
         }
     }
     return $module_list; 
@@ -98,13 +135,20 @@ function shn_include_page_section($section, $module=null)
     global $global;
     if ($module == null)
         $module = $global['module'];
-
-    $module_function = 'shn_'.$module.'_'.$section;
-    if (function_exists($module_function)) {
-        $module_function();
-    } else {
-        include($global['approot'].'inc/handler_'.$section.'.inc');
-    } 
+       if(($global["setup"])==false){
+			$mods=shn_get_allowed_mods_current_user();
+		    $module_function = 'shn_'.$module.'_'.$section;
+    		if (function_exists($module_function)) {
+        		$res=array_search($module,$mods,false);
+        		if(FALSE !== $res){
+				$module_function();
+        	}
+    	} else {
+        	include($global['approot'].'inc/handler_'.$section.'.inc');
+    	} 
+    }else{
+       	include($global['approot'].'inc/handler_'.$section.'.inc');
+       }
 }
  
 
@@ -129,6 +173,8 @@ function shn_get_module_name($module=null)
         return $conf['mod_' . $module . '_name'];
     }
 }
+
+
 
 /**
  * Check if module exists 

@@ -59,11 +59,8 @@ function _shn_admin_mainmenu()
 
     shn_sub_mod_menuopen(_("Security Config"));
     shn_sub_mod_menuitem("acl_user_roles", _("User Config"), 'admin');
-    shn_sub_mod_menuitem("acl_change_user_status", _("Change User Status"), 'admin');
-    shn_sub_mod_menuitem("acl_unlock_user", _("Unlock User"), 'admin');
-    shn_sub_mod_menuitem("acl_data_classifications", _("Data Classifications"), 'admin');
-    shn_sub_mod_menuitem("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
-    shn_sub_mod_menuitem("acl_data_classifications_tables", _("Data Classifications & System Data "), 'admin');
+	shn_sub_mod_menuitem("acl_privacy", _("Privacy Settings"), 'admin');
+	shn_sub_mod_menuitem("acl_enable_mods", _("Enable/Disable Modules"), 'admin');
     shn_sub_mod_menuitem("acl_event_log", _("Event Log"), 'admin');
 
     shn_sub_mod_menuclose();
@@ -82,6 +79,8 @@ function _shn_admin_acl_user_roles_menu()
 	shn_tabmenu_item("del_user", "Remove Users", "admin");
 	shn_tabmenu_item("acl_user_edit_roles", "Edit Roles of an User", "admin");
 	shn_tabmenu_item("reset_pwd", "Reset Password of an User", "admin");
+	shn_tabmenu_item("acl_change_user_status", _("Change User Status"), 'admin');
+    shn_tabmenu_item("acl_unlock_user", _("Unlock User"), 'admin');
 	shn_tabmenu_close();
  ?>
 
@@ -99,6 +98,29 @@ function _shn_admin_acl_user_roles_menu()
 
 }
 
+function _shn_admin_acl_privacy_menu()
+{
+	
+	shn_tabmenu_open();
+	shn_tabmenu_item("acl_data_classifications", _("Data Classifications"), 'admin');
+    shn_tabmenu_item("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
+    shn_tabmenu_item("acl_data_classifications_tables", _("Data Classifications & System Data "), 'admin');
+	shn_tabmenu_close();
+ ?>
+
+<br>
+<div id="home">
+<h2><?= _('Welcome to Privacy section'); ?></h2>
+
+<ul>
+    <li><?=_('You can set <strong>Privacy</strong> settings for Data and Roles')?></li>
+    
+</ul>
+</div>
+<?php
+
+
+}
 
 function _shn_admin_acl_user_menu()
 {

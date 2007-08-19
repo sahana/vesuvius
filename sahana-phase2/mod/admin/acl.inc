@@ -44,6 +44,36 @@ global $conf;
 <?
 }
 
+function _shn_admin_acl_enable_mods()
+{
+	shn_acl_form_enable_mods();
+}
+
+function _shn_admin_acl_enable_mods_cr(){
+	global $global;
+	$db=$global["db"];
+	$perm_string=$_POST{"perms"};
+	$perms=explode(";",$perm_string);
+
+					
+	$sql="delete from sys_group_to_module";
+    $res=$db->Execute($sql);
+
+for ($i=0;$i<count($perms)-1;$i++){
+    $rule=explode(":",$perms[$i]);
+    $mod=$rule[0];
+    $role=$rule[1];
+ 
+    $name=$mod.$role;
+
+   if(isset($_POST{trim($name)})){
+    	$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+    	$res=$db->Execute($sql);
+    }
+}
+	shn_acl_form_enable_mods();
+}
+
 function _shn_admin_acl_user_roles()
 {
 
@@ -69,37 +99,6 @@ function _shn_admin_acl_role_edit_perms(){
 
 
 
-function _shn_admin_acl_default()
-{
-    global $conf;
-    global $global;
-    $db=$global["db"];
-    $q="select value from config where module_id='admin' and confkey='acl_base'";
-    $res=$db->Execute($q);
-    if($res->fields[0]!='installed'){
-         echo "<a href='index.php?mod=admin&act=acl_install'>ACL is not Installed! You need to Install ACL Base and then Module Default ACL </a>";
-        return;
-    }
-    $module=$_GET['sel']; 
-    $q="select value from config where module_id='{$module}' and confkey='acl_base'";
-    $res=$db->Execute($q);
-    
-    if($res->EOF || $res->fields[0]!='installed'){
-         echo "ACL for the Module is not Installed! You need to Install Module Default ACL<br /> ";
-         echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
-         echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install system defaults</a><br />";
-    return;
-    }  
-   	//_shn_admin_acl_module_sub_menu($module);
-?>
-
-        <h2 align="center">Welcome to the Sahana ACL page for <?php echo $conf['mod_'.$module.'_name']?></h2>
-
-<?php
- echo _("ACL is Installed,choose below to reinstall")."<br />";
- echo "<a href='index.php?mod=admin&act=acl_mod_install&script=true&sel=".$module."'>Click here if you have ACL install script in your module</a><br />";
- echo "<a href='index.php?mod=admin&act=acl_mod_install&sel=".$module."'>Otherwise Click here to install system defaults</a><br />";
-}
 
 
 

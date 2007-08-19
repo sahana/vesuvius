@@ -47,44 +47,16 @@ function shn_get_allowed_mods_current_user(){
    		array_push($mods,'pref');
 	}	
 	foreach($roles as $role=>$name){
+		$mods_role= _shn_acl_modules_for_role($role);
 		
-		switch ($role){
-			case 1:
-				array_push($mods,'vm');
-				array_push($mods,'sts');
-				array_push($mods,'cr');
-				array_push($mods,'admin');
-				array_push($mods,'sands');
-                                array_push($mods,'rep');
-				break;
-			case 2:
-				array_push($mods,'vm');
-				array_push($mods,'sts');
-				array_push($mods,'cr');
-				//array_push($mods,'admin');
-				array_push($mods,'sands');
-                                array_push($mods,'rep');
-				break;
-			case 3:
-				array_push($mods,'sands');
-				array_push($mods,'sts');
-				
-				break; 
-			case 4:
-				break; 
-			case 5:
-				
-				array_push($mods,'vm');
-				
-				break; 
-			case 6:
-				
-				array_push($mods,'vm');
-				
-				break; 
-			default:
-				
+		if($mods_role!=null){
+			foreach($mods_role as $mod){
+				array_push($mods,$mod);
+			}
 		}
+		
+				
+	
 	}
 	
 	$mods=array_unique($mods);
@@ -223,6 +195,59 @@ function _shn_acl_get_roles($user=null){
     return $roles;
 }
 
+function _shn_acl_modules_for_role($role){
+	$mods=array();
+	if($role==ADMIN){
+		$all_mods=shn_get_all_modules();
+		foreach($all_mods as $mod){
+				array_push($mods,$mod[0]);
+		}
+
+		return $mods;
+	}
+	
+	global $global;
+    $db=$global['db'];
+   	$q="select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
+ 
+    
+    $res=$db->Execute($q);
+    if(($res==null) ||($res->EOF)){
+    	return null;
+    }else{
+		while(!$res->EOF){
+			array_push($mods,$res->fields["module"]);
+			$res->MoveNext();
+		}
+    	return $mods;
+    }
+
+}
+
+function _shn_acl_is_module_role($mod,$role){
+	if($role==ADMIN){
+		return true;
+	}
+	global $global;
+    $db=$global['db'];
+   	$q="select status from sys_group_to_module where group_id='{$role}' and module='{$mod}'";
+    
+    $res=$db->Execute($q);
+    if(($res==null) ||($res->EOF)){
+    	return false;
+    }else{
+    	if($res->fields["status"]=="enabled"){
+    		
+    		return true;
+    	}else{
+    		return false;
+    	}
+    	
+    }
+
+}
+
+
 function _shn_acl_is_user_role($user,$role){
 	global $global;
     $db=$global['db'];
@@ -267,29 +292,28 @@ function shn_acl_install(){
    	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
     include_once($global['approot']."/inc/lib_uuid.inc");
     $db=$global["db"];
-   
-   
-    //$conf['user_id']=2;
-    //$guest=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null); 
-    //add a"guest" user to ACL users and add to 'guest' role
-
-    $conf['root_id']=1;
+ 
     $root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null); 
-    
-   
-    $oem=shn_auth_add_user("OEM User","oem","nyccsp2007",OEMADMIN,null); 
-    $sts=shn_auth_add_user("STS User","sts","nyccsp2007",STSUSER,null); 
-    //add a "root" user to ACL users and add to 'admin' role
-
+ 	 //add a "root" user to ACL users and add to 'admin' role
+ 	 //add a "registered" user to ACL users and add to 'registered' role
+ 	$reg_user=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null);
+    $role=REGISTERED;
+	$mods=array("home","pref");
+	foreach ($mods as $mod){
+		$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+		
+		$res=$db->Execute($sql);
+	}
 
     $q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";	
     $res=$db->Execute($q);
-
+/*
     if($_POST["acl"]=='enable'){
     	$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
 	}else{
 		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',false)";
 	}
+*/
 	$db->Execute($q);
  	return $status;
  	
