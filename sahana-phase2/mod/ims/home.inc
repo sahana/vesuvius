@@ -18,8 +18,12 @@
 include_once $global['approot'].'/mod/cs/lib_cs.inc';
 //function shn_ims_home(){
 function _shn_ims_default() {
+
 ?>
 <h1 align="center"><?= _("Inventory Management System Home")?> </h1>
+<?php
+
+?>
 <div id="home">
     <div>
     <p><?= (_("The Inventory Management system is a system to manage Inventories. It not only keep the track of items available in warehouses but also all of the inventories which are related to relief works in disaster region-test.")) ?></p></div>
@@ -73,7 +77,7 @@ print $name;*/
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
-        $sql = "SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state!='$state_des' ORDER BY item_id DESC ;";
+        $sql = "SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state!='$state_des' AND amount!=0 ORDER BY item_id DESC ;";
         $ims = $db->Execute($sql);
 
         $i=0;
