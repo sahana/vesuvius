@@ -232,7 +232,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
  */
 function shn_valid_number($str,$pattern='/^\d+$/')
 {
-    if(preg_match($pattern,$date))
+    if(preg_match($pattern,$str))
         return true;
     else
         return false;

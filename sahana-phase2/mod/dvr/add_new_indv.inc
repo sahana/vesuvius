@@ -59,11 +59,12 @@ global $conf;
 	$extra_opts['req'] = true;
 	$extra_opts['value'] = $_SESSION['dvr']['person']['typ_of_grp'];
 	$extra_opts['sort'] = 'option_code';
+//print 'installed'.$conf['acl_base'];
 if($conf['acl_base']=='installed')
 
-	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[2].submit()', $extra_opts);
-else
 	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[1].submit()', $extra_opts);
+else
+	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[0].submit()', $extra_opts);
 
 	$type = $_POST['opt_group_type'];
 
