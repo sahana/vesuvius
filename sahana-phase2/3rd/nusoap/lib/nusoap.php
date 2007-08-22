@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+$Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -59,7 +59,7 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class nusoap_base {
@@ -83,7 +83,7 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.6 $';
+	var $revision = '$Revision: 1.7 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -910,7 +910,7 @@ function usleepWindows($usec)
 * Mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access public
 */
 class soap_fault extends nusoap_base {
@@ -996,7 +996,7 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class XMLSchema extends nusoap_base  {
@@ -1899,7 +1899,7 @@ class XMLSchema extends nusoap_base  {
 * xsd:anyType and user-defined types.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -2000,7 +2000,7 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -3038,7 +3038,7 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class soap_server extends nusoap_base {
@@ -3914,7 +3914,7 @@ class soap_server extends nusoap_base {
 	* @param	string $encodingStyle optional (usually 'http://schemas.xmlsoap.org/soap/encoding/' for encoded)
 	* @access   public
 	*/
-	function register($name,$in=array(),$out=array(),$namespace=false,$soapaction=false,$style=false,$use=false,$documentation='',$encodingStyle=''){
+	function register($name,$in=array(),$out=array(),$namespace=false,$soapaction=false,$style=false,$use=false,$documentation='',$encodingStyle='',$nice_name=null){
 		global $HTTP_SERVER_VARS;
 
 		if($this->externalWSDLURL){
@@ -3961,7 +3961,7 @@ class soap_server extends nusoap_base {
 	    'soapaction' => $soapaction,
 	    'style' => $style);
         if($this->wsdl){
-        	$this->wsdl->addOperation($name,$in,$out,$namespace,$soapaction,$style,$use,$documentation,$encodingStyle);
+        	$this->wsdl->addOperation($name,$in,$out,$namespace,$soapaction,$style,$use,$documentation,$encodingStyle,$nice_name);
 	    }
 		return true;
 	}
@@ -4027,7 +4027,8 @@ class soap_server extends nusoap_base {
         	} else {
         		$SCHEME = 'http';
         	}
-            $endpoint = "$SCHEME://$SERVER_NAME$SERVER_PORT$SCRIPT_NAME?stream=soap";
+        	
+            $endpoint = "$SCHEME://$SERVER_NAME$SERVER_PORT$SCRIPT_NAME?stream=soap&amp;wbsmod={$_GET['wbsmod']}";
         }
         
         if(false == $schemaTargetNamespace) {
@@ -4069,7 +4070,7 @@ class soap_server extends nusoap_base {
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access public 
 */
 class wsdl extends nusoap_base {
@@ -4831,11 +4832,13 @@ class wsdl extends nusoap_base {
 			<br><br>
 			<div class=title>'.$this->serviceName.'</div>
 			<div class=nav>
-				<p>View the <a href="'.$PHP_SELF.'?wsdl&stream=soap">WSDL</a> for the service.
+				<p>View the <a href="'.$PHP_SELF.'?wsdl&amp;stream=soap&amp;wbsmod='.$_GET["wbsmod"].'">WSDL</a> for the service.
 				Click on an operation name to view it&apos;s details.</p>
 				<ul>';
 				foreach($this->getOperations() as $op => $data){
+					
 				    $b .= "<li><a href='#' onclick=\"popout();popup('$op')\">$op</a></li>";
+				    $b.="<strong><font color='green'>".$data['nice_name']."</font></strong>";
 				    // create hidden div
 				    $b .= "<div id='$op' class='hidden'>
 				    <a href='#' onclick='popout()'><font color='#ffffff'>Close</font></a><br><br>";
@@ -5710,7 +5713,7 @@ class wsdl extends nusoap_base {
 	* @param string $encodingStyle optional (usually 'http://schemas.xmlsoap.org/soap/encoding/' for encoded)
 	* @access public 
 	*/
-	function addOperation($name, $in = false, $out = false, $namespace = false, $soapaction = false, $style = 'rpc', $use = 'encoded', $documentation = '', $encodingStyle = ''){
+	function addOperation($name, $in = false, $out = false, $namespace = false, $soapaction = false, $style = 'rpc', $use = 'encoded', $documentation = '', $encodingStyle = '',$nice_name=null){
 		if ($use == 'encoded' && $encodingStyle == '') {
 			$encodingStyle = 'http://schemas.xmlsoap.org/soap/encoding/';
 		}
@@ -5755,7 +5758,8 @@ class wsdl extends nusoap_base {
 			'parts' => $out),
 		'namespace' => $namespace,
 		'transport' => 'http://schemas.xmlsoap.org/soap/http',
-		'documentation' => $documentation); 
+		'documentation' => $documentation,
+		'nice_name' => $nice_name); 
 		// add portTypes
 		// add messages
 		if($in)
@@ -5794,7 +5798,7 @@ class wsdl extends nusoap_base {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class soap_parser extends nusoap_base {
@@ -6401,7 +6405,7 @@ class soap_parser extends nusoap_base {
 * unset($soapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.6 2007-08-21 10:30:40 ravids Exp $
+* @version  $Id: nusoap.php,v 1.7 2007-08-22 18:42:35 ravids Exp $
 * @access   public
 */
 class soapclient extends nusoap_base  {
