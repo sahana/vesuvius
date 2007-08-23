@@ -102,11 +102,12 @@ function shn_or_service_coverage_pdf()
     $txt = 'This a listing of Organizations Grouped by service';
     $or_report1_keyword_arr = array('mod'=>'or','report'=>'by service','report1'=>'orgs','users'=>'all');
 
-    shn_pdf_report_fopen("orgs_by_service",$or_report1_keyword_arr);
-    shn_pdf_report_add_title($title);
-    shn_pdf_report_add_summery($txt);
-    shn_pdf_report_add_table($table_header,$table_data);
-    shn_pdf_report_close();
+    
+    shn_report_fopen('pdf',"orgs_by_service",$or_report1_keyword_arr);
+    shn_report_add_title($title);
+    #shn_report_add_summary($txt);
+    shn_report_add_table($table_header,$table_data);
+    shn_report_close();
 }
 
 
@@ -149,11 +150,12 @@ function shn_or_all_orgs_pdf()
     $txt = 'This a listing of Organizations of all incidents';
     $or_report1_keyword_arr = array('mod'=>'or','report'=>'all orgs','report1'=>'orgs','users'=>'all');
 
-    shn_pdf_report_fopen("orgs",$or_report1_keyword_arr);
-    shn_pdf_report_add_title($title);
-    shn_pdf_report_add_summery($txt);
-    shn_pdf_report_add_table($table_header,$table_data);
-    shn_pdf_report_close();
+    
+    shn_report_fopen('pdf',"orgs",$or_report1_keyword_arr);
+    shn_report_add_title($title);
+    #shn_report_add_summary($txt);
+    shn_report_add_table($table_header,$table_data);
+    shn_report_close();
 }
 
 
