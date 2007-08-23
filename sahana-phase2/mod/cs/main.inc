@@ -21,7 +21,7 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
 
-//reprting Libs
+//reporting libraries
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
 //other module APIs.
@@ -32,6 +32,11 @@ include_once $global['approot'].'/mod/cs/lib_cs_js.inc';
 include_once $global['approot'].'/mod/cs/lib_cs_ajax.inc';
 include_once $global['approot'].'/mod/cs/lib_cs_validate.inc';
 
+/**
+ * Create the module menu
+ * @access public
+ * @return void
+ */
 function shn_cs_mainmenu() 
 {
     global $global;
@@ -58,7 +63,11 @@ function shn_cs_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
 
-
+/**
+ * View the home page of the module
+ * @access public
+ * @return void
+ */
 function shn_cs_default()
 {	
     include_once ('home.inc');
