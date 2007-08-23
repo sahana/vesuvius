@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.51 2007-05-07 19:39:14 mifanc Exp $ */
+/* $Id: camp.inc,v 1.52 2007-08-23 17:25:35 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -134,6 +134,7 @@ if($errors)
 		$_SESSION['camp_women']=$_POST['women'];
 		$_SESSION['camp_children']=$_POST['children'];
 		$_SESSION['camp_total']=$_POST['total'];
+		$_SESSION['camp_capacity']=$_POST['capacity'];
 		$_SESSION['contact_mob']=$_POST['contact_mob'];
 		$_SESSION['occupation']=$_POST['occupation'];
 		
