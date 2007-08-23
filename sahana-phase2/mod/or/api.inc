@@ -7,11 +7,22 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+* @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
 */
+
+function shn_or_test($in){
+    return "hello 123";
+}
+
+function Test1($in){
+    return "hello 123 fucker";
+}
+function shn_or_test2($in){
+    return "hello";
+}
 
 function shn_or_organization_name($org_id_arr){
 	global $global;
@@ -23,6 +34,27 @@ function shn_or_organization_name($org_id_arr){
 		$org_arr[$i]=$res->fields["name"];
 	}
 	return $org_arr;
+}
+
+function shn_or_org_list($limit){
+		
+	    global $global;
+	   	
+        $db=$global['db'];
+        
+      	//$q="select distinct o_uuid from sector,org_main,resource_to_incident where sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type='{$org_type}' and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
+		$q="select distinct o_uuid,name from  org_main where privacy=false";
+        
+        $res_org=$db->Execute($q);
+        $org_list=array();
+        $i=1;
+        while(!$res_org==NULL && !$res_org->EOF){
+        		$org_list["o$i"]=$res_org->fields["name"];
+        		$res_org->MoveNext();
+        		$i++;
+        }
+        // return array('f1'=>'hi','f2'=>'baby');
+        return $org_list;
 }
 
 function shn_or_organization_list($incidents=null,$sectors=null,$types=null,$extra_opts=null){
@@ -75,6 +107,7 @@ function shn_or_organization_list($incidents=null,$sectors=null,$types=null,$ext
 }
 
 function shn_or_service_list(){
+	/*
 	global $global;
 	$q="select * from field_options where field_name='opt_sector_type'";
 	$res = $global['db']->Execute($q);
@@ -86,7 +119,8 @@ function shn_or_service_list(){
     		);	
     		$res->MoveNext();
     }
-    return $service_arr;
+    return $service_arr;*/
+    return array('f1'=>'hi','f2'=>'baby');
 }
 
 

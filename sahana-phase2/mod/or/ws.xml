@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+ 	<service>
+ 		<name>
+ 			List of Organizations (the number of orgs)
+ 		</name>
+ 		<api_function>
+ 			shn_or_org_list
+ 		</api_function>
+ 		<inputs>
+ 			<required type="string">profile</required>
+ 			<optional type="int">amount</optional>
+ 		</inputs>
+ 		<output type="string">
+ 			total
+ 		</output>
+ 	</service>
+ 	<service>
+ 		<name>
+ 			List of services offered
+ 		</name>
+ 		<api_function>
+ 			shn_or_service_list
+ 		</api_function>
+
+ 		<output type="array">
+ 			list
+ 		</output>
+ 	</service>
+ </web_services>
