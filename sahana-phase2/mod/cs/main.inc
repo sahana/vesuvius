@@ -238,8 +238,7 @@ function shn_cs_addsub_form2_submit()
         display_errors();
         _shn_cs_addsub_form1_result();
     }
-        display_errors();
-    _shn_cs_addsub_form1_result();else
+    else
     {
         _shn_cs_addsub_form2_result();
     }
