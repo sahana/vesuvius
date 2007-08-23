@@ -169,19 +169,15 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
    		$stored_password = md5(trim($user_password));
 		$time=time();
 		if($extra_opts['pending']==true){
-			   		// Insert a new user into the users table
-  			 $q = "INSERT INTO users SET 
-             p_uuid='{$pid}',
-			 password = '{$stored_password}',changed_timestamp={$time},
-             user_name = '{$user_name}',salt='{$salt}',status='pending'";
-		}else{
-				   		// Insert a new user into the users table
-  		 	$q = "INSERT INTO users SET 
-             p_uuid='{$pid}',
-			password = '{$stored_password}',changed_timestamp={$time},
-             user_name = '{$user_name}',salt='{$salt}',status='active'";
-		}
+			$status='pending';
 
+
+		}else{
+				   			// Insert a new user into the users table
+			$status='active';
+
+		}
+		$q = "INSERT INTO users(p_uuid,password,changed_timestamp,user_name,salt,status) values('{$pid}','{$stored_password}',{$time},'{$user_name}','{$salt}','{$status}')";
    
 		$res=$db->Execute($q);
         if($res==false){
