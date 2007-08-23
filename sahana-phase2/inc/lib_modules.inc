@@ -98,6 +98,30 @@ function shn_get_modules_with_admin()
     return $module_list; 
 }
 
+// get all modules that expose web services
+/**
+ * shn_get_modules_with_web_services 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_get_modules_with_web_services()
+{
+    global $global;
+    global $conf;
+    $module_list = array();
+
+    $approot = $global['approot'];
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+        if (file_exists($approot."mod/".$f."/ws.xml")) {
+          $nice_name=$conf['mod_'.$f.'_name'];
+          array_push($module_list, array($f,$nice_name));
+        }
+    }
+    return $module_list; 
+}
+
 /**
  * shn_include_module_conf 
  * 
@@ -190,6 +214,7 @@ function shn_module_exists($module=null)
 
     return file_exists($module_file);
 }
+
 
    
 ?>
