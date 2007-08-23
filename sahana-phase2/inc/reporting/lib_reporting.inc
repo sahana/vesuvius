@@ -29,19 +29,19 @@ function shn_report_fopen($rep_type,$file_name='',$keyword_in='',$dynamic_rep=fa
 
     switch($report_type)
     {
-            case 'pdf':
-		shn_pdf_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
-            break;
-            case 'ods':
-		shn_ods_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
-                shn_ods_report_add_sheet();
-            break;
-            case 'xhtml':
-                shn_xhtml_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
-            break;
-            case 'xls':
-		shn_excel_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
-            break;
+        case 'pdf':
+			shn_pdf_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+        break;
+        case 'ods':
+			shn_ods_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+            shn_ods_report_add_sheet();
+        break;
+        case 'xhtml':
+            shn_xhtml_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+        break;
+        case 'xls':
+			shn_excel_report_fopen($rep_ID,$file_name,$keyword_in,$dynamic_rep);
+        break;
     }
         
 }
@@ -52,18 +52,18 @@ function shn_report_add_title($title='')
 
     switch($report_type)
     {
-            case 'pdf':
-		shn_pdf_report_add_title($title);
-            break;
-            case 'ods':
-		shn_ods_report_add_title($title);
-            break;
-            case 'xhtml':
-                shn_xhtml_report_add_title($title);
-            break;
-            case 'xls':
-		shn_excel_report_add_title($title);
-            break;
+        case 'pdf':
+			shn_pdf_report_add_title($title);
+        break;
+        case 'ods':
+			shn_ods_report_add_title($title);
+        break;
+        case 'xhtml':
+            shn_xhtml_report_add_title($title);
+        break;
+        case 'xls':
+			shn_excel_report_add_title($title);
+        break;
     }
 
 }
@@ -74,19 +74,19 @@ function shn_report_add_table($headerArray,$dataArray)
 
     switch($report_type)
     {
-            case 'pdf':
-                shn_pdf_report_add_table($headerArray,$dataArray);
-		#header("Content-type: application/pdf");
-            break;
-            case 'ods':
-		shn_ods_report_add_table($headerArray,$dataArray);
-            break;
-            case 'xhtml':
-                shn_xhtml_report_add_table($headerArray,$dataArray);
-            break;
-            case 'xls':
-		shn_excel_report_add_table($headerArray,$dataArray);
-            break;
+        case 'pdf':
+            shn_pdf_report_add_table($headerArray,$dataArray);
+			#header("Content-type: application/pdf");
+        break;
+        case 'ods':
+			shn_ods_report_add_table($headerArray,$dataArray);
+        break;
+        case 'xhtml':
+            shn_xhtml_report_add_table($headerArray,$dataArray);
+        break;
+        case 'xls':
+			shn_excel_report_add_table($headerArray,$dataArray);
+        break;
     }
 
 }
@@ -97,18 +97,18 @@ function shn_report_add_summary($summary='')
 
     switch($report_type)
     {
-            case 'pdf':
-		shn_pdf_report_add_summery($summary);
-            break;
-            case 'ods':
-		shn_ods_report_add_summery($summary);
-            break;
-            case 'xhtml':
-                shn_xhtml_report_add_summary($summary);
-            break;
-            case 'xls':
-		shn_excel_report_add_summery($summary);
-            break;
+        case 'pdf':
+			shn_pdf_report_add_summery($summary);
+        break;
+        case 'ods':
+			shn_ods_report_add_summery($summary);
+        break;
+        case 'xhtml':
+            shn_xhtml_report_add_summary($summary);
+        break;
+        case 'xls':
+			shn_excel_report_add_summery($summary);
+        break;
     }
 }
 
@@ -118,9 +118,9 @@ function shn_report_add_sheet($sheet_name ='')
 
     switch($report_type)
     {
-            case 'ods':
-		shn_ods_report_add_sheet($sheet_name);
-            break;
+        case 'ods':
+			shn_ods_report_add_sheet($sheet_name);
+        break;
 //             case 'xls':
 // 		shn_excel_report_add_summery($summary);
 //             break;
@@ -133,9 +133,9 @@ function shn_report_add_page()
 
     switch($report_type)
     {
-            case 'pdf':
-		shn_pdf_report_add_page();
-            break;
+       	case 'pdf':
+			shn_pdf_report_add_page();
+        break;
     }
 }
 
@@ -152,18 +152,18 @@ function shn_report_close()
 
     switch($report_type)
     {
-            case 'pdf':
-		shn_pdf_report_close();
-            break;
-            case 'ods':
-		shn_ods_report_close();
-            break;
-            case 'xhtml':
-		shn_xhtml_report_close();
-            break;
-            case 'xls':
-		shn_excel_report_close();
-            break;
+        case 'pdf':
+			shn_pdf_report_close();
+        break;
+        case 'ods':
+			shn_ods_report_close();
+        break;
+        case 'xhtml':
+			shn_xhtml_report_close();
+        break;
+        case 'xls':
+			shn_excel_report_close();
+        break;
     }
 }
 
