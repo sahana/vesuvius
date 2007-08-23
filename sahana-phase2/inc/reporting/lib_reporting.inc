@@ -168,10 +168,6 @@ function shn_report_close()
 }
 
 
-
-
-
-
 global $calc;
 global $sheet;
 global $rep_title;
