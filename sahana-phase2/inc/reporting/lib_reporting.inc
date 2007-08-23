@@ -190,7 +190,7 @@ global $ods_dynamic_rep;
 function shn_ods_report_fopen($rep_id,$file_name='',$keyword_in='',$dynamic_rep=false)
 {
     global $global;
-    require $global['approot']."3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php";
+    require_once $global['approot']."3rd/odsgeneration/spreadsheet/OpenOfficeSpreadsheet.class.php";
     $db=$global["db"];
     global $ods_rep_ID;
     global $ods_keyword;
@@ -923,7 +923,7 @@ global $html_dynamic_rep;
 function shn_xhtml_report_fopen($rep_id,$file_name='',$keyword='',$dynamic_rep=false)
 {
     global $global;
-    require $global['approot']."inc/reporting/html_gen.php";
+    require_once $global['approot']."inc/reporting/html_gen.php";
     global $xhtml;
     global $html_rep_gen_ok;
     global $html_print_enable;
