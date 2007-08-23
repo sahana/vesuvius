@@ -9,4 +9,6 @@ avail | trishan, participate | sahana-phase2/mod/vm
 avail | mifanc, rbcsoriano | sahana-phase2/docs
 # NYC-CSP deployment
 avail | ishanul, prabath321, dinusha048 | sahana-phase2 | rel_nyc_csp_p_2
+# Peru deployment
+avail | ishanul, prabath321, dinusha048 | sahana-phase2 | rel_peru
 
