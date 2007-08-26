@@ -47,13 +47,13 @@ function shn_or_org_list($limit){
         
         $res_org=$db->Execute($q);
         $org_list=array();
-        $i=1;
+        
         while(!$res_org==NULL && !$res_org->EOF){
-        		$org_list["o$i"]=$res_org->fields["name"];
+       		
+        		$org_list[] = array('name' => $res_org->fields["name"], 'o_uuid' => $res_org->fields["o_uuid"]);
         		$res_org->MoveNext();
-        		$i++;
         }
-        // return array('f1'=>'hi','f2'=>'baby');
+           
         return $org_list;
 }
 
@@ -95,18 +95,20 @@ function shn_or_organization_list($incidents=null,$sectors=null,$types=null,$ext
         //      if($incidents==null)
 	//		$q = "select o_uuid,name from org_main where privacy=false".$root." order by o_uuid";
 		//else
-			//$q = "select o_uuid,name from org_main,resource_to_incident where privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
+	
         $res_org=$db->Execute($q);
         $org_list=array();
         while(!$res_org==NULL && !$res_org->EOF){
         		$org_list[$res_org->fields["o_uuid"]]=$res_org->fields["name"];
         		$res_org->MoveNext();
         }
-        
+
         return $org_list;
 }
 
 function shn_or_service_list(){
+	global $global;
+	//require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
 	/*
 	global $global;
 	$q="select * from field_options where field_name='opt_sector_type'";
@@ -120,7 +122,12 @@ function shn_or_service_list(){
     		$res->MoveNext();
     }
     return $service_arr;*/
-    return array('f1'=>'hi','f2'=>'baby');
+    //return "hekk";
+         $toc = array();
+     $toc[] = array('title' => 'Chapter One', 'page' => 1);
+     $toc[] = array('title' => 'Chapter Two', 'page' => 30);
+     return $toc;
+
 }
 
 
