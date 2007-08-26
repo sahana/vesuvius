@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web_services>
+	<types>
+		<type>
+			  	<name>Org</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>struct</phptype>
+    			<compositor>all</compositor>
+    			<restrictionBase></restrictionBase>
+    			<elements>
+   			 	array(
+        			'name' => array('name'=>'name','type'=>'xsd:string'),
+        			'o_uuid' => array('name'=>'o_uuid','type'=>'xsd:string')
+   				)
+   				</elements>
+   				<attrs></attrs>
+   				<arrayType></arrayType>
+		</type>
+		<type>
+			  	<name>OrgArray</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>array</phptype>
+    			<compositor></compositor>
+    			<restrictionBase>SOAP-ENC:Array</restrictionBase>
+    			<elements>
+					array()
+   				</elements>
+   				<attrs>
+   				    array(
+        				array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:Org[]')
+    				)
+   				</attrs>
+   				<arrayType>tns:Org</arrayType>
+		</type>
+	</types>
  	<service>
  		<name>
  			List of Organizations (the number of orgs)
@@ -7,14 +40,9 @@
  		<api_function>
  			shn_or_org_list
  		</api_function>
- 		<inputs>
- 			<required type="string">profile</required>
- 			<optional type="int">amount</optional>
- 		</inputs>
- 		<output type="string">
- 			total
- 		</output>
- 	</service>
+ 		<input type="string">profile</input>
+ 		<output type="OrgArray" />
+  	</service>
  	<service>
  		<name>
  			List of services offered
@@ -22,9 +50,7 @@
  		<api_function>
  			shn_or_service_list
  		</api_function>
-
- 		<output type="array">
- 			list
- 		</output>
+ 		<input type="string">profile</input>
+ 		<output type="OrgArray" />
  	</service>
  </web_services>
