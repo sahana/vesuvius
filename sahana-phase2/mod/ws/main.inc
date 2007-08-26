@@ -51,11 +51,33 @@ function shn_ws_main(){
 	$server->configureWSDL($nice_name.' Web Services',$ns);
 	$server->wsdl->schemaTargetNamespace=$ns;
 	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
+	foreach ($xml->types->type as $type) {
+		$typeName=trim($type->name);
+		$class=trim($type->typeclass);
+		$phpType=trim($type->phptype);
+		$compositor=(trim($type->compositor)==null)?'':trim($type->compositor);
+		$restrictionbase=trim($type->restrictionBase);
+		$elements=trim($type->elements);
+		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);
+		//$arrayType=(strlen($type->arrayType)==0)?:trim($type->arrayType);
+		$server->wsdl->addComplexType(
+    		$typeName,
+    		$class,
+    		$phpType,
+    		$compositor,
+    		$restrictionbase,
+   		 	$elements,
+			$attrs,
+    		''
+    		//$arrayType
+		);
+	}
 	foreach ($xml->service as $service) {
    		$name= trim($service->name);
    		$function=trim($service->api_function);
    		$name="{$name}";
    		$input_arr=array();
+   		/*
    		if($service->inputs->required!=null){
    			foreach ($service->inputs->required as $req_input) {
 				$input_arr["$req_input"]='xsd:string';
@@ -65,12 +87,12 @@ function shn_ws_main(){
 			foreach ($service->inputs->optional as $opt_input) {
 				$input_arr["$opt_input"]='xsd:string';
    			}
-		}
+		}*/
 
    		
 		$server->register($function,
 			$input_arr,
-			array('return' => 'xsd:string'),
+			array('return' => 'tns:OrgArray'),
 		$ns,false,false,false,"help the ors",'',$name);
 		
 	}
