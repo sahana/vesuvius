@@ -141,12 +141,9 @@ INSERT INTO field_options VALUES('opt_org_sub_type','bra','Branch');
 -- ORGANIZATION SECTOR VALUES
 INSERT INTO field_options VALUES('opt_sector_type','sup','Supplier of Goods');
 INSERT INTO field_options VALUES('opt_sector_type','comm','Communications');
-INSERT INTO field_options VALUES('opt_sector_type','dana','DANA');
-INSERT INTO field_options VALUES('opt_sector_type','ems','EMS');
-INSERT INTO field_options VALUES('opt_sector_type','fs','FS');
 INSERT INTO field_options VALUES('opt_sector_type','rel','Relief');
 INSERT INTO field_options VALUES('opt_sector_type','rehab','Rehabilitation');
-INSERT INTO field_options VALUES('opt_sector_type','sar','SAR');
+
 
 -- LOCATION TYPE VALUES
 INSERT INTO field_options VALUES ('opt_location_type','1','Country');
