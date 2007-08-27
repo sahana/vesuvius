@@ -1,5 +1,5 @@
 <?php
-/**Main Controller of the Organization Registry 
+/**Main Controller of the Web Services Module 
 *
 * PHP version 4 and 5
 *
@@ -7,12 +7,12 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+* @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
-* @subpackage or
+* @subpackage ws
 */
-//
+
 global $global;
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
