@@ -1,5 +1,5 @@
 <?php
-/**Internal Library of the Organization Registry 
+/** API of the Organization Registry 
 *
 * PHP version 4 and 5
 *
@@ -13,15 +13,64 @@
 * @subpackage or
 */
 
-function shn_or_test($in){
-    return "hello 123";
+/**
+ * This returns the list of organizations
+ * @param int $limit To limit the number of organizations returned
+ * @access public
+ * @return array
+ */
+
+function shn_or_organization_list($limit){
+		
+	    global $global;
+	   	$db=$global['db'];
+        
+      	$q="select distinct o_uuid,name from  org_main where privacy=false";
+        $res_org=$db->Execute($q);
+        $org_list=array();
+        
+        while(!$res_org==NULL && !$res_org->EOF){
+       		
+        		$org_list[] = array('name' => $res_org->fields["name"], 'id' => $res_org->fields["o_uuid"]);
+        		$res_org->MoveNext();
+        }
+       return $org_list;
 }
 
-function Test1($in){
-    return "hello 123 fucker";
+/**
+ * This returns the list of services organizations can offer
+ * @access public
+ * @return array
+ */
+
+function shn_or_service_list(){
+	global $global;
+	$q="select * from field_options where field_name='opt_sector_type'";
+	$res = $global['db']->Execute($q);
+    $service_list=array();
+    while((!$res==NULL) && (!$res->EOF)) {
+    	    $service_list[] = array('name' => $res->fields["option_description"], 'id' => $res->fields["option_code"]);
+    		$res->MoveNext();
+    }
+    return $service_list;
 }
-function shn_or_test2($in){
-    return "hello";
+
+/**
+ * This returns the list of organization types , by which organizations are grouped
+ * @access public
+ * @return array
+ */
+ 
+function shn_or_type_list(){
+	global $global;
+	$q="select * from field_options where field_name='opt_org_type'";
+	$res = $global['db']->Execute($q);
+    $type_list=array();
+    while((!$res==NULL) && (!$res->EOF)) {
+    	    $type_list[] = array('name' => $res->fields["option_description"], 'id' => $res->fields["option_code"]);
+    		$res->MoveNext();
+    }
+    return $type_list;
 }
 
 function shn_or_organization_name($org_id_arr){
@@ -36,28 +85,9 @@ function shn_or_organization_name($org_id_arr){
 	return $org_arr;
 }
 
-function shn_or_org_list($limit){
-		
-	    global $global;
-	   	
-        $db=$global['db'];
-        
-      	//$q="select distinct o_uuid from sector,org_main,resource_to_incident where sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type='{$org_type}' and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
-		$q="select distinct o_uuid,name from  org_main where privacy=false";
-        
-        $res_org=$db->Execute($q);
-        $org_list=array();
-        
-        while(!$res_org==NULL && !$res_org->EOF){
-       		
-        		$org_list[] = array('name' => $res_org->fields["name"], 'o_uuid' => $res_org->fields["o_uuid"]);
-        		$res_org->MoveNext();
-        }
-           
-        return $org_list;
-}
 
-function shn_or_organization_list($incidents=null,$sectors=null,$types=null,$extra_opts=null){
+
+function shn_or_organization_search($incidents=null,$sectors=null,$types=null,$extra_opts=null){
 	    global $global;
 	   	include_once "lib_or.inc";
         $db=$global['db'];
@@ -106,43 +136,8 @@ function shn_or_organization_list($incidents=null,$sectors=null,$types=null,$ext
         return $org_list;
 }
 
-function shn_or_service_list(){
-	global $global;
-	//require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
-	/*
-	global $global;
-	$q="select * from field_options where field_name='opt_sector_type'";
-	$res = $global['db']->Execute($q);
-    $service_arr=array();
-    while((!$res==NULL) && (!$res->EOF)) {
-    		array_push(
-    			 $service_arr,
-    			 $res->fields["option_description"]
-    		);	
-    		$res->MoveNext();
-    }
-    return $service_arr;*/
-    //return "hekk";
-         $toc = array();
-     $toc[] = array('title' => 'Chapter One', 'page' => 1);
-     $toc[] = array('title' => 'Chapter Two', 'page' => 30);
-     return $toc;
-
-}
 
 
-function shn_or_type_list(){
-	global $global;
-	$q="select * from field_options where field_name='opt_org_type'";
-	$res = $global['db']->Execute($q);
-    $type_arr=array();
-    while((!$res==NULL) && (!$res->EOF)) {
-    		array_push(
-    			 $type_arr,
-    			 $res->fields["option_description"]
-    		);	
-    		$res->MoveNext();
-    }
-    return $type_arr;
-}
+
+
 ?>
