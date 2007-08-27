@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.7 2007-08-27 02:55:03 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.8 2007-08-27 03:11:12 ravids Exp $ */
 
 /**
  *
@@ -13,7 +13,6 @@
  * @package    framework
  * @subpackage stream_soap
  * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * 
