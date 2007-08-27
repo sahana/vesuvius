@@ -2,35 +2,27 @@
 <web_services>
 	<types>
 		<type>
-			  	<name>Org</name>
+			  	<name>Basic</name>
     			<typeclass>complexType</typeclass>
     			<phptype>struct</phptype>
     			<compositor>all</compositor>
     			<restrictionBase></restrictionBase>
     			<elements>
-   			 	array(
-        			'name' => array('name'=>'name','type'=>'xsd:string'),
-        			'o_uuid' => array('name'=>'o_uuid','type'=>'xsd:string')
-   				)
+    				<element type="xsd:string">name</element>
+					<element type="xsd:string">id</element>
    				</elements>
    				<attrs></attrs>
    				<arrayType></arrayType>
 		</type>
 		<type>
-			  	<name>OrgArray</name>
+			  	<name>BasicArray</name>
     			<typeclass>complexType</typeclass>
     			<phptype>array</phptype>
     			<compositor></compositor>
     			<restrictionBase>SOAP-ENC:Array</restrictionBase>
-    			<elements>
-					array()
-   				</elements>
-   				<attrs>
-   				    array(
-        				array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:Org[]')
-    				)
-   				</attrs>
-   				<arrayType>tns:Org</arrayType>
+    			<elements></elements>
+   				<attrs></attrs>
+   				<arrayType>tns:Basic</arrayType>
 		</type>
 	</types>
  	<service>
@@ -38,10 +30,13 @@
  			List of Organizations (the number of orgs)
  		</name>
  		<api_function>
- 			shn_or_org_list
+ 			shn_or_organization_list
  		</api_function>
- 		<input type="string">profile</input>
- 		<output type="OrgArray" />
+ 		<input type="xsd:int">limit</input>
+ 		<output type="BasicArray" />
+ 		<documentation>
+ 			A useful method to retrieve a list of organizations with the name and UUID
+ 		</documentation>
   	</service>
  	<service>
  		<name>
@@ -50,7 +45,23 @@
  		<api_function>
  			shn_or_service_list
  		</api_function>
- 		<input type="string">profile</input>
- 		<output type="OrgArray" />
+ 		<input></input>
+ 		<output type="BasicArray" />
+ 		<documentation>
+ 			A useful method to retrieve a list of services , organizations can offer
+ 		</documentation>
+ 	</service>
+ 	<service>
+ 		<name>
+ 			List of organization types
+ 		</name>
+ 		<api_function>
+ 			shn_or_type_list
+ 		</api_function>
+ 		<input></input>
+ 		<output type="BasicArray" />
+ 		<documentation>
+ 			A useful method to retrieve the list of types ,by which organizations are grouped by
+ 		</documentation>
  	</service>
  </web_services>
