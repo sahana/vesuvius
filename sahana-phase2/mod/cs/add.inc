@@ -369,7 +369,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
 
-    $suppliers=shn_or_organization_list(null,array("Supplier of Goods"));
+    $suppliers=shn_or_organization_search(null,array("Supplier of Goods"));
     shn_form_fsopen(_('Suppliers'));
     shn_form_multi_select('supplier_select',$suppliers, _("Suppliers :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
