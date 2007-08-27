@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.6 2007-08-26 04:00:06 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.7 2007-08-27 02:55:03 ravids Exp $ */
 
 /**
  *
@@ -20,7 +20,7 @@
  */
  
 require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
-
+require_once($global['approot'].'/inc/lib_xml.inc');
 
 function shn_stream_init(){
 	
@@ -40,84 +40,46 @@ function shn_stream_init(){
 	$server = new soap_server();
 	$server->configureWSDL($nice_name.' Web Services',$ns);
 	$server->wsdl->schemaTargetNamespace=$ns;
-	/*
-	$server->wsdl->addComplexType(
-    'Org',
-    'complexType',
-    'struct',
-    'all',
-    '',
-    array(
-        'name' => array('name'=>'name','type'=>'xsd:string'),
-        'o_uuid' => array('name'=>'o_uuid','type'=>'xsd:string')
-    )
-);
- 
-$server->wsdl->addComplexType(
-    'OrgArray',
-    'complexType',
-    'array',
-    '',
-    'SOAP-ENC:Array',
-    array(),
-    array(
-        array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:Org[]')
-    ),
-    'tns:Org'
-);
 
-$server->wsdl->addComplexType(
-    'Chapter',
-    'complexType',
-    'struct',
-    'all',
-    '',
-    array(
-        'title' => array('name'=>'title','type'=>'xsd:string'),
-        'page' => array('name'=>'page','type'=>'xsd:int')
-    )
-);
- 
-$server->wsdl->addComplexType(
-    'ChapterArray',
-    'complexType',
-    'array',
-    '',
-    'SOAP-ENC:Array',
-    array(),
-    array(
-        array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:Chapter[]')
-    ),
-    'tns:Chapter'
-);
-	$server->wsdl->addComplexType(
-    'List',
-    'complexType',
-    'struct',
-    'all',
-    '',
-    array(
-		"o" => array('name' => 'firstname', 'type' => 'xsd:string','maxOccurs'=>'10','minOccurs'=>'0')
-		//"o2" => array('name' => 'secname', 'type' => 'xsd:string')
-    )
-);*/
 	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
+	
 	foreach ($xml->types->type as $type) {
 		$typeName=trim($type->name);
-		$class=trim($type->typeclass);
-		$phpType=trim($type->phptype);
-		$compositor=(trim($type->compositor)==null)?'':trim($type->compositor);
+		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);
+		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);
+		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);
 		$restrictionbase=trim($type->restrictionBase);
-		$elements=trim($type->elements);
 		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);
-		//$arrayType=(strlen($type->arrayType)==0)?:trim($type->arrayType);
+		if($type->elements!=null){
+			switch ($phpType){
+			
+			case "struct":
+				$elements=array();
+				foreach($type->elements->element as $element){
+					$at=findAttribute($element, "type");
+					$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
+				}
+			break;
+			}
+		}else{
+			$elements=array();
+		}
+
+		if(strlen($type->arrayType)!=0){
+			$at=$type->arrayType."[]";
+			$attrs=array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>$at));
+		}else{
+			$attrs=array();
+			$arrayType='';
+		}
+
 		$server->wsdl->addComplexType(
     		$typeName,
     		$class,
     		$phpType,
     		$compositor,
     		$restrictionbase,
-   		 	$elements,
+			$elements,
 			$attrs,
     		''
     		//$arrayType
@@ -130,18 +92,27 @@ $server->wsdl->addComplexType(
    		$name= trim($service->name);
    		$name="{$name}";
    		$function=trim($service->api_function);
+   		$in=array();
+   		if($service->input!=null){
+   			foreach ($service->input as $input) {
+				$in[trim($input)]=findAttribute($input, "type");
+   			}
+   		}
+   		if($service->output!=null){
+   			$out=trim(findAttribute($service->output, "type"));
+   			$out=array('return' => $out);
+   		}
+   		if($service->documentation!=null){
+   			$doc=$service->documentation;
+   		}
+   		
+   		$server->register($function,
+			$in,
+			$out,
+		$ns,false,false,false,$doc,'',$name);
 
 	}
-			$server->register('shn_or_org_list',
-			array('amount' => 'xsd:string'),
-			array('return' => 'tns:OrgArray'),
-			//array('return' => 'tns:List'),
-		$ns);
-			$server->register('shn_or_service_list',
-			array('amount' => 'xsd:string'),
-			array('return' => 'tns:ChapterArray'),
-			//array('return' => 'tns:List'),
-		$ns);
+
 }
 function shn_stream_close(){
 	global $server;
