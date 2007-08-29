@@ -258,11 +258,11 @@ function get_unitid_array()
 
     while(!$res==NULL && !$res->EOF)
     {
-    $temp2=$res->fields['unit_uuid'];
-    $query="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
-    $unit_res=$db->Execute($query);    
-    $itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
-    $res->MoveNext();
+    	$temp2=$res->fields['unit_uuid'];
+    	$query="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
+    	$unit_res=$db->Execute($query);    
+    	$itemarray[$res->fields['unit_uuid']]=$unit_res->fields['name'];
+    	$res->MoveNext();
     }
 
 return $itemarray;
@@ -285,8 +285,8 @@ function get_itemid()
     
         if($itemid==null)
         {
-        $itemid = $_POST[$i-1];
-        break;
+        	$itemid = $_POST[$i-1];
+        	break;
         }
     }
 
@@ -315,6 +315,7 @@ function unit_converter($from_unit_id,$to_unit_id)
     $query2="SELECT multiplier FROM ct_unit WHERE unit_uuid='$to_unit_id'";
     $res2=$db->Execute($query2);
     $to_multiplier=$res2->fields['multiplier'];
+    
     if ($to_multiplier==0)
     {
         $to_multiplier=1;
@@ -342,6 +343,28 @@ function get_unit_name($unit_id)
     return $name;
 }
 
+/**.
+ *This function return all the unit names
+ * @access public
+ * @return array
+ */
+function get_all_unit_names()
+{
+	global $global;
+    $db=$global["db"];
+    $query="SELECT name FROM ct_unit";
+    $res=$db->Execute($query);
+    $unit_name_arr = array();
+
+    while(!$res==NULL && !$res->EOF)
+    {
+    	array_push($unit_name_arr,$res->fields['name']);
+    	$res->MoveNext();
+    }
+    
+    return $unit_name_arr;
+}
+
 
 /**
  * This function validates the selected catalogue in sub_cat form.
@@ -351,11 +374,12 @@ function get_unit_name($unit_id)
  */
 function _shn_cs_validate_sub_cat_form()
 {
-$error_flag=false;
-clean_errors();
+	$error_flag=false;
+	clean_errors();
 
-$itemid=null;
-$max_depth = get_max_depth();
+	$itemid=null;
+	$max_depth = get_max_depth();
+	
     for($i=0;$i<$max_depth;$i++)
     {
     $itemid = trim($_POST[$i]);
