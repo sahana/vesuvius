@@ -1,6 +1,6 @@
 <?php
 /*
-$Id: nusoapmime.php,v 1.3 2007-08-21 10:30:33 ravids Exp $
+$Id: nusoapmime.php,v 1.4 2007-08-30 09:34:44 ravids Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -42,10 +42,10 @@ require_once('Mail/mimePart.php');
 *
 * @author   Scott Nichol <snichol@sourceforge.net>
 * @author	Thanks to Guillaume and Henning Reich for posting great attachment code to the mail list
-* @version  $Id: nusoapmime.php,v 1.3 2007-08-21 10:30:33 ravids Exp $
+* @version  $Id: nusoapmime.php,v 1.4 2007-08-30 09:34:44 ravids Exp $
 * @access   public
 */
-class soapclientmime extends soapclient {
+class soapclientmime extends soapclient2 {
 	/**
 	 * @var array Each array element in the return is an associative array with keys
 	 * data, filename, contenttype, cid
@@ -262,7 +262,7 @@ class soapclientmime extends soapclient {
 *
 * @author   Scott Nichol <snichol@sourceforge.net>
 * @author	Thanks to Guillaume and Henning Reich for posting great attachment code to the mail list
-* @version  $Id: nusoapmime.php,v 1.3 2007-08-21 10:30:33 ravids Exp $
+* @version  $Id: nusoapmime.php,v 1.4 2007-08-30 09:34:44 ravids Exp $
 * @access   public
 */
 class nusoapservermime extends soap_server {

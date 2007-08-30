@@ -8,7 +8,7 @@
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: class.soap_transport_http.php,v 1.3 2007-08-21 10:30:41 ravids Exp $
+* @version  $Id: class.soap_transport_http.php,v 1.4 2007-08-30 09:34:44 ravids Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -832,7 +832,7 @@ class soap_transport_http extends nusoap_base {
 			($http_status >= 400 && $http_status <= 417) ||
 			($http_status >= 501 && $http_status <= 505)
 		   ) {
-			$this->setError("Unsupported HTTP response status $http_status $http_reason (soapclient->response has contents of the response)");
+			$this->setError("Unsupported HTTP response status $http_status $http_reason (soapclient2->response has contents of the response)");
 			return false;
 		}
 

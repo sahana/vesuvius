@@ -19,10 +19,10 @@
 * unset($soapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: class.soapclient.php,v 1.3 2007-08-21 10:30:41 ravids Exp $
+* @version  $Id: class.soapclient.php,v 1.4 2007-08-30 09:34:44 ravids Exp $
 * @access   public
 */
-class soapclient extends nusoap_base  {
+class soapclient2 extends nusoap_base  {
 
 	var $username = '';
 	var $password = '';
@@ -669,7 +669,7 @@ class soapclient extends nusoap_base  {
 				unset($paramCommentStr);
 			}
 		}
-		$evalStr = 'class soap_proxy_'.$r.' extends soapclient {
+		$evalStr = 'class soap_proxy_'.$r.' extends soapclient2 {
 	'.$evalStr.'
 }';
 		return $evalStr;
