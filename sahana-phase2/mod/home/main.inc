@@ -1,15 +1,6 @@
 <?PHP
 
-/**
- * shn_soap_home_default 
- * 
- * @access public
- * @return string
- */
-function shn_soap_home_default()
-{
 
-}
 
 function shn_text_home_help()
 {
