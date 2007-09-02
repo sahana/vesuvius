@@ -223,9 +223,7 @@ function _shn_acl_modules_for_role($role){
 }
 
 function _shn_acl_is_module_role($mod,$role){
-	if($role==ADMIN){
-		return true;
-	}
+
 	global $global;
     $db=$global['db'];
    	$q="select status from sys_group_to_module where group_id='{$role}' and module='{$mod}'";
