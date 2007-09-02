@@ -75,10 +75,11 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
     // load all the configurations based on the priority specified 
     // files and database, base and mods
     shn_config_load_in_order();
+    /*
     $mods=shn_get_allowed_mods_current_user();
     foreach ($mods as $mod){
     	$conf['mod_'.$mod.'_enabled']=true;
-    }
+    }*/
     // start the front controller pattern
     shn_main_front_controller();
     
@@ -178,8 +179,11 @@ function shn_main_front_controller()
         $mods=shn_get_allowed_mods_current_user();
 
         $res=array_search($module,$mods,false);
+        
         if(FALSE !== $res){
 			$module_function();
+        }else{
+        	shn_error_display_restricted_access();
         }
 
     // close up the stream. In HTML send the footer
