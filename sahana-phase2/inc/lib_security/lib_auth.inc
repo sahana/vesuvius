@@ -86,13 +86,12 @@ function shn_auth_activate_user($pid=null,$uname=null){
 *@access public
 */
 function shn_current_user(){
-	
+	global $global;
     $q = "select p_uuid from  users where  user_name = '{$_SESSION['user']}'";
-    global $global;
     $db=$global['db'];
 	$res=$db->Execute($q);
     if(($res==null) or ($res->EOF)){
-        return false;
+        return null;
     }else {
         return $res->fields["p_uuid"];
     }

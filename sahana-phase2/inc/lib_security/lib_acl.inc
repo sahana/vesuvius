@@ -36,29 +36,36 @@ function shn_acl_log_error($comment,$p_uuid=null,$user_name=null,$event_type=1){
 }
 
 function shn_get_allowed_mods_current_user(){
-	$user=shn_current_user();
-	if($user==null){
-		$user=ANONYMOUS;
-	}
-	$roles=_shn_acl_get_roles($user);
-    $mods=array();
-   	array_push($mods,'home');
-   	if ($_SESSION['logged_in'] == true ){
-   		array_push($mods,'pref');
-	}	
-	foreach($roles as $role=>$name){
-		$mods_role= _shn_acl_modules_for_role($role);
-		
-		if($mods_role!=null){
-			foreach($mods_role as $mod){
-				array_push($mods,$mod);
-			}
+	if(shn_acl_is_enabled()==true){
+		$user=shn_current_user();
+		if($user==null){
+			$roles[ANONYMOUS]="Anonymous User";
+		}else{
+			$roles=_shn_acl_get_roles($user);
 		}
+	
+	    $mods=array();
+	    /*
+	   	array_push($mods,'home');
+	   	if ($_SESSION['logged_in'] == true ){
+	   		array_push($mods,'pref');
+		}	
+		*/
+		foreach($roles as $role=>$name){
+			$mods_role= _shn_acl_modules_for_role($role);
+			
+			if($mods_role!=null){
+				foreach($mods_role as $mod){
+					array_push($mods,$mod);
+				}
+			}
+			
+					
 		
-				
-	
+		}
+	}else{
+		$mods=shn_get_all_modules(false);
 	}
-	
 	$mods=array_unique($mods);
 	return $mods;
 	
@@ -173,7 +180,6 @@ function _shn_acl_get_roles($user=null){
     $db=$global['db'];
     $roles=array();
 
-  //  if(($user==NULL)&& ($user!=0)){
     if(($user==NULL)){
     	$q="select * from sys_user_groups";
     }else{
@@ -197,20 +203,12 @@ function _shn_acl_get_roles($user=null){
 
 function _shn_acl_modules_for_role($role){
 	$mods=array();
-	if($role==ADMIN){
-		$all_mods=shn_get_all_modules();
-		foreach($all_mods as $mod){
-				array_push($mods,$mod[0]);
-		}
 
-		return $mods;
-	}
 	
 	global $global;
     $db=$global['db'];
    	$q="select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
- 
-    
+
     $res=$db->Execute($q);
     if(($res==null) ||($res->EOF)){
     	return null;
@@ -282,7 +280,22 @@ function _shn_acl_is_user_role_only($user,$role){
     }
 
 }
-
+function shn_acl_is_enabled(){
+	global $global;
+	$db=$global["db"];
+	$q="select value from config where module_id='admin' and confkey='acl_enabled'";
+	$res=$db->Execute($q);
+    if(($res==null) ||($res->EOF)){
+     	return true; //by default we should have security
+    }else{
+    	if(($res->fields['value']==1)){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    	
+    }
+}
 function shn_acl_install(){
 	global $global;
     global $conf;
@@ -297,23 +310,25 @@ function shn_acl_install(){
  	 //add a "root" user to ACL users and add to 'admin' role
  	 //add a "registered" user to ACL users and add to 'registered' role
  	$reg_user=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null);
-    $role=REGISTERED;
-	$mods=array("home","pref");
-	foreach ($mods as $mod){
-		$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
-		
-		$res=$db->Execute($sql);
+    $roles=array(ADMIN,REGISTERED,ANONYMOUS);
+	//$mods=array("home","pref");
+	$mods=shn_get_all_modules(false);
+	foreach($roles as $role){
+		foreach ($mods as $mod){
+			$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+			$res=$db->Execute($sql);
+		}
 	}
 
     $q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";	
     $res=$db->Execute($q);
-/*
+
     if($_POST["acl"]=='enable'){
     	$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
 	}else{
 		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',false)";
 	}
-*/
+
 	$db->Execute($q);
  	return $status;
  	

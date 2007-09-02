@@ -48,6 +48,22 @@ function _shn_admin_acl_enable_mods()
 {
 	shn_acl_form_enable_mods();
 }
+function _shn_admin_acl_enable_acl()
+{
+	shn_acl_form_enable_acl();
+}
+function _shn_admin_acl_enable_acl_cr(){
+	global $global;
+	$db=$global["db"];
+	
+	if($_POST['action']=='enable'){
+		$q="update config set value=true where module_id='admin' and confkey='acl_enabled'";
+	}else{
+		$q="update config set value=false where module_id='admin' and confkey='acl_enabled'";
+	}
+	$res=$db->Execute($q);
+	shn_acl_form_enable_acl();
+}
 
 function _shn_admin_acl_enable_mods_cr(){
 	global $global;

@@ -290,6 +290,17 @@ function shn_admin_acl_enable_mods()
     
    _shn_admin_acl_enable_mods();
 }
+function shn_admin_acl_enable_acl()
+{
+    
+   _shn_admin_acl_enable_acl();
+}
+
+function shn_admin_acl_enable_acl_cr()
+{
+    
+   _shn_admin_acl_enable_acl_cr();
+}
 
 function shn_admin_acl_enable_mods_cr()
 {

@@ -23,6 +23,32 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
 
+
+/**
+ * Generates a form to enable/disable ACL
+ * @access public
+ * @return void
+ */
+
+function shn_acl_form_enable_acl()
+{
+    global $global;
+    $db=$global['db'];
+ ?>
+ <h3>Enable/Disable ACL</h3> 
+<?php
+	shn_form_fopen("acl_enable_acl_cr","admin",array('req_message'=>false));
+ 	$acl=shn_acl_is_enabled();
+ 	if($acl==true){
+ 		shn_form_hidden(array("action"=>'disable'));
+		shn_form_submit(_("Disable ACL"));
+ 	}else{
+ 		shn_form_hidden(array("action"=>'enable'));
+		shn_form_submit(_("Enable ACL"));
+ 	}
+
+}
+
 /**
  * Generates a form to enable/disable modules
  * @access public

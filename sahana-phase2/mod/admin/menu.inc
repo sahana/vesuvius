@@ -58,6 +58,7 @@ function _shn_admin_mainmenu()
     //shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Security Config"));
+    shn_sub_mod_menuitem("acl_enable_acl", _("Enable/Disable ACL"), 'admin');
     shn_sub_mod_menuitem("acl_user_roles", _("User Config"), 'admin');
 	shn_sub_mod_menuitem("acl_privacy", _("Privacy Settings"), 'admin');
 	shn_sub_mod_menuitem("acl_enable_mods", _("Enable/Disable Modules"), 'admin');
