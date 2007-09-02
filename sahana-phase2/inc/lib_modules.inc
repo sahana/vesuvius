@@ -24,7 +24,7 @@
  * @access public
  * @return void
  */
-function shn_get_all_modules()
+function shn_get_all_modules($nice_name_req=true)
 {
     global $global;
     global $conf;
@@ -35,7 +35,12 @@ function shn_get_all_modules()
     while (false !== ($f = $d->read())) {
         if (file_exists($approot."mod/".$f."/main.inc")) {
           $nice_name=$conf['mod_'.$f.'_name'];
-          array_push($module_list, array($f,$nice_name));
+          if($nice_name_req==true){
+          	array_push($module_list, array($f,$nice_name));
+          }else{
+          	array_push($module_list,$f);
+          }
+          
         }
     }
     return $module_list; 
@@ -59,18 +64,13 @@ function shn_get_module_names()
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
         if (file_exists($approot."mod/".$f."/main.inc")) {
-           if($_SESSION['logged_in']==false){
-                	if(($f=='vm')||($f=='home')){
-         		 		array_push($module_list, $f);
-                	}
-           }else{
-           		
+   		
            		 $res=array_search($f,$mods,false);
            		if(FALSE !== $res){
 					array_push($module_list, $f);
            		}	
            		
-           }
+           
         }
     }
     return $module_list; 
@@ -166,6 +166,8 @@ function shn_include_page_section($section, $module=null)
         		$res=array_search($module,$mods,false);
         		if(FALSE !== $res){
 					$module_function();
+        		}else{
+					 include $global['approot']."/inc/handler_mainmenu.inc";	
         		}
     		} else {
         		include($global['approot'].'inc/handler_'.$section.'.inc');
