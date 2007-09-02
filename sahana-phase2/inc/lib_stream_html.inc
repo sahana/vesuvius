@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.9 2006-12-21 10:45:19 chamindra Exp $ */
+/* $Id: lib_stream_html.inc,v 1.10 2007-09-02 06:06:38 ravids Exp $ */
 
 /**
  *
@@ -23,6 +23,7 @@ function shn_stream_init()
 {
     global $global;
     global $conf;
+    require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
 
     $module = $global['module'];
 
@@ -53,7 +54,7 @@ function shn_stream_init()
 
     // include the mainmenu and login provided there is not a module override
     shn_include_page_section('mainmenu',$module);
-    if ($conf['acl_base'] ) {
+    if(shn_acl_is_enabled()==true){
         shn_include_page_section('login',$module);
     }
 
