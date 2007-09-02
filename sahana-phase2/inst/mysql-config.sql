@@ -178,11 +178,8 @@ INSERT INTO sys_data_classifications VALUES ( 8, 'Unclassified');
 
 -- INSERT DEFAULT SYS USER GROUPS
 INSERT INTO sys_user_groups VALUES ( 1, 'Administrator (Admin)');
-INSERT INTO sys_user_groups VALUES ( 2, 'Main Operations Coordinator (MainOps)');
-INSERT INTO sys_user_groups VALUES ( 3, 'Head Organization Contact (OrgHead)');
-INSERT INTO sys_user_groups VALUES ( 4, 'Trusted User (Trusted)');
-INSERT INTO sys_user_groups VALUES ( 5, 'Registered User');
-INSERT INTO sys_user_groups VALUES ( 6, 'Anonymous User');
+INSERT INTO sys_user_groups VALUES ( 2, 'Registered User');
+INSERT INTO sys_user_groups VALUES ( 3, 'Anonymous User');
 
 -- INSERT DEFAULT SYS USER GROUP TO DATA CLASSIFICATION MAPPINGS
 -- admin role
@@ -197,48 +194,24 @@ INSERT INTO sys_group_to_data_classification VALUES ( 1, 5,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 6,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 8,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 4,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"-r--");
--- he is not repsonsible for system tasks
+
+
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 3, 5,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 5,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 6,"----");
--- he is not repsonsible for system tasks
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 8,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 1,"-r--");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 3,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 5,"-r--");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 6,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 7,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 4, 8,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 1,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 3,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 5,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 7,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 8,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
