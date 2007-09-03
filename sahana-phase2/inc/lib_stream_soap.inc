@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.10 2007-09-03 09:48:40 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.11 2007-09-03 11:09:07 ravids Exp $ */
 
 /**
  *
@@ -24,6 +24,26 @@ require_once($global['approot'].'/inc/lib_xml.inc');
 require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
 
 function shn_stream_init(){
+	/* HTTP basic authentication
+	 * Since i wanted to authenticate based on the following policy, had to use the basic athentication
+	 * credentials in an alternative way.
+	 * Policy: In the process of signing up for the API key the following are issued
+	 * 1. API key
+	 * 2. Password
+	 * 3. Secret Code
+	 * API key and Password helps to identify the user. How ever, since these are transmitted in plain text
+	 * needed something additional to prevent impersonation.
+	 * Thus a digest is signed using HMAC_Sha1 algorithm and this signature is sent in the basic authentication.
+	 * The digest is also , sent created using the time and few other values. How ever ,yet to write code to use those.
+	 * Since the secret is shared only between the web server and user , only the user could have signed to be matched with the 
+	 * signature created with the shared secret at the server applied on the digest.
+	 * How ever with basic authentication, only two values could be sent, but here 4 values are being sent.
+	 * API key, password and digest were sent as PHP_AUTH_USER seperated by comma.
+	 * PHP_AUTH_PW contains the signature. How ever , there are restrictions on the characters that
+	 * can be sent in PHP_AUTH_PW. Thus most of the time , only part of the wierd signature gets transmitted.
+	 * Thus md5 hash is applied to the signature and sent , and doing the comparison also md5 is used at the last stage.
+	 * 
+	 */
 	if (!isset($_SERVER['PHP_AUTH_USER'])) {
     	header('WWW-Authenticate: Basic realm="Sahana"');                   
     	header("HTTP/1.0 401 Unauthorized");
