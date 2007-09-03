@@ -559,6 +559,24 @@ CREATE TABLE org_main(
 	FOREIGN KEY (parent_id) REFERENCES org_main(o_uuid)
 );
 
+/**================= Entity: Web Services related  ===================**/
+/**
+* Information about web service keys is stored here
+* Modules:
+* Last changed: 1-SEP-2007 - ravindra@opensource.lk  
+*/
+
+DROP TABLE IF EXISTS ws_keys;
+CREATE TABLE ws_keys(
+    p_uuid VARCHAR(60) NOT NULL,
+    domain VARCHAR(200) NOT NULL,
+    api_key VARCHAR(60) NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    secret VARCHAR(60) NOT NULL,
+    PRIMARY KEY (p_uuid,domain,api_key),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
+
 
 
 /**================= Entity: Camp Tables ===========================**/
