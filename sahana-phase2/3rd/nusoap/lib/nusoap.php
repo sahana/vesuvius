@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+$Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -59,7 +59,7 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class nusoap_base {
@@ -83,7 +83,7 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.8 $';
+	var $revision = '$Revision: 1.9 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -910,7 +910,7 @@ function usleepWindows($usec)
 * Mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access public
 */
 class soap_fault extends nusoap_base {
@@ -996,7 +996,7 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class XMLSchema extends nusoap_base  {
@@ -1899,7 +1899,7 @@ class XMLSchema extends nusoap_base  {
 * xsd:anyType and user-defined types.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -2000,7 +2000,7 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -3038,7 +3038,7 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class soap_server extends nusoap_base {
@@ -4028,7 +4028,7 @@ class soap_server extends nusoap_base {
         		$SCHEME = 'http';
         	}
         	
-            $endpoint = "$SCHEME://$SERVER_NAME$SERVER_PORT$SCRIPT_NAME?stream=soap&amp;wbsmod={$_GET['wbsmod']}";
+            $endpoint = "$SCHEME://$SERVER_NAME$SERVER_PORT$SCRIPT_NAME?stream=soap&amp;wbsmod={$_GET['wbsmod']}&amp;mod=ws&amp;act=reg";
         }
         
         if(false == $schemaTargetNamespace) {
@@ -4070,7 +4070,7 @@ class soap_server extends nusoap_base {
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access public 
 */
 class wsdl extends nusoap_base {
@@ -4832,7 +4832,7 @@ class wsdl extends nusoap_base {
 			<br><br>
 			<div class=title>'.$this->serviceName.'</div>
 			<div class=nav>
-				<p>View the <a href="'.$PHP_SELF.'?wsdl&amp;stream=soap&amp;wbsmod='.$_GET["wbsmod"].'">WSDL</a> for the service.
+				<p>View the <a href="'.$PHP_SELF.'?wsdl&amp;stream=soap&amp;wbsmod='.$_GET["wbsmod"].'&amp;mod=ws&amp;act=reg">WSDL</a> for the service.
 				Click on an operation name to view it&apos;s details.</p>
 				<ul>';
 				foreach($this->getOperations() as $op => $data){
@@ -5798,7 +5798,7 @@ class wsdl extends nusoap_base {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class soap_parser extends nusoap_base {
@@ -6405,7 +6405,7 @@ class soap_parser extends nusoap_base {
 * unset($soapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.8 2007-08-30 09:34:44 ravids Exp $
+* @version  $Id: nusoap.php,v 1.9 2007-09-03 01:08:17 ravids Exp $
 * @access   public
 */
 class soapclient2 extends nusoap_base  {
