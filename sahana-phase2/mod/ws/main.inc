@@ -19,7 +19,7 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_xml.inc";
 require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
-
+require_once "reg.inc";	
 
 
 function shn_ws_mainmenu() 
@@ -28,19 +28,23 @@ function shn_ws_mainmenu()
     global $conf;
     $mods=shn_get_modules_with_web_services();
     $module = $global['module'];
- 
-    shn_mod_menuopen(_lc("SOAP"));
+    shn_mod_menuopen(_lc("Web Services"));
+ 	shn_mod_menuitem("api_key","Sign up for API Key",$module);
+    shn_sub_mod_menuopen(_lc("SOAP"));
     foreach($mods as $mod=>$data_arr){
     	shn_mod_menuitem("main&wbsmod=".$data_arr[0],$data_arr[1],$module);
     }
-    shn_mod_menuclose();
-    shn_mod_menuopen(_lc("REST"));
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_lc("REST"));
     foreach($mods as $mod=>$data_arr){
     	shn_mod_menuitem($data_arr[0],$data_arr[1],$module);
     }
+    shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
+
+
 
 function shn_ws_main(){
 	global $global;
@@ -139,5 +143,102 @@ function shn_ws_main(){
 
 }
 
+function shn_ws_default(){
+	global $conf;
+?>
+<div id="home">
+    <h2><?=_lc($conf['mod_ws_name'])?></h2>
+    		<div><b><i><?=_("\"SAHANA functionality exposed as  web services\"")?></i></b></div>
+        <br></br>
+		<div><?=_("The Web Services Module generates WSDL for each service.")?>
+        </div>
+		<ul>
+            <li><?=_("Displays the methods that are exposed as web serivices with additional information")?></li>
+            <li><?=_("Generates and display the WSDL for those services")?></li>
+         </ul>
+</div>
+<br />
+
+<?php	
+}
+
+function shn_soap_ws_reg(){
+	global $global;
+	global $server;
+	require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
+	$mod=$_GET["wbsmod"];
+	$ns="http://localhost/".$mod;
+	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
+	
+	foreach ($xml->types->type as $type) {
+		$typeName=trim($type->name);
+		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);
+		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);
+		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);
+		$restrictionbase=trim($type->restrictionBase);
+		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);
+		if($type->elements!=null){
+			switch ($phpType){
+			
+			case "struct":
+				$elements=array();
+				foreach($type->elements->element as $element){
+					$at=findAttribute($element, "type");
+					$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
+				}
+			break;
+			}
+		}else{
+			$elements=array();
+		}
+
+		if(strlen($type->arrayType)!=0){
+			$at=$type->arrayType."[]";
+			$attrs=array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>$at));
+		}else{
+			$attrs=array();
+			$arrayType='';
+		}
+
+		$server->wsdl->addComplexType(
+    		$typeName,
+    		$class,
+    		$phpType,
+    		$compositor,
+    		$restrictionbase,
+			$elements,
+			$attrs,
+    		''
+    		//$arrayType
+		);
+	}
+
+ 
+
+	foreach ($xml->service as $service) {
+   		$name= trim($service->name);
+   		$name="{$name}";
+   		$function=trim($service->api_function);
+   		$in=array();
+   		if($service->input!=null){
+   			foreach ($service->input as $input) {
+				$in[trim($input)]=findAttribute($input, "type");
+   			}
+   		}
+   		if($service->output!=null){
+   			$out=trim(findAttribute($service->output, "type"));
+   			$out=array('return' => $out);
+   		}
+   		if($service->documentation!=null){
+   			$doc=$service->documentation;
+   		}
+   		
+   		$server->register($function,
+			$in,
+			$out,
+		$ns,false,false,false,$doc,'',$name);
+
+	}
+}
 
 ?>

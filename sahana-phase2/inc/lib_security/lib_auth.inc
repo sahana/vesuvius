@@ -234,6 +234,32 @@ function shn_auth_user_list($fullname=false){
 
 }
 
+function shn_authenticate_ws_signature($secret,$sign,$digest){
+	
+	$cmp_sign=md5(shn_acl_hmac_sha1($digest,$secret));
+	
+	if($sign==$cmp_sign){
+		
+		return true;
+	}else{
+		return false;
+	}
+	
+}
+
+
+function shn_authenticate_ws_user($user,$pwd,$extra_opts=null)
+{
+	global $global;
+    $db=$global['db'];
+	$sql="select secret,domain from ws_keys where api_key='{$user}' and password='{$pwd}'";
+	$res=$db->Execute($sql);
+    if(($res==null) or ($res->EOF)){
+        return null;
+    }else {
+        return $res->fields["secret"];
+    }
+}
 /**
 *Check if a user has an account that matches the user name and password
 *therefore this is the function you need to call for authentication

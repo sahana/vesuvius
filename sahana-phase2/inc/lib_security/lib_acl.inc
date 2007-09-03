@@ -423,4 +423,30 @@ function shn_acl_update_role_perms($role,$level,$crud){
 	}	
 	return $res;
 }
+
+function shn_acl_hmac_sha1($data,$key) {
+	if(($data==null)or($key==null)){
+		return null;
+	}
+    $blocksize = 64;
+    $hashfunc = 'sha1';
+
+    if (strlen($key) > $blocksize) {
+        $key = pack('H*', $hashfunc($key));
+    }
+
+    $key = str_pad($key, $blocksize, chr(0x00));
+    $ipad = str_repeat(chr(0x36), $blocksize);
+    $opad = str_repeat(chr(0x5c), $blocksize);
+    $hmac = pack(
+                    'H*', $hashfunc(
+                            ($key^$opad).pack(
+                                    'H*', $hashfunc(
+                                            ($key^$ipad).$data
+                                    )
+                            )
+                    )
+                );
+    return $hmac;
+}
 ?>

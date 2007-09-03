@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.9 2007-09-03 01:10:35 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.10 2007-09-03 09:48:40 ravids Exp $ */
 
 /**
  *
@@ -18,21 +18,32 @@
  * 
  */
  
+global $global;
 require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
 require_once($global['approot'].'/inc/lib_xml.inc');
+require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
 
 function shn_stream_init(){
 	if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    	header('WWW-Authenticate: Basic realm="Weather"');                   
+    	header('WWW-Authenticate: Basic realm="Sahana"');                   
     	header("HTTP/1.0 401 Unauthorized");
 	}else{
-		if($_SERVER['PHP_AUTH_USER']=='ravi'){
-			
-		}else{
+		
+		$arg1=explode(",", trim($_SERVER['PHP_AUTH_USER']));
+		$sign=$_SERVER['PHP_AUTH_PW'];
+		$digest=$arg1[2];
+		$secret=shn_authenticate_ws_user($arg1[0],$arg1[1]);
+		if($secret==null){
+			header("HTTP/1.0 401 Unauthorized");
 			return;
+		}else{
+			if(shn_authenticate_ws_signature($secret,$sign,$digest)==false){
+				header("HTTP/1.0 401 Unauthorized");
+				return;
+			}
 		}
 	}
-//echo "Welcome " . $_SERVER['PHP_AUTH_USER'];
+
 	
 	global $server;
 	global $global;
