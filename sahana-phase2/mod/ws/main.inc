@@ -162,29 +162,40 @@ function shn_ws_default(){
 <?php	
 }
 
+
+   
+/**
+ * The function that registers the types and services
+ * @return void
+ * @access public
+ */
+ 
 function shn_soap_ws_reg(){
 	global $global;
 	global $server;
 	require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
-	$mod=$_GET["wbsmod"];
-	$ns="http://localhost/".$mod;
+	$mod=$_GET["wbsmod"];// A web service of this mod is requested
+	$ns="http://localhost/".$mod; //change this to the actual namespace later
 	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
+	//read the XML file describing the types and services for that module.
 	
+	//first register the types that will be referenced in the services
 	foreach ($xml->types->type as $type) {
-		$typeName=trim($type->name);
-		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);
-		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);
-		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);
-		$restrictionbase=trim($type->restrictionBase);
-		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);
+		$typeName=trim($type->name);//name of the type
+		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);//simple vs complex
+		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);//the type in PHP
+		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);//how the elements are composed. e.g all arr need,or only one is neede
+		$restrictionbase=trim($type->restrictionBase);//the base type if there is any
+		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);//attributes if there are any
 		if($type->elements!=null){
 			switch ($phpType){
 			
 			case "struct":
 				$elements=array();
 				foreach($type->elements->element as $element){
-					$at=findAttribute($element, "type");
+					$at=findAttribute($element, "type");//find the attribute 'type' for the element from the ws.xml
 					$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
+					//every element should have name and type
 				}
 			break;
 			}
@@ -213,12 +224,11 @@ function shn_soap_ws_reg(){
 		);
 	}
 
- 
+  	//now register the services
 
 	foreach ($xml->service as $service) {
-   		$name= trim($service->name);
-   		$name="{$name}";
-   		$function=trim($service->api_function);
+   		$name= trim($service->name);//name of the service
+   		$function=trim($service->api_function);//function that is exposed
    		$in=array();
    		if($service->input!=null){
    			foreach ($service->input as $input) {
