@@ -294,6 +294,24 @@ function shn_acl_is_enabled(){
     	
     }
 }
+
+function shn_acl_is_web_service_auth_enabled(){
+	global $global;
+	$db=$global["db"];
+	$q="select value from config where module_id='ws' and confkey='authentication'";
+	$res=$db->Execute($q);
+    if(($res==null) ||($res->EOF)){
+     	return true; //by default we should have security
+    }else{
+    	if(($res->fields['value']==1)){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    	
+    }
+}
+
 function shn_acl_install(){
 	global $global;
     global $conf;
@@ -320,7 +338,9 @@ function shn_acl_install(){
 
     $q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";	
     $res=$db->Execute($q);
-
+    $q="insert into config(module_id,confkey,value) values('ws','authentication',true)";	
+    $res=$db->Execute($q);
+    
     if($_POST["acl"]=='enable'){
     	$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
 	}else{
