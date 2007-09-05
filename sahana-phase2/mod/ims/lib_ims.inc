@@ -2069,9 +2069,54 @@ function _shn_ims_get_parent_locations($location_id)
     return $location_array;
 }
 
-function _shn_ims_paging($sql)
+function _shn_ims_get_shelter_name()
 {
-    
+    global $global;
+    $db=$global['db'];
+    $shelter_array=array();
+    $sql="SELECT * FROM camp_general;";
+    $ims=$db->Execute($sql);
+    $shelter_array['']='';
+    while(!$ims==NULL && !$ims->EOF)
+    {
+	$shelter_array[$ims->fields['c_uuid']]=$ims->fields['name'];
+	$ims->MoveNext();
+    }
+    return $shelter_array;
+}
+
+function _shn_ims_get_organization_name()
+{
+    global $global;
+    $db=$global['db'];
+    $org_array=array();
+    $sql="SELECT * FROM org_main;";
+    $ims=$db->Execute($sql);
+    $org_array['']='';
+    while(!$ims==NULL && !$ims->EOF)
+    {
+	$org_array[$ims->fields['o_uuid']]=$ims->fields['name'];
+	$ims->MoveNext();
+    }
+    return $org_array;
+}
+
+function _shn_ims_get_victim()
+{
+    global $global;
+    $db=$global['db'];
+    $victim_array=array();
+    $sql=" select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid;";
+    $ims=$db->Execute($sql);
+    //print $sql;
+    $victim_array['']='';
+    while(!$ims==NULL && !$ims->EOF)
+    {
+	//print $ims->fields['g_uuid'];
+	$victim_array[$ims->fields['g_uuid']]=$ims->fields['full_name']." ".$ims->fields['family_name'];
+	$ims->MoveNext();
+    }
+    return $victim_array;
 }
 
 ?>
