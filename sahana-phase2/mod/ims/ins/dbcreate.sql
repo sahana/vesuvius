@@ -59,6 +59,7 @@ CREATE TABLE ims_transfer_item
 	unit VARCHAR(20),
 	inv_id_from VARCHAR(15),
 	inv_id_to VARCHAR(15),
+	destination_type VARCHAR(20),
 	person_send VARCHAR(100),
 	date_send DATE,
 	destribution_method VARCHAR(100),
