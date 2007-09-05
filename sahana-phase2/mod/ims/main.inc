@@ -58,6 +58,7 @@ function shn_ims_mainmenu()
     shn_sub_mod_menuitem("report_expired",_("expired items"),$module);
     shn_sub_mod_menuitem("report_destroyed",_("destroyed items"),$module);
     shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
+    shn_sub_mod_menuitem("report_transit_item",_("Transit Item"),$module);
     //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
     shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);
     shn_sub_mod_menuclose();
@@ -185,6 +186,12 @@ function shn_ims_report_destroyed()
 {
     include_once ('ims_report.inc');
     _shn_ims_report_destroyed();
+}
+
+function shn_ims_report_transit_item()
+{
+    include_once ('ims_report.inc');
+    _shn_ims_transfer_item_report();
 }
 
 function shn_ims_report_prediction()

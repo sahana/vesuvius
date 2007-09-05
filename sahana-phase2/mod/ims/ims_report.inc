@@ -822,6 +822,108 @@ $inv_id=$_POST['inv_id'];
 	</table>
 <?php
 }
+
+function _shn_ims_transfer_item_report()
+{
+    global $global;
+    $db=$global['db'];
+    //$state=
+
+     $sql1="SELECT transit_id,item_id,amount_send,unit,inv_id_to,destination_type,person_send,date_send FROM ims_transfer_item;";
+    $ims1 = $db->Execute($sql1);
+   // print $sql1;
+?>
+    <div id='result'>
+    <table>
+        <thead>
+        <td><?=_("Item")?></td>
+        <td><?=_("Amount Sent");?></td>
+        <td><?=_("Unit");?></td>
+        <td><?=_("Inventory From")?></td>
+        <td><?=_("To")?></td>
+            <td><?=_("Date Sent")?></td>
+            <td><?=_("Authorized Person")?></td>
+       <!-- <td><?=_("Transit Item")?></td>-->
+            
+        </thead>
+    <tbody>
+<?php
+    
+    
+    while (!$ims1==NULL && !$ims1->EOF)
+    {    
+        $transit_id=$ims1->fields['transit_id'];
+        $item_id=$ims1->fields['item_id'];
+        $amount_send=$ims1->fields['amount_send'];
+        $unit_id=$ims1->fields['unit'];
+        $unit_name=get_unit_name($unit_id);
+        $inv_id_to=$ims1->fields['inv_id_to'];
+	$destination_type=$ims1->fields['destination_type'];
+        $person_send=$ims1->fields['person_send'];
+        $date_send=$ims1->fields['date_send'];
+
+        /*$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
+        $ims2=$db->Execute($sql2);
+        $inventory_from=$ims2->fields['inventory_name'];*/
+
+	if($destination_type=='inventory')
+	{
+
+        $sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_to';";
+        $ims3=$db->Execute($sql3);
+        $inventory_to=$ims3->fields['inventory_name'];
+	}
+	else if($destination_type=='organization')
+	{
+		$sql3="SELECT * FROM org_main WHERE o_uuid='$inv_id_to';";
+		$ims3=$db->Execute($sql3);
+        	$inventory_to=$ims3->fields['name'];
+	}
+	else if($destination_type=='shelter')
+	{
+		$sql3="SELECT * FROM camp_general WHERE c_uuid='$inv_id_to';";
+		$ims3=$db->Execute($sql3);
+        	$inventory_to=$ims3->fields['name'];
+	}
+	else if($destination_type=='victim')
+	{
+		$sql3="select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pu.p_uuid='$inv_id_to';";
+    		$ims3=$db->Execute($sql3);
+		//print $sql3;
+        	$inventory_to=$ims3->fields['full_name']." ".$ims3->fields['family_name'];
+	}
+
+        $sql4="SELECT item_name,inv_id,suplier_id FROM ims_item_records WHERE item_id='$item_id';";
+        $ims4=$db->Execute($sql4);
+        $item_name=$ims4->fields['item_name'];
+        $inv_id_from=$ims4->fields['inv_id'];
+        $suplier_id=$ims4->fields['suplier_id'];
+
+        $sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
+        $ims5=$db->Execute($sql5);
+        $inventory_from=$ims5->fields['inventory_name'];
+    
+?>
+        <tr>
+        <td><?php print($item_name);?></td>
+        <td><?php print($amount_send);?></td>
+        <td><?php print($unit_name);?></td>
+        <td><?php print($inventory_from);?></td>
+        <td><?php print($destination_type);?><br><?php print($inventory_to);?></td>
+        <td><?php print($date_send);?></td>
+        <td><?php print($person_send);?></td>
+       <!-- <td><a href="index.php?mod=ims&act=receive_item_page&transit_id=<?php echo $transit_id;?>&suplier_id=<?php echo $suplier_id;?>"><?php print("Received");?></a></td>-->
+        </tr>
+<?php
+        $ims1->MoveNext();
+    }
+?>
+    </tbody>
+    </table>
+    </div>
+
+<?php
+}
 ?>
 
 <script type="text/javascript">
