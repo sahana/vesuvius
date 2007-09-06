@@ -145,6 +145,8 @@ function shn_auth_form_ch_pwd($error=false)
     1. Minimum length is 8.<br />
     2. At least one letter in the expression.<br />
     3. At least one character is numeric or special.<br />
+    4. Cannot be any of the past four (4) passwords.<br />
+    5. Passwords cannot be changed more frequently than once per day.<br />
 	
 	<br />
 	<?php
