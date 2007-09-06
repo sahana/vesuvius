@@ -12,6 +12,7 @@
 *
 * Sahana - http://sahana.sourceforge.net
 * @author   Mifan Careem <mifan@opensource.lk>
+* @author	Fran Boon <flavour@partyvibe.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    module
 * @subpackage openlayers
