@@ -62,6 +62,9 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("acl_user_roles", _("User Config"), 'admin');
 	shn_sub_mod_menuitem("acl_privacy", _("Privacy Settings"), 'admin');
 	shn_sub_mod_menuitem("acl_enable_mods", _("Enable/Disable Modules"), 'admin');
+	shn_sub_mod_menuitem("acl_enable_locking", _("Enable/Disable Password Locking"), 'admin');
+	shn_sub_mod_menuitem("acl_change_user_status", _("Change User Status"), 'admin');
+    shn_sub_mod_menuitem("acl_unlock_user", _("Unlock User"), 'admin');
     shn_sub_mod_menuitem("acl_event_log", _("Event Log"), 'admin');
 
     shn_sub_mod_menuclose();

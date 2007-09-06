@@ -290,6 +290,11 @@ function shn_admin_acl_enable_mods()
     
    _shn_admin_acl_enable_mods();
 }
+function shn_admin_acl_enable_mods_cr()
+{
+    
+   _shn_admin_acl_enable_mods_cr();
+}
 function shn_admin_acl_enable_acl()
 {
     
@@ -302,10 +307,15 @@ function shn_admin_acl_enable_acl_cr()
    _shn_admin_acl_enable_acl_cr();
 }
 
-function shn_admin_acl_enable_mods_cr()
+function shn_admin_acl_enable_locking()
 {
     
-   _shn_admin_acl_enable_mods_cr();
+   _shn_admin_acl_enable_locking();
+}
+function shn_admin_acl_enable_locking_cr()
+{
+    
+   _shn_admin_acl_enable_locking_cr();
 }
 
 function shn_admin_acl_state()

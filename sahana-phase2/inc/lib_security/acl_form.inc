@@ -50,6 +50,31 @@ function shn_acl_form_enable_acl()
 }
 
 /**
+ * Generates a form to enable/disable password locking
+ * @access public
+ * @return void
+ */
+ 
+function shn_acl_form_enable_locking()
+{
+    global $global;
+    $db=$global['db'];
+ ?>
+ <h3>Enable/Disable Password Locking</h3> 
+<?php
+	shn_form_fopen("acl_enable_locking_cr","admin",array('req_message'=>false));
+ 	$acl=shn_acl_is_locking_enabled();
+ 	if($acl==true){
+ 		shn_form_hidden(array("action"=>'disable'));
+		shn_form_submit(_("Disable Password Locking"));
+ 	}else{
+ 		shn_form_hidden(array("action"=>'enable'));
+		shn_form_submit(_("Enable Password Locking"));
+ 	}
+
+}
+
+/**
  * Generates a form to enable/disable modules
  * @access public
  * @return void

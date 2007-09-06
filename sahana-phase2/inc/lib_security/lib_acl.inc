@@ -295,6 +295,23 @@ function shn_acl_is_enabled(){
     }
 }
 
+function shn_acl_is_locking_enabled(){
+	global $global;
+	$db=$global["db"];
+	$q="select value from config where module_id='admin' and confkey='acl_locking'";
+	$res=$db->Execute($q);
+    if(($res==null) ||($res->EOF)){
+     	return true; //by default we should have security
+    }else{
+    	if(($res->fields['value']==1)){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    	
+    }
+}
+
 function shn_acl_is_web_service_auth_enabled(){
 	global $global;
 	$db=$global["db"];
@@ -348,6 +365,8 @@ function shn_acl_install(){
 	}
 
 	$db->Execute($q);
+	$q="insert into config(module_id,confkey,value) values('admin','acl_locking',false)";	
+    $res=$db->Execute($q);
  	return $status;
  	
 

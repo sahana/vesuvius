@@ -322,7 +322,7 @@ function shn_authenticate_user()
          }
 
         
-        if($status=='locked'){
+        if(($status=='locked')&& (shn_acl_is_locking_enabled())){
         	$sql="select changed_timestamp from password_event_log where p_uuid='{$uid}' and event_type=1 order by changed_timestamp desc ";
         	$res=$db->Execute($sql);
         	if(($res==null)||($res->EOF)){
@@ -337,7 +337,7 @@ function shn_authenticate_user()
         		$diff=$now-$tstamp;
         		if($diff < LOCK){
         			//add_error("Login Failed : Password lock still valid.");
-        			add_error("This account has been locked.  Please contact OEM to unlock the account.");
+        			add_error("This account has been locked.  Please contact the Administrator to unlock the account.");
             		shn_acl_log_error("Login Failed : Password lock still valid.",$uid,$user);
             		$user_data["user_id"]=ANONYMOUS_USER;
         			$user_data["user"]="Anonymous";
@@ -371,7 +371,7 @@ function shn_authenticate_user()
             return $user_data;
 
         }else{
-				if(($status=='locked')||($status=='try1')||($status=='try2')){
+				if((($status=='locked')||($status=='try1')||($status=='try2'))&& (shn_acl_is_locking_enabled())){
 					shn_auth_activate_user($uid);
 				}
                 $user_data["user_id"]=$res->fields["p_uuid"];
