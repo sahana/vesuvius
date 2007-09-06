@@ -238,6 +238,9 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "sessions", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
 
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_inventory_records", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 2);
+
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
 
