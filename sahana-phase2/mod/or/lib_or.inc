@@ -16,6 +16,18 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 
+function shn_or_contact_data_exist($org_id,$contact_type){
+	global $global;
+    $db=$global['db'];
+	$sql="select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='{$contact_type}'";
+	$res=$db->Execute($sql);
+	if(($res==NULL) || ($res->EOF)){
+		return false;
+	}else{
+		return true;
+	}
+}
+
 function _shn_org_get_incidents($org_id)
 {
 	global $global;
@@ -734,7 +746,7 @@ function _shn_or_display_incident_form($error=false,$act)
 <div id="formcontainer">
 <?php
     shn_form_fopen($act);
-    shn_form_fsopen('Choose related incidents:The Default Incident is Highlighted');
+    shn_form_fsopen(_('Choose related incidents:The Default Incident is Highlighted'));
     _shn_or_display_incident(false,true);
     shn_form_fsclose();
     shn_form_hidden(array('incident'=>"true"));
@@ -855,11 +867,13 @@ function _shn_or_check_org_reg_info_complete()
     list($error,$_SESSION['org']['sector'])=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
     $loc=shn_location_get_form_submit_loc();
     if ($loc==-1){
-        $error=true;
-        add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+        //$error=true;
+        //add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
+        $_SESSION['org']['loc']=$loc;
     }else{
-    		$_SESSION['org']['loc']=$loc;
+    	$_SESSION['org']['loc']=$loc;
     }
+    $_SESSION['org']['loc_txt']=$_POST['loc_txt'];
     if($parent_org==true){
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);

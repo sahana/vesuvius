@@ -19,8 +19,8 @@ include_once "admin_forms.inc";
 function _shn_or_adm_sub_menu(){
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=or&act=adm_or_type">Organization Types</a> 
-<a href="index.php?mod=or&act=adm_sector">Organization Sectors</a>
+<a href="index.php?mod=or&act=adm_or_type"><?php echo _("Organization Types")?></a> 
+<a href="index.php?mod=or&act=adm_sector"><?php echo _("Organization Sectors")?></a>
 <!--<a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
 <a href="index.php?mod=or&act=adm_location">Set starting Location</a> -->
 </div>
@@ -32,8 +32,8 @@ function shn_or_adm_default()
 {
     _shn_or_adm_sub_menu();
 ?>
-    <p><b> Welcome to the OR admin page </b></p>
-    <p> Use the Above Navigation to Administer Org Registry</p>
+    <p><b> <?php echo _("Welcome to the OR admin page")?> </b></p>
+    <p> <?php echo _("Use the Above Navigation to Administer Org Registry")?></p>
 
     
 
@@ -92,7 +92,7 @@ function shn_or_adm_sector_cr(){
         $q="delete from field_options where field_name='opt_sector_type' and option_code='".$remove[$i]."'";
         $res=$db->Execute($q);
     }
-        	$msg= "Organization services were succesfully added/removed ";
+        	$msg= _("Organization services were succesfully added/removed ");
      	add_confirmation($msg);
     shn_or_adm_sector();
 }
@@ -148,7 +148,7 @@ function shn_or_adm_acl_install()
     else
 	 $q="update config set value='installed' where module_id='or' and confkey='acl_base'";
     $res=$db->Execute($q);
-    $msg="ACL Base for Organization Registry was succesfully installed";
+    $msg=_("ACL Base for Organization Registry was succesfully installed");
 
 ?>
     <div id="result_msg">

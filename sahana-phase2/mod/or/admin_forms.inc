@@ -79,8 +79,8 @@ function shn_or_adm_location_range_form()
 <?php
 	$range= shn_or_get_loc_range();
     shn_form_fopen("adm_location_range_cr",NULL,array('req_message'=>false));
-    shn_location_level_range_form('start','Set Starting Level',$range["start"]);
- 	shn_location_level_range_form('end','Set End Level',$range["end"]);
+    shn_location_level_range_form('start',_('Set Starting Level'),$range["start"]);
+ 	shn_location_level_range_form('end',_('Set End Level'),$range["end"]);
 ?>
 <br />
 <center>
@@ -126,7 +126,7 @@ function shn_or_adm_or_type_form()
  ?>
 </center>
 <?php
-    shn_form_fsopen("Add and Remove Types");
+    shn_form_fsopen(_("Add and Remove Types"));
     _shn_or_display_org_type($error,true,null,false);
      shn_form_button(_("Remove"),"onClick='remove_types()'");
     
@@ -183,7 +183,7 @@ function shn_or_adm_or_sector_form()
  ?>
 </center>
 <?php
-    shn_form_fsopen("Add & Remove Sectors");
+    shn_form_fsopen(_("Add & Remove Sectors"));
     _shn_or_display_sector($error,null,false);
     shn_form_button(_("Remove"),"onClick='remove_types()'");
     shn_form_button(_("Add More"),"onClick='add_types()'");
