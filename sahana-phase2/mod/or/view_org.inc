@@ -188,6 +188,9 @@ function _shn_display_org($org_id,$no=null)
     $q="select loc_uuid from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields["loc_uuid"];
+    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='loc_txt'";
+    $res=$db->Execute($q);
+    $loc_txt=$res->fields["contact_value"];
     $q = "select address from location_details where poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
     $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
@@ -212,6 +215,7 @@ field_options.option_code=org_main.opt_org_type and field_options.field_name='".
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);
     $location=_shn_org_location_string($loc);    
+    $location.="<br />".$loc_txt;
 ?>
 <tr>
 	<td><?if ($no!=null){echo $no;}?></td>
@@ -375,6 +379,9 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }else{
     		$loc=-1;
     }
+    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='loc_txt'";
+    $res=$db->Execute($q);
+    $loc_txt=$res->fields["contact_value"];
     $q = "select * from gis_location where poc_uuid='{$org_id}'";
 	$res=$db->Execute($q);
 	
@@ -421,6 +428,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_fsclose();
     //$extra_opts["camps"]=true;
    	//$extra_opts["org"]=true;
+   	$extra_opts['req']=false;
     shn_form_fsopen("Base Location");
     $range= shn_or_get_loc_range();
     if($loc==-1){
@@ -429,6 +437,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     			shn_location($range,$loc,null,$extra_opts);	
     }
     shn_form_fsclose();
+    $extra_opts['value']=$loc_txt;
+    shn_form_fsopen(_("Location (with out the hierarchy)"));
+    shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
+    shn_form_fsclose();
+    // Contact infomatio
     shn_form_fsopen("Map Location");
     $extra_opts['req']=false;
     $extra_opts['value']=$lat;

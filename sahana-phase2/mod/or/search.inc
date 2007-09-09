@@ -23,49 +23,25 @@ function _shn_or_form_search()
     global $conf;
     $db=$global["db"];
 ?>
-<h2><?= _("Search for Organizations by Incident,Type,Service and Location")?></h2>
-     	<div id="note">
-	<?=_("Select location and then select the level(province,district,ect)," .
-			"the selected location field at the end of the form will be updated")?>
-	</div>
+<h2><?= _("Search for Organizations by Name,Type,Service and Location")?></h2>
+
 	
     <div id="formcontainer">
 <?php
     shn_form_fopen("search_cr");
-    /*
-    _shn_or_update_loc();
-    shn_form_fsopen(_("Incidents related to the Organization"));
-    _shn_or_display_incident($error,true);
-    	shn_form_fsclose();
-    	*/
+
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=false;
     shn_form_text(_("Organization Name : "),'org_name','size="50"',$extra_opts);
     $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
+    $extra_opts['all']=true;
     shn_form_opt_select('opt_org_type','Organization Type',null,$extra_opts);
     $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_select('opt_sector_type','Organization Sector',null,$extra_opts);
     shn_form_fsclose();
-/*
-    $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
-    shn_form_hidden(array('loc_sel'=>'0'));
+    shn_form_fsopen(_("Location (with out the hierarchy)"));
+    shn_form_text(_("Location"),'loc_txt','size="50"', NULL);
     shn_form_fsclose();
-    */
- // base location
-    shn_form_fsopen(" Location");
-	$range= shn_get_range();
-    shn_location($range,null,null);; 
-    shn_form_fsclose();
-  /*  ?><fieldset><?
-    shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
-    ?></fieldset><?
-    
-    shn_form_fsopen(_("Selected Location for Search"));
-    $extra_options['value']="All Locations";
-    $extra_options['size']=60;
-    shn_form_text(_("location"),'loc',"size=50",$extra_options);
-    shn_form_fsclose();
-    */
 ?>
 </br>
     <center>

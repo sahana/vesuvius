@@ -63,7 +63,7 @@ function _shn_or_regform_org($error=false)
     $extra_opts['help']=_("If your organization is registered please enter your registration no");
     shn_form_text(_("Registration Number(if any) : "),'reg_no','size="50"',$extra_opts); 
     shn_form_fsclose();
-    shn_form_fsopen("Organization Type");
+    shn_form_fsopen(_("Organization Type"));
    
     if($error==true){
     		_shn_or_display_org_type($error,false,$_SESSION['org']['type']);
@@ -71,7 +71,7 @@ function _shn_or_regform_org($error=false)
     		_shn_or_display_org_type($error,false);
     }
     shn_form_fsclose();
-    shn_form_fsopen("Organization Sector");
+    shn_form_fsopen(_("Organization Sector"));
     
     if($error==true){
     		_shn_or_display_sector($error,$_SESSION['org']['sector']);
@@ -86,18 +86,21 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
- 	shn_form_fsopen("Base Location <span class='req'>   *req </span>");
+ 	shn_form_fsopen(_("Base Location"));
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
  		shn_location(null,null,null,$extra_opts);
  	} 
     shn_form_fsclose();
+    shn_form_fsopen(_("Location (with out the hierarchy)"));
+    shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
+    shn_form_fsclose();
     // Contact infomation
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,false,null);
     shn_form_fsclose();
-     shn_form_fsopen("Facilities Avaliable");
+     shn_form_fsopen(_("Facilities Avaliable"));
     _shn_or_display_org_facilities($error);
     shn_form_fsclose();
 ?>
@@ -156,7 +159,7 @@ function _shn_or_regconfirm_org()
     }else{
     		shn_form_fopen("reg_operation_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));	
     }
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_('Primary Details'));
     shn_form_label(_("Organization Name : "),$_SESSION['org']['name']); 
     if($_SESSION['org']['parent_id']==null){
     		shn_form_label(_("Registration Number(if any) : "),$_SESSION['org']['reg_no']); 
@@ -181,18 +184,19 @@ function _shn_or_regconfirm_org()
     $parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
    	*/
-   	shn_form_fsopen("Base Location");
+   	shn_form_fsopen(_("Base Location"));
 	$location=_shn_org_location_string($_SESSION['org']['loc']);
-	$map_location="Latitude= ".$_SESSION['org']['loc_y']." Longitude= ".$_SESSION['org']['loc_x'];
+	$map_location=_("Latitude= ").$_SESSION['org']['loc_y']._(" Longitude= ").$_SESSION['org']['loc_x'];
  	shn_form_label(_("Organization Location"),$location);
+ 	shn_form_label(_("Organization Location as Text"),$_SESSION['org']['loc_txt']);
  	shn_form_label(_("Map Location"),$map_location);
    	shn_form_fsclose();
     
     // Contact infomation
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,true,null);
     shn_form_fsclose();
-     shn_form_fsopen("Facilities Avaliable");
+     shn_form_fsopen(_("Facilities Avaliable"));
     _shn_or_display_org_facilities($error,true);
     shn_form_fsclose();
  ?>
@@ -233,29 +237,29 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
 <div id="formcontainer">
 <?php
     shn_form_fopen("reg_org_gis_map");
-    shn_form_fsopen('Parent Entity');
+    shn_form_fsopen(_('Parent Entity'));
      _shn_or_display_orgs(false,false,$parent_org);
     shn_form_fsclose();
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_('Primary Details'));
     $extra_opts['req']=true;
     shn_form_text(_("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
 	shn_form_fsclose();
-	shn_form_fsopen("Relationship to the parent Organization");
+	shn_form_fsopen(_("Relationship to the parent Organization"));
     _shn_or_display_org_sub_type($error);
     shn_form_fsclose();
-    shn_form_fsopen("Organization Sector");
+    shn_form_fsopen(_("Organization Sector"));
     _shn_or_display_sector($error);
     shn_form_fsclose();
   // base location
-    shn_form_fsopen("Base Location <span class='req'>   *req </span>");
+    shn_form_fsopen(_("Base Location <span class='req'>   *req </span>"));
    	$parent=_shn_or_get_start_loc();
    	$range= shn_or_get_loc_range();
     shn_location($range,$_POST[$range["end"]],$parent); 
     shn_form_fsclose();
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,false,null);
 	shn_form_fsclose();
-     shn_form_fsopen("Facilities Avaliable");
+     shn_form_fsopen(_("Facilities Avaliable"));
    _shn_or_display_org_facilities($error);
     shn_form_hidden(array('org_type'=>'0'));
     shn_form_fsclose();

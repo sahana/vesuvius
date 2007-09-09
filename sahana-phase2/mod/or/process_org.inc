@@ -51,6 +51,10 @@ function _shn_or_reg_org_cr()
             }
             $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$_SESSION['org']['loc']}','{$_SESSION['org']['contact_address']}')";
             $res=$db->Execute($q);
+            if($_SESSION['org']['loc_txt']!=null){
+            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','loc_txt','{$_SESSION['org']['loc_txt']}')";
+            		$res=$db->Execute($q);
+            }
             if($_SESSION['org']['contact_phone']!=null){
             		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
             		$res=$db->Execute($q);
@@ -80,7 +84,7 @@ function _shn_or_reg_org_cr()
     }
 	
      if($error!=true){
-     	$msg= $_SESSION['org']['name']." Organization was succesfully registered ";
+     	$msg= $_SESSION['org']['name']._(" Organization was succesfully registered ");
      	add_confirmation($msg);
   
 ?>
@@ -92,14 +96,14 @@ function _shn_or_reg_org_cr()
     	$extra_opts['br']=false;
 	$extra_opts['req']=false;
 	$_SESSION['org']['parent_id']=$org_id;
-	shn_form_fsopen('Register a Branch/Department');
+	shn_form_fsopen(_('Register a Branch/Department'));
 	$msg=_("Now you can add a Branch/Department Under ")."<strong>". $_SESSION['org']['name']."</strong><br />"._("e.g. Health Department,Relief Operations Department. : ")."<br />";
 	$msg=$msg._("Of course you can add Branches/Departments later on through the Register a Department/Branch link.")."<br />";
     ?><div class="info"><?php echo $msg?></div><br /><?
     shn_form_button(_("Register a Branch/Department"),"onClick='change_action(\"operation\")'",$extra_opts);
 	shn_form_fsclose();
 	
-	shn_form_fsopen('Register another Organization');
+	shn_form_fsopen(_('Register another Organization'));
 	$msg=_("Instead if you wish to add another organization click the button below ")."<br />";
      ?><div class="info"><?php echo $msg?></div><br /><?
 	shn_form_button(_("Register an Organization"),"onClick='change_action(\"org\")'",$extra_opts);
@@ -186,7 +190,7 @@ function _shn_or_reg_operation_cr()
     }
 	
      if($error!=true){
-     	$msg= $_SESSION['org']['name']." Organization was succesfully registered ";
+     	$msg= $_SESSION['org']['name']._(" Organization was succesfully registered ");
      	add_confirmation($msg);
      }
 
@@ -317,7 +321,7 @@ function _shn_or_del_org()
         	return false;
 	    }
 */
-	    $msg= $org_name." was succesfully deleted ";
+	    $msg= $org_name._(" was succesfully deleted ");
      	add_confirmation($msg);
   ?>
 
@@ -330,6 +334,7 @@ function _shn_or_edit_org()
 {
     global $global;
     include_once "errors.inc";
+    include_once "lib_or.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
     $incidents=$_POST["incidents"];
     $error=false;
@@ -357,6 +362,12 @@ function _shn_or_edit_org()
         $error=true;
     }else {
         $reg_no=$_POST{"reg_no"};
+    }
+    if (trim(strlen($_POST{"loc_txt"})) > $VARCHAR){
+        add_error(SHN_ERR_OR_REG_MAX);
+        $error=true;
+    }else {
+        $loc_txt=$_POST{"loc_txt"};
     }
     if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
         add_error(SHN_ERR_OR_REG_MAX);
@@ -447,32 +458,68 @@ function _shn_or_edit_org()
             $res=$db->Execute($q);
             $q="update gis_location set map_northing={$lat},map_easting={$lon} where poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
+            if($loc_txt!=null){
+            		if(shn_or_contact_data_exist($org_id,'loc_txt')==true){
+            			$q="update contact set contact_value='{$loc_txt}' where pgoc_uuid='{$org_id}' and opt_contact_type='loc_txt'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','loc_txt','{$loc_txt}')";
+            		}
+            		$res=$db->Execute($q);
+            }
             if($contact_name!=null){
-            		$q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
+            		if(shn_or_contact_data_exist($org_id,'name')==true){
+            			$q="update contact set contact_value='{$contact_name}' where pgoc_uuid='{$org_id}' and opt_contact_type='name'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
+            		}
             		$res=$db->Execute($q);
             }
             if($contact_phone!=null){
-    				$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+            	   	if(shn_or_contact_data_exist($org_id,'curr')==true){
+            			$q="update contact set contact_value='{$contact_phone}' where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
+            		}
+    				
             		$res=$db->Execute($q);
             }
             if($contact_mobile!=null){
-            		$q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+            	    if(shn_or_contact_data_exist($org_id,'pmob')==true){
+            			$q="update contact set contact_value='{$contact_mobile}' where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
+            		}
+            		
             		$res=$db->Execute($q);
             }
             if($contact_fax!=null){
-            		$q="update contact set contact_value='{$contact_fax}' where pgoc_uuid='{$org_id}' and opt_contact_type='fax'";
+            	    if(shn_or_contact_data_exist($org_id,'fax')==true){
+            			$q="update contact set contact_value='{$contact_fax}' where pgoc_uuid='{$org_id}' and opt_contact_type='fax'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
+            		}
+            		
             		$res=$db->Execute($q);
             }
             if($contact_mail!=null){
-           		$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+            	    if(shn_or_contact_data_exist($org_id,'email')==true){
+            			$q="update contact set contact_value='{$contact_mail}' where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
+            		}
+           			
             		$res=$db->Execute($q);
             }
             if($contact_web!=null){
-            		$q="update contact set contact_value='{$contact_web}' where pgoc_uuid='{$org_id}' and opt_contact_type='web'";
+            	    if(shn_or_contact_data_exist($org_id,'web')==true){
+            			$q="update contact set contact_value='{$contact_web}' where pgoc_uuid='{$org_id}' and opt_contact_type='web'";
+            		}else{
+            			$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
+            		}
             		$res=$db->Execute($q);
             }
   
-  	    $msg= $org_name." was succesfully updated ";
+  	    $msg= $org_name._(" was succesfully updated ");
      	add_confirmation($msg);
   ?>
 

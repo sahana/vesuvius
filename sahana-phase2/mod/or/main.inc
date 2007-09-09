@@ -132,23 +132,7 @@ function shn_or_view_org_submit(){
     include_once ("view_org.inc");
    // require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     $act=$_POST{"action"};
-    $acl_enabled=shn_acl_get_state("or");
-    $req_act="_shn_or_".$act."_org";
-    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
-             !$acl_enabled)? true : false;
-    if(!$allow){
-    	?>
-    	<div id="error">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
-        <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
-        </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
-    	</div> <!-- /error -->
-    	<?
-    	return false;
-    }
+
     switch ($act) {
     		case "gis":
 			_shn_or_view_map_form_org();
@@ -273,76 +257,42 @@ function shn_or_search_cr(){
     
     $VARCHAR=100;
     $db=$global["db"];
-   // $incident=$_POST["incidents"];
-    	$incident=array($_SESSION['user_pref_ims_incident_id']);
-	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident);
-    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
-
+    $org_name=$_POST{"org_name"};
    	//$type=shn_or_create_database_IN_array($org_type);
    	//$sector=shn_or_create_database_IN_array($sector);
-   	$inci=shn_or_create_database_IN_array($incident);
+   	$sector=$_POST{"opt_sector_type"};
+    $org_type=$_POST{"opt_org_type"};
+    $loc_txt=$_POST{"loc_txt"};
+    $search_str="select distinct o_uuid from org_main";
+    if($sector!='all'){
+    	$search_str.=",sector";
+    }
+	if(strlen(trim($loc_txt))!=0){
+    	$search_str.=",contact";
+    }
+    $search_str.=" where 1=1 ";
+   	if(strlen(trim($org_name))!=0){
+    	$search_str.=" and name LIKE '%$org_name%'";
+    }
+    if($sector!='all'){
+    	$search_str.=" and sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid";
+    }
+    if($org_type!='all'){
+    	$search_str.=" and org_main.opt_org_type='{$org_type}'";
+    }
+    if(strlen(trim($loc_txt))!=0){
+    	$search_str.=" and pgoc_uuid=org_main.o_uuid and contact_value LIKE  '%{$loc_txt}%' and opt_contact_type='loc_txt'";
+    }
 	$org_list=array();
-	if($org_name!=NULL){
-		$q="select distinct o_uuid from org_main where name LIKE '%$org_name%'";
-	}else{
-		list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,false))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
-    		list($error,$org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
-    		$loc=shn_location_get_form_submit_loc();
-    		
-    		if($loc==-1){
-			$q="select distinct o_uuid from sector,org_main,resource_to_incident where sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type='{$org_type}' and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
-    		}else{
-			$locs=array($loc);
-			shn_location_get_descendants($loc,$locs);
-			$loc=shn_or_create_database_IN_array($locs);
-    		//$q="select distinct o_uuid from location_details,sector,org_main,resource_to_incident where location_details.location_id in $loc and location_details.poc_uuid=org_main.o_uuid and sector.opt_sector in $sector and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type in $type and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
-    			$q="select distinct o_uuid from location_details,sector,org_main,resource_to_incident where location_details.location_id in $loc and location_details.poc_uuid=org_main.o_uuid and sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid and org_main.opt_org_type='{$org_type}' and resource_to_incident.incident_id in $inci and resource_to_incident.x_uuid=org_main.o_uuid";
-    		}
-	}
 	
-    $res_org=$db->Execute($q);
+    $res_org=$db->Execute($search_str);
    
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push($org_list,$res_org->fields["o_uuid"]);
-        $res_org->MoveNext();
+        	$res_org->MoveNext();
     }
+	
     _shn_or_viewform_allorg($org_list);
-    /*
-    
-?>
-<h2><?=_("Search Result")?></h2>
-    <div id ="result">
-	<table>
-        <thead>
-        		<td></td>
-            <td><?=_("Organization Name")?></td>
-            <td><?=_("Services Provided")?></td>
-            <td><?=_("Organization Type")?></td>
-          <!--  <td><?//=_("Country of Origin")?></td>-->
-            <td><?=_("Address")?></td>
-            <td><?=_("Contact Numbers")?></td>
-            <td><?=_("Man Power")?></td>
-            <td><?=_("Equipment")?></td>
-            <td><?=_("Other <br /> Facilities")?></td>
-        </thead>
-        <tbody>
-<?php
-    $i=1;
-    $org=array_unique($org);
-   
-   foreach ($org as $o_id){
-  
-    		if(!$o_id==null){
-    			_shn_display_org($o_id,$i);
-    			 $i=$i+1;
-    		}
-       
-    }
-?>
-        </tbody>
-    </table>
-</div>
-<?php
-*/
+
 }
 ?>
