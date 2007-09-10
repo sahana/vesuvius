@@ -635,11 +635,11 @@ function shn_setup_acl(){
 		return false;
     }
 
-	if (shn_validate_password(null,$_POST["root_pwd"])==false){
+	if (shn_validate_password($_POST["admin_name"],$_POST["root_pwd"])==false){
 		$error=true;
 		return false;
 	}
-    if (shn_validate_password(null,$_POST["user_pwd"])==false){
+    if (shn_validate_password($_POST["user_name"],$_POST["user_pwd"])==false){
 		$error=true;
 		return false;
 	}
