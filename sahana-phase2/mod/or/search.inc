@@ -59,21 +59,5 @@ function _shn_or_form_search()
 <?php
 }
 
-function _shn_or_update_loc(){
-?>
-<script type="text/javascript">
-    function update_loc(action,desc){
-        var x=document.getElementsByName(action);
-        var loc_val=x[0].options[x[0].selectedIndex].value;
-        var loc_desc=x[0].options[x[0].selectedIndex].text;
-        var x=document.getElementsByName('loc_sel');
-        x[0].value=loc_val;
-        loc_desc=desc+"->"+loc_desc;
-        var x=document.getElementsByName('loc');
-        x[0].value=loc_desc;
-        return;
-    }
-</script>
-<?php
-}
+
 ?>
