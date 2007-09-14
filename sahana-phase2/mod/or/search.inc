@@ -39,6 +39,9 @@ function _shn_or_form_search()
     $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_select('opt_sector_type','Organization Sector',null,$extra_opts);
     shn_form_fsclose();
+    shn_form_fsopen(_("Base Location"));
+	shn_location(null,null,null,$extra_opts);
+ 	shn_form_fsclose();
     shn_form_fsopen(_("Location (with out the hierarchy)"));
     shn_form_text(_("Location"),'loc_txt','size="50"', NULL);
     shn_form_fsclose();
