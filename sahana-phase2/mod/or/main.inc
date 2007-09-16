@@ -258,8 +258,8 @@ function shn_or_search_cr(){
     $VARCHAR=100;
     $db=$global["db"];
     $org_name=$_POST{"org_name"};
-   	//$type=shn_or_create_database_IN_array($org_type);
-   	//$sector=shn_or_create_database_IN_array($sector);
+   	$loc=shn_location_get_form_submit_loc();
+
    	$sector=$_POST{"opt_sector_type"};
     $org_type=$_POST{"opt_org_type"};
     $loc_txt=$_POST{"loc_txt"};
@@ -269,6 +269,12 @@ function shn_or_search_cr(){
     }
 	if(strlen(trim($loc_txt))!=0){
     	$search_str.=",contact";
+    }
+    if($loc!=-1){
+		$search_str.=",location_details";
+		$loc_arr=array($loc);
+		$loc_arr=shn_location_get_descendants($loc,&$loc_arr);
+		$loc_str=shn_or_create_database_IN_array($loc_arr);
     }
     $search_str.=" where 1=1 ";
    	if(strlen(trim($org_name))!=0){
@@ -283,6 +289,10 @@ function shn_or_search_cr(){
     if(strlen(trim($loc_txt))!=0){
     	$search_str.=" and pgoc_uuid=org_main.o_uuid and contact_value LIKE  '%{$loc_txt}%' and opt_contact_type='loc_txt'";
     }
+    if($loc!=-1){
+		$search_str.=" and location_details.location_id IN {$loc_str} and location_details.poc_uuid=org_main.o_uuid";
+    }
+  
 	$org_list=array();
 	
     $res_org=$db->Execute($search_str);
