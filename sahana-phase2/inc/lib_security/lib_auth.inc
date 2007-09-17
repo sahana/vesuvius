@@ -24,6 +24,18 @@ require_once "constants.inc";
 require_once "errors.inc";
 require_once "lib_acl.inc";
 
+function shn_auth_get_openid_user($openid){
+  	global $global;
+    $db=$global['db'];
+    $q="select users.user_name from users,alt_logins where users.p_uuid=alt_logins.p_uuid and alt_logins.user_name='{$openid}'";
+
+	$res=$db->Execute($q);
+    if(($res==null) or ($res->EOF)){
+        return null;
+    }else {
+        return $res->fields["user_name"];
+    }
+}
 
 function shn_auth_user_list_and_status(){
   	global $global;
@@ -188,6 +200,8 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
     		$res=shn_acl_adduser_to_role($pid,$role);
     		
 		}
+		$q = "INSERT INTO alt_logins(p_uuid,user_name,type) values('{$pid}','{$_POST["openid"]}','openid')";
+  		$res=$db->Execute($q);
     }
 	return $res;
 }

@@ -131,11 +131,23 @@ class SimpleActionHandler extends ActionHandler {
 
     // callbacks
     function doValidLogin($login) {
+    	global $global;
+    	include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
         // here is where you would do what is necessary to log an openid "user"
         // user into your system.  We just print a message confirming the
         // valid login.
-        $_SESSION['logged_in'] = true;
-		$_SESSION['user'] = $this->query['open_id'] ;
+        
+     
+       
+        $user_name=shn_auth_get_openid_user($_SESSION["openid_login"]);
+        if($user_name==null){
+        	add_error("There is no registered user with the given OpenID");
+        	//$_SESSION['user'] = $this->query['open_id'] ;
+        }else{
+        	$_SESSION['logged_in'] = true;
+        	$_SESSION['user']=$user_name;
+        }
+		
        // setAlert( sprintf( '<b>Identity verified!</b> Thanks, ' .
          //                  '<a href="%s">' .
            //                '%s</a>', $this->query['open_id'], $this->query['open_id'] ) );
@@ -200,6 +212,7 @@ function dispatch() {
             // based on your running location.  In practice this may be static.
             // You will likely want it to be your entire website, not just
             // this script.
+            $_SESSION["openid_login"]=$query['identity_url'];
             $trust_root = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 
             // build url to application for use in creating return_to

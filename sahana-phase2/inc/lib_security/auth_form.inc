@@ -96,7 +96,12 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
     shn_form_fsopen(_("Select Role"));
 	shn_form_select($roles,"Roles",'roles',null,$extra_opts);
     shn_form_fsclose();
-	
+    
+    $extra_opts['req']=true;
+	shn_form_fsopen(_("OpenId Login Details"));
+	?><div class="info"><?= _("You can use an OpenID instead of a username/password if you'd like.");?> </div><br /><?
+	shn_form_text(_("OpenID "),'openid','size="30"',null);
+	shn_form_fsclose();
 	
 ?>
 </br>
