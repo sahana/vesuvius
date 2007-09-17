@@ -78,6 +78,21 @@ CREATE TABLE users (
 
 alter table users add unique (user_name);
 
+
+/**
+* Contains the Sahana system user alternative login details
+* Modules: all
+* Last changed: 27-OCT-2005 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS alt_logins;
+CREATE TABLE alt_logins (
+    p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
+    user_name VARCHAR(100) NOT NULL,
+    type VARCHAR(60) DEFAULT "openid",
+    PRIMARY KEY (p_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES person_uuid(p_uuid)
+);
+
 /** 
 * Contains the last three passwords of users,to block reusing of passwords 
 * Modules: framework
