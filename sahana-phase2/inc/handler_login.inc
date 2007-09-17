@@ -25,28 +25,34 @@ if ($_SESSION['logged_in'] != true ) {
         <fieldset><legend><?=_('Login')?></legend>
         <label><?=_('User Name')?></label><input type="text" name="user_name" id="userName" />
         <label><?=_('Password')?></label><input type="password" name="password" id="pswd" />
-		<input type="submit" value="Login" />
+		<input type="submit" value="Sign In" />
 		<br />
         <!-- <a href="#">Forgot your password?</a> -->
         </fieldset>
     </form>
+   <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');">Login with an OpenID</a></center>
     </div><!-- /loginform -->
+    
     <div id="openid_loginform">
     	<form action="" method="get">
     		<fieldset><legend><?=_('OpenId Login')?></legend>
-    			<label><?=_('URL')?></label><input type="text" name="identity_url" id="openid_login" />
-				<input type="submit" value="Verify" />
+    			<label><?=_('OpenID')?></label><input type="text" name="identity_url" id="openid_login" />
+				<input type="submit" value="Sign In" />
 				<br />
-				<i>For example: <tt>happygirl.bloghost.com</tt></i>
+				<i>For example: <tt>you.someblog.com</tt></i>
 			</fieldset>
 		</form>
+	<center><a href="#" onclick="switchLogin('openid_loginform','loginform');">go back to the Normal Login</a></center>
     </div>
+    <script type="text/javascript">
+    	switchLogin('openid_loginform','loginform');
+    </script>
 <?php
 } else {
 ?>
     <div id="loginform">
         <fieldset><legend><?=_('Logged In')?></legend>
-        <label><?=_('User: ')?><?=$_SESSION['user']?> </label>
+        <label><?=_('User: ')?><?php echo $_SESSION['user'];?> </label>
         <br />
         <center><a href="index.php?act=logout"><?=_('Logout')?></a></center>
     </div>
