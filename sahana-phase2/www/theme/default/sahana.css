@@ -804,7 +804,7 @@ div#openid_loginform input#pswd {
 }
 
 #openid_login {
-   background: url(img/login-bg.gif) no-repeat;
+   background: url(img/login-openid.gif) no-repeat;
    background-color: #fff;
    background-position: center left;
    color: #000;
