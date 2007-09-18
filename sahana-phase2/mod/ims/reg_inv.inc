@@ -95,6 +95,7 @@ function _shn_ims_regform_operation($error=false)
     global $global;
     global $conf;
     $db=$global['db'];
+    
 ?>
 <h2><?=_("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
 <?php
@@ -155,18 +156,18 @@ function _shn_ims_reg_inv_gis()
 
 	//$bsd_village=trim($_POST[$range["end"]]);
     //$end=trim($_POST[$range["end"]]);
-    $org_name=trim($_POST{"org_name"});
-    $contact_name=trim($_POST{"contact_name"});
-    $contact_add=trim($_POST{"contact_add"});
-    $contact_phone=trim($_POST['contact_phone']);
-    $contact_mobile=trim($_POST{"contact_mobile"});
-    $contact_fax=trim($_POST{"contact_fax"});
-    $contact_mail=trim($_POST{"contact_mail"});
-    $contact_web=trim($_POST{"contact_web"});
-    $man_power=trim($_POST{"man_power"});
-    $equipment=trim($_POST{"equipment"});
-    $resources=trim($_POST{"resources"});
-    $space=trim($_POST{"space"});
+    $_SESSION['ims']['inv_name']=trim($_POST{"org_name"});
+    $_SESSION['ims']['contact_name']=trim($_POST{"contact_name"});
+    $_SESSION['ims']['contact_add']=trim($_POST{"contact_add"});
+    $_SESSION['ims']['contact_phone']=trim($_POST['contact_phone']);
+    $_SESSION['ims']['contact_mobile']=trim($_POST{"contact_mobile"});
+    $_SESSION['ims']['contact_fax']=trim($_POST{"contact_fax"});
+    $_SESSION['ims']['contact_mail']=trim($_POST{"contact_mail"});
+    $_SESSION['ims']['contact_web']=trim($_POST{"contact_web"});
+    $_SESSION['ims']['man_power']=trim($_POST{"man_power"});
+    $_SESSION['ims']['equipment']=trim($_POST{"equipment"});
+    $_SESSION['ims']['resources']=trim($_POST{"resources"});
+    $_SESSION['ims']['space']=trim($_POST{"space"});
 	//$range=trim($_POST["range"]);
 
     //$range1= array();
@@ -194,7 +195,7 @@ function _shn_ims_reg_inv_gis()
     //shn_form_fclose();
 
     //shn_form_hidden(array('end'=>$end));
-    shn_form_hidden(array('org_name'=>$org_name));
+    /*shn_form_hidden(array('org_name'=>$org_name));
     shn_form_hidden(array('contact_name'=>$contact_name));
     shn_form_hidden(array('contact_add'=>$contact_add));
     shn_form_hidden(array('contact_phone'=>$contact_phone));
@@ -205,8 +206,10 @@ function _shn_ims_reg_inv_gis()
     shn_form_hidden(array('man_power'=>$man_power));
     shn_form_hidden(array('equipment'=>$equipment));
     shn_form_hidden(array('resources'=>$resources));
-    shn_form_hidden(array('space'=>$space));
-    shn_form_hidden(array('bsd_village'=>$bsd_village));
+    shn_form_hidden(array('space'=>$space));*/
+   // shn_form_hidden(array('bsd_village'=>$bsd_village));
+
+     $_SESSION['ims']['bsd_village']=$bsd_village;
     //shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
     shn_form_fclose();
