@@ -25,7 +25,7 @@ function _shn_ims_reg_inv_cr()
     
     $error=false;
     $VARCHAR=100;
-    list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
+    list($error,$org_name)=(shn_validate_field($_SESSION['ims']['inv_name'],"Organization Name",$VARCHAR,true))?array($error,$_SESSION['ims']['inv_name']):array(true,NULL);
    // list($error,$opt_org_type)=(shn_validate_opt_field('opt_org_type',$_POST{"opt_org_type"},"Organization Type",$VARCHAR,false))?array($error,$_POST{"opt_org_type"}):array(true,NULL);
    // list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
 
@@ -41,9 +41,9 @@ function _shn_ims_reg_inv_cr()
         //$bsd_village=trim($_POST[$range["end"]]);
 
 
-	$bsd_village=$_POST["bsd_village"];
+	$bsd_village=$_SESSION['ims']['bsd_village'];
 
-	$_SESSION=array();
+	//$_SESSION=array();
 	//$bsd_village=_shn_ims_get_locid();
 
 
@@ -55,11 +55,11 @@ function _shn_ims_reg_inv_cr()
    // }else {
      //   $reg_no=$_POST{"reg_no"};
    // }
-    if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
+    if (trim(strlen($_SESSION['ims']['contact_name'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $contact_name=$_POST{"contact_name"};
+        $contact_name=$_SESSION['ims']['contact_name'];
     }
 /*
     if (trim(strlen($_POST{"contact_add"})) > $CONTACT_ADDRESS){
@@ -68,62 +68,62 @@ function _shn_ims_reg_inv_cr()
        $contact_address=$_POST{"contact_add"};
     }
 */
-    $contact_address=$_POST{"contact_add"};
+    $contact_address=$_SESSION['ims']['contact_add'];
     if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $contact_phone=$_POST{"contact_phone"};
+        $contact_phone=$_SESSION['ims']['contact_add'];
     }
-     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
+     if (trim(strlen($_SESSION['ims']['contact_mobile'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $contact_mobile=$_POST{"contact_mobile"};
+        $contact_mobile=$_SESSION['ims']['contact_mobile'];
     }
-    if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
+    if (trim(strlen($_SESSION['ims']['contact_fax'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-         $contact_fax=$_POST{"contact_fax"};
+         $contact_fax=$_SESSION['ims']['contact_fax'];
     }
-    if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
+    if (trim(strlen($_SESSION['ims']['contact_mail'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $contact_mail=$_POST{"contact_mail"};
+        $contact_mail=$_SESSION['ims']['contact_mail'];
         if(!shn_valid_email($contact_mail)){
             add_error(SHN_ERR_or_ims_EMAIL);
             $error=true;
         }
     }
-     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
+     if (trim(strlen($_SESSION['ims']['contact_web'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $contact_web=$_POST{"contact_web"};
+        $contact_web=$_SESSION['ims']['contact_web'];
     }
-    if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
+    if (trim(strlen($_SESSION['ims']['man_power'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $man_power=$_POST{"man_power"};
+        $man_power=$_SESSION['ims']['man_power'];
     }
-    if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
+    if (trim(strlen($_SESSION['ims']['equipment'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
     }else {
-        $equipment=$_POST{"equipment"};
+        $equipment=$_SESSION['ims']['equipment'];
     }
-    $resources=$_POST{"resources"};
-    if (trim(strlen($_POST{"space"}))>$VARCHAR)
+    $resources=$_SESSION['ims']['resources'];
+    if (trim(strlen($_SESSION['ims']['space']))>$VARCHAR)
 	{
 		add_error(SHN_ERR_ims_SPACE);
 		$error=true;
 	}
     else
 	{
-		$space=$_POST{"space"};
+		$space=$_SESSION['ims']['space'];
 	}
    // if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
      //   $error=true;
@@ -206,6 +206,19 @@ function _shn_ims_reg_inv_cr()
 
 
         }
+	unset($_SESSION['ims']['inv_name']);
+    unset($_SESSION['ims']['contact_name']);
+    unset($_SESSION['ims']['contact_add']);
+    unset($_SESSION['ims']['contact_phone']);
+    unset($_SESSION['ims']['contact_mobile']);
+    unset($_SESSION['ims']['contact_fax']);
+    unset($_SESSION['ims']['contact_mail']);
+    unset($_SESSION['ims']['contact_web']);
+    unset($_SESSION['ims']['man_power']);
+    unset($_SESSION['ims']['equipment']);
+    unset($_SESSION['ims']['resources']);
+    unset($_SESSION['ims']['space']);
+    unset($_SESSION['ims']['bsd_village']);
 	shn_ims_view_inv();
         //_shn_ims_regform_org($error);
         //return false;
