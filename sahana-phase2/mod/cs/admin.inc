@@ -119,7 +119,7 @@ function shn_cs_adm_page_record_submit()
     
     ?>
 	<div id="result_msg">
-	<?php echo "Maximum Depth ".$default_page_recs."  was successfully saved";?>
+	<?php echo "Default number of records ".$default_page_recs."  was successfully saved";?>
 	</div>
     <?php
     shn_cs_adm_cs_page_records();	
