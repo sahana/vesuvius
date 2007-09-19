@@ -86,6 +86,7 @@ function show_item_cat_table()
 
     $cat_item_arr = array('all'=>'All','sub_cat' => 'Sub Catalogs', 'item' => 'Items');
 
+/*
 	print "<br /><br />";
     	shn_form_fopen('edit_filter',null,$form_opts);
    	?>
@@ -123,41 +124,43 @@ function show_item_cat_table()
 	</table>
 	</div>	
 		<?php
-	shn_form_fclose();
+	shn_form_fclose();*/
 //-----------------------------------------------------------------------------------------------------------------------
 
-?>
-<br />
-<div id="result">
-<table>
-    <thead>
-        <td><strong><?=_("Name")?></strong></td>
-
-        <td><strong><?=_("Item/Catalogue")?></strong></td>
-	<td><strong><?=_("Keyword")?></strong></td>
-    </thead>
-    <TBODY>
-    <?php
 
 
+    $num_of_rec_per_page = 30;
+	
+	if(isset($_REQUEST['page']))
+	{	
+		$start_rec = ($_REQUEST['page'] - 1) * $num_of_rec_per_page;
+		$end_rec = $_REQUEST['page'] * $num_of_rec_per_page;
+		
+	}
+	else
+	{
+		$start_rec = 0 ;
+		$end_rec = $num_of_rec_per_page;
+	}
+	
+	
 
     if(isset($_POST['filter_main_cat']) && $_POST['filter_main_cat'] != 'all')
     {
     	$filter_main_cat = $_POST['filter_main_cat'];
-	#print $filter_main_cat;
-	$query1 = "SELECT serial FROM ct_catalogue WHERE ct_uuid= '$filter_main_cat' ";
+		$query1 = "SELECT serial FROM ct_catalogue WHERE ct_uuid= '$filter_main_cat' ";
     	$res1=$db->Execute($query1);
 
 	while(!$res1==NULL && !$res1->EOF)
-    	{
-	$filter_main_cat_serial = $res1->fields["serial"];
-	$res1->MoveNext();
+   	{
+		$filter_main_cat_serial = $res1->fields["serial"];
+		$res1->MoveNext();
 	}
-	#print $filter_main_cat_serial;
+
 		if(isset($_POST['filter_item_cat']) && $_POST['filter_item_cat'] != 'all')
 		{
 		$filter_item_cat = $_POST['filter_item_cat'];
-		#print $filter_item_cat;
+
 			if($filter_item_cat == 'sub_cat')
 			{
 			$final_flag = '0';
@@ -169,24 +172,67 @@ function show_item_cat_table()
 			}
 				
 
-		$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' and final_flag='$final_flag' and parentid != '0' ORDER BY serial";
-		#print $query;
+		$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' and final_flag='$final_flag' and parentid != '0' ORDER BY serial LIMIT ". $start_rec.",".$end_rec;
 		$res=$db->Execute($query);
+		
+		$queryx = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' and final_flag='$final_flag' and parentid != '0' ORDER BY serial";
+    	$resx=$db->Execute($queryx);
 
 
 		}
 		else
 		{
-		$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' ORDER BY serial";
-		$res=$db->Execute($query);
+			$query = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' ORDER BY serial LIMIT ". $start_rec.",".$end_rec;
+			$res=$db->Execute($query);
+			
+			$queryx = "SELECT * FROM ct_catalogue WHERE serial LIKE '$filter_main_cat_serial%' ORDER BY serial";
+    		$resx=$db->Execute($queryx);
 		}
     }
-
     else
     {
-    $query = "SELECT * FROM ct_catalogue ORDER BY serial";
-    $res=$db->Execute($query);
+    	$query = "SELECT * FROM ct_catalogue ORDER BY serial LIMIT ". $start_rec.",".$end_rec;
+    	$res=$db->Execute($query);
+    	
+    	$queryx = "SELECT COUNT(*) FROM ct_catalogue ORDER BY serial";
+    	$resx=$db->Execute($queryx);
     }
+    
+    ?>
+    <br />
+    <?php
+    
+    $all_recs = $resx->fields["COUNT(*)"];
+    
+    if($all_recs>$num_of_rec_per_page)
+    {
+    	$num_of_pages = ceil($all_recs/$num_of_rec_per_page);
+    }
+    else
+    {
+    	$num_of_pages = 1;
+    }
+    
+    print "Page : ";
+    
+    for($i=1;$i<=$num_of_pages;$i++)
+    {
+    ?>
+    &nbsp;<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item&amp;page=<?php echo $i ?>"><?php print $i ;?></a>
+    <?php
+    }
+
+?>
+<br /><br />
+<div id="result">
+<table>
+    <thead>
+        <td><strong><?=_("Name")?></strong></td>
+        <td><strong><?=_("Item/Catalogue")?></strong></td>
+	<td><strong><?=_("Keyword")?></strong></td>
+    </thead>
+    <TBODY>
+    <?php
 
 
     $num_of_rec_counter = 0;
@@ -217,9 +263,9 @@ function show_item_cat_table()
     	
 	$num_of_rec_counter++;
 
-    	if(isset($_POST['filter_num_rec']) && $_POST['filter_num_rec'] != 'all' && ($num_of_rec_counter == $_POST['filter_num_rec']))
-    	{
-	break;
+    if(isset($_POST['filter_num_rec']) && $_POST['filter_num_rec'] != 'all' && ($num_of_rec_counter == $_POST['filter_num_rec']))
+    {
+		break;
 	}
 
 
