@@ -152,6 +152,7 @@ INSERT INTO field_options VALUES ('opt_location_type','3','City');
 
 -- CATALOGUE MAX_DEPTH VALUE
 INSERT INTO field_options VALUES ('opt_cs_depth','6','depth');
+INSERT INTO field_options VALUES ('opt_cs_page_record','30','number of page records');
 
 -- REPORT AND CHART UPDATE FREQUENCY VALUES
 INSERT INTO field_options VALUES ('opt_rs_rep_freq','30','the frequency of report update');
