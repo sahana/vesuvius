@@ -18,7 +18,33 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function shn_cs_adm_default()
 {
-    global $global;
+	shn_cs_sub_menu();
+	?>
+	<p><?= _('Maximum Depth - enable you to specify the default depth value for the catalogue system item selection interface. '); ?></p>
+    <p><?= _('Number of records for a page - enable you to specify the number of records that should be shown in a page in the view and edit section');?></p>
+    <br></br>
+	<?php
+}
+
+
+function shn_cs_sub_menu()
+{
+	?>
+	<div id="submenu_v">
+	<a href="index.php?mod=cs&act=adm_cs_maxdepth"><?php echo _("Maximum Depth")?></a> 
+	<a href="index.php?mod=cs&act=adm_cs_page_records"><?php echo _("Number of records for a page")?></a>
+	</div>
+	
+	<br>
+	<?php
+}
+
+function shn_cs_adm_cs_maxdepth()
+{
+
+	shn_cs_sub_menu();
+
+	global $global;
     $db=$global['db'];
 
     $query="SELECT option_code FROM field_options WHERE field_name='opt_cs_depth'";
@@ -38,7 +64,6 @@ function shn_cs_adm_default()
     shn_form_fsclose();
     shn_form_submit(_("Save"));
     shn_form_fclose();
-
 }
 
 
@@ -56,7 +81,48 @@ function shn_cs_adm_max_depth_form_submit()
 	<?php echo "Maximum Depth ".$depth."  was successfully saved";?>
 	</div>
     <?php
-    shn_cs_adm_default();
+    shn_cs_adm_cs_maxdepth();
+}
+
+function shn_cs_adm_cs_page_records()
+{
+	shn_cs_sub_menu();
+	global $global;
+    $db=$global['db'];
+
+    $query="SELECT option_code FROM field_options WHERE field_name='opt_cs_page_record'";
+    $res=$db->Execute($query);
+    $current_depth=$res->fields["option_code"];
+    
+    
+    
+    shn_form_fopen("adm_page_record_submit");
+    shn_form_fsopen(_("Default number of records per page in view and edit"));
+    
+    $extra_opts['value'] = $current_depth;
+    shn_form_text('','current_recs','size="5" readonly=true',$extra_opts);
+    
+    shn_form_text(_("Value   : "),'default_page_recs','size="50"',$extra_opts);
+    shn_form_fsclose();
+    shn_form_submit(_("Save"));
+    shn_form_fclose();
+}
+
+function shn_cs_adm_page_record_submit()
+{
+    global $global;
+    $db=$global['db'];
+    $default_page_recs = trim($_POST['default_page_recs']);
+
+    $query="UPDATE field_options SET option_code='$default_page_recs' WHERE field_name='opt_cs_page_record' ";
+    $res=$db->Execute($query); 
+    
+    ?>
+	<div id="result_msg">
+	<?php echo "Maximum Depth ".$default_page_recs."  was successfully saved";?>
+	</div>
+    <?php
+    shn_cs_adm_cs_page_records();	
 }
 
 ?>
