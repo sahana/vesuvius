@@ -127,9 +127,9 @@ function show_item_cat_table()
 	shn_form_fclose();*/
 //-----------------------------------------------------------------------------------------------------------------------
 
-
-
-    $num_of_rec_per_page = 30;
+    $query="SELECT option_code FROM field_options WHERE field_name='opt_cs_page_record'";
+    $res=$db->Execute($query);
+    $num_of_rec_per_page = intval($res->fields["option_code"]);
 	
 	if(isset($_REQUEST['page']))
 	{	
