@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<types>
+		<type>
+			  	<name>BasicArray</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>array</phptype>
+    			<compositor></compositor>
+    			<restrictionBase>SOAP-ENC:Array</restrictionBase>
+    			<elements></elements>
+   				<attrs></attrs>
+   				<arrayType>tns:Basic</arrayType>
+		</type>
+	</types>
+ 	<service>
+ 		<name>
+ 			Lists all the unit names captured by catalogue system
+ 		</name>
+ 		<api_function>
+ 			shn_cs_get_all_unit_names
+ 		</api_function>
+ 		<input type="xsd:int"></input>
+ 		<output type="BasicArray" />
+ 		<documentation>
+ 			A useful method to retrieve the list of unit names used in catalogue system
+ 		</documentation>
+  	</service>
+
+ </web_services>
