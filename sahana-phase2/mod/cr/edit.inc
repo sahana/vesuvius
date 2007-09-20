@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.24 2007-09-20 07:42:11 mifanc Exp $ */
+/* $Id: edit.inc,v 1.25 2007-09-20 07:44:45 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -387,6 +387,10 @@ global $global;
 global $editid;
 $db = $global['db'];
 
+$admin = "SELECT * from camp_admin  where c_uuid='{$_SESSION['editid']}'";
+$res_admin = $db->Execute($admin);
+$pid = $res_admin->fields['contact_puuid'];
+
 $loc_id=_shn_cr_get_locid();
 //call unique camp id
 //$uid=_shn_cr_create_cid();
@@ -400,6 +404,13 @@ $q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='
 
 $res = $db->Execute($q);
 
+
+$qb = "UPDATE person_details set occupation='{$_SESSION['camp_occupation']}' where p_uuid='$pid'";
+$resb = $db->Execute($qb);
+
+// insert into admin contact
+$qc = "UPDATE contact SET contact_value='{$_SESSION['camp_contact_mob']}' WHERE pgoc_uuid='{$pid}' AND opt_contact_type='cmob'";
+$resc = $db->Execute($qc);
 /*insert services into camp_services table
 //currently add checked values								
 	foreach($_SESSION['opt_camp_service'] as $a => $b){
