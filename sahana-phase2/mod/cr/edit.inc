@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.23 2007-08-18 13:13:17 mifanc Exp $ */
+/* $Id: edit.inc,v 1.24 2007-09-20 07:42:11 mifanc Exp $ */
 
 /**Update functions for  CR
 *
@@ -58,6 +58,8 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_fsopen(_("Contact Person Details"));
 	shn_form_text(_("Full Name"),"camp_contact_name",'size="60"',array('value'=>$_SESSION['camp_contact_name']));
 	shn_form_text(_("Phone Number"),"camp_contact_number",'size="60"',array('value'=>$_SESSION['camp_contact_number']));
+	shn_form_text(_("Mobile Number"),"contact_mob",'size="60"',array('value'=>$_SESSION['camp_contact_mob']));
+	shn_form_text(_("Occupation"),"occupation",'size="60"',array('value'=>$_SESSION['camp_occupation']));
 	shn_form_fsclose();
 	shn_form_fsopen(_("Shelter Population"));
 	shn_form_text(_("Infected Count"),"family",'size="10"',array('value'=>$_SESSION['camp_family']));
@@ -158,6 +160,8 @@ function shn_cr_all_view(){
 	shn_form_fsopen(_("Contact Person Details"));
 	shn_form_label(_("Full Name"),$_SESSION['camp_contact_name']);
 	shn_form_label(_("Phone Number"),$_SESSION['camp_contact_number']);
+	shn_form_label(_("Mobile Number"),$_SESSION['camp_contact_mob']);
+	shn_form_label(_("Occupation"),$_SESSION['camp_occupation']);
 	shn_form_fsclose();
 	shn_form_fsopen(_("Shelter Population"));
 	shn_form_label(_("Infected Count"),$_SESSION['camp_family']);
@@ -354,6 +358,14 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['camp_total']=$res->fields['total'];
 
  $_SESSION['camp_capacity']=$res->fields['capacity'];
+ 
+ 	$query="select * from contact where pgoc_uuid=(select contact_puuid from camp_admin where c_uuid='{$camp_id}')";
+	$res = $db->Execute($query);
+	$_SESSION['camp_contact_mob']=$res->fields['contact_value'];
+	
+	$query = "select occupation from person_details where p_uuid=(select contact_puuid from camp_admin where c_uuid='{$camp_id}');";
+	$res = $db->Execute($query);
+	$_SESSION['camp_occupation']=$res->fields['occupation'];
 											
 }
 function _shn_cr_get_locid(){
