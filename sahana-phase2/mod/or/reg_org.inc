@@ -92,10 +92,9 @@ function _shn_or_regform_org($error=false)
  	}else{
  		shn_location(null,null,null,$extra_opts);
  	} 
+ 	shn_form_text(_("Address"),'loc_txt','size="50"', $extra_opts);
     shn_form_fsclose();
-    shn_form_fsopen(_("Location (with out the hierarchy)"));
-    shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
-    shn_form_fsclose();
+
     // Contact infomation
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,false,null);
@@ -188,7 +187,7 @@ function _shn_or_regconfirm_org()
 	$location=_shn_org_location_string($_SESSION['org']['loc']);
 	$map_location=_("Latitude= ").$_SESSION['org']['loc_y']._(" Longitude= ").$_SESSION['org']['loc_x'];
  	shn_form_label(_("Organization Location"),$location);
- 	shn_form_label(_("Organization Location as Text"),$_SESSION['org']['loc_txt']);
+ 	shn_form_label(_("Organization Location Address"),$_SESSION['org']['loc_txt']);
  	shn_form_label(_("Map Location"),$map_location);
    	shn_form_fsclose();
     

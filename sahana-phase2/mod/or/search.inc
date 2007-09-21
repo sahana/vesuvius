@@ -41,10 +41,9 @@ function _shn_or_form_search()
     shn_form_fsclose();
     shn_form_fsopen(_("Base Location"));
  	shn_location(null,null,null,$extra_opts);
+ 	shn_form_text(_("Address"),'loc_txt','size="50"', NULL);
  	shn_form_fsclose();
-    shn_form_fsopen(_("Location (with out the hierarchy)"));
-    shn_form_text(_("Location"),'loc_txt','size="50"', NULL);
-    shn_form_fsclose();
+
 ?>
 </br>
     <center>

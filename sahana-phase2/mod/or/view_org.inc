@@ -435,12 +435,12 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     			shn_location($range,null,null,$extra_opts);
     }else{
     			shn_location($range,$loc,null,$extra_opts);	
+   	$extra_opts['value']=$loc_txt;
+   	shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
     }
     shn_form_fsclose();
-    $extra_opts['value']=$loc_txt;
-    shn_form_fsopen(_("Location (with out the hierarchy)"));
-    shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
-    shn_form_fsclose();
+    
+
     // Contact infomatio
     shn_form_fsopen("Map Location");
     $extra_opts['req']=false;
