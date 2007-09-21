@@ -53,6 +53,7 @@ function shn_ws_main(){
 	$ns="http://localhost/".$mod;
 	$nice_name=$conf['mod_'.$mod.'_name'];
 	$server = new soap_server();
+	//$server->configureWSDL($nice_name.' Web Services',$ns);
 	$server->configureWSDL($nice_name.' Web Services',$ns);
 	$server->wsdl->schemaTargetNamespace=$ns;
 	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
@@ -131,10 +132,11 @@ function shn_ws_main(){
    		if($service->documentation!=null){
    			$doc=$service->documentation;
    		}
+   		$action=$ns."#".$function;
 		$server->register($function,
 			$in,
 			$out,
-		$ns,false,false,false,$doc,'',$name);
+		$ns,$action,"rpc","encoded",$doc,'',$name);
 		
 	}
 
