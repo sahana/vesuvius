@@ -114,9 +114,17 @@ function shn_or_adm_or_type_form()
 <div id="formcontainer">
 <?php
     $type_arr=shn_or_type_list();
+    $types=array();
+    foreach($type_arr as $type){
+    	
+    	array_push(
+    		$types,
+    		$type["name"]
+    	);
+    }
     $form_opts['name']='add_type';
     shn_form_fopen("adm_type_cr",null,$form_opts);
-    shn_add_remove_javascript("opt_org_type[]",$type_arr);
+    shn_add_remove_javascript("opt_org_type[]",$types);
   //  shn_form_fsopen("Add New Type Information");
 
     shn_form_hidden(array("added"=>','));
@@ -171,9 +179,17 @@ function shn_or_adm_or_sector_form()
 <div id="formcontainer">
 <?php
 	$service_arr=shn_or_service_list();
+	$services=array();
+    foreach($service_arr as $service){
+    	
+    	array_push(
+    		$services,
+    		$service["name"]
+    	);
+    }
 	$form_opts['name']='add_sector';
 	shn_form_fopen("adm_sector_cr",null,$form_opts);
-    shn_add_remove_javascript("opt_sector_type[]",$service_arr);
+    shn_add_remove_javascript("opt_sector_type[]",$services);
 //    shn_form_fsopen("Add New Sector Information");
    
     shn_form_hidden(array("added"=>','));
