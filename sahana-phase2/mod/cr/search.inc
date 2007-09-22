@@ -304,8 +304,12 @@ function _shn_cr_srch_rst($camp_name,$type){
   <?php	
 }
 
-/*The Form to handle the Search Functionality*/
-	
+
+/**
+ * Basic Search form to display search input
+ * @access private
+ * @return void
+ */	
 function _shn_cr_srch($edit=false){		
 	global $conf;
 ?>
@@ -314,7 +318,7 @@ function _shn_cr_srch($edit=false){
 	shn_form_fopen("srch",null,array('req_message'=>false));
 	shn_form_fsopen(_("Search"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_form_text(_("Name of {$conf['mod_cr_alt']}"),'cmp_id','size="20"');
+	shn_form_text(_("Name of {$conf['mod_cr_alt']}"),'cmp_id','size="30"');
    	shn_form_opt_select("opt_camp_type",_("{$conf['mod_cr_alt']} Type"),null,array('all'=>true));
    	if($edit=='true')
 	 	shn_form_hidden(array('edt'=>'true'));
@@ -322,9 +326,13 @@ function _shn_cr_srch($edit=false){
  	shn_form_submit(_("Search"));
 	shn_form_fclose();
 }
-?>
 
-<?php
+/**
+ * Basic search by address form
+ * @access private
+ * @return void
+ * @param boolean $edit Controls edit functionality in result page
+ */
 function _shn_cr_srch_address($edit=false){		
 	global $conf;
 ?>
@@ -333,7 +341,7 @@ function _shn_cr_srch_address($edit=false){
 	shn_form_fopen("srch_address",null,array('req_message'=>false));
 	shn_form_fsopen(_("Search"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_form_text(_($conf['mod_cr_alt']." Address "),'cmp_id','size="20"');
+	shn_form_text(_($conf['mod_cr_alt']." Address "),'cmp_id','size="40"');
    	if($edit=='true')
    		shn_form_hidden(array('edt'=>'true'));
 	shn_form_submit(_("Search"));
