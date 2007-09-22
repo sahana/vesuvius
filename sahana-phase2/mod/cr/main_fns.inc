@@ -1,6 +1,7 @@
 <?php
 /**
 * Default functions of CR
+* Front controller functions for the CR execute from here
 *
 * PHP version 4 and 5
 *
@@ -12,7 +13,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main_fns.inc,v 1.54 2007-09-22 19:28:29 mifanc Exp $
+* @version $Id: main_fns.inc,v 1.55 2007-09-22 19:42:11 mifanc Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -134,7 +135,7 @@ function shn_cr_srch(){
 
   global $global;
   include($global['approot'].'/mod/cr/search.inc');
-  require_once($global['approot'].'/inc/handler_form.inc');
+  //require_once($global['approot'].'/inc/handler_form.inc');
   switch($_REQUEST['seq']){
 		case 'next'		:
 		            	echo _("Search Results");
