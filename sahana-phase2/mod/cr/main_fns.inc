@@ -1,6 +1,4 @@
 <?php
-/* $Id: main_fns.inc,v 1.53 2007-03-15 07:06:37 mifanc Exp $ */
-
 /**
 * Default functions of CR
 *
@@ -11,96 +9,120 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   Chathra Hendehewa <chathra@opensource.lk>
+* @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
+* @author   Chathra Hendehewa <chathra@opensource.lk>
+* @version $Id: main_fns.inc,v 1.54 2007-09-22 19:28:29 mifanc Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-
+/**
+ * Main home display content for CR
+ */
 function shn_cr_default(){
 	global $conf;
 ?>
 	<div id="home">
-	<h2><?php echo _($conf['mod_cr_name'])?></h2>
-	<p> <?php echo _("This sub application of Sahana keeps track of the location of all the {$conf['mod_cr_alt']}s in the
-	region and some basic data on the facilities they might have, the number of
-	people in them etc. It also provides a GIS view to plot the location of the {$conf['mod_cr_alt']}s in the
-	affected area.
-	Current features include:")?></p>
-	<ul>
-	    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
-	    <li><?php echo _("Integration of google maps to provide a GIS view of the affected region")?></li>
-	    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
-	    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
-	</ul>
-	</div>
-	    <div id="home_recent">		
-		<h2><?php echo _("Most Populated Shelters");?></h2>
-		<?php shn_cr_home_pop(); 
+		<h2><?php echo _($conf['mod_cr_name'])?></h2>
+		<p><?php echo _("This sub application tracks all {$conf['mod_cr_alt']}s, and stores basic details regarding them. It works with other modules to track people associated" .
+				" with a  {$conf['mod_cr_alt']}, the services available etc.")?>
+		</p>
+	  	<p><h3><?php echo _("Current features include:")?></h3></p>
+		<ul>
+		    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
+<?php if($conf['gis']){ ?>	    
+		    <li><?php echo _("GIS integration to view location details of the {$conf['mod_cr_alt']}")?></li>
+<?php } ?>	 
+		    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
+		    <li><?php echo _("Ability to customize the list of details tracked at a {$conf['mod_cr_alt']}")?></li>
+		    <li><?php echo _("Ability to customize the list of human resource tracked at a {$conf['mod_cr_alt']}")?></li>
+		    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
+<?php if($conf['gis']){ ?>	    
+		    <li><?php echo _("GIS Reports of {$conf['mod_cr_alt']}")?></li>
+<?php } ?>
+		</ul>
+		
+		<h2><?php echo _("Most Populated {$conf['mod_cr_alt']}s");?></h2>
+<?php shn_cr_home_pop(); 
 		?>	
 		
-		<h2><?php echo _("Newest Shelters");?></h2>
-		<?php shn_cr_home_newcmp(); 
-		?>
-	    </div>
-		<?php
-		}
+		<h2><?php echo _("Newest {$conf['mod_cr_alt']}s");?></h2>
+<?php 		shn_cr_home_newcmp();?>
+	</div>
+<?php
+}
 
+/**
+ * Most populated shelters for CR home page
+ * Number controlled by $list
+ */
 function shn_cr_home_pop(){
 	global $global;
+	global $conf;
 	$db=$global['db'];
 	$query="select c.name,a.total from camp_general as c,camp_reg as a where c.c_uuid=a.c_uuid  order by total desc";
 	$res=$db->Execute($query);
 	$count=0;
+	
+	// Number of displayed items
+	$list = 3;
+	
 ?>
 <div id="result">
-<table>
-<thead>
-	<td><?=_("Shelter Name")?></td>
-	<td><?=_("Population")?></td>
-</thead>
-
-<?php
-	while((!$res->EOF) && $count<=3){
-		echo "<tr>";
-		echo "<td>{$res->fields['name']}</td>";
-		echo "<td>{$res->fields['total']}</td>";
-		echo "</tr>";
-		$count++;
-		$res->MoveNext();
-	}
-?>
-</table>
+	<table>
+		<thead>
+			<td><?=_("{$conf['mod_cr_alt']} Name")?></td>
+			<td><?=_("{$conf['mod_cr_alt']} Population")?></td>
+		</thead>
+	
+	<?php
+		while((!$res->EOF) && $count<=$list){
+			echo "<tr>";
+			echo "<td>{$res->fields['name']}</td>";
+			echo "<td>{$res->fields['total']}</td>";
+			echo "</tr>";
+			$count++;
+			$res->MoveNext();
+		}
+	?>
+	</table>
 </div>
 <?php
 }
 
+/**
+ * Display newly created camps for home page
+ * Number controlled by $list
+ */
 function shn_cr_home_newcmp(){
 	global $global;
+	global $conf;
 	$db=$global['db'];
 	$query="select c.name,b.name from camp_reg a left outer join camp_general c using(c_uuid) left outer join location b on c.location_id=b.loc_uuid order by a.c_uuid desc";
 	$res =$db->Execute($query);
 	$count=0;
+	//Number of items to display
+	$list = 3;
 ?>
 <div id="result">
-<table>
-<thead>
-	<td><?=_("Shelter Name")?></td>
-	<td><?=_("Location")?></td>
-</thead>
-
-<?php
-	while((!$res->EOF) && ($count<=3)){
-		echo "<tr>";
-		echo "<td>{$res->fields[0]}</td>";
-		echo "<td>{$res->fields[1]}</td>";
-		echo "</tr>";
-		$count++;
-		$res->MoveNext();
-	}
-?>
-
-</table>
+	<table>
+		<thead>
+			<td><?=_("{$conf['mod_cr_alt']} Name")?></td>
+			<td><?=_("{$conf['mod_cr_alt']} Location")?></td>
+		</thead>
+	
+	<?php
+		while((!$res->EOF) && ($count<=$list)){
+			echo "<tr>";
+			echo "<td>{$res->fields[0]}</td>";
+			echo "<td>{$res->fields[1]}</td>";
+			echo "</tr>";
+			$count++;
+			$res->MoveNext();
+		}
+	?>
+	
+	</table>
 </div>
 <?php
 }
@@ -399,10 +421,12 @@ function shn_cr_ecmp(){
 	// check action sequence
 	switch($_REQUEST['seq']){
 		case 'chk'		:
-									//if(_shn_cr_validate_error())
-										//_shn_cr_edt_start(true);
-									//else
-									_shn_cr_cedt_chk();
+									if(_shn_cr_validate_error()){
+										//display_errors();
+										_shn_cr_edt_start();
+									}
+									else
+										_shn_cr_cedt_chk();
 									break;
 		case 'commit'	:
 		            	_shn_cr_cedt_commit();
