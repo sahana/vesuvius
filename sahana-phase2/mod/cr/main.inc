@@ -1,15 +1,17 @@
 <?php
-/**Main home page of the CR
-* $Id: main.inc,v 1.17 2007-02-12 09:37:12 mifanc Exp $
+/** Main home page of the Camp Registry a.k.a Shelter Registry a.k.a ...
+* 
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author   Chathra Hendehewa <chathra@opensource.lk>
+* @package  Sahana - http://sahana.sourceforge.net
+* @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
+* @author   Chathra Hendehewa <chathra@opensource.lk>
+* @version $Id: main.inc,v 1.18 2007-09-22 15:59:30 mifanc Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -18,7 +20,9 @@ include_once $global['approot']."/mod/cr/main_fns.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 
 
-
+/**
+ * Display main side menu for CR
+ */
 function shn_cr_mainmenu()
 {
 	global $global;
@@ -43,6 +47,8 @@ function shn_cr_mainmenu()
     }
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
+    
+    // Display Sahana main menu
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
