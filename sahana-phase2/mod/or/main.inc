@@ -262,46 +262,8 @@ function shn_or_search_cr(){
 
    	$sector=$_POST{"opt_sector_type"};
     $org_type=$_POST{"opt_org_type"};
-    $loc_txt=$_POST{"loc_txt"};
-    $search_str="select distinct o_uuid from org_main";
-    if($sector!='all'){
-    	$search_str.=",sector";
-    }
-	if(strlen(trim($loc_txt))!=0){
-    	$search_str.=",contact";
-    }
-    if($loc!=-1){
-		$search_str.=",location_details";
-		$loc_arr=array($loc);
-		$loc_arr=shn_location_get_descendants($loc,&$loc_arr);
-		$loc_str=shn_or_create_database_IN_array($loc_arr);
-    }
-    $search_str.=" where 1=1 ";
-   	if(strlen(trim($org_name))!=0){
-    	$search_str.=" and name LIKE '%$org_name%'";
-    }
-    if($sector!='all'){
-    	$search_str.=" and sector.opt_sector='{$sector}' and org_main.o_uuid=sector.pgoc_uuid";
-    }
-    if($org_type!='all'){
-    	$search_str.=" and org_main.opt_org_type='{$org_type}'";
-    }
-    if(strlen(trim($loc_txt))!=0){
-    	$search_str.=" and pgoc_uuid=org_main.o_uuid and contact_value LIKE  '%{$loc_txt}%' and opt_contact_type='loc_txt'";
-    }
-    if($loc!=-1){
-		$search_str.=" and location_details.location_id IN {$loc_str} and location_details.poc_uuid=org_main.o_uuid";
-    }
-  
-	$org_list=array();
-	
-    $res_org=$db->Execute($search_str);
-   
-    while(!$res_org==NULL && !$res_org->EOF){
-    		array_push($org_list,$res_org->fields["o_uuid"]);
-        	$res_org->MoveNext();
-    }
-	
+    $addr=$_POST{"loc_txt"};
+	$org_list=shn_or_org_search(null,$org_name,$org_type,$sector,$loc,$addr);
     _shn_or_viewform_allorg($org_list);
 
 }
