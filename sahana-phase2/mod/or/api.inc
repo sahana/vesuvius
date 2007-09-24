@@ -19,22 +19,19 @@
  * @access public
  * @return array
  */
+include_once "lib_or.inc";
 
-function shn_or_organization_list($limit){
+function shn_or_organization_list($limit,$name_filter='',$type_filter='all',$service_filter='all',$location_filter=-1,$address_filter=''){
 		
 	    global $global;
 	   	$db=$global['db'];
-        
-      	$q="select distinct o_uuid,name from  org_main where privacy=false";
-        $res_org=$db->Execute($q);
-        $org_list=array();
-        
-        while(!$res_org==NULL && !$res_org->EOF){
-       		
-        		$org_list[] = array('name' => $res_org->fields["name"], 'id' => $res_org->fields["o_uuid"]);
-        		$res_org->MoveNext();
+		$id_list=shn_or_org_search($limit,$name_filter,$type_filter,$service_filter,$location_filter,$address_filter);
+        $org_name_list=shn_or_organization_name($id_list);
+        foreach($org_name_list as $org_id=>$org_name){
+       			$org_list[] = array('name' => $org_name, 'id' =>$org_id);
         }
-       return $org_list;
+        
+        return $org_list;
 }
 
 /**
@@ -61,10 +58,15 @@ function shn_or_service_list(){
  * @return array
  */
  
-function shn_or_type_list(){
+function shn_or_type_list($limit,$filter){
 	global $global;
 	$q="select * from field_options where field_name='opt_org_type'";
-	$res = $global['db']->Execute($q);
+	$db=$global['db'];
+	if($limit==null){
+		 $res = $db->Execute($q);
+	}else{
+		$res=$db->SelectLimit($q,$limit);
+	}
     $type_list=array();
     while((!$res==NULL) && (!$res->EOF)) {
     	    $type_list[] = array('name' => $res->fields["option_description"], 'id' => $res->fields["option_code"]);
