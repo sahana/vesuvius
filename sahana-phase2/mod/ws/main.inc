@@ -47,102 +47,15 @@ function shn_ws_mainmenu()
 
 
 function shn_ws_main(){
+
 	global $global;
+	global $server;	
 	global $conf;
-	$mod=$_GET['wbsmod'];
-	$ns="http://localhost/".$mod;
-	$nice_name=$conf['mod_'.$mod.'_name'];
 	$server = new soap_server();
-	//$server->configureWSDL($nice_name.' Web Services',$ns);
-	$server->configureWSDL($nice_name.' Web Services',$ns);
-	$server->wsdl->schemaTargetNamespace=$ns;
-	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
-	foreach ($xml->types->type as $type) {
-		$typeName=trim($type->name);
-		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);
-		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);
-		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);
-		$restrictionbase=trim($type->restrictionBase);
-		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);
-		if($type->elements!=null){
-			switch ($phpType){
-			
-			case "struct":
-				$elements=array();
-				foreach($type->elements->element as $element){
-					$at=findAttribute($element, "type");
-					$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
-				}
-			break;
-			}
-		}else{
-			$elements=array();
-		}
-
-		/*
-		if(trim($type->attrs)!=null){
-				$attrs=array();
-				foreach($type->attrs as $attr){
-					if(findAttribute($attr, "type")=="ref"){
-						$attrs["ref"]=$attr;
-					}
-				}
-		}else{
-			$attrs='';
-		}
-*/
-		if(strlen($type->arrayType)!=0){
-			$at=$type->arrayType."[]";
-			$attrs=array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>$at));
-		}else{
-			$attrs=array();
-			$arrayType='';
-		}
-
-
-		$server->wsdl->addComplexType(
-    		$typeName,
-    		$class,
-    		$phpType,
-    		$compositor,
-    		$restrictionbase,
-			$elements,
-			$attrs,
-    		''
-    		//$arrayType
-		);
-	}
-	foreach ($xml->service as $service) {
-   		$name= trim($service->name);
-   		$function=trim($service->api_function);
-   		$name="{$name}";
-   		$input_arr=array();
-
-
-   		$in=array();
-   		if($service->input!=null){
-   			foreach ($service->input as $input) {
-				$in[trim($input)]=findAttribute($input, "type");
-   			}
-   		}
-   		if($service->output!=null){
-   			$out=trim(findAttribute($service->output, "type"));
-   			$out=array('return' => $out);
-   		}
-   		if($service->documentation!=null){
-   			$doc=$service->documentation;
-   		}
-   		$action=$ns."#".$function;
-		$server->register($function,
-			$in,
-			$out,
-		$ns,$action,"rpc","encoded",$doc,'',$name);
-		
-	}
-
+	shn_soap_ws_reg();
 	global $HTTP_RAW_POST_DATA;
 	$server->service($HTTP_RAW_POST_DATA);
-
+	return;
 }
 
 function shn_ws_default(){
@@ -176,17 +89,38 @@ function shn_soap_ws_reg(){
 	global $global;
 	global $server;
 	require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
+	global $conf;
 	$mod=$_GET["wbsmod"];// A web service of this mod is requested
 	$ns="http://localhost/".$mod; //change this to the actual namespace later
-	$xml =simplexml_load_file($global['approot']."/mod/".$mod."/ws.xml");
+	$nice_name=$conf['mod_'.$mod.'_name'];
+	$server->configureWSDL($nice_name.' Web Services',$ns);
+	$server->wsdl->schemaTargetNamespace=$ns;
+	//read the XML file describing the common types.
+	$xml_file=$global['approot']."/inc/lib_ws/ws.xml";
 	//read the XML file describing the types and services for that module.
+	$xml =simplexml_load_file($xml_file);
+	shn_soap_ws_type_reg($xml,$ns);
+	//read the XML file describing the types and services for that module.
+	$xml_file=$global['approot']."/mod/".$mod."/ws.xml";
+	//read the XML file describing the types and services for that module.
+	$xml =simplexml_load_file($xml_file);
+	//first register the types that will be referenced in the services
+	shn_soap_ws_type_reg($xml,$ns);
+	$module_file = $global['approot'].'/mod/'.$mod.'/api.inc';
+    include($module_file);
+  	//now register the services
+	shn_soap_ws_service_reg($xml,$ns);
 	
+}
+function shn_soap_ws_type_reg($xml,$ns){
+	global $server;
+
 	//first register the types that will be referenced in the services
 	foreach ($xml->types->type as $type) {
 		$typeName=trim($type->name);//name of the type
 		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);//simple vs complex
 		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);//the type in PHP
-		$compositor=(trim($type->compositor)==null)?array():trim($type->compositor);//how the elements are composed. e.g all arr need,or only one is neede
+		$compositor=(trim($type->compositor)==null)?'':trim($type->compositor);//how the elements are composed. e.g all arr need,or only one is neede
 		$restrictionbase=trim($type->restrictionBase);//the base type if there is any
 		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);//attributes if there are any
 		if($type->elements!=null){
@@ -224,33 +158,52 @@ function shn_soap_ws_reg(){
     		''
     		//$arrayType
 		);
-	}
-
-  	//now register the services
-
-	foreach ($xml->service as $service) {
+		$elements=null;
+		$attrs=null;
+		$typeName=null;
+		$class=null;
+		$phpType=null;
+    	$compositor=null;
+    	$restrictionbase=null;
+	}	
+}
+function shn_soap_ws_service_reg($xml,$ns){
+	global $server;
+	foreach ($xml->services->service as $service) {
    		$name= trim($service->name);//name of the service
    		$function=trim($service->api_function);//function that is exposed
    		$in=array();
    		if($service->input!=null){
    			foreach ($service->input as $input) {
-				$in[trim($input)]=findAttribute($input, "type");
+   				$in_attr=findAttribute($input, "type");
+   				if(preg_match("/xsd/",$in_attr)){
+   					$in[trim($input)]=findAttribute($input, "type");
+   				}else{
+   					$in[trim($input)]="tns:".findAttribute($input, "type");
+   				}
+				
    			}
    		}
    		if($service->output!=null){
    			$out=trim(findAttribute($service->output, "type"));
-   			$out=array('return' => $out);
+   			if(preg_match("/xsd/",$out)){
+   				$out=array('return' => $out);
+   			}else{
+   				$out=array('return' => "tns:".$out);
+   			}
+   			
    		}
    		if($service->documentation!=null){
    			$doc=$service->documentation;
    		}
-   		
+   		$action=$ns."#".$function;
    		$server->register($function,
 			$in,
 			$out,
-		$ns,false,false,false,$doc,'',$name);
+		$ns,$action,"rpc","encoded",$doc,'',$name);
 
 	}
 }
+
 
 ?>
