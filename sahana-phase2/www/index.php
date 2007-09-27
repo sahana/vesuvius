@@ -181,7 +181,12 @@ function shn_main_front_controller()
         $res=array_search($module,$mods,false);
         
         if(FALSE !== $res){
-			$module_function();
+        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
+        		$module_function();
+        	}else{
+        		
+        	}
+			
         }else{
         	shn_error_display_restricted_access();
         }
