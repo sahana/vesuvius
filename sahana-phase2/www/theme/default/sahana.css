@@ -812,3 +812,17 @@ div#openid_loginform input#pswd {
    padding-left: 18px;
 }
 
+
+
+div.page_head{
+    padding-bottom:10px;
+}
+
+div.page_head .active{
+    color:red;
+}
+
+div.page_navi a{
+}
+
+
