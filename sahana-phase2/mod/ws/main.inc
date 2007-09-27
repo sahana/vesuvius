@@ -187,7 +187,7 @@ function shn_soap_ws_service_reg($xml,$ns){
 				
    			}
    		}
-   		if($service->output!=null){
+   		//if($service->output!=null){
    			$out=trim(findAttribute($service->output, "type"));
    			if(preg_match("/xsd/",$out)){
    				$out=array('return' => $out);
@@ -195,7 +195,7 @@ function shn_soap_ws_service_reg($xml,$ns){
    				$out=array('return' => "tns:".$out);
    			}
    			
-   		}
+   		//}
    		if($service->documentation!=null){
    			$doc=$service->documentation;
    		}
