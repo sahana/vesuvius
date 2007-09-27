@@ -136,13 +136,13 @@ function _shn_cs_validate_unit_type_form()
     //this checks whether name entered in the add Item form
     if(trim($_POST['unit_type_name'])==null)
     {
-    add_error(_("Please Enter the Unit Type Name"));
+    add_error(_("Please enter the unit type name"));
     $error_flag=true;
     }    
 
     if(trim($_POST['base_unit_name'])==null)
     {
-    add_error(_("Please Enter the Base Unit Name"));
+    add_error(_("Please enter the base unit name"));
     $error_flag=true;
     }
 
