@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <sec_policy>
-		<usercase>
-			<name>Organization Registration</name>
-			<funct>
-			  	<id>shn_or_reg_org</id>
+		<usercase name="Organization Registration">
+			<funct id="shn_or_reg_org">
     			<tables>
     				<table perm="c">org_main</table>
     				<table perm="r">field_options</table>
@@ -13,10 +11,8 @@
    				</tables>
    			</funct>
 		</usercase>
-		<usercase>
-			<name>Organization Registration Edit</name>
-			<funct>
-			  	<id>shn_or_edit_org</id>
+		<usercase name="Organization Registration Edit">
+			<funct id="shn_or_edit_org">
     			<tables>
     				<table perm="u">org_main</table>
     				<table perm="r">field_options</table>
