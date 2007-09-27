@@ -78,7 +78,7 @@ function shn_cs_adm_max_depth_form_submit()
     
     ?>
 	<div id="result_msg">
-	<?php echo "Maximum Depth ".$depth."  was successfully saved";?>
+	<?php echo _("Maximum Depth ").$depth._("  was successfully saved");?>
 	</div>
     <?php
     shn_cs_adm_cs_maxdepth();

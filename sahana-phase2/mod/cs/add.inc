@@ -62,12 +62,12 @@ function _shn_cs_addmain_form_result()
 
 	if($res == true)
 	{
-	add_confirmation($name." was succesfully saved in the database");
+	add_confirmation($name._(" was succesfully saved in the database"));
 	shn_cs_addmain_form();
 	}
 	else
 	{
-	add_warning("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator.");
+	add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system administrator."));
 	}
 }
 
@@ -163,7 +163,7 @@ function _shn_cs_addsub_form2_result()
 
 	if($res == true)
 	{
-	add_confirmation($sub_cat_name." was succesfully saved in the database");
+	add_confirmation($sub_cat_name._(" was succesfully saved in the database"));
 
 	?>
 	<p><?= _('<b>Add another sub catalog</b>'); ?></p>
@@ -173,7 +173,7 @@ function _shn_cs_addsub_form2_result()
 	}
 	else
 	{
-	add_warning("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator.");
+	add_warning(_("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator."));
 	}
 }
 
@@ -191,7 +191,7 @@ function shn_cs_addunit_form()
 
     $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
-    $option_array['none']='----Select Unit type----';
+    $option_array['none']=_('----Select Unit type----');
     while(!$res==NULL && !$res->EOF)
     {
     $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
@@ -203,7 +203,7 @@ function shn_cs_addunit_form()
     shn_form_fopen(null);
     shn_form_fsopen(_("Information"));
     ?>
-    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&amp;act=addunittype">Add Unit category</a><?= _(' First'); ?></p>
+    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&amp;act=addunittype"><?php echo _("Add Unit category")?></a><?= _(' First'); ?></p>
     
     <?php
     shn_form_fsclose();
@@ -280,7 +280,7 @@ function _shn_cs_addunit_form_result()
 
 	if($res == true)
 	{
-	add_confirmation($unit_name." was succesfully saved in the database");
+	add_confirmation($unit_name._(" was succesfully saved in the database"));
 	?>
 	<p><?= _('<b>Add another Unit</b>'); ?></p>
 	<?php
@@ -288,7 +288,7 @@ function _shn_cs_addunit_form_result()
 	}
 	else
 	{
-	add_warning("Operation failed. ct_unit table not found in the Database. Please contact system Administrator.");
+	add_warning(_("Operation failed. ct_unit table not found in the Database. Please contact system Administrator."));
 	}
 }
 
@@ -311,7 +311,7 @@ function shn_cs_additem_form1()
     $res=$db->Execute($query);
     if($res == true)
     {
-    print "<br /><b>Do a keyword search to find the catalog.</b>";
+    print _("<br /><b>Do a keyword search to find the catalogue.</b>");
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
     shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
@@ -340,7 +340,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     $option_array=array();
     $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
-    $option_array['none']='----Select Unit type----';
+    $option_array['none']=_('----Select Unit type----');
     while(!$res==NULL && !$res->EOF)
     {
     $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
@@ -369,7 +369,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
 
-    $suppliers=shn_or_organization_search(null,array("Supplier of Goods"));
+    $suppliers=shn_or_organization_search(null,array(_("Supplier of Goods")));
     shn_form_fsopen(_('Suppliers'));
     shn_form_multi_select('supplier_select',$suppliers, _("Suppliers :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
@@ -458,7 +458,7 @@ function shn_cs_additem_form2_result()
 	
 	if($items_saved_ok == true && $all_units_saved_ok == true)
 		{
-			add_confirmation($item_name." was succesfully saved in the database");
+			add_confirmation($item_name._(" was succesfully saved in the database"));
 			?>
 			<p><?= _('<b>Add another Item</b>'); ?></p>
 			<?php
@@ -468,7 +468,7 @@ function shn_cs_additem_form2_result()
 		{	$del_query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
 			$res=$db->Execute($del_query);
 
-			add_warning("Operation failed. ct_cat_unit table not found in the Database. Please contact system Administrator.");
+			add_warning(_("Operation failed. ct_cat_unit table not found in the Database. Please contact system Administrator."));
 
 		}
 	elseif($items_saved_ok == false && $all_units_saved_ok == true)
@@ -476,12 +476,12 @@ function shn_cs_additem_form2_result()
 			$del_query = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
 			$res=$db->Execute($del_query);
 
-			add_warning("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator.");
+			add_warning(_("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator."));
 		}
 	else
 		{
 
-			add_warning("Operation failed. ct_catalogue and ct_cat_unit tables not found in the Database. Please contact system Administrator.");		
+			add_warning(_("Operation failed. ct_catalogue and ct_cat_unit tables not found in the Database. Please contact system Administrator."));		
 		}
 }
 
@@ -534,7 +534,7 @@ function _shn_cs_add_unit_type_form_result()
 
     if($unit_type_saved_ok == true && $base_unit_saved_ok ==true)
 	{
-	add_confirmation($unit_type_name." was succesfully saved in the database");
+	add_confirmation($unit_type_name._(" was succesfully saved in the database"));
 	?>
 	<p><?= _('<b>Add another Unit Type</b>'); ?></p>
 	<?php
@@ -544,17 +544,17 @@ function _shn_cs_add_unit_type_form_result()
 	{
 	$q="DELETE FROM ct_unit_type WHERE unit_type_uuid = '$unit_type_id'";
         $res=$db->Execute($q);
-	add_warning("Operation failed. ct_unit table not found in the Database. Please contact system Administrator."); 
+	add_warning(_("Operation failed. ct_unit table not found in the Database. Please contact system Administrator.")); 
 	}
     elseif($unit_type_saved_ok == false && $base_unit_saved_ok ==true)
 	{
 	$q="DELETE FROM ct_unit WHERE unit_type_uuid = '$unit_type_id'";
    	$res=$db->Execute($q);
-	add_warning("Operation failed. ct_unit_type table not found in the Database. Please contact system Administrator.");
+	add_warning(_("Operation failed. ct_unit_type table not found in the Database. Please contact system Administrator."));
 	}
     else
 	{
-	add_warning("Operation failed. ct_unit_type and ct_unit tables not found in the Database. Please contact system Administrator.");
+	add_warning(_("Operation failed. ct_unit_type and ct_unit tables not found in the Database. Please contact system Administrator."));
 	}
 	
 }
@@ -565,7 +565,7 @@ function _shn_cs_search_keyword_result()
     global $global;
     $db=$global["db"];
 
-    print "Click on the parent catalog that you need to add sub catalog or Item under it.<br /> ";
+    print _("Click on the parent catalogue that you need to add sub catalogue or Item under it.<br /> ");
 
     $search_keyword=$name = trim($_POST['search_keyword']);
     $type=trim($_POST['type']);

@@ -43,9 +43,9 @@ function show_item_cat_table()
 
     ?>
 	<div id="submenu_v">
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and items</a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units")?></a> 
 	</div>
     <?php
 
@@ -58,7 +58,7 @@ function show_item_cat_table()
     $query1="SELECT ct_uuid,name FROM ct_catalogue WHERE parentid = '0' ";
     $res1=$db->Execute($query1);
     # start filling main_catalog array
-    $main_cat_arr = array('all' => 'All');
+    $main_cat_arr = array('all' => _('All'));
     while(!$res1==NULL && !$res1->EOF)
     {
     $main_cat_arr[$res1->fields["ct_uuid"]]=$res1->fields["name"];
@@ -84,7 +84,7 @@ function show_item_cat_table()
 	$num_of_rec[$i.'0']=$i.'0';
 	}
 
-    $cat_item_arr = array('all'=>'All','sub_cat' => 'Sub Catalogs', 'item' => 'Items');
+    $cat_item_arr = array('all'=>_('All'),'sub_cat' => _('Sub Catalogs'), 'item' => _('Items'));
 
 /*
 	print "<br /><br />";
@@ -94,10 +94,10 @@ function show_item_cat_table()
     <table>
 
 	<tr>
-        <td><?php print "Filter by : Main catalog"; ?></td>
-        <td><?php print "Filter by : Cataolg/Item"; ?></td>
+        <td><?php print _("Filter by : Main catalogue"); ?></td>
+        <td><?php print _("Filter by : Cataolg/Item"); ?></td>
         <td><?php print "Filter by : Level"; ?></td>
-	<td><?php print "Filter by : Number of Records"; ?></td>
+	<td><?php print _("Filter by : Number of Records"); ?></td>
 	<td><?php print ""; ?></td>
 	</tr>
 
@@ -381,7 +381,7 @@ function _shn_cs_edit_cat_form_submit_result()
         $query="UPDATE ct_catalogue SET name='$name' , description='$description' WHERE ct_uuid='$id' ";
         $res=$db->Execute($query);    
 	
-	add_confirmation($name." was succesfully saved in the database");
+	add_confirmation($name._(" was succesfully saved in the database"));
         show_item_cat_table();
     }//end of else if
 
@@ -392,7 +392,7 @@ function _shn_cs_edit_cat_form_submit_result()
     $inuse_flag_return=item_cat_inuse($id);
         if($inuse_flag_return==true)
         {
-	add_warning("Operation failed. You can not Delete this Catalog/ Item. Because there are sub catalogs/Items under this catalog OR it has been used by the INVENTORY MANAGEMENT SYSTEM.");
+	add_warning(_("Operation failed. You can not Delete this Catalog/ Item. Because there are sub catalogs/Items under this catalog OR it has been used by the INVENTORY MANAGEMENT SYSTEM."));
 	show_item_cat_table();
         }
         else
@@ -403,7 +403,7 @@ function _shn_cs_edit_cat_form_submit_result()
         $query2="DELETE FROM ct_cat_unit WHERE ct_uuid='$id' ";
         $res2=$db->Execute($query2);
 
-	add_confirmation("Item/Catalog was Deleted");
+	add_confirmation(_("Item/Catalog was Deleted"));
         show_item_cat_table();
         }
 
@@ -563,7 +563,7 @@ function _shn_cs_edit_unit_form_submit_result()
         $query="UPDATE ct_unit SET name='$name' , multiplier=$multiplier WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);    
 
-	add_confirmation($name." was succesfully saved in the database");
+	add_confirmation($name._(" was succesfully saved in the database"));
         show_unit_table();
     }//end of else if
 
@@ -573,14 +573,14 @@ function _shn_cs_edit_unit_form_submit_result()
     	$inuse_flag_return=unit_inuse($id);
         if($inuse_flag_return==true)
         {
-	add_warning("Operation failed. You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM.");
+	add_warning(_("Operation failed. You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM."));
 	show_unit_table();
         }
         else
         {
         $query="DELETE FROM ct_unit WHERE unit_uuid='$id' ";
         $res=$db->Execute($query);
-	add_confirmation("Unit was Deleted");
+	add_confirmation(_("Unit was Deleted"));
 	show_unit_table();
         }
     }//end of else if
@@ -600,9 +600,9 @@ function show_unit_type_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and Items</a> 
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units")?></a> 
 	</div>
     <?php
 
@@ -715,7 +715,7 @@ function _shn_cs_edit_unit_type_form_submit_result()
         $query="UPDATE ct_unit_type SET name='$name' , description='$description' WHERE unit_type_uuid='$id' ";
         $res=$db->Execute($query);    
 
-	add_confirmation($name." was succesfully saved in the database");
+	add_confirmation($name._(" was succesfully saved in the database"));
 	show_unit_type_table();
     }//end of else if
 
@@ -725,14 +725,14 @@ function _shn_cs_edit_unit_type_form_submit_result()
     	$inuse_flag_return= _is_units_under_this_type($id);
         if($inuse_flag_return==true)
         {
-	add_warning("Operation failed. You can not Delete this Unit type. There are units added under this unit type.");
+	add_warning(_("Operation failed. You can not Delete this Unit type. There are units added under this unit type."));
 	show_unit_type_table();
         }
         else
         {
         $query="DELETE FROM ct_unit_type WHERE unit_type_uuid='$id' ";
         $res=$db->Execute($query);
-	add_confirmation("Unit type was Deleted");
+	add_confirmation(_("Unit type was Deleted"));
 	show_unit_type_table();
         }
     }//end of else if
