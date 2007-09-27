@@ -41,9 +41,7 @@ function shn_ws_mainmenu()
     }
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_lc("Client"));
-    foreach($mods as $mod=>$data_arr){
-    	shn_mod_menuitem("sahana","Other SAHANA systems",$module);
-    }
+   	shn_mod_menuitem("sahana","Other SAHANA systems",$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
