@@ -71,7 +71,43 @@ function shn_get_allowed_mods_current_user(){
 	
 }
 
-function shn_acl_check_perms($tables_only, $tables_with_fields=null){
+
+function shn_acl_check_perms($mod,$module_function){
+	global $global;
+	include_once $global['approot']."/inc/lib_xml.inc";
+	$xml_file=$global['approot']."/mod/".$mod."/sec_policy.xml";
+	if (file_exists($xml_file)){
+		//read the XML file describing the security policy for that module.
+		$xml =simplexml_load_file($xml_file);
+	
+		foreach ($xml->usercase as $case) {
+	   		$name= trim($case->name);//name of the service
+	   	
+	   		if($case->funct->id==$module_function){
+	   			
+	   			$tables=array();
+	   			foreach ($case->funct->tables->table as $table){
+	   				$tables["$table"]=findAttribute($table, "perm");
+	   			}
+		   			
+	   	
+					
+	   		}
+		}
+			if($tables!=null){
+				return shn_acl_check_table_only_perms($tables);
+			}else{
+				return ALLOWED;
+			}
+			
+	}else{
+		return ALLOWED;
+	}
+
+	
+}
+
+function shn_acl_check_table_perms($tables_only, $tables_with_fields=null){
 	//$acl_enabled=shn_acl_get_state($module);
 	if($tables_with_fields==null){
 		return shn_acl_check_table_only_perms($tables_only);
