@@ -25,7 +25,7 @@ function shn_cs_addmain_form()
 {
     $extra_opts['req']=true;
     shn_form_fopen('addmain_form_submit');
-    shn_form_fsopen(_('Details Of the catalog'));
+    shn_form_fsopen(_('Details of the catalog'));
     unset($_POST);
     shn_form_text(_("Name   : "),'main_cat_name','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'description','size="50"');
