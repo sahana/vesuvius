@@ -29,7 +29,7 @@ function _shn_cs_validate_addmainform()
     //this checks whether name entered in the add main form
     if(trim($_POST['main_cat_name'])==null)
     {
-    add_error(_("Please enter the catalog Name"));
+    add_error(_("Please enter the catalog name"));
     $error_flag=true;
     }
 
@@ -50,7 +50,7 @@ function _shn_cs_validate_unitform()
     //this checks whether name entered in the add unit form
     if(trim($_POST['unit_name'])==null)
     {
-    add_error(_("Please enter the unit Name"));
+    add_error(_("Please enter the unit name"));
     $error_flag=true;
     }    
 
@@ -82,7 +82,7 @@ function _shn_cs_validate_subcatform()
     //this checks whether name entered in the add sub category form
     if(trim($_POST['sub_cat_name'])==null)
     {
-    add_error(_("Please Enter the Sub Category Name"));
+    add_error(_("Please enter the sub category name"));
     $error_flag=true;
     }    
 
@@ -103,7 +103,7 @@ function _shn_cs_validate_additem_form()
     //this checks whether name entered in the add Item form
     if(trim($_POST['itemname'])==null)
     {
-    add_error(_("Please enter the item Name"));
+    add_error(_("Please enter the item name"));
     $error_flag=true;
     }    
 
@@ -162,7 +162,7 @@ function _shn_cs_validate_cat_form()
 
     if(trim($_POST['cat_item_name'])==null)
     {
-    add_error(_("Please Enter the Item/catalog Name to be searched"));
+    add_error(_("Please Enter the Item/catalog name to be searched"));
     $error_flag=true;
     }    
     if(trim($_POST['item_cat_radio'])==null)    
@@ -188,7 +188,7 @@ function _shn_cs_validate_search_unit_type_form()
 
     if(trim($_POST['unit_type_name'])==null || trim($_POST['unit_type_name'])== '')
     {
-    add_error(_("Please Enter the Unit type Name to be searched"));
+    add_error(_("Please enter the unit type name to be searched"));
     $error_flag=true;
     }
 
