@@ -22,7 +22,7 @@
  */
 function shn_cs_search_cat()
 {
-    $option_array=array('none' => '-----Select Search-----','Item' => 'Item/catalog','Unit' => 'Unit','Unit_type' => 'Unit Type');
+    $option_array=array('none' => _('-----Select Search-----'),'Item' => _('Item/Catalog'),'Unit' => _('Unit'),'Unit_type' => _('Unit Type'));
     $form_opts['name']="select_type_form";
     shn_form_fopen('select_type_submit',null,$form_opts);
     shn_form_fsopen(_('Select Search Type'));
@@ -43,7 +43,7 @@ function _shn_cs_cat_form()
     shn_form_fopen('search_item_submit');
     shn_form_fsopen(_('Search Details'));
     shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/catalog to be searched')));
-    $options=array('item' => 'Item','catalogue' => 'catalog');
+    $options=array('item' => _('Item'),'catalogue' => _('Catalog'));
     shn_form_radio($options,'','item_cat_radio');
     shn_form_fsclose();
     shn_form_submit(_("Search"));
@@ -83,7 +83,7 @@ function _shn_cs_search_item_cat_submit_result()
 
     if($name == null && $description == null)
     {
-    print "<br><br><b>There is no match found.</b>";
+    print _("<br><br><b>There is no match found.</b>");
     }
 
     else
@@ -122,7 +122,7 @@ function _shn_cs_unit_form()
     $option_array=array();
     $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
-    $option_array['none']='----Select Unit type----';
+    $option_array['none']=_('----Select Unit type----');
     while(!$res==NULL && !$res->EOF)
     {
     $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
