@@ -31,7 +31,7 @@ function shn_cs_addmain_form()
     shn_form_text(_("Description   : "),'description','size="50"');
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
+    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this main catalog.')));
     shn_form_fsclose();
     shn_form_submit(_("Add"));
     shn_form_fclose();
@@ -126,7 +126,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
+    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this sub catalog.')));
     shn_form_fsclose();
     
     //the parent ID is submitted as a hidden variable
@@ -357,7 +357,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsclose();
 
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
+    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular item easily.')));
     shn_form_fsclose();
 
     $select_opts='onChange=change_units(this.options[this.selectedIndex].value)';
