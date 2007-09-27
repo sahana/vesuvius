@@ -40,6 +40,11 @@ function shn_ws_mainmenu()
     	shn_mod_menuitem($data_arr[0],$data_arr[1],$module);
     }
     shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_lc("Client"));
+    foreach($mods as $mod=>$data_arr){
+    	shn_mod_menuitem("sahana","Other SAHANA systems",$module);
+    }
+    shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 } 
@@ -204,6 +209,167 @@ function shn_soap_ws_service_reg($xml,$ns){
 
 	}
 }
+function shn_ws_sahana(){
+	?>
+<h2><?= _('Access another SAHANA system through web services')?></h2>
+<?php
 
+?>  
 
+<div id="formcontainer">
+<?php
+	
+    shn_form_fopen("sahana_cr");
+    shn_form_fsopen(_("Web Service (WSDL) URL"));
+    shn_form_text(_("URL : "),'wsdl_url','size="50"',null);
+    shn_form_fsclose();
+    
+    ?>
+    <div class="info"><?= _("The API Key allows you to access the web services of another SAHANA instance which requires authentication. To access SAHANA web services, a developer must have a login(an account).
+	That is you should have an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
+		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
+		 </div><br />
+	<?php
+	
+	shn_form_fsclose();
+	shn_form_fsopen("Your API Key"); 
+	$extra_opts["req"]=true;
+    shn_form_textarea("", "key", null, $extra_opts);
+	shn_form_fsclose();
+	
+	shn_form_fsopen("Your Password"); 
+    shn_form_textarea("", "pwd", null, $extra_opts);
+	shn_form_fsclose();
+	
+	shn_form_fsopen("Your Secret Code"); 
+    shn_form_textarea("", "secret", null, $extra_opts);
+	shn_form_fsclose();
+	
+	$methods=shn_ws_get_methods();
+    shn_form_fsopen(_("Select Method"));
+	shn_form_select($methods,"Methods",'method',null,$extra_opts);
+    shn_form_fsclose();
+  
+   
+   
+?>
+<br />
+<center>
+<?php
+//create the submit button
+    shn_form_submit(_("Next"));
+?>
+</center>
+<br />
+<?php
+    //close the form
+    shn_form_hidden(array('org_type'=>'1'));
+    shn_form_fclose();
+?>				     
+</div>
+<?php	
+}
+function shn_ws_sahana_cr(){
+	$method=trim($_POST["method"]);
+	echo '<h2>Method</h2><pre>' . $method . '</pre><br />';
+	$native=extension_loaded('soap');
+	$url=trim($_POST["wsdl_url"]);
+	$url= trim(collapseEntities($url));
+	print_r($url);
+	$url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
+	//$url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
+	echo "<br />";
+	print_r($url);
+	$digest="adsadsdsd";
+	$secret=trim($_POST["secret"]);
+	$sign=shn_acl_hmac_sha1($digest,$secret);
+	$sign=md5($sign);
+	$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",adsadsdsd";
+
+	if($native==true){
+		ini_set("soap.wsdl_cache_enabled", "0");
+
+		$client = new  SoapClient($url, array('login' => $uid, 
+          'password' => $sign));
+		
+		print_r($client->__call( $method,
+        /* Parameters */
+        array(
+            new SoapParam(
+                /* Parameter Value */
+                5,
+                /* Parameter Name */
+                "symbol"
+        	))
+        ));
+
+		
+	}else{
+
+		$client = new soapclient2($url,true);
+		
+		$client->setCredentials($uid,$sign);
+		
+		// Check for an error
+		$err = $client->getError();
+		if ($err) {
+	    // Display the error
+	    	echo '<h2>Constructor error</h2><pre>' . $err . '</pre><br />';
+	    // At this point, you know the call that follows will fail
+		}
+
+		$result = $client->call($method, array('limit' => 5));
+		
+		// Check for a fault
+		if ($client->fault) {
+	    	echo '<h2>Fault</h2><pre>';
+	    	print_r($result);
+	   		echo '</pre>';
+		} else {
+	    // Check for errors
+	    	$err = $client->getError();
+	    	if ($err) {
+	        // Display the error
+	        	echo '<h2>Error</h2><pre>' . $err . '</pre>';
+	    	} else {
+	    		echo '<h2>Result</h2><pre>' ;
+	    		print_r($result);
+	    		echo '</pre>';
+	    	}
+		}
+	}
+}
+
+function shn_ws_get_methods($mod="or"){
+	global $global;
+	$methods=array();
+	$xml_file=$global['approot']."/mod/".$mod."/ws.xml";
+	//read the XML file describing the types and services for that module.
+	$xml =simplexml_load_file($xml_file);
+	foreach ($xml->services->service as $service) {
+   		$name= trim($service->name);//name of the service
+   		$function=trim($service->api_function);//function that is exposed
+   		$methods["$function"]=$name."->".$function;
+	}
+	return $methods;
+}
+
+	/**
+	* collapse entities, e.g. changes '&lt;' to '<'.
+	*
+	* @param	string	$val	The string in which to expand entities.
+	* @access	private
+	*/
+	function collapseEntities($val) {
+		
+			$val = str_replace('&amp;', '&', $val);
+	    	/*
+	    	$val = str_replace("'", '&apos;', $val);
+	    	$val = str_replace('"', '&quot;', $val);
+	    	$val = str_replace('<', '&lt;', $val);
+	    	$val = str_replace('>', '&gt;', $val);
+	    	*/
+	    
+	    return $val;
+	}
 ?>
