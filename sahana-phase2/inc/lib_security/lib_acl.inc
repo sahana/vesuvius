@@ -81,10 +81,9 @@ function shn_acl_check_perms($mod,$module_function){
 		$xml =simplexml_load_file($xml_file);
 	
 		foreach ($xml->usercase as $case) {
-	   		$name= trim($case->name);//name of the service
+	   		//$name= trim($case->name);//name of the service
 	   	
-	   		if($case->funct->id==$module_function){
-	   			
+	   		if(findAttribute($case->funct, "id")==$module_function){
 	   			$tables=array();
 	   			foreach ($case->funct->tables->table as $table){
 	   				$tables["$table"]=findAttribute($table, "perm");
