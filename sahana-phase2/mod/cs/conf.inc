@@ -2,7 +2,7 @@
 
 
 /**
- * Main Configuration of the Catalogue System. 
+ * Main Configuration of the catalog System. 
  *
  * PHP version 4 and 5
  *
@@ -24,6 +24,6 @@
  */
 #global $conf;
 
-$conf['mod_cs_name'] = _("Catalogue System");
+$conf['mod_cs_name'] = _("Catalog System");
 $conf['mod_cs_menuorder'] = 16;
 ?>

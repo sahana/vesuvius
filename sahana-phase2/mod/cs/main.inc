@@ -1,6 +1,6 @@
 <?php
 /**
- * Main Controller of the Catalogue System. 
+ * Main Controller of the catalog System. 
  *
  * PHP version 4 and 5
  *
@@ -27,7 +27,7 @@ include_once $global['approot']."/inc/reporting/lib_chart.inc";
 //other module APIs.
 include_once $global['approot'].'/mod/ims/lib_ims.inc';
 include_once $global['approot'].'/mod/or/api.inc';
-//catalogue system libraries
+//catalog system libraries
 include_once $global['approot'].'/mod/cs/lib_cs_js.inc';
 include_once $global['approot'].'/mod/cs/lib_cs_ajax.inc';
 include_once $global['approot'].'/mod/cs/lib_cs_validate.inc';
@@ -43,12 +43,12 @@ function shn_cs_mainmenu()
     $module = $global['module'];
 
     // The  module menu
-	shn_mod_menuopen(_("Catalogue System"));
+	shn_mod_menuopen(_("Catalog System"));
 	shn_mod_menuitem("default",_("Home"));
 	shn_mod_menuitem("search",_("Search"));
-	shn_sub_mod_menuopen(_("Add Catalogue/Item"));
-	shn_mod_menuitem("addmain",_("Add Main Catalogue"));
-	shn_mod_menuitem("addsub",_("Add Sub Catalogue"));
+	shn_sub_mod_menuopen(_("Add catalog/Item"));
+	shn_mod_menuitem("addmain",_("Add main catalog"));
+	shn_mod_menuitem("addsub",_("Add sub catalog"));
 	shn_mod_menuitem("additem",_("Add Item"));
 	shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_("Add Unit Category/ Unit"));
@@ -82,7 +82,7 @@ function shn_cs_search()
 {
     ?>
     <h1><?= (_("Search")) ?></h1>
-    <p><?= _('Select the Search Type in the select box that you need to search. By selecting Catalogue/Item, you are able to Search for a Item or a Catalogue and by selecting Unit, you are able to search for Units.'); ?></p> 
+    <p><?= _('Select the Search Type in the select box that you need to search. By selecting catalog/Item, you are able to Search for a Item or a catalog and by selecting Unit, you are able to search for Units.'); ?></p> 
     <?php
     require_once('search.inc');
     shn_cs_search_cat();
@@ -181,8 +181,8 @@ function shn_cs_search_unit_type_submit()
 function shn_cs_addmain()
 {
     ?>
-    <h1><?= (_("Add Main Catalogue")) ?></h1>
-    <p><?= _('Here you are able to add Main catalogue types which are the root Items of the Item tree. Eg. Food, Medicine, clothing, etc.'); ?></p>
+    <h1><?= (_("Add main catalog")) ?></h1>
+    <p><?= _('Here you are able to add Main catalog types which are the root Items of the Item tree. Eg. Food, Medicine, clothing, etc.'); ?></p>
     <?php
 
     require_once('add.inc');
@@ -192,10 +192,10 @@ function shn_cs_addmain()
 function shn_cs_addsub()
 {
     ?>
-    <h1><?= (_("Add Sub Catalogue")) ?></h1>
-    <p><?= _('Here you are able to add Sub catalogue types which are under Main catalogues. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogues. The system administrator should have to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
+    <h1><?= (_("Add sub catalog")) ?></h1>
+    <p><?= _('Here you are able to add sub catalog types which are under Main catalogs. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogs. The system administrator should have to specify the Maximum Depth of the catalog / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogs /Items upto 5 levels.'); ?></p>
     <p><?= _('OR'); ?></p>
-    <p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
+    <p><?= _('You can search the parent catalog by doing a keyword search.'); ?></p>
     <?php
 
     require_once('add.inc');
@@ -221,7 +221,7 @@ function shn_cs_addmain_form_submit()
 function shn_cs_addsub_form1_submit()
 {
     ?>
-    <h1><?= (_("Add Sub Catalogue Result")) ?></h1>	
+    <h1><?= (_("Add sub catalog result")) ?></h1>	
     <?php
     require_once('add.inc');
     require_once('lib_cs.inc');
@@ -297,9 +297,9 @@ function shn_cs_additem()
 
 	?>
 	<h1><?= (_("Add Item")) ?></h1>
-	<p><?= _('Here you are able to add Items which are under catalogues. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator have to specify the Maximum Depth of the Catalogue / Item hierarchy(tree). Eg: Maximum Depth = 5 will allow you to add catalogues /Items upto 5 levels.'); ?></p>
+	<p><?= _('Here you are able to add Items which are under catalogs. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator have to specify the maximum Depth of the catalog / Item hierarchy(tree). Eg: Maximum Depth = 5 will allow you to add catalogs /Items upto 5 levels.'); ?></p>
 	<p><?= _('OR'); ?></p>
-	<p><?= _('You can search the parent catalogue by doing a keyword search.'); ?></p>
+	<p><?= _('You can search the parent catalog by doing a keyword search.'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -348,7 +348,7 @@ function shn_cs_viewedit()
 {
     ?>
         <h1><?= (_("View And Edit")) ?></h1>
-        <p><?= _('Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. <b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b>'); ?></p>
+        <p><?= _('Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. <b>Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.</b>'); ?></p>
     <?php
 
     require_once('edit.inc');
@@ -388,7 +388,7 @@ function shn_cs_edit_form_submit()
 function shn_cs_edit_cat_select_submit()
 {
     ?>
-    <h1><?= (_("Edit Catalogue / Item")) ?></h1>
+    <h1><?= (_("Edit catalog / item")) ?></h1>
     <?php
     require_once('edit.inc');
     _shn_cs_edit_cat_select_submit_result();

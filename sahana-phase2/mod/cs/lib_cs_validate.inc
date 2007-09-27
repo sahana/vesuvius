@@ -29,7 +29,7 @@ function _shn_cs_validate_addmainform()
     //this checks whether name entered in the add main form
     if(trim($_POST['main_cat_name'])==null)
     {
-    add_error(_("Please enter the catalogue Name"));
+    add_error(_("Please enter the catalog Name"));
     $error_flag=true;
     }
 
@@ -150,7 +150,7 @@ function _shn_cs_validate_unit_type_form()
 }
 
 /**
- * This function validates the search catalogue/item form.
+ * This function validates the search catalog/item form.
  * This function is called by shn_cs_search_item_submit() in main.inc
  * @access private
  * @return boolean
@@ -162,12 +162,12 @@ function _shn_cs_validate_cat_form()
 
     if(trim($_POST['cat_item_name'])==null)
     {
-    add_error(_("Please Enter the Item/Catalogue Name to be searched"));
+    add_error(_("Please Enter the Item/catalog Name to be searched"));
     $error_flag=true;
     }    
     if(trim($_POST['item_cat_radio'])==null)    
     {
-    add_error(_("Please Select either Item or Catalogue radio button to search"));
+    add_error(_("Please Select either Item or catalog radio button to search"));
     $error_flag=true;
     }
 

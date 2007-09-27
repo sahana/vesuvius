@@ -1,6 +1,6 @@
 <?php
 /**
- * javaScript Library of catalogue system  
+ * javaScript Library of catalog system  
  *
  * PHP version 4 and 5
  *

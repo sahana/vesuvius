@@ -1,6 +1,6 @@
 <?php
 /**
- * AJAX Library of catalogue system  
+ * AJAX Library of catalog system  
  *
  * PHP version 4 and 5
  *

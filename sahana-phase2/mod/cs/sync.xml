@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <module name='cs'>
-  <description>Catalogue System</description>
+  <description>Catalog System</description>
   <data>
-	<description>Catalogue System</description>
+	<description>Catalog System</description>
     <table name='ct_catalogue'>
         <primarykeys>
 	      <primarykey field_id='ct_uuid' />

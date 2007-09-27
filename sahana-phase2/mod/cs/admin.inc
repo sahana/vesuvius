@@ -1,5 +1,5 @@
 <?php
-/**Admin controller of the Catalogue system 
+/**Admin controller of the catalog system 
 *
 * PHP version 4 and 5
 *
@@ -20,7 +20,7 @@ function shn_cs_adm_default()
 {
 	shn_cs_sub_menu();
 	?>
-	<p><?= _('Maximum Depth - enable you to specify the default depth value for the catalogue system item selection interface. '); ?></p>
+	<p><?= _('Maximum Depth - enable you to specify the default depth value for the catalog system item selection interface. '); ?></p>
     <p><?= _('Number of records for a page - enable you to specify the number of records that should be shown in a page in the view and edit section');?></p>
     <br></br>
 	<?php

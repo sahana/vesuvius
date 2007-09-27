@@ -21,7 +21,7 @@ function shn_cs_show_supplier_report()
     $db=$global["db"];
 ?>
 <h2><?= _('Supplier Report'); ?></h2>
-<p><?= _('Here you can have a report on items with supplier details which are having registered suppliers in catalogue system.'); ?></p>
+<p><?= _('Here you can have a report on items with supplier details which are having registered suppliers in catalog system.'); ?></p>
 
     <br>
     <div id="result">

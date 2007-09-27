@@ -22,7 +22,7 @@
  */
 function shn_cs_search_cat()
 {
-    $option_array=array('none' => '-----Select Search-----','Item' => 'Item/Catalogue','Unit' => 'Unit','Unit_type' => 'Unit Type');
+    $option_array=array('none' => '-----Select Search-----','Item' => 'Item/catalog','Unit' => 'Unit','Unit_type' => 'Unit Type');
     $form_opts['name']="select_type_form";
     shn_form_fopen('select_type_submit',null,$form_opts);
     shn_form_fsopen(_('Select Search Type'));
@@ -34,7 +34,7 @@ function shn_cs_search_cat()
 }
 
 /**
- * This function Displays the Form for selecting Catalogue.
+ * This function Displays the Form for selecting catalog.
  * @access private
  * @return void
  */
@@ -42,8 +42,8 @@ function _shn_cs_cat_form()
 {
     shn_form_fopen('search_item_submit');
     shn_form_fsopen(_('Search Details'));
-    shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/Catalogue to be searched')));
-    $options=array('item' => 'Item','catalogue' => 'Catalogue');
+    shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/catalog to be searched')));
+    $options=array('item' => 'Item','catalogue' => 'catalog');
     shn_form_radio($options,'','item_cat_radio');
     shn_form_fsclose();
     shn_form_submit(_("Search"));

@@ -25,13 +25,13 @@ function shn_cs_addmain_form()
 {
     $extra_opts['req']=true;
     shn_form_fopen('addmain_form_submit');
-    shn_form_fsopen(_('Details Of the catalogue'));
+    shn_form_fsopen(_('Details Of the catalog'));
     unset($_POST);
     shn_form_text(_("Name   : "),'main_cat_name','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'description','size="50"');
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
+    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
     shn_form_fsclose();
     shn_form_submit(_("Add"));
     shn_form_fclose();
@@ -88,10 +88,10 @@ function shn_cs_addsub_form1()
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print "<br /><b>Do a keyword search to find the catalogue.</b>";
+    print "<br /><b>Do a keyword search to find the catalog.</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
-    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
+    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
     shn_form_hidden(array('type' => 'sub_catalogue'));
     shn_form_submit(_("Search"));
     shn_form_fsclose();
@@ -121,12 +121,12 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
 
     $extra_opts['req']=true;
     shn_form_fopen("addsub_form2_submit");
-    shn_form_fsopen(_('Sub Catalogue Details'));
+    shn_form_fsopen(_('Sub catalog Details'));
     shn_form_text(_("Name   : "),'sub_cat_name','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
+    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
     shn_form_fsclose();
     
     //the parent ID is submitted as a hidden variable
@@ -311,10 +311,10 @@ function shn_cs_additem_form1()
     $res=$db->Execute($query);
     if($res == true)
     {
-    print "<br /><b>Do a keyword search to find the catalogue.</b>";
+    print "<br /><b>Do a keyword search to find the catalog.</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
-    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalogue using a keyword and then add catalogues/Items under it.')));
+    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
     shn_form_hidden(array('type' => 'item'));
     shn_form_submit(_("Search"));
     shn_form_fsclose();
@@ -357,7 +357,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsclose();
 
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalogue/Item easily.')));
+    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/Item easily.')));
     shn_form_fsclose();
 
     $select_opts='onChange=change_units(this.options[this.selectedIndex].value)';
@@ -565,7 +565,7 @@ function _shn_cs_search_keyword_result()
     global $global;
     $db=$global["db"];
 
-    print "Click on the parent catalogue that you need to add sub catalogue or Item under it.<br /> ";
+    print "Click on the parent catalog that you need to add sub catalog or Item under it.<br /> ";
 
     $search_keyword=$name = trim($_POST['search_keyword']);
     $type=trim($_POST['type']);
@@ -577,7 +577,7 @@ function _shn_cs_search_keyword_result()
     <thead>
         <td><strong><?=_("Name")?></strong></td>
         <td><strong><?=_("Description")?></strong></td>
-        <td><strong><?=_("Item/Catalogue")?></strong></td>
+        <td><strong><?=_("Item/catalog")?></strong></td>
 	<td><strong><?=_("Keyword")?></strong></td>
     </thead>
     <TBODY>
@@ -599,7 +599,7 @@ function _shn_cs_search_keyword_result()
         <td><a href="index.php?mod=cs&amp;act=search_keyword_select_submit&amp;id=<?php echo $cat_id ?>&amp;type=<?php echo $type ?>"><?php print $name ;?></a></td>
         <td><?php print $description ;?></td>
         <?php if($final_flag=='0') { ?>
-            <td><?php print "Catalogue" ; ?></td>
+            <td><?php print "Catalog" ; ?></td>
         <?php } else { ?>
             <td><?php print "Item" ; ?></td>
         <?php } ?>

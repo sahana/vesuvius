@@ -25,7 +25,7 @@ function shn_cs_edit_form()
 {	
   /*  ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&act=edit_form_submit&view_type=item">catalogs and Items</a> 
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit_types">Unit Types</a> 
 	<a href="index.php?mod=cs&act=edit_form_submit&view_type=unit">Units</a> 
 	</div>
@@ -34,7 +34,7 @@ function shn_cs_edit_form()
 
 
 /**
- * This function shows the Catalogue/Item table. Submit the result to shn_cs_edit_cat_select_submit() in main.inc.
+ * This function shows the catalog/Item table. Submit the result to shn_cs_edit_cat_select_submit() in main.inc.
  * @access private
  * @return void
  */
@@ -43,7 +43,7 @@ function show_item_cat_table()
 
     ?>
 	<div id="submenu_v">
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and items</a> 
 	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
 	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>
@@ -94,7 +94,7 @@ function show_item_cat_table()
     <table>
 
 	<tr>
-        <td><?php print "Filter by : Main catalogue"; ?></td>
+        <td><?php print "Filter by : Main catalog"; ?></td>
         <td><?php print "Filter by : Cataolg/Item"; ?></td>
         <td><?php print "Filter by : Level"; ?></td>
 	<td><?php print "Filter by : Number of Records"; ?></td>
@@ -228,7 +228,7 @@ function show_item_cat_table()
 <table>
     <thead>
         <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Item/Catalogue")?></strong></td>
+        <td><strong><?=_("Item/catalog")?></strong></td>
 	<td><strong><?=_("Keyword")?></strong></td>
     </thead>
     <TBODY>
@@ -250,9 +250,9 @@ function show_item_cat_table()
     <tr>
         <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&amp;act=edit_cat_select_submit&amp;id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
         <?php if($final_flag=='0' && $parent_ID == '0') { ?>
-            <td><?php print "Main catalogue" ; ?></td>
+            <td><?php print "Main catalog" ; ?></td>
         <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
-	    <td>&nbsp;&nbsp;<?php print "Sub catalogue" ; ?></td>
+	    <td>&nbsp;&nbsp;<?php print "Sub catalog" ; ?></td>
         <?php } else { ?>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print "Item" ; ?></td>
         <?php } ?>
@@ -279,7 +279,7 @@ function show_item_cat_table()
 }
 
 /**
- * This function adds spaces to the item catalogue table according to the level it exists
+ * This function adds spaces to the item catalog table according to the level it exists
  * @access private
  * @return void
  */
@@ -295,7 +295,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 }
 
 /**
- * This function shows the edit form for Catalogue/ Item. Submit the result to shn_cs_edit_cat_form_submit() in main.inc.
+ * This function shows the edit form for catalog/ Item. Submit the result to shn_cs_edit_cat_form_submit() in main.inc.
  * Called by shn_cs_edit_cat_select_submit() in main.inc
  * process POST data submited by show_item_cat_table() in edit.inc
  * @access private
@@ -305,7 +305,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 function _shn_cs_edit_cat_select_submit_result()
 {
     ?>
-    <p><?= _('<b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b> By deleting a catalogue You will lose all the entries under the particular catalogue'); ?></p>
+    <p><?= _('<b>Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.</b> By deleting a catalog You will lose all the entries under the particular catalog'); ?></p>
     <?php
     global $global;
     $db=$global["db"];
@@ -321,9 +321,9 @@ function _shn_cs_edit_cat_select_submit_result()
     $form_opts['name']="edit_form";
     $extra_opts['req']=true;
     shn_form_fopen('edit_cat_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Details Of the catalogue/Item'));
+    shn_form_fsopen(_('Details Of the catalog/Item'));
     $extra_opts['value']=$name;
-    shn_form_text(_("Catalogue / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
+    shn_form_text(_("Catalog / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
     $extra_opts['req']=false;
     $extra_opts['value']=$description;
     shn_form_text(_("Description   : "),'description','size="50"',$extra_opts);
@@ -392,7 +392,7 @@ function _shn_cs_edit_cat_form_submit_result()
     $inuse_flag_return=item_cat_inuse($id);
         if($inuse_flag_return==true)
         {
-	add_warning("Operation failed. You can not Delete this Catalogue/ Item. Because there are sub catalogues/Items under this catalogue OR it has been used by the INVENTORY MANAGEMENT SYSTEM.");
+	add_warning("Operation failed. You can not Delete this Catalog/ Item. Because there are sub catalogs/Items under this catalog OR it has been used by the INVENTORY MANAGEMENT SYSTEM.");
 	show_item_cat_table();
         }
         else
@@ -403,7 +403,7 @@ function _shn_cs_edit_cat_form_submit_result()
         $query2="DELETE FROM ct_cat_unit WHERE ct_uuid='$id' ";
         $res2=$db->Execute($query2);
 
-	add_confirmation("Item/Catalogue was Deleted");
+	add_confirmation("Item/Catalog was Deleted");
         show_item_cat_table();
         }
 
@@ -441,7 +441,7 @@ function show_unit_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and Items</a> 
 	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
 	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>
@@ -600,7 +600,7 @@ function show_unit_type_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogues and Items</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and Items</a> 
 	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
 	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
 	</div>

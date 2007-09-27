@@ -187,7 +187,7 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     	$parent_array["1"]=_("None");
     	shn_form_fsopen(_('Information'));
     	?>
-    	<p><?= _('There is no any root catalogue found. '); ?><a href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _(' First'); ?></p> 
+    	<p><?= _('There is no any root catalog found. '); ?><a href="index.php?mod=cs&act=addmain">Add root catalog</a><?= _(' First'); ?></p> 
     	<?php
     	shn_form_fsclose();
     }
@@ -367,7 +367,7 @@ function get_all_unit_names()
 
 
 /**
- * This function validates the selected catalogue in sub_cat form.
+ * This function validates the selected catalog in sub_cat form.
  *This function is called by shn_cs_additem_form1_submit() in main.inc
  * @access private
  * @return boolean
@@ -391,7 +391,7 @@ function _shn_cs_validate_sub_cat_form()
 
     if($itemid==null || $itemid=='none')
     {
-    add_error(_("Please Select the Catalogue that you need"));
+    add_error(_("Please Select the catalog that you need"));
     $error_flag=true;
     }    
 
@@ -429,7 +429,7 @@ function _shn_cs_get_units($parent_id)
 
 
 /**.
- *This function returns the maximum depth of the catalogue/Item tree 
+ *This function returns the maximum depth of the catalog/Item tree 
  * @access public
  * @return double
  */
@@ -489,7 +489,7 @@ function shn_cs_get_parentid_arr($in_id)
 }
 
 /**.
- *This function do a recurcive search to find the parents of a particular catalogue/ item
+ *This function do a recurcive search to find the parents of a particular catalog/ item
  * @access private
  * @return array
  */
@@ -525,7 +525,7 @@ function shn_cs_get_child_id_arr($in_id)
 }
 
 /**.
- *This function returns the array of next level child ID array of a purticular item catalogue
+ *This function returns the array of next level child ID array of a purticular item catalog
  * @access public
  * @return array
  * @todo
