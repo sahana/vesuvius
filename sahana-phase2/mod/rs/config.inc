@@ -37,8 +37,8 @@ function shn_rs_config_main_form()
     $current_freq=$res->fields["option_code"];
     $extra_opts['value'] = $current_freq;
     shn_form_fsopen(_('Set Report update Frequency '));
-    shn_form_text('Current Frequency in minites :','cur_freq','size="5" readonly=true',$extra_opts);
-    shn_form_text('New Frequency in minites : ','rep_new_freq','size="5"');
+    shn_form_text('Current Frequency in minutes','cur_freq','size="5" readonly=true',$extra_opts);
+    shn_form_text('New Frequency in minutes','rep_new_freq','size="5"');
     shn_form_fsclose();
 
     $query="select option_code from field_options where field_name='opt_rs_cht_freq'";
@@ -46,8 +46,8 @@ function shn_rs_config_main_form()
     $current_freq=$res->fields["option_code"];
     $extra_opts['value'] = $current_freq;
     shn_form_fsopen(_('Set Chart update Frequency '));
-    shn_form_text('Current Frequency in minites :','chart_cur_freq','size="5" readonly=true',$extra_opts);
-    shn_form_text('New Frequency in minites : ','chart_new_freq','size="5"');
+    shn_form_text('Current Frequency in minutes','chart_cur_freq','size="5" readonly=true',$extra_opts);
+    shn_form_text('New Frequency in minutes','chart_new_freq','size="5"');
     shn_form_fsclose();
 
     shn_form_submit(_("Save"));
