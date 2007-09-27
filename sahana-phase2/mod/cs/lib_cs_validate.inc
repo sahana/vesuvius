@@ -50,19 +50,19 @@ function _shn_cs_validate_unitform()
     //this checks whether name entered in the add unit form
     if(trim($_POST['unit_name'])==null)
     {
-    add_error(_("Please Enter the Unit Name"));
+    add_error(_("Please enter the unit Name"));
     $error_flag=true;
     }    
 
     if(trim($_POST['multiplier'])==null)
     {
-    add_error(_("Please Enter the Multiplier"));
+    add_error(_("Please enter the multiplier"));
     $error_flag=true;
     }
 
     if(trim($_POST['multiplier']) != strval(floatval(trim($_POST['multiplier']))) && trim($_POST['multiplier'])!=null) 
     {
-    add_error(_("Entered Multiplier is not a valid number"));
+    add_error(_("Entered multiplier is not a valid number"));
     $error_flag=true;
     }
 
