@@ -391,7 +391,7 @@ function _shn_cs_validate_sub_cat_form()
 
     if($itemid==null || $itemid=='none')
     {
-    add_error(_("Please Select the catalog that you need"));
+    add_error(_("Please select the catalog that you need"));
     $error_flag=true;
     }    
 
