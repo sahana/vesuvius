@@ -29,7 +29,7 @@ function _shn_cs_validate_addmainform()
     //this checks whether name entered in the add main form
     if(trim($_POST['main_cat_name'])==null)
     {
-    add_error(_("Please Enter the Catalogue Name"));
+    add_error(_("Please enter the catalogue Name"));
     $error_flag=true;
     }
 
@@ -103,19 +103,19 @@ function _shn_cs_validate_additem_form()
     //this checks whether name entered in the add Item form
     if(trim($_POST['itemname'])==null)
     {
-    add_error(_("Please Enter the Item Name"));
+    add_error(_("Please enter the item Name"));
     $error_flag=true;
     }    
 
     if(trim($_POST['measurement_type'])==null || trim($_POST['measurement_type'])=='none')
     {
-    add_error(_("Please Select the Unit Type"));
+    add_error(_("Please select the unit type"));
     $error_flag=true;
     }
 
     if(trim($_POST['unit_select'])==null)
     {
-    add_error(_("Please Select Unit/Units"));
+    add_error(_("Please select unit/units"));
     $error_flag=true;
     }
 
