@@ -58,6 +58,7 @@ function shn_admin_default()
 { 
     global $global;
     $db = $global['db'];
+    include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 
     $result = $db->Execute("select * from incident");
     $isDisasterNamed = ($result->RecordCount() > 0);
@@ -65,8 +66,8 @@ function shn_admin_default()
     $result = $db->Execute("select * from location");
     $isLocationsEntered = ($result->RecordCount() > 0);
 
-    $result = $db->Execute("select * from gacl_acl");
-    $isSecurityInstalled = ($result->RecordCount() > 0);
+   	$isSecurityEnabled =shn_acl_is_enabled();
+ 
 
     $result = $db->Execute("select * from ct_catalogue");
     $isCatalogCreated = ($result->RecordCount() > 0);
@@ -78,7 +79,7 @@ function shn_admin_default()
     echo '<div id="home">';
   
     if (!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
-        || !$isSecurityInstalled || !$isDisasterNamed) {
+         || !$isDisasterNamed) {
         echo '<h2>'._('Finalize Your Sahana Installation')."</h2>\n";
         echo _("<p>There are still a few steps to be performed before you 
                 can start using your Sahana installation effectively. 
@@ -121,14 +122,17 @@ function shn_admin_default()
                 '&#34;'._('Situation Mapping').'&#34; '.'</a>'._('section').'</li><br/>'; 
     }
     
-    if (!$isSecurityInstalled) {
-        echo '<li>'._('<b>Configure Security (optional)</b> - To prevent 
+    
+        echo '<li>'. _('<b>Configure Default Security (optional)</b> - To prevent 
                 unauthorized access to the system configure security by
                  clicking ').
-                 '&#34;'._('Security Config').'&#34; '._('and then selecting ').  
-                '<a href="?mod=admin&act=acl_user_roles">'.
-                '&#34;'._('Roles &amp Users').'&#34;'.'</a>'.'</li><br/>';
-    }
+                 '&#34;'._('Security Config').'&#34;  
+              </li>' ;
+                    if (!$isSecurityEnabled) {
+        			?><font color="red"><?=_("Current Security state: Disabled")?></font><?php
+        			}
+              		'<br/>';
+    
 
 
     echo "</ol>\n";
