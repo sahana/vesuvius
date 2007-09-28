@@ -24,7 +24,7 @@ INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
 INSERT INTO field_options VALUES ('opt_gender','mal','Male');
 INSERT INTO field_options VALUES ('opt_gender','fml','Female');
 
---PERSON RELATIONSHIPS
+-- PERSON RELATIONSHIPS
 INSERT INTO field_options VALUES('opt_relationship_type','fat','Father');
 INSERT INTO field_options VALUES('opt_relationship_type','mot','Mother');
 INSERT INTO field_options VALUES('opt_relationship_type','bro','Brother');
@@ -215,45 +215,263 @@ INSERT INTO sys_group_to_data_classification VALUES ( 3, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 8,"crud");
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "config", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sync_instance", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "users", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_groups", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_to_group", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_data_classifications", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_group_to_data_classification", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_tablefields_to_data_classification", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "chronology", 6);
+
+-- TABLE NAMES ARE SORTED IN ALPHEBATICAL ORDER
+
+-- adodb_logsql
+
+-- alt_logins
+
+-- audit
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "audit", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_fields", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_tmp_po", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "image", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "resource_to_incident", 6);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sessions", 6);
 
+-- camp_admin
 
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
+-- camp_general
 
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_inventory_records", 2);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 2);
-
+-- camp_reg
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
+
+-- camp_services
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
 
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_uuid", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "identity_to_person", 1);
+-- chronology
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "chronology", 6);
+
+-- config
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "config", 6);
+
+-- contact
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "contact", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_details", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_status", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_physical", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_missing", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_deceased", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_to_report", 1);
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "pgroup", 1);
+
+-- ct_cat_unit
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ct_cat_unit", 7);
+
+-- ct_catalogue
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ct_catalogue", 6);
+
+-- ct_unit
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ct_unit", 7);
+
+-- ct_unit_type
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ct_unit_type", 7);
+
+-- devel_logsql
+
+-- field_options
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
+
+-- gis_feature
+
+-- gis_location
+
+-- gis_wiki
+
+-- group_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
+
+-- hr_assign_contractor_to_site_table
+
+-- hr_assign_site_to_contractor_table
+
+-- hr_contractor_table
+
+-- hr_damaged_house_basic_details_table
+
+-- hr_damaged_house_location_details_table
+
+-- hr_family_head_details_table
+
+-- hr_site_allocated_organization_table
+
+-- hr_site_house_details_table
+
+-- hr_site_infrastructure_details_table
+
+-- hr_site_location_details_table
+
+-- hr_site_main_coordinator_details_table
+
+-- hr_site_name_and_uid_table
+
+-- identity_to_person
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "identity_to_person", 1);
+
+-- image
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "image", 6);
+
+-- ims_alternate
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_ims_alternate", 2);
+
+-- ims_inventory_records
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_inventory_records", 2);
+
+-- ims_item_records
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_item_records", 2);
+
+-- ims_optimization
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_optimization", 7);
+
+-- ims_relation
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_relation", 2);
+
+-- ims_reorder_level
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_reorder_level", 2);
+
+-- ims_transfer_item
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 2);
+
+-- incident
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 6);
+
+-- landmark_location
+
+-- lc_fields
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_fields", 6);
+
+-- lc_tmp_po
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_tmp_po", 6);
+
+-- location
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 6);
+
+-- location_details
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 6);
+
+-- messaging_group
+
+-- old_passwords
+
+-- org_main
+
+-- password_event_log
+
+-- person
+
+-- person_deceased
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_deceased", 1);
+
+-- person_details
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_details", 1);
+
+-- person_missing
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_missing", 1);
+
+-- person_physical
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_physical", 1);
+
+-- person_status
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_status", 1);
+
+-- person_to_pgroup
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_to_pgroup", 1);
+
+-- person_to_report
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_to_report", 1);
+
+-- person_uuid
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "person_uuid", 1);
+
+-- pgroup
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "pgroup", 1);
+
+-- phonetic_word
+
+-- report_files
+
+-- report_keywords
+
+-- resource_to_incident
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "resource_to_incident", 6);
+
+-- rms_fulfil
+
+-- rms_pledge
+
+-- rms_plg_item
+
+-- rms_priority
+
+-- rms_req_item
+
+-- rms_request
+
+-- rms_status
+
+-- rms_tmp_sch
+
+-- sector
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
+
+-- sessions
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sessions", 6);
+
+-- sync_instance
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sync_instance", 6);
+
+-- sys_data_classifications
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_data_classifications", 6);
+
+-- sys_group_to_data_classification
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_group_to_data_classification", 6);
+
+-- sys_group_to_module
+
+-- sys_tablefields_to_data_classification
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_tablefields_to_data_classification", 6);
+
+-- sys_user_groups
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_groups", 6);
+
+-- sys_user_to_group
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "sys_user_to_group", 6);
+
+-- unit
+
+-- unit_type
+
+-- user_preference
+
+-- users
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "users", 6);
+
+-- vm_access_classification_to_request
+
+-- vm_access_constraint
+
+-- vm_access_constraint_to_request
+
+-- vm_access_request
+
+-- vm_courier
+
+-- vm_hours
+
+-- vm_image
+
+-- vm_mailbox
+
+-- vm_message
+
+-- vm_position
+
+-- vm_position_active
+
+-- vm_position_full
+
+-- vm_positiontype
+
+-- vm_projects
+
+-- vm_projects_active
+
+-- vm_vol_active
+
+-- vm_vol_details
+
+-- vm_vol_position
+
+-- vm_vol_skills
+
+-- ws_keys
+
