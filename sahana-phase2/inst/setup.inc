@@ -483,7 +483,7 @@ function shn_setup_database()
 
     // setup the choosen sql scripts
     shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
-    shn_setup_run_sqlscript($db,'inst/mysql-acl.sql');
+    shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
     shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
@@ -491,7 +491,6 @@ function shn_setup_database()
     shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
     shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
     shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
-    shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
     shn_setup_run_sqlscript($db,'mod/hr/ins/dbcreate.sql');//hr
 
     if ($_POST['dbsample']=='y') {
