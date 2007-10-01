@@ -42,7 +42,7 @@ CREATE TABLE rms_priority (           -- rms_priority table
     PRIMARY KEY (pri_uuid)
 );
 
---initial configurations
+-- initial configurations
 INSERT INTO rms_priority VALUES ('pri_1','Immediate','');
 INSERT INTO rms_priority VALUES ('pri_2','Moderate','');
 INSERT INTO rms_priority VALUES ('pri_3','Low Priority','');
