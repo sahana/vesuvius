@@ -23,6 +23,7 @@
 	 		<name>
 	 			List of Organizations (the number of orgs)
 	 		</name>
+	 		<http_type>GET</http_type>
 	 		<api_function>
 	 			shn_or_organization_list
 	 		</api_function>
@@ -36,6 +37,7 @@
 	 		<name>
 	 			List of services offered
 	 		</name>
+	 		<http_type>GET</http_type>
 	 		<api_function>
 	 			shn_or_service_list
 	 		</api_function>
@@ -50,6 +52,7 @@
 	 		<name>
 	 			List of organization types
 	 		</name>
+	 		<http_type>GET</http_type>
 	 		<api_function>
 	 			shn_or_type_list
 	 		</api_function>
