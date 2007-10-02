@@ -18,27 +18,24 @@
  */
 ?>
 <div id="home">
-<h2><?= _('Catalog System'); ?></h2>
-<p><?= _('The catalog System helps to capture the Information about catalogs, sub catalogs, Items and measurement Units that are used by the Inventory Management System which manages the Inventories and Pledge/Request Management system which keeps track of requests of aid and supplies.  '); ?></p>
-    <br></br>
-    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
-<ul>
+    <h2><?= _('Aid Catalog and Classification System'); ?></h2>
+    <p><?= _('The Aid Catalog is used by the Inventory and the Request Management System as a reference classification of all aid item types. Item types are classified and grouped by type (e.g. food, medical) and units are associated to aid types for quantifying purposes by the other modules. The quantities of Aid is not kept in this module but for example in the Inventory and Request / Pledge Management Modules'); ?></p>
+    <strong>Features Include:</strong>
+    <ul>
+        <li><?=_('Classification or categorization of items to any level of depth')?></li>
+        <li><?=_('Association of measurement units for conversion and summation')?></li>
+        <li><?=_('Dynamic addition of new items types by authorized individuals')?></li>
+    </ul>
 
-<li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main catalog'); ?> </b> </a><?= _(' - Enables user to add root catalogs.'); ?></li>
-<li><a href="index.php?mod=cs&act=addsub"><b><?= _('Add sub catalog'); ?></b></a><?= _(' - Enables user to add sub catalogs under root catalogs. Sub catalogs might have several levels. '); ?></li>
-<li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Item'); ?></b></a><?= _(' - Enables user to add Items that is used in Inventory Management System.'); ?>
-</li></ul>
+    <!-- <div><h3><b><em><?= (_("Given below are some of the main functions:")) ?></em></b></h3></div> -->
 
-<em><p><?=_('Eg: Medicine --> Paracetamol --> ... --> Tablets ')?><br> <?=_('<b>Medicine</b> can be considered as an example for a Main catalog while <b>Paracetamol</b> is one of the sub catalogs under <b>Medicine</b>. There May be several levels upto the Item level and finally <b>Tablet</b> is an item which is under Paracetamol. ')?></p></em>
-
-<ul>
-<li><a href="index.php?mod=cs&act=addunittype"><b><?= _('Add Measurement Unit Type'); ?> </b> </a><?= _(' - Enables user to add measurement unit type. eg - Volume , Mass , Length etc.'); ?></li>
-<li><a href="index.php?mod=cs&act=addunit"><b><?= _('Add Measurement Unit'); ?></b></a><?= _(' - Enables user to add Measurement Units under Measurement Unit types. eg - kg, g, mg Under Mass Unit Type.'); ?></li>
-</ul>
-
-<ul>
-<li><a href="index.php?mod=cs&act=viewedit"><b><?= _('View and Edit'); ?> </b></a><?= _(' - Enables user to view, edit and delete item/catalogs, unit types and units that are managed by the catalog system.'); ?></li>
-<li><a href="index.php?mod=cs&act=supplier_report"><b><?= _('Supplier Report'); ?></b></a><?= _(' - Enables user to have a report on registered suppliers for each catalog.'); ?></li>
+    <strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=cs&act=viewedit"><b><?= _('View and Edit'); ?> </b></a><?= _(' - View all the currently registered catalogs, aid items types and their associated measurement units.'); ?></li>
+        <li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main Catalog'); ?> </b> </a><?= _(' - Do this first to create base groupings by major aid type (e.g. Food and Nutrition)'); ?></li>
+        <li><a href="index.php?mod=cs&act=addsub"><b><?= _('Add (sub)-Category'); ?></b></a><?= _(' - Within a Catalog there can be many sub-classifications or sub-categories of items. For example if the Base Catalog is Food and Nutrition a sub category would be Dry Food'); ?></li>
+        <li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Aid Item Type'); ?></b></a><?= _(' - Add New Aid Items Types to the Sahana System'); ?>
+        <li><a href="index.php?mod=cs&act=addunit"><b><?= _('Add Measurement Unit'); ?></b></a><?= _(' - Associate a measurement scale to an Aid Item Type. For example the Item Type, Rice would be measured in Kilograms'); ?></li>
 </ul>
 
 </div>
