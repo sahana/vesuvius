@@ -15,9 +15,10 @@
 * @tutorial        
 * @license          http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
-include_once $global['approot'].'/mod/cs/lib_cs.inc';
+include_once $global['approot'] . '/mod/cs/lib_cs.inc';
 //function shn_ims_home(){
-function _shn_ims_default() {
+function _shn_ims_default() 
+{
 
 ?>
 <h1 align="center"><?= _("Inventory Management System Home")?> </h1>
@@ -72,40 +73,39 @@ print $name;*/
         
 
         global $global;
-        $db=$global["db"];
-        $state_des="destroyed";
+        $db = $global["db"];
+        $state_des = "destroyed";
         //$item_search=$_POST['item_name_search'];
         //print ($item_search);
         
         $sql = "SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state!='$state_des' AND amount!=0 ORDER BY item_id DESC ;";
         $ims = $db->Execute($sql);
 
-        $i=0;
+        $i = 0;
 
-        while (!$ims==NULL && !$ims->EOF && $i<10)
-        {
+        while (!$ims == NULL && !$ims->EOF && $i < 10) {
             $i++;
-            $item_id=$ims->fields["item_id"];
-            $inv_id=$ims->fields["inv_id"];
-            $suplier_id=$ims->fields['suplier_id'];
-            $suplier_name_array=array();
-            $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
-            $suplier_name=$suplier_name_array[$suplier_id];
-            $item_name=$ims->fields["item_name"];
-            $amount=$ims->fields["amount"];
-            $unit=$ims->fields["unit"];
-            $manufactured_date=$ims->fields["manufactured_date"];
-            $expire_date=$ims->fields["expire_date"];
+            $item_id = $ims->fields["item_id"];
+            $inv_id = $ims->fields["inv_id"];
+            $suplier_id = $ims->fields['suplier_id'];
+            $suplier_name_array = array();
+            $suplier_name_array = _shn_or_get_suplier_name($suplier_id);
+            $suplier_name = $suplier_name_array[$suplier_id];
+            $item_name = $ims->fields["item_name"];
+            $amount = $ims->fields["amount"];
+            $unit = $ims->fields["unit"];
+            $manufactured_date = $ims->fields["manufactured_date"];
+            $expire_date = $ims->fields["expire_date"];
             //$suplier_name=$ims->fields["suplier_name"];
             //$suplier_address=$ims->fields["suplier_address"];
             //$suplier_telephone=$ims->fields["suplier_telephone"];
             //$suplier_email=$ims->fields["suplier_email"];
 
-        $sql1="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+        $sql1 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims1 = $db->Execute($sql1);
 
-            $inventory_name=$ims1->fields["inventory_name"];
-        $unit_name=get_unit_name($unit);            
+        $inventory_name = $ims1->fields["inventory_name"];
+        $unit_name = get_unit_name($unit);
 
 ?>
         <tr>
@@ -113,9 +113,9 @@ print $name;*/
         <td><?php print ($amount); ?></td>
         <td><?php print ($unit_name); ?></td>
         <td><?php print ($manufactured_date); ?></td>
-        <td><?php print ($expire_date);?></td>
-        <td><?php print ($inventory_name);?></td>
-        <td><?php print ($suplier_name);?></td>
+        <td><?php print ($expire_date); ?></td>
+        <td><?php print ($inventory_name); ?></td>
+        <td><?php print ($suplier_name); ?></td>
         
         </tr>
 
