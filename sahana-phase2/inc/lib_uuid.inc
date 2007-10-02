@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.21 2007-10-02 19:58:09 mifanc Exp $ */
+/* $Id: lib_uuid.inc,v 1.22 2007-10-02 20:03:41 mifanc Exp $ */
 
 /**
  *
@@ -127,8 +127,8 @@ function shn_create_uuid($type='person')
                 $gen_id = 'un-'._shn_gen_id('unit');
                 break;
 
-        case 'unit_type':
-        case 'unt':
+       case 'unit_type':
+       case 'unt':
                 $gen_id = 'ut-'._shn_gen_id('unit_type');
                 break;
        
@@ -142,21 +142,15 @@ function shn_create_uuid($type='person')
                 $gen_id = 'msg-'._shn_gen_id('messaging');
                 break;
 
-	case 'inventory':
-	case 'inv':
+		case 'inventory':
+		case 'inv':
 		$gen_id = 'inv-'._shn_gen_id('inventory');
 		break;
-
-	case 'gps_file':
-	case 'gps':
-		$gen_id = 'gps-'._shn_gen_id('gps_file');
+		
+		case 'volunteer':
+		case 'vm':
+		$gen_id = 'vm-'._shn_gen_id('volunteer');
 		break;
-
-	case 'waypoint':
-	case 'wpt':
-		$gen_id = 'wpt-'._shn_gen_id('waypoint');
-		break;
-
 
         default :
                 break;
@@ -175,7 +169,16 @@ function shn_create_uuid($type='person')
 function _shn_gen_id($type='person')
 {
     global $global;
+    global $conf;
     
+    if($conf['db_engine'] == 'mysql'){
+    $engine = $conf['mysql_engine'];
+
+    $global['db']->Execute("set storage_engine ='{$engine}'");
+    
+    }
+
+
     $global['db']->CreateSequence($type,1);
     return $global['db']->GenID($type);
 }
