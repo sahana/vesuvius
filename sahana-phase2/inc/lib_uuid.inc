@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.20 2007-02-06 00:19:11 isurunishan Exp $ */
+/* $Id: lib_uuid.inc,v 1.21 2007-10-02 19:58:09 mifanc Exp $ */
 
 /**
  *
@@ -146,6 +146,17 @@ function shn_create_uuid($type='person')
 	case 'inv':
 		$gen_id = 'inv-'._shn_gen_id('inventory');
 		break;
+
+	case 'gps_file':
+	case 'gps':
+		$gen_id = 'gps-'._shn_gen_id('gps_file');
+		break;
+
+	case 'waypoint':
+	case 'wpt':
+		$gen_id = 'wpt-'._shn_gen_id('waypoint');
+		break;
+
 
         default :
                 break;
