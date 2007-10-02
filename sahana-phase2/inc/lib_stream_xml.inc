@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.3 2007-10-02 11:28:15 priyanga Exp $ */
 
 /**
  *
@@ -18,7 +18,7 @@
  * 
  */
  
-function shn_stream_init($filename)
+function shn_stream_init()
 {
     $file = 'download.xml';
     if(isset($_GET['filename']))
@@ -33,7 +33,7 @@ function shn_stream_init($filename)
     echo '<?xml version="1.0" ?>';
 }
 
-function shn_stream_close($function,$output)
+function shn_stream_close()
 {
     echo $output;
 }
