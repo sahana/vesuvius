@@ -96,15 +96,15 @@ function _shn_page_draw_navi(&$res){
     if($page!=1)
     {
 ?>
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=1"><?php echo _('First')?></a></b> 
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page-1;?>"><?php echo _('Previous')?></a></b> 
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('First')?></a></b> 
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page-1;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
 <?php
     }
 
     //draw the page links
     if($start>1){
 ?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $i-1?>">&#8230;</a>
+        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $start-1?>">&#8230;</a>
 <?php
     }
     for($i=$start;$i<=$end;$i++)
@@ -116,13 +116,13 @@ function _shn_page_draw_navi(&$res){
         else
         {
 ?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $i?>"><?php echo $i?></a> 
+        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $i?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
 <?php
         }
     }
     if($end<$last){
 ?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $i+1?>">&#8230;</a>
+        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $end+1?>">&#8230;</a>
 <?php
     }
 
@@ -130,8 +130,8 @@ function _shn_page_draw_navi(&$res){
     if($page!=$last)
     {
     ?>
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page+1?>"><?php echo _('Next')?></a></b> 
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo  $global['action']?>&amp;page=<?php echo $last ?>"><?php echo _('Last')?></a></b> 
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page+1?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo  $global['action']?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo _('Last')?></a></b> 
 <?php
     }
 }
