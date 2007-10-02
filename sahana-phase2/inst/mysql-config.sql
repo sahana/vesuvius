@@ -159,13 +159,13 @@ INSERT INTO field_options VALUES ('opt_rs_rep_freq','30','the frequency of repor
 INSERT INTO field_options VALUES ('opt_rs_cht_freq','30','the frequency of chart update');
 
 -- INSERT MODULE VALUES
-INSERT INTO modules VALUES ('cr', '0.2', TRUE);
-INSERT INTO modules VALUES ('or', '0.2', TRUE);
-INSERT INTO modules VALUES ('admin', '0.2', TRUE);
-INSERT INTO modules VALUES ('gis', '0.2', TRUE);
+-- INSERT INTO modules VALUES ('cr', '0.2', TRUE);
+-- INSERT INTO modules VALUES ('or', '0.2', TRUE);
+-- INSERT INTO modules VALUES ('admin', '0.2', TRUE);
+-- INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
 -- INSERT CONFIG VALUES
-INSERT INTO config VALUES ( 'cr', 'division_type', '2');
+INSERT INTO config (module_id,confkey,value) VALUES ( 'cr', 'division_type', '2');
 
 -- INSERT DEFAULT DATA CLASSIFICATION LEVELS
 INSERT INTO sys_data_classifications VALUES ( 1, 'Person Sensitive');
@@ -205,6 +205,8 @@ INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,"crud");
+
+
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,"----");
