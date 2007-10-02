@@ -43,20 +43,18 @@ function shn_cs_mainmenu()
     $module = $global['module'];
 
     // The  module menu
-	shn_mod_menuopen(_("Catalog System"));
+	shn_mod_menuopen(_("Aid Catalog"));
 	shn_mod_menuitem("default",_("Home"));
-	shn_mod_menuitem("search",_("Search"));
-	shn_sub_mod_menuopen(_("Add catalog/Item"));
-	shn_mod_menuitem("addmain",_("Add main catalog"));
-	shn_mod_menuitem("addsub",_("Add sub catalog"));
-	shn_mod_menuitem("additem",_("Add Item"));
+	shn_mod_menuitem("viewedit",_("View Aid Catalog"));
+	shn_mod_menuitem("search",_("Search Item Types"));
+	shn_sub_mod_menuopen(_("Modify Catalog"));
+	shn_mod_menuitem("addmain",_("Add New Catalog"));
+	shn_mod_menuitem("addsub",_("Add Aid Category"));
+	shn_mod_menuitem("additem",_("Add Aid Item Type"));
+	//shn_mod_menuitem("addunittype",_("Add Measurement Unit Type")); // relocate to admin section
+	//shn_mod_menuitem("addunit",_("Add Measurement Unit")); // relocate to admin section
 	shn_sub_mod_menuclose();
-	shn_sub_mod_menuopen(_("Add Unit Category/ Unit"));
-	shn_mod_menuitem("addunittype",_("Add Measurement Unit Type"));
-	shn_mod_menuitem("addunit",_("Add Measurement Unit"));
-	shn_sub_mod_menuclose();
-	shn_mod_menuitem("viewedit",_("View & Edit"));
-	shn_mod_menuitem("supplier_report",_("Supplier Report"));
+	//shn_mod_menuitem("supplier_report",_("Supplier Report")); // Supplier report should be in Inventory
 	shn_mod_menuclose();
    
     // include the main menu
