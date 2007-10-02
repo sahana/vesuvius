@@ -21,8 +21,8 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_table.inc";*/
 include_once ('view_edit_item.inc');
-include_once $global['approot'].'/mod/cs/lib_cs.inc';
-include_once $global['approot'].'/mod/or/lib_or.inc';
+include_once $global['approot'] . '/mod/cs/lib_cs.inc';
+include_once $global['approot'] . '/mod/or/lib_or.inc';
 
 //$category=$_POST['itemcat'];
 
@@ -57,34 +57,30 @@ function _shn_ims_add_item_header()
 function _shn_ims_add_item_main_page($inventory_id) 
 {    
     //print $inventory_id; 
-	//$inventory_id=5;
-global $global;
+    //$inventory_id=5;
+    global $global;
     //global $conf;
-    $db=$global['db'];
+    $db = $global['db'];
 
-     $tables= array(
-			'ims_item_records'=>'c',
-			'ims_inventory_records'=>'c',
-			'ct_catalogue'=>'r'
-		);
+     $tables = array('ims_item_records' => 'c' , 'ims_inventory_records' => 'c' , 'ct_catalogue' => 'r');
  /*$tables= array(
 				'field_options'=>'4',
 				'org_main'=>'8'
 				);*/
-   if(shn_acl_check_table_only_perms($tables)==DENIED){
-   	 return false;
+   if (shn_acl_check_table_only_perms($tables) == DENIED) {
+        return false;
    }
 ?>
 
-    <h1 align="center"><?php print _("Add items to the Inventory");?><br></h1>
+    <h1 align="center"><?php print _("Add items to the Inventory"); ?><br></h1>
     <dev id="report">
 
     </dev>
 
 <?php
-    $form_opts['name']='subcat';
+    $form_opts['name'] = 'subcat';
     shn_form_fopen("add_item",null,$form_opts);
-    $depth=get_max_depth();
+    $depth = get_max_depth();
     shn_sub_cat($depth,'subcat',$inventory_id);
     shn_form_fclose();
     
@@ -99,41 +95,36 @@ global $global;
 
 function add_item($temp,$parent_id) 
 {
-    $form_opts['name']='additemform';
-    $inv_id=$_POST['inventory_id'];
-	//print $inv_id;
-    $parent_id1=$parent_id;
+    $form_opts['name'] = 'additemform';
+    $inv_id = $_POST['inventory_id'];
+    //print $inv_id;
+    $parent_id1 = $parent_id;
     //print ($temp);
     //print ($cat);
-    if ($temp!=null || $parent_id!=null)
-    {
+    if ($temp != null || $parent_id != null) {
         
         global $global;
-        $db=$global["db"];
-        $sql="SELECT item_name,inv_id,suplier_id,amount,unit,manufactured_date,expire_date,cost_per_unit FROM ims_item_records WHERE item_id='$temp' ;";
+        $db = $global["db"];
+        $sql = "SELECT item_name,inv_id,suplier_id,amount,unit,manufactured_date,expire_date,cost_per_unit FROM ims_item_records WHERE item_id ='$temp' ;";
         $ims = $db->Execute($sql);
-        $item_name=$ims->fields["item_name"];
-        $inv_id=$ims->fields['inv_id'];
-        $suplier_id=$ims->fields['suplier_id'];
-        $amount=$ims->fields["amount"];
-        $unit=$ims->fields['unit'];
-        $manufactured_date=$ims->fields["manufactured_date"];
-        $expire_date=$ims->fields["expire_date"];
-        $cost_per_unit=$ims->fields['cost_per_unit'];
+        $item_name = $ims->fields["item_name"];
+        $inv_id = $ims->fields['inv_id'];
+        $suplier_id = $ims->fields['suplier_id'];
+        $amount = $ims->fields["amount"];
+        $unit = $ims->fields['unit'];
+        $manufactured_date = $ims->fields["manufactured_date"];
+        $expire_date = $ims->fields["expire_date"];
+        $cost_per_unit = $ims->fields['cost_per_unit'];
         
-    }
-    else
-    {
-        $depth=get_max_depth();
-	$parent_id = trim($_POST['0']);
+    } else {
+        $depth = get_max_depth();
+        $parent_id = trim($_POST['0']);
     
-        for($i=1;$i<$depth;$i++)
-        {
+        for ($i = 1; $i < $depth; $i++) {
             $parent_id = trim($_POST[$i]);
     
-            if($parent_id==null)
-            {
-                $parent_id = trim($_POST[$i-1]);
+            if ($parent_id == null) {
+                $parent_id = trim($_POST[$i - 1]);
                 break;
             }
         }
@@ -141,15 +132,15 @@ function add_item($temp,$parent_id)
     //echo $parent_id;
 
         global $global;
-        $db=$global["db"];
-        $sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
+        $db = $global["db"];
+        $sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
         $ims = $db->Execute($sql);
-        $item_name=$ims->fields["name"];
-        $amount="";
-        $manufactured_date="";
-        $cost_per_unit="";
-        $expire_date="";
-        $suplier_id="";
+        $item_name = $ims->fields["name"];
+        $amount = "";
+        $manufactured_date = "";
+        $cost_per_unit = "";
+        $expire_date = "";
+        $suplier_id = "";
         
     }
 
@@ -161,26 +152,22 @@ function add_item($temp,$parent_id)
 
     
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
     
-    $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
-    $cms=$db->Execute($cq);
+    $cq = "SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+    $cms = $db->Execute($cq);
     //print $cq;
-    $unit_select_array[$unit]=$cms->fields['name'];
+    $unit_select_array[$unit] = $cms->fields['name'];
     
-    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
-    $res=$db->Execute($query);
+    $query = "select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $res = $db->Execute($query);
 
-    while(!$res==NULL && !$res->EOF)
-    {
-
-
-
-    $temp2=$res->fields['unit_uuid'];
-    $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
-    $res2=$db->Execute($query1);
+    while (!$res == NULL && !$res->EOF) {
+    $temp2 = $res->fields['unit_uuid'];
+    $query1 = "SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
+    $res2 = $db->Execute($query1);
     
-    $unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+    $unit_select_array[$res->fields['unit_uuid']] = $res2->fields['name'];
     $res->MoveNext();
     }    
 
@@ -190,23 +177,23 @@ function add_item($temp,$parent_id)
     shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
     
     global $global;
-    $db=$global["db"];
-    $inventory_array=array();
-    $q0="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
-    $ims0=$db->Execute($q0);
-    $inventory_array[$inv_id]=$ims0->fields['inventory_name'];
-    $q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-    $ims=$db->Execute($q);
+    $db = $global["db"];
+    $inventory_array = array();
+    $q0 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+    $ims0 = $db->Execute($q0);
+    $inventory_array[$inv_id] = $ims0->fields['inventory_name'];
+    $q = "SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
+    $ims = $db->Execute($q);
     //$j=0;
-    while($ims!=NULL && !$ims->EOF)
-    {
+    while ($ims != NULL && !$ims->EOF) {
         
-        $inventory_array[$ims->fields['inv_uuid']]=$ims->fields['inventory_name'];//}
+        $inventory_array[$ims->fields['inv_uuid']] = $ims->fields['inventory_name'];
         $ims->MoveNext();
         //$j=$j+1;
         //print ($j);
-    }    
-    
+
+    }
+
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the List Inventories Menu and add an Inventory first')));
 
     shn_form_fsclose();
@@ -226,8 +213,8 @@ function add_item($temp,$parent_id)
     shn_form_fsopen('Supply details');
 //----------------------------------------------------------------------------------------------------------------
     
-    $suplier_name_array=array();
-    $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
+    $suplier_name_array = array();
+    $suplier_name_array = _shn_or_get_suplier_name($suplier_id);
     //$suplier_array[$suplier_id]=_shn_or_get_suplier_name($suplier_id);
     
     
@@ -242,8 +229,7 @@ function add_item($temp,$parent_id)
 
     //shn_form_hidden(array('cat'=>$category));
     shn_form_hidden(array('parent_id'=>$parent_id));
-    if ($temp==NULL)
-    {
+    if ($temp == NULL) {
         /*$parent_id = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
     for($i=1;$i<5;$i++)
@@ -262,15 +248,14 @@ function add_item($temp,$parent_id)
         //print $parent_id;
         shn_form_hidden(array('parent_id'=>$parent_id));
         shn_form_submit(_("Submit"));
-    }
-    else
-    {
+    } else {
         //print $parent_id;
-        shn_form_hidden(array('temp'=>$temp));
-        shn_form_hidden(array('parent_id'=>$parent_id));
+        shn_form_hidden(array('temp' => $temp));
+        shn_form_hidden(array('parent_id' => $parent_id));
         shn_form_submit(_("Save"));
         //shn_form_button("Delete");
-        //shn_form_button("Destroy");    
+        //shn_form_button("Destroy");
+
     }
 
 
@@ -278,7 +263,7 @@ function add_item($temp,$parent_id)
     
     }
 
-
+?>
 
 
     
