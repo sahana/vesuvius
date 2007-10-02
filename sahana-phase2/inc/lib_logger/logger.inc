@@ -1,7 +1,6 @@
 <?php
 /**
-* Description for file
-* http://sahana.sourceforge.net
+* Sahana logging and cronology library
 *
 * PHP version 4 and 5
 *
@@ -11,77 +10,39 @@
 *
 * @package    framework
 * @subpackage logging 
-* @author     Pradeeper <pradeeper@opensource.lk>
-* @author     Mifan <mifan@opensource.lk>
+* @author     Chamindra de Silva <chamindra@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
 
-// Sahana logging (auditing) engine.
-// 20th Sep 2005
-// by The A-Team :)
-
-//include(actions.inc);
-
 /**
  * shn_log_event 
  * 
- * @param mixed $message 
- * @access public
+ * @param string UUID 
+ * @param string action
+ * @param string message
+ * @param string details
  * @return void
  */
-function shn_log_event($message)
+function shn_log_event($UUID,$action,$message,$details=null)
 {
-     
-     global $conf, $global;
-		 
-		 $logdate= date("jS F Y");
-		 $logtime= date("G:i:s");
-		
-     $entry['userid']= $_SESSION['userid']; 
-     $entry['userlogid']=$_SESSION['userlogid'];
-     $entry['action']=$global['action'];
-     $entry['modulename']=$global['module'];
+ 
+    global $conf, $global;
 
+    include_once($global['approot'].'inc/lib_uuid.inc');
 
-	 	 // switch to relevent log level based on sahana config file.
-     switch($conf['loglevel']) {
-	 	
-        case 1 : // normal level auditing
-    				_shn_db_insert_array($entry['userid'],$entry['userlogid'],$message,$conf['loglevel'],$logdate,$logtime,$entry['modulename']);
-            break;
-		
-				case 2 : // security level auditing
-    				_shn_db_insert_array($entry['userid'],$entry['userlogid'],$message,$conf['loglevel'],$logdate,$logtime,$entry['modulename']);
-            break;
-						
-		
-				default :
-						break;
-	  } // end of level_catch
+    $datetime = date("Y-m-d H:i:s");
+
+    $sql['user_uuid'] = 'sdsd'; //"$_SESSION['userid']"; 
+    //$userlogid=$_SESSION['userlogid'];
+    $sql['module'] = $global['module'];
+    $sql['log_uuid'] = shn_create_uuid('log');
+    $sql['opt_cron_type'] = 'cron';
+    $sql['pgoc_uuid'] = $UUID;
+    $sql['comments'] = $message;
+    $sql['action'] = $action;
+    $sql['details'] = $details;
+    $sql['event_date'] = $datetime;
+
+    shn_db_insert($sql,'chronology'); 
 }
-
-/**
- * insert log entry into database
- * connection is already open
- * values entered via adodb
- * 
- * @param mixed $userid 
- * @param mixed $userlogid 
- * @param mixed $message_text 
- * @param mixed $loglevel 
- * @param mixed $date 
- * @param mixed $time 
- * @param mixed $module 
- * @access protected
- * @return void
- */
-function _shn_db_insert_array($userid,$userlogid,$message_text,$loglevel,$date,$time,$module){
-		global $conf, $global;
-		$table='cre_actionlog';
-		$id=$global['db']->GenId();
-		$query="insert into $table values($id,$userid,$userlogid,$message_text,$loglevel,$module)";
-		@$result=$global['db']->Execute($query) or die ("Error in query: $query".$global['db']->ErrorMsg());
-}
-	
-?>
