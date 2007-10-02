@@ -133,12 +133,21 @@ function shn_acl_check_table_only_perms($tables){
 function _shn_acl_check_table_only_perms($table,$crud){
 	global $global;
     $db=$global['db'];
-  
+/* 
 	$length=strlen($crud);
+	
+	// old function.
 	for ($i=0;$i<$length;$i++){
 		$crud_pattern=$crud_pattern."%".substr($crud, $i, 1)."%";
 	}
+*/
 	
+	// Set $crud_pattern in CRUD order.
+	$crud_pattern = _shn_acl_get_crud_str($crud);
+	if($crud_pattern==null){
+		return DENIED;
+	}
+		
 	$user=$_SESSION["user_id"];
 
 	$roles=_shn_acl_get_roles($user);
@@ -168,6 +177,57 @@ function _shn_acl_check_table_only_perms($table,$crud){
     }
     
 }
+
+/**
+ * Returns the crud string in the correct order,
+ * no matter what order the crud letters are passed in.
+ *
+ * @param String $crud The string having the letters c,r,u,d in any order.
+ * @return String The crud pattern having the letters in the correct order (crud).
+ */
+function _shn_acl_get_crud_str($crud){
+	$length=strlen($crud);
+
+	// Set $crud_pattern in CRUD order.
+	$crud_pattern="";
+
+	
+	// append a % if length of $crud > 0;
+	if($length>0){
+		$crud_pattern=$crud_pattern."%";
+		$crud_arr = array();
+	}else{
+		return null;
+	}
+
+	for ($i=0;$i<$length;$i++){
+		$crud_char=strtolower(substr($crud,$i,1));
+		switch ($crud_char){
+			case "c":
+				$crud_arr[0]="c";
+				break;
+			case "r":
+				$crud_arr[1]="r";
+				break;
+			case "u":
+				$crud_arr[2]="u";
+				break;
+			case "d":
+				$crud_arr[3]="d";
+				break;
+		}
+	}
+
+	// append chars in array to a string. with succeeding %;
+	for ($i=0;$i<4;$i++){
+		$char=$crud_arr[$i];
+		if($char!=null){
+			$crud_pattern=$crud_pattern.$char."%";
+		}
+	}
+	return $crud_pattern;
+}
+
 
 function shn_acl_deluser_roles($users){
 	global $global;
