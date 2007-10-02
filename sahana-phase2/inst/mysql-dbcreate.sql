@@ -519,7 +519,7 @@ CREATE TABLE pgroup (
 * Modules: dvr, mpr
 * Last changed: 26-FEB-2007 - isuru@opensource.lk  
 */
---group-details
+-- group-details
 DROP TABLE IF EXISTS group_details;
 CREATE TABLE group_details(
 g_uuid VARCHAR(60) NOT NULL, -- universally unique group id
