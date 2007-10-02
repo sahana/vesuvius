@@ -55,8 +55,6 @@ function _shn_admin_acl_enable_mods_cr(){
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
-
-					
 	$sql="delete from sys_group_to_module";
     $res=$db->Execute($sql);
 
@@ -71,6 +69,14 @@ for ($i=0;$i<count($perms)-1;$i++){
     	$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
     	$res=$db->Execute($sql);
     }
+    $mods=shn_get_all_modules(false);
+    $role=1;
+    foreach ($mods as $mod){
+    	$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+    	$res=$db->Execute($sql);
+    	
+    }
+
 }
 	shn_acl_form_enable_mods();
 }
