@@ -176,20 +176,32 @@ function shn_main_front_controller()
 
         $_SESSION['last_module']=$module;
         $_SESSION['last_action']=$action;
-        $mods=shn_get_allowed_mods_current_user();
-
-        $res=array_search($module,$mods,false);
-        
-        if(FALSE !== $res){
-        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
-        		$module_function();
-        	}else{
-        		
-        	}
-			
+    
+        if($stream_==null){
+	        $mods=shn_get_allowed_mods_current_user();
+	
+	        $res=array_search($module,$mods,false);
+	        
+	        if(FALSE !== $res){
+	        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
+	        		$module_function();
+	        	}else{
+	        		shn_error_display_restricted_access();
+	        	}
+				
+	       }else{
+	        	shn_error_display_restricted_access();
+	       }
         }else{
-        	shn_error_display_restricted_access();
+        		
+        		$stream_acl_funct='shn_'.$stream_.'check_perms';
+        		if($stream_acl_funct()==ALLOWED){
+	        		$module_function();
+	        	}else{
+	        		
+	        	}
         }
+
 
     // close up the stream. In HTML send the footer
     shn_stream_close();
