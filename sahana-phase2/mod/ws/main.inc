@@ -117,57 +117,58 @@ function shn_soap_ws_reg(){
 }
 function shn_soap_ws_type_reg($xml,$ns){
 	global $server;
-
-	//first register the types that will be referenced in the services
-	foreach ($xml->types->type as $type) {
-		$typeName=trim($type->name);//name of the type
-		$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);//simple vs complex
-		$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);//the type in PHP
-		$compositor=(trim($type->compositor)==null)?'':trim($type->compositor);//how the elements are composed. e.g all arr need,or only one is neede
-		$restrictionbase=trim($type->restrictionBase);//the base type if there is any
-		$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);//attributes if there are any
-		if($type->elements!=null){
-			switch ($phpType){
-			
-			case "struct":
-				$elements=array();
-				foreach($type->elements->element as $element){
-					$at=findAttribute($element, "type");//find the attribute 'type' for the element from the ws.xml
-					$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
-					//every element should have name and type
+	if($xml->types->type!=null){
+		//first register the types that will be referenced in the services
+		foreach ($xml->types->type as $type) {
+			$typeName=trim($type->name);//name of the type
+			$class=(trim($type->typeclass)==null)?'complexType':trim($type->typeclass);//simple vs complex
+			$phpType=(trim($type->phptype)==null)?'array':trim($type->phptype);//the type in PHP
+			$compositor=(trim($type->compositor)==null)?'':trim($type->compositor);//how the elements are composed. e.g all arr need,or only one is neede
+			$restrictionbase=trim($type->restrictionBase);//the base type if there is any
+			$attrs=(trim($type->attrs)==null)?'':trim($type->attrs);//attributes if there are any
+			if($type->elements!=null){
+				switch ($phpType){
+				
+				case "struct":
+					$elements=array();
+					foreach($type->elements->element as $element){
+						$at=findAttribute($element, "type");//find the attribute 'type' for the element from the ws.xml
+						$elements["$element"]=array('name'=>(string)$element,'type'=>$at);
+						//every element should have name and type
+					}
+				break;
 				}
-			break;
+			}else{
+				$elements=array();
 			}
-		}else{
-			$elements=array();
+	
+			if(strlen($type->arrayType)!=0){
+				$at=$type->arrayType."[]";
+				$attrs=array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>$at));
+			}else{
+				$attrs=array();
+				$arrayType='';
+			}
+	
+			$server->wsdl->addComplexType(
+	    		$typeName,
+	    		$class,
+	    		$phpType,
+	    		$compositor,
+	    		$restrictionbase,
+				$elements,
+				$attrs,
+	    		''
+	    		//$arrayType
+			);
+			$elements=null;
+			$attrs=null;
+			$typeName=null;
+			$class=null;
+			$phpType=null;
+	    	$compositor=null;
+	    	$restrictionbase=null;
 		}
-
-		if(strlen($type->arrayType)!=0){
-			$at=$type->arrayType."[]";
-			$attrs=array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>$at));
-		}else{
-			$attrs=array();
-			$arrayType='';
-		}
-
-		$server->wsdl->addComplexType(
-    		$typeName,
-    		$class,
-    		$phpType,
-    		$compositor,
-    		$restrictionbase,
-			$elements,
-			$attrs,
-    		''
-    		//$arrayType
-		);
-		$elements=null;
-		$attrs=null;
-		$typeName=null;
-		$class=null;
-		$phpType=null;
-    	$compositor=null;
-    	$restrictionbase=null;
 	}	
 }
 function shn_soap_ws_service_reg($xml,$ns){
