@@ -136,8 +136,8 @@ print $name;*/
     //shn_form_fclose();
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_add_feed('rss_expired_list',_('Expired item List'));
-    shn_rss_add_feed('rss_reorder_list','Items bellow Re-order Level');
-    shn_rss_add_feed('rss_transit','');
+    shn_rss_add_feed('rss_reorder_list',_('Items bellow Re-order Level'),'This RSS feed gives a list of items that are bellow re-order level.');
+    shn_rss_add_feed('rss_transit',_('Transit Item List'),'This RSS feed gives a list of items which have been transferd to other locations or inventories.');
 }
 ?>
 
