@@ -32,7 +32,7 @@ include_once $global['approot'] . '/mod/or/lib_or.inc';
 include_once $global['approot'] . "/mod/gis/gis_fns.inc";
 include_once $global['approot'] . "/inc/reporting/lib_reporting.inc";
 include_once 'errors.inc';
-
+include_once 'lib_ims_rss.inc';
 
 
 //global $global;
