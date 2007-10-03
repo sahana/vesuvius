@@ -85,6 +85,10 @@ a:hover {
 	background-color: #FFC;
 }
 
+a img{
+    border:none;
+}
+
 table {
 	border-collapse: collapse
 }
@@ -824,4 +828,6 @@ div.page_head .active{
 div.page_navi a{
 }
 
-
+div.rssfeed strong{
+    vertical-align:5px;
+}
