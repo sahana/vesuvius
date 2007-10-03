@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.14 2007-09-25 13:05:02 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.15 2007-10-03 23:02:39 ravids Exp $ */
 
 /**
  *
@@ -20,3 +20,8 @@
  
 global $global;
 require_once ($global['approot'].'inc/lib_ws/lib_stream_soap.inc');
+
+function shn_soap_check_perms(){
+	return ALLOWED;//skip authentication at this step since , authentication is performed at the last step. i.e at method
+				  // invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
+}
