@@ -223,14 +223,36 @@ function shn_ws_sahana(){
     shn_form_text(_("URL : "),'wsdl_url','size="50"',null);
     shn_form_fsclose();
     
+   	$methods=shn_ws_get_methods();
+    shn_form_fsopen(_("Select Method"));
+	shn_form_select($methods,"Methods",'method',null,null);
+    shn_form_fsclose();
+
     ?>
+    <div id="no_sec_div">
+    <div class="info"><?= _("If the web service provider requires authentication ,then switch to secure mode")?></div>
+    <?php
+    $button_opts="onclick=\"switchMode('no_sec_div','api_div','mode','sec');\"";
+    shn_form_button("Switch to Secure Authentication Mode",$button_opts , null);
+    ?>
+   <!-- <a href="#" onclick="switchMode('no_sec_div','api_div','mode','sec');">Switch to Secure Authentication Mode</a>-->
+    
+    </div>
+    <br />
+    <div id="api_div">
+    <?php
+    $button_opts="onclick=\"switchMode('api_div','no_sec_div','mode','no_sec');\"";
+    shn_form_button("Switch off Secure Authentication Mode",$button_opts , null);
+    ?>
+    <!-- <a href="#" onclick="switchMode('api_div','no_sec_div','mode','no_sec');">Switch off Secure Authentication Mode</a>-->
+     <br />
     <div class="info"><?= _("The API Key allows you to access the web services of another SAHANA instance which requires authentication. To access SAHANA web services, a developer must have a login(an account).
 	That is you should have an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
 		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
-		 </div><br />
+	</div><br />
 	<?php
 	
-	shn_form_fsclose();
+	
 	shn_form_fsopen("Your API Key"); 
 	$extra_opts["req"]=true;
     shn_form_textarea("", "key", null, $extra_opts);
@@ -244,52 +266,56 @@ function shn_ws_sahana(){
     shn_form_textarea("", "secret", null, $extra_opts);
 	shn_form_fsclose();
 	
-	$methods=shn_ws_get_methods();
-    shn_form_fsopen(_("Select Method"));
-	shn_form_select($methods,"Methods",'method',null,$extra_opts);
-    shn_form_fsclose();
-  
+ 	shn_form_hidden(array('mode'=>'no_sec'));
    
    
 ?>
+	</div>
+	<script type="text/javascript">
+    	switchMode('api_div','no_sec_div','mode','no_sec');
+    </script>
 <br />
 <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Next"));
+    shn_form_submit(_("View Result ..."));
 ?>
 </center>
 <br />
 <?php
     //close the form
-    shn_form_hidden(array('org_type'=>'1'));
+   
     shn_form_fclose();
 ?>				     
 </div>
 <?php	
 }
 function shn_ws_sahana_cr(){
+	
 	$method=trim($_POST["method"]);
 	echo '<h2>Method</h2><pre>' . $method . '</pre><br />';
 	$native=extension_loaded('soap');
 	$url=trim($_POST["wsdl_url"]);
 	$url= trim(collapseEntities($url));
-	print_r($url);
+
 	$url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
-	//$url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
-	echo "<br />";
-	print_r($url);
-	$digest="adsadsdsd";
-	$secret=trim($_POST["secret"]);
-	$sign=shn_acl_hmac_sha1($digest,$secret);
-	$sign=md5($sign);
-	$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",adsadsdsd";
+
+		$digest="adsadsdsd";
+		$secret=trim($_POST["secret"]);
+		$sign=shn_acl_hmac_sha1($digest,$secret);
+		$sign=md5($sign);
+		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",adsadsdsd";
+	
+
 
 	if($native==true){
 		ini_set("soap.wsdl_cache_enabled", "0");
-
+		
+			
 		$client = new  SoapClient($url, array('login' => $uid, 
-          'password' => $sign));
+          	'password' => $sign));
+
+		//sending the user name ,password mode will work even if security is disabled at the provider
 		
 		print_r($client->__call( $method,
         /* Parameters */
@@ -306,9 +332,8 @@ function shn_ws_sahana_cr(){
 	}else{
 
 		$client = new soapclient2($url,true);
-		
 		$client->setCredentials($uid,$sign);
-		
+	
 		// Check for an error
 		$err = $client->getError();
 		if ($err) {
