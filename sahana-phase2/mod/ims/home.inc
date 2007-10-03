@@ -134,6 +134,10 @@ print $name;*/
 <?php
     shn_form_fsclose();
     //shn_form_fclose();
+    require_once($global['approot']."/inc/lib_rss.inc");
+    shn_rss_add_feed('rss_expired_list',_('Expired item List'));
+    shn_rss_add_feed('rss_reorder_list','Items bellow Re-order Level');
+    shn_rss_add_feed('rss_transit','');
 }
 ?>
 
