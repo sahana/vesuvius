@@ -19,34 +19,29 @@ include_once 'errors.inc';
 
 function _shn_ims_mini_quantity_item_select()
 {
-global $global;
+    global $global;
     //global $conf;
-    $db=$global['db'];
+    $db = $global['db'];
 
-     $tables= array(
-			'ims_item_records'=>'c',
-			'ims_inventory_records'=>'c',
-			'ct_catalogue'=>'r',
-			'ims_reorder_level'=>'c'
-		);
+     $tables = array('ims_item_records'=>'c', 'ims_inventory_records'=>'c', 'ct_catalogue'=>'r', 'ims_reorder_level'=>'c');
  /*$tables= array(
-				'field_options'=>'4',
-				'org_main'=>'8'
-				);*/
-   if(shn_acl_check_table_only_perms($tables)==DENIED){
-   	 return false;
+'field_options'=>'4',
+'org_main'=>'8'
+);*/
+   if (shn_acl_check_table_only_perms($tables) == DENIED) {
+        return false;
    }
 ?>
 
-    <h1 align="center"><?php print _("Item Selection for Re-Order Level");?><br></h1>
+    <h1 align="center"><?php print _("Item Selection for Re-Order Level"); ?><br></h1>
     <dev id="report">
 
     </dev>
 
 <?php
-    $form_opts['name']='subcat';
+    $form_opts['name'] = 'subcat';
     shn_form_fopen("minimum_quantity",null,$form_opts);
-    $depth=get_max_depth();
+    $depth = get_max_depth();
     shn_sub_cat($depth,'subcat',null);
     //shn_sub_cat(6,'subcat');
     shn_form_fclose();
@@ -60,47 +55,43 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     <h1 align="center"><?php print _("Re-Order Level"); ?> </h1>
     
 <?php
-    if($catalog_id!=null && $inv_id!=null)
-    {
+    if ($catalog_id != null && $inv_id != null) {
         global $global;
-        $db=$global["db"];
-        $query="SELECT minimum_quantity,unit FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
-        $ims=$db->Execute($query);
+        $db = $global["db"];
+        $query = "SELECT minimum_quantity,unit FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+        $ims = $db->Execute($query);
         
-        $minimum_quantity=$ims->fields['minimum_quantity'];
-        $unit=$ims->fields['unit'];
-        $unit_name=get_unit_name($unit);
+        $minimum_quantity = $ims->fields['minimum_quantity'];
+        $unit = $ims->fields['unit'];
+        $unit_name = get_unit_name($unit);
 
-        $query1="SELECT item_name FROM ims_item_records WHERE catalog_id='$catalog_id';";
-        $ims_q1=$db->Execute($query1);
-        $item_name=$ims_q1->fields['item_name'];
+        $query1 = "SELECT item_name FROM ims_item_records WHERE catalog_id='$catalog_id';";
+        $ims_q1 = $db->Execute($query1);
+        $item_name = $ims_q1->fields['item_name'];
 
-        $parent_id=$catalog_id;
-        $flag=true;
+        $parent_id = $catalog_id;
+        $flag = true;
         //$next_action="";
-    }
-
-    else
-    {
-        $depth=get_max_depth();	
+    
+    } else {
+        $depth = get_max_depth();
 
         $parent_id = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
-        for($i=1;$i<$depth;$i++)
-        {
+        for ($i = 1; $i < $depth; $i++) {
             $parent_id = trim($_POST[$i]);
     
-            if($parent_id==null)
-            {
-                $parent_id = $_POST[$i-1];
+            if ($parent_id == null) {
+                $parent_id = $_POST[$i - 1];
                 break;
             }
         }
-        $minimum_quantity="";
-        $unit="";
-        $flag=false;
-   	//$parent_id=$catalog_id;
+        $minimum_quantity = "";
+        $unit = "";
+        $flag = false;
+    //$parent_id=$catalog_id;
         //$next_action="mini_quantity_db";
+
     }
     
 
@@ -113,36 +104,33 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     shn_form_fsopen("Inventory Selection");
     
     global $global;
-    $db=$global["db"];
-    $inventory_array=array();
-    if($flag==true)
-    {
+    $db = $global["db"];
+    $inventory_array = array();
+    if ($flag == true) {
         //$inv_id_edit=$inv_id;
-        $q1="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
-        $imsq1=$db->Execute($q1);
+        $q1 = "SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+        $imsq1 = $db->Execute($q1);
         //$inventory_array=array();
-        $inventory_array[$imsq1->fields['inv_uuid']]=$imsq1->fields['inventory_name'];
+        $inventory_array[$imsq1->fields['inv_uuid']] = $imsq1->fields['inventory_name'];
         shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',null);
 
     }
 
-   if($flag==false)
-    {
+   if ($flag == false) {
     
 
-        $sql2="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-        $ims2=$db->Execute($sql2);
+        $sql2 = "SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
+        $ims2 = $db->Execute($sql2);
 
-	while($ims2!=NULL && !$ims2->EOF)
-	{
-        $inventory_array[$ims2->fields['inv_uuid']]=$ims2->fields['inventory_name'];//}
+        while ($ims2 != NULL && !$ims2->EOF) {
+        $inventory_array[$ims2->fields['inv_uuid']] = $ims2->fields['inventory_name']; //}
         $ims2->MoveNext();
-	}
+        }
         
     //}    
     
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true));
-    $catalog_id=$parent_id;
+    $catalog_id = $parent_id;
     }
 
     shn_form_fsclose();
@@ -153,26 +141,23 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    $unit_array=array();
+    $unit_array = array();
     
-    $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
-    $cms=$db->Execute($cq);
+    $cq = "SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
+    $cms = $db->Execute($cq);
     //print $cq;
-    $unit_array[$unit]=$cms->fields['name'];
+    $unit_array[$unit] = $cms->fields['name'];
     
-    $query="SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
-    $res=$db->Execute($query);
+    $query = "SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
+    $res = $db->Execute($query);
 
-    while(!$res==NULL && !$res->EOF)
-    {
+    while (!$res == NULL && !$res->EOF) {
 
-
-
-    $temp2=$res->fields['unit_uuid'];
-    $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
-    $res2=$db->Execute($query1);
+    $temp2 = $res->fields['unit_uuid'];
+    $query1 = "SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
+    $res2 = $db->Execute($query1);
     
-    $unit_array[$res->fields['unit_uuid']]=$res2->fields['name'];
+    $unit_array[$res->fields['unit_uuid']] = $res2->fields['name'];
     $res->MoveNext();
     }    
 
@@ -195,59 +180,46 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 function _shn_ims_mini_quantity_db()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 
     //$item_id=$_POST['item_id'];
-    $flag=trim($_POST['flag']);
-    $catalog_id=trim($_POST['catalog_id']);
-    $inv_id=trim($_POST['inv_id']);
-    $mini_quantity=trim($_POST['mini_quantity']);
-    $unit=trim($_POST['unit_select']);
+    $flag = trim($_POST['flag']);
+    $catalog_id = trim($_POST['catalog_id']);
+    $inv_id = trim($_POST['inv_id']);
+    $mini_quantity = trim($_POST['mini_quantity']);
+    $unit = trim($_POST['unit_select']);
 
-    //$inventory_id=trim($_POST['inventory_id']);
-
-    /*print $catalog_id;
-    print $inv_id;
-    print $mini_quantity;
-    print $unit;
-    print ("\n");
-    print ($inventory_id);*/
-
-    $q="SELECT * FROM ims_reorder_level;";
-    $ims=$db->Execute($q);
-    if($ims==NULL)
-    {
-	//$error=true;
+    $q = "SELECT * FROM ims_reorder_level;";
+    $ims = $db->Execute($q);
+    if ($ims == NULL) {
+        //$error=true;
         add_error(SHN_ERR_IMS_REORDER_TABLE_EXISTS);
         //return false;
-    }
-    else
-    {
 
-    if($flag==false)
-    {
+    } else {
 
-        $sql="INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inv_id','$mini_quantity','$unit');";
-        $ims=$db->Execute($sql);
-	add_confirmation('Re-Order Level was succesfully Added');
+        if ($flag == false) {
+
+        $sql = "INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inv_id','$mini_quantity','$unit');";
+        $ims = $db->Execute($sql);
+        add_confirmation('Re-Order level was succesfully Added');
         shn_ims_minimum_quantity_item();
     }
-    if($flag==true)
-    {
-        $sql="UPDATE ims_reorder_level SET minimum_quantity='{$mini_quantity}',unit='{$unit}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
-        $ims=$db->Execute($sql);
+    if ($flag == true) {
+        $sql = "UPDATE ims_reorder_level SET minimum_quantity='{$mini_quantity}',unit='{$unit}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
+        $ims = $db->Execute($sql);
 
-    add_confirmation('Re-Order Level was succesfully Added');
+    add_confirmation('Re-Order level was succesfully Added');
     //print ('q');
 
     //print $sql;
-    $flag="";
-    $catalog_id="";
-    $inv_id="";
-    $mini_quantity="";
-    $unit="";
+    $flag = "";
+    $catalog_id = "";
+    $inv_id = "";
+    $mini_quantity = "";
+    $unit = "";
 
-    $inventory_id="";
+    $inventory_id = "";
         shn_ims_reorder_level_edit();
     }
     }
@@ -264,13 +236,13 @@ function _shn_ims_view_edit_reorder()
 {
 ?>
 
-    <h1 align="center"><?php print _("Item Selection for Re-Order Level");?><br></h1>
+    <h1 align="center"><?php print _("Item Selection for Re-Order Level"); ?><br></h1>
     <dev id="result">
 
     </dev>
 
 <?php
-    $form_opts['name']='subcat';
+    $form_opts['name'] = 'subcat';
     shn_form_fopen("view_edit_reorder_page",null,$form_opts);
     shn_sub_cat(6,'subcat');
     shn_form_fclose();
@@ -278,31 +250,29 @@ function _shn_ims_view_edit_reorder()
 
 }
 
-function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
+function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
 {
     $parent_id = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
-    for($i=1;$i<5;$i++)
-    {
+    for ($i = 1; $i < 5; $i++) {
     $parent_id = trim($_POST[$i]);
     
-        if($parent_id==null)
-        {
-            $parent_id = $_POST[$i-1];
+        if ($parent_id == null) {
+            $parent_id = $_POST[$i - 1];
             break;
         }
     }
 ?>
-<h1 align="center"><?php print _("Re-Order Level");?><br></h1>
+<h1 align="center"><?php print _("Re-Order Level"); ?><br></h1>
 <div id="result1">
 <?php
     global $global;
-    $db=$global["db"];
-    $form_opts['name']='reorder_form';
+    $db = $global["db"];
+    $form_opts['name'] = 'reorder_form';
     shn_form_fopen("minimum_quantity_action",null,$form_opts);
     shn_form_fsopen("Add Re-Order Level");
-    $extra_opts['br']=false;
-    $extra_opts['req']=false;
+    $extra_opts['br'] = false;
+    $extra_opts['req'] = false;
     shn_form_button(_("Add Re-Order Level"),"onClick='change_action(\"reorder\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     //shn_form_submit(_("Add Re-Order level"));
@@ -312,36 +282,32 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
     //$Limit=20;
     print '<b>';
     shn_form_text(_("Records per Page"),'records','onChange="submit(this);"',array('value'=>$Limit));
-	
-	if($page_number!=0)
-        {
-	    $page_number=($page_number-1)*$Limit;
-        }
-        else 
-        {
-	    $page_number=0;
+
+    if ($page_number != 0) {
+        $page_number = ($page_number - 1) * $Limit;
+    } else {
+        $page_number = 0;
         }
     
     $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level LIMIT $page_number,$Limit;";  
     $ims1 = $db->Execute($sql1);
 //print $sql1;
-    $sql ="SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
+    $sql = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
 
-    $SearchResult=mysql_query($sql) or die(mysql_error()); 
-    $NumberOfResults=mysql_num_rows($SearchResult); 
-	//print $NumberOfResults;
+    $SearchResult = mysql_query($sql) or die(mysql_error()); 
+    $NumberOfResults = mysql_num_rows($SearchResult); 
+    //print $NumberOfResults;
     //if($NumberOfResults!='0' || $Limit!='0')
    // {
-    $NumberOfPages=ceil($NumberOfResults/$Limit); 
+    $NumberOfPages = ceil($NumberOfResults / $Limit); 
     //}
     
     print(_("Go to Page : "));
 
-    for($i=1;$i<$NumberOfPages+1;$i++)
-    {
-		//print $i." ";
-	?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
-	print "\n";
+    for ($i = 1; $i < $NumberOfPages + 1; $i++) {
+        //print $i." ";
+        ?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i; ?>&$Limit=<?php echo $Limit; ?>"><?php print ($i . " "); ?></a><?php
+        print "\n";
     }
     print '</b>';
 ?>
@@ -349,12 +315,12 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
     <div id="result">
     <table>
         <thead>
-        <td><?=_("Item");?></td>
-        <td><?=_("Amount");?></td>
-        <td><?=_("Unit");?></td>
-        <td><?=_("Inventory")?></td>
-        <td><?=_("Edit")?></td>
-        <td><?=_("Delete")?></td>
+        <td><?=_("Item"); ?></td>
+        <td><?=_("Amount"); ?></td>
+        <td><?=_("Unit"); ?></td>
+        <td><?=_("Inventory"); ?></td>
+        <td><?=_("Edit"); ?></td>
+        <td><?=_("Delete"); ?></td>
             
             
         </thead>
@@ -367,23 +333,21 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
         
         
 
-        while (!$ims1==NULL && !$ims1->EOF)
-        {
-            $catalog_id=$ims1->fields["catalog_id"];
-            $inv_id=$ims1->fields["inv_id"];
-            $minimum_quantity=$ims1->fields['minimum_quantity'];
-            $unit=$ims1->fields["unit"];
-            $unit_name=get_unit_name($unit);
+        while (!$ims1 == NULL && !$ims1->EOF) {
+            $catalog_id = $ims1->fields["catalog_id"];
+            $inv_id = $ims1->fields["inv_id"];
+            $minimum_quantity = $ims1->fields['minimum_quantity'];
+            $unit = $ims1->fields["unit"];
+            $unit_name = get_unit_name($unit);
             
-        $sql2="SELECT item_id,item_name FROM ims_item_records WHERE catalog_id='$catalog_id' ORDER BY(item_name);";    
-        $ims2=$db->Execute($sql2);
-        $item_id=$ims2->fields['item_id'];
-        $item_name=$ims2->fields['item_name'];
-        if ($item_name!=null)
-        {
+        $sql2 = "SELECT item_id,item_name FROM ims_item_records WHERE catalog_id='$catalog_id' ORDER BY(item_name);";    
+        $ims2 = $db->Execute($sql2);
+        $item_id = $ims2->fields['item_id'];
+        $item_name = $ims2->fields['item_name'];
+        if ($item_name != null) {
 
-            $sql3="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
-            $ims3= $db->Execute($sql3);
+            $sql3 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+            $ims3 = $db->Execute($sql3);
             $inventory_name = $ims3->fields["inventory_name"];
         
     
@@ -393,9 +357,9 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
         <td><?php print ($item_name); ?></td>
         <td><?php print ($minimum_quantity); ?></td>
         <td><?php print ($unit_name); ?></td>
-        <td><?php print ($inventory_name);?></td>
-        <td><a href="index.php?mod=ims&act=reorder_level_edit&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>"><?php print ("Edit");?></a></td>
-        <td><a href="index.php?mod=ims&act=reorder_level_delete_confirm&inv_id=<?php echo $inv_id;?>&catalog_id=<?php echo $catalog_id;?>"><?php print ("Delete");?></a></td>
+        <td><?php print ($inventory_name); ?></td>
+        <td><a href="index.php?mod=ims&act=reorder_level_edit&inv_id=<?php echo $inv_id; ?>&catalog_id=<?php echo $catalog_id; ?>"><?php print ("Edit"); ?></a></td>
+        <td><a href="index.php?mod=ims&act=reorder_level_delete_confirm&inv_id=<?php echo $inv_id; ?>&catalog_id=<?php echo $catalog_id; ?>"><?php print ("Delete"); ?></a></td>
         
         
         
@@ -403,6 +367,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
 
     
 <?php
+
     }
     $ims1->MoveNext();
     }
@@ -419,46 +384,40 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit=null)
 function _shn_ims_validate_minimum_quantity()
 {
     //$flag=trim($_POST['flag']);
-    $error_flag=false;
+    $error_flag = false;
     clean_errors();
-    $minimum_quantity=trim($_POST['mini_quantity']);
+    $minimum_quantity = trim($_POST['mini_quantity']);
    // $inventory_id=trim($_POST['inventory_id']);
   //  print $inventory_id;
 
-    if(trim($_POST['item_name'])==null)
-    {
+    if (trim($_POST['item_name']) == null) {
         add_error(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE);
-        $error_flag=true;
+        $error_flag = true;
     }
     //if(trim($_POST['inventory_id'])==null)
     //{
-//	add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
+//add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
    //     $error_flag=true;
    // }
-    if(trim($_POST['inv_id'])==null)
-    {
+    if (trim($_POST['inv_id']) == null) {
         add_error(SHN_ERR_IMS_INVENTORY_INCOMPLETE);
-        $error_flag=true;
+        $error_flag = true;
     }
-    if($minimum_quantity==null)
-    {
+    if ($minimum_quantity == null) {
         add_error(SHN_ERR_IMS_REORDER_VALUE_NUMERIC);
-        $error_flag=true;
+        $error_flag = true;
     }
-    if($minimum_quantity<0)
-    {
+    if ($minimum_quantity < 0) {
         add_error(SHN_ERR_IMS_AMOUNT_NEGATIVE);
-        $error_flag=true;
+        $error_flag = true;
     }
-    if(!is_numeric($minimum_quantity))
-    {
+    if (!is_numeric($minimum_quantity)) {
         add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
-        $error_flag=true;
+        $error_flag = true;
     }
-    if(trim($_POST['unit_select'])==null)
-    {
-	add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
-	$error_flag=true;
+    if (trim($_POST['unit_select']) == null) {
+        add_error(SHN_ERR_IMS_UNIT_INCOMPLETE);
+        $error_flag = true;
     }
 
     return $error_flag;
@@ -467,37 +426,30 @@ function _shn_ims_validate_minimum_quantity()
 function _shn_ims_minimum_quantity_action()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 
-    $action=trim($_POST['action']);
-    $Limit=trim($_POST['records']);
+    $action = trim($_POST['action']);
+    $Limit = trim($_POST['records']);
     //print $Limit;
 
-    if($action=='reorder')
-    {
+    if ($action == 'reorder') {
         shn_ims_minimum_quantity_item();
     }
-    if($action=='0')
-    {
-	//print $Limit;
-	
-	if(!is_numeric($Limit))
-	{
-		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
-		display_errors();
-		shn_ims_reorder_level_paging($Limit=20);
-	}
-	else if($Limit=='0' || $Limit<0)
-	{
-		add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
-		display_errors();
-		shn_ims_reorder_level_paging($Limit=20);
-	}
-	else
-	{
-	   	shn_ims_reorder_level_paging($Limit);
-	}
-	
+    if ($action == '0') {
+        //print $Limit;
+
+    if (!is_numeric($Limit)) {
+        add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+        display_errors();
+        shn_ims_reorder_level_paging($Limit = 20);
+    } else if ($Limit == '0' || $Limit < 0) {
+        add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
+        display_errors();
+        shn_ims_reorder_level_paging($Limit = 20);
+    } else {
+        shn_ims_reorder_level_paging($Limit);
+    }
+
     }
 }
 
