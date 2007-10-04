@@ -66,6 +66,64 @@ function shn_auth_form_user_del($title="Delete Usert",$mod="admin",$act="del_use
 
 }
 
+
+/**
+ * Generates a form to add an user
+ * @return void
+ * @access public
+ */
+
+function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="signup_cr",$error=false)
+{
+	global $global;
+
+    if($error)
+    display_errors();
+?>               
+<h3>SignUp for a SAHANA account</h3> 
+<div id="formcontainer">
+<?php
+    shn_form_fopen($act,$mod);
+    
+	shn_form_fsopen(_("Account Details"));
+	$extra_opts['req']=true;
+	//$extra_opts['value']=$_SESSION['user'];
+	shn_form_text(_("Full Name "),'account_name','size="30"',null);
+	shn_form_text(_("User Name "),'user_name','size="30"',$extra_opts);
+	shn_form_password("Password for Login", "password", null, $extra_opts);
+	shn_form_password("Confirm Password", "re_password", null, $extra_opts);
+	shn_form_fsclose();
+
+    
+    $extra_opts['req']=true;
+	shn_form_fsopen(_("OpenId Login Details"));
+	?><div class="info"><?= _("You can use an OpenID instead of a username/password for login if you like.");?> </div><br /><?
+	shn_form_text(_("OpenID "),'openid','size="30"',null);
+	shn_form_fsclose();
+	
+	shn_form_fsopen(_("Just a couple of more Details to verify that you are not a bot"));
+	
+?>
+</br>
+<img src="index.php?stream=image&mod=pref&act=captcha" />
+<br />
+<?php
+//create the submit button
+	shn_form_text(_("Enter the text in the above image "),'captcha','size="30"',null);
+	shn_form_fsclose();
+ 	shn_form_submit(_("Submit"));
+?>
+
+</br>
+<?php
+        //close the form
+   shn_form_fclose();
+?>				     
+</div>
+<?php
+    // end of form 
+} 
+
 /**
  * Generates a form to add an user
  * @return void
@@ -99,7 +157,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
     
     $extra_opts['req']=true;
 	shn_form_fsopen(_("OpenId Login Details"));
-	?><div class="info"><?= _("You can use an OpenID instead of a username/password if you'd like.");?> </div><br /><?
+	?><div class="info"><?= _("Option to use an OpenID instead of a username/password if you'd like.");?> </div><br /><?
 	shn_form_text(_("OpenID "),'openid','size="30"',null);
 	shn_form_fsclose();
 	

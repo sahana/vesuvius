@@ -114,6 +114,10 @@ function shn_main_filter_getpost()
                                 "default" : $_REQUEST['act'];
         $global['module'] = (NULL == $_REQUEST['mod']) ? 
                                 "home" : $_REQUEST['mod'];
+       if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
+    	$global['module']="pref";
+    	}
+        
     }
 }
 
@@ -123,7 +127,6 @@ function shn_main_front_controller()
     global $global, $APPROOT, $conf;
     $action = $global['action'];
     $module = $global['module'];
-
     // define which stream library to use base on POST "stream" 
     if(isset($_REQUEST['stream']) && file_exists($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
 

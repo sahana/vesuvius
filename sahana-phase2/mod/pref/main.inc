@@ -25,6 +25,27 @@ include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
+
+function shn_pref_signup(){
+	global $global;
+	include_once $global['approot']."inc/lib_security/auth_form.inc";
+	shn_auth_form_signup();
+}
+
+function shn_pref_signup_cr(){
+	if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
+		add_error(_("Please provide the text in the image correctly to prove you are not a bot"));
+		shn_pref_signup();
+		return;
+	}
+	if(shn_auth_self_signup_cr()==true){
+		shn_pref_signup();
+	}
+}
+function shn_image_pref_captcha(){
+	shn_auth_gen_captcha();
+}
+
 /*
  * include all xxx_main.inc
  */

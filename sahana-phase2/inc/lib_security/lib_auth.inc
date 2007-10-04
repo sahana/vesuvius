@@ -148,7 +148,17 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
         add_error(SHN_AUTH_ERR_USER_EXISTS);
    		return false;
     }
-
+    if($_POST["openid"]!=null){
+		$q = "select  alt_logins.p_uuid  from alt_logins where user_name='{$_POST["openid"]}' and type='openid'";
+		$res=$db->Execute($q);
+	   	if(($res==null) or ($res->EOF)){
+	        	
+	    }else {
+	    		add_error(SHN_AUTH_ERR_OPENID_EXISTS);
+	    		$error=true;
+	       	 	return false;
+	    }
+    }
     if($pid==null){
        // $pid = $db->GenID('person_seq',10);
        $pid=shn_create_uuid($type='person');
@@ -200,8 +210,12 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
     		$res=shn_acl_adduser_to_role($pid,$role);
     		
 		}
-		$q = "INSERT INTO alt_logins(p_uuid,user_name,type) values('{$pid}','{$_POST["openid"]}','openid')";
-  		$res=$db->Execute($q);
+
+		if($_POST["openid"]!=null){
+			$q = "INSERT INTO alt_logins(p_uuid,user_name,type) values('{$pid}','{$_POST["openid"]}','openid')";
+  			$res=$db->Execute($q);
+		}
+
     }
 	return $res;
 }
@@ -592,6 +606,47 @@ function shn_auth_add_user_cr(){
     return $error;
 }
 
+function shn_auth_self_signup_cr(){
+	global $global;
+ 	$db=$global["db"];
+	$VARCHAR=100;
+
+   list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
+
+    //for the moment return true
+    list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array(false,$_POST{"password"}):array(true,$_POST{"password"});
+
+    if (is_null($_POST{"re_password"})){
+        $error=true;
+        add_error(SHN_AUTH_ERR_REPWD_INCOMPLETE);
+    }else {    
+        $re_password=trim($_POST{"re_password"});
+    }
+
+    if (!($password==$re_password)){
+        $error=true;
+        add_error(SHN_AUTH_ERR_REPWD_WRONG);
+    }
+	 if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
+        $error=true;
+        add_error(SHN_AUTH_ERR_REG_MAX);
+    }else {
+        $account_name=$_POST{"account_name"};
+    }
+
+    if($error==true){
+    		return $error;
+    }
+    $role=REGISTERED;
+    
+	if(shn_auth_add_user($account_name,$user_name,$password,$role,null)==false){
+		
+	}else{
+		$msg=$_POST{"account_name"}." was successfully registered as a User ";
+     	add_confirmation($msg);
+	}
+    return $error;	
+}
 
 function _shn_auth_del_user_cr(){
    global $global;
@@ -659,5 +714,54 @@ function _shn_auth_lock_user($uid,$status)
 	
 }
 
+function shn_auth_gen_captcha(){
+	//Now lets use md5 to generate a totally random string
+	$md5 = md5(microtime() * mktime());
+	
+	/*
+	We dont need a 32 character long string so we trim it down to 5
+	*/
+	$string = substr($md5,0,5);
+	/*
+	Now for the GD stuff, for ease of use lets create
+	 the image from a background image.
+	*/
+	global $global;
+	
+	$img_path= $global['approot']."www/theme/default/img/captcha.png";
+	$captcha = imagecreatefrompng($img_path);
 
+	/*
+	Lets set the colours, the colour $line is used to generate lines.
+	 Using a blue misty colours. The colour codes are in RGB
+	*/
+	
+	$black = imagecolorallocate($captcha, 0, 0, 0);
+	$line = imagecolorallocate($captcha,233,239,239);
+	
+	/*
+	Now to make it a little bit harder for any bots to break, 
+	assuming they can break it so far. Lets add some lines
+	in (static lines) to attempt to make the bots life a little harder
+	*/
+	imageline($captcha,0,0,39,29,$line);
+	imageline($captcha,40,0,64,29,$line);
+	/*
+	Now for the all important writing of the randomly generated string to the image.
+	*/
+	imagestring($captcha, 5, 20, 10, $string, $black);
+	
+	
+	/*
+	Encrypt and store the key inside of a session
+	*/
+	
+	$_SESSION['security_captcha_key'] = md5($string);
+	
+	/*
+	Output the image
+	*/
+	imagepng($captcha);
+	
+}
 ?>
