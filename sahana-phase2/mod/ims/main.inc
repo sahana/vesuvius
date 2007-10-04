@@ -47,9 +47,11 @@ function shn_ims_mainmenu()
 
     shn_mod_menuopen(shn_get_module_name());
     shn_mod_menuitem("default","Home",$module);
+    shn_mod_menuitem("view_inv",_("Inventories"),$module);
+    shn_mod_menuitem("search_item",_("Search"),$module);
     shn_mod_menuitem("search_item",_("Find Items"),$module);
-    shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
-    shn_mod_menuitem("view_inv",_("Add/List Inventories"),$module);
+   // shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
+   
     
     shn_mod_menuitem("view_edit_item",_("Add/List Items"),$module);
     shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
