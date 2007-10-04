@@ -187,17 +187,17 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     	$parent_array["1"]=_("None");
     	shn_form_fsopen(_('Information'));
     	?>
-    	<p><?= _('There is no any root catalog found. '); ?><a href="index.php?mod=cs&act=addmain">Add root catalog</a><?= _(' First'); ?></p> 
+    	<p><?= _('There is no catalog found by that name'); ?><a href="index.php?mod=cs&act=addmain">Add Catalog</a><?= _(' First'); ?></p> 
     	<?php
     	shn_form_fsclose();
     }
     else
     {
-    	shn_form_fsopen(_("Select the root Category"));
+    	shn_form_fsopen(_("Select the Catalog"));
     	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,0)';    
     	shn_form_select($parent_array,'',0,$select_opts,null);
     	shn_form_fsclose();
-    	shn_form_fsopen(_('Select the sub category'));
+    	shn_form_fsopen(_('Select the Category or Classification'));
     		
     		for($i=1;$i<$max+1;$i++)
     		{
@@ -391,7 +391,7 @@ function _shn_cs_validate_sub_cat_form()
 
     if($itemid==null || $itemid=='none')
     {
-    add_error(_("Please select the catalog that you need"));
+    add_error(_("Please select the Catalog that you need"));
     $error_flag=true;
     }    
 
