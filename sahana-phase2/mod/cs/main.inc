@@ -216,7 +216,7 @@ function shn_cs_addmain_form_submit()
 function shn_cs_addsub_form1_submit()
 {
     ?>
-    <h1><?= (_("Add sub catalog result")) ?></h1>	
+    <h1><?= (_('Add New Category')) ?></h1>	
     <?php
     require_once('add.inc');
     require_once('lib_cs.inc');

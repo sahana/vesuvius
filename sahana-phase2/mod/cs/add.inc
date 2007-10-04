@@ -130,7 +130,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
 
     $extra_opts['req']=true;
     shn_form_fopen("addsub_form2_submit");
-    shn_form_fsopen(_('Sub catalog Details'));
+    shn_form_fsopen(_('New Category Details'));
     shn_form_text(_("Name   : "),'sub_cat_name','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
