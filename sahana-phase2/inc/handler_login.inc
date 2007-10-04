@@ -29,8 +29,12 @@ if ($_SESSION['logged_in'] != true ) {
 		<br />
         <!-- <a href="#">Forgot your password?</a> -->
         </fieldset>
+        <div>
+        No account? <a href="index.php?act=signup">Sign Up</a>
+        </div>
     </form>
-   <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');">Login with an OpenID</a></center>
+    <hr />
+    <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');">Login with an OpenID</a></center>
     </div><!-- /loginform -->
     
     <div id="openid_loginform">
