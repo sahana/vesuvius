@@ -179,8 +179,8 @@ function shn_cs_search_unit_type_submit()
 function shn_cs_addmain()
 {
     ?>
-    <h1><?= (_("Add main catalog")) ?></h1>
-    <p><?= _('Here you are able to add Main catalog types which are the root Items of the Item tree. Eg. Food, Medicine, clothing, etc.'); ?></p>
+    <h1><?= (_("Add New Aid Catalog")) ?></h1>
+    <p><?= _('Please add the details of the New Aid Catalog below'); ?></p>
     <?php
 
     require_once('add.inc');
@@ -190,12 +190,9 @@ function shn_cs_addmain()
 function shn_cs_addsub()
 {
     ?>
-    <h1><?= (_("Add sub catalog")) ?></h1>
-    <p><?= _('Here you are able to add sub catalog types which are under Main catalogs. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub catalogs. The system administrator should have to specify the Maximum Depth of the catalog / Item Tree. Eg: Maximum Depth = 5 will allow you to add catalogs /Items upto 5 levels.'); ?></p>
-    <p><?= _('OR'); ?></p>
-    <p><?= _('You can search the parent catalog by doing a keyword search.'); ?></p>
+    <h1><?= (_("Add A New Category")) ?></h1>
+    <p><?= _('The Aid Catolog can be divided in to categories or classified by the type of item. You can create a hierachy of categories. First select the parent category that you wish to place this new category under:'); ?></p>
     <?php
-
     require_once('add.inc');
     shn_cs_addsub_form1();
 }

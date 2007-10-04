@@ -23,17 +23,21 @@
  */
 function shn_cs_addmain_form()
 {
-    $extra_opts['req']=true;
     shn_form_fopen('addmain_form_submit');
     shn_form_fsopen(_('Details of the catalog'));
     unset($_POST);
-    shn_form_text(_("Name   : "),'main_cat_name','size="50"',$extra_opts);
-    shn_form_text(_("Description   : "),'description','size="50"');
+
+    shn_form_text(_("Name   : "),'main_cat_name','size="30"', array('req'=>true,'note'=>'e.g. Medical Catalog'));
+    shn_form_text(_("Description   : "),'description','size="40"');
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this main catalog.')));
+
+    shn_form_text(_(" "),'keyword','size="50"', array(
+            'note' => _('e.g. medical, drugs, health'),
+            'help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this main catalog.')));
+
     shn_form_fsclose();
-    shn_form_submit(_("Add"));
+    shn_form_submit(_("Add Catalog"));
     shn_form_fclose();
 
 }
@@ -88,10 +92,15 @@ function shn_cs_addsub_form1()
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print "<br /><b>Do a keyword search to find the catalog.</b>";
-    shn_form_fopen("keyword_search");
+    print "<br /><b>Do a keyword search to find the parent category.</b>";
+    shn_form_fopen("keyword_search",null,array('req_message'=>false));
     shn_form_fsopen(_('Keyword Search'));
-    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
+
+    shn_form_text(_(" "),'search_keyword','size="50"', array(
+            'note' => _('e.g. medical, drugs, health'),
+            'help'=> _('Search for the catalog using a keyword and then add catalogs/Items under it.'))
+            );
+
     shn_form_hidden(array('type' => 'sub_catalogue'));
     shn_form_submit(_("Search"));
     shn_form_fsclose();

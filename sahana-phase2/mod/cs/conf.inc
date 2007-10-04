@@ -24,6 +24,6 @@
  */
 #global $conf;
 
-$conf['mod_cs_name'] = _("Catalog System");
+$conf['mod_cs_name'] = _("Aid Catalog");
 $conf['mod_cs_menuorder'] = 16;
 ?>
