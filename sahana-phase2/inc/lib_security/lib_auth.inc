@@ -728,7 +728,7 @@ function shn_auth_gen_captcha(){
 	*/
 	global $global;
 	
-	$img_path= $global['approot']."www/theme/default/img/captcha.png";
+	$img_path= $global['approot']."www/res/img/captcha.png";
 	$captcha = imagecreatefrompng($img_path);
 
 	/*
