@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<sec_policy>
 
-    xsi:noNamespaceSchemaLocation="sec_policy.xsd">
-    <usercase name="Default">
+    
+    <usercase name="Inventory Registration">
 	<funct id="shn_ims_reg_inv_actions">
 		<tables>
 			<table perm="c">location_details</table>
