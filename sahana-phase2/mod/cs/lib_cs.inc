@@ -125,7 +125,7 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag=false){
                 if(i+1==last_lvl){
                     name=name+x[0].options[x[0].selectedIndex].text;
                 }else{
-                    name=name+x[0].options[x[0].selectedIndex].text+"->";
+                    name=name+x[0].options[x[0].selectedIndex].text+"--";
                 }
         }
         
