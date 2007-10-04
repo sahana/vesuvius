@@ -9,6 +9,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author       Sanjeewa Jayasinghe <sditfac@opensource.lk>
+ * @author     Ishan Liyanage <ishanul@gmail.com>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage cs
@@ -38,4 +39,25 @@ function shn_cs_get_all_unit_names()
     return $unit_name_arr;
 }
 
+/**.
+ *This function return all the catalog names
+ * @access public
+ * @return array
+ */
+function shn_cs_get_all_catalog_names()
+{
+    global $global;
+    $db=$global["db"];
+    $query="SELECT ct_uuid,parentid,name FROM ct_catalogue";
+    $res=$db->Execute($query);
+    $unit_name_arr = array();
+
+    while(!$res==NULL && !$res->EOF)
+    {
+    	$catalog_list[] = array('ct_id' => $res->fields["ct_uuid"], 'parent_id' => $res->fields["parentid"], 'name' => $res->fields["name"]);
+    	$res->MoveNext();
+    }
+    
+    return $catalog_list;
+}
 ?>
