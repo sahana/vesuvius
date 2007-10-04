@@ -73,6 +73,9 @@ function shn_get_allowed_mods_current_user(){
 
 
 function shn_acl_check_perms($mod,$module_function){
+	if(shn_acl_is_enabled()==false){
+		return ALLOWED;
+	}
 	global $global;
 	include_once $global['approot']."/inc/lib_xml.inc";
 	$xml_file=$global['approot']."/mod/".$mod."/sec_policy.xml";
