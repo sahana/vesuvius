@@ -360,7 +360,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     $extra_opts['req']=true;
     shn_form_fopen("additem_form2_submit",null,$form_opts);
 
-    shn_form_fsopen(_('Item Details'));
+    shn_form_fsopen(_('Item Type Details'));
     shn_form_text(_("Name   : "),'itemname','size="50"',$extra_opts);
     shn_form_text(_("Description   : "),'item_description','size="50"',null);
     shn_form_fsclose();
@@ -378,10 +378,13 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();
 
+/*
+    //This functionality should be moved to Inventory management
+
     $suppliers=shn_or_organization_search(null,array(_("Supplier of Goods")));
     shn_form_fsopen(_('Suppliers'));
     shn_form_multi_select('supplier_select',$suppliers, _("Suppliers :"),'size=5 multiple="multiple"' );
-    shn_form_fsclose();
+    shn_form_fsclose();*/
 
     $parent_id_array=array('0' => $parent_id);
     shn_form_hidden($parent_id_array);
