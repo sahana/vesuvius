@@ -291,10 +291,8 @@ function shn_cs_additem()
 {
 
 	?>
-	<h1><?= (_("Add Item")) ?></h1>
-	<p><?= _('Here you are able to add Items which are under catalogs. Eg. Fruits --> Apple,Mango etc. Apple,Mango are Items. The system administrator have to specify the maximum Depth of the catalog / Item hierarchy(tree). Eg: Maximum Depth = 5 will allow you to add catalogs /Items upto 5 levels.'); ?></p>
-	<p><?= _('OR'); ?></p>
-	<p><?= _('You can search the parent catalog by doing a keyword search.'); ?></p>
+	<h1><?= (_("Add Item Type: Select Category")) ?></h1>
+	<p><?= _('First select the parent category, before proceeding to add the Item Type details'); ?></p>
 	<?php
 
 	require_once('add.inc');
