@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_text.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_stream_text.inc,v 1.3 2007-10-04 07:01:13 ravids Exp $ */
 
 /**
  *
@@ -28,7 +28,10 @@ function shn_stream_init()
     }
     //install hack ends
 }
-
+function shn_text_check_perms(){
+	return ALLOWED;//skip authentication at this step since , authentication is performed at the last step. i.e at method
+				  // invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
+}
 function shn_stream_close()
 {
 
