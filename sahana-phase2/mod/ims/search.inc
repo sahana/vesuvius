@@ -20,11 +20,53 @@ include_once $global['approot'] . "/inc/lib_errors.inc";
 
 include_once $global['approot'] . '/mod/or/lib_or.inc';
 //include_once ('view_inv.inc');
+
+
+function _shn_ims_search_main()
+{
+?>
+
+<h1 align="center"><?php print _("Search"); ?></h1>
+<div id="search">
+    
+</div>
+
+<?php
+    $search_array=array();
+    $search_array['inventory']=_('Search Inventories');
+    $search_array['item']=_('Search Item');
+    shn_form_fopen('search_main_db');
+    shn_form_fsopen(_("Search"));
+    shn_form_radio($search_array,_('Search : '),'search_array','onClick="change_action_des(this.value)"',$extra_opts);
+
+    $opt = _shn_ims_update_loc();
+    //print $opt;
+    echo "<br />";
+
+echo "<div class='hide' id='search_item'>";    	
+    $extra_opts['req']  = true;
+    $extra_opts['br']  = true;
+    $select_opts = '';
+    //print('test');
+    _shn_ims_search_item();
+echo "<br />";
+	echo "</div>";
+
+echo "<div class='hide' id='search_inventory'>";    	
+    $extra_opts['req']  = true;
+    $extra_opts['br']  = true;
+    $select_opts = '';
+    //print('test111');
+    _shn_ims_form_search();
+echo "<br />";
+	echo "</div>";
+    	//$extra_opts['value'] = $_POST['staff_oper'];
+	 
+}
+
 /**
 ** Function for searching items
 **/
-
-
 
 function _shn_ims_search_item()
 {
@@ -711,6 +753,36 @@ function _shn_ims_update_loc(){
         x[0].value=loc_desc;
         return;
     }
+
+
+ function change_action_des(value){
+        alert
+	
+         if(value=='inventory'){         	
+         	document.getElementById("search_inventory").style.display='block';
+		document.getElementById("search_item").style.display='none';
+		//document.getElementById("des_inventory").style.display='none';
+		//document.getElementById("des_shelter").style.display='none';
+		//document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';     	
+         }
+	 else if(value=='item')
+	{
+             document.getElementById("search_item").style.display='block';
+		document.getElementById("search_inventory").style.display='none';
+		//document.getElementById("des_shelter").style.display='none';
+		//document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';
+	}	
+         //}
+	else
+	{
+		document.getElementById("search_inventory").style.display='none';
+		document.getElementById("search_item").style.display='none';
+	}
+}
+
+
 </script>
 
 
