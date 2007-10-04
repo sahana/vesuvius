@@ -31,11 +31,11 @@
 
     <strong>Description of Actions:</strong><br/>
     <ul>
-        <li><a href="index.php?mod=cs&act=viewedit"><b><?= _('View and Edit'); ?> </b></a><?= _(' - View all the currently registered catalogs, aid items types and their associated measurement units.'); ?></li>
-        <li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main Catalog'); ?> </b> </a><?= _(' - Do this first to create base groupings by major aid type (e.g. Food and Nutrition)'); ?></li>
-        <li><a href="index.php?mod=cs&act=addsub"><b><?= _('Add (sub)-Category'); ?></b></a><?= _(' - Within a Catalog there can be many sub-classifications or sub-categories of items. For example if the Base Catalog is Food and Nutrition a sub category would be Dry Food'); ?></li>
-        <li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Aid Item Type'); ?></b></a><?= _(' - Add New Aid Items Types to the Sahana System'); ?>
-        <li><a href="index.php?mod=cs&act=addunit"><b><?= _('Add Measurement Unit'); ?></b></a><?= _(' - Associate a measurement scale to an Aid Item Type. For example the Item Type, Rice would be measured in Kilograms'); ?></li>
+        <li><a href="index.php?mod=cs&act=viewedit"><b><?= _('View and Edit'); ?> </b></a><br/><?= _('View all the currently registered catalogs, aid items types and their associated measurement units.'); ?></li>
+        <li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main Catalog'); ?> </b> </a><br/><?= _('Do this first to create base groupings by major aid type (e.g. Food and Nutrition)'); ?></li>
+        <li><a href="index.php?mod=cs&act=addsub"><b><?= _('Add (sub)-Category'); ?></b></a><br/><?= _('Within a Catalog there can be many sub-classifications or sub-categories of items. For example if the Base Catalog is Food and Nutrition a sub category would be Dry Food'); ?></li>
+        <li><a href="index.php?mod=cs&act=additem"><b><?= _('Add Aid Item Type'); ?></b></a><br/><?= _('Add New Aid Items Types to the Sahana System'); ?>
+        <li><a href="index.php?mod=cs&act=addunit"><b><?= _('Add Measurement Unit'); ?></b></a><br/><?= _('Associate a measurement scale to an Aid Item Type. For example the Item Type, Rice would be measured in Kilograms'); ?></li>
 </ul>
 
 </div>
