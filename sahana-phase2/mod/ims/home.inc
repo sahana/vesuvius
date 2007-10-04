@@ -32,12 +32,12 @@ function _shn_ims_default()
     <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
       
     <ul>
-        <li><b><?= (_("Find Items:"))?></b><br><?= (_(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
-        <li><b><?= (_("List Inventories:"))?></b><br><?= (_(" Facilitates to manage multiple Inventories and enables end-user to add,edit or delete Inventories."))?></li>
-        <li><b><?= (_("List Items:"))?></b><br><?= (_(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
-        <li><b><?= (_("Re-Order Level:"))?></b><br><?= (_(" Enables end-user to add,edit or delete defined Re-Order Level for an inventory for  particular items "))?></li>
-        <li><b><?= (_("Reports:"))?></b><br><?= (_(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
-        <li><b><?= (_("Optimization:"))?></b><br><?= (_(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
+        <li><b><a href="index.php?mod=ims&act=search_item"><?= (_("Find Items:"))?> </a></b><br><?= (_(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_inv"><?= (_("List Inventories:"))?></a></b><br><?= (_(" Facilitates to manage multiple Inventories and enables end-user to add,edit or delete Inventories."))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_item"><?= (_("List Items:"))?></a></b><br><?= (_(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?= (_("Re-Order Level:"))?></a></b><br><?= (_(" Enables end-user to add,edit or delete defined Re-Order Level for an inventory for  particular items "))?></li>
+        <li><b><a href="index.php?mod=ims&act=report_expired"><?= (_("Reports:"))?></a></b><br><?= (_(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
+        <li><b><a href="index.php?mod=ims&act=optim_inventory"><?= (_("Optimization:"))?></a></b><br><?= (_(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
         
     </ul>
     
