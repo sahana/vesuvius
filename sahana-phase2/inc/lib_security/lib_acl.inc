@@ -170,11 +170,11 @@ function _shn_acl_check_table_only_perms($table,$crud){
     			return ALLOWED;
     			
     		}else{
-    			shn_error_display_restricted_access();
+    			//shn_error_display_restricted_access();
     			return DENIED;
     		}
     	}
-    	shn_error_display_restricted_access();
+    	//shn_error_display_restricted_access();
     	return DENIED;
    
     }
