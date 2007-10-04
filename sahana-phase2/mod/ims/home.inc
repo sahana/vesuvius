@@ -26,10 +26,9 @@ function _shn_ims_default()
 
 ?>
 <div id="home">
-    <div>
-    <p><?= (_("The Inventory Management System is a system to manage inventories. It not only keeps track of the items available in warehouses but also all the inventories which are related to relief works in the disaster region.")) ?></p></div>
-    <br></br>
-    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+    <p><?= (_("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your organization's inventories. It not only keeps track of the location and quantaties of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region")) ?></p>
+    <br/>
+    <strong><?= (_("Features Include:")) ?></strong>
       
     <ul>
         <li><b><a href="index.php?mod=ims&act=search_item"><?= (_("Find Items:"))?> </a></b><br><?= (_(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
