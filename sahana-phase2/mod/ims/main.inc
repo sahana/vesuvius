@@ -48,8 +48,8 @@ function shn_ims_mainmenu()
     shn_mod_menuopen(shn_get_module_name());
     shn_mod_menuitem("default","Home",$module);
     shn_mod_menuitem("view_inv",_("Inventories"),$module);
-    shn_mod_menuitem("search_item",_("Search"),$module);
-    shn_mod_menuitem("search_item",_("Find Items"),$module);
+    shn_mod_menuitem("search_main",_("Search"),$module);
+   // shn_mod_menuitem("search_item",_("Find Items"),$module);
    // shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
    
     
@@ -88,6 +88,13 @@ function shn_ims_default()
     _shn_ims_default();    
 
 }
+
+function shn_ims_search_main()
+{
+    global $global;
+    include_once ('search.inc');
+    _shn_ims_search_main();    
+} 
 
 
 /**
