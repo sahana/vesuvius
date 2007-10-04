@@ -28,17 +28,17 @@ function _shn_ims_regform_org($error=false)
     //global $conf;
     $db=$global['db'];
 
-     $tables= array(
+    /* $tables= array(
 			'location_details'=>'c',
 			'ims_inventory_records'=>'c',
 			'contact'=>'c'
-		);
+		);*/
  /*$tables= array(
 				'field_options'=>'4',
 				'org_main'=>'8'
 				);*/
-   if(shn_acl_check_table_only_perms($tables)==DENIED){
-   	 return false;
+   //if(shn_acl_check_table_only_perms($tables)==DENIED){
+   	// return false;
    }
 ?>
 <h2><?= _('Add an Inventory')?></h2>
@@ -88,7 +88,7 @@ function _shn_ims_regform_org($error=false)
 </div>
 <?php
     // end of form
-} 
+//} 
 
 function _shn_ims_regform_operation($error=false)
 {
