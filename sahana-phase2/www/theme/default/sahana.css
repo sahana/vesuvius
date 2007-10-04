@@ -576,6 +576,13 @@ margin-bottom:15px;
     background:#ccc;
 
 }
+#result tr.green td{
+    background:#C3FFAD;
+}
+
+#result tr.yellow td{
+    background:#FFF98F;
+}
 
 #note{
     border:1px #999 solid;
