@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_ajax.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_stream_ajax.inc,v 1.3 2007-10-04 07:03:02 ravids Exp $ */
 
 /**
  *
@@ -66,5 +66,9 @@ function shn_ajax_url($url)
 {
     global $global;
     $global['xajax']->setRequestURI($url);
+}
+
+function shn_ajax_check_perms(){
+	return ALLOWED;//skip authentication for the moment
 }
 ?>
