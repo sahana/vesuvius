@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.4 2007-10-03 17:48:51 priyanga Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.5 2007-10-04 05:17:59 priyanga Exp $ */
 
 /**
  *
@@ -37,4 +37,7 @@ function shn_stream_close()
 
 }
 
+function shn_xml_check_perms(){
+        return ALLOWED;//skip authentication
+}
 ?>
