@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.63 2007-08-18 23:54:29 ravids Exp $ */
+/* $Id: lib_form.inc,v 1.64 2007-10-04 07:07:15 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -35,8 +35,8 @@ function shn_form_extra_opts($extra_opts)
 {
     global $shn_help_id;
     // output a required flag
-    if (true == $extra_opts['req']) echo "\n <span class='req'>*req</span>\n";
-
+    if (true == $extra_opts['req']) echo "\n <span class='req'>*</span>\n";
+    
     //Help
     if(isset($extra_opts['help'])){
         $shn_help_id++;
@@ -45,8 +45,11 @@ function shn_form_extra_opts($extra_opts)
         echo '<a href="#" class="popupLink" onclick="return !showPopup(\'help_popup\', event,'.$shn_help_id.');"><span>[Help]</span></a>';
     }
 
+    if (isset($extra_opts['note'])){
+        echo "<p class=\"note\">{$extra_opts['note']}</p>";
+    }
     // output a break - default is true
-    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <br /><div class='brake'></div>\n";
+    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <div class='brake'></div>\n";
 }
 
 /**
@@ -93,7 +96,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
     if($form_opts['req_message']){
 ?>
 
-    <p><b>Key:</b><b class='red'> *req </b> - Fields tagged with this have to be filled to submit the form successfully</p>
+    <p><b>Key:</b><b class='red'> * </b> - Fields tagged with a star &#040;<span class='red'> * </span>&#041; are mandatory and must be filled.</p>
 <?php
     }
 ?>
