@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_image.inc,v 1.2 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: lib_stream_image.inc,v 1.3 2007-10-04 01:55:13 ravids Exp $ */
 
 /**
  *
@@ -20,11 +20,11 @@
  
 function shn_stream_init($filename=null)
 {
-    if($_GET['imagetype'])
-        header("Content-type: image/{$_GET['imagetype']}");
-    else
+    if($_GET['imagetype']){
+    	header("Content-type: image/{$_GET['imagetype']}");
+    } else{       
         header("Content-type: image/jpeg");
-
+    }
     if(isset($_GET['download']))
         header("Content-Disposition: attachment; filename=$file");
 }
@@ -34,4 +34,7 @@ function shn_stream_close($function,$output)
     echo $output;
 }
 
+function shn_image_check_perms(){
+	return ALLOWED;//skip authentication
+}
 ?>
