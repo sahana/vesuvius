@@ -452,7 +452,7 @@ p.legend em { color: #C00; font-style: normal; }
 /* div.form-container form { display:block; } */
 div.form-container p { margin: 0.5em 0 0 0; }
 div.form-container form p { margin: 0; }
-div.form-container form p.note { margin-left: 210px; font-size: 90%; color: #666; }
+div.form-container form p.note { margin-left: 18em; font-size: 90%; color: #666; }
 div.form-container form fieldset { margin:0 0 10px 0; padding: 10px; border: #DDD 1px solid; background-color:#FFF;}
 div.form-container form legend { font-weight: bold; color: #666; }
 div.form-container form fieldset div.brake { padding: 0.3em; }
