@@ -5,6 +5,17 @@ function switchLogin(from,to){
 	fromBlock.display='none';
 	toBlock.display='block';
 }
+
+//function used to hide/show a DIV
+function switchMode(from,to,mode_var,new_value){
+	var mode_tmp=document.getElementsByName("mode");
+	var fromBlock=document.getElementById(from).style;
+	var toBlock=document.getElementById(to).style;
+	fromBlock.display='none';
+	toBlock.display='block';
+	mode_tmp[0].value=new_value;
+
+}
 //function used to expand or collaps the mod_sub_menu.
 function expand(id,el){
 	var menu=document.getElementById(id).style;
