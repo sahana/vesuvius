@@ -44,7 +44,7 @@ function shn_xml_ims_rss_reorder_list(){
     _shn_ims_expire_date_check();
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
-    shn_rss_channel_open(_('Items bellow reorder level'),_('Following are a list of items which are bellow reorder level'));
+    shn_rss_channel_open(_('Items below reorder level'),_('Following are a list of items which are below reorder level'));
 
     $sql="SELECT i.item_id,i.item_name,i.amount,r.minimum_quantity FROM ims_item_records as i INNER JOIN ims_reorder_level as r ON (r.catalog_id=i.catalog_id AND r.inv_id=i.inv_id) LIMIT 0, 30;";
     define('ADODB_FETCH_ASSOC',2);
@@ -57,8 +57,6 @@ function shn_xml_ims_rss_reorder_list(){
         shn_rss_item($record['item_name'],$url,$desc);
     }
 
-    $ims = $db->Execute($sql);
-    shn_rss_item('test','http://www.google.com','test');
     shn_rss_channel_close();
     shn_rss_close();
 }
