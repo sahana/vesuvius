@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.64 2007-10-04 07:07:15 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.65 2007-10-05 08:15:54 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -49,7 +49,7 @@ function shn_form_extra_opts($extra_opts)
         echo "<p class=\"note\">{$extra_opts['note']}</p>";
     }
     // output a break - default is true
-    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "\n    <div class='brake'></div>\n";
+    if ((!isset($extra_opts['br'])) ||( $extra_opts['br'] == true)) echo "<br />\n    <div class='brake'></div>\n";
 }
 
 /**
