@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sec_policy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="sec_policy.xsd">
+	<usercase name="Default">
+		<funct id="shn_admin_default">
+			<tables>
+				<table perm="r">incident</table>
+				<table perm="r">location</table>
+				<table perm="r">ct_catalogue</table>
+				<table perm="r">config</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Disaster Incidents">
+		<funct id="shn_admin_ims_config">
+			<tables>
+				<table perm="crd">config</table>
+				<table perm="c">audit</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_ims_level1">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="crud">incident</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_ims_level2">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="crud">incident</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_ims_level3">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="crud">incident</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Security Config">
+		<funct id="shn_admin_acl_user_roles">
+			<tables>
+				<table perm="r">config</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_add_user">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="cr">users</table>
+				<table perm="cr">alt_logins</table>
+				<table perm="c">person</table>
+				<table perm="cu">person_uuid</table>
+				<table perm="c">sys_user_to_group</table>
+				<table perm="c">into password_event_log</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_del_user">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="dr">users</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_user_edit_roles">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="r">person</table>
+				<table perm="crd">sys_user_to_group</table>
+				<table perm="r">sys_user_groups</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_reset_pwd">
+			<tables>
+				<table perm="r">config</table>
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_change_user_status">
+			<tables>
+				<table perm="r">config</table>			
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_unlock_user">
+			<tables>
+				<table perm="r">config</table>			
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_privacy">
+			<tables>
+				<table perm="r">config</table>			
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_data_classifications">
+			<tables>
+				<table perm="r">config</table>			
+				<table perm="r">incident</table>
+				<table perm="r">location</table>
+				<table perm="r">ct_catalogue</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_data_privacy">
+			<tables>
+				<table perm="r">config</table>		
+				<table perm="r">sys_data_classifications</table>
+				<table perm="ru">sys_group_to_data_classification</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_data_classifications_tables">
+			<tables>
+				<table perm="r">config</table>	
+				<table perm="r">sys_data_classifications</table>
+				<table perm="ru">sys_tablefields_to_data_classification</table>		
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_enable_acl">
+			<tables>
+				<table perm="ru">config</table>			
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_enable_mods">
+			<tables>
+				<table perm="r">config</table>			
+				<table perm="r">users</table>
+				<table perm="cr">sys_group_to_module</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_enable_locking">
+			<tables>
+				<table perm="cr">config</table>			
+				<table perm="r">users</table>
+				<table perm="r">sys_group_to_module</table>
+			</tables>
+		</funct>
+		<funct id="shn_admin_acl_event_log">
+			<tables>
+				<table perm="r">config</table>			
+				<table perm="r">users</table>
+				<table perm="r">sys_group_to_module</table>
+				<table perm="r">password_event_log</table>
+				<table perm="r">person_uuid</table>
+				<table perm="r">field_options</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Config Values">
+		<funct id="shn_admin_conf_list">
+			<tables>
+				<table perm="cr">config</table>			
+				<table perm="r">person</table>
+				<table perm="r">sys_user_to_group</table>
+				<table perm="r">sys_user_groups</table>
+				<table perm="r">sys_group_to_module</table>
+				<table perm="r">users</table>
+				<table perm="r">sys_tablefields_to_data_classification</table>
+				<table perm="r">sys_group_to_data_classification"</table>
+			</tables>
+		</funct>
+	</usercase>
+</sec_policy>
