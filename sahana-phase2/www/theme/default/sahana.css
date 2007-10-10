@@ -838,3 +838,12 @@ div.page_navi a{
 div.rssfeed strong{
     vertical-align:5px;
 }
+
+form.paging_form input{
+    border:none;
+    background:none;
+    padding:0px;
+    color:blue;
+    cursor:pointer;
+    text-decoration:underline;
+}
