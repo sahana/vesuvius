@@ -11,7 +11,7 @@
 	       Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
-* @subpackage or
+* @subpackage ims
 */
 
 global $global;
@@ -22,7 +22,8 @@ include_once $global['approot']."/mod/gis/gis_fns.inc";
 include_once "lib_ims.inc";
 include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 
-function _shn_ims_regform_org($error=false)
+
+function _shn_ims_regform_inv($error=false)
 {
     global $global;
     //global $conf;
@@ -39,7 +40,7 @@ function _shn_ims_regform_org($error=false)
 				);*/
    //if(shn_acl_check_table_only_perms($tables)==DENIED){
    	// return false;
-   }
+  // }
 ?>
 <h2><?= _('Add an Inventory')?></h2>
 <?php
@@ -88,7 +89,7 @@ function _shn_ims_regform_org($error=false)
 </div>
 <?php
     // end of form
-//} 
+} 
 
 function _shn_ims_regform_operation($error=false)
 {
@@ -139,7 +140,7 @@ shn_form_fsclose();
 <?php
         //close the form
     shn_form_fclose();
-?>				     
+?>     
 </div>
 <?php
     // end of form
@@ -170,14 +171,6 @@ function _shn_ims_reg_inv_gis()
     $_SESSION['ims']['space']=trim($_POST{"space"});
 	//$range=trim($_POST["range"]);
 
-    //$range1= array();
-    //$range1=trim($_POST['range']);
-    //$bsd_village=array();
-    //$range= shn_ims_get_loc_range();
-    
-    //print $bsd_village;
-   // print ("Mahesh");
-
     $_SESSION['ims_1']=$_POST['1'];
     $_SESSION['ims_2']=$_POST['2'];
     $_SESSION['ims_3']=$_POST['3'];
@@ -194,22 +187,7 @@ function _shn_ims_reg_inv_gis()
     shn_gis_add_marker_map_form();
     //shn_form_fclose();
 
-    //shn_form_hidden(array('end'=>$end));
-    /*shn_form_hidden(array('org_name'=>$org_name));
-    shn_form_hidden(array('contact_name'=>$contact_name));
-    shn_form_hidden(array('contact_add'=>$contact_add));
-    shn_form_hidden(array('contact_phone'=>$contact_phone));
-    shn_form_hidden(array('contact_mobile'=>$contact_mobile));
-    shn_form_hidden(array('contact_fax'=>$contact_fax));
-    shn_form_hidden(array('contact_mail'=>$contact_mail));
-    shn_form_hidden(array('contact_web'=>$contact_web));
-    shn_form_hidden(array('man_power'=>$man_power));
-    shn_form_hidden(array('equipment'=>$equipment));
-    shn_form_hidden(array('resources'=>$resources));
-    shn_form_hidden(array('space'=>$space));*/
-   // shn_form_hidden(array('bsd_village'=>$bsd_village));
-
-     $_SESSION['ims']['bsd_village']=$bsd_village;
+    $_SESSION['ims']['bsd_village']=$bsd_village;
     //shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
     shn_form_fclose();
@@ -295,5 +273,4 @@ function _shn_ims_validate_reg_inv()
     return $error_flag;
 
 }
-
 ?>
