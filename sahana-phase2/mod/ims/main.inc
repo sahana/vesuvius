@@ -401,17 +401,20 @@ function shn_ims_reg_inv_actions()
 
 function shn_ims_reg_inv($error = false)
 {
-    include_once ("reg_inv.inc"); 
-    _shn_ims_regform_org($error);
+    require_once ("reg_inv.inc"); 
+    //_shn_ims_test();
+    _shn_ims_regform_inv($error);
 }
 
 function shn_ims_reg_inv_gis()
 {
-    include_once("reg_inv.inc");
+    require_once("reg_inv.inc");
     if (_shn_ims_validate_reg_inv()) {
         display_errors();
         shn_ims_reg_inv();
+        
     } else {
+        // print ("test");
         _shn_ims_reg_inv_gis();
     }
 }
