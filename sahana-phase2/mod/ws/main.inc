@@ -296,9 +296,9 @@ function shn_ws_sahana_cr(){
 	echo '<h2>Method</h2><pre>' . $method . '</pre><br />';
 	$native=extension_loaded('soap');
 	$url=trim($_POST["wsdl_url"]);
-	$url= trim(collapseEntities($url));
+	$url= trim(html_entity_decode($url));
 
-	$url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
+	//$url="http://localhost/week1/WS1/www/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
 
 		$digest="adsadsdsd";
 		$secret=trim($_POST["secret"]);
@@ -312,7 +312,7 @@ function shn_ws_sahana_cr(){
 		ini_set("soap.wsdl_cache_enabled", "0");
 		
 			
-		$client = new  SoapClient($url, array('login' => $uid, 
+		$client = new  SoapClient(html_entity_decode($url), array('login' => $uid, 
           	'password' => $sign));
 
 		//sending the user name ,password mode will work even if security is disabled at the provider
