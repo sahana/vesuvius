@@ -20,22 +20,29 @@
 
 
 /**
- * @param mixed
+ * The main paging function 
+ *
+ * @param string $query
+ * @param integer $rpp
+ * @param array $headers
+ * @param mixed $extra_opts
  * @access public
  * @return void
  */
-function shn_paging_get_report($query,$rpp=20,$headers=NULL,$action=null,$returnflag=false)
+function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
 {
     global $global;
-    //$db = $global['db'];
-    //$results = $db->Execute($query);
-    //$number=$results->RecordCount();
-
     $res=_shn_page_get_rs($query,$rpp);
     if(!$res)return false;
 
-    _shn_page_draw_navi($res);
-    if($returnflag)
+    if(isset($extra_opt['post'])&&$extra_opt['post']==true){
+        _shn_page_draw_navi_post($res);
+    }
+    else{
+        _shn_page_draw_navi($res);
+    }
+
+    if(!isset($headers)||$extra_opt['return']==true)
         return $res;
 
     _shn_page_draw_table($res,$headers);
@@ -44,10 +51,19 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$action=null,$return
 
 function _shn_page_get_rs($query,$rpp){
     global $global;
-    if(isset($_GET['page']))
-        $page=$_GET['page'];
+    if(isset($_REQUEST['page'])){
+            $page=$_REQUEST['page'];
+    }
     else
         $page=1;
+
+    //if the page is next or Previous 
+    if('Next'==$page){
+        $page=$_REQUEST['c_page']+1;
+    }
+    if('Previous'==$page){
+        $page=$_REQUEST['c_page']-1;
+    }
 
     define('ADODB_FETCH_ASSOC',2);
     $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
@@ -56,13 +72,14 @@ function _shn_page_get_rs($query,$rpp){
     return $res;
 }
 
+//navigation with links
 function _shn_page_draw_navi(&$res){
     global $global;
-    if(isset($_GET['page']))
-        $page=$_GET['page'];
+    if(isset($_REQUEST['page']))
+        $page=$_REQUEST['page'];
     else
         $page=1;
-
+	
     //calculate start and end
     $start=$page-5;
     $end=$page+5;
@@ -96,8 +113,9 @@ function _shn_page_draw_navi(&$res){
     if($page!=1)
     {
 ?>
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('First')?></a></b> 
     <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page-1;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
+
 <?php
     }
 
@@ -130,10 +148,101 @@ function _shn_page_draw_navi(&$res){
     if($page!=$last)
     {
     ?>
+    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo  $global['action']?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
+
     <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page+1?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo  $global['action']?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo _('Last')?></a></b> 
 <?php
     }
+}
+
+
+//navigation with posts
+function _shn_page_draw_navi_post(&$res){
+    global $global;
+    if(isset($_REQUEST['page']))
+            $page=$_REQUEST['page'];
+    else
+        $page=1;
+
+    //if the page is next or Previous 
+    if('Next'==$page){
+        $page=$_REQUEST['c_page']+1;
+    }
+    if('Previous'==$page){
+        $page=$_REQUEST['c_page']-1;
+    }
+
+    //calculate start and end
+    $start=$page-5;
+    $end=$page+5;
+    $last=$res->LastPageNo();
+
+    if($start<1){
+        $end=$end-$start+1;
+        $start=1;
+    }
+    if($end>$last){
+        $start=$start-($end-$last);
+        $end=$last;
+        if($start<1){
+            $start=1;
+        }
+    }
+
+    //if no records are found print No results
+    if($res->RecordCount()==0){
+        echo "<strong>"._("No Search Results ")."</strong>";
+        return;
+    }
+    //if there is only one page don't print the navigation links
+    if($last==1)
+        return;
+
+?>
+    <form name='paging_form' class='paging_form' action='index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>' method='POST'>
+<?php
+    foreach($_POST as $name=>$post){
+        if('c_page'!=$name){
+            shn_form_hidden(array($name=>$post));
+        }
+    }
+    //print the amount of pages
+    echo "Page $page/$last : ";
+
+    //draw the First and prev links
+    if($page!=1)
+    {
+        shn_form_submit('Previous',"name='page'");
+        shn_form_submit('1',"name='page'");
+
+    }
+
+    //draw the page links
+    if($start>1)
+        echo "&#8230;";
+    for($i=$start;$i<=($end);$i++)
+    {
+        if($i==$page)
+            echo "<span class='red'>".$i."</span>";
+        elseif($i==$start||$i==$end)
+            continue;
+        else
+            shn_form_submit($i,"name='page'");
+    }
+    if($end<$last)
+        echo "&#8230;";
+
+
+   //draw the next and the last link
+    if($page!=$last)
+    {
+        shn_form_submit($last,"name='page'");
+        shn_form_submit('Next',"name='page'");
+    }
+?>
+        <input type="hidden" name="c_page" value=<?php echo $page?>/>
+        </form>
+<?php
 }
 
 
