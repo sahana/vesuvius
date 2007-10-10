@@ -3,7 +3,7 @@
  *
  * This library helps in authentication ,but not authorization. A vital component of the framework.
  * Developers are required to use this library for security.
- * 
+ *
  *
  * PHP version 4 and 5
  *
@@ -16,7 +16,7 @@
  * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ *
  */
 
 require_once "constants.inc";
@@ -43,32 +43,32 @@ function shn_get_allowed_mods_current_user(){
 		}else{
 			$roles=_shn_acl_get_roles($user);
 		}
-	
-	    $mods=array();
-	    /*
-	   	array_push($mods,'home');
-	   	if ($_SESSION['logged_in'] == true ){
-	   		array_push($mods,'pref');
-		}	
-		*/
+
+		$mods=array();
+		/*
+		 array_push($mods,'home');
+		 if ($_SESSION['logged_in'] == true ){
+		 array_push($mods,'pref');
+		 }
+		 */
 		foreach($roles as $role=>$name){
 			$mods_role= _shn_acl_modules_for_role($role);
-			
+
 			if($mods_role!=null){
 				foreach($mods_role as $mod){
 					array_push($mods,$mod);
 				}
 			}
-			
-					
-		
+
+
+
 		}
 	}else{
 		$mods=shn_get_all_modules(false);
 	}
 	$mods=array_unique($mods);
 	return $mods;
-	
+
 }
 
 
@@ -82,31 +82,26 @@ function shn_acl_check_perms($mod,$module_function){
 	if (file_exists($xml_file)){
 		//read the XML file describing the security policy for that module.
 		$xml =simplexml_load_file($xml_file);
-	
+
 		foreach ($xml->usercase as $case) {
-	   		//$name= trim($case->name);//name of the service
-	   	
-	   		if(findAttribute($case->funct, "id")==$module_function){
-	   			$tables=array();
-	   			foreach ($case->funct->tables->table as $table){
-	   				$tables["$table"]=findAttribute($table, "perm");
-	   			}
-		   			
-	   	
-					
-	   		}
-		}
-			if($tables!=null){
-				return shn_acl_check_table_only_perms($tables);
-			}else{
-				return ALLOWED;
+			//$name= trim($case->name);//name of the service
+
+			if(findAttribute($case->funct, "id")==$module_function){
+				$tables=array();
+				foreach ($case->funct->tables->table as $table){
+					$tables["$table"]=findAttribute($table, "perm");
+				}
 			}
+		}
+		if($tables!=null){
+			return shn_acl_check_table_only_perms($tables);
+		}else{
+			return ALLOWED;
+		}
 			
 	}else{
 		return ALLOWED;
 	}
-
-	
 }
 
 function shn_acl_check_table_perms($tables_only, $tables_with_fields=null){
@@ -116,15 +111,15 @@ function shn_acl_check_table_perms($tables_only, $tables_with_fields=null){
 	}
 }
 /*
-$tables= array(
-				'field_options'=>'4',
-				'org_main'=>'8'
-				);
+ $tables= array(
+ 'field_options'=>'4',
+ 'org_main'=>'8'
+ );
 
 
-*/
+ */
 function shn_acl_check_table_only_perms($tables){
-	
+
 	foreach ($tables as $table=>$crud){
 		if(_shn_acl_check_table_only_perms($table,$crud)==DENIED){
 			return DENIED;
@@ -135,50 +130,91 @@ function shn_acl_check_table_only_perms($tables){
 
 function _shn_acl_check_table_only_perms($table,$crud){
 	global $global;
-    $db=$global['db'];
-/* 
-	$length=strlen($crud);
-	
-	// old function.
-	for ($i=0;$i<$length;$i++){
-		$crud_pattern=$crud_pattern."%".substr($crud, $i, 1)."%";
-	}
-*/
-	
+	$db=$global['db'];
+
 	// Set $crud_pattern in CRUD order.
 	$crud_pattern = _shn_acl_get_crud_str($crud);
 	if($crud_pattern==null){
 		return DENIED;
 	}
-		
+
 	$user=$_SESSION["user_id"];
 
 	$roles=_shn_acl_get_roles($user);
-	
-	$q="select level_id from sys_tablefields_to_data_classification where table_field='{$table}' ";
-    
-    $res_acl=$db->Execute($q);
-    if(($res_acl!=null) &&(!$res_acl->EOF)){
-    	$level_id=$res_acl->fields["level_id"];
-    	foreach ($roles as $role=>$role_name){
-		
-			$q="select crud from sys_group_to_data_classification where group_id={$role} and level_id={$level_id}  and crud LIKE '$crud_pattern'";
 
-     		$res=$db->Execute($q);
-    		if(($res!=null) &&(!$res->EOF)){
-    
-    			return ALLOWED;
-    			
-    		}else{
-    			//shn_error_display_restricted_access();
-    			return DENIED;
-    		}
-    	}
-    	//shn_error_display_restricted_access();
-    	return DENIED;
-   
-    }
-    
+	$q="select level_id from sys_tablefields_to_data_classification where table_field='{$table}' ";
+
+	$res_acl=$db->Execute($q);
+	if(($res_acl!=null) && (!$res_acl->EOF)){
+		$level_id=$res_acl->fields["level_id"];
+		// array to hold all c, r , u and d 's.
+		$crud_tmp_arr = array(null,null,null,null);
+
+		foreach ($roles as $role=>$role_name){
+
+			$q="select crud from sys_group_to_data_classification where group_id={$role} and level_id={$level_id} ";// and crud LIKE '$crud_pattern'
+
+			$res=$db->Execute($q);
+			//echo "RECORDS = ".$res->RecordCount()."<br/>";
+			while(!$res->EOF){
+				$str = $res->fields[0];
+				$length=strlen($str);
+				//echo "$str <br/>";
+				for ($i=0;$i<$length;$i++){
+					$crud_char=strtolower(substr($str,$i,1));
+					switch ($crud_char){
+						case "c":
+							$crud_tmp_arr[0]="c";
+							break;
+						case "r":
+							$crud_tmp_arr[1]="r";
+							break;
+						case "u":
+							$crud_tmp_arr[2]="u";
+							break;
+						case "d":
+							$crud_tmp_arr[3]="d";
+							break;
+					}
+				}
+				$res->MoveNext();
+			}
+		}
+		$new_crud = "";
+		// re create string
+		for($i=0;$i<count($crud_tmp_arr);$i++){
+			// append only if not null
+			$new_crud=$new_crud.(($crud_tmp_arr[$i]!=null)?$crud_tmp_arr[$i]:"");
+		}
+		//var_dump($crud_pattern);
+		//var_dump($new_crud);
+		//var_dump(preg_match('/'.$crud_pattern.'/',$new_crud));
+
+		if(preg_match('/'.$crud_pattern.'/',$new_crud)!=false){
+			return ALLOWED;
+		}else{
+			$q = "SELECT level FROM sys_data_classifications WHERE level_id = '".$level_id."'";
+			$result = $db->Execute($q);
+			$sensitivity = $result->fields[0];
+			add_error(_("You don't have access to ")._lc($sensitivity)._(" data."));
+			return DENIED;
+		}
+
+		/*	// check whether matches.
+		 if(($res!=null) &&(!$res->EOF)){
+
+			return ALLOWED;
+
+			}else{
+			//shn_error_display_restricted_access();
+			return DENIED;
+			}
+			*/
+		//shn_error_display_restricted_access();
+		return DENIED;
+			
+	}
+
 }
 
 /**
@@ -194,11 +230,8 @@ function _shn_acl_get_crud_str($crud){
 	// Set $crud_pattern in CRUD order.
 	$crud_pattern="";
 
-	
-	// append a % if length of $crud > 0;
 	if($length>0){
-		$crud_pattern=$crud_pattern."%";
-		$crud_arr = array();
+		$crud_arr = array('\w?','\w?','\w?','\w?');
 	}else{
 		return null;
 	}
@@ -225,7 +258,7 @@ function _shn_acl_get_crud_str($crud){
 	for ($i=0;$i<4;$i++){
 		$char=$crud_arr[$i];
 		if($char!=null){
-			$crud_pattern=$crud_pattern.$char."%";
+			$crud_pattern=$crud_pattern.$char;
 		}
 	}
 	return $crud_pattern;
@@ -234,146 +267,145 @@ function _shn_acl_get_crud_str($crud){
 
 function shn_acl_deluser_roles($users){
 	global $global;
-    $db=$global['db'];
-    // Insert a new user,group mapping into the sys_user_to_group table
-    if($users==null){
-    	
-    }else{
-    	foreach ($users as $user){
-    		$q = "delete from sys_user_to_group where p_uuid='{$user}'";
-    	   	$res=$db->Execute($q);
- 			if($res==false){
+	$db=$global['db'];
+	// Insert a new user,group mapping into the sys_user_to_group table
+	if($users==null){
+			
+	}else{
+		foreach ($users as $user){
+			$q = "delete from sys_user_to_group where p_uuid='{$user}'";
+			$res=$db->Execute($q);
+			if($res==false){
 				add_error($db->ErrorMsg());
-		 		return $res;
-			}	
-    	}
-    }
-    
+				return $res;
+			}
+		}
+	}
 
-    return $res;
+
+	return $res;
 }
 
-/** 
-*adds a role to user
-*@return bool
-*@param string user
-*@param string role
-*@access public
-*/
+/**
+ *adds a role to user
+ *@return bool
+ *@param string user
+ *@param string role
+ *@access public
+ */
 function shn_acl_adduser_to_role($user,$role){
-    global $global;
-    $db=$global['db'];
-    // Insert a new user,group mapping into the sys_user_to_group table
-    $q = "INSERT INTO sys_user_to_group(group_id,p_uuid) values($role,'{$user}')";
- 	
- 	$res=$db->Execute($q);
- 	if($res==false){
-				add_error($db->ErrorMsg());
+	global $global;
+	$db=$global['db'];
+	// Insert a new user,group mapping into the sys_user_to_group table
+	$q = "INSERT INTO sys_user_to_group(group_id,p_uuid) values($role,'{$user}')";
+
+	$res=$db->Execute($q);
+	if($res==false){
+		add_error($db->ErrorMsg());
 	}
-    return $res;
+	return $res;
 }
 
 function _shn_acl_get_roles($user=null){
 	global $global;
-    $db=$global['db'];
-    $roles=array();
+	$db=$global['db'];
+	$roles=array();
 
-    if(($user==NULL)){
-    	$q="select * from sys_user_groups";
-    }else{
-    	$q="select sys_user_groups.group_id,group_name from sys_user_to_group,sys_user_groups where p_uuid='{$user}' and sys_user_groups.group_id= sys_user_to_group.group_id ";
-    }
+	if(($user==NULL)){
+		$q="select * from sys_user_groups";
+	}else{
+		$q="select sys_user_groups.group_id,group_name from sys_user_to_group,sys_user_groups where p_uuid='{$user}' and sys_user_groups.group_id= sys_user_to_group.group_id ";
+	}
 
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	$roles[ANONYMOUS]="Anonymous User";
-    	return $roles;
-    }
-    //	array_push(
-    	//	$roles,
-    while(($res!=null) &&(!$res->EOF)){
-    	$roles[$res->fields["group_id"]]=$res->fields["group_name"];
-    	$res->MoveNext();
-    }
-   
-    return $roles;
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+		$roles[ANONYMOUS]="Anonymous User";
+		return $roles;
+	}
+	//	array_push(
+	//	$roles,
+	while(($res!=null) &&(!$res->EOF)){
+		$roles[$res->fields["group_id"]]=$res->fields["group_name"];
+		$res->MoveNext();
+	}
+
+	return $roles;
 }
 
 function _shn_acl_modules_for_role($role){
 	$mods=array();
 
-	
-	global $global;
-    $db=$global['db'];
-   	$q="select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
 
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	return null;
-    }else{
+	global $global;
+	$db=$global['db'];
+	$q="select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
+
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+		return null;
+	}else{
 		while(!$res->EOF){
 			array_push($mods,$res->fields["module"]);
 			$res->MoveNext();
 		}
-    	return $mods;
-    }
+		return $mods;
+	}
 
 }
 
 function _shn_acl_is_module_role($mod,$role){
 
 	global $global;
-    $db=$global['db'];
-   	$q="select status from sys_group_to_module where group_id='{$role}' and module='{$mod}'";
-    
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	return false;
-    }else{
-    	if($res->fields["status"]=="enabled"){
-    		
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
+	$db=$global['db'];
+	$q="select status from sys_group_to_module where group_id='{$role}' and module='{$mod}'";
+
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+		return false;
+	}else{
+		if($res->fields["status"]=="enabled"){
+
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
 
 }
 
-
 function _shn_acl_is_user_role($user,$role){
 	global $global;
-    $db=$global['db'];
-   	$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role ";
-    
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	
-    	return false;
-    }else{
-    	return true;
-    }
+	$db=$global['db'];
+	$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role ";
+
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+			
+		return false;
+	}else{
+		return true;
+	}
 
 }
 
 function _shn_acl_is_user_role_only($user,$role){
 	global $global;
-    $db=$global['db'];
-   	$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role";
-    $res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-    	return false;
-    }else{
-   		$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id <> $role ";
-    	$res=$db->Execute($q);
-    	if(($res==null) ||($res->EOF)){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
+	$db=$global['db'];
+	$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role";
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+		return false;
+	}else{
+		$q="select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id <> $role ";
+		$res=$db->Execute($q);
+		if(($res==null) ||($res->EOF)){
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
 
 }
 function shn_acl_is_enabled(){
@@ -381,16 +413,16 @@ function shn_acl_is_enabled(){
 	$db=$global["db"];
 	$q="select value from config where module_id='admin' and confkey='acl_enabled'";
 	$res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-     	return true; //by default we should have security
-    }else{
-    	if(($res->fields['value']==1)){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
+	if(($res==null) ||($res->EOF)){
+		return true; //by default we should have security
+	}else{
+		if(($res->fields['value']==1)){
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
 }
 
 function shn_acl_is_locking_enabled(){
@@ -398,16 +430,16 @@ function shn_acl_is_locking_enabled(){
 	$db=$global["db"];
 	$q="select value from config where module_id='admin' and confkey='acl_locking'";
 	$res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-     	return true; //by default we should have security
-    }else{
-    	if(($res->fields['value']==1)){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
+	if(($res==null) ||($res->EOF)){
+		return true; //by default we should have security
+	}else{
+		if(($res->fields['value']==1)){
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
 }
 
 function shn_acl_is_web_service_auth_enabled(){
@@ -415,33 +447,33 @@ function shn_acl_is_web_service_auth_enabled(){
 	$db=$global["db"];
 	$q="select value from config where module_id='ws' and confkey='authentication'";
 	$res=$db->Execute($q);
-    if(($res==null) ||($res->EOF)){
-     	return true; //by default we should have security
-    }else{
-    	if(($res->fields['value']==1)){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    	
-    }
+	if(($res==null) ||($res->EOF)){
+		return true; //by default we should have security
+	}else{
+		if(($res->fields['value']==1)){
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
 }
 
 function shn_acl_install(){
 	global $global;
-    global $conf;
-   	$status=true;
-   	
+	global $conf;
+	$status=true;
 
-   	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
-    include_once($global['approot']."/inc/lib_uuid.inc");
-    $db=$global["db"];
- 
-    $root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null); 
- 	 //add a "root" user to ACL users and add to 'admin' role
- 	 //add a "registered" user to ACL users and add to 'registered' role
- 	$reg_user=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null);
-    $roles=array(ADMIN,REGISTERED,ANONYMOUS);
+
+	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
+	include_once($global['approot']."/inc/lib_uuid.inc");
+	$db=$global["db"];
+
+	$root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null);
+	//add a "root" user to ACL users and add to 'admin' role
+	//add a "registered" user to ACL users and add to 'registered' role
+	$reg_user=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null);
+	$roles=array(ADMIN,REGISTERED,ANONYMOUS);
 	//$mods=array("home","pref");
 	$mods=shn_get_all_modules(false);
 	foreach($roles as $role){
@@ -451,76 +483,76 @@ function shn_acl_install(){
 		}
 	}
 
-    $q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";	
-    $res=$db->Execute($q);
-    $q="insert into config(module_id,confkey,value) values('ws','authentication',true)";	
-    $res=$db->Execute($q);
-    
-    if($_POST["acl"]=='enable'){
-    	$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
+	$q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";
+	$res=$db->Execute($q);
+	$q="insert into config(module_id,confkey,value) values('ws','authentication',true)";
+	$res=$db->Execute($q);
+
+	if($_POST["acl"]=='enable'){
+		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
 	}else{
 		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',false)";
 	}
 
 	$db->Execute($q);
-	$q="insert into config(module_id,confkey,value) values('admin','acl_locking',false)";	
-    $res=$db->Execute($q);
- 	return $status;
- 	
+	$q="insert into config(module_id,confkey,value) values('admin','acl_locking',false)";
+	$res=$db->Execute($q);
+	return $status;
+
 
 }
 
 function shn_acl_sys_data_tables(){
 	global $global;
-    $db=$global['db'];
-  
-    $q="select table_field,level_id from sys_tablefields_to_data_classification order by table_field";
+	$db=$global['db'];
+
+	$q="select table_field,level_id from sys_tablefields_to_data_classification order by table_field";
 	$res=$db->Execute($q);
-    $levels=array();
-        
-    while(!$res->EOF){
-    	//$name=$res->fields[2].".".$res->fields["full_name"];
-    	$name=$res->fields["level_id"];
-       	$levels[$res->fields["table_field"]]=$name;
-        $res->MoveNext();
-    }
+	$levels=array();
+
+	while(!$res->EOF){
+		//$name=$res->fields[2].".".$res->fields["full_name"];
+		$name=$res->fields["level_id"];
+		$levels[$res->fields["table_field"]]=$name;
+		$res->MoveNext();
+	}
 
 	return $levels;
 }
 
 function shn_acl_data_classifications_list(){
-  	global $global;
-    $db=$global['db'];
-  
-    $q="select * from sys_data_classifications order by level_id";
+	global $global;
+	$db=$global['db'];
+
+	$q="select * from sys_data_classifications order by level_id";
 	$res=$db->Execute($q);
-    $levels=array();
-        
-    while(!$res->EOF){
-    	//$name=$res->fields[2].".".$res->fields["full_name"];
-    	$name=$res->fields["level"];
-       	$levels[$res->fields["level_id"]]=$name;
-        $res->MoveNext();
-    }
+	$levels=array();
+
+	while(!$res->EOF){
+		//$name=$res->fields[2].".".$res->fields["full_name"];
+		$name=$res->fields["level"];
+		$levels[$res->fields["level_id"]]=$name;
+		$res->MoveNext();
+	}
 	return $levels;
-	
+
 }
 
 function _shn_acl_get_role_data_classification_crud($role,$data_level){
-  	global $global;
-    $db=$global['db'];
-  
-    $q="select crud from sys_group_to_data_classification where group_id=$role and level_id=$data_level";
+	global $global;
+	$db=$global['db'];
+
+	$q="select crud from sys_group_to_data_classification where group_id=$role and level_id=$data_level";
 	$res=$db->Execute($q);
-   if(($res==NULL)||($res->EOF)){
+	if(($res==NULL)||($res->EOF)){
 		return 0;
-    }else{
+	}else{
 
-    	return($res->fields["crud"]);
-       	
-    }
+		return($res->fields["crud"]);
 
-	
+	}
+
+
 }
 function _shn_acl_is_crud_group($crud,$crud_value){
 
@@ -536,28 +568,28 @@ function _shn_acl_is_crud_group($crud,$crud_value){
 
 function shn_acl_delrole_perms($role){
 	global $global;
-    $db=$global['db'];
-  
-    $q="delete from sys_group_to_data_classification where group_id=$role";
-    $res=$db->Execute($q);
- 	if($res==false){
-				add_error($db->ErrorMsg());
-		 		return $res;
-	}	
+	$db=$global['db'];
+
+	$q="delete from sys_group_to_data_classification where group_id=$role";
+	$res=$db->Execute($q);
+	if($res==false){
+		add_error($db->ErrorMsg());
+		return $res;
+	}
 	return $res;
 }
 
 function shn_acl_update_role_perms($role,$level,$crud){
 	global $global;
-    $db=$global['db'];
-  
-   $q="update sys_group_to_data_classification set crud='{$crud}' where group_id=$role and level_id=$level";
+	$db=$global['db'];
 
-   $res=$db->Execute($q);
- 	if($res==false){
-				add_error($db->ErrorMsg());
-		 		return $res;
-	}	
+	$q="update sys_group_to_data_classification set crud='{$crud}' where group_id=$role and level_id=$level";
+
+	$res=$db->Execute($q);
+	if($res==false){
+		add_error($db->ErrorMsg());
+		return $res;
+	}
 	return $res;
 }
 
@@ -565,25 +597,25 @@ function shn_acl_hmac_sha1($data,$key) {
 	if(($data==null)or($key==null)){
 		return null;
 	}
-    $blocksize = 64;
-    $hashfunc = 'sha1';
+	$blocksize = 64;
+	$hashfunc = 'sha1';
 
-    if (strlen($key) > $blocksize) {
-        $key = pack('H*', $hashfunc($key));
-    }
+	if (strlen($key) > $blocksize) {
+		$key = pack('H*', $hashfunc($key));
+	}
 
-    $key = str_pad($key, $blocksize, chr(0x00));
-    $ipad = str_repeat(chr(0x36), $blocksize);
-    $opad = str_repeat(chr(0x5c), $blocksize);
-    $hmac = pack(
+	$key = str_pad($key, $blocksize, chr(0x00));
+	$ipad = str_repeat(chr(0x36), $blocksize);
+	$opad = str_repeat(chr(0x5c), $blocksize);
+	$hmac = pack(
                     'H*', $hashfunc(
-                            ($key^$opad).pack(
+	($key^$opad).pack(
                                     'H*', $hashfunc(
-                                            ($key^$ipad).$data
-                                    )
-                            )
-                    )
-                );
-    return $hmac;
+	($key^$ipad).$data
+	)
+	)
+	)
+	);
+	return $hmac;
 }
 ?>
