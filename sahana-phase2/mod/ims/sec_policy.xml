@@ -5,9 +5,9 @@
     <usercase name="Inventory Registration">
 	<funct id="shn_ims_reg_inv_actions">
 		<tables>
-			<table perm="c">location_details</table>
-			<table perm="c">ims_inventory_records</table>
-			<table perm="c">contact</table>
+			<table perm="r">location_details</table>
+			<table perm="r">ims_inventory_records</table>
+			<!--<table perm="r">contact</table>-->
 		</tables>
 	</funct>
     </usercase>
