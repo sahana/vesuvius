@@ -89,11 +89,11 @@ function shn_ims_default()
 
 }
 
-function shn_ims_search_main()
+function shn_ims_search_main($search_array=NULL)
 {
     global $global;
     include_once ('search.inc');
-    _shn_ims_search_main();    
+    _shn_ims_search_main($search_array);    
 } 
 
 
@@ -234,6 +234,19 @@ function shn_ims_search_item_db()
         //_shn_ims_search_item();
 
     }
+
+function shn_ims_search_main_db()
+{
+    global $global;
+    include_once ('search.inc');
+    $search_array=$_POST['search_array'];
+    shn_ims_search_main($search_array);
+    /*if ($search_array=='inventory') {
+        
+    } else {
+
+    }*/
+}
 
 /**
 **function to edit item in the view and edit page
