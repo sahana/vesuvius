@@ -305,7 +305,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 function _shn_cs_edit_cat_select_submit_result()
 {
     ?>
-    <p><?= _('<b>Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.</b> By deleting a catalog You will lose all the entries under the particular catalog'); ?></p>
+    <p><?= "<b>"._("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. ")."</b>"._("By deleting a catalog You will lose all the entries under the particular catalog"); ?></p>
     <?php
     global $global;
     $db=$global["db"];
