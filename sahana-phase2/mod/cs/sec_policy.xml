@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sec_policy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="sec_policy.xsd">
+	<usercase name="View Aid Catalog">
+		<funct id="shn_cs_viewedit">
+			<tables>
+					<table perm="rud">ct_catalogue</table>
+					<table perm="r">field_options</table>
+					<table perm="d">ct_cat_unit</table>
+					<table perm="rud">ct_unit</table>
+					<table perm="rud">ct_unit_type</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Drill Down Catalog">
+		<funct id="shn_cs_drill_down">
+			<tables>
+					<table perm="r">ct_catalogue</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Search Item Types">
+		<funct id="shn_cs_search">
+			<tables>
+					<table perm="r">ct_catalogue</table>
+					<table perm="r">ct_unit</table>
+					<table perm="r">ct_unit_type</table>
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Modify Catalog">
+		<funct id="shn_cs_addmain">
+			<tables>
+					<table perm="rc">ct_catalogue</table>
+			</tables>
+		</funct>
+		<funct id="shn_cs_addsub">
+			<tables>
+					<table perm="c">ct_catalogue</table>
+			</tables>
+		</funct>
+		<funct id="shn_cs_additem">
+			<tables>
+					<table perm="rcd">ct_catalogue</table>
+					<table perm="r">ct_unit_type</table>
+					<table perm="cd">ct_cat_unit</table>
+					<table perm="c">ct_suppliers</table>
+			</tables>
+		</funct>
+	</usercase>
+</sec_policy>
