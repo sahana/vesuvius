@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.7 2007-10-10 05:22:39 ravids Exp $ */
+/* $Id: conf_admin.inc,v 1.8 2007-10-11 11:17:18 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -38,7 +38,7 @@ function shn_admin_conf_list()
 
 	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
 	$xajax->registerFunction("_shn_admin_conf_ajax_update");
-	$xajax->printJavascript();
+	$xajax->printJavascript("res/js/");
 	?>
 <script type="text/javascript" language="javascript">
 	var current_edit_box = null;
