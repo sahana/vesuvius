@@ -16,21 +16,21 @@
  *
  */
 
-include_once $global['approot']."/inc/lib_menu.inc";
-include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/inc/lib_errors.inc";
-include_once $global['approot']."/inc/lib_uuid.inc";
+include_once $global['approot'] . "/inc/lib_menu.inc";
+include_once $global['approot'] . "/inc/lib_form.inc";
+include_once $global['approot'] . "/inc/lib_errors.inc";
+include_once $global['approot'] . "/inc/lib_uuid.inc";
 
 //reporting libraries
-include_once $global['approot']."/inc/reporting/lib_reporting.inc";
-include_once $global['approot']."/inc/reporting/lib_chart.inc";
+include_once $global['approot'] . "/inc/reporting/lib_reporting.inc";
+include_once $global['approot'] . "/inc/reporting/lib_chart.inc";
 //other module APIs.
-include_once $global['approot'].'/mod/ims/lib_ims.inc';
-include_once $global['approot'].'/mod/or/api.inc';
+include_once $global['approot'] . '/mod/ims/lib_ims.inc';
+include_once $global['approot'] . '/mod/or/api.inc';
 //catalog system libraries
-include_once $global['approot'].'/mod/cs/lib_cs_js.inc';
-include_once $global['approot'].'/mod/cs/lib_cs_ajax.inc';
-include_once $global['approot'].'/mod/cs/lib_cs_validate.inc';
+include_once $global['approot'] . '/mod/cs/lib_cs_js.inc';
+include_once $global['approot'] . '/mod/cs/lib_cs_ajax.inc';
+include_once $global['approot'] . '/mod/cs/lib_cs_validate.inc';
 
 /**
  * Create the module menu
@@ -101,22 +101,15 @@ function shn_cs_select_type_submit()
     require_once('search.inc');
     $selected = trim($_POST['search_type']);
 
-    if($selected=='none')
-    {
+    if($selected == 'none') {
         shn_cs_search_cat();
-    }
-    else if($selected=='Item')
-    {
+    } else if($selected == 'Item') {
         shn_cs_search_cat();
         _shn_cs_cat_form();
-    }
-    else if($selected=='Unit')
-    {
+    } else if($selected == 'Unit') {
         shn_cs_search_cat();
         _shn_cs_unit_form();
-    }	
-    else if($selected=='Unit_type')
-    {
+    } else if($selected == 'Unit_type') {
         shn_cs_search_cat();
         _shn_cs_unit_type_form();
     }
@@ -129,14 +122,11 @@ function shn_cs_search_item_submit()
     <?php
     require_once('search.inc');
     
-    if(_shn_cs_validate_cat_form())
-    {
+    if(_shn_cs_validate_cat_form()) {
         display_errors();
         shn_cs_search_cat();
         _shn_cs_cat_form();
-    }
-    else
-    {
+    } else {
         shn_cs_search_cat();
         _shn_cs_cat_form();
         _shn_cs_search_item_cat_submit_result();
@@ -163,14 +153,11 @@ function shn_cs_search_unit_type_submit()
     <?php
     require_once('search.inc');
 
-    if(_shn_cs_validate_search_unit_type_form())
-    {
+    if(_shn_cs_validate_search_unit_type_form()) {
         display_errors();
         shn_cs_search_cat();
         _shn_cs_unit_type_form();
-    }
-    else
-    {
+    } else {
         shn_cs_search_cat();
         _shn_cs_unit_type_form();
         _shn_cs_search_unit_type_submit_result();
@@ -204,13 +191,10 @@ function shn_cs_addmain_form_submit()
 {
     require_once('add.inc');
     
-    if(_shn_cs_validate_addmainform())
-    {
+    if(_shn_cs_validate_addmainform()) {
         display_errors();
         shn_cs_addmain_form();
-    }
-    else
-    {
+    } else {
         _shn_cs_addmain_form_result();
     }
 }
@@ -223,13 +207,10 @@ function shn_cs_addsub_form1_submit()
     require_once('add.inc');
     require_once('lib_cs.inc');
     
-    if(_shn_cs_validate_sub_cat_form())
-    {
+    if(_shn_cs_validate_sub_cat_form()) {
         display_errors();
         shn_cs_addsub_form1();
-    }
-    else
-    {
+    } else {
         _shn_cs_addsub_form1_result();
     }
 	
@@ -239,13 +220,10 @@ function shn_cs_addsub_form2_submit()
 {
     require_once('add.inc');
     
-    if(_shn_cs_validate_subcatform())
-    {
+    if(_shn_cs_validate_subcatform()) {
         display_errors();
         _shn_cs_addsub_form1_result();
-    }
-    else
-    {
+    } else {
         _shn_cs_addsub_form2_result();
     }
 }
@@ -276,14 +254,11 @@ function shn_cs_addunit_form_submit()
 {
     require_once('add.inc');
 	
-    if(_shn_cs_validate_unitform())
-    {
+    if(_shn_cs_validate_unitform()) {
         display_errors();
         shn_cs_addunit_form();
         _shn_cs_utype_select_submit_result();
-    }
-    else
-    {
+    } else {
         _shn_cs_addunit_form_result();
     }
 }
@@ -291,7 +266,6 @@ function shn_cs_addunit_form_submit()
 
 function shn_cs_additem()
 {
-
 	?>
 	<h1><?= (_("Add Item Type: Select Category")) ?></h1>
 	<p><?= _('First select the parent category, before proceeding to add the Item Type details'); ?></p>
@@ -311,13 +285,10 @@ function shn_cs_additem_form1_submit()
     require_once('add.inc');
     require_once('lib_cs.inc');
 
-    if(_shn_cs_validate_sub_cat_form())
-    {
+    if(_shn_cs_validate_sub_cat_form()) {
         display_errors();
         shn_cs_additem_form1();
-    }
-    else
-    {
+    } else {
         shn_cs_additem_form1_result();
     }
 	
@@ -327,15 +298,12 @@ function shn_cs_additem_form2_submit()
 {
     require_once('add.inc');
     //shn_cs_additem_form2_result();
-        if(_shn_cs_validate_additem_form())
-        {
-            display_errors();
-            shn_cs_additem_form1_result();
-        }
-        else
-        {
-            shn_cs_additem_form2_result();
-        }
+    if(_shn_cs_validate_additem_form()) {
+    	display_errors();
+        shn_cs_additem_form1_result();
+    } else {
+        shn_cs_additem_form2_result();
+    }
 }
 
 
@@ -347,7 +315,7 @@ function shn_cs_viewedit()
     <?php
 
     require_once('edit.inc');
-    #shn_cs_edit_form();
+    //shn_cs_edit_form();
     show_item_cat_table();
 }
 
@@ -355,27 +323,20 @@ function shn_cs_edit_form_submit()
 {
     require_once('edit.inc');
 
-    #$selected = trim($_POST['edit_type']);
+    //$selected = trim($_POST['edit_type']);
     $selected = $_REQUEST['view_type'];
 
-    if(!isset($selected))
-    {
-        #shn_cs_edit_form();
+    if(!isset($selected)) {
+        //shn_cs_edit_form();
         show_item_cat_table();
-    }
-    else if($selected=='item')
-    {
-        #shn_cs_edit_form();
+    } else if($selected=='item') {
+        //shn_cs_edit_form();
         show_item_cat_table();
-    }
-    else if($selected=='unit')
-    {
-        #shn_cs_edit_form();
+    } else if($selected=='unit') {
+        //shn_cs_edit_form();
         show_unit_table();
-    }
-    else if($selected=='unit_types')
-    {
-        #shn_cs_edit_form();
+    } else if($selected=='unit_types') {
+        //shn_cs_edit_form();
         show_unit_type_table();
     }
 }
@@ -451,13 +412,10 @@ function shn_cs_addunitform_submit()
 {
     require_once('add.inc');
 
-    if(_shn_cs_validate_unit_type_form())
-    {
+    if(_shn_cs_validate_unit_type_form()) {
         display_errors();
         shn_cs_add_unit_type_form();
-    }
-    else
-    {
+    } else {
         _shn_cs_add_unit_type_form_result();
     }
 }
@@ -474,15 +432,11 @@ function shn_cs_search_keyword_select_submit()
     $id = trim($_REQUEST['id']);
     $type = trim($_REQUEST['type']);
 
-    if($type == 'item')
-    {
+    if($type == 'item') {
         shn_cs_additem_form1_result(true);
-    }
-    else if($type == 'sub_catalogue')
-    {
+    } else if($type == 'sub_catalogue') {
         _shn_cs_addsub_form1_result(true);
     }
-
 }
 
 function shn_cs_supplier_report()
@@ -496,4 +450,3 @@ function shn_cs_drill_down()
 	require_once('drill_down.inc');
 }
 ?>
-
