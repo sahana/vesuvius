@@ -343,7 +343,7 @@ function shn_cs_viewedit()
 {
     ?>
         <h1><?= (_("View And Edit")) ?></h1>
-        <p><?= _('Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. <b>Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.</b>'); ?></p>
+        <p><?= _("Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. ")."<b>"._("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.")."</b>"; ?></p>
     <?php
 
     require_once('edit.inc');
