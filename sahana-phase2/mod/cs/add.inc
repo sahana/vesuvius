@@ -100,7 +100,7 @@ function shn_cs_addsub_form1()
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print "<br /><b>Do a keyword search to find the parent category.</b>";
+    print "<br /><b>"._("Do a keyword search to find the parent category.")."</b>";
     shn_form_fopen("keyword_search",null,array('req_message'=>false));
     shn_form_fsopen(_('Keyword Search'));
 
@@ -183,7 +183,7 @@ function _shn_cs_addsub_form2_result()
 	add_confirmation($sub_cat_name._(" was succesfully saved in the database"));
 
 	?>
-	<p><?= _('<b>Add another sub catalog</b>'); ?></p>
+	<p><b><?= _("Add another sub catalog"); ?></b></p>
 	<?php
 
 	shn_cs_addsub_form1();
@@ -299,7 +299,7 @@ function _shn_cs_addunit_form_result()
 	{
 	add_confirmation($unit_name._(" was succesfully saved in the database"));
 	?>
-	<p><?= _('<b>Add another Unit</b>'); ?></p>
+	<p><b><?= _("Add another Unit"); ?></b></p>
 	<?php
 	shn_cs_addunit_form();
 	}
@@ -328,7 +328,7 @@ function shn_cs_additem_form1()
     $res=$db->Execute($query);
     if($res == true)
     {
-    print _("<br /><b>Do a keyword search to find the catalogue.</b>");
+    print "<br /><b>"._("Do a keyword search to find the catalogue.")."</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
     shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
@@ -480,7 +480,7 @@ function shn_cs_additem_form2_result()
 		{
 			add_confirmation($item_name._(" was succesfully saved in the database"));
 			?>
-			<p><?= _('<b>Add another Item</b>'); ?></p>
+			<p><b><?= _("Add another Item"); ?></b></p>
 			<?php
 			shn_cs_additem_form1();
 		}
@@ -556,7 +556,7 @@ function _shn_cs_add_unit_type_form_result()
 	{
 	add_confirmation($unit_type_name._(" was succesfully saved in the database"));
 	?>
-	<p><?= _('<b>Add another Unit Type</b>'); ?></p>
+	<p><b><?= _("Add another unit type"); ?></b></p>
 	<?php
 	shn_cs_add_unit_type_form();
 	}
