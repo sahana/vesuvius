@@ -46,6 +46,7 @@ function shn_cs_mainmenu()
 	shn_mod_menuopen(_("Aid Catalog"));
 	shn_mod_menuitem("default",_("Home"));
 	shn_mod_menuitem("viewedit",_("View Aid Catalog"));
+	shn_mod_menuitem("drill_down",_("Drill Down Catalog"));
 	shn_mod_menuitem("search",_("Search Item Types"));
 	shn_sub_mod_menuopen(_("Modify Catalog"));
 	shn_mod_menuitem("addmain",_("Add New Catalog"));
@@ -54,6 +55,7 @@ function shn_cs_mainmenu()
 	//shn_mod_menuitem("addunittype",_("Add Measurement Unit Type")); // relocate to admin section
 	//shn_mod_menuitem("addunit",_("Add Measurement Unit")); // relocate to admin section
 	shn_sub_mod_menuclose();
+	
 	//shn_mod_menuitem("supplier_report",_("Supplier Report")); // Supplier report should be in Inventory
 	shn_mod_menuclose();
    
@@ -487,6 +489,11 @@ function shn_cs_supplier_report()
 {
     require_once('supplier_report.inc');
     shn_cs_show_supplier_report();
+}
+
+function shn_cs_drill_down()
+{
+	require_once('drill_down.inc');
 }
 ?>
 
