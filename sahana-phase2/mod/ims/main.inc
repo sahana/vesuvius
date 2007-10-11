@@ -447,13 +447,12 @@ function shn_ims_view_inv_submit()
 {
     include_once("process_inv.inc");
     include_once ("view_inv.inc");
-    require_once ($global['approot'] . 'inc/lib_security/authenticate.inc');
+    //require_once ($global['approot'] . 'inc/lib_security/authenticate.inc');
     $act = $_POST["action"];
-    $acl_enabled = shn_acl_get_state("or");
-    $req_act = "_shn_ims_" . $act . "_org";
-    $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || 
-             !$acl_enabled)? true : false;
-    if (!$allow) {
+   // $acl_enabled = shn_acl_get_state("or");
+   // $req_act = "_shn_ims_" . $act . "_org";
+   // $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || !$acl_enabled)? true : false;
+   //if (!$allow) {
         ?>
         <div id="error">
         <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
@@ -465,7 +464,7 @@ function shn_ims_view_inv_submit()
         </div> <!-- /error -->
         <?php
         return false;
-    }
+   // }
     switch ($act) {
         case "edit":
             _shn_ims_edit_org();
