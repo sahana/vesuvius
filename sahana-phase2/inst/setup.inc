@@ -472,9 +472,9 @@ shn_form_fclose();
 function shn_setup_database()
 {
 	global $global;
-
+	global $conf;
 	$db = &NewADOConnection('mysql');
-
+	
 	if($_POST['dbtype']=='mysql'){
 		echo "<br/>creating db if not exists";
 		// check whether user exists,
@@ -519,7 +519,8 @@ function shn_setup_database()
 	$db->Execute("CREATE DATABASE IF NOT EXISTS ".$_POST['dbname']);
 	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
 	$global['db'] = $db;
-
+	$conf['db_engine']=$_POST['dbtype'];
+	$conf['mysql_engine']="myisam";
 	// setup the choosen sql scripts
 	shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
 	shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
@@ -536,7 +537,7 @@ function shn_setup_database()
 		include_once($global['approot'].'inc/lib_uuid.inc');
 		shn_setup_run_sqlscript($db,'inst/mysql-sampledata.sql');
 		include($global['approot'].'mod/cs/ins/setup.inc');
-		//shn_cs_datacreate();
+		shn_cs_datacreate();
 	}
 
 	return true;
