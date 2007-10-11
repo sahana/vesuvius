@@ -303,25 +303,25 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "identity_to_person"
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "image", 6);
 
 -- ims_alternate
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_ims_alternate", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_alternate", 6);
 
 -- ims_inventory_records
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_inventory_records", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_inventory_records", 6);
 
 -- ims_item_records
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_item_records", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_item_records", 6);
 
 -- ims_optimization
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_optimization", 7);
 
 -- ims_relation
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_relation", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_relation", 6);
 
 -- ims_reorder_level
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_reorder_level", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_reorder_level", 6);
 
 -- ims_transfer_item
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 2);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 6);
 
 -- incident
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 6);
