@@ -18,8 +18,6 @@
 
 global $global;
 
-//include_once ("add_item_main_page.inc");
-//include_once ("search.inc");
 include_once ("add_item.inc");    
 include_once ("errors.inc");
 include_once ('lib_ims.inc');
@@ -28,15 +26,11 @@ include_once ('lib_ims.inc');
 function _shn_ims_add_item_db()
 {
         
-    //shn_ims_add_item();    
     global $global;
     $db = $global["db"];
-    //$cate=$_POST['cat'];
     $item = trim($_POST['item_name']);
     $suplier_id = trim($_POST['suplier_id']);
-    //print ($item);
     $parent_id = trim($_POST['parent_id']);
-    //print ($cate);
     $amou = trim($_POST['amount']);
     $cost_per_unit = trim($_POST['cost_per_unit']);
     $unit = trim($_POST['unit_select']);
@@ -46,8 +40,6 @@ function _shn_ims_add_item_db()
 
     
     $date = date("Y-m-d");
-    //$date=strrev($date);
-    //print $date;
     $total_amount = _shn_ims_sum_amount($parent_id,$inv_id);
     $base_unit = convert_to_base_unit($unit);
     $converted_amount = $amou*unit_converter($base_unit,$unit);
@@ -60,17 +52,12 @@ function _shn_ims_add_item_db()
     $q = "SELECT * FROM ims_item_records;";
     $ims = $db->Execute($q);
     if ($ims == NULL) {
-        //$error=true;
         add_error(SHN_ERR_IMS_ITEM_TABLE_EXISTS);
-        //return false;
+        
     } else {
         $sql = " INSERT INTO ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state,inserted_date,total_amount,predict_amount) VALUES ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state','$date','$total_amount','$predeict_amount');";
         $ims = $db->Execute($sql);
-       
-        
-    //$_POST['unit_select']=""
-        
-
+      
     _shn_ims_expire_date_check();
     add_confirmation($item . ' Item was successfully Added');
 
@@ -87,7 +74,6 @@ function _shn_ims_add_item_db()
 
 function _shn_ims_validate_additemform()
 {
-    //include_once 'errors.inc';
     global $global;
     $error_flag = false;
     //clean_errors();
@@ -99,8 +85,7 @@ function _shn_ims_validate_additemform()
     $cost_per_unit = trim($_POST['cost_per_unit']);
     $unit = trim($_POST['unit_select']);
 
-   // print ("    ".$parent_id);
-    
+      
     //this checks whether name entered in the add main form
     if ($item_name == null) {
         add_error(SHN_ERR_IMS_ITEM_NAME_INCOMPLETE);
@@ -147,7 +132,6 @@ function _shn_ims_validate_additemform()
 
     if ($manufactured_date != null || $expire_date != null) {
         if (_shn_ims_date_validate($manufactured_date)) {
-            //add_error(INVALID_DATE);
             $error_flag = true;
         }
     

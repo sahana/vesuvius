@@ -125,7 +125,7 @@ function shn_ims_add_item_main_page()
     global $global;
     include_once ('add_item.inc');
     $inventory_id = $_REQUEST['inv_id'];
-    //print $inventory_id;
+    
     _shn_ims_add_item_main_page($inventory_id);
         
 }
@@ -135,8 +135,7 @@ function shn_ims_add_item($parent_id = false)
     
     
     if (_shn_ims_validate_sub_cat_form() && $parent_id == null) {
-        //display_errors();
-        //print ("kaluarachchi");
+       
         add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
         shn_ims_view_edit_item();
     } else {
@@ -217,7 +216,7 @@ function shn_ims_add_item_db()
     $parent_id = trim($_POST['parent_id']);
     
     if (_shn_ims_validate_additemform()) {
-    //print ("kalu");
+    
         display_errors();
         shn_ims_add_item($parent_id);
     } else {
@@ -716,7 +715,6 @@ function shn_ims_receive_item_db()
     global $global;
     include_once('transfer_inv.inc');
     //$parent_id=trim($_POST['parent_id']);
-    //print $parent_id
     
     if (_shn_ims_validate_receive_item_page()) {
         display_errors();
@@ -734,7 +732,7 @@ function shn_ims_receive_item_db()
 function shn_ims_send_item_page($cate = false)
 {
     global $global;
-    //print $cate;
+    
     if (_shn_ims_validate_sub_cat_form() && $cate == NULL) {
         add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
         display_errors();
@@ -930,7 +928,7 @@ function shn_ims_gis_inv()
     //global $global;
     //$inv_id="all";		
     $inv_id = $_REQUEST['id'];
-    //print_r($map_array);
+    
     shn_form_fopen('view_inv');
     //shn_form_fsopen(null);
     $array = _shn_ims_gis_inv($inv_id);
@@ -1060,7 +1058,7 @@ function shn_ims_inventory_paging($Limit = null)
         $page_number = 1;
     }
 
-    //print $page_number;
+    
 ?>
     <b><?php print (_("Page Number : ") . $page_number); ?></b>
 <?php
@@ -1089,10 +1087,7 @@ function shn_ims_receive_item_paging()
     }
     
     if (is_numeric($Limit)) {
-    //print $Limit;
-        
-    
-    
+     
         _shn_ims_receive($Limit,$page_number);
     }
 }
@@ -1117,21 +1112,7 @@ function shn_ims_send_item_paging()
         _shn_ims_send_item_table_view_($catalog_id,20,$page_number = 0);
     }
     if (is_numeric($Limit)) {
-    //print $Limit;
-   /* if($Limit%2==1)
-    {
-        $Limit=$Limit+1;
-    }
-    else
-    {
-        ;
-    }*/
-    //$parent_id=trim($_POST['parent_id']);
     
-    
-    
-    
-    //print $Limit;
     _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number);
     }
 }

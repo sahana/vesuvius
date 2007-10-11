@@ -43,7 +43,7 @@ function _shn_ims_send_main()
 **/
 function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 {
-    //print $catalog_id;
+    
     $depth=get_max_depth();
 
     if($catalog_id==NULL)
@@ -64,12 +64,9 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     {
         $parent_id=$catalog_id;
     }
-    //print $parent_id;
+    
     $_SESSION['catalog_id']=$parent_id;
-     
-    //$Limit=20;
-    //$Limit=$Limit/2;
-
+   
     if($page_number!=0)
     {
 	$page_temp=$page_number;
@@ -152,7 +149,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
         
         $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims2= $db->Execute($sql2);
-        //print $sql2;
+       
         $inventory_name = $ims2->fields["inventory_name"];            
 
 ?>
@@ -227,7 +224,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
         
         $sql5="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims5= $db->Execute($sql5);
-        //print $sql2;
+       
         $inventory_name = $ims5->fields["inventory_name"];            
 
 ?>
@@ -289,11 +286,6 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     //$extra_opts['req']=true;
     shn_form_text(_("Amount Send: "),'amount','size="50"',array('req'=>true,'value'=>$amount));
 
-    /*$myoptions=array();
-    $myoptions=get_unitid_array();
-    
-    shn_form_select($myoptions,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box is empty go back to the catalogue system and add a measurement unit')));*/
-    
 //-------------------------------------------------------------------------------------------------------------
 
     $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit_id_send';";
@@ -318,7 +310,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     }    
 
     shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
-    /*$;*/
+    
 
 //-------------------------------------------------------------------------------------------------------------    
 
@@ -331,13 +323,9 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     echo "<br />";
     $destination_array=array('inventory'=>'Inventory','shelter'=>'Shelter','organization'=>'Organization','victim'=>'Victim');
     shn_form_radio($destination_array,_('Destination : '),'destination','onClick="change_action_des(this.value)"',$extra_opts);
-    /*$module_array=array();
-    $module_array['none']=_('===Select Destination===');
-    $module_array['camp']=_('Camp');
-    $module_array['inventory']=_('Inventory');
-    shn_form_select($module_array,_("Select the Module : "),'module_select','onChange="change_action(this.value);",size="1"',null);*/
+  
     $opt = _shn_admin_set_option_javascript();
-    //print $opt;
+    
     echo "<br />";
 	
 
@@ -370,15 +358,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	$extra_opts['req']  = true;
     	$extra_opts['br']  = true;
     	$select_opts = '';
-    	//$extra_opts['value'] = $_POST['staff_oper'];
-	/* $inventory_array=array();
-    $sql3="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid!='$inv_id_from';";
-    $ims3=$db->Execute($sql3);
-    while($ims3!=NULL && !$ims3->EOF)
-    {
-        $inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
-        $ims3->MoveNext();
-    }*/
+    	
     shn_form_select(_shn_ims_get_shelter_name(),_("Destination Shelter : "),'shelter_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
     $destination_type='shelter';
     	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
@@ -392,19 +372,9 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	$extra_opts['req']  = true;
     	$extra_opts['br']  = true;
     	$select_opts = '';
-    	//$extra_opts['value'] = $_POST['staff_oper'];
-	/* $inventory_array=array();
-    $sql3="SELECT inv_uuid,inventory_name FROM ims_inventory_records WHERE inv_uuid!='$inv_id_from';";
-    $ims3=$db->Execute($sql3);
-    while($ims3!=NULL && !$ims3->EOF)
-    {
-        $inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
-        $ims3->MoveNext();
-    }*/
+    	
     shn_form_select(_shn_ims_get_organization_name(),_("Destination Organization : "),'organization_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
-    //$destination_type='organization';
-    	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
-    	//shn_form_radio($option_type,_('Status : '),'file_type',$select_opts,$extra_opts);
+    
     	echo "<br />";
 	echo "</div>";
 
@@ -420,8 +390,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	shn_form_text(_("Search by Name/Card Number :"),'head_name','size="50"',array('help'=>_('Search the Victims by their names or their Identity card Number')));
 	shn_form_button(_("Search & Add"),"onClick='add_evacuees()'");
 	shn_form_fclose();
-	//$result_array=array();
-	//shn_form_multi_select('evacuees',null,_("Evacuees : "),'size="5"');
+	
 
 	shn_form_select(array(),_("Victim : "),'victim_to','size="1"',array('req'=>true));
     	echo "<br />";
@@ -487,14 +456,6 @@ function _shn_ims_send_db()
     $organization_to = trim($_POST['organization_to']);
     $shelter_to = trim($_POST['shelter_to']);
     $victim_to = trim($_POST['victim_to']);
-//print $victim_to;
-//print ("mahesh");
-   /* print $organization_to;
-    print '<br/>';
-    print $shelter_to;
-    print '<br/>';
-    print $inv_to;
-    print '<br/>';*/
     
 	
     if($inv_to!='')
@@ -517,7 +478,6 @@ function _shn_ims_send_db()
 	$destination_type='victim';
     }
     
-    //print $item_id;
     $authorized_person=trim($_POST['authorized_person']);
     $requested_person=trim($_POST['requested_person']);
     $destribution=trim($_POST['destribution']);
@@ -528,9 +488,7 @@ function _shn_ims_send_db()
     $driver_mobile=trim($_POST['driver_mobile']);
     $driver_address=trim($_POST['driver_address']);
     $driving_licence=trim($_POST['driving_licence']);
-    //$destination_type=$_POST['destination_type'];
-    //print $destination_type;
-    //print($item_id);
+    
     $state=-1;
     
     global $global;
@@ -546,9 +504,7 @@ function _shn_ims_send_db()
     $multiplier=unit_converter($unit,$current_unit);
     
     $current_amount_convert=$current_amount*$multiplier;
-    
-    
-    //print $current_amount_convert;
+
     $remaining_amount=$current_amount_convert-$amount;
     
     $remaining_amount_new=$remaining_amount/$multiplier;
@@ -568,10 +524,10 @@ function _shn_ims_send_db()
 
     $sql1 = "INSERT INTO ims_transfer_item (item_id,catalog_id,amount_send,unit,inv_id_from,inv_id_to,destination_type,person_send,date_send,destribution_method ,requested_person,received_item_id,amount_received,person_received,date_received,cause,vehicle_number,driver_name,driver_mobile,driver_address,driving_licence) VALUES ('$item_id','$parent_id','$amount','$unit','$inv_id_from','$inv_to','$destination_type','$person_send','$date_send','$destribution','$requested_person','$state','$state','$state','$state','$cause','$vehicle_number','$driver_name','$driver_mobile','$driver_address','$driving_licence');";  
     $ims1 = $db->Execute($sql1);
-//print $sql1;
+
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
     $ims2 = $db->Execute($sql2);
-	//print $sql1;
+
     add_confirmation('Item sent successfully');
 
     shn_ims_send_item_page($catalog_id);
@@ -619,7 +575,6 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 
     $SearchResult=mysql_query($sql) or die(mysql_error()); 
 	$NumberOfResults=mysql_num_rows($SearchResult); 
-	//print $NumberOfResults;
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	
 	print(_("Go to Page : "));
@@ -627,7 +582,7 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
 		
-	    ?><a href="index.php?mod=ims&act=receive_item_paging&$i=<?php echo $i;?>&$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
+	    ?><a href="index.php?mod=ims&amp;act=receive_item_paging&amp;$i=<?php echo $i;?>&amp;$Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
     
@@ -671,10 +626,7 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
         $person_send=$ims1->fields['person_send'];
         $date_send=$ims1->fields['date_send'];
 
-        /*$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
-        $ims2=$db->Execute($sql2);
-        $inventory_from=$ims2->fields['inventory_name'];*/
-
+        
 	if($destination_type=='inventory')
 	{
 
@@ -698,7 +650,6 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 	{
 		$sql3="select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pg.g_uuid='$inv_id_to';";
     		$ims3=$db->Execute($sql3);
-		//print $sql3;
         	$inventory_to=$ims3->fields['full_name']." ".$ims3->fields['family_name'];
 	}
 
@@ -746,9 +697,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     $db=$global["db"];
     $state=-1;
     $sql = "SELECT item_id,amount_send,unit,inv_id_to,destination_type,vehicle_number,driver_name,driver_mobile,driver_address,driving_licence FROM ims_transfer_item WHERE transit_id='$transit_id';";
-    //print $sql;
     $ims = $db->Execute($sql);
-    //print $sql;
     $item_id=$ims->fields['item_id'];
     $amount=$ims->fields['amount_send'];
     $unit=$ims->fields['unit'];
@@ -802,7 +751,6 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	{
 		$sql2="select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pg.g_uuid='$inv_id_to';";
 		$ims2=$db->Execute($sql2);
-		//print $sql2;
         	$inventory_to=$ims2->fields['full_name']." ".$ims2->fields['family_name'];
 	}
 
@@ -819,7 +767,6 @@ $unit_select_array=array();
     
     $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
     $cms=$db->Execute($cq);
-    //print $cq;
     $unit_select_array[$unit]=$cms->fields['name'];
     
     $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
@@ -846,8 +793,7 @@ $unit_select_array=array();
     shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
     shn_form_date(_("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - separator is accepted')));
-    //shn_form_text(_("Date :") ,'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
-    //shn_form_text(_("Date Received (YYYY-mm-dd): "),'received_date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    
     shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
 
     shn_form_fsclose();
@@ -892,11 +838,6 @@ function _shn_ims_receive_item_db()
     $transit_id=trim($_POST['transit_id']);
     $suplier_id=trim($_POST['suplier_id']);
 
-    //$convert_amount_send=$amount_send*unit_converter($unit,$unit_send);
-    
-    
-    //if($convert_amount_send>$received_amount || $convert_amount_send==$received_amount)
-    //{
     global $global;
     $db=$global["db"];
     
@@ -911,11 +852,9 @@ function _shn_ims_receive_item_db()
     $manufactured_date=$ims2->fields['manufactured_date'];
     $expire_date=$ims2->fields['expire_date'];
     $state=$ims2->fields['state'];
-
-    //print $item_name;
     
     $sql3="INSERT INTO ims_item_records(catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
-    //print $sql3;
+    
     $ims3=$db->Execute($sql3);
 
     $sql4="SELECT item_id FROM ims_item_records WHERE transit_id='$transit_id';";
@@ -929,9 +868,6 @@ function _shn_ims_receive_item_db()
 
     shn_ims_receive_item();
     
-    //}
-    
-
 }
 
 function _shn_ims_validate_send_item_page()
@@ -950,14 +886,7 @@ function _shn_ims_validate_send_item_page()
     $organization_to = trim($_POST['organization_to']);
     $shelter_to = trim($_POST['shelter_to']);
     $victim_to = trim($_POST['victim_to']);
-   /* print $organization_to;
-    print '<br/>';
-    print $shelter_to;
-    print '<br/>';
-    print $inv_to;
-    print '<br/>';*/
-    
-	
+   	
     if($inv_to!='')
     {
 	$destination_type='inventory';
@@ -1187,21 +1116,7 @@ function _shn_admin_set_option_javascript()
     {
         var xmlhttp;
         
-        //conditional compliation
-        /*@cc_on
-        @if (@_jscript_version >= 5)
-            try {
-                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (e) {
-                try {
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (E) {
-                    xmlhttp = false;
-                }
-            }
-        @else
-            xmlhttp = false;
-        @end @*/
+        
 
         if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
             try {
@@ -1223,26 +1138,20 @@ function handleHttpResponse(){
                 results = http.responseText.split(",");
 		
                 if (results[0]!="null")
-            	{ //alert(results.length); 
-		//alert(results[0].length);
+            	{ 
                 var x=document.getElementsByName('victim_to');
-		//alert(x[0]);
-
+		
                     for (i=0; i<=x[0].options.length+1; i++)
-                    {//alert("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                    {
                             x[0].options[0]=null;
-				//x[0].options[0]="aaaaa";
+				
                             }
  		
-//                          opt = document.createElement("option") ;
-//                           opt.value = "xxxxxxxxxxxxxx";
-//                           opt.text = "xxxxxxxxxxxxxx".replace(/[^A-Za-z]$/,"");
-//                           x[0].options[0] = opt;
 
                 j=0;
                 for (i=1; i<results.length-1; i=i+2, j++)
                     {
-                    //alert(results[i]);
+                    
                          opt = document.createElement("option") ;
                           opt.value = results[i] ;
                           opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
@@ -1296,8 +1205,7 @@ function handleHttpResponse(){
 	function add_evacuees(){
 		
         	var y=document.getElementsByName("head_name");
-		//document.write(document.getElementsByName("head_name"));
-		//document.write('hello');
+		
        		http = getHTTPObject();
         	var url2=url + "act=victims&head_name="+y[0].value;
         	//var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;

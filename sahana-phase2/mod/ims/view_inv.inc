@@ -89,7 +89,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
         $q = "SELECT inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space FROM  ims_inventory_records WHERE parent_id=0 ORDER BY inv_uuid desc";
         $res_org=$db->SelectLimit($q,$no);
     }
-//print $q;
+
     while(!$res_org==NULL && !$res_org->EOF){
         $org_id=$res_org->fields[0];
         if($org_id!=NULL){
@@ -215,8 +215,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $q = "SELECT location_id FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_loc=$db->Execute($q);
     $bsd_village=$res_loc->fields[0];
-   // $loc=_shn_or_ims_get_org_loc_parents($org_id);
-    //$bsd_village=$loc[5][2];
+   
     }
 ?>
 <h2><?=_("Inventory Registration Information of <em>").$org_name?></em></h2>
@@ -233,9 +232,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
     shn_form_text(_("Inventory Name : "),'org_name','size="50"', $extra_opts); 
-   
-    //shn_form_fsopen("Base Location");
-    //$range= shn_ims_get_loc_range();
+
     $range=array("start"=>1,"end"=>5);
     
     //shn_location($range,$bsd_village,null);

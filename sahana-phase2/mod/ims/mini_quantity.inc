@@ -145,7 +145,6 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     
     $cq = "SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
     $cms = $db->Execute($cq);
-    //print $cq;
     $unit_array[$unit] = $cms->fields['name'];
     
     $query = "SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
@@ -210,9 +209,7 @@ function _shn_ims_mini_quantity_db()
         $ims = $db->Execute($sql);
 
     add_confirmation('Re-Order level was succesfully Added');
-    //print ('q');
-
-    //print $sql;
+   
     $flag = "";
     $catalog_id = "";
     $inv_id = "";
@@ -291,21 +288,19 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     
     $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level LIMIT $page_number,$Limit;";  
     $ims1 = $db->Execute($sql1);
-//print $sql1;
+
     $sql = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
 
     $SearchResult = mysql_query($sql) or die(mysql_error()); 
     $NumberOfResults = mysql_num_rows($SearchResult); 
-    //print $NumberOfResults;
-    //if($NumberOfResults!='0' || $Limit!='0')
-   // {
+   
     $NumberOfPages = ceil($NumberOfResults / $Limit); 
-    //}
+    
     
     print(_("Go to Page : "));
 
     for ($i = 1; $i < $NumberOfPages + 1; $i++) {
-        //print $i." ";
+        
         ?><a href="index.php?mod=ims&act=reorder_level_paging&$i=<?php echo $i; ?>&$Limit=<?php echo $Limit; ?>"><?php print ($i . " "); ?></a><?php
         print "\n";
     }
@@ -327,13 +322,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     <tbody>
 <?php
         
-        //$state_des="destroyed";
-        //$item_search=$_POST['item_name_search'];
-        //print ($item_search);
-        
-        
-
-        while (!$ims1 == NULL && !$ims1->EOF) {
+       while (!$ims1 == NULL && !$ims1->EOF) {
             $catalog_id = $ims1->fields["catalog_id"];
             $inv_id = $ims1->fields["inv_id"];
             $minimum_quantity = $ims1->fields['minimum_quantity'];
@@ -430,13 +419,13 @@ function _shn_ims_minimum_quantity_action()
 
     $action = trim($_POST['action']);
     $Limit = trim($_POST['records']);
-    //print $Limit;
+    
 
     if ($action == 'reorder') {
         shn_ims_minimum_quantity_item();
     }
     if ($action == '0') {
-        //print $Limit;
+        
 
     if (!is_numeric($Limit)) {
         add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);

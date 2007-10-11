@@ -56,20 +56,12 @@ function _shn_ims_add_item_header()
 
 function _shn_ims_add_item_main_page($inventory_id) 
 {    
-    //print $inventory_id; 
-    //$inventory_id=5;
     global $global;
-    //global $conf;
     $db = $global['db'];
 
-     $tables = array('ims_item_records' => 'c' , 'ims_inventory_records' => 'c' , 'ct_catalogue' => 'r');
- /*$tables= array(
-				'field_options'=>'4',
-				'org_main'=>'8'
-				);*/
-   if (shn_acl_check_table_only_perms($tables) == DENIED) {
-        return false;
-   }
+     //$tables = array('ims_item_records' => 'c' , 'ims_inventory_records' => 'c' , 'ct_catalogue' => 'r');
+ 
+   
 ?>
 
     <h1 align="center"><?php print _("Add items to the Inventory"); ?><br></h1>
@@ -97,10 +89,9 @@ function add_item($temp,$parent_id)
 {
     $form_opts['name'] = 'additemform';
     $inv_id = $_POST['inventory_id'];
-    //print $inv_id;
+    
     $parent_id1 = $parent_id;
-    //print ($temp);
-    //print ($cat);
+    
     if ($temp != null || $parent_id != null) {
         
         global $global;
@@ -128,9 +119,7 @@ function add_item($temp,$parent_id)
                 break;
             }
         }
-    //print ("test");    
-    //echo $parent_id;
-
+  
         global $global;
         $db = $global["db"];
         $sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id';";
@@ -145,7 +134,7 @@ function add_item($temp,$parent_id)
     }
 
 
-    //print $item_name;
+    
     shn_form_fsopen('Primary Details');
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
@@ -156,7 +145,7 @@ function add_item($temp,$parent_id)
     
     $cq = "SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
     $cms = $db->Execute($cq);
-    //print $cq;
+    
     $unit_select_array[$unit] = $cms->fields['name'];
     
     $query = "select * from ct_cat_unit where ct_uuid='$parent_id'";
@@ -184,14 +173,12 @@ function add_item($temp,$parent_id)
     $inventory_array[$inv_id] = $ims0->fields['inventory_name'];
     $q = "SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
     $ims = $db->Execute($q);
-    //$j=0;
+    
     while ($ims != NULL && !$ims->EOF) {
         
         $inventory_array[$ims->fields['inv_uuid']] = $ims->fields['inventory_name'];
         $ims->MoveNext();
-        //$j=$j+1;
-        //print ($j);
-
+        
     }
 
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the List Inventories Menu and add an Inventory first')));
@@ -201,10 +188,9 @@ function add_item($temp,$parent_id)
     shn_form_fsopen(_('Secondary details'));
     //$extra_opts['value'] = $manufactured_date;
     shn_form_date(_("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
-   // shn_form_text(_("Manufactured Date : "),'manufactured_date','size="25"',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
-    //$extra_opts['value'] = $expire_date;
+   
     shn_form_date(_("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
-    //shn_form_text(_("Expire Date :"),'expire_date','size="25"',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - seperater is accepted')));
+    
         
     shn_form_fsclose();
 
@@ -215,10 +201,7 @@ function add_item($temp,$parent_id)
     
     $suplier_name_array = array();
     $suplier_name_array = _shn_or_get_suplier_name($suplier_id);
-    //$suplier_array[$suplier_id]=_shn_or_get_suplier_name($suplier_id);
-    
-    
-    //shn_or_org_list();
+   
     shn_form_select($suplier_name_array,_("Supplier Organization : "),'suplier_id','size="1"',array('help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
 //----------------------------------------------------------------------------------------------------------------
     
@@ -227,40 +210,20 @@ function add_item($temp,$parent_id)
 
     
 
-    //shn_form_hidden(array('cat'=>$category));
+   
     shn_form_hidden(array('parent_id'=>$parent_id));
     if ($temp == NULL) {
-        /*$parent_id = trim($_POST['0']);
-    // this 5 should be replaced by the $max that is retrieved from the DB
-    for($i=1;$i<5;$i++)
-    {
-    $parent_id = trim($_POST[$i]);
-    
-        if($parent_id==null)
-        {
-        $parent_id = $_POST[$i-1];
-        break;
-        }
-    }
-    //print ("test");    
-    echo $parent_id;*/
-    
-        //print $parent_id;
+       
         shn_form_hidden(array('parent_id'=>$parent_id));
         shn_form_submit(_("Submit"));
     } else {
-        //print $parent_id;
+       
         shn_form_hidden(array('temp' => $temp));
         shn_form_hidden(array('parent_id' => $parent_id));
         shn_form_submit(_("Save"));
-        //shn_form_button("Delete");
-        //shn_form_button("Destroy");
-
+     
     }
 
-
-    //shn_form_fclose();
-    
     }
 
 ?>

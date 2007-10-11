@@ -47,13 +47,7 @@ function _shn_ims_default()
 <?php
     //shn_form_fopen(null);
     shn_form_fsopen();
-/*$name1="Mahesh";
-$name2="Kalu";
 
-$name=$name1."-".$name2;
-print $name;*/
-//print dateDiff1("-","01-10-2006","01-01-2006");
-//print dateDiff("01-10-2006","01-01-2006");
 ?>    
     <table>
     <thead>
@@ -74,8 +68,6 @@ print $name;*/
         global $global;
         $db = $global["db"];
         $state_des = "destroyed";
-        //$item_search=$_POST['item_name_search'];
-        //print ($item_search);
         
         $sql = "SELECT item_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date FROM ims_item_records WHERE state!='$state_des' AND amount!=0 ORDER BY item_id DESC ;";
         $ims = $db->Execute($sql);

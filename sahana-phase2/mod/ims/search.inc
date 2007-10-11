@@ -41,10 +41,7 @@ function _shn_ims_search_main($search_name_temp)
     shn_form_fsclose();
     shn_form_fclose();
 
-    //$opt = _shn_ims_update_loc();
-    //print $opt;
-    //print ("hello");
-    //print $search_name_temp;
+   
     if ($search_name_temp=='inventory') {
         _shn_ims_form_search();
     } else if ($search_name_temp=='item') {
@@ -91,8 +88,7 @@ function _shn_ims_search_item_page()
             break;
         }
     }
-    //print ("test");    
-    //echo $parent_id;
+   
 ?>
 
 <h1 align="center"><?php print _("Search an inventory item"); ?></h1>
@@ -126,8 +122,7 @@ function _shn_ims_search_item_page()
         
         $inventory_array[$ims->fields['inv_uuid']] = $ims->fields['inventory_name'];
         $ims->MoveNext();
-        //$j=$j+1;
-        //print ($j);
+       
 
     }
     
@@ -138,13 +133,7 @@ function _shn_ims_search_item_page()
 
     shn_form_hidden(array('parent_id'=>$parent_id));
     shn_form_submit(_("Submit"));
-    
-    
-    
-    
 
-    //shn_form_fsopen();    
-    //$extra_opts['req']=false;
 ?>
 
         
@@ -161,8 +150,7 @@ function _shn_ims_search_item_db()
         <h1 align="center"><?php print _("Search Results"); ?></h1>
 <?php
         $catalog_id = trim($_POST['parent_id']);
-        //print $catalog_id;
-
+        
         $item_name = $_POST['item_name'];
         $item_state = $_POST['item_state'];
         $inv_id = $_POST['inventory'];
@@ -170,7 +158,6 @@ function _shn_ims_search_item_db()
         global $global;
         $db = $global["db"];
 
-        //print ($item_search);
         if ($inv_id == '0') {
         $sql = "SELECT item_id,suplier_id,unit,state,amount,inv_id FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state';";
         } else {
@@ -178,7 +165,7 @@ function _shn_ims_search_item_db()
         $sql = "SELECT item_id,suplier_id,unit,state,amount,inv_id FROM ims_item_records WHERE item_name='$item_name' AND state='$item_state' AND inv_id='$inv_id';";
         }
         $ims = $db->Execute($sql);
-        //print $sql;
+        
 ?>
 
         <div id ="result">
@@ -208,12 +195,6 @@ function _shn_ims_search_item_db()
 
             $inventory_id = $ims->fields['inv_id'];
             
-            //print $suplier_name;
-            //print $suplier_id;
-            //print $suplier_name;
-            //$inv_id=$ims->fields['inv_id'];
-            //$item_name=$ims->fields["item_name"];
-            //$sum_amount=$ims->fields["SUM(amount)"];
             $amount = $ims->fields["amount"];
             
             
@@ -221,20 +202,13 @@ function _shn_ims_search_item_db()
             $base_unit = convert_to_base_unit($unit);
             
             $converted_amount = $amount * unit_converter($base_unit,$unit);
-            //print $converted_amount;
+            
             $sum_amount = $sum_amount + $converted_amount;
-            //print $sum_amount;
+            
             $unit_name = get_unit_name($unit);
             $base_unit_name = get_unit_name($base_unit);
             $state = $ims->fields['state'];
-            //$manufactured_date=$ims->fields["manufactured_date"];
-            //$expire_date=$ims->fields["expire_date"];
-           /*if($inv_id==0)
-           {
-           $query="SELECT inv_id FROM ims_item_records WHERE item_id='$item_id';";
-           $ims_query=$db->Execute($query);
-           $inventory_id=$ims_query->fields['inv_id'];
-           }*/
+           
            $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
            $ims2 = $db->Execute($sql2);
            $inventory_name = $ims2->fields['inventory_name'];
@@ -290,7 +264,7 @@ function _shn_ims_search_item_db()
 	<tbody>
 <?php
         //$alternate_sum_amount=0;
-        //print $inv_id;
+        
         if ($inv_id == 0) {
         $inv_id = 'all';
         } else {
@@ -298,7 +272,7 @@ function _shn_ims_search_item_db()
         }
         $sql3 = "SELECT * FROM ims_alternate WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
         $ims3 = $db->Execute($sql3);
-        //print $sql3;
+        
         while (!$ims3 == NULL && !$ims3->EOF) {
                 $alternate = $ims3->fields['alternate'];
 
@@ -308,7 +282,7 @@ function _shn_ims_search_item_db()
                     $sql4 = "SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_id' AND state='$item_state';";
                 }
                 $ims4 = $db->Execute($sql4);
-                //print $sql4;
+               
                 while (!$ims4 == NULL && !$ims4->EOF) {
                 $item_id = $ims4->fields["item_id"];
             $suplier_id = $ims4->fields["suplier_id"];
@@ -326,22 +300,14 @@ function _shn_ims_search_item_db()
             $base_unit = convert_to_base_unit($unit);
             
             $converted_amount = $amount * unit_converter($base_unit,$unit);
-            //print $converted_amount;
+            
             $sum_amount = $sum_amount + $converted_amount;
             $alternate_sum_amount = $alternate_sum_amount + $converted_amount;
-            //print $sum_amount;
+            
             $unit_name = get_unit_name($unit);
             $base_unit_name = get_unit_name($base_unit);
             $state = $ims->fields['state'];
-            //$manufactured_date=$ims->fields["manufactured_date"];
-            //$expire_date=$ims->fields["expire_date"];
-        /*if($inv_id==0)
-        {
-        $query="SELECT inv_id FROM ims_item_records WHERE item_id='$item_id';";
-        $ims_query=$db->Execute($query);
-        $inventory_id=$ims_query->fields['inv_id'];
-
-        }*/
+            
 
                 $sql5 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inventory_id';";
                 $ims5 = $db->Execute($sql5);
@@ -459,16 +425,11 @@ function _shn_ims_search_inventory_db()
     $_SESSION['ims_5'] = $_POST['5'];
 
     $bsd_village = _shn_ims_get_locid();
-    //print $bsd_village;
-
-   // print $bsd_village;
+   
 
     $loc = array();
     $loc = _shn_ims_get_parent_locations($bsd_village);
-    //print(count($loc));
-
     $name_temp = trim($_POST['inventory_name']);
-    //print $name_temp;
     $name = soundex($name_temp);
 
 ?>
@@ -495,32 +456,30 @@ function _shn_ims_search_inventory_db()
                 $sql = "SELECT * FROM ims_inventory_records WHERE inventory_name LIKE '%{$name_temp}%'";
                 $ims = $db->Execute($sql);
         }
-        //print $sql;
+        
         $temp_flag = -1;
     }
     if ($name_temp == NULL && $bsd_village != NULL) {
-        //print ("Hello");
+        
         $sql = "SELECT * FROM location_details;";
         $ims = $db->Execute($sql);
         $temp_flag = 0;
     }
     if ($name_temp != NULL && !$bsd_village == 0) {
-        /*$sql="SELECT * FROM ims_inventory_records;";
-        $ims=$db->Execute($sql);
-        $temp_flag=1;*/
+        
         $sql = "SELECT * FROM ims_inventory_records WHERE SOUNDEX(inventory_name)=SOUNDEX('$name_temp');";
         $ims = $db->Execute($sql);
         if ($ims->fields['inv_uuid'] == NULL) {
                 $sql = "SELECT * FROM ims_inventory_records WHERE inventory_name LIKE '%{$name_temp}%'";
                 $ims = $db->Execute($sql);
         }
-        //print $sql;
+        
         $temp_flag = 1;
     }
 
     include_once ('view_inv.inc');
     while (!$ims == NULL && !$ims->EOF) {
-        //print $temp_flag;
+        
         if ($temp_flag == -1) {
             $inv_uuid = $ims->fields['inv_uuid'];
             if ($inv_uuid != NULL) {
@@ -530,15 +489,14 @@ function _shn_ims_search_inventory_db()
         if ($temp_flag == 0) {
     
           $location_id = $ims->fields['location_id'];
-//print $location_id;
 
            for ($i = 0; $i < count($loc); $i++) {
                 $temp = $loc[$i];
-                //print($temp.'='.$location_id."\n");
+                
                 if ($temp == $location_id) {
                     $poc_uuid = $ims->fields['poc_uuid'];
                         _shn_display_org($flag = false,$poc_uuid);
-                     //print $poc_uuid;
+                     
                      break;
                 }
 
@@ -547,10 +505,7 @@ function _shn_ims_search_inventory_db()
         }
 
         if ($temp_flag == 1) {
-            //$inventory_name=$ims->fields['inventory_name'];
-            //$inventory_name=soundex($inventory_name);
-            //if($inventory_name==$name)
-            //{
+            
                 $inv_uuid = $ims->fields['inv_uuid'];
                 $sql1 = "SELECT * FROM location_details WHERE poc_uuid='$inv_uuid';";
                 $ims1 = $db->Execute($sql1);
@@ -558,20 +513,19 @@ function _shn_ims_search_inventory_db()
 
               for ($i = 0; $i < count($loc); $i++) {
                 $temp = $loc[$i];
-                //print($temp.'='.$location_id."\n");
+                
                 if ($temp == $location_id) {
                     //$poc_uuid=$ims->fields['poc_uuid'];
                     _shn_display_org($flag = false,$inv_uuid);
-                    //print $poc_uuid;
+                    
                     break;
                 }
             }
 
-           // }
+           
 
         }
-           // $sql1="SELECT * FROM ";
-        //}
+           
         $ims->MoveNext();
     }
 ?>
@@ -596,10 +550,7 @@ function _shn_ims_validate_search_inventories()
 
     $bsd_village = _shn_ims_get_locid();
     $name = trim($_POST['inventory_name']);
-    //print $name;
-    //print $bsd_village;
-    //if ($name==null)
-    //{
+    
         if ($bsd_village == '0' && $name == null) {
             $error_flag = true;
         }
@@ -610,8 +561,7 @@ function _shn_ims_validate_search_inventories()
             $error_flag = true;
         }
     }
-    //}
-    //print $error_flag;
+    
     return $error_flag;
     
 }
@@ -649,16 +599,16 @@ function _shn_ims_search_address()
         //$q = "select * from location_details where (address like '%{$address}%' AND poc_uuid='{$inv_uuid}') OR ";
         $ims1 = $db->Execute($q);
         $poc_uuid = $ims1->fields['poc_uuid'];
-        //print $poc_uuid;
+        
         $org_id = $poc_uuid;
-        //print $ims1;
+        
         if ($org_id == NULL) {
                 $q = "SELECT * FROM contact WHERE contact_value LIKE '%{$address}%' AND pgoc_uuid='{$inv_uuid}' ORDER BY contact_value;";
                 $ims1 = $db->Execute($q);
                 $poc_uuid = $ims1->fields['pgoc_uuid'];
                 $org_id = $poc_uuid;
         }
-        //print $q;
+        
 
 
          _shn_display_org($flag = false,$org_id);
@@ -698,11 +648,6 @@ function _shn_ims_form_search_old()
      shn_location($range,$_POST[$range["end"]],null,true); 
     shn_form_fsclose();
 
-/*shn_form_fsopen(" Location");
-       $parent=_shn_ims_get_start_loc();
-       $range= shn_ims_get_loc_range();
-      shn_location($range,null,$parent); 
-    shn_form_fsclose();*/
 //-------------------------------------------
 
 

@@ -28,17 +28,9 @@ function _shn_ims_report_minimum()
 {
     global $global;
     $db = $global["db"];
-    //$item_search=$_POST['item_name_search'];
-    //$category_search=$_POST['itemcat'];
-    //print ($item_search);
+   
     $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
     $ims1 = $db->Execute($sql1);
-    
-    //$amount=0;
-    //print $sql1;    
-    
-    /*$sql = "SELECT item_id,category,item_name,amount,unit,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE amount<200 ;";
-    $ims = $db->Execute($sql);*/
 ?>
 <h1 align="center"><?php print _("Re-Order Level"); ?></h1>
 <?php
@@ -74,30 +66,24 @@ function _shn_ims_report_minimum()
         
 <?php
         $state = "destroyed";
-        //$state_des="destroyed";
+        
         $sum_amount = 0;
-        //print time();
-        //print ("\n");
         
         while (!$ims1 == NULL && !$ims1->EOF) {
             $catalog_id_min = $ims1->fields['catalog_id'];
-            //print $item_id_min;
+            
             $inv_id_min = $ims1->fields['inv_id'];
-            //print $inv_id_min;
+            
             $minimum_quantity = $ims1->fields['minimum_quantity'];
             
-            //print $minimum_quantity;
             $unit = $ims1->fields['unit'];
             
             $unit_name = get_unit_name($unit);
 
             $sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min'AND state!='$state';";
             $ims2 = $db->Execute($sql2);
-            //print $sql2;
-            //print $sql2;
-            //print $sql2;
+            
             while (!$ims2 == NULL && !$ims2->EOF) {
-            //$sum_amount = $ims2->fields['SUM(amount)'];
             $current_unit = $ims2->fields['unit'];
             $current_amount = $ims2->fields['amount'];
                         
@@ -109,38 +95,27 @@ function _shn_ims_report_minimum()
     
     $sum_amount = $sum_amount + $current_amount_convert;
     
-    //$total_amount=$sum_amount;
     
             $ims2->MoveNext();
             }
     
-//$sum_amount=0;
+
         if ($sum_amount < $minimum_quantity) {
                 $total_amount = $sum_amount;
                 $sum_amount = 0;
                 $sql3 = "SELECT item_id,item_name,unit FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min';";
                 $ims3 = $db->Execute($sql3);
     
-            
-                //print $sql3;
-
                 $sql4 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_min';";
                 $ims4 = $db->Execute($sql4);
                 $inventory_name = $ims4->fields['inventory_name'];
-                //print $sql2;
-                //print $sql4;
-
+                
                 $item_id = $ims3->fields["item_id"];
 
             if ($item_id != null) {
-                   
-                //$category=$ims2->fields["category"];
                 $item_name = $ims3->fields["item_name"];
-                //$amount=$ims2->fields["amount"];
-                //$amount=$current_amount + $amount;
                 $unit = $ims3->fields["unit"];
-                //$manufactured_date=$ims->fields["manufactured_date"];
-                //$expire_date=$ims3->fields["expire_date"];
+                
             
 
 ?>
@@ -273,8 +248,7 @@ function _shn_ims_report_expired()
     </div>
 <?php
      shn_form_fclose();
-    //shn_form_submit("Destroy");
-    //shn_form_fclose();
+    
 }
 
 
@@ -618,10 +592,9 @@ print $time_period1;
     print $current_date;
     $week = date("d-m-Y",time() - 604800);
     print "\n";
-    //print $week;
+    
     $next_date = "01-06-2006";
-    // ".";
-    //print dateDiff("-",$current_date,$next_date);
+    
 
 //------------------------------------------------------------------------------------------------
 
@@ -629,22 +602,9 @@ print $time_period1;
     $sql0 = "SELECT item_id,item_name,amount,unit,inserted_date FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND state!='$state' AND (TO_DAYS(CURRENT_DATE())-TO_DAYS(inserted_date))<8;";    
     $ims0 = $db->Execute($sql0);
     print $sql0;
-    //print $sql0;
-    //print $sql0;
+    
     $sum_amount = 0;
     $sum_amount2 = 0;
-    
-    /*list($year,$month,$date) = split('-', $inserted_date);
-    //$inserted_date=$day+$month+$year;
-    $inserted_date=unixtojd();
-    //print $inserted_date;
-
-    $jd = gregoriantojd(12,12,2006);
-    print ("HI");
-    $unix = jdtounix($jd);
-    //echo($unix);
-
-    print (unixtojd($inserteddate-$unix));*/
 
     while (!$ims0 == NULL && !$ims0->EOF) {
         $item_id = $ims0->fields["item_id"];
@@ -653,27 +613,12 @@ print $time_period1;
         $unit = $ims0->fields["unit"];
         $inserted_date = $ims0->fields["inserted_date"];
 
-        //$inserted_date=strrev($inserted_date);
-
-// Delimiters may be slash, dot, or hyphen
-//$date = "04/30/1973";
-
-//echo "Month: $month; Day: $day; Year: $year<br />\n";
-
         $base_unit = convert_to_base_unit($unit);
         $previous_sum_amount = 0;
 
-        //if(dateDiff("-",$current_date,$inserted_date)<$time_period1)
-        //{
-            
         $converted_amount = $amount * unit_converter($base_unit,$unit);
-            //print $converted_amount;
         $sum_amount = $sum_amount + $converted_amount;
-        //}
-        //if(dateDiff("-",$current_date,$inserted_date)<$time_period2)
-        //{
-        //$converted_amount2=$amount*unit_converter($base_unit,$unit);
-        //print $converted_amount;
+        
         $sum_amount2 = $sum_amount2 + $converted_amount2;
         //}
         $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
@@ -807,11 +752,10 @@ function _shn_ims_transfer_item_report()
 {
     global $global;
     $db = $global['db'];
-    //$state=
-
+    
     $sql1 = "SELECT transit_id,item_id,amount_send,unit,inv_id_to,destination_type,person_send,date_send FROM ims_transfer_item;";
     $ims1 = $db->Execute($sql1);
-   // print $sql1;
+   
 ?>
     <div id='result'>
     <table>
@@ -841,10 +785,6 @@ function _shn_ims_transfer_item_report()
         $person_send = $ims1->fields['person_send'];
         $date_send = $ims1->fields['date_send'];
 
-        /*$sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_from';";
-        $ims2=$db->Execute($sql2);
-        $inventory_from=$ims2->fields['inventory_name'];*/
-
         if ($destination_type == 'inventory') {
 
         $sql3 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_to';";
@@ -861,7 +801,6 @@ function _shn_ims_transfer_item_report()
         } else if ($destination_type == 'victim') {
                 $sql3 = "select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pu.p_uuid='$inv_id_to';";
                 $ims3 = $db->Execute($sql3);
-                //print $sql3;
                 $inventory_to = $ims3->fields['full_name'] . " " . $ims3->fields['family_name'];
         }
 

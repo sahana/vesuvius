@@ -48,7 +48,7 @@ function shn_ims_expired_item_report()
     	
    	shn_report_fopen('pdf',"expired_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 
@@ -73,7 +73,7 @@ function shn_ims_expired_item_ods()
     
     shn_report_fopen('ods',"expired_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 
@@ -93,7 +93,7 @@ function shn_ims_expired_item_xhtml()
 
     shn_report_fopen('xhtml',"expired_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();    
 }
@@ -111,7 +111,7 @@ function shn_ims_destroyed_item()
     	
    	shn_report_fopen('pdf',"destroyed_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();  
 
@@ -131,7 +131,7 @@ function shn_ims_destroyed_item_ods()
     
     shn_report_fopen('ods',"destroyed_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();  
 
@@ -151,7 +151,7 @@ function shn_ims_destroyed_item_xhtml()
     
     shn_report_fopen('xhtml',"destroyed_items",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close(); 
 
@@ -172,7 +172,7 @@ function shn_ims_reorder_level_report_pdf()
 
     shn_report_fopen('pdf',"reorder_level",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close(); 
 
@@ -191,7 +191,7 @@ function shn_ims_reorder_level_report_ods()
     
     shn_report_fopen('ods',"reorder_level",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close(); 
 
@@ -210,7 +210,7 @@ function shn_ims_reorder_level_report_xhtml()
     
     shn_report_fopen('xhtml',"reorder_level",$ims_report_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close(); 
 

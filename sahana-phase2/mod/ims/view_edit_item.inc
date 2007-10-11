@@ -40,8 +40,6 @@ function _shn_ims_view_edit_header()
 
 function _shn_ims_view_edit($i,$Limit=null)
 {
-    //print $Limit;
-    
     global $global;
     $module = $global['module'];
     $form_opts['name']="edit_item";
@@ -99,12 +97,9 @@ function _shn_ims_view_edit($i,$Limit=null)
 
 	$SearchResult=mysql_query($sql) or die(mysql_error()); 
 	$NumberOfResults=mysql_num_rows($SearchResult); 
-	//print $NumberOfResults;
-	
+		
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
-	//print $NumberOfPages;
-
-	//print '<b>';
+	
 	
 	print(_("Go to Page : "));
 	
@@ -132,22 +127,16 @@ function _shn_ims_view_edit($i,$Limit=null)
             $manufactured_date=$ims->fields["manufactured_date"];
             $expire_date=$ims->fields["expire_date"];
             
-	//print $suplier_id;
-
+	
         $sql1="SELECT name FROM ct_catalogue WHERE ct_uuid='$catalog_id';";
         $ims1 = $db->Execute($sql1);
             $category=$ims1->fields["name"];
 
         $sql2="SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims2= $db->Execute($sql2);
-//print $sql2;
-        $inventory_name = $ims2->fields["inventory_name"];
-            //$parent_id=$ims1->fields["parentid"];
 
-        /*$org_list_array=shn_or_org_list();
-	print_r($org_list_array);
-        $suplier_name=$org_list_array[$suplier_id];
-	print $suplier_name;*/
+        $inventory_name = $ims2->fields["inventory_name"];
+           
 
 	$suplier_name_array=array();
     $suplier_name_array=_shn_or_get_suplier_name($suplier_id);
@@ -209,12 +198,10 @@ function _shn_ims_edit_item_db()
         
         $db=$global["db"];
         $temp=trim($_POST['temp']);
-        //print ($temp);
+        
         $cate=trim($_POST['cat']);
         $item=trim($_POST['item_name']);
-        //print ($temp);
         
-        //print ($cate);
         $amou=trim($_POST['amount']);
         $unit=trim($_POST['unit_select']);
         $manufactured_date=trim($_POST['manufactured_date']);
@@ -222,12 +209,9 @@ function _shn_ims_edit_item_db()
         $inv_id=trim($_POST['inv_id']);
         $cost_per_unit=trim($_POST['cost_per_unit']);
         $suplier_id=trim($_POST['suplier_id']);
-
-
-        //print ($expire_date);
         
             $sql = "UPDATE ims_item_records SET item_name='{$item}',suplier_id='{$suplier_id}',amount='{$amou}',unit='{$unit}', manufactured_date='{$manufactured_date}',expire_date='{$expire_date}',inv_id='{$inv_id}',cost_per_unit='{$cost_per_unit}' WHERE item_id=$temp;";
-//echo $sql;
+
         $ims = $db->Execute($sql);
         
         
@@ -249,10 +233,9 @@ function _shn_ims_view_edit_item_actions()
 
     $action=trim($_POST['action']);
 
-//print $action;
-//print '<br/>';
+
     $stat=$_POST['status'];
-//print ($stat);
+
     if($action=='0')
     {
 	if(!is_numeric($stat))

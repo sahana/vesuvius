@@ -561,7 +561,7 @@ function _shn_ims_gis_inv($inv_id)
 {
     global $global;
     $db=$global['db'];
-    //print $inv_id;
+    
     $map_array=array();
     $url="mod=ims&act=view_inv&id=$inv_id";
 
@@ -589,8 +589,7 @@ function _shn_ims_gis_inv($inv_id)
     {
 	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
 	$ims1=$db->Execute($sql1);
-	//print $sql1;
-
+	
 	$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
 			$ims2=$db->Execute($sql2);
 
@@ -618,7 +617,6 @@ function _shn_ims_get_location($inv_id)
 	{
 		$sql2="SELECT * FROM location WHERE loc_uuid='$location_id';";
 		$ims2=$db->Execute($sql2);
-//print $sql2;
 		$parent_id=$ims2->fields['parent_id'];
 		$name=$ims2->fields['name'];
 		//array_push($string_array,$location_id=>$name);
@@ -630,8 +628,7 @@ function _shn_ims_get_location($inv_id)
 
 	for($j=$i-2;$j>=0;$j--)
 	{
-		//print $string_array[$j];
-		//print "\n";
+		
 		$string=$string_array[$j];
 		if($j==$i-2)
 		{
@@ -753,10 +750,8 @@ function _shn_ims_sum_amount($catalog_id,$inv_id)
 		$unit=$ims1->fields['unit'];
 			
 		$base_unit=convert_to_base_unit($unit);
-		//print unit_converter($base_unit,$unit);
 		$converted_amount=$amount*unit_converter($base_unit,$unit);
-		//print unit_converter($base_unit,$unit);
-            
+		
                 $sum_amount=$sum_amount + $converted_amount;
 		$ims1->MoveNext();			
 	}
@@ -850,9 +845,7 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 	$date_diff=_shn_ims_count_days($date_inv,$current_date);
 
 	$item_state_destroyed="destroyed";
-	//print $date_diff;
-	//print ("M");
-	//$sum_amount=0;
+	
 	for($i=$date_diff;$i>=0;$i-=$time_period)	
 	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
 	{
@@ -860,7 +853,7 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
 		$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND state!='$item_state_destroyed';";
 		$ims2=$db->Execute($sql2);
-		//print $sql2;
+		
 		$sum_amount=0;
 		$sum_amount_temp=0;
 		while(!$ims2==NULL && !$ims2->EOF)
@@ -886,15 +879,11 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 			$ims2->MoveNext();
 		}
 		$actual_value=$sum_amount_temp;
-		//print $actua_value;
-		//print ("kkk");
+		
 		$week=$week+1;
 		$temp=$week+1;
 		$alpha=2/$temp;
 		
-		//print $alpha;
-		//print "<br>";
-		//print $week;
 		if($week==1)
 		{
 			$forecasted_value=0;
@@ -910,13 +899,13 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 			//$forecasted_value_smoothing=$alpha_smoothing*$forcasted_value;
 			//$forecasted_value=$forecasted_value_smoothing + $actual_value_smoothing;
 		}
-		//print $forecasted_value.",";
+		
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
-		//print $sql3;
+		
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
-		//print $date_inv;
+		
 		if($week==1)
 		{
 			$forecasted_value=$forecasted_value_temp;
@@ -927,12 +916,6 @@ function _shn_ims_insert_data_to_predict($catalog_id,$inv_id,$time_period)
 		}
 	}
 
-	//$sql4="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' ORDER BY week DESC;";
-	//$ims4=$db->Execute($sql4);
-	//print $sql4;
-	//$week=$ims4->fields['week'];
-	//print $week;
-	
 }
 
 function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
@@ -950,9 +933,7 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 	$date_diff=_shn_ims_count_days($date_inv,$current_date);
 
 	$item_state_destroyed="destroyed";
-	//print $date_diff;
-	//print ("M");
-	//$sum_amount=0;
+	
 	for($i=$date_diff;$i>=0;$i-=$time_period)	
 	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
 	{
@@ -960,7 +941,7 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
 		$sql2="SELECT * FROM ims_transfer_item WHERE inv_id_from='$inv_id' AND catalog_id='$catalog_id';";
 		$ims2=$db->Execute($sql2);
-		//print $sql2;
+		
 		$sum_amount=0;
 		$sum_amount_temp=0;
 		$amount=0;
@@ -968,11 +949,10 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		while(!$ims2==NULL && !$ims2->EOF)
 		{
 			$amount=$ims2->fields['amount_send'];
-			//print $amount;
+			
 			$unit=$ims2->fields['unit'];
 			$inserted_date=$ims2->fields['date_send'];
 
-			//if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			if(_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			{
 			
@@ -989,15 +969,12 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 			$ims2->MoveNext();
 		}
 		$actual_value=$sum_amount_temp;
-		//print $actua_value;
-		//print ("kkk");
+		
 		$week=$week+1;
 		$temp=$week+1;
 		$alpha=2/$temp;
 		
-		//print $alpha;
-		//print "\n";
-		//print $week;
+		
 		if($week==1)
 		{
 			$forecasted_value=0;
@@ -1006,23 +983,18 @@ function _shn_ims_predict_sending_items($catalog_id,$inv_id,$time_period)
 		}
 		else
 		{
-			/*print $actual_value;
-			print "<br>";
-			print $forecasted_value;
-			print "<br>";
-			print $alpha;
-			print "<br>";*/
+			
 			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 			
 		}
-		//print $forecasted_value.",";
+		
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
 		$sum_amount_temp=0;
-		//print $sql3;
+		
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
-		//print $date_inv;
+		
 		if($week==1)
 		{
 			$forecasted_value=$forecasted_value_temp;
@@ -1053,14 +1025,12 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 	$received_item_id=-1;
 
 	$item_state_destroyed="destroyed";
-	//print $date_diff;
-	//print ("M");
-	//$sum_amount=0;
+	
 	for($i=$date_diff;$i>=0;$i-=$time_period)	
 	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
 	{
 		$date_inv_temp=$date_inv;
-		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
+		
 		$sql2="SELECT * FROM ims_transfer_item WHERE inv_id_to='$inv_id' AND catalog_id='$catalog_id' AND received_item_id!='$received_item_id';";
 		$ims2=$db->Execute($sql2);
 		//print $sql2;
@@ -1073,7 +1043,7 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 			$unit=$ims2->fields['unit'];
 			$inserted_date=$ims2->fields['date_received'];
 
-			//if(_shn_ims_count_days($date_inv_temp,$current_date)<_shn_ims_count_days($inserted_date,$current_date)||_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
+			
 			if(_shn_ims_count_days($date_inv_temp,$current_date)==_shn_ims_count_days($inserted_date,$current_date))
 			{
 			
@@ -1090,15 +1060,12 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 			$ims2->MoveNext();
 		}
 		$actual_value=$sum_amount_temp;
-		//print $actua_value;
-		//print ("kkk");
+		
 		$week=$week+1;
 		$temp=$week+1;
 		$alpha=2/$temp;
 		
-		//print $alpha;
-		//print "\n";
-		//print $week;
+		
 		if($week==1)
 		{
 			$forecasted_value=0;
@@ -1107,25 +1074,18 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 		}
 		else
 		{
-			/*print $actual_value;
-			print "<br>";
-			print $forecasted_value;
-			print "<br>";
-			print $alpha;
-			print "<br>";*/
+			
 			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
 			
 		}
-		//print $forecasted_value.",";
+		
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
-		//print $sql3;
-
+		
 		$sum_amount=0;
 		
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
-		//print $date_inv;
 		if($week==1)
 		{
 			$forecasted_value=$forecasted_value_temp;
@@ -1158,17 +1118,15 @@ function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
 	$received_item_id=-1;
 
 	$item_state_destroyed="destroyed";
-	//print $date_diff;
-	//print ("M");
-	//$sum_amount=0;
+	
 	for($i=$date_diff;$i>=0;$i-=$time_period)	
 	//while(_shn_ims_count_days($date_inv,$current_date)<1 && _shn_ims_count_days($date_inv,$current_date)>0 )
 	{
 		$date_inv_temp=$date_inv;
-		//$sql2="SELECT * FROM ims_item_records WHERE inv_id='$inv_id' AND catalog_id='$catalog_id' AND (TO_DAYS(inserted_date) - TO_DAYS($date_inv_temp))<7;";
+		
 		$sql2="SELECT * FROM ims_transfer_item WHERE inv_id_to='$inv_id' AND catalog_id='$catalog_id' AND received_item_id!='$received_item_id';";
 		$ims2=$db->Execute($sql2);
-		//print $sql2;
+		
 		$sum_amount=0;
 		$sum_amount_temp=0;
 		while(!$ims2==NULL && !$ims2->EOF)
@@ -1194,51 +1152,21 @@ function _shn_ims_predict_both_items($catalog_id,$inv_id,$time_period)
 			$ims2->MoveNext();
 		}
 		$actual_value=$sum_amount_temp;
-		//print $actua_value;
-		//print ("kkk");
+		
 		$week=$week+1;
 		$temp=$week+1;
 		$alpha=2/$temp;
 		
-		//print $alpha;
-		//print "\n";
-		//print $week;
-		/*if($week==1)
-		{
-			$forecasted_value=0;
-			
-			$forecasted_value_temp=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
-		}
-		else
-		{
-			print $actual_value;
-			print "<br>";
-			print $forecasted_value;
-			print "<br>";
-			print $alpha;
-			print "<br>";
-			$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
-			
-		}*/
 		$forecasted_value=_shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
-		//print $forecasted_value.",";
+		
 		$sql3="INSERT INTO ims_optimization (catalog_id,inv_id,week,actual_value,forecasted_value,unit) VALUES ('$catalog_id','$inv_id','$week','$sum_amount_temp','$forecasted_value','$base_unit');"; 
 		$ims3=$db->Execute($sql3);
-		//print $sql3;
-
+		
 		$sum_amount=0;
 		
 		list($year,$month,$day) = split("-",$date_inv);
 		$date_inv=_shn_ims_timeafter($year, $month, $day,$time_period);
-		//print $date_inv;
-		/*if($week==1)
-		{
-			$forecasted_value=$forecasted_value_temp;
-		}
-		else
-		{
-			;
-		}*/
+		
 	}
 
 }
@@ -1250,7 +1178,7 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 	$item_state="destroyed";
 	$sql3="SELECT * FROM ims_alternate WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
 	$ims3=$db->Execute($sql3);
-	//print $sql3;
+	
 	while(!$ims3==NULL && !$ims3->EOF)
 	{
 		$alternate=$ims3->fields['alternate'];
@@ -1264,7 +1192,7 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
 			$sql4="SELECT * FROM ims_item_records WHERE catalog_id='$alternate' AND inv_id='$inv_id' AND state!='$item_state';";
 		}
 		$ims4=$db->Execute($sql4);
-		//print $sql4;
+		
 		while(!$ims4==NULL && !$ims4->EOF)
 		{
 			$item_id=$ims4->fields["item_id"];
@@ -1283,10 +1211,10 @@ function _shn_ims_get_alternate_item_amount($catalog_id,$inv_id)
             		$base_unit=convert_to_base_unit($unit);
             
             		$converted_amount=$amount*unit_converter($base_unit,$unit);
-            		//print $converted_amount;
+            		
             		$sum_amount=$sum_amount + $converted_amount;
 	    		$alternate_sum_amount=$alternate_sum_amount + $converted_amount;
-            		//print $sum_amount;
+            		
             		$unit_name=get_unit_name($unit);
             		$base_unit_name=get_unit_name($base_unit);
             		$state=$ims->fields['state'];
@@ -1315,20 +1243,10 @@ $graph = new PHPlot(700,500);
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
 
-// Specify some data
-/*$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);*/
-//$data = array($temp);
-$graph->SetDataValues($data);
- $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
-//Specify plotting area details
+$graph->SetDataValues($data);
+ $graph->SetFileFormat("png"); 
+
 $graph->SetImageArea(700,500);
 /*commented types are ok with the data*/
 //$graph->SetPlotType( "lines");
@@ -1385,15 +1303,7 @@ $graph = new PHPlot(700,500);
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
 
-// Specify some data
-/*$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);*/
+
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -1449,21 +1359,6 @@ function _shn_ims_line_chart($data,$x,$y)
 
 //$graph->SetDataType( "linear-linear"); //text-data
 $graph->SetDataType("text-data");  //Must be called before SetDataValues
-
-// Specify some data
-/*$data = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);*/
-
-/*$data = array(
-	array("a",2000,1000),
-	array("b",2000,1000)
-);*/
 
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
@@ -1522,18 +1417,6 @@ $graph->SetDataType("text-data");  //Must be called before SetDataValues
 
 $data2 = array($data);
 
-// Specify some data
-/*$data1 = array(
-    array(  "a", 2000,1500, 0, 100, 600,200),
-    array(  "b", 2010,1000, 100, 150,200,300),
-    array(  "c", 2015,500, 700, 179, 400,500),
-    array(  "dd",2020,200,1000,979, 1000,600),
-    array(  "e", 2025,100,1200,78,150,700),
-    array(  "f", 2030,50, 1450,343, 1300,800)
-);*/
-//print ("<br>");
-//print ("Mahesh");
-//print_r($data2);
 $graph->SetDataValues($data);
  $graph->SetFileFormat("png"); // parameters = "png" or "jpg" or "gif"
 
@@ -1678,7 +1561,7 @@ function _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period)
 		if($week==1)
 		{
 			$double_forecasted_value=0;
-			//continue;
+			
 		}
 		else
 		{
@@ -1708,7 +1591,7 @@ function _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week)
 
 	$query1="SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' AND week>='$week';";
 	$ims_query1=$db->Execute($query1);
-	//print $query1;
+	
 	while(!$ims_query1==NULL && !$ims_query1->EOF)
 	{
 		$forecasted_value=$ims_query1->fields['forecasted_value'];
@@ -1736,7 +1619,8 @@ function _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week)
 } 
 
 /**
-******************************************** Expired Items Report ********************************************************************************
+********************************************************************************
+******************************************** Expired Items Report ************** ********************************************************************************
 **/
 
 function _shn_ims_expired_item_report()

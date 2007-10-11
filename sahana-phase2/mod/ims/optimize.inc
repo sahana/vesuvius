@@ -59,7 +59,6 @@ function _shn_ims_relation_item_page()
     }
     global $global;
     $db = $global["db"];
-    //print $parent_id;
     shn_form_fopen("relation_item_table");
     shn_form_fsopen("Inventory Selection");
 
@@ -91,7 +90,7 @@ function _shn_ims_relation_item_table()
 
     $parent_id = trim($_POST['parent_id']);
     $inv_id = trim($_POST['inv_id']);
-    //print $inv_id;
+    
 ?>
 <h1 align="center"><?php print(_("Relative Items Selection")); ?></h1>
 <div id="result">
@@ -124,10 +123,9 @@ function _shn_ims_relation_item_table()
             $inventory_name1 = $ims_query->fields['inventory_name'];
             $sql1 = "SELECT * FROM ims_item_records WHERE catalog_id!='$parent_id' AND inv_id='$inv_id';";
             $ims1 = $db->Execute($sql1);
-            //print $sql1;
-
+            
         }
-        //print $inv_id;
+        
         while (!$ims1 == NULL && !$ims1->EOF) {
 
         if ($inv_id == "all") {
@@ -179,7 +177,7 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
     if ($inv_id == 'all') {
         $sql = "SELECT * FROM ims_relation WHERE catalog_id='$parent_id' AND relation='$relation';";
         $ims = $db->Execute($sql);
-        //print $sql;
+        
         if ($ims->fields['catalog_id'] != null) {
         add_error(SHN_ERR_IMS_RELATION_ITEM_EXISTS);
         shn_ims_relation_item();
@@ -189,7 +187,7 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
         if ($inv_id != 'all') {
             $sql = "SELECT * FROM ims_relation WHERE catalog_id='$parent_id' AND relation='$relation' AND inv_id='$inv_id';";
             $ims = $db->Execute($sql);
-            //print $sql;
+            
            if ($ims->fields['catalog_id'] != null) {
                add_error(SHN_ERR_IMS_RELATION_ITEM_EXISTS);
                shn_ims_relation_item();
@@ -267,7 +265,6 @@ function _shn_ims_alternate_item_page()
     }
     global $global;
     $db = $global["db"];
-    //print $parent_id;
     shn_form_fopen("alternate_item_table");
     shn_form_fsopen("Inventory Selection");
 
@@ -298,7 +295,7 @@ function _shn_ims_alternate_item_table()
 
     $parent_id = $_POST['parent_id'];
     $inv_id = $_POST['inv_id'];
-    //print $inv_id;
+    
 ?>
 <h1 align="center"><?php print(_("Alternative Items Selection")); ?></h1>
 <div id="result">
@@ -327,7 +324,7 @@ function _shn_ims_alternate_item_table()
     } else {
         $sql1 = "SELECT * FROM ims_item_records WHERE catalog_id!='$parent_id' AND inv_id='$inv_id';";
         $ims1 = $db->Execute($sql1);
-        //print $sql1;
+        
         $query = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims_query = $db->Execute($query);
         $inventory_name1 = $ims_query->fields['inventory_name'];
@@ -378,7 +375,7 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
     if ($inv_id == 'all') {
         $sql = "SELECT * FROM ims_alternate WHERE catalog_id='$parent_id' AND alternate='$alternate';";
         $ims = $db->Execute($sql);
-        //print $sql;
+        
             if ($ims->fields['catalog_id'] != null) {
                 add_error(SHN_ERR_IMS_ALTERNATE_ITEM_EXISTS);
                 shn_ims_alternate_item();
@@ -388,7 +385,7 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
     if ($inv_id != 'all') {
             $sql = "SELECT * FROM ims_alternate WHERE catalog_id='$parent_id' AND alternate='$alternate' AND inv_id='$inv_id';";
             $ims = $db->Execute($sql);
-            //print $sql;
+            
             if ($ims->fields['catalog_id'] != null) {
                 add_error(SHN_ERR_IMS_ALTERNATE_ITEM_EXISTS);
                 shn_ims_alternate_item();
@@ -558,7 +555,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
             $double_forecasted_value=_shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
         }*/
         }
-        //print $prediction_type;
+       
 //-------
         $ims1->MoveNext();
         }
@@ -590,7 +587,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 <?php
     $sql2 = "SELECT * FROM ims_optimization GROUP BY catalog_id;";
     $ims2 = $db->Execute($sql2);
-    //print $sql2;
+    
     while (!$ims2 == NULL && !$ims2->EOF) {
         $catalog_id = $ims2->fields['catalog_id'];
         $q1 = "SELECT * from ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
@@ -621,7 +618,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 
         $sql5 = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims5 = $db->Execute($sql5);
-        //print $sql4;
+        
         $inventory_name = $ims5->fields['inventory_name'];
 ?>
     <tr>
@@ -750,7 +747,6 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
     }
     array_push($data_array,$temp_array1);
     array_push($data_array,$temp_array);
-    //print_r($data_array);
     _shn_ims_pie_chart($data,$catalog_array);
     print "<br>";
     $i = 3;
@@ -824,19 +820,15 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
             _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
             $forecast = _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
         }
-        //print $catalog_id;
+        
         $sql4 = "SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
         $ims4 = $db->Execute($sql4);
         $item_name = $ims4->fields['item_name'];
-        //shn_form_label(_("Item : "),$item_name,null);
-        //print $inv_id;
+       
         $sql5 = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
         $ims5 = $db->Execute($sql5);
         $inventory_name = $ims5->fields['inventory_name'];
-        //shn_form_label(_("Inventory :"),$inventory_name,null);
-        //print $forecast;
-        //shn_form_label(_("Forecasted Value :"),$forecast,null);
-        //print $unit;
+        
         $unit_name = get_unit_name($unit);
         //shn_form_label(_("Unit :"),$unit_name,null);
         $sql6 = "SELECT * FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
@@ -945,8 +937,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     }
     array_push($data_array,$temp_array1);
     array_push($data_array,$temp_array);
-    //print_r($data_array);
-    //print $i;
+    
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
@@ -1020,17 +1011,14 @@ function _shn_ims_prediction_page()
     shn_form_fsopen("Selected Item");
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_fsclose();
-    //print $parent_id;
+    
     shn_form_fsopen("Inventory Selection");
     global $global;
     $db = $global["db"];
     $inventory_array = array();
     $q0 = "SELECT inventory_name,inv_uuid FROM ims_inventory_records;";
     $ims0 = $db->Execute($q0);
-    //$inventory_array[$ims0->fields['inv_uuid']]=$ims0->fields['inventory_name'];
-    //$q="SELECT inv_uuid,inventory_name FROM ims_inventory_records;";
-    //$ims=$db->Execute($q);
-    //$j=0;
+    
     while ($ims0 != NULL && !$ims0->EOF) {
         $inventory_array[$ims0->fields['inv_uuid']] = $ims0->fields['inventory_name']; //}
         $ims0->MoveNext();
@@ -1097,7 +1085,7 @@ function _shn_ims_optim_item_actions()
     $action = trim($_POST['action']);
     $prediction_type = trim($_POST['prediction_type']);
     $algorithm = trim($_POST['algorithm']);
-    //print $prediction_type;
+    
 
     if ($action == 'dailyreport') {
 ?>
@@ -1224,7 +1212,7 @@ function _shn_ims_optim_item_actions()
     $unit_name = get_unit_name($unit);
     $date = date("Y-m-d");
     shn_form_label(_("Item Name :"),$item_name,null);
-    //print $algorithm;
+    
 ?>
     <br>
 <?php
@@ -1267,7 +1255,6 @@ function _shn_ims_optim_item_actions()
 
     $sql4 = "SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
     $ims4 = $db->Execute($sql4);
-    //print $sql4;
     $j = 0;
     $actual_value_temp = 0;
     while (!$ims4 == NULL && !$ims4->EOF) {
@@ -1293,8 +1280,7 @@ function _shn_ims_optim_item_actions()
           $forecast_chart = _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
           $temp = array($week_chart,$actual_value_chart,$double_forecasted_value);
      }
-    //print $forecast_chart;
-    //$temp=$temp.$j;
+    
     array_push($data,$temp);
     $j = $j + 1;
     $ims4->MoveNext();
@@ -1304,15 +1290,12 @@ function _shn_ims_optim_item_actions()
     shn_form_fclose();
 
     $j = $j + 2;
-    //print $j;
-    //var_dump($data);
+    
 ?>
      <br>
 <?php
-     //var_dump($data1);
-    _shn_ims_bar_chart($data,$j,$actual_value_temp);
-    //_shn_ims_line_chart($data1);
-    //_shn_ims_chart_test();
+     _shn_ims_bar_chart($data,$j,$actual_value_temp);
+   
     
 ?>
     <image src="tmp/barChart.png"></image>
@@ -1354,7 +1337,6 @@ function _shn_ims_optimize_relation_items()
     $time_period = trim($_POST['time_period']);
     $forecasted_value = trim($_POST['forecast_chart']);
     $algorithm = trim($_POST['algorithm']);
-    //print $forecasted_value;
     $sql4 = "SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
     $ims4 = $db->Execute($sql4);
     $item_name_relation_to = $ims4->fields['item_name'];
@@ -1408,22 +1390,16 @@ function _shn_ims_optimize_relation_items()
             _shn_ims_double_smoothing($catalog_id,$inv_id,$time_period);
             $forecast = _shn_ims_double_smoothing_forecast($catalog_id,$inv_id,$week);
         }
-    //print $catalog_id;
     $q1 = "SELECT * FROM ims_item_records WHERE catalog_id='$catalog_id';";
     $i1 = $db->Execute($q1);
     $item_name = $i1->fields['item_name'];
-    //shn_form_label(_("Item Name :"),$item_name,null);
-    //print $inv_id;
+    
     $q2 = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
     $i2 = $db->Execute($q2);
     $inventory_name = $i2->fields['inventory_name'];
-    //shn_form_label(_("Inventory Name :"),$inventory_name,null);
-    //print $forecast;
-    //shn_form_label(_("Forecasted Value :"),$forecast,null);
-
-    //print $unit;
+    
     $unit_name1 = get_unit_name($unit);
-    //shn_form_label(_("Unit :"),$unit_name1,null);
+    
 ?>
 <tr>
 <td><?php print $item_name; ?></td>
@@ -1519,9 +1495,7 @@ function _shn_ims_optimize_relation_items()
     //}
     array_push($data_array,$temp_array1);
     array_push($data_array,$temp_array);
-    //print_r($data_array);
-    //}
-    //print $i;
+    
     _shn_ims_pie_chart($data,$catalog_array);
     print "<br>";
     $i = $xcoardination + 1;
@@ -1543,7 +1517,7 @@ function _shn_ims_optimize_relation_items()
 //*********************************************************************************************
 //*********************************************************************************************
 //*********************************************************************************************
-    //print $forecasted_value;
+    
     global $global;
     $db = $global["db"];
     $sql5 = "SELECT * FROM ims_optimization ORDER BY week DESC;";
@@ -1555,7 +1529,7 @@ function _shn_ims_optimize_relation_items()
     $forecasted_value = _shn_ims_smoothing($forecasted_value,$actual_value,$alpha);
     $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
     $ims1 = $db->Execute($sql1);
-    //print $sql1;
+    
     $minimum_quantity = $ims1->fields['minimum_quantity'];
     $minimum_unit = $ims1->fields['unit'];
     $base_unit = convert_to_base_unit($minimum_unit);
@@ -1616,7 +1590,7 @@ function _shn_ims_optimize_relation_items()
     array_push($data_array_line,$array1);
     $ims2->MoveNext();
     }
-    //print_r($data_array_line);
+    
     $x = $week + 2;
     $ycoardinate = 0;
     if ($forecasted_value_max < $converted_minimum_quantity) {
