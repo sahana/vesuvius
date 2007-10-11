@@ -22,7 +22,7 @@ include_once $global['approot'] . '/mod/or/lib_or.inc';
 //include_once ('view_inv.inc');
 
 
-function _shn_ims_search_main()
+function _shn_ims_search_main($search_name_temp)
 {
 ?>
 
@@ -37,30 +37,20 @@ function _shn_ims_search_main()
     $search_array['item']=_('Search Item');
     shn_form_fopen('search_main_db');
     shn_form_fsopen(_("Search"));
-    shn_form_radio($search_array,_('Search : '),'search_array','onClick="change_action_des(this.value)"',$extra_opts);
+    shn_form_radio($search_array,_('Search : '),'search_array','onClick="submit(this);"',$extra_opts);
+    shn_form_fsclose();
+    shn_form_fclose();
 
-    $opt = _shn_ims_update_loc();
+    //$opt = _shn_ims_update_loc();
     //print $opt;
-    echo "<br />";
-
-echo "<div class='hide' id='search_item'>";    	
-    $extra_opts['req']  = true;
-    $extra_opts['br']  = true;
-    $select_opts = '';
-    //print('test');
-    _shn_ims_search_item();
-echo "<br />";
-	echo "</div>";
-
-echo "<div class='hide' id='search_inventory'>";    	
-    $extra_opts['req']  = true;
-    $extra_opts['br']  = true;
-    $select_opts = '';
-    //print('test111');
-    _shn_ims_form_search();
-echo "<br />";
-	echo "</div>";
-    	//$extra_opts['value'] = $_POST['staff_oper'];
+    //print ("hello");
+    //print $search_name_temp;
+    if ($search_name_temp=='inventory') {
+        _shn_ims_form_search();
+    } else if ($search_name_temp=='item') {
+        _shn_ims_search_item();
+    }
+    
 	 
 }
 
@@ -739,55 +729,7 @@ function _shn_ims_form_search_old()
 
 }
 
-function _shn_ims_update_loc(){
-?>
-<script type="text/javascript">
-    function update_loc(action,desc){
-        var x=document.getElementsByName(action);
-        var loc_val=x[0].options[x[0].selectedIndex].value;
-        var loc_desc=x[0].options[x[0].selectedIndex].text;
-        var x=document.getElementsByName('loc_sel');
-        x[0].value=loc_val;
-        loc_desc=desc+"->"+loc_desc;
-        var x=document.getElementsByName('loc');
-        x[0].value=loc_desc;
-        return;
-    }
 
-
- function change_action_des(value){
-        alert
-	
-         if(value=='inventory'){         	
-         	document.getElementById("search_inventory").style.display='block';
-		document.getElementById("search_item").style.display='none';
-		//document.getElementById("des_inventory").style.display='none';
-		//document.getElementById("des_shelter").style.display='none';
-		//document.getElementById("des_organization").style.display='none';
-		//document.getElementById("des_victim").style.display='none';     	
-         }
-	 else if(value=='item')
-	{
-             document.getElementById("search_item").style.display='block';
-		document.getElementById("search_inventory").style.display='none';
-		//document.getElementById("des_shelter").style.display='none';
-		//document.getElementById("des_organization").style.display='none';
-		//document.getElementById("des_victim").style.display='none';
-	}	
-         //}
-	else
-	{
-		document.getElementById("search_inventory").style.display='none';
-		document.getElementById("search_item").style.display='none';
-	}
-}
-
-
-</script>
-
-
-<?php
-}
 ?>
 <script type="text/javascript">
     function change_action(action){
