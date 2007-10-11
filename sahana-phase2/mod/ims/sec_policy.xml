@@ -11,6 +11,15 @@
 		</tables>
 	</funct>
     </usercase>
+    <usercase name="Inventory View and Edit">
+        <funct id="shn_ims_view_inv">
+            <tables>
+                <table perm="r">location_details</table>
+                <table perm="r">ims_inventory_records</table>
+                <!--<table perm="r">contact</table>-->
+            </tables>
+        </funct>
+    </usercase>
     <usercase name="Default">
         <funct id="shn_ims_default">
             <tables>
