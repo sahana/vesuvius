@@ -3,8 +3,7 @@
 	<services>
 	 	<service>
 	 		<name>
-	 			List items in an all or a particular inventory 
-with associated quantities.
+	 			List items in all inventories with associated quantities.
 	 		</name>
 	 		<http_type>GET</http_type>
 	 		<api_function>

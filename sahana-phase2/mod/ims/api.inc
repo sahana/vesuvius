@@ -23,12 +23,13 @@
 function shn_ims_list_item_by_inventory($inventory=NULL){
     global $global;
     $db=$global['db'];
-    if(isset($inventory)){
+    $item_list=array();
+    /*if(isset($inventory)){
         $query='SELECT item_name,amount FROM ims_item_records WHERE inv_id='.$inventory;	
     }    
-    else{
+    else{*/
     	$query='SELECT item_name,amount FROM ims_item_records';	
-    }
+    //}
     $res=$db->Execute($query);
     while(!$res==NULL && !$res->EOF){
     	$item_list[] = array('item' => $res->fields["item_name"], 'amount' => $res->fields["amount"]);
@@ -45,7 +46,8 @@ function shn_ims_list_item_by_inventory($inventory=NULL){
  */
 function shn_ims_get_item_details($item=NULL){
 	global $global;
-    $db=$global['db'];	
+    $db=$global['db'];
+    $item_list=array();
     $query='SELECT ct_catalogue.name as name,amount,expire_date,inventory_name FROM ims_item_records,ims_inventory_records,ct_catalogue WHERE ims_item_records.inv_id=ims_inventory_records.inv_uuid AND ct_catalogue.ct_uuid=ims_item_records.catalog_id';
 	$res=$db->Execute($query);
     while(!$res==NULL && !$res->EOF){
