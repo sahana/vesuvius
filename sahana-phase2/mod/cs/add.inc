@@ -57,22 +57,30 @@ function _shn_cs_addmain_form_result()
     $name = trim($_POST['main_cat_name']);
     $description = trim($_POST['description']);
     $keyword = trim($_POST['keyword']);
-    $id = shn_create_uuid("catalogue");
+    
+    
+    $query1="SELECT ct_uuid FROM ct_catalogue WHERE name = '$name' and parentid = '0'";
+    $res1=$db->Execute($query1);
+    
+    if(isset($res1->fields["ct_uuid"])){
+    	add_warning(_("Operation failed. catalog name ".$name." found. Please use another name for the catalog."));
+    	shn_cs_addmain_form();
+    }
+    else{
+        $id = shn_create_uuid("catalogue");
+    	$serial = shn_cs_generate_maincat_serial();
 
-    $serial = shn_cs_generate_maincat_serial();
+    	$q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES($parentid,'$id','$name','$description','$keyword','$serial')";
+    	$res=$db->Execute($q);
 
-    $q="INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES($parentid,'$id','$name','$description','$keyword','$serial')";
-    $res=$db->Execute($q);
-
-	if($res == true)
-	{
-	add_confirmation($name._(" was succesfully saved in the database"));
-	shn_cs_addmain_form();
-	}
-	else
-	{
-	add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system administrator."));
-	}
+		if($res == true){
+			add_confirmation($name._(" was succesfully saved in the database"));
+			shn_cs_addmain_form();
+		}
+		else{
+			add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system administrator."));
+		}	
+    }
 }
 
 
