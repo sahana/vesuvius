@@ -100,7 +100,7 @@ function _shn_ims_search_item_page()
 
 <?php
     $extra_opts['req'] = true;
-
+	$_POST['item_name'] = html_entity_decode($_POST['item_name']);
     shn_form_fopen("search_item_db");
     shn_form_fsopen(_('Search items '));
     shn_form_text(_("Search by Item name   : "),'item_name','size="50" readonly=true',$extra_opts);
