@@ -140,8 +140,8 @@ function _shn_ims_reg_inv_cr()
             $res=$db->Execute($q);
 
             //no validation as organization can have multiple locations
-            $q="INSERT INTO org_location(org_id,location_id) VALUES('{$org_id}','{$bsd_village}')";
-            $res=$db->Execute($q);
+            //$q="INSERT INTO org_location(org_id,location_id) VALUES('{$org_id}','{$bsd_village}')";
+           // $res=$db->Execute($q);
 
     }
 }
