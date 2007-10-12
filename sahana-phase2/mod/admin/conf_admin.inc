@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.8 2007-10-11 11:17:18 priyanga Exp $ */
+/* $Id: conf_admin.inc,v 1.9 2007-10-12 06:28:59 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -116,7 +116,7 @@ function shn_admin_conf_list()
 		<td colspan="4">
 		<div align="center" style="padding: 10px;">
 		<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
-		<input name="test" id="edit_txt_<?php echo $key; ?>"
+		<input id="edit_txt_<?php echo $key; ?>"
 			value="<?php echo ($str_dconf!=null)?$str_dconf:$str_value ?>"
 			type="text" /> <input type="button" value="Change"
 			onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
