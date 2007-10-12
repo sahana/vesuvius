@@ -239,7 +239,7 @@ function _shn_ims_del_org()
     
 <h2>Inventory Registry</h2>
 <?php
-        _shn_ims_viewform_allorg();    
+        _shn_ims_viewform_allorg(null,null,$Limit=20);    
 }
 
 function _shn_ims_edit_org()
@@ -366,6 +366,6 @@ function _shn_ims_edit_org()
 		_shn_ims_viewform_org($org_id,$error);
         	return false;
 	 }
-        _shn_ims_viewform_allorg();    
+        _shn_ims_viewform_allorg(null,null,$Limit=20);    
 }
 ?>

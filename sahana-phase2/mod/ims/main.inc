@@ -452,19 +452,7 @@ function shn_ims_view_inv_submit()
    // $acl_enabled = shn_acl_get_state("or");
    // $req_act = "_shn_ims_" . $act . "_org";
    // $allow = (!shn_acl_check_perms_action($_SESSION['user_id'],$req_act) || !$acl_enabled)? true : false;
-   //if (!$allow) {
-        ?>
-        <div id="error">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
-        <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
-        </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
-        </div> <!-- /error -->
-        <?php
-        return false;
-   // }
+   
     switch ($act) {
         case "edit":
             _shn_ims_edit_org();
