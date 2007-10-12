@@ -12,10 +12,26 @@
 	</funct>
     </usercase>
     <usercase name="Inventory View and Edit">
-        <funct id="shn_ims_view_inv">
+        <funct id="shn_ims_view_inv_submit">
             <tables>
                 <table perm="r">location_details</table>
                 <table perm="r">ims_inventory_records</table>
+                <!--<table perm="r">contact</table>-->
+            </tables>
+        </funct>
+    </usercase>
+    <usercase name="Item Add">
+        <funct id="shn_ims_view_edit_item_actions">
+            <tables>
+                <table perm="r">ims_item_records</table>
+                <!--<table perm="r">contact</table>-->
+            </tables>
+        </funct>
+    </usercase>
+    <usercase name="Item Add1">
+        <funct id="shn_ims_add_item_main_page">
+            <tables>
+                <table perm="r">ims_item_records</table>
                 <!--<table perm="r">contact</table>-->
             </tables>
         </funct>
