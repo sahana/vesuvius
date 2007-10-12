@@ -22,7 +22,7 @@ require_once $global['approot'].'/inc/lib_menu.inc';
 shn_mainmenuopen(_('Main Menu'));
 
 // display the list of modules on the menu bar
-$module_list = shn_get_module_names();
+$module_list = shn_get_enabled_module_names();
 
 $module_names = array();
 $module_menuorder = array();

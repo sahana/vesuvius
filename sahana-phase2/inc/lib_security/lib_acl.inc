@@ -71,7 +71,39 @@ function shn_get_allowed_mods_current_user(){
 
 }
 
+function shn_get_enabled_mods_current_user(){
+	
+		$user=shn_current_user();
+		if($user==null){
+			$roles[ANONYMOUS]="Anonymous User";
+		}else{
+			$roles=_shn_acl_get_roles($user);
+		}
 
+		$mods=array();
+		/*
+		 array_push($mods,'home');
+		 if ($_SESSION['logged_in'] == true ){
+		 array_push($mods,'pref');
+		 }
+		 */
+		foreach($roles as $role=>$name){
+			$mods_role= _shn_acl_modules_for_role($role);
+
+			if($mods_role!=null){
+				foreach($mods_role as $mod){
+					array_push($mods,$mod);
+				}
+			}
+
+
+
+		}
+	
+	$mods=array_unique($mods);
+	return $mods;
+
+}
 function shn_acl_check_perms($mod,$module_function){
 	if(shn_acl_is_enabled()==false){
 		return ALLOWED;
