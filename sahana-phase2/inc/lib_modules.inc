@@ -75,6 +75,35 @@ function shn_get_module_names()
     }
     return $module_list; 
 }
+/**
+ * shn_get_module_names 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_get_enabled_module_names()
+{
+    global $global;
+    global $conf;
+    $module_list = array();
+    $mods=shn_get_enabled_mods_current_user();
+    
+    $approot = $global['approot'];
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+        if (file_exists($approot."mod/".$f."/main.inc")) {
+   		
+           		 $res=array_search($f,$mods,false);
+           		if(FALSE !== $res){
+					array_push($module_list, $f);
+           		}	
+           		
+           
+        }
+    }
+    return $module_list; 
+}
+
 
 // get all modules that have admin pages
 /**
