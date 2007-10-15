@@ -128,7 +128,6 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
                 
         $sql1 = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND amount!=0 AND state!='$state_des' LIMIT $page_number,$Limit;";
 
-        //print $sql1;
         
         $ims1 = $db->Execute($sql1);
 
@@ -290,7 +289,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit_id_send';";
     $cms=$db->Execute($cq);
-    //print $cq;
+    
     $unit_select_array[$unit_id_send]=$cms->fields['name'];
     
     $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
@@ -445,7 +444,6 @@ function _shn_ims_send_db()
     $amount = trim($_POST['amount']);
     $unit = trim($_POST['unit_select']);
     $parent_id=trim($_POST['parent_id']);
-    //print $amount;
     $person_send = trim($_POST['authorized_person']);
     $date_send = trim($_POST['date']);
     $cost_per_unit=trim($_POST['cost_per_unit']);

@@ -35,7 +35,7 @@ function shn_ims_list_item_by_inventory($inventory=NULL){
     	$item_list[] = array('item' => $res->fields["item_name"], 'amount' => $res->fields["amount"]);
         $res->MoveNext();
     }
-    //print_r($item_list);
+   
     return $item_list;
 }
 /**
@@ -54,7 +54,7 @@ function shn_ims_get_item_details($item=NULL){
     	$item_list[] = array('name' => $res->fields["name"], 'amount' => $res->fields["amount"], 'expire_date' => $res->fields["expire_date"], 'inventory' => $res->fields["inventory_name"]);
         $res->MoveNext();
     }
-    //print_r($item_list);
+   
     return $item_list;
 }
 

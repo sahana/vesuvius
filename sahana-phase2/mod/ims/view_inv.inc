@@ -121,7 +121,7 @@ function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
     $res_org=$db->Execute($q);
 
     $org_id=$res_org->fields[0];
-    //print $q;
+    
     if($org_id==NULL)
     {
 	;
@@ -139,11 +139,11 @@ function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
     $res_email=$db->Execute($q);
     $q="SELECT search_id FROM location_details,location WHERE poc_uuid='{$org_id}' AND location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
-	//print $q;
+	
     $loc=$res_temp->fields[0][0];
     $q="SELECT name FROM location WHERE location_id='{$loc}'";
     $res_bsd_country=$db->Execute($q);
-	//print $q;
+	
     $q = "SELECT option_description FROM field_options,ims_inventory_records WHERE o_uuid='{$org_id}' AND
 field_options.option_code=ims_inventory_records.inventory_type AND field_options.field_name='inventory_type'";
     $res_type=$db->Execute($q); 

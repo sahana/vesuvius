@@ -546,7 +546,6 @@ function _shn_ims_destroy_item($item_id)
     $db = $global["db"];
     $sql = "UPDATE ims_item_records SET state='$new_state' WHERE item_id='$item_id';";
     $ims = $db->Execute($sql);
-    //print ($sql);
     shn_ims_report_expired();
 }
 

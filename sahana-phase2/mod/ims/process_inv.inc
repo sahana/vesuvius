@@ -102,9 +102,7 @@ function _shn_ims_reg_inv_cr()
             return false;
 
         }
-	
-	//print $org_id;
-	shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+        shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
         $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
@@ -202,7 +200,7 @@ function _shn_ims_del_org()
     $q="SELECT * FROM ims_transfer_item WHERE (inv_id_from='{$org_id}' OR inv_id_to='{$org_id}') AND amount_received='-1' AND person_received='-1';";
     $res=$db->Execute($q);
     $transit_id=$res->fields['transit_id'];
-    //print $q;
+    
     if($transit_id!=NULL)
     {
 	

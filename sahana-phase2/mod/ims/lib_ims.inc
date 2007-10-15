@@ -1033,7 +1033,6 @@ function _shn_ims_predict_receiving_items($catalog_id,$inv_id,$time_period)
 		
 		$sql2="SELECT * FROM ims_transfer_item WHERE inv_id_to='$inv_id' AND catalog_id='$catalog_id' AND received_item_id!='$received_item_id';";
 		$ims2=$db->Execute($sql2);
-		//print $sql2;
 		$sum_amount=0;
 		$sum_amount_temp=0;
 		while(!$ims2==NULL && !$ims2->EOF)
@@ -1742,22 +1741,14 @@ function _shn_ims_reorder_level_report()
     
     $table_data = array();
     $row_count = 0;
-        //$item_search=$_POST['item_name_search'];
-        //$category_search=$_POST['itemcat'];
-        //print ($item_search);
+        
     $sql1="SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
     $ims1=$db->Execute($sql1);
     
-    //$amount=0;
-    //print $sql1;    
-    
-    /*$sql = "SELECT item_id,category,item_name,amount,unit,expire_date,suplier_name,suplier_address,suplier_telephone,suplier_email FROM ims_item_records WHERE amount<200 ;";
-    $ims = $db->Execute($sql);*/
     $state = "destroyed";
-        //$state_des="destroyed";
+        
     $sum_amount=0;
-        //print time();
-        //print ("\n");
+        
         
      while (!$ims1==NULL && !$ims1->EOF)
         {
@@ -1765,24 +1756,22 @@ function _shn_ims_reorder_level_report()
             $table_row = array();
 
             $catalog_id_min=$ims1->fields['catalog_id'];
-            //print $item_id_min;
+            
             $inv_id_min=$ims1->fields['inv_id'];
-            //print $inv_id_min;
+           
             $minimum_quantity=$ims1->fields['minimum_quantity'];
             
-            //print $minimum_quantity;
+            
             $unit=$ims1->fields['unit'];
             
             $unit_name=get_unit_name($unit);
 
             $sql2 = "SELECT unit,amount FROM ims_item_records WHERE catalog_id='$catalog_id_min' AND inv_id='$inv_id_min'AND state!='$state';";
             $ims2 =$db->Execute($sql2);
-            //print $sql2;
-            //print $sql2;
-            //print $sql2;
+            
             while(!$ims2==NULL && !$ims2->EOF)
             {
-            //$sum_amount = $ims2->fields['SUM(amount)'];
+          
             $current_unit=$ims2->fields['unit'];
             $current_amount=$ims2->fields['amount'];
                         
@@ -1794,12 +1783,12 @@ function _shn_ims_reorder_level_report()
     
     $sum_amount=$sum_amount+$current_amount_convert;
     
-    //$total_amount=$sum_amount;
+    
     
             $ims2->MoveNext();
             }
     
-//$sum_amount=0;
+
         if($sum_amount<$minimum_quantity)
             {
                 $total_amount=$sum_amount;
@@ -1808,26 +1797,23 @@ function _shn_ims_reorder_level_report()
                 $ims3 = $db->Execute($sql3);
     
             
-                //print $sql3;
+             
 
                 $sql4 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id_min';";
                 $ims4 = $db->Execute($sql4);
                 $inventory_name=$ims4->fields['inventory_name'];
-                //print $sql2;
-                //print $sql4;
+               
 
                 $item_id=$ims3->fields["item_id"];
 
             if($item_id!=null)
             {
                    
-                //$category=$ims2->fields["category"];
+               
                 $item_name=$ims3->fields["item_name"];
-                //$amount=$ims2->fields["amount"];
-                //$amount=$current_amount + $amount;
+               
                 $unit=$ims3->fields["unit"];
-                //$manufactured_date=$ims->fields["manufactured_date"];
-                //$expire_date=$ims3->fields["expire_date"];
+                
 
 		$table_row['name']=$item_name;
 		$table_row['amount']=$total_amount;
@@ -1931,20 +1917,18 @@ function _shn_ims_get_parent_locations($location_id)
         $parent_id=$ims->fields['parent_id'];
 	$loc_uuid=$ims->fields['loc_uuid'];
 
-	//print $parent_id;
 
 	if($parent_id==$location_id)
 	{
 	    $flag=true;
-//print $flag;
-	    //$locatiion_array[1]=$loc_uuid;
+
 	}
 
 	if($flag==true)
 	{
 	    $location_array[$i]=$loc_uuid;
 	    $i=$i+1;
-//print $loc_uuid;
+
 	}
 
 	$ims->MoveNext();
@@ -1992,11 +1976,11 @@ function _shn_ims_get_victim()
     $victim_array=array();
     $sql=" select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid;";
     $ims=$db->Execute($sql);
-    //print $sql;
+    
     $victim_array['']='';
     while(!$ims==NULL && !$ims->EOF)
     {
-	//print $ims->fields['g_uuid'];
+	
 	$victim_array[$ims->fields['g_uuid']]=$ims->fields['full_name']." ".$ims->fields['family_name'];
 	$ims->MoveNext();
     }

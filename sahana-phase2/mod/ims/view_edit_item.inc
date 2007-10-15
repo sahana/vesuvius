@@ -105,12 +105,12 @@ function _shn_ims_view_edit($i,$Limit=null)
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
-		//print $i." ";
+
 	    ?><a href="index.php?mod=ims&act=list_items_paging&$i=<?php echo $i;?>&Limit=<?php echo $Limit;?>"><?php print ($i." ");?></a><?php
 	    print "\n";
 	}
 	 print '</b>';
-//print $sql1;
+
         while (!$ims==NULL && !$ims->EOF)
         {
 	    $numberofresults=$numberofresults+1;
