@@ -323,8 +323,8 @@ function shn_setup_form2()
 	shn_form_hidden( array(
         'dbhost' => $_POST['dbhost'] ,
         'dbname' => $_POST['dbname'] ,
-        'dbuser' => $_POST['shndbuser'] ,
-        'dbpass' => $_POST['shndbpass'] ));      
+        'shndbuser' => $_POST['shndbuser'] ,
+        'shndbpass' => $_POST['shndbpass'] ));      
 	
 	shn_form_fsopen(_('Installation Details'));
 
@@ -476,7 +476,6 @@ function shn_setup_database()
 	$db = &NewADOConnection('mysql');
 	
 	if($_POST['dbtype']=='mysql'){
-		echo "<br/>creating db if not exists";
 		// check whether user exists,
 		$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],'mysql');
 		$res=$db->Execute("SELECT * FROM `user` WHERE `User`='".$_POST['shndbuser']."'");
@@ -579,9 +578,12 @@ function shn_setup_config_update($tmp_configfile)
         '/\'root_name\'/' => '$conf[\'root_name\'] = \''.$_POST['root_name'].'\';' ,
         '/\'root_tel\'/' => '$conf[\'root_tel\'] = \''.$_POST['root_tel'].'\';' ,
         '/\'root_email\'/' => '$conf[\'root_email\'] = \''.$_POST['root_email'].'\';' ,
-        '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['dbuser'].'\';' ,
-        '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['dbpass'].'\';');           
+        '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['shndbuser'].'\';' ,
+        '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['shndbpass'].'\';');           
 
+	echo "<pre>";
+	
+	echo "</pre>";
 	if ( @shn_config_file_update( $modify, $global['approot'].'conf/sysconf.inc.tpl',
 	$tmp_configfile) ) {
 		return true;
@@ -619,7 +621,7 @@ shn_include_page_section('footer',$module);
 function shn_setup_acl(){
 	global $global;
 	$db = &NewADOConnection('mysql');
-	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
+	$db->Connect($_POST['dbhost'],$_POST['shndbuser'],$_POST['shndbpass'],$_POST['dbname']);
 	$global['db'] = $db;
 
 
