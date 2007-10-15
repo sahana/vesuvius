@@ -50,7 +50,29 @@ function shn_cs_get_all_catalog_names()
     $db=$global["db"];
     $query="SELECT ct_uuid,parentid,name FROM ct_catalogue";
     $res=$db->Execute($query);
-    $unit_name_arr = array();
+    $catalog_list = array();
+
+    while(!$res==NULL && !$res->EOF)
+    {
+    	$catalog_list[] = array('ct_id' => $res->fields["ct_uuid"], 'parent_id' => $res->fields["parentid"], 'name' => $res->fields["name"]);
+    	$res->MoveNext();
+    }
+    
+    return $catalog_list;
+}
+
+/**.
+ *This function return the catalog names without defaults names
+ * @access public
+ * @return array
+ */
+function shn_cs_get_catalog_names()
+{
+    global $global;
+    $db=$global["db"];
+    $query="SELECT ct_uuid,parentid,name FROM ct_catalogue WHERE ct_uuid NOT LIKE '%default%'";
+    $res=$db->Execute($query);
+    $catalog_list = array();
 
     while(!$res==NULL && !$res->EOF)
     {

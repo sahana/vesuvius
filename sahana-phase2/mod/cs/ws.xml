@@ -3,7 +3,7 @@
     <services>
 	    <service>
  		    <name>
- 			    Lists all the unit names captured by catalogue system
+ 			    Lists all the unit names captured by catalog system
  		    </name>
  		<api_function>
  			shn_cs_get_all_unit_names
@@ -15,14 +15,26 @@
   	    </service>
   	    <service>
  		    <name>
- 			    Lists all the catalog names captured by catalogue system with their ids
+ 			    Lists all the catalog names captured by catalog system with their ids
  		    </name>
  		<api_function>
  			shn_cs_get_all_catalog_names
  		</api_function>
  		<output type="BasicArray" />
  		    <documentation>
- 			A useful method to retrieve the list of catalog names used in catalogue system
+ 			A useful method to retrieve the list of catalog names used in catalog system
+ 		    </documentation>
+  	    </service>
+  	    <service>
+ 		    <name>
+ 			    Lists all the catalog names(Without default names)
+ 		    </name>
+ 		<api_function>
+ 			shn_cs_get_catalog_names
+ 		</api_function>
+ 		<output type="BasicArray" />
+ 		    <documentation>
+ 			A useful method to retrieve the list of catalog names used in catalog system without default values
  		    </documentation>
   	    </service>
     </services>
