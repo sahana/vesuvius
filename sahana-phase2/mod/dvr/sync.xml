@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <module name='dvr'>
-  <description>Diaster Victim Registry</description>
+  <description>Disaster Victim Registry</description>
   <data>
     <description>Disaster Victim Data</description>
     <table name='person_uuid'>
