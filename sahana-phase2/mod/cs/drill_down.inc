@@ -65,8 +65,8 @@
     	<?php
 
     		$res = $cat_itm_arr;
-    	   	while(!$res==NULL && !$res->EOF)
-		    {
+    	   	while(!$res==NULL && !$res->EOF) {
+		    
 		    $name = $res->fields["name"];
 		    $description = $res->fields["description"];
 		    $cat_id = $res->fields["ct_uuid"];
@@ -87,8 +87,6 @@
 		    			<?php    			
 		    		}
 		    	?>
-		    
-		    
 		        
 		        <?php if($final_flag=='0' && $parent_ID == '0') { ?>
 		            <td>&nbsp;&nbsp;<?php print "Main catalog" ; ?></td>
@@ -105,8 +103,6 @@
     		}//end of while loop	    		
     	?>
     
-    
-    
     	</TBODY>    
 	</table>
  	</div>
@@ -117,17 +113,17 @@
  function _shn_cs_get_main_cats()
  {
 	$query = "SELECT * FROM ct_catalogue WHERE parentid ='0'";
-    $main_cat_id_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
+    $main_cat_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
     
-   	return $main_cat_id_arr;
+   	return $main_cat_arr;
  }
  
  function _shn_cs_get_next_lvl_cats_itms($parent_id)
  {
  	$query="SELECT * FROM ct_catalogue WHERE parentid ='$parent_id'";
-   	$next_cat_id_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
+   	$next_cat_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
     
-	return $next_cat_id_arr;
+	return $next_cat_arr;
  }
  
  function _shn_cs_has_next_lvl($id)
