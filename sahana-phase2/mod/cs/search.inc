@@ -64,16 +64,13 @@ function _shn_cs_search_item_cat_submit_result()
     $cat_item_name=trim($_POST['cat_item_name']);
     $item_cat_radio=trim($_POST['item_cat_radio']);
 
-    if($item_cat_radio=='item')
-    {
+    if($item_cat_radio=='item') {
     $query="SELECT * FROM ct_catalogue WHERE name='$cat_item_name' AND final_flag='1'";
     $res=$db->Execute($query);
     
     $name=$res->fields["name"];
     $description=$res->fields["description"];
-    }    
-    else if($item_cat_radio=='catalogue')
-    {
+    } else if($item_cat_radio=='catalogue') {
     $query="SELECT * FROM ct_catalogue WHERE name='$cat_item_name' AND final_flag='0'";
     $res=$db->Execute($query);
     
@@ -81,13 +78,9 @@ function _shn_cs_search_item_cat_submit_result()
     $description=$res->fields["description"];
     }
 
-    if($name == null && $description == null)
-    {
-    print "<br /><br /><b>"._("There is no match found.")."</b>";
-    }
-
-    else
-    {
+    if($name == null && $description == null) {
+    print _("<br /><br /><b>There is no match found.</b>");
+    } else {
     ?>
     <br><br>
     <div id="result">
@@ -108,7 +101,6 @@ function _shn_cs_search_item_cat_submit_result()
     </div>
     <?php
     }
-
 }
 
 /**
@@ -123,8 +115,7 @@ function _shn_cs_unit_form()
     $query="SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res=$db->Execute($query);
     $option_array['none']=_('----Select Unit type----');
-    while(!$res==NULL && !$res->EOF)
-    {
+    while(!$res==NULL && !$res->EOF) {
     $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
     $res->MoveNext();
     }
@@ -156,23 +147,18 @@ function _shn_cs_search_unit_submit_result()
     $search_name=trim($_POST['unit_name']);
     $unit_type_id=trim($_POST['measurement_type']);
 
-    if($unit_type_id=='none' && $search_name=='')
-        {
+    if($unit_type_id=='none' && $search_name=='') {
         $query="SELECT * FROM ct_unit";
         $res=$db->Execute($query);
-        }
-    elseif($search_name=='')
-        {
+    } elseif($search_name=='') {
         $query="SELECT * FROM ct_unit WHERE unit_type_uuid='$unit_type_id' ";
         $res=$db->Execute($query);
-        }
-    else
-        {
-        $query="SELECT * FROM ct_unit WHERE name='$search_name' ";
+    } else {
+   		$query="SELECT * FROM ct_unit WHERE name='$search_name' ";
         $res=$db->Execute($query);
-        }
+    }
 
-?>
+	?>
     <br><br>
     <div id="result">
     <table>
@@ -183,8 +169,7 @@ function _shn_cs_search_unit_submit_result()
     </THEAD>
     <TBODY>
     <?php 
-    while(!$res==NULL && !$res->EOF)
-    {
+    while(!$res==NULL && !$res->EOF) {
         $unit_name=$res->fields["name"];
         $multiplier=$res->fields["multiplier"];
 
@@ -209,9 +194,6 @@ function _shn_cs_search_unit_submit_result()
     </div>
     <?php
 }
-
-
-//
 
 /**
  * This function Displays the Form for selecting Unit type
@@ -247,8 +229,8 @@ function _shn_cs_search_unit_type_submit_result()
     $name=$res->fields["name"];
     $description=$res->fields["description"];
 
-?>
-    <br><br>
+	?>
+    <br /><br />
     <div id="result">
     <table>
     <THEAD>
@@ -265,9 +247,6 @@ function _shn_cs_search_unit_type_submit_result()
     </TBODY> 
     </table>
     </div>
-<?php
+	<?php
 }
-//
-
-
 ?>
