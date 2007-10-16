@@ -17,7 +17,7 @@
  *
  */
 
-
+require_once("lib_export.inc");
 
 /**
  * The main paging function 
@@ -35,16 +35,17 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
     $res=_shn_page_get_rs($query,$rpp);
     if(!$res)return false;
 
+    $url=_shn_paging_url();
     if(isset($extra_opt['post'])&&$extra_opt['post']==true){
-        _shn_page_draw_navi_post($res);
+        _shn_page_draw_navi_post($res,$url);
     }
     else{
-        _shn_page_draw_navi($res);
+        _shn_page_draw_navi($res,$url);
     }
 
     if(!isset($headers)||$extra_opt['return']==true)
         return $res;
-
+    shn_export($query,$headers);
     _shn_page_draw_table($res,$headers);
     return 0;
 }
@@ -73,7 +74,7 @@ function _shn_page_get_rs($query,$rpp){
 }
 
 //navigation with links
-function _shn_page_draw_navi(&$res){
+function _shn_page_draw_navi(&$res,$url){
     global $global;
     if(isset($_REQUEST['page']))
         $page=$_REQUEST['page'];
@@ -99,7 +100,7 @@ function _shn_page_draw_navi(&$res){
 
     //if no records are found print No results
     if($res->RecordCount()==0){
-        echo "<strong>"._("No Search Results ")."</strong>";
+        echo "<strong>"._("No Records found ")."</strong>";
         return;
     }
     //if there is only one page don't print the navigation links
@@ -113,51 +114,45 @@ function _shn_page_draw_navi(&$res){
     if($page!=1)
     {
 ?>
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page-1;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page-1;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
 
 <?php
     }
 
     //draw the page links
-    if($start>1){
-?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $start-1?>">&#8230;</a>
-<?php
-    }
+    if($start>1)
+        echo "&#8230;";
     for($i=$start;$i<=$end;$i++)
     {
         if($i==$page)
-        {
             echo "<span class='red'>".$i."</span>";
-        }
+        elseif($i==$start||$i==$end)
+            continue;
         else
         {
 ?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $i?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
+        <a href="<?php echo $url?>&amp;page=<?php echo $i?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
 <?php
         }
     }
-    if($end<$last){
-?>
-        <a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $end+1?>">&#8230;</a>
-<?php
-    }
+    if($end<$last)
+        echo "&#8230;";
 
    //draw the next and the last link
     if($page!=$last)
     {
     ?>
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo  $global['action']?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
 
-    <b><a href="index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>&amp;page=<?php echo $page+1?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
 <?php
     }
 }
 
 
 //navigation with posts
-function _shn_page_draw_navi_post(&$res){
+function _shn_page_draw_navi_post(&$res,$url){
     global $global;
     if(isset($_REQUEST['page']))
             $page=$_REQUEST['page'];
@@ -191,7 +186,7 @@ function _shn_page_draw_navi_post(&$res){
 
     //if no records are found print No results
     if($res->RecordCount()==0){
-        echo "<strong>"._("No Search Results ")."</strong>";
+        echo "<strong>"._("No Records found ")."</strong>";
         return;
     }
     //if there is only one page don't print the navigation links
@@ -199,7 +194,7 @@ function _shn_page_draw_navi_post(&$res){
         return;
 
 ?>
-    <form name='paging_form' class='paging_form' action='index.php?mod=<?php echo $global['module'];?>&amp;act=<?php echo $global['action']?>' method='POST'>
+    <form name='paging_form' class='paging_form' action='<?php echo $url?>' method='POST'>
 <?php
     foreach($_POST as $name=>$post){
         if('c_page'!=$name){
@@ -294,5 +289,19 @@ function _shn_page_table_header($headers)
 ?>
     </thead>
 <?php
+}
+
+
+//this function generate the url used for navigation links and the forms
+function _shn_paging_url(){
+    global $global;
+    $url="index.php?mod={$global['module']}&amp;act={$global['action']}";
+    unset($_GET['act']);
+    unset($_GET['mod']);
+    unset($_GET['page']);
+    foreach($_GET as $key=>$val){
+        $url.="&amp;{$key}={$val}";
+    }
+    return $url;
 }
 ?>
