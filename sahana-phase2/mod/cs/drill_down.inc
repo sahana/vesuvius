@@ -117,7 +117,7 @@
  function _shn_cs_get_main_cats()
  {
 	$query = "SELECT * FROM ct_catalogue WHERE parentid ='0'";
-    $main_cat_id_arr = shn_paging_get_report($query,2,NULL,array('post'=>true, 'return'=>true));
+    $main_cat_id_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
     
    	return $main_cat_id_arr;
  }
@@ -125,7 +125,7 @@
  function _shn_cs_get_next_lvl_cats_itms($parent_id)
  {
  	$query="SELECT * FROM ct_catalogue WHERE parentid ='$parent_id'";
-   	$next_cat_id_arr = shn_paging_get_report($query,2,NULL,array('post'=>true, 'return'=>true));
+   	$next_cat_id_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
     
 	return $next_cat_id_arr;
  }
