@@ -63,7 +63,7 @@ function _shn_cs_addmain_form_result()
     $res1 = $db->Execute($query1);
     
     if(isset($res1->fields["ct_uuid"])) {
-    	add_warning(_("Operation failed. catalog name ".$name." found. Please use another name for the catalog."));
+    	add_warning(_("Operation failed. catalog name ". $name ." found. Please use another name for the catalog."));
     	shn_cs_addmain_form();
     } else {
         $id = shn_create_uuid("catalogue");
@@ -131,7 +131,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
     $parent_id = trim($_REQUEST['id']);
     }
 
-    $extra_opts['req']=true;
+    $extra_opts['req'] = true;
     shn_form_fopen("addsub_form2_submit");
     shn_form_fsopen(_('New Category Details'));
     shn_form_text(_("Name   : "),'sub_cat_name','size="50"',$extra_opts);
@@ -174,7 +174,7 @@ function _shn_cs_addsub_form2_result()
     $res = $db->Execute($q);
 
 	if($res == true) {
-	add_confirmation($sub_cat_name._(" was succesfully saved in the database"));
+	add_confirmation($sub_cat_name . _(" was succesfully saved in the database"));
 
 	?>
 	<p><b><?= _("Add another sub catalog"); ?></b></p>
@@ -283,7 +283,7 @@ function _shn_cs_addunit_form_result()
     $res = $db->Execute($query);
 
 	if($res == true) {
-	add_confirmation($unit_name._(" was succesfully saved in the database"));
+	add_confirmation($unit_name . _(" was succesfully saved in the database"));
 	?>
 	<p><b><?= _("Add another Unit"); ?></b></p>
 	<?php
@@ -336,7 +336,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     $res = $db->Execute($query);
     $option_array['none'] = _('----Select Unit type----');
     while(!$res == NULL && !$res->EOF) {
-    $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
+    $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
     $res->MoveNext();
     }
 
@@ -442,7 +442,7 @@ function shn_cs_additem_form2_result()
 	}
 	
 	if($items_saved_ok == true && $all_units_saved_ok == true) {
-		add_confirmation($item_name._(" was succesfully saved in the database"));
+		add_confirmation($item_name . _(" was succesfully saved in the database"));
 		?>
 		<p><b><?= _("Add another Item"); ?></b></p>
 		<?php
@@ -508,7 +508,7 @@ function _shn_cs_add_unit_type_form_result()
 	}
 
     if($unit_type_saved_ok == true && $base_unit_saved_ok ==true) {
-		add_confirmation($unit_type_name._(" was succesfully saved in the database"));
+		add_confirmation($unit_type_name . _(" was succesfully saved in the database"));
 		?>
 		<p><b><?= _("Add another unit type"); ?></b></p>
 		<?php
