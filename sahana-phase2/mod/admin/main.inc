@@ -177,7 +177,9 @@ function shn_admin_modadmin()
     $module_function();
 }
 
-
+function shn_admin_check_sec_policies(){
+	shn_acl_check_valid_policy();
+}
 
 function shn_admin_acl_change_user_status($error=false)
 {

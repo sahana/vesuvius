@@ -72,7 +72,9 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("acl_event_log", _("Event Log"), 'admin');
 
     shn_sub_mod_menuclose();
-    
+    shn_sub_mod_menuopen(_("Tools"));
+    shn_sub_mod_menuitem("check_sec_policies", _("Check Security Policy validity"), 'admin');
+    shn_sub_mod_menuclose();
     shn_sub_mod_menuitem("conf_list", _("Config Values"), 'admin');
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
