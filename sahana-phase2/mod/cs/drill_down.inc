@@ -19,16 +19,18 @@
 	global $global;
 	$db=$global['db'];
 	$breadcrumb_str = "<a href='index.php?mod=cs&amp;act=drill_down'>"."root"."</a>";
+   	?>
+  	<h1><?= (_("Drill down report")) ?></h1>
+  	<p><?= _('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
+  	<?php
  
-	if(isset($_REQUEST['id']))
-	{
+	if(isset($_REQUEST['id'])) {
 		$cat_itm_arr = _shn_cs_get_next_lvl_cats_itms($_REQUEST['id']);
 		$in_array = array();
 		$parent_id_arr = _shn_cs_recursive_parent_search($in_array,$_REQUEST['id']);
 		array_pop($parent_id_arr);
 		$parent_id_arr = array_reverse($parent_id_arr);
-		//print_r($parent_id_arr);
-		
+	
 		for($x=0;$x<count($parent_id_arr);$x++)
 		{
 			$par_id = $parent_id_arr[$x];
@@ -45,18 +47,13 @@
 				$res->MoveNext();
 		    }
 		}
-	}
-	else
-	{
+	} else {
 		$cat_itm_arr = _shn_cs_get_main_cats();
 	}
-  ?>
-  <h1><?= (_("Drill down report")) ?></h1>
-  <p><?= _('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
-  <?php
-  	print "Go to : ".$breadcrumb_str."<br /><br />";
-  
- 	?>
+	
+	?>
+	<p><?=_("Go to : ")?><?php print $breadcrumb_str; ?></p>
+ 	<br />
  	<div id="result">
  	<table>
     	<thead>
@@ -66,35 +63,25 @@
     	</thead>
     	<TBODY>
     	<?php
-    	
-    	$count = count($cat_itm_arr);
-    	
-    	for($x=0;$x<$count;$x++)
-    	{
-		$itm_cat_id = $cat_itm_arr[$x];
-    	$query="SELECT * FROM ct_catalogue WHERE ct_uuid ='$itm_cat_id'";
-    	$res=$db->Execute($query);	
-    		
+
+    		$res = $cat_itm_arr;
     	   	while(!$res==NULL && !$res->EOF)
 		    {
-		    $name=$res->fields["name"];
-		    $description=$res->fields["description"];
-		    $cat_id=$res->fields["ct_uuid"];
-		    $final_flag=$res->fields["final_flag"];
-		    $keyword=$res->fields["keyword"];
-		    $parent_ID=$res->fields["parentid"];
+		    $name = $res->fields["name"];
+		    $description = $res->fields["description"];
+		    $cat_id = $res->fields["ct_uuid"];
+		    $final_flag = $res->fields["final_flag"];
+		    $keyword = $res->fields["keyword"];
+		    $parent_ID = $res->fields["parentid"];
 		
 		    ?>
 		    <tr>
 		    	<?php
-		    		if(_shn_cs_has_next_lvl($cat_id))
-		    		{
+		    		if(_shn_cs_has_next_lvl($cat_id)) {
 		    			?>
 		    			<td><a href="index.php?mod=cs&amp;act=drill_down&amp;id=<?php echo $cat_id ?>"><?php print $name ;?></a></td>
 		    			<?php
-		    		}
-		    		else
-		    		{
+		    		} else {
 		    			?>
 		    			<td><?php print $name ;?></td>
 		    			<?php    			
@@ -115,10 +102,7 @@
 		    <?php  
 		    $res->MoveNext();
 
-	
     		}//end of while loop	    		
-    	}// end of for loop
-    	
     	?>
     
     
@@ -132,38 +116,18 @@
  
  function _shn_cs_get_main_cats()
  {
-    global $global;
-    $db=$global['db'];
-    $query="SELECT ct_uuid FROM ct_catalogue WHERE parentid ='0'";
-    $res=$db->Execute($query);
+	$query = "SELECT * FROM ct_catalogue WHERE parentid ='0'";
+    $main_cat_id_arr = shn_paging_get_report($query,2,NULL,array('post'=>true, 'return'=>true));
     
-    $main_cat_id_arr = array();
-
-    while(!$res==NULL && !$res->EOF)
-    {
-    	array_push($main_cat_id_arr,$res->fields["ct_uuid"]);
-    	$res->MoveNext();
-    }
-    
-   return $main_cat_id_arr;
+   	return $main_cat_id_arr;
  }
  
  function _shn_cs_get_next_lvl_cats_itms($parent_id)
  {
-    global $global;
-    $db=$global['db'];
-    $query="SELECT ct_uuid FROM ct_catalogue WHERE parentid ='$parent_id'";
-    $res=$db->Execute($query);
+ 	$query="SELECT * FROM ct_catalogue WHERE parentid ='$parent_id'";
+   	$next_cat_id_arr = shn_paging_get_report($query,2,NULL,array('post'=>true, 'return'=>true));
     
-    $next_cat_id_arr = array();
-
-    while(!$res==NULL && !$res->EOF)
-    {
-    	array_push($next_cat_id_arr,$res->fields["ct_uuid"]);
-    	$res->MoveNext();
-    }
-    
-   return $next_cat_id_arr;
+	return $next_cat_id_arr;
  }
  
  function _shn_cs_has_next_lvl($id)
@@ -175,18 +139,14 @@
     
     $recs = 0;
     
-    while(!$res==NULL && !$res->EOF)
-    {
+    while(!$res==NULL && !$res->EOF) {
     	$recs++;
     	$res->MoveNext();
     }
 
-	if($recs == 0)
-	{
+	if($recs == 0) {
 		return FALSE;
-	}
-	else
-	{
+	} else {
 		return TRUE;
 	}
  }
@@ -201,13 +161,10 @@ function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
     global $global;
     $db=$global['db'];
 
-    if($parent_id_in == '0')
-    {
+    if($parent_id_in == '0') {
     	array_push($in_array,$parent_id_in);
     	return $in_array;
-    }
-    else
-    {
+    } else {
     	array_push($in_array,$parent_id_in);
     	$query="SELECT parentid FROM ct_catalogue WHERE ct_uuid ='$parent_id_in'";
     	$res=$db->Execute($query);

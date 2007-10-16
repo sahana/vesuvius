@@ -20,6 +20,7 @@ include_once $global['approot'] . "/inc/lib_menu.inc";
 include_once $global['approot'] . "/inc/lib_form.inc";
 include_once $global['approot'] . "/inc/lib_errors.inc";
 include_once $global['approot'] . "/inc/lib_uuid.inc";
+include_once $global['approot'] . "/inc/lib_paging.inc";
 
 //reporting libraries
 include_once $global['approot'] . "/inc/reporting/lib_reporting.inc";
