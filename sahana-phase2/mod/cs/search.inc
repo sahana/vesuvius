@@ -92,8 +92,8 @@ function _shn_cs_search_item_cat_submit_result()
     <TBODY>
 
     <tr>
-        <td><?php print $name ;?></td>
-        <td><?php print $description ;?></td>
+        <td><?php print $name; ?></td>
+        <td><?php print $description; ?></td>
     </tr>
 
     </TBODY> 
@@ -181,9 +181,9 @@ function _shn_cs_search_unit_submit_result()
 
     ?>
     <tr>
-        <td><?php print $unit_type_name ;?></td>
-        <td><?php print $unit_name ;?></td>
-        <td><?php print $multiplier ;?></td>
+        <td><?php print $unit_type_name ; ?></td>
+        <td><?php print $unit_name ; ?></td>
+        <td><?php print $multiplier ; ?></td>
     </tr>
     <?php 
         $res->MoveNext();
@@ -240,8 +240,8 @@ function _shn_cs_search_unit_type_submit_result()
     <TBODY>
 
     <tr>
-        <td><?php print $name ;?></td>
-        <td><?php print $description ;?></td>
+        <td><?php print $name ; ?></td>
+        <td><?php print $description ; ?></td>
     </tr>
 
     </TBODY> 
