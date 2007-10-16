@@ -21,6 +21,35 @@
 
 require_once "constants.inc";
 
+function shn_acl_check_valid_policy(){
+	global $global;
+    global $conf;
+    $approot = $global['approot'];
+    $xdoc = new DomDocument;
+    $xmlschema = $global['approot']."/inc/lib_security/sec_policy.xsd";
+    $d = dir($approot."/mod");
+    while (false !== ($f = $d->read())) {
+    	$xmlfile=$approot."mod/".$f."/sec_policy.xml";
+        if (file_exists($xmlfile)) {
+          $nice_name=$conf['mod_'.$f.'_name'];
+          $xdoc->Load($xmlfile);
+          //Validate the XML file against the schema
+			if ($xdoc->schemaValidate($xmlschema)) {
+				print $xmlfile."<span style='color: green;font-weight:bolder'>"._(" is valid")."</span> <br />";
+			} else {
+				print $xmlfile."<span style='color: red;font-weight:bolder'>"._(" is In valid")."</span> <br />";;
+			}
+          
+        }
+    }
+	
+	
+	$xmlfile = 'C:/php/xmlfiles/candidate.xml';
+	
+	//Load the xml document in the DOMDocument object
+	
+
+}
 function shn_acl_log_error($comment,$p_uuid=null,$user_name=null,$event_type=1){
 	global $global;
 	$db=$global["db"];
