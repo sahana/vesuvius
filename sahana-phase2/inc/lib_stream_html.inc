@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.10 2007-09-02 06:06:38 ravids Exp $ */
+/* $Id: lib_stream_html.inc,v 1.11 2007-10-16 11:00:02 isurunishan Exp $ */
 
 /**
  *
@@ -32,7 +32,11 @@ function shn_stream_init()
 
     // Start the body and the CSS container element
 ?>
-    <body>
+    <?php if($_SESSION['admin']['locale']['enable']=="set"){ ?>
+    	<body onclick="whichElement(event)" oncontextmenu="return false;">
+    <?php }else{?>
+    	<body>	
+    <?php }?>
     <div id="container">
 <?php
     
