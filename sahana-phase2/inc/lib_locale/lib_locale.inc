@@ -292,12 +292,31 @@ function _shn_lc_get_db_tblstrings($table, $field)
 
 function _shn_get_lang_list()
 {
-    $l_list = array(
+ 	
+	//$str = implode('', file('../res/locale/locale'));
+ 	//echo $str; 
+ 	$handle = fopen("../res/locale/locale", "r");
+ 	$l_list = array();
+	while ($localeinfo = fscanf($handle,"%s\t%s\t%s\n")) {
+    	list ($locale, $name, $ex_name) = $localeinfo;
+    	if($ex_name!=null){
+    		$name = $name." ".$ex_name;
+    	}
+    	$l_list[$locale] = $name;    		
+    	//... do something with the values
+	}
+	
+	fclose($handle);
+	
+ 	
+ 	
+   /*$l_list = array(
                     'si_LK'=>_("Sinhala"),
                     'ta_IN'=>_("Tamil"),
                     'en_US'=>_("English"),
                     'zh_TW'=>_("Chinese Traditional"),                    
-                   );
+                   );*/
+    asort($l_list);
     return $l_list;
 }
 ?>

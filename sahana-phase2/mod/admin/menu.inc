@@ -45,6 +45,11 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuitem("lc_set", _("Set Locale"), 'admin');
     shn_sub_mod_menuitem("lc_db", _("Database L10N"), 'admin');
     shn_sub_mod_menuitem("lc_trns", _("Language Translation"), 'admin');
+    shn_sub_mod_menuitem("lc_ui_trns", _("User Interface Language Translation"), 'admin');
+    shn_sub_mod_menuitem("lc_ui_trns_update", _("Update Translation"), 'admin');
+    shn_sub_mod_menuitem("lc_add_new_lang", _("Add/Remove Language"), 'admin'); 
+    shn_sub_mod_menuitem("lc_add_new_module", _("Merge New Module"), 'admin'); 
+    shn_sub_mod_menuitem("lc_upload_file", _("Upload sahana.po/.mo file"), 'admin');
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Module Config"));

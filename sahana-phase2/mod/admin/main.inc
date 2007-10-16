@@ -529,6 +529,131 @@ function shn_admin_lc_db()
     require_once('lc_db.inc');
 }
 
+//User interface language translation 
+
+function shn_admin_lc_ui_trns(){
+	global $global;
+	require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
+	require_once('lc_ui_translate.inc');
+	if($_POST['locale']==null){
+		_shn_admin_set_locale();
+	}else{		
+		_shn_admin_lc_set_ui_translate();
+		$locale = $_POST['locale'];
+		_shn_lc_setcookielc($locale);
+		_shn_lc_setsessionlc($locale);			
+	}	
+	
+}
+
+function shn_admin_lc_ui_trns_enable(){
+	require_once('lc_ui_translate.inc');
+	if($_POST['lc']=="Enable Localization"){
+		_shn_admin_lc_ui_trns_enable();
+	}
+	if($_POST['lc_dis']=="Disable Localization"){
+		_shn_admin_lc_ui_trns_disable();
+	}
+	if($_POST['lc_update']=="Update"){
+		_shn_admin_lc_ui_trns_update();
+	}
+	
+}
+
+function shn_admin_lc_ui_trns_update(){
+	require_once('lc_ui_translate_update.inc');
+	
+	if($_POST['update']=="Update"){		
+		_shn_admin_lc_translate_compile();
+		
+	}else{
+		_shn_admin_lc_translate_update();
+	}
+		 
+}
+
+function shn_admin_lc_add_new_lang(){
+	require_once('lc_add_new_language.inc');
+	_shn_admin_lc_add_new_language_form();	
+}
+
+function shn_admin_lc_add_new_language_post(){
+	require_once('lc_add_new_language.inc');
+	if($_POST['add']=="Add New"){
+			if($_POST['lang_name']!=null && $_POST['lang_folder_name']!=null)
+				_shn_admin_lc_add_new_language();
+			else{
+				add_error('Language Name and Folder Name cannot be blank');
+				_shn_admin_lc_add_new_language_form();
+			}
+	}		
+	else if($_POST['remove']=="Remove"){
+		_shn_admin_lc_remove_language();
+	}
+		
+	
+	
+}
+
+function shn_admin_lc_add_new_module(){
+	require_once('lc_add_new_module.inc');
+	_shn_admin_lc_add_new_module();
+}
+
+function shn_admin_lc_add_new_module_post(){
+	require_once('lc_add_new_module.inc');
+	
+	if($_POST['merge'] == 'Merge')
+		_shn_admin_lc_add_new_module_update();
+}
+
+function shn_admin_lc_upload_file(){
+	require_once('lc_upload.inc');
+	_shn_admin_lc_upload_files();
+}
+
+function shn_admin_lc_file_browser(){
+	global $global;
+	$locale = $_POST['locale'];
+	//$file_type=$_POST['file_type'];
+	$uploaddir = "../res/locale/$locale/LC_MESSAGES/";
+	//"../res/locale/$locale/LC_MESSAGES/";
+	//echo $uploaddir;
+	$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+	
+	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
+		add_confirmation('File uploaded sucessfully');
+	}else{
+		add_error('File uploaded failed');
+	}
+	
+}
+
+function shn_admin_lc_javascript(){
+	
+	global $global;
+    global $conf;
+    $approot = $global['approot'];    
+    $request  = $_REQUEST['request'];
+    if($request=='first'){
+    	require_once $approot."/mod/admin/lc_first_process_request.inc";
+    	_find_translated_str();
+    }    	
+    else if($request=='second'){
+    	require_once $approot."/mod/admin/lc_second_process_request.inc";
+    	_find_str();
+    }    	
+    else if($request=='third'){
+    	require_once $approot."/mod/admin/lc_third_process_request.inc";
+    	_find_str();
+    }
+    else if($request=='select'){
+    	require_once $approot."/mod/admin/lc_select_process_request.inc";
+    	shn_admin_lc_select_tag();
+    }
+	
+} 
+
 // GIS admin page from gis module/lib
 function shn_admin_gis_form()
 {
