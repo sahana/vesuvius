@@ -114,13 +114,13 @@ function _shn_cs_unit_form()
     $option_array=array();
     $query = "SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res = $db->Execute($query);
-    $option_array['none']=_('----Select Unit type----');
+    $option_array['none'] = _('----Select Unit type----');
     while(!$res == NULL && !$res->EOF) {
-    $option_array[$res->fields['unit_type_uuid']]=$res->fields['name'];
+    $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
     $res->MoveNext();
     }
     
-    $form_opts['name']="unit_type";
+    $form_opts['name'] = "unit_type";
     shn_form_fopen("search_unit_submit");
     shn_form_fsopen(_('Select Measurement Unit Type'));
     shn_form_select($option_array,'','measurement_type',$select_opts,null);
