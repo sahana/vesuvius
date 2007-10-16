@@ -17,7 +17,7 @@
  *
  */
 
-require_once("lib_export.inc");
+//require_once("lib_export.inc");
 
 /**
  * The main paging function 
@@ -45,7 +45,7 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
 
     if(!isset($headers)||$extra_opt['return']==true)
         return $res;
-    shn_export($query,$headers);
+    //shn_export($query,$headers);
     _shn_page_draw_table($res,$headers);
     return 0;
 }
