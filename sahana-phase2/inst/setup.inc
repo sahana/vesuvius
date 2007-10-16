@@ -478,6 +478,10 @@ function shn_setup_database()
 	if($_POST['dbtype']=='mysql'){
 		// check whether user exists,
 		$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],'mysql');
+		if($db->IsConnected()==false){
+			add_error(_("Incorrect database username or password."));
+			return false;
+		}
 		$res=$db->Execute("SELECT * FROM `user` WHERE `User`='".$_POST['shndbuser']."'");
 		if(!($res->EOF)){
 			add_error(_("System database username already exists. Use a different system database username."));
