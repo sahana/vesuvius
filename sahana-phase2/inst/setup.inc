@@ -543,6 +543,13 @@ function shn_setup_database()
 		shn_cs_datacreate();
 	}
 
+	//modified by dinusha
+	
+	$db->Execute("insert into incident(incident_id,name) values(1,'default')");
+	$db->Execute("insert into user_preference values(0,'ims','incident_id',1)");
+	$db->Execute("insert into user_preference values(2,'ims','incident_id',1)");
+	
+	//end
 	return true;
 }
 
