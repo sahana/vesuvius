@@ -339,12 +339,18 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
     if (shn_validate_field($field,$desc,$max_len,true)){
         $i=0;
         if(!$array){
-             if (shn_is_opt_field($type,shn_clean($field)))
-                return true;
+             if (($type!="select") and (shn_is_opt_field($type,shn_clean($field)))){
+             	return true;
+             }else{
+             	add_error("You Have to Select a Value from the list box");
+             	return false;
+             }
+                
         }else {
             $i=0;
             while ($i<count($field)){
-                if (!shn_is_opt_field($type,shn_clean($field[$i]))){
+                if(($type=="select") or (!shn_is_opt_field($type,shn_clean($field[$i])))){
+                	echo $type;
                     add_error("You Have to Select a Value from the list box");
                     return false;
                 }
