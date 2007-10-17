@@ -32,12 +32,13 @@ function shn_acl_check_valid_policy(){
     	$xmlfile=$approot."mod/".$f."/sec_policy.xml";
         if (file_exists($xmlfile)) {
           $nice_name=$conf['mod_'.$f.'_name'];
+          print _("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._(" module ... ")."<br />";
           $xdoc->Load($xmlfile);
           //Validate the XML file against the schema
 			if ($xdoc->schemaValidate($xmlschema)) {
-				print $xmlfile."<span style='color: green;font-weight:bolder'>"._(" is valid")."</span> <br />";
+				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: green;font-weight:bolder'>"._(" is valid")."</span> <br /><br />";
 			} else {
-				print $xmlfile."<span style='color: red;font-weight:bolder'>"._(" is In valid")."</span> <br />";;
+				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: red;font-weight:bolder'>"._(" is In valid")."</span> <br /><br />";;
 			}
           
         }
