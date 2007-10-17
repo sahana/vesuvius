@@ -504,10 +504,10 @@ function _shn_or_viewform_latest_orgs($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by name";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by created desc";
         $res_org=$db->Execute($q);
     }else {
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by o_uuid desc";
+        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by created desc";
         $res_org=$db->SelectLimit($q,$no);
     }
    

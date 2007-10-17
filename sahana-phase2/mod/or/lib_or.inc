@@ -251,9 +251,9 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
         		$root="";
         }
         if($incidents==null)
-			$q = "select distinct o_uuid from org_main where privacy=false".$root;
+			$q = "select distinct o_uuid from org_main where privacy=false".$root." order by name";
 		else
-			$q = "select distinct o_uuid  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list";
+			$q = "select distinct o_uuid  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list"." order by name";
 		$res_org=$db->Execute($q);
 		$orgs=array();
     		while(!$res_org==NULL && !$res_org->EOF){
@@ -585,6 +585,7 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
        // $extra_opts['req']=false;
     }else{
       //  $extra_opts['req']=true;
+       $extra_opts['select']=true;
     }
     $extra_opts['req']=true;
     if($multi){
