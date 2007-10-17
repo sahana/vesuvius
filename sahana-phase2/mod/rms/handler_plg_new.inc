@@ -368,6 +368,19 @@ function _shn_rms_items($category = null)
     
     shn_form_text(_("Quantity"),'qty',null,array('req'=>true));
     shn_form_fsclose();
+    shn_form_fsopen(_('Inventory Selection'));
+    $inventory_array=array();
+    global $global;
+    $db=$global['db'];
+    $sql="SELECT * FROM ims_inventory_records;";
+    $res=$db->Execute($sql);
+    while($res!=NULL && !$res->EOF)
+    {
+        $inventory_array[$res->fields['inv_uuid']]=$res->fields['inventory_name'];
+        $res->MoveNext();
+    }
+    shn_form_select($inventory_array,_('Inventory Selection : '),'inventory',null);
+    shn_form_fsclose();
     shn_form_submit(_("Add"));
     shn_form_fclose();
     print '</div>';
@@ -525,7 +538,8 @@ switch ($_REQUEST['seq'])
                 $itm = $_POST['item'];
                 $qty = $_POST['qty'];
                 $unit = $_POST['unit'];
-                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty,'',$unit))
+                $inv = $_POST['inventory'];
+                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty,'',$unit, $inv))
                 {
                     unset($_POST);
                     _shn_rms_items();
