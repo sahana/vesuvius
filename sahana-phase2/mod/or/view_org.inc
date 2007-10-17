@@ -472,7 +472,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
      shn_form_hidden(array('org_id'=>$org_id));
-     shn_form_hidden(array('org_name'=>$org_name));
+    // shn_form_hidden(array('org_name'=>$org_name));
     _shn_or_action_change_javascript("view","action");
 ?>
 </center>

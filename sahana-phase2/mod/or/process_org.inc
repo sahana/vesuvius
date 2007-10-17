@@ -346,14 +346,12 @@ function _shn_or_edit_org()
     }else{
         		$type="opt_org_sub_type";	
     }
+    echo $_POST{"org_name"};
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
     list($error,$org_type)=(shn_validate_opt_field($type,$_POST{$type},"Organization Type",$VARCHAR,false))?array($error,$_POST{$type}):array(true,NULL);
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
    	$loc=shn_location_get_form_submit_loc();
-    if($loc==-1){
-    		add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
-        $error=true;
-    }
+
 	$lat=$_POST{"lat_edited"};
 	$lon=$_POST{"lon_edited"};
 	
@@ -454,8 +452,11 @@ function _shn_or_edit_org()
                 $i=$i+1;
             }
             */
-            $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid='{$org_id}'";
-            $res=$db->Execute($q);
+           // if($loc!=-1){
+    		    $q="update location_details set location_id='{$loc}',address='{$contact_address}' where poc_uuid='{$org_id}'";
+            	$res=$db->Execute($q);
+    		//}
+
             $q="update gis_location set map_northing={$lat},map_easting={$lon} where poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
             if($loc_txt!=null){
