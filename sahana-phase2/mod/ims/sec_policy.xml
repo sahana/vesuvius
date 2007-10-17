@@ -1,244 +1,39 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<sec_policy>
-
-    
-    <usercase name="Inventory Registration">
-	<funct id="shn_ims_reg_inv_actions">
-		<tables>
-			<table perm="r">location_details</table>
-			<table perm="r">ims_inventory_records</table>
-			<!--<table perm="r">contact</table>-->
-		</tables>
-	</funct>
-    </usercase>
-    <usercase name="Inventory View and Edit">
-        <funct id="shn_ims_view_inv_submit">
-            <tables>
-                <table perm="r">location_details</table>
-                <table perm="r">ims_inventory_records</table>
-                <!--<table perm="r">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Item Add">
-        <funct id="shn_ims_view_edit_item_actions">
-            <tables>
-                <table perm="r">ims_item_records</table>
-                <!--<table perm="r">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Item Add1">
-        <funct id="shn_ims_add_item_main_page">
-            <tables>
-                <table perm="r">ims_item_records</table>
-                <!--<table perm="r">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Default">
-        <funct id="shn_ims_default">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Find Items">
-        <funct id="shn_ims_search_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_search_item_page">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_search_item_db">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Find Inventory">
-        <funct id="shn_ims_search_inventory">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_search_inventory_db">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Add / List Inventories">
-        <funct id="shn_ims_view_inv">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_reg_inv_actions">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Add / List Items">
-        <funct id="shn_ims_view_edit_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_view_edit_item_actions">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="View / Edit Re-order Level">
-        <funct id="shn_ims_view_edit_reorder_page">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_minimum_quantity_action">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Reports">
-        <funct id="shn_ims_report_expired">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_report_destroyed">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_report_minimum">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_report_transit_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_report_gis_inv">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
-    <usercase name="Optimisation">
-        <funct id="shn_ims_alternate_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_relation_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_optim_item">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-        <funct id="shn_ims_optim_inventory">
-            <tables>
-                <!--<table perm="c">org_main</table>
-                    <table perm="r">field_options</table>
-                    <table perm="r">location</table>
-                    <table perm="c">lo cation_details</table>
-                    <table perm="c">contact</table>-->
-            </tables>
-        </funct>
-    </usercase>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+	<usercase name="Inventory Registration">
+		<funct id="shn_ims_reg_inv_actions">
+			<tables>
+				<table perm="r">location_details</table>
+				<table perm="r">ims_inventory_records</table>
+				<!--<table perm="r">contact</table>-->
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Inventory View and Edit">
+		<funct id="shn_ims_view_inv_submit">
+			<tables>
+				<table perm="r">location_details</table>
+				<table perm="r">ims_inventory_records</table>
+				<!--<table perm="r">contact</table>-->
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Item Add">
+		<funct id="shn_ims_view_edit_item_actions">
+			<tables>
+				<table perm="r">ims_item_records</table>
+				<!--<table perm="r">contact</table>-->
+			</tables>
+		</funct>
+	</usercase>
+	<usercase name="Item Add1">
+		<funct id="shn_ims_add_item_main_page">
+			<tables>
+				<table perm="r">ims_item_records</table>
+				<!--<table perm="r">contact</table>-->
+			</tables>
+		</funct>
+	</usercase>
 </sec_policy>

@@ -1,29 +1,28 @@
 <?xml version="1.0"?>
-<sec_policy
-xmlns="http://www.sahana.lk/security/policy"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.w3schools.com note.xsd">
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
 
 	<usercase name="Organization Registration">
 		<funct id="shn_or_reg_org">
-	   		<tables>
-	    			<table perm="c">org_main</table>
-	    			<table perm="r">field_options</table>
-	    			<table perm="r">location</table>
-	    			<table perm="c">location_details</table>
-	    			<table perm="c">contact</table>
-	   		</tables>
+			<tables>
+				<table perm="c">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="c">location_details</table>
+				<table perm="c">contact</table>
+			</tables>
 		</funct>
 	</usercase>
 	<usercase name="Organization Registration Edit">
 		<funct id="shn_or_edit_org">
-    			<tables>
-    				<table perm="u">org_main</table>
-    				<table perm="r">field_options</table>
-    				<table perm="r">location</table>
-    				<table perm="u">location_details</table>
-    				<table perm="u">contact</table>
-   				</tables>
-   		</funct>
+			<tables>
+				<table perm="u">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="u">location_details</table>
+				<table perm="u">contact</table>
+			</tables>
+		</funct>
 	</usercase>
 </sec_policy>
