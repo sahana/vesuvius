@@ -662,6 +662,15 @@ function _shn_auth_del_user_cr(){
 		}
        
 	}
+	for($i=0;$i<count($user);$i++){
+
+		$q="delete from alt_logins where p_uuid='{$user[$i]}'";
+        $res=$db->Execute($q);
+        if($res==false){
+				add_error($db->ErrorMsg());
+		}
+       
+	}
 	if($res==false){
 		add_error(_("User does not exist"));
 	}else{
