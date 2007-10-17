@@ -561,15 +561,16 @@ CREATE TABLE person_to_pgroup (
 DROP TABLE IF EXISTS org_main;
 CREATE TABLE org_main(
 	o_uuid VARCHAR(60) NOT NULL,
-    parent_id VARCHAR(60) DEFAULT NULL,
-    name VARCHAR(100) NOT NULL ,
+    	parent_id VARCHAR(60) DEFAULT NULL,
+    	name VARCHAR(100) NOT NULL ,
 	opt_org_type VARCHAR(100),
 	reg_no VARCHAR(100),
-    man_power VARCHAR(100),
+    	man_power VARCHAR(100),
 	equipment VARCHAR(100),
 	resources TEXT,
-    privacy INT(1) DEFAULT 0,
-    archived BOOL DEFAULT 0, 
+    	privacy INT(1) DEFAULT 0,
+    	archived BOOL DEFAULT 0, 
+ 	created TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (o_uuid),
 	FOREIGN KEY (parent_id) REFERENCES org_main(o_uuid)
 );
