@@ -18,10 +18,10 @@
 function shn_cs_show_supplier_report()
 {
     global $global;
-    $db=$global["db"];
-?>
-<h2><?= _('Supplier Report'); ?></h2>
-<p><?= _('Here you can have a report on items with supplier details which are having registered suppliers in catalog system.'); ?></p>
+    $db = $global["db"];
+	?>
+	<h2><?= _('Supplier Report'); ?></h2>
+	<p><?= _('Here you can have a report on items with supplier details which are having registered suppliers in catalog system.'); ?></p>
 
     <br>
     <div id="result">
@@ -35,28 +35,27 @@ function shn_cs_show_supplier_report()
     </thead>
     <tbody>
     <?php
-    $query="select * from ct_suppliers";
-    $res=$db->Execute($query);
+    $query = "SELECT * FROM ct_suppliers";
+    $res = $db->Execute($query);
 
-    while(!$res==NULL && !$res->EOF)
-    {
-    $item_id=$res->fields["ct_uuid"];
-    $suplier_id=$res->fields["supplier"];
+    while(!$res == NULL && !$res->EOF) {
+    $item_id = $res->fields["ct_uuid"];
+    $suplier_id = $res->fields["supplier"];
 
     $suplier_name = shn_or_organization_name(array($suplier_id));
 
-    $item_query="select * from ct_catalogue where ct_uuid ='$item_id' ";
-    $item_res=$db->Execute($item_query);
+    $item_query = "SELECT * FROM ct_catalogue WHERE ct_uuid ='$item_id' ";
+    $item_res = $db->Execute($item_query);
 
     $description = $item_res->fields["description"];
     $name = $item_res->fields["name"];
     ?>
     <tr>
-    <td><?php print $item_id ;?></td>
-    <td><?php print $name ;?></td>
-    <td><?php print $description ;?></td>
-    <td><?php print $suplier_id ;?></td>
-    <td><?php print $suplier_name[$suplier_id] ;?></td>
+    <td><?php print $item_id; ?></td>
+    <td><?php print $name; ?></td>
+    <td><?php print $description; ?></td>
+    <td><?php print $suplier_id; ?></td>
+    <td><?php print $suplier_name[$suplier_id]; ?></td>
     </tr>
     <?php 
     $res->MoveNext();
