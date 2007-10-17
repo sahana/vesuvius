@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.65 2007-10-05 08:15:54 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.66 2007-10-17 06:34:13 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -346,7 +346,7 @@ if($sort==null){
 	$q="select * from field_options where field_name='{$opt_field}' order by $sort ";
 }
 		    $res = $global['db']->Execute($q);
-        
+   if (isset($extra_opts['select']) || $extra_opts['select'] == true) echo "<option value='select'>- Select -</option>";     
     while(!res==NULL && !$res->EOF) {
 
         $sel = ( $res->fields[1] == $value ) ? 'selected="selected"' : null ;
@@ -356,7 +356,7 @@ if($sort==null){
 
         $res->MoveNext();
       }
-      if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+      if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>[ALL]</option>";
  ?>
     </select>
 <?php
