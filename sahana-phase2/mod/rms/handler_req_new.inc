@@ -351,7 +351,7 @@ function _shn_rms_ax_location_other($id=null)
     {
         print '<div id="loc_new">';
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
-        shn_form_hidden(array('seq'=>'add_loc'));
+        shn_form_hidden(array('seq'=>'get_loc'));
         //shn_form_fsopen(_("New Location"));
         //shn_form_text(_("Location Name"),'loc_name',null,array('req'=>true));
         //shn_form_text(_("Location ID"),'location_id',null,array('req'=>true));
@@ -371,7 +371,7 @@ function _shn_rms_ax_location_other($id=null)
 	shn_form_hidden(array('seq'=>'img'));
         //call appropriate gis api method
         shn_gis_add_marker_map_form();
-	shn_form_hidden(array('seq'=>'add_loc'));
+	shn_form_hidden(array('seq'=>'get_loc'));
 
 
         shn_form_submit(_("Add Location"));
