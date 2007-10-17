@@ -113,15 +113,17 @@
  function _shn_cs_get_main_cats()
  {
 	$query = "SELECT * FROM ct_catalogue WHERE parentid ='0'";
-    $main_cat_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
+	$max_record = intval(_shn_cs_get_max_rec_page());
+    $main_cat_arr = shn_paging_get_report($query,$max_record,NULL,array('post'=>false, 'return'=>true));
     
    	return $main_cat_arr;
  }
  
  function _shn_cs_get_next_lvl_cats_itms($parent_id)
  {
- 	$query="SELECT * FROM ct_catalogue WHERE parentid ='$parent_id'";
-   	$next_cat_arr = shn_paging_get_report($query,30,NULL,array('post'=>true, 'return'=>true));
+ 	$query = "SELECT * FROM ct_catalogue WHERE parentid ='$parent_id'";
+ 	$max_record = intval(_shn_cs_get_max_rec_page());
+   	$next_cat_arr = shn_paging_get_report($query,$max_record,NULL,array('post'=>false, 'return'=>true));
     
 	return $next_cat_arr;
  }
@@ -129,13 +131,13 @@
  function _shn_cs_has_next_lvl($id)
  {
     global $global;
-    $db=$global['db'];
-    $query="SELECT ct_uuid FROM ct_catalogue WHERE parentid ='$id'";
-    $res=$db->Execute($query);
+    $db = $global['db'];
+    $query = "SELECT ct_uuid FROM ct_catalogue WHERE parentid ='$id'";
+    $res = $db->Execute($query);
     
     $recs = 0;
     
-    while(!$res==NULL && !$res->EOF) {
+    while(!$res == NULL && !$res->EOF) {
     	$recs++;
     	$res->MoveNext();
     }
@@ -155,7 +157,7 @@
 function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
 {
     global $global;
-    $db=$global['db'];
+    $db = $global['db'];
 
     if($parent_id_in == '0') {
     	array_push($in_array,$parent_id_in);
@@ -167,6 +169,18 @@ function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
     	$par_par_id = $res->fields["parentid"];
     	return _shn_cs_recursive_parent_search($in_array,$par_par_id);
     }
+}
+
+function _shn_cs_get_max_rec_page()
+{
+	global $global;
+    $db = $global['db'];
+    
+    $query = "SELECT option_code FROM field_options WHERE field_name='opt_cs_page_record'";
+    $res = $db->Execute($query);
+    $max_rec = $res->fields["option_code"];	
+    
+    return $max_rec;
 }
  
 ?>
