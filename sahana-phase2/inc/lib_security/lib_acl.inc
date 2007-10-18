@@ -258,7 +258,8 @@ function _shn_acl_check_table_only_perms($table,$crud){
 			$q = "SELECT level FROM sys_data_classifications WHERE level_id = '".$level_id."'";
 			$result = $db->Execute($q);
 			$sensitivity = $result->fields[0];
-			add_error(_("You don't have access to ")._lc($sensitivity)._(" data."));
+			$msg=_("You don't have access to ")._lc($sensitivity)._(" data, which is required for this functionality.");
+			shn_error_display_restricted_access($msg);
 			return DENIED;
 		}
 

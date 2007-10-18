@@ -125,10 +125,15 @@ function is_errors()
         return true;
 }
 
-function shn_error_display_restricted_access()
+function shn_error_display_restricted_access($msg=null)
 { ?>
     <div class="error message">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+    	
+        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em><br/>
+        <?php if($msg!=null){?>
+        <br /><strong><?=$msg?></strong><br /><br />
+        <?php }?>
+        <?=_('This could be because:')?>
         <ul>
         <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
         <li><?=_('Your username has not been given permission to access this section')?></li>

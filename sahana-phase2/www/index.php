@@ -189,7 +189,7 @@ function shn_main_front_controller()
 	        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
 	        		$module_function();
 	        	}else{
-	        		shn_error_display_restricted_access();
+	        		//shn_error_display_restricted_access();
 	        	}
 				
 	       }else{
