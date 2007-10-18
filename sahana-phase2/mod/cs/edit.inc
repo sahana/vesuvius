@@ -40,7 +40,6 @@ function shn_cs_edit_form()
  */
 function show_item_cat_table()
 {
-
     ?>
 	<div id="submenu_v">
 	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
