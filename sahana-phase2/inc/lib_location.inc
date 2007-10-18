@@ -114,7 +114,7 @@ function shn_location_level_range_form($name,$label,$sel)
 {
     global $global;
     $db=$global["db"];
-    $q = "select option_code,option_description from field_options where field_name='opt_location_type'";
+    $q = "select option_code,option_description from field_options where field_name='opt_location_type' order by option_code";
     $res=$db->Execute($q);
     $options=array();
     while(!$res==NULL && !$res->EOF){
