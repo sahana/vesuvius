@@ -497,7 +497,7 @@ function shn_setup_database()
 			add_error(_("The database name cannot be empty."));
 			return false;
 		}else{
-			if(preg_match('/[!@#$%\^&\\*\/\?`~+=|:;\(\)]/',$_POST['dbname'])){
+			if(preg_match('/[!@#$%\^&\\*\/\?`~+=|:;\(\)-]/',$_POST['dbname'])){
 				add_error(_("The database name cannot contain special characters."));
 				return false;
 			}
