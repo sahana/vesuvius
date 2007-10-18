@@ -208,7 +208,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
 {    
     if (shn_is_null($date)){
         if ($check_null){
-            add_error($desc." is a Required Field, Please Enter a value.");
+            add_error($desc." is a required field, Please enter a value.");
             return false;
         }else 
             return true;
@@ -311,11 +311,11 @@ function shn_clean($field){
  */
 function shn_validate_field($field,$desc,$max_len,$check_null=false){
     if ($check_null And shn_is_null($field)){
-        add_error($desc." is a Required Field, Please Enter a value.");
+        add_error($desc." is a required field, Please enter a value.");
         return false;
     }else {
         if (strlen(shn_clean($field))>$max_len){
-            add_error("You Exceeded the field size for ".$desc.".Field size is ".$max_len);
+            add_error("You exceeded the field size for ".$desc.".Field size is ".$max_len);
             return false;
         }else {
             return true;
