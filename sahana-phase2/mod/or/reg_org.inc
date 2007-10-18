@@ -74,12 +74,16 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
+  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
+"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
+"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section."));//display help icon only once
  	shn_form_fsopen(_("Base Location"));
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
  		shn_location(null,null,null,$extra_opts);
  	} 
+ 	$extra_opts['help']=(_("In addition to the hierarchical location , you may specify the address of the organization here. "));
  	shn_form_text(_("Address"),'loc_txt','size="50"', $extra_opts);
     shn_form_fsclose();
 
