@@ -694,7 +694,7 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
     $extra_opts['help']=_("Name of the person to be contacted in a disaster");
     shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_address;
-      $extra_opts['help']=_("Address to be contacted in a disaster");
+      $extra_opts['help']=_("Address of a person to be contacted in a disaster");
     shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
       $extra_opts['help']=_("Land line number to be contacted in a disaster");
