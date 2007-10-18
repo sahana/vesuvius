@@ -474,8 +474,36 @@ function shn_setup_database()
 	global $global;
 	global $conf;
 	$db = &NewADOConnection('mysql');
-	
+
 	if($_POST['dbtype']=='mysql'){
+		// check host name
+		if(isset($_POST['dbhost']) && $_POST['dbhost']!=''){
+			// check for patterns.
+			if(stripos($_POST['dbhost'],':')>0){
+				// contains port
+				$vals = explode(':',$_POST['dbhost']);
+				if(preg_match('/^\d+$/',$vals[1])==false){
+					add_error(_("The port number is invalid."));
+					return false;
+				}
+			}
+		}else{
+			add_error(_("The database host:port cannot be empty."));
+			return false;
+		}
+		
+		// check sahana dbname.
+		if(isset($_POST['dbname'])==false || $_POST['dbname']==''){
+			add_error(_("The database name cannot be empty."));
+			return false;
+		}else{
+			if(preg_match('/[!@#$%\^&\\*\/\?`~+=|:;\(\)]/',$_POST['dbname'])){
+				add_error(_("The database name cannot contain special characters."));
+				return false;
+			}
+		}
+		
+		if($_POST['dbname'])
 		// check whether user exists,
 		$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],'mysql');
 		if($db->IsConnected()==false){
@@ -483,7 +511,7 @@ function shn_setup_database()
 			return false;
 		}
 		$res=$db->Execute("SELECT * FROM `user` WHERE `User`='".$_POST['shndbuser']."'");
-		if(!($res->EOF)){
+		if($db->IsConnected() && (!($res->EOF))){
 			add_error(_("System database username already exists. Use a different system database username."));
 			$db->Close();
 			return false;
@@ -491,6 +519,7 @@ function shn_setup_database()
 
 		$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']);
 		//var_dump($tdb);
+		$db->debug=true;
 		// create system user and privileges
 		$db->Execute("CREATE USER '".$_POST['shndbuser']."'@'%' IDENTIFIED BY '".$_POST['shndbpass']."'");
 		$db->Execute("GRANT ALL ON ".$_POST['dbname'].".* TO '".$_POST['shndbuser']."'@'%'");
