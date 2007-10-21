@@ -22,6 +22,7 @@ include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once ("lib_or.inc");
+include_once ("lib_or_rss.inc");
 
 function shn_or_mainmenu() 
 {

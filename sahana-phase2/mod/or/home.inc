@@ -84,5 +84,7 @@ if(!$res->EOF){
         <?php _shn_or_viewform_latest_orgs(5);?>
        
 <?php
+    require_once($global['approot']."/inc/lib_rss.inc");
+    shn_rss_add_feed('new_org_list',_('Newly Registered organizations'));
        
 ?>
