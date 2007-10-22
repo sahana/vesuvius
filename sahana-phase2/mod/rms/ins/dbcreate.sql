@@ -74,6 +74,7 @@ CREATE TABLE rms_plg_item (         -- rms_plg_item table
     status VARCHAR(255) DEFAULT 'Not Confirmed', -- status
     plg_uuid VARCHAR(60) NOT NULL,  -- plg uuid
     unit VARCHAR(60),               -- units
+    inventory VARCHAR(20),
     PRIMARY KEY (item_uuid, plg_uuid),
     FOREIGN KEY (item_uuid) REFERENCES ct_catalogue(ct_uuid),
     FOREIGN KEY (plg_uuid) REFERENCES rms_pledge (plg_uuid)
