@@ -449,11 +449,11 @@ function _shn_rms_get_sub_cat($cat_id)
     return false;
 }
 
-function _shn_rms_add_item2session($itm, $qty, $pri, $unit)
+function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 {
     if ($qty != '' && is_numeric($qty))
     {
-        $_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit);
+        $_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit, $inv);
         return true;    
     }
     else
@@ -847,9 +847,10 @@ function _shn_rms_add_plgitems($plg_uuid)
         $item_uuid = $item[0];
         $quantity = $item[1];
         $unit = $item[3];
+        $inv = $item[4];
         
-        $sql = "INSERT INTO rms_plg_item (item_uuid, quantity, plg_uuid, unit) " .
-                "VALUES ('$item_uuid', $quantity, '$plg_uuid', '$unit')";
+        $sql = "INSERT INTO rms_plg_item (item_uuid, quantity, plg_uuid, unit, inventory) " .
+                "VALUES ('$item_uuid', $quantity, '$plg_uuid', '$unit', '$inv')";
         
         if ($global['db']->Execute($sql) === false)
         {
@@ -873,7 +874,7 @@ function _shn_rms_add_ff($req_uuid, $item_uuid, $plg_uuid, $qty)
     if ($global['db']->Execute($sql) === false)
     {
         $msg = $global['db']->ErrorMsg();
-        add_error($msg . '<br />' . $sql);
+        //add_error($msg . '<br />' . $sql);
         display_errors();
         return false;
     }

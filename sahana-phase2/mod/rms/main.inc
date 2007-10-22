@@ -104,11 +104,17 @@ function shn_rms_plg_sch()
 
 function shn_rms_mng_ff()
 {
+    //global $global;
     include_once ('handler_mng_ff.inc');
 }
 
 function shn_rms_mng_stat()
 {
     include_once ('handler_mng_stat.inc');
+}
+
+function shn_rms_fullfill_from_inventory()
+{
+    include_once('handler_mng_ff.inc');
 }
 ?>
