@@ -30,18 +30,20 @@ function _shn_admin_acl_user()
 global $conf;
  	$module=$_GET['sel'];
 	_shn_admin_acl_user_menu();
-	?>
+	
+?>
 	<div id="home">
-<h2><?= _('Welcome to Users= section'); ?></h2>
+	<h2><?= _('Welcome to Users= section'); ?></h2>
 
-<ul>
-    <li><?=_('Add Users')?></li>
-    <li><?=_('Remove Users')?></li>
-    <li><?=_('Change your password if you are logged in')?></li>
-    <li><?=_('Edit Roles of User ')?></li>
-</ul>
-</div>
-<?
+	<ul>
+    	<li><?=_('Add Users')?></li>
+    	<li><?=_('Remove Users')?></li>
+    	<li><?=_('Change your password if you are logged in')?></li>
+    	<li><?=_('Edit Roles of User ')?></li>
+	</ul>
+	</div>
+
+<?php
 }
 
 function _shn_admin_acl_enable_mods()
@@ -50,34 +52,32 @@ function _shn_admin_acl_enable_mods()
 }
 
 
-function _shn_admin_acl_enable_mods_cr(){
+function _shn_admin_acl_enable_mods_cr()
+{
 	global $global;
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
-	$sql="delete from sys_group_to_module";
+	$sql="DELETE from sys_group_to_module";
     $res=$db->Execute($sql);
 
-for ($i=0;$i<count($perms)-1;$i++){
-    $rule=explode(":",$perms[$i]);
-    $mod=$rule[0];
-    $role=$rule[1];
- 
-    $name=$mod.$role;
+	for($i=0;$i<count($perms)-1;$i++) {
+    	$rule=explode(":",$perms[$i]);
+    	$mod=$rule[0];
+    	$role=$rule[1];
+ 	    $name=$mod.$role;
 
-   if(isset($_POST{trim($name)})){
-    	$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+   		if(isset($_POST{trim($name)})) {
+    		$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
+    		$res=$db->Execute($sql);
+   		}
+    	$mods=shn_get_all_modules(false);
+    	$role=1;
+    	foreach($mods as $mod) {
+    	$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
     	$res=$db->Execute($sql);
-    }
-    $mods=shn_get_all_modules(false);
-    $role=1;
-    foreach ($mods as $mod){
-    	$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
-    	$res=$db->Execute($sql);
-    	
-    }
-
-}
+    	}
+	}
 	shn_acl_form_enable_mods();
 }
 
@@ -85,31 +85,34 @@ function _shn_admin_acl_enable_acl()
 {
 	shn_acl_form_enable_acl();
 }
-function _shn_admin_acl_enable_acl_cr(){
+
+function _shn_admin_acl_enable_acl_cr()
+{
 	global $global;
 	$db=$global["db"];
 	
-	if($_POST['action']=='enable'){
-		$q="update config set value=true where module_id='admin' and confkey='acl_enabled'";
-	}else{
-		$q="update config set value=false where module_id='admin' and confkey='acl_enabled'";
+	if($_POST['action']=='enable') {
+		$q="UPDATE config SET value=true WHERE module_id='admin' AND confkey='acl_enabled'";
+	}else {
+		$q="UPDATE config SET value=false WHERE module_id='admin' AND confkey='acl_enabled'";
 	}
 	$res=$db->Execute($q);
 	shn_acl_form_enable_acl();
 }
 
-
 function _shn_admin_acl_enable_locking()
 {
 	shn_acl_form_enable_locking();
 }
-function _shn_admin_acl_enable_locking_cr(){
+
+function _shn_admin_acl_enable_locking_cr()
+{
 	global $global;
 	$db=$global["db"];
 	
-	if($_POST['action']=='enable'){
-		$q="update config set value=true where module_id='admin' and confkey='acl_locking'";
-	}else{
+	if($_POST['action']=='enable') {
+		$q="UPDATE config set value=true where module_id='admin' and confkey='acl_locking'";
+	}else {
 		$q="update config set value=false where module_id='admin' and confkey='acl_locking'";
 	}
 	$res=$db->Execute($q);
@@ -118,75 +121,52 @@ function _shn_admin_acl_enable_locking_cr(){
 
 function _shn_admin_acl_user_roles()
 {
-
 	_shn_admin_acl_user_roles_menu();    
 }
 
 
 
-function _shn_admin_acl_data_privacy(){
+function _shn_admin_acl_data_privacy()
+{
 	shn_acl_form_role_select();
 }
 
-function _shn_admin_acl_role_edit_perms(){
-	
+function _shn_admin_acl_role_edit_perms()
+{	
 	shn_acl_form_role_perms_grid($_POST["roles"]);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function _shn_admin_acl_existing_perms_tab()
 {
-
     $module=$_GET['sel'];    
     shn_acl_form_existing_perms_tabular($module,false);
 }
 
 
-
-
-
-
-
-
-
-
 function _shn_admin_acl_user_perms()
 {
-
  	$module=$_GET['sel'];
-_shn_admin_acl_module_sub_menu($module);
+	_shn_admin_acl_module_sub_menu($module);
 	shn_acl_form_user_perms_grid($module,false);
 }
 
 function _shn_admin_acl_role_perms()
 {
-
  	$module=$_GET['sel'];
-_shn_admin_acl_role_menu($module);
+	_shn_admin_acl_role_menu($module);
 	shn_acl_form_role_perms_grid($module,false);
 }
 
 
-function _shn_admin_acl_role_edit_perms_cr(){
+function _shn_admin_acl_role_edit_perms_cr()
+{
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
 	$role=$_POST{"role"};
 //	array_pop($perms);
 	
-	
-	for ($i=1;$i<count($perms);$i++){
+	for($i=1;$i<count($perms);$i++) {
 		$save="";
     	$rule=explode(":",$perms[$i]);
     	$level=$rule[0];
@@ -199,9 +179,9 @@ function _shn_admin_acl_role_edit_perms_cr(){
      			"delete"=>"d"
      			);
      	$total=0;
-     	foreach($cruds as $crud=>$crud_value){
+     	foreach($cruds as $crud=>$crud_value) {
        		$name=$level.$crud;
-       		if(isset($_POST{trim($name)})){
+       		if(isset($_POST{trim($name)})) {
        			$save=$save.$crud_value;
     		}else{
     			$save=$save."-";
@@ -213,22 +193,25 @@ function _shn_admin_acl_role_edit_perms_cr(){
 
 }
 
-function _shn_admin_acl_data_classifications_tables(){
+
+function _shn_admin_acl_data_classifications_tables()
+{
 	shn_acl_form_classifications_to_data();
 }
 
-function _shn_admin_acl_data_classifications_tables_cr(){
+function _shn_admin_acl_data_classifications_tables_cr()
+{
 	global $global;
     $db=$global['db'];
 	$tables=shn_acl_sys_data_tables();
 	//var_dump($_POST);
-	foreach ($tables as $table=>$level_id){
+	foreach($tables as $table=>$level_id) {
 
 		$level_val=$_POST[$table];
-	   	$q="update sys_tablefields_to_data_classification set level_id=$level_val where table_field='{$table}'";
+	   	$q="UPDATE sys_tablefields_to_data_classification set level_id=$level_val where table_field='{$table}'";
  		
  		$res=$db->Execute($q);
- 		if($res==false){
+ 		if($res==false) {
 				add_error($db->ErrorMsg());
 		 		return $res;
 		}	
@@ -239,87 +222,90 @@ function _shn_admin_acl_data_classifications_tables_cr(){
 
 
 
-function  _shn_admin_acl_user_edit_roles(){
+function  _shn_admin_acl_user_edit_roles()
+{
+	_shn_admin_acl_user_menu();
+	shn_acl_form_user_edit_roles();
+}
+
+
+function _shn_admin_acl_user_edit_roles_cr($module=NULL,$error=false)
+{
+	$perm_string=$_POST{"perms"};
+	$perms=explode(";",$perm_string);
+	$users=explode(":",$_POST{"users"});
+	$i=count($users)-1;
+
+	/*
+	echo "i=".$i;
+	$tmp_users=array();
+	while($i>0) {
+		array_push(
+			$tmp_users,
+			$users[$i]
+		);
+		$i=$i-1;
+	}
+	*/
+	array_pop($users);
+
+
+	if(!shn_acl_deluser_roles($users))
+   		return false;
+	for ($i=0;$i<count($perms)-1;$i++) {
+    	$rule=explode(":",$perms[$i]);
+    	$user=$rule[0];
+    	$role=$rule[1];
+
+    	$name=$user.$role;
+
+   		if(isset($_POST{trim($name)})) {
+      		shn_acl_adduser_to_role($user,$role);
+   		}
+	}
 
 	_shn_admin_acl_user_menu();
 	shn_acl_form_user_edit_roles();
 }
 
-function _shn_admin_acl_user_edit_roles_cr($module=NULL,$error=false){
-$perm_string=$_POST{"perms"};
-$perms=explode(";",$perm_string);
-$users=explode(":",$_POST{"users"});
-$i=count($users)-1;
 
-/*
-echo "i=".$i;
-$tmp_users=array();
-while ($i>0){
-	array_push(
-		$tmp_users,
-		$users[$i]
-	);
-	$i=$i-1;
-}
-*/
-array_pop($users);
-
-
-if(!shn_acl_deluser_roles($users))
-   return false;
-for ($i=0;$i<count($perms)-1;$i++){
-    $rule=explode(":",$perms[$i]);
-    $user=$rule[0];
-    $role=$rule[1];
- 
-    $name=$user.$role;
-
-   if(isset($_POST{trim($name)})){
-      shn_acl_adduser_to_role($user,$role);
-    }
-}
-
-	_shn_admin_acl_user_menu();
-	shn_acl_form_user_edit_roles();
-
-}
-
-
-function _shn_admin_acl_change_user_status_cr(){
+function _shn_admin_acl_change_user_status_cr()
+{
 	$users=shn_auth_user_list();
 	global $global;
 	$db=$global["db"];
-	foreach ($users as $user=>$uname){
+	foreach($users as $user=>$uname) {
 		$status=$_POST[$user];
-		$sql="update users set status='{$status}' where p_uuid='{$user}'";
+		$sql="UPDATE users SET status='{$status}' WHERE p_uuid='{$user}'";
 		$res=$db->Execute($sql);
 	}
-	
 }
 
 
-function _shn_admin_acl_unlock_user_cr(){
+function _shn_admin_acl_unlock_user_cr()
+{
 	$users=shn_auth_locked_user_list();
 	global $global;
 	$db=$global["db"];
-	foreach ($users as $user=>$uname){
+	foreach($users as $user=>$uname) {
 		$status=$_POST[$user];
-		$sql="update users set status='{$status}' where p_uuid='{$user}'";
+		$sql="UPDATE users SET status='{$status}' WHERE p_uuid='{$user}'";
 		$res=$db->Execute($sql);
 	}
-	
 }
+
+
 function _shn_admin_acl_user_add_roles($module=NULL,$error=false)
 {
+	if(is_null($module)) {
+		$module=$_GET['sel'];   
+	}
 
-if(is_null($module)){
-$module=$_GET['sel'];   
-}
+	_shn_admin_acl_user_menu($module);
+	global $conf;	
 
-    _shn_admin_acl_user_menu($module);
-global $conf;
 ?>
-<h2 align="center">Configure ACL user permissions for <?php echo $conf['mod_'.$module.'_name']?></h3>
+	<h2 align="center">Configure ACL user permissions for <?php echo $conf['mod_'.$module.'_name']?></h3>
 <?php
 
     shn_acl_form_user_add_roles($module,$error);
@@ -331,48 +317,48 @@ function _shn_admin_acl_user_add_roles_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (is_null($_POST{"users"})){
+    if(is_null($_POST{"users"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $user=$_POST{"users"};
     }
 
-    if (is_null($_POST{"roles"})){
+    if(is_null($_POST{"roles"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $role=$_POST{"roles"};
     }
+    
     $i=0;
-    while($i<count($user)){
-	$j=0;
-    	while($j<count($role)){
-		$res=shn_acl_add_to_role($user[$i],$role[$j]);
-		$j=$j+1;
+    while($i<count($user)) {
+		$j=0;
+    	while($j<count($role)) {
+			$res=shn_acl_add_to_role($user[$i],$role[$j]);
+			$j=$j+1;
+		}
+		$i=$i+1;
 	}
-	$i=$i+1;
-}
 
-shn_admin_acl_user_add_roles($module,false);
-if ($res){
+	shn_admin_acl_user_add_roles($module,false);
+	if($res) {
 ?>
-<div id="save">
-Users were succesfully added to Roles
-</div>
+		<div id="save">
+		Users were succesfully added to Roles
+		</div>
 <?php
-}
+	}
 }
 
 function _shn_admin_acl_role()
 {
-     $module=$_GET['sel'];  
-global $conf;
+    $module=$_GET['sel'];  
+	global $conf;
 
     _shn_admin_acl_role_menu($module);
 ?>
-
-<h2 align="center">Configure ACL Role permissions</h2>
+	<h2 align="center">Configure ACL Role permissions</h2>
 <?php
 }
 
@@ -381,61 +367,63 @@ function _shn_admin_acl_role_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (is_null($_POST{"action_groups"})){
+    if(is_null($_POST{"action_groups"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $action_group=$_POST{"action_groups"};
     }
 
-if (is_null($_POST{"roles"})){
+	if(is_null($_POST{"roles"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $role=$_POST{"roles"};
     }
-$i=0;
-    while($i<count($role)){
-	$j=0;
-    	while($j<count($action_group)){
-            $res=shn_acl_add_perms_action_group_role($role[$i],$module,$action_group[$j]);
-              
-		$j=$j+1;
+	$i=0;
+    while($i<count($role)) {
+		$j=0;
+    	while($j<count($action_group)) {
+            $res=shn_acl_add_perms_action_group_role($role[$i],$module,$action_group[$j]);  
+			$j=$j+1;
+		}
+		$i=$i+1;
 	}
-	$i=$i+1;
-}
-if ($res){
+	if($res) {
 ?>
-<div id="save">
-Roles were succesfully given permission to action groups
-</div>
+		<div id="save">
+		Roles were succesfully given permission to action groups
+		</div>
 <?php
+	}
+	shn_admin_acl_role($module,false);
 }
-shn_admin_acl_role($module,false);
-}
+
 function _shn_admin_acl_user_add_perms()
 {
     $module=$_GET['sel']; 
     global $conf;
 ?>
-<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
+	<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
 <?php 
     _shn_admin_acl_user_menu($module);
     shn_acl_form_user_add_perms($module,false);
 }
 
 
-function _shn_admin_acl_user_edit_perms_cr(){
-$perm_string=$_POST{"perms"};
-$perms=explode(";",$perm_string);
-var_dump($perms);
+function _shn_admin_acl_user_edit_perms_cr()
+{
+	$perm_string=$_POST{"perms"};
+	$perms=explode(";",$perm_string);
+	var_dump($perms);
 }
+
 function _shn_admin_acl_user_edit_perms()
 {
     $module=$_GET['sel']; 
     global $conf;
 ?>
-<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
+	<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
 <?php 
     _shn_admin_acl_user_menu($module);
     shn_acl_form_user_edit_perms($module,false);
@@ -446,42 +434,39 @@ function _shn_admin_acl_user_cr()
     global $global;
     $module=$_GET['sel'];  
 
-    if (is_null($_POST{"action_groups"})){
+    if(is_null($_POST{"action_groups"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $action_group=$_POST{"action_groups"};
     }
 
-    if (is_null($_POST{"users"})){
+    if(is_null($_POST{"users"})) {
         $error=true;
         add_error(SHN_ERR_OR_NAME_INCOMPLETE);
-    }else {    
+    }else{    
         $user=$_POST{"users"};
     }
     $i=0;
-    while($i<count($user)){
-	$j=0;
-    	while($j<count($action_group)){
+    while($i<count($user)) {
+		$j=0;
+    	while($j<count($action_group)) {
             $res=shn_acl_add_perms_action_group_user($user[$i],$module,$action_group[$j]);
               
-		$j=$j+1;
+			$j=$j+1;
+		}
+		$i=$i+1;
 	}
-	$i=$i+1;
-}
-if ($res){
+	if($res) {
 ?>
-<div id="save">
-Roles were succesfully given permission to action groups
-</div>
+	<div id="save">
+	Roles were succesfully given permission to action groups
+	</div>
 <?php
+	}
+
+	_shn_admin_acl_user($module,false);
 }
-
-
-_shn_admin_acl_user($module,false);
-}
-
-
 
 
 ?>

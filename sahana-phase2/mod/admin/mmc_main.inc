@@ -3,17 +3,17 @@ function shn_admin_mmc_default()
 {
     //|--mod prefix--|--Modules--|--Version--|--Author--|
 ?>
-<h2>Installed Modules</h2>
-<div id="result">
-<table>
-<thead>
-    <td><?=_('Module Prefix');?></td>
-    <td><?=_('Module Name');?></td>
-    <td><?=_('Version');?></td>
-    <td><?=_('Author');?></td>
-</thead>
+	<h2>Installed Modules</h2>
+	<div id="result">
+	<table>
+	<thead>
+    	<td><?=_('Module Prefix');?></td>
+    	<td><?=_('Module Name');?></td>
+    	<td><?=_('Version');?></td>
+    	<td><?=_('Author');?></td>
+	</thead>
 <?php
-    foreach(shn_get_module_names() as $module){
+    foreach(shn_get_module_names() as $module) {
         echo "<tr>";
         echo "<td>".$module."</td>";
         echo "<td>".shn_get_module_name($module)."</td>";
@@ -22,23 +22,23 @@ function shn_admin_mmc_default()
         echo "</tr>";
     }
 ?>
-</table>
-</div>
+	</table>
+	</div>
 <?php  
 }
 
 function shn_admin_mmc_add()
 {
-    switch ($_REQUEST['seq']){
+    switch($_REQUEST['seq']) {
         case 'upload':
-            if(! _shn_admin_mmc_upload_form_validate()){
+            if(! _shn_admin_mmc_upload_form_validate()) {
                 _shn_admin_mmc_upload_form(true);
             }
-        break;
+        	break;
 
         case 'commit':
             _shn_admin_mmc_upload_commit();
-        break;
+        	break;
 
         default :
             $_SESSION['admin']['mmc'] = null;
@@ -46,24 +46,26 @@ function shn_admin_mmc_add()
                 _shn_admin_mmc_upload_form();
             else
                 display_errors();
-        break;
+        	break;
     }
 }
+
+
 function _shn_admin_mmc_check_system()
 {
     global $global;
     //check www/tmp is writable or not 
-    if(!is_writeable($global['approot'].'/www/tmp')){
+    if(!is_writeable($global['approot'].'/www/tmp')) {
         add_error(_(" www/tmp path is not writeable. Please make it writeable."));
     }
 
     //check mod is writable 
-    if(!is_writeable($global['approot'].'/mod')){
+    if(!is_writeable($global['approot'].'/mod')) {
         add_error(_("Modules directory is not writeable. Please make it writeable."));
     }
 
     //check backup location is writeable
-    if(!is_writeable($global['approot'].'/backup')){
+    if(!is_writeable($global['approot'].'/backup')) {
         add_error(_("Backup directory is not writeable. Please make it writeable."));
     }
 
@@ -94,27 +96,27 @@ function _shn_admin_mmc_upload_form_validate()
     global $global;
     require_once($global['approot'].'/3rd/pclzip/pclzip.lib.php');
     
-    if($_FILES['zip_file']['error']==UPLOAD_ERR_NO_FILE){
+    if($_FILES['zip_file']['error']==UPLOAD_ERR_NO_FILE) {
         add_error(_("Please upload the module file"));
         return false;
     }
 
-    if($_FILES['zip_file']['error'] != 0){
+    if($_FILES['zip_file']['error'] != 0) {
         add_error(_("There was an error on uploading please try again."));
         return false;
     }
 
-    if(! preg_match('/zip/',$_FILES['zip_file']['type'])){
+    if(! preg_match('/zip/',$_FILES['zip_file']['type'])) {
         add_error(_("The uploaded file is not a valid zip file"));
         return false;
     }
 
     //unzip on tmp location
-    if(! $tmp_dir = _shn_admin_mmc_create_tmp_dir()){
+    if(! $tmp_dir = _shn_admin_mmc_create_tmp_dir()) {
         return false;
     }
 
-    if(! move_uploaded_file($_FILES['zip_file']['tmp_name'], $tmp_dir.$_FILES['zip_file']['name'])){
+    if(! move_uploaded_file($_FILES['zip_file']['tmp_name'], $tmp_dir.$_FILES['zip_file']['name'])) {
         add_error(_("Couldn't move the uploaded file."));
         if(! shn_tools_rmdir_rf($tmp_dir))
             add_error(_("Couldn't delete the tmp directory, it's not harmful although you may want to clean it mannually to gain more disk speace")); 
@@ -122,24 +124,24 @@ function _shn_admin_mmc_upload_form_validate()
     }
 
     //try unziping the files
-    if(! $module_info = _shn_admin_mmc_unzip_and_check($tmp_dir, $tmp_dir.$_FILES['zip_file']['name']) ){
+    if(! $module_info = _shn_admin_mmc_unzip_and_check($tmp_dir, $tmp_dir.$_FILES['zip_file']['name']) ) {
         return false;     
     }
 
     //check depenencies
     $func = "shn_{$module_info['mod_prefix']}_depens";
-    if(function_exists($func)){
+    if(function_exists($func)) {
         $dependencies = $func();
-        foreach($dependencies as $dep_mod){
-            if(!shn_module_exists($dep_mod)){
+        foreach($dependencies as $dep_mod) {
+            if(!shn_module_exists($dep_mod)) {
                 $not_found[$dep_mod] = true; //should be nice name
             }
         }
     }   
     //if not found dependencies
-    if($not_found){
+    if($not_found) {
         add_error(_("You can not install/upgrade this module due to the following dependent modules are missing"));
-        foreach($not_found as $not_found => $nice_name){
+        foreach($not_found as $not_found => $nice_name) {
             add_error($not_found);
         }
         return false;
@@ -149,10 +151,10 @@ function _shn_admin_mmc_upload_form_validate()
     $_SESSION['admin']['mmc']['module_info'] = $module_info;
 
     //check module exists or not
-    if(shn_module_exists($module_info['mod_prefix'])){
+    if(shn_module_exists($module_info['mod_prefix'])) {
         //if same version don't upgrade
         $cur_version = shn_db_get_config($module_info['mod_prefix'],'version');
-        if($cur_version == $module_info['version']){
+        if($cur_version == $module_info['version']) {
             add_error(_("The module you uploaded is the same version of what is already installed."));
             return false;
         }
@@ -160,9 +162,9 @@ function _shn_admin_mmc_upload_form_validate()
         $_SESSION['admin']['mmc']['type'] = 'upgrade';
         $func = "shn_{$module_info['mod_prefix']}_upgrade_page";
         //if the shn_<mod>_upgade_page() exists call that 
-        if($module_info['setup.inc'] && function_exists($func)){
+        if($module_info['setup.inc'] && function_exists($func)) {
             $func();
-        }else{
+        }else {
             shn_form_fopen("mmc_add",null);
             shn_form_hidden(array('seq'=>'commit'));
             shn_form_fsopen(_('Confirm'));
@@ -176,14 +178,14 @@ function _shn_admin_mmc_upload_form_validate()
             shn_form_fclose();
             return true;
         }
-    }else{
+    }else {
         //install
         $_SESSION['admin']['mmc']['type'] = 'install';
         $func = "shn_{$module_info['mod_prefix']}_install_page";
         //if the shn_<mod>_install_page() exists call that 
-        if($module_info['setup.inc'] && function_exists($func)){
+        if($module_info['setup.inc'] && function_exists($func)) {
             $func();
-        }else{
+        }else {
             shn_form_fopen("mmc_add",null);
             shn_form_hidden(array('seq'=>'commit'));
             shn_form_fsopen(_('Confirm'));
@@ -203,10 +205,10 @@ function _shn_admin_mmc_create_tmp_dir()
 {
     global $global;
     $tmp_dir = $global['approot'].'/www/tmp/'.'tmp_'.time().'/';
-    if(! mkdir($tmp_dir)){
+    if(! mkdir($tmp_dir)) {
         add_error(_("Couldn't create the directory in the www/tmp. Make sure the location is writable."));
         return false;
-    }else{
+    }else {
         return $tmp_dir;
     }
 }
@@ -216,45 +218,45 @@ function _shn_admin_mmc_unzip_and_check($folder, $zipfile)
     global $global;
     $module_zip = new PclZip($zipfile);
     $list = $module_zip->extract(PCLZIP_OPT_PATH,$folder);
-    if($list == 0){
+    if($list == 0) {
         add_error(_("Unrecoverable error : '") . $module_zip->errorName(true). "'");
         if(! shn_tools_rmdir_rf($folder))
             add_error(_("Couldn't delete the tmp directory, it's not harmful although you may want to clean it mannually to gain more disk speace")); 
         return false;
-    }else{
+    }else {
         //check files
         //find the <directory>
         $d = dir($folder);
-        while($file = $d->read()){
-            if(! ($file == '.' || $file == '..') ){ 
+        while($file = $d->read()) {
+            if(! ($file == '.' || $file == '..') ) { 
                 if(is_dir($folder.'/'.$file)){
                     $dir_name = $file;
                 }
             }
         }
-        if(!$dir_name){
+        if(!$dir_name) {
             add_error(_("No directory found in the zip file. Could be an invalid zip or files have been zipped incorrectly."));
             return false;
-        }else{
+        }else {
             $return['mod_prefix'] = $dir_name;
             //conf.inc 
-            if(!file_exists($folder.$dir_name.'/conf.inc')){
+            if(!file_exists($folder.$dir_name.'/conf.inc')) {
                 add_error(_("No config file found in the zip. Please install a correct module zip file."));
                 return false;
             }
             //conf.inc -- name, version
             include_once($folder.$dir_name.'/conf.inc');
-            if(!$return['name']=$conf['mod_'.$dir_name.'_name']){
+            if(!$return['name']=$conf['mod_'.$dir_name.'_name']) {
                 add_error(_("Could not find the module name."));
                 return false;
             }
-            if(!$return['version']=$conf['mod_'.$dir_name.'_version']){
+            if(!$return['version']=$conf['mod_'.$dir_name.'_version']) {
                 add_error(_("Could not find the module version."));
                 return false;
             } 
                 
             //main.inc
-            if(!file_exists($folder.$dir_name.'/main.inc')){
+            if(!file_exists($folder.$dir_name.'/main.inc')) {
                 add_error(_("Could not find the main.inc"));
                 return false;
             }
@@ -263,25 +265,25 @@ function _shn_admin_mmc_unzip_and_check($folder, $zipfile)
             //inc/dbcreate.sql
             //inc/dbupgrade.sql
             //ins/setup.inc 
-            if(!file_exists($folder.$dir_name.'/ins/setup.inc')){
+            if(!file_exists($folder.$dir_name.'/ins/setup.inc')) {
                 $return['setup.inc'] = false;
-            }else{
+            }else {
                 include_once($folder.$dir_name.'/ins/setup.inc');
                 $func = 'shn_'.$dir_name.'_depends';
-                if(function_exists($func)){
+                if(function_exists($func)) {
                     $return['depends']=$func();
                 }
             }
 
-            if(!file_exists($folder.$dir_name.'/ins/dbcreate.sql')){
+            if(!file_exists($folder.$dir_name.'/ins/dbcreate.sql')) {
                 $return['dbcreate.sql'] = false;
-            }else{
+            }else {
                 $return['dbcreate.sql'] = $conf['db_engine'].'-dbcreate.sql';
             }
 
-            if(!file_exists($folder.$dir_name.'/ins/dbupgrade.sql')){
+            if(!file_exists($folder.$dir_name.'/ins/dbupgrade.sql')) {
                 $return['dbupgrade.sql'] = false;
-            }else{
+            }else {
                 $return['dbupgrade.sql'] = $conf['db_engine'].'-dbupgrade.sql';
             }
             
@@ -303,7 +305,7 @@ function _shn_admin_mmc_upload_commit()
 
     require_once($global['approot'].'/3rd/pclzip/pclzip.lib.php');
 
-    if($_SESSION['admin']['mmc']['type'] == 'upgrade'){
+    if($_SESSION['admin']['mmc']['type'] == 'upgrade') {
         //backup the current module <mod>-<version>-<date>-<userid>.zip
         //e.g. mpr-0.2-192833032-5.zip
         $backup_file = $global['approot']."/backup/".
@@ -314,13 +316,13 @@ function _shn_admin_mmc_upload_commit()
         $module_zip = new PclZip($backup_file);
         chdir($global['approot']."/mod/");
         $err = $module_zip->create($_SESSION['admin']['mmc']['module_info']['mod_prefix']);
-        if ($err == 0) {
+        if($err == 0) {
             die("Error : ".$archive->errorInfo(true));
         }
 
         //if dbupdate.sql then backup data and schema
         //TODO:
-        if($_SESSION['admin']['mmc']['module_info']['dbupgrade.sql']){
+        if($_SESSION['admin']['mmc']['module_info']['dbupgrade.sql']) {
             $sql_file = $_SESSION['admin']['mmc']['tmp_dir'].'/'.
                         $_SESSION['admin']['mmc']['module_info']['mod_prefix'].
                         '/ins/'.
@@ -332,23 +334,23 @@ function _shn_admin_mmc_upload_commit()
 
         //Remove existing directory 
         if(! shn_tools_rmdir_rf($global['approot']."/mod/".
-            $_SESSION['admin']['mmc']['module_info']['mod_prefix'])){
+            $_SESSION['admin']['mmc']['module_info']['mod_prefix'])) {
             die("couldn't delete the existing module directory");
         }
         
-    }else{
+    }else {
 
     }
     //Move the tmp to mod folder
     if(! rename($_SESSION['admin']['mmc']['tmp_dir'].
             '/'.$_SESSION['admin']['mmc']['module_info']['mod_prefix'],
-            $global['approot']."/mod/".$_SESSION['admin']['mmc']['module_info']['mod_prefix']) ){
+            $global['approot']."/mod/".$_SESSION['admin']['mmc']['module_info']['mod_prefix']) ) {
         die("could not move the tmp to main mod folder");
 
     }
 
     //remove the tmp folder
-    if(! shn_tools_rmdir_rf($_SESSION['admin']['mmc']['tmp_dir']) ){
+    if(! shn_tools_rmdir_rf($_SESSION['admin']['mmc']['tmp_dir']) ) {
         die("Could not delete the tmp folder");
     }
 
@@ -359,32 +361,33 @@ function _shn_admin_mmc_upload_commit()
 }
 
 
-function shn_tools_rmdir_rf($path){
+function shn_tools_rmdir_rf($path)
+{
     global $rm_rf_error;
-    if(file_exists($path)){
+    if(file_exists($path)) {
         $d = dir($path);
-        while($file = $d->read()){
-            if(! ($file == '.' || $file == '..') ){
-                if(is_dir($file)){
+        while($file = $d->read()) {
+            if(! ($file == '.' || $file == '..') ) {
+                if(is_dir($file)) {
                     shn_tools_rmdir_rf($path.'/'.$file);
-                }else{
-                    if(! unlink($path.'/'.$file)){
+                }else {
+                    if(! unlink($path.'/'.$file)) {
                         $rm_rf_error = true;
                     }
                 }
             }
         }
-        if($rm_rf_error){
+        if($rm_rf_error) {
             return false;
-        }else{
-            if(rmdir($path)){
+        }else {
+            if(rmdir($path)) {
                 return true;
-            }else{
+            }else {
                 $rm_rf_error = true;
                 return false;
             }
         }
-    }else{
+    }else {
         $rm_rf_error = true;
         return false;
     }

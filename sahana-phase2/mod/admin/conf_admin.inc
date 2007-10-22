@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.9 2007-10-12 06:28:59 priyanga Exp $ */
+/* $Id: conf_admin.inc,v 1.10 2007-10-22 10:59:43 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -39,60 +39,63 @@ function shn_admin_conf_list()
 	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
 	$xajax->registerFunction("_shn_admin_conf_ajax_update");
 	$xajax->printJavascript("res/js/");
-	?>
-<script type="text/javascript" language="javascript">
-	var current_edit_box = null;
+?>
+	<script type="text/javascript" language="javascript">
+		var current_edit_box = null;
 
-	function show_edit_box(id){
-		// if any edit box is visible.
-		if(current_edit_box!=null){
-			current_edit_box.style.display="none";
-			current_edit_box=null;
-		}
-	
-		current_edit_box=document.getElementById("edit_tr_"+id);
-		current_edit_box.style.display="table-row";
-		document.getElementById("edit_txt_"+id).focus();
-	}
-
-	function hide_edit_box(id){
-		current_edit_box.style.display="none";
-		var newValTarget = document.getElementById("target_"+id);
-
-		if(newValTarget!=null){
-			if(newValTarget.childNodes[0]!=null){
-				newValTarget.removeChild(newValTarget.childNodes[0]);
+		function show_edit_box(id)
+		{
+			// if any edit box is visible.
+			if(current_edit_box!=null) {
+				current_edit_box.style.display="none";
+				current_edit_box=null;
 			}
-			newValTarget.appendChild(document.createTextNode("Updating..."));
-		}
-		
-		current_edit_box=null;
-		var editTextBox = document.getElementById("edit_txt_"+id);
-		xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
-	}
 	
-	// called by xajax to update the value asynchronously on the UI.
-	function async_update(id,value){
-		var newValTarget = document.getElementById("target_"+id);
-		newValTarget.removeChild(newValTarget.childNodes[0]);
-		newValTarget.appendChild(document.createTextNode(value));
-	}
-</script>
-	<?php
+			current_edit_box=document.getElementById("edit_tr_"+id);
+			current_edit_box.style.display="table-row";
+			document.getElementById("edit_txt_"+id).focus();
+		}
+
+		function hide_edit_box(id)
+		{
+			current_edit_box.style.display="none";
+			var newValTarget = document.getElementById("target_"+id);
+
+			if(newValTarget!=null) {
+				if(newValTarget.childNodes[0]!=null) {
+					newValTarget.removeChild(newValTarget.childNodes[0]);
+				}
+				newValTarget.appendChild(document.createTextNode("Updating..."));
+			}
+		
+			current_edit_box=null;
+			var editTextBox = document.getElementById("edit_txt_"+id);
+			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
+		}
+	
+		// called by xajax to update the value asynchronously on the UI.
+		function async_update(id,value)
+		{
+			var newValTarget = document.getElementById("target_"+id);
+			newValTarget.removeChild(newValTarget.childNodes[0]);
+			newValTarget.appendChild(document.createTextNode(value));
+		}
+	</script>
+<?php
 
 	ksort($conf);
 	shn_config_database_fetch(&$dconf,'all');
-	?>
-<div id="result">
-<table>
+?>
+	<div id="result">
+	<table>
 	<thead>
-	<?php
+<?php
 	shn_form_table_row(array('Config Variable','Current Value','Modified Value','Action'));
-	?>
+?>
 	</thead>
-	<?php
+<?php
 
-	foreach ($conf as $key => $value) {
+	foreach($conf as $key => $value) {
 
 		//$edit ='<a href="?mod=admin&act=conf_var&key='.$key.'">(edit)</a>';
 		$edit ='<a href="#" onclick="show_edit_box(\''.$key.'\')">(edit)</a>';
@@ -103,52 +106,52 @@ function shn_admin_conf_list()
 		$str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
 		//shn_form_table_row(array($key,$str_value,'<span id="target_'.$key.'">'.$str_dconf.'</span>',$edit));
 
-		?>
-	<tr onclick="show_edit_box('<?php echo $key; ?>')"
-		style="cursor: pointer;")>
-		<td><?php echo $key; ?></td>
-		<td><?php echo $str_value; ?></td>
-		<td><?php echo '<span id="target_'.$key.'">'.$str_dconf.'</span>'; ?></td>
-		<td><?php echo $edit; ?></td>
-	</tr>
-	<!-- In place editing -->
-	<tr id="edit_tr_<?php echo $key; ?>" style="display: none">
-		<td colspan="4">
-		<div align="center" style="padding: 10px;">
-		<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
-		<input id="edit_txt_<?php echo $key; ?>"
-			value="<?php echo ($str_dconf!=null)?$str_dconf:$str_value ?>"
-			type="text" /> <input type="button" value="Change"
-			onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
-		</div>
-		</td>
-	</tr>
-	<?php
-}
 ?>
-</table>
-</div>
+		<tr onclick="show_edit_box('<?php echo $key; ?>')"
+			style="cursor: pointer;")>
+			<td><?php echo $key; ?></td>
+			<td><?php echo $str_value; ?></td>
+			<td><?php echo '<span id="target_'.$key.'">'.$str_dconf.'</span>'; ?></td>
+			<td><?php echo $edit; ?></td>
+		</tr>
+		<!-- In place editing -->
+		<tr id="edit_tr_<?php echo $key; ?>" style="display: none">
+			<td colspan="4">
+			<div align="center" style="padding: 10px;">
+			<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
+			<input id="edit_txt_<?php echo $key; ?>"
+				value="<?php echo ($str_dconf!=null)?$str_dconf:$str_value ?>"
+				type="text" /> <input type="button" value="Change"
+				onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
+			</div>
+			</td>
+		</tr>
+<?php
+	}
+?>
+	</table>
+	</div>
 <?php
 }
 
 function shn_html_bool2str($boolean)
 {
-	if (is_bool($boolean)) {
+	if(is_bool($boolean)) {
 		$boolean = ($boolean == true)? "true":"false";
 	}
 	return $boolean;
-
 }
 
 function shn_html_truncate($string, $max_length)
 {
-	if (is_string($string) && strlen($string) > $max_length) {
-		$string = substr($string, 0, ($max_length/2)-1 ).
+	if(is_string($string) && strlen($string) > $max_length) {
+		$string = substr($string, 0,($max_length/2)-1).
                "<a href=\"#\" title=\"$string\">...</a>".
 		substr($string, -($max_length/2)+1);
 	}
 	return $string;
 }
+
 
 function shn_admin_conf_var()
 {
@@ -158,10 +161,10 @@ function shn_admin_conf_var()
 	shn_form_fsopen(_('Change Config Value'));
 	shn_form_hidden(array('conf_key'=>$_GET['key']));
 
-	if ( is_bool($conf[$_GET['key']]) ) {
+	if(is_bool($conf[$_GET['key']])) {
 		shn_form_select(array('true'=>'true','false'=>'false'),$_GET['key'],'conf_value',null,
 		array('value'=> shn_html_bool2str($conf[$_GET['key']])));
-	} else {
+	}else {
 		shn_form_text($_GET['key'],'conf_value','size="60"',array('value'=>$conf[$_GET['key']]));
 	}
 
@@ -170,7 +173,8 @@ function shn_admin_conf_var()
 	shn_form_fclose();
 }
 
-function _shn_admin_conf_ajax_update($key,$value){
+function _shn_admin_conf_ajax_update($key,$value)
+{
 	shn_config_database_update($key,$value);
 	// truncate the new value before display.
 	$new_value = shn_html_truncate($value,25);

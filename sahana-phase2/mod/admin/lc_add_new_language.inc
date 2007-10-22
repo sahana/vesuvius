@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 *
 * Sahana Admin & ACL section
@@ -17,7 +17,8 @@
 *
 */
 
-function _shn_admin_lc_add_new_language_form(){
+function _shn_admin_lc_add_new_language_form()
+{
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	shn_form_fopen("lc_add_new_language_post");
@@ -32,33 +33,32 @@ function _shn_admin_lc_add_new_language_form(){
     shn_form_fsclose();    
     shn_form_submit(_("Remove"),'name="remove"');
     shn_form_fclose();    
-	
 }
 
-function _shn_admin_lc_add_new_language(){
-	 
-	 $lang = $_POST['lang_name'];
-	 $lang_folder_name = $_POST['lang_folder_name'];
+function _shn_admin_lc_add_new_language()
+{
+	$lang = $_POST['lang_name'];
+	$lang_folder_name = $_POST['lang_folder_name'];
 	 
 	$handle = fopen("../res/locale/locale", "a");
 	 	
 	$content = $lang_folder_name."\t".$lang."\n";
-	if (fwrite($handle,$content) === FALSE) {       	
+	if(fwrite($handle,$content) === FALSE) {       	
        echo "Cannot write to file ($filename)";
        exit;
-    }else{
+    }else {
     	add_confirmation($lang." language add successfully");
     }   
 	
 }
 
-function _shn_admin_lc_remove_language(){	
-	
+function _shn_admin_lc_remove_language()
+{	
 	$handle = fopen("../res/locale/locale", "r");
 	 
-	while ($localeinfo = fscanf($handle,"%s\t%s\t%s\n")) {
+	while($localeinfo = fscanf($handle,"%s\t%s\t%s\n")) {
     	list ($locale, $name,$ex_name) = $localeinfo;
-    	if($ex_name!=null){
+    	if($ex_name!=null) {
     		$name = $name." ".$ex_name;
     	}
     	
@@ -71,15 +71,15 @@ function _shn_admin_lc_remove_language(){
 	
 	$handle = fopen("../res/locale/locale", "w");
 	
-	foreach($l_list as $key => $value){
+	foreach($l_list as $key => $value) {
 		$content = $key."\t".$value."\n";
-		if (fwrite($handle,$content) === FALSE) {       	
+		if(fwrite($handle,$content) === FALSE) {       	
         	echo "Cannot write to file ($filename)";
         	exit;
     	}
 	}
 	 
-	add_confirmation($language." language remove successfully");
+	add_confirmation($language." language removed successfully");
 }
 
 ?>

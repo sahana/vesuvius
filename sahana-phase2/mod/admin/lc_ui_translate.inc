@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 *
 * PHP version 4 and 5
@@ -15,7 +15,8 @@
 *
 */
 
-function _shn_admin_set_locale(){
+function _shn_admin_set_locale()
+{
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
@@ -24,11 +25,11 @@ function _shn_admin_set_locale(){
     $locale = $_SESSION["locale"];
     shn_form_select($lc_list,"Please select language: ","locale",'',array('value'=>"$locale"));
     shn_form_submit(_("Set Locale"));
-    shn_form_fclose();
-	
+    shn_form_fclose();	
 }
 
-function _shn_admin_lc_set_ui_translate(){	
+function _shn_admin_lc_set_ui_translate()
+{	
 	shn_form_fopen("lc_ui_trns_enable");
 	shn_form_fsclose();
 	echo 'LOCALE = '.$_SESSION["locale"];
@@ -52,13 +53,13 @@ function _shn_admin_lc_set_ui_translate(){
     shn_form_fclose();
 }
 
-function _shn_admin_lc_ui_trns_enable(){	
-	
+function _shn_admin_lc_ui_trns_enable()
+{	
 	$_SESSION['admin']['locale']['enable'] = "set";
 	$locale = $_SESSION["locale"];	
 	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	
-	if(!file_exists($file_name)){
+	if(!file_exists($file_name)) {
 		$return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
         '--keyword=_p  --default-domain=sahana ' .
@@ -77,14 +78,16 @@ function _shn_admin_lc_ui_trns_enable(){
 	//echo $_SESSION['admin']['locale']['enable'];
 }
 
-function _shn_admin_lc_ui_trns_disable(){
+function _shn_admin_lc_ui_trns_disable()
+{
 	add_confirmation("Localization Mode Disable Succesfully, Please refersh your browser ");
 	$_SESSION['admin']['locale']['enable'] = "reset";
 	//$_SESSION['admin']['locale']['enable_first'] = "reset";
 	//echo $_SESSION['admin']['locale']['enable'];
 }
 
-function _shn_admin_lc_ui_trns_update(){
+function _shn_admin_lc_ui_trns_update()
+{
 	$cmd = "mv -v -f sahana_test.po sahana.po";
 	//echo exec("");
 	//echo $return_value; 

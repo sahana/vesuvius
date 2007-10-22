@@ -39,31 +39,27 @@ function __select_locale()
     shn_form_fclose();
 }
 
-switch ($_REQUEST['seq'])
-{
+switch($_REQUEST['seq']) {
 	case ''	:
-            if(_shn_lc_issetdblc())
-            {
-                	$locale = _shn_lc_getdblc();
+            if(_shn_lc_issetdblc()) {
+            	$locale = _shn_lc_getdblc();
 
-                	print "<h3>" .
+                print "<h3>" .
                       _("Current locale setting ") .
                 		  _("in the Database : ") .
                       _lc($locale) .
                       " </h3>";
 
-                	__select_locale();
-            }
-            else
-            {
+                __select_locale();
+            }else {
                 print "<h3>" .
                 		  _("The locale setting is not set in the Database") .
                 		  "</h3><br /><h4>" .
                 		  _("Please select a valid locale from the list") .
     			      "</h4>";
-                	__select_locale();
+                __select_locale();
             }
-            break;
+			break;
 
     case 'set_locale':
 			$locale = $_POST['locale'];

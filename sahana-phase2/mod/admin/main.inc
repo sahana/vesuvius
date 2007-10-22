@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 *
 * Sahana Admin & ACL section
@@ -40,7 +40,7 @@ include_once $global['approot']."mod/admin/mmc_main.inc";
 
 function shn_admin_mainmenu()
 {
-    _shn_admin_mainmenu() ;
+    _shn_admin_mainmenu();
 }
 
 function shn_admin_view()
@@ -60,25 +60,25 @@ function shn_admin_default()
     $db = $global['db'];
     include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 
-    $result = $db->Execute("select * from incident");
+    $result = $db->Execute("SELECT * FROM incident");
     $isDisasterNamed = ($result->RecordCount() > 0);
 
-    $result = $db->Execute("select * from location");
+    $result = $db->Execute("SELECT * FROM location");
     $isLocationsEntered = ($result->RecordCount() > 0);
 
    	$isSecurityEnabled =shn_acl_is_enabled();
  
 
-    $result = $db->Execute("select * from ct_catalogue");
+    $result = $db->Execute("SELECT * FROM ct_catalogue");
     $isCatalogCreated = ($result->RecordCount() > 0);
 
-    $result = $db->Execute("select value from config where module_id='gis'
-                                 and confkey='mod_gis_google_key'");
+    $result = $db->Execute("SELECT value FROM config WHERE module_id='gis'
+                                 AND confkey='mod_gis_google_key'");
     $isGoogleSetup = ($result->fields['value']  != "");
 
     echo '<div id="home">';
   
-    if (!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
+    if(!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
          || !$isDisasterNamed) {
         echo '<h2>'._('Finalize Your Sahana Installation')."</h2>\n";
         echo _("<p>There are still a few steps to be performed before you 
@@ -86,7 +86,7 @@ function shn_admin_default()
                 These items are given in priority order below:</p>")."\n";
     }
     echo "<ol>\n";
-    if (!$isDisasterNamed) {
+    if(!$isDisasterNamed) {
         echo '<li>'._('<b>Add Disaster Name</b> - As this system can handle 
                 multiple disasters in the same system you need to 
                 first add the name of the first disaster you are using 
@@ -97,7 +97,7 @@ function shn_admin_default()
         		_('and add the disaster name.').'</li><br/>'; 
     }
        
-    if (!$isLocationsEntered) {
+    if(!$isLocationsEntered) {
         echo '<li>'._('<b>Add Locations</b> - Please enter some of the 
                 regions affected in the disaster by clicking the 
                 navigation bar on ').
@@ -105,7 +105,7 @@ function shn_admin_default()
                 _(' followed by ').'<a href="?mod=admin&act=add_loc">'.
                 '&#34;'._('Add Location').'&#34;'.'</a></li><br/>'; 
     }
-    if (!$isCatalogCreated) {
+    if(!$isCatalogCreated) {
         echo '<li>'._('<b>Create the Aid Catalog</b> - The catalog 
                 of aid items has to be defined to use 
                 the Pledge/Request Management System and Inventory Management,
@@ -114,7 +114,7 @@ function shn_admin_default()
                 '&#34;'._('Catalog System').'&#34;'.'</a> '._('in the navigation bar and start adding 
                 aid items for the disaster').'</li><br/>'; 
     }
-   if (!$isGoogleSetup) {
+   	if(!$isGoogleSetup) {
         echo '<li>'._('<b>Setup Google Maps</b> - To get mapping to 
                 work you need to enter a Google Map key in the ') 
                 .'&#34;'._('Module Config').'&#34;'.'->' .
@@ -123,15 +123,15 @@ function shn_admin_default()
     }
     
     
-        echo '<li>'. _('<b>Configure Default Security (optional)</b> - To prevent 
+	echo '<li>'. _('<b>Configure Default Security (optional)</b> - To prevent 
                 unauthorized access to the system configure security by
                  clicking ').
                  '&#34;'._('Security Config').'&#34;  
-              </li>' ;
-                    if (!$isSecurityEnabled) {
-        			?><font color="red"><?=_("Current Security state: Disabled")?></font><?php
-        			}
-              		'<br/>';
+              </li>';
+	if(!$isSecurityEnabled) {
+?>	<font color="red"><?=_("Current Security state: Disabled")?></font><?php
+	}
+    '<br/>';
     
 
 
@@ -149,7 +149,6 @@ function shn_admin_default()
 	<li><b><?=_("Config Value")?></b> <br/><?=_("This section give you access to all the raw configuration values that can be changed in the system")?></li>
 	</ul>
     </div>
-
 <?php
 }
 
@@ -163,7 +162,7 @@ function shn_admin_modadmin()
     // compose and call the relevant module function
     $module_function = "shn_".$global['module']."_".$global['action'];
     
-    if (!function_exists($module_function)) {
+    if(!function_exists($module_function)) {
         $module_function="shn_".$global['module']."_adm_default";
     } 
 
@@ -177,7 +176,8 @@ function shn_admin_modadmin()
     $module_function();
 }
 
-function shn_admin_check_sec_policies(){
+function shn_admin_check_sec_policies()
+{
 	shn_acl_check_valid_policy();
 }
 
@@ -185,11 +185,13 @@ function shn_admin_acl_change_user_status($error=false)
 {
  	shn_acl_form_change_user_status();
 }
+
 function shn_admin_acl_change_user_status_cr($error=false)
 {
  	_shn_admin_acl_change_user_status_cr();
  	shn_admin_acl_change_user_status();	
 }
+
 function shn_admin_acl_unlock_user($error=false)
 {
  	shn_acl_form_unlock_user();
@@ -214,7 +216,7 @@ function shn_admin_add_user($error=false)
 function shn_admin_add_user_cr()
 {
    include_once "errors.inc";
-    if(shn_auth_add_user_cr()==true){
+    if(shn_auth_add_user_cr()==true) {
     	shn_admin_add_user();
     	return;
     }
@@ -271,8 +273,8 @@ function shn_admin_ch_pwd_cr()
     if($error)
     		display_errors();
     ?>
-   </div><?php
-   _shn_admin_acl_system_menu();
+    </div><?php
+    _shn_admin_acl_system_menu();
 }
 
 
@@ -350,7 +352,7 @@ function shn_admin_view_loc()
 
 function shn_admin_view_loc_cr()
 {
-	if (isset($_POST{"chk_start"})){
+	if(isset($_POST{"chk_start"})) {
         $loc=0;
     }else {
         $level=$_POST{"opt_location_type"};
@@ -363,7 +365,7 @@ function shn_admin_edit_loc_cr()
 {
 	$act=$_POST{"action"};
 	$loc=$_POST{"loc_id"};
-	switch ($act) {
+	switch($act) {
         case "edit":
         		$loc=array();
         		$loc["loc"]=$_POST{"loc_id"};
@@ -372,40 +374,46 @@ function shn_admin_edit_loc_cr()
         		$loc["iso"]=$_POST{"iso"};
         		
         		shn_location_edit($loc);
-            _shn_admin_location_view_form();
-            break;
+            	_shn_admin_location_view_form();
+            	break;
         case "del":
-            shn_location_del($loc);
-            _shn_admin_location_view_form();
-            break;
+            	shn_location_del($loc);
+            	_shn_admin_location_view_form();
+            	break;
         default:
-             _shn_admin_location_view_form();
-            break;
+             	_shn_admin_location_view_form();
+            	break;
     }
 
 }
 
-function shn_admin_loc_range(){
+function shn_admin_loc_range()
+{
 	 _shn_admin_location_range_form();
 }
 
-function shn_admin_loc_range_cr(){
+function shn_admin_loc_range_cr()
+{
 	_shn_admin_loc_range_cr();
 }
 
 
-function shn_admin_loc_start(){
+function shn_admin_loc_start()
+{
 	_shn_admin_location_start_form();
 }
 
-function shn_admin_loc_start_cr(){
+function shn_admin_loc_start_cr()
+{
 	_shn_admin_loc_start_cr();
 }
 
-function shn_admin_loc_lvl(){
+function shn_admin_loc_lvl()
+{
 	_shn_admin_levels_form();
 }
-function shn_admin_loc_lvl_cr(){
+function shn_admin_loc_lvl_cr()
+{
 	_shn_adm_loc_lvl_cr();
 }
 function shn_admin_start_loc()
@@ -428,21 +436,27 @@ function shn_admin_acl_user_edit_roles_cr($error=false)
     _shn_admin_acl_user_edit_roles_cr();
 }
 
-function shn_admin_acl_data_privacy(){
+function shn_admin_acl_data_privacy()
+{
 	_shn_admin_acl_data_privacy();
 }
-function shn_admin_acl_role_edit_perms(){
-	
+function shn_admin_acl_role_edit_perms()
+{
 	_shn_admin_acl_role_edit_perms();
 }
 
-function  shn_admin_acl_role_edit_perms_cr(){
+function  shn_admin_acl_role_edit_perms_cr()
+{
 	_shn_admin_acl_role_edit_perms_cr();
 }
-function shn_admin_acl_data_classifications_tables(){
+
+function shn_admin_acl_data_classifications_tables()
+{
 	_shn_admin_acl_data_classifications_tables();
 }
-function shn_admin_acl_data_classifications_tables_cr(){
+
+function shn_admin_acl_data_classifications_tables_cr()
+{
 	_shn_admin_acl_data_classifications_tables_cr();
 }
 /*
@@ -533,13 +547,14 @@ function shn_admin_lc_db()
 
 //User interface language translation 
 
-function shn_admin_lc_ui_trns(){
+function shn_admin_lc_ui_trns()
+{
 	global $global;
 	require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	require_once('lc_ui_translate.inc');
 	if($_POST['locale']==null){
 		_shn_admin_set_locale();
-	}else{		
+	}else {		
 		_shn_admin_lc_set_ui_translate();
 		$locale = $_POST['locale'];
 		_shn_lc_setcookielc($locale);
@@ -548,73 +563,78 @@ function shn_admin_lc_ui_trns(){
 	
 }
 
-function shn_admin_lc_ui_trns_enable(){
+function shn_admin_lc_ui_trns_enable()
+{
 	require_once('lc_ui_translate.inc');
-	if($_POST['lc']=="Enable Localization"){
+	if($_POST['lc']=="Enable Localization") {
 		_shn_admin_lc_ui_trns_enable();
 	}
-	if($_POST['lc_dis']=="Disable Localization"){
+	if($_POST['lc_dis']=="Disable Localization") {
 		_shn_admin_lc_ui_trns_disable();
 	}
-	if($_POST['lc_update']=="Update"){
+	if($_POST['lc_update']=="Update") {
 		_shn_admin_lc_ui_trns_update();
 	}
 	
 }
 
-function shn_admin_lc_ui_trns_update(){
+function shn_admin_lc_ui_trns_update()
+{
 	require_once('lc_ui_translate_update.inc');
 	
-	if($_POST['update']=="Update"){		
+	if($_POST['update']=="Update") {		
 		_shn_admin_lc_translate_compile();
 		
-	}else{
+	}else {
 		_shn_admin_lc_translate_update();
 	}
 		 
 }
 
-function shn_admin_lc_add_new_lang(){
+function shn_admin_lc_add_new_lang()
+{
 	require_once('lc_add_new_language.inc');
 	_shn_admin_lc_add_new_language_form();	
 }
 
-function shn_admin_lc_add_new_language_post(){
+function shn_admin_lc_add_new_language_post()
+{
 	require_once('lc_add_new_language.inc');
-	if($_POST['add']=="Add New"){
+	if($_POST['add']=="Add New") {
 			if($_POST['lang_name']!=null && $_POST['lang_folder_name']!=null)
 				_shn_admin_lc_add_new_language();
-			else{
+			else {
 				add_error('Language Name and Folder Name cannot be blank');
 				_shn_admin_lc_add_new_language_form();
 			}
 	}		
-	else if($_POST['remove']=="Remove"){
+	else if($_POST['remove']=="Remove") {
 		_shn_admin_lc_remove_language();
-	}
-		
-	
-	
+	}	
 }
 
-function shn_admin_lc_add_new_module(){
+function shn_admin_lc_add_new_module()
+{
 	require_once('lc_add_new_module.inc');
 	_shn_admin_lc_add_new_module();
 }
 
-function shn_admin_lc_add_new_module_post(){
+function shn_admin_lc_add_new_module_post()
+{
 	require_once('lc_add_new_module.inc');
 	
 	if($_POST['merge'] == 'Merge')
 		_shn_admin_lc_add_new_module_update();
 }
 
-function shn_admin_lc_upload_file(){
+function shn_admin_lc_upload_file()
+{
 	require_once('lc_upload.inc');
 	_shn_admin_lc_upload_files();
 }
 
-function shn_admin_lc_file_browser(){
+function shn_admin_lc_file_browser()
+{
 	global $global;
 	$locale = $_POST['locale'];
 	//$file_type=$_POST['file_type'];
@@ -623,33 +643,33 @@ function shn_admin_lc_file_browser(){
 	//echo $uploaddir;
 	$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 	
-	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
+	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 		add_confirmation('File uploaded sucessfully');
-	}else{
+	}else {
 		add_error('File uploaded failed');
 	}
 	
 }
 
-function shn_admin_lc_javascript(){
-	
+function shn_admin_lc_javascript()
+{
 	global $global;
     global $conf;
     $approot = $global['approot'];    
     $request  = $_REQUEST['request'];
-    if($request=='first'){
+    if($request=='first') {
     	require_once $approot."/mod/admin/lc_first_process_request.inc";
     	_find_translated_str();
     }    	
-    else if($request=='second'){
+    else if($request=='second') {
     	require_once $approot."/mod/admin/lc_second_process_request.inc";
     	_find_str();
     }    	
-    else if($request=='third'){
+    else if($request=='third') {
     	require_once $approot."/mod/admin/lc_third_process_request.inc";
     	_find_str();
     }
-    else if($request=='select'){
+    else if($request=='select') {
     	require_once $approot."/mod/admin/lc_select_process_request.inc";
     	shn_admin_lc_select_tag();
     }

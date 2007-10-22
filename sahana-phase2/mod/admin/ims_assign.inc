@@ -1,4 +1,5 @@
 <?php
+
 function _shn_ims_assign_form($errors=false,$type=false)
 {
     global $conf;
@@ -10,31 +11,31 @@ function _shn_ims_assign_form($errors=false,$type=false)
 
     $sql = "SELECT b.name, b.incident_id FROM resource_to_incident a INNER JOIN incident b USING (incident_id) WHERE a.x_uuid = '{$_REQUEST['id']}'";
     $arr = $global['db']->GetAll($sql);
-    if(! empty($arr)){
+    if(! empty($arr)) {
         shn_form_fopen("ims_assign",null);
         
         shn_form_hidden(array('seq'=>'delete'));
         shn_form_hidden(array('id'=>$_REQUEST['id']));
         shn_form_fsopen(_('Currently Assign Incidents'));
 ?>
-<table>
-<thead>
-    <td width="100%"><strong><?=_('Incident Name');?></strong></td>
-    <td width="100%"><strong><?=_('Delete');?></strong></td>
-</thead>
+		<table>
+		<thead>
+    	<td width="100%"><strong><?=_('Incident Name');?></strong></td>
+    	<td width="100%"><strong><?=_('Delete');?></strong></td>
+		</thead>
 <?php
-foreach($arr as $row){
+		foreach($arr as $row) {
 ?>
-<tr>
-    <td><?=$row['name'];?>
-    </td>
-    <td><input type="checkbox" name="ims_delete[<?=$row['incident_id'];?>]" value="<?=$row['incident_id'];?>" />
-    </td>
-</tr>
+			<tr>
+    		<td><?=$row['name'];?>
+    		</td>
+    		<td><input type="checkbox" name="ims_delete[<?=$row['incident_id'];?>]" value="<?=$row['incident_id'];?>" />
+    		</td>
+			</tr>
 <?php
-}
+		}
 ?>
-</table>
+		</table>
 <?php
         shn_form_fsclose();
         shn_form_submit(_('Delete'));
@@ -50,16 +51,16 @@ foreach($arr as $row){
 	$arr_level3 = $global['db']->GetAll($sql_level3);
 
     $arr = null;
-    if($_POST['ims_level'] == 'level2' ){
-        foreach($arr_level2 as $row){
+    if($_POST['ims_level'] == 'level2') {
+        foreach($arr_level2 as $row) {
             $arr[$row['incident_id']] = $row['parent_name'].' --> '.$row['name'];
         }
-    }elseif($_POST['ims_level'] == 'level3' ){
-        foreach($arr_level3 as $row){
+    }elseif($_POST['ims_level'] == 'level3') {
+        foreach($arr_level3 as $row) {
             $arr[$row['incident_id']] = $row['grand_parent_name'].' --> '.$row['parent_name'].' --> '.$row['name'];
         }
     }else{
-        foreach($arr_level1 as $row){
+        foreach($arr_level1 as $row) {
             $arr[$row['incident_id']] = $row['name'];
         }
     }
@@ -69,9 +70,9 @@ foreach($arr as $row){
 
     shn_form_fopen("ims_assign",null);
     
-    if($updated){
+    if($updated) {
         shn_form_fsopen(_(""));
-?><p align="center"><?=_('Added.');?></p>
+?>		<p align="center"><?=_('Added.');?></p>
 <?php
         shn_form_fsclose();
     }
@@ -96,6 +97,7 @@ foreach($arr as $row){
     shn_form_fclose(); 
 }
 
+
 function _shn_ims_assign_validate()
 {
     global $global;
@@ -104,17 +106,17 @@ function _shn_ims_assign_validate()
     shn_tools_clean_post(&$local_post);
     
     //anything entered?
-    if(empty($local_post)){
+    if(empty($local_post)) {
         add_error(_("You have not completed the form"));
         return false;
     }
 
-    if(! isset($local_post['id'])){
+    if(! isset($local_post['id'])) {
         add_error(_("Please specify the id"));
         $error_flag=true;
     }
 
-    if(! isset($local_post['ims_incident_id'])){
+    if(! isset($local_post['ims_incident_id'])) {
         add_error(_("Please an incident"));
         $error_flag=true;
     }

@@ -1,7 +1,7 @@
-<?PHP
+<?php
 /**
 *
-* Sahana Locaization 
+* Sahana Localization 
 *
 * PHP version 4 and 5
 *
@@ -17,7 +17,8 @@
 *
 */
 
-function _shn_admin_lc_add_new_module(){
+function _shn_admin_lc_add_new_module()
+{
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
@@ -30,7 +31,8 @@ function _shn_admin_lc_add_new_module(){
 	
 }
 
-function _shn_admin_lc_add_new_module_update(){
+function _shn_admin_lc_add_new_module_update()
+{
 		$locale = $_SESSION["locale"];
 		$return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .

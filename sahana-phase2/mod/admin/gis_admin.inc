@@ -21,29 +21,26 @@ include_once($global['approot'].'/inc/lib_errors.inc');
 function shn_gis_adm_default()
 {
 	global $conf;
-	if(isset($_REQUEST['submod']) && isset($_REQUEST['seq'])){
+	if(isset($_REQUEST['submod']) && isset($_REQUEST['seq'])) {
 		global $global;
 		include_once ($global['approot'].'/mod/gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
-		switch($_REQUEST['seq']){
+		switch($_REQUEST['seq']) {
 			case 'commit':
-									shn_plugin_commit();
-									break;
+				shn_plugin_commit();
+				break;
 		}
 		shn_gis_adm_show_mod_menu();
-echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
+		echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
-	}
-	else if(isset($_REQUEST['submod']))
-	{
+		
+	} else if(isset($_REQUEST['submod'])) {
 		global $global;
 		shn_gis_adm_show_mod_menu();
 		include_once ($global['approot'].'/mod/gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
 		shn_plugin_default();
-	}
-	else
-	{
+	} else {
     	shn_gis_adm_show_mod_menu();
 		echo "<h2>"._($conf['mod_gis_adm_name']." Admin Page")."</h2>";
 		//shn_gis_adm_showform();
@@ -71,8 +68,8 @@ function shn_gis_adm_find_mods()
 	$dir = opendir($gis_plugins_dir);
 	shn_form_fopen(adm_gis_conf,null,array('req_message'=>false));
 	shn_form_fsopen("GIS Plugin Configuration");
-	while($file = readdir($dir)){
-		if(!is_dir($file)){
+	while($file = readdir($dir)) {
+		if(!is_dir($file)) {
 			//shows nice name of plugin
 			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
@@ -106,13 +103,13 @@ function shn_gis_adm_show_mod_menu()
 	<div id="submenu_v">
 		<a href="index.php?mod=gis&act=admin"><?=_("General Mapping")?></a>
 <?php
-	while($file = readdir($dir)){
-		if(!is_dir($file)){
+	while($file = readdir($dir)) {
+		if(!is_dir($file)) {
 			//shows nice name of plugin
 			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_($name)?></a>
+			<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_($name)?></a>
 <?php
 			$count++;
 		}
@@ -174,9 +171,9 @@ function shn_gis_adm_show_mods()
 <?php
 	//shn_form_fclose();
 	
-	$query_mod="select value from config where module_id='gis' and confkey='dflt'";
+	$query_mod="SELECT value FROM config WHERE module_id='gis' AND confkey='dflt'";
 	$result=$db->Execute($query_mod);
-	if(!$res->EOF){
+	if(!$res->EOF) {
 		$mod_name=$result->fields['value'];
 	}
 	
@@ -185,8 +182,8 @@ function shn_gis_adm_show_mods()
 	$count=1;
 	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
-	while($file = readdir($dir)){
-		if(!is_dir($file)){
+	while($file = readdir($dir)) {
+		if(!is_dir($file)) {
 			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 			$options_array[$file] = $name;
@@ -212,7 +209,8 @@ function shn_gis_adm_show_mods()
  * @access private
  * @deprecated
  */
-function shn_gis_adm_showform(){
+function shn_gis_adm_showform()
+{
 	global $conf;
 	shn_form_fopen(null,null,array('req_message'=>false));
 ?>
@@ -249,15 +247,14 @@ function shn_gis_adm_mod()
 {
 	global $global;
 	$db = $global['db'];
-	if(!null==$_POST['mod_gis']){
-		$query = "select * from config where confkey='dflt' and module_id='gis'";
+	if(!null==$_POST['mod_gis']) {
+		$query = "SELECT * FROM config WHERE confkey='dflt' AND module_id='gis'";
 		$res = $db->Execute($query);
-		if(!$res->EOF){
+		if(!$res->EOF) {
 			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='mod_gis_dflt'";
 			$db->Execute($q);
-		}
-		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
+		} else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
 		
@@ -269,52 +266,46 @@ function shn_gis_adm_mod()
  * Commit default Northing/Easting values
  * @access private
  */
-function shn_gis_adm_commit(){
-
-	if ((shn_valid_x_coordinate($_POST['x_center'])) && (shn_valid_y_coordinate($_POST['y_center'])))
-	{
+function shn_gis_adm_commit()
+{
+	if((shn_valid_x_coordinate($_POST['x_center'])) && (shn_valid_y_coordinate($_POST['y_center']))) {
 		add_confirmation(_("Changes were saved"));
 		global $global;
 		$db = $global['db'];
 		//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
-		if(!null==$_POST['x_center'])
-		{
-			$query = "select * from config where confkey='mod_gis_center_x' and module_id='gis'";
+		if(!null==$_POST['x_center']) {
+			$query = "SELECT * FROM config WHERE confkey='mod_gis_center_x' AND module_id='gis'";
 			$res = $db->Execute($query);
-			if(!$res->EOF){
+			if(!$res->EOF) {
 				$q="UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_x'";       
 				$db->Execute($q);
-			}
-			else{
-				$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_x','{$_POST['x_center']}')";
+			} else{
+				$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('gis','mod_gis_center_x','{$_POST['x_center']}')";
 				$db->Execute($insert);
 			}
 		}
-		if(!null==$_POST['y_center'])
-		{
-			$query = "select * from config where confkey='mod_gis_center_y' and module_id='gis'";
+		if(!null==$_POST['y_center']) {
+			$query = "SELECT * FROM config WHERE confkey='mod_gis_center_y' AND module_id='gis'";
 			$res = $db->Execute($query);
-			if(!$res->EOF){
+			if(!$res->EOF) {
 				$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'gis' AND confkey = 'mod_gis_center_y'";       
 				$db->Execute($r);
-			}
-			else{
-				$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_center_y','{$_POST['y_center']}')";
+			} else{
+				$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('gis','mod_gis_center_y','{$_POST['y_center']}')";
 				$db->Execute($insert);
 			}
 		}
-	} else {
+	} else{
 		add_error(_("Coordinates invalid: should be between -180 & 180"));
 	}	
-	if(!null==$_POST['mod_gis']){
-		$query = "select * from config where confkey='mod_gis_dflt' and module_id='gis'";
+	if(!null==$_POST['mod_gis']) {
+		$query = "SELECT * FROM config WHERE confkey='mod_gis_dflt' AND module_id='gis'";
 		$res = $db->Execute($query);
-		if(!$res->EOF){
+		if(!$res->EOF) {
 			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'gis' AND confkey='mod_gis_dflt'";
 			$db->Execute($q);
-		}
-		else{
-			$insert = "insert into config(module_id,confkey,value) values ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
+		} else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('gis','mod_gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
 		

@@ -19,12 +19,12 @@ function _shn_ims_level1_form($errors=false,$type=null)
 
     $sql = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";  
     $arr = $global['db']->GetAll($sql);
-    if(! empty($arr)){
+    if(! empty($arr)) {
 	    shn_form_fopen("ims_level1",null);
 	    
-	    if($type=='Updated' || $type=='Deleted'){
+	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>			<p align="center"><?=$type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -32,25 +32,25 @@ function _shn_ims_level1_form($errors=false,$type=null)
         shn_form_hidden(array('seq'=>'update'));
         shn_form_fsopen(_('Manage ')._($conf['mod_admin_ims_level1']));
 ?>
-<table>
-<thead>
-    <td width="100%"><strong><?=_('Name');?></strong></td>
-    <td width="100%"><strong><?=_('Delete');?></strong></td>
-</thead>
+		<table>
+		<thead>
+    	<td width="100%"><strong><?=_('Name');?></strong></td>
+    	<td width="100%"><strong><?=_('Delete');?></strong></td>
+		</thead>
 <?php
-foreach($arr as $row){
+		foreach($arr as $row) {
 ?>
-<tr>
-    <td><input type="text" name="level1_name[<?=$row['incident_id'];?>]" 
-            value="<?=$row['name'];?>" />
-    </td>
-    <td><input type="checkbox" name="level1_delete[<?=$row['incident_id'];?>]" />
-    </td>
-</tr>
+			<tr>
+    		<td><input type="text" name="level1_name[<?=$row['incident_id'];?>]" 
+            	value="<?=$row['name'];?>" />
+    		</td>
+    		<td><input type="checkbox" name="level1_delete[<?=$row['incident_id'];?>]" />
+    		</td>
+			</tr>
 <?php
-}
+		}
 ?>
-</table>
+		</table>
 <?php
         shn_form_fsclose();
         shn_form_submit(_('Update'));
@@ -58,9 +58,9 @@ foreach($arr as $row){
     }
 
     shn_form_fopen("ims_level1",null);
-    if($type=='added'){
+    if($type=='added') {
         shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>		<p align="center"><?=$type;?></p>
 <?php
         shn_form_fsclose();
     }
@@ -93,26 +93,26 @@ function _shn_ims_level1_validate()
     shn_tools_clean_post(&$local_post);
     
     //anything entered?
-    if(empty($local_post)){
+    if(empty($local_post)) {
         add_error(_("You have not completed the form"));
         return false;
     }
-    if(($local_post['seq']) == 'addnew'){
-        if(! isset($local_post['level1_name_new'])){
+    if(($local_post['seq']) == 'addnew') {
+        if(! isset($local_post['level1_name_new'])) {
             add_error(_("Please enter the name for ").$conf['mod_admin_ims_level1']);
             $error_flag=true;
         }
     }else{
         $local_post['level1_name'] = null;
-        foreach($_POST['level1_name'] as $k => $v){
+        foreach($_POST['level1_name'] as $k => $v) {
             $v = trim($v);
             $k = trim($k);
             if($v != '')
                 $local_post['level1_name'][$k] = $v;
         }
-        if(isset($_POST['level1_delete'])){
+        if(isset($_POST['level1_delete'])) {
 	        $local_post['level1_delete'] = null;
-	        foreach($_POST['level1_delete'] as $k => $v){
+	        foreach($_POST['level1_delete'] as $k => $v) {
 	            $v = trim($v);
 	            $k = trim($k);
 	            if($v != '')
@@ -124,18 +124,18 @@ function _shn_ims_level1_validate()
     if($error_flag)
         return false;
     else{
-        if(($local_post['seq']) == 'addnew'){
+        if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name) VALUES ('{$local_post['level1_name_new']}')";
             $global['db']->Execute($sql);
         }else{
             //Update
-            foreach($local_post['level1_name'] as $k => $v){
+            foreach($local_post['level1_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
             }
             //Delete
-            if(isset($_POST['level1_delete'])){
-	            foreach($local_post['level1_delete'] as $k => $v){
+            if(isset($_POST['level1_delete'])) {
+	            foreach($local_post['level1_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
 	            }
@@ -164,18 +164,18 @@ function _shn_ims_level2_form($errors=false,$type=null)
     
     $sql = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
     $arr = $global['db']->GetAll($sql);
-    foreach($arr as $row){
+    foreach($arr as $row) {
         $parent_ids[$row['incident_id']] = $row['name'];
     }
     
     $sql = "SELECT  a.incident_id as parent_id, b.name, b.incident_id FROM incident a INNER JOIN incident b ON a.incident_id = b.parent_id AND a.parent_id IS NULL";
     $arr = $global['db']->GetAll($sql);
-    if(! empty($arr)){
+    if(! empty($arr)) {
 	    shn_form_fopen("ims_level2",null);
 	    
-	    if($type=='Updated' || $type=='Deleted'){
+	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>			<p align="center"><?=$type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -183,39 +183,39 @@ function _shn_ims_level2_form($errors=false,$type=null)
         shn_form_hidden(array('seq'=>'update'));
         shn_form_fsopen(_('Manage ')._($conf['mod_admin_ims_level2']));
 ?>
-<table width="100%">
-<thead>
-    <td><strong><?=_('Name');?></strong></td>
-    <td><strong><?=_($conf['mod_admin_ims_level1']);?></strong></td>
-    <td><strong><?=_('Delete');?></strong></td>
-</thead>
+		<table width="100%">
+		<thead>
+   		<td><strong><?=_('Name');?></strong></td>
+   		<td><strong><?=_($conf['mod_admin_ims_level1']);?></strong></td>
+    	<td><strong><?=_('Delete');?></strong></td>
+		</thead>
 <?php
-foreach($arr as $row){
+		foreach($arr as $row) {
 ?>
-<tr>
-    <td><input type="text" name="level2_name[<?=$row['incident_id'];?>]" 
-            value="<?=$row['name'];?>" />
-    </td>
-    <td>
-    <select name="level2_parent_id[<?=$row['incident_id'];?>]">
-    <?php
-    foreach($parent_ids as $parent_id => $name){
-    ?>
-        <option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
-            <?=$name;?>
-        </option>
-    <?php
-    }
-    ?>
-    </select>
-    </td>
-    <td><input type="checkbox" name="level2_delete[<?=$row['incident_id'];?>]" />
-    </td>
-</tr>
+			<tr>
+    		<td><input type="text" name="level2_name[<?=$row['incident_id'];?>]" 
+         	   value="<?=$row['name'];?>" />
+    		</td>
+    		<td>
+    		<select name="level2_parent_id[<?=$row['incident_id'];?>]">
 <?php
-}
+    		foreach($parent_ids as $parent_id => $name) {
 ?>
-</table>
+        		<option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
+            	<?=$name;?>
+        		</option>
+<?php
+   			}
+?>
+    	</select>
+    	</td>
+    	<td><input type="checkbox" name="level2_delete[<?=$row['incident_id'];?>]" />
+    	</td>
+		</tr>
+<?php
+		}
+?>
+		</table>
 <?php
         shn_form_fsclose();
         shn_form_submit(_('Update'));
@@ -223,9 +223,9 @@ foreach($arr as $row){
     }
 
     shn_form_fopen("ims_level2",null);
-    if($type=='added'){
+    if($type=='added') {
         shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>		<p align="center"><?=$type;?></p>
 <?php
         shn_form_fsclose();
     }
@@ -259,38 +259,38 @@ function _shn_ims_level2_validate()
     shn_tools_clean_post(&$local_post);
     
     //anything entered?
-    if(empty($local_post)){
+    if(empty($local_post)) {
         add_error(_("You have not completed the form"));
         return false;
     }
-    if(($local_post['seq']) == 'addnew'){
-        if(! isset($local_post['level2_name_new'])){
+    if(($local_post['seq']) == 'addnew') {
+        if(! isset($local_post['level2_name_new'])) {
             add_error(_("Please enter the name for ").$conf['mod_admin_ims_level2']);
             $error_flag=true;
         }
-        if(! isset($local_post['level2_new_parent_id'])){
+        if(! isset($local_post['level2_new_parent_id'])) {
             add_error(_("Please select ").$conf['mod_admin_ims_level1']);
             $error_flag=true;
         }
     }else{
         $local_post['level2_name'] = null;
-        foreach($_POST['level2_name'] as $k => $v){
+        foreach($_POST['level2_name'] as $k => $v) {
             $v = trim($v);
             $k = trim($k);
             if($v != '')
                 $local_post['level2_name'][$k] = $v;
         }
         $local_post['level2_parent_id'] = null;
-        foreach($_POST['level2_parent_id'] as $k => $v){
+        foreach($_POST['level2_parent_id'] as $k => $v) {
             $v = trim($v);
             $k = trim($k);
             if($v != '')
                 $local_post['level2_parent_id'][$k] = $v;
         }
 
-        if(isset($_POST['level2_delete'])){
+        if(isset($_POST['level2_delete'])) {
 	        $local_post['level2_delete'] = null;
-	        foreach($_POST['level2_delete'] as $k => $v){
+	        foreach($_POST['level2_delete'] as $k => $v) {
 	            $v = trim($v);
 	            $k = trim($k);
 	            if($v != '')
@@ -302,25 +302,25 @@ function _shn_ims_level2_validate()
     if($error_flag)
         return false;
     else{
-        if(($local_post['seq']) == 'addnew'){
+        if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name,parent_id) VALUES ('{$local_post['level2_name_new']}','{$local_post['level2_new_parent_id']}')";
             $global['db']->Execute($sql);
         }else{
             //Update
-            foreach($local_post['level2_name'] as $k => $v){
+            foreach($local_post['level2_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
             #    echo $sql."<br >";
             }
-            foreach($local_post['level2_parent_id'] as $k => $v){
+            foreach($local_post['level2_parent_id'] as $k => $v) {
                 $sql = "UPDATE incident SET parent_id='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
             #    echo $sql."<br >";
             }
 
             //Delete
-            if(isset($_POST['level2_delete'])){
-	            foreach($local_post['level2_delete'] as $k => $v){
+            if(isset($_POST['level2_delete'])) {
+	            foreach($local_post['level2_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
             #        echo $sql."<br >";
@@ -350,18 +350,18 @@ function _shn_ims_level3_form($errors=false,$type=null)
     
     $sql = "SELECT a.incident_id, a.name FROM incident a INNER JOIN incident b ON a.parent_id = b.incident_id and b.parent_id IS NULL";
     $arr = $global['db']->GetAll($sql);
-    foreach($arr as $row){
+    foreach($arr as $row) {
         $parent_ids[$row['incident_id']] = $row['name'];
     }
     
     $sql = "SELECT a.incident_id, a.name, b.incident_id as parent_id FROM incident a INNER JOIN incident b  ON a.parent_id = b.incident_id INNER JOIN incident c ON b.parent_id = c.incident_id AND c.parent_id IS NULL";
     $arr = $global['db']->GetAll($sql);
-    if(! empty($arr)){
+    if(! empty($arr)) {
 	    shn_form_fopen("ims_level3",null);
 	    
-	    if($type=='Updated' || $type=='Deleted'){
+	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>			<p align="center"><?=$type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -369,39 +369,39 @@ function _shn_ims_level3_form($errors=false,$type=null)
         shn_form_hidden(array('seq'=>'update'));
         shn_form_fsopen(_('Manage ')._($conf['mod_admin_ims_level3']));
 ?>
-<table width="100%">
-<thead>
-    <td><strong><?=_('Name');?></strong></td>
-    <td><strong><?=_($conf['mod_admin_ims_level2']);?></strong></td>
-    <td><strong><?=_('Delete');?></strong></td>
-</thead>
+		<table width="100%">
+		<thead>
+    	<td><strong><?=_('Name');?></strong></td>
+    	<td><strong><?=_($conf['mod_admin_ims_level2']);?></strong></td>
+    	<td><strong><?=_('Delete');?></strong></td>
+		</thead>
 <?php
-foreach($arr as $row){
+		foreach($arr as $row) {
 ?>
-<tr>
-    <td><input type="text" name="level3_name[<?=$row['incident_id'];?>]" 
-            value="<?=$row['name'];?>" />
-    </td>
-    <td>
-    <select name="level3_parent_id[<?=$row['incident_id'];?>]">
-    <?php
-    foreach($parent_ids as $parent_id => $name){
-    ?>
-        <option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
-            <?=$name;?>
-        </option>
-    <?php
-    }
-    ?>
-    </select>
-    </td>
-    <td><input type="checkbox" name="level3_delete[<?=$row['incident_id'];?>]" />
-    </td>
-</tr>
+			<tr>
+    		<td><input type="text" name="level3_name[<?=$row['incident_id'];?>]" 
+           		 value="<?=$row['name'];?>" />
+    		</td>
+    		<td>
+    		<select name="level3_parent_id[<?=$row['incident_id'];?>]">
 <?php
-}
+    		foreach($parent_ids as $parent_id => $name) {
 ?>
-</table>
+        		<option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
+            	<?=$name;?>
+        		</option>
+<?php
+    		}
+?>
+    		</select>
+    		</td>
+   			<td><input type="checkbox" name="level3_delete[<?=$row['incident_id'];?>]" />
+   			</td>
+			</tr>
+<?php
+		}
+?>
+		</table>
 <?php
         shn_form_fsclose();
         shn_form_submit(_('Update'));
@@ -409,9 +409,9 @@ foreach($arr as $row){
     }
 
     shn_form_fopen("ims_level3",null);
-    if($type=='added'){
+    if($type=='added') {
         shn_form_fsopen(_(""));
-?><p align="center"><?=$type;?></p>
+?>		<p align="center"><?=$type;?></p>
 <?php
         shn_form_fsclose();
     }
@@ -445,38 +445,38 @@ function _shn_ims_level3_validate()
     shn_tools_clean_post(&$local_post);
     
     //anything entered?
-    if(empty($local_post)){
+    if(empty($local_post)) {
         add_error(_("You have not completed the form"));
         return false;
     }
-    if(($local_post['seq']) == 'addnew'){
-        if(! isset($local_post['level3_name_new'])){
+    if(($local_post['seq']) == 'addnew') {
+        if(! isset($local_post['level3_name_new'])) {
             add_error(_("Please enter the name for ").$conf['mod_admin_ims_level3']);
             $error_flag=true;
         }
-        if(! isset($local_post['level3_new_parent_id'])){
+        if(! isset($local_post['level3_new_parent_id'])) {
             add_error(_("Please select ").$conf['mod_admin_ims_level1']);
             $error_flag=true;
         }
     }else{
         $local_post['level3_name'] = null;
-        foreach($_POST['level3_name'] as $k => $v){
+        foreach($_POST['level3_name'] as $k => $v) {
             $v = trim($v);
             $k = trim($k);
             if($v != '')
                 $local_post['level3_name'][$k] = $v;
         }
         $local_post['level3_parent_id'] = null;
-        foreach($_POST['level3_parent_id'] as $k => $v){
+        foreach($_POST['level3_parent_id'] as $k => $v) {
             $v = trim($v);
             $k = trim($k);
             if($v != '')
                 $local_post['level3_parent_id'][$k] = $v;
         }
 
-        if(isset($_POST['level3_delete'])){
+        if(isset($_POST['level3_delete'])) {
 	        $local_post['level3_delete'] = null;
-	        foreach($_POST['level3_delete'] as $k => $v){
+	        foreach($_POST['level3_delete'] as $k => $v) {
 	            $v = trim($v);
 	            $k = trim($k);
 	            if($v != '')
@@ -488,25 +488,25 @@ function _shn_ims_level3_validate()
     if($error_flag)
         return false;
     else{
-        if(($local_post['seq']) == 'addnew'){
+        if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name,parent_id) VALUES ('{$local_post['level3_name_new']}','{$local_post['level3_new_parent_id']}')";
             $global['db']->Execute($sql);
         }else{
             //Update
-            foreach($local_post['level3_name'] as $k => $v){
+            foreach($local_post['level3_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
             #    echo $sql."<br >";
             }
-            foreach($local_post['level3_parent_id'] as $k => $v){
+            foreach($local_post['level3_parent_id'] as $k => $v) {
                 $sql = "UPDATE incident SET parent_id='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
             #    echo $sql."<br >";
             }
 
             //Delete
-            if(isset($_POST['level3_delete'])){
-	            foreach($local_post['level3_delete'] as $k => $v){
+            if(isset($_POST['level3_delete'])) {
+	            foreach($local_post['level3_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
             #        echo $sql."<br >";

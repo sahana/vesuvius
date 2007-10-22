@@ -7,9 +7,9 @@ function shn_admin_ims_config()
 
 	switch ($_POST['seq']) {
         case 'entry':
-            if(_shn_ims_config_validate()){
+            if(_shn_ims_config_validate()) {
                _shn_ims_config_form(false,true); 
-            }else{
+            }else {
                 _shn_ims_config_form(true,false);
             }
         break;
@@ -29,9 +29,9 @@ function shn_admin_ims_level1()
 	switch ($_POST['seq']) {
         case 'addnew':
         case 'update':
-            if(_shn_ims_level1_validate()){
+            if(_shn_ims_level1_validate()) {
                _shn_ims_level1_form(false,$type); 
-            }else{
+            }else {
                 _shn_ims_level1_form(true,$type);
             }
         break;
@@ -51,9 +51,9 @@ function shn_admin_ims_level2()
 	switch ($_POST['seq']) {
         case 'addnew':
         case 'update':
-            if(_shn_ims_level2_validate()){
+            if(_shn_ims_level2_validate()) {
                _shn_ims_level2_form(false,$type); 
-            }else{
+            }else {
                 _shn_ims_level2_form(true,$type);
             }
         break;
@@ -73,9 +73,9 @@ function shn_admin_ims_level3()
 	switch ($_POST['seq']) {
         case 'addnew':
         case 'update':
-            if(_shn_ims_level3_validate()){
+            if(_shn_ims_level3_validate()) {
                _shn_ims_level3_form(false,$type); 
-            }else{
+            }else {
                 _shn_ims_level3_form(true,$type);
             }
         break;
@@ -94,15 +94,15 @@ function shn_admin_ims_assign()
 
 	switch ($_POST['seq']) {
         case 'entry':
-            if(_shn_ims_assign_validate()){
+            if(_shn_ims_assign_validate()) {
                _shn_ims_assign_form(false,true); 
-            }else{
+            }else {
                 _shn_ims_assign_form(true,false);
             }
         break;
         
         case 'delete' :
-            if(isset($_POST['ims_delete'])){
+            if(isset($_POST['ims_delete'])) {
                 foreach($_POST['ims_delete'] as $k => $v) {
                     $v = trim($v);
                     $k = trim($k);
@@ -129,7 +129,7 @@ function shn_admin_ims_assign()
 function shn_tools_clean_post(&$local_post)
 {
     //trim them all
-    foreach($_POST as $k => $v){
+    foreach($_POST as $k => $v) {
         $v = trim($v);
         if($v != '')
             $local_post[$k] = $v;

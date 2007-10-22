@@ -17,38 +17,40 @@ global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 
-function shn_admin_location_form(){
+function shn_admin_location_form()
+{
 ?>
-<h1 align="center"><?=_("Add Locations")?></h1>
-<div id="note">
-<?=_("Fields marked with * are required (entry is compulsory)")?>
-</div>
+	<h1 align="center"><?=_("Add Locations")?></h1>
+	<div id="note">
+	<?=_("Fields marked with * are required (entry is compulsory)")?>
+	</div>
 <?php
     if($error==true)
         display_errors();
 ?>
-<div id="formcontainer">
+	<div id="formcontainer">
 <?php
     shn_form_fopen("add_loc_cr");
     _shn_admin_location_form();
- ?>
-</center>
-<br />
-<center>
+?>
+	</center>
+	<br />
+	<center>
 <?php
  	shn_form_submit("Submit");
 ?>
-</center>
-<br />
+	</center>
+	<br />
 <?php
     //close the form
     shn_form_fclose(false);
 ?>
-</div>
+	</div>
 <?php
     // end of form
 
 }
+
 
 function _shn_admin_location_form()
 {

@@ -18,8 +18,7 @@
 
 $locale = $_SESSION["locale"];
 $lc = $_SESSION["locale"];
-if (!function_exists('file_put_contents'))
-{
+if(!function_exists('file_put_contents')) {
     function file_put_contents($file_name, $content)
     {
         $file = fopen($file_name, 'w+');
@@ -52,8 +51,7 @@ if (!function_exists('file_put_contents'))
 	<td>
 	<?php
 		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
-    	if(file_exists($file_name))
-    	{
+    	if(file_exists($file_name)) {
     		global $global;
     		print _("You can download the [" .
     				"<a href='".$global['approot']."res/locale/$locale/LC_MESSAGES/sahana.po'> Sahana.po </a>] " .
@@ -79,7 +77,7 @@ function _shn_admin_lc_save()
 	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	$file_cont = __text_clean($_POST['msgs']);
 
-	if (is_writable("../res/locale/$locale/LC_MESSAGES/"))
+	if(is_writable("../res/locale/$locale/LC_MESSAGES/"))
 		file_put_contents($file_name, utf8_encode($file_cont));
 	else
 		print "plesae make the path : $file_name writable";
@@ -91,18 +89,16 @@ function _shn_admin_lc_load($file_n = null)
 {
 	$locale = $_SESSION["locale"];
 
-	if ($file_n == null)
+	if($file_n == null)
     		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	else
 		$file_name = $file_n;
 
 	if(!file_exists($file_name))
 		$value = "Please create the file first";
-	else
-    {
+	else {
 		$value = file_get_contents($file_name);
-        if (!_shn_lc_is_dbl10n_tbl_empty())
-        {
+        if(!_shn_lc_is_dbl10n_tbl_empty()) {
             $value .= "\n\n#: DB L10N Starts here\n";
             $value .= _shn_lc_get_dbpo();
         }
@@ -119,8 +115,7 @@ function _shn_admin_lc_load($file_n = null)
 ?>
 
 <?php
-switch ($_REQUEST['seq'])
-{
+switch($_REQUEST['seq']) {
 	case '':
             _shn_admin_lc_load();
             break;

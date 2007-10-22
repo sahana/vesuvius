@@ -53,7 +53,7 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_("Module Config"));
-    foreach ($module_list as $i) {  
+    foreach($module_list as $i) {  
         shn_sub_mod_menuitem("adm_default", $conf['mod_'.$i.'_name'], $i);
     }
     shn_sub_mod_menuclose();
@@ -83,7 +83,6 @@ function _shn_admin_mainmenu()
 
 function _shn_admin_acl_user_roles_menu()
 {
-	
 	shn_tabmenu_open();
 	shn_tabmenu_item("add_user", "Add Users", "admin");
 	shn_tabmenu_item("del_user", "Remove Users", "admin");
@@ -92,25 +91,22 @@ function _shn_admin_acl_user_roles_menu()
 	shn_tabmenu_item("acl_change_user_status", _("Change User Status"), 'admin');
     shn_tabmenu_item("acl_unlock_user", _("Unlock User"), 'admin');
 	shn_tabmenu_close();
- ?>
+?>
 
-<br>
-<div id="home">
-<h2><?= _('Welcome to Users section'); ?></h2>
+	<br>
+	<div id="home">
+	<h2><?= _('Welcome to Users section'); ?></h2>
 
-<ul>
+	<ul>
     <li><?=_('Click <strong>Users</strong> to add,remove Users or edit User Roles')?></li>
     
-</ul>
-</div>
+	</ul>
+	</div>
 <?php
-
-
 }
 
 function _shn_admin_acl_privacy_menu()
 {
-	
 	shn_tabmenu_open();
 	shn_tabmenu_item("acl_data_classifications", _("Data Classifications"), 'admin');
     shn_tabmenu_item("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
@@ -118,18 +114,16 @@ function _shn_admin_acl_privacy_menu()
 	shn_tabmenu_close();
  ?>
 
-<br>
-<div id="home">
-<h2><?= _('Welcome to Privacy section'); ?></h2>
+	<br>
+	<div id="home">
+	<h2><?= _('Welcome to Privacy section'); ?></h2>
 
-<ul>
+	<ul>
     <li><?=_('You can set <strong>Privacy</strong> settings for Data and Roles')?></li>
     
-</ul>
-</div>
+	</ul>
+	</div>
 <?php
-
-
 }
 
 function _shn_admin_acl_user_menu()
@@ -140,13 +134,13 @@ function _shn_admin_acl_user_menu()
 function _shn_admin_acl_role_menu($module=null)
 {
 ?>
-<div id="submenu_v">
-<a href="index.php?mod=admin&amp;act=add_role"><?=_("Add Role")?></a>
-<a href="index.php?mod=admin&amp;act=del_role"><?=_("Remove Role")?></a>
-<a href="index.php?mod=admin&amp;act=acl_role_perms"><?=_("Existing Role Permissions")?></a>
-<a href="index.php?mod=admin&amp;act=acl_role_edit_perms"><?=_("Modify Role Permissions")?></a>
-</div>
-<br>
+	<div id="submenu_v">
+	<a href="index.php?mod=admin&amp;act=add_role"><?=_("Add Role")?></a>
+	<a href="index.php?mod=admin&amp;act=del_role"><?=_("Remove Role")?></a>
+	<a href="index.php?mod=admin&amp;act=acl_role_perms"><?=_("Existing Role Permissions")?></a>
+	<a href="index.php?mod=admin&amp;act=acl_role_edit_perms"><?=_("Modify Role Permissions")?></a>
+	</div>
+	<br>
 <?php
 }
 ?>
