@@ -122,13 +122,15 @@ function shn_or_reg_operation($error=false)
     		_shn_or_regform_operation(false,$_SESSION['org']['parent_id']);	
     }
 }
-function shn_or_reg_operation_cr(){
+function shn_or_reg_operation_cr()
+{
     include_once("process_org.inc");
      _shn_or_reg_operation_cr();
      shn_or_view_org();
 }
 
-function shn_or_view_org_submit(){
+function shn_or_view_org_submit()
+{
     include_once("process_org.inc");
     include_once ("view_org.inc");
    // require_once ($global['approot'].'inc/lib_security/authenticate.inc');
@@ -150,7 +152,8 @@ function shn_or_view_org_submit(){
     }
 }
 
-function shn_or_view_page(){
+function shn_or_view_page()
+{
 	include_once ("view_org.inc");
 	_shn_or_display_page($_GET["page"]);
 }

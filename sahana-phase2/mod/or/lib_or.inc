@@ -23,7 +23,7 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     $VARCHAR=100;
     $db=$global["db"];
 
-    $search_str="select distinct o_uuid from org_main";
+    $search_str="SELECT DISTINCT o_uuid FROM org_main";
     if($sector!='all'){
     	$search_str.=",sector";
     }
@@ -212,11 +212,12 @@ function shn_or_org_list($incidents=null,$rootsonly=false){
         		$root="";
         }
         
-        if($incidents==null)
+        if($incidents==null) {
 			$q = "select o_uuid,name from org_main where privacy=false".$root." order by o_uuid";
-		else
-			$q = "select o_uuid,name from org_main,resource_to_incident where privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
-        $res_org=$db->Execute($q);
+        }else {
+		    $q = "select o_uuid,name from org_main,resource_to_incident where privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
+        }
+$res_org=$db->Execute($q);
         $org_list=array('');
         while(!$res_org==NULL && !$res_org->EOF){
         		$org_list[$res_org->fields["o_uuid"]]=$res_org->fields["name"];
@@ -250,17 +251,15 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
         }else{
         		$root="";
         }
-        if($incidents==null)
-			$q = "select distinct o_uuid from org_main where privacy=false".$root." order by name";
-		else
-			$q = "select distinct o_uuid  from org_main,resource_to_incident where privacy=false  ".$root." and parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list"." order by name";
-		$res_org=$db->Execute($q);
+        if($incidents==null) {
+			$q = "SELECT DISTINCT o_uuid FROM org_main WHERE privacy=false".$root." ORDER BY name";
+        }else {
+			$q = "SELECT DISTINCT o_uuid  FROM org_main,resource_to_incident WHERE privacy=false  ".$root." AND parent_id is NULL AND resource_to_incident.x_uuid=org_main.o_uuid AND incident_id IN $list"." ORDER BY name";
+        }
+        $res_org=$db->Execute($q);
 		$orgs=array();
     		while(!$res_org==NULL && !$res_org->EOF){
-    			array_push(
-    				$orgs,
-    				$res_org->fields["o_uuid"]
-    			);
+    			array_push($orgs, $res_org->fields["o_uuid"]);
         		$res_org->MoveNext();
     		}
         return  $orgs;
@@ -277,20 +276,18 @@ function shn_or_org_loc_sector_incident_list($loc,$sector,$incidents=null,$roots
         }else{
         		$root="";
         }
-        if($incidents==null)
-			$q = "select distinct o_uuid from org_main,location,location_details where privacy=false and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid".$root;
-		else
-			$q = "select distinct o_uuid  from org_main,resource_to_incident,location,location_details,sector where privacy=false  ".$root." and org_main.parent_id is NULL and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $inc_list and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
-		$res_org=$db->Execute($q);
+        if($incidents==null) {
+			$q = "SELECT DISTINCT o_uuid FROM org_main,location,location_details WHERE privacy=false AND loc_uuid IN $loc_list AND loc_uuid=location_id AND org_main.o_uuid=poc_uuid".$root;
+        }else {
+			$q = "SELECT DISTINCT o_uuid  FROM org_main,resource_to_incident,location,location_details,sector WHERE privacy=false  ".$root." AND org_main.parent_id is NULL AND resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $inc_list and loc_uuid IN $loc_list and loc_uuid=location_id and org_main.o_uuid=poc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
+        }
+        $res_org=$db->Execute($q);
 		$orgs=array();
-    		while(!$res_org==NULL && !$res_org->EOF){
-    			array_push(
-    				$orgs,
-    				$res_org->fields["o_uuid"]
-    			);
-        		$res_org->MoveNext();
-    		}
-        return  $orgs;
+    	while(!$res_org==NULL && !$res_org->EOF){
+    	    array_push($orgs, $res_org->fields["o_uuid"]);
+        	$res_org->MoveNext();
+    	}
+   return  $orgs;
 }
 
 function _shn_or_get_start_loc()
@@ -303,7 +300,7 @@ function _shn_or_get_start_loc()
  //   if($res->fields[0]==NULL){
    //    	return $conf['mod_or_start_loc'];
     //}else {
-    	if($res==NULL){
+    if($res==NULL){
     		return NULL;
     }else{
     		return $res->fields["value"];
@@ -558,11 +555,8 @@ function _shn_or_get_org_loc_parents($child)
             $cur=$cur.".";
         }
 	}
-    array_push(
-        $loc_return,
-        $final
-    );
-     return $loc_return;
+    array_push($loc_return, $final);
+ return $loc_return;
 }
 
 
@@ -595,12 +589,12 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
     } 
     if ($info){ 
      ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization ect.");?></div><br />
-     <?}
+     <?php }
    // $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
     if($multi){
-    		shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
+        shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
     }else{
-    shn_form_opt_select('opt_org_type','',$select_opts,$extra_opts);
+        shn_form_opt_select('opt_org_type','',$select_opts,$extra_opts);
     }
 }
 
@@ -636,7 +630,7 @@ function _shn_or_display_sector($error=false,$value=NULL,$info=true)
     }
     if ($info){
     ?><div class="info"><?=_("Select the services your organization provides ,that is what you do as an organization or services your organization can provide in a disaster. e.g. if you offer medical services select it");?></div><br />
-    <?}
+    <?php }
     $extra_opts['req']=true;
   //  $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
@@ -667,26 +661,26 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
-        $q = "select address from location_details where poc_uuid='{$po_uuid}'";
+        $q = "SELECT address FROM location_details WHERE poc_uuid='{$po_uuid}'";
         $res_addr=$db->Execute($q); 
         $contact_address=$res_addr->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='curr'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='curr'";
         $res_phone=$db->Execute($q);
         $contact_phone=$res_phone->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='pmob'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='pmob'";
         $res_mobile=$db->Execute($q);
         $contact_mobile=$res_mobile->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='name'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='name'";
         $res_name=$db->Execute($q);
         $contact_name=$res_name->fields[0];
         
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='fax'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='fax'";
         $res_fax=$db->Execute($q);
         $contact_fax=$res_fax->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='email'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='email'";
         $res_email=$db->Execute($q);
         $contact_email=$res_email->fields[0];
-        $q = "select contact_value from contact where pgoc_uuid='{$po_uuid}' and opt_contact_type='web'";
+        $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$po_uuid}' AND opt_contact_type='web'";
         $res_web=$db->Execute($q);
         $contact_web=$res_web->fields[0];
     }
@@ -715,11 +709,12 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
 {
-    ?><div class="info"><?= _("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br /><?
+    ?><div class="info"><?= _("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
+    <?php
     if($confirm==true){
-    		shn_form_label(_("Man Power"),$_SESSION['org']['man_power']);
-    		shn_form_label(_("Equipment"),$_SESSION['org']['equipment']);
-    		shn_form_label(_("Resources"),$_SESSION['org']['resources']);
+        shn_form_label(_("Man Power"),$_SESSION['org']['man_power']);
+        shn_form_label(_("Equipment"),$_SESSION['org']['equipment']);
+        shn_form_label(_("Resources"),$_SESSION['org']['resources']);
     		return;
     }
     if($error==true){
@@ -729,7 +724,7 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
     }
     if(!shn_is_null($org_id)){
         global $global;
-       $db=$global['db'];
+        $db=$global['db'];
         $q = "select man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
         $res_org=$db->Execute($q);
         if(!$res_org==NULL && !$res_org->EOF){
@@ -795,8 +790,9 @@ function _shn_or_display_incident_form($error=false,$act)
 <?=_("Since there are multiple incidents you required to select relevant incidents ");?>
 </div>
 <?php
-    if($error)
+    if($error) {
     display_errors();
+    }
 ?>               
 <div id="formcontainer">
 <?php
@@ -828,29 +824,25 @@ function _shn_or_display_incident($error=false,$multi=false,$value=NULL)
     global $global;
     $db=$global["db"];
     if($value==NULL){
-    		$q="select value from user_preference where module_id='ims' and pref_key='incident_id'";
-    		$res=$db->Execute($q);
-    		if(!$res==NULL && !$res->EOF){
-    			$value=array();
-    			array_push(
-    				$value,
-    				$res->fields["value"]
-    			);
-    			
-    		}
-   }
+       $q="select value from user_preference where module_id='ims' and pref_key='incident_id'";
+       $res=$db->Execute($q);
+        if(!$res==NULL && !$res->EOF){
+    	    $value=array();
+    		array_push($value, $res->fields["value"]);
+      		}
+     }
     $extra_opts['req']=true;
     if($multi){
         $select_opts="multiple='true'";
     }else{
         //$select_opts="multiple='false'";;
     }
-    $q = "select incident_id,name from incident";
+    $q = "SELECT incident_id,name FROM incident";
     
     $res_options=$db->Execute($q) ; 
     //$options['-1']="ALL incidents";
     while(!$res_options->EOF){
-    		$options[$res_options->fields["incident_id"]]=$res_options->fields["name"];
+    	$options[$res_options->fields["incident_id"]]=$res_options->fields["name"];
          //add all the locations e.g $options['sl'=>'sri lanka']
         $res_options->MoveNext();
     }
@@ -870,7 +862,7 @@ function _shn_or_display_extra($error=false)
 function _shn_or_get_suplier_name($suplier_id)
 {
 	global $global;
-        $db=$global['db'];
+    $db=$global['db'];
 	$org_id=0;
 	$suplier_array=array();	
 	$sql="SELECT name FROM org_main WHERE o_uuid='$suplier_id';";
@@ -893,9 +885,8 @@ function _shn_or_get_suplier_name($suplier_id)
 
 function _shn_or_check_org_reg_map_info_complete()
 {
-    
-        $_SESSION['org']['loc_x']=$_POST{"loc_x"};
-        $_SESSION['org']['loc_y']=$_POST{"loc_y"};
+    $_SESSION['org']['loc_x']=$_POST{"loc_x"};
+    $_SESSION['org']['loc_y']=$_POST{"loc_y"};
     
 }
 

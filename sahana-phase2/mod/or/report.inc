@@ -30,13 +30,13 @@ function shn_or_service_coverage_chart()
 	
 	global $global;
     $db=$global['db'];
-	$q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+	$q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     
     while(!$res_sector==NULL && !$res_sector->EOF){
     		$option_code=$res_sector->fields["option_code"];
     		$option_desc=$res_sector->fields["option_description"];
-		$q = "select distinct count(o_uuid) as count from org_main,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid";
+		$q = "SELECT DISTINCT COUNT(o_uuid) as count FROM org_main,sector WHERE sector.opt_sector='{$option_code}' AND sector.pgoc_uuid=org_main.o_uuid";
     		$res_org=$db->Execute($q);
 	    if((!$res_org->EOF) && ($res_org->fields["count"]!=0)){
 	    		add_data($option_desc,$res_org->fields["count"]);
@@ -58,15 +58,15 @@ function shn_or_service_coverage_pdf()
     $db=$global["db"];
  //   $table_header=array('Service' =>'Service', 'name' => 'Organization Name','Service' =>'Service',
    // 'Incidents' =>'Incidents','Services_Offered' =>'Services Offered','Organization_Type' =>'Organization Type','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
-     $table_header=array('Service' =>'Service', 'name' => 'Organization Name','Organization_Type' =>'Organization Type','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
+    $table_header=array('Service' =>'Service', 'name' => 'Organization Name','Organization_Type' =>'Organization Type','Location' =>'Location', 'Address' =>'Address', 'Contact_Number' =>'Contact Number');
     $table_data = array();
     $row_count = 0;
     
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' order by option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
         $option_code=$res_sector->fields[0];
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid order by name";
+        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main,sector WHERE sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid ORDER BY name";
         $res_org=$db->Execute($q);
 	    if(!$res_org->EOF){
 	       // $table_row = "row".$row_count++;
@@ -85,7 +85,7 @@ function shn_or_service_coverage_pdf()
             $table_row ["Organization_Type"]=$org_data["type"];
             $table_row ["Location"]=$org_data["location"];
             $table_row ["Address"]=$org_data["address"];
-            $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+            $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
         	$res_contact=$db->Execute($q);
             if(!$res_contact==NULL && !$res_contact->EOF){
             	$table_row ["Contact_Number"]=$res_contact->fields["contact_value"];
@@ -123,7 +123,7 @@ function shn_or_all_orgs_pdf()
     $table_data = array();
    // $row_count = 0;
 
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main order by name";
+        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main ORDER BY name";
         $res_org=$db->Execute($q);
 
         while(!$res_org==NULL && !$res_org->EOF){
@@ -170,7 +170,7 @@ function _shn_or_drill_org($parent=null)
     		$lvl_child=shn_get_level($parent);
     		$lvl_child=$lvl_child+1;
     }
-    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    $q="SELECT option_description FROM field_options WHERE field_options.option_code ='{$lvl_child}' AND field_name='opt_location_type'";
     
     $res=$db->Execute($q);
     $level=$res->fields["option_description"];
@@ -206,7 +206,7 @@ give attention to all services Not covered.";
         <td><?= $level ?></td>
         
 <?php
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
        echo "<td>".$res_sector->fields["option_description"]."</td>";
@@ -217,7 +217,7 @@ give attention to all services Not covered.";
         </thead>
     <tbody>
 <?php
-	$q = "select loc_uuid,name from location where parent_id='{$parent}' order by name";
+	$q = "SELECT loc_uuid,name FROM location WHERE parent_id='{$parent}' ORDER BY name";
 	$res_loc=$db->Execute($q);
 	
     while(!$res_loc==NULL && !$res_loc->EOF){
@@ -264,18 +264,18 @@ function _shn_or_drill_loc($parent=null)
 {
     global $global;
     $db=$global['db'];
-    if(($parent==null)){
+    if((null==$parent)){
     		$parent="NULL";
     		$lvl_child=1;
     }else{
     		$lvl_child=shn_get_level($parent);
     		$lvl_child=$lvl_child+1;
     }
-    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    $q="SELECT option_description FROM field_options WHERE field_options.option_code ='{$lvl_child}' AND field_name='opt_location_type'";
     $res=$db->Execute($q);
     $level1=$res->fields["option_description"];
     $lvl_child=$lvl_child+1;
-    $q="select option_description from field_options where field_options.option_code ='{$lvl_child}' and field_name='opt_location_type'";
+    $q="SELECT option_description FROM field_options WHERE field_options.option_code ='{$lvl_child}' AND field_name='opt_location_type'";
     $res=$db->Execute($q);
     $child_type=$res->fields["option_description"];
     if($parent<0){
@@ -322,7 +322,7 @@ function _shn_or_drill_loc($parent=null)
  		echo _("Please provide attention to locations with the note ")."<strong>Not covered</strong>"._(" in Red as that means there is not a single organization " .
  				"providing that particular service in its sub locations");
  		*/
- 		echo "This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered."
+ 		echo 'This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.'
  ?></p><br /><?
  }     
 
@@ -336,7 +336,7 @@ function _shn_or_drill_loc($parent=null)
         <?= $parent_type ?>
         </td>
 <?php
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
        echo "<td>".$res_sector->fields[1]."</td>";
@@ -347,7 +347,7 @@ function _shn_or_drill_loc($parent=null)
         </thead>
     <tbody>
 <?php
-		$q = "select loc_uuid,name from location where parent_id='{$parent}' order by name";
+		$q = "SELECT loc_uuid,name FROM location WHERE parent_id='{$parent}' ORDER BY name";
 	
     $res_loc=$db->Execute($q);
     while(!$res_loc==NULL && !$res_loc->EOF){
@@ -418,7 +418,7 @@ function _shn_coverage_loc($loc,$sector)
     if(_shn_is_covered($loc,$sector)){    
             $result["active"]=$result["active"]+1;
     }*/
-    $q="select loc_uuid,name from location where parent_id='{$loc}'";
+    $q="SELECT loc_uuid,name FROM location WHERE parent_id='{$loc}'";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $result["total"]=$result["total"]+1;
@@ -438,12 +438,12 @@ function _shn_is_covered($loc,$sector)
 {
     global $global;
     $db=$global["db"];
-    $q="select location_id from location_details,sector where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}'";
+    $q="SELECT location_id FROM location_details,sector WHERE location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid AND sector.opt_sector='{$sector}'";
     $res_village=$db->Execute($q);
      if(!$res_village==NULL && !$res_village->EOF){
             return true;
     }
-    $q="select loc_uuid,name from location where parent_id='{$loc}'";
+    $q="SELECT loc_uuid,name FROM location WHERE parent_id='{$loc}'";
     $res_tmp=$db->Execute($q);
     while(!$res_tmp==NULL && !$res_tmp->EOF){
         $next_lvl=$res_tmp->fields[0];
@@ -460,7 +460,7 @@ function _shn_is_covered_org($loc,$sector,&$count)
     global $global;
     $db=$global["db"];
   //  $q="select location_id from location_details,sector,org_main,incident where location_details.location_id='{$loc}' and location_details.poc_uuid=sector.pgoc_uuid and sector.opt_sector='{$sector}' and sector.pgoc_uuid=org_main.o_uuid";
-    	$incident_arr=array($_SESSION['user_pref_ims_incident_id']);
+    $incident_arr=array($_SESSION['user_pref_ims_incident_id']);
 	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident_arr);
 	$loc_arr=array($loc);
 	shn_location_get_descendants($loc,&$loc_arr);
@@ -493,11 +493,11 @@ function _shn_or_report_org_sector()
         </thead>
         <tbody>
 <?php    
-    $q = "select option_code,option_description from field_options where field_name='opt_sector_type' order by option_description";
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
         $option_code=$res_sector->fields[0];
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main,sector where sector.opt_sector='{$option_code}' and sector.pgoc_uuid=org_main.o_uuid order by name";
+        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main,sector WHERE sector.opt_sector='{$option_code}' AND sector.pgoc_uuid=org_main.o_uuid ORDER BY name";
         $res_org=$db->Execute($q);
 	    if(!$res_org->EOF){
 	    ?>

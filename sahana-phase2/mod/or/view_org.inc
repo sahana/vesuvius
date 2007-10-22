@@ -14,19 +14,20 @@
 */
 
 global $global;
-include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot'] . "/inc/lib_form.inc";
+include_once $global['approot'] . "/inc/lib_location.inc";
 
-function _shn_or_display_page_links(){
+function _shn_or_display_page_links()
+{
 	/*
 	$left=$total%5;
 	$pages=($total-$left)/5;
 	if($left>0){
 		$pages=$pages+1;
 	}*/
-	$pages=$_SESSION["org"]["total_pages"];
-	if($pages>1){
-   	for($i=1;$i<=$pages;$i++){
+	$pages = $_SESSION["org"]["total_pages"];
+	if ($pages > 1){
+   	for ($i = 1; $i <= $pages; $i++) {
    			
    	    ?>
     <a href="index.php?mod=or&act=view_page&page=<?php echo $i?>"><?php echo $i?></a> 
@@ -35,7 +36,8 @@ function _shn_or_display_page_links(){
    }
 }
 
-function _shn_or_display_page($page){
+function _shn_or_display_page($page)
+{
 	?><h2> Organization Registry</h2>
 	<div>
 	<?php 
@@ -43,7 +45,7 @@ function _shn_or_display_page($page){
 	 ?>
 	</div>
 	<?
-	if(($_SESSION["org"]["total_pages"])<1){
+	if (($_SESSION["org"]["total_pages"])<1) {
 	?>	    <div id="note">
 	<?=_("No Organizations ");?>
 	</div><?
@@ -76,7 +78,7 @@ function _shn_or_display_page($page){
         $res_org->MoveNext();
     }
     */
-   $orgs=$_SESSION["org"]["pages"][$page];
+   $orgs = $_SESSION["org"]["pages"][$page];
     _shn_display_orgs($orgs,true);
     ?>
    </tbody>
@@ -107,65 +109,62 @@ function _shn_or_display_header()
 function _shn_display_orgs($orgs,$root=false)
 {
 	 global $global;
-	 $db=$global['db'];
-	 if(empty($orgs)){
+	 $db = $global['db'];
+	 if (empty($orgs)) {
 	 	?><h2> No Records </h2><?
 	 	return;
 	 }
-	 foreach($orgs as $org_id){
+	 foreach ($orgs as $org_id) {
 	 	
-	 	$sub_orgs=array();
-	 	if($root==true){
-	  		$org_no=split(",",$org_id);
-	 		$org_id=$org_no[1];
+	 	$sub_orgs = array();
+	 	if ($root == true){
+	  		$org_no = split(",",$org_id);
+	 		$org_id = $org_no[1];
 	 		_shn_display_org($org_id,$org_no[0]);
 	 		
 	 	}else{
 	    		_shn_display_org($org_id);
 	 	}
-        $q = "select o_uuid from org_main where parent_id='{$org_id}' order by name";
-		$res_org=$db->Execute($q);
-		if(!$res_org==NULL && !$res_org->EOF){
-			while(!$res_org==NULL && !$res_org->EOF){
-    			array_push(
-    				$sub_orgs,
-    				$res_org->fields["o_uuid"]
-    			);
+        $q = "SELECT o_uuid FROM org_main WHERE parent_id='{$org_id}' ORDER BY name";
+		$res_org = $db->Execute($q);
+		if (!$res_org == NULL && !$res_org->EOF) {
+			while (!$res_org==NULL && !$res_org->EOF) {
+    			array_push($sub_orgs, $res_org->fields["o_uuid"]);
         		$res_org->MoveNext();
     			}
     		_shn_display_orgs($sub_orgs);
 		}
 	 }
-	 $_SESSION["or_rec_no"]=$count;
+	 $_SESSION["or_rec_no"] = $count;
 	  
 }
 function _shn_or_page_generator($org_list)
 {
 	
-	$total=count($org_list);
-	$left=$total%5;
-	$pages=($total-$left)/5;
-	if($left>0){
-		$pages=$pages+1;
+	$total = count($org_list);
+	$left = $total%5;
+	$pages = ($total-$left)/5;
+	if ($left > 0) {
+		$pages = $pages+1;
 	}
 	
-	$start=0;
-   	for($i=1;$i<=$pages;$i++){
-   		if((5*$i)<$total){
-   			$end=5*$i;
+	$start = 0;
+   	for ($i = 1; $i <= $pages; $i++) {
+   		if ((5*$i) < $total) {
+   			$end = 5*$i;
    		}else{
-   			$end=$total;
+   			$end = $total;
    		}
-   		$list=array();
-   		for($j=$start;$j<$end;$j++){
-   			$list[$j-$start]=($j+1).",".$org_list[$j];
+   		$list = array();
+   		for ($j = $start; $j < $end; $j++) {
+   			$list[$j-$start] = ($j+1).",".$org_list[$j];
    		}
    		
    	//	array_copy($org_list,$list,$start,$end);
-   		$start=$end;
-   		$_SESSION["org"]["pages"][$i]=$list;	
+   		$start = $end;
+   		$_SESSION["org"]["pages"][$i] = $list;	
     }
-    $_SESSION["org"]["total_pages"]=$i-1;
+    $_SESSION["org"]["total_pages"] = $i-1;
 
 }
 
@@ -178,47 +177,47 @@ function _shn_or_viewform_allorg($org_list)
 
 }
 
-function _shn_display_org($org_id,$no=null)
+function _shn_display_org($org_id, $no=null)
 {
     
     global $global;
     $db=$global["db"];
-    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
+    $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main WHERE o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
-    $q="select loc_uuid from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
+    $q="SELECT loc_uuid FROM location,location_details WHERE poc_uuid='{$org_id}' AND location_details.location_id=location.loc_uuid";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields["loc_uuid"];
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='loc_txt'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='loc_txt'";
     $res=$db->Execute($q);
     $loc_txt=$res->fields["contact_value"];
-    $q = "select address from location_details where poc_uuid='{$org_id}'";
+    $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='pmob'";
     $res_mobile=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
     $res_email=$db->Execute($q);
 
- 	$parent=_shn_or_is_root($org_id);
-        if($parent==false){
+ 	$parent = _shn_or_is_root($org_id);
+        if ($parent == false) {
     //if($no==null){
-    		$type="opt_org_sub_type";
+    		$type = "opt_org_sub_type";
     }else{
-		$type="opt_org_type";
+		$type = "opt_org_type";
     }
-    $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
+    $q = "SELECT option_description FROM field_options,org_main WHERE o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='".$type."'";
-    $res_type=$db->Execute($q); 
-    $org_type=$res_type->fields['option_description'];
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
+    $res_type = $db->Execute($q); 
+    $org_type = $res_type->fields['option_description'];
+    $q = "SELECT option_description FROM field_options,sector WHERE pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-    $res_sector=$db->Execute($q);
-    $location=_shn_org_location_string($loc);    
-    $location.="<br />".$loc_txt;
+    $res_sector = $db->Execute($q);
+    $location = _shn_org_location_string($loc);    
+    $location .= "<br />".$loc_txt;
 ?>
 <tr>
-	<td><?if ($no!=null){echo $no;}?></td>
+	<td><?if ($no != null){echo $no;}?></td>
     <td>
      <?php
      /*
@@ -237,8 +236,8 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     </td>
      <td>    
     <?php 
-    		$incidents=_shn_org_get_incidents($org_id); 
-        foreach ($incidents as $i){
+    		$incidents = _shn_org_get_incidents($org_id); 
+        foreach ($incidents as $i) { 
         		echo $i[1]."<br />";
         }
     ?>
@@ -246,7 +245,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     </td>
     <td>
 <?php
-    while(!$res_sector->EOF){
+    while (!$res_sector->EOF) {
         echo $res_sector->fields[0]."<br />";
         $res_sector->MoveNext();
     }
@@ -269,46 +268,46 @@ function _shn_get_org_data($org_id,$no=null)
     
     global $global;
     $db=$global["db"];
-    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
+    $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main WHERE o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
-    $q="select loc_uuid from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
+    $q = "SELECT loc_uuid FROM location,location_details WHERE poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
     $res_temp=$db->Execute($q);
-    $loc=$res_temp->fields["loc_uuid"];
-    $q = "select address from location_details where poc_uuid='{$org_id}'";
+    $loc = $res_temp->fields["loc_uuid"];
+    $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
     $res_mobile=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
-    $res_email=$db->Execute($q);
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+    $res_email = $db->Execute($q);
 
- 	$parent=_shn_or_is_root($org_id);
-        if($parent==false){
+ 	$parent = _shn_or_is_root($org_id);
+        if ($parent == false) {
     //if($no==null){
-    		$type="opt_org_sub_type";
+    		$type = "opt_org_sub_type";
     }else{
-		$type="opt_org_type";
+		$type = "opt_org_type";
     }
-    $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
+    $q = "SELECT option_description FROM field_options,org_main WHERE o_uuid='{$org_id}' and
 field_options.option_code=org_main.opt_org_type and field_options.field_name='".$type."'";
-    $res_type=$db->Execute($q); 
-    $org_type=$res_type->fields['option_description'];
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
+    $res_type = $db->Execute($q); 
+    $org_type = $res_type->fields['option_description'];
+    $q = "SELECT option_description FROM field_options,sector WHERE pgoc_uuid='{$org_id}' and
 field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-    $res_sector=$db->Execute($q);
-    $location=_shn_org_location_string($loc);    
+    $res_sector = $db->Execute($q);
+    $location = _shn_org_location_string($loc);    
 
 	$org_data=array();  
     
-    		$incidents=_shn_org_get_incidents($org_id); 
-        foreach ($incidents as $i){
-        		$org_data["incidents"]=$org_data["incidents"].",".$i[1];
+    		$incidents = _shn_org_get_incidents($org_id); 
+        foreach ($incidents as $i) {
+        		$org_data["incidents"] = $org_data["incidents"].",".$i[1];
         }
-   $count=0;
-    while(!$res_sector->EOF){
+   $count = 0;
+    while (!$res_sector->EOF) {
       //  echo $res_sector->fields[0]."<br />";
-      	if($count==0){
+      	if ($count = 0) {
       		$sector=$res_sector->fields[0];
       	}else{
       		$sector=$sector.",".$res_sector->fields[0];
@@ -323,11 +322,11 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 	return $org_data;
 }
 
-function _shn_or_viewform_org($org_id,$error=false)
+function _shn_or_viewform_org($org_id, $error=false)
 {
     include_once "lib_or.inc";
     global $global;
-    $db=$global['db'];
+    $db = $global['db'];
     $q = "select o_uuid,parent_id,name,reg_no,man_power,resources from org_main where o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
     if(!$res_org==NULL && !$res_org->EOF){
@@ -335,21 +334,21 @@ function _shn_or_viewform_org($org_id,$error=false)
         $org_name=$res_org->fields["name"];
         $reg_no=$res_org->fields["reg_no"]; 
 	
-	if($parent==true){
-        		$type="opt_org_type";	
+	if ($parent == true) {
+        		$type = "opt_org_type";	
         }else{
-        		$type="opt_org_sub_type";	
+        		$type = "opt_org_sub_type";	
         }
-        $q = "select option_code from field_options,org_main where o_uuid='{$org_id}' and
-field_options.option_code=org_main.opt_org_type and field_options.field_name='$type'";
-	$res_type=$db->Execute($q); 
-        $org_type=$res_type->fields["option_code"];
-        $q = "select option_code from field_options,sector where pgoc_uuid='{$org_id}' and
-field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+        $q = "SELECT option_code FROM field_options,org_main WHERE o_uuid='{$org_id}' and
+field_options.option_code=org_main.opt_org_type AND field_options.field_name='$type'";
+	$res_type = $db->Execute($q); 
+        $org_type = $res_type->fields["option_code"];
+        $q = "SELECT option_code FROM field_options,sector WHERE pgoc_uuid='{$org_id}' and
+field_options.option_code=sector.opt_sector AND field_options.field_name='opt_sector_type'";
         $res_sector=$db->Execute($q);    
         
         $or_sector_arr=array();
-        while(!$res_sector->EOF){
+        while (!$res_sector->EOF) {
             array_push(
                 $or_sector_arr,
                 $res_sector->fields[0]
@@ -358,7 +357,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         }
         
         if($parent){
-        $q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$org_id}'";
+        $q = "SELECT i.incident_id,name FROM incident AS i,resource_to_incident AS r WHERE i.incident_id=r.incident_id AND r.x_uuid='{$org_id}'";
         $res_incident=$db->Execute($q);    
         $or_incident_arr=array();
         
@@ -371,7 +370,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
         }  
         }
         
-    $q = "select location_id from location_details where poc_uuid='{$org_id}'";
+    $q = "SELECT location_id FROM location_details WHERE poc_uuid='{$org_id}'";
     
     $res_loc=$db->Execute($q);
     if(!$res_loc==NULL && !$res_loc->EOF){
@@ -379,10 +378,10 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     }else{
     		$loc=-1;
     }
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='loc_txt'";
+    $q = "SELSCT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='loc_txt'";
     $res=$db->Execute($q);
     $loc_txt=$res->fields["contact_value"];
-    $q = "select * from gis_location where poc_uuid='{$org_id}'";
+    $q = "SELECT * FROM gis_location WHERE poc_uuid='{$org_id}'";
 	$res=$db->Execute($q);
 	
 	$lat=$res->fields["map_northing"];
@@ -504,10 +503,10 @@ function _shn_or_viewform_latest_orgs($no=NULL)
         <tbody>
 <?php
     if($no==NULL){
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by created desc";
+        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main WHERE parent_id is NULL AND privacy=false ORDER BY created desc";
         $res_org=$db->Execute($q);
     }else {
-        $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where parent_id is NULL and privacy=false order by created desc";
+        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main WHERE parent_id is NULL AND privacy=false ORDER BY created desc";
         $res_org=$db->SelectLimit($q,$no);
     }
    
@@ -515,7 +514,7 @@ function _shn_or_viewform_latest_orgs($no=NULL)
         $org_id=$res_org->fields["o_uuid"];
         if($org_id!='0'){
         		_shn_display_latest_orgs($org_id);
-        		$q = "select o_uuid from org_main where parent_id='{$org_id}' order by name";
+        		$q = "SELECT o_uuid FROM org_main WHERE parent_id='{$org_id}' ORDER BY name";
         		$res_operation=$db->Execute($q);
         		while(!$res_operation==NULL && !$res_operation->EOF){
             		$operation_id=$res_operation->fields["o_uuid"];
@@ -536,26 +535,26 @@ function _shn_display_latest_orgs($org_id,$indent=false,$edit=false)
 {
     global $global;
     $db=$global["db"];
-    $q = "select o_uuid,parent_id,name,man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
+    $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main WHERE o_uuid='{$org_id}'";
     $res_org=$db->Execute($q);
     $org_id=$res_org->fields["o_uuid"];
-    $q = "select address from location_details where poc_uuid='{$org_id}'";
+    $q = "SELECT address FROM location_details WHERE poc_uuid='{$org_id}'";
     $res_addr=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='curr'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
     $res_phone=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='pmob'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='pmob'";
     $res_mobile=$db->Execute($q);
-    $q = "select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='email'";
+    $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
     $res_email=$db->Execute($q);
-    $q="select loc_uuid from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
+    $q="SELECT loc_uuid FROM location,location_details WHERE poc_uuid='{$org_id}' AND location_details.location_id=location.loc_uuid";
     $res_temp=$db->Execute($q);
     $loc=$res_temp->fields["loc_uuid"];
-    $q = "select option_description from field_options,org_main where o_uuid='{$org_id}' and
-field_options.option_code=org_main.opt_org_type and field_options.field_name='opt_org_type'";
+    $q = "SELECT option_description FROM field_options,org_main WHERE o_uuid='{$org_id}' AND
+field_options.option_code=org_main.opt_org_type AND field_options.field_name='opt_org_type'";
     $res_type=$db->Execute($q); 
     $org_type=$res_type->fields[0];
-    $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and
-field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
+    $q = "SELECT option_description FROM field_options,sector WHERE pgoc_uuid='{$org_id}' AND
+field_options.option_code=sector.opt_sector AND field_options.field_name='opt_sector_type'";
     $res_sector=$db->Execute($q);    
 ?>
 <tr>

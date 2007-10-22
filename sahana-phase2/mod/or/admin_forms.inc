@@ -13,21 +13,22 @@
 * @subpackage or
 */
 
-include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'] . '/inc/lib_form.inc');
 include_once "lib_or.inc";
 
 function shn_or_adm_location_form()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 ?>
 <h2><?=_("Set the Starting Location")?></h2>
 <div id="note">
 <?=_("When a Disaster happens,typically organizations located in a certain region get involved. Therefore when you select a location its a waste of time to always start from country. If you know the country ,give it in this form,and you can start with sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
 </div>
 <?php
-    if($error==true)
+    if ($error == true){
         display_errors();
+    }
 ?>
 <div id="formcontainer">
 <?php
@@ -39,7 +40,7 @@ function shn_or_adm_location_form()
     shn_form_opt_select('opt_location_type','',$select_opts,array('req'=>true));
     shn_form_fsclose();
     shn_form_fsopen(_("Now Select the Location"));
-    $range= shn_or_get_loc_range();
+    $range = shn_or_get_loc_range();
     shn_location($range,null,null);
     shn_form_fsclose();
    // shn_form_add_component_list($location_inf,$section=true,$legend='Now Select the Location',$return=false,$default_val_req=$error);
@@ -65,19 +66,20 @@ function shn_or_adm_location_form()
 function shn_or_adm_location_range_form()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 ?>
 <h2><?=_("Set the Location Range")?></h2>
 <div id="note">
 <?=_("In a Disaster,all the location levels might not be important ,set the range here")?>
 </div>
 <?php
-    if($error==true)
+    if ($error == true){
         display_errors();
+    }
 ?>
-<div id="formcontainer">
+<div id = "formcontainer">
 <?php
-	$range= shn_or_get_loc_range();
+	$range = shn_or_get_loc_range();
     shn_form_fopen("adm_location_range_cr",NULL,array('req_message'=>false));
     shn_location_level_range_form('start',_('Set Starting Level'),$range["start"]);
  	shn_location_level_range_form('end',_('Set End Level'),$range["end"]);
@@ -106,23 +108,21 @@ function shn_or_adm_or_type_form()
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	include_once("api.inc"); 
 ?>
-<h2><?=_("Organization Types")?></h2>
+<h2><?=_('Organization Types')?></h2>
 <?php
-    if($error==true)
+    if ($error==true){
         display_errors();
+    }
 ?>
 <div id="formcontainer">
 <?php
-    $type_arr=shn_or_type_list();
-    $types=array();
+    $type_arr = shn_or_type_list();
+    $types = array();
     foreach($type_arr as $type){
     	
-    	array_push(
-    		$types,
-    		$type["name"]
-    	);
+    	array_push($types, $type["name"]);
     }
-    $form_opts['name']='add_type';
+    $form_opts['name'] = 'add_type';
     shn_form_fopen("adm_type_cr",null,$form_opts);
     shn_add_remove_javascript("opt_org_type[]",$types);
   //  shn_form_fsopen("Add New Type Information");
@@ -168,13 +168,14 @@ function shn_or_adm_or_type_form()
 function shn_or_adm_or_sector_form()
 {
 	global $global;
-	include_once($global['approot'].'/inc/lib_misc.inc') ;
+	include_once($global['approot'] . '/inc/lib_misc.inc') ;
 	include_once("api.inc");
 ?>
 <h2><?=_("Organization Sectors")?></h1>
 <?php
-    if($error==true)
+    if($error == true){    
         display_errors();
+    }
 ?>
 <div id="formcontainer">
 <?php
@@ -182,10 +183,7 @@ function shn_or_adm_or_sector_form()
 	$services=array();
     foreach($service_arr as $service){
     	
-    	array_push(
-    		$services,
-    		$service["name"]
-    	);
+    	array_push($services, $service["name"]);
     }
 	$form_opts['name']='add_sector';
 	shn_form_fopen("adm_sector_cr",null,$form_opts);
@@ -210,8 +208,8 @@ function shn_or_adm_or_sector_form()
 <br />
 <center>
 <?php
-    	$extra_opts['br']=false;
-	$extra_opts['req']=false;
+    $extra_opts['br'] = false;
+	$extra_opts['req'] = false;
     	shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
     shn_form_button(_("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));

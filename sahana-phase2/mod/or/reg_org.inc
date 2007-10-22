@@ -39,7 +39,7 @@ function _shn_or_regform_org($error=false)
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
     ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
-    but registration  no is optional");?> </div><br /><?
+    but registration  no is optional");?> </div><br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
@@ -138,7 +138,7 @@ function _shn_or_reg_gis_map()
 
 function _shn_or_regconfirm_org()
 {
-	    global $global;
+	global $global;
     global $conf;
     $db=$global['db'];
 ?>
@@ -154,16 +154,16 @@ function _shn_or_regconfirm_org()
     shn_form_label(_("Organization Name : "),$_SESSION['org']['name']); 
     if($_SESSION['org']['parent_id']==null){
     		shn_form_label(_("Registration Number(if any) : "),$_SESSION['org']['reg_no']); 
-    		$q="select option_description from field_options where field_name='opt_org_type' and option_code='{$_SESSION['org']['type']}'";
+    		$q="SELECT option_description FROM field_options WHERE field_name='opt_org_type' and option_code='{$_SESSION['org']['type']}'";
     }else{	
-    		$q="select option_description from field_options where field_name='opt_org_sub_type' and option_code='{$_SESSION['org']['type']}'";
+    		$q="SELECT option_description FROM field_options WHERE field_name='opt_org_sub_type' and option_code='{$_SESSION['org']['type']}'";
     }	
     	$res=$db->Execute($q);
     	shn_form_label(_("Organization Type"),$res->Fields("option_description"));
     
     $count=1;
     foreach ($_SESSION['org']['sector'] as $i){
-    		$q="select option_description from field_options where field_name='opt_sector_type' and option_code='{$i}'";
+    		$q="SELECT option_description FROM field_options WHERE field_name='opt_sector_type' and option_code='{$i}'";
     		$res=$db->Execute($q);
     		$sector=$sector." ".$count.".".$res->Fields("option_description"); 
     		$count++;
@@ -217,7 +217,7 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
     global $global;
     global $conf;
     $db=$global['db'];
-    $q="select name from org_main where o_uuid='{$parent_org}'";
+    $q="SELECT name FROM org_main WHERE o_uuid='{$parent_org}'";
     $res=$db->Execute($q);
 ?>
 <h2><?=_("Add an Operation/Branch under the Organization ").$res->Fields("name")?> </h2>
