@@ -291,8 +291,10 @@ function shn_soap_ws_authenticate(){
 					/*
 					 * send the basic authentication challenge
 					 */
+					
 			    	header('WWW-Authenticate: Basic realm="Sahana"');                   
 			    	header("HTTP/1.0 401 Unauthorized");
+			    	$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 			    	return false;
 				}else{
 					
@@ -303,17 +305,20 @@ function shn_soap_ws_authenticate(){
 					 * authenticate the user using the API Key and Password, if succeeds returns the secret for that user
 					 */
 					$secret=shn_authenticate_ws_user($arg1[0],$arg1[1]);
+					
 					if($secret==null){
-						$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
+						// return true;
+						
 						header("HTTP/1.0 401 Unauthorized");
+						$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 						return false;
 					}else{
 						/*
 						 * Verify the signature to ensure the digest was signed using the same secret the server is having in its database
 						 */
 						if(shn_authenticate_ws_signature($secret,$sign,$digest)==false){
-							$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 							header("HTTP/1.0 401 Unauthorized");
+							$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 							return false;
 						}else{
 							return true;
