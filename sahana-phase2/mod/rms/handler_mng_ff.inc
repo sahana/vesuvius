@@ -16,7 +16,7 @@
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 */
-
+//global $global;
 _shn_rms_print_hedder(_("Fulfil Requests"));
 
 function _shn_rms_mng_request()
@@ -71,6 +71,8 @@ function _shn_rms_mng_getrequest($req_id)
     shn_html_tr_close();
     shn_html_tbody_close();
     shn_html_table_close();
+
+
 }
 
 function _shn_rms_mng_select_item()
@@ -101,7 +103,7 @@ function _shn_rms_mng_select_pledge()
            "OR plg.quantity>ff.quantity " .
            "GROUP BY item_uuid";
     
-    //print ">>>>>>>>>>$sql";
+   // print ">>>>>>>>>>$sql";
     $rs = $global['db']->Execute($sql);
     $rs_arr = $rs->GetArray(); 
     
@@ -148,6 +150,81 @@ function _shn_rms_mng_select_pledge()
         print '</div>';
     }
 
+
+
+
+print '<br>';
+print '<br>';
+
+//**************************** Inventory Items ************************
+?>
+<div id="result"> 
+ 
+    <table>
+    <thead>
+        <td><?=_("Item")?></td>
+        <td><?=_("Amount")?></td>
+        <td><?=_("Inventory")?></td>
+        <td><?=_('State')?></td>
+        <td><?=_("Action")?></td>
+            
+            
+    </thead>
+    <tbody>
+    <?php
+    $state="available";
+   // $ignore_amount=0;
+    $db=$global['db'];
+    $sql="SELECT item.item_id AS item_id, item.amount AS amount, item.state AS state, inventory.inv_uuid AS inv_uuid, inventory.inventory_name AS inventory_name FROM ims_item_records as item, ims_inventory_records AS inventory WHERE item.inv_id=inventory.inv_uuid AND item.catalog_id='$itm' AND item.state='$state' AND item.amount!=0;";
+   // print $sql;
+    $res=$db->Execute($sql);
+    while(!$res==NULL && !$res->EOF)
+    {
+        $sql2="SELECT name FROM ct_catalogue WHERE ct_uuid='$itm';";
+        $res2=$global['db']->Execute($sql2);
+        $item_name=$res2->fields['name'];
+
+        $amount=$res->fields['amount'];
+        $inventory_name=$res->fields['inventory_name'];
+        $state=$res->fields['state'];
+        $inv_id=$res->fields['inv_uuid'];
+        $item_id=$res->fields['item_id'];
+
+        //$res->MoveNext();
+   // }
+    /*$sql="SELECT inv_uuid,inventory_name FROM ims_inventory_records ORDER BY inv_uuid;";
+    $res=$db->Execute($sql);
+    while(!$res==NULL && !$res->EOF)
+    {
+        $inv_id=$res->fields['inv_uuid'];
+        $inventory_name=$res->fields['inventory_name'];
+        $sql1="SELECT SUM(total_amount) as amount FROM ims_item_records WHERE catalog_id='$itm' AND inv_id='$inv_id';";
+        $res1=$global['db']->Execute($sql1);
+//print $sql1;
+        $sql2="SELECT name FROM ct_catalogue WHERE ct_uuid='$itm';";
+        $res2=$global['db']->Execute($sql2);
+//print $sql2;
+        $item_name=$res2->fields['name'];
+        $amount=$res1->fields['amount'];
+    ?>*/
+?>
+        <tr>
+        <td><?php print $item_name; ?></td>
+        <td><?php print $amount; ?></td>
+        <td><?php print $inventory_name; ?></td>
+        <td><?php print $state;?></td>
+        <td><a href="index.php?mod=rms&act=fullfill_from_inventory&seq=<?php echo 'mng_ff_inventory';?>&item_id=<?php echo $item_id;?>&inv_id=<?php echo $inv_id;?>&ct_uuid=<?php echo $itm;?>"><?php print ("SELECT");?></a></td>
+        </tr>
+    <?php
+        $res->MoveNext();
+    }
+    ?>
+    </tbody>
+    </table>
+    </div>
+    <?php
+//*********************************************************************
+
 }
 
 function _shn_rms_mng_addff($max_qty)
@@ -186,8 +263,73 @@ function _shn_rms_mng_addff($max_qty)
     
 }
 
+function _shn_rms_allocate_item($ct_uuid, $inv_id)
+{
+    global $global;
+    $db=$global['db'];
+    $sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$ct_uuid';";
+    $res=$db->Execute($sql);
+    $item_id=$_SESSION['rms']['item_id'];
+    $sql1="SELECT amount FROM ims_item_records WHERE inv_id='$inv_id' AND item_id='$item_id';";
+    $res1=$db->Execute($sql1);
+//print $sql1;
+    $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+    $res2=$db->Execute($sql2);
+    shn_form_fopen('fullfill_from_inventory');
+    shn_form_fsopen(_('Allocate'));
+    shn_form_text(_('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));
+    shn_form_text(_('Maximum allocatable quantity : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
+    shn_form_text(_('Inventory : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
+    shn_form_text(_('Quantity : '),'quantity','size="25"',null);
+    shn_form_fsclose();
+    shn_form_hidden(array('seq'=>'inventory_item_allocate_db'));
+    shn_form_submit('Submit');
+    shn_form_fclose();
+}
+
+function _shn_rms_item_allocation_db()
+{
+    global $global;
+    $db=$global['db'];
+    $item_id=$_SESSION['rms']['item_id'];
+    $available_quantity=$_SESSION['rms']['max_quantity']-$_SESSION['rms']['quantity'];
+    $sql="UPDATE ims_item_records SET amount='$available_quantity' WHERE item_id='$item_id';";
+    $res=$db->Execute($sql);
+    //print $sql;
+    $req_uuid=$_SESSION['rms_req_id'];
+    $catalog_id=$_SESSION['rms_req_item'];
+    $quantity=$_SESSION['rms']['quantity'];
+    //$dt2=date("Y-m-d H:i:s");
+    //print $dt2;
+    $sql="SELECT * FROM rms_fullfill WHERE req_uuid='$req_uuid';";
+    $res=$db->Execute($sql);
+    if($res->EOF)
+    {
+         $sql1="INSERT INTO rms_fullfill VALUES ('$req_uuid', '$catalog_id', '$item_id', '$quantity', $dt2);";
+         $res1=$db->Execute($sql1);
+    }
+    else
+    {
+        //update
+        $previous_quantity=$res->fields['quantity'];
+        $new_quantity=$previous_quantity + $quantity;
+        $sql2="UPDATE rms_fullfill SET quantity='$new_quantity' WHERE req_uuid='$req_uuid';";
+        $res2=$db->Execute($sql2);
+    }
+/*print $req_uuid;
+print '<br>';
+print $catalog_id;
+print '<br>';
+print $item_id;
+print '<br>';
+print $_SESSION['rms']['quantity'];*/
+
+   // $sql="UPDATE rms_fullfill SET quantity='$_SESSION['rms']['quantity']' WHERE  ";
+}
+
 switch ($_REQUEST['seq'])
 {
+
     case '':
             $_SESSION['rms_req_id'] = null;
             $_SESSION['rms_mng_ff_added'] = false;
@@ -206,17 +348,28 @@ switch ($_REQUEST['seq'])
             _shn_rms_mng_select_item();
             break;
     
-    case 'sel_plg';
+    case 'sel_plg':
             $_SESSION['rms_req_id'] = $_REQUEST['req_id'];
             $_SESSION['rms_req_item'] = $_REQUEST['itm_id'];
             _shn_rms_mng_select_pledge();
             break;
             
-    case 'add_ff';
+    case 'add_ff':
             $_SESSION['rms_req_plg'] = $_REQUEST['plg_id'];
             $max_qty = $_REQUEST['max_qty'];            
-            _shn_rms_mng_addff($max_qty);
+            _shn_rms_mng_addff();
             break;
+
+    case 'mng_ff_inventory':
+            $_SESSION['rms']['ct_uuid'] = $_REQUEST['ct_uuid'];
+            $_SESSION['rms']['inv_id'] = $_REQUEST['inv_id'];
+            $_SESSION['rms']['item_id'] = $_REQUEST['item_id'];
+            _shn_rms_allocate_item($_SESSION['rms']['ct_uuid'], $_SESSION['rms']['inv_id']);
+
+    case 'inventory_item_allocate_db':
+            $_SESSION['rms']['quantity'] = $_POST['quantity'];
+            $_SESSION['rms']['max_quantity'] = $_POST['max_quantity'];
+            _shn_rms_item_allocation_db($_SESSION['rms']['quantity'],$_SESSION['rms']['max_quantity']);
             
     case 'finish';
             if ($_POST['qty'] > $_POST['max_qty'])
