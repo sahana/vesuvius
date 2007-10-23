@@ -451,6 +451,11 @@ function _shn_rms_get_sub_cat($cat_id)
 
 function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 {
+     if(_shn_rms_check_catalog_item($itm))
+    {
+	add_error(_("Please Select a Catalog Item"));
+        return false;
+    }
     if ($qty != '' && is_numeric($qty))
     {
         $_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit, $inv);
@@ -465,6 +470,11 @@ function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 
 function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 {
+    if(_shn_rms_check_catalog_item($itm))
+    {
+	add_error(_("Please Select a Catalog Item"));
+        return false;
+    }
     if ($qty != '' && is_numeric($qty))
     {
         $_SESSION['rms_items'][] = array ($itm, $qty, $stat, $unit);
@@ -1518,5 +1528,23 @@ function _shn_rms_get_location_name($bsd_village)
    	return $location;
 
  
+}
+
+function _shn_rms_check_catalog_item($itm)
+{
+    global $global;
+    $db=$global['db'];
+
+    $sql="SELECT * FROM ct_catalogue WHERE parentid='$itm';";
+    $res=$db->Execute($sql);
+//print $sql;
+    if(!$res->EOF)
+    {
+	return true;
+    }
+    else
+    {
+	return false;
+    }
 }
 ?>
