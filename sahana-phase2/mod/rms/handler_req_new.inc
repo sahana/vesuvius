@@ -712,7 +712,7 @@ switch ($_REQUEST['seq'])
                 $pri = $_POST['priority'];
                 $unit = $_POST['unit'];
 
-                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty, $pri, $unit))
+                if (!_shn_rms_is_itemadded($itm) && _shn_rms_add_item2session($itm, $qty, $pri, $unit,null))
                 {
                     unset($_POST);
                     _shn_rms_items();
