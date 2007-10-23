@@ -295,7 +295,17 @@ div#submenu_v a:hover { color: #069; background: #C3CFFF; border-bottom: 1px sol
 div#submenu_v a.selected, 
 div#submenu_v a.selected:hover { background-color: #FFF; border-bottom: 1px solid #FFF; }
 
-/* tab styles */
+
+/* page tab styles */
+div#content ul#tabmenu { list-style-type: none; padding-left: 5px; margin-left: 0; border-bottom: 1px solid #C6D1F5; }
+div#content ul#tabmenu li { display: inline; margin: 0; }
+div#content ul#tabmenu li a, 
+div#content ul#tabmenu li a:link { color: #069; padding: 0 0.5em 1px 0.5em; line-height: 18px; border: 1px solid #C6D1F5;  border-bottom: none; background: #F3F6FF; text-decoration: none; font-weight: bolder; }
+div#content ul#tabmenu li a:hover { color: #069; background: #C3CFFF; border-bottom: 1px solid #C3CFFF; }
+div#content ul#tabmenu li#active a { background-color: #F6FFCF; border-bottom: 1px solid #FFF;  }
+div#content ul#tabmenu li#active a:hover { background-color: #FFF; border-bottom: 1px solid #FFF; } 
+
+/* form tab styles */
 ul#tab { display: inline; }
 ul#tab li { display:inline; }
 ul#tab li a { color: #666; text-decoration: none; font-weight: bold; border: #ccc 1px solid; padding: 3px 5px 0px 5px;   background: #efefef; }
@@ -311,3 +321,5 @@ div.page_navi a { }
 div.rssfeed strong { vertical-align: 5px; }
 
 form.paging_form input { border:none; background:none; padding:0px; color:blue; cursor:pointer; text-decoration:underline; }
+
+
