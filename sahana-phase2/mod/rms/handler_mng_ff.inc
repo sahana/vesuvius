@@ -365,11 +365,13 @@ switch ($_REQUEST['seq'])
             $_SESSION['rms']['inv_id'] = $_REQUEST['inv_id'];
             $_SESSION['rms']['item_id'] = $_REQUEST['item_id'];
             _shn_rms_allocate_item($_SESSION['rms']['ct_uuid'], $_SESSION['rms']['inv_id']);
+            break;
 
     case 'inventory_item_allocate_db':
             $_SESSION['rms']['quantity'] = $_POST['quantity'];
             $_SESSION['rms']['max_quantity'] = $_POST['max_quantity'];
             _shn_rms_item_allocation_db($_SESSION['rms']['quantity'],$_SESSION['rms']['max_quantity']);
+            break;
             
     case 'finish';
             if ($_POST['qty'] > $_POST['max_qty'])
