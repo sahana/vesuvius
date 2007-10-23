@@ -440,6 +440,11 @@ function _shn_rms_get_subcat($cat_id)
             }
                 
         }
+        if(_shn_rms_check_catalog_item($itm))
+        {
+	add_error(_("Please Select a Catalog Item"));
+        return false;
+        }
         
         if (!isset($items) || empty($items))
         {
