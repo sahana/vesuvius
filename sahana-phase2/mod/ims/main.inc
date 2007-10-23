@@ -915,8 +915,15 @@ function shn_ims_gis_inv()
     //global $global;
     //$inv_id="all";		
     $inv_id = $_REQUEST['id'];
+
+?>
+    <h1 align="center"><?php print ('Map by Inventory');?></h1>
+<?php
+    echo '<br>';
+    echo '<br>';
+
     
-    shn_form_fopen('view_inv');
+    shn_form_fopen('view_inv',null,$form_opts=null);
     //shn_form_fsopen(null);
     $array = _shn_ims_gis_inv($inv_id);
     shn_gis_map_with_markers($array);
