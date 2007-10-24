@@ -54,19 +54,20 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
     global $graph;
     global $chat_type_flag;
    
-	if($chat_type_flag == 'pie')
-	{	
-	$num_arrs=count($dataArray);
-	$final_arr_count = 0;
-	$arr_count = 1;
-	$final_data_arr = array();
-		foreach($dataArray as $arr)
-		{	
+	if($chat_type_flag == 'pie') {	
+		$num_arrs = count($dataArray);
+		//print_r($num_arrs);
+		$final_arr_count = 0;
+		$arr_count = 1;
+		$final_data_arr = array();
+		
+		foreach($dataArray as $arr) {	
 			$temp = array();
-			for($i=0;$i<$num_arrs;$i++)
-			{
+			
+			for($i = 0 ; $i < $num_arrs ; $i++) {
 			$temp[$i] = 0;
 			}
+			
 			$temp[0] = $arr[0];
 			$temp[$arr_count] = $arr[1];
 			$arr_count++;
@@ -74,44 +75,34 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 			$final_data_arr[$final_arr_count] = $temp;
 			$final_arr_count++;
 		}
-	}
-	else
-	{
-        //print_r($dataArray);
-	$num_arrs=count($dataArray);	
+	} else {
+		$num_arrs=count($dataArray);	
 		$final_arr_count = 0;
 		$final_data_arr = array();
-	//print $num_arrs;	
-		for($i=0;$i<$num_arrs;$i++)
-		{
+		//print $num_arrs;	
+		
+		for($i=0;$i<$num_arrs;$i++) {
 		$temp_x1 = $dataArray[$i][0];
 		$temp_y1 = $dataArray[$i][1];
-		//print $temp_x1."<br />";
-		//print $temp_y1."<br />";
-		//print $i;
-
 
 		$temp = array($temp_x1,$temp_y1);
-			for($j=$i+1;$j<$num_arrs;$j++)
-			{	//print $num_arrs;
+		
+			for($j=$i+1;$j<$num_arrs;$j++) {	
+				//print $num_arrs;
 				$temp_x2 = $dataArray[$j][0];
-				if($temp_x1 == $temp_x2)
-				{
+				
+				if($temp_x1 == $temp_x2) {
 				//print $dataArray[$j][1];
 				array_push($temp,$dataArray[$j][1]);
-
 				$i++;
 				}
 
 			}
-				//print_r($temp);
+
 		$final_data_arr[$final_arr_count] = $temp;
 		$final_arr_count++;
 		}
-	//$final_data_arr = $dataArray;
 	}
-
-	//print_r($final_data_arr);
 
     $graph = new PHPlot(350,275);
     $graph->Setchartid($chart_ID);
@@ -119,16 +110,17 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
     $graph->SetDataValues($final_data_arr);
     $graph->SetFileFormat("png"); 
     $graph->SetImageArea(350,275);
-    $graph->SetTitleFontSize( "5");
+    $graph->SetTitleFontSize("5");
     $graph->SetTitle( $title);
     $graph->Setkeyword($keyword_arr_in);
 	$legend_arr = array();
-	foreach($final_data_arr as $xval)
-	{
+	
+	foreach($final_data_arr as $xval) {
 	array_push($legend_arr,$xval[0]);
 	}
+	
     $graph->SetLegend($legend_arr); 
-    $graph->SetPlotBgColor( "red");
+    $graph->SetPlotBgColor("red");
     $graph->SetPlotBorderType( "left");
     $graph->SetBackgroundColor('white');
     $graph->SetXTitle($xtitle, "plotdown"); // para = ($title, $position); $postion= plotup or plotdown or both or none
@@ -136,12 +128,13 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 
 	$xval_counter=0;
 	$temp_arr = array();
-	foreach($final_data_arr as $xval)
-	{
+	
+	foreach($final_data_arr as $xval) {
 	$xval_counter++;
 	sort($xval,SORT_NUMERIC);
 	array_push($temp_arr,$xval[count($xval)-1]);
 	}
+	
 	sort($temp_arr,SORT_NUMERIC);
 	$max_val_y = $temp_arr[count($temp_arr)-1];
 	$xval_counter = $xval_counter+1;
@@ -196,7 +189,7 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 	$d_arr_index = 0;
 	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
-	$graph->SetPlotType( "pie");
+	$graph->SetPlotType("pie");
 	$graph->DrawGraph();
 
 	}

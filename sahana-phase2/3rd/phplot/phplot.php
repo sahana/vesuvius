@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: phplot.php,v 1.4 2007-02-08 06:48:15 jayasinghe Exp $ */
+/* $Id: phplot.php,v 1.5 2007-10-24 10:03:45 jayasinghe Exp $ */
 
 /*
  * PHPLOT Version 5.0.rc1
@@ -1115,7 +1115,7 @@ class PHPlot {
     function PrintImage()
     {				
 		global $global;
-    		$db=$global["db"];
+    	$db=$global["db"];
 
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
 		$_sd_path = explode('/', dirname(__FILE__));
@@ -1128,10 +1128,10 @@ class PHPlot {
 		ImagePng($this->img, $_sd_path.$this->output_file);
 
 		$fp = fopen($_sd_path.$this->output_file, "rb");
-			while(!feof($fp)) 
-			{
+			while(!feof($fp)) {
 			$data .= fread($fp, 1024); 
 			}
+			
 			fclose($fp);
 			$data = addslashes($data);
 			$data = addcslashes($data, "\0");
@@ -3319,7 +3319,9 @@ class PHPlot {
                 else
                     $slicecol = $this->ndx_data_dark_colors[$color_index];
 
-                $label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
+                //$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
+                #sd edit
+                $label_txt = number_format(($val / $total * 100),2, '.', '') . '%';
                 $val = 360 * ($val / $total);
 
                 // NOTE that imagefilledarc measures angles CLOCKWISE (go figure why),
