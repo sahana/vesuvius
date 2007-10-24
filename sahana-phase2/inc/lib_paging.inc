@@ -18,7 +18,6 @@
  */
 
 //require_once("lib_export.inc");
-
 /**
  * The main paging function 
  *
@@ -32,6 +31,7 @@
 function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
 {
     global $global;
+    $global["paging_rpp"]=$rpp;
     $res=_shn_page_get_rs($query,$rpp);
     if(!$res)return false;
 
@@ -82,6 +82,7 @@ function _shn_page_draw_navi(&$res,$url){
         $page=1;
 	
     //calculate start and end
+    $global["page_no"]=$page;
     $start=$page-5;
     $end=$page+5;
     $last=$res->LastPageNo();
@@ -168,6 +169,7 @@ function _shn_page_draw_navi_post(&$res,$url){
     }
 
     //calculate start and end
+    $global["page_no"]=$page;
     $start=$page-5;
     $end=$page+5;
     $last=$res->LastPageNo();
@@ -303,5 +305,15 @@ function _shn_paging_url(){
         $url.="&amp;{$key}={$val}";
     }
     return $url;
+}
+
+function get_record_no(){
+	global $global;
+	static $no;
+	if(!isset($no)){
+		$no=$global["paging_rpp"]*(intval($global["page_no"])-1);
+		$no++;
+	}
+	return $no++;
 }
 ?>
