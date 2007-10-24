@@ -322,4 +322,10 @@ div.rssfeed strong { vertical-align: 5px; }
 
 form.paging_form input { border:none; background:none; padding:0px; color:blue; cursor:pointer; text-decoration:underline; }
 
+/*  web service module  */ 
+p.ws_info { margin: 1em; padding: 5px; }
+ul.ws_options { margin: 15px; padding: 5px 0 5px 10px; }
+ul.ws_options li { padding: 5px 0; padding-bottom: 3px; } 
+ul.ws_options span.ws_options_des { padding: 3px 0 15px 15px; color: #333; }
+.hidden { position: absolute; visibility: hidden; z-index: 200; left: 250px; top: 100px; overflow: hidden; width: 600; padding: 20px; font-size: 10px; background-color: #FFC; layer-background-color: #FFFFFF; border: 1px solid #FC6; }
 
