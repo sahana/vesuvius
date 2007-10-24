@@ -21,6 +21,8 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/reporting/lib_chart.inc";
 include_once $global['approot']."/inc/reporting/lib_reporting.inc";
+include_once $global['approot']."/inc/lib_paging.inc";
+
 include_once ("lib_or.inc");
 include_once ("lib_or_rss.inc");
 
@@ -166,9 +168,11 @@ function shn_or_view_org()
 	$incident_arr=array($_SESSION['user_pref_ims_incident_id']);
 	shn_get_incident_descendants($_SESSION['user_pref_ims_incident_id'],$incident_arr);
 	$org_list=shn_or_org_incident_list($incident_arr);
-	_shn_or_viewform_allorg($org_list);
-    			
-    		   
+	//_shn_or_viewform_allorg($org_list);
+	_shn_or_display_header();
+	
+    _shn_display_orgs($org_list,true);			
+    _shn_or_close_table();	   
 }
 function shn_or_edit_org()
 {
@@ -268,7 +272,10 @@ function shn_or_search_cr(){
     $org_type=$_POST{"opt_org_type"};
     $addr=$_POST{"loc_txt"};
 	$org_list=shn_or_org_search(null,$org_name,$org_type,$sector,$loc,$addr);
-    _shn_or_viewform_allorg($org_list);
-
+    //_shn_or_viewform_allorg($org_list);
+    
+    _shn_or_display_header();
+    _shn_display_orgs($org_list,true);
+    _shn_or_close_table();
 }
 ?>

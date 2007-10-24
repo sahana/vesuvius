@@ -52,9 +52,19 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     if($loc!=-1){
 		$search_str.=" and location_details.location_id IN {$loc_str} and location_details.poc_uuid=org_main.o_uuid";
     }
-  
+     
 	$org_list=array();
-	if($limit==null){
+	$orgs=shn_paging_get_report($search_str,5,$headers,array('post'=>true,'return'=>true));
+	    while(!$orgs==NULL && !$orgs->EOF){
+    			array_push($org_list, $orgs->fields["o_uuid"]);
+        		$orgs->MoveNext();
+    	}
+    	$id=0;
+    	foreach($org_list as $org){
+    		$org_list[$id]=get_record_no().",".$org;
+    		$id++;
+    	}
+	/*if($limit==null){
 		$res_org=$db->Execute($search_str);
 	}else{
 		$res_org=$db->SelectLimit($search_str,$limit);
@@ -64,7 +74,7 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push($org_list,$res_org->fields["o_uuid"]);
         	$res_org->MoveNext();
-    }
+    }*/
 	return $org_list;
     
 
@@ -256,13 +266,26 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
         }else {
 			$q = "SELECT DISTINCT o_uuid  FROM org_main,resource_to_incident WHERE privacy=false  ".$root." AND parent_id is NULL AND resource_to_incident.x_uuid=org_main.o_uuid AND incident_id IN $list"." ORDER BY name";
         }
-        $res_org=$db->Execute($q);
+        
+        $headers=array('Organization Name','Incidents','Services Provided','Organization Type','Location','Address','Contact Numbers');
+	    $orgs=shn_paging_get_report($q,5,$headers,array('post'=>false,'return'=>true));
+	    $org_list=array();   
+	    while(!$orgs==NULL && !$orgs->EOF){
+    			array_push($org_list, $orgs->fields["o_uuid"]);
+        		$orgs->MoveNext();
+    	}
+    	$id=0;
+    	foreach($org_list as $org){
+    		$org_list[$id]=get_record_no().",".$org;
+    		$id++;
+    	}
+        /*$res_org=$db->Execute($q);
 		$orgs=array();
     		while(!$res_org==NULL && !$res_org->EOF){
     			array_push($orgs, $res_org->fields["o_uuid"]);
         		$res_org->MoveNext();
-    		}
-        return  $orgs;
+    		}*/
+        return  $org_list;
 }
 
 
@@ -994,5 +1017,12 @@ function array_copy($src,&$dest,$start,$end)
 	}
 	
 	
+}
+function _shn_or_close_table(){
+	?>
+    </tbody>
+    </table>
+    </div>
+    <?php
 }
 ?>

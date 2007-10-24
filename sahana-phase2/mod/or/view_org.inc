@@ -136,7 +136,7 @@ function _shn_display_orgs($orgs,$root=false)
 		}
 	 }
 	 $_SESSION["or_rec_no"] = $count;
-	  
+	 
 }
 function _shn_or_page_generator($org_list)
 {
