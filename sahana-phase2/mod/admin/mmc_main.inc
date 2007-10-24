@@ -357,7 +357,7 @@ function _shn_admin_mmc_upload_commit()
     //update the version 
     shn_db_config_update($_SESSION['admin']['mmc']['module_info']['mod_prefix'], 'version', $_SESSION['admin']['mmc']['module_info']['version']);
 
-    echo "Ela kiri";
+   
 }
 
 
