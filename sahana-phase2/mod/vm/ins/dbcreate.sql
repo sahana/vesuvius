@@ -617,7 +617,9 @@ vm_positiontype.title ptype_title, vm_positiontype.description ptype_description
 from vm_position left join vm_positiontype using (ptype_id);
 
 create definer = CURRENT_USER sql security invoker view vm_vol_assignment as
-select vm_vol_position.p_uuid, proj_id, pos_id, vm_vol_position.status, vm_vol_position.payrate, vm_vol_position.hours, vm_vol_position.task, ptype_id, title, slots, description, ptype_title, ptype_description, skill_code, vm_projects.name project_name, vm_projects.description project_description
+select vm_vol_position.p_uuid, proj_id, pos_id, vm_vol_position.status, vm_vol_position.payrate, vm_vol_position.hours, vm_vol_position.task, ptype_id, title, slots,
+vm_position_full.description, ptype_title, ptype_description, skill_code, vm_projects.name as project_name,
+vm_projects.description as project_description
 from vm_vol_position left join vm_position_full using (pos_id)
 left join vm_projects using (proj_id);
 
