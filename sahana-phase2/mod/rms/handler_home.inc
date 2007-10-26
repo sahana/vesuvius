@@ -63,6 +63,21 @@ print _("The Sahana request management system is a central online repository " .
     <?php print _("Ability to track partial fulfillment of the request") ?>
     </li>
 </ul>
+
+
+ <strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=rms&act=req_new"><b><?= _('Make Request'); ?> </b></a><br/><?= _('Make a request to obtain items for relief operations'); ?></li>
+        <li><a href="index.php?mod=rms&act=req_ls"><b><?= _('List Requests'); ?> </b> </a><br/><?= _('List all the requests done through the system'); ?></li>
+        <li><a href="index.php?mod=rms&act=req_sch"><b><?= _('Search Request'); ?></b></a><br/><?= _('Search for requests'); ?></li>
+        <li><a href="index.php?mod=rms&act=plg_new"><b><?= _('New Pledge'); ?></b></a><br/><?= _('Donate items through the  system'); ?>
+        <li><a href="index.php?mod=rms&act=plg_ls"><b><?= _('List Pledges'); ?></b></a><br/><?= _('List all the donations done through the system'); ?></li>
+        <li><a href="index.php?mod=rms&act=plg_sch"><b><?= _('Search Pledges'); ?></b></a><br/><?= _('Search for pledges'); ?></li>
+        <li><a href="index.php?mod=rms&act=mng_ff"><b><?= _('Fullfill Requests'); ?></b></a><br/><?= _('Match requests and pledges in a disaster'); ?></li>
+        
+</ul>
+
+
+
 <br/>
 </div>
-
