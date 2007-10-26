@@ -21,7 +21,7 @@
  */
 include_once "lib_or.inc";
 
-function shn_or_organization_list($limit,$name_filter='',$type_filter='all',$service_filter='all',$location_filter=-1,$address_filter='')
+function shn_or_organization_list($limit=null,$name_filter='',$type_filter='all',$service_filter='all',$location_filter=-1,$address_filter='')
 {
 	    global $global;
 	   	$db=$global['db'];
