@@ -112,7 +112,8 @@ function _shn_rms_get_person($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.p_uuid='$id'";
+   // $sql = "SELECT * FROM person_uuid p,identity_to_person i WHERE p.p_uuid=i.p_uuid and i.p_uuid='$id'";
+    $sql= "SELECT * FROM person_uuid p WHERE p.p_uuid='$id'";
     $rs = $global['db']->Execute($sql);
     //print $sql;
     if ($rs === false)
@@ -301,16 +302,43 @@ function _shn_rms_add_requester_loc($id, $location)
         return true;
     }
 }
+//**************************************************************
+//return poc_uuid and location id from location_details
 
 function _shn_rms_get_requester_locs($id)
 {
     global $global;
-    
-    $sql = "SELECT poc_uuid, location_id FROM location_details " .
-            "WHERE poc_uuid='$id'";
-    $rs = $global['db']->Execute($sql);
-    
-    if ($rs === false)
+    $db = $global['db'];
+   // $sql = "SELECT poc_uuid, location_id FROM location_details " .
+   //         "WHERE poc_uuid='$id'";
+   $sql = "SELECT DISTINCT loc_uuid FROM rms_request WHERE reqstr_uuid='$id'"; 
+   //$sql = "SELECT DISTINCT location.name FROM rms_request,location WHERE rms_request.reqstr_uuid='$id'"; 
+
+    $rec = $db->Execute($sql);
+     $loc =array();
+     $i = 0;
+   if ($rec === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    } elseif (1 <= $rec->RecordCount()){
+	      While(!$rec->EOF)
+            {
+    	
+              $loc[$i] = $rec->fields['loc_uuid'];
+              // $loc[$i] = $rec->fields['name'];
+
+    	       $rec->MoveNext();
+    	       $i++;
+            }
+    //$rs = $global['db']->Execute($sql);
+
+  
+    return $loc;
+    }
+   /* if ($rs === false)
     {
         $msg = $global['db']->ErrorMsg();
         add_error($msg . '<br />' . $sql);
@@ -320,12 +348,20 @@ function _shn_rms_get_requester_locs($id)
     elseif (1 <= $rs->RecordCount())
     {
         $rs = $rs->GetArray();
-        foreach ($rs as $r)
-            $locs[$r['location_id']] = $r['location_id'];      
-        return $locs;
-    }
+        foreach ($rs as $r){
+        	$locs[$r['loc_uuid']] = $r['loc_uuid'];
+        	//echo $r['loc_uuid'];
+        	return $locs;
+        }*/
     
-    return false;
+        	      
+        
+        
+                  
+        
+    //}
+    
+   // return false;
 }
 
 function _shn_rms_get_shnuser()
@@ -1496,7 +1532,7 @@ function _shn_rms_get_location_name($bsd_village)
 
 	while($bsd_village!=NULL)
 	{
-		$sql2="SELECT * FROM location WHERE loc_uuid='$bsd_village';";
+		$sql2="SELECT * FROM location WHERE loc_uuid='$bsd_village'";
 		$ims2=$db->Execute($sql2);
 //print $sql2;
 		$parent_id=$ims2->fields['parent_id'];
