@@ -619,9 +619,10 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 }
 		 $options=array();
 		 $options[0]="";
-		 foreach ($orgs as $id => $name){
-		 	$options[$id]=$name;
-         }
+		foreach($orgs as $org=>$org_details){
+        		$options[$org_details["id"]]=$org_details["name"];
+        }
+
          ?><div id='loc_org'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"poc")';
     		 shn_form_select($options,'Organizations','orgs',$select_opts,$extra_opts);
