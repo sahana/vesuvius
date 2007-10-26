@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+$Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -59,7 +59,7 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class nusoap_base {
@@ -83,7 +83,7 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.11 $';
+	var $revision = '$Revision: 1.12 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -910,7 +910,7 @@ function usleepWindows($usec)
 * Mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access public
 */
 class soap_fault extends nusoap_base {
@@ -996,7 +996,7 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class XMLSchema extends nusoap_base  {
@@ -1899,7 +1899,7 @@ class XMLSchema extends nusoap_base  {
 * xsd:anyType and user-defined types.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -2000,7 +2000,7 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -3038,7 +3038,7 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class soap_server extends nusoap_base {
@@ -4079,7 +4079,7 @@ class soap_server extends nusoap_base {
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access public 
 */
 class wsdl extends nusoap_base {
@@ -4763,97 +4763,77 @@ class wsdl extends nusoap_base {
 		}
 
 		$b = '
-		<html><head><title>NuSOAP: '.$this->serviceName.'</title>
-		<style type="text/css">
-		    body    { font-family: arial; color: #000000; background-color: #ffffff; margin: 0px 0px 0px 0px; }
-		    p       { font-family: arial; color: #000000; margin-top: 0px; margin-bottom: 12px; }
-		    pre { background-color: silver; padding: 5px; font-family: Courier New; font-size: x-small; color: #000000;}
-		    ul      { margin-top: 10px; margin-left: 20px; }
-		    li      { list-style-type: none; margin-top: 10px; color: #000000; }
-		    .content{
-			margin-left: 0px; padding-bottom: 2em; }
-		    .nav {
-			padding-top: 10px; padding-bottom: 10px; padding-left: 15px; font-size: .70em;
-			margin-top: 10px; margin-left: 0px; color: #000000;
-			background-color: #ccccff; width: 20%; margin-left: 20px; margin-top: 20px; }
-		    .title {
-			font-family: arial; font-size: 26px; color: #ffffff;
-			background-color: #999999; width: 105%; margin-left: 0px;
-			padding-top: 10px; padding-bottom: 10px; padding-left: 15px;}
-		    .hidden {
-			position: absolute; visibility: hidden; z-index: 200; left: 250px; top: 100px;
-			font-family: arial; overflow: hidden; width: 600;
-			padding: 20px; font-size: 10px; background-color: #999999;
-			layer-background-color:#FFFFFF; }
-		    a,a:active  { color: charcoal; font-weight: bold; }
-		    a:visited   { color: #666666; font-weight: bold; }
-		    a:hover     { color: cc3300; font-weight: bold; }
-		</style>
-		<script language="JavaScript" type="text/javascript">
-		<!--
-		// POP-UP CAPTIONS...
-		function lib_bwcheck(){ //Browsercheck (needed)
-		    this.ver=navigator.appVersion
-		    this.agent=navigator.userAgent
-		    this.dom=document.getElementById?1:0
-		    this.opera5=this.agent.indexOf("Opera 5")>-1
-		    this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
-		    this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
-		    this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
-		    this.ie=this.ie4||this.ie5||this.ie6
-		    this.mac=this.agent.indexOf("Mac")>-1
-		    this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
-		    this.ns4=(document.layers && !this.dom)?1:0;
-		    this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
-		    return this
-		}
-		var bw = new lib_bwcheck()
-		//Makes crossbrowser object.
-		function makeObj(obj){
-		    this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
-		    if(!this.evnt) return false
-		    this.css=bw.dom||bw.ie4?this.evnt.style:bw.ns4?this.evnt:0;
-		    this.wref=bw.dom||bw.ie4?this.evnt:bw.ns4?this.css.document:0;
-		    this.writeIt=b_writeIt;
-		    return this
-		}
-		// A unit of measure that will be added when setting the position of a layer.
-		//var px = bw.ns4||window.opera?"":"px";
-		function b_writeIt(text){
-		    if (bw.ns4){this.wref.write(text);this.wref.close()}
-		    else this.wref.innerHTML = text
-		}
-		//Shows the messages
-		var oDesc;
-		function popup(divid){
-		    if(oDesc = new makeObj(divid)){
-			oDesc.css.visibility = "visible"
-		    }
-		}
-		function popout(){ // Hides message
-		    if(oDesc) oDesc.css.visibility = "hidden"
-		}
-		//-->
+		<title>NuSOAP: '.$this->serviceName.'</title>
+                 <!--
+// POP-UP CAPTIONS...
+    function lib_bwcheck(){ //Browsercheck (needed)
+        this.ver=navigator.appVersion
+        this.agent=navigator.userAgent
+        this.dom=document.getElementById?1:0
+        this.opera5=this.agent.indexOf("Opera 5")>-1
+        this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
+        this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
+        this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
+        this.ie=this.ie4||this.ie5||this.ie6
+        this.mac=this.agent.indexOf("Mac")>-1
+        this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
+        this.ns4=(document.layers && !this.dom)?1:0;
+        this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
+    return this
+    
+    }
+    
+    var bw = new lib_bwcheck()
+    //Makes crossbrowser object.
+    function makeObj(obj){
+        this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
+        if(!this.evnt) return false
+        this.css=bw.dom||bw.ie4?this.evnt.style:bw.ns4?this.evnt:0;
+        this.wref=bw.dom||bw.ie4?this.evnt:bw.ns4?this.css.document:0;
+        this.writeIt=b_writeIt;
+        
+    return this
+    }
+    
+    // A unit of measure that will be added when setting the position of a layer.
+    //var px = bw.ns4||window.opera?"":"px";
+    function b_writeIt(text){
+        if (bw.ns4){
+            this.wref.write(text);this.wref.close()
+        }
+        else this.wref.innerHTML = text
+    }
+
+    //Shows the messages
+    var oDesc;
+    function popup(divid){
+        if(oDesc = new makeObj(divid)){
+            oDesc.css.visibility = "visible"
+        }
+    }
+    
+    function popout(){ // Hides message
+        if(oDesc) oDesc.css.visibility = "hidden"
+    }
+                 -->
+
+		<script language="JavaScript" src="./res/js/nusoap.js" type="text/javascript">
 		</script>
-		</head>
-		<body>
-		<div class=content>
-			<br><br>
-			<div class=title>'.$this->serviceName.'</div>
-			<div class=nav>
-				<p>View the <a href="'.$PHP_SELF.'?wsdl&amp;stream=soap&amp;wbsmod='.$_GET["wbsmod"].'&amp;mod=ws&amp;act=reg">WSDL</a> for the service.
-				Click on an operation name to view it&apos;s details.</p>
-				<ul>';
+			<h2>'.$this->serviceName.'</h2>
+			
+				<p class="ws_info">View the <a href="'.$PHP_SELF.'?wsdl&amp;stream=soap&amp;wbsmod='.$_GET["wbsmod"].'&amp;mod=ws&amp;act=reg">WSDL</a> for the service.
+				Click on an operation name to view it&apos;s details.</p> <!-- /ws_info-->
+				<ul class="ws_options">';
 				foreach($this->getOperations() as $op => $data){
 					
 				    $b .= "<li><a href='#' onclick=\"popout();popup('$op')\">$op</a></li>";
-				    $b.="<strong><font color='green'>".$data['nice_name']."</font></strong>";
+				    $b.="<span class='ws_options_des'>".$data['nice_name']."</span> <!-- /ws_options_des-->";
 				    // create hidden div
 				    $b .= "<div id='$op' class='hidden'>
-				    <a href='#' onclick='popout()'><font color='#ffffff'>Close</font></a><br><br>";
+				    <a href='#' onclick='popout()'><font color='gray'>Close</font></a><br><br>";
 				    foreach($data as $donnie => $marie){ // loop through opdata
 						if($donnie == 'input' || $donnie == 'output'){ // show input/output data
-						    $b .= "<font color='white'>".ucfirst($donnie).':</font><br>';
+						    $b .= "<font color='black'><strong>".ucfirst($donnie).':</strong></font><br>';
 						    foreach($marie as $captain => $tenille){ // loop through data
 								if($captain == 'parts'){ // loop thru parts
 								    $b .= "&nbsp;&nbsp;$captain:<br>";
@@ -4867,15 +4847,13 @@ class wsdl extends nusoap_base {
 								}
 						    }
 						} else {
-						    $b .= "<font color='white'>".ucfirst($donnie).":</font> $marie<br>";
+						    $b .= "<font color='black'><strong>".ucfirst($donnie).":</strong></font> $marie<br>";
 						}
 				    }
 					$b .= '</div>';
 				}
 				$b .= '
-				<ul>
-			</div>
-		</div></body></html>';
+				<ul> <!-- /ws_options-->';
 		return $b;
     }
 
@@ -5807,7 +5785,7 @@ class wsdl extends nusoap_base {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class soap_parser extends nusoap_base {
@@ -6414,7 +6392,7 @@ class soap_parser extends nusoap_base {
 * unset($soapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.11 2007-09-26 01:52:12 ravids Exp $
+* @version  $Id: nusoap.php,v 1.12 2007-10-26 07:43:29 priyanga Exp $
 * @access   public
 */
 class soapclient2 extends nusoap_base  {
