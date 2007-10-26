@@ -74,215 +74,6 @@ function _shn_rms_requester($requester_id=null)
 }
 
 
-function _shn_rms_requester_new()
-{
-    if (trim($_POST['name']) != '' & $_POST['card_number']!='')
-    {
-        $requester['name'] = $_POST['name'];
-        $requester['mobile'] = $_POST['mobile'];
-        $requester['email'] = $_POST['email'];
-        $requester['telephone'] = $_POST['telephone'];
-        $requester['address'] = $_POST['address'];
-        $requester['opt_id_type']=$_POST['opt_id_type'];
-        $requester['card_number']=$_POST['card_number'];
-
-	
-        
-        if(!shn_valid_email($requester['email']))
-	{
-	    add_error(_("Invalid e-mail Address"));
-	    _shn_rms_requester();
-	    return false;
-	}
-	else
-	{
-        $id = _shn_rms_add_requester($requester);
-        
-        $_SESSION['rms_reqstr_id'] = $id;
-        //_shn_rms_add_identity($p_uuid,$_POST['card_number'],$_POST['opt_id_type']);
-        
-       $msg = _("Your Requester id: $id, Please write down this ID");
-       add_warning($msg);
-       // _shn_html_inform_add($msg);
-      //  _shn_html_inform_show();
-        return true;
-	}
-        
-    }
-    else
-    {
-	$requester['email'] = $_POST['email'];
-        add_error(_("Please fill all the required fields"));
-	if(!shn_valid_email($requester['email']))
-	{
-	    add_error(_("Invalid e-mail Address"));
-	    
-	}
-        display_errors();
-        _shn_rms_requester();
-        return false;
-    }
-    
-}
-
-function _shn_rms_requester_update()
-{
-    $updated = null;
-    $added = null;
-    
-    $id = $_POST['reqstr_id'];
-    $name = $_POST['name'];
-    $mobile = $_POST['mobile']; 
-    $email = $_POST['email']; 
-    $telephone = $_POST['telephone']; 
-    $address = $_POST['address'];
-    $requester = _shn_rms_get_person($id);
-    
-    
-    //Add or update Full Name
-    if ($requester['name'] != $name)
-    {
-        global $global;
-        $sql = "UPDATE person_uuid SET full_name='$name' WHERE p_uuid='$id'";
-        
-        if ($global['db']->Execute($sql) === false)
-        {
-            $msg = $global['db']->ErrorMsg();
-            add_error($msg . '<br />' . $sql);
-            display_errors();
-        }
-        else
-        {
-            $updated[] = _("Full Name");
-        }
-    }
-    
-    //Add or update contact-mobile
-    if ($requester['mobile'] != $mobile)
-    {
-        global $global;
-        
-        if (_snf_rms_db_is_contactex($id, 'mobile'))
-        {
-            $sql = "UPDATE contact SET contact_value='$mobile' " .
-                    "WHERE pgoc_uuid='$id' AND opt_contact_type='mobile'";
-            if ($global['db']->Execute($sql) === false)
-            {
-                $msg = $global['db']->ErrorMsg();
-                add_error($msg . '<br />' . $sql);
-                display_errors();
-            }
-            else
-            {
-                $updated[] = _("Mobile");
-            }
-        }
-        else
-        {
-            _shn_rms_db_addcontact($id, 'mobile', $mobile);
-            $added[] = _("Mobile");
-        }
-    }
-    
-    //Add or update contact-email
-    if ($requester['email'] != $email)
-    {
-        global $global;
-        
-        if (_snf_rms_db_is_contactex($id, 'email'))
-        {
-            $sql = "UPDATE contact SET contact_value='$email' " .
-                    "WHERE pgoc_uuid='$id' AND opt_contact_type='email'";
-            if ($global['db']->Execute($sql) === false)
-            {
-                $msg = $global['db']->ErrorMsg();
-                add_error($msg . '<br />' . $sql);
-                display_errors();
-            }
-            else
-            {
-                $updated[] = _("Email");
-            }
-        }
-        else
-        {
-            _shn_rms_db_addcontact($id, 'email', $email);
-            $added[] = _("Email");
-        }
-    }
-    
-    //Add or update contact-telephone
-    if ($requester['telephone'] != $telephone)
-    {
-        global $global;
-        
-        if (_snf_rms_db_is_contactex($id, 'telephone'))
-        {
-            $sql = "UPDATE contact SET contact_value='$telephone' " .
-                    "WHERE pgoc_uuid='$id' AND opt_contact_type='telephone'";
-            if ($global['db']->Execute($sql) === false)
-            {
-                $msg = $global['db']->ErrorMsg();
-                add_error($msg . '<br />' . $sql);
-                display_errors();
-            }
-            else
-            {
-                $updated[] = _("Telephone");
-            }
-        }
-        else
-        {
-            _shn_rms_db_addcontact($id, 'telephone', $telephone);
-            $added[] = _("Telephone");
-        }
-    }
-    
-    //Add or update contact-Address
-    if ($requester['address'] != $address)
-    {
-        global $global;
-        
-        if (_snf_rms_db_is_contactex($id, 'address'))
-        {
-            $sql = "UPDATE contact SET contact_value='$address' " .
-                    "WHERE pgoc_uuid='$id' AND opt_contact_type='address'";
-            if ($global['db']->Execute($sql) === false)
-            {
-                $msg = $global['db']->ErrorMsg();
-                add_error($msg . '<br />' . $sql);
-                display_errors();
-            }
-            else
-            {
-                $updated[] = _("Address");
-            }
-        }
-        else
-        {
-            _shn_rms_db_addcontact($id, 'address', $address);
-            $added[] = _("Address");
-        }
-    }
-    
-    if ($added != null)
-    {
-        foreach ($added as $a)
-        {
-            _shn_html_inform_add($a . ' - ' . _("Added"));
-        }
-    }
-    
-    if ($updated != null)
-    {
-        foreach ($updated as $u)
-        {
-            _shn_html_inform_add($u . ' - ' . _("Updated"));
-        }
-    }
-    
-    _shn_html_inform_show();
-}
 
 function _shn_rms_requester_conf($id)
 {
@@ -308,7 +99,7 @@ function _shn_rms_location($id = null)
 {
     if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
-    
+           
     _shn_rms_view_requester($id,true);
     
     
@@ -326,28 +117,78 @@ function _shn_rms_location($id = null)
     print '<br />';
     print '</div>';
 ?>
-  <input type="radio" disabled="disabled" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
+  <input type="radio" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
   <input type="radio" disabled="disabled" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
   <input type="radio" checked="Checked" name="location" value="Other" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other","")' /> Other
 <?php
     print '<br />';
     print '<br />';
     print '<div id="loc_camp">';
-    _shn_rms_ax_location_other();
+  //  _shn_rms_ax_location_other();
+   
     print '</div>';
     
+    shn_form_submit(_("Next"));
     shn_form_fsclose();
+      
+        
+    
     shn_form_fclose();
+}
+
+function _shn_rms_ax_location_camp()
+{
+	print '<div id="loc_cam">';
+    shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
+    shn_form_hidden(array('seq'=>'get_loc'));
+        
+	$info=_("If you know any of the following, please select Only one of them first" .
+			" , the selection will populate the set of Location select boxes ")."<br />";
+    $info.=_("* Camp/Shelter ")."<br /> ";
+           
+    $options=array("loc_camp"=>"Select a Camp/Shelter");
+    $select_opts='onChange=radio_click("loc_camp")';
+		//	shn_form_radio($options,null, "loc",$select_opts);
+		// }
+    $camps=_shn_location_camp_list();
+    $options=array();
+	$options[0]="";
+		 
+	foreach ($camps as $cid => $name){
+		 	$options[$cid]=$name;
+         }
+         
+    if($extra_opts["camp_id"]!=null){
+         	$q="select location_id from camp_general where c_uuid='".$extra_opts["camp_id"]."'";
+         	global $global;
+         	$db=$global["db"];
+         	$res=$db->Execute($q);
+			if(($res==NULL) || ($res->EOF)){
+				$value=UNKNOWN;
+			}else{
+				$value=$res->fields["location_id"];
+			}
+           	$extra_opts["value"]=$extra_opts["camp_id"];
+         }
+         ?><div id='loc_camp'><?
+         $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
+        	 shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
+        ?>	</div><?
+        
+       // shn_form_fsclose();
+       // shn_form_submit(_("Next"));
+        print '<br />';
+        print '<br />';
+        shn_form_fclose();
+	
 }
 
 function _shn_rms_ax_location_other($id=null)
 {
-	//$id = $_SESSION['rms_reqstr_id'];
-    
-
 	if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
-        
+       
+       
     {
         print '<div id="loc_new">';
         shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
@@ -361,41 +202,51 @@ function _shn_rms_ax_location_other($id=null)
         //shn_form_textarea(_("GIS"),'gis',null);
         //shn_form_fsclose();
 
+       if (_shn_rms_get_requester_locs($id))
+    {
+	    $location_array=array();
+	   
+	    $bsd_village = _shn_rms_get_requester_locs($id);
+	    
+	    shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
+        shn_form_hidden(array('seq'=>'get_loc'));
+        shn_form_fsopen(_("Existing Location"));
 
-	shn_form_fsopen("Location");
-	$range=array("start"=>1,"end"=>5);
-	shn_location($range,$value=null,$parent=null,$extra_opts=null);
+       for($i=0;$i<count($bsd_village);$i++){
+	    
+	    	$name = _shn_org_location_string($bsd_village[$i]);   //return the location
+	    
+	    	array_push($location_array,$name);		
+	    }
+        
+       
+        shn_form_select($location_array,_("Location"), 'loc');
+        shn_form_fsclose();
+        shn_form_submit(_("Next"));
+        print '<br />';
+        print '<br />';
+        shn_form_fclose();
 	
-	shn_form_fsclose();
+    }     
+           
+	    shn_form_fsopen("Location");
+	    $range=array("start"=>1,"end"=>5);
+	    shn_location($range,$value=null,$parent=null,$extra_opts=null);
+	    //_shn_rms_location_add();
+	
+	    shn_form_fsclose();
 
-	shn_form_hidden(array('seq'=>'img'));
+	    shn_form_hidden(array('seq'=>'img'));
         //call appropriate gis api method
         shn_gis_add_marker_map_form();
-	shn_form_hidden(array('seq'=>'get_loc'));
+	    shn_form_hidden(array('seq'=>'get_loc'));
 
 
         shn_form_submit(_("Add Location"));
         shn_form_fclose();
-        print '</div><br />';
-
+        print '</div><br />';      
+      
     }
-    
-    if (_shn_rms_get_requester_locs($id))
-    {
-	$bsd_village=_shn_ims_get_locid();
-//print $bsd_village;
-        shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
-        shn_form_hidden(array('seq'=>'get_loc'));
-        shn_form_fsopen(_("Existing Location"));
-        //shn_form_select(_shn_rms_get_requester_locs($id),_("Location"), 'loc');
-	//shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true));
-	$location_array=array();
-	$location_array[$bsd_village]=_shn_rms_get_location_name($bsd_village);
-	shn_form_select($location_array,_("Location"), 'loc');
-        shn_form_fsclose();
-        shn_form_submit(_("Next"));
-        shn_form_fclose();
-    }    
     
     
 }
@@ -619,13 +470,15 @@ switch ($_REQUEST['seq'])
     case '':
             //reset the SESSION variables
             $_SESSION['rms_req_id'] = null;
+            $_SESSION['rms_reqstr_id'] = $_SESSION['user_id'];
+            
             $_SESSION['rms_req_added'] = false;
-                
-            _shn_rms_requester();
+
+            _shn_rms_location();
             break;
     
     case 'new_requester':
-             _shn_rms_new_requester();
+             _shn_rms_new_requester();//
              break;       
     case 'add_reqstr':
             $reqstr = _shn_rms_requester_new();
@@ -661,7 +514,8 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'get_loc':
-            $loc = trim($_POST['loc']);
+    	$loc = shn_location_get_form_submit_loc();
+        //    $loc = trim($_POST['loc']);
             $_SESSION['rms_reqstr_loc'] = $loc;
             $_SESSION['rms_items'] = null;
             
@@ -676,6 +530,23 @@ switch ($_REQUEST['seq'])
     case 'ax_loc_other':
             _shn_rms_ax_location_other();
             break;
+
+    case 'ax_loc_org':
+         //
+            break;
+            
+    case 'ax_loc_camp':
+    	  
+           $extra_opts['camps']=true;
+        
+           _shn_rms_ax_location_camp(); 
+         
+        
+           // shn_location( null,null ,null ,$extra_opts);
+        
+       
+            break;
+       
     case 'ax_sub_cat':
             $cat_id=$_REQUEST['par'];
             _shn_rms_get_subcat($cat_id);
@@ -738,11 +609,12 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'finish':
-            $r_uuid = $_SESSION['rms_reqstr_id'];
+            $r_uuid = $_SESSION[ 'rms_reqstr_id'];
             $l_uuid = $_SESSION['rms_reqstr_loc'];
             
             if (!$_SESSION['rms_req_added'])
             {
+            	//echo $l_uuid;
                 $_SESSION['rms_req_id'] = _shn_rms_add_request($r_uuid, $l_uuid);
                 $_SESSION['rms_req_added'] = true;
             }
