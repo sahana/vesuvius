@@ -16,7 +16,7 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 
-function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all',$loc=-1,$addr=''){
+function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all',$loc=-1,$addr='',$paging=false){
     global $global;
     include_once $global['approot']."/inc/lib_location.inc";
    
@@ -54,17 +54,21 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     }
      
 	$org_list=array();
-	$orgs=shn_paging_get_report($search_str,5,$headers,array('post'=>true,'return'=>true));
-	    while(!$orgs==NULL && !$orgs->EOF){
-    			array_push($org_list, $orgs->fields["o_uuid"]);
-        		$orgs->MoveNext();
-    	}
-    	$id=0;
-    	foreach($org_list as $org){
-    		$org_list[$id]=get_record_no().",".$org;
-    		$id++;
-    	}
-	/*if($limit==null){
+	//print the paging links if paging is enabled
+	if($paging){
+		$orgs=shn_paging_get_report($search_str,5,$headers,array('post'=>true,'return'=>true));
+		while(!$orgs==NULL && !$orgs->EOF){
+	    	array_push($org_list, $orgs->fields["o_uuid"]);
+	        $orgs->MoveNext();
+	    }
+	    $id=0;
+	    foreach($org_list as $org){
+	    	$org_list[$id]=get_record_no().",".$org;
+	    	$id++;
+	    }
+	    return $org_list;
+	}
+	if($limit==null){
 		$res_org=$db->Execute($search_str);
 	}else{
 		$res_org=$db->SelectLimit($search_str,$limit);
@@ -74,10 +78,8 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     while(!$res_org==NULL && !$res_org->EOF){
     		array_push($org_list,$res_org->fields["o_uuid"]);
         	$res_org->MoveNext();
-    }*/
+    }
 	return $org_list;
-    
-
 }
 
 function shn_or_contact_data_exist($org_id,$contact_type){
