@@ -71,7 +71,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
     global $global;
 
     if (null == $error_title) {
-        $error_title = _('Oops. There were a few errors :');
+        $error_title = _('Oops. There are few errors :');
     }
 
     // return if there are no errors
