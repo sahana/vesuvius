@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.30 2007-05-22 11:29:39 isurunishan Exp $ */
+/* $Id: add.inc,v 1.31 2007-10-28 14:48:55 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -175,7 +175,7 @@ function shn_mpr_addmp_validate()
     }
 $dob=$_POST['dob'];
 	
-if(!shn_valid_date($dob))
+if(!shn_valid_date($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
 {
 	//add_error(_("Please Check the Date format"));	
 $error_flag = true;

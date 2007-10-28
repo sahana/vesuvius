@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.15 2007-05-07 07:00:09 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.16 2007-10-28 14:49:23 isurunishan Exp $ */
 
 /** 
  * Edit page of the Missing Person Registry 
@@ -168,7 +168,9 @@ if($errors)
     shn_form_text(_('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name']));
     shn_form_text(_('Family Name'),'family_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['family_name']));
     shn_form_text(_('Local Name'),'local_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['local_name']));
-    shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8',array('value'=>$_SESSION['mpr_edit']['entry']['dob']));
+    
+    shn_form_date(_("Date of Birth"),'dob',array('value'=>$_SESSION['mpr_edit']['entry']['dob']));
+   // shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8',);
     shn_form_opt_select("opt_age_group",_("Age Group"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_age_group']));
     shn_form_opt_select("opt_gender",_("Gender"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_gender']));
     shn_form_opt_select("opt_marital_status",_("Marital Status"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_marital_status']));
@@ -263,12 +265,13 @@ function shn_mpr_editmp_validate()
         add_error(_("Please enter the full name of the missing person"));
         $error_flag=true;
     }
-
-    if(isset($local_post['dob']) && ! shn_valid_date($local_post['dob'])){
-        add_error(_("Invalid Date of Birth"));
-        $error_flag=true;
-    }
-
+$dob=$_POST['dob'];
+	
+if(!shn_valid_date($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
+{
+	//add_error(_("Please Check the Date format"));	
+$error_flag = true;
+}	
     //set session
     $local_post['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     //clean
