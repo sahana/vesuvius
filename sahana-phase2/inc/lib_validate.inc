@@ -204,11 +204,11 @@ function shn_valid_email($field,$required=false)
  * @access public
  * @return bool
  */
-function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/')
+function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/',$des='Date')
 {    
     if (shn_is_null($date)){
         if ($check_null){
-            add_error($desc." is a required field, Please enter a value.");
+            add_error($des." is a required field, Please enter a value.");
             return false;
         }else 
             return true;
@@ -217,7 +217,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
             if(preg_match($pattern,$date))
                 return true;
             else{
-	            add_error($desc." You have to enter a Date (yyyy-mm-dd)");
+	            add_error($des." field should be valid (yyyy-mm-dd)");
                 return false;
             }
     }
