@@ -80,6 +80,13 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
     foreach ($mods as $mod){
     	$conf['mod_'.$mod.'_enabled']=true;
     }*/
+    if(($_GET["mod"]="admin")&&($_GET["act"]=="acl_enable_acl_cr")){
+    	if( shn_acl_check_perms("admin","acl_enable_acl_cr")==true){
+    		 include_once ($APPROOT.'mod/admin/acl.inc');
+			 _shn_admin_acl_enable_acl_cr(false);
+    	}
+    }
+   
     // start the front controller pattern
     shn_main_front_controller();
     

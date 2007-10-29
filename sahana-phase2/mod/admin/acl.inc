@@ -86,7 +86,7 @@ function _shn_admin_acl_enable_acl()
 	shn_acl_form_enable_acl();
 }
 
-function _shn_admin_acl_enable_acl_cr()
+function _shn_admin_acl_enable_acl_cr($show=true)
 {
 	global $global;
 	$db=$global["db"];
@@ -97,7 +97,10 @@ function _shn_admin_acl_enable_acl_cr()
 		$q="UPDATE config SET value=false WHERE module_id='admin' AND confkey='acl_enabled'";
 	}
 	$res=$db->Execute($q);
-	shn_acl_form_enable_acl();
+	if($show==true){
+		shn_acl_form_enable_acl();
+	}
+	
 }
 
 function _shn_admin_acl_enable_locking()
