@@ -518,8 +518,7 @@ function shn_setup_database()
 		}		
 
 		$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']);
-		//var_dump($tdb);
-//		$db->debug=true;
+		//$db->debug=true;
 		// create system user and privileges
 		$db->Execute("CREATE USER '".$_POST['shndbuser']."'@'%' IDENTIFIED BY '".$_POST['shndbpass']."'");
 		$db->Execute("GRANT ALL ON ".$_POST['dbname'].".* TO '".$_POST['shndbuser']."'@'%'");
