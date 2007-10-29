@@ -42,7 +42,7 @@ if(!$res->EOF){
 				Features Include:')?>
         </div>
 		<ul>
-            <li><?=_('Capturing a comprehensive list of meta data on an relief organization and all the activities they have in the region')?></li>
+             <li><?=_("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
             <li><?=_('Capturing the essential services each group is providing and where')?></li>
             <li><?=_('Reporting on the converge of services and support in the region and more')?></li>
             <li><?=_('Importantly where there are no aid services being provided')?></li>
@@ -52,36 +52,21 @@ if(!$res->EOF){
 <div>
 <?php shn_chart_display("shn_or_service_coverage_chart"); ?>
 </div>
-<table>
-    <thead>
-        <td><strong><?=_('Organizations')?></strong></td>
-        <td><strong><?=_('Please Register')?></strong></td>
-     
-    </thead>
-    <tbody>
-        <tr>
-			<td>
-				<div>
+				
+<div>
                 <a href="index.php?mod=or&act=view_org">
-                  <strong> <?php echo $org_no ?></strong><?=_(' Organizations/Departments/Branches have registered')?>
+                 <center> <strong> <?php echo $org_no ?></strong><?=_(" Organizations/Departments/Branches have registered")?>
+                 </center>
                 </a>
-				</div>
-			</td>
-			<td>
-				<div><?=_('Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.')?>	    
-				</div>
-			</td>
-        </tr>
-                
-        </tbody>
-        </table>
+</div
+
         <br />
         <div id="note">
-           <strong><?=_('Last 5 Organizations to Register')?></strong>
+           <strong><?=_("Recently registered organizations (Most Recent five)")?></strong>
         </div>
         <?php _shn_or_viewform_latest_orgs(5);
 
     require_once($global['approot']."/inc/lib_rss.inc");
-    shn_rss_add_feed('new_org_list',_('Newly Registered organizations'));
+    shn_rss_add_feed('new_org_list',_('Recently Registered organizations'));
 
 ?>
