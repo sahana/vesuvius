@@ -48,7 +48,7 @@ function _shn_or_regform_org($error=false)
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['reg_no'];
     }
-    $extra_opts['help']=_("If your organization is registered please enter your registration no");
+    $extra_opts['help']=_("If your organization is registered under the government, please enter your Company Registration Number");
     shn_form_text(_("Registration Number(if any) : "),'reg_no','size="50"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Type"));
@@ -74,8 +74,8 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
-  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
-"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
+  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala'.  start by selecting the country ,once you select country".
+" all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
 "please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section."));//display help icon only once
  	shn_form_fsopen(_("Base Location"));
  	if($error==true){
