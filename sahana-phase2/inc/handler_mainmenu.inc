@@ -29,11 +29,11 @@ $module_menuorder = array();
 $module_directory = array();
 
 foreach ($module_list as $i) {  
-    $tmp = $conf['mod_'.$i.'_name']; 
+    $tmp = isset($conf['mod_'.$i.'_name'])?$conf['mod_'.$i.'_name']:null; 
     array_push($module_names,( null == $tmp )? $i : $tmp);
-    $tmp = $conf['mod_'.$i.'_menuorder']; 
+    $tmp = isset($conf['mod_'.$i.'_menuorder'])?$conf['mod_'.$i.'_menuorder']:null; 
     array_push($module_menuorder,( null == $tmp )? 10 : $tmp);
-    $tmp = $conf['mod_'.$i.'_directory']; 
+    $tmp = isset($conf['mod_'.$i.'_directory'])?$conf['mod_'.$i.'_directory']:null; 
     array_push($module_directory, $i );
 } 
 
