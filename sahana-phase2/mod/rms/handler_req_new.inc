@@ -102,7 +102,7 @@ function _shn_rms_location($id = null)
            
     _shn_rms_view_requester($id,true);
     
-    
+ //*********************************************************************************************   
     print '<br />';
     shn_form_fopen("req_new",null,array('req_message'=>false));
     shn_form_fsopen(_("Request Location"));
