@@ -125,6 +125,7 @@ function _shn_display_orgs($orgs,$root=false)
 	 	}else{
 	    		_shn_display_org($org_id);
 	 	}
+	 	/*
         $q = "SELECT o_uuid FROM org_main WHERE parent_id='{$org_id}' ORDER BY name";
 		$res_org = $db->Execute($q);
 		if (!$res_org == NULL && !$res_org->EOF) {
@@ -134,6 +135,7 @@ function _shn_display_orgs($orgs,$root=false)
     			}
     		_shn_display_orgs($sub_orgs);
 		}
+		*/
 	 }
 	 $_SESSION["or_rec_no"] = $count;
 	 
@@ -200,9 +202,12 @@ function _shn_display_org($org_id, $no=null)
     $res_email=$db->Execute($q);
 
  	$parent = _shn_or_is_root($org_id);
-        if ($parent == false) {
+    if ($parent == false) {
     //if($no==null){
-    		$type = "opt_org_sub_type";
+    	$type = "opt_org_sub_type";
+    	$parent_node=_shn_or_get_parent($org_id);
+    	$parent_data_arr=split(":",$parent_node);
+    	$parent_data=" of <a href='index.php?mod=or&act=edit_org&org_id=".$parent_data_arr[0]."'>".$parent_data_arr[1]."</a>";
     }else{
 		$type = "opt_org_type";
     }
@@ -253,7 +258,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
     </td>
 
     
-    <td><?php echo $org_type?></td>
+    <td><?php echo $org_type.$parent_data ?></td>
   	<td><?php echo $location?></td>
     <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
     <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>

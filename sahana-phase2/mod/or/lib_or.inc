@@ -183,6 +183,21 @@ function _shn_or_is_root($org_id){
 	}
 }
 
+function _shn_or_get_parent($org_id){
+	global $global;
+	$db=$global["db"];
+	$q="select parent_id from org_main where o_uuid='{$org_id}'";
+	$res=$db->Execute($q);
+	if(($res==NULL) || ($res->EOF)){
+		return false;
+	}else{
+		$parent=$res->fields["parent_id"];
+		$q="select name from org_main where o_uuid='{$parent}'";
+		$res=$db->Execute($q);
+		return $parent.":".$res->fields["name"];
+	}
+}
+
 function shn_or_create_database_IN_array($arr){
 	
         if($arr!=null){

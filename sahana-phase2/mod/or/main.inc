@@ -277,5 +277,15 @@ function shn_or_search_cr(){
     _shn_or_display_header();
     _shn_display_orgs($org_list,true);
     _shn_or_close_table();
+    ?>
+    <div>
+                <center>
+                <a href="index.php?mod=or&act=search">
+                  <strong> Back to Search Page</strong>
+             
+                </a>
+                </center>
+	</div
+    <?php
 }
 ?>
