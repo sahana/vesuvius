@@ -28,9 +28,17 @@
  * @access public
  * @return void
  */
+
 function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
 {
-    global $global;
+	global $global;
+	if(isset($_REQUEST['rpp'])){
+		if('none'!=$_REQUEST['rpp'])
+		{
+		    $rpp=$_REQUEST['rpp'];
+		}
+        
+	}
     $global["paging_rpp"]=$rpp;
     $res=_shn_page_get_rs($query,$rpp);
     if(!$res)return false;
@@ -40,7 +48,7 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
         _shn_page_draw_navi_post($res,$url);
     }
     else{
-        _shn_page_draw_navi($res,$url);
+        _shn_page_draw_navi($res,$url,$rpp);
     }
 
     if(!isset($headers)||$extra_opt['return']==true)
@@ -74,7 +82,8 @@ function _shn_page_get_rs($query,$rpp){
 }
 
 //navigation with links
-function _shn_page_draw_navi(&$res,$url){
+function _shn_page_draw_navi(&$res,$url,$rpp){
+	_shn_paging_set_rpp();
     global $global;
     if(isset($_REQUEST['page']))
         $page=$_REQUEST['page'];
@@ -105,18 +114,25 @@ function _shn_page_draw_navi(&$res,$url){
         return;
     }
     //if there is only one page don't print the navigation links
-    if($last==1)
-        return;
-
+    //if($last==1)
+        //return;
+    //to add dynamic records per page
+    ?>
+    <div>
+    <form name='paging_form' class='paging_form' action='<?php echo $url?>' method='POST'>
+    <?php
+    
+	//shn_form_hidden(array('rpp'=>''));
+	
     //print the amount of pages
     echo "Page $page/$last : ";
-
+    
     //draw the First and prev links
     if($page!=1)
     {
 ?>
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $page-1;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
-    <b><a href="<?php echo $url?>&amp;page=1" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page-1;?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=1&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
 
 <?php
     }
@@ -133,7 +149,7 @@ function _shn_page_draw_navi(&$res,$url){
         else
         {
 ?>
-        <a href="<?php echo $url?>&amp;page=<?php echo $i?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
+        <a href="<?php echo $url?>&amp;page=<?php echo $i?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
 <?php
         }
     }
@@ -144,16 +160,24 @@ function _shn_page_draw_navi(&$res,$url){
     if($page!=$last)
     {
     ?>
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
 
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
-<?php
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
+    <?php
     }
+    
+    $options=array('none'=>'--Select--','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
+	shn_form_select($options,"Records per page", "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+    ?>
+    </div>
+    </form>
+    <?php
 }
 
 
 //navigation with posts
 function _shn_page_draw_navi_post(&$res,$url){
+	_shn_paging_set_rpp();
     global $global;
     if(isset($_REQUEST['page']))
             $page=$_REQUEST['page'];
@@ -192,25 +216,31 @@ function _shn_page_draw_navi_post(&$res,$url){
         return;
     }
     //if there is only one page don't print the navigation links
-    if($last==1)
-        return;
+    //if($last==1)
+      //  return;
 
 ?>
     <form name='paging_form' class='paging_form' action='<?php echo $url?>' method='POST'>
 <?php
     foreach($_POST as $name=>$post){
-        if('c_page'!=$name){
+        if('c_page'!=$name && 'page'!=$name){
             shn_form_hidden(array($name=>$post));
         }
     }
+    $options=array('none'=>'--Select--','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
+	?>
+	<div>
+	<?php 
+	//shn_form_hidden(array('rpp'=>''));
+	
     //print the amount of pages
     echo "Page $page/$last : ";
 
     //draw the First and prev links
     if($page!=1)
     {
-        shn_form_submit('Previous',"name='page'");
-        shn_form_submit('1',"name='page'");
+        shn_form_submit('Previous',"id ='page' name='page'");
+        shn_form_submit('1',"id ='page' name='page'");
 
     }
 
@@ -224,7 +254,7 @@ function _shn_page_draw_navi_post(&$res,$url){
         elseif($i==$start||$i==$end)
             continue;
         else
-            shn_form_submit($i,"name='page'");
+            shn_form_submit($i,"id ='page' name='page'");
     }
     if($end<$last)
         echo "&#8230;";
@@ -233,11 +263,14 @@ function _shn_page_draw_navi_post(&$res,$url){
    //draw the next and the last link
     if($page!=$last)
     {
-        shn_form_submit($last,"name='page'");
-        shn_form_submit('Next',"name='page'");
+        shn_form_submit($last,"id ='page' name='page'");
+        shn_form_submit('Next',"id ='page' name='page'");
     }
+    shn_form_select($options,"Records per page", "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+    
 ?>
-        <input type="hidden" name="c_page" value=<?php echo $page?>/>
+        <input type="hidden" id="c_page" name="c_page" value=<?php echo $page?> />
+        </div>
         </form>
 <?php
 }
@@ -315,5 +348,17 @@ function get_record_no(){
 		$no++;
 	}
 	return $no++;
+}
+function _shn_paging_set_rpp(){
+?>
+<script language="JavaScript" type="text/javascript">
+function set_rpp(rpp_val){
+	//alert(rpp_val);
+	//document.getElementById('page').value="1";
+	document.getElementById('rpp').value=rpp_val;
+	document.paging_form.submit();
+}
+</script>
+<?php
 }
 ?>
