@@ -523,7 +523,17 @@ function shn_acl_is_web_service_auth_enabled(){
 	}
 }
 
-function shn_acl_install(){
+/**
+ * Installs the ACL to the database.
+ *
+ * @param String $root_username The sahana administrator username.
+ * @param String $root_passwd The sahana administrator password.
+ * @param String $sahana_username The sahana normal user's username.
+ * @param String $sahana_password The sahana normal user's password.
+ * @param String $extra_opts The extra options.
+ * @return boolean Whether the operation succeeded.
+ */
+function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_password,$extra_opts=null){
 	global $global;
 	global $conf;
 	$status=true;
@@ -533,10 +543,10 @@ function shn_acl_install(){
 	include_once($global['approot']."/inc/lib_uuid.inc");
 	$db=$global["db"];
 
-	$root=shn_auth_add_user("Admin User",$_POST['admin_name'],$_POST['root_pwd'],ADMIN,null);
+	$root=shn_auth_add_user("Admin User",$root_username,$root_passwd,ADMIN,null);
 	//add a "root" user to ACL users and add to 'admin' role
 	//add a "registered" user to ACL users and add to 'registered' role
-	$reg_user=shn_auth_add_user("Sahana Registered User",$_POST['user_name'],$_POST['user_pwd'],REGISTERED,null);
+	$reg_user=shn_auth_add_user("Sahana Registered User",$sahana_username,$sahana_password,REGISTERED,null);
 	$roles=array(ADMIN,REGISTERED,ANONYMOUS);
 	//$mods=array("home","pref");
 	$mods=shn_get_all_modules(false);
