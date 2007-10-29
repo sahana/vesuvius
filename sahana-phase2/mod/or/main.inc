@@ -271,7 +271,7 @@ function shn_or_search_cr(){
    	$sector=$_POST{"opt_sector_type"};
     $org_type=$_POST{"opt_org_type"};
     $addr=$_POST{"loc_txt"};
-	$org_list=shn_or_org_search(null,$org_name,$org_type,$sector,$loc,$addr);
+	$org_list=shn_or_org_search(null,$org_name,$org_type,$sector,$loc,$addr,true);
     //_shn_or_viewform_allorg($org_list);
     
     _shn_or_display_header();
