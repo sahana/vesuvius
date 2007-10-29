@@ -815,7 +815,7 @@ function _shn_or_display_orgs($error=false,$multi=false,$value=NULL)
         //$select_opts="multiple='false'";;
     }
     $options=shn_or_org_list();
-    $extra_opts['help']=_("select the parent entity");
+    $extra_opts['help']="<a href='http://en.wikipedia.org/wiki/Holding_company'>Wikipedia definition</a>";
     shn_form_select($options,'','parent',$select_opts,$extra_opts);
 }
 

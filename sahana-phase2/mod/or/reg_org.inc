@@ -228,14 +228,14 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
 <div id="formcontainer">
 <?php
     shn_form_fopen("reg_org_gis_map");
-    shn_form_fsopen(_('Parent Entity'));
-     _shn_or_display_orgs(false,false,$parent_org);
+    shn_form_fsopen(_('Holding Company'));
+    _shn_or_display_orgs(false,false,$parent_org);
     shn_form_fsclose();
     shn_form_fsopen(_('Primary Details'));
     $extra_opts['req']=true;
     shn_form_text(_("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
 	shn_form_fsclose();
-	shn_form_fsopen(_("Relationship to the parent Organization"));
+	shn_form_fsopen(_("Relationship to the Holding Company"));
     _shn_or_display_org_sub_type($error);
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Sector"));
