@@ -71,7 +71,6 @@ if(!$res->EOF){
 				<div><?=_('Registering your organization allows us to know who is doing what where and allows us to operate more effectively as one.')?>	    
 				</div>
 			</td>
-					
         </tr>
                 
         </tbody>
@@ -80,8 +79,9 @@ if(!$res->EOF){
         <div id="note">
            <strong><?=_('Last 5 Organizations to Register')?></strong>
         </div>
-        <?php _shn_or_viewform_latest_orgs(5);?>
-       
+        <?php _shn_or_viewform_latest_orgs(5);
+
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_add_feed('new_org_list',_('Newly Registered organizations'));
 
+?>
