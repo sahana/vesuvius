@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.11 2007-10-16 11:00:02 isurunishan Exp $ */
+/* $Id: lib_stream_html.inc,v 1.12 2007-10-29 11:06:27 isurunishan Exp $ */
 
 /**
  *
@@ -32,7 +32,7 @@ function shn_stream_init()
 
     // Start the body and the CSS container element
 ?>
-    <?php if($_SESSION['admin']['locale']['enable']=="set"){ ?>
+    <?php if(isset($_SESSION['admin']['locale']['enable']) && $_SESSION['admin']['locale']['enable']=="set"){ ?>
     	<body onclick="whichElement(event)" oncontextmenu="return false;">
     <?php }else{?>
     	<body>	
@@ -52,7 +52,7 @@ function shn_stream_init()
 
     // hack for the admin section such that the mene and login come from 
     // the admin section
-    if ($global['effective_module'] != null) {
+    if (isset($global['effective_module']) && $global['effective_module'] != null) {
         $module = $global['effective_module'];
     }
 
