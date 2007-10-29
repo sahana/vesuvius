@@ -30,7 +30,7 @@ function shn_acl_check_valid_policy(){
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
     	$xmlfile=$approot."mod/".$f."/sec_policy.xml";
-        if (file_exists($xmlfile)) {
+        if (file_exists($xmlfile)&& ($f=='or')) {
           $nice_name=$conf['mod_'.$f.'_name'];
           print _("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._(" module ... ")."<br />";
           $xdoc->Load($xmlfile);
@@ -148,7 +148,8 @@ function shn_acl_check_perms($mod,$module_function){
 		foreach ($xml->usercase as $case) {
 			//$name= trim($case->name);//name of the service
 
-			if(findAttribute($case->funct, "id")==$module_function){
+			//if(findAttribute($case->funct, "id")==$module_function){
+			if(($case->functions)==$module_function){
 				$tables=array();
 				foreach ($case->funct->tables->table as $table){
 					$tables["$table"]=findAttribute($table, "perm");
