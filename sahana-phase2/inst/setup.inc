@@ -557,17 +557,17 @@ function shn_setup_database()
 	shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
 	shn_setup_run_sqlscript($db,'mod/rms/ins/dbcreate.sql');
 	shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/cs/ins/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/vm/ins/dbcreate.sql'); // for Volunteer management
-	shn_setup_run_sqlscript($db,'mod/ims/ins/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/msg/ins/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
-	shn_setup_run_sqlscript($db,'mod/rs/ins/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/hr/ins/dbcreate.sql');//hr
+	shn_setup_run_sqlscript($db,'mod/cs/inst/dbcreate.sql');
+	shn_setup_run_sqlscript($db,'mod/vm/inst/dbcreate.sql'); // for Volunteer management
+	shn_setup_run_sqlscript($db,'mod/ims/inst/dbcreate.sql');
+	shn_setup_run_sqlscript($db,'mod/msg/inst/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42
+	shn_setup_run_sqlscript($db,'mod/rs/inst/dbcreate.sql');
+	shn_setup_run_sqlscript($db,'mod/hr/inst/dbcreate.sql');//hr
 
 	if ($_POST['dbsample']=='y') {
 		include_once($global['approot'].'inc/lib_uuid.inc');
 		shn_setup_run_sqlscript($db,'inst/mysql-sampledata.sql');
-		include($global['approot'].'mod/cs/ins/setup.inc');
+		include($global['approot'].'mod/cs/inst/setup.inc');
 		shn_cs_datacreate();
 	}
 
