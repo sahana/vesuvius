@@ -4,25 +4,33 @@
 	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
 
 	<usercase name="Organization Registration">
-		<funct id="shn_or_reg_org">
-			<tables>
+		<functions>
+			<function>shn_or_reg_org</function>
+			<function>shn_or_reg_org_confirm</function>
+			<function>shn_or_reg_org_gis_map</function>
+			<function>shn_or_reg_org_cr</function>
+		</functions>
+		<tables>
 				<table perm="c">org_main</table>
 				<table perm="r">field_options</table>
 				<table perm="r">location</table>
 				<table perm="c">location_details</table>
 				<table perm="c">contact</table>
-			</tables>
-		</funct>
+		</tables>
 	</usercase>
 	<usercase name="Organization Registration Edit">
-		<funct id="shn_or_edit_org">
-			<tables>
+		<functions>
+			<function>shn_or_reg_org</function>
+			<function>shn_or_reg_org_confirm</function>
+			<function>shn_or_reg_org_gis_map</function>
+			<function>shn_or_reg_org_cr</function>
+		</functions>
+		<tables>
 				<table perm="u">org_main</table>
 				<table perm="r">field_options</table>
 				<table perm="r">location</table>
 				<table perm="u">location_details</table>
 				<table perm="u">contact</table>
-			</tables>
-		</funct>
+		</tables>
 	</usercase>
 </sec_policy>
