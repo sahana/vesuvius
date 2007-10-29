@@ -166,7 +166,7 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
     <?php
     }
     
-    $options=array('none'=>'--Select--','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
+    $options=array('none'=>'default','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
 	shn_form_select($options,"Records per page", "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
     ?>
     </div>
