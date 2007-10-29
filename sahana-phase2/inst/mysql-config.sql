@@ -181,6 +181,8 @@ INSERT INTO sys_data_classifications VALUES ( 8, 'Unclassified');
 INSERT INTO sys_user_groups VALUES ( 1, 'Administrator (Admin)');
 INSERT INTO sys_user_groups VALUES ( 2, 'Registered User');
 INSERT INTO sys_user_groups VALUES ( 3, 'Anonymous User');
+INSERT INTO sys_user_groups VALUES ( 4, 'Super User (Head of Operations)');
+INSERT INTO sys_user_groups VALUES ( 5, 'Organization Admin');
 
 -- INSERT DEFAULT SYS USER GROUP TO DATA CLASSIFICATION MAPPINGS
 -- admin role
@@ -216,6 +218,25 @@ INSERT INTO sys_group_to_data_classification VALUES ( 3, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 8,"crud");
 
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 1,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 2,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 3,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 4,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 6,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 7,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 4, 8,"crud");
+
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 1,"----");
+-- no perms
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 3,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 7,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 8,"crud");
+
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 
 -- TABLE NAMES ARE SORTED IN ALPHEBATICAL ORDER
@@ -244,7 +265,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "chronology", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "config", 6);
 
 -- contact
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "contact", 1);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "contact", 5);
 
 -- ct_cat_unit
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "ct_cat_unit", 7);
@@ -338,13 +359,14 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_tmp_po", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 6);
 
 -- location_details
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 6);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 5);
 
 -- messaging_group
 
 -- old_passwords
 
 -- org_main
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "org_main", 2);
 
 -- password_event_log
 
