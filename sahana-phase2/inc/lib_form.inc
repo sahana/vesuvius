@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.66 2007-10-17 06:34:13 ravids Exp $ */
+/* $Id: lib_form.inc,v 1.67 2007-10-29 11:04:07 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -35,7 +35,7 @@ function shn_form_extra_opts($extra_opts)
 {
     global $shn_help_id;
     // output a required flag
-    if (true == $extra_opts['req']) echo "\n <span class='req'>*</span>\n";
+    if (isset($extra_opts['req']) && true == $extra_opts['req']) echo "\n <span class='req'>*</span>\n";
     
     //Help
     if(isset($extra_opts['help'])){
@@ -259,7 +259,9 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
-    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    
+    
+    $value = (isset($_POST[$name])? $_POST[$name] : $extra_opts['value']);
     //to privent warnings set $options to array() if it is null
     $options=($options==null)?array():$options;
 ?>
