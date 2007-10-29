@@ -61,20 +61,21 @@ function shn_admin_default()
     include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 
     $result = $db->Execute("SELECT * FROM incident");
-    $isDisasterNamed = ($result->RecordCount() > 0);
+    $isDisasterNamed = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
     $result = $db->Execute("SELECT * FROM location");
-    $isLocationsEntered = ($result->RecordCount() > 0);
+    $isLocationsEntered = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
    	$isSecurityEnabled =shn_acl_is_enabled();
  
 
     $result = $db->Execute("SELECT * FROM ct_catalogue");
-    $isCatalogCreated = ($result->RecordCount() > 0);
+
+    $isCatalogCreated = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
     $result = $db->Execute("SELECT value FROM config WHERE module_id='gis'
                                  AND confkey='mod_gis_google_key'");
-    $isGoogleSetup = ($result->fields['value']  != "");
+    $isGoogleSetup = ((isset($result) && $result)?($result->fields['value']  != ""):false);
 
     echo '<div id="home">';
   
