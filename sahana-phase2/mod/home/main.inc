@@ -33,7 +33,7 @@ function shn_home_default()
 	_shn_home_module_info('gis','Giving you the current situation awareness on a map');
 	_shn_home_module_info('mpr','Helping to reduce trauma by effectively finding missing persons');
 	_shn_home_module_info('dvr','Tracing internally displaced people (IDPs) and their needs');
-    _shn_home_module_info('or','Listing "Who is doing What, Where" allow relief agencies to self-distribute themselves better to address the gaps in disasters');
+    _shn_home_module_info('or','Listing who is doing what & where. Allows relief agencies to self organize the activities rendering fine coordination among them.');
     _shn_home_module_info('rms',"Tracking all the requests for aid from the field and matching them against donars who have pledged aid");
     _shn_home_module_info('cr',"Tracking the location, distibution, capacity and breakdown of victims in shelter");
     _shn_home_module_info('ims',"Effectively and efficiently manage relief aid, enables  transfer of inventory items to different inventories and notify when items are required to refill.");
