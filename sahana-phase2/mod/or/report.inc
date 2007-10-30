@@ -15,6 +15,7 @@
 
 global $global;
 include_once $global['approot']."/inc/lib_location.inc";
+include_once $global['approot']."/inc/lib_paging.inc";
 include_once("lib_or.inc");
 
 
@@ -195,10 +196,7 @@ give attention to all services Not covered.";
     <div>
     
     </div>
-    
-    <?
   
-?>
 <!--</div>-->
 <div id ="result">
     <table>
@@ -218,7 +216,8 @@ give attention to all services Not covered.";
     <tbody>
 <?php
 	$q = "SELECT loc_uuid,name FROM location WHERE parent_id='{$parent}' ORDER BY name";
-	$res_loc=$db->Execute($q);
+	//$res_loc=$db->Execute($q);
+	$res_loc=shn_paging_get_report($q,5,$headers,array('post'=>false,'return'=>true));
 	
     while(!$res_loc==NULL && !$res_loc->EOF){
 ?>
@@ -325,9 +324,8 @@ function _shn_or_drill_loc($parent=null)
  		echo 'This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.'
  ?></p><br /><?
  }     
-
+    
 ?>
-
 
 <div id ="result">
     <table>
@@ -347,15 +345,16 @@ function _shn_or_drill_loc($parent=null)
         </thead>
     <tbody>
 <?php
-		$q = "SELECT loc_uuid,name FROM location WHERE parent_id='{$parent}' ORDER BY name";
-	
-    $res_loc=$db->Execute($q);
+	$q = "SELECT loc_uuid,name FROM location WHERE parent_id='{$parent}' ORDER BY name";
+	$res_loc=shn_paging_get_report($q,5,$headers,array('post'=>false,'return'=>true));
+	//print_r($locs);	
+    //$res_loc=$db->Execute($q);
     while(!$res_loc==NULL && !$res_loc->EOF){
 ?>
     <tr>
         <td>
 <?php if(shn_location_is_leaf($res_loc->fields["loc_uuid"])){
-        echo $res_loc->fields[1];
+        echo $res_loc->fields["name"];
       }else {
         echo "<a href='index.php?mod=or&act=drill_report_loc_next&parent=".$res_loc->fields["loc_uuid"]."'>".$res_loc->fields["name"]."</a>";
       }
@@ -468,7 +467,7 @@ function _shn_is_covered_org($loc,$sector,&$count)
     $count=count($org_list);
 }
 
-function _shn_or_report_org_sector()
+function _shn_or_report_org_sector($sector)
 {
     include_once("view_org.inc");
     global $global;
@@ -478,11 +477,35 @@ function _shn_or_report_org_sector()
 <h2><?=_("Organization Report by Sector")?></h2>
 <?php 
 	shn_report_download("shn_or_service_coverage_pdf","Download as PDF");
+    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
+    $res_sector=$db->Execute($q);
+    $sectors=array();
+    while(!$res_sector==NULL && !$res_sector->EOF){
+    	if(NULL==$sector){
+            $sector=$res_sector->fields[0];
+    	}
+	$sectors[$res_sector->fields[0]]=$res_sector->fields[1];
+	$res_sector->MoveNext();
+    }
+    shn_form_fopen('org_sector','or',array('req_message'=>false));
+    
+    shn_form_select($sectors,'Sector', 'opt_sector',"onchange=submit(this)", array('br'=>false));    
+    
+    shn_form_submit(_("Filter"));
+    
+    shn_form_fclose();
+    ?>
+    <br>
+    <?php
+    $option_code=$sector;
+    $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main,sector WHERE sector.opt_sector='{$option_code}' AND sector.pgoc_uuid=org_main.o_uuid ORDER BY name";
+    $res_org=shn_paging_get_report($q,5,$headers,array('post'=>true,'return'=>true));
 ?>
+<br>
 <div id ="result">
     <table>
         <thead>
-        		<td><?=_("Service")?></td>
+        	<td></td>
             <td><?=_("Organization Name")?></td>
             <td><?=_("Incidents")?></td>
             <td><?=_("Services Offered")?></td>
@@ -493,28 +516,24 @@ function _shn_or_report_org_sector()
         </thead>
         <tbody>
 <?php    
-    $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
-    $res_sector=$db->Execute($q);
-    while(!$res_sector==NULL && !$res_sector->EOF){
-        $option_code=$res_sector->fields[0];
-        $q = "SELECT o_uuid,parent_id,name,man_power,equipment,resources FROM org_main,sector WHERE sector.opt_sector='{$option_code}' AND sector.pgoc_uuid=org_main.o_uuid ORDER BY name";
-        $res_org=$db->Execute($q);
+   
+        
+        //$res_org=$db->Execute($q);
 	    if(!$res_org->EOF){
 	    ?>
-	    <tr>
+	    <!--<tr>
 		    <td>
 	            <b><?=_($res_sector->fields[1])?></b>
 		    </td>
-	    </tr>
+	    </tr>-->
 	    <?php
         }
         while(!$res_org==NULL && !$res_org->EOF){
-            $org_id=$res_org->fields[0];
+            $org_id=$res_org->fields['o_uuid'];
             _shn_display_org($org_id,false);
             $res_org->MoveNext();
         }
-        $res_sector->MoveNext();
-    }
+        
 ?>
    </tbody>
   </table>
