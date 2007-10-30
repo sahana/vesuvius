@@ -124,7 +124,7 @@ function _shn_admin_acl_enable_locking_cr()
 
 function _shn_admin_acl_user_roles()
 {
-	_shn_admin_acl_user_roles_menu();    
+	_shn_admin_acl_user_roles_menu(true);    
 }
 
 

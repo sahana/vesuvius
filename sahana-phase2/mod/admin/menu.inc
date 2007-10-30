@@ -81,7 +81,7 @@ function _shn_admin_mainmenu()
 }
 
 
-function _shn_admin_acl_user_roles_menu()
+function _shn_admin_acl_user_roles_menu($user_home=false)
 {
 	shn_tabmenu_open();
 	shn_tabmenu_item("add_user", "Add Users", "admin");
@@ -91,18 +91,23 @@ function _shn_admin_acl_user_roles_menu()
 	shn_tabmenu_item("acl_change_user_status", _("Change User Status"), 'admin');
     shn_tabmenu_item("acl_unlock_user", _("Unlock User"), 'admin');
 	shn_tabmenu_close();
+	if($user_home){
 ?>
 
 	<br>
 	<div id="home">
 	<h2><?= _('Welcome to Users section'); ?></h2>
-
+	<h3>As Administrator , use this section for the following</h3>
 	<ul>
-    <li><?=_('Click <strong>Users</strong> to add,remove Users or edit User Roles')?></li>
-    
+    <li><?=_('Add Users')?></li>
+    <li><?=_('Remove Users')?></li>
+    <li><?=_('Change User Roles')?></li>
+    <li><?=_('Change User Status')?></li>
+    <li><?=_('Unlock Users')?></li>
 	</ul>
 	</div>
 <?php
+	}
 }
 
 function _shn_admin_acl_privacy_menu()

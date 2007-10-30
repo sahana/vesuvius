@@ -184,6 +184,7 @@ function shn_admin_check_sec_policies()
 
 function shn_admin_acl_change_user_status($error=false)
 {
+	_shn_admin_acl_user_menu($module);
  	shn_acl_form_change_user_status();
 }
 
@@ -195,6 +196,7 @@ function shn_admin_acl_change_user_status_cr($error=false)
 
 function shn_admin_acl_unlock_user($error=false)
 {
+	_shn_admin_acl_user_menu($module);
  	shn_acl_form_unlock_user();
 }
 function shn_admin_acl_unlock_user_cr($error=false)
