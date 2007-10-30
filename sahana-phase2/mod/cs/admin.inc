@@ -18,34 +18,34 @@ include_once($global['approot'] . '/inc/lib_form.inc');
 
 function shn_cs_adm_default()
 {
-	shn_cs_sub_menu();
-	?>
-	<p><?= _('Maximum Depth - enable you to specify the default depth value for the catalog system item selection interface. '); ?></p>
+    shn_cs_sub_menu();
+    ?>
+    <p><?= _('Maximum Depth - enable you to specify the default depth value for the catalog system item selection interface. '); ?></p>
     <p><?= _('Number of records for a page - enable you to specify the number of records that should be shown in a page in the view and edit section'); ?></p>
     <br></br>
-	<?php
+    <?php
 }
 
 
 function shn_cs_sub_menu()
 {
-	?>
-	<div id="submenu_v">
-	<a href="index.php?mod=cs&act=adm_cs_maxdepth"><?php echo _("Maximum Depth"); ?></a> 
-	<a href="index.php?mod=cs&act=adm_cs_page_records"><?php echo _("Number of records for a page"); ?></a>
-	</div>
-	
-	<br>
-	<?php
+    ?>
+    <div id="submenu_v">
+    <a href="index.php?mod=cs&act=adm_cs_maxdepth"><?php echo _("Maximum Depth"); ?></a> 
+    <a href="index.php?mod=cs&act=adm_cs_page_records"><?php echo _("Number of records for a page"); ?></a>
+    </div>
+    
+    <br>
+    <?php
 }
 
 function shn_cs_adm_cs_maxdepth()
 {
 
-	shn_cs_sub_menu();
+    shn_cs_sub_menu();
 
-	global $global;
-    $db=$global['db'];
+    global $global;
+    $db = $global['db'];
 
     $query = "SELECT option_code FROM field_options WHERE field_name = 'opt_cs_depth'";
     $res = $db->Execute($query);
@@ -77,17 +77,17 @@ function shn_cs_adm_max_depth_form_submit()
     $res = $db->Execute($query); 
     
     ?>
-	<div id="result_msg">
-	<?php print _("Maximum Depth ") . $depth . _("  was successfully saved"); ?>
-	</div>
+    <div id="result_msg">
+    <?php print _("Maximum Depth ") . $depth . _("  was successfully saved"); ?>
+    </div>
     <?php
     shn_cs_adm_cs_maxdepth();
 }
 
 function shn_cs_adm_cs_page_records()
 {
-	shn_cs_sub_menu();
-	global $global;
+    shn_cs_sub_menu();
+    global $global;
     $db = $global['db'];
 
     $query = "SELECT option_code FROM field_options WHERE field_name = 'opt_cs_page_record'";
@@ -116,10 +116,10 @@ function shn_cs_adm_page_record_submit()
     $res = $db->Execute($query); 
     
     ?>
-	<div id="result_msg">
-	<?php print "Default number of records " . $default_page_recs . "  was successfully saved"; ?>
-	</div>
+    <div id="result_msg">
+    <?php print "Default number of records " . $default_page_recs . "  was successfully saved"; ?>
+    </div>
     <?php
-    shn_cs_adm_cs_page_records();	
+    shn_cs_adm_cs_page_records();
 }
 ?>
