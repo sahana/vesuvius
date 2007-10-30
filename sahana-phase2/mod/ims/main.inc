@@ -47,8 +47,9 @@ function shn_ims_mainmenu()
 
     shn_mod_menuopen(shn_get_module_name());
     shn_mod_menuitem("default","Home",$module);
-    shn_mod_menuitem("view_inv",_("Inventories"),$module);
     shn_mod_menuitem("search_main",_("Search"),$module);
+    shn_mod_menuitem("view_inv",_("Inventories"),$module);
+    
    // shn_mod_menuitem("search_item",_("Find Items"),$module);
    // shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
    
