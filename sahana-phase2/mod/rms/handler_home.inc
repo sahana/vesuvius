@@ -34,11 +34,11 @@ _shn_rms_print_hedder();
 <p>
 <?php 
 
-print _("The Sahana request management system is a central online repository " .
-        "where all relief organizations, relief works, government agents and " .
-        "camps can effectively match requests of aid and supplies to pledges " .
-        "of support. It effectively looks like an online aid trading system " .
-        "tracking request to fulfillment."
+print _("Sahana Request Management System is a central online
+repository where all relief organizations, relief workers, government
+agents and camp sites for displaced personnels can coordinate the supply of
+the aids with their demand. It allows users to allocate the available
+resources to fulfill the demands effectively and efficiently."
         );
 ?>
 
@@ -50,8 +50,9 @@ print _("The Sahana request management system is a central online repository " .
 
 <ul>
     <li>
-    <?php print _("Basic meta data on the request and pledges such as " .
-                  "the category, the units, contact details and the status") ?>
+    <?php print _("Basic information on
+the requests and donations, such as category, the units, contact details
+and the status.") ?>
     </li>
     <li>
     <?php print _("Customizable category of aid") ?>
