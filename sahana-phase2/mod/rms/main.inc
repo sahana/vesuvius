@@ -37,6 +37,7 @@ include_once($global['approot']."/inc/lib_dependency.inc");
 require_once 'lib_rms.inc';
 require_once 'lib_rms_db.inc';
 require_once 'lib_rms_js.inc';
+require_once 'lib_rms_rss.inc';
 
 include_once $global['approot']."/mod/gis/gis_fns.inc";
 include_once $global['approot']."/mod/ims/lib_ims.inc";

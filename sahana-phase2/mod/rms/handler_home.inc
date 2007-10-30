@@ -77,8 +77,11 @@ and the status.") ?>
         <li><a href="index.php?mod=rms&act=mng_ff"><b><?= _('Fullfill Requests'); ?></b></a><br/><?= _('Match requests and pledges in a disaster'); ?></li>
         
 </ul>
-
-
-
 <br/>
+<?php
+    global $global;
+    require_once($global['approot']."/inc/lib_rss.inc");
+    shn_rss_add_feed('new_pledges',_('New Pledgs'));
+    shn_rss_add_feed('new_requests',_('New Requests'));
+?>
 </div>
