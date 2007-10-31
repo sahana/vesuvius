@@ -185,37 +185,38 @@ INSERT INTO sys_user_groups VALUES ( 3, 'Anonymous User');
 INSERT INTO sys_user_groups VALUES ( 4, 'Super User (Head of Operations)');
 INSERT INTO sys_user_groups VALUES ( 5, 'Organization Admin');
 INSERT INTO sys_user_groups VALUES ( 6, 'Volunteer Coordinator');
+INSERT INTO sys_user_groups VALUES ( 7, 'Camp Admin');
 
 -- INSERT DEFAULT SYS USER GROUP TO DATA CLASSIFICATION MAPPINGS
 -- admin role
 -- admin(1) can create(8),read(4),update(2),delete(1) (totaling 15) System sensitive(6) data  
-INSERT INTO sys_group_to_data_classification VALUES ( 1, 1,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 1,"-r--");
 -- no perms
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 2,"-r--");
 -- read only
-INSERT INTO sys_group_to_data_classification VALUES ( 1, 3,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 3,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 1, 5,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 1, 5,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 6,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 8,"crud");
 
 
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,"crud");
 
 
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 3, 5,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 5,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 8,"crud");
@@ -231,21 +232,31 @@ INSERT INTO sys_group_to_data_classification VALUES ( 4, 8,"crud");
 
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 1,"----");
 -- no perms
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 2,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 3,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 4,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 5,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 8,"crud");
 
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,"----");
 -- no perms
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 2,"-r--");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 4,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
+
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,"----");
+-- no perms
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
 
