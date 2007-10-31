@@ -30,7 +30,8 @@ function shn_acl_check_valid_policy(){
     $d = dir($approot."/mod");
     while (false !== ($f = $d->read())) {
     	$xmlfile=$approot."mod/".$f."/sec_policy.xml";
-        if (file_exists($xmlfile)&& ($f=='or')) {
+     //   if (file_exists($xmlfile)&& ($f=='or')) {
+        if (file_exists($xmlfile)) {
           $nice_name=$conf['mod_'.$f.'_name'];
           print _("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._(" module ... ")."<br />";
           $xdoc->Load($xmlfile);
@@ -547,8 +548,10 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	$mods=shn_get_all_modules(false);
 	foreach($roles as $role){
 		foreach ($mods as $mod){
-			$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
-			$res=$db->Execute($sql);
+			if(($mod!="admin") or ($role==ADMIN)){
+				$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+				$res=$db->Execute($sql);
+			}
 		}
 	}
 
@@ -697,7 +700,7 @@ function shn_acl_hmac_sha1($data,$key) {
 function shn_acl_enable($flag=true){
 	global $global;
 	$db=$global["db"];
-	$q="UPDATE config SET value=true WHERE module_id='admin' AND confkey='acl_enabled'";
+	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_enabled'";
 	$res=$db->Execute($q);
 }
 ?>

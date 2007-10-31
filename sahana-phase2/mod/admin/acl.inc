@@ -86,20 +86,30 @@ function _shn_admin_acl_enable_acl()
 	shn_acl_form_enable_acl();
 }
 
-function _shn_admin_acl_enable_acl_cr()
+function _shn_admin_acl_enable_acl_cr($show=false)
 {
 	global $global;
 	//$db=$global["db"];
 	
 	if($_POST['action']=='enable') {
-		//$q="UPDATE config SET value=true WHERE module_id='admin' AND confkey='acl_enabled'";
 		shn_acl_enable(true);
 	}else {
-		//$q="UPDATE config SET value=false WHERE module_id='admin' AND confkey='acl_enabled'";
 		shn_acl_enable(false);
 	}
-	//$res=$db->Execute($q);
-	shn_acl_form_enable_acl();
+	if($show==true){
+		//if(($show==true)&&( shn_acl_check_perms("admin","acl_enable_acl_cr")==true)){
+		shn_acl_form_enable_acl();
+	}else{
+		if(shn_acl_check_perms("admin","acl_enable_acl")==true){
+			$global['action']="acl_enable_acl";
+    		$global['module']="admin";
+		}else{
+			$global['action']="default";
+    		$global['module']="home";
+		}
+
+	}
+	
 }
 
 function _shn_admin_acl_enable_locking()
