@@ -20,30 +20,7 @@ function shn_xml_rms_new_pledges(){
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
     shn_rss_channel_open(_('Newly made Pledges'),_('This List contains newly made pledges in sahana Request Aid Management system'));
-/*
-    $sql = "select o_uuid,name,f.option_description from org_main as o inner join field_options as f on f.option_code=o.opt_org_type AND f.field_name='opt_org_type'  where parent_id is NULL and privacy=false order by created desc";
-    define('ADODB_FETCH_ASSOC',2);
-    $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
-    $res = $global['db']->SelectLimit($sql,30);
 
-    if (!$res){add_error($global['db']->ErrorMsg());}
-    foreach($res as $record){
-        $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=or&amp;act=edit_org&amp;org_id=".$record['o_uuid'];
-        $org_id=$record['o_uuid'];
-        $db=$global["db"];
-        $q="select name from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
-        $res_temp=$db->Execute($q);
-        $loc=$res_temp->fields["name"];
-        $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-        $res_sector=$db->Execute($q);
-//         $location=_shn_org_location_string($loc);
-
-        $desc=_("This is a ").$record['option_description']._(" organization located in ").$loc._(". And it provides the following services - ");
-        foreach($res_sector as $s)
-            $desc.=$s['option_description']." , ";
-        shn_rss_item($record['name'],$url,$desc);
-    }
-*/
     shn_rss_channel_close();
     shn_rss_close();
 }
@@ -53,30 +30,18 @@ function shn_xml_rms_new_requests(){
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
     shn_rss_channel_open(_('Newly made Requests'),_('This List contains the newly made requests in Request Aid Management system'));
-/*
-    $sql = "select o_uuid,name,f.option_description from org_main as o inner join field_options as f on f.option_code=o.opt_org_type AND f.field_name='opt_org_type'  where parent_id is NULL and privacy=false order by created desc";
+    $sql='SELECT r.req_uuid, r.req_date , r.status , r.reqstr_uuid, l.name FROM rms_request AS r LEFT JOIN location AS l ON l.loc_uuid=r.loc_uuid ORDER BY  r.req_date DESC';
+
     define('ADODB_FETCH_ASSOC',2);
     $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
     $res = $global['db']->SelectLimit($sql,30);
 
     if (!$res){add_error($global['db']->ErrorMsg());}
     foreach($res as $record){
-        $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=or&amp;act=edit_org&amp;org_id=".$record['o_uuid'];
-        $org_id=$record['o_uuid'];
-        $db=$global["db"];
-        $q="select name from location,location_details where poc_uuid='{$org_id}' and location_details.location_id=location.loc_uuid";
-        $res_temp=$db->Execute($q);
-        $loc=$res_temp->fields["name"];
-        $q = "select option_description from field_options,sector where pgoc_uuid='{$org_id}' and field_options.option_code=sector.opt_sector and field_options.field_name='opt_sector_type'";
-        $res_sector=$db->Execute($q);
-//         $location=_shn_org_location_string($loc);
-
+        $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=rms&amp;act=req_ls&amp;seq=view_req&amp;req_id=".$record['req_uuid'];
         $desc=_("This is a ").$record['option_description']._(" organization located in ").$loc._(". And it provides the following services - ");
-        foreach($res_sector as $s)
-            $desc.=$s['option_description']." , ";
-        shn_rss_item($record['name'],$url,$desc);
+        shn_rss_item(_("Req Id ").$record['req_uuid'],$url,$desc);
     }
-*/
     shn_rss_channel_close();
     shn_rss_close();
 }
