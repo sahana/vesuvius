@@ -50,6 +50,32 @@ function shn_acl_form_enable_acl()
 }
 
 /**
+ * Generates a form to enable/disable self signup
+ * @access public
+ * @return void
+ */
+
+function shn_acl_form_enable_signup()
+{
+    global $global;
+    $db=$global['db'];
+ ?>
+ <h3>Enable/Disable Self Signup</h3> 
+<?php
+	shn_form_fopen("acl_enable_signup_cr","admin",array('req_message'=>false));
+ 	$acl=shn_acl_is_signup_enabled();
+ 	if($acl==true){
+ 		shn_form_hidden(array("action"=>'disable'));
+		shn_form_submit(_("Disable Self Signup"));
+ 	}else{
+ 		shn_form_hidden(array("action"=>'enable'));
+		shn_form_submit(_("Enable Self Signup"));
+ 	}
+
+}
+
+
+/**
  * Generates a form to enable/disable password locking
  * @access public
  * @return void
@@ -133,7 +159,7 @@ Rows are Modules ,Columns are Roles ,Intersection shows whether the module is en
         $allow=false;
     }
    
-      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if ($role==ADMIN) echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
+      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if (($role==ADMIN)&&($mod_arr[0]=="admin")) echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
 <?php
 
     
@@ -201,7 +227,7 @@ Rows are User ,Columns are Roles ,Intersection shows whether the User is a membe
      <tbody>
 <?php    
     
-    $users=shn_auth_user_list();
+    $users=shn_auth_user_list(false,true);
 
     
     foreach ($users as $user=>$uname){
@@ -225,7 +251,7 @@ Rows are User ,Columns are Roles ,Intersection shows whether the User is a membe
          $allow=false;
     }
    
-      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if ($user=='0') echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
+      	?><td><input type="checkbox" name="<?php echo $name?>"<?php if (($user==ADMINUSER)&&(($role==ADMIN))) echo "disabled=true";?> <?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
 <?php
 
     

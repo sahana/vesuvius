@@ -122,7 +122,7 @@ function shn_main_filter_getpost()
         $global['module'] = (NULL == $_REQUEST['mod']) ? 
                                 "home" : $_REQUEST['mod'];
        if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
-    	$global['module']="pref";
+    		$global['module']="pref";
     	}
         
     }
@@ -188,20 +188,30 @@ function shn_main_front_controller()
         $_SESSION['last_action']=$action;
     
         if($stream_==null){
-	        $mods=shn_get_allowed_mods_current_user();
-	
-	        $res=array_search($module,$mods,false);
-	        
-	        if(FALSE !== $res){
-	        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
-	        		$module_function();
-	        	}else{
-	        		//shn_error_display_restricted_access();
-	        	}
-				
-	       }else{
-	        	shn_error_display_restricted_access();
-	       }
+              if(( ($global['action']=='signup_cr')or($global['action']=='signup'))&&($global['module']="pref")){
+              		 	$acl=shn_acl_is_signup_enabled();
+ 						if($acl==true){
+ 							$module_function();
+ 						}else{
+ 							
+ 						}
+    				
+    		  }else{
+			        $mods=shn_get_allowed_mods_current_user();
+			
+			        $res=array_search($module,$mods,false);
+			        
+			        if(FALSE !== $res){
+			        	if(shn_acl_check_perms($module,$module_function)==ALLOWED){
+			        		$module_function();
+			        	}else{
+			        		//shn_error_display_restricted_access();
+			        	}
+						
+			       }else{
+			        	shn_error_display_restricted_access();
+			       }
+              }
         }else{
         		
         		$stream_acl_funct='shn_'.$stream_.'check_perms';

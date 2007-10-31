@@ -132,7 +132,7 @@ function shn_get_user_details($user){
 *@access public
 *@return bool
 */
-function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=NULL,$extra_opts=null)
+function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=null,$extra_opts=null)
 {
     global $global;
     $db=$global['db'];
@@ -159,25 +159,36 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=N
 	       	 	return false;
 	    }
     }
+  
     if($pid==null){
+    	
        // $pid = $db->GenID('person_seq',10);
        $pid=shn_create_uuid($type='person');
+       /*
        $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
        $res=$db->Execute($q);
        if($res==false){
 				add_error($db->ErrorMsg());
 				$error=true;
-		}
-    }else{
+		}*/
+    } else{
      	$q="select p_uuid from person_uuid where p_uuid='{$pid}'";
     	$res=$db->Execute($q);
-    	if($res->EOF){
+    	//if($res->EOF){
+    	if(($res==null) or ($res->EOF)){
+    	}else{
         	$error=true;
-       		add_error(SHN_AUTH_ERR_PERSON_NOT_EXISTS);
+       		add_error(SHN_AUTH_ERR_PERSON_EXISTS);
         	return false;
     	}   	
     }
-    
+
+    $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
+    $res=$db->Execute($q);
+    if($res==false){
+				add_error($db->ErrorMsg());
+				$error=true;
+	}
 
 
  	if(!$error){
@@ -239,11 +250,13 @@ function shn_is_user($user_name){
     }
 }
 
-function shn_auth_user_list($fullname=false){
+function shn_auth_user_list($fullname=false,$admin=true){
   	global $global;
     $db=$global['db'];
   
-    $q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by user_name";
+    $q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid order by user_name";
+	//$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by user_name";
+
 	$res=$db->Execute($q);
     $users=array();
         
@@ -254,8 +267,11 @@ function shn_auth_user_list($fullname=false){
     	}else{
     		$name=$res->fields["full_name"]." - ".$name=$res->fields["user_name"];
     	}
+    	
     	//$name=$res->fields["full_name"];
-       	$users[$res->fields["p_uuid"]]=$name;
+    	if(($res->fields["p_uuid"]!="1") or($admin==true)){
+       		$users[$res->fields["p_uuid"]]=$name;
+    	}
         $res->MoveNext();
     }
 	return $users;
@@ -659,20 +675,23 @@ function _shn_auth_del_user_cr(){
  	$db=$global["db"];
 	$VARCHAR=100;
 	for($i=0;$i<count($user);$i++){
-
-		$q="delete from users where p_uuid='{$user[$i]}'";
-        $res=$db->Execute($q);
-        if($res==false){
+		if($user[$i]!=ADMINUSER){
+			$q="delete from users where p_uuid='{$user[$i]}'";
+        	$res=$db->Execute($q);
+        	if($res==false){
 				add_error($db->ErrorMsg());
+			}
 		}
+
        
 	}
 	for($i=0;$i<count($user);$i++){
-
-		$q="delete from alt_logins where p_uuid='{$user[$i]}'";
-        $res=$db->Execute($q);
-        if($res==false){
+		if($user[$i]!=ADMINUSER){
+			$q="delete from alt_logins where p_uuid='{$user[$i]}'";
+        	$res=$db->Execute($q);
+        	if($res==false){
 				add_error($db->ErrorMsg());
+			}
 		}
        
 	}

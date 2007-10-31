@@ -29,9 +29,14 @@ if ($_SESSION['logged_in'] != true ) {
 		<br />
         <!-- <a href="#">Forgot your password?</a> -->
         </fieldset>
+        <?php
+         	$acl=shn_acl_is_signup_enabled();
+ 			if($acl==true){
+ 				?>
         <div>
         No account? <a href="index.php?act=signup">Sign Up</a>
         </div>
+        <?php }?>
     </form>
     <hr />
     <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');">Login with an OpenID</a></center>

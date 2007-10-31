@@ -44,7 +44,7 @@ function shn_auth_form_user_del($title="Delete Usert",$mod="admin",$act="del_use
     shn_form_fopen($act,$mod);
     shn_form_fsopen(_("Select User"));
 	$extra_opts['req']=true;
-	$users=shn_auth_user_list(true);
+	$users=shn_auth_user_list(true,false);
 	shn_form_multi_select('users',$users,"Users",null,$extra_opts);
 	//$extra_opts['value']=$_SESSION['user'];
 	shn_form_fsclose();
@@ -150,7 +150,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
 	shn_form_password("Password for Login", "password", null, $extra_opts);
 	shn_form_password("Confirm Password", "re_password", null, $extra_opts);
 	shn_form_fsclose();
-	$roles=_shn_acl_get_roles();
+	$roles=_shn_acl_get_roles(null,false);
     shn_form_fsopen(_("Select Role"));
 	shn_form_select($roles,"Roles",'roles',null,$extra_opts);
     shn_form_fsclose();

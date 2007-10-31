@@ -29,6 +29,13 @@ define(ANONYMOUS_USER,-2);
 define(ADMIN,1);
 define(REGISTERED,2);
 define(ANONYMOUS,3);
+define(SUPERUSER,4);
+define(ORGADMIN,5);
+define(VOLCOORDINATOR,6);
+define(CAMPADMIN,7);
+
+define(ADMINUSER,1);
+
 $crud_arr= array(
 			"delete_arr"=>array(1,3,5,7,9,11,13,15),
 			"update_arr"=>array(2,3,6,7,10,11,14,15),

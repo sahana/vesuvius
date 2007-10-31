@@ -366,7 +366,7 @@ function shn_acl_adduser_to_role($user,$role){
 	return $res;
 }
 
-function _shn_acl_get_roles($user=null){
+function _shn_acl_get_roles($user=null,$anonymous=true){
 	global $global;
 	$db=$global['db'];
 	$roles=array();
@@ -379,13 +379,17 @@ function _shn_acl_get_roles($user=null){
 
 	$res=$db->Execute($q);
 	if(($res==null) ||($res->EOF)){
-		$roles[ANONYMOUS]="Anonymous User";
+		if($anonymous==true){
+			$roles[ANONYMOUS]="Anonymous User";
+		}
 		return $roles;
 	}
 	//	array_push(
 	//	$roles,
 	while(($res!=null) &&(!$res->EOF)){
-		$roles[$res->fields["group_id"]]=$res->fields["group_name"];
+		if(($res->fields["group_id"]!=ANONYMOUS) or($anonymous==true)){
+			$roles[$res->fields["group_id"]]=$res->fields["group_name"];
+		}
 		$res->MoveNext();
 	}
 
@@ -468,6 +472,7 @@ function _shn_acl_is_user_role_only($user,$role){
 	}
 
 }
+
 function shn_acl_is_enabled(){
 	global $global;
 	$db=$global["db"];
@@ -484,6 +489,24 @@ function shn_acl_is_enabled(){
 			
 	}
 }
+
+function shn_acl_is_signup_enabled(){
+	global $global;
+	$db=$global["db"];
+	$q="select value from config where module_id='admin' and confkey='acl_signup_enabled'";
+	$res=$db->Execute($q);
+	if(($res==null) ||($res->EOF)){
+		return true; //by default we allow signup
+	}else{
+		if(($res->fields['value']==1)){
+			return true;
+		}else{
+			return false;
+		}
+			
+	}
+}
+
 
 function shn_acl_is_locking_enabled(){
 	global $global;
@@ -539,22 +562,44 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
 	include_once($global['approot']."/inc/lib_uuid.inc");
 	$db=$global["db"];
-
-	$root=shn_auth_add_user("Admin User",$root_username,$root_passwd,ADMIN,null);
+	
+	$root=shn_auth_add_user("Admin User",$root_username,$root_passwd,ADMIN,ADMINUSER);
 	//add a "root" user to ACL users and add to 'admin' role
 	//add a "registered" user to ACL users and add to 'registered' role
 	$reg_user=shn_auth_add_user("Sahana Registered User",$sahana_username,$sahana_password,REGISTERED,null);
-	$roles=array(ADMIN,REGISTERED,ANONYMOUS);
+	//$roles=array(ADMIN,REGISTERED,ANONYMOUS,SUPERUSER,ORGADMIN,VOLCOORDINATOR,CAMPADMIN);
+	$roles=array(ADMIN,SUPERUSER);
 	//$mods=array("home","pref");
 	$mods=shn_get_all_modules(false);
 	foreach($roles as $role){
 		foreach ($mods as $mod){
-			if(($mod!="admin") or ($role==ADMIN)){
+			if(($mod!="admin") or ($role==ADMIN)or ($role==SUPERUSER)){
 				$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
 				$res=$db->Execute($sql);
 			}
 		}
 	}
+	$roles=array(REGISTERED,ORGADMIN,VOLCOORDINATOR,CAMPADMIN);
+	foreach($roles as $role){
+		foreach ($mods as $mod){
+			if(($mod=="home") or ($mod=="pref")){
+				$sql="insert into sys_group_to_module values({$role},'{$mod}','enabled')";
+				$res=$db->Execute($sql);
+			}
+		}
+	}
+	$role=ORGADMIN;
+	$sql="insert into sys_group_to_module values({$role},'or','enabled')";
+	$res=$db->Execute($sql);
+	$role=CAMPADMIN;
+	$sql="insert into sys_group_to_module values({$role},'cr','enabled')";
+	$res=$db->Execute($sql);
+	$role=VOLCOORDINATOR;
+	$sql="insert into sys_group_to_module values({$role},'vm','enabled')";
+	$res=$db->Execute($sql);
+	$role=ANONYMOUS;
+	$sql="insert into sys_group_to_module values({$role},'home','enabled')";
+	$res=$db->Execute($sql);
 
 	$q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";
 	$res=$db->Execute($q);
@@ -569,6 +614,8 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 
 	$db->Execute($q);
 	$q="insert into config(module_id,confkey,value) values('admin','acl_locking',false)";
+	$res=$db->Execute($q);
+	$q="insert into config(module_id,confkey,value) values('admin','acl_signup_enabled',true)";
 	$res=$db->Execute($q);
 	return $status;
 
@@ -694,7 +741,7 @@ function shn_acl_hmac_sha1($data,$key) {
 
 
 /**
- * Enable Disable ACL
+ * Enable Disable self signup
  *
  * @param boolean $flag true to enable, false to disable.
  */
@@ -702,6 +749,18 @@ function shn_acl_enable($flag=true){
 	global $global;
 	$db=$global["db"];
 	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_enabled'";
+	$res=$db->Execute($q);
+}
+
+/**
+ * Enable Disable ACL
+ *
+ * @param boolean $flag true to enable, false to disable.
+ */
+function shn_acl_enable_signup($flag=true){
+	global $global;
+	$db=$global["db"];
+	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_signup_enabled'";
 	$res=$db->Execute($q);
 }
 ?>
