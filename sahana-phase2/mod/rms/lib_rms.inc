@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 
-
+include_once $global['approot']."/inc/lib_errors.inc";
 function _shn_rms_print_hedder($string=null)
 {
 	if (!$string)
@@ -274,6 +274,7 @@ function _shn_rms_add_requester_loc($id, $location)
     global $global;
     
     $poc_uuid = $id;
+    
     $location_id = $location['id'];
     $type = $location['type'];
     $address = $location['address'];
@@ -1085,9 +1086,10 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
     else
     {
 ?>
-        <strong>Requester ID</strong> :  <?=$reqstr_id?>
-        <br />
+        <!--  strong>Requester ID</strong> :  =$reqstr_id?>-->
+        
         <strong>Requester Name</strong> :  <?=$requester['name']?>
+        <br />
 <?php
     }
     print '</div>';
@@ -1581,6 +1583,64 @@ function _shn_rms_check_catalog_item($itm)
     else
     {
 	return false;
+    }
+}
+
+
+function _shn_rms_requester_add_new_loc_()
+{
+    global $global;
+    
+    $p_uuid = $_SESSION['rms_reqstr_id'];
+    if($_POST['1'] != null) {
+    	$_SESSION['ims_1']=$_POST['1'];
+    	$_SESSION['ims_2']=$_POST['2'];
+    	$_SESSION['ims_3']=$_POST['3'];
+ 
+    	$location_id=_shn_ims_get_locid();
+
+    	if(_shn_rms_requester_search_loc_($location_id)) {
+    		add_error(_("Location already exists"));
+    	}else{
+	
+    		$sql = "INSERT INTO ext_location( " .
+                                           "p_uuid, " .
+                                           "loc_uuid) " .
+            	"VALUES ('$p_uuid', '$location_id')";
+    
+    		if ($global['db']->Execute($sql) === false)
+    		{
+        		$msg = $global['db']->ErrorMsg();
+        		add_error($msg . '<br />' . $sql);
+        		display_errors();
+        		return false;
+    		}
+    		else
+    		{
+    			add_confirmation(_("Location added successfully"));
+        		return true;
+    		}
+    	}
+    }else{
+    	
+    	add_warning(_("Select the location first"));
+
+    }
+}
+
+
+function _shn_rms_requester_search_loc_($loc_id)
+{
+	global $global;
+	
+	$sql = "SELECT loc_uuid FROM ext_location WHERE loc_uuid ='$loc_id'";
+    $rec = $global['db']->Execute($sql); 
+           
+    if ($rec->EOF)
+    {
+     	return false;
+    }else{
+        return true;	
     }
 }
 ?>

@@ -73,8 +73,6 @@ function _shn_rms_requester($requester_id=null)
     
 }
 
-
-
 function _shn_rms_requester_conf($id)
 {
     _shn_html_print_alert(_("You seem to be a new requester, Please confirm the contact information and enter missing " .
@@ -110,26 +108,47 @@ function _shn_rms_location($id = null)
     _shn_rms_ajax_init('loc_camp');
     
     print '<div class="info">';
-    print _("<strong>Select Request Location:</strong><br /> ");
-    print _("Please select the Location Type, ");
-    print _("Then select an <strong>Existing Location</strong> that is associated with the requester or ");
-    print _("if it doesn't contain the location you need create a <strong>New Location</strong>.'");
-    print '<br />';
-    print '</div>';
-?>
-  <input type="radio" name="location" value="Camp" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_camp","")' /> Camp  
-  <input type="radio" disabled="disabled" name="location" value="Organization" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_org","")' /> Organization
-  <input type="radio" checked="Checked" name="location" value="Other" onClick='makeRequest("stream.php?mod=rms&amp;act=req_new&amp;seq=ax_loc_other","")' /> Other
-<?php
-    print '<br />';
-    print '<br />';
-    print '<div id="loc_camp">';
-  //  _shn_rms_ax_location_other();
-   
+    //print _("<strong>Select Request Location:</strong><br /> ");
+    //print _("Please select the Location Type, ");
+    //print _("Then select an <strong>Existing Location</strong> that is associated with the requester or ");
+    //print _("if it doesn't contain the location you need create a <strong>New Location</strong>.'");
+    //print '<br />';
+    //print '</div>';
+
+    //print '<br />';
+    //print '<br />';
+    //print '<div id="loc_camp">';
+  //  _shn_rms_ax_location_other();*/
+  
     print '</div>';
     
-    shn_form_submit(_("Next"));
+	if (_shn_rms_get_location_array($id))
+	{
+		$loc = _shn_rms_get_location_array($id);
+		_shn_rms_display_location_array($loc);
+	}
+    //=========================<New code>=================================
+    //shn_form_hidden(array('seq'=>'ax_loc_other'));
+	//_shn_rms_ax_location_other();
+    print '<br />';
+    shn_form_fopen("req_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'add_loc'));
+ 	$extra_opts["camps"]=true;
+    $extra_opts["org"]=true;
+    
+    shn_form_fsopen(_("Select New Requester Location"));
+   	shn_location(null,null,null,$extra_opts);
+   	shn_form_fsclose();
+    
+    //===================<New code/>====================================*/
+     
+   	shn_form_submit(_("Next"));
+    //------------------------
+   
     shn_form_fsclose();
+    //----------------------------
+    
+    
       
         
     
@@ -207,10 +226,14 @@ function _shn_rms_ax_location_other($id=null)
 	    $location_array=array();
 	   
 	    $bsd_village = _shn_rms_get_requester_locs($id);
+	    $info=_("Select a location where the request is related.")."<br />";
+        $info.=_("If you want to make the request for a new location, add the location first.")."<br />";
+	    ?><div class="info"><?php echo $info;?></div><br /><?
 	    
 	    shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'get_loc'));
         shn_form_fsopen(_("Existing Location"));
+        
 
        for($i=0;$i<count($bsd_village);$i++){
 	    
@@ -228,11 +251,11 @@ function _shn_rms_ax_location_other($id=null)
         shn_form_fclose();
 	
     }     
-           
-	    shn_form_fsopen("Location");
+        //==============<newly commented>==========   
+	    /*shn_form_fsopen("Location");
 	    $range=array("start"=>1,"end"=>5);
 	    shn_location($range,$value=null,$parent=null,$extra_opts=null);
-	    //_shn_rms_location_add();
+	    _shn_rms_location_add();
 	
 	    shn_form_fsclose();
 
@@ -243,8 +266,10 @@ function _shn_rms_ax_location_other($id=null)
 
 
         shn_form_submit(_("Add Location"));
-        shn_form_fclose();
-        print '</div><br />';      
+        shn_form_fclose();*/
+    //=============<newly commented/>==========================
+    
+        print '</div>';     
       
     }
     
@@ -253,7 +278,8 @@ function _shn_rms_ax_location_other($id=null)
 
 function _shn_rms_location_add()
 {
-    global $global;
+    /*=================<newly commented>=======================
+	global $global;
     $db=$global['db'];
 
     $_SESSION['ims_1']=$_POST['1'];
@@ -277,7 +303,7 @@ function _shn_rms_location_add()
     /*$loc['type'] = trim($_POST['opt_person_loc_type']);
     $loc['postcode'] = trim($_POST['postcode']);
     $loc['address'] = trim($_POST['loc_address']);
-    $loc['gis'] = trim($_POST['gis']);*/
+    $loc['gis'] = trim($_POST['gis']);
     
     if ($bsd_village == '')
     {
@@ -302,7 +328,62 @@ function _shn_rms_location_add()
     _shn_rms_add_requester_loc($id, $loc);
     _shn_rms_location();
     }
+    ====================<newly commented/>============================*/
+	
+	/*=====================<newly added>============================
+	global $global;
+    $db=$global['db'];
+
+    $_SESSION['ims_1']=$_POST['1'];
+    $_SESSION['ims_2']=$_POST['2'];
+    $_SESSION['ims_3']=$_POST['3'];
+    $_SESSION['ims_4']=$_POST['4'];
+    $_SESSION['ims_5']=$_POST['5'];
+
+    $bsd_village=_shn_ims_get_locid();
+    print $bsd_village;
+    $location=_shn_rms_get_location_name($bsd_village);
     
+
+    $loc['name'] = $location;
+    //old-----$loc['id'] = trim($_POST['location_id']);
+    $loc['id'] = $bsd_village;
+    $loc['type'] = null;
+    $loc['postcode'] = null;
+    $loc['address'] = null;
+    $loc['gis'] = null;
+    /*$loc['type'] = trim($_POST['opt_person_loc_type']);
+    $loc['postcode'] = trim($_POST['postcode']);
+    $loc['address'] = trim($_POST['loc_address']);
+    $loc['gis'] = trim($_POST['gis']);*/
+    
+   /*if ($bsd_village == '')
+    {
+        add_error(_("Location is Essential. Please Complete and submit again"));
+        display_errors();
+        _shn_rms_location();
+    }
+    else
+    {
+        $id = $_SESSION['rms_reqstr_id'];
+        print _shn_rms_add_requester_loc($id, $loc);*/
+	
+    
+
+    
+    //print $bsd_village;
+    //--new--shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+
+    //$q="INSERT INTO location_details(poc_uuid,location_id) VALUES('{$id}','{$bsd_village}')";
+    //$res=$db->Execute($q);
+
+    ///_shn_rms_add_requester_loc($id, $loc);
+    ///_shn_rms_location();
+    //}
+    
+	//====================<newly added/>============================
+	
+	
 }
 
 function _shn_rms_items($category = null)
@@ -383,7 +464,6 @@ function _shn_rms_items($category = null)
 function _shn_rms_get_subcat($cat_id)
 {
 	$car_arr = _shn_rms_get_sub_cat($cat_id);
-
     if (empty($car_arr))
     {
 	$item_arr = array();
@@ -401,7 +481,7 @@ function _shn_rms_get_subcat($cat_id)
             {
                 $items[$item['ct_uuid']] = $item['name'];
             }
-                
+                //NSERT INTO ext_location( p_uuid, location_id) VALUES ('sahap-17', '')
         }
         
         if (!isset($items) || empty($items))
@@ -464,11 +544,73 @@ function _shn_rms_show_items()
     }
     
 }
+/**
+ * return location array(with parent locations)
+ * fro
+ */function _shn_rms_get_location_array($p_id)
+{
+	global $global;
+	$db = $global['db'];
+	 
+	$sql = "SELECT DISTINCT loc_uuid FROM ext_location WHERE p_uuid='$p_id'";
+	 
+	$rec = $db->Execute($sql);
+	$loc =array();
+	$i = 0;
+	if ($rec === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	} elseif (1 <= $rec->RecordCount()){
+		While(!$rec->EOF)
+		{
+			 
+			$loc[$i] = $rec->fields['loc_uuid'];
+			$rec->MoveNext();
+			$i++;
+		}
+
+		return $loc;
+	}
+}
+
+function _shn_rms_display_location_array($loc)
+{
+	$locations_array=array();
+
+	$bsda_village = $loc;
+
+	shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
+	$info=_("Select a location where the request is related.")."<br />";
+        $info.=_("If you want to make the request for a new location, add the location first.")."<br />";
+	    ?><div class="info"><?php echo $info;?></div><br /><?
+	
+	shn_form_hidden(array('seq'=>'get_loc'));
+	shn_form_fsopen(_("Existing Location"));
+
+	for($i=0;$i<count($bsda_village);$i++){
+		 
+		$name = _shn_org_location_string($bsda_village[$i]);   //return the location
+		 
+		array_push($locations_array,$name);
+	}
+		shn_form_select($locations_array,_("Location"), 'loc');
+		
+		shn_form_fsclose();
+        shn_form_submit(_("Next"));
+        print '<br />';
+        print '<br />';
+        
+        shn_form_fclose();
+}
 
 switch ($_REQUEST['seq'])
 {
     case '':
             //reset the SESSION variables
+    	    $_SESSION['flag1']=null;
             $_SESSION['rms_req_id'] = null;
             $_SESSION['rms_reqstr_id'] = $_SESSION['user_id'];
             
@@ -510,11 +652,16 @@ switch ($_REQUEST['seq'])
             break;
             
     case 'add_loc':
-            _shn_rms_location_add();
+            
+    	_shn_rms_requester_add_new_loc_();
+    	_shn_rms_location(); 
+    	//shn_form_hidden(array('seq'=>''));
+    	//_shn_rms_location_add();
             break;
             
     case 'get_loc':
-    	$loc = shn_location_get_form_submit_loc();
+    	
+    	    $loc = shn_location_get_form_submit_loc();
         //    $loc = trim($_POST['loc']);
             $_SESSION['rms_reqstr_loc'] = $loc;
             $_SESSION['rms_items'] = null;
@@ -626,5 +773,6 @@ switch ($_REQUEST['seq'])
                   '[ <a href="index.php?mod=rms">RMS Home</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=req_new">New Request</a> ]';
             break;
+
 }
 ?>
