@@ -184,6 +184,7 @@ INSERT INTO sys_user_groups VALUES ( 2, 'Registered User');
 INSERT INTO sys_user_groups VALUES ( 3, 'Anonymous User');
 INSERT INTO sys_user_groups VALUES ( 4, 'Super User (Head of Operations)');
 INSERT INTO sys_user_groups VALUES ( 5, 'Organization Admin');
+INSERT INTO sys_user_groups VALUES ( 6, 'Volunteer Coordinator');
 
 -- INSERT DEFAULT SYS USER GROUP TO DATA CLASSIFICATION MAPPINGS
 -- admin role
@@ -238,6 +239,16 @@ INSERT INTO sys_group_to_data_classification VALUES ( 5, 6,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 5, 8,"crud");
 
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 1,"crud");
+-- no perms
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
+
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 
 -- TABLE NAMES ARE SORTED IN ALPHEBATICAL ORDER
@@ -254,7 +265,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "audit", 6);
 -- camp_general
 
 -- camp_reg
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_reg", 5);
 
 -- camp_services
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "camp_services", 7);
