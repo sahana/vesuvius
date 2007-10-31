@@ -1072,8 +1072,8 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
     
     if (!$summary)
     {
-        $tmp_str = '<strong>' . _("RequesterID") . '</strong>';
-        $tb_reqstr[] = array($tmp_str , $reqstr_id);
+        ///$tmp_str = '<strong>' . _("RequesterID") . '</strong>';
+        //$tb_reqstr[] = array($tmp_str , $reqstr_id);
         $tb_reqstr[] = array('<strong>' . _("Full Name") . '</strong>', $requester['name']);
         $tb_reqstr[] = array('<strong>' . _("Address") . '</strong>', $requester['address']);
         $tb_reqstr[] = array('<strong>' . _("email") . '</strong>', $requester['email']);
@@ -1086,7 +1086,7 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
     else
     {
 ?>
-        <!--  strong>Requester ID</strong> :  =$reqstr_id?>-->
+        
         
         <strong>Requester Name</strong> :  <?=$requester['name']?>
         <br />
@@ -1133,8 +1133,8 @@ function _shn_rms_view_location($loc_id, $summary=false)
     $location = _shn_rms_get_location($loc_id);
     if (!$summary)
     {
-        $tmp_str = '<strong>' . _("Location ID") . '</strong>';
-        $tb_loc[] = array($tmp_str , $loc_id);
+        //$tmp_str = '<strong>' . _("Location ID") . '</strong>';
+        //$tb_loc[] = array($tmp_str , $loc_id);
         $tb_loc[] = array('<strong>' . _("Name") . '</strong>', $location['location_id']);
         //$tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
        // $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
@@ -1147,8 +1147,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
     else
     {
 ?>
-        <strong>Location ID</strong> :  <?=$location['location_id']?>
-        <br />
+       
         <strong>Location Address</strong> :  <?=$location['address']?>
 <?php       
     }

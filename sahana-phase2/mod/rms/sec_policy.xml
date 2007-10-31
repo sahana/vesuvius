@@ -17,6 +17,7 @@
 					<table perm="r">rms_priority</table>
 					<table perm="rc">rms_request</table>
 					<table perm="rc">rms_req_item</table>
+					<table perm="rc">ex_location</table>
 			</tables>
 		</funct>
 		<funct id="shn_rms_req_ls">
