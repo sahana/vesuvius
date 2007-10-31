@@ -123,9 +123,10 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
        $requesters = _shn_rms_get_requesters();
         
  //       $req_loc = _shn_rms_get_location($r['loc_uuid']);
-        $locations[$r['loc_uuid']] = $req_loc['location_id'];
+        
   //      
         $locations = _shn_rms_get_locations();
+        $locations[$r['loc_uuid']] = $req_loc['location_id'];
 	//print_r($locations);
 	/*$location_array=array();
 	print(count($locations));
@@ -138,7 +139,6 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     //Result table hedder
     $th_res[] = array (
-                         _("ID"), 
                          _("Requester"), 
                          _("Location"), 
                          _("Date"), 
@@ -159,6 +159,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
 	//$req_loc = _shn_ims_get_location($inv_id);
 
 	$location_name=_shn_rms_get_location_name($req_loc['location_id']);
+	//$location_name=_shn_rms_get_location_name($req_loc['loc_uuid']);
 
 
 	if($req_loc['opt_person_loc_type']=='')
@@ -182,7 +183,8 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                     '&amp;seq=view_req&amp;req_id=' . $req_id .'>' .
                     _("Details") . '</a>';
         
-        $tb_res[] = array ($req_id, $reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
+        //$tb_res[] = array ($req_id, $reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
+        $tb_res[] = array ($reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
     }
     
     if (1 <= count($rs_arr))
