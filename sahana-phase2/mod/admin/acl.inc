@@ -71,12 +71,12 @@ function _shn_admin_acl_enable_mods_cr()
     		$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
     		$res=$db->Execute($sql);
    		}
-    	$mods=shn_get_all_modules(false);
+    	//$mods=shn_get_all_modules(false);
     	$role=1;
-    	foreach($mods as $mod) {
-    	$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
+    	//foreach($mods as $mod) {
+    	$sql="INSERT INTO sys_group_to_module VALUES({$role},'admin','enabled')";
     	$res=$db->Execute($sql);
-    	}
+    	//}
 	}
 	shn_acl_form_enable_mods();
 }
@@ -85,7 +85,10 @@ function _shn_admin_acl_enable_acl()
 {
 	shn_acl_form_enable_acl();
 }
-
+function _shn_admin_acl_enable_signup()
+{
+	shn_acl_form_enable_signup();
+}
 function _shn_admin_acl_enable_acl_cr($show=false)
 {
 	global $global;
@@ -109,6 +112,21 @@ function _shn_admin_acl_enable_acl_cr($show=false)
 		}
 
 	}
+	
+}
+function  _shn_admin_acl_enable_signup_cr()
+{
+	global $global;
+	//$db=$global["db"];
+	
+	if($_POST['action']=='enable') {
+		shn_acl_enable_signup(true);
+	}else {
+		shn_acl_enable_signup(false);
+	}
+		//if(($show==true)&&( shn_acl_check_perms("admin","acl_enable_acl_cr")==true)){
+	shn_acl_form_enable_signup();
+	
 	
 }
 
@@ -275,7 +293,9 @@ function _shn_admin_acl_user_edit_roles_cr($module=NULL,$error=false)
       		shn_acl_adduser_to_role($user,$role);
    		}
 	}
-
+	$user=ADMINUSER;
+	$role=ADMIN;
+	shn_acl_adduser_to_role($user,$role);
 	_shn_admin_acl_user_menu();
 	shn_acl_form_user_edit_roles();
 }

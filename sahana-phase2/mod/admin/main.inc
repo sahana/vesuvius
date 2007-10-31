@@ -317,6 +317,18 @@ function shn_admin_acl_enable_acl_cr()
     
    _shn_admin_acl_enable_acl_cr();
 }
+function shn_admin_acl_enable_signup()
+{
+    
+   _shn_admin_acl_enable_signup();
+}
+
+function shn_admin_acl_enable_signup_cr()
+{
+    
+   _shn_admin_acl_enable_signup_cr();
+}
+
 
 function shn_admin_acl_enable_locking()
 {

@@ -69,6 +69,7 @@ function _shn_admin_mainmenu()
 	shn_sub_mod_menuitem("acl_enable_acl", _("Enable/Disable ACL"), 'admin');
 	shn_sub_mod_menuitem("acl_enable_mods", _("Enable/Disable Modules"), 'admin');
 	shn_sub_mod_menuitem("acl_enable_locking", _("Enable/Disable Password Locking"), 'admin');
+	shn_sub_mod_menuitem("acl_enable_signup", _("Enable/Disable Self Signup"), 'admin');
     shn_sub_mod_menuitem("acl_event_log", _("Event Log"), 'admin');
 
     shn_sub_mod_menuclose();

@@ -43,8 +43,8 @@
 				<table perm="r">config</table>
 				<table perm="cr">users</table>
 				<table perm="cr">alt_logins</table>
-				<table perm="c">person</table>
-				<table perm="cu">person_uuid</table>
+				<!--<table perm="c">person</table>
+				<table perm="cu">person_uuid</table>-->
 				<table perm="c">sys_user_to_group</table>
 				<table perm="c">into password_event_log</table>
 		</tables>
