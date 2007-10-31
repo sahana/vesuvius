@@ -20,6 +20,17 @@ CREATE TABLE rms_request (          -- rms_request table
     FOREIGN KEY (user_id) REFERENCES users (p_uuid)
 );
 
+DROP TABLE IF EXISTS `ext_location`;
+CREATE TABLE ext_location (         -- existing location table for a particular    
+    p_uuid VARCHAR(60) NOT NULL,  -- unique person id(requester id) for a particular user
+    loc_uuid VARCHAR(60),        -- location uuid 
+    PRIMARY KEY (p_uuid),(loc_uuid)
+    FOREIGN KEY (loc_uuid) REFERENCES rms_request(loc_uuid),
+    FOREIGN KEY (p_uuid) REFERENCES users (p_uuid)
+);
+
+
+
 
 DROP TABLE IF EXISTS `rms_req_item`;
 CREATE TABLE rms_req_item (           -- rms_req_item table
