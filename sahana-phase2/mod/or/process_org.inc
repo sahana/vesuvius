@@ -345,7 +345,7 @@ function _shn_or_edit_org()
     }else{
         		$type="opt_org_sub_type";	
     }
-    echo $_POST{"org_name"};
+ 
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
     list($error,$org_type)=(shn_validate_opt_field($type,$_POST{$type},"Organization Type",$VARCHAR,false))?array($error,$_POST{$type}):array(true,NULL);
     list($error,$sector)=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
