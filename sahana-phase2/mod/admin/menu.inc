@@ -110,13 +110,14 @@ function _shn_admin_acl_user_roles_menu($user_home=false)
 	}
 }
 
-function _shn_admin_acl_privacy_menu()
+function _shn_admin_acl_privacy_menu($privacy_home=false)
 {
 	shn_tabmenu_open();
-	shn_tabmenu_item("acl_data_classifications", _("Data Classifications"), 'admin');
+	//shn_tabmenu_item("acl_data_classifications", _("Data Classifications"), 'admin');
     shn_tabmenu_item("acl_data_privacy", _("Data Classifications & Role Permissions"), 'admin');
     shn_tabmenu_item("acl_data_classifications_tables", _("Data Classifications & System Data "), 'admin');
 	shn_tabmenu_close();
+	if($privacy_home==true){
  ?>
 
 	<br>
@@ -129,6 +130,7 @@ function _shn_admin_acl_privacy_menu()
 	</ul>
 	</div>
 <?php
+	}
 }
 
 function _shn_admin_acl_user_menu()

@@ -293,7 +293,7 @@ function shn_admin_acl_user_roles()
 function shn_admin_acl_privacy()
 {
     
-   _shn_admin_acl_privacy_menu();
+   _shn_admin_acl_privacy_menu(true);
 }
 
 function shn_admin_acl_enable_mods()
@@ -441,6 +441,7 @@ function shn_admin_acl_user_edit_roles_cr($error=false)
 
 function shn_admin_acl_data_privacy()
 {
+	 _shn_admin_acl_privacy_menu();
 	_shn_admin_acl_data_privacy();
 }
 function shn_admin_acl_role_edit_perms()
@@ -455,6 +456,7 @@ function  shn_admin_acl_role_edit_perms_cr()
 
 function shn_admin_acl_data_classifications_tables()
 {
+	_shn_admin_acl_privacy_menu();
 	_shn_admin_acl_data_classifications_tables();
 }
 
