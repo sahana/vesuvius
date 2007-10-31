@@ -721,7 +721,7 @@ function shn_setup_acl(){
 	}
 	global $global;
 	include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
-	return (shn_acl_install($_POST['admin_name'],$_POST['root_pwd'],$_POST['user_name'],$_POST['user_pwd']));
+	return (shn_acl_install($_POST['admin_name'],$_POST['root_pwd'],$_POST['user_name'],$_POST['user_pwd'],$_POST['acl']=='enable'));
 
 }
 

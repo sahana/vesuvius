@@ -44,12 +44,6 @@ function shn_acl_check_valid_policy(){
         }
     }
 	
-	
-	$xmlfile = 'C:/php/xmlfiles/candidate.xml';
-	
-	//Load the xml document in the DOMDocument object
-	
-
 }
 function shn_acl_log_error($comment,$p_uuid=null,$user_name=null,$event_type=1){
 	global $global;
@@ -530,10 +524,11 @@ function shn_acl_is_web_service_auth_enabled(){
  * @param String $root_passwd The sahana administrator password.
  * @param String $sahana_username The sahana normal user's username.
  * @param String $sahana_password The sahana normal user's password.
+ * @param boolean $enable_acl Whether to enable acl. true to enable, false to disable.Defaults to false.
  * @param String $extra_opts The extra options.
  * @return boolean Whether the operation succeeded.
  */
-function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_password,$extra_opts=null){
+function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_password,$enable_acl=false,$extra_opts=null){
 	global $global;
 	global $conf;
 	$status=true;
@@ -562,7 +557,7 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	$q="insert into config(module_id,confkey,value) values('ws','authentication',true)";
 	$res=$db->Execute($q);
 
-	if($_POST["acl"]=='enable'){
+	if($enable_acl){
 		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',true)";
 	}else{
 		$q="insert into config(module_id,confkey,value) values('admin','acl_enabled',false)";
@@ -691,5 +686,18 @@ function shn_acl_hmac_sha1($data,$key) {
 	)
 	);
 	return $hmac;
+}
+
+
+/**
+ * Enable Disable ACL
+ *
+ * @param boolean $flag true to enable, false to disable.
+ */
+function shn_acl_enable($flag=true){
+	global $global;
+	$db=$global["db"];
+	$q="UPDATE config SET value=true WHERE module_id='admin' AND confkey='acl_enabled'";
+	$res=$db->Execute($q);
 }
 ?>
