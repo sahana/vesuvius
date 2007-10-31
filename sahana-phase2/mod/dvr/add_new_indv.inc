@@ -27,6 +27,7 @@ include_once ($global['approot'] . '/inc/lib_errors.inc');
 include_once ($global['approot'] . '/inc/lib_image.inc');
 include_once ($global['approot'] . '/mod/or/lib_or.inc');
 include_once ($global['approot'] . '/inc/lib_uuid.inc');
+include_once ($global['approot'] . '/inc/lib_ajax.inc');
 
 //include_once ($global['approot'] . '/inc/handler_upload.inc');
 
@@ -60,22 +61,43 @@ global $conf;
 	$extra_opts['value'] = $_SESSION['dvr']['person']['typ_of_grp'];
 	$extra_opts['sort'] = 'option_code';
 //print 'installed'.$conf['acl_base'];
-if($conf['acl_base']=='installed')
+/*if($conf['acl_base']=='installed')
 
-	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[1].submit()', $extra_opts);
+	shn_form_opt_select('opt_group_type', _("Type of Group"), '', $extra_opts);
 else
-	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[0].submit()', $extra_opts);
-
+	shn_form_opt_select('opt_group_type', _("Type of Group"), '', $extra_opts);
+*/
 	$type = $_POST['opt_group_type'];
 
 	$heads = _shn_dvr_getgroupheadspertype($type);
 //print 'fff'.count($heads);
 //print 'gggg'.$heads[1];
+
+
 	array_push($heads, 'Other');
 	$extra_opts['help'] = _("Please Select the Head Name");
 	$extra_opts['req'] = false;
-	$extra_opts['value'] = $_SESSION['dvr']['person']['group_head_name'];
-	shn_form_select($heads, 'Select the group head', 'head name', '', $extra_opts);
+	$extra_opts['value'] = $_SESSION['dvr']['person']['head_name'];
+//	shn_form_select($heads, 'Select the group head', 'head name', '', $extra_opts);
+
+
+//shn_ajax_initiate_request_famaily();
+	//shn_ajax_add_suggest_family('family_name','familyHint','family_id');
+	//shn_form_text(_('Group head'),'family_name',"size=\"30\" autocomplete=off onkeyup=\"get_family(this.value,'familyHint','index.php?mod=dvr&act=get_family&stream=text')\"" ,$extra_opts);
+	shn_ajax_text_look_up(array('Group head'),array('family_name'),array('familyHint'),'index.php?mod=dvr&act=get_family&stream=text',$value=null,true,$extra_opts=null);
+	//echo '<div id="familyHint"></div>';
+	?>
+	 <input type="hidden" id="family_id" name="family_id" />
+	
+
+<?
+
+//echo $_POST['family_id'];
+
+
+
+
+
 //$heads=	$_POST['heads'];
 
 //print   'head details r'.$heads;
@@ -94,7 +116,7 @@ else
 	$extra_opts['value'] = $_SESSION['dvr']['person']['family_name'];
 	$extra_opts['help'] = _("Family name, or the surname could be specified for matching of people with similar Family names");
 	$extra_opts['req'] = false;
-	shn_form_text(_('Family Name'), 'family_name', 'size="30"', $extra_opts);
+	shn_form_text(_('Family Name'), 'family_nme', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['local_name'];
 	$extra_opts['help'] = _("You may also specify the local name, even in different script than English");
@@ -220,12 +242,16 @@ function shn_dvr_set_person_major_details() {
 	$_SESSION['dvr']['person']['typ_of_grp'] = $_POST['opt_group_type'];
 
 	//print 'head name is' . $_POST['head_name'];
-	$_SESSION['dvr']['person']['head_name'] = $_POST['head_name'];
+	$_SESSION['dvr']['person']['head_name'] = $_POST['family_name'];
 	//$group=_shn_dvr_get_group_id($_POST['head_name']);
 
-	$_SESSION['dvr']['person']['group_id'] = $_SESSION['dvr']['person']['head_name']; //group id 
+	//$_SESSION['dvr']['person']['group_id'] = $_SESSION['dvr']['person']['head_name']; //group id 
+	$_SESSION['dvr']['person']['family_id'] = $_POST['family_id']; //group id 
+	
+	
+	
 	$_SESSION['dvr']['person']['full_name'] = $_POST['full_name'];
-	$_SESSION['dvr']['person']['family_name'] = $_POST['family_name'];
+	$_SESSION['dvr']['person']['family_name'] = $_POST['family_nme'];
 	$_SESSION['dvr']['person']['local_name'] = $_POST['local_name'];
 	$_SESSION['dvr']['person']['dob'] = $_POST['dob'];
 	$_SESSION['dvr']['person']['opt_age_group'] = $_POST['opt_age_group'];
@@ -326,10 +352,10 @@ function _shn_dvr_individual_validate_error() {
 	$gt = $_POST['opt_group_type'];
 	$full_name = $_POST['full_name'];
 
-	if (trim($gt) == null | trim($gt) == '===') {
+	/*if (trim($gt) == null | trim($gt) == '===') {
 		add_error(_("Please  select the group type"));
 		$error_flag = true;
-	}
+	}*/
 
 	if (trim($full_name) == null | trim($full_name) == '') {
 		add_error(_("Please fill the full name"));
@@ -385,6 +411,7 @@ shn_dvr_set_person_physical_details();
 
 	shn_form_fsopen('Group Type and Personal details');
 	shn_form_label(_("Group type: "), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['typ_of_grp']));
+//	print 'date of birth is'.$_SESSION['dvr']['person']['family_id'];
 	shn_form_label(_("Full name"), $_SESSION['dvr']['person']['full_name']);
 	shn_form_label(_("Family name"), $_SESSION['dvr']['person']['family_name']);
 	shn_form_label(_("Local name"), $_SESSION['dvr']['person']['local_name']);
