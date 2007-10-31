@@ -62,7 +62,7 @@ function _shn_dvr_group_validate_error() {
 $email=$_POST['email'];
 if(!shn_valid_email($email,false))
 {
-add_error(_("Invalid Email entered"));	
+add_error(_("Invalid email entered"));	
 $error_flag = true;
 }
 	

@@ -556,4 +556,101 @@ function shn_dvr_edit_individual() {
 					}
 
 }
+
+
+
+function _shn_ajax_get_data(){
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	$head_names= array ();
+	$count=0;
+
+	$sql="";
+	
+	//$sql="select pd.apt_no as apt_no,g.g_uuid as gid,p.full_name as first_name,p.family_name as last_name,co.contact_value as address from person_uuid p,group_details g,person_details pd,contact co,resource_to_shelter rdnyc where rdnyc.transfer_status='N' and rdnyc.x_uuid=g.g_uuid and g.head_uuid=p.p_uuid and pd.p_uuid=g.head_uuid and pd.p_uuid=p.p_uuid and co.pgoc_uuid=p.p_uuid and co.pgoc_uuid=g.head_uuid and co.pgoc_uuid=pd.p_uuid and co.opt_contact_type='address'";
+		
+	$q = "select p.full_name as full_name,pg.g_uuid as groupid from person_uuid p,pgroup pg,group_details gd where p.p_uuid=gd.head_uuid and pg.g_uuid=gd.g_uuid";
+	$res = $db->Execute($q);
+	while(!$res->EOF)
+	{
+	//$head_names[$res->fields['groupid']]=$res->fields['full_name'];
+	
+	$head_names[$count]=$res->fields['groupid'].';'.$res->fields['full_name'];
+	$count++;
+	
+	$res->MoveNext();
+	}
+	return $head_names;
+	
+}
+
+
+
+
+
+// Fill up array with data
+function shn_ajax_send_data(){
+	$id=null;
+	$name=null;
+	$data=_shn_ajax_get_data();
+	
+    for($j=0;$j<count($data);$j++){
+    	list($id,$name)=split(';',$data[$j]);
+    	$id_array[$j]=$id;
+    	$name_array[$j]=$name;
+    }
+   
+$input=$_GET["input"];
+$print=$_GET["print"];
+if (strlen($input) > 0)
+{
+  $hint="";
+  for($i=0; $i<count($data); $i++)
+  {
+  if (strtolower($input)==strtolower(substr($name_array[$i],0,strlen($input))))
+    {
+    if ($hint=="")
+      {
+      $hint=':'.$data[$i];
+      }
+    else
+      {
+      $hint=$hint.':'.$data[$i];
+      }
+    }
+  }
+}
+$hint=$print.':'.substr($hint,strpos($hint,':')+1,strlen($hint));
+
+if ($hint == "")
+{
+//$response="no suggestion";
+}
+else
+{
+$response=$hint;
+}
+
+
+echo $response;
+return $response;
+}
+
+
+function shn_text_dvr_get_family()
+{
+	global $global;
+	//include_once $global['approot']."/inc/lib_ajax_query.inc";
+  	shn_ajax_send_data();
+  	
+}
+
+
+
+
+
+
+
+
 ?>

@@ -25,7 +25,10 @@ function _shn_dvr_print_header($string = null) {
 
 
 
-
+function _shn_dv2r_get_group_id($full_name)
+{
+	
+}
 
 function _shn_dvr_getchecklist()
 {
