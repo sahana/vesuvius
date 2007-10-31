@@ -144,7 +144,7 @@ function _shn_dvr_commit_individual() {
 	$q2 = "insert into person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['full_name']}','{$_SESSION['dvr']['person']['family_name']}','{$_SESSION['dvr']['person']['local_name']}','')";
 	$db->Execute($q2);
 
-	$group = $_SESSION['dvr']['person']['group_id'];
+	$group = $_SESSION['dvr']['person']['family_id'];
 	
 	if ($group == '0')
 		$group = 'notrelavant';
