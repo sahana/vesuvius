@@ -30,7 +30,7 @@ function shn_xml_rms_new_requests(){
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
     shn_rss_channel_open(_('Newly made Requests'),_('This List contains the newly made requests in Request Aid Management system'));
-    $sql='SELECT r.req_uuid, r.req_date , r.status , r.reqstr_uuid, l.name FROM rms_request AS r LEFT JOIN location AS l ON l.loc_uuid=r.loc_uuid ORDER BY  r.req_date DESC';
+    $sql='SELECT r.req_uuid, r.req_date , r.status , p.full_name , l.name as l_name FROM rms_request AS r LEFT JOIN location AS l ON l.loc_uuid=r.loc_uuid left join person_uuid AS p ON p.p_uuid=r.reqstr_uuid ORDER BY  r.req_date DESC';
 
     define('ADODB_FETCH_ASSOC',2);
     $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
@@ -39,7 +39,12 @@ function shn_xml_rms_new_requests(){
     if (!$res){add_error($global['db']->ErrorMsg());}
     foreach($res as $record){
         $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=rms&amp;act=req_ls&amp;seq=view_req&amp;req_id=".$record['req_uuid'];
-        $desc=_("This is a ").$record['option_description']._(" organization located in ").$loc._(". And it provides the following services - ");
+        $desc=_("This request was made on ").$record['req_date']._(" by ").$record['full_name'].".";
+        $desc.=_("And the requested items are");
+        $sql="select name from rms_req_item as r inner join ct_catalogue as c on c.ct_uuid = r.item_uuid  where req_uuid='{$record['req_uuid']}';";
+        $res = $global['db']->GetAll($sql);
+        foreach($res as $item)
+            $desc.=", ".$item['name'];
         shn_rss_item(_("Req Id ").$record['req_uuid'],$url,$desc);
     }
     shn_rss_channel_close();
