@@ -20,7 +20,23 @@ function shn_xml_rms_new_pledges(){
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
     shn_rss_channel_open(_('Newly made Pledges'),_('This List contains newly made pledges in sahana Request Aid Management system'));
+    $sql='SELECT pl.plg_uuid, pl.plg_date , pl.status , p.full_name FROM rms_pledge AS pl left join person_uuid AS p ON p.p_uuid=pl.donor_uuid ORDER BY  pl.plg_date DESC';
 
+    define('ADODB_FETCH_ASSOC',2);
+    $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
+    $res = $global['db']->SelectLimit($sql,30);
+
+    if (!$res){add_error($global['db']->ErrorMsg());}
+    foreach($res as $record){
+        $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=rms&amp;act=plg_ls&amp;seq=view_plg&amp;plg_id=".$record['plg_uuid'];
+        $desc=_("This pledge was made on ").$record['plg_date']._(" by ").$record['full_name'].".";
+        $desc.=_("And the pledged items are");
+        $sql="select name from rms_plg_item as r inner join ct_catalogue as c on c.ct_uuid = r.item_uuid  where plg_uuid='{$record['plg_uuid']}';";
+        $res = $global['db']->GetAll($sql);
+        foreach($res as $item)
+            $desc.=", ".$item['name'];
+        shn_rss_item(_("Plg Id ").$record['plg_uuid'],$url,"$desc.");
+    }
     shn_rss_channel_close();
     shn_rss_close();
 }
@@ -45,7 +61,7 @@ function shn_xml_rms_new_requests(){
         $res = $global['db']->GetAll($sql);
         foreach($res as $item)
             $desc.=", ".$item['name'];
-        shn_rss_item(_("Req Id ").$record['req_uuid'],$url,$desc);
+        shn_rss_item(_("Req Id ").$record['req_uuid'],$url,"$desc.");
     }
     shn_rss_channel_close();
     shn_rss_close();
