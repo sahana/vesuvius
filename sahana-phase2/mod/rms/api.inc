@@ -1,5 +1,5 @@
 <?php
-/** API of the Organization Registry 
+/** API of the Resquest Management System
 *
 * PHP version 4 and 5
 *
@@ -7,7 +7,7 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+* @author     Ishan Liyanage <ishanul@gmail.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -20,7 +20,7 @@
  */
 global $global;
 include_once $global['approot']."/inc/lib_uuid.inc";
-function shn_rms_make_request($item,$amount,$priority){
+function shn_rms_make_request($item,$amount,$priority,$unit){
 		
 	global $global;
 	$db=$global['db'];
@@ -28,9 +28,9 @@ function shn_rms_make_request($item,$amount,$priority){
 	$requester_uuid = shn_create_uuid('p');
     $status = 'open';
     $user_id = 'u-1';
-    $q1="INSERT INTO rms_req_item (item_uuid,quantity,pri_uuid,req_uuid,unit) VALUES ('$item','$amount','$priority','$req_uuid','')";
+    $q1="INSERT INTO rms_req_item (item_uuid,quantity,pri_uuid,req_uuid,unit) VALUES ('$item','$amount','$priority','$req_uuid','$unit')";
     $q2 = "INSERT INTO rms_request (req_uuid, reqstr_uuid, loc_uuid, status, user_id) " .
-            "VALUES ('$req_uuid', '$reqstr_uuid', '$requester_uuid', '$status', '$user_id')";
+            "VALUES ('$req_uuid', '$requester_uuid', '', '$status', '$user_id')";
     $res1=$db->Execute($q1);
     $res2=$db->Execute($q2);
     if($res1==NULL || $res1==NULL)
@@ -50,7 +50,7 @@ function shn_rms_make_request($item,$amount,$priority){
  * @access public
  */
 
-function shn_rms_new_pledge($item,$amount){
+function shn_rms_new_pledge($item,$amount,$unit){
 	global $global;
 	$db=$global['db'];
 	$plg_uuid = shn_create_uuid('pl');
