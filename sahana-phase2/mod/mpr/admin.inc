@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: admin.inc,v 1.10 2007-01-01 06:44:05 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.11 2007-11-01 15:45:43 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -20,6 +20,8 @@
  */
 
 include_once ($global['approot'] . '/inc/lib_form.inc');
+include_once ($global['approot'] . '/inc/lib_validate.inc');
+
 
 /* {{{ Sub Menus */
 /**
@@ -32,7 +34,7 @@ function shn_mpr_adminmenu() {
 	global $global;
 	$module = $global['module'];
 
-	// Create the module menuj
+	// Create the module menu
 	shn_adm_menuopen(_("Missing Person Registry"));
  
 	shn_adm_menuitem("adm_gen", _("General Configuration"));
@@ -79,7 +81,7 @@ function _shn_mpr_adm_gen_validate() {
 
 		$error_flag = true;
 	} else
-		if (!preg_match("/^[0-9 ]*$/", $limit)) {
+		if (!shn_valid_number($limit)) {
 
 			$error_flag = true;
 			add_error(_("Search limit should be a number"));
@@ -95,7 +97,7 @@ function shn_mpr_insert_to_config($val) {
 	$q1="delete from config where confkey='mod_mpr_pictures_per_page'";
 	 $db->Execute($q1);
 	
-	$q2 = "insert into config values('','mpr','mod_mpr_pictures_per_page','$val')";
+	$q2 = "insert into config values('','mpr','mod_mpr_pictures_per_page','{$val}')";
 	 $db->Execute($q2);
 
 }
@@ -132,6 +134,9 @@ function shn_mpr_adm_images() {
 /* {{{ shn_mpr_adm_age */
 function shn_mpr_adm_opt_age_group() {
 	shn_mpr_adminmenu();
+	//print 'button is'.$_POST['button_name'];
+	
+	
 ?><br /><h2><?=_("Manage Age Groups"); ?></h2>
 <?php
 
@@ -197,6 +202,7 @@ function shn_mpr_adm_opt_skin_color() {
 
 	_shn_mpr_adm_field_options_controller('opt_skin_color');
 }
+
 /* }}} */
 
 /* {{{ */
@@ -299,7 +305,7 @@ function shn_mpr_adm_acl_install() {
 	else
 		$q = "update config set value='installed' where module_id='mpr' and confkey='acl_base'";
 	$res = $db->Execute($q);
-	$msg = _("ACL Base for Missing Person Registry was succesfully installed");
+	$msg = _("ACL Base for Missing Person Registry was successfully installed");
 ?>
     <div id="result_msg">
        <?php echo $msg;?>
@@ -327,14 +333,115 @@ function _shn_mpr_adm_field_options_controller($type) {
 	}
 }
 
+
+function _shn_mpr_delete_option($optioncode)
+{
+	
+global $global;
+	$sql="delete from field_options where option_code='{$optioncode}'";
+$global['db']->Execute($sql);
+}
+
+function is_optioncode_exists($optioncode)
+{
+	$found=false;
+	global $global;
+	$sql="select * from field_options where option_code='{$optioncode}'";
+$res=$global['db']->Execute($sql);
+
+while(!$res->EOF)
+{
+	$code=$res->fields['option_code'];
+$found=true;
+$res->MoveNext();
+}
+return $found;
+}
+
+function _shn_mpr_update_option($optioncode,$optiondescription)
+{
+global $global;
+$sql="update field_options set  option_description='{$optiondescription}' where option_code='{$optioncode}'";
+$global['db']->Execute($sql);
+}
+
+function _shn_mpr_insert_option($field_name,$optioncode,$optiondescription)
+{
+	global $global;
+$sql="insert into field_options (field_name,option_code,option_description) values ('{$field_name}','{$optioncode}','{$optiondescription}')";
+$global['db']->Execute($sql);
+}
+
+
 function _shn_mpr_adm_field_options_form($type) {
 	global $global;
 	global $conf;
+$button_type=$_POST['button_name'];
+if($button_type=='Update')
+{
+	
+	$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '{$type}'";
+	$sel = $global['db']->GetAll($sql);
+		$count=0;
+		foreach ($sel as $row) {
+			
+		$opcode=$row['option_code'];
+		$fname=$row['field_name'];
+		$code=$_POST[$opcode];
+	   $desc= $_POST[$count++];
+		$todelete=$_POST[$count++];
+		//print $code.$todelete;
+if($todelete=='on')
+{
+	
+//print $code;
+	_shn_mpr_delete_option($code);
+}
+	else
+	{
+		if(is_optioncode_exists($code))
+		{//print '1';
+			_shn_mpr_update_option($code,$desc);
+		
+		}
+		else
+		{//print '2';
+			_shn_mpr_insert_option($fname,$code,$desc);
+		}
+		
+		
+		
+		
+		
+	}
+			
+		}
+	
+}
+else if($button_type=='AddNew')
+{
+	
+	$code=$_POST['new_code'];
+	$desc=$_POST['new_desc'];
+	if($code==null | $desc==null)
+	{
+		
+	if($code==null)
+	add_error(_("Please  enter the code"));
+    if($desc==null)
+	add_error(_("Please  enter the description"));
+	display_errors();
+	}
+	else if(is_optioncode_exists($code))
+	{
+		add_error(_("Code already exists"));
+	display_errors();
+	}
+else
+		_shn_mpr_insert_option($type,$code,$desc);
+}
 
-	if ($errors)
-		display_errors();
-
-	$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '$type'";
+	$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '{$type}'";
 	$arr = $global['db']->GetAll($sql);
 	if (!empty ($arr)) {
 		shn_form_fopen('adm_' . $type, null);
@@ -344,23 +451,28 @@ function _shn_mpr_adm_field_options_form($type) {
 		));
 ?>
 <table>
+<script language="JavaScript">
+
+</script>
+
+
 <thead>
     <td><strong><?=_('Code');?></strong></td>
     <td width="100%"><strong><?=_('Description');?></strong></td>
     <td width="100%"><strong><?=_('Delete');?></strong></td>
 </thead>
 <?php
-
+$count=0;
 		foreach ($arr as $row) {
 ?>
 <tr>
-    <td><input type="text" name="code[<?=$row['option_code'];?>]" 
-            value="<?=$row['option_code'];?>" />
+    <td><input type="text" name="<?=$row['option_code'];?>" 
+            value="<?=$row['option_code'];?>"  />
     </td>
-    <td><input type="text" name="description[<?=$row['option_description'];?>]" 
+    <td><input type="text" name="<?=$count++;?>" 
             value="<?=$row['option_description'];?>" />
     </td>
-    <td><input type="checkbox" name="delete[<?=$row['option_code'];?>]" />
+    <td><input type="checkbox" name="<?=$count++;?>" />
     </td>
 </tr>
 <?php
@@ -370,13 +482,13 @@ function _shn_mpr_adm_field_options_form($type) {
 </table>
 <?php
 
-		shn_form_submit(_('Update'));
+		shn_form_submit(_('Update'),"name='button_name'");
 		shn_form_fsclose();
 	}
 	shn_form_fsopen(_('Add New '));
 	shn_form_text(_("Code"), 'new_code');
 	shn_form_text(_("Description"), 'new_desc');
-	shn_form_submit(_('Add New'));
+	shn_form_submit(_('AddNew'),"name='button_name'");
 	shn_form_fclose();
 }
 
