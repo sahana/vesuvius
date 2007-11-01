@@ -20,8 +20,35 @@ function _shn_or_reg_org_cr()
     include_once($global['approot']."/inc/lib_uuid.inc");
     include_once $global['approot']."/mod/gis/gis_fns.inc";
 
-    		$db=$global['db'];
-    		$org_id	=shn_create_uuid('org');
+    $db=$global['db'];
+    $q="select o_uuid from org_main where name='{$_SESSION['org']['name']}'";
+    $res=$db->Execute($q);
+	if(($res==NULL) || ($res->EOF)){
+		//return false;
+	}else{
+		if($_SESSION['org']['same_name_confirm']==false){
+			//shn_form_fopen("reg_org_name_change",null,array("name"=>"confirm_name","req_message"=>false));
+			shn_form_fopen("reg_org_cr",null,array("name"=>"confirm_name","req_message"=>false));
+	    	
+			$msg=_("There is already an Organization by the name ")."<strong>". $_SESSION['org']['name']."</strong>"._(" you are trying to register ")."<br />";
+			$msg=$msg._("From the below buttons ,Please Click ")."<span style=\"color: brown;font-weight:bolder\">"._("Continue")."</span>"." to continue with this name or Click "."<span style=\"color: green;font-weight:bolder\">"._("Edit")."</span>"._(" to Change the Name")."<br />";
+		    add_warning($msg);
+		    $extra_opts['br']=false;
+			$extra_opts['req']=false;
+		    shn_form_fsopen(_('Continue with the existing name'));
+		    shn_form_button(_("Continue"),"onClick='change_action(\"continue\")'", $extra_opts);
+		    shn_form_fsclose();
+		    shn_form_fsopen(_('Change name'));
+		    shn_form_button(_("Edit"),"onClick='change_action(\"edit_name\")'", $extra_opts);
+		    shn_form_fsclose();
+		    shn_form_hidden(array('action'=>'0'));
+	     	 _shn_or_action_change_javascript("confirm_name","action");
+			shn_form_fclose();
+			return true;
+		}
+		//$_SESSION['org']['same_name_confirm']=false;
+	}
+   	$org_id	=shn_create_uuid('org');
       //  $org_id = $db->GenID('org_seq',1);
         if (empty($org_id)){
             $error=true;
@@ -86,6 +113,7 @@ function _shn_or_reg_org_cr()
      if($error!=true){
      	$msg= $_SESSION['org']['name']._(" Organization was succesfully registered ");
      	add_confirmation($msg);
+     	//$_SESSION['org']['same_name_confirm']=false;
   
 ?>
     <div id="result_msg">

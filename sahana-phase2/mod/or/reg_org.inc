@@ -151,6 +151,14 @@ function _shn_or_regconfirm_org()
     		shn_form_fopen("reg_operation_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));	
     }
     shn_form_fsopen(_('Primary Details'));
+    $q="select o_uuid from org_main where name='{$_SESSION['org']['name']}'";
+    $res=$db->Execute($q);
+	if(($res==NULL) || ($res->EOF)){
+	
+	}else{
+		$msg=_("An Organization by the name ").$_SESSION['org']['name']._(" exists already. May be you should change the name?");
+		add_warning($msg);
+	}
     shn_form_label(_("Organization Name : "),$_SESSION['org']['name']); 
     if($_SESSION['org']['parent_id']==null){
     		shn_form_label(_("Registration Number(if any) : "),$_SESSION['org']['reg_no']); 

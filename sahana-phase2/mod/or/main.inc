@@ -55,6 +55,7 @@ function shn_or_reg_org($error=false)
 {
     include_once ("reg_org.inc"); 
     $_SESSION['org']['parent_id']=null;
+    $_SESSION['org']['same_name_confirm']=false;
     _shn_or_regform_org(false);
 }
 
@@ -94,12 +95,53 @@ function shn_or_reg_org_gis_map()
 
 function shn_or_reg_org_cr()
 { 
+
+	switch ($_POST["action"]){
+		case "edit":
+				include_once("reg_org.inc");
+				_shn_or_regform_org(true);
+		break;
+		case "edit_name":
+				include_once("reg_org.inc");
+				$_SESSION['org']['same_name_confirm']=false;
+				_shn_or_regform_org(true);
+		break;
+		case "continue":
+				if($_SESSION['org']['same_name_confirm']==false){
+					$_SESSION['org']['same_name_confirm']=true;
+				}else{
+					$_SESSION['org']['same_name_confirm']=false;
+				}
+				
+    			include_once("process_org.inc");
+    			_shn_or_reg_org_cr();
+    	break;
+    	case "close":
+    	    		include_once("process_org.inc");
+    				_shn_or_reg_org_cr();
+    	break;
+      	
+	}
+	/*
 	if($_POST["action"]=="edit"){
 		include_once("reg_org.inc");
 		_shn_or_regform_org(true);
 	}else{
     		include_once("process_org.inc");
     		_shn_or_reg_org_cr();
+	}
+	*/
+}
+function shn_or_reg_org_name_change()
+{ 
+	if($_POST["action"]=="edit_name"){
+		include_once("reg_org.inc");
+		$_SESSION['org']['same_name_confirm']=false;
+		_shn_or_regform_org(true);
+	}else{
+		$_SESSION['org']['same_name_confirm']=true;
+    	include_once("process_org.inc");
+    	_shn_or_reg_org_cr();
 	}
 }
 function shn_or_reg_org_finalize()
