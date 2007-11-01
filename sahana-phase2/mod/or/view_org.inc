@@ -408,9 +408,9 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
     but registration  no is optional");?> </div><br /><?
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
-    shn_form_text(_("Organization Name : "),'org_name','size="50"', $extra_opts); 
+    shn_form_text(_("Organization Name : "),'org_name','size="40"', $extra_opts); 
     if($parent){
-        shn_form_text(_("Registration Number : "),'reg_no','size="50"',array('value'=>$reg_no)); 
+        shn_form_text(_("Registration Number : "),'reg_no','size="40"',array('value'=>$reg_no)); 
     }
     shn_form_fsclose();
     /*
@@ -440,7 +440,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
     }else{
     			shn_location($range,$loc,null,$extra_opts);	
    	$extra_opts['value']=$loc_txt;
-   	shn_form_text(_("Location"),'loc_txt','size="50"', $extra_opts);
+   	shn_form_text(_("Location"),'loc_txt','size="40"', $extra_opts);
     }
     shn_form_fsclose();
     
@@ -449,9 +449,9 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
     shn_form_fsopen("Map Location");
     $extra_opts['req']=false;
     $extra_opts['value']=$lat;
-    shn_form_text(_("Latitude : "),'lat_edited','size="50"', $extra_opts);
+    shn_form_text(_("Latitude : "),'lat_edited','size="40"', $extra_opts);
     $extra_opts['value']=$lon;
-    shn_form_text(_("Longitude : "),'lon_edited','size="50"', $extra_opts);
+    shn_form_text(_("Longitude : "),'lon_edited','size="40"', $extra_opts);
     	$extra_opts['br']=false;
 	
     shn_form_button(_("GIS Map"),"onClick='change_action(\"gis\")'",$extra_opts);

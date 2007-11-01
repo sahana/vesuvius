@@ -62,7 +62,7 @@ if(!$res->EOF){
 
         <br />
         <div id="note">
-           <strong><?=_("Recently registered organizations (Most Recent five)")?></strong>
+           <strong><?=_("Recently registered organizations (Most recent five)")?></strong>
         </div>
         <?php _shn_or_viewform_latest_orgs(5);
 

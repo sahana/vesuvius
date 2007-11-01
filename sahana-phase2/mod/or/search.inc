@@ -32,7 +32,7 @@ function _shn_or_form_search()
 
     shn_form_fsopen(_('Primary Details'));
     $extra_opts['req']=false;
-    shn_form_text(_('Organization Name : '),'org_name','size="50"',$extra_opts);
+    shn_form_text(_('Organization Name : '),'org_name','size="40"',$extra_opts);
     $extra_opts['help']=_('please select whether you are a government organization,multinational ect');
     $extra_opts['all']=true;
     shn_form_opt_select('opt_org_type','Organization Type',null,$extra_opts);
@@ -41,7 +41,7 @@ function _shn_or_form_search()
     shn_form_fsclose();
     shn_form_fsopen(_("Base Location"));
  	shn_location(null,null,null,$extra_opts);
- 	shn_form_text(_("Address"),'loc_txt','size="50"', NULL);
+ 	shn_form_text(_("Address"),'loc_txt','size="40"', NULL);
  	shn_form_fsclose();
 
 ?>
