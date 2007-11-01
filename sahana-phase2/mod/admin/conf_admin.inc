@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.10 2007-10-22 10:59:43 isurunishan Exp $ */
+/* $Id: conf_admin.inc,v 1.11 2007-11-01 10:05:18 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -39,8 +39,8 @@ function shn_admin_conf_list()
 	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
 	$xajax->registerFunction("_shn_admin_conf_ajax_update");
 	$xajax->printJavascript("res/js/");
-?>
-	<script type="text/javascript" language="javascript">
+	?>
+<script type="text/javascript" language="javascript">
 		var current_edit_box = null;
 
 		function show_edit_box(id)
@@ -80,20 +80,19 @@ function shn_admin_conf_list()
 			newValTarget.removeChild(newValTarget.childNodes[0]);
 			newValTarget.appendChild(document.createTextNode(value));
 		}
-	</script>
-<?php
-
+</script>
+	<?php
 	ksort($conf);
 	shn_config_database_fetch(&$dconf,'all');
-?>
-	<div id="result">
-	<table>
+	?>
+<div id="result">
+<table>
 	<thead>
-<?php
+	<?php
 	shn_form_table_row(array('Config Variable','Current Value','Modified Value','Action'));
-?>
+	?>
 	</thead>
-<?php
+	<?php
 
 	foreach($conf as $key => $value) {
 
@@ -106,31 +105,35 @@ function shn_admin_conf_list()
 		$str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
 		//shn_form_table_row(array($key,$str_value,'<span id="target_'.$key.'">'.$str_dconf.'</span>',$edit));
 
+
+		?>
+	<tr onclick="show_edit_box('<?php echo $key; ?>')"
+		style="cursor: pointer;")>
+		<td><?php echo $key; ?></td>
+		<td><?php echo $str_value; ?></td>
+		<td><?php echo '<div id="target_'.$key.'">'.$str_dconf.'</div>'; ?></td>
+		<td><?php echo $edit; ?></td>
+	</tr>
+
+	<!-- In place editing -->
+	<tr id="edit_tr_<?php echo $key; ?>" style="display: none">
+		<td colspan="4">
+		<div align="center" style="padding: 10px;">
+		<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
+		<input name="edit_txt_<?php echo $key; ?>"
+			id="edit_txt_<?php echo $key; ?>"
+			value="<?php echo htmlspecialchars_decode((($dconf[$key]!=null)?$dconf[$key]:$value),ENT_QUOTES); ?>"
+			type="text" /> <input type="button" value="Change"
+			onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
+		</div>
+		</td>
+	</tr>
+	<?php
+}
+
 ?>
-		<tr onclick="show_edit_box('<?php echo $key; ?>')"
-			style="cursor: pointer;")>
-			<td><?php echo $key; ?></td>
-			<td><?php echo $str_value; ?></td>
-			<td><?php echo '<span id="target_'.$key.'">'.$str_dconf.'</span>'; ?></td>
-			<td><?php echo $edit; ?></td>
-		</tr>
-		<!-- In place editing -->
-		<tr id="edit_tr_<?php echo $key; ?>" style="display: none">
-			<td colspan="4">
-			<div align="center" style="padding: 10px;">
-			<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
-			<input id="edit_txt_<?php echo $key; ?>"
-				value="<?php echo ($str_dconf!=null)?$str_dconf:$str_value ?>"
-				type="text" /> <input type="button" value="Change"
-				onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
-			</div>
-			</td>
-		</tr>
-<?php
-	}
-?>
-	</table>
-	</div>
+</table>
+</div>
 <?php
 }
 
@@ -176,14 +179,13 @@ function shn_admin_conf_var()
 function _shn_admin_conf_ajax_update($key,$value)
 {
 	shn_config_database_update($key,$value);
+
 	// truncate the new value before display.
-	$new_value = shn_html_truncate($value,25);
+	$new_value = htmlspecialchars_decode(shn_html_truncate($value,25));
 
 	// create async response
 	$xajax_response = new xajaxResponse();
-	//$xajax_response->addAssign("edit_txt_$key","innerHTML",$value);;
-	$xajax_response->addScript("async_update('".$key."','".$value."');");
-	//$xajax_response->addScript("alert('test')");
+	$xajax_response->addAssign("target_$key","innerHTML",$new_value);;
 	return $xajax_response;
 }
 
