@@ -140,7 +140,7 @@ function shn_or_adm_or_type_form()
     
       
       shn_form_text(_("New Organization Type : "),'type','size="40"',null);
-      shn_form_button(_("Add"),"onClick='add_types()'");
+      shn_form_button(_("Add More"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
 </center>
@@ -200,8 +200,8 @@ function shn_or_adm_or_sector_form()
     shn_form_fsopen(_("Add & Remove Sectors"));
     _shn_or_display_sector($error,null,false);
     shn_form_button(_("Remove"),"onClick='remove_types()'");
-    shn_form_button(_("Add More"),"onClick='add_types()'");
     shn_form_text(_("New Organization Sector : "),'type','size="40"',null);
+    shn_form_button(_("Add More"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
 </center>

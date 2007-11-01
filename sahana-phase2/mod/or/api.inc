@@ -59,7 +59,7 @@ function shn_or_service_list()
  * @return array
  */
  
-function shn_or_type_list($limit,$filter){
+function shn_or_type_list($limit=null,$filter=null){
 	global $global;
 	$q="SELECT * FROM field_options WHERE field_name='opt_org_type'";
 	$db=$global['db'];
