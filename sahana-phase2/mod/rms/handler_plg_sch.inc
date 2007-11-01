@@ -23,7 +23,7 @@ function _shn_rms_sch_getkeywords()
 {
     shn_form_fopen("plg_sch",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'get_keywords'));
-    shn_form_text(_("Search Keywords"),'keywords',null,array('br'=>false,'value'=>''));
+    shn_form_text(_("Search Keywords"),'keywords',null,array('br'=>false,'value'=>'','req'=>true));
     shn_form_submit(_("Search"));
     shn_form_fclose();
 }
@@ -45,7 +45,7 @@ function _shn_rms_shn_get_results($kw)
            "OR LOWER(full_name) LIKE LOWER('%$kw%') " .
            "OR LOWER(contact_value) LIKE LOWER('%$kw%')";*/
 
-    $sql = "SELECT plg.plg_uuid,plg.donor_uuid,plg.plg_date,plg.status,psn.full_name,cnt.contact_value FROM rms_pledge plg, person_uuid psn,contact cnt WHERE plg.donor_uuid=psn.p_uuid AND plg.donor_uuid=cnt.pgoc_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR plg.donor_uuid LIKE ('%$kw%') OR cnt.contact_value LIKE ('%$kw%'));";
+    $sql = "SELECT plg.plg_uuid,plg.donor_uuid,plg.plg_date,plg.status,psn.full_name,cnt.contact_value FROM rms_pledge plg, person_uuid psn,contact cnt WHERE plg.donor_uuid=psn.p_uuid AND (LOWER(psn.full_name) LIKE LOWER('%$kw%') OR plg.donor_uuid LIKE ('%$kw%') OR cnt.contact_value LIKE ('%$kw%'));";
     
     $rs = $global['db']->Execute($sql);
     //print $sql;
@@ -65,7 +65,7 @@ function _shn_rms_sch_results()
     $kws = $_REQUEST['keywords'];
     if (!isset($_REQUEST['keywords']) || $kws == '')
     {
-        add_error(_("Please anter a valid keyword"));
+        add_error(_("Please enter a valid keyword"));
         print '<br />';
         display_errors();
         return false;
@@ -85,7 +85,7 @@ function _shn_rms_sch_results()
     {
         //Result table hedder
         $th_res[] = array (
-                             _("ID"), 
+                              
                              _("Donor"), 
                              _("Date"), 
                              _("status"),
@@ -105,7 +105,7 @@ function _shn_rms_sch_results()
                         '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
                         _("Details") . '</a>';
             
-            $tb_res[] = array ($plg_id, $donor, $plg_date, $plg_stat, $view_url);
+            $tb_res[] = array ($donor, $plg_date, $plg_stat, $view_url);
         }
         
         print '<br />';
