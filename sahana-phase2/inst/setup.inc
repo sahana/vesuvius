@@ -566,9 +566,9 @@ function shn_setup_database()
 	// setup the choosen sql scripts
 	shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
 	shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
+	shn_setup_run_sqlscript($db,'mod/cs/inst/dbcreate.sql');
 	shn_setup_run_sqlscript($db,'mod/rms/inst/dbcreate.sql');
 	shn_setup_run_sqlscript($db,'mod/gis/dbcreate.sql');
-	shn_setup_run_sqlscript($db,'mod/cs/inst/dbcreate.sql');
 	shn_setup_run_sqlscript($db,'mod/vm/inst/dbcreate.sql'); // for Volunteer management
 	shn_setup_run_sqlscript($db,'mod/ims/inst/dbcreate.sql');
 	shn_setup_run_sqlscript($db,'mod/msg/inst/dbcreate.sql'); // patched by SriGaneshan 2007-03-11 23:42

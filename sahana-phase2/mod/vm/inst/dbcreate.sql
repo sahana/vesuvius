@@ -1,6 +1,19 @@
 --
 -- Table structure for table vm_courier
 --
+--drop tables 
+DROP TABLE IF EXISTS vm_vol_skills;
+DROP TABLE IF EXISTS vm_vol_details;
+DROP TABLE IF EXISTS vm_projects;
+DROP TABLE IF EXISTS vm_vol_position;
+DROP TABLE IF EXISTS vm_positiontype;
+DROP TABLE IF EXISTS vm_position;
+DROP TABLE IF EXISTS vm_message;
+DROP TABLE IF EXISTS vm_mailbox;
+DROP TABLE IF EXISTS vm_image;
+DROP TABLE IF EXISTS vm_hours;
+DROP TABLE IF EXISTS vm_courier;
+
 
 CREATE TABLE vm_courier (
   message_id bigint(40) NOT NULL default 0,
@@ -76,7 +89,7 @@ CREATE TABLE vm_message (
 
 -- --------------------------------------------------------
 
-DROP TABLE IF EXISTS vm_position;
+
 CREATE TABLE IF NOT EXISTS vm_position (
   pos_id varchar(60) NOT NULL,
   proj_id varchar(60) NOT NULL,
@@ -132,7 +145,7 @@ CREATE TABLE vm_vol_position (
 -- Table structure for table vm_projects
 --
 
-DROP TABLE IF EXISTS vm_projects;
+
 CREATE TABLE IF NOT EXISTS vm_projects (
   proj_id bigint(20) NOT NULL auto_increment,
   name varchar(50) default NULL,

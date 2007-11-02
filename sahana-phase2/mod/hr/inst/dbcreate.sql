@@ -6,7 +6,20 @@
 * Email         : sheran@opensource.lk
 */
 
+--drop table into order to support innodb installation
+DROP TABLE if EXISTS hr_site_location_details_table;
+DROP TABLE if EXISTS hr_site_infrastructure_details_table;
+DROP TABLE if EXISTS hr_site_house_details_table;
+DROP TABLE if EXISTS hr_assign_contractor_to_site_table;
+DROP TABLE if EXISTS hr_site_main_coordinator_details_table;
+DROP TABLE if EXISTS hr_site_allocated_organization_table;
+DROP TABLE if EXISTS hr_site_name_and_uid_table;
+DROP TABLE if EXISTS hr_assign_site_to_contractor_table;
+DROP TABLE if EXISTS hr_contractor_table;
+DROP TABLE if EXISTS hr_damaged_house_location_details_table;
+DROP TABLE if EXISTS hr_damaged_house_basic_details_table;
 DROP TABLE if EXISTS hr_family_head_details_table;
+
 CREATE TABLE hr_family_head_details_table(
 	family_head_name VARCHAR(80),
  	family_head_create_uid VARCHAR(80),
@@ -14,7 +27,7 @@ CREATE TABLE hr_family_head_details_table(
         PRIMARY KEY(family_head_create_uid)
 );
 
-DROP TABLE if EXISTS hr_damaged_house_basic_details_table;
+
 CREATE TABLE hr_damaged_house_basic_details_table(
 	damaged_house_basic_details_uid VARCHAR(80),
 	damaged_house_value VARCHAR(30),
@@ -27,7 +40,7 @@ CREATE TABLE hr_damaged_house_basic_details_table(
 );
 
 
-DROP TABLE if EXISTS hr_damaged_house_location_details_table;
+
 CREATE TABLE hr_damaged_house_location_details_table(
 	damaged_house_location_uid VARCHAR(80),
 	damaged_house_location VARCHAR(20),
@@ -35,7 +48,7 @@ CREATE TABLE hr_damaged_house_location_details_table(
 	FOREIGN KEY (damaged_house_location_uid) REFERENCES hr_damaged_house_basic_details_table(damaged_house_basic_details_uid)
 );
 
-DROP TABLE if EXISTS hr_contractor_table;
+
 CREATE TABLE hr_contractor_table(
 	contractor_level VARCHAR(40),
 	contractor_name VARCHAR(80),
@@ -44,7 +57,7 @@ CREATE TABLE hr_contractor_table(
         PRIMARY KEY(contractor_uid)
 );
 
-DROP TABLE if EXISTS hr_assign_site_to_contractor_table;
+
 CREATE TABLE hr_assign_site_to_contractor_table(
 	assign_site_to_contractor_uid VARCHAR(80),
 	assign_site_to_contractor TEXT,
@@ -52,14 +65,14 @@ CREATE TABLE hr_assign_site_to_contractor_table(
 	FOREIGN KEY (assign_site_to_contractor_uid) REFERENCES hr_contractor_table(contractor_uid)
 );
 
-DROP TABLE if EXISTS hr_site_name_and_uid_table;
+
 CREATE TABLE hr_site_name_and_uid_table(
 	site_name VARCHAR(80),
 	site_uid VARCHAR(80),
         PRIMARY KEY(site_uid)
 );
 
-DROP TABLE if EXISTS hr_site_allocated_organization_table;
+
 CREATE TABLE hr_site_allocated_organization_table(
 	site_allocated_organization_uid VARCHAR(80),
 	site_allocated_organization VARCHAR(40),
@@ -67,7 +80,7 @@ CREATE TABLE hr_site_allocated_organization_table(
 	FOREIGN KEY (site_allocated_organization_uid) REFERENCES hr_site_name_and_uid_table(site_uid)
 );
 
-DROP TABLE if EXISTS hr_site_main_coordinator_details_table;
+
 CREATE TABLE hr_site_main_coordinator_details_table(
 	site_main_coordinator_details_uid VARCHAR(80),
 	site_main_coordinator_name VARCHAR(80),
@@ -76,15 +89,15 @@ CREATE TABLE hr_site_main_coordinator_details_table(
 	FOREIGN KEY (site_main_coordinator_details_uid) REFERENCES hr_site_allocated_organization_table(site_allocated_organization_uid)
 );
 
-DROP TABLE if EXISTS hr_assign_contractor_to_site_table;
+
 CREATE TABLE hr_assign_contractor_to_site_table(
 	assign_contractor_to_site_uid VARCHAR(80),
 	assign_contractor_to_site TEXT,
         PRIMARY KEY(assign_contractor_to_site_uid),
-	FOREIGN KEY (assign_contractor_to_site_uid) REFERENCES hr_hr_site_main_coordinator_details_table(site_main_coordinator_details_uid)
+	FOREIGN KEY (assign_contractor_to_site_uid) REFERENCES hr_site_main_coordinator_details_table(site_main_coordinator_details_uid)
 );
 
-DROP TABLE if EXISTS hr_site_house_details_table;
+
 CREATE TABLE hr_site_house_details_table(
 	site_house_details_uid VARCHAR(80),
 	planned_houses VARCHAR(40),
@@ -94,7 +107,7 @@ CREATE TABLE hr_site_house_details_table(
 	FOREIGN KEY (site_house_details_uid) REFERENCES hr_assign_contractor_to_site_table(assign_contractor_to_site_uid)
 );
 
-DROP TABLE if EXISTS hr_site_infrastructure_details_table;
+
 CREATE TABLE hr_site_infrastructure_details_table(
 	site_infrastructure_details_uid VARCHAR(80),
 	road  VARCHAR(20),
@@ -106,7 +119,7 @@ CREATE TABLE hr_site_infrastructure_details_table(
 	FOREIGN KEY (site_infrastructure_details_uid) REFERENCES hr_site_house_details_table(site_house_details_uid)
 );
 
-DROP TABLE if EXISTS hr_site_location_details_table;
+
 CREATE TABLE hr_site_location_details_table(
 	site_location_uid VARCHAR(80),
 	site_location VARCHAR(20),

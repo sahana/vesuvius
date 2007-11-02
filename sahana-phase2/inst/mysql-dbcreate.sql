@@ -3,12 +3,7 @@
 */
                     /**drop tables **/
 
--- from RMS module
-DROP TABLE IF EXISTS `rms_fulfil`;
-DROP TABLE IF EXISTS `rms_plg_item`;
-DROP TABLE IF EXISTS `rms_pledge`;
-DROP TABLE IF EXISTS `rms_req_item`;
-DROP TABLE IF EXISTS `rms_request`;
+
 
 -- from GIS module
 DROP TABLE IF EXISTS `gis_wiki`;
@@ -325,7 +320,7 @@ CREATE TABLE user_preference(
     pref_key     VARCHAR(60) NOT NULL,
     value   VARCHAR(100),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
-    FOREIGN KEY (module_id) REFERENCES modules (module_id),
+    --FOREIGN KEY (module_id) REFERENCES modules (module_id),
     PRIMARY KEY (p_uuid,module_id,pref_key)
 );
 
