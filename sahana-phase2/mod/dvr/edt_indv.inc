@@ -672,7 +672,7 @@ $extra_opts["camp_id"]=$_SESSION['dvr']['person']['camps'];
 
 	//call gis api from gis module
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
-	shn_gis_add_marker_map_form("GIS Map", "Disaster Victims Registry");
+	shn_gis_add_marker_map_form("GIS Map",null,"name=physical_button");
 
 	shn_form_fsclose();
 	shn_form_submit("Next", "name=physical_button");

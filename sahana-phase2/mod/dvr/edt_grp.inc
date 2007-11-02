@@ -442,7 +442,7 @@ shn_location($range, null, null, $extra_opts);
 	//call gis api from gis module
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
 
-	shn_gis_add_marker_map_form("GIS Map", "Disaster Victims Registry");
+	shn_gis_add_marker_map_form("GIS Map",null,"name=checklist_button");
 	shn_form_submit(_("Check List"), "name=checklist_button");
 	//shn_form_submit(_("Finish"));
 	shn_form_fclose();
