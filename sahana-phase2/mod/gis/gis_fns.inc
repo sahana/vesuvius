@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.24 2007-11-01 11:30:25 isurunishan Exp $ */
+/* $Id: gis_fns.inc,v 1.25 2007-11-02 05:23:22 isurunishan Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -207,7 +207,7 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
  * @access public
  * @return void 
  */
-function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
+function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$button_submit_opts=null)
 {
 	global $global;
 	global $conf;
@@ -216,7 +216,7 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="")
 	shn_form_fsopen(_("GPS Coordinates"));
 	shn_form_text(_("Northing / Latitude"),"gps_y",'size="60"');
 	shn_form_text(_("Easting / Longitude"),"gps_x",'size="60"');
-	shn_form_submit(_("Next"));
+	shn_form_submit(_("Next"),$button_submit_opts);
 	shn_form_fsclose();
 	
 	if($conf['gis'])
