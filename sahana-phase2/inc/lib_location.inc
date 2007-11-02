@@ -41,16 +41,17 @@ define (UNKNOWN,"unknown");
  */
 function shn_location_get_form_submit_loc()
 {
-
 	if(isset($_POST["loc_unknown"])){//unknow checkbox is ticked
 		return UNKNOWN;
 	}
-	$lvl=$_POST["levels"];//the hidden $_POST variable which indicates the max no of levels
-	while($lvl>0){
-		if(isset($_POST["$lvl"])){
+	$n_lvl=$_POST["levels"];//the hidden $_POST variable which indicates the max no of levels
+	
+	while($n_lvl>0){
+		$lvl="loc_select_".$n_lvl;
+		if((isset($_POST["$lvl"]))&&($_POST["$lvl"]!="0")){
 			return $_POST["$lvl"];//as soon as you find a selected location return
 		}
-		$lvl--;
+		$n_lvl--;
 	}
 	return -1;
 }
@@ -350,31 +351,38 @@ function shn_location_jscript($start,$to,$parent=false){
     // The callback funtion
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
+ 			alert(http.responseText);
             results = http.responseText.split(","); 
 			curlevel=curlevel+1;
-            var x=document.getElementsByName(curlevel);
-         //   if(results.length==1){
-           // 		x[0].style.visibility='hidden';
-          //  }
-            for (i=0; i<=x[0].options.length+1; i++){
-	            x[0].options[0]=null;
-            }
-            var next=results[1];
-            
-            opt = document.createElement("option") ;
+			var dropdown="loc_select_"+curlevel;
+	        var x=document.getElementById(dropdown);
+          	opt = document.createElement("option") ;
   			opt.value = "" ;
   			opt.text = "";
-            x[0].options[0] = opt;
-            j=1;
-               //x[0].appendChild(opt);
+          	if(x.options==null){
+           		   j=0;
+          	}else{
+    
+          		for (i=0; i<=x.options.length+1; i++){
+	            	x.options[0]=null;
+            	}
+               	x.options[0] = opt;
+            	j=1;
+          	}
+ 
+            var next=results[1];
+            
+
             for (i=1; i<results.length-1; i=i+2, j++){
 		 	    opt = document.createElement("option") ;
   			    opt.value = results[i] ;
   			    opt.text = results[i+1].replace(/[^A-Za-z0-9]$/,"");
-                x[0].options[j] = opt;
-               //x[0].appendChild(opt);
+  		    	x.options[j] = opt;
+  			    
+              
+               //
             }
-            x[0].selectedIndex=-1;
+            x.selectedIndex=-1;
             if(curlevel<to){
                  update_next_level(next,curlevel);
             }
@@ -394,8 +402,9 @@ function shn_location_jscript($start,$to,$parent=false){
             selection=header_arr[3]*1+1;//multiplication required to convert to number
 
             var data=all_arr[1];
-            		results = data.split(","); 
-				var x=document.getElementsByName(cur_lvl);
+            results = data.split(","); 
+  
+			var x=document.getElementsByName(cur_lvl);
             		opt = document.createElement("option") ;
   				opt.value = "" ;
   				opt.text = "";
@@ -897,8 +906,8 @@ function _shn_location_form_value($range,$value)
            //which one to diplay out of all the locations.
            //should be one of the parents
            // $extra_opts['req']=true;
-           ?><div id='<?php echo $res->fields[0]."'>";
-            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
+           ?><div id='loc_div_<?php echo $res->fields[0]."'>";
+            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             ?></div><?
             $res->MoveNext();
         }
@@ -951,9 +960,9 @@ function _shn_location_form($range)
                     $res_options->MoveNext();
             }
             
-            ?><div id='<?php echo $res->fields[0]."'>";
+            ?><div id='loc_div_<?php echo $res->fields[0]."'>";
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
+            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             ?></div><?
             $res->MoveNext();
         }
