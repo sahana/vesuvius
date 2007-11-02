@@ -351,8 +351,7 @@ function shn_location_jscript($start,$to,$parent=false){
     // The callback funtion
     function handleHttpResponse(){
         if (http.readyState == 4) { // Split the comma delimited response into an array  
- 			alert(http.responseText);
-            results = http.responseText.split(","); 
+ 		    results = http.responseText.split(","); 
 			curlevel=curlevel+1;
 			var dropdown="loc_select_"+curlevel;
 	        var x=document.getElementById(dropdown);
