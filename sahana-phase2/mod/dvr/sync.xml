@@ -85,7 +85,22 @@
         <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="head_uuid"/>
       </foreign_keys>
     </table>
+    <table name='group_details'>
+      <primarykeys>
+        <primarykey field_id='g_uuid' />
+             </primarykeys>
+      <foreign_keys>
+        <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+      </foreign_keys>
+    </table>
     
+    <table name='person_to_pgroup'>
+      <primarykeys>
+        <primarykey field_id='p_uuid' />
+        <primarykey field_id='g_uuid' />
+       
+      </primarykeys>
+    </table>
     
   </data>
 </module>
