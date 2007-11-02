@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <module name='mpr'>
-  <description>Pandemic Victim Registry</description>
+  <description>Missing Person Registry</description>
   <data>
-    <description>Pandemic Victim Data</description>
+    <description>Missing People Data</description>
     <table name='person_uuid'>
       <primarykeys>
         <primarykey field_id='p_uuid' />
