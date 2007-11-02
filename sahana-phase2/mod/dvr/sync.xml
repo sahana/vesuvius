@@ -82,7 +82,7 @@
         <primarykey field_id='g_uuid' />
              </primarykeys>
       <foreign_keys>
-        <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="head_uuid"/>
+        <foreign_key ref_table="group_details" ref_field="g_uuid" field_id="g_uuid"/>
       </foreign_keys>
     </table>
     <table name='group_details'>
@@ -101,6 +101,15 @@
        
       </primarykeys>
     </table>
+    
+     <table name='image'>
+      <primarykeys>
+        <primarykey field_id='image_id' />
+        
+       
+      </primarykeys>
+    </table>
+    
     
   </data>
 </module>
