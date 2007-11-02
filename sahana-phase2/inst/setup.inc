@@ -275,6 +275,10 @@ function shn_setup_form1()
 	shn_form_select(
 	array( 'mysql' => 'MySQL 4.1 or above','pgsql"disabled="disabled' => 'PostgreSQL'),
                 'Database Types', 'dbtype');
+	$engines['MyISAM']='MyISAM';
+	$engines['InnoDB']='InnoDB';
+        shn_form_select($engines, _("Engine Type"), 'engine_type',$extra_opts);
+
 	shn_form_text(_('Database Host:Port'),'dbhost','size="30"',
 	array('value'=>'localhost','req'=>true ));
 	shn_form_text(_('Database Name'),'dbname','size="30"',
@@ -324,7 +328,8 @@ function shn_setup_form2()
         'dbhost' => $_POST['dbhost'] ,
         'dbname' => $_POST['dbname'] ,
         'shndbuser' => $_POST['shndbuser'] ,
-        'shndbpass' => $_POST['shndbpass'] ));      
+        'shndbpass' => $_POST['shndbpass'] ,
+	'engine_type' => $_POST['engine_type']));      
 	
 	shn_form_fsopen(_('Installation Details'));
 
@@ -546,12 +551,18 @@ function shn_setup_database()
 		return false;
 	}
 
+	$engine_type=$_POST['engine_type'];
 	// create the main database
 	$db->Execute("CREATE DATABASE IF NOT EXISTS ".$_POST['dbname']);
 	$db->Connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass'],$_POST['dbname']);
 	$global['db'] = $db;
 	$conf['db_engine']=$_POST['dbtype'];
-	$conf['mysql_engine']="myisam";
+
+	if($conf['db_engine'] == 'mysql')
+		{
+            $db->Execute("set storage_engine ='{$engine_type}'");
+   		}
+	$conf['storage_engine']=$engine_type;
 	// setup the choosen sql scripts
 	shn_setup_run_sqlscript($db,'inst/mysql-dbcreate.sql');
 	shn_setup_run_sqlscript($db,'inst/mysql-config.sql');
@@ -618,7 +629,8 @@ function shn_setup_config_update($tmp_configfile)
         '/\'root_tel\'/' => '$conf[\'root_tel\'] = \''.$_POST['root_tel'].'\';' ,
         '/\'root_email\'/' => '$conf[\'root_email\'] = \''.$_POST['root_email'].'\';' ,
         '/\'db_user\'/' => '$conf[\'db_user\'] = \''.$_POST['shndbuser'].'\';' ,
-        '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['shndbpass'].'\';');           
+        '/\'db_pass\'/' => '$conf[\'db_pass\'] = \''.$_POST['shndbpass'].'\';' ,
+	'/\'storage_engine\'/' => '$conf[\'storage_engine\'] = \''.$_POST['engine_type'].'\';');           
 
 	echo "<pre>";
 	

@@ -96,6 +96,9 @@ $conf['dbal_lib_name'] = 'adodb' ;
 # $conf['db_engine'] = 'postgres'; 
 $conf['db_engine'] = 'mysql';
 
+#specify the mysql engine to be used
+$conf['storage_engine'] = '';
+
 # enable monitor time that takes to process sql queries
 # this is an advance feature and recommended only for developers
 #

@@ -1,7 +1,59 @@
 /**
 * MySQL database structure creation table for Sahana
 */
+                    /**drop tables **/
 
+-- from RMS module
+DROP TABLE IF EXISTS `rms_fulfil`;
+DROP TABLE IF EXISTS `rms_plg_item`;
+DROP TABLE IF EXISTS `rms_pledge`;
+DROP TABLE IF EXISTS `rms_req_item`;
+DROP TABLE IF EXISTS `rms_request`;
+
+-- from GIS module
+DROP TABLE IF EXISTS `gis_wiki`;
+
+--general tables
+
+--DROP TABLE IF EXISTS config;
+DROP TABLE IF EXISTS org_users;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS sys_user_to_group;
+DROP TABLE IF EXISTS user_preference;
+DROP TABLE IF EXISTS location_details;
+DROP TABLE IF EXISTS identity_to_person;
+DROP TABLE IF EXISTS person_details;
+DROP TABLE IF EXISTS person_physical;
+DROP TABLE IF EXISTS person_missing;
+DROP TABLE IF EXISTS person_deceased;
+DROP TABLE IF EXISTS person_to_report;
+DROP TABLE IF EXISTS group_details;
+DROP TABLE IF EXISTS org_main;
+DROP TABLE IF EXISTS resource_to_shelter;
+DROP TABLE IF EXISTS camp_general;
+DROP TABLE IF EXISTS resource_to_incident;
+DROP TABLE IF EXISTS incident;
+
+--drop tables from lib_uuid
+
+DROP TABLE IF EXISTS victim_group;
+DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS organization;
+--DROP TABLE IF EXISTS loc_seq;
+DROP TABLE IF EXISTS landmark;
+DROP TABLE IF EXISTS log;
+DROP TABLE IF EXISTS camp;
+DROP TABLE IF EXISTS gis;
+DROP TABLE IF EXISTS wikimap;
+DROP TABLE IF EXISTS request;
+DROP TABLE IF EXISTS pledge;
+DROP TABLE IF EXISTS catalogue;
+DROP TABLE IF EXISTS report;
+DROP TABLE IF EXISTS messaging;
+DROP TABLE IF EXISTS inventory;
+DROP TABLE IF EXISTS unit;
+DROP TABLE IF EXISTS unit_type;
+DROP TABLE IF EXISTS loc_seq;
 
 
 
@@ -20,7 +72,7 @@ CREATE TABLE config(
 	confkey VARCHAR(50) NOT NULL, -- the configuration key for the module
 	value VARCHAR(100), -- the value 
     PRIMARY KEY(config_id),
-	FOREIGN KEY (module_id) REFERENCES modules (module_id)
+	-FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
 /**
@@ -64,6 +116,23 @@ CREATE TABLE sync_instance (
 * Modules: all
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
+
+/**
+* The central table on a person, with their associated names
+* Modules: dvr, mpr, rms, cr 
+* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS person_uuid;
+CREATE TABLE person_uuid (
+    p_uuid VARCHAR(60) NOT NULL, -- universally unique person id
+    full_name VARCHAR(100), -- the full name (contains the family name)
+    family_name VARCHAR(50), -- the family name
+    l10n_name VARCHAR(100), -- localized version of name
+    custom_name VARCHAR(50), -- extra name field as required
+    PRIMARY KEY(p_uuid)      
+);
+
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
@@ -374,20 +443,7 @@ CREATE TABLE gis_feature (
 
 /*** PERSON TABLES ***/
 
-/**
-* The central table on a person, with their associated names
-* Modules: dvr, mpr, rms, cr 
-* Last changed: 27-OCT-2005 - chamindra@opensource.lk  
-*/
-DROP TABLE IF EXISTS person_uuid;
-CREATE TABLE person_uuid (
-    p_uuid VARCHAR(60) NOT NULL, -- universally unique person id
-    full_name VARCHAR(100), -- the full name (contains the family name)
-    family_name VARCHAR(50), -- the family name
-    l10n_name VARCHAR(100), -- localized version of name
-    custom_name VARCHAR(50), -- extra name field as required
-    PRIMARY KEY(p_uuid)      
-);
+
 
 /**
 * Many ID card numbers (or passport or driving licence) to person table
