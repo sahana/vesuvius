@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.53 2007-11-03 06:47:24 mifanc Exp $ */
+/* $Id: camp.inc,v 1.54 2007-11-03 06:57:18 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -252,7 +252,7 @@ function _shn_cr_sel_map($errors=false){
 	global $conf;
 	
 											
-	shn_form_fopen(acmp);
+	shn_form_fopen(acmp,null,array('req'=>false));
 	shn_form_fsopen(_("Location Information"));
 	echo _("Plot the Shelter Location OR Enter its GPS coordinates below");
 	shn_form_hidden(array('seq'=>'chk'));
