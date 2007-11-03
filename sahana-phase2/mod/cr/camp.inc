@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.52 2007-08-23 17:25:35 mifanc Exp $ */
+/* $Id: camp.inc,v 1.53 2007-11-03 06:47:24 mifanc Exp $ */
 
 /**Camp library for  CR
 *
@@ -79,10 +79,12 @@ function _shn_cr_cadd_start($errors=false){
 	shn_form_text(_("Women"),"women",'size="10"');
 	shn_form_text(_("Children"),"children",'size="10"');
 	shn_form_fsclose();
+	/*
 	$hospital_help=_("Check this if you want to enter hospital information related to this {$conf['mod_cr_alt']}");
 	shn_form_fsopen(_("Hospital Metadata"));
 	shn_form_checkbox(_("{$conf['mod_cr_alt']} is of type hospital"),"hospital",null,array('help'=>$hospital_help));
 	shn_form_fsclose();
+	*/
 	shn_form_submit(_("Next"));
 	shn_form_fclose();
 }
