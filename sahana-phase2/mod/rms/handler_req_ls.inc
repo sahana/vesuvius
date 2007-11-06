@@ -21,6 +21,8 @@ _shn_rms_print_hedder(_("Request List"));
 
 function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = null)
 {
+	
+    
     global $global;
     $db = $global['db'];
     $paging = false;
@@ -112,30 +114,10 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     $rs = $db->PageExecute($sql, $rows, $page);
     $rs_arr = $rs->GetArray();
     
-    //create the filter list
-    $requesters = array();
-    $locations = array();
     
-    foreach ($rs_arr as $r)
-    {
- //       $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
-//        $requesters[$r['reqstr_uuid']] = $reqstr['name'];
-       $requesters = _shn_rms_get_requesters();
+    
         
- //       $req_loc = _shn_rms_get_location($r['loc_uuid']);
-        
-  //      
-        $locations = _shn_rms_get_locations();
-        $locations[$r['loc_uuid']] = $req_loc['location_id'];
-	//print_r($locations);
-	/*$location_array=array();
-	print(count($locations));
-	print("gg");
-	for($i=0;$i<count($locations);$i++)
-	{
-	    $location_array[$locations[$i]]=_shn_rms_get_location_name($locations[$i]);
-	}*/
-    }
+   
     
     //Result table hedder
     $th_res[] = array (
@@ -149,32 +131,34 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     foreach ($rs_arr as $r)
     {
         $req_id = $r['req_uuid'];
-        
+       
         $reqstr = _shn_rms_get_requester($r['reqstr_uuid']);
+        //need a function to get name
+        
         $reqstr_d = '<strong>' . $reqstr['name'] . '</strong><br >' . 
                     'Contact: <a href="mailto:' . $reqstr['email'] .'">' . $reqstr['email'] . '</a> , ' .
                     $reqstr['mobile'];
         
-        $req_loc = _shn_rms_get_location($r['loc_uuid']);
+        //$req_loc = _shn_rms_get_location($r['loc_uuid']);
 	//$req_loc = _shn_ims_get_location($inv_id);
 
-	$location_name=_shn_rms_get_location_name($req_loc['location_id']);
-	//$location_name=_shn_rms_get_location_name($req_loc['loc_uuid']);
+	//$location_name=_shn_rms_get_location_name($req_loc['location_id']);
+	    $location_name=_shn_rms_get_location_name($r['loc_uuid']);
 
 
-	if($req_loc['opt_person_loc_type']=='')
-	{
+		if($req_loc['opt_person_loc_type']=='')
+		{
 	    //$loc_d = '<strong>' . $req_loc['location_id'] . '</strong>';
-	    $loc_d = '<strong>' . $location_name . '</strong>';
+	    $loc_d =  $location_name;
 	    //print $loc_d;
-	}
-	else
-	{
+		}
+		else
+		{
            /* $loc_d = '<strong>' . $req_loc['location_id'] . '</strong> [' . 
                     $req_loc['opt_person_loc_type'] . ']';*/
 	    $loc_d = '<strong>' .$location_name . '</strong> [' . 
                     $req_loc['opt_person_loc_type'] . ']';
-	}
+		}
         
         $req_date = $r['req_date'];
         $req_stat = $r['status'];
@@ -188,7 +172,24 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     }
     
     if (1 <= count($rs_arr))
+    {//create the filter list
+    $requesters = array();
+    $location = array();
+    
+    $requesters = _shn_rms_get_requesters();
+    
+    $loc = _shn_rms_get_location_array($_SESSION['user_id']);
+    //var_dump($loc);
+    for($i=0;$i<count($loc);$i++)
     {
+    //$location = array();
+    //$location = _shn_rms_get_location_name($loc[$i]);
+    array_push($location, _shn_rms_get_location_name($loc[$i]));
+    //var_dump($location);
+    }
+    
+    	
+    	
         shn_html_table_open(array('class'=>'layout'));
         shn_html_tbody_open();
         shn_html_tr_open();
@@ -202,10 +203,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
-	    //$location_array=array();
-	    //print_r($location_array);
-	    //print_r($locations);
-            shn_form_select($locations, _("Locations"), 'loc_id', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_select($location, _("Locations"), 'loc_id', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
             
