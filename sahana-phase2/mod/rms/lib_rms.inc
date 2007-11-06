@@ -145,7 +145,7 @@ function _shn_rms_get_person($id)
         return $person;
     }
     
-    return false;
+   // return false;
 }
 
 function _shn_rms_is_requester($id)
@@ -1591,16 +1591,21 @@ function _shn_rms_requester_add_new_loc_()
     global $global;
     
     $p_uuid = $_SESSION['rms_reqstr_id'];
-    if($_POST['1'] != null) {
-    	$_SESSION['ims_1']=$_POST['1'];
-    	$_SESSION['ims_2']=$_POST['2'];
-    	$_SESSION['ims_3']=$_POST['3'];
+    
+    if($_POST['loc_select_1'] != null) 
+    {
+    	$_SESSION['ims_1']=$_POST['loc_select_1'];
+    	$_SESSION['ims_2']=$_POST['loc_select_2'];
+    	$_SESSION['ims_3']=$_POST['loc_select_3'];
  
     	$location_id=_shn_ims_get_locid();
-
-    	if(_shn_rms_requester_search_loc_($location_id)) {
+    	
+    	if(_shn_rms_requester_search_loc_($location_id)) 
+    	{
     		add_error(_("Location already exists"));
-    	}else{
+    	}
+    	else
+    	{
 	
     		$sql = "INSERT INTO ext_location( " .
                                            "p_uuid, " .
@@ -1620,7 +1625,9 @@ function _shn_rms_requester_add_new_loc_()
         		return true;
     		}
     	}
-    }else{
+    }
+    else
+    {
     	
     	add_warning(_("Select the location first"));
 
@@ -1642,4 +1649,70 @@ function _shn_rms_requester_search_loc_($loc_id)
         return true;	
     }
 }
+
+//*****************************************************************************
+function _shn_rms_display_location_array($loc)
+{
+	$locations_array=array();
+
+	//$bsda_village = array();
+
+	shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
+	$info=_("Select a location where the request is related.")."<br />";
+        $info.=_("If you want to make the request for a new location, add the location first.")."<br />";
+	    ?><div class="info"><?php echo $info;?></div><br /><?
+	
+	shn_form_hidden(array('seq'=>'get_loc'));
+	shn_form_fsopen(_("Existing Location"));
+	
+	foreach($loc as $loc_id)
+	{
+		$bsda_village = _shn_org_location_string($loc_id);   //return the location
+		$locations_array[$loc_id]= $bsda_village;
+	}
+
+		
+		shn_form_select($locations_array,_("Location"), 'loc');
+		
+		shn_form_fsclose();
+        shn_form_submit(_("Next"));
+        print '<br />';
+        print '<br />';
+        
+        shn_form_fclose();
+}
+
+/**
+ * return location array(with parent locations)
+ * fro
+ */
+function _shn_rms_get_location_array($p_id)
+{
+	global $global;
+	$db = $global['db'];
+	 
+	$sql = "SELECT DISTINCT loc_uuid FROM ext_location WHERE p_uuid='$p_id'";
+	 
+	$rec = $db->Execute($sql);
+	$loc =array();
+	$i = 0;
+	if ($rec === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	} elseif (1 <= $rec->RecordCount()){
+		While(!$rec->EOF)
+		{
+			 
+			$loc[$i] = $rec->fields['loc_uuid'];
+			$rec->MoveNext();
+			$i++;
+		}
+
+		return $loc;
+	}
+}
+//*****************************************************************************
 ?>
