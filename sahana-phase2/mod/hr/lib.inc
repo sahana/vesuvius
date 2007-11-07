@@ -63,7 +63,7 @@ function _shn_hr_get_start_loc()
     }
 }
 
-function _shn_org_location_string($loc)
+function _shn_hr_location_string($loc)
 {
 	global $global;
 	$db=$global["db"];
