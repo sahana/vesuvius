@@ -330,7 +330,7 @@ function _shn_vol_get_loc_parents($child)
 
 function _shn_vol_display_skills($error=false,$value=NULL,$label=NULL)
 {
-    if($value!=NULL){
+    if($value!=NULL && is_array($value)){
 	    $extra_opts['value']=$value;
 	    //$extra_opts['req']=false;
     }else{
