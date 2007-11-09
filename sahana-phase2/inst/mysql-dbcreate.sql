@@ -67,7 +67,7 @@ CREATE TABLE config(
 	confkey VARCHAR(50) NOT NULL, -- the configuration key for the module
 	value VARCHAR(100), -- the value 
     PRIMARY KEY(config_id),
-	-FOREIGN KEY (module_id) REFERENCES modules (module_id)
+	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
 /**
