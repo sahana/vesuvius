@@ -87,7 +87,7 @@ else
 	shn_ajax_text_look_up(array('Group head'),array('family_name'),array('familyHint'),'index.php?mod=dvr&act=get_family&stream=text',$value=null,true,$extra_opts=null);
 	//echo '<div id="familyHint"></div>';
 	?>
-	 <input type="hidden" id="family_id" name="family_id" />
+	<!-- <input type="hidden" id="family_id" name="family_id" />-->
 	
 
 <?
