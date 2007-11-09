@@ -21,10 +21,34 @@ function create_ajax_call()
 {
     echo '<script>';
     echo 'var xmlHttp
-
-function get_data(str,print_element,set_url,hidden)
+var ids = new Array();
+var names = new Array();		
+var count=-1;		
+function get_data(str,event,print_element,set_url,hidden)
 {
-		
+if(window.event) // IE
+{
+keynum = event.keyCode;
+}
+else if(event.which) // Netscape/Firefox/Opera
+{
+keynum = event.which;
+}	
+//alert(keynum);		
+if(keynum==27){
+	test();
+	return;		
+//alert(splited_value[0]);
+}
+else if(keynum==38 || keynum==40){
+get_array(keynum);
+return;	
+}
+else if(keynum==39 || keynum==37){
+set_value(print_element);
+return;	
+}							
+//alert(keynum);		
 if (str.length==0)
   {
   		
@@ -45,7 +69,7 @@ var url=set_url;
 				{
 					hidden_input="NULL"
 				}				
-url=set_url+"&input="+str+"&print="+print_element+"&parent_id="+hidden_input;
+url=set_url+"&input="+str+"&print="+print_element+"&parent_id="+hidden_input+"&eve="+keynum;
 	//alert(url)
 url=url+"&sid="+Math.random();
 			
@@ -59,34 +83,62 @@ function stateChanged()
 	
 if (xmlHttp.readyState==4)
 {
-		
+ids=new Array();
+names=new Array();		
+count=-1;				
+	//alert(xmlHttp.responseText);	
 	value=xmlHttp.responseText.split(\':\')	
 			
-		splited_value=value[1].split(\';\')
+		splited_value=value[2].split(\';\')
 				
 		if(splited_value==""){
 			splited_value[1]=""
 			splited_value[0]=""		
 		}
 	def_display="--select--";			
-	def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch\'+value[0]+\'(this.innerHTML,this.id);" class="suggest_link">\'+def_display+\'</div>\'
-		
-	new_value=def_value+\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch\'+value[0]+\'(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[1]+\'</div>\'
+	def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+def_display+\'</div>\'
+	ids[0]=splited_value[0];
+	names[0]=splited_value[1];			
+	new_value=def_value+\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[1]+\'</div>\'
 	
 			j=1
 			
-			for(i=2;i<value.length;i++){
+			for(i=3;i<value.length;i++){
 					
 			splited_value=value[i].split(\';\')
-				
-	old_value=\'<div id=\'+splited_value[j-1]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch\'+value[0]+\'(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[j]+\'</div>\'		
+	ids[i-2]=splited_value[j-1];	
+	names[i-2]=splited_value[j];				
+	old_value=\'<div id=\'+splited_value[j-1]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[j]+\'</div>\'		
 	new_value=new_value+old_value
 		j+2	
 	}
-					
+//document.getElementById(value[0]).focus();
+						
 document.getElementById(value[0]).innerHTML=new_value;
-		
 }
+}';
+echo 'function get_array(key){
+if(key==40){	
+//alert(count);		
+if(count<ids.length-1){		
+count++;			
+document.getElementById(ids[count]).className = \'suggest_link_over\'; 
+document.getElementById(ids[count-1]).className = \'suggest_link\';		
+}
+}		
+else if(key==38){
+if(count>0){			
+count--;		
+document.getElementById(ids[count]).className = \'suggest_link_over\';		
+document.getElementById(ids[count+1]).className = \'suggest_link\';
+}	
+//setSearchfamilyHint(names[count],ids[count]);				
+}				  
+		 }';
+echo 'function set_value(print){
+		
+setSearch(names[count],ids[count]);	
+		
 }';
     echo '</script>';
 
@@ -103,7 +155,7 @@ function suggestOver(div_value) {
 //Mouse out function
 function suggestOut(div_value) {
 	div_value.className = \'suggest_link\';
-	
+	count=-1;
 }';
 
     echo '</script>';
@@ -117,13 +169,14 @@ function set_common_styles(){
 			.suggest_link {
 				background-color:#FFF424;
 				padding: 2px 6px 2px 6px;
+				border-top:1px solid #ccc;
 				
 			}
 			.suggest_link_over {
 				background-color: #DAD11F;
 				padding: 2px 6px 2px 6px;
 				cursor:pointer;
-				
+				border-top:1px solid #ccc;
 			}';
 			
     echo '</style>';
@@ -161,7 +214,7 @@ return xmlHttp;
 function set_result_to_element($input_element,$print_element,$hidden,$reset){
 	
 	echo '<script>';
-	echo 'function setSearch'.$print_element.'(value,id) {
+	echo 'function setSearch(value,id) {
 		
 			
 	document.getElementById(\''.$print_element.'\').innerHTML = \'\';';
@@ -242,7 +295,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 		        $reset=array_slice($name,1);	
 		        shn_ajax_add_suggest($name[0],$hint[0],$name[0],$reset);
 		        $extra_opts['value']=$value[0];
-		        shn_form_text($label[0],'text'.$name[0],"size=\"30\" autocomplete=off  onclick=\"get_data('*','".$hint[0]."','".$url."','NULL')\" onkeyup=\"get_data(this.value,'".$hint[0]."','".$url."','NULL')\"" ,$extra_opts);
+		        shn_form_text($label[0],'text'.$name[0],"size=\"30\" autocomplete=off  onclick=\"get_data('*',event,'".$hint[0]."','".$url."','NULL')\" onkeyup=\"get_data(this.value,event,'".$hint[0]."','".$url."','NULL')\"" ,$extra_opts);
                 $extra_opts['help']=null;
 		        echo "<div id='".$hint[0]."' style='left: 442px'></div>";
 		        ?>
