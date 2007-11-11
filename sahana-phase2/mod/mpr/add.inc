@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.31 2007-10-28 14:48:55 isurunishan Exp $ */
+/* $Id: add.inc,v 1.32 2007-11-11 11:30:35 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry 
@@ -53,7 +53,7 @@ function shn_mpr_addmp_entry($errors=false)
     if($errors)
         display_errors();
 
-    shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
+    shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
    
 
 add_warning(_('Please do a search and check whether the person you are looking for is already exists'));
@@ -433,7 +433,7 @@ function shn_mpr_addmp_upload_pic()
     }
 
     list($ignore,$ext) = split("\/",$info['mime']);
-//print 'save handler is'.$conf['mod_mpr']['upload_picture']['savehandler'];
+//print 'save handler is'.$conf['mod_mpr_upload_pic_handler'] ;
     //check for save handler
     if($conf['mod_mpr_upload_pic_handler'] == 'database'){
         $size = filesize($_FILES['picture']['tmp_name']);
@@ -473,7 +473,10 @@ function shn_mpr_addmp_confirm()
     shn_form_fopen("default",null,array('req_message'=>false));
     shn_form_fsopen(_('Missing Person'));
     shn_form_hidden(array('seq'=>'commit'));
-    shn_show_thumb_url($_SESSION['mpr_add']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img',true);
+    shn_show_thumb_url($_SESSION['mpr_add']['entry']['p_uuid'],$conf['mod_mpr_upload_pic_handler'] , 'mpr', 'addmp_img',true);
+    
+  //  print 'savahandler is'.$conf['mod_mpr_upload_pic_handler'];
+    
 ?>
     <hr>
 <?php
