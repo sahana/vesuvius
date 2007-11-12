@@ -195,12 +195,8 @@ if(isset($_SESSION['setup_system_db_user_exists'])){
 
 	shn_form_fsopen('User Exists.');
 	echo "<div class='warning message'>";
-	echo _("A user with the given system database username already exists.");
-	echo "<br/>";
-	echo _("This is possible if you are having an old sahana installataion.");
-	echo "<br/>";
-	echo "<b>"._("Click 'Keep User' to keep the existing user intact OR enter a different System Database Username.")."</b>";
-	echo "<br/>";
+	echo _("Database user name sahana_sys already exists.                                                         
+To continue, select a different user name. If you want to keep the existing user click on 'Keep User'. ");
 	echo "</div>";
 	//add_warning('test');
 	shn_form_submit(_('Keep User'),'name="keep_ex_user"');
@@ -213,13 +209,8 @@ if(isset($_SESSION['setup_system_db_exists'])){
 	 */
 	shn_form_fsopen('Database Exists.');
 	echo "<div class='warning message'>";
-	echo _("A database already exists with the given name.");
-	echo "<br/>";
-	echo _("This is possible if you are having another sahana insance using the same databse server instance.");
-	echo "<br/>";
-	echo _("Leaving the same database name will destroy the existing database.");
-	echo "<br/>";
-	echo "<b>"._("Click 'Drop Database' to destroy the existing database or enter a different database name.")."</b>";
+	echo _("Database sahana already exists.
+Enter a different database name to continue. Press 'Drop Database' to delete the database and to continue installation.");
 	echo "</div>";
 	shn_form_submit(_('Drop Database'),'name="drop_ex_db"');
 	shn_form_fsclose();
@@ -233,8 +224,8 @@ array('value'=>'localhost:3306','req'=>true ));
 shn_form_text(_('Database Name'),'db_name','size="30"',
 array('value'=>'sahana','req'=>true));
 shn_form_text(_('Database User'),'root_db_user','size="30"',
-array('value'=>'root','req'=>true));
-shn_form_password(_('Database Password'),'root_db_pass','size="30"', array('value'=>'root','req'=>true));
+array('value'=>'','req'=>true));
+shn_form_password(_('Database Password'),'root_db_pass','size="30"', array('value'=>'','req'=>true));
 shn_form_text(_('System Database User'),'db_user','size="30"',array('value'=>'sahana_sys','req'=>true));
 shn_form_password(_('System Database Password'),'db_pass','size="30"',array('value'=>'password','req'=>true));
 
