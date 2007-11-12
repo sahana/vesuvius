@@ -25,7 +25,7 @@
  * @access public
  * @return void
  */
-
+include_once $global['approot'] . '/inc/lib_image.inc';
 function shn_dvr_default() {
 	global $global;
 	require ($global['approot'] . 'mod/dvr/home.inc');
@@ -645,11 +645,47 @@ function shn_text_dvr_get_family()
   	shn_ajax_send_data();
   	
 }
+//images
+function shn_image_dvr_addvictim_img()
+{
+    global $global; 
 
+    
+    $x_uuid = $_GET['x_uuid'];
+    switch ($_GET['stream']){
+        case 'image' :
+            if($_GET['session']){
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['image'],true);
+            }else{
+                if($_GET['thumbnail'])
+                    shn_show_image_stream($x_uuid,true); 
+                else
+                    shn_show_image_stream($x_uuid,false); 
+            }
+        break;
+    }
+}
+    
+function shn_dvr_addfingerprint_img()
+{
+    global $global; 
 
-
-
-
+    
+    $x_uuid = $_GET['x_uuid'];
+    switch ($_GET['stream']){
+        case 'image' :
+            if($_GET['session']){
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['finger_image'],true);
+            }else{
+                if($_GET['thumbnail'])
+                    shn_show_image_stream($x_uuid,true); 
+                else
+                    shn_show_image_stream($x_uuid,false); 
+            }
+        break;
+    }
+    
+}
 
 
 
