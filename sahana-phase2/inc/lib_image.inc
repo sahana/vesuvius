@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_image.inc,v 1.5 2007-02-26 06:15:32 isurunishan Exp $ */
+/* $Id: lib_image.inc,v 1.6 2007-11-12 09:06:49 isurunishan Exp $ */
 
 /**
  *
@@ -163,8 +163,8 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
     
     if($stream_type == 'database'){
         if($session){
-	        $src_ori = "stream.php?stream_type=image&mod=$mod&act=$act&session=true";
-            $src_tmp = "stream.php?stream_type=image&mod=$mod&act=$act&session=true&thumbnail=true";
+	        $src_ori = "index.php?stream=image&mod=$mod&act=$act&session=true";
+            $src_tmp = "index.php?stream=image&mod=$mod&act=$act&session=true&thumbnail=true";
         }else{
             //need to get the type
             
@@ -175,9 +175,9 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
                 $height = $arr[0]['image_height']+20;
                 $width = $arr[0]['image_width']+20;
             } 
-	        $src_ori = "stream.php?stream_type=image&mod=$mod&act=$act&x_uuid=".$x_uuid.$type;
+	        $src_ori = "index.php?stream=image&mod=$mod&act=$act&x_uuid=".$x_uuid.$type;
 	      
-            $src_tmp = "stream.php?stream_type=image&mod=$mod&act=$act&thumbnail=true&x_uuid=".$x_uuid.$type;
+            $src_tmp = "index.php?stream=image&mod=$mod&act=$act&thumbnail=true&x_uuid=".$x_uuid.$type;
         }
     }else{
         //Since we don't know the extension
@@ -271,6 +271,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
  }
   
     }
+    //echo $src_tmp;
 ?>
     <a title="<?= _('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
     <img border="0" src="<?=$src_tmp;?>" />
