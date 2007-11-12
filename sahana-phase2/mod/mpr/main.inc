@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: main.inc,v 1.27 2006-12-04 06:15:36 isurunishan Exp $ */
+/* $Id: main.inc,v 1.28 2007-11-12 09:12:03 isurunishan Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -593,5 +593,25 @@ function shn_soap_mpr_findmp() {
  */
 function shn_soap_mpr_default() {
 	return "hello";
+}
+//images
+function shn_image_mpr_addmp_img()
+{
+    global $global; 
+
+    //clean clean
+    $x_uuid = $_GET['x_uuid'];
+    switch ($_GET['stream']){
+        case 'image' :
+            if($_GET['session']){
+                shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'],true);
+            }else{
+                if($_GET['thumbnail'])
+                    shn_show_image_stream($x_uuid,true); 
+                else
+                    shn_show_image_stream($x_uuid,false); 
+            }
+        break;
+    }
 }
 ?>
