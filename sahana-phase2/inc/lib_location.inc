@@ -388,42 +388,49 @@ function shn_location_jscript($start,$to,$parent=false){
         } 
     }
     
+        // The callback funtion for locations related to organizations,camps
         // The callback funtion
     function handleHttpResponseComplex(){
+
     		var selection=0;
         if (http.readyState == 4) { // Split the comma delimited response into an array  
             var all_arr=http.responseText.split(";"); 
             var header=all_arr[0];
+
             header_arr = header.split(","); 
             type=header_arr[0];
             next=header_arr[1];
             cur_lvl=header_arr[2];
             selection=header_arr[3]*1+1;//multiplication required to convert to number
 
+
             var data=all_arr[1];
             results = data.split(","); 
-  
-			var x=document.getElementsByName(cur_lvl);
-            		opt = document.createElement("option") ;
-  				opt.value = "" ;
-  				opt.text = "";
-            		x[0].options[0] = opt;
+			var dropdown="loc_select_"+cur_lvl;
+	        var x=document.getElementById(dropdown);
+            opt = document.createElement("option") ;
+  			opt.value = "" ;
+  			opt.text = "";
+            x.options[0] = opt;
 
             		for (i=0; i<results.length;i++){
 		 	    		opt = document.createElement("option") ;
+
 		 	    		var option_data=results[i].split(":");
 		 	    		opt.value = option_data[0] ;
   			    		opt.text = option_data[1].replace(/[^A-Za-z]$/,"");
-                		x[0].options[i+1] = opt;
+                		x.options[i+1] = opt;
+
                
             		}
             		
-            		x[0].selectedIndex=selection;
-            		
+            		x.selectedIndex=selection;
+
             if(cur_lvl>0){
             		update_location(next,type);
             }
         } 
+
     }
 
     function update_next_level(selection,level){
@@ -439,11 +446,14 @@ function shn_location_jscript($start,$to,$parent=false){
     
     function update_location(selection,type){
     	
-    		if(type!='loc_dir'){
+    	if(type!='loc_dir'){
     			for(j=1;j<=to;j++){
-    				var x=document.getElementsByName(j);
-            		for (i=0; i<=x[0].options.length+1; i++){
-	            		x[0].options[0]=null;
+    				
+    				var dropdown="loc_select_"+j;
+	        		var x=document.getElementById(dropdown);
+    				
+            		for (i=0; i<=x.options.length+1; i++){
+	            		x.options[0]=null;
             		}
             	}
         }
