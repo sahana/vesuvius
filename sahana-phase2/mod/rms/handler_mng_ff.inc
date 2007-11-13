@@ -25,17 +25,17 @@ function _shn_rms_mng_request()
     
     print '<div id="req_id">';
     print '<div class="info">';
-    print _("Request / Pledge Matching ");
-    print _("Please add the Request ID of the request you want to fulfill. You can also select a Request from the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
+    //print _("Request / Pledge Matching ");
+    print _("Select a Request from the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
     print '<br />';
     print '</div>';
-    shn_form_fopen("mng_ff",null, array('req_message'=>false));
-    shn_form_hidden(array('seq'=>'get_req'));
-    shn_form_fsopen(_("Request"));
-    shn_form_text(_("Request ID"),'req_id',null,array('br'=>false));
-    shn_form_submit(_("Next"));
-    shn_form_fsclose();
-    shn_form_fclose();
+//    shn_form_fopen("mng_ff",null, array('req_message'=>false));
+//    shn_form_hidden(array('seq'=>'get_req'));
+//    shn_form_fsopen(_("Request"));
+//    shn_form_text(_("Request ID"),'req_id',null,array('br'=>false));
+//    shn_form_submit(_("Next"));
+//    shn_form_fsclose();
+//    shn_form_fclose();
     print '</div>';
 }
 
