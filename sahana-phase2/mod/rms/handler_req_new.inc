@@ -201,6 +201,8 @@ function _shn_rms_ax_location_other($id=null)
     
 }
 
+
+
 function _shn_rms_location_add()
 {
     /*=================<newly commented>=======================
@@ -530,8 +532,6 @@ switch ($_REQUEST['seq'])
     	   // $loc = shn_location_get_form_submit_loc();
     	$loc = trim($_POST['loc']);
     	//$loc = $_POST['loc'];    
-    	
-            
             $_SESSION['rms_reqstr_loc'] = $loc;
             $_SESSION['rms_items'] = null;
             
@@ -540,7 +540,7 @@ switch ($_REQUEST['seq'])
             _shn_rms_view_location($_SESSION['rms_reqstr_loc'],true);
             print '<br />';
             
-            _shn_rms_items();
+            _shn_rms_items();    	
             break;
     
     case 'ax_loc_other':
@@ -548,7 +548,6 @@ switch ($_REQUEST['seq'])
             break;
 
     case 'ax_loc_org':
-         //
             break;
             
     case 'ax_loc_camp':

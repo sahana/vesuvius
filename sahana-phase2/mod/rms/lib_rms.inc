@@ -1072,10 +1072,10 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 		///$tmp_str = '<strong>' . _("RequesterID") . '</strong>';
 		//$tb_reqstr[] = array($tmp_str , $reqstr_id);
 		$tb_reqstr[] = array('<strong>' . _("Full Name") . '</strong>', $requester['name']);
-		$tb_reqstr[] = array('<strong>' . _("Address") . '</strong>', $requester['address']);
-		$tb_reqstr[] = array('<strong>' . _("email") . '</strong>', $requester['email']);
-		$tb_reqstr[] = array('<strong>' . _("Mobile") . '</strong>', $requester['mobile']);
-		$tb_reqstr[] = array('<strong>' . _("Telephone") . '</strong>', $requester['telephone']);
+		//$tb_reqstr[] = array('<strong>' . _("Address") . '</strong>', $requester['address']);
+		//$tb_reqstr[] = array('<strong>' . _("email") . '</strong>', $requester['email']);
+		//$tb_reqstr[] = array('<strong>' . _("Mobile") . '</strong>', $requester['mobile']);
+		//$tb_reqstr[] = array('<strong>' . _("Telephone") . '</strong>', $requester['telephone']);
 
 		$width=array('20%');
 		shn_html_table($tb_reqstr,null,null,array('class'=>'layout','width'=>$width));
@@ -1097,18 +1097,19 @@ print '</div>';
 function _shn_rms_view_donor($donor_id, $summary=false)
 {
 	print '<div id="note2">';
-	print '<h4>' . _("Donor Contact Information") . '</h4>';
+	//print '<h4>' . _("Donor Contact Information") . '</h4>';
+	print '<h4>' . _("Donor Information") . '</h4>';
 
 	$donor = _shn_rms_get_person($donor_id);
 	if (!$summary)
 	{
 		$tmp_str = '<strong>' . _("Donor ID") . '</strong>';
-		$tb_donor[] = array($tmp_str , $donor_id);
+		//$tb_donor[] = array($tmp_str , $donor_id);
 		$tb_donor[] = array('<strong>' . _("Full Name") . '</strong>', $donor['name']);
-		$tb_donor[] = array('<strong>' . _("email") . '</strong>', $donor['email']);
-		$tb_donor[] = array('<strong>' . _("Mobile") . '</strong>', $donor['mobile']);
-		$tb_donor[] = array('<strong>' . _("Telephone") . '</strong>', $donor['telephone']);
-		$tb_donor[] = array('<strong>' . _("Address") . '</strong>', $donor['address']);
+		//$tb_donor[] = array('<strong>' . _("email") . '</strong>', $donor['email']);
+		//$tb_donor[] = array('<strong>' . _("Mobile") . '</strong>', $donor['mobile']);
+		//$tb_donor[] = array('<strong>' . _("Telephone") . '</strong>', $donor['telephone']);
+		//$tb_donor[] = array('<strong>' . _("Address") . '</strong>', $donor['address'])
 
 		$width=array('20%');
 		shn_html_table($tb_donor,null,null,array('class'=>'layout','width'=>$width));
@@ -1131,14 +1132,13 @@ print '</div>';
 function _shn_rms_view_location($loc_id, $summary=false)
 {
 	print '<div id="note2">';
-	print '<h4>' . _("Request Location Information") . '</h4>';
-
-	$location = _shn_rms_get_location($loc_id);
+	//print '<h4>' . _("Request Location Information") . '</h4>';
+	$location = _shn_rms_get_location_name($loc_id);
 	if (!$summary)
 	{
 		//$tmp_str = '<strong>' . _("Location ID") . '</strong>';
 		//$tb_loc[] = array($tmp_str , $loc_id);
-		$tb_loc[] = array('<strong>' . _("Name") . '</strong>', $location['location_id']);
+		$tb_loc[] = array('<strong>' . _("Location") . '</strong>', $location);
 		//$tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
 		// $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
 		// $tb_loc[] = array('<strong>' . _("Post code") . '</strong>', $location['postcode']);
@@ -1151,9 +1151,9 @@ function _shn_rms_view_location($loc_id, $summary=false)
 	{
 		?>
 
-<strong>Location Address</strong>
+<strong>Location</strong>
 :
-		<?=$location['address']?>
+		<?=$location?>
 		<?php
 }
 print '</div>';
@@ -1248,10 +1248,10 @@ function _shn_rms_view_request($req_id)
 	$status = $request['status'];
 	$shn_usr = $request['user_id'];
 
-	print '<h3>' . _("The Request ID: ") . $req_id . '</h3>';
-	print '<br />';
+	//print '<h3>' . _("The Request ID: ") . $req_id . '</h3>';
+	//print '<br />';
 	_shn_rms_view_requester($request['reqstr_uuid']);
-	print '<br />';
+	//print '<br />';
 	_shn_rms_view_location($request['loc_uuid']);
 	print '<br />';
 	_shn_rms_view_reqitems($req_id);
@@ -1286,8 +1286,8 @@ function _shn_rms_view_pledge($plg_id)
 	$status = $pledge['status'];
 	$shn_usr = $pledge['user_id'];
 
-	print '<h3>' . _("The Pledge ID: ") . $plg_id . '</h3>';
-	print '<br />';
+	//print '<h3>' . _("The Pledge ID: ") . $plg_id . '</h3>';
+	//print '<br />';
 	_shn_rms_view_donor($pledge['donor_uuid']);
 	print '<br />';
 	_shn_rms_view_plgitems($plg_id);
@@ -1600,7 +1600,7 @@ function _shn_rms_requester_add_new_loc_()
     if($_POST['loc_select_1'] != null) {
     	$_SESSION['ims_1']=$_POST['loc_select_1'];
     	$_SESSION['ims_2']=$_POST['loc_select_2'];
-    	$_SESSION['ims_3']=$_POST['loc_select_2'];
+    	$_SESSION['ims_3']=$_POST['loc_select_3'];
  
     	$location_id=_shn_ims_get_locid();
 

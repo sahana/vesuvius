@@ -23,8 +23,8 @@ _shn_rms_print_hedder(_("Enter New Pledge"));
 
 function _shn_rms_donor_display($id)
 {
-    $donor = _shn_rms_get_person($id);
-    print_r($donor);
+    $donor = _shn_rms_view_donor($id, $summary=false);
+    echo $donor;
 }
 
 function _shn_rms_donor_conf($id)
@@ -93,7 +93,11 @@ function _shn_rms_items($category = null)
     shn_form_fopen("plg_new",null,array('req_message'=>false,'anchor'=>'items'));
     shn_form_hidden(array('seq'=>'add_item'));
     shn_form_hidden(array('cat_sel'=>'false'));
-    shn_form_fsopen(_("New Item"));
+    
+    $info=_("Select an item first");
+    ?><div class="info"><?php echo $info;?></div><br /><?
+    
+	shn_form_fsopen(_("New Item"));
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('sub_cat');
     shn_form_select($categories, _("Category"),'category',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
@@ -108,6 +112,10 @@ function _shn_rms_items($category = null)
     
     shn_form_text(_("Quantity"),'qty',null,array('req'=>true));
     shn_form_fsclose();
+    
+    $info=_("Select an Inventory");
+    ?><div class="info"><?php echo $info;?></div><br /><?
+    
     shn_form_fsopen(_('Inventory Selection'));
     $inventory_array=array();
     global $global;
@@ -214,10 +222,11 @@ function _shn_rms_get_subcat($cat_id)
 switch ($_REQUEST['seq'])
 {
     case '':
+    	    $id=$_SESSION['user_id'];
             $_SESSION['rms_donor_id'] =  $_SESSION['user_id'];
             $_SESSION['rms_items'] = null;
             $_SESSION['rms_plg_added'] = null;
-
+            _shn_rms_donor_display($id);
             _shn_rms_items();
             
             break;
