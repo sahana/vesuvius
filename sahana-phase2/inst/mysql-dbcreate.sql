@@ -8,9 +8,9 @@
 -- from GIS module
 DROP TABLE IF EXISTS `gis_wiki`;
 
---general tables
+-- general tables
 
---DROP TABLE IF EXISTS config;
+-- DROP TABLE IF EXISTS config;
 DROP TABLE IF EXISTS org_users;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS sys_user_to_group;
@@ -29,12 +29,12 @@ DROP TABLE IF EXISTS camp_general;
 DROP TABLE IF EXISTS resource_to_incident;
 DROP TABLE IF EXISTS incident;
 
---drop tables from lib_uuid
+-- drop tables from lib_uuid
 
 DROP TABLE IF EXISTS victim_group;
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS organization;
---DROP TABLE IF EXISTS loc_seq;
+-- DROP TABLE IF EXISTS loc_seq;
 DROP TABLE IF EXISTS landmark;
 DROP TABLE IF EXISTS log;
 DROP TABLE IF EXISTS camp;
@@ -320,7 +320,7 @@ CREATE TABLE user_preference(
     pref_key     VARCHAR(60) NOT NULL,
     value   VARCHAR(100),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
-    --FOREIGN KEY (module_id) REFERENCES modules (module_id),
+    -- FOREIGN KEY (module_id) REFERENCES modules (module_id),
     PRIMARY KEY (p_uuid,module_id,pref_key)
 );
 
