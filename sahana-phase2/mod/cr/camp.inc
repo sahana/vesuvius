@@ -1,5 +1,5 @@
 <?php
-/* $Id: camp.inc,v 1.54 2007-11-03 06:57:18 mifanc Exp $ */
+/* $Id: camp.inc,v 1.55 2007-11-15 13:25:42 isurunishan Exp $ */
 
 /**Camp library for  CR
 *
@@ -236,11 +236,11 @@ function _shn_cr_sel_map($errors=false){
 	if(isset($_POST['hospital'])){
 		$_SESSION['hospital']=true;
 	}
-	$_SESSION['cr_1']=$_POST['1'];
-	$_SESSION['cr_2']=$_POST['2'];
-	$_SESSION['cr_3']=$_POST['3'];
-	$_SESSION['cr_4']=$_POST['4'];
-	$_SESSION['cr_5']=$_POST['5'];
+	$_SESSION['cr_1']=$_POST['loc_select_1'];
+	$_SESSION['cr_2']=$_POST['loc_select_2'];
+	$_SESSION['cr_3']=$_POST['loc_select_3'];
+	$_SESSION['cr_4']=$_POST['loc_select_4'];
+	$_SESSION['cr_5']=$_POST['loc_select_5'];
 	$_SESSION['contact_mob']=$_POST['contact_mob'];
 	$_SESSION['occupation']=$_POST['occupation'];
 	}
