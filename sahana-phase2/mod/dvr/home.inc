@@ -86,7 +86,7 @@ function shn_dvr_home_show_dvr()
     global $global; 
 
    
-    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid order by im.created ";
+    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_victim' order by im.created ";
             
 
            $rs = $global['db']->SelectLimit($sql,16);
