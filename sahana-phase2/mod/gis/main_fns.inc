@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: main_fns.inc,v 1.18 2006-08-12 19:00:22 mifanc Exp $ */
+/* $Id: main_fns.inc,v 1.19 2007-11-15 12:52:21 isurunishan Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -18,20 +18,46 @@
 */
 
 
+
+
+
+
+
+
 function shn_gis_default()
 {
-	global $conf;
+        global $conf;
 ?>
 <div id="home">
 <h2><?=$conf['mod_gis_name']?></h2>
+<p>
+<?=_("The  {$conf['mod_gis_name']} module provides Geographic Information System (GIS) support and spatial functionalities to other Sahana modules");?></li>
+        
+</p>
+
+<br></br>
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+<br></br>
 <ul>
-	<li><?=_("The  {$conf['mod_gis_name']} module is a library that provides GIS and Spatial functionalities to other Sahana modules");?></li>
-	<li><?php echo _('It also allows users to identify and add landmarks of incidents');?></li>
-	<li><?php echo _('This library allows incidents to be mapped to GIS locations for advanced spatial functionality');?></li>
+        <li><?php echo _('Allows registering disaster situations in GIS maps') ?></li>
+        <li><?php echo _('Facilitates users to identify and add locations of relief activites');?></li>
+        <li><?php echo _('Help to maintain supply chain by locating requests, pledges and aid');?></li>
 </ul>
+
+<strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=gis&act=show"><b><?= _('Mapping Client'); ?> </b></a><br/><?= _('Allows clients to be located on GIS map'); ?></li>
+        <li><a href="index.php?mod=gis&act=awik"><b><?= _('Add Situation'); ?> </b> </a><br/><?= _('Registers disaster locations'); ?></li>
+        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Review GIS maps'); ?></li>
+        
+        
+</ul>
+<br/>
+
 </div>
 <?php
 }
+
 
 
 function shn_gis_show()
