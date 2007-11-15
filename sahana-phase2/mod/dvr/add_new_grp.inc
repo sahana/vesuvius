@@ -242,21 +242,17 @@ $_SESSION['dvr']['group']['displaced_loc'] = $loc;
 }
 
 //group type and head details
-function shn_dvr_grouptype_and_head_details($errors = false) {
+function shn_dvr_grouptype_and_head_details($errors = false) 
+{
 	if ($errors)
 		display_errors();
 
-	shn_form_fopen("add_new_grp", null, array (
-		'req_message' => true,
-		'enctype' => 'enctype="multipart/form-data"'
-	));
+	shn_form_fopen("add_new_grp", null, array ('req_message' => true,'enctype' => 'enctype="multipart/form-data"'));
 ?>
     <?php
 
 
-	shn_form_hidden(array (
-		'seq' => 'chk'
-	));
+	shn_form_hidden(array ('seq' => 'chk'));
 	//select the group type
 	shn_form_fsopen(_("Select Group Type"));
 	print '<div class="info">';

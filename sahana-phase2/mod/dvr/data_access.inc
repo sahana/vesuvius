@@ -222,7 +222,7 @@ function _shn_dvr_get_all_groups($incident_id=null,$camp_id=null) {
 	$db = $global['db'];
 	if($incident_id!=null)
 	{
-	$search_q1 = "SELECT distinct pg.g_uuid as group_id,pg.opt_group_type as group_type,pn.full_name as full_name ,pn.family_name as family_name,pn.l10n_name as local_name,id.serial as serial,co.contact_value as address from identity_to_person id,contact co,person_uuid pn,pgroup pg,group_details gd,resource_to_incident re where re.x_uuid=gd.g_uuid and re.incident_id='{$incident_id}' and gd.g_uuid=pg.g_uuid and gd.head_uuid=pn.p_uuid and gd.head_uuid=id.p_uuid and gd.head_uuid=co.pgoc_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard' order by group_type";
+	$search_q1 = "SELECT distinct pg.g_uuid as group_id,pg.opt_group_type as group_type,pn.full_name as full_name ,pn.family_name as family_name,pn.l10n_name as local_name,id.serial as serial,co.contact_value as address FROM identity_to_person id,contact co,person_uuid pn,pgroup pg,group_details gd,resource_to_incident re where re.x_uuid=gd.g_uuid and re.incident_id='{$incident_id}' and gd.g_uuid=pg.g_uuid and gd.head_uuid=pn.p_uuid and gd.head_uuid=id.p_uuid and gd.head_uuid=co.pgoc_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard' order by group_type";
 	
 	}
 	else if($camp_id!=null)
@@ -609,7 +609,7 @@ $db->Execute($q6);
 
 function  _shn_dvr_get_camps()
 {
-	$sql="select c_uuid,name from camp_general ";
+	$sql="select c_uuid,name,address,capacity from camp_general ";
 global $global;
 $db = $global['db'];	
 
@@ -686,5 +686,4 @@ return $result;
 
 
 ?>
-
 
