@@ -95,12 +95,12 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 
 		// start a new connection
 		$_tdb1->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass']);
-		$res=$_tdb1->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
+		/*$res=$_tdb1->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
 		if(!($res->EOF)){
 			add_error(_("System database username already exists. Use a different system database username."));
 			$_tdb1->Close();
 			return false;
-		}
+		}*/
 
 		// create system user and privileges
 		$_tdb1->Execute("CREATE USER '".$conf_key_vals['db_user']."'@'%' IDENTIFIED BY '".$conf_key_vals['db_pass']."'");

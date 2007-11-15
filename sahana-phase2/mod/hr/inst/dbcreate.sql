@@ -6,7 +6,7 @@
 * Email         : sheran@opensource.lk
 */
 
---drop table into order to support innodb installation
+-- drop table into order to support innodb installation
 DROP TABLE if EXISTS hr_site_location_details_table;
 DROP TABLE if EXISTS hr_site_infrastructure_details_table;
 DROP TABLE if EXISTS hr_site_house_details_table;

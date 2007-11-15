@@ -1,7 +1,7 @@
 --
 -- Table structure for table vm_courier
 --
---drop tables 
+-- drop tables 
 DROP TABLE IF EXISTS vm_vol_skills;
 DROP TABLE IF EXISTS vm_vol_details;
 DROP TABLE IF EXISTS vm_projects;

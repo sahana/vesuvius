@@ -4,7 +4,7 @@
 * Last changed: 3rd-OCT-2006 - isuru@opensource.lk
 */
 
---drop tables in order to support innodb installation
+-- drop tables in order to support innodb installation
 DROP TABLE IF EXISTS `rms_tmp_sch`;
 DROP TABLE IF EXISTS `rms_fulfil`;
 DROP TABLE IF EXISTS `rms_plg_item`;
