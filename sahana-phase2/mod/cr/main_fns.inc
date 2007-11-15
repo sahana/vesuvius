@@ -13,7 +13,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main_fns.inc,v 1.55 2007-09-22 19:42:11 mifanc Exp $
+* @version $Id: main_fns.inc,v 1.56 2007-11-15 12:56:30 isurunishan Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -21,35 +21,52 @@
  * Main home display content for CR
  */
 function shn_cr_default(){
-	global $conf;
+        global $conf;
 ?>
-	<div id="home">
-		<h2><?php echo _($conf['mod_cr_name'])?></h2>
-		<p><?php echo _("This sub application tracks all {$conf['mod_cr_alt']}s, and stores basic details regarding them. It works with other modules to track people associated" .
-				" with a  {$conf['mod_cr_alt']}, the services available etc.")?>
-		</p>
-	  	<p><h3><?php echo _("Current features include:")?></h3></p>
-		<ul>
-		    <li><?php echo _("Tracking of basic meta-data on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
-<?php if($conf['gis']){ ?>	    
-		    <li><?php echo _("GIS integration to view location details of the {$conf['mod_cr_alt']}")?></li>
-<?php } ?>	 
-		    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
-		    <li><?php echo _("Ability to customize the list of details tracked at a {$conf['mod_cr_alt']}")?></li>
-		    <li><?php echo _("Ability to customize the list of human resource tracked at a {$conf['mod_cr_alt']}")?></li>
-		    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
-<?php if($conf['gis']){ ?>	    
-		    <li><?php echo _("GIS Reports of {$conf['mod_cr_alt']}")?></li>
+        <div id="home">
+                <h2><?php echo _($conf['mod_cr_name'])?></h2>
+                <p><?php echo _("This module tracks all {$conf['mod_cr_alt']}s, and stores basic details regarding them. It collaborates with other modules to track people associated" .
+                                " with a  {$conf['mod_cr_alt']}, the services available etc.")?>
+                </p>
+                <p><h3><?php echo _("Current features include:")?></h3></p>
+                <ul>
+                    <li><?php echo _("Tracking of basic information on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
+<?php if($conf['gis']){ ?>          
+                    <li><?php echo _("GIS integration to view location details of the {$conf['mod_cr_alt']}")?></li>
+<?php } ?>       
+                    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
+                    <li><?php echo _("Ability to customize the list of details tracked at a {$conf['mod_cr_alt']}")?></li>
+                    <li><?php echo _("Ability to customize the list of human resource tracked at a {$conf['mod_cr_alt']}")?></li>
+                    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
+<?php if($conf['gis']){ ?>          
+                    <li><?php echo _("GIS Reports of {$conf['mod_cr_alt']}")?></li>
 <?php } ?>
-		</ul>
-		
-		<h2><?php echo _("Most Populated {$conf['mod_cr_alt']}s");?></h2>
+                </ul>
+                
+<strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=cr&act=srch"><b><?= _('Search by Name'); ?> </b></a><br/><?= _('Search for shelter by name or type of the shelter'); ?></li>
+        <li><a href="index.php?mod=cr&act=srch_address"><b><?= _('Search by address'); ?> </b> </a><br/><?= _('Search the shelter by its location'); ?></li>
+        <li><a href="index.php?mod=cr&act=acmp"><b><?= _('Add shelter'); ?></b></a><br/><?= _('Add a shelter to the database'); ?></li>
+        <li><a href="index.php?mod=cr&act=ecmp"><b><?= _('Edit shelter'); ?></b></a><br/><?= _('Update informations regarding shelters'); ?>
+        <li><a href="index.php?mod=cr&act=arpt"><b><?= _('View all shelters'); ?></b></a><br/><?= _('List information of all shelters'); ?></li>
+        <li><a href="index.php?mod=cr&act=lrpt"><b><?= _('View by location'); ?></b></a><br/><?= _('List shelters according to location'); ?></li>
+        <li><a href="index.php?mod=cr&act=contact"><b><?= _('View admin details'); ?></b></a><br/><?= _('List shelters by shelter administrator\'s name'); ?></li>
+        <li><a href="index.php?mod=cr&act=gis_show"><b><?= _('Map by location'); ?></b></a><br/><?= _('Graphical representation of shelter locations on a map'); ?>
+        <li><a href="index.php?mod=cr&act=gis_infect"><b><?= _('Map by infection'); ?></b></a><br/><?= _('Graphical representation of shelter by infections'); ?></li>
+        <li><a href="index.php?mod=cr&act=gis_population"><b><?= _('Map by population'); ?></b></a><br/><?= _('Graphical representation of shelters by their population density'); ?></li>
+        
+</ul>
+<br/>
+                
+                
+                <h2><?php echo _("Most occupied {$conf['mod_cr_alt']}s");?></h2>
 <?php shn_cr_home_pop(); 
-		?>	
-		
-		<h2><?php echo _("Newest {$conf['mod_cr_alt']}s");?></h2>
-<?php 		shn_cr_home_newcmp();?>
-	</div>
+                ?>      
+                
+                <h2><?php echo _("Newest {$conf['mod_cr_alt']}s");?></h2>
+<?php           shn_cr_home_newcmp();?>
+        </div>
 <?php
 }
 
