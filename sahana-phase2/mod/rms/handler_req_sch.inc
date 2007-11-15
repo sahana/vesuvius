@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 
-_shn_rms_print_hedder(_("Request Search: Search for Requesters, Locations and Requests"));
+_shn_rms_print_hedder(_("Search for Requests"));
 
 function _shn_rms_sch_getkeywords()
 {   
@@ -26,97 +26,98 @@ function _shn_rms_sch_getkeywords()
 //    shn_form_text(_("Search Keywords"),'keywords',null,array('br'=>false,'value'=>'','req'=>true));
 //    shn_form_submit(_("Search"));
 //    shn_form_fclose();
-
+    //----------------------------------------------------------------------
 	$loc_ids = _shn_rms_get_location_array($_SESSION['user_id']);
     $location = array();
-    array_push($location, 'All');
-     foreach($loc_ids as $loc)
-     	{
-     		$location[$loc] = _shn_rms_get_location_name($loc);
+    if($loc_ids!=null) {
+        array_push($location, 'All');
+        foreach($loc_ids as $loc){
+            $location[$loc] = _shn_rms_get_location_name($loc);
      	}
     
-    //var_dump($location);
-    //$location = array_reverse($location,TRUE);
+        //var_dump($location);
+        //$location = array_reverse($location,TRUE);
        
        
        
-    $priority = array();
-    $pri_arr = array();
-    array_push($priority, 'All');
-    $pri_arr = _shn_rms_get_priorities(); 
-     foreach ($pri_arr as $pri)
-       {
-         $priority[$pri['pri_uuid']] = $pri['priority'];
+       $priority = array();
+       $pri_arr = array();
+       array_push($priority, 'All');
+       $pri_arr = _shn_rms_get_priorities(); 
+       foreach ($pri_arr as $pri) {
+           $priority[$pri['pri_uuid']] = $pri['priority'];
        }
     
-   //$priority = array_reverse($priority,TRUE);
+       //$priority = array_reverse($priority,TRUE);
        
-    $categories = array();
-    array_push($categories, 'All');
-    $cat_arr = _shn_rms_get_categories();
-     foreach ($cat_arr as $cat)
-       {
-         $categories[$cat['ct_uuid']] = $cat['name'];
-       }
+       $categories = array();
+       array_push($categories, 'All');
+       $cat_arr = _shn_rms_get_categories();
+       foreach ($cat_arr as $cat) {
+            $categories[$cat['ct_uuid']] = $cat['name'];
+        }
     
-    //$categories = array_reverse($categories,TRUE);
+        //$categories = array_reverse($categories,TRUE);
     
-    $status = array();
-    $status['all'] = _("All");
-    $status['open'] = _("Open");
-    $status['closed'] = _("Closed");
+        $status = array();
+        $status['all'] = _("All");
+        $status['open'] = _("Open");
+        $status['closed'] = _("Closed");
     
 	
-	 //shn_html_tr_open();
-//            shn_html_td_open();
-//            shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-//            shn_form_hidden(array('seq'=>'filter'));
-//            shn_form_select($requesters, _("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
-//            shn_form_fclose();
-//            shn_html_td_close();
+	    //shn_html_tr_open();
+        //shn_html_td_open();
+        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
+        //shn_form_hidden(array('seq'=>'filter'));
+        //shn_form_select($requesters, _("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
+        //shn_form_fclose();
+        //shn_html_td_close();
 			 
-            //shn_html_td_open();
-            shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-            shn_form_fsopen("Select Criteria");
-            shn_form_hidden(array('seq'=>'get_keywords'));
+        //shn_html_td_open();
+        shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
+        shn_form_fsopen("Select Criteria");
+        shn_form_hidden(array('seq'=>'get_keywords'));
             
-            shn_form_select($location, _("Locations"), 'loc_id', null,array('br'=>false));
-            print '<br />';
-            print '<br />';
-           // shn_form_submit(_("Search"));
-            //shn_form_fclose();
-          // shn_html_td_close();
+        shn_form_select($location, _("Locations"), 'loc_id', null,array('br'=>false));
+        print '<br />';
+        print '<br />';
+        // shn_form_submit(_("Search"));
+        //shn_form_fclose();
+        // shn_html_td_close();
 	
-	//shn_html_td_open();
-    //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-    //shn_form_hidden(array('seq'=>'get_keywords'));
-    shn_form_select($priority,_("Priotity"),'priority',null,array('br'=>false));
-    print '<br />';
-    print '<br />';
-    //shn_form_submit(_("Search"));
-    //shn_form_fclose();
-    //shn_html_td_close();
+	    //shn_html_td_open();
+        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
+        //shn_form_hidden(array('seq'=>'get_keywords'));
+        shn_form_select($priority,_("Priotity"),'priority',null,array('br'=>false));
+        print '<br />';
+        print '<br />';
+        //shn_form_submit(_("Search"));
+        //shn_form_fclose();
+        //shn_html_td_close();
     
-    //shn_html_td_open();
-    //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-    //shn_form_hidden(array('seq'=>'get_keywords'));
-    shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
-    print '<br />';
-    print '<br />';
-    //shn_form_submit(_("Search"));
-    //shn_form_fclose();
-    //shn_html_td_close();
+        //shn_html_td_open();
+        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
+        //shn_form_hidden(array('seq'=>'get_keywords'));
+        shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
+        print '<br />';
+        print '<br />';
+        //shn_form_submit(_("Search"));
+        //shn_form_fclose();
+        //shn_html_td_close();
     
-    //shn_html_td_open();
-    //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-    //shn_form_hidden(array('seq'=>'get_keywords'));
-    shn_form_select($status,_("Status"),'status',null,array('br'=>false));
-    shn_form_fsclose();
-    //print '<br />';
-   // print '<br />';
-    shn_form_submit(_("Search"));
-    shn_form_fclose();
-    //shn_html_td_close();
+        //shn_html_td_open();
+        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
+        //shn_form_hidden(array('seq'=>'get_keywords'));
+        shn_form_select($status,_("Status"),'status',null,array('br'=>false));
+        shn_form_fsclose();
+        //print '<br />';
+        // print '<br />';
+        shn_form_submit(_("Search"));
+        shn_form_fclose();
+        //shn_html_td_close();
+    }else {
+    	add_warning(_("No requests found"));
+    }
 }
 
 function _shn_rms_shn_get_results()
@@ -331,7 +332,7 @@ switch ($_REQUEST['seq'])
    case 'get_keywords':
             _shn_rms_sch_getkeywords();
             // case 'filter':
-           // $page = $_REQUEST['page_no'];
+            // $page = $_REQUEST['page_no'];
             $page = 5;
             $rows = $_SESSION['rms_req_sch_rows'];
             $_SESSION['rms_req_sch']['priority'] = $_REQUEST['priority'];

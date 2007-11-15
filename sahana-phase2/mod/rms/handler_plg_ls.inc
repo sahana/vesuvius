@@ -116,13 +116,20 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     }
     
     //Result table hedder
-    $th_res[] = array (
+    /*$th_res[] = array (
                          _("ID"), 
                          _("Donor"), 
                          _("Date"), 
                          _("status"),
                          ''
+                        );*/
+    $th_res[] = array (
+                         _("Donor"), 
+                         _("Date"), 
+                         _("status"),
+                         ''
                         );
+                        
                         
     foreach ($rs_arr as $r)
     {
@@ -144,7 +151,8 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                     '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
                     _("Details") . '</a>';
         
-        $tb_res[] = array ($plg_id, $donor_d, $plg_date, $plg_stat, $view_url);
+        //$tb_res[] = array ($plg_id, $donor_d, $plg_date, $plg_stat, $view_url);
+        $tb_res[] = array ($donor_d, $plg_date, $plg_stat, $view_url);
     }
     
     if (1 <= count($rs_arr))
@@ -165,6 +173,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             $stat['all'] = _("All");
             $stat['not_confirmed'] = _("Not Confirmed");
             $stat['confirmed'] = _("Confirmed");
+            $stat['not_delivered'] = _("Not Delivered");
             $stat['delivered'] = _("Delivered");
             $stat['discarded'] = _("Discarded");
             

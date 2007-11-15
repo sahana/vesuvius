@@ -1872,4 +1872,28 @@ function _shn_rms_is_user($id)
     
     return false;
 }
+
+/**
+ * To get inventory name according to the given id;
+ */
+function _shn_rms_get_inventory_name($inv_uuid)
+{
+    global $global;
+
+	$sql = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_uuid'";
+	$rs = $global['db']->Execute($sql);
+
+	if ($rs === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	}
+	else
+	{
+		$name=$rs->fields['inventory_name'];
+		return $name;
+	}
+}
 ?>

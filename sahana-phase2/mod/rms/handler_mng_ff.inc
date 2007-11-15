@@ -23,6 +23,7 @@ function _shn_rms_mng_request()
 {
     $_SESSION['rms_req_id'] = null;
     
+    
     print '<div id="req_id">';
     print '<div class="info">';
     //print _("Request / Pledge Matching ");
@@ -109,7 +110,7 @@ function _shn_rms_mng_select_pledge()
     
     if (1 <= count($rs_arr)) 
     {
-        $th_plg[] = array (_("PledgeID"), _("Item"), _("Qty"), _("Used"), '');
+        $th_plg[] = array (_("Item"), _("Qty"), _("Used"), '');
          
         foreach ($rs_arr as $plg)
         {
@@ -120,7 +121,6 @@ function _shn_rms_mng_select_pledge()
                         _("Select") . '</a>';
                         
             $tb_plg[] = array (
-                                 $plg['plg_uuid'],
                                  _shn_rms_get_itemname($plg['item_uuid']), 
                                  $plg['plg_qty'],
                                  $plg['ff_qty'],
@@ -357,7 +357,7 @@ switch ($_REQUEST['seq'])
     case 'add_ff':
             $_SESSION['rms_req_plg'] = $_REQUEST['plg_id'];
             $max_qty = $_REQUEST['max_qty'];            
-            _shn_rms_mng_addff();
+            _shn_rms_mng_addff($max_qty);
             break;
 
     case 'mng_ff_inventory':
