@@ -24,7 +24,7 @@
 
 global $global;
 //include_once $global['approot']."/inc/handler_form.inc";
-define (UNKNOWN,"unknown");
+define ("UNKNOWN","unknown");
 /**
  * Returns the $_POST location. In the form the user may have entered village
  * some times he may not select a village ,but a district. Therefore
@@ -391,27 +391,31 @@ function shn_location_jscript($start,$to,$parent=false){
         // The callback funtion for locations related to organizations,camps
         // The callback funtion
     function handleHttpResponseComplex(){
-
     		var selection=0;
-        if (http.readyState == 4) { // Split the comma delimited response into an array  
+        if (http.readyState == 4) { // Split the comma delimited response into an array
+ 
             var all_arr=http.responseText.split(";"); 
             var header=all_arr[0];
+			if(header){
+	            header_arr = header.split(","); 
+	            type=header_arr[0];
+	            next=header_arr[1];
+	            cur_lvl=header_arr[2];
+	            selection=header_arr[3]*1+1;//multiplication required to convert to number
+	
+				//alert(all_arr);
+	            var data=all_arr[1];
+	            if(data){
+		            results = data.split(",");
+		            
+					var dropdown="loc_select_"+cur_lvl;
+			        var x=document.getElementById(dropdown);
 
-            header_arr = header.split(","); 
-            type=header_arr[0];
-            next=header_arr[1];
-            cur_lvl=header_arr[2];
-            selection=header_arr[3]*1+1;//multiplication required to convert to number
-
-
-            var data=all_arr[1];
-            results = data.split(","); 
-			var dropdown="loc_select_"+cur_lvl;
-	        var x=document.getElementById(dropdown);
-            opt = document.createElement("option") ;
-  			opt.value = "" ;
-  			opt.text = "";
-            x.options[0] = opt;
+		            opt = document.createElement("option") ;
+		  			opt.value = "" ;
+		  			opt.text = "";
+		            x.options[0] = opt;
+		            
 
             		for (i=0; i<results.length;i++){
 		 	    		opt = document.createElement("option") ;
@@ -419,17 +423,17 @@ function shn_location_jscript($start,$to,$parent=false){
 		 	    		var option_data=results[i].split(":");
 		 	    		opt.value = option_data[0] ;
   			    		opt.text = option_data[1].replace(/[^A-Za-z]$/,"");
-                		x.options[i+1] = opt;
-
-               
+                		x.options[x.options.length] = opt;//i+1
+              
             		}
-            		
             		x.selectedIndex=selection;
-
-            if(cur_lvl>0){
-            		update_location(next,type);
-            }
-        } 
+		
+		            if(cur_lvl>0){
+		            		update_location(next,type);
+		            }
+	            }
+	        } 
+        }
 
     }
 
@@ -473,7 +477,7 @@ function shn_location_jscript($start,$to,$parent=false){
 		if(div=='loc_dir'){
 			for(i=start;i<=to;i++){
 	  				var x=document.getElementsByName(i);
-  					x[0].selectedIndex=-1;
+  					//x[0].selectedIndex=-1;
   					var y=document.getElementById(i);
   				
   					y.style.display='block';
@@ -492,7 +496,7 @@ function shn_location_jscript($start,$to,$parent=false){
 
 			for(i=start;i<=to;i++){
 	  				var x=document.getElementsByName(i);
-  					x[0].selectedIndex=-1;
+  					//x[0].selectedIndex=-1;
   					var y=document.getElementById(i);
   					
   					y.style.display='none';
@@ -513,7 +517,7 @@ function shn_location_jscript($start,$to,$parent=false){
     		//	alert("start"+start);
     				if(i<=start){
 	  				var x=document.getElementsByName(i);
-  					x[0].selectedIndex=-1;
+  					//x[0].selectedIndex=-1;
   				}
   			}
   		//var y=document.getElementById(i);
@@ -523,7 +527,7 @@ function shn_location_jscript($start,$to,$parent=false){
     
 	for(i=start;i<=to;i++){
 	  	var x=document.getElementsByName(i);
-  		x[0].selectedIndex=-1;
+  		//x[0].selectedIndex=-1;
   		//var y=document.getElementById(i);
   		//y.style.display='none';
   		
@@ -531,11 +535,10 @@ function shn_location_jscript($start,$to,$parent=false){
   	}
   	var y=document.getElementById("loc_org");
   	y.style.display='none';
-  
+  	
   	var y=document.getElementById("loc_camp");
   	y.style.display='none';
-  
-	
+    	
 </script>
 <?php
 }
