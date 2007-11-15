@@ -30,7 +30,12 @@ function shn_dvr_adm_default() {
     <p>
     <?php
    shn_dvr_adminmenu();
-
+   ?>
+   <br/>
+     <p><b> <?php echo _("Welcome to the DVR administration  page")?> </b></p>
+     
+    <p> <?php echo _("Follow above links to administer the disaster victim registry")?></p>
+<?php
 }
 
 
