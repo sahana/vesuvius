@@ -26,7 +26,7 @@ function _shn_dvr_add_group() {
 	$db = $global['db'];
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
 
-shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], null, 'person');
+shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], null, 'dvr_person');
 
 	$groupid = shn_create_uuid('victim_group');
 
@@ -133,7 +133,7 @@ function _shn_dvr_commit_individual() {
 	global $global;
 	$db = $global['db'];
 
-	shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], null, 'person');
+	shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], null, 'dvr_person');
 
 	$groupid = shn_create_uuid('group');
 
