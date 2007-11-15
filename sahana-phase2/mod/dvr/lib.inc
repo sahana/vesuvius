@@ -25,10 +25,6 @@ function _shn_dvr_print_header($string = null) {
 
 
 
-function _shn_dv2r_get_group_id($full_name)
-{
-	
-}
 
 function _shn_dvr_getchecklist()
 {
@@ -112,13 +108,22 @@ function _shn_dvr_get_groupdisplaced_location($groupid)
 	global $global;
 
 $db = $global['db'];
-$sql="select location_id from location_details where p_uuid ='{$groupid}-disp'";
+$sql="select location_id from location_details where poc_uuid ='{$groupid}-disp'";
 $res = $db->Execute($sql);
 $loc=$res->fields['location_id'];
 return $loc;
 }
 
+function _shn_dvr_get_groupcurrent_location($groupid)
+{
+	global $global;
 
+$db = $global['db'];
+$sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-curr'";
+$res = $db->Execute($sql);
+$loc=$res->fields['location_id'];
+return $loc;
+}
 
 
 function _shn_dvr_get_groupcurrent_shelter($groupid)

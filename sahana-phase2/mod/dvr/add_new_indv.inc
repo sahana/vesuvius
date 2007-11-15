@@ -47,8 +47,7 @@ global $conf;
 	));
 	shn_form_fsopen(_("Select Group"));
 	print '<div class="info">';
-	print _("Please select a Group that describes you well");
-
+	
 	print '<br />';
 
 	print '</div>';
