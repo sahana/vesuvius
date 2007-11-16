@@ -63,7 +63,8 @@ shn_form_fsopen("Add Service / Facility");
 <table>
 <tr>
 <td><?php
-shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities");
+$extra_opts['req'] = true;
+shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities",$extra_opts);
 	?>
 	
 	</td></tr>
@@ -71,14 +72,14 @@ shn_form_opt_select("opt_dvr_service","Currently Available Services/Facilities")
 	<td>
 	<?php
 		
-	shn_form_text("Item Name","service_name",'size="30"');
+	shn_form_text("Item Name","service_name",'size="30"',$extra_opts);
 	?>
 	</td></tr>
 	<tr><td>
 	<?php
 	
 		
-	shn_form_text("Item Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
+	shn_form_text("Item Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"',$extra_opts);
 	?>
 	</td></tr>
 	</table>
@@ -98,18 +99,28 @@ function shn_dvr_adm_form_commit()
 global $global;
 	$db = $global['db'];
 	
-	if(!empty($_POST['service_name'])){
-		if(!empty($_POST['service_abbr'])){
+	if(!empty($_POST['service_name']))
+	{
+		if(!empty($_POST['service_abbr']))
+			{
 				$q = "insert into field_options(field_name,option_code,option_description) values('opt_dvr_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 				$res = $db->Execute($q);
-		}
-	 shn_dvr_adm_checklist();
+				$_POST['service_abbr']=null;
+				$_POST['service_name']=null;
+				
+		    }else{add_error(_("Please fill the Required Fields"));}
+	 //shn_dvr_adm_checklist();
 	}
+	else
+	{
+	add_error(_("Please fill the Required Fields"));
+	
+	}
+	shn_dvr_adm_checklist();
 }
 
 
 ?>
-
 
 
 
