@@ -52,7 +52,13 @@ if(!$res->EOF){
 </ul>
 </div>
 <br />
-<div><?php shn_chart_display("shn_or_service_coverage_chart"); ?></div>
+<div><?php
+
+ if($org_no != "Zero"){
+shn_chart_display("shn_or_service_coverage_chart"); 
+    }
+
+  ?></div>
 
 <div><a href="index.php?mod=or&act=view_org">
 <center><strong> <?php echo $org_no ?></strong><?=_(" Organizations/Departments/Branches have registered")?>
