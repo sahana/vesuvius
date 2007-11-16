@@ -31,7 +31,11 @@ shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr
 	$groupid = shn_create_uuid('victim_group');
 
 	//inserting to the incident table
+	if($_SESSION['user_pref_ims_incident_id']==null)
+	$q1 = "insert into resource_to_incident(incident_id,x_uuid) values('1','{$groupid}')";
+	else
 	$q1 = "insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$groupid}')";
+	
 	$db->Execute($q1);
 
 	$q2 = "insert into pgroup(g_uuid,opt_group_type) values ('{$groupid}','{$_SESSION['dvr']['group']['typ_of_grp']}')";
@@ -79,8 +83,12 @@ shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr
 	$q7="insert into person_to_pgroup(p_uuid,g_uuid) values ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}','{$groupid}')";
 $db->Execute($q7);
 
-
+if($_SESSION['user_pref_ims_incident_id']==null)
+$q8 = "insert into resource_to_incident(incident_id,x_uuid) values('1','{$_SESSION['dvr_add_group']['entry']['p_uuid']}')";
+	else
 $q8 = "insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$_SESSION['dvr_add_group']['entry']['p_uuid']}')";
+	
+	
 	$db->Execute($q8);
 
 
@@ -138,7 +146,13 @@ function _shn_dvr_commit_individual() {
 	$groupid = shn_create_uuid('group');
 
 	//inserting to the incident table
+	
+	
+	if($_SESSION['user_pref_ims_incident_id']==null)
+	$q1 = "insert into resource_to_incident (incident_id,x_uuid) values ('1','{$_SESSION['dvr']['person']['p_uuid']}')";
+	else
 	$q1 = "insert into resource_to_incident (incident_id,x_uuid) values ('{$_SESSION['user_pref_ims_incident_id']}','{$_SESSION['dvr']['person']['p_uuid']}')";
+	
 	$db->Execute($q1);
 
 	$q2 = "insert into person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['full_name']}','{$_SESSION['dvr']['person']['family_name']}','{$_SESSION['dvr']['person']['local_name']}','')";
