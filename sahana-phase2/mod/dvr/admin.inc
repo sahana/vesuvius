@@ -103,10 +103,19 @@ global $global;
 	{
 		if(!empty($_POST['service_abbr']))
 			{
+				$q1 = "SELECT * FROM field_options WHERE option_description='{$_POST['service_name']}'";
+				$res1 = $db->Execute($q1);
+				
+				if(1 <= $res1->RecordCount())
+				{
+				add_error(_("Item already exists"));
+				}
+				else{
 				$q = "insert into field_options(field_name,option_code,option_description) values('opt_dvr_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 				$res = $db->Execute($q);
 				$_POST['service_abbr']=null;
 				$_POST['service_name']=null;
+				}
 				
 		    }else{add_error(_("Please fill the required fields"));}
 	 //shn_dvr_adm_checklist();
