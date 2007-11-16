@@ -320,7 +320,7 @@ CREATE TABLE user_preference(
     pref_key     VARCHAR(60) NOT NULL,
     value   VARCHAR(100),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
-    -- FOREIGN KEY (module_id) REFERENCES modules (module_id),
+   
     PRIMARY KEY (p_uuid,module_id,pref_key)
 );
 
