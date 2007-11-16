@@ -66,7 +66,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
     <ul>
         <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _('Add New Group'); ?> </b></a><br/><?= _('Adding a new disaster victim group'); ?></li>
         <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _('Add New Individuals'); ?> </b> </a><br/><?= _('Adding a disaster victim under each and every victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _('Search & Edit Gruop'); ?></b></a><br/><?= _('Searching and editing a victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _('Search & Edit Group'); ?></b></a><br/><?= _('Searching and editing a victim group'); ?></li>
         <li><a href="index.php?mod=dvr&act=search_indiviual"><b><?= _('Search & Edit Individuals'); ?></b></a><br/><?= _('Searching and editing a victim'); ?>
         <li><a href="index.php?mod=dvr&act=list_groups"><b><?= _('List groups/ View members'); ?></b></a><br/><?= _('List all the groups and view members'); ?></li>
         <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?= _('Drill Down By Group'); ?> </b></a><br/><?= _('Drill down by disaster victim group report'); ?></li>
