@@ -21,50 +21,51 @@ _shn_rms_print_hedder(_("Search for Requests"));
 
 function _shn_rms_sch_getkeywords()
 {   
-//    shn_form_fopen("req_sch",null,array('req_message'=>false));
-//    shn_form_hidden(array('seq'=>'get_keywords'));
-//    shn_form_text(_("Search Keywords"),'keywords',null,array('br'=>false,'value'=>'','req'=>true));
-//    shn_form_submit(_("Search"));
-//    shn_form_fclose();
-    //----------------------------------------------------------------------
-	$loc_ids = _shn_rms_get_location_array($_SESSION['user_id']);
-    $location = array();
-    if($loc_ids!=null) {
-        array_push($location, 'All');
-        foreach($loc_ids as $loc){
-            $location[$loc] = _shn_rms_get_location_name($loc);
+    //------------------------------------------------------------------
+	$reqstr_name=array();
+	$reqstr_name = _shn_rms_get_requesters();
+    if($reqstr_name!=null) {
+	    $reqstr_name=array_reverse($reqstr_name,TRUE);
+		array_push($reqstr_name,'All');
+		$reqstr_name=array_reverse($reqstr_name,TRUE);
+        //-------------------------------------------------------------
+        //echo $_SESSION['isadmin'];
+		if($_SESSION['isadmin']==true) {
+	    	$loc_ids=_shn_rms_get_all_locations();
+	    	//echo 'admin';
+	    }else { 
+		    $loc_ids = _shn_rms_get_location_array($_SESSION['user_id']);
+		    //echo 'sahana';
      	}
-    
-        //var_dump($location);
-        //$location = array_reverse($location,TRUE);
-       
-       
-       
-       $priority = array();
-       $pri_arr = array();
-       array_push($priority, 'All');
-       $pri_arr = _shn_rms_get_priorities(); 
-       foreach ($pri_arr as $pri) {
-           $priority[$pri['pri_uuid']] = $pri['priority'];
-       }
-    
-       //$priority = array_reverse($priority,TRUE);
-       
-       $categories = array();
-       array_push($categories, 'All');
-       $cat_arr = _shn_rms_get_categories();
-       foreach ($cat_arr as $cat) {
-            $categories[$cat['ct_uuid']] = $cat['name'];
+
+        $location = array();
+        $location[0] = 'All';
+        
+        foreach($loc_ids as $loc){
+            $location[$loc] =_shn_rms_get_location_name($loc);
         }
-    
-        //$categories = array_reverse($categories,TRUE);
-    
+        //------------------------------------------------------------
+        $priority = array();
+        $pri_arr = array();
+        array_push($priority, 'All');
+        $pri_arr = _shn_rms_get_priorities(); 
+        foreach ($pri_arr as $pri) {
+            $priority[$pri['pri_uuid']] = $pri['priority'];
+        }
+        //------------------------------------------------------------
+        $categories = array();
+        array_push($categories, 'All');
+        $cat_arr = _shn_rms_get_categories();
+        foreach ($cat_arr as $cat) {
+             $categories[$cat['ct_uuid']] = $cat['name'];
+        }
+        
+        //--------------------------------------------------------------
         $status = array();
         $status['all'] = _("All");
         $status['open'] = _("Open");
         $status['closed'] = _("Closed");
-    
-	
+        //----------------------------------------------------------------
 	    //shn_html_tr_open();
         //shn_html_td_open();
         //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
@@ -77,37 +78,22 @@ function _shn_rms_sch_getkeywords()
         shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
         shn_form_fsopen("Select Criteria");
         shn_form_hidden(array('seq'=>'get_keywords'));
-            
+        
+	    if($_SESSION['isadmin']==true) {
+			shn_form_select($reqstr_name, _("Requester"), 'reqstr_id',null,array('br'=>false));
+			print '<br/>';
+			print '<br/>';
+	    }
         shn_form_select($location, _("Locations"), 'loc_id', null,array('br'=>false));
         print '<br />';
         print '<br />';
-        // shn_form_submit(_("Search"));
-        //shn_form_fclose();
-        // shn_html_td_close();
-	
-	    //shn_html_td_open();
-        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-        //shn_form_hidden(array('seq'=>'get_keywords'));
+		
         shn_form_select($priority,_("Priotity"),'priority',null,array('br'=>false));
         print '<br />';
         print '<br />';
-        //shn_form_submit(_("Search"));
-        //shn_form_fclose();
-        //shn_html_td_close();
-    
-        //shn_html_td_open();
-        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-        //shn_form_hidden(array('seq'=>'get_keywords'));
-        shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
-        print '<br />';
-        print '<br />';
-        //shn_form_submit(_("Search"));
-        //shn_form_fclose();
-        //shn_html_td_close();
-    
-        //shn_html_td_open();
-        //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-        //shn_form_hidden(array('seq'=>'get_keywords'));
+        //shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
+        //print '<br />';
+        //print '<br />';
         shn_form_select($status,_("Status"),'status',null,array('br'=>false));
         shn_form_fsclose();
         //print '<br />';
@@ -173,47 +159,52 @@ function _shn_rms_shn_get_results()
  */
 function _shn_rms_shn_get_schresults()
 {
-   global $global;
-   $user = $_SESSION['user_id'];
-   $sql = "SELECT * FROM rms_request req,rms_req_item item WHERE req.req_uuid=item.req_uuid AND req.reqstr_uuid='$user' ";
-   $pri = $_SESSION['rms_req_sch']['priority'];
-   $loc = $_SESSION['rms_req_sch']['location'];
-   $cat = $_SESSION['rms_req_sch']['category'];
-   $stat = $_SESSION['rms_req_sch']['status'];
-   //echo	$cat;
-   
-   if($_SESSION['rms_req_sch']['priority'] != null)
-   {
-   	   if($pri!='0')
-   	   	{
-   	
-   	     $sql .="AND pri_uuid='$pri' ";
-   	    }
-      
-   }
-    if($_SESSION['rms_req_sch']['category']!=null)
-    {
-    	if($cat!='0'){
-    	$p_cat = _shn_rms_get_parent_catalogue($cat);	
-    	$sql .= "AND item_uuid IN (SELECT ct_uuid from ct_catalogue WHERE parentid='$p_cat') ";
+    global $global;
+    $reqstr = $_SESSION['rms_req_sch']['requester'];
+    $pri = $_SESSION['rms_req_sch']['priority'];
+    $loc = $_SESSION['rms_req_sch']['location'];
+    $cat = $_SESSION['rms_req_sch']['category'];
+    $stat = $_SESSION['rms_req_sch']['status'];
+    
+    $sql = "SELECT * FROM rms_request req,rms_req_item item WHERE req.req_uuid=item.req_uuid ";
+    //echo $reqstr;
+    //----------------set requesters----------------------------------------    
+    if($_SESSION['isadmin']==true) {
+        if(_shn_rms_is_user($reqstr)) {          
+           $sql .= "AND reqstr_uuid='$reqstr' ";
+        }else{
+        	//if dornor criteria is "All" then clear the session variable
+        }
+    }else {
+        $reqstr = $_SESSION['user_id'];
+    	$sql .= "AND reqstr_uuid='$reqstr' ";
+    }
+    //------------------set priorities------------------------------------------
+    if($_SESSION['rms_req_sch']['priority'] != null) {
+   	   if($pri!='0') {
+   	       $sql .="AND pri_uuid='$pri' ";
+   	   } 
+    }
+    //------------------set category----------------------------------------
+    if($_SESSION['rms_req_sch']['category']!=null) {
+        if($cat!='0') {
+    	    $p_cat = _shn_rms_get_parent_catalogue($cat);	
+    	    $sql .= "AND item_uuid IN (SELECT ct_uuid from ct_catalogue WHERE parentid='$p_cat') ";
     	}
     }  
-   	 
-   
-   if($_SESSION['rms_req_sch']['location']!=null)
-   {
-   	   if($loc!='0'){
-         $sql .="AND loc_uuid='$loc' ";
+   	//------------------set location---------------------------------------------- 
+    if($_SESSION['rms_req_sch']['location']!=null) {
+   	    if($loc!='0') {
+            $sql .="AND loc_uuid='$loc' ";
    	    }
-   }
-   if($stat !=null)
-   {
-   	if($stat!='all'){
-   $sql .= "AND status='$stat'";
-   	}
-   }
-            
-   //echo $sql;
+    }
+    //-------------------------------------------------------------------------------
+    if($stat !=null) {
+   	    if($stat!='all') {
+            $sql .= "AND status='$stat'";
+   	    }
+    }
+    //----------------------------------------------------------------------------------        
 
    $rs = $global['db']->Execute($sql);
         
@@ -238,30 +229,36 @@ function _shn_rms_sch_results()
     if (!empty($results))
     {
         //Result table hedder
-        /*$th_res[] = array (
-                             _("ID"), 
-                             _("Requester"), 
-                             _("Location"), 
-                             _("Date"), 
-                             _("status"),
-                             ''
-                            );*/
-        $th_res[] = array (
-                              
-                             _("Category"), 
+    	if($_SESSION['isadmin']==true) {
+            $th_res[] = array (
+                            _("Requester"),  
+                             _("Item"), 
                              _("Location"), 
                              _("Date"), 
                              _("status"),
                              _("Priority"),
                              ''
                             );
+    	}else {
+        $th_res[] = array ( 
+                             _("Item"), 
+                             _("Location"), 
+                             _("Date"), 
+                             _("status"),
+                             _("Priority"),
+                             ''
+                            );
+    	}
                             
         foreach ($results as $r)
         {
             $req_id = $r['req_uuid'];
-            
-            $reqstr = $r['full_name'] . '<br />' . $r['contact_value'];
-            
+            //-----------------------------------
+            $reqstr_nm = _shn_rms_get_person($r['reqstr_uuid']);
+            $reqstr_d = '<strong>' . $reqstr_nm['name'] . '</strong><br >' . 
+                    '<a href="mailto:' . $reqstr_nm['email'] .'">' . $reqstr_nm['email'] . '</a>  ' .
+                    $reqstr_nm['mobile'];
+            //-------------------------------------------------------------------------
             $location = _shn_rms_get_location_name($r['loc_uuid']);
             //$loc = '<strong>' . $location . '</strong> <br />' . 
             //         $r['address'];
@@ -269,7 +266,7 @@ function _shn_rms_sch_results()
             $loc =  $location .'<br />' . $r['address'];
             $req_date = $r['req_date'];
             $req_stat = $r['status'];
-             $item = $r['item_uuid'];
+            $item = $r['item_uuid'];
              //if($item!=null ||$item!='')
              if($item!=null)
              	{
@@ -289,7 +286,11 @@ function _shn_rms_sch_results()
                         '&amp;seq=view_req&amp;req_id=' . $req_id .'>' .
                         _("Details") . '</a>';
             
-            $tb_res[] = array ($req_cat, $loc, $req_date, $req_stat, $req_prio, $view_url);
+            if($_SESSION['isadmin']==true) {
+                $tb_res[] = array ( $reqstr_d, $req_cat, $loc, $req_date, $req_stat, $req_prio, $view_url);
+            }else {
+            	$tb_res[] = array ( $req_cat, $loc, $req_date, $req_stat, $req_prio, $view_url);
+            }
         }
         
         print '<br />';
@@ -298,7 +299,7 @@ function _shn_rms_sch_results()
     else
     {
         print '<br />';
-        _shn_html_print_alert(_("There are no results that matches your search criteria, Please use a different keyword"));
+        _shn_html_print_alert(_("There are no results that matches your search criteria."));
     }
 						//$kws = $_REQUEST['keywords'];
 			   
@@ -326,6 +327,7 @@ function _shn_rms_sch_results()
 switch ($_REQUEST['seq'])
 {
     case '':
+    	    $_SESSION['isadmin'] = _shn_rms_get_user_group();
             _shn_rms_sch_getkeywords();
             break;
             
@@ -335,6 +337,7 @@ switch ($_REQUEST['seq'])
             // $page = $_REQUEST['page_no'];
             $page = 5;
             $rows = $_SESSION['rms_req_sch_rows'];
+            $_SESSION['rms_req_sch']['requester'] = $_REQUEST['reqstr_id'];
             $_SESSION['rms_req_sch']['priority'] = $_REQUEST['priority'];
             $_SESSION['rms_req_sch']['location'] = $_REQUEST['loc_id'];
             $_SESSION['rms_req_sch']['status'] = $_REQUEST['status'];
@@ -344,17 +347,17 @@ switch ($_REQUEST['seq'])
             //_shn_rms_shn_get_results();
             _shn_rms_sch_results();
             break;
-//    case 'view_req':
-//            $req_id = $_REQUEST['req_id'];
-//            _shn_rms_view_request($req_id);
-//            $keywords = $_REQUEST['keywords'];
-//            print '<br />' .
-//                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
-//                  '[ <a href="index.php?mod=rms&amp;' .
-//                        'act=req_sch&amp;seq=get_keywords' .
-//                        '&amp;keywords' . $keywords . '">' . 
-//                        _("Back to Request Search") . '</a> ]';
-//            break;
+    case 'view_req':
+            $req_id = $_REQUEST['req_id'];
+            _shn_rms_view_request($req_id);
+            $keywords = $_REQUEST['keywords'];
+            print '<br />' .
+                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;' .
+                        'act=req_sch&amp;seq=get_keywords' .
+                        '&amp;keywords' . $keywords . '">' . 
+                        _("Back to Request Search") . '</a> ]';
+            break;
 
 	   
 }

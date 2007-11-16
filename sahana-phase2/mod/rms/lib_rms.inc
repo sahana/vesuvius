@@ -1717,6 +1717,38 @@ function _shn_rms_get_location_array($p_id)
 	}
 }
 
+/**
+ * To get all excisting locations from ext_location table 
+ */
+function _shn_rms_get_all_locations()
+{
+    global $global;
+	$db = $global['db'];
+
+	$sql = "SELECT DISTINCT loc_uuid FROM ext_location";
+
+	$rec = $db->Execute($sql);
+	$loc =array();
+	$i = 0;
+	if ($rec === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	} elseif (1 <= $rec->RecordCount()){
+		While(!$rec->EOF)
+		{
+
+			$loc[$i] = $rec->fields['loc_uuid'];
+			$rec->MoveNext();
+			$i++;
+		}
+
+		return $loc;
+	}
+}
+
 
 
 /*

@@ -76,8 +76,7 @@ function _shn_rms_shn_get_results()
 	global $global;
 	$db = $global['db'];
 	$paging = false;
-	//$sql = "SELECT * FROM rms_pledge plg,rms_plg_item itm WHERE plg.plg_uuid=itm.plg_uuid ";
-
+	
 	$dnid=$_SESSION['rms_plg_sch']['donor_id'];
 	$ctgr=$_SESSION['rms_plg_sch']['category'];
 	$stts=$_SESSION['rms_plg_sch']['status'];
@@ -90,19 +89,22 @@ function _shn_rms_shn_get_results()
 	$cat_serial = $res1->Fields('serial');
 
 	$cat_qry2 = "SELECT ct.ct_uuid,rpm.status,rpm.inventory,rpm.quantity,plg.donor_uuid,plg.plg_date FROM ct_catalogue as ct
-JOIN rms_plg_item as rpm ON rpm.item_uuid = ct.ct_uuid 
-JOIN rms_pledge as plg ON plg.plg_uuid=rpm.plg_uuid
-WHERE ct.final_flag = '1' AND ct.serial LIKE '".$cat_serial."%' ";
+                 JOIN rms_plg_item as rpm ON rpm.item_uuid = ct.ct_uuid 
+                 JOIN rms_pledge as plg ON plg.plg_uuid=rpm.plg_uuid
+                 WHERE ct.final_flag = '1' AND ct.serial LIKE '".$cat_serial."%' ";
 	
-	if (_shn_rms_is_user($dnid)) {
+	if($_SESSION['isadmin']==true) {
+	    if (_shn_rms_is_user($dnid)) {
+		    $cat_qry2 .= " AND plg.donor_uuid='".$dnid."'";
+	    }
+	}else {
+		$dnid = $_SESSION['user_id'];
 		$cat_qry2 .= " AND plg.donor_uuid='".$dnid."'";
 	}
     if($stts != 'all') {
     	$cat_qry2 .= "AND rpm.status='$stts' ";
     }
-	//var_dump($cat_qry2);
 	$res2 = $db->Execute($cat_qry2);
-	//var_dump($res2->GetAssoc());
 	return $res2;
 	
 	
@@ -288,7 +290,7 @@ function _shn_rms_sch_results()
 	$tbl_arr = array();
 	$tbl_hd_arr = array();
 	
-	if (!empty($res))
+	if (!$res->EOF)
 	{
 		if($_SESSION['isadmin']==TRUE) {
 			$tbl_hd_arr[0] = array (
@@ -298,9 +300,8 @@ function _shn_rms_sch_results()
 			_("Quantity"),
 			_("Date"),
 			_("status"),
-			_("Inventory"),
-                                 ''
-                                 );
+			_("Inventory")
+			     );
 		}else {
 			$tbl_hd_arr[0] = array (
 
@@ -309,12 +310,13 @@ function _shn_rms_sch_results()
 			_("Quantity"),
 			_("Date"),
 			_("status"),
-			_("Inventory"),
-                                 ''
+			_("Inventory")
                                  );
 		}
-		// edited by Haniffa.
-		//var_dump($res->EOF);
+		
+		$view_url = '<a href=index.php?mod=rms&amp;act=plg_sch' .
+                        '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
+			_("Details") . '</a>';
 		$i=0;
 		while(!$res->EOF){
 			if($_SESSION['isadmin']==TRUE) {
@@ -334,52 +336,14 @@ function _shn_rms_sch_results()
 									$res->Fields('status'),
 									_shn_rms_get_inventory_name($res->Fields('inventory')));
 			}
-
 			$res->MoveNext();
 			$i++;
 		}
-		
-	/*	$dnid=$_SESSION['rms_plg_sch']['donor_id'];
-		foreach ($results as $r) {
-			$plg_id = $r['plg_uuid'];
-			//$donor_id = $r['donor_uuid'];
-			//print $donor_id;
-			$donor = _shn_rms_get_donor($r['donor_uuid']);
-			//$donor = _shn_rms_get_donor($donor_id);
-			//print $donor;
-			$donor_d = '<strong>' . $donor['name'] . '</strong><br >' .
-                    '<a href="mailto:' . $donor['email'] .'">' . $donor['email'] . '</a>  ' .
-			$donor['mobile'];
-			//-------Method to get catagory to be inserted here-----------
-
-			//$cat_qry = "SELECT serial FROM ct_catalogue WHERE ct_uuid=".$_SESSION[]
-
-			//-------------------------------------------------------------
-			$plg_item = _shn_rms_get_cataloguename($r['item_uuid']);
-			$plg_quantity = $r['quantity'];
-			$plg_date = $r['plg_date'];
-			$plg_stat = $r['status'];
-			$plg_inventory = _shn_rms_get_inventory_name($r['inventory']);
-
-			$view_url = '<a href=index.php?mod=rms&amp;act=plg_sch' .
-                        '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
-			_("Details") . '</a>';
-			if ($_SESSION['isadmin']==TRUE) {
-				$tb_res[] = array ($donor_d,$plg_item,$plg_quantity,$plg_date, $plg_stat,$plg_inventory, $view_url);
-			}else {
-				$tb_res[] = array ($plg_item,$plg_quantity,$plg_date, $plg_stat,$plg_inventory, $view_url);
-			}
-
-		}
-		 
-		print '<br />';*/
-		//var_dump($tbl_hd_arr);
-		shn_html_table($tbl_arr, $tbl_hd_arr, null, array('class'=>'wide'));
-	}
-	else
-	{
 		print '<br />';
-		_shn_html_print_alert(_("There are no results that matches your search criteria"));
+		shn_html_table($tbl_arr, $tbl_hd_arr, null, array('class'=>'wide'));
+	}else {
+		print '<br />';
+		_shn_html_print_alert(_("There are no results that match your search criteria."));
 	}
 }
 

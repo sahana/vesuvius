@@ -65,7 +65,7 @@ function shn_rms_mainmenu()
     shn_sub_mod_menuitem("plg_sch", _("Search Pledges"), $module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Manage"));
-    shn_sub_mod_menuitem("mng_ff", _("Fulfill Request"), $module);
+    shn_sub_mod_menuitem("req_ls", _("Fulfill Request"), $module);
 //    shn_sub_mod_menuitem("mng_stat", _("View Statistics"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
@@ -107,6 +107,7 @@ function shn_rms_mng_ff()
 {
     //global $global;
     include_once ('handler_mng_ff.inc');
+    //include_once ('handler_req_ls.inc');
 }
 
 function shn_rms_mng_stat()
