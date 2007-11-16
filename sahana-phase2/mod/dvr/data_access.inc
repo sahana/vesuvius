@@ -19,13 +19,12 @@
  */
 
 
-
-
+global $global;
+include $global['approot'] . "/inc/lib_paging.inc";
 function _shn_dvr_add_group() {
 	global $global;
 	$db = $global['db'];
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
-
 shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], null, 'dvr_person');
 
 	$groupid = shn_create_uuid('victim_group');
@@ -249,6 +248,7 @@ function _shn_dvr_get_all_groups($incident_id=null,$camp_id=null) {
 	$search_q1 = "SELECT distinct pg.g_uuid as group_id,pg.opt_group_type as group_type,pn.full_name as full_name ,pn.family_name as family_name,pn.l10n_name as local_name,id.serial as serial,co.contact_value as address from identity_to_person id,contact co,person_uuid pn,pgroup pg,group_details gd where gd.g_uuid=pg.g_uuid and gd.head_uuid=pn.p_uuid and gd.head_uuid=id.p_uuid and gd.head_uuid=co.pgoc_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard' order by group_type";	
 	}
 	$results = $db->Execute($search_q1);
+	$results = shn_paging_get_report($search_q1,10,$headers,array('post'=>false,'return'=>true));
 	//print count($results);
 	return $results;
 }
@@ -286,7 +286,8 @@ function _shn_dvr_get_group_search_results($group_type, $card, $name) {
 									$search_q1 = "SELECT pg.g_uuid as group_id,pg.opt_group_type as group_type,pn.full_name as full_name ,pn.family_name as family_name,pn.l10n_name as local_name,id.serial as serial,co.contact_value as address from identity_to_person id,contact co,person_uuid pn,pgroup pg,group_details gd where gd.g_uuid=pg.g_uuid and gd.head_uuid=pn.p_uuid and gd.head_uuid=id.p_uuid and gd.head_uuid=co.pgoc_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard' and  pg.opt_group_type='{$group_type}' and id.serial='{$card}' and (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%')";
 								}
 
-	$results = $db->Execute($search_q1);
+	//$results = $db->Execute($search_q1);
+	$results=shn_paging_get_report($search_q1,10,$headers,array('post'=>true,'return'=>true));
 	return $results;
 }
 
@@ -329,8 +330,8 @@ function _shn_dvr_get_individual_search_results($card, $name, $incident) {
 									$search = "select distinct pn.p_uuid as pid,pg.opt_group_type as group_type,gd.head_uuid as head_uuid,pn.full_name as full_name,family_name as family_name,pn.l10n_name as local_name,id.serial as serial ,co.contact_value as address from person_to_pgroup persontopg,group_details gd,pgroup pg,person_uuid pn,contact co,identity_to_person id,resource_to_incident res where gd.g_uuid=pg.g_uuid and persontopg.p_uuid=pn.p_uuid and pg.g_uuid=persontopg.g_uuid and res.x_uuid=pn.p_uuid and persontopg.p_uuid=co.pgoc_uuid and id.p_uuid=pn.p_uuid and co.opt_contact_type='address' and id.opt_id_type='idcard' and  (pn.full_name like '%{$name}%' or pn.l10n_name like '%{$name}%' or pn.family_name like '%{$name}%') and id.serial='{$card}'";
 
 								}
-	$results = $db->Execute($search);
-
+	//$results = $db->Execute($search);
+    $results=shn_paging_get_report($search,10,$headers,array('post'=>true,'return'=>true));
 	return $results;
 
 }
