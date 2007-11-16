@@ -108,12 +108,12 @@ global $global;
 				$_POST['service_abbr']=null;
 				$_POST['service_name']=null;
 				
-		    }else{add_error(_("Please fill the Required Fields"));}
+		    }else{add_error(_("Please fill the required fields"));}
 	 //shn_dvr_adm_checklist();
 	}
 	else
 	{
-	add_error(_("Please fill the Required Fields"));
+	add_error(_("Please fill the required fields"));
 	
 	}
 	shn_dvr_adm_checklist();
