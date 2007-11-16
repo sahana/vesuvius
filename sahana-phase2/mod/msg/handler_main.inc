@@ -31,9 +31,9 @@ print $global['msg_jabber']->$connected;
     <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
       
     <ul>
-        <li><b><?= (_("Messages:"))?></b><br><?= (_("sms and E-mail alerts/messages could be sent to any groups or individuals. This feature currently works only on Linux platform."))?></li>
-        <li><b><?= (_("Manage Groups:"))?></b><br><?= (_("Each end user is provided the facility to create,customize and maintain various groups of sms and E-mail contacts"))?></li>
-        <li><b><?= (_("CAP:"))?></b><br><?= (_(" New Alert Option enables end-user to create a New CAP message This will create an xml file containing the CAP message and store it in a temporary directory. You can view this file using 'View Messages' option."))?><br><?=(_("View Alert Option enables end-user to view stored CAP messages Two sample messages are already added to the list. You can view them by selecting
+        <li><a href="index.php?mod=msg&act=customized_messaging"><b><?= (_("Messages:"))?></b></a><br><?= (_("sms and E-mail alerts/messages could be sent to any groups or individuals. This feature currently works only on Linux platform."))?></li>
+        <li><a href="index.php?mod=msg&act=add_group"><b><?= (_("Manage Groups:"))?></b></a><br><?= (_("Each end user is provided the facility to create,customize and maintain various groups of sms and E-mail contacts"))?></li>
+        <li><a href="index.php?mod=msg&act=cap_new"><b><?= (_("CAP:"))?></b></a><br><?= (_(" New Alert Option enables end-user to create a New CAP message This will create an xml file containing the CAP message and store it in a temporary directory. You can view this file using 'View Messages' option."))?><br><?=(_("View Alert Option enables end-user to view stored CAP messages Two sample messages are already added to the list. You can view them by selecting
 one of them and pressing the 'view' button"))?></li>
         
     </ul>
