@@ -23,7 +23,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <p>
 <?php
 
- print _("SAHANA Disaster Victim Registry is a central online repository " .
+	 print _("SAHANA Disaster Victim Registry is a central online repository " .
         "where information on all the disaster victims can be stored. Information like name, age" .
         ", contact number, identity card number, religion, race, displaced location, current location and other " .
         "physical details are captured. Also victim's picture and finger print details can be uploaded to " .
@@ -62,6 +62,21 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
    
     </li>-->
 </ul>
+<strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _('Add New Group'); ?> </b></a><br/><?= _('Adding a new disaster victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _('Add New Individuals'); ?> </b> </a><br/><?= _('Adding a disaster victim under each and every victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _('Search & Edit Gruop'); ?></b></a><br/><?= _('Searching and editing a victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_indiviual"><b><?= _('Search & Edit Individuals'); ?></b></a><br/><?= _('Searching and editing a victim'); ?>
+        <li><a href="index.php?mod=dvr&act=list_groups"><b><?= _('List groups/ View members'); ?></b></a><br/><?= _('List all the groups and view members'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?= _('Drill Down By Group'); ?> </b></a><br/><?= _('Drill down by disaster victim group report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_shelter"><b><?= _('Drill Down By Shelter'); ?> </b></a><br/><?= _('Drill down by shelter report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_incident"><b><?= _('Drill Down By Incident'); ?> </b></a><br/><?= _('Drill down by incident report'); ?></li>
+</ul>
+
+
+
+
 <br/>
 </div>
 
@@ -86,7 +101,7 @@ function shn_dvr_home_show_dvr()
     global $global; 
 
    
-    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_victim' order by im.created ";
+    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_person' order by im.created ";
             
 
            $rs = $global['db']->SelectLimit($sql,16);
