@@ -193,7 +193,7 @@ div#container { }
 			div#tick { background: url(img/tic.png) no-repeat right; width: 10px; height: 10px; }
 
 			div#submenu_v { padding-left: 5px; margin-left: 0; border-bottom: 1px solid #C6D1F5; }
-			div#submenu_v a { color: #069; padding: 0 0.5em 1px 0.5em; line-height: 18px; border: 1px solid #C6D1F5;  border-bottom: none; background: #F3F6FF; text-decoration: none; font-weight: bolder; }
+			div#submenu_v a { color: #069; padding: 0 0.5em 1px 0.5em; line-height: 18px; border: 1px solid #C6D1F5;  border-bottom: none; background: #F3F6FF; text-decoration: none; font-weight: bolder; white-space: nowrap; }
 			div#submenu_v a:hover { color: #069; background: #C3CFFF; border-bottom: 1px solid #C3CFFF; }
 			div#submenu_v a.selected, 
 			div#submenu_v a.selected:hover { background-color: #FFF; border-bottom: 1px solid #FFF; }
