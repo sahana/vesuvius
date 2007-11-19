@@ -74,7 +74,7 @@ if($content != ""){
 	?>
 
 <br />
-<div id="note"><strong><?=_("Recently registered organizations (Most recent five)")?></strong>
+<div id="note"><strong><?=_("Recently registered organizations")?></strong>
 </div>
 	<?php
 	echo $content;
@@ -84,20 +84,4 @@ require_once($global['approot']."/inc/lib_rss.inc");
 shn_rss_add_feed('new_org_list',_('Recently Registered organizations'));
 
 ?>
-<br />
-<strong>Description of Actions:</strong>
-<br />
-<ul>
-	<li><a href="index.php?mod=or&act=reg_org"><b><?= _('Register an organization'); ?>
-	</b></a><br />
-	<?= _('Adds an organization\'s details to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=reg_operation"><b><?= _('Register a branch'); ?>
-	</b> </a><br />
-	<?= _('Adds the details of a branch of an organization to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=search"><b><?= _('Search organizations'); ?></b></a><br />
-	<?= _('Find the organisation(s) by specifying its details.'); ?></li>
-	<li><a href="index.php?mod=or&act=view_org"><b><?= _('View And Edit'); ?></b></a><br />
-	<?= _('View a list of registered organizations. Their detils can be viewed / edited by clicking on the appropriate links.'); ?>
 
-</ul>
-<br />
