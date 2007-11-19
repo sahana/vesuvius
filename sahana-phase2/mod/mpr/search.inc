@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.17 2006-11-14 11:28:58 isurunishan Exp $ */
+/* $Id: search.inc,v 1.18 2007-11-19 09:32:32 isurunishan Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -33,7 +33,7 @@ function shn_mpr_search_default()
     shn_form_text(_('Any Name'),'name','size="30"');
  #   shn_form_checkbox(_('All incidents belongs to current incident'),'list_incidents');
     shn_form_checkbox(_('All incidents'),'all_incidents');
-    shn_form_submit(_('Next'));
+    shn_form_submit(_('Search'));
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'result'));
