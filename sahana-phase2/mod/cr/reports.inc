@@ -59,7 +59,7 @@ function _shn_cr_rpt(){
 
 function _shn_cr_rpt_all(){
 	?>
-	<h1><center><?=_("Shelter Information")?></center></h1>
+	<h1><?=_("Shelter Information")?></h1>
 	<div id ="result">
    <table>
         <thead>
@@ -130,7 +130,7 @@ function _shn_cr_rpt_all(){
 
 function _shn_cr_drill_location(){
 ?>
-<h1><center><?=_("Shelter Information by Location")?></center></h1>
+<h1><?=_("Shelter Information by Location")?></h1>
   <div id ="result">
 	   <table>
 		   <thead>
