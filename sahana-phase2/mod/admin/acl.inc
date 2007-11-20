@@ -369,7 +369,7 @@ function _shn_admin_acl_user_add_roles($module=NULL,$error=false)
 
 	?>
 <h2 align="center">Configure ACL user permissions for <?php echo $conf['mod_'.$module.'_name']?>
-</h3>
+</h2>
 	<?php
 
 	shn_acl_form_user_add_roles($module,$error);
