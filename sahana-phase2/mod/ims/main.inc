@@ -190,6 +190,7 @@ function shn_ims_report_destroyed()
 
 function shn_ims_report_transit_item()
 {
+	print ("<h1><center>Transit Items</center></h1>");
     include_once ('ims_report.inc');
     _shn_ims_transfer_item_report();
 }
@@ -770,6 +771,9 @@ function shn_ims_optim_item()
 function shn_ims_optim_inventory()
 {
     include_once("optimize.inc");
+    
+    print ("<h1><center>Select Inventory to Predict</center></h1>");
+    
     _shn_ims_optim_inventory();
 }
 
