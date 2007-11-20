@@ -289,6 +289,8 @@ function shn_dvr_search_individual() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/search_individual.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
+	
+	print ("<h2> Search and Edit Individual </h2>");
 
 	switch ($_REQUEST['seq']) {
 
@@ -315,6 +317,9 @@ function shn_dvr_search_group() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/search_group.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
+	
+	print ("<h2> Search and Edit Group </h2>");
+	
 	switch ($_REQUEST['seq']) {
 		case 'advanced' :
 			{
@@ -336,6 +341,8 @@ function shn_dvr_list_groups() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/list.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
+	print ("<h2> List Groups/View Members </h2>");
+	
 	list_all_groups();
 
 }
