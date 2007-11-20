@@ -1062,6 +1062,7 @@ function _shn_rms_is_plgstatus($status)
 
 function _shn_rms_view_requester($reqstr_id, $summary=false)
 {
+	print '<h2>' . _("Make Request") . '</h2>';
 	print '<div id="note2">';
 	print '<h4>' . _("Requester Information") . '</h4>';
 
