@@ -129,6 +129,17 @@ $conf['proxy_path']='res/lib_proxy.php?url=';
 
 ###############################
 
+###############################
+#	Help and Wiki Urls		  #
+###############################
+# Default values are given below.
+$conf['wiki_url'] = 'http://wiki.sahana.lk/doku.php?id=doc:nwhome';
+
+$conf['sahana_url'] = 'http://sahana.lk';
+
+$conf['forum_url'] = 'http://forum.sahana.lk/';
+
+$conf['chat_url'] = 'http://www.sahana.lk/chat';
 
 # end of the config file.
 
