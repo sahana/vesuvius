@@ -13,7 +13,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main_fns.inc,v 1.56 2007-11-15 12:56:30 isurunishan Exp $
+* @version $Id: main_fns.inc,v 1.57 2007-11-20 09:13:24 isurunishan Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -246,6 +246,9 @@ function shn_cr_acmp(){
 function shn_cr_gis_show(){
 	global $global;
 	global $conf;
+	
+	print ("<h1>Map of Shelters by Location</h1>");
+	
 	if($conf['gis']){
 		$db = $global['db'];
 		$q="select map_northing,map_easting,name,c_uuid from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
@@ -592,6 +595,7 @@ function shn_cr_arpt(){
 function shn_cr_contact(){
 	global $global;
 	include($global['approot'].'/mod/cr/reports.inc');
+	print ("<h2>Shelter information by Shelter Administrator</h2>");
 	_shn_cr_contact(); 
 }
 
