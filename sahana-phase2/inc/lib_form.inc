@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.67 2007-10-29 11:04:07 isurunishan Exp $ */
+/* $Id: lib_form.inc,v 1.68 2007-11-20 06:43:16 prabath321 Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -23,7 +23,7 @@
 $shn_help_id;
 $shn_form_id; //this variable is used by the tab functions
 $shn_tab_enabled=false; //this variable is used by the tab functions
-
+$shn_tabindex=0; //used to prioritize form data entry fields when navigating with the [TAB] key
 /**
  * You can add extra attributes to the given HTML element
  *
@@ -137,8 +137,10 @@ function shn_form_fclose()
  * @return void
  */
 function shn_form_submit($name, $submit_opts = null)
-{ ?>
-    <input type="submit" value="<?php echo $name?>" <?php echo $submit_opts?> />
+{ 
+global $shn_tabindex;	
+?>
+    <input type="submit" value="<?php echo $name?>" <?php echo $submit_opts?> tabindex="<?php echo ++$shn_tabindex?>" />
 <?php
 }
 
@@ -179,8 +181,10 @@ function shn_form_fsclose()
  * @return void
  */
 function shn_form_button($name, $button_opts = null, $extra_opts = null)
-{ ?>
-    <input type="button" value="<?php echo $name?>" <?php echo $button_opts?> />
+{ 
+global $shn_tabindex;	
+?>
+    <input type="button" value="<?php echo $name?>" <?php echo $button_opts?> tabindex="<?php echo ++$shn_tabindex?>" />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -197,12 +201,13 @@ function shn_form_button($name, $button_opts = null, $extra_opts = null)
  */
 function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 {
+    global $shn_tabindex;
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     if(get_magic_quotes_gpc())
         $value = stripslashes($value);
 ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
-    <input type="text" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> />
+    <input type="text" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>" />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -235,11 +240,12 @@ function shn_form_hidden($hidden_vars)
  */
 function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 {
+    global $shn_tabindex;
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
     $disabled = $extra_opts['disabled']==NULL? false :$extra_opts['disabled'];
  ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
-    <input type="checkbox" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?if ($disabled){ echo "disabled='true'";}?><?php echo $text_opts?>  />
+    <input type="checkbox" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?if ($disabled){ echo "disabled='true'";}?><?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>" />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -259,14 +265,14 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
-    
+    global $shn_tabindex;    
     
     $value = (isset($_POST[$name])? $_POST[$name] : $extra_opts['value']);
     //to privent warnings set $options to array() if it is null
     $options=($options==null)?array():$options;
 ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
-    <select name="<?php echo $name?>" id="<?php echo $name?>" <?php echo $select_opts?>  >
+    <select name="<?php echo $name?>" id="<?php echo $name?>" <?php echo $select_opts?> tabindex="<?php echo ++$shn_tabindex?>" >
 <?php
     foreach ($options as $opt_value => $desc )
     {
@@ -295,10 +301,10 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
 {
     global $global;
+    global $shn_tabindex;
 
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
-    $req=(true == $extra_opts['req'])?'<em> * </em>':'';
-    global $shn_tabindex;
+    $req=(true == $extra_opts['req'])?'<em> * </em>':'';    
 ?>
     <label><?php echo $label.$req?></label>
 <?php
@@ -312,8 +318,7 @@ $checked='checked';
 else
 $checked='';
 ?>
-        <input type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>" tabindex="<?php echo ++$shn_tabindex?>"
-<?php echo $select_opts?>   <?=$checked?>/><?php echo $desc?>
+        <input type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>" tabindex="<?php echo ++$shn_tabindex?>" <?php echo $select_opts?> <?=$checked?>/><?php echo $desc?>
 <?php
     }
 ?>
@@ -335,12 +340,14 @@ $checked='';
 function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
+    global $shn_tabindex;
+    
     $sort=$extra_opts['sort'];
     $name=($extra_opts['name'])?$extra_opts['name']:$opt_field;
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 ?>
     <label><?php echo $label?></label>
-    <select name="<?php echo $name?>" <?php echo $select_opts?> >
+    <select name="<?php echo $name?>" <?php echo $select_opts?> tabindex="<?php echo ++$shn_tabindex?>" >
 <?php
 if($sort==null){
 	$q="select * from field_options where field_name='{$opt_field}'";
@@ -378,12 +385,13 @@ if($sort==null){
 function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
-
+	global $shn_tabindex;
+	
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 	
 ?>
     <label><?php echo $label?></label>
-    <select name="<?php echo $opt_field?>[]" <?php echo $select_opts?> >
+    <select name="<?php echo $opt_field?>[]" <?php echo $select_opts?> tabindex="<?php echo ++$shn_tabindex?>" >
 <?php
 	if($extra_opts["sort"]==true){
 		$q="select * from field_options where field_name='$opt_field' order by option_code";
@@ -422,12 +430,13 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra_opts = null)
 {
     global $global;
+    global $shn_tabindex;
     
    $value =  $extra_opts['value'];
 
 ?>
     <label><?php echo $label?></label>
-    <select name="<?php echo $name?>[]" <?php echo $select_opts?> >
+    <select name="<?php echo $name?>[]" <?php echo $select_opts?> tabindex="<?php echo ++$shn_tabindex?>" >
 <?php
 		  
     foreach ($options as $opt_value => $desc ) {
@@ -457,7 +466,8 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
  */
 function shn_form_opt_checkbox($opt_field,$extra_opts=null){
     global $global;
-
+	global $shn_tabindex;
+		
     $value = ($_POST[$opt_field])? $_POST[$opt_field] : null;
     $resu = $global['db']->Execute("select * from field_options where field_name='$opt_field'");
  
@@ -474,7 +484,7 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
        // $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 ?>
         <label><?=$resu->fields[2]?></label>
-        <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" <?=$sel?>></input>
+        <input type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>" tabindex="<?php echo ++$shn_tabindex?>" <?=$sel?>></input>
      
 <br>   
 <?php
@@ -496,6 +506,8 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
  */
 function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
 {
+    global $shn_tabindex;
+    
     $cols=(isset($extra_opts['cols']))?$extra_opts['cols']:'30';
     $rows=(isset($extra_opts['rows']))?$extra_opts['rows']:'4';
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
@@ -504,7 +516,7 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
 
 ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
-    <textarea name="<?php echo $name?>" id="<?php echo $name?>" cols="<?php echo $cols?>" rows="<?php echo $rows?>" <?php echo $text_opts?> ><?php echo $value?></textarea>
+    <textarea name="<?php echo $name?>" id="<?php echo $name?>" cols="<?php echo $cols?>" rows="<?php echo $rows?>" <?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"><?php echo $value?></textarea>
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -520,9 +532,10 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
  */
 function shn_form_upload($label, $name, $extra_opts = null)
 {
+	global $shn_tabindex;
 ?>
     <label><?php echo $label?></label>
-    <input type="file" name="<?php echo $name?>" />
+    <input type="file" name="<?php echo $name?>" tabindex="<?php echo ++$shn_tabindex?>" />
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -559,10 +572,11 @@ function shn_form_label($label, $caption, $extra_opts = null)
  */
 function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 {
+    global $shn_tabindex;
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 ?>
     <label for="<?php echo $name?>"><?php echo $label?></label>
-    <input type="password" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> />
+    <input type="password" name="<?php echo $name?>" id="<?php echo $name?>" value="<?php echo $value?>" <?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"/>
 <?php
     shn_form_extra_opts($extra_opts);
 }
@@ -602,6 +616,8 @@ function shn_form_table_row($elements, $text_opts=null) {
  */
 function shn_form_date($label,$name,$extra_opts = null)
 {
+    global $shn_tabindex;
+    
     $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 
     //including the script file only once
@@ -620,7 +636,7 @@ function shn_form_date($label,$name,$extra_opts = null)
     $seq=$f.$m.$l;
 ?>
     <label><?php echo $label?></label>
-    <input type="text" name="<?php echo $name?>" value="<?php echo $value?>" id="<?php echo $name?>" size="12" maxlength="12" /><span>
+    <input type="text" name="<?php echo $name?>" value="<?php echo $value?>" id="<?php echo $name?>" size="12" maxlength="12" tabindex="<?php echo ++$shn_tabindex?>" /><span>
     <img src="res/img/x-office-calendar.png" onclick="scwDateOutputFormat='<?php echo $format?>';scwDateInputSequence='<?php echo $seq?>';scwShow(document.getElementById('<?php echo $name?>'),this);" alt="Click Here"/></span>
 <?php
     shn_form_extra_opts($extra_opts);
