@@ -80,7 +80,7 @@ function shn_dvr_add_new_indv() {
 						
 						
 						//unset individual major details
-						unset($_SESSION['dvr']['person']['p_uuid']) ;
+	unset($_SESSION['dvr']['person']['p_uuid']) ;
 	unset($_SESSION['dvr']['person']['typ_of_grp']);
 	unset($_SESSION['dvr']['person']['head_name']);
 	
@@ -202,13 +202,13 @@ function shn_dvr_add_new_grp() {
 						switch ($sequence) {
 							case 'chk' :
 								{
-									if (_shn_dvr_group_location_validate_error()) {
-										shn_dvr_loc_dtls(true);
-									} else {
+									//if (_shn_dvr_group_location_validate_error()) {
+									//	shn_dvr_loc_dtls(true);
+									//} else {
 										shn_dvr_set_location_details();
 										shn_dvr_cklst_and_desc();
 
-									}
+									//}
 								}
 
 								//print 'gis loc' . $_SESSION['dvr']['group']['gis_loc_x'];
@@ -542,6 +542,7 @@ function shn_dvr_edit_individual() {
 						{
 							if (_shn_dvr_individual_physical_details_validate_error()) {
 								shn_dvr_physical_information(true);
+								shn_dvr_set_person_physical_details();
 							} else {
 								_shn_dvr_regconfirm_individual();
 							}
