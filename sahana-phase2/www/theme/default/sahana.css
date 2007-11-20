@@ -75,11 +75,11 @@ td { padding:5px 5px 0 5px; border:1px solid #ccc; }
 div#container { }
 
 	div#header { border-bottom: #069 1px solid; padding: 0 1em; height: 70px; position: relative; background: url(img/sahana_logo.png) #369 no-repeat left top; }
-		div#header h1 { display:none; }
+		div#header h1 { display: none; }
 
-		form.head { position:absolute; background:#369; color: white; right:0px; font-size:11px; }
-		form.head select { background:#369; color:white; border: 1px inset #369; }
-		form.head label { font-weight:bold; font-style:italic; }
+		form.head { position: absolute; background: #369; color: white; right: 0; font-size: 11px; }
+		form.head select { background: #369; color: white; border: 1px inset #369; }
+		form.head label { font-weight: bold; font-style: italic; }
 
 		/* language selector  */
 		form#language { top:25px; }
@@ -98,10 +98,6 @@ div#container { }
 				div#menuwrap ul li a:link, 
 				div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
 				div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
-				div#menuwrap ul ul li a { display: block; padding-left: 20px; width: 180px; background-color: #777; font-size: 0.85em; }
-				div#menuwrap ul ul li a:link, 
-				div#menuwrap ul ul li a:visited { border-top: #888 1px solid; border-bottom: #666 1px solid; }
-				div#menuwrap ul ul li a:hover { background-color: #666; border-top: #555 1px solid; border-bottom: #777 1px solid; }
 
     			div#modmenuwrap { width: 200px; float: left; clear: left; }
 				div#modmenuwrap h2 { color: #069; margin: 1em 0 0.5em 0; padding: 0 0 0 5px; font-size: 120%; text-transform: uppercase; text-align: left; }
@@ -209,17 +205,17 @@ div#container { }
 
 			/* form tab styles */
 			ul#tab { display: inline; }
-			ul#tab li { display:inline; }
-			ul#tab li a { color: #666; text-decoration: none; font-weight: bold; border: #ccc 1px solid; padding: 3px 5px 0px 5px;   background: #efefef; }
+			ul#tab li { display: inline; }
+			ul#tab li a { color: #666; text-decoration: none; font-weight: bold; border: #ccc 1px solid; padding: 3px 5px 0 5px;   background: #efefef; }
 			ul#tab li a:hover { background: #FFC; }
-			ul#tab li#activeTab a { background: #999; color: white; padding: 3px 5px 0px 5px; }
+			ul#tab li#activeTab a { background: #999; color: white; padding: 3px 5px 0 5px; }
 
 			/*  web service module  */ 
 			p.ws_info { margin: 1em; padding: 5px; }
 			ul.ws_options { margin: 15px; padding: 5px 0 5px 10px; }
 			ul.ws_options li { padding: 5px 0; padding-bottom: 3px; } 
 			ul.ws_options span.ws_options_des { padding: 3px 0 15px 15px; color: #333; }
-			.hidden { position: absolute; visibility: hidden; z-index: 200; left: 250px; top: 100px; overflow: hidden; width: 600; padding: 20px; font-size: 10px; background-color: #FFC; layer-background-color: #FFFFFF; border: 1px solid #FC6; }
+			.hidden { position: absolute; visibility: hidden; z-index: 200; left: 250px; top: 100px; overflow: hidden; width: 600px; padding: 20px; font-size: 10px; background-color: #FFC; background-color: #fff; border: 1px solid #FC6; }
 
 			div.page_head { padding-bottom: 10px; }
 			div.page_head.active { color: red; }
@@ -231,7 +227,9 @@ div#container { }
 			form.paging_form input { border:none; background:none; padding:0px; color:blue; cursor:pointer; text-decoration:underline; }
 
 		div#footer { margin: 0; padding: 10px; clear: both; color: #666; background-color: #369; border-top: #058 1px solid; }
-
+			a.help, a:link.help { color: #fff; text-decoration: none; }
+			a:hover.help { background-color: #369; text-decoration: underline; }
+			a:visited.help { font-weight: normal; color: #aaa; }
 
 /* Form Layout Styles 
    ------------------------------------------------------------------------------- */
