@@ -24,7 +24,7 @@ function create_ajax_call()
 var ids = new Array();
 var names = new Array();		
 var count=-1;		
-function get_data(str,event,print_element,set_url,hidden)
+function get_data(str,event,print_element,input_element,set_url,hidden)
 {
 if(window.event) // IE
 {
@@ -45,7 +45,7 @@ get_array(keynum);
 return;	
 }
 else if(keynum==39 || keynum==37){
-set_value(print_element);
+set_value(print_element,input_element);
 return;	
 }							
 //alert(keynum);		
@@ -63,13 +63,15 @@ if (xmlHttp==null)
   }
 var url=set_url;
 		if(hidden!="NULL"){
+			
 		hidden_input=document.getElementById(hidden).value
 		}
 			else
 				{
 					hidden_input="NULL"
-				}				
-url=set_url+"&input="+str+"&print="+print_element+"&parent_id="+hidden_input+"&eve="+keynum;
+				}	
+			//alert(hidden);							
+url=set_url+"&input="+str+"&print="+print_element+"&input_ele="+input_element+"&parent_id="+hidden_input+"&eve="+keynum;
 	//alert(url)
 url=url+"&sid="+Math.random();
 			
@@ -89,26 +91,26 @@ count=-1;
 	//alert(xmlHttp.responseText);	
 	value=xmlHttp.responseText.split(\':\')	
 			
-		splited_value=value[2].split(\';\')
+		splited_value=value[3].split(\';\')
 				
 		if(splited_value==""){
 			splited_value[1]=""
 			splited_value[0]=""		
 		}
 	def_display="--select--";			
-	def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+def_display+\'</div>\'
+	def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+def_display+\'</div>\'
 	ids[0]=splited_value[0];
 	names[0]=splited_value[1];			
-	new_value=def_value+\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[1]+\'</div>\'
+	new_value=def_value+\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+splited_value[1]+\'</div>\'
 	
 			j=1
 			
-			for(i=3;i<value.length;i++){
+			for(i=4;i<value.length;i++){
 					
 			splited_value=value[i].split(\';\')
-	ids[i-2]=splited_value[j-1];	
-	names[i-2]=splited_value[j];				
-	old_value=\'<div id=\'+splited_value[j-1]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[j]+\'</div>\'		
+	ids[i-3]=splited_value[j-1];	
+	names[i-3]=splited_value[j];				
+	old_value=\'<div id=\'+splited_value[j-1]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+splited_value[j]+\'</div>\'		
 	new_value=new_value+old_value
 		j+2	
 	}
@@ -135,9 +137,9 @@ document.getElementById(ids[count+1]).className = \'suggest_link\';
 //setSearchfamilyHint(names[count],ids[count]);				
 }				  
 		 }';
-echo 'function set_value(print){
+echo 'function set_value(print,input){
 		
-setSearch(names[count],ids[count]);	
+setSearch(names[count],ids[count],print,input);	
 		
 }';
     echo '</script>';
@@ -214,13 +216,13 @@ return xmlHttp;
 function set_result_to_element($input_element,$print_element,$hidden,$reset){
 	
 	echo '<script>';
-	echo 'function setSearch(value,id) {
+	echo 'function setSearch(value,id,print,input) {
 		
 			
-	document.getElementById(\''.$print_element.'\').innerHTML = \'\';';
+	document.getElementById(print).innerHTML = \'\';';
 			
 if(null!=$reset){
-	echo 'if(document.getElementById(\'text'.$input_element.'\').value!=value){';
+	echo 'if(document.getElementById("text"+input).value!=value){';
 foreach($reset as $rs){
 	echo '';
 	echo 'document.getElementById(\'text'.$rs.'\').value= \'\';';
@@ -229,8 +231,8 @@ foreach($reset as $rs){
 }
 echo '}';
 }
-echo 'document.getElementById(\'text'.$input_element.'\').value = value;
-	  document.getElementById(\''.$hidden.'\').value = id;
+echo 'document.getElementById("text"+input).value = value;
+	  document.getElementById(input).value = id;
 ';
 
 echo '}';
@@ -295,7 +297,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 		        $reset=array_slice($name,1);	
 		        shn_ajax_add_suggest($name[0],$hint[0],$name[0],$reset);
 		        $extra_opts['value']=$value[0];
-		        shn_form_text($label[0],'text'.$name[0],"size=\"30\" autocomplete=off  onclick=\"get_data('*',event,'".$hint[0]."','".$url."','NULL')\" onkeyup=\"get_data(this.value,event,'".$hint[0]."','".$url."','NULL')\"" ,$extra_opts);
+		        shn_form_text($label[0],'text'.$name[0],"size=\"30\" autocomplete=off  onclick=\"get_data('*',event,'".$hint[0]."','".$name[0]."','".$url."','NULL')\" onkeyup=\"get_data(this.value,event,'".$hint[0]."','".$name[0]."','".$url."','NULL')\"" ,$extra_opts);
                 $extra_opts['help']=null;
 		        echo "<div id='".$hint[0]."' style='left: 442px'></div>";
 		        ?>
@@ -309,8 +311,8 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
                     $reset=array_slice($name,$index+1);
                     shn_ajax_add_suggest($name[$index],$hint[$index],$name[$index],$reset);
                     $extra_opts['value']=$value[$index];
-                    shn_form_text($label[$index],'text'.$name[$index],"size=\"30\" autocomplete=off onclick=\"get_data('*','".$hint[$index]."','".$url."','".$name[$index-1]."')\" onkeyup=\"get_data(this.value,'".$hint[$index]."','".$url."','".$name[$index-1]."')\"" ,$extra_opts);
-
+                    shn_form_text($label[$index],'text'.$name[$index],"size=\"30\" autocomplete=off onclick=\"get_data('*',event,'".$hint[$index]."','".$name[$index]."','".$url."','".$name[$index-1]."')\" onkeyup=\"get_data(this.value,event,'".$hint[$index]."','".$name[$index]."','".$url."','".$name[$index-1]."')\"" ,$extra_opts);
+     				//echo $name[$index-1];
                     echo "<div id='".$hint[$index]."' style='left: 442px'></div>";
                     ?>
                     <input type="hidden" id="<?=$name[$index]?>" name="<?=$name[$index]?>"  value= />
@@ -322,7 +324,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 			$reset=array_slice($name,$index+1);
             shn_ajax_add_suggest($name[$index],$hint[$index],$name[$index],$reset);
             $extra_opts['value']=$value[$index];
-            shn_form_text($label[$index],'text'.$name[$index],"size=\"30\" autocomplete=off onclick=\"get_data('*','".$hint[$index]."','".$url."','".($name[$index]-1)."')\" onkeyup=\"get_data(this.value,'".$hint[$index]."','".$url."','".$name[$index-1]."')\"" ,$extra_opts);
+            shn_form_text($label[$index],'text'.$name[$index],"size=\"30\" autocomplete=off onclick=\"get_data('*',event,'".$hint[$index]."','".$name[$index]."','".$url."','".($name[$index-1])."')\" onkeyup=\"get_data(this.value,event,'".$hint[$index]."','".$name[$index]."','".$url."','".$name[$index-1]."')\"" ,$extra_opts);
 
             echo "<div id='".$hint[$index]."' style='left: 442px'></div>";
             ?>
