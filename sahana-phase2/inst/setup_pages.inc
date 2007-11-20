@@ -195,7 +195,7 @@ if(isset($_SESSION['setup_system_db_user_exists'])){
 
 	shn_form_fsopen('User Exists.');
 	echo "<div class='warning message'>";
-	echo _("Database user name sahana_sys already exists.                                                         
+	echo _("Database user name ".$_SESSION[SETUP_DATA_PREFIX."db_user"]." already exists.                                                         
 To continue, select a different user name. If you want to keep the existing user click on 'Keep User'. ");
 	echo "</div>";
 	//add_warning('test');
@@ -209,7 +209,7 @@ if(isset($_SESSION['setup_system_db_exists'])){
 	 */
 	shn_form_fsopen('Database Exists.');
 	echo "<div class='warning message'>";
-	echo _("Database sahana already exists.
+	echo _("Database ".$_SESSION[SETUP_DATA_PREFIX."db_name"]." already exists.
 Enter a different database name to continue. Press 'Drop Database' to delete the database and to continue installation.");
 	echo "</div>";
 	shn_form_submit(_('Drop Database'),'name="drop_ex_db"');
