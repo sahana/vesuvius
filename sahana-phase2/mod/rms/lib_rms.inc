@@ -1032,7 +1032,7 @@ function _shn_rms_get_pledge($plg_uuid)
 
 function _shn_rms_is_reqstatus($status)
 {
-	$stats = array (_('open'),_ ('closed'));
+	$stats = array ('open', 'closed');
 
 	foreach ($stats as $stat)
 	{
@@ -1047,7 +1047,7 @@ function _shn_rms_is_reqstatus($status)
 
 function _shn_rms_is_plgstatus($status)
 {
-	$stats = array (_('delivered'),_('not_confirmed') ,_('confirmed') ,_('discarded'));
+	$stats = array ('delivered', 'not_confirmed', 'confirmed', 'discarded');
 
 	foreach ($stats as $stat)
 	{
@@ -1085,8 +1085,8 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 		?>
 
 
-<strong> <?php _("Requester Name :") ?></strong>
-
+<strong>Requester Name</strong>
+:
 		<?=$requester['name']?>
 <br />
 		<?php
@@ -1117,11 +1117,11 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 	else
 	{
 		?>
-<strong><?php echo _("Donor ID") ?></strong>
+<strong>Donor ID</strong>
 :
 		<?=$donor_id?>
 <br />
-<strong><?php echo _("Donor Name")?></strong>
+<strong>Donor Name</strong>
 :
 		<?=$donor['name']?>
 		<?php
@@ -1151,7 +1151,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
 	{
 		?>
 
-<strong> <?php echo _("Location")?></strong>
+<strong>Location</strong>
 :
 		<?=$location?>
 		<?php
@@ -1749,6 +1749,8 @@ function _shn_rms_get_all_locations()
 	}
 }
 
+
+
 /*
  * Get the Location name instead of location string
  * From ext_location table
@@ -1901,5 +1903,29 @@ function _shn_rms_is_user($id)
     }
     
     return false;
+}
+
+/**
+ * To get inventory name according to the given id;
+ */
+function _shn_rms_get_inventory_name($inv_uuid)
+{
+    global $global;
+
+	$sql = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_uuid'";
+	$rs = $global['db']->Execute($sql);
+
+	if ($rs === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	}
+	else
+	{
+		$name=$rs->fields['inventory_name'];
+		return $name;
+	}
 }
 ?>
