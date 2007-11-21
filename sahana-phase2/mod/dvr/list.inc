@@ -1,5 +1,5 @@
 <?php
-/* $Id: list.inc,v 1.2 2007-02-26 04:04:17 isurunishan Exp $ */
+/* $Id: list.inc,v 1.3 2007-11-21 11:23:34 isurunishan Exp $ */
 /**
  * 
  * List groups in disaster victims registry
@@ -64,7 +64,7 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
  $results->MoveNext();
         }
         ?>
-        <table>
+        </table>
         </div>
    <?php
    }
@@ -86,7 +86,7 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
             <td><?=_("Address")?></td>
          <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
         </thead>
-        <table>
+        </table>
         </div>
    <?php
    }
