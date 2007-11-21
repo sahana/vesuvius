@@ -78,7 +78,7 @@ function _shn_drill_downby_group() {
  $results->MoveNext();
         }
         ?>
-        <table>
+        </table>
         </div>
    <?php
    }
@@ -117,7 +117,7 @@ $camps=_shn_dvr_get_camps();
 $camps->MoveNext();
 }
 ?>        
-        <table>
+        </table>
         </div>
    <?php
 
@@ -157,7 +157,7 @@ $incidents=_shn_dvr_get_incidents();
 $incidents->MoveNext();
 }
 ?>        
-        <table>
+        </table>
         </div>
    <?php
 
