@@ -17,11 +17,11 @@
 * Public License (LGPL)
 */
 
-_shn_rms_print_hedder(_("Search for Requests"));
+_shn_rms_print_hedder(_("Request Search: Search for Requesters, Locations and Requests"));
 
 function _shn_rms_sch_getkeywords()
 {   
-    //------------------------------------------------------------------
+//------------------------------------------------------------------
 	$reqstr_name=array();
 	$reqstr_name = _shn_rms_get_requesters();
     if($reqstr_name!=null) {
@@ -29,7 +29,6 @@ function _shn_rms_sch_getkeywords()
 		array_push($reqstr_name,'All');
 		$reqstr_name=array_reverse($reqstr_name,TRUE);
         //-------------------------------------------------------------
-        //echo $_SESSION['isadmin'];
 		if($_SESSION['isadmin']==true) {
 	    	$loc_ids=_shn_rms_get_all_locations();
 	    	//echo 'admin';
@@ -88,12 +87,12 @@ function _shn_rms_sch_getkeywords()
         print '<br />';
         print '<br />';
 		
-        shn_form_select($priority,_("Priotity"),'priority',null,array('br'=>false));
+        shn_form_select($priority,_("Priority"),'priority',null,array('br'=>false));
         print '<br />';
         print '<br />';
-        //shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
-        //print '<br />';
-        //print '<br />';
+        shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
+        print '<br />';
+        print '<br />';
         shn_form_select($status,_("Status"),'status',null,array('br'=>false));
         shn_form_fsclose();
         //print '<br />';
@@ -108,7 +107,7 @@ function _shn_rms_sch_getkeywords()
 
 function _shn_rms_shn_get_results()
 {
-    global $global;
+global $global;
     
    /* $sql = "SELECT distinct(req_uuid),reqstr_uuid,full_name,req_date,status," .
             "contact_value,location_id,address,postcode " .
@@ -137,9 +136,7 @@ function _shn_rms_shn_get_results()
     
             
     
-//print $sql;
-    //$sql="SELECT ";
-    
+//print $sql;    
     
     $rs = $global['db']->Execute($sql);
     //print $sql;
@@ -159,62 +156,49 @@ function _shn_rms_shn_get_results()
  */
 function _shn_rms_shn_get_schresults()
 {
-    global $global;
+   global $global;
+    $db = $global['db'];
     $reqstr = $_SESSION['rms_req_sch']['requester'];
     $pri = $_SESSION['rms_req_sch']['priority'];
     $loc = $_SESSION['rms_req_sch']['location'];
     $cat = $_SESSION['rms_req_sch']['category'];
     $stat = $_SESSION['rms_req_sch']['status'];
-    
-    $sql = "SELECT * FROM rms_request req,rms_req_item item WHERE req.req_uuid=item.req_uuid ";
-    //echo $reqstr;
-    //----------------set requesters----------------------------------------    
-    if($_SESSION['isadmin']==true) {
-        if(_shn_rms_is_user($reqstr)) {          
-           $sql .= "AND reqstr_uuid='$reqstr' ";
-        }else{
-        	//if dornor criteria is "All" then clear the session variable
-        }
-    }else {
-        $reqstr = $_SESSION['user_id'];
-    	$sql .= "AND reqstr_uuid='$reqstr' ";
-    }
-    //------------------set priorities------------------------------------------
-    if($_SESSION['rms_req_sch']['priority'] != null) {
-   	   if($pri!='0') {
-   	       $sql .="AND pri_uuid='$pri' ";
-   	   } 
-    }
-    //------------------set category----------------------------------------
-    if($_SESSION['rms_req_sch']['category']!=null) {
-        if($cat!='0') {
-    	    $p_cat = _shn_rms_get_parent_catalogue($cat);	
-    	    $sql .= "AND item_uuid IN (SELECT ct_uuid from ct_catalogue WHERE parentid='$p_cat') ";
-    	}
-    }  
-   	//------------------set location---------------------------------------------- 
+
+    $cat_qry = "SELECT serial FROM ct_catalogue WHERE ct_uuid='".$cat."'";  
+    $res1 = $db->Execute($cat_qry);
+	$res1->MoveFirst();
+
+	$cat_serial = $res1->Fields('serial');
+	
+	$cat_qry2 = "SELECT ct.ct_uuid,req.loc_uuid,rrm.quantity,rrm.pri_uuid,req.reqstr_uuid,req.status,req.req_uuid,req.req_date FROM ct_catalogue as ct
+                 JOIN rms_req_item as rrm ON rrm.item_uuid = ct.ct_uuid 
+                 JOIN rms_request as req ON req.req_uuid=rrm.req_uuid
+                 WHERE ct.final_flag = '1' AND ct.serial LIKE '".$cat_serial."%' ";
+	
+	if($_SESSION['isadmin']==true) {
+	    if (_shn_rms_is_user($reqstr)) {
+		    $cat_qry2 .= " AND req.reqstr_uuid='".$reqstr."' ";
+	    }
+	}else {
+		$reqstr = $_SESSION['user_id'];
+		$cat_qry2 .= " AND req.reqstr_uuid='".$reqstr."' ";
+	}
     if($_SESSION['rms_req_sch']['location']!=null) {
    	    if($loc!='0') {
-            $sql .="AND loc_uuid='$loc' ";
+            $cat_qry2 .="AND loc_uuid='".$loc."' ";
    	    }
+    } 
+    if($_SESSION['rms_req_sch']['priority'] != null) {
+   	   if($pri!='0') {
+   	       $cat_qry2 .="AND pri_uuid='$pri' ";
+   	   } 
     }
-    //-------------------------------------------------------------------------------
-    if($stat !=null) {
-   	    if($stat!='all') {
-            $sql .= "AND status='$stat'";
-   	    }
+    if($stat != 'all') {
+    	$cat_qry2 .= "AND req.status='$stat' ";
     }
-    //----------------------------------------------------------------------------------        
+	$res2 = $db->Execute($cat_qry2);
+	return $res2;
 
-   $rs = $global['db']->Execute($sql);
-        
-   $rs = $rs->GetArray();
-   
-   foreach ($rs as $r)
-    {
-        $_SESSION['rms_req_schres'][$r['req_uuid']] = $r;
-       //var_dump($r);
-    }
 }
 
 function _shn_rms_sch_results()
@@ -222,85 +206,75 @@ function _shn_rms_sch_results()
     // clear older results
     $_SESSION['rms_req_schres'] = null;
     
-    _shn_rms_shn_get_schresults();
+    $results =_shn_rms_shn_get_schresults();
+    $tbl_arr = array();
+	$tbl_hd_arr = array();
     
-    $results = $_SESSION['rms_req_schres'];
-    
-    if (!empty($results))
-    {
-        //Result table hedder
-    	if($_SESSION['isadmin']==true) {
-            $th_res[] = array (
-                            _("Requester"),  
-                             _("Item"), 
-                             _("Location"), 
-                             _("Date"), 
-                             _("status"),
-                             _("Priority"),
-                             ''
-                            );
-    	}else {
-        $th_res[] = array ( 
-                             _("Item"), 
-                             _("Location"), 
-                             _("Date"), 
-                             _("status"),
-                             _("Priority"),
-                             ''
-                            );
-    	}
-                            
-        foreach ($results as $r)
-        {
-            $req_id = $r['req_uuid'];
-            //-----------------------------------
-            $reqstr_nm = _shn_rms_get_person($r['reqstr_uuid']);
-            $reqstr_d = '<strong>' . $reqstr_nm['name'] . '</strong><br >' . 
-                    '<a href="mailto:' . $reqstr_nm['email'] .'">' . $reqstr_nm['email'] . '</a>  ' .
-                    $reqstr_nm['mobile'];
-            //-------------------------------------------------------------------------
-            $location = _shn_rms_get_location_name($r['loc_uuid']);
-            //$loc = '<strong>' . $location . '</strong> <br />' . 
-            //         $r['address'];
-            
-            $loc =  $location .'<br />' . $r['address'];
-            $req_date = $r['req_date'];
-            $req_stat = $r['status'];
-            $item = $r['item_uuid'];
-             //if($item!=null ||$item!='')
-             if($item!=null)
-             	{
-                  $req_cat = _shn_rms_get_cataloguename($item);
-             	}
-//             else{
-//             $req_cat = "no";
-//             
-//             }
-           // var_dump($item);
-            $req_pri = $r['pri_uuid'];
-            $req_prio = _shn_rms_get_priorityname($req_pri);
-            
-            
-            $view_url = '<a href=index.php?mod=rms&amp;act=req_sch' .
+    if (!$results->EOF)
+	{
+		if($_SESSION['isadmin']==TRUE) {
+			$tbl_hd_arr[0] = array (
+			_("Requester"),
+			//_("Category"),
+			_("Item"),
+			_("Location"),
+			//_("Quantity"),
+			_("Date"),
+			_("Status"),
+			_("Priority"),
+			''
+			     );
+		}else {
+			$tbl_hd_arr[0] = array (
+
+			//_("Category"),
+			_("Item"),
+			_("Location"),
+			//_("Quantity"),
+			_("Date"),
+			_("Status"),
+			_("Priority"),
+			''
+                       );
+		}
+		$req_id = '';
+		$view_url = '<a href=index.php?mod=rms&amp;act=req_sch' .
                         //'&amp;keywords=' . $kws . 
-                        '&amp;seq=view_req&amp;req_id=' . $req_id .'>' .
+                        '&amp;seq=view_req&amp;req_id=' . ($results->Fields('req_uuid')) .'>' .
                         _("Details") . '</a>';
-            
-            if($_SESSION['isadmin']==true) {
-                $tb_res[] = array ( $reqstr_d, $req_cat, $loc, $req_date, $req_stat, $req_prio, $view_url);
-            }else {
-            	$tb_res[] = array ( $req_cat, $loc, $req_date, $req_stat, $req_prio, $view_url);
-            }
-        }
-        
-        print '<br />';
-        shn_html_table($tb_res, $th_res, null, array('class'=>'wide'));
-    }
-    else
-    {
-        print '<br />';
-        _shn_html_print_alert(_("There are no results that matches your search criteria."));
-    }
+		$i=0;
+		while(!$results->EOF){
+			if($_SESSION['isadmin']==TRUE) {
+				$_reqstr = _shn_rms_get_person($results->Fields('reqstr_uuid'));
+				$tbl_arr[$i] = array($_reqstr['name'],
+									//_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($results->Fields('ct_uuid'))),
+									_shn_rms_get_cataloguename($results->Fields('ct_uuid')),
+									_shn_rms_get_location_name($results->Fields('loc_uuid')),
+									//$results->Fields('quantity'),
+									$results->Fields('req_date'),
+									$results->Fields('status'),
+									_shn_rms_get_priorityname($results->Fields('pri_uuid')),
+									$view_url);
+			}else{
+				$tbl_arr[$i] = array(//_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($results->Fields('ct_uuid'))),
+									_shn_rms_get_cataloguename($results->Fields('ct_uuid')),
+									_shn_rms_get_location_name($results->Fields('loc_uuid')),
+									//$results->Fields('quantity'),
+									$results->Fields('req_date'),
+									$results->Fields('status'),
+									_shn_rms_get_priorityname($results->Fields('pri_uuid')),
+									$view_url);
+			}
+			$results->MoveNext();
+			$i++;
+		}
+		print '<br />';
+		shn_html_table($tbl_arr, $tbl_hd_arr, null, array('class'=>'wide'));
+	}else {
+		print '<br />';
+		_shn_html_print_alert(_("There are no results that match your search criteria."));
+	}
+    
 						//$kws = $_REQUEST['keywords'];
 			   
 			  			// $_REQUEST['keywords']=$_SESSION['rms_req_sch']['status'];
@@ -319,7 +293,7 @@ function _shn_rms_sch_results()
 						   // foreach ($words as $word)
 						   // {
 						    //   _shn_rms_shn_get_results();
-						   // }
+						   // }*/
 }
 
 

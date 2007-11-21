@@ -1062,7 +1062,6 @@ function _shn_rms_is_plgstatus($status)
 
 function _shn_rms_view_requester($reqstr_id, $summary=false)
 {
-	print '<h2>' . _("Make Request") . '</h2>';
 	print '<div id="note2">';
 	print '<h4>' . _("Requester Information") . '</h4>';
 
@@ -1750,8 +1749,6 @@ function _shn_rms_get_all_locations()
 	}
 }
 
-
-
 /*
  * Get the Location name instead of location string
  * From ext_location table
@@ -1904,29 +1901,5 @@ function _shn_rms_is_user($id)
     }
     
     return false;
-}
-
-/**
- * To get inventory name according to the given id;
- */
-function _shn_rms_get_inventory_name($inv_uuid)
-{
-    global $global;
-
-	$sql = "SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_uuid'";
-	$rs = $global['db']->Execute($sql);
-
-	if ($rs === false)
-	{
-		$msg = $global['db']->ErrorMsg();
-		add_error($msg . '<br />' . $sql);
-		display_errors();
-		return false;
-	}
-	else
-	{
-		$name=$rs->fields['inventory_name'];
-		return $name;
-	}
 }
 ?>
