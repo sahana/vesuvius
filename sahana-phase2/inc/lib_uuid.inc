@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_uuid.inc,v 1.24 2007-11-15 08:44:43 isurunishan Exp $ */
+/* $Id: lib_uuid.inc,v 1.25 2007-11-21 10:35:24 isurunishan Exp $ */
 
 /**
  *
@@ -172,7 +172,7 @@ function _shn_gen_id($type='person')
 	global $conf;
 
 	if($conf['db_engine'] == 'mysql'){
-		$engine = $conf['mysql_engine'];
+		$engine = $conf['storage_engine'];
 		if($engine){
 			$global['db']->Execute("set storage_engine ='{$engine}'");
 		}
