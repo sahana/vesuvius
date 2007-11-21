@@ -307,7 +307,7 @@ function shn_ws_sahana_cr(){
 		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",adsadsdsd";
 	
 
-
+    try{
 	if($native==true){
 		ini_set("soap.wsdl_cache_enabled", "0");
 		
@@ -361,6 +361,12 @@ function shn_ws_sahana_cr(){
 	    		echo '</pre>';
 	    	}
 		}
+	}
+    }catch(Exception $e){
+    	//echo $e->getMessage();
+		//if('Unauthorized'==$e->getMessage())
+		add_error($e->getMessage());
+		display_errors('Unauthorized');
 	}
 }
 
