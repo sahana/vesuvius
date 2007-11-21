@@ -29,8 +29,7 @@ function _shn_rms_donor_display($id)
 
 function _shn_rms_donor_conf($id)
 {
-    _shn_html_print_alert(_("New Donor; Please confirm the contact information and enter missing " .
-                "information"));
+    _shn_html_print_alert(_("New Donor; Please confirm the contact information and enter missing information"));
 
     $psn = _shn_rms_get_person($id);
     shn_form_fopen("plg_new",null,array('req_message'=>false,'anchor'=>'items'));
