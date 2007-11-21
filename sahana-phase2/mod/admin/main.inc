@@ -549,17 +549,20 @@ function shn_admin_acl_role_cr()
  */
 function shn_admin_lc_trns()
 {
+	print ("<h1><center>Language Translation</center></h1>");
     require_once('lc_translate.inc');
 }
 
 function shn_admin_lc_set()
 {
+	print ("<h1><center>Set Locale</center></h1>");
     require_once('lc_setlocale.inc');
 }
 
 function shn_admin_lc_db()
 {
-    require_once('lc_db.inc');
+    print ("<h1><center>Disable L10N</center></h1>");
+	require_once('lc_db.inc');
 }
 
 //User interface language translation 
@@ -569,6 +572,8 @@ function shn_admin_lc_ui_trns()
 	global $global;
 	require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	require_once('lc_ui_translate.inc');
+	
+	print ("<h1><center>User Interface Language Translation</center></h1>");
 	if($_POST['locale']==null){
 		_shn_admin_set_locale();
 	}else {		
@@ -598,7 +603,7 @@ function shn_admin_lc_ui_trns_enable()
 function shn_admin_lc_ui_trns_update()
 {
 	require_once('lc_ui_translate_update.inc');
-	
+	print ("<h1><center>Update Translation</center></h1>");
 	if($_POST['update']=="Update") {		
 		_shn_admin_lc_translate_compile();
 		
@@ -611,6 +616,7 @@ function shn_admin_lc_ui_trns_update()
 function shn_admin_lc_add_new_lang()
 {
 	require_once('lc_add_new_language.inc');
+	print ("<h1><center>Add/Remove language</center></h1>");
 	_shn_admin_lc_add_new_language_form();	
 }
 
@@ -633,6 +639,7 @@ function shn_admin_lc_add_new_language_post()
 function shn_admin_lc_add_new_module()
 {
 	require_once('lc_add_new_module.inc');
+	print ("<h1><center>Add New Module</center></h1>");
 	_shn_admin_lc_add_new_module();
 }
 
@@ -647,6 +654,7 @@ function shn_admin_lc_add_new_module_post()
 function shn_admin_lc_upload_file()
 {
 	require_once('lc_upload.inc');
+	print ("<h1><center>Upload Sahana.po/.mo file</center></h1>");
 	_shn_admin_lc_upload_files();
 }
 

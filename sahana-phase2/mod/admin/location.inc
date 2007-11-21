@@ -21,9 +21,7 @@ function _shn_admin_location_view_form()
 {
 ?>
 	<h1 align="center"><?=_("First select the location to Edit & Delete")?></h1>
-	<div id="note">
-	<?=_("Fields marked with * are required (entry is compulsory)")?>
-	</div>
+	
 <?php
     if($error==true)
         display_errors();
@@ -388,9 +386,7 @@ function _shn_admin_location_form()
     $db=$global["db"];
 ?>
     <h1 align="center"><?=_("Add Locations")?></h1>
-	<div id="note">
-	<?=_("Fields marked with * are required (entry is compulsory)")?>
-	</div>
+	
 <?php
     if($error==true)
         display_errors();
@@ -678,5 +674,4 @@ function _shn_admin_loc_javascript($name,$last)
 </script>
 <?php
 }
-
 

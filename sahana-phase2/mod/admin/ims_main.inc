@@ -27,6 +27,8 @@ function shn_admin_ims_level1()
     global $global;
     
     require($global['approot'].'mod/admin/ims_level.inc');
+    
+    print ("<h1><center>Manage Disaster</center></h1>");
 
 	switch ($_POST['seq']) {
         case 'addnew':
@@ -50,6 +52,8 @@ function shn_admin_ims_level2()
     
     require($global['approot'].'mod/admin/ims_level.inc');
 
+    print ("<h1><center>Manage Events</center></h1>");
+    
 	switch ($_POST['seq']) {
         case 'addnew':
         case 'update':
@@ -72,6 +76,8 @@ function shn_admin_ims_level3()
     
     require($global['approot'].'mod/admin/ims_level.inc');
 
+    print ("<h1><center>Manage Incidents</center></h1>");
+    
 	switch ($_POST['seq']) {
         case 'addnew':
         case 'update':
