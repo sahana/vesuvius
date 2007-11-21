@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.11 2007-11-01 10:05:18 isurunishan Exp $ */
+/* $Id: conf_admin.inc,v 1.12 2007-11-21 13:07:19 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -22,6 +22,7 @@
 function shn_admin_conf_list()
 {
 	global $conf,$global;
+	$is_ie = stripos($_SERVER['HTTP_USER_AGENT'],'MSIE')>0;
 	/*
 	 if (isset($_POST['conf_key'])) {
 		shn_config_database_update($_POST['conf_key'],$_POST['conf_value']);
@@ -42,7 +43,45 @@ function shn_admin_conf_list()
 	?>
 <script type="text/javascript" language="javascript">
 		var current_edit_box = null;
+<?php
+	if($is_ie){
+?>		
+		// For Internet Explorer
+		function show_edit_box(id)
+		{
+			// if any edit box is visible.
+			if(current_edit_box!=null) {
+				current_edit_box.style.visibility="hidden";
+				current_edit_box=null;
+			}
+	
+			current_edit_box=document.getElementById("edit_tr_"+id);
+			current_edit_box.style.visibility="visible";
+			document.getElementById("edit_txt_"+id).focus();
+			
+			
+		}
 
+		function hide_edit_box(id)
+		{
+			current_edit_box.style.visibility="hidden";
+			var newValTarget = document.getElementById("target_"+id);
+
+			if(newValTarget!=null) {
+				if(newValTarget.childNodes[0]!=null) {
+					newValTarget.removeChild(newValTarget.childNodes[0]);
+				}
+				newValTarget.appendChild(document.createTextNode("Updating..."));
+			}
+		
+			current_edit_box=null;
+			var editTextBox = document.getElementById("edit_txt_"+id);
+			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
+		}
+<?php		
+	}else{
+?>
+		// For CSS 2.1 compatible browsers.
 		function show_edit_box(id)
 		{
 			// if any edit box is visible.
@@ -72,19 +111,22 @@ function shn_admin_conf_list()
 			var editTextBox = document.getElementById("edit_txt_"+id);
 			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
 		}
+		<?php
+		}
+		?>
 	
 		// called by xajax to update the value asynchronously on the UI.
-		function async_update(id,value)
+/*		function async_update(id,value)
 		{
 			var newValTarget = document.getElementById("target_"+id);
 			newValTarget.removeChild(newValTarget.childNodes[0]);
 			newValTarget.appendChild(document.createTextNode(value));
-		}
+		}*/
 </script>
-	<?php
-	ksort($conf);
-	shn_config_database_fetch(&$dconf,'all');
-	?>
+		<?php
+		ksort($conf);
+		shn_config_database_fetch(&$dconf,'all');
+		?>
 <div id="result">
 <table>
 	<thead>
@@ -116,7 +158,17 @@ function shn_admin_conf_list()
 	</tr>
 
 	<!-- In place editing -->
-	<tr id="edit_tr_<?php echo $key; ?>" style="display: none">
+	<tr id="edit_tr_<?php echo $key; ?>" <?php
+	if($is_ie){
+		?>
+		style="visibility: hidden">
+		<?php
+}else{
+	?>
+		style="display: none">
+		<?php
+}
+?>
 		<td colspan="4">
 		<div align="center" style="padding: 10px;">
 		<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
