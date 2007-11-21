@@ -27,7 +27,7 @@ function _shn_rms_mng_request()
     print '<div id="req_id">';
     print '<div class="info">';
     //print _("Request / Pledge Matching ");
-    print _("Select a Request from the " . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>');
+    print _("Select a Request from the ") . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>';
     print '<br />';
     print '</div>';
 //    shn_form_fopen("mng_ff",null, array('req_message'=>false));
@@ -283,7 +283,7 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
     shn_form_text(_('Quantity : '),'quantity','size="25"',null);
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'inventory_item_allocate_db'));
-    shn_form_submit('Submit');
+    shn_form_submit(_('Submit'));
     shn_form_fclose();
 }
 

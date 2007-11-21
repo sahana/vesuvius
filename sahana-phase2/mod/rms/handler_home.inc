@@ -34,12 +34,7 @@ _shn_rms_print_hedder();
 <p>
 <?php 
 
-print _("Sahana Request Management System is a central online
-repository where all relief organizations, relief workers, government
-agents and camp sites for displaced personnels can coordinate the supply of
-the aids with their demand. It allows users to allocate the available
-resources to fulfill the demands effectively and efficiently."
-        );
+print _("Sahana Request Management System is a central online repository where all relief organizations, relief workers, government agents and camp sites for displaced personnels can coordinate the supply of the aids with their demand. It allows users to allocate the available resources to fulfill the demands effectively and efficiently.");
 ?>
 
 </p>
@@ -50,9 +45,7 @@ resources to fulfill the demands effectively and efficiently."
 
 <ul>
     <li>
-    <?php print _("Basic information on
-the requests and donations, such as category, the units, contact details
-and the status.") ?>
+    <?php print _("Basic information on the requests and donations, such as category, the units, contact details and the status.") ?>
     </li>
     <li>
     <?php print _("Customizable category of aid") ?>
@@ -66,7 +59,7 @@ and the status.") ?>
 </ul>
 
 
- <strong>Description of Actions:</strong><br/>
+ <strong><?php _("Description of Actions:") ?></strong><br/>
     <ul>
         <li><a href="index.php?mod=rms&act=req_new"><b><?= _('Make Request'); ?> </b></a><br/><?= _('Make a request to obtain items for relief operations'); ?></li>
         <li><a href="index.php?mod=rms&act=req_ls"><b><?= _('List Requests'); ?> </b> </a><br/><?= _('List all the requests done through the system'); ?></li>

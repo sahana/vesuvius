@@ -1032,7 +1032,7 @@ function _shn_rms_get_pledge($plg_uuid)
 
 function _shn_rms_is_reqstatus($status)
 {
-	$stats = array ('open', 'closed');
+	$stats = array (_('open'),_ ('closed'));
 
 	foreach ($stats as $stat)
 	{
@@ -1047,7 +1047,7 @@ function _shn_rms_is_reqstatus($status)
 
 function _shn_rms_is_plgstatus($status)
 {
-	$stats = array ('delivered', 'not_confirmed', 'confirmed', 'discarded');
+	$stats = array (_('delivered'),_('not_confirmed') ,_('confirmed') ,_('discarded'));
 
 	foreach ($stats as $stat)
 	{
@@ -1086,8 +1086,8 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 		?>
 
 
-<strong>Requester Name</strong>
-:
+<strong> <?php _("Requester Name :") ?></strong>
+
 		<?=$requester['name']?>
 <br />
 		<?php
@@ -1118,11 +1118,11 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 	else
 	{
 		?>
-<strong>Donor ID</strong>
+<strong><?php echo _("Donor ID") ?></strong>
 :
 		<?=$donor_id?>
 <br />
-<strong>Donor Name</strong>
+<strong><?php echo _("Donor Name")?></strong>
 :
 		<?=$donor['name']?>
 		<?php
@@ -1152,7 +1152,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
 	{
 		?>
 
-<strong>Location</strong>
+<strong> <?php echo _("Location")?></strong>
 :
 		<?=$location?>
 		<?php

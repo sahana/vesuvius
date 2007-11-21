@@ -75,8 +75,7 @@ function _shn_rms_requester($requester_id=null)
 
 function _shn_rms_requester_conf($id)
 {
-    _shn_html_print_alert(_("You seem to be a new requester, Please confirm the contact information and enter missing " .
-                "information"));
+    _shn_html_print_alert(_("You seem to be a new requester, Please confirm the contact information and enter missing information"));
 
     $psn = _shn_rms_get_person($id);
     shn_form_fopen("req_new",null,array('req_message'=>false));

@@ -46,7 +46,7 @@ function _shn_rms_sch_getkeywords()
 		$date=array();
 		//---------------------------------------------------------------------------------
 		shn_form_fopen("plg_sch",null,array('req_message'=>false));
-		shn_form_fsopen("Select Criteria");
+		shn_form_fsopen(_("Select Criteria"));
 		shn_form_hidden(array('seq'=>'get_keywords'));
 		if($_SESSION['isadmin']==true) {
 			shn_form_select($donor_name, _("Donor"), 'donor_id',null,array('br'=>false));

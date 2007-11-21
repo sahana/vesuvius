@@ -53,7 +53,7 @@ function shn_rms_mainmenu()
     $module = $global['modlue'];
     
     shn_mod_menuopen(shn_get_module_name());
-    shn_mod_menuitem("default", "Home", $module);
+    shn_mod_menuitem("default", _("Home"), $module);
     shn_sub_mod_menuopen(_("Requests"));
     shn_sub_mod_menuitem("req_new", _("Make Request"), $module);
     shn_sub_mod_menuitem("req_ls", _("List Requests"), $module);
