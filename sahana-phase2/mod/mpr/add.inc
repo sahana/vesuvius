@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.33 2007-11-21 07:57:49 isurunishan Exp $ */
+/* $Id: add.inc,v 1.34 2007-11-21 12:58:29 isurunishan Exp $ */
 
 /**
  * Add Missing Person Registry
@@ -195,7 +195,7 @@ function shn_mpr_addmp_validate()
 
 	//Picture upload part
 	//No file was uploaded ignore else do the following
-	if($_FILES['picture']['error']==0){
+	if($_FILES['picture']['error']==0 || $_FILES['picture']['error'] == UPLOAD_ERR_NO_FILE){
 		//if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
 		if($_FILES['picture']['tmp_name']!=''){
 			// upload ok

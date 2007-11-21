@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.17 2007-11-21 07:58:05 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.18 2007-11-21 12:58:58 isurunishan Exp $ */
 
 /**
  * Edit page of the Missing Person Registry
@@ -278,7 +278,7 @@ function shn_mpr_editmp_validate()
 	$_SESSION['mpr_edit']['entry']=null;
 	$_SESSION['mpr_edit']['entry']=$local_post;
 	//No file was uploaded ignore
-	if($_FILES['picture']['error']==0){
+	if($_FILES['picture']['error']==0 || $_FILES['picture']['error'] == UPLOAD_ERR_NO_FILE){
 		//if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
 		//Uploads
 		if($_FILES['picture']['tmp_name']!=''){
