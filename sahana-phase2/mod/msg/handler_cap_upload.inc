@@ -36,7 +36,7 @@ function _shn_cap_upload_getfile()
     $mod = 'msg';
     $act = 'cap_upload';
 ?>
-    <div id="formcontainer">
+    <div class="form-container">
     <form  id='formset' enctype="multipart/form-data" action="index.php?mod=<?=$mod?>&act=<?=$act?>" method="POST">
     <fieldset>
     <legend>Message Upload</legend>
