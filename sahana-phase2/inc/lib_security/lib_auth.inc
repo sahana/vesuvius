@@ -3,7 +3,7 @@
  *
  * This library helps in authentication ,but not authorization. A vital component of the framework.
  * Developers are required to use this library for security.
- * 
+ *
  *
  * PHP version 4 and 5
  *
@@ -16,7 +16,7 @@
  * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ *
  */
 
 
@@ -25,71 +25,71 @@ require_once "errors.inc";
 require_once "lib_acl.inc";
 
 function shn_auth_get_openid_user($openid){
-  	global $global;
-    $db=$global['db'];
-    $q="select users.user_name from users,alt_logins where users.p_uuid=alt_logins.p_uuid and alt_logins.user_name='{$openid}'";
+	global $global;
+	$db=$global['db'];
+	$q="select users.user_name from users,alt_logins where users.p_uuid=alt_logins.p_uuid and alt_logins.user_name='{$openid}'";
 
 	$res=$db->Execute($q);
-    if(($res==null) or ($res->EOF)){
-        return null;
-    }else {
-        return $res->fields["user_name"];
-    }
+	if(($res==null) or ($res->EOF)){
+		return null;
+	}else {
+		return $res->fields["user_name"];
+	}
 }
 
 function shn_auth_user_list_and_status(){
-  	global $global;
-    $db=$global['db'];
-  
-    $q="select users.p_uuid,full_name,user_name,status from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
+	global $global;
+	$db=$global['db'];
+
+	$q="select users.p_uuid,full_name,user_name,status from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
 	$res=$db->Execute($q);
-    $users=array();
-        
-    while(!$res->EOF){
-    	//$name=$res->fields[2].".".$res->fields["full_name"];
-    	$name=$res->fields["full_name"].":".$res->fields["user_name"];
-       	$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
-        $res->MoveNext();
-    }
+	$users=array();
+
+	while(!$res->EOF){
+		//$name=$res->fields[2].".".$res->fields["full_name"];
+		$name=$res->fields["full_name"].":".$res->fields["user_name"];
+		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
+		$res->MoveNext();
+	}
 	return $users;
 
 }
 
 function shn_auth_locked_user_list(){
-  	global $global;
-    $db=$global['db'];
-  
-    $q="select users.p_uuid,full_name,user_name,status from person_uuid,users where status='locked' and users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
+	global $global;
+	$db=$global['db'];
+
+	$q="select users.p_uuid,full_name,user_name,status from person_uuid,users where status='locked' and users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
 	$res=$db->Execute($q);
-    $users=array();
-    
-    while(!$res->EOF){
-    	//$name=$res->fields[2].".".$res->fields["full_name"];
-    	$name=$res->fields["full_name"].":".$res->fields["user_name"];
-       	$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
-        $res->MoveNext();
-    }
+	$users=array();
+
+	while(!$res->EOF){
+		//$name=$res->fields[2].".".$res->fields["full_name"];
+		$name=$res->fields["full_name"].":".$res->fields["user_name"];
+		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
+		$res->MoveNext();
+	}
 	return $users;
 
 }
 function shn_auth_activate_user($pid=null,$uname=null){
 	if($pid==null){
-			if($uname==null){
-				return false;
-			}else{
-				$sql="update users set status='active'  where user_name='{$uname}'";
-			}
+		if($uname==null){
+			return false;
+		}else{
+			$sql="update users set status='active'  where user_name='{$uname}'";
+		}
 	}else{
-			$sql="update users set status='active' where p_uuid='{$pid}'";
-		
+		$sql="update users set status='active' where p_uuid='{$pid}'";
+
 	}
 
 	//echo $sql;
 	global $global;
-    $db=$global['db'];
+	$db=$global['db'];
 	$res=$db->Execute($sql);
 	return $res;
-	
+
 }
 /**
  *check the existence of an user
@@ -110,7 +110,7 @@ function shn_current_user(){
 }
 
 function shn_get_user_details($user){
-	
+
 	$q = "select full_name from person_uuid where  p_uuid = '{$user}'";
 	global $global;
 	$db=$global['db'];
@@ -123,15 +123,15 @@ function shn_get_user_details($user){
 }
 
 /**
-*Add a new user to the users table
-*@param string account name(nice name for the user)
-*@param string user namee
-*@param string user password
-*@param string role 
-*@param p_uuid p_id ( user id , if not present the value is generated)
-*@access public
-*@return bool
-*/
+ *Add a new user to the users table
+ *@param string account name(nice name for the user)
+ *@param string user namee
+ *@param string user password
+ *@param string role
+ *@param p_uuid p_id ( user id , if not present the value is generated)
+ *@access public
+ *@return bool
+ */
 function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=null,$extra_opts=null)
 {
 	global $global;
@@ -159,18 +159,18 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 			return false;
 		}
 	}
-	
+
 	if($pid==null){
-	
+
 		// $pid = $db->GenID('person_seq',10);
 		$pid=shn_create_uuid($type='person');
 		/*
-		$q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
-		$res=$db->Execute($q);
-		if($res==false){
+		 $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
+		 $res=$db->Execute($q);
+		 if($res==false){
 			add_error($db->ErrorMsg());
 			$error=true;
-		}*/
+			}*/
 	}else{
 		$q="select p_uuid from person_uuid where p_uuid='{$pid}'";
 		$res=$db->Execute($q);
@@ -183,22 +183,22 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 		}
 	}
 
-    $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
-    $res=$db->Execute($q);
-    if($res==false){
-				add_error($db->ErrorMsg());
-				$error=true;
+	$q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
+	$res=$db->Execute($q);
+	if($res==false){
+		add_error($db->ErrorMsg());
+		$error=true;
 	}
 
 
- 	if(!$error){
+	if(!$error){
 
-   		 // Create the encrypted password
-   		$salt1=_shn_generateSalt();
-   		$salt2=_shn_generateSalt();
-   		$salt=$salt1.$salt2;
-   		$user_password=substr($user_password, 0, 4).$salt.substr($user_password, 4);
-   		$stored_password = md5(trim($user_password));
+		// Create the encrypted password
+		$salt1=_shn_generateSalt();
+		$salt2=_shn_generateSalt();
+		$salt=$salt1.$salt2;
+		$user_password=substr($user_password, 0, 4).$salt.substr($user_password, 4);
+		$stored_password = md5(trim($user_password));
 
 		$time=time();
 		if($extra_opts['pending']==true){
@@ -252,10 +252,10 @@ function shn_is_user($user_name){
 }
 
 function shn_auth_user_list($fullname=false,$admin=true){
-  	global $global;
-    $db=$global['db'];
-  
-    $q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid order by user_name";
+	global $global;
+	$db=$global['db'];
+
+	$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid order by user_name";
 	//$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by user_name";
 
 	$res=$db->Execute($q);
@@ -462,7 +462,14 @@ function shn_authenticate_user()
 				}
 
 			}
-
+		}
+		// banned user
+		if($status == 'banned'){
+			add_error("Login Failed : You have been banned by an administrator of the system.");
+			shn_acl_log_error("Login Failed : Banned user login atttempt.",$uid,$user,1);
+			$user_data["user_id"]=ANONYMOUS_USER;
+			$user_data["user"]="Anonymous";
+			return $user_data;
 		}
 
 		$pwd=substr($pwd, 0, 4).$salt.substr($pwd, 4);
@@ -680,8 +687,8 @@ function _shn_auth_del_user_cr(){
 
 		if($user[$i]!=ADMINUSER){
 			$q="delete from users where p_uuid='{$user[$i]}'";
-        	$res=$db->Execute($q);
-        	if($res==false){
+			$res=$db->Execute($q);
+			if($res==false){
 				add_error($db->ErrorMsg());
 			}
 
@@ -691,8 +698,8 @@ function _shn_auth_del_user_cr(){
 
 		if($user[$i]!=ADMINUSER){
 			$q="delete from alt_logins where p_uuid='{$user[$i]}'";
-        	$res=$db->Execute($q);
-        	if($res==false){
+			$res=$db->Execute($q);
+			if($res==false){
 				add_error($db->ErrorMsg());
 			}
 
