@@ -66,7 +66,7 @@ function shn_xml_ims_rss_transit(){
     _shn_ims_expire_date_check();
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
-    shn_rss_channel_open(_('Expired item List'),_('Items which are in transit.'));
+    shn_rss_channel_open(_('Transit item List'),_('Items which are in transit.'));
 
     $sql="SELECT t.transit_id,t.item_id,item_name,amount_send,c.name,inventory_name,destination_type,person_send,date_send FROM ims_transfer_item as t INNER JOIN ims_item_records as i on i.item_id=t.item_id INNER JOIN ct_unit as c ON c.unit_uuid = i.unit INNER JOIN ims_inventory_records as n ON t.inv_id_to=n.inv_uuid  ORDER BY date_send LIMIT 0, 30";
     define('ADODB_FETCH_ASSOC',2);
