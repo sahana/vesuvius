@@ -1,7 +1,7 @@
 <?php
 
 
-/* $Id: list_missing.inc,v 1.3 2006-12-14 11:14:32 isurunishan Exp $ */
+/* $Id: list_missing.inc,v 1.4 2007-11-22 09:54:43 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support
@@ -83,7 +83,6 @@ if ($count > $limit) {
 print '<BR/><BR/>';
 ?>
 
-  
  <input type="button"  value="Print Current Page" class="hideprint" onClick="self.print()"/>
-  
+ </div>
 

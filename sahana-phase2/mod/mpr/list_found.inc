@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: list_found.inc,v 1.4 2006-12-14 11:14:17 isurunishan Exp $ */
+/* $Id: list_found.inc,v 1.5 2007-11-22 09:54:30 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support
@@ -71,7 +71,7 @@ if ($count > $limit) {
 	}
 ?>
 <a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>" class="hideprint">Next</a>
-<!--</div>-->
+
 <?php
 
 } else {
@@ -80,9 +80,10 @@ if ($count > $limit) {
 }
 print '<BR/><BR/>';
 ?>
+
 <input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/>
   
-  
+ </div>
   
 
 
