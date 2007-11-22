@@ -23,7 +23,7 @@ function _shn_ws_adm_sub_menu(){
 
 </div>
 
-<br>
+<br />
 <?php
 
 }
@@ -85,7 +85,7 @@ function shn_ws_adm_enable_auth_form(){
  		shn_form_hidden(array("action"=>'enable'));
 		shn_form_submit(_("Enable Web Service Authentication"));
  	}
-
+        shn_form_fclose();
 }
 
 
