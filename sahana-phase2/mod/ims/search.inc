@@ -381,7 +381,6 @@ function _shn_ims_form_search()
     $module = $global['module'];
 ?>
 <h2 align="center"><?= _("Search for Inventories by name and by Location")?></h2>
-    <div id="formcontainer">
 <?php
     $form_opts['name'] = "search_inventory";
     shn_form_fopen('search_inventory_db',null,$form_opts);
