@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS incident;
 
 -- drop tables from lib_uuid
 
-DROP TABLE IF EXISTS victim_group;
+
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS organization;
 -- DROP TABLE IF EXISTS loc_seq;
