@@ -191,6 +191,7 @@ function shn_admin_acl_change_user_status($error=false)
 function shn_admin_acl_change_user_status_cr($error=false)
 {
  	_shn_admin_acl_change_user_status_cr();
+ 	_shn_admin_acl_enable_locking_on_lock_user();
  	shn_admin_acl_change_user_status();	
 }
 
@@ -202,6 +203,7 @@ function shn_admin_acl_unlock_user($error=false)
 function shn_admin_acl_unlock_user_cr($error=false)
 {
  	_shn_admin_acl_unlock_user_cr();
+ 	_shn_admin_acl_enable_locking_on_lock_user();
  	shn_admin_acl_unlock_user();	
 }
 
@@ -337,8 +339,11 @@ function shn_admin_acl_enable_locking()
 }
 function shn_admin_acl_enable_locking_cr()
 {
-    
-   _shn_admin_acl_enable_locking_cr();
+	// changed by Ravith.
+	// enable the locking
+   _shn_admin_acl_enable_locking_cr($_POST['action']=='enable');
+	// show the ui
+   shn_acl_form_enable_locking();
 }
 
 function shn_admin_acl_state()
