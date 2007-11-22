@@ -29,17 +29,18 @@ function shn_ws_mainmenu()
     $mods=shn_get_modules_with_web_services();
     $module = $global['module'];
     shn_mod_menuopen(_lc("Web Services"));
- 	shn_mod_menuitem("api_key","Sign up for API Key",$module);
+    shn_mod_menuitem("default","Home",$module);
+    shn_mod_menuitem("api_key","Sign up for API Key",$module);
     shn_sub_mod_menuopen(_lc("SOAP"));
     foreach($mods as $mod=>$data_arr){
     	shn_mod_menuitem("main&wbsmod=".$data_arr[0],$data_arr[1],$module);
     }
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_lc("REST"));
-    foreach($mods as $mod=>$data_arr){
-    	shn_mod_menuitem($data_arr[0],$data_arr[1],$module);
-    }
-    shn_sub_mod_menuclose();
+//     shn_sub_mod_menuopen(_lc("REST"));
+//     foreach($mods as $mod=>$data_arr){
+//     	shn_mod_menuitem($data_arr[0],$data_arr[1],$module);
+//     }
+//     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_lc("Client"));
    	shn_mod_menuitem("sahana","Other SAHANA systems",$module);
     shn_sub_mod_menuclose();
@@ -66,14 +67,22 @@ function shn_ws_default(){
 ?>
 <div id="home">
     <h2><?=_lc($conf['mod_ws_name'])?></h2>
-    		<div><b><i><?=_("\"SAHANA functionality exposed as  web services\"")?></i></b></div>
-        <br></br>
-		<div><?=_("The Web Services Module generates WSDL for each service.")?>
-        </div>
-		<ul>
-            <li><?=_("Displays the methods that are exposed as web serivices with additional information")?></li>
-            <li><?=_("Generates and display the WSDL for those services")?></li>
-         </ul>
+    <div><b><i><?=_("\"SAHANA functionality exposed as web services\"")?></i></b></div>
+        <br />
+        <div><?=_("Web service module provides a set of web services which can be used by other Sahana Instances and third-party systems to share information with Sahana.")?>
+    </div>
+    <br />
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+    <ul>
+        <li><?=_("Displays the methods that are exposed as web serivices with additional information")?></li>
+        <li><?=_("Generates and display the WSDL for those services")?></li>
+    </ul>
+    <strong>Description of Actions:</strong><br/>
+    <ul>
+        <li><a href="index.php?mod=ws&amp;act=api_key"><b><?= _('Sign up for API Key'); ?> </b></a><br/><?= _('Create an api key to access Sahana Web services using a third-party client.'); ?></li>
+        <li><b><?= _('SOAP'); ?> </b><br/><?= _('View available web services and there WSDL.' ); ?></li>
+        <li><a href="index.php?mod=ws&amp;act=sahana"><b><?= _('WS Client'); ?></b></a><br/><?= _('A sample web service client.'); ?></li>
+    </ul>
 </div>
 <br />
 
