@@ -56,7 +56,7 @@ function _shn_admin_acl_enable_mods_cr()
 {
 	global $global;
 	$error_flag = false;
-	
+
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
@@ -94,7 +94,7 @@ function _shn_admin_acl_enable_mods_cr()
 				$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
 				$res=$db->Execute($sql);
 				if(!$res && !$error_flag){
-						
+
 					// set the error flag once only
 					// no overwrite if set.
 					$error_flag = true;
@@ -166,18 +166,24 @@ function _shn_admin_acl_enable_locking()
 	shn_acl_form_enable_locking();
 }
 
-function _shn_admin_acl_enable_locking_cr()
+/**
+ * Create the enable locking flag record.
+ *
+ * @param Boolean $enable The flag value
+ *
+ * Changed by Ravith.
+ */
+function _shn_admin_acl_enable_locking_cr($enable=false)
 {
 	global $global;
 	$db=$global["db"];
 
-	if($_POST['action']=='enable') {
-		$q="UPDATE config set value=true where module_id='admin' and confkey='acl_locking'";
+	if($enable) {
+		$q="UPDATE config SET value=true WHERE module_id='admin' AND confkey='acl_locking'";
 	}else {
-		$q="update config set value=false where module_id='admin' and confkey='acl_locking'";
+		$q="UPDATE config SET value=false WHERE module_id='admin' AND confkey='acl_locking'";
 	}
 	$res=$db->Execute($q);
-	shn_acl_form_enable_locking();
 }
 
 function _shn_admin_acl_user_roles()
@@ -528,5 +534,17 @@ function _shn_admin_acl_user_cr()
 _shn_admin_acl_user($module,false);
 }
 
-
+/**
+ * This will enable locking if system wide locking is disabled.
+ * once a user is locked.
+ *
+ */
+function _shn_admin_acl_enable_locking_on_lock_user(){
+	$locked = shn_auth_locked_user_list();
+	if(count($locked)>0 && shn_acl_is_locking_enabled()==false){
+		_shn_admin_acl_enable_locking_cr(true);
+		add_confirmation(_("The selected user account(s) has been locked.")."<br/>"._("System wide locking has been enabled too.").
+		"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._("Click here if you need to disable locking")."</a>");
+	}
+}
 ?>
