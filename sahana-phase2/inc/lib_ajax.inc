@@ -97,11 +97,11 @@ count=-1;
 			splited_value[1]=""
 			splited_value[0]=""		
 		}
-	def_display="--select--";			
-	def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+def_display+\'</div>\'
+	//def_display="--select--";			
+	//def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+def_display+\'</div>\'
 	ids[0]=splited_value[0];
 	names[0]=splited_value[1];			
-	new_value=def_value+\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+splited_value[1]+\'</div>\'
+	new_value=\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+splited_value[1]+\'</div>\'
 	
 			j=1
 			
