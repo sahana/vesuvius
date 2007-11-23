@@ -534,9 +534,11 @@ function shn_location_jscript($start,$to,$parent=false){
   		}
   	}
   	var y=document.getElementById("loc_org");
+  	if(y)
   	y.style.display='none';
   	
   	var y=document.getElementById("loc_camp");
+  	if(y)
   	y.style.display='none';
     	
 </script>
