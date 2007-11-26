@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.12 2007-10-29 11:06:27 isurunishan Exp $ */
+/* $Id: lib_stream_html.inc,v 1.13 2007-11-26 11:17:45 isurunishan Exp $ */
 
 /**
  *
@@ -16,96 +16,123 @@
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ *
  */
- 
+
 function shn_stream_init()
 {
-    global $global;
-    global $conf;
-    require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
+	global $global;
+	global $conf;
+	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
 
-    $module = $global['module'];
+	$module = $global['module'];
 
-    // include the html head tags
-    shn_include_page_section('html_head',$module);  
+	// include the html head tags
+	shn_include_page_section('html_head',$module);
 
-    // Start the body and the CSS container element
+	// Start the body and the CSS container element
+	?>
+	<?php if(isset($_SESSION['admin']['locale']['enable']) && $_SESSION['admin']['locale']['enable']=="set"){ ?>
+<body onclick="whichElement(event)" oncontextmenu="return false;">
+	<?php }else{?>
+<body>
+	<?php }?>
+<div id="container"><?php
+
+// include the page header provided there is not a module override
+shn_include_page_section('header',$module);
+
+// Now include the wrapper for the main content
 ?>
-    <?php if(isset($_SESSION['admin']['locale']['enable']) && $_SESSION['admin']['locale']['enable']=="set"){ ?>
-    	<body onclick="whichElement(event)" oncontextmenu="return false;">
-    <?php }else{?>
-    	<body>	
-    <?php }?>
-    <div id="container">
-<?php
-    
-    // include the page header provided there is not a module override
-    shn_include_page_section('header',$module);
-    
-    // Now include the wrapper for the main content
-?>     
-    <div id="wrapper" class="clearfix"> 
-    <div id="wrapper_menu">
-    <p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a href="#modulemenu"><?=_('Module Menu')?></a></p> 
+<div id="wrapper" class="clearfix">
+<div id="wrapper_menu">
+<p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a
+	href="#modulemenu"><?=_('Module Menu')?></a></p>
 <?php
 
-    // hack for the admin section such that the mene and login come from 
-    // the admin section
-    if (isset($global['effective_module']) && $global['effective_module'] != null) {
-        $module = $global['effective_module'];
-    }
+// hack for the admin section such that the mene and login come from
+// the admin section
+if (isset($global['effective_module']) && $global['effective_module'] != null) {
+	$module = $global['effective_module'];
+}
 
-    // include the mainmenu and login provided there is not a module override
-    shn_include_page_section('mainmenu',$module);
-    if(shn_acl_is_enabled()==true){
-        shn_include_page_section('login',$module);
-    }
+// include the mainmenu and login provided there is not a module override
+shn_include_page_section('mainmenu',$module);
+if(shn_acl_is_enabled()==true){
+	shn_include_page_section('login',$module);
+}
 
 
-    // display the breadcrumbs: It is important that this happens after the menu definition
-    // the nice name is constructed from the query string
-    $nicename = 'shn_q_'.$_SERVER['QUERY_STRING'].'_nicename';
+// display the breadcrumbs: It is important that this happens after the menu definition
+// the nice name is constructed from the query string
+$nicename = 'shn_q_'.$_SERVER['QUERY_STRING'].'_nicename';
 
-    if ( array_key_exists($nicename, $global ))
-        shn_breadcrumb_push($global[$nicename]);
+if ( array_key_exists($nicename, $global ))
+shn_breadcrumb_push($global[$nicename]);
 
-    shn_breadcrumb_display(); 
-    // now include the main content of the page
-?>  
-    </div> <!-- Left hand side menus & login form -->
-    <div id="content" class="clearfix">      
-<?php
+shn_breadcrumb_display();
+// now include the main content of the page
+?></div>
+<!-- Left hand side menus & login form -->
+<div id="content" class="clearfix"><?php
 
-    ob_start(); // start output buffer for the module output
+ob_start(); // start output buffer for the module output
 }
 
 function shn_stream_close()
 {
-    global $global;
+	global $global;
 
-    // flush the output buffer
-    $output = ob_get_contents();
+	// flush the output buffer
+	$output = ob_get_contents();
 
-    ob_end_clean(); 
+	ob_end_clean();
 
-    // display the errors first before the rest of the module output
-    display_errors();
-    display_submit_message('confirmation','Submission Successful');
-    display_submit_message('warning','Warning');
-    echo $output;
 
-?>
-    </div> <!-- /content -->
-<?php
+	// check for exceptions
+	$exception_list = $global['exception_list'];
+	$result = null;
+	$exception = null;
+	$is_abort = false;
+	//echo "<h1> Exception List </h1>";
+	//var_dump($exception_list);
 
-    // include the footer provided there is not a module override
-    shn_include_page_section('footer',$global['module']);
-?>
-    </div> <!-- /wrapper -->
-    </div> <!-- /container -->
-    </body>
-    </html>
+	if(isset($exception_list)){
+		foreach($exception_list as $ex){
+			$res = $ex->getResult();
+			$exception = $ex;
+			$result = $res;
+			if(isset($res) && $res==REPORT_AND_ABORT){
+				break;
+			}
+		}
+
+		if($result == REPORT_AND_ABORT){
+			add_error($exception->getMessage());
+			$is_abort = true;
+		}else if($result == REPORT_AND_CONTINUE){
+			add_warning($exception->getMessage());
+		}
+	}
+
+	// display the errors first before the rest of the module output
+	display_errors();
+	display_submit_message('confirmation','Submission Successful');
+	display_submit_message('warning','Warning');
+	if($is_abort == false){
+		echo $output;
+	}
+
+	?></div>
+<!-- /content --> <?php
+
+// include the footer provided there is not a module override
+shn_include_page_section('footer',$global['module']);
+?></div>
+<!-- /wrapper --></div>
+<!-- /container -->
+</body>
+</html>
 <?php
 }
 ?>

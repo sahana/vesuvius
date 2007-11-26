@@ -73,9 +73,9 @@ function shn_log_form($UUID)
 
 function shn_log_event($data_item_UUID=null,$comments,$details=null,$log_level=INFO,$sensitivity_level=NOT_SENSITIVE,$date_time=null,$module=null,$action=null,array $extra_opts=null)
 {
-	global $global;$conf;
+	global $global,$conf;
 	
-	$datetime = ($date_time!=null)? $date_time : date("Y-m-d H:i:s");
+	$datetime = (isset($date_time))? $date_time : date("Y-m-d H:i:s");
 	
 	$ext_opt_str = null;
 	// prepare extra opts
@@ -89,7 +89,11 @@ function shn_log_event($data_item_UUID=null,$comments,$details=null,$log_level=I
 	try{
 		$generic_logger = new ReflectionClass("Logger");
 		// reflect the class
-		$class = new ReflectionClass($conf['default_logger']);
+		$class = null;
+		if(isset($conf['default_logger'])){
+			$class = new ReflectionClass($conf['default_logger']);
+		}
+		//echo "<pre>";var_dump($conf);echo "</pre>";
 
 		// if not null and instance of generic logger.
 		if($class!=null && $class->isSubclassOf($generic_logger)){
@@ -97,14 +101,19 @@ function shn_log_event($data_item_UUID=null,$comments,$details=null,$log_level=I
 			$log_method = $class->getMethod('log_message');
 			// prepare argument list
 			$args= array($data_item_UUID,$comments,$details,$log_level,$sensitivity_level,$datetime,$module,$action,$ext_opt_str);
+			//var_dump($args);
 			// invoke method on a new instance of the class.
-			$log_method->invokeArgs($class->newInstance(),$args);
+			$logger_instance = $class->newInstance();
+			
+			//$logger_instance->log_message($data_item_UUID,$comments,$details,$log_level,$sensitivity_level,$datetime,$module,$action,$ext_opt_str);
+			//var_dump($logger_instance);
+			$log_method->invokeArgs($logger_instance,$args);
 		}else{
 			// Use default if reflection fails.
 			Logger::log_message($data_item_UUID,$comments,$details,$log_level,$sensitivity_level,$datetime,$module,$action,$ext_opt_str);
 		}
 	} catch (Exception $ex){
-		echo "Exception : $ex->getMessage()<br/>";
+		echo "Reflection Exception : <pre>".$ex->getTraceAsString()."<br/>".$ex->getMessage()."</pre>";
 
 	}
 
@@ -194,7 +203,7 @@ class FileLogger extends Logger{
 	function log_message($data_item_UUID=null,$comments,$details=null,$log_level,$sensitivity_level,$datetime,$module,$action,$ext_opt_str){
 		global $conf, $global;
 		// log data array.
-		$log_data_arr=null;
+		$log_data_arr=array();
 		if($data_item_UUID!=null){
 			$log_data_arr['pgoc_uuid']=$data_item_UUID; // related data item uuid.
 		}
@@ -211,15 +220,24 @@ class FileLogger extends Logger{
 		$log_data_arr['action'] = ($action!=null)?$action:$global['action'];
 		$log_data_arr['log_uuid'] = shn_create_uuid('log');
 		$log_data_arr['user_uuid'] = $_SESSION['user_id'];
+		
 
-		$conf['log_file_name_prefix'] = 'log'; // test only
-		$conf['log_file_location'] = "/home/ravith/workspace/sahana-phase2/log"; // test only
+		//$conf['log_file_name_prefix'] = 'log'; // test only
+		//$conf['log_file_location'] = "/home/ravith/workspace/sahana-phase2/log"; // test only
+		$log_str = $log_data_arr['event_date']." - ".$log_data_arr['log_level']." : ".$log_data_arr['sensitivity_level']." ".$log_data_arr['module'].":".$log_data_arr['action']." (".$log_data_arr['pgoc_uuid'].") ".$log_data_arr['comments']." : ".$log_data_arr['details']." ".(isset($ext_opt_str)?": Extra Opts : " . $ext_opt_str . "\r\n":"");
+	
+		$log_file_name=((isset($conf['log_file_name_prefix']))?$conf['log_file_name_prefix']:'') . date("Ymd") . '.log';
 		
-		$log_file_name=(($conf['log_file_name_prefix']!=null)?$conf['log_file_name_prefix']:'') . date("Ymd") . '.log';
+		$log_location = $global['approot'].$conf['log_file_location'];
+		//var_dump($log_location);
 		
-		$log_file = fopen($conf['log_file_location'] . '/' . $log_file_name,"a+");
+		if(!file_exists($log_location)){
+			mkdir($log_location,0777,true);
+		}
+		//echo "<pre>{Permissions of ".$log_location." : ".fileperms($log_location."/")."}</pre>";
+		$log_file = fopen($log_location . '/' . $log_file_name,"a+");
 		if($log_file){
-			fputs($log_file,"$datetime - $log_level : $sensitivity_level $module:$action ($data_item_UUID) $comments : $details " . ($ext_opt_str!=null)?": Extra Opts : " . $ext_opt_str . "\n":"");
+			fputs($log_file,$log_str);
 			fclose($log_file);
 		}else{
 			echo "ERROR WRITING LOG";

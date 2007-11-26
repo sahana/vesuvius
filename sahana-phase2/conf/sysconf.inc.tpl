@@ -114,6 +114,17 @@ $conf['cache_dir'] = 'cache/db_cache';
 #
 $conf['locale'] = 'en_US';
 
+# Logging Configuration
+#
+#$conf['default_logger'] = 'DatabaseLogger';
+$conf['default_logger'] = 'FileLogger';
+#File Logger Specific Configuration.
+#Prefix to the log file name
+$conf['log_file_name_prefix'] = 'log';
+#Log file location relative to approot.
+$conf['log_file_location'] = "logs";
+
+
 ###############################
 # GIS and Mapping Configuration
 ###############################
