@@ -817,7 +817,7 @@ function _shn_location_form_parent($range,$parent){
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             $extra_opts['value']=$selection;
          //   $extra_opts['req']=true;
-            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,$extra_opts);
+            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -842,9 +842,9 @@ function _shn_location_form_parent($range,$parent){
                     $options[$res_options->fields[1]]=$res_options->fields[0];
                     $res_options->MoveNext();
             }
-            ?><div id='<?php echo $res->fields[0]."'>";
+            ?><div id='loc_div_<?php echo $res->fields[0]."'>";
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            shn_form_select($options,$res->fields[1].":",$res->fields[0],$select_opts,array('req'=>true));
+            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,array('req'=>true));
             ?></div><?
             $res->MoveNext();
         }
