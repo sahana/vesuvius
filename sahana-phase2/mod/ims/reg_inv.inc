@@ -42,7 +42,7 @@ function _shn_ims_regform_inv($error=false)
     shn_form_fopen("reg_inv_gis");
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
-    shn_form_text(_("Inventory Name : "),'org_name','size="50"',$extra_opts); 
+    shn_form_text(_("Inventory Name : "),'org_name','size="40"',$extra_opts); 
    // shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
    
@@ -97,7 +97,7 @@ function _shn_ims_regform_operation($error=false)
     shn_form_fopen("reg_operation_cr");
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
-    shn_form_text(_("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
+    shn_form_text(_("Operation/Branch Name : "),'org_name','size="40"',$extra_opts); 
 	shn_form_fsclose();
     shn_form_fsopen("Inventory Sector");
     _shn_ims_display_sector($error);
