@@ -868,25 +868,44 @@ function shn_check_password_matches_policy($password,$username,$extra_opts=null)
 			}
 		}
 
-		/**
-		 * @todo
-		 if(isset($rule_array['pwd_has_spchars'])){
-			if(preg_match("/[!@,.#$%\^&\\*\/\?`~+=|:;\(\)-\"']+/",$password)==false){
-			return REQ_SPECIAL_CHARS;
+		if(isset($rule_array['pwd_has_spchars'])){
+			$sp_chars_str = "!@,.#$%\^&\*/?`~+=|:;()-\"'[]{}<>";
+			$has_sp_char = false;
+			for($i=0;$i<strlen($sp_chars_str);$i++){
+				$sp_chr = substr($sp_chars_str,$i,1);
+				if(stripos($password,$sp_chr) !== FALSE){
+					$has_sp_char = true;
+					break;
+				}
 			}
-			}*/
+
+			if($has_sp_char == false){
+				return REQ_SPECIAL_CHARS;
+			}
+		}
 
 		if(isset($rule_array['pwd_has_username'])){
-			if(preg_match("/$username+/i",$password)==false){
+			/*if(preg_match("/$username+/i",$password)===false){
+				return HAS_USERNAME;
+			}*/
+			if(stripos($password,$username) !== FALSE){
 				return HAS_USERNAME;
 			}
 		}
 
 		if(isset($rule_array['pwd_has_reppatterns'])){
-			/**
-			 * @todo Regular expression for this.
-			 */
-			//return HAS_REPETITIONS;
+			$pat_chars = 2;
+			for($i=0;$i < (strlen($password)-$pat_chars);$i++){
+				$start_idx = $i;
+				
+				// the pattern
+				$pat = substr($password,$start_idx,$pat_chars);
+				if(($start_idx+1)<strlen($password)){
+					if(strpos($password,$pat,$start_idx+1) !== FALSE){
+						return HAS_REPETITIONS;
+					}
+				}
+			}				
 		}
 
 		// nothing wrong if control comes here.
