@@ -1,5 +1,5 @@
 <?php
-/* $Id: gis_fns.inc,v 1.25 2007-11-02 05:23:22 isurunishan Exp $ */
+/* $Id: gis_fns.inc,v 1.26 2007-12-03 09:10:47 isurunishan Exp $ */
 
 /**
 * Functions Page of the GIS Module and API
@@ -226,6 +226,12 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$bu
 		shn_form_hidden(array('loc_y'=>''));
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		echo "<div class='msg info'>";
+		echo _("You can move around and enlarge/reduce the size of the area you want using
+the scale on upper left corner of the map. By clicking on a map you can
+mark your location with a pointer. If you want to remove the pointer,
+simply click on the center of the pointer.");
+		echo "</div>";
 		show_add_marker_map($nameOfPoint);
 		shn_form_fsclose();
 	}
