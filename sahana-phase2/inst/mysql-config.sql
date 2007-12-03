@@ -141,7 +141,7 @@ INSERT INTO field_options VALUES('opt_org_sub_type','bra','Branch');
 -- ORGANIZATION SECTOR VALUES
 INSERT INTO field_options VALUES('opt_sector_type','sup','Supplier of Goods');
 INSERT INTO field_options VALUES('opt_sector_type','comm','Communications');
-INSERT INTO field_options VALUES('opt_sector_type','med','Medical');
+INSERT INTO field_options VALUES('opt_sector_type','med','Medical Services');
 INSERT INTO field_options VALUES('opt_sector_type','rehab','Rehabilitation');
 INSERT INTO field_options VALUES('opt_sector_type','edu','Education');
 
