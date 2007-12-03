@@ -334,6 +334,7 @@ function _shn_admin_acl_user_edit_roles_cr($module=NULL,$error=false)
 	$role=ADMIN;
 	shn_acl_adduser_to_role($user,$role);
 	_shn_admin_acl_user_menu();
+	add_confirmation(_("User roles were updated successfully."));
 	shn_acl_form_user_edit_roles();
 }
 
