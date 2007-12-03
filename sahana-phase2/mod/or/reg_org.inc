@@ -39,17 +39,17 @@ function _shn_or_regform_org($error=false)
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
     ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
-    but registration  no is optional");?> </div><br /><?php
+    but the Registration number is optional");?> </div><br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
-    shn_form_text(_("Organization Name : "),'org_name','size="50"',$extra_opts); 
+    shn_form_text(_("Organization Name : "),'org_name','size="40"',$extra_opts); 
     $extra_opts['req']=false;
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['reg_no'];
     }
     $extra_opts['help']=_("If your organization is registered under the government, please enter your Company Registration Number");
-    shn_form_text(_("Registration Number(if any) : "),'reg_no','size="50"',$extra_opts); 
+    shn_form_text(_("Registration Number(if any) : "),'reg_no','size="40"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Type"));
    
@@ -74,9 +74,9 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
-  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala'.  start by selecting the country ,once you select country".
-" all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
-"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section."));//display help icon only once
+  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example if you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala',  start by selecting the country. Once you select the country".
+" all the divisions of that country will be shown in the next select box.  In this case all districts in 'Sri lanka' will appear . From those select a district, which inturn will show the village list in the next select box. Select 'dehiwala' and it is done!".
+"Please note that the levels can be customized, hence it does not need to always be 'country'->'district'->'village'. It is configurable from the 'administration' section."));//display help icon only once
  	shn_form_fsopen(_("Base Location"));
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
@@ -84,7 +84,7 @@ function _shn_or_regform_org($error=false)
  		shn_location(null,null,null,$extra_opts);
  	} 
  	$extra_opts['help']=(_("In addition to the hierarchical location , you may specify the address of the organization here. "));
- 	shn_form_text(_("Address"),'loc_txt','size="50"', $extra_opts);
+ 	shn_form_text(_("Address"),'loc_txt','size="40"', $extra_opts);
     shn_form_fsclose();
 
     // Contact infomation
