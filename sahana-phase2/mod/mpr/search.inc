@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.18 2007-11-19 09:32:32 isurunishan Exp $ */
+/* $Id: search.inc,v 1.19 2007-12-03 05:32:22 prabath321 Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -27,7 +27,7 @@
  */
 function shn_mpr_search_default()
 {
-    shn_form_fopen("search",null); 
+    shn_form_fopen("search",null,array('req_message'=>false)); 
     shn_form_fsopen(_('Basic Search'));
     shn_form_text(_('Any Card Number'),'idcard','size="30"');
     shn_form_text(_('Any Name'),'name','size="30"');
