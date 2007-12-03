@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.19 2007-12-03 05:32:22 prabath321 Exp $ */
+/* $Id: search.inc,v 1.20 2007-12-03 06:15:37 prabath321 Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -52,7 +52,7 @@ function shn_mpr_search_default()
  */
 function shn_mpr_search_advance()
 {
-    shn_form_fopen("search",null); 
+    shn_form_fopen("search",null,array('req_message'=>false)); 
     shn_form_fsopen(_('Advanced Search'));
 
     shn_form_fsopen(_('Identity'));
