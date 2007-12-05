@@ -1,20 +1,20 @@
 <?php
 /**
-* Sahana Localization library
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Sudheera R. Fernando <sudheera@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package	  framework
-* @subpackage localization
-* @tutorial	  localization.pkg
-* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
-*/
+ * Sahana Localization library
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Sudheera R. Fernando <sudheera@opensource.lk>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package	  framework
+ * @subpackage localization
+ * @tutorial	  localization.pkg
+ * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ */
 
 include_once $global['approot']."/inc/lib_form.inc";
 
@@ -28,26 +28,34 @@ include_once $global['approot']."/inc/lib_form.inc";
 function _shn_lc_setdblc($locale)
 {
 	global $global;
-
-	$sql = "INSERT INTO config " .
-		   "VALUES('admin', 'locale', '$locale')";
-
-    $sql_up = "UPDATE config SET value = '$locale' " .
+	$sql = "SELECT * FROM config WHERE module_id = 'admin' AND confkey = 'locale'";
+	$res = $global['db']->Execute($sql);
+	if($res){
+		$res->MoveFirst();
+		// check if previous value exists.
+		if(!$res->EOF){
+			// update value
+			$sql = "UPDATE config SET value = '$locale' " .
               "WHERE module_id = 'admin' " .
               "AND confkey = 'locale'";
+		}else{
+			// insert value
+			$sql = "INSERT INTO config (module_id,confkey,value)" .
+		   "VALUES('admin', 'locale', '$locale')";
+		}
 
-	if (!$global['db']->Execute($sql))
-	{
-		print $global['db']->ErrorMsg();
+		$global['db']->Execute($sql);
+
+		if (!$global['db']->ErrorNo())
+		{
+			print $global['db']->ErrorMsg();
+			return false;
+		}
+		return true;
+	}else{
+		add_error(_("Unknown error in updating configuration value."));
 		return false;
-	}
-    elseif (!$global['db']->Execute($sql_up))
-    {
-        print $global['db']->ErrorMsg();
-        return false;
-    }
-
-	return true;
+	}	
 }
 
 /**
@@ -129,194 +137,194 @@ function _shn_lc_issetsession()
  */
 function _shn_lc_lang_list($mode=1)
 {
-    if ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set')
-    {
-        $lc_list = _shn_get_lang_list();
+	if ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set')
+	{
+		$lc_list = _shn_get_lang_list();
 
-        $locale = $_SESSION['locale'];
-        global $global;
-        //shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
-        echo "<form method=\"post\" action=\"index.php?mod=".$global['module']."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
+		$locale = $_SESSION['locale'];
+		global $global;
+		//shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
+		echo "<form method=\"post\" action=\"index.php?mod=".$global['module']."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
 
-        shn_form_hidden(array('seq'=>'set_locale'));
+		shn_form_hidden(array('seq'=>'set_locale'));
 
-        shn_form_select($lc_list,"Language","locale",'onchange="submit(this);"',array('value'=>"$locale"));
+		shn_form_select($lc_list,"Language","locale",'onchange="submit(this);"',array('value'=>"$locale"));
 
-        echo "</form>";
-    }
+		echo "</form>";
+	}
 
 }
 
 function _shn_lc_get_dbpo()
 {
-    global $global;
+	global $global;
 
-    $db_po_str = '';
+	$db_po_str = '';
 
-    //Clear tmp_po table
-    $sql = "DELETE FROM lc_tmp_po";
-    $rs = $global['db']->Execute($sql);
+	//Clear tmp_po table
+	$sql = "DELETE FROM lc_tmp_po";
+	$rs = $global['db']->Execute($sql);
 
-    $list = _shn_lc_get_db_strlist();
+	$list = _shn_lc_get_db_strlist();
 
-    //print_r($list);
-    foreach ($list as $str)
-    {
-        $sql = "SELECT * FROM lc_tmp_po WHERE string = '" . $str['string'] . "'";
-        $rs = $global['db']->Execute($sql);
-        $rs_array = $rs->getArray();
+	//print_r($list);
+	foreach ($list as $str)
+	{
+		$sql = "SELECT * FROM lc_tmp_po WHERE string = '" . $str['string'] . "'";
+		$rs = $global['db']->Execute($sql);
+		$rs_array = $rs->getArray();
 
-        if (1 > $rs->RecordCount())
-        {
-            $string = $str['string'];
-            $comment = $str['table'] . "/" . $str['field'] . ", ";
+		if (1 > $rs->RecordCount())
+		{
+			$string = $str['string'];
+			$comment = $str['table'] . "/" . $str['field'] . ", ";
 
-            $sql = "INSERT INTO lc_tmp_po (string, comment) " .
+			$sql = "INSERT INTO lc_tmp_po (string, comment) " .
                     "VALUES('$string','$comment')";
 
-            //print $sql;
-            $global['db']->Execute($sql);
-        }
-        else
-        {
-            $comment = $rs_array[1] . $str['table'] . "/" . $str['field'] . ", ";
-            $sql = "UPDATE lc_tmp_po SET comment = '$comment'";
-            $global['db']->Execute($sql);
-            //print $sql;
-        }
+			//print $sql;
+			$global['db']->Execute($sql);
+		}
+		else
+		{
+			$comment = $rs_array[1] . $str['table'] . "/" . $str['field'] . ", ";
+			$sql = "UPDATE lc_tmp_po SET comment = '$comment'";
+			$global['db']->Execute($sql);
+			//print $sql;
+		}
 
-    }
+	}
 
-    $sql = "SELECT * FROM lc_tmp_po";
-    $rs = $global['db']->Execute($sql);
+	$sql = "SELECT * FROM lc_tmp_po";
+	$rs = $global['db']->Execute($sql);
 
-    if (1 < $rs->RecordCount())
-    {
-        $rs = $rs->getArray();
+	if (1 < $rs->RecordCount())
+	{
+		$rs = $rs->getArray();
 
-        foreach ($rs as $r)
-        {
-            $string = $r[0];
-            $comment = $r[1];
+		foreach ($rs as $r)
+		{
+			$string = $r[0];
+			$comment = $r[1];
 
-            $db_po_str .= "#: $comment\n" .
+			$db_po_str .= "#: $comment\n" .
                          "msgid \"$string\"\n" .
                          "msgstr \"\"\n\n";
-        }
-    }
+		}
+	}
 
-    return $db_po_str;
+	return $db_po_str;
 
 }
 
 function _shn_lc_is_dbl10n_tbl_empty()
 {
-    global $global;
-    $sql = "SELECT tablename,fieldname FROM  lc_fields";
-    $rs = $global['db']->Execute($sql);
+	global $global;
+	$sql = "SELECT tablename,fieldname FROM  lc_fields";
+	$rs = $global['db']->Execute($sql);
 
-    if(!$rs)
-    {
-        print "Error : " . $global['db']->ErrorMsg();
-        return null;
-    }
-    else if(1>$rs->RecordCount())
-    {
-        //No records
-        return true;
-    }
+	if(!$rs)
+	{
+		print "Error : " . $global['db']->ErrorMsg();
+		return null;
+	}
+	else if(1>$rs->RecordCount())
+	{
+		//No records
+		return true;
+	}
 
-    return true;
+	return true;
 }
 
 function _shn_lc_get_db_strlist()
 {
-    global $global;
+	global $global;
 
-    $str_list = '';
-    $sql = "SELECT tablename,fieldname FROM  lc_fields";
-    $rs = $global['db']->Execute($sql);
+	$str_list = '';
+	$sql = "SELECT tablename,fieldname FROM  lc_fields";
+	$rs = $global['db']->Execute($sql);
 
-    if(!$rs)
-    {
-        print "Error : " . $global['db']->ErrorMsg();
-        return false;
-    }
-    else if(1>$rs->RecordCount())
-    {
-        print ">>>>>>>>>>>no db lc";
-        return false;
-    }
-    else
-    {
-        $rs = $rs->getArray();
-        foreach ($rs as $r)
-        {
-            $strs = _shn_lc_get_db_tblstrings($r[0],$r[1]);
-            foreach ($strs as $str)
-            {
-                $str_list[] = array(
+	if(!$rs)
+	{
+		print "Error : " . $global['db']->ErrorMsg();
+		return false;
+	}
+	else if(1>$rs->RecordCount())
+	{
+		print ">>>>>>>>>>>no db lc";
+		return false;
+	}
+	else
+	{
+		$rs = $rs->getArray();
+		foreach ($rs as $r)
+		{
+			$strs = _shn_lc_get_db_tblstrings($r[0],$r[1]);
+			foreach ($strs as $str)
+			{
+				$str_list[] = array(
                                     'string'=> $str[0],
                                     'table' => $r[0],
                                     'field' => $r[1]
-                                    );
-            }
-        }
-    }
+				);
+			}
+		}
+	}
 
-    return $str_list;
+	return $str_list;
 }
 
 function _shn_lc_get_db_tblstrings($table, $field)
 {
-    global $global;
+	global $global;
 
-    $str_list = '';
-    $sql = "SELECT DISTINCT($field) FROM $table";
-    $rs = $global['db']->Execute($sql);
+	$str_list = '';
+	$sql = "SELECT DISTINCT($field) FROM $table";
+	$rs = $global['db']->Execute($sql);
 
-    if(!$rs)
-    {
-        print "Error : " . $global['db']->ErrorMsg();
-        return false;
-    }
-    else if(1>$rs->RecordCount())
-    {
-        return false;
-    }
-    else
-    {
-        return $rs->getArray();
-    }
+	if(!$rs)
+	{
+		print "Error : " . $global['db']->ErrorMsg();
+		return false;
+	}
+	else if(1>$rs->RecordCount())
+	{
+		return false;
+	}
+	else
+	{
+		return $rs->getArray();
+	}
 }
 
 function _shn_get_lang_list()
 {
- 	
+
 	//$str = implode('', file('../res/locale/locale'));
- 	//echo $str; 
- 	$handle = fopen("../res/locale/locale", "r");
- 	$l_list = array();
+	//echo $str;
+	$handle = fopen("../res/locale/locale", "r");
+	$l_list = array();
 	while ($localeinfo = fscanf($handle,"%s\t%s\t%s\n")) {
-    	list ($locale, $name, $ex_name) = $localeinfo;
-    	if($ex_name!=null){
-    		$name = $name." ".$ex_name;
-    	}
-    	$l_list[$locale] = $name;    		
-    	//... do something with the values
+		list ($locale, $name, $ex_name) = $localeinfo;
+		if($ex_name!=null){
+			$name = $name." ".$ex_name;
+		}
+		$l_list[$locale] = $name;
+		//... do something with the values
 	}
-	
+
 	fclose($handle);
-	
- 	
- 	
-   /*$l_list = array(
-                    'si_LK'=>_("Sinhala"),
-                    'ta_IN'=>_("Tamil"),
-                    'en_US'=>_("English"),
-                    'zh_TW'=>_("Chinese Traditional"),                    
-                   );*/
-    asort($l_list);
-    return $l_list;
+
+
+
+	/*$l_list = array(
+	 'si_LK'=>_("Sinhala"),
+	 'ta_IN'=>_("Tamil"),
+	 'en_US'=>_("English"),
+	 'zh_TW'=>_("Chinese Traditional"),
+	 );*/
+	asort($l_list);
+	return $l_list;
 }
 ?>
