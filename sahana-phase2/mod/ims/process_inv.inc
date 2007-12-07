@@ -121,6 +121,17 @@ function _shn_ims_reg_inv_cr()
 	$q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
 	    
+ $arr = array(
+ 	array($org_id,'pmob',$contact_mobile),
+ 	array($org_id,'name',$contact_name),
+ 	array($org_id,'fax',$contact_fax),
+ 	array($org_id,'curr',$contact_phone),
+ 	array($org_id,'email',$contact_mail),
+ 	array($org_id,'web',$contact_web),
+ 	);
+	 $res=$db->Execute('INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VLAUES (?,?,?)',$arr);
+
+/*
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','curr','{$contact_phone}')";
             $res=$db->Execute($q);
 
@@ -135,7 +146,7 @@ function _shn_ims_reg_inv_cr()
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','email','{$contact_mail}')";
             $res=$db->Execute($q);
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','web','{$contact_web}')";
-            $res=$db->Execute($q);
+            $res=$db->Execute($q);*/ //finish editing this section
 
             //no validation as organization can have multiple locations
             //$q="INSERT INTO org_location(org_id,location_id) VALUES('{$org_id}','{$bsd_village}')";
@@ -208,6 +219,16 @@ function _shn_ims_del_org()
     }
     else
     {
+
+        $table_name = array('ims_inventory_records', 'ims_item_records', 'ims_reorder_level', 'ims_alternate', 'ims_relation', 'sector', 'location_details', 'contact');
+	$field_name = array ('inv_uuid', 'inv_id', 'inv_id', 'inv_id', 'inv_id', 'pgoc_uuid', 'poc_uuid', 'pgoc_uuid');
+	
+	for ($a= 0; $a < 8; $a++ ) {
+		$query = "DELETE FROM ".$table_name[$a]." WHERE ".$field_name[$a]." = '{$org_id}'";
+		$res=$db->Execute($query); 
+	}
+        
+   	/*
         $q="DELETE FROM  ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
         $q="DELETE FROM ims_item_records WHERE inv_id='{$org_id}';";
@@ -223,7 +244,7 @@ function _shn_ims_del_org()
         $q="DELETE FROM location_details WHERE poc_uuid='{$org_id}'";
         $res=$db->Execute($q);
         $q="DELETE FROM contact WHERE pgoc_uuid='{$org_id}'";
-        $res=$db->Execute($q);
+        $res=$db->Execute($q); */ //finish editing this section
     
 /*
   if($error==true){
@@ -341,6 +362,16 @@ function _shn_ims_edit_org()
 	    
             $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
+
+
+	$set_field_values= array($contact_name, $contact_phone, $contact_mobile, $contact_fax, $contact_mail, $contact_web);
+	$contact_type_field_name = array('name', 'curr', 'pmob', 'fax', 'email', 'web');
+
+	for ($b = 0; $b < 6; $b++) {
+		$query = "UPDATE contact SET contact_value='".$set_field_values[$b]."' WHERE pgoc_uuid = '{$org_id}' AND opt_contact_type ='".$contact_type_field_name[$b]."'";	
+		$res=$db->Execute($query);
+	}
+ 	    /*
             $q="UPDATE contact SET contact_value='{$contact_name}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='name'";
             $res=$db->Execute($q);
     		$q="UPDATE contact SET contact_value='{$contact_phone}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
@@ -352,7 +383,7 @@ function _shn_ims_edit_org()
            	$q="UPDATE contact SET contact_value='{$contact_mail}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
             $res=$db->Execute($q);
             $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='web'";
-            $res=$db->Execute($q);
+            $res=$db->Execute($q);*/  //finish editing this section
            
 	add_confirmation($org_name.' Inventory was successfully Updated');
   ?>
