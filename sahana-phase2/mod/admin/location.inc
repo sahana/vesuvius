@@ -1,17 +1,17 @@
 <?php
 /**
-* This file is to add,edit,delete locations through the admin interface
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author     Ravindra De Silva
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * This file is to add,edit,delete locations through the admin interface
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @package    Sahana - http://sahana.sourceforge.net
+ * @author     Ravindra De Silva
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ */
 
 global $global;
 include_once $global['approot']."/inc/handler_form.inc";
@@ -215,23 +215,42 @@ function _shn_save_form_javascript($form,$save_what,$fill)
         	return;	
     	} 
 	</script>
-<?php	
+	<?php
 }
 
 function _shn_adm_loc_lvl_cr()
 {
-    global $global;
-    include_once $global['approot'].'inc/lib_misc.inc';
-    $db=$global['db'];
-    $add = explode(",", $_POST{"loc_str"});
-    $q="delete from field_options where field_name='opt_location_type'";
-    $res=$db->Execute($q);
-    for($i=1;$i<count($add)-1;$i++) {
-    	$q="insert into field_options(field_name,option_code,option_description) values('opt_location_type','$i','$add[$i]')";
-        $res=$db->Execute($q);
-    }
+	global $global;
+	include_once $global['approot'].'inc/lib_misc.inc';
+	$db=$global['db'];
+	$add = explode(",", $_POST{"loc_str"});
+	$duplicate = false;
+	$dup_val = "";
+	for($j=0;$j<count($add);$j++){
+		if(strlen($add[$j])>0 && preg_match("/\w+/",$add[$j]))
+			for($k=$j;$k<count($add);$k++){
+				if($j!=$k){
+					// check for duplicates
+					$duplicate = ($add[$j]===$add[$k]);
+					if($duplicate){
+						$dup_val = $add[$j];
+						break 2;
+					}
+				}
+			}
+	}
 
-    _shn_admin_levels_form();
+	if(!$duplicate){
+		$q="delete from field_options where field_name='opt_location_type'";
+		$res=$db->Execute($q);
+		for($i=1;$i<count($add)-1;$i++) {
+			$q="insert into field_options(field_name,option_code,option_description) values('opt_location_type','$i','$add[$i]')";
+			$res=$db->Execute($q);
+		}
+	}else{
+		add_error(_("The value ").$dup_val._(" is dulicating."));
+	}
+	_shn_admin_levels_form();
 }
 
 function shn_admin_location_level_list()
@@ -454,14 +473,14 @@ function _shn_or_update_loc()
         	return;
     	}
 	</script>
-<?php
+	<?php
 }
 
 
 function _shn_admin_action_change_javascript($change)
 {
-?>
-	<script type="text/javascript">
+	?>
+<script type="text/javascript">
     	function change_action(action)
     	{
         	var x=document.getElementsByName("<?php echo $change?>");
@@ -470,13 +489,13 @@ function _shn_admin_action_change_javascript($change)
          	return;
     	}
 	</script>
-<?php
+	<?php
 }
 
 function _shn_admin_loc_javascript($name,$last)
 {
-?>
-	<script type="text/javascript">
+	?>
+<script type="text/javascript">
 <?php	if ($last==NULL){
 			$last=0;
 		}
@@ -672,6 +691,6 @@ function _shn_admin_loc_javascript($name,$last)
         }
 	
 </script>
-<?php
+		<?php
 }
 

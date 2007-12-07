@@ -176,6 +176,7 @@ var sort=<?php if($sort==true) {echo "true";}else{ echo "false";}?>;
 			if so, notify and reject,therefore check against db_str  */
 			var y=document.getElementsByName("type");
 			var exist=search(db_str,y[0].value);
+			
 			if(exist){
                 alert("The Type Exists in the DataBase");
                 return;
@@ -232,6 +233,17 @@ var sort=<?php if($sort==true) {echo "true";}else{ echo "false";}?>;
 					    exist=search(db_str,o.text);
 					    if(exist){
 					    		remove[0].value= remove[0].value+","+o.value;
+					    		// remove the removed value from db_str
+					    		var vals = db_str.split(",");
+					    		db_str="";
+					    		for(n=0;n<vals.length;n++){
+					    			if(vals[n].length>0){
+					    				// not a blank string
+					    				if(vals[n].toLowerCase() != o.text.toLowerCase()){
+					    					db_str += (vals[n]+",");
+					    				} 
+					    			}
+					    		}
 					    }else{
 					    		z[0].value=search_and_replace(add,o.text);	
 					    }
