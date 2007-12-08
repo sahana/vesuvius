@@ -402,7 +402,7 @@ function shn_validate_password($user=null,$pwd){
     	
     		if (preg_match("/$user/", $pwd)) {
     			add_error("User Name cannot be part of the password");
-    			shn_acl_log_error("Password Change error:User Name cannot be part of the password");
+    			shn_acl_log_msg("Password Change error:User Name cannot be part of the password");
     			return false;
 			}
     }
@@ -413,7 +413,7 @@ function shn_validate_password($user=null,$pwd){
     	return true;
 	} else {
 		add_error(PWDPOLICY);
-		shn_acl_log_error("Password Change error: password does not comply with the policy");
+		shn_acl_log_msg("Password Change error: password does not comply with the policy");
     	return false;
 	} 
  

@@ -220,7 +220,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 		if ($res){
 			//$res=shn_acl_add_user($pid,$user_name);
 			$res=shn_acl_adduser_to_role($pid,$role);
-
+			shn_acl_log_msg("New user added : ",$pid,$user_name);
 		}
 
 		if($_POST["openid"]!=null){
@@ -423,7 +423,7 @@ function shn_authenticate_user()
 		$res=$db->Execute($q);
 		if(($res==null)||($res->EOF)){
 			add_error("Login Failed : Invalid user name or password.");
-			shn_acl_log_error("Login Failed : Invalid user name or password.","aonymous","Aonymous User");
+			shn_acl_log_msg("Login Failed : Invalid user name or password.","aonymous","Aonymous User");
 			$user_data["user_id"]=ANONYMOUS_USER;
 			$user_data["user"]="Anonymous";
 			return $user_data;
@@ -440,11 +440,11 @@ function shn_authenticate_user()
 
 
 		if(($status=='locked')&& (shn_acl_is_locking_enabled())){
-			$sql="select changed_timestamp from password_event_log where p_uuid='{$uid}' and event_type=1 order by changed_timestamp desc ";
+			$sql="SELECT changed_timestamp FROM password_event_log WHERE p_uuid='{$uid}' and event_type=1 ORDER BY changed_timestamp desc ";
 			$res=$db->Execute($sql);
 			if(($res==null)||($res->EOF)){
 				add_error("Login Failed : Password log attacked.");
-				shn_acl_log_error("Login Failed : Password log attacked.",$uid,$user,1);
+				shn_acl_log_msg("Login Failed : Password log attacked.",$uid,$user,1);
 				$user_data["user_id"]=ANONYMOUS_USER;
 				$user_data["user"]="Anonymous";
 				return $user_data;
@@ -455,7 +455,7 @@ function shn_authenticate_user()
 				if($diff < LOCK){
 					//add_error("Login Failed : Password lock still valid.");
 					add_error("This account has been locked.  Please contact the Administrator to unlock the account.");
-					shn_acl_log_error("Login Failed : Password lock still valid.",$uid,$user);
+					shn_acl_log_msg("Login Failed : Password lock still valid.",$uid,$user);
 					$user_data["user_id"]=ANONYMOUS_USER;
 					$user_data["user"]="Anonymous";
 					return $user_data;
@@ -466,7 +466,7 @@ function shn_authenticate_user()
 		// banned user
 		if($status == 'banned'){
 			add_error("Login Failed : You have been banned by an administrator of the system.");
-			shn_acl_log_error("Login Failed : Banned user login atttempt.",$uid,$user,1);
+			shn_acl_log_msg("Login Failed : Banned user login atttempt.",$uid,$user,1);
 			$user_data["user_id"]=ANONYMOUS_USER;
 			$user_data["user"]="Anonymous";
 			return $user_data;
@@ -488,7 +488,7 @@ function shn_authenticate_user()
 			 application can identify authentication was attempted,but failed
 			 */
 			add_error("Login Failed : Invalid user name or password.");
-			shn_acl_log_error("Login Failed : Invalid Password.",$uid,$user,1);
+			shn_acl_log_msg("Login Failed : Invalid Password.",$uid,$user,1);
 			$user_data["user_id"]=ANONYMOUS_USER;
 			$user_data["user"]="Anonymous";
 			_shn_auth_lock_user($uid,$status);

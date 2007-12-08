@@ -53,28 +53,28 @@ function shn_pref_ch_passwd_cr()
 	if ((null==$_POST["old_password"])or(is_null($_POST["old_password"]))){
         $error=true;
         add_error(_("Old password cannot be empty"));
-        shn_acl_log_error("Password Change error: Old password cannot be empty");
+        shn_acl_log_msg("Password Change error: Old password cannot be empty");
     }else {    
         $old_password=trim($_POST{"old_password"});
     }
 	if ((null==$_POST["password"])or(is_null($_POST["password"]))){
         $error=true;
         add_error(_("User password cannot be empty"));
-        shn_acl_log_error("Password Change error: User password cannot be empty");
+        shn_acl_log_msg("Password Change error: User password cannot be empty");
     }else {    
         $new_password=trim($_POST{"password"});
     }
 	if ((null==$_POST["re_password"])or(is_null($_POST["re_password"]))){
         $error=true;
         add_error(_("User Confirm password cannot be empty"));
-        shn_acl_log_error("Password Change error: User Confirm password cannot be empty");
+        shn_acl_log_msg("Password Change error: User Confirm password cannot be empty");
     }else {    
         $re_password=trim($_POST{"re_password"});
     }
     if (!($new_password==$re_password)){
         $error=true;
         add_error("User password and confirm password should match");
-        shn_acl_log_error("Password Change error: User password and confirm password should match");
+        shn_acl_log_msg("Password Change error: User password and confirm password should match");
     }
 
     if($error){
@@ -97,7 +97,7 @@ function shn_pref_ch_passwd_cr()
 
     	if($date==$curr_date){
     		add_error("You cannot change the password more than once in one day");
-    		shn_acl_log_error("Password Change error: tried to change the password more than once in one day");
+    		shn_acl_log_msg("Password Change error: tried to change the password more than once in one day");
     		shn_auth_form_ch_pwd();
     		return false;
     	}else{
@@ -127,7 +127,7 @@ function shn_pref_ch_passwd_cr()
     		    		$res=$db->Execute($sql);
     		    	}else{
     		    		add_error("You cannot choose one of the recent four passwords");
-    		    		shn_acl_log_error("Password Change error: tried to choose one of the recent four passwords");
+    		    		shn_acl_log_msg("Password Change error: tried to choose one of the recent four passwords");
     		    		shn_auth_form_ch_pwd();
     		    		return false;
     		    	}

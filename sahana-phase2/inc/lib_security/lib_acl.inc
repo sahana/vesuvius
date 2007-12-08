@@ -46,7 +46,7 @@ function shn_acl_check_valid_policy(){
     }
 	
 }
-function shn_acl_log_error($comment,$p_uuid=null,$user_name=null,$event_type=1){
+function shn_acl_log_msg($comment,$p_uuid=null,$user_name=null,$event_type=1){
 	global $global;
 	$db=$global["db"];
 	$timestamp=time();
