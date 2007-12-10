@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: phplot.php,v 1.5 2007-10-24 10:03:45 jayasinghe Exp $ */
+/* $Id: phplot.php,v 1.6 2007-12-10 09:05:03 isurunishan Exp $ */
 
 /*
  * PHPLOT Version 5.0.rc1
@@ -72,7 +72,7 @@ class PHPlot {
     var $y_precision = 1;
     var $x_precision = 1;
 
-    var $data_units_text = '';              // Units text for 'data' labels (i.e: '', '$', etc.)
+    var $data_units_text = '';              // Units text for 'data' labels (i.e: '€', '$', etc.)
 
 // Titles
     var $title_txt = '';
@@ -160,8 +160,8 @@ class PHPlot {
     var $light_grid_color = 'gray';
     var $tick_color = 'black';
     var $title_color = 'black';
-    var $data_colors = array('SkyBlue', 'green', 'blue', 'orange', 'red', 'violet', 'azure1', 'brown');
-    var $error_bar_colors = array('SkyBlue', 'green', 'blue', 'orange', 'red', 'violet', 'azure1', 'brown');
+    var $data_colors = array('SkyBlue', 'green', 'orange', 'blue', 'orange', 'red', 'violet', 'azure1');
+    var $error_bar_colors = array('SkyBlue', 'green', 'orange', 'blue', 'orange', 'red', 'violet', 'azure1');
     var $data_border_colors = array('black');
 
     var $line_widths = 1;                  // single value or array
@@ -182,11 +182,6 @@ class PHPlot {
 
     var $draw_plot_area_background = FALSE;
     var $draw_broken_lines = FALSE;          // Tells not to draw lines for missing Y data.
-
-    var $keyword;
-    var $chart_id;
-    var $print_enable;
-
 
 
 //////////////////////////////////////////////////////
@@ -1084,124 +1079,14 @@ class PHPlot {
     }
 
 
-/**************************************************/
-
-    function Setkeyword($keyword_arr_in)
-    {
-     $this->keyword = $keyword_arr_in;
-     return TRUE;
-    }
-
-    function Setchartid($id_in)
-    {
-     $this->chart_id = $id_in;
-     return TRUE;
-    }
-
-    function SetprintEnable($enable_in)
-    {
-     $this->print_enable = $enable_in;
-     return TRUE;
-    }
-
-/*****************************************************/
-
-
-
     /*!
      * Performs the actual outputting of the generated graph, and
      * destroys the image resource.
      */
     function PrintImage()
-    {				
-		global $global;
-    	$db=$global["db"];
-
-		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
-		$_sd_path = explode('/', dirname(__FILE__));
-		array_pop($_sd_path);
-		array_pop($_sd_path);
-		$_sd_path = implode('/', $_sd_path);
-		$_sd_path = $_sd_path."/www/tmp/";
-		$data='';
-		
-		ImagePng($this->img, $_sd_path.$this->output_file);
-
-		$fp = fopen($_sd_path.$this->output_file, "rb");
-			while(!feof($fp)) {
-			$data .= fread($fp, 1024); 
-			}
-			
-			fclose($fp);
-			$data = addslashes($data);
-			$data = addcslashes($data, "\0");
-
-		$file_size = filesize($_sd_path.$this->output_file)/1024; 
-		$file_type = $this->file_format; 
-		$title = $this->title_txt;
-		$file_name = $this->output_file;
-		$keyword_arr = $this->keyword;
-		$the_chart_ID = $this->chart_id;
-
-		unlink($_sd_path.$this->output_file);//delete the file
-
-		$query = "select rep_id from report_files where rep_id = '$the_chart_ID' ";	
-		$res_found = $db->Execute($query);
-
-		if($res_found->fields['rep_id'] != null)
-		{
-		$query="update report_files set file_name = '$file_name' , file_data='$data' , t_stamp=now(), file_size_kb = '$file_size', title = '$title' where rep_id='$the_chart_ID' ";
-		$res=$db->Execute($query);
-
-		$num_of_keywords=count($keyword_arr);
-		$keyword_arr_keys=array_keys($keyword_arr);
-
-		$del_query="delete from report_keywords where rep_id='$the_chart_ID' ";
-		$del_res=$db->Execute($del_query);
-
-			for($i=0;$i<$num_of_keywords;$i++)
-			{
-			$the_keyword_key = $keyword_arr_keys[$i];
-			$the_keyword = $keyword_arr[$the_keyword_key];
-			$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_chart_ID','$the_keyword_key','$the_keyword')";
-			$res1=$db->Execute($query1);
-			}
-		}
-		else
-		{
-		$query="insert into report_files(rep_id,file_name,file_data,file_type,file_size_kb,title) values ('$the_chart_ID','$file_name','$data','$file_type','$file_size','$title')";
-		$res=$db->Execute($query);
-		
-		$num_of_keywords=count($keyword_arr);
-		$keyword_arr_keys=array_keys($keyword_arr);
-
-			for($i=0;$i<$num_of_keywords;$i++)
-			{
-			$the_keyword_key = $keyword_arr_keys[$i];
-			$the_keyword = $keyword_arr[$the_keyword_key];
-			$query1="insert into report_keywords(rep_id,keyword_key,keyword) values ('$the_chart_ID','$the_keyword_key','$the_keyword')";
-			$res1=$db->Execute($query1);
-			}
-		}
-
-		unset($data);	
-
-		$query_ts = "select t_stamp from report_files where rep_id = '$the_chart_ID' ";	
-		$timestamp_found = $db->Execute($query_ts);
-
-		if($this->print_enable)
-		{
-		print "<h1> Chart - ".$title."</h1>";
-		print "<b>Chart ID : </b>".$the_chart_ID." <br>";
-		print "<b>Chart File Name : </b>". $file_name."<br>";
-		print "<b>Date/Time : </b>".$timestamp_found->fields['t_stamp']."<br>";
-		print "<b>File Type : </b>".$file_type."<br>";
-		print "<b>File Size : </b>".$file_size." kb <br>";
-		}
-
-
+    {
         // Browser cache stuff submitted by Thiemo Nagel
-      /*  if ( (! $this->browser_cache) && (! $this->is_inline)) {
+        if ( (! $this->browser_cache) && (! $this->is_inline)) {
             header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . 'GMT');
             header('Cache-Control: no-cache, must-revalidate');
@@ -1254,7 +1139,7 @@ class PHPlot {
         default:
             $this->PrintError('PrintImage(): Please select an image type!');
             break;
-        }*/
+        }
         return TRUE;
     }
 
@@ -1289,7 +1174,7 @@ class PHPlot {
                         $error_message, 'center', 'center');
 
         $this->PrintImage();
-        //exit;
+        exit;
 //        return TRUE;
     }
 
@@ -3319,9 +3204,7 @@ class PHPlot {
                 else
                     $slicecol = $this->ndx_data_dark_colors[$color_index];
 
-                //$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
-                #sd edit
-                $label_txt = number_format(($val / $total * 100),2, '.', '') . '%';
+                $label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
                 $val = 360 * ($val / $total);
 
                 // NOTE that imagefilledarc measures angles CLOCKWISE (go figure why),
@@ -4513,10 +4396,12 @@ class PHPlot {
         $this->SetPointSizes($which_ps);
         return TRUE;
     }
-
 }  // class PHPlot
 
+
+
 ////////////////////////
+
 
 /*!
  * Pads an array with another or with itself.
@@ -4524,7 +4409,6 @@ class PHPlot {
  *  \param size int   Size of the resulting array.
  *  \param arr2 array If specified, array to use for padding. If unspecified, pad with $arr.
  */
-/**/
 function array_pad_array(&$arr, $size, $arr2=NULL)
 {
     if (! is_array($arr2)) {
@@ -4539,7 +4423,6 @@ function array_pad_array(&$arr, $size, $arr2=NULL)
  * \note I simply copied this from a bug report. I am not running php5 yet, so
  *       I cannot reproduce it, which is why I trust the reporter.
  */
-/**/
 function array_merge_php4($array1,$array2)
 {
     $return=array();
@@ -4558,4 +4441,8 @@ function array_merge_php4($array1,$array2)
     }
     return $return;
  }
+ 
+ 
+
+
 ?>
