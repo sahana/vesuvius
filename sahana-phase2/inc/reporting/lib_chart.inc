@@ -47,10 +47,10 @@ $d_arr[$d_arr_index] = array($x_val,$y_val);
 $d_arr_index++;
 }
 
-
+ 
 function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr_in,$dataArray)
 {
-    include_once( "../3rd/phplot/phplot.php");
+    include_once( "../3rd/phplot/sahanaphplot.php");
     global $graph;
     global $chat_type_flag;
    
@@ -103,13 +103,13 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 		$final_arr_count++;
 		}
 	}
-
-    $graph = new PHPlot(350,275);
+//edit chart size here
+    $graph = new SahanaPHPlot(800,275);
     $graph->Setchartid($chart_ID);
     $graph->SetDataType("text-data");  
     $graph->SetDataValues($final_data_arr);
     $graph->SetFileFormat("png"); 
-    $graph->SetImageArea(350,275);
+    $graph->SetImageArea(800,275);
     $graph->SetTitleFontSize("5");
     $graph->SetTitle( $title);
     $graph->Setkeyword($keyword_arr_in);
@@ -187,6 +187,7 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType("pie");
