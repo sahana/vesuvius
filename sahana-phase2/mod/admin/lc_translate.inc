@@ -129,7 +129,7 @@ switch($_REQUEST['seq']) {
     		$return = array();
             $cmd = 'xgettext --keyword=__ --keyword=_e ' .
             		'--keyword=_p  --default-domain=sahana ' .
-            		'--language=php ../*/*/*.inc ' .
+            		'--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
             		'--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
             _shn_admin_lc_load('../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po');
             system($cmd, &$return);

@@ -37,7 +37,7 @@ function _shn_admin_lc_add_new_module_update()
 		$return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
         '--keyword=_p  --default-domain=sahana ' .
-        '--language=php ../*/*/*.inc ' .
+        '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_merge.po';
         system($cmd, &$return);	
         

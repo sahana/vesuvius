@@ -83,7 +83,7 @@ function shn_lc_create_pot()
         $return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
                 '--keyword=_p  --default-domain=sahana ' .
-                '--language=php ../*/*/*.inc ' .
+                '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
                 '--output=../res/locale/sahana.pot';
         
         system($cmd, &$return);
