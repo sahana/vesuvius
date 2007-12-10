@@ -593,13 +593,13 @@ function shn_admin_lc_ui_trns()
 function shn_admin_lc_ui_trns_enable()
 {
 	require_once('lc_ui_translate.inc');
-	if($_POST['lc']=="Enable Localization") {
+	if(isset($_POST['lc'])) {
 		_shn_admin_lc_ui_trns_enable();
 	}
-	if($_POST['lc_dis']=="Disable Localization") {
+	if(isset($_POST['lc_dis'])) {
 		_shn_admin_lc_ui_trns_disable();
 	}
-	if($_POST['lc_update']=="Update") {
+	if(isset($_POST['lc_update'])) {
 		_shn_admin_lc_ui_trns_update();
 	}
 	
@@ -609,7 +609,7 @@ function shn_admin_lc_ui_trns_update()
 {
 	require_once('lc_ui_translate_update.inc');
 	print ("<h1><center>Update Translation</center></h1>");
-	if($_POST['update']=="Update") {		
+	if(isset($_POST['update'])) {		
 		_shn_admin_lc_translate_compile();
 		
 	}else {
@@ -628,7 +628,7 @@ function shn_admin_lc_add_new_lang()
 function shn_admin_lc_add_new_language_post()
 {
 	require_once('lc_add_new_language.inc');
-	if($_POST['add']=="Add New") {
+	if(isset($_POST['add'])) {
 			if($_POST['lang_name']!=null && $_POST['lang_folder_name']!=null)
 				_shn_admin_lc_add_new_language();
 			else {
@@ -636,7 +636,7 @@ function shn_admin_lc_add_new_language_post()
 				_shn_admin_lc_add_new_language_form();
 			}
 	}		
-	else if($_POST['remove']=="Remove") {
+	else if(isset($_POST['remove'])) {
 		_shn_admin_lc_remove_language();
 	}	
 }
@@ -652,7 +652,7 @@ function shn_admin_lc_add_new_module_post()
 {
 	require_once('lc_add_new_module.inc');
 	
-	if($_POST['merge'] == 'Merge')
+	if(isset($_POST['merge']))
 		_shn_admin_lc_add_new_module_update();
 }
 
