@@ -57,6 +57,26 @@ function shn_location_get_form_submit_loc()
 }
 
 /**
+ * Returns the level description having the given level code.
+ *
+ * @param Integer $level_code
+ */
+function shn_get_level_description($level_code){
+	$range = shn_get_range();
+	if($level_code>=0){
+		if($level_code>=$range['start'] && $level_code<=$range['end']){
+			global $global;
+			$db=$global["db"];
+			$q = "SELECT option_description FROM field_options WHERE field_name='opt_location_type' AND option_code=".$level_code;
+			$res=$db->Execute($q);
+			return $res->fields[0];
+		}else{
+			return "INVALID LEVEL CODE";
+		}
+	}
+}
+
+/**
  * Returns true if the location does not have any children 
  * 
  * @param mixed $loc 
@@ -627,7 +647,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
          }
          ?><div id='loc_camp'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
-        	 shn_form_select($options,'Shelter/Camp','camps',$select_opts,$extra_opts);
+        	 shn_form_select($options,_('Shelter/Camp'),'camps',$select_opts,$extra_opts);
         ?>	</div><?
           		
 	}
@@ -636,7 +656,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 include_once $global['approot']."/mod/or/api.inc";
 		 $orgs=shn_or_organization_list();
 		 if($count>1){
-		 	$options=array("loc"=>"Select an Organization");
+		 	$options=array("loc_org"=>_("Select an Organization"));
 		 	$select_opts='onChange=radio_click("loc_org")';
 		 	shn_form_radio($options,null, "loc",$select_opts);
 		 }
@@ -650,7 +670,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 
          ?><div id='loc_org'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"poc")';
-    		 shn_form_select($options,'Organizations','orgs',$select_opts,$extra_opts);
+    		 shn_form_select($options,_('Organizations'),'orgs',$select_opts,$extra_opts);
  		?>	</div><?
 	}
 
@@ -798,9 +818,9 @@ function _shn_location_form_parent($range,$parent){
         while(!$res==NULL && !$res->EOF){
             if($cur==$from){
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
-"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
-"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
+            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
+all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it! 
+please note that the levels can be customized, therefore it does not need to be ''->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else
                 $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
 	    		$res_options=$db->Execute($q);
@@ -817,7 +837,7 @@ function _shn_location_form_parent($range,$parent){
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             $extra_opts['value']=$selection;
          //   $extra_opts['req']=true;
-            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
+            shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -842,9 +862,10 @@ function _shn_location_form_parent($range,$parent){
                     $options[$res_options->fields[1]]=$res_options->fields[0];
                     $res_options->MoveNext();
             }
-            ?><div id='loc_div_<?php echo $res->fields[0]."'>";
+            ?><div id='loc_div_<?php echo $res->fields[0];?>'>
+            <?php
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,array('req'=>true));
+            shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,array('req'=>true));
             ?></div><?
             $res->MoveNext();
         }
@@ -891,7 +912,7 @@ function _shn_location_form_value($range,$value)
             if($cur==$from){
             		//at this instance there is no parent
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
+            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the  ,once you select ".
 "all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
 "please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else{
@@ -920,8 +941,9 @@ function _shn_location_form_value($range,$value)
            //which one to diplay out of all the locations.
            //should be one of the parents
            // $extra_opts['req']=true;
-           ?><div id='loc_div_<?php echo $res->fields[0]."'>";
-            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
+           ?><div id='loc_div_<?php echo $res->fields[0];?>'>
+           <?php
+            shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             ?></div><?
             $res->MoveNext();
         }
@@ -956,9 +978,9 @@ function _shn_location_form($range)
             //$extra_opts['req']=true;
             if($cur==$from){
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country".
-"all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
-"please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
+            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
+all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it! 
+please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else
                 $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." and parent_id='".$selection."'";
             $res_options=$db->Execute($q);
@@ -976,7 +998,7 @@ function _shn_location_form($range)
             
             ?><div id='loc_div_<?php echo $res->fields[0]."'>";
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
-            shn_form_select($options,$res->fields[1].":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
+            shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             ?></div><?
             $res->MoveNext();
         }
@@ -1050,7 +1072,7 @@ function shn_location_form($from,$to,$value=NULL){
 function shn_location_form_org($from,$to,$value=NULL){
 	$range["start"]=$from;
 	$range["end"]=$to;
-	shn_form_fsopen("Base Location");
+	shn_form_fsopen(_("Base Location"));
 	shn_location_jscript($from,$range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  
