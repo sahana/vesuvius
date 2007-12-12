@@ -125,6 +125,7 @@ class SimpleHTTPClient extends HTTPClient {
             
         	$fp = fsockopen($host, $port, $errno, $errstr);
         	if (!$fp) {
+        		add_error("Login with Open ID is failed. Please check that you entered a Valid Host");
         		return false;
         	}
     
