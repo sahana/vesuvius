@@ -126,8 +126,10 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 
 		$roles=_shn_acl_get_roles();
 		foreach ($roles as $role=>$role_name){
-
-			echo "<td>".$role_name."</td>";
+			//Anonymous user gets access to all modules hence removing it
+			if($role_name != "Anonymous User"){
+				echo "<td>".$role_name."</td>";
+			}
 		}
 		?>
 	</thead>
@@ -144,23 +146,24 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 			<?php
 
 			foreach ($roles as $role=>$role_name){
-				$perms=$perms.$mod_arr[0].":".$role.";";
-				$name=trim($mod_arr[0].$role);
-				$allow=false;
-				if ( _shn_acl_is_module_role( $mod_arr[0],$role)==true) {
-					$allow=true;
-				}else{
+				
+				if($role_name != "Anonymous User"){
+					//Anonymous user gets access to all modules hence removing it
+					$perms=$perms.$mod_arr[0].":".$role.";";
+					$name=trim($mod_arr[0].$role);
 					$allow=false;
-				}
+					if ( _shn_acl_is_module_role( $mod_arr[0],$role)==true) {
+						$allow=true;
+					}else{
+						$allow=false;
+					}
 					
 				?>
 			<td><input type="checkbox" name="<?php echo $name?>"
 			<?php if (($role==ADMIN)&&($mod_arr[0]=="admin")) echo "disabled=true";?>
-			<?php if ($allow==true) echo "checked=true";?> algin="right" /></td>
-			<?php
-
-
-}
+			<?php if ($allow==true) echo "checked=true";?> align="right" /></td><?php
+				}
+			}
 
 ?>
 		</tr>
