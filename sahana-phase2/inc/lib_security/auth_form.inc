@@ -90,6 +90,10 @@ function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="sig
 	//$extra_opts['value']=$_SESSION['user'];
 	shn_form_text(_("Full Name "),'account_name','size="30"',null);
 	shn_form_text(_("User Name "),'user_name','size="30"',$extra_opts);
+	if(isset($_POST['password']) || isset($_POST['re_password'])) {
+	    unset($_POST['password']);
+	    unset($_POST['re_password']);
+	}
 	shn_form_password("Password for Login", "password", null, $extra_opts);
 	shn_form_password("Confirm Password", "re_password", null, $extra_opts);
 	shn_form_fsclose();
@@ -109,6 +113,9 @@ function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="sig
 <br />
 <?php
 //create the submit button
+    if(isset($_POST['captcha'])) {
+		unset($_POST['captcha']);
+	}
 	shn_form_text(_("Enter the text in the above image "),'captcha','size="30"',null);
 	shn_form_fsclose();
  	shn_form_submit(_("Submit"));
@@ -145,7 +152,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
 	shn_form_fsopen(_("Account Details"));
 	$extra_opts['req']=true;
 	//$extra_opts['value']=$_SESSION['user'];
-	shn_form_text(_("Full Name "),'account_name','size="30"',null);
+	shn_form_text(_("Full Name "),'account_name','size="30"',$extra_opts);
 	shn_form_text(_("User Name "),'user_name','size="30"',$extra_opts);
 	shn_form_password("Password for Login", "password", null, $extra_opts);
 	shn_form_password("Confirm Password", "re_password", null, $extra_opts);
