@@ -200,7 +200,7 @@ function shn_acl_form_user_edit_roles()
 whether the User is a member of the Role or not</div>
 
 <div id="formcontainer"><?php
-shn_form_fopen("acl_user_edit_roles_cr","admin");
+shn_form_fopen("acl_user_edit_roles_cr","admin",array('req_message'=>false));
 ?>
 <div id="result">
 <table>
