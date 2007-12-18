@@ -227,7 +227,7 @@ function shn_admin_add_user_cr()
     }
  
     _shn_admin_acl_user_menu();
-   
+    shn_auth_form_user_add($error);   
 }
 
 function shn_admin_del_user($error=false)
