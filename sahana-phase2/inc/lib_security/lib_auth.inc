@@ -598,11 +598,19 @@ function shn_auth_add_user_cr(){
 	global $global;
 	$db=$global["db"];
 	$VARCHAR=100;
-
+	$error = false;
+	// check for the full name
+	if(isset($_POST['account_name']) && strlen(shn_clean($_POST['account_name']))>0){
+		list($error,$account_name)=(shn_validate_field($_POST['account_name'],_("Full Name"),$VARCHAR,true))?array($error,$_POST["account_name"]):array(true,NULL);		
+	}else{
+		add_error(_("Full name is a required field. Please enter a value."));
+		$error = true;
+	}
+	
 	list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
 
 	//for the moment return true
-	list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array(false,$_POST{"password"}):array(true,$_POST{"password"});
+	list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array($error,$_POST{"password"}):array(true,$_POST{"password"});
 
 	if (is_null($_POST{"re_password"})){
 		$error=true;
@@ -624,7 +632,7 @@ function shn_auth_add_user_cr(){
 
 	if($error==true){
 		return $error;
-	}
+	}else{
 	$role=$_POST["roles"];
 
 	if(shn_auth_add_user($account_name,$user_name,$password,$role,null)==false){
@@ -632,6 +640,8 @@ function shn_auth_add_user_cr(){
 	}else{
 		$msg=$_POST{"account_name"}." was successfully registered as a User ";
 		add_confirmation($msg);
+			unset($_POST);
+		}
 	}
 	return $error;
 }
