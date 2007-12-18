@@ -746,6 +746,9 @@ function _shn_auth_lock_user($uid,$status)
 	if(_shn_acl_is_user_role_only($uid,$role)==true){
 		return true;
 	}
+	
+	// Do not lock the default administrator.
+	if($uid ==1 && (!_shn_acl_is_user_role($uid,1))){
 	$db=$global["db"];
 	$next_status='locked';
 	switch ($status){
@@ -764,6 +767,7 @@ function _shn_auth_lock_user($uid,$status)
 	$res=$db->Execute($sql);
 	if($res==false){
 		add_error($db->ErrorMsg());
+	}
 	}
 
 }
