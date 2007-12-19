@@ -88,9 +88,15 @@ INSERT INTO field_options VALUES ('opt_marital_status','div','Divorced');
 
 -- BLOOD TYPE VALUES 
 INSERT INTO field_options VALUES ('opt_blood_type','unk','Unknown');
-INSERT INTO field_options VALUES ('opt_blood_type','ab','AB');
 INSERT INTO field_options VALUES ('opt_blood_type','a+','A+');
-INSERT INTO field_options VALUES ('opt_blood_type','o','O');
+INSERT INTO field_options VALUES ('opt_blood_type','a-','A-');
+INSERT INTO field_options VALUES ('opt_blood_type','b+','B+');
+INSERT INTO field_options VALUES ('opt_blood_type','b-','B-');
+INSERT INTO field_options VALUES ('opt_blood_type','ab+','AB+');
+INSERT INTO field_options VALUES ('opt_blood_type','ab-','AB-');
+INSERT INTO field_options VALUES ('opt_blood_type','o+','O+');
+INSERT INTO field_options VALUES ('opt_blood_type','o-','O-');
+INSERT INTO field_options VALUES ('opt_blood_type','oth','Other');
 
 -- EYE COLOR VALUES
 INSERT INTO field_options VALUES ('opt_eye_color','unk','Unknown');
