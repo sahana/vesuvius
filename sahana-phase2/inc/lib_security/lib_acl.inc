@@ -750,6 +750,11 @@ function shn_acl_enable($flag=true){
 	$db=$global["db"];
 	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_enabled'";
 	$res=$db->Execute($q);
+	
+	// force logout if acl has been disabled.
+	if($flag==false){
+		shn_session_end();
+	}
 }
 
 /**
