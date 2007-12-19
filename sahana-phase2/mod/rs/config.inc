@@ -22,7 +22,7 @@
  */
 function shn_rs_config_main_form()
 {
-    print "<h1>Configuration</h1>";
+    print "<h1>"._("Configuration")."</h1>";
     ?>
     <p><?= _('Here you can configure the frequency of updating module reports and charts.'); ?></p> 
     <?php
@@ -36,18 +36,18 @@ function shn_rs_config_main_form()
     $res=$db->Execute($query);
     $current_freq=$res->fields["option_code"];
     $extra_opts['value'] = $current_freq;
-    shn_form_fsopen(_('Set Report update Frequency '));
-    shn_form_text('Current Frequency in minutes','cur_freq','size="5" readonly=true',$extra_opts);
-    shn_form_text('New Frequency in minutes','rep_new_freq','size="5"');
+    shn_form_fsopen(_('Set Report update Frequency'));
+    shn_form_label(_('Current Frequency in minutes'),$current_freq);
+    shn_form_text(_('Enter New Frequency in minutes'),'rep_new_freq','size="5"',$extra_opts);
     shn_form_fsclose();
 
     $query="select option_code from field_options where field_name='opt_rs_cht_freq'";
     $res=$db->Execute($query);
     $current_freq=$res->fields["option_code"];
     $extra_opts['value'] = $current_freq;
-    shn_form_fsopen(_('Set Chart update Frequency '));
-    shn_form_text('Current Frequency in minutes','chart_cur_freq','size="5" readonly=true',$extra_opts);
-    shn_form_text('New Frequency in minutes','chart_new_freq','size="5"');
+    shn_form_fsopen(_('Set Chart update Frequency'));
+    shn_form_label(_('Current Frequency in minutes '),$current_freq);
+    shn_form_text('New Frequency in minutes','chart_new_freq','size="5"',$extra_opts);
     shn_form_fsclose();
 
     shn_form_submit(_("Save"));
@@ -79,64 +79,39 @@ function shn_rs_config_main_form_submit_result()
 
     if(ereg("^[0-9]*$",$new_rep_freq))
     {
-    $query1="update field_options set option_code='$new_rep_freq' where field_name='opt_rs_rep_freq' ";
-    $res1=$db->Execute($query1);
+        $query1="update field_options set option_code='$new_rep_freq' where field_name='opt_rs_rep_freq' ";
+        $res1=$db->Execute($query1);
         if($res1 == true)
-	{
-	?>
-	<div id="result_msg">
-	<?php print "Report creation Frequency of ".$new_rep_freq."  was successfully saved";?>
-	</div>
-	<?php
-	}
-	else
-	{
-	?>
-	<div id="result_msg">
-	<?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating new frequency of chart creation.";?>
-	</div>
-	<?php
-	}
-
+	    {
+            add_confirmation(_("Report creation Frequency of ").$new_rep_freq._("  was successfully saved"));
+    	}
+    	else
+    	{
+	        add_error(_("Update Failed... There an error occured while updating new frequency of chart creation."));
+	    }
     }
     else
     {
-	?>
-	<div id="result_msg">
-	<?php print "<b>You entered value is not a valide digit. Please enter valid number for Report creation frequency.</b>";?>
-	</div>
-	<?php
+	    add_error(_("You entered value which is not a valid digit. Please enter valid number for report creation frequency."));
     }
 
 
     if(ereg("^[0-9]*$",$new_cht_freq))
     {
-    $query2="update field_options set option_code='$new_cht_freq' where field_name='opt_rs_cht_freq' ";
-    $res2=$db->Execute($query2);
+        $query2="update field_options set option_code='$new_cht_freq' where field_name='opt_rs_cht_freq' ";
+        $res2=$db->Execute($query2);
         if($res2 == true)
-	{
-	?>
-	<div id="result_msg">
-	<?php print "Chart creation Frequency of ".$new_cht_freq."  was successfully saved";?>
-	</div>
-	<?php
-	}
-	else
-	{
-	?>
-	<div id="result_msg">
-	<?php print "Update <b>Failed...</b>.There was an <b>Error</b> found in updating new frequency of chart creation.";?>
-	</div>
-	<?php
-	}
+    	{
+	        add_confirmation(_("Chart creation Frequency of ").$new_cht_freq._("  was successfully saved"));
+	    }
+	    else
+    	{
+	        add_error(_("Update Failed... There was an Error found in updating new frequency of chart creation."));
+	    }
     }
     else
     {
-	?>
-	<div id="result_msg">
-	<?php print "<b>You entered value is not a valide digit. Please enter valid number for chart creation frequency.</b>";?>
-	</div>
-	<?php
+	    add_error(_("You entered value which is not a valid digit. Please enter valid number for chart creation frequency."));
     }
 
 }
