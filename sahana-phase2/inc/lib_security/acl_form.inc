@@ -35,7 +35,7 @@ function shn_acl_form_enable_acl()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3>Enable/Disable ACL</h3>
+<h3><?php echo _("Enable/Disable ACL") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_acl_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_enabled();
@@ -46,7 +46,7 @@ function shn_acl_form_enable_acl()
 		shn_form_hidden(array("action"=>'enable'));
 		shn_form_submit(_("Enable ACL"));
 	}
-
+	shn_form_fclose();
 }
 
 /**
@@ -60,7 +60,7 @@ function shn_acl_form_enable_signup()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3>Enable/Disable Self Signup</h3>
+<h3><?php echo _("Enable/Disable Self Signup") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_signup_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_signup_enabled();
@@ -71,7 +71,7 @@ function shn_acl_form_enable_signup()
 		shn_form_hidden(array("action"=>'enable'));
 		shn_form_submit(_("Enable Self Signup"));
 	}
-
+	shn_form_fclose();
 }
 
 
@@ -86,7 +86,7 @@ function shn_acl_form_enable_locking()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3>Enable/Disable Password Locking</h3>
+<h3><?php echo _("Enable/Disable Password Locking") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_locking_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_locking_enabled();
@@ -97,7 +97,7 @@ function shn_acl_form_enable_locking()
 		shn_form_hidden(array("action"=>'enable'));
 		shn_form_submit(_("Enable Password Locking"));
 	}
-
+	shn_form_fclose();
 }
 
 /**
@@ -111,9 +111,10 @@ function shn_acl_form_enable_mods()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3>Enable/Disable Modules</h3>
-<div id="home">Rows are Modules ,Columns are Roles ,Intersection shows
-whether the module is enabled for that role or not</div>
+<h3><?php echo _("Enable/Disable Modules") ?></h3>
+<div id="home">
+<?php echo _("Rows are Modules ,Columns are Roles ,Intersection shows
+whether the module is enabled for that role or not") ?></div>
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_enable_mods_cr","admin");
@@ -121,15 +122,12 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 <div id="result">
 <table>
 	<thead>
-		<td><strong>Role</strong></td>
+		<td><strong><?php echo _("Role"); ?></strong></td>
 		<?php
 
 		$roles=_shn_acl_get_roles();
 		foreach ($roles as $role=>$role_name){
-			//Anonymous user gets access to all modules hence removing it
-			if($role_name != "Anonymous User"){
-				echo "<td>".$role_name."</td>";
-			}
+			echo "<td>".$role_name."</td>";
 		}
 		?>
 	</thead>
@@ -139,7 +137,7 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 	$mods=shn_get_all_modules();
 
 	foreach($mods as $mod=>$mod_arr){
-
+		
 		?>
 		<tr>
 			<td><?php echo $mod_arr[1];?></td>
@@ -147,27 +145,25 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 
 			foreach ($roles as $role=>$role_name){
 				
-				if($role_name != "Anonymous User"){
-					//Anonymous user gets access to all modules hence removing it
-					$perms=$perms.$mod_arr[0].":".$role.";";
-					$name=trim($mod_arr[0].$role);
+				$perms=$perms.$mod_arr[0].":".$role.";";
+				$name=trim($mod_arr[0].$role);
+				$allow=false;
+				if ( _shn_acl_is_module_role( $mod_arr[0],$role)==true) {
+					$allow=true;
+				}else{
 					$allow=false;
-					if ( _shn_acl_is_module_role( $mod_arr[0],$role)==true) {
-						$allow=true;
-					}else{
-						$allow=false;
-					}
-					
+				}
 				?>
 			<td><input type="checkbox" name="<?php echo $name?>"
 			<?php if (($role==ADMIN)&&($mod_arr[0]=="admin")) echo "disabled=true";?>
-			<?php if ($allow==true) echo "checked=true";?> align="right" /></td><?php
-				}
+			<?php if ($allow==true) echo "checked=true";?> align="right" /></td>
+			<?php
 			}
 
 ?>
 		</tr>
 		<?php
+
 }
 ?>
 	</tbody>
@@ -441,8 +437,6 @@ shn_form_fopen("acl_change_user_status_cr","admin");
     	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._("Click here to enable locking")."</a>");
 	}
 
-
-
 	foreach ($users as $user=>$uarray){
 		//this will be used in a hidden field to identify all the checkboxes
 		$user=$user;
@@ -564,17 +558,17 @@ function shn_acl_form_event_log()
 <div id="result">
 <table>
 	<thead>
-		<td><strong>Date</strong></td>
-		<td><strong>Time</strong></td>
-		<td><strong>User Name</strong></td>
-		<td><strong>Full Name</strong></td>
-		<td><strong>Event Type</strong></td>
-		<td><strong>Event</strong></td>
+		<td><strong><?php echo _("Date") ?></strong></td>
+		<td><strong><?php echo _("Time") ?></strong></td>
+		<td><strong><?php echo _("User Name") ?></strong></td>
+		<td><strong><?php echo _("Full Name") ?></strong></td>
+		<td><strong><?php echo _("Event Type") ?></strong></td>
+		<td><strong><?php echo _("Event") ?></strong></td>
 	</thead>
 	<tbody>
 	<?php
 
-	$sql="select * from password_event_log order by changed_timestamp DESC";
+	$sql="SELECT * FROM password_event_log ORDER BY changed_timestamp DESC";
 	$res=$db->Execute($sql);
 	while(($res!=null) &&(!$res->EOF)){
 		$timestamp=$res->fields["changed_timestamp"];
@@ -582,7 +576,7 @@ function shn_acl_form_event_log()
 		$date=date("m.d.y",$timestamp);
 		$time=date("H:m:s",$timestamp);
 		$type=($res->fields["event_type"]==null)?1:$res->fields["event_type"];
-		$sql="select option_description from field_options where option_code='{$type}' and field_name='opt_acl_event_type'";
+		$sql="SELECT option_description FROM field_options WHERE option_code='{$type}' AND field_name='opt_acl_event_type'";
 		$res2=$db->Execute($sql);
 		$type=$res2->fields["option_description"];
 		?>
