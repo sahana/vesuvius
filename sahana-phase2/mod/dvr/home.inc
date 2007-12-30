@@ -38,7 +38,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
     <li>
     <?php
 
-	print _("Capture Information on Disaster Victim groups (Toursists, Passengers" .
+	print _("Capture Information on Disaster Victim groups (Tourists, Passengers" .
 			", Families, etc.)")
 ?>
     </li>
