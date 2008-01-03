@@ -34,14 +34,25 @@ function _shn_rms_sch_getkeywords()
 	    	//echo 'admin';
 	    }else { 
 		    $loc_ids = _shn_rms_get_location_array($_SESSION['user_id']);
-		    //echo 'sahana';
-     	}
+	    }
 
         $location = array();
         $location[0] = 'All';
-        
+        //-----------------------------------------------------
+//        foreach($loc_ids as $loc){
+//            if(_shn_rms_is_location($loc)) {
+//                $bsda_village = _shn_rms_get_location_name($loc);
+//            }elseif(_shn_rms_is_camp($loc)) {
+//                $bsda_village = _shn_rms_get_camp_name($loc);
+//            }elseif(_shn_rms_is_org($loc)) {
+//        	    $bsda_village = _shn_rms_get_org_name($loc);
+//            }
+//            $location[$loc]= $bsda_village;
+//        }
+
+        //------------------------------------------------------
         foreach($loc_ids as $loc){
-            $location[$loc] =_shn_rms_get_location_name($loc);
+            $location[$loc] =_shn_rms_get_name($loc);
         }
         //------------------------------------------------------------
         $priority = array();
@@ -56,7 +67,7 @@ function _shn_rms_sch_getkeywords()
         array_push($categories, 'All');
         $cat_arr = _shn_rms_get_categories();
         foreach ($cat_arr as $cat) {
-             $categories[$cat['ct_uuid']] = $cat['name'];
+            $categories[$cat['ct_uuid']] = $cat['name'];
         }
         
         //--------------------------------------------------------------
@@ -75,7 +86,7 @@ function _shn_rms_sch_getkeywords()
 			 
         //shn_html_td_open();
         shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
-        shn_form_fsopen(_("Select Criteria"));
+        shn_form_fsopen("Select Criteria");
         shn_form_hidden(array('seq'=>'get_keywords'));
         
 	    if($_SESSION['isadmin']==true) {
@@ -100,10 +111,11 @@ function _shn_rms_sch_getkeywords()
         shn_form_submit(_("Search"));
         shn_form_fclose();
         //shn_html_td_close();
-    }else {
+      }else{
     	add_warning(_("No requests found"));
-    }
+      }
 }
+
 
 function _shn_rms_shn_get_results()
 {
@@ -196,8 +208,11 @@ function _shn_rms_shn_get_schresults()
     if($stat != 'all') {
     	$cat_qry2 .= "AND req.status='$stat' ";
     }
-	$res2 = $db->Execute($cat_qry2);
-	return $res2;
+	//$res2 = $db->Execute($cat_qry2);
+	global $global;
+    include_once $global['approot'] . "/inc/lib_paging.inc";
+    $res2=shn_paging_get_report($cat_qry2,'10',$headers,array('post'=>true,'return'=>true));
+    return $res2;
 
 }
 
@@ -242,14 +257,16 @@ function _shn_rms_sch_results()
                         //'&amp;keywords=' . $kws . 
                         '&amp;seq=view_req&amp;req_id=' . ($results->Fields('req_uuid')) .'>' .
                         _("Details") . '</a>';
-		$i=0;
+		
+        $i=0;
 		while(!$results->EOF){
 			if($_SESSION['isadmin']==TRUE) {
 				$_reqstr = _shn_rms_get_person($results->Fields('reqstr_uuid'));
+			
 				$tbl_arr[$i] = array($_reqstr['name'],
 									//_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($results->Fields('ct_uuid'))),
-									_shn_rms_get_cataloguename($results->Fields('ct_uuid')),
-									_shn_rms_get_location_name($results->Fields('loc_uuid')),
+									_shn_rms_get_cat_name($results->Fields('ct_uuid')),
+									_shn_rms_get_name($results->Fields('loc_uuid')),
 									//$results->Fields('quantity'),
 									$results->Fields('req_date'),
 									$results->Fields('status'),
@@ -257,8 +274,8 @@ function _shn_rms_sch_results()
 									$view_url);
 			}else{
 				$tbl_arr[$i] = array(//_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($results->Fields('ct_uuid'))),
-									_shn_rms_get_cataloguename($results->Fields('ct_uuid')),
-									_shn_rms_get_location_name($results->Fields('loc_uuid')),
+									_shn_rms_get_cat_name($results->Fields('ct_uuid')),
+									_shn_rms_get_name($results->Fields('loc_uuid')),
 									//$results->Fields('quantity'),
 									$results->Fields('req_date'),
 									$results->Fields('status'),

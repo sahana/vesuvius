@@ -37,12 +37,12 @@ function _shn_rms_requester($requester_id=null)
     print '</div>';
     print '<br />';
     
-    
-    shn_form_text(_("Full Name"),'name',null,array('req'=>true));
+    $extra_opt['req']=true;
+    shn_form_text(_("Full Name"),'name',null,$extra_opt);
     shn_form_text(_("Mobile"),'mobile');
     shn_form_text(_("Email"),'email');
     shn_form_opt_select("opt_id_type",_("Available Card type"));
-    shn_form_text(_("Card Number"),"card_number",null,array('req'=>true));
+    shn_form_text(_("Card Number"),"card_number",null,$extra_opt);
     shn_form_text(_("Telephone"),'telephone',null);
     shn_form_textarea(_("Address"),'address',null);
    // shn_form_textarea(_("Address"),'address',null);
@@ -53,7 +53,7 @@ function _shn_rms_requester($requester_id=null)
     shn_form_fclose();
     print '<br />';
     
-    
+    /*
     shn_form_fopen("req_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'get_reqstr'));
     shn_form_fsopen(_("Existing Requester"));
@@ -69,7 +69,7 @@ function _shn_rms_requester($requester_id=null)
     shn_form_fsclose();
     shn_form_submit(_("Next"), 'id="reqstr_next"');
     shn_form_fclose();
-    print '<br />';
+    print '<br />';*/
     
 }
 
@@ -97,7 +97,7 @@ function _shn_rms_location($id = null)
 {
     if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
-           
+         
     _shn_rms_view_requester($id,true);
     print '<br />';
     
@@ -122,7 +122,6 @@ function _shn_rms_location($id = null)
     shn_form_submit(_("Add Location"));
     shn_form_fclose();
 }
-//===================<New code/>====================================*/
 
 
 
@@ -196,11 +195,7 @@ function _shn_rms_ax_location_other($id=null)
         print '</div>';     
       
     }
-    
-    
 }
-
-
 
 function _shn_rms_location_add()
 {
@@ -479,30 +474,59 @@ switch ($_REQUEST['seq'])
             //reset the SESSION variables
     	 
             $_SESSION['rms_req_id'] = null;
-            $_SESSION['rms_reqstr_id'] = $_SESSION['user_id'];
-           
             $_SESSION['rms_req_added'] = false;
+            if (shn_acl_is_enabled()) {
+                $_SESSION['rms_reqstr_id'] = $_SESSION['user_id'];
+                _shn_rms_location(); 	
+            }else{
+                _shn_rms_requester(null);
+            }
 
-            _shn_rms_location();
             break;
     
-    case 'new_requester':
-             _shn_rms_new_requester();//
-             break;       
+    //case 'new_requester':
+            // _shn_rms_new_requester();//
+            // break;       
     case 'add_reqstr':
-            $reqstr = _shn_rms_requester_new();
-            if ($reqstr)
+ 
+    	    if($_POST['name']!=null && $_POST['card_number']!=null) {
+    	        $requester['name'] = $_POST['name'];
+	            $requester['mobile'] = $_POST['mobile'];
+	            $requester['telephone'] = $_POST['telephone'];
+	            $requester['email'] = $_POST['email'];
+	            $requester['address'] = $_POST['address'];
+	            $requester['opt_id_type'] = $_POST['opt_id_type'];
+    	        $requester['card_number'] = $_POST['card_number'];
+                
+                $_SESSION['rms_reqstr_id']=_shn_rms_add_requester($requester);
+                $_SESSION['user_id'] = $_SESSION['rms_reqstr_id'];
                 _shn_rms_location();
-            break;
+    	        break;
+    	        
+    	    }elseif($_POST['name']==null && $_POST['card_number']==null) {
+    	    	add_error(_("Please fill the 'Name' and 'Card Number'"));
+    	    	_shn_rms_requester(null);
+    	    	break;
+    	    }elseif($_POST['name']==null && $_POST['card_number']!=null) {
+    	        add_error(_("Please fill the 'Name'"));
+    	    	_shn_rms_requester(null);
+    	    	break;
+    	    }elseif($_POST['name']!=null && $_POST['card_number']==null) {
+    	    	add_error(_("Please fill the 'Card Number'"));
+    	    	_shn_rms_requester(null);
+    	    	break;
+    	    }
+           
+            
             
     case 'reqstr_up':
-            _shn_rms_requester_update();
-            _shn_rms_location();
+            //_shn_rms_requester_update();
+           // _shn_rms_location();
             break;
             
     case 'get_reqstr':
             $id = trim($_POST['card_number']);
-            $_SESSION['rms_reqstr_id'] = $id;
+            //$_SESSION['rms_reqstr_id'] = $id;
             if ($id != '' && _shn_rms_is_requester($id))
                 _shn_rms_location($id);
             else if (_shn_rms_is_person($id))
@@ -521,7 +545,7 @@ switch ($_REQUEST['seq'])
     case 'add_loc':
            
     	_shn_rms_requester_add_new_loc_();
-    	_shn_rms_location(); 
+        _shn_rms_location(); 
     	//shn_form_hidden(array('seq'=>''));
     	//_shn_rms_location_add();
             break;
@@ -530,7 +554,7 @@ switch ($_REQUEST['seq'])
     	
     	   // $loc = shn_location_get_form_submit_loc();
     	$loc = trim($_POST['loc']);
-    	//$loc = $_POST['loc'];    
+    	//$loc = $_POST['loc'];  
             $_SESSION['rms_reqstr_loc'] = $loc;
             $_SESSION['rms_items'] = null;
             
@@ -582,7 +606,7 @@ switch ($_REQUEST['seq'])
     
     case 'add_item':
             _shn_rms_view_requester($_SESSION['rms_reqstr_id'],true);
-            print '<br />';
+            //print '<br />';
             _shn_rms_view_location($_SESSION['rms_reqstr_loc'],true);
             print '<br />';
             

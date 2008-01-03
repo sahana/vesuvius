@@ -27,7 +27,7 @@ function _shn_rms_mng_request()
     print '<div id="req_id">';
     print '<div class="info">';
     //print _("Request / Pledge Matching ");
-    print _("Select a Request from the ") . '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>';
+    print _("Select a Request from the "). '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>';
     print '<br />';
     print '</div>';
 //    shn_form_fopen("mng_ff",null, array('req_message'=>false));
@@ -213,7 +213,7 @@ print '<br>';
         <td><?php print $amount; ?></td>
         <td><?php print $inventory_name; ?></td>
         <td><?php print $state;?></td>
-        <td><a href="index.php?mod=rms&act=fullfill_from_inventory&seq=<?php echo 'mng_ff_inventory';?>&item_id=<?php echo $item_id;?>&inv_id=<?php echo $inv_id;?>&ct_uuid=<?php echo $itm;?>"><?php print ("SELECT");?></a></td>
+        <td><a href="index.php?mod=rms&act=fullfill_from_inventory&seq=<?php echo 'mng_ff_inventory';?>&item_id=<?php echo $item_id;?>&inv_id=<?php echo $inv_id;?>&ct_uuid=<?php echo $itm;?>"><?php print ("Select");?></a></td>
         </tr>
     <?php
         $res->MoveNext();
@@ -257,7 +257,7 @@ function _shn_rms_mng_addff($max_qty)
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
     shn_form_hidden(array('seq'=>''));
     shn_form_fsopen(_("Cancel Fulfillment Process"));
-    shn_form_submit(_("Cancel !!"));
+    shn_form_submit(_("Cancel"));
     shn_form_fsclose();
     shn_form_fclose();
     
@@ -278,7 +278,7 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
     shn_form_fopen('fullfill_from_inventory');
     shn_form_fsopen(_('Allocate'));
     shn_form_text(_('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));
-    shn_form_text(_('Maximum allocatable quantity : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
+    shn_form_text(_('Allocatable quantity (Max) : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
     shn_form_text(_('Inventory : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
     shn_form_text(_('Quantity : '),'quantity','size="25"',null);
     shn_form_fsclose();

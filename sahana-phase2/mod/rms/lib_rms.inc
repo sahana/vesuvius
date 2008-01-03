@@ -25,7 +25,6 @@ function _shn_rms_print_hedder($string=null)
 	else
 	print '<h2>' . $string . '</h2>';
 }
-
 //added by isuru
 function _shn_rms_add_identity($p_uuid,$cardno,$type)
 {
@@ -35,8 +34,6 @@ function _shn_rms_add_identity($p_uuid,$cardno,$type)
 	$global['db']->Execute($sql);
 
 }
-
-
 function _shn_rms_add_requester($requester)
 {
 	global $global;
@@ -85,7 +82,6 @@ function _shn_rms_add_requester($requester)
 
 
 }
-
 function _shn_rms_is_person($id)
 {
 	global $global;
@@ -107,7 +103,6 @@ function _shn_rms_is_person($id)
 
 	return false;
 }
-
 function _shn_rms_get_person($id)
 {
 	global $global;
@@ -147,12 +142,12 @@ function _shn_rms_get_person($id)
 
 	// return false;
 }
-
 function _shn_rms_is_requester($id)
 {
 	global $global;
 
-	$sql = "SELECT * FROM rms_request r,identity_to_person i WHERE i.serial=r.reqstr_uuid and i.serial='$id' ";
+	//$sql = "SELECT * FROM rms_request r,identity_to_person i WHERE i.serial=r.reqstr_uuid and i.serial='$id' ";
+	$sql = "SELECT * FROM rms_request WHERE reqstr_uuid='$id' ";
 	$rs = $global['db']->Execute($sql);
 
 	if ($rs === false)
@@ -169,17 +164,15 @@ function _shn_rms_is_requester($id)
 
 	return false;
 }
-
 function _shn_rms_get_requester($id)
 {
-	if (_shn_rms_is_requester($id))
+	if (_shn_rms_is_user($id))
 	{
 		return _shn_rms_get_person($id);
 	}
 
 	return false;
 }
-
 function _shn_rms_get_requesters()
 {
 	global $global;
@@ -210,7 +203,6 @@ function _shn_rms_get_requesters()
 
 	return false;
 }
-
 function _shn_rms_get_location($loc_id)
 {
 	global $global;
@@ -234,7 +226,6 @@ function _shn_rms_get_location($loc_id)
 
 	return false;
 }
-
 function _shn_rms_get_locations()
 {
 	global $global;
@@ -268,7 +259,6 @@ function _shn_rms_get_locations()
 
 	return false;
 }
-
 function _shn_rms_add_requester_loc($id, $location)
 {
 	global $global;
@@ -305,7 +295,6 @@ function _shn_rms_add_requester_loc($id, $location)
 }
 //**************************************************************
 //return poc_uuid and location id from location_details
-
 function _shn_rms_get_requester_locs($id)
 {
 	global $global;
@@ -364,13 +353,11 @@ function _shn_rms_get_requester_locs($id)
 
 	// return false;
 }
-
 function _shn_rms_get_shnuser()
 {
 	$user_id = 'p-999';
 	return $user_id;
 }
-
 function _shn_rms_get_categories()
 {
 	global $global;
@@ -392,7 +379,6 @@ function _shn_rms_get_categories()
 
 	return false;
 }
-
 function _shn_rms_get_priorities()
 {
 	global $global;
@@ -417,7 +403,6 @@ function _shn_rms_get_priorities()
 	}
 
 }
-
 function _shn_rms_get_items($cat_id)
 {
 	global $global;
@@ -439,7 +424,6 @@ function _shn_rms_get_items($cat_id)
 
 	return false;
 }
-
 function _shn_rms_get_itm_units($itm_id)
 {
 	global $global;
@@ -463,7 +447,6 @@ function _shn_rms_get_itm_units($itm_id)
 
 	return false;
 }
-
 function _shn_rms_get_sub_cat($cat_id)
 {
 	global $global;
@@ -485,10 +468,9 @@ function _shn_rms_get_sub_cat($cat_id)
 
 	return false;
 }
-
 function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 {
-	if(_shn_rms_check_catalog_item($itm))
+	if( $itm=='' || _shn_rms_check_catalog_item($itm))
 	{
 		add_error(_("Please Select a Catalog Item"));
 		return false;
@@ -504,7 +486,6 @@ function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 		return false;
 	}
 }
-
 function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 {
 	if(_shn_rms_check_catalog_item($itm))
@@ -523,7 +504,6 @@ function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 		return false;
 	}
 }
-
 function _shn_rms_del_itemfromsession($itm_id)
 {
 	$items = $_SESSION['rms_items'];
@@ -535,7 +515,6 @@ function _shn_rms_del_itemfromsession($itm_id)
 		$_SESSION['rms_items'][] = $item;
 	}
 }
-
 function _shn_rms_is_itemadded($item)
 {
 	if (is_array($_SESSION['rms_items']))
@@ -548,7 +527,6 @@ function _shn_rms_is_itemadded($item)
 	}
 	return false;
 }
-
 function _shn_rms_get_itemname($itm_id)
 {
 	global $global;
@@ -571,7 +549,6 @@ function _shn_rms_get_itemname($itm_id)
 
 	return false;
 }
-
 function _shn_rms_get_iunit_name($unit_id)
 {
 	global $global;
@@ -594,7 +571,6 @@ function _shn_rms_get_iunit_name($unit_id)
 
 	return false;
 }
-
 function _shn_rms_get_priorityname($pri_id)
 {
 	global $global;
@@ -609,15 +585,18 @@ function _shn_rms_get_priorityname($pri_id)
 		display_errors();
 		return false;
 	}
-	elseif (1 <= $rs->RecordCount())
-	{
-		$rs = $rs->GetArray();
-		return $rs[0][0];
+	else{
+		$res=$rs->fields["priority"];
+	  	return $res;
 	}
+//	elseif (1 <= $rs->RecordCount())
+//	{
+//		$rs = $rs->GetArray();
+//		return $rs[0][0];
+//	}
 
 	return false;
 }
-
 /***
  * Request Specific functions
  */
@@ -645,7 +624,6 @@ function _shn_rms_add_request($reqstr_uuid, $loc_uuid)
 	}
 
 }
-
 function _shn_rms_add_reqitems($req_uuid)
 {
 	global $global;
@@ -668,7 +646,6 @@ function _shn_rms_add_reqitems($req_uuid)
 		}
 	}
 }
-
 function _shn_rms_get_recordcount($table, $fstr)
 {
 	global $global;
@@ -680,7 +657,6 @@ function _shn_rms_get_recordcount($table, $fstr)
 	$rs = $rs->GetArray();
 	return $rs[0][0];
 }
-
 function _shn_rms_get_reqitems($req_uuid)
 {
 	global $global;
@@ -702,7 +678,6 @@ function _shn_rms_get_reqitems($req_uuid)
 		return $rs;
 	}
 }
-
 function _shn_rms_get_plgitems($plg_uuid)
 {
 	global $global;
@@ -724,7 +699,6 @@ function _shn_rms_get_plgitems($plg_uuid)
 		return $rs;
 	}
 }
-
 function _shn_rms_get_itm_category($itm_id)
 {
 	$sql = "SELECT DISTINCT(cat.ct_uuid),cat.name " .
@@ -750,7 +724,6 @@ function _shn_rms_get_itm_category($itm_id)
 
 	return false;
 }
-
 /***
  * Donor Functions
  */
@@ -796,7 +769,6 @@ function _shn_rms_add_donor($donor)
 		return $p_uuid;
 	}
 }
-
 function _shn_rms_is_donor($id)
 {
 	global $global;
@@ -818,7 +790,6 @@ function _shn_rms_is_donor($id)
 
 	return false;
 }
-
 function _shn_rms_get_donor($id)
 {
 	if (_shn_rms_is_donor($id))
@@ -828,7 +799,6 @@ function _shn_rms_get_donor($id)
 
 	return false;
 }
-
 function _shn_rms_get_donors()
 {
 	global $global;
@@ -859,7 +829,6 @@ function _shn_rms_get_donors()
 
 	return false;
 }
-
 function _shn_rms_add_pledge($donor_uuid)
 {
 	global $global;
@@ -884,7 +853,6 @@ function _shn_rms_add_pledge($donor_uuid)
 		return $plg_uuid;
 	}
 }
-
 function _shn_rms_add_plgitems($plg_uuid)
 {
 	global $global;
@@ -907,7 +875,6 @@ function _shn_rms_add_plgitems($plg_uuid)
 		}
 	}
 }
-
 function _shn_rms_add_ff($req_uuid, $item_uuid, $plg_uuid, $qty)
 {
 	global $global;
@@ -931,7 +898,6 @@ function _shn_rms_add_ff($req_uuid, $item_uuid, $plg_uuid, $qty)
 	}
 
 }
-
 /***
  * Html template helpers
  */
@@ -939,7 +905,6 @@ function _shn_html_inform_add($message)
 {
 	$_SESSION['html_info'][] = $message;
 }
-
 function _shn_html_inform_show()
 {
 	if (!isset($_SESSION['html_info']) || empty($_SESSION['html_info']))
@@ -964,7 +929,6 @@ foreach ( $infor_msgs as $info )
 <?php
 $_SESSION['html_info'] = null;
 }
-
 function _shn_html_print_alert($alert)
 {
 	?>
@@ -972,7 +936,6 @@ function _shn_html_print_alert($alert)
 </div>
 	<?php
 }
-
 function _shn_html_print_message($msg,$br = false)
 {
 	$br_str = '';
@@ -983,7 +946,6 @@ function _shn_html_print_message($msg,$br = false)
 </div>
 	<?php
 }
-
 function _shn_rms_get_request($req_uuid)
 {
 	global $global;
@@ -1008,7 +970,6 @@ function _shn_rms_get_request($req_uuid)
 		return false;
 	}
 }
-
 function _shn_rms_get_pledge($plg_uuid)
 {
 	global $global;
@@ -1029,7 +990,6 @@ function _shn_rms_get_pledge($plg_uuid)
 		return $rs[0];
 	}
 }
-
 function _shn_rms_is_reqstatus($status)
 {
 	$stats = array ('open', 'closed');
@@ -1044,7 +1004,6 @@ function _shn_rms_is_reqstatus($status)
 
 	return false;
 }
-
 function _shn_rms_is_plgstatus($status)
 {
 	$stats = array ('delivered', 'not_confirmed', 'confirmed', 'discarded');
@@ -1059,15 +1018,15 @@ function _shn_rms_is_plgstatus($status)
 
 	return false;
 }
-
 function _shn_rms_view_requester($reqstr_id, $summary=false)
 {
 	print '<div id="note2">';
 	print '<h4>' . _("Requester Information") . '</h4>';
 
-	$requester = _shn_rms_get_person($reqstr_id);
-
-	if (!$summary)
+	//$requester = _shn_rms_get_person($reqstr_id);
+	$requester = _shn_rms_get_requester($reqstr_id);
+	
+	/*if (!$summary)
 	{
 		///$tmp_str = '<strong>' . _("RequesterID") . '</strong>';
 		//$tb_reqstr[] = array($tmp_str , $reqstr_id);
@@ -1081,19 +1040,17 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 		shn_html_table($tb_reqstr,null,null,array('class'=>'layout','width'=>$width));
 	}
 	else
-	{
+	{*/
 		?>
 
 
 <strong>Requester Name</strong>
 :
 		<?=$requester['name']?>
-<br />
 		<?php
-}
+//}
 print '</div>';
 }
-
 function _shn_rms_view_donor($donor_id, $summary=false)
 {
 	print '<div id="note2">';
@@ -1121,19 +1078,28 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 :
 		<?=$donor_id?>
 <br />
-<strong>Donor Name</strong>
+<strong><?php echo _("Donor Name")?></strong>
 :
 		<?=$donor['name']?>
 		<?php
 }
 print '</div>';
 }
-
 function _shn_rms_view_location($loc_id, $summary=false)
 {
 	print '<div id="note2">';
 	//print '<h4>' . _("Request Location Information") . '</h4>';
-	$location = _shn_rms_get_location_name($loc_id);
+	/*=====================================================================
+    if(_shn_rms_is_location($loc_id)) {
+        $location = _shn_rms_get_location_name($loc_id);
+    }elseif(_shn_rms_is_camp($loc_id)) {;
+        $location = _shn_rms_get_camp_name($loc_id);
+    }elseif(_shn_rms_is_org($loc_id)) {
+        $location = _shn_rms_get_org_name($loc_id);
+    }
+	//=====================================================================
+	
+	
 	if (!$summary)
 	{
 		//$tmp_str = '<strong>' . _("Location ID") . '</strong>';
@@ -1148,17 +1114,17 @@ function _shn_rms_view_location($loc_id, $summary=false)
 		shn_html_table($tb_loc,null,null,array('class'=>'layout','width'=>$width));
 	}
 	else
-	{
+	{*/
+	$location = _shn_rms_get_name($loc_id);
 		?>
 
-<strong>Location</strong>
+<strong><?php echo _("Location")?></strong>
 :
 		<?=$location?>
 		<?php
-}
+//}
 print '</div>';
 }
-
 function _shn_rms_view_reqitems($req_id)
 {
 	global $global;
@@ -1180,7 +1146,6 @@ function _shn_rms_view_reqitems($req_id)
 	print '<br />';
 
 }
-
 function _shn_rms_view_reqff($req_id)
 {
 	global $global;
@@ -1215,7 +1180,7 @@ function _shn_rms_view_reqff($req_id)
 		return false;
 	}
 
-	$th_items[] = array (_("Item"), _("Priority"), _("Requested"), _("Fulfiled"), _("Date"), _("Select to Fulfil"));
+	$th_items[] = array (_("Item"), _("Priority"), _("Requested"), _("Fulfiled"), _("Date"), _("Select to Fulfill"));
 	foreach ($rms_items as $itm)
 	{
 		$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
@@ -1238,7 +1203,6 @@ function _shn_rms_view_reqff($req_id)
 	shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 	print '<br />';
 }
-
 function _shn_rms_view_request($req_id)
 {
 	$request = _shn_rms_get_request($req_id);
@@ -1247,6 +1211,8 @@ function _shn_rms_view_request($req_id)
 	$date = $request['date'];
 	$status = $request['status'];
 	$shn_usr = $request['user_id'];
+	
+	$_SESSION['rms_ls_reqstr']=$request['reqstr_uuid'];
 
 	//print '<h3>' . _("The Request ID: ") . $req_id . '</h3>';
 	//print '<br />';
@@ -1258,7 +1224,6 @@ function _shn_rms_view_request($req_id)
 	print '<br />';
 	_shn_rms_view_reqff($req_id);
 }
-
 function _shn_rms_view_plgitems($plg_id)
 {
 	global $global;
@@ -1278,7 +1243,6 @@ function _shn_rms_view_plgitems($plg_id)
 	print '<br />';
 
 }
-
 function _shn_rms_view_pledge($plg_id)
 {
 	$pledge = _shn_rms_get_pledge($plg_id);
@@ -1292,7 +1256,6 @@ function _shn_rms_view_pledge($plg_id)
 	print '<br />';
 	_shn_rms_view_plgitems($plg_id);
 }
-
 function _shn_rms_request_setstat($req_id, $stat)
 {
 	global $global;
@@ -1311,7 +1274,6 @@ function _shn_rms_request_setstat($req_id, $stat)
 		return true;
 	}
 }
-
 function _shn_rms_pledge_setstat($plg_id, $stat)
 {
 	global $global;
@@ -1326,16 +1288,22 @@ function _shn_rms_pledge_setstat($plg_id, $stat)
 		return false;
 	}
 	else
-	{
-		return true;
+	{   
+		$sql = "UPDATE rms_plg_item SET status='$stat' WHERE plg_uuid='$plg_id'";
+		
+		if ($global['db']->Execute($sql)===false) {
+			$msg = $global['db']->ErrorMsg();
+		    add_error($msg . '<br />' . $sql);
+		    display_errors();
+		    return false;
+		}else {
+			return true;
+		}
 	}
 }
 
 /**
- * category tmp
- */
-
-/**
+ * 
  * Generates the java script required for AJAX functionality
  *
  * @param mixed $to
@@ -1463,8 +1431,6 @@ function _shn_rms_ct_cat_js($max,$form,$change,$item_flag=false){
 </script>
 	<?php
 }
-
-
 /**
  * shn_location
  * Generates a set of select boxes with locations with in the given levels. Will add to the form.
@@ -1528,7 +1494,6 @@ else{
 	//shn_form_submit(_("Next"));
 }
 }
-
 function _shn_rms_get_location_name($bsd_village)
 {
 	global $global;
@@ -1572,7 +1537,6 @@ function _shn_rms_get_location_name($bsd_village)
 
 
 }
-
 function _shn_rms_check_catalog_item($itm)
 {
 	global $global;
@@ -1590,55 +1554,100 @@ function _shn_rms_check_catalog_item($itm)
 		return false;
 	}
 }
-
-
 function _shn_rms_requester_add_new_loc_()
 {
     global $global;
     
     $p_uuid = $_SESSION['rms_reqstr_id'];
-    if($_POST['loc_select_1'] != null) {
-    	$_SESSION['ims_1']=$_POST['loc_select_1'];
-    	$_SESSION['ims_2']=$_POST['loc_select_2'];
-    	$_SESSION['ims_3']=$_POST['loc_select_3'];
- 
-    	$location_id=_shn_ims_get_locid();
+    
+    if(isset($_POST['loc_select_1'])==true && strlen($_POST['loc_select_1'])>0 && $_POST['loc_select_1']!="0") { //if a location is selected
 
-    	if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) {
+    	$lvl=1;
+    	$range= shn_get_range();
+    	
+    	while ($lvl!=($range["end"])+1) {
+    		$var1='rms_'.$lvl;
+    		$var2='loc_select_'.$lvl;
+    	    $_SESSION[$var1]=$_POST[$var2];
+    	    $lvl++;
+    	}
+        
+     	$location_id=_shn_rms_get_locid($range["end"]);
+     	
+        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) { //if location already exists
     		add_error(_("Location already exists"));
-    	}else{
+    	}else {
 	
     		$sql = "INSERT INTO ext_location( " .
                                            "p_uuid, " .
                                            "loc_uuid) " .
             	"VALUES ('$p_uuid', '$location_id')";
     
-    		if ($global['db']->Execute($sql) === false)
-    		{
+    		if($global['db']->Execute($sql) === false) {
         		$msg = $global['db']->ErrorMsg();
         		add_error($msg . '<br />' . $sql);
         		display_errors();
         		return false;
-    		}
-    		else
-    		{
+    		}else {
     			add_confirmation(_("Location added successfully"));
         		return true;
     		}
     	}
-    }else{
-    	
+    //------------------ORG---------------------------------------------------------
+    //if an organization is selected, but it does not belong to any location
+    }elseif((isset($_POST['loc_select_1'])==false || strlen($_POST['loc_select_1'])<0 || $_POST['loc_select_1']=="0") && $_POST['loc']=='loc_org' && (isset($_POST['orgs'])==true && strlen($_POST['orgs'])>0 && $_POST['orgs']!="0")){
+        $location_id= $_POST['orgs'];
+        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) {
+    		add_error(_("Location already exists"));
+    	}else{
+    		$sql = "INSERT INTO ext_location( " .
+                                           "p_uuid, " .
+                                           "loc_uuid) " .
+            	"VALUES ('$p_uuid', '$location_id')";
+    
+    		if($global['db']->Execute($sql) === false) {
+        		$msg = $global['db']->ErrorMsg();
+        		add_error($msg . '<br />' . $sql);
+        		display_errors();
+        		return false;
+    		}else {
+    			add_confirmation(_("Location added successfully"));
+        		return true;
+    		}
+    	}
+    //------------------camp--------------------------------------------------------
+    //if a camp is selected, but it does not belong to any location		
+    }elseif((isset($_POST['loc_select_1'])==false || strlen($_POST['loc_select_1'])<0 || $_POST['loc_select_1']=="0") && $_POST['loc']=='loc_camp' && (isset($_POST['camps'])==true && strlen($_POST['camps'])>0 && $_POST['camps']!="0")) {
+    	$location_id= $_POST['camps'];
+        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) {
+    		add_error(_("Location already exists"));
+    	}else{
+    		$sql = "INSERT INTO ext_location( " .
+                                           "p_uuid, " .
+                                           "loc_uuid) " .
+            	"VALUES ('$p_uuid', '$location_id')";
+    
+    		if($global['db']->Execute($sql) === false) {
+        		$msg = $global['db']->ErrorMsg();
+        		add_error($msg . '<br />' . $sql);
+        		display_errors();
+        		return false;
+    		}else {
+    			add_confirmation(_("Location added successfully"));
+        		return true;
+    		}
+    	}
+    
+    //-------else-------------------------------------------------------	
+    }else{ //if any location or camp or organization is not selected..
     	add_warning(_("Select the location first"));
-
     }
 }
-
-
-function _shn_rms_requester_search_loc_($loc_id)
+function _shn_rms_requester_search_loc_($loc_id,$p_uuid)
 {
 	global $global;
 
-	$sql = "SELECT loc_uuid FROM ext_location WHERE loc_uuid ='$loc_id'";
+	$sql = "SELECT loc_uuid FROM ext_location WHERE loc_uuid ='$loc_id' AND p_uuid='$p_uuid'";
 	$rec = $global['db']->Execute($sql);
 
 	if ($rec->EOF)
@@ -1648,8 +1657,6 @@ function _shn_rms_requester_search_loc_($loc_id)
 		return true;
 	}
 }
-
-//*****************************************************************************
 function _shn_rms_display_location_array($loc)
 {
 	$locations_array=array();
@@ -1666,13 +1673,24 @@ function _shn_rms_display_location_array($loc)
 
 	shn_form_hidden(array('seq'=>'get_loc'));
 	shn_form_fsopen(_("Existing Location"));
-
-	foreach($loc as $loc_id)
-	{
-		$bsda_village = _shn_org_location_string($loc_id);   //return the location
-		$locations_array[$loc_id]= $bsda_village;
-	}
-
+    //============================New==================================
+    foreach($loc as $loc_id) {
+        if(_shn_rms_is_location($loc_id)) {
+            $bsda_village = _shn_org_location_string($loc_id);
+        }elseif(_shn_rms_is_camp($loc_id)) {;
+            $bsda_village = _shn_rms_get_camp_name($loc_id);
+        }elseif(_shn_rms_is_org($loc_id)) {
+        	$bsda_village = _shn_rms_get_org_name($loc_id);
+        }
+        $locations_array[$loc_id]= $bsda_village;
+    }
+    //====================old=======================================
+//	foreach($loc as $loc_id)
+//	{
+//		$bsda_village = _shn_org_location_string($loc_id);   //return the location
+//		$locations_array[$loc_id]= $bsda_village;
+//	}
+    //=========================================================================
 
 	shn_form_select($locations_array,_("Location"), 'loc');
 
@@ -1685,7 +1703,7 @@ function _shn_rms_display_location_array($loc)
 }
 
 /**
- * return location array(with parent locations)
+ * return location array
  * fro
  */
 function _shn_rms_get_location_array($p_id)
@@ -1716,7 +1734,6 @@ function _shn_rms_get_location_array($p_id)
 		return $loc;
 	}
 }
-
 /**
  * To get all excisting locations from ext_location table 
  */
@@ -1748,10 +1765,7 @@ function _shn_rms_get_all_locations()
 		return $loc;
 	}
 }
-
-
-
-/*
+/**
  * Get the Location name instead of location string
  * From ext_location table
  */
@@ -1772,8 +1786,7 @@ function _shn_rms_location_string($loc)
         return $location;
     }
 }
-
-/*
+/**
  * check 'group_id' of logged user from 'sys_user_to_group' table;
  * 
  * whether user is admin of RMS;
@@ -1803,12 +1816,10 @@ function _shn_rms_get_user_group()
 	}
 }
 
-
-/*
+/**
  * function to get the category, for a particular item.
  * 
  */
-
 function _shn_rms_get_parent_catalogue($item_id)
 {
 	global $global;	
@@ -1849,18 +1860,16 @@ function _shn_rms_get_parent_catalogue($item_id)
 	}
     //_shn_rms_get_parent_catalogue($res_temp->fields['parentid'],$cat_arr);
 }
-
-
-/*
- * 
- * 
+/**
+ *  
  */
 function _shn_rms_get_cataloguename($item_id)
 {
 	global $global;
 	$db=$global['db'];
-	$sql = "SELECT name from ct_catalogue WHERE ct_uuid='$item_id'";
+	$sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$item_id'";
 	$rec = $db->Execute($sql);
+    
     if ($rec === false)
 	 {
 		$msg = $global['db']->ErrorMsg();
@@ -1873,7 +1882,34 @@ function _shn_rms_get_cataloguename($item_id)
 	 	$rec = $rec->GetArray();
 	 	return $rec[0][0];
 	 }
+    
+	return false;
+}
 
+/**
+ * return the name according to the given item id
+ *
+ * @param unknown_type $item_id
+ * @return unknown
+ */
+function _shn_rms_get_cat_name($item_id)
+{
+	global $global;
+	$db=$global['db'];
+	$sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$item_id'";
+	$rec = $db->Execute($sql);
+    
+    if ($rec === false)
+	 {
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	  }
+	  else{
+	  	$res=$rec->fields["name"];
+	  	return $res;
+	  }
 	return false;
 }
 
@@ -1887,7 +1923,56 @@ function _shn_rms_is_user($id)
 {
     global $global;
     
-    $sql = "SELECT * FROM users WHERE p_uuid='$id'";
+    $sql = "SELECT * FROM person_uuid WHERE p_uuid='$id'";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    { 
+            $msg = $global['db']->ErrorMsg();
+            add_error($msg . '<br />' . $sql);
+            display_errors();
+            return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        return true;
+    }
+    
+    return false;
+}
+/**
+ * Check whether there is a location, according to the given id
+ * 
+ */
+function _shn_rms_is_location($id)
+{
+    global $global;
+    
+    $sql = "SELECT * FROM location WHERE loc_uuid='$id'";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        return true;
+    }
+    
+    return false;	
+}
+/**
+ * Check whether there is a camp, according to the given id
+ */
+function _shn_rms_is_camp($id)
+{
+	global $global;
+    
+    $sql = "SELECT * FROM camp_general WHERE c_uuid='$id'";
     $rs = $global['db']->Execute($sql);
     
     if ($rs === false)
@@ -1904,7 +1989,30 @@ function _shn_rms_is_user($id)
     
     return false;
 }
-
+/**
+ * Check whether there is an organization, according to the given id
+ */
+function _shn_rms_is_org($id)
+{
+	global $global;
+    
+    $sql = "SELECT * FROM org_main WHERE o_uuid='$id'";
+    $rs = $global['db']->Execute($sql);
+    
+    if ($rs === false)
+    {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+        display_errors();
+        return false;
+    }
+    elseif (1 <= $rs->RecordCount())
+    {
+        return true;
+    }
+    
+    return false;
+}
 /**
  * To get inventory name according to the given id;
  */
@@ -1926,6 +2034,83 @@ function _shn_rms_get_inventory_name($inv_uuid)
 	{
 		$name=$rs->fields['inventory_name'];
 		return $name;
+	}
+}
+
+/**
+ * get the camp name according to a given id
+ * from camp_general table
+ */
+function _shn_rms_get_camp_name($id)
+{
+    global $global;
+
+	$sql = "SELECT * FROM camp_general WHERE c_uuid='$id'";
+	$rs = $global['db']->Execute($sql);
+
+	if ($rs === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	}
+	else
+	{
+		$name=$rs->fields['name'];
+		return $name;
+	}
+}
+
+/**
+ * get the organization name according to the given id
+ * from org_main table
+ */
+function _shn_rms_get_org_name($id)
+{
+    global $global;
+
+	$sql = "SELECT * FROM org_main WHERE o_uuid='$id'";
+	$rs = $global['db']->Execute($sql);
+
+	if ($rs === false)
+	{
+		$msg = $global['db']->ErrorMsg();
+		add_error($msg . '<br />' . $sql);
+		display_errors();
+		return false;
+	}
+	else
+	{
+		$name=$rs->fields['name'];
+		return $name;
+	}
+}
+
+/**
+ * return the name of the location,camp or orgaosation according to the given id
+ */
+function _shn_rms_get_name($loc)
+{
+            if(_shn_rms_is_location($loc)) {
+                $bsda_village = _shn_rms_get_location_name($loc);
+            }elseif(_shn_rms_is_camp($loc)) {
+                $bsda_village = _shn_rms_get_camp_name($loc);
+            }elseif(_shn_rms_is_org($loc)) {
+        	    $bsda_village = _shn_rms_get_org_name($loc);
+            }
+            return $bsda_village;
+}
+
+/**
+ * return the lowest level id of the location
+ */
+function _shn_rms_get_locid($range_end)
+{	
+	for($range_end; $range_end>0; $range_end--) {
+		$var='rms_'.$range_end;
+	    if($_SESSION[$var]!=null && $_SESSION[$var]!="0")
+		    return $_SESSION[$var];
 	}
 }
 ?>

@@ -46,7 +46,7 @@ function _shn_rms_sch_getkeywords()
 		$date=array();
 		//---------------------------------------------------------------------------------
 		shn_form_fopen("plg_sch",null,array('req_message'=>false));
-		shn_form_fsopen(_("Select Criteria"));
+		shn_form_fsopen("Select Criteria");
 		shn_form_hidden(array('seq'=>'get_keywords'));
 		if($_SESSION['isadmin']==true) {
 			shn_form_select($donor_name, _("Donor"), 'donor_id',null,array('br'=>false));
@@ -104,7 +104,10 @@ function _shn_rms_shn_get_results()
     if($stts != 'all') {
     	$cat_qry2 .= "AND rpm.status='$stts' ";
     }
-	$res2 = $db->Execute($cat_qry2);
+	//$res2 = $db->Execute($cat_qry2);
+	global $global;
+    include_once $global['approot'] . "/inc/lib_paging.inc";
+    $res2=shn_paging_get_report($cat_qry2,'10',$headers,array('post'=>true,'return'=>true));
 	return $res2;
 	
 	
@@ -286,7 +289,7 @@ function _shn_rms_sch_results()
 	$_SESSION['rms_plg_schres'] = null;
 	$res = _shn_rms_shn_get_results();
 	//$results = $_SESSION['rms_plg_schres'];
-	
+
 	$tbl_arr = array();
 	$tbl_hd_arr = array();
 	
@@ -322,15 +325,15 @@ function _shn_rms_sch_results()
 			if($_SESSION['isadmin']==TRUE) {
 				$_pdata = _shn_rms_get_donor($res->Fields('donor_uuid'));
 				$tbl_arr[$i] = array($_pdata['name'],
-									_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($res->Fields('ct_uuid'))),
-									_shn_rms_get_cataloguename($res->Fields('ct_uuid')),
+									_shn_rms_get_cat_name(_shn_rms_get_parent_catalogue($res->Fields('ct_uuid'))),
+									_shn_rms_get_cat_name($res->Fields('ct_uuid')),
 									$res->Fields('quantity'),
 									$res->Fields('plg_date'),
 									$res->Fields('status'),
 									_shn_rms_get_inventory_name($res->Fields('inventory')));
 			}else{
-				$tbl_arr[$i] = array(_shn_rms_get_cataloguename(_shn_rms_get_parent_catalogue($res->Fields('ct_uuid'))),
-									_shn_rms_get_cataloguename($res->Fields('ct_uuid')),
+				$tbl_arr[$i] = array(_shn_rms_get_cat_name(_shn_rms_get_parent_catalogue($res->Fields('ct_uuid'))),
+									_shn_rms_get_cat_name($res->Fields('ct_uuid')),
 									$res->Fields('quantity'),
 									$res->Fields('plg_date'),
 									$res->Fields('status'),

@@ -59,7 +59,7 @@ print _("Sahana Request Management System is a central online repository where a
 </ul>
 
 
- <strong><?php _("Description of Actions:") ?></strong><br/>
+ <strong><?php print _("Description of Actions:"); ?></strong><br/>
     <ul>
         <li><a href="index.php?mod=rms&act=req_new"><b><?= _('Make Request'); ?> </b></a><br/><?= _('Make a request to obtain items for relief operations'); ?></li>
         <li><a href="index.php?mod=rms&act=req_ls"><b><?= _('List Requests'); ?> </b> </a><br/><?= _('List all the requests done through the system'); ?></li>

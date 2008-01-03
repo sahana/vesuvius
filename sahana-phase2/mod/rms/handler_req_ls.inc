@@ -143,7 +143,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
 	//$req_loc = _shn_ims_get_location($inv_id);
 
 	//$location_name=_shn_rms_get_location_name($req_loc['location_id']);
-	    $location_name=_shn_rms_get_location_name($r['loc_uuid']);
+	    $location_name=_shn_rms_get_name($r['loc_uuid']);
 
 
 		if($req_loc['opt_person_loc_type']=='')
@@ -184,7 +184,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     {
     //$location = array();
     //$location = _shn_rms_get_location_name($loc[$i]);
-    array_push($location, _shn_rms_get_location_name($loc[$i]));
+    array_push($location, _shn_rms_get_name($loc[$i]));
     //var_dump($location);
     }
     
@@ -258,11 +258,20 @@ function _shn_rms_stat_request($req_id)
     
     $stat['open'] = _("Open");
     $stat['closed'] = _("Closed");
+    
+    if((_shn_rms_get_user_group()==true) || ($_SESSION['user_id']==$_SESSION['rms_ls_reqstr'])) {
+        $st='onChange="submit(this);"';
+    }else{
+    	$st= 'disabled="DISABLED"';
+    }
             
     shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>''));
     shn_form_hidden(array('seq'=>'chg_stat'));
     shn_form_hidden(array('req_id'=>$req_id));
-    shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false,'value'=>$status));
+    shn_form_select($stat, _("Status"), 'status',$st,array('br'=>false,'value'=>$status));
+    
+    unset($_SESSION['rms_ls_reqstr']);
+    
     shn_form_fclose();
 }
 
