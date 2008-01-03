@@ -693,6 +693,8 @@ function shn_ajax_send_data(){
    
 $input=$_GET["input"];
 $print=$_GET["print"];
+$event=$_GET["eve"];
+$input_ele=$_GET["input_ele"];
 if (strlen($input) > 0)
 {
   $hint="";
@@ -711,7 +713,7 @@ if (strlen($input) > 0)
     }
   }
 }
-$hint=$print.':'.substr($hint,strpos($hint,':')+1,strlen($hint));
+$hint=$print.':'.$event.':'.$input_ele.':'.substr($hint,strpos($hint,':')+1,strlen($hint));
 
 if ($hint == "")
 {
