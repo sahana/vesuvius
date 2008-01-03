@@ -701,7 +701,7 @@ function shn_pdf_report_add_table($header,$data)
         $new_data = array();
         foreach($data as $row)
         {	
-            $current_row = array_pop($data);
+            $current_row = $row;//array_pop($data);
             for($y=0;$y<count($row_arr_keys);$y++)
             {
                 if(!(array_key_exists($row_arr_keys[$y], $current_row)))
