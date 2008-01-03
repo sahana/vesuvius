@@ -45,7 +45,7 @@ function shn_mainmenuopen($desc )
 {   
 ?>
     <div id="menuwrap">
-        <h2>Sahana Main</h2>
+        <h2><?php echo _('Sahana Main')?></h2>
         <ul id="menu">
 <?php
 }
@@ -132,6 +132,8 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
 ?>
 		<li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li>
 <?php
+    global $sub_menu_id;
+    $sub_menu_id=$action;
 }
 
 /**
@@ -141,9 +143,13 @@ function shn_sub_mod_menuitem($action, $desc, $module = null )
  * @access public
  * @return void
  */
+$sub_menu_id='sub';
 function shn_sub_mod_menuopen($desc) 
 {
-    $id=str_replace(" ", "_", $desc);
+    global $sub_menu_id;
+    static $num=0;
+    $id='sub'.$sub_menu_id.$num;
+    $num++;
 ?>
 	<li><a href="#" onclick="expand('<?php echo $id;?>',this);" class="smopen"><?php echo $desc;?></a>
 		<ul id="<?php echo $id;?>">
@@ -243,13 +249,18 @@ function shn_breadcrumb_display()
 {
     global $conf;
     $current_mod = '';
+    $breadcrumb = '';
 
+
+    // create the breadcrumb array if it does not exist 
     if ( !array_key_exists('shn_breadcrumb', $_SESSION )) {
         $_SESSION['shn_breadcrumb'] = array();
     }
 
-    // @TODO: Remove the space hack and make this a proper list for CSS
-    echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;<b>Go back to </b>';
+    // clear the breadcrumb array if the user has logged out
+    if ( $_SESSION['logged_in'] != true ) {
+        $_SESSION['shn_breadcrumb'] = array();
+    }
 
     //foreach ($_SESSION['shn_breadcrumb'] as $i ) {
     for ($j=0 ; $j < sizeof($_SESSION['shn_breadcrumb'])-1 ; $j++) { 
@@ -266,14 +277,19 @@ function shn_breadcrumb_display()
 
         // only prefix the module name if the next item is different
         if ($current_mod != $module_name) {
-            echo '<a href="?mod='.$i[2].'"><b>'.$module_name.'</b></a>: ';
+            $breadcrumb .= '<a href="?mod='.$i[2].'"><b>'.$module_name.'</b></a>: ';
             $current_mod = $module_name;
         }
-        echo '<a href="?'.$i[1].'">'.$i[0].'</a> > ';
+        $breadcrumb .= '<a href="?'.$i[1].'">'.$i[0].'</a> > ';
 
     }
-
-    echo '</div>';
+    
+    // Display the breadcrumb
+    if ( $breadcrumb != '' ) {
+        // @TODO: Remove the space hack and make this a proper list for CSS
+        echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;<b>';
+        echo _('Switch back to').' </b>'.$breadcrumb.'</div>';
+    }
 
 }
 

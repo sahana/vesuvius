@@ -1,6 +1,5 @@
 <?php
 
-/* $Id: list_found.inc,v 1.6 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support

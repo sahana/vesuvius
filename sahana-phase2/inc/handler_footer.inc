@@ -1,7 +1,11 @@
+
+
+
+/* $Id: handler_footer.inc,v 1.8 2008-01-03 10:11:27 isurunishan Exp $ */
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.7 2007-11-20 10:00:52 priyanga Exp $ */
+/* $Id: handler_footer.inc,v 1.8 2008-01-03 10:11:27 isurunishan Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -38,3 +42,20 @@ global $conf;
 	href="http://jigsaw.w3.org/css-validator/check/referer"
 	title="Valid CSS"><img src="res/img/button-css.png" width="80"
 	height="15" alt="Valid CSS" border="0" /></a></div>
+<div align="center" id="footer"><a class="help" target="_blank"
+	href="<? echo $conf['sahana_url']; ?>" title="Sahana Home"><?php echo _("Sahana") ?></a> | <a
+	class="help" target="_blank"
+	href="<? echo $conf['wiki_url']; ?>" title="Sahana Wiki"><?php echo _("Wiki") ?></a>
+| <a class="help" target="_blank" href="<? echo $conf['forum_url']; ?>"
+	title="Forums"><?php echo _("Forums") ?></a> | <a class="help" target="_blank"
+	href="<? echo $conf['chat_url']; ?>" title="Chats"><?php echo _("Chats") ?></a> <br />
+	<hr/>
+<a target="_blank" href="http://www.php.net" title="<?php echo _("Powered by PHP") ?>"><img
+	src="res/img/button-php.gif" width="80" height="15"
+	alt="<?php echo _("Powered by PHP") ?>" border="0" /></a> <a target="_blank"
+	href="http://validator.w3.org/check/referer" title="<?php echo _("Valid XHTML 1.0") ?>"><img
+	src="res/img/button-xhtml.png" width="80" height="15"
+	alt="<?php echo _("Valid XHTML 1.0") ?>" border="0" /></a> <a target="_blank"
+	href="http://jigsaw.w3.org/css-validator/check/referer"
+	title="<?php echo _("Valid CSS") ?>"><img src="res/img/button-css.png" width="80"
+	height="15" alt="<?php echo _("Valid CSS") ?>" border="0" /></a></div>

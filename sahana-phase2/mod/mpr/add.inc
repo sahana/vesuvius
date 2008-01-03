@@ -1,5 +1,5 @@
 <?php
-/* $Id: add.inc,v 1.35 2008-01-03 04:43:06 isurunishan Exp $ */
+
 
 /**
  * Add Missing Person Registry 

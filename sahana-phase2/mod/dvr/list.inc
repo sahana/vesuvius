@@ -1,5 +1,9 @@
 <?php
-/* $Id: list.inc,v 1.4 2008-01-03 04:41:36 isurunishan Exp $ */
+
+/* $Id: list.inc,v 1.5 2008-01-03 10:19:07 isurunishan Exp $ */
+
+/* $Id: list.inc,v 1.5 2008-01-03 10:19:07 isurunishan Exp $ */
+
 /**
  * 
  * List groups in disaster victims registry

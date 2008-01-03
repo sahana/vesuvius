@@ -1,6 +1,5 @@
 <?php
 
-/* $Id: conf.inc,v 1.13 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 

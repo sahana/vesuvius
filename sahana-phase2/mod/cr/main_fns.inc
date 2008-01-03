@@ -13,7 +13,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main_fns.inc,v 1.58 2008-01-03 04:40:56 isurunishan Exp $
+
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 

@@ -97,11 +97,16 @@ count=-1;
 			splited_value[1]=""
 			splited_value[0]=""		
 		}
+
 	//def_display="--select--";			
 	//def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+def_display+\'</div>\'
 	ids[0]=splited_value[0];
 	names[0]=splited_value[1];			
 	new_value=\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch(this.innerHTML,this.id,value[0],value[2]);" class="suggest_link">\'+splited_value[1]+\'</div>\'
+	//def_display="--select--";			
+	//def_value=\'<div id="def" onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch\'+value[0]+\'(this.innerHTML,this.id);" class="suggest_link">\'+def_display+\'</div>\'
+		
+	new_value=\'<div id=\'+splited_value[0]+\' onmouseover="javascript:suggestOver(this);" onmouseout="javascript:suggestOut(this);" onclick="javascript:setSearch\'+value[0]+\'(this.innerHTML,this.id);" class="suggest_link">\'+splited_value[1]+\'</div>\'
 	
 			j=1
 			
@@ -173,12 +178,14 @@ function set_common_styles(){
 				padding: 2px 6px 2px 6px;
 				border-top:1px solid #ccc;
 				
+				border-bottom:1px solid #ccc;
 			}
 			.suggest_link_over {
 				background-color: #DAD11F;
 				padding: 2px 6px 2px 6px;
 				cursor:pointer;
 				border-top:1px solid #ccc;
+				border-bottom:1px solid #ccc;
 			}';
 			
     echo '</style>';

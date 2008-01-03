@@ -27,7 +27,7 @@ function _shn_gis_gm_form(){
 	//shn_form_fopen(abc);
 	// @todo: using small hack at the moment to bypass front controller. correct later
 ?>
-	<div id="formcontainer">
+<!-- 	<div id="formcontainer"> -->
 	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 <?php
     shn_form_fopen("adm_default&submod=open_layers&seq=commit",null,array('req'=>false));
@@ -44,7 +44,7 @@ function shn_plugin_commit()
 	$db = $global['db'];
 		
 	if(!null==($_POST['gmap_key'])){
-		echo "Changes Saved";
+		echo _("Changes were saved");
 		$query = "select * from config where confkey='google_key' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF)

@@ -1,6 +1,10 @@
 <?php
 
-/* $Id: main_fns.inc,v 1.20 2008-01-03 04:41:59 isurunishan Exp $ */
+
+/* $Id: main_fns.inc,v 1.21 2008-01-03 10:21:51 isurunishan Exp $ */
+
+/* $Id: main_fns.inc,v 1.21 2008-01-03 10:21:51 isurunishan Exp $ */
+
 
 /**
 * Functions page of the GIS Module

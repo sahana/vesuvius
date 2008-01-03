@@ -30,7 +30,7 @@ function _shn_gis_gm_form(){
 	//shn_form_fopen(abc);
 	// @todo: using small hack at the moment to bypass front controller. correct later
 ?>
-	<div id="formcontainer">
+<!-- 	<div id="formcontainer"> -->
 	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 	
 <?php
@@ -42,7 +42,7 @@ function _shn_gis_gm_form(){
 	}
 	
 	shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
-	shn_form_fsopen("Information");
+	shn_form_fsopen(_("Information"));
 	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
 	echo _("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
 	echo _("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");
@@ -72,7 +72,7 @@ function shn_plugin_commit()
 		else
 		{
 			$insert = "insert into config (module_id,confkey,value) values ('gis','mod_gis_google_key','{$_POST['gmap_key']}')";
-			echo $insert;
+			//echo $insert;
 			$db->Execute($insert);
 		}
 		

@@ -21,7 +21,6 @@
 
 include_once ($global['approot'] . '/inc/lib_image.inc');
 
-/* $Id: view_members.inc,v 1.6 2008-01-03 04:41:36 isurunishan Exp $ */
 /**
  * 
  * View Members in disaster victims registry

@@ -1,5 +1,4 @@
 <?php
-/* $Id: api.inc,v 1.3 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 

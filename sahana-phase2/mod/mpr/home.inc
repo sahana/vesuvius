@@ -1,6 +1,5 @@
 
 <?php
-/* $Id: home.inc,v 1.21 2008-01-03 04:43:07 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 

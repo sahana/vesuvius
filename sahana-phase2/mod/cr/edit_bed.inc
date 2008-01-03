@@ -1,5 +1,7 @@
 <?php
-/* $Id: edit_bed.inc,v 1.4 2008-01-03 04:40:55 isurunishan Exp $ */
+
+/* $Id: edit_bed.inc,v 1.5 2008-01-03 10:17:05 isurunishan Exp $ */
+/* $Id: edit_bed.inc,v 1.5 2008-01-03 10:17:05 isurunishan Exp $ */
 
 /**Update functions for  CR
 *

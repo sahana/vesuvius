@@ -5,7 +5,11 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 }
 </script>
 <?php
-/* $Id: search_group.inc,v 1.6 2008-01-03 04:41:36 isurunishan Exp $ */
+
+/* $Id: search_group.inc,v 1.7 2008-01-03 10:19:20 isurunishan Exp $ */
+
+/* $Id: search_group.inc,v 1.7 2008-01-03 10:19:20 isurunishan Exp $ */
+
 /**
  * 
  * Search groups and individuals in disaster victims registry

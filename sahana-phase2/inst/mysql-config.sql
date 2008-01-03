@@ -255,6 +255,7 @@ INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
 
+
 INSERT INTO sys_group_to_data_classification VALUES ( 7, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 7, 2,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 7, 3,"crud");
@@ -272,6 +273,30 @@ INSERT INTO sys_group_to_data_classification VALUES ( 8, 5,"cru-");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 7,"cru-");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 8,"cru-");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 1,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 2,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 3,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 5,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 6,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 7,"crud");
+INSERT INTO sys_group_to_data_classification VALUES ( 7, 8,"crud");
+
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 1,"c---");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 2,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 3,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 4,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 5,"cru-");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 6,"----");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 7,"cru-");
+INSERT INTO sys_group_to_data_classification VALUES ( 8, 8,"cru-");
+
+-- INSERT DEFAULT LC_FIELDS
+INSERT INTO lc_fields (tablename,fieldname) VALUES ("field_options","option_description");
+INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit","name");
+INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit_type","name");
+INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit_type","description");
+>>>>>>> 1.49.2.5
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 
@@ -445,21 +470,21 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "pgroup", 1);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "resource_to_incident", 6);
 
 -- rms_fulfil
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_fulfil", 6);
 -- rms_pledge
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_pledge", 6);
 -- rms_plg_item
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_plg_item", 6);
 -- rms_priority
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_priority", 6);
 -- rms_req_item
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_req_item", 6);
 -- rms_request
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_request", 6);
 -- rms_status
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_status", 6);
 -- rms_tmp_sch
-
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_request", 8);
 -- sector
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
 

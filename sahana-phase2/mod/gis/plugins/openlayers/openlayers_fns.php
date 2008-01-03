@@ -48,9 +48,10 @@
 	<script src="res/OpenLayers/OpenLayers.js"></script>
 	<script type="text/javascript">
 
+        var onloadfunc = window.onload;
 	window.onload=function show_map_ol()
 	{
-	
+	   onloadfunc();
 <?php
 }
 

@@ -1,6 +1,5 @@
 <?php
 
-/* $Id: admin.inc,v 1.12 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 

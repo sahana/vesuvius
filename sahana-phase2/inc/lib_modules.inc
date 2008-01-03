@@ -196,7 +196,9 @@ function shn_include_page_section($section, $module=null)
         		if(FALSE !== $res){
 					$module_function();
         		}else{
+
             			include($global['approot'].'inc/handler_'.$section.'.inc');
+        		        include($global['approot'].'inc/handler_'.$section.'.inc');	
         		}
     		} else {
         		include($global['approot'].'inc/handler_'.$section.'.inc');

@@ -1,7 +1,6 @@
 <?php
 
 
-/* $Id: list_missing.inc,v 1.5 2008-01-03 04:43:07 isurunishan Exp $ */
 
 /** 
  * List Missing Persons with paging support

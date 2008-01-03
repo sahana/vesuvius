@@ -1,6 +1,5 @@
 <?php
 
-/* $Id: main.inc,v 1.29 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 

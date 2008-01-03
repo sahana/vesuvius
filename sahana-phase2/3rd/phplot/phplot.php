@@ -1,6 +1,10 @@
 <?php
 
-/* $Id: phplot.php,v 1.6 2007-12-10 09:05:03 isurunishan Exp $ */
+
+/* $Id: phplot.php,v 1.7 2008-01-03 10:35:33 isurunishan Exp $ */
+
+/* $Id: phplot.php,v 1.7 2008-01-03 10:35:33 isurunishan Exp $ */
+
 
 /*
  * PHPLOT Version 5.0.rc1

@@ -320,7 +320,7 @@ CREATE TABLE user_preference(
     pref_key     VARCHAR(60) NOT NULL,
     value   VARCHAR(100),
     FOREIGN KEY (p_uuid) REFERENCES person_uuid (p_uuid),
-   
+
     PRIMARY KEY (p_uuid,module_id,pref_key)
 );
 
@@ -409,8 +409,8 @@ CREATE TABLE location_details (
     address TEXT, -- the street address        
     postcode VARCHAR(30), -- or ZIP code
     long_lat VARCHAR(20), -- logatitude and latitude (GPS location)
-    PRIMARY KEY (poc_uuid,location_id),
-    FOREIGN KEY (location_id) REFERENCES location(loc_uuid)
+    PRIMARY KEY (poc_uuid,location_id)
+    
 );
 
 /**================= Entity: Spatial Location: GIS  ===================**/
@@ -713,6 +713,25 @@ CREATE TABLE camp_admin(
 );
 
 
+/**
+* A person/group can belong to a shelter
+* Modules: dvr, mpr
+* Last changed: 15-November-2007 - isuru@opensource.lk  
+*/
+
+DROP TABLE IF EXISTS resource_to_shelter;
+CREATE TABLE resource_to_shelter (   
+    x_uuid VARCHAR(60),
+    c_uuid VARCHAR(60),
+
+
+    PRIMARY KEY(x_uuid,c_uuid),
+    FOREIGN KEY (c_uuid) REFERENCES camp_general(c_uuid)
+);
+
+
+
+
 /**================= Localization Tables ===========================**/
 
 /**
@@ -730,11 +749,13 @@ CREATE TABLE lc_fields (
     PRIMARY KEY(id)
 );
 
-DROP TABLE IF EXISTS lc_tmp_po;
-CREATE TABLE lc_tmp_po (
-    string TEXT,
-    comment TEXT
-);
+/**
+ * DROP TABLE IF EXISTS lc_tmp_po;
+ * CREATE TABLE lc_tmp_po (
+ *  string TEXT,
+ *  comment TEXT
+ * );
+ */
 
 /**================= Resource/Multimedia Tables ===========================**/
 
@@ -749,7 +770,7 @@ DROP TABLE IF EXISTS image;
 CREATE TABLE image(
     image_id BIGINT NOT NULL AUTO_INCREMENT,
     x_uuid VARCHAR(60) NOT NULL, -- universally unique person id
-    image BLOB NOT NULL,
+    image MEDIUMBLOB NOT NULL,
     image_type VARCHAR(100) NOT NULL,
     image_height INT,
     image_width INT,

@@ -1,5 +1,4 @@
 <?php
-/* $Id: edit.inc,v 1.19 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Edit page of the Missing Person Registry

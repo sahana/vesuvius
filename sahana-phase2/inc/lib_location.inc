@@ -599,6 +599,10 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	?> <br />
 	<?}
 	
+        // if a location is selected in post values use it, if the value is not given 
+        // this will set the location as it is when a submision fails of a form.
+        $value=(isset($value))?$value:shn_location_get_form_submit_loc();
+
 	$range=shn_location_get_loc_range();
 	$parent=shn_location_get_start_loc();
 	$count=0;
@@ -624,7 +628,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	if($extra_opts["camps"]==true){
 		 if($count>1){
 		 	$options=array("loc_camp"=>"Select a Camp/Shelter");
-		 	$select_opts='onChange=radio_click("loc_camp")';
+		 	$select_opts='onclick=radio_click("loc_camp")';
 			shn_form_radio($options,null, "loc",$select_opts);
 		 }
 		 $camps=_shn_location_camp_list();
@@ -656,9 +660,13 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 include_once $global['approot']."/mod/or/api.inc";
 		 $orgs=shn_or_organization_list();
 		 if($count>1){
+
 		 	$options=array("loc_org"=>_("Select an Organization"));
 		 	$select_opts='onChange=radio_click("loc_org")';
 		 	shn_form_radio($options,null, "loc",$select_opts);
+		 	$options=array("loc_org"=>_("Select an Organization"));
+		 	$select_opts='onclick=radio_click("loc_org")';
+		 	shn_form_radio($options,null,"loc",$select_opts);
 		 }
 		 $options=array();
 		 $options[0]="";

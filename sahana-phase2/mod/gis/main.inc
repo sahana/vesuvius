@@ -1,5 +1,7 @@
 <?php
-/* $Id: main.inc,v 1.17 2008-01-03 04:41:59 isurunishan Exp $; */
+
+/* $Id: main.inc,v 1.18 2008-01-03 10:21:58 isurunishan Exp $; */
+/* $Id: main.inc,v 1.18 2008-01-03 10:21:58 isurunishan Exp $; */
 
 /**
 * Main home page of the GIS Module

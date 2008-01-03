@@ -1,5 +1,6 @@
 <?php
-/* $Id: home.inc,v 1.6 2008-01-03 04:47:35 isurunishan Exp $ */
+
+/* $Id: home.inc,v 1.7 2008-01-03 10:23:36 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 

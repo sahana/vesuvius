@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 function escapeHTML($string) {
     $string = HTMLPurifier_Encoder::cleanUTF8($string);
-    $string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
+    //$string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
     return $string;
 }
 

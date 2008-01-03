@@ -76,7 +76,11 @@ function _shn_page_get_rs($query,$rpp){
 
     define('ADODB_FETCH_ASSOC',2);
     $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
-    $res=$global['db']->PageExecute($query, $rpp, $page);
+    if('all'==$rpp){
+        $res=$global['db']->Execute($query);	
+    }else{
+        $res=$global['db']->PageExecute($query, $rpp, $page);
+    }
     if (!$res){add_error($global['db']->ErrorMsg());}
     return $res;
 }
@@ -125,7 +129,7 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 	//shn_form_hidden(array('rpp'=>''));
 	
     //print the amount of pages
-    echo "Page $page/$last : ";
+    echo _("Page "). "$page/$last" . " : ";
     
     //draw the First and prev links
     if($page!=1)
@@ -163,11 +167,15 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
     <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
 
     <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
+    
     <?php
     }
     
-    $options=array('none'=>'default','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
-	shn_form_select($options,"Records per page", "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+    $options=array('none'=>'default','1000000'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
+	?>
+	&nbsp;&nbsp;
+	<?php
+	shn_form_select($options,_("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
     ?>
     </div>
     </form>
@@ -227,19 +235,21 @@ function _shn_page_draw_navi_post(&$res,$url){
             shn_form_hidden(array($name=>$post));
         }
     }
+
     $options=array('none'=>'default','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
+    $options=array('none'=>'default','1000000'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
 	?>
 	<div>
 	<?php 
 	//shn_form_hidden(array('rpp'=>''));
 	
     //print the amount of pages
-    echo "Page $page/$last : ";
+    echo _("Page "). "$page/$last" . " : ";
 
     //draw the First and prev links
     if($page!=1)
     {
-        shn_form_submit('Previous',"id ='page' name='page'");
+        shn_form_submit(_('Previous'),"id ='page' name='page'");
         shn_form_submit('1',"id ='page' name='page'");
 
     }
@@ -264,9 +274,12 @@ function _shn_page_draw_navi_post(&$res,$url){
     if($page!=$last)
     {
         shn_form_submit($last,"id ='page' name='page'");
-        shn_form_submit('Next',"id ='page' name='page'");
+        shn_form_submit(_('Next'),"id ='page' name='page'");
     }
-    shn_form_select($options,"Records per page", "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+    ?>
+	&nbsp;&nbsp;
+	<?php
+    shn_form_select($options,_("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
     
 ?>
         <input type="hidden" id="c_page" name="c_page" value=<?php echo $page?> />

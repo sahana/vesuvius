@@ -46,11 +46,11 @@ function _shn_kannel_config_setfile()
     shn_form_fsopen(_("Kannel Settings"));
 ?>
     <ul>
-	<li><?php echo "Kannel is the sms gateway used in the messaging module to send sms";?>
+	<li><?php echo _("Kannel is the sms gateway used in the messaging module to send sms");?>
         </li>
-	<li><?php echo "kannel can be downloaded from "."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
+	<li><?php echo _("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
         </li>
-        <li><?php echo "In order to configure kannel the following configuration values should be given";?>
+        <li><?php echo _("In order to configure kannel the following configuration values should be given");?>
         </li>
     </ul>
 <?php    
@@ -86,12 +86,12 @@ function shn_msg_validate_settings(){
    
         if( $conf['device']=='')
          {
-           add_error("please enter the interface");
+           add_error(_("Please enter the interface"));
            $error_flag=true;
          }
         else if(preg_match('/^[0-9._, ]*$/', $conf['device']))
          {
-           add_error("Please enter a valid interface");
+           add_error(_("Please enter a valid interface"));
            $error_flag=true;
          }
         else
@@ -100,32 +100,32 @@ function shn_msg_validate_settings(){
          }
         if($conf['id']=='')
          {
-           add_error("please enter the model number");
+           add_error(_("Please enter the model number"));
            $error_flag=true;
          }
         if(!preg_match('/^[0-9]*$/', $con['id']))
          {
-           add_error("please enter a valid model number");
+           add_error(_("Please enter a valid model number"));
            $error_flag=true;
          }
         if($smtp_username=='' || $smtp_password=='')
          {
-           add_error("please enter a valid username and password");
+           add_error(_("Please enter a valid username and password"));
 	   $error_flag=true;
          }
         if($smtp_server=='' || !preg_match('/^[a-z.]*$/',$smtp_server))
          { 
-           add_error("please enter a valid SMTP server name");
+           add_error(_("Please enter a valid SMTP server name"));
            $error_flag=true;
          }
         if($sender_name=='' || $sender_id=='')
          {
-           add_error("please enter Sender name and Sender mail ID");
+           add_error(_("Please enter Sender name and Sender mail ID"));
            $error_flag=true;
          }
         if(!shn_valid_email($sender_id))
          {
-           add_error("please enter valid Sender mail ID");
+           add_error(_("Please enter valid Sender mail ID"));
            $error_flag=true;
          }
      return $error_flag;
@@ -182,21 +182,21 @@ function _shn_kannel_operation_file()
 
 ?>
 	<ul>
-	<li><?php echo "Make sure you have copied the configuration file kannel.conf to /etc/kannel";?> </li>
-	<li><?php echo "Open a terminal and, as the root user, type the commands:";?> </li>
+	<li><?php echo _("Make sure you have copied the configuration file kannel.conf to /etc/kannel");?> </li>
+	<li><?php echo _("Open a terminal and, as the root user, type the commands:");?> </li>
 	<ul>
 	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
 	<li><?php echo '<b>'."bearerbox kannel.conf".'</b>' ;?></li>
 	</ul>
-	<li><?php echo "Open a 2nd terminal and, as the root user, type the commands:";?> </li>
+	<li><?php echo _("Open a 2nd terminal and, as the root user, type the commands:");?> </li>
 	<ul>
 	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
 	<li><?php echo '<b>'."smsbox kannel.conf".'</b>' ;?></li>
 	</ul>
 	</ul>
 	<ul>
-	<li><?php echo "On successful configuration Kannel should output in the 1st terminal: ".'<b>'." AT SMSC successfully opened".'</b>'."";?></li>
-	<li><?php echo "If not re-check and re-enter your configuration values";?></li>
+	<li><?php echo _("On successful configuration Kannel should output in the 1st terminal: ").'<b>'._(" AT SMSC successfully opened").'</b>'."";?></li>
+	<li><?php echo _("If not re-check and re-enter your configuration values");?></li>
 	</ul>
 <?php
     shn_form_fsclose();
@@ -204,7 +204,7 @@ function _shn_kannel_operation_file()
     shn_form_fsopen(_("Shutting down Kannel"));
 ?>
     <ul>
-	<li><?php echo "Press ".'<b>'."CTRL + C".'</b>'." on both the terminals";?></li>
+	<li><?php echo _("Press ").'<b>'."CTRL + C".'</b>'._(" on both the terminals");?></li>
     </ul><br/>
 <?php  
     shn_form_fsclose(); 

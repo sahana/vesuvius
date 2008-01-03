@@ -1,5 +1,7 @@
 <?php
-/* $Id: camp.inc,v 1.56 2008-01-03 04:40:56 isurunishan Exp $ */
+
+/* $Id: camp.inc,v 1.57 2008-01-03 10:16:54 isurunishan Exp $ */
+/* $Id: camp.inc,v 1.57 2008-01-03 10:16:54 isurunishan Exp $ */
 
 /**Camp library for  CR
 *

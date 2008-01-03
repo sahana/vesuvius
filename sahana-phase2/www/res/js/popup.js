@@ -1,14 +1,3 @@
-// Copyright © 2000 by Apple Computer, Inc., All Rights Reserved.
-//
-// You may incorporate this Apple sample code into your own code
-// without restriction. This Apple sample code has been provided "AS IS"
-// and the responsibility for its operation is yours. You may redistribute
-// this code, but you are not permitted to redistribute it as
-// "Apple sample code" after having made changes.
-// ********************************
-// application-specific functions *
-// ********************************
-
 // store variables to control where the popup will appear relative to the cursor position
 // positive numbers are below and to the right of the cursor, negative numbers are above and to the left
 var xOffset = 30;
@@ -26,8 +15,8 @@ function showPopup (targetObjectId, eventObj, HelpId) {
     eventObj.cancelBubble = true;
     // move popup div to current cursor position 
     // (add scrollTop to account for scrolling for IE)
-    var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset:eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:0);
-    var newYCoordinate = (eventObj.pageY)?eventObj.pageY + yOffset:eventObj.y + yOffset + ((document.body.scrollTop)?document.body.scrollTop:0);
+    var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:document.documentElement.scrollLeft); 
+    var newYCoordinate = (eventObj.pageY)?eventObj.pageY + yOffset : eventObj.y + yOffset + ((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop);
     moveObject(targetObjectId, newXCoordinate, newYCoordinate);
     // and make it visible
     if( changeObjectVisibility(targetObjectId, 'visible') ) {
@@ -60,7 +49,7 @@ function hideCurrentPopup() {
 // ***********************
 
 // initialize hacks whenever the page loads
-window.onload = function run(){initializeHacks();showMem();}
+window.onload = function run(){initializeHacks();showMem();ie_hack_for_large_tables();}
 
 // setup an event handler to hide popups for generic clicks on the document
 document.onclick = hideCurrentPopup;
@@ -100,17 +89,7 @@ function explorerMacResizeFix () {
     location.reload(false);
 }
 
-// Copyright © 2000 by Apple Computer, Inc., All Rights Reserved.
-//
-// You may incorporate this Apple sample code into your own code
-// without restriction. This Apple sample code has been provided "AS IS"
-// and the responsibility for its operation is yours. You may redistribute
-// this code, but you are not permitted to redistribute it as
-// "Apple sample code" after having made changes.
-//
-// ************************
-// layer utility routines *
-// ************************
+
 
 function getStyleObject(objectId) {
     // cross-browser function to get an object's style object given its id

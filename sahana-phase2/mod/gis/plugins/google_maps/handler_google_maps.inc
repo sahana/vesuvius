@@ -32,6 +32,7 @@ function show_map($opt=null)
 	<script type="text/javascript">
 	  
 	//<![CDATA[
+        var onloadfunc = window.onload;
 	window.onload=function show_map_gms()
 	{
 			
@@ -43,7 +44,7 @@ function show_map($opt=null)
 				 map.addControl(new GMapTypeControl());//satellite image switch
 				 
 				map.setCenter(new GLatLng(<?=$conf['mod_gis_center_y']!=''?$conf['mod_gis_center_y']:8.5?>,<?=$conf['mod_gis_center_x']!=''?$conf['mod_gis_center_x']:79.5?>), <?=$conf['mod_gis_zoom']?>,G_SATELLITE_MAP);
-		
+		onloadfunc();
 	}		
 //]]>	
 </script>
@@ -69,6 +70,7 @@ function show_add_marker_map($name)
 	<script type="text/javascript">
 	  
 	//<![CDATA[
+        var onloadfunc = window.onload;
 	window.onload=function show_map_add_mkr_js()
 	{
 			var map = new GMap2(document.getElementById("map"));
@@ -94,7 +96,7 @@ function show_add_marker_map($name)
 				//alert(x_point[0].value);
 			}	
 		});		
-		
+		onloadfunc();	
 	}		
 	//]]>	
 	
@@ -121,6 +123,7 @@ function show_map_with_markers($array)
 	<script type="text/javascript">
 	  
 	//<![CDATA[
+        var onloadfunc = window.onload;
 	window.onload=function show_map_markers_js()
 	{
 			if(GBrowserIsCompatible())
@@ -149,7 +152,7 @@ function show_map_with_markers($array)
 					$url=$pre_url.$url;
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><a href="<?=$url?>">View</a></div>');
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><a href="<?=$url?>">View</a></div>');
       				map.addOverlay(marker);
 <?php
 				}
@@ -158,7 +161,7 @@ function show_map_with_markers($array)
       		else{
       			alert("Incompatible");
       			}      			
-		
+		onloadfunc();
 	}		
 	//]]>	
 	
@@ -183,6 +186,7 @@ function show_map_with_wiki_marker($array)
 	<script type="text/javascript">
 	  
 	//<![CDATA[
+        var onloadfunc = window.onload;
 	window.onload=function show_map_wiki_js()
 	{
 			if(GBrowserIsCompatible())
@@ -227,7 +231,7 @@ function show_map_with_wiki_marker($array)
 					//$edit="help";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=_($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=_lc($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
       				map.addOverlay(marker);
 <?php
 				}
@@ -237,7 +241,7 @@ function show_map_with_wiki_marker($array)
       		else{
       			alert("Incompatible");
       			}      			
-		
+		onloadfunc();
 	}		
 	//]]>	
 	
@@ -268,6 +272,7 @@ function show_map_with_custom_markers($array)
 	<script type="text/javascript">
 	  
 	//<![CDATA[
+        var onloadfunc = window.onload;
 	window.onload=function show_map_markers_js()
 	{
 			if(GBrowserIsCompatible())
@@ -312,7 +317,7 @@ function show_map_with_custom_markers($array)
 					$marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_($name)?></strong><br><?=$desc?><br><a href="<?=$url?>">View</a></div>',"<?=$marker_name?>");
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=$desc?><br><a href="<?=$url?>">View</a></div>',"<?=$marker_name?>");
       				map.addOverlay(marker);
 <?php
 				}
@@ -321,7 +326,7 @@ function show_map_with_custom_markers($array)
       		else{
       			alert("Incompatible");
       			}      			
-		
+		onloadfunc();
 	}		
 	//]]>	
 	

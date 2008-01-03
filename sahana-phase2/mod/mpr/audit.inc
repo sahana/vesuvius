@@ -1,5 +1,4 @@
 <?php
-/* $Id: audit.inc,v 1.4 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /** 
  * Audit page of the Missing Person Registry 

@@ -34,12 +34,12 @@ if ($_SESSION['logged_in'] != true ) {
  			if($acl==true){
  				?>
         <div>
-        No account? <a href="index.php?act=signup">Sign Up</a>
+        <?php echo _("No account? "); ?> <a href="index.php?act=signup"><?php echo _("Sign Up");?></a>
         </div>
         <?php }?>
     </form>
     <hr />
-    <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');">Login with an OpenID</a></center>
+    <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');"><?php echo _("Login with an OpenID"); ?></a></center>
     </div><!-- /loginform -->
     
     <div id="openid_loginform">
@@ -48,10 +48,10 @@ if ($_SESSION['logged_in'] != true ) {
     			<label><?=_('OpenID')?></label><input type="text" name="identity_url" id="openid_login" />
 				<input type="submit" value="Sign In" />
 				<br />
-				<i>For example: <tt>you.someblog.com</tt></i>
+				<i><?php echo _("For example: "); ?> <tt>you.someblog.com</tt></i>
 			</fieldset>
 		</form>
-	<center><a href="#" onclick="switchLogin('openid_loginform','loginform');">go back to the Normal Login</a></center>
+	<center><a href="#" onclick="switchLogin('openid_loginform','loginform');"><?php echo _("go back to the Normal Login"); ?></a></center>
     </div>
     <script type="text/javascript">
     	switchLogin('openid_loginform','loginform');

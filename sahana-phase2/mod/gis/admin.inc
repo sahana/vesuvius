@@ -1,5 +1,9 @@
 <?php
-/* $Id: admin.inc,v 1.19 2008-01-03 04:41:59 isurunishan Exp $ */
+
+/* $Id: admin.inc,v 1.20 2008-01-03 10:21:33 isurunishan Exp $ */
+
+/* $Id: admin.inc,v 1.20 2008-01-03 10:21:33 isurunishan Exp $ */
+
 
 /**Admin Module for GIS
 *

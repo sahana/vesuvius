@@ -34,7 +34,30 @@ function changeIncident(ivalue)
  }
 
 function changed(){
-         alert('Incident was changed successfully.');
+    
+    var ni = document.getElementById('incident_change_id');
+    if(ni==null){
+    var ni = document.getElementById('content');
+    var newdiv = document.createElement('div');
+    var divIdName = 'confirmation message';
+    newdiv.setAttribute('class',divIdName);
+    newdiv.setAttribute('id','incident_change_id');
+//    ni.appendChild(newdiv);
+    ni.insertBefore(newdiv,ni.childNodes[0]);
+
+    var newp=document.createElement('p');
+    var emel=document.createElement('em');
+    emel.innerHTML = 'Submission Successful';
+
+    var newul=document.createElement('ul');
+    var newli=document.createElement('li');
+    newdiv.appendChild(newp);
+    newp.appendChild(emel);
+    newdiv.appendChild(newul);
+    newli.innerHTML = 'Incident was changed successfully.';
+    newul.appendChild(newli);
+   }
+        //alert('Incident was changed successfully.');
 }
 
 
@@ -80,11 +103,58 @@ function changeTab(n){
 
 function toggle_visibility(id){
     var el=document.getElementById(id).style;
-    if(el.display=='block')
-    {
+    if(el.display=='block'){
 	el.display='none';
     } 
     else{
         el.display='block';
     }
 }
+
+function ie_hack_for_large_tables(){
+
+	var browser_name=navigator.appName;
+	var agent = navigator.userAgent;
+	if ((browser_name=="Microsoft Internet Explorer") && ( 7 == getIEVersion(agent))){
+		resize_wrapper_ie7();
+	}
+	if ((browser_name=="Microsoft Internet Explorer") && ( 6 == getIEVersion(agent) )){
+		resize_wrapper();
+	}
+}
+
+
+function getIEVersion(versionString){
+	return parseFloat(versionString.substr(30,3));
+}
+
+function resize_wrapper(){
+       	var result=document.getElementById('result');
+	var content=document.getElementById('content');
+       	var wrapper=document.getElementById('wrapper');
+	
+       	if(result){ 
+       		if(document.documentElement.clientWidth < document.body.clientWidth)
+       			wrapper.style.width=(document.body.clientWidth+3)+"px";
+       	}
+       	if(content){
+       		if(document.documentElement.clientWidth < document.body.clientWidth)
+       			wrapper.style.width=(document.body.clientWidth+3)+"px";
+       	}
+}
+
+function resize_wrapper_ie7(){
+	var map=document.getElementById('map');
+	var wrapper=document.getElementById('wrapper');
+	var table = document.getElementById('result').getElementsByTagName('table')[0];
+	if(table){
+		if((document.documentElement.clientWidth) > (document.body.clientWidth -205)){
+			wrapper.style.width=(document.documentElement.clientWidth+210)+"px";
+		}
+	}
+       	if(map){
+		if((document.documentElement.clientWidth) > (document.body.clientWidth -205)){
+			wrapper.style.width=(document.documentElement.clientWidth+210)+"px";}
+	}
+}
+

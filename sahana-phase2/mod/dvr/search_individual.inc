@@ -21,7 +21,11 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 
 <?php
-/* $Id: search_individual.inc,v 1.4 2008-01-03 04:41:36 isurunishan Exp $ */
+
+/* $Id: search_individual.inc,v 1.5 2008-01-03 10:19:37 isurunishan Exp $ */
+
+/* $Id: search_individual.inc,v 1.5 2008-01-03 10:19:37 isurunishan Exp $ */
+
 /**
  * 
  * Search groups and individuals in disaster victims registry
