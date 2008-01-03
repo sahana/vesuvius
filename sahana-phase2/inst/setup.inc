@@ -87,10 +87,10 @@ $_state_funct_map = array(
 								'CH_STATE'=>'shn_setup_adv_pwd_policy_ch_state',
 								'ON_COMPLETE'=>'shn_setup_adv_pwd_policy_complete'),
 
-	'SCEN_MOD_SETUP'=>array(	'PAGE'=>'',	
-								'VALIDATE'=>'',
-								'NEXT'=>'',
-								'CH_STATE'=>''),
+	'SCEN_SEL_SETUP'=>array(	'PAGE'=>'shn_setup_scen_select_scenario',	
+								'NEXT'=>'shn_setup_scen_select_scen_next',
+								'BACK'=>'shn_setup_scen_select_scen_back',
+								'CH_STATE'=>'shn_setup_scen_select_scen_ch_state'),
 
 	'COMPLETE'=>array(	'PAGE'=>'shn_setup_start_sahana'),
 );
@@ -143,11 +143,14 @@ function shn_setup_start(){
 			_shn_setup_call_function($_state_funct_map[$_SESSION['setup_state']]['BACK']);
 			_shn_setup_call_function($_state_funct_map[$_SESSION['setup_state']]['CH_STATE'],"backward");
 		}else{
+			// put every thing in the $_POST session with the special prefix
+			_shn_setup_transfer_to_session();
+				
 			// validate only if validation function exists.
 
 			if(isset($_state_funct_map[$_SESSION['setup_state']]['VALIDATE']) && (strlen($_state_funct_map[$_SESSION['setup_state']]['VALIDATE']) > 0)){
 				// put every thing in the $_POST session with the special prefix
-				_shn_setup_transfer_to_session();
+				//_shn_setup_transfer_to_session();
 				// call validate function if exists.
 				$return_value= _shn_setup_call_function($_state_funct_map[$_SESSION['setup_state']]['VALIDATE']);
 

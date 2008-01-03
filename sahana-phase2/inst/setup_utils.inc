@@ -39,6 +39,15 @@ function _shn_setup_get_selected_modules(){
 }
 
 /**
+ * Return whether modules were specifically selected for installation.
+ *
+ * @return boolean whether modules were specifically selected.
+ */
+function _shn_setup_are_modules_selected(){
+	return isset($_SESSION['shn_setup_data_selected_modules']);
+}
+
+/**
  * Whether the user selected to setup sample data.
  *
  * @return boolean Whether to setup sample data.
@@ -145,5 +154,12 @@ function _shn_setup_get_available_themes(){
 	return $available_themes;
 }
 
-
+/**
+ * Get a listo of module short codes of the essencial modules.
+ *
+ * @return Array Array containing the essencial modules' short codes.
+ */
+function _shn_setup_get_essencial_modules(){
+	return array ('home','admin','gis','pref');
+}
 ?>

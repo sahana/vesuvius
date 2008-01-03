@@ -190,7 +190,7 @@ function shn_setup_validate_simple_config(){
 		$ret = shn_check_password_matches_policy($_POST['root_pwd'],$_POST['admin_name'],array('rule_set'=>_shn_setup_filter_post_params($_SESSION)));
 		//var_dump($ret);
 		if($ret !== true){
-			var_dump(shn_get_password_policy_message($ret));
+			//var_dump(shn_get_password_policy_message($ret));
 			add_error(_("Administrator Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
 			$has_errors = true;
 		}
@@ -211,7 +211,7 @@ function shn_setup_validate_simple_config(){
 		$ret = shn_check_password_matches_policy($_POST['user_pwd'],$_POST['user_name'],array('rule_set'=>_shn_setup_filter_post_params($_SESSION)));
 		//var_dump($ret);
 		if($ret !== true){
-			var_dump(shn_get_password_policy_message($ret));
+			//var_dump(shn_get_password_policy_message($ret));
 			add_error(_("Normal User Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
 			$has_errors = true;
 		}

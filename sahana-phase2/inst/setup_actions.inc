@@ -1,22 +1,22 @@
 <?php
 /**Action functions of the Sahana Advanced Web Setup
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Ravith Botejue. <ravithb@yahoo.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage setup
-*/
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue. <ravithb@yahoo.com>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage setup
+ */
 
 include_once('setup_actions_sub.inc');
 /*
  * ===================================================================
- * 				Actual System Setup Function 
+ * 				Actual System Setup Function
  * ===================================================================
  */
 function shn_setup_do_setup(){
@@ -105,7 +105,7 @@ function shn_setup_select_setup_next(){
 	}else if(isset($_POST['setup_type_scen'])){
 		// set the setup type in the session.
 		$_SESSION['setup_type'] = 'SCEN';
-		shn_setup_simple_dbsetup();
+		shn_setup_scen_select_scenario();
 	}else{
 		// set the setup type in the session.
 		$_SESSION['setup_type'] = $_POST['setup_type'];
@@ -126,7 +126,7 @@ function shn_setup_select_setup_ch_state($action='forward'){
 
 		}else if($_SESSION['setup_type'] == 'SCEN'){
 
-			$_SESSION['setup_state'] = 'SIMPLE_DB_SETUP';
+			$_SESSION['setup_state'] = 'SCEN_SEL_SETUP';
 
 		}else{
 			// default.
@@ -141,13 +141,18 @@ function shn_setup_select_setup_ch_state($action='forward'){
 /*================= Simple Database Setup Step ====================*/
 function shn_setup_simple_dbsetup_next(){
 	//separate the db host and port.
+	$host_port = "";
+	if(isset($_SESSION[SETUP_DATA_PREFIX."db_host"])){
 	$host_port = _shn_setup_get_post_param($_SESSION,"db_host");
+	}else{
+		$host_port = $_POST['db_host'];
+	}
 	if(isset($host_port) && strpos($host_port,":")!==false){
-		$_vals = explode($host_port,":");
+		$_vals = explode(":",$host_port);
 		_shn_setup_put_value_in_session("db_host",$_vals[0]);
 		_shn_setup_put_value_in_session("db_port",$_vals[1]);
 	}
-	
+
 	shn_setup_simple_config();
 }
 
@@ -157,7 +162,7 @@ function shn_setup_simple_dbsetup_back(){
 	}else if($_SESSION['setup_type'] == 'ADV'){
 		shn_setup_adv_pwd_policy();
 	}else if($_SESSION['setup_type'] == 'SCEN'){
-		
+		shn_setup_scen_select_scenario();
 	}else{
 		// default.
 		shn_setup_select_setup();
@@ -168,7 +173,16 @@ function shn_setup_simple_dbsetup_ch_state($action='forward'){
 	if($action=='forward'){
 		$_SESSION['setup_state'] = 'SIMPLE_CFG_SETUP';
 	}else{
-		$_SESSION['setup_state'] = 'SELECT_SETUP';
+		if($_SESSION['setup_type']=='SIMPLE'){
+			$_SESSION['setup_state'] = 'SELECT_SETUP';
+		}else if($_SESSION['setup_type'] == 'ADV'){
+			$_SESSION['setup_state'] = 'SELECT_SETUP';
+		}else if($_SESSION['setup_type'] == 'SCEN'){
+			// scenario setup work flow.
+			$_SESSION['setup_state'] = 'SCEN_SEL_SETUP';
+		}else{
+			$_SESSION['setup_state'] = 'SELECT_SETUP';
+		}
 	}
 }
 
@@ -225,18 +239,39 @@ function shn_setup_adv_select_modules_next(){
 	// set in session.
 	$_SESSION['shn_setup_data_selected_modules'] = $selected_mod_codes;
 
-	shn_setup_adv_advanced_config();
+	if(isset($_POST['scenario_customize'])){
+		// from scenario setup
+		shn_setup_simple_dbsetup();
+	}else{
+		shn_setup_adv_advanced_config();
+	}
 }
 
 function shn_setup_adv_select_modules_back(){
-	shn_setup_select_setup();
+	if(isset($_SESSION[SETUP_DATA_PREFIX.'scenario_customize'])){
+		// from scenario setup
+		shn_setup_scen_select_scenario();
+	}else{
+		shn_setup_select_setup();
+	}
 }
 
 function shn_setup_adv_select_modules_ch_state($action='forward'){
-	if($action=='forward'){
-		$_SESSION['setup_state'] = 'ADV_CFG_SETUP';
+	if(isset($_SESSION[SETUP_DATA_PREFIX.'scenario_customize'])){
+		// from scenario setup
+		if($action=='forward'){
+			// next
+			$_SESSION['setup_state'] = 'SIMPLE_DB_SETUP';
+		}else{
+			// back
+			$_SESSION['setup_state'] = 'SCEN_SEL_SETUP';
+		}
 	}else{
-		$_SESSION['setup_state'] = 'SELECT_SETUP';
+		if($action=='forward'){
+			$_SESSION['setup_state'] = 'ADV_CFG_SETUP';
+		}else{
+			$_SESSION['setup_state'] = 'SELECT_SETUP';
+		}
 	}
 }
 
@@ -284,5 +319,36 @@ function shn_setup_adv_pwd_policy_ch_state($action='forward'){
 
 function shn_setup_adv_pwd_policy_complete($extra_opts){
 	_shn_setup_adv_write_pwd_policy($extra_opts['config_key_vals']);
+}
+
+/*============== Scenario Select Scenario Step =========================*/
+function shn_setup_scen_select_scen_next(){
+	// add the pre-selected modules for the scenario to the session.
+	$selected_mod_codes = explode(",",$_POST['selected_scenario']);
+	// set in session.
+	$_SESSION['shn_setup_data_selected_modules'] = $selected_mod_codes;
+
+	if(isset($_POST['scenario_customize'])){
+		shn_setup_adv_select_modules();
+	}else{
+		shn_setup_simple_dbsetup();
+	}
+}
+
+function shn_setup_scen_select_scen_back(){
+	shn_setup_select_setup();
+}
+
+function shn_setup_scen_select_scen_ch_state($action='forward'){
+	if($action=='forward'){
+		if(isset($_POST['scenario_customize'])){
+			$_SESSION['setup_state'] = 'ADV_MOD_SETUP';
+		}else{
+			$_SESSION['setup_state'] = 'SIMPLE_DB_SETUP';
+		}
+	}else{
+		$_SESSION['setup_state'] = 'SELECT_SETUP';
+	}
+
 }
 ?>
