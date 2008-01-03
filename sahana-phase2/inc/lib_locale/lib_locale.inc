@@ -55,7 +55,7 @@ function _shn_lc_setdblc($locale)
 	}else{
 		add_error(_("Unknown error in updating configuration value."));
 		return false;
-	}	
+	}
 }
 
 /**
@@ -160,58 +160,59 @@ function _shn_lc_get_dbpo()
 	global $global;
 
 	$db_po_str = '';
+	/*
+	 //Clear tmp_po table
+	 $sql = "DELETE FROM lc_tmp_po";
+	 $rs = $global['db']->Execute($sql);
 
-	//Clear tmp_po table
-	$sql = "DELETE FROM lc_tmp_po";
-	$rs = $global['db']->Execute($sql);
+	 $list = _shn_lc_get_db_strlist();
 
-	$list = _shn_lc_get_db_strlist();
-
-	//print_r($list);
-	foreach ($list as $str)
-	{
+	 //print_r($list);
+	 foreach ($list as $str)
+	 {
 		$sql = "SELECT * FROM lc_tmp_po WHERE string = '" . $str['string'] . "'";
 		$rs = $global['db']->Execute($sql);
 		$rs_array = $rs->getArray();
 
-		if (1 > $rs->RecordCount())
+		if (0 == $rs->RecordCount())
 		{
-			$string = $str['string'];
-			$comment = $str['table'] . "/" . $str['field'] . ", ";
+		$string = $str['string'];
+		$comment = $str['table'] . "/" . $str['field'] . ", ";
 
-			$sql = "INSERT INTO lc_tmp_po (string, comment) " .
-                    "VALUES('$string','$comment')";
+		$sql = "INSERT INTO lc_tmp_po (string, comment) " .
+		"VALUES('$string','$comment')";
 
-			//print $sql;
-			$global['db']->Execute($sql);
+		//print $sql;
+		$global['db']->Execute($sql);
 		}
 		else
 		{
-			$comment = $rs_array[1] . $str['table'] . "/" . $str['field'] . ", ";
-			$sql = "UPDATE lc_tmp_po SET comment = '$comment'";
-			$global['db']->Execute($sql);
-			//print $sql;
+		$comment = $rs_array[1] . $str['table'] . "/" . $str['field'] . ", ";
+		$sql = "UPDATE lc_tmp_po SET comment = '$comment'";
+		$global['db']->Execute($sql);
+		//print $sql;
 		}
 
-	}
+		}
 
-	$sql = "SELECT * FROM lc_tmp_po";
-	$rs = $global['db']->Execute($sql);
+		$sql = "SELECT * FROM lc_tmp_po";
+		$rs = $global['db']->Execute($sql);
 
-	if (1 < $rs->RecordCount())
-	{
-		$rs = $rs->getArray();
-
-		foreach ($rs as $r)
+		if (1 < $rs->RecordCount())
 		{
-			$string = $r[0];
-			$comment = $r[1];
+		$rs = $rs->getArray();
+		*/
+	$list = _shn_lc_get_db_strlist();
+	foreach ($list as $str=>$comments)
+	{
+		$string = $str;
+		$comment = $comments['table'] . "/" . $comments['field'] . ", ";
 
-			$db_po_str .= "#: $comment\n" .
+		$db_po_str .= "#: $comment\n" .
                          "msgid \"$string\"\n" .
                          "msgstr \"\"\n\n";
-		}
 	}
+	//	}
 
 	return $db_po_str;
 
@@ -228,20 +229,20 @@ function _shn_lc_is_dbl10n_tbl_empty()
 		print "Error : " . $global['db']->ErrorMsg();
 		return null;
 	}
-	else if(1>$rs->RecordCount())
+	else if($rs->RecordCount()==0)
 	{
 		//No records
 		return true;
 	}
 
-	return true;
+	return false;
 }
 
 function _shn_lc_get_db_strlist()
 {
 	global $global;
 
-	$str_list = '';
+	$str_list = array();
 	$sql = "SELECT tablename,fieldname FROM  lc_fields";
 	$rs = $global['db']->Execute($sql);
 
@@ -263,8 +264,9 @@ function _shn_lc_get_db_strlist()
 			$strs = _shn_lc_get_db_tblstrings($r[0],$r[1]);
 			foreach ($strs as $str)
 			{
-				$str_list[] = array(
-                                    'string'=> $str[0],
+				// avoid duplicates coming from multiple tables
+				// using the key as the index.
+				$str_list["$str"] = array(
                                     'table' => $r[0],
                                     'field' => $r[1]
 				);
@@ -278,23 +280,28 @@ function _shn_lc_get_db_strlist()
 function _shn_lc_get_db_tblstrings($table, $field)
 {
 	global $global;
-
+	
 	$str_list = '';
 	$sql = "SELECT DISTINCT($field) FROM $table";
 	$rs = $global['db']->Execute($sql);
 
 	if(!$rs)
 	{
-		print "Error : " . $global['db']->ErrorMsg();
-		return false;
+		//print "Error : " . $global['db']->ErrorMsg();
+		return array();
 	}
 	else if(1>$rs->RecordCount())
 	{
-		return false;
+		return array();
 	}
 	else
 	{
-		return $rs->getArray();
+		$ret_arr = array();
+		while(!$rs->EOF){
+			array_push($ret_arr,$rs->fields[0]);
+			$rs->MoveNext();
+		}
+		return $ret_arr;
 	}
 }
 
@@ -326,5 +333,19 @@ function _shn_get_lang_list()
 	 );*/
 	asort($l_list);
 	return $l_list;
+}
+
+/**
+ * Replaces the CHARSET with the given charset in a po_file's contents.
+ *
+ * @param String $po_file The PO file as a string.
+ * @param String $charset The charset as a string.
+ * @return String The modified po file as a string.
+ */
+function _shn_replace_charset($po_file,$charset = "UTF-8"){
+	$string = 'charset=CHARSET';
+  //  $position = strpos($_SESSION['admin']['locale']['charset'],$string);
+    $replace = 'charset='.$charset;
+    return str_replace($string,$replace,$po_file);
 }
 ?>
