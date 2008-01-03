@@ -116,7 +116,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	$level=$_GET{"lvl"}+1;
 	$parent=$_GET{"sel"};
 
-	$q = "select location.name,location.loc_uuid,parent_id from location where location.opt_location_type='{$level}' and parent_id='{$parent}'";
+	$q = "SELECT location.name,location.loc_uuid,parent_id FROM location WHERE location.opt_location_type='{$level}' AND parent_id='{$parent}' ORDER BY location.name";
 	//echo $q;
 	$res_child=$db->Execute($q);
 	if($res_child->EOF)
@@ -141,13 +141,13 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	$sel_id=$_GET{"sel"};
 
 	if($_GET{"type"}=="camp"){
-		$q="select location_id from camp_general where c_uuid='{$sel_id}'";
+		$q="SELECT location_id FROM camp_general WHERE c_uuid='{$sel_id}'";
 		$res=$db->Execute($q);
 		if($res->EOF)
 		return;
 		$loc_id=$res->fields["location_id"];
 	}else if($_GET{"type"}=="poc"){
-		$q = "select location_id from location_details where poc_uuid='{$sel_id}'";
+		$q = "SELECT location_id FROM location_details WHERE poc_uuid='{$sel_id}'";
 		$res=$db->Execute($q);
 		if($res->EOF)
 		return;
@@ -158,7 +158,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 
 
 
-	$q = "select parent_id,opt_location_type from location where loc_uuid='{$loc_id}'";
+	$q = "SELECT parent_id,opt_location_type FROM location WHERE loc_uuid='{$loc_id}'";
 	$res=$db->Execute($q);
 	if($res->EOF)
 	return;
@@ -169,7 +169,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	 
 	$level=$res->fields["opt_location_type"];
 
-	$q = "select location.name,location.loc_uuid from location where location.opt_location_type='{$level}' and parent_id='{$parent}'";
+	$q = "SELECT location.name,location.loc_uuid FROM location WHERE location.opt_location_type='{$level}' AND parent_id='{$parent}' ORDER BY location.name";
 	//echo $q;
 	$res_child=$db->Execute($q);
 	if($res_child->EOF)
@@ -191,6 +191,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	}
 	//echo $header;
 	// echo $res_data;
+	
 	 
 	echo $header.";".$res_data;
 }
@@ -209,7 +210,7 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	if($level==1){
 		echo "none,";
 	}
-	$q = "select location.name,location.loc_uuid,parent_id from location where location.opt_location_type={$level}";
+	$q = "SELECT location.name,location.loc_uuid,parent_id FROM location WHERE location.opt_location_type={$level}";
 	$res_child=$db->Execute($q);
 	if($res_child->EOF)
 	return;

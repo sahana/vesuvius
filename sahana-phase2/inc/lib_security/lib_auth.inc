@@ -137,7 +137,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 	global $global;
 	$db=$global['db'];
 	include_once($global['approot']."/inc/lib_uuid.inc");
-
+	
 	if($user_name==null){
 		return false;
 	}
@@ -161,17 +161,17 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 	}
 
 	if($pid==null){
-
+		 
 		// $pid = $db->GenID('person_seq',10);
 		$pid=shn_create_uuid($type='person');
 		/*
 		 $q="insert into person_uuid(p_uuid,full_name) values('{$pid}','{$account_name}')";
 		 $res=$db->Execute($q);
 		 if($res==false){
-			add_error($db->ErrorMsg());
-			$error=true;
-			}*/
-	}else{
+		 add_error($db->ErrorMsg());
+		 $error=true;
+		 }*/
+	} else{
 		$q="select p_uuid from person_uuid where p_uuid='{$pid}'";
 		$res=$db->Execute($q);
 		//if($res->EOF){
@@ -199,7 +199,6 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 		$salt=$salt1.$salt2;
 		$user_password=substr($user_password, 0, 4).$salt.substr($user_password, 4);
 		$stored_password = md5(trim($user_password));
-
 		$time=time();
 		if($extra_opts['pending']==true){
 			$status='pending';
@@ -211,7 +210,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 
 		}
 		$q = "INSERT INTO users(p_uuid,password,changed_timestamp,user_name,salt,status) values('{$pid}','{$stored_password}',{$time},'{$user_name}','{$salt}','{$status}')";
-			
+		 
 		$res=$db->Execute($q);
 		if($res==false){
 			add_error($db->ErrorMsg());
@@ -259,7 +258,6 @@ function shn_auth_user_list($fullname=false,$admin=true){
 	//$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by user_name";
 
 	$res=$db->Execute($q);
-
 	$users=array();
 
 	while(!$res->EOF){
@@ -269,13 +267,13 @@ function shn_auth_user_list($fullname=false,$admin=true){
 		}else{
 			$name=$res->fields["full_name"]." - ".$name=$res->fields["user_name"];
 		}
+		 
 		//$name=$res->fields["full_name"];
 		if(($res->fields["p_uuid"]!="1") or($admin==true)){
 			$users[$res->fields["p_uuid"]]=$name;
 		}
 		$res->MoveNext();
 	}
-
 	return $users;
 
 }
@@ -309,13 +307,12 @@ function shn_soap_ws_authenticate(){
 			/*
 			 * send the basic authentication challenge
 			 */
-
+				
 			header('WWW-Authenticate: Basic realm="Sahana"');
 			header("HTTP/1.0 401 Unauthorized");
-			$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 			return false;
 		}else{
-
+				
 			$arg1=explode(",", trim($_SERVER['PHP_AUTH_USER']));
 			$sign=$_SERVER['PHP_AUTH_PW'];
 			$digest=$arg1[2];
@@ -323,12 +320,11 @@ function shn_soap_ws_authenticate(){
 			 * authenticate the user using the API Key and Password, if succeeds returns the secret for that user
 			 */
 			$secret=shn_authenticate_ws_user($arg1[0],$arg1[1]);
-
+				
 			if($secret==null){
 				// return true;
 
 				header("HTTP/1.0 401 Unauthorized");
-				$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 				return false;
 			}else{
 				/*
@@ -336,7 +332,6 @@ function shn_soap_ws_authenticate(){
 				 */
 				if(shn_authenticate_ws_signature($secret,$sign,$digest)==false){
 					header("HTTP/1.0 401 Unauthorized");
-					$this->fault('Client', "HTTP/1.0 401 web service request is Unauthorized, please provide the credentials");
 					return false;
 				}else{
 					return true;
@@ -407,6 +402,7 @@ function shn_authenticate_user()
 		$user_data["result"]=LOGGEDOUT;
 		return $user_data ;
 	}
+	
 	/* if user has not requested login no need to authenticate, simply
 	 return -1 , so the calling application can identify that
 	 authentication was not attempted
@@ -440,7 +436,7 @@ function shn_authenticate_user()
 
 
 		if(($status=='locked')&& (shn_acl_is_locking_enabled())){
-			$sql="SELECT changed_timestamp FROM password_event_log WHERE p_uuid='{$uid}' and event_type=1 ORDER BY changed_timestamp desc ";
+			$sql="SELECT changed_timestamp FROM password_event_log WHERE p_uuid='{$uid}' and event_type=1 order by changed_timestamp desc ";
 			$res=$db->Execute($sql);
 			if(($res==null)||($res->EOF)){
 				add_error("Login Failed : Password log attacked.");
@@ -462,7 +458,9 @@ function shn_authenticate_user()
 				}
 
 			}
+			 
 		}
+
 		// banned user
 		if($status == 'banned'){
 			add_error("Login Failed : You have been banned by an administrator of the system.");
@@ -473,7 +471,7 @@ function shn_authenticate_user()
 		}
 
 		$pwd=substr($pwd, 0, 4).$salt.substr($pwd, 4);
-			
+		 
 		$user_data["result"]=LOGGEDOUT;
 		// Create a digest of the password collected from the challenge
 		$password_digest = md5(trim($pwd));
@@ -481,7 +479,7 @@ function shn_authenticate_user()
 		$q = "  SELECT p_uuid  FROM users
                     WHERE user_name = '$user'
                     AND password = '$password_digest' and salt='{$salt}'";
-			
+		 
 		$res=$db->Execute($q);
 		if(($res==null)||($res->EOF)){
 			/* no result ,so return 1 ,which is  not a valid user_id , the calling
@@ -536,7 +534,7 @@ function shn_change_password($user,$old_pwd,$new_pwd)
 	$q = "  SELECT p_uuid  FROM users
                     WHERE p_uuid = '$user'
                     AND password = '$password_digest' and salt='{$salt}'";
-
+	 
 	if(($res==null) ||($res->EOF)){
 		return true;
 	}else{
@@ -633,13 +631,13 @@ function shn_auth_add_user_cr(){
 	if($error==true){
 		return $error;
 	}else{
-	$role=$_POST["roles"];
+		$role=$_POST["roles"];
 
-	if(shn_auth_add_user($account_name,$user_name,$password,$role,null)==false){
+		if(shn_auth_add_user($account_name,$user_name,$password,$role,null)==false){
 
-	}else{
-		$msg=$_POST{"account_name"}." was successfully registered as a User ";
-		add_confirmation($msg);
+		}else{
+			$msg=$_POST{"account_name"}." was successfully registered as a User ";
+			add_confirmation($msg);
 			unset($_POST);
 		}
 	}
@@ -679,12 +677,7 @@ function shn_auth_self_signup_cr(){
 	}
 	$role=REGISTERED;
 
-	if(shn_auth_add_user($account_name,$user_name,$password,$role,null)==false){
 
-	}else{
-		$msg=$_POST{"account_name"}." was successfully registered as a User ";
-		add_confirmation($msg);
-	}
 	return $error;
 }
 
@@ -694,7 +687,6 @@ function _shn_auth_del_user_cr(){
 	$db=$global["db"];
 	$VARCHAR=100;
 	for($i=0;$i<count($user);$i++){
-
 		if($user[$i]!=ADMINUSER){
 			$q="delete from users where p_uuid='{$user[$i]}'";
 			$res=$db->Execute($q);
@@ -702,19 +694,17 @@ function _shn_auth_del_user_cr(){
 				add_error($db->ErrorMsg());
 			}
 
-		}
+ 		}
 	}
 	for($i=0;$i<count($user);$i++){
-
 		if($user[$i]!=ADMINUSER){
 			$q="delete from alt_logins where p_uuid='{$user[$i]}'";
 			$res=$db->Execute($q);
 			if($res==false){
 				add_error($db->ErrorMsg());
 			}
-
 		}
-			
+		 
 	}
 	if($res==false){
 		add_error(_("User does not exist"));
@@ -767,7 +757,7 @@ function _shn_auth_lock_user($uid,$status)
 	$res=$db->Execute($sql);
 	if($res==false){
 		add_error($db->ErrorMsg());
-	}
+		}
 	}
 
 }
