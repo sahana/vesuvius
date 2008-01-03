@@ -249,11 +249,10 @@ class AccessController
 		global $global;
 		if($this->isAuthorized(false, $getvars))
 		{
-			reset($getvars);
 			$url_params = '';
 			foreach($getvars as $key => $value)
 			{
-				if($key == key($getvars))
+				if($key == 'act')
 					$url_params .= "$value";
 				else
 					$url_params .= "&amp;$key=$value";

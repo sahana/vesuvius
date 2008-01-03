@@ -27,6 +27,18 @@
  * Displays the 'Volunteers' submenu only if any of its submenu items can be displayed
  */
 
+
+function shn_vm_home_submenu(){
+	
+	$ac = new AccessController();
+	
+	$ac->addMenuItem('Home', $ac->buildURLParams('home', 'display_portal'));
+	
+	
+}
+
+
+
 function shn_vm_volunteer_submenu()
 {
 	$ac = new AccessController();
@@ -46,6 +58,9 @@ function shn_vm_volunteer_submenu()
 	    shn_sub_mod_menuclose();
 	}
 }
+
+
+
 
 /**
  * Displays the 'Projects' submenu only if any of its submenu items can be displayed
@@ -100,7 +115,7 @@ function shn_vm_reports_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs')))
 	{
 		shn_sub_mod_menuopen(_("Reporting"));
-			$ac->addMenuItem('Report All Volunteers', $ac->buildURLParams('volunteer', 'display_report_all'), true);
+			//$ac->addMenuItem('Report All Volunteers', $ac->buildURLParams('volunteer', 'display_report_all'), true);
 			$ac->addMenuItem('Custom Report', $ac->buildURLParams('volunteer', 'display_custom_report_select'), true);
 			$ac->addMenuItem('Report On My Projects', $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs'), true);
 		shn_sub_mod_menuclose();
@@ -126,6 +141,9 @@ function shn_vm_management_submenu()
 }
 
 
+
+
+
 /**
  * Display the main menu for the VM module.
  *
@@ -142,7 +160,7 @@ function shn_vm_mainmenu()
     shn_mod_menuopen(_("Volunteer Management"));
 
 		$ac->addMenuItem('Home', $ac->buildURLParams('volunteer', 'display_portal'));
-
+        //shn_vm_home_submenu();
 		shn_vm_volunteer_submenu();
 		shn_vm_project_submenu();
 		shn_vm_messaging_submenu();
@@ -154,7 +172,7 @@ function shn_vm_mainmenu()
 		else
 			$ac->addMenuItem('Register to Volunteer', $ac->buildURLParams('volunteer', 'display_add'), true);
 
-		$ac->addMenuItem('Change Password', $ac->buildURLParams('volunteer', 'display_change_pass'));
+		//$ac->addMenuItem('Change Password', $ac->buildURLParams('volunteer', 'display_change_pass'));
 
 	shn_mod_menuclose();
 

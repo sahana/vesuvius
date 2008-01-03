@@ -1,7 +1,7 @@
 --
 -- Table structure for table vm_courier
 --
--- drop tables 
+-- drop tables
 DROP TABLE IF EXISTS vm_vol_skills;
 DROP TABLE IF EXISTS vm_vol_details;
 DROP TABLE IF EXISTS vm_projects;
@@ -299,7 +299,7 @@ INSERT INTO field_options (field_name, option_code, option_description) VALUES (
 INSERT INTO field_options (field_name, option_code, option_description) VALUES ('opt_skill_type', 'REST3',     'Restriction-Can not swim');
 INSERT INTO field_options (field_name, option_code, option_description) VALUES ('opt_skill_type', 'REST4',     'Restriction-Handicapped');
 -- Special skill type for site managers:
-INSERT INTO field_options (field_name, option_code, option_description) VALUES ('opt_skill_type', 'MGR',       'Apply for Site Manager');
+INSERT INTO field_options (field_name, option_code, option_description) VALUES ('opt_skill_type', 'MGR',       'Site Manager');
 
 
 
@@ -525,6 +525,9 @@ INSERT INTO vm_access_constraint_to_request (request_id, constraint_id) VALUES
 (34, 'req_login'),
 (34, 'req_volunteer'),
 (36, 'ovr_manager'),
+(44, 'ovr_mgr_proj'),
+(43, 'ovr_mgr_proj'),
+(45, 'ovr_mgr_proj'),
 (46, 'req_login'),
 (47, 'ovr_my_info'),
 (48, 'ovr_mainops'),
@@ -582,7 +585,7 @@ INSERT INTO vm_access_request (request_id, act, vm_action, description) VALUES
 (28, 'project', 'display_edit', 'Display Project - Project Edit'),
 (29, 'project', 'process_add', 'Process Project - Project Add or Edit'),
 (30, 'project', 'process_delete', 'Process Project - Project Retire'),
-(31, 'project', 'display_confirm_delete', 'Display Project - Project Reitre Confirmation '),
+(31, 'project', 'display_confirm_delete', 'Display Project - Project Retire Confirmation '),
 (32, 'project', 'display_assign', 'Process Project - Assign to Project'),
 (33, 'project', 'process_remove_from_project', 'Process Project - Retire from Project'),
 (34, 'project', 'display_my_list', 'Display Project - List projects pertaining to logged-in user'),
@@ -625,12 +628,12 @@ drop view if exists vm_pos_volunteercount;
 drop view if exists vm_vol_active;
 
 create definer = CURRENT_USER sql security invoker view vm_position_full as
-select vm_position.pos_id, vm_position.proj_id, ptype_id, vm_position.title, vm_position.slots, vm_position.description,
+select vm_projects.name as project_name, vm_position.pos_id, vm_position.proj_id, ptype_id, vm_position.title, vm_position.slots, vm_position.description,
 vm_positiontype.title ptype_title, vm_positiontype.description ptype_description, vm_position.status, skill_code, payrate
-from vm_position left join vm_positiontype using (ptype_id);
+from vm_position left join vm_positiontype using (ptype_id) join vm_projects using (proj_id);
 
 create definer = CURRENT_USER sql security invoker view vm_vol_assignment as
-select vm_vol_position.p_uuid, proj_id, pos_id, vm_vol_position.status, vm_vol_position.payrate, vm_vol_position.hours, vm_vol_position.task, ptype_id, title, slots,
+select vm_vol_position.p_uuid, proj_id, pos_id, vm_vol_position.status, vm_position_full.payrate, vm_vol_position.hours, vm_vol_position.task, ptype_id, title, slots,
 vm_position_full.description, ptype_title, ptype_description, skill_code, vm_projects.name as project_name,
 vm_projects.description as project_description
 from vm_vol_position left join vm_position_full using (pos_id)

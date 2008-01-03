@@ -97,27 +97,27 @@ function _shn_sync_file_details(){
     <br />
     <table>
     <thead><td colspan="2"><?=_('Upload File Info')?></td></thead>
-    <tr><td>Name </td><td><?=$_FILES['file_dump']['name']?></td></tr>
-    <tr><td>Type </td><td><?=$_FILES['file_dump']['type']?></td></tr>
-    <tr><td>Size </td><td><?php echo ((int)$_FILES['file_dump']['size']/1000).' kb'?></td></tr>
+    <tr><td><?php echo _('Name')?> </td><td><?=$_FILES['file_dump']['name']?></td></tr>
+    <tr><td><?php echo _('Type')?> </td><td><?=$_FILES['file_dump']['type']?></td></tr>
+    <tr><td><?php echo _('Size')?> </td><td><?php echo ((int)$_FILES['file_dump']['size']/1000).' kb'?></td></tr>
     <tr><td colspan="2"></td></tr>
-    <tr><td>Time Created</td><td><?=date("F j, Y, g:i a",$time)?></td></tr>
-    <tr><td>Dump Instance</td><td><?=$ins?></td></tr>
+    <tr><td><?php echo _('Time Created')?></td><td><?=date("F j, Y, g:i a",$time)?></td></tr>
+    <tr><td><?php echo _('Dump Instance')?></td><td><?=$ins?></td></tr>
     </table >
     </center>
     <br />
 <?php
     shn_form_fopen('synchronize',NULL,array('req_message'=>false));
     echo "<center>";
-    echo "<a href=\"#\" onclick=\"document.getElementById('adv_opt').style.display='block';\">Advance Options</a>";
-    shn_form_submit('Import');
+    echo "<a href=\"#\" onclick=\"document.getElementById('adv_opt').style.display='block';\">"._('Advance Options')."</a>";
+    shn_form_submit(_('Import'));
     echo "</center>";
     echo "<div id='adv_opt' style='display:none'>";
-    shn_form_fsopen('Advance Options');
-    $options=array('0'=>'0','1'=>'1','2'=>'2');
-    shn_form_select($options,'Threshold', 'threshold');
-    $options=array('yes'=>'Yes','no'=>'No');
-    shn_form_select($options,'Overwrite existing data','oed');
+    shn_form_fsopen(_('Advance Options'));
+//     $options=array('0'=>'0','1'=>'1','2'=>'2');
+//     shn_form_select($options,_('Threshold'), 'threshold');
+    $options=array('yes'=>_('Yes'),'no'=>_('No'));
+    shn_form_select($options,_('Overwrite existing data'),'oed');
     shn_form_fsclose();
     echo "</div>";
     shn_form_fclose();

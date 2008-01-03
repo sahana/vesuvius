@@ -428,16 +428,11 @@ class VolunteerView extends View
 					$messages[$key]['from'] = $dao->getPersonName($value['from_id']);
 
     			$list = $dao->getToList($messages[$key]['message_id']);
-    			end($list);
-    			$last_key = key($list);
-
     			$to_list = "";
-    			foreach($list as $p_uuid => $name)
-    			{
-    				$to_list .= $name;
-    				if($p_uuid != $last_key)
-    					$to_list .= ', ';
+    			foreach($list as $p_uuid => $name){
+    				$to_list .= $name . ", ";
     			}
+    			$to_list = substr($to_list, 0, strlen($to_list) - 2);
 
     			if(strlen($to_list) > 34)
     				$to_list = substr($to_list, 0, 30) . "...";

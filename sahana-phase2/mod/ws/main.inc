@@ -309,11 +309,11 @@ function shn_ws_sahana_cr(){
 
 	//$url="http://localhost/week1/WS1/www/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
 
-		$digest="adsadsdsd";
+		$digest="{$_SERVER['REQUEST_TIME']}$method";
 		$secret=trim($_POST["secret"]);
 		$sign=shn_acl_hmac_sha1($digest,$secret);
 		$sign=md5($sign);
-		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",adsadsdsd";
+		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",$digest";
 	
 
     try{
@@ -375,7 +375,7 @@ function shn_ws_sahana_cr(){
     	//echo $e->getMessage();
 		//if('Unauthorized'==$e->getMessage())
 		add_error($e->getMessage());
-		display_errors('Unauthorized');
+		display_errors('Error');
 	}
 }
 

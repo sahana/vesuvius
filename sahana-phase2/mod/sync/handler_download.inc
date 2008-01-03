@@ -92,7 +92,7 @@ function handel_syncfile($syncfile)
         $block=0;
         foreach($scema->data as $key=>$data){
 ?>
-        <label><?php echo $data->description;?></label><input type="checkbox" name="<?php echo $scema['name']."[]"?>" value="<?php echo $block++;?>" onchange="checkHead('<?php echo $scema['name'];?>')" /><br />
+        <label><?php echo _lc($data->description);?></label><input type="checkbox" name="<?php echo $scema['name']."[]"?>" value="<?php echo $block++;?>" onchange="checkHead('<?php echo $scema['name'];?>')" /><br />
 <?php
         }
         echo "</div>";

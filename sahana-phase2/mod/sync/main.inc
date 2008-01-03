@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.28 2007-02-24 12:59:52 priyanga Exp $ */
+/* $Id: main.inc,v 1.29 2008-01-03 04:47:35 isurunishan Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -119,7 +119,7 @@ function shn_sync_synchronize(){
     $xajax->registerFunction('start_sync');
     $xajax->registerFunction('get_report');
     $xajax->processRequests();
-    $xajax->printJavascript("../3rd/xajax");
+    $xajax->printJavascript("res/js");
     echo '<h2 id="head">Synchronize</h2>';
     echo '<div id="console">'._('Creating Temp Tables.....').'</div>';
     echo '<script type="text/javascript">xajax_process_file();</script>';
@@ -224,7 +224,7 @@ function shn_sync_ads(){
     shn_form_submit(_('Next >>'));
     shn_form_fclose();
     echo '</div>';
-    $xajax->printJavascript("../3rd/xajax");
+    $xajax->printJavascript("res/js");
     echo '<script type="text/javascript" src="index.php?stream=text&mod=sync&act=js"></script>';
 }
 

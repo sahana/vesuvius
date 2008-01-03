@@ -22,31 +22,31 @@
  */
 function shn_rs_sample_report()
 {
-    print "<h1>Sample Reports Generation</h1>";
+    print "<h1>"._("Sample Reports Generation")."</h1>";
     ?>
     <p><?= _('Here you can generate reports based on sahana database or custom reports.'); ?></p> 
     <?php
-    //$extra_opts['req']=true;
-    shn_form_fopen('sample_submit_one','',array('enctype'=>'enctype="multipart/form-data"','name'=>'sample_rep_form'));
+    $extra_opts['req']=true;
+    shn_form_fopen('sample_submit_one','',array('req_message' => true,'enctype'=>'enctype="multipart/form-data"','name'=>'sample_rep_form'));
     shn_form_fsopen(_('Report Details'));
     shn_form_text(_("Report File Name   : "),'rep_file_name','size="50"',$extra_opts);
-    shn_form_text(_("Report Title   : "),'rep_title','size="50"',$extra_opts);
-    shn_form_textarea("Content :",'rep_summary' , '', '');
-    shn_form_upload("Image :", 'image', '');
+    shn_form_text(_("Report Title   : "),'rep_title','size="50"','');
+    shn_form_textarea(_("Content :"),'rep_summary' , '', '');
+    shn_form_upload(_("Image :"), 'image', '');
     shn_form_fsclose();
     shn_form_fsopen(_('Meta Data'));
     shn_form_text(_("Keyword / Keywords :"),'keyword','size="50"', array('help'=>_('Here you can enter keywords for your report which will help you to search the report later. If you have more than one keyword enter them in the tesx box by separating coma.')));
-    shn_form_textarea("Description :",'description' , '', '');
+    shn_form_textarea(_("Description :"),'description' , '', '');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Report Type'));
     $option_array=array('none' => '-----Select -----','mod' => 'Module','custom' => 'Custom');
-    shn_form_select($option_array,'','report_type','',null);
+    shn_form_select($option_array,'','report_type','',$extra_opts);
     shn_form_fsclose();
 
     shn_form_fsopen(_('Report File Format'));
     $option_array=array('none' => '-----Select -----','ods' => 'SpreadSheet','pdf' => 'PDF','xhtml'=>'XHTML');
-    shn_form_select($option_array,'','file_type','',null);
+    shn_form_select($option_array,'','file_type','',$extra_opts);
     shn_form_fsclose();
 
     $extra_opts['br']=false;
@@ -136,7 +136,7 @@ function _show_mod_select_form()
  */
 function _show_custom_report_form()
 {
-    print "<h1>Add More content to the Custom Report</h1>";
+    print "<h1>"._("Add More content to the Custom Report")."</h1>";
     shn_form_fopen('sample_submit_four',null,'');
     shn_form_fsopen(_('Report Content'));
     shn_form_textarea("",'content' , '', '');
@@ -152,7 +152,7 @@ function _show_custom_report_form()
  */
 function shn_rs_sample_submit_two_result()
 {
-    print "<b>Search data from Database and include them in the Report</b>";
+    print "<b>"._("Search data from Database and include them in the Report")."</b>";
     $option_array=array('none' => '-----Select -----','item' => 'Item/Catalogue','unit' => 'Unit','unit_types'=>'Unit Types');
     shn_form_fopen('sample_submit_three',null,'');
     shn_form_fsopen(_('Select Table'));
@@ -161,7 +161,7 @@ function shn_rs_sample_submit_two_result()
     shn_form_fsopen(_('Search'));
     shn_form_text('','keyword','size="50"', array('help'=>_('')));
     $extra_opts['value'] = 'exact';
-    shn_form_checkbox("Do Exact Search ", 'exact_relative','',$extra_opts);
+    shn_form_checkbox(_("Do Exact Search "), 'exact_relative','',$extra_opts);
     shn_form_fsclose();
     shn_form_submit(_("Search"));
     shn_form_fclose();

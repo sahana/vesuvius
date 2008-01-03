@@ -1,5 +1,5 @@
 <?php
-/* $Id: home.inc,v 1.5 2006-12-13 17:29:09 priyanga Exp $ */
+/* $Id: home.inc,v 1.6 2008-01-03 04:47:35 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -19,15 +19,31 @@
  */
 ?>
 <div id="home">
-<h2><?= _('Sahana to Sahana Synchronization Module'); ?></h2>
+<h2><?= _('Synchronization Module'); ?></h2>
 <!-- <img src="theme/default/img/mpr.png"/> -->
-<p><?= _('This module helps you to synchronize and share data between Sahana instances and work Sahana in a larger network.'); ?><br /><br />
-<?= _('Features include:');?>
+<p><?= _('This module helps you to synchronize two separate Sahana installations and share information among the independent Sahana instances.'); ?><br /><br />
+
+
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+<br></br>
+
 </p>
 <ul>
-    <li><?= _('System data Import and Export.'); ?></li>
-    <li><?= _('Browsing history of data sharing and synchronizing. Tracking other Sahana instances.'); ?></li>
+    <li><?= _('Import and export informations among Sahana instances'); ?></li>
+    <li><?= _('Allows details of the data sharing history among selected Sahana installations'); ?></li>
 </ul>
+
+
+<strong><?php echo _('Description of Actions:')?></strong><br/>
+    <ul>
+        <li><a href="index.php?mod=sync&act=download"><b><?= _('Export data'); ?> </b></a><br/><?= _('Save the information of selected modules to XML, CSV, SQL or SQLite in compressed or uncompressed file formats'); ?></li>
+        <li><a href="index.php?mod=sync&act=upload"><b><?= _('Import data'); ?> </b> </a><br/><?= _('Update Sahana database with informations \'exported\' from another Sahana installation.' ); ?></li>
+        <li><a href="index.php?mod=sync&act=history"><b><?= _('History'); ?></b></a><br/><?= _('Lists all synchronizations done in the past.'); ?></li>
+        
+	</ul>
+<br/>   
+        
+
 
 <!--<center><em class="red">This module is still under heavy development It is not advisable to use it for practical purposes</em></center> -->
 </div>

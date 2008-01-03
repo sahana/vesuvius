@@ -167,12 +167,17 @@
 				$p->numSlots= $getvars['numSlots'];
 				$p->payrate= $getvars['payrate'];
 
-			    $dao->savePosition($p);
-			    //$this->displayConfirmation("Position assignment has been added to {$p->position_title}");
-				$this->controlHandler(array('vm_action' => 'display_single', 'proj_id' => $p->proj_id));
+				if($this->validateAddPosition($getvars)) {
+				    $dao->savePosition($p);
+				    //$this->displayConfirmation("Position assignment has been added to {$p->position_title}");
+					$this->controlHandler(array('vm_action' => 'display_single', 'proj_id' => $p->proj_id));
+				} else {
+					$this->addPosition($p);
+				}
 			break;
 
 			case 'add_position':
+				//this case only displays the form to add/edit a position
 				if($getvars['pos_id'])
 					$p= new Position($getvars['pos_id']);
 				else
@@ -269,6 +274,36 @@
  	 	return $validated;
  	 }
 
+	/**
+	 * Validates adding a new position
+	 */
 
+	function validateAddPosition($getvars) {
+		//assume valid to begin with
+		$valid = true;
+
+		if(!shn_vm_not_empty($getvars['title'])) {
+			$valid = false;
+			add_error(SHN_ERR_VM_NO_TITLE);
+		}
+		if(!shn_vm_not_empty($getvars['ptype_id'])) {
+			$valid = false;
+			add_error(SHN_ERR_VM_NO_POSITION_TYPE);
+		}
+		if(!shn_vm_not_empty($getvars['payrate']) || !is_numeric($getvars['payrate']) || $getvars['payrate'] <= 0) {
+			$valid = false;
+			add_error(SHN_ERR_VM_NO_PAYRATE);
+		}
+		if(!shn_vm_not_empty($getvars['numSlots']) || !is_numeric($getvars['numSlots']) || $getvars['numSlots'] <= 0) {
+			$valid = false;
+			add_error(SHN_ERR_VM_NO_TARGET);
+		}
+		if(!shn_vm_not_empty($getvars['description'])) {
+			$valid = false;
+			add_error(SHN_ERR_VM_NO_DESCRIPTION);
+		}
+
+		return $valid;
+	}
  }
 ?>

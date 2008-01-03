@@ -1387,7 +1387,7 @@
 		else
 			$extra_clause = "";
 
-		$result = $this->execute(	"SELECT DISTINCT vm_vol_skills.p_uuid, full_name, status
+		$result = $this->execute(	"SELECT DISTINCT vm_vol_skills.p_uuid, full_name, vm_vol_skills.status
 									 FROM vm_vol_skills JOIN person_uuid USING(p_uuid)
 									 JOIN vm_vol_active USING (p_uuid)
 									 WHERE opt_skill_code = '$ability'
@@ -2058,6 +2058,22 @@
 			}
 
 			return $access;
+		}
+
+		/**
+		 * Gets a specific access request's name based on act and vm_action
+		 *
+		 * @param $act			the act
+		 * @param $vm_action	the vm_action
+		 * @return the description if a match found, otherwise null
+		 */
+
+		function getAccessRequestName($act, $vm_action) {
+			$result = $this->execute("SELECT description FROM vm_access_request WHERE act = '$act' AND vm_action = '$vm_action'");
+			if(!$result->EOF)
+				return $result->fields['description'];
+			else
+				return null;
 		}
 
 		/**

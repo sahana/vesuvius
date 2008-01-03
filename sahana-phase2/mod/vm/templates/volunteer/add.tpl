@@ -33,7 +33,7 @@ shn_form_fopen('default&vm_action=process_add', null, array('enctype' => 'enctyp
 	}
 
 	shn_form_fsopen('Work Details');
-		shn_form_select($orgs, 'Affiliation :', 'affiliation', '', array('value' => $affiliation));
+		shn_form_select($orgs, 'Affiliation :', 'affiliation', '', array('value' => $affiliation ,'help' => "Organizations are populated through the Organization Registry module. Contact an administrator if you do not see your organization."));
 		shn_form_text('Occupation :', 'occupation', '', array('value' => $occupation));
 	shn_form_fsclose();
 

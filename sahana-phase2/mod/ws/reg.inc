@@ -35,7 +35,6 @@ function shn_ws_api_key(){
 In this section , you are given an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
 		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
 		 </div><br />
-<div id="formcontainer">
 <?php
 	$user=shn_current_user();
 	if($user==null){

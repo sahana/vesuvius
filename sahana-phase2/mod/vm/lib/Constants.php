@@ -97,5 +97,9 @@ define('SHN_ERR_VM_NO_MGR',						'Please specify a project manager');
 define('SHN_ERR_VM_NO_START_DATE',				'If you specify an end date for availability, please specify a start date as well');
 define('SHN_ERR_VM_BAD_DATE_RANGE',				'If you specify searching for an entire available date range, please specify both a start and end date');
 define('SHN_ERR_VM_NO_REQUEST',					'Please specify a situation to modify access to');
-
+define('SHN_ERR_VM_NO_TITLE',					'Please specify a title');
+define('SHN_ERR_VM_NO_POSITION_TYPE',			'Please specify a position_type');
+define('SHN_ERR_VM_NO_TARGET',					'Please specify a non-zero target number of volunteers');
+define('SHN_ERR_VM_NO_DESCRIPTION',				'Please specify a description');
+define('SHN_ERR_VM_NO_PAYRATE',					'Please specify a non-zero pay rate');
 ?>

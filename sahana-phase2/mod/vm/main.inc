@@ -68,7 +68,36 @@ require_once('menu.inc');
 require_once(TREE_DIR.'tree.inc');
 require_once(TREE_DIR.'node.inc');
 
+/**
+ * Updates the Sahana Breadcrumbs by adding the current page to the end of
+ * the list and moving the list down
+ */
 
+function shn_vm_update_breadcrumbs() {
+	global $dao;
+	$act = $_GET['act'];
+	$vm_action = $_GET['vm_action'];
+	if($act == "" || $act == "default") {
+		$act = "volunteer";
+	}
+	if($vm_action == "") {
+		$vm_action = "default";
+	}
+	$name = $dao->getAccessRequestName($act, $vm_action);
+	if($name != null) {
+		$parts = explode("-", $name);
+		array_shift($parts);
+		$name = implode($parts);
+		$new_entry = array($name, "mod=vm&act=$act&vm_action=$vm_action", "vm");
+
+		if(count($_SESSION['shn_breadcrumb']) < 3) {
+			array_push($_SESSION['shn_breadcrumb'], $new_entry);
+		} else {
+			array_shift($_SESSION['shn_breadcrumb']);
+			array_push($_SESSION['shn_breadcrumb'], $new_entry);
+		}
+	}
+}
 
 /**
  * Loads the global database object.
@@ -76,13 +105,20 @@ require_once(TREE_DIR.'node.inc');
  * @return void
  */
 function shn_vm_load_db() {
-	error_reporting(E_ALL ^ E_NOTICE);
-    global $global;
-    $db = $global['db'];
+	//only load the DAO if it has not yet been loaded
+	if(!defined('VM_DAO_LOADED')) {
+		error_reporting(E_ALL ^ E_NOTICE);
+	    global $global;
+	    $db = $global['db'];
 
-	global $dao;
-    $dao = new DAO($db);
+		global $dao;
+	    $dao = new DAO($db);
+	    define('VM_DAO_LOADED', true);
+	}
 }
+
+shn_vm_load_db();
+shn_vm_update_breadcrumbs();
 
 /**
  * Default VM function, calls the appropriate controller's controlHandler() function
@@ -123,15 +159,14 @@ function shn_vm_default()
 
 function shn_vm_html_head()
 {
-    global $global;
-    require_once($global['approot'].'inc/lib_xhtml.inc');
+	global $global;
+	require_once($global['approot'].'inc/lib_xhtml.inc');
 
-    shn_display_xhtml_head(
-    array
-    (
+    shn_display_xhtml_head(array(
 		"1" => '<script type="text/javascript" src="'.TREE_JS_PATH.'tree.js"></script>',
 		"2" => '<script type="text/javascript" src="'.TREE_JS_PATH.'node.js"></script>',
 		"3" => '<script type="text/javascript" src="'.TREE_JS_PATH.'checkbox_node.js"></script>'
 	));
 }
+
 ?>

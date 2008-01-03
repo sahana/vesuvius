@@ -2,53 +2,25 @@
 {if $pos_id}
 	Edit {$title}
 {else}
-	Add a position
+	Add Position
 {/if}
 </h2>
 
-<form name="position" action="?mod=vm&act=project&vm_action=process_add_position&pos_id={$pos_id}" method="post">
+{php}
+shn_form_fopen('project&vm_action=process_add_position');
+	shn_form_fsopen("Position Information");
+		shn_form_text("Title", "title", '', array('req'=>true, 'value'=>$title));
+		shn_form_select($position_types,'Position Type :', 'ptype_id', '', array('req' => true, 'value' => $ptype_id));
+		shn_form_text("Hourly Pay Rate", "payrate", 'size=4', array('req'=>true, 'value'=>$payrate));
+		shn_form_text("Target Number of Volunteers", "numSlots", 'size=4', array('req'=>true, 'value'=>$numSlots));
+		shn_form_textarea("Description", "description", '', array('value'=>$description, 'req' => true));
 
-<input type="hidden" name="proj_id" value="{$proj_id}" />
-
-Title:
-<input type="text" name="title" value="{$title}"><br />
-<br />
-
-Position Type:
-<select name="ptype_id">
-{foreach $position_types as $this_ptype_id => $ptype_title}
-	{if $this_ptype_id == $ptype_id}
-	<option value="{$this_ptype_id}" selected="selected">{$ptype_title}</option>
-	{else}
-	<option value="{$this_ptype_id}">{$ptype_title}</option>
-	{/if}
-{/foreach}
-</select><br />
-<br />
-
-Pay Rate :
-<input type="text" name="payrate" value="{$payrate}" size="4" />
-<br />
-<br />
-
-Target number of volunteers:
-<input type="text" name="numSlots" value="{$numSlots}" size="4" /><br />
-<br />
-Description:<br />
-<textarea name="description" rows="10" cols="95">{$description}</textarea>
-<br />
-<br />
-
-<input type="submit" value="Save" />
-
-<br />
-	{if $edit_auth}
-	<a href="?mod=vm&act=project&vm_action=display_edit&pos_id={$pos_id}">Edit</a>
-	{/if}
-
-	{if $delete_auth}
-	<a href="?mod=vm&amp;act=project&vm_action=display_confirm_delete&pos_id={$pos_id}">Delete</a>
-	{/if}
-	<br />
-
-</form>
+		$hidden = array("proj_id" => $proj_id);
+		if($pos_id != null)
+			$hidden['pos_id'] = $pos_id;
+		shn_form_hidden($hidden);
+	shn_form_fsclose();
+	shn_form_submit("Submit");
+	shn_form_button("Cancel", "onClick='history.go(-1);'");
+shn_form_fclose();
+{/php}

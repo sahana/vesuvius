@@ -19,7 +19,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 function _shn_ws_adm_sub_menu(){
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=ws&act=adm_enable_authentication">Enable/Disable Web Service Authentication</a> 
+<a href="index.php?mod=ws&act=adm_enable_authentication"><?php echo _("Enable/Disable Web Service Authentication") ?></a> 
 
 </div>
 
@@ -32,8 +32,8 @@ function shn_ws_adm_default()
 {
     _shn_ws_adm_sub_menu();
 ?>
-    <p><b> Welcome to the Web Services admin page </b></p>
-    <p> Use the Above Navigation to Administer Web Services</p>
+    <p><b> <?php echo _("Welcome to the Web Services admin page") ?> </b></p>
+    <p> <?php echo _("Use the Above Navigation to Administer Web Services") ?></p>
 
     
 
@@ -73,9 +73,9 @@ function shn_ws_adm_enable_auth_form(){
 
     global $global;
     $db=$global['db'];
- ?>
- <h3>Enable/Disable Web Service Authentication</h3> 
-<?php
+ 
+ 	echo "<h3>"._("Enable/Disable Web Service Authentication")."</h3>" ;
+
 	shn_form_fopen("adm_enable_authentication_cr","ws",array('req_message'=>false));
  	$acl=shn_acl_is_web_service_auth_enabled();
  	if($acl==true){
@@ -85,7 +85,7 @@ function shn_ws_adm_enable_auth_form(){
  		shn_form_hidden(array("action"=>'enable'));
 		shn_form_submit(_("Enable Web Service Authentication"));
  	}
-        shn_form_fclose();
+    shn_form_fclose();
 }
 
 

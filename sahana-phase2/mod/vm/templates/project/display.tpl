@@ -115,7 +115,7 @@
 
  </table>
 
-{if $add_pos_auth || $delete_pos_auth}
+{if $add_pos_auth}
 	<center>
 		[<a href="?mod=vm&act=project&vm_action=add_position&proj_id={$proj_id}">Add a position</a>]
 	</center>
