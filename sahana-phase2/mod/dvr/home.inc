@@ -23,23 +23,17 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <p>
 <?php
 
-	 print _("SAHANA Disaster Victim Registry is a central online repository " .
-        "where information on all the disaster victims can be stored. Information like name, age" .
-        ", contact number, identity card number, religion, race, displaced location, current location and other " .
-        "physical details are captured. Also victim's picture and finger print details can be uploaded to " .
-        "the system depending on the legal aspects of the deployement. Also the groupwise information is captured. This module can be used by" .
-        " any NGO/organization prior to or after a disaster."  );
+	 print _("The Disaster Victim Registry is a central online repository where information on all the disaster victims and families, especially identified casualties, evacuees and displaced people can be stored. Information like name, age, contact number, identity card number, displaced location, and other details are captured. People picture and finger print details can be uploaded to the system. People can also be captured rather by group for effeciency and convenience"  );
 ?>
 
 </p>
 
-<strong>Features include:</strong>
+<strong><?php echo _("Features include:")?></strong>
 <ul>
     <li>
     <?php
 
-	print _("Capture Information on Disaster Victim groups (Tourists, Passengers" .
-			", Families, etc.)")
+	print _("Capture Information on Disaster Victim groups (Tourists, Passengers, Families, etc.)")
 ?>
     </li>
     <li>
@@ -62,7 +56,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
    
     </li>-->
 </ul>
-<strong>Description of Actions:</strong><br/>
+<strong><?php echo _("Description of Actions:")?></strong><br/>
     <ul>
         <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _('Add New Group'); ?> </b></a><br/><?= _('Adding a new disaster victim group'); ?></li>
         <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _('Add New Individuals'); ?> </b> </a><br/><?= _('Adding a disaster victim under each and every victim group'); ?></li>
@@ -99,12 +93,12 @@ shn_dvr_home_show_dvr();
 function shn_dvr_home_show_dvr()
 {
     global $global; 
-
+    global $conf;
    
-    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_person' order by im.created ";
-            
+    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im, resource_to_incident pi where im.x_uuid=a.p_uuid and a.p_uuid=pi.x_uuid and im.x_uuid=pi.x_uuid and pi.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and category='dvr_person' ORDER BY im.created DESC";
+   // $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_person' ORDER BY im.created DESC";        
 
-           $rs = $global['db']->SelectLimit($sql,16);
+           $rs = $global['db']->SelectLimit($sql,$conf['mod_dvr_images']);
    
     if($rs){
         $arr = $rs->GetAll();
@@ -161,8 +155,13 @@ shn_show_thumb_url($details[$i+1]['p_uuid'],'database','dvr','addvictim_img',fal
     </TR>
 <?php
         }
+      ?>
+      
+          </TABLE>
+</DIV>
+<?php
     }
 ?>
-</TABLE>
-</DIV>
+
+
 

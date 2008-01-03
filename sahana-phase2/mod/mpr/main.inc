@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: main.inc,v 1.28 2007-11-12 09:12:03 isurunishan Exp $ */
+/* $Id: main.inc,v 1.29 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -68,8 +68,8 @@ function shn_mpr_mainmenu() {
 	//    shn_mod_menuitem("rpt_default&type=found",_("Reports"));
 
 	shn_sub_mod_menuopen(_("Reports"));
-	shn_mod_menuitem("list_missing", "List Missing People", $module);
-	shn_mod_menuitem("list_found", "List Found People", $module);
+	shn_mod_menuitem("list_missing", _("List Missing People"), $module);
+	shn_mod_menuitem("list_found", _("List Found People"), $module);
 	//  shn_mod_menuitem("org_incident","Organizations by Incident",$module);
 	// shn_mod_menuitem("org_sector","Organizations by Sector",$module);
 	shn_sub_mod_menuclose();
@@ -400,6 +400,7 @@ function shn_mpr_addmp() {
 			echo $heading;
 			echo '<h2 align="center">(' . _('The missing person have been added') . ')</h2>';
 			shn_mpr_addmp_confirm();
+			//shn_mpr_addmp_commit();
 			break;
 
 		case 'report_person' :
@@ -597,8 +598,7 @@ function shn_soap_mpr_default() {
 //images
 function shn_image_mpr_addmp_img()
 {
-    global $global; 
-
+    global $global;
     //clean clean
     $x_uuid = $_GET['x_uuid'];
     switch ($_GET['stream']){
@@ -614,4 +614,16 @@ function shn_image_mpr_addmp_img()
         break;
     }
 }
+
+/**
+ * End the add or edit mpr record flow by clearing the session
+ * and redirecting to the default view.
+ *
+ */
+function shn_mpr_end_flow(){
+	unset($_SESSION['mpr_add']);
+    unset($_SESSION['mpr']['entry']);
+	shn_mpr_default();
+}
+
 ?>

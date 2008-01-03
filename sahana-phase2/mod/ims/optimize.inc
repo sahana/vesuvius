@@ -60,7 +60,7 @@ function _shn_ims_relation_item_page()
     global $global;
     $db = $global["db"];
     shn_form_fopen("relation_item_table");
-    shn_form_fsopen("Inventory Selection");
+    shn_form_fsopen(_("Inventory Selection"));
 
     $inventory_array = array();
     $inventory_array['all'] = "All Inventories";
@@ -222,7 +222,7 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
             $ims3 = $db->Execute($sql3);
 
         }
-        add_confirmation(_("Relative Item successfully set"));
+        add_confirmation(_("Relative item successfully set"));
         shn_ims_relation_item();
     }
 }
@@ -266,7 +266,7 @@ function _shn_ims_alternate_item_page()
     global $global;
     $db = $global["db"];
     shn_form_fopen("alternate_item_table");
-    shn_form_fsopen("Inventory Selection");
+    shn_form_fsopen(_("Inventory Selection"));
 
     $inventory_array = array();
     $inventory_array['all'] = "All Inventories";
@@ -283,7 +283,7 @@ function _shn_ims_alternate_item_page()
     shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
     shn_form_hidden(array('parent_id'=>$parent_id));
-    shn_form_submit("Submit");
+    shn_form_submit(_("Submit"));
     shn_form_fclose();
 
 }
@@ -667,7 +667,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = "Pie Chart to forecasting Since " . $current_date . " " . "To" . " " . $date_after;
+    $string = _("Pie Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
 ?>	
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -760,7 +760,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = "Bar Chart to forecasting Since " . $current_date . " " . "To" . " " . $date_after;
+    $string = _("Bar Chart to forecasting Since "). $current_date . " " . _("To") . " " . $date_after;
 ?>	
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -941,7 +941,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = "Bar Chart to forecasting Since " . $current_date . " " . "To" . " " . $date_after;
+    $string = _("Bar Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -954,7 +954,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     <image src="tmp/pieChart.png"></image>
 <?php
     print "<br>";
-    $string = "Bar Chart to forecasting Since " . $current_date . " " . "To" . " " . $date_after;
+    $string = _("Bar Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
     <image src="tmp/barChart.png"></image>
@@ -1008,11 +1008,11 @@ function _shn_ims_prediction_page()
 <?php
     $form_opts['name'] = "optim_item";
     shn_form_fopen("prediction_report",null,$form_opts);
-    shn_form_fsopen("Selected Item");
+    shn_form_fsopen(_("Selected Item"));
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_fsclose();
     
-    shn_form_fsopen("Inventory Selection");
+    shn_form_fsopen(_("Inventory Selection"));
     global $global;
     $db = $global["db"];
     $inventory_array = array();
@@ -1036,7 +1036,7 @@ function _shn_ims_prediction_page()
     shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
     shn_form_fsclose();
 
-    shn_form_fsopen("Algorithm Selection");
+    shn_form_fsopen(_("Algorithm Selection"));
     $algorithm_array = array();
     //$algorithm_array["moving_average"]="Simple Moving Average";
     $algorithm_array["single"] = "Single Exponential Smoothing";
@@ -1044,7 +1044,7 @@ function _shn_ims_prediction_page()
     shn_form_select($algorithm_array,_("Algorithm Selection : "),'algorithm','size="1"',null);
     shn_form_fsclose();
 
-    shn_form_fsopen("Time Period one to predict");
+    shn_form_fsopen(_("Time Period one to predict"));
     //shn_form_text();
     shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
     $time_period_array = array();
@@ -1182,13 +1182,13 @@ function _shn_ims_optim_item_actions()
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = "Prediction Report Since " . $current_date . " " . "To" . " " . $date_after;
+    $string = _("Prediction Report Since ") . $current_date . " " . _("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
     
     shn_form_fopen("optimize_relation_items",null,$form_opts);
-    shn_form_fsopen("Prediction Records");
+    shn_form_fsopen(_("Prediction Records"));
     $sql1 = "SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' ORDER BY week DESC;";
     $ims1 = $db->Execute($sql1);
     $actual_value = $ims1->fields['actual_value'];
@@ -1551,7 +1551,7 @@ function _shn_ims_optimize_relation_items()
         
     } else {
 ?>
-    <div><h3><b><?php print ("Re-order level will not be exceeded in given time period"); ?></b></h3></div>
+    <div><h3><b><?php print _("Re-order level will not be exceeded in given time period"); ?></b></h3></div>
 <?php
 
     }

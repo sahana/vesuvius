@@ -37,7 +37,7 @@ function _shn_ims_search_main($search_name_temp)
     $search_array['item']=_('Search Item');
     shn_form_fopen('search_main_db');
     shn_form_fsopen(_("Search"));
-    shn_form_radio($search_array,_('Search : '),'search_array','onClick="submit(this);"',$extra_opts);
+    shn_form_radio($search_array,_('Search : '),'search_array','onClick="submit(this);"',array('req'=>true, 'help'=> _("Select one of these, to do a search according to the selection criteria")));
     shn_form_fsclose();
     shn_form_fclose();
 
@@ -95,9 +95,9 @@ function _shn_ims_search_item_page()
 <div id="search">
 
 <?php
-    $extra_opts['req'] = true;
+    $extra_opts['req'] = false;
 	$_POST['item_name'] = html_entity_decode($_POST['item_name']);
-    shn_form_fopen("search_item_db");
+    shn_form_fopen("search_item_db",null,false);
     shn_form_fsopen(_('Search items '));
     shn_form_text(_("Search by Item name   : "),'item_name','size="50" readonly=true',$extra_opts);
 
@@ -400,7 +400,7 @@ function _shn_ims_form_search()
 <br>
 <br>
 <?php
-    shn_form_fsopen("Search by Inventory Owner's Details");
+    shn_form_fsopen(_("Search by Inventory Owner's Details"));
     shn_form_textarea(_("Any of the Details of Inventory Owner : "),'address','size="20"',array('req'=>true,'help'=>_("Enter any of the details of the Inventory Owner and click on the Search button below. Name of the Inventory Owner, Address of the Inventory Owner, Contact Numbers of the Inventory Owner, e-mail address of the Inventory Owner or web site of the inventory are accepted to the search")));
     shn_form_fsclose();
     $extra_opts['br'] = false;
@@ -416,15 +416,33 @@ function _shn_ims_search_inventory_db()
 {
     global $global;
     $db = $global['db'];
+	// This is a hard fix for rel 0.6. This should be changed to 
+	// get the value from the location library itself. scheduled to 0.7
 
-    $_SESSION['ims_1'] = $_POST['1'];
-    $_SESSION['ims_2'] = $_POST['2'];
-    $_SESSION['ims_3'] = $_POST['3'];
-    $_SESSION['ims_4'] = $_POST['4'];
-    $_SESSION['ims_5'] = $_POST['5'];
+    
 
-    $bsd_village = _shn_ims_get_locid();
-   
+//    $_SESSION['ims_1'] = $_POST['loc_select_1'];
+//    $_SESSION['ims_2'] = $_POST['loc_select_2'];
+//    $_SESSION['ims_3'] = $_POST['loc_select_3'];
+//    $_SESSION['ims_4'] = $_POST['loc_select_4'];
+//    $_SESSION['ims_5'] = $_POST['loc_select_5'];
+//    $bsd_village = _shn_ims_get_locid();
+
+        $lvl=1;
+    	$range= shn_get_range();
+    	
+    	while ($lvl!=($range["end"])+1) {
+    		$var1='rms_'.$lvl;
+    		$var2='loc_select_'.$lvl;
+    	    $_SESSION[$var1]=$_POST[$var2];
+    	    $lvl++;
+    	}
+        
+     	$bsd_village=_shn_ims_get_locid($range["end"]);
+    
+    // ======== SOLUTION =========================
+    // uncomment the following in rel 0.7. Check for code breaks. (ravithb)
+    //$bsd_village = shn_location_get_form_submit_loc();
 
     $loc = array();
     $loc = _shn_ims_get_parent_locations($bsd_village);
@@ -441,14 +459,14 @@ function _shn_ims_search_inventory_db()
     <td><?=_("Contact Numbers") ?></td>
     <td><?=_("Man Power") ?></td>
     <td><?=_("Equipment") ?></td>
-    <td><?=_("Other <br /> Facilities") ?></td>
+    <td><?=_("Other ")."<br />"._(" Facilities") ?></td>
     <td><?=_("Inventory Space") ?></td>
     </thead>
     <tbody>
 
 <?php
 
-    if ($name_temp != NULL && $bsd_village == 0) {
+if ($name_temp != NULL && $bsd_village == 0) {
         $sql = "SELECT * FROM ims_inventory_records WHERE SOUNDEX(inventory_name)=SOUNDEX('$name_temp');";
         $ims = $db->Execute($sql);
         if ($ims->fields['inv_uuid'] == NULL) {
@@ -457,13 +475,12 @@ function _shn_ims_search_inventory_db()
         }
         
         $temp_flag = -1;
-    }
-    if ($name_temp == NULL && $bsd_village != NULL) {
-        
+    }else
+    if ($name_temp == NULL && $bsd_village != NULL && $bsd_village!="0") {
         $sql = "SELECT * FROM location_details;";
         $ims = $db->Execute($sql);
         $temp_flag = 0;
-    }
+    }else
     if ($name_temp != NULL && !$bsd_village == 0) {
         
         $sql = "SELECT * FROM ims_inventory_records WHERE SOUNDEX(inventory_name)=SOUNDEX('$name_temp');";
@@ -474,11 +491,24 @@ function _shn_ims_search_inventory_db()
         }
         
         $temp_flag = 1;
+    }else{
+    	// added by ravithb
+    	add_warning(_("Search criterial was blank. Showing all inventories."));
+        // show all when no name is specified.
+		 $sql = "SELECT * FROM ims_inventory_records";
+         $ims = $db->Execute($sql);
+         $temp_flag = -1;
     }
-
+    
     include_once ('view_inv.inc');
-    while (!$ims == NULL && !$ims->EOF) {
-        
+
+    if($ims == NULL || $ims->EOF){
+    	echo "<div class=\"message information\"><br/>";
+    	echo _("There were no results to display.");
+    	echo "</div>";
+    }
+    
+    while ($ims != NULL && !$ims->EOF) {
         if ($temp_flag == -1) {
             $inv_uuid = $ims->fields['inv_uuid'];
             if ($inv_uuid != NULL) {
@@ -581,7 +611,7 @@ function _shn_ims_search_address()
     <td><?=_("Contact Numbers") ?></td>
     <td><?=_("Man Power") ?></td>
     <td><?=_("Equipment") ?></td>
-    <td><?=_("Other <br /> Facilities") ?></td>
+    <td><?=_("Other ")."<br />"._(" Facilities")  ?></td>
     <td><?=_("Inventory Space") ?></td>
     </thead>
     <tbody>

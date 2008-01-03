@@ -116,7 +116,7 @@ function shn_or_reg_org_cr()
     			include_once("process_org.inc");
     			_shn_or_reg_org_cr();
     	break;
-    	case "close":
+    	case "save":
     	    		include_once("process_org.inc");
     				_shn_or_reg_org_cr();
     	break;
@@ -177,15 +177,44 @@ function shn_or_view_org_submit()
 {
     include_once("process_org.inc");
     include_once ("view_org.inc");
+    include_once("reg_org.inc");
    // require_once ($global['approot'].'inc/lib_security/authenticate.inc');
     $act=$_POST{"action"};
 
     switch ($act) {
-    		case "gis":
+    	case "gis":
+    		//put values to session
+    		_shn_or_check_org_reg_info_complete();
 			_shn_or_view_map_form_org();
-			     break;
+		     break;
+   		case "confirm_edit":
+   			$error=_shn_or_check_org_reg_info_complete();
+   			_shn_or_check_org_reg_map_info_complete();
+   			// set the lattitude and logitude as loc_y and loc_x in session if not set
+   			if(isset($_SESSION['org']['loc_x'])==false){
+   				// we are sure that lat_edited is in the session because of 
+   				// the _shn_or_check_org_reg_info_complete() call.
+   				$_SESSION['org']['loc_x'] = $_SESSION['org']['lon_edited'];
+   			}
+   			if(isset($_SESSION['org']['loc_y'])==false){
+   				// we are sure that lat_edited is in the session because of 
+   				// the _shn_or_check_org_reg_info_complete() call.
+   				$_SESSION['org']['loc_y'] = $_SESSION['org']['lat_edited'];
+   			}
+   			
+   			if($error){
+   				shn_or_edit_org();
+   			}else{
+   				_shn_or_regconfirm_org();
+   			}
+   			break;
         case "edit":
+        	shn_or_edit_org();
+        	break;
+        case "save":
             _shn_or_edit_org();
+            // Clear the junk values from the session.
+            unset($_SESSION['org']);
             break;
         case "del":
             _shn_or_del_org();
@@ -324,7 +353,7 @@ function shn_or_search_cr(){
     <div>
                 <center>
                 <a href="index.php?mod=or&act=search">
-                  <strong> Back to Search Page</strong>
+                  <?php echo "<strong>"._("Back to Search Page")."</strong>"; ?>
              
                 </a>
                 </center>

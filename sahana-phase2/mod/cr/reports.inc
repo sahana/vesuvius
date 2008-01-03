@@ -16,6 +16,8 @@
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'].'/inc/lib_paging.inc');
+
 
 /*General Camp Reports- if required to be provided when the Reports Main Menu is clicked
 --currently no link from that*/
@@ -41,10 +43,9 @@ function _shn_cr_rpt_rst(){
 		 
 }
 function _shn_cr_rpt(){		
-?>
-	 	  <h2>Reports</h2>
+   			echo "<h2>"._("Reports")."</h2>";
 	  
- <?php
+ 
 			shn_form_fopen("rpt");
 			shn_form_fsopen(_("Report for all Shelters"));
 			shn_form_hidden(array('seq'=>'commit'));
@@ -58,9 +59,16 @@ function _shn_cr_rpt(){
 /** To retrieve all the camps that has been registered and display in a table format*/
 
 function _shn_cr_rpt_all(){
-	?>
-	<h1><?=_("Shelter Information")?></h1>
-	<div id ="result">
+    global $global;
+    $db=$global['db'];
+    $q = "select * from camp_reg ";
+?>
+    <h1><?=_("Shelter Information")?></h1>
+<?php
+    //$res_cmp =$db->Execute($q);
+    $res_cmp = shn_paging_get_report($q,10);
+?>
+<div id ="result">
    <table>
         <thead>
             <td><?=_("Shelter Name")?></td>
@@ -72,26 +80,20 @@ function _shn_cr_rpt_all(){
             <td><?=_("No: of Females")?></td>
             <td><?=_("No: of Children")?></td>
             <td><?=_("Total Count")?></td>
-            
         </thead>
-        		<tbody>
-				<?php    
-   					 global $global;
-						 $db=$global['db'];
- 						 $q = "select * from camp_reg ";
-	 
-         			$res_cmp =$db->Execute($q);
-    						while (!$res_cmp->EOF){
-    						$c_uuid  =$res_cmp->fields['c_uuid'];        
-    						$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
-    						$res_maincmp =$db->Execute($qdetails);
-    						
-    						$qcamp = "select * from camp_general where c_uuid='{$c_uuid}'";
-    						$res_camp =$db->Execute($qcamp);
-    						
-    						$loc  =$res_camp->fields['location_id'];   
-    						$qloc = "select * from location where loc_uuid='{$loc}'";
-    						$res_loc =$db->Execute($qloc);
+        <tbody>
+<?php    
+    	while (!$res_cmp->EOF){
+    	$c_uuid  =$res_cmp->fields['c_uuid'];        
+    	$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+    	$res_maincmp =$db->Execute($qdetails);
+
+    	$qcamp = "select * from camp_general where c_uuid='{$c_uuid}'";
+    	$res_camp =$db->Execute($qcamp);
+
+    	$loc  =$res_camp->fields['location_id'];   
+    	$qloc = "select * from location where loc_uuid='{$loc}'";
+    	$res_loc =$db->Execute($qloc);
     						
     						$type  =$res_camp->fields['opt_camp_type']; 
     						$qtype = "select * from field_options where option_code='{$type}'";
@@ -102,7 +104,7 @@ function _shn_cr_rpt_all(){
     				  				
 					?>
     				<tr>
-					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_camp->fields['name']?>"><?php echo $res_camp->fields['name']?></a></td>
+					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_camp->fields['c_uuid']?>"><?php echo $res_camp->fields['name']?></a></td>
 					<td><?php echo $res_type->fields['option_description']?></td>
   					<td><?php echo $res_camp->fields['address']?></td>
   					<td><?php echo $res_loc->fields['name']?></td>
@@ -146,11 +148,17 @@ function _shn_cr_drill_location(){
 	$res_cmp = $db->Execute($q);
 	while (!$res_cmp->EOF){
 		$loc_id =$res_cmp->fields[1];
-		$qloc  = "select name from location where loc_uuid='{$loc_id}'";
-		$res_loc =$db->Execute($qloc);
+                $location=_shn_cr_location_string($loc_id);
+		//$qloc  = "select name from location where loc_uuid='{$loc_id}'";
+		//$res_loc =$db->Execute($qloc);
 ?>
 				<tr>
-					<td><a href="index.php?mod=<?=$module?>&act=ldrpt&seq=<?php echo $res_loc->fields[0]?>"><?php echo $res_loc->fields[0]?></a></td>
+					<td><a href="index.php?mod=<?=$module?>&act=ldrpt&seq=<?php echo $loc_id?>">
+<?php 
+    echo $location;
+?>
+
+                                        </a></td>
 					<td><?php echo $res_cmp->fields[0]?></td>
 				</tr>
 <?php
@@ -168,10 +176,13 @@ function _shn_cr_drill_location(){
 function _shn_cr_rpt_loc($locate){
 ?>
 <h1><center><?=_("Shelter Information by Location Drilled")?></center></h1>
+<?php
+echo "<h3>"._("Shelters in")." : "._shn_cr_location_string($locate)." </h3>";
+
+?>
 <div id ="result">
 <table>
 <thead>
-<td><?=_("Location")?></td>
 <td><?=_("Shelter Name")?> </td>
 <td><?=_("Shelter Type")?></td>
 <td><?=_("Address")?></td>
@@ -183,15 +194,8 @@ function _shn_cr_rpt_loc($locate){
 <?php    
 global $global;
 $db=$global['db'];
-echo "<strong>"._("Shelters in ").$locate." </strong>";
 
-$loc_q = "select loc_uuid from location where name='{$locate}'";
-$loc_r = $db->Execute($loc_q);
-if(!$loc_r->EOF){
-	$location_id=$loc_r->fields[0];
-}
-
-$q = "select c_uuid,name,opt_camp_type,address,location_id from camp_general where location_id='{$location_id}'";
+$q = "select c_uuid,name,opt_camp_type,address,location_id from camp_general where location_id='{$locate}'";
 $res_cmp = $db->Execute($q);
 while (!$res_cmp->EOF){
 				
@@ -209,8 +213,7 @@ $res_type =$db->Execute($qtype);
 								
 ?>
 <tr>
-    				<td><?php echo $res_loc->fields['name']?></td>
-  					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields[1]?>"><?php echo $res_cmp->fields[1]?></a></td>
+  					<td><a href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $cmp_id;?>"><?php echo $res_cmp->fields[1]?></a></td>
   					<td><?php echo $res_type->fields[2]?></td>
   					<td><?php echo $res_cmp->fields['address']?></td>
   					<td><?php echo $res_reg->fields['total']?></td>
@@ -229,6 +232,13 @@ $res_type =$db->Execute($qtype);
 
 function _shn_cr_contact(){
 
+
+				global $global;
+				$db=$global['db'];
+				
+				$query = "select d.name, a.admin_name, a.admin_no, b.contact_value, c.occupation from camp_reg a left outer join camp_admin z USING (c_uuid) inner join contact b on b.pgoc_uuid = z.contact_puuid left outer join person_details c on c.p_uuid = b.pgoc_uuid inner join camp_general d on a.c_uuid = d.c_uuid where b.opt_contact_type='cmob'";
+				//$resc = $db->Execute($query);
+                                $resc = shn_paging_get_report($query,10);
 ?>
 	<div id = "result">
 		  <table>
@@ -241,11 +251,6 @@ function _shn_cr_contact(){
 			  </thead>
 	      <tbody>
 				<?php
-				global $global;
-				$db=$global['db'];
-				
-				$query = "select d.name, a.admin_name, a.admin_no, b.contact_value, c.occupation from camp_reg a left outer join camp_admin z USING (c_uuid) inner join contact b on b.pgoc_uuid = z.contact_puuid left outer join person_details c on c.p_uuid = b.pgoc_uuid inner join camp_general d on a.c_uuid = d.c_uuid where b.opt_contact_type='cmob'";
-				$resc = $db->Execute($query);
 				while (!$resc->EOF){
 				?>
 					<tr>
@@ -322,6 +327,34 @@ function _shn_cr_rpt_summary(){
 }
       
     
-  
+function _shn_cr_location_string($loc)
+{
+	global $global;
+	$db=$global["db"];
+	$loc_arr=array();
+	include_once $global['approot']."/inc/lib_location.inc";
+   	shn_get_parents($loc,&$loc_arr);
+        if($loc=="-1")
+            return _('Unspecified Location');
+   	if($loc_arr[0]=='unknown'){
+
+   	}else{
+   		
+   		$max=count($loc_arr)-1;
+   		array_pop($loc_arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($loc_arr);
+   			$q="select name from location where loc_uuid='{$x}'";
+    			$res=$db->Execute($q);
+    			if($count==0 ){
+    				$location=$location.$res->Fields("name");
+    			}else{
+   				$location=$location." --> ".$res->Fields("name");
+    			}
+    			
+   		}
+   	}
+   	return $location;
+}
 ?>
 

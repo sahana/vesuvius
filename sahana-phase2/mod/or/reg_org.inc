@@ -38,8 +38,7 @@ function _shn_or_regform_org($error=false)
     shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
-    ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required ,
-    but the Registration number is optional");?> </div><br /><?php
+    ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required , but the Registration number is optional");?> </div><br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
@@ -74,9 +73,7 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
-  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example if you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala',  start by selecting the country. Once you select the country".
-" all the divisions of that country will be shown in the next select box.  In this case all districts in 'Sri lanka' will appear . From those select a district, which inturn will show the village list in the next select box. Select 'dehiwala' and it is done!".
-"Please note that the levels can be customized, hence it does not need to always be 'country'->'district'->'village'. It is configurable from the 'administration' section."));//display help icon only once
+  $extra_opts['help']=(_("Select the location based at.  This is hierarchical. For example if you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala',  start by selecting the country. Once you select the country all the divisions of that country will be shown in the next select box.  In this case all districts in 'Sri lanka' will appear . From those select a district, which inturn will show the village list in the next select box. Select 'dehiwala' and it is done! Please note that the levels can be customized, hence it does not need to always be 'country'->'district'->'village'. It is configurable from the 'administration' section."));//display help icon only once
  	shn_form_fsopen(_("Base Location"));
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
@@ -91,7 +88,7 @@ function _shn_or_regform_org($error=false)
     shn_form_fsopen(_("Contact Information"));
     _shn_or_display_contact_person($error,false,null);
     shn_form_fsclose();
-     shn_form_fsopen(_("Facilities Avaliable"));
+     shn_form_fsopen(_("Facilities Available"));
     _shn_or_display_org_facilities($error);
     shn_form_fsclose();
 ?>
@@ -145,7 +142,9 @@ function _shn_or_regconfirm_org()
 <h2><?= _('Confirm Registration Details of ').$_SESSION['org']['name'] ?></h2>
 <div id="formcontainer">
 <?php
-    if( $_SESSION['org']['parent_id']==null){
+	if( $_POST['action']=='confirm_edit'){
+			shn_form_fopen("view_org_submit",null,array('req_message'=>false,'name'=>"confirm_reg"));
+	}else if( $_SESSION['org']['parent_id']==null){
     		shn_form_fopen("reg_org_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));
     }else{
     		shn_form_fopen("reg_operation_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));	
@@ -156,8 +155,11 @@ function _shn_or_regconfirm_org()
 	if(($res==NULL) || ($res->EOF)){
 	
 	}else{
-		$msg=_("An Organization by the name ").$_SESSION['org']['name']._(" exists already. May be you should change the name?");
-		add_warning($msg);
+		// do not show the warning when confirm edit.
+		if($_POST['action']!='confirm_edit'){
+			$msg=_("An Organization by the name ").$_SESSION['org']['name']._(" exists already. May be you should change the name?");
+			add_warning($msg);
+		}
 	}
     shn_form_label(_("Organization Name : "),$_SESSION['org']['name']); 
     if($_SESSION['org']['parent_id']==null){
@@ -204,7 +206,7 @@ function _shn_or_regconfirm_org()
 <?php
 //create the submit button
 	$extra_opts['br'] = false;
-    shn_form_button(_("Save"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='change_action(\"save\")'",$extra_opts);
 	shn_form_button(_("Edit Details"),"onClick='change_action(\"edit\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     _shn_or_action_change_javascript("confirm_reg","action");

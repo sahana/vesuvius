@@ -59,7 +59,7 @@ function _shn_ims_add_item_db()
         $ims = $db->Execute($sql);
       
     _shn_ims_expire_date_check();
-    add_confirmation($item . ' Item was successfully added');
+    add_confirmation($item . _(' Item was successfully added'));
 
     $_POST['item_name'] = "";
     $_POST['amount'] = "";

@@ -47,13 +47,16 @@ function _shn_dvr_getchecklist()
 }
 
 
-function _shn_dvr_getoptiondescription($opt_code)
+function _shn_dvr_getoptiondescription($opt_code,$field_name=null)
 {
 	global $global;
 	global $conf;
 	$db = $global['db'];
 	$loc = array ();
-	$q = "select distinct option_description from field_options where option_code='$opt_code'";
+	if(isset($field_name))
+	$q = "SELECT distinct option_description FROM field_options WHERE option_code='$opt_code' AND field_name='$field_name'";
+	else
+	$q = "SELECT distinct option_description FROM field_options WHERE option_code='$opt_code'";
 	$res = $db->Execute($q);
 	$desc=$res->fields['option_description'];
 	return $desc;
@@ -75,6 +78,17 @@ function _shn_dvr_getgroupheadspertype($grp_type)
 	$res->MoveNext();
 	}
 	return $head_names;
+}
+
+function _shn_dvr_getgrouptype($g_uuid)
+{
+	global $global;
+	$db = $global['db'];
+	$sql="SELECT opt_group_type FROM pgroup WHERE g_uuid = '$g_uuid'";
+    $res = $db->Execute($sql);
+    $grouptype=$res->fields['opt_group_type'];
+    
+    return $grouptype;
 }
 
 function _shn_dvr_get_group_id($head_name)
@@ -145,9 +159,10 @@ function _shn_dvr_get_image_id($groupid,$category)
 	global $global;
 
 $db = $global['db'];
-$sql="select i.image_id as imid from image i,pgroup p where p.head_uuid=i.x_uuid and p.g_uuid ='{$groupid} and p.category='{$category}'";
+//$sql="select i.image_id as imid FROM image i,pgroup p where p.head_uuid=i.x_uuid and p.g_uuid ='{$groupid} and p.category='{$category}'";
+$sql = "select image_id FROM image where x_uuid ='$groupid' AND category='$category'";
 $res = $db->Execute($sql);
-$imageid=$res->fields['imid'];
+$imageid=$res->fields['image_id'];
 return $imageid;
 }
 
@@ -167,7 +182,7 @@ function _shn_dvr_search_show_verticle($details)
     <TR>
         <TD>
 <?php
-	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+	        if(shn_show_thumb_url($details[$i]['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'],'mpr','addmp_img'))
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
@@ -188,7 +203,7 @@ function _shn_dvr_search_show_verticle($details)
 ?>
         <TD>
 <?php
-                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'],'mpr','addmp_img'))
+                if(shn_show_thumb_url($details[$i+1]['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'],'mpr','addmp_img'))
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';

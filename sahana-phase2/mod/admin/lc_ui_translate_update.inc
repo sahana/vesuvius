@@ -19,10 +19,10 @@ function _shn_admin_lc_translate_update(){
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
-	shn_form_fopen("lc_ui_trns_update");
-    shn_form_fsopen(_("User Interface Language Translation"));
+	shn_form_fopen("lc_ui_trns_update&update=Update");
+	shn_form_fsopen(_("User Interface Language Translation"));
     $locale = $_SESSION["locale"];
-    shn_form_select($lc_list,"Please select language: ","locale",'DISABLED=DISABLED',array('value'=>"$locale"));
+    shn_form_select($lc_list,_("Please select language: "),"locale",'DISABLED=DISABLED',array('value'=>"$locale"));
     shn_form_submit(_("Update"),'name="update"');
     shn_form_fclose();
 	
@@ -31,10 +31,10 @@ function _shn_admin_lc_translate_update(){
 function _shn_admin_lc_translate_compile(){		
 	$return = array();	
 	$locale = $_SESSION["locale"];
-    $cmd = 'msgfmt ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.mo';            
+	$cmd = 'msgfmt ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.mo';            
     system($cmd, &$return);
     print_r($return);
-   	echo 'Translation updated succesfully';    
+   	echo _('Translation updated succesfully');    
     
 }
 

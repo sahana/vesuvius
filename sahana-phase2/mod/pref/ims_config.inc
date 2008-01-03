@@ -69,7 +69,7 @@ function _shn_pref_config_validate()
     }
 
     if(! isset($local_post['ims_incident_id'])){
-        add_error(_("Please select an incident"));
+        add_error(_("Please select an item from 'Select Incident' box"));
         $error_flag=true;
     }
 

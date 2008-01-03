@@ -21,7 +21,7 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 
 <?php
-/* $Id: search_individual.inc,v 1.3 2007-02-08 07:44:02 isurunishan Exp $ */
+/* $Id: search_individual.inc,v 1.4 2008-01-03 04:41:36 isurunishan Exp $ */
 /**
  * 
  * Search groups and individuals in disaster victims registry
@@ -42,7 +42,7 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 function shn_dvr_search_default()
 {
-    shn_form_fopen("search_individual",null); 
+    shn_form_fopen("search_individual",null,array('req_message'=>false)); 
     shn_form_hidden(array('seq'=>'search'));
      shn_form_hidden(array('incident'=>'one'));
     shn_form_fsopen(_('General Search'));
@@ -127,7 +127,7 @@ $results=_shn_dvr_get_individual_search_results($card,$name,$all_incidents);
         $results->MoveNext();
         }
         ?>
-        <table>
+        </table>
         </div>
         
         <?php
@@ -147,16 +147,16 @@ function shn_dvr_search_advance()
 
     shn_form_fsopen(_('Identity'));
     shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox('Identity Card','idcard_chk');
-    shn_form_checkbox('Passport Number','pass_chk');
-    shn_form_checkbox('Driving License','drv_chk');
+    shn_form_checkbox(_('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_('Passport Number'),'pass_chk');
+    shn_form_checkbox(_('Driving License'),'drv_chk');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Name'));
     shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox('Full Name','fullname_chk');
-    shn_form_checkbox('Family Name','familyname_chk');
-    shn_form_checkbox('Local Name','localname_chk');
+    shn_form_checkbox(_('Full Name'),'fullname_chk');
+    shn_form_checkbox(_('Family Name'),'familyname_chk');
+    shn_form_checkbox(_('Local Name'),'localname_chk');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Basic Details'));

@@ -63,7 +63,7 @@ function _shn_cs_addmain_form_result()
     $res1 = $db->Execute($query1);
     
     if(isset($res1->fields["ct_uuid"])) {
-    	add_warning(_("Operation failed. catalog name ". $name ." found. Please use another name for the catalog."));
+    	add_warning(_("Operation failed. Catalog name called "). $name ._(" already exists. Please use another name for the catalog."));
     	shn_cs_addmain_form();
     } else {
         $id = shn_create_uuid("catalogue");
@@ -98,7 +98,7 @@ function shn_cs_addsub_form1()
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print _("<br /><b>Do a keyword search to find the parent category.</b>");
+    print "<br /><b>"._("Do a keyword search to find the parent category.")."</b>";
     shn_form_fopen("keyword_search",null,array('req_message'=>false));
     shn_form_fsopen(_('Keyword Search'));
 
@@ -138,7 +138,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
     shn_form_text(_("Description   : "),'sub_description','size="50"',null);
     shn_form_fsclose();
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this sub catalog.')));
+    shn_form_text(" ",'sub_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular catalog/item easily, when you add sub catalogs or items under this sub catalog.')));
     shn_form_fsclose();
     
     //the parent ID is submitted as a hidden variable
@@ -182,7 +182,7 @@ function _shn_cs_addsub_form2_result()
 
 	shn_cs_addsub_form1();
 	} else {
-	add_warning(_("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator."));
+	add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system Administrator."));
 	}
 }
 
@@ -289,7 +289,7 @@ function _shn_cs_addunit_form_result()
 	<?php
 	shn_cs_addunit_form();
 	} else {
-	add_warning(_("Operation failed. ct_unit table not found in the Database. Please contact system Administrator."));
+	add_warning(_("Operation failed. ct_unit table not found in the database. Please contact system Administrator."));
 	}
 }
 
@@ -311,7 +311,7 @@ function shn_cs_additem_form1()
     print "<br /><b>"._("Do a keyword search to find the catalogue.")."</b>";
     shn_form_fopen("keyword_search");
     shn_form_fsopen(_('Keyword Search'));
-    shn_form_text(_(" "),'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
+    shn_form_text(" ",'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
     shn_form_hidden(array('type' => 'item'));
     shn_form_submit(_("Search"));
     shn_form_fsclose();
@@ -350,7 +350,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsclose();
 
     shn_form_fsopen(_('Keyword'));
-    shn_form_text(_(" "),'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular item easily.')));
+    shn_form_text(" ",'item_keyword','size="50"', array('help'=>_('Enter a keyword which will help you to search particular item easily.')));
     shn_form_fsclose();
 
     $select_opts = 'onChange=change_units(this.options[this.selectedIndex].value)';
@@ -451,12 +451,12 @@ function shn_cs_additem_form2_result()
 		$del_query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
 		$res = $db->Execute($del_query);
 
-		add_warning(_("Operation failed. ct_cat_unit table not found in the Database. Please contact system Administrator."));
+		add_warning(_("Operation failed. ct_cat_unit table not found in the database. Please contact system Administrator."));
 	} elseif($items_saved_ok == false && $all_units_saved_ok == true) {
 		$del_query = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
 		$res = $db->Execute($del_query);
 
-		add_warning(_("Operation failed. ct_catalogue table not found in the Database. Please contact system Administrator."));
+		add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system Administrator."));
 	} else {
 		add_warning(_("Operation failed. ct_catalogue and ct_cat_unit tables not found in the Database. Please contact system Administrator."));		
 	}
@@ -534,7 +534,7 @@ function _shn_cs_search_keyword_result()
     global $global;
     $db = $global["db"];
 
-    print _("Click on the parent catalogue that you need to add sub catalogue or Item under it.<br /> ");
+    print _("Click on the parent catalogue that you need to add sub catalogue or Item under it.")."<br /> ";
 
     $search_keyword =$name = trim($_POST['search_keyword']);
     $type = trim($_POST['type']);
@@ -567,9 +567,9 @@ function _shn_cs_search_keyword_result()
         <td><a href="index.php?mod=cs&amp;act=search_keyword_select_submit&amp;id=<?php echo $cat_id ?>&amp;type=<?php echo $type ?>"><?php print $name ;?></a></td>
         <td><?php print $description; ?></td>
         <?php if($final_flag == '0') { ?>
-            <td><?php print "Catalog"; ?></td>
+            <td><?php print _("Catalog"); ?></td>
         <?php } else { ?>
-            <td><?php print "Item"; ?></td>
+            <td><?php print _("Item"); ?></td>
         <?php } ?>
 	<td><?php print $keyword ;?></td>
     </tr>

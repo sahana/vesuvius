@@ -1,5 +1,5 @@
 <?php
-/* $Id: main.inc,v 1.16 2007-06-17 07:56:24 mifanc Exp $; */
+/* $Id: main.inc,v 1.17 2008-01-03 04:41:59 isurunishan Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -17,7 +17,7 @@
 include_once $global['approot']."/mod/gis/main_fns.inc";
 //include_once $global['approot']."/mod/gis/conf.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
-include_once $global['approot']."/mod/gis/wm_fns.php";
+include_once $global['approot']."/mod/gis/wm_fns.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 
@@ -28,7 +28,9 @@ function shn_gis_mainmenu(){
     $module = $global['module'];
     shn_mod_menuopen($conf['mod_gis_name']);
     shn_mod_menuitem("default",_("Home"),$module);
-    shn_mod_menuitem("show",_("Mapping Client"),$module);
+    shn_mod_menuitem("swik",_("Situation Map"),$module);
+    shn_mod_menuitem("awik",_("Add Map Marker"),$module);
+    shn_mod_menuitem("mapc",_("General Map"),$module);
     
     // @todo: Confirm functionality
     /*
@@ -37,10 +39,8 @@ function shn_gis_mainmenu(){
     shn_mod_menuitem("vloc",_("View Landmarks"),$module);
     shn_sub_mod_menuclose();
     */
-    shn_sub_mod_menuopen(_("Situation Feature"));
-    shn_mod_menuitem("awik",_("Add Situation"),$module);
-    shn_mod_menuitem("swik",_("View Situation Map"),$module);
-    shn_sub_mod_menuclose();
+    //shn_sub_mod_menuopen(_("Situation Feature"));
+    //shn_sub_mod_menuclose();
     // @todo: confirm functionality
     /*
     shn_sub_mod_menuopen(_("Spatial Reports"));
@@ -49,6 +49,23 @@ function shn_gis_mainmenu(){
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
+
+//-----------------------------
+
+function shn_gis_mapc()
+{
+	//earlier done by Mifan's shn_gis_show()
+	//main.inc, wm_fns.php and main_fns.inc were changed
+	
+	//needs coding for validation etc
+	
+					map_client(true);
+				
+}
+
+//-----------------------------
+
+
 
 function shn_gis_awik()
 {

@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_ppl.inc,v 1.3 2007-03-12 18:49:46 mifanc Exp $ */
+/* $Id: edit_ppl.inc,v 1.4 2008-01-03 04:40:55 isurunishan Exp $ */
 
 /**Update functions for  CR
 *
@@ -28,9 +28,10 @@ function _shn_cr_cedt_start($errors=false){
 ?>
 <h2><?php echo _("Update Existing Victims")?></h2>
 <?php
-	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
+	/*$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
-	$editid=$res->fields['c_uuid'];
+	$editid=$res->fields['c_uuid'];*/
+	$editid=$_REQUEST['cmp_id'];
 	$_SESSION['editid']=$editid;
 	
 	_shn_cr_get_session($editid);
@@ -119,32 +120,32 @@ function _shn_cr_validate_error(){
 
 if(!(null == ($_POST['family']))){
 		if(!is_numeric(trim($_POST['infected_count']))){
-			add_error(_("The Infected Count is not a valid number"));
+			add_error(_("The infected count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 if(!(null == ($_POST['capacity']))){
                 if(!is_numeric(trim($_POST['capacity']))){
-                        add_error(_("The Capacity is not a valid number"));
+                        add_error(_("The capacity is not a valid number"));
                         $error_flag=true;
                 }
         }
 
 	if(!(null == ($_POST['men']))){
 		if(!is_numeric(trim($_POST['men']))){
-			add_error(_("The Men Count is not a valid number"));
+			add_error(_("The men count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['women']))){
 		if(!is_numeric(trim($_POST['women']))){
-			add_error(_("The Women Count is not a valid number"));
+			add_error(_("The women count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['children']))){
 		if(!is_numeric(trim($_POST['children']))){
-			add_error(_("The Children Count is not a valid number"));
+			add_error(_("The children count is not a valid number"));
 			$error_flag=true;
 		}
 	}
@@ -201,7 +202,7 @@ $q="update camp_reg set men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_wo
 $res = $db->Execute($q);
 ?>
 
-<?= add_confirmation(_("You Have Succesfully Edited the People Count {$_SESSION[camp_name]}"));?></h2>
+<?= add_confirmation(_("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
 
 
 </tbody>
@@ -210,7 +211,7 @@ $res = $db->Execute($q);
 
 </ul>
 <br><br>
-<p><?php echo _("Use the Navigation Menu to Continue")?></p>
+<p><?php echo _("Use the navigation menu to continue")?></p>
 <?php	
 }
 

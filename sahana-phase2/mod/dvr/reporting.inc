@@ -43,6 +43,7 @@ function _shn_drill_downby_group() {
     {$results=_shn_dvr_get_all_groups(null);
     }
    ?>
+   <br>
    	 <div id ="result">
 	<table>
         <thead>

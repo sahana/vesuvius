@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.11 2007-03-15 08:32:25 mifanc Exp $ */
+/* $Id: admin.inc,v 1.12 2008-01-03 04:40:56 isurunishan Exp $ */
 
 /**Admin Module for CR
 *
@@ -21,7 +21,7 @@ require_once('acl.inc');
 function _shn_cr_adm_sub_menu(){
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=cr&act=adm_forms">Configure Form Display</a> 
+<a href="index.php?mod=cr&act=adm_forms"><?php echo _("Configure Form Display") ?></a> 
 </div>
 <br>
 <?php
@@ -55,13 +55,13 @@ function _shn_cr_adm_form_change(){
 	shn_form_fclose();
 	*/
 	shn_form_fopen(adm_form_commit,null,array("req"=>false));
-  	shn_form_fsopen("Add Service / Facility");
-	shn_form_opt_select("opt_camp_service","Currently Available Services/Facilities");
+  	shn_form_fsopen(_("Add Service / Facility"));
+	shn_form_opt_select("opt_camp_service",_("Currently Available Services/Facilities"));
 	echo "<br/>";
-	shn_form_text("Service Name","service_name",'size="30"');
-	shn_form_text("Service Abbrevation [3 letter unique abbr. to store in the database]","service_abbr",'size="3"');
+	shn_form_text(_("Service Name"),"service_name",'size="30"');
+	shn_form_text(_("Service Abbrevation [3 letter unique abbr. to store in the database]"),"service_abbr",'size="3"');
 	shn_form_fsclose();
-	shn_form_submit("Add Service");
+	shn_form_submit(_("Add Service"));
 	shn_form_fclose();
 }
 
@@ -69,13 +69,29 @@ function shn_cr_adm_form_commit(){
 
 	global $global;
 	$db = $global['db'];
-
+	$db_flag = true;
 	if(!empty($_POST['service_name'])){
 		if(!empty($_POST['service_abbr'])){
 			if(strlen($_POST['service_abbr'])==3){
-				$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
+				$q = "SELECT option_code FROM field_options";
 				$res = $db->Execute($q);
-				add_confirmation(_("Added Values"));
+				
+				while(!$res->EOF){
+	    			$value = $res->fields["option_code"];
+	    			if($value==$_POST['service_abbr']){
+	    				add_error(_("Abbrevation exist, please insert unique abbrevation"));
+	    				$db_flag = false;
+	    				break;	    				
+	    			}	    				
+	    			$res->MoveNext();
+	   	 		}
+				
+				if($db_flag){
+					$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
+					$res = $db->Execute($q);
+					add_confirmation(_("Added values"));
+				}
+				
 			}
 			else
 				add_error(_("Abbrevation should in 3 characters"));

@@ -27,8 +27,7 @@ function shn_or_rpt_default()
 }
 
 function shn_or_service_coverage_chart()
-{
-	
+{	
 	global $global;
     $db=$global['db'];
 	$q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
@@ -48,7 +47,7 @@ function shn_or_service_coverage_chart()
     }
 
 	$keyword_arr = array('chart'=>'pie chart','mod'=>'or');
-	generate_piechart("Piechart","Service Coverage","","",$keyword_arr);
+	generate_piechart("Piechart","","","",$keyword_arr);
 
 }
 
@@ -72,24 +71,33 @@ function shn_or_service_coverage_pdf()
 	    if(!$res_org->EOF){
 	       // $table_row = "row".$row_count++;
     			$table_row = array();
-    			$table_row ["Service"]= $option_code;
+    			$table_row ["Service"]= $res_sector->fields[1];
+    			// added teh following to be blank
+    			$table_row ['name'] = "                ";
+    			$table_row ['Organization_Type'] = "                ";
+    			$table_row ['Location'] = "                ";
+    			$table_row ['Address'] = "                ";
+    			$table_row ['Contact_Number'] = "                ";
     			array_push($table_data, $table_row);
         }
 
         while(!$res_org==NULL && !$res_org->EOF){
             $org_id=$res_org->fields["o_uuid"];
             $org_data=_shn_get_org_data($org_id,false);
-            $table_row ["Service"]=null;
+            $table_row ["Service"]="";
             $table_row ["name"]=$res_org->fields["name"];
           //  $table_row ["Incidents"]=$org_data["incidents"];
        //     $table_row ["Services_Offered"]=$org_data["services"];
             $table_row ["Organization_Type"]=$org_data["type"];
-            $table_row ["Location"]=$org_data["location"];
-            $table_row ["Address"]=$org_data["address"];
+            $table_row ["Location"]=(isset($org_data["location"])?$org_data["location"]:" - ");
+            $table_row ["Address"]=(isset($org_data["address"])?$org_data["address"]:" - ");
             $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='curr'";
         	$res_contact=$db->Execute($q);
             if(!$res_contact==NULL && !$res_contact->EOF){
-            	$table_row ["Contact_Number"]=$res_contact->fields["contact_value"];
+            	$contact_value = $res_contact->fields["contact_value"];
+            	$table_row ["Contact_Number"]=isset($contact_value)?$contact_value:" - ";
+        	}else{
+        		$table_row ["Contact_Number"]=" - ";
         	}
 
             array_push($table_data, $table_row);
@@ -97,13 +105,13 @@ function shn_or_service_coverage_pdf()
         }
         $res_sector->MoveNext();
     }
-
-
+   
+   
     $title='Organization Report by Service';
     $txt = 'This a listing of Organizations Grouped by service';
     $or_report1_keyword_arr = array('mod'=>'or','report'=>'by service','report1'=>'orgs','users'=>'all');
 
-    
+
     shn_report_fopen('pdf',"orgs_by_service",$or_report1_keyword_arr);
     shn_report_add_title($title);
     #shn_report_add_summary($txt);
@@ -176,7 +184,7 @@ function _shn_or_drill_org($parent=null)
     $res=$db->Execute($q);
     $level=$res->fields["option_description"];
     ?>
-	<h2><?=_("Organization Report By ". $level) ?></h2>
+	<h2><?=_("Organization Report By "). $level ?></h2>
     <p>
     
     <?php 
@@ -184,12 +192,7 @@ function _shn_or_drill_org($parent=null)
     echo	 _("Each Row is a ")."<strong>".$level."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";
 	echo _("Intersection shows the number of organizations providing the service in the location and its sub locations.")."<br />";
     */
-    echo "
-This table covers the number of organizations that provide a
-particular service in a area as a geographical drill down. You may
-view  a sub-location by clicking on a parent-location and the
-organization details by clicking on the appropriate number. Please
-give attention to all services Not covered.";
+    echo _("This table covers the number of organizations that provide a particular service in a area as a geographical drill down. You may view  a sub-location by clicking on a parent-location and the organization details by clicking on the appropriate number. Please give attention to all services Not covered.");
     ?>
     </p>
     <br />
@@ -294,7 +297,7 @@ function _shn_or_drill_loc($parent=null)
  	$tmp=shn_get_last_level();
  	if($tmp[0]==$lvl_child-1){
  	?>
- 	<h2><?=_("Organization Report for $parent_type") ?></h2>
+ 	<h2><?=_("Organization Report for ").$parent_type; ?></h2>
     <div class="note">
     <?
  	$tmp=shn_get_last_level();
@@ -304,7 +307,7 @@ function _shn_or_drill_loc($parent=null)
  	</div><?
  }else{
  	?>
- 	<h2><?=_("Organization Report by $child_type for $parent_type") ?></h2>
+ 	<h2><?=_("Organization Report By ").$child_type._(" for ").$parent_type; ?></h2>
     <p>
  
 <?php
@@ -321,7 +324,7 @@ function _shn_or_drill_loc($parent=null)
  		echo _("Please provide attention to locations with the note ")."<strong>Not covered</strong>"._(" in Red as that means there is not a single organization " .
  				"providing that particular service in its sub locations");
  		*/
- 		echo 'This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.'
+ 		echo _("This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.");
  ?></p><br /><?
  }     
     
@@ -337,7 +340,7 @@ function _shn_or_drill_loc($parent=null)
     $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
     $res_sector=$db->Execute($q);
     while(!$res_sector==NULL && !$res_sector->EOF){
-       echo "<td>".$res_sector->fields[1]."</td>";
+       echo "<td>"._lc($res_sector->fields[1])."</td>";
        $res_sector->MoveNext();
     }
        $res_sector->MoveFirst();

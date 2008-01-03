@@ -1,5 +1,5 @@
 <?php
-/* $Id: api.inc,v 1.2 2006-09-14 06:45:42 janakawicks Exp $ */
+/* $Id: api.inc,v 1.3 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Controller of the Missing Person Registry 
@@ -70,9 +70,9 @@ function shn_mpr_api_addmp($arrmpr){
         the lib_location
     */
     //Starts
-        $i = $conf['mod_mpr']['location']['lower_limit'];
+        $i = $conf['mod_mpr_location_lower_limit'];
         while((! isset($arrmpr[$i])) && 
-                $i > $conf['mod_mpr']['location']['upper_limit'] ) 
+                $i > $conf['mod_mpr_location_upper_limit'] ) 
             $i--;
     //Ends
     if(isset($arrmpr[$i]))
@@ -192,7 +192,7 @@ function shn_mpr_api_addmp($arrmpr){
         shn_mpr_addmp_insert_reporter($arrmpr['p_uuid']);
 
     //Insert Image if image save handler is set to database
-    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+    if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
         shn_image_to_db_ex($arrmpr['p_uuid'],
                             $_SESSION['mpr']['entry']['image'],
                             $_SESSION['mpr']['entry']['image_type'],

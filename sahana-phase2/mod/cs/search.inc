@@ -79,7 +79,7 @@ function _shn_cs_search_item_cat_submit_result()
     }
 
     if($name == null && $description == null) {
-    print _("<br /><br /><b>There is no match found.</b>");
+    print "<br /><br /><b>"._("There is no match found.")."</b>";
     } else {
     ?>
     <br><br>

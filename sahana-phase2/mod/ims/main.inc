@@ -46,7 +46,7 @@ function shn_ims_mainmenu()
     $module = $global['module'];
 
     shn_mod_menuopen(shn_get_module_name());
-    shn_mod_menuitem("default","Home",$module);
+    shn_mod_menuitem("default",_("Home"),$module);
     shn_mod_menuitem("search_main",_("Search"),$module);
     shn_mod_menuitem("view_inv",_("Inventories"),$module);
     
@@ -58,12 +58,12 @@ function shn_ims_mainmenu()
     shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
     
     shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("report_expired",_("expired items"),$module);
-    shn_sub_mod_menuitem("report_destroyed",_("destroyed items"),$module);
-    shn_sub_mod_menuitem("report_minimum",_("re-order level"),$module);
+    shn_sub_mod_menuitem("report_expired",_("Expired Items"),$module);
+    shn_sub_mod_menuitem("report_destroyed",_("Destroyed Items"),$module);
+    shn_sub_mod_menuitem("report_minimum",_("Re-order Level"),$module);
     shn_sub_mod_menuitem("report_transit_item",_("Transit Item"),$module);
     //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
-    shn_sub_mod_menuitem("gis_inv",_("map by inventory"),$module);
+    shn_sub_mod_menuitem("gis_inv",_("Map by Inventory"),$module);
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_("Optimization"));
     shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
@@ -772,7 +772,7 @@ function shn_ims_optim_inventory()
 {
     include_once("optimize.inc");
     
-    print ("<h1><center>Select Inventory to Predict</center></h1>");
+    print "<h1><center>"._("Select Inventory to Predict")."</center></h1>";
     
     _shn_ims_optim_inventory();
 }
@@ -922,7 +922,7 @@ function shn_ims_gis_inv()
     $inv_id = $_REQUEST['id'];
 
 ?>
-    <h1 align="center"><?php print ('Map by Inventory');?></h1>
+    <h1 align="center"><?php print _('Map by Inventory');?></h1>
 <?php
     echo '<br>';
     echo '<br>';
@@ -1017,7 +1017,7 @@ function shn_ims_list_items_paging($Limit = NULL)
         $page_number = 1;
     }
 ?>
-    <b><?php print (_("Page Number : ") . $page_number); ?></b>
+    <b><?php echo _("Page Number : ") . $page_number; ?></b>
 <?php
     $i = $page_number;
     _shn_ims_view_edit_header();
@@ -1037,7 +1037,7 @@ function shn_ims_reorder_level_paging($Limit = null)
         $page_number = 1;
     }
 ?>
-    <b><?php print (_("Page Number : ") . $page_number); ?></b>
+    <b><?php echo _("Page Number : ") . $page_number; ?></b>
 <?php
     _shn_ims_view_edit_reorder_page($page_number,$Limit);
 
@@ -1059,7 +1059,7 @@ function shn_ims_inventory_paging($Limit = null)
 
     
 ?>
-    <b><?php print (_("Page Number : ") . $page_number); ?></b>
+    <b><?php echo _("Page Number : ") . $page_number; ?></b>
 <?php
 
     _shn_ims_viewform_allorg($no = NULL,$page_number,$Limit);

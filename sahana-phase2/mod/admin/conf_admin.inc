@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf_admin.inc,v 1.12 2007-11-21 13:07:19 isurunishan Exp $ */
+/* $Id: conf_admin.inc,v 1.13 2008-01-03 04:40:00 isurunishan Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -131,7 +131,7 @@ function shn_admin_conf_list()
 <table>
 	<thead>
 	<?php
-	shn_form_table_row(array('Config Variable','Current Value','Modified Value','Action'));
+	shn_form_table_row(array(_('Config Variable'),_('Current Value'),_('Modified Value'),_('Action')));
 	?>
 	</thead>
 	<?php

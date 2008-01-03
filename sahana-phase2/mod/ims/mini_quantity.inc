@@ -97,7 +97,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 
     shn_form_fopen("mini_quantity_db");
 
-    shn_form_fsopen("Item Name");
+    shn_form_fsopen(_("Item Name"));
     shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',array('value'=>$item_name));
     shn_form_fsclose();
 
@@ -135,7 +135,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 
     shn_form_fsclose();
 
-    shn_form_fsopen("Item Quantity ");
+    shn_form_fsopen(_("Item Quantity "));
     shn_form_text(_("Re-Order Level : "),'mini_quantity','size="50"',array('req'=>true,'value'=>$minimum_quantity));
     
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     shn_form_hidden(array('flag'=>$flag));
     shn_form_hidden(array('parent_id'=>$parent_id));
     //shn_form_hidden(array('inv_id'=>$inv_id));
-    shn_form_submit("Submit");
+    shn_form_submit(_("Submit"));
     
     shn_form_fclose();
 }
@@ -201,14 +201,14 @@ function _shn_ims_mini_quantity_db()
 
         $sql = "INSERT INTO ims_reorder_level (catalog_id,inv_id,minimum_quantity,unit) VALUES ('$catalog_id','$inv_id','$mini_quantity','$unit');";
         $ims = $db->Execute($sql);
-        add_confirmation('Re-Order level was succesfully Added');
+        add_confirmation('Re-Order level was succesfully added');
         shn_ims_minimum_quantity_item();
     }
     if ($flag == true) {
         $sql = "UPDATE ims_reorder_level SET minimum_quantity='{$mini_quantity}',unit='{$unit}' WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
         $ims = $db->Execute($sql);
 
-    add_confirmation('Re-Order level was succesfully Added');
+    add_confirmation('Re-Order level was succesfully added');
    
     $flag = "";
     $catalog_id = "";
@@ -267,7 +267,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     $db = $global["db"];
     $form_opts['name'] = 'reorder_form';
     shn_form_fopen("minimum_quantity_action",null,$form_opts);
-    shn_form_fsopen("Add Re-Order Level");
+    shn_form_fsopen(_("Add Re-Order Level"));
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
     shn_form_button(_("Add Re-Order Level"),"onClick='change_action(\"reorder\")'",$extra_opts);

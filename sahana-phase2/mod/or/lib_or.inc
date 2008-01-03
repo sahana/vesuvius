@@ -281,9 +281,8 @@ function shn_or_org_incident_list($incidents=null,$rootsonly=false){
         if($incidents==null) {
 			$q = "SELECT DISTINCT o_uuid FROM org_main WHERE privacy=false".$root." ORDER BY name";
         }else {
-			$q = "SELECT DISTINCT o_uuid  FROM org_main,resource_to_incident WHERE privacy=false  ".$root." AND parent_id is NULL AND resource_to_incident.x_uuid=org_main.o_uuid AND incident_id IN $list"." ORDER BY name";
+			$q = "SELECT DISTINCT o_uuid  FROM org_main,resource_to_incident WHERE privacy=false  ".$root." AND resource_to_incident.x_uuid=org_main.o_uuid AND incident_id IN $list"." ORDER BY name";
         }
-        
         $headers=array('Organization Name','Incidents','Services Provided','Organization Type','Location','Address','Contact Numbers');
 	    $orgs=shn_paging_get_report($q,5,$headers,array('post'=>false,'return'=>true));
 	    $org_list=array();   
@@ -726,25 +725,25 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
     }
     $extra_opts['value']=$contact_name;
     $extra_opts['help']=_("Name of the person to be contacted in a disaster");
-    shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
+    shn_form_text(_("Name : "),'contact_name','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_address;
       $extra_opts['help']=_("Address of a person to be contacted in a disaster");
-    shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
+    shn_form_text(_("Address : "),'contact_add','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
       $extra_opts['help']=_("Land line number to be contacted in a disaster");
-    shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+    shn_form_text(_("Phone : "),'contact_phone','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
       $extra_opts['help']=_("Mobile Phone number to be contacted in a disaster");
-    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
+    shn_form_text(_("Mobile No : "),'contact_mobile','size="40"',$extra_opts);
     $extra_opts['value']=$contact_fax;
       $extra_opts['help']=_("Fax number to be contacted in a disaster");
-    shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
+    shn_form_text(_("Fax : "),'contact_fax','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_email;
       $extra_opts['help']=_("Email address to be contacted in a disaster");
-    shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+    shn_form_text(_("Email : "),'contact_mail','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_web;
       $extra_opts['help']=_("Website of the Organization");
-    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
+    shn_form_text(_("Website : "),'contact_web','size="40"',$extra_opts);
 }
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
@@ -774,17 +773,14 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
         }
     }
     $extra_opts['value']=$man_power;
-    $extra_opts['help']=_("Specify the workforce(Men/Women) in your organization. This amount would" .
-    		"be useful in identifying the potential number of volunteers in the event of a disaster");
-    shn_form_text(_("Man Power : "),'man_power','size="50"',$extra_opts);
+    $extra_opts['help']=_("Specify the workforce(Men/Women) in your organization. This amount would be useful in identifying the potential number of volunteers in the event of a disaster");
+    shn_form_text(_("Man Power : "),'man_power','size="40"',$extra_opts);
     $extra_opts['value']=$equipment;
-    $extra_opts['help']=_("Specify the kind of equipment you have,that will be useful in Disaster Relief" .
-    		" Operations");
-    shn_form_text(_("Equipment : "),'equipment','size="50"',$extra_opts);
+    $extra_opts['help']=_("Specify the kind of equipment you have,that will be useful in Disaster Relief Operations");
+    shn_form_text(_("Equipment : "),'equipment','size="40"',$extra_opts);
     $extra_opts['value']=$resources;
-    $extra_opts['help']=_("Specify any other resource that you think might be useful in Disaster Relief" .
-    	" Operations");
-    shn_form_text(_("Other relevant resources : "),'resources','size="50"',$extra_opts);
+    $extra_opts['help']=_("Specify any other resource that you think might be useful in Disaster Relief Operations");
+    shn_form_text(_("Other relevant resources : "),'resources','size="40"',$extra_opts);
 }
 
 function _shn_or_display_logininfo($error=false)
@@ -896,7 +892,7 @@ function _shn_or_display_incident($error=false,$multi=false,$value=NULL)
 
 function _shn_or_display_extra($error=false)
 {
-    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
+    shn_form_checkbox(_("Add Operation")."<br>"._("(Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
 }
 
 function _shn_or_get_suplier_name($suplier_id)
@@ -947,6 +943,10 @@ function _shn_or_check_org_reg_info_complete()
 	include_once $global['approot']."/inc/lib_validate.inc";
 	$error=false;
     $VARCHAR=100; 
+    // the org id is set when editing.
+    if(isset($_POST['org_id'])){
+    	$_SESSION['org']['org_id']=$_POST['org_id'];
+    }
     $_SESSION['org']['parent_id']=$_POST["parent"];
     if($_SESSION['org']['parent_id']==null){
     		$parent_org=true;
@@ -960,7 +960,17 @@ function _shn_or_check_org_reg_info_complete()
     		list($error,$_SESSION['org']['type'])=(shn_validate_opt_field('opt_org_sub_type',$_POST{"opt_org_sub_type"},"Organization Sub Type",$VARCHAR,false))?array($error,$_POST{"opt_org_sub_type"}):array(true,NULL);
     }
     list($error,$_SESSION['org']['sector'])=(shn_validate_opt_field('opt_sector_type',$_POST{"opt_sector_type"},"Organization Sector",$VARCHAR,true))?array($error,$_POST{"opt_sector_type"}):array(true,NULL);
+    
+    // the following two are used only in edit org form
+    if(isset($_POST['lat_edited'])){
+    	$_SESSION['org']['lat_edited']=$_POST['lat_edited'];
+    }
+    if(isset($_POST['lon_edited'])){
+    	$_SESSION['org']['lon_edited']=$_POST['lon_edited'];
+    }
+    
     $loc=shn_location_get_form_submit_loc();
+
     if ($loc==-1){
         //$error=true;
         //add_error(SHN_ERR_OR_LOCATION_INCOMPLETE);
@@ -968,6 +978,7 @@ function _shn_or_check_org_reg_info_complete()
     }else{
     	$_SESSION['org']['loc']=$loc;
     }
+    
     $_SESSION['org']['loc_txt']=$_POST['loc_txt'];
     if($parent_org==true){
     if (trim(strlen($_POST{"reg_no"})) > $VARCHAR){

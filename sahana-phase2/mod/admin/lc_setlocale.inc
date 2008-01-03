@@ -45,8 +45,7 @@ switch($_REQUEST['seq']) {
             	$locale = _shn_lc_getdblc();
 
                 print "<h3>" .
-                      _("Current locale setting ") .
-                		  _("in the Database : ") .
+                      _("Current locale setting in the Database : ") .
                       _lc($locale) .
                       " </h3>";
 

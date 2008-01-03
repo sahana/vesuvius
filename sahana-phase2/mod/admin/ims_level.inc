@@ -30,7 +30,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
 	    }
 
         shn_form_hidden(array('seq'=>'update'));
-        shn_form_fsopen(_('Manage ')._($conf['mod_admin_ims_level1']));
+        shn_form_fsopen(_('Manage ')._lc($conf['mod_admin_ims_level1']));
 ?>
 		<table>
 		<thead>
@@ -66,7 +66,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
     }
     
     shn_form_hidden(array('seq'=>'addnew'));
-    shn_form_fsopen(_('Add New ')._($conf['mod_admin_ims_level1']));
+    shn_form_fsopen(_('Add New ')._lc($conf['mod_admin_ims_level1']));
     shn_form_text(_("Name"),'level1_name_new');
     shn_form_fsclose();
 
@@ -100,6 +100,7 @@ function _shn_ims_level1_validate()
     if(($local_post['seq']) == 'addnew') {
         if(! isset($local_post['level1_name_new'])) {
             add_error(_("Please enter the name for ").$conf['mod_admin_ims_level1']);
+            add_warning(_("If there are no ").$conf['mod_admin_ims_level1']._(". Please add new ").$conf['mod_admin_ims_level1']);
             $error_flag=true;
         }
     }else{
@@ -185,9 +186,9 @@ function _shn_ims_level2_form($errors=false,$type=null)
 ?>
 		<table width="100%">
 		<thead>
-   		<td><strong><?=_('Name');?></strong></td>
-   		<td><strong><?=_($conf['mod_admin_ims_level1']);?></strong></td>
-    	<td><strong><?=_('Delete');?></strong></td>
+   		<td><strong><?php echo _('Name');?></strong></td>
+   		<td><strong><?php echo _lc($conf['mod_admin_ims_level1']);?></strong></td>
+    	<td><strong><?php echo _('Delete');?></strong></td>
 		</thead>
 <?php
 		foreach($arr as $row) {
@@ -231,9 +232,9 @@ function _shn_ims_level2_form($errors=false,$type=null)
     }
     
     shn_form_hidden(array('seq'=>'addnew'));
-    shn_form_fsopen(_('Add New ')._($conf['mod_admin_ims_level2']));
+    shn_form_fsopen(_('Add New ')._lc($conf['mod_admin_ims_level2']));
     shn_form_text(_("Name"),'level2_name_new');
-    shn_form_select($parent_ids,_($conf['mod_admin_ims_level1']),"level2_new_parent_id");
+    shn_form_select($parent_ids,_lc($conf['mod_admin_ims_level1']),"level2_new_parent_id");
     shn_form_fsclose();
 
     shn_form_submit(_('Add New'));
@@ -270,6 +271,7 @@ function _shn_ims_level2_validate()
         }
         if(! isset($local_post['level2_new_parent_id'])) {
             add_error(_("Please select ").$conf['mod_admin_ims_level1']);
+            
             $error_flag=true;
         }
     }else{
@@ -455,7 +457,8 @@ function _shn_ims_level3_validate()
             $error_flag=true;
         }
         if(! isset($local_post['level3_new_parent_id'])) {
-            add_error(_("Please select ").$conf['mod_admin_ims_level1']);
+            add_error(_("Please select ").$conf['mod_admin_ims_level2']);
+            add_warning(_("If there are no ").$conf['mod_admin_ims_level2']._(". Please add new ").$conf['mod_admin_ims_level2']);
             $error_flag=true;
         }
     }else{

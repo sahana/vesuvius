@@ -73,7 +73,7 @@ function shn_pref_ch_passwd_cr()
     }
     if (!($new_password==$re_password)){
         $error=true;
-        add_error("User password and confirm password should match");
+        add_error(_("User password and confirm password should match"));
         shn_acl_log_msg("Password Change error: User password and confirm password should match");
     }
 
@@ -96,7 +96,7 @@ function shn_pref_ch_passwd_cr()
    	$date= date("Ymd",$tmp);
 
     	if($date==$curr_date){
-    		add_error("You cannot change the password more than once in one day");
+    		add_error(_("You cannot change the password more than once in one day"));
     		shn_acl_log_msg("Password Change error: tried to change the password more than once in one day");
     		shn_auth_form_ch_pwd();
     		return false;
@@ -126,7 +126,7 @@ function shn_pref_ch_passwd_cr()
     		    		$sql="update old_passwords set password='{$old_pwd}', changed_timestamp=$curr where p_uuid='{$user}' and password='{$tmp}'";
     		    		$res=$db->Execute($sql);
     		    	}else{
-    		    		add_error("You cannot choose one of the recent four passwords");
+    		    		add_error(_("You cannot choose one of the recent four passwords"));
     		    		shn_acl_log_msg("Password Change error: tried to choose one of the recent four passwords");
     		    		shn_auth_form_ch_pwd();
     		    		return false;
@@ -143,7 +143,7 @@ function shn_pref_ch_passwd_cr()
     if(shn_change_password($user,$old_password,$new_password)==false){
 		shn_auth_form_ch_pwd();
 	}else{
-		$msg=" Succesfully changed Password ";
+		$msg=_(" Succesfully changed Password ");
      	add_confirmation($msg);
 	}
 	

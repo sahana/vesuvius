@@ -149,6 +149,7 @@ function _shn_ims_admin_javascript($name)
                 alert("The Type Exists,you just added it");
                 return;
             }
+    
             var x=document.getElementsByName("<?php echo $name?>");
             exist=search_select_box(x[0],z[0].value,true,y[0].value);
             if(exist){
@@ -1649,6 +1650,7 @@ function _shn_ims_expired_item_report()
 
         $suplier_array=_shn_or_get_suplier_name($suplier_id);
         $suplier_name=$suplier_array[$suplier_id];
+        
         //$category=$ims->fields["category"];
 
 	$table_row ["name"]= $ims->fields["item_name"];
@@ -1663,7 +1665,10 @@ function _shn_ims_expired_item_report()
         $ims3=$db->Execute($sql3);
 
 	$table_row ["inventory"]=  $ims3->fields['inventory_name'];
-	$ims3->fields['suplier']=$suplier_name;
+	//$ims3->fields['suplier']=$suplier_name;
+	//echo $suplier_name;
+	
+	$table_row ["suplier"]=$suplier_name;
 
 	array_push($table_data,$table_row);
 
@@ -1885,18 +1890,25 @@ function _shn_ims_location_string($loc)
    	return $location;
 }
 
-function _shn_ims_get_locid(){
-	if($_SESSION['ims_5']!=null)
-		return $_SESSION['ims_5'];
-	else if($_SESSION['ims_4']!=null)
-		return $_SESSION['ims_4'];
-	else if($_SESSION['ims_3']!=null)
-		return $_SESSION['ims_3'];
-	else if($_SESSION['ims_2']!=null)
-		return $_SESSION['ims_2'];
-	else 
-		return $_SESSION['ims_1'];
+function _shn_ims_get_locid($range_end){
+//	if($_SESSION['ims_5']!=null)
+//		return $_SESSION['ims_5'];
+//	else if($_SESSION['ims_4']!=null)
+//		return $_SESSION['ims_4'];
+//	else if($_SESSION['ims_3']!=null)
+//		return $_SESSION['ims_3'];
+//	else if($_SESSION['ims_2']!=null)
+//		return $_SESSION['ims_2'];
+//	else 
+//		return $_SESSION['ims_1'];
+	
+	for($range_end; $range_end>0; $range_end--) {
+		$var='rms_'.$range_end;
+	    if($_SESSION[$var]!=null && $_SESSION[$var]!="0")
+		    return $_SESSION[$var];
+	}
 }
+
 
 function _shn_ims_get_parent_locations($location_id)
 {

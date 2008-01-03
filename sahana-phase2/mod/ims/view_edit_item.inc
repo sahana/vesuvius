@@ -44,7 +44,7 @@ function _shn_ims_view_edit($i,$Limit=null)
     $module = $global['module'];
     $form_opts['name']="edit_item";
     shn_form_fopen("view_edit_item_actions",null,$form_opts);
-    shn_form_fsopen("Add Item");
+    shn_form_fsopen(_("Add Item"));
     $extra_opts['br']=false;
     $extra_opts['req']=false;
     shn_form_button(_("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
@@ -172,7 +172,7 @@ function _shn_ims_view_edit($i,$Limit=null)
     </div>
 <?php
 //shn_form_fsclose();
-shn_form_fsopen("Inventory Transfer");
+shn_form_fsopen(_("Inventory Transfer"));
  $extra_opts['br']=false;
     $extra_opts['req']=false;
 ?>
@@ -216,7 +216,7 @@ function _shn_ims_edit_item_db()
         
         
         _shn_ims_expire_date_check();
-	add_confirmation($item.' Item was successfully updated');
+	add_confirmation($item._(' Item was successfully updated'));
 
         $_POST['item_name']="";    
         $_POST['amount']="";

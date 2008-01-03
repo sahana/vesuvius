@@ -56,7 +56,7 @@ function _shn_admin_acl_enable_mods_cr()
 {
 	global $global;
 	$error_flag = false;
-
+	
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
@@ -94,7 +94,7 @@ function _shn_admin_acl_enable_mods_cr()
 				$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
 				$res=$db->Execute($sql);
 				if(!$res && !$error_flag){
-
+						
 					// set the error flag once only
 					// no overwrite if set.
 					$error_flag = true;
@@ -170,7 +170,7 @@ function _shn_admin_acl_enable_locking()
  * Create the enable locking flag record.
  *
  * @param Boolean $enable The flag value
- *
+ * 
  * Changed by Ravith.
  */
 function _shn_admin_acl_enable_locking_cr($enable=false)

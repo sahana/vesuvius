@@ -23,7 +23,7 @@ function _shn_admin_lc_upload_files()
 	shn_form_fopen('lc_file_browser',null,array('enctype'=>'enctype="multipart/form-data"'));
 	shn_form_fsopen(_("File Selection"));
 	$locale = $_SESSION["locale"];
-    shn_form_select($lc_list,"Please select language: ","locale",'',array('value'=>"$locale"));
+    shn_form_select($lc_list,_("Please select language: "),"locale",'',array('value'=>"$locale"));
 	shn_form_upload(_("Upload Spread Sheet : "),'userfile', array('req'=>true));
 	shn_form_fsclose();
 	shn_form_submit(_("Import"));

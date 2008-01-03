@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_bed.inc,v 1.3 2007-03-12 18:29:18 mifanc Exp $ */
+/* $Id: edit_bed.inc,v 1.4 2008-01-03 04:40:55 isurunishan Exp $ */
 
 /**Update functions for  CR
 *
@@ -159,7 +159,7 @@ function _shn_cr_validate_error(){
 
 if(!(null == ($_POST['icu_used']))){
 		if(!is_numeric(trim($_POST['icu_used']))){
-			add_error(_("The ICU Used Count is not a valid number"));
+			add_error(_("The ICU used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
@@ -172,32 +172,32 @@ if(!(null == ($_POST['icu_available']))){
 
 	if(!(null == ($_POST['med_used']))){
 		if(!is_numeric(trim($_POST['med_used']))){
-			add_error(_("The Medical Beds Used Count is not a valid number"));
+			add_error(_("The medical beds used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['med_availble']))){
 		if(!is_numeric(trim($_POST['women']))){
-			add_error(_("The Medical Beds Availble Count is not a valid number"));
+			add_error(_("The medical beds availble count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['surg_used']))){
 		if(!is_numeric(trim($_POST['surg_used']))){
-			add_error(_("The Surgery Beds Used Count is not a valid number"));
+			add_error(_("The surgery beds used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	
     if(!(null == ($_POST['surg_availble']))){
                 if(!is_numeric(trim($_POST['surg_available']))){
-                        add_error(_("The Surgery Beds Available Count is not a valid number"));
+                        add_error(_("The surgery beds available count is not a valid number"));
                         $error_flag=true;
                 }
         }
         if(!(null == ($_POST['ped_used']))){
                 if(!is_numeric(trim($_POST['ped_used']))){
-                        add_error(_("The Piadertics Used Bed Count is not a valid number"));
+                        add_error(_("The piadertics used bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -205,7 +205,7 @@ if(!(null == ($_POST['icu_available']))){
 
  if(!(null == ($_POST['ped_available']))){
                 if(!is_numeric(trim($_POST['ped_available']))){
-                        add_error(_("The Piadertics Available Bed Count is not a valid number"));
+                        add_error(_("The piadertics available bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -213,7 +213,7 @@ if(!(null == ($_POST['icu_available']))){
 
 if(!(null == ($_POST['obs_used']))){
                 if(!is_numeric(trim($_POST['obs_used']))){
-                        add_error(_("The Obsterics Used Bed Count is not a valid number"));
+                        add_error(_("The obsterics used bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -221,7 +221,7 @@ if(!(null == ($_POST['obs_used']))){
 
  if(!(null == ($_POST['obs_available']))){
                 if(!is_numeric(trim($_POST['obs_available']))){
-                        add_error(_("The Obsterics Available Bed Count is not a valid number"));
+                        add_error(_("The obsterics available bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -307,7 +307,7 @@ $res = $db->Execute($q);
 //$res = $db->Execute($q);
 ?>
 
-<?  add_confirmation(_("You Have Succesfully Edited the Bed Count {$_SESSION[camp_name]}")); ?></h2>
+<?  add_confirmation(_("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
 
 
 </tbody>
@@ -316,7 +316,7 @@ $res = $db->Execute($q);
 
 </ul>
 <br><br>
-<p><?php echo _("Use the Navigation Menu to Continue")?></p>
+<p><?php echo _("Use the navigation menu to continue")?></p>
 <?php	
 }
 

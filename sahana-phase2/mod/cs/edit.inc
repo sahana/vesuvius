@@ -276,7 +276,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 function _shn_cs_edit_cat_select_submit_result()
 {
     ?>
-    <p><?= _("<b>Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
+    <p><?= "<b>"._("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
     <?php
     global $global;
     $db = $global["db"];
@@ -364,7 +364,7 @@ function _shn_cs_edit_cat_form_submit_result()
         	$query2 = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
         	$res2 = $db->Execute($query2);
 
-			add_confirmation(_("Item/Catalog was Deleted"));
+			add_confirmation(_("Item/Catalog was deleted"));
         	show_item_cat_table();
         }
     }
@@ -401,9 +401,9 @@ function show_unit_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item">Catalogs and Items</a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types">Unit Types</a> 
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit">Units</a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types")?></a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units")?></a> 
 	</div>
     <?php
 
@@ -667,7 +667,7 @@ function _shn_cs_edit_unit_type_form_submit_result()
         } else {
         	$query = "DELETE FROM ct_unit_type WHERE unit_type_uuid = '$id' ";
         	$res = $db->Execute($query);
-			add_confirmation(_("Unit type was Deleted"));
+			add_confirmation(_("Unit type was deleted"));
 			show_unit_type_table();
         }
     }//end of else if

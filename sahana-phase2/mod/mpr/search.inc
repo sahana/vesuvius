@@ -1,5 +1,5 @@
 <?php
-/* $Id: search.inc,v 1.20 2007-12-03 06:15:37 prabath321 Exp $ */
+/* $Id: search.inc,v 1.21 2008-01-03 04:43:06 isurunishan Exp $ */
 /**
  * 
  * Main Search Controller of the Missing Person Registry 
@@ -57,16 +57,16 @@ function shn_mpr_search_advance()
 
     shn_form_fsopen(_('Identity'));
     shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox('Identity Card','idcard_chk');
-    shn_form_checkbox('Passport Number','pass_chk');
-    shn_form_checkbox('Driving License','drv_chk');
+    shn_form_checkbox(_('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_('Passport Number'),'pass_chk');
+    shn_form_checkbox(_('Driving License'),'drv_chk');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Name'));
     shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox('Full Name','fullname_chk');
-    shn_form_checkbox('Family Name','familyname_chk');
-    shn_form_checkbox('Local Name','localname_chk');
+    shn_form_checkbox(_('Full Name'),'fullname_chk');
+    shn_form_checkbox(_('Family Name'),'familyname_chk');
+    shn_form_checkbox(_('Local Name'),'localname_chk');
     shn_form_fsclose();
 
     shn_form_fsopen(_('Basic Details'));
@@ -165,7 +165,7 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
     global $global;
     global $conf;
 
-    $limit = $conf['mod_mpr']['search']['limit'];
+    $limit = $conf['mod_mpr_search_limit'];
 
     if($conf['mysql']){
         //Select into temp table todo put the locks to reading tables ;-)
@@ -266,7 +266,7 @@ function shn_mpr_search_nav()
     global $global;
     global $conf;
 
-    $limit = $conf['mod_mpr']['search']['limit'];
+    $limit = $conf['mod_mpr_search_limit'];
     $offset = $_GET['offset']; 
     $total = $_SESSION['mpr']['search']['record_count'];
 
@@ -342,7 +342,7 @@ if($details!=null)
     <TR>
         <TD>
 <?php
-    shn_show_thumb_url($detail['p_uuid'],'mpr','addmp_img'); 
+    shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
     echo '<br><a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
             $detail['p_uuid'].'">'.
             $detail['full_name'].'</a>'.

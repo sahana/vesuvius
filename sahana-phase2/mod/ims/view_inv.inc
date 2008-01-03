@@ -25,7 +25,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 {
 	$form_opts['name']="view_inv";
 	shn_form_fopen("reg_inv_actions",null,$form_opts);
-	shn_form_fsopen("Register a New Inventory");
+	shn_form_fsopen(_("Register a New Inventory"));
 	$extra_opts['br']=false;
         $extra_opts['req']=false;
 	shn_form_button(_("Add Inventory"),"onClick='change_action(\"addinventory\")'",$extra_opts);
@@ -218,7 +218,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
    
     }
 ?>
-<h2><?=_("Inventory Registration Information of <em>").$org_name?></em></h2>
+<h2><?=_("Inventory Registration Information of ")."<em>".$org_name?></em></h2>
 <?php
  if($error==true)
         display_errors();

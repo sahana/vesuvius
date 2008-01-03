@@ -50,7 +50,7 @@ function shn_cr_adm_acl_install()
         $res = shn_acl_add_perms_action_group_role('user','cr','deny_admin');
 
         ## Add an action group named "deny_user" under the module "cr"
-        $res = shn_acl_add_action_group("cr","deny_user","Deny user group");
+        $res = shn_acl_add_action_group("cr","deny_user",_("Deny user group"));
 
         $res = shn_acl_add_action("cr","deny_user","shn_cr_acmp", _("Add Camp"));
         $res = shn_acl_add_action("cr","deny_user","shn_cr_ecmp",_("Edit Camp"));

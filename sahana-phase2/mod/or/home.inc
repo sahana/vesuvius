@@ -43,22 +43,47 @@ if(!$res->EOF){
 
 
 <h3><?php echo _("Current features include:")?></h3>
-</p>
+<p></p>
 <ul>
 	<li><?=_("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
 	<li><?=_('Capturing the essential services each group is providing and where')?></li>
 	<li><?=_('Reporting on the converge of services and support in the region and more')?></li>
 	<li><?=_('Importantly where there are no aid services being provided')?></li>
 </ul>
-</div>
-<br />
-<div><?php
 
- if($org_no != "Zero"){
+<br />
+<strong><?php echo _("Description of Actions:");?></strong>
+<br />
+<ul>
+	<li><a href="index.php?mod=or&act=reg_org"><b><?= _('Register an organization'); ?>
+	</b></a><br />
+	<?= _('Adds an organization\'s details to sahana.'); ?></li>
+	<li><a href="index.php?mod=or&act=reg_operation"><b><?= _('Register a branch'); ?>
+	</b> </a><br />
+	<?= _('Adds the details of a branch of an organization to sahana.'); ?></li>
+	<li><a href="index.php?mod=or&act=search"><b><?= _('Search organizations'); ?></b></a><br />
+	<?= _('Find the organisation(s) by specifying its details.'); ?></li>
+	<li><a href="index.php?mod=or&act=view_org"><b><?= _('View And Edit'); ?></b></a><br />
+	<?= _('View a list of registered organizations. Their detils can be viewed / edited by clicking on the appropriate links.'); ?>
+
+</ul>
+<br />
+
+
+</div>
+<div align=center><?=_('Service Coverage') ?> </div>
+<br />
+<div align=center><?php 
+
+
+    if($org_no != "Zero"){
+    print("<table align=center><tr><td>")	;
 shn_chart_display("shn_or_service_coverage_chart"); 
+    print("</td></tr></table><p></p>")	;
     }
 
-  ?></div>
+
+?></div>
 
 <div><a href="index.php?mod=or&act=view_org">
 <center><strong> <?php echo $org_no ?></strong><?=_(" Organizations/Departments/Branches have registered")?>

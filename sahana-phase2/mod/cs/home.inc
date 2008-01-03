@@ -31,7 +31,7 @@
 
     <!-- <div><h3><b><em><?= (_("Given below are some of the main functions:")) ?></em></b></h3></div> -->
 
-    <strong>Description of Actions:</strong><br/>
+    <strong><?php echo _("Description of Actions:")?></strong><br/>
     <ul>
         <li><a href="index.php?mod=cs&act=viewedit"><b><?= _('View and Edit'); ?> </b></a><br/><?= _('View all the currently registered catalogs, aid items types and their associated measurement units.'); ?></li>
         <li><a href="index.php?mod=cs&act=addmain"><b><?= _('Add Main Catalog'); ?> </b> </a><br/><?= _('Do this first to create base groupings by major aid type (e.g. Food and Nutrition)'); ?></li>
@@ -41,4 +41,7 @@
 </ul>
 
 </div>
+
+
+
 

@@ -57,6 +57,7 @@ function shn_admin_view()
 function shn_admin_default()
 { 
     global $global;
+    global $conf;
     $db = $global['db'];
     include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 
@@ -66,7 +67,7 @@ function shn_admin_default()
     $result = $db->Execute("SELECT * FROM location");
     $isLocationsEntered = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
-   	$isSecurityEnabled =shn_acl_is_enabled();
+   	$isSecurityEnabled = $conf['acl_enabled'];
  
 
     $result = $db->Execute("SELECT * FROM ct_catalogue");
@@ -82,13 +83,13 @@ function shn_admin_default()
     if(!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
          || !$isDisasterNamed) {
         echo '<h2>'._('Finalize Your Sahana Installation')."</h2>\n";
-        echo _("<p>There are still a few steps to be performed before you 
+        echo "<p>"._("There are still a few steps to be performed before you 
                 can start using your Sahana installation effectively. 
-                These items are given in priority order below:</p>")."\n";
+                These items are given in priority order below:")."</p>\n";
     }
     echo "<ol>\n";
     if(!$isDisasterNamed) {
-        echo '<li>'._('<b>Add Disaster Name</b> - As this system can handle 
+        echo '<li><b>'._('Add Disaster Name').'</b>'._(' - As this system can handle 
                 multiple disasters in the same system you need to 
                 first add the name of the first disaster you are using 
                 Sahana for. To do this in the navigation bar click on '). 
@@ -99,15 +100,15 @@ function shn_admin_default()
     }
        
     if(!$isLocationsEntered) {
-        echo '<li>'._('<b>Add Locations</b> - Please enter some of the 
+        echo '<li><b>'._('Add Locations').'</b>'._(' - Please enter some of the 
                 regions affected in the disaster by clicking the 
                 navigation bar on ').
-                '&#34;'._('Location Config').'&#34;'.
+                '&#34;'._('Location Hierarchy').'&#34;'.
                 _(' followed by ').'<a href="?mod=admin&act=add_loc">'.
-                '&#34;'._('Add Location').'&#34;'.'</a></li><br/>'; 
+                '&#34;'._('Add New Location').'&#34;'.'</a></li><br/>'; 
     }
     if(!$isCatalogCreated) {
-        echo '<li>'._('<b>Create the Aid Catalog</b> - The catalog 
+        echo '<li><b>'._('Create the Aid Catalog').'</b>'._(' - The catalog 
                 of aid items has to be defined to use 
                 the Pledge/Request Management System and Inventory Management,
                 you need to define the type of aid items available. To do this 
@@ -116,38 +117,30 @@ function shn_admin_default()
                 aid items for the disaster').'</li><br/>'; 
     }
    	if(!$isGoogleSetup) {
-        echo '<li>'._('<b>Setup Google Maps</b> - To get mapping to 
+        echo '<li><b>'._('Setup Google Maps').'</b>'._(' - To get mapping to 
                 work you need to enter a Google Map key in the ') 
-                .'&#34;'._('Module Config').'&#34;'.'->' .
-                		'<a href="?mod=gis&act=admin&submod=google_maps">'.
-                '&#34;'._('Situation Mapping').'&#34; '.'</a>'._('section').'</li><br/>'; 
+                .'<a href="?mod=gis&act=admin&submod=google_maps">'.
+                '&#34;'._('Mapping / GIS').'&#34; '.'</a>'._('section to do this. By default mapping is enabled for the localhost access only').'</li><br/>'; 
     }
     
-    
-	echo '<li>'. _('<b>Configure Default Security (optional)</b> - To prevent 
-                unauthorized access to the system configure security by
-                 clicking ').
-                 '&#34;'._('Security Config').'&#34;  
-              </li>';
-	if(!$isSecurityEnabled) {
+   	if(!$isSecurityEnabled) {
 ?>	<font color="red"><?=_("Current Security state: Disabled")?></font><?php
-	}
-    '<br/>';
-    
-
+	 
+	echo '<li><b>'. _('Configure Default Security').'</b>'._(' - By default Sahana is installed with open access. To prevent unauthorized access to the system enable logins and security by clicking ').'&#34;'.'<a href="?mod=admin&act=acl_enable_acl">'._('Enable Security.').'</a>&#34;</li>';
+    }
 
     echo "</ol>\n";
 ?>
     <h2><?=_("Sahana System Administration")?></h2>
         <p><?=_("The System Adminisitration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
 	<ul>
-	<li><b><?=_("Disaster Incidents")?></b> <br/><?=_("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
-	<li><b><?=_("Locations")?></b> <br/><?=_("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
-	<li><b><?=_("GIS Config")?></b> <br/><?=_("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
-	<li><b><?=_("Localization")?></b> <br/><?=_("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
-	<li><b><?=_("Module Config")?></b> <br/><?=_("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?> </li>
-	<li><b><?=_("Security Config")?></b> <br/><?=_("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
-	<li><b><?=_("Config Value")?></b> <br/><?=_("This section give you access to all the raw configuration values that can be changed in the system")?></li>
+	<li><b><?=_("Locations Hierarchy")?></b> <br/><?=_("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
+	<li><b><?=_("Mapping / GIS")?></b> <br/><?=_("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
+	<li><b><?=_("Module Configuration")?></b> <br/><?=_("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?> </li>
+	<li><b><?=_("System Security")?></b> <br/><?=_("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
+	<li><b><?=_("Language and Locale")?></b> <br/><?=_("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
+	<li><b><?=_("Disaster Levels")?></b> <br/><?=_("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
+	<li><b><?=_("Config Tools")?></b> <br/><?=_("This section give you access to all technical configuration details and tools that can be changed in the system")?></li>
 	</ul>
     </div>
 <?php
@@ -227,7 +220,7 @@ function shn_admin_add_user_cr()
     }
  
     _shn_admin_acl_user_menu();
-    shn_auth_form_user_add($error);   
+    shn_auth_form_user_add($error);
 }
 
 function shn_admin_del_user($error=false)
@@ -338,7 +331,7 @@ function shn_admin_acl_enable_locking()
    _shn_admin_acl_enable_locking();
 }
 function shn_admin_acl_enable_locking_cr()
-{
+{    
 	// changed by Ravith.
 	// enable the locking
    _shn_admin_acl_enable_locking_cr($_POST['action']=='enable');
@@ -375,7 +368,7 @@ function shn_admin_view_loc_cr()
 	if(isset($_POST{"chk_start"})) {
         $loc=0;
     }else {
-        $level=$_POST{"opt_location_type"};
+        $level="loc_select_".$_POST{"opt_location_type"};
         $loc=$_POST{$level};
     }
 	_shn_admin_location_edit_form($loc);
@@ -554,19 +547,19 @@ function shn_admin_acl_role_cr()
  */
 function shn_admin_lc_trns()
 {
-	print ("<h1><center>Language Translation</center></h1>");
+	print ("<h1><center>"._("Language Translation")."</center></h1>");
     require_once('lc_translate.inc');
 }
 
 function shn_admin_lc_set()
 {
-	print ("<h1><center>Set Locale</center></h1>");
+	print ("<h1><center>"._("Set Locale")."</center></h1>");
     require_once('lc_setlocale.inc');
 }
 
 function shn_admin_lc_db()
 {
-    print ("<h1><center>Disable L10N</center></h1>");
+    print ("<h1><center>"._("Database Translation")."</center></h1>");
 	require_once('lc_db.inc');
 }
 
@@ -578,7 +571,7 @@ function shn_admin_lc_ui_trns()
 	require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	require_once('lc_ui_translate.inc');
 	
-	print ("<h1><center>User Interface Language Translation</center></h1>");
+	print ("<h1><center>"._("User Interface Language Translation")."</center></h1>");
 	if($_POST['locale']==null){
 		_shn_admin_set_locale();
 	}else {		
@@ -608,8 +601,9 @@ function shn_admin_lc_ui_trns_enable()
 function shn_admin_lc_ui_trns_update()
 {
 	require_once('lc_ui_translate_update.inc');
-	print ("<h1><center>Update Translation</center></h1>");
-	if(isset($_POST['update'])) {		
+	print ("<h1><center>"._("Update Translation")."</center></h1>");
+		
+	if($_GET['update']=="Update") {		
 		_shn_admin_lc_translate_compile();
 		
 	}else {
@@ -621,7 +615,7 @@ function shn_admin_lc_ui_trns_update()
 function shn_admin_lc_add_new_lang()
 {
 	require_once('lc_add_new_language.inc');
-	print ("<h1><center>Add/Remove language</center></h1>");
+	print ("<h1><center>"._("Add/Remove language")."</center></h1>");
 	_shn_admin_lc_add_new_language_form();	
 }
 
@@ -632,7 +626,7 @@ function shn_admin_lc_add_new_language_post()
 			if($_POST['lang_name']!=null && $_POST['lang_folder_name']!=null)
 				_shn_admin_lc_add_new_language();
 			else {
-				add_error('Language Name and Folder Name cannot be blank');
+				add_error(_('Language Name and Folder Name cannot be blank'));
 				_shn_admin_lc_add_new_language_form();
 			}
 	}		
@@ -644,7 +638,7 @@ function shn_admin_lc_add_new_language_post()
 function shn_admin_lc_add_new_module()
 {
 	require_once('lc_add_new_module.inc');
-	print ("<h1><center>Add New Module</center></h1>");
+	print ("<h1><center>"._("Add New Module")."</center></h1>");
 	_shn_admin_lc_add_new_module();
 }
 
@@ -656,12 +650,6 @@ function shn_admin_lc_add_new_module_post()
 		_shn_admin_lc_add_new_module_update();
 }
 
-function shn_admin_lc_upload_file()
-{
-	require_once('lc_upload.inc');
-	print ("<h1><center>Upload Sahana.po/.mo file</center></h1>");
-	_shn_admin_lc_upload_files();
-}
 
 function shn_admin_lc_file_browser()
 {

@@ -25,7 +25,7 @@ function _shn_admin_lc_add_new_module()
 	shn_form_fopen("lc_add_new_module_post");
     shn_form_fsopen(_("User Interface Language Translation"));
     $locale = $_SESSION["locale"];
-    shn_form_select($lc_list,"Please select language: ","locale",'DISABLED=DISABLED',array('value'=>"$locale"));
+    shn_form_select($lc_list,_("Please select language: "),"locale",'DISABLED=DISABLED',array('value'=>"$locale"));
     shn_form_submit(_("Merge"),'name="merge"');
     shn_form_fclose();   
 	
@@ -44,8 +44,8 @@ function _shn_admin_lc_add_new_module_update()
         $cmd = 'msgmerge --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.po ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po ../res/locale/' . $locale . '/LC_MESSAGES/sahana_merge.po';            
 	    system($cmd, &$return);
 	    print_r($return);
-   		echo 'New module translation merge succesfully'; 
-   		add_confirmation('New module translation merge succesfully');
+   		echo _('New module translation merge succesfully'); 
+   		add_confirmation(_('New module translation merge succesfully'));
 }
 
 ?>

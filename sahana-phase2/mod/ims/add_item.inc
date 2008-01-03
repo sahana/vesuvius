@@ -135,7 +135,7 @@ function add_item($temp,$parent_id)
 
 
     
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_('Primary Details'));
     shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
 

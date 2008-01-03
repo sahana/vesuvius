@@ -37,9 +37,10 @@ function shn_ims_rpt_default()
 function shn_ims_expired_item_report()
 {
   
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Supplier');
 	$table_data=array();
 	$table_data=_shn_ims_expired_item_report();
+	
 	$title="Expired Items Report-pdf";
 	$text="These Are the records about items that are already expired";
 	
@@ -61,7 +62,7 @@ function shn_ims_expired_item_report()
 
 function shn_ims_expired_item_ods()
 {
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Supplier');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
     $title="Expired Items Report-ods";
@@ -83,7 +84,7 @@ function shn_ims_expired_item_ods()
 
 function shn_ims_expired_item_xhtml()
 {
-    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Suplier', 'action'=>'Action');
+    $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'manu_date'=>'Manufactured Date', 'exp_date'=>'Expire Date', 'inventory'=>'Inventory', 'suplier'=>'Supplier');
     $table_data=array();
     $table_data=_shn_ims_expired_item_report();
     $title="Expired Items Report-xhtml";
@@ -183,7 +184,7 @@ function shn_ims_reorder_level_report_ods()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
-    $table_data=_shn_ims_destroyed_item_report();
+    $table_data=_shn_ims_reorder_level_report();
     $title="Item Re-Order Level Report-ods";
     $text="These Are the records about items that are already gone below the re-order level of particular inventory";
 	
@@ -202,7 +203,7 @@ function shn_ims_reorder_level_report_xhtml()
 {
     $table_header=array('name' =>'Item Name', 'amount' => 'Amount', 'unit'=>'Unit', 'inventory'=>'Inventory');
     $table_data=array();
-    $table_data=_shn_ims_destroyed_item_report();
+    $table_data=_shn_ims_reorder_level_report();
     $title="Item Re-Order Level Report-xhtml";
     $text="These Are the records about items that are already gone below the re-order level of particular inventory";
 	

@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit.inc,v 1.18 2007-11-21 12:58:58 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.19 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Edit page of the Missing Person Registry
@@ -120,6 +120,11 @@ function shn_mpr_editmp_load($p_uuid)
 	$_SESSION['mpr_edit']['entry']['zip'] = $rs->fields['postcode'];
 	$_SESSION['mpr_edit']['entry']['opt_gender'] = $rs->fields['opt_gender'];
 
+	//Home address
+	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'hom'";
+	$rs = $global['db']->Execute($sql);
+	$_SESSION['mpr_edit']['entry']['homaddress'] = $rs->fields[0];
+	
 	//Home phone
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
 	$rs = $global['db']->Execute($sql);
@@ -180,7 +185,7 @@ function shn_mpr_editmp_entry($errors=false)
 	shn_form_fsclose();
 
 	shn_form_fsopen(_('Replace Current Picture'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img');
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
@@ -189,7 +194,7 @@ function shn_mpr_editmp_entry($errors=false)
 
 
 	shn_form_fsopen(_("Contact Details"));
-	shn_form_textarea(_("Address"),"address",'',array('value'=>$_SESSION['mpr_edit']['entry']['address']));
+	shn_form_textarea(_("Address"),"homaddress",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
 	shn_form_text(_('Postal Code'),'zip','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['zip']));
 	shn_form_text(_('Home Phone'),'phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
 	shn_form_text(_('Mobile'),'mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
@@ -204,14 +209,14 @@ function shn_mpr_editmp_entry($errors=false)
 	 the lib_location
 	 */
 	//Starts
-	$i = $conf['mod_mpr']['location']['lower_limit'];
+	$i = $conf['mod_mpr_location_lower_limit'];
 	while((! isset($_POST[$i])) &&
-	$i > $conf['mod_mpr']['location']['upper_limit'] )
+	$i > $conf['mod_mpr_location_upper_limit'] )
 	$i--;
 	//Ends
 	$selected_loc_id = (isset($_POST[$i]) ? $_POST[$i] : $_SESSION['mpr_edit']['entry']['location_id']);
-	_shn_location_form($conf['mod_mpr']['location']['upper_limit'],
-	$conf['mod_mpr']['location']['lower_limit'],
+	_shn_location_form($conf['mod_mpr_location_upper_limit'],
+	$conf['mod_mpr_location_lower_limit'],
 	$selected_loc_id);
 
 
@@ -257,8 +262,15 @@ function shn_mpr_editmp_validate()
 		$local_post[$k] = $v;
 	}
 
+if(isset($_POST['height']) && $_POST['height']!=null){
+$height = $_POST['height'];
 
-
+if(is_numeric($height)==false)
+{
+	add_error(_("Height should be a value in centimeters(cm)"));
+	$error_flag = true;
+}
+}
 
 	//fullname is entered?
 	if(! isset($local_post['full_name'])){
@@ -286,14 +298,14 @@ function shn_mpr_editmp_validate()
 			$info = getimagesize($_FILES['picture']['tmp_name']);
 			//check the image type
 			if(! $info){
-				add_error(_("Invalid Image type.Please try again!"));
+				add_error(_("Invalid image type.Please try again!"));
 				$error_flag=true;
 			}
 
 			list($ignore,$ext) = split("\/",$info['mime']);
 
 			//check for save handler
-			if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+			if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
 				$size = filesize($_FILES['picture']['tmp_name']);
 				$pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
 				$_SESSION['mpr']['entry']['image'] = $pic;
@@ -316,7 +328,7 @@ function shn_mpr_editmp_validate()
 		add_error(shn_file_upload_error_msg($_FILES['picture']['error']));
 		$error_flag = true;
 	}
-		
+
 
 	if($error_flag)
 	return false;
@@ -345,7 +357,7 @@ function shn_mpr_editmp_upload($errors=false)
 
 	shn_form_hidden(array('seq'=>'upload_pic'));
 	shn_form_fsopen(_('Replace Current Picture'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img');
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
@@ -375,14 +387,14 @@ function shn_mpr_editmp_upload_pic()
 	$info = getimagesize($_FILES['picture']['tmp_name']);
 	//check the image type
 	if(! $info){
-		add_error(_("Invalid Image Type Please try again"));
+		add_error(_("Invalid image type please try again"));
 		return false;
 	}
 
 	list($ignore,$ext) = split("\/",$info['mime']);
 
 	//check for save handler
-	if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+	if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
 		$size = filesize($_FILES['picture']['tmp_name']);
 		$pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
 		$_SESSION['mpr']['entry']['image'] = $pic;
@@ -421,7 +433,7 @@ function shn_mpr_editmp_confirm()
 	shn_form_fopen("editmp",null);
 	shn_form_fsopen(_("Person"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img',true);
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img',true);
 	?>
 <br />
 	<?php
@@ -521,8 +533,8 @@ function shn_mpr_editmp_confirm()
 	 lib_location
 	 */
 	//Starts
-	$i = $conf['mod_mpr']['location']['upper_limit'] - 1;
-	while( $i < $conf['mod_mpr']['location']['lower_limit'] ) {
+	$i = $conf['mod_mpr_location_upper_limit'] - 1;
+	while( $i < $conf['mod_mpr_location_lower_limit'] ) {
 		$i++;
 		if(isset($_SESSION['mpr_edit']['entry'][$i])){
 			$sql = " SELECT location.name , field_options.option_description FROM location ".
@@ -582,7 +594,7 @@ function shn_mpr_editmp_confirm()
 	foreach($arr as $tracker){
 		?>
 	<TR>
-		<TD><?php shn_show_thumb_url($tracker['p_uuid'], $conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
+		<TD><?php shn_show_thumb_url($tracker['p_uuid'], $conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img'); ?></TD>
 		<TD><?= $tracker['full_name']; ?></TD>
 		<TD><?= $tracker['relation']; ?></TD>
 	</TR>
@@ -674,9 +686,9 @@ function shn_mpr_editmp_commit()
 	 the lib_location
 	 */
 	//Starts
-	$i = $conf['mod_mpr']['location']['lower_limit'];
+	$i = $conf['mod_mpr_location_lower_limit'];
 	while((! isset($_SESSION['mpr_edit']['entry'][$i])) &&
-	$i > $conf['mod_mpr']['location']['upper_limit'] )
+	$i > $conf['mod_mpr_location_upper_limit'] )
 	$i--;
 	//Ends
 	if(isset($_SESSION['mpr_edit']['entry'][$i]))
@@ -779,6 +791,26 @@ function shn_mpr_editmp_commit()
 	//reset $update_array
 	$update_array = null;
 
+
+	//Insert Image if image save handler is set to database
+	if($conf['mod_mpr_upload_pic_handler']== 'database'){
+		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='".$_SESSION['mpr_edit']['entry']['p_uuid']."'");
+		if($res){
+			/*echo "<pre>";
+			 echo "Update arr : ".var_dump($update_array);
+			 echo "<br/>UUID for x_uuid : ".$_SESSION['mpr_edit']['entry']['p_uuid'];
+			 echo "</pre>";*/
+			$res->MoveFirst();
+			$img_id = $res->Fields('image_id');
+
+			shn_image_to_db_ex($_SESSION['mpr_edit']['entry']['p_uuid'],
+			$_SESSION['mpr']['entry']['image'],
+			$_SESSION['mpr']['entry']['image_type'],
+			$_SESSION['mpr']['entry']['image_height'],
+			$_SESSION['mpr']['entry']['image_width'],$img_id,'person');
+		}
+
+	}
 }
 /* }}} */
 
@@ -815,7 +847,7 @@ function shn_edit_show_trackers($p_uuid)
 	foreach($arr as $tracker){
 		?>
 	<TR>
-		<!--<TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr']['upload_picture']['savehandler'], 'mpr', 'addmp_img'); ?></TD>
+		<!--<TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img'); ?></TD>
     -->
 		<TD><?php echo '<a title="'._('View').'" '. 
            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.

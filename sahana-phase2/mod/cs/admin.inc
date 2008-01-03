@@ -20,8 +20,8 @@ function shn_cs_adm_default()
 {
     shn_cs_sub_menu();
     ?>
-    <p><?= _('Maximum Depth - enable you to specify the default depth value for the catalog system item selection interface. '); ?></p>
-    <p><?= _('Number of records for a page - enable you to specify the number of records that should be shown in a page in the view and edit section'); ?></p>
+    <p><?php echo _('Maximum Depth')." - "._("enable you to specify the default depth value for the catalog system item selection interface. "); ?></p>
+    <p><?php echo _('Number of records for a page')." - "._('enable you to specify the number of records that should be shown in a page in the view and edit section'); ?></p>
     <br></br>
     <?php
 }
@@ -117,7 +117,7 @@ function shn_cs_adm_page_record_submit()
     
     ?>
     <div id="result_msg">
-    <?php print "Default number of records " . $default_page_recs . "  was successfully saved"; ?>
+    <?php print _("Default number of records ") . $default_page_recs . _("  was successfully saved"); ?>
     </div>
     <?php
     shn_cs_adm_cs_page_records();

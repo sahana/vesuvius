@@ -1,6 +1,6 @@
 
 <?php
-/* $Id: home.inc,v 1.20 2007-11-16 07:00:11 isurunishan Exp $ */
+/* $Id: home.inc,v 1.21 2008-01-03 04:43:07 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -44,13 +44,13 @@ family members.'); ?>
 
 
 <ul>
-    <li><?= _('Submitting information about the individual such as identitification numbers, physical appearance, last seen location, status, etc'); ?></li>
+    <li><?= _('Submitting information about the individual such as identification numbers, physical appearance, last seen location, status, etc'); ?></li>
     <li><?= _('\'Sounds-like\' name search allowing search even the spelling of the name is not known exactly'); ?></li>
     <li><?= _('Facilitate uploading of missing person\'s photograph'); ?></li>
-    <li><?= _('Grouping by \'Family Unit\' or other group catagory'); ?></li>
+    <li><?= _('Grouping by \'Family Unit\' or other group category'); ?></li>
 </ul>
 
-<strong>Description of Actions:</strong><br/>
+<strong><?php echo _("Description of Actions:"); ?></strong><br/>
     <ul>
         <li><a href="index.php?mod=mpr&act=search&type=all"><b><?= _('Search for a person'); ?> </b></a><br/><?= _('Search to see whether a person is lost contact with people known to him or her'); ?></li>
         <li><a href="index.php?mod=mpr&act=addmp&type=missing"><b><?= _('Report a missing person'); ?> </b> </a><br/><?= _('Report details about a missing person'); ?></li>

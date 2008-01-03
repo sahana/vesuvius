@@ -45,16 +45,32 @@ function __add_entry($table, $field)
     $rs = $global['db']->Execute($sql);
 
     if(trim($table)=='') {
-    	add_error(_("The Table name cannot be blank,") .
-        		  _(" please enter a valid Table name"));
+    	add_error(_("The Table name cannot be blank, please enter a valid Table name"));
 	$error = true;
     }
 
     if(trim($field)=='') {
-		add_error(_("The Field name cannot be blank, ") .
-                  _("please enter a valid Field name"));
+		add_error(_("The Field name cannot be blank, please enter a valid Field name"));
 		$error = true;
     }
+    
+    // check for table availability
+    $tables = $global['db']->MetaTables("TABLES");
+    $table_error = false;
+    if(array_search($table,$tables)===FALSE){
+    	add_error(_("The is no table named ").$table);
+    	$table_error = true;
+    	$error = true;
+    }
+    
+    // check for field availability
+    if(!$table_error){
+    	$fields = $global['db']->MetaColumnNames($table,true);
+    	if(array_search($field,$fields)===FALSE){
+    		add_error(_("There is no field named ").$field._(" in the table ").$table);
+    		$error = true;	
+    	}
+    }    
 
     if($error) {
         display_errors();
@@ -63,9 +79,9 @@ function __add_entry($table, $field)
                 "VALUES('$table','$field')";
         $global['db']->Execute($sql);
 
-        print _("DB L10N Entry added successfully!");
+        add_confirmation(_("Database localization entry added successfully!"));
     }else {
-        print _("The DB L10N Entry already exists");
+        add_error( _("The database localization entry already exists"));
     }
 }
 
@@ -97,7 +113,7 @@ function __show_entries()
         <td><?php print  $r[0] ?></td>
         <td><?php print  $r[1] ?></td>
         <td><?php print  $r[2] ?></td>
-        <td><a href="<?php print $url?>">Remove</a></td>
+        <td><a href="<?php print $url?>"><?php echo _("Remove") ?></a></td>
     	</tr>
 <?php
 	}
@@ -105,7 +121,7 @@ function __show_entries()
 	if(1 > $rec_count) {
 ?>
     	<tr>
-        <td colspan="4">There are no DB L10N Entries at the moment</td>
+        <td colspan="4"><?php echo _("There are no DB L10N entries at the moment") ?></td>
     	</tr>
 <?php
 	}
@@ -124,9 +140,9 @@ function __del_entry($id)
     $sql = "DELETE FROM lc_fields WHERE id = '$id'";
 
     if($global['db']->Execute($sql)) {
-        print _("DB L10N Entry removed successfully");
+        add_confirmation(_("DB L10N entry removed successfully"));
     }else {
-        print _("Error occurred while removing DB L10N Entry");
+        add_confirmation(_("Error occurred while removing DB L10N entry"));
     }
 }
 
@@ -141,12 +157,14 @@ switch($_REQUEST['seq']) {
 		$table = $_POST['table'];
 		$field = $_POST['field'];
 		__add_entry($table, $field);
+		__show_basic_form();
 		__show_entries();
 		break;
 		
     case 'del':
     	$id = $_GET['id'];
 		__del_entry($id);
+		__show_basic_form();
 		__show_entries();
 		break;
 }

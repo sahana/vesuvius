@@ -183,7 +183,7 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     	$parent_array["1"] = _("None");
     	shn_form_fsopen(_('Information'));
     	?>
-    	<p><?= _('There is no catalog found by that name'); ?><a href="index.php?mod=cs&act=addmain">Add Catalog</a><?= _(' First'); ?></p> 
+    	<p><?= _('There is no catalog found by that name'); ?><a href="index.php?mod=cs&act=addmain"><?= _("Add Catalog"); ?></a><?= _(' First'); ?></p> 
     	<?php
     	shn_form_fsclose();
     } else {
@@ -455,6 +455,7 @@ function convert_to_base_unit($unit_id)
  * @access public
  * @return array
  */
+ 
 function shn_cs_get_parentid_arr($in_id)
 {
     global $global;

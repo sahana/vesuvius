@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin_bk.inc,v 1.1 2007-02-27 11:24:59 mifanc Exp $ */
+/* $Id: admin_bk.inc,v 1.2 2008-01-03 04:41:59 isurunishan Exp $ */
 
 /**Admin Module for GIS
 *
@@ -48,7 +48,7 @@ function shn_gis_adm_default()
 	else
 	{
     	shn_gis_adm_show_mod_menu();
-		echo "<h2>"._($conf['mod_gis_name']." Admin Page")."</h2>";
+		echo "<h2>".$conf['mod_gis_name']._(" Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
@@ -146,8 +146,7 @@ function shn_gis_adm_show_mods()
 	<ul>
 
 	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _("In order to set the map display for a particular region, ") .
-			_("you should know the Longitude and the Latitude of that region");?></li>
+	<li><?php echo _("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
     <li><?php echo _("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -156,12 +155,8 @@ function shn_gis_adm_show_mods()
 	
 	shn_form_fsopen(_("Default Center Coordinates"));
 	
-	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator" .
-			" and positive in the northern hemisphere and negative in the southern hemisphere");
-	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the " .
-			"prime meridian (Greenwich Mean Time) and is positive to the east, " .
-			"across Europe and Asia.  Longitude is negative to the west, " .
-			"across the Atlantic and the Americas.");
+	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
 	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
 	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
 	shn_form_fsclose();
@@ -170,8 +165,7 @@ function shn_gis_adm_show_mods()
 	<li><?php echo _("Sahana supports a modular GIS plugin architecture ");?> </li>
 	<li><?php echo _("You can select which GIS plugin to use as your default GIS");?></li>
     <li><?php echo _("Select the default GIS plugin from the detected plugins below:");?> </li>
-    <li><?php echo _("For more information on adding custom plugins, " .
-    		"refer to the documentation within the mod/gis subdirectory");?> </li>
+    <li><?php echo _("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
 	</ul>
 <?php
 	//shn_form_fclose();
@@ -220,8 +214,7 @@ function shn_gis_adm_showform(){
 	<ul>
 
 	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _("In order to set the map display for a particular region, ") .
-			_("you should know the Longitude and the Latitude of that region");?></li>
+	<li><?php echo _("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
     <li><?php echo _("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -230,12 +223,8 @@ function shn_gis_adm_showform(){
 	
 	shn_form_fsopen(_("Default Center Coordinates"));
 	
-	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator" .
-			" and positive in the northern hemisphere and negative in the southern hemisphere");
-	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the " .
-			"prime meridian (Greenwich Mean Time) and is positive to the east, " .
-			"across Europe and Asia.  Longitude is negative to the west, " .
-			"across the Atlantic and the Americas.");
+	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
 	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
 	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
 	shn_form_fsclose();

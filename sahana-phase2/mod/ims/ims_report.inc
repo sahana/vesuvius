@@ -47,6 +47,7 @@ function _shn_ims_report_minimum()
     shn_form_button(_("XHTML"),"onClick='change_action(\"xhtml_reorder\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
+    shn_form_fclose();
 ?>
 <div id="result">
 
@@ -364,10 +365,10 @@ function _shn_ims_level($parent)
     $last = shn_get_last_level();
     if ($last[0] != $child - 1) {
         echo _("Intersection shows the precentage of Sub-divisions Covered per each service.") . "<br />";
-        echo _("For this report Sub-division is a  " . $grand_child_type . ".");
-        echo _("If atleast one " . $last[1] . " in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
+        echo _("For this report Sub-division is a  ") . $grand_child_type .".";
+        echo _("If atleast one ") . $last[1] ._(" in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
     }else {
-        echo _("Intersection shows whether each " . $child_type . " has atleast one organization providing the service.") . "<br />";
+        echo _("Intersection shows whether each ") . $child_type ._( " has atleast one organization providing the service.") . "<br />";
     }
 ?>
 </div>

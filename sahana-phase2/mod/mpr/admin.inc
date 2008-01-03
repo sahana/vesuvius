@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: admin.inc,v 1.11 2007-11-01 15:45:43 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.12 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Administration of the Missing Person Registry 
@@ -116,7 +116,7 @@ function shn_mpr_adm_gen() {
 	} else {
 		_shn_mpr_adm_gen();
 	}
-?><br /><h2><?=_("General Configuration"); ?></h2>
+?><br /><h2><?php echo _("General Configuration"); ?></h2>
 <?php
 
 }

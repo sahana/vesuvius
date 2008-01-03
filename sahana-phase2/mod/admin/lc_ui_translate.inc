@@ -21,9 +21,9 @@ function _shn_admin_set_locale()
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
 	shn_form_fopen("lc_ui_trns");
-    shn_form_fsopen(_("User Interface Language Translation"));
+    shn_form_fsopen(_("Interactive Translation"));
     $locale = $_SESSION["locale"];
-    shn_form_select($lc_list,"Please select language: ","locale",'',array('value'=>"$locale"));
+    shn_form_select($lc_list,_("Please select language: "),"locale",'',array('value'=>"$locale"));
     shn_form_submit(_("Set Locale"));
     shn_form_fclose();	
 }
@@ -32,15 +32,15 @@ function _shn_admin_lc_set_ui_translate()
 {	
 	shn_form_fopen("lc_ui_trns_enable");
 	shn_form_fsclose();
-	echo 'LOCALE = '.$_SESSION["locale"];
+	//echo 'LOCALE = '.$_SESSION["locale"];
 ?>
-    <h2><?=_("Sahana User Interface Language Translation")?></h2>
-        <p><?=_("This interface allow user to transalte Sahana into their mother tongue though user interface, Please follow below instructions")?></p>
+    <h2><?=_("Interactive Translation")?></h2>
+        <p><?=_("This interface allow user to transalte Sahana into their mother tongue through user interface, Please follow below instructions")?></p>
 	<ul>
-	<li><b><?=_("Setp 1 : ")?></b> <br/><?=_("Please click on localization button then your are entering to localization mode, afterwards when you right click on any word phrase in the user interface you get promt box please type required translate on it and press ok")?></li>
-	<li><b><?=_("Step 2 : ")?></b> <br/><?=_("After translation done please press update buttton below")?></li>
-	<li><b><?=_("Step 3 : ")?></b> <br/><?=_("Finally press compile button")?></li>
-	<li><b><?=_("Step 4 : ")?></b> <br/><?=_("Afterward go to Administration->Localization->setLocale and set to particular locale")?></li>
+	<li><b><?=_("Setp 1 : ")?></b> <br/><?=_("When you press localization button then you are entering to localization mode, afterwards when you right click on any word phrase in the user interface you'll get promt box and please type required translation on it and press ok")?></li>
+	<li><b><?=_("Step 2 : ")?></b> <br/><?=_("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
+	<li><b><?=_("Step 3 : ")?></b> <br/><?=_("Finally press update button")?></li>
+	<li><b><?=_("Step 4 : ")?></b> <br/><?=_("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
 	</ul>
     </div>
 
@@ -73,14 +73,14 @@ function _shn_admin_lc_ui_trns_enable()
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
         system($cmd, &$return);        	
 	}		
-	add_confirmation("Localization Mode Enable Succesfully, First refersh your browser and Please right click on word phrases. ");
+	add_confirmation("Localization mode enable succesfully, please refersh your browser and Please right click on word phrases. ");
 	//$_SESSION['admin']['locale']['enable_first'] = "set";
 	//echo $_SESSION['admin']['locale']['enable'];
 }
 
 function _shn_admin_lc_ui_trns_disable()
 {
-	add_confirmation("Localization Mode Disable Succesfully, Please refersh your browser ");
+	add_confirmation("Localization mode disable Ssuccesfully, please refersh your browser ");
 	$_SESSION['admin']['locale']['enable'] = "reset";
 	//$_SESSION['admin']['locale']['enable_first'] = "reset";
 	//echo $_SESSION['admin']['locale']['enable'];
@@ -91,7 +91,7 @@ function _shn_admin_lc_ui_trns_update()
 	$cmd = "mv -v -f sahana_test.po sahana.po";
 	//echo exec("");
 	//echo $return_value; 
-	echo "<h2>Sahana Translation Succesfully Updated</h2>";	
+	echo "<h2>"._("Sahana translation succesfully updated")."</h2>";	
 }
 	
 

@@ -111,7 +111,7 @@ function _shn_ims_reg_inv_cr()
             add_error(SHN_ERR_or_ims_ORG_EXISTS);
             return false;
         }
-	
+        
         if($error!=true){
 	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
@@ -129,7 +129,7 @@ function _shn_ims_reg_inv_cr()
  	array($org_id,'email',$contact_mail),
  	array($org_id,'web',$contact_web),
  	);
-	 $res=$db->Execute('INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VLAUES (?,?,?)',$arr);
+	 $res=$db->Execute('INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VALUES (?,?,?)',$arr);
 
 /*
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','curr','{$contact_phone}')";
@@ -157,7 +157,7 @@ function _shn_ims_reg_inv_cr()
     if((!$chk_branch) or $error){
         if($error!=true){
 
-	    add_confirmation($org_name.' Inventory was successfully added');
+	    add_confirmation($org_name._(' Inventory was successfully added'));
 
 
         }
@@ -252,11 +252,11 @@ function _shn_ims_del_org()
         	return false;
 	    }
 */
-        add_confirmation($org_name.' Inventory was successfully Deleted');
+        add_confirmation($org_name._(' Inventory was successfully deleted'));
     }
   ?>
     
-<h2>Inventory Registry</h2>
+<h2><?php echo _("Inventory Registry"); ?></h2>
 <?php
         _shn_ims_viewform_allorg(null,null,$Limit=20);    
 }
@@ -290,7 +290,7 @@ function _shn_ims_edit_org()
     {
 	$bsd_village=$location;
     }
-   
+    $bsd_village=shn_location_get_form_submit_loc();
     if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
@@ -362,8 +362,7 @@ function _shn_ims_edit_org()
 	    
             $q="UPDATE location_details SET location_id='{$bsd_village}',address='{$contact_address}' WHERE poc_uuid='{$org_id}'";
             $res=$db->Execute($q);
-
-
+	
 	$set_field_values= array($contact_name, $contact_phone, $contact_mobile, $contact_fax, $contact_mail, $contact_web);
 	$contact_type_field_name = array('name', 'curr', 'pmob', 'fax', 'email', 'web');
 
@@ -385,7 +384,7 @@ function _shn_ims_edit_org()
             $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='web'";
             $res=$db->Execute($q);*/  //finish editing this section
            
-	add_confirmation($org_name.' Inventory was successfully Updated');
+	add_confirmation($org_name._(' Inventory was successfully updated'));
   ?>
     
 <h2>Inventory Registry</h2>

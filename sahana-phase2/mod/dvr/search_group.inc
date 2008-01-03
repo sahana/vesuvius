@@ -5,7 +5,7 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 }
 </script>
 <?php
-/* $Id: search_group.inc,v 1.5 2007-05-04 12:16:11 isurunishan Exp $ */
+/* $Id: search_group.inc,v 1.6 2008-01-03 04:41:36 isurunishan Exp $ */
 /**
  * 
  * Search groups and individuals in disaster victims registry
@@ -27,7 +27,7 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 
 function shn_dvr_search_default()
 {
-     shn_form_fopen("search_group",null,array('req_message'=>true));
+     shn_form_fopen("search_group",null,array('req_message'=>false));
     ?>
     <?php
     
@@ -126,7 +126,7 @@ $results=_shn_dvr_get_group_search_results($group,$card,$name);
  $results->MoveNext();
         }
         ?>
-        <table>
+        </table>
         </div>
         
         <?php
@@ -181,17 +181,17 @@ shn_form_select($typ_of_grp, _("Type Of Group"),'typ_of_grp',"onChange='makeRequ
 
     shn_form_fsopen(_('Identity'));
     shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox('Identity Card','idcard_chk');
-    shn_form_checkbox('Passport Number','pass_chk');
-    shn_form_checkbox('Driving License','drv_chk');
+    shn_form_checkbox(_('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_('Passport Number'),'pass_chk');
+    shn_form_checkbox(_(v),'drv_chk');
     shn_form_fsclose();
 
 
     shn_form_fsopen(_('Name'));
     shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox('Full Name','fullname_chk');
-    shn_form_checkbox('Family Name','familyname_chk');
-    shn_form_checkbox('Local Name','localname_chk');
+    shn_form_checkbox(_('Full Name'),'fullname_chk');
+    shn_form_checkbox(_('Family Name'),'familyname_chk');
+    shn_form_checkbox(_('Local Name'),'localname_chk');
     shn_form_fsclose();
 
   

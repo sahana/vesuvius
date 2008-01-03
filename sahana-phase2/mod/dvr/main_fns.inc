@@ -73,13 +73,15 @@ function shn_dvr_add_new_indv() {
 				} else
 					if ($_REQUEST['save']) {
 						_shn_dvr_add_individual_todb();
-						//shn_dvr_person_confirm();
+						shn_dvr_person_confirm();
 						shn_dvr_default();
+						unset($_SESSION['dvr']['person']);
 					} else {
 						
 						
 						
 						//unset individual major details
+						
 	unset($_SESSION['dvr']['person']['p_uuid']) ;
 	unset($_SESSION['dvr']['person']['typ_of_grp']);
 	unset($_SESSION['dvr']['person']['head_name']);
@@ -111,7 +113,7 @@ function shn_dvr_add_new_indv() {
 	unset($_SESSION['dvr']['person']['dead']);
 	unset($_SESSION['dvr']['person']['rehbd']) ;
 
-	unset($_SESSION['dvr']['person']['image']);
+	unset($_SESSION['dvr']['person']['person_image']);
 	unset($_SESSION['dvr']['person']['person_image_type']);
 	unset($_SESSION['dvr']['person']['person_image_height']);
 	unset($_SESSION['dvr']['person']['person_image_width']) ;
@@ -128,6 +130,7 @@ unset($_SESSION['dvr']['person']['opt_eye_color']);
 	unset($_SESSION['dvr']['person']['last_clothing']);
 	unset($_SESSION['dvr']['person']['comments']);
 	unset($_SESSION['dvr']['person']['finger_picture']);
+	unset($_SESSION['dvr']['person']['person_picture']);
 
 	unset($_SESSION['dvr']['person']['finger_image']);
 	unset($_SESSION['dvr']['person']['finger_image_type']) ;
@@ -136,19 +139,19 @@ unset($_SESSION['dvr']['person']['opt_eye_color']);
 						
 						//unset person locations
 						
-							unset($_SESSION['dvr']['person']['gis_loc_x']);
-		unset($_SESSION['dvr']['person']['gis_loc_y']);;
+	unset($_SESSION['dvr']['person']['gis_loc_x']);
+	unset($_SESSION['dvr']['person']['gis_loc_y']);;
 	unset($_SESSION['dvr']['person']['camps']);
 	
 
 	unset($_SESSION['dvr']['person']['displaced_loc']) ;
 	unset($_SESSION['dvr']['person']['current_loc']);
 
-	unset($_SESSION['dvr']['person']['currentlocationtypeof_group']);
-	unset($_SESSION['dvr']['person']['displacedlocationtypeof_group']);
-						
-						
-						
+	unset($_SESSION['dvr']['person']['current_location_type']);
+	unset($_SESSION['dvr']['person']['displaced_location_type']);
+	unset($_SESSION['dvr']['person']);					
+	
+										
 
 						shn_dvr_add_new_individual();
 					}
@@ -168,6 +171,7 @@ function shn_dvr_add_new_grp() {
 		_shn_dvr_commit();
 		//shn_dvr_mbr_confirm();
 		shn_dvr_mbr_confirm();
+		unset($_SESSION['dvr']['group']);
 	} else
 		if ($_REQUEST['edit_details'] != null) {
 			$_SESSION['dvr']['group']['edit_clicked'] = true;
@@ -393,6 +397,7 @@ function shn_dvr_edit_group() {
 		_shn_dvr_commit();
 		//shn_dvr_mbr_confirm();
 		shn_dvr_mbr_confirm();
+		//unset($_SESSION['dvr']['group']);
 	} else
 		if ($_REQUEST['edit_details'] != null) {
 			$_SESSION['dvr']['editgroup']['edit_clicked'] = true;
@@ -428,13 +433,13 @@ function shn_dvr_edit_group() {
 						switch ($sequence) {
 							case 'chk' :
 								{
-									if (_shn_dvr_group_location_validate_error()) {
-										shn_dvr_loc_dtls(true);
-									} else {
+								//	if (_shn_dvr_group_location_validate_error()) {
+									//	shn_dvr_loc_dtls(true);
+								//	} else {
 										shn_dvr_set_location_details();
 										shn_dvr_cklst_and_desc();
 
-									}
+									//}
 								}
 
 								//	print 'gis loc' . $_SESSION['dvr']['group']['gis_loc_x'];
@@ -507,7 +512,7 @@ function shn_dvr_delete_group()
 	$group_id=$_GET['groupid'];
 	
 	_shn_dvr_delete_group($group_id);
-	$msg = $group_id. "group was succesfully deleted ";
+	$msg = $group_id. " group was succesfully deleted ";
 	add_confirmation($msg);
 
 }
@@ -542,8 +547,9 @@ function shn_dvr_edit_individual() {
 						{
 							if (_shn_dvr_individual_physical_details_validate_error()) {
 								shn_dvr_physical_information(true);
-								shn_dvr_set_person_physical_details();
+								
 							} else {
+								shn_dvr_set_person_physical_details();
 								_shn_dvr_regconfirm_individual();
 							}
 						}
@@ -559,11 +565,87 @@ function shn_dvr_edit_individual() {
 						_shn_dvr_update_individual_todb();
 						//shn_dvr_person_confirm();
 						shn_dvr_default();
+						
+						//unset individual major details
+	unset($_SESSION['dvr']['person']['p_uuid']) ;
+	unset($_SESSION['dvr']['person']['typ_of_grp']);
+	unset($_SESSION['dvr']['person']['head_name']);
+	
+	unset($_SESSION['dvr']['person']['group_id']) ;
+	unset($_SESSION['dvr']['person']['full_name']);
+	unset($_SESSION['dvr']['person']['family_name']);
+	unset($_SESSION['dvr']['person']['local_name']) ;
+	unset($_SESSION['dvr']['person']['dob']);
+	unset($_SESSION['dvr']['person']['opt_age_group']);
+	unset($_SESSION['dvr']['person']['opt_gender']);
+	unset($_SESSION['dvr']['person']['opt_marital_status']) ;
+	unset($_SESSION['dvr']['person']['opt_religion']) ;
+	unset($_SESSION['dvr']['person']['opt_race']) ;
+
+	unset($_SESSION['dvr']['person']['idcard']);
+	unset($_SESSION['dvr']['person']['passport']) ;
+	unset($_SESSION['dvr']['person']['drv_licence']);
+
+	unset($_SESSION['dvr']['person']['mobile'] );
+	unset($_SESSION['dvr']['person']['telephone']);
+	unset($_SESSION['dvr']['person']['email']);
+	unset($_SESSION['dvr']['person']['address']);
+	unset($_SESSION['dvr']['person']['adlt_mls']);
+	unset($_SESSION['dvr']['person']['adlt_fmls']);
+	unset($_SESSION['dvr']['person']['chldrn']);
+	unset($_SESSION['dvr']['person']['dsplcd']) ;
+	unset($_SESSION['dvr']['person']['mising']);
+	unset($_SESSION['dvr']['person']['dead']);
+	unset($_SESSION['dvr']['person']['rehbd']) ;
+
+	unset($_SESSION['dvr']['person']['person_image']);
+	unset($_SESSION['dvr']['person']['person_image_type']);
+	unset($_SESSION['dvr']['person']['person_image_height']);
+	unset($_SESSION['dvr']['person']['person_image_width']) ;
+						
+						
+//unset person physical
+
+    unset($_SESSION['dvr']['person']['opt_eye_color']);
+	unset($_SESSION['dvr']['person']['opt_skin_color']) ;
+	unset($_SESSION['dvr']['person']['opt_hair_color'] );
+	unset($_SESSION['dvr']['person']['height']) ;
+	unset($_SESSION['dvr']['person']['weight']) ;
+	unset($_SESSION['dvr']['person']['opt_blood_type']);
+	unset($_SESSION['dvr']['person']['last_clothing']);
+	unset($_SESSION['dvr']['person']['comments']);
+	unset($_SESSION['dvr']['person']['finger_picture']);
+
+	unset($_SESSION['dvr']['person']['finger_image']);
+	unset($_SESSION['dvr']['person']['finger_image_type']) ;
+	unset($_SESSION['dvr']['person']['finger_image_height']);
+	unset($_SESSION['dvr']['person']['finger_image_width']);						
+						
+						//unset person locations
+						
+	unset($_SESSION['dvr']['person']['gis_loc_x']);
+	unset($_SESSION['dvr']['person']['gis_loc_y']);;
+	unset($_SESSION['dvr']['person']['camps']);
+	
+
+	unset($_SESSION['dvr']['person']['displaced_loc']) ;
+	unset($_SESSION['dvr']['person']['current_loc']);
+
+	unset($_SESSION['dvr']['person']['currentlocationtypeof_group']);
+	unset($_SESSION['dvr']['person']['displacedlocationtypeof_group']);
+	
 					} else {
+						unset($_SESSION['dvr']['person']);
 						_shn_dvr_edit_individual_start();
 					}
 
+					
+	
+						
+
 }
+
+
 
 
 
@@ -663,18 +745,18 @@ function shn_image_dvr_addvictim_img()
     switch ($_GET['stream']){
         case 'image' :
             if($_GET['session']){
-                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['image'],true);
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['person_image'],true.'dvr_person');
             }else{
                 if($_GET['thumbnail'])
-                    shn_show_image_stream($x_uuid,true); 
+                    shn_show_image_stream($x_uuid, true, null, false,'dvr_person'); 
                 else
-                    shn_show_image_stream($x_uuid,false); 
+                    shn_show_image_stream($x_uuid, false, null, false, 'dvr_person'); 
             }
         break;
     }
 }
     
-function shn_dvr_addfingerprint_img()
+function shn_image_dvr_addfingerprint_img()
 {
     global $global; 
 
@@ -683,12 +765,12 @@ function shn_dvr_addfingerprint_img()
     switch ($_GET['stream']){
         case 'image' :
             if($_GET['session']){
-                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['finger_image'],true);
+                shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['finger_image'],true, 'finger_print');
             }else{
                 if($_GET['thumbnail'])
-                    shn_show_image_stream($x_uuid,true); 
+                    shn_show_image_stream($x_uuid,true, null, false, 'finger_print'); 
                 else
-                    shn_show_image_stream($x_uuid,false); 
+                    shn_show_image_stream($x_uuid,false, null, false, 'finger_print'); 
             }
         break;
     }

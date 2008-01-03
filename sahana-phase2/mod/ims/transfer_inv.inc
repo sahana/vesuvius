@@ -418,7 +418,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     shn_form_fsclose();
 
-    shn_form_fsopen("Transport/Transporter Details");
+    shn_form_fsopen(_("Transport/Transporter Details"));
     shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('help'=>_('Registered Number of Your ')));
     shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('help'=>_('Name of the Driver who is going to carry the vehicle')));
     shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('help'=>_('Contact Details of the Driver')));
@@ -431,7 +431,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     shn_form_hidden(array('parent_id'=>$parent_id));
     shn_form_hidden(array('suplier_id'=>$suplier_id));
     shn_form_hidden(array('destination_type'=>$destination_type));
-    shn_form_submit("Send");
+    shn_form_submit(_("Send"));
     shn_form_fclose();
 }
 
@@ -526,7 +526,7 @@ function _shn_ims_send_db()
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
     $ims2 = $db->Execute($sql2);
 
-    add_confirmation('Item sent successfully');
+    add_confirmation(_('Item sent successfully'));
 
     shn_ims_send_item_page($catalog_id);
     }
@@ -551,11 +551,11 @@ $state=-1;
     if($page_number==0)
     {
 	$page=$page_number+1;
-        print ("Page Number  ".$page);
+        print (_("Page Number  ").$page);
     }
     else
     {
-	print ('Page Number  '.$page_number);
+	print (_('Page Number  ').$page_number);
     }
     print '</b>';
 ?>
@@ -755,7 +755,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     
         
     shn_form_fopen('receive_item_db');
-    shn_form_fsopen("Received Item");
+    shn_form_fsopen(_("Received Item"));
     $extra_opts['value'] = $item_name;
     shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',$extra_opts);
     //$extra_opts['value'] = $received_amount;
@@ -796,7 +796,7 @@ $unit_select_array=array();
 
     shn_form_fsclose();
 
-    shn_form_fsopen("Transport/Transporter Details");
+    shn_form_fsopen(_("Transport/Transporter Details"));
     shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('value'=>$vehicle_number,'help'=>_('Registered Number of Your ')));
     shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('value'=>$driver_name,'help'=>_('Name of the Driver who is going to carry the vehicle')));
     shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('value'=>$driver_mobile,'help'=>_('Contact Details of the Driver')));
@@ -862,7 +862,7 @@ function _shn_ims_receive_item_db()
     $sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
     $ims1=$db->Execute($sql1);
 
-    add_confirmation('Item Received successfully');
+    add_confirmation(_('Item Received successfully'));
 
     shn_ims_receive_item();
     

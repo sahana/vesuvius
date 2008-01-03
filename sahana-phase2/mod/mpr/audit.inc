@@ -1,5 +1,5 @@
 <?php
-/* $Id: audit.inc,v 1.3 2006-01-25 09:36:32 janakawicks Exp $ */
+/* $Id: audit.inc,v 1.4 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /** 
  * Audit page of the Missing Person Registry 
@@ -24,6 +24,9 @@
  * @access public
  * @return void
  */
+?>
+<h1><?= _('Audit'); ?></h1>
+<?php
 function shn_audit_show($x_uuid)
 {
     global $global;
@@ -32,23 +35,24 @@ function shn_audit_show($x_uuid)
     "a.change_type, a.prev_val, a.new_val FROM audit a LEFT OUTER JOIN " .
     "person_uuid b ON b.p_uuid = a.u_uuid WHERE a.x_uuid = '$x_uuid' ";
     $arr_result = $global['db']->GetAll($sql);
-    
-    echo ' <a title="'._('Download').'"'.
-        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'._('Download CSV'). '</a>';
-
-    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
-        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'._('Download PDF'). '</a>';
-
-    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
-        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-        $_GET['id'].'" >'._('Download Ugly Excel'). '</a>';
+      
+//    echo ' <a title="'._('Download').'"'.
+//        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
+//        $_GET['id'].'" >'._('Download CSV'). '</a>';
+//
+//    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
+//        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
+//        $_GET['id'].'" >'._('Download PDF'). '</a>';
+//
+//    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
+//        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
+//        $_GET['id'].'" >'._('Download Ugly Excel'). '</a>';
 //TODO PUT INTO A LIB
 ?>
 <DIV ID="result">
 <TABLE>
 <THEAD>
+   <TR>
     <TD><?= _('Date/Time'); ?></TD>
     <TD><?= _('User Making Changes'); ?></TD>
     <TD><?= _('Table Affected'); ?></TD>
@@ -56,6 +60,7 @@ function shn_audit_show($x_uuid)
     <TD><?= _('Type of change'); ?></TD>
     <TD><?= _('Previous Value'); ?></TD>
     <TD><?= _('New Value'); ?></TD>
+    </TR>
 </THEAD>
 <?php
     foreach($arr_result as $arr){

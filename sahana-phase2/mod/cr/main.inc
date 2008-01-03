@@ -11,7 +11,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main.inc,v 1.18 2007-09-22 15:59:30 mifanc Exp $
+* @version $Id: main.inc,v 1.19 2008-01-03 04:40:56 isurunishan Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -34,10 +34,10 @@ function shn_cr_mainmenu()
     shn_mod_menuitem("srch",_("Search by name"),$module);
     shn_mod_menuitem("srch_address",_("Search by address"),$module);
     shn_sub_mod_menuclose();
-    shn_mod_menuitem("acmp",_("Add {$conf['mod_cr_alt']}"),$module);
-    shn_mod_menuitem("ecmp",_("Edit {$conf['mod_cr_alt']}"),$module);
+    shn_mod_menuitem("acmp",_("Add Shelter"),$module);
+    shn_mod_menuitem("ecmp",_("Edit Shelter"),$module);
     shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("arpt",_("View All {$conf['mod_cr_alt']}s"),$module);
+    shn_sub_mod_menuitem("arpt",_("View All Shelters"),$module);
     shn_mod_menuitem("lrpt",_("View By Location"),$module);
     shn_mod_menuitem("contact",_("View Admin Details"),$module);
     if($conf['gis']){

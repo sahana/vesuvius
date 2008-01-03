@@ -21,7 +21,7 @@
 
 include_once ($global['approot'] . '/inc/lib_image.inc');
 
-/* $Id: view_members.inc,v 1.5 2007-11-16 11:21:02 isurunishan Exp $ */
+/* $Id: view_members.inc,v 1.6 2008-01-03 04:41:36 isurunishan Exp $ */
 /**
  * 
  * View Members in disaster victims registry
@@ -153,6 +153,9 @@ function _shn_dvr_search_show_verticle($details) {
 		}
 ?>
     </TR>
+    </TABLE>
+</DIV>
+    
 <?php
 
 	//}
@@ -171,6 +174,4 @@ return $group;
 	
 }
 ?>
-</TABLE>
-</DIV>
 

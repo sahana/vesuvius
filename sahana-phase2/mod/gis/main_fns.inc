@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: main_fns.inc,v 1.19 2007-11-15 12:52:21 isurunishan Exp $ */
+/* $Id: main_fns.inc,v 1.20 2008-01-03 04:41:59 isurunishan Exp $ */
 
 /**
 * Functions page of the GIS Module
@@ -19,19 +19,14 @@
 
 
 
-
-
-
-
-
 function shn_gis_default()
 {
         global $conf;
 ?>
 <div id="home">
-<h2><?=$conf['mod_gis_name']?></h2>
+<h2><?php echo _('Situation Mapping')?></h2>
 <p>
-<?=_("The  {$conf['mod_gis_name']} module provides Geographic Information System (GIS) support and spatial functionalities to other Sahana modules");?></li>
+<?= _("The Situation Mapping module provides a mechanism to collaboratively provide an overview of the developing disaster, using online mapping (GIS). You can add markers and pictures to pin point incidents on the map.");?>
         
 </p>
 
@@ -39,16 +34,15 @@ function shn_gis_default()
     <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
 <br></br>
 <ul>
-        <li><?php echo _('Allows registering disaster situations in GIS maps') ?></li>
-        <li><?php echo _('Facilitates users to identify and add locations of relief activites');?></li>
-        <li><?php echo _('Help to maintain supply chain by locating requests, pledges and aid');?></li>
+        <li><?php echo _('Provides a map based view of the disaster situtation') ?></li>
+        <li><?php echo _('Allows users to collaboratively add markers of the developing disaster sitation');?></li>
 </ul>
 
-<strong>Description of Actions:</strong><br/>
+<strong><?php echo _('Description of Actions:')?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=gis&act=show"><b><?= _('Mapping Client'); ?> </b></a><br/><?= _('Allows clients to be located on GIS map'); ?></li>
-        <li><a href="index.php?mod=gis&act=awik"><b><?= _('Add Situation'); ?> </b> </a><br/><?= _('Registers disaster locations'); ?></li>
-        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Review GIS maps'); ?></li>
+        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Map of the developing situation with markers of incidentss, locations and objects displayed on the map'); ?></li>
+        <li><a href="index.php?mod=gis&act=awik"><b><?= _('Add Situation Markers'); ?> </b> </a><br/><?= _('Add markers on the map of incidents and objects with pictures'); ?></li>
+        <li><a href="index.php?mod=gis&act=mapc"><b><?= _('General Map'); ?> </b></a><br/><?= _('Free form map of the location without markers'); ?></li>
         
         
 </ul>
@@ -58,8 +52,8 @@ function shn_gis_default()
 <?php
 }
 
-
-
+//not being used any more
+//replaced by sha_gis_mapc()
 function shn_gis_show()
 {
   //echo "showing";
@@ -93,7 +87,7 @@ function shn_gis_aloc ($errors=false)
 	shn_form_text(_("Landmark Name"),"location_name",'size="60"');
 	shn_form_opt_select("opt_landmark_type",_("Landmark Type"));
 	shn_form_fsclose();
-	shn_form_fsopen('Landmark\'s Location');
+	shn_form_fsopen(_('Landmark\'s Location'));
 	$range = shn_get_range();
 	shn_location($range);
 	shn_form_fsclose();
@@ -140,7 +134,7 @@ function shn_gis_amap()
 	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_add_marker_map_form("Area Map",$_POST['location_name']);
-	shn_form_submit("Next");
+	shn_form_submit(_("Next"));
 	shn_form_fclose();
 }
 

@@ -34,8 +34,23 @@ function _shn_dvr_populate_individual_details() {
 	$group_type = $results->fields['group_type'];
 	$head_id = $results->fields['head_id'];
 	$group_id = $results->fields['groupid'];
-
-	$personal = get_person_full_name($p_uuid);
+    
+	$grcurr_loc = _shn_dvr_get_groupcurrent_location($group_id);
+    $grdis_loc = _shn_dvr_get_groupdisplaced_location($group_id);
+    $_SESSION['dvr']['person']['current_loc'] = _shn_dvr_get_groupcurrent_location($p_uuid);
+    $_SESSION['dvr']['person']['displaced_loc'] = _shn_dvr_get_groupdisplaced_location($p_uuid);
+    //var_dump('loc'.$_SESSION['dvr']['person']['current_loc'].$_SESSION['dvr']['person']['displaced_loc']);
+    if($_SESSION['dvr']['person']['displaced_loc']!=$grdis_loc)
+    $_SESSION['dvr']['person']['displacedlocationtypeof_group']=2;
+    else
+    $_SESSION['dvr']['person']['displacedlocationtypeof_group']=1;
+    
+    if($_SESSION['dvr']['person']['current_loc']!=$grcurr_loc)
+    $_SESSION['dvr']['person']['currentlocationtypeof_group']=2;
+    else
+    $_SESSION['dvr']['person']['currentlocationtypeof_group']=1;
+	
+    $personal = get_person_full_name($p_uuid);
 
 	$p_full_name = $personal->fields['full_name'];
 	$p_family_name = $personal->fields['family_name'];
@@ -55,7 +70,7 @@ function _shn_dvr_populate_individual_details() {
 	$_SESSION['dvr']['person']['local_name'] = $p_local_name;
 
 	$personal_results = get_personal_details($p_uuid);
-
+	
 	$dob = $personal_results->fields['birth_date'];
 	$age_group = $personal_results->fields['opt_age_group'];
 	$gender = $personal_results->fields['opt_gender'];
@@ -69,17 +84,32 @@ function _shn_dvr_populate_individual_details() {
 	while (!$id_results->EOF) {
 		$id = $id_results->fields['serial'];
 		$val = $id_results->fields['opt_id_type'];
-		if ($id == 'nic') {
-			$_SESSION['dvr']['person']['idcard'] = $val;
+		if ($val == 'idcard') {
+			$_SESSION['dvr']['person']['idcard'] = $id;
 		} else
-			if ($id == 'pas') {
-				$_SESSION['dvr']['person']['passport'] = $val;
+			if ($val == 'pas') {
+				$_SESSION['dvr']['person']['passport'] = $id;
 			} else
-				if ($id == 'dln') {
-					$_SESSION['dvr']['person']['drv_licence'] = $val;
+				if ($val == 'dln') {
+					$_SESSION['dvr']['person']['drv_licence'] = $id;
 				}
 		$id_results->MoveNext();
 	}
+	
+	$physical_result = get_person_physical_details($p_uuid);
+	
+	$_SESSION['dvr']['person']['opt_eye_color'] = $physical_result->fields['opt_eye_color'];
+	$_SESSION['dvr']['person']['opt_skin_color'] = $physical_result->fields['opt_skin_color'];
+	$_SESSION['dvr']['person']['opt_hair_color'] = $physical_result->fields['opt_hair_color'];
+	$_SESSION['dvr']['person']['height'] = $physical_result->fields['height'];
+	$_SESSION['dvr']['person']['weight'] = $physical_result->fields['weight'];
+	$_SESSION['dvr']['person']['opt_blood_type'] = $physical_result->fields['opt_blood_type'];
+	//$_SESSION['dvr']['person']['last_clothing'];
+	$comments = $physical_result->fields['comments'];
+	$chars = preg_split('/,/', $comments);
+	$_SESSION['dvr']['person']['last_clothing'] = $chars[0];
+	$_SESSION['dvr']['person']['comments'] = $chars[1];
+		
 	$_SESSION['dvr']['person']['dob'] = $dob;
 	$_SESSION['dvr']['person']['opt_age_group'] = $age_group;
 	$_SESSION['dvr']['person']['opt_gender'] = $gender;
@@ -136,7 +166,7 @@ global $conf;
 	print '<br />';
 
 	
-	$extra_opts['help'] = _("Please Select the group type");
+	$extra_opts['help'] = _("Please Select the group type, if you want to change it");
 	$extra_opts['req'] = true;
 	$extra_opts['value'] = $_SESSION['dvr']['person']['typ_of_grp'];
 	$extra_opts['sort'] = 'option_code';
@@ -158,10 +188,10 @@ $type=$_SESSION['dvr']['person']['typ_of_grp'];
 	//array_push($heads, 'Other');
 	
 	
-	$extra_opts['help'] = _("Please Select the Head Name");
+	$extra_opts['help'] = _("Please Select the name of the head of the group");
 	$extra_opts['req'] = false;
 	$extra_opts['value'] = $_SESSION['dvr']['person']['group_id'];
-	shn_form_select($heads, 'Select the group head', 'head_name', '', $extra_opts);
+	shn_form_select($heads, 'Select the group head', 'head_name', "disabled = 'disabled'", $extra_opts);
 
 	shn_form_fsclose();
 
@@ -172,55 +202,52 @@ $type=$_SESSION['dvr']['person']['typ_of_grp'];
 	$extra_opts['value'] = $_SESSION['dvr']['person']['full_name'];
 	$extra_opts['help'] = _("Enter the Full Name.(Required)");
 	$extra_opts['req'] = true;
-
 	shn_form_text(_('Full Name'), 'full_name', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['family_name'];
-	$extra_opts['help'] = _("'Family name, or the surname could be specified for matching of people with similar Family names");
+	$extra_opts['help'] = _("'Family name, or the surname could be specified for matching people with similar Family names");
 	$extra_opts['req'] = false;
 	shn_form_text(_('Family Name'), 'family_name', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['local_name'];
-	$extra_opts['help'] = _("You may also specify the local name, even in different script than English");
-
+	$extra_opts['help'] = _("You may also specify the local name, even in a different language than English");
 	shn_form_text(_('Local Name'), 'local_name', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['dob'];
-	$extra_opts['help'] = _("You may also specify the date of birth");
-
+	$extra_opts['help'] = _("You may also specify the date of birth in the order of 'year - month - day.<br/> E.g. February 15th of 1984 should enter as 1984-02-15");
 	shn_form_text(_('Date of Birth   (YYYY-MM-DD)'), 'dob', 'size=8', $extra_opts);
+	
 	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_age_group'];
 	$extra_opts['help'] = _("You may also specify the age group");
-
 	shn_form_opt_select("opt_age_group", _('Age Group'), '', $extra_opts);
-	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_gender'];
 
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_gender'];
 	shn_form_opt_select("opt_gender", _('Gender'), '', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_marital_status'];
-
 	shn_form_opt_select("opt_marital_status", _('Marital Status'), '', $extra_opts);
+	
 	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_religion'];
-
 	shn_form_opt_select("opt_religion", _('Religion'), '', $extra_opts);
-	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_race'];
 
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_race'];
 	shn_form_opt_select("opt_race", _('Race'), '', $extra_opts);
+
 	shn_form_fsclose();
 	print '<br />';
 
 	shn_form_fsopen(_('Identity'));
 	print '<br />';
 	$extra_opts['value'] = $_SESSION['dvr']['person']['idcard'];
-	$extra_opts['help'] = 'Specify the Identity card Number, Although this is not required this will be useful in searching for the person';
+	$extra_opts['help'] = _('Specify the Identity card Number, Although this is not required this will be useful in searching for the person');
 	shn_form_text(_('Identity Card Number'), 'idcard', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['passport'];
-	$extra_opts['help'] = 'Please Specify the passport number, Although this is not required this will be useful in searching for the person';
+	$extra_opts['help'] = _('Please Specify the passport number, Although this is not required this will be useful in searching for the person');
 
 	shn_form_text(_('Passport Number'), 'passport', 'size="30"', $extra_opts);
 	$extra_opts['value'] = $_SESSION['dvr']['person']['drv_licence'];
-	$extra_opts['help'] = 'Please Specify the driving License number, Although this is not required this will be useful in searching for the person';
+	$extra_opts['help'] = _('Please Specify the driving License number, Although this is not required this will be useful in searching for the person');
 
 	shn_form_text(_('Driving License'), 'drv_licence', 'size="30"', $extra_opts);
 	shn_form_fsclose();
@@ -233,7 +260,7 @@ if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
 ?>
 	<p align='center'>
 	<?php
-
+//shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
 		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addvictim_img', true);
 ?>
 	
@@ -262,16 +289,17 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_upload(_('Upload Picture'), "picture");
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Contact Information Of The Disaster Victim'));
+	shn_form_fsopen(_('Contact Information of the Disaster Victim'));
 	print '<div class="info">';
 	print '<br />';
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['address'];
-	$extra_opts['help'] = 'Your address can be specified to contact you';
+	$extra_opts['help'] = _('Providing your address may be helpful to contact you');
 
-	shn_form_textarea(_('Address'), "address", null, array (
-		'help' => _('Your address can be specified to contact you'
-	)));
+//	shn_form_textarea(_('Address'), "address", null, array (
+//		'help' => _('Providing your address may be helpful to contact you'
+//	)));
+shn_form_textarea(_('Address'), "address", null,$extra_opts);
 
 	/*$extra_opts['value'] = $_SESSION['dvr']['person']['zip'];
 	$extra_opts['help'] = 'Specify a zip code, if it is available';
@@ -279,18 +307,18 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	shn_form_text(_('Postal Code'), 'zip', 'size="15"', $extra_opts);*/
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['telephone'];
-	$extra_opts['help'] = 'Specify a phone, if it is available';
+	$extra_opts['help'] = _('Specify a phone, if it is available');
 
-	shn_form_text(_('Home Phone'), 'phone', 'size="15"');
+	shn_form_text(_('Home Phone'), 'telephone', 'size="15"',$extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['mobile'];
-	$extra_opts['help'] = 'Specify a mobile, if it is available';
-	shn_form_text(_('Mobile'), 'mobile', 'size="15"');
+	$extra_opts['help'] = _('Specify a mobile, if it is available');
+	shn_form_text(_('Mobile'), 'mobile', 'size="15"',$extra_opts);
 	shn_form_fsclose();
 
 
 
-shn_form_fsopen(_('Displaced Location Of The Victim'));
+shn_form_fsopen(_('Displaced Location of the Victim'));
 	print '<br />';
 	$typ_of_grp = array ();
 	//array_push($typ_of_grp, '-- Select Option --');
@@ -299,22 +327,39 @@ shn_form_fsopen(_('Displaced Location Of The Victim'));
 	$typ_of_grp[1] = "Same As Group";
 	$typ_of_grp[2] = "Other";
 	$extra_opts['value'] = $_SESSION['dvr']['person']['displacedlocationtypeof_group'];
-
-	shn_form_select($typ_of_grp, _("Displaced Location"), 'displacedlocationtypeof_group', '', $extra_opts);
+	$extra_opts['help'] = _('Whether you are located at the same place as the group or in a different place');
+	shn_form_select($typ_of_grp, _("Displaced Location"), 'displacedlocationtypeof_group', 'onchange="javascript:toggle(\'other\',this.value);"', $extra_opts);
 
 	$range = shn_dvr_get_loc_range();
 //$extra_opts["camps_id"]="iswoc-1";
-	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-disp');
+	//$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-disp');
+	?>
+    <div id="other" 
+    <?php 
+    if(isset($_SESSION['dvr']['person']['displacedlocationtypeof_group'])==false){
+        echo 'style="display:none;"';
+    }
+    else{
+      if($_SESSION['dvr']['person']['displacedlocationtypeof_group']==2)
+          echo 'style="display:block;"';
+      else
+          echo 'style="display:none;"';
+    }
+    ?>
+    >
+    <?php
 	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
-		shn_location($range, $locid, null, $extra_opts);
+		shn_location($range, $_SESSION['dvr']['person']['displaced_loc'], null, $extra_opts);
 	else
 		shn_location($range, $_SESSION['dvr']['person']['displaced_loc'], null, $extra_opts);
-
+    ?>
+    </div>
+    <?php
 	shn_form_fsclose();
 
 
 
-	shn_form_submit("Next", "name=location_individual");
+	shn_form_submit(_("Next"), "name=location_individual");
 
 	shn_form_fclose();
 	print '<br />';
@@ -345,7 +390,7 @@ function shn_dvr_set_person_major_details() {
 	$_SESSION['dvr']['person']['drv_licence'] = $_POST['drv_licence'];
 
 	$_SESSION['dvr']['person']['mobile'] = $_POST['mobile'];
-	$_SESSION['dvr']['person']['telephone'] = $_POST['phone'];
+	$_SESSION['dvr']['person']['telephone'] = $_POST['telephone'];
 	$_SESSION['dvr']['person']['email'] = $_POST['email'];
 	$_SESSION['dvr']['person']['address'] = $_POST['address'];
 	
@@ -366,13 +411,7 @@ function shn_dvr_set_person_major_details() {
 	//$_SESSION['dvr']['person']['currentlocationtypeof_group'] = $curloctype;
 	$_SESSION['dvr']['person']['displacedlocationtypeof_group'] = $disloctype;
 	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
@@ -384,7 +423,7 @@ function shn_dvr_set_person_major_details() {
 
 			$size = filesize($_FILES['picture']['tmp_name']);
 			$pic = fread(fopen($_FILES['picture']['tmp_name'], "r"), $size);
-			$_SESSION['dvr']['person']['image'] = $pic;
+			$_SESSION['dvr']['person']['person_image'] = $pic;
 			$_SESSION['dvr']['person']['person_image_type'] = $ext;
 			$_SESSION['dvr']['person']['person_image_height'] = $info[1];
 			$_SESSION['dvr']['person']['person_image_width'] = $info[0];
@@ -441,6 +480,28 @@ function _shn_dvr_individual_validate_error() {
 		add_error(_("Please fill the full name"));
 		$error_flag = true;
 	}
+$valid_date = true;	
+$dob_val = $_POST['dob'];	
+if(!shn_valid_date($dob_val))
+{
+	//add_error(_("Please Check the Date format"));	
+$error_flag = true;
+$valid_date = false;
+}
+
+
+if($valid_date){
+		$dob_val = $_POST['dob'];
+		$today_val = date('Y-m-d');
+
+		$dob = strtotime($dob_val);
+		$today = strtotime($today_val);
+		if($today<=$dob){
+			add_error(_("Please enter a valid date of birth."));
+			$error_flag = true;
+		}
+}	
+	
 $email=$_POST['email'];
 if(!shn_valid_email($email,false))
 {
@@ -480,9 +541,9 @@ function _shn_dvr_regconfirm_individual() {
 <?php
 
 
-	shn_form_fopen("edit_individual", null);
+	shn_form_fopen("edit_individual", null,false);
 
-	shn_form_fsopen('Group Type and Personal details');
+	shn_form_fsopen(_('Group Type and Personal details'));
 
 	shn_form_label(_("Group type: "), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['typ_of_grp']));
 
@@ -496,8 +557,8 @@ function _shn_dvr_regconfirm_individual() {
 ?>
 	<p align='center'>
 	<?php
-
-	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'adddvr_img', true);
+//shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addvictim_img', true);
 	
 ?>
 	
@@ -507,33 +568,33 @@ function _shn_dvr_regconfirm_individual() {
 
 	shn_form_label(_("Date Of birth"), $_SESSION['dvr']['person']['dob']);
 
-	shn_form_label(_("Age group"), $_SESSION['dvr']['person']['opt_age_group']);
+	shn_form_label(_("Age group"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_age_group']));
 
-	shn_form_label(_("Gender"), $_SESSION['dvr']['person']['opt_gender']);
+	shn_form_label(_("Gender"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_gender']));
 
-	shn_form_label(_("Marital Status"), $_SESSION['dvr']['person']['opt_marital_status']);
+	shn_form_label(_("Marital Status"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_marital_status']));
 
-	shn_form_label(_("Religion"), $_SESSION['dvr']['person']['opt_religion']);
+	shn_form_label(_("Religion"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_religion']));
 
-	shn_form_label(_("Race"), $_SESSION['dvr']['person']['opt_race']);
+	shn_form_label(_("Race"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_race']));
 
 	shn_form_fsclose();
 
-	shn_form_fsopen("Identity");
-	shn_form_label(_("Identity Card Number"), $_SESSION['dvr']['person']['nic']);
+	shn_form_fsopen(_("Identity"));
+	shn_form_label(_("Identity Card Number"), $_SESSION['dvr']['person']['idcard']);
 	shn_form_label(_("Passport Number"), $_SESSION['dvr']['person']['passport']);
 	shn_form_label(_("Driving License"), $_SESSION['dvr']['person']['drv_licence']);
 
 	shn_form_fsclose();
 
-	shn_form_fsopen("Contact Information ");
+	shn_form_fsopen(_("Contact Information"));
 	shn_form_label(_("Address"), $_SESSION['dvr']['person']['address']);
 	//shn_form_label(_("Postal Code"), $_SESSION['dvr']['person']['postal_code']);
 	shn_form_label(_("Home Phone"), $_SESSION['dvr']['person']['telephone']);
 	shn_form_label(_("Mobile"), $_SESSION['dvr']['person']['mobile']);
 	shn_form_fsclose();
 
-	shn_form_fsopen("Displaced/Current Location");
+	shn_form_fsopen(_("Displaced/Current Location"));
 	$location = _shn_org_location_string($_SESSION['dvr']['person']['displaced_loc']);
 
 	shn_form_label(_("Displaced Location"), $location);
@@ -541,30 +602,30 @@ function _shn_dvr_regconfirm_individual() {
 	$location = _shn_org_location_string($_SESSION['dvr']['person']['current_loc']);
 	$map_location = "Latitude= " . $_SESSION['dvr']['person']['gis_loc_y'] . " Longitude= " . $_SESSION['dvr']['person']['gis_loc_x'];
 	shn_form_label(_("Current Location"), $location);
-	shn_form_label(_("Map Location"), $map_location);
+	//shn_form_label(_("Map Location"), $map_location);
 	shn_form_fsclose();
 
 	// Contact infomation
-	shn_form_fsopen("PhysicalInformation");
+	shn_form_fsopen(_("Physical Information"));
 
 	shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['person']['finger_picture']);
 ?>
 	<p align='center'>
 	<?php
-
-	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,"fingerprint");
+//shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true, "finger");
 ?>
 	
 	</p>
 	<?php
 
 
-	shn_form_label(_("Eye Color"), $_SESSION['dvr']['person']['opt_eye_color']);
-	shn_form_label(_("Skin Color"), $_SESSION['dvr']['person']['opt_skin_color']);
-	shn_form_label(_("Hair Color"), $_SESSION['dvr']['person']['opt_hair_color']);
+	shn_form_label(_("Eye Color"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_eye_color'],'opt_eye_color'));
+	shn_form_label(_("Skin Color"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_skin_color'],'opt_skin_color'));
+	shn_form_label(_("Hair Color"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_hair_color'],'opt_hair_color'));
 	shn_form_label(_("Height"), $_SESSION['dvr']['person']['height']);
 	shn_form_label(_("Weight"), $_SESSION['dvr']['person']['weight']);
-	shn_form_label(_("Blood Type"), $_SESSION['dvr']['person']['opt_blood_type']);
+	shn_form_label(_("Blood Type"), _shn_dvr_getoptiondescription($_SESSION['dvr']['person']['opt_blood_type']));
 	shn_form_label(_("Clothing and appearance"), $_SESSION['dvr']['person']['last_clothing']);
 	shn_form_label(_("Other Details"), $_SESSION['dvr']['person']['comments']);
 
@@ -633,46 +694,65 @@ function shn_dvr_disp_and_crnt_loc() {
 	shn_location($range, null, null, $extra_opts);
 
 	shn_form_fsclose();*/
-	shn_form_fsopen(_('Current Location Of The Victim'));
+	shn_form_fsopen(_('Current Location of the Victim'));
 
 	print '<br />';
 	$typ_of_grp = array ();
-	array_push($typ_of_grp, '-- Select Option --');
+	//array_push($typ_of_grp, '-- Select Option --');
 	array_reverse($typ_of_grp);
 	$typ_of_grp[1] = "Same As Group";
 	$typ_of_grp[2] = "Other";
 	$extra_opts['value'] = $_SESSION['dvr']['person']['currentlocationtypeof_group'];
-	shn_form_select($typ_of_grp, _("Current Location"), 'currentlocationtypeof_group', '', $extra_opts);
+	shn_form_select($typ_of_grp, _("Current Location"), 'currentlocationtypeof_group', 'onchange="javascript:toggle(\'curr_other\',this.value);"', $extra_opts);
+	
 	$parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
-//	$extra_opts['camps'] = true;
-$extra_opts['camps'] = true;
+	$extra_opts['org'] = true;
+    $extra_opts['camps'] = true;
 	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == false)
-$extra_opts["camp_id"]=_shn_dvr_get_shelter($_SESSION['dvr']['person']['p_uuid']);
+    $extra_opts["camp_id"]=_shn_dvr_get_shelter($_SESSION['dvr']['person']['p_uuid']);
 	else
-$extra_opts["camp_id"]=$_SESSION['dvr']['person']['camps'];
+    $extra_opts["camp_id"]=$_SESSION['dvr']['person']['camps'];
 	
 
 	//shn_location($range, $_POST[$range["end"]], $parent, $extra_opts);
 
-	$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-curr');
-	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
-		shn_location($range, null, null, $extra_opts);
+	//$locid = get_person_location_details($_SESSION['dvr']['person']['p_uuid'].'-curr');
+	?>
+    <div id="curr_other" 
+    <?php 
+    if(isset($_SESSION['dvr']['person']['currentlocationtypeof_group'])==false){
+        echo 'style="display:none;"';
+    }
+    else{
+      if($_SESSION['dvr']['person']['currentlocationtypeof_group']==2)
+          echo 'style="display:block;"';
+      else
+          echo 'style="display:none;"';
+    }
+    ?>
+    >
+    <?php
+    if ($_SESSION['dvr']['person']['edit_individual_clicked'] == null |  $_SESSION['dvr']['person']['edit_individual_clicked']==false)
+		shn_location($range, $_SESSION['dvr']['person']['current_loc'], null, $extra_opts);
 	else
 		shn_location($range, $_SESSION['dvr']['person']['current_loc'], null, $extra_opts);
-
+       ?>
+    </div>	
+    <?php
+	
 	shn_form_fsclose();
 
-	shn_form_fsopen(_("Location Information"));
-	echo _("Plot the Camp/Shelter Location or Coordinates below");
+	//shn_form_fsopen(_("Location Information"));
+	//echo _("Plot the Camp/Shelter Location or Coordinates below");
 	shn_form_hidden(array (
 		'seq' => 'chk'
 	));
 	shn_form_fsclose();
 
 	//call gis api from gis module
-	include $global['approot'] . "/mod/gis/gis_fns.inc";
-	shn_gis_add_marker_map_form("GIS Map",null,"name=physical_button");
+	//include $global['approot'] . "/mod/gis/gis_fns.inc";
+	//shn_gis_add_marker_map_form("GIS Map",null,"name=physical_button");
 
 	shn_form_fsclose();
 	shn_form_submit("Next", "name=physical_button");
@@ -684,6 +764,7 @@ $extra_opts["camp_id"]=$_SESSION['dvr']['person']['camps'];
 }
 
 function shn_dvr_set_person_physical_details() {
+	global $global;
 	$_SESSION['dvr']['person']['opt_eye_color'] = $_POST['opt_eye_color'];
 	$_SESSION['dvr']['person']['opt_skin_color'] = $_POST['opt_skin_color'];
 	$_SESSION['dvr']['person']['opt_hair_color'] = $_POST['opt_hair_color'];
@@ -693,6 +774,7 @@ function shn_dvr_set_person_physical_details() {
 	$_SESSION['dvr']['person']['last_clothing'] = $_POST['last_clothing'];
 	$_SESSION['dvr']['person']['comments'] = $_POST['comments'];
 	$_SESSION['dvr']['person']['finger_picture'] = $_POST['finger_picture'];
+						
 
 	if ($_FILES['finger_picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['finger_picture']['tmp_name']);
@@ -711,7 +793,17 @@ function shn_dvr_set_person_physical_details() {
 			$_SESSION['dvr']['person']['finger_image_width'] = $info[0];
 
 		}
+//////////////////////////////////////////////////
+$ext = '.' . $ext;
+		$upload_dir = $global['approot'] . 'www/tmp/';
+		$uploadfile = $upload_dir . 'ori_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
+		move_uploaded_file($_FILES['finger_picture']['tmp_name'], $uploadfile);
+		
+		$desc_path = $upload_dir . 'thumb_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
+		//resize the image size
 
+		shn_image_resize($uploadfile, $desc_path, 100, 100);
+/////////////////////////////////////////////////
 	}
 
 }
@@ -759,18 +851,13 @@ function shn_dvr_physical_information($errors = false) {
 	print '<br />';
 	
 	
-	
-	
-	
-	
-	
 	if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
-		shn_form_label(_("Current Finger Print"), $_SESSION['dvr']['group']['picture']);
+		shn_form_label(_("Current FingerPrint"),$_SESSION['dvr']['person']['finger_picture']);
 ?>
 	<p align='center'>
 	<?php
 
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true,'fingerprint');
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true, "finger");
 ?>
 	
 	</p>
@@ -781,21 +868,23 @@ function shn_dvr_physical_information($errors = false) {
 	else
 	{
 		
-shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['group']['picture']);
+shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['person']['finger_picture']);
 ?>
 	<p align='center'>
 	<?php
 //print 'here'.$_SESSION['dvr']['group']['headid'];
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addfingerprint_img', false,'fingerprint');
+//shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
+		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addfingerprint_img', false, "finger");
+        //shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true, "finger");
 ?>
 	
 	</p>
 	<?php
 
+	
+
 	}
 		
-	
-	
 	
 	
 	shn_form_upload(_('Upload Fingerprint'), "finger_picture");
@@ -805,19 +894,34 @@ $_SESSION['dvr']['person']['edit_individual_clicked']=false;
 	shn_form_fsopen(_('Physical Details'));
 
 	print '<br />';
-	shn_form_opt_select("opt_eye_color", _('Eye Colour'));
-	shn_form_opt_select("opt_skin_color", _('Skin Colour'));
-	shn_form_opt_select("opt_hair_color", _('Hair Colour'));
-	shn_form_text(_('Height'), 'height', 'size="10"');
-	shn_form_text(_('Weight'), 'weight', 'size="10"');
-	shn_form_opt_select("opt_blood_type", _('Blood Type'));
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_eye_color'] ;
+	shn_form_opt_select("opt_eye_color", _('Eye Colour'),'',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_skin_color']; 
+	shn_form_opt_select("opt_skin_color", _('Skin Colour'),'',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_hair_color']; 
+	shn_form_opt_select("opt_hair_color", _('Hair Colour'),'',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['height'];
+	shn_form_text(_('Height'), 'height', 'size="10"',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['weight'];
+	shn_form_text(_('Weight'), 'weight', 'size="10"',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_blood_type'] ;
+	shn_form_opt_select("opt_blood_type", _('Blood Type'),'',$extra_opts);
 	//shn_form_textarea(_('Other Distinctive Features'), 'physical_comments');
 	shn_form_fsclose();
 	shn_form_fsopen(_('Other Details'));
 	print '<br />';
-
-	shn_form_textarea(_('Description Of Clothing And Appearance'), 'last_clothing');
-	shn_form_textarea(_('Other Relevant Information'), 'comments');
+    
+	$extra_opts['value'] = $_SESSION['dvr']['person']['last_clothing'];
+	shn_form_textarea(_('Description Of Clothing And Appearance'), 'last_clothing','',$extra_opts);
+	
+	$extra_opts['value'] = $_SESSION['dvr']['person']['comments'];
+	shn_form_textarea(_('Other Relevant Information'), 'comments','',$extra_opts);
 	shn_form_fsclose();
 	shn_form_submit(_('Finish'), "name=finish");
 	shn_form_fclose();
@@ -832,3 +936,21 @@ function _shn_dvr_update_individual_todb() {
 	_shn_dvr_update_individual();
 }
 ?>
+<script language="javascript">
+
+function toggle(divition,values)
+{
+
+var othe = document.getElementById(divition);
+
+	if ( values == "2" ) {
+		
+		othe.style.display = 'block';
+	}
+	
+	else{
+	othe.style.display = 'none';
+	}
+}
+
+</script>

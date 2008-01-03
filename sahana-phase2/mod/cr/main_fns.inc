@@ -13,7 +13,7 @@
 * @subpackage cr
 * @author   Mifan Careem <mifan@opensource.lk>
 * @author   Chathra Hendehewa <chathra@opensource.lk>
-* @version $Id: main_fns.inc,v 1.57 2007-11-20 09:13:24 isurunishan Exp $
+* @version $Id: main_fns.inc,v 1.58 2008-01-03 04:40:56 isurunishan Exp $
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -24,26 +24,25 @@ function shn_cr_default(){
         global $conf;
 ?>
         <div id="home">
-                <h2><?php echo _($conf['mod_cr_name'])?></h2>
-                <p><?php echo _("This module tracks all {$conf['mod_cr_alt']}s, and stores basic details regarding them. It collaborates with other modules to track people associated" .
-                                " with a  {$conf['mod_cr_alt']}, the services available etc.")?>
+                <h2><?php echo _("Shelter Registry")?></h2>                
+                <p><?php echo _("This module tracks all shelters and stores basic details regarding them. It collaborates with other modules to track people associated with a shelter, the services available etc.")?>
                 </p>
                 <p><h3><?php echo _("Current features include:")?></h3></p>
                 <ul>
-                    <li><?php echo _("Tracking of basic information on the location, facilities and size of the {$conf['mod_cr_alt']}s")?></li>
+                    <li><?php echo _("Tracking of basic information on the location, facilities and size of the Shelters")?></li>
 <?php if($conf['gis']){ ?>          
-                    <li><?php echo _("GIS integration to view location details of the {$conf['mod_cr_alt']}")?></li>
+                    <li><?php echo _("GIS integration to view location details of the Shelter")?></li>
 <?php } ?>       
-                    <li><?php echo _("Ability to customize the list of important facilities needed at a {$conf['mod_cr_alt']}")?></li>
-                    <li><?php echo _("Ability to customize the list of details tracked at a {$conf['mod_cr_alt']}")?></li>
-                    <li><?php echo _("Ability to customize the list of human resource tracked at a {$conf['mod_cr_alt']}")?></li>
-                    <li><?php echo _("Basic reports on the {$conf['mod_cr_alt']} and drill-down by region")?></li>
+                    <li><?php echo _("Ability to customize the list of important facilities needed at a Shelter")?></li>
+                    <li><?php echo _("Ability to customize the list of details tracked at a Shelter")?></li>
+                    <li><?php echo _("Ability to customize the list of human resource tracked at a Shelter")?></li>
+                    <li><?php echo _("Basic reports on the Shelter and drill-down by region")?></li>
 <?php if($conf['gis']){ ?>          
-                    <li><?php echo _("GIS Reports of {$conf['mod_cr_alt']}")?></li>
+                    <li><?php echo _("GIS Reports of Shelter")?></li>
 <?php } ?>
                 </ul>
                 
-<strong>Description of Actions:</strong><br/>
+<strong><?php echo _("Description of Actions:"); ?></strong><br/>
     <ul>
         <li><a href="index.php?mod=cr&act=srch"><b><?= _('Search by Name'); ?> </b></a><br/><?= _('Search for shelter by name or type of the shelter'); ?></li>
         <li><a href="index.php?mod=cr&act=srch_address"><b><?= _('Search by address'); ?> </b> </a><br/><?= _('Search the shelter by its location'); ?></li>
@@ -54,21 +53,22 @@ function shn_cr_default(){
         <li><a href="index.php?mod=cr&act=contact"><b><?= _('View admin details'); ?></b></a><br/><?= _('List shelters by shelter administrator\'s name'); ?></li>
         <li><a href="index.php?mod=cr&act=gis_show"><b><?= _('Map by location'); ?></b></a><br/><?= _('Graphical representation of shelter locations on a map'); ?>
         <li><a href="index.php?mod=cr&act=gis_infect"><b><?= _('Map by infection'); ?></b></a><br/><?= _('Graphical representation of shelter by infections'); ?></li>
-        <li><a href="index.php?mod=cr&act=gis_population"><b><?= _('Map by population'); ?></b></a><br/><?= _('Graphical representation of shelters by their population density'); ?></li>
+        <li><a href="index.php?mod=cr&act=gis_population"><b><?= _('Map by poppulation'); ?></b></a><br/><?= _('Graphical representation of shelters by their population density'); ?></li>
         
 </ul>
 <br/>
                 
                 
-                <h2><?php echo _("Most occupied {$conf['mod_cr_alt']}s");?></h2>
+                <h2><?php echo _("Most occupied Shelters");?></h2>
 <?php shn_cr_home_pop(); 
                 ?>      
                 
-                <h2><?php echo _("Newest {$conf['mod_cr_alt']}s");?></h2>
+                <h2><?php echo _("Newest  Shelters");?></h2>
 <?php           shn_cr_home_newcmp();?>
         </div>
 <?php
 }
+
 
 /**
  * Most populated shelters for CR home page
@@ -235,6 +235,9 @@ function shn_cr_acmp(){
 									else								
 										_shn_cr_sel_map();
 									break;
+		case 'confir'		:
+									_shn_cr_cadd_confir();
+									break;							
 		default 			:
 		            	_shn_cr_cadd_start();
 		            	break;
@@ -247,7 +250,7 @@ function shn_cr_gis_show(){
 	global $global;
 	global $conf;
 	
-	print ("<h1>Map of Shelters by Location</h1>");
+	print "<h1>"._("Map of Shelters by Location")."</h1>";
 	
 	if($conf['gis']){
 		$db = $global['db'];
@@ -323,7 +326,7 @@ function shn_cr_gis_infect(){
 				$res->MoveNext();	
 		}			
 ?>
-	<h1><?=_("Map of Shelters by Infected Population")?></h1>
+	<h1><?php echo _("Map of Shelters by Infected Population")?></h1>
 <?php
 		shn_gis_density_map($map_array);
 	?>
@@ -444,7 +447,7 @@ function shn_cr_ecmp(){
 		case 'chk'		:
 									if(_shn_cr_validate_error()){
 										//display_errors();
-										_shn_cr_edt_start();
+										_shn_cr_cedt_start();
 									}
 									else
 										_shn_cr_cedt_chk();
@@ -464,6 +467,9 @@ function shn_cr_ecmp(){
 		case 'eplcnt'        :
                                     _shn_cr_edt_ppl($_REQUEST['cmp_id']);
                                     break;
+        case 'confir'        :
+                                    _shn_cr_cedit_confir();
+                                    break;                            
 		default 			:	
 		            	shn_cr_edt_srch();
 		            	break;

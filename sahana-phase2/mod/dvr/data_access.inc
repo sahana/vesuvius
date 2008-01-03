@@ -25,6 +25,8 @@ function _shn_dvr_add_group() {
 	global $global;
 	$db = $global['db'];
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
+	
+//if($_SESSION['dvr']['group']['image']!=null)	
 shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], null, 'dvr_person');
 
 	$groupid = shn_create_uuid('victim_group');
@@ -129,7 +131,7 @@ function _dvr_update_contact($uuid, $contacttype, $contactvalue) {
 
 	$db = $global['db'];
 
-	$contact_query = "update contact set (opt_contact_value='{$contactvalue}') where pgoc_uuid={'$uuid'} and opt_contact_type='{$contacttype}'}";
+	$contact_query = "update contact set contact_value='$contactvalue' where pgoc_uuid='$uuid' and opt_contact_type='$contacttype'";
 	$db->Execute($contact_query);
 }
 
@@ -139,17 +141,13 @@ function _shn_dvr_commit_individual() {
 
 	global $global;
 	$db = $global['db'];
-
-	shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], null, 'dvr_person');
+//if($_SESSION['dvr']['person']['person_image']!=null | $_SESSION['dvr']['person']['person_image']!='')
+	shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['person_image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], null, 'dvr_person');
 
 	$groupid = shn_create_uuid('group');
 
 	//inserting to the incident table
 	
-	
-	if($_SESSION['user_pref_ims_incident_id']==null)
-	$q1 = "insert into resource_to_incident (incident_id,x_uuid) values ('1','{$_SESSION['dvr']['person']['p_uuid']}')";
-	else
 	$q1 = "insert into resource_to_incident (incident_id,x_uuid) values ('{$_SESSION['user_pref_ims_incident_id']}','{$_SESSION['dvr']['person']['p_uuid']}')";
 	
 	$db->Execute($q1);
@@ -157,7 +155,7 @@ function _shn_dvr_commit_individual() {
 	$q2 = "insert into person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['full_name']}','{$_SESSION['dvr']['person']['family_name']}','{$_SESSION['dvr']['person']['local_name']}','')";
 	$db->Execute($q2);
 
-	$group = $_SESSION['dvr']['person']['family_id'];
+	$group = $_SESSION['dvr']['person']['group_id'];
 	
 	if ($group == '0')
 		$group = 'notrelavant';
@@ -165,9 +163,9 @@ function _shn_dvr_commit_individual() {
 	$db->Execute($q3);
 
 	$other = $_SESSION['dvr']['person']['last_clothing'] . ',' . $_SESSION['dvr']['person']['comments'];
-	$q4 = "insert into  person_physical (p_uuid,opt_blood_type,height,weight,opt_eye_color,opt_skin_color,opt_hair_color,injuries,comments) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['opt_blood_type']}','{$_SESSION['dvr']['person']['height']}','{$_SESSION['dvr']['person']['weight']}','{$_SESSION['dvr']['person']['opt_eye_color']}','{$_SESSION['dvr']['person']['opt_skin_color']}','','','{$other}')";
+	$q4 = "insert into  person_physical (p_uuid,opt_blood_type,height,weight,opt_eye_color,opt_skin_color,opt_hair_color,injuries,comments) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['opt_blood_type']}','{$_SESSION['dvr']['person']['height']}','{$_SESSION['dvr']['person']['weight']}','{$_SESSION['dvr']['person']['opt_eye_color']}','{$_SESSION['dvr']['person']['opt_skin_color']}','{$_SESSION['dvr']['person']['opt_hair_color']}','','{$other}')";
 	$db->Execute($q4);
-
+//if($_SESSION['dvr']['person']['finger_image']!=null)
 	shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['finger_image'], $_SESSION['dvr']['person']['finger_image_type'], $_SESSION['dvr']['person']['finger_image_height'], $_SESSION['dvr']['person']['finger_image_width'], null, 'finger_print');
 
 	{
@@ -206,6 +204,11 @@ function _shn_dvr_commit_individual() {
 	
 $q10="insert into resource_to_shelter(x_uuid,c_uuid) values ('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['camps']}')";
 $res = $db->Execute($q10);
+
+    $q11 = "INSERT INTO person_details(p_uuid,birth_date,opt_age_group,opt_race,opt_religion,opt_marital_status,opt_gender) VALUES('{$_SESSION['dvr']['person']['p_uuid']}','{$_SESSION['dvr']['person']['dob']}','{$_SESSION['dvr']['person']['opt_age_group']}','{$_SESSION['dvr']['person']['opt_race']}','{$_SESSION['dvr']['person']['opt_religion']}','{$_SESSION['dvr']['person']['opt_marital_status']}','{$_SESSION['dvr']['person']['opt_gender']}')";
+$res = $db->Execute($q11);
+
+  
 }
 
 function _shn_dvr_get_shelter($group_id)
@@ -342,7 +345,7 @@ function _shn_dvr_get_individual_search_results($card, $name, $incident) {
 function get_person_major_details($person_uuid) {
 	global $global;
 	$db = $global['db'];
-	$sql = " select pgr.g_uuid as groupid,pgr.opt_group_type as group_type,gls.head_uuid as head_id from person_to_pgroup pg,pgroup pgr,group_details gls where gls.g_uuid=pgr.g_uuid and gls.g_uuid=pg.g_uuid and pgr.g_uuid=pg.g_uuid and pg.p_uuid='{$person_uuid}'";
+	$sql = " select pgr.g_uuid as groupid,pgr.opt_group_type as group_type,gls.head_uuid as head_id FROM person_to_pgroup pg,pgroup pgr,group_details gls where gls.g_uuid=pgr.g_uuid and gls.g_uuid=pg.g_uuid and pgr.g_uuid=pg.g_uuid and pg.p_uuid='{$person_uuid}'";
 	$results = $db->Execute($sql);
 
 	return $results;
@@ -352,11 +355,22 @@ function get_person_major_details($person_uuid) {
 function get_personal_details($p_uuid) {
 	global $global;
 	$db = $global['db'];
-	$sql = " select birth_date,opt_age_group,opt_gender,opt_marital_status,opt_religion,opt_race where p_uuid='{$p_uuid}'";
+	$sql = " select birth_date,opt_age_group,opt_gender,opt_marital_status,opt_religion,opt_race FROM person_details WHERE p_uuid='{$p_uuid}'";
 	$results = $db->Execute($sql);
 
 	return $results;
 }
+
+function get_person_physical_details($p_uuid)
+{
+	global $global;
+	$db = $global['db'];
+	$sql = "SELECT * FROM person_physical WHERE p_uuid='{$p_uuid}'";
+	$results = $db->Execute($sql);
+
+	return $results;
+}
+
 
 function get_person_full_name($p_uuid) {
 	global $global;
@@ -370,7 +384,7 @@ function get_person_full_name($p_uuid) {
 function get_identity_to_person($p_uuid) {
 	global $global;
 	$db = $global['db'];
-	$sql = " select serial,opt_id_type from identity_to_person where p_uuid='{$p_uuid}'";
+	$sql = " select serial,opt_id_type FROM identity_to_person where p_uuid='{$p_uuid}'";
 	$results = $db->Execute($sql);
 
 	return $results;
@@ -458,28 +472,33 @@ function _shn_dvr_update_individual() {
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
 	//include $global['approot'] . "/mod/dvr/lib.inc";
 
-	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['person']['p_uuid'], 'person');
+	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['person']['p_uuid'], 'dvr_person');
 
-	if ($_SESSION['dvr']['person']['image'] != null) {
-		shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['person_image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], $image_id, 'person');
+	
+if ($_SESSION['dvr']['person']['person_image'] != null) {
+	//if($image_id != null){	
+     shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['person_image'], $_SESSION['dvr']['person']['person_image_type'], $_SESSION['dvr']['person']['person_image_height'], $_SESSION['dvr']['person']['person_image_width'], $image_id, 'dvr_person');
 
-	}
+	//}
+}
 
 	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['person']['p_uuid'], 'finger_print');
-
-	if ($_SESSION['dvr']['person']['finger_image'] != null) {
+//echo $image_id;
+	if ($_SESSION['dvr']['person']['finger_image'] != null){
+	//	if($image_id != null){
 		shn_image_to_db_ex($_SESSION['dvr']['person']['p_uuid'], $_SESSION['dvr']['person']['finger_image'], $_SESSION['dvr']['person']['finger_image_type'], $_SESSION['dvr']['person']['finger_image_height'], $_SESSION['dvr']['person']['finger_image_width'], $image_id, 'finger_print');
 
+	//}
 	}
 
-	$q1 = "update  resource_to_incident set (incident_id='{$_SESSION['user_pref_ims_incident_id']}') where x_uuid ='{$_SESSION['dvr']['person']['p_uuid']}'";
+	$q1 = "update resource_to_incident set incident_id='{$_SESSION['user_pref_ims_incident_id']}' where x_uuid ='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$db->Execute($q1);
 
 	/*
 	$q1="insert into resource_to_incident (incident_id,x_uuid) values ('{$_SESSION['user_pref_ims_incident_id']}','{$_SESSION['dvr']['person']['p_uuid']}')";
 	$db->Execute($q1);*/
 
-	$q2 = "update person_uuid  set full_name='{$_SESSION['dvr']['person']['full_name']}',family_name='{$_SESSION['dvr']['person']['family_name']}',l10n_name='{$_SESSION['dvr']['person']['local_name']}' where p_uuid='{$_SESSION['dvr']['person']['p_uuid']}')";
+	$q2 = "update person_uuid set full_name='{$_SESSION['dvr']['person']['full_name']}',family_name='{$_SESSION['dvr']['person']['family_name']}',l10n_name='{$_SESSION['dvr']['person']['local_name']}' where p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$db->Execute($q2);
 
 	//todo changing the group
@@ -490,29 +509,37 @@ function _shn_dvr_update_individual() {
 	$db->Execute($q3);*/
 
 	$other = $_SESSION['dvr']['person']['last_clothing'] . ',' . $_SESSION['dvr']['person']['comments'];
-	$q4 = "update  person_physical opt_blood_type='{$_SESSION['dvr']['person']['opt_blood_type']}',height='{$_SESSION['dvr']['person']['height']}',weight='{$_SESSION['dvr']['person']['weight']}',opt_eye_color='{$_SESSION['dvr']['person']['opt_eye_color']}',opt_skin_color='{$_SESSION['dvr']['person']['opt_skin_color']}',opt_hair_color='{$_SESSION['dvr']['person']['opt_hair_color']}',injuries='',comments='{$other}' where p_uuid={$_SESSION['dvr']['person']['p_uuid']}";
-
+	
+	$q4 = "UPDATE person_physical SET opt_blood_type='{$_SESSION['dvr']['person']['opt_blood_type']}', height='{$_SESSION['dvr']['person']['height']}', weight='{$_SESSION['dvr']['person']['weight']}', opt_eye_color='{$_SESSION['dvr']['person']['opt_eye_color']}', opt_skin_color='{$_SESSION['dvr']['person']['opt_skin_color']}', opt_hair_color='{$_SESSION['dvr']['person']['opt_hair_color']}',injuries='',comments='$other' WHERE p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
+    $db->Execute($q4);
 	//$q4="insert into person_details (p_uuid,next_kin_uuid,birth_date,opt_age_group,relation,opt_country,opt_race,opt_relegion,opt_marital_status,opt_gender,occupation) values ('{$_SESSION['dvr']['person']['p_uuid']}',$_SESSION['dvr']['person']['opt_eye_color'],)";
-	//$db->Execute($q3);
+	
 
 	_dvr_update_contact($_SESSION['dvr']['person']['p_uuid'], 'mobile', $_SESSION['dvr']['person']['mobile']);
 	_dvr_update_contact($_SESSION['dvr']['person']['p_uuid'], 'telephone', $_SESSION['dvr']['person']['telephone']);
 	_dvr_update_contact($_SESSION['dvr']['person']['p_uuid'], 'email', $_SESSION['dvr']['person']['email']);
 	_dvr_update_contact($_SESSION['dvr']['person']['p_uuid'], 'address', $_SESSION['dvr']['person']['address']);
 
-	$q5 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['idcard']}' where opt_id_type='nic' and p_uuid={'{$_SESSION['dvr']['person']['p_uuid']}'}";
+	$q5 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['idcard']}' where opt_id_type='idcard' and p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$res = $db->Execute($q5);
 
-	$q6 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['passport']}' where opt_id_type='pas' and p_uuid={'{$_SESSION['dvr']['person']['p_uuid']}'}";
+	$q6 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['passport']}' where opt_id_type='pas' and p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$res = $db->Execute($q6);
-	$q7 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['drv_licence']}' where opt_id_type='dlv' and p_uuid={'{$_SESSION['dvr']['person']['p_uuid']}'}";
+	$q7 = "update identity_to_person set serial='{$_SESSION['dvr']['person']['drv_licence']}' where opt_id_type='dln' and p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$res = $db->Execute($q7);
 
 
-$q8="update resource_to_shelter set(c_uuid='{$_SESSION['dvr']['person']['camps']}') where x_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
- $db->Execute($q8);
-
-
+    $q8="update resource_to_shelter set c_uuid='{$_SESSION['dvr']['person']['camps']}' where x_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
+    $db->Execute($q8);
+ 
+    $q9 = "UPDATE person_details SET birth_date='{$_SESSION['dvr']['person']['dob']}',opt_age_group='{$_SESSION['dvr']['person']['opt_age_group']}',opt_race='{$_SESSION['dvr']['person']['opt_race']}',opt_religion='{$_SESSION['dvr']['person']['opt_religion']}',opt_marital_status='{$_SESSION['dvr']['person']['opt_marital_status']}',opt_gender='{$_SESSION['dvr']['person']['opt_gender']}' WHERE p_uuid='{$_SESSION['dvr']['person']['p_uuid']}'";
+    $db->Execute($q9);
+    
+    $q10 = "UPDATE location_details SET location_id='{$_SESSION['dvr']['person']['displaced_loc']}' WHERE poc_uuid='{$_SESSION['dvr']['person']['p_uuid']}-disp'";
+	$res=$db->Execute($q10);
+	
+	$q11 = "UPDATE location_details SET location_id='{$_SESSION['dvr']['person']['current_loc']}' WHERE poc_uuid='{$_SESSION['dvr']['person']['p_uuid']}-curr'";
+	$res=$db->Execute($q11);
 }
 
 function _shn_dvr_update_group() {
@@ -522,29 +549,29 @@ function _shn_dvr_update_group() {
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
 	//include $global['approot'] . "/mod/dvr/lib.inc";
 
-	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['group']['headid'], 'person');
+	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['group']['headid'], 'dvr_person');
 
 	if ($_SESSION['dvr']['group']['image'] != null) {
-		shn_image_to_db_ex($_SESSION['dvr']['group']['headid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], $image_id, 'person');
+		shn_image_to_db_ex($_SESSION['dvr']['group']['headid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], $image_id, 'dvr_person');
 		//   print 'before';  
 	}
 
-	$q1 = "update  resource_to_incident set (incident_id='{$_SESSION['user_pref_ims_incident_id']}') where x_uuid ='{$_SESSION['dvr']['group']['headid']}'";
+	$q1 = "update resource_to_incident set incident_id='{$_SESSION['user_pref_ims_incident_id']}' WHERE x_uuid ='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q1);
 
 	//insert a group
-	$q2 = "update pgroup set (opt_group_type='{$_SESSION['dvr']['group']['typ_of_grp']}') where g_uuid='{$_SESSION['dvr']['group']['id']}'";
+	$q2 = "update pgroup set opt_group_type='{$_SESSION['dvr']['group']['typ_of_grp']}' where g_uuid='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q2);
 
 	//insert displaced location
-	$q3 = "insert into location_details(poc_uuid,location_id,address) values('{$groupid}','{$_SESSION['dvr']['group']['displaced_loc']}','')";
-	//$res=$db->Execute($q3);
+	$q3 = "update location_details set location_id='{$_SESSION['dvr']['group']['displaced_loc']}' where poc_uuid='{$_SESSION['dvr']['group']['id']}-disp'";
+	$res=$db->Execute($q3);
 
 	//insert current location            
-	$q4 = "update location_details set(location_id=('{$_SESSION['dvr']['group']['current_loc']}')) where poc_uuid='{$_SESSION['dvr']['group']['id']}'";
+	$q4 = "update location_details set location_id='{$_SESSION['dvr']['group']['current_loc']}' where poc_uuid='{$_SESSION['dvr']['group']['id']}-curr'";
 	$res = $db->Execute($q4);
 //print 'here'.$_SESSION['dvr']['group']['nic'].'test'.$_SESSION['dvr']['group']['headid'];
-	$q5 = "update  identity_to_person set (serial='{$_SESSION['dvr']['group']['nic']}') where( opt_id_type='idcard' and p_uuid='{$_SESSION['dvr']['group']['headid']}')";
+	$q5 = "update  identity_to_person set serial='{$_SESSION['dvr']['group']['nic']}' where opt_id_type='idcard' AND p_uuid='{$_SESSION['dvr']['group']['headid']}'";
 	 $db->Execute($q5);
 
 	_dvr_update_contact($_SESSION['dvr']['group']['headid'], 'mobile', $_SESSION['dvr']['group']['mobile']);
@@ -559,7 +586,7 @@ function _shn_dvr_update_group() {
 
 	$q = "update gis_location set map_northing='{$x}',map_easting='{$y}' where poc_uuid='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q);
-	$q5 = "update person_uuid set full_name='{$_SESSION['dvr']['group']['full_name']}',family_name={'{$_SESSION['dvr']['group']['family_name']}',l10n_name='{$_SESSION['dvr']['group']['l10n_name']}' where p_uuid='{$_SESSION['dvr']['group']['headid']}'";
+	$q5 = "update person_uuid set full_name='{$_SESSION['dvr']['group']['full_name']}',family_name='{$_SESSION['dvr']['group']['family_name']}',l10n_name='{$_SESSION['dvr']['group']['local_name']}' where p_uuid='{$_SESSION['dvr']['group']['headid']}'";
 
 	$db->Execute($q5);
 
@@ -570,7 +597,7 @@ function _shn_dvr_update_group() {
 	$services_string = implode($dvr_services, ',');//haha
 	$other = $_SESSION['dvr']['group']['other'];
 
-	$q6 = "update group_details set no_of_adult_males='{$_SESSION['dvr']['group']['adlt_mls']}',no_of_adult_females='{$_SESSION['dvr']['group']['adlt_fmls']}',no_of_children='{$_SESSION['dvr']['group']['chldrn']}',no_displaced='{$_SESSION['dvr']['group']['dsplcd']}',no_missing='{$_SESSION['dvr']['group']['misng']}',no_dead='{$_SESSION['dvr']['group']['dead']}',no_rehabilitated='{$_SESSION['dvr']['group']['rehbd']}',checklist='{$services_string}',description={'$other'}) where g_uuid='{$_SESSION['dvr']['group']['headid']}'";
+	$q6 = "UPDATE group_details SET no_of_adult_males='{$_SESSION['dvr']['group']['adlt_mls']}',no_of_adult_females='{$_SESSION['dvr']['group']['adlt_fmls']}',no_of_children='{$_SESSION['dvr']['group']['chldrn']}',no_displaced='{$_SESSION['dvr']['group']['dsplcd']}',no_missing='{$_SESSION['dvr']['group']['mising']}',no_dead='{$_SESSION['dvr']['group']['dead']}',no_rehabilitated='{$_SESSION['dvr']['group']['rehbd']}',checklist='$services_string',description='$other' where g_uuid='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q6);
 
 
@@ -581,7 +608,7 @@ $q7="update resource_to_shelter set c_uuid='{$_SESSION['dvr']['person']['camps']
 
 function _shn_dvr_get_members($g_uuid)
 {
-$sql="select p_uuid from person_to_pgroup p  where p.g_uuid='{$g_uuid}'";
+$sql="select p_uuid FROM person_to_pgroup p  where p.g_uuid='{$g_uuid}'";
 global $global;
 $db = $global['db'];	
 
@@ -618,7 +645,11 @@ $db->Execute($q5);
 
 $q6="delete from image where x_uuid='{$p_uuid}'";
 $db->Execute($q6);
+$q7="DELETE FROM person_details WHERE p_uuid='{$p_uuid}'";
+$db->Execute($q7);
 
+$q8="DELETE FROM person_to_pgroup WHERE p_uuid='{$p_uuid}'";
+$db->Execute($q8);
 	
 	
 }
@@ -641,6 +672,7 @@ function _shn_dvr_delete_group($g_uuid)
 global $global;
 $db = $global['db'];	
 	//todo by isuru
+$members=_shn_dvr_get_members($g_uuid);
 $q1="delete from pgroup where g_uuid='{$g_uuid}' ";
 $db->Execute($q1);
 
@@ -651,7 +683,7 @@ $q3="delete from resource_to_incident where resource_to_incident='{$g_uuid}'";
 $db->Execute($q3);
 
 
-$members=_shn_dvr_get_members($g_uuid);
+
 
 
 while(!$members->EOF)
@@ -659,7 +691,7 @@ while(!$members->EOF)
 	$id=$members->fields['p_uuid'];
      _shn_dvr_delete_person($id);
 
-
+$members->MoveNext();
 //$q3="delete from person_to_pgroup where g_uuid='{$}'";
 	
 }

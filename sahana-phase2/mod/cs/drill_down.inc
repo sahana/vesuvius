@@ -89,11 +89,11 @@
 		    	?>
 		        
 		        <?php if($final_flag=='0' && $parent_ID == '0') { ?>
-		            <td>&nbsp;&nbsp;<?php print "Main catalog" ; ?></td>
+		            <td>&nbsp;&nbsp;<?php print _("Main catalog") ; ?></td>
 		        <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
-			    <td>&nbsp;&nbsp;<?php print "Sub catalog" ; ?></td>
+			    <td>&nbsp;&nbsp;<?php print _("Sub catalog") ; ?></td>
 		        <?php } else { ?>
-		            <td>&nbsp;&nbsp;<?php print "Item" ; ?></td>
+		            <td>&nbsp;&nbsp;<?php print _("Item"); ?></td>
 		        <?php } ?>
 		           <td><?php print $keyword ;?></td>
 		    </tr>

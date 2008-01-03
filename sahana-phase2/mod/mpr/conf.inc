@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: conf.inc,v 1.12 2007-05-21 08:34:55 isurunishan Exp $ */
+/* $Id: conf.inc,v 1.13 2008-01-03 04:43:06 isurunishan Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -30,7 +30,7 @@ $conf['mod_mpr_menuorder'] = 3;
  * Sets the number of results shown in search query
  * @global string $conf['mod_mpr']['search']['limit']
  */
-$conf['mod_mpr']['search']['limit'] = 5;
+$conf['mod_mpr_search_limit'] = 5;
 $conf['mod_mpr_search_limit'] = 5;
 
 $conf['mod_mpr_pictures_per_page'] = 6;
@@ -40,20 +40,20 @@ $conf['mod_mpr_pictures_per_page'] = 6;
  * @global string $conf['mod_mpr']['location']['upper_limit']
  */
  
-$conf['mod_mpr']['location']['upper_limit'] = 1;
+$conf['mod_mpr_location_upper_limit'] = 1;
 
 /**
  * Sets the lower limit of the location handler
  * @global string $conf['mod_mpr']['location']['lower_limit']
  */
  
-$conf['mod_mpr']['location']['lower_limit'] = 4;
+$conf['mod_mpr_location_lower_limit'] = 4;
 
 
 //Missing Person Picture Upload
 #$conf['mod_mpr']['upload_picture']['savehandler'] = 'database';
 
-$conf['mod_mpr']['upload_picture']['savehandler'] = 'database';
+$conf['mod_mpr_upload_picture_savehandler'] = 'database';
 $conf['mod_mpr_upload_pic_handler'] = 'database';
 #$conf['mod_mpr_upload_pic_handler'] = 'file';
 

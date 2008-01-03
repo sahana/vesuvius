@@ -2,7 +2,7 @@
 <module name='mpr'>
   <description>Missing Person Registry</description>
   <data>
-    <description>Missing People Data</description>
+    <description>Missing people data</description>
     <table name='person_uuid'>
       <primarykeys>
         <primarykey field_id='p_uuid' />

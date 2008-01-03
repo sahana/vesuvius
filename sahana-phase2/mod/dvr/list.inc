@@ -1,5 +1,5 @@
 <?php
-/* $Id: list.inc,v 1.3 2007-11-21 11:23:34 isurunishan Exp $ */
+/* $Id: list.inc,v 1.4 2008-01-03 04:41:36 isurunishan Exp $ */
 /**
  * 
  * List groups in disaster victims registry
@@ -25,9 +25,10 @@
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 include_once ($global['approot'] . '/mod/dvr/lib.inc');
-   $results=_shn_dvr_get_all_groups(null);
+   $results=_shn_dvr_get_all_groups($_SESSION['user_pref_ims_incident_id'],null);
    	
    ?>
+   <br>
    	 <div id ="result">
 	<table>
         <thead>
@@ -39,7 +40,7 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
           	<td><?=_("NIC")?></td>
             <td><?=_("Address")?></td>
             <td></td>
-            <td></td>
+            
         </thead>
         <?php
         while(!$results->EOF)

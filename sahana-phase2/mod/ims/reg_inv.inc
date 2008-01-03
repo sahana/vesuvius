@@ -40,7 +40,7 @@ function _shn_ims_regform_inv($error=false)
 <?php
     //shn_form_fopen("reg_inv_cr");
     shn_form_fopen("reg_inv_gis");
-    shn_form_fsopen('Primary Details');
+    shn_form_fsopen(_('Primary Details'));
     $extra_opts['req']=true;
     shn_form_text(_("Inventory Name : "),'org_name','size="40"',$extra_opts); 
    // shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
@@ -54,10 +54,10 @@ function _shn_ims_regform_inv($error=false)
 	shn_location($range,$value=null,$parent=null,$extra_opts=null);
 	shn_form_fsclose();
 	
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_ims_display_contact_person($error,true,null);
     shn_form_fsclose();
-     shn_form_fsopen("Facilities Avaliable");
+     shn_form_fsopen(_("Facilities Avaliable"));
     _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
 
@@ -99,22 +99,22 @@ function _shn_ims_regform_operation($error=false)
     $extra_opts['req']=true;
     shn_form_text(_("Operation/Branch Name : "),'org_name','size="40"',$extra_opts); 
 	shn_form_fsclose();
-    shn_form_fsopen("Inventory Sector");
+    shn_form_fsopen(_("Inventory Sector"));
     _shn_ims_display_sector($error);
     shn_form_fsclose();
   // base location
-    shn_form_fsopen("Base Location");
+    shn_form_fsopen(_("Base Location"));
    	$parent=_shn_ims_get_start_loc();
    	$range= shn_ims_get_loc_range();
     shn_location($range,$_POST[$range["end"]],$parent); 
     shn_form_fsclose();
-    shn_form_fsopen("Contact Information");
+    shn_form_fsopen(_("Contact Information"));
     _shn_ims_display_contact_person($error,true,null);
 shn_form_fsclose();
-     shn_form_fsopen("Facilities Avaliable");
+     shn_form_fsopen(_("Facilities Avaliable"));
    _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
- 	shn_form_fsopen("Extra Information");
+ 	shn_form_fsopen(_("Extra Information"));
     _shn_ims_display_extra($error);
     shn_form_fsclose();
 ?>
@@ -166,7 +166,7 @@ function _shn_ims_reg_inv_gis()
     $_SESSION['ims_4']=$_POST['4'];
     $_SESSION['ims_5']=$_POST['5'];
 
-    $bsd_village=_shn_ims_get_locid();
+    //$bsd_village=_shn_ims_get_locid();
     
 
     shn_form_fopen("reg_inv_cr",null,array('req'=>false));
@@ -176,7 +176,7 @@ function _shn_ims_reg_inv_gis()
     shn_gis_add_marker_map_form();
     //shn_form_fclose();
 
-    $_SESSION['ims']['bsd_village']=$bsd_village;
+    $_SESSION['ims']['bsd_village']=shn_location_get_form_submit_loc();
     //shn_form_hidden(array('range'=>$range));
     shn_form_submit(_("Next"));
     shn_form_fclose();
@@ -204,9 +204,18 @@ function _shn_ims_validate_reg_inv()
 
     if($inv_name==null)
     {
-	add_error("Inventory Incompleted");
+	add_error(_("Inventory Name cannot be empty."));
 	$error_flag=true;
     }
+    global $global;
+    $db=$global['db'];
+    $q="SELECT inventory_name FROM ims_inventory_records WHERE inventory_name='$inv_name'";
+    $res=$db->Execute($q);
+    if(!$res->EOF) {
+        add_error(_("Inventory Name already exists."));
+        $error_flag=true;
+    }
+    
     if (strlen($contact_name) > $VARCHAR)
     {
         add_error(SHN_ERR_or_ims_REG_MAX);
