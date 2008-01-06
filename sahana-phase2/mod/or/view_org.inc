@@ -264,6 +264,31 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 		<?php
 }
 
+function _shn_confirm_delete_org($org_id){
+	global $global;
+	$db = $global['db'];
+	$q = "SELECT o_uuid,parent_id,name,reg_no,man_power,resources FROM org_main WHERE o_uuid='{$org_id}'";
+	$res_org=$db->Execute($q);
+	if(!$res_org==NULL && !$res_org->EOF){
+		$parent=_shn_or_is_root($org_id);
+		$org_name=$res_org->fields["name"];
+		$reg_no=$res_org->fields["reg_no"];
+		echo "<h2>"._("Confirm delete")."</h2>";
+		echo "<div class=\"message information\">";
+		shn_form_fopen("view_org_submit",null,array('name'=>'confirm_del_form','req_message'=>false));	
+		shn_form_hidden(array('action'=>'0'));
+		shn_form_hidden(array('org_id'=>$org_id));	
+		echo "<p>";
+		printf(_('Are you sure you need to delete the organization %1$s with registration number %2$d'),$org_name,$reg_no);
+		echo "</p><br/><center>";
+		shn_form_submit(_("No"),"onClick='change_action(\"exit\")'");
+		shn_form_submit(_("Yes"),"onClick='change_action(\"del\")'");
+		echo "</center>";
+		_shn_or_action_change_javascript("confirm_del_form","action");
+		shn_form_fclose();
+		echo "</div>";
+	}
+}
 
 function _shn_get_org_data($org_id,$no=null)
 {
@@ -480,7 +505,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		$extra_opts['req']=false;
 		shn_form_button(_("Close"),"onClick='change_action(\"exit\")'",$extra_opts);
 		shn_form_button(_("Edit"),"onClick='change_action(\"confirm_edit\")'",$extra_opts);
-		shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+		shn_form_button(_("Delete"),"onClick='change_action(\"confirm_del\")'",$extra_opts);
 		shn_form_hidden(array('action'=>'0'));
 		shn_form_hidden(array('org_id'=>$org_id));
 		// shn_form_hidden(array('org_name'=>$org_name));
