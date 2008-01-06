@@ -216,6 +216,9 @@ function shn_or_view_org_submit()
             // Clear the junk values from the session.
             unset($_SESSION['org']);
             break;
+        case "confirm_del":
+			_shn_confirm_delete_org($_POST['org_id']);
+        	break;
         case "del":
             _shn_or_del_org();
             break;
