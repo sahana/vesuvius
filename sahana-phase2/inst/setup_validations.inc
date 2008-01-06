@@ -92,8 +92,8 @@ function shn_setup_validate_simple_dbsetup(){
 			add_error(_("The database name cannot be empty."));
 			$has_errors = true;
 		}else{
-			if(preg_match('/[!@#$%\^&\\*\/\?`~+=|:;\(\)-]/',$_POST['db_name'])){
-				add_error(_("The database name cannot contain special characters."));
+			if(preg_match('/[!@#$%\^&*()\-\+=~`[\]{}\|\\\\:;"\',\.<>\?\/]/',$_POST['db_name'])==1){
+				add_error(_("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
 				$has_errors = true;
 			}
 		}
