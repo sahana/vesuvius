@@ -1,11 +1,10 @@
 
 
 
-/* $Id: handler_footer.inc,v 1.8 2008-01-03 10:11:27 isurunishan Exp $ */
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.8 2008-01-03 10:11:27 isurunishan Exp $ */
+/* $Id: handler_footer.inc,v 1.9 2008-01-06 16:19:31 isurunishan Exp $ */
 /**
  *
  * Sahana HTML footer
