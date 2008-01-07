@@ -1,9 +1,9 @@
 <?php
 
 
-/* $Id: main_fns.inc,v 1.21 2008-01-03 10:21:51 isurunishan Exp $ */
+/* $Id: main_fns.inc,v 1.22 2008-01-07 03:58:32 ishanul Exp $ */
 
-/* $Id: main_fns.inc,v 1.21 2008-01-03 10:21:51 isurunishan Exp $ */
+/* $Id: main_fns.inc,v 1.22 2008-01-07 03:58:32 ishanul Exp $ */
 
 
 /**
@@ -39,12 +39,12 @@ function shn_gis_default()
 <br></br>
 <ul>
         <li><?php echo _('Provides a map based view of the disaster situtation') ?></li>
-        <li><?php echo _('Allows users to collaboratively add markers of the developing disaster sitation');?></li>
+        <li><?php echo _('Allow users to collaboratively add markers of the developing disaster situation');?></li>
 </ul>
 
 <strong><?php echo _('Description of Actions:')?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Map of the developing situation with markers of incidentss, locations and objects displayed on the map'); ?></li>
+        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
         <li><a href="index.php?mod=gis&act=awik"><b><?= _('Add Situation Markers'); ?> </b> </a><br/><?= _('Add markers on the map of incidents and objects with pictures'); ?></li>
         <li><a href="index.php?mod=gis&act=mapc"><b><?= _('General Map'); ?> </b></a><br/><?= _('Free form map of the location without markers'); ?></li>
         
