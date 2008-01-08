@@ -627,7 +627,7 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
         //$select_opts="multiple='false'";;
     } 
     if ($info){ 
-     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization ect.");?></div><br />
+     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
      <?php }
    // $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
     if($multi){
@@ -668,7 +668,7 @@ function _shn_or_display_sector($error=false,$value=NULL,$info=true)
        // $extra_opts['req']=true;
     }
     if ($info){
-    ?><div class="info"><?=_("Select the services your organization provides ,that is what you do as an organization or services your organization can provide in a disaster. e.g. if you offer medical services select it");?></div><br />
+    ?><div class="info"><?=_("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
     <?php }
     $extra_opts['req']=true;
   //  $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
