@@ -80,7 +80,7 @@ function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="sig
     if($error)
     display_errors();
 ?>               
-<h3>SignUp for a SAHANA account</h3> 
+<h3><?php echo _("SignUp for a SAHANA account")?></h3> 
 <div id="formcontainer">
 <?php
     shn_form_fopen($act,$mod);
@@ -151,7 +151,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
     if($error)
     display_errors();
 ?>               
-<h3>Add Users</h3> 
+<h3><?php echo _("Add Users") ?></h3> 
 <div id="formcontainer">
 <?php
     shn_form_fopen($act,$mod);
@@ -207,24 +207,26 @@ function shn_auth_form_ch_pwd($error=false)
 
 
 ?>
-<center><h2>Change Password</h2></center>
+<center><h2><?php echo _("Change Password") ?></h2></center>
 <?php
     if($error)
     display_errors();
 ?>             
-<h3>Change Passwords</h3>   
+<h3><?php echo _("Change Passwords") ?></h3>  
 <div id="formcontainer">
 <?php
 	$act="ch_passwd_cr";
 	$mod="pref";
+	$policy = shn_get_password_policy();
+	if(count($policy)>0){
 	?>
-	<h4>Password must adhere to following rules:</h4>
-    1. Minimum length is 8.<br />
-    2. At least one letter in the expression.<br />
-    3. At least one character is numeric or special.<br />
-    4. Cannot be any of the past four (4) passwords.<br />
-    5. Passwords cannot be changed more frequently than once per day.<br />
-	
+		<h4><?php echo _("Password must adhere to following rules:") ?></h4>
+    <?php
+		for($i=0;$i<count($policy);$i++){
+			echo ($i+1).". ".$policy[$i]."<br/>";	
+		}
+	}
+    ?>	
 	<br />
 	<?php
     shn_form_fopen($act,$mod);
@@ -313,17 +315,21 @@ function shn_auth_form_reset_pwd($error=false)
     if($error)
     display_errors();
 ?>  
-<h3>Reset Passwords</h3>              
+<h3><?php echo _("Reset Passwords") ?></h3>         
 <div id="formcontainer">
 <?php
 	$act="reset_pwd_cr";
 	$mod="admin";
-	?>
-	<h4>Password must adhere to following rules:</h4>
-    1. Minimum length is 8.<br />
-    2. At least one letter in the expression.<br />
-    3. At least one character is numeric or special.<br />
-	
+	$policy = shn_get_password_policy();
+	if(count($policy)>0){
+		?>
+		<h4><?php echo _("Password must adhere to following rules:") ?></h4>
+    <?php
+		for($i=0;$i<count($policy);$i++){
+			echo ($i+1).". ".$policy[$i]."<br/>";	
+		}
+	}
+    ?>	
 	<br />
 	<?php
     shn_form_fopen($act,$mod);

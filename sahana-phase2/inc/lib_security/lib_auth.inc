@@ -652,21 +652,21 @@ function shn_auth_self_signup_cr(){
 	list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
 
 	//for the moment return true
-	list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array(false,$_POST{"password"}):array(true,$_POST{"password"});
+	list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array($error || false,$_POST{"password"}):array($error || true,$_POST{"password"});
 
 	if (is_null($_POST{"re_password"})){
-		$error=true;
+		$error|=true;
 		add_error(SHN_AUTH_ERR_REPWD_INCOMPLETE);
 	}else {
 		$re_password=trim($_POST{"re_password"});
 	}
 
 	if (!($password==$re_password)){
-		$error=true;
+		$error|=true;
 		add_error(SHN_AUTH_ERR_REPWD_WRONG);
 	}
 	if (trim(strlen($_POST{"account_name"})) > $VARCHAR){
-		$error=true;
+		$error|=true;
 		add_error(SHN_AUTH_ERR_REG_MAX);
 	}else {
 		$account_name=$_POST{"account_name"};
@@ -931,10 +931,10 @@ function shn_get_password_policy_message($error_code,$extra_opts){
 	$msg = "";
 	switch ($error_code){
 		case LESS_MIN_CHARS:
-			$msg = _("The minimum password length is ").$rule_array['pwd_min_chars'].".";
+			$msg = sprintf(_("The minimum password length is %d"),$rule_array['pwd_min_chars']);
 			break;
 		case MORE_MAX_CHARS:
-			$msg = _("The maximum password length is ").$rule_array['pwd_max_chars'].".";
+			$msg = sprintf(_("The maximum password length is %d."),$rule_array['pwd_max_chars']);
 			break;
 		case REQ_UPPERCASE:
 			$msg = _("The password should have at least one uppercase character.");
@@ -949,9 +949,55 @@ function shn_get_password_policy_message($error_code,$extra_opts){
 			$msg = _("The username cannot be a part of the password.");
 			break;
 		case HAS_REPETITIONS:
-			$msg = _("The password cannot have repetitions of characters.");
+			$msg = _("The password cannot have repetitive character patterns.");
 			break;
 	}
 	return $msg;
+}
+
+
+/**
+ * Get the password policy ruleset in an array of strings.
+ *
+ * @param unknown_type $extra_opts Any extra options.
+ * @return Array The password policy ruleset.
+ */
+function shn_get_password_policy($extra_opts){
+	$policy = array();
+	$rule_array = null;
+	if(isset($extra_opts['rule_set'])){
+		$rule_array = $extra_opts['rule_set'];
+	}else{
+		$rule_array = $conf;
+	}
+	
+	if(isset($rule_array['pwd_min_chars'])){
+		array_push($policy,sprintf(_("The miniumn number of characters is %d."),$rule_array['pwd_min_chars']));
+	}
+
+	if(isset($rule_array['pwd_max_chars'])){
+		array_push($policy,sprintf(_("The maxiumn number of characters is %d."),$rule_array['pwd_max_chars']));
+	}
+
+	if(isset($rule_array['pwd_has_uppercase'])){
+		array_push($policy,_("Should have uppercase characters."));
+	}
+
+	if(isset($rule_array['pwd_has_numbers'])){
+		array_push($policy,_("Should have numeric characters."));
+	}
+
+	if(isset($rule_array['pwd_has_spchars'])){
+		array_push($policy,_("Should have one or more of the '!@,.#$%\^&\*/?`~+=|:;()-\"'[]{}<>' characters."));
+	}
+
+	if(isset($rule_array['pwd_has_username'])){
+		array_push($policy,_("The password cannot have the username as a part of it."));
+	}
+
+	if(isset($rule_array['pwd_has_reppatterns'])){
+		array_push($policy,_("The password cannot have reppetitive character patterns"));
+	}
+	return $policy;
 }
 ?>
