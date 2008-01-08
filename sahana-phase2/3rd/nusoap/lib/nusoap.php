@@ -2,9 +2,9 @@
 
 /*
 
-$Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+$Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 =======
-$Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+$Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 
 NuSOAP - Web Services Toolkit for PHP
@@ -64,9 +64,9 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 <<<<<<< nusoap.php
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 =======
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 >>>>>>> 1.12.2.2
 * @access   public
 */
@@ -92,9 +92,9 @@ class nusoap_base {
 	 * @access private
 	 */
 
-	var $revision = '$Revision: 1.14 $';
+	var $revision = '$Revision: 1.15 $';
 
-	var $revision = '$Revision: 1.14 $';
+	//var $revision = '$Revision: 1.15 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -922,9 +922,9 @@ function usleepWindows($usec)
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access public
 */
@@ -1012,9 +1012,9 @@ class soap_fault extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access   public
 */
@@ -1919,8 +1919,8 @@ class XMLSchema extends nusoap_base  {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access   public
 */
@@ -2023,9 +2023,9 @@ class soapval extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access public
 */
@@ -3065,9 +3065,9 @@ class soap_transport_http extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access   public
 */
@@ -4111,9 +4111,9 @@ class soap_server extends nusoap_base {
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access public 
 */
@@ -5821,9 +5821,9 @@ class wsdl extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access   public
 */
@@ -6432,9 +6432,9 @@ class soap_parser extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
-* @version  $Id: nusoap.php,v 1.14 2008-01-03 10:09:46 isurunishan Exp $
+* @version  $Id: nusoap.php,v 1.15 2008-01-08 06:13:32 ishanul Exp $
 
 * @access   public
 */
