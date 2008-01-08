@@ -28,7 +28,7 @@ function _shn_or_form_search()
 	
     <div id="formcontainer">
 <?php
-    shn_form_fopen("search_cr");
+    shn_form_fopen("search_cr","or",array("req_message"=>false));
 
     shn_form_fsopen(_('Primary Details'));
     $extra_opts['req']=false;
