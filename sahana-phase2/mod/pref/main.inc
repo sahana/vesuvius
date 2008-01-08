@@ -46,16 +46,11 @@ function shn_pref_signup_cr(){
 			shn_pref_signup();
 			return;
 		}
-		$ret = shn_auth_add_user($_POST['account_name'],$_POST['user_name'],$_POST['password'],$role=REGISTERED,null);
-		if($ret){
-			$msg=$_POST{"account_name"}._(" was successfully registered as a User ");
-			add_confirmation($msg);
-		}else {
-			shn_pref_signup();
-		}
-		
+		shn_pref_signup();
+		return;		
 	}
 }
+
 function shn_image_pref_captcha(){
 	shn_auth_gen_captcha();
 }
