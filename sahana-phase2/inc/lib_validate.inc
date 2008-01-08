@@ -389,7 +389,7 @@ function shn_validate_password($user=null,$pwd){
 	global $global;
 	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
 
-
+/*
 	$chars_to_escape='$\*%#@!~';
 	$user=addcslashes($user, $chars_to_escape);
 	
@@ -420,7 +420,15 @@ function shn_validate_password($user=null,$pwd){
 
     	return false;
 	} 
- 
+ */
+	$result = shn_check_password_matches_policy($pwd,$user);
+	if($result!==true){
+		add_error(shn_get_password_policy_message($result));
+		shn_acl_log_msg("Password Change error: password does not comply with the policy");
+		return false;
+	}else{
+		return true;
+	}
 }
 
 /**
