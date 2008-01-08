@@ -38,7 +38,7 @@ function _shn_or_regform_org($error=false)
     shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_("Primary Details"));
     $extra_opts['req']=true;
-    ?><div class="info"><?= _("These are the basic details of an organization. Organization name is required , but the Registration number is optional");?> </div><br /><?php
+    ?><div class="info"><?= _("These are the basic details of an organization. The organization name is required, but the registration number is optional");?> </div><br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
@@ -47,7 +47,7 @@ function _shn_or_regform_org($error=false)
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['reg_no'];
     }
-    $extra_opts['help']=_("If your organization is registered under the government, please enter your Company Registration Number");
+    $extra_opts['help']=_("If your organization is registered under the government, please enter your company registration number");
     shn_form_text(_("Registration Number(if any) : "),'reg_no','size="40"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen(_("Organization Type"));
