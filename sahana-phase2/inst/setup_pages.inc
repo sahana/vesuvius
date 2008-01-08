@@ -523,7 +523,7 @@ foreach($available_themes as $tname){
 }
 $themelist[$tname] = ucwords($tname)._(' Theme');
 }
-shn_form_select($themelist,_('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array());
+shn_form_select($themelist,_('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array('value'=>'default'));
 shn_form_fsclose();
 shn_form_submit(_('<< Back'),'name="back_button"');
 shn_form_submit(_("Next >>"));
