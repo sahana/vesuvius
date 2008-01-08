@@ -1,6 +1,5 @@
-
 <?php
-/* $Id: lib_image.inc,v 1.9 2008-01-03 10:12:43 isurunishan Exp $ */
+/* $Id: lib_image.inc,v 1.10 2008-01-08 05:54:53 ishanul Exp $ */
 
 /**
  *
@@ -634,55 +633,4 @@ function shn_check_valid_image_type($type){
 	}
 	
 	}
-	
-	
-
-/**
- * Get the error description message for an image upload error.
- *
- * @param Integer $error_code The error code
- */
-function shn_file_upload_error_msg($error_code){
-	switch($error_code){
-		case UPLOAD_ERR_INI_SIZE:
-			return _("The uploaded file exceeds the upload_max_filesize directive in php.ini. (<".ini_get('upload_max_filesize')."B)");
-		case UPLOAD_ERR_FORM_SIZE:
-			return _("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.");
-		case UPLOAD_ERR_PARTIAL:
-			return _("The uploaded file was only partially uploaded.");
-		case UPLOAD_ERR_NO_FILE:
-			return _("No file was uploaded.");
-		case UPLOAD_ERR_NO_TMP_DIR:
-			return _("Missing a temporary folder.");
-		case UPLOAD_ERR_CANT_WRITE:
-			return _("Failed to write file to disk.");
-		case UPLOAD_ERR_EXTENSION:
-			return _("File upload stopped by extension.");
-	}
-}
-
-/**
- * Check if the given mime type of (image) is
- * valid within sahana.
- *
- * @param unknown_type $type The mime type string
- */
-function shn_check_valid_image_type($type){
-	$mime = $type;
-	if(strpos($type,"/")){
-		list(,$mime) = split("\/",$info['mime']);
-	}
-
-	// check types.
-	if(stripos($mime,"png") ||
-	stripos($mime,"gif") ||
-	stripos($mime,"jpeg") ||
-	stripos($mime,"bmp")){
-		return true;
-	}else{
-		return false;
-	}
-}
-
-/* }}} */
 ?>
