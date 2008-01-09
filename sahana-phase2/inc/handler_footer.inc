@@ -4,7 +4,7 @@
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.10 2008-01-06 17:17:40 isurunishan Exp $ */
+/* $Id: handler_footer.inc,v 1.11 2008-01-09 11:05:27 isurunishan Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -25,12 +25,14 @@ global $conf;
  */
 ?>
 <div align="center" id="footer"><a class="help" target="_blank"
-	href="<? echo $conf['sahana_url']; ?>" title="Sahana Home">Sahana</a> | <a
+	href="<? echo $conf['sahana_url']; ?>" title="<?php echo _("Sahana Home") ?>"><?php echo _("Sahana") ?></a> | <a
 	class="help" target="_blank"
-	href="<? echo $conf['wiki_url']; ?>" title="Sahana Wiki">Wiki</a>
+	href="<? echo $conf['wiki_url']; ?>" title="<?php echo _("Sahana Wiki") ?>"><?php _("Wiki") ?></a>
 | <a class="help" target="_blank" href="<? echo $conf['forum_url']; ?>"
-	title="Forums">Forums</a> | <a class="help" target="_blank"
-	href="<? echo $conf['chat_url']; ?>" title="Chats">Chats</a> <br />
+	title="<?php echo _("Forums") ?>"><?php echo _("Forums") ?></a> | <a class="help" target="_blank"
+	href="<? echo $conf['chat_url']; ?>" title="<?php echo _("Chats") ?>"><?php echo _("Chats") ?></a>  
+	| <a class="help" target="_blank"
+	href="?mod=home&act=bug_report" title="<?php echo _("Report a Bug") ?>"><?php echo _("Report a Bug") ?></a> <br /><br />
 	<hr/>
 <a target="_blank" href="http://www.php.net" title="Powered by PHP"><img
 	src="res/img/button-php.gif" width="80" height="15"
