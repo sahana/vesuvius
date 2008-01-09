@@ -117,4 +117,94 @@ echo _("Please login by entering the administrator username and password in the 
 	}
 }
 
+function shn_home_bug_report(){
+	echo "<h2>"._("Sahana bug reporting")."</h2>";
+	
+	shn_form_fopen("bug_report_cr");
+	shn_form_fsopen(_("Report a bug"));	
+	shn_form_text(_("Your name"),"reporter_name",null,array("req"=>true));
+	shn_form_text(_("Contact email"),"reporter_email");
+	shn_form_text(_("Bug Title"),"title",null,array("req"=>true));
+	shn_form_text(_("Module(s)"),"target_module");
+	shn_form_textarea("What you did before you caught the bug","steps",null,array("req"=>true));
+	shn_form_textarea(_("Bug Description / Additional Notes"),"notes");
+	shn_form_fsclose();
+	shn_form_submit(_("Cancel"),"name='cancel'");
+	shn_form_submit(_("Create Bug Report"),"name='download_rep'");
+	shn_form_fclose();
+}
+
+function shn_home_bug_report_cr(){
+	global $global,$conf;
+	if(isset($_POST['cancel'])){
+		shn_home_default();
+	}else if(isset($_POST['download_rep'])){
+		$reporter_name = $_POST['reporter_name'];
+		$error = false;
+		if(isset($reporter_name)==false || strlen($reporter_name)==0){
+			add_error(_("Please enter your name"));
+			$error = true;
+		}
+		$reporter_email = $_POST['reporter_email'];
+		$bug_title = $_POST['title'];
+		if(isset($bug_title)==false || strlen($bug_title)==0){
+			add_error(_("Please enter a title for the bug"));
+			$error = true;
+		}
+		$bug_module = $_POST['target_module'];
+		$steps = $_POST['steps'];
+		if(isset($steps)==false || strlen($steps)==0){
+			add_error(_("Please enter what you did before this bug appeared."));
+			$error = true;
+		}
+		$notes = $_POST['notes'];
+		
+		if($error==false){
+		$comment = "<!--Please email this file to bugs@sahana.lk-->";
+		$timestamp = date("Ymdhis");
+		$tname = "shn-bug-report".$timestamp;//tempnam("/tmp","shn-bug-report");
+		if(is_writable($global['approot']."www/tmp/".$tname)){
+			$fp = fopen($global['approot']."www/tmp/".$tname,"w+");		
+		
+			fwrite($fp,"<?xml version=\"1.0\"?>");
+			fwrite($fp,$comment);
+			fwrite($fp,"<bug-report id=\"$timestamp\">");
+			fwrite($fp,"<reporter-name>$reporter_name</reporter-name>");
+			fwrite($fp,"<reporter-email>$reporter_email</reporter-email>");
+			fwrite($fp,"<title>$bug_title</title>");
+			fwrite($fp,"<module>$bug_module</module>");
+			fwrite($fp,"<steps>$steps</steps>");
+			fwrite($fp,"<notes>$notes</notes>");
+			fwrite($fp,"<environment>".$_SERVER['HTTP_USER_AGENT']."</environment>");
+			fwrite($fp,"</bug-report>");
+			fclose($fp);
+		
+			echo "<h2>"._("Thank you for your effort towards making sahana better.")."</h2>";
+			echo "<div class='message information'>";
+			echo "<p>"._("Please download the bug report from the link below and email it to ")."<a href=\"mailto:bugs@sahana.lk\">bugs@sahana.lk</a></p>";
+			echo "<br/>";
+			echo "<a href=\"?mod=home&act=download_bug_report&stream=text&brpt_id=$tname\">"._("Download the bug report here")."</a>";
+			echo "</div>";
+		}else{
+			add_error(sprintf(_("The path \"%s\" is not writable"),$global['approot']."www/tmp/"));
+			add_error(_("Failed to create bug report due to the lack of file write permissions to the above folder."));							
+		}
+		}else{
+			shn_home_bug_report();
+		}
+	}
+	
+	
+}
+
+function shn_text_home_download_bug_report(){
+	global $global;
+	$bug_report_id = $_REQUEST['brpt_id'];
+	header("Content-type: text/xml");
+	header("Content-Disposition: attachment; filename=\"$bug_report_id\"");
+	$content = file_get_contents($global['approot']."www/tmp/"."/".$bug_report_id);
+	print $content;	
+	//unlink($global['approot']."www/tmp/"."/".$bug_report_id);
+}
+
 ?>
