@@ -56,20 +56,6 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 	// include the main sysconf file
 	require ($APPROOT.'conf/sysconf.inc');
 
-
-	// include the main libraries the system depends on
-	require_once ($APPROOT.'inc/handler_db.inc');
-
-	// include the exception handling lib
-	include_once ($APPROOT.'inc/lib_exception.inc');
-
-	require_once ($APPROOT.'inc/lib_security/lib_crypt.inc');
-	require_once ($APPROOT.'inc/lib_session/handler_session.inc');
-	require_once ($APPROOT.'inc/lib_security/handler_openid.inc');
-	require_once ($APPROOT.'inc/lib_security/lib_auth.inc');
-	require_once ($APPROOT.'inc/lib_security/constants.inc');
-	require_once ($APPROOT.'inc/lib_locale/handler_locale.inc');
-
 	// include the main libraries the system depends on
 	require_once ($APPROOT.'inc/handler_db.inc');
 
@@ -82,30 +68,6 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 	require_once ($APPROOT.'3rd/htmlpurifier/library/HTMLPurifier.auto.php');
 	require_once ($APPROOT.'3rd/htmlpurifier/smoketests/common.php');
 	shn_main_clean_getpost();
-	//include the user preferences
-	include_once ($APPROOT.'inc/lib_user_pref.inc');
-
-	shn_user_pref_populate();
-
-	// load all the configurations based on the priority specified
-	// files and database, base and mods
-	shn_config_load_in_order();
-	/*
-	 $mods=shn_get_allowed_mods_current_user();
-	 foreach ($mods as $mod){
-	 $conf['mod_'.$mod.'_enabled']=true;
-	 }*/
-	if(($_GET["mod"]="admin")&&($_GET["act"]=="acl_enable_acl_cr")){
-		if( shn_acl_check_perms("admin","acl_enable_acl_cr")==true){
-			include_once ($APPROOT.'mod/admin/acl.inc');
-			_shn_admin_acl_enable_acl_cr(false);
-		}
-	}
-	 
-	// start the front controller pattern
-	shn_main_front_controller();
-
-
 	//include the user preferences
 	include_once ($APPROOT.'inc/lib_user_pref.inc');
 	shn_user_pref_populate();
@@ -219,100 +181,6 @@ function shn_main_front_controller()
 	// this includes the inclusion of various sections in XHTML including the HTTP header,
 	// content header, menubar, login
 	shn_stream_init();
-
-	// compose and call the relevant module function
-	if (!function_exists($module_function)) {
-		$module_function='shn_'.$stream_.$module.'_default';
-	}
-
-	$_SESSION['last_module']=$module;
-	$_SESSION['last_action']=$action;
-
-	if($stream_==null){
-		if(( ($global['action']=='signup_cr')or($global['action']=='signup'))&&($global['module']="pref")){
-			$acl=shn_acl_is_signup_enabled();
-			if($acl==true){
-				$module_function();
-			}else{
-
-			}
-
-		}else{
-			$mods=shn_get_allowed_mods_current_user();
-				
-			$res=array_search($module,$mods,false);
-			 
-			if(FALSE !== $res){
-				if(shn_acl_check_perms($module,$module_function)==ALLOWED){
-					$module_function();
-				}else{
-					//shn_error_display_restricted_access();
-				}
-
-			}else{
-				shn_error_display_restricted_access();
-			}
-		}
-	}else{
-
-		$stream_acl_funct='shn_'.$stream_.'check_perms';
-		if($stream_acl_funct()==ALLOWED){
-			$module_function();
-		}else{
-			 
-		}
-	}
-
-	// close up the stream. In HTML send the footer
-	shn_stream_close();
-
-	global $global, $APPROOT, $conf;
-	$action = $global['action'];
-	$module = $global['module'];
-	// define which stream library to use base on POST "stream"
-	if(isset($_REQUEST['stream']) && file_exists($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
-
-		require_once ($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc");
-		$stream_ = $_REQUEST['stream']."_";
-
-	} else {
-		// default to the HTML stream
-		require_once $APPROOT."/inc/lib_stream_html.inc";
-		$stream_ = null;
-	}
-
-	// Redirect the module based on the action performed
-	// redirect admin functions through the admin module
-	if (preg_match('/^adm/',$action)) {
-
-		$global['effective_module'] = $module = 'admin';
-		$global['effective_action'] = $action = 'modadmin';
-	} // the orignal module and action is stored in $global
-
-	// This is a redirect for the report action
-	if (preg_match('/^rpt/',$action)) {
-
-		$global['effective_module'] = $module = 'rs';
-		$global['effective_action'] = $action = 'modreports';
-	}
-
-	// check the users access permissions for this action
-	$module_function = 'shn_'.$stream_.$module.'_'.$action;
-
-	// include the correct module file based on action and module
-	$module_file = $APPROOT.'mod/'.$module.'/main.inc';
-
-	// default to the home page if the module main does not exist
-	if (file_exists($module_file)) {
-		include($module_file);
-	} else {
-		include($APPROOT.'mod/home/main.inc');
-	}
-
-	// stream (XHTML, XML, TEXT, etc) initialization
-	// this includes the inclusion of various sections in XHTML including the HTTP header,
-	// content header, menubar, login
-	shn_stream_init();
 	if($_SESSION['first_time_run']==true){
 		include_once($APPROOT.'mod/home/main.inc');
 		// first time welcome view.
@@ -334,22 +202,22 @@ function shn_main_front_controller()
 				$acl=shn_acl_is_signup_enabled();
 				if($acl==true){
 					$module_function();
-				}else{
-
+				}else{	
+	
 				}
 
 			}else{
 				$mods=shn_get_allowed_mods_current_user();
 					
 				$res=array_search($module,$mods,false);
-				 
+			 
 				if(FALSE !== $res){
 					if(shn_acl_check_perms($module,$module_function)==ALLOWED){
 						$module_function();
 					}else{
 						//shn_error_display_restricted_access();
 					}
-
+	
 				}else{
 					shn_error_display_restricted_access();
 				}
@@ -367,6 +235,7 @@ function shn_main_front_controller()
 
 	// close up the stream. In HTML send the footer
 	shn_stream_close();
+	
 
 }
 
