@@ -163,7 +163,7 @@ function shn_home_bug_report_cr(){
 		$comment = "<!--Please email this file to bugs@sahana.lk-->";
 		$timestamp = date("Ymdhis");
 		$tname = "shn-bug-report".$timestamp;//tempnam("/tmp","shn-bug-report");
-		if(is_writable($global['approot']."www/tmp/".$tname)){
+		if(is_writable($global['approot']."www/tmp/")){
 			$fp = fopen($global['approot']."www/tmp/".$tname,"w+");		
 		
 			fwrite($fp,"<?xml version=\"1.0\"?>");
