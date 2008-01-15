@@ -175,8 +175,8 @@ $inv_id=$res_org->fields[0];
     <td><?php print $location_display;?><br><a href="index.php?mod=ims&act=gis_inv&id=<?php echo $res_org->fields[0] ?>"><?php echo "GIS Map";?></a> </td>
    
    <!-- <td><?php echo $res_bsd_country->fields[0]?></td> -->
-    <td><?php echo $res_addr->fields[0]?><br /><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
-    <td><?php echo $res_phone->fields[0]?><br /><?php echo $res_mobile->fields[0]?></td>
+    <td><?php echo $res_addr->fields[0]?><br /></td>
+    <td><?php echo $res_phone->fields[1]?><br /><?php echo $res_mobile->fields[0]?><br/><a href="mailto:<?php echo $res_email->fields[0]?>"/><?php echo $res_email->fields[0]?></a></td>
     <td><?php echo $res_org->fields[3]?></td>
     <td><?php echo $res_org->fields[4]?></td>
     <td><?php echo $res_org->fields[5]?>
@@ -218,7 +218,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
    
     }
 ?>
-<h2><?=_("Inventory Registration Information of ")."<em>".$org_name?></em></h2>
+<h2><?php printf(_("Inventory Registration Information of <em>%s</em>"),$org_name)?></h2>
 <?php
  if($error==true)
         display_errors();
