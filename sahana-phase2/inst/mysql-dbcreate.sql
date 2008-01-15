@@ -749,14 +749,6 @@ CREATE TABLE lc_fields (
     PRIMARY KEY(id)
 );
 
-/**
- * DROP TABLE IF EXISTS lc_tmp_po;
- * CREATE TABLE lc_tmp_po (
- *  string TEXT,
- *  comment TEXT
- * );
- */
-
 /**================= Resource/Multimedia Tables ===========================**/
 
 

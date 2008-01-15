@@ -96,6 +96,10 @@ function shn_setup_select_setup_next(){
 	if(isset($_POST['setup_type_simple'])){
 		// set the setup type in the session.
 		$_SESSION['setup_type'] = 'SIMPLE';
+		// add all modules as selected modules.
+		include_once($global['approot']."inc/lib_modules.inc");
+		$_SESSION['shn_setup_data_selected_modules'] = shn_get_all_modules(false);
+		
 		shn_setup_simple_dbsetup();
 	}else if(isset($_POST['setup_type_adv'])){
 		// set the setup type in the session.

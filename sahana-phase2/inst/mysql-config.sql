@@ -273,30 +273,12 @@ INSERT INTO sys_group_to_data_classification VALUES ( 8, 5,"cru-");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 6,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 7,"cru-");
 INSERT INTO sys_group_to_data_classification VALUES ( 8, 8,"cru-");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 1,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 2,"-r--");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 3,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 5,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 6,"-r--");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 7,"crud");
-INSERT INTO sys_group_to_data_classification VALUES ( 7, 8,"crud");
-
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 1,"c---");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 2,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 3,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 4,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 5,"cru-");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 6,"----");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 7,"cru-");
-INSERT INTO sys_group_to_data_classification VALUES ( 8, 8,"cru-");
 
 -- INSERT DEFAULT LC_FIELDS
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("field_options","option_description");
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit","name");
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit_type","name");
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit_type","description");
->>>>>>> 1.49.2.5
 
 -- INSERT DEFAULT TABLE FIELD TO DATA CLASSIFICATION MAPPINGS
 

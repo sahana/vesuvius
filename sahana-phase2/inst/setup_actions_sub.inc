@@ -129,6 +129,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 	// another connection with transactions to create thetables and data.
 	$_tdb3 = &NewADOConnection('mysql');
 	$_tdb3->Connect($conf_key_vals['db_host'],$conf_key_vals['db_user'],$conf_key_vals['db_pass'],$conf_key_vals['db_name']);
+	//$_tdb3->debug=true;
 	//$_tdb3->StartTrans();
 	$global['db'] = $_tdb3;
 	$conf['db_engine']=$conf_key_vals['db_type'];
@@ -158,6 +159,15 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 		foreach($selected_mods as $mod){
 			_shn_setup_run_sqlscript($_tdb3,'mod/'.$mod.'/inst/dbcreate.sql');
 			_shn_setup_run_sqlscript($_tdb3,'mod/'.$mod.'/inst/mysql-config.sql');
+			if(file_exists($global['approot'].'/mod/'.$mod.'/inst/setup.inc')){
+				include_once($global['approot'].'/mod/'.$mod.'/inst/setup.inc');
+				$datacreate_funct = 'shn_'.$mod.'_datacreate';
+				if(function_exists($datacreate_funct)){
+					global $global;
+					$global['db'] = $_tdb3;
+					$datacreate_funct();
+				}
+			}
 		}
 	}
 	// insert the sample data separately if it should be..
