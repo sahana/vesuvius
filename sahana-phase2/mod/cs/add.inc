@@ -62,8 +62,8 @@ function _shn_cs_addmain_form_result()
     $query1 = "SELECT ct_uuid FROM ct_catalogue WHERE name = '$name' and parentid = '0'";
     $res1 = $db->Execute($query1);
     
-    if(isset($res1->fields["ct_uuid"])) {
-    	add_warning(_("Operation failed. Catalog name called "). $name ._(" already exists. Please use another name for the catalog."));
+    if (isset($res1->fields["ct_uuid"])) {
+    	add_warning(_("Operation failed. Catalog name called ") . $name . _(" already exists. Please use another name for the catalog."));
     	shn_cs_addmain_form();
     } else {
         $id = shn_create_uuid("catalogue");
@@ -72,8 +72,8 @@ function _shn_cs_addmain_form_result()
     	$q = "INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES($parentid,'$id','$name','$description','$keyword','$serial')";
     	$res = $db->Execute($q);
 
-		if($res == true) {
-			add_confirmation($name._(" was succesfully saved in the database"));
+		if ($res == true) {
+			add_confirmation($name . _(" was succesfully saved in the database"));
 			shn_cs_addmain_form();
 		} else {
 			add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system administrator."));
@@ -91,14 +91,14 @@ function _shn_cs_addmain_form_result()
 function shn_cs_addsub_form1()
 {
     require_once("lib_cs.inc");
-    $form_opts['name']='subcat';
+    $form_opts['name'] = 'subcat';
      
     shn_form_fopen("addsub_form1_submit",null,$form_opts);
     $max_depth = get_max_depth();
     shn_sub_cat($max_depth,'subcat','',true);
     shn_form_fclose();
 
-    print "<br /><b>"._("Do a keyword search to find the parent category.")."</b>";
+    print "<br /><b>" . _("Do a keyword search to find the parent category.") . "</b>";
     shn_form_fopen("keyword_search",null,array('req_message'=>false));
     shn_form_fsopen(_('Keyword Search'));
 
@@ -119,16 +119,16 @@ function shn_cs_addsub_form1()
  * @access private
  * @return void
  */
-function _shn_cs_addsub_form1_result($is_keyword_search=false)
+function _shn_cs_addsub_form1_result($is_keyword_search = false)
 {
     global $global;
     $db = $global["db"];
 
     require_once("lib_cs.inc");
-    if($is_keyword_search == false) {
-    $parent_id = get_itemid();
+    if ($is_keyword_search == false) {
+        $parent_id = get_itemid();
     } else {
-    $parent_id = trim($_REQUEST['id']);
+        $parent_id = trim($_REQUEST['id']);
     }
 
     $extra_opts['req'] = true;
@@ -159,7 +159,7 @@ function _shn_cs_addsub_form1_result($is_keyword_search=false)
 function _shn_cs_addsub_form2_result()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 
     require_once("lib_cs.inc");
     $parent_id = get_itemid();
@@ -173,16 +173,16 @@ function _shn_cs_addsub_form2_result()
     $q = "INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) VALUES('$parent_id','$id','$sub_cat_name','$sub_description','$sub_keyword','$serial')";
     $res = $db->Execute($q);
 
-	if($res == true) {
-	add_confirmation($sub_cat_name . _(" was succesfully saved in the database"));
+	if ($res == true) {
+	    add_confirmation($sub_cat_name . _(" was succesfully saved in the database"));
 
-	?>
-	<p><b><?= _("Add another sub catalog"); ?></b></p>
-	<?php
+	    ?>
+	    <p><b><?= _("Add another sub catalog"); ?></b></p>
+	    <?php
 
-	shn_cs_addsub_form1();
+	    shn_cs_addsub_form1();
 	} else {
-	add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system Administrator."));
+	    add_warning(_("Operation failed. ct_catalogue table not found in the database. Please contact system Administrator."));
 	}
 }
 
@@ -196,34 +196,34 @@ function shn_cs_addunit_form()
     global $global;
     $db = $global["db"];
     
-    $option_array=array();
+    $option_array = array();
 
     $query = "SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res = $db->Execute($query);
     $option_array['none'] = _('----Select Unit type----');
-    while(!$res == NULL && !$res->EOF) {
-    $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
-    $res->MoveNext();
+    while (!$res == NULL && !$res->EOF) {
+        $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
+        $res->MoveNext();
     }
     
-    if($option_array == null) {
-    shn_form_fopen(null);
-    shn_form_fsopen(_("Information"));
-    ?>
-    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&amp;act=addunittype"><?php echo _("Add Unit category")?></a><?= _(' First'); ?></p>
+    if ($option_array == null) {
+        shn_form_fopen(null);
+        shn_form_fsopen(_("Information"));
+        ?>
+        <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&amp;act=addunittype"><?php echo _("Add Unit category")?></a><?= _(' First'); ?></p>
     
-    <?php
-    shn_form_fsclose();
-    shn_form_fclose();
+        <?php
+        shn_form_fsclose();
+        shn_form_fclose();
     } else {
-    $extra_opts['req'] = true;
-    $form_opts['name'] = "select_unit_type_form";
-    shn_form_fopen("addunit_select_utype_submit",null,$form_opts);
-    shn_form_fsopen(_("Select Measurement Unit Type"));
-    $select_opts = 'onChange="select_unit_type_form_js()"';
-    shn_form_select($option_array,'','unit_type',$select_opts,null);
-    shn_form_fsclose();
-    shn_form_fclose();
+        $extra_opts['req'] = true;
+        $form_opts['name'] = "select_unit_type_form";
+        shn_form_fopen("addunit_select_utype_submit",null,$form_opts);
+        shn_form_fsopen(_("Select Measurement Unit Type"));
+        $select_opts = 'onChange="select_unit_type_form_js()"';
+        shn_form_select($option_array,'','unit_type',$select_opts,null);
+        shn_form_fsclose();
+        shn_form_fclose();
     }
 
     shn_cs_addunit_form_js();
@@ -282,16 +282,17 @@ function _shn_cs_addunit_form_result()
     $query = "INSERT INTO ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) VALUES('$unit_type_id','$unit_id','$unit_name','0',$multiplier)";
     $res = $db->Execute($query);
 
-	if($res == true) {
-	add_confirmation($unit_name . _(" was succesfully saved in the database"));
-	?>
-	<p><b><?= _("Add another Unit"); ?></b></p>
-	<?php
-	shn_cs_addunit_form();
+	if ($res == true) {
+	    add_confirmation($unit_name . _(" was succesfully saved in the database"));
+	    ?>
+	    <p><b><?= _("Add another Unit"); ?></b></p>
+	    <?php
+	    shn_cs_addunit_form();
 	} else {
-	add_warning(_("Operation failed. ct_unit table not found in the database. Please contact system Administrator."));
+	    add_warning(_("Operation failed. ct_unit table not found in the database. Please contact system Administrator."));
 	}
 }
+
 
 function shn_cs_additem_form1()
 {
@@ -307,37 +308,38 @@ function shn_cs_additem_form1()
 
     $query = "SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' ";
     $res = $db->Execute($query);
-    if($res == true) {
-    print "<br /><b>"._("Do a keyword search to find the catalogue.")."</b>";
-    shn_form_fopen("keyword_search");
-    shn_form_fsopen(_('Keyword Search'));
-    shn_form_text(" ",'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
-    shn_form_hidden(array('type' => 'item'));
-    shn_form_submit(_("Search"));
-    shn_form_fsclose();
-    shn_form_fclose();
+    if ($res == true) {
+        print "<br /><b>" . _("Do a keyword search to find the catalogue.") . "</b>";
+        shn_form_fopen("keyword_search");
+        shn_form_fsopen(_('Keyword Search'));
+        shn_form_text(" ",'search_keyword','size="50"', array('help'=>_('Search for the catalog using a keyword and then add catalogs/Items under it.')));
+        shn_form_hidden(array('type' => 'item'));
+        shn_form_submit(_("Search"));
+        shn_form_fsclose();
+        shn_form_fclose();
     }
 }
 
 
-function shn_cs_additem_form1_result($is_keyword_search=false)
+function shn_cs_additem_form1_result($is_keyword_search = false)
 {
     global $global;
     $db = $global["db"];
     require_once("lib_cs.inc");
-    if($is_keyword_search == false) {
-    $parent_id = get_itemid();
+    if ($is_keyword_search == false) {
+        $parent_id = get_itemid();
     } else {
-    $parent_id = trim($_REQUEST['id']);
+        $parent_id = trim($_REQUEST['id']);
     }
     
     $option_array = array();
     $query = "SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res = $db->Execute($query);
     $option_array['none'] = _('----Select Unit type----');
-    while(!$res == NULL && !$res->EOF) {
-    $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
-    $res->MoveNext();
+    
+    while (!$res == NULL && !$res->EOF) {
+        $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
+        $res->MoveNext();
     }
 
     $form_opts['name'] = "select_unit_type_form1";
@@ -359,7 +361,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_fsclose();
     $myoptions = array();
     shn_form_fsopen(_('Measurement Unit'));
-    shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"' );
+    shn_form_multi_select('unit_select',$myoptions, _("Unit :"),'size=5 multiple="multiple"');
     shn_form_fsclose();
 
 /*
@@ -370,7 +372,7 @@ function shn_cs_additem_form1_result($is_keyword_search=false)
     shn_form_multi_select('supplier_select',$suppliers, _("Suppliers :"),'size=5 multiple="multiple"' );
     shn_form_fsclose();*/
 
-    $parent_id_array=array('0' => $parent_id);
+    $parent_id_array = array('0' => $parent_id);
     shn_form_hidden($parent_id_array);
 
     shn_cs_additem_form1_result_ajax();
@@ -384,7 +386,7 @@ function shn_cs_additem_form2_result()
     global $global;
     $db = $global["db"];
 
-    $items_saved_ok =false;
+    $items_saved_ok = false;
     $all_units_saved_ok = false;
     $save_failed_units = array();
 
@@ -401,58 +403,58 @@ function shn_cs_additem_form2_result()
     $q = "INSERT INTO ct_catalogue (parentid,ct_uuid,name,description,keyword,final_flag,serial) VALUES('$parent_id','$id','$item_name','$description','$item_keyword','1','$serial')";
     $res = $db->Execute($q);
 
-	if($res == true) {	
-	$items_saved_ok = true;
+	if ($res == true) {	
+	    $items_saved_ok = true;
 	}
 
     $unit_selected = $_POST["unit_select"];
     $num = sizeof($unit_selected);
 
-    for($i = 0;$i < $num;$i++) {
-    $temp = $unit_selected[$i];
-    $q = "INSERT INTO ct_cat_unit (ct_uuid,unit_uuid) VALUES('$id','$temp')";
-    $res = $db->Execute($q);
-    		if($res == false) {	
+    for ($i = 0; $i < $num; $i++) {
+        $temp = $unit_selected[$i];
+        $q = "INSERT INTO ct_cat_unit (ct_uuid,unit_uuid) VALUES('$id','$temp')";
+        $res = $db->Execute($q);
+    		if ($res == false) {	
 				array_push($save_failed_units,$temp);
 			}
     }//end of for
 
     $suppliers_selected = $_POST["supplier_select"];
 
-    if($suppliers_selected != null) {
-    $numOfsuppliers = count($suppliers_selected);
-    $supplier_arr_keys = array_keys($suppliers_selected);
-    $save_failed_suppliers = array();
+    if ($suppliers_selected != null) {
+        $numOfsuppliers = count($suppliers_selected);
+        $supplier_arr_keys = array_keys($suppliers_selected);
+        $save_failed_suppliers = array();
 
-		for($i = 0;$i < $numOfsuppliers;$i++) {
-		$temp = $suppliers_selected[$supplier_arr_keys[$i]];
-		$q = "INSERT INTO ct_suppliers (ct_uuid,supplier) VALUES('$id','$temp')";
-		$res = $db->Execute($q);
-				if($res == false) {	
-					array_push($save_failed_suppliers,$temp);
-				}
+		for ($i = 0; $i < $numOfsuppliers; $i++) {
+		    $temp = $suppliers_selected[$supplier_arr_keys[$i]];
+		    $q = "INSERT INTO ct_suppliers (ct_uuid,supplier) VALUES('$id','$temp')";
+		    $res = $db->Execute($q);
+		    if ($res == false) {	
+				array_push($save_failed_suppliers,$temp);
+			}
 		}//end of for
     }
 
 
-	if($save_failed_units == null) {
+	if ($save_failed_units == null) {
 		$all_units_saved_ok = true;
 	} else {
 		$all_units_saved_ok = false;
 	}
 	
-	if($items_saved_ok == true && $all_units_saved_ok == true) {
+	if ($items_saved_ok == true && $all_units_saved_ok == true) {
 		add_confirmation($item_name . _(" was succesfully saved in the database"));
 		?>
 		<p><b><?= _("Add another Item"); ?></b></p>
 		<?php
 		shn_cs_additem_form1();
-	} elseif($items_saved_ok == true && $all_units_saved_ok == false) {	
+	} elseif ($items_saved_ok == true && $all_units_saved_ok == false) {	
 		$del_query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
 		$res = $db->Execute($del_query);
 
 		add_warning(_("Operation failed. ct_cat_unit table not found in the database. Please contact system Administrator."));
-	} elseif($items_saved_ok == false && $all_units_saved_ok == true) {
+	} elseif ($items_saved_ok == false && $all_units_saved_ok == true) {
 		$del_query = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
 		$res = $db->Execute($del_query);
 
@@ -496,29 +498,28 @@ function _shn_cs_add_unit_type_form_result()
     $unit_type_id = shn_create_uuid("unit_type");
     $q = "INSERT INTO ct_unit_type (unit_type_uuid,name,description) VALUES('$unit_type_id','$unit_type_name','$description')";
     $res = $db->Execute($q);
-	if($res == true) {
-	$unit_type_saved_ok = true;
+	if ($res == true) {
+	    $unit_type_saved_ok = true;
 	}
 
     $unit_id = shn_create_uuid("unit");
     $query = "INSERT INTO ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) VALUES('$unit_type_id','$unit_id','$base_unit_name','1',0)";
     $res = $db->Execute($query);
-	if($res == true) {
+	if ($res == true) {
 		$base_unit_saved_ok = true;
 	}
 
-    if($unit_type_saved_ok == true && $base_unit_saved_ok ==true) {
+    if ($unit_type_saved_ok == true && $base_unit_saved_ok == true) {
 		add_confirmation($unit_type_name . _(" was succesfully saved in the database"));
 		?>
 		<p><b><?= _("Add another unit type"); ?></b></p>
 		<?php
 		shn_cs_add_unit_type_form();
-	}
-    elseif($unit_type_saved_ok == true && $base_unit_saved_ok ==false) {
+	} elseif ($unit_type_saved_ok == true && $base_unit_saved_ok == false) {
 		$q = "DELETE FROM ct_unit_type WHERE unit_type_uuid = '$unit_type_id'";
 	        $res = $db->Execute($q);
 		add_warning(_("Operation failed. ct_unit table not found in the Database. Please contact system Administrator.")); 
-	} elseif($unit_type_saved_ok == false && $base_unit_saved_ok ==true) {
+	} elseif ($unit_type_saved_ok == false && $base_unit_saved_ok == true) {
 		$q = "DELETE FROM ct_unit WHERE unit_type_uuid = '$unit_type_id'";
 	   	$res = $db->Execute($q);
 		add_warning(_("Operation failed. ct_unit_type table not found in the Database. Please contact system Administrator."));
@@ -534,9 +535,9 @@ function _shn_cs_search_keyword_result()
     global $global;
     $db = $global["db"];
 
-    print _("Click on the parent catalogue that you need to add sub catalogue or Item under it.")."<br /> ";
+    print _("Click on the parent catalogue that you need to add sub catalogue or Item under it.") . "<br /> ";
 
-    $search_keyword =$name = trim($_POST['search_keyword']);
+    $search_keyword = $name = trim($_POST['search_keyword']);
     $type = trim($_POST['type']);
 
 ?>
@@ -556,25 +557,25 @@ function _shn_cs_search_keyword_result()
     $query = "SELECT * FROM ct_catalogue WHERE keyword like '$first_3_letters%' AND final_flag!='1' ";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
-    $name = $res->fields["name"];
-    $description = $res->fields["description"];
-    $cat_id = $res->fields["ct_uuid"];
-    $final_flag = $res->fields["final_flag"];
-    $keyword = $res->fields["keyword"];
+    while (!$res == NULL && !$res->EOF) {
+        $name = $res->fields["name"];
+        $description = $res->fields["description"];
+        $cat_id = $res->fields["ct_uuid"];
+        $final_flag = $res->fields["final_flag"];
+        $keyword = $res->fields["keyword"];
     ?>
     <tr>
-        <td><a href="index.php?mod=cs&amp;act=search_keyword_select_submit&amp;id=<?php echo $cat_id ?>&amp;type=<?php echo $type ?>"><?php print $name ;?></a></td>
+        <td><a href="index.php?mod=cs&amp;act=search_keyword_select_submit&amp;id=<?php echo $cat_id ?>&amp;type=<?php echo $type ?>"><?php print $name;?></a></td>
         <td><?php print $description; ?></td>
-        <?php if($final_flag == '0') { ?>
+        <?php if ($final_flag == '0') { ?>
             <td><?php print _("Catalog"); ?></td>
         <?php } else { ?>
             <td><?php print _("Item"); ?></td>
         <?php } ?>
-	<td><?php print $keyword ;?></td>
+	<td><?php print $keyword; ?></td>
     </tr>
     <?php  
-    $res->MoveNext();
+        $res->MoveNext();
     }//end of while loop
     
     ?>
