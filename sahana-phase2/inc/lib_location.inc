@@ -607,7 +607,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	$parent=shn_location_get_start_loc();
 	$count=0;
 	$keepparent=false;
-	$info=_("If you know any of the following, please select Only one of them first" .
+	$info=_("If you know any of the following, please select only one of them first" .
 			" , the selection will populate the set of Location select boxes ")."<br />";
 	if($extra_opts["camps"]==true){
 		 $info.=_("* Camp/Shelter ")."<br /> ";
