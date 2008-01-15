@@ -38,17 +38,17 @@ function shn_cs_show_supplier_report()
     $query = "SELECT * FROM ct_suppliers";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
-    $item_id = $res->fields["ct_uuid"];
-    $suplier_id = $res->fields["supplier"];
+    while (!$res == NULL && !$res->EOF) {
+        $item_id = $res->fields["ct_uuid"];
+        $suplier_id = $res->fields["supplier"];
 
-    $suplier_name = shn_or_organization_name(array($suplier_id));
+        $suplier_name = shn_or_organization_name(array($suplier_id));
 
-    $item_query = "SELECT * FROM ct_catalogue WHERE ct_uuid ='$item_id' ";
-    $item_res = $db->Execute($item_query);
+        $item_query = "SELECT * FROM ct_catalogue WHERE ct_uuid ='$item_id' ";
+        $item_res = $db->Execute($item_query);
 
-    $description = $item_res->fields["description"];
-    $name = $item_res->fields["name"];
+        $description = $item_res->fields["description"];
+        $name = $item_res->fields["name"];
     ?>
     <tr>
     <td><?php print $item_id; ?></td>
@@ -58,7 +58,7 @@ function shn_cs_show_supplier_report()
     <td><?php print $suplier_name[$suplier_id]; ?></td>
     </tr>
     <?php 
-    $res->MoveNext();
+        $res->MoveNext();
     }//end of while loop
 
     ?>

@@ -14,7 +14,7 @@ function shn_cs_rpt_default()
 function shn_cs_cat_itm_xls_report()
 {
     global $global;
-    $db=$global["db"];
+    $db = $global["db"];
 
     $table_header = array('name' => 'Name', 'desc' => 'description');
     $table_data = array();
@@ -23,8 +23,8 @@ function shn_cs_cat_itm_xls_report()
     $query = "SELECT * FROM ct_catalogue";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
-	    $table_row = "row".$row_coount++;
+    while (!$res == NULL && !$res->EOF) {
+	    $table_row = "row" . $row_coount++;
 	    $table_row = array();
 	    $table_row ["name"] = $res->fields["name"];
 	    $table_row ["desc"] = $res->fields["description"];
@@ -39,7 +39,7 @@ function shn_cs_cat_itm_xls_report()
 
     shn_report_fopen('xls',"catalogs_items",$cs_report1_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 }
@@ -56,8 +56,8 @@ function shn_cs_cat_itm_xhtml_report()
     $query = "SELECT * FROM ct_catalogue";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
-	    $table_row = "row".$row_coount++;
+    while (!$res == NULL && !$res->EOF) {
+	    $table_row = "row" . $row_coount++;
 	    $table_row = array();
 	    $table_row ["name"] = $res->fields["name"];
 	    $table_row ["desc"] = $res->fields["description"];
@@ -72,7 +72,7 @@ function shn_cs_cat_itm_xhtml_report()
 
     shn_report_fopen('xhtml',"catalogs_items",$cs_report1_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 }
@@ -89,8 +89,8 @@ function shn_cs_cat_itm_pdf_report()
     $query = "SELECT * FROM ct_catalogue";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
-	    $table_row = "row".$row_coount++;
+    while (!$res == NULL && !$res->EOF) {
+	    $table_row = "row" . $row_coount++;
 	    $table_row = array();
 	    $table_row ["name"] = $res->fields["name"];
 	    $table_row ["desc"] = $res->fields["description"];
@@ -105,7 +105,7 @@ function shn_cs_cat_itm_pdf_report()
 
     shn_report_fopen('pdf',"catalogs_items",$cs_report1_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 }
@@ -122,7 +122,7 @@ function shn_cs_cat_itm_ods_report()
     $query = "SELECT * FROM ct_catalogue";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
 	    $table_row = "row" . $row_coount++;
 	    $table_row = array();
 	    $table_row ["name"] = $res->fields["name"];
@@ -138,7 +138,7 @@ function shn_cs_cat_itm_ods_report()
 
     shn_report_fopen('ods',"catalogs_items",$cs_report1_keyword_arr);
     shn_report_add_title($title);
-    #shn_report_add_summary($txt);
+    //shn_report_add_summary($txt);
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 }
