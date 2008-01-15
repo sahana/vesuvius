@@ -475,7 +475,7 @@ function shn_ims_view_inv()
 <?php
     if (NULL == $_REQUEST['id']) {
     ?>
-<h2> Inventory Registry</h2>
+<h2> <?php echo _("Inventory Registry") ?></h2>
 <?php	$Limit = 20;
         _shn_ims_viewform_allorg(null,null,$Limit);
     } else {
