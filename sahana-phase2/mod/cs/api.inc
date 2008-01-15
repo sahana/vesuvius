@@ -30,7 +30,7 @@ function shn_cs_get_all_unit_names()
     $res = $db->Execute($query);
     $unit_name_arr = array();
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	array_push($unit_name_arr,$res->fields['name']);
     	$res->MoveNext();
     }
@@ -51,7 +51,7 @@ function shn_cs_get_all_catalog_names()
     $res = $db->Execute($query);
     $catalog_list = array();
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	$catalog_list[] = array('ct_id' => $res->fields["ct_uuid"], 'parent_id' => $res->fields["parentid"], 'name' => $res->fields["name"]);
     	$res->MoveNext();
     }
@@ -72,7 +72,7 @@ function shn_cs_get_catalog_names()
     $res = $db->Execute($query);
     $catalog_list = array();
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	$catalog_list[] = array('ct_id' => $res->fields["ct_uuid"], 'parent_id' => $res->fields["parentid"], 'name' => $res->fields["name"]);
     	$res->MoveNext();
     }
