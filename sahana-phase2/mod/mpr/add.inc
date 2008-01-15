@@ -72,7 +72,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
 
     shn_form_fsopen(_('Identity'));
 ?>
-    <p><?= _('If you have any information about missing person\'s identity numbers, Please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
+    <p><?= _('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
 <?php
     shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
     shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
@@ -81,7 +81,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
 
     shn_form_fsopen(_('Basic Details'));
 ?>
-<p><?= _('Please enter any of the following details on the person:'); ?></p> 
+<p><?= _('Please enter any of the following details of the person:'); ?></p> 
 <?php
 
     shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
@@ -99,7 +99,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_fsclose();
     shn_form_fsopen(_('Upload Picture'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
 <?php
     shn_form_upload(_('Upload Picture'),"picture");
     shn_form_fsclose();
