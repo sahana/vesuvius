@@ -25,7 +25,8 @@ include_once $global['approot'] . "/inc/lib_form.inc";
  * @access public
  * @return void
  */
-function shn_sub_cat_jscript($max,$form,$change,$item_flag = false){
+function shn_sub_cat_jscript($max,$form,$change,$item_flag = false)
+{
     global $global;
     $fetch_server = "xml.php?";
 ?>           
@@ -158,28 +159,28 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag = false){
  * @access public
  * @return void
  */
-function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
+function shn_sub_cat($max,$form,$inventory_id,$item_flag = false)
 {
-    $parent_array=array();
+    $parent_array = array();
     
     global $global;
     $db = $global["db"];
     
-    if($item_flag == true) {
+    if ($item_flag == true) {
 		$query = "SELECT name,ct_uuid FROM ct_catalogue WHERE parentid = '0' AND final_flag = '0' ";
     	$res = $db->Execute($query);
     } else {
     	$query = "SELECT name,ct_uuid FROM ct_catalogue WHERE parentid = '0' ";
-    	$res=$db->Execute($query);
+    	$res = $db->Execute($query);
     }
     
 	$parent_array["none"] = "";
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	$parent_array[$res->fields["ct_uuid"]] = $res->fields["name"];
     	$res->MoveNext();
     }
     
-    if($parent_array == null) {
+    if ($parent_array == null) {
     	$parent_array["1"] = _("None");
     	shn_form_fsopen(_('Information'));
     	?>
@@ -193,10 +194,10 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag=false)
     	shn_form_fsclose();
     	shn_form_fsopen(_('Select the Category or Classification'));
     		
-    		for($i=1;$i<$max+1;$i++) {
-    			$select_opts = 'onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';    
-    			shn_form_select(array(),'',$i,$select_opts,null);
-    		}
+    	for ($i = 1; $i < $max + 1; $i++) {
+    		$select_opts = 'onChange=update_next_level(this.options[this.selectedIndex].value,' . $i . ') visible="false"';    
+    		shn_form_select(array(),'',$i,$select_opts,null);
+    	}
     		
     	shn_sub_cat_jscript($max,$form,"item_name",$item_flag);
     	shn_form_hidden(array('item_name' => ""));
@@ -249,7 +250,7 @@ function get_unitid_array()
     $query = "SELECT * FROM ct_cat_unit WHERE ct_uuid = '$itemid'";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	$temp2 = $res->fields['unit_uuid'];
     	$query = "SELECT name FROM ct_unit WHERE unit_uuid = '$temp2'";
     	$unit_res = $db->Execute($query);    
@@ -257,7 +258,7 @@ function get_unitid_array()
     	$res->MoveNext();
     }
 
-return $itemarray;
+    return $itemarray;
 }
 
 /**.
@@ -271,11 +272,11 @@ function get_itemid()
     $itemid = trim($_POST['0']);
     // this 5 should be replaced by the $max that is retrieved from the DB
 	$max_depth = get_max_depth();
-    for($i = 1;$i < $max_depth;$i++) {
-    $itemid = trim($_POST[$i]);
+    for ($i = 1; $i < $max_depth; $i++) {
+        $itemid = trim($_POST[$i]);
     
-        if($itemid==null) {
-        	$itemid = $_POST[$i-1];
+        if ($itemid == null) {
+        	$itemid = $_POST[$i - 1];
         	break;
         }
     }
@@ -309,7 +310,7 @@ function unit_converter($from_unit_id,$to_unit_id)
         $to_multiplier = 1;
     }
 
-    $multiplier = $to_multiplier/$from_multiplier;
+    $multiplier = $to_multiplier / $from_multiplier;
 
     return $multiplier;
     
@@ -344,7 +345,7 @@ function get_all_unit_names()
     $res = $db->Execute($query);
     $unit_name_arr = array();
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	array_push($unit_name_arr,$res->fields['name']);
     	$res->MoveNext();
     }
@@ -361,22 +362,22 @@ function get_all_unit_names()
  */
 function _shn_cs_validate_sub_cat_form()
 {
-	$error_flag=false;
+	$error_flag = false;
 	clean_errors();
 
 	$itemid = null;
 	$max_depth = get_max_depth();
 	
-    for($i = 0;$i < $max_depth;$i++) {
+    for ($i = 0; $i < $max_depth; $i++) {
     	$itemid = trim($_POST[$i]);
-        if($itemid != null) {
+        if ($itemid != null) {
         break;
         }
     }
 
-    if($itemid == null || $itemid == 'none') {
+    if ($itemid == null || $itemid == 'none') {
     	add_error(_("Please select the Catalog that you need"));
-    	$error_flag=true;
+    	$error_flag = true;
     }    
 
 	return $error_flag;
@@ -398,12 +399,12 @@ function _shn_cs_get_units($parent_id)
     $query = "SELECT * FROM ct_cat_unit WHERE ct_uuid = '$parent_id'";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
 	    $temp2 = $res->fields['unit_uuid'];
     	$query1 = "SELECT name FROM ct_unit WHERE unit_uuid = '$temp2'";
     	$res2 = $db->Execute($query1);
 
-    	$myoptions[$res->fields['unit_uuid']] = $res2->fields['name'];;
+    	$myoptions[$res->fields['unit_uuid']] = $res2->fields['name'];
     	$res->MoveNext();
     }
     
@@ -482,7 +483,7 @@ function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
     global $global;
     $db = $global['db'];
 
-    if($parent_id_in == '0') {
+    if ($parent_id_in == '0') {
     	array_push($in_array,$parent_id_in);
     	return $in_array;
     } else {
@@ -519,7 +520,7 @@ function shn_cs_get_next_level_child_id_arr($in_id)
     $query = "SELECT ct_uuid FROM ct_catalogue WHERE parentid = '$in_id'";
     $res = $db->Execute($query);
 
-    while(!$res == NULL && !$res->EOF) {
+    while (!$res == NULL && !$res->EOF) {
     	array_push($next_level_ID_arr,$res->fields["ct_uuid"]);
     	$res->MoveNext();
     }
@@ -542,15 +543,15 @@ function shn_cs_generate_maincat_serial()
     $db = $global['db'];
 	$temp_serial_arr = array();
 
-    	$serial_query = "SELECT serial FROM ct_catalogue WHERE parentid = '0'";
-    	$serial_res = $db->Execute($serial_query);
-	    	while(!$serial_res == NULL && !$serial_res->EOF) {
-				array_push($temp_serial_arr,($serial_res->fields["serial"]));
-				$serial_res->MoveNext();
-			}
-		rsort($temp_serial_arr,SORT_NUMERIC);
-		$next_serial = $temp_serial_arr[0] + 1;
-		$next_serial .= ".";
+    $serial_query = "SELECT serial FROM ct_catalogue WHERE parentid = '0'";
+    $serial_res = $db->Execute($serial_query);
+	while (!$serial_res == NULL && !$serial_res->EOF) {
+		array_push($temp_serial_arr,($serial_res->fields["serial"]));
+		$serial_res->MoveNext();
+	}
+	rsort($temp_serial_arr,SORT_NUMERIC);
+	$next_serial = $temp_serial_arr[0] + 1;
+	$next_serial .= ".";
 
     return $next_serial;
 }
@@ -560,7 +561,7 @@ function shn_cs_generate_subcat_item_serial($parent_id_in)
     global $global;
     $db = $global['db'];
 
-	#this will give the parents serial number
+	//this will give the parents serial number
     $parent_serial_query = "SELECT serial FROM ct_catalogue WHERE ct_uuid = '$parent_id_in'";
     $parent_serial_res = $db->Execute($parent_serial_query);
 
@@ -571,32 +572,31 @@ function shn_cs_generate_subcat_item_serial($parent_id_in)
     $child_serials_res = $db->Execute($child_serials_query);
 	$child_serial_arr = array();
 	
-	    while(!$child_serials_res == NULL && !$child_serials_res->EOF) {
-	    	$child_item_arr = explode(".",$child_serials_res->fields["serial"]);
-	    	array_pop($child_item_arr);
-			$flag = false;
+	while (!$child_serials_res == NULL && !$child_serials_res->EOF) {
+	    $child_item_arr = explode(".",$child_serials_res->fields["serial"]);
+	    array_pop($child_item_arr);
+		$flag = false;
 			
-			for($x = 0 ;$x < count($serial_item_arr) ; $x++) { 
-		    	if(($serial_item_arr[$x]) == ($child_item_arr[$x])) {
-		    		$flag = true;
-		    		continue;
-		    	} else {
-		    		$flag = false;
-		    		break;
-		    	}
-			}
+		for ($x = 0; $x < count($serial_item_arr); $x++) { 
+		    if (($serial_item_arr[$x]) == ($child_item_arr[$x])) {
+		    	$flag = true;
+		    	continue;
+		    } else {
+		    	$flag = false;
+		    	break;
+		    }
+		}
 
-			if($flag == true) {
-		    	$num = count($serial_item_arr);
-			
-		    	if(isset($child_item_arr[$num])) {
-		    		array_push($child_serial_arr,$child_item_arr[$num]);
-		    	} else {
-		    		array_push($child_serial_arr,'0');
-		    	}
-			}
-			$child_serials_res->MoveNext();
-	    }//end of while
+		if ($flag == true) {
+		    $num = count($serial_item_arr);
+			if (isset($child_item_arr[$num])) {
+		    	array_push($child_serial_arr,$child_item_arr[$num]);
+		    } else {
+		    	array_push($child_serial_arr,'0');
+		    }
+		}
+		$child_serials_res->MoveNext();
+	}//end of while
 
 	rsort($child_serial_arr,SORT_NUMERIC);
 	$next_serial_suffix = $child_serial_arr[0] + 1;

@@ -27,7 +27,7 @@ function _shn_cs_validate_addmainform()
     clean_errors();
     
     //this checks whether name entered in the add main form
-    if(trim($_POST['main_cat_name']) == null) {
+    if (trim($_POST['main_cat_name']) == null) {
     	add_error(_("Please enter the catalog name"));
     	$error_flag = true;
     }
@@ -43,21 +43,21 @@ function _shn_cs_validate_addmainform()
  */
 function _shn_cs_validate_unitform()
 {
-    $error_flag=false;
+    $error_flag = false;
     clean_errors();
     
     //this checks whether name entered in the add unit form
-    if(trim($_POST['unit_name']) == null) {
+    if (trim($_POST['unit_name']) == null) {
     	add_error(_("Please enter the unit name"));
     	$error_flag = true;
     }    
 
-    if(trim($_POST['multiplier']) == null) {
+    if (trim($_POST['multiplier']) == null) {
     	add_error(_("Please enter the multiplier"));
     	$error_flag = true;
     }
 
-    if(trim($_POST['multiplier']) != strval(floatval(trim($_POST['multiplier']))) && trim($_POST['multiplier']) != null) {
+    if (trim($_POST['multiplier']) != strval(floatval(trim($_POST['multiplier']))) && trim($_POST['multiplier']) != null) {
     	add_error(_("Entered multiplier is not a valid number"));
     	$error_flag = true;
     }
@@ -76,7 +76,7 @@ function _shn_cs_validate_subcatform()
     $error_flag = false;
     clean_errors();
     //this checks whether name entered in the add sub category form
-    if(trim($_POST['sub_cat_name']) == null) {
+    if (trim($_POST['sub_cat_name']) == null) {
     	add_error(_("Please enter the sub category name"));
     	$error_flag = true;
     }    
@@ -96,17 +96,17 @@ function _shn_cs_validate_additem_form()
     clean_errors();
 
     //this checks whether name entered in the add Item form
-    if(trim($_POST['itemname']) == null) {
+    if (trim($_POST['itemname']) == null) {
     	add_error(_("Please enter the item name"));
     	$error_flag = true;
     }    
 
-    if(trim($_POST['measurement_type']) == null || trim($_POST['measurement_type']) == 'none') {
+    if (trim($_POST['measurement_type']) == null || trim($_POST['measurement_type']) == 'none') {
     	add_error(_("Please select the unit type"));
     	$error_flag = true;
     }
 
-    if(trim($_POST['unit_select']) == null) {
+    if (trim($_POST['unit_select']) == null) {
     	add_error(_("Please select unit/units"));
     	$error_flag = true;
     }
@@ -122,16 +122,16 @@ function _shn_cs_validate_additem_form()
  */
 function _shn_cs_validate_unit_type_form()
 {
-    $error_flag=false;
+    $error_flag = false;
     clean_errors();
 
     //this checks whether name entered in the add Item form
-    if(trim($_POST['unit_type_name']) == null) {
+    if (trim($_POST['unit_type_name']) == null) {
     	add_error(_("Please enter the unit type name"));
     	$error_flag = true;
     }    
 
-    if(trim($_POST['base_unit_name']) == null) {
+    if (trim($_POST['base_unit_name']) == null) {
     	add_error(_("Please enter the base unit name"));
     	$error_flag = true;
     }
@@ -150,12 +150,12 @@ function _shn_cs_validate_cat_form()
     $error_flag = false;
     clean_errors();
 
-    if(trim($_POST['cat_item_name']) == null) {
+    if (trim($_POST['cat_item_name']) == null) {
     	add_error(_("Please Enter the Item/catalog name to be searched"));
     	$error_flag = true;
     }    
     
-    if(trim($_POST['item_cat_radio']) == null) {
+    if (trim($_POST['item_cat_radio']) == null) {
     	add_error(_("Please Select either Item or catalog radio button to search"));
     	$error_flag = true;
     }
@@ -175,7 +175,7 @@ function _shn_cs_validate_search_unit_type_form()
     $error_flag = false;
     clean_errors();
 
-    if(trim($_POST['unit_type_name']) == null || trim($_POST['unit_type_name']) == '') {
+    if (trim($_POST['unit_type_name']) == null || trim($_POST['unit_type_name']) == '') {
     	add_error(_("Please enter the unit type name to be searched"));
     	$error_flag = true;
     }
