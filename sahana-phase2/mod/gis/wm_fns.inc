@@ -220,7 +220,7 @@ function show_wiki_add_detail($errors=false)
 	include_once $global['approot'] . "/inc/lib_errors.inc";
 	
 	if($errors){
-		add_error(_("Detail Name Cannot be empty"));
+		add_error(_("'Name of situation detail' field cannot be empty"));
 	}
 	global $global;
 	global $conf;
@@ -232,7 +232,7 @@ function show_wiki_add_detail($errors=false)
 	shn_form_fopen(awik);
 	shn_form_fsopen(_("Main Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_text(_("Name of Detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gis_situation_name_help'])));
+	shn_form_text(_("Name of situation detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gis_situation_name_help'])));
 	shn_form_opt_select("opt_wikimap_type",_("Wiki Type"),null,array('help'=>_($conf['mod_gis_situation_type_help'])));
 	shn_form_textarea(_("Detail Summary"),"wiki_text",'size="50"');
 	shn_form_fsclose();
