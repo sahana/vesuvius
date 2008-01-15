@@ -47,7 +47,7 @@ function shn_cr_default(){
         <li><a href="index.php?mod=cr&act=srch"><b><?= _('Search by Name'); ?> </b></a><br/><?= _('Search for shelter by name or type of the shelter'); ?></li>
         <li><a href="index.php?mod=cr&act=srch_address"><b><?= _('Search by address'); ?> </b> </a><br/><?= _('Search the shelter by its location'); ?></li>
         <li><a href="index.php?mod=cr&act=acmp"><b><?= _('Add shelter'); ?></b></a><br/><?= _('Add a shelter to the database'); ?></li>
-        <li><a href="index.php?mod=cr&act=ecmp"><b><?= _('Edit shelter'); ?></b></a><br/><?= _('Update informations regarding shelters'); ?>
+        <li><a href="index.php?mod=cr&act=ecmp"><b><?= _('Edit shelter'); ?></b></a><br/><?= _('Update information regarding shelters'); ?>
         <li><a href="index.php?mod=cr&act=arpt"><b><?= _('View all shelters'); ?></b></a><br/><?= _('List information of all shelters'); ?></li>
         <li><a href="index.php?mod=cr&act=lrpt"><b><?= _('View by location'); ?></b></a><br/><?= _('List shelters according to location'); ?></li>
         <li><a href="index.php?mod=cr&act=contact"><b><?= _('View admin details'); ?></b></a><br/><?= _('List shelters by shelter administrator\'s name'); ?></li>

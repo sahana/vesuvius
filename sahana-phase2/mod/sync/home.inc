@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: home.inc,v 1.7 2008-01-03 10:23:36 isurunishan Exp $ */
+/* $Id: home.inc,v 1.8 2008-01-15 15:40:35 isurunishan Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -30,7 +30,7 @@
 
 </p>
 <ul>
-    <li><?= _('Import and export informations among Sahana instances'); ?></li>
+    <li><?= _('Import and export information among Sahana instances'); ?></li>
     <li><?= _('Allows details of the data sharing history among selected Sahana installations'); ?></li>
 </ul>
 
@@ -38,7 +38,7 @@
 <strong><?php echo _('Description of Actions:')?></strong><br/>
     <ul>
         <li><a href="index.php?mod=sync&act=download"><b><?= _('Export data'); ?> </b></a><br/><?= _('Save the information of selected modules to XML, CSV, SQL or SQLite in compressed or uncompressed file formats'); ?></li>
-        <li><a href="index.php?mod=sync&act=upload"><b><?= _('Import data'); ?> </b> </a><br/><?= _('Update Sahana database with informations \'exported\' from another Sahana installation.' ); ?></li>
+        <li><a href="index.php?mod=sync&act=upload"><b><?= _('Import data'); ?> </b> </a><br/><?= _('Update Sahana database with information \'exported\' from another Sahana installation.' ); ?></li>
         <li><a href="index.php?mod=sync&act=history"><b><?= _('History'); ?></b></a><br/><?= _('Lists all synchronizations done in the past.'); ?></li>
         
 	</ul>
