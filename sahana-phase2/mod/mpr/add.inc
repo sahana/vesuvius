@@ -99,7 +99,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_fsclose();
     shn_form_fsopen(_('Upload Picture'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
+    <p><?= _('If you have a picture of the missing person, please upload the picture, so that it will be easy for us to identify the person. It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
 <?php
     shn_form_upload(_('Upload Picture'),"picture");
     shn_form_fsclose();

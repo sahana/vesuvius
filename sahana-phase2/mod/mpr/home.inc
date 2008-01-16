@@ -55,8 +55,8 @@ family members.'); ?>
         <li><a href="index.php?mod=mpr&act=addmp&type=missing"><b><?= _('Report a missing person'); ?> </b> </a><br/><?= _('Report details about a missing person'); ?></li>
         <li><a href="index.php?mod=mpr&act=search&type=missing"><b><?= _('Edit missing person'); ?></b></a><br/><?= _('Update the details of missing person entered to the database previously'); ?></li>
         <li><a href="index.php?mod=mpr&act=addmp&type=found"><b><?= _('Report a found person'); ?></b></a><br/><?= _('Report information if displaced person to be found'); ?>
-        <li><a href="index.php?mod=mpr&act=list_missing"><b><?= _('List missing people'); ?></b></a><br/><?= _('List all the missing person information available in the database'); ?></li>
-        <li><a href="index.php?mod=mpr&act=list_found"><b><?= _('List found people'); ?></b></a><br/><?= _('Lias all the information of found displaced people'); ?></li>
+        <li><a href="index.php?mod=mpr&act=list_missing"><b><?= _('List missing people'); ?></b></a><br/><?= _('List all information of missing persons available in the database'); ?></li>
+        <li><a href="index.php?mod=mpr&act=list_found"><b><?= _('List found people'); ?></b></a><br/><?= _('List all the information of found displaced people'); ?></li>
         
 </ul>
 <br/>
