@@ -58,8 +58,10 @@ function show_map($opt=null)
  * show map with marker addition event
  * ability to enter markers on map
  * called by shn_gis_add_marker_map_form in gis api
+ * 
+ * $extra_opts['marker']=>'single' will disable multiple markers on the map.
  */
-function show_add_marker_map($name)
+function show_add_marker_map($name,$extra_opts=null)
 {
 	global $global;
 	global $conf;
@@ -86,6 +88,9 @@ function show_add_marker_map($name)
 				map.removeOverlay(overlay);
 			} 
 			else {
+				<?php if(isset($extra_opts) && $extra_opts['marker']==='single'){ ?>
+				map.clearOverlays();
+				<?php } ?>
 				map.addOverlay(new GMarker(point));
 				// store x,y coords in hidden variables named loc_x, loc_y
 				// must be set via calling page
