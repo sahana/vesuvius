@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: gis_fns.inc,v 1.28 2008-01-03 10:21:42 isurunishan Exp $ */
+/* $Id: gis_fns.inc,v 1.29 2008-01-16 03:17:52 ishanul Exp $ */
 
-/* $Id: gis_fns.inc,v 1.28 2008-01-03 10:21:42 isurunishan Exp $ */
+/* $Id: gis_fns.inc,v 1.29 2008-01-16 03:17:52 ishanul Exp $ */
 
 
 /**
@@ -211,7 +211,7 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
  * @access public
  * @return void 
  */
-function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$button_submit_opts=null)
+function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$button_submit_opts=null,$extra_opts=null)
 {
 	global $global;
 	global $conf;
@@ -236,7 +236,7 @@ the scale on upper left corner of the map. By clicking on a map you can
 mark your location with a pointer. If you want to remove the pointer,
 simply click on the center of the pointer.");
 		echo "</div>";
-		show_add_marker_map($nameOfPoint);
+		show_add_marker_map($nameOfPoint,$extra_opts);
 		shn_form_fsclose();
 	}
 	else
