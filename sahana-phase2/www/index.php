@@ -121,6 +121,8 @@ function shn_main_filter_getpost()
                                 "default" : $_REQUEST['act'];
 		$global['module'] = (NULL == $_REQUEST['mod']) ?
                                 "home" : $_REQUEST['mod'];
+        $global['handler'] = (NULL == $_REQUEST['hand']) ? 
+                                "home" : $_REQUEST['hand'];                                  
 		if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
 			$global['module']="pref";
 		}
@@ -134,6 +136,7 @@ function shn_main_front_controller()
 	global $global, $APPROOT, $conf;
 	$action = $global['action'];
 	$module = $global['module'];
+	$handler = $global['handler'];
 	// define which stream library to use base on POST "stream"
 	if(isset($_REQUEST['stream']) && file_exists($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc")){
 
@@ -160,13 +163,20 @@ function shn_main_front_controller()
 		$global['effective_module'] = $module = 'rs';
 		$global['effective_action'] = $action = 'modreports';
 	}
-
+	//If there is a no specific module to stream, then directly call to specified handler function.
+    if(isset($_REQUEST['hand'])){
+  	    $module_function = 'shn_'.$stream_.$handler.'_'.$action;
+	
+        // include the correct handler file based on action and handler
+        $module_file = $APPROOT.'inc/handler_'.$handler.'.inc';
+    }
+    else{
 	// check the users access permissions for this action
 	$module_function = 'shn_'.$stream_.$module.'_'.$action;
 
 	// include the correct module file based on action and module
 	$module_file = $APPROOT.'mod/'.$module.'/main.inc';
-
+    }
 	// default to the home page if the module main does not exist
 	if (file_exists($module_file)) {
 		include($module_file);
