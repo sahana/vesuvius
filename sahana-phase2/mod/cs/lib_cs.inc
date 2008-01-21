@@ -28,7 +28,7 @@ include_once $global['approot'] . "/inc/lib_form.inc";
 function shn_sub_cat_jscript($max,$form,$change,$item_flag = false)
 {
     global $global;
-    $fetch_server = "index.php?";
+    $fetch_server = "xml.php?";
 ?>           
 <script type="text/javascript">
 	var url = "<?php echo $fetch_server?>"; 
@@ -104,7 +104,7 @@ function shn_sub_cat_jscript($max,$form,$change,$item_flag = false)
         curlevel = level;
     	var item_flag = "<?php echo $item_flag?>"; 
         http = getHTTPObject();
-        var url2 = url + "act=sub_cat&hand=catalog&stream=text&cat=" + selection+"&flag="+item_flag;
+        var url2 = url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
         http.open("GET", url2, true); 
 //      http.onreadystatechange = null; 
         http.onreadystatechange = function(){}; 

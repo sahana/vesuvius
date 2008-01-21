@@ -25,7 +25,7 @@ function shn_cs_additem_form1_result_ajax()
 {
 ?>
 <script type="text/javascript">
-    var url = "index.php?"; 
+    var url = "xml.php?"; 
      var http;
         
     function getHTTPObject() 
@@ -90,7 +90,7 @@ function handleHttpResponse(){
     
         http = getHTTPObject();
 
-        var url2=url + "act=unit_cat&hand=catalog&stream=text&cat="+selection;
+        var url2=url + "act=unit_cat&cat="+selection;
           http.open("GET", url2, true); 
         http.onreadystatechange = function(){}; 
         http.onreadystatechange = handleHttpResponse; 
