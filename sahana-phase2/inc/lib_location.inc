@@ -325,7 +325,7 @@ function shn_get_range(){
  */
 function shn_location_jscript($start,$to,$parent=false){
     global $global;
-    $fetch_server="index.php?";
+    $fetch_server="xml.php?";
 ?>           
 <script type="text/javascript">
     var url = "<?php echo $fetch_server?>"; 
@@ -460,7 +460,7 @@ function shn_location_jscript($start,$to,$parent=false){
     function update_next_level(selection,level){
         curlevel=level;
         http = getHTTPObject();
-        var url2=url + "act=get_loc&hand=location&stream=text&lvl="+curlevel+"&sel="+selection;
+        var url2=url + "act=get_loc&lvl="+curlevel+"&sel="+selection;
         
         http.open("GET", url2, true); 
 //        http.onreadystatechange = null; 
@@ -483,7 +483,7 @@ function shn_location_jscript($start,$to,$parent=false){
             	}
         }
         http = getHTTPObject();
-        var url2=url + "act=get_loc_val&hand=location&stream=text&type="+type+"&sel="+selection;
+        var url2=url + "act=get_loc_val&type="+type+"&sel="+selection;
         http.open("GET", url2, true); 
         http.onreadystatechange = function(){}; 
         http.onreadystatechange = handleHttpResponseComplex; 
