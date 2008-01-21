@@ -652,7 +652,7 @@ function shn_show_thumb($p_uuid,$session=false)
     global $global;
     global $conf;
 
-    if($conf['mod_mpr']['upload_picture']['savehandler'] == 'database'){
+    if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
         if($session && $_SESSION['mpr']['entry']['image']){
 	        $src_ori = "stream.php?stream_type=image&mod=mpr&act=addmp_img&session=true";
             $src_tmp = "stream.php?stream_type=image&mod=mpr&act=addmp_img&session=true&thumbnail=true";
