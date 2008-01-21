@@ -143,6 +143,36 @@ function shn_skel_report()
 }
 
 /**
+ * test XML stream 
+ *
+ * @access public
+ * @return void
+ */
+function shn_xml_skel_report()
+{
+    echo '<p>'._('You called the report action in XML').'</p>';
+
+    global $global;
+}
+
+/**
+ * test XSTR any stream functionalty
+ * the XSTR functions are the default catch for any stream that is not
+ * explicitly defined
+ *
+ * @access public
+ * @return void
+ */
+function shn_XST_skel_report()
+{
+    echo '<p>'._('The XST catch all report function caught this stream').'</p>';
+
+    global $global;
+}
+
+
+
+/**
  * This is function generate a form
  *
  * @access public
