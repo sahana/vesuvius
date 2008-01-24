@@ -79,11 +79,11 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
     
     $output = "<div class=\"error message\">";
 
-    $output .= '<p><em>'.$error_title.'</em><p>';
+    $output .= '<p><em>'.$error_title.'</em></p>';
 
     $output .= "<ul>";
 	foreach ($global['submit_errors'] as $error){
-		$output .= "<li>"._($error).'<br></li>';
+		$output .= "<li>"._($error).'<br/></li>';
 	}
     $output .= "</ul>";
     $output .= "</div>";
