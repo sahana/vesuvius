@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.5 2007-10-04 05:17:59 priyanga Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.6 2008-01-24 10:54:32 chamindra Exp $ */
 
 /**
  *
@@ -30,6 +30,7 @@ function shn_stream_init()
         header("Content-Disposition: attachment; filename=$file");
 
     echo "<?xml version=\"1.0\" ?>\n";
+    shn_stream_display_error();
 }
 
 function shn_stream_close()
@@ -39,5 +40,21 @@ function shn_stream_close()
 
 function shn_xml_check_perms(){
         return ALLOWED;//skip authentication
+}
+
+// let the XML stream have it's own error function
+function shn_stream_display_error() {
+
+    global $global;
+
+    // return if there are no errors
+    if (count($global['submit_errors']) == 0 ) return;
+    
+    echo '<errorset>';
+	foreach ($global['submit_errors'] as $error){
+		echo '<error>'._($error).'</error>';
+	}
+    echo '</errorset>';
+
 }
 ?>
