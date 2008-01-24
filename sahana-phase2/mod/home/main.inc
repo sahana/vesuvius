@@ -207,4 +207,13 @@ function shn_text_home_download_bug_report(){
 	//unlink($global['approot']."www/tmp/"."/".$bug_report_id);
 }
 
+// Default stream welcome function 
+function shn_XST_home_default() {
+
+    // Currently the stream only redirect to home if there is an error
+    echo _('Welcome to Sahana on the '.$_REQUEST['stream'].' stream.');
+    
+
+}
+
 ?>
