@@ -73,14 +73,11 @@ function shn_rms_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
-function shn_rms_req_new()
+function shn_XST_rms_req_new()
 {
     include_once ('handler_req_new.inc');
 }
-function shn_text_rms_req_new()
-{
-    include_once ('handler_req_new.inc');
-}
+
 function shn_rms_req_ls()
 {
     include_once ('handler_req_ls.inc');
