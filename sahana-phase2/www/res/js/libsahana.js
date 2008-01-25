@@ -22,7 +22,7 @@ function changeIncident(ivalue)
      }
      if(req)
      {
-         req.open('GET', 'stream.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
+         req.open('GET', 'index.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
          req.setRequestHeader("content-type","application/x-www-form-urlencoded");
          req.send(' ');
          req.onreadystatechange = changed();
