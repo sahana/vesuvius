@@ -10,6 +10,7 @@
  */
 
 //incident changing functions
+var req;
 function changeIncident(ivalue)
  {
      if (window.XMLHttpRequest)
@@ -22,10 +23,11 @@ function changeIncident(ivalue)
      }
      if(req)
      {
-         req.open('GET', 'index.php?mod=pref&act=ims_set_incident&incident_id='+ivalue, true);
+ 	 req.onreadystatechange = changed;
+         req.open('GET', 'index.php?mod=pref&act=ims_set_incident&stream=text&incident_id='+ivalue, true);
          req.setRequestHeader("content-type","application/x-www-form-urlencoded");
          req.send(' ');
-         req.onreadystatechange = changed();
+         
      }
      else
      {
@@ -34,7 +36,10 @@ function changeIncident(ivalue)
  }
 
 function changed(){
-    
+    var incident;
+    if (req.readyState==4)
+    {
+    incident=req.responseText;
     var ni = document.getElementById('incident_change_id');
     if(ni==null){
     var ni = document.getElementById('content');
@@ -51,12 +56,16 @@ function changed(){
 
     var newul=document.createElement('ul');
     var newli=document.createElement('li');
+    newli.setAttribute('id','inci');
     newdiv.appendChild(newp);
     newp.appendChild(emel);
     newdiv.appendChild(newul);
-    newli.innerHTML = 'Incident was changed successfully.';
+    //newli.innerHTML = 'Incident was changed to '+incident+' successfully.';
     newul.appendChild(newli);
-   }
+    }
+    document.getElementById('inci').innerHTML = 'Incident was changed to '+incident+', successfully.';
+    }
+    
         //alert('Incident was changed successfully.');
 }
 
