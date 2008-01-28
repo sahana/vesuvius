@@ -53,23 +53,24 @@ function _shn_rms_requester($requester_id=null)
     shn_form_fclose();
     print '<br />';
     
-    /*
-    shn_form_fopen("req_new",null,array('req_message'=>false));
-    shn_form_hidden(array('seq'=>'get_reqstr'));
-    shn_form_fsopen(_("Existing Requester"));
-    print '<div class="info">';
-    print _("If you are a registered requester, Please enter the card number ");
-    print '<br />';
-    //print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
-    //print '<br />';
-    
-    print '</div>';
-    print '<br />';
-    shn_form_text(_("Requester ID"),'card_number',null,array('req'=>true,'br'=>false));
-    shn_form_fsclose();
-    shn_form_submit(_("Next"), 'id="reqstr_next"');
-    shn_form_fclose();
-    print '<br />';*/
+    /**
+    *shn_form_fopen("req_new",null,array('req_message'=>false));
+    *shn_form_hidden(array('seq'=>'get_reqstr'));
+    *shn_form_fsopen(_("Existing Requester"));
+    *print '<div class="info">';
+    *print _("If you are a registered requester, Please enter the card number ");
+    *print '<br />';
+    *print _("You can also use your 'id' if you have registered on the sahana system as a user, administrator, volunteer etc...");
+    *print '<br />';
+    *
+    *print '</div>';
+    *print '<br />';
+    *shn_form_text(_("Requester ID"),'card_number',null,array('req'=>true,'br'=>false));
+    *shn_form_fsclose();
+    *shn_form_submit(_("Next"), 'id="reqstr_next"');
+    *shn_form_fclose();
+    *print '<br />';
+    */
     
 }
 

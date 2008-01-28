@@ -136,11 +136,11 @@ function shn_or_adm_or_type_form()
 <?php
     shn_form_fsopen(_("Add and Remove Types"));
     _shn_or_display_org_type($error,true,null,false);
-     shn_form_button(_("Remove"),"onClick='remove_types()'");
+    shn_form_button(_("Remove"),"onClick='remove_types()'");
     
       
-      shn_form_text(_("New Organization Type : "),'type','size="40"',null);
-      shn_form_button(_("Add More"),"onClick='add_types()'");
+    shn_form_text(_("New Organization Type : "),'type','size="40"',null);
+    shn_form_button(_("Add More"),"onClick='add_types()'");
     shn_form_fsclose();
  ?>
 </center>
@@ -149,10 +149,10 @@ function shn_or_adm_or_type_form()
 <?php
     $extra_opts['br']=false;
 	$extra_opts['req']=false;
-    	shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
+    shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
     shn_form_button(_("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
-    	shn_reset_form_javascript("add_type","opt_org_type[]");
+    shn_reset_form_javascript("add_type","opt_org_type[]");
 ?>
 </center>
 <br />
@@ -210,10 +210,10 @@ function shn_or_adm_or_sector_form()
 <?php
     $extra_opts['br'] = false;
 	$extra_opts['req'] = false;
-    	shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
+    shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
     shn_form_button(_("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
-    	shn_reset_form_javascript("add_sector","opt_sector_type[]");
+    shn_reset_form_javascript("add_sector","opt_sector_type[]");
 ?>
 </center>
 <br />

@@ -67,8 +67,8 @@ family members.'); ?>
 /*
  *  Recent Found People people Top 6
  */
- global $global;
-	require ($global['approot'] . 'mod/mpr/mpr_lib.inc');
+global $global;
+require ($global['approot'] . 'mod/mpr/mpr_lib.inc');
 ?>
 <div id="home_recent">
 <h1><?= _('Latest updates on Found People'); ?></h1>

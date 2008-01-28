@@ -461,8 +461,8 @@ else
     <td width="100%"><strong><?=_('Delete');?></strong></td>
 </thead>
 <?php
-$count=0;
-		foreach ($arr as $row) {
+	$count=0;
+	foreach ($arr as $row) {
 ?>
 <tr>
     <td><input type="text" name="<?=$row['option_code'];?>" 
@@ -481,8 +481,8 @@ $count=0;
 </table>
 <?php
 
-		shn_form_submit(_('Update'),"name='button_name'");
-		shn_form_fsclose();
+	shn_form_submit(_('Update'),"name='button_name'");
+	shn_form_fsclose();
 	}
 	shn_form_fsopen(_('Add New '));
 	shn_form_text(_("Code"), 'new_code');

@@ -30,7 +30,7 @@ include_once $global['approot']."/inc/lib_errors.inc"
     shn_form_fsopen("individual mails");
     shn_form_textarea(_("Message : "),'message','size="30"',array('req'=>true,'value'=>$val,'help'=>_('Enter Your<br/> message here<br/>')));
 
-shn_form_textarea(_("Phone Number : "),'phone','size="30"',array('req'=>true, 'help'=>_('Enter multiple Phone Numbers here,comma seperatedly')));
+	shn_form_textarea(_("Phone Number : "),'phone','size="30"',array('req'=>true, 'help'=>_('Enter multiple Phone Numbers here,comma seperatedly')));
     
     shn_form_textarea(_("e-mail : "),'email','size="30"',array('req'=>true, 'help'=>_('Enter multiple mail addresses here,comma seperatedly')));
     

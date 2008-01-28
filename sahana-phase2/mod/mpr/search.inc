@@ -131,14 +131,11 @@ function shn_mpr_search_result()
 
     if(!($name || $idcard)){
 	    if($post_type == 'missing')
-	        $sub_sql = "SELECT p_uuid FROM person_status WHERE opt_status
-LIKE 'mis' AND isvictim='TRUE'";
+	        $sub_sql = "SELECT p_uuid FROM person_status WHERE opt_status LIKE 'mis' AND isvictim='TRUE'";
 	    elseif($post_type == 'found')
-	        $sub_sql = "SELECT p_uuid FROM person_status WHERE opt_status
-NOT LIKE 'mis' AND isvictim='TRUE'";
+	        $sub_sql = "SELECT p_uuid FROM person_status WHERE opt_status NOT LIKE 'mis' AND isvictim='TRUE'";
 	    else
-	        $sub_sql = "SELECT p_uuid FROM person_status WHERE
-isvictim='TRUE'";
+	        $sub_sql = "SELECT p_uuid FROM person_status WHERE isvictim='TRUE'";
         shn_mpr_search_result_vw($sub_sql );
     }else{
         shn_mpr_search_result_vw($sql);
@@ -226,7 +223,7 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 ?>
 </DIV>
 <?php
-        shn_mpr_search_nav();
+    shn_mpr_search_nav();
     }
     }
 
@@ -335,49 +332,49 @@ function shn_mpr_search_show_result($details)
     <?=($select?'<TD>'._('Select').'</TD>':''); ?>
 </THEAD>
 <?php
-if($details!=null)
-{
-    foreach($details as $detail){
+	if($details!=null)
+	{
+    	foreach($details as $detail){
 ?>
     <TR>
         <TD>
 <?php
-    shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
-    echo '<br><a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
-            $detail['p_uuid'].'">'.
-            $detail['full_name'].'</a>'.
-        '<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+    		shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
+    		echo '<br><a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
+            	$detail['p_uuid'].'">'.
+            	$detail['full_name'].'</a>'.
+        	'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
 ?>
         </TD>
         <TD>
 <?php
-    echo ($detail['height']?_('Height').' : '.$detail['height'].'<br>':'').
-        ($detail['weight']?_('Weight').' : '.$detail['weight'].'<br>':'').
-        ($detail['opt_eye_color']?_('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').
-        ($detail['opt_skin_color']?_('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').
-        ($detail['opt_hair_color']?_('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
+    	echo ($detail['height']?_('Height').' : '.$detail['height'].'<br>':'').
+        	($detail['weight']?_('Weight').' : '.$detail['weight'].'<br>':'').
+        	($detail['opt_eye_color']?_('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').
+        	($detail['opt_skin_color']?_('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').
+        	($detail['opt_hair_color']?_('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
 ?>
         </TD>
         <TD>
 <?php
 
-    $arr = shn_mpr_search_get_trackers($detail['p_uuid']);
-    foreach($arr as $fullname)
-        echo "&nbsp;".'<a title="'._('View').'"'.
-            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
-            $fullname['p_uuid'].'">'.
-            $fullname['full_name'].'</a><br />';
-    echo '<hr><a title="'._('Add Tracker').'"'.
-        'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
-        $detail['p_uuid'].'&name='.$detail['full_name'].'">'.
-        _("Associate another person").'</a>';
+    	$arr = shn_mpr_search_get_trackers($detail['p_uuid']);
+    	foreach($arr as $fullname)
+        	echo "&nbsp;".'<a title="'._('View').'"'.
+            	'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
+            	$fullname['p_uuid'].'">'.
+            	$fullname['full_name'].'</a><br />';
+    			echo '<hr><a title="'._('Add Tracker').'"'.
+        		'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
+        		$detail['p_uuid'].'&name='.$detail['full_name'].'">'.
+        		_("Associate another person").'</a>';
 ?>
         </TD>
         <TD>
 <?php
-    echo ($detail['last_seen']?_('Last Seen').' : '.$detail['last_seen'].'<br>':'').
-            ($detail['last_clothing']?_('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').
-            ($detail['comments']?_('Comments').': '.$detail['comments']:'');    
+    		echo ($detail['last_seen']?_('Last Seen').' : '.$detail['last_seen'].'<br>':'').
+            	($detail['last_clothing']?_('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').
+            	($detail['comments']?_('Comments').': '.$detail['comments']:'');    
 ?>
         </TD>
         <TD>

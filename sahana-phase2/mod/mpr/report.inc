@@ -172,7 +172,7 @@ function shn_mpr_mis_ppl_xls_report()
 
 function shn_mpr_fnd_ppl_pdf_report()
 {
-     global $global;
+    global $global;
     $db = $global["db"];
 
     $table_header = array('name' =>'Surename', 'fname' => 'First Name');
@@ -207,7 +207,7 @@ function shn_mpr_fnd_ppl_pdf_report()
 
 function shn_mpr_fnd_ppl_xhtml_report()
 {
-     global $global;
+    global $global;
     $db = $global["db"];
 
     $table_header = array('name' =>'Surename', 'fname' => 'First Name');
@@ -241,7 +241,7 @@ function shn_mpr_fnd_ppl_xhtml_report()
 
 function shn_mpr_fnd_ppl_ods_report()
 {
-     global $global;
+    global $global;
     $db = $global["db"];
 
     $table_header = array('name' =>'Surename', 'fname' => 'First Name');
@@ -275,7 +275,7 @@ function shn_mpr_fnd_ppl_ods_report()
 
 function shn_mpr_fnd_ppl_xls_report()
 {
-     global $global;
+    global $global;
     $db = $global["db"];
 
     $table_header = array('name' =>'Surename', 'fname' => 'First Name');

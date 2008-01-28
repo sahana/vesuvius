@@ -21,7 +21,7 @@ function _shn_or_reg_org_cr()
     include_once $global['approot']."/mod/gis/gis_fns.inc";
 
     $db=$global['db'];
-    $q="select o_uuid from org_main where name='{$_SESSION['org']['name']}'";
+    $q="SELECT o_uuid FROM org_main WHERE name='{$_SESSION['org']['name']}'";
     $res=$db->Execute($q);
 	if(($res==NULL) || ($res->EOF)){
 		//return false;
@@ -55,7 +55,7 @@ function _shn_or_reg_org_cr()
             //("add_org(): ORG_ID generation failed!");
             return false;
         }
-        $q="select o_uuid from org_main where o_uuid='{$org_id}'";
+        $q="SELECT o_uuid FROM org_main WHERE o_uuid='{$org_id}'";
         $res=$db->Execute($q);
         if(!$res->EOF){
             $error=true;
@@ -65,45 +65,45 @@ function _shn_or_reg_org_cr()
         if($error!=true){
             //no validation done on other fields as they are not unique
             $privacy=0;
-            $q="insert into org_main(o_uuid,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values('{$org_id}','{$_SESSION['org']['name']}','{$_SESSION['org']['type']}','{$_SESSION['org']['reg_no']}','{$_SESSION['org']['man_power']}','{$_SESSION['org']['equipment']}','{$_SESSION['org']['resources']}',$privacy)";
+            $q="INSERT INTO org_main(o_uuid,name,opt_org_type,reg_no,man_power,equipment,resources,privacy)values('{$org_id}','{$_SESSION['org']['name']}','{$_SESSION['org']['type']}','{$_SESSION['org']['reg_no']}','{$_SESSION['org']['man_power']}','{$_SESSION['org']['equipment']}','{$_SESSION['org']['resources']}',$privacy)";
             $res=$db->Execute($q);
             
-            $q="insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
+            $q="INSERT INTO resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
             $res=$db->Execute($q);
         		$i=0;
             while($i<count($_SESSION['org']['sector'])){
-                $q="insert into sector(pgoc_uuid,opt_sector) values('{$org_id}','{$_SESSION['org']['sector'][$i]}')";
+                $q="INSERT INTO sector(pgoc_uuid,opt_sector) values('{$org_id}','{$_SESSION['org']['sector'][$i]}')";
                 $res=$db->Execute($q);
                 $i=$i+1;
             }
-            $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$_SESSION['org']['loc']}','{$_SESSION['org']['contact_address']}')";
+            $q="INSERT INTO location_details(poc_uuid,location_id,address) values('{$org_id}','{$_SESSION['org']['loc']}','{$_SESSION['org']['contact_address']}')";
             $res=$db->Execute($q);
             if($_SESSION['org']['loc_txt']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','loc_txt','{$_SESSION['org']['loc_txt']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','loc_txt','{$_SESSION['org']['loc_txt']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_phone']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$_SESSION['org']['contact_phone']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_mobile']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$_SESSION['org']['contact_mobile']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$_SESSION['org']['contact_mobile']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_name']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$_SESSION['org']['contact_name']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$_SESSION['org']['contact_name']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_fax']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$_SESSION['org']['contact_fax']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$_SESSION['org']['contact_fax']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_mail']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$_SESSION['org']['contact_mail']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$_SESSION['org']['contact_mail']}')";
             		$res=$db->Execute($q);
             }
             if($_SESSION['org']['contact_web']!=null){
-            		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
+            		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$_SESSION['org']['contact_web']}')";
             		$res=$db->Execute($q);
             }
             shn_gis_dbinsert($org_id,0,null,$_SESSION['org']['loc_x'],$_SESSION['org']['loc_y'],null);
@@ -157,8 +157,8 @@ function _shn_or_reg_operation_cr()
     include_once($global['approot']."/inc/lib_uuid.inc");
     include_once $global['approot']."/mod/gis/gis_fns.inc";
 
-    	$db=$global['db'];
-    	$org_id	=shn_create_uuid('org');
+    $db=$global['db'];
+    $org_id	=shn_create_uuid('org');
       //  $org_id = $db->GenID('org_seq',1);
     if (empty($org_id)){
             $error=true;
@@ -266,7 +266,7 @@ function _shn_or_reg_operation_cr()
     if (empty($org_id)){
         return false;
     }
-    $q="select o_uuid from org_main where o_uuid='{$org_id}'";
+    $q="select o_uuid from org_main WHERE o_uuid='{$org_id}'";
     $res=$db->Execute($q);
     if(!$res->EOF){
         $error=true;
@@ -275,41 +275,41 @@ function _shn_or_reg_operation_cr()
     if(!$error){
         
     //no validation done on other fields as they are not unique
-        $q="insert into org_main(o_uuid,parent_id,name,opt_org_type,man_power,equipment,resources)values('{$org_id}','{$parent_id}','{$org_name}','{$opt_org_sub_type}','{$man_power}','{$equipment}','{$resources}')";
+        $q="INSERT INTO org_main(o_uuid,parent_id,name,opt_org_type,man_power,equipment,resources)values('{$org_id}','{$parent_id}','{$org_name}','{$opt_org_sub_type}','{$man_power}','{$equipment}','{$resources}')";
         $res=$db->Execute($q);
-        $q="insert into resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
+        $q="INSERT INTO resource_to_incident(incident_id,x_uuid) values('{$_SESSION['user_pref_ims_incident_id']}','{$org_id}')";
         $res=$db->Execute($q);
         $i=0;
         while($i<count($sector)){
-            $q="insert into sector(pgoc_uuid,opt_sector) values('{$org_id}','{$sector[$i]}')";
+            $q="INSERT INTO sector(pgoc_uuid,opt_sector) values('{$org_id}','{$sector[$i]}')";
             $res=$db->Execute($q);
             $i=$i+1;
         }
     }
-    $q="insert into location_details(poc_uuid,location_id,address) values('{$org_id}','{$loc}','{$contact_address}')";
+    $q="INSERT INTO location_details(poc_uuid,location_id,address) values('{$org_id}','{$loc}','{$contact_address}')";
     $res=$db->Execute($q);
   	if($contact_name!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','name','{$contact_name}')";
     		$res=$db->Execute($q);
   	}
     if($contact_phone!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','curr','{$contact_phone}')";
     		$res=$db->Execute($q);
     }
     if($contact_mobile!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','pmob','{$contact_mobile}')";
     		$res=$db->Execute($q);
     }
     if($contact_fax!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','fax','{$contact_fax}')";
     		$res=$db->Execute($q);
     }
     if($contact_mail!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','email','{$contact_mail}')";
     		$res=$db->Execute($q);
     }
     if($contact_web!=null){
-    		$q="insert into contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
+    		$q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) values('{$org_id}','web','{$contact_web}')";
     		$res=$db->Execute($q);
     }
     if(!$error){
@@ -460,7 +460,7 @@ function _shn_or_edit_org()
     if(!$error){
     $db=$global['db'];
            //no validation done on other fields as they are not unique
-            $q="UPDATE org_main SET name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}' where o_uuid='{$org_id}'";
+            $q="UPDATE org_main SET name='{$org_name}',opt_org_type='{$org_type}',reg_no='{$reg_no}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}' WHERE o_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $q="DELETE FROM sector WHERE pgoc_uuid='{$org_id}'";
             $res=$db->Execute($q);
@@ -471,12 +471,12 @@ function _shn_or_edit_org()
                 $i=$i+1;
             }
             /*
-            $q="delete from resource_to_incident where x_uuid='{$org_id}'";
+            $q="delete from resource_to_incident WHERE x_uuid='{$org_id}'";
             $res=$db->Execute($q);
             $i=0;
             
             while($i<count($incidents)){
-                $q="insert into resource_to_incident(incident_id,x_uuid) values($incidents[$i],'{$org_id}')";
+                $q="INSERT INTO resource_to_incident(incident_id,x_uuid) values($incidents[$i],'{$org_id}')";
                 $res=$db->Execute($q);
                 $i=$i+1;
             }

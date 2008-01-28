@@ -355,7 +355,7 @@ function _shn_or_viewform_org($org_id, $error=false)
 	include_once "lib_or.inc";
 	global $global;
 	$db = $global['db'];
-	$q = "select o_uuid,parent_id,name,reg_no,man_power,resources from org_main where o_uuid='{$org_id}'";
+	$q = "SELECT o_uuid,parent_id,name,reg_no,man_power,resources FROM org_main WHERE o_uuid='{$org_id}'";
 	$res_org=$db->Execute($q);
 	if(!$res_org==NULL && !$res_org->EOF){
 		$parent=_shn_or_is_root($org_id);

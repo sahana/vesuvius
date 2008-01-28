@@ -261,15 +261,15 @@ function shn_mpr_editmp_validate()
 		$local_post[$k] = $v;
 	}
 
-if(isset($_POST['height']) && $_POST['height']!=null){
-$height = $_POST['height'];
+	if(isset($_POST['height']) && $_POST['height']!=null){
+		$height = $_POST['height'];
 
-if(is_numeric($height)==false)
-{
-	add_error(_("Height should be a value in centimeters(cm)"));
-	$error_flag = true;
-}
-}
+		if(is_numeric($height)==false)
+		{
+			add_error(_("Height should be a value in centimeters(cm)"));
+			$error_flag = true;
+		}
+	}
 
 	//fullname is entered?
 	if(! isset($local_post['full_name'])){
@@ -350,7 +350,7 @@ function shn_mpr_editmp_upload($errors=false)
 {
 	global $conf;
 	if($errors)
-	display_errors();
+		display_errors();
 
 	shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 
@@ -381,7 +381,7 @@ function shn_mpr_editmp_upload_pic()
 
 	//No file was uploaded ignore
 	if($_FILES['picture']['error']==UPLOAD_ERR_NO_FILE)
-	return true;
+		return true;
 	//Uploads
 	$info = getimagesize($_FILES['picture']['tmp_name']);
 	//check the image type
@@ -603,16 +603,16 @@ function shn_mpr_editmp_confirm()
 </TABLE>
 </DIV>
 <?php
-shn_form_fsclose();
+	shn_form_fsclose();
 
 
-shn_form_fsopen(_("Confirm"));
+	shn_form_fsopen(_("Confirm"));
 ?>
 <p><?= _('Is the information that you\'ve entered correct?'); ?></p>
 <?php
-shn_form_submit(_('Next'));
-shn_form_fsclose();
-shn_form_fclose();
+	shn_form_submit(_('Next'));
+	shn_form_fsclose();
+	shn_form_fclose();
 }
 /* }}} */
 

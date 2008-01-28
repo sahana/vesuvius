@@ -360,7 +360,7 @@ function shn_or_search_cr(){
              
                 </a>
                 </center>
-	</div
+	</div>
     <?php
 }
 ?>

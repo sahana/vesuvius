@@ -1449,12 +1449,12 @@ function _shn_rms_ct_cat($max,$form,$item_flag=false)
 
 	if($item_flag==true)
 	{
-		$query="select name,ct_uuid from ct_catalogue where parentid='0' and final_flag='0' ";
+		$query="SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' AND final_flag='0' ";
 		$res=$db->Execute($query);
 	}
 	else
 	{
-		$query="select name,ct_uuid from ct_catalogue where parentid='0' ";
+		$query="SELECT name,ct_uuid FROM ct_catalogue WHERE parentid='0' ";
 		$res=$db->Execute($query);
 	}
 
@@ -2092,14 +2092,14 @@ function _shn_rms_get_org_name($id)
  */
 function _shn_rms_get_name($loc)
 {
-            if(_shn_rms_is_location($loc)) {
-                $bsda_village = _shn_rms_get_location_name($loc);
-            }elseif(_shn_rms_is_camp($loc)) {
-                $bsda_village = _shn_rms_get_camp_name($loc);
-            }elseif(_shn_rms_is_org($loc)) {
-        	    $bsda_village = _shn_rms_get_org_name($loc);
-            }
-            return $bsda_village;
+	if(_shn_rms_is_location($loc)) {
+    	$bsda_village = _shn_rms_get_location_name($loc);
+    }elseif(_shn_rms_is_camp($loc)) {
+        $bsda_village = _shn_rms_get_camp_name($loc);
+    }elseif(_shn_rms_is_org($loc)) {
+        $bsda_village = _shn_rms_get_org_name($loc);
+    }
+    return $bsda_village;
 }
 
 /**

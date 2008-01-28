@@ -36,7 +36,7 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
 		$loc_arr=shn_location_get_descendants($loc,&$loc_arr);
 		$loc_str=shn_or_create_database_IN_array($loc_arr);
     }
-    $search_str.=" where 1=1 ";
+    $search_str.=" WHERE 1=1 ";
    	if(strlen(trim($org_name))!=0){
     	$search_str.=" and name LIKE '%$org_name%'";
     }
@@ -85,7 +85,7 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
 function shn_or_contact_data_exist($org_id,$contact_type){
 	global $global;
     $db=$global['db'];
-	$sql="select contact_value from contact where pgoc_uuid='{$org_id}' and opt_contact_type='{$contact_type}'";
+	$sql="SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' and opt_contact_type='{$contact_type}'";
 	$res=$db->Execute($sql);
 	if(($res==NULL) || ($res->EOF)){
 		return false;
@@ -98,7 +98,7 @@ function _shn_org_get_incidents($org_id)
 {
 	global $global;
 	$db=$global["db"];
-	$q = "select i.incident_id,name from incident as i,resource_to_incident as r where i.incident_id=r.incident_id and r.x_uuid='{$org_id}'";
+	$q = "SELECT i.incident_id,name FROM incident as i,resource_to_incident as r WHERE i.incident_id=r.incident_id and r.x_uuid='{$org_id}'";
     $res_incident=$db->Execute($q);   
     $or_incident_arr=array();
     	while(!$res_incident->EOF){
@@ -120,7 +120,7 @@ function _shn_org_get_incident_string($org_id)
    	 array_pop($arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($arr);
-   			$q="select name from incident where incident_id='{$x}'";
+   			$q="SELECT name FROM incident WHERE incident_id='{$x}'";
     			$res=$db->Execute($q);
     			//if($count==0 ){
     				$str=$str.$res->Fields("name");
@@ -147,7 +147,7 @@ function _shn_org_location_string($loc)
    		array_pop($loc_arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($loc_arr);
-   			$q="select name from location where loc_uuid='{$x}'";
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
     			$res=$db->Execute($q);
     			if($count==0 ){
     				$location=$location.$res->Fields("name");
@@ -174,7 +174,7 @@ function _shn_org_position($org_id,$incidents=null,$rootsonly=false){
 function _shn_or_is_root($org_id){
 	global $global;
 	$db=$global["db"];
-	$q="select o_uuid from org_main where o_uuid='{$org_id}' and parent_id is NULL ";
+	$q="SELECT o_uuid FROM org_main WHERE o_uuid='{$org_id}' and parent_id is NULL ";
 	$res=$db->Execute($q);
 	if(($res==NULL) || ($res->EOF)){
 		return false;
@@ -186,13 +186,13 @@ function _shn_or_is_root($org_id){
 function _shn_or_get_parent($org_id){
 	global $global;
 	$db=$global["db"];
-	$q="select parent_id from org_main where o_uuid='{$org_id}'";
+	$q="SELECT parent_id FROM org_main WHERE o_uuid='{$org_id}'";
 	$res=$db->Execute($q);
 	if(($res==NULL) || ($res->EOF)){
 		return false;
 	}else{
 		$parent=$res->fields["parent_id"];
-		$q="select name from org_main where o_uuid='{$parent}'";
+		$q="SELECT name FROM org_main WHERE o_uuid='{$parent}'";
 		$res=$db->Execute($q);
 		return $parent.":".$res->fields["name"];
 	}
@@ -240,9 +240,9 @@ function shn_or_org_list($incidents=null,$rootsonly=false){
         }
         
         if($incidents==null) {
-			$q = "select o_uuid,name from org_main where privacy=false".$root." order by o_uuid";
+			$q = "SELECT o_uuid,name FROM org_main WHERE privacy=false".$root." order by o_uuid";
         }else {
-		    $q = "select o_uuid,name from org_main,resource_to_incident where privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
+		    $q = "SELECT o_uuid,name FROM org_main,resource_to_incident WHERE privacy=false ".$root."and resource_to_incident.x_uuid=org_main.o_uuid and incident_id IN $list order by o_uuid";
         }
 $res_org=$db->Execute($q);
         $org_list=array('');
@@ -257,7 +257,7 @@ function shn_get_incident_descendants($parent,&$incident_arr)
 {
 	global $global; 
     $db=$global['db'];
-   	$q="select incident_id from incident where parent_id='{$parent}'";
+   	$q="SELECT incident_id FROM incident WHERE parent_id='{$parent}'";
     $res=$db->Execute($q);
     if(!$res==NULL && !$res->EOF){
     		array_push(
@@ -334,7 +334,7 @@ function _shn_or_get_start_loc()
     global $global;
     global $conf;
     $db=$global['db'];
-    $q="select value from config where module_id='or' and confkey='loc_start'";
+    $q="SELECT value FROM config WHERE module_id='or' and confkey='loc_start'";
     $res=$db->Execute($q);
  //   if($res->fields[0]==NULL){
    //    	return $conf['mod_or_start_loc'];
@@ -352,14 +352,14 @@ function shn_or_get_loc_range()
     global $conf;
     $db=$global['db'];
     $loc=array();
-    $q="select value from config where module_id='or' and confkey='loc_range_start'";
+    $q="SELECT value FROM config WHERE module_id='or' and confkey='loc_range_start'";
     $res=$db->Execute($q);
     if($res->fields[0]==NULL){
        	$loc["start"]=$conf['mod_or_loc_level_start'];
     }else {
     	$loc["start"]=$res->fields[0];
     }
-    $q="select value from config where module_id='or' and confkey='loc_range_end'";
+    $q="SELECT value FROM config WHERE module_id='or' and confkey='loc_range_end'";
     $res=$db->Execute($q);
     if($res->fields[0]==NULL){
        	$loc["end"]=$conf['mod_or_loc_level_end'];
@@ -568,7 +568,7 @@ function _shn_or_get_org_loc_parents($child)
 {
     global $global;
     $db=$global['db'];
-    $q="select search_id,name,location.location_id from location_details,location where poc_uuid='{$child}' and location_details.location_id=location.location_id";
+    $q="SELECT search_id,name,location.location_id FROM location_details,location WHERE poc_uuid='{$child}' and location_details.location_id=location.location_id";
     $res_temp=$db->Execute($q);
     $final=array();
     $final[0]=$res_temp->fields[0];
@@ -582,7 +582,7 @@ function _shn_or_get_org_loc_parents($child)
         $cur=$cur.$loc[$k];
         $temp=array();
         $temp[0]=$cur;     
-        $q="select name,location_id from location where search_id='$cur'";
+        $q="SELECT name,location_id FROM location WHERE search_id='$cur'";
         $res_loc=$db->Execute($q);
         $temp[1]=$res_loc->fields[0];
         $temp[2]=$res_loc->fields[1];
@@ -764,7 +764,7 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
     if(!shn_is_null($org_id)){
         global $global;
         $db=$global['db'];
-        $q = "select man_power,equipment,resources from org_main where o_uuid='{$org_id}'";
+        $q = "SELECT man_power,equipment,resources FROM org_main WHERE o_uuid='{$org_id}'";
         $res_org=$db->Execute($q);
         if(!$res_org==NULL && !$res_org->EOF){
             $man_power=$res_org->fields[0];
@@ -860,7 +860,7 @@ function _shn_or_display_incident($error=false,$multi=false,$value=NULL)
     global $global;
     $db=$global["db"];
     if($value==NULL){
-       $q="select value from user_preference where module_id='ims' and pref_key='incident_id'";
+       $q="SELECT value FROM user_preference WHERE module_id='ims' and pref_key='incident_id'";
        $res=$db->Execute($q);
         if(!$res==NULL && !$res->EOF){
     	    $value=array();

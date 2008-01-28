@@ -97,10 +97,10 @@ function shn_rs_search_submit_one_result()
 	switch($search_cat)
 	{
 	case 'report':
-	$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' and report_files.file_type != 'png' ";
+	$keyword_query = "SELECT report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title FROM report_files,report_keywords WHERE report_keywords.rep_id = report_files.rep_id AND report_keywords.keyword = '$keyword' and report_files.file_type != 'png' ";
 	break;
 	case 'chart':
-	$keyword_query = "select report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title from report_files,report_keywords where report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' and report_files.file_type = 'png'";
+	$keyword_query = "SELECT report_files.rep_id,report_files.file_name,report_files.t_stamp,report_files.file_type,report_files.file_size_kb,report_files.title FROM report_files,report_keywords WHERE report_keywords.rep_id = report_files.rep_id and report_keywords.keyword = '$keyword' and report_files.file_type = 'png'";
 	break;
 	}
 	$keyword_result=$db->Execute($keyword_query);
@@ -110,45 +110,45 @@ function shn_rs_search_submit_one_result()
     {
 	if($exact_relative == 'exact' && $search_type != 'all' && $search_cat == 'report')
 	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for' and file_type != 'png' ";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE $search_type = '$search_for' and file_type != 'png' ";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}
 	elseif($exact_relative == 'exact' && $search_type != 'all' && $search_cat == 'chart')
 	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type = '$search_for' and file_type = 'png' ";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE $search_type = '$search_for' and file_type = 'png' ";
 	$res=$db->Execute($query);
 	_printTable($res);		
 	}
 	elseif($exact_relative != 'exact' && $search_type != 'all' && $search_cat == 'report')
 	{
 	$first_3_letters=substr($search_for, 0, 3);
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' and file_type != 'png' ";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE $search_type like '$first_3_letters%' and file_type != 'png' ";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}
 	elseif($exact_relative != 'exact' && $search_type != 'all' && $search_cat == 'chart')
 	{
 	$first_3_letters=substr($search_for, 0, 3);
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where $search_type like '$first_3_letters%' and file_type = 'png' ";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE $search_type like '$first_3_letters%' and file_type = 'png' ";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}
 	elseif($search_type == 'all' && $search_cat == 'report')
 	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where file_type != 'png'";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE file_type != 'png'";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}
 	elseif($search_type == 'all' && $search_cat == 'chart')
 	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files where file_type = 'png'";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files WHERE file_type = 'png'";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}
 	else
 	{
-	$query = "select rep_id,file_name,t_stamp,file_type,file_size_kb,title from report_files";
+	$query = "SELECT rep_id,file_name,t_stamp,file_type,file_size_kb,title FROM report_files";
 	$res=$db->Execute($query);
 	_printTable($res);
 	}

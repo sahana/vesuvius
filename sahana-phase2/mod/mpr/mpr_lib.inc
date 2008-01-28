@@ -141,7 +141,7 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5,$offset)
             WHERE d.opt_status != 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}'
             ORDER BY d.updated DESC";
 
-$final_sql="";
+	$final_sql="";
     if($type=='missing')
     {
         $final_sql=$sql_missing;
@@ -160,15 +160,15 @@ $final_sql="";
     }
     
 
-$rs1=$global['db']->Execute($final_sql);
+	$rs1=$global['db']->Execute($final_sql);
 //print 'missing'.$rs1;
-$count=0;
-while (!$rs1->EOF){
-	$count++;
-$rs1->MoveNext();
-}
+	$count=0;
+	while (!$rs1->EOF){
+		$count++;
+		$rs1->MoveNext();
+	}
 
-return $count;
+	return $count;
 }
 
 

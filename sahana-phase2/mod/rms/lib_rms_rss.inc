@@ -31,7 +31,7 @@ function shn_xml_rms_new_pledges(){
         $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=rms&amp;act=plg_ls&amp;seq=view_plg&amp;plg_id=".$record['plg_uuid'];
         $desc=_("This pledge was made on ").$record['plg_date']._(" by ").$record['full_name'].".";
         $desc.=_("And the pledged items are");
-        $sql="select name from rms_plg_item as r inner join ct_catalogue as c on c.ct_uuid = r.item_uuid  where plg_uuid='{$record['plg_uuid']}';";
+        $sql="SELECT name FROM rms_plg_item AS INNER JOIN ct_catalogue AS c on c.ct_uuid = r.item_uuid  where plg_uuid='{$record['plg_uuid']}';";
         $res = $global['db']->GetAll($sql);
         foreach($res as $item)
             $desc.=", ".$item['name'];
@@ -57,7 +57,7 @@ function shn_xml_rms_new_requests(){
         $url="http://".$_SERVER[HTTP_HOST].$_SERVER['PHP_SELF']."?mod=rms&amp;act=req_ls&amp;seq=view_req&amp;req_id=".$record['req_uuid'];
         $desc=_("This request was made on ").$record['req_date']._(" by ").$record['full_name'].".";
         $desc.=_("And the requested items are");
-        $sql="select name from rms_req_item as r inner join ct_catalogue as c on c.ct_uuid = r.item_uuid  where req_uuid='{$record['req_uuid']}';";
+        $sql="SELECT name FROM rms_req_item AS r INNER JOIN ct_catalogue AS c on c.ct_uuid = r.item_uuid WHERE req_uuid='{$record['req_uuid']}';";
         $res = $global['db']->GetAll($sql);
         foreach($res as $item)
             $desc.=", ".$item['name'];

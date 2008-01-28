@@ -67,33 +67,33 @@ require_once('mail_settings.inc');
 //require_once('MailClass.inc');
 
 // instantiate the class
-$mailer = new InheritPhpMailer();
+	$mailer = new InheritPhpMailer();
 
-$receipient = $_POST['receipient'];
+	$receipient = $_POST['receipient'];
 
-$subject = $_POST["subject"];
+	$subject = $_POST["subject"];
 
-$ccreceipient = $_POST['ccreceipients'];
+	$ccreceipient = $_POST['ccreceipients'];
 
-$bccreceipient = $_POST['bccreceipients'];
+	$bccreceipient = $_POST['bccreceipients'];
 
-$attachment = $_POST['attachments'];
+	$attachment = $_POST['attachments'];
 
-$body = $_POST['contents'];
+	$body = $_POST['contents'];
 
-$mailer->Subject = $subject;
+	$mailer->Subject = $subject;
 
-$mailer->Body = $body;
+	$mailer->Body = $body;
 
-$mailer->AddAddress($receipient, '');
+	$mailer->AddAddress($receipient, '');
 
 //$mailer->AddAddress('hari1222@yahoo.com', 'hari');
 
-$mailer->AddAttachment($attachment, ''); 
+	$mailer->AddAttachment($attachment, ''); 
 
-$mailer->AddCC($ccreceipient, ''); 
+	$mailer->AddCC($ccreceipient, ''); 
 
-$mailer->AddBCC($bccreceipient,''); 
+	$mailer->AddBCC($bccreceipient,''); 
 
 //$mailer->AddReplyTo('kushi223344@yahoo.com', 'sri'); 
 

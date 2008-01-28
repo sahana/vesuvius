@@ -666,8 +666,8 @@ function _shn_msg_customized_messaging_actions()
         $address=$_POST['email'];
         $mobile=$_POST['mobile_number'];
 
-	$address_array=split(',',$address);
-	$mobile_array=split(',',$mobile);
+		$address_array=split(',',$address);
+		$mobile_array=split(',',$mobile);
         $status_mail=array();
         $cnt_sms=0;
         $cnt_mail=0;

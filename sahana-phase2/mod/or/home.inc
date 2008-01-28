@@ -12,26 +12,26 @@
  * @package    sahana
  * @subpackage or
  */
-include_once "view_org.inc";
-global $global;
-include_once $global['approot']."/inc/reporting/lib_chart.inc";
-global $conf;
-$db=$global["db"];
-$q="SELECT count(o_uuid) as cnt FROM org_main";
-$res=$db->Execute($q);
-$org_no=5;
-if(!$res->EOF){
-	$q="SELECT value FROM config WHERE module_id='admin' AND confkey='acl_base'";
-	$res_tmp=$db->Execute($q);
-	if($res_tmp->fields[0]=='installed'){
-		$org_no=($res->fields[0])-1;
+	include_once "view_org.inc";
+	global $global;
+	include_once $global['approot']."/inc/reporting/lib_chart.inc";
+	global $conf;
+	$db=$global["db"];
+	$q="SELECT count(o_uuid) as cnt FROM org_main";
+	$res=$db->Execute($q);
+	$org_no=5;
+	if(!$res->EOF){
+		$q="SELECT value FROM config WHERE module_id='admin' AND confkey='acl_base'";
+		$res_tmp=$db->Execute($q);
+		if($res_tmp->fields[0]=='installed'){
+			$org_no=($res->fields[0])-1;
+		}else{
+			$org_no=($res->fields[0]);
+		}
+		$org_no=($org_no<0)?0:$org_no;
 	}else{
-		$org_no=($res->fields[0]);
+		$org_no="Zero";
 	}
-	$org_no=($org_no<0)?0:$org_no;
-}else{
-	$org_no="Zero";
-}
 
 ?>
 <div id="home">
@@ -78,7 +78,7 @@ if(!$res->EOF){
 
     if($org_no != "Zero"){
     print("<table align=center><tr><td>")	;
-shn_chart_display("shn_or_service_coverage_chart"); 
+	shn_chart_display("shn_or_service_coverage_chart"); 
     print("</td></tr></table><p></p>")	;
     }
 
@@ -90,10 +90,10 @@ shn_chart_display("shn_or_service_coverage_chart");
 </center>
 </a></div>
 <?php
-ob_start();
-_shn_or_viewform_latest_orgs(5);
-$content = ob_get_contents();
-ob_end_clean();
+	ob_start();
+	_shn_or_viewform_latest_orgs(5);
+	$content = ob_get_contents();
+	ob_end_clean();
 
 if($content != ""){
 	?>
@@ -105,8 +105,8 @@ if($content != ""){
 	echo $content;
 }
 
-require_once($global['approot']."/inc/lib_rss.inc");
-shn_rss_add_feed('new_org_list',_('Recently Registered organizations'));
+	require_once($global['approot']."/inc/lib_rss.inc");
+	shn_rss_add_feed('new_org_list',_('Recently Registered organizations'));
 
 ?>
 

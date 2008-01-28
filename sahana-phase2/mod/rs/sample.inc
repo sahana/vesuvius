@@ -215,12 +215,12 @@ function _show_item_table($keyword_in = '',$exact_in = true)
 
     if($exact_in)
     {
-    $query="select * from ct_catalogue where name = '$keyword_in' ";
+    $query="SELECT * FROM ct_catalogue WHERE name = '$keyword_in' ";
     }
     else
     {
     $first_letters=substr($keyword_in, 0, 1);
-    $query= "select * from ct_catalogue where name like '$first_letters%' " ;
+    $query= "SELECT * FROM ct_catalogue WHERE name LIKE '$first_letters%' " ;
     }
 
     $res=$db->Execute($query);
@@ -282,12 +282,12 @@ function _show_unit_table($keyword_in = '',$exact_in = true)
     <?php
     if($exact_in)
     {
-    $query="select * from ct_unit where name = '$keyword_in' ";
+    $query="SELECT * FROM ct_unit WHERE name = '$keyword_in' ";
     }
     else
     {
     $first_letters=substr($keyword_in, 0, 1);
-    $query="select * from ct_unit where name like '$first_letters%' ";
+    $query="SELECT * FROM ct_unit WHERE name like '$first_letters%' ";
     } 
     $res=$db->Execute($query);
     $data_arr = array();
@@ -345,12 +345,12 @@ function _show_unit_type_table($keyword_in = '',$exact_in = true)
     <?php
     if($exact_in)
     {
-    $query="select * from ct_unit_type where name = '$keyword_in' ";
+    $query="SELECT * FROM ct_unit_type WHERE name = '$keyword_in' ";
     }
     else
     {
     $first_letters=substr($keyword_in, 0, 2);
-    $query="select * from ct_unit_type where name like '$first_letters%' ";
+    $query="SELECT * FROM ct_unit_type WHERE name LIKE '$first_letters%' ";
     } 
     $res=$db->Execute($query);
     $data_arr = array();
