@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: list.inc,v 1.5 2008-01-03 10:19:07 isurunishan Exp $ */
+/* $Id: list.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: list.inc,v 1.5 2008-01-03 10:19:07 isurunishan Exp $ */
+/* $Id: list.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**
  * 
@@ -23,13 +23,13 @@
  */
 
  
- function  list_all_groups()
-   {
+function  list_all_groups()
+{
    	
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
-include_once ($global['approot'] . '/mod/dvr/lib.inc');
-   $results=_shn_dvr_get_all_groups($_SESSION['user_pref_ims_incident_id'],null);
+    include_once ($global['approot'] . '/mod/dvr/lib.inc');
+    $results=_shn_dvr_get_all_groups($_SESSION['user_pref_ims_incident_id'],null);
    	
    ?>
    <br>
@@ -66,7 +66,7 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
         
         </tr>
  <?php
- $results->MoveNext();
+    $results->MoveNext();
         }
         ?>
         </table>
@@ -95,7 +95,5 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
         </div>
    <?php
    }
-   
-   
-   
+ 
 ?>

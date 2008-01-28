@@ -58,7 +58,7 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
    
 
-add_warning(_('Please do a search and check whether the person you are looking for is already exists'));
+	add_warning(_('Please do a search and check whether the person has already been added.'));
  
     if($_GET['type']=='found'){
         shn_form_fsopen(_('Status'));
@@ -88,7 +88,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>_('Family name, or the surname could be specified for matching of people with similar Family names')));
     shn_form_text(_('Local Name'),'local_name','size="30"', array('help'=>_('You may also specify the local name, even in different script than English')));
    
-   shn_form_date(_("Date of Birth"),'dob',$extra_opts=NULL);
+    shn_form_date(_("Date of Birth"),'dob',$extra_opts=NULL);
     //shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
     shn_form_opt_select("opt_age_group",_('Age Group'));
     shn_form_opt_select("opt_gender",_('Gender'));
@@ -99,7 +99,7 @@ add_warning(_('Please do a search and check whether the person you are looking f
     shn_form_fsclose();
     shn_form_fsopen(_('Upload Picture'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture, so that it will be easy for us to identify the person. It is not required, so if you don\'t have a picture no need to upload.'); ?></p>
+    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
 <?php
     shn_form_upload(_('Upload Picture'),"picture");
     shn_form_fsclose();

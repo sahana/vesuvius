@@ -45,7 +45,7 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+	$query="SELECT a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting FROM gis_wiki as a, gis_location as b WHERE a.wiki_uuid=b.poc_uuid ".
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
@@ -255,7 +255,7 @@ function shn_wiki_edit($id)
 	global $global;
 	global $conf;
 	$db = $global['db'];
-	$query="select wiki_uuid,description from gis_wiki where wiki_uuid='{$id}'";
+	$query="SELECT wiki_uuid,description FROM gis_wiki WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
 	$desc=$res->fields['description'];
 	
@@ -278,7 +278,7 @@ function shn_wiki_edit_com($id)
 	$db = $global['db'];
 	//echo $id;
 	//echo "{$_REQUEST['wiki_text']}";
-	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' where wiki_uuid='{$id}'";
+	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
 	add_confirmation(_('Succesfully updated description'));
 }

@@ -54,17 +54,17 @@ function shn_dvr_adminmenu() {
 
 function shn_dvr_adm_checklist()
 {
-global $global;	
-shn_dvr_adminmenu();
-shn_form_fopen("adm_form_commit",null,array("req"=>false));
-shn_form_fsopen(_("Add Service / Facility"));
+    global $global;	
+    shn_dvr_adminmenu();
+    shn_form_fopen("adm_form_commit",null,array("req"=>false));
+    shn_form_fsopen(_("Add Service / Facility"));
 
 ?>
 <table>
 <tr>
 <td><?php
-$extra_opts['req'] = true;
-shn_form_opt_select("opt_dvr_service",_("Currently Available Services/Facilities"),$extra_opts);
+   $extra_opts['req'] = true;
+   shn_form_opt_select("opt_dvr_service",_("Currently Available Services/Facilities"),$extra_opts);
 	?>
 	
 	</td></tr>
@@ -85,7 +85,7 @@ shn_form_opt_select("opt_dvr_service",_("Currently Available Services/Facilities
 	</table>
 	<?php
 	
-	shn_form_fsclose();
+    shn_form_fsclose();
 	shn_form_submit(_("Add Item"));
 	shn_form_fclose();
 
@@ -96,7 +96,7 @@ shn_form_opt_select("opt_dvr_service",_("Currently Available Services/Facilities
 function shn_dvr_adm_form_commit()
 {
 	
-global $global;
+    global $global;
 	$db = $global['db'];
 	
 	if(!empty($_POST['service_name']))

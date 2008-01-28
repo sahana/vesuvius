@@ -140,7 +140,7 @@ function _shn_dvr_populate_individual_details() {
 
 function _shn_dvr_edit_individual_start($errors = false) {
 
-global $conf;
+    global $conf;
 	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == false | $_SESSION['dvr']['person']['edit_individual_clicked']==null) {
 		_shn_dvr_populate_individual_details();
 	}
@@ -172,16 +172,16 @@ global $conf;
 	$extra_opts['sort'] = 'option_code';
 
 	if($conf['acl_base']=='installed')
-
 	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[2].submit()', $extra_opts);
-else
+
+	else
 	shn_form_opt_select('opt_group_type', _("Type of Group"), 'onChange=document.forms[1].submit()', $extra_opts);
 
 	$type = $_POST['opt_group_type'];
 	
 //print 'type is'.$type;
-if($type==null)
-$type=$_SESSION['dvr']['person']['typ_of_grp'];
+    if($type==null)
+    $type=$_SESSION['dvr']['person']['typ_of_grp'];
 
 	$heads = _shn_dvr_getgroupheadspertype($type);
 
@@ -255,7 +255,7 @@ $type=$_SESSION['dvr']['person']['typ_of_grp'];
 	print '<br />';
 	shn_form_fsopen(_('Upload Picture'));
 	print '<br />';
-if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
+if ($_SESSION['dvr']['person']['edit_individual_clicked']==true) {
 		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
@@ -272,12 +272,12 @@ if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
 	else
 	{
 		
-shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+    shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
 //print 'here'.$_SESSION['dvr']['group']['headid'];
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
 ?>
 	
 	</p>
@@ -299,7 +299,7 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 //	shn_form_textarea(_('Address'), "address", null, array (
 //		'help' => _('Providing your address may be helpful to contact you'
 //	)));
-shn_form_textarea(_('Address'), "address", null,$extra_opts);
+    shn_form_textarea(_('Address'), "address", null,$extra_opts);
 
 	/*$extra_opts['value'] = $_SESSION['dvr']['person']['zip'];
 	$extra_opts['help'] = 'Specify a zip code, if it is available';
@@ -318,7 +318,7 @@ shn_form_textarea(_('Address'), "address", null,$extra_opts);
 
 
 
-shn_form_fsopen(_('Displaced Location of the Victim'));
+    shn_form_fsopen(_('Displaced Location of the Victim'));
 	print '<br />';
 	$typ_of_grp = array ();
 	//array_push($typ_of_grp, '-- Select Option --');
@@ -480,17 +480,17 @@ function _shn_dvr_individual_validate_error() {
 		add_error(_("Please fill the full name"));
 		$error_flag = true;
 	}
-$valid_date = true;	
-$dob_val = $_POST['dob'];	
-if(!shn_valid_date($dob_val))
-{
+    $valid_date = true;	
+    $dob_val = $_POST['dob'];	
+    if(!shn_valid_date($dob_val))
+    {
 	//add_error(_("Please Check the Date format"));	
-$error_flag = true;
-$valid_date = false;
-}
+        $error_flag = true;
+        $valid_date = false;
+    }
 
 
-if($valid_date){
+    if($valid_date){
 		$dob_val = $_POST['dob'];
 		$today_val = date('Y-m-d');
 
@@ -500,14 +500,14 @@ if($valid_date){
 			add_error(_("Please enter a valid date of birth."));
 			$error_flag = true;
 		}
-}	
+    }	
 	
-$email=$_POST['email'];
-if(!shn_valid_email($email,false))
-{
-add_error(_("Invalid Email entered"));	
-$error_flag = true;
-}
+    $email=$_POST['email'];
+    if(!shn_valid_email($email,false))
+    {
+        add_error(_("Invalid Email entered"));	
+        $error_flag = true;
+    }
 	
 	$pics = $_POST['picture'];
 
@@ -794,7 +794,7 @@ function shn_dvr_set_person_physical_details() {
 
 		}
 //////////////////////////////////////////////////
-$ext = '.' . $ext;
+        $ext = '.' . $ext;
 		$upload_dir = $global['approot'] . 'www/tmp/';
 		$uploadfile = $upload_dir . 'ori_fin' . $_SESSION['dvr']['person']['p_uuid'] . $ext;
 		move_uploaded_file($_FILES['finger_picture']['tmp_name'], $uploadfile);
@@ -820,7 +820,7 @@ function shn_dvr_set_person_location_details() {
 		$_SESSION['dvr']['person']['gis_loc_x'] = $_POST['loc_x'];
 		$_SESSION['dvr']['person']['gis_loc_y'] = $_POST['loc_y'];
 	}
-$_SESSION['dvr']['person']['camps']=$_POST['camps'];
+    $_SESSION['dvr']['person']['camps']=$_POST['camps'];
 	//$_SESSION['dvr']['person']['displaced_loc'] = '';
 	$_SESSION['dvr']['person']['current_loc'] = $loc;
 
@@ -851,7 +851,7 @@ function shn_dvr_physical_information($errors = false) {
 	print '<br />';
 	
 	
-	if (	$_SESSION['dvr']['person']['edit_individual_clicked']==true) {
+	if ($_SESSION['dvr']['person']['edit_individual_clicked']==true) {
 		shn_form_label(_("Current FingerPrint"),$_SESSION['dvr']['person']['finger_picture']);
 ?>
 	<p align='center'>
@@ -868,13 +868,13 @@ function shn_dvr_physical_information($errors = false) {
 	else
 	{
 		
-shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['person']['finger_picture']);
+    shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['person']['finger_picture']);
 ?>
 	<p align='center'>
 	<?php
 //print 'here'.$_SESSION['dvr']['group']['headid'];
 //shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
-		shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addfingerprint_img', false, "finger");
+	shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], 'database', 'dvr', 'addfingerprint_img', false, "finger");
         //shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'], '', 'dvr', 'addfingerprint_img', true, "finger");
 ?>
 	
@@ -890,7 +890,7 @@ shn_form_label(_("Current Fingerprint"), $_SESSION['dvr']['person']['finger_pict
 	shn_form_upload(_('Upload Fingerprint'), "finger_picture");
 	shn_form_fsclose();
 	print '<br />';
-$_SESSION['dvr']['person']['edit_individual_clicked']=false;
+    $_SESSION['dvr']['person']['edit_individual_clicked']=false;
 	shn_form_fsopen(_('Physical Details'));
 
 	print '<br />';

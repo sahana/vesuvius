@@ -45,7 +45,7 @@ function show_wiki_map($category="all",$date=0)
 	shn_form_fclose();
 	
 	$db = $global['db'];
-	$query="select a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b where a.wiki_uuid=b.poc_uuid ".
+	$query="SELECT a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting from gis_wiki as a, gis_location as b WHERE a.wiki_uuid=b.poc_uuid ".
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
@@ -255,7 +255,7 @@ function shn_wiki_edit($id)
 	global $global;
 	global $conf;
 	$db = $global['db'];
-	$query="select wiki_uuid,description from gis_wiki where wiki_uuid='{$id}'";
+	$query="SELECT wiki_uuid,description from gis_wiki WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
 	$desc=$res->fields['description'];
 	
@@ -278,7 +278,7 @@ function shn_wiki_edit_com($id)
 	$db = $global['db'];
 	//echo $id;
 	//echo "{$_REQUEST['wiki_text']}";
-	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' where wiki_uuid='{$id}'";
+	$query="UPDATE gis_wiki SET description='{$_REQUEST['wiki_text']}' WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
 	add_confirmation(_('Succesfully updated description'));
 }
@@ -300,8 +300,8 @@ function shn_wiki_map_commit()
 	
 	$edit=($_SESSION['edit_public']=='edit')?1:0;
 	
-	$query = " insert into gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
-			 " values ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
+	$query = " INSERT INTO gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
+			 " VALUES ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
 			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
 			 
 	$res=$db->Execute($query);

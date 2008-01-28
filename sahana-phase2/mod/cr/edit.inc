@@ -1,7 +1,7 @@
 <?php
-/* $Id: edit.inc,v 1.29 2008-01-03 10:17:33 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: edit.inc,v 1.29 2008-01-03 10:17:33 isurunishan Exp $ */
+/* $Id: edit.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
 
 
 /**Update functions for  CR
@@ -246,9 +246,9 @@ function _shn_cr_cedt_chk($errors=false){
 function _shn_cr_del_camp($id){
 	global $global;
 	$db=$global['db'];
-	$q="delete from camp_general where c_uuid='{$id}'";
-	$r="delete from camp_reg where c_uuid='{$id}'";
-	$s="delete from camp_services where c_uuid='{$id}'";
+	$q="DELETE FROM camp_general WHERE c_uuid='{$id}'";
+	$r="DELETE FROM camp_reg WHERE c_uuid='{$id}'";
+	$s="DELETE FROM camp_services WHERE c_uuid='{$id}'";
 	$db->Execute($q);
 	$db->Execute($r);
 	$db->Execute($s);
@@ -391,7 +391,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 
-	$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children,capacity from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid='{$camp_id}'";
+	$query="SELECT a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children,capacity FROM camp_general a LEFT OUTER JOIN camp_reg b on a.c_uuid=b.c_uuid WHERE a.c_uuid='{$camp_id}'";
 
 	$res = $db->Execute($query);
 
@@ -408,11 +408,11 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['camp_total']=$res->fields['total'];
 	$_SESSION['camp_capacity']=$res->fields['capacity'];
 
-	$query="select * from contact where pgoc_uuid=(select contact_puuid from camp_admin where c_uuid='{$camp_id}')";
+	$query="SELECT * FROM contact WHERE pgoc_uuid=(SELECT contact_puuid FROM camp_admin WHERE c_uuid='{$camp_id}')";
 	$res = $db->Execute($query);
 	$_SESSION['camp_contact_mob']=$res->fields['contact_value'];
 
-	$query = "select occupation from person_details where p_uuid=(select contact_puuid from camp_admin where c_uuid='{$camp_id}');";
+	$query = "SELECT occupation FROM person_details WHERE p_uuid=(SELECT contact_puuid FROM camp_admin WHERE c_uuid='{$camp_id}');";
 	$res = $db->Execute($query);
 	$_SESSION['camp_occupation']=$res->fields['occupation'];
 		
@@ -437,7 +437,7 @@ function _shn_cr_cedt_commit(){
 	global $editid;
 	$db = $global['db'];
 
-	$admin = "SELECT * from camp_admin  where c_uuid='{$_SESSION['editid']}'";
+	$admin = "SELECT * from camp_admin  WHERE c_uuid='{$_SESSION['editid']}'";
 	$res_admin = $db->Execute($admin);
 	$pid = $res_admin->fields['contact_puuid'];
 
@@ -446,15 +446,15 @@ function _shn_cr_cedt_commit(){
 	//call unique camp id
 	//$uid=_shn_cr_create_cid();
 	//enter into camp table
-	$q="update camp_general set name='{$_SESSION['camp_name']}',location_id='{$loc_id}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}',capacity={$_SESSION['camp_capacity']} where c_uuid='{$_SESSION['editid']}'";
+	$q="UPDATE camp_general SET name='{$_SESSION['camp_name']}',location_id='{$loc_id}',opt_camp_type='{$_SESSION['opt_camp_type']}',address='{$_SESSION['camp_address']}',capacity={$_SESSION['camp_capacity']} WHERE c_uuid='{$_SESSION['editid']}'";
 	$res = $db->Execute($q);
 
 	//enter into camp_reg table
-	$q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family={$_SESSION['camp_family']},children='{$_SESSION['camp_children']}',total={$_SESSION['camp_total']} where c_uuid='{$_SESSION['editid']}'";
+	$q="UPDATE camp_reg SET admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family={$_SESSION['camp_family']},children='{$_SESSION['camp_children']}',total={$_SESSION['camp_total']} WHERE c_uuid='{$_SESSION['editid']}'";
 	$res = $db->Execute($q);
 
 
-	$qb = "UPDATE person_details set occupation='{$_SESSION['camp_occupation']}' where p_uuid='$pid'";
+	$qb = "UPDATE person_details SET occupation='{$_SESSION['camp_occupation']}' WHERE p_uuid='$pid'";
 	$resb = $db->Execute($qb);
 
 	// insert into admin contact
@@ -479,7 +479,7 @@ function _shn_cr_cedt_commit(){
 			
 		foreach($_SESSION['opt_camp_service'] as $a => $b){
 			//currently add checked values.
-			$q = "insert into camp_services(c_uuid,opt_camp_service,value) values('{$uid}','{$b}',1)";
+			$q = "INSERT INTO camp_services(c_uuid,opt_camp_service,value) VALUES('{$uid}','{$b}',1)";
 			$res = $db->Execute($q);
 		}
 	}
@@ -503,7 +503,7 @@ function _shn_cr_cedt_commit(){
 			<tr>
 
 			<?php
-			$a="select option_code,option_description from field_options where field_name='opt_camp_service'";
+			$a="SELECT option_code,option_description FROM field_options WHERE field_name='opt_camp_service'";
 			$ref=$db->Execute($a);
 			while(!$ref->EOF){
 				$val=$ref->fields[0];
@@ -595,7 +595,7 @@ function _shn_cr_cedit_confir(){
 	    $_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
 	    $_SESSION['camp_comments']=$_POST['comments'];
     }
-    $a="select option_code,option_description from field_options where field_name='opt_camp_service'";
+    $a="SELECT option_code,option_description FROM field_options EHERE field_name='opt_camp_service'";
 	$ref=$db->Execute($a);
 	while(!$ref->EOF){
 		$val=$ref->fields[0];
@@ -684,7 +684,7 @@ function _shn_cr_location_string($loc)
    		array_pop($loc_arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($loc_arr);
-   			$q="select name from location where loc_uuid='{$x}'";
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
     			$res=$db->Execute($q);
     			if($count==0 ){
     				$location=$location.$res->Fields("name");

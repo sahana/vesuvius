@@ -60,21 +60,21 @@ function _shn_dvr_group_validate_error() {
 	}
 	
 
-$email=$_POST['email'];
-if(!shn_valid_email($email,false))
-{
-add_error(_("Invalid email entered"));	
-$error_flag = true;
-}
+    $email=$_POST['email'];
+    if(!shn_valid_email($email,false))
+    {
+        add_error(_("Invalid email entered"));	
+        $error_flag = true;
+    }
 	
 	$adltmales=$_POST['adlt_mls'];
 	$adltfmales=$_POST['adlt_fmls'];
 	$chldrn=$_POST['chldrn'];
 	
-	$dsplcd=$_POST['dsplcd'];
-	$misng= $_POST['misng'];
-$dead=	$_POST['dead'];
-$rehbd=	 $_POST['rehbd'];
+	$dsplcd = $_POST['dsplcd'];
+	$misng = $_POST['misng'];
+    $dead =	$_POST['dead'];
+    $rehbd =	 $_POST['rehbd'];
 	
 	if($adltmales!=null)
 	{
@@ -214,8 +214,8 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['dead'] = $_POST['dead'];
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
 
-$loc = shn_location_get_form_submit_loc();
-$_SESSION['dvr']['group']['displaced_loc'] = $loc;
+    $loc = shn_location_get_form_submit_loc();
+    $_SESSION['dvr']['group']['displaced_loc'] = $loc;
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
@@ -250,11 +250,9 @@ $_SESSION['dvr']['group']['displaced_loc'] = $loc;
 function shn_dvr_grouptype_and_head_details($errors = false) 
 {
 	if ($errors)
-		display_errors();
+	display_errors();
 
 	shn_form_fopen("add_new_grp", null, array ('req_message' => true,'enctype' => 'enctype="multipart/form-data"'));
-?>
-    <?php
 
 
 	shn_form_hidden(array ('seq' => 'chk'));
@@ -468,7 +466,7 @@ function shn_dvr_loc_dtls($errors = false) {
 function shn_dvr_set_location_details() {
 
 	$loc = shn_location_get_form_submit_loc();
-$_SESSION['dvr']['group']['camps']=$_POST['camps'];
+    $_SESSION['dvr']['group']['camps']=$_POST['camps'];
 
 	if ((null == $_POST['gps_x']) && null == $_POST['gps_y']) {
 		$_SESSION['dvr']['group']['gis_loc_x'] = $_POST['loc_x'];

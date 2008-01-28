@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: camp.inc,v 1.57 2008-01-03 10:16:54 isurunishan Exp $ */
-/* $Id: camp.inc,v 1.57 2008-01-03 10:16:54 isurunishan Exp $ */
+/* $Id: camp.inc,v 1.58 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: camp.inc,v 1.58 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**Camp library for  CR
 *
@@ -120,8 +120,8 @@ function _shn_cr_hos_bed($errors=false)
 
 
 function _shn_cr_cadd_chk($errors=false){
-if($errors)
-	display_errors;
+    if($errors)
+	    display_errors;
 	global $global;
 	global $conf;
 	if(!$conf['gis']){
@@ -169,30 +169,30 @@ if($errors)
 <h2><?php echo _("Shelter Checklist")?></h2>
 <?php
 //var_dump($_SESSION);
-shn_form_fopen("acmp",'',array('req_message'=>false));
-shn_form_fsopen(_("Services / Facilities Available"));
-if(isset($_SESSION['hospital'])){
-	shn_form_hidden(array('seq'=>'hos'));
-}
-else{
-	shn_form_hidden(array('seq'=>'confir'));
-}
-shn_form_opt_checkbox("opt_camp_service");
-//shn_form_textarea(_("Other Facilities"),"comments");
-shn_form_fsclose();
-shn_form_submit(_("Next"));
-shn_form_fclose();
+    shn_form_fopen("acmp",'',array('req_message'=>false));
+    shn_form_fsopen(_("Services / Facilities Available"));
+    if(isset($_SESSION['hospital'])){
+	    shn_form_hidden(array('seq'=>'hos'));
+    }
+    else{
+	    shn_form_hidden(array('seq'=>'confir'));
+    }
+    shn_form_opt_checkbox("opt_camp_service");
+    //shn_form_textarea(_("Other Facilities"),"comments");
+    shn_form_fsclose();
+    shn_form_submit(_("Next"));
+    shn_form_fclose();
 
 }
 
 function _shn_cr_cadd_commit(){
-global $global;
-if(isset($_POST['finish'])){
-//write to database
-/*if(!isset($_SESSION['hospital'])){
+    global $global;
+    if(isset($_POST['finish'])){
+    //wr ite to database
+    /*if(!isset($_SESSION['hospital'])){
 	$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
 	$_SESSION['camp_comments']=$_POST['comments'];
-}*/
+    }*/
 
 
 	if(isset($_SESSION['hospital'])){
@@ -207,11 +207,11 @@ if(isset($_POST['finish'])){
 //}
 //echo microtime(true);
 //var_dump($_SESSION);
-_shn_cr_cadd_commit_db();
-}
-elseif(isset($_POST['edit'])){
-	_shn_cr_cedt_add();
-}
+    _shn_cr_cadd_commit_db();
+    }
+    elseif(isset($_POST['edit'])){
+	   _shn_cr_cedt_add();
+    }
 }
 
 function _shn_cr_create_cid($val){
@@ -399,14 +399,14 @@ function _shn_cr_validate_error(){
 }
 
 function positive_number($nr) {
-if(ereg("^[0-9]+$", $nr) && $nr > 0){
-  return true;
-  } else {
-  return false;
- }
+    if(ereg("^[0-9]+$", $nr) && $nr > 0){
+        return true;
+    } else {
+        return false;
+    }
 }
 	
-	function _shn_cr_bed_validate_error(){
+function _shn_cr_bed_validate_error(){
 		
 		//if(isset($_SESSION['hospital'])){
 		
@@ -520,7 +520,7 @@ function _shn_cr_cadd_commit_db()
 		if(isset($_SESSION['opt_camp_service'])){
 		 foreach($_SESSION['opt_camp_service'] as $a => $b){
 		//currently add checked values.
-			$q = "insert into camp_services(c_uuid,opt_camp_service,value) values('{$uid}','{$b}',1)";
+			$q = "INSERT INTO camp_services(c_uuid,opt_camp_service,value) VALUES('{$uid}','{$b}',1)";
 		 $res = $db->Execute($q);
 		 }
 		}
@@ -544,7 +544,7 @@ function _shn_cr_cadd_commit_db()
 	<tbody>
 	<tr>
 	<?php
-	$a="select option_code,option_description from field_options where field_name='opt_camp_service'";
+	$a="SELECT option_code,option_description FROM field_options WHERE field_name='opt_camp_service'";
 	$ref=$db->Execute($a);
 	while(!$ref->EOF){
 		$val=$ref->fields[0];
@@ -601,7 +601,7 @@ if($errors)
     shn_form_fopen("acmp",null,array('req_message'=>false,'name'=>""));
     shn_form_fsopen(_('General Details'));
     shn_form_label(_("Shelter Name")." : ",$_SESSION['camp_name']); 
-    $q="select option_description from field_options where field_name='opt_camp_type' and option_code='".$_SESSION['opt_camp_type']."'";
+    $q="SELECT option_description FROM field_options WHERE field_name='opt_camp_type' AND option_code='".$_SESSION['opt_camp_type']."'";
 	$ref=$db->Execute($q);
     shn_form_label(_("Shelter Type")." : ",$ref->fields[0]); 
     shn_form_label(_("Address")." : ",$_SESSION['camp_address']); 
@@ -636,7 +636,7 @@ if($errors)
 	    $_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
 	    $_SESSION['camp_comments']=$_POST['comments'];
     }
-    $a="select option_code,option_description from field_options where field_name='opt_camp_service'";
+    $a="SELECT option_code,option_description FROM field_options WHERE field_name='opt_camp_service'";
 	$ref=$db->Execute($a);
 	while(!$ref->EOF){
 		$val=$ref->fields[0];
@@ -738,7 +738,7 @@ function _shn_cr_location_string($loc)
    		array_pop($loc_arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($loc_arr);
-   			$q="select name from location where loc_uuid='{$x}'";
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
     			$res=$db->Execute($q);
     			if($count==0 ){
     				$location=$location.$res->Fields("name");

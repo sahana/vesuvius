@@ -81,7 +81,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <h1><?= _('Latest updates on Reported  Victims'); ?></h1>
 <?php
 
-shn_dvr_home_show_dvr();
+    shn_dvr_home_show_dvr();
 ?>
 </div>
 
@@ -141,7 +141,7 @@ function shn_dvr_search_show_verticle($details)
 ?>
         <TD>
 <?php
-shn_show_thumb_url($details[$i+1]['p_uuid'],'database','dvr','addvictim_img',false);
+    shn_show_thumb_url($details[$i+1]['p_uuid'],'database','dvr','addvictim_img',false);
                
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=edit_individual&p_uuid='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		            

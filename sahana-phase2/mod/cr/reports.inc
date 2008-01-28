@@ -25,7 +25,7 @@ function _shn_cr_rpt_rst(){
 
 	global $global;
 	$db=$global['db'];
-	 $q = "select * from camp_reg ";
+	 $q = "select * FROM camp_reg ";
 	 
     
     $res_cmp =$db->Execute($q);
@@ -61,7 +61,7 @@ function _shn_cr_rpt(){
 function _shn_cr_rpt_all(){
     global $global;
     $db=$global['db'];
-    $q = "select * from camp_reg ";
+    $q = "select * FROM camp_reg ";
 ?>
     <h1><?=_("Shelter Information")?></h1>
 <?php
@@ -85,18 +85,18 @@ function _shn_cr_rpt_all(){
 <?php    
     	while (!$res_cmp->EOF){
     	$c_uuid  =$res_cmp->fields['c_uuid'];        
-    	$qdetails  = "select * from camp_reg where c_uuid='{$c_uuid}'";
+    	$qdetails  = "SELECT * FROM camp_reg WHERE c_uuid='{$c_uuid}'";
     	$res_maincmp =$db->Execute($qdetails);
 
-    	$qcamp = "select * from camp_general where c_uuid='{$c_uuid}'";
+    	$qcamp = "SELECT * FROM camp_general WHERE c_uuid='{$c_uuid}'";
     	$res_camp =$db->Execute($qcamp);
 
     	$loc  =$res_camp->fields['location_id'];   
-    	$qloc = "select * from location where loc_uuid='{$loc}'";
+    	$qloc = "SELECT * FROM location WHERE loc_uuid='{$loc}'";
     	$res_loc =$db->Execute($qloc);
     						
     						$type  =$res_camp->fields['opt_camp_type']; 
-    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$qtype = "SELECT * FROM field_options WHERE option_code='{$type}'";
     						$res_type =$db->Execute($qtype);
     						 
     						
@@ -144,12 +144,12 @@ function _shn_cr_drill_location(){
 	global $global;
 	$module = $global['module'];	
 	$db=$global['db'];
-	$q = "select sum(b.total), a.location_id from camp_general as a, camp_reg as b where b.c_uuid=a.c_uuid group by a.location_id";
+	$q = "SELECT SUM(b.total), a.location_id FROM camp_general as a, camp_reg as b WHERE b.c_uuid=a.c_uuid group by a.location_id";
 	$res_cmp = $db->Execute($q);
 	while (!$res_cmp->EOF){
 		$loc_id =$res_cmp->fields[1];
                 $location=_shn_cr_location_string($loc_id);
-		//$qloc  = "select name from location where loc_uuid='{$loc_id}'";
+		//$qloc  = "select name FROM location WHERE loc_uuid='{$loc_id}'";
 		//$res_loc =$db->Execute($qloc);
 ?>
 				<tr>
@@ -195,20 +195,20 @@ echo "<h3>"._("Shelters in")." : "._shn_cr_location_string($locate)." </h3>";
 global $global;
 $db=$global['db'];
 
-$q = "select c_uuid,name,opt_camp_type,address,location_id from camp_general where location_id='{$locate}'";
+$q = "SELECT c_uuid,name,opt_camp_type,address,location_id FROM camp_general WHERE location_id='{$locate}'";
 $res_cmp = $db->Execute($q);
 while (!$res_cmp->EOF){
 				
 $loc_id =$res_cmp->fields[4];        
-$qloc  = "select * from location where loc_uuid='{$loc_id}'order by loc_uuid";
+$qloc  = "SELECT * FROM location WHERE loc_uuid='{$loc_id}'order by loc_uuid";
 $res_loc =$db->Execute($qloc);
 								
 $cmp_id =$res_cmp->fields[0];        
-$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
+$qreg  = "SELECT total FROM camp_reg WHERE c_uuid='{$cmp_id}'";
 $res_reg =$db->Execute($qreg);
 
 $type  =$res_cmp->fields[2]; 
-$qtype = "select * from field_options where option_code='{$type}'";
+$qtype = "SELECT * FROM field_options WHERE option_code='{$type}'";
 $res_type =$db->Execute($qtype);
 								
 ?>
@@ -236,7 +236,7 @@ function _shn_cr_contact(){
 				global $global;
 				$db=$global['db'];
 				
-				$query = "select d.name, a.admin_name, a.admin_no, b.contact_value, c.occupation from camp_reg a left outer join camp_admin z USING (c_uuid) inner join contact b on b.pgoc_uuid = z.contact_puuid left outer join person_details c on c.p_uuid = b.pgoc_uuid inner join camp_general d on a.c_uuid = d.c_uuid where b.opt_contact_type='cmob'";
+				$query = "SELECT d.name, a.admin_name, a.admin_no, b.contact_value, c.occupation FROM camp_reg a left outer join camp_admin z USING (c_uuid) inner join contact b on b.pgoc_uuid = z.contact_puuid left outer join person_details c on c.p_uuid = b.pgoc_uuid inner join camp_general d on a.c_uuid = d.c_uuid WHERE b.opt_contact_type='cmob'";
 				//$resc = $db->Execute($query);
                                 $resc = shn_paging_get_report($query,10);
 ?>
@@ -287,20 +287,20 @@ function _shn_cr_rpt_summary(){
 				<?php    
    					 global $global;
 						 $db=$global['db'];
-						 $q = "select c_uuid,name,opt_camp_type,address,location_id from camp";
+						 $q = "SELECT c_uuid,name,opt_camp_type,address,location_id FROM camp";
 						 $res_cmp = $db->Execute($q);
 						while (!$res_cmp->EOF){
      	   								
     						$loc_id =$res_cmp->fields[4];        
-    						$qloc  = "select * from location where loc_uuid='{$loc_id}'order by loc_uuid";
+    						$qloc  = "SELECT * FROM location WHERE loc_uuid='{$loc_id}'order by loc_uuid";
     						$res_loc =$db->Execute($qloc);
     						    						
     						$cmp_id =$res_cmp->fields[0];        
-    						$qreg  = "select total from camp_reg where c_uuid='{$cmp_id}'";
+    						$qreg  = "SELECT total FROM camp_reg WHERE c_uuid='{$cmp_id}'";
     						$res_reg =$db->Execute($qreg);
     						
     						$type  =$res_cmp->fields[2]; 
-    						$qtype = "select * from field_options where option_code='{$type}'";
+    						$qtype = "SELECT * FROM field_options WHERE option_code='{$type}'";
     						$res_type =$db->Execute($qtype);
     		    					   				
     				?>
@@ -344,7 +344,7 @@ function _shn_cr_location_string($loc)
    		array_pop($loc_arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($loc_arr);
-   			$q="select name from location where loc_uuid='{$x}'";
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
     			$res=$db->Execute($q);
     			if($count==0 ){
     				$location=$location.$res->Fields("name");

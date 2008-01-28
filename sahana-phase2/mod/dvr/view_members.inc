@@ -64,8 +64,6 @@ echo 'Group Head'.'<br /><a href="index.php?mod=' . $global['module'] . '&act=ed
 ?>
 <center>
 <?php
-
-
 shn_dvr_home_show_dvr();
 ?>
 </div>
@@ -80,7 +78,7 @@ function shn_dvr_home_show_dvr() {
 	#$incident_sql = "'$incident_sql'";
 
 	$groupid = $_GET['groupid'];
-	$sql = "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im,person_to_pgroup p where im.x_uuid=a.p_uuid and p.p_uuid=a.p_uuid and p.g_uuid='{$groupid}' order by im.created ";
+	$sql = "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im,person_to_pgroup p WHERE im.x_uuid=a.p_uuid AND p.p_uuid=a.p_uuid AND p.g_uuid='{$groupid}' ORDER BY im.created ";
 
 	$rs = $global['db']->SelectLimit($sql, 16);
               
@@ -139,7 +137,7 @@ function _shn_dvr_search_show_verticle($details) {
         <TD>
 <?php
                  
-				shn_show_thumb_url($details[$i +1]['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
+		  shn_show_thumb_url($details[$i +1]['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
 
 				echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $details[$i +1]['p_uuid'] . '">' . $details[$i +1]['full_name'] . '</a><br />';
                 
@@ -163,13 +161,13 @@ function _shn_dvr_get_person_full_name($person_uuid)
 {
 	
 		
-global $global;
+    global $global;
 
-$db = $global['db'];
-$sql="select full_name from person_uuid where p_uuid ='{$person_uuid}'";
-$res = $db->Execute($sql);
-$group=$res->fields['full_name'];
-return $group;
+    $db = $global['db'];
+    $sql="SELECT full_name FROM person_uuid WHERE p_uuid ='{$person_uuid}'";
+    $res = $db->Execute($sql);
+    $group=$res->fields['full_name'];
+    return $group;
 	
 }
 ?>

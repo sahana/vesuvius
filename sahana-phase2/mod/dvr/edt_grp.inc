@@ -115,13 +115,13 @@ function _shn_dvr_group_validate_error() {
 		$error_flag = true;
 	}
 
-$email=$_POST['email'];
-if(!shn_valid_email($email,false))
-{
-add_error(_("Invalid Email entered"));	
-$error_flag = true;
+    $email=$_POST['email'];
+    if(!shn_valid_email($email,false))
+    {
+        add_error(_("Invalid Email entered"));	
+        $error_flag = true;
 
-}
+    }
 	
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
@@ -163,8 +163,8 @@ function shn_dvr_set_group_major_details() {
 	$_SESSION['dvr']['group']['rehbd'] = $_POST['rehbd'];
 
 
-$loc = shn_location_get_form_submit_loc();
-$_SESSION['dvr']['group']['displaced_loc']=$loc;
+    $loc = shn_location_get_form_submit_loc();
+    $_SESSION['dvr']['group']['displaced_loc']=$loc;
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
@@ -458,7 +458,7 @@ function shn_dvr_loc_dtls($errors = false) {
 }
 
 function _shn_dvr_group_location_validate_error() {
-	$error = false;
+    $error = false;
 	$loc = shn_location_get_form_submit_loc();
 	if ($loc == -1) {
 		$error = true;

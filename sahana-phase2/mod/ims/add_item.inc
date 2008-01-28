@@ -148,7 +148,7 @@ function add_item($temp,$parent_id)
     
     $unit_select_array[$unit] = $cms->fields['name'];
     
-    $query = "select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $query = "SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
     $res = $db->Execute($query);
 
     while (!$res == NULL && !$res->EOF) {

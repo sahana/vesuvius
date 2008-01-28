@@ -1877,7 +1877,7 @@ function _shn_ims_location_string($loc)
    		array_pop($loc_arr);
    		for($count=0;$count<$max;$count++){
    			$x=array_pop($loc_arr);
-   			$q="select name from location where loc_uuid='{$x}'";
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
     			$res=$db->Execute($q);
     			if($count==0 ){
     				$location=$location.$res->Fields("name");
@@ -1986,7 +1986,7 @@ function _shn_ims_get_victim()
     global $global;
     $db=$global['db'];
     $victim_array=array();
-    $sql=" select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid;";
+    $sql="SELECT pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name FROM pgroup pg,person_to_pgroup ptg,person_uuid pu WHERE pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid;";
     $ims=$db->Execute($sql);
     
     $victim_array['']='';

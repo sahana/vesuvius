@@ -747,7 +747,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
 	}
 	else if($destination_type=='victim')
 	{
-		$sql2="select pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name from pgroup pg,person_to_pgroup ptg,person_uuid pu where pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pg.g_uuid='$inv_id_to';";
+		$sql2="SELECT pg.g_uuid as g_uuid,pu.p_uuid as p_uuid,pg.opt_group_type as group_name,pu.full_name as full_name,pu.family_name as family_name,pu.l10n_name as l10n_name,pu.custom_name as custom_name FROM pgroup pg,person_to_pgroup ptg,person_uuid pu WHERE pg.g_uuid=ptg.g_uuid and ptg.p_uuid=pu.p_uuid and pg.g_uuid='$inv_id_to';";
 		$ims2=$db->Execute($sql2);
         	$inventory_to=$ims2->fields['full_name']." ".$ims2->fields['family_name'];
 	}
@@ -761,20 +761,20 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     //$extra_opts['value'] = $received_amount;
     shn_form_text(_("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$amount));
 
-$unit_select_array=array();
+    $unit_select_array=array();
     
     $cq="SELECT name FROM ct_unit WHERE unit_uuid='$unit';";
     $cms=$db->Execute($cq);
     $unit_select_array[$unit]=$cms->fields['name'];
     
-    $query="select * from ct_cat_unit where ct_uuid='$parent_id'";
+    $query="SELECT * FROM ct_cat_unit WHERE ct_uuid='$parent_id'";
     $res=$db->Execute($query);
 
     while(!$res==NULL && !$res->EOF)
     {
 
         $temp2=$res->fields['unit_uuid'];
-        $query1="select name from ct_unit where unit_uuid ='$temp2'";
+        $query1="SELECT name FROM ct_unit WHERE unit_uuid ='$temp2'";
         $res2=$db->Execute($query1);
     
         $unit_select_array[$res->fields['unit_uuid']]=$res2->fields['name'];

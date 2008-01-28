@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_ppl.inc,v 1.5 2008-01-03 10:17:19 isurunishan Exp $ */
-/* $Id: edit_ppl.inc,v 1.5 2008-01-03 10:17:19 isurunishan Exp $ */
+/* $Id: edit_ppl.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: edit_ppl.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**Update functions for  CR
 *
@@ -45,12 +45,12 @@ function _shn_cr_cedt_start($errors=false){
 <tr>
 <td>
 <?php	
-shn_form_text(_("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
+	shn_form_text(_("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
@@ -58,12 +58,12 @@ shn_form_text(_("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp
 <tr>
 <td>
 <?php
-shn_form_text(_("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
+	shn_form_text(_("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
@@ -72,26 +72,26 @@ shn_form_text(_("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['cam
 <tr>
 <td>
 <?php
-shn_form_text(_("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
+	shn_form_text(_("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Capacity"),"capacity2",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_("Capacity"),"capacity2",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
 
 </table>
 <?php
-shn_form_text(_("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
+	shn_form_text(_("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
 
 
 
 
-shn_form_submit("Update");
+	shn_form_submit("Update");
 	shn_form_fsclose();
-shn_form_fclose();
+	shn_form_fclose();
 }
 
 
@@ -99,14 +99,14 @@ shn_form_fclose();
 
 
 function _shn_cr_cedt_chk($errors=false){
-if($errors)
-	display_errors;
+	if($errors)
+		display_errors;
 	
 	global $global;
 
-$_SESSION['camp_infected']=$_POST['infected_count'];
+	$_SESSION['camp_infected']=$_POST['infected_count'];
 
- $_SESSION['camp_capacity']=$_POST['capacity'];
+	$_SESSION['camp_capacity']=$_POST['capacity'];
 
 	$_SESSION['camp_men']=$_POST['men'];
 	$_SESSION['camp_women']=$_POST['women'];
@@ -167,44 +167,36 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-$query="select a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children,capacity from camp_general a left outer join camp_reg b on a.c_uuid=b.c_uuid where a.c_uuid='{$camp_id}'";
+	$query="SELECT a.name,a.location_id,a.opt_camp_type,a.address,admin_name,admin_no,family,total,men,women,children,capacity FROM camp_general a LEFT OUTER JOIN camp_reg b on a.c_uuid=b.c_uuid WHERE a.c_uuid='{$camp_id}'";
 	
 	$res = $db->Execute($query);
-$_SESSION['camp_infected']=$res->fields['family'];
+	$_SESSION['camp_infected']=$res->fields['family'];
 	$_SESSION['camp_men']=$res->fields['men'];
 	$_SESSION['camp_women']=$res->fields['women'];
 	$_SESSION['camp_children']=$res->fields['children'];
 	$_SESSION['camp_total']=$res->fields['total'];
-        $_SESSION['camp_capacity']=$res->fields['capacity'];
+    $_SESSION['camp_capacity']=$res->fields['capacity'];
 											
 }
 
 
 function _shn_cr_cedt_commit(){
 //insert to database;
-global $global;
-global $editid;
-$db = $global['db'];
+	global $global;
+	global $editid;
+	$db = $global['db'];
+
+	$q="UPDATE camp_general SET capacity={$_SESSION['camp_capacity']} WHERE c_uuid='{$_SESSION['editid']}'";
+	$res = $db->Execute($q);
+	
+	$q="UPDATE camp_reg SET men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_infected']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' WHERE c_uuid='{$_SESSION['editid']}'";
 
 
-
-
-$q="update camp_general set capacity={$_SESSION['camp_capacity']} where c_uuid='{$_SESSION['editid']}'";
-
-
-$res = $db->Execute($q);
-
-
-$q="update camp_reg set men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_infected']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' where c_uuid='{$_SESSION['editid']}'";
-
-
-//$q="update camp_reg set men='{$_SESSION['camp_men']}'  where c_uuid='{$_SESSION['editid']}'";
-
-
-$res = $db->Execute($q);
+	//$q="update camp_reg set men='{$_SESSION['camp_men']}'  where c_uuid='{$_SESSION['editid']}'";
+	$res = $db->Execute($q);
 ?>
 
-<?= add_confirmation(_("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
+<h2><?= add_confirmation(_("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
 
 
 </tbody>

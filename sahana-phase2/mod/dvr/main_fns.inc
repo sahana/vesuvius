@@ -121,7 +121,7 @@ function shn_dvr_add_new_indv() {
 						
 //unset person physical
 
-unset($_SESSION['dvr']['person']['opt_eye_color']);
+    unset($_SESSION['dvr']['person']['opt_eye_color']);
 	unset($_SESSION['dvr']['person']['opt_skin_color']) ;
 	unset($_SESSION['dvr']['person']['opt_hair_color'] );
 	unset($_SESSION['dvr']['person']['height']) ;
@@ -337,9 +337,26 @@ function shn_dvr_search_group() {
 			}
 		default :
 		unset($_SESSION['dvr']['person']['typ_of_grp']);
-			shn_dvr_search_default();
+		shn_dvr_search_default();
 	}
 }
+
+//new feature for 0.7
+function shn_dvr_transfer_indv() 
+{
+	global $global;
+	include ($global['approot'] . '/mod/dvr/transfer_indv.inc');
+	
+}
+
+//new feature for 0.7
+function shn_dvr_transfer_grp() 
+{
+	global $global;
+	include ($global['approot'] . '/mod/dvr/transfer_grp.inc');
+	
+}
+
 
 function shn_dvr_list_groups() {
 	global $global;
@@ -691,10 +708,10 @@ function shn_ajax_send_data(){
     	$name_array[$j]=$name;
     }
    
-$input=$_GET["input"];
-$print=$_GET["print"];
-$event=$_GET["eve"];
-$input_ele=$_GET["input_ele"];
+    $input=$_GET["input"];
+    $print=$_GET["print"];
+    $event=$_GET["eve"];
+    $input_ele=$_GET["input_ele"];
 if (strlen($input) > 0)
 {
   $hint="";
@@ -713,20 +730,20 @@ if (strlen($input) > 0)
     }
   }
 }
-$hint=$print.':'.$event.':'.$input_ele.':'.substr($hint,strpos($hint,':')+1,strlen($hint));
+    $hint=$print.':'.$event.':'.$input_ele.':'.substr($hint,strpos($hint,':')+1,strlen($hint));
 
-if ($hint == "")
-{
-//$response="no suggestion";
-}
-else
-{
-$response=$hint;
-}
+    if ($hint == "")
+    {
+    //$response="no suggestion";
+    }
+    else
+    {
+        $response=$hint;
+    }
 
 
-echo $response;
-return $response;
+    echo $response;
+    return $response;
 }
 
 

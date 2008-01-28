@@ -58,6 +58,13 @@ function shn_dvr_mainmenu() {
 	shn_sub_mod_menuitem('list_groups', _('List groups/View members '));
 	//shn_sub_mod_menuitem('list_persons', _('List All persons'));
 	shn_sub_mod_menuclose();
+	
+	///////
+	shn_sub_mod_menuopen(_('Transfer Victims'));
+	shn_sub_mod_menuitem('transfer_indv', _('Transfer Individual'));
+	shn_sub_mod_menuitem('transfer_group', _('Transfer Group'));
+	shn_sub_mod_menuclose();
+	/////////
 
 	shn_sub_mod_menuopen(_('Reports'));
 	shn_sub_mod_menuitem('drill_downby_group', _('Drill Down By Group'));

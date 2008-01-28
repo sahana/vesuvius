@@ -22,9 +22,9 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 <?php
 
-/* $Id: search_individual.inc,v 1.5 2008-01-03 10:19:37 isurunishan Exp $ */
+/* $Id: search_individual.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: search_individual.inc,v 1.5 2008-01-03 10:19:37 isurunishan Exp $ */
+/* $Id: search_individual.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**
  * 
@@ -48,14 +48,14 @@ function shn_dvr_search_default()
 {
     shn_form_fopen("search_individual",null,array('req_message'=>false)); 
     shn_form_hidden(array('seq'=>'search'));
-     shn_form_hidden(array('incident'=>'one'));
+    shn_form_hidden(array('incident'=>'one'));
     shn_form_fsopen(_('General Search'));
     shn_form_text(_('Any Card Number'),'card','size="30"');
     shn_form_text(_('Any Name'),'name','size="30"');
  
     shn_form_checkbox(_('All incidents'),'all_incidents','onClick=setIncident()',null);
     shn_form_submit(_('Next'));
-//advanced search link
+    //advanced search link
     shn_form_fsclose();
     ?>
 <!--    <a href="index.php?mod=dvr&act=search_individual&seq=advanced">Advanced Search</a>-->
@@ -88,10 +88,10 @@ function shn_dvr_individual_search_results()
 		$all_incidents=null;
 	}
 	
-include_once ($global['approot'] . '/mod/dvr/data_access.inc');
-include_once ($global['approot'] . '/mod/dvr/lib.inc');
-$results=_shn_dvr_get_individual_search_results($card,$name,$all_incidents);
-//print 'all incidents'.$all_incidents;
+    include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+    include_once ($global['approot'] . '/mod/dvr/lib.inc');
+    $results=_shn_dvr_get_individual_search_results($card,$name,$all_incidents);
+    //print 'all incidents'.$all_incidents;
 	
 	?>
 	

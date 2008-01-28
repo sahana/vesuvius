@@ -60,12 +60,11 @@ function _shn_admin_acl_enable_mods_cr()
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
-	$sql="DELETE from sys_group_to_module";
+	$sql="DELETE FROM sys_group_to_module";
 	$res=$db->Execute($sql);
 	if(!$res && !$error_flag){
-		// set the error flag once only
-		// no overwrite if set.
-		$error_flag = true;
+									// no overwrite if set.
+		$error_flag = true;			// set the error flag once only
 	}
 
 	// give admin module to admin role.
@@ -464,7 +463,7 @@ function _shn_admin_acl_role_cr()
 </div>
 		<?php
 }
-shn_admin_acl_role($module,false);
+    shn_admin_acl_role($module,false);
 }
 
 function _shn_admin_acl_user_add_perms()
@@ -532,7 +531,7 @@ function _shn_admin_acl_user_cr()
 		<?php
 }
 
-_shn_admin_acl_user($module,false);
+    _shn_admin_acl_user($module,false);
 }
 
 /**

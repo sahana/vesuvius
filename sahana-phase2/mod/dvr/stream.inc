@@ -26,10 +26,10 @@ require_once ($global['approot'].'inc/lib_image.inc');
  */
 function shn_dvr_default()
 {
-$message = _("
+    $message = _("
         Welcome to the Sahana FOSS Disaster Management System
         Sahana is an integrated set of pluggable, web based disaster management applications that provide solutions to large-scale humanitarian problems in the aftermath of a disaster. These applications a nd problems they address are as follows:");
-    switch ($_GET['stream_type']){
+        switch ($_GET['stream_type']){
         case 'soap' :
             return $message;
         break;
@@ -62,11 +62,11 @@ function shn_dvr_addvictim_img()
                 else
                     shn_show_image_stream($x_uuid,false); 
             }
-        break;
+     break;
     }
 }
     
-    function shn_dvr_addfingerprint_img()
+function shn_dvr_addfingerprint_img()
 {
     global $global; 
 
@@ -82,7 +82,7 @@ function shn_dvr_addvictim_img()
                 else
                     shn_show_image_stream($x_uuid,false); 
             }
-        break;
+     break;
     }
     
 }

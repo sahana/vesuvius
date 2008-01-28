@@ -32,9 +32,9 @@ include_once ($global['approot'] . '/inc/lib_ajax.inc');
 //include_once ($global['approot'] . '/inc/handler_upload.inc');
 
 function shn_dvr_add_new_individual($errors = false) {
-global $conf;
+    global $conf;
 	if ($errors)
-		display_errors();
+    display_errors();
 
 	_shn_dvr_print_header(_("Add New Individual"));
 
@@ -437,24 +437,24 @@ function _shn_dvr_individual_validate_error() {
 	}
 //get_dvr_group_member_count($group_id)
 
-$email=$_POST['email'];
-if(!shn_valid_email($email,false))
-{
-add_error(_("Invalid Email entered"));	
-$error_flag = true;
-}
+    $email=$_POST['email'];
+    if(!shn_valid_email($email,false))
+    {
+        add_error(_("Invalid Email entered"));	
+        $error_flag = true;
+    }
 	$dob=$_POST['dob'];
-$valid_date = true;	
-$dob_val = $_POST['dob'];	
-if(!shn_valid_date($dob_val))
-{
+    $valid_date = true;	
+    $dob_val = $_POST['dob'];	
+    if(!shn_valid_date($dob_val))
+    {
 	//add_error(_("Please Check the Date format"));	
-$error_flag = true;
-$valid_date = false;
-}
+        $error_flag = true;
+        $valid_date = false;
+    }
 
 
-if($valid_date){
+    if($valid_date){
 		$dob_val = $_POST['dob'];
 		$today_val = date('Y-m-d');
 
@@ -464,7 +464,7 @@ if($valid_date){
 			add_error(_("Please enter a valid date of birth."));
 			$error_flag = true;
 		}
-}
+    }
 	
 	$pics = $_POST['picture'];
 
@@ -486,7 +486,7 @@ if($valid_date){
 
 function _shn_dvr_regconfirm_individual() {
 	
-shn_dvr_set_person_physical_details();
+    shn_dvr_set_person_physical_details();
 	global $global;
 	global $conf;
 	$db = $global['db'];
@@ -799,7 +799,7 @@ function shn_dvr_set_person_location_details() {
 	
 //$camps =$_POST['camps'];
 //print 'camp is'.$camps;
-$_SESSION['dvr']['person']['camps']=$_POST['camps'];
+    $_SESSION['dvr']['person']['camps']=$_POST['camps'];
 //$_SESSION['dvr']['person']['shelter_id']=$camps;
 	//$location=_shn_org_location_string($_SESSION['dvr']['group']['dis_loc']);
 
@@ -901,13 +901,7 @@ function get_group_disloc()
 	
 }
 
-function hander($query)
-{
-	global $global;
-	$db = $global['db'];
-	$res = $db->Execute($query);
-	return $res;
-}
+
 function _shn_dvr_set_ajax_group_id(){
 	?>
 	<script>

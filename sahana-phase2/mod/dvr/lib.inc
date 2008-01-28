@@ -32,7 +32,7 @@ function _shn_dvr_getchecklist()
 	global $conf;
 	$db = $global['db'];
 	$loc = array ();
-	$q = "select option_description from field_options where field_name='opt_dvr_service'";
+	$q = "SELECT option_description FROM field_options WHERE field_name='opt_dvr_service'";
 	$res = $db->Execute($q);
 	$i=0;
 	while(!$res->EOF)
@@ -70,7 +70,7 @@ function _shn_dvr_getgroupheadspertype($grp_type)
 	$db = $global['db'];
 	$head_names= array ();
 	$i=0;
-	$q = "select p.full_name,pg.g_uuid as groupid from person_uuid p,pgroup pg,group_details gd where p.p_uuid=gd.head_uuid and pg.g_uuid=gd.g_uuid and pg.opt_group_type='{$grp_type}'";
+	$q = "SELECT p.full_name,pg.g_uuid AS groupid FROM person_uuid p,pgroup pg,group_details gd WHERE p.p_uuid=gd.head_uuid AND pg.g_uuid=gd.g_uuid AND pg.opt_group_type='{$grp_type}'";
 	$res = $db->Execute($q);
 	while(!$res->EOF)
 	{
@@ -94,23 +94,21 @@ function _shn_dvr_getgrouptype($g_uuid)
 function _shn_dvr_get_group_id($head_name)
 {
 	
-global $global;
+    global $global;
 
 	$db = $global['db'];
-	$sql="select pg.g_uuid as group from pgroup pg,person_uuid pu where pg.head_uuid=pu.p_uuid and pu.full_name='{$head_name}' ";
-$res = $db->Execute($sql);
-$group=$res->fields['group'];
-return $group;
+	$sql="SELECT pg.g_uuid AS group FROM pgroup pg,person_uuid pu WHERE pg.head_uuid=pu.p_uuid AND pu.full_name='{$head_name}' ";
+    $res = $db->Execute($sql);
+    $group=$res->fields['group'];
+    return $group;
 }
 
 function _shn_dvr_get_person_full_name($person_uuid)
-{
-	
-		
-global $global;
+{	
+    global $global;
 
-$db = $global['db'];
-$sql="select full_name from person_uuid where p_uuid ='{$person_uuid}'";
+    $db = $global['db'];
+    $sql="SELECT full_name FROM person_uuid WHERE p_uuid ='{$person_uuid}'";
 $res = $db->Execute($sql);
 $group=$res->fields['full_name'];
 return $group;
@@ -121,22 +119,22 @@ function _shn_dvr_get_groupdisplaced_location($groupid)
 {
 	global $global;
 
-$db = $global['db'];
-$sql="select location_id from location_details where poc_uuid ='{$groupid}-disp'";
-$res = $db->Execute($sql);
-$loc=$res->fields['location_id'];
-return $loc;
+    $db = $global['db'];
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-disp'";
+    $res = $db->Execute($sql);
+    $loc=$res->fields['location_id'];
+    return $loc;
 }
 
 function _shn_dvr_get_groupcurrent_location($groupid)
 {
 	global $global;
 
-$db = $global['db'];
-$sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-curr'";
-$res = $db->Execute($sql);
-$loc=$res->fields['location_id'];
-return $loc;
+    $db = $global['db'];
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-curr'";
+    $res = $db->Execute($sql);
+    $loc=$res->fields['location_id'];
+    return $loc;
 }
 
 
@@ -144,11 +142,11 @@ function _shn_dvr_get_groupcurrent_shelter($groupid)
 {
 	global $global;
 
-$db = $global['db'];
-$sql="select full_name from person_uuid where p_uuid ='{$person_uuid}'";
-$res = $db->Execute($sql);
-$group=$res->fields['full_name'];
-return $group;
+    $db = $global['db'];
+    $sql="SELECT full_name FROM person_uuid WHERE p_uuid ='{$person_uuid}'";
+    $res = $db->Execute($sql);
+    $group=$res->fields['full_name'];
+    return $group;
 }
 
 
@@ -158,12 +156,12 @@ function _shn_dvr_get_image_id($groupid,$category)
 {
 	global $global;
 
-$db = $global['db'];
-//$sql="select i.image_id as imid FROM image i,pgroup p where p.head_uuid=i.x_uuid and p.g_uuid ='{$groupid} and p.category='{$category}'";
-$sql = "select image_id FROM image where x_uuid ='$groupid' AND category='$category'";
-$res = $db->Execute($sql);
-$imageid=$res->fields['image_id'];
-return $imageid;
+    $db = $global['db'];
+    //$sql="SELECT i.image_id AS imid FROM image i,pgroup p WHERE p.head_uuid=i.x_uuid AND p.g_uuid ='{$groupid} AND p.category='{$category}'";
+    $sql = "SELECT image_id FROM image WHERE x_uuid ='$groupid' AND category='$category'";
+    $res = $db->Execute($sql);
+    $imageid=$res->fields['image_id'];
+    return $imageid;
 }
 
 
@@ -241,14 +239,14 @@ function shn_dvr_get_loc_range() {
 	global $conf;
 	$db = $global['db'];
 	$loc = array ();
-	$q = "select value from config where module_id='or' and confkey='loc_range_start'";
+	$q = "SELECT value FROM config WHERE module_id='or' AND confkey='loc_range_start'";
 	$res = $db->Execute($q);
 	if ($res->fields[0] == NULL) {
 		$loc["start"] = $conf['mod_or_loc_level_start'];
 	} else {
 		$loc["start"] = $res->fields[0];
 	}
-	$q = "select value from config where module_id='dvr' and confkey='loc_range_end'";
+	$q = "SELECT value FROM config WHERE module_id='dvr' AND confkey='loc_range_end'";
 	$res = $db->Execute($q);
 	if ($res->fields[0] == NULL) {
 		$loc["end"] = $conf['mod_or_loc_level_end'];
@@ -262,7 +260,7 @@ function _shn_dvr_get_start_loc() {
 	global $global;
 	global $conf;
 	$db = $global['db'];
-	$q = "select value from config where module_id='dvr' and confkey='loc_start'";
+	$q = "SELECT value FROM config WHERE module_id='dvr' AND confkey='loc_start'";
 	$res = $db->Execute($q);
 	//   if($res->fields[0]==NULL){
 	//    	return $conf['mod_or_start_loc'];

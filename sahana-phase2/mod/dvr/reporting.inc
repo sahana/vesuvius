@@ -76,7 +76,7 @@ function _shn_drill_downby_group() {
         
         </tr>
  <?php
- $results->MoveNext();
+    $results->MoveNext();
         }
         ?>
         </table>
@@ -86,9 +86,9 @@ function _shn_drill_downby_group() {
    
 function _shn_drill_downby_shelter() 
 {
-  global $global;
+    global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
-$camps=_shn_dvr_get_camps();
+    $camps=_shn_dvr_get_camps();
 
 ?>
  	  <h2><?=_("Disaster Victim Report by Shelter") ?></h2>
@@ -115,7 +115,7 @@ $camps=_shn_dvr_get_camps();
 	<td><?=$camps->fields['capacity']?></td>
 </tr>
 <?php
-$camps->MoveNext();
+    $camps->MoveNext();
 }
 ?>        
         </table>
@@ -128,9 +128,9 @@ $camps->MoveNext();
 
 function _shn_drill_downby_incident() {
 		 
-   global $global;
+    global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
-$incidents=_shn_dvr_get_incidents();
+    $incidents=_shn_dvr_get_incidents();
 
 ?>
  	  <h2><?=_("Disaster Victim Report by Incident") ?></h2>
@@ -155,7 +155,7 @@ $incidents=_shn_dvr_get_incidents();
 	<td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?= $incidents->fields['incident_id']?>'><?=$incidents->fields['name']?></td>
 </tr>
 <?php
-$incidents->MoveNext();
+    $incidents->MoveNext();
 }
 ?>        
         </table>

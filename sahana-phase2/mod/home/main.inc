@@ -31,9 +31,9 @@ function shn_home_default()
         <ul>
     
 <?php
-        _shn_home_module_info('gis',_("Allows you to locate activities on a map providing current situation awareness."));
-        _shn_home_module_info('mpr',_("Helps to report and search missing person."));
-        _shn_home_module_info('dvr',_("Traces internally displaced people (IDPs) and their needs."));
+    _shn_home_module_info('gis',_("Allows you to locate activities on a map providing current situation awareness."));
+    _shn_home_module_info('mpr',_("Helps to report and search missing person."));
+    _shn_home_module_info('dvr',_("Traces internally displaced people (IDPs) and their needs."));
     _shn_home_module_info('or',_("Lists 'who is doing what & where'. Allows relief agencies to self organize the activities rendering fine coordination among them."));
     _shn_home_module_info('rms',_("Tracks requests for aid and matches them against donars who have pledged aid."));
     _shn_home_module_info('cr',_("Tracks the location, distibution, capacity and breakdown of victims in shelter."));

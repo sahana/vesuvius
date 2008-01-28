@@ -1,9 +1,9 @@
 <?php
 
 
-/* $Id: main_fns.inc,v 1.22 2008-01-07 03:58:32 ishanul Exp $ */
+/* $Id: main_fns.inc,v 1.23 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: main_fns.inc,v 1.22 2008-01-07 03:58:32 ishanul Exp $ */
+/* $Id: main_fns.inc,v 1.23 2008-01-28 13:29:58 prabath321 Exp $ */
 
 
 /**
@@ -165,7 +165,7 @@ function shn_gis_com ()
 	include_once($global['approot'].'/inc/lib_uuid.inc');
 	$landmark_id = shn_create_uuid('l');
 	$gis_id = shn_create_uuid('g');
-	$land_query = "insert into landmark_location (landmark_uuid,name,opt_landmark_type,description,comments,gis_uid) values ('{$landmark_id}','{$_SESSION['location_name']}','{$_SESSION['opt_landmark_type']}','{$_SESSION['direction']}','{$_SESSION['comment']}','{$gis_id}') ";
+	$land_query = "INSERT INTO landmark_location (landmark_uuid,name,opt_landmark_type,description,comments,gis_uid) VALUES ('{$landmark_id}','{$_SESSION['location_name']}','{$_SESSION['opt_landmark_type']}','{$_SESSION['direction']}','{$_SESSION['comment']}','{$gis_id}') ";
 	$res = $db->Execute($land_query);	
 	if($conf['gis']){
 		shn_gis_dbinsert(0,0,null,$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],null,$gis_id);

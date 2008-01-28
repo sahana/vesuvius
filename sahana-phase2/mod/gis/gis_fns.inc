@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: gis_fns.inc,v 1.29 2008-01-16 03:17:52 ishanul Exp $ */
+/* $Id: gis_fns.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: gis_fns.inc,v 1.29 2008-01-16 03:17:52 ishanul Exp $ */
+/* $Id: gis_fns.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
 
 
 /**
@@ -58,8 +58,8 @@ function shn_gis_gps_from_rest($uuid,$lat,$lon)
 	
 	include_once $global['approot']."/inc/lib_uuid.inc";
 	$gis_id=shn_create_uuid('gis');
-	$query="insert into gis_location (poc_uuid,map_northing,map_easting,gis_uid) " .
-			" values ('{$uuid}','{$lat}','{$lon}','{$gis_id}') ";
+	$query="INSERT INTO gis_location (poc_uuid,map_northing,map_easting,gis_uid) " .
+			" VALUES ('{$uuid}','{$lat}','{$lon}','{$gis_id}') ";
 	$db->Execute($query);
 	echo _("Coordinates Added");
 }

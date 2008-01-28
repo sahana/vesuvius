@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_bed.inc,v 1.5 2008-01-03 10:17:05 isurunishan Exp $ */
-/* $Id: edit_bed.inc,v 1.5 2008-01-03 10:17:05 isurunishan Exp $ */
+/* $Id: edit_bed.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: edit_bed.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**Update functions for  CR
 *
@@ -22,7 +22,7 @@ include_once($global['approot'].'/inc/lib_validate.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
 global $editid;
-function _shn_cr_cedt_start($errors=false){
+function _shn_cr_cedt_start($errors = false){
 	if($errors)
 		display_errors();
 	global $global;
@@ -44,12 +44,12 @@ function _shn_cr_cedt_start($errors=false){
 <tr>
 <td>
 <?php	
-shn_form_text(_("ICU Beds Used"),"icu_used",'size="5"',array('value'=>$_SESSION['camp_icu_used']));
+    shn_form_text(_("ICU Beds Used"),"icu_used",'size="5"',array('value'=>$_SESSION['camp_icu_used']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("ICU Beds Available"),"icu_available",'size="5"',array('value'=>$_SESSION['camp_icu_available']));
+    shn_form_text(_("ICU Beds Available"),"icu_available",'size="5"',array('value'=>$_SESSION['camp_icu_available']));
 ?>
 </td>
 </tr>
@@ -57,12 +57,12 @@ shn_form_text(_("ICU Beds Available"),"icu_available",'size="5"',array('value'=>
 <tr>
 <td>
 <?php
-shn_form_text(_("Medicine Beds Used"),"med_used",'size="5"',array('value'=>$_SESSION['camp_med_used']));
+    shn_form_text(_("Medicine Beds Used"),"med_used",'size="5"',array('value'=>$_SESSION['camp_med_used']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Medicine Beds Available"),"med_available",'size="5"',array('value'=>$_SESSION['camp_med_available']));
+    shn_form_text(_("Medicine Beds Available"),"med_available",'size="5"',array('value'=>$_SESSION['camp_med_available']));
 ?>
 </td>
 </tr>
@@ -71,12 +71,12 @@ shn_form_text(_("Medicine Beds Available"),"med_available",'size="5"',array('val
 <tr>
 <td>
 <?php
-shn_form_text(_("Surgery Beds Used"),"surg_used",'size="5"',array('value'=>$_SESSION['camp_surg_used']));
+    shn_form_text(_("Surgery Beds Used"),"surg_used",'size="5"',array('value'=>$_SESSION['camp_surg_used']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Surgery Beds Available"),"surg_available",'size="5"',array('value'=>$_SESSION['camp_surg_available']));
+    shn_form_text(_("Surgery Beds Available"),"surg_available",'size="5"',array('value'=>$_SESSION['camp_surg_available']));
 ?>
 </td>
 </tr>
@@ -84,24 +84,24 @@ shn_form_text(_("Surgery Beds Available"),"surg_available",'size="5"',array('val
 <tr>
 <td>
 <?php
-shn_form_text(_("Paediatrics Beds Used"),"ped_used",'size="5"',array('value'=>$_SESSION['camp_ped_used']));
+    shn_form_text(_("Paediatrics Beds Used"),"ped_used",'size="5"',array('value'=>$_SESSION['camp_ped_used']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Paeddiatrics Beds Available"),"ped_available",'size="5"',array('value'=>$_SESSION['camp_ped_available']));
+    shn_form_text(_("Paeddiatrics Beds Available"),"ped_available",'size="5"',array('value'=>$_SESSION['camp_ped_available']));
 ?>
 </td>
 </tr>
 <tr>
 <td>
 <?php
-shn_form_text(_("Obsterics Beds Used"),"obs_used",'size="5"',array('value'=>$_SESSION['camp_obs_used']));
+    shn_form_text(_("Obsterics Beds Used"),"obs_used",'size="5"',array('value'=>$_SESSION['camp_obs_used']));
 ?>
 </td><td>
 
 <?php
-shn_form_text(_("Obsterics Beds Available"),"obs_available",'size="5"',array('value'=>$_SESSION['camp_obs_available']));
+    shn_form_text(_("Obsterics Beds Available"),"obs_available",'size="5"',array('value'=>$_SESSION['camp_obs_available']));
 ?>
 </td>
 </tr>
@@ -118,9 +118,9 @@ shn_form_text(_("Obsterics Beds Available"),"obs_available",'size="5"',array('va
 
 
 
-shn_form_submit("Update");
+    shn_form_submit("Update");
 	shn_form_fsclose();
-shn_form_fclose();
+    shn_form_fclose();
 }
 
 
@@ -133,9 +133,9 @@ if($errors)
 	
 	global $global;
 
-$_SESSION['camp_icu_used']=$_POST['icu_used'];
+    $_SESSION['camp_icu_used']=$_POST['icu_used'];
 
- $_SESSION['camp_icu_available']=$_POST['icu_available'];
+    $_SESSION['camp_icu_available']=$_POST['icu_available'];
 
 	$_SESSION['camp_med_used']=$_POST['med_used'];
 	$_SESSION['camp_med_available']=$_POST['med_available'];
@@ -143,11 +143,11 @@ $_SESSION['camp_icu_used']=$_POST['icu_used'];
 	$_SESSION['camp_surg_available']=$_POST['surg_available'];
 
 
-  $_SESSION['camp_ped_used']=$_POST['ped_used'];
-        $_SESSION['camp_ped_available']=$_POST['ped_available'];
+    $_SESSION['camp_ped_used']=$_POST['ped_used'];
+    $_SESSION['camp_ped_available']=$_POST['ped_available'];
 
-  $_SESSION['camp_obs_used']=$_POST['obs_used'];
-        $_SESSION['camp_obs_available']=$_POST['obs_available'];
+    $_SESSION['camp_obs_used']=$_POST['obs_used'];
+    $_SESSION['camp_obs_available']=$_POST['obs_available'];
 
 
 
@@ -247,7 +247,7 @@ function _shn_cr_get_session($camp_id){
 	global $global;
 	$db = $global['db'];
 	
-$query="select * from hospital_beds  where c_uuid='{$camp_id}'";
+    $query="SELECT * FROM hospital_beds WHERE c_uuid='{$camp_id}'";
 	
 	$res = $db->Execute($query);
 
@@ -258,17 +258,17 @@ $query="select * from hospital_beds  where c_uuid='{$camp_id}'";
 
 
 
-$_SESSION['camp_icu_used']=$res->fields['icu_used'];
+    $_SESSION['camp_icu_used']=$res->fields['icu_used'];
 	$_SESSION['camp_icu_available']=$res->fields['icu'];
 	$_SESSION['camp_med_used']=$res->fields['med_used'];
 	$_SESSION['camp_med_available']=$res->fields['med'];
 	$_SESSION['camp_surg_used']=$res->fields['surg_used'];
-        $_SESSION['camp_surg_available']=$res->fields['surg'];
- $_SESSION['camp_ped_used']=$res->fields['paed_used'];
-        $_SESSION['camp_ped_available']=$res->fields['paed'];
+    $_SESSION['camp_surg_available']=$res->fields['surg'];
+    $_SESSION['camp_ped_used']=$res->fields['paed_used'];
+    $_SESSION['camp_ped_available']=$res->fields['paed'];
 
- $_SESSION['camp_obs_used']=$res->fields['obs_used'];
-        $_SESSION['camp_obs_available']=$res->fields['obs'];
+    $_SESSION['camp_obs_used']=$res->fields['obs_used'];
+    $_SESSION['camp_obs_available']=$res->fields['obs'];
 
 
 
@@ -278,30 +278,23 @@ $_SESSION['camp_icu_used']=$res->fields['icu_used'];
 
 
 function _shn_cr_cedt_commit(){
-//insert to database;
-global $global;
-global $editid;
-$db = $global['db'];
+    //insert to database;
+    global $global;
+	global $editid;
+	$db = $global['db'];
 
 
 
 
-$q="update hospital_beds set icu='{$_SESSION['camp_icu_available']}',med='{$_SESSION['camp_med_available']}',surg
-='{$_SESSION['camp_surg_available']}',paed='{$_SESSION['camp_ped_available']}',obs='{$_SESSION['camp_obs_available']}',icu_used='{$_SESSION['camp_icu_used']}',med_used='{$_SESSION['camp_med_used']}',surg_used='{$_SESSION['camp_surg_used']}',paed_used='{$_SESSION['camp_ped_used']}',obs_used='{$_SESSION['camp_obs_used']}'  where c_uuid='{$_SESSION['editid']}'";
+	$q="UPDATE hospital_beds SET icu='{$_SESSION['camp_icu_available']}',med='{$_SESSION['camp_med_available']}',surg
+	='{$_SESSION['camp_surg_available']}',paed='{$_SESSION['camp_ped_available']}',obs='{$_SESSION['camp_obs_available']}',icu_used='{$_SESSION['camp_icu_used']}',med_used='{$_SESSION['camp_med_used']}',surg_used='{$_SESSION['camp_surg_used']}',paed_used='{$_SESSION['camp_ped_used']}',obs_used='{$_SESSION['camp_obs_used']}'  where c_uuid='{$_SESSION['editid']}'";
 
 
-//print $_SESSION['camp_icu_available'];
+	//print $_SESSION['camp_icu_available'];
 
-//$q="update hospital_beds set icu='{$_SESSION['camp_icu_available']}'   where c_uuid='{$_SESSION['editid']}'";
+	//$q="update hospital_beds set icu='{$_SESSION['camp_icu_available']}'   where c_uuid='{$_SESSION['editid']}'";
 
-
-
-
-$res = $db->Execute($q);
-
-
-
-
+	$res = $db->Execute($q);
 
 //$q="update camp_reg set men='{$_SESSION['camp_men']}'  where c_uuid='{$_SESSION['editid']}'";
 
@@ -309,7 +302,7 @@ $res = $db->Execute($q);
 //$res = $db->Execute($q);
 ?>
 
-<?  add_confirmation(_("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
+<h2><?  add_confirmation(_("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
 
 
 </tbody>

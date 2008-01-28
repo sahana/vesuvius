@@ -6,9 +6,9 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 </script>
 <?php
 
-/* $Id: search_group.inc,v 1.7 2008-01-03 10:19:20 isurunishan Exp $ */
+/* $Id: search_group.inc,v 1.8 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: search_group.inc,v 1.7 2008-01-03 10:19:20 isurunishan Exp $ */
+/* $Id: search_group.inc,v 1.8 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**
  * 
@@ -58,17 +58,17 @@ function shn_dvr_search_default()
      $extra_opts['sort']=	'option_code';
     
     
-shn_form_opt_select('opt_group_type', _("Type of Group"), '',  $extra_opts);   
-shn_form_text(_('Any Card Number'),'card','size="30"');
-shn_form_text(_('Any Name'),'name','size="30"');
-shn_form_submit(_('Next'));
-shn_form_fsclose();
+    shn_form_opt_select('opt_group_type', _("Type of Group"), '',  $extra_opts);   
+    shn_form_text(_('Any Card Number'),'card','size="30"');
+    shn_form_text(_('Any Name'),'name','size="30"');
+    shn_form_submit(_('Next'));
+    shn_form_fsclose();
  
  ?>
  <!--<a href="index.php?mod=dvr&act=search_group&seq=advanced">Advanced Search</a>-->
  <?php
  
- shn_form_fclose();
+    shn_form_fclose();
  
  
 }
@@ -79,15 +79,15 @@ shn_form_fsclose();
 function shn_dvr_group_search_results()
 {
 	
-global $global ;
+    global $global ;
 	
 	$group=$_POST['opt_group_type'];
 	$card=$_POST['card'];
-$name=$_POST['name'];
-$search_q1=null;
-include_once ($global['approot'] . '/mod/dvr/data_access.inc');
-include_once ($global['approot'] . '/mod/dvr/lib.inc');
-$results=_shn_dvr_get_group_search_results($group,$card,$name);
+    $name=$_POST['name'];
+    $search_q1=null;
+    include_once ($global['approot'] . '/mod/dvr/data_access.inc');
+    include_once ($global['approot'] . '/mod/dvr/lib.inc');
+    $results=_shn_dvr_get_group_search_results($group,$card,$name);
 
 	 ?>
 	<br />
@@ -127,7 +127,7 @@ $results=_shn_dvr_get_group_search_results($group,$card,$name);
         
         </tr>
  <?php
- $results->MoveNext();
+    $results->MoveNext();
         }
         ?>
         </table>
@@ -175,12 +175,12 @@ function shn_dvr_advanced_search_group()
     $typ_of_grp[4] = "Other";
     
     
-$extra_opts['value']= $typ_of_grp;
-$extra_opts['help']=_("Enter the National Identity Card Number if available. (Optional)");
-$extra_opts['req']=false;
+    $extra_opts['value']= $typ_of_grp;
+    $extra_opts['help']=_("Enter the National Identity Card Number if available. (Optional)");
+    $extra_opts['req']=false;
     
     
-shn_form_select($typ_of_grp, _("Type Of Group"),'typ_of_grp',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", $extra_opts); 
+    shn_form_select($typ_of_grp, _("Type Of Group"),'typ_of_grp',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", $extra_opts); 
 
 
     shn_form_fsopen(_('Identity'));

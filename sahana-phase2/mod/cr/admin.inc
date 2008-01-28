@@ -1,7 +1,7 @@
 <?php
-/* $Id: admin.inc,v 1.13 2008-01-03 10:16:41 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.14 2008-01-28 13:29:58 prabath321 Exp $ */
 
-/* $Id: admin.inc,v 1.13 2008-01-03 10:16:41 isurunishan Exp $ */
+/* $Id: admin.inc,v 1.14 2008-01-28 13:29:58 prabath321 Exp $ */
 
 /**Admin Module for CR
 *
@@ -89,7 +89,7 @@ function shn_cr_adm_form_commit(){
 	   	 		}
 				
 				if($db_flag){
-					$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
+					$q = "INSERT INTO field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 					$res = $db->Execute($q);
 					add_confirmation(_("Added values"));
 				}
@@ -113,9 +113,9 @@ function shn_cr_adm_form_commit(){
 
 function shn_cr_adm_form_setdivision(){
 	global $global;
-  $db = $global['db'];
+    $db = $global['db'];
 
-	$q = "select * from config where confkey='division_type' && module_id='cr'";  
+	$q = "SELECT * FROM config WHERE confkey='division_type' AND module_id='cr'";  
 	$res=$db->Execute($q);
 	
 	if($res->EOF){
@@ -127,7 +127,7 @@ function shn_cr_adm_form_setdivision(){
 	}
 	else{
 		//do update
-		$q ="update config set value='{$_POST['opt_location_type']}' where confkey='division_type' && module_id='cr'";
+		$q ="UPDATE config SET value='{$_POST['opt_location_type']}' WHERE confkey='division_type' && module_id='cr'";
 		$ref = $db->Execute($q);
 	}
 	shn_cr_adm_default();

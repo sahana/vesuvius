@@ -51,6 +51,6 @@ function shn_cms_reg_aidworker(){
 
 function shn_cms_edit_aidworker(){
    
-echo "<h2><center>" . _("Edit Aid Worker Information") . "</center></h2>";
+    echo "<h2><center>" . _("Edit Aid Worker Information") . "</center></h2>";
 }                                                                              
 ?>
