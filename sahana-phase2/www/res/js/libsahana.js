@@ -60,15 +60,36 @@ function changed(){
     newdiv.appendChild(newp);
     newp.appendChild(emel);
     newdiv.appendChild(newul);
-    //newli.innerHTML = 'Incident was changed to '+incident+' successfully.';
+    //newli.innerHTML = 'Incident was successfully changed to '+incident+'.';
     newul.appendChild(newli);
     }
-    document.getElementById('inci').innerHTML = 'Incident was changed to '+incident+', successfully.';
+    document.getElementById('loading').innerHTML='';
+    document.getElementById('loading').setAttribute('class','');
+    document.getElementById('inci').innerHTML = 'Incident was successfully changed to '+incident+'.';
     }
-    
+    else{
+            loading();
+    }
         //alert('Incident was changed successfully.');
 }
+//create loading information
+function loading(){
 
+   var load = document.getElementById('loading');
+    if(load==null){
+    var newdiv = document.createElement('div');
+    newdiv.innerHTML = 'Changing the incident. Please wait......';
+    var loadId = 'loading';
+    newdiv.setAttribute('id',loadId);
+    newdiv.setAttribute('class','message information');
+    var ni = document.getElementById('content');
+    ni.insertBefore(newdiv,ni.childNodes[0]);
+    }
+    else{
+    document.getElementById('loading').innerHTML='Changing the incident. Please wait......';
+    document.getElementById('loading').setAttribute('class','message information');
+    }
+}
 
 //functions related to tabs
 var tabFieldSet=new Array();
