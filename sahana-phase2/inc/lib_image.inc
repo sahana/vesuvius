@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.10 2008-01-08 05:54:53 ishanul Exp $ */
+/* $Id: lib_image.inc,v 1.11 2008-01-29 03:51:28 ishanul Exp $ */
 
 /**
  *
@@ -39,7 +39,6 @@
  */
 function shn_image_resize($src_path,$desc_path,$width,$height)
 {
-
 	$info = getimagesize($src_path);
 	if(! $info)
 	return false;
@@ -93,61 +92,6 @@ function shn_image_resize($src_path,$desc_path,$width,$height)
 	imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 	//$func2 = 'image'.$mime;
 	$func2($image_p,$desc_path,100);
-
-	$info = getimagesize($src_path);
-	if(! $info)
-	return false;
-
-	$width_orig = $info[0];
-	$height_orig = $info[1];
-
-	if ($width && ($width_orig < $height_orig)) {
-		$width = ($height / $height_orig) * $width_orig;
-	} else {
-		$height = ($width / $width_orig) * $height_orig;
-	}
-
-	$image_p = imagecreatetruecolor($width, $height);
-
-	$func = NULL;
-	$func2 = "imagejpeg";
-
-	list(,$mime) = split("\/",$info['mime']);
-
-	if(stripos($mime,"bmp")!==FALSE){
-		// bitmap
-		$func =  "imagecreatefromwbmp";
-		$func2 = "imagewbmp";
-			
-	}else if(stripos($mime,"png")!==FALSE){
-		// png
-		$func = "imagecreatefrompng";
-		$func2 = "imagepng";
-			
-	}else if(stripos($mime,"jpeg")!==FALSE){
-		// jpeg and pjpeg
-		$func = "imagecreatefromjpeg";
-		$func2 = "imagejpeg";
-			
-	}else if(stripos($mime,"gif")!==FALSE){
-		// gif
-		$func = "imagecreatefromgif";
-		$func2 = "imagegif";
-	}
-
-	$image = NULL;
-
-	if($func===NULL){
-		$func = "imagecreate";
-		$image = $func($width,$height);
-	}else{
-	$image = $func($src_path);
-	}
-
-	imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	//$func2 = 'image'.$mime;
-	$func2($image_p,$desc_path,100);
-
 }
 /* }}} */
 
@@ -193,24 +137,17 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 {
 	global $global;
 
-
 	if($session){
 		shn_image_resize_from_string($image, 100, 100);
 	}else{
-		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' ";
-		$arr = $global['db']->GetAll($sql);
 
-	if($session){
-		shn_image_resize_from_string($image, 100, 100);
-	}else{
-		
 		if(isset($category)){
 		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category = '$category'"; 
 		}else{
 			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' ";
 		}
-	
-		$arr = $global['db']->GetAll($sql);
+		
+				$arr = $global['db']->GetAll($sql);
 
 		if(!$arr){
 			//Create the NOT available image
@@ -253,7 +190,6 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
  */
 function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
 {
-
 	global $global;
 	global $conf;
 
@@ -268,133 +204,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			$src_tmp = "index.php?stream=image&mod=$mod&act=$act&session=true&thumbnail=true";
 		}else{
 			//need to get the type
-
-			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid'";
-			$arr = $global['db']->GetAll($sql);
-			if(isset($arr[0]['image_type'])){
-				$type='&imagetype='.$arr[0]['image_type'];
-				$height = $arr[0]['image_height']+20;
-				$width = $arr[0]['image_width']+20;
-			}
-			$src_ori = "index.php?stream=image&mod=$mod&act=$act&x_uuid=".$x_uuid.$type;
-
-			$src_tmp = "index.php?stream=image&mod=$mod&act=$act&thumbnail=true&x_uuid=".$x_uuid.$type;
-		}
-	}else{
-		//Since we don't know the extension
-		$dir = $global['approot'].'www/tmp/';
-
-		if($type!=null)
-		{
-			//Need a better way
-			$d = dir($dir);
-			while (false !== ($f = $d->read())){
-				if(preg_match('/thumb_fin'.$x_uuid.'(.*)/',$f,&$matches)){
-					$filename = $dir.trim($f);
-					$ext = $matches[1];
-					break;
-				}
-			}
-			$filename = trim($filename);
-
-			//if image is not available
-			if(! file_exists($global['approot']."www/tmp/ori_fin$x_uuid"."$ext") ){
-				echo _("Image Not Available");
-				return false;
-			}
-
-
-			$info = getimagesize($global['approot']."www/tmp/ori_fin$x_uuid"."$ext");
-			$height = $info[1]+20;
-			$width = $info[0]+20;
-
-			$url = $_SERVER["SERVER_NAME"].$_SERVER["PHP_SELF"];
-			//remove the index.php
-			$url = substr($url,0,strlen($url)-9);
-			//add http://
-			$src_ori = 'http://'.$url."/tmp/ori_fin$x_uuid"."$ext";
-			$src_tmp = "tmp/thumb_fin$x_uuid"."$ext";
-
-		}
-
-
-		else
-		{
-
-
-
-			//Need a better way
-			$d = dir($dir);
-			while (false !== ($f = $d->read())){
-				if(preg_match('/thumb_'.$x_uuid.'(.*)/',$f,&$matches)){
-					$filename = $dir.trim($f);
-					$ext = $matches[1];
-					break;
-				}
-			}
-			$filename = trim($filename);
-
-			//if image is not available
-			if(! file_exists($global['approot']."www/tmp/ori_$x_uuid"."$ext") ){
-				echo _("Image Not Available");
-				return false;
-			}
-
-
-			$info = getimagesize($global['approot']."www/tmp/ori_$x_uuid"."$ext");
-			$height = $info[1]+20;
-			$width = $info[0]+20;
-
-			$url = $_SERVER["SERVER_NAME"].$_SERVER["PHP_SELF"];
-			//remove the index.php
-			$url = substr($url,0,strlen($url)-9);
-			//add http://
-			$src_ori = 'http://'.$url."/tmp/ori_$x_uuid"."$ext";
-			$src_tmp = "tmp/thumb_$x_uuid"."$ext";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		}
-
-	}
-	//echo $src_tmp;
-	?>
-<a title="<?= _('Click to see the original size'); ?>" href="#"
-	onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;">
-<img border="0" src="<?=$src_tmp;?>" /> </a>
-	<?php
-	return true;
-
-	global $global;
-	global $conf;
-
-	if(is_null($mod))
-	$mod = $global['module'];
-	if(is_null($act))
-	$act = $global['act'];
-
-	if($stream_type == 'database'){
-		if($session){
-			$src_ori = "index.php?stream=image&mod=$mod&act=$act&session=true&x_uuid=.$x_uuid&imagetype=jpeg";
-			$src_tmp = "index.php?stream=image&mod=$mod&act=$act&session=true&thumbnail=true&x_uuid=$x_uuid&imagetype=jpeg";
-		}else{
-			//need to get the type
-			if($act=='addvictim_img')
+            if($act=='addvictim_img')
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category ='dvr_person'";
 			
 			elseif($act=='addfingerprint_img')
@@ -402,7 +212,6 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			
 			else
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid'";
-			
 			$arr = $global['db']->GetAll($sql);
 			if(isset($arr[0]['image_type'])){
 				$type='&imagetype='.$arr[0]['image_type'];
@@ -410,7 +219,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 				$width = $arr[0]['image_width']+20;
 			}
 			$src_ori = "index.php?stream=image&mod=$mod&act=$act&x_uuid=".$x_uuid.$type;
-	   
+
 			$src_tmp = "index.php?stream=image&mod=$mod&act=$act&thumbnail=true&x_uuid=".$x_uuid.$type;
 		}
 	}else{
@@ -435,7 +244,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 				echo _("Image Not Available");
 				return false;
 			}
-			 
+
 
 			$info = getimagesize($global['approot']."www/tmp/ori_fin$x_uuid"."$ext");
 			$height = $info[1]+20;
@@ -454,6 +263,8 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 		else
 		{
 
+
+
 			//Need a better way
 			$d = dir($dir);
 			while (false !== ($f = $d->read())){
@@ -470,7 +281,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 				echo _("Image Not Available");
 				return false;
 			}
-			 
+
 
 			$info = getimagesize($global['approot']."www/tmp/ori_$x_uuid"."$ext");
 			$height = $info[1]+20;
@@ -493,7 +304,6 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 <img border="0" src="<?=$src_tmp;?>" /> </a>
 	<?php
 	return true;
-
 }
 /* }}} */
 
@@ -509,38 +319,31 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
  */
 function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
 {
-
 	global $global;
 
 	$info = getimagesize($image_upload['tmp_name']);
 	list(,$ext) = split("\/",$info['mime']);
 
-
 	$size = filesize($image_upload['tmp_name']);
 	$image = fread(fopen($image_upload['tmp_name'],"r"),$size);
-	$info = getimagesize($image_upload['tmp_name']);
-	list(,$ext) = split("\/",$info['mime']);
 
 	$image = addslashes($image);
 	$image_type = $ext;
 	$image_height = $info[1];
 	$image_width = $info[0];
-	$size = filesize($image_upload['tmp_name']);
-	$image = fread(fopen($image_upload['tmp_name'],"r"),$size);
-	$image = addslashes($image);
-	$image_type = $ext;
-	$image_height = $info[1];
-	$image_width = $info[0];
-	 
+
 	if($replace_id){
-		$sql = "UPDATE image SET  image = '$image', image_type = '$image_type',image_height = '$image_height',image_width = '$image_width',WHERE image_id = '$replace_id'";
+		$sql = "UPDATE image SET
+                    image = '$image',
+                    image_type = '$image_type',
+                    image_height = '$image_height',
+                    image_width = '$image_width',
+                WHERE image_id = '$replace_id'";
 	}else{
-		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width)  VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width')";
+		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width)
+                VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width')";
 	}
 
-	$global['db']->Execute($sql);
-	}
-	 
 	$global['db']->Execute($sql);
 }
 /* }}} */
@@ -566,13 +369,7 @@ function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_wi
 
 	$image = addslashes($image);
 
-	
-	global $global;
-
-	$image = addslashes($image);
-
 	if($replace_id){
-		
 		$sql = "UPDATE image SET
                     image = '$image',
                     image_type = '$image_type',
@@ -580,7 +377,8 @@ function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_wi
                     image_width = '$image_width' 
                 WHERE image_id = '$replace_id'";
 	}else{
-		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category)  VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
+		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category)
+                VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
 	}
 	$global['db']->Execute($sql);
 	// exit();
@@ -631,6 +429,7 @@ function shn_check_valid_image_type($type){
 	}else{
 		return false;
 	}
-	
-	}
+}
+
+/* }}} */
 ?>
