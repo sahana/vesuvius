@@ -35,4 +35,18 @@ include_once "handler_catalog.inc";
  function shn_text_xst_sub_cat(){
  	shn_text_catalog_sub_cat();
  }
+ function shn_text_xst_help()
+{
+    if(empty($_GET['help_id'])){
+        echo "var help_arr = new Array(".count($_SESSION['form_help']).");\n";
+        if(isset($_SESSION['form_help']))
+            foreach($_SESSION['form_help'] as $help_id => $value){
+                $clean_value = preg_replace(array('@([\r\n])[\s]+@','@"@'), array(' ',"'"),$value);
+                echo "help_arr[".$help_id."] = \"$clean_value\";\n";
+            }
+    }else{
+        echo $_SESSION['form_help'][$_GET['help_id']];
+    }
+}
+ 
  ?>
