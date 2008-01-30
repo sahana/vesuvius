@@ -24,7 +24,7 @@
  */
 include_once "handler_location.inc";
 include_once "handler_catalog.inc";
-
+include_once "handler_ims.inc";
 
  function shn_text_xst_get_loc(){
      shn_location_get_loc();
@@ -48,5 +48,7 @@ include_once "handler_catalog.inc";
         echo $_SESSION['form_help'][$_GET['help_id']];
     }
 }
- 
+function shn_text_xst_victims(){
+    _shn_get_victims();   
+}
  ?>
