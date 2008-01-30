@@ -49,7 +49,7 @@ function shn_vm_volunteer_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_search')))
 
 	{
-		shn_sub_mod_menuopen(_("Volunteers"));
+		shn_sub_mod_menuopen(_t("Volunteers"));
 		    $ac->addMenuItem('Assign to Project', $ac->buildURLParams('project', 'display_select_project'), true);
 		    $ac->addMenuItem('Show Assigned', $ac->buildURLParams('volunteer', 'display_list_assigned'), true);
 		    $ac->addMenuItem('View All', $ac->buildURLParams('volunteer', 'display_list_all'), true);
@@ -74,7 +74,7 @@ function shn_vm_project_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('project', 'display_my_list')) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('project', 'default')))
 	{
-		shn_sub_mod_menuopen(_("Projects"));
+		shn_sub_mod_menuopen(_t("Projects"));
 	    	$ac->addMenuItem('Add New', $ac->buildURLParams('project', 'display_add'), true);
 	    	$ac->addMenuItem('View My Projects', $ac->buildURLParams('project', 'display_my_list'), true);
 			$ac->addMenuItem('View All', $ac->buildURLParams('project', 'default'), true);
@@ -94,7 +94,7 @@ function shn_vm_messaging_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_mailbox', array('box' => 'outbox'))) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_send_message')))
 	{
-		shn_sub_mod_menuopen(_("Messaging"));
+		shn_sub_mod_menuopen(_t("Messaging"));
 			$ac->addMenuItem('Inbox', $ac->buildURLParams('volunteer', 'display_mailbox'), true);
 			$ac->addMenuItem('Outbox', $ac->buildURLParams('volunteer', 'display_mailbox', array('box' => 'outbox')), true);
 			$ac->addMenuItem('Send Message', $ac->buildURLParams('volunteer', 'display_send_message'), true);
@@ -114,7 +114,7 @@ function shn_vm_reports_submenu()
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_custom_report_select')) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs')))
 	{
-		shn_sub_mod_menuopen(_("Reporting"));
+		shn_sub_mod_menuopen(_t("Reporting"));
 			//$ac->addMenuItem('Report All Volunteers', $ac->buildURLParams('volunteer', 'display_report_all'), true);
 			$ac->addMenuItem('Custom Report', $ac->buildURLParams('volunteer', 'display_custom_report_select'), true);
 			$ac->addMenuItem('Report On My Projects', $ac->buildURLParams('volunteer', 'display_custom_report_select_for_mgrs'), true);
@@ -133,7 +133,7 @@ function shn_vm_management_submenu()
 	if(	$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_modify_skills')) ||
 		$ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_approval_management')))
 	{
-		shn_sub_mod_menuopen(_("Management"));
+		shn_sub_mod_menuopen(_t("Management"));
 			$ac->addMenuItem('Modify Abilities/Limitations', $ac->buildURLParams('volunteer', 'display_modify_skills'), true);
 			$ac->addMenuItem('Approve Abilities', $ac->buildURLParams('volunteer', 'display_approval_management'), true);
 		shn_sub_mod_menuclose();
@@ -157,7 +157,7 @@ function shn_vm_mainmenu()
 
 	$ac = new AccessController($_REQUEST);
 
-    shn_mod_menuopen(_("Volunteer Management"));
+    shn_mod_menuopen(_t("Volunteer Management"));
 
 		$ac->addMenuItem('Home', $ac->buildURLParams('volunteer', 'display_portal'));
         //shn_vm_home_submenu();

@@ -31,7 +31,7 @@ function _shn_ims_regform_inv($error=false)
 
    
 ?>
-<h2><?= _('Add an Inventory')?></h2>
+<h2><?= _t('Add an Inventory')?></h2>
 <?php
     if($error==true)
         display_errors();
@@ -40,24 +40,24 @@ function _shn_ims_regform_inv($error=false)
 <?php
     //shn_form_fopen("reg_inv_cr");
     shn_form_fopen("reg_inv_gis");
-    shn_form_fsopen(_('Primary Details'));
+    shn_form_fsopen(_t('Primary Details'));
     $extra_opts['req']=true;
-    shn_form_text(_("Inventory Name : "),'org_name','size="40"',$extra_opts); 
-   // shn_form_text(_("Registration Number : "),'reg_no','size="50"'); 
+    shn_form_text(_t("Inventory Name : "),'org_name','size="40"',$extra_opts); 
+   // shn_form_text(_t("Registration Number : "),'reg_no','size="50"'); 
     shn_form_fsclose();
    
     $parent=_shn_ims_get_start_loc();
 
       $range=array("start"=>1,"end"=>5);
-	shn_form_fsopen(_("Location"));
+	shn_form_fsopen(_t("Location"));
 	//shn_location_form_org(1,5);
 	shn_location($range,$value=null,$parent=null,$extra_opts=null);
 	shn_form_fsclose();
 	
-    shn_form_fsopen(_("Contact Information"));
+    shn_form_fsopen(_t("Contact Information"));
     _shn_ims_display_contact_person($error,true,null);
     shn_form_fsclose();
-     shn_form_fsopen(_("Facilities Avaliable"));
+     shn_form_fsopen(_t("Facilities Avaliable"));
     _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
 
@@ -67,7 +67,7 @@ function _shn_ims_regform_inv($error=false)
 <?php
 //create the submit button
    // shn_form_hidden(array('range'=>$range));
-    shn_form_submit(_("Next"));
+    shn_form_submit(_t("Next"));
 ?>
 </center>
 <br />
@@ -87,7 +87,7 @@ function _shn_ims_regform_operation($error=false)
     $db=$global['db'];
     
 ?>
-<h2><?=_("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
+<h2><?=_t("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
 <?php
     if($error)
     display_errors();
@@ -97,24 +97,24 @@ function _shn_ims_regform_operation($error=false)
     shn_form_fopen("reg_operation_cr");
     shn_form_fsopen('Primary Details');
     $extra_opts['req']=true;
-    shn_form_text(_("Operation/Branch Name : "),'org_name','size="40"',$extra_opts); 
+    shn_form_text(_t("Operation/Branch Name : "),'org_name','size="40"',$extra_opts); 
 	shn_form_fsclose();
-    shn_form_fsopen(_("Inventory Sector"));
+    shn_form_fsopen(_t("Inventory Sector"));
     _shn_ims_display_sector($error);
     shn_form_fsclose();
   // base location
-    shn_form_fsopen(_("Base Location"));
+    shn_form_fsopen(_t("Base Location"));
    	$parent=_shn_ims_get_start_loc();
    	$range= shn_ims_get_loc_range();
     shn_location($range,$_POST[$range["end"]],$parent); 
     shn_form_fsclose();
-    shn_form_fsopen(_("Contact Information"));
+    shn_form_fsopen(_t("Contact Information"));
     _shn_ims_display_contact_person($error,true,null);
 shn_form_fsclose();
-     shn_form_fsopen(_("Facilities Avaliable"));
+     shn_form_fsopen(_t("Facilities Avaliable"));
    _shn_ims_display_org_facilities($error);
     shn_form_fsclose();
- 	shn_form_fsopen(_("Extra Information"));
+ 	shn_form_fsopen(_t("Extra Information"));
     _shn_ims_display_extra($error);
     shn_form_fsclose();
 ?>
@@ -122,7 +122,7 @@ shn_form_fsclose();
 <center>
 <?php
 //create the submit button
-   shn_form_submit(_("Next"));
+   shn_form_submit(_t("Next"));
 ?>
 </center>
 <br />
@@ -178,7 +178,7 @@ function _shn_ims_reg_inv_gis()
 
     $_SESSION['ims']['bsd_village']=shn_location_get_form_submit_loc();
     //shn_form_hidden(array('range'=>$range));
-    shn_form_submit(_("Next"));
+    shn_form_submit(_t("Next"));
     shn_form_fclose();
 }
 
@@ -204,7 +204,7 @@ function _shn_ims_validate_reg_inv()
 
     if($inv_name==null)
     {
-	add_error(_("Inventory Name cannot be empty."));
+	add_error(_t("Inventory Name cannot be empty."));
 	$error_flag=true;
     }
     global $global;
@@ -212,7 +212,7 @@ function _shn_ims_validate_reg_inv()
     $q="SELECT inventory_name FROM ims_inventory_records WHERE inventory_name='$inv_name'";
     $res=$db->Execute($q);
     if(!$res->EOF) {
-        add_error(_("Inventory Name already exists."));
+        add_error(_t("Inventory Name already exists."));
         $error_flag=true;
     }
     

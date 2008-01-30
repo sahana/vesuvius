@@ -25,8 +25,8 @@ require_once('class_cap_area.inc');
 require_once('lib_cap_js.inc');
 
 
-print "<h1>" . _("Sahana Messaging Module") . "</h1>";
-print "<h3>" . _("CAP Message Viewer") . "</h3>";
+print "<h1>" . _t("Sahana Messaging Module") . "</h1>";
+print "<h3>" . _t("CAP Message Viewer") . "</h3>";
 
 switch ($_REQUEST['seq'])
 {
@@ -81,18 +81,18 @@ function _shn_msg_cap_file_selector()
     print '<td>';
     shn_form_fopen("cap_view",null,array('req_message'=>false,'style'=>'form_blank'));
     shn_form_hidden(array('seq'=>'view_tpl'));
-    shn_form_fsopen(_("Select Template"));
+    shn_form_fsopen(_t("Select Template"));
     shn_form_select(_shn_msg_get_cap_tpllist(),"","file",'onChange=submit(this);',array('br'=>false));
-    shn_form_submit(_("View"));
+    shn_form_submit(_t("View"));
     shn_form_fsclose();
     shn_form_fclose();
     print '</td>';
     print '<td>';
     shn_form_fopen("cap_view",null,array('req_message'=>false,'style'=>'form_blank'));
     shn_form_hidden(array('seq'=>'view_msg'));
-    shn_form_fsopen(_("Select Message"));
+    shn_form_fsopen(_t("Select Message"));
     shn_form_select(_shn_msg_get_cap_msglist(),"","file",'onChange=submit(this);',array('br'=>false));
-    shn_form_submit(_("View"));
+    shn_form_submit(_t("View"));
     shn_form_fsclose();
     shn_form_fclose();
     print '</td>';
@@ -108,9 +108,9 @@ function _shn_msg_cap_url_selector()
     shn_form_hidden(array('seq'=>'view_msg'));
 
 
-    shn_form_text(_("Enter a URL <br/>(http://example.org/cap.xml)"),'file',null,array('br'=>false));
+    shn_form_text(_t("Enter a URL <br/>(http://example.org/cap.xml)"),'file',null,array('br'=>false));
 
-    shn_form_submit(_("View"));
+    shn_form_submit(_t("View"));
     shn_form_fclose();
 }
 
@@ -123,7 +123,7 @@ function _shn_msg_view_cap_message()
     print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true' id='formset' name=''>";
     print "Download : $file_name";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/messages/' . $file));
-    shn_form_submit(_("Dowload"));
+    shn_form_submit(_t("Dowload"));
     print "</form>";
     
     print $msg->printFormattedMsg();
@@ -138,7 +138,7 @@ function _shn_msg_view_cap_template()
     print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true' id='formset' name=''>";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/templates/' . $file));
     print "Download : ";
-    shn_form_submit(_("Dowload"));
+    shn_form_submit(_t("Dowload"));
     print "</form>";
     
     print $msg->printFormattedMsg();

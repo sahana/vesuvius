@@ -19,7 +19,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function shn_plugin_default(){
 ?>
-<h2><?php echo _("Google Maps Admin Page")?></h2>	
+<h2><?php echo _t("Google Maps Admin Page")?></h2>	
 <?php
 	_shn_gis_gm_form();
 }
@@ -42,15 +42,15 @@ function _shn_gis_gm_form(){
 	}
 	
 	shn_form_fopen("adm_default&submod=google_maps&seq=commit",null,array('req'=>false));
-	shn_form_fsopen(_("Information"));
-	echo _("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
-	echo _("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
-	echo _("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");
+	shn_form_fsopen(_t("Information"));
+	echo _t("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
+	echo _t("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");
+	echo _t("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");
 	shn_form_fsclose();
-	shn_form_fsopen(_("Configure Google Maps"));
-	shn_form_text(_("Enter Google Maps Key"),"gmap_key",'size="100"',array('value'=>$value));
+	shn_form_fsopen(_t("Configure Google Maps"));
+	shn_form_text(_t("Enter Google Maps Key"),"gmap_key",'size="100"',array('value'=>$value));
 	shn_form_fsclose();
-	shn_form_submit(_("Done"));
+	shn_form_submit(_t("Done"));
 	shn_form_fclose();
 	
 }
@@ -61,7 +61,7 @@ function shn_plugin_commit()
 	$db = $global['db'];
 		
 	if(!null==($_POST['gmap_key'])){
-		add_confirmation(_("Changes were saved"));
+		add_confirmation(_t("Changes were saved"));
 		$query = "select * from config where confkey='mod_gis_google_key' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF)

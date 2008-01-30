@@ -25,7 +25,7 @@
 /**
  * Gives the nice name of the module
  */
-$conf['mod_skel_name'] = _("Skeleton Module");
+$conf['mod_skel_name'] = _t("Skeleton Module");
 
 /**
  * Gives the priority order in the main menu when listed

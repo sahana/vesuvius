@@ -18,7 +18,7 @@
 
 function shn_cms_default(){
 ?>
-<h1><?php echo _("Camp Management System"); ?></h1>
+<h1><?php echo _t("Camp Management System"); ?></h1>
 <div id="home">
 	<img src="theme/default/img/cms.png" align="center" />
 	<ul>

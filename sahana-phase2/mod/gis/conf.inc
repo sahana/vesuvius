@@ -24,13 +24,13 @@ include_once ('conf_help.inc');
  */
 global $conf;
 
-$conf['mod_gis_name'] = _("Situation Mapping");
+$conf['mod_gis_name'] = _t("Situation Mapping");
 $conf['mod_gis_menuorder'] = 2;
 
 /**
  * Nice name for admin module
  */
- $conf['mod_gis_adm_name']=_("GIS");
+ $conf['mod_gis_adm_name']=_t("GIS");
 
 /**
  * Default GIS plugin to use as GIS.

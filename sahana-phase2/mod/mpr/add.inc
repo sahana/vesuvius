@@ -58,11 +58,11 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
    
 
-	add_warning(_('Please do a search and check whether the person has already been added.'));
+	add_warning(_t('Please do a search and check whether the person has already been added.'));
  
     if($_GET['type']=='found'){
-        shn_form_fsopen(_('Status'));
-        shn_form_opt_select('opt_status',_('Status'));
+        shn_form_fsopen(_t('Status'));
+        shn_form_opt_select('opt_status',_t('Status'));
         shn_form_fsclose();
     }elseif($_GET['type']=='missing'){
         shn_form_hidden(array('opt_status'=>'mis'));
@@ -70,46 +70,46 @@ function shn_mpr_addmp_entry($errors=false)
     
     shn_form_hidden(array('seq'=>'entry'));
 
-    shn_form_fsopen(_('Identity'));
+    shn_form_fsopen(_t('Identity'));
 ?>
-    <p><?= _('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
+    <p><?= _t('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
 <?php
-    shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('help'=>_('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
-    shn_form_text(_('Passport Number'),'passport','size="30"', array('help'=>_('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
-    shn_form_text(_('Driving License'),'drv_license','size="30"',  array('help'=>_('Please Specify the driving License number, Although this is not required this will be useful in searching for the person')));
+    shn_form_text(_t('Identity Card Number'),'idcard','size="30"',array('help'=>_t('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
+    shn_form_text(_t('Passport Number'),'passport','size="30"', array('help'=>_t('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
+    shn_form_text(_t('Driving License'),'drv_license','size="30"',  array('help'=>_t('Please Specify the driving License number, Although this is not required this will be useful in searching for the person')));
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Basic Details'));
+    shn_form_fsopen(_t('Basic Details'));
 ?>
-<p><?= _('Please enter any of the following details of the person:'); ?></p> 
+<p><?= _t('Please enter any of the following details of the person:'); ?></p> 
 <?php
 
-    shn_form_text(_('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
-    shn_form_text(_('Family Name'),'family_name','size="30"', array('help'=>_('Family name, or the surname could be specified for matching of people with similar Family names')));
-    shn_form_text(_('Local Name'),'local_name','size="30"', array('help'=>_('You may also specify the local name, even in different script than English')));
+    shn_form_text(_t('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
+    shn_form_text(_t('Family Name'),'family_name','size="30"', array('help'=>_t('Family name, or the surname could be specified for matching of people with similar Family names')));
+    shn_form_text(_t('Local Name'),'local_name','size="30"', array('help'=>_t('You may also specify the local name, even in different script than English')));
    
-    shn_form_date(_("Date of Birth"),'dob',$extra_opts=NULL);
-    //shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
-    shn_form_opt_select("opt_age_group",_('Age Group'));
-    shn_form_opt_select("opt_gender",_('Gender'));
-    shn_form_opt_select("opt_marital_status",_('Marital Status'));
-    shn_form_opt_select("opt_religion",_('Religion'),null);
-    shn_form_opt_select("opt_race",_('Race'));
+    shn_form_date(_t("Date of Birth"),'dob',$extra_opts=NULL);
+    //shn_form_text(_t('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
+    shn_form_opt_select("opt_age_group",_t('Age Group'));
+    shn_form_opt_select("opt_gender",_t('Gender'));
+    shn_form_opt_select("opt_marital_status",_t('Marital Status'));
+    shn_form_opt_select("opt_religion",_t('Religion'),null);
+    shn_form_opt_select("opt_race",_t('Race'));
 
     shn_form_fsclose();
-    shn_form_fsopen(_('Upload Picture'));
+    shn_form_fsopen(_t('Upload Picture'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
+    <p><?= _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
 <?php
-    shn_form_upload(_('Upload Picture'),"picture");
+    shn_form_upload(_t('Upload Picture'),"picture");
     shn_form_fsclose();
 
 
-    shn_form_fsopen(_('Missing Person\'s Contact Information'));
-    shn_form_textarea(_('Address'),"address", null,array('help' => _('Your address can be specified to contact you')));
-    shn_form_text(_('Postal Code'),'zip','size="15"',array('help'=>_('Specify a postal code, if it is available')));
-    shn_form_text(_('Home Phone'),'phone','size="15"');
-    shn_form_text(_('Mobile'),'mobile','size="15"');
+    shn_form_fsopen(_t('Missing Person\'s Contact Information'));
+    shn_form_textarea(_t('Address'),"address", null,array('help' => _t('Your address can be specified to contact you')));
+    shn_form_text(_t('Postal Code'),'zip','size="15"',array('help'=>_t('Specify a postal code, if it is available')));
+    shn_form_text(_t('Home Phone'),'phone','size="15"');
+    shn_form_text(_t('Mobile'),'mobile','size="15"');
     shn_form_fsclose();
 
     global $global; 
@@ -128,28 +128,28 @@ function shn_mpr_addmp_entry($errors=false)
     //Ends
     $range['start']=$conf['mod_mpr_location_upper_limit'];
     $range['end']=$conf['mod_mpr_location_lower_limit'];
-    shn_form_fsopen(_('Select Missing Person\'s Origin'));
+    shn_form_fsopen(_t('Select Missing Person\'s Origin'));
     shn_location($range ,$_POST[$i]);
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Physical Details'));
-    shn_form_opt_select("opt_eye_color",_('Eye Colour'));
-    shn_form_opt_select("opt_skin_color",_('Skin Colour'));
-    shn_form_opt_select("opt_hair_color",_('Hair Colour'));
-    shn_form_text(_('Height'),'height','size="10"',array('help'=>_('Enter the value in centimeters(cm)')));
-    shn_form_text(_('Weight'),'weight','size="10"');
-    shn_form_textarea(_('Other Distinctive Features'),'physical_comments');
+    shn_form_fsopen(_t('Physical Details'));
+    shn_form_opt_select("opt_eye_color",_t('Eye Colour'));
+    shn_form_opt_select("opt_skin_color",_t('Skin Colour'));
+    shn_form_opt_select("opt_hair_color",_t('Hair Colour'));
+    shn_form_text(_t('Height'),'height','size="10"',array('help'=>_t('Enter the value in centimeters(cm)')));
+    shn_form_text(_t('Weight'),'weight','size="10"');
+    shn_form_textarea(_t('Other Distinctive Features'),'physical_comments');
     shn_form_fsclose();
     
    
-    shn_form_fsopen(_('Other Details'));
-    shn_form_opt_select("opt_blood_type",_('Blood Type'));
-    shn_form_textarea(_('Last Seen location'),'last_seen');
-    shn_form_textarea(_('Description of clothing and appearance when last seen'),'last_clothing');
-    shn_form_textarea(_('Other information that would help us to find this person'),'comments');
+    shn_form_fsopen(_t('Other Details'));
+    shn_form_opt_select("opt_blood_type",_t('Blood Type'));
+    shn_form_textarea(_t('Last Seen location'),'last_seen');
+    shn_form_textarea(_t('Description of clothing and appearance when last seen'),'last_clothing');
+    shn_form_textarea(_t('Other information that would help us to find this person'),'comments');
     shn_form_fsclose();
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fclose();
 }
 /* }}} */
@@ -179,7 +179,7 @@ $dob=$_POST['dob'];
 	
 if(!shn_valid_date($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
 {
-	//add_error(_("Please Check the Date format"));	
+	//add_error(_t("Please Check the Date format"));	
 $error_flag = true;
 }	
 if(isset($_POST['height']) && $_POST['height']!=null){
@@ -187,19 +187,19 @@ $height = $_POST['height'];
 
 if(is_numeric($height)==false)
 {
-	add_error(_("Height should be a value in centimeters(cm)"));
+	add_error(_t("Height should be a value in centimeters(cm)"));
 	$error_flag = true;
 }
 }
     //anything entered?
     if(empty($local_post)){
-        add_error(_("You have not completed the form"));
+        add_error(_t("You have not completed the form"));
         return false;
     }
     
     //fullname is entered?
     if(! isset($local_post['full_name'])){
-        add_error(_("Please enter the full name of the missing person"));
+        add_error(_t("Please enter the full name of the missing person"));
         $error_flag=true;
     }
 
@@ -213,7 +213,7 @@ if(is_numeric($height)==false)
         //check the image type
        
         if(! $info){
-            add_error(_("Invalid image type please try again"));
+            add_error(_t("Invalid image type please try again"));
             $error_flag=true;
         }
         list($ignore,$ext) = split("\/",$info['mime']);
@@ -267,19 +267,19 @@ function shn_mpr_addmp_reporter($errors=false)
     // todo: Clean the $_GET['act'] baby ;-)
     shn_form_fopen($_GET['act'],null);
 ?>
-    <p><?= _('We are collecting the information on the person who is reporting the missing person due to the following reasons.'). 
+    <p><?= _t('We are collecting the information on the person who is reporting the missing person due to the following reasons.'). 
 	'<ul><li>'.
-	_('To inform back on finding the missing person').'</li><li>'.
-	_('In a situation where the person who is reporting also a victim of the disaster. The details given here would help to associate he/she with his/her relatives.')
+	_t('To inform back on finding the missing person').'</li><li>'.
+	_t('In a situation where the person who is reporting also a victim of the disaster. The details given here would help to associate he/she with his/her relatives.')
     .'</li></ul>'; ?></p>
 <?php
     shn_form_hidden(array('seq'=>'report_person'));
 
-    shn_form_fsopen(_('Details on Person who is reporting on missing person'));
+    shn_form_fsopen(_t('Details on Person who is reporting on missing person'));
     
-    shn_form_fsopen(_('Reported Before'));
-    shn_form_select(array("yes"=>_('Yes'),"no"=>_('No')),
-            _('Have you reported anyone? '),
+    shn_form_fsopen(_t('Reported Before'));
+    shn_form_select(array("yes"=>_t('Yes'),"no"=>_t('No')),
+            _t('Have you reported anyone? '),
             "reported_before",
             'onchange="javascript:toggleLayer(\'reporter_victim\',\'reporter_details\');"');
 ?>
@@ -297,20 +297,20 @@ function shn_mpr_addmp_reporter($errors=false)
 ?>  
 >
 <?php
-    shn_form_select(array("yes"=>_('Yes'),"no"=>_('No')), _('Are you a disaster victim too? '), "is_dv");
-    shn_form_opt_select('opt_status',_('If you are a victim, Please specify the status'),'',array('value'=>$_SESSION['mpr_reporter']['opt_status']));
+    shn_form_select(array("yes"=>_t('Yes'),"no"=>_t('No')), _t('Are you a disaster victim too? '), "is_dv");
+    shn_form_opt_select('opt_status',_t('If you are a victim, Please specify the status'),'',array('value'=>$_SESSION['mpr_reporter']['opt_status']));
 ?>
 </div>
 <?php
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Details of the reporting person'));
+    shn_form_fsopen(_t('Details of the reporting person'));
 ?>
-<p><?= _('NOTE : If you have reported before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
+<p><?= _t('NOTE : If you have reported before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
 <?php
-  shn_form_text(_('Name'),'rep_full_name','size="30"',array('req'=>true));
+  shn_form_text(_t('Name'),'rep_full_name','size="30"',array('req'=>true));
   shn_form_text('Relationship to Person','opt_relationship_type');
-  //  shn_form_text(_('Relation'),'rep_relation','size="30"',array('req'=>true));
+  //  shn_form_text(_t('Relation'),'rep_relation','size="30"',array('req'=>true));
 ?>
 <div id="reporter_details" 
 <?php
@@ -325,11 +325,11 @@ function shn_mpr_addmp_reporter($errors=false)
 	}
 ?>	
 >
-<p><?= _('IMPORTANT : At least one of the following contact method is required'); ?></p>
+<p><?= _t('IMPORTANT : At least one of the following contact method is required'); ?></p>
 <?php
-    shn_form_textarea(_('Address'),'rep_address');
-    shn_form_text(_('Phone'),'rep_phone','size="30"');
-    shn_form_text(_('Email'),'rep_email','size="30"');
+    shn_form_textarea(_t('Address'),'rep_address');
+    shn_form_text(_t('Phone'),'rep_phone','size="30"');
+    shn_form_text(_t('Email'),'rep_email','size="30"');
 ?>
 </div>
 <?php
@@ -337,7 +337,7 @@ function shn_mpr_addmp_reporter($errors=false)
     
     shn_form_fsclose();
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fclose();
 
 }
@@ -357,13 +357,13 @@ function shn_mpr_addmp_reporter_validate()
     shn_tools_clean_post(&$local_post);
 //tmp fix
     if(empty($local_post)){
-        //add_error(_("You have not completed the form"));
+        //add_error(_t("You have not completed the form"));
         return false;
     }
 
     //Reporting person name
     if(! isset($local_post['rep_full_name'])){
-        add_error(_("Please enter the full name of the reporting person"));
+        add_error(_t("Please enter the full name of the reporting person"));
         $error_flag=true;
     }
 
@@ -372,13 +372,13 @@ if($email!=null)
 {
 if(!shn_valid_email($email))
 {
-	add_error(_("Please enter a valid E-mail"));
+	add_error(_t("Please enter a valid E-mail"));
         $error_flag=true;
 }
 }
     //Reporting person relation
    /* if(! isset($local_post['opt_relationship_type'])){
-        add_error(_("Please enter the relationship of the reporting person"));
+        add_error(_t("Please enter the relationship of the reporting person"));
         $error_flag=true;
     }*/
 
@@ -387,7 +387,7 @@ if(!shn_valid_email($email))
             isset($local_post['rep_phone']) || 
             isset($local_post['rep_email']) ) ){
         if ( $_POST['reported_before'] != 'yes' ) {
-            add_error(_("Please enter any contact method of the reporting person"));
+            add_error(_t("Please enter any contact method of the reporting person"));
             $error_flag=true;
         }
     }
@@ -416,13 +416,13 @@ function shn_mpr_addmp_upload($errors=false)
 
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 ?>
-    <p><?= _('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
+    <p><?= _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
 <?php
     shn_form_hidden(array('seq'=>'upload_pic'));
-    shn_form_fsopen(_('Upload Picture'));
-    shn_form_upload(_('Upload Picture'),"picture");
+    shn_form_fsopen(_t('Upload Picture'));
+    shn_form_upload(_t('Upload Picture'),"picture");
     shn_form_fsclose();
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fclose();
 }
 /* }}} */
@@ -444,7 +444,7 @@ function shn_mpr_addmp_upload_pic()
     $info = getimagesize($_FILES['picture']['tmp_name']);
     //check the image type 
     if(! $info){
-        add_error(_("Invalid image type please try again"));
+        add_error(_t("Invalid image type please try again"));
         return false;    
     }
 
@@ -487,7 +487,7 @@ function shn_mpr_addmp_confirm()
 
     //shn_form_fopen("addmp",null,array('req_message'=>false));
     shn_form_fopen("end_flow",null,array('req_message'=>false));
-    shn_form_fsopen(_('Missing Person'));
+    shn_form_fsopen(_t('Missing Person'));
     shn_form_hidden(array('seq'=>'commit'));
     shn_show_thumb_url($_SESSION['mpr_add']['entry']['p_uuid'],'database', 'mpr', 'addmp_img',true);
 ?>
@@ -497,15 +497,15 @@ function shn_mpr_addmp_confirm()
     if(isset($_SESSION['mpr_add']['entry']['idcard']) ||
             isset($_SESSION['mpr_add']['entry']['passport']) ||
             isset($_SESSION['mpr_add']['entry']['drv_license']) ) {
-        shn_form_fsopen(_('Identity'));
+        shn_form_fsopen(_t('Identity'));
         $identity_section = true;
     }
     if(isset($_SESSION['mpr_add']['entry']['idcard']))
-        shn_form_label(_('Identity Card Number'),$_SESSION['mpr_add']['entry']['idcard']);
+        shn_form_label(_t('Identity Card Number'),$_SESSION['mpr_add']['entry']['idcard']);
     if(isset($_SESSION['mpr_add']['entry']['passport']))
-        shn_form_label(_('Passport Number'),$_SESSION['mpr_add']['entry']['passport']);
+        shn_form_label(_t('Passport Number'),$_SESSION['mpr_add']['entry']['passport']);
     if(isset($_SESSION['mpr_add']['entry']['drv_license']))
-        shn_form_label(_('Driving License'),$_SESSION['mpr_add']['entry']['drv_license']);
+        shn_form_label(_t('Driving License'),$_SESSION['mpr_add']['entry']['drv_license']);
     if($identity_section)
         shn_form_fsclose();
 
@@ -519,27 +519,27 @@ function shn_mpr_addmp_confirm()
             isset($_SESSION['mpr_add']['entry']['opt_marital_status']) ||
             isset($_SESSION['mpr_add']['entry']['opt_religion']) ||
             isset($_SESSION['mpr_add']['entry']['opt_race']) ) {
-        shn_form_fsopen(_('Basic Details'));
+        shn_form_fsopen(_t('Basic Details'));
         $basic_section = true;
     }
     if(isset($_SESSION['mpr_add']['entry']['full_name']))
-        shn_form_label(_('Full Name'),$_SESSION['mpr_add']['entry']['full_name']);
+        shn_form_label(_t('Full Name'),$_SESSION['mpr_add']['entry']['full_name']);
     if(isset($_SESSION['mpr_add']['entry']['family_name']))
-        shn_form_label(_('Family Name'),$_SESSION['mpr_add']['entry']['family_name']);
+        shn_form_label(_t('Family Name'),$_SESSION['mpr_add']['entry']['family_name']);
     if(isset($_SESSION['mpr_add']['entry']['local_name']))
-        shn_form_label(_('Local Name'),$_SESSION['mpr_add']['entry']['local_name']);
+        shn_form_label(_t('Local Name'),$_SESSION['mpr_add']['entry']['local_name']);
     if(isset($_SESSION['mpr_add']['entry']['dob']))
-        shn_form_label(_('Date of Birth'),$_SESSION['mpr_add']['entry']['dob']);
+        shn_form_label(_t('Date of Birth'),$_SESSION['mpr_add']['entry']['dob']);
     if(isset($_SESSION['mpr_add']['entry']['opt_age_group']))
-        shn_form_label(_('Age Group'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_age_group'],'opt_age_group'));
+        shn_form_label(_t('Age Group'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_age_group'],'opt_age_group'));
     if(isset($_SESSION['mpr_add']['entry']['opt_gender']))
-        shn_form_label(_('Gender'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_gender'],'opt_gender'));
+        shn_form_label(_t('Gender'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_gender'],'opt_gender'));
     if(isset($_SESSION['mpr_add']['entry']['opt_marital_status']))
-        shn_form_label(_('Marital Status'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_marital_status'],'opt_marital_status'));
+        shn_form_label(_t('Marital Status'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_marital_status'],'opt_marital_status'));
     if(isset($_SESSION['mpr_add']['entry']['opt_religion']))
-        shn_form_label(_('Religion'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_religion'],'opt_religion'));
+        shn_form_label(_t('Religion'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_religion'],'opt_religion'));
     if(isset($_SESSION['mpr_add']['entry']['opt_race']))
-        shn_form_label(_('Race'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_race'],'opt_race'));
+        shn_form_label(_t('Race'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_race'],'opt_race'));
     if($basic_section)
         shn_form_fsclose();
 
@@ -550,21 +550,21 @@ function shn_mpr_addmp_confirm()
             isset($_SESSION['mpr_add']['entry']['height']) ||
             isset($_SESSION['mpr_add']['entry']['weight']) || 
             isset($_SESSION['mpr_add']['entry']['physical_comments'])) {
-        shn_form_fsopen(_('Physical Details'));
+        shn_form_fsopen(_t('Physical Details'));
         $physical_section = true;
     }
     if(isset($_SESSION['mpr_add']['entry']['opt_eye_color']))
-        shn_form_label(_('Eye Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_eye_color'],'opt_eye_color'));
+        shn_form_label(_t('Eye Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_eye_color'],'opt_eye_color'));
     if(isset($_SESSION['mpr_add']['entry']['opt_skin_color']))
-        shn_form_label(_('Skin Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_skin_color'],'opt_skin_color'));
+        shn_form_label(_t('Skin Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_skin_color'],'opt_skin_color'));
     if(isset($_SESSION['mpr_add']['entry']['opt_hair_color']))
-        shn_form_label(_('Hair Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_hair_color'],'opt_hair_color'));
+        shn_form_label(_t('Hair Colour'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_hair_color'],'opt_hair_color'));
     if(isset($_SESSION['mpr_add']['entry']['height']))
-        shn_form_label(_('Height'),$_SESSION['mpr_add']['entry']['height']);
+        shn_form_label(_t('Height'),$_SESSION['mpr_add']['entry']['height']);
     if(isset($_SESSION['mpr_add']['entry']['weight']))
-        shn_form_label(_('Weight'),$_SESSION['mpr_add']['entry']['weight']);
+        shn_form_label(_t('Weight'),$_SESSION['mpr_add']['entry']['weight']);
     if(isset($_SESSION['mpr_add']['entry']['physical_comments']))
-        shn_form_label(_('Comments'),$_SESSION['mpr_add']['entry']['physical_comments']);
+        shn_form_label(_t('Comments'),$_SESSION['mpr_add']['entry']['physical_comments']);
     if($physical_section)
         shn_form_fsclose();
 
@@ -576,10 +576,10 @@ function shn_mpr_addmp_confirm()
 #        shn_form_fsopen("Contact Details");
 #        $contact_section = true;
 #    }
-    shn_form_fsopen(_('Contact Details'));
+    shn_form_fsopen(_t('Contact Details'));
     $contact_section = true;
     if(isset($_SESSION['mpr_add']['entry']['address']))
-        shn_form_label(_('Address'),$_SESSION['mpr_add']['entry']['address']);
+        shn_form_label(_t('Address'),$_SESSION['mpr_add']['entry']['address']);
     
     /* This hack should also include in the
         lib_location
@@ -601,11 +601,11 @@ function shn_mpr_addmp_confirm()
     //Ends
     
     if(isset($_SESSION['mpr_add']['entry']['zip']))
-        shn_form_label(_('Postal Code'),$_SESSION['mpr_add']['entry']['zip']);
+        shn_form_label(_t('Postal Code'),$_SESSION['mpr_add']['entry']['zip']);
     if(isset($_SESSION['mpr_add']['entry']['phone']))
-        shn_form_label(_('Home Phone'),$_SESSION['mpr_add']['entry']['phone']);
+        shn_form_label(_t('Home Phone'),$_SESSION['mpr_add']['entry']['phone']);
     if(isset($_SESSION['mpr_add']['entry']['mobile']))
-        shn_form_label(_('Mobile'),$_SESSION['mpr_add']['entry']['mobile']);
+        shn_form_label(_t('Mobile'),$_SESSION['mpr_add']['entry']['mobile']);
     if($contact_section)
         shn_form_fsclose();
 
@@ -613,53 +613,53 @@ function shn_mpr_addmp_confirm()
             isset($_SESSION['mpr_add']['entry']['last_seen']) ||
             isset($_SESSION['mpr_add']['entry']['last_clothing']) ||
             isset($_SESSION['mpr_add']['entry']['comments']) ) {
-        shn_form_fsopen(_('Other Details'));
+        shn_form_fsopen(_t('Other Details'));
         $other_section = true;
     }
     //Other Details
     if(isset($_SESSION['mpr_add']['entry']['opt_blood_type']))
-        shn_form_label(_('Blood Type'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_blood_type'],'opt_blood_type'));
+        shn_form_label(_t('Blood Type'),shn_get_field_opt($_SESSION['mpr_add']['entry']['opt_blood_type'],'opt_blood_type'));
     if(isset($_SESSION['mpr_add']['entry']['last_seen']))
-        shn_form_label(_('Last Seen'),$_SESSION['mpr_add']['entry']['last_seen']);
+        shn_form_label(_t('Last Seen'),$_SESSION['mpr_add']['entry']['last_seen']);
     if(isset($_SESSION['mpr_add']['entry']['last_clothing']))
-        shn_form_label(_('Last Clothing'),$_SESSION['mpr_add']['entry']['last_clothing']);
+        shn_form_label(_t('Last Clothing'),$_SESSION['mpr_add']['entry']['last_clothing']);
     if(isset($_SESSION['mpr_add']['entry']['comments']))
-        shn_form_label(_('Comments'),$_SESSION['mpr_add']['entry']['comments']);
+        shn_form_label(_t('Comments'),$_SESSION['mpr_add']['entry']['comments']);
     if($other_section)
         shn_form_fsclose();
 
     //Reporting Person
-    shn_form_fsopen(_('Reporting Person'));
+    shn_form_fsopen(_t('Reporting Person'));
 
     if(isset($_SESSION['mpr_add']['entry']['tracker_id']))
         shn_add_get_tracker_details($_SESSION['mpr_add']['entry']['tracker_id']); 
 
     if(isset($_SESSION['mpr_add']['report_person']['rep_full_name']))
-        shn_form_label(_('Name'),$_SESSION['mpr_add']['report_person']['rep_full_name']);
+        shn_form_label(_t('Name'),$_SESSION['mpr_add']['report_person']['rep_full_name']);
     if(isset($_SESSION['mpr_add']['report_person']['opt_relationship_type']))
-        shn_form_label(_('Relation'),$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
+        shn_form_label(_t('Relation'),$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_address']))
-        shn_form_label(_('Address'),$_SESSION['mpr_add']['report_person']['rep_address']);
+        shn_form_label(_t('Address'),$_SESSION['mpr_add']['report_person']['rep_address']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_phone']))
-        shn_form_label(_('Phone'),$_SESSION['mpr_add']['report_person']['rep_phone']);
+        shn_form_label(_t('Phone'),$_SESSION['mpr_add']['report_person']['rep_phone']);
     if(isset($_SESSION['mpr_add']['report_person']['rep_email']))
-        shn_form_label(_('Email'),$_SESSION['mpr_add']['report_person']['rep_email']);
+        shn_form_label(_t('Email'),$_SESSION['mpr_add']['report_person']['rep_email']);
     shn_form_fsclose();
 
  
 	/*
-    shn_form_fsopen(_('Confirm'));
+    shn_form_fsopen(_t('Confirm'));
 ?>
-    <p><?= _('Is the information that you\'ve entered correct?'); ?></p>
+    <p><?= _t('Is the information that you\'ve entered correct?'); ?></p>
 <?php
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fsclose();
 	*/
 ?>
-    <p><?= _('Click on the "Next" Button to go back to the main screen.'); ?></p>
+    <p><?= _t('Click on the "Next" Button to go back to the main screen.'); ?></p>
 <?php
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fclose();
 }
 /* }}} */

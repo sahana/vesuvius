@@ -1,12 +1,12 @@
 <?php
 // provide the nice display name for the CR module
-$conf['mod_cr_name'] = _("Shelter Registry");
+$conf['mod_cr_name'] = _t("Shelter Registry");
 $conf['mod_cr_menuorder'] = 4;
 
 /**
  * Alternate wording for Camp in singular form
  */
-$conf['mod_cr_alt']=_("Shelter");
+$conf['mod_cr_alt']=_t("Shelter");
 
 /**
  * Spatial Density Report Configs

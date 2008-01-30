@@ -22,7 +22,7 @@ function _shn_html_print_alert($alert)
 {
 ?>
 <div class="alert"> <!-- TODO: change style -->
-    <strong><?php print _("Alert") . " : $alert"?></strong>
+    <strong><?php print _t("Alert") . " : $alert"?></strong>
 </div>
 <?php
 }

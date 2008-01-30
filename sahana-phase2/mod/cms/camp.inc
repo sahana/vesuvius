@@ -24,7 +24,7 @@ include_once($global['approot'].'/inc/lib_errors.inc');
  * display camp creation form
  */
 function _shn_cms_cadd_form($errors=false){
-	echo "<h2>"._("Add New Camp - Details")."</h2>";
+	echo "<h2>"._t("Add New Camp - Details")."</h2>";
 	
 	if($errors)
 		display_errors();
@@ -47,27 +47,27 @@ function _shn_cms_cadd_form($errors=false){
 	var_dump($org_array);
 	//show add camp form
 	shn_form_fopen(cadd);
-	shn_form_fsopen(_("Name and Type"));
+	shn_form_fsopen(_t("Name and Type"));
 	shn_form_hidden(array('seq'=>'adm'));
-	shn_form_text(_("Camp Name"),"camp_name",'size="50"',array('req'=>true));
-	shn_form_opt_select("opt_camp_type",_("Camp Type"));
-	shn_form_textarea(_("Address"),"camp_address");
+	shn_form_text(_t("Camp Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_form_opt_select("opt_camp_type",_t("Camp Type"));
+	shn_form_textarea(_t("Address"),"camp_address");
 	shn_form_fsclose();
 	shn_location_form_org(1,4);
-	shn_form_fsopen(_("Camp Administrator"));
-	shn_form_text(_("Camp Admin Name"),"admin_name",'size="50"');
-	shn_form_text(_("Contact Number"),"admin_no",'size="50"');
-	shn_form_select($org_array,_("Administrative Organization(s)"),"org_name");
+	shn_form_fsopen(_t("Camp Administrator"));
+	shn_form_text(_t("Camp Admin Name"),"admin_name",'size="50"');
+	shn_form_text(_t("Contact Number"),"admin_no",'size="50"');
+	shn_form_select($org_array,_t("Administrative Organization(s)"),"org_name");
 	shn_form_fsclose();
-	shn_form_fsopen(_("Demographics"));
-	//shn_form_text(_("Distance from City [km]"),"city_dis",'size="50"');
-	//shn_form_text(_("Distance from Disaster [km]"),"disas_dis",'size="50"');
-	shn_form_text(_("Approximate Capacity [people]"),"capacity",'size="50"');
-	shn_form_text(_("Number of Shelters"),"shelters",'size="50"');
-	shn_form_text(_("Approximate Area Size [with units]"),"camp_size",'size="50"');
-	shn_form_text(_("Number of Persons per camp"),"per_camp",'size="50"');
+	shn_form_fsopen(_t("Demographics"));
+	//shn_form_text(_t("Distance from City [km]"),"city_dis",'size="50"');
+	//shn_form_text(_t("Distance from Disaster [km]"),"disas_dis",'size="50"');
+	shn_form_text(_t("Approximate Capacity [people]"),"capacity",'size="50"');
+	shn_form_text(_t("Number of Shelters"),"shelters",'size="50"');
+	shn_form_text(_t("Approximate Area Size [with units]"),"camp_size",'size="50"');
+	shn_form_text(_t("Number of Persons per camp"),"per_camp",'size="50"');
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 			
 }
@@ -77,15 +77,15 @@ function _shn_cms_cadd_form($errors=false){
  */
 function _shn_cms_cadd_admin(){
 	shn_form_fopen(cadd);
-	shn_form_fsopen(_("Camp Administrator Details"));
+	shn_form_fsopen(_t("Camp Administrator Details"));
 	shn_form_hidden(array('seq'=>'ser'));
-	shn_form_text(_("Administrator Full Name"),"admin_name",'size="50"',array('req'=>true));
-	shn_form_text(_("ID/Passport/SSN"),"admin_id");
-	shn_form_text(_("Camp Phone"),"camp_contact");
-	shn_form_text(_("Mobile Number"),"admin_mobile");
-	shn_form_text(_("ID/Passport/SSN"),"admin_id");
+	shn_form_text(_t("Administrator Full Name"),"admin_name",'size="50"',array('req'=>true));
+	shn_form_text(_t("ID/Passport/SSN"),"admin_id");
+	shn_form_text(_t("Camp Phone"),"camp_contact");
+	shn_form_text(_t("Mobile Number"),"admin_mobile");
+	shn_form_text(_t("ID/Passport/SSN"),"admin_id");
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
@@ -106,7 +106,7 @@ function _shn_cms_cadd_serorg(){
 	}
 	
 	shn_form_fopen(cadd);
-	shn_form_fsopen(_("Service Organizations"));
+	shn_form_fsopen(_t("Service Organizations"));
 	shn_form_hidden(array('seq'=>'map'));
 	
 	//get camp services from database
@@ -117,7 +117,7 @@ function _shn_cms_cadd_serorg(){
 		$cmp_ser_res->MoveNext();
 	}
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
@@ -135,18 +135,18 @@ function _shn_cms_cadd_guide(){
 <?php
 	shn_form_fopen(cadd);
 	shn_form_hidden(array('seq'=>'chk'));
-	shn_form_submit(_("Accept"));
+	shn_form_submit(_t("Accept"));
 }
 
 function _shn_cms_cadd_chk(){
 	global $global;
-	echo "<h2>"._("Camp Service Checklist")."</h2>";
+	echo "<h2>"._t("Camp Service Checklist")."</h2>";
 	shn_form_fopen(cadd);
-	shn_form_fsopen(_("Facilities / Services"));
+	shn_form_fsopen(_t("Facilities / Services"));
 	shn_form_hidden(array('seq'=>'form'));
 	shn_form_opt_checkbox("opt_camp_service");
 	shn_form_fsclose();
-	shn_form_submit(_("Done"));
+	shn_form_submit(_t("Done"));
 	shn_form_fclose();
 			
 }
@@ -171,16 +171,16 @@ function _shn_cms_add_map()
 	$_SESSION['camp_size']=$_POST['camp_size'];
 	
 	shn_form_fopen(cadd);
-	shn_form_fsopen(_("Location Information"));
-	echo _("Plot the Camp Location OR Enter its GPS coordinates below");
+	shn_form_fsopen(_t("Location Information"));
+	echo _t("Plot the Camp Location OR Enter its GPS coordinates below");
 	shn_form_fsclose();
-	shn_form_fsopen(_("Plot Location on Map"));
+	shn_form_fsopen(_t("Plot Location on Map"));
 	shn_form_hidden(array('seq'=>'commit'));
 	shn_form_hidden(array('loc_x'=>''));
 	shn_form_hidden(array('loc_y'=>''));
 	global $global;
 	$db=$global['db'];
-	echo "<h2>"._("Area Map")."</h2>";
+	echo "<h2>"._t("Area Map")."</h2>";
 
 	//if mod_gis
 	if($conf['gis']){
@@ -190,7 +190,7 @@ function _shn_cms_add_map()
 		 	 *@todo check for online connectivity: exit gracefully
 	  	*/
 	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
-			echo _("Enter Camp Location. Click on Map where camp exists");
+			echo _t("Enter Camp Location. Click on Map where camp exists");
 
 			$a="select value from config where module_id='gis' and confkey='google_key'";
       		$ares=$db->Execute($a);
@@ -217,9 +217,9 @@ function _shn_cms_add_map()
 <?php
   }
 	shn_form_fsclose();
-	shn_form_fsopen(_("GPS Coordinates"));
-	shn_form_text(_("Northing / Latitude"),"gps_y",'size="60"');
-	shn_form_text(_("Easting / Longitude"),"gps_x",'size="60"');
+	shn_form_fsopen(_t("GPS Coordinates"));
+	shn_form_text(_t("Northing / Latitude"),"gps_y",'size="60"');
+	shn_form_text(_t("Easting / Longitude"),"gps_x",'size="60"');
 	shn_form_fsclose();
 			
 	shn_form_submit("Next");

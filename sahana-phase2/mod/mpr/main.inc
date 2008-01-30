@@ -57,24 +57,24 @@ function shn_mpr_mainmenu() {
 	$module = $global['module'];
 
 	// Create the module menu
-	shn_mod_menuopen(_("Missing Person Registry"));
+	shn_mod_menuopen(_t("Missing Person Registry"));
 
-	shn_mod_menuitem("default", _("Home"));
-	shn_mod_menuitem("search&type=all", _("Search for a Person"));
-	shn_mod_menuitem("addmp&type=missing", _("Report a Missing Person"));
-	shn_mod_menuitem("search&type=missing", _("Edit a Missing Person"));
-	shn_mod_menuitem("addmp&type=found", _("Report a Found Person"));
-	//    shn_mod_menuitem("rpt_default&type=found",_("Reports"));
+	shn_mod_menuitem("default", _t("Home"));
+	shn_mod_menuitem("search&type=all", _t("Search for a Person"));
+	shn_mod_menuitem("addmp&type=missing", _t("Report a Missing Person"));
+	shn_mod_menuitem("search&type=missing", _t("Edit a Missing Person"));
+	shn_mod_menuitem("addmp&type=found", _t("Report a Found Person"));
+	//    shn_mod_menuitem("rpt_default&type=found",_t("Reports"));
 
-	shn_sub_mod_menuopen(_("Reports"));
-	shn_mod_menuitem("list_missing", _("List Missing People"), $module);
-	shn_mod_menuitem("list_found", _("List Found People"), $module);
+	shn_sub_mod_menuopen(_t("Reports"));
+	shn_mod_menuitem("list_missing", _t("List Missing People"), $module);
+	shn_mod_menuitem("list_found", _t("List Found People"), $module);
 	//  shn_mod_menuitem("org_incident","Organizations by Incident",$module);
 	// shn_mod_menuitem("org_sector","Organizations by Sector",$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
-	#    shn_mod_menuitem("manimg",_("Manage Images"));
+	#    shn_mod_menuitem("manimg",_t("Manage Images"));
 	#    shn_mod_menuitem("test","Test");
 	#    shn_mod_menuitem("stats","Statistics");
 
@@ -184,7 +184,7 @@ function shn_mpr_editmp() {
 	switch ($_REQUEST['seq']) {
 
 		case 'entry' :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			if (shn_mpr_editmp_validate()) {
 				shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
 			} else
@@ -192,7 +192,7 @@ function shn_mpr_editmp() {
 			break;
 
 		case 'trackers' :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			shn_mpr_editmp_confirm();
 			break;
 
@@ -203,10 +203,10 @@ function shn_mpr_editmp() {
 			break;
 
 		case 'add_tracker' :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			$_POST = null;
 			$_SESSION['mpr_add']['add_tracker'] = null;
-			echo '<h1 align="center">' . _('Add a tracker to') . ' ' .
+			echo '<h1 align="center">' . _t('Add a tracker to') . ' ' .
 			$_SESSION['mpr_edit']['entry']['full_name'] . ' </h1>';
 			$_SESSION['mpr_add']['add_tracker']['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 			// todo: check the p_uuid exists or not *** VERY URGENT
@@ -214,7 +214,7 @@ function shn_mpr_editmp() {
 			break;
 
 		case 'report_person' :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			if (shn_mpr_addmp_reporter_validate() || isset ($_GET['offset'])) {
 				if ($_POST['reported_before'] == 'yes' || isset ($_GET['offset'])) {
 					require_once ($global['approot'] . 'mod/mpr/search.inc');
@@ -235,7 +235,7 @@ function shn_mpr_editmp() {
 					$_SESSION['mpr_add']['add_tracker'] = null;
 				}
 			} else {
-				echo '<h1 align="center">' . _('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
+				echo '<h1 align="center">' . _t('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
 				shn_mpr_addmp_reporter(true);
 			}
 			break;
@@ -245,7 +245,7 @@ function shn_mpr_editmp() {
 			shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
 			break;
 		case 'del_tracker' :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			//todo : Clean the input
 			$tracker_uuid = $_GET['tracker_id'];
 			shn_edit_del_tracker($_SESSION['mpr_edit']['entry']['p_uuid'], $tracker_uuid);
@@ -253,7 +253,7 @@ function shn_mpr_editmp() {
 
 			break;
 		default :
-			echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';
+			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			//load details
 			$_SESSION['mpr_edit']['entry'] = null;
 			shn_mpr_editmp_load($_GET['id']);
@@ -274,7 +274,7 @@ function shn_mpr_editmp() {
 function shn_mpr_viewmp() {
 	global $global;
 	require ($global['approot'] . 'mod/mpr/view.inc');
-	echo '<h1 align="center">' . _('View Person') . '</h1>';
+	echo '<h1 align="center">' . _t('View Person') . '</h1>';
 	shn_mpr_view($_GET['id']);
 }
 /* }}} */
@@ -307,7 +307,7 @@ function shn_mpr_add_tracker() {
 					$_SESSION['mpr_add']['add_tracker'] = null;
 				}
 			} else {
-				echo '<h1 align="center">' . _('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
+				echo '<h1 align="center">' . _t('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
 				shn_mpr_addmp_reporter(true);
 			}
 			break;
@@ -322,7 +322,7 @@ function shn_mpr_add_tracker() {
 			//clean the $_POST to remove the conflicts
 			$_POST = null;
 			$_SESSION['mpr_add']['add_tracker'] = null;
-			echo '<h1 align="center">' . _('Add a tracker to') . ' ' . $_GET['name'] . ' </h1>';
+			echo '<h1 align="center">' . _t('Add a tracker to') . ' ' . $_GET['name'] . ' </h1>';
 			$_SESSION['mpr_add']['add_tracker']['p_uuid'] = $_GET['id'];
 			$_SESSION['mpr_add']['add_tracker']['name'] = $_GET['name'];
 			// todo: check the p_uuid exists or not *** VERY URGENT
@@ -347,7 +347,7 @@ function shn_mpr_del_tracker() {
 		#shn_mpr_default();                
 		$_SESSION['mpr_add']['add_tracker'] = null;
 	} else {
-		echo '<h1 align="center">' . _('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
+		echo '<h1 align="center">' . _t('Add a tracker to') . ' ' . $_SESSION['mpr_add']['add_tracker']['name'] . ' </h1>';
 		shn_mpr_addmp_reporter(true);
 	}
 }
@@ -368,8 +368,8 @@ function shn_mpr_addmp() {
 	elseif ($_GET['type'] == 'missing') $_SESSION['mpr_add']['entry_type'] = 'missing';
 
 	if ($_SESSION['mpr_add']['entry_type'] == 'found')
-		$heading = '<h1 align="center">' . _('Found Person Entry') . '</h1>';
-	elseif ($_SESSION['mpr_add']['entry_type'] == 'missing') $heading = '<h1 align="center">' . _('Missing Person Entry') . '</h1>';
+		$heading = '<h1 align="center">' . _t('Found Person Entry') . '</h1>';
+	elseif ($_SESSION['mpr_add']['entry_type'] == 'missing') $heading = '<h1 align="center">' . _t('Missing Person Entry') . '</h1>';
 
 	//Controller
 	switch ($_REQUEST['seq']) {
@@ -378,18 +378,18 @@ function shn_mpr_addmp() {
 				//clean the $_POST to remove the conflicts
 				$_POST = null;
 				echo $heading;
-				echo '<h2 align="center">(' . _('Reporting Person') . ')</h2>';
+				echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
 				shn_mpr_addmp_reporter();
 			} else {
 				echo $heading;
-				echo '<h2 align="center">(' . _('Person Details') . ')</h2>';
+				echo '<h2 align="center">(' . _t('Person Details') . ')</h2>';
 				shn_mpr_addmp_entry(true);
 			}
 			break;
 
 		case 'tracker_back' :
 			echo $heading;
-			echo '<h2 align="center">(' . _('Reporting Person') . ')</h2>';
+			echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
 			shn_mpr_addmp_reporter();
 			break;
 
@@ -397,7 +397,7 @@ function shn_mpr_addmp() {
 			$_SESSION['mpr_add']['entry']['tracker_id'] = $_GET['tracker_id'];
 			shn_mpr_addmp_commit();
 			echo $heading;
-			echo '<h2 align="center">(' . _('The missing person have been added') . ')</h2>';
+			echo '<h2 align="center">(' . _t('The missing person have been added') . ')</h2>';
 			shn_mpr_addmp_confirm();
 			//shn_mpr_addmp_commit();
 			break;
@@ -407,7 +407,7 @@ function shn_mpr_addmp() {
 				//if reported before then send to the search 
 				if ($_POST['reported_before'] == 'yes' || isset ($_GET['offset'])) {
 					echo $heading;
-					echo '<h2 align="center">(' . _('Please Select the person who is reporting') . ')</h2>';
+					echo '<h2 align="center">(' . _t('Please Select the person who is reporting') . ')</h2>';
 					require_once ($global['approot'] . 'mod/mpr/search.inc');
 					if (isset ($_GET['offset'])) {
 						$arr = shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'], $_GET['offset'], true);
@@ -423,12 +423,12 @@ function shn_mpr_addmp() {
 				} else {
 					shn_mpr_addmp_commit();
 					echo $heading;
-					echo '<h2 align="center">(' . _('The missing person have been added') . ')</h2>';
+					echo '<h2 align="center">(' . _t('The missing person have been added') . ')</h2>';
 					shn_mpr_addmp_confirm();
 				}
 			} else {
 				echo $heading;
-				echo '<h2 align="center">(' . _('Reporting Person') . ')</h2>';
+				echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
 				shn_mpr_addmp_reporter(true);
 			}
 			break;
@@ -439,7 +439,7 @@ function shn_mpr_addmp() {
 
 		default :
 			echo $heading;
-			echo '<h2 align="center">(' . _('Reporting Person') . ')</h2>';
+			echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
 			shn_mpr_addmp_entry();
 			$_SESSION['mpr_add'] = null;
 			break;

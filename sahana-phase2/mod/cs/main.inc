@@ -44,20 +44,20 @@ function shn_cs_mainmenu()
     $module = $global['module'];
 
     // The  module menu
-	shn_mod_menuopen(_("Aid Catalog"));
-	shn_mod_menuitem("default",_("Home"));
-	shn_mod_menuitem("viewedit",_("View Aid Catalog"));
-	shn_mod_menuitem("drill_down",_("Drill Down Catalog"));
-	shn_mod_menuitem("search",_("Search Item Types"));
-	shn_sub_mod_menuopen(_("Modify Catalog"));
-	shn_mod_menuitem("addmain",_("Add New Catalog"));
-	shn_mod_menuitem("addsub",_("Add Aid Category"));
-	shn_mod_menuitem("additem",_("Add Aid Item Type"));
-	//shn_mod_menuitem("addunittype",_("Add Measurement Unit Type")); // relocate to admin section
-	//shn_mod_menuitem("addunit",_("Add Measurement Unit")); // relocate to admin section
+	shn_mod_menuopen(_t("Aid Catalog"));
+	shn_mod_menuitem("default",_t("Home"));
+	shn_mod_menuitem("viewedit",_t("View Aid Catalog"));
+	shn_mod_menuitem("drill_down",_t("Drill Down Catalog"));
+	shn_mod_menuitem("search",_t("Search Item Types"));
+	shn_sub_mod_menuopen(_t("Modify Catalog"));
+	shn_mod_menuitem("addmain",_t("Add New Catalog"));
+	shn_mod_menuitem("addsub",_t("Add Aid Category"));
+	shn_mod_menuitem("additem",_t("Add Aid Item Type"));
+	//shn_mod_menuitem("addunittype",_t("Add Measurement Unit Type")); // relocate to admin section
+	//shn_mod_menuitem("addunit",_t("Add Measurement Unit")); // relocate to admin section
 	shn_sub_mod_menuclose();
 	
-	//shn_mod_menuitem("supplier_report",_("Supplier Report")); // Supplier report should be in Inventory
+	//shn_mod_menuitem("supplier_report",_t("Supplier Report")); // Supplier report should be in Inventory
 	shn_mod_menuclose();
    
     // include the main menu
@@ -82,8 +82,8 @@ function shn_cs_default()
 function shn_cs_search()
 {
     ?>
-    <h1><?= (_("Search")) ?></h1>
-    <p><?= _('Select the Search Type in the select box that you need to search. By selecting catalog/Item, you are able to Search for a Item or a catalog and by selecting Unit, you are able to search for Units.'); ?></p> 
+    <h1><?= (_t("Search")) ?></h1>
+    <p><?= _t('Select the Search Type in the select box that you need to search. By selecting catalog/Item, you are able to Search for a Item or a catalog and by selecting Unit, you are able to search for Units.'); ?></p> 
     <?php
     require_once('search.inc');
     shn_cs_search_cat();
@@ -97,7 +97,7 @@ function shn_cs_search()
 function shn_cs_select_type_submit()
 {
     ?>
-    <h1><?= (_("Search")) ?></h1>
+    <h1><?= (_t("Search")) ?></h1>
     <?php
     require_once('search.inc');
     $selected = trim($_POST['search_type']);
@@ -119,7 +119,7 @@ function shn_cs_select_type_submit()
 function shn_cs_search_item_submit()
 {
     ?>
-    <h1><?= (_("Search catalog/item")) ?></h1>
+    <h1><?= (_t("Search catalog/item")) ?></h1>
     <?php
     require_once('search.inc');
     
@@ -137,7 +137,7 @@ function shn_cs_search_item_submit()
 function shn_cs_search_unit_submit()
 {
     ?>
-    <h1><?= (_("Search units")) ?></h1>
+    <h1><?= (_t("Search units")) ?></h1>
     <?php
     require_once('search.inc');
 
@@ -150,7 +150,7 @@ function shn_cs_search_unit_submit()
 function shn_cs_search_unit_type_submit()
 {
     ?>
-    <h1><?= (_("Search unit types")) ?></h1>
+    <h1><?= (_t("Search unit types")) ?></h1>
     <?php
     require_once('search.inc');
 
@@ -169,8 +169,8 @@ function shn_cs_search_unit_type_submit()
 function shn_cs_addmain()
 {
     ?>
-    <h1><?= (_("Add New Aid Catalog")) ?></h1>
-    <p><?= _('Please add the details of the New Aid Catalog below'); ?></p>
+    <h1><?= (_t("Add New Aid Catalog")) ?></h1>
+    <p><?= _t('Please add the details of the New Aid Catalog below'); ?></p>
     <?php
 
     require_once('add.inc');
@@ -180,8 +180,8 @@ function shn_cs_addmain()
 function shn_cs_addsub()
 {
     ?>
-    <h1><?= (_("Add A New Category")) ?></h1>
-    <p><?= _('The Aid Catolog can be divided in to categories or classified by the type of item. You can create a hierachy of categories. First select the parent category that you wish to place this new category under:'); ?></p>
+    <h1><?= (_t("Add A New Category")) ?></h1>
+    <p><?= _t('The Aid Catolog can be divided in to categories or classified by the type of item. You can create a hierachy of categories. First select the parent category that you wish to place this new category under:'); ?></p>
     <?php
     require_once('add.inc');
     shn_cs_addsub_form1();
@@ -203,7 +203,7 @@ function shn_cs_addmain_form_submit()
 function shn_cs_addsub_form1_submit()
 {
     ?>
-    <h1><?= (_('Add New Category')) ?></h1>	
+    <h1><?= (_t('Add New Category')) ?></h1>	
     <?php
     require_once('add.inc');
     require_once('lib_cs.inc');
@@ -233,8 +233,8 @@ function shn_cs_addsub_form2_submit()
 function shn_cs_addunit()
 {
     ?>
-    <h1><?= (_("Add Measurement Unit")) ?></h1>
-    <p><?= _(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the particular category.'); ?></p>
+    <h1><?= (_t("Add Measurement Unit")) ?></h1>
+    <p><?= _t(' This feature allows to add measurement unit/units. Before adding a sub category you have to add the measurement unit/units that is  used by the particular category.'); ?></p>
     <?php
     require_once('add.inc');
     shn_cs_addunit_form();
@@ -243,7 +243,7 @@ function shn_cs_addunit()
 function shn_cs_addunit_select_utype_submit()
 {
     ?>
-    <h1><?= (_("Add Measurement Unit")) ?></h1>
+    <h1><?= (_t("Add Measurement Unit")) ?></h1>
     <?php
     require_once('add.inc');
     shn_cs_addunit_form();
@@ -268,8 +268,8 @@ function shn_cs_addunit_form_submit()
 function shn_cs_additem()
 {
 	?>
-	<h1><?= (_("Add Item Type: Select Category")) ?></h1>
-	<p><?= _('First select the parent category, before proceeding to add the Item Type details'); ?></p>
+	<h1><?= (_t("Add Item Type: Select Category")) ?></h1>
+	<p><?= _t('First select the parent category, before proceeding to add the Item Type details'); ?></p>
 	<?php
 
 	require_once('add.inc');
@@ -280,7 +280,7 @@ function shn_cs_additem()
 function shn_cs_additem_form1_submit()
 {
     ?>
-    <h1><?= (_("Add Item")) ?></h1>
+    <h1><?= (_t("Add Item")) ?></h1>
     <?php
 
     require_once('add.inc');
@@ -311,8 +311,8 @@ function shn_cs_additem_form2_submit()
 function shn_cs_viewedit()
 {
     ?>
-        <h1><?= (_("View And Edit")) ?></h1>
-        <p><?= _("Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. ") . "<b>" . _("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.") . "</b>"; ?></p>
+        <h1><?= (_t("View And Edit")) ?></h1>
+        <p><?= _t("Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. ") . "<b>" . _t("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.") . "</b>"; ?></p>
     <?php
 
     require_once('edit.inc');
@@ -345,7 +345,7 @@ function shn_cs_edit_form_submit()
 function shn_cs_edit_cat_select_submit()
 {
     ?>
-    <h1><?= (_("Edit catalog / item")) ?></h1>
+    <h1><?= (_t("Edit catalog / item")) ?></h1>
     <?php
     require_once('edit.inc');
     _shn_cs_edit_cat_select_submit_result();
@@ -360,7 +360,7 @@ function shn_cs_edit_cat_form_submit()
 function shn_cs_edit_unit_select_submit()
 {
     ?>
-    <h1><?= (_("Edit Unit")) ?></h1>
+    <h1><?= (_t("Edit Unit")) ?></h1>
     <?php
     require_once('edit.inc');
     _shn_cs_edit_unit_select_submit_result();
@@ -375,7 +375,7 @@ function shn_cs_edit_unit_form_submit()
 function shn_cs_edit_unittype_select_submit()
 {
     ?>
-    <h1><?= (_("Edit Unit Type")) ?></h1>
+    <h1><?= (_t("Edit Unit Type")) ?></h1>
     <?php
     require_once('edit.inc');
     _shn_cs_edit_unittype_select_submit_result();
@@ -398,12 +398,12 @@ function shn_cs_edit_filter()
 function shn_cs_addunittype()
 {
     ?>
-    <h1><?= (_("Add Unit Type")) ?></h1>
+    <h1><?= (_t("Add Unit Type")) ?></h1>
     <?php
     require_once('add.inc');
     
     ?>
-    <p><?= _('Here you are able to add Unit type. For every Unit type you have to add a base unit. Eg. If you add volume as the unit type, Litre can be specified as the base unit.'); ?></p>
+    <p><?= _t('Here you are able to add Unit type. For every Unit type you have to add a base unit. Eg. If you add volume as the unit type, Litre can be specified as the base unit.'); ?></p>
     <?php
     
     shn_cs_add_unit_type_form();

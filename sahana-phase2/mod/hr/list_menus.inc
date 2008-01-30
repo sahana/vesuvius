@@ -64,11 +64,11 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 <div id ="result">
        <table>
        <thead>
-           <td><?=_("Head Of Family Unique ID")?></td>
-           <td><?=_("Head Of Family Name")?></td>
-           <td><?=_("Contact Information")?></td>
-           <td><?=_("Damaged House Destruction Level")?></td>
-           <td><?=_("Damaged House Location")?></td>
+           <td><?=_t("Head Of Family Unique ID")?></td>
+           <td><?=_t("Head Of Family Name")?></td>
+           <td><?=_t("Contact Information")?></td>
+           <td><?=_t("Damaged House Destruction Level")?></td>
+           <td><?=_t("Damaged House Location")?></td>
        </thead>
        <tbody> 
 <?php
@@ -142,14 +142,14 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   else if($no_dta && $menu2) 
   { 
      ?><div id="note">
-    <strong><?=_("Please Add One Or More Damaged House(s) Before Starting To Search")?></strong>
+    <strong><?=_t("Please Add One Or More Damaged House(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_("Please Add One Or More Homeless Family(ies) Before Starting To Search")?></strong>
+    <strong><?=_t("Please Add One Or More Homeless Family(ies) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -157,7 +157,7 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   { 
   	add_error("The search did not return any results");	
     ?><div id="note">
-    <strong><?=_("No Homeless Family(ies) Found")?></strong>
+    <strong><?=_t("No Homeless Family(ies) Found")?></strong>
     </div>
     <?php
   }
@@ -165,7 +165,7 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   { 
   	add_error("The search did not return any results");	
     ?><div id="note">
-    <strong><?=_("No Damaged House(s) Found")?></strong>
+    <strong><?=_t("No Damaged House(s) Found")?></strong>
     </div>
     <?php
   }
@@ -225,11 +225,11 @@ contractor_level,contractor_name,contractor_uid,assign_site_to_contractor FROM h
 <div id ="result">
        <table>
        <thead>
-           <td><?=_("Unique ID")?></td>
-           <td><?=_("Level")?></td>
-           <td><?=_("Name")?></td>
-           <td><?=_("Contact Information")?></td>
-           <td><?=_("Assigned Sites")?></td>
+           <td><?=_t("Unique ID")?></td>
+           <td><?=_t("Level")?></td>
+           <td><?=_t("Name")?></td>
+           <td><?=_t("Contact Information")?></td>
+           <td><?=_t("Assigned Sites")?></td>
        </thead>
        <tbody>
 <?php 
@@ -336,7 +336,7 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_("Please Add One Or More Contractor(s) Before Starting To Search")?></strong>
+    <strong><?=_t("Please Add One Or More Contractor(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -344,7 +344,7 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
   {
   	 add_error("The search did not return any results");
     ?><div id="note">
-    <strong><?=_("No Contractor(s) Found")?></strong>
+    <strong><?=_t("No Contractor(s) Found")?></strong>
     </div>
     <?php
   }
@@ -429,14 +429,14 @@ site_name,site_uid,site_allocated_organization,assign_contractor_to_site,site_ma
 <div id ="result">
        <table>
        <thead>
-           <td><?=_("Unique ID")?></td>
-           <td><?=_("Site Name")?></td>
-           <td><?=_("Allocated Organization")?></td>
-           <td><?=_("Assigned Contractors")?></td>
-           <td><?=_("Main Coordinator")?></td>
-           <td><?=_("Planned / Constructed / Vacant Houses")?></td>
-           <td><?=_("Infrastructure")?></td>
-           <td><?=_("Location")?></td>
+           <td><?=_t("Unique ID")?></td>
+           <td><?=_t("Site Name")?></td>
+           <td><?=_t("Allocated Organization")?></td>
+           <td><?=_t("Assigned Contractors")?></td>
+           <td><?=_t("Main Coordinator")?></td>
+           <td><?=_t("Planned / Constructed / Vacant Houses")?></td>
+           <td><?=_t("Infrastructure")?></td>
+           <td><?=_t("Location")?></td>
        </thead>
        <tbody>
 <?php
@@ -552,7 +552,7 @@ else
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_("Please Add One Or More Site(s) Before Starting To Search")?></strong>
+    <strong><?=_t("Please Add One Or More Site(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -560,7 +560,7 @@ else
   {
      add_error("The search did not return any results");
      ?><div id="note">
-    <strong><?=_("No Site(s) Found")?></strong>
+    <strong><?=_t("No Site(s) Found")?></strong>
     </div>
     <?php 	
   }	

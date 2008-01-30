@@ -16,12 +16,12 @@ function _shn_ims_assign_form($errors=false,$type=false)
         
         shn_form_hidden(array('seq'=>'delete'));
         shn_form_hidden(array('id'=>$_REQUEST['id']));
-        shn_form_fsopen(_('Currently Assign Incidents'));
+        shn_form_fsopen(_t('Currently Assign Incidents'));
 ?>
 		<table>
 		<thead>
-    	<td width="100%"><strong><?=_('Incident Name');?></strong></td>
-    	<td width="100%"><strong><?=_('Delete');?></strong></td>
+    	<td width="100%"><strong><?=_t('Incident Name');?></strong></td>
+    	<td width="100%"><strong><?=_t('Delete');?></strong></td>
 		</thead>
 <?php
 		foreach($arr as $row) {
@@ -38,7 +38,7 @@ function _shn_ims_assign_form($errors=false,$type=false)
 		</table>
 <?php
         shn_form_fsclose();
-        shn_form_submit(_('Delete'));
+        shn_form_submit(_t('Delete'));
         shn_form_fclose();
     }
 
@@ -71,29 +71,29 @@ function _shn_ims_assign_form($errors=false,$type=false)
     shn_form_fopen("ims_assign",null);
     
     if($updated) {
-        shn_form_fsopen(_(""));
-?>		<p align="center"><?=_('Added.');?></p>
+        shn_form_fsopen(_t(""));
+?>		<p align="center"><?=_t('Added.');?></p>
 <?php
         shn_form_fsclose();
     }
     
     shn_form_hidden(array('id'=>$_REQUEST['id']));
-    shn_form_fsopen(_("Incident Type"));
+    shn_form_fsopen(_t("Incident Type"));
     shn_form_hidden(array('seq'=>'change_type'));
     shn_form_select(array('level1'=>$conf['mod_admin_ims_level1'],
                             'level2'=>$conf['mod_admin_ims_level2'],
-                            'level3'=>$conf['mod_admin_ims_level3']),_('Incident Type'),'ims_level','onChange="submit(this)"');
+                            'level3'=>$conf['mod_admin_ims_level3']),_t('Incident Type'),'ims_level','onChange="submit(this)"');
     shn_form_fsclose();
     shn_form_fclose(); 
 
     shn_form_fopen("ims_assign",null);
-    shn_form_fsopen(_("New Incident"));
+    shn_form_fsopen(_t("New Incident"));
     shn_form_hidden(array('seq'=>'entry'));
     shn_form_hidden(array('id'=>$_REQUEST['id']));
-    shn_form_select($arr,_('Select Incident'),'ims_incident_id');
+    shn_form_select($arr,_t('Select Incident'),'ims_incident_id');
     shn_form_fsclose();
  
-    shn_form_submit(_('Add'));
+    shn_form_submit(_t('Add'));
     shn_form_fclose(); 
 }
 
@@ -107,17 +107,17 @@ function _shn_ims_assign_validate()
     
     //anything entered?
     if(empty($local_post)) {
-        add_error(_("You have not completed the form"));
+        add_error(_t("You have not completed the form"));
         return false;
     }
 
     if(! isset($local_post['id'])) {
-        add_error(_("Please specify the id"));
+        add_error(_t("Please specify the id"));
         $error_flag=true;
     }
 
     if(! isset($local_post['ims_incident_id'])) {
-        add_error(_("Please an incident"));
+        add_error(_t("Please an incident"));
         $error_flag=true;
     }
 

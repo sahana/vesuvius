@@ -36,42 +36,42 @@
 ?>
 <div id="home">
 <h2><?=_lc($conf['mod_or_name'])?></h2>
-<div><b><i><?=_("\"who is doing what and where\"")?></i></b></div>
-<p><?=_('The Organization Registry keeps track of all the relief organizations working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')?>
+<div><b><i><?=_t("\"who is doing what and where\"")?></i></b></div>
+<p><?=_t('The Organization Registry keeps track of all the relief organizations working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')?>
 </p>
 <p>
 
 
-<h3><?php echo _("Current features include:")?></h3>
+<h3><?php echo _t("Current features include:")?></h3>
 <p></p>
 <ul>
-	<li><?=_("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
-	<li><?=_('Capturing the essential services each group is providing and where')?></li>
-	<li><?=_('Reporting on the converge of services and support in the region and more')?></li>
-	<li><?=_('Importantly where there are no aid services being provided')?></li>
+	<li><?=_t("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
+	<li><?=_t('Capturing the essential services each group is providing and where')?></li>
+	<li><?=_t('Reporting on the converge of services and support in the region and more')?></li>
+	<li><?=_t('Importantly where there are no aid services being provided')?></li>
 </ul>
 
 <br />
-<strong><?php echo _("Description of Actions:");?></strong>
+<strong><?php echo _t("Description of Actions:");?></strong>
 <br />
 <ul>
-	<li><a href="index.php?mod=or&act=reg_org"><b><?= _('Register an organization'); ?>
+	<li><a href="index.php?mod=or&act=reg_org"><b><?= _t('Register an organization'); ?>
 	</b></a><br />
-	<?= _('Adds an organization\'s details to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=reg_operation"><b><?= _('Register a branch'); ?>
+	<?= _t('Adds an organization\'s details to sahana.'); ?></li>
+	<li><a href="index.php?mod=or&act=reg_operation"><b><?= _t('Register a branch'); ?>
 	</b> </a><br />
-	<?= _('Adds the details of a branch of an organization to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=search"><b><?= _('Search organizations'); ?></b></a><br />
-	<?= _('Find the organisation(s) by specifying its details.'); ?></li>
-	<li><a href="index.php?mod=or&act=view_org"><b><?= _('View And Edit'); ?></b></a><br />
-	<?= _('View a list of registered organizations. Their detils can be viewed / edited by clicking on the appropriate links.'); ?>
+	<?= _t('Adds the details of a branch of an organization to sahana.'); ?></li>
+	<li><a href="index.php?mod=or&act=search"><b><?= _t('Search organizations'); ?></b></a><br />
+	<?= _t('Find the organisation(s) by specifying its details.'); ?></li>
+	<li><a href="index.php?mod=or&act=view_org"><b><?= _t('View And Edit'); ?></b></a><br />
+	<?= _t('View a list of registered organizations. Their detils can be viewed / edited by clicking on the appropriate links.'); ?>
 
 </ul>
 <br />
 
 
 </div>
-<div align=center><?=_('Service Coverage') ?> </div>
+<div align=center><?=_t('Service Coverage') ?> </div>
 <br />
 <div align=center><?php 
 
@@ -86,7 +86,7 @@
 ?></div>
 
 <div><a href="index.php?mod=or&act=view_org">
-<center><strong> <?php echo $org_no ?></strong><?=_(" Organizations/Departments/Branches have registered")?>
+<center><strong> <?php echo $org_no ?></strong><?=_t(" Organizations/Departments/Branches have registered")?>
 </center>
 </a></div>
 <?php
@@ -99,14 +99,14 @@ if($content != ""){
 	?>
 
 <br />
-<div id="note"><strong><?=_("Recently registered organizations")?></strong>
+<div id="note"><strong><?=_t("Recently registered organizations")?></strong>
 </div>
 	<?php
 	echo $content;
 }
 
 	require_once($global['approot']."/inc/lib_rss.inc");
-	shn_rss_add_feed('new_org_list',_('Recently Registered organizations'));
+	shn_rss_add_feed('new_org_list',_t('Recently Registered organizations'));
 
 ?>
 

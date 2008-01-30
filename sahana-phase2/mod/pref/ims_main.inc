@@ -52,28 +52,28 @@ function shn_pref_ch_passwd_cr()
 	
 	if ((null==$_POST["old_password"])or(is_null($_POST["old_password"]))){
         $error=true;
-        add_error(_("Old password cannot be empty"));
+        add_error(_t("Old password cannot be empty"));
         shn_acl_log_msg("Password Change error: Old password cannot be empty");
     }else {    
         $old_password=trim($_POST{"old_password"});
     }
 	if ((null==$_POST["password"])or(is_null($_POST["password"]))){
         $error=true;
-        add_error(_("User password cannot be empty"));
+        add_error(_t("User password cannot be empty"));
         shn_acl_log_msg("Password Change error: User password cannot be empty");
     }else {    
         $new_password=trim($_POST{"password"});
     }
 	if ((null==$_POST["re_password"])or(is_null($_POST["re_password"]))){
         $error=true;
-        add_error(_("User Confirm password cannot be empty"));
+        add_error(_t("User Confirm password cannot be empty"));
         shn_acl_log_msg("Password Change error: User Confirm password cannot be empty");
     }else {    
         $re_password=trim($_POST{"re_password"});
     }
     if (!($new_password==$re_password)){
         $error=true;
-        add_error(_("User password and confirm password should match"));
+        add_error(_t("User password and confirm password should match"));
         shn_acl_log_msg("Password Change error: User password and confirm password should match");
     }
 
@@ -96,7 +96,7 @@ function shn_pref_ch_passwd_cr()
    	$date= date("Ymd",$tmp);
 
     	if($date==$curr_date){
-    		add_error(_("You cannot change the password more than once in one day"));
+    		add_error(_t("You cannot change the password more than once in one day"));
     		shn_acl_log_msg("Password Change error: tried to change the password more than once in one day");
     		shn_auth_form_ch_pwd();
     		return false;
@@ -126,7 +126,7 @@ function shn_pref_ch_passwd_cr()
     		    		$sql="update old_passwords set password='{$old_pwd}', changed_timestamp=$curr where p_uuid='{$user}' and password='{$tmp}'";
     		    		$res=$db->Execute($sql);
     		    	}else{
-    		    		add_error(_("You cannot choose one of the recent four passwords"));
+    		    		add_error(_t("You cannot choose one of the recent four passwords"));
     		    		shn_acl_log_msg("Password Change error: tried to choose one of the recent four passwords");
     		    		shn_auth_form_ch_pwd();
     		    		return false;
@@ -143,7 +143,7 @@ function shn_pref_ch_passwd_cr()
     if(shn_change_password($user,$old_password,$new_password)==false){
 		shn_auth_form_ch_pwd();
 	}else{
-		$msg=_(" Succesfully changed Password ");
+		$msg=_t(" Succesfully changed Password ");
      	add_confirmation($msg);
 	}
 	

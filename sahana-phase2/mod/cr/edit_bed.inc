@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_bed.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
-/* $Id: edit_bed.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: edit_bed.inc,v 1.7 2008-01-30 04:35:19 prabath321 Exp $ */
+/* $Id: edit_bed.inc,v 1.7 2008-01-30 04:35:19 prabath321 Exp $ */
 
 /**Update functions for  CR
 *
@@ -28,7 +28,7 @@ function _shn_cr_cedt_start($errors = false){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2><?php echo _("Update Existing Hospital Beds")?></h2>
+<h2><?php echo _t("Update Existing Hospital Beds")?></h2>
 <?php
 	$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -37,19 +37,19 @@ function _shn_cr_cedt_start($errors = false){
 	
 	_shn_cr_get_session($editid);
 	shn_form_fopen(ebed);
-	shn_form_fsopen(_("Hospital Details"));
+	shn_form_fsopen(_t("Hospital Details"));
 	shn_form_hidden(array('seq'=>'chk'));
 ?>
 <table>
 <tr>
 <td>
 <?php	
-    shn_form_text(_("ICU Beds Used"),"icu_used",'size="5"',array('value'=>$_SESSION['camp_icu_used']));
+    shn_form_text(_t("ICU Beds Used"),"icu_used",'size="5"',array('value'=>$_SESSION['camp_icu_used']));
 ?>
 </td><td>
 
 <?php
-    shn_form_text(_("ICU Beds Available"),"icu_available",'size="5"',array('value'=>$_SESSION['camp_icu_available']));
+    shn_form_text(_t("ICU Beds Available"),"icu_available",'size="5"',array('value'=>$_SESSION['camp_icu_available']));
 ?>
 </td>
 </tr>
@@ -57,12 +57,12 @@ function _shn_cr_cedt_start($errors = false){
 <tr>
 <td>
 <?php
-    shn_form_text(_("Medicine Beds Used"),"med_used",'size="5"',array('value'=>$_SESSION['camp_med_used']));
+    shn_form_text(_t("Medicine Beds Used"),"med_used",'size="5"',array('value'=>$_SESSION['camp_med_used']));
 ?>
 </td><td>
 
 <?php
-    shn_form_text(_("Medicine Beds Available"),"med_available",'size="5"',array('value'=>$_SESSION['camp_med_available']));
+    shn_form_text(_t("Medicine Beds Available"),"med_available",'size="5"',array('value'=>$_SESSION['camp_med_available']));
 ?>
 </td>
 </tr>
@@ -71,12 +71,12 @@ function _shn_cr_cedt_start($errors = false){
 <tr>
 <td>
 <?php
-    shn_form_text(_("Surgery Beds Used"),"surg_used",'size="5"',array('value'=>$_SESSION['camp_surg_used']));
+    shn_form_text(_t("Surgery Beds Used"),"surg_used",'size="5"',array('value'=>$_SESSION['camp_surg_used']));
 ?>
 </td><td>
 
 <?php
-    shn_form_text(_("Surgery Beds Available"),"surg_available",'size="5"',array('value'=>$_SESSION['camp_surg_available']));
+    shn_form_text(_t("Surgery Beds Available"),"surg_available",'size="5"',array('value'=>$_SESSION['camp_surg_available']));
 ?>
 </td>
 </tr>
@@ -84,24 +84,24 @@ function _shn_cr_cedt_start($errors = false){
 <tr>
 <td>
 <?php
-    shn_form_text(_("Paediatrics Beds Used"),"ped_used",'size="5"',array('value'=>$_SESSION['camp_ped_used']));
+    shn_form_text(_t("Paediatrics Beds Used"),"ped_used",'size="5"',array('value'=>$_SESSION['camp_ped_used']));
 ?>
 </td><td>
 
 <?php
-    shn_form_text(_("Paeddiatrics Beds Available"),"ped_available",'size="5"',array('value'=>$_SESSION['camp_ped_available']));
+    shn_form_text(_t("Paeddiatrics Beds Available"),"ped_available",'size="5"',array('value'=>$_SESSION['camp_ped_available']));
 ?>
 </td>
 </tr>
 <tr>
 <td>
 <?php
-    shn_form_text(_("Obsterics Beds Used"),"obs_used",'size="5"',array('value'=>$_SESSION['camp_obs_used']));
+    shn_form_text(_t("Obsterics Beds Used"),"obs_used",'size="5"',array('value'=>$_SESSION['camp_obs_used']));
 ?>
 </td><td>
 
 <?php
-    shn_form_text(_("Obsterics Beds Available"),"obs_available",'size="5"',array('value'=>$_SESSION['camp_obs_available']));
+    shn_form_text(_t("Obsterics Beds Available"),"obs_available",'size="5"',array('value'=>$_SESSION['camp_obs_available']));
 ?>
 </td>
 </tr>
@@ -113,7 +113,7 @@ function _shn_cr_cedt_start($errors = false){
 
 </table>
 <?php
-//shn_form_text(_("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
+//shn_form_text(_t("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
 
 
 
@@ -161,45 +161,45 @@ function _shn_cr_validate_error(){
 
 if(!(null == ($_POST['icu_used']))){
 		if(!is_numeric(trim($_POST['icu_used']))){
-			add_error(_("The ICU used count is not a valid number"));
+			add_error(_t("The ICU used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 if(!(null == ($_POST['icu_available']))){
                 if(!is_numeric(trim($_POST['icu_available']))){
-                        add_error(_("The ICU available is not a valid number"));
+                        add_error(_t("The ICU available is not a valid number"));
                         $error_flag=true;
                 }
         }
 
 	if(!(null == ($_POST['med_used']))){
 		if(!is_numeric(trim($_POST['med_used']))){
-			add_error(_("The medical beds used count is not a valid number"));
+			add_error(_t("The medical beds used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['med_availble']))){
 		if(!is_numeric(trim($_POST['women']))){
-			add_error(_("The medical beds availble count is not a valid number"));
+			add_error(_t("The medical beds availble count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['surg_used']))){
 		if(!is_numeric(trim($_POST['surg_used']))){
-			add_error(_("The surgery beds used count is not a valid number"));
+			add_error(_t("The surgery beds used count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	
     if(!(null == ($_POST['surg_availble']))){
                 if(!is_numeric(trim($_POST['surg_available']))){
-                        add_error(_("The surgery beds available count is not a valid number"));
+                        add_error(_t("The surgery beds available count is not a valid number"));
                         $error_flag=true;
                 }
         }
         if(!(null == ($_POST['ped_used']))){
                 if(!is_numeric(trim($_POST['ped_used']))){
-                        add_error(_("The piadertics used bed count is not a valid number"));
+                        add_error(_t("The piadertics used bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -207,7 +207,7 @@ if(!(null == ($_POST['icu_available']))){
 
  if(!(null == ($_POST['ped_available']))){
                 if(!is_numeric(trim($_POST['ped_available']))){
-                        add_error(_("The piadertics available bed count is not a valid number"));
+                        add_error(_t("The piadertics available bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -215,7 +215,7 @@ if(!(null == ($_POST['icu_available']))){
 
 if(!(null == ($_POST['obs_used']))){
                 if(!is_numeric(trim($_POST['obs_used']))){
-                        add_error(_("The obsterics used bed count is not a valid number"));
+                        add_error(_t("The obsterics used bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -223,7 +223,7 @@ if(!(null == ($_POST['obs_used']))){
 
  if(!(null == ($_POST['obs_available']))){
                 if(!is_numeric(trim($_POST['obs_available']))){
-                        add_error(_("The obsterics available bed count is not a valid number"));
+                        add_error(_t("The obsterics available bed count is not a valid number"));
                         $error_flag=true;
                 }
         }
@@ -302,7 +302,7 @@ function _shn_cr_cedt_commit(){
 //$res = $db->Execute($q);
 ?>
 
-<h2><?  add_confirmation(_("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
+<h2><?  add_confirmation(_t("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
 
 
 </tbody>
@@ -311,7 +311,7 @@ function _shn_cr_cedt_commit(){
 
 </ul>
 <br><br>
-<p><?php echo _("Use the navigation menu to continue")?></p>
+<p><?php echo _t("Use the navigation menu to continue")?></p>
 <?php	
 }
 

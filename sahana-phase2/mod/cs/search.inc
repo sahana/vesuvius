@@ -22,10 +22,10 @@
  */
 function shn_cs_search_cat()
 {
-    $option_array = array('none' => _('-----Select Search-----'),'Item' => _('Item/Catalog'),'Unit' => _('Unit'),'Unit_type' => _('Unit Type'));
+    $option_array = array('none' => _t('-----Select Search-----'),'Item' => _t('Item/Catalog'),'Unit' => _t('Unit'),'Unit_type' => _t('Unit Type'));
     $form_opts['name'] = "select_type_form";
     shn_form_fopen('select_type_submit',null,$form_opts);
-    shn_form_fsopen(_('Select Search Type'));
+    shn_form_fsopen(_t('Select Search Type'));
     $select_opts = 'onChange="shn_cs_search_cat_js()"';
     shn_form_select($option_array,'','search_type',$select_opts,null);
     shn_form_fsclose();
@@ -41,12 +41,12 @@ function shn_cs_search_cat()
 function _shn_cs_cat_form()
 {
     shn_form_fopen('search_item_submit');
-    shn_form_fsopen(_('Search Details'));
-    shn_form_text(_("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_('Enter the Item/catalog to be searched')));
-    $options = array('item' => _('Item'),'catalogue' => _('Catalog'));
+    shn_form_fsopen(_t('Search Details'));
+    shn_form_text(_t("Name   : "),'cat_item_name','size="50"',array('req' =>'true', 'help'=>_t('Enter the Item/catalog to be searched')));
+    $options = array('item' => _t('Item'),'catalogue' => _t('Catalog'));
     shn_form_radio($options,'','item_cat_radio');
     shn_form_fsclose();
-    shn_form_submit(_("Search"));
+    shn_form_submit(_t("Search"));
     shn_form_fclose();
 }
 
@@ -79,15 +79,15 @@ function _shn_cs_search_item_cat_submit_result()
     }
 
     if ($name == null && $description == null) {
-        print "<br /><br /><b>" . _("There is no match found.") . "</b>";
+        print "<br /><br /><b>" . _t("There is no match found.") . "</b>";
     } else {
         ?>
         <br><br>
         <div id="result">
         <table>
         <THEAD>
-            <TD><strong><?=_("Category Name")?></strong></TD>
-            <TD><strong><?=_("Description")?></strong></TD>
+            <TD><strong><?=_t("Category Name")?></strong></TD>
+            <TD><strong><?=_t("Description")?></strong></TD>
         </THEAD>
         <TBODY>
 
@@ -115,7 +115,7 @@ function _shn_cs_unit_form()
     $option_array = array();
     $query = "SELECT unit_type_uuid,name FROM ct_unit_type ";
     $res = $db->Execute($query);
-    $option_array['none'] = _('----Select Unit type----');
+    $option_array['none'] = _t('----Select Unit type----');
     
     while (!$res == NULL && !$res->EOF) {
         $option_array[$res->fields['unit_type_uuid']] = $res->fields['name'];
@@ -124,14 +124,14 @@ function _shn_cs_unit_form()
     
     $form_opts['name'] = "unit_type";
     shn_form_fopen("search_unit_submit");
-    shn_form_fsopen(_('Select Measurement Unit Type'));
+    shn_form_fsopen(_t('Select Measurement Unit Type'));
     shn_form_select($option_array,'','measurement_type',$select_opts,null);
     shn_form_fsclose();
-    shn_form_fsopen(_('Search Details'));
+    shn_form_fsopen(_t('Search Details'));
     //$extra_opts['req']=true;
-    shn_form_text(_("Unit Name   : "),'unit_name','size="50"',array('req'=>'true','help'=>_('Enter the Unit name to be searched.')));
+    shn_form_text(_t("Unit Name   : "),'unit_name','size="50"',array('req'=>'true','help'=>_t('Enter the Unit name to be searched.')));
     shn_form_fsclose();
-    shn_form_submit(_("Search"));
+    shn_form_submit(_t("Search"));
     shn_form_fclose();
 }
 
@@ -165,9 +165,9 @@ function _shn_cs_search_unit_submit_result()
     <div id="result">
     <table>
     <THEAD>
-        <TD><strong><?=_("Unit Type")?></strong></TD>
-        <TD><strong><?=_("Unit")?></strong></TD>
-        <TD><strong><?=_("Multiplier")?></strong></TD>
+        <TD><strong><?=_t("Unit Type")?></strong></TD>
+        <TD><strong><?=_t("Unit")?></strong></TD>
+        <TD><strong><?=_t("Multiplier")?></strong></TD>
     </THEAD>
     <TBODY>
     <?php 
@@ -206,10 +206,10 @@ function _shn_cs_search_unit_submit_result()
 function _shn_cs_unit_type_form()
 {
     shn_form_fopen('search_unit_type_submit');
-    shn_form_fsopen(_('Search Details'));
-    shn_form_text(_("Unit type   : "),'unit_type_name','size="50"',array('req' =>'true', 'help'=>_('Enter the unit type to be searched')));
+    shn_form_fsopen(_t('Search Details'));
+    shn_form_text(_t("Unit type   : "),'unit_type_name','size="50"',array('req' =>'true', 'help'=>_t('Enter the unit type to be searched')));
     shn_form_fsclose();
-    shn_form_submit(_("Search"));
+    shn_form_submit(_t("Search"));
     shn_form_fclose();
 }
 
@@ -237,8 +237,8 @@ function _shn_cs_search_unit_type_submit_result()
     <div id="result">
     <table>
     <THEAD>
-        <TD><strong><?=_("Unit Type Name")?></strong></TD>
-        <TD><strong><?=_("Description")?></strong></TD>
+        <TD><strong><?=_t("Unit Type Name")?></strong></TD>
+        <TD><strong><?=_t("Description")?></strong></TD>
     </THEAD>
     <TBODY>
 

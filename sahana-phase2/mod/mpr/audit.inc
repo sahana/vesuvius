@@ -24,7 +24,7 @@
  * @return void
  */
 ?>
-<h1><?= _('Audit'); ?></h1>
+<h1><?= _t('Audit'); ?></h1>
 <?php
 function shn_audit_show($x_uuid)
 {
@@ -35,36 +35,36 @@ function shn_audit_show($x_uuid)
     "person_uuid b ON b.p_uuid = a.u_uuid WHERE a.x_uuid = '$x_uuid' ";
     $arr_result = $global['db']->GetAll($sql);
       
-//    echo ' <a title="'._('Download').'"'.
+//    echo ' <a title="'._t('Download').'"'.
 //        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-//        $_GET['id'].'" >'._('Download CSV'). '</a>';
+//        $_GET['id'].'" >'._t('Download CSV'). '</a>';
 //
-//    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
+//    echo '&nbsp;&nbsp;&nbsp;<a title="'._t('Download').'"'.
 //        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-//        $_GET['id'].'" >'._('Download PDF'). '</a>';
+//        $_GET['id'].'" >'._t('Download PDF'). '</a>';
 //
-//    echo '&nbsp;&nbsp;&nbsp;<a title="'._('Download').'"'.
+//    echo '&nbsp;&nbsp;&nbsp;<a title="'._t('Download').'"'.
 //        'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-//        $_GET['id'].'" >'._('Download Ugly Excel'). '</a>';
+//        $_GET['id'].'" >'._t('Download Ugly Excel'). '</a>';
 //TODO PUT INTO A LIB
 ?>
 <DIV ID="result">
 <TABLE>
 <THEAD>
    <TR>
-    <TD><?= _('Date/Time'); ?></TD>
-    <TD><?= _('User Making Changes'); ?></TD>
-    <TD><?= _('Table Affected'); ?></TD>
-    <TD><?= _('Field Affected'); ?></TD>
-    <TD><?= _('Type of change'); ?></TD>
-    <TD><?= _('Previous Value'); ?></TD>
-    <TD><?= _('New Value'); ?></TD>
+    <TD><?= _t('Date/Time'); ?></TD>
+    <TD><?= _t('User Making Changes'); ?></TD>
+    <TD><?= _t('Table Affected'); ?></TD>
+    <TD><?= _t('Field Affected'); ?></TD>
+    <TD><?= _t('Type of change'); ?></TD>
+    <TD><?= _t('Previous Value'); ?></TD>
+    <TD><?= _t('New Value'); ?></TD>
     </TR>
 </THEAD>
 <?php
     foreach($arr_result as $arr){
         if ($arr['change_type'] == 'ins' )
-            $arr['change_type'] = _('Inserted'); 
+            $arr['change_type'] = _t('Inserted'); 
 ?>
     <TR>
     <TD><?= $arr['updated']; ?></TD>

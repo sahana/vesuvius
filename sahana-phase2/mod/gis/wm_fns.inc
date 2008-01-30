@@ -33,15 +33,15 @@ function show_wiki_map($category="all",$date=0)
 	
 	//default to all categories
 	//set to something else if load problems occur, especially online
-	print ("<h2>"._("View Situation Map")."</h2>");
+	print ("<h2>"._t("View Situation Map")."</h2>");
 	
 	if(!isset($category))
 		$category="all";
 	shn_form_fopen(swik,null,array('req'=>false));
-	shn_form_fsopen(_("Filter Options"));
-	shn_form_opt_select("opt_wikimap_type",_("Situation Type"),null,array('all'=>true));
+	shn_form_fsopen(_t("Filter Options"));
+	shn_form_opt_select("opt_wikimap_type",_t("Situation Type"),null,array('all'=>true));
 	shn_form_fsclose();
-	shn_form_submit(_("Filter"));
+	shn_form_submit(_t("Filter"));
 	shn_form_fclose();
 	
 	$db = $global['db'];
@@ -121,10 +121,10 @@ function show_wiki_add_image()
 	include_once ($global['approot'].'/inc/lib_form.inc');
 	shn_form_fopen(awik,null,array('enctype'=>'enctype="multipart/form-data"'));
 	shn_form_hidden(array('seq'=>'com'));
-	shn_form_fsopen(_("Situation Image"));
-	shn_form_upload(_("Upload Image"),'image');
+	shn_form_fsopen(_t("Situation Image"));
+	shn_form_upload(_t("Upload Image"),'image');
 	shn_form_fsclose();
-	shn_form_submit(_('Next'));
+	shn_form_submit(_t('Next'));
 	shn_form_fclose();
 	
 }
@@ -158,7 +158,7 @@ function show_wiki_add_map($errors=false)
 	shn_form_hidden(array('seq'=>'img'));
 	//call gis api
 	shn_gis_add_marker_map_form();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
@@ -185,7 +185,7 @@ function map_client($errors=false)
 	include_once $global['approot'] . "/inc/lib_errors.inc";
 	
 	//if($errors){
-	//	add_error(_("Detail Name Cannot be empty"));
+	//	add_error(_t("Detail Name Cannot be empty"));
 	//}
 	global $global;
 	global $conf;
@@ -196,7 +196,7 @@ function map_client($errors=false)
 	
 	
 ?>
-	<h2><?=_("Mapping Client")?></h2>
+	<h2><?=_t("Mapping Client")?></h2>
 	<p></p>
 <?php
 
@@ -220,33 +220,33 @@ function show_wiki_add_detail($errors=false)
 	include_once $global['approot'] . "/inc/lib_errors.inc";
 	
 	if($errors){
-		add_error(_("'Name of situation detail' field cannot be empty"));
+		add_error(_t("'Name of situation detail' field cannot be empty"));
 	}
 	global $global;
 	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
 ?>
-	<h2><?=_("Add Situation Detail")?></h2>
+	<h2><?=_t("Add Situation Detail")?></h2>
 <?php
 	
 	shn_form_fopen(awik);
-	shn_form_fsopen(_("Main Details"));
+	shn_form_fsopen(_t("Main Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_text(_("Name of situation detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gis_situation_name_help'])));
-	shn_form_opt_select("opt_wikimap_type",_("Wiki Type"),null,array('help'=>_($conf['mod_gis_situation_type_help'])));
-	shn_form_textarea(_("Detail Summary"),"wiki_text",'size="50"');
+	shn_form_text(_t("Name of situation detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_t($conf['mod_gis_situation_name_help'])));
+	shn_form_opt_select("opt_wikimap_type",_t("Wiki Type"),null,array('help'=>_t($conf['mod_gis_situation_type_help'])));
+	shn_form_textarea(_t("Detail Summary"),"wiki_text",'size="50"');
 	shn_form_fsclose();
-	shn_form_fsopen(_("Extra Details"));
-	shn_form_text(_("URL"),"wiki_url",'size="50"',array('help'=>_($conf['mod_gis_situation_url_help'])));
-	//shn_form_text(_("Date of //Event"),"wiki_evnt_date",'size="50"',array('help'=>_($conf['mod_gis_situation_date_help'])));
-	shn_form_date(_("Date of Event"),"wiki_evnt_date",array('req'=>true,'value'=>date('Y-m-d'),'help'=>_($conf['mod_gis_situation_date_help'])));
+	shn_form_fsopen(_t("Extra Details"));
+	shn_form_text(_t("URL"),"wiki_url",'size="50"',array('help'=>_t($conf['mod_gis_situation_url_help'])));
+	//shn_form_text(_t("Date of //Event"),"wiki_evnt_date",'size="50"',array('help'=>_t($conf['mod_gis_situation_date_help'])));
+	shn_form_date(_t("Date of Event"),"wiki_evnt_date",array('req'=>true,'value'=>date('Y-m-d'),'help'=>_t($conf['mod_gis_situation_date_help'])));
 	shn_form_fsclose();
-	shn_form_fsopen(_("Wikimap Options"));
-	shn_form_text(_("Author"),"wiki_author",'size="50"',array('help'=>_($conf['mod_gis_situation_author_help'])));
-	shn_form_checkbox(_("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
-	shn_form_checkbox(_("Publicly Viewable"),"view_public","view");
+	shn_form_fsopen(_t("Wikimap Options"));
+	shn_form_text(_t("Author"),"wiki_author",'size="50"',array('help'=>_t($conf['mod_gis_situation_author_help'])));
+	shn_form_checkbox(_t("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
+	shn_form_checkbox(_t("Publicly Viewable"),"view_public","view");
 	shn_form_fsclose();
-	shn_form_submit(_("Add Detail"));
+	shn_form_submit(_t("Add Detail"));
 	shn_form_fclose();
 }
 
@@ -261,13 +261,13 @@ function shn_wiki_edit($id)
 	
 	include_once $global['approot']."/inc/lib_form.inc";
 	shn_form_fopen(ewik);
-	shn_form_fsopen(_("Update Detail"));
-	shn_form_textarea(_("Detail Summary"),"wiki_text",'size="50"',array('value'=>$desc));
+	shn_form_fsopen(_t("Update Detail"));
+	shn_form_textarea(_t("Detail Summary"),"wiki_text",'size="50"',array('value'=>$desc));
 ?>
 	<input type="hidden" name="wiki_id" value="<?=$res->fields['wiki_uuid']?>">
 <?php
 	shn_form_fsclose();
-	shn_form_submit(_("Commit Detail"));
+	shn_form_submit(_t("Commit Detail"));
 	shn_form_fclose();
 }
 
@@ -280,7 +280,7 @@ function shn_wiki_edit_com($id)
 	//echo "{$_REQUEST['wiki_text']}";
 	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
-	add_confirmation(_('Succesfully updated description'));
+	add_confirmation(_t('Succesfully updated description'));
 }
 
 function shn_wiki_map_commit()
@@ -339,8 +339,8 @@ function shn_wiki_map_commit()
 	}
 	
 	//shn_form_fopen(null,null,array('req'=>false));
-// 	shn_form_fsopen(_(" Added Wiki Item"));
-	add_confirmation(_("Succesfully added wiki item ").$_SESSION['wiki_name']);
+// 	shn_form_fsopen(_t(" Added Wiki Item"));
+	add_confirmation(_t("Succesfully added wiki item ").$_SESSION['wiki_name']);
 	//echo $_SESSION['edit_public'];
 	//shn_form_fsclose();
 	//shn_form_fclose();

@@ -28,13 +28,13 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 
     # set the theme if it is not given as a parameter
     $theme || $theme = $conf['theme'];
-    $title || $title = _("Sahana FOSS Disaster Management System");
+    $title || $title = _t("Sahana FOSS Disaster Management System");
 
 ?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
-        <title><?=_($title)?></title>
+        <title><?=_t($title)?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
 	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />

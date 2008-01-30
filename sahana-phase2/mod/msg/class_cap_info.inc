@@ -148,7 +148,7 @@ class Msg_CapInfo
         }
         else
         {
-        	    add_error(_("The subject event of the alert message is required"));        	
+        	    add_error(_t("The subject event of the alert message is required"));        	
         }
     }
     
@@ -165,7 +165,7 @@ class Msg_CapInfo
         }
         else
         {
-        	    add_error(_("urgency is a required value"));
+        	    add_error(_t("urgency is a required value"));
         }
     }
     
@@ -177,7 +177,7 @@ class Msg_CapInfo
         }
         else
         {
-            add_error(_("severity is a required value"));
+            add_error(_t("severity is a required value"));
         }
     }
 
@@ -189,7 +189,7 @@ class Msg_CapInfo
         }
         else
         {
-        	    add_error(_("certainty is a required value"));
+        	    add_error(_t("certainty is a required value"));
         }
     }
     

@@ -28,18 +28,18 @@ function shn_setup_general_dependancies()
 	$_SESSION['setup_step_no'] = 1;
 
 	?>
-<h1><?=_('Sahana Web Setup - Step ').$step_no?></h1>
+<h1><?=_t('Sahana Web Setup - Step ').$step_no?></h1>
 
-<p><?=_('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
+<p><?=_t('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
 
-<p><?=_('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
+<p><?=_t('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
 	<?php
 
 	shn_form_fopen('CHECK_DEPENDENCIES','setup');
 
-	shn_form_fsopen(_('PHP libraries'));
+	shn_form_fsopen(_t('PHP libraries'));
 	?>
-<p><?=_('The following checks if all the relevant Sahana libraries are installed')?></p>
+<p><?=_t('The following checks if all the relevant Sahana libraries are installed')?></p>
 	<?php
 
 	$value = (version_compare(phpversion(), '4.1', '>'));
@@ -47,9 +47,9 @@ function shn_setup_general_dependancies()
 
 	//if ($isOK) echo "is OK";
 	if ($value) {
-		shn_form_label(_('PHP Version'), $tick_img.phpversion()." is installed");
+		shn_form_label(_t('PHP Version'), $tick_img.phpversion()." is installed");
 	} else {
-		shn_form_label(_('PHP Version'), $cross_img.phpversion()." is installed");
+		shn_form_label(_t('PHP Version'), $cross_img.phpversion()." is installed");
 		echo "<p><br/>$oops_img Sahana needs PHP version 4.1 or higher. Please upgrate your version of PHP</p>";
 	}
 
@@ -58,9 +58,9 @@ function shn_setup_general_dependancies()
 	$isOK &= $value;
 
 	if ($value) {
-		shn_form_label(_('PHP-GD Library'), $tick_img."installed");
+		shn_form_label(_t('PHP-GD Library'), $tick_img."installed");
 	} else {
-		shn_form_label(_('PHP-GD Library'), $cross_img."is not installed");
+		shn_form_label(_t('PHP-GD Library'), $cross_img."is not installed");
 		echo "<p><br/>$oops_img Sahana needs PHP-GD for image manipulations. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
 	}
 
@@ -69,9 +69,9 @@ function shn_setup_general_dependancies()
 	$isOK &= $value;
 
 	if ($value) {
-		shn_form_label(_('PHP-gettext Library'), $tick_img."installed");
+		shn_form_label(_t('PHP-gettext Library'), $tick_img."installed");
 	} else {
-		shn_form_label(_('PHP-gettext Library'), $cross_img."is not installed");
+		shn_form_label(_t('PHP-gettext Library'), $cross_img."is not installed");
 		echo "<p><br/>$oops_img Sahana needs PHP-gettext for to support local languages. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
 	}
 
@@ -79,34 +79,34 @@ function shn_setup_general_dependancies()
 	$isOK &= $value;
 
 	if ($value) {
-		shn_form_label(_('MySQL library'), $tick_img."installed");
+		shn_form_label(_t('MySQL library'), $tick_img."installed");
 	} else {
-		shn_form_label(_('MySQL library'), $cross_img."is not installed");
+		shn_form_label(_t('MySQL library'), $cross_img."is not installed");
 		echo "<p><br/>$oops_img Sahana needs PHP-MySQL library and MySQL for database operation. Please install PHP-MySQL library and MySQL and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
 	}
 
 	shn_form_fsclose();
-	shn_form_fsopen(_('File and Directory Permissions'));
+	shn_form_fsopen(_t('File and Directory Permissions'));
 	?>
-<p><?=_('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
+<p><?=_t('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
 	<?php
 	$tmpWritable = is_writable($global['approot'].'www/tmp');
 	$isOK &= $tmpWritable;
 
 
 	if ($tmpWritable) {
-		//shn_form_label(_('Sahana www/tmp/ is writable?'),"The Sahana sub-directory writable");
-		shn_form_label(_('<i>sahana/www/tmp/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
+		//shn_form_label(_t('Sahana www/tmp/ is writable?'),"The Sahana sub-directory writable");
+		shn_form_label(_t('<i>sahana/www/tmp/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
 	} else {
-		//shn_form_label(_('Sahana www/tmp/ is writable?'),"The Sahana sub-directory not writable");
-		shn_form_label(_('<i>sahana/www/tmp/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
+		//shn_form_label(_t('Sahana www/tmp/ is writable?'),"The Sahana sub-directory not writable");
+		shn_form_label(_t('<i>sahana/www/tmp/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
 		//echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
 	}
 
 	/* if ($value) {
-	 shn_form_label(_('Sahana www/tmp/ is writable?'), $tick_img."The Sahana sub-directory writable");
+	 shn_form_label(_t('Sahana www/tmp/ is writable?'), $tick_img."The Sahana sub-directory writable");
 	 } else {
-	 shn_form_label(_('Sahana www/tmp/ is writable?'), $cross_img."The Sahana sub-directory not writable");
+	 shn_form_label(_t('Sahana www/tmp/ is writable?'), $cross_img."The Sahana sub-directory not writable");
 	 echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
 	 }
 
@@ -118,11 +118,11 @@ function shn_setup_general_dependancies()
 	$confWritable = is_writable($global['approot'].'conf');
 
 	if ($confWritable) {
-		//shn_form_label(_('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
-		shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
+		//shn_form_label(_t('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
+		shn_form_label(_t('<i>sahana/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
 	} else {
-		//shn_form_label(_('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
-		shn_form_label(_('<i>sahana/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
+		//shn_form_label(_t('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
+		shn_form_label(_t('<i>sahana/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
 	}
 
 	if (!$tmpWritable || !$confWritable) {
@@ -134,12 +134,12 @@ function shn_setup_general_dependancies()
 	shn_form_fsclose();
 
 	if ($isOK) {
-		echo _('<p>All the dependencies are OK and you may move to
+		echo _t('<p>All the dependencies are OK and you may move to
                 the next step</p>')."\n";
-		shn_form_submit(_('Next >>'));
+		shn_form_submit(_t('Next >>'));
 	} else {
-		echo _('<p>Please correct the required dependencies above and</p>')."\n";
-		shn_form_submit(_('Try Again'));
+		echo _t('<p>Please correct the required dependencies above and</p>')."\n";
+		shn_form_submit(_t('Try Again'));
 	}
 	shn_form_fclose();
 }
@@ -154,24 +154,24 @@ function shn_setup_select_setup($step_no=null)
 	global $global;
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
-<h2><?php echo _('Sahana Database Setup - Step ').$step_no?></h2>
+<h2><?php echo _t('Sahana Database Setup - Step ').$step_no?></h2>
 	<?php
 	shn_form_fopen('SELECT_SETUP');
-	shn_form_fsopen(_('Select a setup type to continue.'));
-	shn_form_fsopen(_("Simple Setup"));
-	echo _("To setup the most common modules and configuration.");
+	shn_form_fsopen(_t('Select a setup type to continue.'));
+	shn_form_fsopen(_t("Simple Setup"));
+	echo _t("To setup the most common modules and configuration.");
 	echo "<br/>";
-	shn_form_submit(_("Simple"),'name="setup_type_simple"');
+	shn_form_submit(_t("Simple"),'name="setup_type_simple"');
 	shn_form_fsclose();
-	shn_form_fsopen(_("Advanced Setup"));
-	echo _("To customize modules and configuration.");
+	shn_form_fsopen(_t("Advanced Setup"));
+	echo _t("To customize modules and configuration.");
 	echo "<br/>";
-	shn_form_submit(_("Advanced"),'name="setup_type_adv"');
+	shn_form_submit(_t("Advanced"),'name="setup_type_adv"');
 	shn_form_fsclose();
-	/*shn_form_fsopen(_("Scenario Based Setup"));
-	echo _("To customize modules and configuration for a specific scenario.");
+	/*shn_form_fsopen(_t("Scenario Based Setup"));
+	echo _t("To customize modules and configuration for a specific scenario.");
 	echo "<br/>";
-	shn_form_submit(_("Scenario Based"),'name="setup_type_scen"');
+	shn_form_submit(_t("Scenario Based"),'name="setup_type_scen"');
 	shn_form_fsclose();*/
 	shn_form_fsclose();
 	shn_form_fclose();
@@ -187,7 +187,7 @@ function shn_setup_simple_dbsetup($step_no=null)
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
 <h2><?php
-echo _('Sahana Web Setup - Step ').$step_no;
+echo _t('Sahana Web Setup - Step ').$step_no;
 ?></h2>
 <?php
 display_errors();
@@ -199,11 +199,11 @@ if(isset($_SESSION['setup_system_db_user_exists'])){
 
 	shn_form_fsopen('User Exists.');
 	echo "<div class='warning message'>";
-	echo _("Database user name ".$_SESSION[SETUP_DATA_PREFIX."db_user"]." already exists.                                                         
+	echo _t("Database user name ".$_SESSION[SETUP_DATA_PREFIX."db_user"]." already exists.                                                         
 To continue, select a different user name. If you want to keep the existing user click on 'Keep User'. ");
 	echo "</div>";
 	//add_warning('test');
-	shn_form_submit(_('Keep User'),'name="keep_ex_user"');
+	shn_form_submit(_t('Keep User'),'name="keep_ex_user"');
 	shn_form_fsclose();
 }
 
@@ -213,37 +213,37 @@ if(isset($_SESSION['setup_system_db_exists'])){
 	 */
 	shn_form_fsopen('Database Exists.');
 	echo "<div class='warning message'>";
-	echo _("Database ".$_SESSION[SETUP_DATA_PREFIX."db_name"]." already exists.
+	echo _t("Database ".$_SESSION[SETUP_DATA_PREFIX."db_name"]." already exists.
 Enter a different database name to continue. Press 'Drop Database' to delete the database and to continue installation.");
 	echo "</div>";
-	shn_form_submit(_('Drop Database'),'name="drop_ex_db"');
+	shn_form_submit(_t('Drop Database'),'name="drop_ex_db"');
 	shn_form_fsclose();
 }
-shn_form_fsopen(_('Database'));
+shn_form_fsopen(_t('Database'));
 shn_form_select(
 array( 'mysql' => 'MySQL 4.1 or above','pgsql"disabled="disabled' => 'PostgreSQL'),
                 'Database Types', 'db_type',(isset($_SESSION[SETUP_DATA_PREFIX."db_type"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_type"]):array());
-shn_form_text(_('Database Host:Port'),'db_host','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_host"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_host"].((isset($_SESSION[SETUP_DATA_PREFIX."db_port"]))?':'.$_SESSION[SETUP_DATA_PREFIX."db_port"]:''),'req'=>true):array('value'=>'localhost:3306','req'=>true)
+shn_form_text(_t('Database Host:Port'),'db_host','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_host"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_host"].((isset($_SESSION[SETUP_DATA_PREFIX."db_port"]))?':'.$_SESSION[SETUP_DATA_PREFIX."db_port"]:''),'req'=>true):array('value'=>'localhost:3306','req'=>true)
 );
-shn_form_text(_('Database Name'),'db_name','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_name"],'req'=>true):array('value'=>'sahana','req'=>true)
+shn_form_text(_t('Database Name'),'db_name','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_name"],'req'=>true):array('value'=>'sahana','req'=>true)
 );
-shn_form_text(_('Database User'),'root_db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_user"],'req'=>true):array('value'=>'','req'=>true)
+shn_form_text(_t('Database User'),'root_db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_user"],'req'=>true):array('value'=>'','req'=>true)
 );
-shn_form_password(_('Database Password'),'root_db_pass','size="30"', (isset($_SESSION[SETUP_DATA_PREFIX."root_db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_pass"],'req'=>true):array('value'=>'','req'=>true));
-shn_form_text(_('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true):array('value'=>'sahana_sys','req'=>true));
-shn_form_password(_('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true):array('value'=>'password','req'=>true));
+shn_form_password(_t('Database Password'),'root_db_pass','size="30"', (isset($_SESSION[SETUP_DATA_PREFIX."root_db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_pass"],'req'=>true):array('value'=>'','req'=>true));
+shn_form_text(_t('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true):array('value'=>'sahana_sys','req'=>true));
+shn_form_password(_t('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true):array('value'=>'password','req'=>true));
 
 //show only in simple setup
 if(_shn_setup_get_setup_type() == SIMPLE_SETUP){
 	// add sample data check box.
 	// check for a mandatory field to see if this is the first time request
-	shn_form_checkbox(_('Create Sample Data.'),'dbsample',(isset($_SESSION[SETUP_DATA_PREFIX."dbsample"])?'checked':(isset($_SESSION[SETUP_DATA_PREFIX.'db_type'])?'':'checked')),
+	shn_form_checkbox(_t('Create Sample Data.'),'dbsample',(isset($_SESSION[SETUP_DATA_PREFIX."dbsample"])?'checked':(isset($_SESSION[SETUP_DATA_PREFIX.'db_type'])?'':'checked')),
 	array('value'=>'y'));
 }
 
 shn_form_fsclose();
-shn_form_submit(_('<< Back'),'name="back_button"');
-shn_form_submit(_('Setup Database >>'));
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t('Setup Database >>'));
 
 
 shn_form_fclose();
@@ -259,9 +259,9 @@ function shn_setup_simple_config($step_no=null)
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
 <h2><?php
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h2>
-<p><?php echo _("Please follow the following steps to setup the Sahana configuration.") ?></p>
+<p><?php echo _t("Please follow the following steps to setup the Sahana configuration.") ?></p>
 
 <?php
 display_errors();
@@ -277,37 +277,37 @@ shn_form_fopen('SIMPLE_CONFIGURATION');
 
 // pass the previous post varibles into hidden for the configuration file
 
-shn_form_fsopen(_('Installation Details'));
+shn_form_fsopen(_t('Installation Details'));
 
 echo '<p>The following details are needed to uniquely identify your Sahana installation</p>'; // some spellings corrected by chamath 2007-03-15 09:50
 
 $help_txt = "The following field is randomly generated to help uniquely identify \
                  this Sahana installation. Please use this unless you have a \
                  convention defined";
-shn_form_text(_('Unique Installation ID'),'base_uuid','size="4" maxlength="4"',
+shn_form_text(_t('Unique Installation ID'),'base_uuid','size="4" maxlength="4"',
 (isset($_SESSION[SETUP_DATA_PREFIX."base_uuid"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."base_uuid"],'req'=>true , 'help' => $help_txt):array('value'=> shn_generate_uuid(4),'req'=>true , 'help' => $help_txt));
-shn_form_text(_('Administrator Name'),'root_name','size="40"',(isset($_SESSION[SETUP_DATA_PREFIX."root_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_name"],'req'=>true):array('req'=>true ));
-shn_form_text(_('Administrator Email'),'root_email','size="40"',(isset($_SESSION[SETUP_DATA_PREFIX."root_email"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_email"]):array()));
-shn_form_text(_('Administrator Telephone'),'root_tel','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_tel"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_tel"]):array()) );
+shn_form_text(_t('Administrator Name'),'root_name','size="40"',(isset($_SESSION[SETUP_DATA_PREFIX."root_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_name"],'req'=>true):array('req'=>true ));
+shn_form_text(_t('Administrator Email'),'root_email','size="40"',(isset($_SESSION[SETUP_DATA_PREFIX."root_email"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_email"]):array()));
+shn_form_text(_t('Administrator Telephone'),'root_tel','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_tel"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_tel"]):array()) );
 
 shn_form_fsclose();
 
-shn_form_fsopen(_('Administrator Account'));
-shn_form_text(_('Admin User Name'),'admin_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."admin_name"])?array('req'=>true, 'value'=>$_SESSION[SETUP_DATA_PREFIX."admin_name"],'help'=>'The root user is the administrator
+shn_form_fsopen(_t('Administrator Account'));
+shn_form_text(_t('Admin User Name'),'admin_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."admin_name"])?array('req'=>true, 'value'=>$_SESSION[SETUP_DATA_PREFIX."admin_name"],'help'=>'The root user is the administrator
                 of the system and has the greatest privilages'):array('req'=>true, 'value'=>'admin','help'=>'The root user is the administrator
                 of the system and has the greatest privilages') ));
-shn_form_password(_('Password'),'root_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd"],'req'=>true):array('req'=>true))
+shn_form_password(_t('Password'),'root_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd"],'req'=>true):array('req'=>true))
 );
-shn_form_password(_('Confirm Password'),'root_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"],'req'=>true):array('req'=>true)));
+shn_form_password(_t('Confirm Password'),'root_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"],'req'=>true):array('req'=>true)));
 shn_form_fsclose();
 
-shn_form_fsopen(_('Create Normal User Account'));
-shn_form_text(_('Normal User Name'),'user_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."user_name"])?array('req'=>true,'value'=>$_SESSION[SETUP_DATA_PREFIX."user_name"], 'help'=>'Please login as this user for non-admin work'):array('req'=>true,'value'=>'sahana', 'help'=>'Please login as this user for non-admin work')) );
-shn_form_password(_('Password'),'user_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd"],'req'=>true):array('req'=>true)));
-shn_form_password(_('Confirm Password'),'user_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"],'req'=>true):array('req'=>true)));
+shn_form_fsopen(_t('Create Normal User Account'));
+shn_form_text(_t('Normal User Name'),'user_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."user_name"])?array('req'=>true,'value'=>$_SESSION[SETUP_DATA_PREFIX."user_name"], 'help'=>'Please login as this user for non-admin work'):array('req'=>true,'value'=>'sahana', 'help'=>'Please login as this user for non-admin work')) );
+shn_form_password(_t('Password'),'user_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd"],'req'=>true):array('req'=>true)));
+shn_form_password(_t('Confirm Password'),'user_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"],'req'=>true):array('req'=>true)));
 shn_form_fsclose();
 
-shn_form_fsopen(_('Configuration File'));
+shn_form_fsopen(_t('Configuration File'));
 
 if (is_writeable($global['approot'].'conf')) {
 
@@ -325,15 +325,15 @@ if (is_writeable($global['approot'].'conf')) {
 	$tmp_filename = preg_replace('/sysconf.inc.*$/','sysconf.inc',
 	$tmp_filename);
 
-	shn_form_text(_('Location To Write Config File (sysconf.inc)'),
+	shn_form_text(_t('Location To Write Config File (sysconf.inc)'),
                 'conffile','size="50"', (isset($_SESSION[SETUP_DATA_PREFIX."conffile"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."conffile"],
                 'req'=>true ):array('value'=>"$tmp_filename",
                 'req'=>true )));
 
 }
 shn_form_fsclose();
-shn_form_submit(_('<< Back'),'name="back_button"');
-shn_form_submit(_('Write Configuration File >>'));
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t('Write Configuration File >>'));
 
 shn_form_fclose();
 }
@@ -348,9 +348,9 @@ function shn_setup_adv_select_modules($step_no=null){
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
 <h2><?php 
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h2>
-<p><?php echo _("Please follow the following steps to setup the Sahana configuration.") ?></p>
+<p><?php echo _t("Please follow the following steps to setup the Sahana configuration.") ?></p>
 
 <?php
 display_errors();
@@ -365,8 +365,8 @@ asort($all_modules);
 $_essencial_modules = _shn_setup_get_essencial_modules();
 
 shn_form_fopen('ADV_SELECT_MODULES');
-shn_form_fsopen(_("Sahana Core"));
-echo _("The following core modules will be installed by default.");
+shn_form_fsopen(_t("Sahana Core"));
+echo _t("The following core modules will be installed by default.");
 echo "<hr/><ul>";
 foreach($_essencial_modules as $esmod){
 	echo "<li>".shn_get_module_name($esmod)."</li>";
@@ -374,7 +374,7 @@ foreach($_essencial_modules as $esmod){
 echo "</ul>";
 shn_form_fsclose();
 
-shn_form_fsopen(_('Please select the required modules'));
+shn_form_fsopen(_t('Please select the required modules'));
 foreach($all_modules as $key=>$value){
 	if(in_array($value[0],$_essencial_modules)){
 		// put the value in session directly.
@@ -477,8 +477,8 @@ var arrHits = new Array();
 </script>
 		<?php
 		shn_form_fsclose();
-		shn_form_submit(_('<< Back'),'name="back_button"');
-		shn_form_submit(_('Next >>'));
+		shn_form_submit(_t('<< Back'),'name="back_button"');
+		shn_form_submit(_t('Next >>'));
 		shn_form_fclose();
 }
 
@@ -492,17 +492,17 @@ function shn_setup_adv_advanced_config($step_no=null){
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
 <h2><?php 
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h2>
 
 <?php
 display_errors();
 shn_form_fopen('ADV_CONFIG_MODULES');
-shn_form_fsopen(_('System Settings'));
+shn_form_fsopen(_t('System Settings'));
 
 shn_form_select(
-array( 'disable' => _('Disable'),'enable' =>_('Enable')),
-_('Access Control'),'acl',isset($_SESSION[SETUP_DATA_PREFIX."acl"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."acl"]):array());
+array( 'disable' => _t('Disable'),'enable' =>_t('Enable')),
+_t('Access Control'),'acl',isset($_SESSION[SETUP_DATA_PREFIX."acl"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."acl"]):array());
 
 // create the associative array of themes.
 $available_themes = _shn_setup_get_available_themes();
@@ -521,12 +521,12 @@ foreach($available_themes as $tname){
 	href="theme/<?=$tname?>/mobile.css" />
 		<?php
 }
-$themelist[$tname] = ucwords($tname)._(' Theme');
+$themelist[$tname] = ucwords($tname)._t(' Theme');
 }
-shn_form_select($themelist,_('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array('value'=>'default'));
+shn_form_select($themelist,_t('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array('value'=>'default'));
 shn_form_fsclose();
-shn_form_submit(_('<< Back'),'name="back_button"');
-shn_form_submit(_("Next >>"));
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t("Next >>"));
 
 $selected_modules = _shn_setup_get_selected_modules();
 if(isset($selected_modules)){
@@ -541,11 +541,11 @@ if(isset($selected_modules)){
 			// the module specific configuration page generator callback function.
 			$mod_conf_page_func = "_shn_".$sel_mod."_setup_config_page";
 			if(function_exists($mod_conf_page_func)){
-				shn_form_fsopen(shn_get_module_name($sel_mod)._(" Configuration"));
+				shn_form_fsopen(shn_get_module_name($sel_mod)._t(" Configuration"));
 				$mod_conf_page_func();
 				shn_form_fsclose();
-				shn_form_submit(_('<< Back'),'name="back_button"');
-				shn_form_submit(_("Next >>"));
+				shn_form_submit(_t('<< Back'),'name="back_button"');
+				shn_form_submit(_t("Next >>"));
 			}
 		}
 	}
@@ -563,26 +563,26 @@ function shn_setup_adv_pwd_policy($step_no=null){
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 	?>
 <h1><?php 
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h1>
 <?php
 display_errors();
 shn_form_fopen('ADV_PWD_POLICY');
-shn_form_fsopen(_('Define a system wide password policy'));
-shn_form_text(_('Minimum No of characters'),'pwd_min_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"]):array('value'=>8));
-shn_form_text(_('Maximum No of characters'),'pwd_max_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"],'maxlength'=>2,'size'=>2):array('value'=>16,'maxlength'=>2,'size'=>2));
-shn_form_checkbox(_('should contain uppercase characters'),'pwd_has_uppercase',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_uppercase"])?'checked="checked"':'');
+shn_form_fsopen(_t('Define a system wide password policy'));
+shn_form_text(_t('Minimum No of characters'),'pwd_min_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"]):array('value'=>8));
+shn_form_text(_t('Maximum No of characters'),'pwd_max_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"],'maxlength'=>2,'size'=>2):array('value'=>16,'maxlength'=>2,'size'=>2));
+shn_form_checkbox(_t('should contain uppercase characters'),'pwd_has_uppercase',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_uppercase"])?'checked="checked"':'');
 echo "<br/>";
-shn_form_checkbox(_('should contain numbers'),'pwd_has_numbers',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_numbers"])?'checked="checked"':'');
+shn_form_checkbox(_t('should contain numbers'),'pwd_has_numbers',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_numbers"])?'checked="checked"':'');
 echo "<br/>";
-shn_form_checkbox(_('should contain special characters'),'pwd_has_spchars',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_spchars"])?'checked="checked"':'');
+shn_form_checkbox(_t('should contain special characters'),'pwd_has_spchars',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_spchars"])?'checked="checked"':'');
 echo "<br/>";
-shn_form_checkbox(_('should not contain the username'),'pwd_has_username',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_username"])?'checked="checked"':'');
+shn_form_checkbox(_t('should not contain the username'),'pwd_has_username',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_username"])?'checked="checked"':'');
 echo "<br/>";
-shn_form_checkbox(_('should not contain repeating patterns'),'pwd_has_reppatterns',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_reppatterns"])?'checked="checked"':'');
+shn_form_checkbox(_t('should not contain repeating patterns'),'pwd_has_reppatterns',isset($_SESSION[SETUP_DATA_PREFIX."pwd_has_reppatterns"])?'checked="checked"':'');
 shn_form_fsclose();
-shn_form_submit(_('<< Back'),'name="back_button"');
-shn_form_submit(_("Next >>"));
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t("Next >>"));
 shn_form_fclose();
 }
 
@@ -599,37 +599,37 @@ function shn_setup_scen_select_scenario($step_no=null){
 	$cross_img = 'theme/default/img/cross.png';
 
 	$scenario_module_map = array(
-	_("Default")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Tsunami Wave/Surge")=>"admin,cms,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Forest  Fire")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_("Flood")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_("Hurricane")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_("Drought")=>"admin,cms,cs,gis,home,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_("Conflicts")=>"admin,cms,cr,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Epidemic")=>"admin,cms,cr,cs,dvr,gis,home,ims,pref,rms,rs,sync,vm,vol",
-	_("Earthquake")=>"admin,cms,cr,cs,dvr,gis,home,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Insect Infestation")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Nuclear/Chemical Hazard")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Famine")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Land Slide")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_("Volcano")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Default")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Tsunami Wave/Surge")=>"admin,cms,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Forest  Fire")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+	_t("Flood")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+	_t("Hurricane")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+	_t("Drought")=>"admin,cms,cs,gis,home,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+	_t("Conflicts")=>"admin,cms,cr,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Epidemic")=>"admin,cms,cr,cs,dvr,gis,home,ims,pref,rms,rs,sync,vm,vol",
+	_t("Earthquake")=>"admin,cms,cr,cs,dvr,gis,home,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Insect Infestation")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Nuclear/Chemical Hazard")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Famine")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Land Slide")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+	_t("Volcano")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
 	);
 
 	//ksort(&$scenario_module_map);
 	?>
 <h1><?php 
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h1>
 <?php
 display_errors();
 shn_form_fopen('SCEN_SELECT_SCEN');
-shn_form_fsopen(_('Select a scenario.'));
+shn_form_fsopen(_t('Select a scenario.'));
 
-shn_form_select(array_flip($scenario_module_map),_("Scenario"),'selected_scenario','onchange="tickModules(this)"',isset($_SESSION[SETUP_DATA_PREFIX."selected_scenario"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."selected_scenario"]):array('value'=>'admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,pref,rms,rs,skel,sync,vm,vol,ws'));
+shn_form_select(array_flip($scenario_module_map),_t("Scenario"),'selected_scenario','onchange="tickModules(this)"',isset($_SESSION[SETUP_DATA_PREFIX."selected_scenario"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."selected_scenario"]):array('value'=>'admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,pref,rms,rs,skel,sync,vm,vol,ws'));
 shn_form_fsclose();
-shn_form_submit(_('<< Back'),'name="back_button"');
-shn_form_submit(_("Next >>"));
-shn_form_submit(_('Customize'),'name="scenario_customize"');
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t("Next >>"));
+shn_form_submit(_t('Customize'),'name="scenario_customize"');
 ?>
 <br />
 <br />
@@ -691,7 +691,7 @@ $_essencial_mod_str = implode(",",$_essencial_modules);
  -->
  </script>
 <noscript>
-<p><?php echo _("Module preview is not available without javascript."); ?></p>
+<p><?php echo _t("Module preview is not available without javascript."); ?></p>
 </noscript>
 </div>
 	<?php
@@ -708,27 +708,27 @@ function shn_setup_complete(){
 	$oops_img = '<img align="bottom" src="theme/default/img/oops.png"/>';
 	?>
 <h1><?php 
-echo _("Sahaha Web Setup - Step ").$step_no;
+echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h1>
 <?php
 display_errors();
 shn_form_fopen('default','admin',array('req_message' => false));
-shn_form_fsopen(_('Starting Sahana'));
+shn_form_fsopen(_t('Starting Sahana'));
 
 $sahana_url = 'http://'.$_SERVER['HTTP_HOST'].preg_replace('/index.php\?.*$/','',$_SERVER['REQUEST_URI']);
 shn_form_hidden(array('shn_url'=>$sahana_url));
 
 if (is_writeable($global['approot'].'conf')) {
 	?>
-<p><b><u><?php echo $oops_img._('WARNING: Security')?></u></b></p>
-<p><?php echo _('To secure the configuration you have to remove write 
+<p><b><u><?php echo $oops_img._t('WARNING: Security')?></u></b></p>
+<p><?php echo _t('To secure the configuration you have to remove write 
              permissions from the configuration file sysconf.inc located in 
              the Sahana directory conf/');?></p>
 
-<p><?php echo _('Click the button below to start Sahana');?> <?php
+<p><?php echo _t('Click the button below to start Sahana');?> <?php
 }
 shn_form_fsclose();
-shn_form_submit(_('Start Sahana'));
+shn_form_submit(_t('Start Sahana'));
 session_destroy();
 shn_form_fclose();
 }
@@ -742,17 +742,17 @@ function shn_setup_error(){
 
 	?>
 <h1><?php
-echo _("Setup Error");
+echo _t("Setup Error");
 ?></h1>
 <?php
 display_errors();
 shn_form_fopen('default','admin',array('req_message' => false));
-shn_form_fsopen(_('Restart Setup'));
+shn_form_fsopen(_t('Restart Setup'));
 ?>
-<p><?php echo _('Click the button below to restart the setup.');?></p>
+<p><?php echo _t('Click the button below to restart the setup.');?></p>
 <?php
 shn_form_fsclose();
-shn_form_submit(_('Restart Setup'));
+shn_form_submit(_t('Restart Setup'));
 session_destroy();
 shn_form_fclose();
 }

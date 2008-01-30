@@ -18,7 +18,7 @@
 */
 
 
-print '<h2>' . _("CAP file upload") . '</h2>';
+print '<h2>' . _t("CAP file upload") . '</h2>';
 
 switch ($_REQUEST['seq'])
 {
@@ -45,8 +45,8 @@ function _shn_cap_upload_getfile()
     </fieldset>
 <?php
     shn_form_hidden(array('seq'=>'cap_upload'));
-    shn_form_fsopen(_("Save as"));
-    shn_form_radio(array('msg'=>_("Messages"),'tpl'=>_("Template")),'','type',null,array('value'=>'msg'));
+    shn_form_fsopen(_t("Save as"));
+    shn_form_radio(array('msg'=>_t("Messages"),'tpl'=>_t("Template")),'','type',null,array('value'=>'msg'));
     shn_form_fsclose();
 ?>
     <input type="submit" value="Upload CAP Message" />
@@ -78,7 +78,7 @@ function _shn_cap_upload_savefile()
     }
     else
     {
-        add_error(_("Error Uploading the file"));
+        add_error(_t("Error Uploading the file"));
         display_errors();
         _shn_cap_upload_getfile();
     }

@@ -10,19 +10,19 @@
 function shn_service_addmain_form() {
 	$extra_opts['req'] = true;
 	shn_form_fopen('addmain_form_submit');
-	shn_form_fsopen(_('Enter details to the catalogue'));
-	shn_form_text(_("Module Name   : "), 'main_cat_name', 'size="50"', $extra_opts);
-	shn_form_text(_("Feed Confkey   : "), 'description', 'size="50"');
-	shn_form_text(_("Respective FeedNumber	:"), 'FeedNumber', 'size="50"');
+	shn_form_fsopen(_t('Enter details to the catalogue'));
+	shn_form_text(_t("Module Name   : "), 'main_cat_name', 'size="50"', $extra_opts);
+	shn_form_text(_t("Feed Confkey   : "), 'description', 'size="50"');
+	shn_form_text(_t("Respective FeedNumber	:"), 'FeedNumber', 'size="50"');
 
 	shn_form_fsclose();
-	shn_form_fsopen(_('Value'));
-	shn_form_text(_(" "), 'keyword', 'size="50"', array (
+	shn_form_fsopen(_t('Value'));
+	shn_form_text(_t(" "), 'keyword', 'size="50"', array (
 		('Enter a keyword which will help you to search purticular catalogue/Item easily.'
 	)));
 
 	shn_form_fsclose();
-	shn_form_submit(_("Add"));
+	shn_form_submit(_t("Add"));
 	shn_form_fclose();
 
 }
@@ -39,7 +39,7 @@ function _shn_service_validate_addmainform() {
 
 	//this checks whether name entered in the add main form
 	if (trim($_POST['main_cat_name']) == null) {
-		add_error(_("Please Enter the Moduel Name"));
+		add_error(_t("Please Enter the Moduel Name"));
 		$error_flag = true;
 	}
 	return $error_flag;
@@ -115,14 +115,14 @@ function shn_service_addsub_form1() {
 
 	print "<br><b>Do a keyword search to find the catalogue.</b>";
 	shn_form_fopen("keyword_search");
-	shn_form_fsopen(_('Keyword Search'));
-	shn_form_text(_(" "), 'search_keyword', 'size="50"', array (
-		'help' => _('Search for the catalogue using a keyword and then add catalogues/Items under it.'
+	shn_form_fsopen(_t('Keyword Search'));
+	shn_form_text(_t(" "), 'search_keyword', 'size="50"', array (
+		'help' => _t('Search for the catalogue using a keyword and then add catalogues/Items under it.'
 	)));
 	shn_form_hidden(array (
 		'type' => 'sub_catalogue'
 	));
-	shn_form_submit(_("Search"));
+	shn_form_submit(_t("Search"));
 	shn_form_fsclose();
 	shn_form_fclose();
 
@@ -150,13 +150,13 @@ function _shn_service_addsub_form1_result($is_keyword_search = false) {
 
 	$extra_opts['req'] = true;
 	shn_form_fopen("addsub_form2_submit");
-	shn_form_fsopen(_('Sub Catalogue Details'));
-	shn_form_text(_("Name   : "), 'sub_cat_name', 'size="50"', $extra_opts);
-	shn_form_text(_("Description   : "), 'sub_description', 'size="50"', null);
+	shn_form_fsopen(_t('Sub Catalogue Details'));
+	shn_form_text(_t("Name   : "), 'sub_cat_name', 'size="50"', $extra_opts);
+	shn_form_text(_t("Description   : "), 'sub_description', 'size="50"', null);
 	shn_form_fsclose();
-	shn_form_fsopen(_('Keyword'));
-	shn_form_text(_(" "), 'sub_keyword', 'size="50"', array (
-		'help' => _('Enter a keyword which will help you to search purticular catalogue/Item easily.'
+	shn_form_fsopen(_t('Keyword'));
+	shn_form_text(_t(" "), 'sub_keyword', 'size="50"', array (
+		'help' => _t('Enter a keyword which will help you to search purticular catalogue/Item easily.'
 	)));
 	shn_form_fsclose();
 
@@ -166,7 +166,7 @@ function _shn_service_addsub_form1_result($is_keyword_search = false) {
 	);
 	shn_form_hidden($parent_id_array);
 
-	shn_form_submit(_("Add"));
+	shn_form_submit(_t("Add"));
 	shn_form_fclose();
 }
 
@@ -234,9 +234,9 @@ function shn_service_addunit_form() {
 
 	if ($option_array == null) {
 		shn_form_fopen(null);
-		shn_form_fsopen(_("Information"));
+		shn_form_fsopen(_t("Information"));
 ?>
-    <p><?= _('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&act=addunittype">Add Unit category</a><?= _(' First'); ?></p>
+    <p><?= _t('There is no any Measurement Unit category found. '); ?><a href="index.php?mod=cs&act=addunittype">Add Unit category</a><?= _t(' First'); ?></p>
     
     <?php
 
@@ -247,7 +247,7 @@ function shn_service_addunit_form() {
 		$extra_opts['req'] = true;
 		$form_opts['name'] = "select_unit_type_form";
 		shn_form_fopen("addunit_select_utype_submit", null, $form_opts);
-		shn_form_fsopen(_("Select Measurement Unit Type"));
+		shn_form_fsopen(_t("Select Measurement Unit Type"));
 		$select_opts = 'onChange="changeform()"';
 		shn_form_select($option_array, '', 'unit_type', $select_opts, null);
 		shn_form_fsclose();
@@ -268,16 +268,16 @@ function _shn_service_utype_select_submit_result() {
 	$base_unit_name = $res->fields['name'];
 
 	shn_form_fopen("addunit_form_submit");
-	shn_form_fsopen(_('Measurement Unit'));
+	shn_form_fsopen(_t('Measurement Unit'));
 	$extra_opts['req'] = true;
-	shn_form_text(_("Unit : "), 'unit_name', 'size="50"', $extra_opts);
+	shn_form_text(_t("Unit : "), 'unit_name', 'size="50"', $extra_opts);
 	$extra_opts['value'] = $base_unit_name;
 	$extra_opts['req'] = false;
-	shn_form_text(_("Base Unit : "), 'base_unit', 'size="5" readonly=true', $extra_opts);
+	shn_form_text(_t("Base Unit : "), 'base_unit', 'size="5" readonly=true', $extra_opts);
 
-	shn_form_text(_("Multiplier : "), 'multiplier', 'size="50"', array (
+	shn_form_text(_t("Multiplier : "), 'multiplier', 'size="50"', array (
 		'req' => 'true',
-		'help' => _('Enter the Multiplier of the entered Unit to the base unit of the Unit Type. Eg: Unit = g, Base unit=kg, Multiplier=0.001 (g=kg*0.001)'
+		'help' => _t('Enter the Multiplier of the entered Unit to the base unit of the Unit Type. Eg: Unit = g, Base unit=kg, Multiplier=0.001 (g=kg*0.001)'
 	)));
 	shn_form_fsclose();
 
@@ -286,7 +286,7 @@ function _shn_service_utype_select_submit_result() {
 	);
 	shn_form_hidden($unit_id_array);
 
-	shn_form_submit(_("Save"));
+	shn_form_submit(_t("Save"));
 
 	shn_form_fclose();
 
@@ -347,14 +347,14 @@ function shn_service_additem_form1() {
 	if ($res == true) {
 		print "<br><b>Do a keyword search to find the catalogue.</b>";
 		shn_form_fopen("keyword_search");
-		shn_form_fsopen(_('Keyword Search'));
-		shn_form_text(_(" "), 'search_keyword', 'size="50"', array (
-			'help' => _('Search for the catalogue using a keyword and then add catalogues/Items under it.'
+		shn_form_fsopen(_t('Keyword Search'));
+		shn_form_text(_t(" "), 'search_keyword', 'size="50"', array (
+			'help' => _t('Search for the catalogue using a keyword and then add catalogues/Items under it.'
 		)));
 		shn_form_hidden(array (
 			'type' => 'item'
 		));
-		shn_form_submit(_("Search"));
+		shn_form_submit(_t("Search"));
 		shn_form_fsclose();
 		shn_form_fclose();
 	}
@@ -382,24 +382,24 @@ function shn_service_additem_form1_result($is_keyword_search = false) {
 	$form_opts['name'] = "select_unit_type_form1";
 	$extra_opts['req'] = true;
 	shn_form_fopen("additem_form2_submit", null, $form_opts);
-	shn_form_fsopen(_('Item Details'));
-	shn_form_text(_("Name   : "), 'itemname', 'size="50"', $extra_opts);
-	shn_form_text(_("Description   : "), 'item_description', 'size="50"', null);
+	shn_form_fsopen(_t('Item Details'));
+	shn_form_text(_t("Name   : "), 'itemname', 'size="50"', $extra_opts);
+	shn_form_text(_t("Description   : "), 'item_description', 'size="50"', null);
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Keyword'));
-	shn_form_text(_(" "), 'item_keyword', 'size="50"', array (
-		'help' => _('Enter a keyword which will help you to search purticular catalogue/Item easily.'
+	shn_form_fsopen(_t('Keyword'));
+	shn_form_text(_t(" "), 'item_keyword', 'size="50"', array (
+		'help' => _t('Enter a keyword which will help you to search purticular catalogue/Item easily.'
 	)));
 	shn_form_fsclose();
 
 	$select_opts = 'onChange=change_units(this.options[this.selectedIndex].value)';
-	shn_form_fsopen(_('Measurement Type'));
-	shn_form_select($option_array, _('Measurement Type :'), 'measurement_type', $select_opts, null);
+	shn_form_fsopen(_t('Measurement Type'));
+	shn_form_select($option_array, _t('Measurement Type :'), 'measurement_type', $select_opts, null);
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Measurement Unit'));
-	shn_form_multi_select('unit_select', $myoptions, _("Unit :"), 'size=5 multiple="multiple"');
+	shn_form_fsopen(_t('Measurement Unit'));
+	shn_form_multi_select('unit_select', $myoptions, _t("Unit :"), 'size=5 multiple="multiple"');
 	shn_form_fsclose();
 
 	$parent_id_array = array (
@@ -407,7 +407,7 @@ function shn_service_additem_form1_result($is_keyword_search = false) {
 	);
 	shn_form_hidden($parent_id_array);
 
-	shn_form_submit(_("Add"));
+	shn_form_submit(_t("Add"));
 	shn_form_fclose();
 
 }
@@ -499,19 +499,19 @@ function shn_service_additem_form2_result() {
 function shn_service_add_unit_type_form() {
 	$extra_opts['req'] = true;
 	shn_form_fopen("addunitform_submit");
-	shn_form_fsopen(_('Unit Type Details'));
-	shn_form_text(_("Name   : "), 'unit_type_name', 'size="50"', $extra_opts);
-	shn_form_text(_("Description   : "), 'unit_type_description', 'size="50"', null);
+	shn_form_fsopen(_t('Unit Type Details'));
+	shn_form_text(_t("Name   : "), 'unit_type_name', 'size="50"', $extra_opts);
+	shn_form_text(_t("Description   : "), 'unit_type_description', 'size="50"', null);
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Base Unit Details'));
-	shn_form_text(_("Name   : "), 'base_unit_name', 'size="50"', array (
+	shn_form_fsopen(_t('Base Unit Details'));
+	shn_form_text(_t("Name   : "), 'base_unit_name', 'size="50"', array (
 		'req' => 'true',
-		'help' => _('Specify a base unit here. Eg: Unit Type - Mass, Base Unit- kg'
+		'help' => _t('Specify a base unit here. Eg: Unit Type - Mass, Base Unit- kg'
 	)));
 	shn_form_fsclose();
 
-	shn_form_submit(_("Add"));
+	shn_form_submit(_t("Add"));
 	shn_form_fclose();
 }
 
@@ -595,10 +595,10 @@ function _shn_service_search_keyword_result() {
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Description")?></strong></td>
-        <td><strong><?=_("Item/Catalogue")?></strong></td>
-	<td><strong><?=_("Keyword")?></strong></td>
+        <td><strong><?=_t("Name")?></strong></td>
+        <td><strong><?=_t("Description")?></strong></td>
+        <td><strong><?=_t("Item/Catalogue")?></strong></td>
+	<td><strong><?=_t("Keyword")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -652,12 +652,12 @@ function _shn_service_validate_unitform() {
 
 	//this checks whether name entered in the add unit form
 	if (trim($_POST['unit_name']) == null) {
-		add_error(_("Please Enter the Unit Name"));
+		add_error(_t("Please Enter the Unit Name"));
 		$error_flag = true;
 	}
 
 	if (trim($_POST['multiplier']) == null) {
-		add_error(_("Please Enter the Multiplier"));
+		add_error(_t("Please Enter the Multiplier"));
 		$error_flag = true;
 	}
 
@@ -670,7 +670,7 @@ function _shn_service_validate_subcatform() {
 
 	//this checks whether name entered in the add sub category form
 	if (trim($_POST['sub_cat_name']) == null) {
-		add_error(_("Please Enter the Sub Category Name"));
+		add_error(_t("Please Enter the Sub Category Name"));
 		$error_flag = true;
 	}
 
@@ -683,17 +683,17 @@ function _shn_service_validate_additem_form() {
 
 	//this checks whether name entered in the add Item form
 	if (trim($_POST['itemname']) == null) {
-		add_error(_("Please Enter the Item Name"));
+		add_error(_t("Please Enter the Item Name"));
 		$error_flag = true;
 	}
 
 	if (trim($_POST['measurement_type']) == null || trim($_POST['measurement_type']) == 'none') {
-		add_error(_("Please Select the Unit Type"));
+		add_error(_t("Please Select the Unit Type"));
 		$error_flag = true;
 	}
 
 	if (trim($_POST['unit_select']) == null) {
-		add_error(_("Please Select Unit/Units"));
+		add_error(_t("Please Select Unit/Units"));
 		$error_flag = true;
 	}
 
@@ -706,12 +706,12 @@ function _shn_service_validate_unit_type_form() {
 
 	//this checks whether name entered in the add Item form
 	if (trim($_POST['unit_type_name']) == null) {
-		add_error(_("Please Enter the Unit Type Name"));
+		add_error(_t("Please Enter the Unit Type Name"));
 		$error_flag = true;
 	}
 
 	if (trim($_POST['base_unit_name']) == null) {
-		add_error(_("Please Enter the Base Unit Name"));
+		add_error(_t("Please Enter the Base Unit Name"));
 		$error_flag = true;
 	}
 

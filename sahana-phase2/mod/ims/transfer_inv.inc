@@ -24,8 +24,8 @@ include_once ('lib_ims.inc');
 function _shn_ims_send_main()
 {
 ?>
-    <h1 align="center"><?php print _("Send Items between Inventories"); ?> </h1>
-    <h1 align="center"><?php print _("Please select the Item to be sent"); ?></h1>
+    <h1 align="center"><?php print _t("Send Items between Inventories"); ?> </h1>
+    <h1 align="center"><?php print _t("Please select the Item to be sent"); ?></h1>
     <div id="result">
 <?php
     $form_opts['name']='subcat';
@@ -41,7 +41,7 @@ function _shn_ims_send_main()
 /**
 **Function For Send Item table view page
 **/
-function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
+function _shn_ims_send_item_table_view_t($catalog_id,$Limit,$page_number)
 {
     
     $depth=get_max_depth();
@@ -78,10 +78,10 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 	$page_temp=1;
     }
     print '<b>';
-    print (_('Page Number : ').$page_temp);
+    print (_t('Page Number : ').$page_temp);
     print '</b>';
 ?>
-    <h1 align="center"><?php print _("Send Item between Inventories") ?></h1>
+    <h1 align="center"><?php print _t("Send Item between Inventories") ?></h1>
 <?php
     global $global;
         $state_des="destroyed";
@@ -90,7 +90,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     shn_form_fopen('send_item_paging',null,$form_opts);
    // shn_form_hidden(array('catalog_id'=>$parent_id));
      print '<b>';
-    shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+    shn_form_text(_t("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
      print '</b>';
     shn_form_fclose();
     $sql = "SELECT item_id,inv_id,item_name,amount,unit,manufactured_date,expire_date,state FROM ims_item_records WHERE catalog_id='$parent_id' AND amount!=0 AND state!='$state_des';";
@@ -100,7 +100,7 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	 print '<b>';
-	print(_("Go to Page : "));
+	print(_t("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
@@ -113,14 +113,14 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     <div id="result">
     <table>
     <thead>
-            <td><?=_("Item")?></td>
-            <td><?=_("Amount");?></td>
-            <td><?=_("Unit");?></td>
-            <td><?=_("Manufactured Date")?></td>
-                <td><?=_("Expire Date")?></td>
-            <td><?=_("Available Inventory")?></td>
-                <td><?=_("state")?></td>
-        <td><?=_("Action")?></td>
+            <td><?=_t("Item")?></td>
+            <td><?=_t("Amount");?></td>
+            <td><?=_t("Unit");?></td>
+            <td><?=_t("Manufactured Date")?></td>
+                <td><?=_t("Expire Date")?></td>
+            <td><?=_t("Available Inventory")?></td>
+                <td><?=_t("state")?></td>
+        <td><?=_t("Action")?></td>
         </thead>
     <tbody>
 <?php
@@ -178,14 +178,14 @@ function _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number)
     <div id="result">
     <table>
     <thead>
-            <td><?=_("Item")?></td>
-	    <td><?=_("Amount");?></td>
-            <td><?=_("Unit");?></td>
-            <td><?=_("Manufactured Date")?></td>
-                <td><?=_("Expire Date")?></td>
-            <td><?=_("Available Inventory")?></td>
-                <td><?=_("state")?></td>
-        <td><?=_("Action")?></td>
+            <td><?=_t("Item")?></td>
+	    <td><?=_t("Amount");?></td>
+            <td><?=_t("Unit");?></td>
+            <td><?=_t("Manufactured Date")?></td>
+                <td><?=_t("Expire Date")?></td>
+            <td><?=_t("Available Inventory")?></td>
+                <td><?=_t("state")?></td>
+        <td><?=_t("Action")?></td>
         </thead>
     <tbody>
 <?php
@@ -272,7 +272,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
         
 ?>
-<h1 align="center"><?php print _("Send Item between Inventories")?> </h1>
+<h1 align="center"><?php print _t("Send Item between Inventories")?> </h1>
 <div id="result2">
 <?php
     $form_opts['name']='send_item_page';
@@ -281,9 +281,9 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     shn_form_fsopen("Item Transfer");
     
     $extra_opts['value']=$item_name;
-    shn_form_text(_("Item Send : "),'item_name','size="50" readonly=true',$extra_opts);
+    shn_form_text(_t("Item Send : "),'item_name','size="50" readonly=true',$extra_opts);
     //$extra_opts['req']=true;
-    shn_form_text(_("Amount Send: "),'amount','size="50"',array('req'=>true,'value'=>$amount));
+    shn_form_text(_t("Amount Send: "),'amount','size="50"',array('req'=>true,'value'=>$amount));
 
 //-------------------------------------------------------------------------------------------------------------
 
@@ -308,7 +308,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     $res->MoveNext();
     }    
 
-    shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
+    shn_form_select($unit_select_array,_t("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_t('Select the Measurement unit for entered amount. If this box does not contain the desired measurement unit please go back to the catalogue system and add')));
     
 
 //-------------------------------------------------------------------------------------------------------------    
@@ -316,12 +316,12 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     
     $extra_opts['value']=$inv_from;
-    shn_form_text(_("Inventory From : "),'inv_from','size="50" readonly=true',$extra_opts);
+    shn_form_text(_t("Inventory From : "),'inv_from','size="50" readonly=true',$extra_opts);
 
 //******************
     echo "<br />";
     $destination_array=array('inventory'=>'Inventory','shelter'=>'Shelter','organization'=>'Organization','victim'=>'Victim');
-    shn_form_radio($destination_array,_('Destination : '),'destination','onClick="change_action_des(this.value)"',$extra_opts);
+    shn_form_radio($destination_array,_t('Destination : '),'destination','onClick="change_action_des(this.value)"',$extra_opts);
   
     $opt = _shn_admin_set_option_javascript();
     
@@ -344,10 +344,10 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
         $inventory_array[$ims3->fields['inv_uuid']]=$ims3->fields['inventory_name'];
         $ims3->MoveNext();
     }
-    shn_form_select($inventory_array,_("Destination Inventory : "),'inv_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
+    shn_form_select($inventory_array,_t("Destination Inventory : "),'inv_to','size="1"',array('req'=>true,'help'=>_t('Select the Inventory which items to be sent')));
     $destination_type='inventory';
     	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
-    	//shn_form_radio($option_type,_('Status : '),'file_type',$select_opts,$extra_opts);
+    	//shn_form_radio($option_type,_t('Status : '),'file_type',$select_opts,$extra_opts);
     	echo "<br />";
 	echo "</div>";
 //********************* Destination Inventory display End ***********
@@ -358,10 +358,10 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	$extra_opts['br']  = true;
     	$select_opts = '';
     	
-    shn_form_select(_shn_ims_get_shelter_name(),_("Destination Shelter : "),'shelter_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
+    shn_form_select(_shn_ims_get_shelter_name(),_t("Destination Shelter : "),'shelter_to','size="1"',array('req'=>true,'help'=>_t('Select the Inventory which items to be sent')));
     $destination_type='shelter';
     	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
-    	//shn_form_radio($option_type,_('Status : '),'file_type',$select_opts,$extra_opts);
+    	//shn_form_radio($option_type,_t('Status : '),'file_type',$select_opts,$extra_opts);
     	echo "<br />";
 	echo "</div>";
 //********************* Destination Shelter display End *************
@@ -372,7 +372,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	$extra_opts['br']  = true;
     	$select_opts = '';
     	
-    shn_form_select(_shn_ims_get_organization_name(),_("Destination Organization : "),'organization_to','size="1"',array('req'=>true,'help'=>_('Select the Inventory which items to be sent')));
+    shn_form_select(_shn_ims_get_organization_name(),_t("Destination Organization : "),'organization_to','size="1"',array('req'=>true,'help'=>_t('Select the Inventory which items to be sent')));
     
     	echo "<br />";
 	echo "</div>";
@@ -386,12 +386,12 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     	$select_opts = '';
 	$form_opts['name']="victim_item";
         shn_form_fopen("victim_item_send",null,$form_opts);
-    	shn_form_text(_("Search by Name/Card Number :"),'head_name','size="50"',array('help'=>_('Search the Victims by their names or their Identity card Number')));
-	shn_form_button(_("Search & Add"),"onClick='add_evacuees()'");
+    	shn_form_text(_t("Search by Name/Card Number :"),'head_name','size="50"',array('help'=>_t('Search the Victims by their names or their Identity card Number')));
+	shn_form_button(_t("Search & Add"),"onClick='add_evacuees()'");
 	shn_form_fclose();
 	
 
-	shn_form_select(array(),_("Victim : "),'victim_to','size="1"',array('req'=>true));
+	shn_form_select(array(),_t("Victim : "),'victim_to','size="1"',array('req'=>true));
     	echo "<br />";
 	echo "</div>";
 
@@ -401,29 +401,29 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
 
     $date=date("Y-m-d");
 
-    shn_form_date(_("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - separator is accepted')));
-    //shn_form_text(_("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    shn_form_date(_t("Date : "),'date',array('value'=>$date,'req'=>true,'help'=>_t('Year-Month-Date. Only - separator is accepted')));
+    //shn_form_text(_t("Date : "),'date','size="50"',array('value'=>$date,'req'=>true,'help'=>_t('Year-Month-Date. Only - seperater is accepted')));
 	
-    //shn_form_text(_("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,."hello"'req'=>true,'help'=>_('Year-Month-Date. Only - seperater is accepted')));
+    //shn_form_text(_t("Date (YYYY-mm-dd): "),'date','size="50"',array('value'=>$date,."hello"'req'=>true,'help'=>_t('Year-Month-Date. Only - seperater is accepted')));
     $extra_opts['value']=$cost_per_unit;
-    shn_form_text(_("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
+    shn_form_text(_t("Cost Per Unit : "),'cost_per_unit','size="50"',$extra_opts);
 
     shn_form_fsclose();
 
     shn_form_fsopen("Contacts");
-    shn_form_text(_("Authorized by : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who is sending Item')));
-    shn_form_text(_("Requested by : "),'requested_person','size="50"',array('req'=>true));
-    shn_form_text(_("Destribution Method : "),'destribution','size="50"',null);
-    shn_form_textarea(_("Cause : "),'cause','size="40"',null);
+    shn_form_text(_t("Authorized by : "),'authorized_person','size="50"',array('req'=>true,'help'=>_t('Person who is sending Item')));
+    shn_form_text(_t("Requested by : "),'requested_person','size="50"',array('req'=>true));
+    shn_form_text(_t("Destribution Method : "),'destribution','size="50"',null);
+    shn_form_textarea(_t("Cause : "),'cause','size="40"',null);
     
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Transport/Transporter Details"));
-    shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('help'=>_('Registered Number of Your ')));
-    shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('help'=>_('Name of the Driver who is going to carry the vehicle')));
-    shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('help'=>_('Contact Details of the Driver')));
-    shn_form_text(_("Driver Address : "),'driver_address','size="50"',array('help'=>_('Contact Details of the Driver')));
-    shn_form_text(_("Driving Licence Number : "),'driving_licence','size="50"',array('help'=>_('Driving Licence Number')));
+    shn_form_fsopen(_t("Transport/Transporter Details"));
+    shn_form_text(_t("Vehicle Number : "),'vehicle_number','size="50"',array('help'=>_t('Registered Number of Your ')));
+    shn_form_text(_t("Driver Name : "),'driver_name','size="50"',array('help'=>_t('Name of the Driver who is going to carry the vehicle')));
+    shn_form_text(_t("Driver Mobile : "),'driver_mobile','size="50"',array('help'=>_t('Contact Details of the Driver')));
+    shn_form_text(_t("Driver Address : "),'driver_address','size="50"',array('help'=>_t('Contact Details of the Driver')));
+    shn_form_text(_t("Driving Licence Number : "),'driving_licence','size="50"',array('help'=>_t('Driving Licence Number')));
     shn_form_fsclose();
 
     shn_form_hidden(array('item_id'=>$item_id));
@@ -431,7 +431,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     shn_form_hidden(array('parent_id'=>$parent_id));
     shn_form_hidden(array('suplier_id'=>$suplier_id));
     shn_form_hidden(array('destination_type'=>$destination_type));
-    shn_form_submit(_("Send"));
+    shn_form_submit(_t("Send"));
     shn_form_fclose();
 }
 
@@ -526,7 +526,7 @@ function _shn_ims_send_db()
     $sql2="UPDATE ims_item_records SET amount='$remaining_amount_new',cost_per_unit='$cost_per_unit' WHERE item_id='$item_id';";
     $ims2 = $db->Execute($sql2);
 
-    add_confirmation(_('Item sent successfully'));
+    add_confirmation(_t('Item sent successfully'));
 
     shn_ims_send_item_page($catalog_id);
     }
@@ -551,15 +551,15 @@ $state=-1;
     if($page_number==0)
     {
 	$page=$page_number+1;
-        print (_("Page Number  ").$page);
+        print (_t("Page Number  ").$page);
     }
     else
     {
-	print (_('Page Number  ').$page_number);
+	print (_t('Page Number  ').$page_number);
     }
     print '</b>';
 ?>
-<h1 align="center"><?php print _("Item Transit")?> </h1>
+<h1 align="center"><?php print _t("Item Transit")?> </h1>
 
 <div id="result">
 
@@ -567,7 +567,7 @@ $state=-1;
  $form_opts['name']="edit_item";
 shn_form_fopen('receive_item_paging',null,$form_opts);
 //$Limit=20;
-shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+shn_form_text(_t("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
 shn_form_fclose();
 $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send FROM ims_transfer_item WHERE received_item_id='$state';";
 
@@ -575,7 +575,7 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 	$NumberOfResults=mysql_num_rows($SearchResult); 
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	
-	print(_("Go to Page : "));
+	print(_t("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
@@ -598,14 +598,14 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 ?>
     <table>
         <thead>
-        <td><?=_("Item")?></td>
-        <td><?=_("Amount Sent");?></td>
-        <td><?=_("Unit");?></td>
-        <td><?=_("Inventory From")?></td>
-        <td><?=_("To")?></td>
-            <td><?=_("Date Sent")?></td>
-            <td><?=_("Authorized Person")?></td>
-        <td><?=_("Transit Item")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount Sent");?></td>
+        <td><?=_t("Unit");?></td>
+        <td><?=_t("Inventory From")?></td>
+        <td><?=_t("To")?></td>
+            <td><?=_t("Date Sent")?></td>
+            <td><?=_t("Authorized Person")?></td>
+        <td><?=_t("Transit Item")?></td>
             
         </thead>
     <tbody>
@@ -687,7 +687,7 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 function _shn_ims_receive_item_page($transit_id,$suplier_id)
 {
 ?>
-<h1 align="center"><?php print _("Item Transit ")?> </h1>
+<h1 align="center"><?php print _t("Item Transit ")?> </h1>
 <div id="result1">
 <?php
     
@@ -755,11 +755,11 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     
         
     shn_form_fopen('receive_item_db');
-    shn_form_fsopen(_("Received Item"));
+    shn_form_fsopen(_t("Received Item"));
     $extra_opts['value'] = $item_name;
-    shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',$extra_opts);
+    shn_form_text(_t("Item Name : "),'item_name','size="50" readonly=true',$extra_opts);
     //$extra_opts['value'] = $received_amount;
-    shn_form_text(_("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$amount));
+    shn_form_text(_t("Received Amount : "),'received_amount','size="50"',array('req'=>true,'value'=>$amount));
 
     $unit_select_array=array();
     
@@ -781,27 +781,27 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
         $res->MoveNext();
     }    
 
-    shn_form_select($unit_select_array,_("Unit : "),'unit_received','size="1"',array('req'=>true));
-    //shn_form_text(_("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
+    shn_form_select($unit_select_array,_t("Unit : "),'unit_received','size="1"',array('req'=>true));
+    //shn_form_text(_t("Unit : "),'unit','size="50" readonly=true',array('value'=>$unit_name));
     $extra_opts['value'] = $cost_per_unit;
-    shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
+    shn_form_text(_t("Cost per Unit : "),'cost_per_unit','size="50"',$extra_opts);
     $extra_opts['value']=$inventory_from;
-    shn_form_text(_("From : "),'inventory_from','size="50" readonly=true',$extra_opts);
+    shn_form_text(_t("From : "),'inventory_from','size="50" readonly=true',$extra_opts);
     $extra_opts['value']=$inventory_to;
-    shn_form_text(_("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
+    shn_form_text(_t("To : "),'inventory_to','size="50" readonly=true',$extra_opts);
     $date=date("Y-m-d");
-    shn_form_date(_("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_('Year-Month-Date. Only - separator is accepted')));
+    shn_form_date(_t("Date :"),'received_date',array('value'=>$date,'req'=>true,'help'=>_t('Year-Month-Date. Only - separator is accepted')));
     
-    shn_form_text(_("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_('Person who received Item')));
+    shn_form_text(_t("Authorized Person : "),'authorized_person','size="50"',array('req'=>true,'help'=>_t('Person who received Item')));
 
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Transport/Transporter Details"));
-    shn_form_text(_("Vehicle Number : "),'vehicle_number','size="50"',array('value'=>$vehicle_number,'help'=>_('Registered Number of Your ')));
-    shn_form_text(_("Driver Name : "),'driver_name','size="50"',array('value'=>$driver_name,'help'=>_('Name of the Driver who is going to carry the vehicle')));
-    shn_form_text(_("Driver Mobile : "),'driver_mobile','size="50"',array('value'=>$driver_mobile,'help'=>_('Contact Details of the Driver')));
-    shn_form_text(_("Driver Address : "),'driver_address','size="50"',array('value'=>$driver_address,'help'=>_('Contact Details of the Driver')));
-    shn_form_text(_("Driving Licence Number : "),'driving_licence','size="50"',array('value'=>$driving_licence,'help'=>_('Driving Licence Number')));
+    shn_form_fsopen(_t("Transport/Transporter Details"));
+    shn_form_text(_t("Vehicle Number : "),'vehicle_number','size="50"',array('value'=>$vehicle_number,'help'=>_t('Registered Number of Your ')));
+    shn_form_text(_t("Driver Name : "),'driver_name','size="50"',array('value'=>$driver_name,'help'=>_t('Name of the Driver who is going to carry the vehicle')));
+    shn_form_text(_t("Driver Mobile : "),'driver_mobile','size="50"',array('value'=>$driver_mobile,'help'=>_t('Contact Details of the Driver')));
+    shn_form_text(_t("Driver Address : "),'driver_address','size="50"',array('value'=>$driver_address,'help'=>_t('Contact Details of the Driver')));
+    shn_form_text(_t("Driving Licence Number : "),'driving_licence','size="50"',array('value'=>$driving_licence,'help'=>_t('Driving Licence Number')));
     shn_form_fsclose();
 
     shn_form_hidden(array('item_id'=>$item_id));
@@ -813,7 +813,7 @@ function _shn_ims_receive_item_page($transit_id,$suplier_id)
     shn_form_hidden(array('unit'=>$unit));
     shn_form_hidden(array('amount'=>$amount));
 
-    shn_form_submit(_("Received"));
+    shn_form_submit(_t("Received"));
     shn_form_fclose();
 }
 
@@ -862,7 +862,7 @@ function _shn_ims_receive_item_db()
     $sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
     $ims1=$db->Execute($sql1);
 
-    add_confirmation(_('Item Received successfully'));
+    add_confirmation(_t('Item Received successfully'));
 
     shn_ims_receive_item();
     
@@ -907,7 +907,7 @@ function _shn_ims_validate_send_item_page()
 
     if($destination_type=='')
     {
-        add_error(_('Destination is essential. Please complete and submit again'));
+        add_error(_t('Destination is essential. Please complete and submit again'));
         $error_flag=true;
     }
     

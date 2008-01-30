@@ -25,7 +25,7 @@
 /**
  * Gives the nice name of the module
  */
-$conf['mod_xst_name'] = _("Streaming Module");
+$conf['mod_xst_name'] = _t("Streaming Module");
 
 /**
  * Gives the priority order in the main menu when listed

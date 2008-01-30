@@ -28,22 +28,22 @@ function shn_cr_mainmenu()
 	global $global;
     global $conf;
     $module = $global['module'];
-    shn_mod_menuopen(_($conf['mod_cr_name']));
-    shn_mod_menuitem("default",_("Home"),$module);
-    shn_sub_mod_menuopen(_("Search"));
-    shn_mod_menuitem("srch",_("Search by name"),$module);
-    shn_mod_menuitem("srch_address",_("Search by address"),$module);
+    shn_mod_menuopen(_t($conf['mod_cr_name']));
+    shn_mod_menuitem("default",_t("Home"),$module);
+    shn_sub_mod_menuopen(_t("Search"));
+    shn_mod_menuitem("srch",_t("Search by name"),$module);
+    shn_mod_menuitem("srch_address",_t("Search by address"),$module);
     shn_sub_mod_menuclose();
-    shn_mod_menuitem("acmp",_("Add Shelter"),$module);
-    shn_mod_menuitem("ecmp",_("Edit Shelter"),$module);
-    shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("arpt",_("View All Shelters"),$module);
-    shn_mod_menuitem("lrpt",_("View By Location"),$module);
-    shn_mod_menuitem("contact",_("View Admin Details"),$module);
+    shn_mod_menuitem("acmp",_t("Add Shelter"),$module);
+    shn_mod_menuitem("ecmp",_t("Edit Shelter"),$module);
+    shn_sub_mod_menuopen(_t("Reports"));
+    shn_sub_mod_menuitem("arpt",_t("View All Shelters"),$module);
+    shn_mod_menuitem("lrpt",_t("View By Location"),$module);
+    shn_mod_menuitem("contact",_t("View Admin Details"),$module);
     if($conf['gis']){
-    	shn_mod_menuitem("gis_show",_("Map by Location"),$module);
-    	shn_mod_menuitem("gis_infect",_("Map by Infection"),$module);
-    	shn_mod_menuitem("gis_population",_("Map by Population"),$module);
+    	shn_mod_menuitem("gis_show",_t("Map by Location"),$module);
+    	shn_mod_menuitem("gis_infect",_t("Map by Infection"),$module);
+    	shn_mod_menuitem("gis_population",_t("Map by Population"),$module);
     }
     shn_sub_mod_menuclose();
     shn_mod_menuclose();

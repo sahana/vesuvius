@@ -27,10 +27,10 @@ function __show_basic_form()
 
     shn_form_hidden(array('seq'=>'add_entry'));
 
-    shn_form_text(_("Table / Field Names"),'table',null,array('br'=>false));
+    shn_form_text(_t("Table / Field Names"),'table',null,array('br'=>false));
     shn_form_text("",'field',null,array('br'=>false));
 
-    shn_form_submit(_("Add Entry"));
+    shn_form_submit(_t("Add Entry"));
     shn_form_fclose();
 }
 
@@ -45,12 +45,12 @@ function __add_entry($table, $field)
     $rs = $global['db']->Execute($sql);
 
     if(trim($table)=='') {
-    	add_error(_("The Table name cannot be blank, please enter a valid Table name"));
+    	add_error(_t("The Table name cannot be blank, please enter a valid Table name"));
 	$error = true;
     }
 
     if(trim($field)=='') {
-		add_error(_("The Field name cannot be blank, please enter a valid Field name"));
+		add_error(_t("The Field name cannot be blank, please enter a valid Field name"));
 		$error = true;
     }
     
@@ -58,7 +58,7 @@ function __add_entry($table, $field)
     $tables = $global['db']->MetaTables("TABLES");
     $table_error = false;
     if(array_search($table,$tables)===FALSE){
-    	add_error(_("The is no table named ").$table);
+    	add_error(_t("The is no table named ").$table);
     	$table_error = true;
     	$error = true;
     }
@@ -67,7 +67,7 @@ function __add_entry($table, $field)
     if(!$table_error){
     	$fields = $global['db']->MetaColumnNames($table,true);
     	if(array_search($field,$fields)===FALSE){
-    		add_error(_("There is no field named ").$field._(" in the table ").$table);
+    		add_error(_t("There is no field named ").$field._t(" in the table ").$table);
     		$error = true;	
     	}
     }    
@@ -79,9 +79,9 @@ function __add_entry($table, $field)
                 "VALUES('$table','$field')";
         $global['db']->Execute($sql);
 
-        add_confirmation(_("Database localization entry added successfully!"));
+        add_confirmation(_t("Database localization entry added successfully!"));
     }else {
-        add_error( _("The database localization entry already exists"));
+        add_error( _t("The database localization entry already exists"));
     }
 }
 
@@ -98,9 +98,9 @@ function __show_entries()
 	<div id ="result">
     <table>
     <thead>
-    	<td><?php print _("ID") ?></td>
-    	<td width="150"><?php print _("Table Name") ?></td>
-    	<td width=""><?php print _("Field Name") ?></td>
+    	<td><?php print _t("ID") ?></td>
+    	<td width="150"><?php print _t("Table Name") ?></td>
+    	<td width=""><?php print _t("Field Name") ?></td>
     	<td width="">&nbsp;</td>
    	</thead>
 	<tbody>
@@ -113,7 +113,7 @@ function __show_entries()
         <td><?php print  $r[0] ?></td>
         <td><?php print  $r[1] ?></td>
         <td><?php print  $r[2] ?></td>
-        <td><a href="<?php print $url?>"><?php echo _("Remove") ?></a></td>
+        <td><a href="<?php print $url?>"><?php echo _t("Remove") ?></a></td>
     	</tr>
 <?php
 	}
@@ -121,7 +121,7 @@ function __show_entries()
 	if(1 > $rec_count) {
 ?>
     	<tr>
-        <td colspan="4"><?php echo _("There are no DB L10N entries at the moment") ?></td>
+        <td colspan="4"><?php echo _t("There are no DB L10N entries at the moment") ?></td>
     	</tr>
 <?php
 	}
@@ -140,9 +140,9 @@ function __del_entry($id)
     $sql = "DELETE FROM lc_fields WHERE id = '$id'";
 
     if($global['db']->Execute($sql)) {
-        add_confirmation(_("DB L10N entry removed successfully"));
+        add_confirmation(_t("DB L10N entry removed successfully"));
     }else {
-        add_confirmation(_("Error occurred while removing DB L10N entry"));
+        add_confirmation(_t("Error occurred while removing DB L10N entry"));
     }
 }
 

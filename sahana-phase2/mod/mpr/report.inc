@@ -48,8 +48,8 @@ function shn_mpr_mis_ppl_pdf_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Missing People');
-    $txt = _('This is the list of missing people');
+    $title = _t('List of Missing People');
+    $txt = _t('This is the list of missing people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('pdf',"missing_list",$mpr_report1_keyword_arr);
@@ -81,8 +81,8 @@ function shn_mpr_mis_ppl_ods_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Missing People');
-    $txt = _('This is the list of missing people');
+    $title = _t('List of Missing People');
+    $txt = _t('This is the list of missing people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('ods',"missing_list",$mpr_report1_keyword_arr);
@@ -115,8 +115,8 @@ function shn_mpr_mis_ppl_xhtml_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Missing People');
-    $txt = _('This is the list of missing people');
+    $title = _t('List of Missing People');
+    $txt = _t('This is the list of missing people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('xhtml',"missing_list",$mpr_report1_keyword_arr);
@@ -149,8 +149,8 @@ function shn_mpr_mis_ppl_xls_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Missing People');
-    $txt = _('This is the list of missing people');
+    $title = _t('List of Missing People');
+    $txt = _t('This is the list of missing people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('xls',"missing_list",$mpr_report1_keyword_arr);
@@ -192,8 +192,8 @@ function shn_mpr_fnd_ppl_pdf_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Found People');
-    $txt = _('This is the list of found people');
+    $title = _t('List of Found People');
+    $txt = _t('This is the list of found people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('pdf',"found_list",$mpr_report1_keyword_arr);
@@ -227,8 +227,8 @@ function shn_mpr_fnd_ppl_xhtml_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Found People');
-    $txt = _('This is the list of found people');
+    $title = _t('List of Found People');
+    $txt = _t('This is the list of found people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('xhtml',"found_list",$mpr_report1_keyword_arr);
@@ -261,8 +261,8 @@ function shn_mpr_fnd_ppl_ods_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Found People');
-    $txt = _('This is the list of found people');
+    $title = _t('List of Found People');
+    $txt = _t('This is the list of found people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('ods',"found_list",$mpr_report1_keyword_arr);
@@ -295,8 +295,8 @@ function shn_mpr_fnd_ppl_xls_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('List of Found People');
-    $txt = _('This is the list of found people');
+    $title = _t('List of Found People');
+    $txt = _t('This is the list of found people');
     $mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');
 
     shn_report_fopen('xls',"found_list",$mpr_report1_keyword_arr);

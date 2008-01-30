@@ -27,11 +27,11 @@ function shn_service_mainmenu()
     $module = $global['module'];
 
     // The  module menu
-	shn_mod_menuopen(_("GIS"));
-	shn_mod_menuitem("viewedit",_("View & Edit"));	
-	shn_mod_menuitem("addmain",_("Feed Add"));	
-	shn_mod_menuitem("Home",_("Home"));
-	//shn_mod_menuitem("Feed_Acess",_("feedacess"));
+	shn_mod_menuopen(_t("GIS"));
+	shn_mod_menuitem("viewedit",_t("View & Edit"));	
+	shn_mod_menuitem("addmain",_t("Feed Add"));	
+	shn_mod_menuitem("Home",_t("Home"));
+	//shn_mod_menuitem("Feed_Acess",_t("feedacess"));
 	shn_mod_menuclose();
    
     // include the main menu
@@ -63,7 +63,7 @@ function shn_service_addmain()
 {      
 	echo "<h1>Add Feeds to Catalogue</h1>";
 	?>	
-	<p><?= _('Here you are able to add new Feed data items'); ?></p>
+	<p><?= _t('Here you are able to add new Feed data items'); ?></p>
 	<?php
 	require_once('add.inc');
 	shn_service_addmain_form();	

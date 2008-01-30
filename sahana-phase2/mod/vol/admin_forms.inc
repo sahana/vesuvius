@@ -22,7 +22,7 @@ function shn_vol_adm_skill_form()
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	include_once("api.inc");
 	?>
-<h2><?=_("Volunteer Skills")?></h2>
+<h2><?=_t("Volunteer Skills")?></h2>
 	<?php
 	if($error==true)
 	display_errors();
@@ -42,12 +42,12 @@ shn_form_hidden(array("removed"=>','));
 <?php
 shn_form_fsopen("Add Skills");
 _shn_vol_display_skills($error,true,null,false);
-//  shn_form_button(_("Remove"),"onClick='remove_types()'");
-shn_form_text(_("New Skill : "),'type','size="50"',null);
+//  shn_form_button(_t("Remove"),"onClick='remove_types()'");
+shn_form_text(_t("New Skill : "),'type','size="50"',null);
 ?>
 <center>
 <?php
-shn_form_button(_("Add"),"onClick='add_types()'");
+shn_form_button(_t("Add"),"onClick='add_types()'");
 ?>
 </center>
 <?php
@@ -57,8 +57,8 @@ shn_form_fsclose();
 <center><?php
 $extra_opts['br']=false;
 $extra_opts['req']=false;
-shn_form_button(_("Update"),"onClick='change_action(\"save\")'",$extra_opts);
-shn_form_button(_("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
+shn_form_button(_t("Update"),"onClick='change_action(\"save\")'",$extra_opts);
+shn_form_button(_t("Undo"),"onClick='change_action(\"reset\")'",$extra_opts);
 shn_form_hidden(array('action'=>'0'));
 shn_reset_form_javascript("add_type","opt_skill_type[]");
 ?></center>
@@ -74,7 +74,7 @@ shn_form_fclose();
 function shn_or_adm_or_sector_form()
 {
 	?>
-<h2><?=_("Organization Sectors")?>
+<h2><?=_t("Organization Sectors")?>
 </h1>
 	<?php
 	if($error==true)
@@ -84,24 +84,24 @@ function shn_or_adm_or_sector_form()
 shn_form_fopen("adm_sector_cr");
 _shn_or_admin_javascript("opt_sector_type[]");
 shn_form_fsopen("Add New Sector Information");
-shn_form_text(_("Organization Sector : "),'type','size="50"',null);
-shn_form_text(_("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null);
+shn_form_text(_t("Organization Sector : "),'type','size="50"',null);
+shn_form_text(_t("Abbrevation [3 letter unique abbr. to store in the database] : "),'type_abbr','size="50"',null);
 shn_form_hidden(array("added"=>'0'));
 shn_form_hidden(array("removed"=>'0'));
-shn_form_button(_("Add"),"onClick='add_types()'");
+shn_form_button(_t("Add"),"onClick='add_types()'");
 shn_form_fsclose();
 ?>
 </center>
 <?php
 shn_form_fsopen("Remove Types");
 _shn_or_display_sector($error,true);
-shn_form_button(_("Remove"),"onClick='remove_types()'");
+shn_form_button(_t("Remove"),"onClick='remove_types()'");
 shn_form_fsclose();
 ?>
 </center>
 <br />
 <center><?php
-shn_form_submit(_("Save"))
+shn_form_submit(_t("Save"))
 ?></center>
 <br />
 <?php

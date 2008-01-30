@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 
-_shn_rms_print_hedder(_("Request List"));
+_shn_rms_print_hedder(_t("Request List"));
 
 function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = null)
 {
@@ -76,13 +76,13 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     if (1 < $page_count)
     {
         $paging = true;
-        $page_list = _(":: ");
+        $page_list = _t(":: ");
         
         if (1 < $page)
         {
             $page_list .= '<a href="index.php?mod=rms&amp;act=req_ls' .
                               '&amp;page_no=' . ($page - 1) . '"> ' . 
-                              _("Previous") . '</a> ';
+                              _t("Previous") . '</a> ';
         }
         
         for ($i = 1; $i <= $page_count; $i++)
@@ -102,7 +102,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         if ($page_count != $page)
             $page_list .= '<a href="index.php?mod=rms&amp;act=req_ls' .
                               '&amp;page_no=' . ($page + 1) . '">' . 
-                              _("Next") . '</a>';
+                              _t("Next") . '</a>';
     }        
     
     //set order-by
@@ -121,10 +121,10 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     //Result table hedder
     $th_res[] = array (
-                         _("Requester"), 
-                         _("Location"), 
-                         _("Date"), 
-                         _("status"),
+                         _t("Requester"), 
+                         _t("Location"), 
+                         _t("Date"), 
+                         _t("status"),
                          ''
                         );
                         
@@ -165,7 +165,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         $req_usr = $r['user_id'];
         $view_url = '<a href=index.php?mod=rms&amp;act=req_ls' .
                     '&amp;seq=view_req&amp;req_id=' . $req_id .'>' .
-                    _("Details") . '</a>';
+                    _t("Details") . '</a>';
         
         //$tb_res[] = array ($req_id, $reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
         $tb_res[] = array ($reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
@@ -196,31 +196,31 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
-            shn_form_select($requesters, _("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_select($requesters, _t("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
             
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
-            shn_form_select($location, _("Locations"), 'loc_id', 'onChange="submit(this);"',array('br'=>false));
+            shn_form_select($location, _t("Locations"), 'loc_id', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
             
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter'));
-            $stat['all'] = _("All");
-            $stat['open'] = _("Open");
-            $stat['closed'] = _("Closed");
-            shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',array('br'=>false));
+            $stat['all'] = _t("All");
+            $stat['open'] = _t("Open");
+            $stat['closed'] = _t("Closed");
+            shn_form_select($stat, _t("Status"), 'status', 'onChange="submit(this);"',array('br'=>false));
             shn_form_fclose();
             shn_html_td_close();
             
             shn_html_td_open();
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'filter_clr'));
-            shn_form_submit(_("Clear Filter"));
+            shn_form_submit(_t("Clear Filter"));
             shn_form_fclose();            
             shn_html_td_close();
             
@@ -228,7 +228,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>'form_blank'));
             shn_form_hidden(array('seq'=>'rows'));
             $opts = array ('1'=>'1', '2'=>'2', '10'=>'10', '25'=> '25');
-            shn_form_select($opts,_("Records"), 'rows', 'onChange="submit(this);"', array('value'=>$rows));
+            shn_form_select($opts,_t("Records"), 'rows', 'onChange="submit(this);"', array('value'=>$rows));
             shn_form_fclose();
             shn_html_td_close();
         shn_html_tr_close();
@@ -244,7 +244,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     }
     else
     {
-        _shn_html_print_alert(_("There are no requests on the Database that matches your criteria"));
+        _shn_html_print_alert(_t("There are no requests on the Database that matches your criteria"));
     }
 }
 
@@ -256,8 +256,8 @@ function _shn_rms_stat_request($req_id)
     
     $status = $request['status'];
     
-    $stat['open'] = _("Open");
-    $stat['closed'] = _("Closed");
+    $stat['open'] = _t("Open");
+    $stat['closed'] = _t("Closed");
     
     if((_shn_rms_get_user_group()==true) || ($_SESSION['user_id']==$_SESSION['rms_ls_reqstr'])) {
         $st='onChange="submit(this);"';
@@ -268,7 +268,7 @@ function _shn_rms_stat_request($req_id)
     shn_form_fopen("req_ls",null, array('req_message'=>false,'style'=>''));
     shn_form_hidden(array('seq'=>'chg_stat'));
     shn_form_hidden(array('req_id'=>$req_id));
-    shn_form_select($stat, _("Status"), 'status',$st,array('br'=>false,'value'=>$status));
+    shn_form_select($stat, _t("Status"), 'status',$st,array('br'=>false,'value'=>$status));
     
     unset($_SESSION['rms_ls_reqstr']);
     
@@ -316,8 +316,8 @@ switch ($_REQUEST['seq'])
             _shn_rms_view_request($req_id);
             _shn_rms_stat_request($req_id);
             print '<br />' .
-                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
-                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
+                  '[ <a href="index.php?mod=rms">' . _t("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _t("Back to Request List") . '</a> ]';
             break;
     case 'chg_stat':           
             $req_id = $_POST['req_id'];
@@ -326,8 +326,8 @@ switch ($_REQUEST['seq'])
             _shn_rms_view_request($req_id);
             _shn_rms_stat_request($req_id);
             print '<br />' .
-                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
-                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
+                  '[ <a href="index.php?mod=rms">' . _t("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _t("Back to Request List") . '</a> ]';
             break;
             
 }

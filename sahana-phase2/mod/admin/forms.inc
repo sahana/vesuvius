@@ -20,9 +20,9 @@ include_once $global['approot']."/inc/lib_location.inc";
 function shn_admin_location_form()
 {
 ?>
-	<h1 align="center"><?=_("Add Locations")?></h1>
+	<h1 align="center"><?=_t("Add Locations")?></h1>
 	<div id="note">
-	<?=_("Fields marked with * are required (entry is compulsory)")?>
+	<?=_t("Fields marked with * are required (entry is compulsory)")?>
 	</div>
 <?php
     if($error==true)
@@ -56,17 +56,17 @@ function _shn_admin_location_form()
 {
     global $global;
     $db=$global["db"];
-    shn_form_fsopen(_("New Location Details)"));
+    shn_form_fsopen(_t("New Location Details)"));
     $extra_opts['req']=true;
-    shn_form_text(_("Location Name : "),'loc_name','size="50"',$extra_opts);
+    shn_form_text(_t("Location Name : "),'loc_name','size="50"',$extra_opts);
     $extra_opts['req']=false;
-    shn_form_text(_("Description : "),'desc','size="50"',$extra_opts);
-    shn_form_text(_("ISO code : "),'iso','size="50"',$extra_opts);
+    shn_form_text(_t("Description : "),'desc','size="50"',$extra_opts);
+    shn_form_text(_t("ISO code : "),'iso','size="50"',$extra_opts);
     shn_form_fsclose();
-    shn_form_fsopen(_("Location Type (level)"));
+    shn_form_fsopen(_t("Location Type (level)"));
     shn_form_opt_select('opt_location_type','',$select_opts,array('req'=>true));
     shn_form_fsclose();
-    shn_form_fsopen(_("Now Select the parent Location"));
+    shn_form_fsopen(_t("Now Select the parent Location"));
     $range= shn_get_range();
     shn_location($range,null,null);
     shn_form_fsclose();

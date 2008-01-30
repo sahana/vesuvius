@@ -44,17 +44,17 @@ function shn_skel_mainmenu()
     $module = $global['module'];
     
     // Create the module menu
-    shn_mod_menuopen(_('Skeleton Module'));
+    shn_mod_menuopen(_t('Skeleton Module'));
 
-    shn_mod_menuitem('default',_('Home'));
-    shn_sub_mod_menuopen(_('Sub Menu'));
-    shn_sub_mod_menuitem('mio',_('Menu Item 1'));
-    shn_sub_mod_menuitem('mit',_('Menu Item 2'));
+    shn_mod_menuitem('default',_t('Home'));
+    shn_sub_mod_menuopen(_t('Sub Menu'));
+    shn_sub_mod_menuitem('mio',_t('Menu Item 1'));
+    shn_sub_mod_menuitem('mit',_t('Menu Item 2'));
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_('Sub Menu 2'));
-    shn_mod_menuitem('form',_('Form'));
-    shn_mod_menuitem('report',_('Report'));
+    shn_sub_mod_menuopen(_t('Sub Menu 2'));
+    shn_mod_menuitem('form',_t('Form'));
+    shn_mod_menuitem('report',_t('Report'));
     shn_sub_mod_menuclose();
 
     shn_mod_menuclose();
@@ -85,13 +85,13 @@ function shn_skel_default()
 
 ?>
 <div id="home">
-<h2><?= _('Skeleton Module'); ?></h2>
-<p><?= _('This is a description of the module that we typically
+<h2><?= _t('Skeleton Module'); ?></h2>
+<p><?= _t('This is a description of the module that we typically
 give on the first page with it\' features listed below')?>
-<?= _('Features include:');?></p>
+<?= _t('Features include:');?></p>
 <ul>
-    <li><?=_('Give a description of the features')?></li>
-    <li><?=_('Feature 2')?></li>
+    <li><?=_t('Give a description of the features')?></li>
+    <li><?=_t('Feature 2')?></li>
 </ul>
 </div>
 
@@ -106,7 +106,7 @@ give on the first page with it\' features listed below')?>
  */
 function shn_skel_mio()
 {
-    echo '<p>'._('You called menu item one action').'</p>';
+    echo '<p>'._t('You called menu item one action').'</p>';
     add_confirmation('This is a sample confirmation message after a form submit');
 }
 
@@ -118,7 +118,7 @@ function shn_skel_mio()
  */
 function shn_skel_mit()
 {
-    echo '<p>'._('You called menu item two action').'</p>';
+    echo '<p>'._t('You called menu item two action').'</p>';
     add_warning('This is a sample warning message after a form submit');
     add_confirmation('This is a sample confirmation message after a form submit');
 }
@@ -132,7 +132,7 @@ function shn_skel_mit()
  */
 function shn_skel_report()
 {
-    echo '<p>'._('You called the report action').'</p>';
+    echo '<p>'._t('You called the report action').'</p>';
 
     global $global;
 
@@ -150,7 +150,7 @@ function shn_skel_report()
  */
 function shn_xml_skel_report()
 {
-    echo '<p>'._('You called the report action in XML').'</p>';
+    echo '<p>'._t('You called the report action in XML').'</p>';
 
     global $global;
 }
@@ -165,7 +165,7 @@ function shn_xml_skel_report()
  */
 function shn_XST_skel_report()
 {
-    echo '<p>'._('The XST catch all report function caught this stream').'</p>';
+    echo '<p>'._t('The XST catch all report function caught this stream').'</p>';
 
     global $global;
 }
@@ -180,7 +180,7 @@ function shn_XST_skel_report()
  */
 function shn_skel_form()
 {
-    echo '<h2>'._('Example Form').'</h2>';
+    echo '<h2>'._t('Example Form').'</h2>';
 
     shn_form_fopen("form", null,array('req_message'=>true));
     shn_form_fsopen("Fieldset One");

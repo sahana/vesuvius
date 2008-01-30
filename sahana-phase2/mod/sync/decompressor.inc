@@ -34,7 +34,7 @@
             $file_close='fclose';
         break;
         default:
-            add_error(_("Extention is not a valied Sahana dump file extention."));
+            add_error(_t("Extention is not a valied Sahana dump file extention."));
             add_error($error);
             throw new Exception($error);
     }
@@ -43,7 +43,7 @@
     switch($ext){
         case 'gz':
             if(!function_exists('gzopen')){
-                add_error(_("Missing Zlib extension on the server : Unable to process file."));
+                add_error(_t("Missing Zlib extension on the server : Unable to process file."));
                 throw new Exception($error);
             }
             $file_open='gzopen';
@@ -52,7 +52,7 @@
         break;
         case 'bz2':
             if(!function_exists('bzopen')){
-                add_error(_("Missing Bzip2 extension on the server : Unable to process file."));
+                add_error(_t("Missing Bzip2 extension on the server : Unable to process file."));
                 throw new Exception($error);
             }
             $file_open='bzopen';
@@ -65,7 +65,7 @@
             $file_close='fclose';
         break;
         default:
-            add_error(_("Extention is not a valied Sahana dump file extention."));
+            add_error(_t("Extention is not a valied Sahana dump file extention."));
             throw new Exception($error);
     }
 ?>

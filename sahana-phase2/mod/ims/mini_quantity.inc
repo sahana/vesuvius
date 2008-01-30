@@ -33,7 +33,7 @@ function _shn_ims_mini_quantity_item_select()
    }
 ?>
 
-    <h1 align="center"><?php print _("Item Selection for Re-Order Level"); ?><br></h1>
+    <h1 align="center"><?php print _t("Item Selection for Re-Order Level"); ?><br></h1>
     <dev id="report">
 
     </dev>
@@ -52,7 +52,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 {
 
 ?>
-    <h1 align="center"><?php print _("Re-Order Level"); ?> </h1>
+    <h1 align="center"><?php print _t("Re-Order Level"); ?> </h1>
     
 <?php
     if ($catalog_id != null && $inv_id != null) {
@@ -97,8 +97,8 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
 
     shn_form_fopen("mini_quantity_db");
 
-    shn_form_fsopen(_("Item Name"));
-    shn_form_text(_("Item Name : "),'item_name','size="50" readonly=true',array('value'=>$item_name));
+    shn_form_fsopen(_t("Item Name"));
+    shn_form_text(_t("Item Name : "),'item_name','size="50" readonly=true',array('value'=>$item_name));
     shn_form_fsclose();
 
     shn_form_fsopen("Inventory Selection");
@@ -112,7 +112,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
         $imsq1 = $db->Execute($q1);
         //$inventory_array=array();
         $inventory_array[$imsq1->fields['inv_uuid']] = $imsq1->fields['inventory_name'];
-        shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',null);
+        shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',null);
 
     }
 
@@ -129,14 +129,14 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
         
     //}    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true));
     $catalog_id = $parent_id;
     }
 
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Item Quantity "));
-    shn_form_text(_("Re-Order Level : "),'mini_quantity','size="50"',array('req'=>true,'value'=>$minimum_quantity));
+    shn_form_fsopen(_t("Item Quantity "));
+    shn_form_text(_t("Re-Order Level : "),'mini_quantity','size="50"',array('req'=>true,'value'=>$minimum_quantity));
     
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -160,10 +160,10 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     $res->MoveNext();
     }    
 
-    shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
+    shn_form_select($unit_array,_t("Unit : "),'unit_select','size="1"',array('req'=>true,'help'=>_t('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
 
     //$unit_array=_shn_cs_get_units($parent_id);
-    //shn_form_select($unit_array,_("Unit : "),'unit_select','size="1"',array('help'=>_('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
+    //shn_form_select($unit_array,_t("Unit : "),'unit_select','size="1"',array('help'=>_t('Select the Measurement unit for entered amount. If this box does not contain your prefered unit go back to the catalogue system and add a measurement unit')));
     shn_form_fsclose();
     //shn_form_hidden(array('item_id'=>$item_id));
     
@@ -171,7 +171,7 @@ function _shn_ims_mini_quantity($catalog_id, $inv_id)
     shn_form_hidden(array('flag'=>$flag));
     shn_form_hidden(array('parent_id'=>$parent_id));
     //shn_form_hidden(array('inv_id'=>$inv_id));
-    shn_form_submit(_("Submit"));
+    shn_form_submit(_t("Submit"));
     
     shn_form_fclose();
 }
@@ -233,7 +233,7 @@ function _shn_ims_view_edit_reorder()
 {
 ?>
 
-    <h1 align="center"><?php print _("Item Selection for Re-Order Level"); ?><br></h1>
+    <h1 align="center"><?php print _t("Item Selection for Re-Order Level"); ?><br></h1>
     <dev id="result">
 
     </dev>
@@ -260,25 +260,25 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
         }
     }
 ?>
-<h1 align="center"><?php print _("Re-Order Level"); ?><br></h1>
+<h1 align="center"><?php print _t("Re-Order Level"); ?><br></h1>
 <div id="result1">
 <?php
     global $global;
     $db = $global["db"];
     $form_opts['name'] = 'reorder_form';
     shn_form_fopen("minimum_quantity_action",null,$form_opts);
-    shn_form_fsopen(_("Add Re-Order Level"));
+    shn_form_fsopen(_t("Add Re-Order Level"));
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
-    shn_form_button(_("Add Re-Order Level"),"onClick='change_action(\"reorder\")'",$extra_opts);
+    shn_form_button(_t("Add Re-Order Level"),"onClick='change_action(\"reorder\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
-    //shn_form_submit(_("Add Re-Order level"));
+    //shn_form_submit(_t("Add Re-Order level"));
     shn_form_fsclose();
     //shn_form_fsopen();
 
     //$Limit=20;
     print '<b>';
-    shn_form_text(_("Records per Page"),'records','onChange="submit(this);"',array('value'=>$Limit));
+    shn_form_text(_t("Records per Page"),'records','onChange="submit(this);"',array('value'=>$Limit));
 
     if ($page_number != 0) {
         $page_number = ($page_number - 1) * $Limit;
@@ -297,7 +297,7 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     $NumberOfPages = ceil($NumberOfResults / $Limit); 
     
     
-    print(_("Go to Page : "));
+    print(_t("Go to Page : "));
 
     for ($i = 1; $i < $NumberOfPages + 1; $i++) {
         
@@ -310,12 +310,12 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     <div id="result">
     <table>
         <thead>
-        <td><?=_("Item"); ?></td>
-        <td><?=_("Amount"); ?></td>
-        <td><?=_("Unit"); ?></td>
-        <td><?=_("Inventory"); ?></td>
-        <td><?=_("Edit"); ?></td>
-        <td><?=_("Delete"); ?></td>
+        <td><?=_t("Item"); ?></td>
+        <td><?=_t("Amount"); ?></td>
+        <td><?=_t("Unit"); ?></td>
+        <td><?=_t("Inventory"); ?></td>
+        <td><?=_t("Edit"); ?></td>
+        <td><?=_t("Delete"); ?></td>
             
             
         </thead>

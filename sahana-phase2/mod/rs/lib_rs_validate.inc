@@ -27,17 +27,17 @@ function shn_rs_validate_sample_report()
 
     if(trim($_POST['rep_file_name'])==null)
     {
-    add_error(_("Enter the File Name"));
+    add_error(_t("Enter the File Name"));
     $error_flag=true;
     }
     if(trim($_POST['report_type'])==null || trim($_POST['report_type'])=='none')
     {
-    add_error(_("Select the report type to continue"));
+    add_error(_t("Select the report type to continue"));
     $error_flag=true;
     }
     if(trim($_POST['file_type'])==null || trim($_POST['file_type'])=='none')
     {
-    add_error(_("Select the file type to continue"));
+    add_error(_t("Select the file type to continue"));
     $error_flag=true;
     }
 
@@ -56,13 +56,13 @@ function shn_rs_validate_search_reports()
 
     if(trim($_POST['search_type'])==null || trim($_POST['search_type'])=='none' && trim($_POST['keyword']) =='')
     {
-    add_error(_("Select Search type and enter the phrase OR Do a keyword search"));
+    add_error(_t("Select Search type and enter the phrase OR Do a keyword search"));
     $error_flag=true;
     }
 
     if(trim($_POST['search_type'])!='none' && trim($_POST['search_type'])!='all' && trim($_POST['search_for']) =='' && trim($_POST['keyword']) =='')
     {
-    add_error(_("Enter the phrase to search OR Do a keyword search"));
+    add_error(_t("Enter the phrase to search OR Do a keyword search"));
     $error_flag=true;
     }
     return $error_flag;

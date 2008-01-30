@@ -17,7 +17,7 @@
 /**
  * Gives the nice name of the module
  */
-$conf['mod_hr_name'] = _("Housing Registry");
+$conf['mod_hr_name'] = _t("Housing Registry");
 
 /**
  * Gives the priority order in the main menu when listed

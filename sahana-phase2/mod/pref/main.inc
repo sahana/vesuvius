@@ -36,13 +36,13 @@ function shn_pref_signup_cr(){
 	if(shn_auth_self_signup_cr()==true){
 		shn_pref_signup();
 		if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
-			add_error(_("Please provide the text in the image correctly to prove you are not a bot"));
+			add_error(_t("Please provide the text in the image correctly to prove you are not a bot"));
 
 			return;
 		}
 	}else{
 	   if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
-			add_error(_("Please provide the text in the image correctly to prove you are not a bot"));
+			add_error(_t("Please provide the text in the image correctly to prove you are not a bot"));
 			shn_pref_signup();
 			return;
 		}
@@ -78,9 +78,9 @@ function shn_pref_mainmenu()
 	$module = $global['module'];
 
 	// Create the module menu
-	shn_mod_menuopen(_("User Preferences"));
+	shn_mod_menuopen(_t("User Preferences"));
 
-	shn_mod_menuitem("default",_("Home"));
+	shn_mod_menuitem("default",_t("Home"));
 
 	/* get the sub menus */
 	$d = dir($global['approot'].'mod/pref/');
@@ -110,11 +110,11 @@ function shn_pref_default()
 {
 	?>
 <div id="home">
-<h2><?=_("Welcome to User Preferences");?></h2>
+<h2><?=_t("Welcome to User Preferences");?></h2>
 <p><?php echo ("User Preferences Module will allow you to set any preferred configuration.")."<br />".
-_("Which will help you to customize Sahana to your preference.")."<br />"._("Following Preferences can be set")."</p><ul>"; 
+_t("Which will help you to customize Sahana to your preference.")."<br />"._t("Following Preferences can be set")."</p><ul>"; 
 
-	echo "<li><b>"._("Mutiple Incident Management")."</b></li>"."</ul>";
+	echo "<li><b>"._t("Mutiple Incident Management")."</b></li>"."</ul>";
 
 ?>
 </div>

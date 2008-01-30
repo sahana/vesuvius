@@ -33,8 +33,8 @@ function shn_cs_cat_itm_xls_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('Catalogs and Items');
-    $txt = _('These are the existing catalogs and items that are stored in sahana database');
+    $title = _t('Catalogs and Items');
+    $txt = _t('These are the existing catalogs and items that are stored in sahana database');
     $cs_report1_keyword_arr = array('mod' => 'cs','report' => 'catalog','report1' => 'items','users' => 'all');
 
     shn_report_fopen('xls',"catalogs_items",$cs_report1_keyword_arr);
@@ -66,8 +66,8 @@ function shn_cs_cat_itm_xhtml_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('Catalogs and Items');
-    $txt = _('These are the existing catalogs and items that are stored in sahana database');
+    $title = _t('Catalogs and Items');
+    $txt = _t('These are the existing catalogs and items that are stored in sahana database');
     $cs_report1_keyword_arr = array('mod' => 'cs','report' => 'catalog','report1' => 'items','users' => 'all');
 
     shn_report_fopen('xhtml',"catalogs_items",$cs_report1_keyword_arr);
@@ -99,8 +99,8 @@ function shn_cs_cat_itm_pdf_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('Catalogs and Items');
-    $txt = _('These are the existing catalogs and items that are stored in sahana database');
+    $title = _t('Catalogs and Items');
+    $txt = _t('These are the existing catalogs and items that are stored in sahana database');
     $cs_report1_keyword_arr = array('mod' => 'cs','report' => 'catalog','report1' => 'items','users' => 'all');
 
     shn_report_fopen('pdf',"catalogs_items",$cs_report1_keyword_arr);
@@ -132,8 +132,8 @@ function shn_cs_cat_itm_ods_report()
 	    $res->MoveNext();
     }//end of while loop 
     
-    $title = _('Catalogs and Items');
-    $txt = _('These are the existing catalogs and items that are stored in sahana database');
+    $title = _t('Catalogs and Items');
+    $txt = _t('These are the existing catalogs and items that are stored in sahana database');
     $cs_report1_keyword_arr = array('mod' => 'cs','report' => 'catalog','report1' => 'items','users' => 'all');
 
     shn_report_fopen('ods',"catalogs_items",$cs_report1_keyword_arr);

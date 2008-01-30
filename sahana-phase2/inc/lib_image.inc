@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.11 2008-01-29 03:51:28 ishanul Exp $ */
+/* $Id: lib_image.inc,v 1.12 2008-01-30 04:38:38 prabath321 Exp $ */
 
 /**
  *
@@ -155,9 +155,9 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 			$bg_color = imagecolorallocate($img,229,229,229);
 			imagefill($img,0,0,$bg_color);
 			$txt_color = imagecolorallocate($img, 255, 0, 0);
-			imagestring($img, 4,20,15, _("Image"), $txt_color);
-			imagestring($img, 4,25,40, _("Not"), $txt_color);
-			imagestring($img, 4,12,65, _("Available"), $txt_color);
+			imagestring($img, 4,20,15, _t("Image"), $txt_color);
+			imagestring($img, 4,25,40, _t("Not"), $txt_color);
+			imagestring($img, 4,12,65, _t("Available"), $txt_color);
 			imagejpeg($img);
 			imagedestroy($img);
 		}else{
@@ -241,7 +241,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 
 			//if image is not available
 			if(! file_exists($global['approot']."www/tmp/ori_fin$x_uuid"."$ext") ){
-				echo _("Image Not Available");
+				echo _t("Image Not Available");
 				return false;
 			}
 
@@ -278,7 +278,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 
 			//if image is not available
 			if(! file_exists($global['approot']."www/tmp/ori_$x_uuid"."$ext") ){
-				echo _("Image Not Available");
+				echo _t("Image Not Available");
 				return false;
 			}
 
@@ -299,7 +299,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	}
 	//echo $src_tmp;
 	?>
-<a title="<?= _('Click to see the original size'); ?>" href="#"
+<a title="<?= _t('Click to see the original size'); ?>" href="#"
 	onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;">
 <img border="0" src="<?=$src_tmp;?>" /> </a>
 	<?php
@@ -392,19 +392,19 @@ function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_wi
 function shn_file_upload_error_msg($error_code){
 	switch($error_code){
 		case UPLOAD_ERR_INI_SIZE:
-			return _("The uploaded file exceeds the upload_max_filesize directive in php.ini. (<".ini_get('upload_max_filesize')."B)");
+			return _t("The uploaded file exceeds the upload_max_filesize directive in php.ini. (<".ini_get('upload_max_filesize')."B)");
 		case UPLOAD_ERR_FORM_SIZE:
-			return _("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.");
+			return _t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.");
 		case UPLOAD_ERR_PARTIAL:
-			return _("The uploaded file was only partially uploaded.");
+			return _t("The uploaded file was only partially uploaded.");
 		case UPLOAD_ERR_NO_FILE:
-			return _("No file was uploaded.");
+			return _t("No file was uploaded.");
 		case UPLOAD_ERR_NO_TMP_DIR:
-			return _("Missing a temporary folder.");
+			return _t("Missing a temporary folder.");
 		case UPLOAD_ERR_CANT_WRITE:
-			return _("Failed to write file to disk.");
+			return _t("Failed to write file to disk.");
 		case UPLOAD_ERR_EXTENSION:
-			return _("File upload stopped by extension.");
+			return _t("File upload stopped by extension.");
 	}
 }
 

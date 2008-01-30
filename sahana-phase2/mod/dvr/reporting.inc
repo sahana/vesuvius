@@ -22,7 +22,7 @@
  
 function _shn_drill_downby_group() {
 ?>	
- 	 <h2><?=_("Disaster Victim Report by group") ?></h2>
+ 	 <h2><?=_t("Disaster Victim Report by group") ?></h2>
  	 
  	 <?php
  	 
@@ -47,13 +47,13 @@ function _shn_drill_downby_group() {
    	 <div id ="result">
 	<table>
         <thead>
-        	<!--  <td><?=_("Group Id")?></td>-->
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-           <!-- <td><?=_("Local Name")?></td>-->
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
+        	<!--  <td><?=_t("Group Id")?></td>-->
+            <td><?=_t("Group Type")?></td>
+            <td><?=_t("Group Head Name")?></td>
+            <td><?=_t("Family Name")?></td>
+           <!-- <td><?=_t("Local Name")?></td>-->
+          	<td><?=_t("NIC")?></td>
+            <td><?=_t("Address")?></td>
             
         </thead>
         <?php
@@ -91,15 +91,15 @@ function _shn_drill_downby_shelter()
     $camps=_shn_dvr_get_camps();
 
 ?>
- 	  <h2><?=_("Disaster Victim Report by Shelter") ?></h2>
+ 	  <h2><?=_t("Disaster Victim Report by Shelter") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
         		
-            <!--<td><?=_("Camp Id")?></td>-->
-            <td><?=_("Camp Name")?></td>
-            <td><?=_("Address")?></td>
-            <td><?=_("Capacity")?></td>
+            <!--<td><?=_t("Camp Id")?></td>-->
+            <td><?=_t("Camp Name")?></td>
+            <td><?=_t("Address")?></td>
+            <td><?=_t("Capacity")?></td>
          
         </thead>
         
@@ -133,13 +133,13 @@ function _shn_drill_downby_incident() {
     $incidents=_shn_dvr_get_incidents();
 
 ?>
- 	  <h2><?=_("Disaster Victim Report by Incident") ?></h2>
+ 	  <h2><?=_t("Disaster Victim Report by Incident") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
         		
-            <!-- <td><?=_("Incident Id")?></td>-->
-            <td><?=_("Incident Name")?></td>
+            <!-- <td><?=_t("Incident Id")?></td>-->
+            <td><?=_t("Incident Name")?></td>
             
          
          

@@ -18,6 +18,6 @@
  
 #global $conf;
 
-$conf['mod_service_name'] = _("GIS Catalog service");
+$conf['mod_service_name'] = _t("GIS Catalog service");
 $conf['mod_service_menuorder'] = 17;
 ?>

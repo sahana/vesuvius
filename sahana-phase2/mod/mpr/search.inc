@@ -28,12 +28,12 @@
 function shn_mpr_search_default()
 {
     shn_form_fopen("search",null,array('req_message'=>false)); 
-    shn_form_fsopen(_('Basic Search'));
-    shn_form_text(_('Any Card Number'),'idcard','size="30"');
-    shn_form_text(_('Any Name'),'name','size="30"');
- #   shn_form_checkbox(_('All incidents belongs to current incident'),'list_incidents');
-    shn_form_checkbox(_('All incidents'),'all_incidents');
-    shn_form_submit(_('Search'));
+    shn_form_fsopen(_t('Basic Search'));
+    shn_form_text(_t('Any Card Number'),'idcard','size="30"');
+    shn_form_text(_t('Any Name'),'name','size="30"');
+ #   shn_form_checkbox(_t('All incidents belongs to current incident'),'list_incidents');
+    shn_form_checkbox(_t('All incidents'),'all_incidents');
+    shn_form_submit(_t('Search'));
     #shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'result'));
@@ -53,26 +53,26 @@ function shn_mpr_search_default()
 function shn_mpr_search_advance()
 {
     shn_form_fopen("search",null,array('req_message'=>false)); 
-    shn_form_fsopen(_('Advanced Search'));
+    shn_form_fsopen(_t('Advanced Search'));
 
-    shn_form_fsopen(_('Identity'));
-    shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox(_('Identity Card'),'idcard_chk');
-    shn_form_checkbox(_('Passport Number'),'pass_chk');
-    shn_form_checkbox(_('Driving License'),'drv_chk');
+    shn_form_fsopen(_t('Identity'));
+    shn_form_text(_t('Identity'),'idcard','size="30"');
+    shn_form_checkbox(_t('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_t('Passport Number'),'pass_chk');
+    shn_form_checkbox(_t('Driving License'),'drv_chk');
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Name'));
-    shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox(_('Full Name'),'fullname_chk');
-    shn_form_checkbox(_('Family Name'),'familyname_chk');
-    shn_form_checkbox(_('Local Name'),'localname_chk');
+    shn_form_fsopen(_t('Name'));
+    shn_form_text(_t('Name'),'name','size="30"');
+    shn_form_checkbox(_t('Full Name'),'fullname_chk');
+    shn_form_checkbox(_t('Family Name'),'familyname_chk');
+    shn_form_checkbox(_t('Local Name'),'localname_chk');
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Basic Details'));
+    shn_form_fsopen(_t('Basic Details'));
     shn_form_fsclose();
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'result'));
     shn_form_hidden(array('type'=>$_GET['type']));
@@ -254,7 +254,7 @@ function shn_mpr_search_navigation_bottom($rs)
 {
     //NOTE: I know this looks really dumb, but 
     //Later we are going to populate some bottom stuff
-    echo '<br /><strong>'._('Total').' '.$rs->RecordCount().' '._('Records were found').'</strong><br />';
+    echo '<br /><strong>'._t('Total').' '.$rs->RecordCount().' '._t('Records were found').'</strong><br />';
     shn_mpr_search_nav_arrows($rs);
 }
 
@@ -269,7 +269,7 @@ function shn_mpr_search_nav()
 
     $delta = $total - $offset - $limit;
 
-    echo '<br /><strong>'._('Total').' '.$total.' '._('Records were found').'</strong><br />';    
+    echo '<br /><strong>'._t('Total').' '.$total.' '._t('Records were found').'</strong><br />';    
 ?>  
 <ul class="paging">
 <?php   
@@ -279,12 +279,12 @@ function shn_mpr_search_nav()
         echo '<li><a href="index.php?mod='.$global['module'].
             '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
             '&offset=0'.'">'.
-            '|&lt;&lt;'._('First').' '.$limit.' '._('Records').' </a></li>';   
+            '|&lt;&lt;'._t('First').' '.$limit.' '._t('Records').' </a></li>';   
         //With Limit Jump
         echo '<li><a href="index.php?mod='.$global['module'].
             '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
             '&offset='. ( $offset - $limit ) . '">'.
-            '&lt;&lt;'._('Previous').' '.$limit.' '._('Records').' </a></li>';
+            '&lt;&lt;'._t('Previous').' '.$limit.' '._t('Records').' </a></li>';
     }
     //Forward Arrows
     if( $delta > 0 ){
@@ -292,12 +292,12 @@ function shn_mpr_search_nav()
         echo '<li><a href="index.php?mod='.$global['module'].
             '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
             '&offset='. ( $offset + $limit ) . '">'.
-            _('Next').' '.($delta < $limit ? $delta : $limit).' '._('Records').' &gt;&gt; </a></li>';
+            _t('Next').' '.($delta < $limit ? $delta : $limit).' '._t('Records').' &gt;&gt; </a></li>';
         //Right at Last
         echo '<li><a href="index.php?mod='.$global['module'].
             '&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].
             '&offset='.($total - $limit).'">'.
-            _('Last').'  '. $limit.' '._('Records').' &gt;&gt;|</a></li>';
+            _t('Last').'  '. $limit.' '._t('Records').' &gt;&gt;|</a></li>';
     }
 ?>
 </ul>
@@ -324,12 +324,12 @@ function shn_mpr_search_show_result($details)
 ?>
 <TABLE>
 <THEAD>
-    <TD><?= _('Person');?></TD>
-    <TD><?= _('Details');?></TD>
-    <TD><?= _('Associated People');?></TD>
-    <TD><?= _('Missing Details');?></TD>
-    <TD><?= _('Actions');?></TD>
-    <?=($select?'<TD>'._('Select').'</TD>':''); ?>
+    <TD><?= _t('Person');?></TD>
+    <TD><?= _t('Details');?></TD>
+    <TD><?= _t('Associated People');?></TD>
+    <TD><?= _t('Missing Details');?></TD>
+    <TD><?= _t('Actions');?></TD>
+    <?=($select?'<TD>'._t('Select').'</TD>':''); ?>
 </THEAD>
 <?php
 	if($details!=null)
@@ -340,7 +340,7 @@ function shn_mpr_search_show_result($details)
         <TD>
 <?php
     		shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
-    		echo '<br><a title="'._('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
+    		echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
             	$detail['p_uuid'].'">'.
             	$detail['full_name'].'</a>'.
         	'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
@@ -348,11 +348,11 @@ function shn_mpr_search_show_result($details)
         </TD>
         <TD>
 <?php
-    	echo ($detail['height']?_('Height').' : '.$detail['height'].'<br>':'').
-        	($detail['weight']?_('Weight').' : '.$detail['weight'].'<br>':'').
-        	($detail['opt_eye_color']?_('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').
-        	($detail['opt_skin_color']?_('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').
-        	($detail['opt_hair_color']?_('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
+    	echo ($detail['height']?_t('Height').' : '.$detail['height'].'<br>':'').
+        	($detail['weight']?_t('Weight').' : '.$detail['weight'].'<br>':'').
+        	($detail['opt_eye_color']?_t('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').
+        	($detail['opt_skin_color']?_t('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').
+        	($detail['opt_hair_color']?_t('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
 ?>
         </TD>
         <TD>
@@ -360,41 +360,41 @@ function shn_mpr_search_show_result($details)
 
     	$arr = shn_mpr_search_get_trackers($detail['p_uuid']);
     	foreach($arr as $fullname)
-        	echo "&nbsp;".'<a title="'._('View').'"'.
+        	echo "&nbsp;".'<a title="'._t('View').'"'.
             	'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
             	$fullname['p_uuid'].'">'.
             	$fullname['full_name'].'</a><br />';
-    			echo '<hr><a title="'._('Add Tracker').'"'.
+    			echo '<hr><a title="'._t('Add Tracker').'"'.
         		'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .
         		$detail['p_uuid'].'&name='.$detail['full_name'].'">'.
-        		_("Associate another person").'</a>';
+        		_t("Associate another person").'</a>';
 ?>
         </TD>
         <TD>
 <?php
-    		echo ($detail['last_seen']?_('Last Seen').' : '.$detail['last_seen'].'<br>':'').
-            	($detail['last_clothing']?_('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').
-            	($detail['comments']?_('Comments').': '.$detail['comments']:'');    
+    		echo ($detail['last_seen']?_t('Last Seen').' : '.$detail['last_seen'].'<br>':'').
+            	($detail['last_clothing']?_t('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').
+            	($detail['comments']?_t('Comments').': '.$detail['comments']:'');    
 ?>
         </TD>
         <TD>
 <?php
     echo shn_get_field_opt($detail['opt_status'],'opt_status');
     if($detail['opt_status'] == 'mis')
-        echo '</br /><a title="'._('Change the status to Alive & Well').'"
+        echo '</br /><a title="'._t('Change the status to Alive & Well').'"
 href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><br
-/>('._('Click to change to found').')</a>';
-    echo '<br /><a title="'._('Assign to more incidents').'" '.
+/>('._t('Click to change to found').')</a>';
+    echo '<br /><a title="'._t('Assign to more incidents').'" '.
             'href="index.php?mod=admin&act=ims_assign&id='.
-            $detail['p_uuid'].'">'._('Assign to more incidents').'</a>';
+            $detail['p_uuid'].'">'._t('Assign to more incidents').'</a>';
     echo '<br />';
-    echo '<a title="'._('Audit').'" '.
+    echo '<a title="'._t('Audit').'" '.
             'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
-            $detail['p_uuid'].'">'._('Audit').'</a>';
+            $detail['p_uuid'].'">'._t('Audit').'</a>';
 ?>      </TD>
-        <?=($select?'<TD><a title="'._('Select').'" href="index.php?'.
+        <?=($select?'<TD><a title="'._t('Select').'" href="index.php?'.
             $_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].
-            '&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._('Select').' </a>'.
+            '&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.
             '</TD>':''); ?>
     </TR>
 <?php
@@ -442,10 +442,10 @@ function shn_mpr_search_select($details)
 <DIV ID="result">
 <TABLE>
 <THEAD>
-    <TD><?= _('Picture'); ?></TD>
-    <TD><?= _('Name'); ?></TD>
-    <TD><?= _('Status'); ?></TD>
-    <TD><?= _('Select'); ?></TD>
+    <TD><?= _t('Picture'); ?></TD>
+    <TD><?= _t('Name'); ?></TD>
+    <TD><?= _t('Status'); ?></TD>
+    <TD><?= _t('Select'); ?></TD>
 </THEAD>
 <?php
     foreach($details as $detail){
@@ -458,7 +458,7 @@ function shn_mpr_search_select($details)
         </TD>
         <TD>
 <?php
-    echo '<a title="'._('View').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.
+    echo '<a title="'._t('View').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.
             $detail['p_uuid'].'">'.
             $detail['full_name'].'</a>'.
         '<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
@@ -468,21 +468,21 @@ function shn_mpr_search_select($details)
 <?php
     echo shn_get_field_opt($detail['opt_status'],'opt_status');
     if($detail['opt_status'] == 'mis')
-        echo '</br /><a title="'._('Change the status to Alive & Well').'" '.
+        echo '</br /><a title="'._t('Change the status to Alive & Well').'" '.
             'href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].
-            '"><br />('._('Click to change to found').')</a>';
+            '"><br />('._t('Click to change to found').')</a>';
 ?>
         </TD>
-        <TD><a title="<?= _('Select'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING'].
+        <TD><a title="<?= _t('Select'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING'].
                 '&tracker_id='.$detail['p_uuid'].
-                '&seq=tracker_select';?>" ><?= _('Select'); ?></a>
+                '&seq=tracker_select';?>" ><?= _t('Select'); ?></a>
         </TD>
     </TR>
 <?php
     }
 ?>
 </TABLE>
-<a title="<?= _('Back'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING']?>&seq=tracker_back"><?= _('Back'); ?></a>
+<a title="<?= _t('Back'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING']?>&seq=tracker_back"><?= _t('Back'); ?></a>
 </DIV>
 <?php
     shn_mpr_search_nav();

@@ -19,53 +19,53 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
  */
  ?>
 <div id="home">
-<h2><?= _('Disaster Victim Registry'); ?></h2>
+<h2><?= _t('Disaster Victim Registry'); ?></h2>
 <p>
 <?php
 
-	 print _("The Disaster Victim Registry is a central online repository where information on all the disaster victims and families, especially identified casualties, evacuees and displaced people can be stored. Information like name, age, contact number, identity card number, displaced location, and other details are captured. Picture and finger print details of the people can be uploaded to the system. People can also be captured rather by group for effeciency and convenience"  );
+	 print _t("The Disaster Victim Registry is a central online repository where information on all the disaster victims and families, especially identified casualties, evacuees and displaced people can be stored. Information like name, age, contact number, identity card number, displaced location, and other details are captured. Picture and finger print details of the people can be uploaded to the system. People can also be captured rather by group for effeciency and convenience"  );
 ?>
 
 </p>
 
-<strong><?php echo _("Features include:")?></strong>
+<strong><?php echo _t("Features include:")?></strong>
 <ul>
     <li>
     <?php
 
-	print _("Capture Information on Disaster Victim groups (Tourists, Passengers, Families, etc.)")
+	print _t("Capture Information on Disaster Victim groups (Tourists, Passengers, Families, etc.)")
 ?>
     </li>
     <li>
-    <?php print _("Capture Information on each disaster victim") ?>
+    <?php print _t("Capture Information on each disaster victim") ?>
     </li>
     <li>
-    <?php print _("Picture upload and finger print upload facility")?>
+    <?php print _t("Picture upload and finger print upload facility")?>
     </li>
     <li>
-    <?php print _("Searching for different groups and individuals") ?>
+    <?php print _t("Searching for different groups and individuals") ?>
     </li>
     <li>
-    <?php print _("Modify Information on groups and individuals") ?>
+    <?php print _t("Modify Information on groups and individuals") ?>
     </li>
     <li>
-    <?php print _("Various Reporting functionalities") ?>
+    <?php print _t("Various Reporting functionalities") ?>
     </li>
    <!-- <li>
-    <?php print _("Forecasting methods based on statistics") ?>
+    <?php print _t("Forecasting methods based on statistics") ?>
    
     </li>-->
 </ul>
-<strong><?php echo _("Description of Actions:")?></strong><br/>
+<strong><?php echo _t("Description of Actions:")?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _('Add New Group'); ?> </b></a><br/><?= _('Adding a new disaster victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _('Add New Individuals'); ?> </b> </a><br/><?= _('Adding a disaster victim under each and every victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _('Search & Edit Group'); ?></b></a><br/><?= _('Searching and editing a victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=search_individual"><b><?= _('Search & Edit Individuals'); ?></b></a><br/><?= _('Searching and editing a victim'); ?>
-        <li><a href="index.php?mod=dvr&act=list_groups"><b><?= _('List groups/ View members'); ?></b></a><br/><?= _('List all the groups and view members'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?= _('Drill Down By Group'); ?> </b></a><br/><?= _('Drill down by disaster victim group report'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_shelter"><b><?= _('Drill Down By Shelter'); ?> </b></a><br/><?= _('Drill down by shelter report'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_incident"><b><?= _('Drill Down By Incident'); ?> </b></a><br/><?= _('Drill down by incident report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _t('Add New Group'); ?> </b></a><br/><?= _t('Adding a new disaster victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _t('Add New Individuals'); ?> </b> </a><br/><?= _t('Adding a disaster victim under each and every victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _t('Search & Edit Group'); ?></b></a><br/><?= _t('Searching and editing a victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_individual"><b><?= _t('Search & Edit Individuals'); ?></b></a><br/><?= _t('Searching and editing a victim'); ?>
+        <li><a href="index.php?mod=dvr&act=list_groups"><b><?= _t('List groups/ View members'); ?></b></a><br/><?= _t('List all the groups and view members'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?= _t('Drill Down By Group'); ?> </b></a><br/><?= _t('Drill down by disaster victim group report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_shelter"><b><?= _t('Drill Down By Shelter'); ?> </b></a><br/><?= _t('Drill down by shelter report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_incident"><b><?= _t('Drill Down By Incident'); ?> </b></a><br/><?= _t('Drill down by incident report'); ?></li>
 </ul>
 
 
@@ -78,7 +78,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 
 
 
-<h1><?= _('Latest updates on Reported  Victims'); ?></h1>
+<h1><?= _t('Latest updates on Reported  Victims'); ?></h1>
 <?php
 
     shn_dvr_home_show_dvr();
@@ -146,7 +146,7 @@ function shn_dvr_search_show_verticle($details)
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=edit_individual&p_uuid='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		            
 		        } 
-              //  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._('Assign to more incidents').'</a>';
+              //  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php

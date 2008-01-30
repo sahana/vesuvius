@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 
-_shn_rms_print_hedder(_("Request Search: Search for Requesters, Locations and Requests"));
+_shn_rms_print_hedder(_t("Request Search: Search for Requesters, Locations and Requests"));
 
 function _shn_rms_sch_getkeywords()
 {   
@@ -72,15 +72,15 @@ function _shn_rms_sch_getkeywords()
         
         //--------------------------------------------------------------
         $status = array();
-        $status['all'] = _("All");
-        $status['open'] = _("Open");
-        $status['closed'] = _("Closed");
+        $status['all'] = _t("All");
+        $status['open'] = _t("Open");
+        $status['closed'] = _t("Closed");
         //----------------------------------------------------------------
 	    //shn_html_tr_open();
         //shn_html_td_open();
         //shn_form_fopen("req_sch",null, array('req_message'=>false,'style'=>'form_blank'));
         //shn_form_hidden(array('seq'=>'filter'));
-        //shn_form_select($requesters, _("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
+        //shn_form_select($requesters, _t("Requesters"), 'reqstr', 'onChange="submit(this);"',array('br'=>false));
         //shn_form_fclose();
         //shn_html_td_close();
 			 
@@ -90,29 +90,29 @@ function _shn_rms_sch_getkeywords()
         shn_form_hidden(array('seq'=>'get_keywords'));
         
 	    if($_SESSION['isadmin']==true) {
-			shn_form_select($reqstr_name, _("Requester"), 'reqstr_id',null,array('br'=>false));
+			shn_form_select($reqstr_name, _t("Requester"), 'reqstr_id',null,array('br'=>false));
 			print '<br/>';
 			print '<br/>';
 	    }
-        shn_form_select($location, _("Locations"), 'loc_id', null,array('br'=>false));
+        shn_form_select($location, _t("Locations"), 'loc_id', null,array('br'=>false));
         print '<br />';
         print '<br />';
 		
-        shn_form_select($priority,_("Priority"),'priority',null,array('br'=>false));
+        shn_form_select($priority,_t("Priority"),'priority',null,array('br'=>false));
         print '<br />';
         print '<br />';
-        shn_form_select($categories,_("Category"),'category',null,array('br'=>false));
+        shn_form_select($categories,_t("Category"),'category',null,array('br'=>false));
         print '<br />';
         print '<br />';
-        shn_form_select($status,_("Status"),'status',null,array('br'=>false));
+        shn_form_select($status,_t("Status"),'status',null,array('br'=>false));
         shn_form_fsclose();
         //print '<br />';
         // print '<br />';
-        shn_form_submit(_("Search"));
+        shn_form_submit(_t("Search"));
         shn_form_fclose();
         //shn_html_td_close();
       }else{
-    	add_warning(_("No requests found"));
+    	add_warning(_t("No requests found"));
       }
 }
 
@@ -229,26 +229,26 @@ function _shn_rms_sch_results()
 	{
 		if($_SESSION['isadmin']==TRUE) {
 			$tbl_hd_arr[0] = array (
-			_("Requester"),
-			//_("Category"),
-			_("Item"),
-			_("Location"),
-			//_("Quantity"),
-			_("Date"),
-			_("Status"),
-			_("Priority"),
+			_t("Requester"),
+			//_t("Category"),
+			_t("Item"),
+			_t("Location"),
+			//_t("Quantity"),
+			_t("Date"),
+			_t("Status"),
+			_t("Priority"),
 			''
 			     );
 		}else {
 			$tbl_hd_arr[0] = array (
 
-			//_("Category"),
-			_("Item"),
-			_("Location"),
-			//_("Quantity"),
-			_("Date"),
-			_("Status"),
-			_("Priority"),
+			//_t("Category"),
+			_t("Item"),
+			_t("Location"),
+			//_t("Quantity"),
+			_t("Date"),
+			_t("Status"),
+			_t("Priority"),
 			''
                        );
 		}
@@ -256,7 +256,7 @@ function _shn_rms_sch_results()
 		$view_url = '<a href=index.php?mod=rms&amp;act=req_sch' .
                         //'&amp;keywords=' . $kws . 
                         '&amp;seq=view_req&amp;req_id=' . ($results->Fields('req_uuid')) .'>' .
-                        _("Details") . '</a>';
+                        _t("Details") . '</a>';
 		
         $i=0;
 		while(!$results->EOF){
@@ -289,7 +289,7 @@ function _shn_rms_sch_results()
 		shn_html_table($tbl_arr, $tbl_hd_arr, null, array('class'=>'wide'));
 	}else {
 		print '<br />';
-		_shn_html_print_alert(_("There are no results that match your search criteria."));
+		_shn_html_print_alert(_t("There are no results that match your search criteria."));
 	}
     
 						//$kws = $_REQUEST['keywords'];
@@ -299,7 +299,7 @@ function _shn_rms_sch_results()
 			   
 						   // if (!isset($_REQUEST['keywords']) || $kws == '')
 						   // {
-						   //     add_error(_("Please anter a valid keyword"));
+						   //     add_error(_t("Please anter a valid keyword"));
 						   //     print '<br />';
 						   //     display_errors();
 						   //     return false;
@@ -343,11 +343,11 @@ switch ($_REQUEST['seq'])
             _shn_rms_view_request($req_id);
             $keywords = $_REQUEST['keywords'];
             print '<br />' .
-                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms">' . _t("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;' .
                         'act=req_sch&amp;seq=get_keywords' .
                         '&amp;keywords' . $keywords . '">' . 
-                        _("Back to Request Search") . '</a> ]';
+                        _t("Back to Request Search") . '</a> ]';
             break;
 
 	   

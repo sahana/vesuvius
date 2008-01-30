@@ -71,7 +71,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
     global $global;
 
     if (null == $error_title) {
-        $error_title = _('Oops. There are few errors :');
+        $error_title = _t('Oops. There are few errors :');
     }
 
     // return if there are no errors
@@ -83,7 +83,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
 
     $output .= "<ul>";
 	foreach ($global['submit_errors'] as $error){
-		$output .= "<li>"._($error).'<br/></li>';
+		$output .= "<li>"._t($error).'<br/></li>';
 	}
     $output .= "</ul>";
     $output .= "</div>";
@@ -129,16 +129,16 @@ function shn_error_display_restricted_access($msg=null)
 { ?>
     <div class="error message">
     	
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em><br/>
+        <p><em><?=_t('Sorry, you do not have permisssion to access this section')?></em><br/>
         <?php if($msg!=null){?>
         <br /><strong><?=$msg?></strong><br /><br />
         <?php }?>
-        <?=_('This could be because:')?>
+        <?=_t('This could be because:')?>
         <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
+        <li><?=_t('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_t('Your username has not been given permission to access this section')?></li>
         </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
+        <p><?=_t('To gain access to this section please contact the administrator')?></p>
     </div> <!-- /error -->
 <?php
 }
@@ -150,7 +150,7 @@ global $global;
     <body>
     <div id="container">
     <div id="header" class="clearfix">
-        <h1><?=_("Sahana FOSS Disaster Management System")?></h1>
+        <h1><?=_t("Sahana FOSS Disaster Management System")?></h1>
     </div>
     <div id="wrapper" class="clearfix">
     <div id="content" class="clearfix">      
@@ -241,12 +241,12 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
 
     // analyse error message
     if (preg_match("/Can't connect to local MySQL/",$errmsg)) {
-        add_error(_('The Sahana database is currently inaccesible'));
+        add_error(_t('The Sahana database is currently inaccesible'));
     } else {
         if ($errno == E_WARNING ) {   
             return; 
         } else {
-            add_error(_('The system is currently unavailable'));
+            add_error(_t('The system is currently unavailable'));
         }
     }
 
@@ -270,14 +270,14 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
             shn_error_dummy_header();
         }
 
-        display_errors(_('System Error'));
+        display_errors(_t('System Error'));
         if ($conf['debug']) {
             display_submit_message('warning','Technical Error Details');
         }
 
         if ($conf['root_name'] != '') {
-            echo '<br/>'._('For urgent assistance, please contact the system administrator below:');
-            echo '<br/>'._('Name: ').$conf['root_name'].
+            echo '<br/>'._t('For urgent assistance, please contact the system administrator below:');
+            echo '<br/>'._t('Name: ').$conf['root_name'].
                    '.<br/>Email: '.$conf['root_email'].' Telephone: '.$conf['root_tel'];
         }
 

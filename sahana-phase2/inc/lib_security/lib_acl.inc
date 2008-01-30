@@ -33,13 +33,13 @@ function shn_acl_check_valid_policy(){
      //   if (file_exists($xmlfile)&& ($f=='or')) {
         if (file_exists($xmlfile)) {
           $nice_name=$conf['mod_'.$f.'_name'];
-          print _("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._(" module ... ")."<br />";
+          print _t("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._t(" module ... ")."<br />";
           $xdoc->Load($xmlfile);
           //Validate the XML file against the schema
 			if ($xdoc->schemaValidate($xmlschema)) {
-				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: green;font-weight:bolder'>"._(" is valid")."</span> <br /><br />";
+				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: green;font-weight:bolder'>"._t(" is valid")."</span> <br /><br />";
 			} else {
-				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: red;font-weight:bolder'>"._(" is In valid")."</span> <br /><br />";;
+				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: red;font-weight:bolder'>"._t(" is In valid")."</span> <br /><br />";;
 			}
           
         }
@@ -255,7 +255,7 @@ function _shn_acl_check_table_only_perms($table,$crud){
 			$q = "SELECT level FROM sys_data_classifications WHERE level_id = '".$level_id."'";
 			$result = $db->Execute($q);
 			$sensitivity = $result->fields[0];
-			$msg=_("You don't have access to ")._lc($sensitivity)._(" data, which is required for this functionality.");
+			$msg=_t("You don't have access to ")._lc($sensitivity)._t(" data, which is required for this functionality.");
 			shn_error_display_restricted_access($msg);
 			return DENIED;
 		}

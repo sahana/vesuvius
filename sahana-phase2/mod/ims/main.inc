@@ -46,33 +46,33 @@ function shn_ims_mainmenu()
     $module = $global['module'];
 
     shn_mod_menuopen(shn_get_module_name());
-    shn_mod_menuitem("default",_("Home"),$module);
-    shn_mod_menuitem("search_main",_("Search"),$module);
-    shn_mod_menuitem("view_inv",_("Inventories"),$module);
+    shn_mod_menuitem("default",_t("Home"),$module);
+    shn_mod_menuitem("search_main",_t("Search"),$module);
+    shn_mod_menuitem("view_inv",_t("Inventories"),$module);
     
-   // shn_mod_menuitem("search_item",_("Find Items"),$module);
-   // shn_mod_menuitem("search_inventory",_("Find Inventories"),$module);
+   // shn_mod_menuitem("search_item",_t("Find Items"),$module);
+   // shn_mod_menuitem("search_inventory",_t("Find Inventories"),$module);
    
     
-    shn_mod_menuitem("view_edit_item",_("Add/List Items"),$module);
-    shn_mod_menuitem("view_edit_reorder_page",_("Re-Order Level"),$module);
+    shn_mod_menuitem("view_edit_item",_t("Add/List Items"),$module);
+    shn_mod_menuitem("view_edit_reorder_page",_t("Re-Order Level"),$module);
     
-    shn_sub_mod_menuopen(_("Reports"));
-    shn_sub_mod_menuitem("report_expired",_("Expired Items"),$module);
-    shn_sub_mod_menuitem("report_destroyed",_("Destroyed Items"),$module);
-    shn_sub_mod_menuitem("report_minimum",_("Re-order Level"),$module);
-    shn_sub_mod_menuitem("report_transit_item",_("Transit Item"),$module);
-    //shn_sub_mod_menuitem("report_prediction",_("prediction reports"),$module);
-    shn_sub_mod_menuitem("gis_inv",_("Map by Inventory"),$module);
+    shn_sub_mod_menuopen(_t("Reports"));
+    shn_sub_mod_menuitem("report_expired",_t("Expired Items"),$module);
+    shn_sub_mod_menuitem("report_destroyed",_t("Destroyed Items"),$module);
+    shn_sub_mod_menuitem("report_minimum",_t("Re-order Level"),$module);
+    shn_sub_mod_menuitem("report_transit_item",_t("Transit Item"),$module);
+    //shn_sub_mod_menuitem("report_prediction",_t("prediction reports"),$module);
+    shn_sub_mod_menuitem("gis_inv",_t("Map by Inventory"),$module);
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Optimization"));
-    shn_sub_mod_menuitem("alternate_item",_("Set Alternate"),$module);
-    shn_sub_mod_menuitem("relation_item",_("Set Relation"),$module);
-    shn_sub_mod_menuitem("optim_item",_("Prediction by Item"),$module);
-    shn_sub_mod_menuitem("optim_inventory",_("Prediction by Inventory"),$module);
+    shn_sub_mod_menuopen(_t("Optimization"));
+    shn_sub_mod_menuitem("alternate_item",_t("Set Alternate"),$module);
+    shn_sub_mod_menuitem("relation_item",_t("Set Relation"),$module);
+    shn_sub_mod_menuitem("optim_item",_t("Prediction by Item"),$module);
+    shn_sub_mod_menuitem("optim_inventory",_t("Prediction by Inventory"),$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
-    //shn_sub_menuitem("Optim_main_page",_("Optimization"),$module);
+    //shn_sub_menuitem("Optim_main_page",_t("Optimization"),$module);
 
     include $global['approot'] . "/inc/handler_mainmenu.inc";
 
@@ -137,7 +137,7 @@ function shn_ims_add_item($parent_id = false)
     
     if (_shn_ims_validate_sub_cat_form() && $parent_id == null) {
        
-        add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
+        add_error(_t(SHN_ERR_IMS_CATALOGUE_MISSING));
         shn_ims_view_edit_item();
     } else {
         include_once('add_item.inc');
@@ -299,7 +299,7 @@ function shn_ims_delete_item_db()
     $item_id = $_REQUEST['item_id'];
     $sql = "DELETE FROM ims_item_records WHERE item_id='$item_id';";
     $ims = $db->Execute($sql);
-    add_confirmation(_("Record has been deleted successfully"));
+    add_confirmation(_t("Record has been deleted successfully"));
 
     shn_ims_view_edit_item();
 }
@@ -475,7 +475,7 @@ function shn_ims_view_inv()
 <?php
     if (NULL == $_REQUEST['id']) {
     ?>
-<h2> <?php echo _("Inventory Registry") ?></h2>
+<h2> <?php echo _t("Inventory Registry") ?></h2>
 <?php	$Limit = 20;
         _shn_ims_viewform_allorg(null,null,$Limit);
     } else {
@@ -528,18 +528,18 @@ function shn_ims_search_cr()
         $i = $i + 1;
     }
 ?>
-<h2><?=_("Search Result")?></h2>
+<h2><?=_t("Search Result")?></h2>
     <div id ="result">
         <table>
             <thead>
-                <td><?=_("Inventory Name")?></td>
-                <td><?=_("Country of Origin")?></td>
-                <td><?=_("Contact Address")?></td>
-                <td><?=_("Contact Number")?></td>
-                <td><?=_("Contact Email")?></td>
-                <td><?=_("Man Power")?></td>
-                <td><?=_("Facilities")?></td>
-        <td><?=_("Space")?></td>
+                <td><?=_t("Inventory Name")?></td>
+                <td><?=_t("Country of Origin")?></td>
+                <td><?=_t("Contact Address")?></td>
+                <td><?=_t("Contact Number")?></td>
+                <td><?=_t("Contact Email")?></td>
+                <td><?=_t("Man Power")?></td>
+                <td><?=_t("Facilities")?></td>
+        <td><?=_t("Space")?></td>
             </thead>
             <tbody>
 <?php
@@ -643,7 +643,7 @@ function shn_ims_reorder_level_delete()
     $db = $global["db"];
     $sql = "DELETE FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
     $ims = $db->Execute($sql);
-    add_confirmation(_("Record has been deleted successfully"));
+    add_confirmation(_t("Record has been deleted successfully"));
     shn_ims_view_edit_reorder_page();
 }
 
@@ -723,14 +723,14 @@ function shn_ims_send_item_page($cate = false)
     global $global;
     
     if (_shn_ims_validate_sub_cat_form() && $cate == NULL) {
-        add_error(_(SHN_ERR_IMS_CATALOGUE_MISSING));
+        add_error(_t(SHN_ERR_IMS_CATALOGUE_MISSING));
         display_errors();
         shn_ims_view_edit_item();
     } else {
         $catalog_id = $cate;
         include_once('transfer_inv.inc');
         //_shn_ims_send();
-        _shn_ims_send_item_table_view_($catalog_id,$Limit = 20,$page_number = 0);
+        _shn_ims_send_item_table_view_t($catalog_id,$Limit = 20,$page_number = 0);
     }
 }
 
@@ -772,7 +772,7 @@ function shn_ims_optim_inventory()
 {
     include_once("optimize.inc");
     
-    print "<h1><center>"._("Select Inventory to Predict")."</center></h1>";
+    print "<h1><center>"._t("Select Inventory to Predict")."</center></h1>";
     
     _shn_ims_optim_inventory();
 }
@@ -922,7 +922,7 @@ function shn_ims_gis_inv()
     $inv_id = $_REQUEST['id'];
 
 ?>
-    <h1 align="center"><?php print _('Map by Inventory');?></h1>
+    <h1 align="center"><?php print _t('Map by Inventory');?></h1>
 <?php
     echo '<br>';
     echo '<br>';
@@ -951,13 +951,13 @@ function shn_ims_expired_item_report1()
     include_once 'report.inc';
     if ($action == 'pdf_expired') {
         shn_ims_expired_item_report();
-        shn_report_download('shn_ims_expired_item_report',_('Download The PDF report here'));
+        shn_report_download('shn_ims_expired_item_report',_t('Download The PDF report here'));
     } else if ($action == 'ods_expired') {
         shn_ims_expired_item_ods();
-        shn_report_download('shn_ims_expired_item_ods',_('Download the ODS report here'));
+        shn_report_download('shn_ims_expired_item_ods',_t('Download the ODS report here'));
     } else if ($action == 'xhtml_expired') {
         shn_ims_expired_item_xhtml();
-        shn_report_download('shn_ims_expired_item_xhtml',_('Download the XHTML report here'));
+        shn_report_download('shn_ims_expired_item_xhtml',_t('Download the XHTML report here'));
     }
     
     
@@ -974,13 +974,13 @@ function shn_ims_destroyed_item_pdf()
     include_once 'report.inc';
     if ($action == 'pdf_destroyed') {
         shn_ims_destroyed_item();
-        shn_report_download('shn_ims_destroyed_item',_('Download the PDF report here'));
+        shn_report_download('shn_ims_destroyed_item',_t('Download the PDF report here'));
     } else if ($action == 'ods_destroyed') {
         shn_ims_destroyed_item_ods();
-        shn_report_download('shn_ims_destroyed_item_ods',_('Download the ODS report here'));
+        shn_report_download('shn_ims_destroyed_item_ods',_t('Download the ODS report here'));
     } else if ($action == 'xhtml_destroyed') {
         shn_ims_destroyed_item_xhtml();
-        shn_report_download('shn_ims_destroyed_item_xhtml',_('Download the XHTML report here'));
+        shn_report_download('shn_ims_destroyed_item_xhtml',_t('Download the XHTML report here'));
     }
 }
 
@@ -991,13 +991,13 @@ function shn_ims_reorder_level_pdf()
     include_once 'report.inc';
     if ($action == 'pdf_reorder') {
         shn_ims_reorder_level_report_pdf();
-        shn_report_download('shn_ims_reorder_level_report_pdf',_('Download the PDF report here'));
+        shn_report_download('shn_ims_reorder_level_report_pdf',_t('Download the PDF report here'));
     } else if ($action == 'ods_reorder') {
         shn_ims_reorder_level_report_ods();
-        shn_report_download('shn_ims_reorder_level_report_ods',_('Download the ODS report here'));
+        shn_report_download('shn_ims_reorder_level_report_ods',_t('Download the ODS report here'));
     } else if ($action == 'xhtml_reorder') {
         shn_ims_reorder_level_report_xhtml();
-        shn_report_download('shn_ims_reorder_level_report_xhtml',_('Download the XHTML report here'));
+        shn_report_download('shn_ims_reorder_level_report_xhtml',_t('Download the XHTML report here'));
     }
 }
 
@@ -1017,7 +1017,7 @@ function shn_ims_list_items_paging($Limit = NULL)
         $page_number = 1;
     }
 ?>
-    <b><?php echo _("Page Number : ") . $page_number; ?></b>
+    <b><?php echo _t("Page Number : ") . $page_number; ?></b>
 <?php
     $i = $page_number;
     _shn_ims_view_edit_header();
@@ -1037,7 +1037,7 @@ function shn_ims_reorder_level_paging($Limit = null)
         $page_number = 1;
     }
 ?>
-    <b><?php echo _("Page Number : ") . $page_number; ?></b>
+    <b><?php echo _t("Page Number : ") . $page_number; ?></b>
 <?php
     _shn_ims_view_edit_reorder_page($page_number,$Limit);
 
@@ -1059,7 +1059,7 @@ function shn_ims_inventory_paging($Limit = null)
 
     
 ?>
-    <b><?php echo _("Page Number : ") . $page_number; ?></b>
+    <b><?php echo _t("Page Number : ") . $page_number; ?></b>
 <?php
 
     _shn_ims_viewform_allorg($no = NULL,$page_number,$Limit);
@@ -1103,16 +1103,16 @@ function shn_ims_send_item_paging()
     if (!is_numeric($Limit)) {
         add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
         display_errors();
-        _shn_ims_send_item_table_view_($catalog_id,20,$page_number = 0);
+        _shn_ims_send_item_table_view_t($catalog_id,20,$page_number = 0);
     }
     if ($Limit == '0' || $Limit < 0) {
         add_error(SHN_ERR_IMS_AMOUNT_NUMERIC);
         display_errors();
-        _shn_ims_send_item_table_view_($catalog_id,20,$page_number = 0);
+        _shn_ims_send_item_table_view_t($catalog_id,20,$page_number = 0);
     }
     if (is_numeric($Limit)) {
     
-    _shn_ims_send_item_table_view_($catalog_id,$Limit,$page_number);
+    _shn_ims_send_item_table_view_t($catalog_id,$Limit,$page_number);
     }
 }
 

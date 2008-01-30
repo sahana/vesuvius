@@ -42,9 +42,9 @@ function show_item_cat_table()
 {
     ?>
 	<div id="submenu_v">
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types")?></a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units")?></a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _t("Catalogs and Items")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _t("Unit Types")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _t("Units")?></a> 
 	</div>
     <?php
 
@@ -57,7 +57,7 @@ function show_item_cat_table()
     $query1 = "SELECT ct_uuid,name FROM ct_catalogue WHERE parentid = '0' ";
     $res1 = $db->Execute($query1);
     # start filling main_catalog array
-    $main_cat_arr = array('all' => _('All'));
+    $main_cat_arr = array('all' => _t('All'));
     
     while (!$res1 == NULL && !$res1->EOF) {
         $main_cat_arr[$res1->fields["ct_uuid"]] = $res1->fields["name"];
@@ -81,7 +81,7 @@ function show_item_cat_table()
 		$num_of_rec[$i . '0'] = $i . '0';
 	}
 
-    $cat_item_arr = array('all' => _('All'),'sub_cat' => _('Sub Catalogs'), 'item' => _('Items'));
+    $cat_item_arr = array('all' => _t('All'),'sub_cat' => _t('Sub Catalogs'), 'item' => _t('Items'));
 
 /*
 	print "<br /><br />";
@@ -91,10 +91,10 @@ function show_item_cat_table()
     <table>
 
 	<tr>
-        <td><?php print _("Filter by : Main catalogue"); ?></td>
-        <td><?php print _("Filter by : Cataolg/Item"); ?></td>
+        <td><?php print _t("Filter by : Main catalogue"); ?></td>
+        <td><?php print _t("Filter by : Cataolg/Item"); ?></td>
         <td><?php print "Filter by : Level"; ?></td>
-	<td><?php print _("Filter by : Number of Records"); ?></td>
+	<td><?php print _t("Filter by : Number of Records"); ?></td>
 	<td><?php print ""; ?></td>
 	</tr>
 
@@ -116,7 +116,7 @@ function show_item_cat_table()
 
 	<td><?php shn_form_select($num_of_rec,'','filter_num_rec',$select_opts,$extra_opts); ?></td>
 
-	<td><?php shn_form_submit(_("Filter")); ?></td>
+	<td><?php shn_form_submit(_t("Filter")); ?></td>
 	</tr>
 	</table>
 	</div>	
@@ -201,9 +201,9 @@ function show_item_cat_table()
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Item/catalog")?></strong></td>
-	<td><strong><?=_("Keyword")?></strong></td>
+        <td><strong><?=_t("Name")?></strong></td>
+        <td><strong><?=_t("Item/catalog")?></strong></td>
+	<td><strong><?=_t("Keyword")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -223,11 +223,11 @@ function show_item_cat_table()
 	    <tr>
 	        <td><?php _shn_cs_add_spaces_to_table($cat_id); ?><a href="index.php?mod=cs&amp;act=edit_cat_select_submit&amp;id=<?php echo $cat_id ?>"><?php print $name;?></a></td>
 	        <?php if ($final_flag == '0' && $parent_ID == '0') { ?>
-	            <td><?php print _("Main catalog"); ?></td>
+	            <td><?php print _t("Main catalog"); ?></td>
 	        <?php } elseif ($final_flag == '0' && $parent_ID != '0') { ?>
-		    <td>&nbsp;&nbsp;<?php print _("Sub catalog"); ?></td>
+		    <td>&nbsp;&nbsp;<?php print _t("Sub catalog"); ?></td>
 	        <?php } else { ?>
-	            <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print _("Item"); ?></td>
+	            <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print _t("Item"); ?></td>
 	        <?php } ?>
 	           <td>&nbsp;&nbsp;&nbsp;&nbsp;<?php print $keyword;?></td>
 	    </tr>
@@ -275,7 +275,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 function _shn_cs_edit_cat_select_submit_result()
 {
     ?>
-    <p><?= "<b>" . _("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
+    <p><?= "<b>" . _t("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
     <?php
     global $global;
     $db = $global["db"];
@@ -291,12 +291,12 @@ function _shn_cs_edit_cat_select_submit_result()
     $form_opts['name'] = "edit_form";
     $extra_opts['req'] = true;
     shn_form_fopen('edit_cat_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Details Of the catalog/Item'));
+    shn_form_fsopen(_t('Details Of the catalog/Item'));
     $extra_opts['value'] = $name;
-    shn_form_text(_("Catalog / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
+    shn_form_text(_t("Catalog / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
     $extra_opts['req'] = false;
     $extra_opts['value'] = $description;
-    shn_form_text(_("Description   : "),'description','size="50"',$extra_opts);
+    shn_form_text(_t("Description   : "),'description','size="50"',$extra_opts);
     shn_form_fsclose();
 
     shn_form_hidden(array('id' => $id));
@@ -308,9 +308,9 @@ function _shn_cs_edit_cat_select_submit_result()
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
     
-    shn_form_button(_("Close"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"del\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_t("Save"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick = 'shn_cs_edit_cat_select_submit_result_js(\"del\")'",$extra_opts);
 
     shn_form_hidden(array('action'=>'0'));
     ?>
@@ -347,14 +347,14 @@ function _shn_cs_edit_cat_form_submit_result()
         $query = "UPDATE ct_catalogue SET name = '$name' , description = '$description' WHERE ct_uuid = '$id' ";
         $res = $db->Execute($query);    
 	
-		add_confirmation($name . _(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was succesfully saved in the database"));
         show_item_cat_table();
     } else if ($action == 'del') {
     	$id = trim($_POST['id']);
     	$inuse_flag_return = item_cat_inuse($id);
     	
         if ($inuse_flag_return == true) {
-			add_warning(_("Operation failed. You can not Delete this Catalog/ Item. Because there are sub catalogs/Items under this catalog OR it has been used by the INVENTORY MANAGEMENT SYSTEM."));
+			add_warning(_t("Operation failed. You can not Delete this Catalog/ Item. Because there are sub catalogs/Items under this catalog OR it has been used by the INVENTORY MANAGEMENT SYSTEM."));
 			show_item_cat_table();
         } else {
         	$query = "DELETE FROM ct_catalogue WHERE ct_uuid = '$id' ";
@@ -363,7 +363,7 @@ function _shn_cs_edit_cat_form_submit_result()
         	$query2 = "DELETE FROM ct_cat_unit WHERE ct_uuid = '$id' ";
         	$res2 = $db->Execute($query2);
 
-			add_confirmation(_("Item/Catalog was deleted"));
+			add_confirmation(_t("Item/Catalog was deleted"));
         	show_item_cat_table();
         }
     }
@@ -400,9 +400,9 @@ function show_unit_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items")?></a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types")?></a> 
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _t("Catalogs and Items")?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _t("Unit Types")?></a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _t("Units")?></a> 
 	</div>
     <?php
 
@@ -414,8 +414,8 @@ function show_unit_table()
 	<div id="result">
 	<table>
 	<thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Multiplier")?></strong></td>
+        <td><strong><?=_t("Name")?></strong></td>
+        <td><strong><?=_t("Multiplier")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -462,14 +462,14 @@ function _shn_cs_edit_unit_select_submit_result()
     $form_opts['name'] = "edit_form";
     $extra_opts['req'] = true;
     shn_form_fopen('edit_unit_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Details Of the Unit'));
+    shn_form_fsopen(_t('Details Of the Unit'));
     $extra_opts['value'] = $name;
-    shn_form_text(_("Unit Name   : "),'unit_name','size="50"',$extra_opts);
+    shn_form_text(_t("Unit Name   : "),'unit_name','size="50"',$extra_opts);
     //$extra_opts['value'] = $multiplier;
     if ($base_flag == '1') {
-        shn_form_text(_("Multiplier   : "),'multiplier','size="50" readonly=true',array('req'=>'true','value'=>$multiplier,'help'=>_('Specify the multiplier of the particular unit to the base unit of the unit type')));
+        shn_form_text(_t("Multiplier   : "),'multiplier','size="50" readonly=true',array('req'=>'true','value'=>$multiplier,'help'=>_t('Specify the multiplier of the particular unit to the base unit of the unit type')));
     } else {
-        shn_form_text(_("Multiplier   : "),'multiplier','size="50"',array('req'=>'true','value'=>$multiplier,'help'=>_('Specify the multiplier of the particular unit to the base unit of the unit type')));
+        shn_form_text(_t("Multiplier   : "),'multiplier','size="50"',array('req'=>'true','value'=>$multiplier,'help'=>_t('Specify the multiplier of the particular unit to the base unit of the unit type')));
     }
     shn_form_fsclose();
     
@@ -483,9 +483,9 @@ function _shn_cs_edit_unit_select_submit_result()
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
 
-    shn_form_button(_("Close"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"del\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_t("Save"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick='shn_cs_edit_unit_select_submit_result_js(\"del\")'",$extra_opts);
 
     shn_form_hidden(array('action' => '0'));
     ?>
@@ -514,18 +514,18 @@ function _shn_cs_edit_unit_form_submit_result()
         $query = "UPDATE ct_unit SET name = '$name' , multiplier = $multiplier WHERE unit_uuid = '$id' ";
         $res = $db->Execute($query);    
 
-		add_confirmation($name . _(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was succesfully saved in the database"));
         show_unit_table();
     } else if ($action == 'del') {
         $id = trim($_POST['id']);
     	$inuse_flag_return = unit_inuse($id);
         if ($inuse_flag_return == true) {
-			add_warning(_("Operation failed. You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM."));
+			add_warning(_t("Operation failed. You can not Delete this Unit. Because it has been used in INVENTORY MANAGEMENT SYSTEM."));
 			show_unit_table();
         } else {
         	$query = "DELETE FROM ct_unit WHERE unit_uuid = '$id' ";
         	$res = $db->Execute($query);
-			add_confirmation(_("Unit was Deleted"));
+			add_confirmation(_t("Unit was Deleted"));
 			show_unit_table();
         }
     }//end of else if
@@ -545,9 +545,9 @@ function show_unit_type_table()
 {
     ?>
 	<div id="submenu_v">
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _("Catalogs and Items"); ?></a> 
-	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _("Unit Types"); ?></a> 
-	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _("Units"); ?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=item"><?php echo _t("Catalogs and Items"); ?></a> 
+	<a class = "selected" href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit_types"><?php echo _t("Unit Types"); ?></a> 
+	<a href="index.php?mod=cs&amp;act=edit_form_submit&amp;view_type=unit"><?php echo _t("Units"); ?></a> 
 	</div>
     <?php
 
@@ -560,8 +560,8 @@ function show_unit_type_table()
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_("Name")?></strong></td>
-        <td><strong><?=_("Description")?></strong></td>
+        <td><strong><?=_t("Name")?></strong></td>
+        <td><strong><?=_t("Description")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -607,12 +607,12 @@ function _shn_cs_edit_unittype_select_submit_result()
     $form_opts['name'] = "edit_form";
     $extra_opts['req'] = true;
     shn_form_fopen('edit_unit_type_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Details Of the Unit Type'));
+    shn_form_fsopen(_t('Details Of the Unit Type'));
     $extra_opts['value'] = $name;
-    shn_form_text(_("Unit Type Name   : "),'unit_type_name','size="50"',$extra_opts);
+    shn_form_text(_t("Unit Type Name   : "),'unit_type_name','size="50"',$extra_opts);
     $extra_opts['req'] = false;
     $extra_opts['value'] = $description;
-    shn_form_text(_("Description   : "),'description','size="50"',$extra_opts);
+    shn_form_text(_t("Description   : "),'description','size="50"',$extra_opts);
     shn_form_fsclose();
     
     $parent_id_array = array('id' => $id);
@@ -624,9 +624,9 @@ function _shn_cs_edit_unittype_select_submit_result()
     <?php
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
-    shn_form_button(_("Close"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"del\")'");
+    shn_form_button(_t("Close"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"close\")'",$extra_opts);
+    shn_form_button(_t("Save"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick='shn_cs_edit_unit_type_form_submit_result_js(\"del\")'");
 
     shn_form_hidden(array('action'=>'0'));
     ?>
@@ -655,18 +655,18 @@ function _shn_cs_edit_unit_type_form_submit_result()
         $query = "UPDATE ct_unit_type SET name = '$name' , description = '$description' WHERE unit_type_uuid = '$id' ";
         $res = $db->Execute($query);    
 
-		add_confirmation($name . _(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was succesfully saved in the database"));
 		show_unit_type_table();
     } else if ($action == 'del') {
         $id = trim($_POST['id']);
     	$inuse_flag_return = _is_units_under_this_type($id);
         if ($inuse_flag_return == true) {
-			add_warning(_("Operation failed. You can not Delete this Unit type. There are units added under this unit type."));
+			add_warning(_t("Operation failed. You can not Delete this Unit type. There are units added under this unit type."));
 			show_unit_type_table();
         } else {
         	$query = "DELETE FROM ct_unit_type WHERE unit_type_uuid = '$id' ";
         	$res = $db->Execute($query);
-			add_confirmation(_("Unit type was deleted"));
+			add_confirmation(_t("Unit type was deleted"));
 			show_unit_type_table();
         }
     }//end of else if

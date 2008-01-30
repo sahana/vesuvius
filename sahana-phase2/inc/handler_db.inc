@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.26 2008-01-28 09:00:05 ishanul Exp $ */
+/* $Id: handler_db.inc,v 1.27 2008-01-30 04:38:38 prabath321 Exp $ */
 
 /**
  *
@@ -223,7 +223,7 @@ function shn_db_get_incident_select()
 	global $global;
 ?>
 <form method="post" action="index.php?mod=home&amp;act=incident_set" id='incident_changer' class="head" >
-<label><?php echo _("Incident") ?></label>
+<label><?php echo _t("Incident") ?></label>
 <select name="incident_id" onchange="changeIncident(this.value);" >
 <?php
 $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";

@@ -89,7 +89,7 @@ function get_dvr_populate_group_major_details() {
 function shn_dvr_edit_grouptype_and_head_details_start($errors = false) {
 	if ($_SESSION['dvr']['editgroup']['edit_clicked']  == false | $_SESSION['dvr']['editgroup']['edit_clicked']==null)
 		get_dvr_populate_group_major_details();
-	_shn_dvr_print_header(_("Edit Group"));
+	_shn_dvr_print_header(_t("Edit Group"));
 	shn_dvr_grouptype_and_head_details($errors);
 }
 
@@ -107,18 +107,18 @@ function _shn_dvr_group_validate_error() {
 	}*/
 
 	if (trim($gt) == null | trim($gt) == '===') {
-		add_error(_("Please  select the group type"));
+		add_error(_t("Please  select the group type"));
 		$error_flag = true;
 	}
 	if (trim($full_name) == null | trim($full_name) == '') {
-		add_error(_("Please fill the full name"));
+		add_error(_t("Please fill the full name"));
 		$error_flag = true;
 	}
 
     $email=$_POST['email'];
     if(!shn_valid_email($email,false))
     {
-        add_error(_("Invalid Email entered"));	
+        add_error(_t("Invalid Email entered"));	
         $error_flag = true;
 
     }
@@ -129,7 +129,7 @@ function _shn_dvr_group_validate_error() {
 		//check the image type 
 
 		if (!$info) {
-			add_error(_("Invalid Image Type Please try again"));
+			add_error(_t("Invalid Image Type Please try again"));
 			$error_flag = true;
 		}
 
@@ -209,9 +209,9 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 		'seq' => 'chk'
 	));
 	//select the group type
-	shn_form_fsopen(_("Select Group Type"));
+	shn_form_fsopen(_t("Select Group Type"));
 	print '<div class="info">';
-	print _("Please select a Group that describes you well");
+	print _t("Please select a Group that describes you well");
 	print '<br />';
 //echo $_SESSION['dvr']['group']['displaced_loc'];
 	print '<br />';
@@ -219,43 +219,43 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	print '<br />';
 //echo $_SESSION['dvr']['group']['current_loc'];
 	//$extra_opts['sort'] = ;
-	$extra_opts['help'] = _("Please Select the group type if you want to change the type");
+	$extra_opts['help'] = _t("Please Select the group type if you want to change the type");
 	$extra_opts['req'] = true;
 	$extra_opts['value'] = $_SESSION['dvr']['group']['typ_of_grp'];
 	$extra_opts['sort'] = 'option_code';
 
-	shn_form_opt_select('opt_group_type', _("Type of Group"), '', $extra_opts);
+	shn_form_opt_select('opt_group_type', _t("Type of Group"), '', $extra_opts);
 
 	shn_form_fsclose();
 	//group head information
-	shn_form_fsopen(_("Head Of Group"));
+	shn_form_fsopen(_t("Head Of Group"));
 
 	print '<br />';
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['full_name'];
-	$extra_opts['help'] = _("Enter the Full Name of the head of the group.(Required)");
+	$extra_opts['help'] = _t("Enter the Full Name of the head of the group.(Required)");
 	$extra_opts['req'] = true;
 
-	shn_form_text(_("Full Name"), 'full_name', null, $extra_opts);
+	shn_form_text(_t("Full Name"), 'full_name', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['family_name'];
-	$extra_opts['help'] = _("Enter the Family Name.");
+	$extra_opts['help'] = _t("Enter the Family Name.");
 	$extra_opts['req'] = false;
 
-	shn_form_text(_("Family Name"), 'family_name', null, $extra_opts);
+	shn_form_text(_t("Family Name"), 'family_name', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['local_name'];
-	$extra_opts['help'] = _("Enter the local Name.");
+	$extra_opts['help'] = _t("Enter the local Name.");
 	$extra_opts['req'] = false;
 
-	shn_form_text(_("Local Name"), 'local_name', null, $extra_opts);
+	shn_form_text(_t("Local Name"), 'local_name', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['nic'];
-	$extra_opts['help'] = _("Enter the National Identity Card Number if available. (Optional)");
+	$extra_opts['help'] = _t("Enter the National Identity Card Number if available. (Optional)");
 	$extra_opts['req'] = false;
-    shn_form_text(_("NIC No"), 'nic', null, $extra_opts);
+    shn_form_text(_t("NIC No"), 'nic', null, $extra_opts);
 
-/*	shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+/*	shn_form_label(_t("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
@@ -269,7 +269,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	<?php*/
 
 	if (	$_SESSION['dvr']['editgroup']['edit_clicked']==true) {
-		shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+		shn_form_label(_t("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
@@ -285,7 +285,7 @@ function shn_dvr_grouptype_and_head_details($errors = false) {
 	else
 	{
 		
-shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
+shn_form_label(_t("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
@@ -299,69 +299,69 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 	}
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['picture'];
-	$extra_opts['help'] = _("Upload the photograph if available");
+	$extra_opts['help'] = _t("Upload the photograph if available");
 	$extra_opts['req'] = false;
-	shn_form_upload(_('Upload Photograph'), "picture");
+	shn_form_upload(_t('Upload Photograph'), "picture");
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['mobile'];
-	$extra_opts['help'] = _("Enter the Mobile number if available. (Optional)");
-	shn_form_text(_("Mobile"), 'mobile', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the Mobile number if available. (Optional)");
+	shn_form_text(_t("Mobile"), 'mobile', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['telephone'];
-	$extra_opts['help'] = _("Enter a Land Phone number if available. (Optional)");
-	shn_form_text(_("Telephone"), 'telephone', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter a Land Phone number if available. (Optional)");
+	shn_form_text(_t("Telephone"), 'telephone', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['email'];
-	$extra_opts['help'] = _("Enter a Email Address if available. (Optional)");
-	shn_form_text(_("Email"), 'email', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter a Email Address if available. (Optional)");
+	shn_form_text(_t("Email"), 'email', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['address'];
-	$extra_opts['help'] = _("Enter a Address if available. (Optional)");
-    shn_form_textarea(_("Address"), 'address', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter a Address if available. (Optional)");
+    shn_form_textarea(_t("Address"), 'address', null, $extra_opts);
 
 	shn_form_fsclose();
 	print '<br />';
 
 	//head count
-	shn_form_fsopen(_("No Of Members In Group"));
+	shn_form_fsopen(_t("No Of Members In Group"));
 
 	print '<br />';
 	$extra_opts['value'] = $_SESSION['dvr']['group']['adlt_mls'];
-	$extra_opts['help'] = _("Enter the number of adult males in the group if known (Optional)");
-	shn_form_text(_("Adult Males"), 'adlt_mls', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of adult males in the group if known (Optional)");
+	shn_form_text(_t("Adult Males"), 'adlt_mls', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['adlt_fmls'];
-	$extra_opts['help'] = _("Enter the number of adult females in the group if known. (Optional)");
-	shn_form_text(_("Adult Females"), 'adlt_fmls', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of adult females in the group if known. (Optional)");
+	shn_form_text(_t("Adult Females"), 'adlt_fmls', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['chldrn'];
-	$extra_opts['help'] = _("Enter the number of children if known (Optional)");
-	shn_form_text(_("Children"), 'chldrn', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of children if known (Optional)");
+	shn_form_text(_t("Children"), 'chldrn', null, $extra_opts);
 	shn_form_fsclose();
 	print '<br />';
 	//member status
-	shn_form_fsopen(_("Status Of Members In Group"));
+	shn_form_fsopen(_t("Status Of Members In Group"));
 	print '<br />';
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['dsplcd'];
-	$extra_opts['help'] = _("Enter the number of displaced people(Optional)");
-	shn_form_text(_("Displaced"), 'dsplcd', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of displaced people(Optional)");
+	shn_form_text(_t("Displaced"), 'dsplcd', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['mising'];
-	$extra_opts['help'] = _("Enter the number of missing people (Optional)");
-	shn_form_text(_("Missing"), 'misng', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of missing people (Optional)");
+	shn_form_text(_t("Missing"), 'misng', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['dead'];
-	$extra_opts['help'] = _("Enter the number of deceased people (Optional)");
-	shn_form_text(_("Dead"), 'dead', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of deceased people (Optional)");
+	shn_form_text(_t("Dead"), 'dead', null, $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['rehbd'];
-	$extra_opts['help'] = _("Enter the number of rehabilitated people in the group (Optional)");
-	shn_form_text(_("Rehabilitated"), 'rehbd', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the number of rehabilitated people in the group (Optional)");
+	shn_form_text(_t("Rehabilitated"), 'rehbd', null, $extra_opts);
 
 	shn_form_fsclose();
 	
-	shn_form_fsopen(_("Displaced Location"));
+	shn_form_fsopen(_t("Displaced Location"));
     $parent = _shn_dvr_get_start_loc();
 	$range = shn_dvr_get_loc_range();
 //$extra_opts["camp_id"]="iswoc-1";
@@ -376,8 +376,8 @@ shn_form_label(_("Current Photograph"), $_SESSION['dvr']['group']['picture']);
 
 	shn_form_fsclose();
 	
-	shn_form_submit(_("Edit Location Check Details"), "name=location_button");
-//	shn_form_submit(_("Finish"));
+	shn_form_submit(_t("Edit Location Check Details"), "name=location_button");
+//	shn_form_submit(_t("Finish"));
 	shn_form_fclose();
 	print '<br />';
 }
@@ -386,7 +386,7 @@ function shn_dvr_loc_dtls($errors = false) {
 
 	global $global;
 	global $conf;
-	_shn_dvr_print_header(_("Edit Group"));
+	_shn_dvr_print_header(_t("Edit Group"));
 
 	if ($errors)
 		display_errors();
@@ -398,7 +398,7 @@ function shn_dvr_loc_dtls($errors = false) {
 		'seq' => 'chk'
 	));
 
-	/*shn_form_fsopen(_("Displaced Location"));
+	/*shn_form_fsopen(_t("Displaced Location"));
 
 	$range = shn_dvr_get_loc_range();
 
@@ -407,7 +407,7 @@ function shn_dvr_loc_dtls($errors = false) {
 	shn_form_fsclose();
 	*/
 	
-	shn_form_fsopen(_("Current Location"));
+	shn_form_fsopen(_t("Current Location"));
 
 	$parent = _shn_dvr_get_start_loc();
 	$range_c = shn_dvr_get_loc_range();
@@ -437,8 +437,8 @@ function shn_dvr_loc_dtls($errors = false) {
 		//$extra_opts["value"] = $_SESSION['dvr']['group']['current_loc'];
 		
 
-	/*shn_form_fsopen(_("Location Information"));
-	echo _("Plot the Camp/Shelter Location or Coordinates below");
+	/*shn_form_fsopen(_t("Location Information"));
+	echo _t("Plot the Camp/Shelter Location or Coordinates below");
 	shn_form_hidden(array (
 		'seq' => 'chk'
 	));
@@ -449,8 +449,8 @@ function shn_dvr_loc_dtls($errors = false) {
 	include $global['approot'] . "/mod/gis/gis_fns.inc";
 
 	shn_gis_add_marker_map_form("GIS Map",null,"name=checklist_button");*/
-	shn_form_submit(_("Next"), "name=checklist_button");
-	//shn_form_submit(_("Finish"));
+	shn_form_submit(_t("Next"), "name=checklist_button");
+	//shn_form_submit(_t("Finish"));
 	shn_form_fclose();
 
 	print '<br />';
@@ -462,7 +462,7 @@ function _shn_dvr_group_location_validate_error() {
 	$loc = shn_location_get_form_submit_loc();
 	if ($loc == -1) {
 		$error = true;
-		add_error(_("Please select the current location."));
+		add_error(_t("Please select the current location."));
 
 	}
 	return $error;
@@ -493,17 +493,17 @@ $_SESSION['dvr']['group']['camps']=$_POST['camps'];
 }
 
 function shn_dvr_cklst_and_desc() {
-	_shn_dvr_print_header(_("Edit Group"));
+	_shn_dvr_print_header(_t("Edit Group"));
 	shn_form_fopen("edit_group", null, array (
 		'req_message' => false
 	));
 
-	shn_form_fsopen(_("Checklist"));
+	shn_form_fsopen(_t("Checklist"));
 
 	print '<br />';
 
 	//$extra_opts['value'] = $dry_rtns;
-	$extra_opts['help'] = _("Please select items tick the Check Box (Optional)");
+	$extra_opts['help'] = _t("Please select items tick the Check Box (Optional)");
 
 	if ($_SESSION['dvr']['editgroup']['edit_clicked'] == false) {
 //	$list=split( $_SESSION['dvr']['group']['opt_dvr_service'],',');
@@ -518,22 +518,22 @@ function shn_dvr_cklst_and_desc() {
 	$extra_opts['selected'] = $_SESSION['dvr']['group']['opt_dvr_service'];
 $_SESSION['dvr']['editgroup']['edit_clicked'] =false;
 
-	shn_form_opt_checkbox(_("opt_dvr_service"), $extra_opts);
+	shn_form_opt_checkbox(_t("opt_dvr_service"), $extra_opts);
 
 	shn_form_fsclose();
 
 	print '<br />';
 
-	shn_form_fsopen(_("Group Description"));
+	shn_form_fsopen(_t("Group Description"));
 
 	print '<br />';
 
 	$extra_opts['value'] = $_SESSION['dvr']['group']['other'];
-	$extra_opts['help'] = _("Enter the group description. (Optional)");
-	shn_form_textarea(_("Description"), 'desc', null, $extra_opts);
+	$extra_opts['help'] = _t("Enter the group description. (Optional)");
+	shn_form_textarea(_t("Description"), 'desc', null, $extra_opts);
 	
 	
-	shn_form_submit(_("Finish"), 'name="end_button"');
+	shn_form_submit(_t("Finish"), 'name="end_button"');
 
 	shn_form_fsclose();
 
@@ -555,7 +555,7 @@ function _shn_dvr_regconfirm_group() {
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _('Confirm Group Details  Headed by ').$_SESSION['dvr']['group']['full_name'] ?></h2>
+<h2><?= _t('Confirm Group Details  Headed by ').$_SESSION['dvr']['group']['full_name'] ?></h2>
 
 <div id="formcontainer">
 
@@ -564,14 +564,14 @@ function _shn_dvr_regconfirm_group() {
 
 	shn_form_fopen("edit_group", null,false);
 
-	shn_form_fsopen(_('Group type and head details'));
+	shn_form_fsopen(_t('Group type and head details'));
 
-	shn_form_label(_("Group type: "), _shn_dvr_getoptiondescription($_SESSION['dvr']['group']['typ_of_grp']));
-	shn_form_label(_("Full name"), $_SESSION['dvr']['group']['full_name']);
-	shn_form_label(_("Family name"), $_SESSION['dvr']['group']['family_name']);
-	shn_form_label(_("Local name"), $_SESSION['dvr']['group']['local_name']);
-	shn_form_label(_("NIC"), $_SESSION['dvr']['group']['nic']);
-	shn_form_label(_("Photograph"), $_SESSION['dvr']['group']['picture']);
+	shn_form_label(_t("Group type: "), _shn_dvr_getoptiondescription($_SESSION['dvr']['group']['typ_of_grp']));
+	shn_form_label(_t("Full name"), $_SESSION['dvr']['group']['full_name']);
+	shn_form_label(_t("Family name"), $_SESSION['dvr']['group']['family_name']);
+	shn_form_label(_t("Local name"), $_SESSION['dvr']['group']['local_name']);
+	shn_form_label(_t("NIC"), $_SESSION['dvr']['group']['nic']);
+	shn_form_label(_t("Photograph"), $_SESSION['dvr']['group']['picture']);
 ?>
 	<p align='center'>
 	<?php
@@ -586,38 +586,38 @@ function _shn_dvr_regconfirm_group() {
 	<?php
 
 
-	shn_form_label(_("Mobile"), $_SESSION['dvr']['group']['mobile']);
-	shn_form_label(_("Telephone"), $_SESSION['dvr']['group']['telephone']);
-	shn_form_label(_("Email"), $_SESSION['dvr']['group']['email']);
-	shn_form_label(_("Address"), $_SESSION['dvr']['group']['address']);
+	shn_form_label(_t("Mobile"), $_SESSION['dvr']['group']['mobile']);
+	shn_form_label(_t("Telephone"), $_SESSION['dvr']['group']['telephone']);
+	shn_form_label(_t("Email"), $_SESSION['dvr']['group']['email']);
+	shn_form_label(_t("Address"), $_SESSION['dvr']['group']['address']);
 	shn_form_fsclose();
-	shn_form_fsopen(_("Member Count"));
-	shn_form_label(_("Adult Males"), $_SESSION['dvr']['group']['adlt_mls']);
-	shn_form_label(_("Adult Females"), $_SESSION['dvr']['group']['adlt_fmls']);
-	shn_form_label(_("Children"), $_SESSION['dvr']['group']['chldrn']);
+	shn_form_fsopen(_t("Member Count"));
+	shn_form_label(_t("Adult Males"), $_SESSION['dvr']['group']['adlt_mls']);
+	shn_form_label(_t("Adult Females"), $_SESSION['dvr']['group']['adlt_fmls']);
+	shn_form_label(_t("Children"), $_SESSION['dvr']['group']['chldrn']);
 	shn_form_fsclose();
 
-	shn_form_fsopen(_("Status of Members in Group"));
-	shn_form_label(_("Displaced"), $_SESSION['dvr']['group']['dsplcd']);
-	shn_form_label(_("Missing"), $_SESSION['dvr']['group']['mising']);
-	shn_form_label(_("Dead"), $_SESSION['dvr']['group']['dead']);
-	shn_form_label(_("Rehabilitated"), $_SESSION['dvr']['group']['rehbd']);
+	shn_form_fsopen(_t("Status of Members in Group"));
+	shn_form_label(_t("Displaced"), $_SESSION['dvr']['group']['dsplcd']);
+	shn_form_label(_t("Missing"), $_SESSION['dvr']['group']['mising']);
+	shn_form_label(_t("Dead"), $_SESSION['dvr']['group']['dead']);
+	shn_form_label(_t("Rehabilitated"), $_SESSION['dvr']['group']['rehbd']);
 	shn_form_fsclose();
 
 	shn_form_fsopen("Location");
 	$location = _shn_org_location_string($_SESSION['dvr']['group']['displaced_loc']);
 
-	shn_form_label(_("Displaced Location"), $location);
+	shn_form_label(_t("Displaced Location"), $location);
 	$location = _shn_org_location_string($_SESSION['dvr']['group']['current_loc']);
 
 	$map_location = "Latitude= " . $_SESSION['dvr']['group']['gis_loc_x'] . " Longitude= " . $_SESSION['dvr']['group']['gis_loc_y'];
 
-	shn_form_label(_("Current Location"), $location);
-	//shn_form_label(_("Current Map Location"), $map_location);
+	shn_form_label(_t("Current Location"), $location);
+	//shn_form_label(_t("Current Map Location"), $map_location);
 	shn_form_fsclose();
 
 	// Contact infomation
-	shn_form_fsopen(_("Checklist Information"));
+	shn_form_fsopen(_t("Checklist Information"));
 
 	$checklist = _shn_dvr_getchecklist();
 	$count = $_SESSION['elementcount'];
@@ -629,10 +629,10 @@ function _shn_dvr_regconfirm_group() {
 
 		$opt = _shn_dvr_getoptiondescription($selected[$l]);
 
-		shn_form_label(_($opt), 'Required');
+		shn_form_label(_t($opt), 'Required');
 	}
     
-	shn_form_label(_('Description'), $_SESSION['dvr']['group']['other']);
+	shn_form_label(_t('Description'), $_SESSION['dvr']['group']['other']);
 	
 	shn_form_fsclose();
 ?>
@@ -644,9 +644,9 @@ function _shn_dvr_regconfirm_group() {
 	//create the submit button
 	$extra_opts['br'] = false;
 
-	shn_form_submit(_("Save"), 'name="save"');
+	shn_form_submit(_t("Save"), 'name="save"');
 
-	shn_form_submit(_("Edit Details"), "name=edit_details");
+	shn_form_submit(_t("Edit Details"), "name=edit_details");
 	shn_form_hidden(array (
 		'action' => '0'
 	));
@@ -670,7 +670,7 @@ function _shn_dvr_regconfirm_group() {
 
 function shn_dvr_mbr_confirm() {
 
-	$msg = $_SESSION['dvr']['group']['name'] ._(" group was succesfully updated ");
+	$msg = $_SESSION['dvr']['group']['name'] ._t(" group was succesfully updated ");
 	add_confirmation($msg);
 }
 function _shn_dvr_commit() {

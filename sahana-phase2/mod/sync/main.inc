@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: main.inc,v 1.30 2008-01-03 10:23:45 isurunishan Exp $ */
-/* $Id: main.inc,v 1.30 2008-01-03 10:23:45 isurunishan Exp $ */
+/* $Id: main.inc,v 1.31 2008-01-30 04:35:17 prabath321 Exp $ */
+/* $Id: main.inc,v 1.31 2008-01-30 04:35:17 prabath321 Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -40,18 +40,18 @@ function shn_sync_mainmenu()
     $module = $global['module'];
 
     // Create the module menu
-    shn_mod_menuopen(_("Synchronization Module"));
+    shn_mod_menuopen(_t("Synchronization Module"));
 
-    shn_mod_menuitem("default",_("Home"));
-//     shn_sub_mod_menuopen(_("Sahana Servers"));
-//     shn_sub_mod_menuitem("sws",_("Sync with Servers"));
-//     shn_sub_mod_menuitem("ads",_("Add Server"));
+    shn_mod_menuitem("default",_t("Home"));
+//     shn_sub_mod_menuopen(_t("Sahana Servers"));
+//     shn_sub_mod_menuitem("sws",_t("Sync with Servers"));
+//     shn_sub_mod_menuitem("ads",_t("Add Server"));
 //     shn_sub_mod_menuclose();
-//     shn_sub_mod_menuopen(_("Pony Express"));
-    shn_mod_menuitem("download",_("Export Data"));
-    shn_mod_menuitem("upload",_("Import Data"));
+//     shn_sub_mod_menuopen(_t("Pony Express"));
+    shn_mod_menuitem("download",_t("Export Data"));
+    shn_mod_menuitem("upload",_t("Import Data"));
 //     shn_sub_mod_menuclose();
-    shn_mod_menuitem("history",_("History"));
+    shn_mod_menuitem("history",_t("History"));
     shn_mod_menuclose();
    
     // include the main menu
@@ -123,7 +123,7 @@ function shn_sync_synchronize(){
     $xajax->processRequests();
     $xajax->printJavascript("res/js");
     echo '<h2 id="head">Synchronize</h2>';
-    echo '<div id="console">'._('Creating Temp Tables.....').'</div>';
+    echo '<div id="console">'._t('Creating Temp Tables.....').'</div>';
     echo '<script type="text/javascript">xajax_process_file();</script>';
 }
 
@@ -218,12 +218,12 @@ function shn_sync_ads(){
     $xajax->registerFunction('_shn_server_ajax_connect');
     
     echo '<div id="console">';
-    echo '<h2>'._('Add Sahana Server').'</h2>';
+    echo '<h2>'._t('Add Sahana Server').'</h2>';
     shn_form_fopen("ads",null,array('enctype'=>"onSubmit='connect(document.getElementById(\"server_url\").value);return false;'",'style'=>'add'));
-    shn_form_fsopen(_('Add Sahana Server'));
-    shn_form_text(_('Server Url'),'server_url','size="60" id="server_url"',array('value'=>'http://'));
+    shn_form_fsopen(_t('Add Sahana Server'));
+    shn_form_text(_t('Server Url'),'server_url','size="60" id="server_url"',array('value'=>'http://'));
     shn_form_fsclose();
-    shn_form_submit(_('Next >>'));
+    shn_form_submit(_t('Next >>'));
     shn_form_fclose();
     echo '</div>';
     $xajax->printJavascript("res/js");

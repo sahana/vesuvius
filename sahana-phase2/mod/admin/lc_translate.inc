@@ -28,16 +28,16 @@ if(!function_exists('file_put_contents')) {
     }
 }
 ?>
-<h3><?=_("Sahana Localization Module") ?></h3>
-<h4><?=_("Language Translation") ?></h4>
-<h3><?php print _("Current language : ") . _lc($lc) ?></h3>
+<h3><?=_t("Sahana Localization Module") ?></h3>
+<h4><?=_t("Language Translation") ?></h4>
+<h3><?php print _t("Current language : ") . _lc($lc) ?></h3>
 <table class="layout">
 <tr>
 	<td>
 	<?php
 		shn_form_fopen("lc_trns",null,array('req_message'=>false));
 	    shn_form_hidden(array('seq'=>'extract'));
-	    shn_form_submit(_('Get New List'));
+	    shn_form_submit(_t('Get New List'));
 	    shn_form_fclose();
 	?>
 	</td>
@@ -45,7 +45,7 @@ if(!function_exists('file_put_contents')) {
 	<?php
 		shn_form_fopen("lc_trns",null,array('req_message'=>false));
 	    shn_form_hidden(array('seq'=>'load'));
-	    shn_form_submit(_('Load Existing List'));
+	    shn_form_submit(_t('Load Existing List'));
 	    shn_form_fclose();
 	?>
 	</td>
@@ -53,7 +53,7 @@ if(!function_exists('file_put_contents')) {
 	<?php			
 			shn_form_fopen("lc_trns",null,array('req_message'=>false));	
 			shn_form_hidden(array('seq'=>'merge'));
-			shn_form_submit(_('Merge New Strings'));			
+			shn_form_submit(_t('Merge New Strings'));			
 		   	shn_form_fclose();		
 	?>
 	</td>
@@ -62,9 +62,9 @@ if(!function_exists('file_put_contents')) {
 		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
     	if(file_exists($file_name)) {
     		global $global;
-    		print _("You can download the " ).
+    		print _t("You can download the " ).
     				"[<a href='".$global['approot']."res/locale/$locale/LC_MESSAGES/sahana.po'> Sahana.po </a>] " .
-    				_("file and do the translation offline, then paste the content of the file in the text area bellow and save it using save button.");
+    				_t("file and do the translation offline, then paste the content of the file in the text area bellow and save it using save button.");
     	}
 
    	?>
@@ -97,13 +97,13 @@ function _shn_admin_lc_save()
 		$result = file_put_contents($file_name, $file_cont);
 		chmod($file_name,0666);
 		if($result===FALSE){
-			add_error(_("Failed to write to file ").$file_name);
+			add_error(_t("Failed to write to file ").$file_name);
 		}else{
-			add_confirmation(_("File saved successfully."));
+			add_confirmation(_t("File saved successfully."));
 		}
 	}else{
 		echo "<div class=\"message info\">";
-		print _("Please make the path : ").$file_name ._(" writable");
+		print _t("Please make the path : ").$file_name ._t(" writable");
 		echo "</div>";
 	}
 
@@ -145,11 +145,11 @@ function _shn_admin_lc_merge()
         		
         		if(is_writable($filename)) {   
     				if(!$handle = fopen($filename, 'w+')) {
-         				add_error(_("Cannot open file ").$filename);
+         				add_error(_t("Cannot open file ").$filename);
          				exit;
     				}
 					if(fwrite($handle, $rep_po_file) === FALSE) {
-        				add_error(_("Cannot write to file ").$filename) ;        			
+        				add_error(_t("Cannot write to file ").$filename) ;        			
         				exit;
     				}
     				//echo "Success, wrote to file ($filename) .$msgstr"."MSGID = ".$msgid;
@@ -158,14 +158,14 @@ function _shn_admin_lc_merge()
     				_shn_admin_lc_merge_over();
 
 				}else {
-    				add_error(_("Cannot write to file ").$filename) ;
+    				add_error(_t("Cannot write to file ").$filename) ;
 				}					
 		}
 		else
-			print _("Please make the path : ").$file_name ._(" writable");
+			print _t("Please make the path : ").$file_name ._t(" writable");
 	
 	}else
-		print _("Please make the path : ").$file_name ._(" writable");
+		print _t("Please make the path : ").$file_name ._t(" writable");
 		
 	_shn_admin_lc_load();
 	
@@ -190,9 +190,9 @@ function _shn_admin_lc_merge_over()
        		fclose($fp_src);
        		fclose($fp_dest);
        			     		        		
-       		add_confirmation(_("New strings merge sucessfully, please press 'Load Existing List' button"));
+       		add_confirmation(_t("New strings merge sucessfully, please press 'Load Existing List' button"));
 		}else{
-			add_error(_("Please make the path : ").$file_name ._(" writable"));
+			add_error(_t("Please make the path : ").$file_name ._t(" writable"));
 		}
 		//_shn_admin_lc_load();
 }	
@@ -208,11 +208,11 @@ function _shn_admin_lc_load($file_n = null)
 		$file_name = $file_n;
 
 	if(!file_exists($file_name))
-		$value = _("Please create the file first");
+		$value = _t("Please create the file first");
 	else {
 		//$value = file_get_contents($file_name);
         if(!_shn_lc_is_dbl10n_tbl_empty()) {
-            $t_value .= "\n\n#: "._("DB L10N Starts here")."\n";
+            $t_value .= "\n\n#: "._t("DB L10N Starts here")."\n";
             $t_value .= _shn_lc_get_dbpo();
             $tmp_ids = tempnam("/tmp/","shn_");
             chmod($tmp_ids,0666);
@@ -226,7 +226,7 @@ function _shn_admin_lc_load($file_n = null)
        		if($return==0){
        			 $value = file_get_contents($tmpfilename);
        		}else{
-       			add_error(_("Failed to merge database localization values."));
+       			add_error(_t("Failed to merge database localization values."));
 				echo $cmd;
        			$value = file_get_contents($file_name);
        		}
@@ -237,10 +237,10 @@ function _shn_admin_lc_load($file_n = null)
 	
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save'));
-    shn_form_fsopen(_('Translation'));
+    shn_form_fsopen(_t('Translation'));
     shn_form_textarea('','msgs',null,array('value'=>$value,'rows'=>'30', 'cols'=>'100'));
     shn_form_fsclose();
-    shn_form_submit(_('Save'));
+    shn_form_submit(_t('Save'));
     shn_form_fclose();
 }
 ?>
@@ -287,7 +287,7 @@ switch($_REQUEST['seq']) {
 	<?php
 		shn_form_fopen("lc_trns",null,array('req_message'=>false));
 	    shn_form_hidden(array('seq'=>'extract'));
-	    shn_form_submit(_('Get New List'));
+	    shn_form_submit(_t('Get New List'));
 	    shn_form_fclose();
 	?>
 	</td>
@@ -295,7 +295,7 @@ switch($_REQUEST['seq']) {
 	<?php
 		shn_form_fopen("lc_trns",null,array('req_message'=>false));
 	    shn_form_hidden(array('seq'=>'load'));
-	    shn_form_submit(_('Load Existing List'));
+	    shn_form_submit(_t('Load Existing List'));
 	    shn_form_fclose();
 	?>
 	</td>	
@@ -311,7 +311,7 @@ switch($_REQUEST['seq']) {
 	<?php
 		shn_form_fopen("lc_trns",null,array('req_message'=>false));
 	    shn_form_hidden(array('seq'=>'compile'));
-	    shn_form_submit(_('Compile Messages'));
+	    shn_form_submit(_t('Compile Messages'));
 	    shn_form_fclose();
 	?>
 	</td>

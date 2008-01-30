@@ -46,7 +46,7 @@ shn_report_download("shn_or_all_orgs_pdf","Download as PDF");
 <?
 if (($_SESSION["org"]["total_pages"])<1) {
 	?>
-<div id="note"><?=_("No Organizations ");?></div>
+<div id="note"><?=_t("No Organizations ");?></div>
 	<?
 	return;
 }else{
@@ -54,7 +54,7 @@ if (($_SESSION["org"]["total_pages"])<1) {
 }
 
 ?>
-<div id="note"><?=_("Your are viewing page no ").$page;?></div>
+<div id="note"><?=_t("Your are viewing page no ").$page;?></div>
 <?
 _shn_or_display_header();
 /*
@@ -93,13 +93,13 @@ function _shn_or_display_header()
 <table>
 	<thead>
 		<td></td>
-		<td><?=_("Organization Name")?></td>
-		<td><?=_("Incidents")?></td>
-		<td><?=_("Services Provided")?></td>
-		<td><?=_("Organization Type")?></td>
-		<td><?=_("Location")?></td>
-		<td><?=_("Address")?></td>
-		<td><?=_("Contact Numbers")?></td>
+		<td><?=_t("Organization Name")?></td>
+		<td><?=_t("Incidents")?></td>
+		<td><?=_t("Services Provided")?></td>
+		<td><?=_t("Organization Type")?></td>
+		<td><?=_t("Location")?></td>
+		<td><?=_t("Address")?></td>
+		<td><?=_t("Contact Numbers")?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -109,7 +109,7 @@ function _shn_display_orgs($orgs,$root=false)
 	global $global;
 	$db = $global['db'];
 	if (empty($orgs)) {
-		echo "<h2>"._("No Records")."</h2>";
+		echo "<h2>"._t("No Records")."</h2>";
 		return;
 	}
 	foreach ($orgs as $org_id) {
@@ -241,7 +241,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 				echo $i[1]."<br />";
 			}
 			?> <a
-				href="index.php?mod=admin&act=ims_assign&id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo _("Assign to more incidents")?></a></td>
+				href="index.php?mod=admin&act=ims_assign&id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo _t("Assign to more incidents")?></a></td>
 			<td><?php
 			while (!$res_sector->EOF) {
 				echo $res_sector->fields["option_description"]."<br />";
@@ -273,16 +273,16 @@ function _shn_confirm_delete_org($org_id){
 		$parent=_shn_or_is_root($org_id);
 		$org_name=$res_org->fields["name"];
 		$reg_no=$res_org->fields["reg_no"];
-		echo "<h2>"._("Confirm delete")."</h2>";
+		echo "<h2>"._t("Confirm delete")."</h2>";
 		echo "<div class=\"message information\">";
 		shn_form_fopen("view_org_submit",null,array('name'=>'confirm_del_form','req_message'=>false));	
 		shn_form_hidden(array('action'=>'0'));
 		shn_form_hidden(array('org_id'=>$org_id));	
 		echo "<p>";
-		printf(_('Are you sure you need to delete the organization %1$s with registration number %2$d'),$org_name,$reg_no);
+		printf(_t('Are you sure you need to delete the organization %1$s with registration number %2$d'),$org_name,$reg_no);
 		echo "</p><br/><center>";
-		shn_form_submit(_("No"),"onClick='change_action(\"exit\")'");
-		shn_form_submit(_("Yes"),"onClick='change_action(\"del\")'");
+		shn_form_submit(_t("No"),"onClick='change_action(\"exit\")'");
+		shn_form_submit(_t("Yes"),"onClick='change_action(\"del\")'");
 		echo "</center>";
 		_shn_or_action_change_javascript("confirm_del_form","action");
 		shn_form_fclose();
@@ -417,7 +417,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 
 	}
 	?>
-		<h2><?=_("Organization Registration Information of <em>").$org_name?></em></h2>
+		<h2><?=_t("Organization Registration Information of <em>").$org_name?></em></h2>
 		<?php
 		if($error==true)
 		display_errors();
@@ -428,40 +428,40 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		$form_opts['name']='view';
 		$form_opts['req_message']=false;
 		shn_form_fopen("view_org_submit",null,$form_opts);
-		shn_form_fsopen(_('Primary Details'));
+		shn_form_fsopen(_t('Primary Details'));
 		?>
-		<div class="info"><?= _("These are the basic details of an organization. Organization name is required ,but registration  no is optional");?></div>
+		<div class="info"><?= _t("These are the basic details of an organization. Organization name is required ,but registration  no is optional");?></div>
 		<br />
 		<?
 		$extra_opts['req']=true;
 		$extra_opts['value']=isset($org_name)?$org_name:$_SESSION['org']['name'];
 		$parent = isset($parent)?$parent:_shn_or_is_root($_SESSION['org']['org_id']);
-		shn_form_text(_("Organization Name : "),'org_name','size="40"', $extra_opts);
+		shn_form_text(_t("Organization Name : "),'org_name','size="40"', $extra_opts);
 		if($parent){
-			shn_form_text(_("Registration Number : "),'reg_no','size="40"',array('value'=>isset($reg_no)?$reg_no:$_SESSION['org']['reg_no']));
+			shn_form_text(_t("Registration Number : "),'reg_no','size="40"',array('value'=>isset($reg_no)?$reg_no:$_SESSION['org']['reg_no']));
 		}
 		shn_form_fsclose();
 		/*
 		 if($parent){
-		 shn_form_fsopen(_("Incidents related to the Organization"));
+		 shn_form_fsopen(_t("Incidents related to the Organization"));
 		 _shn_or_display_incident($error,true,$or_incident_arr);
 		 shn_form_fsclose();
 		 }
 		 */
-		shn_form_fsopen(_("Organization Type"));
+		shn_form_fsopen(_t("Organization Type"));
 		if($parent){
 			_shn_or_display_org_type($error,false,isset($org_type)?$org_type:$_SESSION['org']['type']);
 		}else{
 			_shn_or_display_org_sub_type($error,false,isset($org_type)?$org_type:$_SESSION['org']['type']);
 		}
 		shn_form_fsclose();
-		shn_form_fsopen(_("Organization Sector"));
+		shn_form_fsopen(_t("Organization Sector"));
 		_shn_or_display_sector($error,isset($or_sector_arr)?$or_sector_arr:$_SESSION['org']['sector']);
 		shn_form_fsclose();
 		//$extra_opts["camps"]=true;
 		//$extra_opts["org"]=true;
 		$extra_opts['req']=false;
-		shn_form_fsopen(_("Base Location"));
+		shn_form_fsopen(_t("Base Location"));
 		$range= shn_or_get_loc_range();
 		
 		$loc = isset($loc)?$loc:$_SESSION['org']['loc'];
@@ -471,30 +471,30 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		}else{
 			shn_location($range,$loc,null,$extra_opts);
 			$extra_opts['value']=isset($loc_txt)?$loc_txt:$_SESSION['org']['loc_txt'];
-			shn_form_text(_("Address"),'loc_txt','size="40"', $extra_opts);
+			shn_form_text(_t("Address"),'loc_txt','size="40"', $extra_opts);
 		}
 		shn_form_fsclose();
 
 
 		// Contact infomatio
-		shn_form_fsopen(_("Map Location"));
+		shn_form_fsopen(_t("Map Location"));
 		$extra_opts['req']=false;
 		$lat = isset($lat)?$lat:$_SESSION['org']['lat_edited'];
 		$extra_opts['value']= $lat;
-		shn_form_text(_("Latitude : "),'lat_edited','size="40"', $extra_opts);
+		shn_form_text(_t("Latitude : "),'lat_edited','size="40"', $extra_opts);
 		$lon = isset($lon)?$lon:$_SESSION['org']['lon_edited'];
 		$extra_opts['value'] = $lon;
-		shn_form_text(_("Longitude : "),'lon_edited','size="40"', $extra_opts);
+		shn_form_text(_t("Longitude : "),'lon_edited','size="40"', $extra_opts);
 		$extra_opts['br']=false;
 
-		shn_form_button(_("GIS Map"),"onClick='change_action(\"gis\")'",$extra_opts);
+		shn_form_button(_t("GIS Map"),"onClick='change_action(\"gis\")'",$extra_opts);
 		shn_form_hidden(array('lat'=>$lat));
 		shn_form_hidden(array('lon'=>$lon));
 		shn_form_fsclose();
-		shn_form_fsopen(_("Contact Information"));
+		shn_form_fsopen(_t("Contact Information"));
 		_shn_or_display_contact_person($error,false,$org_id);
 		shn_form_fsclose();
-		shn_form_fsopen(_("Facilities Avaliable"));
+		shn_form_fsopen(_t("Facilities Avaliable"));
 		_shn_or_display_org_facilities($error,false,$org_id);
 		shn_form_fsclose();
 		?>
@@ -503,9 +503,9 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		//create the submit button
 		$extra_opts['br']=false;
 		$extra_opts['req']=false;
-		shn_form_button(_("Close"),"onClick='change_action(\"exit\")'",$extra_opts);
-		shn_form_button(_("Edit"),"onClick='change_action(\"confirm_edit\")'",$extra_opts);
-		shn_form_button(_("Delete"),"onClick='change_action(\"confirm_del\")'",$extra_opts);
+		shn_form_button(_t("Close"),"onClick='change_action(\"exit\")'",$extra_opts);
+		shn_form_button(_t("Edit"),"onClick='change_action(\"confirm_edit\")'",$extra_opts);
+		shn_form_button(_t("Delete"),"onClick='change_action(\"confirm_del\")'",$extra_opts);
 		shn_form_hidden(array('action'=>'0'));
 		shn_form_hidden(array('org_id'=>$org_id));
 		// shn_form_hidden(array('org_name'=>$org_name));
@@ -538,13 +538,13 @@ function _shn_or_viewform_latest_orgs($no=NULL)
 		<div id="result">
 		<table>
 			<thead>
-				<td><?=_("Organization Name")?></td>
-				<td><?=_("Incidents")?></td>
-				<td><?=_("Services Provided")?></td>
-				<td><?=_("Organization Type")?></td>
-				<td><?=_("Location")?></td>
-				<td><?=_("Address")?></td>
-				<td><?=_("Contact Numbers")?></td>
+				<td><?=_t("Organization Name")?></td>
+				<td><?=_t("Incidents")?></td>
+				<td><?=_t("Services Provided")?></td>
+				<td><?=_t("Organization Type")?></td>
+				<td><?=_t("Location")?></td>
+				<td><?=_t("Address")?></td>
+				<td><?=_t("Contact Numbers")?></td>
 			</thead>
 			<tbody>
 			<?php
@@ -615,7 +615,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 				echo $i[1]."<br />";
 			}
 			?> <a
-				href="index.php?mod=admin&act=ims_assign&id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo _("Assign to more incidents")?></a></td>
+				href="index.php?mod=admin&act=ims_assign&id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo _t("Assign to more incidents")?></a></td>
 			<td><?php
 			while(!$res_sector->EOF){
 				echo $res_sector->fields[0]."<br />";
@@ -642,7 +642,7 @@ function _shn_or_view_map_form_org()
 	?>
 	<center><?php
 	//create the submit button
-	shn_form_submit(_("Back"));
+	shn_form_submit(_t("Back"));
 	?></center><?php
 	$map_arr=array();
 	$url="mod=or&act=edit_org&org_id=".isset($_POST["org_id"])?$_POST["org_id"]:$_SESSION['org']['org_id'];
@@ -656,7 +656,7 @@ function _shn_or_view_map_form_org()
 		<br />
 		<center><?php
 		//create the submit button
-		shn_form_submit(_("Back"));
+		shn_form_submit(_t("Back"));
 		?></center>
 		<br />
 		<?php

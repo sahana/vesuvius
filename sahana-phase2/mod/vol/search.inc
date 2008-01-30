@@ -23,18 +23,18 @@ function _shn_vol_form_search()
     global $conf;
     $db=$global["db"];
 ?>
-<h2><?= _("Search for Volunteers by Service and Location")?></h2>
+<h2><?= _t("Search for Volunteers by Service and Location")?></h2>
     <div id="formcontainer">
 <?php
     shn_form_fopen("search_cr");
     _shn_vol_update_loc();
-     shn_form_fsopen(_("Volunteer Service"));
+     shn_form_fsopen(_t("Volunteer Service"));
     _shn_vol_display_sector($error,'dummy');
     shn_form_fsclose();
-    shn_form_fsopen(_("Selected Location"));
+    shn_form_fsopen(_t("Selected Location"));
     $extra_options['value']="All Locations";
-    shn_form_text(_("location"),'loc',NULL,$extra_options);
-    shn_form_label(_("Select location and then select the level(province,district,ect)"),NULL);
+    shn_form_text(_t("location"),'loc',NULL,$extra_options);
+    shn_form_label(_t("Select location and then select the level(province,district,ect)"),NULL);
     $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
     shn_form_hidden(array('loc_sel'=>'0'));
     shn_form_fsclose();
@@ -56,7 +56,7 @@ function _shn_vol_form_search()
     <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Search"));
+    shn_form_submit(_t("Search"));
 ?>
 </center>
     </br>

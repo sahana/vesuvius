@@ -20,7 +20,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 function _shn_admin_location_view_form()
 {
 	?>
-<h1 align="center"><?php echo _("First select the location to Edit & Delete")?></h1>
+<h1 align="center"><?php echo _t("First select the location to Edit & Delete")?></h1>
 
 	<?php
 	if($error==true)
@@ -33,34 +33,34 @@ _shn_or_update_loc();
 ?>
 <div id="info"><?php
 // removed multiline due to a get text issue.
-echo _("Select location and then select the level(province,district,ect),").
-_(" the selected location field at the end of the form will be updated")?>
+echo _t("Select location and then select the level(province,district,ect),").
+_t(" the selected location field at the end of the form will be updated")?>
 </div>
 <?php
 $select_opts="onClick='update_loc(this.options[this.selectedIndex].value,this.options[this.selectedIndex].text)'";
 shn_form_hidden(array('loc_sel'=>'0'));
 shn_form_fsclose();
 // base location
-shn_form_fsopen(_("Location"));
+shn_form_fsopen(_t("Location"));
 $range= shn_get_range();
 shn_location($range,null,null);;
 shn_form_fsclose();
 ?>
 <fieldset><?php
-shn_form_opt_select('opt_location_type',_('Location Level'),$select_opts,null,null);
+shn_form_opt_select('opt_location_type',_t('Location Level'),$select_opts,null,null);
 ?></fieldset>
 <?php
 
-shn_form_fsopen(_("Selected Location for Edit/Delete"));
-$extra_options['value']=_("All Locations");
+shn_form_fsopen(_t("Selected Location for Edit/Delete"));
+$extra_options['value']=_t("All Locations");
 $extra_options['size']=60;
-shn_form_text(_("location"),'loc',"size=50",$extra_options);
+shn_form_text(_t("location"),'loc',"size=50",$extra_options);
 shn_form_fsclose();
 ?>
 </center>
 <br />
 <center><?php
-shn_form_submit(_("Submit"));
+shn_form_submit(_t("Submit"));
 ?></center>
 <br />
 <?php
@@ -79,8 +79,8 @@ function _shn_admin_location_edit_form($loc)
 	$res=$db->Execute($q);
 
 	?>
-<h1 align="center"><?=_("Edit Location")?></h1>
-<div id="note"><?=_("Fields marked with * are required (entry is compulsory)")?>
+<h1 align="center"><?=_t("Edit Location")?></h1>
+<div id="note"><?=_t("Fields marked with * are required (entry is compulsory)")?>
 </div>
 	<?php
 	if($error==true)
@@ -89,15 +89,15 @@ function _shn_admin_location_edit_form($loc)
 <div id="formcontainer"><?php
 $form_opts['name']='view';
 shn_form_fopen("edit_loc_cr",null,$form_opts);
-shn_form_fsopen(_("Location Details"));
+shn_form_fsopen(_t("Location Details"));
 $extra_opts['req']=true;
 $extra_opts['value']=$res->fields["name"];
-shn_form_text(_("Location Name : "),'loc_name','size="50"',$extra_opts);
+shn_form_text(_t("Location Name : "),'loc_name','size="50"',$extra_opts);
 $extra_opts['req']=false;
 $extra_opts['value']=$res->fields["description"];
-shn_form_text(_("Description : "),'desc','size="50"',$extra_opts);
+shn_form_text(_t("Description : "),'desc','size="50"',$extra_opts);
 $extra_opts['value']=$res->fields["iso_code"];
-shn_form_text(_("ISO code : "),'iso','size="50"',$extra_opts);
+shn_form_text(_t("ISO code : "),'iso','size="50"',$extra_opts);
 shn_form_fsclose();
 
 ?>
@@ -109,9 +109,9 @@ shn_form_fsclose();
 //create the submit button
 $extra_opts['br']=false;
 $extra_opts['req']=false;
-shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+shn_form_button(_t("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+shn_form_button(_t("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
 shn_form_hidden(array('action'=>'0'));
 shn_form_hidden(array('loc_id'=>$loc));
 _shn_admin_action_change_javascript("action");
@@ -132,8 +132,8 @@ function _shn_admin_levels_form()
 	global $global;
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	?>
-<h2><?=_("Location Levels")?></h2>
-<div id="info"><?=_("The Location you add will be added after the remaining ones")?>
+<h2><?=_t("Location Levels")?></h2>
+<div id="info"><?=_t("The Location you add will be added after the remaining ones")?>
 </div>
 	<?php
 	if($error==true)
@@ -144,21 +144,21 @@ $loc_arr=shn_admin_location_level_list();
 $form_opts['name']='add_loc_lvl';
 shn_form_fopen("loc_lvl_cr",null,$form_opts);
 shn_add_remove_javascript("opt_location_type[]",$loc_arr,false);
-shn_form_fsopen(_("Add New Level Information"));
-shn_form_text(_("New Level : "),'type','size="50"',null);
+shn_form_fsopen(_t("Add New Level Information"));
+shn_form_text(_t("New Level : "),'type','size="50"',null);
 shn_form_hidden(array("added"=>','));
 shn_form_hidden(array("removed"=>','));
-shn_form_button(_("Add"),"onClick='add_types()'");
+shn_form_button(_t("Add"),"onClick='add_types()'");
 shn_form_fsclose();
 ?>
 </center>
 <?php
-shn_form_fsopen(_("Remove Levels"));
+shn_form_fsopen(_t("Remove Levels"));
 $select_opts="multiple='true'";
 $extra_opts["sort"]=true;
 shn_form_opt_multi_select('opt_location_type','',$select_opts,$extra_opts);
 //_shn_or_display_org_type($error,true);
-shn_form_button(_("Remove"),"onClick='remove_types()'");
+shn_form_button(_t("Remove"),"onClick='remove_types()'");
 shn_form_fsclose();
 ?>
 </center>
@@ -166,8 +166,8 @@ shn_form_fsclose();
 <center><?php
 $extra_opts['br']=false;
 $extra_opts['req']=false;
-shn_form_button(_("Save"),"onClick='save()'",$extra_opts);
-shn_form_button(_("Reset"),"onClick='change_action(\"reset\")'",$extra_opts);
+shn_form_button(_t("Save"),"onClick='save()'",$extra_opts);
+shn_form_button(_t("Reset"),"onClick='change_action(\"reset\")'",$extra_opts);
 shn_form_hidden(array('action'=>'0'));
 shn_form_hidden(array('loc_str'=>','));
 shn_reset_form_javascript("add_loc_lvl","opt_location_type[]");
@@ -245,20 +245,20 @@ function _shn_adm_loc_lvl_cr()
 		}
 		
 		if(!$errors){
-			add_confirmation(_("Location levels were modified successfully."));
+			add_confirmation(_t("Location levels were modified successfully."));
 			$range = shn_location_get_loc_range();
 			if($max>$range['end']){				
-				add_warning(_("The ending level is set to \"")."<strong>"._lc(shn_get_level_description($range['end']))."</strong>"._("\". You may need to change it for the location level modification to take effect.")."<br/><a href=\"index.php?mod=admin&act=loc_range\">"._("Click Here to change the ending level")."</a>");
+				add_warning(_t("The ending level is set to \"")."<strong>"._lc(shn_get_level_description($range['end']))."</strong>"._t("\". You may need to change it for the location level modification to take effect.")."<br/><a href=\"index.php?mod=admin&act=loc_range\">"._t("Click Here to change the ending level")."</a>");
 			}
 			if($min<$range['start']){
-				add_warning(_("The starting level is set to \"")."<strong>"._lc(shn_get_level_description($range['start']))."</strong>"._("\". You may need to change it for the location level modification to take effect.")."<br/><a href=\"index.php?mod=admin&act=loc_range\">"._("Click Here to change the starting level")."</a>");
+				add_warning(_t("The starting level is set to \"")."<strong>"._lc(shn_get_level_description($range['start']))."</strong>"._t("\". You may need to change it for the location level modification to take effect.")."<br/><a href=\"index.php?mod=admin&act=loc_range\">"._t("Click Here to change the starting level")."</a>");
 			}
 		}else{
-			add_error(_("Location level modification failed."));
+			add_error(_t("Location level modification failed."));
 		}
 		
 	}else{
-		add_error(_("The value ").$dup_val._(" is duplicating."));
+		add_error(_t("The value ").$dup_val._t(" is duplicating."));
 	}
 	_shn_admin_levels_form();
 }
@@ -285,8 +285,8 @@ function _shn_admin_location_range_form()
 	global $global;
 	$db=$global["db"];
 	?>
-<h2><?php echo _("Set the Location Range")?></h2>
-<div id="note"><?php echo _("In a Disaster,all the location levels might not be important ,set the range here")?>
+<h2><?php echo _t("Set the Location Range")?></h2>
+<div id="note"><?php echo _t("In a Disaster,all the location levels might not be important ,set the range here")?>
 </div>
 	<?php
 	if($error==true)
@@ -295,12 +295,12 @@ function _shn_admin_location_range_form()
 <div id="formcontainer"><?php
 $range= shn_location_get_loc_range();
 shn_form_fopen("loc_range_cr",NULL,array('req_message'=>false));
-shn_location_level_range_form('start',_('Set Starting Level'),$range["start"]);
-shn_location_level_range_form('end',_('Set End Level'),$range["end"]);
+shn_location_level_range_form('start',_t('Set Starting Level'),$range["start"]);
+shn_location_level_range_form('end',_t('Set End Level'),$range["end"]);
 ?> <br />
 <center><?php
 //create the submit button
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <br />
 <?php
@@ -319,7 +319,7 @@ function _shn_admin_loc_range_cr()
 	$start=$_POST{"start"};
 	$end=$_POST{"end"};
 	if($start>=$end){
-		add_error(_("Starting level should be a level above the ending level."));
+		add_error(_t("Starting level should be a level above the ending level."));
 		_shn_admin_location_range_form();
 		return;	
 	}
@@ -338,7 +338,7 @@ function _shn_admin_loc_range_cr()
 	}else {
 		$q="UPDATE config SET value={$end} WHERE module_id='admin' AND confkey='loc_range_end'";
 	}
-	add_confirmation(_("Starting and ending levels were updated successfully."));
+	add_confirmation(_t("Starting and ending levels were updated successfully."));
 	$db->Execute($q);
 	_shn_admin_location_range_form();
 }
@@ -348,8 +348,8 @@ function _shn_admin_location_start_form()
 	global $global;
 	$db=$global["db"];
 	?>
-<h2><?php echo _("Set the Starting Location")?></h2>
-<div id="note"><?php echo _("When a Disaster happens,typically only organizations,people located in a certain region get involved. Therefore when you select a location its a waste of time to select from all the locations. Hence ,for example If you know the country ,specify it here in this form,and you will only see sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
+<h2><?php echo _t("Set the Starting Location")?></h2>
+<div id="note"><?php echo _t("When a Disaster happens,typically only organizations,people located in a certain region get involved. Therefore when you select a location its a waste of time to select from all the locations. Hence ,for example If you know the country ,specify it here in this form,and you will only see sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
 </div>
 	<?php
 	if($error==true)
@@ -357,7 +357,7 @@ function _shn_admin_location_start_form()
 	?>
 <div id="formcontainer"><?php
 shn_form_fopen("loc_start_cr");
-shn_form_fsopen(_("Select the Location"));
+shn_form_fsopen(_t("Select the Location"));
 //$range= shn_location_get_loc_range();
 $extra_opts["unknown"]=false;
 shn_location($range,null,null,$extra_opts);
@@ -366,7 +366,7 @@ shn_form_fsclose();
 ?> <br />
 <center><?php
 //create the submit button
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <br />
 <?php
@@ -408,7 +408,7 @@ function _shn_admin_location_form()
 	global $global;
 	$db=$global["db"];
 	?>
-<h1 align="center"><?=_("Add Locations")?></h1>
+<h1 align="center"><?=_t("Add Locations")?></h1>
 
 	<?php
 	if($error==true)
@@ -417,23 +417,23 @@ function _shn_admin_location_form()
 <div id="formcontainer"><?php
 
 shn_form_fopen("add_loc_cr");
-shn_form_fsopen(_("New Location Details"));
+shn_form_fsopen(_t("New Location Details"));
 $extra_opts['req']=true;
-shn_form_text(_("Location Name : "),'loc_name','size="50"',$extra_opts);
+shn_form_text(_t("Location Name : "),'loc_name','size="50"',$extra_opts);
 $extra_opts['req']=false;
-shn_form_text(_("Description : "),'desc','size="50"',$extra_opts);
-shn_form_text(_("ISO code : "),'iso','size="50"',$extra_opts);
+shn_form_text(_t("Description : "),'desc','size="50"',$extra_opts);
+shn_form_text(_t("ISO code : "),'iso','size="50"',$extra_opts);
 shn_form_fsclose();
 /*
- shn_form_fsopen(_("Location Type (level)"));
+ shn_form_fsopen(_t("Location Type (level)"));
  $extra_opts["req"]=true;
  $extra_opts["sort"]="option_code";
  shn_form_opt_select('opt_location_type','',$select_opts,$extra_opts);
  shn_form_fsclose();
  */
-shn_form_fsopen(_("Now Select the parent Location"));
+shn_form_fsopen(_t("Now Select the parent Location"));
 ?>
-<div class="info"><?= _("Select the parent or super region (e.g. country, state, etc) of the location you have typed above. If no parent region is given, the location being added will become a top most region (usually country)");?></div>
+<div class="info"><?= _t("Select the parent or super region (e.g. country, state, etc) of the location you have typed above. If no parent region is given, the location being added will become a top most region (usually country)");?></div>
 <br />
 <?php
 $range= shn_get_range();
@@ -443,7 +443,7 @@ shn_form_fsclose();
 </center>
 <br />
 <center><?php
-shn_form_submit(_("Submit"));
+shn_form_submit(_t("Submit"));
 ?></center>
 <br />
 <?php

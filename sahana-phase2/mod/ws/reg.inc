@@ -27,11 +27,11 @@ require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
 function shn_ws_api_key(){
 	
 	?>
-<h2><?= _('Sign Up for the SAHANA API Key')?></h2>
+<h2><?= _t('Sign Up for the SAHANA API Key')?></h2>
 <?php
 
 ?>  
-<div class="info"><?= _("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a seperate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
+<div class="info"><?= _t("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a seperate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
 In this section , you are given an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
 		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
 		 </div><br />
@@ -50,8 +50,8 @@ In this section , you are given an API Key,a password and a Secret Access Code. 
     shn_form_fsopen($label); 
     shn_form_textarea("", "terms", $text_opts, $extra_opts);
 	shn_form_fsclose();
-    shn_form_fsopen(_("Domain"));
-    shn_form_text(_("URL : "),'domain','size="50"',null);
+    shn_form_fsopen(_t("Domain"));
+    shn_form_text(_t("URL : "),'domain','size="50"',null);
     shn_form_fsclose();
   
    
@@ -61,7 +61,7 @@ In this section , you are given an API Key,a password and a Secret Access Code. 
 <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Next"));
+    shn_form_submit(_t("Next"));
 ?>
 </center>
 <br />
@@ -86,11 +86,11 @@ function shn_ws_api_key_step2(){
 		$_SESSION["ws_domain"]=trim($_POST["domain"]);
 	}
 	?>
-<h2><?= _('Sign Up for the SAHANA API Key - Step 2')?></h2>
+<h2><?= _t('Sign Up for the SAHANA API Key - Step 2')?></h2>
 <?php
 
 ?>  
-<div class="info"><?= _("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a seperate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
+<div class="info"><?= _t("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a seperate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
 In this section , you are given an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
 		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
 		 </div><br />
@@ -123,7 +123,7 @@ In this section , you are given an API Key,a password and a Secret Access Code. 
 <center>
 <?php
 //create the submit button
-    shn_form_submit(_("Finish"));
+    shn_form_submit(_t("Finish"));
 ?>
 </center>
 <br />

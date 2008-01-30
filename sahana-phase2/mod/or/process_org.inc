@@ -30,16 +30,16 @@ function _shn_or_reg_org_cr()
 			//shn_form_fopen("reg_org_name_change",null,array("name"=>"confirm_name","req_message"=>false));
 			shn_form_fopen("reg_org_cr",null,array("name"=>"confirm_name","req_message"=>false));
 	    	
-			$msg=_("There is already an Organization by the name ")."<strong>". $_SESSION['org']['name']."</strong>"._(" you are trying to register ")."<br />";
-			$msg=$msg._("From the below buttons ,Please Click ")."<span style=\"color: brown;font-weight:bolder\">"._("Continue")."</span>"." to continue with this name or Click "."<span style=\"color: green;font-weight:bolder\">"._("Edit")."</span>"._(" to Change the Name")."<br />";
+			$msg=_t("There is already an Organization by the name ")."<strong>". $_SESSION['org']['name']."</strong>"._t(" you are trying to register ")."<br />";
+			$msg=$msg._t("From the below buttons ,Please Click ")."<span style=\"color: brown;font-weight:bolder\">"._t("Continue")."</span>"." to continue with this name or Click "."<span style=\"color: green;font-weight:bolder\">"._t("Edit")."</span>"._t(" to Change the Name")."<br />";
 		    add_warning($msg);
 		    $extra_opts['br']=false;
 			$extra_opts['req']=false;
-		    shn_form_fsopen(_('Continue with the existing name'));
-		    shn_form_button(_("Continue"),"onClick='change_action(\"continue\")'", $extra_opts);
+		    shn_form_fsopen(_t('Continue with the existing name'));
+		    shn_form_button(_t("Continue"),"onClick='change_action(\"continue\")'", $extra_opts);
 		    shn_form_fsclose();
-		    shn_form_fsopen(_('Change name'));
-		    shn_form_button(_("Edit"),"onClick='change_action(\"edit_name\")'", $extra_opts);
+		    shn_form_fsopen(_t('Change name'));
+		    shn_form_button(_t("Edit"),"onClick='change_action(\"edit_name\")'", $extra_opts);
 		    shn_form_fsclose();
 		    shn_form_hidden(array('action'=>'0'));
 	     	 _shn_or_action_change_javascript("confirm_name","action");
@@ -111,7 +111,7 @@ function _shn_or_reg_org_cr()
     }
 	
      if($error!=true){
-     	$msg= $_SESSION['org']['name']._(" Organization was succesfully registered ");
+     	$msg= $_SESSION['org']['name']._t(" Organization was succesfully registered ");
      	add_confirmation($msg);
      	//$_SESSION['org']['same_name_confirm']=false;
   
@@ -124,17 +124,17 @@ function _shn_or_reg_org_cr()
     	$extra_opts['br']=false;
 	$extra_opts['req']=false;
 	$_SESSION['org']['parent_id']=$org_id;
-	shn_form_fsopen(_('Register a Branch/Department'));
-	$msg=_("Now you can add a Branch/Department Under ")."<strong>". $_SESSION['org']['name']."</strong><br />"._("e.g. Health Department,Relief Operations Department. : ")."<br />";
-	$msg=$msg._("Of course you can add Branches/Departments later on through the Register a Department/Branch link.")."<br />";
+	shn_form_fsopen(_t('Register a Branch/Department'));
+	$msg=_t("Now you can add a Branch/Department Under ")."<strong>". $_SESSION['org']['name']."</strong><br />"._t("e.g. Health Department,Relief Operations Department. : ")."<br />";
+	$msg=$msg._t("Of course you can add Branches/Departments later on through the Register a Department/Branch link.")."<br />";
     ?><div class="info"><?php echo $msg?></div><br /><?php
-    shn_form_button(_("Register a Branch/Department"),"onClick='change_action(\"operation\")'",$extra_opts);
+    shn_form_button(_t("Register a Branch/Department"),"onClick='change_action(\"operation\")'",$extra_opts);
 	shn_form_fsclose();
 	
-	shn_form_fsopen(_('Register another Organization'));
-	$msg=_("Instead if you wish to add another organization click the button below ")."<br />";
+	shn_form_fsopen(_t('Register another Organization'));
+	$msg=_t("Instead if you wish to add another organization click the button below ")."<br />";
      ?><div class="info"><?php echo $msg?></div><br /><?php
-	shn_form_button(_("Register an Organization"),"onClick='change_action(\"org\")'",$extra_opts);
+	shn_form_button(_t("Register an Organization"),"onClick='change_action(\"org\")'",$extra_opts);
 	shn_form_fsclose();
     shn_form_hidden(array('action'=>'0'));
     shn_form_hidden(array('org_id'=>$org_id));
@@ -217,7 +217,7 @@ function _shn_or_reg_operation_cr()
     }
 	
      if($error!=true){
-     	$msg= $_SESSION['org']['name']._(" Organization was succesfully registered ");
+     	$msg= $_SESSION['org']['name']._t(" Organization was succesfully registered ");
      	add_confirmation($msg);
      }
 
@@ -348,7 +348,7 @@ function _shn_or_del_org()
         	return false;
 	    }
 */
-	    $msg= $org_name._(" was succesfully deleted ");
+	    $msg= $org_name._t(" was succesfully deleted ");
      	add_confirmation($msg);
   ?>
 
@@ -549,7 +549,7 @@ function _shn_or_edit_org()
             		$res=$db->Execute($q);
             }
   
-  	    $msg= $org_name._(" was succesfully updated ");
+  	    $msg= $org_name._t(" was succesfully updated ");
      	add_confirmation($msg);
   ?>
 

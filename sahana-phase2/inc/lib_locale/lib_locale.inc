@@ -53,7 +53,7 @@ function _shn_lc_setdblc($locale)
 		}
 		return true;
 	}else{
-		add_error(_("Unknown error in updating configuration value."));
+		add_error(_t("Unknown error in updating configuration value."));
 		return false;
 	}
 }
@@ -326,10 +326,10 @@ function _shn_get_lang_list()
 
 
 	/*$l_list = array(
-	 'si_LK'=>_("Sinhala"),
-	 'ta_IN'=>_("Tamil"),
-	 'en_US'=>_("English"),
-	 'zh_TW'=>_("Chinese Traditional"),
+	 'si_LK'=>_t("Sinhala"),
+	 'ta_IN'=>_t("Tamil"),
+	 'en_US'=>_t("English"),
+	 'zh_TW'=>_t("Chinese Traditional"),
 	 );*/
 	asort($l_list);
 	return $l_list;

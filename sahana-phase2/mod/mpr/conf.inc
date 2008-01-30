@@ -22,7 +22,7 @@
  * Gives the nice name of the module
  * @global string $conf['mod_mpr_name']
  */
-$conf['mod_mpr_name'] = _("Missing Person Registry");
+$conf['mod_mpr_name'] = _t("Missing Person Registry");
 $conf['mod_mpr_menuorder'] = 3;
 
 /**

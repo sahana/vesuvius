@@ -24,7 +24,7 @@
  */
 #global $conf;
 
-$conf['mod_rs_name'] = _("Reporting System");
+$conf['mod_rs_name'] = _t("Reporting System");
 $conf['mod_rs_menuorder'] = 19;
 
 ?>

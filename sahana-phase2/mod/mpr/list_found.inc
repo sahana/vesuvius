@@ -19,7 +19,7 @@
 ?>
 
 <div id="home_recent">
-<h1><?= _('Found People'); ?></h1>
+<h1><?= _t('Found People'); ?></h1>
 <?php
 
 global $global;

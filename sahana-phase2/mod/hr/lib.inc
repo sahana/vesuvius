@@ -73,7 +73,7 @@ function _shn_hr_location_string($loc)
 	$loc_arr=array();
    	shn_get_parents($loc,&$loc_arr);
    	if($loc_arr[0]=='unknown'){
-   		shn_form_label(_("Organization Location"),"Unknown");
+   		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
    		
    		$max=count($loc_arr)-1;

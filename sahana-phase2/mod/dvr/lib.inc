@@ -184,16 +184,16 @@ function _shn_dvr_search_show_verticle($details)
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
 	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
-	            echo ($details[$i]['height']?_('Height : ').$details[$i]['height'].'<br>':'');
-	            echo ($details[$i]['weight']?_('Weight : ').$details[$i]['weight'].'<br>':'');
-	            echo ($details[$i]['opt_eye_color']?_('Eye Colour : ').shn_get_field_opt($details[$i]['opt_eye_color'],'opt_eye_color').'<br>':'');
-	            echo ($details[$i]['opt_skin_color']?_('Skin Colour : ').shn_get_field_opt($details[$i]['opt_skin_color'],'opt_skin_color').'<br>':'');
-	            echo ($details[$i]['opt_hair_color']?_('Hair Colour : ').shn_get_field_opt($details[$i]['opt_hair_color'],'opt_hair_color').'<br>':'');
-	            echo ($details[$i]['last_seen']?_('Last Seen : ').$details[$i]['last_seen'].'<br>':'');
-	            echo ($details[$i]['last_clothing']?_('Last Clothing : ').$details[$i]['last_clothing'].'<br>':'');
-	            echo ($details[$i]['comments']?_('Comments : ').$details[$i]['comments']:'');
+	            echo ($details[$i]['height']?_t('Height : ').$details[$i]['height'].'<br>':'');
+	            echo ($details[$i]['weight']?_t('Weight : ').$details[$i]['weight'].'<br>':'');
+	            echo ($details[$i]['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details[$i]['opt_eye_color'],'opt_eye_color').'<br>':'');
+	            echo ($details[$i]['opt_skin_color']?_t('Skin Colour : ').shn_get_field_opt($details[$i]['opt_skin_color'],'opt_skin_color').'<br>':'');
+	            echo ($details[$i]['opt_hair_color']?_t('Hair Colour : ').shn_get_field_opt($details[$i]['opt_hair_color'],'opt_hair_color').'<br>':'');
+	            echo ($details[$i]['last_seen']?_t('Last Seen : ').$details[$i]['last_seen'].'<br>':'');
+	            echo ($details[$i]['last_clothing']?_t('Last Clothing : ').$details[$i]['last_clothing'].'<br>':'');
+	            echo ($details[$i]['comments']?_t('Comments : ').$details[$i]['comments']:'');
 	        } 
-            echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._('Assign to more incidents').'</a>';
+            echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._t('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php
@@ -205,16 +205,16 @@ function _shn_dvr_search_show_verticle($details)
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
 	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
-		            echo ($details[$i+1]['height']?_('Height : ').$details[$i+1]['height'].'<br>':'');
-		            echo ($details[$i+1]['weight']?_('Weight : ').$details[$i+1]['weight'].'<br>':'');
-	                echo ($details[$i+1]['opt_eye_color']?_('Eye Colour : ').shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');
-	                echo ($details[$i+1]['opt_skin_color']?_('Skin Colour : ').shn_get_field_opt($details[$i+1]['opt_skin_color'],'opt_skin_color').'<br>':'');
-	                echo ($details[$i+1]['opt_hair_color']?_('Hair Colour : ').shn_get_field_opt($details[$i+1]['opt_hair_color'],'opt_hair_color').'<br>':'');
-	                echo ($details[$i+1]['last_seen']?_('Last Seen : ').$details[$i+1]['last_seen'].'<br>':'');
-	                echo ($details[$i+1]['last_clothing']?_('Last Clothing : ').$details[$i+1]['last_clothing'].'<br>':'');
-	                echo ($details[$i+1]['comments']?_('Comments : ').$details[$i+1]['comments']:'');
+		            echo ($details[$i+1]['height']?_t('Height : ').$details[$i+1]['height'].'<br>':'');
+		            echo ($details[$i+1]['weight']?_t('Weight : ').$details[$i+1]['weight'].'<br>':'');
+	                echo ($details[$i+1]['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');
+	                echo ($details[$i+1]['opt_skin_color']?_t('Skin Colour : ').shn_get_field_opt($details[$i+1]['opt_skin_color'],'opt_skin_color').'<br>':'');
+	                echo ($details[$i+1]['opt_hair_color']?_t('Hair Colour : ').shn_get_field_opt($details[$i+1]['opt_hair_color'],'opt_hair_color').'<br>':'');
+	                echo ($details[$i+1]['last_seen']?_t('Last Seen : ').$details[$i+1]['last_seen'].'<br>':'');
+	                echo ($details[$i+1]['last_clothing']?_t('Last Clothing : ').$details[$i+1]['last_clothing'].'<br>':'');
+	                echo ($details[$i+1]['comments']?_t('Comments : ').$details[$i+1]['comments']:'');
 		        } 
-                echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._('Assign to more incidents').'</a>';
+                echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'" class="hideprint">'._t('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php

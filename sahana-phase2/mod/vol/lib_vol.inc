@@ -74,7 +74,7 @@ function _shn_vol_location_string($loc)
 	$loc_arr=array();
    	shn_get_parents($loc,&$loc_arr);
    	if($loc_arr[0]=='unknown'){
-   		shn_form_label(_("Organization Location"),"Unknown");
+   		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
    		
    		$max=count($loc_arr)-1;
@@ -339,7 +339,7 @@ function _shn_vol_display_skills($error=false,$value=NULL,$label=NULL)
     if($error==true){
     		$extra_opts['value']=$_SESSION['vol']['skill'];
     }
-   ?><div class="info"><?=_("Select the skills you have");?></div><br /><?
+   ?><div class="info"><?=_t("Select the skills you have");?></div><br /><?
     shn_form_opt_multi_select('opt_skill_type','','multiple="true"',$extra_opts);
 
 }
@@ -355,7 +355,7 @@ function _shn_vol_display_gender($error=false,$value=NULL,$label=NULL)
     if($error==true){
     		$extra_opts['value']=$_SESSION['vol']['gender'];
     }
-    $label=($label==NULL)?_("Gender:"):$label;
+    $label=($label==NULL)?_t("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
 
@@ -368,14 +368,14 @@ function _shn_vol_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
-    ?><div class="info"><?=_("Select the sector you are in ,e.g. if you are a medical practitioner then you are in the medical sector");?></div><br /><?
+    ?><div class="info"><?=_t("Select the sector you are in ,e.g. if you are a medical practitioner then you are in the medical sector");?></div><br /><?
     $extra_opts['req']=true;
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 /*
 function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
 {
-    ?><div class="info"><?= _("Please provide contact details that can be used to contact your in a disaster");?> </div><br /><?
+    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your in a disaster");?> </div><br /><?
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
@@ -404,17 +404,17 @@ function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
         $contact_web=$res_web->fields[0];
     }
     $extra_opts['value']=$contact_address;
-    shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
+    shn_form_text(_t("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
-    shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+    shn_form_text(_t("Phone : "),'contact_phone','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
-    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
+    shn_form_text(_t("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
     $extra_opts['value']=$contact_fax;
-    shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
+    shn_form_text(_t("Fax : "),'contact_fax','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_email;
-    shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+    shn_form_text(_t("Email : "),'contact_mail','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_web;
-    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
+    shn_form_text(_t("Website : "),'contact_web','size="50"',$extra_opts);
 }*/
 
 function _shn_vol_display_contact_person($error=false,$confirm=false,$po_uuid=null)
@@ -422,14 +422,14 @@ function _shn_vol_display_contact_person($error=false,$confirm=false,$po_uuid=nu
         
     if($confirm==true){
     		
-    		shn_form_label(_("Address"),$_SESSION['vol']['contact_address']);
-    		shn_form_label(_("Phone"),$_SESSION['vol']['contact_phone']);
-    		shn_form_label(_("Mobile"),$_SESSION['vol']['contact_mobile']);
-    		shn_form_label(_("Fax"),$_SESSION['vol']['contact_fax']);
-    		shn_form_label(_("Website"),$_SESSION['vol']['contact_web']);
+    		shn_form_label(_t("Address"),$_SESSION['vol']['contact_address']);
+    		shn_form_label(_t("Phone"),$_SESSION['vol']['contact_phone']);
+    		shn_form_label(_t("Mobile"),$_SESSION['vol']['contact_mobile']);
+    		shn_form_label(_t("Fax"),$_SESSION['vol']['contact_fax']);
+    		shn_form_label(_t("Website"),$_SESSION['vol']['contact_web']);
     		return;
     }
-    ?><div class="info"><?= _("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
+    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
    if($error==true){
    		$contact_address=$_SESSION['vol']['contact_address'];
         $contact_phone=$_SESSION['vol']['contact_phone'];
@@ -463,23 +463,23 @@ function _shn_vol_display_contact_person($error=false,$confirm=false,$po_uuid=nu
     }
  
     $extra_opts['value']=$contact_address;
-      $extra_opts['help']=_("Address to be contacted in a disaster");
-    shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
+      $extra_opts['help']=_t("Address to be contacted in a disaster");
+    shn_form_text(_t("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
-      $extra_opts['help']=_("Land line number to be contacted in a disaster");
-    shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+      $extra_opts['help']=_t("Land line number to be contacted in a disaster");
+    shn_form_text(_t("Phone : "),'contact_phone','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
-      $extra_opts['help']=_("Mobile Phone number to be contacted in a disaster");
-    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
+      $extra_opts['help']=_t("Mobile Phone number to be contacted in a disaster");
+    shn_form_text(_t("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
     $extra_opts['value']=$contact_fax;
-      $extra_opts['help']=_("Fax number to be contacted in a disaster");
-    shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
+      $extra_opts['help']=_t("Fax number to be contacted in a disaster");
+    shn_form_text(_t("Fax : "),'contact_fax','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_email;
-      $extra_opts['help']=_("Email address to be contacted in a disaster");
-    shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+      $extra_opts['help']=_t("Email address to be contacted in a disaster");
+    shn_form_text(_t("Email : "),'contact_mail','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_web;
-      $extra_opts['help']=_("Website of the Organization");
-    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
+      $extra_opts['help']=_t("Website of the Organization");
+    shn_form_text(_t("Website : "),'contact_web','size="50"',$extra_opts);
 }
 
 
@@ -487,10 +487,10 @@ function _shn_vol_display_logininfo($error=false)
 {
 // for get login info
     $login_info = array(
-    		       	array('desc'=>_("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
-                    array('desc'=>_("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
-                    array('desc'=>_("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
-                    array('desc'=>_("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
+    		       	array('desc'=>_t("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
+                    array('desc'=>_t("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
+                    array('desc'=>_t("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
+                    array('desc'=>_t("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
     ); // end of getting logging info
     return $login_info;
 }
@@ -503,14 +503,14 @@ function _shn_vol_display_avaliability($error=false,$po_uuid=null)
     }else{
 	    //$extra_opts['req']=true;
     }
-    $label=($label==NULL)?_("Gender:"):$label;
+    $label=($label==NULL)?_t("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
 
 function _shn_vol_display_extra($error=false)
 {
-    shn_form_checkbox(_("Upload Your Picture"),'chk_image',null,$chkbox_opts);
-    shn_form_checkbox(_("Create an Account for Login"),'chk_login',null,$chkbox_opts);
+    shn_form_checkbox(_t("Upload Your Picture"),'chk_image',null,$chkbox_opts);
+    shn_form_checkbox(_t("Create an Account for Login"),'chk_login',null,$chkbox_opts);
 }
 
 /**
@@ -527,10 +527,10 @@ function _shn_vol_image_upload($errors=false)
     shn_form_fopen("add_image",null,array('enctype'=>'enctype="multipart/form-data"'));
 
     shn_form_hidden(array('seq'=>'upload_pic'));
-    shn_form_fsopen(_('Upload Picture'));
-    shn_form_upload(_('Upload Picture'),"picture");
+    shn_form_fsopen(_t('Upload Picture'));
+    shn_form_upload(_t('Upload Picture'),"picture");
     shn_form_fsclose();
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fclose();
 }
 
@@ -685,7 +685,7 @@ function shn_show_thumb($p_uuid,$session=false)
     
 	    //if image is not available 
 	    if(! file_exists($global['approot']."www/tmp/ori_$p_uuid"."$ext") ){
-	        echo _("Image Not Available");
+	        echo _t("Image Not Available");
 	        return false;
 	    }
 	        
@@ -702,7 +702,7 @@ function shn_show_thumb($p_uuid,$session=false)
         $src_tmp = "tmp/thumb_$p_uuid"."$ext";
     }
 ?>
-    <a title="<?= _('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
+    <a title="<?= _t('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
     <img border="0" src="<?=$src_tmp;?>" />
     </a>
 <?php
@@ -715,9 +715,9 @@ function _shn_vol_display_incident_form($error=false,$act)
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?=_("Select the Disaster/event/incident")?> </h2>
+<h2><?=_t("Select the Disaster/event/incident")?> </h2>
 <div id="note">
-<?=_("Since there are multiple incidents you required to select relevant incidents ");?>
+<?=_t("Since there are multiple incidents you required to select relevant incidents ");?>
 </div>
 <?php
     if($error)
@@ -735,7 +735,7 @@ function _shn_vol_display_incident_form($error=false,$act)
 <center>
 <?php
 //create the submit button
-   shn_form_submit(_("Next"));
+   shn_form_submit(_t("Next"));
 ?>
 </center>
 <br />
@@ -776,7 +776,7 @@ function _shn_vol_display_incident($error=false,$multi=false,$value=NULL)
     if(!empty($value)){
     		$extra_opts['value']=$value;	
     }
-    $extra_opts['help']=_("select related incidents");
+    $extra_opts['help']=_t("select related incidents");
     shn_form_multi_select('incidents',$options,'',$select_opts,$extra_opts);
 }
 

@@ -1,13 +1,13 @@
 <?php
-	define("UADD",_("Create User"));
-	define("UMOD",_("Edit User"));
-	define("UDEL",_("Delete User"));
-	define("OADD",_("Create Org"));
-	define("OMOD",_("Edit Org"));
-	define("ODEL",_("Delete Org"));
-	define("GADD",_("Create Group"));
-	define("GMOD",_("Edit Group"));
-	define("GDEL",_("Delete Group"));
-	define("GADD",_("Create Group"));
-	define("GADD",_("Create Group"));
+	define("UADD",_t("Create User"));
+	define("UMOD",_t("Edit User"));
+	define("UDEL",_t("Delete User"));
+	define("OADD",_t("Create Org"));
+	define("OMOD",_t("Edit Org"));
+	define("ODEL",_t("Delete Org"));
+	define("GADD",_t("Create Group"));
+	define("GMOD",_t("Edit Group"));
+	define("GDEL",_t("Delete Group"));
+	define("GADD",_t("Create Group"));
+	define("GADD",_t("Create Group"));
 ?>

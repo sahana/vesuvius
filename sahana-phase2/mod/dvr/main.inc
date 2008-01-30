@@ -37,39 +37,39 @@ function shn_dvr_mainmenu() {
 	$module = $global['module'];
 
 	// Create the module menu
-	shn_mod_menuopen(_('Disaster Victim Registry'));
+	shn_mod_menuopen(_t('Disaster Victim Registry'));
 
-	shn_mod_menuitem('default', _('Home'));
-	shn_sub_mod_menuopen(_('Add Disaster Victim(s)'));
-	shn_sub_mod_menuitem('add_new_grp', _('Add New Group'));
-	shn_sub_mod_menuitem('add_new_indv', _('Add New Individual'));
+	shn_mod_menuitem('default', _t('Home'));
+	shn_sub_mod_menuopen(_t('Add Disaster Victim(s)'));
+	shn_sub_mod_menuitem('add_new_grp', _t('Add New Group'));
+	shn_sub_mod_menuitem('add_new_indv', _t('Add New Individual'));
 	shn_sub_mod_menuclose();
 
-	shn_sub_mod_menuopen(_('Edit Disaster Victim(s)'));
-	shn_sub_mod_menuitem('search_group', _('Search and Edit Group'));
-	shn_sub_mod_menuitem('search_individual', _('Search and Edit Individual'));
+	shn_sub_mod_menuopen(_t('Edit Disaster Victim(s)'));
+	shn_sub_mod_menuitem('search_group', _t('Search and Edit Group'));
+	shn_sub_mod_menuitem('search_individual', _t('Search and Edit Individual'));
 	shn_sub_mod_menuclose();
 
-	/*shn_sub_mod_menuopen(_('Search Disaster Victim(s)'));
-	shn_sub_mod_menuitem('search_group', _('Search Person'));
+	/*shn_sub_mod_menuopen(_t('Search Disaster Victim(s)'));
+	shn_sub_mod_menuitem('search_group', _t('Search Person'));
 	shn_sub_mod_menuclose();*/
 
-	shn_sub_mod_menuopen(_('List groups '));
-	shn_sub_mod_menuitem('list_groups', _('List groups/View members '));
-	//shn_sub_mod_menuitem('list_persons', _('List All persons'));
+	shn_sub_mod_menuopen(_t('List groups '));
+	shn_sub_mod_menuitem('list_groups', _t('List groups/View members '));
+	//shn_sub_mod_menuitem('list_persons', _t('List All persons'));
 	shn_sub_mod_menuclose();
 	
 	///////
-	shn_sub_mod_menuopen(_('Transfer Victims'));
-	shn_sub_mod_menuitem('transfer_indv', _('Transfer Individual'));
-	shn_sub_mod_menuitem('transfer_group', _('Transfer Group'));
+	shn_sub_mod_menuopen(_t('Transfer Victims'));
+	shn_sub_mod_menuitem('transfer_indv', _t('Transfer Individual'));
+	shn_sub_mod_menuitem('transfer_group', _t('Transfer Group'));
 	shn_sub_mod_menuclose();
 	/////////
 
-	shn_sub_mod_menuopen(_('Reports'));
-	shn_sub_mod_menuitem('drill_downby_group', _('Drill Down By Group'));
-	shn_sub_mod_menuitem('drill_downby_shelter', _('Drill Down By Shelter'));
-	shn_sub_mod_menuitem('drill_downby_incident', _('Drill Down By Incident '));
+	shn_sub_mod_menuopen(_t('Reports'));
+	shn_sub_mod_menuitem('drill_downby_group', _t('Drill Down By Group'));
+	shn_sub_mod_menuitem('drill_downby_shelter', _t('Drill Down By Shelter'));
+	shn_sub_mod_menuitem('drill_downby_incident', _t('Drill Down By Incident '));
 	shn_sub_mod_menuclose();
 
 	shn_mod_menuclose();

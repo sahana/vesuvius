@@ -22,17 +22,17 @@
  */
 function shn_rs_search_type_select()
 {
-    print "<h1>"._("Search")."</h1>";
+    print "<h1>"._t("Search")."</h1>";
     ?>
-    <p><?= _('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
+    <p><?= _t('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
     <?php
 
     $form_opts['id']="rep_search";
     $search_type_array=array('none'=>'---select---','report'=>'Report','chart'=>'Chart');
     shn_form_fopen('search',null,$form_opts);
-    shn_form_fsopen(_('Select the Search category'));
+    shn_form_fsopen(_t('Select the Search category'));
     $select_opts='onChange="changeform()"';
-    shn_form_select($search_type_array,_('Search By :'),'search_rep_chart',$select_opts,null);
+    shn_form_select($search_type_array,_t('Search By :'),'search_rep_chart',$select_opts,null);
     shn_form_fsclose();
     shn_form_fclose();
     print "<br>";
@@ -48,7 +48,7 @@ function shn_rs_search_main_form()
 {
     $search_rep_chart = trim($_POST['search_rep_chart']);
     shn_form_fopen('search_submit_one',null,'');
-    shn_form_fsopen(_('Select Details'));
+    shn_form_fsopen(_t('Select Details'));
 
     if($search_rep_chart == 'report')
      {
@@ -68,12 +68,12 @@ function shn_rs_search_main_form()
     $extra_opts['value'] = 'exact';
     shn_form_checkbox("Do Exact Search :", 'exact_relative','',$extra_opts);
     shn_form_fsclose();
-    print "<b>OR</b>"._("Do a keyword search")."<br><br>";
-    shn_form_fsopen(_('Keyword Search'));
+    print "<b>OR</b>"._t("Do a keyword search")."<br><br>";
+    shn_form_fsopen(_t('Keyword Search'));
     shn_form_text('Keyword : ','keyword','size="50"');
     shn_form_fsclose();
     shn_form_hidden(array('search_cat' => $search_rep_chart));
-    shn_form_submit(_("Search"));
+    shn_form_submit(_t("Search"));
     shn_form_fclose();
 }
 
@@ -167,12 +167,12 @@ function _printTable($res)
     <div id="result">
     <table>
     <thead>
-    <td><strong><?=_("Report ID")?></strong></td>
-    <td><strong><?=_("File Name")?></strong></td>
-    <td><strong><?=_("Title")?></strong></td>
-    <td><strong><?=_("Date/Time")?></strong></td>
-    <td><strong><?=_("File Type")?></strong></td>
-    <td><strong><?=_("File Size (kb) ")?></strong></td>
+    <td><strong><?=_t("Report ID")?></strong></td>
+    <td><strong><?=_t("File Name")?></strong></td>
+    <td><strong><?=_t("Title")?></strong></td>
+    <td><strong><?=_t("Date/Time")?></strong></td>
+    <td><strong><?=_t("File Type")?></strong></td>
+    <td><strong><?=_t("File Size (kb) ")?></strong></td>
     </thead>
     <tbody>
     <?php
@@ -203,6 +203,6 @@ function _printTable($res)
     </table>
     </div>
     <?php
-    print "<b>".$record_counter._(" reports found")."</b>";
+    print "<b>".$record_counter._t(" reports found")."</b>";
 }
 ?>

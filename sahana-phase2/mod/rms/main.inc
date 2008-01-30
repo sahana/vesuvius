@@ -53,20 +53,20 @@ function shn_rms_mainmenu()
     $module = $global['modlue'];
     
     shn_mod_menuopen(shn_get_module_name());
-    shn_mod_menuitem("default", _("Home"), $module);
-    shn_sub_mod_menuopen(_("Requests"));
-    shn_sub_mod_menuitem("req_new", _("Make Request"), $module);
-    shn_sub_mod_menuitem("req_ls", _("List Requests"), $module);
-    shn_sub_mod_menuitem("req_sch", _("Search Requests"), $module);
+    shn_mod_menuitem("default", _t("Home"), $module);
+    shn_sub_mod_menuopen(_t("Requests"));
+    shn_sub_mod_menuitem("req_new", _t("Make Request"), $module);
+    shn_sub_mod_menuitem("req_ls", _t("List Requests"), $module);
+    shn_sub_mod_menuitem("req_sch", _t("Search Requests"), $module);
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Pledges"));
-    shn_sub_mod_menuitem("plg_new", _("New Pledge"), $module);
-    shn_sub_mod_menuitem("plg_ls", _("List Pledges"), $module);
-    shn_sub_mod_menuitem("plg_sch", _("Search Pledges"), $module);
+    shn_sub_mod_menuopen(_t("Pledges"));
+    shn_sub_mod_menuitem("plg_new", _t("New Pledge"), $module);
+    shn_sub_mod_menuitem("plg_ls", _t("List Pledges"), $module);
+    shn_sub_mod_menuitem("plg_sch", _t("Search Pledges"), $module);
     shn_sub_mod_menuclose();
-    shn_sub_mod_menuopen(_("Manage"));
-    shn_sub_mod_menuitem("req_ls", _("Fulfill Request"), $module);
-//    shn_sub_mod_menuitem("mng_stat", _("View Statistics"), $module);
+    shn_sub_mod_menuopen(_t("Manage"));
+    shn_sub_mod_menuitem("req_ls", _t("Fulfill Request"), $module);
+//    shn_sub_mod_menuitem("mng_stat", _t("View Statistics"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
     

@@ -16,7 +16,7 @@
 
 function shn_hr_assign_to_site()
 {
-	_shn_hr_print_header(_("Search Contractor(s)"));
+	_shn_hr_print_header(_t("Search Contractor(s)"));
 	shn_hr_search_contractor(false,true);
 	print '<br />';
 	shn_hr_list_menu3(false,true,true);

@@ -591,9 +591,9 @@ class Msg_CapAlert
         if(is_array($info->getArea()))
         {
             if (!$showDel)
-                $th_ar[] = array(_("Area Description"), _("Polygon"), _("Circle"), _("Geocode"), _("Altitude"), _("Ceiling"));
+                $th_ar[] = array(_t("Area Description"), _t("Polygon"), _t("Circle"), _t("Geocode"), _t("Altitude"), _t("Ceiling"));
             else
-                $th_ar[] = array(_("Area Description"), _("Polygon"), _("Circle"), _("Geocode"), _("Altitude"), _("Ceiling"), _("Remove"));
+                $th_ar[] = array(_t("Area Description"), _t("Polygon"), _t("Circle"), _t("Geocode"), _t("Altitude"), _t("Ceiling"), _t("Remove"));
             
             $count = 0;
             
@@ -603,7 +603,7 @@ class Msg_CapAlert
                  if ($showDel)
                     $del_str = '<a href="index.php?mod=msg&amp;act=cap_new' .
                                 '&amp;seq=del_cap_area&amp;area_id=' . 
-                                $count . '">' . _("Remove") . '</a>';
+                                $count . '">' . _t("Remove") . '</a>';
                                 
                 if(is_array($area->getGeocode()))
                 foreach($area->getGeocode() as $gc)
@@ -635,10 +635,10 @@ class Msg_CapAlert
         
         if(is_array($info->getResource()) && 0 < count($info->getResource()))
         {
-            $th_res[0] = array(_("Resource Description"), _("Mime Type"), _("Size"), _("URI"), _("DerefUri"), _("Digest"));
+            $th_res[0] = array(_t("Resource Description"), _t("Mime Type"), _t("Size"), _t("URI"), _t("DerefUri"), _t("Digest"));
             
             if ($showDel)
-                $th_res[0] = array(_("Resource Description"), _("Mime Type"), _("Size"), _("URI"), _("DerefUri"), _("Digest"), _("Remove"));
+                $th_res[0] = array(_t("Resource Description"), _t("Mime Type"), _t("Size"), _t("URI"), _t("DerefUri"), _t("Digest"), _t("Remove"));
             $count = 0;
             foreach ($info->getResource() as $res)
             {
@@ -646,7 +646,7 @@ class Msg_CapAlert
                  if ($showDel)
                     $del_str = '<a href="index.php?mod=msg&amp;act=cap_new' .
                                 '&amp;seq=del_cap_res&amp;res_id=' . 
-                                $count . '">' . _("Remove") . '</a>';
+                                $count . '">' . _t("Remove") . '</a>';
                  $tb_res[] = array(
                                     $res->getResourceDesc(),
                                     $res->getMimeType(),
@@ -739,7 +739,7 @@ class Msg_CapAlert
             if(isset($restriction) && $restriction != '')
                 $this->restriction = $restriction;
             else
-                add_error(_("When the Scope = Restricted, A Restriction is needed"));
+                add_error(_t("When the Scope = Restricted, A Restriction is needed"));
         }
     }
     
@@ -750,7 +750,7 @@ class Msg_CapAlert
             if(isset($address) && $address != '')
                 $this->address = $address;
             else
-                add_error(_("When the Scope = Private, An Address is needed"));
+                add_error(_t("When the Scope = Private, An Address is needed"));
         }
     }
     

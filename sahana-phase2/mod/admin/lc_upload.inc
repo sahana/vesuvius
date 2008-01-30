@@ -21,13 +21,13 @@ function _shn_admin_lc_upload_files()
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
 	shn_form_fopen('lc_file_browser',null,array('enctype'=>'enctype="multipart/form-data"'));
-	shn_form_fsopen(_("File Selection"));
+	shn_form_fsopen(_t("File Selection"));
 	$locale = $_SESSION["locale"];
-    shn_form_select($lc_list,_("Please select language: "),"locale",'',array('value'=>"$locale"));
-	shn_form_upload(_("Upload Spread Sheet : "),'userfile', array('req'=>true));
+    shn_form_select($lc_list,_t("Please select language: "),"locale",'',array('value'=>"$locale"));
+	shn_form_upload(_t("Upload Spread Sheet : "),'userfile', array('req'=>true));
 	shn_form_fsclose();
-	shn_form_submit(_("Import"));
-	//shn_form_button(_("Browse"),"onClick='LimitAttach(form,file)'",$extra_opts);
+	shn_form_submit(_t("Import"));
+	//shn_form_button(_t("Browse"),"onClick='LimitAttach(form,file)'",$extra_opts);
 	shn_form_fclose();	
 }
 

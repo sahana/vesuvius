@@ -154,49 +154,49 @@ function shn_mpr_editmp_entry($errors=false)
 
 	shn_form_hidden(array('seq'=>'entry'));
 
-	shn_form_fsopen(_('Status'));
-	shn_form_opt_select('opt_status',_('Change the status'),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_status']));
+	shn_form_fsopen(_t('Status'));
+	shn_form_opt_select('opt_status',_t('Change the status'),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_status']));
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Identity'));
-	shn_form_text(_('Identity Card Number'),'idcard','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['idcard']));
-	shn_form_text(_('Passport Number'),'passport','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['passport']));
-	shn_form_text(_('Driving License'),'drv_license','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['drv_license']));
+	shn_form_fsopen(_t('Identity'));
+	shn_form_text(_t('Identity Card Number'),'idcard','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['idcard']));
+	shn_form_text(_t('Passport Number'),'passport','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['passport']));
+	shn_form_text(_t('Driving License'),'drv_license','size="30"',array('value'=>$_SESSION['mpr_edit']['entry']['drv_license']));
 	shn_form_fsclose();
 
-	shn_form_fsopen(_("Basic Details"));
+	shn_form_fsopen(_t("Basic Details"));
 	?>
-<p><?= _('Please enter any of the following details on the person'); ?>:</p>
+<p><?= _t('Please enter any of the following details on the person'); ?>:</p>
 	<?php
 
-	shn_form_text(_('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name']));
-	shn_form_text(_('Family Name'),'family_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['family_name']));
-	shn_form_text(_('Local Name'),'local_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['local_name']));
+	shn_form_text(_t('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name']));
+	shn_form_text(_t('Family Name'),'family_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['family_name']));
+	shn_form_text(_t('Local Name'),'local_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['local_name']));
 
-	shn_form_date(_("Date of Birth"),'dob',array('value'=>$_SESSION['mpr_edit']['entry']['dob']));
-	// shn_form_text(_('Date of Birth   (YYYY-MM-DD)'),'dob','size=8',);
-	shn_form_opt_select("opt_age_group",_("Age Group"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_age_group']));
-	shn_form_opt_select("opt_gender",_("Gender"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_gender']));
-	shn_form_opt_select("opt_marital_status",_("Marital Status"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_marital_status']));
-	shn_form_opt_select("opt_religion",_("Religion"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_religion']));
-	shn_form_opt_select("opt_race",_("Race"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_race']));
+	shn_form_date(_t("Date of Birth"),'dob',array('value'=>$_SESSION['mpr_edit']['entry']['dob']));
+	// shn_form_text(_t('Date of Birth   (YYYY-MM-DD)'),'dob','size=8',);
+	shn_form_opt_select("opt_age_group",_t("Age Group"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_age_group']));
+	shn_form_opt_select("opt_gender",_t("Gender"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_gender']));
+	shn_form_opt_select("opt_marital_status",_t("Marital Status"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_marital_status']));
+	shn_form_opt_select("opt_religion",_t("Religion"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_religion']));
+	shn_form_opt_select("opt_race",_t("Race"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_race']));
 
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Replace Current Picture'));
+	shn_form_fsopen(_t('Replace Current Picture'));
 	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
-	shn_form_upload(_("Upload Picture"),"picture");
+	shn_form_upload(_t("Upload Picture"),"picture");
 	shn_form_fsclose();
 
 
-	shn_form_fsopen(_("Contact Details"));
-	shn_form_textarea(_("Address"),"homaddress",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
-	shn_form_text(_('Postal Code'),'zip','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['zip']));
-	shn_form_text(_('Home Phone'),'phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
-	shn_form_text(_('Mobile'),'mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
+	shn_form_fsopen(_t("Contact Details"));
+	shn_form_textarea(_t("Address"),"homaddress",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
+	shn_form_text(_t('Postal Code'),'zip','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['zip']));
+	shn_form_text(_t('Home Phone'),'phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
+	shn_form_text(_t('Mobile'),'mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
 	shn_form_fsclose();
 
 	global $global;
@@ -219,23 +219,23 @@ function shn_mpr_editmp_entry($errors=false)
 	$selected_loc_id);
 
 
-	shn_form_fsopen(_("Physical Details"));
-	shn_form_opt_select("opt_eye_color",_("Eye Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_eye_color']));
-	shn_form_opt_select("opt_skin_color",_("Skin Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_skin_color']));
-	shn_form_opt_select("opt_hair_color",_("Hair Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_hair_color']));
-	shn_form_text(_('Height'),'height','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['height']));
-	shn_form_text(_('Weight'),'weight','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['weight']));
-	shn_form_textarea(_('Comments'),'physical_comments','',array('value'=>$_SESSION['mpr_edit']['entry']['physical_comments']));
+	shn_form_fsopen(_t("Physical Details"));
+	shn_form_opt_select("opt_eye_color",_t("Eye Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_eye_color']));
+	shn_form_opt_select("opt_skin_color",_t("Skin Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_skin_color']));
+	shn_form_opt_select("opt_hair_color",_t("Hair Colour"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_hair_color']));
+	shn_form_text(_t('Height'),'height','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['height']));
+	shn_form_text(_t('Weight'),'weight','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['weight']));
+	shn_form_textarea(_t('Comments'),'physical_comments','',array('value'=>$_SESSION['mpr_edit']['entry']['physical_comments']));
 	shn_form_fsclose();
 
-	shn_form_fsopen(_("Other Details"));
-	shn_form_opt_select("opt_blood_type",_("Blood Type"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_blood_type']));
-	shn_form_textarea(_('Last Seen'),'last_seen','',array('value'=>$_SESSION['mpr_edit']['entry']['last_seen']));
-	shn_form_textarea(_('Last Clothing'),'last_clothing','',array('value'=>$_SESSION['mpr_edit']['entry']['last_clothing']));
-	shn_form_textarea(_('Comments'),'comments','',array('value'=>$_SESSION['mpr_edit']['entry']['comments']));
+	shn_form_fsopen(_t("Other Details"));
+	shn_form_opt_select("opt_blood_type",_t("Blood Type"),'',array('value'=>$_SESSION['mpr_edit']['entry']['opt_blood_type']));
+	shn_form_textarea(_t('Last Seen'),'last_seen','',array('value'=>$_SESSION['mpr_edit']['entry']['last_seen']));
+	shn_form_textarea(_t('Last Clothing'),'last_clothing','',array('value'=>$_SESSION['mpr_edit']['entry']['last_clothing']));
+	shn_form_textarea(_t('Comments'),'comments','',array('value'=>$_SESSION['mpr_edit']['entry']['comments']));
 	shn_form_fsclose();
 
-	shn_form_submit(_('Next'));
+	shn_form_submit(_t('Next'));
 	shn_form_fclose();
 }
 /* }}} */
@@ -266,21 +266,21 @@ function shn_mpr_editmp_validate()
 
 		if(is_numeric($height)==false)
 		{
-			add_error(_("Height should be a value in centimeters(cm)"));
+			add_error(_t("Height should be a value in centimeters(cm)"));
 			$error_flag = true;
 		}
 	}
 
 	//fullname is entered?
 	if(! isset($local_post['full_name'])){
-		add_error(_("Please enter the full name of the missing person"));
+		add_error(_t("Please enter the full name of the missing person"));
 		$error_flag=true;
 	}
 	$dob=$_POST['dob'];
 
 	if(!shn_valid_date($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
 	{
-		//add_error(_("Please Check the Date format"));
+		//add_error(_t("Please Check the Date format"));
 		$error_flag = true;
 	}
 	//set session
@@ -297,7 +297,7 @@ function shn_mpr_editmp_validate()
 			$info = getimagesize($_FILES['picture']['tmp_name']);
 			//check the image type
 			if(! $info){
-				add_error(_("Invalid image type.Please try again!"));
+				add_error(_t("Invalid image type.Please try again!"));
 				$error_flag=true;
 			}
 
@@ -355,13 +355,13 @@ function shn_mpr_editmp_upload($errors=false)
 	shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 
 	shn_form_hidden(array('seq'=>'upload_pic'));
-	shn_form_fsopen(_('Replace Current Picture'));
+	shn_form_fsopen(_t('Replace Current Picture'));
 	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
-	shn_form_upload(_("Upload Picture"),"picture");
-	shn_form_submit(_('Next'));
+	shn_form_upload(_t("Upload Picture"),"picture");
+	shn_form_submit(_t('Next'));
 	shn_form_fsclose();
 	shn_form_fclose();
 }
@@ -386,7 +386,7 @@ function shn_mpr_editmp_upload_pic()
 	$info = getimagesize($_FILES['picture']['tmp_name']);
 	//check the image type
 	if(! $info){
-		add_error(_("Invalid image type please try again"));
+		add_error(_t("Invalid image type please try again"));
 		return false;
 	}
 
@@ -430,7 +430,7 @@ function shn_mpr_editmp_confirm()
 	global $conf;
 
 	shn_form_fopen("editmp",null);
-	shn_form_fsopen(_("Person"));
+	shn_form_fsopen(_t("Person"));
 	shn_form_hidden(array('seq'=>'commit'));
 	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img',true);
 	?>
@@ -443,15 +443,15 @@ function shn_mpr_editmp_confirm()
 	if(isset($_SESSION['mpr_edit']['entry']['idcard']) ||
 	isset($_SESSION['mpr_edit']['entry']['passport']) ||
 	isset($_SESSION['mpr_edit']['entry']['drv_license']) ) {
-		shn_form_fsopen(_("Identity"));
+		shn_form_fsopen(_t("Identity"));
 		$identity_section = true;
 	}
 	if(isset($_SESSION['mpr_edit']['entry']['idcard']))
-	shn_form_label(_('Identity Card Number'),$_SESSION['mpr_edit']['entry']['idcard']);
+	shn_form_label(_t('Identity Card Number'),$_SESSION['mpr_edit']['entry']['idcard']);
 	if(isset($_SESSION['mpr_edit']['entry']['passport']))
-	shn_form_label(_('Passport Number'),$_SESSION['mpr_edit']['entry']['passport']);
+	shn_form_label(_t('Passport Number'),$_SESSION['mpr_edit']['entry']['passport']);
 	if(isset($_SESSION['mpr_edit']['entry']['drv_license']))
-	shn_form_label(_('Driving License'),$_SESSION['mpr_edit']['entry']['drv_license']);
+	shn_form_label(_t('Driving License'),$_SESSION['mpr_edit']['entry']['drv_license']);
 	if($identity_section)
 	shn_form_fsclose();
 
@@ -465,27 +465,27 @@ function shn_mpr_editmp_confirm()
 	isset($_SESSION['mpr_edit']['entry']['opt_marital_status']) ||
 	isset($_SESSION['mpr_edit']['entry']['opt_religion']) ||
 	isset($_SESSION['mpr_edit']['entry']['opt_race']) ) {
-		shn_form_fsopen(_("Basic Details"));
+		shn_form_fsopen(_t("Basic Details"));
 		$basic_section = true;
 	}
 	if(isset($_SESSION['mpr_edit']['entry']['full_name']))
-	shn_form_label(_('Full Name'),$_SESSION['mpr_edit']['entry']['full_name']);
+	shn_form_label(_t('Full Name'),$_SESSION['mpr_edit']['entry']['full_name']);
 	if(isset($_SESSION['mpr_edit']['entry']['family_name']))
-	shn_form_label(_('Family Name'),$_SESSION['mpr_edit']['entry']['family_name']);
+	shn_form_label(_t('Family Name'),$_SESSION['mpr_edit']['entry']['family_name']);
 	if(isset($_SESSION['mpr_edit']['entry']['local_name']))
-	shn_form_label(_('Local Name'),$_SESSION['mpr_edit']['entry']['local_name']);
+	shn_form_label(_t('Local Name'),$_SESSION['mpr_edit']['entry']['local_name']);
 	if(isset($_SESSION['mpr_edit']['entry']['dob']))
-	shn_form_label(_('Date of Birth'),$_SESSION['mpr_edit']['entry']['dob']);
+	shn_form_label(_t('Date of Birth'),$_SESSION['mpr_edit']['entry']['dob']);
 	if(isset($_SESSION['mpr_edit']['entry']['opt_age_group']))
-	shn_form_label(_('Age Group'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_age_group'],'opt_age_group'));
+	shn_form_label(_t('Age Group'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_age_group'],'opt_age_group'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_gender']))
-	shn_form_label(_('Gender'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_gender'],'opt_gender'));
+	shn_form_label(_t('Gender'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_gender'],'opt_gender'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_marital_status']))
-	shn_form_label(_('Marital Status'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_marital_status'],'opt_marital_status'));
+	shn_form_label(_t('Marital Status'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_marital_status'],'opt_marital_status'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_religion']))
-	shn_form_label(_('Religion'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_religion'],'opt_religion'));
+	shn_form_label(_t('Religion'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_religion'],'opt_religion'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_race']))
-	shn_form_label(_('Race'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_race'],'opt_race'));
+	shn_form_label(_t('Race'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_race'],'opt_race'));
 	if($basic_section)
 	shn_form_fsclose();
 
@@ -496,21 +496,21 @@ function shn_mpr_editmp_confirm()
 	isset($_SESSION['mpr_edit']['entry']['height']) ||
 	isset($_SESSION['mpr_edit']['entry']['weight']) ||
 	isset($_SESSION['mpr_edit']['entry']['physical_comments'])) {
-		shn_form_fsopen(_("Physical Details"));
+		shn_form_fsopen(_t("Physical Details"));
 		$physical_section = true;
 	}
 	if(isset($_SESSION['mpr_edit']['entry']['opt_eye_color']))
-	shn_form_label(_('Eye Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_eye_color'],'opt_eye_color'));
+	shn_form_label(_t('Eye Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_eye_color'],'opt_eye_color'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_skin_color']))
-	shn_form_label(_('Skin Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_skin_color'],'opt_skin_color'));
+	shn_form_label(_t('Skin Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_skin_color'],'opt_skin_color'));
 	if(isset($_SESSION['mpr_edit']['entry']['opt_hair_color']))
-	shn_form_label(_('Hair Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_hair_color'],'opt_hair_color'));
+	shn_form_label(_t('Hair Colour'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_hair_color'],'opt_hair_color'));
 	if(isset($_SESSION['mpr_edit']['entry']['height']))
-	shn_form_label(_('Height'),$_SESSION['mpr_edit']['entry']['height']);
+	shn_form_label(_t('Height'),$_SESSION['mpr_edit']['entry']['height']);
 	if(isset($_SESSION['mpr_edit']['entry']['weight']))
-	shn_form_label(_('Weight'),$_SESSION['mpr_edit']['entry']['weight']);
+	shn_form_label(_t('Weight'),$_SESSION['mpr_edit']['entry']['weight']);
 	if(isset($_SESSION['mpr_edit']['entry']['physical_comments']))
-	shn_form_label(_('Comments'),$_SESSION['mpr_edit']['entry']['physical_comments']);
+	shn_form_label(_t('Comments'),$_SESSION['mpr_edit']['entry']['physical_comments']);
 	if($physical_section)
 	shn_form_fsclose();
 
@@ -519,14 +519,14 @@ function shn_mpr_editmp_confirm()
 	#            isset($_SESSION['mpr_edit']['entry']['zip']) ||
 	#            isset($_SESSION['mpr_edit']['entry']['phone']) ||
 	#            isset($_SESSION['mpr_edit']['entry']['mobile']) ){
-	#        shn_form_fsopen(_("Contact Details"));
+	#        shn_form_fsopen(_t("Contact Details"));
 	#        $contact_section = true;
 	#    }
-	shn_form_fsopen(_("Contact Details"));
+	shn_form_fsopen(_t("Contact Details"));
 	$contact_section = true;
 
 	if(isset($_SESSION['mpr_edit']['entry']['address']))
-	shn_form_label(_('Address'),$_SESSION['mpr_edit']['entry']['address']);
+	shn_form_label(_t('Address'),$_SESSION['mpr_edit']['entry']['address']);
 
 	/* This hack should also include in the
 	 lib_location
@@ -548,11 +548,11 @@ function shn_mpr_editmp_confirm()
 	//Ends
 
 	if(isset($_SESSION['mpr_edit']['entry']['zip']))
-	shn_form_label(_('Postal Code'),$_SESSION['mpr_edit']['entry']['zip']);
+	shn_form_label(_t('Postal Code'),$_SESSION['mpr_edit']['entry']['zip']);
 	if(isset($_SESSION['mpr_edit']['entry']['phone']))
-	shn_form_label(_('Home Phone'),$_SESSION['mpr_edit']['entry']['phone']);
+	shn_form_label(_t('Home Phone'),$_SESSION['mpr_edit']['entry']['phone']);
 	if(isset($_SESSION['mpr_edit']['entry']['mobile']))
-	shn_form_label(_('Mobile'),$_SESSION['mpr_edit']['entry']['mobile']);
+	shn_form_label(_t('Mobile'),$_SESSION['mpr_edit']['entry']['mobile']);
 	if($contact_section)
 	shn_form_fsclose();
 
@@ -560,23 +560,23 @@ function shn_mpr_editmp_confirm()
 	isset($_SESSION['mpr_edit']['entry']['last_seen']) ||
 	isset($_SESSION['mpr_edit']['entry']['last_clothing']) ||
 	isset($_SESSION['mpr_edit']['entry']['comments']) ) {
-		shn_form_fsopen(_("Other Details"));
+		shn_form_fsopen(_t("Other Details"));
 		$other_section = true;
 	}
 	//Other Details
 	if(isset($_SESSION['mpr_edit']['entry']['opt_blood_type']))
-	shn_form_label(_('Blood Type'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_blood_type'],'opt_blood_type'));
+	shn_form_label(_t('Blood Type'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_blood_type'],'opt_blood_type'));
 	if(isset($_SESSION['mpr_edit']['entry']['last_seen']))
-	shn_form_label(_('Last Seen'),$_SESSION['mpr_edit']['entry']['last_seen']);
+	shn_form_label(_t('Last Seen'),$_SESSION['mpr_edit']['entry']['last_seen']);
 	if(isset($_SESSION['mpr_edit']['entry']['last_clothing']))
-	shn_form_label(_('Last Clothing'),$_SESSION['mpr_edit']['entry']['last_clothing']);
+	shn_form_label(_t('Last Clothing'),$_SESSION['mpr_edit']['entry']['last_clothing']);
 	if(isset($_SESSION['mpr_edit']['entry']['comments']))
-	shn_form_label(_('Comments'),$_SESSION['mpr_edit']['entry']['comments']);
+	shn_form_label(_t('Comments'),$_SESSION['mpr_edit']['entry']['comments']);
 	if($other_section)
 	shn_form_fsclose();
 
 	//Reporting Person
-	shn_form_fsopen(_("Reporting People"));
+	shn_form_fsopen(_t("Reporting People"));
 	global $global;
 	require_once($global['approot'].'mod/mpr/search.inc');
 	$arr =
@@ -585,9 +585,9 @@ function shn_mpr_editmp_confirm()
 <DIV ID="result">
 <TABLE>
 	<THEAD>
-		<TD><?= _('Picture'); ?></TD>
-		<TD><?= _('Name'); ?></TD>
-		<TD><?= _('Relationship'); ?></TD>
+		<TD><?= _t('Picture'); ?></TD>
+		<TD><?= _t('Name'); ?></TD>
+		<TD><?= _t('Relationship'); ?></TD>
 	</THEAD>
 	<?php
 	foreach($arr as $tracker){
@@ -606,11 +606,11 @@ function shn_mpr_editmp_confirm()
 	shn_form_fsclose();
 
 
-	shn_form_fsopen(_("Confirm"));
+	shn_form_fsopen(_t("Confirm"));
 ?>
-<p><?= _('Is the information that you\'ve entered correct?'); ?></p>
+<p><?= _t('Is the information that you\'ve entered correct?'); ?></p>
 <?php
-	shn_form_submit(_('Next'));
+	shn_form_submit(_t('Next'));
 	shn_form_fsclose();
 	shn_form_fclose();
 }
@@ -832,15 +832,15 @@ function shn_edit_show_trackers($p_uuid)
 
 	shn_form_hidden(array('seq'=>'trackers'));
 
-	shn_form_fsopen(_('Current Trackers'));
+	shn_form_fsopen(_t('Current Trackers'));
 	?>
 <DIV ID="result">
 <TABLE>
 	<THEAD>
 
-		<TD><?= _('Name'); ?></TD>
-		<TD><?= _('Relationship'); ?></TD>
-		<TD><?= _('Remove'); ?></TD>
+		<TD><?= _t('Name'); ?></TD>
+		<TD><?= _t('Relationship'); ?></TD>
+		<TD><?= _t('Remove'); ?></TD>
 	</THEAD>
 	<?php
 	foreach($arr as $tracker){
@@ -848,32 +848,32 @@ function shn_edit_show_trackers($p_uuid)
 	<TR>
 		<!--<TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img'); ?></TD>
     -->
-		<TD><?php echo '<a title="'._('View').'" '. 
+		<TD><?php echo '<a title="'._t('View').'" '. 
            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
 		$tracker['p_uuid'].'">'.
 		$tracker['full_name'].'</a><br />';
 		?></TD>
 		<TD><?= ($tracker['relation']=='NULL')?'unknown':$tracker['relation']; ?>
 		</TD>
-		<TD><a title="<?= _('Remove'); ?>"
+		<TD><a title="<?= _t('Remove'); ?>"
 			href="<?='index.php?mod='.$global['module'].
     '&act=editmp&tracker_id='.$tracker['p_uuid'].'&seq=del_tracker';
-			?>"><?= _('Click to remove the tracker'); ?></a></TD>
+			?>"><?= _t('Click to remove the tracker'); ?></a></TD>
 	</TR>
 	<?php
 }
 ?>
 	<TR>
 		<TD colspan="4"><?php
-		echo '<a title="'._('Add Tracker').'" '.
+		echo '<a title="'._t('Add Tracker').'" '.
         'href="index.php?mod='.$global['module'].'&act=editmp&seq=add_tracker&id='.
-		$p_uuid . '">'. _('Add a tracker') . '</a>';
+		$p_uuid . '">'. _t('Add a tracker') . '</a>';
 		?></TD>
 	</TR>
 </TABLE>
 </DIV>
 		<?php
-		shn_form_submit(_('Next'));
+		shn_form_submit(_t('Next'));
 		shn_form_fclose();
 
 

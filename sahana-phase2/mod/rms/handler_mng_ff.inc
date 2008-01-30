@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 //global $global;
-_shn_rms_print_hedder(_("Fulfil Requests"));
+_shn_rms_print_hedder(_t("Fulfil Requests"));
 
 function _shn_rms_mng_request()
 {
@@ -26,15 +26,15 @@ function _shn_rms_mng_request()
     
     print '<div id="req_id">';
     print '<div class="info">';
-    //print _("Request / Pledge Matching ");
-    print _("Select a Request from the "). '<a href="index.php?mod=rms&act=req_ls">' . _("request list") . '</a>';
+    //print _t("Request / Pledge Matching ");
+    print _t("Select a Request from the "). '<a href="index.php?mod=rms&act=req_ls">' . _t("request list") . '</a>';
     print '<br />';
     print '</div>';
 //    shn_form_fopen("mng_ff",null, array('req_message'=>false));
 //    shn_form_hidden(array('seq'=>'get_req'));
-//    shn_form_fsopen(_("Request"));
-//    shn_form_text(_("Request ID"),'req_id',null,array('br'=>false));
-//    shn_form_submit(_("Next"));
+//    shn_form_fsopen(_t("Request"));
+//    shn_form_text(_t("Request ID"),'req_id',null,array('br'=>false));
+//    shn_form_submit(_t("Next"));
 //    shn_form_fsclose();
 //    shn_form_fclose();
     print '</div>';
@@ -45,7 +45,7 @@ function _shn_rms_mng_getrequest($req_id)
     $req = _shn_rms_view_request($req_id);
     if ($req === false)
     {
-        add_error(_("Please Enter a valid Request ID"));
+        add_error(_t("Please Enter a valid Request ID"));
         display_errors();
         _shn_rms_mng_request();
         return false;
@@ -59,14 +59,14 @@ function _shn_rms_mng_getrequest($req_id)
         shn_html_td_open();
         shn_form_fopen("mng_ff",null, array('req_message'=>false));
         shn_form_hidden(array('seq'=>''));
-        shn_form_submit(_("Back"));
+        shn_form_submit(_t("Back"));
         shn_form_fclose();
         shn_html_td_close();
         
         shn_html_td_open(array('align'=>'right'));
         shn_form_fopen("mng_ff",null, array('req_message'=>false));
         shn_form_hidden(array('seq'=>'sel_itm'));
-        shn_form_submit(_("Next"));
+        shn_form_submit(_t("Next"));
         shn_form_fclose();
                   
     shn_html_tr_close();
@@ -81,8 +81,8 @@ function _shn_rms_mng_select_item()
     $req_id = $_SESSION['rms_req_id'];
     
     print '<div class="info">';
-    print _("This shows the current fulfillment status of the request, ");
-    print _("Please select an item from the request to be fulfilled.");
+    print _t("This shows the current fulfillment status of the request, ");
+    print _t("Please select an item from the request to be fulfilled.");
     print '<br />';
     print '</div>';
     
@@ -110,7 +110,7 @@ function _shn_rms_mng_select_pledge()
     
     if (1 <= count($rs_arr)) 
     {
-        $th_plg[] = array (_("Item"), _("Qty"), _("Used"), '');
+        $th_plg[] = array (_t("Item"), _t("Qty"), _t("Used"), '');
          
         foreach ($rs_arr as $plg)
         {
@@ -118,7 +118,7 @@ function _shn_rms_mng_select_pledge()
             $sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
                         '&amp;seq=add_ff&amp;max_qty=' . $max_qty .
                         '&amp;plg_id=' . $plg['plg_uuid'] .'>' .
-                        _("Select") . '</a>';
+                        _t("Select") . '</a>';
                         
             $tb_plg[] = array (
                                  _shn_rms_get_itemname($plg['item_uuid']), 
@@ -132,8 +132,8 @@ function _shn_rms_mng_select_pledge()
          * Display the list of pledges
          */
         print '<div class="info">';
-        print _("This shows the list of pledges that have the selected item, ");
-        print _("Please select a pledge from the request to be fulfilled.");
+        print _t("This shows the list of pledges that have the selected item, ");
+        print _t("Please select a pledge from the request to be fulfilled.");
         print '<br />';
         print '</div>';
         print '<br />';
@@ -143,9 +143,9 @@ function _shn_rms_mng_select_pledge()
     {
     	print '<div id="reqstr_id">';
         print '<div class="info">';
-        print _("No Pledges registered !!!");
+        print _t("No Pledges registered !!!");
         print '<br />';
-        print _("Please try again after adding some pledges.");
+        print _t("Please try again after adding some pledges.");
         print '<br />';
         print '</div>';
     }
@@ -162,11 +162,11 @@ print '<br>';
  
     <table>
     <thead>
-        <td><?=_("Item")?></td>
-        <td><?=_("Amount")?></td>
-        <td><?=_("Inventory")?></td>
-        <td><?=_('State')?></td>
-        <td><?=_("Action")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount")?></td>
+        <td><?=_t("Inventory")?></td>
+        <td><?=_t('State')?></td>
+        <td><?=_t("Action")?></td>
             
             
     </thead>
@@ -234,30 +234,30 @@ function _shn_rms_mng_addff($max_qty)
     $plg_id = $_SESSION['rms_req_plg'];
     
     print '<div class="info">';
-    print _("Allocate items from a pledge to fulfill a request, ");
-    print _("The 'Maximum Allocatable Quantity' is the maximum you are allowed to allocate.");
+    print _t("Allocate items from a pledge to fulfill a request, ");
+    print _t("The 'Maximum Allocatable Quantity' is the maximum you are allowed to allocate.");
     print '<br />';
     print '</div>';
     
     _shn_rms_view_reqff($req_id);
     
-    _shn_html_print_message(_("Allocate items from the selected pledge to the request"));
+    _shn_html_print_message(_t("Allocate items from the selected pledge to the request"));
     
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
     shn_form_hidden(array('seq'=>'finish'));
-    shn_form_fsopen(_("Allocate"));
-    shn_form_text(_("Item"),'itm_id','readonly="true"',array('value'=>_shn_rms_get_itemname($req_item)));
-    shn_form_text(_("Maximum Allocatable Quantity"),'max_qty','readonly="true"',array('value'=>$max_qty));
-    shn_form_text(_("Quantity"),'qty',null);
-    shn_form_submit(_("Next"));
+    shn_form_fsopen(_t("Allocate"));
+    shn_form_text(_t("Item"),'itm_id','readonly="true"',array('value'=>_shn_rms_get_itemname($req_item)));
+    shn_form_text(_t("Maximum Allocatable Quantity"),'max_qty','readonly="true"',array('value'=>$max_qty));
+    shn_form_text(_t("Quantity"),'qty',null);
+    shn_form_submit(_t("Next"));
     shn_form_fsclose();
     shn_form_fclose();
     
     print '<br />';
     shn_form_fopen("mng_ff",null, array('req_message'=>false));
     shn_form_hidden(array('seq'=>''));
-    shn_form_fsopen(_("Cancel Fulfillment Process"));
-    shn_form_submit(_("Cancel"));
+    shn_form_fsopen(_t("Cancel Fulfillment Process"));
+    shn_form_submit(_t("Cancel"));
     shn_form_fsclose();
     shn_form_fclose();
     
@@ -276,14 +276,14 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
     $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
     $res2=$db->Execute($sql2);
     shn_form_fopen('fullfill_from_inventory');
-    shn_form_fsopen(_('Allocate'));
-    shn_form_text(_('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));
-    shn_form_text(_('Allocatable quantity (Max) : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
-    shn_form_text(_('Inventory : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
-    shn_form_text(_('Quantity : '),'quantity','size="25"',null);
+    shn_form_fsopen(_t('Allocate'));
+    shn_form_text(_t('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));
+    shn_form_text(_t('Allocatable quantity (Max) : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
+    shn_form_text(_t('Inventory : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
+    shn_form_text(_t('Quantity : '),'quantity','size="25"',null);
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'inventory_item_allocate_db'));
-    shn_form_submit(_('Submit'));
+    shn_form_submit(_t('Submit'));
     shn_form_fclose();
 }
 
@@ -376,7 +376,7 @@ switch ($_REQUEST['seq'])
     case 'finish';
             if ($_POST['qty'] > $_POST['max_qty'])
             {
-                add_error(_("Please enter a valid 'Quantity', The 'Quantity' should be equal or less than the Maximum Value"));
+                add_error(_t("Please enter a valid 'Quantity', The 'Quantity' should be equal or less than the Maximum Value"));
                 display_errors();
                 _shn_rms_mng_addff($_POST['max_qty']);
                 return false;
@@ -395,7 +395,7 @@ switch ($_REQUEST['seq'])
             
             if ($_SESSION['rms_mng_ff_added'])
             {
-                _shn_html_print_alert(_("The Fulfillment Data was successfully added"));
+                _shn_html_print_alert(_t("The Fulfillment Data was successfully added"));
                 _shn_rms_view_reqff($_SESSION['rms_req_id']);
             }
             

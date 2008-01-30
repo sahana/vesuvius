@@ -32,7 +32,7 @@ function _shn_ims_report_minimum()
     $sql1 = "SELECT catalog_id,inv_id,minimum_quantity,unit FROM ims_reorder_level;";
     $ims1 = $db->Execute($sql1);
 ?>
-<h1 align="center"><?php print _("Re-Order Level"); ?></h1>
+<h1 align="center"><?php print _t("Re-Order Level"); ?></h1>
 <?php
     $module = $global['module'];
     $form_opts['name'] = "report_reorder";
@@ -41,10 +41,10 @@ function _shn_ims_report_minimum()
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
     shn_form_fopen("reorder_level_pdf",null,$form_opts);
-    shn_form_fsopen(_("Generate Reports"));
-    shn_form_button(_("PDF"),"onClick='change_action(\"pdf_reorder\")'",$extra_opts);
-    shn_form_button(_("ODS"),"onClick='change_action(\"ods_reorder\")'",$extra_opts);
-    shn_form_button(_("XHTML"),"onClick='change_action(\"xhtml_reorder\")'",$extra_opts);
+    shn_form_fsopen(_t("Generate Reports"));
+    shn_form_button(_t("PDF"),"onClick='change_action(\"pdf_reorder\")'",$extra_opts);
+    shn_form_button(_t("ODS"),"onClick='change_action(\"ods_reorder\")'",$extra_opts);
+    shn_form_button(_t("XHTML"),"onClick='change_action(\"xhtml_reorder\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
     shn_form_fclose();
@@ -55,10 +55,10 @@ function _shn_ims_report_minimum()
     <thead>
     <tr>
         
-        <td><?=_("Item")?></td>
-        <td><?=_("Amount")?></td>
-        <td><?=_("Unit")?></td>
-        <td><?=_("Inventory")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount")?></td>
+        <td><?=_t("Unit")?></td>
+        <td><?=_t("Inventory")?></td>
         
             
     </tr>
@@ -169,7 +169,7 @@ function _shn_ims_report_expired()
     
    
 ?>
-<h1 align="center"><?php print _("Expired Items"); ?></h1>
+<h1 align="center"><?php print _t("Expired Items"); ?></h1>
 <?php
     $module = $global['module'];
     $form_opts['name'] = "report_expired";
@@ -178,10 +178,10 @@ function _shn_ims_report_expired()
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
     shn_form_fopen("expired_item_report1",null,$form_opts);
-    shn_form_fsopen(_("Generate Reports"));
-    shn_form_button(_("PDF"),"onClick='change_action_expired(\"pdf_expired\")'",$extra_opts);
-    shn_form_button(_("ODS"),"onClick='change_action_expired(\"ods_expired\")'",$extra_opts);
-    shn_form_button(_("XHTML"),"onClick='change_action_expired(\"xhtml_expired\")'",$extra_opts);
+    shn_form_fsopen(_t("Generate Reports"));
+    shn_form_button(_t("PDF"),"onClick='change_action_expired(\"pdf_expired\")'",$extra_opts);
+    shn_form_button(_t("ODS"),"onClick='change_action_expired(\"ods_expired\")'",$extra_opts);
+    shn_form_button(_t("XHTML"),"onClick='change_action_expired(\"xhtml_expired\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
 ?>
@@ -189,14 +189,14 @@ function _shn_ims_report_expired()
     <table>
     <thead>
     <tr>
-        <td><?=_("Item") ?></td>
-        <td><?=_("Amount") ?></td>
-        <td><?=_("Unit") ?></td>
-        <td><?=_("Manufactured Date") ?></td>
-        <td><?=_("Expire Date") ?></td>
-        <td><?=_("Inventory") ?></td>
-        <td><?=_("Suplier") ?></td>
-        <td><?=_("Action") ?></td>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expire Date") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Suplier") ?></td>
+        <td><?=_t("Action") ?></td>
             
     </tr>
     </thead>
@@ -263,17 +263,17 @@ function _shn_ims_report_destroyed()
     $ims1 = $db->Execute($sql1);
 
 ?>
-<h1 align="center"><?php print _("Destroyed Items"); ?></h1>
+<h1 align="center"><?php print _t("Destroyed Items"); ?></h1>
 <?php
     $module = $global['module'];
     $form_opts['name'] = "report_destroyed";
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
     shn_form_fopen("destroyed_item_pdf",null,$form_opts);
-    shn_form_fsopen(_("Generate Reports"));
-    shn_form_button(_("PDF"),"onClick='change_action_destroyed(\"pdf_destroyed\")'",$extra_opts);
-    shn_form_button(_("ODS"),"onClick='change_action_destroyed(\"ods_destroyed\")'",$extra_opts);
-    shn_form_button(_("XHTML"),"onClick='change_action_destroyed(\"xhtml_destroyed\")'",$extra_opts);
+    shn_form_fsopen(_t("Generate Reports"));
+    shn_form_button(_t("PDF"),"onClick='change_action_destroyed(\"pdf_destroyed\")'",$extra_opts);
+    shn_form_button(_t("ODS"),"onClick='change_action_destroyed(\"ods_destroyed\")'",$extra_opts);
+    shn_form_button(_t("XHTML"),"onClick='change_action_destroyed(\"xhtml_destroyed\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
     shn_form_fclose();
@@ -283,13 +283,13 @@ function _shn_ims_report_destroyed()
     <table>
         <thead>
         <tr>
-        <td><?=_("Item Name") ?></td>
-        <td><?=_("Amount") ?></td>
-        <td><?=_("Unit") ?></td>
-        <td><?=_("Inventory") ?></td>
-        <td><?=_("Manufactured Date") ?></td>
-        <td><?=_("Expire_Date") ?></td>
-        <td><?=_("Suplier") ?></td>
+        <td><?=_t("Item Name") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expire_Date") ?></td>
+        <td><?=_t("Suplier") ?></td>
         </tr>
         </thead>
         <tbody>
@@ -358,17 +358,17 @@ function _shn_ims_level($parent)
     $res_label = $db->Execute($q);
     $grand_child_type = $res_label->fields[0];
 ?>
-<h2><?=_("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
+<h2><?=_t("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
     <div id="note">
-<?=_("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
+<?=_t("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
 <?php 
     $last = shn_get_last_level();
     if ($last[0] != $child - 1) {
-        echo _("Intersection shows the precentage of Sub-divisions Covered per each service.") . "<br />";
-        echo _("For this report Sub-division is a  ") . $grand_child_type .".";
-        echo _("If atleast one ") . $last[1] ._(" in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
+        echo _t("Intersection shows the precentage of Sub-divisions Covered per each service.") . "<br />";
+        echo _t("For this report Sub-division is a  ") . $grand_child_type .".";
+        echo _t("If atleast one ") . $last[1] ._t(" in the Sub-division has an organization providing the service then that Sub-division is considered as covered for that service.");
     }else {
-        echo _("Intersection shows whether each ") . $child_type ._( " has atleast one organization providing the service.") . "<br />";
+        echo _t("Intersection shows whether each ") . $child_type ._t( " has atleast one organization providing the service.") . "<br />";
     }
 ?>
 </div>
@@ -410,10 +410,10 @@ function _shn_ims_level($parent)
             if (shn_is_last_level($res_loc->fields[0])) {
                 echo ($res["active"]);
                if (_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])) {
-                    $active = _("Covered");
+                    $active = _t("Covered");
                     echo "<td><b><font color=#2E8B57>" . $active . "</font></b></td>";
                 } else {
-                    $active = _("Not Covered");
+                    $active = _t("Not Covered");
                     echo "<td><b><font color=#FF0000>" . $active . "</font></b></td>";
                 }
             } else {
@@ -491,19 +491,19 @@ function _shn_ims_report_org_sector()
     $db = $global['db'];
     
 ?>
-<h2><?=_("Organization Report by Sector") ?></h2>
+<h2><?=_t("Organization Report by Sector") ?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td><?=_("Organization Name") ?></td>
-            <td><?=_("Services Offered") ?></td>
-            <td><?=_("Organization Type") ?></td>
-            <td><?=_("Country of Origin") ?></td>
-            <td><?=_("Address") ?></td>
-            <td><?=_("Contact Number") ?></td>
-            <td><?=_("Man Power") ?></td>
-            <td><?=_("Equipment") ?></td>
-            <td><?=_("Facilities") ?></td>
+            <td><?=_t("Organization Name") ?></td>
+            <td><?=_t("Services Offered") ?></td>
+            <td><?=_t("Organization Type") ?></td>
+            <td><?=_t("Country of Origin") ?></td>
+            <td><?=_t("Address") ?></td>
+            <td><?=_t("Contact Number") ?></td>
+            <td><?=_t("Man Power") ?></td>
+            <td><?=_t("Equipment") ?></td>
+            <td><?=_t("Facilities") ?></td>
         </thead>
         <tbody>
 <?php    
@@ -517,7 +517,7 @@ function _shn_ims_report_org_sector()
         ?>
         <tr>
             <td>
-                <b><?=_($res_sector->fields[1]) ?></b>
+                <b><?=_t($res_sector->fields[1]) ?></b>
             </td>
         </tr>
         <?php
@@ -567,19 +567,19 @@ print $inv_id;
 print $time_amount;
 print $time_period1;
 ?>
-<h1 align="center"><?php print(_("Item Prediction Report")); ?></h1>
+<h1 align="center"><?php print(_t("Item Prediction Report")); ?></h1>
 <div id="result">
 
     <table>
     <thead>
     <tr>
         
-        <td><?=_("Item") ?></td>
-	<td><?=_("Inventory") ?></td>
-	<td><?=_("Unit") ?></td>
-        <td><?=_("Prediction-1") ?></td>
-        <td><?=_("Prediction-2") ?></td>
-        <td><?=_("Prediction-3") ?></td>
+        <td><?=_t("Item") ?></td>
+	<td><?=_t("Inventory") ?></td>
+	<td><?=_t("Unit") ?></td>
+        <td><?=_t("Prediction-1") ?></td>
+        <td><?=_t("Prediction-2") ?></td>
+        <td><?=_t("Prediction-3") ?></td>
         
             
     </tr>
@@ -658,20 +658,20 @@ function _shn_ims_prediction_inv()
     $inv_id = $_POST['inv_id'];
 
 ?>
-<h1 align="center"><?php print(_("Inventory Prediction Report")); ?></h1>
+<h1 align="center"><?php print(_t("Inventory Prediction Report")); ?></h1>
 <div id="result">
 
     <table>
     <thead>
     <tr>
         
-        <td><?=_("Item") ?></td>
-        <td><?=_("Inventory") ?></td>
-        <td><?=_("Unit") ?></td>
-        <td><?=_("Available amount") ?></td>
-        <td><?=_("Prediction-1") ?></td>
-        <td><?=_("Prediction-2") ?></td>
-        <td><?=_("Prediction-3") ?></td>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Available amount") ?></td>
+        <td><?=_t("Prediction-1") ?></td>
+        <td><?=_t("Prediction-2") ?></td>
+        <td><?=_t("Prediction-3") ?></td>
         
             
     </tr>
@@ -760,14 +760,14 @@ function _shn_ims_transfer_item_report()
     <div id='result'>
     <table>
         <thead>
-        <td><?=_("Item"); ?></td>
-        <td><?=_("Amount Sent"); ?></td>
-        <td><?=_("Unit"); ?></td>
-        <td><?=_("Inventory From"); ?></td>
-        <td><?=_("To"); ?></td>
-            <td><?=_("Date Sent"); ?></td>
-            <td><?=_("Authorized Person"); ?></td>
-       <!-- <td><?=_("Transit Item"); ?></td>-->
+        <td><?=_t("Item"); ?></td>
+        <td><?=_t("Amount Sent"); ?></td>
+        <td><?=_t("Unit"); ?></td>
+        <td><?=_t("Inventory From"); ?></td>
+        <td><?=_t("To"); ?></td>
+            <td><?=_t("Date Sent"); ?></td>
+            <td><?=_t("Authorized Person"); ?></td>
+       <!-- <td><?=_t("Transit Item"); ?></td>-->
             
         </thead>
     <tbody>

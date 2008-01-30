@@ -79,35 +79,35 @@ function shn_valid_zipcode($country, $zipcode)
     case "USA":
       if (!ereg("^[0-9]{5}$", $zipcode))
       {
-         print _("The postcode/zipcode must be 5 digits in length");
+         print _t("The postcode/zipcode must be 5 digits in length");
          return false;
        }
        break;
     case "Greece":
       if (!ereg("^[0-9]{3}[ ][0-9]{2}$", $zipcode))
       {
-         print _("The postcode must have 3 digits, a space, and then 2 digits");
+         print _t("The postcode must have 3 digits, a space, and then 2 digits");
          return false;
       }
       break;
     case "Netherlands":
       if (!ereg("^[0-9]{4}[ ][A-Z]{2}$", $zipcode))
       {
-         print _("The postcode must have 4 digits, a space, and then 2 letters");
+         print _t("The postcode must have 4 digits, a space, and then 2 letters");
          return false;
       }
       break;
     case "Poland":
       if (!ereg("^[0-9]{2}-[0-9]{3}$", $zipcode))
       {
-         print _("The postcode must have 2 digits, a dash, and then 3 digits");
+         print _t("The postcode must have 2 digits, a dash, and then 3 digits");
          return false;
       }
       break;
     case "Sweden":
       if (!ereg("^[0-9]{3}[ ][0-9]{2}$", $zipcode))
       {
-         print _("The postcode must have 3 digits, a space, and then 2 digits");
+         print _t("The postcode must have 3 digits, a space, and then 2 digits");
          return false;
       }
       break;
@@ -116,7 +116,7 @@ function shn_valid_zipcode($country, $zipcode)
                 "([A-Z]{2}[0-9][A-Z])|([A-Z][0-9][A-Z])|" .
                 "([A-Z]{3}))[ ][0-9][A-Z]{2}$", $zipcode))
       {
-         print _("The postcode must begin with a string of the format
+         print _t("The postcode must begin with a string of the format
                 A9, A99, AA9, AA99, AA9A, A9A, or AAA,
                 and then be followed by a space and a string
                 of the form 9AA.
@@ -143,7 +143,7 @@ function shn_valid_phone($field)
 
    if (!ereg($validPhoneExpr,$field))
    {
-         print _("The ").$field._(" field must be 8 digits in length, with an optional 2 or 3 digit area code");
+         print _t("The ").$field._t(" field must be 8 digits in length, with an optional 2 or 3 digit area code");
       return false;
    }
    return true;
@@ -203,7 +203,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
 {    
     if (shn_is_null($date)){
         if ($check_null){
-            add_error($des._(" is a required field, Please enter a value."));
+            add_error($des._t(" is a required field, Please enter a value."));
             return false;
         }else 
             return true;
@@ -212,7 +212,7 @@ function shn_valid_date($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/'
             if(preg_match($pattern,$date))
                 return true;
             else{
-	            add_error($des._(" field should be valid (yyyy-mm-dd)"));
+	            add_error($des._t(" field should be valid (yyyy-mm-dd)"));
                 return false;
             }
     }
@@ -306,11 +306,11 @@ function shn_clean($field){
  */
 function shn_validate_field($field,$desc,$max_len,$check_null=false){
     if ($check_null And shn_is_null($field)){
-        add_error($desc._(" is a required field, please enter a value."));
+        add_error($desc._t(" is a required field, please enter a value."));
         return false;
     }else {
         if (strlen(shn_clean($field))>$max_len){
-            add_error(_("You exceeded the field size for ").$desc._(".Field size is ").$max_len);
+            add_error(_t("You exceeded the field size for ").$desc._t(".Field size is ").$max_len);
             return false;
         }else {
             return true;
@@ -337,7 +337,7 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
              if (($type!="select") and (shn_is_opt_field($type,shn_clean($field)))){
              	return true;
              }else{
-             	add_error(_("You have to select a value from the list box"));
+             	add_error(_t("You have to select a value from the list box"));
              	return false;
              }
                 
@@ -346,7 +346,7 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
             while ($i<count($field)){
                 if(($type=="select") or (!shn_is_opt_field($type,shn_clean($field[$i])))){
                 	echo $type;
-                    add_error(_("You have to select a value from the list box"));
+                    add_error(_t("You have to select a value from the list box"));
                     return false;
                 }
                 $i=$i+1;
@@ -368,7 +368,7 @@ function shn_validate_opt_field($type,$field,$desc,$max_len,$array=false){
 function shn_validate_user_name($field){
     if (shn_validate_field($field,"User Name",100,true)){
         if (shn_is_user($field)){
-            add_error(_("User already exists"));
+            add_error(_t("User already exists"));
             return false;
         }else {
             return true;
@@ -400,7 +400,7 @@ function shn_validate_password($user=null,$pwd){
     			add_error("User Name cannot be part of the password");
     			shn_acl_log_msg("Password Change error:User Name cannot be part of the password");
 
-    			add_error(_("User name cannot be part of the password"));
+    			add_error(_t("User name cannot be part of the password"));
     			shn_acl_log_msg("Password change error: User Name cannot be part of the password");
 
     			return false;

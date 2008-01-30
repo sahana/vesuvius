@@ -39,8 +39,8 @@ switch ($_REQUEST['seq'])
 
 function _shn_msg_cap_editmain()
 {
-    print "<h1>" . _("Sahana Messaging Module") . "</h1>";
-    print "<h3>" . _("CAP Template Editor") . "</h3>";
+    print "<h1>" . _t("Sahana Messaging Module") . "</h1>";
+    print "<h3>" . _t("CAP Template Editor") . "</h3>";
     _shn_msg_cap_file_selector();
 }
 
@@ -48,9 +48,9 @@ function _shn_msg_cap_file_selector()
 {
     shn_form_fopen("cap_edit",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'edit_tpl'));
-    shn_form_fsopen(_("Select Template"));
+    shn_form_fsopen(_t("Select Template"));
     shn_form_select(_shn_msg_get_cap_tpllist(),"","file",'onChange=submit(this);',array('br'=>false));
-    shn_form_submit(_("Edit"));
+    shn_form_submit(_t("Edit"));
     shn_form_fsclose();
     shn_form_fclose();
 }
@@ -104,41 +104,41 @@ function _shn_msg_cap_edit_capmain($alert, $file_name)
     $scope = array('Public'=>'Public', 'Restricted'=>'Restricted', 
                    'Private'=>'Private');
     
-    print "<h2>" . _("Edit Cap Template Information") . "</h2>";
+    print "<h2>" . _t("Edit Cap Template Information") . "</h2>";
     
     shn_form_fopen("cap_edit",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save_cap_main', 'file_name'=>$file_name));
-    shn_form_fsopen(_("Edit Cap Message"));
-    shn_form_text(_("Message Identifier"),'identifier',null,array('value'=>$id,'help'=>$help_identifire));
-    shn_form_text(_("Date"),'sent',null,array('value'=>$date));
-    shn_form_text(_("Sender"),'sender','class=""',array('value'=>$sender,'help'=>$help_sender));
-    shn_form_select($status, _("Status"), 'status', null, array('value'=>$status_sel,'help'=>$help_status));
-    shn_form_select($msgType, _("Message Type"), 'msgType', 'onChange="showHideNote(this);"',array('value'=>$messageType_sel,'help'=>$help_msgType));
+    shn_form_fsopen(_t("Edit Cap Message"));
+    shn_form_text(_t("Message Identifier"),'identifier',null,array('value'=>$id,'help'=>$help_identifire));
+    shn_form_text(_t("Date"),'sent',null,array('value'=>$date));
+    shn_form_text(_t("Sender"),'sender','class=""',array('value'=>$sender,'help'=>$help_sender));
+    shn_form_select($status, _t("Status"), 'status', null, array('value'=>$status_sel,'help'=>$help_status));
+    shn_form_select($msgType, _t("Message Type"), 'msgType', 'onChange="showHideNote(this);"',array('value'=>$messageType_sel,'help'=>$help_msgType));
     print '<div id="cap_note">';
-    shn_form_textarea(_("Note"),'note',null,array('value'=>$note));
+    shn_form_textarea(_t("Note"),'note',null,array('value'=>$note));
     print '</div>';
-    shn_form_text(_("Source"),'source',null, array('value'=>$source,help=>$help_source));
+    shn_form_text(_t("Source"),'source',null, array('value'=>$source,help=>$help_source));
     
-    shn_form_select($scope, _("Scope"), 'scope','onChange="changeScope(this);"',array('value'=>$scope,'help'=>$help_scope));
+    shn_form_select($scope, _t("Scope"), 'scope','onChange="changeScope(this);"',array('value'=>$scope,'help'=>$help_scope));
     print '<div id="scope_rest">';
-    shn_form_text(_("Restriction [Restricted]"),'restriction',null,array('value'=>$restriction));
+    shn_form_text(_t("Restriction [Restricted]"),'restriction',null,array('value'=>$restriction));
     print '</div><div id="scope_addr">';
-    shn_form_textarea(_("Addresses [private]"),'addresses',null,array('value'=>$address));
+    shn_form_textarea(_t("Addresses [private]"),'addresses',null,array('value'=>$address));
     print '</div>';
 
-    shn_form_fsopen(_("Optional"));    
-    shn_form_text(_("Code"),'code',null,array('value'=>$code,'br'=>false));
+    shn_form_fsopen(_t("Optional"));    
+    shn_form_text(_t("Code"),'code',null,array('value'=>$code,'br'=>false));
     print "<strong>Enter space separated set of codes</strong> <br />";
 
     
-    shn_form_text(_("References"),'references',null,array('value'=>$references));
-    shn_form_text(_("incidents"),'incidents',null,array('value'=>$incidents));
+    shn_form_text(_t("References"),'references',null,array('value'=>$references));
+    shn_form_text(_t("incidents"),'incidents',null,array('value'=>$incidents));
     shn_form_fsclose();
     
-    shn_form_fsopen(_("Save as"));
-    shn_form_checkbox(_("Message"), 'type', 'checked="true"', array('value'=>'msg'));
-    shn_form_checkbox(_("Template"), 'type', null, array('value'=>'tpl'));
-    shn_form_submit(_("Save"), 'style="float: right"');
+    shn_form_fsopen(_t("Save as"));
+    shn_form_checkbox(_t("Message"), 'type', 'checked="true"', array('value'=>'msg'));
+    shn_form_checkbox(_t("Template"), 'type', null, array('value'=>'tpl'));
+    shn_form_submit(_t("Save"), 'style="float: right"');
     shn_form_fsclose();
     
     shn_form_fsclose(); //Close capmessage form
@@ -187,14 +187,14 @@ function _shn_msg_cap_save_tpl()
         case 'tpl':
                 $fileName = $alert->getIdentifier() . '.xml';
                 $alert->saveXML($tpl_path, $fileName);
-                print "<h3>" . _("CAP saved as a Template") . "</h3>";
-                print _("File Name") . 
+                print "<h3>" . _t("CAP saved as a Template") . "</h3>";
+                print _t("File Name") . 
                       "<strong>" . $tpl_path.$fileName . "</strong><br />";
         case 'msg':
                 $fileName = $alert->getIdentifier() . '.xml';
                 $alert->saveXML($msg_path, $fileName);
-                print "<h3>" . _("CAP saved as a Message") . "</h3>";
-                print _("File Name") . 
+                print "<h3>" . _t("CAP saved as a Message") . "</h3>";
+                print _t("File Name") . 
                       ":<strong>" . $msg_path.$fileName . "</strong>";
                 break;
         

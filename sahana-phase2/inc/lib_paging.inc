@@ -114,7 +114,7 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 
     //if no records are found print No results
     if($res->RecordCount()==0){
-        echo "<strong>"._("No Records found ")."</strong>";
+        echo "<strong>"._t("No Records found ")."</strong>";
         return;
     }
     //if there is only one page don't print the navigation links
@@ -129,14 +129,14 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 	//shn_form_hidden(array('rpp'=>''));
 	
     //print the amount of pages
-    echo _("Page "). "$page/$last" . " : ";
+    echo _t("Page "). "$page/$last" . " : ";
     
     //draw the First and prev links
     if($page!=1)
     {
 ?>
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $page-1;?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Previous Page')?>"><?php echo _('Previous')?></a></b> 
-    <b><a href="<?php echo $url?>&amp;page=1&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to First Page')?>"><?php echo _('1')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page-1;?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _t('Go to Previous Page')?>"><?php echo _t('Previous')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=1&amp;rpp=<?php echo $rpp;?>" title="<?php echo _t('Go to First Page')?>"><?php echo _t('1')?></a></b> 
 
 <?php
     }
@@ -153,7 +153,7 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
         else
         {
 ?>
-        <a href="<?php echo $url?>&amp;page=<?php echo $i?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Page No ').$i?>"><?php echo $i?></a> 
+        <a href="<?php echo $url?>&amp;page=<?php echo $i?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _t('Go to Page No ').$i?>"><?php echo $i?></a> 
 <?php
         }
     }
@@ -164,9 +164,9 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
     if($page!=$last)
     {
     ?>
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Last Page')?>"><?php echo $last?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $last ?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _t('Go to Last Page')?>"><?php echo $last?></a></b> 
 
-    <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _('Go to Next Page')?>"><?php echo _('Next')?></a></b> 
+    <b><a href="<?php echo $url?>&amp;page=<?php echo $page+1?>&amp;rpp=<?php echo $rpp;?>" title="<?php echo _t('Go to Next Page')?>"><?php echo _t('Next')?></a></b> 
     
     <?php
     }
@@ -175,7 +175,7 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 	?>
 	&nbsp;&nbsp;
 	<?php
-	shn_form_select($options,_("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+	shn_form_select($options,_t("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
     ?>
     </div>
     </form>
@@ -220,7 +220,7 @@ function _shn_page_draw_navi_post(&$res,$url){
 
     //if no records are found print No results
     if($res->RecordCount()==0){
-        echo "<strong>"._("No Records found ")."</strong>";
+        echo "<strong>"._t("No Records found ")."</strong>";
         return;
     }
     //if there is only one page don't print the navigation links
@@ -244,12 +244,12 @@ function _shn_page_draw_navi_post(&$res,$url){
 	//shn_form_hidden(array('rpp'=>''));
 	
     //print the amount of pages
-    echo _("Page "). "$page/$last" . " : ";
+    echo _t("Page "). "$page/$last" . " : ";
 
     //draw the First and prev links
     if($page!=1)
     {
-        shn_form_submit(_('Previous'),"id ='page' name='page'");
+        shn_form_submit(_t('Previous'),"id ='page' name='page'");
         shn_form_submit('1',"id ='page' name='page'");
 
     }
@@ -274,12 +274,12 @@ function _shn_page_draw_navi_post(&$res,$url){
     if($page!=$last)
     {
         shn_form_submit($last,"id ='page' name='page'");
-        shn_form_submit(_('Next'),"id ='page' name='page'");
+        shn_form_submit(_t('Next'),"id ='page' name='page'");
     }
     ?>
 	&nbsp;&nbsp;
 	<?php
-    shn_form_select($options,_("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+    shn_form_select($options,_t("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
     
 ?>
         <input type="hidden" id="c_page" name="c_page" value=<?php echo $page?> />

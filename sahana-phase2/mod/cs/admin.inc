@@ -20,8 +20,8 @@ function shn_cs_adm_default()
 {
     shn_cs_sub_menu();
     ?>
-    <p><?php echo _('Maximum Depth')." - "._("enable you to specify the default depth value for the catalog system item selection interface. "); ?></p>
-    <p><?php echo _('Number of records for a page')." - "._('enable you to specify the number of records that should be shown in a page in the view and edit section'); ?></p>
+    <p><?php echo _t('Maximum Depth')." - "._t("enable you to specify the default depth value for the catalog system item selection interface. "); ?></p>
+    <p><?php echo _t('Number of records for a page')." - "._t('enable you to specify the number of records that should be shown in a page in the view and edit section'); ?></p>
     <br></br>
     <?php
 }
@@ -31,8 +31,8 @@ function shn_cs_sub_menu()
 {
     ?>
     <div id="submenu_v">
-    <a href="index.php?mod=cs&act=adm_cs_maxdepth"><?php echo _("Maximum Depth"); ?></a> 
-    <a href="index.php?mod=cs&act=adm_cs_page_records"><?php echo _("Number of records for a page"); ?></a>
+    <a href="index.php?mod=cs&act=adm_cs_maxdepth"><?php echo _t("Maximum Depth"); ?></a> 
+    <a href="index.php?mod=cs&act=adm_cs_page_records"><?php echo _t("Number of records for a page"); ?></a>
     </div>
     
     <br>
@@ -53,16 +53,16 @@ function shn_cs_adm_cs_maxdepth()
     
     $options = array('1' => '1','2' => '2','3' => '3','4' => '4','5' => '5','6' => '6','7' => '7','8' => '8','9' => '9','10' => '10','11' => '11','12' => '12','13' => '13','14' => '14','15' => '15');
     shn_form_fopen("adm_max_depth_form_submit");
-    shn_form_fsopen(_("Current Value of Maximum Depth"));
+    shn_form_fsopen(_t("Current Value of Maximum Depth"));
 
     $extra_opts['value'] = $current_depth;
     shn_form_text('','base_unit','size="5" readonly=true',$extra_opts);
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Select the New value of Maximum Depth"));
+    shn_form_fsopen(_t("Select the New value of Maximum Depth"));
     shn_form_select($options,'','max_depth',$select_opts,array('req'=>true));
     shn_form_fsclose();
-    shn_form_submit(_("Save"));
+    shn_form_submit(_t("Save"));
     shn_form_fclose();
 }
 
@@ -78,7 +78,7 @@ function shn_cs_adm_max_depth_form_submit()
     
     ?>
     <div id="result_msg">
-    <?php print _("Maximum Depth ") . $depth . _("  was successfully saved"); ?>
+    <?php print _t("Maximum Depth ") . $depth . _t("  was successfully saved"); ?>
     </div>
     <?php
     shn_cs_adm_cs_maxdepth();
@@ -95,14 +95,14 @@ function shn_cs_adm_cs_page_records()
     $current_depth = $res->fields["option_code"];
     
     shn_form_fopen("adm_page_record_submit");
-    shn_form_fsopen(_("Default number of records per page in view and edit"));
+    shn_form_fsopen(_t("Default number of records per page in view and edit"));
     
     $extra_opts['value'] = $current_depth;
     shn_form_text('','current_recs','size="5" readonly=true',$extra_opts);
     
-    shn_form_text(_("Value   : "),'default_page_recs','size="50"',$extra_opts);
+    shn_form_text(_t("Value   : "),'default_page_recs','size="50"',$extra_opts);
     shn_form_fsclose();
-    shn_form_submit(_("Save"));
+    shn_form_submit(_t("Save"));
     shn_form_fclose();
 }
 
@@ -117,7 +117,7 @@ function shn_cs_adm_page_record_submit()
     
     ?>
     <div id="result_msg">
-    <?php print _("Default number of records ") . $default_page_recs . _("  was successfully saved"); ?>
+    <?php print _t("Default number of records ") . $default_page_recs . _t("  was successfully saved"); ?>
     </div>
     <?php
     shn_cs_adm_cs_page_records();

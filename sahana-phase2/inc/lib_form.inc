@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.70 2008-01-07 04:28:52 ishanul Exp $ */
+/* $Id: lib_form.inc,v 1.71 2008-01-30 04:38:38 prabath321 Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -96,8 +96,8 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 if($form_opts['req_message']){
 	?>
 
-<p><b><?php echo _("Key:")?></b><b class='red'> * </b> - <?php echo _("Fields tagged with a star ")?>&#040;<span
-	class='red'> * </span>&#041; <?echo _("are mandatory and must be filled.") ?></p>
+<p><b><?php echo _t("Key:")?></b><b class='red'> * </b> - <?php echo _t("Fields tagged with a star ")?>&#040;<span
+	class='red'> * </span>&#041; <?echo _t("are mandatory and must be filled.") ?></p>
 	<?php
 }
 ?>

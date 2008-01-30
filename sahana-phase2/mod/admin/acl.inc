@@ -33,13 +33,13 @@ function _shn_admin_acl_user()
 
 	?>
 <div id="home">
-<h2><?= _('Welcome to Users= section'); ?></h2>
+<h2><?= _t('Welcome to Users= section'); ?></h2>
 
 <ul>
-	<li><?=_('Add Users')?></li>
-	<li><?=_('Remove Users')?></li>
-	<li><?=_('Change your password if you are logged in')?></li>
-	<li><?=_('Edit Roles of User ')?></li>
+	<li><?=_t('Add Users')?></li>
+	<li><?=_t('Remove Users')?></li>
+	<li><?=_t('Change your password if you are logged in')?></li>
+	<li><?=_t('Edit Roles of User ')?></li>
 </ul>
 </div>
 
@@ -103,9 +103,9 @@ function _shn_admin_acl_enable_mods_cr()
 	}
 
 	if($error_flag){
-		add_error(_("The selection was not saved due to one or more errors."));
+		add_error(_t("The selection was not saved due to one or more errors."));
 	}else{
-		add_confirmation(_("The changes were saved successfully."));
+		add_confirmation(_t("The changes were saved successfully."));
 	}
 
 	shn_acl_form_enable_mods();
@@ -333,7 +333,7 @@ function _shn_admin_acl_user_edit_roles_cr($module=NULL,$error=false)
 	$role=ADMIN;
 	shn_acl_adduser_to_role($user,$role);
 	_shn_admin_acl_user_menu();
-	add_confirmation(_("User roles were updated successfully."));
+	add_confirmation(_t("User roles were updated successfully."));
 	shn_acl_form_user_edit_roles();
 }
 
@@ -543,8 +543,8 @@ function _shn_admin_acl_enable_locking_on_lock_user(){
 	$locked = shn_auth_locked_user_list();
 	if(count($locked)>0 && shn_acl_is_locking_enabled()==false){
 		_shn_admin_acl_enable_locking_cr(true);
-		add_confirmation(_("The selected user account(s) has been locked.")."<br/>"._("System wide locking has been enabled too.").
-		"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._("Click here if you need to disable locking")."</a>");
+		add_confirmation(_t("The selected user account(s) has been locked.")."<br/>"._t("System wide locking has been enabled too.").
+		"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here if you need to disable locking")."</a>");
 	}
 }
 ?>

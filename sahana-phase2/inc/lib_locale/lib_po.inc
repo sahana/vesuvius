@@ -94,7 +94,7 @@ function shn_lc_create_pot()
     }
     else
     {
-        add_error(_("The path $pot_path is not writable!!"));
+        add_error(_t("The path $pot_path is not writable!!"));
         display_errors();
         return false;
     }

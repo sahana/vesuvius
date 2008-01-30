@@ -31,22 +31,22 @@ function _shn_pref_config_form($errors=false,$updated=false)
     shn_form_fopen("ims_config",null);
     
     if($updated){
-        shn_form_fsopen(_(""));
+        shn_form_fsopen(_t(""));
 ?><p align="center">Updated. </p>
 <?php
         shn_form_fsclose();
     }
     
     shn_form_hidden(array('seq'=>'entry'));
-    shn_form_fsopen(_("Default Incident"));
+    shn_form_fsopen(_t("Default Incident"));
     shn_form_select(array('level1'=>$conf['mod_admin_ims_level1'],
                             'level2'=>$conf['mod_admin_ims_level2'],
-                            'level3'=>$conf['mod_admin_ims_level3']),_('Incident Type'),'ims_level','onChange="submit(this)"');
-    shn_form_select($arr,_('Select Incident'),'ims_incident_id');
+                            'level3'=>$conf['mod_admin_ims_level3']),_t('Incident Type'),'ims_level','onChange="submit(this)"');
+    shn_form_select($arr,_t('Select Incident'),'ims_incident_id');
  
     shn_form_fsclose();
  
-    shn_form_submit(_('Update'));
+    shn_form_submit(_t('Update'));
     shn_form_fclose(); 
 }
 
@@ -59,17 +59,17 @@ function _shn_pref_config_validate()
     
     //anything entered?
     if(empty($local_post)){
-        add_error(_("You have not completed the form"));
+        add_error(_t("You have not completed the form"));
         return false;
     }
 
     if(! isset($local_post['ims_level'])){
-        add_error(_("Please Select the incident type"));
+        add_error(_t("Please Select the incident type"));
         $error_flag=true;
     }
 
     if(! isset($local_post['ims_incident_id'])){
-        add_error(_("Please select an item from 'Select Incident' box"));
+        add_error(_t("Please select an item from 'Select Incident' box"));
         $error_flag=true;
     }
 

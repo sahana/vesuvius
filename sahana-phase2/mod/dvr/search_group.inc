@@ -6,9 +6,9 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 </script>
 <?php
 
-/* $Id: search_group.inc,v 1.8 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.9 2008-01-30 04:35:20 prabath321 Exp $ */
 
-/* $Id: search_group.inc,v 1.8 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.9 2008-01-30 04:35:20 prabath321 Exp $ */
 
 /**
  * 
@@ -36,9 +36,9 @@ function shn_dvr_search_default()
     <?php
     
     shn_form_hidden(array('seq'=>'search'));
-    shn_form_fsopen(_("General Search"));
+    shn_form_fsopen(_t("General Search"));
     print '<div class="info">';
-    print _("Please select a Group that describes you well");
+    print _t("Please select a Group that describes you well");
     print '<br />';
   
     print '<br />';
@@ -52,16 +52,16 @@ function shn_dvr_search_default()
     
     
 
-	$extra_opts['help'] = _("Please Select the group type");
+	$extra_opts['help'] = _t("Please Select the group type");
 	$extra_opts['req'] = false;
     $extra_opts['value']=	$_SESSION['dvr']['person']['typ_of_grp'];
      $extra_opts['sort']=	'option_code';
     
     
-    shn_form_opt_select('opt_group_type', _("Type of Group"), '',  $extra_opts);   
-    shn_form_text(_('Any Card Number'),'card','size="30"');
-    shn_form_text(_('Any Name'),'name','size="30"');
-    shn_form_submit(_('Next'));
+    shn_form_opt_select('opt_group_type', _t("Type of Group"), '',  $extra_opts);   
+    shn_form_text(_t('Any Card Number'),'card','size="30"');
+    shn_form_text(_t('Any Name'),'name','size="30"');
+    shn_form_submit(_t('Next'));
     shn_form_fsclose();
  
  ?>
@@ -98,12 +98,12 @@ function shn_dvr_group_search_results()
 	<table>
         <thead>
         		
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-           <!-- <td><?=_("Local Name")?></td>-->
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
+            <td><?=_t("Group Type")?></td>
+            <td><?=_t("Group Head Name")?></td>
+            <td><?=_t("Family Name")?></td>
+           <!-- <td><?=_t("Local Name")?></td>-->
+          	<td><?=_t("NIC")?></td>
+            <td><?=_t("Address")?></td>
             <td></td>
             <td></td>
         </thead>
@@ -151,12 +151,12 @@ function shn_dvr_advanced_search_group()
 	
 
     shn_form_fopen("search",null); 
-    shn_form_fsopen(_('Advanced Search'));
+    shn_form_fsopen(_t('Advanced Search'));
 
 
-    shn_form_fsopen(_("General Search"));
+    shn_form_fsopen(_t("General Search"));
     print '<div class="info">';
-    print _("Please select a Group that describes you well");
+    print _t("Please select a Group that describes you well");
     print '<br />';
   
     print '<br />';
@@ -176,31 +176,31 @@ function shn_dvr_advanced_search_group()
     
     
     $extra_opts['value']= $typ_of_grp;
-    $extra_opts['help']=_("Enter the National Identity Card Number if available. (Optional)");
+    $extra_opts['help']=_t("Enter the National Identity Card Number if available. (Optional)");
     $extra_opts['req']=false;
     
     
-    shn_form_select($typ_of_grp, _("Type Of Group"),'typ_of_grp',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", $extra_opts); 
+    shn_form_select($typ_of_grp, _t("Type Of Group"),'typ_of_grp',"onChange='makeRequest(\"stream.php?mod=rms&amp;act=req_new&amp;seq=ax_sub_cat\",this.value)'", $extra_opts); 
 
 
-    shn_form_fsopen(_('Identity'));
-    shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox(_('Identity Card'),'idcard_chk');
-    shn_form_checkbox(_('Passport Number'),'pass_chk');
-    shn_form_checkbox(_(v),'drv_chk');
+    shn_form_fsopen(_t('Identity'));
+    shn_form_text(_t('Identity'),'idcard','size="30"');
+    shn_form_checkbox(_t('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_t('Passport Number'),'pass_chk');
+    shn_form_checkbox(_t(v),'drv_chk');
     shn_form_fsclose();
 
 
-    shn_form_fsopen(_('Name'));
-    shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox(_('Full Name'),'fullname_chk');
-    shn_form_checkbox(_('Family Name'),'familyname_chk');
-    shn_form_checkbox(_('Local Name'),'localname_chk');
+    shn_form_fsopen(_t('Name'));
+    shn_form_text(_t('Name'),'name','size="30"');
+    shn_form_checkbox(_t('Full Name'),'fullname_chk');
+    shn_form_checkbox(_t('Family Name'),'familyname_chk');
+    shn_form_checkbox(_t('Local Name'),'localname_chk');
     shn_form_fsclose();
 
   
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fsclose();
     ?>
     

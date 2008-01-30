@@ -18,7 +18,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function shn_plugin_default(){
 ?>
-<h2><?php echo _("Openlayers Admin Page")?></h2>	
+<h2><?php echo _t("Openlayers Admin Page")?></h2>	
 <?php
 	_shn_gis_gm_form();
 }
@@ -32,7 +32,7 @@ function _shn_gis_gm_form(){
 <?php
     shn_form_fopen("adm_default&submod=open_layers&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
-	echo _("<p>Under Development</p>");
+	echo _t("<p>Under Development</p>");
 	shn_form_fsclose();
 	shn_form_fclose();
 	
@@ -44,7 +44,7 @@ function shn_plugin_commit()
 	$db = $global['db'];
 		
 	if(!null==($_POST['gmap_key'])){
-		echo _("Changes were saved");
+		echo _t("Changes were saved");
 		$query = "select * from config where confkey='google_key' and module_id='gis'";
 		$res = $db->Execute($query);
 		if(!$res->EOF)

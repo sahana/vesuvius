@@ -25,11 +25,11 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 {
 	$form_opts['name']="view_inv";
 	shn_form_fopen("reg_inv_actions",null,$form_opts);
-	shn_form_fsopen(_("Register a New Inventory"));
+	shn_form_fsopen(_t("Register a New Inventory"));
 	$extra_opts['br']=false;
         $extra_opts['req']=false;
-	shn_form_button(_("Add Inventory"),"onClick='change_action(\"addinventory\")'",$extra_opts);
-	//shn_form_submit(_("Add Inventory"));
+	shn_form_button(_t("Add Inventory"),"onClick='change_action(\"addinventory\")'",$extra_opts);
+	//shn_form_submit(_t("Add Inventory"));
 	shn_form_fsclose();
 
     global $global;
@@ -37,7 +37,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 
     //$Limit=20;
     print '<b>';
-    shn_form_text(_("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
+    shn_form_text(_t("Records Per Page : "),'records','onChange="submit(this);"',array('value'=>$Limit));
     print '</b>';
     shn_form_hidden(array('action'=>'0'));
 	
@@ -57,7 +57,7 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 	
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	 print '<b>';
-	print(_("Go to Page : "));
+	print(_t("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
@@ -70,15 +70,15 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 <div id ="result">
 	<table>
         <thead>
-            <td><?=_("Inventory Name")?></td>
-            <td><?=_("Country of Origin/GIS")?></td> 
-            <td><?=_("Address")?></td>
-            <td><?=_("Contact Numbers")?></td>
-            <td><?=_("Man Power")?></td>
-            <td><?=_("Equipment")?></td>
-            <td><?=_("Other <br /> Facilities")?></td>
-	    <td><?=_("Inventory Space")?></td>
-	    <td><?=_("Actions")?></td>
+            <td><?=_t("Inventory Name")?></td>
+            <td><?=_t("Country of Origin/GIS")?></td> 
+            <td><?=_t("Address")?></td>
+            <td><?=_t("Contact Numbers")?></td>
+            <td><?=_t("Man Power")?></td>
+            <td><?=_t("Equipment")?></td>
+            <td><?=_t("Other <br /> Facilities")?></td>
+	    <td><?=_t("Inventory Space")?></td>
+	    <td><?=_t("Actions")?></td>
         </thead>
         <tbody>
 <?php
@@ -218,7 +218,7 @@ function _shn_ims_viewform_org($org_id,$error=false)
    
     }
 ?>
-<h2><?php printf(_("Inventory Registration Information of <em>%s</em>"),$org_name)?></h2>
+<h2><?php printf(_t("Inventory Registration Information of <em>%s</em>"),$org_name)?></h2>
 <?php
  if($error==true)
         display_errors();
@@ -228,23 +228,23 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_inv_submit",null,$form_opts);
-    shn_form_fsopen(_('Primary Details'));
+    shn_form_fsopen(_t('Primary Details'));
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
-    shn_form_text(_("Inventory Name : "),'org_name','size="50"', $extra_opts); 
+    shn_form_text(_t("Inventory Name : "),'org_name','size="50"', $extra_opts); 
 
     $range=array("start"=>1,"end"=>5);
     
     //shn_location($range,$bsd_village,null);
-    shn_form_fsopen(_("Base Location"));
+    shn_form_fsopen(_t("Base Location"));
     //shn_location_form(1,5,$bsd_village);
     shn_location($range,$value=$bsd_village,$parent=null,$extra_opts=null);
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Contact Information"));
+    shn_form_fsopen(_t("Contact Information"));
     _shn_ims_display_contact_person($error,true,$org_id);
     shn_form_fsclose();
-    shn_form_fsopen(_("Facilities Available"));
+    shn_form_fsopen(_t("Facilities Available"));
     _shn_ims_display_org_facilities($error,$org_id);
     shn_form_fsclose();
 ?>
@@ -254,9 +254,9 @@ function _shn_ims_viewform_org($org_id,$error=false)
 //create the submit button
     $extra_opts['br']=false;
     $extra_opts['req']=false;
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-	shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+	shn_form_button(_t("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
      shn_form_hidden(array('org_id'=>$org_id));
     shn_form_hidden(array('bsd_village'=>$bsd_village));

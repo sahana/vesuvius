@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_ppl.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
-/* $Id: edit_ppl.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: edit_ppl.inc,v 1.7 2008-01-30 04:35:18 prabath321 Exp $ */
+/* $Id: edit_ppl.inc,v 1.7 2008-01-30 04:35:18 prabath321 Exp $ */
 
 /**Update functions for  CR
 *
@@ -28,7 +28,7 @@ function _shn_cr_cedt_start($errors=false){
 	global $global;
 	$db = $global['db'];
 ?>
-<h2><?php echo _("Update Existing Victims")?></h2>
+<h2><?php echo _t("Update Existing Victims")?></h2>
 <?php
 	/*$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -38,19 +38,19 @@ function _shn_cr_cedt_start($errors=false){
 	
 	_shn_cr_get_session($editid);
 	shn_form_fopen(eppl);
-	shn_form_fsopen(_("General Details"));
+	shn_form_fsopen(_t("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
 ?>
 <table>
 <tr>
 <td>
 <?php	
-	shn_form_text(_("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
+	shn_form_text(_t("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
 ?>
 </td><td>
 
 <?php
-	shn_form_text(_("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_t("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
@@ -58,12 +58,12 @@ function _shn_cr_cedt_start($errors=false){
 <tr>
 <td>
 <?php
-	shn_form_text(_("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
+	shn_form_text(_t("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
 ?>
 </td><td>
 
 <?php
-	shn_form_text(_("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_t("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
@@ -72,19 +72,19 @@ function _shn_cr_cedt_start($errors=false){
 <tr>
 <td>
 <?php
-	shn_form_text(_("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
+	shn_form_text(_t("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
 ?>
 </td><td>
 
 <?php
-	shn_form_text(_("Capacity"),"capacity2",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_text(_t("Capacity"),"capacity2",'size="5"',array('value'=>$_SESSION['camp_capacity']));
 ?>
 </td>
 </tr>
 
 </table>
 <?php
-	shn_form_text(_("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
+	shn_form_text(_t("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
 
 
 
@@ -122,32 +122,32 @@ function _shn_cr_validate_error(){
 
 if(!(null == ($_POST['family']))){
 		if(!is_numeric(trim($_POST['infected_count']))){
-			add_error(_("The infected count is not a valid number"));
+			add_error(_t("The infected count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 if(!(null == ($_POST['capacity']))){
                 if(!is_numeric(trim($_POST['capacity']))){
-                        add_error(_("The capacity is not a valid number"));
+                        add_error(_t("The capacity is not a valid number"));
                         $error_flag=true;
                 }
         }
 
 	if(!(null == ($_POST['men']))){
 		if(!is_numeric(trim($_POST['men']))){
-			add_error(_("The men count is not a valid number"));
+			add_error(_t("The men count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['women']))){
 		if(!is_numeric(trim($_POST['women']))){
-			add_error(_("The women count is not a valid number"));
+			add_error(_t("The women count is not a valid number"));
 			$error_flag=true;
 		}
 	}
 	if(!(null == ($_POST['children']))){
 		if(!is_numeric(trim($_POST['children']))){
-			add_error(_("The children count is not a valid number"));
+			add_error(_t("The children count is not a valid number"));
 			$error_flag=true;
 		}
 	}
@@ -196,7 +196,7 @@ function _shn_cr_cedt_commit(){
 	$res = $db->Execute($q);
 ?>
 
-<h2><?= add_confirmation(_("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
+<h2><?= add_confirmation(_t("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
 
 
 </tbody>
@@ -205,7 +205,7 @@ function _shn_cr_cedt_commit(){
 
 </ul>
 <br><br>
-<p><?php echo _("Use the navigation menu to continue")?></p>
+<p><?php echo _t("Use the navigation menu to continue")?></p>
 <?php	
 }
 

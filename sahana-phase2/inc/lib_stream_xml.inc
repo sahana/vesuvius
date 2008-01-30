@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.6 2008-01-24 10:54:32 chamindra Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.7 2008-01-30 04:38:38 prabath321 Exp $ */
 
 /**
  *
@@ -52,7 +52,7 @@ function shn_stream_display_error() {
     
     echo '<errorset>';
 	foreach ($global['submit_errors'] as $error){
-		echo '<error>'._($error).'</error>';
+		echo '<error>'._t($error).'</error>';
 	}
     echo '</errorset>';
 

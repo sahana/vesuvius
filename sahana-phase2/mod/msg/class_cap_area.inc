@@ -62,7 +62,7 @@ class Msg_CapArea
        }
        else
        {
-           add_error(_("The first and last pairs of coordinates MUST be the " .
+           add_error(_t("The first and last pairs of coordinates MUST be the " .
                 "same."));
        }
     }
@@ -78,7 +78,7 @@ class Msg_CapArea
         }
         else
         {
-        	    add_error(_("areaDesc is a required value"));
+        	    add_error(_t("areaDesc is a required value"));
         }
     }
     
@@ -110,7 +110,7 @@ class Msg_CapArea
         }
         else
         {
-        	   add_error(_("Altitude has to be set before setting Ceiling"));
+        	   add_error(_t("Altitude has to be set before setting Ceiling"));
         }
     }
     

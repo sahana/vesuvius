@@ -24,22 +24,22 @@ if(!$res->EOF){
 ?>
 <div id="home">
     <h2><?=_lc($conf['mod_vol_name'])?></h2>
-		<div><?=_("The Volunteer Registry keeps track of all Volunteer working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
+		<div><?=_t("The Volunteer Registry keeps track of all Volunteer working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
 				Features Include:")?>
         </div>
 		<ul>
             
-            <li><?=_("Registering ad-hoc volunteers willing to contribute")?></li>
-            <li><?=_("Capturing the essential services each Volunteer is providing and where")?></li>
-            <li><?=_("Reporting on the converge of services and support in the region and more")?></li>
-            <li><?=_("importantly where there are no aid services being provided")?></li>
+            <li><?=_t("Registering ad-hoc volunteers willing to contribute")?></li>
+            <li><?=_t("Capturing the essential services each Volunteer is providing and where")?></li>
+            <li><?=_t("Reporting on the converge of services and support in the region and more")?></li>
+            <li><?=_t("importantly where there are no aid services being provided")?></li>
         </ul>
 </div>
 <br />
 <table>
     <thead>
-        <td><strong><?=_("Volunteers")?></strong></td>
-        <td><strong><?=_("Please Register")?></strong></td>
+        <td><strong><?=_t("Volunteers")?></strong></td>
+        <td><strong><?=_t("Please Register")?></strong></td>
     
     </thead>
     <tbody>
@@ -47,12 +47,12 @@ if(!$res->EOF){
 			<td>
 				<div>
                 <a href="index.php?mod=or&act=view_org">
-                  <strong> <?php echo $vol_no ?></strong><?=_(" Volunteers have registered")?>
+                  <strong> <?php echo $vol_no ?></strong><?=_t(" Volunteers have registered")?>
                 </a>
 				</div>
 			</td>
 			<td>
-				<div><?=_("
+				<div><?=_t("
 					Registering as a volunteer allows us to know who is doing what where and allows us to operate more effectively as one.")?>	    
 				</div>
 			</td>
@@ -64,7 +64,7 @@ if(!$res->EOF){
        <br />
 
         <div id="note">
-           <strong><?=_("Last 10 Volunteers to Register")?></strong>
+           <strong><?=_t("Last 10 Volunteers to Register")?></strong>
         </div>
 <?php
 		_shn_vol_viewform_all();

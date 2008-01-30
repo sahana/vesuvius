@@ -38,17 +38,17 @@ function _shn_vol_level($parent)
     $res_label=$db->Execute($q);
     $grand_child_type=$res_label->fields[0];
 ?>
-<h2><?=_("Volunteer Report By ". $child_type." ".$parent_type) ?></h2>
+<h2><?=_t("Volunteer Report By ". $child_type." ".$parent_type) ?></h2>
     <div id="note">
-<?=_("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
+<?=_t("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
 <?php 
     $last=shn_get_last_level();
     if ($last[0]!=$child-1){
-        echo _("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
-        echo _("For this report Sub-division is a  ".$grand_child_type.".");
-        echo _("If atleast one ".$last[1]. " in the Sub-division has a volunteer providing the service then that Sub-division is considered as covered for that service.");
+        echo _t("Intersection shows the precentage of Sub-divisions Covered per each service.")."<br />";
+        echo _t("For this report Sub-division is a  ".$grand_child_type.".");
+        echo _t("If atleast one ".$last[1]. " in the Sub-division has a volunteer providing the service then that Sub-division is considered as covered for that service.");
     }else {
-        echo _("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
+        echo _t("Intersection shows whether each ".$child_type." has atleast one organization providing the service.")."<br />";
     }
 ?>
 </div>
@@ -90,10 +90,10 @@ function _shn_vol_level($parent)
             if(shn_is_last_level($res_loc->fields[0])){
                 echo ($res["active"]);
                if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
-                    $active=_("Covered");
+                    $active=_t("Covered");
 		            echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
                 }else {
-                    $active=_("Not Covered");
+                    $active=_t("Not Covered");
 		            echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
                 }
             }else {
@@ -170,17 +170,17 @@ function _shn_vol_report_sector()
   <?php  
   return
 ?>
-<h2><?=_("Organization Report by Sector")?></h2>
+<h2><?=_t("Organization Report by Sector")?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td><?=_("Name")?></td>
-            <td><?=_("Services Offered")?></td>
-            <td><?=_("Country of Origin")?></td>
-            <td><?=_("Contact Address")?></td>
-            <td><?=_("Contact Number")?></td>
-            <td><?=_("Mobile Number")?></td>
-            <td><?=_("Contact Email")?></td>
+            <td><?=_t("Name")?></td>
+            <td><?=_t("Services Offered")?></td>
+            <td><?=_t("Country of Origin")?></td>
+            <td><?=_t("Contact Address")?></td>
+            <td><?=_t("Contact Number")?></td>
+            <td><?=_t("Mobile Number")?></td>
+            <td><?=_t("Contact Email")?></td>
            
         </thead>
         <tbody>
@@ -195,7 +195,7 @@ function _shn_vol_report_sector()
 	    ?>
 	    <tr>
 		    <td>
-	            <b><?=_($res_sector->fields[1])?></b>
+	            <b><?=_t($res_sector->fields[1])?></b>
 		    </td>
 	    </tr>
 	    <?php

@@ -181,18 +181,18 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag = false)
     }
     
     if ($parent_array == null) {
-    	$parent_array["1"] = _("None");
-    	shn_form_fsopen(_('Information'));
+    	$parent_array["1"] = _t("None");
+    	shn_form_fsopen(_t('Information'));
     	?>
-    	<p><?= _('There is no catalog found by that name'); ?><a href="index.php?mod=cs&act=addmain"><?= _("Add Catalog"); ?></a><?= _(' First'); ?></p> 
+    	<p><?= _t('There is no catalog found by that name'); ?><a href="index.php?mod=cs&act=addmain"><?= _t("Add Catalog"); ?></a><?= _t(' First'); ?></p> 
     	<?php
     	shn_form_fsclose();
     } else {
-    	shn_form_fsopen(_("Select the Catalog"));
+    	shn_form_fsopen(_t("Select the Catalog"));
     	$select_opts = 'onChange=update_next_level(this.options[this.selectedIndex].value,0)';    
     	shn_form_select($parent_array,'',0,$select_opts,null);
     	shn_form_fsclose();
-    	shn_form_fsopen(_('Select the Category or Classification'));
+    	shn_form_fsopen(_t('Select the Category or Classification'));
     		
     	for ($i = 1; $i < $max + 1; $i++) {
     		$select_opts = 'onChange=update_next_level(this.options[this.selectedIndex].value,' . $i . ') visible="false"';    
@@ -203,10 +203,10 @@ function shn_sub_cat($max,$form,$inventory_id,$item_flag = false)
     	shn_form_hidden(array('item_name' => ""));
     	shn_form_hidden(array('inventory_id' => $inventory_id));
     	//_shn_cs_item_name_javascript("item_name",$max,$form);
-    	shn_form_button(_("Next"),"onClick='set_name_submit()'");
+    	shn_form_button(_t("Next"),"onClick='set_name_submit()'");
     	shn_form_fsclose();
     
-    //shn_form_submit(_("Next"));
+    //shn_form_submit(_t("Next"));
     }
 }
 
@@ -376,7 +376,7 @@ function _shn_cs_validate_sub_cat_form()
     }
 
     if ($itemid == null || $itemid == 'none') {
-    	add_error(_("Please select the Catalog that you need"));
+    	add_error(_t("Please select the Catalog that you need"));
     	$error_flag = true;
     }    
 

@@ -40,21 +40,21 @@ function shn_msg_mainmenu()
     shn_mod_menuopen("Messaging");
     shn_mod_menuitem("default", "Home", $module) ;
     shn_sub_mod_menuopen("Messages");
-    shn_sub_mod_menuitem("customized_messaging", _("Customized Messaging"), $module);
-    shn_sub_mod_menuitem("send_group",_("Group Messaging"),$module);
+    shn_sub_mod_menuitem("customized_messaging", _t("Customized Messaging"), $module);
+    shn_sub_mod_menuitem("send_group",_t("Group Messaging"),$module);
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen("Manage Groups");
-    shn_sub_mod_menuitem("add_group",_("Add Group"),$module);
-    shn_sub_mod_menuitem("edit_group",_("Edit Group"),$module);
-    shn_sub_mod_menuitem("list_group",_("List Group"),$module);
+    shn_sub_mod_menuitem("add_group",_t("Add Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_t("Edit Group"),$module);
+    shn_sub_mod_menuitem("list_group",_t("List Group"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("CAP");
-    shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
-    shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
-    shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
-    shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
+    shn_sub_mod_menuitem("cap_new", _t("New Alert"), $module);
+    shn_sub_mod_menuitem("cap_view", _t("View Alert"), $module);
+    shn_sub_mod_menuitem("cap_edit", _t("Edit Alert"), $module);
+    shn_sub_mod_menuitem("cap_upload", _t("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
     
     shn_mod_menuclose() ;

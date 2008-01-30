@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: main.inc,v 1.18 2008-01-03 10:21:58 isurunishan Exp $; */
-/* $Id: main.inc,v 1.18 2008-01-03 10:21:58 isurunishan Exp $; */
+/* $Id: main.inc,v 1.19 2008-01-30 04:35:17 prabath321 Exp $; */
+/* $Id: main.inc,v 1.19 2008-01-30 04:35:17 prabath321 Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -29,23 +29,23 @@ function shn_gis_mainmenu(){
     global $conf;
     $module = $global['module'];
     shn_mod_menuopen($conf['mod_gis_name']);
-    shn_mod_menuitem("default",_("Home"),$module);
-    shn_mod_menuitem("swik",_("Situation Map"),$module);
-    shn_mod_menuitem("awik",_("Add Map Marker"),$module);
-    shn_mod_menuitem("mapc",_("General Map"),$module);
+    shn_mod_menuitem("default",_t("Home"),$module);
+    shn_mod_menuitem("swik",_t("Situation Map"),$module);
+    shn_mod_menuitem("awik",_t("Add Map Marker"),$module);
+    shn_mod_menuitem("mapc",_t("General Map"),$module);
     
     // @todo: Confirm functionality
     /*
-    shn_sub_mod_menuopen(_("Landmark Feature"));
-    shn_mod_menuitem("aloc",_("Add Landmark"),$module);
-    shn_mod_menuitem("vloc",_("View Landmarks"),$module);
+    shn_sub_mod_menuopen(_t("Landmark Feature"));
+    shn_mod_menuitem("aloc",_t("Add Landmark"),$module);
+    shn_mod_menuitem("vloc",_t("View Landmarks"),$module);
     shn_sub_mod_menuclose();
     */
-    //shn_sub_mod_menuopen(_("Situation Feature"));
+    //shn_sub_mod_menuopen(_t("Situation Feature"));
     //shn_sub_mod_menuclose();
     // @todo: confirm functionality
     /*
-    shn_sub_mod_menuopen(_("Spatial Reports"));
+    shn_sub_mod_menuopen(_t("Spatial Reports"));
     shn_sub_mod_menuclose();
     */
     shn_mod_menuclose();

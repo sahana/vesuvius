@@ -17,7 +17,7 @@
  * Public License (LGPL)
  */
 
-_shn_rms_print_hedder(_("Search for Pledges"));
+_shn_rms_print_hedder(_t("Search for Pledges"));
 
 function _shn_rms_sch_getkeywords()
 {
@@ -36,12 +36,12 @@ function _shn_rms_sch_getkeywords()
 		}
 		//---------------------------------------------------------------------------------
 		$status = array();
-		$status['all'] = _("All");
-		$status['not confirmed'] = _("Not Confirmed");
-		$status['confirmed'] = _("Confirmed");
+		$status['all'] = _t("All");
+		$status['not confirmed'] = _t("Not Confirmed");
+		$status['confirmed'] = _t("Confirmed");
 
-		$status['delivered'] = _("Delivered");
-		$status['discarded'] = _("Discarded");
+		$status['delivered'] = _t("Delivered");
+		$status['discarded'] = _t("Discarded");
 		//-----------------------------------------------------------------------------------
 		$date=array();
 		//---------------------------------------------------------------------------------
@@ -49,24 +49,24 @@ function _shn_rms_sch_getkeywords()
 		shn_form_fsopen("Select Criteria");
 		shn_form_hidden(array('seq'=>'get_keywords'));
 		if($_SESSION['isadmin']==true) {
-			shn_form_select($donor_name, _("Donor"), 'donor_id',null,array('br'=>false));
-			//shn_form_select($donor_name, _("Donor"), 'donor_id',null,($donor_name['All']=='All')?array('br'=>false,'value'=>'All'):array('br'=>false,'value'=>''));
+			shn_form_select($donor_name, _t("Donor"), 'donor_id',null,array('br'=>false));
+			//shn_form_select($donor_name, _t("Donor"), 'donor_id',null,($donor_name['All']=='All')?array('br'=>false,'value'=>'All'):array('br'=>false,'value'=>''));
 			print '<br/>';
 			print '<br/>';
 		}
-		shn_form_select($categories, _("Category"), 'category', null ,array('br'=>false));
+		shn_form_select($categories, _t("Category"), 'category', null ,array('br'=>false));
 		print '<br/>';
 		print '<br/>';
-		shn_form_select($status, _("Status"), 'status', null,array('br'=>false));
+		shn_form_select($status, _t("Status"), 'status', null,array('br'=>false));
 		print '<br/>';
 		print '<br/>';
-		//shn_form_text(_("Search Keywords"),'keywords',null,array('br'=>false,'value'=>''));
+		//shn_form_text(_t("Search Keywords"),'keywords',null,array('br'=>false,'value'=>''));
 		shn_form_fsclose();
-		shn_form_submit(_("Search"));
+		shn_form_submit(_t("Search"));
 
 		shn_form_fclose();
 	}else {
-		add_warning(_("No pledges found"));
+		add_warning(_t("No pledges found"));
 	}
 }
 
@@ -175,13 +175,13 @@ function _shn_rms_shn_get_results()
 	 if (1 < $page_count)
 	 {
 	 $paging = true;
-	 $page_list = _(":: ");
+	 $page_list = _t(":: ");
 
 	 if (1 < $page)
 	 {
 	 $page_list .= '<a href="index.php?mod=rms&amp;act=plg_ls' .
 	 '&amp;page_no=' . ($page - 1) . '"> ' .
-	 _("Previous") . '</a> ';
+	 _t("Previous") . '</a> ';
 	 }
 
 	 for ($i = 1; $i <= $page_count; $i++)
@@ -201,7 +201,7 @@ function _shn_rms_shn_get_results()
 	 if ($page_count != $page)
 	 $page_list .= '<a href="index.php?mod=rms&amp;act=plg_ls' .
 	 '&amp;page_no=' . ($page + 1) . '">' .
-	 _("Next") . '</a>';
+	 _t("Next") . '</a>';
 	 }
 
 	 //set order-by
@@ -227,10 +227,10 @@ function _shn_rms_shn_get_results()
 
 	 //Result table hedder
 	 $th_res[] = array (
-	 _("ID"),
-	 _("Donor"),
-	 _("Date"),
-	 _("status"),
+	 _t("ID"),
+	 _t("Donor"),
+	 _t("Date"),
+	 _t("status"),
 	 ''
 	 );
 
@@ -252,7 +252,7 @@ function _shn_rms_shn_get_results()
 
 	 $view_url = '<a href=index.php?mod=rms&amp;act=plg_ls' .
 	 '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
-	 _("Details") . '</a>';
+	 _t("Details") . '</a>';
 
 	 $tb_res[] = array ($plg_id, $donor_d, $plg_date, $plg_stat, $view_url);
 	 }
@@ -297,29 +297,29 @@ function _shn_rms_sch_results()
 	{
 		if($_SESSION['isadmin']==TRUE) {
 			$tbl_hd_arr[0] = array (
-			_("Donor"),
-			_("Category"),
-			_("Item"),
-			_("Quantity"),
-			_("Date"),
-			_("status"),
-			_("Inventory")
+			_t("Donor"),
+			_t("Category"),
+			_t("Item"),
+			_t("Quantity"),
+			_t("Date"),
+			_t("status"),
+			_t("Inventory")
 			     );
 		}else {
 			$tbl_hd_arr[0] = array (
 
-			_("Category"),
-			_("Item"),
-			_("Quantity"),
-			_("Date"),
-			_("status"),
-			_("Inventory")
+			_t("Category"),
+			_t("Item"),
+			_t("Quantity"),
+			_t("Date"),
+			_t("status"),
+			_t("Inventory")
                                  );
 		}
 		
 		$view_url = '<a href=index.php?mod=rms&amp;act=plg_sch' .
                         '&amp;seq=view_plg&amp;plg_id=' . $plg_id .'>' .
-			_("Details") . '</a>';
+			_t("Details") . '</a>';
 		$i=0;
 		while(!$res->EOF){
 			if($_SESSION['isadmin']==TRUE) {
@@ -346,7 +346,7 @@ function _shn_rms_sch_results()
 		shn_html_table($tbl_arr, $tbl_hd_arr, null, array('class'=>'wide'));
 	}else {
 		print '<br />';
-		_shn_html_print_alert(_("There are no results that match your search criteria."));
+		_shn_html_print_alert(_t("There are no results that match your search criteria."));
 	}
 }
 
@@ -401,10 +401,10 @@ switch ($_REQUEST['seq'])
 		_shn_rms_view_pledge($plg_id);
 		$keywords = $_REQUEST['keywords'];
 		print '<br />' .
-                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+                  '[ <a href="index.php?mod=rms">' . _t("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;' .
                         'act=plg_sch">' . 
-		_("Back to Pledge Search") . '</a> ]';
+		_t("Back to Pledge Search") . '</a> ]';
 		break;
 }
 

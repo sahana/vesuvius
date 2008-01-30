@@ -200,7 +200,7 @@ function shn_setup_simple_config_next(){
 	$res = shn_setup_do_setup();
 	if(isset($res) && $res == false){
 		// there were errors during setup.
-		add_error(_("There was an error, due to which the setup can not complete successfully. All changes made were attempted to be rolled back."));
+		add_error(_t("There was an error, due to which the setup can not complete successfully. All changes made were attempted to be rolled back."));
 		shn_setup_error();
 	}else{
 		shn_setup_complete();

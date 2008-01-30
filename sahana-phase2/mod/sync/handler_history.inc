@@ -17,15 +17,15 @@
  */
 
 global $global;
-echo "<h2>"._('Synchronization History')."</h2>";
+echo "<h2>"._t('Synchronization History')."</h2>";
 $sql="SELECT * FROM sync_instance";
 $rs=$global['db']->GetAll($sql);
 echo "<div id ='result'>
-        <table><thead><td>"._('Instance ID')."</td>
-        <td>"._('Owner')."</td>
-        <td>"._('Contacts')."</td>
-        <td>"._('Last Update')."</td>
-        <td>"._('Update Count')."</td>
+        <table><thead><td>"._t('Instance ID')."</td>
+        <td>"._t('Owner')."</td>
+        <td>"._t('Contacts')."</td>
+        <td>"._t('Last Update')."</td>
+        <td>"._t('Update Count')."</td>
         </thead>";
 foreach($rs as $row){
     echo "<tr>";

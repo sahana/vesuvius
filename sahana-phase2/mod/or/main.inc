@@ -33,18 +33,18 @@ function shn_or_mainmenu()
     $module = $global['module'];
   //  $loc=_shn_or_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_or_name']));
-    shn_mod_menuitem("default",_("Home"),$module);
-	shn_mod_menuitem("search",_("Search"),$module);
-    shn_sub_mod_menuopen(_("Register"));
-    shn_mod_menuitem("reg_org",_("Register an Organization"),$module);
-    shn_mod_menuitem("reg_operation",_("Register a Department/Branch"),$module);
+    shn_mod_menuitem("default",_t("Home"),$module);
+	shn_mod_menuitem("search",_t("Search"),$module);
+    shn_sub_mod_menuopen(_t("Register"));
+    shn_mod_menuitem("reg_org",_t("Register an Organization"),$module);
+    shn_mod_menuitem("reg_operation",_t("Register a Department/Branch"),$module);
     shn_sub_mod_menuclose();
-    shn_mod_menuitem("view_org",_("View and Edit"),$module);
-    shn_sub_mod_menuopen(_("Reports"));
-    shn_mod_menuitem("drill_report_loc",_("Drill down Location Coverage"),$module);
-    shn_mod_menuitem("drill_report_org",_("Drill down Organization Coverage"),$module);
+    shn_mod_menuitem("view_org",_t("View and Edit"),$module);
+    shn_sub_mod_menuopen(_t("Reports"));
+    shn_mod_menuitem("drill_report_loc",_t("Drill down Location Coverage"),$module);
+    shn_mod_menuitem("drill_report_org",_t("Drill down Organization Coverage"),$module);
   //  shn_mod_menuitem("org_incident","Organizations by Incident",$module);
-    shn_mod_menuitem("org_sector",_("Organizations by Sector"),$module);
+    shn_mod_menuitem("org_sector",_t("Organizations by Sector"),$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
     
@@ -356,7 +356,7 @@ function shn_or_search_cr(){
     <div>
                 <center>
                 <a href="index.php?mod=or&act=search">
-                  <?php echo "<strong>"._("Back to Search Page")."</strong>"; ?>
+                  <?php echo "<strong>"._t("Back to Search Page")."</strong>"; ?>
              
                 </a>
                 </center>

@@ -164,7 +164,7 @@ function shn_hr_add_to_session()
 			$_SESSION['hr']['search_hf']['primary_detail_search']['search_family_head_name']=$_POST['search_family_head_name'];
 			$_SESSION['hr']['search_hf']['primary_detail_search']['search_family_head_uid']=$_POST['search_family_head_uid'];
 				
-			_shn_hr_print_header(_("Search Homeless Famil(ies)"));
+			_shn_hr_print_header(_t("Search Homeless Famil(ies)"));
 			shn_hr_search_hf();
 			print '<br />';
 			shn_hr_list_menu1_and_menu2(true);
@@ -175,7 +175,7 @@ function shn_hr_add_to_session()
 				
 			$_SESSION['hr']['search_hf']['primary_detail_search']['optn_dstrctn_lvl']=$_POST['optn_dstrctn_lvl'];
 
-			_shn_hr_print_header(_("Search Damaged House(s)"));			
+			_shn_hr_print_header(_t("Search Damaged House(s)"));			
 			shn_hr_search_damaged_house();
 			print '<br />';
 			shn_hr_list_menu1_and_menu2(true,true);
@@ -188,7 +188,7 @@ function shn_hr_add_to_session()
 			$_SESSION['hr']['search_hf']['primary_detail_search']['search_contractor_name']=$_POST['search_contractor_name'];
 			$_SESSION['hr']['search_hf']['primary_detail_search']['search_contractor_uid']=$_POST['search_contractor_uid'];
 			
-			_shn_hr_print_header(_("Search Contractor(s)"));	
+			_shn_hr_print_header(_t("Search Contractor(s)"));	
 			if($_REQUEST['seq']=='assign_to_site') 
 			{
 				shn_hr_search_contractor(false,true);
@@ -211,7 +211,7 @@ function shn_hr_add_to_session()
 			$_SESSION['hr']['search_hf']['primary_detail_search']['optn_site_allocated_organization']=$_POST['optn_site_allocated_organization'];
 			$_SESSION['hr']['search_hf']['primary_detail_search']['search_site_main_coordinator_name']=$_POST['search_site_main_coordinator_name'];
 			
-			_shn_hr_print_header(_("Search Site(s)"));
+			_shn_hr_print_header(_t("Search Site(s)"));
 			if($_REQUEST['seq']=='assign_contractor') 
 			{
 				shn_hr_search_site(false,true);

@@ -20,8 +20,8 @@
 	$db=$global['db'];
 	$breadcrumb_str = "<a href='index.php?mod=cs&amp;act=drill_down'>"."root"."</a>";
    	?>
-  	<h1><?= (_("Drill down report")) ?></h1>
-  	<p><?= _('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
+  	<h1><?= (_t("Drill down report")) ?></h1>
+  	<p><?= _t('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
   	<?php
  
 	if(isset($_REQUEST['id'])) {
@@ -52,14 +52,14 @@
 	}
 	
 	?>
-	<p><?=_("Go to : ")?><?php print $breadcrumb_str; ?></p>
+	<p><?=_t("Go to : ")?><?php print $breadcrumb_str; ?></p>
  	<br />
  	<div id="result">
  	<table>
     	<thead>
-        	<td><strong><?=_("Name")?></strong></td>
-        	<td><strong><?=_("Item/catalog")?></strong></td>
-			<td><strong><?=_("Keyword")?></strong></td>
+        	<td><strong><?=_t("Name")?></strong></td>
+        	<td><strong><?=_t("Item/catalog")?></strong></td>
+			<td><strong><?=_t("Keyword")?></strong></td>
     	</thead>
     	<TBODY>
     	<?php
@@ -89,11 +89,11 @@
 		    	?>
 		        
 		        <?php if($final_flag=='0' && $parent_ID == '0') { ?>
-		            <td>&nbsp;&nbsp;<?php print _("Main catalog") ; ?></td>
+		            <td>&nbsp;&nbsp;<?php print _t("Main catalog") ; ?></td>
 		        <?php } elseif($final_flag=='0' && $parent_ID != '0') { ?>
-			    <td>&nbsp;&nbsp;<?php print _("Sub catalog") ; ?></td>
+			    <td>&nbsp;&nbsp;<?php print _t("Sub catalog") ; ?></td>
 		        <?php } else { ?>
-		            <td>&nbsp;&nbsp;<?php print _("Item"); ?></td>
+		            <td>&nbsp;&nbsp;<?php print _t("Item"); ?></td>
 		        <?php } ?>
 		           <td><?php print $keyword ;?></td>
 		    </tr>

@@ -19,6 +19,7 @@ if (!function_exists("gettext"))
 {
 	include_once ($global['approot'].'inc/lib_locale/lib_gettext.inc');
 }
+require_once ($global['approot'].'inc/lib_locale/gettext.inc');
 require_once ($global['approot'] . 'inc/lib_security/constants.inc');
 require_once ($global['approot'] . 'inc/lib_security/lib_auth.inc');
 require_once ($global['approot'].'inc/handler_html_head.inc');
@@ -120,7 +121,7 @@ function shn_setup_start(){
 	global $_state_funct_map,$global;
 
 	if(isset($_SESSION['setup_state']) == false){
-		echo "<p>"._("There is an error within the setup script. The setup_state was not found in the session.")."</p>";
+		echo "<p>"._t("There is an error within the setup script. The setup_state was not found in the session.")."</p>";
 		return;
 	}
 	// record all states.
@@ -218,7 +219,7 @@ function _shn_setup_call_function($funct_name,$extra_opts=null){
 			return $funct_name($extra_opts);
 		}
 	}else{
-		echo "<p>"._("There is an error within the setup script. The function ")."<b>".$funct_name."</b>"._(" was not found.")."</p>";
+		echo "<p>"._t("There is an error within the setup script. The function ")."<b>".$funct_name."</b>"._t(" was not found.")."</p>";
 	}
 
 	if (!($_POST{"user_pwd"}==$re_password)){

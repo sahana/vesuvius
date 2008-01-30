@@ -41,7 +41,7 @@ function _shn_ims_add_item_header()
     ?>
 
 
-    <h1 align="center"><?php print _("Add Item"); ?> </h1>
+    <h1 align="center"><?php print _t("Add Item"); ?> </h1>
     
 
 
@@ -64,7 +64,7 @@ function _shn_ims_add_item_main_page($inventory_id)
    
 ?>
 
-    <h1 align="center"><?php print _("Add items to the Inventory"); ?><br></h1>
+    <h1 align="center"><?php print _t("Add items to the Inventory"); ?><br></h1>
     <dev id="report">
 
     </dev>
@@ -135,9 +135,9 @@ function add_item($temp,$parent_id)
 
 
     
-    shn_form_fsopen(_('Primary Details'));
-    shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
-    shn_form_text(_("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
+    shn_form_fsopen(_t('Primary Details'));
+    shn_form_text(_t("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
+    shn_form_text(_t("*  Amount : "),'amount','size="50"',array('value'=>$amount,'req'=>true));
 
     
     global $global;
@@ -160,10 +160,10 @@ function add_item($temp,$parent_id)
     $res->MoveNext();
     }    
 
-    shn_form_select($unit_select_array,_("Unit : "),'unit_select','size="1"',array('req'=>true));
+    shn_form_select($unit_select_array,_t("Unit : "),'unit_select','size="1"',array('req'=>true));
 
     
-    shn_form_text(_("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_('Cost of a unit which you are going to select below ')));
+    shn_form_text(_t("Cost per Unit : "),'cost_per_unit','size="50"',array('value'=>$cost_per_unit,'help'=>_t('Cost of a unit which you are going to select below ')));
     
     global $global;
     $db = $global["db"];
@@ -181,15 +181,15 @@ function add_item($temp,$parent_id)
         
     }
 
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the List Inventories Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_t('If this box does not contain preferred inventory name  please go through the List Inventories Menu and add an Inventory first')));
 
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Secondary details'));
+    shn_form_fsopen(_t('Secondary details'));
     //$extra_opts['value'] = $manufactured_date;
-    shn_form_date(_("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
+    shn_form_date(_t("Manufactured Date : "),'manufactured_date',array('value'=>$manufactured_date,'help'=>_t('Date Should be entered as year-month-date. Only - separator is accepted')));
    
-    shn_form_date(_("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_('Date Should be entered as year-month-date. Only - separator is accepted')));
+    shn_form_date(_t("Expire Date :"),'expire_date',array('value'=>$expire_date,'help'=>_t('Date Should be entered as year-month-date. Only - separator is accepted')));
     
         
     shn_form_fsclose();
@@ -202,7 +202,7 @@ function add_item($temp,$parent_id)
     $suplier_name_array = array();
     $suplier_name_array = _shn_or_get_suplier_name($suplier_id);
    
-    shn_form_select($suplier_name_array,_("Supplier Organization : "),'suplier_id','size="1"',array('help'=>_('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+    shn_form_select($suplier_name_array,_t("Supplier Organization : "),'suplier_id','size="1"',array('help'=>_t('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
 //----------------------------------------------------------------------------------------------------------------
     
 
@@ -215,12 +215,12 @@ function add_item($temp,$parent_id)
     if ($temp == NULL) {
        
         shn_form_hidden(array('parent_id'=>$parent_id));
-        shn_form_submit(_("Submit"));
+        shn_form_submit(_t("Submit"));
     } else {
        
         shn_form_hidden(array('temp' => $temp));
         shn_form_hidden(array('parent_id' => $parent_id));
-        shn_form_submit(_("Save"));
+        shn_form_submit(_t("Save"));
      
     }
 

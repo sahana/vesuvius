@@ -51,7 +51,7 @@ class report{
     }
 
     function print_report(){
-        $report="<div id ='result'><table><thead><td>"._('Table Name')."</td><td>"._('Records Imported')."</td><td>"._('Duplicate Records')."</td><td>"._('Updated Records')."</td><td>"._('Inserted Records')."</td></thead>";
+        $report="<div id ='result'><table><thead><td>"._t('Table Name')."</td><td>"._t('Records Imported')."</td><td>"._t('Duplicate Records')."</td><td>"._t('Updated Records')."</td><td>"._t('Inserted Records')."</td></thead>";
         foreach($this->tables as $table){
             $report.="<tr>";
             $report.="<td>".$table."</td><td>".

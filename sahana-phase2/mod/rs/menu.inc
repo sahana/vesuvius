@@ -28,17 +28,17 @@ function _shn_rs_main_menu()
     $module = $global['module'];
     $report_mods = _shn_get_mod_reports();
     // The  module menu
-    shn_mod_menuopen(_("Reporting System"));
-    shn_mod_menuitem("default",_("Home"),'rs');
-    shn_sub_mod_menuopen(_("Module Reports Aggregator"));
+    shn_mod_menuopen(_t("Reporting System"));
+    shn_mod_menuitem("default",_t("Home"),'rs');
+    shn_sub_mod_menuopen(_t("Module Reports Aggregator"));
 	foreach ($report_mods as $i) 
 	{  
 	shn_sub_mod_menuitem("rpt_default", $conf['mod_'.$i.'_name'], $i);
 	}
     shn_sub_mod_menuclose();
-//     shn_mod_menuitem("sample",_("Generate Sample Report"),'rs');
-    shn_mod_menuitem("search",_("Report/Chart Search"),'rs');
-    shn_mod_menuitem("config",_("Configuration"),'rs');
+//     shn_mod_menuitem("sample",_t("Generate Sample Report"),'rs');
+    shn_mod_menuitem("search",_t("Report/Chart Search"),'rs');
+    shn_mod_menuitem("config",_t("Configuration"),'rs');
     shn_mod_menuclose();
 
     // include the main menu

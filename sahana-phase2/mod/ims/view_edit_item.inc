@@ -26,7 +26,7 @@ function _shn_ims_view_edit_header()
 {
 ?>
 
-    <h1 align="center"><?php print _("Item Registry");?><br></h1>
+    <h1 align="center"><?php print _t("Item Registry");?><br></h1>
     <dev id="result">
 
     </dev>
@@ -44,31 +44,31 @@ function _shn_ims_view_edit($i,$Limit=null)
     $module = $global['module'];
     $form_opts['name']="edit_item";
     shn_form_fopen("view_edit_item_actions",null,$form_opts);
-    shn_form_fsopen(_("Add Item"));
+    shn_form_fsopen(_t("Add Item"));
     $extra_opts['br']=false;
     $extra_opts['req']=false;
-    shn_form_button(_("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
-   // shn_form_submit(_("Add Item"));
+    shn_form_button(_t("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
+   // shn_form_submit(_t("Add Item"));
     shn_form_fsclose();
     
     //shn_form_fsopen(null);
     print '<b>';
-    shn_form_text(_("Records Per Page : "),'status','onChange="submit(this);"',array('value'=>$Limit));
-    //shn_form_select($stat, _("Status"), 'status', 'onChange="submit(this);"',null);
+    shn_form_text(_t("Records Per Page : "),'status','onChange="submit(this);"',array('value'=>$Limit));
+    //shn_form_select($stat, _t("Status"), 'status', 'onChange="submit(this);"',null);
 ?>
 
     <div id ="result">
     <table>
         <thead>
-        <td><?=_("Item");?></td>
-        <td><?=_("Amount");?></td>
-        <td><?=_("Unit");?></td>
-        <td><?=_("Manufactured Date")?></td>
-            <td><?=_("Expire Date")?></td>
-        <td><?=_("Available Inventory")?></td>
-            <td><?=_("Supplier Name")?></td>
-        <td><?=_("Edit")?></td>
-        <td><?=_("Delete")?></td>
+        <td><?=_t("Item");?></td>
+        <td><?=_t("Amount");?></td>
+        <td><?=_t("Unit");?></td>
+        <td><?=_t("Manufactured Date")?></td>
+            <td><?=_t("Expire Date")?></td>
+        <td><?=_t("Available Inventory")?></td>
+            <td><?=_t("Supplier Name")?></td>
+        <td><?=_t("Edit")?></td>
+        <td><?=_t("Delete")?></td>
             
         </thead>
     <tbody>
@@ -101,7 +101,7 @@ function _shn_ims_view_edit($i,$Limit=null)
 	$NumberOfPages=ceil($NumberOfResults/$Limit); 
 	
 	
-	print(_("Go to Page : "));
+	print(_t("Go to Page : "));
 	
 	for($i=1;$i<$NumberOfPages+1;$i++)
 	{
@@ -172,16 +172,16 @@ function _shn_ims_view_edit($i,$Limit=null)
     </div>
 <?php
 //shn_form_fsclose();
-shn_form_fsopen(_("Inventory Transfer"));
+shn_form_fsopen(_t("Inventory Transfer"));
  $extra_opts['br']=false;
     $extra_opts['req']=false;
 ?>
 <center>
 <?php
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Send Item"),"onClick='change_action(\"send\")'",$extra_opts);
-    shn_form_button(_("Transit Item"),"onClick='change_action(\"transit\")'",$extra_opts);
-    //shn_form_button(_("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_t("Send Item"),"onClick='change_action(\"send\")'",$extra_opts);
+    shn_form_button(_t("Transit Item"),"onClick='change_action(\"transit\")'",$extra_opts);
+    //shn_form_button(_t("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
 ?>
 </center>
 <?php
@@ -216,7 +216,7 @@ function _shn_ims_edit_item_db()
         
         
         _shn_ims_expire_date_check();
-	add_confirmation($item._(' Item was successfully updated'));
+	add_confirmation($item._t(' Item was successfully updated'));
 
         $_POST['item_name']="";    
         $_POST['amount']="";

@@ -31,7 +31,7 @@ function process_file(){
             case 'sqlite':
             break;
         }
-        $global['xajax']->addAssign('console','innerHTML', _('Combining Data.....'));
+        $global['xajax']->addAssign('console','innerHTML', _t('Combining Data.....'));
         $global['xajax']->addScript('xajax_start_sync();');
         //creating the report object
         $_SESSION['report']=new report();
@@ -52,7 +52,7 @@ function start_sync($form=array()){
         $_SESSION['report']->set_tables($_SESSION['sync']['tables']);
         $_SESSION['report']->set_all_number();
         include_once('sync_tmp_data.inc');
-        $global['xajax']->addAssign('console', 'innerHTML', _('Finish Synchronizing.....'));
+        $global['xajax']->addAssign('console', 'innerHTML', _t('Finish Synchronizing.....'));
         $global['xajax']->addScript('xajax_get_report();');
         $_SESSION['report']=serialize($_SESSION['report']);
     }catch(Exception $e){

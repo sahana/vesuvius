@@ -140,7 +140,7 @@ function _shn_org_location_string($loc)
 	$loc_arr=array();
    	shn_get_parents($loc,&$loc_arr);
    	if($loc_arr[0]=='unknown'){
-   		shn_form_label(_("Organization Location"),"Unknown");
+   		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
    		
    		$max=count($loc_arr)-1;
@@ -608,7 +608,7 @@ function _shn_or_display_gender($error=false,$value=NULL,$label=NULL)
     }else{
 	    //$extra_opts['req']=true;
     }
-    $label=($label==NULL)?_("Gender:"):$label;
+    $label=($label==NULL)?_t("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
 function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=true)
@@ -627,9 +627,9 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
         //$select_opts="multiple='false'";;
     } 
     if ($info){ 
-     ?><div class="info"><?=_("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
+     ?><div class="info"><?=_t("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
      <?php }
-   // $extra_opts['help']=_("please select whether you are a government organization,multinational ect");
+   // $extra_opts['help']=_t("please select whether you are a government organization,multinational ect");
     if($multi){
         shn_form_opt_multi_select('opt_org_type','','multiple="true"',$extra_opts);
     }else{
@@ -651,7 +651,7 @@ function _shn_or_display_org_sub_type($error=false,$multi=false,$value=NULL)
     }else{
         //$select_opts="multiple='false'";;
     }  
-    $extra_opts['help']=_("please select whether you are Department,Branch,ect of the parent organization");
+    $extra_opts['help']=_t("please select whether you are Department,Branch,ect of the parent organization");
 
     shn_form_opt_select('opt_org_sub_type','',$select_opts,$extra_opts);
      
@@ -668,10 +668,10 @@ function _shn_or_display_sector($error=false,$value=NULL,$info=true)
        // $extra_opts['req']=true;
     }
     if ($info){
-    ?><div class="info"><?=_("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
+    ?><div class="info"><?=_t("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
     <?php }
     $extra_opts['req']=true;
-  //  $extra_opts['help']=_("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
+  //  $extra_opts['help']=_t("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 
@@ -679,15 +679,15 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 {
         
     if($confirm==true){
-    		shn_form_label(_("Name"),$_SESSION['org']['contact_name']);
-    		shn_form_label(_("Address"),$_SESSION['org']['contact_address']);
-    		shn_form_label(_("Phone"),$_SESSION['org']['contact_phone']);
-    		shn_form_label(_("Mobile"),$_SESSION['org']['contact_mobile']);
-    		shn_form_label(_("Fax"),$_SESSION['org']['contact_fax']);
-    		shn_form_label(_("Website"),$_SESSION['org']['contact_web']);
+    		shn_form_label(_t("Name"),$_SESSION['org']['contact_name']);
+    		shn_form_label(_t("Address"),$_SESSION['org']['contact_address']);
+    		shn_form_label(_t("Phone"),$_SESSION['org']['contact_phone']);
+    		shn_form_label(_t("Mobile"),$_SESSION['org']['contact_mobile']);
+    		shn_form_label(_t("Fax"),$_SESSION['org']['contact_fax']);
+    		shn_form_label(_t("Website"),$_SESSION['org']['contact_web']);
     		return;
     }
-    ?><div class="info"><?= _("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
+    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
    if($error==true){
    		$contact_address=$_SESSION['org']['contact_address'];
         $contact_phone=$_SESSION['org']['contact_phone'];
@@ -724,36 +724,36 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
         $contact_web=$res_web->fields[0];
     }
     $extra_opts['value']=$contact_name;
-    $extra_opts['help']=_("Name of the person to be contacted in a disaster");
-    shn_form_text(_("Name : "),'contact_name','size="40"',$extra_opts); 
+    $extra_opts['help']=_t("Name of the person to be contacted in a disaster");
+    shn_form_text(_t("Name : "),'contact_name','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_address;
-      $extra_opts['help']=_("Address of a person to be contacted in a disaster");
-    shn_form_text(_("Address : "),'contact_add','size="40"',$extra_opts); 
+      $extra_opts['help']=_t("Address of a person to be contacted in a disaster");
+    shn_form_text(_t("Address : "),'contact_add','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
-      $extra_opts['help']=_("Land line number to be contacted in a disaster");
-    shn_form_text(_("Phone : "),'contact_phone','size="40"',$extra_opts); 
+      $extra_opts['help']=_t("Land line number to be contacted in a disaster");
+    shn_form_text(_t("Phone : "),'contact_phone','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
-      $extra_opts['help']=_("Mobile Phone number to be contacted in a disaster");
-    shn_form_text(_("Mobile No : "),'contact_mobile','size="40"',$extra_opts);
+      $extra_opts['help']=_t("Mobile Phone number to be contacted in a disaster");
+    shn_form_text(_t("Mobile No : "),'contact_mobile','size="40"',$extra_opts);
     $extra_opts['value']=$contact_fax;
-      $extra_opts['help']=_("Fax number to be contacted in a disaster");
-    shn_form_text(_("Fax : "),'contact_fax','size="40"',$extra_opts); 
+      $extra_opts['help']=_t("Fax number to be contacted in a disaster");
+    shn_form_text(_t("Fax : "),'contact_fax','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_email;
-      $extra_opts['help']=_("Email address to be contacted in a disaster");
-    shn_form_text(_("Email : "),'contact_mail','size="40"',$extra_opts); 
+      $extra_opts['help']=_t("Email address to be contacted in a disaster");
+    shn_form_text(_t("Email : "),'contact_mail','size="40"',$extra_opts); 
     $extra_opts['value']=$contact_web;
-      $extra_opts['help']=_("Website of the Organization");
-    shn_form_text(_("Website : "),'contact_web','size="40"',$extra_opts);
+      $extra_opts['help']=_t("Website of the Organization");
+    shn_form_text(_t("Website : "),'contact_web','size="40"',$extra_opts);
 }
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
 {
-    ?><div class="info"><?= _("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
+    ?><div class="info"><?= _t("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
     <?php
     if($confirm==true){
-        shn_form_label(_("Man Power"),$_SESSION['org']['man_power']);
-        shn_form_label(_("Equipment"),$_SESSION['org']['equipment']);
-        shn_form_label(_("Resources"),$_SESSION['org']['resources']);
+        shn_form_label(_t("Man Power"),$_SESSION['org']['man_power']);
+        shn_form_label(_t("Equipment"),$_SESSION['org']['equipment']);
+        shn_form_label(_t("Resources"),$_SESSION['org']['resources']);
     		return;
     }
     if($error==true){
@@ -773,24 +773,24 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
         }
     }
     $extra_opts['value']=$man_power;
-    $extra_opts['help']=_("Specify the workforce(Men/Women) in your organization. This amount would be useful in identifying the potential number of volunteers in the event of a disaster");
-    shn_form_text(_("Man Power : "),'man_power','size="40"',$extra_opts);
+    $extra_opts['help']=_t("Specify the workforce(Men/Women) in your organization. This amount would be useful in identifying the potential number of volunteers in the event of a disaster");
+    shn_form_text(_t("Man Power : "),'man_power','size="40"',$extra_opts);
     $extra_opts['value']=$equipment;
-    $extra_opts['help']=_("Specify the kind of equipment you have,that will be useful in Disaster Relief Operations");
-    shn_form_text(_("Equipment : "),'equipment','size="40"',$extra_opts);
+    $extra_opts['help']=_t("Specify the kind of equipment you have,that will be useful in Disaster Relief Operations");
+    shn_form_text(_t("Equipment : "),'equipment','size="40"',$extra_opts);
     $extra_opts['value']=$resources;
-    $extra_opts['help']=_("Specify any other resource that you think might be useful in Disaster Relief Operations");
-    shn_form_text(_("Other relevant resources : "),'resources','size="40"',$extra_opts);
+    $extra_opts['help']=_t("Specify any other resource that you think might be useful in Disaster Relief Operations");
+    shn_form_text(_t("Other relevant resources : "),'resources','size="40"',$extra_opts);
 }
 
 function _shn_or_display_logininfo($error=false)
 {
 // for get login info
     $login_info = array(
-    		       	array('desc'=>_("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
-                    array('desc'=>_("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
-                    array('desc'=>_("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
-                    array('desc'=>_("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
+    		       	array('desc'=>_t("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
+                    array('desc'=>_t("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
+                    array('desc'=>_t("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
+                    array('desc'=>_t("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
     ); // end of getting logging info
     return $login_info;
 }
@@ -821,9 +821,9 @@ function _shn_or_display_incident_form($error=false,$act)
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?=_("Select the Disaster/event/incident")?> </h2>
+<h2><?=_t("Select the Disaster/event/incident")?> </h2>
 <div id="note">
-<?=_("Since there are multiple incidents you required to select relevant incidents ");?>
+<?=_t("Since there are multiple incidents you required to select relevant incidents ");?>
 </div>
 <?php
     if($error) {
@@ -833,7 +833,7 @@ function _shn_or_display_incident_form($error=false,$act)
 <div id="formcontainer">
 <?php
     shn_form_fopen($act);
-    shn_form_fsopen(_('Choose related incidents:The Default Incident is Highlighted'));
+    shn_form_fsopen(_t('Choose related incidents:The Default Incident is Highlighted'));
     _shn_or_display_incident(false,true);
     shn_form_fsclose();
     shn_form_hidden(array('incident'=>"true"));
@@ -842,7 +842,7 @@ function _shn_or_display_incident_form($error=false,$act)
 <center>
 <?php
 //create the submit button
-   shn_form_submit(_("Next"));
+   shn_form_submit(_t("Next"));
 ?>
 </center>
 <br />
@@ -886,13 +886,13 @@ function _shn_or_display_incident($error=false,$multi=false,$value=NULL)
     if(!empty($value)){
     		$extra_opts['value']=$value;	
     }
-    $extra_opts['help']=_("select related incidents");
+    $extra_opts['help']=_t("select related incidents");
     shn_form_multi_select('incidents',$options,'',$select_opts,$extra_opts);
 }
 
 function _shn_or_display_extra($error=false)
 {
-    shn_form_checkbox(_("Add Operation")."<br>"._("(Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
+    shn_form_checkbox(_t("Add Operation")."<br>"._t("(Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull : )"),'chk_branch',null,$chkbox_opts);
 }
 
 function _shn_or_get_suplier_name($suplier_id)

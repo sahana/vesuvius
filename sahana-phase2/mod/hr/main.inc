@@ -42,36 +42,36 @@ function shn_hr_mainmenu()
     $module = $global['module'];
 
     // Create the module menu
-    shn_mod_menuopen(_('Housing Registry And Reconstruction'));
+    shn_mod_menuopen(_t('Housing Registry And Reconstruction'));
 
 
-    shn_sub_mod_menuitem('default',_('Main Page'));
+    shn_sub_mod_menuitem('default',_t('Main Page'));
 
-    shn_sub_mod_menuopen(_('Quick Search And Reports'));
-    shn_mod_menuitem('search',_('Quick Search'));
-    //shn_mod_menuitem('report',_('Reports'));
+    shn_sub_mod_menuopen(_t('Quick Search And Reports'));
+    shn_mod_menuitem('search',_t('Quick Search'));
+    //shn_mod_menuitem('report',_t('Reports'));
 	shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_('Homeless Family(ies)'));
-    shn_sub_mod_menuitem('reg_new_homeless_family',_('Register New'));
-    shn_mod_menuitem('search_list_and_edit_menu1',_('View, Search Or Edit'));
+    shn_sub_mod_menuopen(_t('Homeless Family(ies)'));
+    shn_sub_mod_menuitem('reg_new_homeless_family',_t('Register New'));
+    shn_mod_menuitem('search_list_and_edit_menu1',_t('View, Search Or Edit'));
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_('Damaged House(s)'));
-    shn_sub_mod_menuitem('reg_new_damaged_house',_('Register New'));
-    shn_mod_menuitem('search_list_and_edit_menu2',_('View, Search Or Edit'));
+    shn_sub_mod_menuopen(_t('Damaged House(s)'));
+    shn_sub_mod_menuitem('reg_new_damaged_house',_t('Register New'));
+    shn_mod_menuitem('search_list_and_edit_menu2',_t('View, Search Or Edit'));
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_('Contractor(s)'));
-    shn_sub_mod_menuitem('reg_new_contractor',_('Register New'));
-    shn_mod_menuitem('search_list_and_edit_menu3',_('View, Search Or Edit'));
-    shn_mod_menuitem('assign_to_site',_('Assign To Site(s)'));
+    shn_sub_mod_menuopen(_t('Contractor(s)'));
+    shn_sub_mod_menuitem('reg_new_contractor',_t('Register New'));
+    shn_mod_menuitem('search_list_and_edit_menu3',_t('View, Search Or Edit'));
+    shn_mod_menuitem('assign_to_site',_t('Assign To Site(s)'));
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_('Site(s)'));
-    shn_sub_mod_menuitem('reg_new_site',_('Register New'));
-    shn_mod_menuitem('search_list_and_edit_menu4',_('View, Search Or Edit'));
-    shn_mod_menuitem('assign_contractor',_('Assign Contractor(s)'));
+    shn_sub_mod_menuopen(_t('Site(s)'));
+    shn_sub_mod_menuitem('reg_new_site',_t('Register New'));
+    shn_mod_menuitem('search_list_and_edit_menu4',_t('View, Search Or Edit'));
+    shn_mod_menuitem('assign_contractor',_t('Assign Contractor(s)'));
     shn_sub_mod_menuclose();
 
 

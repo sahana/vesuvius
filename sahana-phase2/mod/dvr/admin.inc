@@ -26,15 +26,15 @@
 function shn_dvr_adm_default() {
 ?>
 <p><b>
-<?php echo _("Welcome to the Disaster Victim Registry admin page");?> </b></p>
+<?php echo _t("Welcome to the Disaster Victim Registry admin page");?> </b></p>
     <p>
     <?php
    shn_dvr_adminmenu();
    ?>
    <br/>
-     <p><b> <?php echo _("Welcome to the DVR administration  page")?> </b></p>
+     <p><b> <?php echo _t("Welcome to the DVR administration  page")?> </b></p>
      
-    <p> <?php echo _("Follow above links to administer the disaster victim registry")?></p>
+    <p> <?php echo _t("Follow above links to administer the disaster victim registry")?></p>
 <?php
 }
 
@@ -43,10 +43,10 @@ function shn_dvr_adminmenu() {
 	global $global;
 	$module = $global['module'];
 	// Create the module menuj
-	shn_adm_menuopen(_("Disaster Victim Registry"));
- 	shn_adm_menuitem("adm_checklist", _("Manage Checklist"));
+	shn_adm_menuopen(_t("Disaster Victim Registry"));
+ 	shn_adm_menuitem("adm_checklist", _t("Manage Checklist"));
 
-	//shn_adm_menuitem("adm_opt_age_group", _("Manage Groups"));
+	//shn_adm_menuitem("adm_opt_age_group", _t("Manage Groups"));
 	shn_adm_menuclose();
 
 }
@@ -57,14 +57,14 @@ function shn_dvr_adm_checklist()
     global $global;	
     shn_dvr_adminmenu();
     shn_form_fopen("adm_form_commit",null,array("req"=>false));
-    shn_form_fsopen(_("Add Service / Facility"));
+    shn_form_fsopen(_t("Add Service / Facility"));
 
 ?>
 <table>
 <tr>
 <td><?php
    $extra_opts['req'] = true;
-   shn_form_opt_select("opt_dvr_service",_("Currently Available Services/Facilities"),$extra_opts);
+   shn_form_opt_select("opt_dvr_service",_t("Currently Available Services/Facilities"),$extra_opts);
 	?>
 	
 	</td></tr>
@@ -72,21 +72,21 @@ function shn_dvr_adm_checklist()
 	<td>
 	<?php
 		
-	shn_form_text(_("Item Name"),"service_name",'size="30"',$extra_opts);
+	shn_form_text(_t("Item Name"),"service_name",'size="30"',$extra_opts);
 	?>
 	</td></tr>
 	<tr><td>
 	<?php
 	
 		
-	shn_form_text(_("Item Abbrevation [3 letter unique abbr. to store in the database]"),"service_abbr",'size="3"',$extra_opts);
+	shn_form_text(_t("Item Abbrevation [3 letter unique abbr. to store in the database]"),"service_abbr",'size="3"',$extra_opts);
 	?>
 	</td></tr>
 	</table>
 	<?php
 	
     shn_form_fsclose();
-	shn_form_submit(_("Add Item"));
+	shn_form_submit(_t("Add Item"));
 	shn_form_fclose();
 
 } 
@@ -110,10 +110,10 @@ function shn_dvr_adm_form_commit()
 				$res2 = $db->Execute($q2);
 				if(1 <= $res1->RecordCount())
 				{
-				add_error(_("Item already exists"));
+				add_error(_t("Item already exists"));
 				}
 				if(1 <= $res2->RecordCount())
-				add_error(_("Use different abbrevation."));
+				add_error(_t("Use different abbrevation."));
 				else{
 				$q = "INSERT INTO field_options(field_name,option_code,option_description) VALUES('opt_dvr_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
 				$res = $db->Execute($q);
@@ -121,12 +121,12 @@ function shn_dvr_adm_form_commit()
 				$_POST['service_name']=null;
 				}
 				
-		    }else{add_error(_("Please fill the required fields"));}
+		    }else{add_error(_t("Please fill the required fields"));}
 	 //shn_dvr_adm_checklist();
 	}
 	else
 	{
-	add_error(_("Please fill the required fields"));
+	add_error(_t("Please fill the required fields"));
 	
 	}
 	shn_dvr_adm_checklist();

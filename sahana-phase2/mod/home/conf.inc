@@ -1,6 +1,6 @@
 <?php
 
-$conf['mod_home_name'] = _('Sahana Home');
+$conf['mod_home_name'] = _t('Sahana Home');
 $conf['mod_home_menuorder'] = 1;
 
 

@@ -19,7 +19,7 @@ global $global;
 require_once $global['approot'].'/inc/lib_modules.inc';
 require_once $global['approot'].'/inc/lib_menu.inc';
 
-shn_mainmenuopen(_('Main Menu'));
+shn_mainmenuopen(_t('Main Menu'));
 
 // display the list of modules on the menu bar
 if(shn_acl_is_enabled()==true){

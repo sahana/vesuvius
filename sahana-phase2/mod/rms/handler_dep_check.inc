@@ -40,7 +40,7 @@ $error  =  __check_tables($tables);
 
 if($error)
 {
-    add_error("<strong>"._("Please contact the system admin <br />and create the required tables using the 'mod/rms/ins/dbcreate.sql' file, and properly setup the Sahana Catalogue System")."</strong>");
+    add_error("<strong>"._t("Please contact the system admin <br />and create the required tables using the 'mod/rms/ins/dbcreate.sql' file, and properly setup the Sahana Catalogue System")."</strong>");
     display_errors();
 
     $error  = false;
@@ -59,7 +59,7 @@ $error  = __check_empty_tables($tables);
 
 if ($error)
 {
-    add_error("<strong>"._("Please contact the system admin <br />and and add the initial data thats required by this module")."</strong>");
+    add_error("<strong>"._t("Please contact the system admin <br />and and add the initial data thats required by this module")."</strong>");
     display_errors();
 }
 

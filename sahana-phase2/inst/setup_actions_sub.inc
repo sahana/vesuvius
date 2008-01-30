@@ -37,7 +37,7 @@ function _shn_setup_write_config($config_key_vals,$undo=false){
 		$conf_file) ) {
 			return true;
 		} else {
-			add_error(_('Could not write to file ').$conf_file._(' file. You may not have write permissions to the parent directory.'));
+			add_error(_t('Could not write to file ').$conf_file._t(' file. You may not have write permissions to the parent directory.'));
 			return false;
 		}
 	}else{
@@ -46,7 +46,7 @@ function _shn_setup_write_config($config_key_vals,$undo=false){
 		if(file_exists($conf_file)){
 			$res = unlink($conf_file);
 			if(!$res){
-				add_error(_("Unable to undo the changes made. Please delete the ").$conf_file._(" file manually"));
+				add_error(_t("Unable to undo the changes made. Please delete the ").$conf_file._t(" file manually"));
 			}
 		}
 	}
@@ -97,7 +97,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 		$_tdb1->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass']);
 		/*$res=$_tdb1->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
 		if(!($res->EOF)){
-			add_error(_("System database username already exists. Use a different system database username."));
+			add_error(_t("System database username already exists. Use a different system database username."));
 			$_tdb1->Close();
 			return false;
 		}*/
@@ -111,7 +111,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 	$_tdb2 = &NewADOConnection('mysql');
 	$_tdb2->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass'],'mysql');
 	if($_tdb2->IsConnected()==false){
-		add_error(_("Incorrect database username or password."));
+		add_error(_t("Incorrect database username or password."));
 		$_tdb2->Close();
 		return false;
 	}

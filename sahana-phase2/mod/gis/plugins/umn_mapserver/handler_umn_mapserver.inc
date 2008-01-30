@@ -34,13 +34,13 @@ function toolbar()
 	shn_form_fsopen("Controls");
 	
 	$zoom_array=array();
-	$zoom_array["1"]=_("Zoom In");
+	$zoom_array["1"]=_t("Zoom In");
 	$zoom_array["-1"]="Zoom Out";
 	
-	//shn_form_select($zoom_array,_("Zoom Level"),null);
-	shn_form_radio($zoom_array,_("Control"),"map_control");
+	//shn_form_select($zoom_array,_t("Zoom Level"),null);
+	shn_form_radio($zoom_array,_t("Control"),"map_control");
 	shn_form_fsclose();
-	shn_form_submit(_("Filter"));
+	shn_form_submit(_t("Filter"));
 	shn_form_fclose();
 }
 
@@ -114,15 +114,15 @@ function show_map($opt=null)
 	<div id="formcontainer">
 		<form method="post" action="" id="formset" name="">
 <?php
-	shn_form_fsopen(_("Map Controls"));
+	shn_form_fsopen(_t("Map Controls"));
 	
 	$zoom_array=array();
-	$zoom_array["zi"]=_("Zoom In");
-	$zoom_array["zo"]=_("Zoom Out");
-	$zoom_array["pan"]=_("Pan");
+	$zoom_array["zi"]=_t("Zoom In");
+	$zoom_array["zo"]=_t("Zoom Out");
+	$zoom_array["pan"]=_t("Pan");
 	
-	//shn_form_select($zoom_array,_("Zoom Level"),"zoom");
-	shn_form_radio($zoom_array,_("Control"),"map_control");
+	//shn_form_select($zoom_array,_t("Zoom Level"),"zoom");
+	shn_form_radio($zoom_array,_t("Control"),"map_control");
 	shn_form_fsclose();
 	shn_form_fsopen("Layers");
 	for($i=0;$i<count($layer_array);$i++){
@@ -136,7 +136,7 @@ function show_map($opt=null)
 	<input type="hidden" name="extent" value="<?=$extent_to_html?>">
 <?php
 	shn_form_fsclose();
-	//shn_form_submit(_("Re-Draw"));
+	//shn_form_submit(_t("Re-Draw"));
 	shn_form_fclose();
 
 }

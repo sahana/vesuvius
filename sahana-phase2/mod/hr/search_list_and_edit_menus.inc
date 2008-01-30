@@ -16,7 +16,7 @@
 
 function shn_hr_search_list_and_edit_menu1()
 {
-	_shn_hr_print_header(_("Search Homeless Famil(ies)"));
+	_shn_hr_print_header(_t("Search Homeless Famil(ies)"));
 	shn_hr_search_hf();
 	print '<br />';
 	shn_hr_list_menu1_and_menu2(false,false,true);
@@ -24,7 +24,7 @@ function shn_hr_search_list_and_edit_menu1()
 
 function shn_hr_search_list_and_edit_menu2()
 {
-	_shn_hr_print_header(_("Search Damaged House(s)"));
+	_shn_hr_print_header(_t("Search Damaged House(s)"));
 	shn_hr_search_damaged_house();
 	print '<br />';
 	shn_hr_list_menu1_and_menu2(false,true,true);
@@ -32,7 +32,7 @@ function shn_hr_search_list_and_edit_menu2()
 
 function shn_hr_search_list_and_edit_menu3()
 {
-	_shn_hr_print_header(_("Search Contractor(s)"));
+	_shn_hr_print_header(_t("Search Contractor(s)"));
 	shn_hr_search_contractor();
 	print '<br />';
 	shn_hr_list_menu3(false,true);
@@ -40,7 +40,7 @@ function shn_hr_search_list_and_edit_menu3()
 
 function shn_hr_search_list_and_edit_menu4()
 {
-	_shn_hr_print_header(_("Search Site(s)"));
+	_shn_hr_print_header(_t("Search Site(s)"));
 	shn_hr_search_site();
 	print '<br />';
 	shn_hr_list_menu4(false,true);

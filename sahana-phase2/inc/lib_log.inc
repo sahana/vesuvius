@@ -141,7 +141,7 @@ function shn_log_display($UUID=null)
 	}else{
 		$sql = "SELECT event_date,action,module,user_uuid,comments,pgoc_uuid from chronology
             ORDER BY event_date DESC";
-		add_warning(_("UUID is NULL"));
+		add_warning(_t("UUID is NULL"));
 	}
 	//add_warning("UUID is $UUID");
 	$rs = $global['db']->Execute($sql);

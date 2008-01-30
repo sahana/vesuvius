@@ -40,7 +40,7 @@ function _shn_cr_srch_rst_address($camp_name,$type='all'){
 
 // 	$res_cmp =$db->Execute($query);
 ?>
-<h1><?php echo _("Search Results")?></h1>
+<h1><?php echo _t("Search Results")?></h1>
 <?php
         $res_cmp = shn_paging_get_report($query,10,null,array('post'=>true));
 	?>
@@ -48,12 +48,12 @@ function _shn_cr_srch_rst_address($camp_name,$type='all'){
 <div id="result">
 <table>
 	<thead>
-		<td><?php echo _("Shelter Name")?></td>
-		<td><?php echo _("Location")?></td>
-		<td><?php echo _("Address")?></td>
-		<td><?php echo _("Shelter Type")?></td>
-		<td><?php echo _("Total Count")?></td>
-		<td><?php echo _("Capacity")?></td>
+		<td><?php echo _t("Shelter Name")?></td>
+		<td><?php echo _t("Location")?></td>
+		<td><?php echo _t("Address")?></td>
+		<td><?php echo _t("Shelter Type")?></td>
+		<td><?php echo _t("Total Count")?></td>
+		<td><?php echo _t("Capacity")?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -73,12 +73,12 @@ function _shn_cr_srch_rst_address($camp_name,$type='all'){
 			<td><a
 				href="index.php?mod=cr&amp;act=ecmp&amp;seq=view&amp;cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">
 				<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?> <a
-				href="index.php?mod=cr&amp;act=ecmp&amp;seq=disp&amp;cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _("edit")?>]</a>
+				href="index.php?mod=cr&amp;act=ecmp&amp;seq=disp&amp;cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _t("edit")?>]</a>
 			<a
-				href="index.php?mod=cr&amp;act=eppl&amp;seq=disp&amp;cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _("edit people count")?>]</a>
+				href="index.php?mod=cr&amp;act=eppl&amp;seq=disp&amp;cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _t("edit people count")?>]</a>
 
 <!-- 			<a -->
-<!-- 				href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("ebdcnt")?>]</a> -->
+<!-- 				href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _t("ebdcnt")?>]</a> -->
 
 
 
@@ -86,7 +86,7 @@ function _shn_cr_srch_rst_address($camp_name,$type='all'){
 				<?php ;?></td>
 			<td><?php echo $location_name?></td>
 			<td><?php echo $res_cmp->fields['address']?></td>
-			<td><?php echo _("All")?></td>
+			<td><?php echo _t("All")?></td>
 			<td><?php echo $res_cmp->fields['total']?></td>
 			<td><?php echo $res_cmp->fields['capacity']?></td>
 		</tr>
@@ -131,7 +131,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 
 	//$res_cmp =$db->Execute($query);
 	?>
-	<h1><?php echo _("Search Results")?></h1>
+	<h1><?php echo _t("Search Results")?></h1>
 	<?php
         $res_cmp = shn_paging_get_report($query,10,null,array('post'=>true));
 	?>
@@ -139,12 +139,12 @@ function _shn_cr_srch_rst($camp_name,$type){
 <div id="result">
 <table>
 	<thead>
-		<td><?php echo _("Shelter Name")?></td>
-		<td><?php echo _("Location")?></td>
-		<td><?php echo _("Address")?></td>
-		<td><?php echo _("Shelter Type")?></td>
-		<td><?php echo _("Total Count")?></td>
-		<td><?php echo _("Capacity")?></td>
+		<td><?php echo _t("Shelter Name")?></td>
+		<td><?php echo _t("Location")?></td>
+		<td><?php echo _t("Address")?></td>
+		<td><?php echo _t("Shelter Type")?></td>
+		<td><?php echo _t("Total Count")?></td>
+		<td><?php echo _t("Capacity")?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -164,10 +164,10 @@ function _shn_cr_srch_rst($camp_name,$type){
 			<td><a
 				href="index.php?mod=cr&act=ecmp&seq=view&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">
 				<?php echo $res_cmp->fields['name']?>&nbsp;</a><?php if($edt)?> <a
-				href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _("edit")?>]</a>
+				href="index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $res_cmp->fields['c_uuid']?>">[<?php echo _t("edit")?>]</a>
 
-				<?php //Removing hospital functionality from search?> <!--<a href="index.php?mod=cr&act=eppl&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("eplcnt")?>]</a>
-<a href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _("ebdcnt")?>]</a>-->
+				<?php //Removing hospital functionality from search?> <!--<a href="index.php?mod=cr&act=eppl&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _t("eplcnt")?>]</a>
+<a href="index.php?mod=cr&act=ebed&seq=disp&cmp_id=<?php echo $res_cmp->fields['name']?>">[<?php echo _t("ebdcnt")?>]</a>-->
 
 
 
@@ -200,18 +200,18 @@ function _shn_cr_srch_rst($camp_name,$type){
 function _shn_cr_srch($edit=false){
 	global $conf;
 	?>
-<h1><?=_("Search for {$conf['mod_cr_alt']} by Name")?></h1>
+<h1><?=_t("Search for {$conf['mod_cr_alt']} by Name")?></h1>
 	<?php
 	shn_form_fopen("srch",null,array('req_message'=>false));
-	shn_form_fsopen(_("Search"));
+	shn_form_fsopen(_t("Search"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_form_text(_("Name of Shelter"),'cmp_id','size="30"');
-	shn_form_opt_select("opt_camp_type",_("Shelter Type"),null,array('all'=>true));
+	shn_form_text(_t("Name of Shelter"),'cmp_id','size="30"');
+	shn_form_opt_select("opt_camp_type",_t("Shelter Type"),null,array('all'=>true));
 	//set edit functionality in result
 	if($edit)
 	shn_form_hidden(array('edt'=>'true'));
 	shn_form_fsclose();
-	shn_form_submit(_("Search"));
+	shn_form_submit(_t("Search"));
 	shn_form_fclose();
 }
 
@@ -224,15 +224,15 @@ function _shn_cr_srch($edit=false){
 function _shn_cr_srch_address($edit=false){
 	global $conf;
 	?>
-<h1><?=_("Search Shelter by Address")?></h1>
+<h1><?=_t("Search Shelter by Address")?></h1>
 	<?php
 	shn_form_fopen("srch_address",null,array('req_message'=>false));
-	shn_form_fsopen(_("Search"));
+	shn_form_fsopen(_t("Search"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_form_text(_($conf['mod_cr_alt']." Address "),'cmp_id','size="40"');
+	shn_form_text(_t($conf['mod_cr_alt']." Address "),'cmp_id','size="40"');
 	if($edit=='true')
 	shn_form_hidden(array('edt'=>'true'));
-	shn_form_submit(_("Search"));
+	shn_form_submit(_t("Search"));
 	shn_form_fclose();
 }
 

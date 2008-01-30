@@ -31,7 +31,7 @@ function _shn_ims_relation_item()
 {
 ?>
 
-    <h1 align="center"><?php print _("Select Relative Item/Items"); ?><br></h1>
+    <h1 align="center"><?php print _t("Select Relative Item/Items"); ?><br></h1>
     <dev id="report">
 
     </dev>
@@ -60,7 +60,7 @@ function _shn_ims_relation_item_page()
     global $global;
     $db = $global["db"];
     shn_form_fopen("relation_item_table");
-    shn_form_fsopen(_("Inventory Selection"));
+    shn_form_fsopen(_t("Inventory Selection"));
 
     $inventory_array = array();
     $inventory_array['all'] = "All Inventories";
@@ -74,7 +74,7 @@ function _shn_ims_relation_item_page()
         
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_t('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
 
     shn_form_hidden(array('parent_id'=>$parent_id));
@@ -92,18 +92,18 @@ function _shn_ims_relation_item_table()
     $inv_id = trim($_POST['inv_id']);
     
 ?>
-<h1 align="center"><?php print(_("Relative Items Selection")); ?></h1>
+<h1 align="center"><?php print(_t("Relative Items Selection")); ?></h1>
 <div id="result">
 
     <table>
     <thead>
     <tr>
         
-    <td><?=_("Item") ?></td>
-    <td><?=_("Inventory") ?></td>
-    <td><?=_("Unit") ?></td>
-    <td><?=_("Available amount") ?></td>
-    <td><?=_("Action ") ?></td>
+    <td><?=_t("Item") ?></td>
+    <td><?=_t("Inventory") ?></td>
+    <td><?=_t("Unit") ?></td>
+    <td><?=_t("Available amount") ?></td>
+    <td><?=_t("Action ") ?></td>
         
         
             
@@ -222,7 +222,7 @@ function _shn_ims_relation_item_db($parent_id,$catalog_id,$inv_id)
             $ims3 = $db->Execute($sql3);
 
         }
-        add_confirmation(_("Relative item successfully set"));
+        add_confirmation(_t("Relative item successfully set"));
         shn_ims_relation_item();
     }
 }
@@ -236,7 +236,7 @@ function _shn_ims_alternate_item()
 {
     ?>
 
-    <h1 align="center"><?php print _("Select Alternative Item/Items"); ?><br></h1>
+    <h1 align="center"><?php print _t("Select Alternative Item/Items"); ?><br></h1>
     <dev id="report">
 
     </dev>
@@ -266,7 +266,7 @@ function _shn_ims_alternate_item_page()
     global $global;
     $db = $global["db"];
     shn_form_fopen("alternate_item_table");
-    shn_form_fsopen(_("Inventory Selection"));
+    shn_form_fsopen(_t("Inventory Selection"));
 
     $inventory_array = array();
     $inventory_array['all'] = "All Inventories";
@@ -280,10 +280,10 @@ function _shn_ims_alternate_item_page()
         
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_t('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
     shn_form_hidden(array('parent_id'=>$parent_id));
-    shn_form_submit(_("Submit"));
+    shn_form_submit(_t("Submit"));
     shn_form_fclose();
 
 }
@@ -297,18 +297,18 @@ function _shn_ims_alternate_item_table()
     $inv_id = $_POST['inv_id'];
     
 ?>
-<h1 align="center"><?php print(_("Alternative Items Selection")); ?></h1>
+<h1 align="center"><?php print(_t("Alternative Items Selection")); ?></h1>
 <div id="result">
 
     <table>
     <thead>
     <tr>
         
-    <td><?=_("Item") ?></td>
-    <td><?=_("Inventory") ?></td>
-    <td><?=_("Unit") ?></td>
-    <td><?=_("Available amount") ?></td>
-    <td><?=_("Action ") ?></td>
+    <td><?=_t("Item") ?></td>
+    <td><?=_t("Inventory") ?></td>
+    <td><?=_t("Unit") ?></td>
+    <td><?=_t("Available amount") ?></td>
+    <td><?=_t("Action ") ?></td>
         
         
             
@@ -402,7 +402,7 @@ function _shn_ims_alternate_item_db($parent_id,$catalog_id,$inv_id)
         } else {
             $sql1 = "INSERT INTO ims_alternate (catalog_id,inv_id,alternate) VALUES ('$parent_id','$inv_id','$alternate');";
             $ims1 = $db->Execute($sql1);
-            add_confirmation(_('Alternate item successfully set'));
+            add_confirmation(_t('Alternate item successfully set'));
             shn_ims_alternate_item();
         }
 }
@@ -421,7 +421,7 @@ function _shn_ims_optim_inventory()
     $db = $global["db"];
     $form_opts['name'] = "optim_inventory";
     shn_form_fopen("prediction_inv",null,$form_opts);
-    shn_form_fsopen(_("Inventory Selection"));
+    shn_form_fsopen(_t("Inventory Selection"));
     $inventory_array = array();
     $q0 = "SELECT inventory_name,inv_uuid FROM ims_inventory_records;";
     $ims0 = $db->Execute($q0);
@@ -433,35 +433,35 @@ function _shn_ims_optim_inventory()
         
     }    
     
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_t('If this box does not contain prefered inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Prediction Type"));
+    shn_form_fsopen(_t("Prediction Type"));
     $prediction_array = array();
     $prediction_array["send"] = "Sent";
     $prediction_array["receive"] = "Receive";
     $prediction_array["available"] = "Available";
-    shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
+    shn_form_select($prediction_array,_t("Prediction Type : "),'prediction_type','size="1"',null);
     shn_form_fsclose();
 
     shn_form_fsopen("Algorithm Selection");
     $algorithm_array = array();
     $algorithm_array["single"] = "Single Exponential Smoothing";
     $algorithm_array["double"] = "Double Exponential Smoothing";
-    shn_form_select($algorithm_array,_("Algorithm Selection : "),'algorithm','size="1"',null);
+    shn_form_select($algorithm_array,_t("Algorithm Selection : "),'algorithm','size="1"',null);
     shn_form_fsclose();
     
 
-    shn_form_fsopen(_("Time Period to make Prediction"));
+    shn_form_fsopen(_t("Time Period to make Prediction"));
     //shn_form_text();
-    shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
+    shn_form_text(_t("Time Period : "),'time_amount','size="20"',array('help'=>_t('Time period which you are going to make prediction')));
     $time_period_array = array();
     $time_period_array["day"] = "day/days";
     $time_period_array["week"] = "week/weeks";
     $time_period_array["month"] = "month/months";
-    shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
+    shn_form_select($time_period_array,_t("Time Period : "),'time_period','size="1"',null);
     shn_form_fsclose();
-    shn_form_button(_("Customized Report"),"onClick='change_action_inventory(\"customizedreport\")'",$extra_opts);
+    shn_form_button(_t("Customized Report"),"onClick='change_action_inventory(\"customizedreport\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     //shn_form_submit("Predict");
 
@@ -470,9 +470,9 @@ function _shn_ims_optim_inventory()
 <?php
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
-    shn_form_button(_("Daily Report"),"onClick='change_action_inventory(\"dailyreport\")'",$extra_opts);
-    shn_form_button(_("Weekly Report"),"onClick='change_action_inventory(\"weeklyreport\")'",$extra_opts);
-    shn_form_button(_("Monthly Report"),"onClick='change_action_inventory(\"monthlyreport\")'",$extra_opts);
+    shn_form_button(_t("Daily Report"),"onClick='change_action_inventory(\"dailyreport\")'",$extra_opts);
+    shn_form_button(_t("Weekly Report"),"onClick='change_action_inventory(\"weeklyreport\")'",$extra_opts);
+    shn_form_button(_t("Monthly Report"),"onClick='change_action_inventory(\"monthlyreport\")'",$extra_opts);
     
     
     //shn_form_hidden(array('parent_id'=>$parent_id));
@@ -561,7 +561,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
         }
 
 ?>
-    <h1 align="center"><?php print _("Forecasting by Inventory"); ?></h1>
+    <h1 align="center"><?php print _t("Forecasting by Inventory"); ?></h1>
 <?php
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
@@ -576,12 +576,12 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
 ?>
     <table>
     <thead>
-    <td><?php print (_("Item name")); ?></td>
-    <td><?php print (_("Inventory")); ?></td>
-    <td><?php print (_("Forecasted Value")); ?></td>
-    <td><?php print (_("Re-Order Level")); ?></td>
-    <td><?php print (_("Unit")); ?></td>
-    <td><?php print (_("Actions")); ?></td>
+    <td><?php print (_t("Item name")); ?></td>
+    <td><?php print (_t("Inventory")); ?></td>
+    <td><?php print (_t("Forecasted Value")); ?></td>
+    <td><?php print (_t("Re-Order Level")); ?></td>
+    <td><?php print (_t("Unit")); ?></td>
+    <td><?php print (_t("Actions")); ?></td>
     </thead>
     <tbody>
 <?php
@@ -667,7 +667,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = _("Pie Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
+    $string = _t("Pie Chart to forecasting Since ") . $current_date . " " . _t("To") . " " . $date_after;
 ?>	
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -760,7 +760,7 @@ function _shn_ims_optim_inventory_db($inv_id,$time_period,$prediction_type,$algo
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = _("Bar Chart to forecasting Since "). $current_date . " " . _("To") . " " . $date_after;
+    $string = _t("Bar Chart to forecasting Since "). $current_date . " " . _t("To") . " " . $date_after;
 ?>	
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -777,7 +777,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     $sql = "DELETE FROM ims_optimization;";
     $ims = $db->Execute($sql);
 ?>
-    <h1 align="center"><?php print(_("Prediction Report for Relative items")); ?></h1>
+    <h1 align="center"><?php print(_t("Prediction Report for Relative items")); ?></h1>
 <?php
     $sql1 = "SELECT * FROM ims_relation WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
     $ims1 = $db->Execute($sql1);
@@ -794,12 +794,12 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     <div id="result">
     <table>
     <thead>
-    <td><?php print(_("Item Name")); ?></td>
-    <td><?php print(_("Inventory")); ?></td>
-    <td><?php print(_("Forecasted Amount")); ?></td>
-    <td><?php print(_("Re-Order Level")); ?></td>
-    <td><?php print(_("Unit")); ?></td>
-    <td><?php print(_("Relation to")); ?></td>
+    <td><?php print(_t("Item Name")); ?></td>
+    <td><?php print(_t("Inventory")); ?></td>
+    <td><?php print(_t("Forecasted Amount")); ?></td>
+    <td><?php print(_t("Re-Order Level")); ?></td>
+    <td><?php print(_t("Unit")); ?></td>
+    <td><?php print(_t("Relation to")); ?></td>
     </thead>
 <?php
     $sql2 = "SELECT * FROM ims_optimization GROUP BY catalog_id;";
@@ -830,7 +830,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
         $inventory_name = $ims5->fields['inventory_name'];
         
         $unit_name = get_unit_name($unit);
-        //shn_form_label(_("Unit :"),$unit_name,null);
+        //shn_form_label(_t("Unit :"),$unit_name,null);
         $sql6 = "SELECT * FROM ims_reorder_level WHERE catalog_id='$catalog_id' AND inv_id='$inv_id';";
         $ims6 = $db->Execute($sql6);
         $minimum_quantity = $ims6->fields['minimum_quantity'];
@@ -941,7 +941,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = _("Bar Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
+    $string = _t("Bar Chart to forecasting Since ") . $current_date . " " . _t("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
@@ -954,7 +954,7 @@ function _shn_ims_optim_relation_inventories($catalog_id,$inv_id,$time_period,$a
     <image src="tmp/pieChart.png"></image>
 <?php
     print "<br>";
-    $string = _("Bar Chart to forecasting Since ") . $current_date . " " . _("To") . " " . $date_after;
+    $string = _t("Bar Chart to forecasting Since ") . $current_date . " " . _t("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
     <image src="tmp/barChart.png"></image>
@@ -975,7 +975,7 @@ function _shn_ims_optim_item_main_page()
 {
 ?>
 
-    <h1 align="center"><?php print _("Select Item to Predict"); ?><br></h1>
+    <h1 align="center"><?php print _t("Select Item to Predict"); ?><br></h1>
     <dev id="report">
 
     </dev>
@@ -1001,18 +1001,18 @@ function _shn_ims_prediction_page()
         }
     }
 ?>
-<h1 align="center"><?php print _("Item Prediction"); ?><br></h1>
+<h1 align="center"><?php print _t("Item Prediction"); ?><br></h1>
     <dev id="report1">
 
     </dev>
 <?php
     $form_opts['name'] = "optim_item";
     shn_form_fopen("prediction_report",null,$form_opts);
-    shn_form_fsopen(_("Selected Item"));
-    shn_form_text(_("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
+    shn_form_fsopen(_t("Selected Item"));
+    shn_form_text(_t("* Item : "),'item_name','size="50" readonly=true',array('value'=>$item_name,'req'=>true));
     shn_form_fsclose();
     
-    shn_form_fsopen(_("Inventory Selection"));
+    shn_form_fsopen(_t("Inventory Selection"));
     global $global;
     $db = $global["db"];
     $inventory_array = array();
@@ -1025,7 +1025,7 @@ function _shn_ims_prediction_page()
         //$j=$j+1;
 
     }
-    shn_form_select($inventory_array,_("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
+    shn_form_select($inventory_array,_t("Inventory : "),'inv_id','size="1"',array('req'=>true,'help'=>_t('If this box does not contain preferred inventory name  please go through the Multiple Inventory Management Menu and add an Inventory first')));
     shn_form_fsclose();
 
     shn_form_fsopen("Prediction Type");
@@ -1033,28 +1033,28 @@ function _shn_ims_prediction_page()
     $prediction_array["send"] = "Sent";
     $prediction_array["receive"] = "Received";
     $prediction_array["available"] = "Available";
-    shn_form_select($prediction_array,_("Prediction Type : "),'prediction_type','size="1"',null);
+    shn_form_select($prediction_array,_t("Prediction Type : "),'prediction_type','size="1"',null);
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Algorithm Selection"));
+    shn_form_fsopen(_t("Algorithm Selection"));
     $algorithm_array = array();
     //$algorithm_array["moving_average"]="Simple Moving Average";
     $algorithm_array["single"] = "Single Exponential Smoothing";
     $algorithm_array["double"] = "Double Exponential Smoothing";
-    shn_form_select($algorithm_array,_("Algorithm Selection : "),'algorithm','size="1"',null);
+    shn_form_select($algorithm_array,_t("Algorithm Selection : "),'algorithm','size="1"',null);
     shn_form_fsclose();
 
-    shn_form_fsopen(_("Time Period one to predict"));
+    shn_form_fsopen(_t("Time Period one to predict"));
     //shn_form_text();
-    shn_form_text(_("Time Period : "),'time_amount','size="20"',array('help'=>_('Time period which you are going to make prediction')));
+    shn_form_text(_t("Time Period : "),'time_amount','size="20"',array('help'=>_t('Time period which you are going to make prediction')));
     $time_period_array = array();
     $time_period_array["day"] = "day/days";
     $time_period_array["week"] = "week/weeks";
     $time_period_array["month"] = "month/months";
-    shn_form_select($time_period_array,_("Time Period : "),'time_period','size="1"',null);
+    shn_form_select($time_period_array,_t("Time Period : "),'time_period','size="1"',null);
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
-    shn_form_button(_("Customized Report"),"onClick='change_action(\"customizedreport\")'",$extra_opts);
+    shn_form_button(_t("Customized Report"),"onClick='change_action(\"customizedreport\")'",$extra_opts);
     shn_form_fsclose();
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
@@ -1062,9 +1062,9 @@ function _shn_ims_prediction_page()
 <center>
 <?php
     //shn_form_hidden(array('parent_id'=>$parent_id));	
-    shn_form_button(_("Daily Report"),"onClick='change_action(\"dailyreport\")'",$extra_opts);
-    shn_form_button(_("Weekly Report"),"onClick='change_action(\"weeklyreport\")'",$extra_opts);
-    shn_form_button(_("Monthly Report"),"onClick='change_action(\"monthlyreport\")'",$extra_opts);
+    shn_form_button(_t("Daily Report"),"onClick='change_action(\"dailyreport\")'",$extra_opts);
+    shn_form_button(_t("Weekly Report"),"onClick='change_action(\"weeklyreport\")'",$extra_opts);
+    shn_form_button(_t("Monthly Report"),"onClick='change_action(\"monthlyreport\")'",$extra_opts);
 ?>
 </center>
 <?php
@@ -1089,7 +1089,7 @@ function _shn_ims_optim_item_actions()
 
     if ($action == 'dailyreport') {
 ?>
-    <h1 align="center"><?php print(_("Daily Report")); ?></h1>
+    <h1 align="center"><?php print(_t("Daily Report")); ?></h1>
         
 <?php
     global $global;
@@ -1113,7 +1113,7 @@ function _shn_ims_optim_item_actions()
     }
     if ($action == 'weeklyreport') {
 ?>
-    <h1 align="center"><?php print(_("Weekly Report")); ?></h1> 
+    <h1 align="center"><?php print(_t("Weekly Report")); ?></h1> 
 <?php
     global $global;
     $db = $global["db"];
@@ -1132,7 +1132,7 @@ function _shn_ims_optim_item_actions()
     }
     if ($action == 'monthlyreport') {
 ?>
-    <h1 align="center"><?php print(_("Monthly Report")); ?></h1>
+    <h1 align="center"><?php print(_t("Monthly Report")); ?></h1>
 <?php
     global $global;
     $db = $global["db"];
@@ -1151,7 +1151,7 @@ function _shn_ims_optim_item_actions()
     }
     if ($action == 'customizedreport') {
 ?>
-    <h1 align="center"><?php print(_("Customized Report")); ?></h1>
+    <h1 align="center"><?php print(_t("Customized Report")); ?></h1>
 <?php
     global $global;
     $db = $global["db"];
@@ -1182,13 +1182,13 @@ function _shn_ims_optim_item_actions()
     $current_date = date("Y-m-d");
     list($year,$month,$day) = split("-",$current_date);
     $date_after = _shn_ims_timeafter($year, $month, $day, $time_period);
-    $string = _("Prediction Report Since ") . $current_date . " " . _("To") . " " . $date_after;
+    $string = _t("Prediction Report Since ") . $current_date . " " . _t("To") . " " . $date_after;
 ?>
     <div><h3><b><em><?php print $string; ?></em></b></h3></div>
 <?php
     
     shn_form_fopen("optimize_relation_items",null,$form_opts);
-    shn_form_fsopen(_("Prediction Records"));
+    shn_form_fsopen(_t("Prediction Records"));
     $sql1 = "SELECT * FROM ims_optimization WHERE catalog_id='$catalog_id' AND inv_id='$inv_id' ORDER BY week DESC;";
     $ims1 = $db->Execute($sql1);
     $actual_value = $ims1->fields['actual_value'];
@@ -1211,27 +1211,27 @@ function _shn_ims_optim_item_actions()
     $inventory_name = $ims3->fields['inventory_name'];
     $unit_name = get_unit_name($unit);
     $date = date("Y-m-d");
-    shn_form_label(_("Item Name :"),$item_name,null);
+    shn_form_label(_t("Item Name :"),$item_name,null);
     
 ?>
     <br>
 <?php
-    shn_form_label(_("Inventory Name :"),$inventory_name,null);
+    shn_form_label(_t("Inventory Name :"),$inventory_name,null);
 ?>
     <br>
 <?php
-    shn_form_label(_("Forecasted Value :"),$forecasted_value,null);
+    shn_form_label(_t("Forecasted Value :"),$forecasted_value,null);
 ?>
     <br>
 <?php
-    shn_form_label(_("Unit :"),$unit_name,null);
+    shn_form_label(_t("Unit :"),$unit_name,null);
     
     shn_form_fsclose();
     $extra_opts['br'] = false;
     $extra_opts['req'] = false;
-    shn_form_button(_("Relative Items"),"onClick='change_action_relation(\"relation\")'",$extra_opts);
-    shn_form_button(_("Re-Order level"),"onClick='change_action_relation(\"reorderlevel\")'",$extra_opts);
-    //shn_form_button(_("Monthly Report"),"onClick='change_action(\"monthlyreport\")'",$extra_opts);
+    shn_form_button(_t("Relative Items"),"onClick='change_action_relation(\"relation\")'",$extra_opts);
+    shn_form_button(_t("Re-Order level"),"onClick='change_action_relation(\"reorderlevel\")'",$extra_opts);
+    //shn_form_button(_t("Monthly Report"),"onClick='change_action(\"monthlyreport\")'",$extra_opts);
 
 ?>
 </center>
@@ -1363,11 +1363,11 @@ function _shn_ims_optimize_relation_items()
     <div id="result">
     <table>
     <thead>
-    <td><?php print (_("Relational Item")); ?></td>
-    <td><?php print (_("Inventory")); ?></td>
-    <td><?php print (_("Relation to")); ?></td>
-    <td><?php print (_("Forecast")); ?></td>
-    <td><?php print (_("Unit")); ?></td>
+    <td><?php print (_t("Relational Item")); ?></td>
+    <td><?php print (_t("Inventory")); ?></td>
+    <td><?php print (_t("Relation to")); ?></td>
+    <td><?php print (_t("Forecast")); ?></td>
+    <td><?php print (_t("Unit")); ?></td>
     </thead>
     <tbody>
 <?php
@@ -1512,7 +1512,7 @@ function _shn_ims_optimize_relation_items()
    }
     if ($action == "reorderlevel") {
 ?>
-    <h1 align="center"><?php print(_("Re-Order Level")); ?></h1> 
+    <h1 align="center"><?php print(_t("Re-Order Level")); ?></h1> 
 <?php
 //*********************************************************************************************
 //*********************************************************************************************
@@ -1544,14 +1544,14 @@ function _shn_ims_optimize_relation_items()
     shn_form_fopen(null);
     shn_form_fsopen("Re-Order Level");
     if ($forecasted_value < $converted_minimum_quantity) {
-        shn_form_label(_("Item_name :"),$item_name,null);
-        shn_form_label(_("Inventory :"),$inventory_name,null);
-        shn_form_label(_("Forecasted Value :"),$forecasted_value,null);
-        shn_form_label(_("Unit :"),$unit_name,null);
+        shn_form_label(_t("Item_name :"),$item_name,null);
+        shn_form_label(_t("Inventory :"),$inventory_name,null);
+        shn_form_label(_t("Forecasted Value :"),$forecasted_value,null);
+        shn_form_label(_t("Unit :"),$unit_name,null);
         
     } else {
 ?>
-    <div><h3><b><?php print _("Re-order level will not be exceeded in given time period"); ?></b></h3></div>
+    <div><h3><b><?php print _t("Re-order level will not be exceeded in given time period"); ?></b></h3></div>
 <?php
 
     }

@@ -22,9 +22,9 @@ if ($_SESSION['logged_in'] != true ) {
 ?>
     <div id="loginform">
 	<form method="post" action="index.php?act=login">
-        <fieldset><legend><?=_('Login')?></legend>
-        <label><?=_('User Name')?></label><input type="text" name="user_name" id="userName" />
-        <label><?=_('Password')?></label><input type="password" name="password" id="pswd" />
+        <fieldset><legend><?=_t('Login')?></legend>
+        <label><?=_t('User Name')?></label><input type="text" name="user_name" id="userName" />
+        <label><?=_t('Password')?></label><input type="password" name="password" id="pswd" />
 		<input type="submit" value="Sign In" />
 		<br />
         <!-- <a href="#">Forgot your password?</a> -->
@@ -34,24 +34,24 @@ if ($_SESSION['logged_in'] != true ) {
  			if($acl==true){
  				?>
         <div>
-        <?php echo _("No account? "); ?> <a href="index.php?act=signup"><?php echo _("Sign Up");?></a>
+        <?php echo _t("No account? "); ?> <a href="index.php?act=signup"><?php echo _t("Sign Up");?></a>
         </div>
         <?php }?>
     </form>
     <hr />
-    <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');"><?php echo _("Login with an OpenID"); ?></a></center>
+    <center> <a href="#" onclick="switchLogin('loginform','openid_loginform');"><?php echo _t("Login with an OpenID"); ?></a></center>
     </div><!-- /loginform -->
     
     <div id="openid_loginform">
     	<form action="" method="get">
-    		<fieldset><legend><?=_('OpenId Login')?></legend>
-    			<label><?=_('OpenID')?></label><input type="text" name="identity_url" id="openid_login" />
+    		<fieldset><legend><?=_t('OpenId Login')?></legend>
+    			<label><?=_t('OpenID')?></label><input type="text" name="identity_url" id="openid_login" />
 				<input type="submit" value="Sign In" />
 				<br />
-				<i><?php echo _("For example: "); ?> <tt>you.someblog.com</tt></i>
+				<i><?php echo _t("For example: "); ?> <tt>you.someblog.com</tt></i>
 			</fieldset>
 		</form>
-	<center><a href="#" onclick="switchLogin('openid_loginform','loginform');"><?php echo _("go back to the Normal Login"); ?></a></center>
+	<center><a href="#" onclick="switchLogin('openid_loginform','loginform');"><?php echo _t("go back to the Normal Login"); ?></a></center>
     </div>
     <script type="text/javascript">
     	switchLogin('openid_loginform','loginform');
@@ -60,10 +60,10 @@ if ($_SESSION['logged_in'] != true ) {
 } else {
 ?>
     <div id="loginform">
-        <fieldset><legend><?=_('Logged In')?></legend>
-        <label><?=_('User: ')?><?php echo $_SESSION['user'];?> </label>
+        <fieldset><legend><?=_t('Logged In')?></legend>
+        <label><?=_t('User: ')?><?php echo $_SESSION['user'];?> </label>
         <br />
-        <center><a href="index.php?act=logout"><?=_('Logout')?></a></center>
+        <center><a href="index.php?act=logout"><?=_t('Logout')?></a></center>
     </div>
 
 <?php

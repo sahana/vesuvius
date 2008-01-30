@@ -16,7 +16,7 @@
 
 function shn_hr_reg_new_damaged_house($edit=false)
 {//Register New Damaged House
-   _shn_hr_print_header(_("Register New Damaged House(s)"));
+   _shn_hr_print_header(_t("Register New Damaged House(s)"));
    if ($edit) shn_hr_damaged_house_owner_information(true);
    else shn_hr_damaged_house_owner_information();
    shn_hr_damaged_house_basic_details();
@@ -40,20 +40,20 @@ function shn_hr_damaged_house_owner_information($set_edit_seq=false)
    {
    	shn_form_hidden(array('seq'=>'reg_new_damaged_house'));
    }
-   shn_form_fsopen(_('Damaged House Owner Information'));
+   shn_form_fsopen(_t('Damaged House Owner Information'));
 
 
    print '<div class="info">';
-   print _("Please use this form to enter the unique id of the damaged house owner and/or head of the homeless family.");
+   print _t("Please use this form to enter the unique id of the damaged house owner and/or head of the homeless family.");
    print '<br />';
-   print _("If you do on have an id you may create one by registering yourself into the Sahana system.");
+   print _t("If you do on have an id you may create one by registering yourself into the Sahana system.");
    print '<br />';
    print '</div>';
    print '<br />';
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'];
    $extra_opts['req']=true;
-   $extra_opts['help']=(_("Please specify the Unique ID created from this module or the" .  			       "Disaster Victim Registry module."));
+   $extra_opts['help']=(_t("Please specify the Unique ID created from this module or the" .  			       "Disaster Victim Registry module."));
    if($set_edit_seq) shn_form_text('Enter Your Unique ID','enter_uid','readonly=true',$extra_opts);
    else shn_form_text('Enter Your Unique ID','enter_uid',null,$extra_opts);
 
@@ -64,39 +64,39 @@ function shn_hr_damaged_house_owner_information($set_edit_seq=false)
 
 function shn_hr_damaged_house_basic_details()
 {
-   shn_form_fsopen(_('Basic Details Of Damaged House'));
+   shn_form_fsopen(_t('Basic Details Of Damaged House'));
 
 
    print '<div class="info">';
-   print _("Please use this form to enter the basic details of the damaged house.");
+   print _t("Please use this form to enter the basic details of the damaged house.");
    print '<br />';
    print '</div>';
    print '<br />';
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_value'];
    $extra_opts['req']=false;
-   $extra_opts['help']=(_("Please specify the Monetary Value of the Damaged House"));
+   $extra_opts['help']=(_t("Please specify the Monetary Value of the Damaged House"));
    shn_form_text('Estimated House Value','damaged_house_value',null,$extra_opts);
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_total_sqft'];
    $extra_opts['req']=false;
-   $extra_opts['help']=(_("Please specify the Total Square Feet of the Damaged House"));
-   shn_form_text(_('Total Square Feet Of House'),'damaged_house_total_sqft',null,$extra_opts);
+   $extra_opts['help']=(_t("Please specify the Total Square Feet of the Damaged House"));
+   shn_form_text(_t('Total Square Feet Of House'),'damaged_house_total_sqft',null,$extra_opts);
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['optn_dstrctn_lvl'];
    $extra_opts['req']=true;
-   $extra_opts['help']=(_("Please specify the Destruction Level of the Damaged House"));
+   $extra_opts['help']=(_t("Please specify the Destruction Level of the Damaged House"));
    shn_form_opt_select('optn_dstrctn_lvl','Destruction Level',null,$extra_opts);
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_address'];
    $extra_opts['req']=false;
-   $extra_opts['help']=(_("Please specify the Address of the Damaged House"));
-   shn_form_textarea(_('Address Of House'),'damaged_house_address',null,$extra_opts);
+   $extra_opts['help']=(_t("Please specify the Address of the Damaged House"));
+   shn_form_textarea(_t('Address Of House'),'damaged_house_address',null,$extra_opts);
 
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_additional_details'];
    $extra_opts['req']=false;
-   $extra_opts['help']=(_("Please specify any Additional Details of the Damaged House"));
-   shn_form_textarea(_('Additional Details'),'damaged_house_additional_details',null,$extra_opts);
+   $extra_opts['help']=(_t("Please specify any Additional Details of the Damaged House"));
+   shn_form_textarea(_t('Additional Details'),'damaged_house_additional_details',null,$extra_opts);
 
 
    shn_form_fsclose();
@@ -110,11 +110,11 @@ function shn_hr_damaged_house_deed_upload($set_edit_seq=false)
    
    include_once $global['approot'].'/inc/lib_image.inc';
    
-   shn_form_fsopen(_('Upload Deed Copy Of Damaged House'));
+   shn_form_fsopen(_t('Upload Deed Copy Of Damaged House'));
 
 
    print '<div class="info">';
-   print _("Please use this form to upload a deed copy of the damaged house if available.");
+   print _t("Please use this form to upload a deed copy of the damaged house if available.");
    print '<br />';
    print '</div>';
    print '<br />';
@@ -126,8 +126,8 @@ function shn_hr_damaged_house_deed_upload($set_edit_seq=false)
    }
    $extra_opts['value']=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_pic'];
    $extra_opts['req']=false;
-   $extra_opts['help']=(_("Please specify any Additional Details of the Damaged House"));
-   shn_form_upload(_('Upload Deed Copy'),"picture",$extra_opts);
+   $extra_opts['help']=(_t("Please specify any Additional Details of the Damaged House"));
+   shn_form_upload(_t('Upload Deed Copy'),"picture",$extra_opts);
 
 
    shn_form_fsclose();
@@ -136,7 +136,7 @@ function shn_hr_damaged_house_deed_upload($set_edit_seq=false)
 
 function shn_hr_damaged_house_location_details()
 {
-   shn_form_fsopen(_("Location Of Damaged House"));
+   shn_form_fsopen(_t("Location Of Damaged House"));
 
    global $global;
    global $conf;
@@ -173,7 +173,7 @@ function shn_hr_damaged_house_location_details_gis($set_edit_seq=false)
 
 
    shn_form_fsclose();
-   shn_form_submit(_("Finish"));
+   shn_form_submit(_t("Finish"));
    shn_form_fclose();
    print '<br />';
 }

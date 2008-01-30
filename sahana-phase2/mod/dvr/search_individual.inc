@@ -22,9 +22,9 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 <?php
 
-/* $Id: search_individual.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: search_individual.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
 
-/* $Id: search_individual.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: search_individual.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
 
 /**
  * 
@@ -49,12 +49,12 @@ function shn_dvr_search_default()
     shn_form_fopen("search_individual",null,array('req_message'=>false)); 
     shn_form_hidden(array('seq'=>'search'));
     shn_form_hidden(array('incident'=>'one'));
-    shn_form_fsopen(_('General Search'));
-    shn_form_text(_('Any Card Number'),'card','size="30"');
-    shn_form_text(_('Any Name'),'name','size="30"');
+    shn_form_fsopen(_t('General Search'));
+    shn_form_text(_t('Any Card Number'),'card','size="30"');
+    shn_form_text(_t('Any Name'),'name','size="30"');
  
-    shn_form_checkbox(_('All incidents'),'all_incidents','onClick=setIncident()',null);
-    shn_form_submit(_('Next'));
+    shn_form_checkbox(_t('All incidents'),'all_incidents','onClick=setIncident()',null);
+    shn_form_submit(_t('Next'));
     //advanced search link
     shn_form_fsclose();
     ?>
@@ -100,12 +100,12 @@ function shn_dvr_individual_search_results()
 	<table>
         <thead>
         		<td></td>
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Full Name")?></td>
-            <td><?=_("Family Name")?></td>
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
+            <td><?=_t("Group Type")?></td>
+            <td><?=_t("Group Head Name")?></td>
+            <td><?=_t("Full Name")?></td>
+            <td><?=_t("Family Name")?></td>
+          	<td><?=_t("NIC")?></td>
+            <td><?=_t("Address")?></td>
          <td>Edit</td>
           <td>Delete</td>
         </thead>
@@ -147,26 +147,26 @@ function shn_dvr_individual_search_results()
 function shn_dvr_search_advance()
 {
     shn_form_fopen("search",null); 
-    shn_form_fsopen(_('Advanced Search'));
+    shn_form_fsopen(_t('Advanced Search'));
 
-    shn_form_fsopen(_('Identity'));
-    shn_form_text(_('Identity'),'idcard','size="30"');
-    shn_form_checkbox(_('Identity Card'),'idcard_chk');
-    shn_form_checkbox(_('Passport Number'),'pass_chk');
-    shn_form_checkbox(_('Driving License'),'drv_chk');
+    shn_form_fsopen(_t('Identity'));
+    shn_form_text(_t('Identity'),'idcard','size="30"');
+    shn_form_checkbox(_t('Identity Card'),'idcard_chk');
+    shn_form_checkbox(_t('Passport Number'),'pass_chk');
+    shn_form_checkbox(_t('Driving License'),'drv_chk');
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Name'));
-    shn_form_text(_('Name'),'name','size="30"');
-    shn_form_checkbox(_('Full Name'),'fullname_chk');
-    shn_form_checkbox(_('Family Name'),'familyname_chk');
-    shn_form_checkbox(_('Local Name'),'localname_chk');
+    shn_form_fsopen(_t('Name'));
+    shn_form_text(_t('Name'),'name','size="30"');
+    shn_form_checkbox(_t('Full Name'),'fullname_chk');
+    shn_form_checkbox(_t('Family Name'),'familyname_chk');
+    shn_form_checkbox(_t('Local Name'),'localname_chk');
     shn_form_fsclose();
 
-    shn_form_fsopen(_('Basic Details'));
+    shn_form_fsopen(_t('Basic Details'));
     shn_form_fsclose();
 
-    shn_form_submit(_('Next'));
+    shn_form_submit(_t('Next'));
     shn_form_fsclose();
     ?>
      <a href="index.php?mod=dvr&act=search_individual">Simple Search</a>

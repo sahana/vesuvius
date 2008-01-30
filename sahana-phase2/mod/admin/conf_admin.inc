@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.14 2008-01-03 10:16:26 isurunishan Exp $ */
+/* $Id: conf_admin.inc,v 1.15 2008-01-30 04:35:15 prabath321 Exp $ */
 
-/* $Id: conf_admin.inc,v 1.14 2008-01-03 10:16:26 isurunishan Exp $ */
+/* $Id: conf_admin.inc,v 1.15 2008-01-30 04:35:15 prabath321 Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -134,7 +134,7 @@ function shn_admin_conf_list()
 <table>
 	<thead>
 	<?php
-	shn_form_table_row(array(_('Config Variable'),_('Current Value'),_('Modified Value'),_('Action')));
+	shn_form_table_row(array(_t('Config Variable'),_t('Current Value'),_t('Modified Value'),_t('Action')));
 	?>
 	</thead>
 	<?php
@@ -216,7 +216,7 @@ function shn_admin_conf_var()
 	global $conf;
 
 	shn_form_fopen('conf_list');
-	shn_form_fsopen(_('Change Config Value'));
+	shn_form_fsopen(_t('Change Config Value'));
 	shn_form_hidden(array('conf_key'=>$_GET['key']));
 
 	if(is_bool($conf[$_GET['key']])) {
@@ -227,7 +227,7 @@ function shn_admin_conf_var()
 	}
 
 	shn_form_fsclose();
-	shn_form_submit(_('Change value'));
+	shn_form_submit(_t('Change value'));
 	shn_form_fclose();
 }
 

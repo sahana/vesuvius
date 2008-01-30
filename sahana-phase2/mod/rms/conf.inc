@@ -21,7 +21,7 @@
 /**
  * provides the nice display name for the RMS  module
  */
-$conf['mod_rms_name'] = _("Request/Aid Management");
+$conf['mod_rms_name'] = _t("Request/Aid Management");
 $conf['mod_rms_menuorder'] = 4;
 
 

@@ -1,9 +1,9 @@
 <?php
 
 
-/* $Id: main_fns.inc,v 1.23 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: main_fns.inc,v 1.24 2008-01-30 04:35:17 prabath321 Exp $ */
 
-/* $Id: main_fns.inc,v 1.23 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: main_fns.inc,v 1.24 2008-01-30 04:35:17 prabath321 Exp $ */
 
 
 /**
@@ -28,25 +28,25 @@ function shn_gis_default()
         global $conf;
 ?>
 <div id="home">
-<h2><?php echo _('Situation Mapping')?></h2>
+<h2><?php echo _t('Situation Mapping')?></h2>
 <p>
-<?= _("The Situation Mapping module provides a mechanism to collaboratively provide an overview of the developing disaster, using online mapping (GIS). You can add markers and pictures to pin point incidents on the map.");?>
+<?= _t("The Situation Mapping module provides a mechanism to collaboratively provide an overview of the developing disaster, using online mapping (GIS). You can add markers and pictures to pin point incidents on the map.");?>
         
 </p>
 
 <br></br>
-    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
 <br></br>
 <ul>
-        <li><?php echo _('Provides a map based view of the disaster situtation') ?></li>
-        <li><?php echo _('Allow users to collaboratively add markers of the developing disaster situation');?></li>
+        <li><?php echo _t('Provides a map based view of the disaster situtation') ?></li>
+        <li><?php echo _t('Allow users to collaboratively add markers of the developing disaster situation');?></li>
 </ul>
 
-<strong><?php echo _('Description of Actions:')?></strong><br/>
+<strong><?php echo _t('Description of Actions:')?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=gis&act=swik"><b><?= _('View Situation Map'); ?></b></a><br/><?= _('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
-        <li><a href="index.php?mod=gis&act=awik"><b><?= _('Add Situation Markers'); ?> </b> </a><br/><?= _('Add markers on the map of incidents and objects with pictures'); ?></li>
-        <li><a href="index.php?mod=gis&act=mapc"><b><?= _('General Map'); ?> </b></a><br/><?= _('Free form map of the location without markers'); ?></li>
+        <li><a href="index.php?mod=gis&act=swik"><b><?= _t('View Situation Map'); ?></b></a><br/><?= _t('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
+        <li><a href="index.php?mod=gis&act=awik"><b><?= _t('Add Situation Markers'); ?> </b> </a><br/><?= _t('Add markers on the map of incidents and objects with pictures'); ?></li>
+        <li><a href="index.php?mod=gis&act=mapc"><b><?= _t('General Map'); ?> </b></a><br/><?= _t('Free form map of the location without markers'); ?></li>
         
         
 </ul>
@@ -87,26 +87,26 @@ function shn_gis_aloc ($errors=false)
 		display_errors();
 		
 	shn_form_fopen(amap);
-	shn_form_fsopen(_("Landmark Specific Details"));
-	shn_form_text(_("Landmark Name"),"location_name",'size="60"');
-	shn_form_opt_select("opt_landmark_type",_("Landmark Type"));
+	shn_form_fsopen(_t("Landmark Specific Details"));
+	shn_form_text(_t("Landmark Name"),"location_name",'size="60"');
+	shn_form_opt_select("opt_landmark_type",_t("Landmark Type"));
 	shn_form_fsclose();
-	shn_form_fsopen(_('Landmark\'s Location'));
+	shn_form_fsopen(_t('Landmark\'s Location'));
 	$range = shn_get_range();
 	shn_location($range);
 	shn_form_fsclose();
 
-	shn_form_fsopen(_('Main Contact Details'));
-	shn_form_text(_("Contact Person  Name"),"person_name",'size="60"');
-	shn_form_opt_select("opt_landmark_contact_type",_("Contact Type"));
-	shn_form_text(_("Contact Person  Address"),"person_address",'size="60"');
-	shn_form_text(_("Contact Person  Phone"),"person_phone",'size="60"');
+	shn_form_fsopen(_t('Main Contact Details'));
+	shn_form_text(_t("Contact Person  Name"),"person_name",'size="60"');
+	shn_form_opt_select("opt_landmark_contact_type",_t("Contact Type"));
+	shn_form_text(_t("Contact Person  Address"),"person_address",'size="60"');
+	shn_form_text(_t("Contact Person  Phone"),"person_phone",'size="60"');
 	shn_form_fsclose();
-	shn_form_fsopen(_('Other Details'));
-	shn_form_textarea(_("Directions to Landmark"),"direction",'size="60"');
-	shn_form_textarea(_("Significance of  Landmark"),"comment",'size="60"');
+	shn_form_fsopen(_t('Other Details'));
+	shn_form_textarea(_t("Directions to Landmark"),"direction",'size="60"');
+	shn_form_textarea(_t("Significance of  Landmark"),"comment",'size="60"');
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
@@ -128,8 +128,8 @@ function shn_gis_amap()
 	$_SESSION[$location] = $_POST[$location];
 
 	shn_form_fopen(com);
-	shn_form_fsopen(_("Location Information"));
-	echo _("Plot the Location OR Enter its GPS coordinates ");
+	shn_form_fsopen(_t("Location Information"));
+	echo _t("Plot the Location OR Enter its GPS coordinates ");
 	shn_form_fsclose();
 	shn_form_hidden(array('loc_x'=>''));
 	shn_form_hidden(array('loc_y'=>''));
@@ -138,7 +138,7 @@ function shn_gis_amap()
 	global $conf;
 	include $global['approot']."/mod/gis/gis_fns.inc";
 	shn_gis_add_marker_map_form("Area Map",$_POST['location_name']);
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
@@ -171,7 +171,7 @@ function shn_gis_com ()
 		shn_gis_dbinsert(0,0,null,$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],null,$gis_id);
 	}
 ?>
-	<h2><?=_('Your Landmark has been succesfully added. ')?></h2>
+	<h2><?=_t('Your Landmark has been succesfully added. ')?></h2>
 <?php
 
 	

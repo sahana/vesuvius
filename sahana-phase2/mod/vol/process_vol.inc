@@ -250,7 +250,7 @@ function _shn_vol_upload_pic()
     $info = getimagesize($_FILES['picture']['tmp_name']);
     //check the image type 
     if(! $info){
-        add_error(_("Invalid Image Type Please try again"));
+        add_error(_t("Invalid Image Type Please try again"));
         return false;    
     }
 

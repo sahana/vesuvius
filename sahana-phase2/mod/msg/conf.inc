@@ -17,7 +17,7 @@
 * Public License (LGPL)
 */
 
-$conf['mod_msg_name'] = _("Messaging Module");
+$conf['mod_msg_name'] = _t("Messaging Module");
 $conf['input_file']="../mod/msg/kannel.conf";
 $conf['output_file']="/tmp/kannel.conf";
 

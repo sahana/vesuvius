@@ -69,7 +69,7 @@ function shn_setup_validate_simple_dbsetup(){
 		if(isset($_POST['db_host']) && $_POST['db_host']!=''){
 			if(preg_match("/:?/",$_POST['db_host'])==false){
 				// more than one colon
-				add_error(_("The host name has more than one port separator char (:)."));
+				add_error(_t("The host name has more than one port separator char (:)."));
 				$has_errors = true;
 			}
 			// check for patterns.
@@ -78,22 +78,22 @@ function shn_setup_validate_simple_dbsetup(){
 				$vals = explode(':',$_POST['db_host']);
 				// check if port no is numeric.
 				if(is_numeric($vals[1])==false){
-					add_error(_("The port number is invalid."));
+					add_error(_t("The port number is invalid."));
 					$has_errors = true;
 				}
 			}
 		}else{
-			add_error(_("The database host:port value cannot be empty."));
+			add_error(_t("The database host:port value cannot be empty."));
 			$has_errors = true;
 		}
 
 		// check sahana dbname.
 		if(isset($_POST['db_name'])==false || $_POST['db_name']==''){
-			add_error(_("The database name cannot be empty."));
+			add_error(_t("The database name cannot be empty."));
 			$has_errors = true;
 		}else{
 			if(preg_match('/[!@#$%\^&*()\-\+=~`[\]{}\|\\\\:;"\',\.<>\?\/]/',$_POST['db_name'])==1){
-				add_error(_("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
+				add_error(_t("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
 				$has_errors = true;
 			}
 		}
@@ -102,7 +102,7 @@ function shn_setup_validate_simple_dbsetup(){
 		// by trying to connect to the default 'mysql' database.,
 		$db->Connect($_POST['db_host'],$_POST['root_db_user'],$_POST['root_db_pass'],'mysql');
 		if($db->IsConnected()==false){
-			add_error(_("Incorrect database username or password."));
+			add_error(_t("Incorrect database username or password."));
 			$has_errors = true;
 		}else{
 			// execute only if connected.
@@ -118,7 +118,7 @@ function shn_setup_validate_simple_dbsetup(){
 				// set flag.
 				$_SESSION['setup_system_db_user_exists']=true;
 					
-				//add_error(_("System database username already exists."));
+				//add_error(_t("System database username already exists."));
 
 				$has_errors = true;
 			}
@@ -130,7 +130,7 @@ function shn_setup_validate_simple_dbsetup(){
 
 			}else if($db->IsConnected() && (!$res->EOF)){
 				$_SESSION['setup_system_db_exists']=true;
-				//add_error(_("A database already exists with the given name."));
+				//add_error(_t("A database already exists with the given name."));
 				$has_errors = true;
 			}
 			if($db->IsConnected()){
@@ -142,11 +142,11 @@ function shn_setup_validate_simple_dbsetup(){
 		return !$has_errors;
 
 	}else if(isset($_POST['db_type']) && $_POST['db_type']=='pgsql'){
-		add_error(_('Unsupported database. Please select a valid database type.'));
+		add_error(_t('Unsupported database. Please select a valid database type.'));
 		return false;
 	}else if(isset($_POST['db_type'])){
 		// the set value is not valid.
-		add_error(_('Unsupported database. Please select a valid database type.'));
+		add_error(_t('Unsupported database. Please select a valid database type.'));
 		return false;
 	}else{
 		return true;
@@ -165,54 +165,54 @@ function shn_setup_validate_simple_config(){
 	$has_errors = false;
 
 	if(isset($_POST['base_uuid'])==false || strlen($_POST['base_uuid'])==0){
-		add_error(_('The unique installation id cannot be empty.'));
+		add_error(_t('The unique installation id cannot be empty.'));
 		$has_errors = true;
 	}
 
 	if(isset($_POST['root_name'])==false || strlen($_POST['root_name'])==0){
-		add_error(_('The administrator name cannot be empty.'));
+		add_error(_t('The administrator name cannot be empty.'));
 		$has_errors = true;
 	}
 
 	if(isset($_POST['admin_name'])==false || strlen($_POST['admin_name'])==0){
-		add_error(_('The administrator username cannot be empty.'));
+		add_error(_t('The administrator username cannot be empty.'));
 		$has_errors = true;
 	}
 
 	if(isset($_POST['root_pwd'])==false || strlen($_POST['root_pwd'])==0){
-		add_error(_('The administrator password cannot be empty.'));
+		add_error(_t('The administrator password cannot be empty.'));
 		$has_errors = true;
 	}else{
 		if($_POST['root_pwd']!=$_POST['root_pwd_confirm']){
-			add_error(_('The administrator password and confirm password should match'));
+			add_error(_t('The administrator password and confirm password should match'));
 			$has_errors = true;
 		}
 		$ret = shn_check_password_matches_policy($_POST['root_pwd'],$_POST['admin_name'],array('rule_set'=>_shn_setup_filter_post_params($_SESSION)));
 		//var_dump($ret);
 		if($ret !== true){
 			//var_dump(shn_get_password_policy_message($ret));
-			add_error(_("Administrator Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
+			add_error(_t("Administrator Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
 			$has_errors = true;
 		}
 	}
 
 	if(isset($_POST['user_name'])==false || strlen($_POST['user_name'])==0){
-		add_error(_('The normal user\'s username cannot be empty.'));
+		add_error(_t('The normal user\'s username cannot be empty.'));
 		$has_errors = true;
 	}
 	if(isset($_POST['user_pwd'])==false || strlen($_POST['user_pwd'])==0){
-		add_error(_('The normal user\'s password cannot be empty.'));
+		add_error(_t('The normal user\'s password cannot be empty.'));
 		$has_errors = true;
 	}else{
 		if($_POST['user_pwd']!=$_POST['user_pwd_confirm']){
-			add_error(_('The normal user\'s password and confirm password should match.'));
+			add_error(_t('The normal user\'s password and confirm password should match.'));
 			$has_errors = true;
 		}
 		$ret = shn_check_password_matches_policy($_POST['user_pwd'],$_POST['user_name'],array('rule_set'=>_shn_setup_filter_post_params($_SESSION)));
 		//var_dump($ret);
 		if($ret !== true){
 			//var_dump(shn_get_password_policy_message($ret));
-			add_error(_("Normal User Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
+			add_error(_t("Normal User Password : ").shn_get_password_policy_message($ret,array('rule_set'=>_shn_setup_filter_post_params($_SESSION))));
 			$has_errors = true;
 		}
 	}
@@ -268,15 +268,15 @@ function shn_setup_adv_validate_pwd_policy(){
 	$has_errors = false;
 
 	if(isset($_POST['pwd_min_chars'])==false || strlen($_POST['pwd_min_chars'])==0){
-		add_error(_("The minimum number of characters cannot be empty."));
+		add_error(_t("The minimum number of characters cannot be empty."));
 		$has_errors = true;
 	}else{
 		if(is_numeric($_POST['pwd_min_chars'])==false){
-			add_error(_("The minimum number of characters should be a numeric value"));
+			add_error(_t("The minimum number of characters should be a numeric value"));
 			$has_errors = true;
 		}else{
 			if($_POST['pwd_min_chars']<0){
-				add_error(_("The minimum number of characters should be a positive value"));
+				add_error(_t("The minimum number of characters should be a positive value"));
 				$has_errors = true;
 			}
 		}
@@ -284,15 +284,15 @@ function shn_setup_adv_validate_pwd_policy(){
 
 	if(isset($_POST['pwd_max_chars'])){
 		if(is_numeric($_POST['pwd_max_chars'])==false){
-			add_error(_("The maximum number of characters should be a numeric value"));
+			add_error(_t("The maximum number of characters should be a numeric value"));
 			$has_errors = true;
 		}else{
 			if($_POST['pwd_max_chars']<0){
-				add_error(_("The maximum number of characters should be a positive value"));
+				add_error(_t("The maximum number of characters should be a positive value"));
 				$has_errors = true;
 			}else{
 				if($_POST['pwd_max_chars']!=0 && $_POST['pwd_max_chars'] < $_POST['pwd_min_chars']){
-					add_error(_("The maximum number of characters cannot be less than the minimum number of characters."));
+					add_error(_t("The maximum number of characters cannot be less than the minimum number of characters."));
 					$has_errors = true;
 				}
 			}

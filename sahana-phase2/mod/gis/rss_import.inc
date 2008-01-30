@@ -27,7 +27,7 @@ xml_set_element_handler($xml_parser,"startElement","endElement");
 xml_set_character_data_handler($xml_parser,"charachterData");
 
 $fp = fopen($filename,"r")
-	or die(_("Error Reading RSS Feed"));
+	or die(_t("Error Reading RSS Feed"));
 	
 //Read with 4KB buffer
 while ($data=fread($fp,4096)){

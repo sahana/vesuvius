@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: list.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: list.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
 
-/* $Id: list.inc,v 1.6 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: list.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
 
 /**
  * 
@@ -37,12 +37,12 @@ function  list_all_groups()
 	<table>
         <thead>
         		
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-           <!-- <td><?=_("Local Name")?></td>-->
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
+            <td><?=_t("Group Type")?></td>
+            <td><?=_t("Group Head Name")?></td>
+            <td><?=_t("Family Name")?></td>
+           <!-- <td><?=_t("Local Name")?></td>-->
+          	<td><?=_t("NIC")?></td>
+            <td><?=_t("Address")?></td>
             <td></td>
             
         </thead>
@@ -83,12 +83,12 @@ function  list_all_groups()
 	<table>
         <thead>
         		<td></td>
-            <td><?=_("Group Type")?></td>
-            <td><?=_("Group Head Name")?></td>
-            <td><?=_("Family Name")?></td>
-            <td><?=_("Local Name")?></td>
-          	<td><?=_("NIC")?></td>
-            <td><?=_("Address")?></td>
+            <td><?=_t("Group Type")?></td>
+            <td><?=_t("Group Head Name")?></td>
+            <td><?=_t("Family Name")?></td>
+            <td><?=_t("Local Name")?></td>
+          	<td><?=_t("NIC")?></td>
+            <td><?=_t("Address")?></td>
          <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
         </thead>
         </table>

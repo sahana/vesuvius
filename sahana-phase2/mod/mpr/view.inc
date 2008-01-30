@@ -1,5 +1,5 @@
 <?php
-/* $Id: view.inc,v 1.4 2006-05-29 08:22:29 mahesh_kks Exp $ */
+/* $Id: view.inc,v 1.5 2008-01-30 04:35:17 prabath321 Exp $ */
 
 /**Main home page of the Missing Person Registry 
  *
@@ -26,7 +26,7 @@
 function shn_mpr_view($p_uuid)
 {
     shn_form_fopen("",null);
-    shn_form_fsopen(_("Details"));
+    shn_form_fsopen(_t("Details"));
     shn_show_thumb_url($p_uuid,$conf['mod_mpr']['upload_picture']['savehandler' ],'mpr', 'addmp_img');
 ?>
     <hr>
@@ -36,15 +36,15 @@ function shn_mpr_view($p_uuid)
     if(isset($arr_info['idcard']) ||
             isset($arr_info['passport']) ||
             isset($arr_info['drv_license']) ) {
-        shn_form_fsopen(_("Identity"));
+        shn_form_fsopen(_t("Identity"));
         $identity_section = true;
     }
     if(isset($arr_info['idcard']))
-        shn_form_label(_('Identity Card Number'),$arr_info['idcard']);
+        shn_form_label(_t('Identity Card Number'),$arr_info['idcard']);
     if(isset($arr_info['passport']))
-        shn_form_label(_('Passport Number'),$arr_info['passport']);
+        shn_form_label(_t('Passport Number'),$arr_info['passport']);
     if(isset($arr_info['drv_license']))
-        shn_form_label(_('Driving License'),$arr_info['drv_license']);
+        shn_form_label(_t('Driving License'),$arr_info['drv_license']);
     if($identity_section)
         shn_form_fsclose();
 
@@ -58,27 +58,27 @@ function shn_mpr_view($p_uuid)
             isset($arr_info['opt_marital_status']) ||
             isset($arr_info['opt_religion']) ||
             isset($arr_info['opt_race']) ) {
-        shn_form_fsopen(_("Basic Details"));
+        shn_form_fsopen(_t("Basic Details"));
         $basic_section = true;
     }
     if(isset($arr_info['full_name']))
-        shn_form_label(_('Full Name'),$arr_info['full_name']);
+        shn_form_label(_t('Full Name'),$arr_info['full_name']);
     if(isset($arr_info['family_name']))
-        shn_form_label(_('Family Name'),$arr_info['family_name']);
+        shn_form_label(_t('Family Name'),$arr_info['family_name']);
     if(isset($arr_info['l10n_name']))
-        shn_form_label(_('Local Name'),$arr_info['l10n_name']);
+        shn_form_label(_t('Local Name'),$arr_info['l10n_name']);
     if(isset($arr_info['dob']))
-        shn_form_label(_('Date of Birth'),$arr_info['dob']);
+        shn_form_label(_t('Date of Birth'),$arr_info['dob']);
     if(isset($arr_info['opt_age_group']))
-        shn_form_label(_('Age Group',shn_get_field_opt($arr_info['opt_age_group']),'opt_age_group'));
+        shn_form_label(_t('Age Group',shn_get_field_opt($arr_info['opt_age_group']),'opt_age_group'));
     if(isset($arr_info['opt_gender']))
-        shn_form_label(_('Gender',shn_get_field_opt($arr_info['opt_gender']),'opt_gender'));
+        shn_form_label(_t('Gender',shn_get_field_opt($arr_info['opt_gender']),'opt_gender'));
     if(isset($arr_info['opt_marital_status']))
-        shn_form_label(_('Marital Status',shn_get_field_opt($arr_info['opt_marital_status']),'opt_marital_status'));
+        shn_form_label(_t('Marital Status',shn_get_field_opt($arr_info['opt_marital_status']),'opt_marital_status'));
     if(isset($arr_info['opt_religion']))
-        shn_form_label(_('Religion',shn_get_field_opt($arr_info['opt_religion']),'opt_religion'));
+        shn_form_label(_t('Religion',shn_get_field_opt($arr_info['opt_religion']),'opt_religion'));
     if(isset($arr_info['opt_race']))
-        shn_form_label(_('Race',shn_get_field_opt($arr_info['opt_race']),'opt_race'));
+        shn_form_label(_t('Race',shn_get_field_opt($arr_info['opt_race']),'opt_race'));
     if($basic_section)
         shn_form_fsclose();
 
@@ -89,21 +89,21 @@ function shn_mpr_view($p_uuid)
             isset($arr_info['height']) ||
             isset($arr_info['weight']) || 
             isset($arr_info['physical_comments'])) {
-        shn_form_fsopen(_("Physical Details"));
+        shn_form_fsopen(_t("Physical Details"));
         $physical_section = true;
     }
     if(isset($arr_info['opt_eye_color']))
-        shn_form_label(_('Eye Colour',shn_get_field_opt($arr_info['opt_eye_color']),'opt_eye_color'));
+        shn_form_label(_t('Eye Colour',shn_get_field_opt($arr_info['opt_eye_color']),'opt_eye_color'));
     if(isset($arr_info['opt_skin_color']))
-        shn_form_label(_('Skin Colour',shn_get_field_opt($arr_info['opt_skin_color']),'opt_skin_color'));
+        shn_form_label(_t('Skin Colour',shn_get_field_opt($arr_info['opt_skin_color']),'opt_skin_color'));
     if(isset($arr_info['opt_hair_color']))
-        shn_form_label(_('Hair Colour',shn_get_field_opt($arr_info['opt_hair_color']),'opt_hair_color'));
+        shn_form_label(_t('Hair Colour',shn_get_field_opt($arr_info['opt_hair_color']),'opt_hair_color'));
     if(isset($arr_info['height']))
-        shn_form_label(_('Height'),$arr_info['height']);
+        shn_form_label(_t('Height'),$arr_info['height']);
     if(isset($arr_info['weight']))
-        shn_form_label(_('Weight'),$arr_info['weight']);
+        shn_form_label(_t('Weight'),$arr_info['weight']);
     if(isset($arr_info['physical_comments']))
-        shn_form_label(_('Comments'),$arr_info['physical_comments']);
+        shn_form_label(_t('Comments'),$arr_info['physical_comments']);
     if($physical_section)
         shn_form_fsclose();
 
@@ -112,17 +112,17 @@ function shn_mpr_view($p_uuid)
             isset($arr_info['zip']) ||
             isset($arr_info['phone']) ||
             isset($arr_info['mobile']) ){
-        shn_form_fsopen(_("Contact Details"));
+        shn_form_fsopen(_t("Contact Details"));
         $contact_section = true;
     }
     if(isset($arr_info['address']))
-        shn_form_label(_('Address'),$arr_info['address']);
+        shn_form_label(_t('Address'),$arr_info['address']);
     if(isset($arr_info['zip']))
-        shn_form_label(_('Postal Code'),$arr_info['zip']);
+        shn_form_label(_t('Postal Code'),$arr_info['zip']);
     if(isset($arr_info['phone']))
-        shn_form_label(_('Home Phone'),$arr_info['phone']);
+        shn_form_label(_t('Home Phone'),$arr_info['phone']);
     if(isset($arr_info['mobile']))
-        shn_form_label(_('Mobile'),$arr_info['mobile']);
+        shn_form_label(_t('Mobile'),$arr_info['mobile']);
     if($contact_section)
         shn_form_fsclose();
 
@@ -130,25 +130,25 @@ function shn_mpr_view($p_uuid)
             isset($arr_info['last_seen']) ||
             isset($arr_info['last_clothing']) ||
             isset($arr_info['comments']) ) {
-        shn_form_fsopen(_("Other Details"));
+        shn_form_fsopen(_t("Other Details"));
         $other_section = true;
     }
     //Other Details
     if(isset($arr_info['opt_blood_type']))
-        shn_form_label(_('Blood Type',shn_get_field_opt($arr_info['opt_blood_type']),'opt_blood_type'));
+        shn_form_label(_t('Blood Type',shn_get_field_opt($arr_info['opt_blood_type']),'opt_blood_type'));
     if(isset($arr_info['last_seen']))
-        shn_form_label(_('Last Seen'),$arr_info['last_seen']);
+        shn_form_label(_t('Last Seen'),$arr_info['last_seen']);
     if(isset($arr_info['last_clothing']))
-        shn_form_label(_('Last Clothing'),$arr_info['last_clothing']);
+        shn_form_label(_t('Last Clothing'),$arr_info['last_clothing']);
     if(isset($arr_info['comments']))
-        shn_form_label(_('Comments'),$arr_info['comments']);
+        shn_form_label(_t('Comments'),$arr_info['comments']);
     if($other_section)
         shn_form_fsclose();
 
     //Reporting Person
-    shn_form_fsopen(_("People that are tracking"));
+    shn_form_fsopen(_t("People that are tracking"));
     foreach($arr_info['trk_people'] as $info){
-        echo '<a title="'._('View').'" '.
+        echo '<a title="'._t('View').'" '.
             'href="index.php?mod=mpr&act=viewmp&id='.
             $info['rep_uuid'].
             '" >'. $info['full_name'] . '</a>'.
@@ -159,8 +159,8 @@ function shn_mpr_view($p_uuid)
  
 ?>
     <p align="center"><a href="index.php?mod=mpr&act=editmp&id=<?=$p_uuid; ?>"
-><?= _('Click to edit'); ?></a></p>
-    <p><a href="#" onCLick="history.back()"><?= _('Back'); ?></a></p>
+><?= _t('Click to edit'); ?></a></p>
+    <p><a href="#" onCLick="history.back()"><?= _t('Back'); ?></a></p>
 <?php
     shn_form_fclose();
 }

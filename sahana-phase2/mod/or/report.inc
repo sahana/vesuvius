@@ -184,15 +184,15 @@ function _shn_or_drill_org($parent=null)
     $res=$db->Execute($q);
     $level=$res->fields["option_description"];
     ?>
-	<h2><?=_("Organization Report By "). $level ?></h2>
+	<h2><?=_t("Organization Report By "). $level ?></h2>
     <p>
     
     <?php 
     /*
-    echo	 _("Each Row is a ")."<strong>".$level."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";
-	echo _("Intersection shows the number of organizations providing the service in the location and its sub locations.")."<br />";
+    echo	 _t("Each Row is a ")."<strong>".$level."</strong>"._t(" ,Columns are")."<strong>"._t(" Services")."</strong>"._t(" provided by organizations.")."<br />";
+	echo _t("Intersection shows the number of organizations providing the service in the location and its sub locations.")."<br />";
     */
-    echo _("This table covers the number of organizations that provide a particular service in a area as a geographical drill down. You may view  a sub-location by clicking on a parent-location and the organization details by clicking on the appropriate number. Please give attention to all services Not covered.");
+    echo _t("This table covers the number of organizations that provide a particular service in a area as a geographical drill down. You may view  a sub-location by clicking on a parent-location and the organization details by clicking on the appropriate number. Please give attention to all services Not covered.");
     ?>
     </p>
     <br />
@@ -297,34 +297,34 @@ function _shn_or_drill_loc($parent=null)
  	$tmp=shn_get_last_level();
  	if($tmp[0]==$lvl_child-1){
  	?>
- 	<h2><?=_("Organization Report for ").$parent_type; ?></h2>
+ 	<h2><?=_t("Organization Report for ").$parent_type; ?></h2>
     <div class="note">
     <?
  	$tmp=shn_get_last_level();
  	$child_type=$tmp[1];
- 	//echo	_("Each Row is a ".$child_type." ,Column is a  Service.");
+ 	//echo	_t("Each Row is a ".$child_type." ,Column is a  Service.");
  	?>
  	</div><?
  }else{
  	?>
- 	<h2><?=_("Organization Report By ").$child_type._(" for ").$parent_type; ?></h2>
+ 	<h2><?=_t("Organization Report By ").$child_type._t(" for ").$parent_type; ?></h2>
     <p>
  
 <?php
  	   	/*
- 	   	echo "<strong>". _("This report provides the coverage of services Regional wise ")."</strong><br />";
- 	   	echo	 _("Each Row is a ")."<strong>".$parent_type."</strong>"._(" ,Columns are")."<strong>"._(" Services")."</strong>"._(" provided by organizations.")."<br />";
-        //echo _("This report provides the coverage of services Regional wise ")."<strong>".$child_type."</strong>"._(" for each " )."<strong>"."$parent_type"."</strong><br />"; 
+ 	   	echo "<strong>". _t("This report provides the coverage of services Regional wise ")."</strong><br />";
+ 	   	echo	 _t("Each Row is a ")."<strong>".$parent_type."</strong>"._t(" ,Columns are")."<strong>"._t(" Services")."</strong>"._t(" provided by organizations.")."<br />";
+        //echo _t("This report provides the coverage of services Regional wise ")."<strong>".$child_type."</strong>"._t(" for each " )."<strong>"."$parent_type"."</strong><br />"; 
         
-        echo _("A Region is considered covered for a service if there is at least one organization providing the service")."<br />";
-       // echo _("Intersection shows the precentage of ".$child_type." Covered per each service.")."<br />";
-       // echo _("e.g. For a country how many districts have at least one organization providing the service. <br /> ");
-        echo _("If the country ")."<strong><em>C</em></strong>"._(" has ")."<strong><em>X</em></strong>"._(" no of districts and for the service ")."<strong><em>S</em></strong>"._(" only ")."<strong><em>Y</em></strong>"._(" no of districts have the presence of an organization then ")."<strong><em>C/S</em></strong>". _(" intersection shows ")."<strong><em>Y/X</em></strong><br />";
- 		echo _("Percentage of ")."<strong><em>Y/X</em></strong>"." is also given for emphasis"."<br />";
- 		echo _("Please provide attention to locations with the note ")."<strong>Not covered</strong>"._(" in Red as that means there is not a single organization " .
+        echo _t("A Region is considered covered for a service if there is at least one organization providing the service")."<br />";
+       // echo _t("Intersection shows the precentage of ".$child_type." Covered per each service.")."<br />";
+       // echo _t("e.g. For a country how many districts have at least one organization providing the service. <br /> ");
+        echo _t("If the country ")."<strong><em>C</em></strong>"._t(" has ")."<strong><em>X</em></strong>"._t(" no of districts and for the service ")."<strong><em>S</em></strong>"._t(" only ")."<strong><em>Y</em></strong>"._t(" no of districts have the presence of an organization then ")."<strong><em>C/S</em></strong>". _t(" intersection shows ")."<strong><em>Y/X</em></strong><br />";
+ 		echo _t("Percentage of ")."<strong><em>Y/X</em></strong>"." is also given for emphasis"."<br />";
+ 		echo _t("Please provide attention to locations with the note ")."<strong>Not covered</strong>"._t(" in Red as that means there is not a single organization " .
  				"providing that particular service in its sub locations");
  		*/
- 		echo _("This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.");
+ 		echo _t("This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.");
  ?></p><br /><?
  }     
     
@@ -371,11 +371,11 @@ function _shn_or_drill_loc($parent=null)
 			   _shn_is_covered_org($res_loc->fields["loc_uuid"],$res_sector->fields[0],$count);
                //if(_shn_is_covered($res_loc->fields[0],$res_sector->fields[0])){
                if($count>0){
-                    $active=_("Covered");
+                    $active=_t("Covered");
 		            //echo "<td><b><font color=#2E8B57>".$active."</font></b></td>";
                 		echo "<td><a href='index.php?mod=or&act=drill_report_loc_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#2E8B57>".$active."</font></b></a></td>";
                 }else {
-                    $active=_("Not Covered");
+                    $active=_t("Not Covered");
 		            echo "<td><b><font color=#FF0000>".$active."</font></b></td>";
                 }
             }else {
@@ -386,7 +386,7 @@ function _shn_or_drill_loc($parent=null)
                     if($res["active"]>0){
                     		echo "<td><a href='index.php?mod=or&act=drill_report_loc_show_orgs&loc=".$res_loc->fields["loc_uuid"]."&sec=".$res_sector->fields[0]."'><b><font color=#2E8B57>".$res["active"]."/".$res["total"]."</font> (<font color=#FF0000>".$precent."%</font>)</b></a></td>";
                     }else{
-                    		$active=_("Not Covered");
+                    		$active=_t("Not Covered");
 		            		echo "<td><b><font color=#FF0000>".$active."</font></b></td>";	
                     }
                 }
@@ -477,7 +477,7 @@ function _shn_or_report_org_sector($sector)
     $db=$global['db'];
     
 ?>
-<h2><?=_("Organization Report by Sector")?></h2>
+<h2><?=_t("Organization Report by Sector")?></h2>
 <?php 
 	shn_report_download("shn_or_service_coverage_pdf","Download as PDF");
     $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
@@ -494,7 +494,7 @@ function _shn_or_report_org_sector($sector)
     
     shn_form_select($sectors,'Sector', 'opt_sector',"onchange=submit(this)", array('br'=>false));    
     
-    shn_form_submit(_("Filter"));
+    shn_form_submit(_t("Filter"));
     
     shn_form_fclose();
     ?>
@@ -509,13 +509,13 @@ function _shn_or_report_org_sector($sector)
     <table>
         <thead>
         	<td></td>
-            <td><?=_("Organization Name")?></td>
-            <td><?=_("Incidents")?></td>
-            <td><?=_("Services Offered")?></td>
-            <td><?=_("Organization Type")?></td>
-            <td><?=_("Location")?></td>
-            <td><?=_("Address")?></td>
-            <td><?=_("Contact Number")?></td>
+            <td><?=_t("Organization Name")?></td>
+            <td><?=_t("Incidents")?></td>
+            <td><?=_t("Services Offered")?></td>
+            <td><?=_t("Organization Type")?></td>
+            <td><?=_t("Location")?></td>
+            <td><?=_t("Address")?></td>
+            <td><?=_t("Contact Number")?></td>
         </thead>
         <tbody>
 <?php    
@@ -526,7 +526,7 @@ function _shn_or_report_org_sector($sector)
 	    ?>
 	    <!--<tr>
 		    <td>
-	            <b><?=_($res_sector->fields[1])?></b>
+	            <b><?=_t($res_sector->fields[1])?></b>
 		    </td>
 	    </tr>-->
 	    <?php

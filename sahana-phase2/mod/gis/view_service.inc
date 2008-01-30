@@ -41,7 +41,7 @@ function shn_service_edit_form()
     $option_array=array('none' => '-----Select -----','Item' => 'WMS_Feed','Unit' => 'GeoRSS feed','Unit_types'=>'WFS feed');
     $form_opts['name']="select_edit_type_form";
     shn_form_fopen('edit_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Select Category'));
+    shn_form_fsopen(_t('Select Category'));
     $select_opts='onChange="changeform()"';
     shn_form_select($option_array,'','edit_type',$select_opts,null);
     shn_form_fsclose();
@@ -58,10 +58,10 @@ function show_item_cat_table()
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_("Feed Confkey")?></strong></td>
-        <!--<td><strong><?=_("Description")?></strong></td> -->
-        <td><strong><?=_("modulename")?></strong></td>
-	<td><strong><?=_("Value")?></strong></td>
+        <td><strong><?=_t("Feed Confkey")?></strong></td>
+        <!--<td><strong><?=_t("Description")?></strong></td> -->
+        <td><strong><?=_t("modulename")?></strong></td>
+	<td><strong><?=_t("Value")?></strong></td>
     </thead>
     <TBODY>
     
@@ -119,7 +119,7 @@ if (true) //when the user is the admin
 function _shn_service_show_cat()
 {
     ?>
-    <p><?= _('<b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b> By deleting a catalogue You will lose all the entries under the particular catalogue'); ?></p>
+    <p><?= _t('<b>Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.</b> By deleting a catalogue You will lose all the entries under the particular catalogue'); ?></p>
     <?php
     global $global;
     $db=$global["db"];
@@ -140,12 +140,12 @@ function _shn_service_show_cat()
     $form_opts['name']="edit_form";
     $extra_opts['req']=true;
     shn_form_fopen('edit_cat_form_submit',null,$form_opts);
-    shn_form_fsopen(_('Details Of the catalogue/Item'));
+    shn_form_fsopen(_t('Details Of the catalogue/Item'));
     $extra_opts['value']=$name;
-    shn_form_text(_("Catalogue / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
+    shn_form_text(_t("Catalogue / Item Name   : "),'item_cat_name','size="50"',$extra_opts);
     $extra_opts['req']=false;
     $extra_opts['value']=$description;
-    shn_form_text(_("Description   : "),'description','size="50"',$extra_opts);
+    shn_form_text(_t("Description   : "),'description','size="50"',$extra_opts);
     shn_form_fsclose();
 
 
@@ -161,20 +161,20 @@ function _shn_service_show_cat()
     $extra_opts['br']=false;
     $extra_opts['req']=false;
     
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_t("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     
-//shn_form_button(_("New Feeds"),"onClick='change_action(\"NewFeed\")'",$extra_opts);
+//shn_form_button(_t("New Feeds"),"onClick='change_action(\"NewFeed\")'",$extra_opts);
 	$shn_session_admin=0;
 //get the sesions details from login 4 admin and alter the shn_session_details to ->1 	
 //    if($shn_session_admin==1)
 //    {
     	
     if($visiblity==0)
-	shn_form_button(_("Set Visibility"),"onClick='change_action(\"visible\")'",$extra_opts);
+	shn_form_button(_t("Set Visibility"),"onClick='change_action(\"visible\")'",$extra_opts);
 	else		
-	shn_form_button(_("Non Visible"),"onClick='change_action(\"visible\")'",$extra_opts);
+	shn_form_button(_t("Non Visible"),"onClick='change_action(\"visible\")'",$extra_opts);
 //visibility factor of admin is set with $visibility variable set here as given     
 //}
 	

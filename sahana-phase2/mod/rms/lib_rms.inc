@@ -21,7 +21,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 function _shn_rms_print_hedder($string=null)
 {
 	if (!$string)
-	print '<h2>' . _("Welcome to The Sahana ") . shn_get_module_name() . '</h2>';
+	print '<h2>' . _t("Welcome to The Sahana ") . shn_get_module_name() . '</h2>';
 	else
 	print '<h2>' . $string . '</h2>';
 }
@@ -472,7 +472,7 @@ function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 {
 	if( $itm=='' || _shn_rms_check_catalog_item($itm))
 	{
-		add_error(_("Please Select a Catalog Item"));
+		add_error(_t("Please Select a Catalog Item"));
 		return false;
 	}
 	if ($qty != '' && is_numeric($qty))
@@ -482,7 +482,7 @@ function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 	}
 	else
 	{
-		add_error(_("Please Enter a valid Quantity"));
+		add_error(_t("Please Enter a valid Quantity"));
 		return false;
 	}
 }
@@ -490,7 +490,7 @@ function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 {
 	if(_shn_rms_check_catalog_item($itm))
 	{
-		add_error(_("Please Select a Catalog Item"));
+		add_error(_t("Please Select a Catalog Item"));
 		return false;
 	}
 	if ($qty != '' && is_numeric($qty))
@@ -500,7 +500,7 @@ function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
 	}
 	else
 	{
-		add_error(_("Please Enter a valid Quantity"));
+		add_error(_t("Please Enter a valid Quantity"));
 		return false;
 	}
 }
@@ -914,7 +914,7 @@ function _shn_html_inform_show()
 
 	?>
 <div id="error"><!-- TODO: change style -->
-<p><em><?php print _("Information") . ' :'?></em></p>
+<p><em><?php print _t("Information") . ' :'?></em></p>
 <ul>
 <?php
 foreach ( $infor_msgs as $info )
@@ -932,7 +932,7 @@ $_SESSION['html_info'] = null;
 function _shn_html_print_alert($alert)
 {
 	?>
-<div class="alert"><!-- TODO: change style --> <strong><?php print _("Alert") . " : $alert"?></strong>
+<div class="alert"><!-- TODO: change style --> <strong><?php print _t("Alert") . " : $alert"?></strong>
 </div>
 	<?php
 }
@@ -1021,20 +1021,20 @@ function _shn_rms_is_plgstatus($status)
 function _shn_rms_view_requester($reqstr_id, $summary=false)
 {
 	print '<div id="note2">';
-	print '<h4>' . _("Requester Information") . '</h4>';
+	print '<h4>' . _t("Requester Information") . '</h4>';
 
 	//$requester = _shn_rms_get_person($reqstr_id);
 	$requester = _shn_rms_get_requester($reqstr_id);
 	
 	/*if (!$summary)
 	{
-		///$tmp_str = '<strong>' . _("RequesterID") . '</strong>';
+		///$tmp_str = '<strong>' . _t("RequesterID") . '</strong>';
 		//$tb_reqstr[] = array($tmp_str , $reqstr_id);
-		$tb_reqstr[] = array('<strong>' . _("Full Name") . '</strong>', $requester['name']);
-		//$tb_reqstr[] = array('<strong>' . _("Address") . '</strong>', $requester['address']);
-		//$tb_reqstr[] = array('<strong>' . _("email") . '</strong>', $requester['email']);
-		//$tb_reqstr[] = array('<strong>' . _("Mobile") . '</strong>', $requester['mobile']);
-		//$tb_reqstr[] = array('<strong>' . _("Telephone") . '</strong>', $requester['telephone']);
+		$tb_reqstr[] = array('<strong>' . _t("Full Name") . '</strong>', $requester['name']);
+		//$tb_reqstr[] = array('<strong>' . _t("Address") . '</strong>', $requester['address']);
+		//$tb_reqstr[] = array('<strong>' . _t("email") . '</strong>', $requester['email']);
+		//$tb_reqstr[] = array('<strong>' . _t("Mobile") . '</strong>', $requester['mobile']);
+		//$tb_reqstr[] = array('<strong>' . _t("Telephone") . '</strong>', $requester['telephone']);
 
 		$width=array('20%');
 		shn_html_table($tb_reqstr,null,null,array('class'=>'layout','width'=>$width));
@@ -1054,19 +1054,19 @@ print '</div>';
 function _shn_rms_view_donor($donor_id, $summary=false)
 {
 	print '<div id="note2">';
-	//print '<h4>' . _("Donor Contact Information") . '</h4>';
-	print '<h4>' . _("Donor Information") . '</h4>';
+	//print '<h4>' . _t("Donor Contact Information") . '</h4>';
+	print '<h4>' . _t("Donor Information") . '</h4>';
 
 	$donor = _shn_rms_get_person($donor_id);
 	if (!$summary)
 	{
-		$tmp_str = '<strong>' . _("Donor ID") . '</strong>';
+		$tmp_str = '<strong>' . _t("Donor ID") . '</strong>';
 		//$tb_donor[] = array($tmp_str , $donor_id);
-		$tb_donor[] = array('<strong>' . _("Full Name") . '</strong>', $donor['name']);
-		//$tb_donor[] = array('<strong>' . _("email") . '</strong>', $donor['email']);
-		//$tb_donor[] = array('<strong>' . _("Mobile") . '</strong>', $donor['mobile']);
-		//$tb_donor[] = array('<strong>' . _("Telephone") . '</strong>', $donor['telephone']);
-		//$tb_donor[] = array('<strong>' . _("Address") . '</strong>', $donor['address'])
+		$tb_donor[] = array('<strong>' . _t("Full Name") . '</strong>', $donor['name']);
+		//$tb_donor[] = array('<strong>' . _t("email") . '</strong>', $donor['email']);
+		//$tb_donor[] = array('<strong>' . _t("Mobile") . '</strong>', $donor['mobile']);
+		//$tb_donor[] = array('<strong>' . _t("Telephone") . '</strong>', $donor['telephone']);
+		//$tb_donor[] = array('<strong>' . _t("Address") . '</strong>', $donor['address'])
 
 		$width=array('20%');
 		shn_html_table($tb_donor,null,null,array('class'=>'layout','width'=>$width));
@@ -1078,7 +1078,7 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 :
 		<?=$donor_id?>
 <br />
-<strong><?php echo _("Donor Name")?></strong>
+<strong><?php echo _t("Donor Name")?></strong>
 :
 		<?=$donor['name']?>
 		<?php
@@ -1088,7 +1088,7 @@ print '</div>';
 function _shn_rms_view_location($loc_id, $summary=false)
 {
 	print '<div id="note2">';
-	//print '<h4>' . _("Request Location Information") . '</h4>';
+	//print '<h4>' . _t("Request Location Information") . '</h4>';
 	/*=====================================================================
     if(_shn_rms_is_location($loc_id)) {
         $location = _shn_rms_get_location_name($loc_id);
@@ -1102,13 +1102,13 @@ function _shn_rms_view_location($loc_id, $summary=false)
 	
 	if (!$summary)
 	{
-		//$tmp_str = '<strong>' . _("Location ID") . '</strong>';
+		//$tmp_str = '<strong>' . _t("Location ID") . '</strong>';
 		//$tb_loc[] = array($tmp_str , $loc_id);
-		$tb_loc[] = array('<strong>' . _("Location") . '</strong>', $location);
-		//$tb_loc[] = array('<strong>' . _("Location Type") . '</strong>', $location['opt_person_loc_type']);
-		// $tb_loc[] = array('<strong>' . _("Address") . '</strong>', $location['address']);
-		// $tb_loc[] = array('<strong>' . _("Post code") . '</strong>', $location['postcode']);
-		//$tb_loc[] = array('<strong>' . _("GIS") . '</strong>', $location['long_lat']);
+		$tb_loc[] = array('<strong>' . _t("Location") . '</strong>', $location);
+		//$tb_loc[] = array('<strong>' . _t("Location Type") . '</strong>', $location['opt_person_loc_type']);
+		// $tb_loc[] = array('<strong>' . _t("Address") . '</strong>', $location['address']);
+		// $tb_loc[] = array('<strong>' . _t("Post code") . '</strong>', $location['postcode']);
+		//$tb_loc[] = array('<strong>' . _t("GIS") . '</strong>', $location['long_lat']);
 
 		$width=array('20%');
 		shn_html_table($tb_loc,null,null,array('class'=>'layout','width'=>$width));
@@ -1118,7 +1118,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
 	$location = _shn_rms_get_name($loc_id);
 		?>
 
-<strong><?php echo _("Location")?></strong>
+<strong><?php echo _t("Location")?></strong>
 :
 		<?=$location?>
 		<?php
@@ -1130,7 +1130,7 @@ function _shn_rms_view_reqitems($req_id)
 	global $global;
 
 	$rms_items = _shn_rms_get_reqitems($req_id);
-	$th_items[] = array (_("Item"), _("Quantity"), _("Item Priority"));
+	$th_items[] = array (_t("Item"), _t("Quantity"), _t("Item Priority"));
 	foreach ($rms_items as $itm)
 	{
 		//print_r($itm);
@@ -1141,7 +1141,7 @@ function _shn_rms_view_reqitems($req_id)
 		);
 	}
 
-	print '<h4>' . _("Request Items") . '</h4>';
+	print '<h4>' . _t("Request Items") . '</h4>';
 	shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 	print '<br />';
 
@@ -1180,14 +1180,14 @@ function _shn_rms_view_reqff($req_id)
 		return false;
 	}
 
-	$th_items[] = array (_("Item"), _("Priority"), _("Requested"), _("Fulfiled"), _("Date"), _("Select to Fulfill"));
+	$th_items[] = array (_t("Item"), _t("Priority"), _t("Requested"), _t("Fulfiled"), _t("Date"), _t("Select to Fulfill"));
 	foreach ($rms_items as $itm)
 	{
 		$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
                     '&amp;seq=sel_plg' .
                     '&amp;req_id=' . $req_id .
                     '&amp;itm_id=' . $itm['item_uuid'] .'>' .
-		_("Select") . '</a>';
+		_t("Select") . '</a>';
 
 		$tb_items[] = array (
 		_shn_rms_get_itemname($itm['item_uuid']),
@@ -1199,7 +1199,7 @@ function _shn_rms_view_reqff($req_id)
 		);
 	}
 
-	print '<h4>' . _("Request Fulfilment Status") . '</h4>';
+	print '<h4>' . _t("Request Fulfilment Status") . '</h4>';
 	shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 	print '<br />';
 }
@@ -1214,7 +1214,7 @@ function _shn_rms_view_request($req_id)
 	
 	$_SESSION['rms_ls_reqstr']=$request['reqstr_uuid'];
 
-	//print '<h3>' . _("The Request ID: ") . $req_id . '</h3>';
+	//print '<h3>' . _t("The Request ID: ") . $req_id . '</h3>';
 	//print '<br />';
 	_shn_rms_view_requester($request['reqstr_uuid']);
 	//print '<br />';
@@ -1229,7 +1229,7 @@ function _shn_rms_view_plgitems($plg_id)
 	global $global;
 
 	$rms_items = _shn_rms_get_plgitems($plg_id);
-	$th_items[] = array (_("Item"), _("Quantity"));
+	$th_items[] = array (_t("Item"), _t("Quantity"));
 	foreach ($rms_items as $itm)
 	{
 		$tb_items[] = array (
@@ -1238,7 +1238,7 @@ function _shn_rms_view_plgitems($plg_id)
 		);
 	}
 
-	print '<h4>' . _("Pledge Items") . '</h4>';
+	print '<h4>' . _t("Pledge Items") . '</h4>';
 	shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 	print '<br />';
 
@@ -1250,7 +1250,7 @@ function _shn_rms_view_pledge($plg_id)
 	$status = $pledge['status'];
 	$shn_usr = $pledge['user_id'];
 
-	//print '<h3>' . _("The Pledge ID: ") . $plg_id . '</h3>';
+	//print '<h3>' . _t("The Pledge ID: ") . $plg_id . '</h3>';
 	//print '<br />';
 	_shn_rms_view_donor($pledge['donor_uuid']);
 	print '<br />';
@@ -1465,22 +1465,22 @@ function _shn_rms_ct_cat($max,$form,$item_flag=false)
 	}
 
 	if($parent_array==null){
-		$parent_array["1"]=_("None");
-		shn_form_fsopen(_('Information'));
+		$parent_array["1"]=_t("None");
+		shn_form_fsopen(_t('Information'));
 		?>
-<p><?= _('There is no any root catalogue found. '); ?><a
-	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _(' First'); ?></p>
+<p><?= _t('There is no any root catalogue found. '); ?><a
+	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _t(' First'); ?></p>
 
 		<?php
 		shn_form_fsclose();
 }
 
 else{
-	shn_form_fsopen(_("Select the root Category"));
+	shn_form_fsopen(_t("Select the root Category"));
 	$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,0)';
 	shn_form_select($parent_array,'',0,$select_opts,null);
 	shn_form_fsclose();
-	shn_form_fsopen(_('Select the sub category'));
+	shn_form_fsopen(_t('Select the sub category'));
 	for($i=1;$i<$max+1;$i++){
 		$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$i.') visible="false"';
 		shn_form_select(null,'',$i,$select_opts,null);
@@ -1488,10 +1488,10 @@ else{
 	_shn_rms_ct_cat_js($max,$form,"item_name",$item_flag);
 	shn_form_hidden(array('item_name'=>""));
 	//_shn_cs_item_name_javascript("item_name",$max,$form);
-	//shn_form_button(_("Next"),"onClick='set_name_submit()'");
+	//shn_form_button(_t("Next"),"onClick='set_name_submit()'");
 	shn_form_fsclose();
 
-	//shn_form_submit(_("Next"));
+	//shn_form_submit(_t("Next"));
 }
 }
 function _shn_rms_get_location_name($bsd_village)
@@ -1554,7 +1554,7 @@ function _shn_rms_check_catalog_item($itm)
 		return false;
 	}
 }
-function _shn_rms_requester_add_new_loc_()
+function _shn_rms_requester_add_new_loc_t()
 {
     global $global;
     
@@ -1574,8 +1574,8 @@ function _shn_rms_requester_add_new_loc_()
         
      	$location_id=_shn_rms_get_locid($range["end"]);
      	
-        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) { //if location already exists
-    		add_error(_("Location already exists"));
+        if(_shn_rms_requester_search_loc_t($location_id,$p_uuid)) { //if location already exists
+    		add_error(_t("Location already exists"));
     	}else {
 	
     		$sql = "INSERT INTO ext_location( " .
@@ -1589,7 +1589,7 @@ function _shn_rms_requester_add_new_loc_()
         		display_errors();
         		return false;
     		}else {
-    			add_confirmation(_("Location added successfully"));
+    			add_confirmation(_t("Location added successfully"));
         		return true;
     		}
     	}
@@ -1597,8 +1597,8 @@ function _shn_rms_requester_add_new_loc_()
     //if an organization is selected, but it does not belong to any location
     }elseif((isset($_POST['loc_select_1'])==false || strlen($_POST['loc_select_1'])<0 || $_POST['loc_select_1']=="0") && $_POST['loc']=='loc_org' && (isset($_POST['orgs'])==true && strlen($_POST['orgs'])>0 && $_POST['orgs']!="0")){
         $location_id= $_POST['orgs'];
-        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) {
-    		add_error(_("Location already exists"));
+        if(_shn_rms_requester_search_loc_t($location_id,$p_uuid)) {
+    		add_error(_t("Location already exists"));
     	}else{
     		$sql = "INSERT INTO ext_location( " .
                                            "p_uuid, " .
@@ -1611,7 +1611,7 @@ function _shn_rms_requester_add_new_loc_()
         		display_errors();
         		return false;
     		}else {
-    			add_confirmation(_("Location added successfully"));
+    			add_confirmation(_t("Location added successfully"));
         		return true;
     		}
     	}
@@ -1619,8 +1619,8 @@ function _shn_rms_requester_add_new_loc_()
     //if a camp is selected, but it does not belong to any location		
     }elseif((isset($_POST['loc_select_1'])==false || strlen($_POST['loc_select_1'])<0 || $_POST['loc_select_1']=="0") && $_POST['loc']=='loc_camp' && (isset($_POST['camps'])==true && strlen($_POST['camps'])>0 && $_POST['camps']!="0")) {
     	$location_id= $_POST['camps'];
-        if(_shn_rms_requester_search_loc_($location_id,$p_uuid)) {
-    		add_error(_("Location already exists"));
+        if(_shn_rms_requester_search_loc_t($location_id,$p_uuid)) {
+    		add_error(_t("Location already exists"));
     	}else{
     		$sql = "INSERT INTO ext_location( " .
                                            "p_uuid, " .
@@ -1633,17 +1633,17 @@ function _shn_rms_requester_add_new_loc_()
         		display_errors();
         		return false;
     		}else {
-    			add_confirmation(_("Location added successfully"));
+    			add_confirmation(_t("Location added successfully"));
         		return true;
     		}
     	}
     
     //-------else-------------------------------------------------------	
     }else{ //if any location or camp or organization is not selected..
-    	add_warning(_("Select the location first"));
+    	add_warning(_t("Select the location first"));
     }
 }
-function _shn_rms_requester_search_loc_($loc_id,$p_uuid)
+function _shn_rms_requester_search_loc_t($loc_id,$p_uuid)
 {
 	global $global;
 
@@ -1664,15 +1664,15 @@ function _shn_rms_display_location_array($loc)
 	//$bsda_village = array();
 
 	shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
-	$info=_("Select a location where the request is related.")."<br />";
-	$info.=_("If you want to make the request for a new location, add the location first.")."<br />";
+	$info=_t("Select a location where the request is related.")."<br />";
+	$info.=_t("If you want to make the request for a new location, add the location first.")."<br />";
 	?>
 <div class="info"><?php echo $info;?></div>
 <br />
 	<?
 
 	shn_form_hidden(array('seq'=>'get_loc'));
-	shn_form_fsopen(_("Existing Location"));
+	shn_form_fsopen(_t("Existing Location"));
     //============================New==================================
     foreach($loc as $loc_id) {
         if(_shn_rms_is_location($loc_id)) {
@@ -1692,10 +1692,10 @@ function _shn_rms_display_location_array($loc)
 //	}
     //=========================================================================
 
-	shn_form_select($locations_array,_("Location"), 'loc');
+	shn_form_select($locations_array,_t("Location"), 'loc');
 
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	print '<br />';
 	print '<br />';
 

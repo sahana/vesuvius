@@ -29,7 +29,7 @@ function shn_rss_channel_open($title,$desc){
     echo "<description>$desc</description>\n";
     echo "<language>{$conf['locale']}</language>\n";
     echo "<category>Sahana</category>\n";
-    echo "<generator>"._("Sahana FOSS Disaster Management System")."</generator>\n";
+    echo "<generator>"._t("Sahana FOSS Disaster Management System")."</generator>\n";
     echo "<webMaster>{$conf['root_email']}</webMaster>\n";
 }
 

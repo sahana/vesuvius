@@ -27,14 +27,14 @@ function _shn_vol_viewform_all()
 <div id ="result">
     <table>
         <thead>
-            <td><?=_("Name")?></td>
-	        <td><?=_("Services Offered")?></td>
-            <td><?=_("Skills")?></td>
-           <!-- <td><?=_("Country of Origin")?></td>-->
-            <td><?=_("Contact Address")?></td>
-            <td><?=_("Contact Number")?></td>
-            <td><?=_("Contact Mobile")?></td>
-            <td><?=_("Contact Email")?></td>
+            <td><?=_t("Name")?></td>
+	        <td><?=_t("Services Offered")?></td>
+            <td><?=_t("Skills")?></td>
+           <!-- <td><?=_t("Country of Origin")?></td>-->
+            <td><?=_t("Contact Address")?></td>
+            <td><?=_t("Contact Number")?></td>
+            <td><?=_t("Contact Mobile")?></td>
+            <td><?=_t("Contact Email")?></td>
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
@@ -145,7 +145,7 @@ function _shn_vol_viewform($pid,$error=false)
  
     }
 ?>
-<h2><?=_("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
+<h2><?=_t("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
 <?php
  if($error==true)
         display_errors();
@@ -155,30 +155,30 @@ function _shn_vol_viewform($pid,$error=false)
     $form_opts['name']='view';
     $form_opts['req_message']=false;
     shn_form_fopen("view_submit",null,$form_opts);
-   // shn_form_fsopen(_("Picture"));
+   // shn_form_fsopen(_t("Picture"));
    // shn_show_thumb($pid);
    // shn_form_fsclose();
-   	shn_form_fsopen(_('Primary Details'));
-   	?><div class="info"><?= _("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
+   	shn_form_fsopen(_t('Primary Details'));
+   	?><div class="info"><?= _t("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
     $extra_opts['value']=$name;
     $extra_opts['req']=true;
-    shn_form_text(_("Name in Full : "),'name','size="50"',$extra_opts); 
+    shn_form_text(_t("Name in Full : "),'name','size="50"',$extra_opts); 
     $extra_opts['req']=false;
     $extra_opts['value']=$dob;
-    shn_form_text(_("Date of Birth : "),'dob','size="10"',$extra_opts); 
-    //shn_form_date(_("Date of Birth: "),'dob', null ) ;
+    shn_form_text(_t("Date of Birth : "),'dob','size="10"',$extra_opts); 
+    //shn_form_date(_t("Date of Birth: "),'dob', null ) ;
     $extra_opts['value']=$job;
-    shn_form_text(_("Occupation : "),'job','size="50"',$extra_opts); 
+    shn_form_text(_t("Occupation : "),'job','size="50"',$extra_opts); 
     _shn_vol_display_gender($error,$sex);
     shn_form_fsclose();
-    shn_form_fsopen(_('Identity Information'));
-    ?><div class="info"><?= _("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
+    shn_form_fsopen(_t('Identity Information'));
+    ?><div class="info"><?= _t("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
     $extra_opts['value']=$nic;
-    shn_form_text(_("National ID No : "),'nic','size="50"',$extra_opts); 
+    shn_form_text(_t("National ID No : "),'nic','size="50"',$extra_opts); 
     $extra_opts['value']=$pas;
-    shn_form_text(_("Passport No : "),'pas','size="50"',$extra_opts); 
+    shn_form_text(_t("Passport No : "),'pas','size="50"',$extra_opts); 
     $extra_opts['value']=$dln;
-    shn_form_text(_("Driving License No : "),'dln','size="50"',$extra_opts); 
+    shn_form_text(_t("Driving License No : "),'dln','size="50"',$extra_opts); 
     shn_form_fsclose();
 
     $range= shn_vol_get_loc_range();
@@ -186,13 +186,13 @@ function _shn_vol_viewform($pid,$error=false)
     shn_form_fsopen("Base Location");
 	shn_location($range,$bsd_village);
     shn_form_fsclose();
-	shn_form_fsopen(_("Services Offered"));
+	shn_form_fsopen(_t("Services Offered"));
     _shn_vol_display_sector($error,$sector_arr);
     shn_form_fsclose();
-    shn_form_fsopen(_("Skills"));
+    shn_form_fsopen(_t("Skills"));
     _shn_vol_display_skills($error,$skill_arr);
     shn_form_fsclose();
-    shn_form_fsopen(_("Contact Information"));
+    shn_form_fsopen(_t("Contact Information"));
      _shn_vol_display_contact_person(false,false,$pid);
     shn_form_fsclose();
 ?>
@@ -201,9 +201,9 @@ function _shn_vol_viewform($pid,$error=false)
 <?php
     $extra_opts['br']=false;
     $extra_opts['req']=false;
-    shn_form_button(_("Close"),"onClick='change_action(\"close\")'",$extra_opts);
-    shn_form_button(_("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
-    shn_form_button(_("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
+    shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
+    shn_form_button(_t("Save"),"onClick='change_action(\"edit\")'",$extra_opts);
+    shn_form_button(_t("Delete"),"onClick='change_action(\"del\")'",$extra_opts);
     //$change= array('type'=>'hidden', 'name'=>'action');
 	shn_form_hidden(array('action'=>'0'));
 	//shn_form_add_component($change,false,false);

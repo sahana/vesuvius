@@ -43,7 +43,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 
 
 
-<h1><?= _('Group Members'); ?></h1>
+<h1><?= _t('Group Members'); ?></h1>
 <?php
 
 //shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'],'', 'dvr', 'adddvr_img',true);
@@ -126,7 +126,7 @@ function _shn_dvr_search_show_verticle($details) {
 			shn_show_thumb_url($details[$i]['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
 			echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $details[$i]['p_uuid'] . '">' . $details[$i]['full_name'] . '</a><br />';
 }
-			//    echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._('Assign to more incidents').'</a>';
+			//    echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';
 			//    print 'hello';
 ?>
         </TD>
@@ -142,7 +142,7 @@ function _shn_dvr_search_show_verticle($details) {
 				echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $details[$i +1]['p_uuid'] . '">' . $details[$i +1]['full_name'] . '</a><br />';
                 
 			}
-			//  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._('Assign to more incidents').'</a>';
+			//  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';
 ?>
         </TD>
 <?php

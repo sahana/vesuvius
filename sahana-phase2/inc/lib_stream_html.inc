@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.13 2007-11-26 11:17:45 isurunishan Exp $ */
+/* $Id: lib_stream_html.inc,v 1.14 2008-01-30 04:38:38 prabath321 Exp $ */
 
 /**
  *
@@ -46,8 +46,8 @@ shn_include_page_section('header',$module);
 ?>
 <div id="wrapper" class="clearfix">
 <div id="wrapper_menu">
-<p id="skip">Jump to: <a href="#content"><?=_('Content')?></a> | <a
-	href="#modulemenu"><?=_('Module Menu')?></a></p>
+<p id="skip">Jump to: <a href="#content"><?=_t('Content')?></a> | <a
+	href="#modulemenu"><?=_t('Module Menu')?></a></p>
 <?php
 
 // hack for the admin section such that the mene and login come from

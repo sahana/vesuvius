@@ -25,7 +25,7 @@ function report_exception($exception,array $extra_opts=null){
 	//echo "Pusing Exception"; echo "<pre>";var_dump($exception);echo "</pre>";
 	$exception_list = &$global['exception_list'];
 	array_push($exception_list,$exception);
-	shn_log_event(null,_("Exception occured."),$exception->getMessage(),ERROR,UNCLASSIFIED,null,$exception->getModule(),$exception->getAction(),null);
+	shn_log_event(null,_t("Exception occured."),$exception->getMessage(),ERROR,UNCLASSIFIED,null,$exception->getModule(),$exception->getAction(),null);
 	//var_dump($exception_list);
 }
 

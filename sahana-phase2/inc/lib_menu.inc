@@ -45,7 +45,7 @@ function shn_mainmenuopen($desc )
 {   
 ?>
     <div id="menuwrap">
-        <h2><?php echo _('Sahana Main')?></h2>
+        <h2><?php echo _t('Sahana Main')?></h2>
         <ul id="menu">
 <?php
 }
@@ -288,7 +288,7 @@ function shn_breadcrumb_display()
     if ( $breadcrumb != '' ) {
         // @TODO: Remove the space hack and make this a proper list for CSS
         echo '<div id="breadcrumbs">&nbsp;&nbsp;&nbsp;&nbsp;<b>';
-        echo _('Switch back to').' </b>'.$breadcrumb.'</div>';
+        echo _t('Switch back to').' </b>'.$breadcrumb.'</div>';
     }
 
 }

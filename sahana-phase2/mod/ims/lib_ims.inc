@@ -319,7 +319,7 @@ function _shn_ims_display_gender($error=false,$value=NULL,$label=NULL)
     }else{
         //$extra_opts['req']=true;
     }
-    $label=($label==NULL)?_("Gender:"):$label;
+    $label=($label==NULL)?_t("Gender:"):$label;
     shn_form_opt_select('opt_gender',$label,$select_opts,$extra_opts);
 }
 function _shn_ims_display_org_type($error=false,$multi=false,$value=NULL)
@@ -382,20 +382,20 @@ function _shn_ims_display_contact_person($error=false,$org=true,$po_uuid=null)
     }
     if($org){
         $extra_opts['value']=$contact_name;
-        shn_form_text(_("Name : "),'contact_name','size="50"',$extra_opts); 
+        shn_form_text(_t("Name : "),'contact_name','size="50"',$extra_opts); 
     }
     $extra_opts['value']=$contact_address;
-    shn_form_text(_("Address : "),'contact_add','size="50"',$extra_opts); 
+    shn_form_text(_t("Address : "),'contact_add','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_phone;
-    shn_form_text(_("Phone : "),'contact_phone','size="50"',$extra_opts); 
+    shn_form_text(_t("Phone : "),'contact_phone','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_mobile;
-    shn_form_text(_("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
+    shn_form_text(_t("Mobile No : "),'contact_mobile','size="50"',$extra_opts);
     $extra_opts['value']=$contact_fax;
-    shn_form_text(_("Fax : "),'contact_fax','size="50"',$extra_opts); 
+    shn_form_text(_t("Fax : "),'contact_fax','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_email;
-    shn_form_text(_("Email : "),'contact_mail','size="50"',$extra_opts); 
+    shn_form_text(_t("Email : "),'contact_mail','size="50"',$extra_opts); 
     $extra_opts['value']=$contact_web;
-    shn_form_text(_("Website : "),'contact_web','size="50"',$extra_opts);
+    shn_form_text(_t("Website : "),'contact_web','size="50"',$extra_opts);
 }
 
 function _shn_ims_display_org_facilities($error=false,$org_id=false)
@@ -413,13 +413,13 @@ function _shn_ims_display_org_facilities($error=false,$org_id=false)
         }
     }
     $extra_opts['value']=$man_power;
-    shn_form_text(_("Man Power : "),'man_power','size="50"',$extra_opts);
+    shn_form_text(_t("Man Power : "),'man_power','size="50"',$extra_opts);
     $extra_opts['value']=$equipment;
-    shn_form_text(_("Equipment : "),'equipment','size="50"',$extra_opts);
+    shn_form_text(_t("Equipment : "),'equipment','size="50"',$extra_opts);
     $extra_opts['value']=$resources;
-    shn_form_text(_("Other relevant resources : "),'resources','size="50"',$extra_opts);
+    shn_form_text(_t("Other relevant resources : "),'resources','size="50"',$extra_opts);
     $extra_opts['value']=$space;
-    shn_form_text(_("Inventory Space : "),'space','size="50"',$extra_opts);
+    shn_form_text(_t("Inventory Space : "),'space','size="50"',$extra_opts);
   
 }
 
@@ -427,17 +427,17 @@ function _shn_ims_display_logininfo($error=false)
 {
 // for get login info
     $login_info = array(
-                       array('desc'=>_("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
-                    array('desc'=>_("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
-                    array('desc'=>_("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
-                    array('desc'=>_("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
+                       array('desc'=>_t("Account Name : "),'type'=>"text",'size'=>20,'name'=>'account_name','br'=>1),
+                    array('desc'=>_t("* User Name for Login: "),'type'=>"text",'size'=>20,'name'=>'user_name','br'=>1),
+                    array('desc'=>_t("* Password for Login: "),'type'=>"password",'size'=>20,'name'=>'password','br'=>1),
+                    array('desc'=>_t("* Confirm Password: "),'type'=>"password",'size'=>20,'name'=>'re_password','br'=>1)
     ); // end of getting logging info
     return $login_info;
 }
 
 function _shn_ims_display_extra($error=false)
 {
-    shn_form_checkbox(_("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is useful : )"),'chk_branch',null,$chkbox_opts);
+    shn_form_checkbox(_t("Add Operation<br> (Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is useful : )"),'chk_branch',null,$chkbox_opts);
 }
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -1856,7 +1856,7 @@ $max_depth = get_max_depth();
 
     if($itemid==null || $itemid=='none')
     {
-   //add_error(_(SHN_IMS_CATALOGUE_MISSING));
+   //add_error(_t(SHN_IMS_CATALOGUE_MISSING));
     $error_flag=true;
     }    
 
@@ -1870,7 +1870,7 @@ function _shn_ims_location_string($loc)
 	$loc_arr=array();
    	shn_get_parents($loc,&$loc_arr);
    	if($loc_arr[0]=='unknown'){
-   		shn_form_label(_("Organization Location"),"Unknown");
+   		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
    		
    		$max=count($loc_arr)-1;

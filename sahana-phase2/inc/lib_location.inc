@@ -608,22 +608,22 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	$parent=shn_location_get_start_loc();
 	$count=0;
 	$keepparent=false;
-	$info=_("If you know any of the following, please select only one of them first" .
+	$info=_t("If you know any of the following, please select only one of them first" .
 			" , the selection will populate the set of Location select boxes ")."<br />";
 	if($extra_opts["camps"]==true){
-		 $info.=_("* Camp/Shelter ")."<br /> ";
+		 $info.=_t("* Camp/Shelter ")."<br /> ";
 		 $count=$count+1;
 	}
 	if($extra_opts["inv"]==true){
-		 $info.=_("* an Inventory ")."<br /> ";
+		 $info.=_t("* an Inventory ")."<br /> ";
 		 $count=$count+1;
 	}
 	if($extra_opts["org"]==true){
-		 $info.=_("* an Organization ")."<br /> ";
+		 $info.=_t("* an Organization ")."<br /> ";
 		 $count=$count+1;
 	}
 	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["orgs"]==true)){
-		//$info.=_("a Location ");
+		//$info.=_t("a Location ");
 		?><div class="info"><?php echo $info;?></div><br /><?
 	}
 	if($extra_opts["camps"]==true){
@@ -652,7 +652,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
          }
          ?><div id='loc_camp'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
-        	 shn_form_select($options,_('Shelter/Camp'),'camps',$select_opts,$extra_opts);
+        	 shn_form_select($options,_t('Shelter/Camp'),'camps',$select_opts,$extra_opts);
         ?>	</div><?
           		
 	}
@@ -662,10 +662,10 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 $orgs=shn_or_organization_list();
 		 if($count>1){
 
-		 	$options=array("loc_org"=>_("Select an Organization"));
+		 	$options=array("loc_org"=>_t("Select an Organization"));
 		 	$select_opts='onChange=radio_click("loc_org")';
 		 	shn_form_radio($options,null, "loc",$select_opts);
-		 	$options=array("loc_org"=>_("Select an Organization"));
+		 	$options=array("loc_org"=>_t("Select an Organization"));
 		 	$select_opts='onclick=radio_click("loc_org")';
 		 	shn_form_radio($options,null,"loc",$select_opts);
 		 }
@@ -679,7 +679,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 
          ?><div id='loc_org'><?
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"poc")';
-    		 shn_form_select($options,_('Organizations'),'orgs',$select_opts,$extra_opts);
+    		 shn_form_select($options,_t('Organizations'),'orgs',$select_opts,$extra_opts);
  		?>	</div><?
 	}
 
@@ -827,7 +827,7 @@ function _shn_location_form_parent($range,$parent){
         while(!$res==NULL && !$res->EOF){
             if($cur==$from){
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
+            		$extra_opts['help']=_t("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
 all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it! 
 please note that the levels can be customized, therefore it does not need to be ''->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else
@@ -921,7 +921,7 @@ function _shn_location_form_value($range,$value)
             if($cur==$from){
             		//at this instance there is no parent
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the  ,once you select ".
+            		$extra_opts['help']=_t("Select the location based at.  This is hierarchical. For example think you are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the  ,once you select ".
 "all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it!".
 "please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else{
@@ -987,7 +987,7 @@ function _shn_location_form($range)
             //$extra_opts['req']=true;
             if($cur==$from){
                  $q = "select location.name,location.loc_uuid from location where location.opt_location_type=".$res->fields[0]." order by location.name";
-            		$extra_opts['help']=_("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
+            		$extra_opts['help']=_t("Select the location based at.  This is hierarchical. For example think you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  start by selecting the country ,once you select country 
 all the divisions of that country will populate the next select box.  therefore in this case all the districts in 'Sri lanka' appear . From those select a district which will populate the village list in the next select box. So select 'dehiwala' and you have done it! 
 please note that the levels can be customized, therefore it does not need to be 'country'->'district'->'village' ,always. Its configurable from the 'administration' section.");//display help icon only once
             }else
@@ -1081,7 +1081,7 @@ function shn_location_form($from,$to,$value=NULL){
 function shn_location_form_org($from,$to,$value=NULL){
 	$range["start"]=$from;
 	$range["end"]=$to;
-	shn_form_fsopen(_("Base Location"));
+	shn_form_fsopen(_t("Base Location"));
 	shn_location_jscript($from,$range["end"]);
 	if($value!=NULL){
         _shn_location_form_value($range,$value);  

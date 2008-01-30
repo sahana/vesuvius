@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.2 2006-03-29 05:40:46 chamindra Exp $ */
+/* $Id: conf.inc,v 1.3 2008-01-30 04:35:17 prabath321 Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -22,7 +22,7 @@
  * Gives the nice name of the module
  * @global string $conf['mod_sync_name']
  */
-$conf['mod_sync_name'] = _("Synchronization");
+$conf['mod_sync_name'] = _t("Synchronization");
 $conf['mod_sync_menuorder'] = 19; 
 
 

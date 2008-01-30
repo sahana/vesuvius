@@ -19,7 +19,7 @@ function shn_xml_or_new_org_list(){
     global $global;
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_open();
-    shn_rss_channel_open(_('Newly registered organizations'),_('This List contains the newly registered organizations to the organization module of the Sahana System.'));
+    shn_rss_channel_open(_t('Newly registered organizations'),_t('This List contains the newly registered organizations to the organization module of the Sahana System.'));
 
     $sql = "select o_uuid,name,f.option_description from org_main as o inner join field_options as f on f.option_code=o.opt_org_type AND f.field_name='opt_org_type'  where parent_id is NULL and privacy=false order by created desc";
     define('ADODB_FETCH_ASSOC',2);
@@ -38,7 +38,7 @@ function shn_xml_or_new_org_list(){
         $res_sector=$db->Execute($q);
 //         $location=_shn_org_location_string($loc);
 
-        $desc=_("This is a ").$record['option_description']._(" organization located in ").$loc._(". And it provides the following services - ");
+        $desc=_t("This is a ").$record['option_description']._t(" organization located in ").$loc._t(". And it provides the following services - ");
         foreach($res_sector as $s)
             $desc.=$s['option_description']." , ";
         shn_rss_item($record['name'],$url,$desc);

@@ -22,16 +22,16 @@ function _shn_admin_lc_add_new_language_form()
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	shn_form_fopen("lc_add_new_language_post");
-    shn_form_fsopen(_("Add Language"));
-	shn_form_text(_('Language Name : '),'lang_name','', $extra_opts);
-	shn_form_text(_('Language Folder Name : '),'lang_folder_name','', $extra_opts);
+    shn_form_fsopen(_t("Add Language"));
+	shn_form_text(_t('Language Name : '),'lang_name','', $extra_opts);
+	shn_form_text(_t('Language Folder Name : '),'lang_folder_name','', $extra_opts);
     shn_form_fsclose();    
-    shn_form_submit(_("Add New"),'name="add"');
-    shn_form_fsopen(_("Remove Language"));
+    shn_form_submit(_t("Add New"),'name="add"');
+    shn_form_fsopen(_t("Remove Language"));
     $lang = _shn_get_lang_list();
-	shn_form_select($lang,_("Language List : "),'lang_name_remove',"",$extra_opts);
+	shn_form_select($lang,_t("Language List : "),'lang_name_remove',"",$extra_opts);
     shn_form_fsclose();    
-    shn_form_submit(_("Remove"),'name="remove"');
+    shn_form_submit(_t("Remove"),'name="remove"');
     shn_form_fclose();    
 }
 
@@ -47,7 +47,7 @@ function _shn_admin_lc_add_new_language()
        echo "Cannot write to file ($filename)";
        exit;
     }else {
-    	add_confirmation($lang._(" language add successfully"));
+    	add_confirmation($lang._t(" language add successfully"));
     }   
 	
 }
@@ -79,7 +79,7 @@ function _shn_admin_lc_remove_language()
     	}
 	}
 	 
-	add_confirmation($language._(" language removed successfully"));
+	add_confirmation($language._t(" language removed successfully"));
 }
 
 ?>

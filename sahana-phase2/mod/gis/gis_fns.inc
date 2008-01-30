@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: gis_fns.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: gis_fns.inc,v 1.31 2008-01-30 04:35:17 prabath321 Exp $ */
 
-/* $Id: gis_fns.inc,v 1.30 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: gis_fns.inc,v 1.31 2008-01-30 04:35:17 prabath321 Exp $ */
 
 
 /**
@@ -36,7 +36,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
  */
 function shn_gis_print_msg()
 {
-	add_warning(_('GIS Functionality has been disabled. Please contact your administrator to enable it'));
+	add_warning(_t('GIS Functionality has been disabled. Please contact your administrator to enable it'));
 }
 
 /**
@@ -61,7 +61,7 @@ function shn_gis_gps_from_rest($uuid,$lat,$lon)
 	$query="INSERT INTO gis_location (poc_uuid,map_northing,map_easting,gis_uid) " .
 			" VALUES ('{$uuid}','{$lat}','{$lon}','{$gis_id}') ";
 	$db->Execute($query);
-	echo _("Coordinates Added");
+	echo _t("Coordinates Added");
 }
 
 /**
@@ -217,10 +217,10 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$bu
 	global $conf;
 	include_once($global['approot'].'/inc/lib_form.inc');
 	
-	shn_form_fsopen(_("GPS Coordinates"));
-	shn_form_text(_("Northing / Latitude"),"gps_y",'size="60"');
-	shn_form_text(_("Easting / Longitude"),"gps_x",'size="60"');
-	shn_form_submit(_("Next"),$button_submit_opts);
+	shn_form_fsopen(_t("GPS Coordinates"));
+	shn_form_text(_t("Northing / Latitude"),"gps_y",'size="60"');
+	shn_form_text(_t("Easting / Longitude"),"gps_x",'size="60"');
+	shn_form_submit(_t("Next"),$button_submit_opts);
 	shn_form_fsclose();
 	
 	if($conf['gis'])
@@ -231,7 +231,7 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$bu
 		$plugin_name = $conf['mod_gis_dflt'];
 		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		echo "<div class='message information'>";
-		echo _("You can move around and enlarge/reduce the size of the area you want using
+		echo _t("You can move around and enlarge/reduce the size of the area you want using
 the scale on upper left corner of the map. By clicking on a map you can
 mark your location with a pointer. If you want to remove the pointer,
 simply click on the center of the pointer.");

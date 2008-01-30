@@ -21,25 +21,25 @@ global $conf;
 /**
  * Help item for Situation Name Detail Of Add Situation Form
  */
- $conf['mod_gis_situation_name_help']=_("Enter a short descriptive name to describe the situation");
+ $conf['mod_gis_situation_name_help']=_t("Enter a short descriptive name to describe the situation");
  
  /**
   * Help item for Situation Detail
   */
- $conf['mod_gis_situation_type_help']=_("Select the type of the situation. This will be used in filtering.");
+ $conf['mod_gis_situation_type_help']=_t("Select the type of the situation. This will be used in filtering.");
  
  /**
   * Help Item for situation URL
   */
-  $conf['mod_gis_situation_url_help']=_("You can provide a URL of a website or a wiki site for more information");
+  $conf['mod_gis_situation_url_help']=_t("You can provide a URL of a website or a wiki site for more information");
   
   /**
   * Help Item for situation author
   */
-  $conf['mod_gis_situation_author_help']=_("If a name is provided here, it will be publicly displayed with the other information. If this is left blank, it would show up as anonymous");
+  $conf['mod_gis_situation_author_help']=_t("If a name is provided here, it will be publicly displayed with the other information. If this is left blank, it would show up as anonymous");
   
   /**
   * Help Item for situation date
   */
-  $conf['mod_gis_situation_date_help']=_("Enter the date of the situation event");
+  $conf['mod_gis_situation_date_help']=_t("Enter the date of the situation event");
 ?>

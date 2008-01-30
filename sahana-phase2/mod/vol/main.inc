@@ -93,12 +93,12 @@ function shn_vol_view_submit(){
     if(!$allow){
     	?>
     	<div id="error">
-        <p><em><?=_('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_('This could be because:')?></ul>
+        <p><em><?=_t('Sorry, you do not have permisssion to access this section')?></em>.<br/><br/><?=_t('This could be because:')?></ul>
         <ul>
-        <li><?=_('You have not logged in or Anonymous access is not allowed to this section')?></li>
-        <li><?=_('Your username has not been given permission to access this section')?></li>
+        <li><?=_t('You have not logged in or Anonymous access is not allowed to this section')?></li>
+        <li><?=_t('Your username has not been given permission to access this section')?></li>
         </ul>
-        <p><?=_('To gain access to this section please contact the administrator')?></p>
+        <p><?=_t('To gain access to this section please contact the administrator')?></p>
     	</div> <!-- /error -->
     	<?
     	return false;
@@ -173,19 +173,19 @@ function shn_vol_search_cr(){
         $i=$i+1;
     }
 ?>
-<h2><?=_("Search Result")?></h2>
+<h2><?=_t("Search Result")?></h2>
     <div id ="result">
         <table>
             <thead>
-                <td><?=_("Organization Name")?></td>
-                <td><?=_("Services Offered")?></td>
-                <td><?=_("Organization Type")?></td>
-                <td><?=_("Country of Origin")?></td>
-                <td><?=_("Contact Address")?></td>
-                <td><?=_("Contact Number")?></td>
-                <td><?=_("Contact Email")?></td>
-                <td><?=_("Man Power")?></td>
-                <td><?=_("Facilities")?></td>
+                <td><?=_t("Organization Name")?></td>
+                <td><?=_t("Services Offered")?></td>
+                <td><?=_t("Organization Type")?></td>
+                <td><?=_t("Country of Origin")?></td>
+                <td><?=_t("Contact Address")?></td>
+                <td><?=_t("Contact Number")?></td>
+                <td><?=_t("Contact Email")?></td>
+                <td><?=_t("Man Power")?></td>
+                <td><?=_t("Facilities")?></td>
             </thead>
             <tbody>
 <?php

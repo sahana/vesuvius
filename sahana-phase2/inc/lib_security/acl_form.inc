@@ -35,16 +35,16 @@ function shn_acl_form_enable_acl()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3><?php echo _("Enable/Disable ACL") ?></h3>
+<h3><?php echo _t("Enable/Disable ACL") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_acl_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_enabled();
 	if($acl==true){
 		shn_form_hidden(array("action"=>'disable'));
-		shn_form_submit(_("Disable ACL"));
+		shn_form_submit(_t("Disable ACL"));
 	}else{
 		shn_form_hidden(array("action"=>'enable'));
-		shn_form_submit(_("Enable ACL"));
+		shn_form_submit(_t("Enable ACL"));
 	}
 	shn_form_fclose();
 }
@@ -60,16 +60,16 @@ function shn_acl_form_enable_signup()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3><?php echo _("Enable/Disable Self Signup") ?></h3>
+<h3><?php echo _t("Enable/Disable Self Signup") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_signup_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_signup_enabled();
 	if($acl==true){
 		shn_form_hidden(array("action"=>'disable'));
-		shn_form_submit(_("Disable Self Signup"));
+		shn_form_submit(_t("Disable Self Signup"));
 	}else{
 		shn_form_hidden(array("action"=>'enable'));
-		shn_form_submit(_("Enable Self Signup"));
+		shn_form_submit(_t("Enable Self Signup"));
 	}
 	shn_form_fclose();
 }
@@ -86,16 +86,16 @@ function shn_acl_form_enable_locking()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3><?php echo _("Enable/Disable Password Locking") ?></h3>
+<h3><?php echo _t("Enable/Disable Password Locking") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_locking_cr","admin",array('req_message'=>false));
 	$acl=shn_acl_is_locking_enabled();
 	if($acl==true){
 		shn_form_hidden(array("action"=>'disable'));
-		shn_form_submit(_("Disable Password Locking"));
+		shn_form_submit(_t("Disable Password Locking"));
 	}else{
 		shn_form_hidden(array("action"=>'enable'));
-		shn_form_submit(_("Enable Password Locking"));
+		shn_form_submit(_t("Enable Password Locking"));
 	}
 	shn_form_fclose();
 }
@@ -111,9 +111,9 @@ function shn_acl_form_enable_mods()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3><?php echo _("Enable/Disable Modules") ?></h3>
+<h3><?php echo _t("Enable/Disable Modules") ?></h3>
 <div id="home">
-<?php echo _("Rows are Modules ,Columns are Roles ,Intersection shows
+<?php echo _t("Rows are Modules ,Columns are Roles ,Intersection shows
 whether the module is enabled for that role or not") ?></div>
 
 <div id="formcontainer"><?php
@@ -122,7 +122,7 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 <div id="result">
 <table>
 	<thead>
-		<td><strong><?php echo _("Role"); ?></strong></td>
+		<td><strong><?php echo _t("Role"); ?></strong></td>
 		<?php
 
 		$roles=_shn_acl_get_roles();
@@ -174,7 +174,7 @@ shn_form_fopen("acl_enable_mods_cr","admin");
 <center><?php
 shn_form_hidden(array("perms"=>$perms));
 
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <?php
 //close the form
@@ -260,7 +260,7 @@ shn_form_fopen("acl_user_edit_roles_cr","admin",array('req_message'=>false));
 <center><?php
 shn_form_hidden(array("perms"=>$perms));
 shn_form_hidden(array("users"=>$users));
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <?php
 //close the form
@@ -280,10 +280,10 @@ function shn_acl_form_role_select()
 shn_form_fopen("acl_role_edit_perms","admin");
 $extra_opts['req']=true;
 $roles=_shn_acl_get_roles();
-shn_form_fsopen(_("Select Role"));
+shn_form_fsopen(_t("Select Role"));
 shn_form_select($roles,"Roles",'roles',null,$extra_opts);
 shn_form_fsclose();
-shn_form_submit(_("Continue"));
+shn_form_submit(_t("Continue"));
 ?>
 </center>
 <?php
@@ -372,7 +372,7 @@ shn_form_fopen("acl_role_edit_perms_cr","admin");
 <center><?php
 shn_form_hidden(array("perms"=>$perms));
 shn_form_hidden(array("role"=>$role));
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <?php
 //close the form
@@ -399,7 +399,7 @@ foreach ($tables as $table=>$level){
 	shn_form_fsclose();
 }
 
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?>
 </center>
 <?php
@@ -433,8 +433,8 @@ shn_form_fopen("acl_change_user_status_cr","admin");
 	$locked = shn_auth_locked_user_list();
 	// check if locking is disabled and the users are locked.
 	if(count($locked)>0 && shn_acl_is_locking_enabled()==false){
-		add_warning(_("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
-    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._("Click here to enable locking")."</a>");
+		add_warning(_t("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
+    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here to enable locking")."</a>");
 	}
 
 	foreach ($users as $user=>$uarray){
@@ -469,7 +469,7 @@ shn_form_fopen("acl_change_user_status_cr","admin");
 <center><?php
 shn_form_hidden(array("perms"=>$perms));
 shn_form_hidden(array("users"=>$users));
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <?php
 //close the form
@@ -504,8 +504,8 @@ shn_form_fopen("acl_unlock_user_cr","admin");
 
 	// check if locking is disabled and the users are locked.
 	if(count($users)>0 && shn_acl_is_locking_enabled()==false){
-		add_warning(_("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
-    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._("Click here to enable locking")."</a>");
+		add_warning(_t("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
+    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here to enable locking")."</a>");
 	}
 
 	foreach ($users as $user=>$uarray){
@@ -540,7 +540,7 @@ shn_form_fopen("acl_unlock_user_cr","admin");
 <center><?php
 shn_form_hidden(array("perms"=>$perms));
 shn_form_hidden(array("users"=>$users));
-shn_form_submit(_("Save"));
+shn_form_submit(_t("Save"));
 ?></center>
 <?php
 //close the form
@@ -558,12 +558,12 @@ function shn_acl_form_event_log()
 <div id="result">
 <table>
 	<thead>
-		<td><strong><?php echo _("Date") ?></strong></td>
-		<td><strong><?php echo _("Time") ?></strong></td>
-		<td><strong><?php echo _("User Name") ?></strong></td>
-		<td><strong><?php echo _("Full Name") ?></strong></td>
-		<td><strong><?php echo _("Event Type") ?></strong></td>
-		<td><strong><?php echo _("Event") ?></strong></td>
+		<td><strong><?php echo _t("Date") ?></strong></td>
+		<td><strong><?php echo _t("Time") ?></strong></td>
+		<td><strong><?php echo _t("User Name") ?></strong></td>
+		<td><strong><?php echo _t("Full Name") ?></strong></td>
+		<td><strong><?php echo _t("Event Type") ?></strong></td>
+		<td><strong><?php echo _t("Event") ?></strong></td>
 	</thead>
 	<tbody>
 	<?php

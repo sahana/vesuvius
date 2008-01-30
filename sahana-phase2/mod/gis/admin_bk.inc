@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: admin_bk.inc,v 1.4 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: admin_bk.inc,v 1.5 2008-01-30 04:35:17 prabath321 Exp $ */
 
-/* $Id: admin_bk.inc,v 1.4 2008-01-28 13:29:58 prabath321 Exp $ */
+/* $Id: admin_bk.inc,v 1.5 2008-01-30 04:35:17 prabath321 Exp $ */
 
 
 /**Admin Module for GIS
@@ -37,7 +37,7 @@ function shn_gis_adm_default()
 									break;
 		}
 		shn_gis_adm_show_mod_menu();
-		echo "<h2>"._("GIS / Mapping Admin Page")."</h2>";
+		echo "<h2>"._t("GIS / Mapping Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
@@ -52,7 +52,7 @@ function shn_gis_adm_default()
 	else
 	{
     	shn_gis_adm_show_mod_menu();
-		echo "<h2>".$conf['mod_gis_name']._(" Admin Page")."</h2>";
+		echo "<h2>".$conf['mod_gis_name']._t(" Admin Page")."</h2>";
 		//shn_gis_adm_showform();
 		shn_gis_adm_show_mods();
 		shn_gis_adm_find_mods();
@@ -111,7 +111,7 @@ function shn_gis_adm_show_mod_menu()
 	$dir = opendir($gis_plugins_dir);
 ?>
 	<div id="submenu_v">
-		<a href="index.php?mod=gis&act=admin"><?=_("General Mapping")?></a>
+		<a href="index.php?mod=gis&act=admin"><?=_t("General Mapping")?></a>
 <?php
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
@@ -119,7 +119,7 @@ function shn_gis_adm_show_mod_menu()
 			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_($name)?></a>
+<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_t($name)?></a>
 <?php
 			$count++;
 		}
@@ -143,33 +143,33 @@ function shn_gis_adm_show_mods()
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
 ?>
-	<br /><h3><?php echo _("Main Configuration");?></h3>
+	<br /><h3><?php echo _t("Main Configuration");?></h3>
 <?php	
 	shn_form_fopen(null,null,array('req_message'=>false));
 ?>
 	<ul>
 
-	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
-    <li><?php echo _("If these values are known, you can set them below:");?> </li>
+	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
+	<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+    <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
 	shn_form_fclose();
 	shn_form_fopen(adm_commit,null,array('req_message'=>false));
 	
-	shn_form_fsopen(_("Default Center Coordinates"));
+	shn_form_fsopen(_t("Default Center Coordinates"));
 	
-	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
-	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
 	shn_form_fsclose();
 ?>
 	<ul>
-	<li><?php echo _("Sahana supports a modular GIS plugin architecture ");?> </li>
-	<li><?php echo _("You can select which GIS plugin to use as your default GIS");?></li>
-    <li><?php echo _("Select the default GIS plugin from the detected plugins below:");?> </li>
-    <li><?php echo _("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
+	<li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
+	<li><?php echo _t("You can select which GIS plugin to use as your default GIS");?></li>
+    <li><?php echo _t("Select the default GIS plugin from the detected plugins below:");?> </li>
+    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
 	</ul>
 <?php
 	//shn_form_fclose();
@@ -197,11 +197,11 @@ function shn_gis_adm_show_mods()
 	}
 	$extra_opts_form['req_message'] = 'false';
 	//shn_form_fopen(adm_mod,null,array('req_message'=>false));
-	shn_form_fsopen(_("Detected GIS module plugins"));
+	shn_form_fsopen(_t("Detected GIS module plugins"));
 	
 	//$extra_opts['br']='true';
 	//echo "module: $mod_name";
-	shn_form_radio($options_array,_("Select GIS module"),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
+	shn_form_radio($options_array,_t("Select GIS module"),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit("Done");
 	shn_form_fclose();	
@@ -217,22 +217,22 @@ function shn_gis_adm_showform(){
 ?>
 	<ul>
 
-	<li><?php echo _("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
-    <li><?php echo _("If these values are known, you can set them below:");?> </li>
+	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
+	<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+    <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
 	shn_form_fclose();
 	shn_form_fopen(adm_commit,null,array('req_message'=>false));
 	
-	shn_form_fsopen(_("Default Center Coordinates"));
+	shn_form_fsopen(_t("Default Center Coordinates"));
 	
-	$lat_help=_("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
-	$lon_help=_("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	shn_form_text(_("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
 	shn_form_fsclose();
-	shn_form_submit(_("Done"));
+	shn_form_submit(_t("Done"));
 	shn_form_fclose();
 }
 
@@ -256,7 +256,7 @@ function shn_gis_adm_mod()
 		}
 		
 	}
-	add_confirmation(_("Changes were saved"));
+	add_confirmation(_t("Changes were saved"));
 	shn_gis_adm_default();	
 }
 /**
@@ -265,7 +265,7 @@ function shn_gis_adm_mod()
  */
 function shn_gis_adm_commit(){
 
-	add_confirmation(_("Changes were saved"));
+	add_confirmation(_t("Changes were saved"));
 	global $global;
 	$db = $global['db'];
 	//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  

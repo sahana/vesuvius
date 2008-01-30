@@ -20,7 +20,7 @@
 /**
  * Gives the cool name for the module
  */
-$conf['mod_dvr_name'] = _("Disaster Victim Registry");
+$conf['mod_dvr_name'] = _t("Disaster Victim Registry");
 
 /**
  * Gives the priority order in the main menu when listed

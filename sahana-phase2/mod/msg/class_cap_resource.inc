@@ -44,7 +44,7 @@ class Msg_CapResource
         }
         else
         {
-        	    add_error(_("resourceDesc is a required value"));
+        	    add_error(_t("resourceDesc is a required value"));
         }
     }
     
@@ -61,7 +61,7 @@ class Msg_CapResource
         }
         else
         {
-            add_error(_("The Size has to be a numeric value"));
+            add_error(_t("The Size has to be a numeric value"));
         }
     }
     
