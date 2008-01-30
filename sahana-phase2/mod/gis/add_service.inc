@@ -735,7 +735,7 @@ function _shn_service_validate_unit_type_form() {
 
 ?>
 <script type="text/javascript">
-    var url = "xml.php?"; 
+    var url = "index.php?"; 
      var http;
         
     function getHTTPObject() 
@@ -800,7 +800,7 @@ function handleHttpResponse(){
     
         http = getHTTPObject();
 
-        var url2=url + "act=unit_cat&cat="+selection;
+        var url2=url + "act=unit_cat&mod=xst&stream=text&cat="+selection;
           http.open("GET", url2, true); 
         http.onreadystatechange = function(){}; 
         http.onreadystatechange = handleHttpResponse; 

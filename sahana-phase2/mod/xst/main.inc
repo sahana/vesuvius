@@ -35,6 +35,9 @@ include_once "handler_ims.inc";
  function shn_text_xst_sub_cat(){
  	shn_text_catalog_sub_cat();
  }
+ function shn_text_xst_unit_cat(){
+ 	shn_text_catalog_unit_cat();
+ }
  function shn_text_xst_help()
 {
     if(empty($_GET['help_id'])){
