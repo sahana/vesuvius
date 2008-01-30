@@ -1107,7 +1107,7 @@ function _shn_admin_set_option_javascript()
 <script type="text/javascript">
     
 	
-	var url = "xml.php?"; 
+	var url = "index.php?"; 
     var start = 1;
  var http;
     function getHTTPObject() 
@@ -1205,7 +1205,7 @@ function handleHttpResponse(){
         	var y=document.getElementsByName("head_name");
 		
        		http = getHTTPObject();
-        	var url2=url + "act=victims&head_name="+y[0].value;
+        	var url2=url + "act=victims&mod=xst&stream=text&head_name="+y[0].value;
         	//var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
         	http.open("GET", url2, true); 
 //        	http.onreadystatechange = null; 
