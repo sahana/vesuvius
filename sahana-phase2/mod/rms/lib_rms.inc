@@ -1312,7 +1312,7 @@ function _shn_rms_pledge_setstat($plg_id, $stat)
  */
 function _shn_rms_ct_cat_js($max,$form,$change,$item_flag=false){
 	global $global;
-	$fetch_server="xml.php?";
+	$fetch_server="index.php?";
 	?>
 <script type="text/javascript">
     var url = "<?php echo $fetch_server?>"; 
@@ -1386,7 +1386,7 @@ function _shn_rms_ct_cat_js($max,$form,$change,$item_flag=false){
          curlevel=level;
     var item_flag = "<?php echo $item_flag?>"; 
         http = getHTTPObject();
-        var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
+        var url2=url + "act=sub_cat&mod=xst&stream=text&cat=" + selection+"&flag="+item_flag;
           http.open("GET", url2, true); 
 //        http.onreadystatechange = null; 
         http.onreadystatechange = function(){}; 
