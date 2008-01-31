@@ -35,6 +35,9 @@ function shn_user_pref_update($module,$key,$value=null,$delete=false)
                 ('{$_SESSION['user_id']}','$module','$key','$value') ";
         $global['db']->Execute($sql);
     }
+    $res_sql="SELECT name FROM incident WHERE incident_id='".$value."'";
+    $res=$global['db']->Execute($res_sql);
+    echo $res->fields['name'];
 }
 
 ?>
