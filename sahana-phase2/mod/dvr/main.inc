@@ -2,7 +2,7 @@
 
 
 /**
- * 
+ *
  * This file includes the main links of the DVR module
  * PHP version 4 and 5
  *
@@ -10,7 +10,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Isuru Samaraweera 
+ * @author	   Isuru Samaraweera
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage dvr
@@ -26,9 +26,9 @@ include_once $global['approot'] . '/inc/lib_location.inc';
 include_once $global['approot'] . '/mod/dvr/main_fns.inc';
 
 /**
- * This function allows you to override the mainmenu. This is often done 
+ * This function allows you to override the mainmenu. This is often done
  * to include the modules own menu
- * 
+ *
  * @access public
  * @return void
  */
@@ -58,12 +58,12 @@ function shn_dvr_mainmenu() {
 	shn_sub_mod_menuitem('list_groups', _t('List groups/View members '));
 	//shn_sub_mod_menuitem('list_persons', _t('List All persons'));
 	shn_sub_mod_menuclose();
-	
+
 	///////
-	shn_sub_mod_menuopen(_t('Transfer Victims'));
-	shn_sub_mod_menuitem('transfer_indv', _t('Transfer Individual'));
-	shn_sub_mod_menuitem('transfer_group', _t('Transfer Group'));
-	shn_sub_mod_menuclose();
+	//shn_sub_mod_menuopen(_t('Transfer Victims'));
+	//shn_sub_mod_menuitem('transfer_indv', _t('Transfer Individual'));
+	//shn_sub_mod_menuitem('transfer_group', _t('Transfer Group'));
+	//shn_sub_mod_menuclose();
 	/////////
 
 	shn_sub_mod_menuopen(_t('Reports'));
