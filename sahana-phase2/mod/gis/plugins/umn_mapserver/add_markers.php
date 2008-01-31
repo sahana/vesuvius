@@ -24,7 +24,7 @@ session_start();
 	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
     <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script> 
     <script type="text/javascript" src="res/js/popup.js"></script> 
-    <script type="text/javascript" src="stream.php?stream_type=help"></script>
+    <script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
   	</head>
   	<body>
 <?php
