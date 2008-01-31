@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_ajax.inc,v 1.3 2007-10-04 07:03:02 ravids Exp $ */
+/* $Id: lib_stream_ajax.inc,v 1.4 2008-01-31 05:51:22 ishanul Exp $ */
 
 /**
  *
@@ -20,7 +20,7 @@
 
 require_once($global['approot']."/3rd/xajax/xajax.inc.php");
 
-$global['xajax'] = new xajax($conf['base_url'].'stream.php?stream_type=ajax&mod='.$global['module'].'&act='.$global['action']);
+$global['xajax'] = new xajax($conf['base_url'].'index.php?stream=text&mod='.$global['module'].'&act='.$global['action']);
 
 #$global['xajax']->debugOn();
 #$global['xajax']->setLogFile($global['approot'].'logs/xjax_err.log');
@@ -54,13 +54,13 @@ function shn_stream_close($function,$output)
 function shn_ajax_url_append($str)
 {
     global $global;
-    $global['xajax']->setRequestURI($conf['base_url'].'stream.php?stream_type=ajax&mod='.$global['module'].'&act=' .$global['action'].'&'.$str);
+    $global['xajax']->setRequestURI($conf['base_url'].'index.php?stream=text&mod='.$global['module'].'&act=' .$global['action'].'&'.$str);
 }
 
 function shn_ajax_set_act($act)
 {
     global $global;
-    $global['xajax']->setRequestURI($conf['base_url'].'stream.php?stream_type=ajax&mod='.$global['module'].'&act='.$act);
+    $global['xajax']->setRequestURI($conf['base_url'].'index.php?stream=text&mod='.$global['module'].'&act='.$act);
 }
 function shn_ajax_url($url)
 {
