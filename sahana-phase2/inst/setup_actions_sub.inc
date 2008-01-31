@@ -91,10 +91,10 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 	global $global;
 
 	$_tdb1 =  &NewADOConnection('mysql');
+	$_host_port = $conf_key_vals['db_host'].":".(isset($conf_key_vals['db_port'])?$conf_key_vals['db_port']:"3306");
 	if(_shn_setup_is_keep_user()==false){
-
 		// start a new connection
-		$_tdb1->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass']);
+		$_tdb1->Connect($_host_port,$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass']);
 		/*$res=$_tdb1->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
 		if(!($res->EOF)){
 			add_error(_t("System database username already exists. Use a different system database username."));
@@ -109,7 +109,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 
 	// another separate connection to create users and databases.
 	$_tdb2 = &NewADOConnection('mysql');
-	$_tdb2->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass'],'mysql');
+	$_tdb2->Connect($_host_port,$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass'],'mysql');
 	if($_tdb2->IsConnected()==false){
 		add_error(_t("Incorrect database username or password."));
 		$_tdb2->Close();
@@ -128,7 +128,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 
 	// another connection with transactions to create thetables and data.
 	$_tdb3 = &NewADOConnection('mysql');
-	$_tdb3->Connect($conf_key_vals['db_host'],$conf_key_vals['db_user'],$conf_key_vals['db_pass'],$conf_key_vals['db_name']);
+	$_tdb3->Connect($_host_port,$conf_key_vals['db_user'],$conf_key_vals['db_pass'],$conf_key_vals['db_name']);
 	//$_tdb3->debug=true;
 	//$_tdb3->StartTrans();
 	$global['db'] = $_tdb3;
@@ -196,7 +196,8 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
  */
 function _shn_setup_db_undo_mysql($conf_key_vals){
 	$db = &NewADOConnection('mysql');
-	$db->Connect($conf_key_vals['db_host'],$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass'],'mysql');
+	$_host_port = $conf_key_vals['db_host'].":".(isset($conf_key_vals['db_port'])?$conf_key_vals['db_port']:"3306");
+	$db->Connect($_host_port,$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass'],'mysql');
 	// only drop if the user was created by the setup
 	if(_shn_setup_is_keep_user()==false){
 		$res=$db->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
