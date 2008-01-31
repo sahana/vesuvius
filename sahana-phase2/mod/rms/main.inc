@@ -88,7 +88,7 @@ function shn_rms_req_sch()
     include_once ('handler_req_sch.inc');
 }
 
-function shn_rms_plg_new()
+function shn_XST_rms_plg_new()
 {
     include_once ('handler_plg_new.inc');
 }
