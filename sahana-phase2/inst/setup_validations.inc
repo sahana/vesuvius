@@ -80,6 +80,12 @@ function shn_setup_validate_simple_dbsetup(){
 				if(is_numeric($vals[1])==false){
 					add_error(_t("The port number is invalid."));
 					$has_errors = true;
+				}else{
+					// check port number is in range 1024-65535
+					$_nport = $vals[1] + 0;
+					if($_nport<1024 || $_nport>65535){
+						add_error(_("Invalid database port number. The port should be between 1024-65535"));
+					}
 				}
 			}
 		}else{
