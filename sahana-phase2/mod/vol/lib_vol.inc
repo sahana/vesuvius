@@ -654,8 +654,8 @@ function shn_show_thumb($p_uuid,$session=false)
 
     if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
         if($session && $_SESSION['mpr']['entry']['image']){
-	        $src_ori = "stream.php?stream_type=image&mod=mpr&act=addmp_img&session=true";
-            $src_tmp = "stream.php?stream_type=image&mod=mpr&act=addmp_img&session=true&thumbnail=true";
+	        $src_ori = "index.php?stream=image&mod=mpr&act=addmp_img&session=true";
+            $src_tmp = "index.php?stream=image&mod=mpr&act=addmp_img&session=true&thumbnail=true";
         }else{
             //need to get the type
             $sql = "SELECT image_type,image_height, image_width FROM person_image WHERE p_uuid = '$p_uuid'";
@@ -665,8 +665,8 @@ function shn_show_thumb($p_uuid,$session=false)
                 $height = $arr[0]['image_height']+20;
                 $width = $arr[0]['image_width']+20;
             } 
-	        $src_ori = "stream.php?stream_type=image&mod=mpr&act=addmp_img&p_uuid=".$p_uuid.$type;
-            $src_tmp = "stream.php?stream_type=image&mod=mpr&act=addmp_img&thumbnail=true&p_uuid=".$p_uuid.$type;
+	        $src_ori = "index.php?stream=image&mod=mpr&act=addmp_img&p_uuid=".$p_uuid.$type;
+            $src_tmp = "index.php?stream=image&mod=mpr&act=addmp_img&thumbnail=true&p_uuid=".$p_uuid.$type;
         }
     }else{
         //Since we don't know the extension
