@@ -357,6 +357,17 @@ function shn_dvr_transfer_grp()
 	
 }
 
+function shn_dvr_duplicate_search()
+{
+	global $global;
+	include ($global['approot'] . '/mod/dvr/duplicate_search.inc');
+}
+
+function shn_dvr_compare_duplicates()
+{
+	global $global;
+	include ($global['approot'] . '/mod/dvr/compare_duplicates.inc');
+}
 
 function shn_dvr_list_groups() {
 	global $global;

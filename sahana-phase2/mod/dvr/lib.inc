@@ -115,23 +115,45 @@ return $group;
 	
 }
 
-function _shn_dvr_get_groupdisplaced_location($groupid)
+function _shn_dvr_get_groupdisplaced_location($poc_uuid)
 {
 	global $global;
 
     $db = $global['db'];
-    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-disp'";
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$poc_uuid}-disp'";
     $res = $db->Execute($sql);
     $loc=$res->fields['location_id'];
     return $loc;
 }
 
-function _shn_dvr_get_groupcurrent_location($groupid)
+function _shn_dvr_get_displaced_location($poc_uuid)
 {
 	global $global;
 
     $db = $global['db'];
-    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$groupid}-curr'";
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$poc_uuid}-disp'";
+    $res = $db->Execute($sql);
+    $loc=$res->fields['location_id'];
+    return $loc;
+}
+
+function _shn_dvr_get_groupcurrent_location($poc_uuid)
+{
+	global $global;
+
+    $db = $global['db'];
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$poc_uuid}-curr'";
+    $res = $db->Execute($sql);
+    $loc=$res->fields['location_id'];
+    return $loc;
+}
+
+function _shn_dvr_get_current_location($poc_uuid)
+{
+	global $global;
+
+    $db = $global['db'];
+    $sql="SELECT location_id FROM location_details WHERE poc_uuid ='{$poc_uuid}-curr'";
     $res = $db->Execute($sql);
     $loc=$res->fields['location_id'];
     return $loc;

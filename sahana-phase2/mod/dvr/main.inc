@@ -46,8 +46,8 @@ function shn_dvr_mainmenu() {
 	shn_sub_mod_menuclose();
 
 	shn_sub_mod_menuopen(_t('Edit Disaster Victim(s)'));
-	shn_sub_mod_menuitem('search_group', _t('Search and Edit Group'));
-	shn_sub_mod_menuitem('search_individual', _t('Search and Edit Individual'));
+	shn_sub_mod_menuitem('search_group', _t('Search/Edit/Transfer Group'));
+	shn_sub_mod_menuitem('search_individual', _t('Search/Edit/Transfer Individual'));
 	shn_sub_mod_menuclose();
 
 	/*shn_sub_mod_menuopen(_t('Search Disaster Victim(s)'));
@@ -56,14 +56,15 @@ function shn_dvr_mainmenu() {
 
 	shn_sub_mod_menuopen(_t('List groups '));
 	shn_sub_mod_menuitem('list_groups', _t('List groups/View members '));
-	//shn_sub_mod_menuitem('list_persons', _t('List All persons'));
+	//shn_sub_mod_menuitem('duplicate_search', _t('List Duplicate Entries'));
 	shn_sub_mod_menuclose();
 
-	///////
-	//shn_sub_mod_menuopen(_t('Transfer Victims'));
-	//shn_sub_mod_menuitem('transfer_indv', _t('Transfer Individual'));
-	//shn_sub_mod_menuitem('transfer_group', _t('Transfer Group'));
-	//shn_sub_mod_menuclose();
+		///////
+//	shn_sub_mod_menuopen(_t('Transfer Victims'));
+//	shn_sub_mod_menuitem('search_group', _t('Transfer Group'));
+//	shn_sub_mod_menuitem('search_individual', _t('Transfer Individual'));
+//	
+//	shn_sub_mod_menuclose();
 	/////////
 
 	shn_sub_mod_menuopen(_t('Reports'));

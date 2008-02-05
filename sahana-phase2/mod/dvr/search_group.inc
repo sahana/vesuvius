@@ -6,9 +6,9 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 </script>
 <?php
 
-/* $Id: search_group.inc,v 1.9 2008-01-30 04:35:20 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.10 2008-02-05 05:16:03 prabath321 Exp $ */
 
-/* $Id: search_group.inc,v 1.9 2008-01-30 04:35:20 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.10 2008-02-05 05:16:03 prabath321 Exp $ */
 
 /**
  * 
@@ -31,9 +31,7 @@ return confirm('This group with group id '+id+' will be permanently deleted');
 
 function shn_dvr_search_default()
 {
-     shn_form_fopen("search_group",null,array('req_message'=>false));
-    ?>
-    <?php
+    shn_form_fopen("search_group",null,array('req_message'=>false));
     
     shn_form_hidden(array('seq'=>'search'));
     shn_form_fsopen(_t("General Search"));
@@ -55,7 +53,7 @@ function shn_dvr_search_default()
 	$extra_opts['help'] = _t("Please Select the group type");
 	$extra_opts['req'] = false;
     $extra_opts['value']=	$_SESSION['dvr']['person']['typ_of_grp'];
-     $extra_opts['sort']=	'option_code';
+    $extra_opts['sort']=	'option_code';
     
     
     shn_form_opt_select('opt_group_type', _t("Type of Group"), '',  $extra_opts);   
@@ -102,10 +100,10 @@ function shn_dvr_group_search_results()
             <td><?=_t("Group Head Name")?></td>
             <td><?=_t("Family Name")?></td>
            <!-- <td><?=_t("Local Name")?></td>-->
-          	<td><?=_t("NIC")?></td>
-            <td><?=_t("Address")?></td>
-            <td></td>
-            <td></td>
+          	<td><?=_t("Address")?></td>
+            <td><?=_t("Edit")?></td>
+            <td><?=_t("Transfer")?></td>
+            <td><?=_t("Delete")?></td>
         </thead>
         <?php
         while(!$results->EOF)
@@ -120,10 +118,11 @@ function shn_dvr_group_search_results()
             <td><?=$results->fields['family_name']?></td>
            <!-- <td><?=$results->fields['local_name']?></td>-->
           	<td><?=$results->fields['serial']?></td>
-            <td><?=$results->fields['address']?></td>
             
-            <td><a href='index.php?mod=dvr&act=edit_group&groupid=<?=$results->fields['group_id']?>'>Edit</a></td>
- <td><a href='index.php?mod=dvr&act=delete_group&groupid=<?=$results->fields['group_id']?>' onClick="javascript: return confirmdelete('<?=$results->fields['group_id']?>')">Delete</a></td>
+            
+            <td><a href='index.php?mod=dvr&act=edit_group&groupid=<?=$results->fields['group_id']?>'><?=_t('Edit') ?></a></td>
+ 			<td><a href='index.php?mod=dvr&act=transfer_grp&groupid=<?=$results->fields['group_id'] ?>'><?=_t('Transfer') ?></a></td>
+ 			<td><a href='index.php?mod=dvr&act=delete_group&groupid=<?=$results->fields['group_id']?>' onClick="javascript: return confirmdelete('<?=$results->fields['group_id']?>')">Delete</a></td>
         
         </tr>
  <?php
