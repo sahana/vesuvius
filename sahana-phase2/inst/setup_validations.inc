@@ -17,7 +17,7 @@
  * Function to validate an email address.
  *
  * @param String $email Any email address to be checked for validity.
- * 
+ *
  * Not Used.
  */
 function shn_email_validate($email)
@@ -84,7 +84,7 @@ function shn_setup_validate_simple_dbsetup(){
 					// check port number is in range 1024-65535
 					$_nport = $vals[1] + 0;
 					if($_nport<1024 || $_nport>65535){
-						add_error(_("Invalid database port number. The port should be between 1024-65535"));
+						add_error(_t("Invalid database port number. The port should be between 1024-65535"));
 					}
 				}
 			}
@@ -123,7 +123,7 @@ function shn_setup_validate_simple_dbsetup(){
 				// the database user exists.
 				// set flag.
 				$_SESSION['setup_system_db_user_exists']=true;
-					
+
 				//add_error(_t("System database username already exists."));
 
 				$has_errors = true;
