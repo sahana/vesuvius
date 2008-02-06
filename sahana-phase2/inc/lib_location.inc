@@ -99,7 +99,38 @@ function shn_location_is_leaf($loc)
  
 }
 
-
+/**
+ * return the location name (Sri Lanka -> Western -> Colombo )
+ *
+ * @param unknown_type $loc_id
+ * @return unknown
+ */
+function shn_location_string($loc)
+{
+	global $global;
+	$db=$global["db"];
+	$loc_arr=array();
+   	shn_get_parents($loc,&$loc_arr);
+   	if($loc_arr[0]=='unknown'){
+   		shn_form_label(_t("Organization Location"),"Unknown");
+   	}else{
+   		
+   		$max=count($loc_arr)-1;
+   		array_pop($loc_arr);
+   		for($count=0;$count<$max;$count++){
+   			$x=array_pop($loc_arr);
+   			$q="SELECT name FROM location WHERE loc_uuid='{$x}'";
+    			$res=$db->Execute($q);
+    			if($count==0 ){
+    				$location=$location.$res->Fields("name");
+    			}else{
+   				$location=$location." -->".$res->Fields("name");
+    			}
+    			
+   		}
+   	}
+   	return $location;
+}
 
 /**
  * Returns an array of descendants of a location 
@@ -665,9 +696,9 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 	$options=array("loc_org"=>_t("Select an Organization"));
 		 	$select_opts='onChange=radio_click("loc_org")';
 		 	shn_form_radio($options,null, "loc",$select_opts);
-		 	$options=array("loc_org"=>_t("Select an Organization"));
-		 	$select_opts='onclick=radio_click("loc_org")';
-		 	shn_form_radio($options,null,"loc",$select_opts);
+//		 	$options=array("loc_org"=>_t("Select an Organization"));
+//		 	$select_opts='onclick=radio_click("loc_org")';
+//		 	shn_form_radio($options,null,"loc",$select_opts);
 		 }
 		 $options=array();
 		 $options[0]="";
