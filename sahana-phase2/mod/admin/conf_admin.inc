@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.15 2008-01-30 04:35:15 prabath321 Exp $ */
+/* $Id: conf_admin.inc,v 1.16 2008-02-07 04:32:18 prabath321 Exp $ */
 
-/* $Id: conf_admin.inc,v 1.15 2008-01-30 04:35:15 prabath321 Exp $ */
+/* $Id: conf_admin.inc,v 1.16 2008-02-07 04:32:18 prabath321 Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -25,6 +25,15 @@
 function shn_admin_conf_list()
 {
 	global $conf,$global;
+	/*
+	 * Special types are declared here as an associative array with
+	 * the key.
+	 * Each key corresponds to an array , whoose first element will identify
+	 * the special type of control. Any other elements will be extra_opts
+	 *
+	 * Ravith.
+	 */
+	$special_types = array('db_pass'=>array('password'));
 	$is_ie = stripos($_SERVER['HTTP_USER_AGENT'],'MSIE')>0;
 	/*
 	 if (isset($_POST['conf_key'])) {
@@ -48,7 +57,7 @@ function shn_admin_conf_list()
 		var current_edit_box = null;
 <?php
 	if($is_ie){
-?>		
+?>
 		// For Internet Explorer
 		function show_edit_box(id)
 		{
@@ -57,12 +66,12 @@ function shn_admin_conf_list()
 				current_edit_box.style.visibility="hidden";
 				current_edit_box=null;
 			}
-	
+
 			current_edit_box=document.getElementById("edit_tr_"+id);
 			current_edit_box.style.visibility="visible";
 			document.getElementById("edit_txt_"+id).focus();
-			
-			
+
+
 		}
 
 		function hide_edit_box(id)
@@ -76,12 +85,12 @@ function shn_admin_conf_list()
 				}
 				newValTarget.appendChild(document.createTextNode("Updating..."));
 			}
-		
+
 			current_edit_box=null;
 			var editTextBox = document.getElementById("edit_txt_"+id);
 			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
 		}
-<?php		
+<?php
 	}else{
 ?>
 		// For CSS 2.1 compatible browsers.
@@ -92,7 +101,7 @@ function shn_admin_conf_list()
 				current_edit_box.style.display="none";
 				current_edit_box=null;
 			}
-	
+
 			current_edit_box=document.getElementById("edit_tr_"+id);
 			current_edit_box.style.display="table-row";
 			document.getElementById("edit_txt_"+id).focus();
@@ -109,7 +118,7 @@ function shn_admin_conf_list()
 				}
 				newValTarget.appendChild(document.createTextNode("Updating..."));
 			}
-		
+
 			current_edit_box=null;
 			var editTextBox = document.getElementById("edit_txt_"+id);
 			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
@@ -117,7 +126,7 @@ function shn_admin_conf_list()
 		<?php
 		}
 		?>
-	
+
 		// called by xajax to update the value asynchronously on the UI.
 /*		function async_update(id,value)
 		{
@@ -155,8 +164,26 @@ function shn_admin_conf_list()
 	<tr onclick="show_edit_box('<?php echo $key; ?>')"
 		style="cursor: pointer;")>
 		<td><?php echo $key; ?></td>
-		<td><?php echo $str_value; ?></td>
-		<td><?php echo '<div id="target_'.$key.'">'.$str_dconf.'</div>'; ?></td>
+		<td><?php
+			if(isset($special_types[$key])){
+				$sp_type = $special_types[$key][0];
+				if(strtolower($sp_type)=='password'){
+					echo "**********";
+				}// any other special types should be handled here
+			} else{
+			    echo $str_value;
+			}
+		 ?></td>
+		<td><?php
+		if(isset($special_types[$key])){
+				$sp_type = $special_types[$key][0];
+				if(strtolower($sp_type)=='password'){
+					echo '<div id="target_'.$key.'">**********</div>';
+				}// any other special types should be handled here
+			} else{
+			    echo '<div id="target_'.$key.'">'.$str_dconf.'</div>';
+			}
+		?></td>
 		<td><?php echo $edit; ?></td>
 	</tr>
 
@@ -175,11 +202,29 @@ function shn_admin_conf_list()
 		<td colspan="4">
 		<div align="center" style="padding: 10px;">
 		<fieldset><label for="edit_txt_<?php echo $key; ?>">New Value</label>
+		<?php
+		if(isset($special_types[$key])){
+				$sp_type = $special_types[$key][0];
+				if(strtolower($sp_type)=='password'){
+					?>
+					<input name="edit_txt_<?php echo $key; ?>"
+			id="edit_txt_<?php echo $key; ?>"
+			value="<?php echo htmlspecialchars_decode((($dconf[$key]!=null)?$dconf[$key]:$value),ENT_QUOTES); ?>"
+			type="password" /> <input type="button" value="Change"
+			onclick="hide_edit_box('<?php echo $key; ?>')" />
+					<?php
+				}// any other special types should be handled here
+			} else{
+				?>
 		<input name="edit_txt_<?php echo $key; ?>"
 			id="edit_txt_<?php echo $key; ?>"
 			value="<?php echo htmlspecialchars_decode((($dconf[$key]!=null)?$dconf[$key]:$value),ENT_QUOTES); ?>"
 			type="text" /> <input type="button" value="Change"
-			onclick="hide_edit_box('<?php echo $key; ?>')" /></fieldset>
+			onclick="hide_edit_box('<?php echo $key; ?>')" />
+			<?php
+			}
+			?>
+			</fieldset>
 		</div>
 		</td>
 	</tr>
