@@ -67,6 +67,7 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 	require_once ($APPROOT.'inc/lib_locale/handler_locale.inc');
 	require_once ($APPROOT.'3rd/htmlpurifier/library/HTMLPurifier.auto.php');
 	require_once ($APPROOT.'3rd/htmlpurifier/smoketests/common.php');
+	require_once ($APPROOT.'inc/user_feedback.inc');
 	shn_main_clean_getpost();
 	//include the user preferences
 	include_once ($APPROOT.'inc/lib_user_pref.inc');
@@ -135,8 +136,8 @@ function shn_main_front_controller()
 	global $global, $APPROOT, $conf;
 	$action = $global['action'];
 	$module = $global['module'];
-    $stream = $_REQUEST['stream'];
-    // check if the appropriate stream library exists
+	$stream = $_REQUEST['stream'];
+	// check if the appropriate stream library exists
 
 	if( array_key_exists('stream', $_REQUEST) &&
         file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
@@ -182,7 +183,7 @@ function shn_main_front_controller()
 	}
 
 	// identify the name of the module function based on the action,
-    // stream and module
+	// stream and module
 	$module_function = 'shn_'.$stream_.$module.'_'.$action;
 
     // if function does not exist re-direct
@@ -214,7 +215,7 @@ function shn_main_front_controller()
     // including the HTTP header,content header, menubar, login
 	shn_stream_init();
 
-    // If this is a new session redirect to a welcome page
+	// If this is a new session redirect to a welcome page
 	if($_SESSION['first_time_run']==true) {
 
 		include_once($APPROOT.'mod/home/main.inc');
@@ -222,7 +223,7 @@ function shn_main_front_controller()
 
 	} else { // default behavior
 
-        // store the last module, stream and action in the history
+		// store the last module, stream and action in the history
 		$_SESSION['last_module']=$module;
 		$_SESSION['last_action']=$action;
 		$_SESSION['last_stream']=$stream;
@@ -233,10 +234,10 @@ function shn_main_front_controller()
                     or ($global['action'] == 'signup'))
                     && ($global['module'] = 'pref')) {  // TODO: Check on =
 
-                // returns true if self-signup is enabled
-				if( shn_acl_is_signup_enabled() ) {
-                    $module_function();
-                }
+			// returns true if self-signup is enabled
+			if( shn_acl_is_signup_enabled() ) {
+				$module_function();
+			}
 
 			} else { // if not a self-signup action
 
@@ -268,7 +269,12 @@ function shn_main_front_controller()
 			}
 		}
 	}
-
+	/*
+	 * Show help if there are errors or warinings.
+	 */
+	if(count($global['submit_errors'])>0 || count($global['submit_warnings'])>0){
+		shn_user_feedback();
+	}
 	// close up the stream. In HTML send the footer
 	shn_stream_close();
 
@@ -310,3 +316,4 @@ function shn_main_web_installer()
 		require ($APPROOT.'inst/setup.inc');
 	}
 }
+

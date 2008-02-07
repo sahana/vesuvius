@@ -152,5 +152,9 @@ $conf['forum_url'] = 'http://forum.sahana.lk/';
 
 $conf['chat_url'] = 'http://www.sahana.lk/chat';
 
+$conf['shn_user_feedback_enabled'] = false;
+
+$conf['user_help_server'] = null;
+
 # end of the config file.
 
