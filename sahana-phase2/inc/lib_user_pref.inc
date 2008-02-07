@@ -15,7 +15,22 @@ function shn_user_pref_populate()
         //go with the session.. hmmm
     }
 }
-
+function shn_get_user_pref_value($module,$key,$userid=NULL)
+{
+    global $global;
+    if(NULL==$userid){
+    	$userid=$_SESSION['user_id'];
+    }
+    $sql = "SELECT value FROM user_preference WHERE p_uuid = '".$_SESSION['user_id']."' AND module_id = '$module' AND pref_key='$key'";
+    $res = $global['db']->Execute($sql);
+    if(NULL!=$res){
+    	return $res->fields['value'];
+    }
+    else{
+    	return NULL;
+    }
+    
+}
 function shn_user_pref_update($module,$key,$value=null,$delete=false)
 {
     global $global;
