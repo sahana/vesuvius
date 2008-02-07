@@ -17,19 +17,20 @@
  */
 
 include_once ($global['approot'] . '/inc/lib_form.inc');
+include_once ($global['approot'] . '/inc/lib_misc.inc');
 include_once ($global['approot'] . '/mod/dvr/lib.inc');
 
 	global $global;
 	_shn_dvr_print_header(_t("Duplicate Search"));
 	shn_form_fopen("duplicate_sch", null, false);
 
-	shn_form_fsopen(_t("Duplicates"));
+	
 
 	$duplicates = array();
 	$duplicates = _shn_dvr_find_duplicates();
 	if($duplicates)
 	{
-
+	shn_form_fsopen(_t("Duplicates"));
 		?>
 		<div id ="result">
 			<table>
@@ -54,16 +55,17 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
 		</tr> 
 		
 		<?php
+		shn_form_fsclose();
 		}//print $xx.',';
 	}
 	else
 	{
-		add_warning(_("No duplicates found."));
+		_shn_html_print_alert(_("No duplicates found."));
 	}
 ?></table>
 </div>
 <?php
-	shn_form_fsclose();
+	
 	shn_form_fclose();
 	
 /////////////////////////////////////////////////////////////////////////////
