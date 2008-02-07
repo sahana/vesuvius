@@ -19,8 +19,12 @@ function shn_pref_ims_config()
 
 function shn_XST_pref_ims_set_incident()
 {
+	global $global;
 	$incident_id = addslashes(strip_tags(trim($_REQUEST['incident_id'])));	
-   	shn_user_pref_update ('ims', 'incident_id',$incident_id);
+   	$value=shn_user_pref_update ('ims', 'incident_id',$incident_id);
+   	$res_sql="SELECT name FROM incident WHERE incident_id='".$value."'";
+    $res=$global['db']->Execute($res_sql);
+    echo $res->fields['name'];
 }
 
 

@@ -52,7 +52,7 @@ function _shn_pref_config_form($errors=false,$updated=false)
 
 function _shn_pref_config_validate()
 {
-    
+    global $global;
     $error_flag=false;
     //clean the post
     shn_tools_clean_post(&$local_post);
@@ -76,7 +76,10 @@ function _shn_pref_config_validate()
     if($error_flag)
         return false;
     else{
-        shn_user_pref_update ('ims', 'incident_id',$local_post['ims_incident_id']);
+        $value=shn_user_pref_update ('ims', 'incident_id',$local_post['ims_incident_id']);
+        $res_sql="SELECT name FROM incident WHERE incident_id='".$value."'";
+        $res=$global['db']->Execute($res_sql);
+        echo $res->fields['name'];
         return true;
     }
 }
