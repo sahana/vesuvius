@@ -56,7 +56,7 @@ function shn_dvr_mainmenu() {
 
 	shn_sub_mod_menuopen(_t('List groups '));
 	shn_sub_mod_menuitem('list_groups', _t('List groups/View members '));
-	//shn_sub_mod_menuitem('duplicate_search', _t('List Duplicate Entries'));
+	shn_sub_mod_menuitem('duplicate_search', _t('List Duplicate Entries'));
 	shn_sub_mod_menuclose();
 
 		///////
