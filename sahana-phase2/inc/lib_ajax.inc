@@ -17,7 +17,7 @@
  *
  */
 
-function create_ajax_call()
+function _shn_ajax_create_ajax_call()
 {
     echo '<script>';
     echo 'var xmlHttp;
@@ -146,7 +146,7 @@ setSearch(names[count],ids[count],print,input);
 
 }
 
-function create_suggest($input_element,$print_element)
+function _shn_ajax_create_suggest($input_element,$print_element)
 {
 	
     echo '<script>';
@@ -163,7 +163,7 @@ function suggestOut(div_value) {
     echo '</script>';
 }
 
-function set_common_styles(){
+function _shn_ajax_set_common_styles(){
 	echo '<style type="text/css" media="screen">';
     echo 'body1 {
     font: 11px arial;
@@ -187,7 +187,7 @@ function set_common_styles(){
     echo '</style>';
 }
 
-function create_xml_http_object(){
+function _shn_ajax_create_xml_http_object(){
 	echo '<script>';
 	echo 'function GetXmlHttpObject()
 {
@@ -216,7 +216,7 @@ return xmlHttp;
 	
 }
 
-function set_result_to_element($input_element,$print_element,$hidden,$reset){
+function _shn_ajax_set_result_to_element($input_element,$print_element,$hidden,$reset){
 	
 	echo '<script>';
 	echo 'function setSearch(value,id,print,input) {
@@ -243,7 +243,7 @@ echo '}';
 	echo '</script>';
 }
 
-function set_div_styles($print_element){
+function _shn_ajax_set_div_styles($print_element){
 	
     echo '<style type="text/css" media="screen">';
     echo '#'.$print_element.' {
@@ -259,7 +259,7 @@ function set_div_styles($print_element){
 }';
     echo '</style>';
 }
-function hide_popup($print_element){
+function _shn_ajax_hide_popup($print_element){
 	echo '<script>';
 	echo 'window.onclick=test;';
 	echo 'function test(){';
@@ -273,15 +273,15 @@ function hide_popup($print_element){
 
 function shn_ajax_add_suggest($input_element,$print_element,$hidden,$reset=null){
 	
-    create_suggest($input_element,$print_element); 
+    _shn_ajax_create_suggest($input_element,$print_element); 
     
-    set_result_to_element($input_element,$print_element,$hidden,$reset); 
-    set_div_styles($print_element);
+    _shn_ajax_set_result_to_element($input_element,$print_element,$hidden,$reset); 
+    _shn_ajax_set_div_styles($print_element);
 }
 function shn_ajax_initiate_request(){
-	create_xml_http_object();
-	create_ajax_call(); 
-	set_common_styles();
+	_shn_ajax_create_xml_http_object();
+	_shn_ajax_create_ajax_call(); 
+	_shn_ajax_set_common_styles();
 }
 function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$extra_opts=null){
     global $global;
@@ -293,7 +293,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 	    $global["initiate_ajax"]=true;
     }
 
-	hide_popup($hint);
+	_shn_ajax_hide_popup($hint);
     for($index=0;$index<count($name);$index++){
 	    if(true==$flag){
             if(0==$index){
