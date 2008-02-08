@@ -81,7 +81,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <h1><?= _t('Latest updates on Reported  Victims'); ?></h1>
 <?php
 
-    shn_dvr_home_show_dvr();
+    _shn_dvr_home_show_dvr();
 ?>
 </div>
 
@@ -90,12 +90,12 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 
 
 
-function shn_dvr_home_show_dvr()
+function _shn_dvr_home_show_dvr()
 {
     global $global; 
     global $conf;
    
-    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im, resource_to_incident pi where im.x_uuid=a.p_uuid and a.p_uuid=pi.x_uuid and im.x_uuid=pi.x_uuid and pi.incident_id='{$_SESSION['user_pref_ims_incident_id']}' and category='dvr_person' ORDER BY im.created DESC";
+    $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im, resource_to_incident pi where im.x_uuid=a.p_uuid and a.p_uuid=pi.x_uuid and im.x_uuid=pi.x_uuid and pi.incident_id='{$_SESSION['dvr']['incident_id']}' and category='dvr_person' ORDER BY im.created DESC";
    // $sql= "SELECT distinct a.p_uuid AS p_uuid, a.full_name AS full_name FROM person_uuid a ,image im where im.x_uuid=a.p_uuid and category='dvr_person' ORDER BY im.created DESC";        
 
            $rs = $global['db']->SelectLimit($sql,$conf['mod_dvr_images']);
@@ -103,7 +103,7 @@ function shn_dvr_home_show_dvr()
     if($rs){
         $arr = $rs->GetAll();
    
-        shn_dvr_search_show_verticle($arr);
+        _shn_dvr_search_show_verticle($arr);
     }
 }
 
@@ -115,7 +115,7 @@ function shn_dvr_home_show_dvr()
 
 
 
-function shn_dvr_search_show_verticle($details)
+function _shn_dvr_search_show_verticle($details)
 {
     global $global;
     global $conf;

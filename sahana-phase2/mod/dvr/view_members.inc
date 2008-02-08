@@ -64,13 +64,13 @@ echo 'Group Head'.'<br /><a href="index.php?mod=' . $global['module'] . '&act=ed
 ?>
 <center>
 <?php
-shn_dvr_home_show_dvr();
+_shn_dvr_show_members();
 ?>
 </div>
 <?php
 
 
-function shn_dvr_home_show_dvr() {
+function _shn_dvr_show_members() {
 	global $global;
 
 	#$incident_ids = shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']);
@@ -100,13 +100,13 @@ function shn_dvr_home_show_dvr() {
 		//     print 'co'.count($arr);
 	//	$headid = _shn_dvr_get_headid($groupid);
 		//shn_show_thumb_url($headid, 'database', 'dvr', 'addvictim_img', false);
-		_shn_dvr_search_show_verticle($arry);
+		_shn_dvr_show_mem_verticle($arry);
 	}
 	
 }
 
 
-function _shn_dvr_search_show_verticle($details) {
+function _shn_dvr_show_mem_verticle($details) {
 	global $global;
 	global $conf;
 ?>

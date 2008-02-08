@@ -20,7 +20,7 @@
  
  
  
-function _shn_drill_downby_group() {
+function _shn_dvr_drill_downby_group() {
 ?>	
  	 <h2><?=_t("Disaster Victim Report by group") ?></h2>
  	 
@@ -84,7 +84,7 @@ function _shn_drill_downby_group() {
    <?php
    }
    
-function _shn_drill_downby_shelter() 
+function _shn_dvr_drill_downby_shelter() 
 {
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
@@ -126,7 +126,7 @@ function _shn_drill_downby_shelter()
 
 }
 
-function _shn_drill_downby_incident() {
+function _shn_dvr_drill_downby_incident() {
 		 
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');

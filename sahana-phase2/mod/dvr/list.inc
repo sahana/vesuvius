@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: list.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
+/* $Id: list.inc,v 1.8 2008-02-08 10:16:33 prabath321 Exp $ */
 
-/* $Id: list.inc,v 1.7 2008-01-30 04:35:20 prabath321 Exp $ */
+/* $Id: list.inc,v 1.8 2008-02-08 10:16:33 prabath321 Exp $ */
 
 /**
  * 
@@ -23,13 +23,13 @@
  */
 
  
-function  list_all_groups()
+function  _shn_dvr_list_all_groups()
 {
    	
     global $global;
    	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
     include_once ($global['approot'] . '/mod/dvr/lib.inc');
-    $results=_shn_dvr_get_all_groups($_SESSION['user_pref_ims_incident_id'],null);
+    $results=_shn_dvr_get_all_groups($_SESSION['dvr']['incident_id'],null);
    	
    ?>
    <br>
@@ -75,7 +75,7 @@ function  list_all_groups()
    }
    
    
-   function list_all_individuals()
+   function _shn_dvr_list_all_individuals()
    {
    	
    ?>

@@ -25,6 +25,19 @@ include_once $global['approot'] . '/inc/lib_errors.inc';
 include_once $global['approot'] . '/inc/lib_location.inc';
 include_once $global['approot'] . '/mod/dvr/main_fns.inc';
 
+
+/**
+ * fixed locally for null incident
+ */
+if(isset($_SESSION['user_pref_ims_incident_id']))
+{
+	$_SESSION['dvr']['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+}
+else
+{
+	$_SESSION['dvr']['incident_id'] = 1;
+}
+
 /**
  * This function allows you to override the mainmenu. This is often done
  * to include the modules own menu
