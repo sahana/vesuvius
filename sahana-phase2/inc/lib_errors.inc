@@ -1,6 +1,6 @@
 <?php
 /**
- *  
+ *
  * This is a generic error handler, you can create and manage a error container
  * and display the errors.
  *
@@ -18,8 +18,9 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
-// The following are three global containers to hold the messages or 
+// The following are three global containers to hold the messages or
 // confirmation, warning and error following a submit
+require_once($global['approot'].'inc/lib_locale/gettext.inc');
 $global['submit_errors'] = array();
 $global['submit_warnings'] = array();
 $global['submit_confirmations'] = array();
@@ -28,15 +29,15 @@ function add_warning($warning)
 {
 	global $global;
     array_push($global['submit_warnings'],$warning);
-}	
+}
 
 function add_confirmation($confirmation)
 {
 	global $global;
     array_push($global['submit_confirmations'],$confirmation);
-}	
+}
 
-// this function will display the submit message of a 
+// this function will display the submit message of a
 // certain type as contained in the container specified by the type
 // @TODO: add generic check for container existance
 function display_submit_message($type = 'warning',
@@ -64,7 +65,7 @@ function display_submit_message($type = 'warning',
 
 
 /**
- * If you want to display the errors call this function.  
+ * If you want to display the errors call this function.
  */
 function display_errors($error_title=null,$return=false,$clean_errors=true)
 {
@@ -76,7 +77,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
 
     // return if there are no errors
     if (count($global['submit_errors']) == 0 ) return;
-    
+
     $output = "<div class=\"error message\">";
 
     $output .= '<p><em>'.$error_title.'</em></p>';
@@ -108,7 +109,7 @@ function add_error($error)
     	array_push($global['submit_errors'],$error);
     else
         $global['submit_errors'][] = $error;
-}	
+}
 
 function clean_errors()
 {
@@ -128,7 +129,7 @@ function is_errors()
 function shn_error_display_restricted_access($msg=null)
 { ?>
     <div class="error message">
-    	
+
         <p><em><?=_t('Sorry, you do not have permisssion to access this section')?></em><br/>
         <?php if($msg!=null){?>
         <br /><strong><?=$msg?></strong><br /><br />
@@ -143,7 +144,7 @@ function shn_error_display_restricted_access($msg=null)
 <?php
 }
 
-function shn_error_dummy_header() 
+function shn_error_dummy_header()
 {
 global $global;
 ?>
@@ -153,7 +154,7 @@ global $global;
         <h1><?=_t("Sahana FOSS Disaster Management System")?></h1>
     </div>
     <div id="wrapper" class="clearfix">
-    <div id="content" class="clearfix">      
+    <div id="content" class="clearfix">
 <?php
 }
 
@@ -174,22 +175,22 @@ global $global;
 
 /**
  * Sahana's custom PHP error handler
- * 
- * @param int $errorno 
- * @param string $errmsg 
- * @param string $filename 
- * @param int $linenum 
- * @param array $vars 
+ *
+ * @param int $errorno
+ * @param string $errmsg
+ * @param string $filename
+ * @param int $linenum
+ * @param array $vars
  * @access public
  * @return void
  */
-function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) 
+function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars)
 {
     global $global;
 
     switch ($errno) {
 
-        // Decide which errors you want the system to report actively. 
+        // Decide which errors you want the system to report actively.
         // The ones uncommented are reported
 
         case E_ERROR:              // Fatal run-time errors
@@ -214,12 +215,12 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars)
 /**
  * Intelligent analysis of error message and environmental conditions and reporting
  * of probable error in user friendly terms
- * 
- * @param int $errno 
- * @param string $errmsg 
- * @param string $filename 
- * @param int $linenum 
- * @param array $vars 
+ *
+ * @param int $errno
+ * @param string $errmsg
+ * @param string $filename
+ * @param int $linenum
+ * @param array $vars
  * @access public
  * @return void
  */
@@ -235,16 +236,16 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
     //echo "the error message was ".$errmsg;
     if ($conf['debug']) {
         add_warning('Error Message :'.$errmsg);
-        add_warning('Filename '.$filename.' at line '.$linenum); 
-        //add_warning($vars); 
+        add_warning('Filename '.$filename.' at line '.$linenum);
+        //add_warning($vars);
     }
 
     // analyse error message
     if (preg_match("/Can't connect to local MySQL/",$errmsg)) {
         add_error(_t('The Sahana database is currently inaccesible'));
     } else {
-        if ($errno == E_WARNING ) {   
-            return; 
+        if ($errno == E_WARNING ) {
+            return;
         } else {
             add_error(_t('The system is currently unavailable'));
         }
