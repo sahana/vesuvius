@@ -10,7 +10,7 @@ CREATE TABLE `user_feedback` (
 `comment` LONGTEXT NULL ,
 `date` DATETIME NULL ,
 `email` VARCHAR( 250 ) NULL
-)
+);
 
 DROP TABLE IF EXISTS faq;
  CREATE TABLE `faq` (
