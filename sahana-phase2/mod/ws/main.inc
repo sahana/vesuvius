@@ -401,7 +401,7 @@ function shn_ws_get_methods($mods=array("or")){
 	* @param	string	$val	The string in which to expand entities.
 	* @access	private
 	*/
-	function collapseEntities($val) {
+function collapseEntities($val) {
 		
 			$val = str_replace('&amp;', '&', $val);
 	    	/*
@@ -412,82 +412,84 @@ function shn_ws_get_methods($mods=array("or")){
 	    	*/
 	    
 	    return $val;
-	}
+}
 	
-function shn_ws_sahana_client_call($wsdl_url,$method,$input=null){
-	file_put_contents("/tmp/a.txt","before try");
-	return;
+function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
+
 	$method=trim($method);
 	$native=extension_loaded('soap');
 	$url=trim($wsdl_url);
 	$url= trim(html_entity_decode($url));
 
-	//$url="http://localhost/week1/WS1/www/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
+	
 
-		$digest="{$_SERVER['REQUEST_TIME']}$method";
+	$digest="{$_SERVER['REQUEST_TIME']}$method";
 		/*
 		$secret=trim($_POST["secret"]);
 		$sign=shn_acl_hmac_sha1($digest,$secret);
 		$sign=md5($sign);
 		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",$digest";
 		*/
-		$uid="";
-		$sign="";
+	$uid="";
+	$sign="";
 	
     try{
-	if($native==true){
-		ini_set("soap.wsdl_cache_enabled", "0");
-		
+		if($native==true){
+			ini_set("soap.wsdl_cache_enabled", "0");
 			
-		$client = new  SoapClient(html_entity_decode($url), array('login' => $uid, 
-          	'password' => $sign));
-
-		//sending the user name ,password mode will work even if security is disabled at the provider
-		
-		print_r($client->__call( $method,
-        /* Parameters */
-        array(
-            new SoapParam(
-                /* Parameter Value */
-                5,
-                /* Parameter Name */
-                "symbol"
-        	))
-        ));
-
-		
-	}else{
-
-		$client = new soapclient2($url,true);
-		$client->setCredentials($uid,$sign);
+			$client = new  SoapClient(html_entity_decode($url), array('login' => $uid, 
+	          	'password' => $sign));
 	
-		// Check for an error
-		$err = $client->getError();
-		if ($err) {
-	    // Display the error
-	    	echo '<h2>Constructor error</h2><pre>' . $err . '</pre><br />';
-	    // At this point, you know the call that follows will fail
-		}
-		file_put_contents("/tmp/a.txt","befor web service call");
-		$result = $client->call($method, $input);
-		file_put_contents("/tmp/a.txt","after web service call");
-		// Check for a fault
-		if ($client->fault) {
-	    	echo '<h2>Fault</h2><pre>';
-	    	print_r($result);
-	   		echo '</pre>';
-		} else {
-	    // Check for errors
-	    	$err = $client->getError();
-	    	if ($err) {
-	        // Display the error
-	        	echo '<h2>Error</h2><pre>' . $err . '</pre>';
-	    	} else {
-	    		echo '<h2>Result</h2><pre>' ;
-	    		print_r($result);
-	    		echo '</pre>';
-	    	}
-		}
+			//sending the user name ,password mode will work even if security is disabled at the provider
+				
+			$param_arr=array();
+			foreach($inputs as $input=>$value){
+				array_push(
+						$param_arr,
+						new SoapParam(
+		                /* Parameter Value */
+		                $value,
+		                /* Parameter Name */
+		                $input
+		        		)
+				);
+			//	file_put_contents("/tmp/a.txt",$input.$value,FILE_APPEND);
+			}
+	        $response=$client->__call($method,$param_arr);
+	        $response = obj2array($response);
+	        return $response;
+			//file_put_contents("/tmp/a.txt",$response[0]["question"],FILE_APPEND);
+			
+		}else{
+			$client = new soapclient2($url,true);
+			$client->setCredentials($uid,$sign);
+		
+			// Check for an error
+			$err = $client->getError();
+			if ($err) {
+		    // Display the error
+		    	echo '<h2>Constructor error</h2><pre>' . $err . '</pre><br />';
+		    // At this point, you know the call that follows will fail
+			}
+	
+			$result = $client->call($method, $inputs);
+			// Check for a fault
+			if ($client->fault) {
+		    	echo '<h2>Fault</h2><pre>';
+		    	print_r($result);
+		   		echo '</pre>';
+			} else {
+		    // Check for errors
+		    	$err = $client->getError();
+		    	if ($err) {
+		        // Display the error
+		        	echo '<h2>Error</h2><pre>' . $err . '</pre>';
+		    	} else {
+		    		echo '<h2>Result</h2><pre>' ;
+		    		print_r($result);
+		    		echo '</pre>';
+		    	}
+			}
 	}
     }catch(Exception $e){
     	//echo $e->getMessage();
