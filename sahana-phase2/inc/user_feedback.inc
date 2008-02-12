@@ -15,7 +15,8 @@ if(isset($conf['user_help_server'])==false || $conf['user_help_server']==null ||
  * @param unknown_type $question
  */
 function _shn_search_answer($question,$module=null,$action=null){
-	$response_txt = _shn_search_answer_db($question,$module,$action);
+//	$response_txt = _shn_search_answer_db($question,$module,$action);
+	$response_txt = _shn_search_remote_server_answer_db($question,$module,$action);
 	$response = new xajaxResponse();
 	$response->addAssign("feedback_content_error","className","feedback_content_error hide");
 	$response->addAssign("feedback_content","innerHTML",$response_txt);
