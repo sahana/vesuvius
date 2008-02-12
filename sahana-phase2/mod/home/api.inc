@@ -15,12 +15,14 @@
 
 /**
  * This returns the FAQ list
- * @param int $limit To limit the number of FAQs returned
+ * @param string $question question to search for
+ * @param string $module context of the search
+ * @param string $action action
  * @access public
  * @return array
  */
  
-//function shn_search_answer_db($question,$module,$action){
+
 function shn_search_answer_db($question="test",$module="home",$action="test"){
 		global $global;
 		require_once($global['approot']."/inc/user_feedback.inc");
