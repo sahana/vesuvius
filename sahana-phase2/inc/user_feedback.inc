@@ -143,78 +143,6 @@ function _shn_search_answer_db($question,$module,$action){
 	return $contents;
 }
 
-function _shn_search_get_answer_db($question,$module,$action){
-	global $global,$conf;
-
-	$strip_words = array("is","are","in","be","an","a","the","as","how","who","why","what");
-
-	// strip the words from the search string
-
-	$search_str = $question;
-	foreach($strip_words as $word){
-		$search_str = str_ireplace(" ".$word." "," ",$search_str);
-	}
-
-	$keyword_arr = explode(" ",$search_str);
-
-	for($i=0;$i<count($keyword_arr);$i++){
-		$kw = $keyword_arr[$i];
-		// if there is only one word or it is the last word
-		if($i==(count($keyword_arr)-1)){
-			$like_list .= " `question` LIKE '%".$kw."%' " ;
-		}else{
-			if(count($keyword_arr)==1){
-				$like_list .= " `question` LIKE '%".$kw."%' " ;
-			}else{
-			     $like_list .= " `question` LIKE '%".$kw."%' OR ";	
-			}			
-		}
-	}
-
-	// filter by module and action if available.
-	$module_search = "";
-	if($module && strlen($module)>0){
-		$module_search = "`mod`='$module' AND ";
-	}
-	$action_search = "";
-	if($action && strlen($action)>0){
-		$action_search = "`act`='$action' AND ";
-	}
-
-	$query = "SELECT `qa_id`,`question`,`answer` FROM `faq` WHERE ".$module_search.$action_search." (".$like_list.")";
-	$db = $global['db'];
-	$rs = $db->Execute($query);
-    
-	//ob_start();
-	$faq_list[] = array('question' => "test", 'id' => "id");
-	return $faq_list;
-	if($rs){
-	//	echo "<h4> Results </h4>";
-		$assoc = $rs->GetAssoc();
-		if(count($assoc)==0){
-		   return null;
-		   // echo "<p>"._t("<h4>Sorry !</h4><p>No matching help item was found in our database.</p><br/><p> We suggest contacting us through support@sahana.lk or by adding your problem as a comment along with your email address, for us to contact you.</p>")	; 
-		}else{
-			//echo "<ol>";
-			$faq_list=array();
-			foreach ($assoc as $key=>$vals){
-				$faq_list[] = array('question' => $res->fields["question"], 'id' => $res->fields["qa_id"]);
-				//echo "<li> <a href='".$conf['user_help_server']."?mod=home&act=faq#".$key."'>"._shn_crop_string($vals[0])."</a></li>";
-			}
-			return $faq_list;
-			//echo "</ol>";
-		}
-	}else{
-		return null;
-		// echo "<p>"._t("<h4>Sorry !</h4><p>There was an error in searching the help database.</p><br/><p> We suggest contacting us through support@sahana.lk or by adding your problem as a comment along with your email address, for us to contact you. If you think this is a bug, please be kind to <a href='?mod=home&act=bug_report'>report it.</a></p>")    ;
-	}
-
-	//$contents =  ob_get_contents();
-	
-	//ob_clean();
-	//return $contents;
-}
-
 function _shn_home_faq(){
 	global $global,$conf;
 	$query = "SELECT `qa_id`,`question`,`answer` FROM `faq`";
@@ -385,4 +313,109 @@ shn_form_submit(_("Search"),"title=\""._("Search for an answer for your question
 <?php
     }
 }
+
+function _shn_search_remote_server_answer_db($question,$module,$action){
+	global $global,$conf;
+	include_once( $global['approot']."mod/ws/main.inc");
+	include_once( $global['approot']."inc/lib_misc.inc");
+	$wsdl_url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=home&mod=ws&act=reg";
+	$method="shn_search_answer_db";
+	$input=array("question"=>"test","module"=>$module,"action"=>$action);
+//	file_put_contents("/tmp/a.txt","inside user feedback");
+	$response=shn_ws_sahana_client_call($wsdl_url,$method,$input);
+	file_put_contents("/tmp/a.txt",$response[0]["question"],FILE_APPEND);
+	
+	ob_start();
+
+	if($response){
+		echo "<h4> Results </h4>";
+
+		if(count($response)==0){
+		    echo "<p>"._t("<h4>Sorry !</h4><p>No matching help item was found in our database.</p><br/><p> We suggest contacting us through support@sahana.lk or by adding your problem as a comment along with your email address, for us to contact you.</p>")	; 
+		}else{
+			echo "<ol>";
+			foreach ($response as $faq){
+		//	foreach ($assoc as $key=>$vals){
+				$key=$faq["id"];
+				$question=$faq["question"];
+				echo "<li> <a href='".$conf['user_help_server']."?mod=home&act=faq#".$key."'>"._shn_crop_string($question)."</a></li>";
+			}
+			echo "</ol>";
+		}
+	}else{
+		 echo "<p>"._t("<h4>Sorry !</h4><p>There was an error in searching the help database.</p><br/><p> We suggest contacting us through support@sahana.lk or by adding your problem as a comment along with your email address, for us to contact you. If you think this is a bug, please be kind to <a href='?mod=home&act=bug_report'>report it.</a></p>")    ;
+	}
+
+	$contents =  ob_get_contents();
+	
+	ob_clean();
+	
+	return $contents;
+}
+
+function _shn_search_get_answer_db($question,$module,$action){
+	global $global,$conf;
+
+	$strip_words = array("is","are","in","be","an","a","the","as","how","who","why","what");
+
+	// strip the words from the search string
+
+	$search_str = $question;
+	foreach($strip_words as $word){
+		$search_str = str_ireplace(" ".$word." "," ",$search_str);
+	}
+
+	$keyword_arr = explode(" ",$search_str);
+
+	for($i=0;$i<count($keyword_arr);$i++){
+		$kw = $keyword_arr[$i];
+		// if there is only one word or it is the last word
+		if($i==(count($keyword_arr)-1)){
+			$like_list .= " `question` LIKE '%".$kw."%' " ;
+		}else{
+			if(count($keyword_arr)==1){
+				$like_list .= " `question` LIKE '%".$kw."%' " ;
+			}else{
+			     $like_list .= " `question` LIKE '%".$kw."%' OR ";	
+			}			
+		}
+	}
+
+	// filter by module and action if available.
+	$module_search = "";
+	if($module && strlen($module)>0){
+		$module_search = "`mod`='$module' AND ";
+	}
+	$action_search = "";
+	if($action && strlen($action)>0){
+		$action_search = "`act`='$action' AND ";
+	}
+
+	$query = "SELECT `qa_id`,`question`,`answer` FROM `faq` WHERE ".$module_search.$action_search." (".$like_list.")";
+	$db = $global['db'];
+	$rs = $db->Execute($query);
+
+	if($rs){
+
+		$assoc = $rs->GetAssoc();
+		if(count($assoc)==0){
+		   return null;
+		 
+		}else{
+			
+			$faq_list=array();
+			foreach ($assoc as $key=>$vals){
+				$faq_list[] = array('question' => $vals[0], 'id' => $key);
+				
+			}
+			return $faq_list;
+			
+		}
+	}else{
+		return null;
+		
+	}
+
+}
+
 ?>
