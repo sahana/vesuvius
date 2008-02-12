@@ -231,8 +231,8 @@ function shn_ws_sahana(){
     shn_form_fsopen(_t("Web Service (WSDL) URL"));
     shn_form_text(_t("URL : "),'wsdl_url','size="50"',null);
     shn_form_fsclose();
-    
-   	$methods=shn_ws_get_methods();
+    $mods=array("or","home");
+   	$methods=shn_ws_get_methods($mods);
     shn_form_fsopen(_t("Select Method"));
 	shn_form_select($methods,"Methods",'method',null,null);
     shn_form_fsclose();
@@ -379,16 +379,18 @@ function shn_ws_sahana_cr(){
 	}
 }
 
-function shn_ws_get_methods($mod="or"){
+function shn_ws_get_methods($mods=array("or")){
 	global $global;
 	$methods=array();
-	$xml_file=$global['approot']."/mod/".$mod."/ws.xml";
-	//read the XML file describing the types and services for that module.
-	$xml =simplexml_load_file($xml_file);
-	foreach ($xml->services->service as $service) {
-   		$name= trim($service->name);//name of the service
-   		$function=trim($service->api_function);//function that is exposed
-   		$methods["$function"]=$name."->".$function;
+	foreach ($mods as $mod){
+		$xml_file=$global['approot']."/mod/".$mod."/ws.xml";
+		//read the XML file describing the types and services for that module.
+		$xml =simplexml_load_file($xml_file);
+		foreach ($xml->services->service as $service) {
+	   		$name= trim($service->name);//name of the service
+	   		$function=trim($service->api_function);//function that is exposed
+	   		$methods["$function"]=$name."->".$function;
+		}
 	}
 	return $methods;
 }
@@ -411,4 +413,87 @@ function shn_ws_get_methods($mod="or"){
 	    
 	    return $val;
 	}
+	
+function shn_ws_sahana_client_call($wsdl_url,$method,$input=null){
+	file_put_contents("/tmp/a.txt","before try");
+	return;
+	$method=trim($method);
+	$native=extension_loaded('soap');
+	$url=trim($wsdl_url);
+	$url= trim(html_entity_decode($url));
+
+	//$url="http://localhost/week1/WS1/www/index.php?wsdl&stream=soap&wbsmod=or&mod=ws&act=reg";
+
+		$digest="{$_SERVER['REQUEST_TIME']}$method";
+		/*
+		$secret=trim($_POST["secret"]);
+		$sign=shn_acl_hmac_sha1($digest,$secret);
+		$sign=md5($sign);
+		$uid=trim($_POST["key"]).",".trim($_POST["pwd"]).",$digest";
+		*/
+		$uid="";
+		$sign="";
+	
+    try{
+	if($native==true){
+		ini_set("soap.wsdl_cache_enabled", "0");
+		
+			
+		$client = new  SoapClient(html_entity_decode($url), array('login' => $uid, 
+          	'password' => $sign));
+
+		//sending the user name ,password mode will work even if security is disabled at the provider
+		
+		print_r($client->__call( $method,
+        /* Parameters */
+        array(
+            new SoapParam(
+                /* Parameter Value */
+                5,
+                /* Parameter Name */
+                "symbol"
+        	))
+        ));
+
+		
+	}else{
+
+		$client = new soapclient2($url,true);
+		$client->setCredentials($uid,$sign);
+	
+		// Check for an error
+		$err = $client->getError();
+		if ($err) {
+	    // Display the error
+	    	echo '<h2>Constructor error</h2><pre>' . $err . '</pre><br />';
+	    // At this point, you know the call that follows will fail
+		}
+		file_put_contents("/tmp/a.txt","befor web service call");
+		$result = $client->call($method, $input);
+		file_put_contents("/tmp/a.txt","after web service call");
+		// Check for a fault
+		if ($client->fault) {
+	    	echo '<h2>Fault</h2><pre>';
+	    	print_r($result);
+	   		echo '</pre>';
+		} else {
+	    // Check for errors
+	    	$err = $client->getError();
+	    	if ($err) {
+	        // Display the error
+	        	echo '<h2>Error</h2><pre>' . $err . '</pre>';
+	    	} else {
+	    		echo '<h2>Result</h2><pre>' ;
+	    		print_r($result);
+	    		echo '</pre>';
+	    	}
+		}
+	}
+    }catch(Exception $e){
+    	//echo $e->getMessage();
+		//if('Unauthorized'==$e->getMessage())
+		add_error($e->getMessage());
+		display_errors('Error');
+	}
+}
 ?>
