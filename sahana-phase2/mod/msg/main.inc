@@ -90,7 +90,7 @@ function shn_msg_cap_upload()
     include_once ('handler_cap_upload.inc');
 }
 
-function shn_msg_cap_download()
+function shn_text_msg_cap_download()
 {
     $file = $_POST['file'];
     header("Content-type: text/xml");

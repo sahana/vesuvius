@@ -120,7 +120,7 @@ function _shn_msg_view_cap_message()
     $MSG_DIR = '../res/msg';
     $msg = new Msg_CapAlert($MSG_DIR.'/cap/messages/' . $file);
     
-    print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true' id='formset' name=''>";
+    print "<form method='POST' action='index.php?stream=text&amp;mod=msg&amp;act=cap_download' id='formset' name=''>";
     print "Download : $file_name";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/messages/' . $file));
     shn_form_submit(_t("Dowload"));
@@ -135,7 +135,7 @@ function _shn_msg_view_cap_template()
     $MSG_DIR = '../res/msg';
     $msg = new Msg_CapAlert($MSG_DIR.'/cap/templates/' . $file);
 
-    print "<form method='POST' action='stream.php?stream_type=text&amp;mod=msg&amp;act=cap_download&amp;download=true' id='formset' name=''>";
+    print "<form method='POST' action='index.php?stream=text&amp;mod=msg&amp;act=cap_download' id='formset' name=''>";
     shn_form_hidden(array('seq'=>'','file'=>$MSG_DIR.'/cap/templates/' . $file));
     print "Download : ";
     shn_form_submit(_t("Dowload"));
