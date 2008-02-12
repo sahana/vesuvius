@@ -8,7 +8,6 @@
     			<compositor>all</compositor>
     			<restrictionBase></restrictionBase>
     			<elements>
-    				<element type="xsd:int">limit</element>
 					<element type="xsd:string">question</element>
 					<element type="xsd:string">module</element>
 					<element type="xsd:string">action</element>
