@@ -17,5 +17,5 @@
 // provide the nice display name for the OR  module
 $conf['mod_ws_name'] = _t("Web Services");
 $conf['mod_ws_menuorder'] = 4; 
-
+$conf['mod_ws_dependencies'] = "";
 ?>

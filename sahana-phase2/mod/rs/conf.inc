@@ -26,5 +26,5 @@
 
 $conf['mod_rs_name'] = _t("Reporting System");
 $conf['mod_rs_menuorder'] = 19;
-
+$conf['mod_rs_dependencies'] = "";
 ?>

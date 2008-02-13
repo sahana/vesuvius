@@ -22,4 +22,8 @@ $conf['mod_ims_menuorder'] = 6;
 //$conf['mod_or_ims_start_loc'] = 1;
 //$conf['mod_or_ims_loc_level_start']=1;
 //$conf['mod_or_ims_loc_level_end']=3;
+
+$conf['mod_ims_dependencies'] = "";
+
+
 ?>

@@ -22,7 +22,7 @@ $conf['mod_hr_name'] = _t("Housing Registry");
 /**
  * Gives the priority order in the main menu when listed
  */
-$conf['mod_skel_menuorder'] = 4; 
+$conf['mod_hr_menuorder'] = 4; 
 
-
+$conf['mod_hr_dependencies'] = "";
 ?>

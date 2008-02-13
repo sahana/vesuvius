@@ -21,4 +21,8 @@ $conf['mod_or_menuorder'] = 4;
 $conf['mod_or_start_loc'] = 1;
 $conf['mod_or_loc_level_start']=1;
 $conf['mod_or_loc_level_end']=3;
+
+$conf['mod_or_dependencies'] = "";
+
+
 ?>

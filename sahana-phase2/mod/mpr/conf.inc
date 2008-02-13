@@ -56,4 +56,8 @@ $conf['mod_mpr_upload_picture_savehandler'] = 'database';
 $conf['mod_mpr_upload_pic_handler'] = 'database';
 #$conf['mod_mpr_upload_pic_handler'] = 'file';
 
+$conf['mod_mpr_dependencies'] = "";
+
+
+
 ?>

@@ -155,4 +155,6 @@ $conf['ol_georss_1_description'] = '';
 $conf['ol_georss_1_name'] = 'Earthquakes';
 $conf['ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
 
+$conf['mod_gis_dependencies'] = "";
+
 ?>

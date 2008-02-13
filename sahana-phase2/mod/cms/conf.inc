@@ -4,4 +4,5 @@
 $conf['mod_cms_name'] = "Camp Management System";
 $conf['mod_cms_menuorder'] = 21; 
 
+$conf['mod_cms_dependencies'] = "";
 ?>
