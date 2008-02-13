@@ -25,7 +25,7 @@
 	 		<api_function>
 	 			shn_search_answer_db
 	 		</api_function>
-	 		
+	 		<input type="FAQInput">filter</input>
 	 		<output type="BasicArray" />
 	 		<documentation>
 	 			A useful method to retrieve the FAQs
