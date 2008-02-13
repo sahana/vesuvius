@@ -63,15 +63,20 @@ function _shn_dvr_getoptiondescription($opt_code,$field_name=null)
 }
 
 
-function _shn_dvr_getgroupheadspertype($grp_type)
+function _shn_dvr_getgroupheadspertype($grp_type=null)
 {
 	global $global;
 	global $conf;
 	$db = $global['db'];
 	$head_names= array ();
 	$i=0;
+	if(isset($grp_type)){
 	$q = "SELECT p.full_name,pg.g_uuid AS groupid FROM person_uuid p,pgroup pg,group_details gd WHERE p.p_uuid=gd.head_uuid AND pg.g_uuid=gd.g_uuid AND pg.opt_group_type='{$grp_type}'";
+	}else{
+	$q = "SELECT p.full_name,pg.g_uuid AS groupid FROM person_uuid p,pgroup pg,group_details gd WHERE p.p_uuid=gd.head_uuid AND pg.g_uuid=gd.g_uuid";
+	}
 	$res = $db->Execute($q);
+	
 	while(!$res->EOF)
 	{
 	$head_names[$res->fields['groupid']]=$res->fields['full_name'];
@@ -188,7 +193,7 @@ function _shn_dvr_get_image_id($groupid,$category)
 
 
 
-function _shn_dvr_search_show_verticle($details)
+function _shn_libdvr_search_show_verticle($details)
 {
     global $global;
     global $conf;

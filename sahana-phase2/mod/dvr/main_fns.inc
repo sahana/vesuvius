@@ -375,7 +375,7 @@ function shn_dvr_list_groups() {
 	require_once ($global['approot'] . '/inc/handler_form.inc');
 	print ("<h2> List Groups/View Members </h2>");
 	
-	list_all_groups();
+	_shn_dvr_list_all_groups();
 
 }
 
@@ -391,7 +391,7 @@ function shn_dvr_drill_downby_group() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/reporting.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
-	_shn_drill_downby_group();
+	_shn_dvr_drill_downby_group();
 
 }
 
@@ -399,7 +399,7 @@ function shn_dvr_drill_downby_shelter() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/reporting.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
-	_shn_drill_downby_shelter();
+	_shn_dvr_drill_downby_shelter();
 
 }
 
@@ -408,7 +408,7 @@ function shn_dvr_drill_downby_incident() {
 	include ($global['approot'] . '/mod/dvr/reporting.inc');
 	require_once ($global['approot'] . '/inc/handler_form.inc');
 
-	_shn_drill_downby_incident();
+	_shn_dvr_drill_downby_incident();
 
 }
 
