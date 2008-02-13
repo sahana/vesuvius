@@ -5,7 +5,7 @@ function shn_admin_ims_config()
     
     require($global['approot'].'mod/admin/ims_config.inc');
     
-    print ("<h1><center>Disaster Incident Configuration</center></h1>");
+    print ("<h1><center>Disaster / Event / Incident Configuration</center></h1>");
 
 	switch ($_POST['seq']) {
         case 'entry':
