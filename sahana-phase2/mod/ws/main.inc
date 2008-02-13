@@ -210,11 +210,7 @@ function shn_soap_ws_service_reg($xml,$ns){
    			$doc=$service->documentation;
    		}
    		$action=$ns."#".$function;
-   		ob_start();
-   		var_dump($in);
-   		$contents=ob_get_contents();
-   		ob_clean();
-   		file_put_contents("/tmp/a.txt",$contents);
+   		
    		$server->register($function,
 			$in,
 			$out,
@@ -331,9 +327,9 @@ function shn_ws_sahana_cr(){
 
 		//sending the user name ,password mode will work even if security is disabled at the provider
 		$functions = $client->__getFunctions();
-print_r($functions);
+//print_r($functions);
 $types = $client->__getTypes();
-print_r($types);
+//print_r($types);
 
 		print_r($client->__call( $method,
         /* Parameters */
