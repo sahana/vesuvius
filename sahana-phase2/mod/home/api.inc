@@ -22,11 +22,13 @@
  * @return array
  */
  
-
-function shn_search_answer_db($question="test",$module="home",$action="test"){
+function shn_search_answer_db($FAQinput){
+	$question=$FAQinput["question"];
+	$module=$FAQinput["module"];
+	$action=$FAQinput["action"];
+//function shn_search_answer_db($question="test",$module="home",$action="test"){
 		global $global;
 		require_once($global['approot']."/inc/user_feedback.inc");
-		$question="test";
 	//	file_put_contents("/tmp/a.txt","question".$question,FILE_APPEND);
 		$faq_list=_shn_search_get_answer_db($question,$module,$action);
 		return $faq_list;
