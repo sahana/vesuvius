@@ -210,6 +210,11 @@ function shn_soap_ws_service_reg($xml,$ns){
    			$doc=$service->documentation;
    		}
    		$action=$ns."#".$function;
+   		ob_start();
+   		var_dump($in);
+   		$contents=ob_get_contents();
+   		ob_clean();
+   		file_put_contents("/tmp/a.txt",$contents);
    		$server->register($function,
 			$in,
 			$out,
@@ -325,7 +330,11 @@ function shn_ws_sahana_cr(){
           	'password' => $sign));
 
 		//sending the user name ,password mode will work even if security is disabled at the provider
-		
+		$functions = $client->__getFunctions();
+print_r($functions);
+$types = $client->__getTypes();
+print_r($types);
+
 		print_r($client->__call( $method,
         /* Parameters */
         array(
@@ -455,7 +464,8 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 				);
 			//	file_put_contents("/tmp/a.txt",$input.$value,FILE_APPEND);
 			}
-	        $response=$client->__call($method,$param_arr);
+	     //   $response=$client->__call($method,$param_arr);
+	        $response=$client->__call($method,array("search"=>$inputs));
 	        $response = obj2array($response);
 	        return $response;
 			//file_put_contents("/tmp/a.txt",$response[0]["question"],FILE_APPEND);
@@ -473,6 +483,8 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 			}
 	
 			$result = $client->call($method, $inputs);
+			$response = obj2array($response);
+	        return $response;
 			// Check for a fault
 			if ($client->fault) {
 		    	echo '<h2>Fault</h2><pre>';
