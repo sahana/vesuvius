@@ -27,9 +27,10 @@ function _shn_gis_umn_form(){
 	//shn_form_fopen(abc);
 	// @todo: using small hack at the moment to bypass front controller. correct later
 ?>
-	<div id="formcontainer">
-	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">
+	<!--<div id="formcontainer">
+	<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset"> -->
 <?php
+	shn_form_fopen("adm_default&submod=umn_mapserver&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
 	echo _t("<p>Under Development</p>");
 	shn_form_fclose();
