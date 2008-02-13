@@ -141,7 +141,7 @@ $conf['proxy_path']='res/lib_proxy.php?url=';
 ###############################
 
 ###############################
-#	Help and Wiki Urls		  #
+#   Help and Wiki Urls        #
 ###############################
 # Default values are given below.
 $conf['wiki_url'] = 'http://wiki.sahana.lk/doku.php?id=doc:nwhome';
@@ -155,6 +155,12 @@ $conf['chat_url'] = 'http://www.sahana.lk/chat';
 $conf['shn_user_feedback_enabled'] = false;
 
 $conf['user_help_server'] = null;
+
+#####################################
+#   Browser Capabilities Settings   #
+#####################################
+// whether to auto update the browscaps.ini file
+$conf['bcaps_auto_update'] = false;
 
 # end of the config file.
 

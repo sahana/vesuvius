@@ -14,20 +14,26 @@
  *
  */
 
-    global $global;
+    global $global,$conf;
     
     if(version_compare("5",phpversion(),"<=")){
-    	// PHP 5 support
-    	include_once $global['approot']."3rd/browsercaps/Browscap_php5.php";
+        // PHP 5 support
+        include_once $global['approot']."3rd/browsercaps/Browscap_php5.php";
     }else{
-    	// PHP 4 support
-    	include_once $global['approot']."3rd/browsercaps/Browscap_php4.php";
+        // PHP 4 support
+        include_once $global['approot']."3rd/browsercaps/Browscap_php4.php";
     }
     
     /*
      * This stores the browser caps object in the $global variable under the key 'bcaps'
      */
     $bcaps = new Browscap($global['approot']."www/tmp/bcaps_cache");
+    // Enable / Disable auto update according to the admin setting.
+    if($conf['bcaps_auto_update']==true){
+        $bcaps->$doAutoUpdate = true;
+    }else{
+        $bcaps->$doAutoUpdate = false;
+    }
     $global['bcaps'] = $bcaps;
     
 ?>
