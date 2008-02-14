@@ -68,4 +68,11 @@ function shn_text_xst_user_feedback(){
 	$xajax->processRequests();
 	
 }
+//This is small hack
+function shn_xst_help(){
+	global $global;
+	include_once ($global['approot']."mod/home/main.inc");
+	shn_home_default();
+	
+}
 ?>
