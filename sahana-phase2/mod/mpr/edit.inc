@@ -83,10 +83,10 @@ function shn_mpr_editmp_load($p_uuid)
 	//person_uuid
 	$sql = "SELECT
                 a.full_name, a.family_name, a.l10n_name,
-                b.birth_date, b.opt_age_group, b.opt_race, b.opt_religion, 
+                b.birth_date, b.opt_age_group, b.opt_race, b.opt_religion,
                 b.opt_marital_status, b.opt_gender,
                 c.opt_blood_type, c.height, c.weight, c.opt_eye_color, c.opt_skin_color,
-                c.opt_hair_color, c.comments as physical_comments, 
+                c.opt_hair_color, c.comments as physical_comments,
                 d.last_seen, d.last_clothing, d.comments,
                 e.address, e.postcode, e.location_id
             FROM person_uuid a
@@ -123,7 +123,7 @@ function shn_mpr_editmp_load($p_uuid)
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'hom'";
 	$rs = $global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['homaddress'] = $rs->fields[0];
-	
+
 	//Home phone
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
 	$rs = $global['db']->Execute($sql);
@@ -184,7 +184,7 @@ function shn_mpr_editmp_entry($errors=false)
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Replace Current Picture'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'database', 'mpr', 'addmp_img');
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
@@ -307,10 +307,10 @@ function shn_mpr_editmp_validate()
 			if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
 				$size = filesize($_FILES['picture']['tmp_name']);
 				$pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
-				$_SESSION['mpr_edit']['entry']['image'] = $pic;
-				$_SESSION['mpr_edit']['entry']['image_type'] = $ext;
-				$_SESSION['mpr_edit']['entry']['image_height'] = $info[1];
-				$_SESSION['mpr_edit']['entry']['image_width'] = $info[0];
+				$_SESSION['mpr']['entry']['image'] = $pic;
+				$_SESSION['mpr']['entry']['image_type'] = $ext;
+				$_SESSION['mpr']['entry']['image_height'] = $info[1];
+				$_SESSION['mpr']['entry']['image_width'] = $info[0];
 			}
 
 			//putting a dot ;-)
@@ -432,7 +432,7 @@ function shn_mpr_editmp_confirm()
 	shn_form_fopen("editmp",null);
 	shn_form_fsopen(_t("Person"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'', 'mpr', 'addmp_img',true);
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img',true);
 	?>
 <br />
 	<?php
@@ -793,7 +793,7 @@ function shn_mpr_editmp_commit()
 
 	//Insert Image if image save handler is set to database
 	if($conf['mod_mpr_upload_pic_handler']== 'database'){
-		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='{$_SESSION['mpr_edit']['entry']['p_uuid']}'");
+		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='".$_SESSION['mpr_edit']['entry']['p_uuid']."'");
 		if($res){
 			/*echo "<pre>";
 			 echo "Update arr : ".var_dump($update_array);
@@ -802,9 +802,11 @@ function shn_mpr_editmp_commit()
 			$res->MoveFirst();
 			$img_id = $res->Fields('image_id');
 
-			if($_SESSION['mpr_edit']['entry']['image']){
-				shn_image_to_db_ex($_SESSION['mpr_edit']['entry']['p_uuid'], $_SESSION['mpr_edit']['entry']['image'], $_SESSION['mpr_edit']['entry']['image_type'], $_SESSION['mpr_edit']['entry']['image_height'], $_SESSION['mpr_edit']['entry']['image_width'],$img_id,'person');
-				}
+			shn_image_to_db_ex($_SESSION['mpr_edit']['entry']['p_uuid'],
+			$_SESSION['mpr']['entry']['image'],
+			$_SESSION['mpr']['entry']['image_type'],
+			$_SESSION['mpr']['entry']['image_height'],
+			$_SESSION['mpr']['entry']['image_width'],$img_id,'person');
 		}
 
 	}
@@ -846,7 +848,7 @@ function shn_edit_show_trackers($p_uuid)
 	<TR>
 		<!--<TD><?php shn_show_thumb_url($tracker['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img'); ?></TD>
     -->
-		<TD><?php echo '<a title="'._t('View').'" '. 
+		<TD><?php echo '<a title="'._t('View').'" '.
            'href="index.php?mod='.$global['module'].'&act=viewmp&id='.
 		$tracker['p_uuid'].'">'.
 		$tracker['full_name'].'</a><br />';
