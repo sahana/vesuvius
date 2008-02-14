@@ -15,8 +15,14 @@ if(isset($conf['user_help_server'])==false || $conf['user_help_server']==null ||
  * @param unknown_type $question
  */
 function _shn_search_answer($question,$module=null,$action=null){
-//	$response_txt = _shn_search_answer_db($question,$module,$action);
-	$response_txt = _shn_search_remote_server_answer_db($question,$module,$action);
+	global $global,$conf;
+
+	if($conf['use_local_help']==true){
+		$response_txt = _shn_search_answer_db($question,$module,$action);
+	}else{
+		$response_txt = _shn_search_remote_server_answer_db($question,$module,$action);
+	}
+	
 	$response = new xajaxResponse();
 	$response->addAssign("feedback_content_error","className","feedback_content_error hide");
 	$response->addAssign("feedback_content","innerHTML",$response_txt);
@@ -75,49 +81,7 @@ function _shn_dont_show_fbform(){
 function _shn_search_answer_db($question,$module,$action){
 	global $global,$conf;
 	include_once( $global['approot']."mos/ws/main.inc");
-	$wsdl_url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=home&mod=ws&act=reg";
-	$method="shn_search_answer_db";
-//	file_put_contents("/tmp/a.txt","inside user feedback");
-//	$x=shn_ws_sahana_client_call($wsdl_url,$method);
-//	return;
-	$strip_words = array("is","are","in","be","an","a","the","as","how","who","why","what");
-
-	// strip the words from the search string
-
-	$search_str = $question;
-	foreach($strip_words as $word){
-		$search_str = str_ireplace(" ".$word." "," ",$search_str);
-	}
-
-	$keyword_arr = explode(" ",$search_str);
-
-	for($i=0;$i<count($keyword_arr);$i++){
-		$kw = $keyword_arr[$i];
-		// if there is only one word or it is the last word
-		if($i==(count($keyword_arr)-1)){
-			$like_list .= " `question` LIKE '%".$kw."%' " ;
-		}else{
-			if(count($keyword_arr)==1){
-				$like_list .= " `question` LIKE '%".$kw."%' " ;
-			}else{
-			     $like_list .= " `question` LIKE '%".$kw."%' OR ";	
-			}			
-		}
-	}
-
-	// filter by module and action if available.
-	$module_search = "";
-	if($module && strlen($module)>0){
-		$module_search = "`mod`='$module' AND ";
-	}
-	$action_search = "";
-	if($action && strlen($action)>0){
-		$action_search = "`act`='$action' AND ";
-	}
-
-	$query = "SELECT `qa_id`,`question`,`answer` FROM `faq` WHERE ".$module_search.$action_search." (".$like_list.")";
-	$db = $global['db'];
-	$rs = $db->Execute($query);
+	$rs = _shn_answer_db_ex($question,$module,$action);
     
 	ob_start();
 
@@ -245,8 +209,9 @@ function shn_user_feedback($with_delay = true){
     .feedback_form {
         position: absolute;
         width: 250px;
-        right: 10px;
-        bottom: 10px;
+    	height:285px;
+    	right: 0px;
+    	bottom: 0px;
         padding-left: 30px;
         padding-right: 8px;
         padding-top: 8px;
@@ -289,14 +254,13 @@ function shn_user_feedback($with_delay = true){
 <!-- The user feedback div -->
 <div id="user_fb_form" class="message information feedback_form">
 
-<div class="feedback_close"><a
-	href="javascript:void(0)" onmouseup="showFeedbackForm(false)"><?php echo _("Close") ?></a></div>
+<div class="feedback_close"><a href="javascript:void(0)"
+	onmouseup="showFeedbackForm(false)"><?php echo _("Close") ?></a></div>
 <div id="feedback_content_error" class="feedback_content_error hide">&nbsp;</div>
 <div id="feedback_content" class="feedback_content"><?php
 echo _("Need help?");
 echo "<br/><hr/>";
-?>
-<?php
+?> <?php
 shn_form_text(_("Your email"),"user_email",null,null);
 echo "<br/>";
 shn_form_label(_("Please type in your question/feedback comment below"),null);
@@ -305,11 +269,23 @@ shn_form_submit(_("Send"),"title=\""._("Send your feedback comments to sahana te
 shn_form_submit(_("Search"),"title=\""._("Search for an answer for your question")."\" onmouseup=\"searchAnswer(document.getElementById('user_fb').value,this)\"");
 ?></div>
 
-<div align="center" class="feedback_dontshow"><hr/><a
-	href="javascript:void(0)" onmouseup="dontShowAgain()"><?php echo _("Don't show this again.") ?></a></div>
+<div align="center" class="feedback_dontshow">
+<hr />
+<a href="javascript:void(0)" onmouseup="dontShowAgain()"><?php echo _("Don't show this again.") ?></a></div>
 </div>
 <script type="text/javascript">
-    window.setTimeout("_showFBInternal()",2000);
+window.onscroll = scroll;
+
+function scroll()
+{
+ //alert("scroll event detected! "+window.pageXOffset+" "+window.pageYOffset);
+ //var top = document.getElementById("user_fb_form").style.top;
+
+ var top = 240 + window.pageYOffset;// form height + offset.
+
+ document.getElementById("user_fb_form").style.top = top+"px";
+ // note: you can use window.innerWidth and window.innerHeight to access the width and height of the viewing area
+}
 </script>
 <?php
     }
@@ -319,10 +295,15 @@ function _shn_search_remote_server_answer_db($question,$module,$action){
 	global $global,$conf;
 	include_once( $global['approot']."mod/ws/main.inc");
 	include_once( $global['approot']."inc/lib_misc.inc");
-	$wsdl_url="http://localhost/trunk/index.php?wsdl&stream=soap&wbsmod=home&mod=ws&act=reg";
+
+	if(!isset($conf['user_help_server']) || strlen(trim($conf['user_help_server']))<=0){
+		$conf['user_help_server'] = "www.sahana.lk";
+	}
+
+	$wsdl_url="http://".$conf['user_help_server']."/index.php?wsdl&stream=soap&wbsmod=home&mod=ws&act=reg";
 	$method="shn_search_answer_db";
 	$input=array("question"=>$question,"module"=>$module,"action"=>$action);
-//	file_put_contents("/tmp/a.txt","inside user feedback");
+	file_put_contents("/tmp/a.txt",$wsdl_url);
 	$response=shn_ws_sahana_client_call($wsdl_url,$method,$input);
 	file_put_contents("/tmp/a.txt",$response[0]["question"],FILE_APPEND);
 	
@@ -356,6 +337,33 @@ function _shn_search_remote_server_answer_db($question,$module,$action){
 
 function _shn_search_get_answer_db($question,$module,$action){
 	global $global,$conf;
+	
+    $rs = _shn_answer_db_ex($question,$module,$action);
+	if($rs){
+
+		$assoc = $rs->GetAssoc();
+		if(count($assoc)==0){
+		   return null;
+		 
+		}else{
+			
+			$faq_list=array();
+			foreach ($assoc as $key=>$vals){
+				$faq_list[] = array('question' => $vals[0], 'id' => $key);
+				
+			}
+			return $faq_list;
+			
+		}
+	}else{
+		return null;
+		
+	}
+
+}
+
+function _shn_answer_db_ex($question,$module,$action){
+	global $global,$conf;
 
 	$strip_words = array("is","are","in","be","an","a","the","as","how","who","why","what");
 
@@ -388,34 +396,15 @@ function _shn_search_get_answer_db($question,$module,$action){
 		$module_search = "`mod`='$module' AND ";
 	}
 	$action_search = "";
-	if($action && strlen($action)>0){
+	/*if($action && strlen($action)>0){
 		$action_search = "`act`='$action' AND ";
-	}
+		}*/
 
 	$query = "SELECT `qa_id`,`question`,`answer` FROM `faq` WHERE ".$module_search.$action_search." (".$like_list.")";
 	$db = $global['db'];
 	$rs = $db->Execute($query);
 
-	if($rs){
-
-		$assoc = $rs->GetAssoc();
-		if(count($assoc)==0){
-		   return null;
-		 
-		}else{
-			
-			$faq_list=array();
-			foreach ($assoc as $key=>$vals){
-				$faq_list[] = array('question' => $vals[0], 'id' => $key);
-				
-			}
-			return $faq_list;
-			
-		}
-	}else{
-		return null;
-		
-	}
+	return $rs;
 
 }
 

@@ -4,7 +4,7 @@
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.12 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: handler_footer.inc,v 1.13 2008-02-14 09:04:56 ravids Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -32,7 +32,15 @@ global $conf;
 	title="<?php echo _t("Forums") ?>"><?php echo _t("Forums") ?></a> | <a class="help" target="_blank"
 	href="<? echo $conf['chat_url']; ?>" title="<?php echo _t("Chats") ?>"><?php echo _t("Chats") ?></a>  
 	| <a class="help" target="_blank"
-	href="?mod=home&act=bug_report" title="<?php echo _t("Report a Bug") ?>"><?php echo _t("Report a Bug") ?></a> <br /><br />
+	href="?mod=home&act=bug_report" title="<?php echo _t("Report a Bug") ?>"><?php echo _t("Report a Bug") ?></a> 
+	<?php
+	if($conf['shn_user_feedback_enabled']==true){
+		?> | <a class="help" href="javascript:void(0)" title="<?php echo _t("Get help") ?>"  onmouseup="_showFBInternal()"><?php echo _t("Online Help"); ?>
+		</a>
+		<?php
+	}
+	?>
+	<br /><br />
 	<hr/>
 <a target="_blank" href="http://www.php.net" title="Powered by PHP"><img
 	src="res/img/button-php.gif" width="80" height="15"

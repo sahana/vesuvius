@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.14 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: lib_stream_html.inc,v 1.15 2008-02-14 09:04:56 ravids Exp $ */
 
 /**
  *
@@ -38,7 +38,7 @@ function shn_stream_init()
 <body>
 	<?php }?>
 <div id="container"><?php
-
+	
 // include the page header provided there is not a module override
 shn_include_page_section('header',$module);
 
@@ -114,7 +114,18 @@ function shn_stream_close()
 			add_warning($exception->getMessage());
 		}
 	}
-
+	global $conf,$global;
+	shn_user_feedback();
+	if(count($global['submit_errors'])>0 || count($global['submit_warnings'])>0){
+		// show the user feedback dialog after a delay of 2 seconds.
+		if($conf['shn_user_feedback_enabled']==true){
+		?>
+    <script type="text/javascript">
+        window.setTimeout("_showFBInternal()",2000);
+    </script>
+    <?php
+        }
+	}
 	// display the errors first before the rest of the module output
 	display_errors();
 	display_submit_message('confirmation','Submission Successful');

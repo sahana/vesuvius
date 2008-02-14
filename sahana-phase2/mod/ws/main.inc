@@ -480,8 +480,10 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 			}
 	
 			$result = $client->call($method, $inputs);
-			$response = obj2array($response);
-	       
+			$response = obj2array($result);
+			if($response){
+	           return $response;
+			}
 			// Check for a fault
 			if ($client->fault) {
 		    	

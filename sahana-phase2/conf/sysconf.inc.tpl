@@ -154,8 +154,10 @@ $conf['chat_url'] = 'http://www.sahana.lk/chat';
 
 $conf['shn_user_feedback_enabled'] = false;
 
-$conf['user_help_server'] = null;
 
+$conf['user_help_server'] = 'localhost';
+
+$conf['use_local_help'] = false;
 #####################################
 #   Browser Capabilities Settings   #
 #####################################

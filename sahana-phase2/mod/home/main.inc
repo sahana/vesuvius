@@ -1,11 +1,9 @@
 <?PHP
-
-
-
-
+include_once($global['approot']."inc/user_feedback.inc");
 
 function shn_home_default()
 {
+
     global $conf;
     
     ?>
@@ -182,6 +180,50 @@ function shn_home_bug_report_cr(){
 	}
 	
 	
+}
+
+function shn_home_faq(){
+	_shn_home_faq();
+}
+
+/*
+ * Enable disable user feedback user interface.
+ */
+function shn_home_userfb(){
+    echo "<h2>"._t("Help / User feedback preferences")."</h2>";
+	shn_form_fopen("userfb_cr","home",array("req"=>false));
+	shn_form_fsopen(_t("Enable or disable help and user feeback"));
+	$value = shn_get_user_pref_value("home","shn_user_pref_feedback_enabled");
+	$valstr = ($value==true?'enabled':'disabled');
+	shn_form_radio(array("enabled"=>_t("Enabled"),"disabled"=>_t("Disabled")),_t("Help / User feedback"),"userfb_status","",array('value'=>$valstr));
+	shn_form_fsclose();
+	shn_form_submit(_("Cancel"),"name='cancel'");
+	shn_form_submit(_("Save"));
+	shn_form_fclose();
+}
+	
+function shn_home_userfb_cr(){
+	if(!$_POST['cancel']){
+		$valstr = $_POST['userfb_status'];
+		if($valstr=='enabled'){
+			$ret = shn_user_pref_update('home','shn_user_pref_feedback_enabled',true);
+			if($ret == true){
+				add_confirmation(_t("Your preference was successfully saved."));
+			}else{
+				add_error(_t("An error occured while saving your preference."));
+			}
+		}else{
+			$ret = shn_user_pref_update('home','shn_user_pref_feedback_enabled',false);
+			if($ret == false){
+				add_confirmation(_t("Your preference was successfully saved."));
+			}else{
+				add_error(_t("An error occured while saving your preference."));
+			}
+		}
+		shn_home_userfb();
+	}else{
+		shn_home_default();
+	}
 }
 
 function shn_text_home_download_bug_report(){
