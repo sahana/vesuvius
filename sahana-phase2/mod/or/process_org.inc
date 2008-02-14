@@ -156,7 +156,7 @@ function _shn_or_reg_operation_cr()
     include_once "reg_org.inc";
     include_once($global['approot']."/inc/lib_uuid.inc");
     include_once $global['approot']."/mod/gis/gis_fns.inc";
-
+    if($_SESSION['org']!=null){
     $db=$global['db'];
     $org_id	=shn_create_uuid('org');
       //  $org_id = $db->GenID('org_seq',1);
@@ -219,7 +219,9 @@ function _shn_or_reg_operation_cr()
      if($error!=true){
      	$msg= $_SESSION['org']['name']._t(" Organization was succesfully registered ");
      	add_confirmation($msg);
+     	unset($_SESSION['org']);
      }
+    }
 
     /*
     include_once "reg_org.inc";
