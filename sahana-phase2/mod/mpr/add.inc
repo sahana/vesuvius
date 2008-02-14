@@ -52,6 +52,7 @@ function shn_tools_clean_post(&$local_post)
  */
 function shn_mpr_addmp_entry($errors=false) 
 {
+	global $global;
     //if($errors)
     //display_errors();
 
@@ -62,7 +63,16 @@ function shn_mpr_addmp_entry($errors=false)
  
     if($_GET['type']=='found'){
         shn_form_fsopen(_t('Status'));
-        shn_form_opt_select('opt_status',_t('Status'));
+        
+        $q="select * from field_options where field_name='opt_status'";
+        $res = $global['db']->Execute($q);
+        $opt_status = array();
+        while (!$res->EOF){
+        	if($res->fields['option_code'] != 'mis')
+        	$opt_status[$res->fields['option_code']] = $res->fields['option_description'];
+        	$res->MoveNext();
+        }
+        shn_form_select($opt_status,_t('Status'),'opt_status');
         shn_form_fsclose();
     }elseif($_GET['type']=='missing'){
         shn_form_hidden(array('opt_status'=>'mis'));
