@@ -458,7 +458,7 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 		                $input
 		        		)
 				);
-			//	file_put_contents("/tmp/a.txt",$input.$value,FILE_APPEND);
+				file_put_contents("/tmp/a.txt",$input.$value,FILE_APPEND);
 			}
 	     //   $response=$client->__call($method,$param_arr);
 	        $response=$client->__call($method,array("search"=>$inputs));
@@ -474,30 +474,30 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 			$err = $client->getError();
 			if ($err) {
 		    // Display the error
-		    	echo '<h2>Constructor error</h2><pre>' . $err . '</pre><br />';
+		    	$response= $err;
+		    	return $response;
 		    // At this point, you know the call that follows will fail
 			}
 	
 			$result = $client->call($method, $inputs);
 			$response = obj2array($response);
-	        return $response;
+	       
 			// Check for a fault
 			if ($client->fault) {
-		    	echo '<h2>Fault</h2><pre>';
-		    	print_r($result);
-		   		echo '</pre>';
+		    	
+		    	$response=$result;
+		   		
 			} else {
 		    // Check for errors
 		    	$err = $client->getError();
 		    	if ($err) {
 		        // Display the error
-		        	echo '<h2>Error</h2><pre>' . $err . '</pre>';
+		        	$response= $err;
 		    	} else {
-		    		echo '<h2>Result</h2><pre>' ;
-		    		print_r($result);
-		    		echo '</pre>';
+		    		$response=$result;
 		    	}
 			}
+			 return $response;
 	}
     }catch(Exception $e){
     	//echo $e->getMessage();
