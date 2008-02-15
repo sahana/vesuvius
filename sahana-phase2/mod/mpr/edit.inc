@@ -184,7 +184,7 @@ function shn_mpr_editmp_entry($errors=false)
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Replace Current Picture'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'database', 'mpr', 'addmp_img');
 	?>
 <br />
 	<?
@@ -307,10 +307,10 @@ function shn_mpr_editmp_validate()
 			if($conf['mod_mpr_upload_picture_savehandler'] == 'database'){
 				$size = filesize($_FILES['picture']['tmp_name']);
 				$pic = fread(fopen($_FILES['picture']['tmp_name'],"r"),$size);
-				$_SESSION['mpr']['entry']['image'] = $pic;
-				$_SESSION['mpr']['entry']['image_type'] = $ext;
-				$_SESSION['mpr']['entry']['image_height'] = $info[1];
-				$_SESSION['mpr']['entry']['image_width'] = $info[0];
+				$_SESSION['mpr_edit']['entry']['image'] = $pic;
+				$_SESSION['mpr_edit']['entry']['image_type'] = $ext;
+				$_SESSION['mpr_edit']['entry']['image_height'] = $info[1];
+				$_SESSION['mpr_edit']['entry']['image_width'] = $info[0];
 			}
 
 			//putting a dot ;-)
@@ -432,7 +432,7 @@ function shn_mpr_editmp_confirm()
 	shn_form_fopen("editmp",null);
 	shn_form_fsopen(_t("Person"));
 	shn_form_hidden(array('seq'=>'commit'));
-	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img',true);
+	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'', 'mpr', 'addmp_img',true);
 	?>
 <br />
 	<?php
@@ -793,7 +793,7 @@ function shn_mpr_editmp_commit()
 
 	//Insert Image if image save handler is set to database
 	if($conf['mod_mpr_upload_pic_handler']== 'database'){
-		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='".$_SESSION['mpr_edit']['entry']['p_uuid']."'");
+		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='{$_SESSION['mpr_edit']['entry']['p_uuid']}'");
 		if($res){
 			/*echo "<pre>";
 			 echo "Update arr : ".var_dump($update_array);
@@ -802,11 +802,9 @@ function shn_mpr_editmp_commit()
 			$res->MoveFirst();
 			$img_id = $res->Fields('image_id');
 
-			shn_image_to_db_ex($_SESSION['mpr_edit']['entry']['p_uuid'],
-			$_SESSION['mpr']['entry']['image'],
-			$_SESSION['mpr']['entry']['image_type'],
-			$_SESSION['mpr']['entry']['image_height'],
-			$_SESSION['mpr']['entry']['image_width'],$img_id,'person');
+			if($_SESSION['mpr_edit']['entry']['image']){
+				shn_image_to_db_ex($_SESSION['mpr_edit']['entry']['p_uuid'], $_SESSION['mpr_edit']['entry']['image'], $_SESSION['mpr_edit']['entry']['image_type'], $_SESSION['mpr_edit']['entry']['image_height'], $_SESSION['mpr_edit']['entry']['image_width'],$img_id,'person');
+				}
 		}
 
 	}
