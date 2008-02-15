@@ -63,12 +63,14 @@ function shn_or_reg_org_confirm()
 {
     include_once("reg_org.inc");
     $error=_shn_or_check_org_reg_map_info_complete();
-	if($error==true){
-		if( $_SESSION['org']['parent_id']==null){
-    			_shn_or_regform_org(true);
-    		}else{
-    			_shn_or_regform_operation(false);
-    		}
+	if($error==false){
+		// patch to fix gis coordinate validation and return to the same form.
+		/*if( $_SESSION['org']['parent_id']==null){
+    		_shn_or_regform_org(true);
+        }else{
+    		_shn_or_regform_operation(false);
+    	}*/
+		_shn_or_reg_gis_map();
 	}else{
     		_shn_or_regconfirm_org();
 	}
@@ -189,7 +191,7 @@ function shn_or_view_org_submit()
 		     break;
    		case "confirm_edit":
    			$error=_shn_or_check_org_reg_info_complete();
-   			_shn_or_check_org_reg_map_info_complete();
+   			$error|=(!_shn_or_check_org_reg_map_info_complete());
    			// set the lattitude and logitude as loc_y and loc_x in session if not set
    			if(isset($_SESSION['org']['loc_x'])==false){
    				// we are sure that lat_edited is in the session because of 

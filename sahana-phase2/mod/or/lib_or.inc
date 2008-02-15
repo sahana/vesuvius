@@ -925,9 +925,19 @@ function _shn_or_check_org_reg_map_info_complete()
     if($_POST{"loc_x"}!=null && $_POST{"loc_y"}!=null){
     	$_SESSION['org']['loc_x']=$_POST{"loc_x"};
     	$_SESSION['org']['loc_y']=$_POST{"loc_y"};
+    	return true;
     }else{
-    	$_SESSION['org']['loc_x']=$_POST{"gps_x"};
-    	$_SESSION['org']['loc_y']=$_POST{"gps_y"};
+    	if(strlen(trim($_POST{"gps_x"})) == 0 || shn_valid_x_coordinate(trim($_POST{"gps_x"}))){
+    	   $_SESSION['org']['loc_x']=$_POST{"gps_x"};
+    	}else{
+    		return false;
+    	}
+    	if(strlen(trim($_POST{"gps_y"})) == 0 || shn_valid_y_coordinate($_POST{"gps_y"})){
+    	   $_SESSION['org']['loc_y']=$_POST{"gps_y"};	
+    	}else{
+    		return false;
+    	}
+    	return true;
     }
     
     
