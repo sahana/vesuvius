@@ -256,7 +256,8 @@ function _shn_acl_check_table_only_perms($table,$crud){
 			$result = $db->Execute($q);
 			$sensitivity = $result->fields[0];
 			$msg=_t("You don't have access to ")._lc($sensitivity)._t(" data, which is required for this functionality.");
-			shn_error_display_restricted_access($msg);
+			//shn_error_display_restricted_access($msg);
+			add_error($msg);
 			return DENIED;
 		}
 

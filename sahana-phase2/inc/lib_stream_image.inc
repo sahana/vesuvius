@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_image.inc,v 1.3 2007-10-04 01:55:13 ravids Exp $ */
+/* $Id: lib_stream_image.inc,v 1.4 2008-02-18 11:17:07 ravids Exp $ */
 
 /**
  *
@@ -36,5 +36,10 @@ function shn_stream_close($function,$output)
 
 function shn_image_check_perms(){
 	return ALLOWED;//skip authentication
+}
+
+function _shn_image_display_errors(){
+	// do nothing.
+	return;
 }
 ?>

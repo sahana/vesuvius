@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_text.inc,v 1.3 2007-10-04 07:01:13 ravids Exp $ */
+/* $Id: lib_stream_text.inc,v 1.4 2008-02-18 11:17:07 ravids Exp $ */
 
 /**
  *
@@ -32,8 +32,19 @@ function shn_text_check_perms(){
 	return ALLOWED;//skip authentication at this step since , authentication is performed at the last step. i.e at method
 				  // invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
 }
+
+function _shn_text_display_errors(){
+	global $global;
+	echo "There were a few errors....\r\n";
+	$i = 1;
+	foreach($global['submit_errors'] as $err){
+		echo $i.". ".$err."\r\n";
+		$i++;
+	}
+}
+
 function shn_stream_close()
 {
-
+    display_errors();
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.16 2008-02-07 04:32:18 prabath321 Exp $ */
+/* $Id: conf_admin.inc,v 1.17 2008-02-18 11:17:07 ravids Exp $ */
 
-/* $Id: conf_admin.inc,v 1.16 2008-02-07 04:32:18 prabath321 Exp $ */
+/* $Id: conf_admin.inc,v 1.17 2008-02-18 11:17:07 ravids Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -296,8 +296,29 @@ function shn_text_admin_conf_list()
 	require_once($global['approot']."/3rd/xajax/xajax.inc.php");
 	require_once($global['approot'].'/3rd/xajax/xajaxResponse.inc.php');
 
+    
 	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
+	$xajax->exitAllowedOff();
 	$xajax->registerFunction("_shn_admin_conf_ajax_update");
 	$xajax->processRequests();
+	
+	
+    
+}
+
+/**
+ * Display errors callback function. called by the sream error
+ * handler.
+ *
+ */      
+function _shn_text_admin_conf_list__display_errors(){
+	/*global $global;
+	$xajax_response = new xajaxResponse();
+	$msg = "Oops.. there were a few errors...<br/><ul>";
+	foreach($global['submit_errors'] as $error){
+		$msg.="<li>".$error."</li>";
+	}
+	$msg.="</ul>";
+	*/
 }
 ?>

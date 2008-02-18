@@ -54,6 +54,9 @@ function shn_locale_check_perms(){
 	return ALLOWED;
 }
 	
-	
+function _shn_locale_display_errors(){
+	// do nothing
+	return;	
+}
 
 ?>
