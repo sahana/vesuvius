@@ -29,6 +29,7 @@ include_once ($global['approot'] . '/mod/or/lib_or.inc');
  */
 function _shn_dvr_get_compare_details($p_uuid,$person)
 {
+	$_SESSION['dvr'][$person]['id'] = $p_uuid;
 	$results = get_person_major_details($p_uuid);
 	$_SESSION['dvr'][$person]['group_type'] = _shn_dvr_getoptiondescription($results->fields['group_type']);
 	$_SESSION['dvr'][$person]['head_id'] = $results->fields['head_id'];
@@ -104,14 +105,15 @@ function _shn_dvr_get_compare_details($p_uuid,$person)
 }
 
 /**
- * //////////////////////////////////////////////////////////////////////////
+ *comparison page
  */
-
+function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
+{
 	_shn_dvr_print_header(_t("Compare Duplicates"));
-	shn_form_fopen("compare_duplicate", null, false);
+	shn_form_fopen("compare_duplicates", null, false);
+	shn_form_hidden(array('seq'=>'delete'));
 
-	$p_uuid1 = $_GET['p_uuid1'];
-	$p_uuid2 = $_GET['p_uuid2'];
+	
 
 	_shn_dvr_get_compare_details($p_uuid1, "person1");
 	_shn_dvr_get_compare_details($p_uuid2, "person2");
@@ -298,8 +300,38 @@ function _shn_dvr_get_compare_details($p_uuid,$person)
 </DIV>
 	
 <?php
-
+	shn_form_submit(_t("Delete Duplicate"));
 	shn_form_fclose();
-	unset($_SESSION['dvr']['person1']);
-	unset($_SESSION['dvr']['person2']);
+}
+	
+/**
+ * //////////////////////////////////////////////////////////////////////////
+ */	
+	switch($_REQUEST['seq'])
+	{	
+		case 'delete' :
+		{
+			$_POST['p_uuid']= $_SESSION['dvr']['person2']['id'];
+			//shn_dvr_delete_individual();
+			_shn_dvr_delete_person($_SESSION['dvr']['person2']['id']);
+			$msg = $_SESSION['dvr']['person2']['id'] . "person was succesfully deleted ";
+			add_confirmation($msg);
+			unset($_SESSION['dvr']['person1']);
+			unset($_SESSION['dvr']['person2']);
+			shn_dvr_duplicate_search();
+			
+			break;
+		}
+		default :
+		{
+			$p_uuid1 = $_GET['p_uuid1'];
+			$p_uuid2 = $_GET['p_uuid2'];
+
+			_shn_dvr_comparison_page($p_uuid1,$p_uuid2);
+		}
+		
+		
+	}
+	
+	
 ?>
