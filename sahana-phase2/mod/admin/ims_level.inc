@@ -128,20 +128,24 @@ function _shn_ims_level1_validate()
         if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name) VALUES ('{$local_post['level1_name_new']}')";
             $global['db']->Execute($sql);
+            $message = $local_post['level1_name_new']._t(" ").$conf['mod_admin_ims_level1']._t(" successfully added.");
         }else{
             //Update
             foreach($local_post['level1_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
+                $message = $conf['mod_admin_ims_level1']._t(" successfully updated as ".$v);
             }
             //Delete
             if(isset($_POST['level1_delete'])) {
 	            foreach($local_post['level1_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
+                    $message = $conf['mod_admin_ims_level1']._t(" successfully deleted.");
 	            }
             }
         }
+        add_confirmation($message);
     }
 }
 /* }}} */
@@ -307,16 +311,19 @@ function _shn_ims_level2_validate()
         if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name,parent_id) VALUES ('{$local_post['level2_name_new']}','{$local_post['level2_new_parent_id']}')";
             $global['db']->Execute($sql);
+            $message = $local_post['level2_name_new']._t(" successfully added under ").$conf['mod_admin_ims_level2'];
         }else{
             //Update
             foreach($local_post['level2_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
+                $message = $conf['mod_admin_ims_level2']._t(" successfully updated as ").$v;
             #    echo $sql."<br >";
             }
             foreach($local_post['level2_parent_id'] as $k => $v) {
                 $sql = "UPDATE incident SET parent_id='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
+                $message = _t("Changes were applied successfully.");
             #    echo $sql."<br >";
             }
 
@@ -325,10 +332,12 @@ function _shn_ims_level2_validate()
 	            foreach($local_post['level2_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
+                    $message = $conf['mod_admin_ims_level2']._t(" deleted successfully.");
             #        echo $sql."<br >";
 	            }
             }
         }
+        add_confirmation($message);
     }
 }
 /* }}} */
@@ -494,16 +503,19 @@ function _shn_ims_level3_validate()
         if(($local_post['seq']) == 'addnew') {
             $sql = "INSERT INTO incident (name,parent_id) VALUES ('{$local_post['level3_name_new']}','{$local_post['level3_new_parent_id']}')";
             $global['db']->Execute($sql);
+            $message = $local_post['level3_name_new']._t(" successfully added under ").$conf['mod_admin_ims_level3'];
         }else{
             //Update
             foreach($local_post['level3_name'] as $k => $v) {
                 $sql = "UPDATE incident SET name='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
+                $message = $conf['mod_admin_ims_level3']._t(" successfully updated as ").$v;
             #    echo $sql."<br >";
             }
             foreach($local_post['level3_parent_id'] as $k => $v) {
                 $sql = "UPDATE incident SET parent_id='$v' WHERE incident_id='$k'";
                 $global['db']->Execute($sql);
+                $message = _t("Changes were applied successfully.");
             #    echo $sql."<br >";
             }
 
@@ -512,10 +524,12 @@ function _shn_ims_level3_validate()
 	            foreach($local_post['level3_delete'] as $k => $v) {
 	                $sql = "DELETE FROM incident WHERE incident_id='$k'";
                     $global['db']->Execute($sql);
+                    $message = $conf['mod_admin_ims_level3']._t(" deleted successfully.");
             #        echo $sql."<br >";
 	            }
             }
         }
+        add_confirmation($message);
     }
 }
 /* }}} */
