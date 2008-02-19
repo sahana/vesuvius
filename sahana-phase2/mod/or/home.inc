@@ -28,9 +28,9 @@
 		}else{
 			$org_no=($res->fields[0]);
 		}
-		$org_no=($org_no<0)?0:$org_no;
+		$org_no=($org_no<0)?0:($org_no+1);
 	}else{
-		$org_no="Zero";
+		$org_no="Zero";	
 	}
 
 ?>
@@ -73,20 +73,29 @@
 </div>
 <div align=center><?=_t('Service Coverage') ?> </div>
 <br />
+
+<div align=center>
+<?  echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
+<strong><?echo _t("Important:")."<br/>";?></strong><?
+    echo _t("If you add a new Organization/Department or a Branch, It may take few minutes to update the pie chart.");
+    echo "</div>";  ?>
+</div>
+    
 <div align=center><?php 
+   
 
-
-    if($org_no != "Zero"){
-    print("<table align=center><tr><td>")	;
-	shn_chart_display("shn_or_service_coverage_chart"); 
-    print("</td></tr></table><p></p>")	;
-    }
-
-
+    if ($org_no != "Zero") {
+        print("<table align=center><tr><td>");
+	    shn_chart_display("shn_or_service_coverage_chart"); 
+        print("</td></tr></table><p></p>");
+        //$org_no = $org_no + 1;
+        //echo "Hi";
+    } 
+    
 ?></div>
 
 <div><a href="index.php?mod=or&act=view_org">
-<center><strong> <?php echo $org_no ?></strong><?=_t(" Organizations/Departments/Branches have registered")?>
+<center><strong> <?php echo $org_no ?></strong><?=_t(" Organizations/Departments/Branches have been registered")?>
 </center>
 </a></div>
 <?php
