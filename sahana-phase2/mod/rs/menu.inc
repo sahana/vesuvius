@@ -32,8 +32,13 @@ function _shn_rs_main_menu()
     shn_mod_menuitem("default",_t("Home"),'rs');
     shn_sub_mod_menuopen(_t("Module Reports Aggregator"));
 	foreach ($report_mods as $i) 
-	{  
-	shn_sub_mod_menuitem("rpt_default", $conf['mod_'.$i.'_name'], $i);
+	{   
+		if ($i == "vol") {
+			//skip when the module is 'volenteer coordination', since it is under construction
+			continue;
+		} else {
+	        shn_sub_mod_menuitem("rpt_default", $conf['mod_'.$i.'_name'], $i);
+		}
 	}
     shn_sub_mod_menuclose();
 //     shn_mod_menuitem("sample",_t("Generate Sample Report"),'rs');
