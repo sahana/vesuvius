@@ -44,6 +44,7 @@ function _shn_rs_main_menu()
 //     shn_mod_menuitem("sample",_t("Generate Sample Report"),'rs');
     shn_mod_menuitem("search",_t("Report/Chart Search"),'rs');
     shn_mod_menuitem("config",_t("Configuration"),'rs');
+    shn_mod_menuitem("table",_t("Dynamic Reports"),'rs');
     shn_mod_menuclose();
 
     // include the main menu

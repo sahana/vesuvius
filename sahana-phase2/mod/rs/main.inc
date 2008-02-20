@@ -9,6 +9,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author	   Sanjeewa Jayasinghe <sditfac@opensource.lk>
+ * @author	   Ishan Liyanage <ishan@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage rs
@@ -253,5 +254,12 @@ function shn_rs_config_main_form_submit()
     include_once('config.inc');
     shn_rs_config_main_form_submit_result();
     shn_rs_config_main_form();
+}
+//dynamic reports functions
+
+function shn_rs_table()
+{	
+	global $global;
+	include_once('table.inc');
 }
 ?>
