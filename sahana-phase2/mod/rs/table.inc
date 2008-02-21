@@ -36,10 +36,16 @@ else{
 		_shn_dr_fields_form($table_name);
 	}
 	else{
+		if($table_name == "0"){
+			add_error("Please select a table name.");
+			_shn_dr_table_form();
+		}
+		else{
 		//Print the error message If an error occured 
 		display_errors($return=false,$clean_errors=true,$exit=false);
 // 		if nothing is set then show table form 
 		_shn_dr_table_form();
+		}
 	}
 }
 
@@ -94,7 +100,7 @@ function _shn_dr_tables(){
 	$sql = "SELECT dr_tables.usrfr_table_name,dr_tables.table_name FROM dr_tables";
 	$res = $global['db']->Execute($sql); 
 
-	$tables[0] = 'Choose';
+	$tables[0] = '--Choose the table--';
 	while($res->fields['usrfr_table_name'] != NULL){
 		$tables[$res->fields['table_name']] = $res->fields['usrfr_table_name'];
 		$res->MoveNext();
@@ -114,8 +120,8 @@ function _shn_dr_table_form(){
 	//functions from lib_form.inc
     shn_form_fopen("table&amp",null,array('enctype'=>'enctype="multipart/form-data"'));
     shn_form_fsopen(_('Name of a table'));
-    echo "<p>"._('Choose which table would you like to view.')."<em><strong>"."</p>";
-		shn_form_select($tables, 'Names of a tables', 'tableName');
+    echo "<p>"._('Choose which table would you like to view.')."</p>";
+		shn_form_select($tables, 'Table Names', 'tableName');
     shn_form_fsclose();
     shn_form_submit(_('Submit'));
     shn_form_fclose();
