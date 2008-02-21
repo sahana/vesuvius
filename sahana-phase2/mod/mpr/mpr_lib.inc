@@ -137,7 +137,7 @@ function _shn_mpr_listing($details)
 	 ?>
 	 </tr>
 	</table>
-	
+    </div>	
 	<?php
 }
 
