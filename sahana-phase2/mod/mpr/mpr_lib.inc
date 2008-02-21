@@ -25,6 +25,8 @@
  * @access public
  * @return void
  */
+
+include $global['approot'] . "/inc/lib_paging.inc";
 function shn_mpr_search_show_verticle($details)
 {
     global $global;
@@ -90,7 +92,54 @@ function shn_mpr_search_show_verticle($details)
 <?php
 }
 
-
+/**
+ * This function is useful with lib_paging
+ * $details is a ADORecordSet_mysql type object
+ * @param unknown_type $details
+ */
+function _shn_mpr_listing($details)
+{
+	global $global, $conf;
+	
+	?>
+	<div id="result">
+	<table>
+	<tr>
+	<?php
+	$index = 0;
+	while(!$details->EOF)
+	{?>
+		<td><?php
+			if(shn_show_thumb_url($details->fields['p_uuid'],'database','mpr','addmp_img'))	                
+				echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
+		        else{
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
+		            echo ($details->fields['height']?_t('Height : ').$details->fields['height'].'<br>':'');
+		            echo ($details->fields['weight']?_t('Weight : ').$details->fields['weight'].'<br>':'');
+	                echo ($details->fields['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details->fields['opt_eye_color'],'opt_eye_color').'<br>':'');
+	                echo ($details->fields['opt_skin_color']?_t('Skin Colour : ').shn_get_field_opt($details->fields['opt_skin_color'],'opt_skin_color').'<br>':'');
+	                echo ($details->fields['opt_hair_color']?_t('Hair Colour : ').shn_get_field_opt($details->fields['opt_hair_color'],'opt_hair_color').'<br>':'');
+	                echo ($details->fields['last_seen']?_t('Last Seen : ').$details->fields['last_seen'].'<br>':'');
+	                echo ($details->fields['last_clothing']?_t('Last Clothing : ').$details['last_clothing'].'<br>':'');
+	                echo ($details->fields['comments']?_t('Comments : ').$details->fields['comments']:'');
+		        } 
+                echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details->fields['p_uuid'] .'" class="hideprint">'._t('Assign to more incidents').'</a>';
+		
+         ?></td>
+        <?php
+        $index++;
+        if($index%2 == 0){
+        	echo '</tr>';
+        	echo '<tr>';
+        }	
+        $details->MoveNext();
+	}
+	 ?>
+	 </tr>
+	</table>
+	
+	<?php
+}
 
 
 /**
@@ -145,30 +194,19 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5,$offset)
     if($type=='missing')
     {
         $final_sql=$sql_missing;
-        $rs = $global['db']->SelectLimit($sql_missing,$limit,$offset);
         
     }
     elseif($type=='found')
      {
      $final_sql=$sql_found;     
-        $rs = $global['db']->SelectLimit($sql_found,$limit,$offset);
+       
      }
-    if($rs){
-        $arr = $rs->GetAll();
-      //  shn_mpr_search_show_verticle($arr);
-    $_SESSION['result']=$arr;
-    }
     
+    $arr = shn_paging_get_report($final_sql,5,null,null);
+ 
 
-	$rs1=$global['db']->Execute($final_sql);
-//print 'missing'.$rs1;
-	$count=0;
-	while (!$rs1->EOF){
-		$count++;
-		$rs1->MoveNext();
-	}
-
-	return $count;
+	return $arr;
+	
 }
 
 

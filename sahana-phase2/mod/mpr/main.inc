@@ -462,10 +462,10 @@ function shn_mpr_search() {
 	if ($_GET['act'] == 'search') {
 		switch ($_REQUEST['seq']) {
 			case 'result' :
-				shn_mpr_search_default();
-				if ($_GET['offset'])
-					shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'], $_GET['offset']);
-				else {
+				shn_mpr_search_default();//echo $_SESSION['mpr']['search']['subquery'];
+				if (isset($_SESSION['mpr']['search']['subquery'])){
+					shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery']);
+				}else {
 					$search_sql = new SearchQuery();
 					if (!empty ($_POST['name']))
 						$search_sql->set_name($_POST['name']);
@@ -483,12 +483,16 @@ function shn_mpr_search() {
 						$search_sql->isvictim = true;
 					}
 					#debug($search_sql->get_sql());
-					$arr = shn_mpr_search_result_vw($search_sql->get_sql());
+					$arr = shn_mpr_search_result_vw($search_sql->get_sql());//echo '.........'.$search_sql->get_sql();
 				}
 				break;
 			default :
-				shn_mpr_search_default();
-				break;
+				{
+					unset($_SESSION['mpr']['search']['subquery']);
+					shn_mpr_search_default();
+					
+					break;
+				}
 
 		}
 		//Controller for Advance Search

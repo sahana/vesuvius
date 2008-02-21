@@ -28,11 +28,16 @@ global $conf;
 require ($global['approot'] . 'mod/mpr/mpr_lib.inc');
 $limit = $conf['mod_mpr_pictures_per_page'];
 $type = "missing";
-$offset = $_GET['offset'];
-if ($offset == null)
-	$offset = 0;
-$count = shn_mpr_home_show_mpr($type, $limit, $offset);
-if ($count > $limit) {
+//$offset = $_GET['offset'];
+//if ($offset == null)
+					//object
+//shn_mpr_search_show_verticle($count);		//2 dimentinal
+//foreach($count as $raw)
+//{
+//	$det[$index] = $raw;
+//	$index++;
+//}
+/*if ($count > $limit) {
 	$tmp = $count % $limit;
 	if ($tmp > 0)
 		$no_of_pages_required = floor($count / $limit) + 1;
@@ -78,7 +83,16 @@ if ($count > $limit) {
 } else {
 
 	shn_mpr_search_show_verticle($_SESSION['result']);
-}
+}*/
+
+//shn_mpr_search_show_verticle($count);
+
+$offset = 0;
+$missed = shn_mpr_home_show_mpr($type, $limit, $offset);
+
+_shn_mpr_listing($missed);
+
+
 print '<BR/><BR/>';
 ?>
 

@@ -18,6 +18,10 @@
  *
  */
 
+
+include $global['approot'] . "/inc/lib_paging.inc";
+
+
 /* {{{ Search Form */
 /**
  * Search default form
@@ -181,11 +185,14 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
                 LEFT OUTER JOIN person_status d USING (p_uuid)
                 INNER JOIN tmp_mpr_search USING (p_uuid)";
         $sql4 = "DROP TABLE tmp_mpr_search";
-        $global['db']->Execute($sql1);
-        $global['db']->Execute($sql2);
-        $rs = $global['db']->SelectLimit($sql3,$limit,$offset);
+        $global['db']->Execute($sql1);//echo $sql1;
+        $global['db']->Execute($sql2);//echo $sql2;
+        $extra_opt['post']=true;
+        $extra_opt['return']=true;//$rs = $global['db']->SelectLimit($sql3,$limit,$offset);
+        $rs = shn_paging_get_report($sql3,5,$headers,$extra_opt);//echo '.....searchif.....';
+        unset($extra_opt);
         $rs_count = $global['db']->Execute($sql3);
-        $global['db']->Execute($sql4);
+        $global['db']->Execute($sql4);//echo $sql4;
     }else{
         $sql = "SELECT 
             a.p_uuid AS p_uuid, a.full_name AS full_name, a.family_name as family_name,
@@ -199,33 +206,33 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
         LEFT OUTER JOIN person_missing c USING (p_uuid) 
         LEFT OUTER JOIN person_status d USING (p_uuid)
         WHERE a.p_uuid IN ($subquery)";
-        $rs = $global['db']->SelectLimit($sql,$limit,$offset);
-        $rs_count = $global['db']->Execute($sql);
+        $extra_opt['post']=true;
+        $extra_opt['return']=true;//$rs = $global['db']->SelectLimit($sql,$limit,$offset);
+        $rs = shn_paging_get_report($sql,5,$headers,$extra_opt);//echo '.....searchelse....';//$return=true;//
+        unset($extra_opt);//$rs_count = $global['db']->Execute($sql);
     }
     
     
     if($rs!=null)
-    $arr = $rs->GetAll();
+    	$arr = $rs->GetAll();
     
-    
-    if($rs_count!=null)
-    $_SESSION['mpr']['search']['record_count'] =  $rs_count->RecordCount();
-    else
-    $_SESSION['mpr']['search']['record_count'] =  0;
     if($return){
-        return $arr;
+        return $rs;
     }else{
-        shn_mpr_search_nav();
-?>
-<DIV ID="result">
-<?php
-    shn_mpr_search_show_result($arr);
-?>
-</DIV>
-<?php
-    shn_mpr_search_nav();
-    }
-    }
+
+
+	?>
+	<DIV ID="result">
+	<?php
+   if($rs)
+       shn_mpr_search_show_result($rs);
+    
+	?>
+	</DIV>
+	<?php
+	}
+    unset($_SESSION['mpr']['search']['subquery']);
+}
 
 /* }}} */
 
@@ -320,7 +327,7 @@ function shn_mpr_search_show_result($details)
     
     global $global;
     if($_GET['act']!='search')
-        $select = true;
+        $select = false;
 ?>
 <TABLE>
 <THEAD>
@@ -343,7 +350,7 @@ function shn_mpr_search_show_result($details)
     		echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
             	$detail['p_uuid'].'">'.
             	$detail['full_name'].'</a>'.
-        	'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+        		'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
 ?>
         </TD>
         <TD>
