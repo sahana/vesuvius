@@ -24,11 +24,14 @@ $global['previous'] = false;
 
 // Include error handling routines
 require_once($APPROOT.'inc/lib_errors.inc');
+require_once($APPROOT.'inc/lib_exception.inc');
 
 // handle error reporting seperately and set our own error handler
 if (true) { // set to false if you want to develop without the custom error handler
 	error_reporting(0);
 	set_error_handler('shn_sahana_error_handler');
+	//add default exception handler
+	set_exception_handler('shn_sahana_exception_handler');
 }
 
 // include the base libraries for both the web installer and main app
@@ -260,7 +263,7 @@ function shn_main_front_controller()
 			}
 
 		} else { // if the steam is not HTML
-            
+
 			$allowed_mods = shn_get_allowed_mods_current_user();
 
 			// check if requested module is within users allowed modules
