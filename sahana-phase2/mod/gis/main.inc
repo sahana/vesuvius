@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: main.inc,v 1.19 2008-01-30 04:35:17 prabath321 Exp $; */
-/* $Id: main.inc,v 1.19 2008-01-30 04:35:17 prabath321 Exp $; */
+/* $Id: main.inc,v 1.20 2008-02-21 08:42:50 mifanc Exp $; */
+/* $Id: main.inc,v 1.20 2008-02-21 08:42:50 mifanc Exp $; */
 
 /**
 * Main home page of the GIS Module
@@ -31,8 +31,8 @@ function shn_gis_mainmenu(){
     shn_mod_menuopen($conf['mod_gis_name']);
     shn_mod_menuitem("default",_t("Home"),$module);
     shn_mod_menuitem("swik",_t("Situation Map"),$module);
-    shn_mod_menuitem("awik",_t("Add Map Marker"),$module);
-    shn_mod_menuitem("mapc",_t("General Map"),$module);
+    shn_mod_menuitem("awik",_t("Add New Situation"),$module);
+    shn_mod_menuitem("mapc",_t("Map Client"),$module);
     
     // @todo: Confirm functionality
     /*
