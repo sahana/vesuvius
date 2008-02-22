@@ -28,11 +28,12 @@
      * This stores the browser caps object in the $global variable under the key 'bcaps'
      */
     $bcaps = new Browscap($global['approot']."www/tmp/bcaps_cache");
+    
     // Enable / Disable auto update according to the admin setting.
     if($conf['bcaps_auto_update']==true){
-        $bcaps->$doAutoUpdate = true;
+        $bcaps->doAutoUpdate = true;
     }else{
-        $bcaps->$doAutoUpdate = false;
+        $bcaps->doAutoUpdate = false;
     }
     $global['bcaps'] = $bcaps;
     
