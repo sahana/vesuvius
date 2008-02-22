@@ -296,15 +296,19 @@ shn_form_fsopen(_t('Administrator Account'));
 shn_form_text(_t('Admin User Name'),'admin_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."admin_name"])?array('req'=>true, 'value'=>$_SESSION[SETUP_DATA_PREFIX."admin_name"],'help'=>'The root user is the administrator
                 of the system and has the greatest privilages'):array('req'=>true, 'value'=>'admin','help'=>'The root user is the administrator
                 of the system and has the greatest privilages') ));
-shn_form_password(_t('Password'),'root_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd"],'req'=>true):array('req'=>true))
+$_POST['root_pwd']='';
+$_POST['root_pwd_confirm']='';
+shn_form_password(_t('Password'),'root_pwd','size="30"',array('req'=>true)
 );
-shn_form_password(_t('Confirm Password'),'root_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_pwd_confirm"],'req'=>true):array('req'=>true)));
+shn_form_password(_t('Confirm Password'),'root_pwd_confirm','size="30"',array('req'=>true));
 shn_form_fsclose();
 
 shn_form_fsopen(_t('Create Normal User Account'));
 shn_form_text(_t('Normal User Name'),'user_name','size="40"', (isset($_SESSION[SETUP_DATA_PREFIX."user_name"])?array('req'=>true,'value'=>$_SESSION[SETUP_DATA_PREFIX."user_name"], 'help'=>'Please login as this user for non-admin work'):array('req'=>true,'value'=>'sahana', 'help'=>'Please login as this user for non-admin work')) );
-shn_form_password(_t('Password'),'user_pwd','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd"],'req'=>true):array('req'=>true)));
-shn_form_password(_t('Confirm Password'),'user_pwd_confirm','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."user_pwd_confirm"],'req'=>true):array('req'=>true)));
+$_POST['user_pwd']='';
+$_POST['user_pwd_confirm']='';
+shn_form_password(_t('Password'),'user_pwd','size="30"',array('req'=>true));
+shn_form_password(_t('Confirm Password'),'user_pwd_confirm','size="30"',array('req'=>true));
 shn_form_fsclose();
 
 shn_form_fsopen(_t('Configuration File'));
