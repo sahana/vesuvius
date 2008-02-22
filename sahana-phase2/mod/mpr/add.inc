@@ -295,7 +295,8 @@ function shn_mpr_addmp_reporter($errors=false)
 ?>
 <div id="reporter_victim" 
 <?php
-    if(isset($_POST['reported_before'])){
+    if(isset($_POST['reported_before']))
+    {
         if($_POST['reported_before']=='yes'){
             echo 'style="display:none;"';
         }else{
@@ -307,9 +308,25 @@ function shn_mpr_addmp_reporter($errors=false)
 ?>  
 >
 <?php
-    shn_form_select(array("yes"=>_t('Yes'),"no"=>_t('No')), _t('Are you a disaster victim too? '), "is_dv");
+    shn_form_select(array("yes"=>_t('Yes'),"no"=>_t('No')), _t('Are you a disaster victim too? '), "is_dv", 'onchange="javascript:toggle(\'isvictim\',this.value);"');
+?>
+<div id="isvictim"
+<?php
+	if(isset($_POST['is_dv'])){
+	        if($_POST['is_dv']=='no'){
+	            echo 'style="display:none;"';
+	        }else{
+	            echo 'style="display:block;"';
+	        }   
+	    }
+    else{
+	        echo 'style="display:block;"';
+	    }?>
+>
+<?php
     shn_form_opt_select('opt_status',_t('If you are a victim, Please specify the status'),'',array('value'=>$_SESSION['mpr_reporter']['opt_status']));
 ?>
+</div>
 </div>
 <?php
     shn_form_fsclose();
@@ -1047,6 +1064,22 @@ function shn_js_toggle_layer()
 {
 ?>
 <script language="javascript">
+
+function toggle(divition,values)
+{
+
+var othe = document.getElementById(divition);
+
+	if ( values == "yes" ) {
+		
+		othe.style.display = 'block';
+	}
+	
+	else{
+	othe.style.display = 'none';
+	}
+}
+
 function toggleLayer(whichLayer,whichLayer1)
 {
     if (document.getElementById) {
