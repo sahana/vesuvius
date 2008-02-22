@@ -103,7 +103,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 		}*/
 
 		// create system user and privileges
-		$_tdb1->Execute("CREATE USER '".$conf_key_vals['db_user']."'@'%' IDENTIFIED BY '".$conf_key_vals['db_pass']."'");
+		$_tdb1->Execute("CREATE USER '".$conf_key_vals['db_user']."'@'".$conf_key_vals['db_host']."' IDENTIFIED BY '".$conf_key_vals['db_pass']."'");
 		$_tdb1->Close();
 	}
 
@@ -123,7 +123,7 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 	// create the main database
 	$_tdb2->Execute("CREATE DATABASE IF NOT EXISTS ".$conf_key_vals['db_name']);
 
-	$_tdb2->Execute("GRANT ALL ON ".$conf_key_vals['db_name'].".* TO '".$conf_key_vals['db_user']."'@'%'");
+	$_tdb2->Execute("GRANT ALL PRIVILEGES ON ".$conf_key_vals['db_name'].".* TO '".$conf_key_vals['db_user']."'@'".$conf_key_vals['db_host']."'");
 	$_tdb2->Close();
 
 	// another connection with transactions to create thetables and data.
