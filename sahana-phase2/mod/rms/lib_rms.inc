@@ -470,20 +470,18 @@ function _shn_rms_get_sub_cat($cat_id)
 }
 function _shn_rms_add_item2session($itm, $qty, $pri, $unit, $inv)
 {
-	if( $itm=='' || _shn_rms_check_catalog_item($itm))
-	{
+	if( $itm=='' || _shn_rms_check_catalog_item($itm)) {
 		add_error(_t("Please Select a Catalog Item"));
 		return false;
 	}
-	if ($qty != '' && is_numeric($qty))
-	{
+	if ($qty != '' && is_numeric($qty) && $qty > 0)	{
 		$_SESSION['rms_items'][] = array ($itm, $qty, $pri, $unit, $inv);
 		return true;
-	}
-	else
-	{
-		add_error(_t("Please Enter a valid Quantity"));
+	} else if ($qty == ''){
+		add_error(_t("Quantity is a required field"));
 		return false;
+	} else {
+		add_error(_t("Please Enter a valid Quantity"));
 	}
 }
 function _shn_rms_add_item2session_pl($itm, $qty, $stat, $unit)
