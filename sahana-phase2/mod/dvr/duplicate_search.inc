@@ -38,8 +38,10 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
 					<tr>
 						<td><?=_t("Entry Name")?></td>
 						<td><?=_t("Mobile")?></td>
+						<td><?=_t("Telephone")?></td>
 						<td><?=_t("Duplicate Entry")?></td>
 						<td><?=_t("Mobile (Duplicate)")?></td>
+						<td><?=_t("Telephone")?></td>
 						<td><?=_t("Compare")?></td>
 						<td><?=_t("Delete duplicate")?></td>
 					</tr>	
@@ -48,8 +50,10 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
 		<tr>
 			<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$dup['entry']['id']?>'><b><?=$dup['entry']['name']?></b></a></td>
 			<td><?=$dup['entry']['mobile']?></td>
+			<td><?=$dup['entry']['telephone']?></td>
 			<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$dup['dup']['id']?>'><b><?=$dup['dup']['name']?></b></a></td>
 			<td><?=$dup['dup']['mobile']?></td>
+			<td><?=$dup['dup']['telephone']?></td>
 			<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$dup['entry']['id']?>&p_uuid2=<?=$dup['dup']['id']?>'>Compare</a></td>
 			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$dup['dup']['id']?>' onClick="javascript: return confirmdelete('<?=$dup['dup']['id']?>')">Delete</a></td>
 		</tr> 
@@ -78,11 +82,12 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
 function _shn_dvr_get_victims()
 {
 	global $global;
-	$sql = "SELECT p.p_uuid as id,p.full_name as name,c.contact_value as mobile FROM person_uuid p,contact c WHERE p.p_uuid=c.pgoc_uuid AND c.opt_contact_type='mobile'";
-
+	$sql = "SELECT p.p_uuid AS id,p.full_name AS name,c.contact_value AS mobile,t.contact_value AS tele FROM person_uuid p,contact c,contact t WHERE p.p_uuid=c.pgoc_uuid AND p.p_uuid=t.pgoc_uuid AND c.opt_contact_type='mobile' AND t.opt_contact_type='telephone'";
+	//$sql1 = "SELECT contact_value AS telephone FROM contact WHERE c.opt_contact_type='telephone'";
 	$res = $global['db']->GetAll($sql);
+	//$res1 = $global['db']->GetAll($sql1);
 	$result=array();
-
+	
 	$i = 0;
 	//while(!$res->EOF){
 	//	$result[$i]['id'] = $res->fields['id'];
@@ -94,7 +99,7 @@ function _shn_dvr_get_victims()
 		$result[$i]['id'] = $r['id'];
 		$result[$i]['name'] = $r['name'];
 		$result[$i]['mobile'] = $r['mobile'];
-		
+		$result[$i]['telephone'] = $r['tele'];
 		$i++;
 	}
 
@@ -113,15 +118,33 @@ function _shn_dvr_find_duplicates()
 		{
 			if($j < $k)
 			{
-				if($a[$j]['name'] == $a[$k]['name'] | $a[$j]['mobile'] == $a[$k]['mobile']){
-				$c = array();
-				$c['entry']= $a[$j];
-				$c['dup'] = $a[$k];
-				array_push($b,$c);
-				
-				//array_push($b['dup'],$a[$k]);
+				if ($a[$j]['name'] == $a[$k]['name'] && $a[$j]['name'] != null)
+				{	
+					$c = array();
+					$c['entry']= $a[$j];
+					$c['dup'] = $a[$k];
+					array_push($b,$c);
 				}
+
+				elseif ($a[$j]['mobile'] == $a[$k]['mobile'] && $a[$j]['mobile'] != null)
+				{
+					$c = array();
+					$c['entry']= $a[$j];
+					$c['dup'] = $a[$k];
+					array_push($b,$c);
+					
+				}
+				
+				elseif($a[$j]['tele'] == $a[$k]['tele'] && $a[$j]['name'] == $a[$k]['name'] && $a[$j]['tele'] != null)
+				{
+					$c = array();
+					$c['entry']= $a[$j];
+					$c['dup'] = $a[$k];
+					array_push($b,$c);
+				}
+				//array_push($b['dup'],$a[$k]);
 			}
+			
 			else
 			break;
 		}
