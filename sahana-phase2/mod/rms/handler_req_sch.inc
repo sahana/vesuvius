@@ -318,7 +318,11 @@ function _shn_rms_sch_results()
 switch ($_REQUEST['seq'])
 {
     case '':
-    	    $_SESSION['isadmin'] = _shn_rms_get_user_group();
+    	    if (shn_acl_is_enabled()) {
+    	        $_SESSION['isadmin'] = _shn_rms_get_user_group();
+    	    } else {
+    	    	$_SESSION['isadmin'] = true;
+    	    }
             _shn_rms_sch_getkeywords();
             break;
             

@@ -61,6 +61,7 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         }
         
         $sql .= $fstr;
+        //echo $sql;
     }
    // print $sql;
     if (!isset($page) || $page == '' || !is_numeric($page))
@@ -124,10 +125,14 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
                          _t("Requester"), 
                          _t("Location"), 
                          _t("Date"), 
-                         _t("status"),
+                         _t("Status"),
                          ''
                         );
-                        
+    
+//    echo "<pre>";
+//    var_dump($rs_arr);
+//    echo "</pre>";
+    
     foreach ($rs_arr as $r)
     {
         $req_id = $r['req_uuid'];
@@ -143,8 +148,8 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
 	//$req_loc = _shn_ims_get_location($inv_id);
 
 	//$location_name=_shn_rms_get_location_name($req_loc['location_id']);
-	    $location_name=_shn_rms_get_name($r['loc_uuid']);
-
+	    $location_name = _shn_rms_get_name($r['loc_uuid']);
+        //echo $location_name;
 
 		if($req_loc['opt_person_loc_type']=='')
 		{
@@ -179,15 +184,20 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     $requesters = _shn_rms_get_requesters();
     
     $loc = _shn_rms_get_location_array($_SESSION['user_id']);
-    //var_dump($loc);
-    for($i=0;$i<count($loc);$i++)
-    {
-    //$location = array();
-    //$location = _shn_rms_get_location_name($loc[$i]);
-    array_push($location, _shn_rms_get_name($loc[$i]));
-    //var_dump($location);
-    }
     
+    //var_dump($loc);
+    $location = array();
+    
+    foreach ($loc as $l)
+    {
+      
+      $location[$l] = _shn_rms_get_location_name($l);
+      //array_push($location,$temp);
+    
+    }
+    echo "<pre>";
+    //var_dump($location);
+    echo "</pre>";
     	
     	
         shn_html_table_open(array('class'=>'layout'));
