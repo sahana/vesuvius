@@ -55,7 +55,7 @@ include_once ($global['approot'] . '/mod/dvr/lib.inc');
 			<td><?=$dup['dup']['mobile']?></td>
 			<td><?=$dup['dup']['telephone']?></td>
 			<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$dup['entry']['id']?>&p_uuid2=<?=$dup['dup']['id']?>'>Compare</a></td>
-			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$dup['dup']['id']?>' onClick="javascript: return confirmdelete('<?=$dup['dup']['id']?>')">Delete</a></td>
+			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$dup['dup']['id']?>' onClick="javascript: return confirmdelete('<?=$dup['dup']['name']?>')">Delete</a></td>
 		</tr> 
 		
 		<?php
@@ -170,9 +170,9 @@ function _shn_dvr_find_duplicates()
 
 <script language="JavaScript">
 
-function confirmdelete(id)
+function confirmdelete(name)
 {
-return confirm('This person with  id '+id+' will be permanently deleted');
+return confirm('This person '+name+' will be permanently deleted');
 }
 
 

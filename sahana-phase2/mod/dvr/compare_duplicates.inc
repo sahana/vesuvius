@@ -314,7 +314,7 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
 			$_POST['p_uuid']= $_SESSION['dvr']['person2']['id'];
 			//shn_dvr_delete_individual();
 			_shn_dvr_delete_person($_SESSION['dvr']['person2']['id']);
-			$msg = $_SESSION['dvr']['person2']['id'] . "person was succesfully deleted ";
+			$msg = $_SESSION['dvr']['person2']['p_full_name'] . " person was succesfully deleted ";
 			add_confirmation($msg);
 			unset($_SESSION['dvr']['person1']);
 			unset($_SESSION['dvr']['person2']);
