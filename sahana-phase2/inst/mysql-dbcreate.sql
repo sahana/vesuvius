@@ -433,7 +433,43 @@ CREATE TABLE gis_feature (
     /*SPATIAL KEY  (feature_coords)*/
 );
 
+/**
+* Under Development
+* The central table on LIGHT GIS
+* Modules: cr,or,ics 
+* Last changed: 21-FEB-2008 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS maps;
+CREATE TABLE maps (
+    map_uuid VARCHAR(60) NOT NULL, -- spatial location key
+    name VARCHAR(100) NOT NULL, 
+    description VARCHAR(200) NOT NULL, 
+    width BIGINT NOT NULL DEFAULT 1,
+    height BIGINT NOT NULL DEFAULT 1,
+    entry_time TIMESTAMP DEFAULT now(),-- entry time for log purposes 
+    PRIMARY KEY  (map_uuid)
+    /*SPATIAL KEY  (feature_coords)*/
+);
 
+/**
+* Under Development
+* The coordinate table for LIGHT GIS
+* Modules: cr,or,ics 
+* Last changed: 24-FEB-2008 - ravindra@opensource.lk  
+*/
+DROP TABLE IF EXISTS map_points;
+CREATE TABLE map_points (
+    point_uuid VARCHAR(60) NOT NULL,
+    map_uuid VARCHAR(60) NOT NULL, -- spatial location key
+    type VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL, 
+    description VARCHAR(200), 
+    latitude BIGINT NOT NULL DEFAULT 1,
+    longitude BIGINT NOT NULL DEFAULT 1,
+    entry_time TIMESTAMP DEFAULT now(),-- entry time for log purposes 
+    PRIMARY KEY  (point_uuid)
+    /*SPATIAL KEY  (feature_coords)*/
+);
 /**================= Entity: Person oriented  ===================**/
 
 /*** PERSON TABLES ***/
@@ -769,6 +805,24 @@ CREATE TABLE image(
     created TIMESTAMP DEFAULT NOW(),
     category varchar(32),
     PRIMARY KEY (image_id)
+);
+
+/** 
+ * Generic Media storage table 
+ * Modules : Framework, sync
+ * Created : 20th-Mar-2006 - ravindra@opensource.lk
+ */
+DROP TABLE IF EXISTS media;
+CREATE TABLE media(
+    media_id VARCHAR(60) NOT NULL,
+    x_uuid VARCHAR(60) NOT NULL,
+    url VARCHAR(200) NOT NULL,
+    media_type VARCHAR(100) NOT NULL,
+    media_height INT DEFAULT 0,
+    media_width INT DEFAULT 0,
+    created TIMESTAMP DEFAULT NOW(),
+    category varchar(32),
+    PRIMARY KEY (media_id)
 );
 
 
