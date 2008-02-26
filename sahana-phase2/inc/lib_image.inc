@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.12 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: lib_image.inc,v 1.13 2008-02-26 09:16:23 ishanul Exp $ */
 
 /**
  *
@@ -149,7 +149,7 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 		
 				$arr = $global['db']->GetAll($sql);
 
-		if(!$arr){
+		if(!$arr or !$arr['image']){
 			//Create the NOT available image
 			$img = imagecreatetruecolor(100,100);
 			$bg_color = imagecolorallocate($img,229,229,229);
@@ -213,7 +213,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			else
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid'";
 			$arr = $global['db']->GetAll($sql);
-			if(isset($arr[0]['image_type'])){
+			if(isset($arr[0]['image_type']) && $arr[0]['image_type'] != null){
 				$type='&imagetype='.$arr[0]['image_type'];
 				$height = $arr[0]['image_height']+20;
 				$width = $arr[0]['image_width']+20;
@@ -297,7 +297,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 		}
 
 	}
-	//echo $src_tmp;
+	//echo $src_tmp.'<br>';echo $src_ori;
 	?>
 <a title="<?= _t('Click to see the original size'); ?>" href="#"
 	onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;">
