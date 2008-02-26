@@ -1,14 +1,14 @@
 <script language='JavaScript'>
-function confirmdelete(id)
+function confirmdelete(headname)
 {
-return confirm('This group with group id '+id+' will be permanently deleted');
+return confirm('This group with the group head '+headname+' and all individuals belongs to that group will be permanently deleted');
 }
 </script>
 <?php
 
-/* $Id: search_group.inc,v 1.10 2008-02-05 05:16:03 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.11 2008-02-26 09:22:59 ishanul Exp $ */
 
-/* $Id: search_group.inc,v 1.10 2008-02-05 05:16:03 prabath321 Exp $ */
+/* $Id: search_group.inc,v 1.11 2008-02-26 09:22:59 ishanul Exp $ */
 
 /**
  * 
@@ -122,7 +122,7 @@ function shn_dvr_group_search_results()
             
             <td><a href='index.php?mod=dvr&act=edit_group&groupid=<?=$results->fields['group_id']?>'><?=_t('Edit') ?></a></td>
  			<td><a href='index.php?mod=dvr&act=transfer_grp&groupid=<?=$results->fields['group_id'] ?>'><?=_t('Transfer') ?></a></td>
- 			<td><a href='index.php?mod=dvr&act=delete_group&groupid=<?=$results->fields['group_id']?>' onClick="javascript: return confirmdelete('<?=$results->fields['group_id']?>')">Delete</a></td>
+ 			<td><a href='index.php?mod=dvr&act=delete_group&groupid=<?=$results->fields['group_id']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>
         
         </tr>
  <?php
