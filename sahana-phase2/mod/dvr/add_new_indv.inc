@@ -88,7 +88,7 @@ else
 	//shn_ajax_add_suggest_family('family_name','familyHint','family_id');
 	//shn_form_text(_t('Group head'),'family_name',"size=\"30\" autocomplete=off onkeyup=\"get_family(this.value,'familyHint','index.php?mod=dvr&act=get_family&stream=text')\"" ,$extra_opts);
 	
-	shn_ajax_text_look_up(array('Group head'),array('group_id'),array('familyHint'),'index.php?mod=dvr&act=get_family&stream=text',array($_SESSION['dvr']['person']['gruop_name']),true,$extra_opts);
+	shn_ajax_text_look_up(array('Group head'),array('group_id'),array('familyHint'),'index.php?mod=dvr&act=get_family&stream=text',array($_SESSION['dvr']['person']['group_name']),true,$extra_opts);
 	//echo '<div id="familyHint"></div>';
 	if(isset( $_POST['group_id'])){
 	    _shn_dvr_set_ajax_group_id();
@@ -293,7 +293,7 @@ function shn_dvr_set_person_major_details() {
 	if(isset($_POST['group_id']) && '/'!=$_POST['group_id']){
 	$_SESSION['dvr']['person']['group_id'] = $_POST['group_id']; //group id 
 	}
-	$_SESSION['dvr']['person']['gruop_name']=$_POST['textgroup_id'];
+	$_SESSION['dvr']['person']['group_name']=$_POST['textgroup_id'];
 	$_SESSION['dvr']['person']['typ_of_grp'] = _shn_dvr_getgrouptype($_SESSION['dvr']['person']['group_id']);
 
 	
@@ -422,10 +422,11 @@ function _shn_dvr_individual_validate_error() {
 	$gt = $_POST['opt_group_type'];
 	$full_name = $_POST['full_name'];
     $head=$_POST['textgroup_id'];
-	/*if (trim($gt) == null | trim($gt) == '===') {
-		add_error(_t("Please  select the group type"));
+    $gt = _shn_dvr_getgrouptype($_POST['group_id']);
+	if (trim($gt) == null | trim($gt) == '===') {
+		add_error(_t("Please select the Group Head from the list."));
 		$error_flag = true;
-	}*/
+	}
 
 	if (trim($head) == null | trim($head) == '') {
 		add_error(_t("Please select the Group Head"));
