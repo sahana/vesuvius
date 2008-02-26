@@ -262,7 +262,7 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 
 		$test = array();
 		$keys = array();
-		while($res != EOF && $res->fields != NULL){
+		while(!$res->EOF ){
 			$key =  $res->fields['tab_for_key'].".".$res->fields['field_for_key'].":".$res->fields['table_name'];
 			array_push($keys, $key.".".$res->fields['field_name']);
 			if(!array_key_exists($key, $test))
@@ -279,7 +279,7 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 
 		$test = array();
 		$keys = array();
-		while($res != EOF && $res->fields != NULL){
+		while(!$res->EOF){
 			$key =  $res->fields['tab_for_key'].".".$res->fields['field_for_key'].":".$res->fields['table_name'];
 
 			if($key == $tmp1[0].":".$tmp2[0]){
@@ -317,7 +317,7 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 
 	// 	getting data from chosen table
 		if( count($tab) != 1 ){
-			var_dump($test);
+			//var_dump($test);
 			$cond = _shn_dr_create_condition2($test);
 			$sql = "SELECT DISTINCT $chosen_fields FROM $table_name WHERE (".$cond." )";
 		}
