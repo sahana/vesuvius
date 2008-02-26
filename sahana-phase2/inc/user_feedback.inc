@@ -200,59 +200,9 @@ function shn_user_feedback($with_delay = true){
         
 //-->
 </script>
-<style>
-<!--
-    .feedback_error {
-    
-    }
-    
-    .feedback_form {
-        position: absolute;
-        width: 250px;
-    	height:285px;
-    	right: 0px;
-    	bottom: 0px;
-        padding-left: 30px;
-        padding-right: 8px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        display: none;
-    }
-    .feedback_close {
-        right: 10px;
-        top: 10px;
-        display: block;
-        float: right;
-    }
-    
-    .feedback_dontshow{
-        display: block;
-        float: left;
-        width: 100%;
-        position: relative;
-    }
-    
-    .feedback_content {
-        display: block;
-        float: left;
-        padding-left: 5px;
-        overflow: auto;
-    }
-    .feedback_content_error {
-        background-color: pink;
-        border-color:red;
-        color:red;
-    }
-    .hide{
-        display:none;
-    }
-    .show{
-        display:block;
-    }
--->
-</style>
+
 <!-- The user feedback div -->
-<div id="user_fb_form" class="message information feedback_form">
+<div id="user_fb_form" class="message feedback_form">
 
 <div class="feedback_close"><a href="javascript:void(0)"
 	onmouseup="showFeedbackForm(false)"><?php echo _("Close") ?></a></div>
@@ -281,7 +231,7 @@ function scroll()
  //alert("scroll event detected! "+window.pageXOffset+" "+window.pageYOffset);
  //var top = document.getElementById("user_fb_form").style.top;
 
- var top = 240 + window.pageYOffset;// form height + offset.
+ var top = 250 + window.pageYOffset;// form height + offset.
 
  document.getElementById("user_fb_form").style.top = top+"px";
  // note: you can use window.innerWidth and window.innerHeight to access the width and height of the viewing area
