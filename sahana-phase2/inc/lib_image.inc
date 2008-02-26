@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.14 2008-02-26 10:18:06 prabath321 Exp $ */
+/* $Id: lib_image.inc,v 1.15 2008-02-26 14:43:04 ravids Exp $ */
 
 /**
  *
@@ -18,6 +18,7 @@
  * @package    moduleAPI
  * @subpackage image
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
@@ -305,6 +306,87 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	<?php
 	return true;
 }
+
+function shn_image_save_to_file($media,$rel_path="res/maps",$category="jpeg_maps",$x_uuid,$media_type=null){
+ 	global $global;
+ 	
+ 	$info = getimagesize($_FILES[$media]['tmp_name']);
+    //check the image type 
+    if(! $info){
+        add_error(_("Invalid Image Type Please try again"));
+        return false;    
+    }else{
+    	 $width_orig = $info[0];
+   		$height_orig = $info[1];
+   		list($ignore,$mime) = split("\/",$info['mime']);
+    	 //$mime = $_FILES[$media]["name"]['image_type'];
+    }
+   // list($ignore,$ext) = split("\/",$info['mime']);
+
+    //putting a dot ;-) 
+ //   $ext = '.'.$ext;
+    $upload_dir = $global['approot'].$rel_path;
+    $mediaId=shn_create_uuid("media");
+    
+	
+	$uploadfile=$upload_dir ."/". $mediaId.".".$mime;
+		
+	if (file_exists($uploadfile))
+    {
+      		add_error($_FILES[$media]["name"] . " already exists. ");
+      		return;
+    }
+
+    move_uploaded_file($_FILES[$media]['tmp_name'], $uploadfile);
+ 	
+    $db=$global['db'];
+    $q="delete from media where x_uuid='$x_uuid' and category='$category'";
+ 	$res=$db->Execute($q);
+ 	$q="insert into media(media_id,x_uuid,url,media_type,media_height,media_width,category) values('$mediaId','$x_uuid','{$uploadfile}','$mime',$height_orig,$width_orig,'$category')";
+ 	$res=$db->Execute($q);
+ 	if($res==false){
+    	return null;
+    }else{
+    	 add_confirmation($_FILES[$media]["name"]." was properly saved, in the file system");
+    	 return true;
+    }
+ }
+ function shn_media_get_url($media_id){
+	global $global;
+    $db=$global['db'];
+    $query="SELECT url FROM media WHERE media_id ='{$media_id}'";
+    file_put_contents("/tmp/a.txt",$query);
+    $res=$db->Execute($query);
+	return $res->fields["url"];
+}
+ function _shn_image_media_get($media_id){
+	global $global;
+	$url=shn_media_get_url($_GET["media_id"]);
+	$info = getimagesize($url);
+    //check the image type 
+    if(! $info){
+        add_error(_("Invalid Image Type Please try again"));
+        return false;    
+    }else{
+    	 $width_orig = $info[0];
+   		$height_orig = $info[1];
+   		list($ignore,$mime) = split("\/",$info['mime']);
+    	 //$mime = $_FILES[$media]["name"]['image_type'];
+    }
+    
+  
+    switch($mime=="png"){
+    	case "png":
+    			$image = imagecreatefrompng($url);
+				imagepng($image);
+				break;
+		default:
+				$image = imagecreatefromjpeg($url);
+				imagejpeg($image);
+				break;
+    }
+}
+
 /* }}} */
 
 /* {{{ Image to DB */
