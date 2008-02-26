@@ -99,7 +99,7 @@ function _shn_admin_acl_user_roles_menu($user_home=false)
 	shn_tabmenu_item("acl_user_edit_roles", _t("Edit Roles of an User"), "admin");
 	shn_tabmenu_item("reset_pwd", _t("Reset Password of an User"), "admin");
 	shn_tabmenu_item("acl_change_user_status", _t("Change User Status"), 'admin');
-    shn_tabmenu_item("acl_unlock_user", _t("Unlock User"), 'admin');
+  //  shn_tabmenu_item("acl_unlock_user", _t("Unlock User"), 'admin');
 	shn_tabmenu_close();
 	if($user_home){
 ?>
