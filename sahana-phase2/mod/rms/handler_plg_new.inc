@@ -21,6 +21,46 @@
 _shn_rms_print_hedder(_t("Enter New Pledge"));
 
 
+/**
+ * When ACL is disabled, the new user should be added to track the user.
+ *
+ * @param unknown_type $id
+ */
+function _shn_rms_donor() 
+{
+	$_SESSION['rms_donor_id'] = null;
+    
+    //_shn_rms_print_hedder(_t("Make New Pledge"));
+    shn_form_fopen("plg_new",null,array('req_message'=>false));
+    shn_form_hidden(array('seq'=>'add_donor'));
+    shn_form_fsopen(_t("New Donor"));
+    print '<div class="info">';
+    print _t("Create New Donor: ");
+    print _t("A new Person will be added to the Sahana Database,");
+    print '<br />';
+    print _t("Only the Full Name is required, But in order to Contact the Donor please add some contact information with this");
+    print '<br />';
+    print '</div>';
+    print '<br />';
+    
+    $extra_opt['req']=true;
+    shn_form_text(_t("Full Name"),'name',null,$extra_opt);
+    shn_form_text(_t("Mobile"),'mobile');
+    shn_form_text(_t("Email"),'email');
+    shn_form_opt_select("opt_id_type",_t("Available Card type"));
+    shn_form_text(_t("Card Number"),"card_number",null,$extra_opt);
+    shn_form_text(_t("Telephone"),'telephone',null);
+    shn_form_textarea(_t("Address"),'address',null);
+   // shn_form_textarea(_t("Address"),'address',null);
+    
+    
+    shn_form_fsclose();
+    shn_form_submit(_t("Next"));
+    shn_form_fclose();
+    print '<br />';
+}
+
+
 function _shn_rms_donor_display($id)
 {
     $donor = _shn_rms_view_donor($id, $summary=false);
@@ -221,16 +261,49 @@ function _shn_rms_get_subcat($cat_id)
 switch ($_REQUEST['seq'])
 {
     case '':
-    	    $id=$_SESSION['user_id'];
-            $_SESSION['rms_donor_id'] =  $_SESSION['user_id'];
+            
             $_SESSION['rms_items'] = null;
             $_SESSION['rms_plg_added'] = null;
-            _shn_rms_donor_display($id);
-            _shn_rms_items();
-            
+            if (shn_acl_is_enabled()) {
+                $id=$_SESSION['user_id'];
+                $_SESSION['rms_donor_id'] =  $_SESSION['user_id'];
+                _shn_rms_donor_display($id);
+                _shn_rms_items();	
+            }else{
+                 _shn_rms_donor();
+            }
             break;
  
-
+    case 'add_donor':
+ 
+    	    if($_POST['name']!=null && $_POST['card_number']!=null) {
+    	        $donor['name'] = $_POST['name'];
+	            $donor['mobile'] = $_POST['mobile'];
+	            $donor['telephone'] = $_POST['telephone'];
+	            $donor['email'] = $_POST['email'];
+	            $donor['address'] = $_POST['address'];
+	            $donor['opt_id_type'] = $_POST['opt_id_type'];
+    	        $donor['card_number'] = $_POST['card_number'];
+                
+                $_SESSION['rms_donor_id']=_shn_rms_add_donor($donor);
+                $_SESSION['user_id'] = $_SESSION['rms_donor_id'];
+                _shn_rms_donor_display($_SESSION['user_id']);
+                _shn_rms_items();
+    	        break;
+    	        
+    	    }elseif($_POST['name']==null && $_POST['card_number']==null) {
+    	    	add_error(_t("Please fill the 'Name' and 'Card Number'"));
+    	    	_shn_rms_donor();
+    	    	break;
+    	    }elseif($_POST['name']==null && $_POST['card_number']!=null) {
+    	        add_error(_t("Please fill the 'Name'"));
+    	    	_shn_rms_donor();
+    	    	break;
+    	    }elseif($_POST['name']!=null && $_POST['card_number']==null) {
+    	    	add_error(_t("Please fill the 'Card Number'"));
+    	    	_shn_rms_donor();
+    	    	break;
+    	    }
     case 'ax_sub_cat':
             $cat_id=$_REQUEST['par'];
             _shn_rms_get_subcat($cat_id);

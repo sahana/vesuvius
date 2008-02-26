@@ -173,7 +173,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
             $stat['all'] = _t("All");
             $stat['not_confirmed'] = _t("Not Confirmed");
             $stat['confirmed'] = _t("Confirmed");
-            $stat['not_delivered'] = _t("Not Delivered");
+            //$stat['not_delivered'] = _t("Not Delivered");
             $stat['delivered'] = _t("Delivered");
             $stat['discarded'] = _t("Discarded");
             

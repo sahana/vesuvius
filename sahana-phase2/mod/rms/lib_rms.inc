@@ -832,7 +832,7 @@ function _shn_rms_add_pledge($donor_uuid)
 	global $global;
 	//print $donor_uuid;
 	$plg_uuid = shn_create_uuid('pl');
-	$status = 'Not Delivered';
+	$status = 'Not Confirmed';
 	$user_id = 'u-1';
 
 	$sql = "INSERT INTO rms_pledge (plg_uuid, donor_uuid, status, user_id) " .
