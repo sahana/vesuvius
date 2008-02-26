@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.13 2008-02-26 09:16:23 ishanul Exp $ */
+/* $Id: lib_image.inc,v 1.14 2008-02-26 10:18:06 prabath321 Exp $ */
 
 /**
  *
@@ -63,17 +63,17 @@ function shn_image_resize($src_path,$desc_path,$width,$height)
 		// bitmap
 		$func =  "imagecreatefromwbmp";
 		$func2 = "imagewbmp";
-			
+
 	}else if(stripos($mime,"png")!==FALSE){
 		// png
 		$func = "imagecreatefrompng";
 		$func2 = "imagepng";
-			
+
 	}else if(stripos($mime,"jpeg")!==FALSE){
 		// jpeg and pjpeg
 		$func = "imagecreatefromjpeg";
 		$func2 = "imagejpeg";
-			
+
 	}else if(stripos($mime,"gif")!==FALSE){
 		// gif
 		$func = "imagecreatefromgif";
@@ -142,14 +142,14 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 	}else{
 
 		if(isset($category)){
-		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category = '$category'"; 
+		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category = '$category'";
 		}else{
 			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' ";
 		}
-		
+
 				$arr = $global['db']->GetAll($sql);
 
-		if(!$arr or !$arr['image']){
+		if(!$arr or !$arr[0]['image']){
 			//Create the NOT available image
 			$img = imagecreatetruecolor(100,100);
 			$bg_color = imagecolorallocate($img,229,229,229);
@@ -206,10 +206,10 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			//need to get the type
             if($act=='addvictim_img')
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category ='dvr_person'";
-			
+
 			elseif($act=='addfingerprint_img')
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category ='finger_print'";
-			
+
 			else
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE x_uuid = '$x_uuid'";
 			$arr = $global['db']->GetAll($sql);
@@ -374,7 +374,7 @@ function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_wi
                     image = '$image',
                     image_type = '$image_type',
                     image_height = '$image_height',
-                    image_width = '$image_width' 
+                    image_width = '$image_width'
                 WHERE image_id = '$replace_id'";
 	}else{
 		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category)
