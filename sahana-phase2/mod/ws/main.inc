@@ -458,7 +458,7 @@ function shn_ws_sahana_client_call($wsdl_url,$method,$inputs=null){
 		                $input
 		        		)
 				);
-				file_put_contents("/tmp/a.txt",$input.$value,FILE_APPEND);
+				
 			}
 	     //   $response=$client->__call($method,$param_arr);
 	        $response=$client->__call($method,array("search"=>$inputs));
