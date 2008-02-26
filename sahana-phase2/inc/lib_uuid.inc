@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.28 2008-01-08 04:02:53 ishanul Exp $ */
+/* $Id: lib_uuid.inc,v 1.29 2008-02-26 14:35:41 ravids Exp $ */
 
 /**
  *
@@ -53,7 +53,30 @@ function shn_create_uuid($type='person')
 	global $conf;
 
 	switch ($type){
-		 
+		case 'media':
+
+
+			$gen_id='media-'._shn_gen_id('media');
+
+
+			// print 'it is'.$gen_id;
+			break;
+		case 'point':
+
+
+			$gen_id='point-'._shn_gen_id('point');
+
+
+			// print 'it is'.$gen_id;
+			break;
+		case 'map':
+
+
+			$gen_id='map-'._shn_gen_id('map');
+
+
+			// print 'it is'.$gen_id;
+			break;
 		case 'victim_group':
 
 
