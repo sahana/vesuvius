@@ -50,11 +50,11 @@ if(!function_exists('file_put_contents')) {
 	?>
 	</td>
 	<td>
-	<?php			
-			shn_form_fopen("lc_trns",null,array('req_message'=>false));	
+	<?php
+			shn_form_fopen("lc_trns",null,array('req_message'=>false));
 			shn_form_hidden(array('seq'=>'merge'));
-			shn_form_submit(_t('Merge New Strings'));			
-		   	shn_form_fclose();		
+			shn_form_submit(_t('Merge New Strings'));
+		   	shn_form_fclose();
 	?>
 	</td>
 	<td>
@@ -84,15 +84,15 @@ function _shn_admin_lc_save()
 	$locale = $_SESSION["locale"];
 	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	//$file_cont = __text_clean($_POST['msgs']);
-	
+
 	$file_cont = html_entity_decode($_POST['msgs'],ENT_QUOTES,"UTF-8");
 	/*$file_cont = str_replace("\\\"","\"",$file_cont);
 	$file_cont = str_replace("\\\n","\\n");*/
 	$file_cont = stripcslashes($file_cont);
-	file_put_contents("/tmp/testfile.po",$file_cont);
-	
+//	file_put_contents("/tmp/testfile.po",$file_cont);
+
 	//echo "<pre>".$file_cont."</pre>";
-	
+
 	if(is_writable("../res/locale/$locale/LC_MESSAGES/")){
 		$result = file_put_contents($file_name, $file_cont);
 		chmod($file_name,0666);
@@ -115,41 +115,41 @@ function _shn_admin_lc_merge()
 	$locale = $_SESSION["locale"];
 	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
 	$file_name1 = "../res/locale/$locale/LC_MESSAGES/sahana_temp.po";
-		
-	
+
+
 	if(is_writable("../res/locale/$locale/LC_MESSAGES/"))
 	{
-		if(file_exists($file_name)){			
+		if(file_exists($file_name)){
 				$return = array();
             	$cmd = 'xgettext --keyword=__ --keyword=_e ' .
         		'--keyword=_p  --default-domain=sahana ' .
         		'--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         		'--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
-        		system($cmd, &$return); 
-        		
-        		/*$_SESSION['admin']['locale']['charset'] = implode('', file("../res/locale/$locale/LC_MESSAGES/sahana_temp.po"));	        		
+        		system($cmd, &$return);
+
+        		/*$_SESSION['admin']['locale']['charset'] = implode('', file("../res/locale/$locale/LC_MESSAGES/sahana_temp.po"));
         		$string = 'charset=CHARSET';
         		$position = strpos($_SESSION['admin']['locale']['charset'],$string);
         		$quatationposition = strpos($_SESSION['admin']['locale']['charset'],"\"",$position);
         		$var = 'charset=UTF-8  ';
 				$_SESSION['admin']['locale']['charset'] = substr_replace($_SESSION['admin']['locale']['charset'],$var,$position,strlen($var));
-        		
-        		
-        		
+
+
+
 				$somecontent = $_SESSION['admin']['locale']['charset'];
-        		
+
 */
         		$filename = "../res/locale/$locale/LC_MESSAGES/sahana_temp.po";
         		$po_file = file_get_contents("../res/locale/$locale/LC_MESSAGES/sahana_temp.po");
         		$rep_po_file = _shn_replace_charset($po_file,"UTF-8");
-        		
-        		if(is_writable($filename)) {   
+
+        		if(is_writable($filename)) {
     				if(!$handle = fopen($filename, 'w+')) {
          				add_error(_t("Cannot open file ").$filename);
          				exit;
     				}
 					if(fwrite($handle, $rep_po_file) === FALSE) {
-        				add_error(_t("Cannot write to file ").$filename) ;        			
+        				add_error(_t("Cannot write to file ").$filename) ;
         				exit;
     				}
     				//echo "Success, wrote to file ($filename) .$msgstr"."MSGID = ".$msgid;
@@ -159,17 +159,17 @@ function _shn_admin_lc_merge()
 
 				}else {
     				add_error(_t("Cannot write to file ").$filename) ;
-				}					
+				}
 		}
 		else
 			print _t("Please make the path : ").$file_name ._t(" writable");
-	
+
 	}else
 		print _t("Please make the path : ").$file_name ._t(" writable");
-		
+
 	_shn_admin_lc_load();
-	
-	
+
+
 }
 
 function _shn_admin_lc_merge_over()
@@ -177,11 +177,11 @@ function _shn_admin_lc_merge_over()
 		$locale = $_SESSION["locale"];
 		$file_name = "../res/locale/$locale/LC_MESSAGES/sahana_temp.po";
 		$tmpfilename = tempnam('/tmp/','shn');
-		 
+
 		if(file_exists($file_name)){
 			$cmd = 'msgcat ../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po ../res/locale/' . $locale. '/LC_MESSAGES/sahana.po > '.$tmpfilename;
-       		system($cmd, &$return);       		
-       		
+       		system($cmd, &$return);
+
        		$fp_src = fopen($tmpfilename,'r');
        		$fp_dest = fopen('../res/locale/' . $locale. '/LC_MESSAGES/sahana.po',"w+");
        		while($tmp = fread($fp_src,1024)){
@@ -189,13 +189,13 @@ function _shn_admin_lc_merge_over()
        		}
        		fclose($fp_src);
        		fclose($fp_dest);
-       			     		        		
+
        		add_confirmation(_t("New strings merge sucessfully, please press 'Load Existing List' button"));
 		}else{
 			add_error(_t("Please make the path : ").$file_name ._t(" writable"));
 		}
 		//_shn_admin_lc_load();
-}	
+}
 
 
 function _shn_admin_lc_load($file_n = null)
@@ -232,9 +232,9 @@ function _shn_admin_lc_load($file_n = null)
        		}
         }
     }
-    
+
 	//echo "<pre>".$value."</pre>";
-	
+
 	shn_form_fopen("lc_trns",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'save'));
     shn_form_fsopen(_t('Translation'));
@@ -254,11 +254,11 @@ switch($_REQUEST['seq']) {
             _shn_admin_lc_load();
             break;
     case 'save':
-            _shn_admin_lc_save();            
+            _shn_admin_lc_save();
             break;
     case 'merge':
-    		_shn_admin_lc_merge();    		   		
-    		break;   
+    		_shn_admin_lc_merge();
+    		break;
     case 'extract':
     		$return = array();
             $cmd = 'xgettext --keyword=__ --keyword=_e ' .
@@ -271,11 +271,11 @@ switch($_REQUEST['seq']) {
             file_put_contents("../res/locale/" . $locale. "/LC_MESSAGES/sahana_temp.po",$new_po_file);
             chmod("../res/locale/" . $locale. "/LC_MESSAGES/sahana_temp.po",0666);
             _shn_admin_lc_load('../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po');
-            
+
             break;
     case 'compile':
             $return = array();
-            $cmd = 'msgfmt ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.mo';            
+            $cmd = 'msgfmt ../res/locale/' . $locale . '/LC_MESSAGES/sahana.po --output-file=../res/locale/' . $locale . '/LC_MESSAGES/sahana.mo';
             system($cmd, &$return);
             break;
 }
@@ -298,7 +298,7 @@ switch($_REQUEST['seq']) {
 	    shn_form_submit(_t('Load Existing List'));
 	    shn_form_fclose();
 	?>
-	</td>	
+	</td>
 	<td>
 	<?php
 //		shn_form_fopen("lc_trns",null,array('req_message'=>false));
