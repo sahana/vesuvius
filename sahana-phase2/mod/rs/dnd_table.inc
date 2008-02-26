@@ -20,6 +20,7 @@ global $global;
 include_once $global['approot']."/inc/handler_db.inc";
 include $global['approot']."/mod/rs/lib_table.inc";
 include_once($global['approot']."/inc/browser_caps.inc");
+include_once $global['approot']."/inc/reporting/lib_reporting.inc";
 include_once("table.inc");
 //var_dump($global['db']->MetaTables('TABLES'));
 //var_dump($global['db']->ServerInfo());
@@ -135,6 +136,7 @@ print "\t<li id=".$field.">".$name."</li>\n";
 
 // show table that user wanted to be shown
 function _shn_dr_show_table($table_name, $chosen_fields){
+	
 	global $global;
 
 	// getting user-friendly table_name
@@ -150,7 +152,8 @@ function _shn_dr_show_table($table_name, $chosen_fields){
 // 	getting data from choosen table
 	$sql = "SELECT DISTINCT $chosen_fields FROM $table_name";
 	$res = $global['db']->Execute($sql); 
-
+    
+	
 // 	printing out result
 ?>
 		<h2><?php echo 'Results for: '.$tables[$table_name]; ?></h2>
@@ -158,18 +161,24 @@ function _shn_dr_show_table($table_name, $chosen_fields){
     <table>
     <thead>
 <?php
-		foreach($chosen_fields_array as $field)
+		foreach($chosen_fields_array as $field){
     	echo '<td><strong>'.$fields[$field].'</strong></td>';
+    	$table_header[$field]=$fields[$field];
+		}
 ?>
     </thead>
 		<tboby>
 <?php
-		while($res->fields){
+        $table_data_display=array();
+      	while($res->fields){
 			echo '<tr>';
-			foreach($chosen_fields_array as $field)
+			foreach($chosen_fields_array as $field){
 				echo '<td>'.$res->fields[$field].'</td>';
+				$table_data[$field]=$res->fields[$field];
+			}	
 			echo '</tr>';
 			$res->MoveNext();
+			array_push($table_data_display,$table_data);
 		}
 ?>
 		</tbody>
@@ -177,6 +186,14 @@ function _shn_dr_show_table($table_name, $chosen_fields){
 		</div>
 
 <?php
+//print_r($table_data_display);
+//print_r($table_header);
+//This is for download pdf version of the report
+    
+    shn_report_fopen('pdf',$tables[$table_name],$ims_report_keyword_arr);
+	shn_report_add_title($tables[$table_name]);
+    shn_report_add_table($table_header,$table_data_display);
+	shn_report_close();
 }
 
 
