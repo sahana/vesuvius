@@ -18,15 +18,15 @@
  */
 
 include_once $global['approot']."/inc/handler_db.inc";
+include_once ("lib_table.inc");
 
-
-$table_name = $_POST['tableName'];
-$chosen_fields = $_POST['fieldsNames'];
-
+function shn_rs_get_dynamic_report_form(){
+	$table_name = $_POST['tableName'];
+    $chosen_fields = $_POST['fieldsNames'];
 //check weather a fields names or table name was submitted
 if(isset($chosen_fields)){
 	// if so then show table
-	_shn_dr_show_table($table_name, $chosen_fields);
+	_shn_dr_show_table_form($table_name, $chosen_fields);
 }
 else{
 	if(isset($table_name) && ($table_name != "0")){
@@ -48,14 +48,14 @@ else{
 		}
 	}
 }
-
+}
 
 // form for fields names
 function _shn_dr_fields_form($table_name){
 	$tables = _shn_dr_tables();
 	$usrfr_table_name = $tables[$table_name];
 
-	$fields = _shn_dr_fields($table_name);
+	$fields = _shn_dr_fields_form_second($table_name);
 	$table['tableName'] = $table_name;
 
 	echo "<h2>"._('Viewing any part of database table')."</h2>";
@@ -74,7 +74,7 @@ function _shn_dr_fields_form($table_name){
 
 
 // function returns array where key is field name and value is fields user-friendly name
-function _shn_dr_fields($table_name){
+function _shn_dr_fields_form_second($table_name){
 	global $global;
 
 	// getting user-friendly tables names
@@ -93,7 +93,7 @@ function _shn_dr_fields($table_name){
 
 
 // function returns array where key is table name and value is tables user-friendly name
-function _shn_dr_tables(){
+function _shn_dr_tables_form(){
 	global $global;
 
 	// getting user-friendly tables names
@@ -114,7 +114,7 @@ function _shn_dr_tables(){
 
 // form for choosing table
 function _shn_dr_table_form(){
-	$tables = _shn_dr_tables();
+	$tables = _shn_dr_tables_form();
 
 	echo "<h2>"._('Viewing any part of database table')."</h2>";
 	//functions from lib_form.inc
@@ -131,7 +131,7 @@ function _shn_dr_table_form(){
 
 
 // show table that user wanted to be shown
-function _shn_dr_show_table($table_name, $chosen_fields){
+function _shn_dr_show_table_form($table_name, $chosen_fields){
 	global $global;
     //print_r($chosen_fields);
 	// getting user-friendly table_name
