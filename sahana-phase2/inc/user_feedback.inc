@@ -253,9 +253,7 @@ function _shn_search_remote_server_answer_db($question,$module,$action){
 	$wsdl_url="http://".$conf['user_help_server']."/index.php?wsdl&stream=soap&wbsmod=home&mod=ws&act=reg";
 	$method="shn_search_answer_db";
 	$input=array("question"=>$question,"module"=>$module,"action"=>$action);
-	file_put_contents("/tmp/a.txt",$wsdl_url);
 	$response=shn_ws_sahana_client_call($wsdl_url,$method,$input);
-	file_put_contents("/tmp/a.txt",$response[0]["question"],FILE_APPEND);
 	
 	ob_start();
 
