@@ -19,14 +19,18 @@
 
 global $report_type;
 
-function shn_report_fopen($rep_type,$file_name='',$keyword_in='',$dynamic_rep=false)
+function shn_report_fopen($rep_type,$file_name='',$keyword_in='',$dynamic_rep=false,$rep_id=null)
 {
     global $report_type;
     $report_type = $rep_type;
-
+    if(NULL==$rep_id){
     $backtrace = debug_backtrace();
     $rep_ID = $backtrace['1']["function"];
-
+    }
+    else
+    {
+    $rep_ID=$rep_id;	
+    }
     switch($report_type)
     {
         case 'pdf':
