@@ -42,7 +42,7 @@ function shn_setup_general_dependancies()
 <p><?=_t('The following checks if all the relevant Sahana libraries are installed')?></p>
 	<?php
 
-	$value = (version_compare(phpversion(), '4.1', '>'));
+	$value = (version_compare(phpversion(), '5', '>'));
 	$isOK &= $value;
 
 	//if ($isOK) echo "is OK";
@@ -50,7 +50,7 @@ function shn_setup_general_dependancies()
 		shn_form_label(_t('PHP Version'), $tick_img.phpversion()." is installed");
 	} else {
 		shn_form_label(_t('PHP Version'), $cross_img.phpversion()." is installed");
-		echo "<p><br/>$oops_img Sahana needs PHP version 4.1 or higher. Please upgrate your version of PHP</p>";
+		echo "<p><br/>$oops_img Sahana needs PHP version 5.0 or higher. Please upgrade your version of PHP</p>";
 	}
 
 	// Check if php-gd is loaded
