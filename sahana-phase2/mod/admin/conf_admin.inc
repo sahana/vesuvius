@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.18 2008-02-27 07:57:34 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.19 2008-02-28 04:37:40 ravithb Exp $ */
 
-/* $Id: conf_admin.inc,v 1.18 2008-02-27 07:57:34 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.19 2008-02-28 04:37:40 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -398,14 +398,14 @@ function _shn_admin_conf_ajax_update($key,$value)
 		$xajax_response = new xajaxResponse();
 		$xajax_response->addAssign("target_$key","innerHTML",$new_value);;
 		// hide error if visible
-		$xajax_response->addAssign("target_".$key."_error","className","message error hide");;
+		$xajax_response->addAssign("target_".$key."_error","className","feedback_content_error hide");;
 		// hide row.
 		$xajax_response->addScript("_hide('$key')");
 		return $xajax_response;
 	}else{
 		$xajax_response = new xajaxResponse();
 		$xajax_response->addAssign("target_".$key."_error","innerHTML",$error);;
-		$xajax_response->addAssign("target_".$key."_error","className","message error show");;
+		$xajax_response->addAssign("target_".$key."_error","className","feedback_content_error show");;
 		//echo $xajax_response;
 		//file_put_contents("/tmp/errors.txt","helo");
 		return $xajax_response;

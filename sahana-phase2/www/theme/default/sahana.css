@@ -272,7 +272,7 @@ div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border
 .feedback_close { right: 10px; top: 10px; display: block; float: right; }
 .feedback_dontshow { display: block; float: left; width: 100%; position: relative; }
 .feedback_content { display: block; float: left; padding-left: 5px; overflow: auto; }
-.feedback_content_error { background-color: #FFE5E5; border: 1px solid #FF6D6D; color: #c00; margin: 18px 0 5px 0; font-size: 11px; padding: 2px; }
+.feedback_content_error { background-color: #FFE5E5; border: 1px solid #FF6D6D; color: #000; margin: 18px 0 5px 0; font-size: 11px; padding: 2px; }
 .show { display: block; }
 /* Feedback Form Styles
    ------------------------------------------------------------------------------- */
