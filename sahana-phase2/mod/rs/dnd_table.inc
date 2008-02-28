@@ -188,25 +188,29 @@ function _shn_dr_show_table($table_name, $chosen_fields){
 <?php
 //print_r($table_data_display);
 //print_r($table_header);
-//This is for download pdf version of the report
+
     $rep_name=split(' ',$tables[$table_name]);
 //This is for generata nice file name    
     foreach($rep_name as $rn){
         $dis_name=$dis_name.'_'.$rn;	
     }
-    
+//This is for download pdf version of the report    
     shn_report_fopen('pdf',$dis_name,$ims_report_keyword_arr,false,$table_name.'_pdf');
 	shn_report_add_title($tables[$table_name]);
     shn_report_add_table($table_header,$table_data_display);
-	shn_report_close();
+	shn_report_close(true);
 	
 //This is for download ods version of the report
 
     shn_report_fopen('ods',$dis_name,$ims_report_keyword_arr,false,$table_name.'_ods');
     shn_report_add_title($tables[$table_name]);
-    
     shn_report_add_table($table_header,$table_data_display);
-    shn_report_close(); 
+    shn_report_close(true);
+//This is for download M$ excel version of the report   
+    shn_report_fopen('xls',$dis_name,$ims_report_keyword_arr,false,$table_name.'_xls');
+    shn_report_add_title($tables[$table_name]);
+    shn_report_add_table($table_header,$table_data_display);
+    shn_report_close(true);  
 }
 
 
