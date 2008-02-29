@@ -249,6 +249,7 @@ function _shn_dr_get_db_data($tab){
 // show table that user wanted to be shown
 function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 	global $global;
+	$table_data_display=array();
 	$tab = split(",", $table_name);
 	//echo $table_name;
 // 	getting user friendly names for all fields from chosen tables and for chosen tables
@@ -336,6 +337,7 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 			foreach($fl as $key=>$name){
 				$var = split("\.", $name);
 				print "<td><strong>".$fields[$var[0]][$var[1]]."</strong></td>";
+				$table_header[$var[0].$var[1]]=$fields[$var[0]][$var[1]];
 			}
 		?>
 				</thead>
@@ -346,9 +348,11 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 					echo '<tr>';
 					foreach($fli as $key=>$name){
 						echo '<td>'.$res->fields[$name].'</td>';
+						$table_data[$name]=$res->fields[$name];
 					}
 					echo '</tr>';
 					$res->MoveNext();
+					array_push($table_data_display,$table_data);
 				}
 		?>
 				</tbody>
@@ -356,6 +360,27 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 				</div>
 		
 		<?php
+		$rep_name=split(' ','Results from several tables');
+		//This is for generata nice file name    
+        foreach($rep_name as $rn){
+           $dis_name=$dis_name.'_'.$rn;	
+        }
+        
+        //This is for generate pdf format of the report
+		shn_report_fopen('pdf',$dis_name,$ims_report_keyword_arr,false,$table_name.'_pdf');
+	    shn_report_add_title('Results from several tables');
+        shn_report_add_table($table_header,$table_data_display);
+	    shn_report_close(true);
+	    //for ods format
+	    shn_report_fopen('ods',$dis_name,$ims_report_keyword_arr,false,$table_name.'_ods');
+	    shn_report_add_title('Results from several tables');
+        shn_report_add_table($table_header,$table_data_display);
+	    shn_report_close(true);
+	    //for M$ excel format
+	    shn_report_fopen('xls',$dis_name,$ims_report_keyword_arr,false,$table_name.'_xls');
+	    shn_report_add_title('Results from several tables');
+        shn_report_add_table($table_header,$table_data_display);
+	    shn_report_close(true);
 	}// 	if for some tables have two keys:
 	else
 		_shn_dr_create_form($table_name, $chosen_fields, $keys);
