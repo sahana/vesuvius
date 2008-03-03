@@ -16,6 +16,7 @@ function _shn_ims_config_form($errors=false,$updated=false)
     shn_form_fsopen(_t("Activate/Deactivate"));
     if($conf['mod_admin_ims_active'] == true)
         $extra_opt['value']= true;
+        $extra_opt['help'] = 'This will activate / deactivate incident management and the incident hierarchy.';
     shn_form_checkbox(_t("Activate"), 'frm_active',null,$extra_opt);
     shn_form_fsclose();
 
