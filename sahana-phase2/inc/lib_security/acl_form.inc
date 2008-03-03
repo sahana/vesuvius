@@ -413,18 +413,24 @@ function shn_acl_form_change_user_status(){
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home">Rows are Users ,Columns are the possible status values</div>
+<div id="home"><?php echo _t("Rows are Users ,Columns are the possible status values"); ?>
+<ul>
+    <li><?php echo _t("<strong>Active</strong> - The user can login and perform operations."); ?></li>
+    <li><?php echo _t("<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."); ?></li>
+    <li><?php echo _t("<strong>Banned</strong> - The user is not allowed to perform any operation on the system permenantly."); ?></li>
+</ul>
+</div>
 
 <div id="formcontainer"><?php
-shn_form_fopen("acl_change_user_status_cr","admin");
+shn_form_fopen("acl_change_user_status_cr","admin",array('req_message'=>false));
 ?>
 <div id="result">
 <table>
 	<thead>
-		<td><strong>User</strong></td>
-		<td>Active</td>
-		<td>Locked</td>
-		<td>Banned</td>
+		<td><strong><?php echo _t("User"); ?></strong></td>
+		<td><?php echo _t("Active") ?></td>
+		<td><?php echo _t("Locked") ?></td>
+		<td><?php echo _t("Banned") ?></td>
 	</thead>
 	<tbody>
 	<?php
