@@ -89,6 +89,11 @@ function _shn_ajax_create_ajax_call() {
 	function stateChanged(){
 	
 		if (xmlHttp.readyState==4){
+			var load = document.getElementById('content');
+			//document.getElementById('test').innerHTML='Loaded......';
+			//document.getElementById('test').setAttribute('class','loading');
+			var olddiv = document.getElementById('test');
+			load.removeChild(olddiv);
 			ids=new Array();
 			names=new Array();		
 			count=-1;
@@ -124,6 +129,24 @@ function _shn_ajax_create_ajax_call() {
 		//document.getElementById(value[0]).focus();
 						
 		document.getElementById(value[0]).innerHTML=new_value;
+		}
+		
+		else {
+			
+			var load = document.getElementById('test');
+    		if(load==null){
+	    		var newdiv = document.createElement('div');
+	    		newdiv.innerHTML = 'Loading......';
+	    		var loadId = 'test';
+	    		newdiv.setAttribute('id',loadId);
+	    		newdiv.setAttribute('class','loading');
+	    		var ni = document.getElementById('content');
+	    		ni.insertBefore(newdiv,ni.childNodes[0]);
+    		}
+    		else{
+    			document.getElementById('test').innerHTML='Loading......';
+    			document.getElementById('test').setAttribute('class','loading');
+    		}
 		}
 	}
 	
