@@ -315,3 +315,9 @@ div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border
 
 #note { border:1px #999 solid; background-color: #ccc; text-align:center; padding: 5px 5px 5px 5px; margin-bottom: 10px; }
 
+.loading 
+{
+  float:left; display: inline;padding: 10px;width: 760px;background-color: #fffbb8;color: #FF9900;border: 1px solid #ffcc00;
+  font-weight: bold;position:fixed;z-index:6;
+  
+ }
