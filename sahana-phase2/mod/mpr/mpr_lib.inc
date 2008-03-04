@@ -43,9 +43,9 @@ function shn_mpr_search_show_verticle($details)
 <?php
 	     
 	        if(shn_show_thumb_url($details[$i]['p_uuid'],'database','mpr','addmp_img',false))
-	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
+	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	        else{
-	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
+	            echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	            echo ($details[$i]['height']?_t('Height : ').$details[$i]['height'].'<br>':'');
 	            echo ($details[$i]['weight']?_t('Weight : ').$details[$i]['weight'].'<br>':'');
 	            echo ($details[$i]['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details[$i]['opt_eye_color'],'opt_eye_color').'<br>':'');
@@ -64,9 +64,9 @@ function shn_mpr_search_show_verticle($details)
         <TD>
 <?php
                 if(shn_show_thumb_url($details[$i+1]['p_uuid'],'database','mpr','addmp_img'))
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		        else{
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		            echo ($details[$i+1]['height']?_t('Height : ').$details[$i+1]['height'].'<br>':'');
 		            echo ($details[$i+1]['weight']?_t('Weight : ').$details[$i+1]['weight'].'<br>':'');
 	                echo ($details[$i+1]['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details[$i+1]['opt_eye_color'],'opt_eye_color').'<br>':'');
@@ -111,9 +111,9 @@ function _shn_mpr_listing($details)
 	{?>
 		<td><?php
 			if(shn_show_thumb_url($details->fields['p_uuid'],'database','mpr','addmp_img'))	                
-				echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
+				echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
 		        else{
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=editmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
 		            echo ($details->fields['height']?_t('Height : ').$details->fields['height'].'<br>':'');
 		            echo ($details->fields['weight']?_t('Weight : ').$details->fields['weight'].'<br>':'');
 	                echo ($details->fields['opt_eye_color']?_t('Eye Colour : ').shn_get_field_opt($details->fields['opt_eye_color'],'opt_eye_color').'<br>':'');

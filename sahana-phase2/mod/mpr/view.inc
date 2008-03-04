@@ -1,5 +1,5 @@
 <?php
-/* $Id: view.inc,v 1.5 2008-01-30 04:35:17 prabath321 Exp $ */
+/* $Id: view.inc,v 1.6 2008-03-04 07:44:46 ishanul Exp $ */
 
 /**Main home page of the Missing Person Registry 
  *
@@ -25,7 +25,7 @@
  */
 function shn_mpr_view($p_uuid)
 {
-    shn_form_fopen("",null);
+    shn_form_fopen("",null,Array('req_message'=>false));
     shn_form_fsopen(_t("Details"));
     shn_show_thumb_url($p_uuid,$conf['mod_mpr']['upload_picture']['savehandler' ],'mpr', 'addmp_img');
 ?>
@@ -158,10 +158,18 @@ function shn_mpr_view($p_uuid)
 
  
 ?>
-    <p align="center"><a href="index.php?mod=mpr&act=editmp&id=<?=$p_uuid; ?>"
-><?= _t('Click to edit'); ?></a></p>
-    <p><a href="#" onCLick="history.back()"><?= _t('Back'); ?></a></p>
 <?php
+	include $global['approot'] . "/inc/lib_security/lib_acl.inc";	
+	$roles=_shn_acl_get_roles($_SESSION['user_id']);
+	if(isset($roles[4]) || !shn_acl_is_enabled())
+	{
+	?>
+		<p align="center"><a
+		href="index.php?mod=mpr&act=editmp&id=<?=$p_uuid; ?>"><?= _t('Click to edit'); ?></a></p>
+		<p><a href="#" onCLick="history.back()"><?= _t('Back'); ?></a></p>
+
+	<?php
+	}
     shn_form_fclose();
 }
 /* }}} */

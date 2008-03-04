@@ -150,7 +150,7 @@ function shn_mpr_editmp_entry($errors=false)
 	//if($errors)
 	// display_errors();
 
-	shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"'));
+	shn_form_fopen("editmp",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>true));
 
 	shn_form_hidden(array('seq'=>'entry'));
 
@@ -169,7 +169,7 @@ function shn_mpr_editmp_entry($errors=false)
 <p><?= _t('Please enter any of the following details on the person'); ?>:</p>
 	<?php
 
-	shn_form_text(_t('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name']));
+	shn_form_text(_t('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name'],'req'=>true));
 	shn_form_text(_t('Family Name'),'family_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['family_name']));
 	shn_form_text(_t('Local Name'),'local_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['local_name']));
 
@@ -826,7 +826,7 @@ function shn_edit_show_trackers($p_uuid)
 
 	$arr = shn_mpr_search_get_trackers($p_uuid);
 
-	shn_form_fopen("editmp",null);
+	shn_form_fopen("editmp",null,array('req_message'=>false));
 
 	shn_form_hidden(array('seq'=>'trackers'));
 
