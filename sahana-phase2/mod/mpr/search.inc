@@ -158,9 +158,8 @@ function shn_mpr_search_result()
  * @access public
  * @return void
  */
-function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $offset=-1, $return=false)
+function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $offset=-1, $return=false,$search=false)
 {
-    
     $_SESSION['mpr']['search']['subquery'] = $subquery;
 
     global $global;
@@ -225,7 +224,7 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 	<DIV ID="result">
 	<?php
    if($rs)
-       shn_mpr_search_show_result($rs);
+       shn_mpr_search_show_result($rs,$search);
     
 	?>
 	</DIV>
@@ -322,9 +321,8 @@ function shn_mpr_search_nav()
  * @access public
  * @return void
  */
-function shn_mpr_search_show_result($details)
+function shn_mpr_search_show_result($details,$search)
 {
-    
     global $global;
     if($_GET['act']!='search')
         $select = false;
@@ -347,10 +345,20 @@ function shn_mpr_search_show_result($details)
         <TD>
 <?php
     		shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
-    		echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
+    		if($search)
+    		{
+    			echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.
             	$detail['p_uuid'].'">'.
             	$detail['full_name'].'</a>'.
         		'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+    		}
+    		else
+    		{
+    			echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.
+            	$detail['p_uuid'].'">'.
+            	$detail['full_name'].'</a>'.
+        		'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+    		}
 ?>
         </TD>
         <TD>

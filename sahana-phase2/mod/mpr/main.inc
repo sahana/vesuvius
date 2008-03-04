@@ -457,14 +457,21 @@ function shn_mpr_search() {
 	global $global;
 	echo '<h1 align="center">Search</h1>';
 	require ($global['approot'] . 'mod/mpr/search.inc');
-
+	
+	
+	$search=false;
+	if($_REQUEST['type']==all)
+	{
+		$search=true;
+	}	
+	
 	//Controller for Normal Search
 	if ($_GET['act'] == 'search') {
 		switch ($_REQUEST['seq']) {
 			case 'result' :
 				shn_mpr_search_default();//echo $_SESSION['mpr']['search']['subquery'];
 				if (isset($_SESSION['mpr']['search']['subquery'])){
-					shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery']);
+					shn_mpr_search_result_vw($_SESSION['mpr']['search']['subquery'],null,null,$search);
 				}else {
 					$search_sql = new SearchQuery();
 					if (!empty ($_POST['name']))
@@ -483,7 +490,7 @@ function shn_mpr_search() {
 						$search_sql->isvictim = true;
 					}
 					#debug($search_sql->get_sql());
-					$arr = shn_mpr_search_result_vw($search_sql->get_sql());//echo '.........'.$search_sql->get_sql();
+					$arr = shn_mpr_search_result_vw($search_sql->get_sql(),null,null,$search);
 				}
 				break;
 			default :
