@@ -21,6 +21,41 @@ include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 include_once ($global['approot'] . '/mod/or/lib_or.inc');
 
 /**
+ * //////////////////////////////////////////////////////////////////////////
+ */	
+	switch($_REQUEST['seq'])
+	{	
+		case 'delete' :
+		{
+			$_POST['p_uuid']= $_SESSION['dvr']['person2']['id'];
+			//shn_dvr_delete_individual();
+			_shn_dvr_delete_person($_SESSION['dvr']['person2']['id']);
+			$msg = $_SESSION['dvr']['person2']['p_full_name'] . " person was succesfully deleted ";
+			add_confirmation($msg);
+			unset($_SESSION['dvr']['person1']);
+			unset($_SESSION['dvr']['person2']);
+			shn_dvr_duplicate_search();
+			
+			break;
+		}
+		default :
+		{
+			$p_uuid1 = $_GET['p_uuid1'];
+			$p_uuid2 = $_GET['p_uuid2'];
+			if($p_uuid2)
+			_shn_dvr_comparison_page($p_uuid1,$p_uuid2);
+			
+			else
+			_shn_dvr_comparison_pageall($p_uuid1);
+		}
+		
+		
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
  * get all the details of the victim from database and return those
  *
  * @param unknown_type $p_uuid
@@ -104,6 +139,87 @@ function _shn_dvr_get_compare_details($p_uuid,$person)
 	return $_SESSION['dvr'][$person];
 }
 
+
+function _shn_dvr_comparison_pageall($p_uuid)
+{
+	_shn_dvr_print_header(_t("Compare Duplicates"));
+	shn_form_fopen("compare_duplicates", null, false);
+	shn_form_hidden(array('seq'=>'delete'));//echo "<pre>";var_dump($_SESSION['entries']);echo "</pre>";
+	_shn_dvr_get_compare_details($p_uuid, "entry");
+	
+	$pop = $_SESSION['entries']; //echo "<pre>";var_dump($pop[$p_uuid]);echo "</pre>";
+	$dup_count = count($pop[$p_uuid]); 
+	?>
+	<div>
+	<table width="100%">
+				<thead>
+					<tr>
+						<td><?=_t("Entry Name")?></td>
+						<td><?=_t("Mobile")?></td>
+						<td><?=_t("Telephone")?></td>
+						<td><?=_t("NIC")?></td>
+						<td><?=_t("Passport")?></td>
+						<td><?=_t("Licence")?></td>
+					</tr>
+				</thead>
+				<tr>
+					<td><b><?=$_SESSION['dvr']['entry']['p_full_name']?></b></td>
+					<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$_SESSION['dvr']['entry']['id']?>'><b><?=$_SESSION['dvr']['entry']['p_full_name']?></b></a></td> -->
+					<td><?=$_SESSION['dvr']['entry']['mobile']?></td>
+					<td><?=$_SESSION['dvr']['entry']['telephone']?></td>
+					<td><?=$_SESSION['dvr']['entry']['idcard']?></td>
+					<td><?=$_SESSION['dvr']['entry']['passport']?></td>
+					<td><?=$_SESSION['dvr']['entry']['drv_licence']?></td>
+					<!-- <td></td> -->
+					<!-- <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$_SESSION['dvr']['entry']['id']?>' onClick="javascript: return confirmdelete('<?=$_SESSION['dvr']['entry']['p_full_name']?>')">Delete</a></td> -->
+                </tr>
+             </table>
+	</div>
+	<br>
+	<p><b><?= $dup_count." duplicates found." ?></b></p>
+	<div id ="result">
+			<table width="100%">
+				<thead>
+					<tr>
+						<td><?=_t("Duplicates")?></td>
+						<td><?=_t("Mobile")?></td>
+						<td><?=_t("Telephone")?></td>
+						<td><?=_t("NIC")?></td>
+						<td><?=_t("Passport")?></td>
+						<td><?=_t("Licence")?></td>
+						<td><?=_t("Compare")?></td>
+						<td><?=_t("Delete duplicate")?></td>
+					</tr>	
+				</thead>
+           
+	<?php
+	
+	foreach($pop[$p_uuid] as $p){
+	    _shn_dvr_get_compare_details($p, "person");
+	?>
+	<tr>
+			<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$_SESSION['dvr']['person']['id']?>'><b><?=$_SESSION['dvr']['person']['p_full_name']?></b></a></td> -->
+			<td><b><?=$_SESSION['dvr']['person']['p_full_name']?></b></td>
+			<td><?=$_SESSION['dvr']['person']['mobile']?></td>
+			<td><?=$_SESSION['dvr']['person']['telephone']?></td>
+			<td><?=$_SESSION['dvr']['person']['idcard']?></td>
+			<td><?=$_SESSION['dvr']['person']['passport']?></td>
+			<td><?=$_SESSION['dvr']['person']['drv_licence']?></td>
+			<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$_SESSION['dvr']['entry']['id']?>&p_uuid2=<?=$_SESSION['dvr']['person']['id']?>'>Compare</a></td>
+			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$_SESSION['dvr']['person']['id']?>' onClick="javascript: return confirmdelete('<?=$_SESSION['dvr']['person']['p_full_name']?>')">Delete</a></td>
+		</tr>
+		<?php
+		shn_form_fsclose();
+		}
+?></table>
+</div>
+<?php
+    shn_form_fclose();
+	
+	
+}
+
+
 /**
  *comparison page
  */
@@ -112,7 +228,7 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
 	_shn_dvr_print_header(_t("Compare Duplicates"));
 	shn_form_fopen("compare_duplicates", null, false);
 	shn_form_hidden(array('seq'=>'delete'));
-
+    shn_form_fsopen(_t('Details'));
 	
 
 	_shn_dvr_get_compare_details($p_uuid1, "person1");
@@ -301,37 +417,18 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
 	
 <?php
 	shn_form_submit(_t("Delete Duplicate"));
+	shn_form_fsclose();
 	shn_form_fclose();
 }
 	
-/**
- * //////////////////////////////////////////////////////////////////////////
- */	
-	switch($_REQUEST['seq'])
-	{	
-		case 'delete' :
-		{
-			$_POST['p_uuid']= $_SESSION['dvr']['person2']['id'];
-			//shn_dvr_delete_individual();
-			_shn_dvr_delete_person($_SESSION['dvr']['person2']['id']);
-			$msg = $_SESSION['dvr']['person2']['p_full_name'] . " person was succesfully deleted ";
-			add_confirmation($msg);
-			unset($_SESSION['dvr']['person1']);
-			unset($_SESSION['dvr']['person2']);
-			shn_dvr_duplicate_search();
-			
-			break;
-		}
-		default :
-		{
-			$p_uuid1 = $_GET['p_uuid1'];
-			$p_uuid2 = $_GET['p_uuid2'];
 
-			_shn_dvr_comparison_page($p_uuid1,$p_uuid2);
-		}
-		
-		
-	}
-	
-	
 ?>
+<script language="JavaScript">
+
+function confirmdelete(name)
+{
+return confirm('This person '+name+' will be permanently deleted');
+}
+
+
+</script>
