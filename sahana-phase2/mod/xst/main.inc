@@ -75,4 +75,16 @@ function shn_xst_help(){
 	shn_home_default();
 	
 }
+
+function shn_xst_online_cam_upload_img(){
+	global $global;  
+    if($_SESSION['online_cam']['seckey']==$_POST['seckey']){    	
+    	$target = $global['approot']."www/tmp/online_cam_".$_SESSION['online_cam']['image_id'].".png";
+        move_uploaded_file($_FILES['Filedata']['tmp_name'],$target);
+        chmod($target,0444);
+    }else{
+        //shn_log_event(null,"upload_img","Image upload attempt without security key in the session.","An attempt was made to upload an image without a valid security key in the sesion.");
+    }
+}
+
 ?>
