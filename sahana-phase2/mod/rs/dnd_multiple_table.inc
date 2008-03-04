@@ -30,16 +30,19 @@ $tables_name = $_POST['table'];
 $chosen_fields = $_POST['fields'];
 $create_table = $_POST['crt'];
 $keys = $_POST['keys'];
-
+$topic=$_POST['rep_name'];
+if(!isset($topic)){
+	$topic=NULL;
+}
 //calling dynamic reporting javascript functions
 _shn_rs_lib_dnd();
 _shn_rs_dnd_multiple_table();
 
 if(($create_table == "true")&&($chosen_fields != "")){
 	if(isset($keys))
-		_shn_dr_show_table($tables_name, $chosen_fields, $keys);
+		_shn_dr_show_table($tables_name, $chosen_fields, $keys,$topic);
 	else
-		_shn_dr_show_table($tables_name, $chosen_fields, null);
+		_shn_dr_show_table($tables_name, $chosen_fields, null,$topic);
 }
 else{
 	if(isset($tables_name)&&($tables_name != "")){
@@ -67,7 +70,7 @@ function _shn_dr_dnd_table($tables_name, $chosen_fields){
 
 	echo "<h2>"._('Selecting data from several tables')."</h2>";
 	shn_form_fopen("dnd_multiple_table",null,array('enctype'=>'enctype="multipart/form-data"', 'id'=>'myForm'));
-
+    shn_form_fsopen();
 	?>
 	<table id="dnd">
 		<thead><td><strong>Tables to choose<strong></td><td><strong>Chosen tables<strong></td></thead>
@@ -136,15 +139,21 @@ function _shn_dr_dnd_table($tables_name, $chosen_fields){
 			</ul></td></tr>
 		</tbody>
 	</table>
+	<br>
+	<br>
+	
 	<?php
-		
-	print "<button onclick=\"submitFields()\" type=button>Create report</button>";
+	    $extra_opts['help']='Type a specific name for the report, If you need your own name';
+		shn_form_text('Report Name', 'rep_name', 'size="50"',$extra_opts);
+		echo '<br><br>';
+	    print "<button onclick=\"submitFields()\" type=button>Create report</button>";
 	}
 // passing data with POST method
 	$hidden_vars['table'] = "none";
 	$hidden_vars['fields'] = "none";
 	$hidden_vars['crt'] = "false";
 	shn_form_hidden($hidden_vars);
+	shn_form_fsclose();
 	shn_form_fclose();
 }
 
@@ -247,7 +256,7 @@ function _shn_dr_get_db_data($tab){
 
 
 // show table that user wanted to be shown
-function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
+function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub,$rep_name=null){
 	global $global;
 	$table_data_display=array();
 	$tab = split(",", $table_name);
@@ -326,10 +335,12 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 			$sql = "SELECT DISTINCT $chosen_fields FROM $con ";
 
 		$res = $global['db']->Execute($sql); 
-	
+	    if(NULL==$rep_name){
+	    	$rep_name='Results for selecting data from several tables';
+	    }
 		// 	printing out result
 		?>
-				<h2><?php echo 'Results for selecting data from several tables'; ?></h2>
+				<h2><?php echo $rep_name?></h2>
 				<div id="result">
 				<table>
 				<thead>
@@ -360,7 +371,7 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub){
 				</div>
 		
 		<?php
-		$rep_name=split(' ','Results from several tables');
+		$rep_name=split(' ',$rep_name);
 		//This is for generata nice file name    
         foreach($rep_name as $rn){
            $dis_name=$dis_name.'_'.$rn;	
