@@ -290,41 +290,53 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
 function _shn_rms_item_allocation_db()
 {
     global $global;
-    $db=$global['db'];
-    $item_id=$_SESSION['rms']['item_id'];
-    $available_quantity=$_SESSION['rms']['max_quantity']-$_SESSION['rms']['quantity'];
-    $sql="UPDATE ims_item_records SET amount='$available_quantity' WHERE item_id='$item_id';";
-    $res=$db->Execute($sql);
+    $db = $global['db'];
+    $item_id = $_SESSION['rms']['item_id'];
+    $available_quantity = $_SESSION['rms']['max_quantity']-$_SESSION['rms']['quantity'];
+    $sql = "UPDATE ims_item_records SET amount='$available_quantity' WHERE item_id='$item_id';";
+    $res = $db->Execute($sql);
     //print $sql;
-    $req_uuid=$_SESSION['rms_req_id'];
-    $catalog_id=$_SESSION['rms_req_item'];
-    $quantity=$_SESSION['rms']['quantity'];
-    //$dt2=date("Y-m-d H:i:s");
+    $req_uuid = $_SESSION['rms_req_id'];
+    $catalog_id = $_SESSION['rms_req_item'];
+    $quantity = $_SESSION['rms']['quantity'];
+    $dt2 = date("Y-m-d H:i:s");
     //print $dt2;
-    $sql="SELECT * FROM rms_fullfill WHERE req_uuid='$req_uuid';";
-    $res=$db->Execute($sql);
-    if($res->EOF)
-    {
-         $sql1="INSERT INTO rms_fullfill VALUES ('$req_uuid', '$catalog_id', '$item_id', '$quantity', $dt2);";
-         $res1=$db->Execute($sql1);
+    $sql = "SELECT * FROM rms_fulfil WHERE req_uuid = '$req_uuid' AND item_uuid = '$catalog_id'";
+    $res = $db->Execute($sql);
+    if ($res === false){
+       $msg = $global['db']->ErrorMsg();
+       add_error($msg.' <br> '.$sql);
+       display_errors();
+    }
+    
+    if ($res->RecordCount() <= 0)    {
+	  $sql1 = "INSERT INTO rms_fulfil(req_uuid, item_uuid, quantity, ff_date) VALUES ('$req_uuid', '$catalog_id', '$quantity', '$dt2');";
+      $res1 = $db->Execute($sql1);
+      if ($res1 === false){
+          $msg = $global['db']->ErrorMsg();
+          add_error($msg.' <br> '.$sql);
+          display_errors();
+      }
+      else{
+      	add_confirmation("Submition successfull");
+      }
     }
     else
     {
-        //update
-        $previous_quantity=$res->fields['quantity'];
-        $new_quantity=$previous_quantity + $quantity;
-        $sql2="UPDATE rms_fullfill SET quantity='$new_quantity' WHERE req_uuid='$req_uuid';";
+        $previous_quantity = $res->fields['quantity'];
+        $new_quantity = $previous_quantity + $quantity;
+        $sql2="UPDATE rms_fulfil SET quantity = '$new_quantity', ff_date = '$dt2' WHERE req_uuid = '$req_uuid' AND item_uuid = '$catalog_id'";
         $res2=$db->Execute($sql2);
+        if ($res2 === false){
+          $msg = $global['db']->ErrorMsg();
+          add_error($msg.' <br> '.$sql);
+          display_errors();
+        }
+        else{
+      	  add_confirmation("Submition successfull");
+        }
     }
-/*print $req_uuid;
-print '<br>';
-print $catalog_id;
-print '<br>';
-print $item_id;
-print '<br>';
-print $_SESSION['rms']['quantity'];*/
 
-   // $sql="UPDATE rms_fullfill SET quantity='$_SESSION['rms']['quantity']' WHERE  ";
 }
 
 switch ($_REQUEST['seq'])
