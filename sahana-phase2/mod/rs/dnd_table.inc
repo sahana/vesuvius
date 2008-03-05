@@ -207,10 +207,13 @@ function _shn_dr_show_table($table_name, $chosen_fields){
     shn_report_add_table($table_header,$table_data_display);
     shn_report_close(true);
 //This is for download M$ excel version of the report   
-    shn_report_fopen('xls',$dis_name,$ims_report_keyword_arr,false,$table_name.'_xls');
+    /*shn_report_fopen('xls',$dis_name,$ims_report_keyword_arr,false,$table_name.'_xls');
     shn_report_add_title($tables[$table_name]);
     shn_report_add_table($table_header,$table_data_display);
-    shn_report_close(true);  
+    shn_report_close(true);  */
+    
+//This is for export
+    _shn_rs_export_init($sql,$dis_name);
 }
 
 
