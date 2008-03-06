@@ -213,7 +213,7 @@ function _shn_dr_show_table($table_name, $chosen_fields){
     shn_report_close(true);  */
     
 //This is for export
-    _shn_rs_export_init($sql,$dis_name);
+    _shn_rs_export_init($sql,$dis_name,$tables[$table_name]);
 }
 
 
