@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.71 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: lib_form.inc,v 1.72 2008-03-06 05:33:03 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -720,5 +720,28 @@ compulsory)</p>
 	action="index.php?mod=<?php echo $mod?>&amp;act=<?php echo $act?>"
 	id="formset" <?php echo $form_opts['enctype']?>
 	name="<?php echo $form_opts['name']?>"><?php
+}
+
+/**
+ * This will render a flash still image capture interface.
+ * It will also generate a unique image_id and put it under the key
+ * $_SESSION['online_cam']['image_id'].
+ * The security key will be stored under 
+ * $_SESSION['online_cam']['seckey']
+ * 
+ * @param String $act The action of the current page
+ * @param String $mod The module of the current page.
+ */
+function shn_form_still_camera($act = null,$mod = null){
+	global $global;
+	include_once($global['approot']."inc/online_cam/online_cam.inc");
+	$session_id = session_id();
+	$time = time();
+	$rand1 = rand(0,9999);
+	$rand2 = rand(0,9999);
+	 
+	$image_id = (($mod!=null)?$mod:"home")."_".(($act!=null)?$act:"default")."_".$rand1.$time.$rand2;
+	
+	shn_online_cam($image_id);
 }
 ?>
