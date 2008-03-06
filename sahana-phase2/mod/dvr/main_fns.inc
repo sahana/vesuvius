@@ -523,8 +523,8 @@ function shn_dvr_delete_individual()
 	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 	include_once ($global['approot'] . 'mod/dvr/lib.inc');
 	$person_id=$_GET['p_uuid'];
-	_shn_dvr_get_person_full_name();
-	$person_name = _shn_dvr_delete_person($person_id);
+	$person_name =_shn_dvr_get_person_full_name();
+	_shn_dvr_delete_person($person_id);
 	$msg = $person_name . "person was succesfully deleted ";
 	add_confirmation($msg);
 
