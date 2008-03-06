@@ -95,39 +95,51 @@ function _shn_rms_mng_select_pledge()
     $_SESSION['rms_plg_id'] = null;
     $itm = $_SESSION['rms_req_item'];
     
-    $sql = "SELECT plg.plg_uuid AS plg_uuid, plg.item_uuid AS item_uuid, " .
-                "plg.quantity AS plg_qty, SUM(ff.quantity) AS ff_qty  " .
-           "FROM rms_plg_item AS plg LEFT JOIN rms_fulfil AS ff " .
-           "ON plg.plg_uuid=ff.plg_uuid AND plg.item_uuid=ff.item_uuid " .
-           "WHERE plg.item_uuid='$itm' " .
-           "AND ff.quantity IS NULL " .
-           "OR plg.quantity>ff.quantity " .
-           "GROUP BY item_uuid";
+    $sql2 = "SELECT plg_uuid, item_uuid, quantity AS plg_qty FROM rms_plg_item WHERE item_uuid = '$itm' AND (status = 'Delivered' OR status = 'Confirmed')";
     
-   // print ">>>>>>>>>>$sql";
-    $rs = $global['db']->Execute($sql);
-    $rs_arr = $rs->GetArray(); 
-    
-    if (1 <= count($rs_arr)) 
-    {
-        $th_plg[] = array (_t("Item"), _t("Qty"), _t("Used"), '');
-         
-        foreach ($rs_arr as $plg)
-        {
-            $max_qty = $plg['plg_qty'] - $plg['ff_qty'];
-            $sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
-                        '&amp;seq=add_ff&amp;max_qty=' . $max_qty .
-                        '&amp;plg_id=' . $plg['plg_uuid'] .'>' .
-                        _t("Select") . '</a>';
+    $rs2 = $global['db']->Execute($sql2);
+    if ($rs2 === false){
+       $msg = $global['db']->ErrorMsg();
+       add_error($msg.' <br> '.$sql2);
+       display_errors();
+    }
+    else{
+    	$res_array = $rs2->GetArray();
+    	$th_plg[] = array (_t("Item"), _t("Qty"), _t("Used"), '');
+    	if ($rs2->RecordCount() > 0){
+    		foreach ($res_array as $res){
+    			$sql3 = "SELECT SUM(quantity) AS ff_qty FROM rms_fulfil WHERE plg_uuid = '".$res['plg_uuid'].
+						"' AND item_uuid = '".$res['item_uuid']."' ";
+				$rs3 = $global['db']->Execute($sql3);
+				if ($rs3 === false){
+       				$msg = $global['db']->ErrorMsg();
+       				add_error($msg.' <br> '.$sql2);
+       				display_errors();
+    			}
+    			else{
+    				if ($rs3->RecordCount() > 0){
+    					$max_qty = $res['plg_qty'] - $rs3->fields['ff_qty'];
+ 						$used = $rs3->fields['ff_qty'];
+    				}
+    				else{
+    					$max_qty = $res['plg_qty'];
+    					$used = 0;
+    				}
+    				$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
+                    	    '&amp;seq=add_ff&amp;max_qty=' . $max_qty .
+                        	'&amp;plg_id=' . $res['plg_uuid'] .'>' .
+                        	_t("Select") . '</a>';
                         
-            $tb_plg[] = array (
-                                 _shn_rms_get_itemname($plg['item_uuid']), 
-                                 $plg['plg_qty'],
-                                 $plg['ff_qty'],
+            		$tb_plg[] = array (
+                                 _shn_rms_get_itemname($res['item_uuid']), 
+                                 $res['plg_qty'],
+                                 $used,
                                  $sel_url
                                 );
-        }
-        
+    			}    	
+    		}
+    	
+ 
         /**
          * Display the list of pledges
          */
@@ -138,18 +150,20 @@ function _shn_rms_mng_select_pledge()
         print '</div>';
         print '<br />';
         shn_html_table($tb_plg, $th_plg, null, array('class'=>'wide'));
-    }
-    else
-    {
+ 	  }
+    	else
+    	{
     	print '<div id="reqstr_id">';
         print '<div class="info">';
         print _t("No Pledges registered !!!");
         print '<br />';
-        print _t("Please try again after adding some pledges.");
+      //  echo $rs2->RecordCount();
+        //print _t("Please try again after adding some pledges.");
         print '<br />';
         print '</div>';
-    }
-
+    	}
+   ////
+   }
 
 
 
@@ -161,6 +175,7 @@ print '<br>';
 <div id="result"> 
  
     <table>
+    <caption>Items from inventories</caption>
     <thead>
         <td><?=_t("Item")?></td>
         <td><?=_t("Amount")?></td>
@@ -289,10 +304,11 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
 
 function _shn_rms_item_allocation_db()
 {
-    global $global;
+   global $global;
     $db = $global['db'];
     $item_id = $_SESSION['rms']['item_id'];
     $available_quantity = $_SESSION['rms']['max_quantity']-$_SESSION['rms']['quantity'];
+    if ($available_quantity >= 0){
     $sql = "UPDATE ims_item_records SET amount='$available_quantity' WHERE item_id='$item_id';";
     $res = $db->Execute($sql);
     //print $sql;
@@ -300,16 +316,7 @@ function _shn_rms_item_allocation_db()
     $catalog_id = $_SESSION['rms_req_item'];
     $quantity = $_SESSION['rms']['quantity'];
     $dt2 = date("Y-m-d H:i:s");
-    //print $dt2;
-    $sql = "SELECT * FROM rms_fulfil WHERE req_uuid = '$req_uuid' AND item_uuid = '$catalog_id'";
-    $res = $db->Execute($sql);
-    if ($res === false){
-       $msg = $global['db']->ErrorMsg();
-       add_error($msg.' <br> '.$sql);
-       display_errors();
-    }
     
-    if ($res->RecordCount() <= 0)    {
 	  $sql1 = "INSERT INTO rms_fulfil(req_uuid, item_uuid, quantity, ff_date) VALUES ('$req_uuid', '$catalog_id', '$quantity', '$dt2');";
       $res1 = $db->Execute($sql1);
       if ($res1 === false){
@@ -320,21 +327,13 @@ function _shn_rms_item_allocation_db()
       else{
       	add_confirmation("Submition successfull");
       }
+  
     }
-    else
-    {
-        $previous_quantity = $res->fields['quantity'];
-        $new_quantity = $previous_quantity + $quantity;
-        $sql2="UPDATE rms_fulfil SET quantity = '$new_quantity', ff_date = '$dt2' WHERE req_uuid = '$req_uuid' AND item_uuid = '$catalog_id'";
-        $res2=$db->Execute($sql2);
-        if ($res2 === false){
-          $msg = $global['db']->ErrorMsg();
-          add_error($msg.' <br> '.$sql);
-          display_errors();
-        }
-        else{
-      	  add_confirmation("Submition successfull");
-        }
+    else{
+    	 add_error(_t("Please enter a valid 'Quantity', The 'Quantity' should be equal or less than the Maximum Value"));
+         display_errors();
+         _shn_rms_allocate_item($_POST['max_qty']);
+         return false;
     }
 
 }
@@ -409,6 +408,7 @@ switch ($_REQUEST['seq'])
             {
                 _shn_html_print_alert(_t("The Fulfillment Data was successfully added"));
                 _shn_rms_view_reqff($_SESSION['rms_req_id']);
+                $_SESSION['rms_mng_ff_added'] = 0;
             }
             
             print '<br />' .

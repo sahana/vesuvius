@@ -1128,14 +1128,36 @@ function _shn_rms_view_reqitems($req_id)
 	global $global;
 
 	$rms_items = _shn_rms_get_reqitems($req_id);
-	$th_items[] = array (_t("Item"), _t("Quantity"), _t("Item Priority"));
+	$th_items[] = array (_t("Item"), _t("Quantity"), _t("Fulfiled Quantity"), _t("Item Priority"), _t("Select to fulfill"));
 	foreach ($rms_items as $itm)
 	{
+		$sql = "SELECT SUM(quantity) AS qty FROM rms_fulfil WHERE req_uuid = '$req_id' AND item_uuid = '$itm[0]'";
+		$res = $global['db']->Execute($sql);
+		//$res = $db->Execute($sql);
+		if ($res === false){
+			$msg = $global['db']->ErrorMsg();
+       		add_error($msg.' <br> '.$sql);
+       		display_errors();
+		}
+		else{
+			if($res->RecordCount() > 0){
+				$fulfiled = $res->fields['qty'];
+			}
+			else{
+				$fulfiled = 0;
+			}
+			
+		}
+		$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
+                        '&amp;seq=sel_plg&amp;req_id=' . $req_id .'&amp;itm_id='.$itm[0].'>' .
+                        _t("Select") . '</a>';
 		//print_r($itm);
 		$tb_items[] = array (
 		_shn_rms_get_itemname($itm[0]),
 		$itm[1] . " " . _shn_rms_get_iunit_name($itm[4]) . "",
-		_shn_rms_get_priorityname($itm[2])
+		$fulfiled,
+		_shn_rms_get_priorityname($itm[2]),
+		$sel_url
 		);
 	}
 
@@ -1178,7 +1200,7 @@ function _shn_rms_view_reqff($req_id)
 		return false;
 	}
 
-	$th_items[] = array (_t("Item"), _t("Priority"), _t("Requested"), _t("Fulfiled"), _t("Date"), _t("Select to Fulfill"));
+	$th_items[] = array (_t("Item"), _t("Priority"), _t("Requested"), _t("Fulfiled"), _t("Date"));
 	foreach ($rms_items as $itm)
 	{
 		$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
@@ -1192,8 +1214,8 @@ function _shn_rms_view_reqff($req_id)
 		_shn_rms_get_priorityname($itm['pri_uuid']),
 		$itm['req_qty'] . " " . _shn_rms_get_iunit_name($itm['unit']) . "",
 		$itm['ff_qty'],
-		$itm['ff_date'],
-		$sel_url
+		$itm['ff_date']
+		//$sel_url
 		);
 	}
 
