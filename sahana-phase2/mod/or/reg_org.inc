@@ -33,7 +33,7 @@ function _shn_or_regform_org($error=false)
 /*    if($error)
     display_errors();*/
 ?>  
-<div id="formcontainer">
+<div class="form-container">
 <?php
     shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_t("Primary Details"));
@@ -140,7 +140,7 @@ function _shn_or_regconfirm_org()
     $db=$global['db'];
 ?>
 <h2><?= _t('Confirm Registration Details of ').$_SESSION['org']['name'] ?></h2>
-<div id="formcontainer">
+<div class="form-container">
 <?php
 	if( $_POST['action']=='confirm_edit'){
 			shn_form_fopen("view_org_submit",null,array('req_message'=>false,'name'=>"confirm_reg"));
@@ -231,11 +231,11 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
     $res=$db->Execute($q);
 ?>
 <h2><?=_t("Add an Operation/Branch under the Organization ").$res->Fields("name")?> </h2>
-<div id="note">
+<div class="information message">
 <?=_t("Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull ");?>
 </div>
                
-<div id="formcontainer">
+<div class="form-container">
 <?php
     shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_t('Holding Company'));
