@@ -25,6 +25,7 @@
  * @access public
  * @return void
  */
+
 include_once $global['approot'] . '/inc/lib_image.inc';
 function shn_dvr_default() {
 	global $global;
@@ -513,8 +514,18 @@ function shn_dvr_view_members() {
 	global $global;
 	include ($global['approot'] . '/mod/dvr/view_members.inc');
 	//_shn_dvr_home_show_dvr();
+
 }
 
+
+function shn_dvr_view_individual()
+{
+	global $global;
+	include_once ($global['approot'] . '/mod/dvr/lib.inc');
+	unset($_SESSION['dvr']['person']);
+	_shn_dvr_populate_individual_detail();
+	_shn_dvr_regconfirm_individuals();
+}
 
 function shn_dvr_delete_individual()
 {
@@ -772,17 +783,20 @@ function shn_image_dvr_addvictim_img()
 
     
     $x_uuid = $_GET['x_uuid'];
-    switch ($_GET['stream']){
+    switch ($_GET['stream']) {
         case 'image' :
-            if($_GET['session']){
+        {  
+        	if ($_GET['session']) {
                 shn_show_image_stream($x_uuid, true, $_SESSION['dvr']['person']['person_image'],true.'dvr_person');
-            }else{
-                if($_GET['thumbnail'])
+            } else {
+                if ($_GET['thumbnail']) {
                     shn_show_image_stream($x_uuid, true, null, false,'dvr_person'); 
-                else
+               } else {
                     shn_show_image_stream($x_uuid, false, null, false, 'dvr_person'); 
+               }
             }
         break;
+        }
     }
 }
     

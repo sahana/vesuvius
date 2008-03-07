@@ -130,7 +130,7 @@ function _shn_dvr_search_show_verticle($details)
         <TD>
 <?php
           shn_show_thumb_url($details[$i]['p_uuid'],'database','dvr','addvictim_img',false);
-	        echo '<br /><a href="index.php?mod='.$global['module'].'&act=edit_individual&p_uuid='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
+	        echo '<br /><a href="index.php?mod='.$global['module'].'&act=view_individual&p_uuid='.$details[$i]['p_uuid'].'">'.$details[$i]['full_name'].'</a><br />';
 	      
 	      
    
@@ -143,7 +143,7 @@ function _shn_dvr_search_show_verticle($details)
 <?php
     shn_show_thumb_url($details[$i+1]['p_uuid'],'database','dvr','addvictim_img',false);
                
-	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=edit_individual&p_uuid='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
+	                echo '<br /><a href="index.php?mod='.$global['module'].'&act=view_individual&p_uuid='.$details[$i+1]['p_uuid'].'">'.$details[$i+1]['full_name'].'</a><br />';
 		            
 		        } 
               //  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';

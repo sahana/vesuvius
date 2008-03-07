@@ -60,7 +60,7 @@ $_SESSION['group_head'] = $headid;
 $headname = _shn_dvr_get_person_full_name($headid);
 shn_show_thumb_url($headid, 'database', 'dvr', 'addvictim_img', false);
 print '<br />';
-echo 'Group Head'.'<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $headid . '">' .$headname. '</a><br />';
+echo 'Group Head'.'<br /><a href="index.php?mod=' . $global['module'] . '&act=view_individual&p_uuid=' . $headid . '">' .$headname. '</a><br />';
 ?>
 <center>
 <?php
@@ -124,7 +124,7 @@ function _shn_dvr_show_mem_verticle($details) {
 			// print 'id is '.$details[$i]['p_uuid'];
 			
 			shn_show_thumb_url($details[$i]['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
-			echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $details[$i]['p_uuid'] . '">' . $details[$i]['full_name'] . '</a><br />';
+			echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=view_individual&p_uuid=' . $details[$i]['p_uuid'] . '">' . $details[$i]['full_name'] . '</a><br />';
 }
 			//    echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';
 			//    print 'hello';
@@ -139,7 +139,7 @@ function _shn_dvr_show_mem_verticle($details) {
                  
 		  shn_show_thumb_url($details[$i +1]['p_uuid'], 'database', 'dvr', 'addvictim_img', false);
 
-				echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=edit_individual&p_uuid=' . $details[$i +1]['p_uuid'] . '">' . $details[$i +1]['full_name'] . '</a><br />';
+				echo '<br /><a href="index.php?mod=' . $global['module'] . '&act=view_individual&p_uuid=' . $details[$i +1]['p_uuid'] . '">' . $details[$i +1]['full_name'] . '</a><br />';
                 
 			}
 			//  echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details[$i]['p_uuid'] .'">'._t('Assign to more incidents').'</a>';
