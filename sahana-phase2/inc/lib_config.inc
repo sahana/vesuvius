@@ -192,6 +192,12 @@ function shn_config_validate_value($key,$value){
 	$metadata = shn_config_get_metadata($key);
 	$type = $metadata['type'];
 	if($type == 'boolean'){
+		if(preg_match("/^true$/i",$value)){
+			$value = true;
+		}
+		if(preg_match("/^false$/i",$value)){
+			$value = false;
+		}
 		if(is_bool($value)==false){
 			return _t(sprintf("%s is not a valid boolean value.",$value));
 		}
