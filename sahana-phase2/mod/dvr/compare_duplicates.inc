@@ -215,7 +215,10 @@ function _shn_dvr_comparison_pageall($p_uuid)
 </div>
 <?php
     shn_form_fclose();
-	
+	shn_form_fopen("duplicate_search",null,false);
+	shn_form_hidden(array('seq'=>'back'));
+	shn_form_submit("Back");
+	shn_form_fclose();
 	
 }
 
@@ -417,6 +420,7 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
 	
 <?php
 	shn_form_submit(_t("Delete Duplicate"));
+	echo '<input type="button" value="Back" onClick="history.back()"/>';
 	shn_form_fsclose();
 	shn_form_fclose();
 }

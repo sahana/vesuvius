@@ -215,7 +215,8 @@ function _shn_dvr_edit_individual_start($errors = false) {
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['dob'];
 	$extra_opts['help'] = _t("You may also specify the date of birth in the order of 'year - month - day.<br/> E.g. February 15th of 1984 should enter as 1984-02-15");
-	shn_form_text(_t('Date of Birth   (YYYY-MM-DD)'), 'dob', 'size=8', $extra_opts);
+	shn_form_date(_t('Date of Birth'), 'dob', $extra_opts);
+	
 	
 	$extra_opts['value'] = $_SESSION['dvr']['person']['opt_age_group'];
 	$extra_opts['help'] = _t("You may also specify the age group");
