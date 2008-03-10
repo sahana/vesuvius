@@ -19,6 +19,71 @@
 //global $global;
 _shn_rms_print_hedder(_t("Fulfil Requests"));
 
+function _shn_mng_set_close($req_id){
+	global $global;
+	$sql = "UPDATE rms_request SET status = 'closed' WHERE req_uuid = '$req_id'";
+	$res = $global['db']->Execute($sql);
+	if ($res === false){
+		$msg = $global['db']->ErrorMsg();
+          add_error($msg.' <br> '.$sql);
+          display_errors();
+          return false;
+	} 
+	else{
+		add_confirmation("Update success");
+	}
+}
+
+function _shn_rms_mng_change_status($req_id){
+	shn_form_fopen("mng_ff",null, array('req_message'=>false));
+		shn_form_fsopen(_t("Change the status"));
+		_shn_html_print_alert(_t("You have completly fulfill the request, Do you want to close the request?"));
+        shn_form_hidden(array('seq'=>'chg_stat'));
+        shn_form_submit(_t("Close"),'close');
+        shn_form_fsclose();
+        shn_form_fclose();
+}
+
+function _shn_rms_mng_fulfill_check($req_id){
+	global $global;
+	
+	$sql = "SELECT item_uuid,quantity FROM rms_req_item WHERE req_uuid = '$req_id'";
+	$res = $global['db']->Execute($sql);
+	if ($res === false){
+		$msg = $global['db']->ErrorMsg();
+          add_error($msg.' <br> '.$sql);
+          display_errors();
+          return false;
+	} 
+	else{
+		if ($res->RecordCount() <= 0){
+			return false;
+		}
+		$res_array = $res->GetArray();
+		$bool = true;
+		foreach ($res_array as $itm){
+			$sql1 = "SELECT SUM(quantity) as qty FROM rms_fulfil WHERE req_uuid = '$req_id' AND item_uuid = '$itm[0]'";
+			$result = $global['db']->Execute($sql1);
+			if ($result === false){
+				$msg = $global['db']->ErrorMsg();
+          		add_error($msg.' <br> '.$sql);
+          		display_errors();
+          		return false;
+			}
+			else{
+				if ($itm[1] > $result->fields['qty']){	
+					$bool = false;				
+					return false;
+				}
+				//echo $result->fields['qty'];
+				
+			}
+			
+		}
+		return $bool;
+	}
+}
+
 function _shn_rms_mng_request()
 {
     $_SESSION['rms_req_id'] = null;
@@ -326,6 +391,10 @@ function _shn_rms_item_allocation_db()
       }
       else{
       	add_confirmation("Submition successfull");
+      	 $stat = _shn_rms_mng_fulfill_check($_SESSION['rms_req_id']);
+         if ($stat){
+           	_shn_rms_mng_change_status($_SESSION['rms_req_id']);
+         }
       }
   
     }
@@ -384,6 +453,13 @@ switch ($_REQUEST['seq'])
             _shn_rms_item_allocation_db($_SESSION['rms']['quantity'],$_SESSION['rms']['max_quantity']);
             break;
             
+    case 'chg_stat':
+    		//if (isset($_POST['close'])){
+    			_shn_mng_set_close($_SESSION['rms_req_id']);
+    		//}
+    		
+    		break;
+            
     case 'finish';
             if ($_POST['qty'] > $_POST['max_qty'])
             {
@@ -409,6 +485,10 @@ switch ($_REQUEST['seq'])
                 _shn_html_print_alert(_t("The Fulfillment Data was successfully added"));
                 _shn_rms_view_reqff($_SESSION['rms_req_id']);
                 $_SESSION['rms_mng_ff_added'] = 0;
+                $stat = _shn_rms_mng_fulfill_check($_SESSION['rms_req_id']);
+                if ($stat){
+                	_shn_rms_mng_change_status($_SESSION['rms_req_id']);
+                }
             }
             
             print '<br />' .
