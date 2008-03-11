@@ -44,7 +44,7 @@ function shn_setup_validate_general_dependancies()
 
 	$continue = true;
 
-	if (!version_compare(phpversion(), '4.1', '>')) $continue = false;
+	if (!version_compare(phpversion(), '5', '>')) $continue = false;
 	if (!extension_loaded('gd')) $continue = false;
 	if (!extension_loaded('mysql')) $continue = false;
 	if (!extension_loaded('gettext')) $continue = false;
