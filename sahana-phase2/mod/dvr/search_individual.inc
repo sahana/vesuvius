@@ -11,9 +11,9 @@ if(document.forms[1].all_incidents.value=="")
 }
 
 
-function confirmdelete(id)
+function confirmdelete(name)
 {
-return confirm('This person with  id '+id+' will be permanently deleted');
+return confirm(name+' will be permanently deleted');
 }
 
 
@@ -22,9 +22,9 @@ return confirm('This person with  id '+id+' will be permanently deleted');
 
 <?php
 
-/* $Id: search_individual.inc,v 1.8 2008-02-05 05:16:04 prabath321 Exp $ */
+/* $Id: search_individual.inc,v 1.9 2008-03-11 04:06:57 ravithb Exp $ */
 
-/* $Id: search_individual.inc,v 1.8 2008-02-05 05:16:04 prabath321 Exp $ */
+/* $Id: search_individual.inc,v 1.9 2008-03-11 04:06:57 ravithb Exp $ */
 
 /**
  * 
@@ -126,7 +126,7 @@ function shn_dvr_individual_search_results()
         <td><?=$results->fields['address']?></td>
         <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$results->fields['pid']?>'><?=_t('Edit') ?></a></td>
       	<td><a href='index.php?mod=dvr&act=transfer_indv&p_uuid=<?=$results->fields['pid']?>'><?=_t('Transfer') ?></a></td>
-        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['pid']?>')">Delete</a></td>
+        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>
       
         </tr>
         <?php

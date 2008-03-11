@@ -423,15 +423,15 @@ function _shn_dvr_individual_validate_error() {
 	$full_name = $_POST['full_name'];
     $head=$_POST['textgroup_id'];
     $gt = _shn_dvr_getgrouptype($_POST['group_id']);
-	if (trim($gt) == null | trim($gt) == '===') {
-		add_error(_t("Please select the Group Head from the list."));
-		$error_flag = true;
-	}
 
 	if (trim($head) == null | trim($head) == '') {
 		add_error(_t("Please select the Group Head"));
 		$error_flag = true;
+	} elseif (trim($gt) == null | trim($gt) == '===') {
+		add_error(_t("Please select the Group Head from the list."));
+		$error_flag = true;
 	}
+
 	if (trim($full_name) == null | trim($full_name) == '') {
 		add_error(_t("Please fill the full name"));
 		$error_flag = true;
