@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.29 2008-02-26 14:35:41 ravids Exp $ */
+/* $Id: lib_uuid.inc,v 1.30 2008-03-11 04:58:41 ravithb Exp $ */
 
 /**
  *
@@ -195,7 +195,7 @@ function _shn_gen_id($type='person')
 	global $conf;
 
 	if($conf['db_engine'] == 'mysql'){
-		if(isset($conf['storage_engine'])){
+		if(isset($conf['storage_engine']) && $conf['storage_engine']!='' && strlen(trim($conf['storage_engine']))>0){
 			$engine = $conf['storage_engine'];
 			$global['db']->Execute("set storage_engine ='{$engine}'");
 		}
@@ -203,12 +203,12 @@ function _shn_gen_id($type='person')
     global $global;
     global $conf;
     
-    if($conf['db_engine'] == 'mysql'){
+   /* if($conf['db_engine'] == 'mysql'){
     $engine = $conf['storage_engine'];
 
     $global['db']->Execute("set storage_engine ='{$engine}'");
     
-    }
+    }*/
 	$tables=$global['db']->MetaTables("TABLE",false,false);
 	$type.="_seq";
 	if(array_search($type,$tables)==false){
