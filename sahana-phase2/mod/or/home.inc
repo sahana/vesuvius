@@ -19,16 +19,17 @@
 	$db=$global["db"];
 	$q="SELECT count(o_uuid) as cnt FROM org_main";
 	$res=$db->Execute($q);
-	$org_no=5;
+	$org_no=0;
 	if(!$res->EOF){
-		$q="SELECT value FROM config WHERE module_id='admin' AND confkey='acl_base'";
+		// I see no use of the following code hence commenting it.
+		/*$q="SELECT value FROM config WHERE module_id='admin' AND confkey='acl_base'";
 		$res_tmp=$db->Execute($q);
 		if($res_tmp->fields[0]=='installed'){
 			$org_no=($res->fields[0])-1;
-		}else{
+		}else{*/
 			$org_no=($res->fields[0]);
-		}
-		$org_no=($org_no<0)?0:($org_no+1);
+		/*}
+		$org_no=($org_no<0)?0:($org_no+1);*/
 	}else{
 		$org_no="Zero";	
 	}
