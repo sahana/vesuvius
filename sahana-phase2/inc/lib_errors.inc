@@ -175,7 +175,7 @@ function shn_error_display_restricted_access($msg=null)
 {
 	if($_SESSION['user_id'] == -2 && shn_acl_is_enabled()){
 	?>
-	<div class="message information"><br/>You will need to login using your username and password.</div>
+	<div class="message information"><br/><?php echo _t("You will need to login using your username and password."); ?></div>
 	<?php	
 	}	
 	?>
