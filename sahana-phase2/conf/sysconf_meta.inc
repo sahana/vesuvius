@@ -35,7 +35,7 @@ $conf_meta['acl_base'] = array('type'=>'boolean','default_value'=>false);
 $conf_meta['root_name'] = array('type'=>'string','size'=>-1,'allow_null'=>true,'default_value'=>'');
 
 # Root Email :The email address of the admin
-$conf_meta['root_email'] = array('type'=>'email','size'=>-1,'allow_null'=>true,'default_value'=>'root@localhost');
+$conf_meta['root_email'] = array('type'=>'email','allow_null'=>true,'default_value'=>'root@localhost');
 
 # Root Telephone :The telephone of the admin
 $conf_meta['root_tel'] = array('type'=>'string','size'=>-1,'allow_null'=>true,'default_value'=>'');
