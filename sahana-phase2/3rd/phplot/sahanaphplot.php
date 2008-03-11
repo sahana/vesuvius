@@ -40,7 +40,7 @@ Class SahanaPHPlot extends PHPlot{
 		$db=$global["db"];
 
 		$_sd_path = str_replace('\\', '/', dirname(__FILE__));
-		$_sd_path = explode('/', dirname(__FILE__));
+		$_sd_path = explode('/', $_sd_path);
 		array_pop($_sd_path);
 		array_pop($_sd_path);
 		$_sd_path = implode('/', $_sd_path);
