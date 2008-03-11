@@ -142,7 +142,7 @@ function _shn_admin_acl_enable_acl_cr($show=false)
 		}
 
 	}
-
+    header("Location: index.php?mod=home&act=default");
 }
 function  _shn_admin_acl_enable_signup_cr()
 {

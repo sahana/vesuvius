@@ -49,8 +49,8 @@ $msg = 'please note the following:')
 	// return if there are no errors
 	if (count($global[$container]) == 0 ) return;
 	?>
-<div class="<?=$type?> message">
-<p><em><?=$msg?></em></p>
+<div class="<?php echo$type?> message">
+<p><em><?php echo$msg?></em></p>
 <ul>
 <?php
 foreach ($global[$container] as $i){
@@ -172,46 +172,54 @@ function is_errors()
 }
 
 function shn_error_display_restricted_access($msg=null)
-{ ?>
+{
+	if($_SESSION['user_id'] == -2 && shn_acl_is_enabled()){
+	?>
+	<div class="message information"><br/>You will need to login using your username and password.</div>
+	<?php	
+	}	
+	?>
+
 <div class="error message">
 
-<p><em><?=_t('Sorry, you do not have permisssion to access this section')?></em><br />
+<p><em><?php echo _t('Sorry, you do not have permisssion to access this section')?></em><br />
 <?php if($msg!=null){?> <br />
-<strong><?=$msg?></strong><br />
+<strong><?php echo $msg?></strong><br />
 <br />
-<?php }?> <?=_t('This could be because:')?>
+<?php }?> <?php echo _t('This could be because:')?>
 
 
 <ul>
-	<li><?=_t('You have not logged in or Anonymous access is not allowed to this section')?></li>
-	<li><?=_t('Your username has not been given permission to access this section')?></li>
+	<li><?php echo _t('You have not logged in or Anonymous access is not allowed to this section')?></li>
+	<li><?php echo _t('Your username has not been given permission to access this section')?></li>
 </ul>
-<p><?=_t('To gain access to this section please contact the administrator')?></p>
+<p><?php echo _t('To gain access to this section please contact the administrator')?></p>
 </div>
 <!-- /error -->
 <?php
+    
 }
 
 function shn_error_get_restricted_access_message(){
 	ob_start();
 	?>
-<p><em><?=_t('Sorry, you do not have permisssion to access this section')?></em><br />
+<p><em><?php echo _t('Sorry, you do not have permisssion to access this section')?></em><br />
 	<?php if($msg!=null){?> <br />
-<strong><?=$msg?></strong><br />
+<strong><?php echo$msg?></strong><br />
 <br />
-<?php }?> <?=_t('This could be because:')?>
+<?php }?> <?php echo _t('This could be because:')?>
 <ul>
-	<li><?=_t('You have not logged in or Anonymous access is not allowed to this section')?></li>
-	<li><?=_t('Your username has not been given permission to access this section')?></li>
+	<li><?php echo _t('You have not logged in or Anonymous access is not allowed to this section')?></li>
+	<li><?php echo _t('Your username has not been given permission to access this section')?></li>
 </ul>
-<p><?=_t('To gain access to this section please contact the administrator')?></p>
+<p><?php echo _t('To gain access to this section please contact the administrator')?></p>
 <?php ?>
 $contents = ob_get_contents(); ob_end_clean(); } function
 shn_error_dummy_header() { global $global; ?>
 <body>
 <div id="container">
 <div id="header" class="clearfix">
-<h1><?=_t("Sahana FOSS Disaster Management System")?></h1>
+<h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
 </div>
 <div id="wrapper" class="clearfix">
 <div id="content" class="clearfix"><?php
