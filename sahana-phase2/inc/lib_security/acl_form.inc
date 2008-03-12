@@ -112,12 +112,12 @@ function shn_acl_form_enable_mods()
 	$db=$global['db'];
 	?>
 <h3><?php echo _t("Enable/Disable Modules") ?></h3>
-<div id="home">
+<div id="home"><strong>
 <?php echo _t("Rows are Modules ,Columns are Roles ,Intersection shows
-whether the module is enabled for that role or not") ?></div>
+whether the module is enabled for that role or not") ?></strong></div>
 
 <div id="formcontainer"><?php
-shn_form_fopen("acl_enable_mods_cr","admin");
+shn_form_fopen("acl_enable_mods_cr","admin",array('req_message'=>false));
 ?>
 <div id="result">
 <table>
@@ -194,9 +194,9 @@ function shn_acl_form_user_edit_roles()
 	global $global;
 	$db=$global['db'];
 	?>
-<h3>Edit User-Role Assignments</h3>
-<div id="home">Rows are User ,Columns are Roles ,Intersection shows
-whether the User is a member of the Role or not</div>
+<h3><?php echo _t("Edit User-Role Assignments") ?></h3>
+<div id="home"><?php echo _t("Rows are User ,Columns are Roles ,Intersection shows
+whether the User is a member of the Role or not.") ?></div>
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_user_edit_roles_cr","admin",array('req_message'=>false));
@@ -204,7 +204,7 @@ shn_form_fopen("acl_user_edit_roles_cr","admin",array('req_message'=>false));
 <div id="result">
 <table>
 	<thead>
-		<td><strong>User</strong></td>
+		<td><strong><?php echo _t("User") ?></strong></td>
 		<?php
 		$roles=_shn_acl_get_roles();
 
@@ -274,14 +274,14 @@ function shn_acl_form_role_select()
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home">Select the Role you want to edit permissions of</div>
+<div id="home"><?php echo _t("Select the Role you want to edit permissions of") ?></div>
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_role_edit_perms","admin");
 $extra_opts['req']=true;
 $roles=_shn_acl_get_roles();
 shn_form_fsopen(_t("Select Role"));
-shn_form_select($roles,"Roles",'roles',null,$extra_opts);
+shn_form_select($roles,_t("Roles"),'roles',null,$extra_opts);
 shn_form_fsclose();
 shn_form_submit(_t("Continue"));
 ?>
@@ -298,23 +298,23 @@ function shn_acl_form_role_perms_grid($role)
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home">Rows are Data Classificatons ,Columns are
+<div id="home"><strong><?php echo _t("Rows are Data Classificatons ,Columns are
 Create,Read,Update,Delete ,Intersection shows whether the Role has
-Create,Read,Update,Delete permissions to the Data Classificatons</div>
+Create,Read,Update,Delete permissions to the Data Classificatons"); ?></strong></div>
 
 <div id="formcontainer"><?php
-shn_form_fopen("acl_role_edit_perms_cr","admin");
+shn_form_fopen("acl_role_edit_perms_cr","admin",array('req_message'=>false));
 ?>
 <div id="result">
 <table>
 	<thead>
-		<td><strong>Data Classificatons</strong></td>
+		<td><strong><?php echo _("Data Classificatons") ?></strong></td>
 		<?php
 		$cruds=array(
-     			"create"=>"Create",
-     			"read"=>"Read",
-     			"update"=>"Update",
-     			"delete"=>"Delete"
+     			"create"=>_t("Create"),
+     			"read"=>_t("Read"),
+     			"update"=>_t("Update"),
+     			"delete"=>_t("Delete")
      			);
 
      			foreach($cruds as $crud=>$crud_name){
@@ -385,7 +385,7 @@ function shn_acl_form_classifications_to_data(){
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home">Edit the Data Classification for each table</div>
+<div id="home"><?php echo _t("Edit the Data Classification for each table") ?></div>
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_data_classifications_tables_cr","admin");
@@ -489,8 +489,8 @@ function shn_acl_form_unlock_user(){
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home">Rows are Locked Users ,Columns are the possible status
-values</div>
+<div id="home"><strong><?php echo _t("Rows are Locked Users ,Columns are the possible status
+values") ?></strong></div>
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_unlock_user_cr","admin");
@@ -498,10 +498,10 @@ shn_form_fopen("acl_unlock_user_cr","admin");
 <div id="result">
 <table>
 	<thead>
-		<td><strong>Locked User</strong></td>
-		<td>Active</td>
-		<td>Locked</td>
-		<td>Banned</td>
+		<td><strong><?php echo _t("Locked User")?></strong></td>
+		<td><?php echo _t("Active")?></td>
+		<td><?php echo _t("Locked")?></td>
+		<td><?php echo _t("Banned")?></td>
 	</thead>
 	<tbody>
 	<?php

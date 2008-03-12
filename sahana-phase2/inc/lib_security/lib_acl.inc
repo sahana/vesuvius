@@ -709,9 +709,9 @@ function shn_acl_update_role_perms($role,$level,$crud){
 	$res=$db->Execute($q);
 	if($res==false){
 		add_error($db->ErrorMsg());
-		return $res;
+		return false;
 	}
-	return $res;
+	return true;
 }
 
 function shn_acl_hmac_sha1($data,$key) {

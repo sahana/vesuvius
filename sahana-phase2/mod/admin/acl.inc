@@ -56,14 +56,14 @@ function _shn_admin_acl_enable_mods_cr()
 {
 	global $global;
 	$error_flag = false;
-	
+
 	$db=$global["db"];
 	$perm_string=$_POST{"perms"};
 	$perms=explode(";",$perm_string);
 	$sql="DELETE FROM sys_group_to_module";
 	$res=$db->Execute($sql);
 	if(!$res && !$error_flag){
-									// no overwrite if set.
+		// no overwrite if set.
 		$error_flag = true;			// set the error flag once only
 	}
 
@@ -93,7 +93,7 @@ function _shn_admin_acl_enable_mods_cr()
 				$sql="INSERT INTO sys_group_to_module VALUES({$role},'{$mod}','enabled')";
 				$res=$db->Execute($sql);
 				if(!$res && !$error_flag){
-						
+
 					// set the error flag once only
 					// no overwrite if set.
 					$error_flag = true;
@@ -142,7 +142,7 @@ function _shn_admin_acl_enable_acl_cr($show=false)
 		}
 
 	}
-    header("Location: index.php?mod=home&act=default");
+	header("Location: index.php?mod=home&act=default");
 }
 function  _shn_admin_acl_enable_signup_cr()
 {
@@ -169,7 +169,7 @@ function _shn_admin_acl_enable_locking()
  * Create the enable locking flag record.
  *
  * @param Boolean $enable The flag value
- * 
+ *
  * Changed by Ravith.
  */
 function _shn_admin_acl_enable_locking_cr($enable=false)
@@ -231,7 +231,7 @@ function _shn_admin_acl_role_edit_perms_cr()
 	$perms=explode(";",$perm_string);
 	$role=$_POST{"role"};
 	//	array_pop($perms);
-
+    $success = true;
 	for($i=1;$i<count($perms);$i++) {
 		$save="";
 		$rule=explode(":",$perms[$i]);
@@ -244,16 +244,19 @@ function _shn_admin_acl_role_edit_perms_cr()
      			"update"=>"u",
      			"delete"=>"d"
      			);
-     			$total=0;
-     			foreach($cruds as $crud=>$crud_value) {
-       		$name=$level.$crud;
-       		if(isset($_POST{trim($name)})) {
-       			$save=$save.$crud_value;
-       		}else{
-       			$save=$save."-";
-       		}
-     			}
-     			shn_acl_update_role_perms($role,$level,$save);
+     	$total=0;
+     	foreach($cruds as $crud=>$crud_value) {
+			$name=$level.$crud;
+			if(isset($_POST{trim($name)})) {
+				$save=$save.$crud_value;
+			}else{
+				$save=$save."-";
+			}
+     	}
+     	$success &= shn_acl_update_role_perms($role,$level,$save);
+	}
+	if($success == true){
+	   add_confirmation(_t("Role permissions to access data were successfully updated."));
 	}
 	shn_acl_form_role_perms_grid($role);
 
@@ -374,7 +377,7 @@ function _shn_admin_acl_user_add_roles($module=NULL,$error=false)
 	global $conf;
 
 	?>
-<h2 align="center">Configure ACL user permissions for <?php echo $conf['mod_'.$module.'_name']?>
+<h2 align="center"><?php echo sprintf(_t("Configure ACL user permissions for %s"), $conf['mod_'.$module.'_name']); ?>
 </h2>
 	<?php
 
@@ -414,7 +417,7 @@ function _shn_admin_acl_user_add_roles_cr()
 	shn_admin_acl_user_add_roles($module,false);
 	if($res) {
 		?>
-<div id="save">Users were succesfully added to Roles</div>
+<div id="save"><?php echo _t("Users were succesfully added to Roles") ?></div>
 		<?php
 }
 }
@@ -426,7 +429,7 @@ function _shn_admin_acl_role()
 
 	_shn_admin_acl_role_menu($module);
 	?>
-<h2 align="center">Configure ACL Role permissions</h2>
+<h2 align="center"><?php echo _t("Configure ACL Role permissions") ?></h2>
 	<?php
 }
 
@@ -459,11 +462,11 @@ function _shn_admin_acl_role_cr()
 	}
 	if($res) {
 		?>
-<div id="save">Roles were succesfully given permission to action groups
+<div id="save"><?php echo _t("Roles were succesfully given permission to action groups") ?>
 </div>
 		<?php
 }
-    shn_admin_acl_role($module,false);
+shn_admin_acl_role($module,false);
 }
 
 function _shn_admin_acl_user_add_perms()
@@ -471,7 +474,7 @@ function _shn_admin_acl_user_add_perms()
 	$module=$_GET['sel'];
 	global $conf;
 	?>
-<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
+<h3><?php echo sprintf(_("Configure ACL for "),$conf['mod_'.$module.'_name'])?></h3>
 	<?php
 	_shn_admin_acl_user_menu($module);
 	shn_acl_form_user_add_perms($module,false);
@@ -490,7 +493,7 @@ function _shn_admin_acl_user_edit_perms()
 	$module=$_GET['sel'];
 	global $conf;
 	?>
-<h3>Configure ACL for <?php echo $conf['mod_'.$module.'_name']?></h3>
+<h3><?php echo sprintf(_t("Configure ACL for "),$conf['mod_'.$module.'_name']) ?></h3>
 	<?php
 	_shn_admin_acl_user_menu($module);
 	shn_acl_form_user_edit_perms($module,false);
@@ -526,12 +529,12 @@ function _shn_admin_acl_user_cr()
 	}
 	if($res) {
 		?>
-<div id="save">Roles were succesfully given permission to action groups
+<div id="save"><?php echo _t("Roles were succesfully given permission to action groups") ?>
 </div>
 		<?php
 }
 
-    _shn_admin_acl_user($module,false);
+_shn_admin_acl_user($module,false);
 }
 
 /**
