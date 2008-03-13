@@ -41,8 +41,10 @@ function _shn_ims_level1_form($errors=false,$type=null)
 		foreach($arr as $row) {
 ?>
 			<tr>
-    		<td><input type="text" name="level1_name[<?=$row['incident_id'];?>]" 
-            	value="<?=$row['name'];?>" />
+    		<td>
+    		<?php 
+            shn_form_text('','level1_name['.$row['incident_id'].']',null,array('req'=>true,'no_label'=>true,'value'=>$row['name']))
+    		?>
     		</td>
     		<td><input type="checkbox" name="level1_delete[<?=$row['incident_id'];?>]" />
     		</td>
@@ -57,7 +59,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
         shn_form_fclose(); 
     }
 
-    shn_form_fopen("ims_level1",null);
+    shn_form_fopen("ims_level1",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
 ?>		<p align="center"><?=$type;?></p>
@@ -67,9 +69,8 @@ function _shn_ims_level1_form($errors=false,$type=null)
     
     shn_form_hidden(array('seq'=>'addnew'));
     shn_form_fsopen(_t('Add New ')._lc($conf['mod_admin_ims_level1']));
-    shn_form_text(_t("Name"),'level1_name_new');
+    shn_form_text(_t("Name"),'level1_name_new',null,array('req'=>true));
     shn_form_fsclose();
-
     shn_form_submit(_t('Add New'));
     shn_form_fclose(); 
 
@@ -99,8 +100,8 @@ function _shn_ims_level1_validate()
     }
     if(($local_post['seq']) == 'addnew') {
         if(! isset($local_post['level1_name_new'])) {
-            add_error(_t("Please enter the name for ").$conf['mod_admin_ims_level1']);
-            add_warning(_t("If there are no ").$conf['mod_admin_ims_level1']._t(". Please add new ").$conf['mod_admin_ims_level1']);
+            add_error(sprintf(_t("Please enter a name for the %s"),strtolower($conf['mod_admin_ims_level1'])));
+            add_warning(sprintf(_t('If there are no %1$ss please add a new %2$s'),strtolower($conf['mod_admin_ims_level1']),strtolower($conf['mod_admin_ims_level1'])));
             $error_flag=true;
         }
     }else{
@@ -198,8 +199,10 @@ function _shn_ims_level2_form($errors=false,$type=null)
 		foreach($arr as $row) {
 ?>
 			<tr>
-    		<td><input type="text" name="level2_name[<?=$row['incident_id'];?>]" 
-         	   value="<?=$row['name'];?>" />
+    		<td>
+    		<?
+            shn_form_text('','level2_name['.$row['incident_id'].']',null,array('value'=>$row['name'],'no_label'=>true,'req'=>true));
+    		?>    		
     		</td>
     		<td>
     		<select name="level2_parent_id[<?=$row['incident_id'];?>]">
@@ -227,7 +230,7 @@ function _shn_ims_level2_form($errors=false,$type=null)
         shn_form_fclose(); 
     }
 
-    shn_form_fopen("ims_level2",null);
+    shn_form_fopen("ims_level2",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
 ?>		<p align="center"><?=$type;?></p>
@@ -237,8 +240,8 @@ function _shn_ims_level2_form($errors=false,$type=null)
     
     shn_form_hidden(array('seq'=>'addnew'));
     shn_form_fsopen(_t('Add New ')._lc($conf['mod_admin_ims_level2']));
-    shn_form_text(_t("Name"),'level2_name_new');
-    shn_form_select($parent_ids,_lc($conf['mod_admin_ims_level1']),"level2_new_parent_id");
+    shn_form_select($parent_ids,_lc($conf['mod_admin_ims_level1']),"level2_new_parent_id",null,array('req'=>true));
+    shn_form_text(_t("Name"),'level2_name_new',null,array('req'=>true));
     shn_form_fsclose();
 
     shn_form_submit(_t('Add New'));
@@ -270,11 +273,11 @@ function _shn_ims_level2_validate()
     }
     if(($local_post['seq']) == 'addnew') {
         if(! isset($local_post['level2_name_new'])) {
-            add_error(_t("Please enter the name for ").$conf['mod_admin_ims_level2']);
+            add_error(sprintf(_t("Please enter a name for the %s"),strtolower($conf['mod_admin_ims_level2'])));
             $error_flag=true;
         }
         if(! isset($local_post['level2_new_parent_id'])) {
-            add_error(_t("Please select ").$conf['mod_admin_ims_level1']);
+            add_error(sprintf(_t("Please select a %s"),strtolower($conf['mod_admin_ims_level1'])));
             
             $error_flag=true;
         }
@@ -390,8 +393,10 @@ function _shn_ims_level3_form($errors=false,$type=null)
 		foreach($arr as $row) {
 ?>
 			<tr>
-    		<td><input type="text" name="level3_name[<?=$row['incident_id'];?>]" 
-           		 value="<?=$row['name'];?>" />
+    		<td>
+    		<?php
+            shn_form_text('','level3_name['.$row['incident_id'].']',null,array('value'=>$row['name'],'no_label'=>true,'req'=>true));
+    		?>
     		</td>
     		<td>
     		<select name="level3_parent_id[<?=$row['incident_id'];?>]">
@@ -419,7 +424,7 @@ function _shn_ims_level3_form($errors=false,$type=null)
         shn_form_fclose(); 
     }
 
-    shn_form_fopen("ims_level3",null);
+    shn_form_fopen("ims_level3",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
 ?>		<p align="center"><?=$type;?></p>
@@ -429,8 +434,8 @@ function _shn_ims_level3_form($errors=false,$type=null)
     
     shn_form_hidden(array('seq'=>'addnew'));
     shn_form_fsopen(_t('Add New ')._t($conf['mod_admin_ims_level3']));
-    shn_form_text(_t("Name"),'level3_name_new');
-    shn_form_select($parent_ids,_t($conf['mod_admin_ims_level2']),"level3_new_parent_id");
+    shn_form_select($parent_ids,_t($conf['mod_admin_ims_level2']),"level3_new_parent_id",null,array('req'=>true));
+    shn_form_text(_t("Name"),'level3_name_new',null,array('req'=>true));
     shn_form_fsclose();
 
     shn_form_submit(_t('Add New'));
@@ -462,12 +467,12 @@ function _shn_ims_level3_validate()
     }
     if(($local_post['seq']) == 'addnew') {
         if(! isset($local_post['level3_name_new'])) {
-            add_error(_t("Please enter the name for ").$conf['mod_admin_ims_level3']);
+            add_error(sprintf(_t("Please enter a name for the %s"),strtolower($conf['mod_admin_ims_level3'])));
             $error_flag=true;
         }
         if(! isset($local_post['level3_new_parent_id'])) {
-            add_error(_t("Please select ").$conf['mod_admin_ims_level2']);
-            add_warning(_t("If there are no ").$conf['mod_admin_ims_level2']._t(". Please add new ").$conf['mod_admin_ims_level2']);
+            add_error(sprintf(_t("Please select a %s"),strtolower($conf['mod_admin_ims_level2'])));
+            add_warning(sprintf(_t('If there are no %1$s. Please add a new %2$s'),strtolower($conf['mod_admin_ims_level2']),strtolower($conf['mod_admin_ims_level2'])));
             $error_flag=true;
         }
     }else{

@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.72 2008-03-06 05:33:03 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.73 2008-03-13 08:38:23 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -209,8 +209,12 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 	$value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 	if(get_magic_quotes_gpc())
 	$value = stripslashes($value);
+	if($extra_opts['no_label']!==true){
 	?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
+    <?php
+    }
+    ?>
 <input
 	type="text" name="<?php echo $name?>" id="<?php echo $name?>"
 	value="<?php echo $value?>" <?php echo $text_opts?>
