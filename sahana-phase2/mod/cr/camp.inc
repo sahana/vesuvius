@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: camp.inc,v 1.61 2008-03-05 11:01:16 prabath321 Exp $ */
-/* $Id: camp.inc,v 1.61 2008-03-05 11:01:16 prabath321 Exp $ */
+/* $Id: camp.inc,v 1.62 2008-03-17 05:17:45 ravithb Exp $ */
+/* $Id: camp.inc,v 1.62 2008-03-17 05:17:45 ravithb Exp $ */
 
 /**Camp library for  CR
  *
@@ -404,6 +404,10 @@ function _shn_cr_validate_error()
             add_error(_t("The total count should be equal to men,women and children count"));
             $error_flag = true;
         }
+        	if($_POST['family'] > $totalcount){
+        		add_error(_t("The Infected count should be less or equal than the total count"));
+            	$error_flag = true;
+        	}
     }
 
     return $error_flag;
