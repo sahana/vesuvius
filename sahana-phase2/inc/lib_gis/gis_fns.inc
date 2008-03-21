@@ -23,7 +23,6 @@
 */
 
 include_once $global['approot']."/inc/lib_modules.inc";
-//include_once $global['approot']."/mod/gis/main_fns.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 
 /**
@@ -85,7 +84,7 @@ function shn_gis_show_georss()
 	$rss->date_format = 'l';
 	
 	// Try to load and parse RSS file as stated in conf
-	$rssurl = $conf['mod_gis_georss_feed'];
+	$rssurl = $conf['gis_georss_feed'];
 	
 	if ($rs = $rss->get($rssurl)) {
 	    echo '<pre>';
@@ -109,8 +108,8 @@ function shn_gis_map($opt_array=null)
 	$db = $global['db'];
 	if($conf['gis'])
 	{
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map($opt_array);
 	}
 	else
@@ -189,8 +188,8 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
 	global $conf;
 	if($conf['gis'])
 	{
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_add_marker_map($name);
 	}
 	else{
@@ -225,8 +224,9 @@ function shn_gis_add_marker_map_form($name_of_map="Area Map",$nameOfPoint="",$bu
 		shn_form_fsopen($name_of_map);
 		shn_form_hidden(array('loc_x'=>''));
 		shn_form_hidden(array('loc_y'=>''));
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		
 		echo "<div class='message information'>";
 		echo _t("You can move around and enlarge/reduce the size of the area you want using
 the scale on upper left corner of the map. By clicking on a map you can
@@ -255,8 +255,8 @@ function shn_gis_map_with_markers($array)
 	global $conf;
 	if($conf['gis'])
 	{
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_markers($array);
 	}	
 	else{
@@ -276,8 +276,8 @@ function shn_gis_map_with_wiki_markers($array)
 	global $conf;
 	if($conf['gis'])
 	{
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_wiki_marker($array);
 	}
 	else{
@@ -299,8 +299,8 @@ function shn_gis_density_map($array)
 	global $conf;
 	if($conf['gis'])
 	{
-		$plugin_name = $conf['mod_gis_dflt'];
-		include $global['approot']."/mod/gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		$plugin_name = $conf['gis_dflt'];
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_custom_markers($array);
 	}
 	else{
