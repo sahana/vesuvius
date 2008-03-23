@@ -23,12 +23,11 @@
  * @return void
  * @TODO filter by date
  */
-function show_wiki_map($category="all",$date=0)
+function shn_show_wiki_map($category="all",$date=0)
 {
 	
 	global $global;
 	global $conf;
-	include $global['approot']."/mod/gis/gis_fns.inc";
 	include_once $global['approot']."/inc/lib_form.inc";
 	
 	//default to all categories
@@ -49,17 +48,12 @@ function show_wiki_map($category="all",$date=0)
 		(($category=='all')?" ":" and opt_category='{$category}'");
 	$res = $db->Execute($query);
 	
-	//create array
 	$map_array=array();
-	
-	
-	
-	//populate aray
 	while(!$res->EOF){
 			
 			$editable=$res->fields['editable'];
 			if($editable==1){
-				$edit_url= "<a href="."index.php?mod=gis&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid']."> Edit</a>";
+				$edit_url= "<a href="."index.php?mod=sm&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid']."> Edit</a>";
 			}
 			else
 				$edit_url="";
@@ -93,6 +87,7 @@ function show_wiki_map($category="all",$date=0)
 	}
 	
 	//call gis api
+	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_gis_map_with_wiki_markers($map_array);
 	
 	
@@ -132,10 +127,11 @@ function show_wiki_add_image()
  * Show GIS Map with Wiki addition event listener
  * Part of add situation sequence
  * @access public
+ * @patch by Fran Boon
  * @return void 
- * patch by Fran Boon
+ * 
  */
-function show_wiki_add_map($errors=false)
+function shn_show_wiki_add_map($errors=false)
 {
 	global $global;
 		
@@ -153,28 +149,22 @@ function show_wiki_add_map($errors=false)
 		$_SESSION['view_public'] = $_POST['view_public'];
     }
     
-	include $global['approot']."/mod/gis/gis_fns.inc";
+	
 	shn_form_fopen(awik,null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'img'));
 	//call gis api
+	include $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_gis_add_marker_map_form();
+	
 	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
-function add_wiki_detail()
+function shn_add_wiki_detail()
 {
 	
 }
 
-/**
- * Situation add form
- * start of sequence with error checking
- * @param boolean $errors true if errors exist,false otherwise
- * @access public
- * @return void
- * @TODO: add javascript calender for date input
- */
 
 
 //-----------------------------
@@ -214,16 +204,26 @@ function map_client($errors=false)
 
 //-----------------------------
 
-function show_wiki_add_detail($errors=false)
+
+/**
+ * Situation add form
+ * start of sequence with error checking
+ * @param boolean $errors true if errors exist,false otherwise
+ * @access public
+ * @return void
+ * @TODO: add javascript calender for date input
+ */
+ 
+function shn_show_wiki_add_detail($errors=false)
 {
 	global $global;
+	global $conf;
 	include_once $global['approot'] . "/inc/lib_errors.inc";
 	
 	if($errors){
 		add_error(_t("'Name of situation detail' field cannot be empty"));
 	}
-	global $global;
-	global $conf;
+
 	include_once $global['approot']."/inc/lib_form.inc";
 ?>
 	<h2><?=_t("Add Situation Detail")?></h2>
@@ -250,6 +250,9 @@ function show_wiki_add_detail($errors=false)
 	shn_form_fclose();
 }
 
+/**
+ * Situation Wiki edit details
+ */
 function shn_wiki_edit($id)
 {
 	global $global;
