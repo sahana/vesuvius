@@ -33,9 +33,6 @@ include_once $global['approot']."mod/admin/conf_admin.inc";
 // Module Management Console
 include_once $global['approot']."mod/admin/mmc_main.inc";
 
-// GIS Management Console
-// @todo: move as library
-//include_once $global['approot']."mod/gis/gis_admin.inc";
 
 
 function shn_admin_mainmenu()
@@ -694,20 +691,8 @@ function shn_admin_lc_javascript()
 	
 } 
 
-// GIS admin page from gis module/lib
-function shn_admin_gis_form()
-{
-	global $global;
-	global $conf;
-	require_once($global['approot'].'/mod/admin/gis_admin.inc');
-	shn_gis_adm_default();
-}
-
-function shn_admin_gis_commit()
-{
-	global $global;
-	global $conf;
-	require_once($global['approot'].'/mod/admin/gis_admin.inc');
-	shn_gis_adm_commit();
-}
+/**
+ * Inclusion of GIS admin menu functionality/actions
+ */
+ 	include_once $global['approot'].'/inc/lib_gis/admin_acts.inc';
 ?>
