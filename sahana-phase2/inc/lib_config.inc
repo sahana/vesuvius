@@ -38,12 +38,14 @@ function shn_config_load_in_order() {
 	if ('database' ==  $conf['sahana_conf_priority'] ) {
 		// database overrides conf files
 		shn_config_base_conf_fetch();
+		shn_config_gis_conf_fetch();
 		shn_config_module_conf_fetch('all');
 		shn_config_database_fetch(&$conf,'all');
 	} else {
 		// conf files overrides database
 		shn_config_database_fetch(&$conf,'all');
 		shn_config_base_conf_fetch();
+		shn_config_gis_conf_fetch();
 		shn_config_module_conf_fetch('all');
 	}
 }
@@ -96,6 +98,21 @@ function shn_config_base_conf_fetch()
 	$approot = $global['approot'];
 
 	require ($approot.'conf/sysconf.inc');
+}
+
+
+/**
+ * Load the GIS layer configuration and base GIS conf files
+ * @author	Mifan Careem <mifan@opensource.lk>
+ * 
+ */
+function shn_config_gis_conf_fetch()
+{
+	global $global;
+	global $conf;
+
+	$approot = $global['approot'];
+	require_once ($approot.'inc/lib_gis/gis_conf.inc');
 }
 
 
