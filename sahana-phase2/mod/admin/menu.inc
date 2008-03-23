@@ -32,10 +32,9 @@ function _shn_admin_mainmenu()
     // shn_sub_mod_menuitem("start_loc", _t("Set Starting Location"), $module);
     shn_sub_mod_menuclose();
 
-    //shn_sub_mod_menuopen(_t("Mapping / GIS"));
-    shn_sub_mod_menuitem("gis_form", _t("Mapping / GIS"), 'admin');
-    //shn_sub_mod_menuitem("gis_mapserver", _t("Mapserver Management"), 'admin');
-    //shn_sub_mod_menuclose();
+	//GIS Admin menu inclusion:
+	//@edit: Mifan Careem
+	include_once $global['approot'].'/inc/lib_gis/admin_menu.inc';
 
     shn_sub_mod_menuopen(_t("Module Configuration"));
     foreach($module_list as $i) {
