@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_form.inc,v 1.73 2008-03-13 08:38:23 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.74 2008-03-24 04:54:31 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -388,7 +388,10 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
 
 	$res->MoveNext();
 }
-if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>[ALL]</option>";
+if (isset($extra_opts['all']) || $extra_opts['all'] == true){
+	$sel = (strtolower($value) == 'all')?"selected=\"selected\"":"";
+	echo "<option value='all' $sel>[ALL]</option>";
+}
 ?>
 </select>
 <?php

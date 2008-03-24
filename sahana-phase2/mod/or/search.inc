@@ -35,8 +35,10 @@ function _shn_or_form_search()
     shn_form_text(_t('Organization Name : '),'org_name','size="40"',$extra_opts);
     $extra_opts['help']=_t('Please select whether you are a government organization,multinational ect');
     $extra_opts['all']=true;
+    $extra_opts['value']='all';
     shn_form_opt_select('opt_org_type',_t('Organization Type'),null,$extra_opts);
     $extra_opts['help']=_t('Select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it');
+    $extra_opts['value']='all';
     shn_form_opt_select('opt_sector_type',_t('Organization Sector'),null,$extra_opts);
     shn_form_fsclose();
     shn_form_fsopen(_t("Base Location"));
