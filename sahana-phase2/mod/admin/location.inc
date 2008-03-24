@@ -356,7 +356,7 @@ function _shn_admin_location_start_form()
 	display_errors();
 	?>
 <div id="formcontainer"><?php
-shn_form_fopen("loc_start_cr");
+shn_form_fopen("loc_start_cr",null,array('req_message'=>false));
 shn_form_fsopen(_t("Select the Location"));
 //$range= shn_location_get_loc_range();
 $extra_opts["unknown"]=false;
