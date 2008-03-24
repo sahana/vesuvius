@@ -214,6 +214,8 @@ function _shn_dvr_edit_individual_start($errors = false) {
 	shn_form_text(_t('Local Name'), 'local_name', 'size="30"', $extra_opts);
 
 	$extra_opts['value'] = $_SESSION['dvr']['person']['dob'];
+	if($extra_opts['value']=="0000-00-00")
+        $extra_opts['value']="";
 	$extra_opts['help'] = _t("You may also specify the date of birth in the order of 'year - month - day.<br/> E.g. February 15th of 1984 should enter as 1984-02-15");
 	shn_form_date(_t('Date of Birth'), 'dob', $extra_opts);
 	
