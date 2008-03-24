@@ -28,9 +28,11 @@ function _shn_ims_mini_quantity_item_select()
 'field_options'=>'4',
 'org_main'=>'8'
 );*/
-   if (shn_acl_check_table_only_perms($tables) == DENIED) {
+   /*
+    * Commented this to fix bug id : [ 1914083 ] ims-->add re-order level
+    if (shn_acl_check_table_only_perms($tables) == DENIED) {
         return false;
-   }
+   }*/
 ?>
 
     <h1 align="center"><?php print _t("Item Selection for Re-Order Level"); ?><br></h1>
