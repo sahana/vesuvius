@@ -132,10 +132,10 @@ function _shn_admin_acl_privacy_menu($privacy_home=false)
 	<br>
 	<div id="home">
 	<h2><?php echo  _t('Welcome to Privacy section'); ?></h2>
-
+    <p><strong><?php echo _t('You can set Privacy settings for Data and Roles')?></strong></p>
 	<ul>
-    <li><strong><?php echo _t('You can set Privacy settings for Data and Roles')?></strong></li>
-
+    <li><?php echo _t("If you need to modify, which roles have permissions to create/read/modify which data, click on the <strong>'Data Classifications & Role Permissions'</strong> tab on the top of the page.") ?></li>
+    <li><?php echo _t("If you need to modify, data sensitivity classifications of the data in the system, click on the <strong>'Data Classifications & System Data'</strong> tab on the top of the page.") ?></li>
 	</ul>
 	</div>
 <?php
