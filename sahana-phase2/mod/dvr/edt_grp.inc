@@ -122,7 +122,71 @@ function _shn_dvr_group_validate_error() {
         $error_flag = true;
 
     }
+    $adltmales=$_POST['adlt_mls'];
+	$adltfmales=$_POST['adlt_fmls'];
+	$chldrn=$_POST['chldrn'];
 	
+	$dsplcd=$_POST['dsplcd'];
+	$misng= $_POST['misng'];
+    $dead=	$_POST['dead'];
+    $rehbd=	 $_POST['rehbd'];
+	
+	if($adltmales!=null)
+	{
+	    if(!shn_valid_number($adltmales))
+	    {
+		    add_error(_("Adult male count should be a number"));
+			$error_flag = true;
+	    }
+	}	
+	if($adltfmales!=null)
+	{
+	    if(!shn_valid_number($adltfmales))
+	    {
+		    add_error(_("Adult female count should be a number"));
+			$error_flag = true;
+	    }
+	}
+	if($chldrn!=null)
+	{
+	    if(!shn_valid_number($chldrn))
+	    {
+		    add_error(_("Children count should be a number"));
+			$error_flag = true;
+	    }	
+	}
+	if($dsplcd!=null)
+	{
+	    if(!shn_valid_number($dsplcd))
+	    {
+		    add_error(_("Displaced count should be a number"));
+			$error_flag = true;
+	    }
+	}
+	if($misng!=null)
+	{
+	    if(!shn_valid_number($misng))
+	    {
+		    add_error(_("Missing people count should be a number"));
+			$error_flag = true;
+	    }	
+	}
+	if($dead!=null)
+	{
+	    if(!shn_valid_number($dead))
+	    {
+		    add_error(_("Death count should be a number"));
+	        $error_flag = true;
+	    }	
+	}
+	if($rehbd!=null)
+	{
+	    if(!shn_valid_number($rehbd))
+	    {
+		    add_error(_("Rehabilitated count should be a number"));
+			$error_flag = true;
+	    }	
+	}	
 
 	if ($_FILES['picture']['error'] != UPLOAD_ERR_NO_FILE) {
 		$info = getimagesize($_FILES['picture']['tmp_name']);
