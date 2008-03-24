@@ -151,10 +151,10 @@ function  _shn_admin_acl_enable_signup_cr()
 
 	if($_POST['action']=='enable') {
 		shn_acl_enable_signup(true);
-		add_confirmation(_("Self-signup is now enabled"));
+		add_confirmation(_t("Self-signup is now enabled"));
 	}else if($_POST['action']=='disable'){
 		shn_acl_enable_signup(false);
-		add_confirmation(_("Self-signup is now disabled"));
+		add_confirmation(_t("Self-signup is now disabled"));
 	}
 	//if(($show==true)&&( shn_acl_check_perms("admin","acl_enable_acl_cr")==true)){
 	shn_acl_form_enable_signup();
