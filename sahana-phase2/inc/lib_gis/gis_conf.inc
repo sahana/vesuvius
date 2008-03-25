@@ -9,7 +9,7 @@
 *
 * 
 * @author   	Mifan Careem <mifan@opensource.lk>
-* @author		Fran Boon
+* @author		Fran Boon <flavour@partyvibe.com>
 * @version		$id$;
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package		Sahana - http://sahana.sourceforge.net    	
