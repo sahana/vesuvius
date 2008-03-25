@@ -124,6 +124,11 @@ function shn_mpr_editmp_load($p_uuid)
 	$rs = $global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['homaddress'] = $rs->fields[0];
 
+	//postalcode
+	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'zip'";
+	$rs=$global['db']->Execute($sql);
+	$_SESSION['mpr_edit']['entry']['zip'] = $rs->fields[0];
+	
 	//Home phone
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
 	$rs = $global['db']->Execute($sql);
@@ -193,7 +198,7 @@ function shn_mpr_editmp_entry($errors=false)
 
 
 	shn_form_fsopen(_t("Contact Details"));
-	shn_form_textarea(_t("Address"),"homaddress",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
+	shn_form_textarea(_t("Address"),"address",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
 	shn_form_text(_t('Postal Code'),'zip','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['zip']));
 	shn_form_text(_t('Home Phone'),'phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
 	shn_form_text(_t('Mobile'),'mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
@@ -780,7 +785,24 @@ function shn_mpr_editmp_commit()
 	//reset $update_array
 	$update_array = null;
 
-
+    //add address
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];  
+    if(isset($_SESSION['mpr_edit']['entry']['address'])){
+        $insert_array['contact_value'] = $_SESSION['mpr_edit']['entry']['address'];
+        $insert_array['opt_contact_type'] = 'hom';
+    }
+    shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
+    $insert_array = null;
+    
+    //add postal code
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+    if(isset($_SESSION['mpr_edit']['entry']['zip'])){
+        $insert_array['contact_value']=$_SESSION['mpr_edit']['entry']['zip'];
+        $insert_array['opt_contact_type']='zip';
+    }
+    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
+    $insert_array = null;
+        
 	$update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 	//flush and refill baby
 	$global['db']->Execute("DELETE FROM person_status WHERE p_uuid = '{$update_array['p_uuid']}'");
