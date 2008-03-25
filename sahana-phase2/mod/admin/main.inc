@@ -331,7 +331,14 @@ function shn_admin_acl_enable_locking_cr()
 {    
 	// changed by Ravith.
 	// enable the locking
-   _shn_admin_acl_enable_locking_cr($_POST['action']=='enable');
+	$act = $_POST['action'];
+	if($act == 'enable'){
+   _shn_admin_acl_enable_locking_cr(true);
+	add_confirmation(_("User Locking is enabled now."));
+	}else if($act=='disable'){
+		_shn_admin_acl_enable_locking_cr(false);
+		add_confirmation(_("User Locking is disabled now."));
+	}
 	// show the ui
    shn_acl_form_enable_locking();
 }
