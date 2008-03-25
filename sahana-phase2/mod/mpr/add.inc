@@ -799,7 +799,13 @@ function shn_mpr_addmp_commit()
     
     //reset $insert_array 
     $insert_array = null;
-   
+    //insert postal code to contact
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    if(isset($_SESSION['mpr_add']['entry']['zip'])){
+        $insert_array['contact_value']=$_SESSION['mpr_add']['entry']['zip'];
+        $insert_array['opt_contact_type']='zip';
+    }
+    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
 /*    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Contacts
     if(isset($_SESSION['mpr_add']['entry']['address']))
