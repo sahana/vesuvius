@@ -122,7 +122,7 @@ function shn_mpr_editmp_load($p_uuid)
 	//Home address
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'hom'";
 	$rs = $global['db']->Execute($sql);
-	$_SESSION['mpr_edit']['entry']['homaddress'] = $rs->fields[0];
+	$_SESSION['mpr_edit']['entry']['address'] = $rs->fields[0];
 
 	//postalcode
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'zip'";
@@ -198,7 +198,7 @@ function shn_mpr_editmp_entry($errors=false)
 
 
 	shn_form_fsopen(_t("Contact Details"));
-	shn_form_textarea(_t("Address"),"address",'',array('value'=>$_SESSION['mpr_edit']['entry']['homaddress']));
+	shn_form_textarea(_t("Address"),"address",'',array('value'=>$_SESSION['mpr_edit']['entry']['address']));
 	shn_form_text(_t('Postal Code'),'zip','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['zip']));
 	shn_form_text(_t('Home Phone'),'phone','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['phone']));
 	shn_form_text(_t('Mobile'),'mobile','size="10"',array('value'=>$_SESSION['mpr_edit']['entry']['mobile']));
@@ -615,7 +615,8 @@ function shn_mpr_editmp_confirm()
 ?>
 <p><?= _t('Is the information that you\'ve entered correct?'); ?></p>
 <?php
-	shn_form_submit(_t('Next'));
+    shn_form_submit(_('Yes'),'name="yes"');
+    shn_form_submit(_('No'),'name="no"');
 	shn_form_fsclose();
 	shn_form_fclose();
 }

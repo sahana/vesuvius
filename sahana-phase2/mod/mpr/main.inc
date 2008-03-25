@@ -197,9 +197,14 @@ function shn_mpr_editmp() {
 			break;
 
 		case 'commit' :
-			shn_mpr_editmp_commit();
-			//Send Back to the Main Page
-			shn_mpr_default();
+	        if(isset($_POST['yes'])){
+			    shn_mpr_editmp_commit();
+			    //Send Back to the Main Page
+			    shn_mpr_default();
+		    }
+		    else{
+		        shn_mpr_editmp_entry();  
+		    }
 			break;
 
 		case 'add_tracker' :
