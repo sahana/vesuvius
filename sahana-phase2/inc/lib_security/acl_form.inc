@@ -89,6 +89,7 @@ function shn_acl_form_enable_locking()
 <h3><?php echo _t("Enable/Disable Password Locking") ?></h3>
 	<?php
 	shn_form_fopen("acl_enable_locking_cr","admin",array('req_message'=>false));
+	echo "<p>"._("You may enable or disable automatic locking of user accounts, if the user attempts to login with invalid credentials 3 times in a row.")."</p><br/><br/>";
 	$acl=shn_acl_is_locking_enabled();
 	if($acl==true){
 		shn_form_hidden(array("action"=>'disable'));
