@@ -112,7 +112,7 @@ function shn_config_gis_conf_fetch()
 	global $conf;
 
 	$approot = $global['approot'];
-	require_once ($approot.'inc/lib_gis/gis_conf.inc');
+	require_once ($approot.'conf/gis_conf.inc');
 }
 
 
