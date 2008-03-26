@@ -97,14 +97,14 @@ $conf['gis_tmp_image_folder'] = 'theme/default/img/';
    * 0 for off; 1 for on
    */
   $conf['ol_multimap']='1';
-  $conf['mod_gis_multimap_key']='metacarta_04';
+  $conf['gis_ol_multimap_key']='metacarta_04';
  
   /**
    * Switch for Yahoo! maps
    * 0 for off; 1 for on
    */
   $conf['ol_yahoo_maps']='1';
-  $conf['mod_gis_yahoo_key']='euzuro-openlayers';
+  $conf['gis_ol_yahoo_key']='euzuro-openlayers';
   
   /**
    * Counter for OpenLayers WMS layers
