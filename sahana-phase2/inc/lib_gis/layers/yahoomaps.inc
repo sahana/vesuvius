@@ -1,6 +1,5 @@
 <?php
 /**
-* Sahana Messaging Module
 *
 * PHP version 5
 * 
