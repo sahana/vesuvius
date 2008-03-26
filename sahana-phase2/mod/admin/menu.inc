@@ -82,7 +82,6 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuopen(_t("Config Utils"));
     shn_sub_mod_menuitem("conf_list", _t("Config Values"), 'admin');
     shn_sub_mod_menuitem("check_sec_policies", _t("Check Security Policy validity"), 'admin');
-    shn_sub_mod_menuitem("lc_upload_file", _t("Upload sahana.po/.mo file"), 'admin');
     shn_sub_mod_menuclose();
 
     shn_mod_menuclose();
