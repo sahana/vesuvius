@@ -39,7 +39,9 @@ function shn_admin_gis_plugin()
  */
  function shn_admin_gis_layer()
  {
- 	
+ 	global $global;
+	include_once $global['approot'].'/inc/lib_gis/layer.inc';
+	_shn_gis_layer_main_form();
  }
  
  //Form Actions -----------------------
