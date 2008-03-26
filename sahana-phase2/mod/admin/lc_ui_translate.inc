@@ -20,27 +20,28 @@ function _shn_admin_set_locale()
 	global $global;
 	include_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	$lc_list = _shn_get_lang_list();
-	shn_form_fopen("lc_ui_trns");
+	shn_form_fopen("lc_ui_trns",null,array('req_message'=>false));
     shn_form_fsopen(_t("Interactive Translation"));
     $locale = $_SESSION["locale"];
     shn_form_select($lc_list,_t("Please select language: "),"locale",'',array('value'=>"$locale"));
     shn_form_submit(_t("Set Locale"));
-    shn_form_fclose();	
+    shn_form_fclose();
 }
 
 function _shn_admin_lc_set_ui_translate()
-{	
-	shn_form_fopen("lc_ui_trns_enable");
+{
+	shn_form_fopen("lc_ui_trns_enable",null,array('req_message'=>false));
 	shn_form_fsclose();
 	//echo 'LOCALE = '.$_SESSION["locale"];
 ?>
     <h2><?=_t("Interactive Translation")?></h2>
         <p><?=_t("This interface allow user to transalte Sahana into their mother tongue through user interface, Please follow below instructions")?></p>
 	<ul>
-	<li><b><?=_t("Setp 1 : ")?></b> <br/><?=_t("When you press localization button then you are entering to localization mode, afterwards when you right click on any word phrase in the user interface you'll get promt box and please type required translation on it and press ok")?></li>
-	<li><b><?=_t("Step 2 : ")?></b> <br/><?=_t("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
-	<li><b><?=_t("Step 3 : ")?></b> <br/><?=_t("Finally press update button")?></li>
-	<li><b><?=_t("Step 4 : ")?></b> <br/><?=_t("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
+	<li><b><?=_("Setp 1 : ")?></b> <br/><?=_("First of all please give file and directory permissions to sahana/res folder");?></li>
+	<li><b><?=_("Setp 2 : ")?></b> <br/><?=_("When you press localization button then you are entering to localization mode, afterwards when you right click on any word phrase in the user interface you'll get promt box and please type required translation on it and press ok")?></li>
+	<li><b><?=_("Step 3 : ")?></b> <br/><?=_("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
+	<li><b><?=_("Step 4 : ")?></b> <br/><?=_("Finally press update button")?></li>
+	<li><b><?=_("Step 5 : ")?></b> <br/><?=_("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
 	</ul>
     </div>
 
@@ -54,11 +55,11 @@ function _shn_admin_lc_set_ui_translate()
 }
 
 function _shn_admin_lc_ui_trns_enable()
-{	
+{
 	$_SESSION['admin']['locale']['enable'] = "set";
-	$locale = $_SESSION["locale"];	
+	$locale = $_SESSION["locale"];
 	$file_name = "../res/locale/$locale/LC_MESSAGES/sahana.po";
-	
+
 	if(!file_exists($file_name)) {
 		$return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
@@ -66,13 +67,13 @@ function _shn_admin_lc_ui_trns_enable()
         '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana.po';
         ///_shn_admin_lc_load('../res/locale/' . $locale. '/LC_MESSAGES/sahana.po');
-        system($cmd, &$return);  
+        system($cmd, &$return);
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
         '--keyword=_p  --default-domain=sahana ' .
         '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
-        system($cmd, &$return);        	
-	}		
+        system($cmd, &$return);
+	}
 	add_confirmation("Localization mode enable succesfully, please refersh your browser and Please right click on word phrases. ");
 	//$_SESSION['admin']['locale']['enable_first'] = "set";
 	//echo $_SESSION['admin']['locale']['enable'];
@@ -90,10 +91,10 @@ function _shn_admin_lc_ui_trns_update()
 {
 	$cmd = "mv -v -f sahana_test.po sahana.po";
 	//echo exec("");
-	//echo $return_value; 
-	echo "<h2>"._t("Sahana translation succesfully updated")."</h2>";	
+	//echo $return_value;
+	echo "<h2>"._t("Sahana translation succesfully updated")."</h2>";
 }
-	
+
 
 
 ?>

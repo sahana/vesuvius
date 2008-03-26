@@ -52,7 +52,7 @@ function shn_admin_view()
 }
 
 function shn_admin_default()
-{ 
+{
     global $global;
     global $conf;
     $db = $global['db'];
@@ -65,7 +65,7 @@ function shn_admin_default()
     $isLocationsEntered = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
    	$isSecurityEnabled = $conf['acl_enabled'];
- 
+
 
     $result = $db->Execute("SELECT * FROM ct_catalogue");
 
@@ -76,53 +76,53 @@ function shn_admin_default()
     $isGoogleSetup = ((isset($result) && $result)?($result->fields['value']  != ""):false);
 
     echo '<div id="home">';
-  
-    if(!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated 
+
+    if(!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated
          || !$isDisasterNamed) {
         echo '<h2>'._t('Finalize Your Sahana Installation')."</h2>\n";
-        echo "<p>"._t("There are still a few steps to be performed before you 
-                can start using your Sahana installation effectively. 
+        echo "<p>"._t("There are still a few steps to be performed before you
+                can start using your Sahana installation effectively.
                 These items are given in priority order below:")."</p>\n";
     }
     echo "<ol>\n";
     if(!$isDisasterNamed) {
-        echo '<li><b>'._t('Add Disaster Name').'</b>'._t(' - As this system can handle 
-                multiple disasters in the same system you need to 
-                first add the name of the first disaster you are using 
-                Sahana for. To do this in the navigation bar click on '). 
+        echo '<li><b>'._t('Add Disaster Name').'</b>'._t(' - As this system can handle
+                multiple disasters in the same system you need to
+                first add the name of the first disaster you are using
+                Sahana for. To do this in the navigation bar click on ').
                 '&#34;'._t('Disaster Incidents').'&#34;'.
                 _t(' followed by ').'<a href="?mod=admin&act=ims_level1">'
                 .'&#34;'._t('Manage Disaster').'&#34;'.'</a> '.
-        		_t('and add the disaster name.').'</li><br/>'; 
+        		_t('and add the disaster name.').'</li><br/>';
     }
-       
+
     if(!$isLocationsEntered) {
-        echo '<li><b>'._t('Add Locations').'</b>'._t(' - Please enter some of the 
-                regions affected in the disaster by clicking the 
+        echo '<li><b>'._t('Add Locations').'</b>'._t(' - Please enter some of the
+                regions affected in the disaster by clicking the
                 navigation bar on ').
                 '&#34;'._t('Location Hierarchy').'&#34;'.
                 _t(' followed by ').'<a href="?mod=admin&act=add_loc">'.
-                '&#34;'._t('Add New Location').'&#34;'.'</a></li><br/>'; 
+                '&#34;'._t('Add New Location').'&#34;'.'</a></li><br/>';
     }
     if(!$isCatalogCreated) {
-        echo '<li><b>'._t('Create the Aid Catalog').'</b>'._t(' - The catalog 
-                of aid items has to be defined to use 
+        echo '<li><b>'._t('Create the Aid Catalog').'</b>'._t(' - The catalog
+                of aid items has to be defined to use
                 the Pledge/Request Management System and Inventory Management,
-                you need to define the type of aid items available. To do this 
+                you need to define the type of aid items available. To do this
                 click on the').'<a href="?mod=cs&act=default">'.
-                '&#34;'._t('Catalog System').'&#34;'.'</a> '._t('in the navigation bar and start adding 
-                aid items for the disaster').'</li><br/>'; 
+                '&#34;'._t('Catalog System').'&#34;'.'</a> '._t('in the navigation bar and start adding
+                aid items for the disaster').'</li><br/>';
     }
    	if(!$isGoogleSetup) {
-        echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get mapping to 
-                work you need to enter a Google Map key in the ') 
+        echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get mapping to
+                work you need to enter a Google Map key in the ')
                 .'<a href="?mod=gis&act=admin&submod=google_maps">'.
-                '&#34;'._t('Mapping / GIS').'&#34; '.'</a>'._t('section to do this. By default mapping is enabled for the localhost access only').'</li><br/>'; 
+                '&#34;'._t('Mapping / GIS').'&#34; '.'</a>'._t('section to do this. By default mapping is enabled for the localhost access only').'</li><br/>';
     }
-    
+
    	if(!$isSecurityEnabled) {
 ?>	<font color="red"><?=_t("Current Security state: Disabled")?></font><?php
-	 
+
 	echo '<li><b>'. _t('Configure Default Security').'</b>'._t(' - By default Sahana is installed with open access. To prevent unauthorized access to the system enable logins and security by clicking ').'&#34;'.'<a href="?mod=admin&act=acl_enable_acl">'._t('Enable Security.').'</a>&#34;</li>';
     }
 
@@ -152,16 +152,16 @@ function shn_admin_modadmin()
 
     // compose and call the relevant module function
     $module_function = "shn_".$global['module']."_".$global['action'];
-    
+
     if(!function_exists($module_function)) {
         $module_function="shn_".$global['module']."_adm_default";
-    } 
+    }
 
     // @TODO remove. call the admin menu shn_<mod>_adminmenu if it exists
     /*$admin_menu = "shn_".$global['module']."_adminmenu";
 
     if(function_exists($admin_menu))
-        $admin_menu();    
+        $admin_menu();
     */
 
     $module_function();
@@ -182,7 +182,7 @@ function shn_admin_acl_change_user_status_cr($error=false)
 {
  	_shn_admin_acl_change_user_status_cr();
  	_shn_admin_acl_enable_locking_on_lock_user();
- 	shn_admin_acl_change_user_status();	
+ 	shn_admin_acl_change_user_status();
 }
 
 function shn_admin_acl_unlock_user($error=false)
@@ -194,7 +194,7 @@ function shn_admin_acl_unlock_user_cr($error=false)
 {
  	_shn_admin_acl_unlock_user_cr();
  	_shn_admin_acl_enable_locking_on_lock_user();
- 	shn_admin_acl_unlock_user();	
+ 	shn_admin_acl_unlock_user();
 }
 
 function shn_admin_acl_event_log($error=false)
@@ -215,7 +215,7 @@ function shn_admin_add_user_cr()
     	shn_admin_add_user();
     	return;
     }
- 
+
     _shn_admin_acl_user_menu();
     shn_auth_form_user_add($error);
 }
@@ -243,9 +243,9 @@ function shn_admin_reset_pwd_cr()
    include_once "errors.inc";
    $done=_shn_admin_reset_pwd_cr();
 
- 
+
     _shn_admin_acl_user_menu();
-   
+
 }
 
 function shn_admin_ch_pwd($error=false)
@@ -261,7 +261,7 @@ function shn_admin_ch_pwd_cr()
    ?><div id="result_msg"><?php
    if($error){
    	   $msg="An error ocurred";
-   }else{ 
+   }else{
    		$msg="The Password was succesfully updated ";
    }
 
@@ -277,58 +277,58 @@ function shn_admin_ch_pwd_cr()
 
 function shn_admin_acl_user_roles()
 {
-    
+
     _shn_admin_acl_user_roles();
 }
 
 
 function shn_admin_acl_privacy()
 {
-    
+
    _shn_admin_acl_privacy_menu(true);
 }
 
 function shn_admin_acl_enable_mods()
 {
-    
+
    _shn_admin_acl_enable_mods();
 }
 function shn_admin_acl_enable_mods_cr()
 {
-    
+
    _shn_admin_acl_enable_mods_cr();
 }
 function shn_admin_acl_enable_acl()
 {
-    
+
    _shn_admin_acl_enable_acl();
 }
 
 function shn_admin_acl_enable_acl_cr()
 {
-    
+
    _shn_admin_acl_enable_acl_cr();
 }
 function shn_admin_acl_enable_signup()
 {
-    
+
    _shn_admin_acl_enable_signup();
 }
 
 function shn_admin_acl_enable_signup_cr()
 {
-    
+
    _shn_admin_acl_enable_signup_cr();
 }
 
 
 function shn_admin_acl_enable_locking()
 {
-    
+
    _shn_admin_acl_enable_locking();
 }
 function shn_admin_acl_enable_locking_cr()
-{    
+{
 	// changed by Ravith.
 	// enable the locking
 	$act = $_POST['action'];
@@ -389,7 +389,7 @@ function shn_admin_edit_loc_cr()
         		$loc["name"]=$_POST{"loc_name"};
         		$loc["desc"]=$_POST{"desc"};
         		$loc["iso"]=$_POST{"iso"};
-        		
+
         		shn_location_edit($loc);
             	_shn_admin_location_view_form();
             	break;
@@ -567,31 +567,36 @@ function shn_admin_lc_db()
 	require_once('lc_db.inc');
 }
 
-//User interface language translation 
+//User interface language translation
 
 function shn_admin_lc_ui_trns()
 {
 	global $global;
 	require_once $global['approot']."/inc/lib_locale/lib_locale.inc";
 	require_once('lc_ui_translate.inc');
-	
+
 	print ("<h1><center>"._t("User Interface Language Translation")."</center></h1>");
 	if($_POST['locale']==null){
 		_shn_admin_set_locale();
-	}else {		
+	}else {
 		_shn_admin_lc_set_ui_translate();
 		$locale = $_POST['locale'];
 		_shn_lc_setcookielc($locale);
-		_shn_lc_setsessionlc($locale);			
-	}	
-	
+		_shn_lc_setsessionlc($locale);
+	}
+
 }
 
 function shn_admin_lc_ui_trns_enable()
 {
 	require_once('lc_ui_translate.inc');
 	if(isset($_POST['lc'])) {
-		_shn_admin_lc_ui_trns_enable();
+		if (!is_writable('../res')){
+			add_error(_('sahana/res folder is not writable!'));
+			_shn_admin_lc_set_ui_translate();
+		}
+		else
+			_shn_admin_lc_ui_trns_enable();
 	}
 	if(isset($_POST['lc_dis'])) {
 		_shn_admin_lc_ui_trns_disable();
@@ -599,28 +604,28 @@ function shn_admin_lc_ui_trns_enable()
 	if(isset($_POST['lc_update'])) {
 		_shn_admin_lc_ui_trns_update();
 	}
-	
+
 }
 
 function shn_admin_lc_ui_trns_update()
 {
 	require_once('lc_ui_translate_update.inc');
 	print ("<h1><center>"._t("Update Translation")."</center></h1>");
-		
-	if($_GET['update']=="Update") {		
+
+	if($_GET['update']=="Update") {
 		_shn_admin_lc_translate_compile();
-		
+
 	}else {
 		_shn_admin_lc_translate_update();
 	}
-		 
+
 }
 
 function shn_admin_lc_add_new_lang()
 {
 	require_once('lc_add_new_language.inc');
 	print ("<h1><center>"._t("Add/Remove language")."</center></h1>");
-	_shn_admin_lc_add_new_language_form();	
+	_shn_admin_lc_add_new_language_form();
 }
 
 function shn_admin_lc_add_new_language_post()
@@ -631,12 +636,13 @@ function shn_admin_lc_add_new_language_post()
 				_shn_admin_lc_add_new_language();
 			else {
 				add_error(_t('Language Name and Folder Name cannot be blank'));
+				print ("<h1><center>"._t("Add/Remove language")."</center></h1>");
 				_shn_admin_lc_add_new_language_form();
 			}
-	}		
+	}
 	else if(isset($_POST['remove'])) {
 		_shn_admin_lc_remove_language();
-	}	
+	}
 }
 
 function shn_admin_lc_add_new_module()
@@ -649,7 +655,7 @@ function shn_admin_lc_add_new_module()
 function shn_admin_lc_add_new_module_post()
 {
 	require_once('lc_add_new_module.inc');
-	
+
 	if(isset($_POST['merge']))
 		_shn_admin_lc_add_new_module_update();
 }
@@ -664,29 +670,29 @@ function shn_admin_lc_file_browser()
 	//"../res/locale/$locale/LC_MESSAGES/";
 	//echo $uploaddir;
 	$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
-	
+
 	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 		add_confirmation('File uploaded sucessfully');
 	}else {
 		add_error('File uploaded failed');
 	}
-	
+
 }
 
 function shn_admin_lc_javascript()
 {
 	global $global;
     global $conf;
-    $approot = $global['approot'];    
+    $approot = $global['approot'];
     $request  = $_REQUEST['request'];
     if($request=='first') {
     	require_once $approot."/mod/admin/lc_first_process_request.inc";
     	_find_translated_str();
-    }    	
+    }
     else if($request=='second') {
     	require_once $approot."/mod/admin/lc_second_process_request.inc";
     	_find_str();
-    }    	
+    }
     else if($request=='third') {
     	require_once $approot."/mod/admin/lc_third_process_request.inc";
     	_find_str();
@@ -695,8 +701,8 @@ function shn_admin_lc_javascript()
     	require_once $approot."/mod/admin/lc_select_process_request.inc";
     	shn_admin_lc_select_tag();
     }
-	
-} 
+
+}
 
 /**
  * Inclusion of GIS admin menu functionality/actions
