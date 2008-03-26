@@ -26,11 +26,12 @@ function __show_basic_form()
     shn_form_fopen("lc_db",null,array('req_message'=>false));
 
     shn_form_hidden(array('seq'=>'add_entry'));
-
+	shn_form_fsopen("");
+	echo "<p>"._("There are database fields which require translation, please put table name and column name in the following fields which require translation. Finally that table field values are added to sahana.po file and user can translate those values.")."</p>";
     shn_form_text(_t("Table / Field Names"),'table',null,array('br'=>false));
     shn_form_text("",'field',null,array('br'=>false));
-
     shn_form_submit(_t("Add Entry"));
+    shn_form_fsclose();
     shn_form_fclose();
 }
 
@@ -53,7 +54,7 @@ function __add_entry($table, $field)
 		add_error(_t("The Field name cannot be blank, please enter a valid Field name"));
 		$error = true;
     }
-    
+
     // check for table availability
     $tables = $global['db']->MetaTables("TABLES");
     $table_error = false;
@@ -62,15 +63,15 @@ function __add_entry($table, $field)
     	$table_error = true;
     	$error = true;
     }
-    
+
     // check for field availability
     if(!$table_error){
     	$fields = $global['db']->MetaColumnNames($table,true);
     	if(array_search($field,$fields)===FALSE){
     		add_error(_t("There is no field named ").$field._t(" in the table ").$table);
-    		$error = true;	
+    		$error = true;
     	}
-    }    
+    }
 
     if($error) {
         display_errors();
@@ -148,7 +149,7 @@ function __del_entry($id)
 
 switch($_REQUEST['seq']) {
 
-    case '' : 
+    case '' :
     	__show_basic_form();
 		__show_entries();
         break;
@@ -160,7 +161,7 @@ switch($_REQUEST['seq']) {
 		__show_basic_form();
 		__show_entries();
 		break;
-		
+
     case 'del':
     	$id = $_GET['id'];
 		__del_entry($id);

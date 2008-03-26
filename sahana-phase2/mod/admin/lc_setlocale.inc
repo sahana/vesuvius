@@ -24,7 +24,7 @@ function __select_locale()
 
 	$locale = $_SESSION["locale"];
 
-	print "<h3>" . _t("Current language : ") . _lc($locale) . "</h3>";
+	print "<h5>" . _t("Current language : ") . _lc($locale) . "</h5>";
 
 	shn_form_fopen("lc_set",null,array('req_message'=>false));
 
@@ -44,18 +44,18 @@ switch($_REQUEST['seq']) {
             if(_shn_lc_issetdblc()) {
             	$locale = _shn_lc_getdblc();
 
-                print "<h3>" .
+                print "<h5>" .
                       _t("Current locale setting in the Database : ") .
                       _lc($locale) .
-                      " </h3>";
+                      " </h5>";
 
                 __select_locale();
             }else {
-                print "<h3>" .
+                print "<h5>" .
                 		  _t("The locale setting is not set in the Database") .
-                		  "</h3><br /><h4>" .
+                		  "</h5><br /><h5>" .
                 		  _t("Please select a valid locale from the list") .
-    			      "</h4>";
+    			      "</h5>";
                 __select_locale();
             }
 			break;
