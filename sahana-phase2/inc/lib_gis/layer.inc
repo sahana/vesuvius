@@ -23,8 +23,9 @@ function shn_gis_layer_main()
 
 function _shn_gis_layer_main_form()
 {
-	shn_form_fopen('gis',null,array('tab'=>true));
+	shn_form_fopen('gis',null,array('tab'=>'float'));
 	_shn_gis_layer_load_admin_forms();
+	shn_form_drawtab();
 	shn_form_submit(_t('Save Settings'));
 	shn_form_fclose();
 }
