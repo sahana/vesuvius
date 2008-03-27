@@ -878,7 +878,7 @@ function shn_edit_show_trackers($p_uuid)
 		</TD>
 		<TD><a title="<?= _t('Remove'); ?>"
 			href="<?='index.php?mod='.$global['module'].
-    '&act=editmp&tracker_id='.$tracker['p_uuid'].'&seq=del_tracker';
+    		'&act=editmp&tracker_id='.$tracker['p_uuid'].'&tracker_name='.$tracker['full_name'].'&seq=con_del_tracker';
 			?>"><?= _t('Click to remove the tracker'); ?></a></TD>
 	</TR>
 	<?php

@@ -252,11 +252,27 @@ function shn_mpr_editmp() {
 		case 'del_tracker' :
 			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			//todo : Clean the input
-			$tracker_uuid = $_GET['tracker_id'];
-			shn_edit_del_tracker($_SESSION['mpr_edit']['entry']['p_uuid'], $tracker_uuid);
+	        $tracker_uuid = $_POST['tracker_id'];
+			if(isset($_POST['yes'])){
+			    shn_edit_del_tracker($_SESSION['mpr_edit']['entry']['p_uuid'], $tracker_uuid);
+			}
 			shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
 
-			break;
+			break;			
+		case 'con_del_tracker':	
+		    echo '<h1 align="center">' . _('Edit Missing Person Entry') . '</h1>';	    
+		    shn_form_fopen("editmp",null,array('req_message'=>false,'id'=>'del'));
+		    shn_form_fsopen('Confirm');
+		    shn_form_hidden(array('seq'=>'del_tracker','tracker_id'=>$_GET['tracker_id']));
+		    echo sprintf(_('Are you sure you want to delete tracker %s from tracker list'),$_GET['tracker_name']);
+		    echo '<br/>';
+		    echo '<br/>';
+		    shn_form_submit("Yes",'name="yes"');
+		    shn_form_submit("No",'name="no"');
+		    shn_form_fsclose();
+		    shn_form_fclose();
+		    shn_edit_show_trackers($_SESSION['mpr_edit']['entry']['p_uuid']);
+		    break;
 		default :
 			echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
 			//load details
