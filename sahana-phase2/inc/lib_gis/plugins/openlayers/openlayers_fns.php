@@ -24,23 +24,23 @@
  	global $conf;
  	global $global;
 
-	if (1 == $conf['ol_google_sat'] || 1 == $conf['ol_google_maps'] || 1 == $conf['ol_google_hybrid']) {
-	$key = $conf['mod_gis_google_key'];
+	if (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid']) {
+	$key = $conf['gis_google_key'];
 	echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
 	}
 
-	if (1 == $conf['ol_multimap']) {
-	$key = $conf['mod_gis_multimap_key'];
+	if (1 == $conf['gis_ol_multimap']) {
+	$key = $conf['gis_ol_multimap_key'];
 	echo "<script src='http://clients.multimap.com/API/maps/1.1/$key' type=\"text/javascript\"></script>\n";
 	}
 
-	if (1 == $conf['ol_virtualearth']) {
+	if (1 == $conf['gis_ol_virtualearth']) {
 	echo '<script src="http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js"></script>';
 	echo "\n";
 	}
 
-	if (1 == $conf['ol_yahoo_maps']) {
-	$key = $conf['mod_gis_yahoo_key'];
+	if (1 == $conf['gis_ol_yahoo_maps']) {
+	$key = $conf['gis_ol_yahoo_key'];
 	echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=$key'></script>\n";
 	}
 
@@ -75,56 +75,56 @@
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
-	if (1 == $conf['ol_google_hybrid']) {
+	if (1 == $conf['gis_ol_google_hybrid']) {
 	echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP } );\n";
 	echo 'map.addLayer(googlehybrid);';
 	echo "\n";
 	}
 
-	if (1 == $conf['ol_google_sat']) {
+	if (1 == $conf['gis_ol_google_sat']) {
 	echo "var googlesat = new OpenLayers.Layer.Google( \"Google Satellite\" , {type: G_SATELLITE_MAP } );\n";
 	echo 'map.addLayer(googlesat);';
 	echo "\n";
 	}
 
-	if (1 == $conf['ol_google_maps']) {
+	if (1 == $conf['gis_ol_google_maps']) {
 	echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Maps\" , {type: G_NORMAL_MAP } );\n";
 	echo 'map.addLayer(googlemaps);';
 	echo "\n";
 	}
 
-	if (1 == $conf['ol_multimap']) {
+	if (1 == $conf['gis_ol_multimap']) {
 	echo "var multimap = new OpenLayers.Layer.MultiMap( \"MultiMap\");\n";
 	echo 'map.addLayer(multimap);';
 	echo "\n";
 	}
 
-	if (1 == $conf['ol_virtualearth']) {
+	if (1 == $conf['gis_ol_virtualearth']) {
 	echo "var velayer = new OpenLayers.Layer.VirtualEarth( \"MS VirtualEarth\",\n";
 	echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
 	echo 'map.addLayer(velayer);';
 	echo "\n";
 	}
         
-	if (1 == $conf['ol_yahoo_maps']) {
+	if (1 == $conf['gis_ol_yahoo_maps']) {
 	echo "var yahoo = new OpenLayers.Layer.Yahoo( \"Yahoo\");\n";
 	echo 'map.addLayer(yahoo);';
 	echo "\n";
 	}
 
-	for ($i = 1; $i <= $conf['ol_wms']; $i++) {
-	$name = $conf["ol_wms_".$i."_name"];
-	$url = $conf["ol_wms_".$i."_url"];
-	$layers = $conf["ol_wms_".$i."_layers"];
+	for ($i = 1; $i <= $conf['gis_ol_wms']; $i++) {
+	$name = $conf["gis_ol_wms_".$i."_name"];
+	$url = $conf["gis_ol_wms_".$i."_url"];
+	$layers = $conf["gis_ol_wms_".$i."_layers"];
 	echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
 		echo "\"$url\",\n"; 
 		echo "{layers: '$layers'} );\n";
 	echo "map.addLayer(wmslayer$i);\n";
 	}
 
-	for ($i = 1; $i <= $conf['ol_georss']; $i++) {
-	$name = $conf["ol_georss_".$i."_name"];
-	$url = $conf["ol_georss_".$i."_url"];
+	for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
+	$name = $conf["gis_ol_georss_".$i."_name"];
+	$url = $conf["gis_ol_georss_".$i."_url"];
 	echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\");\n"; 
 	echo "map.addLayer(georsslayer$i);\n";
 	}
