@@ -364,12 +364,13 @@ function _shn_rms_items($category = null)
     shn_form_fsopen(_t("New Item"));
     
     include_once('lib_ajax.inc');
-    _shn_rms_ajax_init('sub_cat');
-    shn_form_select($categories, _t("Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
+    _shn_rms_ajax_init('sub_cat', 'item_div');
+    shn_form_select($categories, _t("Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value, \"cat\")'", array('value'=>$category));
     
     print '<div id="sub_cat">';
     print '</div>';
-    
+    print '<div id="item_div">';
+    print '</div>';
     print '<div id="itm_unit">';
     print '</div>';
 
@@ -415,7 +416,7 @@ function _shn_rms_get_subcat($cat_id)
         {
             array_push($items,'-- Select item --');
             array_reverse($items);
-            shn_form_select($items, _t("Item"),'item',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_unit_itm\",this.value,showUnit)'");
+            shn_form_select($items, _t("Item"),'item',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_unit_itm\",this.value, \"item\", showUnit)'");
             return true;
         }
         
@@ -427,7 +428,7 @@ function _shn_rms_get_subcat($cat_id)
         {
             $categories[$cat['ct_uuid']] = $cat['name'];
         }
-        shn_form_select($categories, _t("Sub Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value)'", array('value'=>$category));
+        shn_form_select($categories, _t("Sub Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value, \"subcat\")'", array('value'=>$category));
     }
     
 }

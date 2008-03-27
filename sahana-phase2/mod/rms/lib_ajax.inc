@@ -18,13 +18,14 @@
 * Public License (LGPL)
 */
 
-function _shn_rms_ajax_init($replace_block)
+function _shn_rms_ajax_init($replace_block1, $replace_block2)
 {
 ?>
 
 <script language="JavaScript" type="text/javascript">
 
 var http_request = false;
+var block;
 
 function replaceContent() 
 {
@@ -34,7 +35,19 @@ function replaceContent()
         {
             //alert(http_request.responseText);
             result = http_request.responseText;
-            document.getElementById('<?=$replace_block?>').innerHTML = result; 
+            if(block == 'cat'){
+            document.getElementById('<?=$replace_block1?>').innerHTML = result;
+            document.getElementById('<?=$replace_block2?>').innerHTML = ""; 
+            document.getElementById('itm_unit').innerHTML = ""; 
+            document.getElementById('qty').value = "";
+            }
+            else{
+            	if(block == 'subcat'){
+            		document.getElementById('<?=$replace_block2?>').innerHTML = result;
+            		document.getElementById('itm_unit').innerHTML = "";
+            		document.getElementById('qty').value = ""; 
+            	}
+            }
         }
         else
         {
@@ -71,6 +84,7 @@ function showUnit()
             //alert(http_request.responseText);
             result = http_request.responseText;
             document.getElementById('itm_unit').innerHTML = result; 
+            document.getElementById('qty').value = "";
         }
         else
         {
@@ -80,9 +94,10 @@ function showUnit()
     
 }
 
-function makeRequest(url, parameters, callback)
+function makeRequest(url, parameters, cat, callback)
 {
     http_request = false;
+    block = cat;
     if (window.XMLHttpRequest)
     {
         http_request = new XMLHttpRequest();
