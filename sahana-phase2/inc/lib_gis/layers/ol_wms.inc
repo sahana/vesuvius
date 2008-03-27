@@ -11,11 +11,22 @@
 * @version		
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
+global $global;
+include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
-
-	shn_form_fsopen(_t('OL WMS'));
-	shn_form_checkbox(_t('Enable Open Layers Web Mapping Service'),'ol_wms');
-	shn_form_fsclose();
+class ol_wms implements layer{
+	
+	function ol_wms()
+	{
+		
+	}
+	function print_form()
+	{
+		shn_form_fsopen(_t('OL WMS'));
+		shn_form_checkbox(_t('Enable Open Layers Web Mapping Service'),'ol_wms');
+		shn_form_fsclose();
+	}
+}
  
 ?>
 
