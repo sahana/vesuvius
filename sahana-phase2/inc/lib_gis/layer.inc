@@ -29,18 +29,30 @@ function _shn_gis_layer_main_form()
 	shn_form_fclose();
 }
 
+/**
+ * Load layer classes admin sections as tabs 
+ */
 function _shn_gis_layer_load_admin_forms()
 {
 	global $global;
 	global $conf;
 	$gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
 	$dir = opendir($gis_layer_dir);
+	
+	
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
 			include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
+			$class = spliti('\.',$file);
+			
+			$classname = $class[0];
+			$layer_obj = new $classname();
+			$layer_obj->print_form();
+			
 						
 		}
 	}
+	
 }
 
 ?>
