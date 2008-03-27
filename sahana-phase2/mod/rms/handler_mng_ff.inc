@@ -194,13 +194,14 @@ function _shn_rms_mng_select_pledge()
                     	    '&amp;seq=add_ff&amp;max_qty=' . $max_qty .
                         	'&amp;plg_id=' . $res['plg_uuid'] .'>' .
                         	_t("Select") . '</a>';
-                        
-            		$tb_plg[] = array (
+                    if($max_qty > 0){
+            			$tb_plg[] = array (
                                  _shn_rms_get_itemname($res['item_uuid']), 
                                  $res['plg_qty'],
                                  $used,
                                  $sel_url
                                 );
+                    }
     			}    	
     		}
     	
