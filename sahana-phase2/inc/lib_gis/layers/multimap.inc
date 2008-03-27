@@ -22,8 +22,27 @@ class multimap implements layer{
 	function print_form()
 	{
 		shn_form_fsopen(_t('Multimap'));
-		shn_form_checkbox(_t('Enable Multimap'),'ol_multimap');
-		shn_form_text(_t("Enter Multimap Key"),"ol_multi_map_key",'size="100"',array('value'=>$conf['gis_ol_multimap_key']));
+			shn_form_fsopen('Multimap');
+				shn_form_fsopen('INFO');
+					echo _t("<p>Enable <a href='http://multimap.com/'>Multimap</a> &trade; Mapping Service" .
+							" by selecting the checkbox option below.</p>");
+					echo _t("<p>The Multimap mapping API requires Internet connectivity and a valid Multimap key</p>");
+					
+				shn_form_fsclose();
+				shn_form_fsopen('ENABLE');
+					shn_form_checkbox(_t('Enable Multimap'),'ol_multimap');			
+				shn_form_fsclose();
+			shn_form_fsclose();
+			shn_form_fsopen('API Key');
+				shn_form_fsopen('INFO');
+					echo _t("<p>Multimap requires a  key for operation</p>");
+					echo _t("<p>Register a multimap key, and enter it below</p>");
+					echo _t("<p>Register your Multimap key at: </p> <a href='http://multimap.com/' target=_blank>Multimap</a>");
+				shn_form_fsclose();
+				shn_form_fsopen('Enter API Key');
+					shn_form_text(_t("Enter Multimap Key"),"ol_multi_map_key",'size="100"',array('value'=>$conf['gis_ol_multimap_key']));
+				shn_form_fsclose();
+			shn_form_fsclose();
 		shn_form_fsclose();
 	}
 }
