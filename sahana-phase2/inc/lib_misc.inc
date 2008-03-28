@@ -175,10 +175,20 @@ var sort=<?php if($sort==true) {echo "true";}else{ echo "false";}?>;
 			/*we need to check whether the new type is in the database
 			if so, notify and reject,therefore check against db_str  */
 			var y=document.getElementsByName("type");
+			
+			// blank space validation added by Ravith.
+			y_val = y[0].value 
+			y_val.replace(/^\s+|\s+$/g, '')
+			
+			if(y_val==null || y_val==""){
+			     alert("<?php echo _("Whitespace is not a valid input."); ?>");
+			     return;
+			}
+			// end of blank space validation
 			var exist=search(db_str,y[0].value);
 			
 			if(exist){
-                alert("The Type Exists in the DataBase");
+                alert("<?php echo _t("The type already exists in the list") ?>");
                 return;
             }        
             	/*Now we need to check whether we added it during this session
@@ -187,7 +197,7 @@ var sort=<?php if($sort==true) {echo "true";}else{ echo "false";}?>;
             if(add[0].value!=0){
            		exist=search(add[0].value,y[0].value);
             		if(exist){
-                		alert("The Type Exists,you just added it");
+                		alert("<?php echo _t("The Type Exists,you just added it") ?>");
                 		return;
             		}
             	}
