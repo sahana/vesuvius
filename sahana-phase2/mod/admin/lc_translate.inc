@@ -122,7 +122,7 @@ function _shn_admin_lc_merge()
 		if(file_exists($file_name)){
 				$return = array();
             	$cmd = 'xgettext --keyword=__ --keyword=_e ' .
-        		'--keyword=_p  --default-domain=sahana ' .
+        		'--keyword=_t  --default-domain=sahana ' .
         		'--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         		'--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
         		system($cmd, &$return);

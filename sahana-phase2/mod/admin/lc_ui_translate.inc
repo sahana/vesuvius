@@ -63,13 +63,13 @@ function _shn_admin_lc_ui_trns_enable()
 	if(!file_exists($file_name)) {
 		$return = array();
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
-        '--keyword=_p  --default-domain=sahana ' .
+        '--keyword=_t  --default-domain=sahana ' .
         '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana.po';
         ///_shn_admin_lc_load('../res/locale/' . $locale. '/LC_MESSAGES/sahana.po');
         system($cmd, &$return);
         $cmd = 'xgettext --keyword=__ --keyword=_e ' .
-        '--keyword=_p  --default-domain=sahana ' .
+        '--keyword=_t  --default-domain=sahana ' .
         '--language=php ../*/*/*.inc ../*/*.inc ../*/*/*/*/*.inc ' .
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
         system($cmd, &$return);
