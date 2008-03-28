@@ -359,6 +359,9 @@ function shn_admin_add_loc()
 function shn_admin_add_loc_cr()
 {
     shn_location_add();
+    unset($_POST['loc_name']);
+    unset($_POST['desc']);
+    unset($_POST['iso']);
     _shn_admin_location_form();
 }
 
