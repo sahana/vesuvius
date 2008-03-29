@@ -6,8 +6,8 @@
 * @author       Mifan Careem <mifan@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module	    GIS
-* @version		
+* @library	    GIS
+* @version		$Id: yahoomaps.inc,v 1.4 2008-03-29 19:56:51 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 

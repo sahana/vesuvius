@@ -1,14 +1,13 @@
 <?php
 /**
-* Sahana Messaging Module
 *
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module	    GIS
-* @version		
+* @library	    GIS
+* @version		$Id: virtualearth.inc,v 1.3 2008-03-29 19:56:38 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
