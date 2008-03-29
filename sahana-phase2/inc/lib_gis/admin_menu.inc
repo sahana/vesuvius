@@ -20,9 +20,9 @@
     if($conf['gis_dflt']=='openlayers')
     	shn_sub_mod_menuitem("gis_layer", _t("GIS Layer Management"), 'admin');
     if($conf['gis_dflt']=='openlayers' && $conf['gis_ol_wms'])
-    	shn_sub_mod_menuitem("gis_add_wms", _t("Manage WMS Layers"), 'admin');
+    	shn_sub_mod_menuitem("gis_mng_wms", _t("Manage WMS Layers"), 'admin');
     if($conf['gis_dflt']=='openlayers' && $conf['gis_ol_georss'])
-    	shn_sub_mod_menuitem("gis_add_georss", _t("Manage GeoRSS Layers"), 'admin');
+    	shn_sub_mod_menuitem("gis_mng_georss", _t("Manage GeoRSS Layers"), 'admin');
     shn_sub_mod_menuclose();
 
 ?>
