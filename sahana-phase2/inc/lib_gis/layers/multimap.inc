@@ -7,7 +7,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.5 2008-03-29 19:55:41 mifanc Exp $
+* @version		$Id: multimap.inc,v 1.6 2008-03-29 20:08:25 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,6 +22,7 @@ class multimap implements layer{
 	}
 	function print_form()
 	{
+		global $conf;
 		shn_form_fsopen(_t('Multimap'));
 			shn_form_fsopen('Multimap');
 				shn_form_fsopen('INFO');
