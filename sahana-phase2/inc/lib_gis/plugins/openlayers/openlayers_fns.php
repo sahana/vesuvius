@@ -1,16 +1,15 @@
 <?php
-/** 
+/**
+*
+* PHP version 5
 * 
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author   Mifan Careem <mifan@opensource.lk>
-* @author	Fran Boon <flavour@partyvibe.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @author       Mifan Careem <mifan@respere.com>
+* @author		Fran Boon <flavour@partyvibe.com>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package      Sahana - http://sahana.lk/
+* @library	    GIS
+* @version		$Id: openlayers_fns.php,v 1.3 2008-03-29 20:39:37 mifanc Exp $
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 /**
