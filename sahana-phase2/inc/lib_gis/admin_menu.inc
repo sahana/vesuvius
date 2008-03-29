@@ -12,11 +12,17 @@
 * @version		$id$
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
-
+	global $conf;
+	
 	shn_sub_mod_menuopen(_t("GIS Configuration"));
 	shn_sub_mod_menuitem("gis_main", _t("GIS General Configuration"), 'admin');
     shn_sub_mod_menuitem("gis_plugin", _t("GIS Plugin Management"), 'admin');
-    shn_sub_mod_menuitem("gis_layer", _t("GIS Layer Management"), 'admin');
+    if($conf['gis_dflt']=='openlayers')
+    	shn_sub_mod_menuitem("gis_layer", _t("GIS Layer Management"), 'admin');
+    if($conf['gis_dflt']=='openlayers' && $conf['gis_ol_wms'])
+    	shn_sub_mod_menuitem("gis_add_wms", _t("Manage WMS Layers"), 'admin');
+    if($conf['gis_dflt']=='openlayers' && $conf['gis_ol_georss'])
+    	shn_sub_mod_menuitem("gis_add_georss", _t("Manage GeoRSS Layers"), 'admin');
     shn_sub_mod_menuclose();
 
 ?>
