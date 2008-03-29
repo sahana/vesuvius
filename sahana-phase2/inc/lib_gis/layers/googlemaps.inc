@@ -1,5 +1,5 @@
 <?php
-/* $id$ */
+/* $id:$ */
 /**
 *
 * PHP version 5
@@ -7,8 +7,8 @@
 * @author       Mifan Careem <mifan@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module	    GIS
-* @version		$id$
+* @library	    GIS
+* @version		$id:$
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
