@@ -6,10 +6,11 @@
 * @author       Mifan Careem <mifan@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module	    GIS
-* @version		
+* @library	    GIS
+* @version		$Id: multimap.inc,v 1.5 2008-03-29 19:55:41 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
+
 global $global;
 include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
