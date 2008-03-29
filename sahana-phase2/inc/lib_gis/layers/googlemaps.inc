@@ -1,5 +1,5 @@
 <?php
-/* $id:$ */
+/* $Id: googlemaps.inc,v 1.7 2008-03-29 19:50:47 mifanc Exp $ */
 /**
 *
 * PHP version 5
@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$id:$
+* @version		$Id: googlemaps.inc,v 1.7 2008-03-29 19:50:47 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
