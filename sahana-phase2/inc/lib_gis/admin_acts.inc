@@ -44,6 +44,28 @@ function shn_admin_gis_plugin()
 	_shn_gis_layer_main_form();
  }
  
+ 
+/**
+ * GIS WMS Management Functionality
+ */
+ function shn_admin_gis_mng_wms()
+ {
+ 	global $global;
+	include_once $global['approot'].'/inc/lib_gis/wms_fns.inc';
+	_shn_gis_mng_wms_form();
+ }
+ 
+ 
+/**
+ * GIS GeoRSS Management Functionality
+ */
+ function shn_admin_gis_mng_georss()
+ {
+ 	global $global;
+	include_once $global['approot'].'/inc/lib_gis/georss_fns.inc';
+	_shn_gis_mng_georss_form();
+ }
+ 
  //Form Actions -----------------------
  
  function shn_admin_gis_main_defaults()
