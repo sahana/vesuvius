@@ -160,7 +160,7 @@ function _shn_rms_mng_select_pledge()
     $_SESSION['rms_plg_id'] = null;
     $itm = $_SESSION['rms_req_item'];
     
-    $sql2 = "SELECT plg_uuid, item_uuid, quantity AS plg_qty FROM rms_plg_item WHERE item_uuid = '$itm' AND (status = 'Delivered' OR status = 'Confirmed')";
+    $sql2 = "SELECT plg_uuid, item_uuid, quantity AS plg_qty, status FROM rms_plg_item WHERE item_uuid = '$itm' AND (status = 'Delivered' OR status = 'Confirmed')";
     
     $rs2 = $global['db']->Execute($sql2);
     if ($rs2 === false){
@@ -170,7 +170,7 @@ function _shn_rms_mng_select_pledge()
     }
     else{
     	$res_array = $rs2->GetArray();
-    	$th_plg[] = array (_t("Item"), _t("Qty"), _t("Used"), '');
+    	$th_plg[] = array (_t("Item"), _t("Qty"), _t("Used"), _t('Status'), '');
     	if ($rs2->RecordCount() > 0){
     		foreach ($res_array as $res){
     			$sql3 = "SELECT SUM(quantity) AS ff_qty FROM rms_fulfil WHERE plg_uuid = '".$res['plg_uuid'].
@@ -199,6 +199,7 @@ function _shn_rms_mng_select_pledge()
                                  _shn_rms_get_itemname($res['item_uuid']), 
                                  $res['plg_qty'],
                                  $used,
+                                 $res['status'],
                                  $sel_url
                                 );
                     }
