@@ -347,7 +347,7 @@ function _shn_cs_edit_cat_form_submit_result()
         $query = "UPDATE ct_catalogue SET name = '$name' , description = '$description' WHERE ct_uuid = '$id' ";
         $res = $db->Execute($query);    
 	
-		add_confirmation($name . _t(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was successfully saved in the database"));
         show_item_cat_table();
     } else if ($action == 'del') {
     	$id = trim($_POST['id']);
@@ -514,7 +514,7 @@ function _shn_cs_edit_unit_form_submit_result()
         $query = "UPDATE ct_unit SET name = '$name' , multiplier = $multiplier WHERE unit_uuid = '$id' ";
         $res = $db->Execute($query);    
 
-		add_confirmation($name . _t(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was successfully saved in the database"));
         show_unit_table();
     } else if ($action == 'del') {
         $id = trim($_POST['id']);
@@ -655,7 +655,7 @@ function _shn_cs_edit_unit_type_form_submit_result()
         $query = "UPDATE ct_unit_type SET name = '$name' , description = '$description' WHERE unit_type_uuid = '$id' ";
         $res = $db->Execute($query);    
 
-		add_confirmation($name . _t(" was succesfully saved in the database"));
+		add_confirmation($name . _t(" was successfully saved in the database"));
 		show_unit_type_table();
     } else if ($action == 'del') {
         $id = trim($_POST['id']);

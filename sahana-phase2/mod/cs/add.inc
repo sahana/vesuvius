@@ -73,7 +73,7 @@ function _shn_cs_addmain_form_result()
     	$res = $db->Execute($q);
 
 		if ($res == true) {
-			add_confirmation($name . _t(" was succesfully saved in the database"));
+			add_confirmation($name . _t(" was successfully saved in the database"));
 			shn_cs_addmain_form();
 		} else {
 			add_warning(_t("Operation failed. ct_catalogue table not found in the database. Please contact system administrator."));
@@ -174,7 +174,7 @@ function _shn_cs_addsub_form2_result()
     $res = $db->Execute($q);
 
 	if ($res == true) {
-	    add_confirmation($sub_cat_name . _t(" was succesfully saved in the database"));
+	    add_confirmation($sub_cat_name . _t(" was successfully saved in the database"));
 
 	    ?>
 	    <p><b><?= _t("Add another sub catalog"); ?></b></p>
@@ -283,7 +283,7 @@ function _shn_cs_addunit_form_result()
     $res = $db->Execute($query);
 
 	if ($res == true) {
-	    add_confirmation($unit_name . _t(" was succesfully saved in the database"));
+	    add_confirmation($unit_name . _t(" was successfully saved in the database"));
 	    ?>
 	    <p><b><?= _t("Add another Unit"); ?></b></p>
 	    <?php
@@ -444,7 +444,7 @@ function shn_cs_additem_form2_result()
 	}
 	
 	if ($items_saved_ok == true && $all_units_saved_ok == true) {
-		add_confirmation($item_name . _t(" was succesfully saved in the database"));
+		add_confirmation($item_name . _t(" was successfully saved in the database"));
 		?>
 		<p><b><?= _t("Add another Item"); ?></b></p>
 		<?php
@@ -510,7 +510,7 @@ function _shn_cs_add_unit_type_form_result()
 	}
 
     if ($unit_type_saved_ok == true && $base_unit_saved_ok == true) {
-		add_confirmation($unit_type_name . _t(" was succesfully saved in the database"));
+		add_confirmation($unit_type_name . _t(" was successfully saved in the database"));
 		?>
 		<p><b><?= _t("Add another unit type"); ?></b></p>
 		<?php
