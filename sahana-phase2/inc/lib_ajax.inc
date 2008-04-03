@@ -307,9 +307,13 @@ function _shn_ajax_hide_popup($print_element){
 	<script>
 	window.onclick=test;
 	function test(){
+		<?php
 		foreach($print_element as $ele){
-		document.getElementById(\''.$ele.'\').innerHTML = \'\';
+		?>	
+		document.getElementById('<?php echo $ele;?>').innerHTML = '';
+		<?php
 		}
+		?>
 	}
 	</script>
 	<?php
