@@ -31,7 +31,7 @@ function shn_ws_api_key(){
 <?php
 
 ?>  
-<div class="info"><?= _t("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a seperate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
+<div class="info"><?= _t("The API Key allows you to access the web services of this SAHANA instance for the domain you register with us. For each domain you need a separate Key. For the time being only one key per domain is issued. To access SAHANA web services, a developer must have a login(an account).
 In this section , you are given an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
 		" However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
 		 </div><br />
