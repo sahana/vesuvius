@@ -74,7 +74,7 @@ function shn_ws_default(){
     <br />
     <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
     <ul>
-        <li><?=_t("Displays the methods that are exposed as web serivices with additional information")?></li>
+        <li><?=_t("Displays the methods that are exposed as web services with additional information")?></li>
         <li><?=_t("Generates and display the WSDL for those services")?></li>
     </ul>
     <strong>Description of Actions:</strong><br/>
