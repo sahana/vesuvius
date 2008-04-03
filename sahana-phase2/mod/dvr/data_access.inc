@@ -491,9 +491,13 @@ if ($_SESSION['dvr']['person']['person_image'] != null) {
 	//}
 	}
 
+	        
+	/*
+	 * commented fix bug 1916335
 	$q1 = "UPDATE resource_to_incident set incident_id='{$_SESSION['dvr']['incident_id']}' WHERE x_uuid ='{$_SESSION['dvr']['person']['p_uuid']}'";
 	$db->Execute($q1);
-
+	*/
+	
 	/*
 	$q1="insert into resource_to_incident (incident_id,x_uuid) values ('{$_SESSION['user_pref_ims_incident_id']}','{$_SESSION['dvr']['person']['p_uuid']}')";
 	$db->Execute($q1);*/
@@ -555,10 +559,12 @@ function _shn_dvr_update_group() {
 		shn_image_to_db_ex($_SESSION['dvr']['group']['headid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], $image_id, 'dvr_person');
 		//   print 'before';  
 	}
-
+    /*
+     * commented fix bug 1916335
 	$q1 = "UPDATE resource_to_incident set incident_id='{$_SESSION['dvr']['incident_id']}' WHERE x_uuid ='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q1);
-
+	*/
+	
 	//insert a group
 	$q2 = "UPDATE pgroup set opt_group_type='{$_SESSION['dvr']['group']['typ_of_grp']}' WHERE g_uuid='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q2);
