@@ -46,6 +46,7 @@ function changed(){
     var newdiv = document.createElement('div');
     var divIdName = 'confirmation message';
     newdiv.setAttribute('class',divIdName);
+    newdiv.setAttribute('className',divIdName);
     newdiv.setAttribute('id','incident_change_id');
 //    ni.appendChild(newdiv);
     ni.insertBefore(newdiv,ni.childNodes[0]);
@@ -63,8 +64,9 @@ function changed(){
     //newli.innerHTML = 'Incident was successfully changed to '+incident+'.';
     newul.appendChild(newli);
     }
-    document.getElementById('loading').innerHTML='';
-    document.getElementById('loading').setAttribute('class','');
+    document.getElementById('loading_div').innerHTML='';
+    document.getElementById('loading_div').setAttribute('class','');
+    document.getElementById('loading_div').setAttribute('className','');
     document.getElementById('inci').innerHTML = 'Incident was successfully changed to '+incident+'.';
     }
     else{
@@ -75,19 +77,21 @@ function changed(){
 //create loading information
 function loading(){
 
-   var load = document.getElementById('loading');
+   var load = document.getElementById('loading_div');
     if(load==null){
     var newdiv = document.createElement('div');
     newdiv.innerHTML = 'Changing the incident. Please wait......';
-    var loadId = 'loading';
+    var loadId = 'loading_div';
     newdiv.setAttribute('id',loadId);
-    newdiv.setAttribute('class','message information');
+    newdiv.setAttribute('class','loading');
+    newdiv.setAttribute('className','loading');
     var ni = document.getElementById('content');
     ni.insertBefore(newdiv,ni.childNodes[0]);
     }
     else{
-    document.getElementById('loading').innerHTML='Changing the incident. Please wait......';
-    document.getElementById('loading').setAttribute('class','message information');
+    document.getElementById('loading_div').innerHTML='Changing the incident. Please wait......';
+    document.getElementById('loading_div').setAttribute('class','loading');
+    document.getElementById('loading_div').setAttribute('className','loading');
     }
 }
 
