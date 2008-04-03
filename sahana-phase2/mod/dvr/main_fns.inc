@@ -699,13 +699,13 @@ function _shn_ajax_get_data(){
 	
 	//$sql="select pd.apt_no as apt_no,g.g_uuid as gid,p.full_name as first_name,p.family_name as last_name,co.contact_value as address from person_uuid p,group_details g,person_details pd,contact co,resource_to_shelter rdnyc where rdnyc.transfer_status='N' and rdnyc.x_uuid=g.g_uuid and g.head_uuid=p.p_uuid and pd.p_uuid=g.head_uuid and pd.p_uuid=p.p_uuid and co.pgoc_uuid=p.p_uuid and co.pgoc_uuid=g.head_uuid and co.pgoc_uuid=pd.p_uuid and co.opt_contact_type='address'";
 		
-	$q = "select p.full_name as full_name,pg.g_uuid as groupid from person_uuid p,pgroup pg,group_details gd where p.p_uuid=gd.head_uuid and pg.g_uuid=gd.g_uuid";
+	$q = "select p.full_name as full_name,p.family_name as family_name,p.l10n_name as l10n_name, pg.g_uuid as groupid, c.contact_value as contact_value from person_uuid p,pgroup pg,group_details gd, contact c where p.p_uuid=gd.head_uuid and pg.g_uuid=gd.g_uuid and p.p_uuid=c.pgoc_uuid and c.opt_contact_type='address'";
 	$res = $db->Execute($q);
 	while(!$res->EOF)
 	{
 	//$head_names[$res->fields['groupid']]=$res->fields['full_name'];
 	
-	$head_names[$count]=$res->fields['groupid'].';'.$res->fields['full_name'];
+	$head_names[$count]=$res->fields['groupid'].';'.$res->fields['full_name'].' , '.$res->fields['family_name'].' , '.$res->fields['l10n_name'].' , '.$res->fields['contact_value'];
 	$count++;
 	
 	$res->MoveNext();
