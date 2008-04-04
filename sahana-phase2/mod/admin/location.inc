@@ -470,8 +470,9 @@ function _shn_or_update_loc()
 {
 	?>
 <script type="text/javascript">
-    	function update_loc(action,desc)
+    	function update_loc(old_action,desc)
     	{
+    		action='loc_select_'+old_action
         	var x=document.getElementsByName(action);
         	var loc_val=x[0].options[x[0].selectedIndex].value;
         	var loc_desc=x[0].options[x[0].selectedIndex].text;
