@@ -208,6 +208,14 @@ function _shn_save_form_javascript($form,$save_what,$fill)
 
 function _shn_adm_loc_lvl_cr()
 {
+	if(","==$_POST["added"] && ","==$_POST["removed"] ){
+	
+	    add_error("Please Add or Remove new level first.");	
+	    _shn_admin_levels_form();
+	
+	}
+	else
+	{
 	global $global;
 	include_once $global['approot'].'inc/lib_misc.inc';
 	$db=$global['db'];
@@ -261,6 +269,7 @@ function _shn_adm_loc_lvl_cr()
 		add_error(_t("The value ").$dup_val._t(" is duplicating."));
 	}
 	_shn_admin_levels_form();
+	}
 }
 
 function shn_admin_location_level_list()
