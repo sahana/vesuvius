@@ -54,13 +54,13 @@ shn_form_opt_select('opt_location_type',_t('Location Level'),$select_opts,null,n
 shn_form_fsopen(_t("Selected Location for Edit/Delete"));
 $extra_options['value']=_t("All Locations");
 $extra_options['size']=60;
-shn_form_text(_t("location"),'loc',"size=50",$extra_options);
+shn_form_text(_t("location"),'loc',"size=50 readonly",$extra_options);
 shn_form_fsclose();
 ?>
 </center>
 <br />
 <center><?php
-shn_form_submit(_t("Submit"));
+shn_form_submit(_t("Next"));
 ?></center>
 <br />
 <?php
