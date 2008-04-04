@@ -494,10 +494,23 @@ function _shn_admin_action_change_javascript($change)
 <script type="text/javascript">
     	function change_action(action)
     	{
+    		if(action=='del'){
+    			var loc=document.getElementById("loc_name").value;
+    			var answer=confirm('Are you sure that you want to delete '+loc+' and all its sub-locations?');
+    			if(answer){
+    				var x=document.getElementsByName("<?php echo $change?>");
+         	        x[0].value=action;
+         	        document.view.submit();
+         	        return;
+    			}
+    			
+    		}
+    		else{
         	var x=document.getElementsByName("<?php echo $change?>");
          	x[0].value=action;
          	document.view.submit();
          	return;
+    		}
     	}
 	</script>
 	<?php
