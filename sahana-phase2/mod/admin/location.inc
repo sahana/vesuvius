@@ -424,8 +424,8 @@ function _shn_admin_location_form()
 	display_errors();
 	?>
 	<div id="formcontainer"><?php
-
-    shn_form_fopen("add_loc_cr");
+    $form_opts=array('id'=>'add_loc_cr_submit');
+    shn_form_fopen("add_loc_cr",null,$form_opts);
     $sql='SELECT COUNT(*) FROM location';
     $res=$db->Execute($sql);
     $loc_count=$res->fields[0];
@@ -457,6 +457,7 @@ function _shn_admin_location_form()
     
     ?>
     </center>
+    <input type='hidden' id='loc_sub_ans' name='loc_sub_ans'/>
     <br />
     <center><?php
 

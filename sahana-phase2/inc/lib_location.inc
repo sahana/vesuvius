@@ -773,6 +773,18 @@ function shn_location_add()
     global $global;
     include_once($global['approot']."/inc/lib_uuid.inc");
     $db=$global['db'];
+    if('yes'!=$_POST['loc_sub_ans']){
+    $q="SELECT name FROM location";
+    $res = $global['db']->Execute($q);
+    _shn_location_validate_name();
+    while(!$res->EOF){
+    	if($_POST{"loc_name"}==$res->fields['name']){
+    		add_warning(_("This location name is already in the database. Do you want to add anyway?  &nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add anyway</a></b> or else you can change the \"Location Name\" textbox and submit the form again."));
+    		return;
+    	}
+    	$res->MoveNext();
+    }
+    }
     $insert_array['name']=$_POST{"loc_name"};
     $insert_array['description']=$_POST{"desc"};
     $insert_array['iso_code']=$_POST{"iso"};
@@ -1087,7 +1099,17 @@ function shn_location_get_loc_range()
     return $loc;
 }
 
-
+//minor function to validate duplicate location names
+function _shn_location_validate_name(){
+	?>
+	<script>
+	function _shn_loc_val_name(){
+		document.getElementById('loc_sub_ans').value='yes';
+		document.add_loc_cr_submit.submit();
+	}
+	</script>
+	<?php
+}
 
 /********************************************************************************************************/
 /* Deprecated functions ,will be removed from 0.5-stable release *********************************************/
