@@ -675,6 +675,7 @@ function shn_dvr_edit_individual() {
 	
 					} else {
 						unset($_SESSION['dvr']['person']);
+						_shn_dvr_populate_individual_details();
 						_shn_dvr_edit_individual_start();
 					}
 

@@ -141,9 +141,7 @@ function _shn_dvr_populate_individual_details() {
 function _shn_dvr_edit_individual_start($errors = false) {
 
     global $conf;
-	if ($_SESSION['dvr']['person']['edit_individual_clicked'] == false | $_SESSION['dvr']['person']['edit_individual_clicked']==null) {
-		_shn_dvr_populate_individual_details();
-	}
+
 	if ($errors)
 		display_errors();
 
