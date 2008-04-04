@@ -375,7 +375,13 @@ function shn_admin_view_loc_cr()
         $level="loc_select_".$_POST{"opt_location_type"};
         $loc=$_POST{$level};
     }
+	if($loc=="0"){
+    	add_error("Select the \"Location\" first and then select the \"Location Level\"");
+    	_shn_admin_location_view_form();
+    }
+    else{
 	_shn_admin_location_edit_form($loc);
+    }
 }
 
 function shn_admin_edit_loc_cr()
