@@ -377,14 +377,21 @@ function _shn_rms_item_allocation_db()
    global $global;
     $db = $global['db'];
     $item_id = $_SESSION['rms']['item_id'];
+    $req_uuid = $_SESSION['rms_req_id'];
+    $catalog_id = $_SESSION['rms_req_item'];
+    $quantity = $_SESSION['rms']['quantity'];
+    if ($quantity <= 0){
+    	add_error("Quantity should be larger than 0");
+        display_errors();
+        _shn_rms_allocate_item($catalog_id, $item_id);
+    }
+    else{
     $available_quantity = $_SESSION['rms']['max_quantity']-$_SESSION['rms']['quantity'];
     if ($available_quantity >= 0){
     $sql = "UPDATE ims_item_records SET amount='$available_quantity' WHERE item_id='$item_id';";
     $res = $db->Execute($sql);
     //print $sql;
-    $req_uuid = $_SESSION['rms_req_id'];
-    $catalog_id = $_SESSION['rms_req_item'];
-    $quantity = $_SESSION['rms']['quantity'];
+    
     $dt2 = date("Y-m-d H:i:s");
     
 	  $sql1 = "INSERT INTO rms_fulfil(req_uuid, item_uuid, quantity, ff_date) VALUES ('$req_uuid', '$catalog_id', '$quantity', '$dt2');";
@@ -413,7 +420,7 @@ function _shn_rms_item_allocation_db()
          _shn_rms_allocate_item($_POST['max_qty']);
          return false;
     }
-	
+    }
 }
 
 switch ($_REQUEST['seq'])
@@ -477,7 +484,12 @@ switch ($_REQUEST['seq'])
                 _shn_rms_mng_addff($_POST['max_qty']);
                 return false;
             }
-            
+            if ($_POST['qty'] <= 0){
+            	add_error(_("Please enter a valid 'Quantity', The 'Quantity' should be larger than the 0"));
+                display_errors();
+                _shn_rms_mng_addff($_POST['max_qty']);
+                return false;
+            }
             if (!$_SESSION['rms_mng_ff_added'])
             {
                 $req_id = $_SESSION['rms_req_id'];
