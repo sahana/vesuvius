@@ -58,13 +58,14 @@ function shn_mpr_adminmenu() {
  * @access public
  * @return void
  */
-function shn_mpr_adm_default() {
-?>
-    <p><b><?=_t("Welcome to the Missing Person Registry admin page");?> </b></p>
-    <p><?=_t("Please use the Security Config menu to Install the Access Control");?> </p>
+function shn_mpr_adm_default() 
+{
+    shn_mpr_adminmenu();
+    ?> <br></br> 
+    <p><b><?=_("Welcome to the Missing Person Registry admin page");?> </b></p>
+    <p><?=_("Please use the navigation menu above to configure each field.");?> </p>
 <?php
 
-	shn_mpr_adm_gen();
 }
 /* }}} */
 
@@ -76,7 +77,7 @@ function _shn_mpr_adm_gen_validate() {
 	$limit = $_POST['search_limit'];
 
 	if ($limit == '' | $limit == null) {
-		add_error(_t("Please enter the search limit"));
+		add_error(_t("Please enter the no of images per page."));
 
 		$error_flag = true;
 	} else
@@ -115,9 +116,6 @@ function shn_mpr_adm_gen() {
 	} else {
 		_shn_mpr_adm_gen();
 	}
-?><br /><h2><?php echo _t("General Configuration"); ?></h2>
-<?php
-
 }
 /* }}} */
 
@@ -219,7 +217,7 @@ function _shn_mpr_adm_gen($errors = false, $updated = false) {
 
 
 	}
-
+    ?><br /><h2><?php echo _("General Configuration"); ?></h2><?php
 	shn_form_fopen("adm_gen", null);
 
 	shn_form_hidden(array (
@@ -243,7 +241,8 @@ function _shn_mpr_adm_gen($errors = false, $updated = false) {
 		);
 	else
 		$val = null;
-	shn_form_text(_t('Images Per Page'), 'search_limit', 'size="15"', $val);
+		$val['req'] = true;
+	shn_form_text(_t('Number of images per page'), 'search_limit', 'size="15"', $val);
 	shn_form_fsclose();
 
 	#    shn_form_fsopen(_t('Upload Pictures'));
@@ -336,39 +335,45 @@ function _shn_mpr_adm_field_options_controller($type) {
 function _shn_mpr_delete_option($optioncode)
 {
 	
-global $global;
-	$sql="delete from field_options where option_code='{$optioncode}'";
-$global['db']->Execute($sql);
+    global $global;
+	$sql="DELETE FROM field_options WHERE option_code='{$optioncode}'";
+    $global['db']->Execute($sql);
+    add_confirmation(_('Field was successfully deleted.'));
 }
 
 function is_optioncode_exists($optioncode)
 {
 	$found=false;
 	global $global;
-	$sql="select * from field_options where option_code='{$optioncode}'";
-$res=$global['db']->Execute($sql);
+	$sql="SELECT * FROM field_options WHERE option_code='{$optioncode}'";
+    $res=$global['db']->Execute($sql);
 
-while(!$res->EOF)
-{
-	$code=$res->fields['option_code'];
-$found=true;
-$res->MoveNext();
-}
-return $found;
+    while(!$res->EOF)
+    {
+	    $code=$res->fields['option_code'];
+        $found=true;
+        $res->MoveNext();
+    }
+    return $found;
 }
 
 function _shn_mpr_update_option($optioncode,$optiondescription)
 {
-global $global;
-$sql="update field_options set  option_description='{$optiondescription}' where option_code='{$optioncode}'";
-$global['db']->Execute($sql);
+    global $global;
+    $sql="UPDATE field_options SET option_description='{$optiondescription}' WHERE option_code='{$optioncode}'";
+    $global['db']->Execute($sql);
+    //add_confirmation($optiondescription.' updated');
 }
 
 function _shn_mpr_insert_option($field_name,$optioncode,$optiondescription)
 {
 	global $global;
-$sql="insert into field_options (field_name,option_code,option_description) values ('{$field_name}','{$optioncode}','{$optiondescription}')";
-$global['db']->Execute($sql);
+    $sql="INSERT INTO field_options (field_name,option_code,option_description) VALUES ('{$field_name}','{$optioncode}','{$optiondescription}')";
+    $global['db']->Execute($sql);
+    if ($sql) {
+        add_confirmation(_($_POST['new_desc'] .' was successfully added.'));
+    }
+    $_POST['new_code'] = $_POST['new_desc'] = null;
 }
 
 
@@ -397,22 +402,11 @@ if($todelete=='on')
 	_shn_mpr_delete_option($code);
 }
 	else
-	{
-		if(is_optioncode_exists($code))
-		{//print '1';
-			_shn_mpr_update_option($code,$desc);
-		
-		}
-		else
-		{//print '2';
-			_shn_mpr_insert_option($fname,$code,$desc);
-		}
-		
-		
-		
-		
-		
-	}
+    	    {
+    		  
+    			    _shn_mpr_update_option($code,$desc);		
+    		    
+    	    }
 			
 		}
 	
@@ -465,7 +459,7 @@ else
 	foreach ($arr as $row) {
 ?>
 <tr>
-    <td><input type="text" name="<?=$row['option_code'];?>" 
+    <td><input type="text" READONLY name="<?=$row['option_code'];?>" 
             value="<?=$row['option_code'];?>"  />
     </td>
     <td><input type="text" name="<?=$count++;?>" 
@@ -485,8 +479,8 @@ else
 	shn_form_fsclose();
 	}
 	shn_form_fsopen(_t('Add New '));
-	shn_form_text(_t("Code"), 'new_code');
-	shn_form_text(_t("Description"), 'new_desc');
+	shn_form_text(_t("Code"), 'new_code', null, array('req'=>true));
+	shn_form_text(_t("Description"), 'new_desc', null, array('req'=>true));
 	shn_form_submit(_t('AddNew'),"name='button_name'");
 	shn_form_fclose();
 }
