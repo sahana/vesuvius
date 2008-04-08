@@ -818,7 +818,7 @@ function shn_mpr_addmp_commit()
         shn_form_label('Mobile',$_SESSION['mpr_add']['entry']['mobile']);
     if($contact_section)
  */
-
+    $insert_array=null;
     $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
     //Physical Details : person_physical
     if(isset($_SESSION['mpr_add']['entry']['opt_eye_color']))
