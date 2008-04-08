@@ -53,8 +53,6 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 
 } else {
 	$global["setup"]=false;
-	// define the configuration priority order
-	require_once ($APPROOT.'conf/conf-order.inc');
 
 	// include the main sysconf file
 	require ($APPROOT.'conf/sysconf.inc');
