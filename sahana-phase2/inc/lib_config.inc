@@ -15,6 +15,10 @@
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  */
 
+// define the configuration priority order
+require_once ($APPROOT.'conf/conf-order.inc');
+
+// TODO: Clean up the meta-conf system
 // Configuration meta data.
 global $conf_meta;
 $conf_meta = array();
@@ -38,28 +42,18 @@ function shn_config_load_in_order() {
 	if ('database' ==  $conf['sahana_conf_priority'] ) {
 		// database overrides conf files
 		shn_config_base_conf_fetch();
-		shn_config_gis_conf_fetch();
 		shn_config_module_conf_fetch('all');
 		shn_config_database_fetch(&$conf,'all');
 	} else {
 		// conf files overrides database
 		shn_config_database_fetch(&$conf,'all');
 		shn_config_base_conf_fetch();
-		shn_config_gis_conf_fetch();
 		shn_config_module_conf_fetch('all');
 	}
 }
 
-
-/**
- * shn_config_update
- *
- * @param mixed $modify
- * @param mixed $config_file
- * @param mixed $output_file
- * @access public
- * @return void
- */
+// update the config file $config_file with the search/replace hash
+// $config_file, generating an output file $output_file
 function shn_config_file_update($modify, $config_file, $output_file)
 {
 	global $global;
@@ -89,7 +83,7 @@ function shn_config_file_update($modify, $config_file, $output_file)
 	return true;
 }
 
-// Load the repective module conf.inc file
+// Load all .inc files in the main /conf including sysconf.inc
 function shn_config_base_conf_fetch()
 {
 	global $global;
@@ -97,25 +91,17 @@ function shn_config_base_conf_fetch()
 
 	$approot = $global['approot'];
 
-	require ($approot.'conf/sysconf.inc');
+    $d = dir($approot.'conf/');
+    while (false !== ($f = $d->read())) {
+        if ( preg_match('/\.inc$/',$f) ) {
+
+            //echo 'included '.$f;
+            require_once($approot.'conf/'.$f);
+        }
+    }
+
+	// require ($approot.'conf/sysconf.inc');
 }
-
-
-/**
- * Load the GIS layer configuration and base GIS conf files
- * @author	Mifan Careem <mifan@opensource.lk>
- * 
- */
-function shn_config_gis_conf_fetch()
-{
-	global $global;
-	global $conf;
-
-	$approot = $global['approot'];
-	require_once ($approot.'conf/gis_conf.inc');
-}
-
-
 
 // Load the repective module conf.inc file
 function shn_config_module_conf_fetch($module = 'all')
@@ -151,9 +137,6 @@ function shn_config_module_conf_fetch($module = 'all')
  *    - base : base configuration
  *    - you can sepecify the module name
  *
- * @param string $type
- * @access public
- * @return void
  */
 function shn_config_database_fetch($conf, $type='base')
 {
@@ -176,7 +159,7 @@ function shn_config_database_fetch($conf, $type='base')
 	}
 }
 
-
+// update a conf key/value pair in the database
 function shn_config_database_update($key, $value, $type='base')
 {
 	global $global;
