@@ -231,8 +231,8 @@ you should know the Longitude and the Latitude of that region");?></li>
 	prime meridian (Greenwich Mean Time) and is positive to the east, 
 	across Europe and Asia.  Longitude is negative to the west, 
 	across the Atlantic and the Americas.");
-	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
 	shn_form_fsclose();
 	shn_form_submit(_t("Done"));
 	shn_form_fclose();
