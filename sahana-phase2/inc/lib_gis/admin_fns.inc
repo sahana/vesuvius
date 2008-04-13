@@ -35,10 +35,10 @@ function shn_admin_gis_main_settings()
 	shn_form_fsopen(_t('INFO'));
 ?>
 	<ul>
-		<li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
-		<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-		<li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
-    	<li><?php echo _t("If these values are known, you can set them below:");?> </li>
+	 <li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
+	 <li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
+	 <li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
+    	 <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
 	shn_form_fsclose();
@@ -98,8 +98,6 @@ function shn_admin_gis_plugin_controller()
 	}
 }
 
-
-
 /**
  * Find and show GIS plugin configuration links at top
  * Auto-detects plugins 
@@ -155,10 +153,10 @@ function _shn_admin_gis_show_mods_select()
 	shn_form_fsopen(_t('INFO'));
 ?>
 	<ul>
-		<li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
-		<li><?php echo _t("You can select which GIS plugin to use as your default GIS");?></li>
-	    <li><?php echo _t("Select the default GIS plugin from the detected plugins below:");?> </li>
-	    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the inc/lib_gis subdirectory");?> </li>
+	 <li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
+	 <li><?php echo _t("You can select which GIS plugin to use as your default GIS");?></li>
+         <li><?php echo _t("Select the default GIS plugin from the detected plugins below:");?> </li>
+         <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the inc/lib_gis subdirectory");?> </li>
 	</ul>
 <?php
 	
@@ -166,7 +164,7 @@ function _shn_admin_gis_show_mods_select()
 	$dir = opendir($gis_plugins_dir);
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
-			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 			$options_array[$file] = $name;			
 		}
@@ -178,7 +176,6 @@ function _shn_admin_gis_show_mods_select()
 	shn_form_submit(_t("Done"));
 	shn_form_fclose();	
 }
-
 
 /**
  * Commit default Northing/Easting values
@@ -229,10 +226,7 @@ function shn_admin_gis_plugin_default_commit()
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
-		
 	}
 }
-
-
 						
 ?>
