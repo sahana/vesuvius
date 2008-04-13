@@ -19,16 +19,14 @@ include_once $global['approot']."/inc/lib_validate.inc";
 include_once $global['approot']."/mod/sm/home.inc";
 
 
-
-
 //not being used any more
-//replaced by sha_gis_mapc()
+//replaced by shn_gis_mapc()
 /*
 function shn_gis_show()
 {
   //echo "showing";
   global $global;
-  include_once $global['approot']."/mod/gis/gis_fns.inc";
+  include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
   
   $options=array();
   if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
