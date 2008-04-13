@@ -64,16 +64,13 @@ function shn_admin_default()
     $result = $db->Execute("SELECT * FROM location");
     $isLocationsEntered = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
-   	$isSecurityEnabled = $conf['acl_enabled'];
-
+    $isSecurityEnabled = $conf['acl_enabled'];
 
     $result = $db->Execute("SELECT * FROM ct_catalogue");
-
     $isCatalogCreated = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
-    $result = $db->Execute("SELECT value FROM config WHERE module_id='gis'
-                                 AND confkey='mod_gis_google_key'");
-    $isGoogleSetup = ((isset($result) && $result)?($result->fields['value']  != ""):false);
+    $result = $db->Execute("SELECT value FROM config WHERE module_id='admin' AND confkey='gis_google_key'");
+    $isGoogleSetup = ((isset($result) && $result)?($result->fields['value'] != "ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw"):false);
 
     echo '<div id="home">';
 
@@ -129,15 +126,15 @@ function shn_admin_default()
     echo "</ol>\n";
 ?>
     <h2><?=_t("Sahana System Administration")?></h2>
-        <p><?=_t("The System Adminisitration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
+        <p><?=_t("The System Administration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
 	<ul>
 	<li><b><?=_t("Locations Hierarchy")?></b> <br/><?=_t("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
-	<li><b><?=_t("Mapping / GIS")?></b> <br/><?=_t("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
+	<li><b><?=_t("GIS Configuration")?></b> <br/><?=_t("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
 	<li><b><?=_t("Module Configuration")?></b> <br/><?=_t("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?> </li>
 	<li><b><?=_t("System Security")?></b> <br/><?=_t("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
-	<li><b><?=_t("Language and Locale")?></b> <br/><?=_t("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
+	<li><b><?=_t("Language / Locale")?></b> <br/><?=_t("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
 	<li><b><?=_t("Disaster Levels")?></b> <br/><?=_t("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
-	<li><b><?=_t("Config Tools")?></b> <br/><?=_t("This section give you access to all technical configuration details and tools that can be changed in the system")?></li>
+	<li><b><?=_t("Config Utils")?></b> <br/><?=_t("This section give you access to all technical configuration details and tools that can be changed in the system")?></li>
 	</ul>
     </div>
 <?php
