@@ -114,10 +114,10 @@ function shn_admin_default()
                 aid items for the disaster').'</li><br/>';
     }
    	if(!$isGoogleSetup) {
-        echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get mapping to
-                work you need to enter a Google Map key in the ')
-                .'<a href="?mod=gis&act=admin&submod=google_maps">'.
-                '&#34;'._t('Mapping / GIS').'&#34; '.'</a>'._t('section to do this. By default mapping is enabled for the localhost access only').'</li><br/>';
+        echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get Google Maps to
+                work you should enter a key in the ')
+                .'<a href="?mod=admin&act=gis_plugin&seq=view&plugin=google_maps">'.
+                '&#34;'._t('GIS Configuration').'&#34; '.'</a>'._t('section to do this. By default mapping is enabled for the localhost access only').'</li><br/>';
     }
 
    	if(!$isSecurityEnabled) {
