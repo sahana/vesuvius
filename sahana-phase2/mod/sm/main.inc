@@ -7,8 +7,8 @@
 *
 * @author     	Mifan Careem <mifan@respere.com>
 * @package    	Sahana - http://sahana.sourceforge.net
-* @module		sm
-* @version		$id$;
+* @module       sm
+* @version      $id$;
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
@@ -24,10 +24,10 @@ include_once $global['approot']."/inc/lib_menu.inc";
  * @todo: discuss on list to mapping client newer location
  */
 function shn_sm_mainmenu(){
-	global $global;
+    global $global;
     global $conf;
     $module = $global['module'];
-    shn_mod_menuopen($conf['mod_gis_name']);
+    shn_mod_menuopen($conf['mod_sm_name']);
     shn_mod_menuitem("default",_t("Home"),$module);
     shn_mod_menuitem("swik",_t("Situation Map"),$module);
     shn_mod_menuitem("awik",_t("Add New Situation"),$module);
@@ -35,9 +35,6 @@ function shn_sm_mainmenu(){
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
-
-
-
 
 
 ?>
