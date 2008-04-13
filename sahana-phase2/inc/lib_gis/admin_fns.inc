@@ -67,7 +67,7 @@ function shn_admin_gis_plugin_include_file($plugin,$file='admin.inc')
 	}
 	else{
 		//File doesn't exits: Missing in Action, literally
-		add_warning(_t('The requested plugin has been accidentaly removed. Please notify the administrator'));
+		add_warning(_t('The requested plugin has been accidentally removed. Please notify the administrator'));
 		return false;
 	}
 }
@@ -158,7 +158,7 @@ function _shn_admin_gis_show_mods_select()
 		<li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
 		<li><?php echo _t("You can select which GIS plugin to use as your default GIS");?></li>
 	    <li><?php echo _t("Select the default GIS plugin from the detected plugins below:");?> </li>
-	    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
+	    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the inc/lib_gis subdirectory");?> </li>
 	</ul>
 <?php
 	
