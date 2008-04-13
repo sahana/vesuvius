@@ -10,10 +10,10 @@
  * 
  * @author   	Mifan Careem <mifan@opensource.lk>
  * @copyright  	Lanka Software Foundation - http://www.opensource.lk
- * @module		sm
-* @version		$id$;
-* @copyright  	Lanka Software Foundation - http://www.opensource.lk
-* @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @module      sm
+ * @version     $id$;
+ * @copyright  	Lanka Software Foundation - http://www.opensource.lk
+ * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
 
 /**
@@ -94,7 +94,6 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_gis_map_with_wiki_markers($map_array);
 	
-	
 }
 
 /**
@@ -114,7 +113,6 @@ function shn_sm_show_wiki_add_image()
         $_SESSION['loc_y']=$_POST['gps_y'];
     }
 	
-	
 	global $global;
 	include_once ($global['approot'].'/inc/lib_form.inc');
 	shn_form_fopen(awik,null,array('enctype'=>'enctype="multipart/form-data"'));
@@ -126,6 +124,7 @@ function shn_sm_show_wiki_add_image()
 	shn_form_fclose();
 	
 }
+
 /**
  * Show GIS Map with Wiki addition event listener
  * Part of add situation sequence
@@ -162,9 +161,6 @@ function shn_sm_show_wiki_add_map($errors=false)
 }
 
 
-
-
-
 //-----------------------------
 //replaces Mifan's shn_gis_show
 function map_client($errors=false)
@@ -179,9 +175,6 @@ function map_client($errors=false)
 	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
   	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
-  
-  
-	
 	
 ?>
 	<h2><?=_t("Mapping Client")?></h2>
@@ -196,7 +189,6 @@ function map_client($errors=false)
   		//var_dump($_POST);
   	shn_gis_map();	
 
-
 }
 
 
@@ -210,7 +202,6 @@ function map_client($errors=false)
  * @return void
  * @TODO: add javascript calender for date input
  */
-
 function shn_sm_show_wiki_add_detail($errors=false)
 {
 	global $global;
@@ -337,10 +328,8 @@ function shn_sm_wiki_map_commit()
 	    //create thumbnail
 	    shn_image_resize($uploadfile,$thumb_path,100,100);
 	}
-	
 
 	add_confirmation(_t("Succesfully added wiki item ").$_SESSION['wiki_name']);
-	
 
 }
 ?>
