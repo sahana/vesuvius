@@ -32,7 +32,7 @@ function _shn_gis_gm_form(){
 <?php
     shn_form_fopen("adm_default&submod=open_layers&seq=commit",null,array('req'=>false));
 	shn_form_fsopen("Information");
-	echo _t("<p>Under Development</p>");
+	echo _t("<p>See 'GIS Layer Management' in left-hand menu</p>");
 	shn_form_fsclose();
 	shn_form_fclose();
 	
