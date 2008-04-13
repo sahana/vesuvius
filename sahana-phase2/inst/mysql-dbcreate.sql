@@ -70,7 +70,7 @@ CREATE TABLE config(
 * Give a custom list of options for each filed in this schema 
 * prefixed with opt_. This is customizable then at deployment
 * See the mysql-config.sql for default customizations
-* Modules: dvr, mpr, or, cr, rms, gis ,cs
+* Modules: dvr, mpr, or, cr, rms, sm ,cs
 * Last changed: 27-OCT-2005 - chamindra@opensource.lk  
 */
 DROP TABLE IF EXISTS field_options;
@@ -377,7 +377,7 @@ CREATE TABLE audit (
 
 /**
 * The central table to store loactions
-* Modules: dvr, mpr, rms, or, cr, gis 
+* Modules: dvr, mpr, rms, or, cr, sm
 * Last changed: 28-OCT-2005 - janaka@opensource.lk  
 */
 DROP TABLE IF EXISTS location;
@@ -393,7 +393,7 @@ CREATE TABLE location(
 
 /**
 * Details on the location of an entity (person, camp, organization)
-* Modules: dvr, mpr, or, cr, rms, gis 
+* Modules: dvr, mpr, or, cr, rms, sm 
 * Last changed: 27-OCT-2005 - ravindra@opensource.lk  
 */
 DROP TABLE IF EXISTS location_details;
