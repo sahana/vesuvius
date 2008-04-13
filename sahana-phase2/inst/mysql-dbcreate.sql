@@ -3,11 +3,6 @@
 */
                     /**drop tables **/
 
-
-
--- from GIS module
-DROP TABLE IF EXISTS `gis_wiki`;
-
 -- general tables
 
 -- DROP TABLE IF EXISTS config;
@@ -432,6 +427,48 @@ CREATE TABLE gis_feature (
     PRIMARY KEY  (feature_uuid)
     /*SPATIAL KEY  (feature_coords)*/
 );
+
+/*** Table for Geograhical Information Systems
+* Stores basic coordinates providing basic spatial functionality
+* Modules: all
+* Last changed: 04-Oct-2006: mifan@opensource.lk
+*/
+
+DROP TABLE IF EXISTS `gis_location`;
+CREATE TABLE `gis_location` (
+    `poc_uuid` varchar(60) NOT NULL,
+    `location_id` varchar(20) default NULL,
+    `opt_gis_mod` varchar(30) default NULL,
+    `map_northing` double(15,10) NOT NULL,
+    `map_easting` double(15,10) NOT NULL,
+    `map_projection` varchar(20) default NULL,
+    `opt_gis_marker` varchar(20) default NULL,
+    `gis_uid` varchar(60) NOT NULL,
+    PRIMARY KEY  (`gis_uid`)
+);
+
+/*** Table for GIS-WikiMaps functionality
+* Modules: sm
+* Last edited: 04-Oct-2006: mifan@opensource.lk
+*/
+
+DROP TABLE IF EXISTS `gis_wiki`;
+CREATE TABLE `gis_wiki` (
+    `wiki_uuid` VARCHAR(60) NOT NULL,
+    `gis_uuid` VARCHAR(60) NOT NULL,
+    `name` varchar(50) NOT NULL,
+    `description` VARCHAR(100) default NULL,
+    `opt_category` VARCHAR(10),
+    `url` varchar(50) NOT NULL,
+    `event_date` timestamp NULL,
+    `placement_date` timestamp NOT NULL default now(),
+    `editable` boolean NOT NULL default false,
+    `author` VARCHAR(30) default NULL,
+    `approved` boolean default false,
+    PRIMARY KEY  (`wiki_uuid`),
+    FOREIGN KEY (gis_uuid) REFERENCES gis_location(gis_uid)
+);
+
 
 /**
 * Under Development

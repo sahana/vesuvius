@@ -332,6 +332,11 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
 -- gis_location
 
 -- gis_wiki
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','gen','General');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','per','Person Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dam','Damage Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dis','Disaster Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
 
 -- group_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
