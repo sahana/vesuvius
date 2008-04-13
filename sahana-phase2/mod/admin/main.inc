@@ -70,7 +70,7 @@ function shn_admin_default()
     $isCatalogCreated = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
     $result = $db->Execute("SELECT value FROM config WHERE module_id='admin' AND confkey='gis_google_key'");
-    $isGoogleSetup = ((isset($result) && $result)?($result->fields['value'] != "ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw"):false);
+    $isGoogleSetup = ((isset($result) && $result)?($result->fields['value'] != ""):false);
 
     echo '<div id="home">';
 
