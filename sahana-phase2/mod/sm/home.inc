@@ -15,7 +15,7 @@
 */
 
 /**
- * Default home descreption
+ * Default home description
  * @edit by: Roshan
  */
 function shn_sm_default()
