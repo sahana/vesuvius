@@ -139,7 +139,7 @@ function shn_gis_adm_show_mods()
 	<ul>
 
 	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+	<li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
     <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -149,19 +149,19 @@ function shn_gis_adm_show_mods()
 	
 	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
 	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
 	shn_form_fsclose();
 ?>
 	<ul>
 	<li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
 	<li><?php echo _t("You can select which GIS plugin to use as your default GIS");?></li>
     <li><?php echo _t("Select the default GIS plugin from the detected plugins below:");?> </li>
-    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the mod/gis subdirectory");?> </li>
+    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the inc/lib_gis subdirectory");?> </li>
 	</ul>
 <?php
 	
-	$query_mod="SELECT value FROM config WHERE module_id='gis' AND confkey='dflt'";
+	$query_mod="SELECT value FROM config WHERE module_id='admin' AND confkey='gis_dflt'";
 	$result=$db->Execute($query_mod);
 	if(!$res->EOF){
 		$mod_name=$result->fields['value'];
@@ -170,11 +170,11 @@ function shn_gis_adm_show_mods()
 	
 	
 	$count=1;
-	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$gis_plugins_dir=$global['approot'].'/inc/lib_gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
-			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 			$options_array[$file] = $name;
 			//echo "$count.	<a href='index.php?mod=gis/plugins/"."$file"."&act=adm'>$file</a><br>";
@@ -204,7 +204,7 @@ function shn_gis_adm_showform(){
 	<ul>
 
 	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+	<li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
     <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -215,8 +215,8 @@ function shn_gis_adm_showform(){
 	
 	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
 	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lon_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['mod_gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['mod_gis_center_x'],"help"=>$lon_help));
 	shn_form_fsclose();
 	shn_form_submit(_t("Done"));
 	shn_form_fclose();
