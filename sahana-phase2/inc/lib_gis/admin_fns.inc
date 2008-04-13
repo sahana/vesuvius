@@ -5,9 +5,9 @@
 * 
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
-* @package		Sahana - http://sahana.lk/    	
-* @library	 	GIS
-* @version		$id$;
+* @package	Sahana - http://sahana.lk/    	
+* @library 	GIS
+* @version	$id$;
 * @license  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -37,7 +37,7 @@ function shn_admin_gis_main_settings()
 	<ul>
 		<li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
 		<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-		<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+		<li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
     	<li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -45,8 +45,8 @@ function shn_admin_gis_main_settings()
 	shn_form_fsopen(_t("Default Center Coordinates"));
 	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
 	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lat_help));
-	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lon_help));
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lon_help));
 	shn_form_fsclose();
 	shn_form_submit(_t('Save As Defaults'));
 	shn_form_close();
