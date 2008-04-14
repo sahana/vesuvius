@@ -32,9 +32,9 @@ function _shn_admin_mainmenu()
     // shn_sub_mod_menuitem("start_loc", _t("Set Starting Location"), $module);
     shn_sub_mod_menuclose();
 
-	//GIS Admin menu inclusion:
-	//@edit: Mifan Careem
-	include_once $global['approot'].'/inc/lib_gis/admin_menu.inc';
+    //GIS Admin menu inclusion:
+    //@edit: Mifan Careem
+    include_once $global['approot'].'/inc/lib_gis/admin_menu.inc';
 
     shn_sub_mod_menuopen(_t("Module Configuration"));
     foreach($module_list as $i) {
@@ -51,8 +51,8 @@ function _shn_admin_mainmenu()
     if ($conf['acl_enabled']) {
 	    shn_sub_mod_menuitem("acl_user_roles", _t("User Management"), 'admin');
 	    shn_sub_mod_menuitem("acl_enable_mods", _t("Module Access Control"), 'admin');
-		shn_sub_mod_menuitem("acl_privacy", _t("Data Classification"), 'admin');
-		shn_sub_mod_menuitem("acl_enable_signup", _t("Self Signup"), 'admin');
+            shn_sub_mod_menuitem("acl_privacy", _t("Data Classification"), 'admin');
+            shn_sub_mod_menuitem("acl_enable_signup", _t("Self Signup"), 'admin');
 	    shn_sub_mod_menuitem("acl_event_log", _t("Event Log"), 'admin');
 	    shn_sub_mod_menuitem("acl_enable_locking", _t("User Locking"), 'admin');
 	    shn_sub_mod_menuitem("acl_enable_acl", _t("Disable Security"), 'admin');
@@ -72,10 +72,10 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen(_t("Disaster Levels"));
-	shn_sub_mod_menuitem("ims_level1",_t('Registered ')._lc($conf['mod_admin_ims_level1']), 'admin');
-	shn_sub_mod_menuitem("ims_level2",_t('Registered ')._lc($conf['mod_admin_ims_level2']), 'admin');
-	shn_sub_mod_menuitem("ims_level3",_t('Registered ')._lc($conf['mod_admin_ims_level3']), 'admin');
-	shn_sub_mod_menuitem("ims_config",_t('Levels Terminology'), 'admin');
+    shn_sub_mod_menuitem("ims_level1",_t('Registered ')._lc($conf['mod_admin_ims_level1']), 'admin');
+    shn_sub_mod_menuitem("ims_level2",_t('Registered ')._lc($conf['mod_admin_ims_level2']), 'admin');
+    shn_sub_mod_menuitem("ims_level3",_t('Registered ')._lc($conf['mod_admin_ims_level3']), 'admin');
+    shn_sub_mod_menuitem("ims_config",_t('Levels Terminology'), 'admin');
     //include $global['approot']."/mod/admin/ims_menus.inc";
     shn_sub_mod_menuclose();
 
@@ -105,7 +105,7 @@ function _shn_admin_acl_user_roles_menu($user_home=false)
 	<br>
 	<div id="home">
 	<h2><?php echo _t('Welcome to Users section'); ?></h2>
-	<h3><?php echo _t("As Administrator , use this section for the following")?></h3>
+	<h3><?php echo _t("As Administrator, use this section for the following")?></h3>
 	<ul>
     <li><?=_t('Add Users')?></li>
     <li><?=_t('Remove Users')?></li>
@@ -120,12 +120,12 @@ function _shn_admin_acl_user_roles_menu($user_home=false)
 
 function _shn_admin_acl_privacy_menu($privacy_home=false)
 {
-	shn_tabmenu_open();
-	//shn_tabmenu_item("acl_data_classifications", _t("Data Classifications"), 'admin');
+    shn_tabmenu_open();
+    //shn_tabmenu_item("acl_data_classifications", _t("Data Classifications"), 'admin');
     shn_tabmenu_item("acl_data_privacy", _t("Data Classifications & Role Permissions"), 'admin');
     shn_tabmenu_item("acl_data_classifications_tables", _t("Data Classifications & System Data "), 'admin');
-	shn_tabmenu_close();
-	if($privacy_home==true){
+    shn_tabmenu_close();
+    if($privacy_home==true){
  ?>
 
 	<br>
@@ -133,8 +133,8 @@ function _shn_admin_acl_privacy_menu($privacy_home=false)
 	<h2><?php echo  _t('Welcome to Privacy section'); ?></h2>
     <p><strong><?php echo _t('You can set Privacy settings for Data and Roles')?></strong></p>
 	<ul>
-    <li><?php echo _t("If you need to modify, which roles have permissions to create/read/modify which data, click on the <strong>'Data Classifications & Role Permissions'</strong> tab on the top of the page.") ?></li>
-    <li><?php echo _t("If you need to modify, data sensitivity classifications of the data in the system, click on the <strong>'Data Classifications & System Data'</strong> tab on the top of the page.") ?></li>
+    <li><?php echo _t("If you need to modify which roles have permissions to create/read/modify which data, click on the <strong>'Data Classifications & Role Permissions'</strong> tab on the top of the page.") ?></li>
+    <li><?php echo _t("If you need to modify data sensitivity classifications of the data in the system, click on the <strong>'Data Classifications & System Data'</strong> tab on the top of the page.") ?></li>
 	</ul>
 	</div>
 <?php
