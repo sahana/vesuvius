@@ -32,7 +32,7 @@ function shn_vol_adm_default()
 {
     _shn_vol_adm_sub_menu();
 ?>
-    <p><b> Welcome to the Volunteer Coordiantion admin page </b></p>
+    <p><b> Welcome to the Volunteer Coordination admin page </b></p>
     <p> Use the Above Navigation to Administer</p>
 
     
@@ -102,52 +102,51 @@ function shn_or_adm_acl_install()
 {
     global $global;
     $db=$global["db"];
-    $q="select value from config where module_id='or' and confkey='acl_base'";
+    $q="select value from config where module_id='vol' and confkey='acl_base'";
     $res_acl=$db->Execute($q);
     if(!$res_acl->EOF && $res_acl->fields[0]=='installed'){
-        $msg="ACL Base for Organization Registry is already installed";
+        $msg="ACL Base for Volunteer Coordination is already installed";
     }
     include_once $global['approot']. 'inc/lib_security/acl_api.inc';
     include_once $global['approot'].'inc/lib_security/acl.inc';
     include_once $global['approot'].'inc/lib_security/authenticate.inc';
     $acl=new SahanaACL(NULL);
 
- /** start of or specifc ACL entries
+ /** start of vol specific ACL entries
  **/
      
-     // add a module named "or"
-    $res=shn_acl_add_module("or","organization reg");
+     // add a module named "vol"
+    $res=shn_acl_add_module("vol",_t("Volunteer Coordination"));
     
     /** action groups **/
-    // add an action group named "deny_admin" under the module "or"
-    $res=shn_acl_add_action_group("or","deny_admin","deny admin group");
-    $res=shn_acl_add_action("or","deny_admin","shn_or_acl_setup","Display ACL configuration info");
-    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_default","Display Admin page");
-    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_or_type","Display Admin Or type page");
-    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_sector","Display Admin Or sector page");
-    $res=shn_acl_add_action("or","deny_admin","shn_or_adm_location_range","Display Admin Or location range page");
-      $res=shn_acl_add_action("or","deny_admin","shn_or_adm_location","Display Admin Or location page");
-     //deny permission for 'deny_admin' action group with in 'or' to 'guest' role
-    $res=shn_acl_add_perms_action_group_role('guest','or','deny_admin');
-    $res=shn_acl_add_perms_action_group_role('user','or','deny_admin');
+    // add an action group named "deny_admin" under the module "vol"
+    $res=shn_acl_add_action_group("vol","deny_admin","deny admin group");
+    $res=shn_acl_add_action("vol","deny_admin","shn_or_acl_setup","Display ACL configuration info");
+    $res=shn_acl_add_action("vol","deny_admin","shn_or_adm_default","Display Admin page");
+    $res=shn_acl_add_action("vol","deny_admin","shn_or_adm_or_type","Display Admin Or type page");
+    $res=shn_acl_add_action("vol","deny_admin","shn_or_adm_sector","Display Admin Or sector page");
+    $res=shn_acl_add_action("vol","deny_admin","shn_or_adm_location_range","Display Admin Or location range page");
+      $res=shn_acl_add_action("vol","deny_admin","shn_or_adm_location","Display Admin Or location page");
+     //deny permission for 'deny_admin' action group within 'vol' to 'guest' role
+    $res=shn_acl_add_perms_action_group_role('guest','vol','deny_admin');
+    $res=shn_acl_add_perms_action_group_role('user','vol','deny_admin');
     
-    // add an action group named "deny_user" under the module "or"
-    $res=shn_acl_add_action_group("or","deny_user","deny user group");
+    // add an action group named "deny_user" under the module "vol"
+    $res=shn_acl_add_action_group("vol","deny_user","deny user group");
     //add an action name 'shn_or_reg_org"  under above action groups
-    $res=shn_acl_add_action("or","deny_user","shn_or_reg_org","Display Organization Registration form");
-    $res=shn_acl_add_action("or","deny_user","shn_or_reg_org_cr","Save Organization Registration info");
-    $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation","Save Operation Registration form");
-    $res=shn_acl_add_action("or","deny_user","shn_or_reg_operation_cr","Save Operation Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_edit_org","edit Org Registration form");
-    $res=shn_acl_add_action("or","deny_user","_shn_or_del_org","delete Org Registration form");
- 
+    $res=shn_acl_add_action("vol","deny_user","shn_or_reg_org","Display Organization Registration form");
+    $res=shn_acl_add_action("vol","deny_user","shn_or_reg_org_cr","Save Organization Registration info");
+    $res=shn_acl_add_action("vol","deny_user","shn_or_reg_operation","Save Operation Registration form");
+    $res=shn_acl_add_action("vol","deny_user","shn_or_reg_operation_cr","Save Operation Registration form");
+    $res=shn_acl_add_action("vol","deny_user","_shn_or_edit_org","edit Org Registration form");
+    $res=shn_acl_add_action("vol","deny_user","_shn_or_del_org","delete Org Registration form");
 
-	$res=shn_acl_add_perms_action_group_role('guest','or','deny_user');
+    $res=shn_acl_add_perms_action_group_role('guest','vol','deny_user');
          
     if($res_acl->EOF)
-	 $q="insert into config values('or','acl_base','installed')";
+	 $q="insert into config values('vol','acl_base','installed')";
     else
-	 $q="update config set value='installed' where module_id='or' and confkey='acl_base'";
+	 $q="update config set value='installed' where module_id='vol' and confkey='acl_base'";
     $res=$db->Execute($q);
     $msg="ACL Base for Organization Registry was succesfully installed";
 
