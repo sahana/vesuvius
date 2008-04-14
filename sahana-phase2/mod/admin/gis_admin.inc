@@ -140,7 +140,7 @@ function shn_gis_adm_show_mods()
 	<ul>
 
 	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-	<li><?php echo _t("In order to set the map display for a particular region, you should know the Longitude and the Latitude of that region");?></li>
+	<li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
     <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
@@ -216,7 +216,7 @@ function shn_gis_adm_showform()
 
 	<li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
 	<li><?php echo _t("In order to set the map display for a particular region, 
-you should know the Longitude and the Latitude of that region");?></li>
+you should know the Latitude and the Longitude of that region");?></li>
     <li><?php echo _t("If these values are known, you can set them below:");?> </li>
 	</ul>
 <?php
