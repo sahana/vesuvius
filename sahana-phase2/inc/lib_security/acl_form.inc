@@ -114,7 +114,7 @@ function shn_acl_form_enable_mods()
 	?>
 <h3><?php echo _t("Enable/Disable Modules") ?></h3>
 <div id="home"><strong>
-<?php echo _t("Rows are Modules ,Columns are Roles ,Intersection shows
+<?php echo _t("Rows are Modules, Columns are Roles, Intersection shows
 whether the module is enabled for that role or not") ?></strong></div>
 
 <div id="formcontainer"><?php
@@ -185,7 +185,7 @@ shn_form_fclose();
 }
 
 /**
- * Generates a form to edit roles of an user
+ * Generates a form to edit roles of a user
  * @access public
  * @return void
  */
@@ -196,7 +196,7 @@ function shn_acl_form_user_edit_roles()
 	$db=$global['db'];
 	?>
 <h3><?php echo _t("Edit User-Role Assignments") ?></h3>
-<div id="home"><?php echo _t("Rows are User ,Columns are Roles ,Intersection shows
+<div id="home"><?php echo _t("Rows are Users, Columns are Roles, Intersection shows
 whether the User is a member of the Role or not.") ?></div>
 
 <div id="formcontainer"><?php
@@ -299,8 +299,8 @@ function shn_acl_form_role_perms_grid($role)
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home"><strong><?php echo _t("Rows are Data Classificatons ,Columns are
-Create,Read,Update,Delete ,Intersection shows whether the Role has
+<div id="home"><strong><?php echo _t("Rows are Data Classificatons, Columns are
+Create,Read,Update,Delete. Intersection shows whether the Role has
 Create,Read,Update,Delete permissions to the Data Classificatons"); ?></strong></div>
 
 <div id="formcontainer"><?php
@@ -418,7 +418,7 @@ function shn_acl_form_change_user_status(){
 <ul>
     <li><?php echo _t("<strong>Active</strong> - The user can login and perform operations."); ?></li>
     <li><?php echo _t("<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."); ?></li>
-    <li><?php echo _t("<strong>Banned</strong> - The user is not allowed to perform any operation on the system permenantly."); ?></li>
+    <li><?php echo _t("<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."); ?></li>
 </ul>
 </div>
 
@@ -490,7 +490,7 @@ function shn_acl_form_unlock_user(){
 	global $global;
 	$db=$global['db'];
 	?>
-<div id="home"><strong><?php echo _t("Rows are Locked Users ,Columns are the possible status
+<div id="home"><strong><?php echo _t("Rows are Locked Users, Columns are the possible status
 values") ?></strong></div>
 
 <div id="formcontainer"><?php

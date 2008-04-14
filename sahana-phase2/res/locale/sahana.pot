@@ -1535,11 +1535,11 @@ msgid "Upload sahana.po/.mo file"
 msgstr ""
 
 #: ../mod/admin/menu.inc:99
-msgid "Edit Roles of an User"
+msgid "Edit Roles of a User"
 msgstr ""
 
 #: ../mod/admin/menu.inc:100
-msgid "Reset Password of an User"
+msgid "Reset Password of a User"
 msgstr ""
 
 #: ../mod/admin/menu.inc:101 ../mod/admin/menu.inc:115

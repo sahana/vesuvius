@@ -1568,11 +1568,11 @@ msgid "Upload sahana.po/.mo file"
 msgstr "සහන sahana.po/.mo ගොනුව අපගත කරන්න"
 
 #: ../mod/admin/menu.inc:100 ../mod/admin/menu.inc:90
-msgid "Edit Roles of an User"
+msgid "Edit Roles of a User"
 msgstr "පරිශිලකගෙ වර්ගය සංස්කරණය කරන්න"
 
 #: ../mod/admin/menu.inc:101 ../mod/admin/menu.inc:91
-msgid "Reset Password of an User"
+msgid "Reset Password of a User"
 msgstr "පරිශිලක මුර පදය මුල් ආකාරයට සකසන්න"
 
 #: ../mod/admin/menu.inc:92 ../mod/admin/menu.inc:106
