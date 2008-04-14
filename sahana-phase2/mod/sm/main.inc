@@ -16,20 +16,20 @@
 include_once $global['approot']."/mod/sm/main_fns.inc";
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
+include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 
 
 /**
  * Main SM menu functionality
- * @todo: move mapping client to new location
- * @todo: discuss on list to mapping client newer location
  */
 function shn_sm_mainmenu(){
     global $global;
     global $conf;
     $module = $global['module'];
+    
     shn_mod_menuopen($conf['mod_sm_name']);
     shn_mod_menuitem("default",_t("Home"),$module);
-    shn_mod_menuitem("swik",_t("Situation Map"),$module);
+    shn_mod_menuitem("swik",_t("View Situation Map"),$module);
     shn_mod_menuitem("awik",_t("Add New Situation"),$module);
     //shn_mod_menuitem("mapc",_t("Map Client"),$module); 
     shn_mod_menuclose();

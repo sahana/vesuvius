@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+
+	<usercase name="View Situation Map">
+		<functions>
+			<function>shn_sm_swik</function>
+		</functions>
+		<tables>
+				<table perm="r">gis_wiki</table>
+		</tables>
+	</usercase>
+	<usercase name="Add New Situation">
+		<functions>
+			<function>shn_sm_awik</function>
+		</functions>
+		<tables>
+				<table perm="crud">gis_wiki</table>
+		</tables>
+	</usercase>
+</sec_policy>
