@@ -277,7 +277,7 @@ function shn_mpr_adm_acl_install() {
 	include_once $global['approot'] . 'inc/lib_security/authenticate.inc';
 	$acl = new SahanaACL(NULL);
 
-	/* start of or specifc ACL entries
+	/* start of mpr specific ACL entries
 	*/
 
 	$res = shn_acl_add_module("mpr", _t("Missing Person Registry"));
@@ -286,7 +286,7 @@ function shn_mpr_adm_acl_install() {
 
 	$res = shn_acl_add_action("mpr", "deny_admin", "shn_mpr_adm_default", _t("Display Admin page"));
 
-	## Deny permission for 'deny_admin' action group with in 'or' to 'guest' role
+	## Deny permission for 'deny_admin' action group within 'mpr' to 'guest' role
 	$res = shn_acl_add_perms_action_group_role('guest', 'mpr', 'deny_admin');
 	$res = shn_acl_add_perms_action_group_role('user', 'mpr', 'deny_admin');
 
