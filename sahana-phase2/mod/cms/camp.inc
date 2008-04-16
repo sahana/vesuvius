@@ -189,19 +189,19 @@ function _shn_cms_add_map()
 		 	 * google maps
 		 	 *@todo check for online connectivity: exit gracefully
 	  	*/
-	 		include_once $global['approot']."/mod/gis/plugins/google_maps/handler_google_maps.inc";
+	 		include_once $global['approot']."/inc/lib_gis/plugins/google_maps/handler_google_maps.inc";
 			echo _t("Enter Camp Location. Click on Map where camp exists");
 
-			$a="select value from config where module_id='gis' and confkey='google_key'";
+			$a="select value from config where module_id='admin' and confkey='gis_google_key'";
       		$ares=$db->Execute($a);
 			$keys=$ares->fields[0];
 
 	
-			$w="select value from config where module_id='gis' and confkey='center_x'";
+			$w="select value from config where module_id='admin' and confkey='gis_center_x'";
 			$wres=$db->Execute($w);
 			$wkey=$wres->fields[0];
 
-			$e="select value from config where module_id='gis' and confkey='center_y'";
+			$e="select value from config where module_id='admin' and confkey='gis_center_y'";
 			$eres=$db->Execute($e);
 			$ekey=$eres->fields[0];
 																		
@@ -273,7 +273,7 @@ function _shn_cms_camp_commit()
 	// insert gis location
 	//if mod_gis
 	if($conf['gis']){
-  		include $global['approot']."/mod/gis/gis_fns.inc";
+  		include $global['approot']."/inc/lib_gis/gis_fns.inc";
 		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
 	}
 	
