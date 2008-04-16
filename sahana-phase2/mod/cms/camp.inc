@@ -182,9 +182,9 @@ function _shn_cms_add_map()
 	$db=$global['db'];
 	echo "<h2>"._t("Area Map")."</h2>";
 
-	//if mod_gis
+	//if gis enabled
 	if($conf['gis']){
-	  if($conf['mod_gis']=='google_maps'){
+	  if($conf['gis_dflt']=='google_maps'){
 	  	/*
 		 	 * google maps
 		 	 *@todo check for online connectivity: exit gracefully
@@ -271,7 +271,7 @@ function _shn_cms_camp_commit()
 	}
 	
 	// insert gis location
-	//if mod_gis
+	//if gis enabled
 	if($conf['gis']){
   		include $global['approot']."/inc/lib_gis/gis_fns.inc";
 		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
