@@ -66,7 +66,7 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 			//@todo: image type
 			$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.jpeg';
 			$image_path="tmp/".$image_name;
-			$image_file=$global['approot'].$conf['mod_gis_image_folder'].$image_name;
+			$image_file=$global['approot'].$conf['mod_sm_image_folder'].$image_name;
 			
 			//no image available and other format support
 			if(!file_exists($image_file)){
@@ -220,17 +220,17 @@ function shn_sm_show_wiki_add_detail($errors=false)
 	shn_form_fopen(awik);
 	shn_form_fsopen(_t("Main Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_text(_t("Name of situation detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_t($conf['mod_gis_situation_name_help'])));
-	shn_form_opt_select("opt_wikimap_type",_t("Wiki Type"),null,array('help'=>_t($conf['mod_gis_situation_type_help'])));
+	shn_form_text(_t("Name of situation detail"),"wiki_name",'size="50"',array('req'=>true,'help'=>_t($conf['mod_sm_situation_name_help'])));
+	shn_form_opt_select("opt_wikimap_type",_t("Wiki Type"),null,array('help'=>_t($conf['mod_sm_situation_type_help'])));
 	shn_form_textarea(_t("Detail Summary"),"wiki_text",'size="50"');
 	shn_form_fsclose();
 	shn_form_fsopen(_t("Extra Details"));
-	shn_form_text(_t("URL"),"wiki_url",'size="50"',array('help'=>_t($conf['mod_gis_situation_url_help'])));
-	//shn_form_text(_t("Date of //Event"),"wiki_evnt_date",'size="50"',array('help'=>_t($conf['mod_gis_situation_date_help'])));
-	shn_form_date(_t("Date of Event"),"wiki_evnt_date",array('req'=>true,'value'=>date('Y-m-d'),'help'=>_t($conf['mod_gis_situation_date_help'])));
+	shn_form_text(_t("URL"),"wiki_url",'size="50"',array('help'=>_t($conf['mod_sm_situation_url_help'])));
+	//shn_form_text(_t("Date of //Event"),"wiki_evnt_date",'size="50"',array('help'=>_t($conf['mod_sm_situation_date_help'])));
+	shn_form_date(_t("Date of Event"),"wiki_evnt_date",array('req'=>true,'value'=>date('Y-m-d'),'help'=>_t($conf['mod_sm_situation_date_help'])));
 	shn_form_fsclose();
 	shn_form_fsopen(_t("Wikimap Options"));
-	shn_form_text(_t("Author"),"wiki_author",'size="50"',array('help'=>_t($conf['mod_gis_situation_author_help'])));
+	shn_form_text(_t("Author"),"wiki_author",'size="50"',array('help'=>_t($conf['mod_sm_situation_author_help'])));
 	shn_form_checkbox(_t("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
 	shn_form_checkbox(_t("Publicly Viewable"),"view_public","view");
 	shn_form_fsclose();
