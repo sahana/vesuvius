@@ -12,7 +12,7 @@
  function shn_cr_loadmap()
  {
 	global $global; 
- 	include($global['approot'].'/mod/gis/plugins/google_maps/handler_google_maps.inc');
+ 	include($global['approot'].'/inc/lib_gis/plugins/google_maps/handler_google_maps.inc');
  	
  	load_map($_GET['wkey'],$_GET['ekey']);
  	

@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: camp.inc,v 1.62 2008-03-17 05:17:45 ravithb Exp $ */
-/* $Id: camp.inc,v 1.62 2008-03-17 05:17:45 ravithb Exp $ */
+/* $Id: camp.inc,v 1.63 2008-04-16 19:58:44 franboon Exp $ */
+/* $Id: camp.inc,v 1.63 2008-04-16 19:58:44 franboon Exp $ */
 
 /**Camp library for  CR
  *
@@ -271,7 +271,7 @@ function _shn_cr_sel_map($errors = false)
     shn_form_fsclose();
 
     //call gis api
-    include $global['approot']."/mod/gis/gis_fns.inc";
+    include $global['approot']."/inc/lib_gis/gis_fns.inc";
     shn_gis_add_marker_map_form("GIS Map",$_POST['camp_name']);
 
     ?>
@@ -528,7 +528,7 @@ function _shn_cr_cadd_commit_db()
 
 
     if ($conf['gis']) {
-        include $global['approot'] . "/mod/gis/gis_fns.inc";
+        include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
         shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
     }
 

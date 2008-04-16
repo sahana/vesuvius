@@ -275,7 +275,7 @@ function shn_cr_gis_show(){
         $db = $global['db'];
         $q="select map_northing,map_easting,name,c_uuid from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
         $res = $db->Execute($q);
-        include_once ($global['approot'].'/mod/gis/gis_fns.inc');
+        include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
 
         //create array
         $map_array=array();
@@ -306,7 +306,7 @@ function shn_cr_gis_infect(){
         $q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
 				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
         $res = $db->Execute($q);
-        include_once ($global['approot'].'/mod/gis/gis_fns.inc');
+        include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
 
         //create array
         $map_array=array();
@@ -391,7 +391,7 @@ function shn_cr_gis_population(){
         $q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
 				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
         $res = $db->Execute($q);
-        include_once ($global['approot'].'/mod/gis/gis_fns.inc');
+        include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
 
         //create array
         $map_array=array();
