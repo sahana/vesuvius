@@ -8,8 +8,8 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   Mifan Careem <mifan@opensource.lk>
-* @version $id$;
+* @author     Mifan Careem <mifan@opensource.lk>
+* @version    $id$;
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
@@ -23,7 +23,7 @@ function shn_gis_adm_default()
 	global $conf;
 	if(isset($_REQUEST['submod']) && isset($_REQUEST['seq'])) {
 		global $global;
-		include_once ($global['approot'].'/mod/gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
+		include_once ($global['approot'].'/inc/lib_gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
 		switch($_REQUEST['seq']) {
 			case 'commit':
 				shn_plugin_commit();
@@ -38,7 +38,7 @@ function shn_gis_adm_default()
 	} else if(isset($_REQUEST['submod'])) {
 		global $global;
 		shn_gis_adm_show_mod_menu();
-		include_once ($global['approot'].'/mod/gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
+		include_once ($global['approot'].'/inc/lib_gis/plugins/'.$_REQUEST['submod'].'/admin.inc');
 		shn_plugin_default();
 	} else {
     	shn_gis_adm_show_mod_menu();
@@ -64,14 +64,14 @@ function shn_gis_adm_find_mods()
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
 	$count=1;
-	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$gis_plugins_dir=$global['approot'].'/inc/lib_gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
 	shn_form_fopen(adm_gis_conf,null,array('req_message'=>false));
 	shn_form_fsopen(_t("GIS Plugin Configuration"));
 	while($file = readdir($dir)) {
 		if(!is_dir($file)) {
 			//shows nice name of plugin
-			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 			echo "$count.	<a href='index.php?mod=gis&act=admin&submod=$file'>"."$name"."</a><br>";
 			//echo "$count.	<a href='index.php?mod=gis/plugins/"."$file"."&act=dd'>"."$name"."</a><br>";
@@ -97,7 +97,7 @@ function shn_gis_adm_show_mod_menu()
 	include_once($global['approot'].'/inc/lib_modules.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
 	$count=1;
-	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$gis_plugins_dir=$global['approot'].'/inc/lib_gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
 ?>
 	<div id="submenu_v">
@@ -106,7 +106,7 @@ function shn_gis_adm_show_mod_menu()
 	while($file = readdir($dir)) {
 		if(!is_dir($file)) {
 			//shows nice name of plugin
-			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
 			<a href="index.php?mod=gis&act=admin&submod=<?=$file?>"><?=_t($name)?></a>
@@ -178,11 +178,11 @@ refer to the documentation within the mod/gis subdirectory");?> </li>
 	
 	
 	$count=1;
-	$gis_plugins_dir=$global['approot'].'/mod/gis/plugins/';
+	$gis_plugins_dir=$global['approot'].'/inc/lib_gis/plugins/';
 	$dir = opendir($gis_plugins_dir);
 	while($file = readdir($dir)) {
 		if(!is_dir($file)) {
-			include($global['approot'].'/mod/gis/plugins/'."$file".'/conf.inc');
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 			$options_array[$file] = _lc($name);
 			//echo "$count.	<a href='index.php?mod=gis/plugins/"."$file"."&act=adm'>$file</a><br>";
@@ -270,7 +270,6 @@ function shn_gis_adm_commit()
 		add_confirmation(_t("Changes were saved"));
 		global $global;
 		$db = $global['db'];
-		//$gm="UPDATE config SET value = '{$_POST['key']}' WHERE module_id = 'gis' AND confkey = 'google_key'";                  
 		if(!null==$_POST['x_center']) {
 			$query = "SELECT * FROM config WHERE confkey='mod_gis_center_x' AND module_id='gis'";
 			$res = $db->Execute($query);
