@@ -1,14 +1,15 @@
 <?php
+
 /**Admin Module for GIS
 *
 * PHP version 5
 * 
-* @author   	Mifan Careem <mifan@opensource.lk>
-* @copyright  	Lanka Software Foundation - http://www.opensource.lk
-* @package	Sahana - http://sahana.lk/    	
-* @library 	GIS
-* @version	$id$;
-* @license  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @author       Mifan Careem <mifan@opensource.lk>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package      Sahana - http://sahana.lk/    	
+* @library      GIS
+* @version      $id$;
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
@@ -18,7 +19,6 @@ include_once($global['approot'].'/inc/lib_errors.inc');
 /**
  * Main default GIS configuration settings
  * Mostly common across plugins
- * @todo: handle a topsy-turvy world!!
  * @todo: provide a map based center input selection before the revolution comes >;)
  * @todo: cite source URI for lat-lon help content
  */
@@ -36,17 +36,17 @@ function shn_admin_gis_main_settings()
 ?>
 	<ul>
 	 <li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
-	 <li><?php echo _t("GIS Maps in Sahana can be set to display a default region");?> </li>
-	 <li><?php echo _t("In order to set the map display for a particular region, you should know the Latitude and the Longitude of that region");?></li>
-    	 <li><?php echo _t("If these values are known, you can set them below:");?> </li>
+	 <li><?php echo _t("In order to set the map to display a default region, you can set this below:");?></li>
 	</ul>
 <?php
 	shn_form_fsclose();
 	shn_form_fsopen(_t("Default Center Coordinates"));
 	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
 	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
+	$zoom_help=_t("How much detail is seen. A high Zoom level means lot of detail, but not a wide area. A low Zoom level means seeing a wide area, but not a high level of detail.");
 	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lat_help));
 	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lon_help));
+	shn_form_text(_t("Zoom "),"zoom",null,array("value"=>$conf['gis_zoom'],"help"=>$zoom_help));
 	shn_form_fsclose();
 	shn_form_submit(_t('Save As Defaults'));
 	shn_form_close();
@@ -206,6 +206,18 @@ function shn_admin_gis_commit_main()
 		}
 		else{
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
+			$db->Execute($insert);
+		}
+	}
+	if(!null==$_POST['zoom']){
+		$query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$s="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
+			$db->Execute($s);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_zoom','{$_POST['zoom']}')";
 			$db->Execute($insert);
 		}
 	}
