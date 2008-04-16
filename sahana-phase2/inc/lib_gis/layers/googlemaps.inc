@@ -7,7 +7,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.9 2008-04-13 20:44:03 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.10 2008-04-16 14:51:11 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -47,7 +47,7 @@ class googlemaps implements layer{
 	echo _t("<p>Register your Google Maps key at: </p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");
 	shn_form_fsclose();
 	shn_form_fsopen(_t('Enter API Key'));
-	shn_form_text(_t("Enter Google Maps Key"),"ol_google_map_key",'size="100"',array('value'=>$conf['gis_google_key']));
+	shn_form_text(_t("Enter Google Maps Key"),"gis_google_key",'size="100"',array('value'=>$conf['gis_google_key']));
 	shn_form_fsclose();
 	shn_form_fsclose();
 	shn_form_fsclose();
