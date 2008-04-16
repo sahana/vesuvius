@@ -636,7 +636,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 function _shn_or_view_map_form_org()
 {
 	global $global;
-	include_once $global['approot']."/mod/gis/gis_fns.inc";
+	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_form_fopen("view_org_submit");
 	shn_form_hidden(array("action"=>'edit'));
 	?>

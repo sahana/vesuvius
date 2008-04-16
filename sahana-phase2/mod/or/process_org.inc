@@ -16,9 +16,8 @@ function _shn_or_reg_org_cr()
 {
     global $global;
     include_once "reg_org.inc";
-   // include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once($global['approot']."/inc/lib_uuid.inc");
-    include_once $global['approot']."/mod/gis/gis_fns.inc";
+    include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 
     $db=$global['db'];
     $q="SELECT o_uuid FROM org_main WHERE name='{$_SESSION['org']['name']}'";
@@ -155,7 +154,7 @@ function _shn_or_reg_operation_cr()
     global $global;
     include_once "reg_org.inc";
     include_once($global['approot']."/inc/lib_uuid.inc");
-    include_once $global['approot']."/mod/gis/gis_fns.inc";
+    include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
     if($_SESSION['org']!=null){
     $db=$global['db'];
     $org_id	=shn_create_uuid('org');

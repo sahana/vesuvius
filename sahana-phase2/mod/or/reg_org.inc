@@ -113,7 +113,7 @@ function _shn_or_regform_org($error=false)
 function _shn_or_reg_gis_map()
 {
 	global $global;
-	include_once $global['approot']."/mod/gis/gis_fns.inc";
+	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_form_fopen("reg_org_confirm",null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'img'));
     shn_gis_add_marker_map_form("Area Map","",null,array('marker'=>'single'));
