@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * 
  * This file represents themajor data access functions of the DVR module
@@ -10,7 +9,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Isuru Samaraweera 
+ * @author     Isuru Samaraweera 
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage dvr
@@ -24,7 +23,7 @@ include $global['approot'] . "/inc/lib_paging.inc";
 function _shn_dvr_add_group() {
 	global $global;
 	$db = $global['db'];
-	include $global['approot'] . "/mod/gis/gis_fns.inc";
+	include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 	
 //if($_SESSION['dvr']['group']['image']!=null)	
     shn_image_to_db_ex($_SESSION['dvr_add_group']['entry']['p_uuid'], $_SESSION['dvr']['group']['image'], $_SESSION['dvr']['group']['image_type'], $_SESSION['dvr']['group']['image_height'], $_SESSION['dvr']['group']['image_width'], null, 'dvr_person');
@@ -469,7 +468,7 @@ function _shn_dvr_update_individual() {
 	$db = $global['db'];
 	//inserting the image
 
-	include $global['approot'] . "/mod/gis/gis_fns.inc";
+	include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 	//include $global['approot'] . "/mod/dvr/lib.inc";
 
 	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['person']['p_uuid'], 'dvr_person');
@@ -550,7 +549,7 @@ function _shn_dvr_update_group() {
 	global $global;
 	$db = $global['db'];
 	//inserting the image
-	include $global['approot'] . "/mod/gis/gis_fns.inc";
+	include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 	//include $global['approot'] . "/mod/dvr/lib.inc";
 
 	$image_id = _shn_dvr_get_image_id($_SESSION['dvr']['group']['headid'], 'dvr_person');
@@ -588,7 +587,7 @@ function _shn_dvr_update_group() {
 
 	_dvr_update_contact($_SESSION['dvr']['group']['headid'], 'address', $_SESSION['dvr']['group']['address']);
 	$x = $_SESSION['dvr']['group']['gis_loc_x'];
-	$y = $_SESSION['dvr']['group']['gis_loc_x'];
+	$y = $_SESSION['dvr']['group']['gis_loc_y'];
 
 	$q = "UPDATE gis_location set map_northing='{$x}',map_easting='{$y}' WHERE poc_uuid='{$_SESSION['dvr']['group']['id']}'";
 	$db->Execute($q);

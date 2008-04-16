@@ -10,7 +10,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Isuru Samaraweera
+ * @author     Isuru Samaraweera
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage dvr
@@ -700,11 +700,6 @@ function shn_dvr_disp_and_crnt_loc() {
 //		'seq' => 'chk'
 //	));
 //	shn_form_fsclose();
-
-	
-	//call gis api from gis module
-	//include $global['approot'] . "/mod/gis/gis_fns.inc";
-	//shn_gis_add_marker_map_form("GIS Map",null,"name=physical_button");
 /////////////////////////////////////////////////////////////////////////////////////
 
 	shn_form_fsclose();

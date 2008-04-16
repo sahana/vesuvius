@@ -1,7 +1,4 @@
-
-
 <?php
-
 
 /**
  * 
@@ -14,7 +11,7 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Isuru Samaraweera  
+ * @author     Isuru Samaraweera  
  * @author     Sheran Corera
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
@@ -510,7 +507,7 @@ function shn_dvr_loc_dtls($errors = false) {
 	shn_form_fsclose();
 
 	//call gis api from gis module
-	include $global['approot'] . "/mod/gis/gis_fns.inc";
+	include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 
 	shn_gis_add_marker_map_form("GIS Map",null,"name=checklist_button");*/
 	shn_form_submit(_t("Next"), "name=checklist_button");
