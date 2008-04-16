@@ -135,7 +135,7 @@ function shn_config_module_conf_fetch($module = 'all')
  *
  *    - all  : all configuration
  *    - base : base configuration
- *    - you can sepecify the module name
+ *    - you can specify the module name
  *
  */
 function shn_config_database_fetch($conf, $type='base')
