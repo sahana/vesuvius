@@ -72,7 +72,7 @@ function shn_hr_add_updt_hf_to_dbs($updt=false)
 
     include_once $global['approot'].'/inc/lib_validate.inc';
     include_once $global['approot'].'/inc/lib_errors.inc';
-    include_once $global['approot'].'/mod/gis/gis_fns.inc';
+    include_once $global['approot'].'/inc/lib_gis/gis_fns.inc';
 
 	$reg_new_homeless_family_err=false;
 
@@ -338,7 +338,7 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
 	
 	include_once $global['approot'].'/inc/lib_validate.inc';
 	include_once $global['approot'].'/inc/lib_errors.inc';
-	include_once $global['approot'].'/mod/gis/gis_fns.inc';
+	include_once $global['approot'].'/inc/lib_gis/gis_fns.inc';
 
 	$reg_new_site_err=false;
 

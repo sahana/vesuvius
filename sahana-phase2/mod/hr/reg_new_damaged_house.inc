@@ -158,7 +158,7 @@ function shn_hr_damaged_house_location_details_gis($set_edit_seq=false)
    global $global;
    global $conf;
 
-   include_once $global['approot'].'/mod/gis/gis_fns.inc';
+   include_once $global['approot'].'/inc/lib_gis/gis_fns.inc';
    
    if($set_edit_seq)
    {
