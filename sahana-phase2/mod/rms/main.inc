@@ -8,12 +8,12 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author		Sudheera R. Fernando <sudheera@opensource.lk>
+* @author	Sudheera R. Fernando <sudheera@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
+* @package	sahana
 * @subpackage	rms
 * @tutorial
-* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 */
 
@@ -25,21 +25,13 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
-
-//include_once $global['approot']."/inc/lib_modules.inc";
-//include_once $global['approot']."/inc/lib_validate.inc";
-//include_once $global['approot']."/inc/lib_form.inc";
-//include_once $global['approot']."/inc/lib_table.inc";
-//require_once $global['approot']."/inc/lib_menu.inc";
-//include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_dependency.inc");
-//include_once $global['approot']."/inc/lib_location.inc";
 require_once 'lib_rms.inc';
 require_once 'lib_rms_db.inc';
 require_once 'lib_rms_js.inc';
 require_once 'lib_rms_rss.inc';
 
-include_once $global['approot']."/mod/gis/gis_fns.inc";
+include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 include_once $global['approot']."/mod/ims/lib_ims.inc";
 
 function shn_rms_default()

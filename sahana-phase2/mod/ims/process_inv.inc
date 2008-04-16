@@ -8,7 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-	      Mahesh Kaluarachchi <mahesh@opensource.lk>
+*             Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage or
@@ -18,9 +18,8 @@ function _shn_ims_reg_inv_cr()
     global $global;
     include_once "reg_inv.inc";
     include_once "errors.inc";
-    //include_once $global['approot']."/inc/lib_security/authenticate.inc"; 
     include_once $global['approot']."/inc/lib_validate.inc"; 
-    include_once $global['approot']."/mod/gis/gis_fns.inc";
+    include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 
     
     $error=false;

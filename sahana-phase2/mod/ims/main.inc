@@ -29,7 +29,7 @@ include_once $global['approot'] . "/inc/lib_security/lib_acl.inc";
 include_once "lib_ims.inc";
 include_once $global['approot'] . '/mod/cs/lib_cs.inc';
 include_once $global['approot'] . '/mod/or/lib_or.inc';
-include_once $global['approot'] . "/mod/gis/gis_fns.inc";
+include_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 include_once $global['approot'] . "/inc/reporting/lib_reporting.inc";
 include_once 'errors.inc';
 include_once 'lib_ims_rss.inc';

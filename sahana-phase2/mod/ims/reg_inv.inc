@@ -8,7 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-	       Mahesh Kaluarachchi <mahesh@opensource.lk>
+*             Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage ims
@@ -18,7 +18,7 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc";
 require_once $global['approot']."/inc/lib_location.inc";
-include_once $global['approot']."/mod/gis/gis_fns.inc";
+include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 include_once "lib_ims.inc";
 include_once $global['approot']."/inc/lib_security/lib_acl.inc";
 

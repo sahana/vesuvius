@@ -8,7 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-          Mahesh Kaluarachchi <mahesh@opensource.lk>
+*             Mahesh Kaluarachchi <mahesh@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage ims
@@ -17,10 +17,8 @@
 global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
-//include_once '';
 include_once $global['approot'].'/mod/or/lib_or.inc';
-include_once $global['approot'].'/3rd//phplot/phplot_ims.php';
-//include_once $global['approot']."/mod/gis/gis_fns.inc";
+include_once $global['approot'].'/3rd/phplot/phplot_ims.php';
 
 
 function shn_ims_org_list(){
