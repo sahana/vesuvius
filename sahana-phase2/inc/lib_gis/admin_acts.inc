@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Sahana GIS admin menu functionality
 * Keeping separate from the main admin file since this has been constantly changed without list approval 
@@ -6,10 +7,11 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @library	    GIS
-* @version		$id$
+* @library	GIS
+* @version	$id$
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -26,6 +28,7 @@ function shn_admin_gis_main()
 
 /**
  * GIS plugin admin functionality
+ * Deprecated
  */
 function shn_admin_gis_plugin()
 {
@@ -33,6 +36,17 @@ function shn_admin_gis_plugin()
 	include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
 	shn_admin_gis_plugin_controller();
 }
+
+/**
+ * Google Maps plugin admin functionality
+ */
+function shn_admin_gis_google()
+{
+        global $global;
+        include_once $global['approot'].'/inc/lib_gis/plugins/google_maps/admin.inc';
+        shn_plugin_default();
+}
+
 
 /**
  * GIS Layer Management Functionality
@@ -76,7 +90,11 @@ function shn_admin_gis_plugin()
  	add_confirmation(_t("Changes were saved"));
  	shn_admin_gis_main_settings();
  }
- 
+
+
+/*
+ * Deprecated
+ */ 
  function shn_admin_gis_plugin_default()
  {
  	global $global;

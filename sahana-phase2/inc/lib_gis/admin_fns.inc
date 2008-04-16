@@ -5,6 +5,7 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
@@ -19,7 +20,7 @@ include_once($global['approot'].'/inc/lib_errors.inc');
 /**
  * Main default GIS configuration settings
  * Mostly common across plugins
- * @todo: provide a map based center input selection before the revolution comes >;)
+ * @todo: provide a map based center input selection
  * @todo: cite source URI for lat-lon help content
  */
 function shn_admin_gis_main_settings()
@@ -32,21 +33,37 @@ function shn_admin_gis_main_settings()
 	<h2><?php echo _t("GIS Defaults Configuration");?></h2>
 <?php
 	shn_form_fopen('gis_main_defaults',null,array('req_message'=>false));
-	shn_form_fsopen(_t('INFO'));
+	shn_form_fsopen(_t("Default Map Location"));
 ?>
 	<ul>
 	 <li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
 	 <li><?php echo _t("In order to set the map to display a default region, you can set this below:");?></li>
 	</ul>
 <?php
-	shn_form_fsclose();
-	shn_form_fsopen(_t("Default Center Coordinates"));
 	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
 	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
 	$zoom_help=_t("How much detail is seen. A high Zoom level means lot of detail, but not a wide area. A low Zoom level means seeing a wide area, but not a high level of detail.");
 	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lat_help));
 	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lon_help));
 	shn_form_text(_t("Zoom "),"zoom",null,array("value"=>$conf['gis_zoom'],"help"=>$zoom_help));
+	shn_form_fsclose();
+	shn_form_fsopen(_t("Default Plugin"));
+?>
+	<ul>
+	 <li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
+         <li><?php echo _t("Select the default plugin from those detected below:");?> </li>
+	</ul>
+<?php
+	$gis_plugins_dir=$global['approot'].'/inc/lib_gis/plugins/';
+	$dir = opendir($gis_plugins_dir);
+	while($file = readdir($dir)){
+		if(!is_dir($file)){
+			include($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
+			$name = $conf['plugin_name'];
+			$options_array[$file] = $name;
+		}
+	}
+	shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit(_t('Save As Defaults'));
 	shn_form_close();
@@ -101,6 +118,7 @@ function shn_admin_gis_plugin_controller()
 /**
  * Find and show GIS plugin configuration links at top
  * Auto-detects plugins 
+ * Deprecated
  * @access public
  * @return void
  */
@@ -137,7 +155,8 @@ function shn_admin_gis_show_mod_menu()
 
 /**
  * Show radio button selection of available GIS plugins
- * Enter Selected values 
+ * Enter Selected values
+ * Deprecated 
  * @access private
  * @return void  
  */
@@ -201,8 +220,8 @@ function shn_admin_gis_commit_main()
 		$query = "SELECT * FROM config WHERE confkey='gis_center_y' AND module_id='admin'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$r="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
-			$db->Execute($r);
+			$q="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
+			$db->Execute($q);
 		}
 		else{
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
@@ -213,20 +232,14 @@ function shn_admin_gis_commit_main()
 		$query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
-			$s="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
-			$db->Execute($s);
+			$q="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
+			$db->Execute($q);
 		}
 		else{
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_zoom','{$_POST['zoom']}')";
 			$db->Execute($insert);
 		}
 	}
-}
-
-function shn_admin_gis_plugin_default_commit()
-{
-	global $global;
-	$db = $global['db'];
 	if(!null==$_POST['mod_gis']){
 		$query = "SELECT * FROM config WHERE confkey='gis_dflt' AND module_id='admin'";
 		$res = $db->Execute($query);
