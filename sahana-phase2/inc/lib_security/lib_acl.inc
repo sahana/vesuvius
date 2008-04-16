@@ -22,7 +22,7 @@
 require_once "constants.inc";
 
 function shn_acl_check_valid_policy(){
-	global $global;
+    global $global;
     global $conf;
     $approot = $global['approot'];
     $xdoc = new DomDocument;
