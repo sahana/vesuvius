@@ -70,7 +70,7 @@ loadsql mysql-config.sql
 
 # Modules
 loadsql ../mod/rms/ins/rms.sql
-loadsql ../mod/gis/dbcreate.sql
+#loadsql ../mod/gis/dbcreate.sql
 loadsql ../mod/lr/dbcreate.sql
 
 # Sample data
