@@ -82,7 +82,7 @@ $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1Nv
    * Switch for Googlemaps
    * 0 for off; 1 for on
    */
-  $conf['gis_olgoogle_hybrid']='0';
+  $conf['gis_ol_google_hybrid']='0';
   $conf['gis_ol_google_maps']='0';
   $conf['gis_ol_google_sat']='0';
  
