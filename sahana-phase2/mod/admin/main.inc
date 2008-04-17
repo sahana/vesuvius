@@ -113,7 +113,7 @@ function shn_admin_default()
    	if(!$isGoogleSetup) {
         echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get Google Maps to
                 work on sites other than localhost you should enter a key in the ')
-                .'<a href="?mod=admin&act=gis_plugin&seq=view&plugin=google_maps">'.
+                .'<a href="?mod=admin&act=gis_google">'.
                 '&#34;'._t('GIS Configuration').'&#34; '.'</a>'._t('section to do this.').'</li><br/>';
     }
 

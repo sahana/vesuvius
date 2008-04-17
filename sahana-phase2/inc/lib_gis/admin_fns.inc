@@ -70,8 +70,121 @@ function shn_admin_gis_main_settings()
 }
 
 /**
+ * Google Plugin configuration settings
+ * - enter host Key
+ */
+function shn_admin_gis_google_settings()
+{
+	global $global;
+	global $conf;
+	
+	include_once($global['approot'].'/inc/lib_form.inc');
+?>
+	<h2><?php echo _t("Google Maps Configuration");?></h2>
+<?php
+	shn_form_fopen('gis_google_commit',null,array('req_message'=>false));
+	shn_form_fsopen(_t("Host Key"));
+?>
+	<ul>
+	 <li><?php echo _t("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");?></li>
+	 <li><?php echo _t("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");?></li>
+	 <li><?php echo _t("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");?></li>
+	</ul>
+<?php
+	shn_form_text(_t("Enter Google Maps Key"),"gmap_key",'size="100"',array('value'=>$conf['gis_google_key']));
+	shn_form_fsclose();
+	shn_form_submit(_t('Save'));
+	shn_form_close();
+}
+
+/**
+ * Commit default values: Lat/Lon/Zoom/Plugin
+ * @access private
+ */
+function shn_admin_gis_commit_main()
+{
+	global $global;
+	$db = $global['db'];                  
+	if(!null==$_POST['x_center']){
+		$query = "SELECT * FROM config WHERE confkey='gis_center_x' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q = "UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_x'";       
+			$db->Execute($q);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_x','{$_POST['x_center']}')";
+			$db->Execute($insert);
+		}
+	}
+	if(!null==$_POST['y_center']){
+		$query = "SELECT * FROM config WHERE confkey='gis_center_y' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
+			$db->Execute($q);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
+			$db->Execute($insert);
+		}
+	}
+	if(!null==$_POST['zoom']){
+		$query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
+			$db->Execute($q);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_zoom','{$_POST['zoom']}')";
+			$db->Execute($insert);
+		}
+	}
+	if(!null==$_POST['mod_gis']){
+		$query = "SELECT * FROM config WHERE confkey='gis_dflt' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'admin' AND confkey='gis_dflt'";
+			$db->Execute($q);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_dflt','{$_POST['mod_gis']}')";
+			$db->Execute($insert);
+		}
+	}
+}
+						
+/**
+ * Commit Google Maps plugin config: Key
+ * @access private
+ */
+function shn_admin_gis_commit_google()
+{
+	global $global;
+	$db = $global['db'];                  
+	if(!null==$_POST['gmap_key']){
+		$query = "SELECT * FROM config WHERE confkey='gis_google_key' AND module_id='admin'";
+		$res = $db->Execute($query);
+		if(!$res->EOF){
+			$q = "UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'admin' AND confkey = 'gis_google_key'";       
+			$db->Execute($q);
+		}
+		else{
+			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_google_key','{$_POST['gmap_key']}')";
+			$db->Execute($insert);
+		}
+	}
+}
+
+
+//Deprecated -------
+
+
+/**
  * Include relevant plugin
  * Handle file check for plugin availability and kidnapped plugins
+ * Deprecated
  */
 function shn_admin_gis_plugin_include_file($plugin,$file='admin.inc')
 {
@@ -93,6 +206,7 @@ function shn_admin_gis_plugin_include_file($plugin,$file='admin.inc')
  * Plugin Front-controller
  * Mini front controller to handle dynamically added plugins within GIS
  * @todo: does a front-controller within a front-controller become a rear controller? :)
+ * Deprecated
  * 
  */
 function shn_admin_gis_plugin_controller()
@@ -196,62 +310,4 @@ function _shn_admin_gis_show_mods_select()
 	shn_form_fclose();	
 }
 
-/**
- * Commit default Northing/Easting values
- * @access private
- */
-function shn_admin_gis_commit_main()
-{
-	global $global;
-	$db = $global['db'];                  
-	if(!null==$_POST['x_center']){
-		$query = "SELECT * FROM config WHERE confkey='gis_center_x' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q = "UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_x'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_x','{$_POST['x_center']}')";
-			$db->Execute($insert);
-		}
-	}
-	if(!null==$_POST['y_center']){
-		$query = "SELECT * FROM config WHERE confkey='gis_center_y' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
-			$db->Execute($insert);
-		}
-	}
-	if(!null==$_POST['zoom']){
-		$query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_zoom','{$_POST['zoom']}')";
-			$db->Execute($insert);
-		}
-	}
-	if(!null==$_POST['mod_gis']){
-		$query = "SELECT * FROM config WHERE confkey='gis_dflt' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q = "UPDATE config SET value  = '{$_POST['mod_gis']}' WHERE module_id = 'admin' AND confkey='gis_dflt'";
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_dflt','{$_POST['mod_gis']}')";
-			$db->Execute($insert);
-		}
-	}
-}
-						
 ?>

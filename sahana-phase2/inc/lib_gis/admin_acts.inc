@@ -27,26 +27,14 @@ function shn_admin_gis_main()
 }
 
 /**
- * GIS plugin admin functionality
- * Deprecated
- */
-function shn_admin_gis_plugin()
-{
-	global $global;
-	include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
-	shn_admin_gis_plugin_controller();
-}
-
-/**
  * Google Maps plugin admin functionality
  */
 function shn_admin_gis_google()
 {
         global $global;
-        include_once $global['approot'].'/inc/lib_gis/plugins/google_maps/admin.inc';
-        shn_plugin_default();
+        include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
+        shn_admin_gis_google_settings();
 }
-
 
 /**
  * GIS Layer Management Functionality
@@ -58,7 +46,6 @@ function shn_admin_gis_google()
 	_shn_gis_layer_main_form();
  }
  
- 
 /**
  * GIS WMS Management Functionality
  */
@@ -68,7 +55,6 @@ function shn_admin_gis_google()
 	include_once $global['approot'].'/inc/lib_gis/wms_fns.inc';
 	_shn_gis_mng_wms_form();
  }
- 
  
 /**
  * GIS GeoRSS Management Functionality
@@ -91,6 +77,28 @@ function shn_admin_gis_google()
  	shn_admin_gis_main_settings();
  }
 
+ function shn_admin_gis_google_commit()
+ {
+ 	global $global;
+	include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
+ 	shn_admin_gis_commit_google();
+ 	add_confirmation(_t("Changes were saved"));
+ 	shn_admin_gis_google_settings();
+ }
+
+ 
+ //Deprecated---------------------------------
+ 
+/**
+ * GIS plugin admin functionality
+ * Deprecated
+ */
+function shn_admin_gis_plugin()
+{
+	global $global;
+	include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
+	shn_admin_gis_plugin_controller();
+}
 
 /*
  * Deprecated
@@ -104,6 +112,5 @@ function shn_admin_gis_google()
  	shn_admin_gis_plugin_controller();
  	
  }
-
 
 ?>
