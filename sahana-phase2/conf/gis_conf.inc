@@ -1,4 +1,5 @@
 <?php
+
 /** Configuration File for GIS
 *
 * PHP version 5
@@ -6,20 +7,17 @@
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
-*
 * 
-* @author   	Mifan Careem <mifan@opensource.lk>
-* @author		Fran Boon
-* @version		$id$;
-* @copyright  	Lanka Software Foundation - http://www.opensource.lk
-* @package		Sahana - http://sahana.sourceforge.net    	
-* @subpackage 	gis
-* @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @author       Mifan Careem <mifan@opensource.lk>
+* @author       Fran Boon <flavour@partyvibe.com>
+* @version      $id$;
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @package      Sahana - http://sahana.sourceforge.net    	
+* @subpackage   gis
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-
 global $conf;
-
 
 
 /**
@@ -29,11 +27,7 @@ global $conf;
  */
 $conf['gis_dflt'] = 'openlayers';
 
- # if google maps, map api key
- # key should be registered to hosted url
  
- //new value
- $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
 /**
  * Default center coordinates of displayed maps
@@ -72,6 +66,12 @@ $conf['gis_image_folder'] = 'www/tmp/';
  * given from sahana root
  */
 $conf['gis_tmp_image_folder'] = 'theme/default/img/';
+
+/**
+ * if using Google maps, either as Plugin or within OpenLayers 
+ * map API key (should be registered to hosted url)
+ */
+$conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
  /**
   * Configuration specific to OpenLayers
