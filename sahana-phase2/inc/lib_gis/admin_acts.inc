@@ -67,7 +67,11 @@ function shn_admin_gis_google()
  }
  
  //Form Actions -----------------------
- 
+
+
+/*
+ * @ToDo refresh the menu items when plugin is changed
+ */ 
  function shn_admin_gis_main_defaults()
  {
  	global $global;
