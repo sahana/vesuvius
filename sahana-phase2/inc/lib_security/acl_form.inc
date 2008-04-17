@@ -389,7 +389,7 @@ function shn_acl_form_classifications_to_data(){
 <div id="home"><?php echo _t("Edit the Data Classification for each table") ?></div>
 
 <div id="formcontainer"><?php
-shn_form_fopen("acl_data_classifications_tables_cr","admin");
+shn_form_fopen("acl_data_classifications_tables_cr","admin",array('req_message'=>false));
 //$extra_opts['req']=true;
 $levels=shn_acl_data_classifications_list();
 $tables=shn_acl_sys_data_tables();
