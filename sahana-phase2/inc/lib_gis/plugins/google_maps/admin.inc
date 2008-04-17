@@ -1,4 +1,5 @@
 <?php
+
 /* $id$ */
 /**Admin Module for Google Maps
 *
@@ -9,7 +10,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   	Mifan Careem <mifan@opensource.lk>
+* @author     Mifan Careem <mifan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * 
 */
@@ -27,11 +28,7 @@ function shn_plugin_default(){
 function _shn_gis_gm_form(){
 	global $global;
 	$db = $global['db'];
-?>
-<!-- 	<div id="formcontainer"> -->
-	<!--<form method="POST" action="index.php?mod=gis&act=adm_default&submod=google_maps&seq=commit" id="formset">-->
 	
-<?php
 	global $conf;
 	$value = $conf['gis_google_key'];
 	
@@ -65,10 +62,10 @@ function shn_plugin_commit()
 		else
 		{
 			$insert = "insert into config (module_id,confkey,value) values ('admin','gis_google_key','{$_POST['gmap_key']}')";
-			//echo $insert;
 			$db->Execute($insert);
 		}
 		
 	}
 }
+
 ?>
