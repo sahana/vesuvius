@@ -4,10 +4,11 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: layer.inc,v 1.4 2008-03-29 20:30:51 mifanc Exp $
+* @version		$Id: layer.inc,v 1.5 2008-04-17 22:24:20 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -17,16 +18,16 @@
  */
 function shn_gis_layer_main()
 {
-	_shn_gis_layer_main_form();
+    _shn_gis_layer_main_form();
 }
 
 function _shn_gis_layer_main_form()
 {
-	shn_form_fopen('gis',null,array('tab'=>'float'));
-	_shn_gis_layer_load_admin_forms();
-	shn_form_drawtab();
-	shn_form_submit(_t('Save Settings'));
-	shn_form_fclose();
+    shn_form_fopen('gis_layer_commit',null,array('tab'=>'float'));
+    _shn_gis_layer_load_admin_forms();
+    shn_form_drawtab();
+    shn_form_submit(_t('Save Settings'));
+    shn_form_fclose();
 }
 
 /**
@@ -39,7 +40,6 @@ function _shn_gis_layer_load_admin_forms()
 	$gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
 	$dir = opendir($gis_layer_dir);
 	
-	
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
 			include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
@@ -48,11 +48,39 @@ function _shn_gis_layer_load_admin_forms()
 			$classname = $class[0];
 			$layer_obj = new $classname();
 			$layer_obj->print_form();
-			
 						
 		}
 	}
 	
 }
+
+/**
+ * Commit Layers configuration
+ * @ToDo Provide hooks for all features (via loop & layer files?)
+ * @access private
+ */
+function shn_admin_gis_commit_layer()
+{
+    global $global;
+    $db = $global['db'];
+
+    //for ($i=0; $i<1; $i++) {
+        //$a[$i]="gis_google_key";
+        if(!null==$_POST['gis_google_key']){
+            $query = "SELECT * FROM config WHERE confkey='gis_google_key' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST['gis_google_key']}' WHERE module_id = 'admin' AND confkey = 'gis_google_key'";       
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_google_key','{$_POST['gis_google_key']}')";
+                $db->Execute($insert);
+            }
+        }
+        //$i++;
+    //}
+}
+
 
 ?>

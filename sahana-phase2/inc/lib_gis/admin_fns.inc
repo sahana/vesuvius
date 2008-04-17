@@ -161,20 +161,20 @@ function shn_admin_gis_commit_main()
  */
 function shn_admin_gis_commit_google()
 {
-	global $global;
-	$db = $global['db'];                  
-	if(!null==$_POST['gmap_key']){
-		$query = "SELECT * FROM config WHERE confkey='gis_google_key' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q = "UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'admin' AND confkey = 'gis_google_key'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_google_key','{$_POST['gmap_key']}')";
-			$db->Execute($insert);
-		}
-	}
+    global $global;
+    $db = $global['db'];                  
+    if(!null==$_POST['gmap_key']){
+        $query = "SELECT * FROM config WHERE confkey='gis_google_key' AND module_id='admin'";
+        $res = $db->Execute($query);
+        if(!$res->EOF){
+            $q = "UPDATE config SET value = '{$_POST['gmap_key']}' WHERE module_id = 'admin' AND confkey = 'gis_google_key'";       
+            $db->Execute($q);
+        }
+        else{
+            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_google_key','{$_POST['gmap_key']}')";
+            $db->Execute($insert);
+        }
+    }
 }
 
 

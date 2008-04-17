@@ -7,7 +7,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.10 2008-04-16 14:51:11 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.11 2008-04-17 22:24:21 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -32,7 +32,7 @@ class googlemaps implements layer{
 	echo _t("<p>The GoogleMaps mapping API requires Internet connectivity and a valid Google Maps key</p>");
 	shn_form_fsclose();
 	shn_form_fsopen('ENABLE');
-	shn_form_checkbox(_t('Enable Google Maps'),'ol_google_maps');	
+	shn_form_checkbox(_t('Enable Google Layer'),'ol_google_maps');	
 	shn_form_fsclose();
 	shn_form_fsclose();
 	shn_form_fsopen('Viewport Settings');
