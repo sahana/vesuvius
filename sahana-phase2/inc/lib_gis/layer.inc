@@ -8,13 +8,13 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: layer.inc,v 1.5 2008-04-17 22:24:20 franboon Exp $
+* @version		$Id: layer.inc,v 1.6 2008-04-21 22:00:48 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 /**
  * Layer Catalog management main
- * Tabbed functionality for seperate layers
+ * Tabbed functionality for separate layers
  */
 function shn_gis_layer_main()
 {
@@ -23,13 +23,21 @@ function shn_gis_layer_main()
 
 function _shn_gis_layer_main_form()
 {
-    shn_form_fopen('gis_layer_commit',null,array('tab'=>'float'));
-    _shn_gis_layer_load_admin_forms();
-    shn_form_drawtab();
-    shn_form_submit(_t('Save Settings'));
-    shn_form_fclose();
+    global $global;
+    global $conf;
+    if($conf['gis_dflt']=='google_maps') {
+        include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
+        shn_admin_gis_google_settings();
+    } else
+ {
+        shn_form_fopen('gis_layer_commit',null,array('tab'=>'float'));
+        _shn_gis_layer_load_admin_forms();
+        shn_form_drawtab();
+        shn_form_submit(_t('Save Settings'));
+        shn_form_fclose();
+    }
 }
-
+        
 /**
  * Load layer classes admin sections as tabs 
  */
@@ -57,7 +65,6 @@ function _shn_gis_layer_load_admin_forms()
 /**
  * Commit Layers configuration
  * @ToDo Provide hooks for all features (via loop & layer files?)
- * @access private
  */
 function shn_admin_gis_commit_layer()
 {

@@ -87,9 +87,9 @@ function shn_admin_gis_google_settings()
 	shn_form_fsopen(_t("Host Key"));
 ?>
 	<ul>
-	 <li><?php echo _t("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");?></li>
+	 <li><?php echo _t("<p>The <a href='http://maps.google.com/'>GoogleMaps</a> &trade; mapping API requires Internet connectivity and a valid Google Maps key</p>");?></li>
 	 <li><?php echo _t("<p>Register a google maps key for the url you host sahana in, and enter it below</p>");?></li>
-	 <li><?php echo _t("<p>Get your key from:</p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");?></li>
+	 <li><?php echo _t("<p>Register your Google Maps key at: </p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");?></li>
 	</ul>
 <?php
 	shn_form_text(_t("Enter Google Maps Key"),"gmap_key",'size="100"',array('value'=>$conf['gis_google_key']));

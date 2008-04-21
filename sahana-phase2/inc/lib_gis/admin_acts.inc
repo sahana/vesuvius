@@ -10,8 +10,8 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @library	GIS
-* @version	$id$
+* @library	    GIS
+* @version	    $id$
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -37,7 +37,7 @@ function shn_admin_gis_google()
 }
 
 /**
- * GIS Layer Management Functionality
+ * GIS Layers Management Functionality
  */
 function shn_admin_gis_layer()
 {
@@ -79,7 +79,6 @@ function shn_admin_gis_main_defaults()
     include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
     shn_admin_gis_commit_main();
     add_confirmation(_t("Changes were saved"));
-    add_warning(_t("Refresh menu to see new options if Plugin changed"));
     shn_admin_gis_main_settings();
 }
 
