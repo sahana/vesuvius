@@ -56,6 +56,7 @@ DROP TABLE IF EXISTS loc_seq;
 * Last changed: 2-NOV-2005 - chamindra@opensource.lk 
 */
 DROP TABLE IF EXISTS config;
+-- no reporting
 CREATE TABLE config(
     config_id BIGINT NOT NULL AUTO_INCREMENT,
     module_id VARCHAR(20), -- the directory name of the module e.g. dvr, or, mpr
@@ -124,6 +125,7 @@ CREATE TABLE person_uuid (
 
 
 DROP TABLE IF EXISTS users;
+-- no reporting
 CREATE TABLE users (
     p_uuid VARCHAR(60) NOT NULL,  -- reference to the persons uuid
     user_name VARCHAR(100) NOT NULL,
