@@ -63,10 +63,11 @@ function shn_admin_gis_main_settings()
 			$options_array[$file] = $name;
 		}
 	}
-	shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
-	shn_form_fsclose();
-	shn_form_submit(_t('Save As Defaults'));
-	shn_form_close();
+	$mod_name = $conf['gis_dflt'];
+        shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
+        shn_form_fsclose();
+        shn_form_submit(_t('Save As Defaults'));
+        shn_form_close();
 }
 
 /**
