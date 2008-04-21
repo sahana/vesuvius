@@ -28,13 +28,14 @@ create table report_keywords
 * Last changed: 17-AUG-2007 - agnieszka.kulikowska@gmail.com
 */
 DROP TABLE IF EXISTS dr_tables;
+-- no reporting
 CREATE TABLE dr_tables (
-  table_name varchar(20) NOT NULL, /* names of tables which are good for reports*/
+  table_name varchar(100) NOT NULL, /* names of tables which are good for reports*/
   usrfr_table_name varchar(150) NOT NULL, /* user-friendly names of those tables*/
   PRIMARY KEY  (table_name)
 );
 
-INSERT INTO `dr_tables` (`table_name`, `usrfr_table_name`) VALUES 
+/*INSERT INTO `dr_tables` (`table_name`, `usrfr_table_name`) VALUES 
 ('landmark_location', 'Landmark locations'),
 ('incident', 'Incident name'),
 ('gis_location', 'Basic coordinates providing basic spatial functionality'),
@@ -77,7 +78,7 @@ INSERT INTO `dr_tables` (`table_name`, `usrfr_table_name`) VALUES
 ('rms_plg_item', 'Requested item pledge'),
 ('rms_fulfil', 'Request fulfil');
 
-
+*/
 
 
 
@@ -89,13 +90,14 @@ INSERT INTO `dr_tables` (`table_name`, `usrfr_table_name`) VALUES
 * Last changed: 16-JUL-2007 - agnieszka.kulikowska@gmail.com
 */
 DROP TABLE IF EXISTS dr_fields;
+-- no reporting
 CREATE TABLE dr_fields (
-  field_name varchar(20) NOT NULL,  				-- names of fields which are good for reports
-  table_name varchar(20) NOT NULL, 					-- names of tables which are good for reports
-  usrfr_field_name varchar(150) NOT NULL, 	-- user-friendly names of those fields
-	opt_field_type varchar(100) NOT NULL,			-- information if the field can be treated as grouping/observed variable
-	tab_for_key varchar(150) DEFAULT NULL,		-- name of table for which this field is foreign key
-	field_for_key varchar(150) DEFAULT NULL,	-- name of field for which this field is foreign key
+  field_name varchar(20) NOT NULL,  				
+  table_name varchar(100) NOT NULL, 					
+  usrfr_field_name varchar(150) NOT NULL, 	
+  opt_field_type varchar(100) NOT NULL,			
+  tab_for_key varchar(150) DEFAULT NULL,		
+  field_for_key varchar(150) DEFAULT NULL,	
   PRIMARY KEY  (field_name, table_name),
   FOREIGN KEY (table_name) REFERENCES dr_tables(table_name)
 );
@@ -107,7 +109,7 @@ INSERT INTO field_options VALUES('opt_field_type','group','Grouping');
 INSERT INTO field_options VALUES('opt_field_type','obs','Observed');
 INSERT INTO field_options VALUES('opt_field_type','none','None');
 
-
+/*
 INSERT INTO `dr_fields` (`field_name`, `table_name`, `usrfr_field_name`, `opt_field_type`, `tab_for_key`, `field_for_key`) VALUES 
 
 -- 'landmark_location' table
@@ -403,3 +405,4 @@ INSERT INTO `dr_fields` (`field_name`, `table_name`, `usrfr_field_name`, `opt_fi
 ('quantity', 'rms_fulfil', 'Requested item pledge fulfill quantity', 'obs', 'none', 'none'),
 ('ff_date', 'rms_fulfil', 'Requested item pledge fulfilled date', 'obs', 'none', 'none'),
 ('user_id', 'rms_fulfil', 'Person unique id', 'obs', 'users', 'p_uuid');
+*/
