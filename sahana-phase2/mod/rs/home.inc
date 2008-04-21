@@ -27,8 +27,26 @@
     <li><a href="index.php?mod=rs&amp;act=sample"><b><?= _t('Generate Sample Reports'); ?></b></a><?= _t(' - Enables user to generate module based reports which are relavent to the sahana database or custom reports which are not relavent to sahana database.'); ?></li>
     <li><a href="index.php?mod=rs&amp;act=search"><b><?= _t('Report/Chart Search'); ?> </b> </a><?= _t(' - Enables user to search reports and charts.'); ?></li>
     <li><a href="index.php?mod=rs&amp;act=config"><b><?= _t('Configuration'); ?></b></a><?= _t(' - Enables to configure the frequency of updating modules reports and charts.'); ?></li>
+    <li><a href="index.php?mod=rs&amp;act=dnd_table"><b><?= _t('Reports from one table'); ?></b></a><?= _t(' - User can generate and export reports from one table at a time.'); ?></li>
+    <li><a href="index.php?mod=rs&amp;act=dnd_multiple_table"><b><?= _t('Reports from several tables'); ?></b></a><?= _t(' - User can generate and export reports from several tables at a time.'); ?></li>
     </ul>
-
+    <div><h3><b><em><?php echo _('Supported File formats &amp; Extentions :')?></em></h3></div>
+<?php
+//print a list of available file formats
+    global $dieconf;
+    echo "<ul>";
+    foreach($dieconf['formats'] as $key=>$format){
+        echo "<li>";
+        echo $format;
+        echo "&nbsp;&nbsp;&nbsp;( ";
+        foreach($dieconf['extentions'][$key] as $extention)
+                echo " .$extention ";
+        echo " )</li>";
+    }
+    echo "<li> PDF format  (.pdf)</li>";
+    echo "<li> ODS - OpenDocument spreadsheet  (.ods)</li>";
+    echo "</ul>";
+?>
 </div>
 
 
