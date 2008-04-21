@@ -17,6 +17,8 @@
  *
  */
 
+global $dieconf;
+
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_form.inc";
@@ -28,6 +30,12 @@ include_once $global['approot']."/inc/reporting/lib_chart.inc";
 
 require_once 'lib_rs_js.inc';
 include_once 'lib_rs_validate.inc';
+include_once 'rs_export.inc';
+include_once 'lib_formats.inc';
+include_once 'admin.inc';
+
+_shn_die_fetch_formats(); //Load available formats
+
 
 /**
  * This function includes the main menu of reporting module.
@@ -200,7 +208,7 @@ function shn_text_rs_download_report()
 
     $rep_mod = explode('_', $rep_id);
     include_once $global['approot']."mod/".$rep_mod[1]."/report.inc";// extract the module name from the report/chart.eg: shn_cs_chart; then this will return "cs"
-    $rep_id();
+    //$rep_id();
 
     $query = "select file_name,file_data,file_type from report_files where rep_id = '$rep_id' ";	
     $res = $db->Execute($query);
@@ -261,5 +269,34 @@ function shn_rs_table()
 {	
 	global $global;
 	include_once('table.inc');
+}
+function shn_rs_dnd_table()
+{
+	global $global;
+	include_once('dnd_table.inc');
+}
+function shn_rs_dnd_multiple_table()
+{
+	global $global;
+	include_once('dnd_multiple_table.inc');
+}
+
+
+//export functions
+
+function shn_rs_export(){
+    _shn_rs_export_form($_GET['title']);
+}
+function shn_text_rs_export(){
+    global $global;
+    //load the nessary format
+    $format=$_POST['format'];
+    $format=addslashes($format);
+    $filename = $global['approot']."mod/rs/formats/$format/handler_export.inc";
+    if (file_exists($filename)) {
+        require_once($filename);
+    } else {
+        echo _("Error : The format you selected is unavailable")." $filename";
+    }
 }
 ?>
