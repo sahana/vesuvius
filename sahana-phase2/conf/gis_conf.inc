@@ -26,7 +26,6 @@ global $conf;
  * Should be the directory name of the GIS plugin
  */
 $conf['gis_dflt'] = 'openlayers';
-
  
 
 /**
@@ -69,48 +68,48 @@ $conf['gis_tmp_image_folder'] = 'theme/default/img/';
 
 /**
  * if using Google maps, either as Plugin or within OpenLayers 
- * map API key (should be registered to hosted url)
+ * map API key (should be registered to hosted url. Default is localhost)
  */
 $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
- /**
-  * Configuration specific to OpenLayers
-  * @TODO: move functionality to upcoming GeoCatalogue module :)
-  */
+/**
+ * Configuration specific to OpenLayers
+ */
   
-  /**
-   * Switch for Googlemaps
-   * 0 for off; 1 for on
-   */
-  $conf['gis_ol_google_hybrid']='0';
-  $conf['gis_ol_google_maps']='0';
-  $conf['gis_ol_google_sat']='0';
+/**
+ * Switches for Googlemaps
+ * 0 for off; 1 for on
+ */
+$conf['gis_ol_google']='0';
+$conf['gis_ol_google_hybrid']='1';
+$conf['gis_ol_google_maps']='1';
+$conf['gis_ol_google_sat']='1';
  
-  /**
-   * Switch for MS Virtual Earth
-   * 0 for off; 1 for on
-   */
-  $conf['gis_ol_virtualearth']='1';
+/**
+ * Switch for MS Virtual Earth
+ * 0 for off; 1 for on
+ */
+$conf['gis_ol_virtualearth']='0';
 
-  /**
-   * Switch for MultiMap
-   * 0 for off; 1 for on
-   */
-  $conf['gis_ol_multimap']='1';
-  $conf['gis_ol_multimap_key']='metacarta_04';
+/**
+ * Switch for MultiMap
+ * 0 for off; 1 for on
+ */
+$conf['gis_ol_multimap']='0';
+$conf['gis_ol_multimap_key']='metacarta_04';
  
-  /**
-   * Switch for Yahoo! maps
-   * 0 for off; 1 for on
-   */
-  $conf['gis_ol_yahoo_maps']='1';
-  $conf['gis_ol_yahoo_key']='euzuro-openlayers';
+/**
+ * Switch for Yahoo! maps
+ * 0 for off; 1 for on
+ */
+$conf['gis_ol_yahoo_maps']='0';
+$conf['gis_ol_yahoo_key']='euzuro-openlayers';
   
-  /**
-   * Counter for OpenLayers WMS layers
-   * 0 for off; positive integer for how many layers are on
-   */
-  $conf['gis_ol_wms']='1';
+/**
+ * Counter for OpenLayers WMS layers
+ * 0 for off; positive integer for how many layers are on
+ */
+$conf['gis_ol_wms']='1';
  
 $conf['gis_ol_wms_1_description'] = '';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
@@ -121,22 +120,12 @@ $conf['gis_ol_wms_1_img'] = '';
 $conf['gis_ol_wms_1_transparency'] = '0';
 $conf['gis_ol_wms_1_min'] = '';
 $conf['gis_ol_wms_1_max'] = '';
-
-$conf['gis_ol_wms_2_description'] = '';
-$conf['gis_ol_wms_2_name'] = 'VMap1';
-$conf['gis_ol_wms_2_type'] = 'base';
-$conf['gis_ol_wms_2_url'] = 'http://labs.metacarta.com/wms/vmap0';
-$conf['gis_ol_wms_2_layers'] = 'basic';
-$conf['gis_ol_wms_2_img'] = '';
-$conf['gis_ol_wms_2_transparency'] = '0';
-$conf['gis_ol_wms_2_min'] = '';
-$conf['gis_ol_wms_2_max'] = '';
  
-  /**
-   * Counter for OpenLayers GeoRSS layers
-   * 0 for off; positive integer for how many layers are on
-   */
-  $conf['gis_ol_georss'] ='0';
+/**
+ * Counter for OpenLayers GeoRSS layers
+ * 0 for off; positive integer for how many layers are on
+ */
+$conf['gis_ol_georss'] ='0';
 
 $conf['gis_ol_georss_1_description'] = '';
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
