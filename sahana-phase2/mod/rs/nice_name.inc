@@ -72,14 +72,23 @@ $file=fopen($sql_file[$sql_f],"r");
 $table_name="";
 $field_name="";
 $nice_field_name="";
+$no_need=false;
+$no_need_request=false;
+$ready_for_neglect=false;
 while (!feof ($file)) {
 	$temp1=5;
 	$temp2=5;
 	$buffer = trim(fgets($file));
-	if($buffer=="")
+	$string=explode(" ",$buffer);
+	if($buffer=="" || ($no_need==true && $string[0]!="CREATE" ))
 		continue;
 	else {
-		$string=explode(" ",$buffer);
+		$no_need=false;
+		if($ready_for_neglect==true)
+			$no_need_request=true;
+		else
+			$no_need_request=false;
+		//$string=explode(" ",$buffer);
 		if($string[1]=="name"){
 			for($counter=3; $counter < count($string); $counter++) {
 				//echo $string[$counter];
@@ -136,12 +145,21 @@ while (!feof ($file)) {
 				case "*/" :
 					break;
 				case "--" :
+					if($string[1]=="no") {
+						$no_need_request=true;
+						$ready_for_neglect=true;
+					}
 					break;
 				case ");":
 					break;
 				case "(":
 					break;
 				case "CREATE":
+					if($no_need_request==true) {
+						$no_need=true;
+						$ready_for_neglect=false;
+						continue;
+					}
 					$table_name="";
 					$nice_name="";
 					if(substr($string[2],-1)=="(")
