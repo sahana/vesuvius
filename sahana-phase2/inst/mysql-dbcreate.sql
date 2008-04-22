@@ -474,7 +474,7 @@ CREATE TABLE `gis_wiki` (
 
 /**
 * Under Development
-* The central table on LIGHT GIS
+* The central table of Image Tagger
 * Modules: cr,or,ics 
 * Last changed: 21-FEB-2008 - ravindra@opensource.lk  
 */
