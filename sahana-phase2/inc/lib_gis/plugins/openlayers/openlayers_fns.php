@@ -4,11 +4,11 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
-* @author		Fran Boon <flavour@partyvibe.com>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @library	    GIS
-* @version		$Id: openlayers_fns.php,v 1.3 2008-03-29 20:39:37 mifanc Exp $
+* @library      GIS
+* @version      $Id: openlayers_fns.php,v 1.4 2008-04-22 00:03:41 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -16,7 +16,6 @@
  * Load Javascript files for the different layers
  * called by show_map in openlayers plugin handler
  * @access private
- * @todo get layers from catalogue module instead of conf.inc
  */
  function ol_js_loaders()
  {
@@ -60,15 +59,14 @@
  * Load Layers onto the Map
  * called by show_map in openlayers plugin handler
  * @access private
- * @todo get layers from catalogue module instead of conf.inc
  */
  function ol_layers()
  {
  	global $conf;
  	global $global;
 ?>
-	var lon = <?=$conf['mod_gis_center_x']?>;
-  	var lat = <?=$conf['mod_gis_center_y']?>;
+	var lon = <?=$conf['gis_center_x']?>;
+  	var lat = <?=$conf['gis_center_y']?>;
   	var zoom = 5;
 	var map = new OpenLayers.Map($('map'));
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
@@ -146,38 +144,38 @@
  */
  function ol_show_wiki_markers($array)
  {
- 	global $conf;
- 	global $global;
-  $db=$global['db'];
+    global $conf;
+    global $global;
+    $db = $global['db'];
 ?>
 
-	var markers = new OpenLayers.Layer.Markers( "Markers" );
-	map.addLayer(markers);
-	var size = new OpenLayers.Size(21,25); // icon size
-	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
-	var popup;
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+    var size = new OpenLayers.Size(21,25); // icon size
+    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+    var popup;
 
 <?php
-	for($i=0;$i< sizeof($array);$i++){
-	$lon=$array[$i]["lat"];
-	$lat=$array[$i]["lon"];
-	$name=$array[$i]["name"];
-  $desc=$array[$i]["desc"];
-  $url=$array[$i]["url"];
-	if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
-		$date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
-	} else {
-		$date="";
-	}
-	$author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
-  $edit=$array[$i]["edit"];
-	$id=$array[$i]["wiki_uuid"];
-	echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
-	echo "var marker$i = feature$i.createMarker();\n";
-	echo "markers.addMarker(marker$i);\n";
-	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
-	echo "function mousedown$i(evt) {\n";
+    for($i=0;$i< sizeof($array);$i++){
+        $lon=$array[$i]["lat"];
+        $lat=$array[$i]["lon"];
+        $name=$array[$i]["name"];
+        $desc=$array[$i]["desc"];
+        $url=$array[$i]["url"];
+        if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
+            $date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
+        } else {
+            $date="";
+        }
+        $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
+        $edit=$array[$i]["edit"];
+        $id=$array[$i]["wiki_uuid"];
+        echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+        echo "var marker$i = feature$i.createMarker();\n";
+        echo "markers.addMarker(marker$i);\n";
+        echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
+        echo "function mousedown$i(evt) {\n";
 		// check to see if the popup was hidden by the close box
 		// if so, then destroy it before continuing
 		echo "if (popup != null) {\n";
@@ -216,9 +214,9 @@
  */
  function ol_show_markers($array)
  {
- 	global $conf;
- 	global $global;
-  	$db=$global['db'];
+    global $conf;
+    global $global;
+    $db = $global['db'];
 ?>
 
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
@@ -275,9 +273,9 @@
  */
  function ol_add_marker($name)
  {
- 	global $conf;
- 	global $global;
-  $db=$global['db'];
+    global $conf;
+    global $global;
+    $db = $global['db'];
 ?>
 
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
