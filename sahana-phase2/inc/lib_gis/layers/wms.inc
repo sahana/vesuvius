@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: wms.inc,v 1.3 2008-04-22 12:36:42 franboon Exp $
+* @version      $Id: wms.inc,v 1.4 2008-04-22 14:14:44 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,6 +23,9 @@ class wms implements layer{
 
     }
 
+    /**
+     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form
+     */
     function print_form()
     {
         global $conf;
@@ -47,7 +50,12 @@ class wms implements layer{
                 shn_form_fsopen(_t('LAYER '.$j));
                 shn_form_text(_t('Description'),'gis_ol_wms_'.$j.'_description','size=40',array('value'=>$conf['gis_ol_wms_'.$j.'_description']));
                 shn_form_text(_t('Name'),'gis_ol_wms_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_name']));
-                shn_form_text(_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_type']));
+                $types = array(_t('base'),_t('overlay'));
+                $type_select = _t('base');
+                if ($conf['gis_ol_wms_'.$j.'_type']=='overlay') {
+                    $type_select = _t('overlay');
+                }
+                shn_form_select($types,_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$type_select));
                 shn_form_text(_t('URL'),'gis_ol_wms_'.$j.'_url','size=40',array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_url']));
                 shn_form_text(_t('Layers'),'gis_ol_wms_'.$j.'_layers',null,array('value'=>$conf['gis_ol_wms_'.$j.'_layers']));
                 shn_form_text(_t('IMG'),'gis_ol_wms_'.$j.'_img',null,array('value'=>$conf['gis_ol_wms_'.$j.'_img']));
