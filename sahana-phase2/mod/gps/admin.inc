@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.3 2008-04-22 20:34:37 franboon Exp $ */
+/* $Id: admin.inc,v 1.4 2008-04-22 20:50:56 franboon Exp $ */
 
 /**Admin Module for GPS module
 *
@@ -43,7 +43,7 @@ function shn_gps_adm_form()
 
 	shn_form_fopen(adm_form_commit,null,array("req"=>false));
   	shn_form_fsopen("Add Waypoint/Marker Type");
-	shn_form_opt_select("opt_wpt_type","Currently Available Waypoint/Marker Types");
+	shn_form_opt_select("opt_wpt_type","Currently available Waypoint/Marker Types");
 	echo "<br/>";
 	shn_form_text("Waypoint Type","waypoint_type",'size="30"');
 	shn_form_text("Type Abbrevation [3 letter unique abbr. to store in the database]","type_abbr",'size="3"');

@@ -24,7 +24,7 @@ global $conf;
 /**
  * nice display name for the GPS module
  */
-$conf['mod_gps_name'] = _("GPS Devices");
+$conf['mod_gps_name'] = _("GPS Interface");
 $conf['mod_gps_menuorder'] = 3;
 
 /**
