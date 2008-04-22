@@ -19,7 +19,6 @@ include_once($global['approot'].'/inc/lib_errors.inc');
 
 /**
  * Main default GIS configuration settings
- * Mostly common across plugins
  * @todo: provide a map based center input selection
  * @todo: cite source URI for lat-lon help content
  */
