@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.15 2008-02-26 14:43:04 ravids Exp $ */
+/* $Id: lib_image.inc,v 1.16 2008-04-22 09:47:17 ravids Exp $ */
 
 /**
  *
@@ -307,7 +307,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	return true;
 }
 
-function shn_image_save_to_file($media,$rel_path="res/maps",$category="jpeg_maps",$x_uuid,$media_type=null){
+function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_maps",$x_uuid,$media_type=null){
  	global $global;
  	
  	$info = getimagesize($_FILES[$media]['tmp_name']);
@@ -338,7 +338,6 @@ function shn_image_save_to_file($media,$rel_path="res/maps",$category="jpeg_maps
     }
 
     move_uploaded_file($_FILES[$media]['tmp_name'], $uploadfile);
- 	
     $db=$global['db'];
     $q="delete from media where x_uuid='$x_uuid' and category='$category'";
  	$res=$db->Execute($q);
