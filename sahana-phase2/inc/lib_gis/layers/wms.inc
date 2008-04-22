@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: wms.inc,v 1.1 2008-04-21 23:49:03 franboon Exp $
+* @version      $Id: wms.inc,v 1.2 2008-04-22 00:15:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -45,15 +45,15 @@ class wms implements layer{
             for ($i=0; $i<$conf['gis_ol_wms']; $i++) {
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
-                shn_form_text(_t('Description'),'gis_ol_wms_1_description','size=40',array('value'=>$conf['gis_ol_wms_1_description']));
-                shn_form_text(_t('Name'),'gis_ol_wms_1_name',null,array('value'=>$conf['gis_ol_wms_1_name']));
-                shn_form_text(_t('Type'),'gis_ol_wms_1_type',null,array('value'=>$conf['gis_ol_wms_1_type']));
-                shn_form_text(_t('URL'),'gis_ol_wms_1_url','size=40',array('value'=>$conf['gis_ol_wms_1_url']));
-                shn_form_text(_t('Layers'),'gis_ol_wms_1_layers',null,array('value'=>$conf['gis_ol_wms_1_layers']));
-                shn_form_text(_t('IMG'),'gis_ol_wms_1_img',null,array('value'=>$conf['gis_ol_wms_1_img']));
-                shn_form_text(_t('Transparency'),'gis_ol_wms_1_transparency',null,array('value'=>$conf['gis_ol_wms_1_transparency']));
-                shn_form_text(_t('Min'),'gis_ol_wms_1_min',null,array('value'=>$conf['gis_ol_wms_1_min']));
-                shn_form_text(_t('Max'),'gis_ol_wms_1_max',null,array('value'=>$conf['gis_ol_wms_1_max']));
+                shn_form_text(_t('Description'),'gis_ol_wms_'.$j.'_description','size=40',array('value'=>$conf['gis_ol_wms_'.$j.'_description']));
+                shn_form_text(_t('Name'),'gis_ol_wms_'.$j.'_name',null,array('value'=>$conf['gis_ol_wms_'.$j.'_name']));
+                shn_form_text(_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$conf['gis_ol_wms_'.$j.'_type']));
+                shn_form_text(_t('URL'),'gis_ol_wms_'.$j.'_url','size=40',array('value'=>$conf['gis_ol_wms_'.$j.'_url']));
+                shn_form_text(_t('Layers'),'gis_ol_wms_'.$j.'_layers',null,array('value'=>$conf['gis_ol_wms_'.$j.'_layers']));
+                shn_form_text(_t('IMG'),'gis_ol_wms_'.$j.'_img',null,array('value'=>$conf['gis_ol_wms_'.$j.'_img']));
+                shn_form_text(_t('Transparency'),'gis_ol_wms_'.$j.'_transparency',null,array('value'=>$conf['gis_ol_wms_'.$j.'_transparency']));
+                shn_form_text(_t('Min'),'gis_ol_wms_'.$j.'_min',null,array('value'=>$conf['gis_ol_wms_'.$j.'_min']));
+                shn_form_text(_t('Max'),'gis_ol_wms_'.$j.'_max',null,array('value'=>$conf['gis_ol_wms_'.$j.'_max']));
                 shn_form_fsclose();
             }
         }
