@@ -24,7 +24,7 @@ function shn_gps_default()
 <h2><?=$conf['mod_gps_name']?></h2>
 <ul>
 	<li><?=_("The {$conf['mod_gps_name']} module provides functions to upload and download GPS data, such as waypoints and routes.");?></li>
-	<li><?php echo _('The data is imported/exported via GPX files which can be transferred to/from a GPS device using, e.g. i<a href="http://www.gpsbabel.org/">GPSBabel</a>.');?></li>
+	<li><?php echo _('The data is imported/exported via GPX files which can be transferred to/from a GPS device using, e.g. <a href="http://www.gpsbabel.org/">GPSBabel</a>.');?></li>
 </div>
 <?php
 }
