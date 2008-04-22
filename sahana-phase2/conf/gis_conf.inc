@@ -33,8 +33,8 @@ $conf['gis_dflt'] = 'openlayers';
  * Currently set to display Sri Lanka as default
  * Can be changed via the admin interface for GIS
  */
-$conf['gis_center_x'] = '79.4';//longitude
-$conf['gis_center_y'] = '6';//latitude
+$conf['gis_center_x'] = '79.4'; // Longitude
+$conf['gis_center_y'] = '6';    // Latitude
 $conf['gis_zoom'] = '7';
 
 /**
@@ -81,9 +81,9 @@ $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1Nv
  * 0 for off; 1 for on
  */
 $conf['gis_ol_google']='0';
-$conf['gis_ol_google_hybrid']='1';
-$conf['gis_ol_google_maps']='1';
-$conf['gis_ol_google_sat']='1';
+$conf['gis_ol_google_hybrid']='0';
+$conf['gis_ol_google_maps']='0';
+$conf['gis_ol_google_sat']='0';
  
 /**
  * Switch for MS Virtual Earth
