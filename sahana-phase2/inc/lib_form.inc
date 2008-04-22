@@ -1,5 +1,6 @@
 <?php
-/* $Id: lib_form.inc,v 1.75 2008-04-21 23:22:24 franboon Exp $ */
+
+/* $Id: lib_form.inc,v 1.76 2008-04-22 14:13:49 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -284,7 +285,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 	global $shn_tabindex;
 
 	$value = (isset($_POST[$name])? $_POST[$name] : $extra_opts['value']);
-	//to prevent warnings set $options to array() if it is null
+	//to privent warnings set $options to array() if it is null
 	$options=($options==null)?array():$options;
 	?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
@@ -293,7 +294,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 	<?php
 	foreach ($options as $opt_value => $desc )
 	{
-		$sel = ( $opt_value == $value ) ? 'selected="selected"' : null ;
+		$sel = ( $desc == $value ) ? 'selected="selected"' : null ;
 		?>
 	<option value="<?php echo $opt_value?>" <?php echo $sel?>><?php echo $desc?></option>
 	<?php
@@ -751,4 +752,6 @@ function shn_form_still_camera($act = null,$mod = null){
 	
 	shn_online_cam($image_id);
 }
+
 ?>
+
