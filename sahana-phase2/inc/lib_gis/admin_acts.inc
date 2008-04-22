@@ -39,7 +39,7 @@ function shn_admin_gis_google()
 /**
  * GIS Layers Management Functionality
  */
-function shn_admin_gis_layer()
+function shn_admin_gis_layers()
 {
     global $global;
     include_once $global['approot'].'/inc/lib_gis/layer.inc';
@@ -67,11 +67,11 @@ function shn_admin_gis_google_commit()
     shn_admin_gis_google_settings();
 }
 
-function shn_admin_gis_layer_commit()
+function shn_admin_gis_layers_commit()
 {
     global $global;
     include_once $global['approot'].'/inc/lib_gis/layer.inc';
-    shn_admin_gis_commit_layer();
+    _shn_admin_gis_commit_layers();
     add_confirmation(_t("Changes were saved"));
     _shn_gis_layer_main_form();
 }

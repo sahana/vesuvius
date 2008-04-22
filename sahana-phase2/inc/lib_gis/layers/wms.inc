@@ -6,10 +6,10 @@
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package      Sahana - http://sahana.lk/
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: wms.inc,v 1.5 2008-04-22 14:16:36 franboon Exp $
+* @version     $Id: wms.inc,v 1.6 2008-04-22 23:35:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -18,14 +18,6 @@ include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
 class wms implements layer{
 
-    function wms()
-    {
-
-    }
-
-    /**
-     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form
-     */
     function print_form()
     {
         global $conf;
@@ -39,9 +31,9 @@ class wms implements layer{
         if (!$conf['gis_ol_wms']==0){
             $checked='checked';
         }
-        shn_form_checkbox(_t('Enable WMS layers'),'wms_enable',$checked);
+        shn_form_checkbox(_t('Enable WMS layers'),'wms_enable',$checked,array('value'=>1));
         shn_form_fsclose();
-	if (!$conf['gis_ol_wms']==0){
+        if (!$conf['gis_ol_wms']==0){
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of WMS layers'),'gis_ol_wms','size=2 maxlength=2',array('value'=>$conf['gis_ol_wms']));
             shn_form_fsclose();
@@ -67,6 +59,31 @@ class wms implements layer{
         }
         shn_form_fsclose();
     }
+
+    function commit_values()
+    {
+        //global $conf;
+        //$db = $global['db'];                  
+        //if(!null==$_POST['gis_ol_wms']){
+        //    $query = "SELECT * FROM config WHERE confkey='gis_ol_wms' AND module_id='admin'";
+        //    $res = $db->Execute($query);
+        //    if(!$res->EOF){
+        //        $q = "UPDATE config SET value = '{$_POST['gis_ol_wms']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms'";       
+        //        $db->Execute($q);
+        //    }
+        //    else{
+        //        $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms','{$_POST['gis_ol_wms']}')";
+        //        $db->Execute($insert);
+        //    }
+        //}
+    }
+    /**
+     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form
+     */
+    //function edit_item() {
+    //}
+    //function edit_item() {
+    //}
 }
  
 ?>

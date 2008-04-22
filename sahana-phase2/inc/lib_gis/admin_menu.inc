@@ -19,7 +19,7 @@
 
     shn_sub_mod_menuopen(_t("GIS Configuration"));
     shn_sub_mod_menuitem("gis_main", _t("GIS Defaults Configuration"), 'admin');
-    shn_sub_mod_menuitem("gis_layer", _t("GIS Layers Management"), 'admin');
+    shn_sub_mod_menuitem("gis_layers", _t("GIS Layers Management"), 'admin');
     shn_sub_mod_menuclose();
 
 ?>

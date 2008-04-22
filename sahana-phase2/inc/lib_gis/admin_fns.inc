@@ -16,7 +16,6 @@
 include_once($global['approot'].'/inc/lib_form.inc');
 include_once($global['approot'].'/inc/lib_errors.inc');
 
-
 /**
  * Main default GIS configuration settings
  * @todo: provide a map based center input selection

@@ -1,4 +1,5 @@
 <?php
+
 /**
 *
 * PHP version 5
@@ -8,12 +9,12 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: layer.inc,v 1.6 2008-04-21 22:00:48 franboon Exp $
+* @version		$Id: layer.inc,v 1.7 2008-04-22 23:35:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 /**
- * Layer Catalog management main
+ * Layer Catalog management
  * Tabbed functionality for separate layers
  */
 function shn_gis_layer_main()
@@ -30,7 +31,7 @@ function _shn_gis_layer_main_form()
         shn_admin_gis_google_settings();
     } else
  {
-        shn_form_fopen('gis_layer_commit',null,array('tab'=>'float'));
+        shn_form_fopen('gis_layers_commit',null,array('tab'=>'float'));
         _shn_gis_layer_load_admin_forms();
         shn_form_drawtab();
         shn_form_submit(_t('Save Settings'));
@@ -43,50 +44,42 @@ function _shn_gis_layer_main_form()
  */
 function _shn_gis_layer_load_admin_forms()
 {
-	global $global;
-	global $conf;
-	$gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
-	$dir = opendir($gis_layer_dir);
-	
-	while($file = readdir($dir)){
-		if(!is_dir($file)){
-			include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
-			$class = spliti('\.',$file);
-			
-			$classname = $class[0];
-			$layer_obj = new $classname();
-			$layer_obj->print_form();
-						
-		}
-	}
-	
+    global $global;
+    global $conf;
+    $gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
+    $dir = opendir($gis_layer_dir);
+
+    while($file = readdir($dir)){
+        if(!is_dir($file)){
+            include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
+            $class = spliti('\.',$file);
+            $classname = $class[0];
+            $layer_obj = new $classname();
+            $layer_obj->print_form();
+        }
+    }
 }
 
 /**
  * Commit Layers configuration
- * @ToDo Provide hooks for all features (via loop & layer files?)
  */
-function shn_admin_gis_commit_layer()
+function _shn_admin_gis_commit_layers()
 {
     global $global;
+    global $conf;
     $db = $global['db'];
-
-    //for ($i=0; $i<1; $i++) {
-        //$a[$i]="gis_google_key";
-        if(!null==$_POST['gis_google_key']){
-            $query = "SELECT * FROM config WHERE confkey='gis_google_key' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['gis_google_key']}' WHERE module_id = 'admin' AND confkey = 'gis_google_key'";       
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_google_key','{$_POST['gis_google_key']}')";
-                $db->Execute($insert);
-            }
+    $gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
+    $dir = opendir($gis_layer_dir);
+	
+    while($file = readdir($dir)){
+        if(!is_dir($file)){
+            include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
+            $class = spliti('\.',$file);
+            $classname = $class[0];
+            $layer_obj = new $classname();
+            $layer_obj->commit_values();
         }
-        //$i++;
-    //}
+    }
 }
 
 

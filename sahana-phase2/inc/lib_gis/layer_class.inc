@@ -12,6 +12,7 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @module	    GIS
@@ -23,12 +24,18 @@
  * Implement this interface to implement newer OpenLayers Layers...
  */
 interface layer {
-	
-	/**
-	 * Print form elements for the admin interface within formsets
-	 * Each formset is displayed within tabs
-	 */
-	public function print_form();
+
+ /**
+    * Print form elements for the admin interface within formsets
+    * Each formset is displayed within tabs
+    */
+    public function print_form();
+
+    /**
+        * Commit values to the database
+        */
+    public function commit_values();
+
 }
 
 ?>
