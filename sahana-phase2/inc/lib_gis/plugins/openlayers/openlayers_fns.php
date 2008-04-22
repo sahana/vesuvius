@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.4 2008-04-22 00:03:41 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.5 2008-04-22 21:51:39 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -28,7 +28,7 @@
 	}
 
 	if (1 == $conf['gis_ol_multimap']) {
-	$key = $conf['gis_ol_multimap_key'];
+	$key = $conf['gis_multimap_key'];
 	echo "<script src='http://clients.multimap.com/API/maps/1.1/$key' type=\"text/javascript\"></script>\n";
 	}
 
@@ -37,8 +37,8 @@
 	echo "\n";
 	}
 
-	if (1 == $conf['gis_ol_yahoo_maps']) {
-	$key = $conf['gis_ol_yahoo_key'];
+	if (1 == $conf['gis_ol_yahoo']) {
+	$key = $conf['gis_yahoo_key'];
 	echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=$key'></script>\n";
 	}
 
@@ -52,7 +52,6 @@
 	   onloadfunc();
 <?php
 }
-
 
 
 /**
@@ -103,7 +102,7 @@
 	echo "\n";
 	}
         
-	if (1 == $conf['gis_ol_yahoo_maps']) {
+	if (1 == $conf['gis_ol_yahoo']) {
 	echo "var yahoo = new OpenLayers.Layer.Yahoo( \"Yahoo\");\n";
 	echo 'map.addLayer(yahoo);';
 	echo "\n";

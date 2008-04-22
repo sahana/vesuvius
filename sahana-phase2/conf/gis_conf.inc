@@ -96,14 +96,14 @@ $conf['gis_ol_virtualearth']='0';
  * 0 for off; 1 for on
  */
 $conf['gis_ol_multimap']='0';
-$conf['gis_ol_multimap_key']='metacarta_04';
+$conf['gis_multimap_key']='metacarta_04';
  
 /**
  * Switch for Yahoo! maps
  * 0 for off; 1 for on
  */
-$conf['gis_ol_yahoo_maps']='0';
-$conf['gis_ol_yahoo_key']='euzuro-openlayers';
+$conf['gis_ol_yahoo']='0';
+$conf['gis_yahoo_key']='euzuro-openlayers';
   
 /**
  * Counter for OpenLayers WMS layers
