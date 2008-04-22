@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.30 2008-03-11 04:58:41 ravithb Exp $ */
+/* $Id: lib_uuid.inc,v 1.31 2008-04-22 20:34:37 franboon Exp $ */
 
 /**
  *
@@ -128,6 +128,16 @@ function shn_create_uuid($type='person')
 		case 'wm':
 			$gen_id = 'wm-'._shn_gen_id('wikimap');
 			break;
+
+                case 'gps_file':
+                case 'gps':
+                    $gen_id = 'gps-'._shn_gen_id('gps_file');
+                    break;
+
+                case 'waypoint':
+                case 'wpt':
+                    $gen_id = 'wpt-'._shn_gen_id('waypoint');
+                    break;
 
 		case 'request' :
 		case 'req' :

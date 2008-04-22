@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.2 2008-04-22 19:54:24 franboon Exp $ */
+/* $Id: admin.inc,v 1.3 2008-04-22 20:34:37 franboon Exp $ */
 
 /**Admin Module for GPS module
 *
@@ -9,14 +9,13 @@
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @package    Sahana - http://sahana.sourceforge.net
-* @author   sri ganeshan <sri@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package      Sahana - http://sahana.sourceforge.net
+* @author       Sri Ganeshan <sri@opensource.lk>
+* @author       Fran Boon <flavour@partyvibe.com>
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
 */
 
-
 include_once($global['approot'].'/inc/lib_form.inc');
-//require_once('acl.inc');
 
 function _shn_gps_adm_sub_menu(){
 ?>
@@ -34,17 +33,12 @@ function shn_gps_adm_default()
   ?>
    <h2><?=$conf['mod_gps_adm_name']._(" Administration")?></h2>
    <?php
-   shn_gps_adm_forms();
+   shn_gps_adm_form();
    
 }
 
-function shn_gps_adm_forms()
+function shn_gps_adm_form()
 {
-    _shn_gps_adm_sub_menu();
-    _shn_gps_adm_form_change();
-}
-
-function _shn_gps_adm_form_change(){
 	global $global;
 
 	shn_form_fopen(adm_form_commit,null,array("req"=>false));
@@ -83,8 +77,6 @@ function shn_gps_adm_form_commit(){
 		add_warning(_("Nothing to add"));
 	}
 	shn_gps_adm_default();
-	
 }
-
 
 ?>

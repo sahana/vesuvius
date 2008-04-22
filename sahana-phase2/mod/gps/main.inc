@@ -23,25 +23,22 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 
-
 function shn_gps_mainmenu(){
     global $global;
     global $conf;
     $module = $global['module'];
     shn_mod_menuopen($conf['mod_gps_name']);
     shn_mod_menuitem("default",_("Home"),$module);
-	    shn_sub_mod_menuopen(_("Download Data"));
+    shn_sub_mod_menuopen(_("Download Data"));
     shn_sub_mod_menuitem("dynamic_download",_("Dynamic Routes"),$module);
     shn_sub_mod_menuitem("waypoint",_("Waypoints/Markers"),$module);
     shn_sub_mod_menuclose();
-     shn_mod_menuitem("upload",_("Upload Waypoints"),$module);
+    shn_mod_menuitem("upload",_("Upload Waypoints"),$module);
     shn_mod_menuitem("marker",_("Download Markers"),$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
-
-
 
 
 function shn_gps_waypoint()
@@ -185,4 +182,5 @@ switch(trim($_POST['button1'])){
 
 
 }*/
+
 ?>

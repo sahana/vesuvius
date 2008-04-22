@@ -1,4 +1,5 @@
 <?php
+
 /** 
 * Configuration information for help items in GPS / Markers
 * Admins can set cutom text information for help items here
@@ -30,19 +31,19 @@ global $conf;
  		"in filtering";
   
   /**
-  * Help Item for  Marker author
+  * Help Item for Marker author
   */
   $conf['mod_gps_marker_author_help']="Enter a name to be added as creator of this file ";
   /**
-  * Help Item for  File author
+  * Help Item for File author
   */
 $conf['mod_gps_file_author_help']="Enter the author of the above file or a corresponding individual's/team's name";
  /**
-  * Help Item for marker author
+  * Help Item for Author name
   */
 $conf['mod_gps_author_name_help']= "Enter the creator of the marker";
  /**
-  * Help Item for marker date
+  * Help Item for Marker date
   */
 
 $conf['mod_gps_marker_date_help']="Enter the date the marker was created";
