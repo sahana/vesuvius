@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.5 2008-04-22 21:51:39 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.6 2008-04-23 22:19:39 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -39,7 +39,7 @@
 
 	if (1 == $conf['gis_ol_yahoo']) {
 	$key = $conf['gis_yahoo_key'];
-	echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=$key'></script>\n";
+	echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=$key'></script>\n";
 	}
 
 ?>
