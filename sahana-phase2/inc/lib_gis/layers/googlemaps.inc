@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.13 2008-04-23 15:14:44 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.14 2008-04-23 21:39:38 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,7 +23,7 @@ class googlemaps implements layer{
         shn_form_fsopen(_t('Google Maps'));
         shn_form_fsopen(_t('Google Maps'));
         shn_form_fsopen(_t('INFO'));
-        echo _t("<p>Enable <a href='http://maps.google.com/'>GoogleMaps</a> &trade; Mapping Service" .
+        echo _t("<p>Enable <a href='http://maps.google.com/' target=_blank>GoogleMaps</a> &trade; Mapping Service" .
         " by selecting the checkbox option below.</p>");
         echo _t("<p>The GoogleMaps mapping API requires Internet connectivity and a valid Google Maps key</p>");
         shn_form_fsclose();
@@ -37,15 +37,32 @@ class googlemaps implements layer{
         shn_form_fsclose();
         if ($conf['gis_ol_google']==1){
             shn_form_fsopen('Viewport Settings');
-            shn_form_checkbox(_t('Google Map view Layer enabled?'),'ol_google_maps');
-            shn_form_checkbox(_t('Google Satellite view Layer enabled?'),'ol_google_sat');
-            shn_form_checkbox(_t('Google Hybrid view Layer enabled?'),'ol_google_hybrid');
+            echo _t("<p>Google supports 3 types of layer which can each be enabled separately</p>");
+            echo _t("<p>(If none are selected then no Google layer will appear)</p>");
+            $checked='';
+            if ($conf['gis_ol_google_maps']==1){
+                $checked='checked';
+            }
+            $maps_help=_t("A layer with just Maps shown");
+            shn_form_checkbox(_t('Map view enabled?'),'ol_google_maps',$checked,array('value'=>1,"help"=>$maps_help));
+            $checked='';
+            if ($conf['gis_ol_google_sat']==1){
+                $checked='checked';
+            }
+            $sat_help=_t("A layer with just Satellite Photos shown");
+            shn_form_checkbox(_t('Satellite view enabled?'),'ol_google_sat',$checked,array('value'=>1,"help"=>$sat_help));
+            $checked='';
+            if ($conf['gis_ol_google_hybrid']==1){
+                $checked='checked';
+            }
+            $hybrid_help=_t("A layer with Maps & Satellite Photos shown together");
+            shn_form_checkbox(_t('Hybrid view enabled?'),'ol_google_hybrid',$checked,array('value'=>1,"help"=>$hybrid_help));
             shn_form_fsclose();
             shn_form_fsopen(_t('API Key'));
             shn_form_fsopen(_t('INFO'));
             echo _t("<p>Google Maps requires a unique key pointing to where Sahana is hosted</p>");
             echo _t("<p>Register a key for the URL you host Sahana in, and enter it below</p>");
-            echo _t("<p>Register your Google Maps key at: </p> <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>");
+            echo _t("<p>(You can register your own Google Maps key at: <a href='http://www.google.com/apis/maps/' target=_blank>Google Maps</a>)</p>");
             shn_form_fsclose();
             shn_form_fsopen(_t('Enter API Key'));
             shn_form_text(_t("Enter Google Maps Key"),"gis_google_key",'size="100"',array('value'=>$conf['gis_google_key']));
