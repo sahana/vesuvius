@@ -471,6 +471,23 @@ CREATE TABLE `gis_wiki` (
     FOREIGN KEY (gis_uuid) REFERENCES gis_location(gis_uid)
 );
 
+/*** Table for maintaining GPX file information
+* Modules: gps 
+*/
+
+DROP TABLE IF EXISTS `gpx_file`;
+CREATE TABLE `gpx_file` (
+    `point_uuid` VARCHAR(60) NOT NULL,
+    `author_name` varchar(50) NOT NULL,
+    `event_date` timestamp NOT NULL,
+    `route_name` VARCHAR(50) NOT NULL,
+    `route_no` int(250) NOT NULL,
+    `opt_category` VARCHAR(10) NOT NULL,
+    `sequence_no` int(250) NOT NULL,
+    `point_name` varchar(50) NOT NULL,
+    `description` varchar(100) default NULL,
+    PRIMARY KEY  (`point_uuid`)
+);
 
 /**
 * Under Development
