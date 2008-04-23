@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.6 2008-04-23 22:19:39 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.7 2008-04-23 23:52:57 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,7 +22,7 @@
  	global $conf;
  	global $global;
 
-	if (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid']) {
+	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid'])) {
 	$key = $conf['gis_google_key'];
 	echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
 	}
@@ -71,19 +71,19 @@
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
-	if (1 == $conf['gis_ol_google_hybrid']) {
+	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_hybrid'])) {
 	echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP } );\n";
 	echo 'map.addLayer(googlehybrid);';
 	echo "\n";
 	}
 
-	if (1 == $conf['gis_ol_google_sat']) {
+	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'])) {
 	echo "var googlesat = new OpenLayers.Layer.Google( \"Google Satellite\" , {type: G_SATELLITE_MAP } );\n";
 	echo 'map.addLayer(googlesat);';
 	echo "\n";
 	}
 
-	if (1 == $conf['gis_ol_google_maps']) {
+	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_maps'])) {
 	echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Maps\" , {type: G_NORMAL_MAP } );\n";
 	echo 'map.addLayer(googlemaps);';
 	echo "\n";

@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.15 2008-04-23 22:17:48 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.16 2008-04-23 23:52:57 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -77,51 +77,79 @@ class googlemaps implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        if(!null==$_POST['ol_google']){
+        // Only consider the inner-checkboxes if they are visible
+        if (1 == $conf['gis_ol_google']){
+            // Checkboxes return nothing if unticked!
+            if (null == $_POST['ol_google_maps']){
+                $ol_google_maps=0;
+            }
+            if (1 == $_POST['ol_google_maps']){
+                $ol_google_maps=1;
+            }
+            if (!$ol_google_maps == $conf['gis_ol_google_maps']) {
+                $query = "SELECT * FROM config WHERE confkey='gis_ol_google_maps' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$ol_google_maps' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_maps'";       
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_maps','$ol_google_maps')";
+                    $db->Execute($insert);
+                }
+            }
+            if (null == $_POST['ol_google_sat']){
+                $ol_google_sat=0;
+            }
+            if (1 == $_POST['ol_google_sat']){
+                $ol_google_sat=1;
+            }
+            if (!$ol_google_sat == $conf['gis_ol_google_sat']) {
+                $query = "SELECT * FROM config WHERE confkey='gis_ol_google_sat' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$ol_google_sat' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_sat'";       
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_sat','$ol_google_sat')";
+                    $db->Execute($insert);
+                }
+            }
+            if (null == $_POST['ol_google_hybrid']){
+                $ol_google_hybrid=0;
+            }
+            if (1 == $_POST['ol_google_hybrid']){
+                $ol_google_hybrid=1;
+            }
+            if (!$ol_google_hybrid == $conf['gis_ol_google_hybrid']) {
+                $query = "SELECT * FROM config WHERE confkey='gis_ol_google_hybrid' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$ol_google_hybrid' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_hybrid'";       
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_hybrid','$ol_google_hybrid')";
+                    $db->Execute($insert);
+                }
+            }
+        }
+        if (null == $_POST['ol_google']){
+            $ol_google=0;
+        }
+        if (1 == $_POST['ol_google']){
+            $ol_google=1;
+        }
+        if (!$ol_google == $conf['gis_ol_google']) {
             $query = "SELECT * FROM config WHERE confkey='gis_ol_google' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_google']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_google'";       
+                $q = "UPDATE config SET value = '$ol_google' WHERE module_id = 'admin' AND confkey = 'gis_ol_google'";       
                 $db->Execute($q);
             }
             else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google','{$_POST['ol_google']}')";
-                $db->Execute($insert);
-            }
-        }
-        if(!null==$_POST['ol_google_maps']){
-            $query = "SELECT * FROM config WHERE confkey='gis_ol_google_maps' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_google_maps']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_maps'";       
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_maps','{$_POST['ol_google_maps']}')";
-                $db->Execute($insert);
-            }
-        }
-        if(!null==$_POST['ol_google_sat']){
-            $query = "SELECT * FROM config WHERE confkey='gis_ol_google_sat' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_google_sat']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_sat'";       
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_sat','{$_POST['ol_google_sat']}')";
-                $db->Execute($insert);
-            }
-        }
-        if(!null==$_POST['ol_google_hybrid']){
-            $query = "SELECT * FROM config WHERE confkey='gis_ol_google_hybrid' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_google_hybrid']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_hybrid'";       
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_hybrid','{$_POST['ol_google_hybrid']}')";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google','$ol_google')";
                 $db->Execute($insert);
             }
         }

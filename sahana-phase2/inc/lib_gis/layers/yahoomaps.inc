@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: yahoomaps.inc,v 1.8 2008-04-23 22:17:48 franboon Exp $
+* @version		$Id: yahoomaps.inc,v 1.9 2008-04-23 23:52:57 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -62,18 +62,26 @@ class yahoomaps implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        if(!null==$_POST['ol_yahoo']){
+        // Checkboxes return nothing if unticked!
+        if (null == $_POST['ol_yahoo']){
+            $ol_yahoo=0;
+        }
+        if (1 == $_POST['ol_yahoo']){
+            $ol_yahoo=1;
+        }
+        if (!$ol_yahoo == $conf['gis_ol_yahoo']) {
             $query = "SELECT * FROM config WHERE confkey='gis_ol_yahoo' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_yahoo']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_yahoo'";       
+                $q = "UPDATE config SET value = '$ol_yahoo' WHERE module_id = 'admin' AND confkey = 'gis_ol_yahoo'";       
                 $db->Execute($q);
             }
             else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_yahoo','{$_POST['ol_yahoo']}')";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_yahoo','$ol_yahoo')";
                 $db->Execute($insert);
             }
         }
+        // Checkboxes return nothing if unticked! FIXME!
         if(!null==$_POST['ol_yahoo_maps']){
             $query = "SELECT * FROM config WHERE confkey='gis_ol_yahoo_maps' AND module_id='admin'";
             $res = $db->Execute($query);

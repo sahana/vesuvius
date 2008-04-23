@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.9 2008-04-23 22:17:48 franboon Exp $
+* @version		$Id: multimap.inc,v 1.10 2008-04-23 23:52:57 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -56,19 +56,26 @@ class multimap implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        if(!null==$_POST['ol_multimap']){
+        // Checkboxes return nothing if unticked!
+        if (null == $_POST['ol_multimap']){
+            $ol_multimap=0;
+        }
+        if (1 == $_POST['ol_multimap']){
+            $ol_multimap=1;
+        }
+        if (!$ol_multimap == $conf['gis_ol_multimap']) {
             $query = "SELECT * FROM config WHERE confkey='gis_ol_multimap' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST['ol_multimap']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_multimap'";       
+                $q = "UPDATE config SET value = '$ol_multimap' WHERE module_id = 'admin' AND confkey = 'gis_ol_multimap'";       
                 $db->Execute($q);
             }
             else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_multimap','{$_POST['ol_multimap']}')";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_multimap','$ol_multimap')";
                 $db->Execute($insert);
             }
         }
-        if(!null==$_POST['gis_multimap_key']){
+        if (!null==$_POST['gis_multimap_key']) {
             $query = "SELECT * FROM config WHERE confkey='gis_multimap_key' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
