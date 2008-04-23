@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Main Layer Interface
 * 
@@ -15,7 +16,7 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module	    GIS
+* @module       GIS
 * @version		
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
@@ -25,15 +26,15 @@
  */
 interface layer {
 
- /**
-    * Print form elements for the admin interface within formsets
-    * Each formset is displayed within tabs
-    */
+    /**
+     * Print form elements for the admin interface within formsets
+     * Each formset is displayed within tabs
+     */
     public function print_form();
 
     /**
-        * Commit values to the database
-        */
+     * Commit values to the database
+     */
     public function commit_values();
 
 }

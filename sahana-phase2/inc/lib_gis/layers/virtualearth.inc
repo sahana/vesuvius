@@ -8,8 +8,8 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @library	    GIS
-* @version		$Id: virtualearth.inc,v 1.6 2008-04-23 14:13:33 franboon Exp $
+* @library      GIS
+* @version      $Id: virtualearth.inc,v 1.7 2008-04-23 14:23:11 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -18,14 +18,17 @@ include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
 class virtualearth implements layer{
 
+    // To avoid parent constructor being called
+    //function virtualearth(){
+    //}
+
     function print_form()
     {	
         global $conf;
         shn_form_fsopen(_t('MS Virtual Earth'));
-        shn_form_fsopen('MS Virtual Earth');
-        shn_form_fsopen('INFO');
-        echo _t("<p>Enable <a href='http://maps.live.com/'>Microsoft Virtual Earth</a> &trade; Mapping Service" .
-        " by selecting the checkbox option below.</p>");
+        shn_form_fsopen(_t('MS Virtual Earth'));
+        shn_form_fsopen(_t('INFO'));
+        echo _t("<p>Enable <a href='http://maps.live.com/'>Microsoft Virtual Earth</a> &trade; Mapping Service by selecting the checkbox option below.</p>");
         echo _t("<p>The Virtual Earth mapping API requires Internet connectivity</p>");
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
@@ -60,4 +63,3 @@ class virtualearth implements layer{
 }
  
 ?>
-
