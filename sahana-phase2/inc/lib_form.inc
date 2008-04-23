@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.76 2008-04-22 14:13:49 franboon Exp $ */
+/* $Id: lib_form.inc,v 1.77 2008-04-23 12:58:28 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -754,4 +754,3 @@ function shn_form_still_camera($act = null,$mod = null){
 }
 
 ?>
-
