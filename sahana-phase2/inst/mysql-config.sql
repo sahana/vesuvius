@@ -6,6 +6,7 @@ INSERT INTO field_options VALUES('opt_group_type','soc','society');
 INSERT INTO field_options VALUES('opt_group_type','tor','tourists');
 INSERT INTO field_options VALUES('opt_group_type','oth','other');
 INSERT INTO field_options VALUES('opt_group_type','===','==Select Option==');
+
 -- IDENTITY CARD / PASSPORT TYPES
 INSERT INTO field_options VALUES('opt_id_type','nic','National Identity Card');
 INSERT INTO field_options VALUES('opt_id_type','pas','Passport');
@@ -17,7 +18,6 @@ INSERT INTO field_options VALUES ('opt_status','ali','Alive & Well');
 INSERT INTO field_options VALUES ('opt_status','mis','Missing');
 INSERT INTO field_options VALUES ('opt_status','inj','Injured');
 INSERT INTO field_options VALUES ('opt_status','dec','Deceased');
-
 
 -- PERSON GENDER 
 -- INSERT INTO field_options VALUES ('opt_gender','unk','Unknown');
@@ -37,8 +37,6 @@ INSERT INTO field_options VALUES('opt_relationship_type','gmpat','GrandMotherPat
 INSERT INTO field_options VALUES('opt_relationship_type','gmmat','GrandMotherMaternal');
 INSERT INTO field_options VALUES('opt_relationship_type','fnd','Friend');
 INSERT INTO field_options VALUES('opt_relationship_type','oth','Other');
-
-
 
 -- PERSON CONTACT TYPES
 INSERT INTO field_options VALUES ('opt_contact_type','home','Home(permanent address)');
@@ -208,7 +206,6 @@ INSERT INTO sys_group_to_data_classification VALUES ( 1, 6,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 1, 8,"crud");
 
-
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 1,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 2,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 3,"crud");
@@ -217,7 +214,6 @@ INSERT INTO sys_group_to_data_classification VALUES ( 2, 5,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,"crud");
-
 
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"----");
@@ -254,7 +250,6 @@ INSERT INTO sys_group_to_data_classification VALUES ( 6, 5,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 6, 8,"crud");
-
 
 INSERT INTO sys_group_to_data_classification VALUES ( 7, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 7, 2,"-r--");
@@ -337,6 +332,10 @@ INSERT INTO field_options (field_name,option_code,option_description) VALUES ('o
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dam','Damage Status');
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dis','Disaster Status');
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
+
+-- gps
+INSERT INTO field_options VALUES('opt_wpt_type','vil','Village');
+INSERT INTO field_options VALUES('opt_wpt_type','sch','School');
 
 -- group_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
