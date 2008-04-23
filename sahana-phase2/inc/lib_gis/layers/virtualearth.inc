@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: virtualearth.inc,v 1.8 2008-04-23 15:14:44 franboon Exp $
+* @version      $Id: virtualearth.inc,v 1.9 2008-04-23 22:17:48 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -28,7 +28,7 @@ class virtualearth implements layer{
         shn_form_fsopen(_t('MS Virtual Earth'));
         shn_form_fsopen(_t('MS Virtual Earth'));
         shn_form_fsopen(_t('INFO'));
-        echo _t("<p>Enable <a href='http://maps.live.com/'>Microsoft Virtual Earth</a> &trade; Mapping Service by selecting the checkbox option below.</p>");
+        echo _t("<p>Enable <a href='http://maps.live.com/ target=_blank'>Microsoft Virtual Earth</a> &trade; Mapping Service by selecting the checkbox option below.</p>");
         echo _t("<p>The Virtual Earth mapping API requires Internet connectivity</p>");
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));

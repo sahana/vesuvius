@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.8 2008-04-23 15:14:44 franboon Exp $
+* @version		$Id: multimap.inc,v 1.9 2008-04-23 22:17:48 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -24,7 +24,7 @@ class multimap implements layer{
         shn_form_fsopen(_t('Multimap'));
         shn_form_fsopen('Multimap');
         shn_form_fsopen('INFO');
-        echo _t("<p>Enable <a href='http://multimap.com/'>Multimap</a> &trade; Mapping Service" .
+        echo _t("<p>Enable <a href='http://multimap.com/' target=_blank>Multimap</a> &trade; Mapping Service" .
             " by selecting the checkbox option below.</p>");
         echo _t("<p>The Multimap mapping API requires Internet connectivity and a valid Multimap key</p>");
         shn_form_fsclose();

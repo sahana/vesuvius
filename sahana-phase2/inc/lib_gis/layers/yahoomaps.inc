@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: yahoomaps.inc,v 1.7 2008-04-23 15:14:44 franboon Exp $
+* @version		$Id: yahoomaps.inc,v 1.8 2008-04-23 22:17:48 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -24,29 +24,30 @@ class yahoomaps implements layer{
 		shn_form_fsopen(_t('Yahoo Maps'));
 			shn_form_fsopen('Yahoo Maps');
 				shn_form_fsopen('INFO');
-					echo _t("<p>Enable <a href='http://maps.yahoo.com/'>Yahoo Maps</a> &trade; Mapping Service" .
+					echo _t("<p>Enable <a href='http://maps.yahoo.com/' target=_blank>Yahoo Maps</a> &trade; Mapping Service" .
 							" by selecting the checkbox option below.</p>");
-					echo _t("<p>The Yahoo Maps mapping API requires Internet connectivity and a valid Yahoo Map key</p>");
+					echo _t("<p>The Yahoo Maps mapping API requires Internet connectivity and a valid Yahoo Maps key</p>");
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
-        if ($conf['gis_ol_multimap']==1){
+        if ($conf['gis_ol_yahoo']==1){
             $checked='checked';
         }
         shn_form_checkbox(_t('Enable Yahoo Maps'),'ol_yahoo',$checked,array('value'=>1));	
 		shn_form_fsclose();
 		shn_form_fsclose();
         if ($conf['gis_ol_yahoo']==1){
-            shn_form_fsopen('Viewport Settings');
-            shn_form_checkbox(_t('Yahoo Map View'),'ol_yahoo_maps');
-            shn_form_checkbox(_t('Yahoo Satellite View'),'ol_yahoo_sat');
-            shn_form_checkbox(_t('Yahoo Hybrid View'),'ol_yahoo_map_hybrid');
-            shn_form_fsclose();
+            //Don't know how to access this functionality yet via OpenLayers. Yahoo API here: http://developer.yahoo.com/maps/ajax/index.html#ex1
+            //shn_form_fsopen('Viewport Settings');
+            //shn_form_checkbox(_t('Yahoo Map View'),'ol_yahoo_maps');
+            //shn_form_checkbox(_t('Yahoo Satellite View'),'ol_yahoo_sat');
+            //shn_form_checkbox(_t('Yahoo Hybrid View'),'ol_yahoo_map_hybrid');
+            //shn_form_fsclose();
             shn_form_fsopen('API Key');
             shn_form_fsopen('INFO');
-            echo _t("<p>Yahoo Maps requires a  key for operation</p>");
+            echo _t("<p>Yahoo Maps requires a key for operation</p>");
             echo _t("<p>Register a Yahoo Map key, and enter it below</p>");
-            echo _t("<p>Register your Yahoo Map key at: </p> <a href='http://maps.yahoo.com/' target=_blank>Yahoo Maps</a>");
+            echo _t("<p>(You can register your own Yahoo Maps key at: <a href='http://developer.yahoo.com/wsregapp/' target=_blank>Yahoo Maps</a>)</p>");
             shn_form_fsclose();
             shn_form_fsopen('Enter API Key');
             shn_form_text(_t("Enter Yahoo Maps Key"),"gis_yahoo_key",'size="100"',array('value'=>$conf['gis_yahoo_key']));
