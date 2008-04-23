@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.7 2008-04-22 23:35:32 franboon Exp $
+* @version		$Id: multimap.inc,v 1.8 2008-04-23 15:14:44 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -53,6 +53,7 @@ class multimap implements layer{
 
     function commit_values()
     {
+        global $global;
         global $conf;
         $db = $global['db'];                  
         if(!null==$_POST['ol_multimap']){

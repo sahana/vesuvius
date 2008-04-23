@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.12 2008-04-22 23:35:32 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.13 2008-04-23 15:14:44 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -54,8 +54,10 @@ class googlemaps implements layer{
         }
         shn_form_fsclose();
 	}
+
 	function commit_values()
 	{
+        global $global;
         global $conf;
         $db = $global['db'];                  
         if(!null==$_POST['ol_google']){

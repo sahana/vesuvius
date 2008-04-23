@@ -9,7 +9,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.6 2008-04-22 23:35:32 franboon Exp $
+* @version     $Id: wms.inc,v 1.7 2008-04-23 15:14:44 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -62,20 +62,21 @@ class wms implements layer{
 
     function commit_values()
     {
-        //global $conf;
-        //$db = $global['db'];                  
-        //if(!null==$_POST['gis_ol_wms']){
-        //    $query = "SELECT * FROM config WHERE confkey='gis_ol_wms' AND module_id='admin'";
-        //    $res = $db->Execute($query);
-        //    if(!$res->EOF){
-        //        $q = "UPDATE config SET value = '{$_POST['gis_ol_wms']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms'";       
-        //        $db->Execute($q);
-        //    }
-        //    else{
-        //        $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms','{$_POST['gis_ol_wms']}')";
-        //        $db->Execute($insert);
-        //    }
-        //}
+        global $global;
+        global $conf;
+        $db = $global['db'];                  
+        if(!null==$_POST['gis_ol_wms']){
+            $query = "SELECT * FROM config WHERE confkey='gis_ol_wms' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST['gis_ol_wms']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms'";       
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms','{$_POST['gis_ol_wms']}')";
+                $db->Execute($insert);
+            }
+        }
     }
     /**
      * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form

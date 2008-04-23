@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: virtualearth.inc,v 1.7 2008-04-23 14:23:11 franboon Exp $
+* @version      $Id: virtualearth.inc,v 1.8 2008-04-23 15:14:44 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -44,6 +44,7 @@ class virtualearth implements layer{
 
     function commit_values()
     {
+        global $global;
         global $conf;
         $db = $global['db'];
         if(!null==$_POST['ol_virtualearth']){
