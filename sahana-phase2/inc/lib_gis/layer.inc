@@ -8,8 +8,8 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @library	    GIS
-* @version		$Id: layer.inc,v 1.7 2008-04-22 23:35:32 franboon Exp $
+* @library      GIS
+* @version      $Id: layer.inc,v 1.8 2008-04-23 14:55:54 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -45,13 +45,12 @@ function _shn_gis_layer_main_form()
 function _shn_gis_layer_load_admin_forms()
 {
     global $global;
-    global $conf;
     $gis_layer_dir=$global['approot'].'/inc/lib_gis/layers/';
     $dir = opendir($gis_layer_dir);
 
     while($file = readdir($dir)){
         if(!is_dir($file)){
-            include_once ($global['approot'].'/inc/lib_gis/layers/'.$file);
+            include_once $global['approot'].'/inc/lib_gis/layers/'.$file;
             $class = spliti('\.',$file);
             $classname = $class[0];
             $layer_obj = new $classname();
