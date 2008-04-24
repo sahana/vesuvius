@@ -73,9 +73,17 @@ $conf['gis_tmp_image_folder'] = 'theme/default/img/';
 $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
 /**
- * Configuration specific to OpenLayers
+ * Configuration for GIS Catalogue
  */
   
+/**
+ * Switches for OpenStreetMap
+ * 0 for off; 1 for on
+ */
+$conf['gis_ol_osm']='0';
+$conf['gis_ol_osm_mapnik']='1';
+$conf['gis_ol_osm_tiles']='0';
+ 
 /**
  * Switches for Googlemaps
  * 0 for off; 1 for on

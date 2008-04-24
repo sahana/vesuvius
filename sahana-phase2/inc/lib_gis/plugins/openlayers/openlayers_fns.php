@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.8 2008-04-24 16:14:37 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.9 2008-04-24 20:09:12 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -82,6 +82,12 @@
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
+	if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
+	echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true, attribution: '<a href=\"http://www.openstreetmap.org/\">OpenStreetMap</a>' } );\n";
+	echo 'map.addLayer(mapnik);';
+	echo "\n";
+	}
+
 	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_hybrid'])) {
 	echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP, 'sphericalMercator': true } );\n";
 	echo 'map.addLayer(googlehybrid);';
