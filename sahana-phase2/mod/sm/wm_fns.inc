@@ -1,14 +1,11 @@
 <?php
+
 /** 
- * Wikimaps functionality for SM module
+ * Wikimaps functionality for Sitaution Awareness module
  * PHP version 5
  *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * 
  * @author   	Mifan Careem <mifan@opensource.lk>
+ * @author   	Fran Boon <flavour@partyvibe.com>
  * @copyright  	Lanka Software Foundation - http://www.opensource.lk
  * @module      sm
  * @version     $id$;
@@ -26,7 +23,6 @@
  */
 function shn_sm_show_wiki_map($category="all",$date=0)
 {
-	
 	global $global;
 	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
@@ -54,7 +50,6 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 
 	//populate aray
 	while(!$res->EOF){
-			
 			$editable=$res->fields['editable'];
 			if($editable==1){
 				$edit_url= "<a href="."index.php?mod=sm&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid']."> Edit</a>";
@@ -89,11 +84,18 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['event_date'],"wiki_id"=>$res->fields['wiki_uuid'],"image"=>$image_path,"img_w"=>100,"img_h"=>100));
 			$res->MoveNext();	
 	}
+
+    // Shortcut to GIS Catalogue
+    if ($conf['gis_dflt'] == "openlayers") {
+        include_once $global['approot']."/inc/lib_gis/admin_acts.inc";
+        shn_form_fopen(gis_layers,admin,array('req'=>false));
+	    shn_form_submit(_t("GIS Layers Management"));
+        shn_form_fclose();
+    }
 	
-	//call gis api
+	// call GIS API
 	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_gis_map_with_wiki_markers($map_array);
-	
 }
 
 /**
@@ -103,7 +105,6 @@ function shn_sm_show_wiki_map($category="all",$date=0)
  */
 function shn_sm_show_wiki_add_image()
 {
-	
 	if(isset($_POST['loc_x']) && $_POST['loc_y']!=''){
 		$_SESSION['loc_x']=$_POST['loc_x'];
 		$_SESSION['loc_y']=$_POST['loc_y'];
@@ -122,16 +123,13 @@ function shn_sm_show_wiki_add_image()
 	shn_form_fsclose();
 	shn_form_submit(_t('Next'));
 	shn_form_fclose();
-	
 }
 
 /**
  * Show GIS Map with Wiki addition event listener
  * Part of add situation sequence
  * @access public
- * @patch by Fran Boon
  * @return void 
- * 
  */
 function shn_sm_show_wiki_add_map($errors=false)
 {
@@ -154,7 +152,7 @@ function shn_sm_show_wiki_add_map($errors=false)
 	include $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_form_fopen(awik,null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'img'));
-	//call gis api
+	//call GIS API
 	shn_gis_add_marker_map_form();
 	shn_form_submit(_t("Next"));
 	shn_form_fclose();
@@ -181,12 +179,10 @@ function map_client($errors=false)
 	<p></p>
 <?php
 
-	//mapping comes here
+	// Mapping comes here
 	$options=array();
   	if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
-  		//echo $_POST['mapa_x'];
   	}
-  		//var_dump($_POST);
   	shn_gis_map();	
 
 }
@@ -200,7 +196,7 @@ function map_client($errors=false)
  * @param boolean $errors true if errors exist,false otherwise
  * @access public
  * @return void
- * @TODO: add javascript calender for date input
+ * @TODO: add javascript calendar for date input
  */
 function shn_sm_show_wiki_add_detail($errors=false)
 {
@@ -264,8 +260,6 @@ function shn_sm_wiki_edit_com($id)
 	global $global;
 	global $conf;
 	$db = $global['db'];
-	//echo $id;
-	//echo "{$_REQUEST['wiki_text']}";
 	$query="update gis_wiki set description='{$_REQUEST['wiki_text']}' WHERE wiki_uuid='{$id}'";
 	$res=$db->Execute($query);
 	add_confirmation(_t('Succesfully updated description'));
@@ -330,6 +324,6 @@ function shn_sm_wiki_map_commit()
 	}
 
 	add_confirmation(_t("Succesfully added wiki item ").$_SESSION['wiki_name']);
-
 }
+
 ?>
