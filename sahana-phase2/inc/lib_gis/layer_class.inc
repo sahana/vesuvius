@@ -16,8 +16,8 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
-* @module       GIS
-* @version		
+* @library      GIS
+* @version		$Id: layer_class.inc,v 1.4 2008-04-24 06:00:37 mifanc Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
