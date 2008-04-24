@@ -5,10 +5,11 @@
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
+* @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.16 2008-04-23 23:52:57 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.17 2008-04-24 05:56:01 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
