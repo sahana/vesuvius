@@ -2,14 +2,9 @@
 
 /**
 * $id$;
-* 
 * Openlayers Plugin for GIS 
 *
 * PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
 *
 * Sahana - http://sahana.sourceforge.net
 * @author     Mifan Careem <mifan@opensource.lk>
@@ -20,10 +15,9 @@
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-
 /**
  * show basic map
- * called by shn_gis_map in gis api
+ * called by shn_gis_map in GIS API
  */
 function show_map($opt=null)
 {
@@ -33,6 +27,7 @@ function show_map($opt=null)
 	
 	ol_js_loaders();
 	ol_layers();
+    ol_osm_getTileURL();
 ?>            
 	}		
 
@@ -44,7 +39,6 @@ function show_map($opt=null)
 /**
  * show map with markers
  * called by shn_gis_map_with_markers in gis api
- * 
  */
 function show_map_with_markers($array)
 {
@@ -56,6 +50,7 @@ function show_map_with_markers($array)
   	ol_js_loaders();
 	ol_layers();
 	ol_show_markers($array);
+    ol_osm_getTileURL();
 ?>            
 	}		
 
@@ -67,8 +62,7 @@ function show_map_with_markers($array)
 
 /**
  * show map with wiki markers
- * called by shn_gis_map_with_markers in gis api
- * 
+ * called by shn_gis_map_with_markers in GIS API
  */
 function show_map_with_wiki_marker($array)
 {
@@ -79,6 +73,7 @@ function show_map_with_wiki_marker($array)
   	ol_js_loaders();
 	ol_layers();
 	ol_show_wiki_markers($array);
+    ol_osm_getTileURL();
 ?>            
 	}		
 
@@ -90,7 +85,7 @@ function show_map_with_wiki_marker($array)
 /**
  * show map with marker addition event
  * ability to enter markers on map
- * called by shn_gis_add_marker_map_form in gis api
+ * called by shn_gis_add_marker_map_form in GIS API
  */
 function show_add_marker_map($name)
 {
@@ -101,6 +96,7 @@ function show_add_marker_map($name)
 	ol_js_loaders();
 	ol_layers();
 	ol_add_marker($name);
+    ol_osm_getTileURL();
 ?>		
 	}			
 	
