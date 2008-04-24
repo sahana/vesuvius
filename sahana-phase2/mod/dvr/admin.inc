@@ -75,6 +75,8 @@ function shn_dvr_adm_checklist()
     		
             if($todelete=='on') { 
     	        _shn_dvr_delete_option($code);
+            } elseif ($_POST[$_SESSION['option_description'.$count]] == null) {
+                add_error(_t("Description should not be empty."));
             } elseif ($_POST[$_SESSION['option_description'.$count]] != $_SESSION['option_description'.$count]) {
                 _shn_dvr_update_option($code,$desc);
                 add_confirmation(_t($_SESSION['option_description'.$count].' changed to '.$_POST[$_SESSION['option_description'.$count]].'.'));
