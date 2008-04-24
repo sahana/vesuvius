@@ -81,15 +81,18 @@ $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1Nv
  * 0 for off; 1 for on
  */
 $conf['gis_ol_google']='0';
-$conf['gis_ol_google_hybrid']='0';
+$conf['gis_ol_google_hybrid']='1';
 $conf['gis_ol_google_maps']='0';
 $conf['gis_ol_google_sat']='0';
  
 /**
- * Switch for MS Virtual Earth
+ * Switches for MS Virtual Earth
  * 0 for off; 1 for on
  */
 $conf['gis_ol_virtualearth']='0';
+$conf['gis_ol_virtualearth_hybrid']='1';
+$conf['gis_ol_virtualearth_maps']='0';
+$conf['gis_ol_virtualearth_aerial']='0';
 
 /**
  * Switch for MultiMap
@@ -99,10 +102,13 @@ $conf['gis_ol_multimap']='0';
 $conf['gis_multimap_key']='metacarta_04';
  
 /**
- * Switch for Yahoo! maps
+ * Switches for Yahoo! maps
  * 0 for off; 1 for on
  */
 $conf['gis_ol_yahoo']='0';
+$conf['gis_ol_yahoo_hybrid']='1';
+$conf['gis_ol_yahoo_maps']='0';
+$conf['gis_ol_yahoo_sat']='0';
 $conf['gis_yahoo_key']='euzuro-openlayers';
   
 /**
@@ -111,7 +117,7 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  */
 $conf['gis_ol_wms']='1';
  
-$conf['gis_ol_wms_1_description'] = '';
+$conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_type'] = 'base';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';

@@ -1,4 +1,5 @@
 <?php
+
 /**
 *
 * PHP version 5
@@ -8,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.7 2008-04-23 23:52:57 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.8 2008-04-24 16:14:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -32,12 +33,12 @@
 	echo "<script src='http://clients.multimap.com/API/maps/1.1/$key' type=\"text/javascript\"></script>\n";
 	}
 
-	if (1 == $conf['gis_ol_virtualearth']) {
+	if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_aerial'] || 1 == $conf['gis_ol_virtualearth_maps'] || 1 == $conf['gis_ol_virtualearth_hybrid'])) {
 	echo '<script src="http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js"></script>';
 	echo "\n";
 	}
 
-	if (1 == $conf['gis_ol_yahoo']) {
+	if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_sat'] || 1 == $conf['gis_ol_yahoo_maps'] || 1 == $conf['gis_ol_yahoo_hybrid'])) {
 	$key = $conf['gis_yahoo_key'];
 	echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=$key'></script>\n";
 	}
@@ -67,24 +68,34 @@
 	var lon = <?=$conf['gis_center_x']?>;
   	var lat = <?=$conf['gis_center_y']?>;
   	var zoom = 5;
-	var map = new OpenLayers.Map($('map'));
+
+	var options = {
+		projection: new OpenLayers.Projection("EPSG:900913"),
+                displayProjection: new OpenLayers.Projection("EPSG:4326"),
+		units: "m",
+                maxResolution: 156543.0339,
+                maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34,
+                                                 20037508.34, 20037508.34)
+	};
+
+	var map = new OpenLayers.Map($('map'),options);
 	OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
 	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_hybrid'])) {
-	echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP } );\n";
+	echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP, 'sphericalMercator': true } );\n";
 	echo 'map.addLayer(googlehybrid);';
 	echo "\n";
 	}
 
 	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'])) {
-	echo "var googlesat = new OpenLayers.Layer.Google( \"Google Satellite\" , {type: G_SATELLITE_MAP } );\n";
+	echo "var googlesat = new OpenLayers.Layer.Google( \"Google Satellite\" , {type: G_SATELLITE_MAP, 'sphericalMercator': true } );\n";
 	echo 'map.addLayer(googlesat);';
 	echo "\n";
 	}
 
 	if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_maps'])) {
-	echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Maps\" , {type: G_NORMAL_MAP } );\n";
+	echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Map\" , {type: G_NORMAL_MAP, 'sphericalMercator': true } );\n";
 	echo 'map.addLayer(googlemaps);';
 	echo "\n";
 	}
@@ -95,16 +106,42 @@
 	echo "\n";
 	}
 
-	if (1 == $conf['gis_ol_virtualearth']) {
-	echo "var velayer = new OpenLayers.Layer.VirtualEarth( \"MS VirtualEarth\",\n";
-	echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
-	echo 'map.addLayer(velayer);';
+	if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_hybrid'])) {
+	echo "var vehybrid = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Hybrid\" , {type: VEMapStyle.Hybrid, 'sphericalMercator': true } );\n";
+	//echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
+	echo 'map.addLayer(vehybrid);';
 	echo "\n";
 	}
-        
-	if (1 == $conf['gis_ol_yahoo']) {
-	echo "var yahoo = new OpenLayers.Layer.Yahoo( \"Yahoo\");\n";
-	echo 'map.addLayer(yahoo);';
+       
+	if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_aerial'])) {
+	echo "var veaerial = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Aerial\" , {type: VEMapStyle.Aerial, 'sphericalMercator': true } );\n";
+	//echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
+	echo 'map.addLayer(veaerial);';
+	echo "\n";
+	}
+    
+    if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_maps'])) {
+	echo "var veroad = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Road\" , {type: VEMapStyle.Road, 'sphericalMercator': true } );\n";
+	//echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
+	echo 'map.addLayer(veroad);';
+	echo "\n";
+	}
+    
+    if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_hybrid'])) {
+        echo "var yahoohybrid = new OpenLayers.Layer.Yahoo( \"Yahoo Hybrid\", {'type': YAHOO_MAP_HYB, 'sphericalMercator': true } );\n";
+        echo 'map.addLayer(yahoohybrid);';
+        echo "\n";
+        }
+
+	if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_sat'])) {
+        echo "var yahoosat = new OpenLayers.Layer.Yahoo( \"Yahoo Satellite\", {'type': YAHOO_MAP_SAT, 'sphericalMercator': true } );\n";
+        echo 'map.addLayer(yahoosat);';
+        echo "\n";
+        }
+ 
+	if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_maps'])) {
+	echo "var yahoomaps = new OpenLayers.Layer.Yahoo( \"Yahoo Map\", {'sphericalMercator': true } );\n";
+	echo 'map.addLayer(yahoomaps);';
 	echo "\n";
 	}
 
@@ -114,7 +151,8 @@
 	$layers = $conf["gis_ol_wms_".$i."_layers"];
 	echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
 		echo "\"$url\",\n"; 
-		echo "{layers: '$layers'} );\n";
+		echo "{layers: '$layers'}, \n";
+		echo "{'sphericalMercator': true, 'wrapDateLine': true} );\n";
 	echo "map.addLayer(wmslayer$i);\n";
 	}
 
