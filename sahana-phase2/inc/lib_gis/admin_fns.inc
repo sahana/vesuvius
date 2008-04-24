@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
-* @version      $id$;
+* @version      $Id: admin_fns.inc,v 1.13 2008-04-24 05:58:55 mifanc Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
