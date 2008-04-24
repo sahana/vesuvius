@@ -9,7 +9,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.9 2008-04-23 23:52:57 franboon Exp $
+* @version     $Id: wms.inc,v 1.10 2008-04-24 00:33:27 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -67,7 +67,127 @@ class wms implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        // Checkboxes return nothing if unticked!
+        for ($i=0; $i<$conf['gis_ol_wms']; $i++) {
+            $j=$i+1;
+            $description = 'gis_ol_wms_'.$j.'_description';
+            if(!null==$_POST[$description]){
+                $query = "SELECT * FROM config WHERE confkey='$description' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$description]}' WHERE module_id = 'admin' AND confkey = '$description'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$description','{$_POST[$description]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $name = 'gis_ol_wms_'.$j.'_name';
+            if(!null==$_POST[$name]){
+                $query = "SELECT * FROM config WHERE confkey='$name' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$name]}' WHERE module_id = 'admin' AND confkey = '$name'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$name','{$_POST[$name]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $type = 'gis_ol_wms_'.$j.'_type';
+            if(!null==$_POST[$type]){
+                $query = "SELECT * FROM config WHERE confkey='$type' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$type]}' WHERE module_id = 'admin' AND confkey = '$type'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$type','{$_POST[$type]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $url = 'gis_ol_wms_'.$j.'_url';
+            if(!null==$_POST[$url]){
+                $query = "SELECT * FROM config WHERE confkey='$url' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$url]}' WHERE module_id = 'admin' AND confkey = '$url'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$url','{$_POST[$url]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $layers = 'gis_ol_wms_'.$j.'_layers';
+            if(!null==$_POST[$layers]){
+                $query = "SELECT * FROM config WHERE confkey='$layers' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$layers]}' WHERE module_id = 'admin' AND confkey = '$layers'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$layers','{$_POST[$layers]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $img = 'gis_ol_wms_'.$j.'_img';
+            if(!null==$_POST[$img]){
+                $query = "SELECT * FROM config WHERE confkey='$img' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$img]}' WHERE module_id = 'admin' AND confkey = '$img'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$img','{$_POST[$img]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $transparency = 'gis_ol_wms_'.$j.'_transparency';
+            if(!null==$_POST[$transparency]){
+                $query = "SELECT * FROM config WHERE confkey='$transparency' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$transparency]}' WHERE module_id = 'admin' AND confkey = '$transparency'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$transparency','{$_POST[$transparency]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $min = 'gis_ol_wms_'.$j.'_min';
+            if(!null==$_POST[$min]){
+                $query = "SELECT * FROM config WHERE confkey='$min' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$min]}' WHERE module_id = 'admin' AND confkey = '$min'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$min','{$_POST[$min]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $max = 'gis_ol_wms_'.$j.'_max';
+            if(!null==$_POST[$max]){
+                $query = "SELECT * FROM config WHERE confkey='$max' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$max]}' WHERE module_id = 'admin' AND confkey = '$max'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$max','{$_POST[$max]}')";
+                    $db->Execute($insert);
+                }
+            }
+        }
+            // Checkboxes return nothing if unticked!
         if (null == $_POST['wms_enable']){
             $gis_ol_wms=0;
         } else {
@@ -81,7 +201,7 @@ class wms implements layer{
             $query = "SELECT * FROM config WHERE confkey='gis_ol_wms' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
-                $q = "UPDATE config SET value = '$gis_ol_wms' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms'";       
+                $q = "UPDATE config SET value = '$gis_ol_wms' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms'";
                 $db->Execute($q);
             }
             else{
