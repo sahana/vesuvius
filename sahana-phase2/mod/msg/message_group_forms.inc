@@ -13,8 +13,7 @@
 * @package		sahana
 * @subpackage	msg
 * @tutorial
-* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
-* Public License (LGPL)
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 global $global;
@@ -64,28 +63,39 @@ class InheritPhpMailer extends PHPMailer
     }
 }//end of class InheritPhpMailer
 
-//sms API
-function shn_send_sms($msg,$receipients)
+/**
+ * @author	Mifan
+ */
+function shn_send_sms($msg,$recipients)
+{
+	global $global;
+	include_once $global['approot']."/mod/msg/lib_msg.inc";
+	shn_msg_send_short_message($recipients,$msg);
+}
+
+/**
+ * @deprecated
+ */
+function shn_send_sms_1($msg,$receipients)
 {
   $sms_box=0;
   $bearer_box=0;
   $status_sms=array();
   $snoopy = new Snoopy;
   
-    foreach($receipients as $to)
-     {
-        $snoopy->fetchtext("http://localhost:13014/cgi-bin/sendsms?username=tester&password=foobar&to=".$to."&text=".$msg);
+  foreach($receipients as $to){
+        $form_msg = urlencode($msg);
+        $snoopy->fetchtext("http://localhost:13014/cgi-bin/sendsms?username=tester&password=foobar&to=".$to."&text=".$form_msg);
         $server_response=$snoopy->results;
-        if(!strcmp($pieces[0],"Sent."))
-        {
-          $status_sms[$to]=1;
-        }else
-        {
-	  $status_sms[$to]=0;
+        if(strcmp($server_response[0],"Sent.")){
+          	$status_sms[$to]=1;
+        }
+        else{
+	  		$status_sms[$to]=0;
         }
        $server_response="";
-     }//end of loop
-    return $status_sms;
+     } //end of loop
+   return $status_sms;
 }
  
 
@@ -100,10 +110,12 @@ function shn_check_kannel_status()
   $snoopy->fetchtext("http://localhost:13014/cgi-bin/sendsms?");
   $server_response=$snoopy->results;
   $pieces = explode(" ",$server_response);
-  if(!strcmp($pieces[0],"Authorization") && !strcmp($pieces[1],"failed"))
-    $sms_box=1;
-  else
-    $sms_box=0;
+  if(strcmp($pieces[0],"Authorization") && strcmp($pieces[1],"failed")){
+    	$sms_box=1;
+  }
+  else{
+    	$sms_box=0;
+  }
   
   $snoopy->fetchtext("http://localhost:13003/");
   $server_response=$snoopy->results;
@@ -122,7 +134,8 @@ function shn_check_kannel_status()
     $kannel_status= 0;
   }
 
-return $kannel_status;
+//return $kannel_status;
+return true;
 
 }//end of function shn_check_kannel_status
 
