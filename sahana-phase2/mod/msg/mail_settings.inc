@@ -23,16 +23,16 @@ require_once $global['approot']."/inc/handler_db.inc";
 
 function shn_update_mail_configuration()
 {
-    global $sit;
+       global $sit;
  
-    $mod='msg';
-    $server='server';
-    $usrname='username';
-    $password='password';
-    $from_id='from_id';
-    $from_name='from_name';
+        $mod='msg';
+        $server='server';
+        $usrname='username';
+        $password='password';
+        $from_id='from_id';
+        $from_name='from_name';
                 
-    $sit['smtp_host']=shn_db_get_config($mod,$server);
+        $sit['smtp_host']=shn_db_get_config($mod,$server);
 	$sit['smtp_username']=shn_db_get_config($mod,$usrname);
 	$sit['smtp_password']=shn_db_get_config($mod,$password);
 	$sit['from_name']=shn_db_get_config($mod,$from_name);
