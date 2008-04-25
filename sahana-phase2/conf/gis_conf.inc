@@ -35,7 +35,7 @@ $conf['gis_dflt'] = 'openlayers';
  */
 $conf['gis_center_x'] = '79.4'; // Longitude
 $conf['gis_center_y'] = '6';    // Latitude
-$conf['gis_zoom'] = '7';
+$conf['gis_zoom'] = '5';
 
 /**
  * folder that contains gis data files
