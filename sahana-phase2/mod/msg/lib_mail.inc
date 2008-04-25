@@ -9,6 +9,7 @@
 *
 * @author     Sri Ganeshan <sri@opensource.lk>
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravi@computer.org>
+* @edit		  Mifan Careem <mifan@opensource.lk> [Converting to use global $conf variables]
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage msg
@@ -18,44 +19,76 @@
 global $global;
 require_once($global['approot']."3rd/phpmailer/class.phpmailer.php");;
 
+/**
+ * PHPMailer extension class
+ */
 class InheritPhpMailer extends PHPMailer
 {
+    // Mifan: Converting previously used $sit global variable to $conf global array
+    
     var $priority = 3;
 
-  
     function InheritPhpMailer()
     {
-      global $sit; 
+      global $conf;
       
-      // Comes from config.php $sit array
       
-      if($sit['smtp_mode'] == "enabled")
-      {
-        $this->Host = $sit['smtp_host'];
-        $this->Port = $sit['smtp_port'];
-        if($sit['smtp_username'] != "")
-        {
-         $this->SMTPAuth  = true;
-         $this->Username  = $sit['smtp_username'];
-         $this->Password  = $sit['smtp_password'];
-        }
+      if($conf['mod_msg_smtp_mode'] == "enabled"){
+		    $this->Host = $conf['mod_msg_smtp_host'];
+		    $this->Port = $conf['mod_msg_smtp_port'];
+		    if($conf['mod_msg_smtp_username'] != ""){
+		         $this->SMTPAuth  = true;
+		         $this->Username  = $conf['mod_msg_smtp_username'];
+		         $this->Password  = $conf['mod_msg_smtp_password'];
+        	}
         $this->Mailer = "smtp";
         
       }
-      if(!$this->From)
-      {
-        $this->From = $sit['from_email'];
+      if(!$this->From){
+        	$this->From = $conf['mod_msg_smtp_sender_email'];
       }
-      if(!$this->FromName)
-      {
-        $this->FromName = $sit['from_name'];
+      if(!$this->FromName){
+        	$this->FromName = $conf['mod_msg_smtp_sender_name'];
       }
-      if(!$this->Sender)
-      {
-        $this->Sender = $sit['from_email'];
+      if(!$this->Sender){
+        	$this->Sender = $conf['mod_msg_smtp_sender_email'];
       }
       $this->Priority = $this->priority;
     }
+}
+
+/**
+ * Email sending main function
+ * Group sending
+ */
+function _shn_msg_send_group_mail($msg,$receipients)
+{
+	//config settings
+	//require_once('mail_settings.inc');
+	//shn_update_mail_configuration();
+	global $conf;
+	
+	// instantiate the class
+	$mailer = new InheritPhpMailer();
+	$status=0;
+	$trimd_msg=trim($msg);
+	$subject=substr($trimd_msg,0,15);
+	$mailer->Subject = $conf['mod_msg_mail_subject_prefix'].$subject;
+	$mailer->Body = $msg;
+	$status_mail=array();
+	   foreach($receipients as $receipient){
+			$mailer->AddAddress($receipient, '');
+	        $status=$mailer->Send();
+	
+	        if($status){ 
+	        	$status_mail[$receipient]=1;
+	        }else{
+		  		$status_mail[$receipient]=0;
+	        }
+	        $status=0;
+	        $mailer->ClearAddresses();
+	   }
+	return $status_mail;
 }
 
 function _shn_msg_send_mail()
@@ -67,33 +100,33 @@ require_once('mail_settings.inc');
 //require_once('MailClass.inc');
 
 // instantiate the class
-	$mailer = new InheritPhpMailer();
+$mailer = new InheritPhpMailer();
 
-	$receipient = $_POST['receipient'];
+$receipient = $_POST['receipient'];
 
-	$subject = $_POST["subject"];
+$subject = $_POST["subject"];
 
-	$ccreceipient = $_POST['ccreceipients'];
+$ccreceipient = $_POST['ccreceipients'];
 
-	$bccreceipient = $_POST['bccreceipients'];
+$bccreceipient = $_POST['bccreceipients'];
 
-	$attachment = $_POST['attachments'];
+$attachment = $_POST['attachments'];
 
-	$body = $_POST['contents'];
+$body = $_POST['contents'];
 
-	$mailer->Subject = $subject;
+$mailer->Subject = $subject;
 
-	$mailer->Body = $body;
+$mailer->Body = $body;
 
-	$mailer->AddAddress($receipient, '');
+$mailer->AddAddress($receipient, '');
 
 //$mailer->AddAddress('hari1222@yahoo.com', 'hari');
 
-	$mailer->AddAttachment($attachment, ''); 
+$mailer->AddAttachment($attachment, ''); 
 
-	$mailer->AddCC($ccreceipient, ''); 
+$mailer->AddCC($ccreceipient, ''); 
 
-	$mailer->AddBCC($bccreceipient,''); 
+$mailer->AddBCC($bccreceipient,''); 
 
 //$mailer->AddReplyTo('kushi223344@yahoo.com', 'sri'); 
 
