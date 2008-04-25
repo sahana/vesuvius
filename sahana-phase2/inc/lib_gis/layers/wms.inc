@@ -9,7 +9,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.10 2008-04-24 00:33:27 franboon Exp $
+* @version     $Id: wms.inc,v 1.11 2008-04-25 20:08:21 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -46,7 +46,7 @@ class wms implements layer{
                 shn_form_text(_t('Name'),'gis_ol_wms_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_name']));
                 $types = array(_t('base'),_t('overlay'));
                 $type_select = _t('base');
-                if ($conf['gis_ol_wms_'.$j.'_type']=='overlay') {
+                if ($conf['gis_ol_wms_'.$j.'_type']==1) {
                     $type_select = _t('overlay');
                 }
                 shn_form_select($types,_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$type_select));
@@ -96,17 +96,15 @@ class wms implements layer{
                 }
             }
             $type = 'gis_ol_wms_'.$j.'_type';
-            if(!null==$_POST[$type]){
-                $query = "SELECT * FROM config WHERE confkey='$type' AND module_id='admin'";
-                $res = $db->Execute($query);
-                if(!$res->EOF){
-                    $q = "UPDATE config SET value = '{$_POST[$type]}' WHERE module_id = 'admin' AND confkey = '$type'";
-                    $db->Execute($q);
-                }
-                else{
-                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$type','{$_POST[$type]}')";
-                    $db->Execute($insert);
-                }
+            $query = "SELECT * FROM config WHERE confkey='$type' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$type]}' WHERE module_id = 'admin' AND confkey = '$type'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$type','{$_POST[$type]}')";
+                $db->Execute($insert);
             }
             $url = 'gis_ol_wms_'.$j.'_url';
             if(!null==$_POST[$url]){

@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.11 2008-04-25 14:31:43 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.12 2008-04-25 20:08:21 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -172,7 +172,11 @@
         echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
         echo "\"$url\",\n"; 
         echo "{layers: '$layers'}, \n";
-        echo "{'sphericalMercator': true, 'wrapDateLine': true} );\n";
+        $base = "true";
+        if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
+            $base = "false";
+        }
+        echo "{'isBaseLayer': $base,'wrapDateLine': true} );\n";
         echo "map.addLayer(wmslayer$i);\n";
     }
 
