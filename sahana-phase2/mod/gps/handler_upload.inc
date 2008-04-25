@@ -37,7 +37,7 @@ if(isset($file)){
         switch ($file['error']){
             case 1:
             case 2:
-                add_error(_('The uploaded file exceeds the MAX upload size'));
+                add_error(_('The uploaded file exceeds the Max upload size'));
                 break;
             case 3:
                 add_error(_('The uploaded file was only partially uploaded.'));
@@ -49,7 +49,7 @@ if(isset($file)){
     }
     //check for extension
     else if(!in_array($ext,$extensions)){
-        add_error("<b>".strtoupper($ext)."</b> : "._("Please upload a gpx file with the extension \".gpx\""));
+        add_error("<b>".strtoupper($ext)."</b> : "._("Please upload a GPX file with the extension \".gpx\""));
     }
     //move the uploaded file to the tmp directory
     else if (move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gps']['file']))
@@ -77,15 +77,15 @@ display_errors($return=false,$clean_errors=true,$exit=false);
 
 function _shn_gps_upload_form()
 {
-	print '<center><h2>' . _("GPX file upload") . '</h2></center>';
+	print '<center><h2>' . _("Upload Waypoints") . '</h2></center>';
 
 	global $global;
 	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
 
 	shn_form_fopen("upload",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
-	shn_form_fsopen(_("Upload GPS data"));
-	echo "<p><em><strong>"._('important: ')."</strong></em>"._('This system will only accept gpx files which are well-formed and valid.')."</p>";
+	shn_form_fsopen(_("Upload GPX File"));
+	echo "<p><em><strong>"._('important: ')."</strong></em>"._('This system will only accept GPX files which are well-formed and valid.')."</p>";
         shn_form_upload(_('Upload File'),"load"); 
 	shn_form_fsclose();
 

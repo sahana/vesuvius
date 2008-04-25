@@ -1,6 +1,7 @@
 <?php
+
 /**
-* Marker Handling Page of GPS Module
+* Waypoint Upload Handling for GPS Module
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -8,19 +9,20 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   Sriganeshan <sri@opensource.lk>
+* @author     Sriganeshan <sri@opensource.lk>
+* @author     Fran Boon <flavour@partyvibe.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
+
 global $global;
 global $conf;
 //global $doc;
 include_once($global['approot'].'/inc/lib_location.inc');
 include_once $global['approot']."/mod/gps/conf.inc";
 
-function shn_gps_point_sort_start(){
-	if(isset($_SESSION['gps']['file']))
-	{
-
+function shn_gps_point_sort_start()
+{
+    if(isset($_SESSION['gps']['file'])) {
 	$current_file = $_SESSION['gps']['file'];
 	$handle1 = fopen($current_file, "r");
 	$contents = fread($handle1, filesize($current_file));
@@ -30,18 +32,17 @@ function shn_gps_point_sort_start(){
 	fclose($handle2);
 
 	shn_gps_point_sort();
-
-	}
-		
+    }
 }
+
 function shn_gps_point_sort()
 {
-global $global;
-global $range;
+    global $global;
+    global $range;
 	print '<center><h2>' . _("Uploaded Waypoints") . '</h2></center>';
 	shn_form_fopen("classify",null,null);
 	shn_form_fsopen(_("Select Waypoint Type")." <span class='req'>   *req </span>");
-	shn_form_opt_select("opt_wpt_type","Waypoint/Marker Types");	
+	shn_form_opt_select("opt_wpt_type","Waypoint Types");	
 	shn_form_fsclose();
 	shn_form_fsopen('File Author');
 	shn_form_hidden(array('seq'=>'map'));
@@ -127,7 +128,7 @@ function shn_gps_save_points()
 
 
 if(!$checked){
-		add_error('You have not selected any waypoints. Please select waypoint(s)');
+		add_error('You have not selected any Waypoints. Please select Waypoint(s)');
 		shn_gps_point_sort();
 	}
     else if($author==""){
@@ -199,7 +200,7 @@ if(!$checked){
 
 
 function shn_gps_point_save($author,$date,$type,$name,$description,$latitude,$longitude)
-{//echo "amma";
+{
 	global $global;
 	$db = $global['db'];
 	include_once($global['approot'].'/inc/lib_uuid.inc');	
@@ -217,8 +218,6 @@ function shn_gps_point_save($author,$date,$type,$name,$description,$latitude,$lo
 	VALUES ( '{$point_id}' , '{$author}' , '{$date}', '{$route_name}' , '{$route_no}' , '{$type}' , '{$no}' , '{$name}' , '{$description}')";
 	
 	$res = $db->Execute($query);
-
-	
 }
 
 ?>

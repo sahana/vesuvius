@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Marker Handling Page of GPS Module
 * PHP version 4 and 5
@@ -8,7 +9,8 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   Sriganeshan <sri@opensource.lk>
+* @author     Sriganeshan <sri@opensource.lk>
+* @author     Fran Boon <flavour@partyvibe.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -21,91 +23,64 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 
-
 function shn_gps_find_waypoint()
 {
-
 ?>
-<h2><?=_("Download Marker/Waypoint")?></h2>
+<h2><?=_("Download Waypoints")?></h2>
 <?php
 	shn_form_fopen("waypoint",null,null,array('req'=>false));
-	shn_form_fsopen(_("Marker Details"));
+	shn_form_fsopen(_("Waypoint Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_opt_select("opt_wpt_type","Waypoint/Marker Types");
+	shn_form_opt_select("opt_wpt_type","Waypoint Types");
 	shn_form_text(_("Name of Author"),"author_name",'size="20"',array('req'=>false));
 	shn_form_date(_("Date of Event"),"wiki_evnt_date",array('req'=>false,'help'=>_($conf['mod_gps_marker_date_help'])));
-	shn_form_text(_("Name of Marker"),"marker_name",'size="20"',array('req'=>false));
+	shn_form_text(_("Name of Waypoint"),"marker_name",'size="20"',array('req'=>false));
 	shn_form_fsclose();
 	shn_form_submit(_("Search"));
 	shn_form_fclose();
-
-
+    
+    shn_form_fopen(marker,null,array('req'=>false));
+    shn_form_submit(_t("Add Marker(s) to Download"));
+    shn_form_fclose();
 }
-
-
 
 function _shn_gps_select_waypoint($type,$author_name,$date,$marker_name)
 {
-	
-		global $global;
-		$db = $global['db'];
-		if($author_name==null & $date==null & $marker_name==null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}'";
-
-		}else if($author_name!=null & $date==null & $marker_name==null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%'"; 
-
-		}else if($author_name==null & $date!=null & $marker_name==null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND event_date='{$date}'";
-
-		}else if($author_name==null & $date==null & $marker_name!=null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%'";
-
-		}else if($author_name!=null & $date!=null & $marker_name==null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND event_date='{$date}'"; 
-
-		}else if($author_name!=null & $date==null & $marker_name!=null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%'"; 
-
-		}else if($author_name==null & $date!=null & $marker_name!=null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
-
-		}else if($author_name!=null & $date==null & $marker_name!=null)
-		{
-		$search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
-			
-		}
-		
-		
-
-
-	$results = $db->Execute($search);
-
-	return $results;
-	
-
+    global $global;
+    $db = $global['db'];
+    if($author_name==null & $date==null & $marker_name==null) {
+        $search= "Select * from gpx_file where opt_category='{$type}'";
+    } else if($author_name!=null & $date==null & $marker_name==null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%'"; 
+    } else if($author_name==null & $date!=null & $marker_name==null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND event_date='{$date}'";
+    } else if($author_name==null & $date==null & $marker_name!=null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%'";
+    } else if($author_name!=null & $date!=null & $marker_name==null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND event_date='{$date}'"; 
+    } else if($author_name!=null & $date==null & $marker_name!=null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%'"; 
+    } else if($author_name==null & $date!=null & $marker_name!=null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
+    } else if($author_name!=null & $date==null & $marker_name!=null) {
+        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
+    }
+    $results = $db->Execute($search);
+    return $results;
 }
 
 
 function shn_gps_display_points()
 {
-
-		$type = $_POST['opt_wpt_type'];
-		$author_name = trim($_POST['author_name']);
-		$date = trim($_POST['wiki_evnt_date']);
-		$marker_name = trim($_POST['marker_name']);
-		$results=_shn_gps_select_waypoint($type,$author_name,$date,$marker_name);
-			if(file_exists("../www/tmp/tmp.txt"))
-			{
-				unlink("../www/tmp/tmp.txt");
-			}	
+	$type = $_POST['opt_wpt_type'];
+	$author_name = trim($_POST['author_name']);
+	$date = trim($_POST['wiki_evnt_date']);
+	$marker_name = trim($_POST['marker_name']);
+	$results=_shn_gps_select_waypoint($type,$author_name,$date,$marker_name);
+	if(file_exists("../www/tmp/tmp.txt"))
+	{
+		unlink("../www/tmp/tmp.txt");
+	}	
 		
 ?>
 <h2><?=_("Search Results")?></h2>
@@ -152,26 +127,20 @@ function shn_gps_display_points()
 	<br />
        <center>
 <?php
-	 shn_form_hidden(array('count'=>$count));
-
-	shn_form_submit(_("Download Markers"),"name=\"button1\"");
-	shn_form_submit(_("New Search"),"name=\"button1\"");
-	
+    shn_form_hidden(array('count'=>$count));
+    shn_form_submit(_("Download Markers"),"name=\"button1\"");
+    shn_form_submit(_("New Search"),"name=\"button1\"");
 
 ?>
 </center> 
 <br />
 <?
-	shn_form_fsclose();
-		shn_form_fclose();
-
+    shn_form_fsclose();
+    shn_form_fclose();
 }
-
 
 function shn_text_gps_create_file()
 {
-
-
 	$temp="../www/tmp/tmp.txt";
 	if(trim($_POST['author_name'])=="")
 	$author="anonymous";
@@ -186,20 +155,18 @@ function shn_text_gps_create_file()
 	$point_store="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<gpx version=\"1.0\" creator=\"Sahana - $author\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n xmlns=\"http://www.topografix.com/GPX/1/0\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd\">\n";
 	
 
-	
 	$file_name="Sahana-Marker.gpx";
   	header("Content-type: text/gpx");
     	header("Content-Disposition: attachment; filename=".$file_name);
      	header("Cache-Control: no-cache, must-revalidate");
 	print $point_store.$contents."</gpx>";
-
-
 }
+
 function shn_gps_add_creator()
 {
 	$limit=$_REQUEST['count'];
-			global $global;
-		$db = $global['db'];
+    global $global;
+    $db = $global['db'];
 	//echo $limit;
 	$create_point="";
 	for($counter=1;$counter<$limit+1;++$counter)
@@ -235,6 +202,6 @@ function shn_gps_add_creator()
 	shn_form_submit(_("Download File"));
 	shn_form_fsclose();
 	shn_form_fclose();
-	
 }
+
 ?>

@@ -1,6 +1,7 @@
 <?php
+
 /**
-* Marker Handling Page of GPS Module
+* Waypoint Handling for GPS Module
 * PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
@@ -8,7 +9,8 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @package    Sahana - http://sahana.sourceforge.net
-* @author   Sriganeshan <sri@opensource.lk>
+* @author     Sriganeshan <sri@opensource.lk>
+* @author     Fran Boon <flavour@partyvibe.com>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
@@ -21,10 +23,8 @@ include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
 
-
 function shn_marker_add_detail($errors=false)
 {
-
   global $global;
   global $conf;
 	include_once $global['approot'] . "/inc/lib_errors.inc";
@@ -39,36 +39,32 @@ function shn_marker_add_detail($errors=false)
 	shn_form_fopen(marker);
 	shn_form_fsopen(_("Main Details"));
 	shn_form_hidden(array('seq'=>'map'));
-	shn_form_text(_("Name of Marker"),"marker_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gps_marker_name_help'])));
-	shn_form_opt_select("opt_wpt_type",_("Marker Type"),null,array('help'=>_($conf['mod_gps_marker_type_help'])));
-	shn_form_textarea(_("Marker Description"),"marker_text",'size="50"');
+	shn_form_text(_("Name of Waypoint"),"marker_name",'size="50"',array('req'=>true,'help'=>_($conf['mod_gps_marker_name_help'])));
+	shn_form_opt_select("opt_wpt_type",_("Waypoint Type"),null,array('help'=>_($conf['mod_gps_marker_type_help'])));
+	shn_form_textarea(_("Waypoint Description"),"marker_text",'size="50"');
         shn_form_fsclose();
 	shn_form_submit(_("Add Detail"));
 	shn_form_fclose();
-
 }
-
 
 function shn_marker_add_map($errors=false)
 {
-
-	global $global;
-	if($errors){
-       display_errors();
-	
-        }
+    global $global;
+    if($errors){
+        display_errors();
+    }
     else{
-		$_SESSION['marker_name'] = $_POST['marker_name'];
-		$_SESSION['opt_wpt_type'] = $_POST['opt_wpt_type'];
-		$_SESSION['marker_text'] = $_POST['marker_text'];
-		$_SESSION['marker_author'] = $_POST['marker_author'];
+	$_SESSION['marker_name'] = $_POST['marker_name'];
+	$_SESSION['opt_wpt_type'] = $_POST['opt_wpt_type'];
+	$_SESSION['marker_text'] = $_POST['marker_text'];
+	$_SESSION['marker_author'] = $_POST['marker_author'];
 
     }
     
 	include $global['approot']."/inc/lib_gis/gis_fns.inc";
 	shn_form_fopen(marker,null,array('req'=>false));
 	shn_form_hidden(array('seq'=>'img'));
-	//call gis api
+	// call GIS API
 	shn_gis_add_marker_map_form();
 	shn_form_submit(_("Next"));
 
@@ -76,8 +72,6 @@ function shn_marker_add_map($errors=false)
 
 function shn_marker_add_file()
 {
-
-
 	if(isset($_POST['loc_x']) && $_POST['loc_y']!=''){
 		$_SESSION['loc_x']=$_POST['loc_x'];
 		$_SESSION['loc_y']=$_POST['loc_y'];
@@ -148,7 +142,6 @@ function shn_marker_add_download()
 }
 function shn_add_marker_to_file($addmarker=false)
 {
-
 	global $conf;
 
 	$marker_type=find_marker_type($_SESSION['opt_wpt_type']);
@@ -156,7 +149,6 @@ function shn_add_marker_to_file($addmarker=false)
 	$y_cord=$_SESSION['loc_y'];
 
 	$data="\n<wpt lat=\"$x_cord\" lon=\"$y_cord\">"."\n"."<name>".$_SESSION['marker_name']."</name>"."\n"."<desc>".$_SESSION['marker_text']."</desc>"."\n"."</wpt>";
-	
 
 	if(file_exists($conf['output']))
 	{
@@ -176,7 +168,6 @@ function shn_add_marker_to_file($addmarker=false)
 
 function find_marker_type($type)
 {
-	
 	global $global;
 	$db = $global['db'];
 
@@ -185,6 +176,7 @@ function find_marker_type($type)
 	
 	return $res->fields['option_description'];
 }
+
 function shn_gps_add()
 {
 	switch($_POST['button1']){
@@ -203,6 +195,7 @@ function shn_gps_add()
 	}
 
 }
+
 function shn_gps_add_author()
 {
 
@@ -248,8 +241,5 @@ function shn_text_gps_add_download()
 	fclose($handlex);
 	
     	print $gpx.$data."\n</gpx>";
-	
-
-	
 }
 ?>

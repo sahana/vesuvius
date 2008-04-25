@@ -22,9 +22,18 @@ function shn_gps_default()
 ?>
 <div id="home">
 <h2><?=$conf['mod_gps_name']?></h2>
-<ul>
-	<li><?=_("The {$conf['mod_gps_name']} module provides functions to upload and download GPS data, such as waypoints and routes.");?></li>
-	<li><?php echo _('The data is imported/exported via GPX files which can be transferred to/from a GPS device using, e.g. <a href="http://www.gpsbabel.org/">GPSBabel</a>.');?></li>
+<p><?php echo _t("The {$conf['mod_gps_name']} module provides the ability to use Sahana with a GPS.");?><br><br>
+<?=_('The data is imported/exported via GPX files which can be transferred to/from a GPS device using, e.g. <a href="http://www.gpsbabel.org/" target=_blank>GPS Babel</a>.');?>
+</p>
+
+<hr>
+    
+<strong><?php echo _t('Description of Actions:')?></strong><br/>
+    <ul>
+        <li><a href="index.php?mod=gps&act=upload"><b><?= _t('Upload Waypoints'); ?></b></a><br/><?= _t('Allow Waypoints from a GPS to be used as Markers in Sahana'); ?></li>
+        <li><a href="index.php?mod=gps&act=waypoint"><b><?= _t('Download Waypoints'); ?> </b> </a><br/><?= _t('Allow Markers from Sahana to be used as Waypoints on a GPS'); ?></li>
+        <li><a href="index.php?mod=gps&act=dynamic_download"><b><?= _t('Download Route'); ?> </b> </a><br/><?= _t('Allow Markers from Sahana to be used as a Route on a GPS'); ?></li>
+    </ul>
 </div>
 <?php
 }

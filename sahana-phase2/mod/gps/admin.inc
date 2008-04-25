@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.4 2008-04-22 20:50:56 franboon Exp $ */
+/* $Id: admin.inc,v 1.5 2008-04-25 22:42:52 franboon Exp $ */
 
 /**Admin Module for GPS module
 *
@@ -28,13 +28,11 @@ function _shn_gps_adm_sub_menu(){
 
 function shn_gps_adm_default()
 {
-  
    global $conf;
   ?>
    <h2><?=$conf['mod_gps_adm_name']._(" Administration")?></h2>
    <?php
    shn_gps_adm_form();
-   
 }
 
 function shn_gps_adm_form()
@@ -42,8 +40,8 @@ function shn_gps_adm_form()
 	global $global;
 
 	shn_form_fopen(adm_form_commit,null,array("req"=>false));
-  	shn_form_fsopen("Add Waypoint/Marker Type");
-	shn_form_opt_select("opt_wpt_type","Currently available Waypoint/Marker Types");
+  	shn_form_fsopen("Add Waypoint Type");
+	shn_form_opt_select("opt_wpt_type","Currently available Waypoint Types");
 	echo "<br/>";
 	shn_form_text("Waypoint Type","waypoint_type",'size="30"');
 	shn_form_text("Type Abbrevation [3 letter unique abbr. to store in the database]","type_abbr",'size="3"');
@@ -52,8 +50,8 @@ function shn_gps_adm_form()
 	shn_form_fclose();
 }
 
-function shn_gps_adm_form_commit(){
-
+function shn_gps_adm_form_commit()
+{
 	global $global;
 	$db = $global['db'];
 
