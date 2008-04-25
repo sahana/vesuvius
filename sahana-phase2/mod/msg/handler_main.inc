@@ -23,17 +23,17 @@ print $global['msg_jabber']->$connected;
 ?>
 
 
-<h1 align="center"><?= _t("Messaging Home")?> </h1>
+<h1 align="center"><?= _("Messaging Home")?> </h1>
 <div id="home">
     <div>
-    <p><?= (_t("Messaging module is the main communicative root of the sahana system. It is used to send sms,E-mail alerts and/or messages to various groups and individuals before, after and during a disaster. It also provides a convenient way of grouping mobile phone numbers and E-mail addresses.")) ?></p></div>
+    <p><?= (_("Messaging module is the main communicative root of the sahana system. It is used to send sms,E-mail alerts and/or messages to various groups and individuals before, after and during a disaster. It also provides a convenient way of grouping mobile phone numbers and E-mail addresses.")) ?></p></div>
     <br></br>
-    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?= (_("Features Include:")) ?></em></b></h3></div>
       
     <ul>
-        <li><a href="index.php?mod=msg&act=customized_messaging"><b><?= (_t("Messages:"))?></b></a><br><?= (_t("sms and E-mail alerts/messages could be sent to any groups or individuals. This feature currently works only on Linux platform."))?></li>
-        <li><a href="index.php?mod=msg&act=add_group"><b><?= (_t("Manage Groups:"))?></b></a><br><?= (_t("Each end user is provided the facility to create,customize and maintain various groups of sms and E-mail contacts"))?></li>
-        <li><a href="index.php?mod=msg&act=cap_new"><b><?= (_t("CAP:"))?></b></a><br><?= (_t(" New Alert Option enables end-user to create a New CAP message This will create an xml file containing the CAP message and store it in a temporary directory. You can view this file using 'View Messages' option."))?><br><?=(_t("View Alert Option enables end-user to view stored CAP messages Two sample messages are already added to the list. You can view them by selecting
+        <li><a href="index.php?mod=msg&act=customized_messaging"><b><?= (_("Messages:"))?></b></a><br><?= (_("sms and E-mail alerts/messages could be sent to any groups or individuals. This feature currently works only on Linux platform."))?></li>
+        <li><a href="index.php?mod=msg&act=add_group"><b><?= (_("Manage Groups:"))?></b></a><br><?= (_("Each end user is provided the facility to create,customize and maintain various groups of sms and E-mail contacts"))?></li>
+        <li><a href="index.php?mod=msg&act=cap_new"><b><?= (_("CAP:"))?></b></a><br><?= (_(" New Alert Option enables end-user to create a New CAP message This will create an xml file containing the CAP message and store it in a temporary directory. You can view this file using 'View Messages' option."))?><br><?=(_("View Alert Option enables end-user to view stored CAP messages Two sample messages are already added to the list. You can view them by selecting
 one of them and pressing the 'view' button"))?></li>
         
     </ul>
@@ -42,7 +42,7 @@ one of them and pressing the 'view' button"))?></li>
 
 
 <!--<div id="home">
-<h2><?//php print _t("Messaging")?></h2>
+<h2><?//php print _("Messaging")?></h2>
 
 <br/>
 <h3>Use the New Message Option to create a New CAP message</h3>
