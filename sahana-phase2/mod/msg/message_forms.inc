@@ -23,7 +23,7 @@ include_once $global['approot']."/mod/msg/message_group_forms.inc";
 function _shn_msg_add_group()
 {
 ?>
-    <h1 align="center"><?php print _t("Add Groups"); ?> </h1>
+    <h1 align="center"><?php print _("Add Groups"); ?> </h1>
 <?php
 
     global $global;
@@ -34,21 +34,21 @@ function _shn_msg_add_group()
     $extra_opts['req']="true";
     shn_form_fopen("add_group_actions",null,$form_opts);
     shn_form_fsopen("Add Groups");
-    ?><div class="info"><?=_t("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?><br/><br/>
-     <?=_t("Phone numbers are limited to 6-20 digits.");?><br/><br/>
-     <?=_t("Group name is limited to 10 characters.");?></div><br/><br/>
+    ?><div class="info"><?=_("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?><br/><br/>
+     <?=_("Phone numbers are limited to 6-20 digits.");?><br/><br/>
+     <?=_("Group name is limited to 10 characters.");?></div><br/><br/>
     <?
-    shn_form_text(_t("Group Name : "),'new_group_name','MaxLength=10',array('req'=>true,'help'=>_t('Name of the Group')));
-    shn_form_textarea(_t("E-mail address(es) : "),'email','size="30"',$extra_opts);
-    shn_form_textarea(_t("Mobile Number(s) : "),'mobile_number','size="30"',$extra_opts);
+    shn_form_text(_("Group Name : "),'new_group_name','MaxLength=10',array('req'=>true,'help'=>_('Name of the Group')));
+    shn_form_textarea(_("E-mail address(es) : "),'email','size="30"',$extra_opts);
+    shn_form_textarea(_("Mobile Number(s) : "),'mobile_number','size="30"',$extra_opts);
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
 ?>
 <center>
 <?php
-    shn_form_button(_t("Save"),"onClick='change_action(\"save\")'",$extra_opts);
-    shn_form_button(_t("Clear"),"onClick='change_action(\"clear\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='change_action(\"save\")'",$extra_opts);
+    shn_form_button(_("Clear"),"onClick='change_action(\"clear\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
 ?>
 </center>
@@ -193,7 +193,7 @@ function _shn_msg_edit_group()
     $db=$global["db"];
 
 ?>
-    <h1 align="center"><?php print _t("Edit Groups"); ?> </h1>
+    <h1 align="center"><?php print _("Edit Groups"); ?> </h1>
 <?php
     
     shn_form_fopen(null,null,array('req_message'=>false));
@@ -204,9 +204,9 @@ function _shn_msg_edit_group()
     <center>
     <table>
         <thead>
-        <td><?=_t("Group Name");?></td>
-        <td><?=_t("Mail IDs/Phone Numbers Count");?></td>
-        <td><?=_t("Action");?></td>
+        <td><?=_("Group Name");?></td>
+        <td><?=_("Mail IDs/Phone Numbers Count");?></td>
+        <td><?=_("Action");?></td>
         </thead>
     <tbody>
 <?php
@@ -267,7 +267,7 @@ function _shn_msg_edit_group()
 function _shn_msg_edit_group_form($group_uuid)
 {
 ?>
-    <h1 align="center"><?php print _t("View and Edit Group"); ?> </h1>
+    <h1 align="center"><?php print _("View and Edit Group"); ?> </h1>
 <?php
 
     global $global;
@@ -284,21 +284,21 @@ function _shn_msg_edit_group_form($group_uuid)
     
     shn_form_fopen("view_edit_group_actions",null,$form_opts);
     shn_form_fsopen("Add Group");
-        ?><div class="info"><?=_t("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?></div><?
-     ?><div class="info"><?=_t("Phone numbers are limited to 5-20 digits.");?></div><?
-    ?><div class="info"><?=_t("Group name is limited to 10 characters.");?></div><br/><?
-    shn_form_text(_t("Group Name : "),'new_group_name','MaxLength=10',array('req'=>true,'value'=>$group_name,'help'=>_t('Name of the Group')));
-    shn_form_textarea(_t("E-mail address(es) : "),'email','size="40"',array('req'=>true,'value'=>$address,'cols'=>"40",'rows'=>"3"));
-    shn_form_textarea(_t("Mobile Number(s) : "),'mobile_number','size="40"',array('req'=>true,'value'=>$mobile,'cols'=>"40",'rows'=>"3"));
+        ?><div class="info"><?=_("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?></div><?
+     ?><div class="info"><?=_("Phone numbers are limited to 5-20 digits.");?></div><?
+    ?><div class="info"><?=_("Group name is limited to 10 characters.");?></div><br/><?
+    shn_form_text(_("Group Name : "),'new_group_name','MaxLength=10',array('req'=>true,'value'=>$group_name,'help'=>_('Name of the Group')));
+    shn_form_textarea(_("E-mail address(es) : "),'email','size="40"',array('req'=>true,'value'=>$address,'cols'=>"40",'rows'=>"3"));
+    shn_form_textarea(_("Mobile Number(s) : "),'mobile_number','size="40"',array('req'=>true,'value'=>$mobile,'cols'=>"40",'rows'=>"3"));
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
 ?>
 <center>
 <?php
-    shn_form_button(_t("Save"),"onClick='change_action_view_edit(\"edit\")'",$extra_opts);
-    shn_form_button(_t("Delete"),"onClick='change_action_view_edit(\"delete\")'",$extra_opts);
-    shn_form_button(_t("Close"),"onClick='change_action_view_edit(\"close\")'",$extra_opts);
+    shn_form_button(_("Save"),"onClick='change_action_view_edit(\"edit\")'",$extra_opts);
+    shn_form_button(_("Delete"),"onClick='change_action_view_edit(\"delete\")'",$extra_opts);
+    shn_form_button(_("Close"),"onClick='change_action_view_edit(\"close\")'",$extra_opts);
     shn_form_hidden(array('group_uuid'=>$group_uuid));
     shn_form_hidden(array('group_name'=>$group_name));
     shn_form_hidden(array('action'=>'0'));
@@ -315,7 +315,7 @@ function _shn_msg_list_group()
     $db=$global["db"];
 
 ?>
-    <h1 align="center"><?php print _t("List Groups"); ?> </h1>
+    <h1 align="center"><?php print _("List Groups"); ?> </h1>
 <?php
     
     shn_form_fopen(null,null,array('req_message'=>false));
@@ -325,9 +325,9 @@ function _shn_msg_list_group()
     <div id ="result">
     <table>
         <thead>
-        <td><?=_t("Group Name");?></td>
-        <td><?=_t("e-mails IDs");?></td>
-        <td><?=_t("Mobile Numbers");?></td>
+        <td><?=_("Group Name");?></td>
+        <td><?=_("e-mails IDs");?></td>
+        <td><?=_("Mobile Numbers");?></td>
         </thead>
     <tbody>
 <?php
@@ -399,7 +399,7 @@ function _shn_msg_list_group()
 function _shn_msg_send_group()
 {
 ?>
-    <h1 align="center"><?php print _t("Send Group"); ?> </h1>
+    <h1 align="center"><?php print _("Send Group"); ?> </h1>
 <?php
 
     global $global;
@@ -421,10 +421,10 @@ $group_array[$msg1->fields['group_uuid']]=$msg1->fields['group_name'];
     $val='';
     shn_form_fopen("send_group_action",null,$form_opts);
     shn_form_fsopen("Message Details");
-    ?><div class="info"><?=_t("Message content is limited to 160 characters.");?></div><br/><?
-    shn_form_textarea(_t("Message : "),'message','onkeydown="extracheck(this)"',$extra_opts);
+    ?><div class="info"><?=_("Message content is limited to 160 characters.");?></div><br/><?
+    shn_form_textarea(_("Message : "),'message','onkeydown="extracheck(this)"',$extra_opts);
 // 'onKeyDown=x()'
-    shn_form_multi_select('group_select',$group_array,_t("Group(s) Selection"),'size="6" width="20" multiple="true"',array('help'=>_t('Select the Group(s) you wish to message.<br/> hold down the Ctrl key for selecting more than one group')));
+    shn_form_multi_select('group_select',$group_array,_("Group(s) Selection"),'size="6" width="20" multiple="true"',array('help'=>_('Select the Group(s) you wish to message.<br/> hold down the Ctrl key for selecting more than one group')));
 
     shn_form_fsclose();
     shn_form_submit("Send Message");
@@ -537,7 +537,7 @@ function _shn_msg_send_group_action(){
 function _shn_msg_customized_messaging()
 {
 ?>
-    <h1 align="center"><?php print _t("Customized Messaging"); ?> </h1>
+    <h1 align="center"><?php print _("Customized Messaging"); ?> </h1>
 <?php
 
     global $global;
@@ -549,22 +549,22 @@ function _shn_msg_customized_messaging()
     $form_opts['req_message']=true;
     shn_form_fopen("customized_messaging_actions",null,$form_opts);
     shn_form_fsopen("Messaging");
-    ?><div class="info"><?=_t("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?><br/><br/><?=_t("Message content is limited to 160 characters.");?><br/><br><?=_t("Phone numbers are limited to 6-20 digits.");?>
+    ?><div class="info"><?=_("Multiple E-mail addresses or mobile numbers should be entered comma seperatedly.");?><br/><br/><?=_("Message content is limited to 160 characters.");?><br/><br><?=_("Phone numbers are limited to 6-20 digits.");?>
     </div><?
     print "<br/>";
-    shn_form_textarea(_t("Message : "),'message','onkeydown="extracheck(this)"',$extra_opts);
+    shn_form_textarea(_("Message : "),'message','onkeydown="extracheck(this)"',$extra_opts);
 //onKeyDown=y()
     //$extra_opts['req']=true
-    shn_form_textarea(_t("E-mail address(es) : "),'email','size="40"',$extra_opts);
-    shn_form_textarea(_t("Mobile Number(s) : "),'mobile_number','size="40"',$extra_opts);
+    shn_form_textarea(_("E-mail address(es) : "),'email','size="40"',$extra_opts);
+    shn_form_textarea(_("Mobile Number(s) : "),'mobile_number','size="40"',$extra_opts);
     shn_form_fsclose();
     $extra_opts['br']=false;
     $extra_opts['req']=false;
 ?>
 <center>
 <?php
-    shn_form_button(_t("Send"),"onClick='change_action_customized_messaging(\"send\")'",$extra_opts);
-    shn_form_button(_t("Clear"),"onClick='change_action_customized_messaging(\"clear\")'",$extra_opts);
+    shn_form_button(_("Send"),"onClick='change_action_customized_messaging(\"send\")'",$extra_opts);
+    shn_form_button(_("Clear"),"onClick='change_action_customized_messaging(\"clear\")'",$extra_opts);
     
     shn_form_hidden(array('action'=>'0'));
    
@@ -574,6 +574,11 @@ function _shn_msg_customized_messaging()
     shn_form_fclose();	
 }
 
+/**
+ * Validate messages
+ * @author Sri <sri@opensource.lk>
+ * @edit Mifan: Gateway independant validation
+ */
 function _shn_msg_validate_customized_messaging()
 {
     $error_flag=false;
@@ -666,8 +671,8 @@ function _shn_msg_customized_messaging_actions()
         $address=$_POST['email'];
         $mobile=$_POST['mobile_number'];
 
-		$address_array=split(',',$address);
-		$mobile_array=split(',',$mobile);
+	$address_array=split(',',$address);
+	$mobile_array=split(',',$mobile);
         $status_mail=array();
         $cnt_sms=0;
         $cnt_mail=0;
