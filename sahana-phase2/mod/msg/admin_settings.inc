@@ -46,11 +46,11 @@ function _shn_kannel_config_setfile()
     shn_form_fsopen(_t("Kannel Settings"));
 ?>
     <ul>
-	<li><?php echo _t("Kannel is the sms gateway used in the messaging module to send sms");?>
+	<li><?php echo _t("Kannel is the SMS gateway used in the messaging module to send SMS");?>
         </li>
-	<li><?php echo _t("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
+	<li><?php echo _t("Kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
         </li>
-        <li><?php echo _t("In order to configure kannel the following configuration values should be given");?>
+        <li><?php echo _t("In order to configure Kannel the following configuration values should be given");?>
         </li>
     </ul>
 <?php    
@@ -173,7 +173,7 @@ function _shn_kannel_config_savefile()
 function _shn_kannel_operation_file()
 {
     print '<h2>' . _t("Kannel Operations") .'</h2>';
-    add_confirmation(_t("your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and convert it into an executable file and proceed with Kannel Operations"));
+    add_confirmation(_t("Your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and convert it into an executable file and proceed with Kannel Operations"));
  
     $form_opts['name']="Kannel_operations";
     $form_opts['req_message']=false;
@@ -244,4 +244,3 @@ function shn_config_file_update_new($modify, $config_file, $output_file)
 
 ?>
 
- 	  	 

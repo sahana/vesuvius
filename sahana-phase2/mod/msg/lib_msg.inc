@@ -15,7 +15,7 @@
 * @copyright  Respere - http://respere.com/
 * @package
 * @subpackage
-* @version		$Id: lib_msg.inc,v 1.1 2008-04-25 11:40:20 mifanc Exp $
+* @version		$Id: lib_msg.inc,v 1.2 2008-04-25 19:00:25 franboon Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -62,7 +62,7 @@ function shn_msg_send_short_message($recipients,$message)
 
 /**
  * This function will process the incoming message sent via GET & POST
- * Currently this function will be used by kenel and smstools
+ * Currently this function will be used by Kannel and SMSTools
  * @output The output should be text and depened on the gateway.
  */
 function shn_msg_receive_short_message(){
