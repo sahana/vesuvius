@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.10 2008-04-25 00:00:26 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.11 2008-04-25 14:31:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -73,10 +73,14 @@
     var lon = <?=$conf['gis_center_x']?>;
     var lat = <?=$conf['gis_center_y']?>;
     var zoom = <?=$conf['gis_zoom']?>;
+    // http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
+    var proj4326 = new OpenLayers.Projection("EPSG:4326");
+    var proj900913 = new OpenLayers.Projection("EPSG:900913");
+    var point = new OpenLayers.LonLat(lon, lat);
 
     var options = {
-        projection: new OpenLayers.Projection("EPSG:900913"),
-        displayProjection: new OpenLayers.Projection("EPSG:4326"),
+        projection: proj900913,
+        displayProjection: proj4326,
         units: "m",
         maxResolution: 156543.0339,
         maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34)
@@ -180,7 +184,9 @@
     }
 ?>
             
-	map.setCenter( new OpenLayers.LonLat(lon, lat), zoom);
+	// http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
+    //map.setCenter( new OpenLayers.LonLat(lon, lat), zoom);
+    map.setCenter(point.transform(proj4326, map.getProjectionObject()),zoom);
 	map.addControl( new OpenLayers.Control.LayerSwitcher() );
 	map.addControl( new OpenLayers.Control.PanZoomBar() );
 <?php
@@ -246,7 +252,9 @@ function ol_osm_getTileURL()
         $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
         $edit=$array[$i]["edit"];
         $id=$array[$i]["wiki_uuid"];
-        echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+        echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
         echo "var marker$i = feature$i.createMarker();\n";
         echo "markers.addMarker(marker$i);\n";
         echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
@@ -309,7 +317,9 @@ function ol_osm_getTileURL()
   	$pre_url="index.php?";
 	$url=$pre_url.$url;
 	
-	echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+    echo "lonlat.transform(proj4326, proj900913);\n";
+    echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
 	echo "var marker$i = feature$i.createMarker();\n";
 	echo "markers.addMarker(marker$i);\n";
 	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
@@ -352,25 +362,28 @@ function ol_osm_getTileURL()
     $db = $global['db'];
 ?>
 
-	var markers = new OpenLayers.Layer.Markers( "Markers" );
-	map.addLayer(markers);
-	var size = new OpenLayers.Size(21,25); // icon size
-	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
-	
-	map.events.register("click", map, function(e) { 
-		var lonlat = map.getLonLatFromViewPortPx(e.xy);
-		var lon_new = lonlat.lon;
-		var lat_new = lonlat.lat;
-		// store x,y coords in hidden variables named loc_x, loc_y
-		// must be set via calling page
-		var x_point=document.getElementsByName("loc_x");
-		var y_point=document.getElementsByName("loc_y");
-		x_point[0].value=lon_new;
-		y_point[0].value=lat_new;
-		// Provide visual feedback that marker was placed OK
-		var marker = new OpenLayers.Marker(new OpenLayers.LonLat(lon_new,lat_new),icon);
-		markers.addMarker(marker);
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+    var size = new OpenLayers.Size(21,25); // icon size
+    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+
+    map.events.register("click", map, function(e) { 
+        //var lonlat = map.getLonLatFromViewPortPx(e.xy);
+        var lonlat = map.getLonLatFromPixel(e.xy);
+        // Provide visual feedback that marker was placed OK (pre-transform)
+        var marker = new OpenLayers.Marker(lonlat,icon);
+        markers.addMarker(marker);
+        // Convert to Lon/Lat for DB storage
+        lonlat.transform(proj900913, proj4326);
+        var lon_new = lonlat.lon;
+        var lat_new = lonlat.lat;
+        // store x,y coords in hidden variables named loc_x, loc_y
+        // must be set via calling page
+        var x_point=document.getElementsByName("loc_x");
+        var y_point=document.getElementsByName("loc_y");
+        x_point[0].value=lon_new;
+        y_point[0].value=lat_new;
 });
 	
 <?php
