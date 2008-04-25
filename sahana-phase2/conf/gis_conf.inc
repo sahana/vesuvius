@@ -125,12 +125,12 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  */
 $conf['gis_ol_wms']='1';
  
-$conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
+$conf['gis_ol_wms_1_description'] = 'Low-resolution Vector Map of the globe';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_type'] = 'base';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';
 $conf['gis_ol_wms_1_layers'] = 'basic';
-$conf['gis_ol_wms_1_img'] = '';
+$conf['gis_ol_wms_1_format'] = '';
 $conf['gis_ol_wms_1_transparency'] = '0';
 $conf['gis_ol_wms_1_min'] = '';
 $conf['gis_ol_wms_1_max'] = '';
