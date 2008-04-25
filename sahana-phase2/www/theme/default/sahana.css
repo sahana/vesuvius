@@ -487,3 +487,13 @@ button{
 	padding: 3px;
 }
  
+
+/* Styles related to Messaging module 
+--------------------------------------------------------------------------------------*/
+
+#message_container { background:url(../../res/img/mobile.jpg) no-repeat; width:250px; height:521px; float:left; }
+#message_container textarea#message{ background-color:transparent; border:none; color:white; margin:110px 0px 0px 47px; font-size:15px; overflow:auto;}
+html>body #message_container textarea#message{ font-size:13px;} /*hacks for IE*/
+#message_container div#message{ background-color:transparent; border:none; color:white; margin:110px 0px 0px 47px; width:160px; font-size:15px;}
+html>body #message_container div#message{ font-size:13px;} /*hacks for IE*/
+
