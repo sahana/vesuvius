@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.13 2008-04-26 12:55:37 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.14 2008-04-26 13:23:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -188,7 +188,7 @@
     for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
         $name = $conf["gis_ol_georss_".$i."_name"];
         $url = $conf["gis_ol_georss_".$i."_url"];
-        echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\");\n"; 
+        echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: proj4326});\n"; 
         echo "map.addLayer(georsslayer$i);\n";
     }
 ?>
