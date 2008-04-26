@@ -1,7 +1,6 @@
 <?php
 
 /**
-*
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
@@ -9,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.12 2008-04-25 21:18:58 franboon Exp $
+* @version     $Id: wms.inc,v 1.13 2008-04-26 12:41:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -202,7 +201,7 @@ class wms implements layer{
         }
     }
     /**
-     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form
+     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form?
      */
     //function edit_item() {
     //}
