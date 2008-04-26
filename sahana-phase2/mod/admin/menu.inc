@@ -162,6 +162,8 @@ function _shn_admin_acl_role_menu($module=null)
 	<br>
 <?php
 
+
+}
 /**
  * Messaging/Alerting admin section
  * The admin section is moved outwards since it is a library/framework component
@@ -179,7 +181,4 @@ function _shn_admin_acl_role_menu($module=null)
         }
 
  }
-
-
-}
 ?>
