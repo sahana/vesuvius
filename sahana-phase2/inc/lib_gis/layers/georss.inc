@@ -8,8 +8,12 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.4 2008-04-26 20:57:46 mifanc Exp $
+* @version     	$Id: georss.inc,v 1.5 2008-04-26 21:12:51 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* 
+* @todo: handle delete and enable coming from table chkbxs
+* @todo: add a conf value for feed enabling
+* @todo:too cluttered: shove the add section somewher else!!
 */
 
 global $global;
@@ -21,59 +25,16 @@ class georss implements layer{
     {
         global $conf;
         shn_form_fsopen(_t('GeoRSS'));
-        shn_form_fsopen(_t('Available GeoRSS Feeds'));
-    	
-    	if($conf['gis_ol_georss']){
-?>
-		<div id="result">
-			
-		  <table>
-			<thead>
-				<td><?php echo _t('Name')?></td>
-				<td><?php echo _t('Feed URI')?></td>
-				<td><?php echo _t('Description')?></td>
-				<td><?php echo _t('Enable')?></td>
-				<td><?php echo _t('Delete')?></td>
-			</thead>
-			<tbody>
-<?php
-				for($i=0;$i<$conf['gis_ol_georss'];$i++){
-					$j=++$i;
-					if($conf['gis_ol_georss_'.$j.'_enabled'])
-						$check = 'checked';
-?>
-				<tr>
-					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
-					<td><?php echo $conf['gis_ol_georss_'.$j.'_url']; ?></td>
-					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
-					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check,array('value'=>1)); ?></td>
-					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
-				</tr>
-<?php
-				}
-?>
-			</tbody>
-		  </table>
-  
-  
-		</div>
-<?php
-    	}
-    	else{
-    		//No feeds to display
-    		echo _t('No GeoRSS feeds to display');
-    	}
-    	shn_form_fsclose();
+        $this->georss_enable();
+        $this->show_georss_feeds();
+        $this->add_georss_feed();
     	shn_form_fsclose();
     	
     }
-    
-    
-    function add_georss_feed()
+    function georss_enable()
     {
     	global $conf;
-        shn_form_fsopen(_t('GeoRSS'));
-        shn_form_fsopen(_t('INFO'));
+    	shn_form_fsopen(_t('INFO'));
         echo _t("<p>Sahana can make use of Feeds from servers using the <a href='http://en.wikipedia.org/wiki/GeoRSS' target=_blank>GeoRSS</a> standard </p>");
         echo _t("<p>Enable GeoRSS Layers by selecting the checkbox option below.</p>");
         shn_form_fsclose();
@@ -84,7 +45,15 @@ class georss implements layer{
         }
         shn_form_checkbox(_t('Enable GeoRSS layers'),'georss_enable',$checked,array('value'=>1));
         shn_form_fsclose();
+    }
+    
+    function add_georss_feed()
+    {
+    	global $conf;
+        
+  
         if (!$conf['gis_ol_georss']==0){
+            shn_form_fsopen(_t('Add Feed'));
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of GeoRSS layers'),'gis_ol_georss','size=2 maxlength=2',array('value'=>$conf['gis_ol_georss']));
             shn_form_fsclose();
@@ -99,8 +68,9 @@ class georss implements layer{
                 shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_url'],"help"=>$url_help));
                 shn_form_fsclose();
             }
+            shn_form_fsclose();
         }
-        shn_form_fsclose();
+        
     }
 
     function commit_values()
@@ -174,7 +144,52 @@ class georss implements layer{
     
     function show_georss_feeds()
     {
+    	global $conf;
+    	if (!$conf['gis_ol_georss']==0){
+    	shn_form_fsopen(_t('Available GeoRSS Feeds'));
     	
+    	if($conf['gis_ol_georss']){
+?>
+		<div id="result">
+			
+		  <table>
+			<thead>
+				<td><?php echo _t('Name')?></td>
+				<td><?php echo _t('Feed URI')?></td>
+				<td><?php echo _t('Description')?></td>
+				<td><?php echo _t('Enable')?></td>
+				<td><?php echo _t('Delete')?></td>
+			</thead>
+			<tbody>
+<?php
+				for($i=0;$i<$conf['gis_ol_georss'];$i++){
+					$j=++$i;
+					if($conf['gis_ol_georss_'.$j.'_enabled'])
+						$check = 'checked';
+?>
+				<tr>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_url']; ?></td>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
+					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
+				</tr>
+<?php
+				}
+?>
+			</tbody>
+		  </table>
+  
+  
+		</div>
+<?php
+    	}
+    	else{
+    		//No feeds to display
+    		echo _t('No GeoRSS feeds to display');
+    	}
+    	shn_form_fsclose();
+    	}
     }
     
 }
