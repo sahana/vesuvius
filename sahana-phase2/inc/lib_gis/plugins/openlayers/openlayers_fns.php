@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.12 2008-04-25 20:08:21 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.13 2008-04-26 12:55:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -169,9 +169,14 @@
         $name = $conf["gis_ol_wms_".$i."_name"];
         $url = $conf["gis_ol_wms_".$i."_url"];
         $layers = $conf["gis_ol_wms_".$i."_layers"];
+        $format = $conf["gis_ol_wms_".$i."_format"];
         echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
         echo "\"$url\",\n"; 
-        echo "{layers: '$layers'}, \n";
+        echo "{layers: '$layers'";
+        if (!null==$format) {
+            echo ",format:'$format'";
+        }
+        echo "},\n";
         $base = "true";
         if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
             $base = "false";
@@ -219,6 +224,7 @@ function ol_osm_getTileURL()
         echo "        x = ((x % limit) + limit) % limit;\n";
         echo "        return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;\n";
         echo "    }\n";
+        echo "}\n";
     }
 }
     

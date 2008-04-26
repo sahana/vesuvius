@@ -29,8 +29,6 @@ function show_map($opt=null)
 	ol_layers();
     ol_osm_getTileURL();
 ?>            
-	}		
-
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
 <?php
@@ -52,13 +50,10 @@ function show_map_with_markers($array)
 	ol_show_markers($array);
     ol_osm_getTileURL();
 ?>            
-	}		
-
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
 <?php
 }
-
 
 /**
  * show map with wiki markers
@@ -75,8 +70,6 @@ function show_map_with_wiki_marker($array)
 	ol_show_wiki_markers($array);
     ol_osm_getTileURL();
 ?>            
-	}		
-
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
 <?php
@@ -98,8 +91,6 @@ function show_add_marker_map($name)
 	ol_add_marker($name);
     ol_osm_getTileURL();
 ?>		
-	}			
-	
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
 <?php
