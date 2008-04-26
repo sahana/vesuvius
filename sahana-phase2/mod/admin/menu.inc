@@ -33,8 +33,12 @@ function _shn_admin_mainmenu()
     shn_sub_mod_menuclose();
 
     //GIS Admin menu inclusion:
-    //@edit: Mifan Careem
+    //@edit: Mifan Careem <mifan@respere.com>
     include_once $global['approot'].'/inc/lib_gis/admin_menu.inc';
+    
+    //Messaging Admin menu inclusion:
+    //@edit: Mifan Careem <mifan@respere.com>
+    _shn_admin_msg_menu();
 
     shn_sub_mod_menuopen(_t("Module Configuration"));
     foreach($module_list as $i) {
@@ -157,5 +161,25 @@ function _shn_admin_acl_role_menu($module=null)
 	</div>
 	<br>
 <?php
+
+/**
+ * Messaging/Alerting admin section
+ * The admin section is moved outwards since it is a library/framework component
+ * And it requires multiple menu items so not intended as a module-only admin
+ * However, doing a module check here since it can be optional
+ * @author      Mifan Careem <mifan@respere.com>
+ */
+ function _shn_admin_msg_menu(){
+        global $global;
+        include_once $global['approot']."/inc/lib_modules.inc";
+
+        if(shn_module_exists('msg')){
+                include_once $global['approot']."/mod/msg/adm_menu.inc";
+                shn_msg_admin_menu();
+        }
+
+ }
+
+
 }
 ?>
