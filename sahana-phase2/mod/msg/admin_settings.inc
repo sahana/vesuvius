@@ -1,37 +1,31 @@
 <?php
 /**
-* The Sahana Messaging Module
+* The Sahana Messaging Module: Admin interface
 *
 * PHP version 5
 *
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
 * @author       Sriganeshan<sri@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
-* @subpackage	rms
-* @tutorial
-* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* @package      sahana
+* @subpackage   msg
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 */
 
-   	global $global;
-	include_once($global['approot'].'/inc/lib_modules.inc');
-	include_once($global['approot'].'/inc/lib_form.inc');
-        include_once($global['approot'].'/inc/lib_validate.inc');
-        include_once($global['approot'].'/mod/msg/conf.inc');
-        require_once $global['approot']."/inc/handler_db.inc";
-        require_once $global['approot']."/inc/lib_config.inc";
-
+global $global;
+include_once($global['approot'].'/inc/lib_modules.inc');
+include_once($global['approot'].'/inc/lib_form.inc');
+include_once($global['approot'].'/inc/lib_validate.inc');
+include_once($global['approot'].'/mod/msg/conf.inc');
+require_once $global['approot']."/inc/handler_db.inc";
+require_once $global['approot']."/inc/lib_config.inc";
 
 function _shn_kannel_config_setfile()
 {
     
     $mod = 'msg';
     $act = 'adm_set';
-    print '<h2>' . _t("Kannel Configurations & SMTP Settings") .'</h2>';
+    print '<h2>' . _t("Kannel Configuration & SMTP Settings") .'</h2>';
     global $conf;
     copy($conf['input_file'],$conf['output_file']);
 
