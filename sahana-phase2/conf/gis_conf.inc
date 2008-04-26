@@ -19,26 +19,22 @@
 
 global $conf;
 
-
 /**
  * Default GIS plugin to use as GIS.
- * Can be changed via the admin interface for GIS
  * Should be the directory name of the GIS plugin
  */
 $conf['gis_dflt'] = 'openlayers';
- 
 
 /**
  * Default center coordinates of displayed maps
  * Currently set to display Sri Lanka as default
- * Can be changed via the admin interface for GIS
  */
 $conf['gis_center_x'] = '79.4'; // Longitude
 $conf['gis_center_y'] = '6';    // Latitude
-$conf['gis_zoom'] = '5';
+$conf['gis_zoom'] = '6';
 
 /**
- * folder that contains gis data files
+ * Folder that contains gis data files
  */
 $conf['gis_data_folder'] = 'data';
 
@@ -49,19 +45,19 @@ $conf['gis_height']=600;
 $conf['gis_width']=760;
 
 /**
- * folder to store custom markers
+ * Folder to store custom markers
  * given from sahana root
  */
 $conf['gis_marker_folder'] = 'theme/default/img/';
 
 /**
- * folder to store wiki images
+ * Folder to store wiki images
  * given from sahana root
  */
 $conf['gis_image_folder'] = 'www/tmp/';
 
 /**
- * folder to store temp images of maps
+ * Folder to store temp images of maps
  * given from sahana root
  */
 $conf['gis_tmp_image_folder'] = 'theme/default/img/';
@@ -125,12 +121,12 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  */
 $conf['gis_ol_wms']='1';
  
-$conf['gis_ol_wms_1_description'] = 'Low-resolution Vector Map of the globe';
+$conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_type'] = 'base';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';
 $conf['gis_ol_wms_1_layers'] = 'basic';
-$conf['gis_ol_wms_1_format'] = '';
+$conf['gis_ol_wms_1_img'] = '';
 $conf['gis_ol_wms_1_transparency'] = '0';
 $conf['gis_ol_wms_1_min'] = '';
 $conf['gis_ol_wms_1_max'] = '';
