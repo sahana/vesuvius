@@ -228,7 +228,7 @@ function shn_sm_show_wiki_add_detail($errors=false)
 	shn_form_fsopen(_t("Wikimap Options"));
 	shn_form_text(_t("Author"),"wiki_author",'size="50"',array('help'=>_t($conf['mod_sm_situation_author_help'])));
 	shn_form_checkbox(_t("Publicly Editable"),"edit_public",null,array('value'=>'edit'));
-	shn_form_checkbox(_t("Publicly Viewable"),"view_public","view");
+	shn_form_checkbox(_t("Publicly Viewable"),"view_public",null,array('value'=>'view'));
 	shn_form_fsclose();
 	shn_form_submit(_t("Add Detail"));
 	shn_form_fclose();
@@ -286,10 +286,10 @@ function shn_sm_wiki_map_commit()
 	$gis_id=0;
 	
 	$edit=($_SESSION['edit_public']=='edit')?1:0;
-	
+	$view_public=($_SESSION['view_public']=='view')?1:0;
 	$query = " insert into gis_wiki (wiki_uuid,gis_uuid,name,description,opt_category,url,event_date,editable,author,approved) " .
 			 " values ('{$wiki_id}','{$gis_id}','{$_SESSION['wiki_name']}','{$_SESSION['wiki_text']}','{$_SESSION['opt_wikimap_type']}', " .
-			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$_SESSION['view_public']}')";
+			 "'{$_SESSION['wiki_url']}','{$_SESSION['wiki_evnt_date']}','{$edit}','{$_SESSION['wiki_author']}','{$view_public}')";
 			 
 	$res=$db->Execute($query);
 	//var_dump($_SESSION);
