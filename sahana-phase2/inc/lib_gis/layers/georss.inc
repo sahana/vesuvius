@@ -5,10 +5,10 @@
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    Sahana - http://sahana.lk/
+* @copyright  	Lanka Software Foundation - http://www.opensource.lk
+* @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.1 2008-04-26 12:41:32 franboon Exp $
+* @version     	$Id: georss.inc,v 1.2 2008-04-26 20:11:55 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -119,6 +119,59 @@ class georss implements layer{
             }
         }
     }
+    
+    /**
+     * Show list of stored GeoRSS feeds
+     * Should we make changes to how we handle conf values, fran?
+     * Appending the $number to the end of conf...
+     * 
+     */
+    function show_georss_list()
+    {
+    	global $conf;
+    	
+    	if($conf['gis_ol_georss']){
+?>
+		<div id="result">
+			
+		  <table>
+			<thead>
+				<td><?php echo _t('Name')?></td>
+				<td><?php echo _t('Feed URI')?></td>
+				<td><?php echo _t('Description')?></td>
+				<td><?php echo _t('Enable')?></td>
+				<td><?php echo _t('Delete')?></td>
+			</thead>
+			<tbody>
+<?php
+				for($i=0;$i<$conf['gis_ol_georss'];$i++){
+					$j=++$i;
+					if($conf['gis_ol_georss_'.$j.'_enabled'])
+						$check = 'checked';
+?>
+				<tr>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_url']; ?></td>
+					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
+					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
+				<tr>
+<?php
+				}
+?>
+			</tbody>
+		  </table>
+  
+  
+		</div>
+<?php
+    	}
+    	else{
+    		//No feeds to display
+    		echo _t('No GeoRSS feeds to display');
+    	}
+    }
+    
     /**
      * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form?
      */
