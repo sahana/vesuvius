@@ -711,4 +711,11 @@ function shn_admin_lc_javascript()
  * Inclusion of GIS admin menu functionality/actions
  */
  	include_once $global['approot'].'/inc/lib_gis/admin_acts.inc';
+ 	
+ /**
+  * Inclusion of Messaging admin menu
+  * @edit: Mifan Careem <mifan@respere.com>
+  * @todo check availability of messaing module
+  */	
+ include_once $global['approot']."/mod/msg/adm_menu_actions.inc";
 ?>
