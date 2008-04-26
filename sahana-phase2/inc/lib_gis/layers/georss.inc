@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.2 2008-04-26 20:11:55 mifanc Exp $
+* @version     	$Id: georss.inc,v 1.3 2008-04-26 20:23:22 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -19,7 +19,12 @@ class georss implements layer{
 
     function print_form()
     {
-        global $conf;
+        
+    }
+    
+    function add_georss_feed()
+    {
+    	global $conf;
         shn_form_fsopen(_t('GeoRSS'));
         shn_form_fsopen(_t('INFO'));
         echo _t("<p>Sahana can make use of Feeds from servers using the <a href='http://en.wikipedia.org/wiki/GeoRSS' target=_blank>GeoRSS</a> standard </p>");
