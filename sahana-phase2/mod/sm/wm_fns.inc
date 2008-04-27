@@ -52,7 +52,7 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 	while(!$res->EOF){
 			$editable=$res->fields['editable'];
 			if($editable==1){
-				$edit_url= "<a href="."index.php?mod=sm&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid']."> Edit</a>";
+				$edit_url= "index.php?mod=sm&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid'];
 			}
 			else
 				$edit_url="";

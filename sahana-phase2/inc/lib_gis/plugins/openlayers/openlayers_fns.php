@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.22 2008-04-27 21:06:08 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.23 2008-04-27 21:35:25 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -274,8 +274,8 @@
 ?>
     function addMarker(lonlat, popupContentHTML) {
         var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
-        feature.closeBox = 'true';
-        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
+        feature.closeBox = true;
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble,{'autoSize': true});
         feature.data.popupContentHTML = popupContentHTML;
         var marker = feature.createMarker();
         var markerClick = function (evt) {
@@ -320,16 +320,19 @@
         $name=$array[$i]["name"];
         $desc=$array[$i]["desc"];
         $url=$array[$i]["url"];
+        $edit=$array[$i]["edit"];
         if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
             $date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
         } else {
             $date="";
         }
         $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
-        //ToDo: Implement Edit
-        //$edit=$array[$i]["edit"];
-        //$id=$array[$i]["wiki_uuid"];
-        echo "popupContentHTML = \"<b>$name</b><br>$desc<br><a href='$url' target='_blank'>View</a><br>$date<br><b>Author</b>: $author</p>\"\n";
+        echo "popupContentHTML = \"<b>$name</b><br>$desc<br>";
+        if (!null == $array[$i]["url"])
+            echo "<a href='$url' target='_blank'>View</a><br>";
+        if (!null == $array[$i]["edit"])
+            echo "<a href='$edit'>Edit</a><br>";
+        echo "$date<br><b>Author</b>: $author</p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
         echo "lonlat.transform(proj4326, proj900913);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
@@ -337,13 +340,13 @@
 ?>
     function addMarker(lonlat, popupContentHTML) {
         var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
-        feature.closeBox = 'true';
-        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
+        feature.closeBox = true;
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble,{'autoSize': true});
         feature.data.popupContentHTML = popupContentHTML;
         var marker = feature.createMarker();
         var markerClick = function (evt) {
             if (this.popup == null) {
-                this.popup = this.createPopup(this.closeBox);
+                this.popup = this.createPopup(true);
                 this.popup.setOpacity(0.9);
                 map.addPopup(this.popup);
                 this.popup.show();
@@ -395,8 +398,8 @@
 ?>
     function addMarker(lonlat, popupContentHTML) {
         var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
-        feature.closeBox = 'true';
-        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
+        feature.closeBox = true;
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble,{'autoSize': true});
         feature.data.popupContentHTML = popupContentHTML;
         var marker = feature.createMarker();
         var markerClick = function (evt) {

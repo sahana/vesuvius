@@ -234,7 +234,7 @@ function show_map_with_wiki_marker($array)
 					//$edit="help";
 ?>	
 					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=_lc($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><?=$edit?></div>');
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=_lc($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><a href="<?=$edit?>"> Edit</a></div>');
       				map.addOverlay(marker);
 <?php
 				}
