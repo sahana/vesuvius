@@ -282,7 +282,7 @@ function shn_cr_gis_show(){
 
         //populate aray
         while(!$res->EOF){
-            $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['name'];
+            $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
             array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
 					"id"=>$res->fields['c_uuid'],"url"=>$camp_url));
             $res->MoveNext();
