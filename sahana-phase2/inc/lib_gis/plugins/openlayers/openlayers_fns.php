@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.18 2008-04-27 15:27:47 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.19 2008-04-27 17:01:53 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -287,8 +287,8 @@
 			echo "popup = feature$i.createPopup(true);\n";
 			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url' target='_blank'>Link</a><br /></p>";
 			echo "\");\n";
-			echo "popup.setBackgroundColor(\"yellow\");\n";
-			echo "popup.setOpacity(0.7);\n";
+			echo "popup.setBackgroundColor(\"white\");\n";
+			echo "popup.setOpacity(0.9);\n";
 			echo "markers.map.addPopup(popup);\n";
 		echo "} else {\n";
 			echo "markers.map.removePopup(popup);\n";
@@ -356,8 +356,8 @@
         } else {
             echo "\");\n";
         }
-        echo "    popup.setBackgroundColor(\"yellow\");\n";
-        echo "    popup.setOpacity(0.7);\n";
+        echo "    popup.setBackgroundColor(\"white\");\n";
+        echo "    popup.setOpacity(0.9);\n";
         echo "    markers.map.addPopup(popup);\n";
         echo "} else {\n";
         echo "    markers.map.removePopup(popup);\n";
@@ -417,8 +417,8 @@
 			echo "popup = feature$i.createPopup(true);\n";
 			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url' target='_blank'>Link</a><br /></p>";
 			echo "\");\n";
-			echo "popup.setBackgroundColor(\"yellow\");\n";
-			echo "popup.setOpacity(0.7);\n";
+			echo "popup.setBackgroundColor(\"white\");\n";
+			echo "popup.setOpacity(0.9);\n";
 			echo "markers.map.addPopup(popup);\n";
 		echo "} else {\n";
 			echo "markers.map.removePopup(popup);\n";
