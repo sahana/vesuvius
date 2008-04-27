@@ -48,7 +48,7 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 	//create array
 	$map_array=array();
 
-	//populate aray
+	//populate array
 	while(!$res->EOF){
 			$editable=$res->fields['editable'];
 			if($editable==1){
@@ -184,11 +184,7 @@ function map_client($errors=false)
   	if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
   	}
   	shn_gis_map();	
-
 }
-
-
-//-----------------------------
 
 /**
  * Situation add form
