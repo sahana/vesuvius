@@ -74,7 +74,7 @@ print _t("Sahana Request Management System is a central online repository where 
 <?php
     global $global;
     require_once($global['approot']."/inc/lib_rss.inc");
-    shn_rss_add_feed('new_pledges',_t('New Pledgs'));
+    shn_rss_add_feed('new_pledges',_t('New Pledges'));
     shn_rss_add_feed('new_requests',_t('New Requests'));
 ?>
 </div>
