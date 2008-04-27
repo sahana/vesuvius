@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.20 2008-04-27 20:09:48 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.21 2008-04-27 20:46:00 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -257,47 +257,43 @@
 	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
-	var popup;
+    var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
-	$lon=$array[$i]["lat"];
-	$lat=$array[$i]["lon"];
-	$name=$array[$i]["name"];
-  	$url=$array[$i]["url"];
-  	$pre_url="index.php?";
-	$url=$pre_url.$url;
-	
-	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-    echo "lonlat.transform(proj4326, proj900913);\n";
-    echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
-	echo "var marker$i = feature$i.createMarker();\n";
-	echo "markers.addMarker(marker$i);\n";
-	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
-	echo "function mousedown$i(evt) {\n";
-		// check to see if the popup was hidden by the close box
-		// if so, then destroy it before continuing
-		echo "if (popup != null) {\n";
-			echo "if (!popup.visible()) {\n";
-				echo "markers.map.removePopup(popup);\n";
-				echo "popup.destroy();\n";
-				echo "popup = null;\n";
-			echo "}\n";
-		echo "}\n";
-		echo "if (popup == null) {\n";
-			echo "popup = feature$i.createPopup(true);\n";
-			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url'>Link</a><br /></p>";
-			echo "\");\n";
-			echo "popup.setBackgroundColor(\"white\");\n";
-			echo "popup.setOpacity(0.9);\n";
-			echo "markers.map.addPopup(popup);\n";
-		echo "} else {\n";
-			echo "markers.map.removePopup(popup);\n";
-			echo "popup.destroy();\n";
-			echo "popup = null;\n";
-		echo "}\n";
-		echo "Event.stop(evt);\n";
-	echo "}\n";
-	}
+        $lon=$array[$i]["lat"];
+        $lat=$array[$i]["lon"];
+        $name=$array[$i]["name"];
+        $url=$array[$i]["url"];
+        $pre_url="index.php?";
+        $url=$pre_url.$url;
+        echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>Link</a><br /></p>\"\n";
+        echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "addMarker(lonlat,popupContentHTML);\n";
+    }
+?>
+    function addMarker(lonlat, popupContentHTML) {
+        var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
+        feature.closeBox = 'true';
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
+        feature.data.popupContentHTML = popupContentHTML;
+        var marker = feature.createMarker();
+        var markerClick = function (evt) {
+            if (this.popup == null) {
+                this.popup = this.createPopup(this.closeBox);
+                this.popup.setOpacity(0.9);
+                map.addPopup(this.popup);
+                this.popup.show();
+            } else {
+                this.popup.toggle();
+            }
+            currentPopup = this.popup;
+            OpenLayers.Event.stop(evt);
+        };
+        marker.events.register("mousedown", feature, markerClick);
+        markers.addMarker(marker);
+    }
+<?php   
 }
 		
 /**
@@ -317,9 +313,6 @@
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
     var currentPopup;
-    AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
-            'autoSize': true
-        });
 <?php
     for($i=0;$i< sizeof($array);$i++){
         $lon=$array[$i]["lat"];
@@ -345,7 +338,7 @@
     function addMarker(lonlat, popupContentHTML) {
         var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
         feature.closeBox = 'true';
-        feature.popupClass = AutoSizeFramedCloud;
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
         feature.data.popupContentHTML = popupContentHTML;
         var marker = feature.createMarker();
         var markerClick = function (evt) {
@@ -381,7 +374,7 @@
 	map.addLayer(markers);
 	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var popup;
+    var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
 	$lon=$array[$i]["lat"];
@@ -394,37 +387,34 @@
 ?>
   	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
 <?php
-	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-    echo "lonlat.transform(proj4326, proj900913);\n";
-    echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
-	echo "var marker$i = feature$i.createMarker();\n";
-	echo "markers.addMarker(marker$i);\n";
-	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
-	echo "function mousedown$i(evt) {\n";
-		// check to see if the popup was hidden by the close box
-		// if so, then destroy it before continuing
-		echo "if (popup != null) {\n";
-			echo "if (!popup.visible()) {\n";
-				echo "markers.map.removePopup(popup);\n";
-				echo "popup.destroy();\n";
-				echo "popup = null;\n";
-			echo "}\n";
-		echo "}\n";
-		echo "if (popup == null) {\n";
-			echo "popup = feature$i.createPopup(true);\n";
-			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url'>Link</a><br /></p>";
-			echo "\");\n";
-			echo "popup.setBackgroundColor(\"white\");\n";
-			echo "popup.setOpacity(0.9);\n";
-			echo "markers.map.addPopup(popup);\n";
-		echo "} else {\n";
-			echo "markers.map.removePopup(popup);\n";
-			echo "popup.destroy();\n";
-			echo "popup = null;\n";
-		echo "}\n";
-		echo "Event.stop(evt);\n";
-	echo "}\n";
-	}
+	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>Link</a><br /></p>\"\n";
+        echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "addMarker(lonlat,popupContentHTML);\n";
+    }
+?>
+    function addMarker(lonlat, popupContentHTML) {
+        var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
+        feature.closeBox = 'true';
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble);
+        feature.data.popupContentHTML = popupContentHTML;
+        var marker = feature.createMarker();
+        var markerClick = function (evt) {
+            if (this.popup == null) {
+                this.popup = this.createPopup(this.closeBox);
+                this.popup.setOpacity(0.9);
+                map.addPopup(this.popup);
+                this.popup.show();
+            } else {
+                this.popup.toggle();
+            }
+            currentPopup = this.popup;
+            OpenLayers.Event.stop(evt);
+        };
+        marker.events.register("mousedown", feature, markerClick);
+        markers.addMarker(marker);
+    }
+<?php   
 }
 
 /**
