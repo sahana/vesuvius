@@ -340,8 +340,9 @@ function shn_cr_gis_infect(){
                 $marker_n=$conf['mod_cr_perc_f_mk'];
             }
 
+            $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
             array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-					"id"=>$res->fields['c_uuid'],"desc"=>$desc,"marker"=>$marker_n));
+					"id"=>$res->fields['c_uuid'],"url"=>$camp_url,"desc"=>$desc,"marker"=>$marker_n));
             $res->MoveNext();
         }
         ?>
@@ -425,8 +426,9 @@ function shn_cr_gis_population(){
                 $marker_n=$conf['mod_cr_perc_f_mk'];
             }
 
+            $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
             array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-					"id"=>$res->fields['c_uuid'],"desc"=>$desc,"marker"=>$marker_n));
+					"id"=>$res->fields['c_uuid'],"url"=>$camp_url,"desc"=>$desc,"marker"=>$marker_n));
             $res->MoveNext();
         }
         //show_map_with_custom_markers($map_array);
