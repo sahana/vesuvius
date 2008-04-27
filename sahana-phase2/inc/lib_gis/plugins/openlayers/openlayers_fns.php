@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.23 2008-04-27 21:35:25 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.24 2008-04-27 21:45:15 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -319,8 +319,6 @@
         $lat=$array[$i]["lon"];
         $name=$array[$i]["name"];
         $desc=$array[$i]["desc"];
-        $url=$array[$i]["url"];
-        $edit=$array[$i]["edit"];
         if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
             $date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
         } else {
@@ -328,11 +326,20 @@
         }
         $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
         echo "popupContentHTML = \"<b>$name</b><br>$desc<br>";
-        if (!null == $array[$i]["url"])
+        if (!null == $array[$i]["image"]) {
+            $image = $array[$i]["image"];
+            echo "<img src=$image width=100 height=100><br>";
+        }
+        if (!null == $array[$i]["url"]) {
+            $url=$array[$i]["url"];
             echo "<a href='$url' target='_blank'>View</a><br>";
-        if (!null == $array[$i]["edit"])
-            echo "<a href='$edit'>Edit</a><br>";
-        echo "$date<br><b>Author</b>: $author</p>\"\n";
+        }
+        echo "$date<br><b>Author</b>: $author<br>";
+        if (!null == $array[$i]["edit"]) {
+            $edit=$array[$i]["edit"];
+            echo "<a href='$edit'>Edit</a>";
+        }
+        echo "</p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
         echo "lonlat.transform(proj4326, proj900913);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
