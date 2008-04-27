@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.15 2008-04-27 13:14:40 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.16 2008-04-27 13:37:58 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -270,7 +270,7 @@
 	
 	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
     echo "lonlat.transform(proj4326, proj900913);\n";
-    echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+    echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
 	echo "var marker$i = feature$i.createMarker();\n";
 	echo "markers.addMarker(marker$i);\n";
 	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
@@ -402,7 +402,7 @@
 	
 	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
     echo "lonlat.transform(proj4326, proj900913);\n";
-    echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+    echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
 	echo "var marker$i = feature$i.createMarker();\n";
 	echo "markers.addMarker(marker$i);\n";
 	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
