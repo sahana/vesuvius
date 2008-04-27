@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.21 2008-04-27 20:46:00 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.22 2008-04-27 21:06:08 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -266,7 +266,7 @@
         $url=$array[$i]["url"];
         $pre_url="index.php?";
         $url=$pre_url.$url;
-        echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>Link</a><br /></p>\"\n";
+        echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
         echo "lonlat.transform(proj4326, proj900913);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
@@ -329,7 +329,7 @@
         //ToDo: Implement Edit
         //$edit=$array[$i]["edit"];
         //$id=$array[$i]["wiki_uuid"];
-        echo "popupContentHTML = \"<b>$name</b><br>$desc<br><a href='$url' target='_blank'>Link</a><br>$date<br><b>Author</b>: $author</p>\"\n";
+        echo "popupContentHTML = \"<b>$name</b><br>$desc<br><a href='$url' target='_blank'>View</a><br>$date<br><b>Author</b>: $author</p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
         echo "lonlat.transform(proj4326, proj900913);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
@@ -377,17 +377,17 @@
     var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
-	$lon=$array[$i]["lat"];
-	$lat=$array[$i]["lon"];
-	$name=$array[$i]["name"];
-  	$url=$array[$i]["url"];
-    $pre_url="index.php?";
-	$url=$pre_url.$url;
-	$marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
+        $lon=$array[$i]["lat"];
+        $lat=$array[$i]["lon"];
+        $name=$array[$i]["name"];
+        $url=$array[$i]["url"];
+        $pre_url="index.php?";
+        $url=$pre_url.$url;
+        $marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
 ?>
-  	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
+        var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
 <?php
-	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>Link</a><br /></p>\"\n";
+	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
         echo "lonlat.transform(proj4326, proj900913);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
