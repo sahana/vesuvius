@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.17 2008-04-27 15:16:01 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.18 2008-04-27 15:27:47 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -256,7 +256,7 @@
 	map.addLayer(markers);
 	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
 	var popup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
@@ -315,7 +315,7 @@
     map.addLayer(markers);
     var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
 	var popup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
@@ -384,7 +384,6 @@
 	map.addLayer(markers);
 	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
 	var popup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
@@ -392,9 +391,12 @@
 	$lat=$array[$i]["lon"];
 	$name=$array[$i]["name"];
   	$url=$array[$i]["url"];
-  	$pre_url="index.php?";
+    $pre_url="index.php?";
 	$url=$pre_url.$url;
-	
+	$marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
+?>
+  	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
+<?php
 	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
     echo "lonlat.transform(proj4326, proj900913);\n";
     echo "var feature$i = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()});\n";
