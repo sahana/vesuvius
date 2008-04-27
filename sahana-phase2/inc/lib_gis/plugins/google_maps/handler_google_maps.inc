@@ -17,9 +17,8 @@
 * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-
 /**
- * show basic map
+ * Show basic map
  * called by shn_gis_map in gis api
  */
 function show_map($opt=null)
@@ -175,9 +174,8 @@ function show_map_with_markers($array)
 <?php
 }
 
-
 /**
- * show map with wiki style markers
+ * Show map with wiki style markers
  * called by shn_gis_map_with_wiki_markers in gis api
  */
 function show_map_with_wiki_marker($array)
@@ -255,17 +253,10 @@ function show_map_with_wiki_marker($array)
 <?php
 }
 
-
-
-
 /**
  * Map with custom markers
  * called by shn_gis_density_map in gis api
-
-/**
- * map with custom markers
- * called by shn_gis_density_map in gis api
- */
+*/
 function show_map_with_custom_markers($array)
 {
 	global $global;
