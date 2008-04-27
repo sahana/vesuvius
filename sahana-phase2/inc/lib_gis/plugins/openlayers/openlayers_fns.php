@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.16 2008-04-27 13:37:58 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.17 2008-04-27 15:16:01 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -215,10 +215,10 @@
 
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
-    var size = new OpenLayers.Size(21,25); // icon size
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
-
+    var size = new OpenLayers.Size(20,34); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('theme/default/img/marker.png',size,offset);
+	
     map.events.register("click", map, function(e) { 
         //var lonlat = map.getLonLatFromViewPortPx(e.xy);
         var lonlat = map.getLonLatFromPixel(e.xy);
@@ -250,15 +250,14 @@
     global $conf;
     global $global;
     $db = $global['db'];
+    $folder = $conf['gis_marker_folder'];
 ?>
-
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
 	map.addLayer(markers);
-	var size = new OpenLayers.Size(21,25); // icon size
+	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
 	var popup;
-
 <?php
 	for($i=0;$i< sizeof($array);$i++){
 	$lon=$array[$i]["lat"];
@@ -310,16 +309,14 @@
  {
     global $conf;
     global $global;
-    $db = $global['db'];
+    $folder = $conf['gis_marker_folder'];
 ?>
-
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
-    var size = new OpenLayers.Size(21,25); // icon size
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
-    var popup;
-
+    var size = new OpenLayers.Size(20,34); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
+	var popup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
         $lon=$array[$i]["lat"];
@@ -381,16 +378,14 @@
  {
     global $conf;
     global $global;
-    $db = $global['db'];
+    $folder = $conf['gis_marker_folder'];
 ?>
-
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
 	map.addLayer(markers);
-	var size = new OpenLayers.Size(21,25); // icon size
+	var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $folder?>marker.png',size,offset);
 	var popup;
-
 <?php
 	for($i=0;$i< sizeof($array);$i++){
 	$lon=$array[$i]["lat"];
@@ -432,7 +427,6 @@
 	echo "}\n";
 	}
 }
-	
 
 /**
  * Function to support OSM layers
