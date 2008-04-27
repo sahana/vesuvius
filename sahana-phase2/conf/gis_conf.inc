@@ -121,6 +121,8 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  */
 $conf['gis_ol_wms']='1';
  
+$conf['gis_ol_wms_available']='1';
+ 
 $conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_type'] = 'base';
@@ -137,10 +139,10 @@ $conf['gis_ol_wms_1_max'] = '';
  */
 $conf['gis_ol_georss'] ='0';
 
+$conf['gis_ol_georss_available'] ='1';
+
 $conf['gis_ol_georss_1_description'] = '';
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
 $conf['gis_ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
-
-$conf['mod_gis_dependencies'] = "";
 
 ?>
