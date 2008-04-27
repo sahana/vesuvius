@@ -16,7 +16,7 @@
 */
 
 /**
- * show basic map
+ * Show basic map
  * called by shn_gis_map in GIS API
  */
 function show_map($opt=null)
@@ -35,7 +35,28 @@ function show_map($opt=null)
 }
 
 /**
- * show map with markers
+ * Show map with marker addition event
+ * ability to enter markers on map
+ * called by shn_gis_add_marker_map_form in GIS API
+ */
+function show_add_marker_map($name)
+{
+	global $global;
+	global $conf;
+	include_once('openlayers_fns.php');
+
+	ol_js_loaders();
+	ol_layers();
+	ol_add_marker($name);
+    ol_osm_getTileURL();
+?>		
+</script>
+	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
+<?php
+}
+
+/**
+ * Show map with markers
  * called by shn_gis_map_with_markers in gis api
  */
 function show_map_with_markers($array)
@@ -44,7 +65,7 @@ function show_map_with_markers($array)
 	global $conf;
 	$db=$global['db'];
 	include_once('openlayers_fns.php');
-	
+
   	ol_js_loaders();
 	ol_layers();
 	ol_show_markers($array);
@@ -56,7 +77,7 @@ function show_map_with_markers($array)
 }
 
 /**
- * show map with wiki markers
+ * Show map with wiki markers
  * called by shn_gis_map_with_markers in GIS API
  */
 function show_map_with_wiki_marker($array)
@@ -64,7 +85,7 @@ function show_map_with_wiki_marker($array)
 	global $global;
 	global $conf;
 	include_once('openlayers_fns.php');
-	
+
   	ol_js_loaders();
 	ol_layers();
 	ol_show_wiki_markers($array);
@@ -76,24 +97,23 @@ function show_map_with_wiki_marker($array)
 }
 
 /**
- * show map with marker addition event
- * ability to enter markers on map
- * called by shn_gis_add_marker_map_form in GIS API
- */
-function show_add_marker_map($name)
+ * Show map with custom markers
+ * called by shn_gis_density_map in gis api
+*/
+function show_map_with_custom_markers($array)
 {
-	global $global;
+    global $global;
 	global $conf;
 	include_once('openlayers_fns.php');
 	
 	ol_js_loaders();
 	ol_layers();
-	ol_add_marker($name);
+	ol_show_custom_markers($array);
     ol_osm_getTileURL();
 ?>		
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
 <?php
 }
-		
+
 ?>

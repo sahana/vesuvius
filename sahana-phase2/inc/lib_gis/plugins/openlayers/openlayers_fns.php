@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.14 2008-04-26 13:23:43 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.15 2008-04-27 13:14:40 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -202,32 +202,105 @@
 }
 
 /**
- * Function to support OSM layers
- * called by all show functions in openlayers plugin handler
+ * Allow addition of a Marker
+ * called by show_add_marker_map in openlayers plugin handler
  * @access private
  */
-function ol_osm_getTileURL()
-{
+ function ol_add_marker($name)
+ {
     global $conf;
-    // close init()
-    echo "}\n";
-    if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
-        echo "function osm_getTileURL(bounds) {\n";
-        echo "    var res = this.map.getResolution();\n";
-        echo "    var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));\n";
-        echo "    var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));\n";
-        echo "    var z = this.map.getZoom();\n";
-        echo "    var limit = Math.pow(2, z);\n";
-        echo "    if (y < 0 || y >= limit) {\n";
-        echo "        return OpenLayers.Util.getImagesLocation() + \"404.png\";\n";
-        echo "    } else {\n";
-        echo "        x = ((x % limit) + limit) % limit;\n";
-        echo "        return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;\n";
-        echo "    }\n";
-        echo "}\n";
-    }
+    global $global;
+    $db = $global['db'];
+?>
+
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+    var size = new OpenLayers.Size(21,25); // icon size
+    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+
+    map.events.register("click", map, function(e) { 
+        //var lonlat = map.getLonLatFromViewPortPx(e.xy);
+        var lonlat = map.getLonLatFromPixel(e.xy);
+        // Provide visual feedback that marker was placed OK (pre-transform)
+        var marker = new OpenLayers.Marker(lonlat,icon);
+        markers.addMarker(marker);
+        // Convert to Lon/Lat for DB storage
+        lonlat.transform(proj900913, proj4326);
+        var lon_new = lonlat.lon;
+        var lat_new = lonlat.lat;
+        // store x,y coords in hidden variables named loc_x, loc_y
+        // must be set via calling page
+        var x_point=document.getElementsByName("loc_x");
+        var y_point=document.getElementsByName("loc_y");
+        x_point[0].value=lon_new;
+        y_point[0].value=lat_new;
+});
+	
+<?php
 }
-    
+
+/**
+ * Show the Markers layer
+ * called by show_map in openlayers plugin handler
+ * @access private
+ */
+ function ol_show_markers($array)
+ {
+    global $conf;
+    global $global;
+    $db = $global['db'];
+?>
+
+	var markers = new OpenLayers.Layer.Markers( "Markers" );
+	map.addLayer(markers);
+	var size = new OpenLayers.Size(21,25); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
+	var popup;
+
+<?php
+	for($i=0;$i< sizeof($array);$i++){
+	$lon=$array[$i]["lat"];
+	$lat=$array[$i]["lon"];
+	$name=$array[$i]["name"];
+  	$url=$array[$i]["url"];
+  	$pre_url="index.php?";
+	$url=$pre_url.$url;
+	
+	echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+    echo "lonlat.transform(proj4326, proj900913);\n";
+    echo "var feature$i = new OpenLayers.Feature(markers, new OpenLayers.LonLat($lon,$lat),{'icon': icon.clone()});\n";
+	echo "var marker$i = feature$i.createMarker();\n";
+	echo "markers.addMarker(marker$i);\n";
+	echo "marker$i.events.register(\"mousedown\", marker$i, mousedown$i);\n";
+	echo "function mousedown$i(evt) {\n";
+		// check to see if the popup was hidden by the close box
+		// if so, then destroy it before continuing
+		echo "if (popup != null) {\n";
+			echo "if (!popup.visible()) {\n";
+				echo "markers.map.removePopup(popup);\n";
+				echo "popup.destroy();\n";
+				echo "popup = null;\n";
+			echo "}\n";
+		echo "}\n";
+		echo "if (popup == null) {\n";
+			echo "popup = feature$i.createPopup(true);\n";
+			echo "popup.setContentHTML(\"<b>$name</b><br /><a href='$url' target='_blank'>Link</a><br /></p>";
+			echo "\");\n";
+			echo "popup.setBackgroundColor(\"yellow\");\n";
+			echo "popup.setOpacity(0.7);\n";
+			echo "markers.map.addPopup(popup);\n";
+		echo "} else {\n";
+			echo "markers.map.removePopup(popup);\n";
+			echo "popup.destroy();\n";
+			echo "popup = null;\n";
+		echo "}\n";
+		echo "Event.stop(evt);\n";
+	echo "}\n";
+	}
+}
+		
 /**
  * Show the Markers layer with Wiki information
  * called by show_map in openlayers plugin handler
@@ -300,11 +373,11 @@ function ol_osm_getTileURL()
 }
 
 /**
- * Show the Markers layer
- * called by show_map in openlayers plugin handler
+ * Show the Markers layer with custom markers
+ * called by show_map_with_custom_markers in openlayers plugin handler
  * @access private
  */
- function ol_show_markers($array)
+ function ol_show_custom_markers($array)
  {
     global $conf;
     global $global;
@@ -359,44 +432,33 @@ function ol_osm_getTileURL()
 	echo "}\n";
 	}
 }
-		
+	
+
 /**
- * Show the map & allow addition of a Marker
- * called by show_add_marker_map in openlayers plugin handler
+ * Function to support OSM layers
+ * called by all show functions in openlayers plugin handler
  * @access private
  */
- function ol_add_marker($name)
- {
+function ol_osm_getTileURL()
+{
     global $conf;
-    global $global;
-    $db = $global['db'];
-?>
-
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(markers);
-    var size = new OpenLayers.Size(21,25); // icon size
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('res/OpenLayers/img/marker.png',size,offset);
-
-    map.events.register("click", map, function(e) { 
-        //var lonlat = map.getLonLatFromViewPortPx(e.xy);
-        var lonlat = map.getLonLatFromPixel(e.xy);
-        // Provide visual feedback that marker was placed OK (pre-transform)
-        var marker = new OpenLayers.Marker(lonlat,icon);
-        markers.addMarker(marker);
-        // Convert to Lon/Lat for DB storage
-        lonlat.transform(proj900913, proj4326);
-        var lon_new = lonlat.lon;
-        var lat_new = lonlat.lat;
-        // store x,y coords in hidden variables named loc_x, loc_y
-        // must be set via calling page
-        var x_point=document.getElementsByName("loc_x");
-        var y_point=document.getElementsByName("loc_y");
-        x_point[0].value=lon_new;
-        y_point[0].value=lat_new;
-});
-	
-<?php
+    // close init()
+    echo "}\n";
+    if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
+        echo "function osm_getTileURL(bounds) {\n";
+        echo "    var res = this.map.getResolution();\n";
+        echo "    var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));\n";
+        echo "    var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));\n";
+        echo "    var z = this.map.getZoom();\n";
+        echo "    var limit = Math.pow(2, z);\n";
+        echo "    if (y < 0 || y >= limit) {\n";
+        echo "        return OpenLayers.Util.getImagesLocation() + \"404.png\";\n";
+        echo "    } else {\n";
+        echo "        x = ((x % limit) + limit) % limit;\n";
+        echo "        return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;\n";
+        echo "    }\n";
+        echo "}\n";
+    }
 }
-
+    
 ?>
