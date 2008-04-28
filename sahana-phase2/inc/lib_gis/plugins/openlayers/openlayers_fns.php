@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.24 2008-04-27 21:45:15 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.25 2008-04-28 21:55:39 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,6 +22,8 @@
     global $conf;
     global $global;
 
+  //Disable commercial layers if using a non-standard WMS projection
+  if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid'])) {
         $key = $conf['gis_google_key'];
         echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
@@ -41,7 +43,7 @@
         $key = $conf['gis_yahoo_key'];
         echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=$key'></script>\n";
     }
-
+  }
 ?>
     <script src="res/OpenLayers/OpenLayers.js"></script>
     <script type="text/javascript">
@@ -77,7 +79,6 @@
     var proj4326 = new OpenLayers.Projection("EPSG:4326");
     var proj900913 = new OpenLayers.Projection("EPSG:900913");
     var point = new OpenLayers.LonLat(lon, lat);
-
     var options = {
         projection: proj900913,
         displayProjection: proj4326,
@@ -85,11 +86,19 @@
         maxResolution: 156543.0339,
         maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34)
     };
-
-    map = new OpenLayers.Map('map',options);
+<?php
+    if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
+        echo "map = new OpenLayers.Map('map',options);\n";
+    } else {
+        echo "map = new OpenLayers.Map('map');\n";
+    }
+?>
     OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
+  //Disable commercial layers if using a non-sphericalMercator WMS projection
+  if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
+    //OSM layer(s) listed 1st - promote OpenData!
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
         echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
         echo 'map.addLayer(mapnik);';
@@ -164,7 +173,7 @@
         echo 'map.addLayer(yahoomaps);';
         echo "\n";
     }
-
+  }
     for ($i = 1; $i <= $conf['gis_ol_wms']; $i++) {
         $name = $conf["gis_ol_wms_".$i."_name"];
         $url = $conf["gis_ol_wms_".$i."_url"];
@@ -181,20 +190,29 @@
         if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
             $base = "false";
         }
-        echo "{'isBaseLayer': $base,'wrapDateLine': true} );\n";
+        echo "{'isBaseLayer': $base,'wrapDateLine': true";
+        $projection = $conf["gis_ol_wms_".$i."_projection"];
+        if (!null==$projection && !"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
+            echo ",projection:'$projection',maxResolution: 1.40625,maxExtent: new OpenLayers.Bounds(-180,-90,180,90),units: 'degrees'";
+        }
+        echo "});\n";
         echo "map.addLayer(wmslayer$i);\n";
     }
 
     for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
         $name = $conf["gis_ol_georss_".$i."_name"];
         $url = $conf["gis_ol_georss_".$i."_url"];
-        echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: proj4326});\n"; 
+        $projection = "EPSG:4326";
+        if (!null == $conf["gis_ol_georss_".$i."_projection"]) {
+            $projection = $conf["gis_ol_georss_".$i."_projection"];
+        }
+        echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
+        echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i});\n"; 
         echo "map.addLayer(georsslayer$i);\n";
     }
 ?>
             
 	// http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
-    //map.setCenter( new OpenLayers.LonLat(lon, lat), zoom);
     map.setCenter(point.transform(proj4326, map.getProjectionObject()),zoom);
 	map.addControl( new OpenLayers.Control.LayerSwitcher() );
 	map.addControl( new OpenLayers.Control.PanZoomBar() );
@@ -211,22 +229,23 @@
     global $conf;
     global $global;
     $db = $global['db'];
+    $folder = $conf['gis_marker_folder'];
 ?>
 
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
     var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('theme/default/img/marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
 	
     map.events.register("click", map, function(e) { 
-        //var lonlat = map.getLonLatFromViewPortPx(e.xy);
         var lonlat = map.getLonLatFromPixel(e.xy);
         // Provide visual feedback that marker was placed OK (pre-transform)
         var marker = new OpenLayers.Marker(lonlat,icon);
         markers.addMarker(marker);
         // Convert to Lon/Lat for DB storage
-        lonlat.transform(proj900913, proj4326);
+        proj_current = map.getProjectionObject();
+        lonlat.transform(proj_current, proj4326);
         var lon_new = lonlat.lon;
         var lat_new = lonlat.lat;
         // store x,y coords in hidden variables named loc_x, loc_y
@@ -236,7 +255,6 @@
         x_point[0].value=lon_new;
         y_point[0].value=lat_new;
 });
-	
 <?php
 }
 
@@ -268,7 +286,8 @@
         $url=$pre_url.$url;
         echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "proj_current = map.getProjectionObject();\n";
+        echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
 ?>
@@ -341,7 +360,8 @@
         }
         echo "</p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "proj_current = map.getProjectionObject();\n";
+        echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
 ?>
@@ -399,7 +419,8 @@
 <?php
 	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "lonlat.transform(proj4326, proj900913);\n";
+        echo "proj_current = map.getProjectionObject();\n";
+        echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
 ?>

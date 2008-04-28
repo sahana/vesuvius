@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.13 2008-04-26 12:41:32 franboon Exp $
+* @version     $Id: wms.inc,v 1.14 2008-04-28 21:55:39 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -36,28 +36,35 @@ class wms implements layer{
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of WMS layers'),'gis_ol_wms','size=2 maxlength=2',array('value'=>$conf['gis_ol_wms']));
             shn_form_fsclose();
-            $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
+            $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the WMS service - without Options (mandatory)");
-            $layers_help=_t("Comma-separated list of layer(s) at this WMS URL to enable (mandatory)");
+            $type_help=_t("Only one 'Base' layer can be displayed at a time. Multiple 'Overlay' layers can be displayed over the top.");
+            $layers_help=_t("Comma-separated list of layer(s) at this WMS URL to enable (mandatory). NB If you wish to be able to switch layers on/off independently then you should define a separate WMS layer for each one.");
             $format_help=_t("Image format (optional). e.g. png");
+            $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a> (optional). If left blank, then <a href=\"http://trac.openlayers.org/wiki/SphericalMercator\">EPSG:900913</a> is assumed as this provides full compatibility with the commercial layers. Some WMS servers may not support this & hence need a different value (such as EPSG:4326). If this is the case then <b>all commercial layers are disabled</b> to avoid problems when moving between different layer types!");
             for ($i=0; $i<$conf['gis_ol_wms']; $i++) {
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
-                shn_form_text(_t('Description'),'gis_ol_wms_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_wms_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('Name'),'gis_ol_wms_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_name'],"help"=>$name_help));
+                shn_form_text(_t('Description'),'gis_ol_wms_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_wms_'.$j.'_description'],"help"=>$description_help));
+                shn_form_text(_t('URL'),'gis_ol_wms_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_url'],"help"=>$url_help));
                 $types = array(_t('base'),_t('overlay'));
                 $type_select = _t('base');
                 if ($conf['gis_ol_wms_'.$j.'_type']==1) {
                     $type_select = _t('overlay');
                 }
-                shn_form_select($types,_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$type_select));
-                shn_form_text(_t('URL'),'gis_ol_wms_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_url'],"help"=>$url_help));
+                shn_form_select($types,_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$type_select,"help"=>$type_help));
                 shn_form_text(_t('Layers'),'gis_ol_wms_'.$j.'_layers',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_layers'],"help"=>$layers_help));
                 shn_form_text(_t('Format'),'gis_ol_wms_'.$j.'_format',null,array('value'=>$conf['gis_ol_wms_'.$j.'_format'],"help"=>$format_help));
-                shn_form_text(_t('Transparency'),'gis_ol_wms_'.$j.'_transparency',null,array('value'=>$conf['gis_ol_wms_'.$j.'_transparency']));
-                shn_form_text(_t('Min'),'gis_ol_wms_'.$j.'_min',null,array('value'=>$conf['gis_ol_wms_'.$j.'_min']));
-                shn_form_text(_t('Max'),'gis_ol_wms_'.$j.'_max',null,array('value'=>$conf['gis_ol_wms_'.$j.'_max']));
+                $projection = "EPSG:900913";
+                if (!null == $conf['gis_ol_wms_'.$j.'_projection']) {
+                    $projection = $conf['gis_ol_wms_'.$j.'_projection'];
+                }
+                shn_form_text(_t('Projection'),'gis_ol_wms_'.$j.'_projection',null,array('value'=>$projection,"help"=>$projection_help));
+                //shn_form_text(_t('Transparency'),'gis_ol_wms_'.$j.'_transparency',null,array('value'=>$conf['gis_ol_wms_'.$j.'_transparency']));
+                //shn_form_text(_t('Min'),'gis_ol_wms_'.$j.'_min',null,array('value'=>$conf['gis_ol_wms_'.$j.'_min']));
+                //shn_form_text(_t('Max'),'gis_ol_wms_'.$j.'_max',null,array('value'=>$conf['gis_ol_wms_'.$j.'_max']));
                 shn_form_fsclose();
             }
         }
@@ -143,39 +150,50 @@ class wms implements layer{
                 $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$format','{$_POST[$format]}')";
                 $db->Execute($insert);
             }
-            $transparency = 'gis_ol_wms_'.$j.'_transparency';
-            $query = "SELECT * FROM config WHERE confkey='$transparency' AND module_id='admin'";
+            $projection = 'gis_ol_wms_'.$j.'_projection';
+            $query = "SELECT * FROM config WHERE confkey='$projection' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST[$transparency]}' WHERE module_id = 'admin' AND confkey = '$transparency'";
+                $q = "UPDATE config SET value = '{$_POST[$projection]}' WHERE module_id = 'admin' AND confkey = '$projection'";
                 $db->Execute($q);
             }
             else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$transparency','{$_POST[$transparency]}')";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$projection','{$_POST[$projection]}')";
                 $db->Execute($insert);
             }
-            $min = 'gis_ol_wms_'.$j.'_min';
-            $query = "SELECT * FROM config WHERE confkey='$min' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST[$min]}' WHERE module_id = 'admin' AND confkey = '$min'";
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$min','{$_POST[$min]}')";
-                $db->Execute($insert);
-            }
-            $max = 'gis_ol_wms_'.$j.'_max';
-            $query = "SELECT * FROM config WHERE confkey='$max' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST[$max]}' WHERE module_id = 'admin' AND confkey = '$max'";
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$max','{$_POST[$max]}')";
-                $db->Execute($insert);
-            }
+            //$transparency = 'gis_ol_wms_'.$j.'_transparency';
+            //$query = "SELECT * FROM config WHERE confkey='$transparency' AND module_id='admin'";
+            //$res = $db->Execute($query);
+            //if(!$res->EOF){
+            //    $q = "UPDATE config SET value = '{$_POST[$transparency]}' WHERE module_id = 'admin' AND confkey = '$transparency'";
+            //    $db->Execute($q);
+            //}
+            //else{
+            //    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$transparency','{$_POST[$transparency]}')";
+            //    $db->Execute($insert);
+            //}
+            //$min = 'gis_ol_wms_'.$j.'_min';
+            //$query = "SELECT * FROM config WHERE confkey='$min' AND module_id='admin'";
+            //$res = $db->Execute($query);
+            //if(!$res->EOF){
+            //    $q = "UPDATE config SET value = '{$_POST[$min]}' WHERE module_id = 'admin' AND confkey = '$min'";
+            //    $db->Execute($q);
+            //}
+            //else{
+            //    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$min','{$_POST[$min]}')";
+            //    $db->Execute($insert);
+            //}
+            //$max = 'gis_ol_wms_'.$j.'_max';
+            //$query = "SELECT * FROM config WHERE confkey='$max' AND module_id='admin'";
+            //$res = $db->Execute($query);
+            //if(!$res->EOF){
+            //    $q = "UPDATE config SET value = '{$_POST[$max]}' WHERE module_id = 'admin' AND confkey = '$max'";
+            //    $db->Execute($q);
+            //}
+            //else{
+            //    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$max','{$_POST[$max]}')";
+            //    $db->Execute($insert);
+            //}
         }
             // Checkboxes return nothing if unticked!
         if (null == $_POST['wms_enable']){
@@ -200,13 +218,6 @@ class wms implements layer{
             }
         }
     }
-    /**
-     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form?
-     */
-    //function edit_item() {
-    //}
-    //function edit_item() {
-    //}
 }
  
 ?>
