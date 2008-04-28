@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.6 2008-04-27 10:43:05 franboon Exp $
+* @version     $Id: georss.inc,v 1.7 2008-04-28 21:56:31 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -36,15 +36,21 @@ class georss implements layer{
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of GeoRSS layers'),'gis_ol_georss','size=2 maxlength=2',array('value'=>$conf['gis_ol_georss']));
             shn_form_fsclose();
-            $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
+            $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
+            $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a> (mandatory). If left blank, then EPSG:4326 is assumed as this is the default WGS84.");
             for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
-                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_name'],"help"=>$name_help));
+                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_url'],"help"=>$url_help));
+                $projection = "EPSG:4326";
+                if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
+                    $projection = $conf['gis_ol_georss_'.$j.'_projection'];
+                }
+                shn_form_text(_t('Projection'),'gis_ol_georss_'.$j.'_projection',null,array('req'=>true,'value'=>$projection,"help"=>$projection_help));
                 shn_form_fsclose();
             }
         }
