@@ -30,7 +30,7 @@ function shn_sm_mainmenu(){
     shn_mod_menuitem("default",_t("Home"),$module);
     shn_mod_menuitem("swik",_t("View Situation Map"),$module);
     shn_mod_menuitem("awik",_t("Add New Situation"),$module);
-    shn_mod_menuitem("ewik",_t("Edit Situation"),$module);
+    //shn_mod_menuitem("ewik",_t("Edit Situation"),$module);
     //shn_mod_menuitem("mapc",_t("Map Client"),$module); 
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
