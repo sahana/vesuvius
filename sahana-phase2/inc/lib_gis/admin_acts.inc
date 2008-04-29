@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: admin_acts.inc,v 1.14 2008-04-27 20:52:07 franboon Exp $
+* @version		$Id: admin_acts.inc,v 1.15 2008-04-29 17:26:39 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -57,7 +57,7 @@ function shn_admin_gis_main_defaults()
     shn_admin_gis_commit_main();
     add_confirmation(_t("Changes were saved"));
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     shn_admin_gis_main_settings();
 }
 
@@ -78,7 +78,7 @@ function shn_admin_gis_layers_commit()
     _shn_admin_gis_commit_layers();
     add_confirmation(_t("Changes were saved"));
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     _shn_gis_layer_main_form();
 }
 

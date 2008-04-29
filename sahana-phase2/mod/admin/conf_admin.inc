@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.19 2008-02-28 04:37:40 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.20 2008-04-29 17:26:40 franboon Exp $ */
 
-/* $Id: conf_admin.inc,v 1.19 2008-02-28 04:37:40 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.20 2008-04-29 17:26:40 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -167,7 +167,7 @@ function shn_admin_conf_list()
 </script>
 		<?php
 		ksort($conf);
-		shn_config_database_fetch(&$dconf,'all');
+		shn_config_database_fetch($dconf,'all');
 		?>
 <div id="result">
 <table>
