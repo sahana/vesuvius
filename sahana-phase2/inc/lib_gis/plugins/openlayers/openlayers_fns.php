@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.25 2008-04-28 21:55:39 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.26 2008-04-29 15:05:22 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -300,7 +300,7 @@
         var markerClick = function (evt) {
             if (this.popup == null) {
                 this.popup = this.createPopup(this.closeBox);
-                this.popup.setOpacity(0.9);
+                //this.popup.setOpacity(0.9);
                 map.addPopup(this.popup);
                 this.popup.show();
             } else {
@@ -344,7 +344,7 @@
             $date="";
         }
         $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
-        echo "popupContentHTML = \"<b>$name</b><br>$desc<br>";
+        echo "popupContentHTML = \"<p><b>$name</b><br>$desc<br>";
         if (!null == $array[$i]["image"]) {
             $image = $array[$i]["image"];
             echo "<img src=$image width=100 height=100><br>";
@@ -374,7 +374,7 @@
         var markerClick = function (evt) {
             if (this.popup == null) {
                 this.popup = this.createPopup(true);
-                this.popup.setOpacity(0.9);
+                //this.popup.setOpacity(0.9);
                 map.addPopup(this.popup);
                 this.popup.show();
             } else {
@@ -433,7 +433,7 @@
         var markerClick = function (evt) {
             if (this.popup == null) {
                 this.popup = this.createPopup(this.closeBox);
-                this.popup.setOpacity(0.9);
+                //this.popup.setOpacity(0.9);
                 map.addPopup(this.popup);
                 this.popup.show();
             } else {
