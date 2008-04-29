@@ -149,7 +149,6 @@ INSERT INTO field_options VALUES('opt_sector_type','med','Medical Services');
 INSERT INTO field_options VALUES('opt_sector_type','rehab','Rehabilitation');
 INSERT INTO field_options VALUES('opt_sector_type','edu','Education');
 
-
 -- LOCATION TYPE VALUES
 INSERT INTO field_options VALUES ('opt_location_type','1','Country');
 INSERT INTO field_options VALUES ('opt_location_type','2','State');
@@ -334,8 +333,15 @@ INSERT INTO field_options (field_name,option_code,option_description) VALUES ('o
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
 
 -- gps
-INSERT INTO field_options VALUES('opt_wpt_type','vil','Village');
+INSERT INTO field_options VALUES('opt_wpt_type','air','Airstrip');
+INSERT INTO field_options VALUES('opt_wpt_type','hos','Hospital');
+INSERT INTO field_options VALUES('opt_wpt_type','off','Office');
+INSERT INTO field_options VALUES('opt_wpt_type','pow','Place of Worship');
 INSERT INTO field_options VALUES('opt_wpt_type','sch','School');
+INSERT INTO field_options VALUES('opt_wpt_type','vil','Village');
+INSERT INTO field_options VALUES('opt_wpt_type','war','Warehouse');
+INSERT INTO field_options VALUES('opt_wpt_type','wat','Water Supply');
+INSERT INTO field_options VALUES('opt_wpt_type','toi','WC');
 
 -- group_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
