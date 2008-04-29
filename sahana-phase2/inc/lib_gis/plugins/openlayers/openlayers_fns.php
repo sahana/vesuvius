@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.26 2008-04-29 15:05:22 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.27 2008-04-29 21:40:24 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,8 +22,8 @@
     global $conf;
     global $global;
 
-  //Disable commercial layers if using a non-standard WMS projection
-  if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
+  //Disable other base layers if using a non-sphericalMercator WMS projection
+  if ("EPSG:900913"==$conf["gis_ol_wms_projection"]) {
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid'])) {
         $key = $conf['gis_google_key'];
         echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
@@ -77,27 +77,21 @@
     var zoom = <?=$conf['gis_zoom']?>;
     // http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
     var proj4326 = new OpenLayers.Projection("EPSG:4326");
-    var proj900913 = new OpenLayers.Projection("EPSG:900913");
+    var projection_current = new OpenLayers.Projection("<?=$conf['gis_ol_wms_projection']?>");
     var point = new OpenLayers.LonLat(lon, lat);
     var options = {
-        projection: proj900913,
         displayProjection: proj4326,
-        units: "m",
-        maxResolution: 156543.0339,
-        maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34)
+        projection: projection_current,
+        units: "<?=$conf['gis_ol_wms_units']?>",
+        maxResolution: <?=$conf['gis_ol_wms_maxResolution']?>,
+        maxExtent: new OpenLayers.Bounds(<?=$conf['gis_ol_wms_maxExtent']?>)
     };
-<?php
-    if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
-        echo "map = new OpenLayers.Map('map',options);\n";
-    } else {
-        echo "map = new OpenLayers.Map('map');\n";
-    }
-?>
+    map = new OpenLayers.Map('map',options);
     OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
-  //Disable commercial layers if using a non-sphericalMercator WMS projection
-  if (null==$conf["gis_ol_wms_1_projection"]||"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
+  //Disable other base layers if using a non-sphericalMercator WMS projection
+  if ("EPSG:900913"==$conf["gis_ol_wms_projection"]) {
     //OSM layer(s) listed 1st - promote OpenData!
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
         echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
@@ -174,26 +168,33 @@
         echo "\n";
     }
   }
+    $projection = $conf["gis_ol_wms_projection"];
+    $maxResolution = $conf["gis_ol_wms_maxResolution"];
+    $maxExtent = $conf["gis_ol_wms_maxExtent"];
+    $units = $conf["gis_ol_wms_units"];
     for ($i = 1; $i <= $conf['gis_ol_wms']; $i++) {
         $name = $conf["gis_ol_wms_".$i."_name"];
         $url = $conf["gis_ol_wms_".$i."_url"];
+        $map = $conf["gis_ol_wms_".$i."_map"];
         $layers = $conf["gis_ol_wms_".$i."_layers"];
         $format = $conf["gis_ol_wms_".$i."_format"];
         echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
         echo "\"$url\",\n"; 
-        echo "{layers: '$layers'";
-        if (!null==$format) {
-            echo ",format:'$format'";
+        echo "{";
+        if (!null==$map) {
+            echo "map:'$map', ";
         }
-        echo "},\n";
+        echo "layers:'$layers', ";
+        if (!null==$format) {
+            echo "format:'$format', ";
+        }
         $base = "true";
         if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
             $base = "false";
         }
-        echo "{'isBaseLayer': $base,'wrapDateLine': true";
-        $projection = $conf["gis_ol_wms_".$i."_projection"];
-        if (!null==$projection && !"EPSG:900913"==$conf["gis_ol_wms_1_projection"]) {
-            echo ",projection:'$projection',maxResolution: 1.40625,maxExtent: new OpenLayers.Bounds(-180,-90,180,90),units: 'degrees'";
+        echo "isBaseLayer:'$base', wrapDateLine:'true'";
+        if ("1" == $conf["gis_ol_wms_".$i."_transparency"]) {
+            echo ", transparent: true";
         }
         echo "});\n";
         echo "map.addLayer(wmslayer$i);\n";
@@ -202,10 +203,7 @@
     for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
         $name = $conf["gis_ol_georss_".$i."_name"];
         $url = $conf["gis_ol_georss_".$i."_url"];
-        $projection = "EPSG:4326";
-        if (!null == $conf["gis_ol_georss_".$i."_projection"]) {
-            $projection = $conf["gis_ol_georss_".$i."_projection"];
-        }
+        $projection = $conf["gis_ol_georss_".$i."_projection"];
         echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
         echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i});\n"; 
         echo "map.addLayer(georsslayer$i);\n";

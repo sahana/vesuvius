@@ -120,15 +120,18 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  * 0 for off; positive integer for how many layers are on
  */
 $conf['gis_ol_wms']='1';
- 
 $conf['gis_ol_wms_available']='1';
+$conf['gis_ol_wms_projections'] = 'EPSG:900913';
+$conf['gis_ol_wms_projection'] = 'EPSG:900913';
+$conf['gis_ol_wms_maxExtent'] = '-20037508, -20037508, 20037508, 20037508.34';
+$conf['gis_ol_wms_maxResolution'] = '156543.0339';
+$conf['gis_ol_wms_units'] = 'm';
  
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';
 $conf['gis_ol_wms_1_type'] = 'base';
 $conf['gis_ol_wms_1_layers'] = 'basic';
-$conf['gis_ol_wms_1_projection'] = 'EPSG:900913';
  
 /**
  * Counter for OpenLayers GeoRSS layers
