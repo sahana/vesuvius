@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.27 2008-04-29 21:40:24 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.28 2008-04-29 22:40:36 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -46,6 +46,7 @@
   }
 ?>
     <script src="res/OpenLayers/OpenLayers.js"></script>
+    <script src="res/OpenLayers/proj4js.js"></script>
     <script type="text/javascript">
 
     // make map available for easy debugging
@@ -242,7 +243,7 @@
         var marker = new OpenLayers.Marker(lonlat,icon);
         markers.addMarker(marker);
         // Convert to Lon/Lat for DB storage
-        proj_current = map.getProjectionObject();
+        var proj_current = map.getProjectionObject();
         lonlat.transform(proj_current, proj4326);
         var lon_new = lonlat.lon;
         var lat_new = lonlat.lat;
@@ -284,7 +285,7 @@
         $url=$pre_url.$url;
         echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "proj_current = map.getProjectionObject();\n";
+        echo "var proj_current = map.getProjectionObject();\n";
         echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
@@ -358,7 +359,7 @@
         }
         echo "</p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "proj_current = map.getProjectionObject();\n";
+        echo "var proj_current = map.getProjectionObject();\n";
         echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
@@ -417,7 +418,7 @@
 <?php
 	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
-        echo "proj_current = map.getProjectionObject();\n";
+        echo "var proj_current = map.getProjectionObject();\n";
         echo "lonlat.transform(proj4326, proj_current);\n";
         echo "addMarker(lonlat,popupContentHTML);\n";
     }
