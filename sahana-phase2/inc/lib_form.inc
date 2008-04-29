@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.77 2008-04-23 12:58:28 franboon Exp $ */
+/* $Id: lib_form.inc,v 1.78 2008-04-29 19:54:58 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -285,7 +285,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 	global $shn_tabindex;
 
 	$value = (isset($_POST[$name])? $_POST[$name] : $extra_opts['value']);
-	//to privent warnings set $options to array() if it is null
+	//to prevent warnings set $options to array() if it is null
 	$options=($options==null)?array():$options;
 	?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
@@ -294,7 +294,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 	<?php
 	foreach ($options as $opt_value => $desc )
 	{
-		$sel = ( $desc == $value ) ? 'selected="selected"' : null ;
+		$sel = ( $opt_value == $value ) ? 'selected="selected"' : null ;
 		?>
 	<option value="<?php echo $opt_value?>" <?php echo $sel?>><?php echo $desc?></option>
 	<?php
