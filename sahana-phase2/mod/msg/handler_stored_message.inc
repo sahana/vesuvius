@@ -5,16 +5,16 @@
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the wcrld-wide-web at the following URI:
-* http://www.gnu.crg/copyleft/lesser.html
+* http://www.gnu.org/copyleft/lesser.html
 * 
 * Handler for stored messages
 *
-* @author     Mifan Careem <mifan@respere.com>
-* @copyright  Respere - http://respere.com/
-* @package
-* @subpackage
-* @version	  $id$ 	  
-* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @author     	Mifan Careem <mifan@respere.com>
+* @copyright  	Respere - http://respere.com/
+* @package		Sahana - http://sahana.lk/
+* @subpackage	msg
+* @version	  	$Id: handler_stored_message.inc,v 1.2 2008-04-30 05:58:01 mifanc Exp $ 	  
+* @license	  	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 include_once($global['approot'].'/inc/lib_form.inc');
@@ -34,7 +34,7 @@ function shn_msg_create_stored_message_form($errors=false)
 	global $global;
 	global $conf;
 ?>
-<h2><?php echo _("Create New Stored Message")?></h2>
+<h2><?php echo _t("Create New Stored Message")?></h2>
 <?php
 	
 	$supported_media = array();
@@ -43,7 +43,7 @@ function shn_msg_create_stored_message_form($errors=false)
 	}
 	
 	shn_form_fopen(create_store);
-	shn_form_fsopen(_('Information'));
+	shn_form_fsopen(_t('Information'));
 ?>
 <div id="info">
   <ul>
@@ -57,15 +57,15 @@ function shn_msg_create_stored_message_form($errors=false)
 <?php
 	shn_form_fsclose();
 
-	shn_form_fsopen(_("Stored Message"));
-	shn_form_text(_("Message Heading/Summary"),"msg_head",'size="70"',
-		array('req'=>true,'help'=>_('Enter a summary/header for the message. This section wouldn\'t be displayed in the actual sent message, and is only used to identify the message')));
-	shn_form_textarea(_("Message"),"message",null,array('cols'=>70,'rows'=>8));
-	shn_form_multi_select('media_type',$supported_media,_("Medium/Media Selection"),'size="6" width="20" multiple="true"',
-		array('help'=>_('Select the message medium that the message should be sent over. Hold down the Ctrl key for selecting more than one medium')));
+	shn_form_fsopen(_t("Stored Message"));
+	shn_form_text(_t("Message Heading/Summary"),"msg_head",'size="70"',
+		array('req'=>true,'help'=>_t('Enter a summary/header for the message. This section wouldn\'t be displayed in the actual sent message, and is only used to identify the message')));
+	shn_form_textarea(_t("Message"),"message",null,array('cols'=>70,'rows'=>8));
+	shn_form_multi_select('media_type',$supported_media,_t("Medium/Media Selection"),'size="6" width="20" multiple="true"',
+		array('help'=>_t('Select the message medium that the message should be sent over. Hold down the Ctrl key for selecting more than one medium')));
 	shn_form_fsclose();
 	
-	shn_form_submit(_("Save Message"));
+	shn_form_submit(_t("Save Message"));
 	shn_form_fclose();
 }
 

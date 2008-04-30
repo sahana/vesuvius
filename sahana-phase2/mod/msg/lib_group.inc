@@ -10,12 +10,11 @@
 *
 * @author		Pradeeper <pradeeper@respere.com>
 * @copyright    Respere | http://respere.com/
-* @package		sahana
+* @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.1 2008-04-25 11:41:27 mifanc Exp $
-* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
-* Public License (LGPL)
+* @version		$Id: lib_group.inc,v 1.2 2008-04-30 06:01:36 mifanc Exp $
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
 

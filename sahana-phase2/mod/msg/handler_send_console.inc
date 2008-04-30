@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_send_console.inc,v 1.1 2008-04-25 11:40:47 pradeeper Exp $
+* @version 		$Id: handler_send_console.inc,v 1.2 2008-04-30 05:57:41 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -20,11 +20,11 @@
 global $global;
 include_once ('lib_receive_console.inc');
 
-echo "<h2>"._('Send Console')."</h2>";
+echo "<h2>"._t('Send Console')."</h2>";
 
 //send console form
 shn_form_fopen('send_message',null,array('req'=>false));
-shn_form_fsopen(_('Send Message'));
+shn_form_fsopen(_t('Send Message'));
 
 //display the contact drop down
 _shn_msg_contact_dropdown('to');

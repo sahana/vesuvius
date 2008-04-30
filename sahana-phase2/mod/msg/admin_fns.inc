@@ -11,7 +11,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: admin_fns.inc,v 1.1 2008-04-25 11:34:05 pradeeper Exp $
+* @version 	  $Id: admin_fns.inc,v 1.2 2008-04-30 05:56:42 mifanc Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -33,7 +33,7 @@ function shn_msg_adm_default()
 						break;
 		}
 		shn_msg_adm_show_mod_menu();
-		echo "<h2>"._("Messaging:SMS Admin Page")."</h2>";
+		echo "<h2>"._t("Messaging:SMS Admin Page")."</h2>";
 		shn_msg_adm_show_mods();
 		shn_msg_adm_find_mods();
 	}
@@ -54,7 +54,7 @@ function shn_msg_adm_default()
 	else{
     	//General Messaging
     	shn_msg_adm_show_mod_menu();
-		echo "<h2>"._lc($conf['mod_msg_name'])." "._("Administraion")."</h2>";
+		echo "<h2>"._lc($conf['mod_msg_name'])." "._t("Administraion")."</h2>";
 		shn_msg_adm_plugin_conf();
 		
 	}
@@ -80,7 +80,7 @@ function shn_msg_adm_find_mods()
 	$msg_plugins_dir=$global['approot'].'/mod/msg/plugins/';
 	$dir = opendir($msg_plugins_dir);
 	shn_form_fopen(adm_gis_conf,null,array('req_message'=>false));
-	shn_form_fsopen(_("SMS Plugin Configuration"));
+	shn_form_fsopen(_t("SMS Plugin Configuration"));
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
 			//shows nice name of plugin
@@ -128,21 +128,21 @@ function shn_msg_adm_plugin_conf()
 	$extra_opts_form['req_message'] = 'false';
 	
 	shn_form_fopen(msg_plugin_commit,null,array('req_message'=>false));
-	shn_form_fsopen(_("Messaging Module SMS Gateway plugins"));
+	shn_form_fsopen(_t("Messaging Module SMS Gateway plugins"));
 ?>
 	<ul>
-	<li><?php echo _("Sahana supports a modular messaging SMS gateway plugin architecture ");?> </li>
-	<li><?php echo _("You can select which SMS gateway to use as your default");?></li>
-    <li><?php echo _("Select the default SMS gateway plugin from the detected plugins below:");?> </li>
-    <li><?php echo _("For more information on adding custom plugins, refer to the documentation within the mod/msg subdirectory");?> </li>
+	<li><?php echo _t("Sahana supports a modular messaging SMS gateway plugin architecture ");?> </li>
+	<li><?php echo _t("You can select which SMS gateway to use as your default");?></li>
+    <li><?php echo _t("Select the default SMS gateway plugin from the detected plugins below:");?> </li>
+    <li><?php echo _t("For more information on adding custom plugins, refer to the documentation within the mod/msg subdirectory");?> </li>
 	</ul>
 <?php
 	shn_form_fsclose();
 	//shn_form_hidden('req');
-	shn_form_fsopen(_("Detected messaging module SMS plugins"));
-	shn_form_radio($options_array,_("Select Messaging SMS plugin"),"mod_msg",null,((isset($mod_name))?array("value"=>$mod_name):null));
+	shn_form_fsopen(_t("Detected messaging module SMS plugins"));
+	shn_form_radio($options_array,_t("Select Messaging SMS plugin"),"mod_msg",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
-	shn_form_submit(_("Done"));
+	shn_form_submit(_t("Done"));
 	shn_form_fclose();	
 }
 
@@ -165,7 +165,7 @@ function shn_msg_adm_show_mod_menu()
 	$dir = opendir($msg_plugins_dir);
 ?>
 	<div id="submenu_v">
-		<a href="index.php?mod=admin&act=msg_sms_plugin"><?=_("General Description")?></a>
+		<a href="index.php?mod=admin&act=msg_sms_plugin"><?=_t("General Description")?></a>
 <?php
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
@@ -173,8 +173,8 @@ function shn_msg_adm_show_mod_menu()
 			include($global['approot'].'/mod/msg/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-<!--<a href="index.php?mod=msg&act=admin&submod=<?=$file?>"><?=_($name)?></a>-->
-<a href="index.php?mod=admin&act=msg_sms_plugin&submod=<?=$file?>"><?=_($name)?></a>
+<!--<a href="index.php?mod=msg&act=admin&submod=<?=$file?>"><?=_t($name)?></a>-->
+<a href="index.php?mod=admin&act=msg_sms_plugin&submod=<?=$file?>"><?=_t($name)?></a>
 <?php
 			$count++;
 		}
@@ -199,7 +199,7 @@ function _shn_msg_adm_email_conf()
 	_shn_msg_adm_email_conf_db($_REQUEST['name'],'smtp_sender_name');
 	_shn_msg_adm_email_conf_db($_REQUEST['mail_id'],'smtp_sender_email');
 	
-	add_confirmation(_('Email Configuration Saved'));
+	add_confirmation(_t('Email Configuration Saved'));
 	
 }
 
@@ -236,7 +236,7 @@ function _shn_msg_adm_store_plugin($plugin)
 	$sql = "INSERT INTO config(module_id,confkey,value) " .
 			" VALUES ('msg','mod_msg_plugin','{$plugin}')";
 	$db->Execute($sql);
-	add_confirmation(_('Configuration Saved'));
+	add_confirmation(_t('Configuration Saved'));
 }
 
 ?>

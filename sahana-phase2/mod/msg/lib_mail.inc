@@ -1,7 +1,7 @@
 <?php
 /**Class that front ends the PHP Mailer
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -11,7 +11,7 @@
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravi@computer.org>
 * @edit		  Mifan Careem <mifan@opensource.lk> [Converting to use global $conf variables]
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
+* $license	  $Id: lib_mail.inc,v 1.8 2008-04-30 06:01:36 mifanc Exp $
 * @subpackage msg
 */
 

@@ -1,17 +1,17 @@
 <?php
 /**
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author     Mifan Careem <mifan@opensource.lk>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package	  Sahana	
+* @author     Mifan Careem <mifan@respere.com>
+* @copyright  Respere - http://respere.com/
+* @package	  Sahana - http://sahana.lk/
 * @subpackage Messaging
-* @version 	  $id$
+* @version 	  $Id: form_actions.inc,v 1.2 2008-04-30 05:56:58 mifanc Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -45,7 +45,7 @@ function shn_msg_create_store()
 		$db->Execute($query_map);
 	}
 	
-	add_confirmation(_('Your message has been stored in the system'));
+	add_confirmation(_t('Your message has been stored in the system'));
 }
 
 
@@ -79,7 +79,7 @@ function shn_msg_create_tpl()
 		$db->Execute($query_map);
 	}
 	
-	add_confirmation(_('Your message has been stored in the system'));
+	add_confirmation(_t('Your message has been stored in the system'));
 }
 
 
@@ -127,9 +127,9 @@ function shn_msg_send_message(){
 		foreach($status_email as $key=>$value){
 			echo $key."->".$value;
 			if($value)
-				add_confirmation(_('Sent mail to ').$key);
+				add_confirmation(_t('Sent mail to ').$key);
 			else if(!$value)
-				add_error(_('Send mail failure: The mail to ').$key._(' was not sent'));
+				add_error(_t('Send mail failure: The mail to ').$key._t(' was not sent'));
 		}
 	}
 	

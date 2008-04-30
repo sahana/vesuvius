@@ -9,7 +9,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_receive_console.inc,v 1.1 2008-04-25 11:40:06 pradeeper Exp $
+* @version 		$Id: handler_receive_console.inc,v 1.2 2008-04-30 05:57:28 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -17,7 +17,7 @@
 
 include_once ('lib_receive_console.inc');
 
-echo "<h2>"._('Receive Console')."</h2>";
+echo "<h2>"._t('Receive Console')."</h2>";
     shn_form_fopen('','',array('req_message'=>false,'id'=>'search'));
     //shn_form_fsopen("Search Messages");
     shn_form_text('Sender or Message','search','',array('br'=>false,'size'=>20));

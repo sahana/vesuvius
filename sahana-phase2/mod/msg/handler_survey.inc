@@ -8,21 +8,21 @@
 * @author		J P Fonseka <hevayo@respere.com>
 * @author 		Pradeeper <pradeeper@respere.com>
 * @copyright    Respere - http://respere.com/
-* @package		sahana
+* @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$id$
+* @version		$Id: handler_survey.inc,v 1.2 2008-04-30 05:58:01 mifanc Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 global $global;
 include_once ('lib_receive_console.inc');
 
-echo "<h2>"._('Send Console')."</h2>";
+echo "<h2>"._t('Send Console')."</h2>";
 
 //send console form
 shn_form_fopen('send_message',null,array('req'=>false));
-shn_form_fsopen(_('Send Message'));
+shn_form_fsopen(_t('Send Message'));
 //shn_form_text('From','from');
 ?>
 <br />

@@ -13,9 +13,9 @@
 *
 * @author     Mifan Careem <mifan@respere.com>
 * @copyright  Respere - http://respere.com/
-* @package
+* @package	  Sahana - http://sahana.lk/
 * @subpackage
-* @version		$Id: lib_msg.inc,v 1.2 2008-04-25 19:00:25 franboon Exp $
+* @version	  $Id: lib_msg.inc,v 1.3 2008-04-30 06:02:28 mifanc Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -38,7 +38,7 @@ function shn_msg_send_short_message($recipients,$message)
 	if(shn_msg_check_sms_gateway()){
 		if(file_exists($global['approot']."/mod/msg/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc")){
 			include_once $global['approot']."/mod/msg/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
-			add_confirmation(_('Gateway plugin started...'));
+			add_confirmation(_t('Gateway plugin started...'));
 			shn_msg_plugin_send_sm($recipients,$message);
 			
 			shn_msg_store_sent_messages($recipients,$message);		
@@ -47,7 +47,7 @@ function shn_msg_send_short_message($recipients,$message)
 		
 		//Handle exceptions
 		else{
-			add_error(_("The configured SMS gateway has not been implemented"));
+			add_error(_t("The configured SMS gateway has not been implemented"));
 			return 0;//Message Sending Failed
 		}
 	}
@@ -110,7 +110,7 @@ function shn_msg_check_sms_gateway()
 	
 	//Handle exceptions
 	else{
-		add_error(_("The configured SMS gateway has not been implemented"));
+		add_error(_t("The configured SMS gateway has not been implemented"));
 		return 0;//Message Sending Failed
 	}
 	
@@ -178,7 +178,7 @@ function shn_msg_validate_sms($recipients)
 	$sms_error = false;
 	foreach($recipients as $recipient){
 		if(!shn_valid_number(trim($recipient))){
-			add_error($recipient._(' is an invalid mobile number'));
+			add_error($recipient._t(' is an invalid mobile number'));
 			$sms_error = true;
 		}
 	}
@@ -195,7 +195,7 @@ function shn_msg_validate_email($recipients)
 	$email_error = false;
 	foreach($recipients as $recipient){
 		if(!shn_valid_email(trim($recipient))){
-			add_error($recipient._(' is an invalid email address'));
+			add_error($recipient._t(' is an invalid email address'));
 			$email_error = true;
 		}
 	}

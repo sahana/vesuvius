@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: lib_receive_console.inc,v 1.1 2008-04-25 11:39:32 mifanc Exp $
+* @version 		$Id: lib_receive_console.inc,v 1.2 2008-04-30 06:02:42 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -57,14 +57,14 @@ function _shn_msg_popup_div(){
     ?>
         <div id="console_holder">
             <div id="receive_console" style="border:10px solid #D6EDFF;width:750px;height:420px;overflow : auto;border-top:0px; " >
-            <div id="rc_heading" style="font-weight:bold;background:#D6EDFF;"><?php echo _('New Messages')?></div>
+            <div id="rc_heading" style="font-weight:bold;background:#D6EDFF;"><?php echo _t('New Messages')?></div>
                 <table border="0" cellpadding="0" cellspacing="0" >
                     <thead>
                         <tr>
-                        <th width="427px"><?php echo _('Sender')?></th>
-                        <th width="125px"><?php echo _('Number')?></th>
-                        <th width="90px"><?php echo _('Date')?></th>
-                        <th width="75px"><?php echo _('Time')?></th>
+                        <th width="427px"><?php echo _t('Sender')?></th>
+                        <th width="125px"><?php echo _t('Number')?></th>
+                        <th width="90px"><?php echo _t('Date')?></th>
+                        <th width="75px"><?php echo _t('Time')?></th>
                         </tr>
                     </thead>
                 </table>
@@ -131,10 +131,10 @@ function _shn_msg_popup_div(){
                         b=' ';
                     }
                     else
-                        b=': <a onclick="msg_rc_new()">&lt; <?php echo _('Back to New Messages') ?></a>';
+                        b=': <a onclick="msg_rc_new()">&lt; <?php echo _t('Back to New Messages') ?></a>';
                     xajax__shn_msg_message_list(xajax.getFormValues('search'));
                     msg_stop_rc_refresh();
-                    msg_change_rc_heading('<?php echo _('Search Results')?> '+b);
+                    msg_change_rc_heading('<?php echo _t('Search Results')?> '+b);
                     //document.getElementById('show_but').style.display='none';
                     //document.getElementById('hide_but').style.display='none';
                     document.getElementById('pop_but').style.display='none';
@@ -142,7 +142,7 @@ function _shn_msg_popup_div(){
 
                 function msg_rc_new(){
                     msg_start_rc_refresh();
-                    msg_change_rc_heading('<?php echo _('New Messages')?>');
+                    msg_change_rc_heading('<?php echo _t('New Messages')?>');
                     xajax__shn_msg_message_list();
                     document.getElementById('pop_but').style.display='inline';
                     document.getElementById('search').value='';
@@ -170,7 +170,7 @@ function _shn_msg_message_list($search){
     foreach($req as $msg){
         $html.="<tr onclick=\"msg_select_line(this,{$msg['id']});xajax__shn_msg_message('{$msg['id']}')\" style=\"cursor:pointer\">";
         $html.="  <td width=\"420px\">";
-        $html.= (isset($msg['name']))?$msg['name']:'<span style="color:#aaa">'._('Anonymous...').'</span>';
+        $html.= (isset($msg['name']))?$msg['name']:'<span style="color:#aaa">'._t('Anonymous...').'</span>';
         $html.="</td>";
         $html.="  <td width=\"120px\" align=\"center\">{$msg['sender']}</td>";
         $html.="  <td width=\"80px\" align=\"center\">{$msg['date']}</td>";
