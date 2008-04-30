@@ -10,12 +10,11 @@
 *
 * @author		Pradeeper <pradeeper@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
+* @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$id$
-* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
-* Public License (LGPL)
+* @version		$Id: lib_survey.inc,v 1.2 2008-04-30 06:16:51 mifanc Exp $
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * @contribution	This code was developed and contributed to the project 
 * by Respere Lanka (Pvt) Ltd. 
 */
