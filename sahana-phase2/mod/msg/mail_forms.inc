@@ -19,7 +19,7 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc"
 ?>
-<h2><?= _('Compose Mail')?></h2>
+<h2><?= _t('Compose Mail')?></h2>
 <?php
     if($error)
     display_errors();
@@ -28,11 +28,11 @@ include_once $global['approot']."/inc/lib_errors.inc"
 <?
     shn_form_fopen("send_mail&stream=text");
     shn_form_fsopen("individual mails");
-    shn_form_textarea(_("Message : "),'message','size="30"',array('req'=>true,'value'=>$val,'help'=>_('Enter Your<br/> message here<br/>')));
+    shn_form_textarea(_t("Message : "),'message','size="30"',array('req'=>true,'value'=>$val,'help'=>_t('Enter Your<br/> message here<br/>')));
 
-shn_form_textarea(_("Phone Number : "),'phone','size="30"',array('req'=>true, 'help'=>_('Enter multiple Phone Numbers here,comma seperatedly')));
+shn_form_textarea(_t("Phone Number : "),'phone','size="30"',array('req'=>true, 'help'=>_t('Enter multiple Phone Numbers here,comma seperatedly')));
     
-    shn_form_textarea(_("e-mail : "),'email','size="30"',array('req'=>true, 'help'=>_('Enter multiple mail addresses here,comma seperatedly')));
+    shn_form_textarea(_t("e-mail : "),'email','size="30"',array('req'=>true, 'help'=>_t('Enter multiple mail addresses here,comma seperatedly')));
     
     
     shn_form_fsclose();

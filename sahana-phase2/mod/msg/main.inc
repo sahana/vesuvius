@@ -17,10 +17,10 @@
 * @author		Mifan Careem <mifan@respere.com>
 * @author		Pradeeper <pradeeper@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		sahana
+* @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.20 2008-04-25 11:35:20 mifanc Exp $
+* @version		$Id: main.inc,v 1.21 2008-04-30 06:29:51 mifanc Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -56,57 +56,57 @@ function shn_msg_mainmenu()
     shn_mod_menuitem("default", "Home", $module) ;
     
     shn_sub_mod_menuopen("Consoles");
-    shn_sub_mod_menuitem("send_console",_("Send Message Console"));
-    shn_sub_mod_menuitem("customized_messaging", _("Quick Messaging"), $module);
-    shn_sub_mod_menuitem("send_group",_("Quick Group Messaging"),$module);
-    shn_sub_mod_menuitem("receive_console",_("Receive Message Console"));
+    shn_sub_mod_menuitem("send_console",_t("Send Message Console"));
+    shn_sub_mod_menuitem("customized_messaging", _t("Quick Messaging"), $module);
+    shn_sub_mod_menuitem("send_group",_t("Quick Group Messaging"),$module);
+    shn_sub_mod_menuitem("receive_console",_t("Receive Message Console"));
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Manage Contacts");
-//     shn_sub_mod_menuitem("contacts",_("Contacts"),$module);
-    shn_sub_mod_menuitem("contact_individual",_("Add Contact"),$module);
-    //shn_sub_mod_menuitem("edit_contact_individual",_("Edit Contact"),$module);
-    shn_sub_mod_menuitem("contact_group",_("Contact List"),$module);
-    shn_sub_mod_menuitem("add_contact_group",_("Add Group"),$module);
-    shn_sub_mod_menuitem("add_group",_("Add Adhoc Group"),$module);
-    shn_sub_mod_menuitem("edit_group",_("Edit Adhoc Group"),$module);
+//     shn_sub_mod_menuitem("contacts",_t("Contacts"),$module);
+    shn_sub_mod_menuitem("contact_individual",_t("Add Contact"),$module);
+    //shn_sub_mod_menuitem("edit_contact_individual",_t("Edit Contact"),$module);
+    shn_sub_mod_menuitem("contact_group",_t("Contact List"),$module);
+    shn_sub_mod_menuitem("add_contact_group",_t("Add Group"),$module);
+    shn_sub_mod_menuitem("add_group",_t("Add Adhoc Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_t("Edit Adhoc Group"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Messaging Reports");
-    shn_sub_mod_menuitem("sent_rpt",_("Sent Messages"),$module);
-    shn_sub_mod_menuitem("rcvd_rpt",_("Received Messages"),$module);
-    shn_sub_mod_menuitem("contact_rpt",_("Contact List"),$module);
-    shn_sub_mod_menuitem("list_group",_("List Adhoc Group"),$module);
+    shn_sub_mod_menuitem("sent_rpt",_t("Sent Messages"),$module);
+    shn_sub_mod_menuitem("rcvd_rpt",_t("Received Messages"),$module);
+    shn_sub_mod_menuitem("contact_rpt",_t("Contact List"),$module);
+    shn_sub_mod_menuitem("list_group",_t("List Adhoc Group"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Survey Messages");
-    shn_sub_mod_menuitem("send_survey", _("Send Survey Message"), $module);
-    shn_sub_mod_menuitem("send_group",_("Survey Reports"),$module);
+    shn_sub_mod_menuitem("send_survey", _t("Send Survey Message"), $module);
+    shn_sub_mod_menuitem("send_group",_t("Survey Reports"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Stored Messages");
-    shn_sub_mod_menuitem("add_store_msg",_("Create Stored Message"),$module);
-    shn_sub_mod_menuitem("add_temp_msg",_("Create Template Message"),$module);
+    shn_sub_mod_menuitem("add_store_msg",_t("Create Stored Message"),$module);
+    shn_sub_mod_menuitem("add_temp_msg",_t("Create Template Message"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Common Alerting Protocol");
-    shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
-    shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
-    shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
-    shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
+    shn_sub_mod_menuitem("cap_new", _t("New Alert"), $module);
+    shn_sub_mod_menuitem("cap_view", _t("View Alert"), $module);
+    shn_sub_mod_menuitem("cap_edit", _t("Edit Alert"), $module);
+    shn_sub_mod_menuitem("cap_upload", _t("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
       
 /*
  *  Rearranged below menu items to fall in above categories  
     shn_sub_mod_menuopen("--Messages");
-    shn_sub_mod_menuitem("customized_messaging", _("Customized Messaging"), $module);
-    shn_sub_mod_menuitem("send_group",_("Group Messaging"),$module);
+    shn_sub_mod_menuitem("customized_messaging", _t("Customized Messaging"), $module);
+    shn_sub_mod_menuitem("send_group",_t("Group Messaging"),$module);
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen("--Manage Groups");
-    shn_sub_mod_menuitem("add_group",_("Add Group"),$module);
-    shn_sub_mod_menuitem("edit_group",_("Edit Group"),$module);
-    shn_sub_mod_menuitem("list_group",_("List Group"),$module);
+    shn_sub_mod_menuitem("add_group",_t("Add Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_t("Edit Group"),$module);
+    shn_sub_mod_menuitem("list_group",_t("List Group"),$module);
     shn_sub_mod_menuclose();
 */    
 
@@ -341,14 +341,14 @@ function shn_msg_contact_individual()
 }
 
 function shn_msg_contacts(){
-    echo "<h2>"._('Contacts')."</h2>";
+    echo "<h2>"._t('Contacts')."</h2>";
     shn_form_fopen('contacts','',array('req_message'=>false));
     shn_form_fclose();
 }
 
 /*
 @author		Pradeeper <pradeeper@respere.com>
-@function	catch all form submits and reroute to relavent functions to process
+@function	catch all form submits and reroute to relevent functions to process
 */
 function shn_msg_contact_submit()
 {
