@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.7 2008-04-28 21:56:31 franboon Exp $
+* @version     $Id: georss.inc,v 1.8 2008-05-01 21:45:17 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -27,12 +27,12 @@ class georss implements layer{
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
-        if (!$conf['gis_ol_georss']==0){
+        if ($conf['gis_ol_georss_enable']==1){
             $checked='checked';
         }
         shn_form_checkbox(_t('Enable GeoRSS layers'),'georss_enable',$checked,array('value'=>1));
         shn_form_fsclose();
-        if (!$conf['gis_ol_georss']==0){
+        if ($conf['gis_ol_georss_enable']==1){
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of GeoRSS layers'),'gis_ol_georss','size=2 maxlength=2',array('value'=>$conf['gis_ol_georss']));
             shn_form_fsclose();
@@ -40,6 +40,8 @@ class georss implements layer{
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
             $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a> (mandatory). If left blank, then EPSG:4326 is assumed as this is the default WGS84.");
+            $visibility_help=_t("Whether the layer is visible by default");
+            $enabled_help=_t("Whether the layer is selectable from the Map or not");
             for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
@@ -51,6 +53,18 @@ class georss implements layer{
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
                 }
                 shn_form_text(_t('Projection'),'gis_ol_georss_'.$j.'_projection',null,array('req'=>true,'value'=>$projection,"help"=>$projection_help));
+                $visibilities = array(_t('false'),_t('true'));
+                $visibility_select = '0';
+                if ('1'==$conf['gis_ol_georss_'.$j.'_visibility']) {
+                    $visibility_select = '1';
+                }
+                shn_form_select($visibilities,_t('Visible'),'gis_ol_georss_'.$j.'_visibility',null,array('value'=>$visibility_select,"help"=>$visibility_help));
+                $enableds = array(_t('false'),_t('true'));
+                $enabled_select = '1';
+                if ('0'==$conf['gis_ol_georss_'.$j.'_enabled']) {
+                    $enabled_select = '0';
+                }
+                shn_form_select($enableds,_t('Enabled'),'gis_ol_georss_'.$j.'_enabled',null,array('value'=>$enabled_select,"help"=>$enabled_help));
                 shn_form_fsclose();
             }
         }
@@ -101,18 +115,48 @@ class georss implements layer{
                     $db->Execute($insert);
                 }
             }
-        }
-            // Checkboxes return nothing if unticked!
-        if (null == $_POST['georss_enable']){
-            $gis_ol_georss=0;
-        } else {
-            if (!null == $_POST['gis_ol_georss']){
-                $gis_ol_georss=$_POST['gis_ol_georss'];
-            } else {
-                $gis_ol_georss=1;
+            //In PHP 0 == NULL!
+            $visibility = 'gis_ol_georss_'.$j.'_visibility';
+            $query = "SELECT * FROM config WHERE confkey='$visibility' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$visibility]}' WHERE module_id = 'admin' AND confkey = '$visibility'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$visibility','{$_POST[$visibility]}')";
+                $db->Execute($insert);
+            }
+            $enabled = 'gis_ol_georss_'.$j.'_enabled';
+            $query = "SELECT * FROM config WHERE confkey='$enabled' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$enabled]}' WHERE module_id = 'admin' AND confkey = '$enabled'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$enabled','{$_POST[$enabled]}')";
+                $db->Execute($insert);
             }
         }
-        if (!$gis_ol_georss == $conf['gis_ol_georss']) {
+        // Checkboxes return nothing if unticked!
+        if (null == $_POST['georss_enable']){
+            $gis_ol_georss_enable=0;
+        } else {
+            $gis_ol_georss_enable=1;
+        }
+        $query = "SELECT * FROM config WHERE confkey='gis_ol_georss_enable' AND module_id='admin'";
+        $res = $db->Execute($query);
+        if(!$res->EOF){
+            $q = "UPDATE config SET value = '$gis_ol_georss_enable' WHERE module_id = 'admin' AND confkey = 'gis_ol_georss_enable'";
+            $db->Execute($q);
+        }
+        else{
+            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_georss_enable','$gis_ol_georss_enable')";
+            $db->Execute($insert);
+        }
+        if(!null==$_POST['gis_ol_georss']){
+            $gis_ol_georss = $_POST['gis_ol_georss'];
             $query = "SELECT * FROM config WHERE confkey='gis_ol_georss' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
@@ -125,14 +169,6 @@ class georss implements layer{
             }
         }
     }
-    /**
-     * @ToDo Change to an Add/Edit/Delete mode to avoid 1 long form?
-     * NB Low-priority. This version works for now. Do development in georss2.inc
-     */
-    //function edit_item() {
-    //}
-    //function edit_item() {
-    //}
 }
  
 ?>

@@ -141,13 +141,15 @@ $conf['gis_ol_wms_1_enabled'] = '1';
  * Counter for OpenLayers GeoRSS layers
  * 0 for off; positive integer for how many layers are on
  */
-$conf['gis_ol_georss'] ='0';
-
+$conf['gis_ol_georss_enable']='0';
+$conf['gis_ol_georss'] ='1';
 $conf['gis_ol_georss_available'] ='1';
 
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
 $conf['gis_ol_georss_1_description'] = '';
 $conf['gis_ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
 $conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
+$conf['gis_ol_georss_1_visibility'] = '0';
+$conf['gis_ol_georss_1_enabled'] = '1';
 
 ?>
