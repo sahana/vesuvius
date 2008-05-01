@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.16 2008-04-29 22:54:30 franboon Exp $
+* @version     $Id: wms.inc,v 1.17 2008-05-01 20:05:01 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -27,12 +27,12 @@ class wms implements layer{
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
-        if (!$conf['gis_ol_wms']==0){
+        if ($conf['gis_ol_wms_enable']==1){
             $checked='checked';
         }
         shn_form_checkbox(_t('Enable WMS layers'),'wms_enable',$checked,array('value'=>1));
         shn_form_fsclose();
-        if (!$conf['gis_ol_wms']==0){
+        if ($conf['gis_ol_wms_enable']==1){
             $projections_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br><a href=\"http://trac.openlayers.org/wiki/SphericalMercator\">EPSG:900913</a> is the default as this provides full compatibility with the other layers.<br>Some WMS servers may not support this & hence need a different value (such as EPSG:4326 for WGS84).<br>If this is the case then <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
             $projections = array('EPSG:900913','EPSG:4326',_t('Custom'));
             shn_form_fsopen(_t('PROJECTION'));
@@ -269,13 +269,23 @@ class wms implements layer{
             }
         }
         // Checkboxes return nothing if unticked!
-        $gis_ol_wms = $_POST['gis_ol_wms'];
         if (null == $_POST['wms_enable']){
-            $gis_ol_wms=0;
-        } else if (!null == $_POST['gis_ol_wms']){
-            $gis_ol_wms=1;
+            $gis_ol_wms_enable=0;
+        } else {
+            $gis_ol_wms_enable=1;
         }
-        if (!$gis_ol_wms == $conf['gis_ol_wms']) {
+        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_enable' AND module_id='admin'";
+        $res = $db->Execute($query);
+        if(!$res->EOF){
+            $q = "UPDATE config SET value = '$gis_ol_wms_enable' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_enable'";
+            $db->Execute($q);
+        }
+        else{
+            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_enable','$gis_ol_wms_enable')";
+            $db->Execute($insert);
+        }
+        if(!null==$_POST['gis_ol_wms']){
+            $gis_ol_wms = $_POST['gis_ol_wms'];
             $query = "SELECT * FROM config WHERE confkey='gis_ol_wms' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){

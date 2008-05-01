@@ -119,8 +119,10 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  * Counter for OpenLayers WMS layers
  * 0 for off; positive integer for how many layers are on
  */
+$conf['gis_ol_wms_enable']='1';
 $conf['gis_ol_wms']='1';
 $conf['gis_ol_wms_available']='1';
+
 $conf['gis_ol_wms_projections'] = 'EPSG:900913';
 $conf['gis_ol_wms_projection'] = 'EPSG:900913';
 $conf['gis_ol_wms_maxExtent'] = '-20037508, -20037508, 20037508, 20037508.34';
