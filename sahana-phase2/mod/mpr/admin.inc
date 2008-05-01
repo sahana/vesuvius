@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Administration of the Missing Person Registry 
  *
@@ -20,7 +19,6 @@
 
 include_once ($global['approot'] . '/inc/lib_form.inc');
 include_once ($global['approot'] . '/inc/lib_validate.inc');
-
 
 /* {{{ Sub Menus */
 /**
@@ -256,65 +254,7 @@ function _shn_mpr_adm_gen($errors = false, $updated = false) {
 }
 /* }}} */
 
-/* {{{ ACL Install */
-/**
- * shn_mpr_adm_acl_install 
- * 
- * @access public
- * @return void
- */
-
-function shn_mpr_adm_acl_install() {
-	global $global;
-	$db = $global["db"];
-	$q = "select value from config where module_id='mpr' and confkey='acl_base'";
-	$res_acl = $db->Execute($q);
-	if (!$res_acl->EOF && $res_acl->fields[0] == 'installed') {
-		$msg = _t("ACL Base for Missing Person Registry is already installed, This is a reinstall");
-	}
-	include_once $global['approot'] . 'inc/lib_security/acl_api.inc';
-	include_once $global['approot'] . 'inc/lib_security/acl.inc';
-	include_once $global['approot'] . 'inc/lib_security/authenticate.inc';
-	$acl = new SahanaACL(NULL);
-
-	/* start of mpr specific ACL entries
-	*/
-
-	$res = shn_acl_add_module("mpr", _t("Missing Person Registry"));
-
-	$res = shn_acl_add_action_group("mpr", "deny_admin", _t("Deny admin group"));
-
-	$res = shn_acl_add_action("mpr", "deny_admin", "shn_mpr_adm_default", _t("Display Admin page"));
-
-	## Deny permission for 'deny_admin' action group within 'mpr' to 'guest' role
-	$res = shn_acl_add_perms_action_group_role('guest', 'mpr', 'deny_admin');
-	$res = shn_acl_add_perms_action_group_role('user', 'mpr', 'deny_admin');
-
-	$res = shn_acl_add_action_group("mpr", "deny_user", "Deny user group");
-
-	$res = shn_acl_add_action("mpr", "deny_user", "shn_mpr_addmp", _t("Add Person"));
-	$res = shn_acl_add_action("mpr", "deny_user", "shn_mpr_editmp", _t("Edit Person"));
-	$res = shn_acl_add_action("mpr", "deny_user", "shn_mpr_add_tracker", _t("Add Tracker"));
-
-	$res = shn_acl_add_perms_action_group_role('guest', 'mpr', 'deny_user');
-
-	if ($res_acl->EOF)
-		$q = "insert into config values('mpr','acl_base','installed')";
-	else
-		$q = "update config set value='installed' where module_id='mpr' and confkey='acl_base'";
-	$res = $db->Execute($q);
-	$msg = _t("ACL Base for Missing Person Registry was successfully installed");
-?>
-    <div id="result_msg">
-       <?php echo $msg;?>
-    </div>
-    </br>
-<?php
-
-}
-/* }}} */
 //temporary fix
-
 function _shn_mpr_adm_field_options_controller($type) {
 	switch ($_POST['seq']) {
 		case 'update' :

@@ -1,7 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.16 2008-03-05 11:01:16 prabath321 Exp $ */
-
-/* $Id: admin.inc,v 1.16 2008-03-05 11:01:16 prabath321 Exp $ */
+/* $Id: admin.inc,v 1.17 2008-05-01 07:57:44 franboon Exp $ */
 
 /**Admin Module for CR
  *
@@ -18,7 +16,6 @@
  */
 
 include_once($global['approot'] . '/inc/lib_form.inc');
-require_once('acl.inc');
 
 function _shn_cr_adm_sub_menu()
 {
