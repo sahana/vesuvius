@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.17 2008-05-01 20:05:01 franboon Exp $
+* @version     $Id: wms.inc,v 1.18 2008-05-01 21:09:06 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -65,6 +65,8 @@ class wms implements layer{
             $layers_help=_t("Comma-separated list of layer(s) at this WMS URL to enable (mandatory).<br>NB If you wish to be able to switch layers on/off independently then you should define a separate WMS layer for each one.");
             $format_help=_t("Image format (optional).<br>e.g. 'image/png'");
             $transparency_help=_t("usually 'false' for a Base layer & 'true' for an overlay layer");
+            $visibility_help=_t("Whether the layer is visible by default (only applicable for overlays)");
+            $enabled_help=_t("Whether the layer is selectable from the Map or not");
             for ($i=0; $i<$conf['gis_ol_wms']; $i++) {
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
@@ -77,15 +79,29 @@ class wms implements layer{
                     $type_select = '1';
                 }
                 shn_form_select($types,_t('Type'),'gis_ol_wms_'.$j.'_type',null,array('value'=>$type_select,"help"=>$type_help));
-                shn_form_text(_t('Map'),'gis_ol_wms_'.$j.'_map',null,array('value'=>$conf['gis_ol_wms_'.$j.'_map'],"help"=>$map_help));
-                shn_form_text(_t('Layers'),'gis_ol_wms_'.$j.'_layers',null,array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_layers'],"help"=>$layers_help));
-                shn_form_text(_t('Format'),'gis_ol_wms_'.$j.'_format',null,array('value'=>$conf['gis_ol_wms_'.$j.'_format'],"help"=>$format_help));
                 $transparencies = array(_t('false'),_t('true'));
                 $transparency_select = '0';
-                if ('1'==$conf['gis_ol_wms_'.$j.'_type']) {
+                if ('1'==$conf['gis_ol_wms_'.$j.'_transparency']) {
                     $transparency_select = '1';
                 }
-                shn_form_select($transparencies,_t('Transparency'),'gis_ol_wms_'.$j.'_transparency',null,array('value'=>$transparency_select));
+                shn_form_select($transparencies,_t('Transparency'),'gis_ol_wms_'.$j.'_transparency',null,array('value'=>$transparency_select,"help"=>$transparency_help));
+                shn_form_text(_t('Map'),'gis_ol_wms_'.$j.'_map','size=40',array('value'=>$conf['gis_ol_wms_'.$j.'_map'],"help"=>$map_help));
+                shn_form_text(_t('Layers'),'gis_ol_wms_'.$j.'_layers','size=40',array('req'=>true,'value'=>$conf['gis_ol_wms_'.$j.'_layers'],"help"=>$layers_help));
+                shn_form_text(_t('Format'),'gis_ol_wms_'.$j.'_format','size=20',array('value'=>$conf['gis_ol_wms_'.$j.'_format'],"help"=>$format_help));
+                if ('1'==$conf['gis_ol_wms_'.$j.'_type']) {
+                    $visibilities = array(_t('false'),_t('true'));
+                    $visibility_select = '0';
+                    if ('1'==$conf['gis_ol_wms_'.$j.'_visibility']) {
+                        $visibility_select = '1';
+                    }
+                    shn_form_select($visibilities,_t('Visible'),'gis_ol_wms_'.$j.'_visibility',null,array('value'=>$visibility_select,"help"=>$visibility_help));
+                }
+                $enableds = array(_t('false'),_t('true'));
+                $enabled_select = '1';
+                if ('0'==$conf['gis_ol_wms_'.$j.'_enabled']) {
+                    $enabled_select = '0';
+                }
+                shn_form_select($enableds,_t('Enabled'),'gis_ol_wms_'.$j.'_enabled',null,array('value'=>$enabled_select,"help"=>$enabled_help));
                 shn_form_fsclose();
             }
         }
@@ -191,6 +207,7 @@ class wms implements layer{
                     $db->Execute($insert);
                 }
             }
+            //In PHP 0 == NULL!
             $type = 'gis_ol_wms_'.$j.'_type';
             $query = "SELECT * FROM config WHERE confkey='$type' AND module_id='admin'";
             $res = $db->Execute($query);
@@ -255,17 +272,37 @@ class wms implements layer{
                 }
             }
             $transparency = 'gis_ol_wms_'.$j.'_transparency';
-            if(!null==$_POST[$transparency]){
-                $query = "SELECT * FROM config WHERE confkey='$transparency' AND module_id='admin'";
-                $res = $db->Execute($query);
-                if(!$res->EOF){
-                    $q = "UPDATE config SET value = '{$_POST[$transparency]}' WHERE module_id = 'admin' AND confkey = '$transparency'";
-                    $db->Execute($q);
-                }
-                else{
-                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$transparency','{$_POST[$transparency]}')";
-                    $db->Execute($insert);
-                }
+            $query = "SELECT * FROM config WHERE confkey='$transparency' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$transparency]}' WHERE module_id = 'admin' AND confkey = '$transparency'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$transparency','{$_POST[$transparency]}')";
+                $db->Execute($insert);
+            }
+            $visibility = 'gis_ol_wms_'.$j.'_visibility';
+            $query = "SELECT * FROM config WHERE confkey='$visibility' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$visibility]}' WHERE module_id = 'admin' AND confkey = '$visibility'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$visibility','{$_POST[$visibility]}')";
+                $db->Execute($insert);
+            }
+            $enabled = 'gis_ol_wms_'.$j.'_enabled';
+            $query = "SELECT * FROM config WHERE confkey='$enabled' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$enabled]}' WHERE module_id = 'admin' AND confkey = '$enabled'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$enabled','{$_POST[$enabled]}')";
+                $db->Execute($insert);
             }
         }
         // Checkboxes return nothing if unticked!

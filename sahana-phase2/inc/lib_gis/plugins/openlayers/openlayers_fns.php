@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.28 2008-04-29 22:40:36 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.29 2008-05-01 21:09:06 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -169,37 +169,45 @@
         echo "\n";
     }
   }
-    $projection = $conf["gis_ol_wms_projection"];
-    $maxResolution = $conf["gis_ol_wms_maxResolution"];
-    $maxExtent = $conf["gis_ol_wms_maxExtent"];
-    $units = $conf["gis_ol_wms_units"];
-    for ($i = 1; $i <= $conf['gis_ol_wms']; $i++) {
-        $name = $conf["gis_ol_wms_".$i."_name"];
-        $url = $conf["gis_ol_wms_".$i."_url"];
-        $map = $conf["gis_ol_wms_".$i."_map"];
-        $layers = $conf["gis_ol_wms_".$i."_layers"];
-        $format = $conf["gis_ol_wms_".$i."_format"];
-        echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
-        echo "\"$url\",\n"; 
-        echo "{";
-        if (!null==$map) {
-            echo "map:'$map', ";
+    //if (1 == $conf['gis_ol_wms_enable']) {
+        $projection = $conf["gis_ol_wms_projection"];
+        $maxResolution = $conf["gis_ol_wms_maxResolution"];
+        $maxExtent = $conf["gis_ol_wms_maxExtent"];
+        $units = $conf["gis_ol_wms_units"];
+        $wms = $conf["gis_ol_wms"];
+        for ($i = 1; $i <= $wms; $i++) {
+            if (1==$conf["gis_ol_wms_".$i."_enabled"]) {
+                $name = $conf["gis_ol_wms_".$i."_name"];
+                $url = $conf["gis_ol_wms_".$i."_url"];
+                $map = $conf["gis_ol_wms_".$i."_map"];
+                $layers = $conf["gis_ol_wms_".$i."_layers"];
+                $format = $conf["gis_ol_wms_".$i."_format"];
+                echo "var wmslayer$i = new OpenLayers.Layer.WMS( \"$name\",\n"; 
+                echo "\"$url\",\n"; 
+                echo "{";
+                if (!null==$map) {
+                    echo "map:'$map', ";
+                }
+                echo "layers:'$layers', ";
+                if (!null==$format) {
+                    echo "format:'$format', ";
+                }
+                $base = "true";
+                if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
+                    $base = "false";
+                }
+                echo "isBaseLayer:'$base', wrapDateLine:'true'";
+                if ("1" == $conf["gis_ol_wms_".$i."_transparency"]) {
+                    echo ", transparent: true";
+                }
+                echo "});\n";
+                echo "map.addLayer(wmslayer$i);\n";
+                if ("0" == $conf["gis_ol_wms_".$i."_visibility"]) {
+                    echo "wmslayer$i.setVisibility(false);\n";
+                }
+            }
         }
-        echo "layers:'$layers', ";
-        if (!null==$format) {
-            echo "format:'$format', ";
-        }
-        $base = "true";
-        if ("1" == $conf["gis_ol_wms_".$i."_type"]) {
-            $base = "false";
-        }
-        echo "isBaseLayer:'$base', wrapDateLine:'true'";
-        if ("1" == $conf["gis_ol_wms_".$i."_transparency"]) {
-            echo ", transparent: true";
-        }
-        echo "});\n";
-        echo "map.addLayer(wmslayer$i);\n";
-    }
+    //}
 
     for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
         $name = $conf["gis_ol_georss_".$i."_name"];

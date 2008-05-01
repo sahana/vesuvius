@@ -132,8 +132,10 @@ $conf['gis_ol_wms_units'] = 'm';
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';
-$conf['gis_ol_wms_1_type'] = 'base';
+$conf['gis_ol_wms_1_type'] = '0';
 $conf['gis_ol_wms_1_layers'] = 'basic';
+$conf['gis_ol_wms_1_visibility'] = '1';
+$conf['gis_ol_wms_1_enabled'] = '1';
  
 /**
  * Counter for OpenLayers GeoRSS layers
