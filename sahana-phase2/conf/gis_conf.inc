@@ -119,9 +119,8 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
  * Counter for OpenLayers WMS layers
  * 0 for off; positive integer for how many layers are on
  */
-$conf['gis_ol_wms_enable']='1';
 $conf['gis_ol_wms']='1';
-$conf['gis_ol_wms_available']='1';
+$conf['gis_ol_wms_enable']='1';
 
 $conf['gis_ol_wms_projections'] = 'EPSG:900913';
 $conf['gis_ol_wms_projection'] = 'EPSG:900913';
@@ -141,9 +140,8 @@ $conf['gis_ol_wms_1_enabled'] = '1';
  * Counter for OpenLayers GeoRSS layers
  * 0 for off; positive integer for how many layers are on
  */
-$conf['gis_ol_georss_enable']='0';
 $conf['gis_ol_georss'] ='1';
-$conf['gis_ol_georss_available'] ='1';
+$conf['gis_ol_georss_enable']='0';
 
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
 $conf['gis_ol_georss_1_description'] = '';
