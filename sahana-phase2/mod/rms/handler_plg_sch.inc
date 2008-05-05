@@ -48,7 +48,7 @@ function _shn_rms_sch_getkeywords()
 		shn_form_fopen("plg_sch",null,array('req_message'=>false));
 		shn_form_fsopen("Select Criteria");
 		shn_form_hidden(array('seq'=>'get_keywords'));
-		if($_SESSION['isadmin']==true) {
+		if($_SESSION['isadmin']==true || !shn_acl_is_enabled()) {
 			shn_form_select($donor_name, _t("Donor"), 'donor_id',null,array('br'=>false));
 			//shn_form_select($donor_name, _t("Donor"), 'donor_id',null,($donor_name['All']=='All')?array('br'=>false,'value'=>'All'):array('br'=>false,'value'=>''));
 			print '<br/>';
@@ -93,7 +93,7 @@ function _shn_rms_shn_get_results()
                  JOIN rms_pledge as plg ON plg.plg_uuid=rpm.plg_uuid
                  WHERE ct.final_flag = '1' AND ct.serial LIKE '".$cat_serial."%' ";
 	
-	if($_SESSION['isadmin']==true) {
+	if($_SESSION['isadmin']==true || !shn_acl_is_enabled()) {
 	    if (_shn_rms_is_user($dnid)) {
 		    $cat_qry2 .= " AND plg.donor_uuid='".$dnid."'";
 	    }
