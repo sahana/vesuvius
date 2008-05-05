@@ -48,7 +48,7 @@ $d_arr_index++;
 }
 
  
-function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr_in,$dataArray)
+function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr_in,$dataArray, $legend='')
 {
     include_once( "../3rd/phplot/sahanaphplot.php");
     global $graph;
@@ -114,12 +114,17 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
     $graph->SetTitle( $title);
     $graph->Setkeyword($keyword_arr_in);
 	$legend_arr = array();
-	
-	foreach($final_data_arr as $xval) {
-	array_push($legend_arr,$xval[0]);
+	if($chat_type_flag == 'pie') {
+	    foreach($final_data_arr as $xval) {
+	        array_push($legend_arr,$xval[0]);
+	    }
+	    $graph->SetLegend($legend_arr); 
 	}
-	
-    $graph->SetLegend($legend_arr); 
+	else{
+		 if($legend != '')
+		     $graph->SetLegend($legend);
+	}
+	$graph->setLegendPixels(50,10);
     $graph->SetPlotBgColor("red");
     $graph->SetPlotBorderType( "left");
     $graph->SetBackgroundColor('white');
@@ -142,7 +147,7 @@ function base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitl
 
     $graph->SetHorizTickIncrement( "1"); 
     $graph->SetVertTickIncrement($y_unit);
-    $graph->SetPrecisionX("0");
+    //$graph->SetPrecisionX("0");
     $graph->SetPrecisionY( "0"); 
     $graph->SetYGridLabelType( "data");
     $graph->SetLightGridColor( "blue");
@@ -220,7 +225,7 @@ function generate_piechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
  * @access public
  * @return void
  */
-function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='', $legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'bar';
@@ -245,7 +250,7 @@ function generate_barchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr, $legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "bars");
 	$graph->DrawGraph();
@@ -332,7 +337,7 @@ function generate_areachart($chart_file_name='',$title='',$xtitle='',$ytitle='',
  * @access public
  * @return void
  */
-function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='', $legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'line';
@@ -357,7 +362,7 @@ function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr, $legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "lines");
 	$graph->DrawGraph();
@@ -388,7 +393,7 @@ function generate_linechart($chart_file_name='',$title='',$xtitle='',$ytitle='',
  * @access public
  * @return void
  */
-function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='', $legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'line_point';
@@ -413,7 +418,7 @@ function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitl
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr, $legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "linepoints");
 	$graph->DrawGraph();
@@ -444,7 +449,7 @@ function generate_linepointchart($chart_file_name='',$title='',$xtitle='',$ytitl
  * @access public
  * @return void
  */
-function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='',$legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'points';
@@ -469,7 +474,7 @@ function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr,$legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "points");
 	$graph->DrawGraph();
@@ -500,7 +505,7 @@ function generate_pointschart($chart_file_name='',$title='',$xtitle='',$ytitle='
  * @access public
  * @return void
  */
-function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='',$legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'thin_bar';
@@ -525,7 +530,7 @@ function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$yti
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr,$legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "thinbarline");
 	$graph->DrawGraph();
@@ -556,7 +561,7 @@ function generate_thinbarlinechart($chart_file_name='',$title='',$xtitle='',$yti
  * @access public
  * @return void
  */
-function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='',$legend='')
 {
     global $chat_type_flag;
     $chat_type_flag = 'squred';
@@ -581,7 +586,7 @@ function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle=
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr,$legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "squared");
 	$graph->DrawGraph();	
@@ -612,7 +617,7 @@ function generate_squaredchart($chart_file_name='',$title='',$xtitle='',$ytitle=
  * @access public
  * @return void
  */
-function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='')
+function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$ytitle='',$keyword_arr='',$legend)
 {
     global $chat_type_flag;
     $chat_type_flag = 'stacked';
@@ -637,7 +642,7 @@ function generate_stackedbarschart($chart_file_name='',$title='',$xtitle='',$yti
 	{
 	global $d_arr_index;
 	$d_arr_index = 0;
-	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr);
+	base_elements_of_chart($chart_ID,$chart_file_name,$title,$xtitle,$ytitle,$keyword_arr,$d_arr,$legend);
 	$graph->SetprintEnable(_shn_is_print_ok());
 	$graph->SetPlotType( "stackedbars");
 	$graph->DrawGraph();
