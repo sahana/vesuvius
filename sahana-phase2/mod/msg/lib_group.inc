@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.3 2008-05-06 20:47:24 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.4 2008-05-06 21:07:18 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -220,7 +220,11 @@ function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 		/*$group_name=$_POST['grp_name'];
 		$description=$_POST['desc'];
 		$type=$_POST['type'];*/
-		$q="update msg_people_group set grp_name='$group_name', grp_des='$description', grp_type='$type' where m_uuid='$group_id';";
+		
+		// get the type name
+		$type_desc=_shn_msg_tell_type_name($type);
+		
+		$q="update msg_people_group set grp_name='$group_name', grp_des='$description', grp_type='$type', grp_type_desc='$type_desc' where m_uuid='$group_id';";
 		$res=$db->Execute($q);
 		
 		//print $q;
