@@ -6,6 +6,7 @@ Current Scenarios:
 conflict-resolution - Child Protection System.
 data-management     - Data Synchronization between sahana instances.
 srilankan-dm        - Sahana Sri Lankan specific customisations.
+sahana-j2me         - Sahana J2ME Client
       
 Have Fun!
      
