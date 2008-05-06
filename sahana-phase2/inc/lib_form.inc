@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.78 2008-04-29 19:54:58 franboon Exp $ */
+/* $Id: lib_form.inc,v 1.79 2008-05-06 19:47:15 pradeeper Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -465,7 +465,7 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
 
 	?>
 <label><?php echo $label?></label>
-<select name="<?php echo $name?>[]" <?php echo $select_opts?>
+<select multiple size="5" name="<?php echo $name?>[]" <?php echo $select_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>">
 	<?php
 
