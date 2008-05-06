@@ -6,6 +6,9 @@
 * Table to store messaging groups
 * Modules: msg 
 * Last Edited: sri@opensource.lk
+* 
+* Note: This is not used in the new messaging/alerting module -- by Pradeeper
+* 
 */
 
 DROP TABLE IF EXISTS `messaging_group`;

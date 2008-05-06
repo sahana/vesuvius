@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.2 2008-04-30 06:01:36 mifanc Exp $
+* @version		$Id: lib_group.inc,v 1.3 2008-05-06 20:47:24 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -189,18 +189,21 @@ function shn_msg_show_members($group_id, $name)
 /*
 @function	this will update the group information
 */
-function shn_msg_update_group($group_name)
+function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 {
-	// get group id from the url
-	$group_id=$_GET['id'];
+	
 		
 	// connect to db
 	global $global;
 	global $conf;
 	$db = $global['db'];
 		
-	if($group_name==""){
+	if($store==""){ // if DONOT want to store
 	// get the group details, based on the group_id	
+		
+		// get group id from the url
+		$group_id=$_GET['id'];
+		
 		$q="select grp_name,grp_des,grp_type,grp_type_desc from msg_people_group where m_uuid='$group_id';";
 		$res=$db->Execute($q);
 		
@@ -209,14 +212,23 @@ function shn_msg_update_group($group_name)
 		$type="{$res->fields['grp_type']}";
 		
 		// display the edit from (using add form)
-		shn_msg_contact_add_group($group_name,$description,$type);
+		shn_msg_contact_add_group($group_name,$group_id,$description,$type);
 		
-	} else { 
+	} else { // if want to store
 	// store the updated values to the db
-		$group_name=$_POST['grp_name'];
+	
+		/*$group_name=$_POST['grp_name'];
 		$description=$_POST['desc'];
-		$type=$_POST['type'];
-		print "New group values are $group_name $description $type";
+		$type=$_POST['type'];*/
+		$q="update msg_people_group set grp_name='$group_name', grp_des='$description', grp_type='$type' where m_uuid='$group_id';";
+		$res=$db->Execute($q);
+		
+		//print $q;
+		if($res){
+			add_confirmation("Updated the <strong>".$group_name."</strong> group!");
+		} else {
+			add_error("Can not update the <strong>".$group_name."</strong> group!");
+		}	
 	}
 	
 }

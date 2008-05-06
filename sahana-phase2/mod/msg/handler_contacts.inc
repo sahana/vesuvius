@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.1 2008-04-25 11:39:17 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.2 2008-05-06 20:47:24 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -220,7 +220,7 @@ function _shn_msg_store_edit_contact($name, $fullname, $address, $method, $mobil
 		add_error('Can not update!');
 	}
 }
-
+	
 /*
 @function	Delete individual information from the db
 */
@@ -284,12 +284,10 @@ function _shn_msg_store_contact($name, $fullname, $address, $method, $mobile1, $
 /*
 @function	This function will add and update contact group/s to the database
 */
-function shn_msg_contact_add_group($group_name,$description,$type)
+function shn_msg_contact_add_group($group_name,$group_id,$description,$type)
 {
-	
 	if($group_name!="") {
-		$tmp="Update";
-		
+		$tmp="Update";		
 	} else {
 		$tmp="Add";
 		$person_id=NULL;
@@ -298,15 +296,14 @@ function shn_msg_contact_add_group($group_name,$description,$type)
 	print "<h2>$tmp Contact Group</h2>";
 	shn_form_fopen("contact_submit", null,array('req_message'=>true));
 		if ($tmp=="Update") {
-				shn_form_hidden(array("target"=>"update_contact_group"));
+				shn_form_hidden(array("target"=>"update_contact_group","group_id"=>"$group_id"));
 			} else {
 				shn_form_hidden(array("target"=>"add_contact_group"));
 			}
-		//shn_form_hidden(array("target"=>"add_contact_group",));
 		shn_form_fsopen("Group Information");
 			shn_form_text("Group Name : ","grp_name",null,array("req"=>true, 'value'=>"$group_name"));
 			shn_form_text("Short Description : ","desc","size='30'",array('value'=>"$description"));
-			shn_form_opt_select('opt_msg_group_category', "Group Type : ", $select_opts = "type", array('value'=>"$type"));
+			shn_form_opt_select('opt_msg_group_category', "Group Type : ", $select_opts ="",array('value'=>"$type"));
 		shn_form_fsclose();
 	shn_form_submit("$tmp", $submit_opts = null);	
 	shn_form_fclose();		

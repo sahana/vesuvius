@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.21 2008-04-30 06:29:51 mifanc Exp $
+* @version		$Id: main.inc,v 1.22 2008-05-06 20:47:24 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -387,7 +387,13 @@ function shn_msg_contact_submit()
 			break;
 			
 		case update_contact_group:
-			shn_msg_update_group($group_name="yes");
+			$group_id=$_POST['group_id'];
+			$group_name=$_POST['grp_name'];
+			$description=$_POST['desc'];
+			$type=$_POST['opt_msg_group_category'];
+			
+			// submit the data to store in the db
+			shn_msg_update_group($store="yes",$group_id, $group_name, $description, $type);
 			break;		
 	}
 }
