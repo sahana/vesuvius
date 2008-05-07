@@ -1,11 +1,11 @@
 <?php
-/* $Id: lib_image.inc,v 1.16 2008-04-22 09:47:17 ravids Exp $ */
+/* $Id: lib_image.inc,v 1.17 2008-05-07 21:15:15 franboon Exp $ */
 
 /**
  *
  * This is the database handler. A vital component of the framework.
  * This will be included from the front controller and the reset of the
- * application can use the database resourse, availabe in $global['db']
+ * application can use the database resource, available in $global['db']
  * you may need to make it into a global scope. i.e global $global;
  *
  *
@@ -30,7 +30,6 @@
  * This function can resize a given image and save it to the given
  * location.
  *
- * @todo Need to move this out to a library, e.g. image library
  * @param mixed $src_path
  * @param mixed $desc_path
  * @param mixed $width
@@ -102,7 +101,6 @@ function shn_image_resize($src_path,$desc_path,$width,$height)
  * This function can resize a given image and save it to the given
  * location.
  *
- * @todo Need to move this out to a library, e.g. image library
  * @param mixed $src_path
  * @param mixed $desc_path
  * @param mixed $width
@@ -178,7 +176,7 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 /* {{{ Show Thumbnail URL */
 /**
  *
- * This is function show the tumbnail if available and say "Image not
+ * This function shows the thumbnail if available and says "Image not
  * available" otherwise
  *
  * @param mixed $x_uuid
@@ -442,7 +440,6 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
  * @access public
  * @return void
  */
-
 
 function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null)
 {
