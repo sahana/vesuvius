@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: admin_menu.inc,v 1.9 2008-04-23 14:56:12 mifanc Exp $
+* @version      $Id: admin_menu.inc,v 1.10 2008-05-07 23:12:59 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -20,6 +20,8 @@
     shn_sub_mod_menuopen(_t("GIS Configuration"));
     shn_sub_mod_menuitem("gis_main", _t("GIS Defaults Configuration"), 'admin');
     shn_sub_mod_menuitem("gis_layers", _t("GIS Layers Management"), 'admin');
+    //shn_sub_mod_menuitem("gis_markers", _t("GIS Markers Management"), 'admin');
+    shn_sub_mod_menuitem("gis_projections", _t("GIS Projections Management"), 'admin');
     shn_sub_mod_menuclose();
 
 ?>

@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.18 2008-05-01 21:09:06 franboon Exp $
+* @version     $Id: wms.inc,v 1.19 2008-05-07 23:12:59 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -44,7 +44,7 @@ class wms implements layer{
             }
             shn_form_select($projections,_t('Projection'),'gis_ol_wms_projections',null,array('value'=>$projections_select,"help"=>$projections_help));
             if (2==$conf["gis_ol_wms_projections"]){
-                $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br>Format should be EPSG:xxxx.<br>A custom EPSGxxxx.js file also needs uploading to www/res/OpenLayers/defs. Contents for this can be found from <a href=\"http://spatialreference.org\" target=_blank>spatialreference.org</a><br>NB Because a Custom projection is being used <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
+                $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br>Format should be EPSG:xxxx.<br>A definition file also needs <a href=\"index.php?mod=admin&act=gis_projections\" target=_blank>uploading</a>.<br>NB Because a Custom projection is being used <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
                 $maxExtent_help=_t("The number of units required to reach: Left, Bottom, Right, Top");
                 $maxResolution_help=_t("How many units per pixel");
                 $units_help=_t("The units in which the measurements apply (e.g. 'm', 'degrees' or 'usfeet')");
@@ -336,5 +336,5 @@ class wms implements layer{
         }
     }
 }
- 
+
 ?>
