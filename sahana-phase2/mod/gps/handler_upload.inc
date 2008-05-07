@@ -20,7 +20,7 @@ global $file;
 $file=$_FILES['load'];
 $extensions=array('gpx');
 
-//check whether a file was uploaed
+//check whether a file was uploaded
 if(isset($file)){
     //get the extension and the tmp name of the file
     $ext=end(explode('.',$_FILES['load']['name']));
@@ -68,7 +68,7 @@ if(isset($file)){
 }
 
 
-//Print the error message if an error occord with the Upload File
+//Print the error message if an error occurred with the Upload File
 display_errors($return=false,$clean_errors=true,$exit=false);
 //draw upload form
   _shn_gps_upload_form();
@@ -105,7 +105,6 @@ class SchemaDOMDocument extends DOMDocument
     {
         $schemaLocation =$conf['schema_location']; //$this->documentElement->getAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'schemaLocation');
 
-
          $pairs = preg_split('/\s+/', $schemaLocation);
          $pairCount = count($pairs);
          $valid = true;
@@ -122,39 +121,37 @@ class SchemaDOMDocument extends DOMDocument
 }//end of class SchemaDOMDocument
 
 
-	$file=$_SESSION['gps']['file'];
+    $file=$_SESSION['gps']['file'];
 
-   if (!($fp = fopen($file, "r"))) {
-    add_error(_("Can not open file."));
-	unlink($file);
-    return $error_flag=true;;
+    if (!($fp = fopen($file, "r"))) {
+        add_error(_("Can not open file."));
+        unlink($file);
+        return $error_flag=true;;
     }
-	 
-	$xml = fread($fp,filesize($file));
-     // close the file
-       fclose($fp);
+ 
+    $xml = fread($fp,filesize($file));
+    // close the file
+    fclose($fp);
 
-	     $parser = xml_parser_create ();
-	if (!xml_parse ($parser, $xml, true)) {
-	     xml_parser_free ($parser);
-		unlink($file);
-	    add_error(_("Your File is not well-formed. Please upload a well-formed file"));
-	 return $error_flag=true;;
-	}
-	$library = new SchemaDOMDocument("1.0");
-	$library->validateOnParse = true;
-	$library->load($file);
+    $parser = xml_parser_create ();
+    if (!xml_parse ($parser, $xml, true)) {
+        xml_parser_free ($parser);
+        unlink($file);
+        add_error(_("Your File is not well-formed. Please upload a well-formed file"));
+        return $error_flag=true;;
+    }
+    $library = new SchemaDOMDocument("1.0");
+    $library->validateOnParse = true;
+    $library->load($file);
 
-	if($library->validateXMLSchemas()) {
-    add_confirmation(_('The file was uploaded successfully...'));
-	 return $error_flag=false;;
-
-	}else{
-	unlink($file);
-	add_error(_("Your File is not valid. Please upload a valid file"));
-	 return $error_flag=true;
-	}
+    if($library->validateXMLSchemas()) {
+        add_confirmation(_('The file was uploaded successfully...'));
+        return $error_flag=false;;
+    }else{
+        unlink($file);
+        add_error(_("Your File is not valid. Please upload a valid file"));
+        return $error_flag=true;
+    }
 }
-
 
 ?>
