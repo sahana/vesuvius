@@ -1,0 +1,43 @@
+
+SAHANA DISASTER MANAGEMENT SYSTEM - J2ME Client 0.1v
+------------------------------------------------------------------
+
+For the begining we have developed 2 versoins of the system. One is with the use of synclast canvas. 
+This is fully decorated with colors, themes and nice pictures. It approximately requres 250 Kb of 
+memory. This version is most compatible (in screen size) on NOKIA 6600 phone.   
+
+The other version is just text based version. It requres only 70 Kb of memory. 
+
+
+Sahana Mobile URLs
+==================
+
+
+Home Page:     http://
+Downloads:     http://
+Documentation: http://
+Mailing Lists: http://
+Source Code:   http://
+
+
+System Requirements
+===================
+
+1. Java enabled Mobile Phone (Recommended : NOKIA 6600)
+2. 150 K of Memory for the system
+3. .. - .. of screen size
+
+
+Installing & Starting the Application
+=====================================
+
+All you have to do is download the SahanaMobile.jar and SahanaMobile.jad from the CVS and store in your
+phone. Then open SahanaMobile.jad. This will automatically install the system in your phone.
+
+
+To Do list
+==========
+
+1. Picture upload
+2. Automatically adjust the screen size according to the phone
+3. Reduce the memory used

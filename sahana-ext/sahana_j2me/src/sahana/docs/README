@@ -1,0 +1,55 @@
+
+SAHANA DISASTER MANAGEMENT SYSTEM - J2ME Client (Version 0.1)
+-----------------------------------------------------------------
+
+
+Abstract
+========
+
+This document is about Sahana Disaster Manamegement System - J2ME client which is the Application 
+of Sahana Disaster Management System on you mobile phones and Personal Digital Assistents. This is 
+the first version and it includes 3 modules available in Sahana 2-0.4.0-alpha. In next few paragraphs
+you will be able to get an image of how sahana - j2me client is functioning, what are the capabilities of
+and technologies inside it.
+
+
+
+Release Notes
+=============
+
+Please read the Release_Notes.
+
+
+
+Sahana Mobile URLs
+==================
+
+
+Home Page:     http://
+Downloads:     http://
+Documentation: http://
+Mailing Lists: http://
+Source Code:   http://
+
+
+
+Functionality
+=============
+
+Sahana J2ME Client comprises of following Basic modules
+
+
+	+---- Missing Person Registry
+	
+	              - Add a Record 
+	              - Search for a Record
+
+        +---- Camps Registry
+        
+                      - Add a Camp
+                      - Search for a Camp
+                      
+        +---- Request Management System
+        
+                      - Request (Resources)
+                      - Donate (Resources)
