@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.2 2008-05-06 20:47:24 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.3 2008-05-08 18:09:34 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -22,7 +22,7 @@
 include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
-
+include_once $global['approot'].'/inc/lib_group.inc';
 
 /*
 @author		Pradeeper <pradeeper@respere.com>
@@ -36,6 +36,11 @@ function shn_msg_form_add_contact($name,$full_name,$address,$group,$method,$mob1
 	} else {
 		$tmp="Add";
 		$person_id=NULL;
+		$id=$_GET['id'];
+		
+		// get group details
+		$group_details=_shn_msg_get_group_details($id);
+		$group=$group_details['name'];
 	}
 	
 	print "<h2>$tmp Contact</h2>";
@@ -362,8 +367,8 @@ function _shn_msg_add_contact_group()
 	// group id
 	$uid = shn_create_uuid('msg');
 	
-	// get the type name
-	$type_desc=_shn_msg_tell_type_name($type);	
+		// get the type name
+		$type_desc=_shn_msg_tell_type_name($type);	
 	//print $type_desc;
 	
 	if ($group_name!=""){

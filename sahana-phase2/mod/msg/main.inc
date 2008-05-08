@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.22 2008-05-06 20:47:24 pradeeper Exp $
+* @version		$Id: main.inc,v 1.23 2008-05-08 18:09:34 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -426,7 +426,7 @@ function shn_msg_select_group()
 	
 	// display 'add','update' and 'delete' links
 	echo "&nbsp;&nbsp;&nbsp;";
-	echo "<a href='index.php?mod=msg&act=add_group_member&id=$id'>Add</a>";
+	echo "<a href='index.php?mod=msg&act=form_add_contact&id=$id'>Add</a>";
 	echo "&nbsp;&nbsp;&nbsp;";
 	echo "<a href='index.php?mod=msg&act=update_group&id=$id'>Update</a>";
 	echo "&nbsp;&nbsp;&nbsp;";

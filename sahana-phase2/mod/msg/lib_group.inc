@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.4 2008-05-06 21:07:18 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.5 2008-05-08 18:09:34 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -237,13 +237,6 @@ function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 	
 }
 
-/*
-@function	this will add members to the group 
-*/
-function shn_msg_add_group_member()
-{
-	print "Add members!";
-}
 
 /*
 @function	this will delete the group from the system
