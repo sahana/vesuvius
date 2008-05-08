@@ -68,29 +68,46 @@ if(isset($file)){
 //Print the error message if an error occurred with the Upload File
 display_errors($return=false,$clean_errors=true,$exit=false);
 //draw upload form
-_shn_gis_upload_form();
+_shn_gis_upload_projections_form();
 
 
-function _shn_gis_upload_form()
+function _shn_gis_upload_projections_form()
 {
-	print '<center><h2>' . _("Upload Projection Definition") . '</h2></center>';
-    print '<p>This form allows a proj4js projection definition file from <a href=\"http://spatialreference.org\" target=_blank>spatialreference.org</a> to be uploaded to www/res/OpenLayers/defs .</p>';
-    print '<p>File should be named as EPSGxxxx.js.</p>';
+	print '<center><h2>' . _t("Upload Projection Definition") . '</h2></center>';
+    print '<p>' . _t("This form allows a proj4js projection definition file from ") . '<a href="http://spatialreference.org" target=_blank>spatialreference.org</a>' . _t(" to be uploaded to www/res/OpenLayers/defs.") . '</p>';
+    print '<p>' . _t("File should be named as EPSGxxxx.js.") . '</p>';
 
 	global $global;
-	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
 
-    $upload_help="Download the proj4js version of the Projection from the <a href=\"http://spatialreference.org/ref/epsg/\" target=_blank>spatialreference.org</a> website & upload here";
+    $upload_help=_t("Download the proj4js version of the Projection from the ") . '<a href="http://spatialreference.org/ref/epsg/" target=_blank>spatialreference.org</a>' . _t("website & upload here");
 	shn_form_fopen("gis_projections",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
-	shn_form_fsopen(_("Upload Projection Definition File"));
+	shn_form_fsopen(_t("Upload Projection Definition File"));
     shn_form_upload(_t('Upload Projection Definition'),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
 
 	print "<br />";
-	shn_form_submit(_("Upload"));
+	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
+    // List current directory contents
+    _shn_gis_list_projections();
+}
 
+function _shn_gis_list_projections()
+{
+    print '<center><h2>' . _t("Current Projection Definitions") . '</h2></center>';
+    print '<p>' . _t("These are the Projection definitions currently available on this server") . ':</p>';
+    global $global;
+    $dir=$global['approot'].'/www/res/OpenLayers/defs';
+	if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if ($file != "." && $file != ".." && !is_dir($dir."/".$file)) {
+                //echo "$file\n";
+                print("<a href=\"/res/OpenLayers/defs/".$file."\">".$file."</a><br />\n");
+            }
+        }
+        closedir($handle);
+    }
 }
 
 ?>
