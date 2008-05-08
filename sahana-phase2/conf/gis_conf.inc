@@ -48,7 +48,7 @@ $conf['gis_width']=760;
  * Folder to store custom markers
  * given from sahana root
  */
-$conf['gis_marker_folder'] = 'theme/default/img/';
+$conf['gis_marker_folder'] = 'theme/default/markers/';
 
 /**
  * Folder to store wiki images
