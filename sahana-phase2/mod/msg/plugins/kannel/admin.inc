@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: admin.inc,v 1.1 2008-04-25 11:40:20 priyanga Exp $
+* @version 		$Id: admin.inc,v 1.2 2008-05-08 11:40:59 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		Kannel - http://kannel.org/
@@ -21,7 +21,7 @@ include_once($global['approot'].'/inc/lib_form.inc');
 
 function shn_plugin_default(){
 ?>
-<h2><?php echo _("Kannel Administration")?></h2>	
+<h2><?php echo _t("Kannel Administration")?></h2>	
 <?php
 	global $global;
     global $conf;
