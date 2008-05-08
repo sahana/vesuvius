@@ -56,6 +56,7 @@ if(isset($file)){
     else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
         add_error(_t('File already exists & is not writable'));
     }
+    // ToDo: Check for correct image size (or resize on the fly using shn_image_resize?)
     //move the uploaded file to the Markers directory, with the correct name
     else {
         move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
@@ -100,13 +101,14 @@ function _shn_gis_list_markers()
     $dir=$conf['gis_marker_folder'];
     $dir2=$global['approot']."/www/$dir";
 	if ($handle = opendir($dir2)) {
+        print("<table>");
         while (false !== ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir2."/".$file)) {
-                //echo "$file\n";
-                print("<a href=\"/$dir".$file."\" target=_blank>".$file."</a><br />\n");
+                print("<tr><td><img src=\"/$dir".$file."\" /></td><td>".$file."</td></tr>");
             }
         }
         closedir($handle);
+        print("</table>");
     }
 }
 
