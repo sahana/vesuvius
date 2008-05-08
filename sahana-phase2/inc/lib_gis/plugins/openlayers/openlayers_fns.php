@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.30 2008-05-01 21:46:12 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.31 2008-05-08 23:04:50 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,7 +23,7 @@
     global $global;
 
   //Disable other base layers if using a non-sphericalMercator WMS projection
-  if ("EPSG:900913"==$conf["gis_ol_wms_projection"]) {
+  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_wms_projection"]) {
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid'])) {
         $key = $conf['gis_google_key'];
         echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
@@ -92,7 +92,7 @@
 	       
 <?php
   //Disable other base layers if using a non-sphericalMercator WMS projection
-  if ("EPSG:900913"==$conf["gis_ol_wms_projection"]) {
+  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_wms_projection"]) {
     //OSM layer(s) listed 1st - promote OpenData!
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
         echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
