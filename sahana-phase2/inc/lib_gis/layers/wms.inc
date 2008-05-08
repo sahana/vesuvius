@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.19 2008-05-07 23:12:59 franboon Exp $
+* @version     $Id: wms.inc,v 1.20 2008-05-08 23:08:08 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -27,12 +27,12 @@ class wms implements layer{
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
-        if ($conf['gis_ol_wms_enable']==1){
+        if (1==$conf['gis_ol_wms_enable']){
             $checked='checked';
         }
         shn_form_checkbox(_t('Enable WMS layers'),'wms_enable',$checked,array('value'=>1));
         shn_form_fsclose();
-        if ($conf['gis_ol_wms_enable']==1){
+        if (1==$conf['gis_ol_wms_enable']){
             $projections_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br><a href=\"http://trac.openlayers.org/wiki/SphericalMercator\">EPSG:900913</a> is the default as this provides full compatibility with the other layers.<br>Some WMS servers may not support this & hence need a different value (such as EPSG:4326 for WGS84).<br>If this is the case then <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
             $projections = array('EPSG:900913','EPSG:4326',_t('Custom'));
             shn_form_fsopen(_t('PROJECTION'));
