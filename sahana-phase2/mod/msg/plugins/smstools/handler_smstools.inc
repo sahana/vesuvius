@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_smstools.inc,v 1.1 2008-04-25 11:51:22 priyanga Exp $
+* @version 		$Id: handler_smstools.inc,v 1.2 2008-05-08 11:44:57 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		SMSTools - http://smstools.meinemullemaus.de/
@@ -44,7 +44,7 @@ function shn_msg_plugin_send_sm($recipients,$message)
     		//Copy failed
     		print "Copy failed. Probably a write error";
 		echo "|$copyto|";
-    		add_error(_("Copy Failed"));
+    		add_error(_t("Copy Failed"));
     		unlink($filename);
     	}
 	if(!chmod($copyto  , 0777  ))

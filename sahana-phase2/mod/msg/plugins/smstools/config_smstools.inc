@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: config_smstools.inc,v 1.1 2008-04-25 11:51:22 priyanga Exp $
+* @version 		$Id: config_smstools.inc,v 1.2 2008-05-08 11:44:40 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		SMSTools - http://smstools.meinemullemaus.de/
@@ -32,22 +32,22 @@ function _shn_msg_st_conf_start($errors=false){
 	
 	shn_form_fopen(astconf);
 
-	shn_form_fsopen(_("Configuration File"));
-	shn_form_text(_("SMSD configuration file path"),"sms_conf",'size="60"'
+	shn_form_fsopen(_t("Configuration File"));
+	shn_form_text(_t("SMSD configuration file path"),"sms_conf",'size="60"'
 		,array('help'=>'Main SMSTools configuration file. Defaults to /etc/smsd.conf. Should be in a location writeable by the web server','req'=>true));
 	shn_form_fsclose();
 	
-	shn_form_fsopen(_("Path to Log Files"));
-	shn_form_text(_("Incoming Messages Folder"),"sms_incoming",'size="60"'
+	shn_form_fsopen(_t("Path to Log Files"));
+	shn_form_text(_t("Incoming Messages Folder"),"sms_incoming",'size="60"'
 		,array('help'=>'Main SMSTools configuration file. Defaults to /etc/smsd.conf. Should be in a location writeable by the web server','req'=>true));
-	shn_form_text(_("Outgoing Messages Folder"),"sms_outgoing",'size="60"'
+	shn_form_text(_t("Outgoing Messages Folder"),"sms_outgoing",'size="60"'
 		,array('help'=>'Main SMSTools configuration file. Defaults to /etc/smsd.conf. Should be in a location writeable by the web server','req'=>true));
-	shn_form_text(_("Failed Messages Folder"),"sms_failed",'size="60"'
+	shn_form_text(_t("Failed Messages Folder"),"sms_failed",'size="60"'
 		,array('help'=>'Main SMSTools configuration file. Defaults to /etc/smsd.conf. Should be in a location writeable by the web server','req'=>true));
-	shn_form_text(_("Sent Messages Folder"),"sms_sent",'size="60"'
+	shn_form_text(_t("Sent Messages Folder"),"sms_sent",'size="60"'
 		,array('help'=>'Main SMSTools configuration file. Defaults to /etc/smsd.conf. Should be in a location writeable by the web server','req'=>true));
 	shn_form_fsclose();
-	shn_form_submit(_("Next"));
+	shn_form_submit(_t("Next"));
 	shn_form_fclose();
 }
 
