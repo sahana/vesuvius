@@ -31,7 +31,7 @@ function _shn_kannel_config_setfile()
     
     $mod = 'msg';
     $act = 'adm_set';
-    print '<h2>' . _("Kannel Configurations & SMTP Settings") .'</h2>';
+    print '<h2>' . _t("Kannel Configurations & SMTP Settings") .'</h2>';
     global $conf;
     copy($conf['input_file'],$conf['output_file']);
 
@@ -39,28 +39,28 @@ function _shn_kannel_config_setfile()
     $form_opts['req_message']=true;
     shn_form_fopen($act,$msg,$form_opts);
  
-    $help_device_port = _("The port to which the modem or phone is connected to, in a computer   through a data cable<br /> eg:- if connected to USB port the device port value should be /dev/ttyUSB0.<br/> This should be visible when you type 'dmesg | tail' on the terminal, after connecting the device to a computer");
+    $help_device_port = _t("The port to which the modem or phone is connected to, in a computer   through a data cable<br /> eg:- if connected to USB port the device port value should be /dev/ttyUSB0.<br/> This should be visible when you type 'dmesg | tail' on the terminal, after connecting the device to a computer");
 
-    $help_id = _("The model number of the phone or modem<br/>eg:-if the phone is SonyEriccson k700i,then the model number is 700.");
+    $help_id = _t("The model number of the phone or modem<br/>eg:-if the phone is SonyEriccson k700i,then the model number is 700.");
 
-    shn_form_fsopen(_("Kannel Settings"));
+    shn_form_fsopen(_t("Kannel Settings"));
 ?>
     <ul>
-	<li><?php echo _("Kannel is the sms gateway used in the messaging module to send sms");?>
+	<li><?php echo _t("Kannel is the sms gateway used in the messaging module to send sms");?>
         </li>
-	<li><?php echo _("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
+	<li><?php echo _t("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
         </li>
-        <li><?php echo _("In order to configure kannel the following configuration values should be given");?>
+        <li><?php echo _t("In order to configure kannel the following configuration values should be given");?>
         </li>
     </ul>
 <?php    
         shn_form_fsclose();
-        shn_form_fsopen(_("Phone/Modem Settings"));
-		shn_form_text(_("Interface"),'interface',null,array('req'=>true,'help'=>$help_device_port));
-        shn_form_text(_("Model number"),'model_no',null,array('req'=>true,'help'=>$help_id));
+        shn_form_fsopen(_t("Phone/Modem Settings"));
+		shn_form_text(_t("Interface"),'interface',null,array('req'=>true,'help'=>$help_device_port));
+        shn_form_text(_t("Model number"),'model_no',null,array('req'=>true,'help'=>$help_id));
         shn_form_fsclose();
 	
-        shn_form_submit(_('Save'));
+        shn_form_submit(_t('Save'));
         shn_form_fclose();
 }
 
@@ -79,12 +79,12 @@ function shn_msg_validate_settings(){
    
         if( $conf['device']=='')
          {
-           add_error(_("Please enter the interface"));
+           add_error(_t("Please enter the interface"));
            $error_flag=true;
          }
         else if(preg_match('/^[0-9._, ]*$/', $conf['device']))
          {
-           add_error(_("Please enter a valid interface"));
+           add_error(_t("Please enter a valid interface"));
            $error_flag=true;
          }
         else
@@ -93,32 +93,32 @@ function shn_msg_validate_settings(){
          }
         if($conf['id']=='')
          {
-           add_error(_("Please enter the model number"));
+           add_error(_t("Please enter the model number"));
            $error_flag=true;
          }
         if(!preg_match('/^[0-9]*$/', $con['id']))
          {
-           add_error(_("Please enter a valid model number"));
+           add_error(_t("Please enter a valid model number"));
            $error_flag=true;
          }
         if($smtp_username=='' || $smtp_password=='')
          {
-           add_error(_("Please enter a valid username and password"));
+           add_error(_t("Please enter a valid username and password"));
 	   $error_flag=true;
          }
         if($smtp_server=='' || !preg_match('/^[a-z.]*$/',$smtp_server))
          { 
-           add_error(_("Please enter a valid SMTP server name"));
+           add_error(_t("Please enter a valid SMTP server name"));
            $error_flag=true;
          }
         if($sender_name=='' || $sender_id=='')
          {
-           add_error(_("Please enter Sender name and Sender mail ID"));
+           add_error(_t("Please enter Sender name and Sender mail ID"));
            $error_flag=true;
          }
         if(!shn_valid_email($sender_id))
          {
-           add_error(_("Please enter valid Sender mail ID"));
+           add_error(_t("Please enter valid Sender mail ID"));
            $error_flag=true;
          }
      return $error_flag;
@@ -165,39 +165,39 @@ function _shn_kannel_config_savefile()
 
 function _shn_kannel_operation_file()
 {
-    print '<h2>' . _("Kannel Operations") .'</h2>';
-    add_confirmation(_("your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and convert it into an executable file and proceed with Kannel Operations"));
+    print '<h2>' . _t("Kannel Operations") .'</h2>';
+    add_confirmation(_t("your settings were saved.<br/>Copy the configuration file kannel.conf in /tmp/ to /etc/kannel/ and convert it into an executable file and proceed with Kannel Operations"));
  
     $form_opts['name']="Kannel_operations";
     $form_opts['req_message']=false;
     shn_form_fopen(null,null,$form_opts);
-    shn_form_fsopen(_("Starting Kannel"));
+    shn_form_fsopen(_t("Starting Kannel"));
 
 ?>
 	<ul>
-	<li><?php echo _("Make sure you have copied the configuration file kannel.conf to /etc/kannel");?> </li>
-	<li><?php echo _("Open a terminal and, as the root user, type the commands:");?> </li>
+	<li><?php echo _t("Make sure you have copied the configuration file kannel.conf to /etc/kannel");?> </li>
+	<li><?php echo _t("Open a terminal and, as the root user, type the commands:");?> </li>
 	<ul>
 	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
 	<li><?php echo '<b>'."bearerbox kannel.conf".'</b>' ;?></li>
 	</ul>
-	<li><?php echo _("Open a 2nd terminal and, as the root user, type the commands:");?> </li>
+	<li><?php echo _t("Open a 2nd terminal and, as the root user, type the commands:");?> </li>
 	<ul>
 	<li><?php echo '<b>'."cd /etc/kannel".'</b>' ;?></li>
 	<li><?php echo '<b>'."smsbox kannel.conf".'</b>' ;?></li>
 	</ul>
 	</ul>
 	<ul>
-	<li><?php echo _("On successful configuration Kannel should output in the 1st terminal: ").'<b>'._(" AT SMSC successfully opened").'</b>'."";?></li>
-	<li><?php echo _("If not re-check and re-enter your configuration values");?></li>
+	<li><?php echo _t("On successful configuration Kannel should output in the 1st terminal: ").'<b>'._t(" AT SMSC successfully opened").'</b>'."";?></li>
+	<li><?php echo _t("If not re-check and re-enter your configuration values");?></li>
 	</ul>
 <?php
     shn_form_fsclose();
     print "<br/>";
-    shn_form_fsopen(_("Shutting down Kannel"));
+    shn_form_fsopen(_t("Shutting down Kannel"));
 ?>
     <ul>
-	<li><?php echo _("Press ").'<b>'."CTRL + C".'</b>'._(" on both the terminals");?></li>
+	<li><?php echo _t("Press ").'<b>'."CTRL + C".'</b>'._t(" on both the terminals");?></li>
     </ul><br/>
 <?php  
     shn_form_fsclose(); 
