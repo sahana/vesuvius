@@ -10,7 +10,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: conf.inc,v 1.1 2008-04-25 11:51:22 priyanga Exp $
+* @version 		$Id: conf.inc,v 1.2 2008-05-08 11:44:10 mifanc Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		SMSTools - http://smstools.meinemullemaus.de/
@@ -18,7 +18,7 @@
 */
 
 // provide the nice display name for the GIS Plugin module
-$conf['plugin_name'] = _('SMSTools');
+$conf['plugin_name'] = _t('SMSTools');
 
 // Path of the Outgoing Queue folder.
 $conf['msg_outgoing'] = '/var/spool/sms/outgoing';
