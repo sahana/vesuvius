@@ -15,7 +15,7 @@
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
 * @plugin	  kannel - http://kannel.org/
-* @version 	  $Id: handler_kannel.inc,v 1.1 2008-04-25 11:47:14 priyanga Exp $
+* @version 	  $Id: handler_kannel.inc,v 1.2 2008-05-08 11:42:15 mifanc Exp $
 * @contrib	  Re-written by Respere for the Messaging/Alerting module - http://respere.com
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
@@ -37,7 +37,7 @@ function shn_msg_plugin_send_sm($recipients,$message)
 		require_once($global['approot']."3rd/snoopy/Snoopy.class.php");
 	}
 	else{
-		add_error(_("Snoopy Class Unavailable"));
+		add_error(_t("Snoopy Class Unavailable"));
 		return 0;
 	}
 	
@@ -105,7 +105,7 @@ function shn_msg_plugin_check_status()
 		require_once($global['approot']."3rd/snoopy/Snoopy.class.php");
 	  }
 	  else{
-		add_error(_("Snoopy Class Unavailable"));
+		add_error(_t("Snoopy Class Unavailable"));
 		return 0;
 	  }
 	  $kannel_status=0;
