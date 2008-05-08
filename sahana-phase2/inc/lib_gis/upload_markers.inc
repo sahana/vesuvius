@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Sahana GIS Upload Projections
+* Sahana GIS Upload Markers
 *
 * PHP version 5
 * 
@@ -18,21 +18,18 @@ global $conf;
 global $file;
 
 $file=$_FILES['load'];
-$extensions=array('js');
-
-//$projection=$conf('gis_ol_wms_projection');
-//$proj=end(explode(':',$projection));
-//$projection_defs="./www/res/OpenLayers/defs/EPSG".$proj.".js";
+$extensions=array('png');
+$dir=$conf['gis_marker_folder'];
 
 //check whether a file was uploaded
 if(isset($file)){
     //get the extension and the tmp name of the file
     $ext=end(explode('.',$_FILES['load']['name']));
     unset($_SESSION['gis']['file']);
-    $_SESSION['gis']['file']="./res/OpenLayers/defs/".basename($_FILES['load']['name']);
+    $_SESSION['gis']['file']="./$dir".basename($_FILES['load']['name']);
     //check for  directory write permission
-    if(!is_writable('./res/OpenLayers/defs')){
-        add_error(_t('Make sure the defs folder is writable'));
+    if(!is_writable("$dir")){
+        add_error(_t("Make sure the $dir folder is writable"));
     }
     //check whether an error occurred
     else if($file['error']!= 0){
@@ -51,14 +48,15 @@ if(isset($file)){
         }
     }
     //check for correct extension
+    // ToDo: convert other filetypes automagically (using lib_image.inc?)
     else if(!in_array($ext,$extensions)){
-        add_error("<b>".strtoupper($ext)."</b> : "._("Please upload a Proj4js definition file with the extension \".js\""));
+        add_error("<b>".strtoupper($ext)."</b> : "._("Please upload an image file with the extension \".png\""));
     }
     //check for file write permission
     else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
         add_error(_t('File already exists & is not writable'));
     }
-    //move the uploaded file to the defs directory, with the correct name
+    //move the uploaded file to the Markers directory, with the correct name
     else {
         move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
         add_confirmation(_t("File was uploaded"));
@@ -68,42 +66,44 @@ if(isset($file)){
 //Print the error message if an error occurred with the Upload File
 display_errors($return=false,$clean_errors=true,$exit=false);
 //draw upload form
-_shn_gis_upload_projections_form();
+_shn_gis_upload_markers_form();
 
 
-function _shn_gis_upload_projections_form()
+function _shn_gis_upload_markers_form()
 {
-	print '<center><h2>' . _t("Upload Projection Definition") . '</h2></center>';
-    print '<p>' . _t("This form allows a proj4js projection definition file from ") . '<a href="http://spatialreference.org" target=_blank>spatialreference.org</a>' . _t(" to be uploaded to www/res/OpenLayers/defs.") . '</p>';
-    print '<p>' . _t("File should be named as EPSGxxxx.js.") . '</p>';
+	print '<center><h2>' . _t("Upload Marker image") . '</h2></center>';
+    print '<p>' . _t("This form allows a Marker image file to be uploaded to $file.") . '</p>';
+    print '<p>' . _t("File should be in PNG format & 20 pixels wide, 34 pixels high.") . '</p>';
 
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
 
-    $upload_help=_t("Download the proj4js version of the Projection from the ") . '<a href="http://spatialreference.org/ref/epsg/" target=_blank>spatialreference.org</a>' . _t("website & upload here");
-	shn_form_fopen("gis_projections",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
-	shn_form_fsopen(_t("Upload Projection Definition File"));
-    shn_form_upload(_t('Upload Projection Definition'),"load",array('req'=>false,"help"=>$upload_help));
+    $upload_help=_t("Upload a PNG format image which is 20 pixels wide, 34 pixels high");
+	shn_form_fopen("gis_markers",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
+	shn_form_fsopen(_t("Upload Marker Image File"));
+    shn_form_upload(_t('Upload Marker'),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
 
 	print "<br />";
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
     // List current directory contents
-    _shn_gis_list_projections();
+    _shn_gis_list_markers();
 }
 
-function _shn_gis_list_projections()
+function _shn_gis_list_markers()
 {
-    print '<center><h2>' . _t("Current Projection Definitions") . '</h2></center>';
-    print '<p>' . _t("These are the Projection definitions currently available on this server") . ':</p>';
+    print '<center><h2>' . _t("Current Markers") . '</h2></center>';
+    print '<p>' . _t("These are the Markers currently available on this server") . ':</p>';
     global $global;
-    $dir=$global['approot'].'/www/res/OpenLayers/defs';
-	if ($handle = opendir($dir)) {
+    global $conf;
+    $dir=$conf['gis_marker_folder'];
+    $dir2=$global['approot']."/www/$dir";
+	if ($handle = opendir($dir2)) {
         while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != ".." && !is_dir($dir."/".$file)) {
+            if ($file != "." && $file != ".." && !is_dir($dir2."/".$file)) {
                 //echo "$file\n";
-                print("<a href=\"/res/OpenLayers/defs/".$file."\" target=_blank>".$file."</a><br />\n");
+                print("<a href=\"/$dir".$file."\" target=_blank>".$file."</a><br />\n");
             }
         }
         closedir($handle);
