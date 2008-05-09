@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.5 2008-05-09 11:36:43 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.6 2008-05-09 11:46:08 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -120,11 +120,6 @@ function _shn_msg_add_contact($person_id)
 	$email1=$_POST['email1'];
 	$email2=$_POST['email2'];
 	$group=$_POST['groups'];
-	
-	/*print "groups is ";
-	print_r ($group);*/
-	/*print "<br>post ";
-	print_r($_POST['groups']);*/
 	
 	// check whether individual name was submitted
 	if($name!=""){
@@ -272,7 +267,7 @@ function _shn_msg_store_contact($name, $fullname, $address, $method, $mobile1, $
 	$res = $db->Execute($q);
 	
 	if($res) {
-		add_confirmation('Individual details were added to the system successfully! Click <a href="index.php?mod=msg&act=contact_individual">here</a> to add another contact.');
+		add_confirmation('Individual details were added to the system successfully! <a href="index.php?mod=msg&act=contact_individual">Click</a> to add another contact.');
 		// store person id and group id
 		foreach ($group as $x => $group_id){
 			$q="insert into msg_group_membership (person_id, group_id) values ('$person_id','$group_id');";
@@ -281,6 +276,10 @@ function _shn_msg_store_contact($name, $fullname, $address, $method, $mobile1, $
 				add_error('Can not add group membership information to the database!');
 			}
 		}// end of 'foreach'
+		
+		// display newly added contact's details
+		shn_msg_view_person($person_id);
+		
 	} else {
 		add_error('Can not add individual information to the db! Please contact your Administrator.');
 	}
