@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.23 2008-05-08 18:09:34 pradeeper Exp $
+* @version		$Id: main.inc,v 1.24 2008-05-09 09:02:28 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -430,7 +430,7 @@ function shn_msg_select_group()
 	echo "&nbsp;&nbsp;&nbsp;";
 	echo "<a href='index.php?mod=msg&act=update_group&id=$id'>Update</a>";
 	echo "&nbsp;&nbsp;&nbsp;";
-	echo "<a href='index.php?mod=msg&act=delete_group&id=$id''>Delete</a>";
+	echo "<a href='index.php?mod=msg&act=delete_person_group&id=$id''>Delete</a>";
 	echo "<br>";
 	
 	// for "back" button
@@ -454,7 +454,7 @@ function shn_msg_select_person()
 		echo "&nbsp;&nbsp;&nbsp;";
 		echo "<a href='index.php?mod=msg&act=edit_contact_individual&id=$id'>Update</a>";
 		echo "&nbsp;&nbsp;&nbsp;";
-		echo "<a href='index.php?mod=msg&act=delete_person&id=$id''>Delete</a>";
+		echo "<a href='index.php?mod=msg&act=delete_person_group&id=$id'>Delete</a>";
 		echo "<br>";
 		
 	//for "back" button
@@ -464,9 +464,14 @@ function shn_msg_select_person()
 }
 
 
-function shn_msg_delete_person()
+function shn_msg_delete_person_group()
 {
 	$id=$_GET['id'];
+	$type=$_GET['type'];
+	
+	if($type=="group"){
+		print "deleting the group that has ID $id";	
+	} else {
 	print "<h2>Member Delete</h2>";
 	shn_msg_view_person($id);
 	shn_form_fopen("contact_submit", null,array('req_message'=>false));
@@ -476,7 +481,7 @@ function shn_msg_delete_person()
 		shn_form_fsclose();
 		shn_form_submit("Submit",$submit_opts = null);
 	shn_form_fclose();	
-	
+	}
 }
 
 function shn_msg_add_store_msg()

@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.3 2008-05-08 18:09:34 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.4 2008-05-09 09:02:28 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -42,6 +42,7 @@ function shn_msg_form_add_contact($name,$full_name,$address,$group,$method,$mob1
 		$group_details=_shn_msg_get_group_details($id);
 		$group=$group_details['name'];
 	}
+	
 	
 	print "<h2>$tmp Contact</h2>";
 	shn_form_fopen("contact_submit", null,array('req_message'=>true));
