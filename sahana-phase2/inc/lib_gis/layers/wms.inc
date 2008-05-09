@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.21 2008-05-09 08:40:45 franboon Exp $
+* @version     $Id: wms.inc,v 1.22 2008-05-09 08:43:46 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -113,7 +113,7 @@ class wms implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        if ("0"==$_POST['gis_ol_wms_projections']) {
+        if (null==$_POST['gis_ol_wms_projections'] || "0"==$_POST['gis_ol_wms_projections']) {
             $projection = 'EPSG:900913';
             $maxExtent = '-20037508, -20037508, 20037508, 20037508.34';
             $maxResolution = '156543.0339';
