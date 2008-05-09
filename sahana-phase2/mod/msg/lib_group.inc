@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.6 2008-05-09 09:02:28 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.7 2008-05-09 09:51:43 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -241,14 +241,13 @@ function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 /*
 @function	this will delete the group from the system
 */
-/*function shn_msg_delete_group($group_id)
+function shn_msg_delete_group($group_id)
 {
-	$id=$_GET['id'];
-	print "delete group that has ID $id!";
+	print "delete group that has ID $group_id!";
 	
 	$q="";
 	
-}*/
+}
 
 
 
