@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.27 2008-05-09 09:51:18 pradeeper Exp $
+* @version		$Id: main.inc,v 1.28 2008-05-09 11:48:04 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -363,10 +363,10 @@ function shn_msg_contact_submit()
 			// catch the post data and store it in the DB
 			_shn_msg_add_contact();
 			break;
+			
 		case edit_contact:
 			// pass edit values to the db 
-			_shn_msg_add_contact($person_id);
-			
+			_shn_msg_add_contact($person_id);			
 			break;
 		
 		case delete_contact:
