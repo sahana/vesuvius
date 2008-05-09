@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.4 2008-05-09 09:02:28 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.5 2008-05-09 11:36:43 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -378,7 +378,8 @@ function _shn_msg_add_contact_group()
 		$res = $db->Execute($q);
 		//print $q;
 		if($res) {
-			add_confirmation('Group was successfully added to the system. Please click <a href="index.php?mod=msg&act=add_contact_group">here</a> to add another group.');			
+			add_confirmation('Group was successfully added to the system. Please <a href="index.php?mod=msg&act=add_contact_group">click</a> to add another group.');
+			shn_msg_contact_group();			
 		} else {
 			add_error('Can not add the group to the system. Please try <a href="index.php?mod=msg&act=add_contact_group">again</a>.<br>');
 		}
@@ -389,16 +390,6 @@ function _shn_msg_add_contact_group()
 	}
 }
 
-// to be delete!!!
-/*
-@function	Display list of Groups in different categories
-
-function shn_msg_list_all_groups()
-{
-	print "<h2>Contact Group List</h2>";
-	shn_msg_list_groups();// list all the groups that are in the db
-}
-*/
 
 /*
 @function	List GROUPS with urls
