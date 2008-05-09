@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.20 2008-05-08 23:08:08 franboon Exp $
+* @version     $Id: wms.inc,v 1.21 2008-05-09 08:40:45 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -123,7 +123,7 @@ class wms implements layer{
             $maxExtent = '-180,-90,180,90';
             $maxResolution = '1.40625';
             $units = 'degrees';
-        } else {
+        } else if (!null==$_POST['gis_ol_wms_projections']){
             $projection = $_POST['gis_ol_wms_projection'];
             $maxExtent = $_POST['gis_ol_wms_maxExtent'];
             $maxResolution = $_POST['gis_ol_wms_maxResolution'];
