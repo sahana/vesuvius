@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.25 2008-05-09 09:35:16 pradeeper Exp $
+* @version		$Id: main.inc,v 1.26 2008-05-09 09:43:33 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -471,27 +471,31 @@ function shn_msg_delete_person_group()
 	$id=$_GET['id'];
 	$type=$_GET['type'];
 	
-	print "<h2>$tmp Delete</h2>";
+	
 	
 	if($type=="group"){
-		$tmp="Group";
-		shn_msg_view_group($id);
+		$tmp="Group";	
 	} else {
 		$tmp="Member";
+	}
+	// title
+	print "<h2>$tmp Delete</h2>";
+	
+	// display the detail of a person or group
+	if($tmp=="Group"){
+		shn_msg_view_group($id);	
+	} else {
 		shn_msg_view_person($id);
 	}
 	
-	
-	
-	
 	shn_form_fopen("contact_submit", null,array('req_message'=>false));
 		shn_form_fsopen("");
-			shn_form_radio(array("yes"=>"Yes","no"=>"No"),"Are you sure you want to delete : ",'option','');
 			if($type=="group"){
 				shn_form_hidden(array("target"=>"delete_contact","person_id"=>"$id"));
 			} else {
 				shn_form_hidden(array("target"=>"delete_group","person_id"=>"$id"));
 			}
+			shn_form_radio(array("yes"=>"Yes","no"=>"No"),"Are you sure you want to delete : ",'option','');
 		shn_form_fsclose();
 		shn_form_submit("Submit",$submit_opts = null);
 	shn_form_fclose();	
