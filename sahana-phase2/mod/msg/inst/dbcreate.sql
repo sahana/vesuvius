@@ -102,7 +102,7 @@ INSERT INTO field_options VALUES('opt_msg_group_category','team','Team');
 INSERT INTO field_options VALUES('opt_msg_group_category','pers','Personal');
 INSERT INTO field_options VALUES('opt_msg_group_category','dept','Department');
 INSERT INTO field_options VALUES('opt_msg_group_category','org','Organization');
-INSERT INTO field_options VALUES('opt_msg_group_category','comm','Community');
+INSERT INTO field_options VALUES('opt_msg_group_category','communi','Community');
 INSERT INTO field_options VALUES('opt_msg_group_category','cust','Customer');
 
 /**
