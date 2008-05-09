@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.7 2008-05-09 09:51:43 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.8 2008-05-09 10:33:18 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -32,12 +32,12 @@ function shn_msg_list_groups($choice)
 	
 	// get the list of group types from the db
 	$list=_shn_msg_tell_type_name();
-	
+	print_r($list);
 	foreach ($list as $grp_type){
 		// this will creat a cadge for each group category
 		shn_form_fopen("", null,array('req_message'=>false));
 			shn_form_fsopen("$grp_type Group");
-				//Bellow section will handle 'groups' under each sub-category
+				//this section will handle 'groups' under each sub-category
 				_shn_msg_list_grp_with_link($grp_type);
 			shn_form_fsclose();
 		shn_form_fclose();
@@ -243,9 +243,22 @@ function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 */
 function shn_msg_delete_group($group_id)
 {
-	print "delete group that has ID $group_id!";
+	// connect to db
+	global $global;
+	global $conf;
+	$db = $global['db'];
 	
-	$q="";
+	$q1="delete from msg_people_group where m_uuid='$group_id';";
+	$q2="delete from msg_group_membership where group_id='$group_id';";
+	
+	$res1=$db->Execute($q1);
+	$res2=$db->Execute($q2);
+	
+	If(($res1)&&($res2)){
+		add_confirmation("Group was deleted from the system!");
+	} else {
+		add_error("Group can not be deleted from the system!");
+	}
 	
 }
 
