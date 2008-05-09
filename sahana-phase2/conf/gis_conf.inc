@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $id$;
+* @version      $Id: gis_conf.inc,v 1.23 2008-05-09 05:33:17 mifanc Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -48,7 +48,7 @@ $conf['gis_width']=760;
  * Folder to store custom markers
  * given from sahana root
  */
-$conf['gis_marker_folder'] = 'theme/default/markers/';
+$conf['gis_marker_folder'] = 'res/img/markers/';
 
 /**
  * Folder to store wiki images
