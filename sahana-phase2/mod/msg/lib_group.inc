@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.8 2008-05-09 10:33:18 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.9 2008-05-09 11:24:12 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -32,7 +32,6 @@ function shn_msg_list_groups($choice)
 	
 	// get the list of group types from the db
 	$list=_shn_msg_tell_type_name();
-	print_r($list);
 	foreach ($list as $grp_type){
 		// this will creat a cadge for each group category
 		shn_form_fopen("", null,array('req_message'=>false));
