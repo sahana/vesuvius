@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.24 2008-05-09 09:02:28 pradeeper Exp $
+* @version		$Id: main.inc,v 1.25 2008-05-09 09:35:16 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -420,7 +420,9 @@ function shn_msg_contact_group()
 */
 function shn_msg_select_group()
 {
+	
 	$id=$_GET['id'];
+	
 	print "<h2>Group Details</h2>";
 	shn_msg_view_group($id);
 	
@@ -430,7 +432,7 @@ function shn_msg_select_group()
 	echo "&nbsp;&nbsp;&nbsp;";
 	echo "<a href='index.php?mod=msg&act=update_group&id=$id'>Update</a>";
 	echo "&nbsp;&nbsp;&nbsp;";
-	echo "<a href='index.php?mod=msg&act=delete_person_group&id=$id''>Delete</a>";
+	echo "<a href='index.php?mod=msg&act=delete_person_group&id=$id&type=group'>Delete</a>";
 	echo "<br>";
 	
 	// for "back" button
@@ -469,19 +471,31 @@ function shn_msg_delete_person_group()
 	$id=$_GET['id'];
 	$type=$_GET['type'];
 	
+	print "<h2>$tmp Delete</h2>";
+	
 	if($type=="group"){
-		print "deleting the group that has ID $id";	
+		$tmp="Group";
+		shn_msg_view_group($id);
 	} else {
-	print "<h2>Member Delete</h2>";
-	shn_msg_view_person($id);
+		$tmp="Member";
+		shn_msg_view_person($id);
+	}
+	
+	
+	
+	
 	shn_form_fopen("contact_submit", null,array('req_message'=>false));
 		shn_form_fsopen("");
 			shn_form_radio(array("yes"=>"Yes","no"=>"No"),"Are you sure you want to delete : ",'option','');
-			shn_form_hidden(array("target"=>"delete_contact","person_id"=>"$id"));
+			if($type=="group"){
+				shn_form_hidden(array("target"=>"delete_contact","person_id"=>"$id"));
+			} else {
+				shn_form_hidden(array("target"=>"delete_group","person_id"=>"$id"));
+			}
 		shn_form_fsclose();
 		shn_form_submit("Submit",$submit_opts = null);
 	shn_form_fclose();	
-	}
+	
 }
 
 function shn_msg_add_store_msg()
