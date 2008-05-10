@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.6 2008-05-10 17:52:31 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.7 2008-05-10 18:35:43 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -24,7 +24,7 @@ class georss2 implements layer{
     function print_form()
     {
         global $conf;
-        shn_form_fsopen(_t('GeoRSS'));
+        shn_form_fsopen(_t('GeoRSS2'));
         $this->georss_enable();
         $this->show_georss_feeds();
         $this->add_georss_feed();
@@ -58,11 +58,18 @@ class georss2 implements layer{
             	$georss_layers = $_POST['gis_ol_georss'];
             else
             	$georss_layers = 0;
+            	
+            //Hack to stop number of layers automagically appearing in below text box for layer numbers, regardless of value set
+            //I guess this is part of how the form-handler works - setting POST back to original in next few lines
+            //$_POST['gis_ol_georss']=0;
             
             shn_form_fsopen(_t('Add New Feed'));
             shn_form_fsopen(_t('NUMBER'));
-            shn_form_text(_t('Number of GeoRSS layers to add'),'gis_ol_georss','size=2 maxlength=2',array('value'=>0));
+            shn_form_text(_t('Number of GeoRSS layers to add'),'gis_ol_georss','size=2 maxlength=2');
             shn_form_fsclose();
+            
+            //And here: setting things right... Using POST with original value hereafter
+            //$_POST['gis_ol_georss']=$georss_layers;
             
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
@@ -73,7 +80,7 @@ class georss2 implements layer{
             
             for ($i=0; $i<$georss_layers; $i++) {
                 //Set counter to one after the current layer count
-                $j=++$i;
+                $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
                 shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_name'],"help"=>$name_help));
@@ -121,6 +128,7 @@ class georss2 implements layer{
         	
         //Handle new feeds only
        	$layers_to_add = $_POST['gis_ol_georss'];
+       	echo "layers:".$layers_to_add;
                          
         for ($i=1; $i<=$layers_to_add; $i++) {
             $j=$conf['gis_ol_georss'] + $i;
