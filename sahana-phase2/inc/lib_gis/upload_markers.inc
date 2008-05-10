@@ -102,9 +102,9 @@ function _shn_gis_list_markers()
     $dir2=$global['approot']."/www/$dir";
 	if ($handle = opendir($dir2)) {
         print("<table>");
-        while (false !== ($file = readdir($handle))) {
+        while (false != ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir2."/".$file)) {
-                print("<tr><td><img src=\"/$dir".$file."\" /></td><td>".$file."</td></tr>");
+                print("<tr><td><img src=\"$dir".$file."\" /></td><td>".$file."</td></tr>");
             }
         }
         closedir($handle);
