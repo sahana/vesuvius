@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.7 2008-05-10 18:35:43 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.8 2008-05-10 19:47:14 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -61,15 +61,21 @@ class georss2 implements layer{
             	
             //Hack to stop number of layers automagically appearing in below text box for layer numbers, regardless of value set
             //I guess this is part of how the form-handler works - setting POST back to original in next few lines
-            //$_POST['gis_ol_georss']=0;
+            $_POST['gis_ol_georss']=0;
             
             shn_form_fsopen(_t('Add New Feed'));
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of GeoRSS layers to add'),'gis_ol_georss','size=2 maxlength=2');
+            
+            //Part of the plot - this should retain the layer value for commiting
+            //Should theoretically only have a value on the 2nd post
+            //qed: No layers committed in frst pass where number of layers are set
+            //Layer values only committed in 2nd pass where the below post is set -- saavy?
+            shn_form_hidden(array('georss_layers'=>$georss_layers));
             shn_form_fsclose();
             
             //And here: setting things right... Using POST with original value hereafter
-            //$_POST['gis_ol_georss']=$georss_layers;
+            $_POST['gis_ol_georss']=$georss_layers;
             
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
@@ -127,8 +133,11 @@ class georss2 implements layer{
         	print_r ($_POST); 
         	
         //Handle new feeds only
-       	$layers_to_add = $_POST['gis_ol_georss'];
+        //Retrieving this value from hidden value
+        //Thus created on 2nd pass only
+       	$layers_to_add = $_POST['georss_layers'];
        	echo "layers:".$layers_to_add;
+
                          
         for ($i=1; $i<=$layers_to_add; $i++) {
             $j=$conf['gis_ol_georss'] + $i;
@@ -265,7 +274,8 @@ class georss2 implements layer{
 			
 		  <table>
 			<thead>
-				<td><?php echo _t('Name')?></td>
+				<td><?php echo _t('Layer')?></td>
+				<td><?php echo _t('Layer Name')?></td>
 				<td><?php echo _t('Description')?></td>
 				<td><?php echo _t('Enabled (for selection)')?></td>
 				<td><?php echo _t('Visible (by default)')?></td>
@@ -273,20 +283,26 @@ class georss2 implements layer{
 			</thead>
 			<tbody>
 <?php
+				$check_enable =0; 
+				$check_visible=0;
 				for($i=0;$i<$conf['gis_ol_georss'];$i++){
-					$j=++$i;
+					$j=$i+1;
+					//Skip empty buggers
 					if($conf['gis_ol_georss_'.$j.'_name']=='')
 						continue;
-					if($conf['gis_ol_georss_'.$j.'_enabled'])
+					if($conf['gis_ol_georss_'.$j.'_enabled']=='0')
 						$check_enable = 'checked';
-					if($conf['gis_ol_georss_'.$j.'_visibility'])
+					/*if('1'==0)
+						$check_enable = 'checked';*/
+					if($conf['gis_ol_georss_'.$j.'_visibility']=='1')
 						$check_visible = 'checked';
 ?>
 				<tr>
+					<td><?php echo $j?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
-					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_enable,array('value'=>1)); ?></td>
-					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_visible,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_enabled'],'georss_enable_'.$j,$check_enable); ?></td>
+					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_visibility'],'georss_enable_'.$j,$check_visible,array('value'=>1)); ?></td>
 					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
 				</tr>
 <?php
