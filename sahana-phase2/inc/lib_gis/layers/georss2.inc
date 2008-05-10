@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.2 2008-05-10 13:27:35 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.3 2008-05-10 13:42:07 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -209,7 +209,8 @@ class georss2 implements layer{
 			<thead>
 				<td><?php echo _t('Name')?></td>
 				<td><?php echo _t('Description')?></td>
-				<td><?php echo _t('Enable')?></td>
+				<td><?php echo _t('Enabled (for selection)')?></td>
+				<td><?php echo _t('Visible (by default)')?></td>
 				<td><?php echo _t('Delete')?></td>
 			</thead>
 			<tbody>
@@ -217,12 +218,15 @@ class georss2 implements layer{
 				for($i=0;$i<$conf['gis_ol_georss'];$i++){
 					$j=++$i;
 					if($conf['gis_ol_georss_'.$j.'_enabled'])
-						$check = 'checked';
+						$check_enable = 'checked';
+					if($conf['gis_ol_georss_'.$j.'_visibility'])
+						$check_visible = 'checked';
 ?>
 				<tr>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
-					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_enable,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_visible,array('value'=>1)); ?></td>
 					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
 				</tr>
 <?php
