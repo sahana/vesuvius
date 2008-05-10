@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.3 2008-05-10 13:42:07 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.4 2008-05-10 15:48:00 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -107,7 +107,9 @@ class georss2 implements layer{
         	print_r ($_POST); 
                          
         for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
-            $j=$i+1;
+            $j=++$i;
+            
+            //description
             $description = 'gis_ol_georss_'.$j.'_description';
             $query = "SELECT * FROM config WHERE confkey='$description' AND module_id='admin'";
             $res = $db->Execute($query);
@@ -119,6 +121,8 @@ class georss2 implements layer{
                 $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$description','{$_POST[$description]}')";
                 $db->Execute($insert);
             }
+            
+            //name
             $name = 'gis_ol_georss_'.$j.'_name';
             if(!null==$_POST[$name]){
                 $query = "SELECT * FROM config WHERE confkey='$name' AND module_id='admin'";
@@ -132,6 +136,8 @@ class georss2 implements layer{
                     $db->Execute($insert);
                 }
             }
+            
+            //url
             $url = 'gis_ol_georss_'.$j.'_url';
             if(!null==$_POST[$url]){
                 $query = "SELECT * FROM config WHERE confkey='$url' AND module_id='admin'";
@@ -146,6 +152,7 @@ class georss2 implements layer{
                 }
             }
             
+            //visibility
             //In PHP 0 == NULL!
             $visibility = 'gis_ol_georss_'.$j.'_visibility';
             $query = "SELECT * FROM config WHERE confkey='$visibility' AND module_id='admin'";
@@ -158,6 +165,8 @@ class georss2 implements layer{
                 $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$visibility','{$_POST[$visibility]}')";
                 $db->Execute($insert);
             }
+            
+            //enabled
             $enabled = 'gis_ol_georss_'.$j.'_enabled';
             $query = "SELECT * FROM config WHERE confkey='$enabled' AND module_id='admin'";
             $res = $db->Execute($query);
@@ -173,7 +182,7 @@ class georss2 implements layer{
         }
         
             // Checkboxes return nothing if unticked!
-        // GeoRSS enable
+        // Overall GeoRSS enable
         
         if (null == $_POST['georss_enable']){
             $gis_georss_enable=0;
