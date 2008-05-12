@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.28 2008-05-09 11:48:04 pradeeper Exp $
+* @version		$Id: main.inc,v 1.29 2008-05-12 06:57:20 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -493,6 +493,7 @@ function shn_msg_delete_person_group()
 		shn_msg_view_person($id);
 	}
 	
+	// yes/no 
 	shn_form_fopen("contact_submit", null,array('req_message'=>false));
 		shn_form_fsopen("");
 			if($type=="group"){
