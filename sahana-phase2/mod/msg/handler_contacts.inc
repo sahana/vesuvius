@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.6 2008-05-09 11:46:08 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.7 2008-05-12 08:33:27 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -202,11 +202,11 @@ function _shn_msg_store_edit_contact($name, $fullname, $address, $method, $mobil
 		add_confirmation('Individual details were updated to the system successfully!');
 		// show individual information again (next to the confirmation)
 		shn_msg_view_person($person_id);
-		echo "&nbsp;&nbsp;&nbsp;";
+		/*echo "&nbsp;&nbsp;&nbsp;";
 		echo "<a href='index.php?mod=msg&act=edit_contact_individual&id=$person_id'>Edit</a>";
 		echo "&nbsp;&nbsp;&nbsp;";
 		echo "<a href=''>Delete</a>";
-		echo "<br>";
+		echo "<br>";*/
 		// end of showing the information
 		
 		// Update person id and group id
