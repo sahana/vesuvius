@@ -7107,7 +7107,7 @@ msgid "Report a found person"
 msgstr "සොයා ගත් පුද්ගලයන් පිළිබඳව වාර්තා කිරීම"
 
 #: ../mod/mpr/home.inc:58
-msgid "Report informations if displaced person to be found"
+msgid "Report information if the displaced person is found"
 msgstr "නැතිවු පුද්ගලයකු සොයා ගත් විට පිළිබඳව තොරතුරු වාර්තා කිරීම"
 
 #: ../mod/mpr/home.inc:59
