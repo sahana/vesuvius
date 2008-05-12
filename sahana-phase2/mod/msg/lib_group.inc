@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.9 2008-05-09 11:24:12 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.10 2008-05-12 08:23:34 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -229,6 +229,8 @@ function shn_msg_update_group($store,$group_id,$group_name,$description,$type)
 		//print $q;
 		if($res){
 			add_confirmation("Updated the <strong>".$group_name."</strong> group!");
+			//show the modified list again
+			shn_msg_list_groups();
 		} else {
 			add_error("Can not update the <strong>".$group_name."</strong> group!");
 		}	
