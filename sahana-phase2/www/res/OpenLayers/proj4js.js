@@ -3,7 +3,7 @@ Author:       Mike Adair madairATdmsolutions.ca
               Richard Greenwood rich@greenwoodmap.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
               Note: This program is an almost direct port of the C library Proj4.
-$Id: proj4js.js,v 1.1 2008-04-29 22:40:36 franboon Exp $
+$Id: proj4js.js,v 1.2 2008-05-13 06:51:21 franboon Exp $
 */
 
 /**
@@ -57,7 +57,7 @@ Proj4js = {
      * internal: http server path to library code.
      * TBD figure this out automatically
      */
-    libPath: '/res/OpenLayers/',
+    libPath: 'res/OpenLayers/',
 
     /** 
     * Method: transform(source, dest, point)

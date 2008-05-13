@@ -20,10 +20,6 @@ global $file;
 $file=$_FILES['load'];
 $extensions=array('js');
 
-//$projection=$conf('gis_ol_wms_projection');
-//$proj=end(explode(':',$projection));
-//$projection_defs="./www/res/OpenLayers/defs/EPSG".$proj.".js";
-
 //check whether a file was uploaded
 if(isset($file)){
     //get the extension and the tmp name of the file
@@ -103,7 +99,7 @@ function _shn_gis_list_projections()
         while (false !== ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir."/".$file)) {
                 //echo "$file\n";
-                print("<a href=\"/res/OpenLayers/defs/".$file."\" target=_blank>".$file."</a><br />\n");
+                print("<a href=\"res/OpenLayers/defs/".$file."\" target=_blank>".$file."</a><br />\n");
             }
         }
         closedir($handle);
