@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.31 2008-05-08 23:04:50 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.32 2008-05-13 14:15:54 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -43,6 +43,10 @@
         $key = $conf['gis_yahoo_key'];
         echo "<script src='http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=$key'></script>\n";
     }
+
+  }
+  if (1 == $conf['gis_ol_files_enable']) {
+      echo "<script src='res/OpenLayers/osm_styles.js'></script>\n";
   }
 ?>
     <script src="res/OpenLayers/OpenLayers.js"></script>
@@ -220,6 +224,35 @@
                 echo "map.addLayer(georsslayer$i);\n";
                 if ("0" == $conf["gis_ol_georss_".$i."_visibility"]) {
                     echo "georsslayer$i.setVisibility(false);\n";
+                }
+            }
+        }
+    }
+
+    if (1 == $conf['gis_ol_files_enable']) {
+        for ($i = 1; $i <= $conf['gis_ol_files']; $i++) {
+            if (1==$conf["gis_ol_files_".$i."_enabled"]) {
+                $name = $conf["gis_ol_files_".$i."_name"];
+                $filename = $conf["gis_ol_files_".$i."_filename"];
+                $ext=end(explode('.',$filename));
+                $path='res/OpenLayers/files/'.$filename;
+                echo "var fileslayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\""; 
+                if ("KML"==strtoupper($ext)) {
+                    echo ", { format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                }
+                else if ("OSM"==strtoupper($ext)) {
+                    echo ", {format: OpenLayers.Format.OSM});\n";
+                }
+                else {
+                //GML
+                    echo ");\n";
+                }
+                echo "map.addLayer(fileslayer$i);\n";
+                if ("0" == $conf["gis_ol_files_".$i."_visibility"]) {
+                    echo "fileslayer$i.setVisibility(false);\n";
+                }
+                if ("OSM"==strtoupper($ext)) {
+                    echo "fileslayer$i.preFeatureInsert = style_osm_feature;\n";
                 }
             }
         }
