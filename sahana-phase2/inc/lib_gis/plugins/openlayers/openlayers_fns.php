@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.33 2008-05-13 14:27:55 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.34 2008-05-13 21:34:05 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -253,6 +253,9 @@
                 }
                 if ("OSM"==strtoupper($ext)) {
                     echo "fileslayer$i.preFeatureInsert = style_osm_feature;\n";
+                    echo "var sf$i = new OpenLayers.Control.SelectFeature(fileslayer$i, {'onSelect': on_feature_hover});\n";
+                    echo "map.addControl(sf$i);\n";
+                    echo "sf$i.activate();\n";
                 }
             }
         }
@@ -505,6 +508,21 @@ function ol_osm_getTileURL()
     global $conf;
     // close init()
     echo "}\n";
+    ?>
+    function on_feature_hover(feature) {
+            var text ="<ul>";
+            var type ="way";
+            if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+                type = "node";
+            }    
+            text += "<li>" + feature.osm_id + ": <a href='http://www.openstreetmap.org/api/0.5/"+type + "/" + feature.osm_id + "'>API</a></li>";
+            for (var key in feature.attributes) {
+                text += "<li>" + key + ": " + feature.attributes[key] + "</li>";
+            }
+            text += "</ul>";
+            $("status").innerHTML = text;
+    }
+    <?php
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
         echo "function osm_getTileURL(bounds) {\n";
         echo "    var res = this.map.getResolution();\n";
