@@ -70,7 +70,7 @@ _shn_gis_upload_projections_form();
 function _shn_gis_upload_projections_form()
 {
 	print '<center><h2>' . _t("Upload Projection Definition") . '</h2></center>';
-    print '<p>' . _t("This form allows a proj4js projection definition file from ") . '<a href="http://spatialreference.org" target=_blank>spatialreference.org</a>' . _t(" to be uploaded to www/res/OpenLayers/defs.") . '</p>';
+    print '<p>' . _t("This form allows a proj4js projection definition file from ") . '<a href="http://spatialreference.org" target=_blank>spatialreference.org</a>' . _t(" to be uploaded to ") . 'www/res/OpenLayers/defs. </p>';
     print '<p>' . _t("File should be named as EPSGxxxx.js.") . '</p>';
 
 	global $global;
