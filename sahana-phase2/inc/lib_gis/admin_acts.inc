@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: admin_acts.inc,v 1.17 2008-05-08 21:20:45 franboon Exp $
+* @version		$Id: admin_acts.inc,v 1.18 2008-05-13 12:17:20 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -34,6 +34,15 @@ function shn_admin_gis_google()
     global $global;
     include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
     shn_admin_gis_google_settings();
+}
+
+/**
+ * GIS Files Management Functionality
+ */
+function shn_admin_gis_files()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/upload_files.inc';
 }
 
 /**
