@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.32 2008-05-13 14:15:54 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.33 2008-05-13 14:27:55 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -236,16 +236,16 @@
                 $filename = $conf["gis_ol_files_".$i."_filename"];
                 $ext=end(explode('.',$filename));
                 $path='res/OpenLayers/files/'.$filename;
-                echo "var fileslayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\""; 
+                echo "var fileslayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\", { projection: proj4326"; 
                 if ("KML"==strtoupper($ext)) {
-                    echo ", { format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                    echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
                 }
                 else if ("OSM"==strtoupper($ext)) {
-                    echo ", {format: OpenLayers.Format.OSM});\n";
+                    echo ", format: OpenLayers.Format.OSM});\n";
                 }
                 else {
                 //GML
-                    echo ");\n";
+                    echo "});\n";
                 }
                 echo "map.addLayer(fileslayer$i);\n";
                 if ("0" == $conf["gis_ol_files_".$i."_visibility"]) {
