@@ -213,16 +213,23 @@ function shn_error_get_restricted_access_message(){
 	<li><?php echo _t('Your username has not been given permission to access this section')?></li>
 </ul>
 <p><?php echo _t('To gain access to this section please contact the administrator')?></p>
-<?php ?>
-$contents = ob_get_contents(); ob_end_clean(); } function
-shn_error_dummy_header() { global $global; ?>
+<?php
+$contents = ob_get_contents();
+ob_end_clean();
+}
+
+function shn_error_dummy_header()
+{
+    global $global;
+    ?>
 <body>
 <div id="container">
 <div id="header" class="clearfix">
 <h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
 </div>
 <div id="wrapper" class="clearfix">
-<div id="content" class="clearfix"><?php
+<div id="content" class="clearfix">
+<?php
 }
 
 function shn_error_dummy_footer()
