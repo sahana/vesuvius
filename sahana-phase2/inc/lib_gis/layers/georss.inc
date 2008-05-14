@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.10 2008-05-14 21:10:28 franboon Exp $
+* @version     $Id: georss.inc,v 1.11 2008-05-14 21:14:41 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -149,7 +149,7 @@ class georss implements layer{
                     $db->Execute($insert);
                 }
             } else if (null==$conf['$iconsize']){
-                $iconsize_default='20,34';
+                $iconsize_default='21,25';
                 $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize','$iconsize_default')";
                 $db->Execute($insert);
             }
