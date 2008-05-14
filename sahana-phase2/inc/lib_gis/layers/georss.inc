@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.9 2008-05-14 19:51:07 franboon Exp $
+* @version     $Id: georss.inc,v 1.10 2008-05-14 21:10:28 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -39,8 +39,9 @@ class georss implements layer{
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
+            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be uploaded via the").'<a href="index.php?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a>'._t(" (optional). Defaults to")." 'marker-red.png'";
+            $iconsize_help=_t("Size of the icon as 'Width, Height' (optional). Defaults to")." '20,34'";
             $projection_help=_t("Coordinate system used to display the data, as defined by ").'<a href="http://www.epsg.org" target=_blank>'._t("European Petroleum Survey Group").'</a>'._t(" (mandatory). If left blank, then ").'EPSG:4326'._t(" is assumed as this is the default ").'WGS84.';
-            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be uploaded via the").'<a href="index.php?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a>'._t(" (optional).");
             $visibility_help=_t("Whether the layer is visible by default");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");
             for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
@@ -50,6 +51,7 @@ class georss implements layer{
                 shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_url'],"help"=>$url_help));
                 shn_form_text(_t('Icon'),'gis_ol_georss_'.$j.'_icon',null,array('value'=>$conf['gis_ol_georss_'.$j.'_icon'],"help"=>$icon_help));
+                shn_form_text(_t('Icon Size'),'gis_ol_georss_'.$j.'_icon_size',null,array('value'=>$conf['gis_ol_georss_'.$j.'_icon_size'],"help"=>$iconsize_help));
                 $projection = "EPSG:4326";
                 if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
@@ -80,17 +82,6 @@ class georss implements layer{
         $db = $global['db'];                  
         for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
             $j=$i+1;
-            $description = 'gis_ol_georss_'.$j.'_description';
-            $query = "SELECT * FROM config WHERE confkey='$description' AND module_id='admin'";
-            $res = $db->Execute($query);
-            if(!$res->EOF){
-                $q = "UPDATE config SET value = '{$_POST[$description]}' WHERE module_id = 'admin' AND confkey = '$description'";
-                $db->Execute($q);
-            }
-            else{
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$description','{$_POST[$description]}')";
-                $db->Execute($insert);
-            }
             $name = 'gis_ol_georss_'.$j.'_name';
             if(!null==$_POST[$name]){
                 $query = "SELECT * FROM config WHERE confkey='$name' AND module_id='admin'";
@@ -103,6 +94,17 @@ class georss implements layer{
                     $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$name','{$_POST[$name]}')";
                     $db->Execute($insert);
                 }
+            }
+            $description = 'gis_ol_georss_'.$j.'_description';
+            $query = "SELECT * FROM config WHERE confkey='$description' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST[$description]}' WHERE module_id = 'admin' AND confkey = '$description'";
+                $db->Execute($q);
+            }
+            else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$description','{$_POST[$description]}')";
+                $db->Execute($insert);
             }
             $url = 'gis_ol_georss_'.$j.'_url';
             if(!null==$_POST[$url]){
@@ -129,18 +131,44 @@ class georss implements layer{
                     $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon','{$_POST[$icon]}')";
                     $db->Execute($insert);
                 }
-            } else if (!null==$conf['$icon']){
+            } else if (null==$conf['$icon']){
                 $icon_default='marker-red.png';
-                $query = "SELECT * FROM config WHERE confkey='$icon' AND module_id='admin'";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon','$icon_default')";
+                $db->Execute($insert);
+            }
+            $iconsize = 'gis_ol_georss_'.$j.'_icon_size';
+            if(!null==$_POST[$iconsize]){
+                $query = "SELECT * FROM config WHERE confkey='$iconsize' AND module_id='admin'";
                 $res = $db->Execute($query);
                 if(!$res->EOF){
-                    $q = "UPDATE config SET value = '$icon_default' WHERE module_id = 'admin' AND confkey = '$icon'";
+                    $q = "UPDATE config SET value = '{$_POST[$iconsize]}' WHERE module_id = 'admin' AND confkey = '$iconsize'";
                     $db->Execute($q);
                 }
                 else{
-                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon','$icon_default')";
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize','{$_POST[$iconsize]}')";
                     $db->Execute($insert);
                 }
+            } else if (null==$conf['$iconsize']){
+                $iconsize_default='20,34';
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize','$iconsize_default')";
+                $db->Execute($insert);
+            }
+            $projection = 'gis_ol_georss_'.$j.'_projection';
+            if(!null==$_POST[$projection]){
+                $query = "SELECT * FROM config WHERE confkey='$projection' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$projection]}' WHERE module_id = 'admin' AND confkey = '$projection'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$url','{$_POST[$projection]}')";
+                    $db->Execute($insert);
+                }
+            } else if (null==$conf['$projection']){
+                $projection_default='EPSG:4326';
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$projection','$projection_default')";
+                $db->Execute($insert);
             }
             //In PHP 0 == NULL!
             $visibility = 'gis_ol_georss_'.$j.'_visibility';

@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.23 2008-05-09 05:33:17 mifanc Exp $;
+* @version      $Id: gis_conf.inc,v 1.24 2008-05-14 21:10:28 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -146,6 +146,8 @@ $conf['gis_ol_georss_enable']='0';
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
 $conf['gis_ol_georss_1_description'] = '';
 $conf['gis_ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
+$conf['gis_ol_georss_1_icon'] = 'Geo_Earth_Quake_Epicenter.png';
+$conf['gis_ol_georss_1_icon_size'] = '25,25';
 $conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
 $conf['gis_ol_georss_1_visibility'] = '0';
 $conf['gis_ol_georss_1_enabled'] = '1';
