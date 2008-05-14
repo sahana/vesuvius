@@ -74,12 +74,12 @@ function _shn_gis_upload_markers_form()
 {
 	print '<center><h2>' . _t("Upload Marker image") . '</h2></center>';
     print '<p>' . _t("This form allows a Marker image file to be uploaded to $file.") . '</p>';
-    print '<p>' . _t("File should be in PNG format & 20 pixels wide, 34 pixels high.") . '</p>';
+    print '<p>' . _t("File should be in PNG format.") . '</p>';
 
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
 
-    $upload_help=_t("Upload a PNG format image which is 20 pixels wide, 34 pixels high");
+    $upload_help=_t("Upload a PNG format image");
 	shn_form_fopen("gis_markers",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
 	shn_form_fsopen(_t("Upload Marker Image File"));
     shn_form_upload(_t('Upload Marker'),"load",array('req'=>false,"help"=>$upload_help));
@@ -102,9 +102,9 @@ function _shn_gis_list_markers()
     $dir2=$global['approot']."/www/$dir";
 	if ($handle = opendir($dir2)) {
         print("<table>");
-        while (false != ($file = readdir($handle))) {
+        while (false !== ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir2."/".$file)) {
-                print("<tr><td><img src=\"$dir".$file."\" /></td><td>".$file."</td></tr>");
+                print("<tr><td><img src=\"/$dir".$file."\" /></td><td>".$file."</td></tr>");
             }
         }
         closedir($handle);
