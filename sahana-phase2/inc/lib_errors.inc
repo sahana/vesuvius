@@ -79,7 +79,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true)
 
 	if(strtolower($stream)=='html'){
 		if (null == $error_title) {
-			$error_title = _t('Oops. There are few errors :');
+			$error_title = _t('Oops. There are a few errors :');
 		}
 
 		// return if there are no errors
