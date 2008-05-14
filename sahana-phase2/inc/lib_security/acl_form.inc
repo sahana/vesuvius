@@ -305,6 +305,8 @@ Create,Read,Update,Delete permissions to the Data Classificatons"); ?></strong><
 
 <div id="formcontainer"><?php
 shn_form_fopen("acl_role_edit_perms_cr","admin",array('req_message'=>false));
+
+echo "<br/><p>"._t(sprintf("The selected role is <em>%s</em>",shn_acl_get_group_name($role)))."</p><br/>";
 ?>
 <div id="result">
 <table>

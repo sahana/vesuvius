@@ -769,4 +769,20 @@ function shn_acl_enable_signup($flag=true){
 	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_signup_enabled'";
 	$res=$db->Execute($q);
 }
+
+/**
+ * Get the name of a group by passing the group id.
+ *
+ * @param integer $role_id group id
+ * @return String group name
+ */
+function shn_acl_get_group_name($role_id){
+    global $global;
+    $db = $global['db'];
+    $query = "SELECT group_name FROM `sys_user_groups` where `group_id`=?";
+    $res = $db->Execute($query,$role_id);
+
+    return $res->fields[0];
+    
+}
 ?>
