@@ -31,7 +31,7 @@ function show_map($opt=null)
 ?>            
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-    <div id="status">Loading...</div>
+    <div id="status"></div>
 <?php
 }
 
@@ -53,7 +53,7 @@ function show_add_marker_map($name)
 ?>		
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-    <div id="status">Loading...</div>
+    <div id="status"></div>
 <?php
 }
 
@@ -75,7 +75,7 @@ function show_map_with_markers($array)
 ?>            
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-    <div id="status">Loading...</div>
+    <div id="status"></div>
 <?php
 }
 
@@ -96,7 +96,7 @@ function show_map_with_wiki_marker($array)
 ?>            
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-    <div id="status">Loading...</div>
+    <div id="status"></div>
 <?php
 }
 
@@ -117,7 +117,7 @@ function show_map_with_custom_markers($array)
 ?>		
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-    <div id="status">Loading...</div>
+    <div id="status"></div>
 <?php
 }
 
