@@ -396,13 +396,17 @@ shn_form_fopen("acl_data_classifications_tables_cr","admin",array('req_message'=
 $levels=shn_acl_data_classifications_list();
 $tables=shn_acl_sys_data_tables();
 foreach ($tables as $table=>$level){
-	shn_form_fsopen($table);
+	shn_form_fsopen();
+	
 	$extra_opts["value"]=$level;
-	shn_form_select($levels,"",$table,null,$extra_opts);
+	$extra_opts['br'] = false;
+	shn_form_select($levels,$table,$table,null,$extra_opts);
+	shn_form_submit(_t("Save"));
+	
 	shn_form_fsclose();
 }
 
-shn_form_submit(_t("Save"));
+
 ?>
 </center>
 <?php
