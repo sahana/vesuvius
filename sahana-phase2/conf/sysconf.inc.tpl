@@ -128,12 +128,10 @@ $conf['log_file_location'] = "logs";
 ###############################
 # GIS and Mapping Configuration
 ###############################
-# @todo Provide Web Interface for cofiguration
-# See GIS Module for more configuration information
+# See gis_conf.inc for more configuration information
 
-# GIS Funcitionality
+# GIS Functionality
 # true: to enable GIS/Mapping Capabilities
-
 $conf['gis'] = true;
 
 $conf['proxy_path']='res/lib_proxy.php?url=';
