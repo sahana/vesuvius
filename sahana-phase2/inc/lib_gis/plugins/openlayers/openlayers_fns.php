@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.34 2008-05-13 21:34:05 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.35 2008-05-14 19:51:08 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -214,13 +214,18 @@
     }
 
     if (1 == $conf['gis_ol_georss_enable']) {
+        $path=$conf['gis_marker_folder'];
         for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
             if (1==$conf["gis_ol_georss_".$i."_enabled"]) {
                 $name = $conf["gis_ol_georss_".$i."_name"];
                 $url = $conf["gis_ol_georss_".$i."_url"];
                 $projection = $conf["gis_ol_georss_".$i."_projection"];
+                $icon = $conf["gis_ol_georss_".$i."_icon"];
                 echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
-                echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i});\n"; 
+                echo "var icongeorss$i = new OpenLayers.Icon(\"$path$icon\", new OpenLayers.Size(20,34));\n";
+                //echo "var icongeorss$i = new OpenLayers.Icon(\"res/img/markers/marker-blue.png\", new OpenLayers.Size(20,34));\n";
+                echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i, icon: icongeorss$i});\n"; 
+                //echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i});\n"; 
                 echo "map.addLayer(georsslayer$i);\n";
                 if ("0" == $conf["gis_ol_georss_".$i."_visibility"]) {
                     echo "georsslayer$i.setVisibility(false);\n";

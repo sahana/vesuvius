@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.8 2008-05-01 21:45:17 franboon Exp $
+* @version     $Id: georss.inc,v 1.9 2008-05-14 19:51:07 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,8 +22,8 @@ class georss implements layer{
         global $conf;
         shn_form_fsopen(_t('GeoRSS'));
         shn_form_fsopen(_t('INFO'));
-        echo _t("<p>Sahana can make use of Feeds from servers using the <a href='http://en.wikipedia.org/wiki/GeoRSS' target=_blank>GeoRSS</a> standard </p>");
-        echo _t("<p>Enable GeoRSS Layers by selecting the checkbox option below.</p>");
+        print '<p>' . _t("Sahana can make use of Feeds from servers using the <a href='http://en.wikipedia.org/wiki/GeoRSS' target=_blank>GeoRSS</a> standard.") . '</p>';
+        print '<p>' . _t("Enable GeoRSS Layers by selecting the checkbox option below.") . '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -39,7 +39,8 @@ class georss implements layer{
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
-            $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a> (mandatory). If left blank, then EPSG:4326 is assumed as this is the default WGS84.");
+            $projection_help=_t("Coordinate system used to display the data, as defined by ").'<a href="http://www.epsg.org" target=_blank>'._t("European Petroleum Survey Group").'</a>'._t(" (mandatory). If left blank, then ").'EPSG:4326'._t(" is assumed as this is the default ").'WGS84.';
+            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be uploaded via the").'<a href="index.php?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a>'._t(" (optional).");
             $visibility_help=_t("Whether the layer is visible by default");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");
             for ($i=0; $i<$conf['gis_ol_georss']; $i++) {
@@ -48,6 +49,7 @@ class georss implements layer{
                 shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_name'],"help"=>$name_help));
                 shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
                 shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_url'],"help"=>$url_help));
+                shn_form_text(_t('Icon'),'gis_ol_georss_'.$j.'_icon',null,array('value'=>$conf['gis_ol_georss_'.$j.'_icon'],"help"=>$icon_help));
                 $projection = "EPSG:4326";
                 if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
@@ -112,6 +114,31 @@ class georss implements layer{
                 }
                 else{
                     $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$url','{$_POST[$url]}')";
+                    $db->Execute($insert);
+                }
+            }
+            $icon = 'gis_ol_georss_'.$j.'_icon';
+            if(!null==$_POST[$icon]){
+                $query = "SELECT * FROM config WHERE confkey='$icon' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$icon]}' WHERE module_id = 'admin' AND confkey = '$icon'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon','{$_POST[$icon]}')";
+                    $db->Execute($insert);
+                }
+            } else if (!null==$conf['$icon']){
+                $icon_default='marker-red.png';
+                $query = "SELECT * FROM config WHERE confkey='$icon' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$icon_default' WHERE module_id = 'admin' AND confkey = '$icon'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon','$icon_default')";
                     $db->Execute($insert);
                 }
             }
