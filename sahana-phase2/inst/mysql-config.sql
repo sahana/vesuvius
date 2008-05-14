@@ -476,7 +476,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_request", 6);
 -- rms_status
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_status", 6);
 -- rms_tmp_sch
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_request", 8);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "rms_tmp_sch", 8);
 -- sector
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "sector", 2);
 
