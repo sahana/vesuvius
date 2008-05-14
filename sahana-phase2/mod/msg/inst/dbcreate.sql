@@ -91,6 +91,19 @@ CREATE TABLE msg_survey (
 	send_time TIME
 );
 
+/**
+* Table for Store Survey Message options
+* Modules: msg
+* Created: 14-May-2008 jo@respere.com
+* Last Edited: 14-May-2008 jo@respere.com 
+*/
+DROP TABLE IF EXISTS msg_survey_opt;
+CREATE TABLE msg_survey_opt (
+        msg_id VARCHAR(60) NOT NULL,
+	opt_num VARCHAR(3) NOT NULL,
+	opt_val VARCHAR(30) NOT NULL
+);
+
 
 /**
 * Messaging contact group categories
@@ -147,7 +160,7 @@ CREATE TABLE msg_smstools_log (
 DROP TABLE IF EXISTS msg_received_messages;
 CREATE TABLE msg_received_messages (
    id int auto_increment NOT NULL,
-   received DATETIME DEFAULT now(),
+   received DATETIME ,
    sender char(32),
    status char(1),
    message varchar(160),

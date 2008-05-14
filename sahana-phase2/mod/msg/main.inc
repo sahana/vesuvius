@@ -20,7 +20,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.29 2008-05-12 06:57:20 pradeeper Exp $
+* @version		$Id: main.inc,v 1.30 2008-05-14 09:00:45 priyanga Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -81,7 +81,7 @@ function shn_msg_mainmenu()
     
     shn_sub_mod_menuopen("Survey Messages");
     shn_sub_mod_menuitem("send_survey", _t("Send Survey Message"), $module);
-    shn_sub_mod_menuitem("send_group",_t("Survey Reports"),$module);
+    shn_sub_mod_menuitem("survey_rpt",_t("Survey Reports"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Stored Messages");
@@ -134,6 +134,19 @@ function shn_msg_send_survey()
 {
 	shn_msg_send_survey_form();
 }
+
+
+/**
+ * This function print survey report
+ *
+ * @author		Pradeeper <pradeeper@respere.com>
+ * @function	Send surveys	
+ */
+function shn_msg_survey_rpt()
+{
+	_shn_msg_survey_reports();
+}
+
 
 /**
  * This function print send console
@@ -384,7 +397,6 @@ function shn_msg_contact_submit()
 			break;
 			
 		case send_survey:
-			//print "send survey";
 			_shn_msg_send_survey_submistion();
 			break;	
 			

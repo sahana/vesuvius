@@ -13,7 +13,7 @@
 * @package       Sahana - http://sahana.lk/
 * @subpackage    msg
 * @tutorial
-* @version       $Id: lib_contact.inc,v 1.2 2008-04-30 06:01:36 mifanc Exp $
+* @version       $Id: lib_contact.inc,v 1.3 2008-05-14 09:00:45 priyanga Exp $
 * @license       http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -288,12 +288,23 @@ dojo.addOnLoad(function(){
 
 
 //got to put this function in to a appropriate place
-function _shn_msg_message_ui(){
+function _shn_msg_message_ui($message=null){
 //the message interface should change depending on the selected message type
 ?>
 <div style="margin-left:210px;float:left;">
     <div id="message_container">
+<?php
+        if(isset($message)){
+        ?>
+        <textarea name="message" id="message" cols="18" rows="13" tabindex="5" onclick="remove_help()" onkeyup="limit_message();" wrap="hard" readonly="1" ><?php echo $message?></textarea>
+        <?php
+        }
+        else{
+        ?>
         <textarea name="message" id="message" cols="18" rows="13" tabindex="5" onclick="remove_help()" onkeyup="limit_message();" wrap="hard" >Click here to type your message..</textarea>
+        <?php
+        }
+?>
     </div>
 </div>
 <script language="javascript">
