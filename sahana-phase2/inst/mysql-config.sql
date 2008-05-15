@@ -170,6 +170,7 @@ INSERT INTO field_options VALUES ('opt_rs_cht_freq','30','the frequency of chart
 
 -- INSERT CONFIG VALUES
 INSERT INTO config (module_id,confkey,value) VALUES ( 'cr', 'division_type', '2');
+INSERT INTO config (module_id,confkey,value) VALUES ( 'pref', 'shn_xform_enabled', 'false');
 
 -- INSERT DEFAULT DATA CLASSIFICATION LEVELS
 INSERT INTO sys_data_classifications VALUES ( 1, 'Person Sensitive');
