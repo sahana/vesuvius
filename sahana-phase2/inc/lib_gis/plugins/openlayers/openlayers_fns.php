@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.36 2008-05-14 21:10:29 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.37 2008-05-15 17:54:10 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -284,13 +284,15 @@
     global $global;
     $db = $global['db'];
     $folder = $conf['gis_marker_folder'];
+    $marker = $conf['gis_marker'];
+    $markersize = $conf['gis_marker_size'];
 ?>
 
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
-    var size = new OpenLayers.Size(20,34); // icon size
+    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
 	
     map.events.register("click", map, function(e) { 
         var lonlat = map.getLonLatFromPixel(e.xy);
@@ -323,12 +325,14 @@
     global $global;
     $db = $global['db'];
     $folder = $conf['gis_marker_folder'];
+    $marker = $conf['gis_marker'];
+    $markersize = $conf['gis_marker_size'];
 ?>
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
 	map.addLayer(markers);
-	var size = new OpenLayers.Size(20,34); // icon size
+	var size = new OpenLayers.Size(<?=$markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
     var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
@@ -379,12 +383,14 @@
     global $conf;
     global $global;
     $folder = $conf['gis_marker_folder'];
+    $marker = $conf['gis_marker'];
+    $markersize = $conf['gis_marker_size'];
 ?>
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
-    var size = new OpenLayers.Size(20,34); // icon size
+    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?>marker.png',size,offset);
+	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
     var currentPopup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
@@ -468,6 +474,8 @@
         $pre_url="index.php?";
         $url=$pre_url.$url;
         $marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
+        //$markersize = (isset($array[$i]["markersize"]))?$array[$i]["markersize"]:"20,34";
+        //var size = new OpenLayers.Size($markersize); // icon size
 ?>
         var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
 <?php
