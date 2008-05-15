@@ -117,7 +117,7 @@ function _shn_ims_assign_validate()
     }
 
     if(! isset($local_post['ims_incident_id'])) {
-        add_error(_t("Please an incident"));
+        add_error(_t("Please specify an incident"));
         $error_flag=true;
     }
 
