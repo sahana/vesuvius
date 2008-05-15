@@ -92,7 +92,7 @@ function shn_pref_mainmenu()
 		}
 	}
 
-
+	shn_mod_menuitem("enable_ocr_xform",_t("OCR XForm"),"pref");
 	shn_mod_menuclose();
 	 
 	// include the main menu
@@ -120,6 +120,61 @@ _t("Which will help you to customize Sahana to your preference.")."<br />"._t("F
 </div>
 <?php
 }
+
+
+
+/**
+ * Generates a form to enable/disable XForm
+ * @access public
+ * @return void
+ */
+
+function shn_pref_enable_ocr_xform() {
+include_once('xform_config.inc');
+	echo "<h2>"._t("Enable/Disable OCR XForm")."</h2>";
+	shn_form_fopen("enable_xform","pref",array("req"=>false));
+	shn_form_fsopen(_t("Enable or disable the OCR friendly form generation."));
+	$_value = _shn_xform_conf_value();
+	$val_xform = ($_value==true?'enabled':'disabled');
+	shn_form_radio(array("enabled"=>_t("Enabled"),"disabled"=>_t("Disabled")),_t("OCR friendly XForm : "),"ocr_xform_status","",array('value'=>$val_xform));
+	shn_form_fsclose();
+	shn_form_submit(_("Cancel"),"name='disable'");
+	shn_form_submit(_("Save"));
+	shn_form_fclose();
+}
+
+
+function shn_pref_enable_xform(){
+include('xform_config.inc');
+	if(!$_POST['disable']){
+		$val_xform = $_POST['ocr_xform_status'];
+		if($val_xform =='enabled'){
+			$ret_xform = _shn_xform_set_config_value('false');
+			if($ret_xform == true){
+				add_confirmation(_t("Your preference was successfully saved."));
+			}
+			else{
+				add_error(_t("An error occured while saving your preference."));
+			}
+		}
+		else{
+			$ret_xform = _shn_xform_set_config_value('true');
+			if($ret_xform == false){
+				add_confirmation(_t("Your preference was successfully saved."));
+			}
+			else{
+				add_error(_t("An error occured while saving your preference."));
+			}
+		}
+		shn_pref_enable_ocr_xform();
+	}
+	else {
+		shn_pref_enable_ocr_xform();
+	}
+}
+
+
+
 
 /**
  * This function cleans the POST values
