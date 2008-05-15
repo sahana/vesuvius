@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: georss.inc,v 1.11 2008-05-14 21:14:41 franboon Exp $
+* @version     $Id: georss.inc,v 1.12 2008-05-15 13:24:41 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -162,7 +162,7 @@ class georss implements layer{
                     $db->Execute($q);
                 }
                 else{
-                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$url','{$_POST[$projection]}')";
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$projection','{$_POST[$projection]}')";
                     $db->Execute($insert);
                 }
             } else if (null==$conf['$projection']){
