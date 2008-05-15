@@ -40,6 +40,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />
 	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
     <script type="text/javascript" src="res/js/libsahana.js"></script>
+    <script type="text/javascript" src="res/js/libprint.js"></script>
     <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script>
     <script type="text/javascript" src="res/js/popup.js"></script> 
     <script type="text/javascript" src="res/js/locale.js"></script>    
