@@ -19,7 +19,7 @@ global $conf;
 global $file;
 
 $file=$_FILES['load'];
-$extensions=array('kml','osm','xml');
+$extensions=array('kml','kmz','osm','xml');
 
 //check whether a file was uploaded
 if(isset($file)){
@@ -49,7 +49,7 @@ if(isset($file)){
     }
     //check for correct extension
     else if(!in_array($ext,$extensions)){
-        add_error("<b>".strtoupper($ext)."</b> : "._t("Please upload a file with one of these extensions:") . '".kml", ".osm", ".xml"');
+        add_error("<b>".strtoupper($ext)."</b> : "._t("Please upload a file with one of these extensions:") . '".kml", ".kmz", ".osm", ".xml"');
     }
     //check for file write permission
     else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
@@ -59,6 +59,13 @@ if(isset($file)){
     else {
         move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
         add_confirmation(_t("File was uploaded"));
+        if ("kmz"==$ext) {
+            $execute = "unzip -u ".$global['approot']."www/".$_SESSION['gis']['file']." -d ".$global['approot']."www/res/OpenLayers/files";
+            `$execute`;
+            $execute = "rm -f ".$global['approot']."www/".$_SESSION['gis']['file'];
+            `$execute`;
+            add_confirmation(_t("File was decompressed"));
+        }
     }
 }    
 
@@ -72,12 +79,12 @@ function _shn_gis_upload_files_form()
 {
 	print '<center><h2>' . _t("Upload Files") . '</h2></center>';
     print '<p>' . _t("This form allows uploading of files in ") . '<a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a>' . _t(" or ") . '<a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a>' . _t(" format to ") . 'www/res/OpenLayers/files </p>';
-    print '<p>' . _t("File should have one of the following extensions:") . '.kml, .osm' . _t(" or ") . '.xml </p>';
+    print '<p>' . _t("File should have one of the following extensions:") . '.kml, .kmz, .osm' . _t(" or ") . '.xml </p>';
 
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
 
-    $upload_help=_t("KML files should have the extension .kml, OSM files should have the extension .osm, GML files should have the extension .xml.");
+    $upload_help=_t("KML files should have the extension .kml or .kmz, OSM files should have the extension .osm, GML files should have the extension .xml.");
 	shn_form_fopen("gis_files",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
 	shn_form_fsopen(_t("Upload File"));
     shn_form_upload(_t('Upload KML, OSM or GML'),"load",array('req'=>false,"help"=>$upload_help));
