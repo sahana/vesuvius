@@ -81,15 +81,15 @@ if(isset($file)){
                     }
                 }
             add_confirmation(_t("File was decompressed"));
+            // remove zipped file:
+            unlink ($zipped);
+            add_confirmation(_t("File was deleted"));
             } else {
                 if(version_compare(phpversion(), "5.2.0", "<"))
                     $infoVersion="(use PHP 5.2.0+ or <a href=\"http://pecl.php.net/package/zip\" target=_blank>PECL</a>)";
                     
                 add_error(_t("You need to install/enable the php_zip extension $infoVersion to decompress KMZ files.")); 
             }
-            // remove zipped file (UNIX):
-            //$execute = "rm -f ".$global['approot']."www/".$_SESSION['gis']['file'];
-            //`$execute`;
         }
     }
 }    
