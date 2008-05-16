@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.37 2008-05-15 17:54:10 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.38 2008-05-16 21:28:50 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -47,6 +47,7 @@
   }
   if (1 == $conf['gis_ol_files_enable']) {
       echo "<script src='res/OpenLayers/osm_styles.js'></script>\n";
+      echo "<link rel='stylesheet' href='res/OpenLayers/theme/default/framedCloud.css' type='text/css' />\n";
   }
 ?>
     <script src="res/OpenLayers/OpenLayers.js"></script>
@@ -100,77 +101,65 @@
     //OSM layer(s) listed 1st - promote OpenData!
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
         echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
-        echo 'map.addLayer(mapnik);';
-        echo "\n";
+        echo "map.addLayer(mapnik);\n";
     }
 
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_tiles'])) {
         echo "var osmarender = new OpenLayers.Layer.TMS( \"OpenStreetMap (Osmarender)\", \"http://tah.openstreetmap.org/Tiles/tile.php/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
-        echo 'map.addLayer(osmarender);';
-        echo "\n";
+        echo "map.addLayer(osmarender);\n";
     }
 
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_hybrid'])) {
         echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP, 'sphericalMercator': true } );\n";
-        echo 'map.addLayer(googlehybrid);';
-        echo "\n";
+        echo "map.addLayer(googlehybrid);\n";
     }
 
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'])) {
         echo "var googlesat = new OpenLayers.Layer.Google( \"Google Satellite\" , {type: G_SATELLITE_MAP, 'sphericalMercator': true } );\n";
-        echo 'map.addLayer(googlesat);';
-        echo "\n";
+        echo "map.addLayer(googlesat);\n";
     }
 
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_maps'])) {
         echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Map\" , {type: G_NORMAL_MAP, 'sphericalMercator': true } );\n";
-        echo 'map.addLayer(googlemaps);';
-        echo "\n";
+        echo "map.addLayer(googlemaps);\n";
     }
 
     if (1 == $conf['gis_ol_multimap']) {
         echo "var multimap = new OpenLayers.Layer.MultiMap( \"MultiMap\");\n";
-        echo 'map.addLayer(multimap);';
-        echo "\n";
+        echo "map.addLayer(multimap);\n";
     }
 
     if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_hybrid'])) {
         echo "var vehybrid = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Hybrid\" , {type: VEMapStyle.Hybrid, 'sphericalMercator': true } );\n";
         //echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
-        echo 'map.addLayer(vehybrid);';
-        echo "\n";
+        echo "map.addLayer(vehybrid);\n";
     }
        
     if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_aerial'])) {
         echo "var veaerial = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Aerial\" , {type: VEMapStyle.Aerial, 'sphericalMercator': true } );\n";
         //echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
-        echo 'map.addLayer(veaerial);';
-        echo "\n";
+        echo "map.addLayer(veaerial);\n";
     }
     
     if ((1 == $conf['gis_ol_virtualearth']) && (1 == $conf['gis_ol_virtualearth_maps'])) {
         echo "var veroad = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Road\" , {type: VEMapStyle.Road, 'sphericalMercator': true } );\n";
         //echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
-        echo 'map.addLayer(veroad);';
-        echo "\n";
+        echo "map.addLayer(veroad);\n";
     }
     
     if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_hybrid'])) {
         echo "var yahoohybrid = new OpenLayers.Layer.Yahoo( \"Yahoo Hybrid\", {'type': YAHOO_MAP_HYB, 'sphericalMercator': true } );\n";
-        echo 'map.addLayer(yahoohybrid);';
-        echo "\n";
+        echo "map.addLayer(yahoohybrid);\n";
     }
 
     if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_sat'])) {
         echo "var yahoosat = new OpenLayers.Layer.Yahoo( \"Yahoo Satellite\", {'type': YAHOO_MAP_SAT, 'sphericalMercator': true } );\n";
-        echo 'map.addLayer(yahoosat);';
-        echo "\n";
+        echo "map.addLayer(yahoosat);\n";
     }
  
     if ((1 == $conf['gis_ol_yahoo']) && (1 == $conf['gis_ol_yahoo_maps'])) {
         echo "var yahoomaps = new OpenLayers.Layer.Yahoo( \"Yahoo Map\", {'sphericalMercator': true } );\n";
-        echo 'map.addLayer(yahoomaps);';
-        echo "\n";
+        echo "map.addLayer(yahoomaps);\n";
     }
   }
     if (1 == $conf['gis_ol_wms_enable']) {
@@ -261,11 +250,29 @@
                     echo "map.addControl(sf$i);\n";
                     echo "sf$i.activate();\n";
                 }
+                if ("KML"==strtoupper($ext)) {
+                    echo "selectControl$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(fileslayer$i)],\n";
+                    echo "{onSelect: onFeatureSelect$i, onUnselect: onFeatureUnselect});\n";
+                    echo "map.addControl(selectControl$i);\n";
+                    echo "selectControl$i.activate();\n";
+                    echo "function onPopupClose$i(evt) {\n";
+                    echo "    selectControl$i.unselect(selectedFeature$i);\n";
+                    echo "}\n";
+                    echo "function onFeatureSelect$i(feature) {\n";
+                    echo "    selectedFeature$i = feature;\n";
+                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                    echo "        new OpenLayers.Size(100,100),\n";
+                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                    echo "        null, true, onPopupClose$i);\n";
+                    echo "    feature.popup = popup;\n";
+                    echo "    map.addPopup(popup);\n";
+                    echo "}\n";
+                }
             }
         }
     }
 ?>
-            
 	// http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
     map.setCenter(point.transform(proj4326, map.getProjectionObject()),zoom);
 	map.addControl( new OpenLayers.Control.LayerSwitcher() );
@@ -462,7 +469,7 @@
 ?>
 	var markers = new OpenLayers.Layer.Markers( "Markers" );
 	map.addLayer(markers);
-	var size = new OpenLayers.Size(20,34); // icon size
+    var size = new OpenLayers.Size(20,34); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
     var currentPopup;
 <?php
@@ -512,6 +519,7 @@
 
 /**
  * Function to support OSM layers
+ * + function to support KML popups unselect
  * called by all show functions in openlayers plugin handler
  * @access private
  */
@@ -521,6 +529,11 @@ function ol_osm_getTileURL()
     // close init()
     echo "}\n";
     ?>
+    function onFeatureUnselect(feature) {
+        map.removePopup(feature.popup);
+        feature.popup.destroy();
+        feature.popup = null;
+    }
     function on_feature_hover(feature) {
             var text ="<ul>";
             var type ="way";
@@ -536,19 +549,21 @@ function ol_osm_getTileURL()
     }
     <?php
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
-        echo "function osm_getTileURL(bounds) {\n";
-        echo "    var res = this.map.getResolution();\n";
-        echo "    var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));\n";
-        echo "    var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));\n";
-        echo "    var z = this.map.getZoom();\n";
-        echo "    var limit = Math.pow(2, z);\n";
-        echo "    if (y < 0 || y >= limit) {\n";
-        echo "        return OpenLayers.Util.getImagesLocation() + \"404.png\";\n";
-        echo "    } else {\n";
-        echo "        x = ((x % limit) + limit) % limit;\n";
-        echo "        return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;\n";
-        echo "    }\n";
-        echo "}\n";
+    ?>
+        function osm_getTileURL(bounds) {
+            var res = this.map.getResolution();
+            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+            var z = this.map.getZoom();
+            var limit = Math.pow(2, z);
+            if (y < 0 || y >= limit) {
+                return OpenLayers.Util.getImagesLocation() + "404.png";
+            } else {
+                x = ((x % limit) + limit) % limit;
+                return this.url + z + "/" + x + "/" + y + "." + this.type;
+            }
+        }
+    <?php
     }
 }
     

@@ -77,6 +77,27 @@ if(isset($file)){
                         if ($filesize > 0) {
                             $contents = zip_entry_read($zip_entry, $filesize);
                             file_put_contents($dir.$filename,$contents);
+                            $ext_contents=end(explode('.',$filename));
+                            if ("kml"==$ext_contents) {
+                                $input=$dir.$filename;
+                                $output=$dir.$filename.".w";
+                                $lines=file($input);
+                                $handle = fopen($output, 'w');
+                                foreach ($lines as $line_num => $line) {
+                                    $search="<img src='";
+                                    $replace="<img src='res/OpenLayers/files/";
+                                    $line_out=str_replace($search,$replace,$line);
+                                    $search="<href>";
+                                    $replace="<href>res/OpenLayers/files/";
+                                    $line=str_replace($search,$replace,$line_out);
+                                    $search="<href>res/OpenLayers/files/http://";
+                                    $replace="<href>http://";
+                                    $line_out=str_replace($search,$replace,$line);
+                                    fwrite($handle, $line_out);
+                                }
+                                fclose($handle);
+                                rename($output, $input);
+                            }
                         }
                     }
                 }
