@@ -17,10 +17,10 @@
 * @author		Mifan Careem <mifan@respere.com>
 * @author		Pradeeper <pradeeper@respere.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package		Sahana - http://sahana.lk/
+* @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.30 2008-05-14 09:00:45 priyanga Exp $
+* @version		$Id: main.inc,v 1.31 2008-05-16 09:14:11 pradeeper Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -42,6 +42,9 @@ require_once $global['approot']."/inc/lib_misc.inc";
 include_once $global['approot']."/mod/msg/form_actions.inc";
 
 
+
+
+
 /**
  * Messaging main menu
  * @author Sudheera <sudheera@opensource.lk>
@@ -56,57 +59,57 @@ function shn_msg_mainmenu()
     shn_mod_menuitem("default", "Home", $module) ;
     
     shn_sub_mod_menuopen("Consoles");
-    shn_sub_mod_menuitem("send_console",_t("Send Message Console"));
-    shn_sub_mod_menuitem("customized_messaging", _t("Quick Messaging"), $module);
-    shn_sub_mod_menuitem("send_group",_t("Quick Group Messaging"),$module);
-    shn_sub_mod_menuitem("receive_console",_t("Receive Message Console"));
+    shn_sub_mod_menuitem("send_console",_("Send Message Console"));
+//     shn_sub_mod_menuitem("customized_messaging", _("Quick Messaging"), $module);
+//     shn_sub_mod_menuitem("send_group",_("Quick Group Messaging"),$module);
+    shn_sub_mod_menuitem("receive_console",_("Receive Message Console"));
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Manage Contacts");
-//     shn_sub_mod_menuitem("contacts",_t("Contacts"),$module);
-    shn_sub_mod_menuitem("contact_individual",_t("Add Contact"),$module);
-    //shn_sub_mod_menuitem("edit_contact_individual",_t("Edit Contact"),$module);
-    shn_sub_mod_menuitem("contact_group",_t("Contact List"),$module);
-    shn_sub_mod_menuitem("add_contact_group",_t("Add Group"),$module);
-    shn_sub_mod_menuitem("add_group",_t("Add Adhoc Group"),$module);
-    shn_sub_mod_menuitem("edit_group",_t("Edit Adhoc Group"),$module);
+//     shn_sub_mod_menuitem("contacts",_("Contacts"),$module);
+    shn_sub_mod_menuitem("contact_individual",_("Add Contact"),$module);
+    //shn_sub_mod_menuitem("edit_contact_individual",_("Edit Contact"),$module);
+    shn_sub_mod_menuitem("contact_group",_("Contact List"),$module);
+    shn_sub_mod_menuitem("add_contact_group",_("Add Group"),$module);
+    shn_sub_mod_menuitem("add_group",_("Add Adhoc Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_("Edit Adhoc Group"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Messaging Reports");
-    shn_sub_mod_menuitem("sent_rpt",_t("Sent Messages"),$module);
-    shn_sub_mod_menuitem("rcvd_rpt",_t("Received Messages"),$module);
-    shn_sub_mod_menuitem("contact_rpt",_t("Contact List"),$module);
-    shn_sub_mod_menuitem("list_group",_t("List Adhoc Group"),$module);
+    shn_sub_mod_menuitem("sent_rpt",_("Sent Messages"),$module);
+    shn_sub_mod_menuitem("rcvd_rpt",_("Received Messages"),$module);
+//     shn_sub_mod_menuitem("contact_rpt",_("Contact List"),$module);
+//     shn_sub_mod_menuitem("list_group",_("List Adhoc Group"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Survey Messages");
-    shn_sub_mod_menuitem("send_survey", _t("Send Survey Message"), $module);
-    shn_sub_mod_menuitem("survey_rpt",_t("Survey Reports"),$module);
+    shn_sub_mod_menuitem("send_survey", _("Send Survey Message"), $module);
+    shn_sub_mod_menuitem("survey_rpt",_("Survey Reports"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Stored Messages");
-    shn_sub_mod_menuitem("add_store_msg",_t("Create Stored Message"),$module);
-    shn_sub_mod_menuitem("add_temp_msg",_t("Create Template Message"),$module);
+    shn_sub_mod_menuitem("add_store_msg",_("Create Stored Message"),$module);
+    shn_sub_mod_menuitem("add_temp_msg",_("Create Template Message"),$module);
     shn_sub_mod_menuclose();
     
     shn_sub_mod_menuopen("Common Alerting Protocol");
-    shn_sub_mod_menuitem("cap_new", _t("New Alert"), $module);
-    shn_sub_mod_menuitem("cap_view", _t("View Alert"), $module);
-    shn_sub_mod_menuitem("cap_edit", _t("Edit Alert"), $module);
-    shn_sub_mod_menuitem("cap_upload", _t("Upload CAP File"), $module);
+    shn_sub_mod_menuitem("cap_new", _("New Alert"), $module);
+    shn_sub_mod_menuitem("cap_view", _("View Alert"), $module);
+    shn_sub_mod_menuitem("cap_edit", _("Edit Alert"), $module);
+    shn_sub_mod_menuitem("cap_upload", _("Upload CAP File"), $module);
     shn_sub_mod_menuclose();
       
 /*
  *  Rearranged below menu items to fall in above categories  
     shn_sub_mod_menuopen("--Messages");
-    shn_sub_mod_menuitem("customized_messaging", _t("Customized Messaging"), $module);
-    shn_sub_mod_menuitem("send_group",_t("Group Messaging"),$module);
+    shn_sub_mod_menuitem("customized_messaging", _("Customized Messaging"), $module);
+    shn_sub_mod_menuitem("send_group",_("Group Messaging"),$module);
     shn_sub_mod_menuclose();
 
     shn_sub_mod_menuopen("--Manage Groups");
-    shn_sub_mod_menuitem("add_group",_t("Add Group"),$module);
-    shn_sub_mod_menuitem("edit_group",_t("Edit Group"),$module);
-    shn_sub_mod_menuitem("list_group",_t("List Group"),$module);
+    shn_sub_mod_menuitem("add_group",_("Add Group"),$module);
+    shn_sub_mod_menuitem("edit_group",_("Edit Group"),$module);
+    shn_sub_mod_menuitem("list_group",_("List Group"),$module);
     shn_sub_mod_menuclose();
 */    
 
@@ -115,6 +118,72 @@ function shn_msg_mainmenu()
     
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
+
+
+/*
+@author		Pradeeper <pradeeper@respere.com>
+@function	catch all form submits and reroute to relavent functions to process
+*/
+function shn_msg_contact_submit()
+{
+$target=$_POST['target'];
+	$person_id=$_POST['person_id'];
+	$group_id=$_POST['group_id'];
+	$option=$_POST['option'];
+	
+	switch ($target){
+		
+		case add_contact:
+			// catch the post data and store it in the DB
+			_shn_msg_add_contact();
+			break;
+			
+		case edit_contact:
+			// pass edit values to the db 
+			_shn_msg_add_contact($person_id);			
+			break;
+		
+		case delete_contact:
+			// delete the contact from the db
+			_shn_msg_delete_contact($person_id,$option);
+			break;
+			
+		case delete_group:
+			// delete the group from the db
+			shn_msg_delete_group($group_id);
+			break;	
+			
+		case list_contact:
+			print "list contact";
+			break;
+			
+		case send_survey:
+			//print "send survey";
+			_shn_msg_send_survey_submistion();
+			break;	
+			
+		case add_contact_group:
+			_shn_msg_add_contact_group();
+			break;
+			
+		case update_contact_group:
+			$group_name=$_POST['grp_name'];
+			$description=$_POST['desc'];
+			$type=$_POST['opt_msg_group_category'];
+			
+			//check whether cacel has been pressed
+			if(isset($_POST['cancel'])){
+				shn_msg_select_group($group_id);
+			} else {
+				// submit the data to store in the db
+				shn_msg_update_group($store="yes",$group_id, $group_name, $description, $type);
+			}
+			
+			break;		
+	}
+}
+
+
 
 /**
  * The Default Messaging homepage
@@ -354,66 +423,11 @@ function shn_msg_contact_individual()
 }
 
 function shn_msg_contacts(){
-    echo "<h2>"._t('Contacts')."</h2>";
+    echo "<h2>"._('Contacts')."</h2>";
     shn_form_fopen('contacts','',array('req_message'=>false));
     shn_form_fclose();
 }
 
-/*
-@author		Pradeeper <pradeeper@respere.com>
-@function	catch all form submits and reroute to relevent functions to process
-*/
-function shn_msg_contact_submit()
-{
-	$target=$_POST['target'];
-	$person_id=$_POST['person_id'];
-	$group_id=$_POST['group_id'];
-	$option=$_POST['option'];
-	
-	switch ($target){
-		
-		case add_contact:
-			// catch the post data and store it in the DB
-			_shn_msg_add_contact();
-			break;
-			
-		case edit_contact:
-			// pass edit values to the db 
-			_shn_msg_add_contact($person_id);			
-			break;
-		
-		case delete_contact:
-			// delete the contact from the db
-			_shn_msg_delete_contact($person_id,$option);
-			break;
-			
-		case delete_group:
-			// delete the group from the db
-			shn_msg_delete_group($group_id);
-			break;	
-			
-		case list_contact:
-			print "list contact";
-			break;
-			
-		case send_survey:
-			_shn_msg_send_survey_submistion();
-			break;	
-			
-		case add_contact_group:
-			_shn_msg_add_contact_group();
-			break;
-			
-		case update_contact_group:
-			$group_name=$_POST['grp_name'];
-			$description=$_POST['desc'];
-			$type=$_POST['opt_msg_group_category'];
-			
-			// submit the data to store in the db
-			shn_msg_update_group($store="yes",$group_id, $group_name, $description, $type);
-			break;		
-	}
-}
 
 
 /*
@@ -435,10 +449,13 @@ function shn_msg_contact_group()
 @author		Pradeeper <pradeeper@respere.com>
 @function	this will shows the internals of the selected group
 */
-function shn_msg_select_group()
+function shn_msg_select_group($tmp_id)
 {
-	
 	$id=$_GET['id'];
+	
+	if(!isset($id)){
+		$id=$tmp_id;
+	}
 	
 	print "<h2>Group Details</h2>";
 	shn_msg_view_group($id);
@@ -473,7 +490,7 @@ function shn_msg_select_person()
 		echo "&nbsp;&nbsp;&nbsp;";
 		echo "<a href='index.php?mod=msg&act=edit_contact_individual&id=$id'>Update</a>";
 		echo "&nbsp;&nbsp;&nbsp;";
-		echo "<a href='index.php?mod=msg&act=delete_person_group&id=$id'>Delete</a>";
+		echo "<a href='index.php?mod=msg&act=delete_person&id=$id''>Delete</a>";
 		echo "<br>";
 		
 	//for "back" button
@@ -483,6 +500,10 @@ function shn_msg_select_person()
 }
 
 
+/*
+@author		Pradeeper <pradeeper@respere.com>
+@function	this will delete a person or a group
+*/
 function shn_msg_delete_person_group()
 {
 	$id=$_GET['id'];
@@ -519,6 +540,7 @@ function shn_msg_delete_person_group()
 	shn_form_fclose();	
 	
 }
+
 
 function shn_msg_add_store_msg()
 {

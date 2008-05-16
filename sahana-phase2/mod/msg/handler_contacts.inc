@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.7 2008-05-12 08:33:27 pradeeper Exp $;
+* @version		$Id: handler_contacts.inc,v 1.8 2008-05-16 09:15:33 pradeeper Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -310,7 +310,10 @@ function shn_msg_contact_add_group($group_name,$group_id,$description,$type)
 			shn_form_text("Short Description : ","desc","size='30'",array('value'=>"$description"));
 			shn_form_opt_select('opt_msg_group_category', "Group Type : ", $select_opts ="",array('value'=>"$type"));
 		shn_form_fsclose();
-	shn_form_submit("$tmp", $submit_opts = null);	
+	shn_form_submit("$tmp", $submit_opts = null);
+	if($tmp=="Update"){
+		shn_form_submit("Cancel",'name="cancel"');	
+	}
 	shn_form_fclose();		
 }
 
