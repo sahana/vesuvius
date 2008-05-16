@@ -100,16 +100,36 @@ function _shn_gis_list_markers()
     global $conf;
     $dir=$conf['gis_marker_folder'];
     $dir2=$global['approot']."/www/$dir";
-	if ($handle = opendir($dir2)) {
-        print("<table>");
-        while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != ".." && !is_dir($dir2."/".$file)) {
-                print("<tr><td><img src=\"$dir".$file."\" /></td><td>".$file."</td></tr>");
-            }
-        }
-        closedir($handle);
-        print("</table>");
+    print "<table>";
+    _shn_gis_list_markers_path($dir2,$dir);
+    print "</table>";
+}
+
+/**
+ * Recursively print icons in table
+ */
+function _shn_gis_list_markers_path($path,$source_dir,$level = 0)
+{
+    //Files to ignore and send to /dev/null \:-|
+    $ignore = array( 'CVS', '.', '..' );
+    if($handle = opendir($path)){
+    	while( false !== ( $file = readdir( $handle ) ) ){
+			//Not to be ignored and tossed aside...    
+	        if( !in_array( $file, $ignore ) ){
+	            
+	            if( is_dir( "$path/$file" ) ){            
+	                _shn_gis_list_markers_path( "$path/$file", "$source_dir/$file/",($level+1) );           
+	            } 
+	            else {
+	                print("<tr><td><img src=\"$source_dir".$file."\" /></td><td>".$file."</td></tr>");
+	            }
+	        
+	        }
+    
+    	}
+    	closedir( $handle );
     }
+
 }
 
 ?>
