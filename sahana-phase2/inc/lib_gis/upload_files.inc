@@ -60,11 +60,36 @@ if(isset($file)){
         move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
         add_confirmation(_t("File was uploaded"));
         if ("kmz"==$ext) {
-            $execute = "unzip -u ".$global['approot']."www/".$_SESSION['gis']['file']." -d ".$global['approot']."www/res/OpenLayers/files";
-            `$execute`;
-            $execute = "rm -f ".$global['approot']."www/".$_SESSION['gis']['file'];
-            `$execute`;
+            // UNIX-specific:
+            //$execute = "unzip -u ".$global['approot']."www/".$_SESSION['gis']['file']." -d ".$global['approot']."www/res/OpenLayers/files";
+            //`$execute`;
+            // PHP 5.2.0+ or PECL:
+            if(function_exists("zip_open")) {
+                $dir = $global['approot'].'www/res/OpenLayers/files/';
+                $zipped = $global['approot']."www/".$_SESSION['gis']['file'];
+                $zip = zip_open($zipped);
+                while($zip_entry = zip_read($zip)) {
+                    $entry = zip_entry_open($zip,$zip_entry);
+                    $filename = zip_entry_name($zip_entry);
+                    $target_dir = $dir.substr($filename,0,strrpos($filename,'/'));
+                    $filesize = zip_entry_filesize($zip_entry);
+                    if (is_dir($target_dir) || mkdir($target_dir)) {
+                        if ($filesize > 0) {
+                            $contents = zip_entry_read($zip_entry, $filesize);
+                            file_put_contents($dir.$filename,$contents);
+                        }
+                    }
+                }
             add_confirmation(_t("File was decompressed"));
+            } else {
+                if(version_compare(phpversion(), "5.2.0", "<"))
+                    $infoVersion="(use PHP 5.2.0+ or <a href=\"http://pecl.php.net/package/zip\" target=_blank>PECL</a>)";
+                    
+                add_error(_t("You need to install/enable the php_zip extension $infoVersion to decompress KMZ files.")); 
+            }
+            // remove zipped file (UNIX):
+            //$execute = "rm -f ".$global['approot']."www/".$_SESSION['gis']['file'];
+            //`$execute`;
         }
     }
 }    
