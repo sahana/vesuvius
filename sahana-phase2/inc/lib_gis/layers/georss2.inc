@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.15 2008-05-17 19:45:53 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.16 2008-05-17 19:47:29 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -25,7 +25,7 @@ class georss2 implements layer{
     function print_form()
     {
         global $conf;
-        shn_form_fsopen(_t('GeoRSS2'));
+        shn_form_fsopen(_t('GeoRSS'));
         $this->georss_enable();
         $this->show_georss_feeds();
         $this->add_georss_feed();
