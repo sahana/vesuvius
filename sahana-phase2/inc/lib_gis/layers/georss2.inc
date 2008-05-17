@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.14 2008-05-17 19:12:40 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.15 2008-05-17 19:45:53 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -384,11 +384,11 @@ class georss2 implements layer{
 					$check_enable =''; 
 					$check_visible='';
 					$j=$i+1;
-					//Skip empty buggers
-					/*
+					
+					//Skip empty buggers -- might also be the case that they're deleted
 					if($conf['gis_ol_georss_'.$j.'_name']=='')
 						continue;
-					*/
+					
 					if($conf['gis_ol_georss_'.$j.'_enabled']=='1')
 						$check_enable = 'checked';
 
