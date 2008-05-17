@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.10 2008-05-17 15:55:36 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.11 2008-05-17 16:03:23 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -294,7 +294,8 @@ class georss2 implements layer{
        			foreach ($value_array as $values){
        				$value = 'gis_ol_georss_'.$i.'_'.$values;
        				$delete = "delete from config where confkey='{$value}'";
-       				echo $delete;
+       				$db->Execute($delete);
+       				//@todo: Handle the number of layers in the system
        			}
        			
        			
