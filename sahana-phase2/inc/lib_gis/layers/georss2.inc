@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.16 2008-05-17 19:47:29 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.17 2008-05-17 19:48:45 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -131,7 +131,7 @@ class georss2 implements layer{
         $db = $global['db'];
         
         //Handle feed table
-        $this->commit_georss_feed_table(true);
+        $this->commit_georss_feed_table();
         
         if($DEBUG)
         	print_r ($_POST); 
