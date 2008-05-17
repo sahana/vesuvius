@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.9 2008-05-17 15:37:10 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.10 2008-05-17 15:55:36 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -286,7 +286,17 @@ class georss2 implements layer{
        		//Check delete first
        		if(!(null==$_POST['georss_delete_'.$i])){
        			//Delete this layer
-       			$delete = "delete from config where confkey='gis_ol_georss_7_description'";
+       			//Store georss conf value endings
+       			$value_array = array('description','name','url','visibility','enabled');
+       			$value='gis_ol_georss_'.$i.'_description';
+       			$delete = "delete from config where confkey='{$value}'";
+       			
+       			foreach ($value_array as $values){
+       				$value = 'gis_ol_georss_'.$i.'_'.$values;
+       				$delete = "delete from config where confkey='{$value}'";
+       				echo $delete;
+       			}
+       			
        			
        			//No point in further checks
        			continue;
