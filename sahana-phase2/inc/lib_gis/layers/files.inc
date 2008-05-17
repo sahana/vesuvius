@@ -22,7 +22,8 @@ class files implements layer{
         shn_form_fsopen(_t('Files'));
         shn_form_fsopen(_t('INFO'));
         echo '<p>' . _t("Sahana can make use of Files using the ") . '<a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a>' . _t(" or ") . '<a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a>' . _t(" formats")  . '</p>';
-        echo _t("<p>Enable File Layers by selecting the checkbox option below.</p>");
+        echo '<p>' . _t("Enable File Layers by selecting the checkbox option below.")  . '</p>';
+        echo '<p>' . _t("Files can be uploaded using the ")  . '<a href="?mod=admin&act=gis_files">'._t("File Manager")  . '.</a></p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';

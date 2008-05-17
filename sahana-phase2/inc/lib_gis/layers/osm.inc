@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version      $Id: osm.inc,v 1.1 2008-04-24 20:09:12 franboon Exp $
+* @version      $Id: osm.inc,v 1.2 2008-05-17 16:11:49 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,8 +23,9 @@ class osm implements layer{
         shn_form_fsopen(_t('OpenStreetMap'));
         shn_form_fsopen(_t('OpenStreetMap'));
 		shn_form_fsopen('INFO');
-        echo _t("<p>Enable <a href='http://openstreetmap.org/' target=_blank>OpenStreetMap</a> Mapping Service by selecting the checkbox option below.</p>");
-        echo _t("<p>The OpenStreetMap mapping API requires Internet connectivity</p>");
+        echo '<p>' . _t("Enable ") . '<a href="http://openstreetmap.org/" target=_blank>OpenStreetMap</a>' . _t(" Mapping Service by selecting the checkbox option below.")  . '</p>';
+        echo '<p>' . _t("The OpenStreetMap mapping API requires Internet connectivity")  . '</p>';
+        echo '<p>' . _t("However data can be taken offline as an .osm File layer (The ") . '<a href="http://wiki.openstreetmap.org/index.php/JOSM" target=_blank>JOSM</a>' . _t(" Editor is recommended).")  . '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
