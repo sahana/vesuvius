@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.8 2008-05-10 19:47:14 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.9 2008-05-17 15:37:10 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -21,6 +21,7 @@ include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
 class georss2 implements layer{
 
+	
     function print_form()
     {
         global $conf;
@@ -84,13 +85,14 @@ class georss2 implements layer{
             $visibility_help=_t("Whether the layer is visible by default");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");
             
+            //@todo: set layer number to display actual layer count in the system
             for ($i=0; $i<$georss_layers; $i++) {
                 //Set counter to one after the current layer count
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
-                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array('value'=>$conf['gis_ol_georss_'.$j.'_description'],"help"=>$description_help));
-                shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_name'],"help"=>$name_help));
-                shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,'value'=>$conf['gis_ol_georss_'.$j.'_url'],"help"=>$url_help));
+                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array("help"=>$description_help));
+                shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,"help"=>$name_help));
+                shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,"help"=>$url_help));
                 $projection = "EPSG:4326";
                 if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
@@ -128,6 +130,7 @@ class georss2 implements layer{
         global $conf;
         $db = $global['db'];
         
+        $this->commit_georss_feed_table(true);
         
         if($DEBUG)
         	print_r ($_POST); 
@@ -136,7 +139,7 @@ class georss2 implements layer{
         //Retrieving this value from hidden value
         //Thus created on 2nd pass only
        	$layers_to_add = $_POST['georss_layers'];
-       	echo "layers:".$layers_to_add;
+       	//echo "layers:".$layers_to_add;
 
                          
         for ($i=1; $i<=$layers_to_add; $i++) {
@@ -262,6 +265,52 @@ class georss2 implements layer{
 		    }
     }
     
+    /**
+     * Commit options made in feeds table
+     * @todo: call this BEFORE commiting new layers - things could screw up if not!
+     */
+    function commit_georss_feed_table($debug=false)
+    {
+
+    	
+    	global $global;
+        global $conf;
+        $db = $global['db'];
+        $layers_in_db = $conf['gis_ol_georss'];
+        if($debug)
+        	print_r ($_POST);
+       	
+       	//loop the loop
+       	for($i=1;$i<=$layers_in_db;$i++){
+       		
+       		//Check delete first
+       		if(!(null==$_POST['georss_delete_'.$i])){
+       			//Delete this layer
+       			$delete = "delete from config where confkey='gis_ol_georss_7_description'";
+       			
+       			//No point in further checks
+       			continue;
+       			
+       		}
+       	
+       		
+       		if(null==$_POST['georss_enable_'.$i])
+       			$georss_enable_layer = 0;
+       		else
+       			$georss_enable_layer = 1;
+       			
+       		if(null==$_POST['georss_visible_'.$i])
+       			$georss_visible_layer = 0;
+       		else
+       			$georss_visible_layer = 1;
+       			
+
+       		
+       		
+       	}
+        
+    }
+    
     function show_georss_feeds()
     {
     	global $conf;
@@ -283,17 +332,21 @@ class georss2 implements layer{
 			</thead>
 			<tbody>
 <?php
-				$check_enable =0; 
-				$check_visible=0;
-				for($i=0;$i<$conf['gis_ol_georss'];$i++){
+
+				$georss_layers_count = $conf['gis_ol_georss'];
+				
+				for($i=0;$i<$georss_layers_count;$i++){
+					$check_enable =''; 
+					$check_visible='';
 					$j=$i+1;
 					//Skip empty buggers
+					/*
 					if($conf['gis_ol_georss_'.$j.'_name']=='')
 						continue;
-					if($conf['gis_ol_georss_'.$j.'_enabled']=='0')
+					*/
+					if($conf['gis_ol_georss_'.$j.'_enabled']=='1')
 						$check_enable = 'checked';
-					/*if('1'==0)
-						$check_enable = 'checked';*/
+
 					if($conf['gis_ol_georss_'.$j.'_visibility']=='1')
 						$check_visible = 'checked';
 ?>
@@ -302,7 +355,7 @@ class georss2 implements layer{
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
 					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_enabled'],'georss_enable_'.$j,$check_enable); ?></td>
-					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_visibility'],'georss_enable_'.$j,$check_visible,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_visibility'],'georss_visible_'.$j,$check_visible); ?></td>
 					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
 				</tr>
 <?php
@@ -317,7 +370,7 @@ class georss2 implements layer{
     	}
     	else{
     		//No feeds to display
-    		echo _t('No GeoRSS feeds to in catalog');
+    		echo _t('No GeoRSS feeds to display in catalog');
     	}
     	shn_form_fsclose();
     	}
