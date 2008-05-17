@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.11 2008-05-17 16:03:23 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.12 2008-05-17 18:50:57 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -280,6 +280,7 @@ class georss2 implements layer{
         if($debug)
         	print_r ($_POST);
        	
+       	$layers_deleted = 0;
        	//loop the loop
        	for($i=1;$i<=$layers_in_db;$i++){
        		
@@ -295,25 +296,55 @@ class georss2 implements layer{
        				$value = 'gis_ol_georss_'.$i.'_'.$values;
        				$delete = "delete from config where confkey='{$value}'";
        				$db->Execute($delete);
-       				//@todo: Handle the number of layers in the system
+       				
        			}
        			
-       			
+       			//@todo: Handle the number of layers in the system
+       			$layers_deleted = ++$layers_deleted; 
        			//No point in further checks
        			continue;
        			
        		}
        	
-       		
+       		//Layer enabling
        		if(null==$_POST['georss_enable_'.$i])
        			$georss_enable_layer = 0;
        		else
        			$georss_enable_layer = 1;
        			
+       		if (!$georss_enable_layer == $conf['gis_ol_georss_'.$i.'_enabled']) {
+            	$confkey = 'gis_ol_georss_'.$i.'_enabled';
+            	$query = "SELECT * FROM config WHERE confkey='{$confkey}' AND module_id='admin'";
+            	$res = $db->Execute($query);
+	            if(!$res->EOF){
+	                $q = "UPDATE config SET value = '$gis_enable_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
+	                $db->Execute($q);
+	            }
+	            else{
+	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$gis_enable_layer')";
+	                $db->Execute($insert);
+	            }
+        	}
+       			
+       		//Layer visibility
        		if(null==$_POST['georss_visible_'.$i])
        			$georss_visible_layer = 0;
        		else
        			$georss_visible_layer = 1;
+       		
+       		if (!$georss_visible_layer == $conf['gis_ol_georss_'.$i.'_visibility']) {
+            	$confkey = 'gis_ol_georss_'.$i.'_visibility';
+            	$query = "SELECT * FROM config WHERE confkey='{$confkey}' AND module_id='admin'";
+            	$res = $db->Execute($query);
+	            if(!$res->EOF){
+	                $q = "UPDATE config SET value = '$gis_visible_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
+	                $db->Execute($q);
+	            }
+	            else{
+	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$gis_visible_layer')";
+	                $db->Execute($insert);
+	            }
+        	}
        			
 
        		
