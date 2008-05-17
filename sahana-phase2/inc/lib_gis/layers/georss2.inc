@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.13 2008-05-17 18:53:42 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.14 2008-05-17 19:12:40 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -130,6 +130,7 @@ class georss2 implements layer{
         global $conf;
         $db = $global['db'];
         
+        //Handle feed table
         $this->commit_georss_feed_table(true);
         
         if($DEBUG)
@@ -300,7 +301,7 @@ class georss2 implements layer{
        			}
        			
        			//@todo: Handle the number of layers in the system
-       			$layers_deleted = ++$layers_deleted; 
+       			$layers_deleted = $layers_deleted + 1; 
        			//No point in further checks
        			continue;
        			
@@ -345,7 +346,9 @@ class georss2 implements layer{
 	                $db->Execute($insert);
 	            }
         	}
-       			
+        	//Handling overall deleted layers
+        	//@todo: currently layers are deleted but the overall layer count doesn't change: practically fine, theoretically bonkers ! :)
+        	//@todo: if ever we need to handle deleted layers, $layers_deleted gives the count
 
        		
        		
