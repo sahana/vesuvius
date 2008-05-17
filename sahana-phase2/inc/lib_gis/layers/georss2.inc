@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.12 2008-05-17 18:50:57 mifanc Exp $
+* @version     	$Id: georss2.inc,v 1.13 2008-05-17 18:53:42 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -396,9 +396,9 @@ class georss2 implements layer{
 					<td><?php echo $j?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
-					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_enabled'],'georss_enable_'.$j,$check_enable); ?></td>
-					<td><?php shn_form_checkbox($conf['gis_ol_georss_'.$j.'_visibility'],'georss_visible_'.$j,$check_visible); ?></td>
-					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>0)); ?> </td>
+					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_enable,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_visible_'.$j,$check_visible,array('value'=>1)); ?></td>
+					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>1)); ?> </td>
 				</tr>
 <?php
 				}
