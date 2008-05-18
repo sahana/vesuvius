@@ -17,20 +17,27 @@ function _shn_admin_gis_markers_form() {
     global $global;
     global $conf;
     include_once $global['approot']."/inc/lib_form.inc";
-
+    $dir=$conf['gis_marker_folder'];
+    $marker=$conf['gis_marker'];
+    $georss_marker=$conf['gis_ol_georss_marker'];
+    $marker_path="$dir$marker";
+    $georss_path="$dir$georss_marker";
+    
     print '<center><h2>' . _t("Default Markers") . '</h2></center>';
     shn_form_fopen("gis_markers_commit",null,array('req_message'=>false));
 
-    shn_form_fsopen(_t("Select Marker Icon"));
-    print '<p>' . _t("Please select the default icon to use for Markers") . '</p>';
+    shn_form_fsopen(_t("Default Marker Icon"));
+    print '<p>' . _t("The current default icon to use for Markers is: ") . "<img src='$marker_path' />('$marker')</p>";
+    print '<p>' . _t("To select a new default icon to use for Markers, enter the filename below:") . '</p>';
     $select_help=_t("Select which icon to use as default for Markers. Include subfolders, if necessary.");
-    shn_form_text(_t('Default Marker Icon: '),"gis_marker",'size=70',array('req'=>true,'value'=>$conf['gis_marker'],"help"=>$select_help));
+    shn_form_text(_t('Select new Marker Icon: '),"gis_marker",'size=70',array('req'=>true,'value'=>$marker,"help"=>$select_help));
     shn_form_fsclose();
 
-    shn_form_fsopen(_t("Select GeoRSS Icon"));
-    print '<p>' . _t("Please select the default icon to use for GeoRSS feeds") . '</p>';
+    shn_form_fsopen(_t("Default GeoRSS Icon"));
+    print '<p>' . _t("The current default icon to use for GeoRSS feeds is: ") . "<img src='$georss_path' />('$georss_marker')</p>";
+    print '<p>' . _t("To select a new default icon to use for GeoRSS feeds, enter the filename below:") . '</p>';
     $georss_help=_t("Select which icon to use as default for GeoRSS feeds. Include subfolders, if necessary.");
-    shn_form_text(_t('Default GeoRSS Icon: '),"gis_ol_georss_marker",'size=70',array('req'=>true,'value'=>$conf['gis_ol_georss_marker'],"help"=>$georss_help));
+    shn_form_text(_t('Select new GeoRSS Icon: '),"gis_ol_georss_marker",'size=70',array('req'=>true,'value'=>$georss_marker,"help"=>$georss_help));
     shn_form_fsclose();
 
     shn_form_submit(_t("Select"));
