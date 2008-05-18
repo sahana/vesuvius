@@ -13,62 +13,63 @@
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-global $global;
-global $conf;
-global $file;
+function _shn_gis_upload_markers()
+{
+    global $global;
+    global $conf;
+    global $file;
 
-$file=$_FILES['load'];
-$extensions=array('png');
-$dir=$conf['gis_marker_folder'];
+    $file=$_FILES['load'];
+    $extensions=array('png');
+    $dir=$conf['gis_marker_folder'];
 
-//check whether a file was uploaded
-if(isset($file)){
-    //get the extension and the tmp name of the file
-    $ext=end(explode('.',$_FILES['load']['name']));
-    unset($_SESSION['gis']['file']);
-    $_SESSION['gis']['file']="./$dir".basename($_FILES['load']['name']);
-    //check for  directory write permission
-    if(!is_writable("$dir")){
-        add_error(_t("Make sure the $dir folder is writable"));
-    }
-    //check whether an error occurred
-    else if($file['error']!= 0){
-        //give error information
-        switch ($file['error']){
-            case 1:
-            case 2:
-                add_error(_('The uploaded file exceeds the Max upload size'));
-                break;
-            case 3:
-                add_error(_('The uploaded file was only partially uploaded.'));
-                break;
-            case 4:
-                add_error(_('No file was uploaded :  Please press the browse button and select a file to upload before you press the next button'));
-                break;
+    //check whether a file was uploaded
+    if(isset($file)){
+        //get the extension and the tmp name of the file
+        $ext=end(explode('.',$_FILES['load']['name']));
+        unset($_SESSION['gis']['file']);
+        $_SESSION['gis']['file']="./$dir".basename($_FILES['load']['name']);
+        //check for  directory write permission
+        if(!is_writable("$dir")){
+            add_error(_t("Make sure the $dir folder is writable"));
         }
-    }
-    //check for correct extension
-    // ToDo: convert other filetypes automagically (using lib_image.inc?)
-    else if(!in_array($ext,$extensions)){
-        add_error("<b>".strtoupper($ext)."</b> : "._("Please upload an image file with the extension \".png\""));
-    }
-    //check for file write permission
-    else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
-        add_error(_t('File already exists & is not writable'));
-    }
-    // ToDo: Check for correct image size (or resize on the fly using shn_image_resize?)
-    //move the uploaded file to the Markers directory, with the correct name
-    else {
-        move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
-        add_confirmation(_t("File was uploaded"));
-    }
-}    
+        //check whether an error occurred
+        else if($file['error']!= 0){
+            //give error information
+            switch ($file['error']){
+                case 1:
+                case 2:
+                    add_error(_('The uploaded file exceeds the Max upload size'));
+                    break;
+                case 3:
+                    add_error(_('The uploaded file was only partially uploaded.'));
+                    break;
+                case 4:
+                    add_error(_('No file was uploaded :  Please press the browse button and select a file to upload before you press the next button'));
+                    break;
+            }
+        }
+        //check for correct extension
+        // ToDo: convert other filetypes automagically (using lib_image.inc?)
+        else if(!in_array($ext,$extensions)){
+            add_error("<b>".strtoupper($ext)."</b> : "._("Please upload an image file with the extension \".png\""));
+        }
+        //check for file write permission
+        else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
+            add_error(_t('File already exists & is not writable'));
+        }
+        //move the uploaded file to the Markers directory, with the correct name
+        else {
+            move_uploaded_file($_FILES['load']['tmp_name'],$_SESSION['gis']['file']);
+            add_confirmation(_t("File was uploaded"));
+        }
+    }    
 
-//Print the error message if an error occurred with the Upload File
-display_errors($return=false,$clean_errors=true,$exit=false);
-//draw upload form
-_shn_gis_upload_markers_form();
-
+    //Print the error message if an error occurred with the Upload File
+    display_errors($return=false,$clean_errors=true,$exit=false);
+    //draw upload form
+    _shn_gis_upload_markers_form();
+}
 
 function _shn_gis_upload_markers_form()
 {
@@ -88,94 +89,6 @@ function _shn_gis_upload_markers_form()
 	print "<br />";
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
-    // List current directory contents
-    _shn_gis_list_markers();
-}
-
-function _shn_gis_list_markers()
-{
-    ?>
-    <script type="text/javascript">
-        function list_contents(folder,level) {
-            var oRequest = new XMLHttpRequest();
-            var sURL  = "tmp/" + folder + ".txt";
-            var text = "Error downloading " + sURL;
-            var div = "contents" + level;
-            oRequest.open("GET",sURL,false);
-            oRequest.setRequestHeader("User-Agent",navigator.userAgent);
-            oRequest.send(null);
-            if (oRequest.status==200) text = oRequest.responseText;
-            
-            document.getElementById(div).innerHTML = text;
-        }
-    </script>
-    <?php
-    print '<center><h2>' . _t("Current Markers") . '</h2></center>';
-    print '<p>' . _t("These are the Markers currently available on this server") . ':</p>';
-    global $global;
-    global $conf;
-    $dir=$conf['gis_marker_folder'];
-    $dir2=$global['approot']."/www/$dir";
-    print "\n<table><tr><td valign='top' style=\"border: 0px;\"><table>\n";
-    _shn_gis_list_markers_path($dir2,$dir);
-    print "</table></td><td valign='top' style=\"border: 0px;\"><div id=\"contents1\"></div></td>\n";
-    print "<td style=\"border: 0px;\"><div id=\"contents2\"></div></td></tr></table>\n";
-}
-
-/**
- * Print Icons & Folders in table
- */
-function _shn_gis_list_markers_path($path,$source_dir,$level = 1)
-{
-    global $global;
-    //Files to ignore and send to /dev/null \:-|
-    $ignore = array( 'CVS', '.', '..' );
-    if($handle = opendir($path)){
-    	while( false !== ( $file = readdir( $handle ) ) ){
-			//Not to be ignored and tossed aside...    
-	        if( !in_array( $file, $ignore ) ){
-	            if( is_dir( "$path/$file" ) ){            
-	                print("<tr><td style=\"border: 0px;\"><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td style=\"border: 0px;\">".$file."</td></tr>\n");
-                    _shn_gis_list_folders( "$file", "$path/$file", "$source_dir/$file/",($level+1) );
-	            } 
-	            else {
-	                print("<tr><td style=\"border: 0px;\"><img src=\"$source_dir".$file."\" /></td><td style=\"border: 0px;\">".$file."</td></tr>\n");
-	            }
-	        }
-    	}
-    	closedir( $handle );
-    }
-}
-
-/**
- * Recursively write folder contents out to a file
- */
-function _shn_gis_list_folders($file,$path,$source_dir,$level = 2)
-{
-    //Where to store directory listings
-    global $global;
-    $dir = $global['approot'].'www/tmp/';
-    $output = $dir."$file.txt";
-    $handle_write = fopen($output, 'w');
-    fwrite($handle_write, "<table><tr>\n");
-    $ignore = array( 'CVS', '.', '..' );
-    if($handle = opendir("$path")){
-        while( false !== ( $file = readdir( $handle ) ) ){
-            if( !in_array( $file, $ignore ) ){
-                if( is_dir( "$path/$file" ) ){            
-                    $line_out = "<tr><td><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td>".$file."</td></tr>\n";
-                    fwrite($handle_write, $line_out);
-                    _shn_gis_list_folders( "$file","$path/$file", "$source_dir/$file",($level+1) );
-                } else {
-                    $line_out = "<tr><td><img src=\"$source_dir/".$file."\" /></td><td>".$file."</td></tr>\n";
-                    fwrite($handle_write, $line_out);
-                }
-            }
-        }
-        closedir( $handle );
-    }
-    fwrite($handle_write, "</tr></table>\n");
-    fclose($handle_write);
 }
 
 ?>

@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: admin_acts.inc,v 1.19 2008-05-15 17:54:10 franboon Exp $
+* @version		$Id: admin_acts.inc,v 1.20 2008-05-18 13:19:11 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -64,6 +64,9 @@ function shn_admin_gis_markers()
     include_once $global['approot'].'/inc/lib_gis/select_markers.inc';
     _shn_admin_gis_markers_form();
     include_once $global['approot'].'/inc/lib_gis/upload_markers.inc';
+    _shn_gis_upload_markers();
+    include_once $global['approot'].'/inc/lib_gis/list_markers.inc';
+    _shn_gis_list_markers();
 }
 
 /**
@@ -121,6 +124,9 @@ function shn_admin_gis_markers_commit()
     shn_config_database_fetch(&$conf,'admin');
     _shn_admin_gis_markers_form();
     include_once $global['approot'].'/inc/lib_gis/upload_markers.inc';
+    _shn_gis_upload_markers();
+    include_once $global['approot'].'/inc/lib_gis/list_markers.inc';
+    _shn_gis_list_markers();
 }
  
 //Deprecated---------------------------------
