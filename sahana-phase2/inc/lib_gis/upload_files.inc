@@ -149,13 +149,42 @@ function _shn_gis_list_files()
     print '<p>'._t("These are the files currently available on this server").':</p>';
     global $global;
     $dir=$global['approot'].'/www/res/OpenLayers/files';
-	if ($handle = opendir($dir)) {
+	//Read into Arrays ready for sorting
+    $kml = array();
+    $osm = array();
+    $gml = array();
+    if ($handle = opendir($dir)) {
         while (false !== ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir."/".$file)) {
-                //echo "$file\n";
-                print("<a href=\"res/OpenLayers/files/".$file."\" target=_blank>".$file."</a><br />\n");
+                $ext=end(explode('.',$file));
+                if ("kml"==$ext){
+                    $kml[$file]="<a href=\"res/OpenLayers/files/".$file."\" target=_blank>".$file."</a><br />\n";
+                } else if ("osm"==$ext){
+                    $osm[$file]="<a href=\"res/OpenLayers/files/".$file."\" target=_blank>".$file."</a><br />\n";
+                } else if ("xml"==$ext){
+                    $gml[$file]="<a href=\"res/OpenLayers/files/".$file."\" target=_blank>".$file."</a><br />\n";
+                }
             }
         }
+        // Sort arrays
+        asort ($kml);
+        asort ($osm);
+        asort ($gml);
+        // Print out to screen
+        echo "<table><thead><td>KML</td><td>OSM</td><td>GML</td></thead>\n";
+        echo "<tbody><tr><td valign='top'><table>\n";
+        foreach ($kml as $key => $val) {
+            echo "<tr><td style=\"border: 0px;\">$val</td></tr>\n";
+        }
+        echo "</table><td valign='top'><table>\n";
+        foreach ($osm as $key => $val) {
+            echo "<tr><td style=\"border: 0px;\">$val</td></tr>\n";
+        }
+        echo "</table><td valign='top'><table>\n";
+        foreach ($gml as $key => $val) {
+            echo "<tr><td style=\"border: 0px;\">$val</td></tr>\n";
+        }
+        echo "</table></td></tr></tbody></table>\n";
         closedir($handle);
     }
 }
