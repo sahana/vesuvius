@@ -19,7 +19,7 @@ function _shn_gis_list_markers()
     <script type="text/javascript">
         function list_contents(folder,level) {
             var oRequest = new XMLHttpRequest();
-            var sURL  = "tmp/" + folder + ".txt";
+            var sURL  = "tmp/gis_list_folders/" + folder + ".txt";
             var text = "Error downloading " + sURL;
             var div = "contents" + level;
             oRequest.open("GET",sURL,false);
@@ -99,8 +99,9 @@ function _shn_gis_list_folders($file,$path,$source_dir,$level = 2)
 {
     //Where to store directory listings
     global $global;
-    $dir = $global['approot'].'www/tmp/';
-    $output = $dir."$file.txt";
+    $dir = $global['approot'].'www/tmp/gis_list_folders';
+    mkdir($dir);
+    $output = $dir."/$file.txt";
     $handle_write = fopen($output, 'w');
     fwrite($handle_write, "<table><tr>\n");
     $ignore = array( 'CVS', '.', '..' );
