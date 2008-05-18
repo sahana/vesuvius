@@ -80,15 +80,15 @@ function _shn_gis_list_markers_path($path,$source_dir,$level = 1)
     	}
         // Sort arrays
         asort ($folders);
-    	asort ($files);
-    	// Print out to screen - folders first
+        asort ($files);
+        // Print out to screen - folders first
         foreach ($folders as $key => $val) {
             echo "$val\n";
         }
-    	foreach ($files as $key => $val) {
+        foreach ($files as $key => $val) {
             echo "$val\n";
         }
-    	closedir( $handle );
+        closedir( $handle );
     }
 }
 
@@ -104,20 +104,31 @@ function _shn_gis_list_folders($file,$path,$source_dir,$level = 2)
     $handle_write = fopen($output, 'w');
     fwrite($handle_write, "<table><tr>\n");
     $ignore = array( 'CVS', '.', '..' );
+    //Read into Array ready for sorting
+    $files = array();
+    $folders = array();
     if($handle = opendir("$path")){
         while( false !== ( $file = readdir( $handle ) ) ){
             if( !in_array( $file, $ignore ) ){
                 if( is_dir( "$path/$file" ) ){            
-                    $line_out = "<tr><td><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td>".$file."</td></tr>\n";
-                    fwrite($handle_write, $line_out);
+                    $folders[$file]="<tr><td><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td>".$file."</td></tr>\n";
                     _shn_gis_list_folders( "$file","$path/$file", "$source_dir/$file",($level+1) );
                 } else {
-                    $line_out = "<tr><td><img src=\"$source_dir/".$file."\" /></td><td>".$file."</td></tr>\n";
-                    fwrite($handle_write, $line_out);
+                    $files[$file]="<tr><td><img src=\"$source_dir/".$file."\" /></td><td>".$file."</td></tr>\n";
                 }
             }
         }
         closedir( $handle );
+    }
+    // Sort arrays
+    asort ($folders);
+    asort ($files);
+    // Print out to file - folders first
+    foreach ($folders as $key => $val) {
+        fwrite($handle_write, "$val\n");
+    }
+    foreach ($files as $key => $val) {
+        fwrite($handle_write, "$val\n");
     }
     fwrite($handle_write, "</tr></table>\n");
     fclose($handle_write);
