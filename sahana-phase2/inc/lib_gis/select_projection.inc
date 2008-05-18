@@ -18,8 +18,8 @@ function _shn_admin_gis_projection_form() {
     global $conf;
     include_once $global['approot']."/inc/lib_form.inc";
     
-    print '<center><h2>' . _t("Map Projection") . '</h2></center>';
-    print '<p>' . _t("A").' <a href="http://en.wikipedia.org/wiki/Map_projection" target=_blank>'._t("Projection").'</a> '._t("is a coordinate system. Sahana uses the definitions created by the") . ' <a href="http://www.epsg.org" target=_blank>European Petroleum Survey Group</a>.</p>';
+    print '<h2>'._t("Map Projection").'</h2>';
+    print '<p>'._t("A").' <a href="http://en.wikipedia.org/wiki/Map_projection" target=_blank>'._t("Projection").'</a> '._t("is a coordinate system. Sahana uses the definitions created by the") . ' <a href="http://www.epsg.org" target=_blank>European Petroleum Survey Group</a>.</p>';
     print '<p> Sahana ' . _t("is capable of supporting multiple simultaneous projections for feature overlays (GeoRSS & File layers) but only a single Projection for the Base layers at a time") . '.</p>';
     shn_form_fopen("gis_projection_commit",null,array('req_message'=>false));
     shn_form_fsopen(_t('Base Projection'));

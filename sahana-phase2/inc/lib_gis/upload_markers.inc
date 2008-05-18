@@ -78,7 +78,7 @@ function _shn_gis_upload_markers_form()
     include_once $global['approot']."/inc/lib_form.inc";
     $marker_folder=$conf['gis_marker_folder'];
 
-	print '<center><h2>' . _t("Upload Marker image") . '</h2></center>';
+	print '<h2>'._t("Upload Marker image").'</h2>';
     
     $upload_help=_t("Upload a PNG format image to be usable as an Icon for Markers or GeoRSS feeds.");
 	shn_form_fopen("gis_markers",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
@@ -89,6 +89,7 @@ function _shn_gis_upload_markers_form()
 	shn_form_fsclose();
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
+    print '<br />';
 
     $folder_help=_t("Create a new Folder to store Icons for Markers or GeoRSS feeds.");
 	shn_form_fopen("gis_marker_folders_commit",null,array('req_message'=>false));
@@ -98,7 +99,6 @@ function _shn_gis_upload_markers_form()
 	shn_form_fsclose();
 	shn_form_submit(_t("Create"));
 	shn_form_fclose();
-
     print '<br />';
 }
 

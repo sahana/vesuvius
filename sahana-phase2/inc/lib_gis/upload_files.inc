@@ -123,9 +123,9 @@ _shn_gis_upload_files_form();
 
 function _shn_gis_upload_files_form()
 {
-	print '<center><h2>' . _t("Upload Files") . '</h2></center>';
-    print '<p>' . _t("This form allows uploading of files in ") . '<a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a>' . _t(" or ") . '<a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a>' . _t(" format to ") . 'www/res/OpenLayers/files </p>';
-    print '<p>' . _t("File should have one of the following extensions:") . '.kml, .kmz, .osm' . _t(" or ") . '.xml </p>';
+	print '<h2>'._t("Upload Files").'</h2>';
+    print '<p>'._t("This form allows uploading of files in ").'<a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a>' . _t(" or ") . '<a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a>' . _t(" format to ") . 'www/res/OpenLayers/files</p>';
+    print '<p>'._t("File should have one of the following extensions:") . '.kml, .kmz, .osm' . _t(" or ") . '.xml</p>';
 
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
@@ -135,10 +135,9 @@ function _shn_gis_upload_files_form()
 	shn_form_fsopen(_t("Upload File"));
     shn_form_upload(_t('Upload KML, OSM or GML'),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
-
-	print "<br />";
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
+    print "<br />";
     // List current directory contents
     _shn_gis_list_files();
 }
@@ -146,8 +145,8 @@ function _shn_gis_upload_files_form()
 function _shn_gis_list_files()
 // ToDo: Separate lists for the 3 different sorts
 {
-    print '<center><h2>' . _t("Current Files") . '</h2></center>';
-    print '<p>' . _t("These are the files currently available on this server") . ':</p>';
+    print '<h2>'._t("Current Files").'</h2>';
+    print '<p>'._t("These are the files currently available on this server").':</p>';
     global $global;
     $dir=$global['approot'].'/www/res/OpenLayers/files';
 	if ($handle = opendir($dir)) {

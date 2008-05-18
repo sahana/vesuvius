@@ -72,15 +72,15 @@ function _shn_gis_upload_projections_form()
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
 
-    print '<center><h2>' . _t("Upload Projection Definition") . '</h2></center>';
+    print '<h2>'._t("Upload Projection Definition").'</h2>';
 
 	shn_form_fopen("gis_projections",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
 	shn_form_fsopen(_t("Upload Projection Definition File"));
-    print '<p>' . _t("Sahana uses the proj4js definitions format available from") . ' <a href="http://spatialreference.org" target=_blank>spatialreference.org</a>.</p>';
-    print '<p>' . _t("Upload a new definition file to") . ' www/res/OpenLayers/defs. </p>';
-    print '<p>' . _t("File should be named as 'EPSGxxxx.js'.") . '</p>';
+    print '<p>'._t("Sahana uses the proj4js definitions format available from").' <a href="http://spatialreference.org" target=_blank>spatialreference.org</a>.</p>';
+    print '<p>'._t("Upload a new definition file to").' www/res/OpenLayers/defs.</p>';
+    print '<p>'._t("File should be named as 'EPSGxxxx.js'.").'</p>';
     print '<br />';
-    $upload_help=_t("Download the proj4js version of the Projection from the ") . '<a href="http://spatialreference.org/ref/epsg/" target=_blank>spatialreference.org</a>' . _t("website & upload here");
+    $upload_help=_t("Download the proj4js version of the Projection from the ").'<a href="http://spatialreference.org/ref/epsg/" target=_blank>spatialreference.org</a> '._t("website & upload here");
 	shn_form_upload(_t('Upload Projection Definition'),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
 	shn_form_submit(_t("Upload"));
@@ -92,8 +92,8 @@ function _shn_gis_upload_projections_form()
 
 function _shn_gis_list_projections()
 {
-    print '<center><h2>' . _t("Current Projection Definitions") . '</h2></center>';
-    print '<p>' . _t("These are the Projection definitions currently available on this server") . ':</p>';
+    print '<h2>'._t("Current Projection Definitions").'</h2>';
+    print '<p>'._t("These are the Projection definitions currently available on this server").':</p>';
     global $global;
     $dir=$global['approot'].'/www/res/OpenLayers/defs';
 	if ($handle = opendir($dir)) {
