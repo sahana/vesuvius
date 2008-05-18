@@ -85,12 +85,28 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 			$res->MoveNext();	
 	}
 
-    // Shortcut to GIS Catalogue
+    // Shortcuts to GIS Catalogue
     if ($conf['gis_dflt'] == "openlayers") {
         include_once $global['approot']."/inc/lib_gis/admin_acts.inc";
-        shn_form_fopen(gis_layers,admin,array('req'=>false));
-	    shn_form_submit(_t("GIS Layers Management"));
+        print "<table><tr><td style=\"border: 0px;\">";
+        print _t("GIS Administration:");
+        print "</td><td style=\"border: 0px;\">";
+        shn_form_fopen(gis_files,admin,array('req'=>false));
+	    shn_form_submit(_t("Files"));
         shn_form_fclose();
+        print "</td><td style=\"border: 0px;\">";
+        shn_form_fopen(gis_layers,admin,array('req'=>false));
+	    shn_form_submit(_t("Layers"));
+        shn_form_fclose();
+        print "</td><td style=\"border: 0px;\">";
+        shn_form_fopen(gis_markers,admin,array('req'=>false));
+	    shn_form_submit(_t("Markers"));
+        shn_form_fclose();
+        print "</td><td style=\"border: 0px;\">";
+        shn_form_fopen(gis_projections,admin,array('req'=>false));
+	    shn_form_submit(_t("Projections"));
+        shn_form_fclose();
+        print "</td></tr></table>";
     }
 	
 	// call GIS API
