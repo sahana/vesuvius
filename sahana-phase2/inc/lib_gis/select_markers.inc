@@ -30,14 +30,14 @@ function _shn_admin_gis_markers_form() {
     print '<p>' . _t("The current default icon to use for Markers is: ") . "<img src='$marker_path' />('$marker')</p>";
     print '<p>' . _t("To select a new default icon to use for Markers, enter the filename below:") . '</p>';
     $select_help=_t("Select which icon to use as default for Markers. Include subfolders, if necessary.");
-    shn_form_text(_t('Select new Marker Icon: '),"gis_marker",'size=70',array('req'=>true,'value'=>$marker,"help"=>$select_help));
+    shn_form_text(_t('Select new Marker Icon: '),"gis_marker",'size=70',array('value'=>$marker,"help"=>$select_help));
     shn_form_fsclose();
 
     shn_form_fsopen(_t("Default GeoRSS Icon"));
     print '<p>' . _t("The current default icon to use for GeoRSS feeds is: ") . "<img src='$georss_path' />('$georss_marker')</p>";
     print '<p>' . _t("To select a new default icon to use for GeoRSS feeds, enter the filename below:") . '</p>';
     $georss_help=_t("Select which icon to use as default for GeoRSS feeds. Include subfolders, if necessary.");
-    shn_form_text(_t('Select new GeoRSS Icon: '),"gis_ol_georss_marker",'size=70',array('req'=>true,'value'=>$georss_marker,"help"=>$georss_help));
+    shn_form_text(_t('Select new GeoRSS Icon: '),"gis_ol_georss_marker",'size=70',array('value'=>$georss_marker,"help"=>$georss_help));
     shn_form_fsclose();
 
     shn_form_submit(_t("Select"));

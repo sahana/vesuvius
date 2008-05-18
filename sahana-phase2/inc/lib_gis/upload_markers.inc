@@ -79,19 +79,39 @@ function _shn_gis_upload_markers_form()
     $marker_folder=$conf['gis_marker_folder'];
 
 	print '<center><h2>' . _t("Upload Marker image") . '</h2></center>';
-    print '<p>' . _t("Upload a new image file to ") . "$marker_folder" . '</p>';
-    print '<p>' . _t("File should be in PNG format.") . '</p>';
-	
+    
     $upload_help=_t("Upload a PNG format image to be usable as an Icon for Markers or GeoRSS feeds.");
 	shn_form_fopen("gis_markers",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
 	shn_form_fsopen(_t("Upload Marker Image File"));
-    shn_form_upload(_t('Upload Marker: '),"load",array('req'=>false,"help"=>$upload_help));
+    print '<p>' . _t("Upload a new image file to ") . "www/$marker_folder" . '</p>';
+    print '<p>' . _t("File should be in PNG format.") . '</p>';
+	shn_form_upload(_t('Upload Marker: '),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
-
-	print "<br />";
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
+
+    $folder_help=_t("Create a new Folder to store Icons for Markers or GeoRSS feeds.");
+	shn_form_fopen("gis_marker_folders_commit",null,array('req_message'=>false));
+	shn_form_fsopen(_t("Create Folder"));
+    print '<p>' . _t("Create a new sub-folder in ") . "www/$marker_folder" . '</p>';
+    shn_form_text(_t('Folder name: '),"gis_markers_folder",'size=40',array('req'=>false,"help"=>$folder_help));
+	shn_form_fsclose();
+	shn_form_submit(_t("Create"));
+	shn_form_fclose();
+
     print '<br />';
+}
+
+function _shn_gis_create_markers_folder()
+{
+    global $global;
+    global $conf;
+    
+    if(!null==$_POST['gis_markers_folder']){
+        $new_folder=$global['approot']."www/".$conf['gis_marker_folder'].$_POST['gis_markers_folder'];
+        print "$new_folder";
+        mkdir($new_folder);
+    }
 }
 
 ?>
