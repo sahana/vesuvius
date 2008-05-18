@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.13 2008-04-26 13:32:00 franboon Exp $
+* @version		$Id: multimap.inc,v 1.14 2008-05-18 21:17:50 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -24,10 +24,9 @@ class multimap implements layer{
         shn_form_fsopen(_t('Multimap'));
         shn_form_fsopen('Multimap');
         shn_form_fsopen('INFO');
-        echo _t("<p>Enable <a href='http://multimap.com/' target=_blank>Multimap</a> &trade; Mapping Service" .
-            " by selecting the checkbox option below.</p>");
-        echo _t("<p>The Multimap mapping API requires Internet connectivity and a valid Multimap key</p>");
-        echo _t("<p><b>NB The Multimap layer currently doesn't work well! (OpenLayers-2.6 limitation with this projection)</b></p>");
+        echo '<p>'._t("Enable").' <a href="http://multimap.com/" target=_blank>Multimap</a> &trade; '._t("Mapping Service by selecting the checkbox option below.").'</p>';
+        echo '<p>'._t("The Multimap mapping API requires Internet connectivity and a valid Multimap key").'</p>';
+        echo '<p><b>'._t("NB The Multimap layer currently doesn't work well due to an").' <a href="http://dev.openlayers.org/releases/OpenLayers-2.6/doc/apidocs/files/OpenLayers/Layer/MultiMap-js.html" target=_blank>OpenLayers-2.6</a> '._t("limitation").' '._t("with this projection").'!</b></p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
