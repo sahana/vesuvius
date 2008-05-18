@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.22 2008-05-09 08:43:46 franboon Exp $
+* @version     $Id: wms.inc,v 1.23 2008-05-18 21:50:45 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -33,27 +33,6 @@ class wms implements layer{
         shn_form_checkbox(_t('Enable WMS layers'),'wms_enable',$checked,array('value'=>1));
         shn_form_fsclose();
         if (1==$conf['gis_ol_wms_enable']){
-            $projections_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br><a href=\"http://trac.openlayers.org/wiki/SphericalMercator\">EPSG:900913</a> is the default as this provides full compatibility with the other layers.<br>Some WMS servers may not support this & hence need a different value (such as EPSG:4326 for WGS84).<br>If this is the case then <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
-            $projections = array('EPSG:900913','EPSG:4326',_t('Custom'));
-            shn_form_fsopen(_t('PROJECTION'));
-            $projections_select = '0';
-            if ("1"==$conf["gis_ol_wms_projections"]) {
-                $projections_select = '1';
-            } else if ("2"==$conf["gis_ol_wms_projections"]) {
-                $projections_select = '2';
-            }
-            shn_form_select($projections,_t('Projection'),'gis_ol_wms_projections',null,array('value'=>$projections_select,"help"=>$projections_help));
-            if (2==$conf["gis_ol_wms_projections"]){
-                $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a>.<br>Format should be EPSG:xxxx.<br>A definition file also needs <a href=\"index.php?mod=admin&act=gis_projections\" target=_blank>uploading</a>.<br>NB Because a Custom projection is being used <b>all other base layers are disabled</b> to avoid problems when moving between different layer types!");
-                $maxExtent_help=_t("The number of units required to reach: Left, Bottom, Right, Top");
-                $maxResolution_help=_t("How many units per pixel");
-                $units_help=_t("The units in which the measurements apply (e.g. 'm', 'degrees' or 'usfeet')");
-                shn_form_text(_t('Projection'),'gis_ol_wms_projection',null,array('req'=>true,'value'=>$conf['gis_ol_wms_projection'],"help"=>$projection_help));
-                shn_form_text(_t('maxExtent'),'gis_ol_wms_maxExtent',null,array('req'=>true,'value'=>$conf['gis_ol_wms_maxExtent'],"help"=>$maxExtent_help));
-                shn_form_text(_t('maxResolution'),'gis_ol_wms_maxResolution',null,array('req'=>true,'value'=>$conf['gis_ol_wms_maxResolution'],"help"=>$maxResolution_help));
-                shn_form_text(_t('units'),'gis_ol_wms_units',null,array('req'=>true,'value'=>$conf['gis_ol_wms_units'],"help"=>$units_help));
-            }
-            shn_form_fsclose();
             shn_form_fsopen(_t('NUMBER'));
             shn_form_text(_t('Number of WMS layers'),'gis_ol_wms','size=2 maxlength=2',array('value'=>$conf['gis_ol_wms']));
             shn_form_fsclose();
@@ -113,72 +92,6 @@ class wms implements layer{
         global $global;
         global $conf;
         $db = $global['db'];                  
-        if (null==$_POST['gis_ol_wms_projections'] || "0"==$_POST['gis_ol_wms_projections']) {
-            $projection = 'EPSG:900913';
-            $maxExtent = '-20037508, -20037508, 20037508, 20037508.34';
-            $maxResolution = '156543.0339';
-            $units = 'm';
-        } else if ("1"==$_POST['gis_ol_wms_projections']) {
-            $projection = 'EPSG:4326';
-            $maxExtent = '-180,-90,180,90';
-            $maxResolution = '1.40625';
-            $units = 'degrees';
-        } else if (!null==$_POST['gis_ol_wms_projections']){
-            $projection = $_POST['gis_ol_wms_projection'];
-            $maxExtent = $_POST['gis_ol_wms_maxExtent'];
-            $maxResolution = $_POST['gis_ol_wms_maxResolution'];
-            $units = $_POST['gis_ol_wms_units'];
-        }
-        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_projection' AND module_id='admin'";
-        $res = $db->Execute($query);
-        if(!$res->EOF){
-            $q = "UPDATE config SET value = '$projection' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_projection'";
-            $db->Execute($q);
-        }
-        else{
-            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_projection','$projection')";
-            $db->Execute($insert);
-        }
-        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_projections' AND module_id='admin'";
-        $res = $db->Execute($query);
-        if(!$res->EOF){
-            $q = "UPDATE config SET value = '{$_POST['gis_ol_wms_projections']}' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_projections'";
-            $db->Execute($q);
-        }
-        else{
-            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_projections','{$_POST['gis_ol_wms_projections']}')";
-            $db->Execute($insert);
-        }
-        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_maxExtent' AND module_id='admin'";
-        $res = $db->Execute($query);
-        if(!$res->EOF){
-            $q = "UPDATE config SET value = '$maxExtent' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_maxExtent'";
-            $db->Execute($q);
-        }
-        else{
-            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_maxExtent','$maxExtent')";
-            $db->Execute($insert);
-        }
-        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_maxResolution' AND module_id='admin'";
-        $res = $db->Execute($query);
-        if(!$res->EOF){
-            $q = "UPDATE config SET value = '$maxResolution' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_maxResolution'";
-            $db->Execute($q);
-        }
-        else{
-            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_maxResolution','$maxResolution')";
-            $db->Execute($insert);
-        }
-        $query = "SELECT * FROM config WHERE confkey='gis_ol_wms_units' AND module_id='admin'";
-        $res = $db->Execute($query);
-        if(!$res->EOF){
-            $q = "UPDATE config SET value = '$units' WHERE module_id = 'admin' AND confkey = 'gis_ol_wms_units'";
-            $db->Execute($q);
-        }
-        else{
-            $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_wms_units','$units')";
-            $db->Execute($insert);
-        }
         for ($i=0; $i<$conf['gis_ol_wms']; $i++) {
             $j=$i+1;
             $description = 'gis_ol_wms_'.$j.'_description';

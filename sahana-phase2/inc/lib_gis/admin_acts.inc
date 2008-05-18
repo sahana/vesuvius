@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: admin_acts.inc,v 1.21 2008-05-18 18:16:36 franboon Exp $
+* @version		$Id: admin_acts.inc,v 1.22 2008-05-18 21:50:45 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -75,6 +75,8 @@ function shn_admin_gis_markers()
 function shn_admin_gis_projections()
 {
     global $global;
+    include_once $global['approot'].'/inc/lib_gis/select_projection.inc';
+    _shn_admin_gis_projection_form();
     include_once $global['approot'].'/inc/lib_gis/upload_defs.inc';
 }
  
@@ -135,7 +137,9 @@ function shn_admin_gis_marker_folders_commit()
     global $conf;
     include_once $global['approot'].'/inc/lib_gis/upload_markers.inc';
     _shn_gis_create_markers_folder();
-    add_confirmation(_t("Changes were saved"));
+    if (false==is_errors()){
+        add_confirmation(_t("Folder was created"));
+    }
     // Update conf from DB  so that view is refreshed
     shn_config_database_fetch(&$conf,'admin');
     include_once $global['approot'].'/inc/lib_gis/select_markers.inc';
@@ -145,6 +149,19 @@ function shn_admin_gis_marker_folders_commit()
     _shn_gis_list_markers();
 }
 
+function shn_admin_gis_projection_commit()
+{
+    global $global;
+    global $conf;
+    include_once $global['approot'].'/inc/lib_gis/select_projection.inc';
+    _shn_admin_gis_commit_projection();
+    add_confirmation(_t("Changes were saved"));
+    // Update conf from DB  so that view is refreshed
+    shn_config_database_fetch(&$conf,'admin');
+    _shn_admin_gis_projection_form();
+    include_once $global['approot'].'/inc/lib_gis/upload_defs.inc';
+}
+ 
 //Deprecated---------------------------------
  
 /**
