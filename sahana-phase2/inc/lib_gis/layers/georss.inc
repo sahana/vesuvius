@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss2.inc,v 1.17 2008-05-17 19:48:45 mifanc Exp $
+* @version     	$Id: georss.inc,v 1.15 2008-05-18 11:31:01 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -19,8 +19,7 @@
 global $global;
 include_once $global['approot'].'inc/lib_gis/layer_class.inc';
 
-class georss2 implements layer{
-
+class georss implements layer{
 	
     function print_form()
     {
@@ -36,9 +35,8 @@ class georss2 implements layer{
     {
     	global $conf;
     	shn_form_fsopen(_t('INFO'));
-        echo _t("<p>Sahana can make use of Feeds from servers using the <a href='http://en.wikipedia.org/wiki/GeoRSS' target=_blank>GeoRSS</a> standard </p>");
-        echo _t("<p>Enable GeoRSS Layers by selecting the checkbox option below.</p>");
-        echo _t("<p><b>NB This version is UNDER DEVELOPMENT. Use GeoRSS instead.</b></p>");
+        echo '<p>' . _t("Sahana can make use of Feeds from servers using the ") . '<a href="http://en.wikipedia.org/wiki/GeoRSS" target=_blank>GeoRSS</a>' . _t(" standard."). '</p>';
+        echo '<p>' . _t("Enable GeoRSS Layers by selecting the checkbox option below."). '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -81,7 +79,8 @@ class georss2 implements layer{
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
-            $projection_help=_t("Coordinate system used to display the data, as defined by <a href=\"http://www.epsg.org\" target=_blank>European Petroleum Survey Group</a> (mandatory). If left blank, then EPSG:4326 is assumed as this is the default WGS84.");
+            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be uploaded via the").'<a href="index.php?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a>'._t(" (optional). Defaults to")." 'marker-red.png'";
+            $projection_help=_t("Coordinate system used to display the data, as defined by ").'<a href="http://www.epsg.org" target=_blank>'._t("European Petroleum Survey Group").'</a>'._t(" (mandatory). If left blank, then ").'EPSG:4326'._t(" is assumed as this is the default ").'WGS84.';
             $visibility_help=_t("Whether the layer is visible by default");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");
             
@@ -90,9 +89,10 @@ class georss2 implements layer{
                 //Set counter to one after the current layer count
                 $j=$i+1;
                 shn_form_fsopen(_t('LAYER '.$j));
-                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=60',array("help"=>$description_help));
                 shn_form_text(_t('Name'),'gis_ol_georss_'.$j.'_name',null,array('req'=>true,"help"=>$name_help));
-                shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=60',array('req'=>true,"help"=>$url_help));
+                shn_form_text(_t('Description'),'gis_ol_georss_'.$j.'_description','size=70',array("help"=>$description_help));
+                shn_form_text(_t('URL'),'gis_ol_georss_'.$j.'_url','size=70',array('req'=>true,"help"=>$url_help));
+                shn_form_text(_t('Icon'),'gis_ol_georss_'.$j.'_icon','size=70',array("help"=>$icon_help));
                 $projection = "EPSG:4326";
                 if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
@@ -152,6 +152,9 @@ class georss2 implements layer{
             $name_db = 'gis_ol_georss_'.$j.'_name';
             $url = 'gis_ol_georss_'.$i.'_url';
             $url_db = 'gis_ol_georss_'.$j.'_url';
+            $icon = 'gis_ol_georss_'.$i.'_icon';
+            $icon_db = 'gis_ol_georss_'.$j.'_icon';
+            $iconsize_db = 'gis_ol_georss_'.$j.'_icon_size';
             $visibility = 'gis_ol_georss_'.$i.'_visibility';
             $visibility_db = 'gis_ol_georss_'.$j.'_visibility';
             $enabled = 'gis_ol_georss_'.$i.'_enabled';
@@ -198,6 +201,40 @@ class georss2 implements layer{
                 }
             }
             
+            //icon        
+            if(!null==$_POST[$icon]){
+                $query = "SELECT * FROM config WHERE confkey='$icon_db' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$icon]}' WHERE module_id = 'admin' AND confkey = '$icon_db'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon_db','{$_POST[$icon]}')";
+                    $db->Execute($insert);
+                }
+                $file=$global['approot']."www/".$conf['gis_marker_folder'].$_POST[$icon];
+                list($width,$height)=getimagesize("$file");
+                $iconsize_new="$width,$height";
+                $query = "SELECT * FROM config WHERE confkey='$iconsize_db' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$iconsize_new' WHERE module_id = 'admin' AND confkey = '$iconsize_db'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize_db','$iconsize_new')";
+                    $db->Execute($insert);
+                }
+            } else if (null==$conf['$icon']){
+                $icon_default='marker-red.png';
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon_db','$icon_default')";
+                $db->Execute($insert);
+                $iconsize_default='21,25';
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize_db','$iconsize_default')";
+                $db->Execute($insert);
+            }
+            
             //visibility
             //In PHP 0 == NULL!            
             $query = "SELECT * FROM config WHERE confkey='$visibility_db' AND module_id='admin'";
@@ -226,11 +263,9 @@ class georss2 implements layer{
             
           }//Empty check of name & url
         }//End of loop
-        
-        
 		
 
-            // Checkboxes return nothing if unticked!
+        // Checkboxes return nothing if unticked!
         // Overall GeoRSS enable
         
         if (null == $_POST['georss_enable']){
@@ -267,13 +302,11 @@ class georss2 implements layer{
     }
     
     /**
-     * Commit options made in feeds table
-     * @todo: call this BEFORE commiting new layers - things could screw up if not!
-     */
+        * Commit options made in feeds table
+        * @todo: call this BEFORE commiting new layers - things could screw up if not!
+        */
     function commit_georss_feed_table($debug=false)
     {
-
-    	
     	global $global;
         global $conf;
         $db = $global['db'];
@@ -297,14 +330,12 @@ class georss2 implements layer{
        				$value = 'gis_ol_georss_'.$i.'_'.$values;
        				$delete = "delete from config where confkey='{$value}'";
        				$db->Execute($delete);
-       				
        			}
        			
        			//@todo: Handle the number of layers in the system
        			$layers_deleted = $layers_deleted + 1; 
        			//No point in further checks
        			continue;
-       			
        		}
        	
        		//Layer enabling
@@ -349,8 +380,6 @@ class georss2 implements layer{
         	//Handling overall deleted layers
         	//@todo: currently layers are deleted but the overall layer count doesn't change: practically fine, theoretically bonkers ! :)
         	//@todo: if ever we need to handle deleted layers, $layers_deleted gives the count
-
-       		
        		
        	}
         
@@ -371,6 +400,7 @@ class georss2 implements layer{
 				<td><?php echo _t('Layer')?></td>
 				<td><?php echo _t('Layer Name')?></td>
 				<td><?php echo _t('Description')?></td>
+				<td><?php echo _t('Icon')?></td>
 				<td><?php echo _t('Enabled (for selection)')?></td>
 				<td><?php echo _t('Visible (by default)')?></td>
 				<td><?php echo _t('Delete')?></td>
@@ -394,11 +424,14 @@ class georss2 implements layer{
 
 					if($conf['gis_ol_georss_'.$j.'_visibility']=='1')
 						$check_visible = 'checked';
+                        
+                    $icon=$conf['gis_marker_folder'].$conf['gis_ol_georss_'.$j.'_icon'];
 ?>
 				<tr>
 					<td><?php echo $j?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_name']; ?></td>
 					<td><?php echo $conf['gis_ol_georss_'.$j.'_description']; ?></td>
+					<td><img src="<?php echo $icon; ?>" /></td>
 					<td><?php shn_form_checkbox(null,'georss_enable_'.$j,$check_enable,array('value'=>1)); ?></td>
 					<td><?php shn_form_checkbox(null,'georss_visible_'.$j,$check_visible,array('value'=>1)); ?></td>
 					<td><?php shn_form_checkbox(null,'georss_delete_'.$j,null,array('value'=>1)); ?> </td>
