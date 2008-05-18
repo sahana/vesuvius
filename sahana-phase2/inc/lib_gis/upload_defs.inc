@@ -96,12 +96,20 @@ function _shn_gis_list_projections()
     print '<p>'._t("These are the Projection definitions currently available on this server").':</p>';
     global $global;
     $dir=$global['approot'].'/www/res/OpenLayers/defs';
-	if ($handle = opendir($dir)) {
+	//Read into Array ready for sorting
+    $files = array();
+    if ($handle = opendir($dir)) {
         while (false !== ($file = readdir($handle))) {
             if ($file != "." && $file != ".." && !is_dir($dir."/".$file)) {
                 //echo "$file\n";
-                print("<a href=\"res/OpenLayers/defs/".$file."\" target=_blank>".$file."</a><br />\n");
+                $files[$file]="<a href=\"res/OpenLayers/defs/".$file."\" target=_blank>".$file."</a><br />\n";
             }
+        }
+        // Sort array
+        asort ($files);
+        // Print out to screen
+        foreach ($files as $key => $val) {
+            echo "$val\n";
         }
         closedir($handle);
     }
