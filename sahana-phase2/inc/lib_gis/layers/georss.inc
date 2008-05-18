@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.15 2008-05-18 11:31:01 franboon Exp $
+* @version     	$Id: georss.inc,v 1.16 2008-05-18 13:51:13 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -322,7 +322,7 @@ class georss implements layer{
        		if(!(null==$_POST['georss_delete_'.$i])){
        			//Delete this layer
        			//Store georss conf value endings
-       			$value_array = array('description','name','url','visibility','enabled');
+       			$value_array = array('description','name','url','icon','iconsize','projection','visibility','enabled');
        			$value='gis_ol_georss_'.$i.'_description';
        			$delete = "delete from config where confkey='{$value}'";
        			
@@ -349,11 +349,11 @@ class georss implements layer{
             	$query = "SELECT * FROM config WHERE confkey='{$confkey}' AND module_id='admin'";
             	$res = $db->Execute($query);
 	            if(!$res->EOF){
-	                $q = "UPDATE config SET value = '$gis_enable_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
+	                $q = "UPDATE config SET value = '$georss_enable_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
 	                $db->Execute($q);
 	            }
 	            else{
-	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$gis_enable_layer')";
+	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$georss_enable_layer')";
 	                $db->Execute($insert);
 	            }
         	}
@@ -369,11 +369,11 @@ class georss implements layer{
             	$query = "SELECT * FROM config WHERE confkey='{$confkey}' AND module_id='admin'";
             	$res = $db->Execute($query);
 	            if(!$res->EOF){
-	                $q = "UPDATE config SET value = '$gis_visible_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
+	                $q = "UPDATE config SET value = '$georss_visible_layer' WHERE module_id = 'admin' AND confkey = '{$confkey}'";
 	                $db->Execute($q);
 	            }
 	            else{
-	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$gis_visible_layer')";
+	                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','{$confkey}','$georss_visible_layer')";
 	                $db->Execute($insert);
 	            }
         	}
