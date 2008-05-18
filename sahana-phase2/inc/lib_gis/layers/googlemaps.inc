@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.18 2008-05-18 22:15:37 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.19 2008-05-18 22:25:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -26,6 +26,9 @@ class googlemaps implements layer{
         shn_form_fsopen(_t('INFO'));
         echo '<p>'._t("Enable").' <a href="http://maps.google.com/" target=_blank>GoogleMaps</a> &trade; '._t("Mapping Service by selecting the checkbox option below").'.</p>';
         echo '<p>'._t("The GoogleMaps mapping API requires Internet connectivity and a valid Google Maps key").'</p>';
+        if (!0==$conf['gis_ol_wms_projections']) {
+            echo '<h1>'._t("GoogleMaps base layer(s) are currently DISABLED due to use of a").' <a href="index.php?mod=admin&act=gis_projections" target=_blank>'._t("non-SphericalMercator Projection").'</a>!</h1>';
+        }
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
