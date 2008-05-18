@@ -28,10 +28,13 @@ function _shn_gis_list_markers()
             if (oRequest.status==200) text = oRequest.responseText;
             
             document.getElementById(div).innerHTML = text;
+            //clear all higher levels (up to number of divs we have defined)
             level++;
-            var div = "contents" + level;
             text = "";
-            document.getElementById(div).innerHTML = text;
+            for (i=level;i<5;i++) {
+                var div = "contents" + i;
+                document.getElementById(div).innerHTML = text;
+            }
         }
     </script>
     <?php
@@ -44,7 +47,11 @@ function _shn_gis_list_markers()
     print "\n<table><tr><td valign='top' style=\"border: 0px;\"><table>\n";
     _shn_gis_list_markers_path($dir2,$dir);
     print "</table></td><td valign='top' style=\"border: 0px;\"><div id=\"contents1\"></div></td>\n";
-    print "<td style=\"border: 0px;\"><div id=\"contents2\"></div></td></tr></table>\n";
+    print "<td valign='top' style=\"border: 0px;\"><div id=\"contents2\"></div></td>\n";
+    print "<td valign='top' style=\"border: 0px;\"><div id=\"contents3\"></div></td>\n";
+    print "<td valign='top' style=\"border: 0px;\"><div id=\"contents4\"></div></td>\n";
+    print "<td valign='top' style=\"border: 0px;\"><div id=\"contents5\"></div></td>\n";
+    print "</tr></table>\n";
 }
 
 /**
