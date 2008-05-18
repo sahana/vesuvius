@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.17 2008-05-18 15:35:08 franboon Exp $
+* @version     	$Id: georss.inc,v 1.18 2008-05-18 15:44:03 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -97,7 +97,7 @@ class georss implements layer{
                 if (!null == $conf['gis_ol_georss_'.$j.'_projection']) {
                     $projection = $conf['gis_ol_georss_'.$j.'_projection'];
                 }
-                shn_form_text(_t('Projection'),'gis_ol_georss_'.$j.'_projection',null,array('req'=>true,'value'=>$projection,"help"=>$projection_help));
+                shn_form_text(_t('Projection'),'gis_ol_georss_'.$j.'_projection',null,array('value'=>$projection,"help"=>$projection_help));
                 $visibilities = array(_t('false'),_t('true'));
                 $visibility_select = '0';
                 if ('1'==$conf['gis_ol_georss_'.$j.'_visibility']) {
