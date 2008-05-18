@@ -73,22 +73,25 @@ function _shn_gis_upload_markers()
 
 function _shn_gis_upload_markers_form()
 {
+    global $global;
+    global $conf;
+    include_once $global['approot']."/inc/lib_form.inc";
+    $marker_folder=$conf['gis_marker_folder'];
+
 	print '<center><h2>' . _t("Upload Marker image") . '</h2></center>';
-    print '<p>' . _t("This form allows a Marker image file to be uploaded to $file.") . '</p>';
+    print '<p>' . _t("Upload a new image file to ") . "$marker_folder" . '</p>';
     print '<p>' . _t("File should be in PNG format.") . '</p>';
-
-	global $global;
-	include_once $global['approot']."/inc/lib_form.inc";
-
-    $upload_help=_t("Upload a PNG format image");
+	
+    $upload_help=_t("Upload a PNG format image to be usable as an Icon for Markers or GeoRSS feeds.");
 	shn_form_fopen("gis_markers",null,array('enctype'=>'enctype="multipart/form-data"','req_message'=>false));
 	shn_form_fsopen(_t("Upload Marker Image File"));
-    shn_form_upload(_t('Upload Marker'),"load",array('req'=>false,"help"=>$upload_help));
+    shn_form_upload(_t('Upload Marker: '),"load",array('req'=>false,"help"=>$upload_help));
 	shn_form_fsclose();
 
 	print "<br />";
 	shn_form_submit(_t("Upload"));
 	shn_form_fclose();
+    print '<br />';
 }
 
 ?>

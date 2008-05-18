@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.16 2008-05-18 13:51:13 franboon Exp $
+* @version     	$Id: georss.inc,v 1.17 2008-05-18 15:35:08 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -155,6 +155,8 @@ class georss implements layer{
             $icon = 'gis_ol_georss_'.$i.'_icon';
             $icon_db = 'gis_ol_georss_'.$j.'_icon';
             $iconsize_db = 'gis_ol_georss_'.$j.'_icon_size';
+            $projection = 'gis_ol_georss_'.$i.'_projection';
+            $projection_db = 'gis_ol_georss_'.$j.'_projection';
             $visibility = 'gis_ol_georss_'.$i.'_visibility';
             $visibility_db = 'gis_ol_georss_'.$j.'_visibility';
             $enabled = 'gis_ol_georss_'.$i.'_enabled';
@@ -226,12 +228,32 @@ class georss implements layer{
                     $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize_db','$iconsize_new')";
                     $db->Execute($insert);
                 }
-            } else if (null==$conf['$icon']){
-                $icon_default='marker-red.png';
+            } else if (null==$conf['$icon_db']){
+                $icon_default=$conf['gis_ol_georss_marker'];
                 $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$icon_db','$icon_default')";
                 $db->Execute($insert);
-                $iconsize_default='21,25';
-                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize_db','$iconsize_default')";
+                $file=$global['approot']."www/".$conf['gis_marker_folder'].$conf['gis_ol_georss_marker'];
+                list($width,$height)=getimagesize("$file");
+                $iconsize_new="$width,$height";
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$iconsize_db','$iconsize_new')";
+                $db->Execute($insert);
+            }
+            
+            //projection         
+            if(!null==$_POST[$projection]){
+                $query = "SELECT * FROM config WHERE confkey='$projection_db' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '{$_POST[$projection]}' WHERE module_id = 'admin' AND confkey = '$projection_db'";
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$projection_db','{$_POST[$projection]}')";
+                    $db->Execute($insert);
+                }
+            } else if (null==$conf['$projection_db']){
+                $projection_default='EPSG:4326';
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','$projection_db','$projection_default')";
                 $db->Execute($insert);
             }
             
@@ -322,7 +344,7 @@ class georss implements layer{
        		if(!(null==$_POST['georss_delete_'.$i])){
        			//Delete this layer
        			//Store georss conf value endings
-       			$value_array = array('description','name','url','icon','iconsize','projection','visibility','enabled');
+       			$value_array = array('description','name','url','icon','icon_size','projection','visibility','enabled');
        			$value='gis_ol_georss_'.$i.'_description';
        			$delete = "delete from config where confkey='{$value}'";
        			
