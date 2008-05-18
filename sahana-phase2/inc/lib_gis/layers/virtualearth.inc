@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version      $Id: virtualearth.inc,v 1.11 2008-04-24 16:14:37 franboon Exp $
+* @version      $Id: virtualearth.inc,v 1.12 2008-05-18 22:15:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,8 +23,8 @@ class virtualearth implements layer{
         shn_form_fsopen(_t('MS Virtual Earth'));
         shn_form_fsopen(_t('MS Virtual Earth'));
 		shn_form_fsopen('INFO');
-        echo _t("<p>Enable <a href='http://maps.live.com/ target=_blank'>Microsoft Virtual Earth</a> &trade; Mapping Service by selecting the checkbox option below.</p>");
-        echo _t("<p>The Virtual Earth mapping API requires Internet connectivity</p>");
+        echo '<p>'._t("Enable").' <a href="http://maps.live.com" target=_blank>Microsoft Virtual Earth</a> &trade; '._t("Mapping Service by selecting the checkbox option below").'.</p>';
+        echo '<p>'._t("The Virtual Earth mapping API requires Internet connectivity").'</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -36,8 +36,9 @@ class virtualearth implements layer{
 		shn_form_fsclose();
         if ($conf['gis_ol_virtualearth']==1){
             shn_form_fsopen('Viewport Settings');
-            echo _t("<p>Virtual Earth supports 3 types of layer which can each be enabled separately</p>");
-            echo _t("<p>(If none are selected then no Virtual Earth layer will appear)</p>");
+            echo '<p>'._t("Virtual Earth supports 3 types of layer which can each be enabled separately").'</p>';
+            echo '<p>('._t("If none are selected then no Virtual Earth layer will appear").')</p>';
+            echo '<br />';
             $checked='';
             if ($conf['gis_ol_virtualearth_maps']==1){
                 $checked='checked';

@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.14 2008-05-18 21:17:50 franboon Exp $
+* @version		$Id: multimap.inc,v 1.15 2008-05-18 22:15:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -39,9 +39,9 @@ class multimap implements layer{
         if ($conf['gis_ol_multimap']==1){
             shn_form_fsopen('API Key');
             shn_form_fsopen('INFO');
-            echo _t("<p>Multimap requires a  key for operation</p>");
-            echo _t("<p>Register a multimap key, and enter it below</p>");
-            echo _t("<p>You can register your own Multimap key at: <a href='http://multimap.com/' target=_blank>Multimap</a></p>");
+            echo '<p>'._t("Multimap requires a  key for operation").'</p>';
+            echo '<p>'._t("Register a multimap key, and enter it below").'</p>';
+            echo '<p>('._t("You can register your own Multimap key at").': <a href="http://multimap.com" target=_blank>Multimap</a>)</p>';
             shn_form_fsclose();
             shn_form_fsopen('Enter API Key');
             shn_form_text(_t("Enter Multimap Key"),"gis_multimap_key",'size="100"',array('value'=>$conf['gis_multimap_key']));

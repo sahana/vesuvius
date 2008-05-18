@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.23 2008-05-18 21:50:45 franboon Exp $
+* @version     $Id: wms.inc,v 1.24 2008-05-18 22:15:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,8 +22,8 @@ class wms implements layer{
         global $conf;
         shn_form_fsopen(_t('WMS'));
         shn_form_fsopen(_t('INFO'));
-        echo _t("<p>Sahana can make use of Maps from servers using the <a href='http://www.opengeospatial.org/standards/wms' target=_blank>WMS (Web Map Service)</a> standard </p>");
-        echo _t("<p>Enable WMS Layers by selecting the checkbox option below.</p>");
+        echo '<p>Sahana ' . _t("can make use of Maps from servers using the").' <a href="http://www.opengeospatial.org/standards/wms" target=_blank>WMS (Web Map Service)</a> '._t("standard")  . '.</p>';
+        echo '<p>' . _t("Enable WMS Layers by selecting the checkbox option below.")  . '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -39,10 +39,10 @@ class wms implements layer{
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $url_help=_t("Address of the WMS service - without Options (mandatory)");
-            $type_help=_t("Only one 'Base' layer can be displayed at a time.<br>Multiple 'Overlay' layers can be displayed over the top.");
-            $map_help=_t("Mapfile to use with MapServer<br>e.g. '/var/www/maps/maps/example.map' (optional)");
-            $layers_help=_t("Comma-separated list of layer(s) at this WMS URL to enable (mandatory).<br>NB If you wish to be able to switch layers on/off independently then you should define a separate WMS layer for each one.");
-            $format_help=_t("Image format (optional).<br>e.g. 'image/png'");
+            $type_help=_t("Only one 'Base' layer can be displayed at a time").'.<br />'._t("Multiple 'Overlay' layers can be displayed over the top.");
+            $map_help=_t("Mapfile to use with MapServer").'.<br />'._t("e.g.").' \'/var/www/maps/maps/example.map\' ('._t("optional)");
+            $layers_help=_t("Comma-separated list of layer(s) at this WMS URL to enable (mandatory").')<br />'._t("NB If you wish to be able to switch layers on/off independently then you should define a separate WMS layer for each one.");
+            $format_help=_t("Image format (optional)").'.<br />'._t("e.g.").' \'image/png\'';
             $transparency_help=_t("usually 'false' for a Base layer & 'true' for an overlay layer");
             $visibility_help=_t("Whether the layer is visible by default (only applicable for overlays)");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");

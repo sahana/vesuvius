@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: yahoomaps.inc,v 1.10 2008-04-24 16:14:37 franboon Exp $
+* @version		$Id: yahoomaps.inc,v 1.11 2008-05-18 22:15:37 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,11 +22,11 @@ class yahoomaps implements layer{
 	{
 		global $conf;
 		shn_form_fsopen(_t('Yahoo Maps'));
-			shn_form_fsopen('Yahoo Maps');
-				shn_form_fsopen('INFO');
-					echo _t("<p>Enable <a href='http://maps.yahoo.com/' target=_blank>Yahoo Maps</a> &trade; Mapping Service" .
-							" by selecting the checkbox option below.</p>");
-					echo _t("<p>The Yahoo Maps mapping API requires Internet connectivity and a valid Yahoo Maps key</p>");
+		shn_form_fsopen('Yahoo Maps');
+		shn_form_fsopen('INFO');
+		echo '<p>' . _t("Enable <a href='http://maps.yahoo.com/' target=_blank>Yahoo Maps</a> &trade; Mapping Service" .
+			" by selecting the checkbox option below.")  . '</p>';
+		echo '<p>' . _t("The Yahoo Maps mapping API requires Internet connectivity and a valid Yahoo Maps key")  . '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -38,8 +38,9 @@ class yahoomaps implements layer{
 		shn_form_fsclose();
         if ($conf['gis_ol_yahoo']==1){
             shn_form_fsopen('Viewport Settings');
-            echo _t("<p>Yahoo supports 3 types of layer which can each be enabled separately</p>");
-            echo _t("<p>(If none are selected then no Yahoo layer will appear)</p>");
+            echo '<p>' . _t("Yahoo supports 3 types of layer which can each be enabled separately")  . '</p>';
+            echo '<p>(' . _t("If none are selected then no Yahoo layer will appear")  . ')</p>';
+            echo '<br />';
             $checked='';
             if ($conf['gis_ol_yahoo_maps']==1){
                 $checked='checked';
