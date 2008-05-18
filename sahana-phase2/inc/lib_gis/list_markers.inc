@@ -62,19 +62,32 @@ function _shn_gis_list_markers_path($path,$source_dir,$level = 1)
     global $global;
     //Files to ignore and send to /dev/null \:-|
     $ignore = array( 'CVS', '.', '..' );
+    //Read into Array ready for sorting
+    $files = array();
+    $folders = array();
     if($handle = opendir($path)){
     	while( false !== ( $file = readdir( $handle ) ) ){
 			//Not to be ignored and tossed aside...    
 	        if( !in_array( $file, $ignore ) ){
 	            if( is_dir( "$path/$file" ) ){            
-	                print("<tr><td style=\"border: 0px;\"><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td style=\"border: 0px;\">".$file."</td></tr>\n");
+	                $folders[$file]="<tr><td style=\"border: 0px;\"><img src='res/img/folder.png' onclick='list_contents(\"$file\",\"$level\");' /></td><td style=\"border: 0px;\">".$file."</td></tr>\n";
                     _shn_gis_list_folders( "$file", "$path/$file", "$source_dir/$file/",($level+1) );
 	            } 
 	            else {
-	                print("<tr><td style=\"border: 0px;\"><img src=\"$source_dir".$file."\" /></td><td style=\"border: 0px;\">".$file."</td></tr>\n");
+	                $files[$file]="<tr><td style=\"border: 0px;\"><img src=\"$source_dir".$file."\" /></td><td style=\"border: 0px;\">".$file."</td></tr>\n";
 	            }
 	        }
     	}
+        // Sort arrays
+        asort ($folders);
+    	asort ($files);
+    	// Print out to screen - folders first
+        foreach ($folders as $key => $val) {
+            echo "$val\n";
+        }
+    	foreach ($files as $key => $val) {
+            echo "$val\n";
+        }
     	closedir( $handle );
     }
 }
