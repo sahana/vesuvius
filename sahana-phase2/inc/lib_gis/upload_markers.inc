@@ -108,8 +108,12 @@ function _shn_gis_create_markers_folder()
     global $conf;
     
     if(!null==$_POST['gis_markers_folder']){
-        $new_folder=$global['approot']."www/".$conf['gis_marker_folder'].$_POST['gis_markers_folder'];
-        print "$new_folder";
+        $path=$global['approot']."www/".$conf['gis_marker_folder'];
+        $new_folder=$path.$_POST['gis_markers_folder'];
+        //check for  directory write permission
+        if(!is_writable("$path")){
+            add_error(_t("Make sure the $path folder is writable"));
+        }
         mkdir($new_folder);
     }
 }
