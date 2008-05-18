@@ -28,6 +28,10 @@ function _shn_gis_list_markers()
             if (oRequest.status==200) text = oRequest.responseText;
             
             document.getElementById(div).innerHTML = text;
+            level++;
+            var div = "contents" + level;
+            text = "";
+            document.getElementById(div).innerHTML = text;
         }
     </script>
     <?php
