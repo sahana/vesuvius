@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.38 2008-05-16 21:28:50 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.39 2008-05-19 22:17:36 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -162,6 +162,7 @@
         echo "map.addLayer(yahoomaps);\n";
     }
   }
+    // WMS
     if (1 == $conf['gis_ol_wms_enable']) {
         $projection = $conf["gis_ol_wms_projection"];
         $maxResolution = $conf["gis_ol_wms_maxResolution"];
@@ -201,7 +202,8 @@
             }
         }
     }
-
+    
+    // GeoRSS
     if (1 == $conf['gis_ol_georss_enable']) {
         $path=$conf['gis_marker_folder'];
         for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
@@ -222,6 +224,40 @@
         }
     }
 
+    // KML URL feeds
+    if (1 == $conf['gis_ol_kml_enable']) {
+        for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
+            if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
+                $name = $conf["gis_ol_kml_".$i."_name"];
+                $url = $conf["gis_ol_kml_".$i."_url"];
+                echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$url\", { projection: proj4326"; 
+                echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                echo "map.addLayer(kmllayer$i);\n";
+                if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
+                    echo "kmllayer$i.setVisibility(false);\n";
+                }
+                echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
+                echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
+                echo "map.addControl(selectControlkml$i);\n";
+                echo "selectControlkml$i.activate();\n";
+                echo "function onPopupClosekml$i(evt) {\n";
+                echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
+                echo "}\n";
+                echo "function onFeatureSelectkml$i(feature) {\n";
+                echo "    selectedFeaturekml$i = feature;\n";
+                echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                echo "        new OpenLayers.Size(100,100),\n";
+                echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                echo "        null, true, onPopupClosekml$i);\n";
+                echo "    feature.popup = popup;\n";
+                echo "    map.addPopup(popup);\n";
+                echo "}\n";
+            }
+        }
+    }
+ 
+    // Files
     if (1 == $conf['gis_ol_files_enable']) {
         for ($i = 1; $i <= $conf['gis_ol_files']; $i++) {
             if (1==$conf["gis_ol_files_".$i."_enabled"]) {

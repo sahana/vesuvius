@@ -49,7 +49,7 @@ if(isset($file)){
     }
     //check for correct extension
     else if(!in_array($ext,$extensions)){
-        add_error("<b>".strtoupper($ext)."</b> : "._t("Please upload a file with one of these extensions:") . '".kml", ".kmz", ".osm", ".xml"');
+        add_error("<b>".strtoupper($ext)."</b> : "._t("Please upload a file with one of these extensions:").'".kml", ".kmz", ".osm", ".xml"');
     }
     //check for file write permission
     else if(file_exists($_SESSION['gis']['file']) && !is_writable($_SESSION['gis']['file'])){
@@ -84,19 +84,27 @@ if(isset($file)){
                                 $lines=file($input);
                                 $handle = fopen($output, 'w');
                                 foreach ($lines as $line_num => $line) {
+                                    // Rewrite file to use correct path
                                     $search="<img src='";
                                     $replace="<img src='res/OpenLayers/files/";
                                     $line_out=str_replace($search,$replace,$line);
                                     $search="<href>";
                                     $replace="<href>res/OpenLayers/files/";
                                     $line=str_replace($search,$replace,$line_out);
+                                    // If the URL was remote not local, then put it back!
                                     $search="<href>res/OpenLayers/files/http://";
                                     $replace="<href>http://";
                                     $line_out=str_replace($search,$replace,$line);
                                     fwrite($handle, $line_out);
                                 }
                                 fclose($handle);
-                                rename($output, $input);
+                                // All KMZ files seem to have just 'doc.kml' inside so make them more identifable & support multiple simultaneous uploads
+                                // (Multiple files in the normal 'files' folder are less likely to collide, but could be fixed by more rewriting)
+                                $basename=reset(explode('.',$_FILES['load']['name']));
+                                $newname = $dir.$basename.".kml";
+                                rename($output, $newname);
+                                // remove non-rewritten file:
+                                unlink ($input);
                             }
                         }
                     }
@@ -109,7 +117,7 @@ if(isset($file)){
                 if(version_compare(phpversion(), "5.2.0", "<"))
                     $infoVersion="(use PHP 5.2.0+ or <a href=\"http://pecl.php.net/package/zip\" target=_blank>PECL</a>)";
                     
-                add_error(_t("You need to install/enable the php_zip extension $infoVersion to decompress KMZ files.")); 
+                add_error(_t("You need to install/enable the php_zip extension")." $infoVersion "._t("to decompress KMZ files.")); 
             }
         }
     }
@@ -124,8 +132,10 @@ _shn_gis_upload_files_form();
 function _shn_gis_upload_files_form()
 {
 	print '<h2>'._t("Upload Files").'</h2>';
-    print '<p>'._t("This form allows uploading of files in ").'<a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a>' . _t(" or ") . '<a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a>' . _t(" format to ") . 'www/res/OpenLayers/files</p>';
-    print '<p>'._t("File should have one of the following extensions:") . '.kml, .kmz, .osm' . _t(" or ") . '.xml</p>';
+    print '<p>'._t("This form allows uploading of files in").' <a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>, <a href="http://wiki.openstreetmap.org/index.php/Protocol" target=_blank>OSM</a> '._t("or").' <a href="http://en.wikipedia.org/wiki/Geography_Markup_Language" target=_blank>GML</a> '._t("format to").' www/res/OpenLayers/files</p>';
+    print '<p>KMZ '._t("files will be unzipped upon upload").'.</p>';
+    print '<p>'._t("NB Be sure that the file contains the actual data you want & isn't simply a 'Network Link'").'.</p>';
+    print '<p>'._t("File should have one of the following extensions:").'.kml, .kmz, .osm '._t("or").' .xml</p>';
 
 	global $global;
 	include_once $global['approot']."/inc/lib_form.inc";
