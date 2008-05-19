@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.28 2008-05-18 15:35:07 franboon Exp $;
+* @version      $Id: gis_conf.inc,v 1.29 2008-05-19 07:36:44 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -146,15 +146,24 @@ $conf['gis_ol_wms_1_enabled'] = '1';
  * Counter for OpenLayers GeoRSS layers
  * 0 for off; positive integer for how many layers are on
  */
-$conf['gis_ol_georss'] ='1';
+$conf['gis_ol_georss'] ='2';
 $conf['gis_ol_georss_enable']='0';
 $conf['gis_ol_georss_marker']='marker-red.png';
 $conf['gis_ol_georss_marker_size'] = '21,25';
 
 $conf['gis_ol_georss_1_name'] = 'Earthquakes';
-$conf['gis_ol_georss_1_description'] = '';
+$conf['gis_ol_georss_1_description'] = 'USGS: Global 7-day';
 $conf['gis_ol_georss_1_url'] = 'http://earthquake.usgs.gov/eqcenter/catalogs/eqs7day-M2.5.xml';
 $conf['gis_ol_georss_1_icon'] = 'ersSymbolsV0202/Natural_Events/Geo_Earth_Quake_Epicenter.png';
+$conf['gis_ol_georss_1_icon_size'] = '25,25';
+$conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
+$conf['gis_ol_georss_1_visibility'] = '0';
+$conf['gis_ol_georss_1_enabled'] = '0';
+
+$conf['gis_ol_georss_1_name'] = 'Volcanoes';
+$conf['gis_ol_georss_1_description'] = 'USGS: US recent';
+$conf['gis_ol_georss_1_url'] = 'http://volcano.wr.usgs.gov/rss/vhpcaprss.xml';
+$conf['gis_ol_georss_1_icon'] = 'ersSymbolsV0202/Natural_Events/Geo_Volcanic_Threat.png';
 $conf['gis_ol_georss_1_icon_size'] = '25,25';
 $conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
 $conf['gis_ol_georss_1_visibility'] = '0';
