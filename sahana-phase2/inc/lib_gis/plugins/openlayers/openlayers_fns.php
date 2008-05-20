@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.39 2008-05-19 22:17:36 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.40 2008-05-20 20:46:00 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -259,54 +259,61 @@
  
     // Files
     if (1 == $conf['gis_ol_files_enable']) {
+        $errors_files="";
         for ($i = 1; $i <= $conf['gis_ol_files']; $i++) {
             if (1==$conf["gis_ol_files_".$i."_enabled"]) {
                 $name = $conf["gis_ol_files_".$i."_name"];
                 $filename = $conf["gis_ol_files_".$i."_filename"];
-                $ext=end(explode('.',$filename));
                 $path='res/OpenLayers/files/'.$filename;
-                echo "var fileslayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\", { projection: proj4326"; 
-                if ("KML"==strtoupper($ext)) {
-                    echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
-                }
-                else if ("OSM"==strtoupper($ext)) {
-                    echo ", format: OpenLayers.Format.OSM});\n";
-                }
-                else {
-                //GML
-                    echo "});\n";
-                }
-                echo "map.addLayer(fileslayer$i);\n";
-                if ("0" == $conf["gis_ol_files_".$i."_visibility"]) {
-                    echo "fileslayer$i.setVisibility(false);\n";
-                }
-                if ("OSM"==strtoupper($ext)) {
-                    echo "fileslayer$i.preFeatureInsert = style_osm_feature;\n";
-                    echo "var sf$i = new OpenLayers.Control.SelectFeature(fileslayer$i, {'onSelect': on_feature_hover});\n";
-                    echo "map.addControl(sf$i);\n";
-                    echo "sf$i.activate();\n";
-                }
-                if ("KML"==strtoupper($ext)) {
-                    echo "selectControl$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(fileslayer$i)],\n";
-                    echo "{onSelect: onFeatureSelect$i, onUnselect: onFeatureUnselect});\n";
-                    echo "map.addControl(selectControl$i);\n";
-                    echo "selectControl$i.activate();\n";
-                    echo "function onPopupClose$i(evt) {\n";
-                    echo "    selectControl$i.unselect(selectedFeature$i);\n";
-                    echo "}\n";
-                    echo "function onFeatureSelect$i(feature) {\n";
-                    echo "    selectedFeature$i = feature;\n";
-                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                    echo "        new OpenLayers.Size(100,100),\n";
-                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                    echo "        null, true, onPopupClose$i);\n";
-                    echo "    feature.popup = popup;\n";
-                    echo "    map.addPopup(popup);\n";
-                    echo "}\n";
+                if(file_exists($path)){
+                    $ext=end(explode('.',$filename));
+                    echo "var fileslayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\", { projection: proj4326"; 
+                    if ("KML"==strtoupper($ext)) {
+                        echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                    }
+                    else if ("OSM"==strtoupper($ext)) {
+                        echo ", format: OpenLayers.Format.OSM});\n";
+                    }
+                    else {
+                        //GML
+                        echo "});\n";
+                    }
+                    echo "map.addLayer(fileslayer$i);\n";
+                    if ("0" == $conf["gis_ol_files_".$i."_visibility"]) {
+                        echo "fileslayer$i.setVisibility(false);\n";
+                    }
+                    if ("OSM"==strtoupper($ext)) {
+                        echo "fileslayer$i.preFeatureInsert = style_osm_feature;\n";
+                        echo "var sf$i = new OpenLayers.Control.SelectFeature(fileslayer$i, {'onSelect': on_feature_hover});\n";
+                        echo "map.addControl(sf$i);\n";
+                        echo "sf$i.activate();\n";
+                    }
+                    if ("KML"==strtoupper($ext)) {
+                        echo "selectControl$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(fileslayer$i)],\n";
+                        echo "{onSelect: onFeatureSelect$i, onUnselect: onFeatureUnselect});\n";
+                        echo "map.addControl(selectControl$i);\n";
+                        echo "selectControl$i.activate();\n";
+                        echo "function onPopupClose$i(evt) {\n";
+                        echo "    selectControl$i.unselect(selectedFeature$i);\n";
+                        echo "}\n";
+                        echo "function onFeatureSelect$i(feature) {\n";
+                        echo "    selectedFeature$i = feature;\n";
+                        echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "        new OpenLayers.Size(100,100),\n";
+                        echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                        echo "        null, true, onPopupClose$i);\n";
+                        echo "    feature.popup = popup;\n";
+                        echo "    map.addPopup(popup);\n";
+                        echo "}\n";
+                    }
+                } else {
+                    $errors_files.='<b>'._t("Warning")."</b>: \"$filename\" "._t("not found").". \"$name\" "._t("layer not loaded").'.<br />';
                 }
             }
         }
+    echo "errors_files='$errors_files';\n";
+    echo "ReportErrors('status_files',errors_files);\n";
     }
 ?>
 	// http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
@@ -565,10 +572,14 @@ function ol_osm_getTileURL()
     // close init()
     echo "}\n";
     ?>
+    // For KML layers
     function onFeatureUnselect(feature) {
         map.removePopup(feature.popup);
         feature.popup.destroy();
         feature.popup = null;
+    }
+    function ReportErrors(div,text) {
+         $(div).innerHTML = text;
     }
     function on_feature_hover(feature) {
             var text ="<ul>";
@@ -581,7 +592,7 @@ function ol_osm_getTileURL()
                 text += "<li>" + key + ": " + feature.attributes[key] + "</li>";
             }
             text += "</ul>";
-            $("status").innerHTML = text;
+            $("status_osm").innerHTML = text;
     }
     <?php
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
