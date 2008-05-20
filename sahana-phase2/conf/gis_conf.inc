@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.29 2008-05-19 07:36:44 franboon Exp $;
+* @version      $Id: gis_conf.inc,v 1.30 2008-05-20 09:17:37 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -160,13 +160,13 @@ $conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
 $conf['gis_ol_georss_1_visibility'] = '0';
 $conf['gis_ol_georss_1_enabled'] = '0';
 
-$conf['gis_ol_georss_1_name'] = 'Volcanoes';
-$conf['gis_ol_georss_1_description'] = 'USGS: US recent';
-$conf['gis_ol_georss_1_url'] = 'http://volcano.wr.usgs.gov/rss/vhpcaprss.xml';
-$conf['gis_ol_georss_1_icon'] = 'ersSymbolsV0202/Natural_Events/Geo_Volcanic_Threat.png';
-$conf['gis_ol_georss_1_icon_size'] = '25,25';
-$conf['gis_ol_georss_1_projection'] = 'EPSG:4326';
-$conf['gis_ol_georss_1_visibility'] = '0';
-$conf['gis_ol_georss_1_enabled'] = '0';
+$conf['gis_ol_georss_2_name'] = 'Volcanoes';
+$conf['gis_ol_georss_2_description'] = 'USGS: US recent';
+$conf['gis_ol_georss_2_url'] = 'http://volcano.wr.usgs.gov/rss/vhpcaprss.xml';
+$conf['gis_ol_georss_2_icon'] = 'ersSymbolsV0202/Natural_Events/Geo_Volcanic_Threat.png';
+$conf['gis_ol_georss_2_icon_size'] = '25,25';
+$conf['gis_ol_georss_2_projection'] = 'EPSG:4326';
+$conf['gis_ol_georss_2_visibility'] = '0';
+$conf['gis_ol_georss_2_enabled'] = '0';
 
 ?>
