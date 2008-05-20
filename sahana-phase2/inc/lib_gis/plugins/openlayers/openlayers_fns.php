@@ -8,14 +8,14 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.40 2008-05-20 20:46:00 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.41 2008-05-20 22:48:53 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 /**
  * Load Javascript files for the different layers
  * called by show_map in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_js_loaders()
  {
@@ -71,7 +71,7 @@
 /**
  * Load Layers onto the Map
  * called by show_map in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_layers()
  {
@@ -205,56 +205,153 @@
     
     // GeoRSS
     if (1 == $conf['gis_ol_georss_enable']) {
-        $path=$conf['gis_marker_folder'];
-        for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
-            if (1==$conf["gis_ol_georss_".$i."_enabled"]) {
-                $name = $conf["gis_ol_georss_".$i."_name"];
-                $url = $conf["gis_ol_georss_".$i."_url"];
-                $icon = $conf["gis_ol_georss_".$i."_icon"];
-                $iconsize = $conf["gis_ol_georss_".$i."_icon_size"];
-                $projection = $conf["gis_ol_georss_".$i."_projection"];
-                echo "var icongeorss$i = new OpenLayers.Icon(\"$path$icon\", new OpenLayers.Size($iconsize));\n";
-                echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
-                echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i, icon: icongeorss$i});\n"; 
-                echo "map.addLayer(georsslayer$i);\n";
-                if ("0" == $conf["gis_ol_georss_".$i."_visibility"]) {
-                    echo "georsslayer$i.setVisibility(false);\n";
+        $folder=$conf['gis_marker_folder'];
+        $errors_georss="";
+        $check = curl_init();
+        // Safer to check this than using function_exists() as it catches disable_functions in php.ini too
+        if(!FALSE==$check){
+            $dir = $global['approot'].'www/tmp/georss_cache';
+            mkdir($dir);
+            for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
+                if (1==$conf["gis_ol_georss_".$i."_enabled"]) {
+                    $name = $conf["gis_ol_georss_".$i."_name"];
+                    $url = $conf["gis_ol_georss_".$i."_url"];
+                    $file=end(explode('/',$url));
+                    $path = $dir."/".$file;
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL,$url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);  
+                    $xmlResponse = curl_exec($ch);
+                    $errnum=curl_errno($ch);
+                    curl_close($ch);
+                    // if no errors
+                    if (!0==$errnum) {
+                        if (!file_exists($path)) {
+                            $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible & no cached copy available").". \"$name\" "._t("layer not loaded").'.<br />';
+                            $display=0;
+                        } else {
+                            $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible").". \"$name\" "._t("layer loaded from cache").'.<br />';
+                            $display=1;
+                        }
+                    } else {
+                        // write out file
+                        // ToDo: Catch for folder/file not being writable
+                        $handle = fopen($path, 'w');
+                        fwrite($handle, $xmlResponse);
+                        fclose($handle);
+                        $display=1;
+                    }
+                    if (1==$display) {
+                        $path='tmp/georss_cache/'.$file;
+                        $icon = $conf["gis_ol_georss_".$i."_icon"];
+                        $iconsize = $conf["gis_ol_georss_".$i."_icon_size"];
+                        $projection = $conf["gis_ol_georss_".$i."_projection"];
+                        echo "var icongeorss$i = new OpenLayers.Icon(\"$folder$icon\", new OpenLayers.Size($iconsize));\n";
+                        echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
+                        echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$path\", {projection: projgeorss$i, icon: icongeorss$i});\n"; 
+                        echo "map.addLayer(georsslayer$i);\n";
+                        if ("0" == $conf["gis_ol_georss_".$i."_visibility"]) {
+                            echo "georsslayer$i.setVisibility(false);\n";
+                        }
+                    }
+                }
+            }
+        } else {
+            $errors_georss='<b>'._t("Warning").'</b>: '._t("PHP has no libcurl support. GeoRSS layers not being cached").'.<br />';
+            for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
+                if (1==$conf["gis_ol_georss_".$i."_enabled"]) {
+                    $name = $conf["gis_ol_georss_".$i."_name"];
+                    $url = $conf["gis_ol_georss_".$i."_url"];
+                    $icon = $conf["gis_ol_georss_".$i."_icon"];
+                    $iconsize = $conf["gis_ol_georss_".$i."_icon_size"];
+                    $projection = $conf["gis_ol_georss_".$i."_projection"];
+                    echo "var icongeorss$i = new OpenLayers.Icon(\"$folder$icon\", new OpenLayers.Size($iconsize));\n";
+                    echo "var projgeorss$i = new OpenLayers.Projection(\"$projection\");\n";
+                    echo "var georsslayer$i = new OpenLayers.Layer.GeoRSS( \"$name\", \"$url\", {projection: projgeorss$i, icon: icongeorss$i});\n"; 
+                    echo "map.addLayer(georsslayer$i);\n";
+                    if ("0" == $conf["gis_ol_georss_".$i."_visibility"]) {
+                        echo "georsslayer$i.setVisibility(false);\n";
+                    }
                 }
             }
         }
+        curl_close($check);
+        echo "errors_georss='$errors_georss';\n";
+        echo "ReportErrors('status_georss',errors_georss);\n";
     }
 
     // KML URL feeds
     if (1 == $conf['gis_ol_kml_enable']) {
-        for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
-            if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
-                $name = $conf["gis_ol_kml_".$i."_name"];
-                $url = $conf["gis_ol_kml_".$i."_url"];
-                echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$url\", { projection: proj4326"; 
-                echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
-                echo "map.addLayer(kmllayer$i);\n";
-                if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
-                    echo "kmllayer$i.setVisibility(false);\n";
+        $errors_kml="";
+        $check = curl_init();
+        // Safer to check this than using function_exists() as it catches disable_functions in php.ini too
+        if(!FALSE==$check){
+            // Download KML/KMZ files & cache before display
+            for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
+                if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
+                    $name = $conf["gis_ol_kml_".$i."_name"];
+                    $url = $conf["gis_ol_kml_".$i."_url"];
+                    echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$url\", { projection: proj4326"; 
+                    echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                    echo "map.addLayer(kmllayer$i);\n";
+                    if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
+                        echo "kmllayer$i.setVisibility(false);\n";
+                    }
+                    echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
+                    echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
+                    echo "map.addControl(selectControlkml$i);\n";
+                    echo "selectControlkml$i.activate();\n";
+                    echo "function onPopupClosekml$i(evt) {\n";
+                    echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
+                    echo "}\n";
+                    echo "function onFeatureSelectkml$i(feature) {\n";
+                    echo "    selectedFeaturekml$i = feature;\n";
+                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                    echo "        new OpenLayers.Size(100,100),\n";
+                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                    echo "        null, true, onPopupClosekml$i);\n";
+                    echo "    feature.popup = popup;\n";
+                    echo "    map.addPopup(popup);\n";
+                    echo "}\n";
                 }
-                echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
-                echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
-                echo "map.addControl(selectControlkml$i);\n";
-                echo "selectControlkml$i.activate();\n";
-                echo "function onPopupClosekml$i(evt) {\n";
-                echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
-                echo "}\n";
-                echo "function onFeatureSelectkml$i(feature) {\n";
-                echo "    selectedFeaturekml$i = feature;\n";
-                echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                echo "        new OpenLayers.Size(100,100),\n";
-                echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                echo "        null, true, onPopupClosekml$i);\n";
-                echo "    feature.popup = popup;\n";
-                echo "    map.addPopup(popup);\n";
-                echo "}\n";
+            }
+         } else {
+            $errors_kml='<b>'._t("Warning").'</b>: '._t("PHP has no libcurl support. KML layers not being cached & no support possible for KMZ files").'.<br />';
+            // Load KML files direct via URL
+            for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
+                if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
+                    $name = $conf["gis_ol_kml_".$i."_name"];
+                    $url = $conf["gis_ol_kml_".$i."_url"];
+                    echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$url\", { projection: proj4326"; 
+                    echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                    echo "map.addLayer(kmllayer$i);\n";
+                    if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
+                        echo "kmllayer$i.setVisibility(false);\n";
+                    }
+                    echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
+                    echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
+                    echo "map.addControl(selectControlkml$i);\n";
+                    echo "selectControlkml$i.activate();\n";
+                    echo "function onPopupClosekml$i(evt) {\n";
+                    echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
+                    echo "}\n";
+                    echo "function onFeatureSelectkml$i(feature) {\n";
+                    echo "    selectedFeaturekml$i = feature;\n";
+                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                    echo "        new OpenLayers.Size(100,100),\n";
+                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                    echo "        null, true, onPopupClosekml$i);\n";
+                    echo "    feature.popup = popup;\n";
+                    echo "    map.addPopup(popup);\n";
+                    echo "}\n";
+                }
             }
         }
+        curl_close($check);
+        echo "errors_kml='$errors_kml';\n";
+        echo "ReportErrors('status_kml',errors_kml);\n";
     }
  
     // Files
@@ -312,8 +409,8 @@
                 }
             }
         }
-    echo "errors_files='$errors_files';\n";
-    echo "ReportErrors('status_files',errors_files);\n";
+        echo "errors_files='$errors_files';\n";
+        echo "ReportErrors('status_files',errors_files);\n";
     }
 ?>
 	// http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
@@ -326,7 +423,7 @@
 /**
  * Allow addition of a Marker
  * called by show_add_marker_map in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_add_marker($name)
  {
@@ -367,7 +464,7 @@
 /**
  * Show the Markers layer
  * called by show_map in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_show_markers($array)
  {
@@ -426,7 +523,7 @@
 /**
  * Show the Markers layer with Wiki information
  * called by show_map in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_show_wiki_markers($array)
  {
@@ -502,7 +599,7 @@
 /**
  * Show the Markers layer with custom markers
  * called by show_map_with_custom_markers in openlayers plugin handler
- * @access private
+ * @access public
  */
  function ol_show_custom_markers($array)
  {
@@ -564,7 +661,7 @@
  * Function to support OSM layers
  * + function to support KML popups unselect
  * called by all show functions in openlayers plugin handler
- * @access private
+ * @access public
  */
 function ol_osm_getTileURL()
 {
