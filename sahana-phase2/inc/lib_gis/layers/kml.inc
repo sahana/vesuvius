@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: kml.inc,v 1.1 2008-05-19 22:17:36 franboon Exp $
+* @version     	$Id: kml.inc,v 1.2 2008-05-20 14:39:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -35,10 +35,9 @@ class kml implements layer{
     {
     	global $conf;
     	shn_form_fsopen(_t('INFO'));
-        echo '<p>'._t("Sahana can make use of Feeds from servers using the").' <a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a>'._t(" standard.").'</p>';
-        echo '<p>'._t("Currently there is no support for KMZ files - this will come later").'...</p>';
-        echo '<p>'._t("If wishing to use locally-held KML/KMZ files, then").' <a href="?mod=admin&act=gis_files">'._t("upload them").'</a> & '._t("use the Files layer to display them instead."). '</p>';
-        echo '<p>'._t("Enable KML Feeds by selecting the checkbox option below."). '</p>';
+        echo '<p>'._t("Enable access to live").' <a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a> '._t("feeds by selecting the checkbox option below.").'</p>';
+        echo '<p>'._t("Currently there is no support for KMZ feeds - this will come later").'...</p>';
+        echo '<p>'._t("If wishing to use locally-held KML/KMZ files (e.g. to avoid having to keep downloading a large remote file), then").' <a href="?mod=admin&act=gis_files">'._t("upload them").'</a> & '._t("use the Files layer to display them instead."). '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';

@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.24 2008-05-18 22:15:37 franboon Exp $
+* @version     $Id: wms.inc,v 1.25 2008-05-20 14:39:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -22,8 +22,8 @@ class wms implements layer{
         global $conf;
         shn_form_fsopen(_t('WMS'));
         shn_form_fsopen(_t('INFO'));
-        echo '<p>Sahana ' . _t("can make use of Maps from servers using the").' <a href="http://www.opengeospatial.org/standards/wms" target=_blank>WMS (Web Map Service)</a> '._t("standard")  . '.</p>';
-        echo '<p>' . _t("Enable WMS Layers by selecting the checkbox option below.")  . '</p>';
+        echo '<p>'._t("Enable access to maps from servers using the").' <a href="http://www.opengeospatial.org/standards/wms" target=_blank>WMS (Web Map Service)</a> '._t("standard by selecting the checkbox option below").'.</p>';
+		echo '<p>'._t("These servers could be local or accessed over the Internet").'.</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';

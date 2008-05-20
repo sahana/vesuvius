@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: multimap.inc,v 1.16 2008-05-18 22:25:37 franboon Exp $
+* @version		$Id: multimap.inc,v 1.17 2008-05-20 14:39:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -25,7 +25,7 @@ class multimap implements layer{
         shn_form_fsopen('Multimap');
         shn_form_fsopen('INFO');
         echo '<p>'._t("Enable").' <a href="http://multimap.com/" target=_blank>Multimap</a> &trade; '._t("Mapping Service by selecting the checkbox option below.").'</p>';
-        echo '<p>'._t("The Multimap mapping API requires Internet connectivity and a valid Multimap key").'</p>';
+        echo '<p>'._t("The Multimap mapping API requires Internet connectivity and a valid Multimap key").'.</p>';
         echo '<p><b>'._t("NB The Multimap layer currently doesn't work well due to an").' <a href="http://dev.openlayers.org/releases/OpenLayers-2.6/doc/apidocs/files/OpenLayers/Layer/MultiMap-js.html" target=_blank>OpenLayers-2.6</a> '._t("limitation").' '._t("with this projection").'!</b></p>';
         if (!0==$conf['gis_ol_wms_projections']) {
             echo '<h1>'._t("MultiMap base layer is currently DISABLED due to use of a").' <a href="index.php?mod=admin&act=gis_projections" target=_blank>'._t("non-SphericalMercator Projection").'</a>!</h1>';

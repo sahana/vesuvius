@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.18 2008-05-18 15:44:03 franboon Exp $
+* @version     	$Id: georss.inc,v 1.19 2008-05-20 14:39:32 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -35,8 +35,7 @@ class georss implements layer{
     {
     	global $conf;
     	shn_form_fsopen(_t('INFO'));
-        echo '<p>' . _t("Sahana can make use of Feeds from servers using the ") . '<a href="http://en.wikipedia.org/wiki/GeoRSS" target=_blank>GeoRSS</a>' . _t(" standard."). '</p>';
-        echo '<p>' . _t("Enable GeoRSS Layers by selecting the checkbox option below."). '</p>';
+        echo '<p>'._t("Enable access to live").' <a href="http://en.wikipedia.org/wiki/GeoRSS" target=_blank>GeoRSS</a> '._t("feeds by selecting the checkbox option below").'.</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
@@ -79,7 +78,8 @@ class georss implements layer{
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $url_help=_t("Address of the GeoRSS service (mandatory)");
-            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be uploaded via the").'<a href="index.php?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a>'._t(" (optional). Defaults to")." 'marker-red.png'";
+            $icon_default=$conf['gis_ol_georss_marker'];
+            $icon_help=_t("Which icon to use to display the markers for this GeoRSS feed. Icons can be viewed/uploaded via the").' <a href="?mod=admin&act=gis_markers" target=_blank>'._t("GIS Markers Management").'</a> '._t("(optional). Current default is")." '$icon_default'";
             $projection_help=_t("Coordinate system used to display the data, as defined by ").'<a href="http://www.epsg.org" target=_blank>'._t("European Petroleum Survey Group").'</a>'._t(" (mandatory). If left blank, then ").'EPSG:4326'._t(" is assumed as this is the default ").'WGS84.';
             $visibility_help=_t("Whether the layer is visible by default");
             $enabled_help=_t("Whether the layer is selectable from the Map or not");
