@@ -324,7 +324,8 @@ function _shn_rms_mng_addff($max_qty)
     print '<br />';
     print '</div>';
     
-    _shn_rms_view_reqff($req_id);
+   //_shn_rms_view_reqff($req_id);
+   _shn_rms_view_req_item($req_id,$req_item);
     
     _shn_html_print_message(_t("Allocate items from the selected pledge to the request"));
     
@@ -350,7 +351,7 @@ function _shn_rms_mng_addff($max_qty)
 
 function _shn_rms_allocate_item($ct_uuid, $inv_id)
 {
-    global $global;
+	global $global;
     $db=$global['db'];
     $sql="SELECT name FROM ct_catalogue WHERE ct_uuid='$ct_uuid';";
     $res=$db->Execute($sql);
@@ -360,6 +361,11 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
 //print $sql1;
     $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
     $res2=$db->Execute($sql2);
+    
+    $req_id = $_SESSION['rms_req_id'];
+    _shn_rms_view_req_item($req_id,$ct_uuid);
+     _shn_html_print_message(_t("Allocate items from the selected inventory to the request"));
+    
     shn_form_fopen('fullfill_from_inventory');
     shn_form_fsopen(_t('Allocate'));
     shn_form_text(_t('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));

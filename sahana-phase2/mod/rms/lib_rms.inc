@@ -542,7 +542,10 @@ function _shn_rms_get_itemname($itm_id)
 	elseif (1 <= $rs->RecordCount())
 	{
 		$rs = $rs->GetArray();
-		return $rs[0][0];
+		if ($rs[0][0] != NULL)
+			return $rs[0][0];
+		else
+			return $rs[0]['name'];
 	}
 
 	return false;
@@ -564,7 +567,10 @@ function _shn_rms_get_iunit_name($unit_id)
 	elseif (1 <= $rs->RecordCount())
 	{
 		$rs = $rs->GetArray();
-		return $rs[0][0];
+		if($rs[0][0] != NULL)
+			return $rs[0][0];
+		else
+			return $rs[0]['name'];
 	}
 
 	return false;
@@ -1123,6 +1129,32 @@ function _shn_rms_view_location($loc_id, $summary=false)
 //}
 print '</div>';
 }
+
+function _shn_rms_view_req_item($req_id, $req_item){
+	global $global;
+	
+	$sql = "SELECT quantity,pri_uuid FROM rms_req_item WHERE req_uuid = '$req_id' AND item_uuid = '$req_item'";
+	$res = $global['db']->Execute($sql);
+	$fulfiled = 0;
+	if ($res->RecordCount() > 0){
+		$sql2 = "SELECT SUM(quantity) as qty FROM rms_fulfil WHERE req_uuid = '$req_id' AND item_uuid = '$req_item'";
+		$res2 = $global['db']->Execute($sql2);
+		if ($res2->RecordCount() > 0){
+			$fulfiled = $res2->fields[0];
+		}
+		$tb_items[] = array (
+		_shn_rms_get_itemname($req_item),
+		$res->fields['quantity'],
+		$fulfiled,
+		_shn_rms_get_priorityname($res->fields['pri_uuid'])
+		);
+	}
+	$th_items[] = array (_t("Item"), _t("Quantity"), _t("Fulfiled Quantity"), _t("Item Priority"));
+	print '<h4>' . _t("Requested Item") . '</h4>';
+	shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
+	print '<br />';
+}
+
 function _shn_rms_view_reqitems($req_id)
 {
 	global $global;
@@ -1180,8 +1212,10 @@ function _shn_rms_view_reqff($req_id)
            "ON ff.item_uuid=req.item_uuid " .
            "AND req.req_uuid=ff.req_uuid " .
            "WHERE req.req_uuid='$req_id'";
-
-	$rs = $global['db']->Execute($sql);
+           
+    $extra_opt=array('return'=>true, 'post'=>true);
+	$rs=shn_paging_get_report($sql,5,$headers=NULL,$extra_opt);
+	//$rs = $global['db']->Execute($sql);
 
 	if ($rs === false)
 	{
@@ -1200,7 +1234,7 @@ function _shn_rms_view_reqff($req_id)
 		return false;
 	}
 
-	$th_items[] = array (_t("Item"), _t("Priority"), _t("Requested"), _t("Fulfiled"), _t("Date"));
+	$th_items[] = array (_t("Item"), _t("Priority"), _t("Fulfiled"), _t("Date"));
 	foreach ($rms_items as $itm)
 	{
 		$sel_url = '<a href=index.php?mod=rms&amp;act=mng_ff' .
@@ -1208,11 +1242,9 @@ function _shn_rms_view_reqff($req_id)
                     '&amp;req_id=' . $req_id .
                     '&amp;itm_id=' . $itm['item_uuid'] .'>' .
 		_t("Select") . '</a>';
-
 		$tb_items[] = array (
 		_shn_rms_get_itemname($itm['item_uuid']),
 		_shn_rms_get_priorityname($itm['pri_uuid']),
-		$itm['req_qty'] . " " . _shn_rms_get_iunit_name($itm['unit']) . "",
 		$itm['ff_qty'],
 		$itm['ff_date']
 		//$sel_url
@@ -2133,4 +2165,5 @@ function _shn_rms_get_locid($range_end)
 		    return $_SESSION[$var];
 	}
 }
+
 ?>
