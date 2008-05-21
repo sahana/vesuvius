@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.42 2008-05-21 18:58:24 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.43 2008-05-21 19:17:02 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -207,9 +207,7 @@
     if (1 == $conf['gis_ol_georss_enable']) {
         $folder=$conf['gis_marker_folder'];
         $errors_georss="";
-        $check = curl_init();
-        // Safer to check this than using function_exists() as it catches disable_functions in php.ini too
-        if(!FALSE==$check){
+        if(function_exists(curl_init)){
             $dir = $global['approot'].'www/tmp/georss_cache';
             mkdir($dir);
             for ($i = 1; $i <= $conf['gis_ol_georss']; $i++) {
@@ -278,7 +276,6 @@
                 }
             }
         }
-        curl_close($check);
         echo "errors_georss='$errors_georss';\n";
         echo "ReportErrors('status_georss',errors_georss);\n";
     }
@@ -286,37 +283,68 @@
     // KML URL feeds
     if (1 == $conf['gis_ol_kml_enable']) {
         $errors_kml="";
-        $check = curl_init();
-        // Safer to check this than using function_exists() as it catches disable_functions in php.ini too
-        if(!FALSE==$check){
+        if(function_exists(curl_init)){
+            $dir = $global['approot'].'www/tmp/kml_cache';
+            mkdir($dir);
             // Download KML/KMZ files & cache before display
             for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
                 if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
                     $name = $conf["gis_ol_kml_".$i."_name"];
                     $url = $conf["gis_ol_kml_".$i."_url"];
-                    echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$url\", { projection: proj4326"; 
-                    echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
-                    echo "map.addLayer(kmllayer$i);\n";
-                    if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
-                        echo "kmllayer$i.setVisibility(false);\n";
+                    $file=end(explode('/',$url));
+                    $path = $dir."/".$file;
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL,$url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);  
+                    $xmlResponse = curl_exec($ch);
+                    $errnum=curl_errno($ch);
+                    curl_close($ch);
+                    // if no errors
+                    if (!0==$errnum) {
+                        if (!file_exists($path)) {
+                            $errors_kml.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible & no cached copy available").". \"$name\" "._t("layer not loaded").'.<br />';
+                            $display=0;
+                        } else {
+                            // mtime() better on Win32
+                            $timestamp=filemtime($path);
+                            $stale=date("d M Y", $timestamp);
+                            $errors_kml.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible").". \"$name\" "._t("layer loaded from cache. Last downloaded")." $stale.<br />";
+                            $display=1;
+                        }
+                    } else {
+                        // write out file
+                        // ToDo: Catch for folder/file not being writable
+                        $handle = fopen($path, 'w');
+                        fwrite($handle, $xmlResponse);
+                        fclose($handle);
+                        $display=1;
                     }
-                    echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
-                    echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
-                    echo "map.addControl(selectControlkml$i);\n";
-                    echo "selectControlkml$i.activate();\n";
-                    echo "function onPopupClosekml$i(evt) {\n";
-                    echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
-                    echo "}\n";
-                    echo "function onFeatureSelectkml$i(feature) {\n";
-                    echo "    selectedFeaturekml$i = feature;\n";
-                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                    echo "        new OpenLayers.Size(100,100),\n";
-                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                    echo "        null, true, onPopupClosekml$i);\n";
-                    echo "    feature.popup = popup;\n";
-                    echo "    map.addPopup(popup);\n";
-                    echo "}\n";
+                    if (1==$display) {
+                        $path='tmp/kml_cache/'.$file;
+                        echo "var kmllayer$i = new OpenLayers.Layer.GML( \"$name\", \"$path\", { projection: proj4326"; 
+                        echo ", format: OpenLayers.Format.KML, formatOptions: { extractStyles: true, extractAttributes: true }});\n";
+                        echo "map.addLayer(kmllayer$i);\n";
+                        if ("0" == $conf["gis_ol_kml_".$i."_visibility"]) {
+                            echo "kmllayer$i.setVisibility(false);\n";
+                        }
+                        echo "selectControlkml$i = new OpenLayers.Control.SelectFeature(map.layers[map.getLayerIndex(kmllayer$i)],\n";
+                        echo "{onSelect: onFeatureSelectkml$i, onUnselect: onFeatureUnselect});\n";
+                        echo "map.addControl(selectControlkml$i);\n";
+                        echo "selectControlkml$i.activate();\n";
+                        echo "function onPopupClosekml$i(evt) {\n";
+                        echo "    selectControlkml$i.unselect(selectedFeaturekml$i);\n";
+                        echo "}\n";
+                        echo "function onFeatureSelectkml$i(feature) {\n";
+                        echo "    selectedFeaturekml$i = feature;\n";
+                        echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "        new OpenLayers.Size(100,100),\n";
+                        echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                        echo "        null, true, onPopupClosekml$i);\n";
+                        echo "    feature.popup = popup;\n";
+                        echo "    map.addPopup(popup);\n";
+                        echo     "}\n";
+                    }   
                 }
             }
          } else {
@@ -352,7 +380,6 @@
                 }
             }
         }
-        curl_close($check);
         echo "errors_kml='$errors_kml';\n";
         echo "ReportErrors('status_kml',errors_kml);\n";
     }
