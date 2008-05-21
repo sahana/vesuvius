@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.19 2008-05-20 14:39:32 franboon Exp $
+* @version     	$Id: georss.inc,v 1.20 2008-05-21 19:19:00 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -36,6 +36,7 @@ class georss implements layer{
     	global $conf;
     	shn_form_fsopen(_t('INFO'));
         echo '<p>'._t("Enable access to live").' <a href="http://en.wikipedia.org/wiki/GeoRSS" target=_blank>GeoRSS</a> '._t("feeds by selecting the checkbox option below").'.</p>';
+        echo '<p>'._t("Downloaded feeds are cached so that if Network access is lost, then the feed will still be available").'.</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
         $checked='';
