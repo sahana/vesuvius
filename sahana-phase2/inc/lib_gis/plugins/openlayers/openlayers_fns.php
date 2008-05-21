@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.41 2008-05-20 22:48:53 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.42 2008-05-21 18:58:24 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -230,7 +230,10 @@
                             $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible & no cached copy available").". \"$name\" "._t("layer not loaded").'.<br />';
                             $display=0;
                         } else {
-                            $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible").". \"$name\" "._t("layer loaded from cache").'.<br />';
+                            // mtime() better on Win32
+                            $timestamp=filemtime($path);
+                            $stale=date("d M Y", $timestamp);
+                            $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible").". \"$name\" "._t("layer loaded from cache. Last downloaded")." $stale.<br />";
                             $display=1;
                         }
                     } else {
