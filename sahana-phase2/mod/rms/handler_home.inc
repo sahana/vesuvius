@@ -71,6 +71,18 @@ print _t("Sahana Request Management System is a central online repository where 
         
 </ul>
 <br/>
+<div align=center><strong><?php echo _t('Status of requests') ?></strong> </div>
+<div align=center>
+<?  echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
+<strong><?echo _t("Important:")."<br/>";?></strong><?
+    echo _t("If new request has been added, It may take few minutes to update the pie chart.");
+    echo "</div>";  ?>
+</div>
+<?php
+	  shn_chart_display("shn_rms_request_status_chart");
+	  
+?>
+</div>
 <?php
     global $global;
     require_once($global['approot']."/inc/lib_rss.inc");

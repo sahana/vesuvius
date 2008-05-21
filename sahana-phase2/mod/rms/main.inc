@@ -25,6 +25,7 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
+include_once $global['approot']."/inc/lib_paging.inc";
 include_once($global['approot']."/inc/lib_dependency.inc");
 require_once 'lib_rms.inc';
 require_once 'lib_rms_db.inc';
@@ -33,6 +34,8 @@ require_once 'lib_rms_rss.inc';
 
 include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 include_once $global['approot']."/mod/ims/lib_ims.inc";
+
+include 'report.inc';
 
 function shn_rms_default()
 {
@@ -59,6 +62,12 @@ function shn_rms_mainmenu()
     shn_sub_mod_menuopen(_t("Manage"));
     shn_sub_mod_menuitem("req_ls", _t("Fulfill Request"), $module);
 //    shn_sub_mod_menuitem("mng_stat", _t("View Statistics"), $module);
+    shn_sub_mod_menuclose();
+    shn_sub_mod_menuopen(_t("Report"));
+    shn_sub_mod_menuitem("requested_items", _t("Requested Items"), $module);
+    shn_sub_mod_menuitem("items_without_request", _t("Items Inhand Without a Request"), $module);
+    shn_sub_mod_menuitem("item_by_location", _t("Items by Location"), $module);
+    shn_sub_mod_menuitem("scarcity_of_item", _t("Scarcity of Items"), $module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose() ;
     
@@ -111,4 +120,5 @@ function shn_rms_fullfill_from_inventory()
 {
     include_once('handler_mng_ff.inc');
 }
+
 ?>
