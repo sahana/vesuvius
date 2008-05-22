@@ -75,12 +75,17 @@ function _shn_page_get_rs($query,$rpp){
     }
 
     define('ADODB_FETCH_ASSOC',2);
+    define('ADODB_FETCH_BOTH',3);
     $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
     if('all'==$rpp){
         $res=$global['db']->Execute($query);	
     }else{
         $res=$global['db']->PageExecute($query, $rpp, $page);
     }
+
+    //revert the fetch mode
+    $global['db']->SetFetchMode(ADODB_FETCH_BOTH);
+
     if (!$res){add_error($global['db']->ErrorMsg());}
     return $res;
 }
