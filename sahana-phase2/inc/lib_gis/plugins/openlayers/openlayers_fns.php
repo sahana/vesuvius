@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.43 2008-05-21 19:17:02 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.44 2008-05-22 23:02:17 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -219,10 +219,11 @@
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL,$url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);  
+                    curl_setopt($ch, CURLOPT_FAILONERROR,1);
                     $xmlResponse = curl_exec($ch);
                     $errnum=curl_errno($ch);
                     curl_close($ch);
-                    // if no errors
+                    // if errors
                     if (!0==$errnum) {
                         if (!file_exists($path)) {
                             $errors_georss.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible & no cached copy available").". \"$name\" "._t("layer not loaded").'.<br />';
@@ -292,15 +293,23 @@
                     $name = $conf["gis_ol_kml_".$i."_name"];
                     $url = $conf["gis_ol_kml_".$i."_url"];
                     $file=end(explode('/',$url));
+                    $ext=end(explode('.',$url));
                     $path = $dir."/".$file;
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL,$url);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);  
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+                    curl_setopt($ch, CURLOPT_FAILONERROR,1);
                     $xmlResponse = curl_exec($ch);
                     $errnum=curl_errno($ch);
                     curl_close($ch);
-                    // if no errors
+                    // if errors
                     if (!0==$errnum) {
+                        if ("kmz"==$ext) {
+                            // Provide Unzipped version to check for in cache
+                            $basename=reset(explode('.',$file));
+                            $file = $basename.".kml";
+                            $path = $dir."/".$file;
+                        }
                         if (!file_exists($path)) {
                             $errors_kml.='<b>'._t("Warning")."</b>: \"$url\" "._t("inaccessible & no cached copy available").". \"$name\" "._t("layer not loaded").'.<br />';
                             $display=0;
@@ -318,6 +327,62 @@
                         fwrite($handle, $xmlResponse);
                         fclose($handle);
                         $display=1;
+                        if ("kmz"==$ext) {
+                            //Unzip
+                            // PHP 5.2.0+ or PECL:
+                            if(function_exists("zip_open")) {
+                                // ToDo: Write status message 'Decompressing KMZ....'
+                                $dir = $global['approot'].'www/tmp/kml_cache/';
+                                $zipped = $path;
+                                $zip = zip_open($zipped);
+                                while($zip_entry = zip_read($zip)) {
+                                    $entry = zip_entry_open($zip,$zip_entry);
+                                    $filename = zip_entry_name($zip_entry);
+                                    $target_dir = $dir.substr($filename,0,strrpos($filename,'/'));
+                                    $filesize = zip_entry_filesize($zip_entry);
+                                    if (is_dir($target_dir) || mkdir($target_dir)) {
+                                        if ($filesize > 0) {
+                                            $contents = zip_entry_read($zip_entry, $filesize);
+                                            file_put_contents($dir.$filename,$contents);
+                                            $ext_contents=end(explode('.',$filename));
+                                            if ("kml"==$ext_contents) {
+                                                $input=$dir.$filename;
+                                                $output=$dir.$filename.".w";
+                                                $lines=file($input);
+                                                $handle = fopen($output, 'w');
+                                                foreach ($lines as $line_num => $line) {
+                                                    //ToDo: Catch Network Links
+                                                    // Rewrite file to use correct path
+                                                    $search="<img src='";
+                                                    $replace="<img src='tmp/kml_cache/";
+                                                    $line_out=str_replace($search,$replace,$line);
+                                                    $search="<href>";
+                                                    $replace="<href>tmp/kml_cache/";
+                                                    $line=str_replace($search,$replace,$line_out);
+                                                    // If the URL was remote not local, then put it back!
+                                                    $search="<href>tmp/kml_cache/http://";
+                                                    $replace="<href>http://";
+                                                    $line_out=str_replace($search,$replace,$line);
+                                                    fwrite($handle, $line_out);
+                                                }
+                                                fclose($handle);
+                                                // All KMZ files seem to have just 'doc.kml' inside so make them more identifable & support multiple simultaneous feeds
+                                                // (Multiple files in the normal 'files' folder are less likely to collide, but could be fixed by more rewriting)
+                                                $basename=reset(explode('.',$file));
+                                                $newname = $dir.$basename.".kml";
+                                                rename($output, $newname);
+                                                // remove non-rewritten file:
+                                                unlink ($input);
+                                            }
+                                        }
+                                    }
+                                }
+                            // remove zipped file:
+                            unlink ($zipped);
+                            // Provide Unzipped version to display in OL
+                            $file = $basename.".kml";
+                            }
+                        }
                     }
                     if (1==$display) {
                         $path='tmp/kml_cache/'.$file;
