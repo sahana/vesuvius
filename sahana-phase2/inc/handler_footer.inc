@@ -1,7 +1,7 @@
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.15 2008-05-15 10:01:22 ishanul Exp $ */
+/* $Id: handler_footer.inc,v 1.16 2008-05-23 09:13:48 ishanul Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -36,7 +36,7 @@ global $conf;
 		</a>
 		<?php
 	}
-	if($conf['shn_xform_enabled']==false) { ?>
+	if($conf['shn_xform_enabled']==true) { ?>
 		| <a class="help" href="javascript:void(0)" onclick="shn_print_init()" title="<?php echo _t("OCR Form") ?>"  ><?php echo _t("XForm"); ?>
 		</a>
 	
