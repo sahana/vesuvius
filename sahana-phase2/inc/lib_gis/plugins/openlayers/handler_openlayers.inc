@@ -102,7 +102,7 @@ function _shn_print_end_of_map()
     global $conf;
     include_once('openlayers_fns.php');
 
-    ol_osm_getTileURL();
+    ol_functions();
 ?>	
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
@@ -119,4 +119,23 @@ function _shn_print_end_of_map()
     print "<div id='status_files'></div>\n";
     print "</td></tr></table>\n";
 }
+
+// Provides enhanced strstr function for versions of PHP <5.3.0
+function strstrbi($haystack, $needle, $before_needle=FALSE, $include_needle=TRUE, $case_sensitive=FALSE) {
+    //Find the position of $needle
+    if($case_sensitive) {
+        $pos=strpos($haystack,$needle);
+    } else {
+        $pos=strpos(strtolower($haystack),strtolower($needle));
+    }
+    //If $needle not found, abort
+    if(FALSE==$pos) return FALSE;
+    //Adjust $pos to include/exclude the needle
+    if($before_needle==$include_needle) $pos+=strlen($needle);
+    //get everything from 0 to $pos?
+    if($before_needle) return substr($haystack,0,$pos);
+    //otherwise, go from $pos to end
+    return substr($haystack,$pos);
+}
+
 ?>

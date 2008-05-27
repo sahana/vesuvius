@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.44 2008-05-22 23:02:17 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.45 2008-05-27 21:05:15 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -331,7 +331,8 @@
                             //Unzip
                             // PHP 5.2.0+ or PECL:
                             if(function_exists("zip_open")) {
-                                // ToDo: Write status message 'Decompressing KMZ....'
+                                //Can't report status as PHP still processing - page not yet rendered
+                                //echo "ReportErrors('status_kml','Decompressing KMZ....');\n";
                                 $dir = $global['approot'].'www/tmp/kml_cache/';
                                 $zipped = $path;
                                 $zip = zip_open($zipped);
@@ -352,6 +353,29 @@
                                                 $handle = fopen($output, 'w');
                                                 foreach ($lines as $line_num => $line) {
                                                     //ToDo: Catch Network Links
+                                                    if ("<NetworkLink>"==trim($line)) {
+                                                        foreach ($lines as $line_num => $line) {
+                                                            if (strpos($line,"<href>")) {
+                                                                $url = strstrbi($line,"<href>",false,false);
+                                                                $url = strstrbi($url,"</href>",true,false);
+                                                                $errors_kml.="$url <br />";
+                                                    //            $ch = curl_init();
+                                                    //            curl_setopt($ch, CURLOPT_URL,$url);
+                                                    //            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+                                                    //            curl_setopt($ch, CURLOPT_FAILONERROR,1);
+                                                    //            $xmlResponse = curl_exec($ch);
+                                                    //            $errnum=curl_errno($ch);
+                                                    //            curl_close($ch);
+                                                                // if errors
+                                                    //            if (!0==$errnum) {
+                                                    //                $errors_kml.='<b>'._t("Warning")."</b>: "._t("Network Link")." \"$url\" "._t("inaccessible")."<br />";
+                                                    //                $display=0;
+                                                    //                continue 12;
+                                                    //            }
+                                                            }
+                                                        }
+                                                        continue 2;
+                                                    }
                                                     // Rewrite file to use correct path
                                                     $search="<img src='";
                                                     $replace="<img src='tmp/kml_cache/";
@@ -758,7 +782,7 @@
  * called by all show functions in openlayers plugin handler
  * @access public
  */
-function ol_osm_getTileURL()
+function ol_functions()
 {
     global $conf;
     // close init()
