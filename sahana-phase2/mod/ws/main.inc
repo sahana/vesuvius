@@ -366,7 +366,7 @@ function shn_ws_sahana_load_method(){
 	shn_form_fopen("sahana_cr",null,array('req_message'=>false));
 	$mod = $_POST['wbsmod'];
 	$method = $_POST['method'];
-
+    $wsdl_url=$_POST['wsdl_url'];
 	$xml_file=$global['approot']."/mod/".$mod."/ws.xml";
 	//read the XML file describing the types and services for that module.
 	$xml =simplexml_load_file($xml_file);
@@ -380,7 +380,9 @@ function shn_ws_sahana_load_method(){
 			break;
 		}
 	}
-
+	
+    shn_form_hidden(array("method"=>$method,"wbsmod"=>$mod,"wsdl_url"=>$wsdl_url));
+    
 	if(count($target->params->param)>0){
 		echo "<h2>"._t(sprintf("Method : %s",$method))."</h2>";
 
@@ -397,8 +399,7 @@ function shn_ws_sahana_load_method(){
 			echo "<br/>";
 			$counter ++;
 		}
-		shn_form_hidden(array("method"=>$method,"wbsmod"=>$mod,"wsdl_url"=>$_POST['wsdl_url']));
-
+		
 		shn_form_fsclose();
 	}
 	shn_form_fsopen(_t("Security"));
