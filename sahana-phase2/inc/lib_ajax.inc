@@ -133,7 +133,8 @@ function _shn_ajax_create_ajax_call() {
 		
 		else {
 			<?php
-			shn_ajax_add_popup('Fetching data from the server. Please wait......');
+			_shn_set_load_print();
+			shn_ajax_add_popup(_t('Fetching data from the server. Please wait......'));
 			?>
 			
 		}
@@ -307,13 +308,13 @@ function _shn_ajax_hide_popup($print_element){
 	</script>
 	<?php
 }
-
-function shn_ajax_add_popup($message){
-?>
-var load = document.getElementById('test');
+function _shn_set_load_print(){
+	?>
+	function _shn_load_pop_up(message){
+    var load = document.getElementById('test');
 		if(load==null){
     		var newdiv = document.createElement('div');
-    		newdiv.innerHTML = '<?php echo $message;?>';
+    		newdiv.innerHTML = message;
     		var loadId = 'test';
     		newdiv.setAttribute('id',loadId);
     		newdiv.setAttribute('class','loading');
@@ -322,10 +323,17 @@ var load = document.getElementById('test');
     		ni.insertBefore(newdiv,ni.childNodes[0]);
 		}
 		else{
-			document.getElementById('test').innerHTML='<?php echo $message;?>';
+			document.getElementById('test').innerHTML=message;
 			document.getElementById('test').setAttribute('class','loading');
 			document.getElementById('test').setAttribute('className','loading');
 		}
+    }
+	<?php
+}
+function shn_ajax_add_popup($message){
+?>
+    _shn_load_pop_up('<?php echo $message;?>');
+    
 <?php	
 }
 function shn_ajax_add_suggest($input_element,$print_element,$hidden,$reset=null){
