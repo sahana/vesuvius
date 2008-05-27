@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.45 2008-05-27 21:05:15 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.46 2008-05-27 21:41:18 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -352,28 +352,92 @@
                                                 $lines=file($input);
                                                 $handle = fopen($output, 'w');
                                                 foreach ($lines as $line_num => $line) {
-                                                    //ToDo: Catch Network Links
+                                                    // Catch Network Links (work-in-progress!)
                                                     if ("<NetworkLink>"==trim($line)) {
                                                         foreach ($lines as $line_num => $line) {
                                                             if (strpos($line,"<href>")) {
                                                                 $url = strstrbi($line,"<href>",false,false);
                                                                 $url = strstrbi($url,"</href>",true,false);
-                                                                $errors_kml.="$url <br />";
-                                                    //            $ch = curl_init();
-                                                    //            curl_setopt($ch, CURLOPT_URL,$url);
-                                                    //            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
-                                                    //            curl_setopt($ch, CURLOPT_FAILONERROR,1);
-                                                    //            $xmlResponse = curl_exec($ch);
-                                                    //            $errnum=curl_errno($ch);
-                                                    //            curl_close($ch);
+                                                                $ch = curl_init();
+                                                                curl_setopt($ch, CURLOPT_URL,$url);
+                                                                curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+                                                                curl_setopt($ch, CURLOPT_FAILONERROR,1);
+                                                                $xmlResponse = curl_exec($ch);
+                                                                $errnum=curl_errno($ch);
+                                                                curl_close($ch);
                                                                 // if errors
-                                                    //            if (!0==$errnum) {
-                                                    //                $errors_kml.='<b>'._t("Warning")."</b>: "._t("Network Link")." \"$url\" "._t("inaccessible")."<br />";
-                                                    //                $display=0;
-                                                    //                continue 12;
-                                                    //            }
+                                                                if (!0==$errnum) {
+                                                                    $errors_kml.='<b>'._t("Warning")."</b>: "._t("Network Link")." \"$url\" "._t("inaccessible")."<br />";
+                                                                    $display=0;
+                                                                    continue 12;
+                                                                } else {
+                                                                    // write out file
+                                                                    // ToDo: Catch for folder/file not being writable
+                                                                    $handle = fopen($path, 'w');
+                                                                    fwrite($handle, $xmlResponse);
+                                                                    fclose($handle);
+                                                                    if ("kmz"==$ext) {
+                                                                        //Unzip
+                                                                        $dir = $global['approot'].'www/tmp/kml_cache/';
+                                                                        $zipped = $path;
+                                                                        $zip = zip_open($zipped);
+                                                                        while($zip_entry = zip_read($zip)) {
+                                                                            $entry = zip_entry_open($zip,$zip_entry);
+                                                                            $filename = zip_entry_name($zip_entry);
+                                                                            $target_dir = $dir.substr($filename,0,strrpos($filename,'/'));
+                                                                            $filesize = zip_entry_filesize($zip_entry);
+                                                                            if (is_dir($target_dir) || mkdir($target_dir)) {
+                                                                                if ($filesize > 0) {
+                                                                                    $contents = zip_entry_read($zip_entry, $filesize);
+                                                                                    file_put_contents($dir.$filename,$contents);
+                                                                                    $ext_contents=end(explode('.',$filename));
+                                                                                    if ("kml"==$ext_contents) {
+                                                                                        $input=$dir.$filename;
+                                                                                        $output=$dir.$filename.".w";
+                                                                                        $lines=file($input);
+                                                                                        $handle = fopen($output, 'w');
+                                                                                        foreach ($lines as $line_num => $line) {
+                                                                                            if strpos($line,"<GroundOverlay>")) {
+                                                                                                $errors_kml.='<b>'._t("Warning")."</b>: '<GroundOverlay>' "._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
+                                                                                                continue 2;
+                                                                                            }
+                                                                                            // Rewrite file to use correct path
+                                                                                            $search="<img src='";
+                                                                                            $replace="<img src='tmp/kml_cache/";
+                                                                                            $line_out=str_replace($search,$replace,$line);
+                                                                                            $search="<href>";
+                                                                                            $replace="<href>tmp/kml_cache/";
+                                                                                            $line=str_replace($search,$replace,$line_out);
+                                                                                            // If the URL was remote not local, then put it back!
+                                                                                            $search="<href>tmp/kml_cache/http://";
+                                                                                            $replace="<href>http://";
+                                                                                            $line_out=str_replace($search,$replace,$line);
+                                                                                            fwrite($handle, $line_out);
+                                                                                        }
+                                                                                        fclose($handle);
+                                                                                        // All KMZ files seem to have just 'doc.kml' inside so make them more identifable & support multiple simultaneous feeds
+                                                                                        // (Multiple files in the normal 'files' folder are less likely to collide, but could be fixed by more rewriting)
+                                                                                        $basename=reset(explode('.',$file));
+                                                                                        $newname = $dir.$basename.".kml";
+                                                                                        rename($output, $newname);
+                                                                                        // remove non-rewritten file:
+                                                                                        unlink ($input);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        // remove zipped file:
+                                                                        unlink ($zipped);
+                                                                        // Provide Unzipped version to display in OL
+                                                                        $file = $basename.".kml";
+                                                                    }
+                                                                }
                                                             }
                                                         }
+                                                        continue 2;
+                                                    }
+                                                    if strpos($line,"<GroundOverlay>")) {
+                                                        $errors_kml.='<b>'._t("Warning")."</b>: '<GroundOverlay>' "._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
                                                         continue 2;
                                                     }
                                                     // Rewrite file to use correct path
@@ -401,10 +465,10 @@
                                         }
                                     }
                                 }
-                            // remove zipped file:
-                            unlink ($zipped);
-                            // Provide Unzipped version to display in OL
-                            $file = $basename.".kml";
+                                // remove zipped file:
+                                unlink ($zipped);
+                                // Provide Unzipped version to display in OL
+                                $file = $basename.".kml";
                             }
                         }
                     }
