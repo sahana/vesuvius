@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: main.inc,v 1.32 2008-05-27 08:16:07 ishanul Exp $ */
-/* $Id: main.inc,v 1.32 2008-05-27 08:16:07 ishanul Exp $ */
+/* $Id: main.inc,v 1.33 2008-05-27 08:32:29 ishanul Exp $ */
+/* $Id: main.inc,v 1.33 2008-05-27 08:32:29 ishanul Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -125,7 +125,7 @@ function shn_sync_synchronize(){
     echo '<h2 id="head">Synchronize</h2>';
     //echo '<div id="console">'._t('Creating Temp Tables.....').'</div>';
     echo '<div id="console"></div>';
-    echo '<script type="text/javascript">loading(\'Creating Temp Tables.....\');</script>';
+    echo '<script type="text/javascript">loading(\''._t('Creating Temp Tables.....').'\');</script>';
     echo '<script type="text/javascript">xajax_process_file();</script>';
 }
 
