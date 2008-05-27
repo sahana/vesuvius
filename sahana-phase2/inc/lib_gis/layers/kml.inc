@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: kml.inc,v 1.3 2008-05-21 19:19:00 franboon Exp $
+* @version     	$Id: kml.inc,v 1.4 2008-05-27 10:55:55 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -37,7 +37,6 @@ class kml implements layer{
     	shn_form_fsopen(_t('INFO'));
         echo '<p>'._t("Enable access to live").' <a href="http://en.wikipedia.org/wiki/Keyhole_Markup_Language" target=_blank>KML</a> '._t("feeds by selecting the checkbox option below.").'</p>';
         echo '<p>'._t("Downloaded feeds are cached so that if Network access is lost, then the feed will still be available").'.</p>';
-        echo '<p>'._t("Currently there is no support for KMZ feeds - this will come later").'...</p>';
         echo '<p>'._t("If wishing to use locally-held KML/KMZ files (e.g. to avoid having to keep downloading a large remote file), then").' <a href="?mod=admin&act=gis_files">'._t("upload them").'</a> & '._t("use the Files layer to display them instead."). '</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
