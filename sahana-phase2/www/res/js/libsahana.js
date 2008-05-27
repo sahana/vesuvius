@@ -70,17 +70,17 @@ function changed(){
     document.getElementById('inci').innerHTML = 'Incident was successfully changed to '+incident+'.';
     }
     else{
-            loading();
+            loading('Changing the incident. Please wait......');
     }
         //alert('Incident was changed successfully.');
 }
 //create loading information
-function loading(){
+function loading(message){
 
    var load = document.getElementById('loading_div');
     if(load==null){
     var newdiv = document.createElement('div');
-    newdiv.innerHTML = 'Changing the incident. Please wait......';
+    newdiv.innerHTML = message;
     var loadId = 'loading_div';
     newdiv.setAttribute('id',loadId);
     newdiv.setAttribute('class','loading');
@@ -89,7 +89,7 @@ function loading(){
     ni.insertBefore(newdiv,ni.childNodes[0]);
     }
     else{
-    document.getElementById('loading_div').innerHTML='Changing the incident. Please wait......';
+    document.getElementById('loading_div').innerHTML=message;
     document.getElementById('loading_div').setAttribute('class','loading');
     document.getElementById('loading_div').setAttribute('className','loading');
     }
