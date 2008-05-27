@@ -33,13 +33,13 @@ function shn_pref_signup(){
 }
 
 function shn_pref_signup_cr(){
-	if(shn_auth_self_signup_cr()==true){
-		shn_pref_signup();
+	if(shn_auth_self_signup_cr()==true){		
 		if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
 			add_error(_t("Please provide the text in the image correctly to prove you are not a bot"));
 
 			return;
 		}
+		shn_pref_signup();
 	}else{
 	   if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
 			add_error(_t("Please provide the text in the image correctly to prove you are not a bot"));
