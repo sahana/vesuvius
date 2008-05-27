@@ -132,21 +132,10 @@ function _shn_ajax_create_ajax_call() {
 		}
 		
 		else {
+			<?php
+			shn_ajax_add_popup();
+			?>
 			
-			var load = document.getElementById('test');
-    		if(load==null){
-	    		var newdiv = document.createElement('div');
-	    		newdiv.innerHTML = 'Loading......';
-	    		var loadId = 'test';
-	    		newdiv.setAttribute('id',loadId);
-	    		newdiv.setAttribute('class','loading');
-	    		var ni = document.getElementById('content');
-	    		ni.insertBefore(newdiv,ni.childNodes[0]);
-    		}
-    		else{
-    			document.getElementById('test').innerHTML='Loading......';
-    			document.getElementById('test').setAttribute('class','loading');
-    		}
 		}
 	}
 	
@@ -319,7 +308,25 @@ function _shn_ajax_hide_popup($print_element){
 	<?php
 }
 
-
+function shn_ajax_add_popup(){
+?>
+var load = document.getElementById('test');
+		if(load==null){
+    		var newdiv = document.createElement('div');
+    		newdiv.innerHTML = 'Loading......';
+    		var loadId = 'test';
+    		newdiv.setAttribute('id',loadId);
+    		newdiv.setAttribute('class','loading');
+    		newdiv.setAttribute('className','loading');
+    		var ni = document.getElementById('content');
+    		ni.insertBefore(newdiv,ni.childNodes[0]);
+		}
+		else{
+			document.getElementById('test').innerHTML='Loading......';
+			document.getElementById('test').setAttribute('class','loading');
+		}
+<?php	
+}
 function shn_ajax_add_suggest($input_element,$print_element,$hidden,$reset=null){
 	
     _shn_ajax_create_suggest($input_element,$print_element); 
