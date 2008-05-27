@@ -27,6 +27,15 @@
 	 		<api_function>
 	 			shn_or_organization_list
 	 		</api_function>
+	 		<params>
+	 		<param type="xsd:int" name="Limit" ></param>
+	 		<param type="xsd:string" name="Name" ></param>
+	 		<param type="xsd:string" name="Type" ></param>
+	 		<param type="xsd:string" name="Service" ></param>
+	 		<param type="xsd:string" name="Location" ></param>
+	 		<param type="xsd:string" name="Address" ></param>
+	 		
+	 		</params>
 	 		<input type="OrgInput">filter</input>
 	 		<output type="BasicArray" />
 	 		<documentation>
@@ -41,8 +50,7 @@
 	 		<api_function>
 	 			shn_or_service_list
 	 		</api_function>
-	 		<input type="xsd:int">limit</input>
-	 		<input type="xsd:string">filter</input>
+	 		
 	 		<output type="BasicArray" />
 	 		<documentation>
 	 			A useful method to retrieve a list of services , organizations can offer
@@ -56,8 +64,11 @@
 	 		<api_function>
 	 			shn_or_type_list
 	 		</api_function>
-	 		<input type="xsd:int">limit</input>
-	 		<input type="xsd:string">filter</input>
+	 		<params>
+	 		<param type="xsd:int" name="Limit" ></param>
+	 		<param type="xsd:string" name="Filter" ></param>
+	 		 		
+	 		</params>
 	 		<output type="BasicArray" />
 	 		<documentation>
 	 			A useful method to retrieve the list of types ,by which organizations are grouped by
