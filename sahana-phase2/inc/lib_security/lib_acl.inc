@@ -601,6 +601,8 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	$role=ANONYMOUS;
 	$sql="insert into sys_group_to_module values({$role},'home','enabled')";
 	$res=$db->Execute($sql);
+    $sql="insert into sys_group_to_module values({$role},'pref','enabled')";
+	$res=$db->Execute($sql);
 
 	$q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";
 	$res=$db->Execute($q);
