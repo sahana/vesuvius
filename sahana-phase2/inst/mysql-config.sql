@@ -168,6 +168,24 @@ INSERT INTO field_options VALUES ('opt_rs_cht_freq','30','the frequency of chart
 -- INSERT INTO modules VALUES ('admin', '0.2', TRUE);
 -- INSERT INTO modules VALUES ('gis', '0.2', TRUE);
 
+-- GIS WIKI VALUES
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','gen','General');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','per','Person Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dam','Damage Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dis','Disaster Status');
+INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
+
+-- GPS VALUES
+INSERT INTO field_options VALUES('opt_wpt_type','air','Airstrip');
+INSERT INTO field_options VALUES('opt_wpt_type','hos','Hospital');
+INSERT INTO field_options VALUES('opt_wpt_type','off','Office');
+INSERT INTO field_options VALUES('opt_wpt_type','pow','Place of Worship');
+INSERT INTO field_options VALUES('opt_wpt_type','sch','School');
+INSERT INTO field_options VALUES('opt_wpt_type','vil','Village');
+INSERT INTO field_options VALUES('opt_wpt_type','war','Warehouse');
+INSERT INTO field_options VALUES('opt_wpt_type','wat','Water Supply');
+INSERT INTO field_options VALUES('opt_wpt_type','toi','WC');
+
 -- INSERT CONFIG VALUES
 INSERT INTO config (module_id,confkey,value) VALUES ( 'cr', 'division_type', '2');
 INSERT INTO config (module_id,confkey,value) VALUES ( 'pref', 'shn_xform_enabled', 'false');
@@ -327,22 +345,8 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
 -- gis_location
 
 -- gis_wiki
-INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','gen','General');
-INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','per','Person Status');
-INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dam','Damage Status');
-INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dis','Disaster Status');
-INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
 
 -- gps
-INSERT INTO field_options VALUES('opt_wpt_type','air','Airstrip');
-INSERT INTO field_options VALUES('opt_wpt_type','hos','Hospital');
-INSERT INTO field_options VALUES('opt_wpt_type','off','Office');
-INSERT INTO field_options VALUES('opt_wpt_type','pow','Place of Worship');
-INSERT INTO field_options VALUES('opt_wpt_type','sch','School');
-INSERT INTO field_options VALUES('opt_wpt_type','vil','Village');
-INSERT INTO field_options VALUES('opt_wpt_type','war','Warehouse');
-INSERT INTO field_options VALUES('opt_wpt_type','wat','Water Supply');
-INSERT INTO field_options VALUES('opt_wpt_type','toi','WC');
 
 -- group_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "group_details", 1);
