@@ -133,7 +133,7 @@ function _shn_ajax_create_ajax_call() {
 		
 		else {
 			<?php
-			shn_ajax_add_popup();
+			shn_ajax_add_popup('Fetching data from the server. Please wait......');
 			?>
 			
 		}
@@ -308,12 +308,12 @@ function _shn_ajax_hide_popup($print_element){
 	<?php
 }
 
-function shn_ajax_add_popup(){
+function shn_ajax_add_popup($message){
 ?>
 var load = document.getElementById('test');
 		if(load==null){
     		var newdiv = document.createElement('div');
-    		newdiv.innerHTML = 'Loading......';
+    		newdiv.innerHTML = '<?php echo $message;?>';
     		var loadId = 'test';
     		newdiv.setAttribute('id',loadId);
     		newdiv.setAttribute('class','loading');
@@ -322,8 +322,9 @@ var load = document.getElementById('test');
     		ni.insertBefore(newdiv,ni.childNodes[0]);
 		}
 		else{
-			document.getElementById('test').innerHTML='Loading......';
+			document.getElementById('test').innerHTML='<?php echo $message;?>';
 			document.getElementById('test').setAttribute('class','loading');
+			document.getElementById('test').setAttribute('className','loading');
 		}
 <?php	
 }
