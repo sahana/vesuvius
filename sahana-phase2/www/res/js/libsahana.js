@@ -64,9 +64,7 @@ function changed(){
     //newli.innerHTML = 'Incident was successfully changed to '+incident+'.';
     newul.appendChild(newli);
     }
-    document.getElementById('loading_div').innerHTML='';
-    document.getElementById('loading_div').setAttribute('class','');
-    document.getElementById('loading_div').setAttribute('className','');
+    remove_loading();
     document.getElementById('inci').innerHTML = 'Incident was successfully changed to '+incident+'.';
     }
     else{
@@ -94,7 +92,11 @@ function loading(message){
     document.getElementById('loading_div').setAttribute('className','loading');
     }
 }
-
+function remove_loading(){
+    document.getElementById('loading_div').innerHTML='';
+    document.getElementById('loading_div').setAttribute('class','');
+    document.getElementById('loading_div').setAttribute('className','');
+}
 //functions related to tabs
 var tabFieldSet=new Array();
 var tabList=new Array();
