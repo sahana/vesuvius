@@ -9,7 +9,9 @@
 	 		<api_function>
 	 			shn_ims_list_item_by_inventory
 	 		</api_function>
-	 		<input type="xsd:string">inventory</input>
+	 		<params>
+	 		<param type="xsd:string" name="Inventory"></param>
+	 		</params>
 	 		<output type="BasicArray" />
 	 		<documentation>
 	 			A useful method to retrieve a list items in an all or a particular inventory 
@@ -24,7 +26,9 @@ with associated quantities
 	 		<api_function>
 	 			shn_ims_get_item_details
 	 		</api_function>
-	 		<input type="xsd:string">filter</input>
+	 		<params>
+	 		<param type="xsd:string" name="Item"></param>
+	 		</params>
 	 		<output type="BasicArray" />
 	 		<documentation>
  			Give more details on particular item type. Which 
