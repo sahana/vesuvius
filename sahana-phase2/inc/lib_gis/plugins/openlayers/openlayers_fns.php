@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.46 2008-05-27 21:41:18 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.47 2008-05-27 21:50:34 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -397,8 +397,8 @@
                                                                                         $lines=file($input);
                                                                                         $handle = fopen($output, 'w');
                                                                                         foreach ($lines as $line_num => $line) {
-                                                                                            if strpos($line,"<GroundOverlay>")) {
-                                                                                                $errors_kml.='<b>'._t("Warning")."</b>: '<GroundOverlay>' "._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
+                                                                                            if (strpos($line,"<GroundOverlay>")) {
+                                                                                                $errors_kml.='<b>'._t("Warning").'</b>: "GroundOverlay" '._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
                                                                                                 continue 2;
                                                                                             }
                                                                                             // Rewrite file to use correct path
@@ -436,8 +436,8 @@
                                                         }
                                                         continue 2;
                                                     }
-                                                    if strpos($line,"<GroundOverlay>")) {
-                                                        $errors_kml.='<b>'._t("Warning")."</b>: '<GroundOverlay>' "._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
+                                                    if (strpos($line,"<GroundOverlay>")) {
+                                                        $errors_kml.='<b>'._t("Warning").'</b>: "GroundOverlay" '._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
                                                         continue 2;
                                                     }
                                                     // Rewrite file to use correct path
