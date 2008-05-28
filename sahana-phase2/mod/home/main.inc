@@ -261,6 +261,15 @@ function shn_home_about(){
 		
 		$about['php_version'] = phpversion();
 		
+		$sql = "SHOW VARIABLES LIKE \"character_set_database\";";
+		$res = $global['db']->Execute($sql);
+		$about['database_charset']=$res->fields['Value'];
+
+        $sql = "SHOW VARIABLES LIKE \"collation_database\";";
+        $res = $global['db']->Execute($sql);
+        $about['database_collation']=$res->fields['Value'];		
+		
+		
 		$sql = "SELECT VERSION()";
 		$res = $global['db']->Execute($sql);
 		$about['mysql_version'] = $res->Fields(0);
@@ -285,6 +294,21 @@ function shn_home_about(){
           <tr>
               <td><?php echo _t("Release Date")?></td>
               <td><?php echo $about['release_date'] ?></td>
+          </tr>
+          <tr>
+            <th colspan="2" valign="center"><?php echo 'Database Information' ?></th>
+          </tr>
+          <tr>
+              <td><?php echo _t("Database Name")?></td>
+              <td><?php echo $conf['db_name'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Database Character Set")?></td>
+              <td><?php echo $about['database_charset'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Database Collation")?></td>
+              <td><?php echo $about['database_collation'] ?></td>
           </tr>
           <tr>
               <th colspan="2" valign="center"><?php echo 'Environment Information' ?></td>
