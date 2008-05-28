@@ -1,5 +1,6 @@
 <?PHP
 include_once($global['approot']."inc/user_feedback.inc");
+include_once ($global['approot']."/inc/lib_menu.inc");
 
 function shn_home_default()
 {
@@ -197,8 +198,8 @@ function shn_home_userfb(){
 	$valstr = ($value==true?'enabled':'disabled');
 	shn_form_radio(array("enabled"=>_t("Enabled"),"disabled"=>_t("Disabled")),_t("Help / User feedback"),"userfb_status","",array('value'=>$valstr));
 	shn_form_fsclose();
-	shn_form_submit(_("Cancel"),"name='cancel'");
-	shn_form_submit(_("Save"));
+	shn_form_submit(_t("Cancel"),"name='cancel'");
+	shn_form_submit(_t("Save"));
 	shn_form_fclose();
 }
 	
@@ -243,6 +244,126 @@ function shn_XST_home_default() {
     echo _t('Welcome to Sahana on the '.$_REQUEST['stream'].' stream.');
     
 
+}
+
+function shn_home_about(){
+	global $global;
+	echo _t('<h2>About Sahana</h2>');
+	if(file_exists($global['approot']."about.inc")){
+		include_once $global['approot']."about.inc";
+		
+		global $about;		
+		if(function_exists("apache_get_version")){
+			$about['apache_version'] = apache_get_version();
+		}else{
+			$about['apache_version'] = _t("Unable to determine Apache HTTPD version.");
+		}
+		
+		$about['php_version'] = phpversion();
+		
+		$sql = "SELECT VERSION()";
+		$res = $global['db']->Execute($sql);
+		$about['mysql_version'] = $res->Fields(0);
+		
+		?>
+		<table border="0">
+		  <tr>
+		      <th colspan="2" valign="center"><?php echo 'System Information' ?></td>
+		  </tr>
+		  <tr>
+		      <td width="40%"><?php echo _t("Sahana Version") ?></td>
+		      <td><?php echo $about['version']?></td>
+		  </tr>
+		  <tr>
+              <td><?php echo _t("Release") ?></td>
+              <td><?php echo $about['release'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Release Information")?></td>
+              <td><?php echo $about['release_info'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Release Date")?></td>
+              <td><?php echo $about['release_date'] ?></td>
+          </tr>
+          <tr>
+              <th colspan="2" valign="center"><?php echo 'Environment Information' ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Apache HTTPD Version")?></td>
+              <td><?php echo $about['apache_version'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("PHP Version")?></td>
+              <td><?php echo $about['php_version'] ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("MySQL Version")?></td>
+              <td><?php echo $about['mysql_version'] ?></td>
+          </tr>
+          <tr>
+              <th colspan="2" valign="center"><?php echo 'System Administrator Information' ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Administrator Name")?></td>
+              <td><?php echo ((($conf['root_name']!=null) && (strlen(trim($conf['root_name']))>0))?($conf['root_name']):_t('Information not available')) ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Email")?></td>
+              <td><?php echo ((($conf['root_email']!=null) && (strlen(trim($conf['root_email']))>0))?($conf['root_email']):_t('Information not available')) ?></td>
+          </tr>
+          <tr>
+              <td><?php echo _t("Telephone")?></td>
+              <td><?php echo ((($conf['root_tel']!=null) && (strlen(trim($conf['root_tel']))>0))?($conf['root_tel']):_t('Information not available')) ?></td>
+          </tr>          
+		</table>
+		<br/>
+		<hr/>
+		
+		<?php
+		  $readme = file_get_contents($global['approot']."README");
+		?>
+		      <script type="text/javascript">
+		          var flag=true;
+		          function showReadme(){
+		              var readmeBlock = document.getElementById('readme');
+                      if(readmeBlock){
+		                  if(flag==true){
+		                      readmeBlock.style.display='block';
+		                      flag=false;
+		                  }else{
+		                      readmeBlock.style.display='none';
+		                      flag=true;
+		                  }
+		              }
+		          }
+		      </script>
+		      <a href="#" onclick="showReadme()"><?php echo _t("Show/Hide Readme") ?></a>
+		      <div id="readme" class="hide">
+		          <pre>
+		          <?php echo $readme; ?>
+		          </pre>
+		          <br/>
+		          <a href="#" onclick="showReadme()"><?php echo _t("Hide Readme") ?></a>
+		      </div>  
+		      
+		      <br/>
+		      <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt" target="_blank"><?php echo _t("View License") ?></a>
+		<?php
+		
+		return;
+	}else{
+		echo _t("About page information cannot be generated.");
+		return;
+	}
+}
+
+function shn_home_mainmenu(){
+	global $global,$conf;
+	shn_mod_menuopen(_t($conf['mod_home_name']));
+	shn_mod_menuitem('about',_t('About Sahana'),'home');
+	shn_mod_menuclose();
+	include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
 ?>
