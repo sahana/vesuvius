@@ -452,7 +452,7 @@ function convert_to_base_unit($unit_id)
 }
 
 /**.
- *This function returns the array of parent ID array of a purticular item 
+ *This function returns the array of parent ID array of a particular item 
  * @access public
  * @return array
  */
@@ -496,7 +496,7 @@ function _shn_cs_recursive_parent_search($in_array,$parent_id_in)
 }
 
 /**.
- *This function returns the array of child ID array of a purticular item 
+ *This function returns the array of child ID array of a particular item 
  * @access public
  * @return array
  * @todo
@@ -507,7 +507,7 @@ function shn_cs_get_child_id_arr($in_id)
 }
 
 /**.
- *This function returns the array of next level child ID array of a purticular item catalog
+ *This function returns the array of next level child ID array of a particular item catalog
  * @access public
  * @return array
  * @todo

@@ -1432,7 +1432,7 @@ function shn_excel_report_close()
 
 
 /**
- * This function will return the download url for the purticular report/chart ID.
+ * This function will return the download url for the particular report/chart ID.
  *
  * @param string $report_id
  * @access public
