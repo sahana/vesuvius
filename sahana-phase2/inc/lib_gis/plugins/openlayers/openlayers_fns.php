@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.47 2008-05-27 21:50:34 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.48 2008-05-28 13:42:48 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -399,7 +399,7 @@
                                                                                         foreach ($lines as $line_num => $line) {
                                                                                             if (strpos($line,"<GroundOverlay>")) {
                                                                                                 $errors_kml.='<b>'._t("Warning").'</b>: "GroundOverlay" '._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
-                                                                                                continue 2;
+                                                                                                continue 1;
                                                                                             }
                                                                                             // Rewrite file to use correct path
                                                                                             $search="<img src='";
@@ -438,7 +438,7 @@
                                                     }
                                                     if (strpos($line,"<GroundOverlay>")) {
                                                         $errors_kml.='<b>'._t("Warning").'</b>: "GroundOverlay" '._t("not supported in")." OpenLayers yet. \"$name\" "._t("layer may not work properly").'.<br />';
-                                                        continue 2;
+                                                        continue 1;
                                                     }
                                                     // Rewrite file to use correct path
                                                     $search="<img src='";
@@ -841,8 +841,7 @@
 }
 
 /**
- * Function to support OSM layers
- * + function to support KML popups unselect
+ * Addtional Functions to support OSM & KML layers
  * called by all show functions in openlayers plugin handler
  * @access public
  */
@@ -852,15 +851,17 @@ function ol_functions()
     // close init()
     echo "}\n";
     ?>
+    // General function usable by all Layers
+    function ReportErrors(div,text) {
+         $(div).innerHTML = text;
+    }
     // For KML layers
     function onFeatureUnselect(feature) {
         map.removePopup(feature.popup);
         feature.popup.destroy();
         feature.popup = null;
     }
-    function ReportErrors(div,text) {
-         $(div).innerHTML = text;
-    }
+    // For OSM File layers
     function on_feature_hover(feature) {
             var text ="<ul>";
             var type ="way";
@@ -875,6 +876,7 @@ function ol_functions()
             $("status_osm").innerHTML = text;
     }
     <?php
+    // For OSM Base layer
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'] || 1 == $conf['gis_ol_osm_tiles'])) {
     ?>
         function osm_getTileURL(bounds) {
