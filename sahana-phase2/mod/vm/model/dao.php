@@ -28,6 +28,9 @@
  * of information from the database.
  */
 
+global $global;
+require_once($global['approot'].'inc/lib_paging.inc');
+
  class DAO
  {
  	private $db;	//a reference to Sahana's database object
@@ -43,6 +46,7 @@
  	function DAO(&$db)
  	{
  		$this->db = &$db;
+ 		$this->execute("set names 'utf8'");
  	}
 
 	/**
@@ -122,21 +126,22 @@
 
 		// locations
 
- 		$result = $this->execute("select location_id from location_details where poc_uuid = '" . $id . "'");
+ 		$result = $this->execute("select location_id, location.name from location_details join location on (location.loc_uuid = location_details.location_id) where poc_uuid = '" . $id . "'");
  		$locations = array();
- 		if (!$result->EOF)
- 		{
+ 		$location_names = array();
+ 		if (!$result->EOF) {
 	 		$lastId = $result->fields["location_id"];
-	 		do
-	 		{
+	 		do {
 	 			$locations[]= $lastId;
-	 			$result= $this->execute("select parent_id from location where loc_uuid = '$lastId'");
-	 			$lastId = $result->fields["parent_id"];
+	 			$location_names[] = $result->fields['name'];
+	 			$result= $this->execute("select loc_uuid, location.name from location where loc_uuid = (select parent_id from location where loc_uuid = '$lastId')");
+	 			$lastId = $result->fields["loc_uuid"];
 	 		}
 	 		while($lastId!=NULL && $lastId!='NULL' && !$result->EOF);
  		}
 
  		$info['locations'] = $locations;
+ 		$info['location_names'] = $location_names;
 
  		// get project[s] to which they are assigned
  		// a volunteer may be assigned to more than one project
@@ -167,7 +172,11 @@
 		$info['hour_start'] = $result->fields['hrs_avail_start'];
 		$info['hour_end'] = $result->fields['hrs_avail_end'];
 
-		$info['affiliation'] = $result->fields['org_id'];
+		$org_id = $result->fields['org_id'];
+		$info['affiliation'] = $org_id;
+
+		$org_info = $this->getOrganizationInfo($org_id);
+		$info['affiliation_name'] = (empty($org_info)) ? '' : $org_info['name'];
 
 		//all the contact information
 
@@ -189,6 +198,14 @@
 		//get special needs of volunteers, if any
 		$result = $this->execute("SELECT special_needs FROM vm_vol_details WHERE p_uuid='$id'");
 		$info['special_needs']=$result->fields['special_needs'];
+
+		//get skills
+		$info['skills'] = array();
+		$result = $this->execute("SELECT opt_skill_code, option_description FROM vm_vol_skills JOIN field_options ON (opt_skill_code = option_code AND field_name = 'opt_skill_type') WHERE p_uuid = '$id'");
+		while(!$result->EOF) {
+			$info['skills'][$result->fields['opt_skill_code']] = $result->fields['option_description'];
+			$result->moveNext();
+		}
 
  		return $info;
  	}
@@ -311,6 +328,24 @@
 	}
 
 	/**
+	 * Gets the number of hours worked by the given volunteer for the given project.
+	 *
+	 * @param $p_uuid	volunteer's id
+	 * @param $proj_id	project id
+	 * @return number of hours
+	 */
+
+	function getVolHoursByProject($p_uuid, $proj_id) {
+		$result = $this->execute("SELECT SUM(HOUR(shift_end - shift_start)) AS hours FROM vm_hours WHERE p_uuid = '$p_uuid' AND proj_id = '$proj_id'");
+		$hours = $result->fields['hours'];
+		if($hours == null) {
+			return 0;
+		} else {
+			return $hours;
+		}
+	}
+
+	/**
 	 * Retrieves the hours and payrate of a volunteer for each position he is assigned in each project/
 	 * Specifying both $proj_id and $org_id is ok
 	 *
@@ -403,96 +438,31 @@
 	 * 						VM_SHOW_ALL_VOLUNTEERS_UNASSIGNED to return only unassigned volunteers
 	 * 						VM_SHOW_ALL_VOLUNTEERS to return all volunteers
 	 *
-	 * @return an array, where each key is a volunteer's p_uuid and each value is the following array of information:
-	 *	Array
-     * (
-     * 		'full_name'		=> the volunteer's full name
-     *		'ids'			=> an array  of the volunteer's IDs, where each key is
-     *							the full description for ID type and each value is the ID code
-     *		'skills'		=> an array of skill codes => descriptions for the volunteer
-     *		'date_start'	=> the volunteer's available start date
-     *		'date_end'		=> the volunteer's available end date
-     *		'locations'		=> an array of the volunteer's location and its parents
-     *		'affiliation'	=> the organization that the volunteer is affiliated with
-     * )
+	 * @return An array of Volunteer Objects. This function uses paging.
 	 */
 
-	function getVolunteers($proj_id=null, $assigned=VM_SHOW_ALL_VOLUNTEERS)
-	{
-		if(is_null($proj_id))
-		{
+	function getVolunteers($proj_id=null, $assigned=VM_SHOW_ALL_VOLUNTEERS) {
+		if(is_null($proj_id)) {
 			if($assigned == VM_SHOW_ALL_VOLUNTEERS_ASSIGNED)
 				$whereClause = " WHERE vm_vol_active.p_uuid IN (SELECT DISTINCT p_uuid FROM vm_vol_assignment_active)";
 			else if($assigned == VM_SHOW_ALL_VOLUNTEERS_UNASSIGNED)
 				$whereClause = " WHERE vm_vol_active.p_uuid NOT IN (SELECT DISTINCT p_uuid FROM vm_vol_assignment_active)";
 			else
 				$whereClause = "  ";
-		}
-		else
-		{
+		} else {
 			$whereClause = " WHERE vm_vol_active.p_uuid IN (SELECT p_uuid FROM vm_vol_assignment_active WHERE proj_id='$proj_id')";
 		}
 
-		$q = 	"SELECT 	vm_vol_active.p_uuid, person_uuid.full_name, vm_vol_assignment_active.pos_id, vm_vol_assignment_active.status pos_status, vm_vol_assignment_active.proj_id, location_id, opt_id_type, serial, org_id, org_main.name org_name, option_description id_desc, date_avail_start, date_avail_end
-				 FROM 		vm_vol_active LEFT JOIN person_uuid USING (p_uuid)
-				 			LEFT JOIN vm_vol_assignment_active USING (p_uuid)
-							LEFT JOIN location_details ON (location_details.poc_uuid = person_uuid.p_uuid)
-							LEFT JOIN identity_to_person USING (p_uuid)
-							LEFT JOIN org_main ON (vm_vol_active.org_id = org_main.o_uuid)
-							LEFT JOIN field_options ON (identity_to_person.opt_id_type = field_options.option_code) "
-				. $whereClause;
+		$q = 	"SELECT 	vm_vol_active.p_uuid
+				 FROM 		vm_vol_active " . $whereClause;
 
-
-		$result = $this->execute($q);
+		//get volunteer ids based on paging
+		$result = $this->getCurrentPage($q);
 
 		// put all information into an array for returning
-
 		$volunteers = array();
-		while(!$result->EOF)
-		{
-			//first check to see if we already started this volunteer's information
-			//if so, just update the volunteer's info with the info from this next row because
-			//since we are doing so many joins, we may have more than one row returned per volunteer
-
-			$p_uuid = $result->fields['p_uuid'];
-			if(isset($volunteers[$p_uuid]))
-			{
-				//update the existing entry for the volunteer
-
-				if($result->fields['serial'] != null)
-					$volunteers[$p_uuid]['ids'][$result->fields['id_desc']] = $result->fields['serial'];
-
-				if($result->fields['org_name'] != null)
-					$volunteers[$p_uuid]['affiliation'] = $result->fields['org_name'];
-
-				if($result->fields['pos_id'] != null && $result->fields['pos_status'] == 'active')
-					$volunteers[$p_uuid]['pos_id'][] = $result->fields['pos_id'];
-			}
-			else
-			{
-				//create a new entry in the array for the volunteer
-
-				if(empty($result->fields['location_id']))
-					$locations = array();
-				else
-					$locations = $this->getParentLocations($result->fields['location_id']);
-
-				$volunteers[$result->fields['p_uuid']] = array
-				(
-					'full_name'		=> $result->fields['full_name'],
-					'ids'			=> ($result->fields['serial']==null)?array():array($result->fields['id_desc'] => $result->fields['serial']),
-					'locations'		=> $locations,
-					'affiliation'	=> ($result->fields['org_name']==null)?'':$result->fields['org_name'],
-					'skills'		=> $this->getSkillsAndDescriptions($result->fields['p_uuid']),
-					'date_start'	=> $result->fields['date_avail_start'],
-					'date_end'		=> $result->fields['date_avail_end'],
-					'pos_id'		=> ($result->fields['pos_id'] != null && $result->fields['pos_status'] == 'active')?array($result->fields['pos_id']):array()
-				);
-
-				if($result->fields['pos_id'] != null)
-					$volunteers[$result->fields['p_uuid']]['pos_id'][] = $result->fields['pos_id'];
-			}
-
+		while(!$result->EOF) {
+			$volunteers[] = new Volunteer($result->fields['p_uuid']);
 			$result->moveNext();
 		}
 		return $volunteers;
@@ -550,7 +520,7 @@
 							LEFT JOIN org_main ON (vm_vol_details.org_id = org_main.o_uuid) "
 				. $whereClause;
 
-		$result = $this->execute($q);
+		$result = $this->getCurrentPage($q);
 
 		// put all information into an array for returning
 
@@ -680,8 +650,8 @@
 				include_once($global['approot'].'inc/lib_security/lib_auth.inc');
 				include_once($global['approot'].'inc/lib_security/constants.inc');
 				$acct = $v->info['account_info'];
-				//create an account and give the user 'Registered User' privileges
-				shn_auth_add_user($acct['account_name'], $acct['user_name'], $acct['pass'], REGISTERED, $v->p_uuid);
+				//create an account and give the user 'Anonymous User' privileges
+				shn_auth_add_user($acct['account_name'], $acct['user_name'], $acct['pass'], ANONYMOUS, $v->p_uuid);
 			}
 			//add phonetic sound matching
 			$names = preg_split("/\s+/", $v->info['full_name']);
@@ -789,6 +759,16 @@
      */
 	function removePosition($pos_id) {
 		$this->execute("update vm_position set status = 'retired' where pos_id = '$pos_id'");
+	}
+
+	//returns the number of volunteers involved in the given project
+	function getVolunteersInProject($proj_id) {
+		$result = $this->execute("SELECT COUNT(*) as num FROM vm_vol_assignment_active where proj_id = '$proj_id'");
+		if($result->EOF) {
+			return 0;
+		} else {
+			return $result->fields['num'];
+		}
 	}
 
     /*
@@ -924,6 +904,7 @@
 	 * @param $mgr			- (optional) if specified, $p_uuid is treated as site manager and only projects he is a site manager for will be returned; if $p_uuid
 	 * 							is a site manager but this is false, it will also return any projects that the site manager may just be assigned to
 	 * @param $simple		- (optional) if true, the return array only contains the proj_id for each key and the project name for each value
+	 * @param $paged		- (optional) if true, the current place in the paging navigation as well as rows per page are taken into account when querying
 	 * @return an array of project information arrays, where each key is the project ID and each value
 	 * is an array with the following structure:
 	 *
@@ -935,7 +916,7 @@
 	 */
 
 
- 	function listProjects($p_uuid=null, $mgr=false, $simple=false)
+ 	function listProjects($p_uuid=null, $mgr=false, $simple=false, $paged=false)
  	{
  		//build the query
 
@@ -949,8 +930,11 @@
  		}
 
 		//store the info
-
-		$result = $this->execute($query);
+		if($paged) {
+			$result = $this->getCurrentPage($query);
+		} else {
+			$result = $this->execute($query);
+		}
 		$projects = array();
 		while(!$result->EOF)
 		{
@@ -1068,7 +1052,7 @@
 
 		//send the volunteer a message from the site manager notifying them of the assignment
 		$result = $this->execute("SELECT name, FROM vm_projects WHERE proj_id = '$proj_id'");
-		$this->sendMessage('SYS_MSG', array($p_uuid), "You have been removed from Project: {$result->fields['name']}. \n\n (This is an automated message)");
+		$this->sendMessage('SYS_MSG', array($p_uuid), _("You have been removed from Project").": {$result->fields['name']}. \n\n ("._("This is an automated message").")");
 	}
 
 	/**
@@ -1107,7 +1091,7 @@
 		//first get and store all of the volunteer's skills as an array if necessary
 
 		if($p_uuid != null)
-			$skills_array = $this->getVolSkillsArray($p_uuid, $vol);
+			$skills_array = $this->getVolSkillsArray($p_uuid);
 		else if(is_array($any_skills))
 			$skills_array = $any_skills;
 		else
@@ -1118,7 +1102,7 @@
 	    $result = $this->execute("SELECT DISTINCT option_code, option_description FROM field_options WHERE field_name = 'opt_skill_type' ORDER BY option_description");
 
 	    $tree = new Tree("?mod=vm&amp;stream=text&amp;act=display_js&amp;js=");
-	    $tree->setRoot(new Node('Skills and Work Restrictions'));
+	    $tree->setRoot(new Node(_('Skills and Work Restrictions')));
 
 	    while(!$result->EOF)
 	    {
@@ -1127,30 +1111,33 @@
 
 	        foreach($split as $index => $name)
 	        {
-	            if($index < (count($split) - 1))
+	            $name = trim($name);
+	            if($name != '') 
 	            {
-	                $name = trim($name);
-	                $search_result = $tree->findNodeAux($cur_parent, $name);
-	                if($search_result == null)
-	                {
-	                    $tmp_child = new Node($name, 'CheckboxNode', array('input_name' => 'null'));
-	                    $cur_parent->addChild($tmp_child);
-	                    $cur_parent = $tmp_child;
-	                }
-	                else
-	                {
-	                    $cur_parent = $search_result;
-	                }
-	            }
-	            else
-	            {
-	            	$extra_info = array('input_name' => "'SKILL_{$result->fields['option_code']}'");
-
-	            	if(in_array($result->fields['option_code'], $skills_array))
-	            		$extra_info['checked'] = true;
-
-	                $tmp_child = new Node($name, 'CheckboxNode', $extra_info);
-	                $cur_parent->addChild($tmp_child);
+		            if($index < (count($split) - 1))
+		            {
+		                $search_result = $tree->findNodeAux($cur_parent, $name);
+		                if($search_result == null)
+		                {
+		                    $tmp_child = new Node($name, 'CheckboxNode', array('input_name' => 'null'));
+		                    $cur_parent->addChild($tmp_child);
+		                    $cur_parent = $tmp_child;
+		                }
+		                else
+		                {
+		                    $cur_parent = $search_result;
+		                }
+		            }
+		            else
+		            {
+		            	$extra_info = array('input_name' => "'SKILL_{$result->fields['option_code']}'");
+	
+		            	if(in_array($result->fields['option_code'], $skills_array))
+		            		$extra_info['checked'] = true;
+	
+		                $tmp_child = new Node($name, 'CheckboxNode', $extra_info);
+		                $cur_parent->addChild($tmp_child);
+		            }
 	            }
 	        }
 
@@ -1165,8 +1152,6 @@
 	 *
 	 * @access public
 	 * @param $p_uuid 	- the volunteer's p_uuid
-	 * @param $vol		- true to return a set of volunteer's skills, false to return a set of
-	 * 						project's required skills
 	 * @return the array, where each key is numerically based and each value is the skill ID
 	 */
 
@@ -1203,7 +1188,7 @@
 	    		                  (SELECT opt_skill_code FROM vm_vol_skills WHERE p_uuid = '$p_uuid')
 	    		                  ORDER BY option_description");
 	    $tree = new Tree("?mod=vm&amp;stream=text&amp;act=display_js&amp;js=");
-	    $tree->setRoot(new Node('Skills and Work Restrictions'));
+	    $tree->setRoot(new Node(_('Skills and Work Restrictions')));
 
 		// now store the skills in a Tree structure
 
@@ -1215,16 +1200,18 @@
 	        foreach($split as $index => $name)
 	        {
                 $name = trim($name);
-                $search_result = $tree->findNodeAux($cur_parent, $name);
-                if($search_result == null)
-                {
-                    $tmp_child = new Node($name);
-                    $cur_parent->addChild($tmp_child);
-                    $cur_parent = $tmp_child;
-                }
-                else
-                {
-                    $cur_parent = $search_result;
+                if($name != '') {
+	                $search_result = $tree->findNodeAux($cur_parent, $name);
+	                if($search_result == null)
+	                {
+	                    $tmp_child = new Node($name);
+	                    $cur_parent->addChild($tmp_child);
+	                    $cur_parent = $tmp_child;
+	                }
+	                else
+	                {
+	                    $cur_parent = $search_result;
+	                }
                 }
 
 	        }
@@ -1425,16 +1412,16 @@
 			if($approved)
 			{
 				$this->execute("UPDATE vm_vol_skills SET status='approved' WHERE opt_skill_code = '$ability' AND p_uuid = '$p_uuid'");
-				$this->sendMessage('SYS_MSG', array($p_uuid), "Your ability status for $ability_name has been approved. \n\n (This is an automated message)");
+				$this->sendMessage('SYS_MSG', array($p_uuid), _("Your ability status for")." $ability_name "._("has been approved").". \n\n ("._("This is an automated message").")");
 			}
 			else
 			{
 				//check to see if we're denying or revoking the status from the user (just for messaging)
 				$result = $this->execute("SELECT 1 FROM vm_vol_skills WHERE p_uuid = '$p_uuid' AND opt_skill_code = '$ability' AND status = 'approved'");
 				if(!$result->EOF)
-					$this->sendMessage('SYS_MSG', array($p_uuid), "Your ability status for $ability_name has been revoked. \n\n (This is an automated message)");
+					$this->sendMessage('SYS_MSG', array($p_uuid), _("Your ability status for")." $ability_name "._("has been revoked").". \n\n ("._("This is an automated message").")");
 				else
-					$this->sendMessage('SYS_MSG', array($p_uuid), "Your ability status request for $ability_name has been denied. \n\n (This is an automated message)");
+					$this->sendMessage('SYS_MSG', array($p_uuid), _("Your ability status request for")." $ability_name "._("has been denied").". \n\n ("._("This is an automated message").")");
 
 				$this->execute("UPDATE vm_vol_skills SET status='denied' WHERE opt_skill_code = '$ability' AND p_uuid = '$p_uuid'");
 			}
@@ -1442,7 +1429,7 @@
 		else
 		{
 			$this->execute("INSERT INTO vm_vol_skills (p_uuid, opt_skill_code, status) VALUES ('$p_uuid', '$ability', 'approved')");
-			$this->sendMessage('SYS_MSG', array($p_uuid), "You have been given an approved ability status for $ability_name. \n\n (This is an automated message)");
+			$this->sendMessage('SYS_MSG', array($p_uuid), _("You have been given an approved ability status for")." $ability_name. \n\n ("._("This is an automated message").")");
 		}
 	}
 
@@ -1491,14 +1478,15 @@
 
  	 function getMessages($p_uuid, $inbox=true)
  	 {
- 	 	if($inbox)
- 			$result = $this->execute("SELECT from_id, vm_message.message_id, time, message, checked FROM vm_message, vm_courier, vm_mailbox WHERE p_uuid = '$p_uuid' AND box = 0 AND to_id = '$p_uuid' AND vm_message.message_id = vm_courier.message_id AND vm_message.message_id = vm_mailbox.message_id ORDER BY time DESC");
-		else
-			$result = $this->execute("SELECT vm_message.message_id, time, message, checked FROM vm_message, vm_courier, vm_mailbox WHERE p_uuid = '$p_uuid' AND box = 1 AND from_id = '$p_uuid' AND vm_message.message_id = vm_courier.message_id AND vm_message.message_id = vm_mailbox.message_id GROUP BY vm_message.message_id ORDER BY time DESC");
+ 	 	if($inbox) {
+ 			$query = "SELECT from_id, vm_message.message_id, time, message, checked FROM vm_message, vm_courier, vm_mailbox WHERE p_uuid = '$p_uuid' AND box = 0 AND to_id = '$p_uuid' AND vm_message.message_id = vm_courier.message_id AND vm_message.message_id = vm_mailbox.message_id ORDER BY time DESC";
+ 	 	} else {
+			$query = "SELECT vm_message.message_id, time, message, checked FROM vm_message, vm_courier, vm_mailbox WHERE p_uuid = '$p_uuid' AND box = 1 AND from_id = '$p_uuid' AND vm_message.message_id = vm_courier.message_id AND vm_message.message_id = vm_mailbox.message_id GROUP BY vm_message.message_id ORDER BY time DESC";
+ 	 	}
 
+ 	 	$result = $this->getCurrentPage($query);
  		$messages = array();
- 		while(!$result->EOF)
- 		{
+ 		while(!$result->EOF) {
  			$this->remove_keys($result->fields);
  			$messages[]= $result->fields;
  			$result->moveNext();
@@ -1656,27 +1644,10 @@
  	     * @param $unassigned		- (optional) true to show only unassigned volunteers, false to show all
  	     * @param $loose			- (optional) true for looser matching on the name
  	     * @param $assigning_proj	- (optional, for assigning) the project ID of the project we are assigning to, to exclude all volunteers already assigned to it
- 	     * @return an array where each key is a p_uuid of a volunteer and each value is an array with the following structure:
- 	     *
- 	     * Array
- 	     * (
- 	     * 		'full_name'		=> the volunteer's full name
- 	     *		'ids'			=> an array  of the volunteer's IDs, where each key is
- 	     *							the abbreviation for an ID type and each value is the ID code
- 	     *		'skills'		=> an array of skill codes => descriptions for the volunteer
- 	     *		'date_start'	=> the volunteer's available start date
- 	     *		'date_end'		=> the volunteer's available end date
- 	     *		'locations'		=> an array of the volunteer's location and its parents where each key is a location id and each value is the location name
- 	     *		'affiliation'	=> the organization that the volunteer is affiliated with
- 	     *		'id_searched'	=> the Id number searched for, nice to have when displaying to highlight the searched-for substring
- 	     *		'levenshtein'	=> the levenshtein distance between the name searched for and this
- 	     *							volunteer's full name
- 	     * )
- 	     *
- 	     * The search results are ordered by increasing levenshtein distance.
+ 	     * @return An array of Volunteer Objects. This function uses paging.
  	     */
 
- 	    function getVolSearchResults($id, $name, $skills, $skills_matching, $start_date, $end_date, $location, $date_constraint, $unassigned=false, $loose=false, $assigning_proj=null)
+ 	    function getVolSearchResults($id, $name, $skills, $skills_matching, $start_date, $end_date, $location, $date_constraint, $unassigned=false, $loose=false, $soundslike=false, $assigning_proj=null)
  	    {
  	    	$name_set = $name != '';
  	    	$id_set = $id != '';
@@ -1684,35 +1655,98 @@
  	    	$skills_set = count($skills) > 0;
  	    	$location_set = $location != '';
 
- 	    	$query = 	"SELECT 	vm_vol_active.p_uuid, person_uuid.full_name, vm_vol_assignment_active.proj_id, location_id, opt_id_type, serial, org_id, org_main.name org_name, option_description id_desc, date_avail_start, date_avail_end
+ 	    	$query = 	"SELECT 	DISTINCT vm_vol_active.p_uuid
 				 		 FROM 		vm_vol_active
 				 		 			LEFT JOIN person_uuid USING (p_uuid)
-						 			LEFT JOIN vm_vol_assignment_active USING (p_uuid)
-									LEFT JOIN location_details ON (location_details.poc_uuid = person_uuid.p_uuid)
 									LEFT JOIN identity_to_person USING (p_uuid)
 									LEFT JOIN org_main ON (vm_vol_active.org_id = org_main.o_uuid)
-									LEFT JOIN field_options ON (identity_to_person.opt_id_type = field_options.option_code) ";
+									LEFT JOIN field_options ON (identity_to_person.opt_id_type = field_options.option_code)
+									LEFT JOIN location_details ON (location_details.poc_uuid = person_uuid.p_uuid) ";
 
 			//generate the FROM clause
 
-			if($name_set)
+			// This joins on the phonetic word table
+			if($name_set && ($soundslike || $loose)) {
 				$query .= " JOIN phonetic_word ON (person_uuid.p_uuid = phonetic_word.pgl_uuid) ";
+			}
 			$query .= "WHERE 1 ";
 
 			//generate the WHERE clause
 
-			//search by name
+			//Search by name -- this sets the search criteria in the WHERE clause
 
-			if($name_set)
-				$query .= " AND ".$this->generateSelectPhoneticClauses($name, $loose);
+			if($name_set) {
+				if($soundslike || $loose) {
+					$query .= " AND ".$this->generateSelectPhoneticClauses($name, $loose);
+				} else {
+					$query .= " AND (";
+					$query .= "'".$name."' LIKE CONCAT('%', full_name, '%') OR ";
+					$query .= "'".$name."' LIKE CONCAT('%', family_name, '%') OR ";
+					$query .= "'".$name."' LIKE CONCAT('%', l10n_name, '%') OR ";
+					$query .= "'".$name."' LIKE CONCAT('%', custom_name, '%') OR ";
+					$query .= "full_name LIKE '%$name%' OR ";
+					$query .= "family_name LIKE '%$name%' OR ";
+					$query .= "l10n_name LIKE '%$name%' OR ";
+					$query .= "custom_name LIKE '%$name%'";
+					$query .= ") ";
 
-			//search by IDs
+				}
+			}
+			//search by ID
 
-			if($id_set)
+			if($id_set) {
 				$query .= " AND serial LIKE '%{$id}%' ";
+			}
+
+			//search by location
+			if($location_set) {
+				$location_level = shn_get_level($location);
+				$tmp = shn_get_last_level();
+				$most_specific_level = $tmp[0];
+
+				//now, basically we want to store the location hierarchy starting from the searched location
+				//since any location that falls under it should match.
+				//we want to search for inclusion in a result such as
+				//SELECT l1.loc_uuid AS lev1, l2.loc_uuid as lev2, l3.loc_uuid as lev3
+				//FROM location AS l1
+				//LEFT JOIN location AS l2 ON l2.parent_id = l1.loc_uuid
+				//LEFT JOIN location AS l3 ON l3.parent_id = l2.loc_uuid
+				//WHERE l1.loc_uuid = 'qbhglc-1';
+
+				//create temporary table to hold the given location and all of its children
+				$q = "CREATE TEMPORARY TABLE vm_temp_locations (";
+				for($i = $location_level; $i <= $most_specific_level; $i++) {
+					$q .= "l$i VARCHAR(255),";
+				}
+				$q = substr($q, 0, strlen($q) - 1);
+				$q .= ")";
+				$this->execute($q);
+
+				//insert into it the searched location and all of its children
+				$q = "INSERT INTO vm_temp_locations SELECT ";
+				for($i = $location_level; $i <= $most_specific_level; $i++) {
+					$q .= "l".$i.".loc_uuid AS lev$i,";
+				}
+				$q = substr($q, 0, strlen($q) - 1);
+				$q .= " FROM location AS l$location_level ";
+				for($i = $location_level + 1; $i <= $most_specific_level; $i++) {
+					$q .= "LEFT JOIN location AS l".$i." ON l$i.parent_id = l".($i - 1).".loc_uuid ";
+				}
+				$q .= " WHERE l$location_level.loc_uuid = '$location'";
+				$this->execute($q);
+
+				//create a temporary table to store all distinct locations for easier searching
+				$this->execute("CREATE TEMPORARY TABLE vm_temp_location_search (loc_uuid VARCHAR(255))");
+				for($i = $location_level; $i <= $most_specific_level; $i++) {
+					$q = "INSERT INTO vm_temp_location_search SELECT DISTINCT l$i FROM vm_temp_locations";
+					$this->execute($q);
+				}
+
+				//now finally add the clause to the search query
+				$query .= " AND location_details.location_id IN (SELECT loc_uuid FROM vm_temp_location_search) ";
+			}
 
 			//search by skills
-
 			if($skills_set)
 			{
 				$skills_set_search = " (";
@@ -1761,113 +1795,28 @@
 
 			//get only unassigned
 
-			if($unassigned)
+			if($unassigned) {
 				$query .= " AND person_uuid.p_uuid NOT IN (SELECT DISTINCT p_uuid FROM vm_vol_assignment_active) ";
-
+			}
 
 			//if we are assigning to a project, exclude results from the project we are assigning to
 
-			if($assigning_proj != null)
+			if($assigning_proj != null) {
 				$query .= " AND person_uuid.p_uuid NOT IN (SELECT p_uuid FROM vm_vol_assignment_active WHERE proj_id = '$assigning_proj') AND person_uuid.p_uuid NOT IN (SELECT p_uuid FROM vm_vol_assignment_active WHERE proj_id = '$assigning_proj' AND ptype_id = 'smgr') ";
-
+			}
 
 		    //get the results and format them into the resulting array
+			$result = $this->getCurrentPage($query);
+//			print_r($this->db);
 
-
-			$result = $this->execute($query);
 			$search_results = array();
 
-			while(!$result->EOF)
-			{
-				//first check to see if there already is an entry in the array (since we are doing so many joins, more than one row may be returned per volunteer)
-				$p_uuid = $result->fields['p_uuid'];
-
-				if(isset($search_results[$p_uuid]))
-				{
-					//update existing information for this entry
-
-					if($result->fields['serial'] != null)
-						$search_results[$p_uuid]['ids'][$result->fields['id_desc']] = $result->fields['serial'];
-
-					if($result->fields['org_name'] != null)
-						$search_results[$p_uuid]['affiliation'] = $result->fields['org_name'];
-				}
-				else
-				{
-					//create a new entry for the volunteer in the $search_results array
-
-					//first, have to do refinement of results by location manually due to its recursive nature
-					//if we are searching by location and the location to search by is not in the resulting volunteer's
-					//location hierarchy, exclude him from the results
-
-					$move_on = true;
-
-					$location_tree = $this->getParentLocations($result->fields['location_id']);
-					if($location_set)
-					{
-						if(!in_array($location, array_keys($location_tree)))
-							$move_on = false;
-					}
-
-					if($move_on)
-					{
-						$search_results[$p_uuid] = array
-						(
-							'full_name' 	=> $result->fields['full_name'],
-							'ids'			=> ($result->fields['serial']==null)?array():array($result->fields['id_desc'] => $result->fields['serial']),
-							'date_start' 	=> $result->fields['date_avail_start'],
-							'date_end' 		=> $result->fields['date_avail_end'],
-							'locations' 	=> $location_tree,
-							'skills' 		=> $this->getSkillsAndDescriptions($result->fields['p_uuid']),
-							'affiliation'	=> $result->fields['org_name'],
-							'id_searched' 	=> $id
-						);
-
-						$levenshtein = 0;
-
-		            	if($name_set)
-		                	$levenshtein = levenshtein(strtoupper($result->fields['full_name']), strtoupper($name));
-
-						$search_results[$p_uuid]['levenshtein'] = $levenshtein;
-					}
-				}
-
+			while(!$result->EOF) {
+				$search_results[] = new Volunteer($result->fields['p_uuid']);
 				$result->MoveNext();
 			}
 
-			/*
-	         * Sort the resulting array by levenshtein distance. To change the acceptable levenshtein distance
-	         * between the inputted name and resulting names, modify SHN_VM_MAX_LEVENSHTEIN in the Constants.php file.
-	         */
-
-	        if($name_set)
-	        {
-	        	//bucket sort
-
-		        $buckets = array();
-	            foreach($search_results as $p_uuid => $info)
-	            {
-	            	if(isset($buckets[$info['levenshtein']]))
-	            		$buckets[$info['levenshtein']][$p_uuid] = $info;
-	            	else
-	            		$buckets[$info['levenshtein']] = array($p_uuid => $info);
-	            }
-
-	            $sorted_results = array();
-	            for($i = 0; $i < VM_MAX_LEVENSHTEIN; $i++)
-	            {
-	            	if(isset($buckets[$i]))
-		            	foreach($buckets[$i] as $p_uuid => $info)
-		            		$sorted_results[$p_uuid] = $info;
-	            }
-
-		        return $sorted_results;
-	        }
-	        else
-	        {
-	        	return $search_results;
-	        }
-
+	        return $search_results;
  	    }
 
  	    /**
@@ -1913,7 +1862,7 @@
 
 			//send the volunteer a message notifying them of the assignment
 			$result = $this->execute("SELECT name FROM vm_projects WHERE proj_id = '$p_id'");
-			$this->sendMessage('SYS_MSG', array($vol_id), "You have been assigned to {proj $p_id {$result->fields['name']}}. \n\n (This is an automated message)");
+			$this->sendMessage('SYS_MSG', array($vol_id), _("You have been assigned to")." {proj $p_id {$result->fields['name']}}. \n\n ("._("This is an automated message").")");
 		}
 
 
@@ -2401,6 +2350,34 @@
 		{
 			$this->execute("DELETE FROM sys_tablefields_to_data_classification WHERE table_field = '$table'");
 			$this->execute("INSERT INTO sys_tablefields_to_data_classification (table_field, level_id) VALUES ('$table', '$level')");
+		}
+
+		/**
+		 * Uses the sahana paging library to get the paging result with the given query and results per page.
+		 * When the user clicks on a page link (GET) in the view or a page submit button (POST) the
+		 * library function, _shn_page_get_rs(), will take the page parameter from either the GET
+		 * or POST variable.  The user can also set the RPP (rows per page) value in the view before
+		 * selecting a specific page.
+		 * @param $query	The query to use
+		 * @return the ADODB query result
+		 */
+
+		function getCurrentPage($query) {
+			global $global;
+
+			//get number of rows per page
+			$rpp = isset($_REQUEST['rpp']) ? $_REQUEST['rpp'] : VM_DEFAULT_RPP;
+			$result = _shn_page_get_rs($query, $rpp);
+
+			//set the paging result and rpp to $global to use the metadata later in the views
+			$global['vm_page_result'] = $result;
+			$global['vm_page_rpp'] = $rpp;
+
+			//VERY IMPORTANT: the _shn_page_get_rs() function above sets the DB query fetchmode to ADODB_FETCH_ASSOC, so to ensure proper
+			//working of other things in Sahana (like location functionality), need to reset to 3, which is both numerical and assoc
+			//see http://phplens.com/adodb/reference.varibles.adodb_fetch_mode.html
+			$this->db->SetFetchMode(3);
+			return $result;
 		}
 
 }

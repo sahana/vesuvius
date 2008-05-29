@@ -101,6 +101,7 @@
 				View::View();
 				$this->displayConfirmation('The requested Project was deleted.');
 				$this->listProjects();
+				$this->showPagingNavigation("index.php?mod=vm&amp;act=project&amp;vm_action=default");
 			break;
 
 			case 'display_confirm_delete':
@@ -120,24 +121,21 @@
 
 			case 'display_assign':
 				View::View();
-				if($getvars['proj_id'] == '')
-				{
+				if($getvars['proj_id'] == '') {
 					add_error(SHN_ERR_VM_NO_PROJECT);
 
 					//if the user is just a site manager who got here due to overriding access control, only display his projects, otherwise display all
-					if($dao->isSiteManager($_SESSION['user_id']) && !$ac->dataAccessIsAuthorized(array('vm_proj_vol' => 'ru'), false))
+					if($dao->isSiteManager($_SESSION['user_id']) && !$ac->dataAccessIsAuthorized(array('vm_vol_position' => 'ru'), false))
 						$projects = $dao->listProjects($_SESSION['user_id'], true);
 					else
 						$projects = $dao->listProjects();
 
 					$this->displaySelectProjectForAssignmentForm($projects);
-				}
-				else
-				{
-					if($this->validateAssignForm($getvars))
-					{
-						$dao->assignVolunteerToPosition($getvars['p_uuid'], $getvars['pos_id_'.$getvars['p_uuid']]);
-						add_confirmation('Volunteer has been successfully assigned');
+				} else {
+					if($this->validateAssignForm($getvars)) {
+						$p_uuid = $this->getAssigningVolId($getvars);
+						$dao->assignVolunteerToPosition($p_uuid, $getvars['pos_id_'.$p_uuid]);
+						add_confirmation(_('Volunteer has been successfully assigned'));
 					}
 					$p = new Project($getvars['proj_id']);
 					$this->assignVol($getvars['proj_id'], $p->positions);
@@ -153,6 +151,7 @@
 
 			case 'display_my_list':
 				$this->listProjects($_SESSION['user_id']);
+				$this->showPagingNavigation("index.php?mod=vm&amp;act=project&amp;vm_action=display_my_list");
 			break;
 
 			case 'process_add_position':
@@ -194,10 +193,31 @@
 				$this->controlHandler(array('vm_action' => 'display_single', 'proj_id'=> $getvars['proj_id']));
 			break;
 
-			default: $this->listProjects();
+			default: 
+				$this->listProjects();
+				$this->showPagingNavigation("index.php?mod=vm&amp;act=project&amp;vm_action=default");
+			break;
 		}
 
  	}
+
+	/**
+	 * Gets the id of the volunteer who is being assigned.
+	 * 
+	 * @param $getvars the getvars used to submit the form
+	 * @return the p_uuid of the volunteer who is being assigned, or null if not found
+	 */
+	 
+	function getAssigningVolId($getvars) {
+		//the volunteer's id is included in the name of the button used to submit the form
+		$prefix = "assigning_vol_";
+ 		foreach($getvars as $key => $value) {
+ 			if(substr($key, 0, strlen($prefix)) == $prefix) {
+ 				return substr($key, strlen($prefix));
+ 			}
+ 		}
+ 		return null;
+	}
 
  	/**
  	 * Validates that the required fields are filled out in order to assign a volunteer
@@ -212,7 +232,8 @@
  		global $global;
 		require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
 
- 		return $getvars['p_uuid'] != '';
+		$p_uuid = $this->getAssigningVolId($getvars);
+		return ($p_uuid != null && isset($getvars["pos_id_$p_uuid"]));
  	}
 
  	/**

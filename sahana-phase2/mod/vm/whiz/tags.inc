@@ -20,22 +20,25 @@
 */
 
 $find = array(
-	"/{ *\\$(\w+)\.(\w+) *}/",				// array dot syntax
-	"/{ *\\$(\w+)\.(\w+)\.(\w+) *}/",		// array dot syntax (2-level)
-	"/{ *\\$(\w+)\.\\$(\w+) *}/",			// array dot syntax w/vars
-	"/{ *\\$(\w+)\.\\$(\w+)\.\\$(\w+) *}/",	// array dot syntax (2-level, w/vars)
-	"/{ *\\$(\w+) *}/",						// variables
-	"/{ *if +(.*) *}/",						// if
-	"/{ *else *}/",							// else
-	"/{ *else +if +(.*) *}/",				// else if
-	"/{ *\/if *}/",							// end if
-	"/{ *while +(.*) *}/","/{\/while}/",	// while
-	"/{foreach +(.*)}/","/{\/foreach}/",	// foreach
+	"/_\(\s*\"([^\(\)]+)\"\s*\|\s*([^\(\)]+)\s*\)/",	// text with format string
+	"/{\s*\\$(\w+)\.(\w+)\s*}/",				// array dot syntax
+	"/{\s*\\$(\w+)\.(\w+)\.(\w+)\s*}/",		// array dot syntax (2-level)
+	"/{\s*\\$(\w+)\.\\$(\w+)\s*}/",			// array dot syntax w/vars
+	"/{\s*\\$(\w+)\.\\$(\w+)\.\\$(\w+)\s*}/",	// array dot syntax (2-level, w/vars)
+	"/{\s*\\$(\w+)\s*}/",						// variables
+	"/{\s*if\s+(.*)\s*}/",						// if
+	"/{\s*else\s*}/",							// else
+	"/{\s*else\s+if\s+(.*)\s*}/",				// else if
+	"/{\s*\/if\s*}/",							// end if
+	"/{\s*while\s+(.*)\s*}/","/{\s*\/while\s*}/",	// while
+	"/{foreach\s+(.*)}/","/{\s*\/foreach\s*}/",	// foreach
 	"/{php}/","/{\/php}/",					// php tags
-	"/{\*.*\*}/"							// comments
+	"/{\*.*\*}/",							// comments
+	"/_\(\"\s*([^\(\)]+)\s*\"\)/"			// localizable text
 );
 
 $replace = array(
+	"<?php printf(\"$1\", $2); ?>",
 	"<?php echo(\$$1['$2']); ?>",
 	"<?php echo(\$$1['$2']['$3']); ?>",
 	"<?php echo(\$$1[\$$2]); ?>",
@@ -48,7 +51,9 @@ $replace = array(
 	"<?php while($1) { ?>","<?php } ?>",
 	"<?php foreach(\$1) { ?>","<?php } ?>",
 	"<?php "," ?>",
-	""
+	"",
+	"<?php echo _(\"$1\"); ?>"
+	
 );
 
 $empty_blocks = "/\?\>\s+\<\?php/";

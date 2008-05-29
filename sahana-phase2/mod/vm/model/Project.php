@@ -49,14 +49,18 @@ class Project extends Model {
 	function save() {
 		$this->dao->saveProject($this);
 	}
-
+	 
 	/**
 	 * Retrieve a list of project information
 	 *
 	 * @access public
 	 * @param $p_uuid		- (optional) if specified, only return projects that this volunteer is working on (site managers are handled as well)
-	 * @return if $getNames is true, see above; otherwise, an array of project information arrays, where each
-	 * 			key is the project ID and each value is an array with the following structure:
+	 * @param $mgr			- (optional) if specified, $p_uuid is treated as site manager and only projects he is a site manager for will be returned; if $p_uuid
+	 * 							is a site manager but this is false, it will also return any projects that the site manager may just be assigned to
+	 * @param $simple		- (optional) if true, the return array only contains the proj_id for each key and the project name for each value
+	 * @param $paged		- (optional) if true, the current place in the paging navigation as well as rows per page are taken into account when querying
+	 * @return an array of project information arrays, where each key is the project ID and each value
+	 * is an array with the following structure:
 	 *
 	 * 	Array
 	 * 	(
@@ -65,9 +69,8 @@ class Project extends Model {
 	 * 	)
 	 */
 
-	function getProjects($p_uuid=null)
-	{
-		return $this->dao->listProjects($p_uuid);
+	function getProjects($p_uuid=null, $mgr=false, $simple=false, $paging=false) {
+		return $this->dao->listProjects($p_uuid, $mgr, $simple, $paging);
 	}
 
 	/**

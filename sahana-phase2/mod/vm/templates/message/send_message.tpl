@@ -135,12 +135,14 @@ function addToList(value, text)
 
 {php}
 	shn_form_fopen('volunteer&amp;vm_action=process_send_message', null, array('req_message' => false));
-	shn_form_fsopen('To');
-	shn_form_label('To List:', null,
+	shn_form_fsopen(_('To'));
+	shn_form_label(_('To List:'), null,
 	array
 		(
 			'br' => true,
-			'help' => "To add a volunteer to the 'To' list, select one in the 'List of Volunteers' below and click on 'Add'. <br /><br />To remove a volunteer from the 'To' list, click on the remove link next to his name."
+			'help' => _('To add a volunteer to the \'To\' list, select one in the \'List of Volunteers\' below and click on \'Add\'.
+			
+			To remove a volunteer from the \'To\' list, click on the remove link next to his name.')
 		));
 {/php}
 
@@ -165,13 +167,13 @@ function addToList(value, text)
 </script>
 
 {php}
-		shn_form_select($to_list, 'List of Volunteers :', 'vol_list', '', array('br' => false));
+		shn_form_select($to_list, _('List of Volunteers :'), 'vol_list', '', array('br' => false));
 
 		/*
 		 * Add the 'Add' button and make it update the to list
 		 */
 
-		shn_form_button('Add', "onClick=\"
+		shn_form_button(_('Add'), "onClick=\"
 
 		//get the value and name of the person to add
 		var list = document.getElementById('vol_list');
@@ -185,11 +187,11 @@ function addToList(value, text)
 
 	shn_form_fsclose();
 
-	shn_form_fsopen('Message');
-		shn_form_textarea("Message :", "message");
+	shn_form_fsopen(_('Message'));
+		shn_form_textarea(_('Message :'), "message");
 	shn_form_fsclose();
 
-	shn_form_submit('Send');
+	shn_form_submit(_('Send'));
 shn_form_fclose();
 
 {/php}

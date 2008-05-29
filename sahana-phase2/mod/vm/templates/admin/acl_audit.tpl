@@ -1,23 +1,23 @@
-<h3>ACL Audit</h3>
+<h3>_("ACL Audit")</h3>
 <br />
 
 {if empty($bad_requests) && empty($extra_requests) && empty($unclassified_tables)}
 	<div class="confirmation message">
-		All access requests in the database and in the VM code match.
+		_("All access requests in the database and in the VM code match.")
 	</div>
 {/if}
 
 {if !empty($bad_requests)}
 	<div class="warning message">
-		<b style="color: #C00">Warning: </b><b>The following requests in the VM code are not under access control:</b>
+		<b style="color: #C00">_("Warning:") </b><b>_("The following requests in the VM code are not under access control:")</b>
 	</div>
 		<table align="center">
 			<thead>
 				<tr>
 					<td>act</td>
 					<td>vm_action</td>
-					<td>Description</td>
-					<td>Add</td>
+					<td>_("Description")</td>
+					<td>_("Add")</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,7 +30,7 @@
 							<td>{$request.act}</td>
 							<td>{$request.vm_action}</td>
 							<td><input type="text" name="request_desc" id="desc_{$request.act}_{$request.vm_action}" /></td>
-							<td><input type="submit" value="Add" onClick="if(document.getElementById('desc_{$request.act}_{$request.vm_action}').value == '') {alert('Please enter a description'); return false;}" /></td>
+							<td><input type="submit" value="_("Add")" onClick="if(document.getElementById('desc_{$request.act}_{$request.vm_action}').value == '') {alert(_("Please enter a description")); return false;}" /></td>
 						</tr>
 					</form>
 				{/foreach}
@@ -42,16 +42,16 @@
 
 {if !empty($extra_requests)}
 	<div class="warning message">
-		<b style="color: #C00">Warning: </b><b>The following requests in the database are never referenced:</b>
+		<b style="color: #C00">_("Warning"): </b><b>_("The following requests in the database are never referenced"):</b>
 	</div>
 	<table align="center">
 		<thead>
 			<tr>
 				<td>act</td>
 				<td>vm_action</td>
-				<td>Description</td>
-				<td>Remove From Database</td>
-			</tr>
+				<td>_("Description")</td>
+				<td>_("Remove From Database")</td>
+			</tr>s
 		</thead>
 		<tbody>
 			{foreach $extra_requests as $act => $request}
@@ -64,7 +64,7 @@
 								<td>{$act}</td>
 								<td>{$vm_action}</td>
 								<td>{$description}</td>
-								<td style="text-align: center"><input type="submit" value="Remove" /></td>
+								<td style="text-align: center"><input type="submit" value="_("Remove")" /></td>
 							</tr>
 					</form>
 				{/foreach}
@@ -76,14 +76,14 @@
 
 {if !empty($unclassified_tables)}
 	<div class="warning message">
-		<b style="color: #C00">Warning: </b><b>The following database tables/views have not been given any classification level:</b>
+		<b style="color: #C00">_("Warning"): </b><b>_("The following database tables/views have not been given any classification level"):</b>
 	</div>
 	<table align="center">
 		<thead>
 			<tr>
-				<td>Table</td>
-				<td>Classification Level</td>
-				<td>Add</td>
+				<td>_("Table")</td>
+				<td>_("Classification Level")</td>
+				<td>_("Add")</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -100,7 +100,7 @@
 								{/foreach}
 							</select>
 						</td>
-						<td><input type="submit" value="Add" /></td>
+						<td><input type="submit" value="_("Add")" /></td>
 					</tr>
 				</form>
 			{/foreach}

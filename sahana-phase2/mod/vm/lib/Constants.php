@@ -62,44 +62,48 @@ define('VM_IMAGE_THUMB_HEIGHT',	120);
 define('VM_IMAGE_BIG_WIDTH',	320);
 define('VM_IMAGE_BIG_HEIGHT',	240);
 
-//the delimeter used for separating skills categories and descriptions
-//you may have to include a '\' before the delimeter because this is passed in as a regular expression to split a string by
-define('VM_SKILLS_DELIMETER', '-');
+//the delimeter used for separating skills categories and descriptions, can be regular expression describing more than one delimeter
+define('VM_SKILLS_DELIMETER', '(\-|－|一)');
 
 //the maximum acceptable levenshtein distance to use when sorting search results
 define('VM_MAX_LEVENSHTEIN', 255);
 
+//default number of rows per page for paging display
+define('VM_DEFAULT_RPP', 5);
+define('VM_DEFAULT_REPORTS_RPP', 20);
+define('VM_DEFAULT_MAILBOX_RPP', 20);
+
 //error constants
 
-define('SHN_ERR_VM_NO_NAME',					'Please specify a name');
-define('SHN_ERR_VM_BAD_DATES',					'Please specify valid start and end dates for availability (yyyy-mm-dd)');
-define('SHN_ERR_VM_DATES_INCOMPATIBLE',			'Please specify a start date that is before the end date');
-define('SHN_ERR_VM_INVALID_DOB',				'Date of birth is not a valid date');
-define('SHN_ERR_VM_BAD_PROJECT_DATES',			'Please make sure that the dates you specified are valid(yyyy-mm-dd)');
-define('SHN_ERR_VM_FUTURE_DOB',					'Date of birth is in the future');
-define('SHN_ERR_VM_BAD_START_TIME',				'Invalid start hours format');
-define('SHN_ERR_VM_BAD_END_TIME',				'Invalid end hours format');
-define('SHN_ERR_VM_NO_SKILLS_SELECTED',			'Please select at least one skill');
-define('SHN_ERR_VM_BAD_USER_NAME',				'Please enter a valid user name');
-define('SHN_ERR_VM_BAD_PASSWORD',				'Please enter valid passwords');
-define('SHN_ERR_VM_INCOMPATIBLE_PASSWORDS',		'Passwords do not match');
-define('SHN_ERR_VM_BAD_CUR_PASSWORD',			'Please enter a valid current password');
-define('SHN_ERR_VM_BAD_NEW_PASSWORD',			'Please enter valid new passwords');
-define('SHN_ERR_VM_PASSWORD_NOT_MATCH',			'Current Password does not match');
-define('SHN_ERR_VM_USER_EXISTS',				'A Sahana account with the given username already exists.');
-define('SHN_ERR_VM_NO_TO_VOLS',					'Please select at least one volunteer to send the message to');
-define('SHN_ERR_VM_NO_MESSAGE',					'Please type a message');
-define('SHN_ERR_VM_SEARCH_NO_PARAMS',			'Please enter at least one field to search by');
-define('SHN_ERR_VM_SEARCH_BAD_ID',				'Please enter an ID at least 4 characters long if no other fields are specified');
-define('SHN_ERR_VM_BOTH_DATES',					'Please specify both a start and an end date.');
-define('SHN_ERR_VM_NO_PROJECT',					'Please select a project');
-define('SHN_ERR_VM_NO_MGR',						'Please specify a project manager');
-define('SHN_ERR_VM_NO_START_DATE',				'If you specify an end date for availability, please specify a start date as well');
-define('SHN_ERR_VM_BAD_DATE_RANGE',				'If you specify searching for an entire available date range, please specify both a start and end date');
-define('SHN_ERR_VM_NO_REQUEST',					'Please specify a situation to modify access to');
-define('SHN_ERR_VM_NO_TITLE',					'Please specify a title');
-define('SHN_ERR_VM_NO_POSITION_TYPE',			'Please specify a position_type');
-define('SHN_ERR_VM_NO_TARGET',					'Please specify a non-zero target number of volunteers');
-define('SHN_ERR_VM_NO_DESCRIPTION',				'Please specify a description');
-define('SHN_ERR_VM_NO_PAYRATE',					'Please specify a non-zero pay rate');
+define('SHN_ERR_VM_NO_NAME',					_('Please specify a name'));
+define('SHN_ERR_VM_BAD_DATES',					_('Please specify valid start and end dates for availability (yyyy-mm-dd)'));
+define('SHN_ERR_VM_DATES_INCOMPATIBLE',			_('Please specify a start date that is before the end date'));
+define('SHN_ERR_VM_INVALID_DOB',				_('Date of birth is not a valid date'));
+define('SHN_ERR_VM_BAD_PROJECT_DATES',			_('Please make sure that the dates you specified are valid(yyyy-mm-dd)'));
+define('SHN_ERR_VM_FUTURE_DOB',					_('Date of birth is in the future'));
+define('SHN_ERR_VM_BAD_START_TIME',				_('Invalid start hours format'));
+define('SHN_ERR_VM_BAD_END_TIME',				_('Invalid end hours format'));
+define('SHN_ERR_VM_NO_SKILLS_SELECTED',			_('Please select at least one skill'));
+define('SHN_ERR_VM_BAD_USER_NAME',				_('Please enter a valid user name'));
+define('SHN_ERR_VM_BAD_PASSWORD',				_('Please enter valid passwords'));
+define('SHN_ERR_VM_INCOMPATIBLE_PASSWORDS',		_('Passwords do not match'));
+define('SHN_ERR_VM_BAD_CUR_PASSWORD',			_('Please enter a valid current password'));
+define('SHN_ERR_VM_BAD_NEW_PASSWORD',			_('Please enter valid new passwords'));
+define('SHN_ERR_VM_PASSWORD_NOT_MATCH',			_('Current Password does not match'));
+define('SHN_ERR_VM_USER_EXISTS',				_('A Sahana account with the given username already exists.'));
+define('SHN_ERR_VM_NO_TO_VOLS',					_('Please select at least one volunteer to send the message to'));
+define('SHN_ERR_VM_NO_MESSAGE',					_('Please type a message'));
+define('SHN_ERR_VM_SEARCH_NO_PARAMS',			_('Please enter at least one field to search by'));
+define('SHN_ERR_VM_SEARCH_BAD_ID',				_('Please enter an ID at least 4 characters long if no other fields are specified'));
+define('SHN_ERR_VM_BOTH_DATES',					_('Please specify both a start and an end date.'));
+define('SHN_ERR_VM_NO_PROJECT',					_('Please select a project'));
+define('SHN_ERR_VM_NO_MGR',						_('Please specify a project manager'));
+define('SHN_ERR_VM_NO_START_DATE',				_('If you specify an end date for availability, please specify a start date as well'));
+define('SHN_ERR_VM_BAD_DATE_RANGE',				_('If you specify searching for an entire available date range, please specify both a start and end date'));
+define('SHN_ERR_VM_NO_REQUEST',					_('Please specify a situation to modify access to'));
+define('SHN_ERR_VM_NO_TITLE',					_('Please specify a title'));
+define('SHN_ERR_VM_NO_POSITION_TYPE',			_('Please specify a position_type'));
+define('SHN_ERR_VM_NO_TARGET',					_('Please specify a non-zero target number of volunteers'));
+define('SHN_ERR_VM_NO_DESCRIPTION',				_('Please specify a description'));
+define('SHN_ERR_VM_NO_PAYRATE',					_('Please specify a non-zero pay rate'));
 ?>

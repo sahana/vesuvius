@@ -1,6 +1,6 @@
-<h3>Access Control</h3><br />
+<h3>_("Access Control")</h3><br />
 	<center>
-		<b>Please select a situation below to modify access to:</b>
+		<b>_("Please select a situation below to modify access to:")</b>
 	</center>
 <br /><br />
 <form action="?mod=vm&amp;act=adm_default&amp;vm_action=display_acl_modify" method="post">
@@ -35,6 +35,6 @@
 	</table>
 	<br /><br />
 	<center>
-		<input type="submit" value="Continue" />
+		<input type="submit" value="_("Continue")" />
 	</center>
 </form>

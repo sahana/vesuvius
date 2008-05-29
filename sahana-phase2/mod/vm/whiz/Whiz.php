@@ -33,7 +33,7 @@ class Whiz {
 		// check if we have a cache directory
 		if(!file_exists($cache_dir))
 			if(!mkdir($cache_dir)) {
-				add_error("Template error: could not create template cache directory.");
+				add_error(_("Template error: could not create template cache directory."));
 				return false;
 			}
 	}
@@ -45,22 +45,22 @@ class Whiz {
 	function display($template) {
 		$template_path = $this->template_dir.$template;
 		if(!file_exists($template_path)) {
-			add_error("Template error: No such template file: $template_path");
+			add_error(_("Template error: No such template file:") . $template_path);
 			return false;
 		}
 		$cache_id = md5(realpath($template_path));
-		$cache_path = $this->cache_dir.basename($template).'_'.$cache_id.'.cache';
+		$cache_path = $this->cache_dir.basename($template).'.'.$cache_id.'.inc';
 		if(!file_exists($cache_path) || filemtime($cache_path) <= filemtime($template_path)) {
 			require('tags.inc');
 			$compiled = preg_replace($find, $replace, file_get_contents($template_path));
 			$compiled = preg_replace($empty_blocks, "\n", $compiled);
 			if(empty($compiled)||!$compiled) {
-				add_error("Template error: Error caching template file: $template");
+				add_error(_("Template error: Error caching template file:") . $template);
 				return false;
 			}
 			else {
 				if(!($h = @fopen($cache_path, 'w'))) {
-					add_error("Template error: could not write to template cache directory.");
+					add_error(_("Template error: could not write to template cache directory."));
 					return false;
 				}
 				fwrite($h, $compiled);

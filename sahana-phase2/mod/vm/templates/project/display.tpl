@@ -3,22 +3,22 @@
 {if $showVolunteersAssigned && ($edit_auth || $delete_auth || $assign_auth)}
 	<div id="submenu_v">
 	{if $edit_auth}
-		<a href='?mod=vm&act=project&vm_action=display_edit&proj_id={$proj_id}'>Edit</a>
+		<a href='?mod=vm&act=project&vm_action=display_edit&proj_id={$proj_id}'>_("Edit")</a>
 	{/if}
 	{if $delete_auth}
-		<a href="?mod=vm&amp;act=project&vm_action=display_confirm_delete&proj_id={$proj_id}">Delete</a>
+		<a href="?mod=vm&amp;act=project&vm_action=display_confirm_delete&proj_id={$proj_id}">_("Delete")</a>
 	{/if}
 	{if $assign_auth}
-		<a href="?mod=vm&amp;act=project&vm_action=display_assign&proj_id={$proj_id}">Assign Volunteers</a>
+		<a href="?mod=vm&amp;act=project&vm_action=display_assign&proj_id={$proj_id}">_("Assign Volunteers")</a>
 	{/if}
-		<a href="?mod=vm&amp;act=project&amp;vm_action=display_single&amp;proj_id={$proj_id}">Refresh</a>
+		<a href="?mod=vm&amp;act=project&amp;vm_action=display_single&amp;proj_id={$proj_id}">_("Refresh")</a>
 	</div>
 {/if}
 
 <table align=center>
     <tbody>
         <tr>
-        	<td><b>Project Name :</b></td>
+        	<td><b>_("Project Name :")</b></td>
         	{if !$showVolunteersAssigned}
         	<td><a href='index.php?mod=vm&act=project&vm_action=display_single&proj_id={$proj_id}'>{$info.name}</a></td>
         	{else}
@@ -26,19 +26,19 @@
         	{/if}
         </tr>
         <tr>
-        	<td><b>Start Date :</b></td>
+        	<td><b>_("Start Date :")</b></td>
         	<td>{$start_date}</td>
         </tr>
         <tr>
-        	<td><b>End Date :</b></td>
+        	<td><b>_("End Date :")</b></td>
         	<td>{$end_date}</td>
         </tr>
         <tr>
-        	<td><b>Location :</b></td>
+        	<td><b>_("Location :")</b></td>
         	<td>{$location}</td>
         </tr>
         <tr>
-        	<td><b>Volunteers assigned :</b></td>
+        	<td><b>_("Volunteers assigned :")</b></td>
         	<td>{$numVolunteers}</td>
         </tr>
     </tbody>
@@ -48,23 +48,23 @@
 
 {if count($positions) > 0}
 <table align=center>
-    <h3 style="text-align: center;">Positions</h3>
+    <h3 style="text-align: center;">_("Positions")</h3>
     <tbody>
     	<tr>
 			<th colspan="3"></th>
-			<th colspan="2"># Volunteers</th>
+			<th colspan="2">_("# Volunteers")</th>
 			<th></th>
     	</tr>
 		<tr>
-        	<th>Title</th>
-        	<th>Description</th>
+        	<th>_("Title")</th>
+        	<th>_("Description")</th>
         	{if $assign_auth}
-        		<th>Pay Rate</th>
+        		<th>_("Pay Rate")</th>
         	{/if}
-        	<th style="padding-right: 1em; text-align: center;">Target</th>
-        	<th>Assigned</th>
+        	<th style="padding-right: 1em; text-align: center;">_("Target")</th>
+        	<th>_("Assigned")</th>
         	{if $add_pos_auth || $delete_pos_auth}
-            <th>Actions</th>
+            <th>_("Actions")</th>
         	{/if}
         </tr>
 		{foreach $positions as $p}
@@ -102,10 +102,10 @@
         	{if $add_pos_auth || $delete_pos_auth}
         	<td>
 	        	{if $add_pos_auth}
-					[<a href="?mod=vm&amp;act=project&amp;vm_action=add_position&amp;proj_id={$proj_id}&amp;pos_id={$p.pos_id}">edit</a>]
+					[<a href="?mod=vm&amp;act=project&amp;vm_action=add_position&amp;proj_id={$proj_id}&amp;pos_id={$p.pos_id}">_("edit")</a>]
 				{/if}
 				{if $delete_pos_auth}
-					[<a href="#" onClick="if(confirm('Are you sure you want to remove this position?')) window.location = 'index.php?mod=vm&amp;act=project&amp;vm_action=remove_position&amp;proj_id={$proj_id}&amp;pos_id={$p.pos_id}';">remove</a>]
+					[<a href="#" onClick="if(confirm('Are you sure you want to remove this position?')) window.location = 'index.php?mod=vm&amp;act=project&amp;vm_action=remove_position&amp;proj_id={$proj_id}&amp;pos_id={$p.pos_id}';">_("remove")</a>]
 				{/if}
 			</td>
 			{/if}
@@ -117,16 +117,16 @@
 
 {if $add_pos_auth}
 	<center>
-		[<a href="?mod=vm&act=project&vm_action=add_position&proj_id={$proj_id}">Add a position</a>]
+		[<a href="?mod=vm&act=project&vm_action=add_position&proj_id={$proj_id}">_("Add a position")</a>]
 	</center>
 {/if}
 {else}
 
 <center>
-	<h3 style="text-align: center;">Positions</h3>
-		There are no positions assigned to {$info.name}.
+	<h3 style="text-align: center;">_("Positions")</h3>
+		_("There are no positions assigned to") {$info.name}.
 		{if $add_pos_auth }
-			[<a href="?mod=vm&act=project&vm_action=add_position&proj_id={$proj_id}">Add a position</a>]
+			[<a href="?mod=vm&act=project&vm_action=add_position&proj_id={$proj_id}">_("Add a position")</a>]
 		{/if}
 	</center>
 
@@ -134,25 +134,27 @@
 <br />
 
 {if $showVolunteersAssigned}
-<h3>Description</h3>
+<h3>_("Description")</h3>
 {$info.description}
 <br /><br />
 
-<h3>Specialties needed</h3>
+<!--
+Projects now have positions
+<h3>_("Specialties needed")</h3>
 <br />
-<?
-$skills->display();
+<?php
+//$skills->display();
 ?>
 
 <br />
 <br />
-
+-->
 
 <div align="center">
 	{if $numVolunteers > 0}
-		Volunteers working on {$info.name}:
+		_("Volunteers working on") {$info.name}:
 	{else}
-		No volunteers are currently assigned to {$info.name}.
+		_("No volunteers are currently assigned to") {$info.name}.
 	{/if}
 </div>
 {/if}

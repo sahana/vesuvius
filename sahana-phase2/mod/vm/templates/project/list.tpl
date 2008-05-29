@@ -2,8 +2,8 @@
 <table align=center>
     <thead>
         <tr>
-            <td>Name</td>
-            <td>Description</td>
+            <td>_("Name")</td>
+            <td>_("Description")</td>
         </tr>
     </thead>
     <tbody>
@@ -16,5 +16,6 @@
     </tbody>
 </table>
 {else}
-<center>(no projects)</center>
+<center>(_("no projects"))</center>
 {/if}
+<br />

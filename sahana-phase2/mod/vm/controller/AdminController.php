@@ -68,7 +68,7 @@ class AdminController extends AdminView implements Controller
 
 			case 'process_update_phonetics':
 				$dao->updatePhonetics();
-				add_confirmation('The Search Registry has been updated.');
+				add_confirmation(_('The Search Registry has been updated.'));
 				$this->displayDefaultAdminPage();
 			break;
 
@@ -125,13 +125,13 @@ class AdminController extends AdminView implements Controller
 
 				$dao->updateClassificationConstraints($getvars['acl_act'], $getvars['acl_vm_action'], $tables);
 
-				add_confirmation('Access control modifications have been saved');
+				add_confirmation(_('Access control modifications have been saved'));
 				$this->displayAdminACL($dao->getAccessRequestsForDisplay());
 			break;
 
 			case 'process_clear_cache':
 				$this->engine->clear_cache();
-				add_confirmation('Template cache has been cleared');
+				add_confirmation(_('Template cache has been cleared'));
 				$this->displayDefaultAdminPage();
 			break;
 
@@ -153,7 +153,7 @@ class AdminController extends AdminView implements Controller
 					{
 						$dao->classifyTable($getvars['table_to_classify'], $getvars['classification_level']);
 					}
-					add_confirmation('ACL settings have been updated.');
+					add_confirmation(_('ACL settings have been updated.'));
 				}
 
 				$path = $global['approot'].'mod/vm/controller/';

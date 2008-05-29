@@ -1,18 +1,18 @@
-<h3>Approve Site Managers</h3><br />
+<h3>_("Approve Site Managers") </h3><br />
 
-<div style="text-align: center; font-weight: bold;">Current or Previous Applicants</div>
+<div style="text-align: center; font-weight: bold;">_("Current or Previous Applicants")</div>
 {if count($managers) == 0}
-<br /><center>There are no managers to approve or revoke manager approval from</center>
+<br /><center>_("There are no managers to approve or revoke manager approval from.")</center>
 {else}
 <br />
 <br />
 <table align="center">
 	<thead>
 		<tr>
-			<td>Current Status</td>
-			<td>Approve</td>
-			<td>Deny / Revoke</td>
-			<td>Volunteer</td>
+			<td>_("Current Status")</td>
+			<td>_("Approve")</td>
+			<td>_("Deny / Revoke")</td>
+			<td>_("Volunteer")</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,12 +22,12 @@
 					<input type="hidden" name="vol_id" value="{$p_uuid}" />
 					<td>
 						{if $info['status']=='approved'}
-							<b style="color: green;">Approved</b>
+							<b style="color: green;">_("Approved")</b>
 						{else}
 							{if $info['status']=='denied'}
-								<b style="color: #D00;">Denied</b>
+								<b style="color: #D00;">_("Denied")</b>
 							{else}
-								<b style="color: #F80;">Unapproved</b>
+								<b style="color: #F80;">_("Unapproved")</b>
 							{/if}
 						{/if}
 					</td>
@@ -35,17 +35,17 @@
 						if($info['status']=='approved')
 						{
 							$approveButtonShow = 'disabled';
-							$denyButtonName = 'Revoke';
+							$denyButtonName = _('Revoke');
 						}
 						else
 						{
 							$approveButtonShow = '';
-							$denyButtonName = 'Deny';
+							$denyButtonName = _('Deny');
 						}
 
 						if($info['status']=='denied')
 						{
-							$denyButtonName = '(Denied)';
+							$denyButtonName = _('(Denied)');
 							$denyButtonShow = 'disabled';
 						}
 						else
@@ -64,7 +64,9 @@
 {/if}
 <br />
 <br />
-<div style="text-align: center; font-weight: bold;">Upgrade Non-Applicants</div>
+<div style="text-align: center; font-weight: bold;">
+	_("Upgrade Non-Applicants")
+</div>
 <br />
 <br />
 <center>
@@ -74,6 +76,6 @@
 				<option value="{$p_uuid}">{$name}</option>
 			{/foreach}
 		</select>
-		<input type="submit" value="Upgrade this Volunteer to Site Manager Status" />
+		<input type="submit" value="_("Upgrade this Volunteer to Site Manager Status")" />
 	</form>
 </center>

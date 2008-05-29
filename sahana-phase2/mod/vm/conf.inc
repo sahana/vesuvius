@@ -26,8 +26,6 @@
 	 * Set the name of the module as well as its order in the menu
 	 */
 
-    $conf['mod_vm_name'] = _t("Volunteer Management");
+    $conf['mod_vm_name'] = _("Volunteer Management");
     $conf['mod_vm_menuorder'] = 0;
-    $conf['mod_vm_dependencies'] = "";
-    
 ?>

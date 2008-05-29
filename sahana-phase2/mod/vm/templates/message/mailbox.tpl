@@ -1,7 +1,7 @@
 {if $box}
-<center><h2>Inbox</h2></center>
+<center><h2>_("Inbox")</h2></center>
 {else}
-<center><h2>Outbox</h2></center>
+<center><h2>_("Outbox")</h2></center>
 {/if}
 
 {if count($messages) > 0}
@@ -9,19 +9,23 @@
 <table align="center">
 	<thead>
 		<tr>
-			<td>Delete</td>
+			<td>_("Delete")</td>
 			{if $box}
-			<td>From</td>
+			<td>_("From")</td>
 			{else}
-			<td>To</td>
+			<td>_("To")</td>
 			{/if}
-			<td>Date Sent</td>
-			<td>Preview</td>
+			<td>_("Date Sent")</td>
+			<td>_("Preview")</td>
 		</tr>
 	</thead>
 	{foreach $messages as $msg}
 		<tr bgcolor="{$msg.bgcolor}">
-			<td style="text-align: center; cursor: pointer; font-weight: bold;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'" onClick="if(confirm('Are you sure you want to delete this message?')) window.location = 'index.php?mod=vm&act=volunteer&vm_action=process_delete_message&msg_id={$msg.message_id}&box={$box_name}';">X</td>
+			{php}
+				$c_page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+				$rpp = isset($_REQUEST['rpp']) ? $_REQUEST['rpp'] : VM_DEFAULT_RPP;
+			{/php}
+			<td style="text-align: center;" onClick="if(!confirm('_("Are you sure you want to delete this message?")')) return false;"><a href="index.php?mod=vm&amp;act=volunteer&amp;vm_action=process_delete_message&amp;msg_id={$msg.message_id}&amp;box={$box_name}&amp;page={$c_page}&amp;rpp={$rpp}">X</a></td>
 			{if $box}
 			<td>{$msg.from}</td>
 			{else}
@@ -41,6 +45,6 @@
 </table>
 
 {else}
-<center><i>Your {php} echo $box? 'inbox':'outbox' {/php} is empty.</i></center>
+<center><i>_("Your") {php} echo $box? 'inbox':'outbox'; {/php} _("is empty").</i></center>
 
 {/if}

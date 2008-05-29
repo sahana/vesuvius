@@ -93,15 +93,15 @@ class Volunteer extends Model {
 	}
 
 	function getVolunteerAssignments() {
-		$volunteers = $this->dao->getVolunteers();
-
 		$positions = array();
-		foreach(array_keys($volunteers) as $p_uuid)
-			foreach($this->dao->listPositions(null,$p_uuid) as $thisPosition){
-				$positions[$p_uuid][] = $thisPosition;
-
+		foreach($this->dao->listPositions(null, $this->p_uuid) as $thisPosition){
+			$positions[] = $thisPosition;
 		}
 		return $positions;
+	}
+	
+	function getHoursByProject($proj_id) {
+		return $this->dao->getVolHoursByProject($this->p_uuid, $proj_id);
 	}
 }
 

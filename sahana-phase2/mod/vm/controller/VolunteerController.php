@@ -147,10 +147,10 @@
 					if($pic->resize())
 						$pic->save();
 					else
-						add_error("The image file is invalid, or is not of a supported type.");
+						add_error(_("The image file is invalid, or is not of a supported type."));
 				}
 
-					add_confirmation('Changes saved.');
+					add_confirmation(_('Changes saved.'));
 					//if we just created a Sahana account, direct the user to log in
 					if(!$_SESSION['logged_in'])
 					{
@@ -170,8 +170,13 @@
 			break;
 			case 'display_add':
 			    View::View();
-				$this->addVolunteer();
-
+			    if($dao->isVolunteer($_SESSION['user_id'])) {
+			    	//if this user is a volunteer already, display the edit form
+					$this->addVolunteer(new Volunteer($_SESSION['user_id']));
+			    } else {
+				    //otherwise display the add form
+				    $this->addVolunteer();
+			    }
 			break;
 			case 'display_edit':
 				View::View();
@@ -200,7 +205,7 @@
 						$this->changePass($getvars['p_uuid']);
 					}
 					else
-						add_confirmation("Your Password has been updated");
+						add_confirmation(_("Your Password has been updated"));
 				}
 				else
 					$this->changePass($getvars['p_uuid']);
@@ -234,6 +239,7 @@
 					'showAffiliation'		=> true
 				);
 				$this->listVolunteers($dao->getVolunteers(), $extra_opts);
+				$this->showPagingNavigation("index.php?mod=vm&amp;act=volunteer&amp;vm_action=display_list_all");
 			break;
 			case 'display_list_assigned':
 				View::View();
@@ -246,6 +252,7 @@
 					'showAffiliation'		=> true
 				);
 				$this->listVolunteers($dao->getVolunteers(null, VM_SHOW_ALL_VOLUNTEERS_ASSIGNED), $extra_opts);
+				$this->showPagingNavigation("index.php?mod=vm&amp;act=volunteer&amp;vm_action=display_list_assigned");
 			break;
 
 			case 'display_mailbox':
@@ -270,7 +277,7 @@
 				global $dao;
 				$dao->deleteMessage($_SESSION['user_id'], $getvars['msg_id'], $getvars['box']!='outbox');
 
-				//add_confirmation('Message has been deleted');
+				//add_confirmation('_(Message has been deleted'));
 
 				View::View(new Volunteer($_SESSION['user_id']));
 				$this->displayMailbox($getvars['box']);
@@ -289,7 +296,7 @@
 
 					$dao->sendMessage($_SESSION['user_id'], $getvars['to'], $message);
 
-					add_confirmation("Message Sent");
+					add_confirmation(_("Message Sent"));
 				}
 				else
 				{
@@ -311,6 +318,7 @@
 
 			case 'display_search':
 				$advanced = $getvars['advanced'] == 'true';
+				$this->openSearchForm();
 				$this->displaySearchForm($advanced);
 			break;
 
@@ -324,6 +332,7 @@
 				$vol_name = $getvars['vol_name'];					//name to search by
 			    $vol_id = $getvars['vol_iden'];						//Identification number to search by
 			    $loose = $getvars['loose'] == 'true';				//true to use loose name matching
+			    $soundslike = $getvars['soundslike'] == 'true';		//true to use soundex name matching
 			    $start_date =$getvars['start_date'];				//availability start
 			    $end_date = $getvars['end_date'];					//availability end
 			    $skills_matching = ($getvars['skills_matching']=='and_skills')?VM_SKILLS_ALL:VM_SKILLS_ANY;	//search for all or any of the skills present
@@ -351,12 +360,18 @@
 					if($getvars["SKILL_$sk"] == 'on')
 						$skills[] = $sk;
 
+				//if we're not using the search results to do assigning, open the form here so that all of our paging navigation
+				//will also be part of the form
+				if(!$assigning) {
+					$this->openSearchForm();
+				}
+
 			    //Validate the fields
 			    if($this->validateSearchForm($getvars))
 			    {
 					//get the search results and display them
 
-				    $results = $dao->getVolSearchResults($vol_id, $vol_name, $skills, $skills_matching, $start_date, $end_date, $location, $date_constraint, $unassigned, $loose, $assigning_proj);
+				    $results = $dao->getVolSearchResults($vol_id, $vol_name, $skills, $skills_matching, $start_date, $end_date, $location, $date_constraint, $unassigned, $loose, $soundslike, $assigning_proj);
 				    $this->displaySearchResults($results, $assigning, $assigning_proj, $advanced, $just_assigned_vol, $positions);
 			    }
 
@@ -443,15 +458,15 @@
 				require_once($global['approot'].'mod/vm/lib/vm_validate.inc');
 
 				if(empty($getvars['skill_desc']) || empty($getvars['skill_code']))
-					add_error('Please specify both a skill description and skill code');
+					add_error(_('Please specify both a skill description and skill code'));
 				else
 				{
-					$find = array("/\s*".VM_SKILLS_DELIMETER."\s*/", "/^\s+/", "/\s+$/");
-					$replace = array(VM_SKILLS_DELIMETER, '', '');
+					$find = array("/ *".VM_SKILLS_DELIMETER." */", "/^ +/", "/ +$/");
+					$replace = array("-", '', '');
 					$description = preg_replace($find, $replace, $getvars['skill_desc']);
 
 					if(!$dao->addSkill($getvars['skill_code'], $description))
-						add_error('The specified skill code already exists. Please choose another');
+						add_error(_('The specified skill code already exists. Please choose another'));
 				}
 				$this->displayModifySkills();
 			break;
@@ -471,14 +486,14 @@
 			case 'process_approval_modifications':
 				//currently only site manager approval is allowed, later credential approval will be added
 				$dao->updateAbilityStatus($getvars['vol_id'], 'MGR', isset($getvars['approve']));
-				add_confirmation('Approval information has been updated');
+				add_confirmation(_('Approval information has been updated'));
 				$this->displayApprovalForm($dao->getVolunteerNames(), $dao->getVolunteersByAbility('MGR'));
 			break;
 
 			case 'process_approval_upgrades':
 				//currently only site manager approval is allowed, later credential approval will be added
 				$dao->updateAbilityStatus($getvars['vol_id'], 'MGR', true);
-				add_confirmation('Approval information has been updated');
+				add_confirmation(_('Approval information has been updated'));
 				$this->displayApprovalForm($dao->getVolunteerNames(), $dao->getVolunteersByAbility('MGR'));
 			break;
 
@@ -501,9 +516,9 @@
 						$this->displayVolunteer($getvars['p_uuid']);
 					}
 					else
-						add_error("There was a problem logging your time. Please go back and try again.");
+						add_error(_("There was a problem logging your time. Please go back and try again."));
 				} else {
-					add_error("Error logging time: $e");
+					add_error(_("Error logging time:").$e);
 					$this->showLogTime($getvars['p_uuid'], $getvars['pos_id']);
 				}
 			break;
@@ -738,4 +753,34 @@
 		return $validated;
 	}
  }
+
+/**
+ * In combination with the Sahana stream functions, shows a bare-bones printer friently page representing
+ * the last printer frienfly report generated by the current user.
+ *
+ * Accessed at url : index.php?mod=vm&stream=text&act=printer_friendly_report
+ */
+
+function shn_text_vm_printer_friendly_report() {
+	//first check to make sure that the user can actually view the report according to access control
+	$ac = new AccessController();
+	$getvars = array('act' => 'volunteer', 'vm_action' => 'display_custom_report');
+	//also add project id to getvars to allow project manager to view reports for their own projects
+	if(isset($_REQUEST['proj_id'])) {
+		$getvars['proj_id'] = $_REQUEST['proj_id'];
+	}
+	if($ac->isAuthorized(false, $getvars)) {
+		echo "
+		<html>
+			<head>
+				<title>". _("Volunteer Management Report"). "</title>
+			</head>
+			<body>
+				{$_SESSION['vm_last_printer_friendly_report']}
+			</body>
+		</html>
+";
+	}
+}
+
 ?>

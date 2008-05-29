@@ -184,9 +184,9 @@ class VolunteerView extends View
 
 		// if we're displaying images here, get the IDs
 		if(VM_LIST_PICTURES && $showPictures)
-			foreach($volunteers as $p_uuid => $vol)
-				if($img_uuid = $dao->getPictureID($p_uuid))
-					$volunteers[$p_uuid]['pictureID'] = $img_uuid;
+			foreach($volunteers as $key => $vol)
+				if($img_uuid = $dao->getPictureID($vol->p_uuid))
+					$volunteers[$key]->pictureID = $img_uuid;
 
 		//assign the booleans to tell what to display
 		$this->engine->assign('modifyProjId', 		$modifyProjId);
@@ -212,11 +212,6 @@ class VolunteerView extends View
 
 		$this->engine->assign('volunteers', $volunteers);
 		$this->engine->assign('positions', $positions);
-
-
-		$this->engine->assign("myPositions", $this->model->getVolunteerAssignments());
-
-		$this->engine->assign("volPositions", $this->model->getVolunteerAssignments());
 
 		//suppress certain data based on access control
 		if($ac->dataAccessIsAuthorized($ac->access['volunteer']['display_single']['tables'], false))
@@ -290,10 +285,25 @@ class VolunteerView extends View
 
 		//Skills information
 
-		if($v == null)
-			$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree());
-		else
-			$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree($v->p_uuid));
+		//Skills information
+		if($_GET['vm_action'] == 'process_add') {
+			//we are responding to POST data. Preset the skills accordingly.
+			$skills = array();
+			foreach($_REQUEST as $key => $value) {
+				$matches = array();
+				if($value == 'on' && preg_match("@SKILL_(.*)$@", $key, $matches)) {
+					$skills[] = $matches[1];
+				}
+			}
+			$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree(null, false, $skills));
+		} else {
+			//we are displaying the add or edit form for the first time
+			if($v == null) {
+				$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree());
+			} else {
+				$this->engine->assign('select_skills_tree', $dao->getSelectSkillsTree($v->p_uuid));
+			}
+		}
 
 		//special needs information
 		$this->engine->assign('special_needs', $v->info['special_needs']);
@@ -423,7 +433,7 @@ class VolunteerView extends View
 				//get the list of message recipients as well as who the message is from
 
 				if($value['from_id'] == 'SYS_MSG')
-					$messages[$key]['from'] = 'System Message';
+					$messages[$key]['from'] = _('System Message');
 				else
 					$messages[$key]['from'] = $dao->getPersonName($value['from_id']);
 
@@ -443,6 +453,7 @@ class VolunteerView extends View
 	   		$this->engine->assign('box', $box!='outbox');
 	   		$this->engine->assign('box_name', ($box!='outbox')?'inbox':$box);
 	   		$this->engine->display('message/mailbox.tpl');
+	   		$this->showPagingNavigation("index.php?mod=vm&amp;act=volunteer&amp;vm_action=display_mailbox&amp;box=$box");
 	}
 
 	   /**
@@ -469,7 +480,7 @@ class VolunteerView extends View
 			{
 				//get who the message is from
 				if($message['from_id'] == 'SYS_MSG')
-					$message['from'] = 'System Message';
+					$message['from'] = _('System Message');
 				else
 					$message['from'] = $dao->getPersonName($message['from_id']);
 
@@ -527,6 +538,16 @@ class VolunteerView extends View
 		$this->engine->display('message/send_message.tpl');
 	}
 
+	/**
+	 * Opens the search form. Calling this function early on in the page is important to
+	 * preserve all POST data whenever redirecting to the same search form, such as in
+	 * paging.
+	 */
+
+	function openSearchForm() {
+		shn_form_fopen('volunteer&vm_action=process_search', null, array('req_message' => false));
+	}
+
 	    /**
 	     * Displays a search form for a volunteer
 	     *
@@ -556,8 +577,7 @@ class VolunteerView extends View
 	    /**
 	     * Displays the search results for a particular volunteer search
 	     *
-	     * @param $results 				- 	an array of result information, returned by the
-	     * 									DAO::getVolSearchResults() function
+	     * @param $results 				- 	an array of Volunteer objects.
 	     * @param $assigning			- 	true if we are searching to assign these volunteers
 	     * @param $proj_id				- 	the project ID to be assigning to if $assigning is true
 	     * @param $advanced				- 	true if we are displaying search results from an advanced search
@@ -580,6 +600,7 @@ class VolunteerView extends View
 				'positions'				=> $positions
 			);
 	    	$this->listVolunteers($results, $extra_opts);
+	    	$this->showPagingNavigation(null, true);
 	    }
 
 	    /**

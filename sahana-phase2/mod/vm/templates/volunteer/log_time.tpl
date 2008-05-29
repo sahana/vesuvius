@@ -8,13 +8,13 @@
 	<div>
 		<div style="display: table;">
 		<h3>Start</h3>
-		Date: <input type="text" name="startDate" value="{$nowDate}" size="10" />
-		Time: <input type="text" name="startTime" value="{$startTime}" size="10" />
+		_("Date:") <input type="text" name="startDate" value="{$nowDate}" size="10" />
+		_("Time:") <input type="text" name="startTime" value="{$startTime}" size="10" />
 		</div>
 		<div style="display: table;">
 		<h3>End</h3>
-		Date: <input type="text" name="endDate" value="{$nowDate}" size="10" />
-		Time: <input type="text" name="endTime" id="endTime" value="" size="10" />
+		_("Date:") <input type="text" name="endDate" value="{$nowDate}" size="10" />
+		_("Time:") <input type="text" name="endTime" id="endTime" value="" size="10" />
 		[<a href="#" onClick="
 			var now = new Date();
 			var hours = now.getHours();
@@ -30,8 +30,8 @@
 				minutes = '0' + minutes;
 
 			nowTime = hours + ':' + minutes + ' ' + ampm;
-			document.getElementById('endTime').value = nowTime;">now</a>]<br />
-		or # hours: <input type="text" name="numHours" size="3" />
+			document.getElementById('endTime').value = nowTime;">_("now")</a>]<br />
+		_("or # hours:") <input type="text" name="numHours" size="3" />
 		</div>
 	</div>
 	<input type="submit" value="Log time" />

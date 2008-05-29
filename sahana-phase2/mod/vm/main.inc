@@ -169,4 +169,35 @@ function shn_vm_html_head()
 	));
 }
 
+function shn_vm_credits() {
+	echo nl2br(file_get_contents("../mod/vm/README"));
+}
+
+
+/**
+ * Load sample data into db.
+ */
+/*
+function shn_vm_load_sample() {
+	set_time_limit(0);
+	global $dao;
+	for($volNum = 1; $volNum <= 51; $volNum++) {
+		$p_uuid = shn_create_uuid();
+		$name = 'vol'.$volNum;
+		shn_auth_add_user($name, $name, 'test', ANONYMOUS, $p_uuid);
+		$names = preg_split("/\s+/", $name);
+        foreach($names as $single_name) {
+            $dao->execute("INSERT INTO phonetic_word VALUES('" . soundex($single_name) . "', '" . metaphone($single_name) . "', '$p_uuid')");
+        }
+		$dao->execute("insert into person_uuid (p_uuid, full_name) values ('".$p_uuid."', '".$name."')");
+		$dao->execute("insert into person_details (p_uuid, gender) values ('".$p_uuid."', '".((round(rand()) == 1) ? 'F' : 'M')."')");
+		$dao->execute("insert into vm_vol_details (p_uuid,date_avail_start,date_avail_end) values ('$p_uuid', '2008-01-01', '2009-01-01')");
+		$skills = array('ANI1', 'ANI2', 'VEH1', 'WAR1');
+		foreach($skills as $skill) {
+			$dao->execute("INSERT INTO vm_vol_skills (p_uuid, opt_skill_code) VALUES('$p_uuid', '$skill')");
+		}
+		echo "added $name <br />";
+	}
+}
+*/
 ?>

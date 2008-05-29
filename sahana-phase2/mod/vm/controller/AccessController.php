@@ -132,7 +132,11 @@ class AccessController
 
 		if(is_array($this->access[$act][$vm_action]['tables']))
 		{
-			$passed_sahana_acl = $this->dataAccessIsAuthorized($this->access[$act][$vm_action]['tables'], false);
+			if(shn_acl_is_enabled()==true){ ///check for authorization only if ACL is enabled
+				$passed_sahana_acl = $this->dataAccessIsAuthorized($this->access[$act][$vm_action]['tables'], false);
+			}else{
+				$passed_sahana_acl=true;
+			}
 		}
 
 		//check for possible constraints/overrides imposed through the 'extra' array

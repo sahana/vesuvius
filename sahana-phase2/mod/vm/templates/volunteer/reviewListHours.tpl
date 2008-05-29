@@ -1,4 +1,4 @@
-<h2 align="center">hours for review on {$project_name}<h2>
+<h2 align="center">_("hours for review on") {$project_name}<h2>
 
 <form action="" >
 
@@ -7,12 +7,12 @@
 
 	<table>
 		<tr>
-			<td>Name</td>
-			<td>Project</td>
-			<td>Position</td>
-			<td>Pay Rate </td>
-			<td>Start </td>
-			<td>End </td>
+			<td>_("Name")</td>
+			<td>_("Project")</td>
+			<td>_("Position")</td>
+			<td>_("Pay Rate ")</td>
+			<td>_("Start ")</td>
+			<td>_("End ")</td>
 		</tr>
 	</table>
 
@@ -27,9 +27,9 @@
 	 <td>{$s.start}</td>
 	 <td>{$s.end}</td>
 
-	 Approved: <input type="radio" name="status_{$s.shift_id}" value="Approve" />
+	 _("Approved:") <input type="radio" name="status_{$s.shift_id}" value="Approve" />
 
-	 Denied: <input type="radio" name="status_{$s.shift_id}" value="Denied" />
+	 _("Denied:") <input type="radio" name="status_{$s.shift_id}" value="Denied" />
 
 
 		</td>

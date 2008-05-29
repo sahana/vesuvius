@@ -26,7 +26,7 @@ function remove_classification_row(node)
 
 </script>
 
-<h3>Access Control</h3>
+<h3>_("Access Control")</h3>
 
 <form action="?mod=vm&amp;act=adm_default&amp;vm_action=process_acl_modifications" method="post">
 	<input type="hidden" name="acl_act" value="{$act}" />
@@ -47,12 +47,12 @@ function remove_classification_row(node)
 	{/if}>
 		<thead>
 			<tr>
-				<td>Table Name</td>
-				<td>Create</td>
-				<td>Read</td>
-				<td>Update</td>
-				<td>Delete</td>
-				<td>Remove From List</td>
+				<td>_("Table Name")</td>
+				<td>_("Create")</td>
+				<td>_("Read")</td>
+				<td>_("Update")</td>
+				<td>_("Delete")</td>
+				<td>_("Remove From List")</td>
 			</tr>
 		</thead>
 		<tbody id="table_crud_list">
@@ -181,13 +181,13 @@ function remove_classification_row(node)
 	" />
 	</center>
 	<br /><br />
-	<h4>Special Constraints</h4>
+	<h4>_("Special Constraints")</h4>
 	{foreach $possible_constraints as $code => $desc}
 		{php}
 			$matches = array();
 			preg_match("/^\s*(\w+)(.*)/", $desc, $matches);
 		{/php}
-		<input type="checkbox" value="on" name="constraint_{$code}_req"
+		<input type="checkbox" value="_("on")" name="constraint_{$code}_req"
 
 		{if in_array($code, $request_constraints['extra'])}
 		checked
@@ -207,7 +207,7 @@ function remove_classification_row(node)
 
 	<br /><br />
 	<center>
-		<input type="submit" value="Save Changes" />
-		<input type="button" value="Cancel Changes" onClick="window.location='index.php?mod=vm&act=adm_default&vm_action=display_acl_situations';" />
+		<input type="submit" value="_("Save Changes")" />
+		<input type="button" value="_("Cancel Changes")" onClick="window.location='index.php?mod=vm&act=adm_default&vm_action=display_acl_situations';" />
 	</center>
 </form>

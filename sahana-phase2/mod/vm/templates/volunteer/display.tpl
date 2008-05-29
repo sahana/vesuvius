@@ -1,10 +1,10 @@
 {if $edit_auth || $delete_auth}
 	<div id="submenu_v">
 		{if $edit_auth}
-			<a href = '?mod=vm&act=volunteer&vm_action=display_edit&p_uuid={$p_uuid}'>Edit</a>
+			<a href = '?mod=vm&act=volunteer&vm_action=display_edit&p_uuid={$p_uuid}'>_("Edit")</a>
 		{/if}
 		{if $delete_auth && $p_uuid != $_SESSION['user_id']}
-			<a href = '?mod=vm&act=volunteer&vm_action=display_confirm_delete&p_uuid={$p_uuid}'>Delete</a>
+			<a href = '?mod=vm&act=volunteer&vm_action=display_confirm_delete&p_uuid={$p_uuid}'>_("Delete")</a>
 		{/if}
 	</div>
 {/if}
@@ -15,11 +15,11 @@
 <table align="center" border="0">
 	<tr>
 		<br>
-		<td><b>Name:</b></td>
+		<td><b>_("Name:")</b></td>
 		<td>{$info.full_name}</td>
 	</tr>
 	<tr>
-		<td><b>Gender:</b></td>
+		<td><b>_("Gender:")</b></td>
 		<td>{$info.gender}</td>
 	</tr> </br>
 	{if $view_auth == VM_ACCESS_ALL && !empty($ids)}
@@ -44,14 +44,14 @@
 	{/if}
 	{if $view_auth == VM_ACCESS_ALL && !empty($dob)}
 	<tr>
-		<td><b>Date of Birth:</b></td>
+		<td><b>_("Date of Birth:")</b></td>
 		<td>{$dob}</td>
 	</tr>
 	{/if}
 </table>
 <br />
 {if !empty($info['contact'])}
-	<h2>Contact Info</h2>
+	<h2>_("Contact Info")</h2>
 	<table align="center" border="0">
 		{foreach $info['contact'] as $type => $value}
 			{if strlen($value) > 0}
@@ -64,36 +64,36 @@
 	</table>
 	<br />
 {/if}
-<h2>Availability</h2>
+<h2>_("Availability")</h2>
 <table align="center" border="0">
 	<tr>
-		<td><b>Work Begin:</b></td>
+		<td><b>_("Work Begin:")</b></td>
 		<td>{$date_start}</td>
 	</tr>
 	<tr>
-		<td><b>Work End:</b></td>
+		<td><b>_("Work End:")</b></td>
 		<td>{$date_end}</td>
 	</tr>
 	{if !empty($hour_start)}
 		<tr>
-			<td><b>Work Hour Begin:</b></td>
+			<td><b>_("Work Hour Begin:")</b></td>
 			<td>{$hour_start}</td>
 		</tr>
 	{/if}
 	{if !empty($hour_end)}
 		<tr>
-			<td><b>Work Hour End:</b></td>
+			<td><b>_("Work Hour End:")</b></td>
 			<td>{$hour_end}</td>
 		</tr>
 	{/if}
 </table>
 <br />
 
-<h2>Work Details</h2>
+<h2>_("Work Details")</h2>
 <table align="center" border="0">
 	{if !empty($occupation)}
 	<tr>
-		<td><b>Occupation:</b></td>
+		<td><b>_("Occupation:")</b></td>
 		<td>{$occupation}</td>
 	</tr>
 	{/if}
@@ -101,17 +101,19 @@
 
 	{if !empty($affiliation)}
 	<tr>
-		<td><b>Affiliation:</b></td>
+		<td><b>_("Affiliation:")</b></td>
 		<td>{$affiliation}</td>
 	</tr>
 	</table>
 	{/if}
 			{if count($projects) > 0}
 	<table align= "center">
-		<thead><tr> <td>  Project </td>
-				<td>Position</td>
-					<td>Log Time</td>
-				</tr>
+		<thead>
+			<tr>
+				<td> _("Project") </td>
+				<td>_("Position")</td>
+				<td>_("Log Time")</td>
+			</tr>
 		</thead>
 		<tbody>
 
@@ -124,7 +126,7 @@
 						if($ac->isAuthorized(false, $ac->buildURLParams('volunteer', 'display_log_time_form', array('pos_id' => $position['pos_id'], 'p_uuid' => $p_uuid))))
 						{
 					{/php}
-						<a href="?mod=vm&amp;act=volunteer&amp;vm_action=display_log_time_form&amp;p_uuid={$p_uuid}&amp;pos_id={$position.pos_id}">Log time</a>
+						<a href="?mod=vm&amp;act=volunteer&amp;vm_action=display_log_time_form&amp;p_uuid={$p_uuid}&amp;pos_id={$position.pos_id}">_("Log time")</a>
 					{else}
 						---
 					{/if}
@@ -134,7 +136,6 @@
 
 		</tbody>
 	</table>
-
 			{else}
 			(none)
 			{/if}
@@ -142,14 +143,14 @@
 
 </table>
 <br />
-<h2>Skills and Work Restrictions</h2>
+<h2>_("Skills and Work Restrictions")</h2>
 <?
 $vol_skills->display();
 ?>
 {if !empty($special_needs)}
 	<tr>
 	<br>
-		<td><b>Special Needs: </b></td>
+		<td><b>_("Special Needs:") </b></td>
 		<td>{$special_needs}</td>
 	</br>
 	</tr>

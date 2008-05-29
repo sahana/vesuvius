@@ -31,7 +31,7 @@ class ProjectView extends View
 		$this->engine->assign('info', $this->model->info);
 
 		$volunteers = $dao->getVolunteers($p->proj_id);
-		$numVolunteers = count($volunteers);
+		$numVolunteers = $dao->getVolunteersInProject($p->proj_id);
 
 		// get location hierarchy
 		require_once($global['approot']. 'inc/lib_location.inc');
@@ -82,6 +82,7 @@ class ProjectView extends View
  			);
 			$vView = new VolunteerView();
 			$vView->listVolunteers($volunteers, $extra_opts);
+			$this->showPagingNavigation("index.php?mod=vm&amp;act=project&amp;vm_action=display_single&amp;proj_id={$p->proj_id}");
 		}
 	}
 
@@ -94,10 +95,9 @@ class ProjectView extends View
 	 * @return void
 	 */
 
-	function listProjects($p_uuid=null)
-	{
+	function listProjects($p_uuid=null) {
 		$p = new Project();
-		$this->engine->assign('projects', $p->getProjects($p_uuid));
+		$this->engine->assign('projects', $p->getProjects($p_uuid, false, false, true));
 		$this->engine->display('project/list.tpl');
 	}
 

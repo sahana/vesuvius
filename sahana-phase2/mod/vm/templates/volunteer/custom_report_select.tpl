@@ -1,15 +1,15 @@
-<h2 style="text-align: center;">Create Custom Report</h2>
+<h2 style="text-align: center;">_("Create Custom Report")</h2>
 <br />
 
 {php}
-	shn_form_fopen('volunteer&vm_action=display_custom_report', null, array('enctype' => 'enctype="multipart/form-data"'));
+	shn_form_fopen('volunteer&amp;vm_action=display_custom_report&amp;rpp='.VM_DEFAULT_REPORTS_RPP, null, array('enctype' => 'enctype="multipart/form-data"'));
 
-		shn_form_fsopen('Filter by Project, Organization, or Both');
-			shn_form_select($projects, 'By Project:', 'proj_id');
-			shn_form_select($orgs, 'By Organization:', 'org_id');
+		shn_form_fsopen(_('Filter by Project, Organization, or Both'));
+			shn_form_select($projects, _('By Project:'), 'proj_id');
+			shn_form_select($orgs, _('By Organization:'), 'org_id');
 		shn_form_fsclose();
 
-		shn_form_submit('Create Project or Organization Report');
+		shn_form_submit(_('Create Project or Organization Report'));
 
 	shn_form_fclose();
 {/php}
@@ -19,8 +19,8 @@
 
 {php}
 	shn_form_fopen('volunteer&vm_action=display_custom_report', null, array('enctype' => 'enctype="multipart/form-data"'));
-		shn_form_fsopen('Report by Specific Volunteers');
-		shn_form_extra_opts(array('br' => true, 'help' => "To add a volunteer to the list, select one in the 'List of Volunteers' below and click on 'Add'. <br /><br />To remove a volunteer from the list, click on the remove link next to his name."));
+		shn_form_fsopen(_('Report by Specific Volunteers'));
+		shn_form_extra_opts(array('br' => true, 'help' => _('To add a volunteer to the list, select one in the \'List of Volunteers\' below and click on \'Add\'.') . "<br /><br />" . _('To remove a volunteer from the list, click on the remove link next to his name.')));
 {/php}
 <br />
 <div style="border: 1px solid black; margin-left: 150px; padding: 10px 10px 10px 10px; width: 300px; height: 150px; overflow: auto;">
@@ -31,7 +31,7 @@
 <br />
 {php}
 
-		shn_form_select($vols, 'List of Volunteers :', 'vol_list', '', array('br' => false));
+		shn_form_select($vols, _('List of Volunteers :'), 'vol_list', '', array('br' => false));
 
 		//Add the 'Add' button and make it update the to list
 
@@ -44,11 +44,11 @@
 
 	shn_form_fsclose();
 
-	shn_form_submit('Create Custom Report for these Volunteers', "onClick=\"
+	shn_form_submit(_('Create Custom Report for these Volunteers'), "onClick=\"
 		var vols_tmp = document.getElementById('vol_list_div');
 		if(vols_tmp.childNodes.length == 0)
 		{
-			alert('You must select at least one volunteer if reporting by volunteer.');
+			alert('_('You must select at least one volunteer if reporting by volunteer.')');
 			return false;
 		}
 	\"");
