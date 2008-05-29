@@ -114,7 +114,7 @@ function shn_pref_default()
 <p><?php echo ("User Preferences Module will allow you to set any preferred configuration.")."<br />".
 _t("Which will help you to customize Sahana to your preference.")."<br />"._t("Following Preferences can be set")."</p><ul>"; 
 
-	echo "<li><b>"._t("Mutiple Incident Management")."</b></li>"."</ul>";
+	echo "<li><b>"._t("Multiple Incident Management")."</b></li>"."</ul>";
 
 ?>
 </div>

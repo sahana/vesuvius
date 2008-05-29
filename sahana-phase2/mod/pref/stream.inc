@@ -87,7 +87,7 @@ _t("Following Preferences can be set")."</p>";
 
 echo "<ul>";
 
-echo "<li><b>"._t("Mutiple Incident Management")."</b></li>";
+echo "<li><b>"._t("Multiple Incident Management")."</b></li>";
 echo "</ul>";
 
 ?>
