@@ -247,7 +247,7 @@ function shn_XST_home_default() {
 }
 
 function shn_home_about(){
-	global $global;
+	global $global,$conf;
 	echo _t('<h2>About Sahana</h2>');
 	if(file_exists($global['approot']."about.inc")){
 		include_once $global['approot']."about.inc";
