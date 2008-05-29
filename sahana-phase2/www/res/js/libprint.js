@@ -105,7 +105,6 @@ document.writeln(
  * @return void
  */
 function shn_print_init() {
-
 	shn_print_hide_basic_layout();
 	shn_print_create_basic_elements_layout();
 } 
@@ -281,10 +280,10 @@ function shn_print_get_height(id) {
 function shn_print_get_fieldset_content() {
 	
 	// declares the necessary variables and arrays 
-	var dom_fieldset = [], dom_legend = [], dom_div_info = [], dom_label = [], val1 = [], val3 = [], _val2_div = [], _val2_span = [], _val2_p = [];
+	var dom_fieldset = [], dom_legend = [], dom_div_info = [], dom_label = [], val1 = [], val3 = [], val2_div = [], val2_span = [], _val2_p = [];
 
 		// extracts the content within the fieldset element  
-		val = document.getElementsByTagName('fieldset');
+		var val = document.getElementsByTagName('fieldset');
 
 		// traverse throught each fieldset element
 		for (i = 0; i <val.length; i++) {
@@ -296,15 +295,17 @@ function shn_print_get_fieldset_content() {
   			val1 = document.getElementsByTagName('fieldset')[i].getElementsByTagName('legend');
 
 			//extract the values from span element and store it in a variable
-			var val2_span = document.getElementsByTagName('fieldset')[i].getElementsByTagName('span'); 
-			_val2_span = getElementsByClassAltered(val2_span, 'info');
-
+			val2_span = document.getElementsByTagName('fieldset')[i].getElementsByTagName('span'); 
+			//alert('_val2_span : '+_val2_span);
+			
 			//extract the values from div element and store it in a variable
-			var val2_div = document.getElementsByTagName('fieldset')[i].getElementsByTagName('div');
-			_val2_div = getElementsByClassAltered(val2_div, 'info');
-
+			val2_div = document.getElementsByTagName('fieldset')[i].getElementsByTagName('div');
+			//alert('_val2_div : '+val2_div);
+			
 			//extract the values from p element and store it in a variable
 			_val2_p = document.getElementsByTagName('fieldset')[i].getElementsByTagName('p');
+			//alert('_val2_p : '+_val2_p);			
+			
 			//traverse along the length of the val1 array
 
    			for (a = 0; a < val1.length; a++) {
@@ -313,15 +314,14 @@ function shn_print_get_fieldset_content() {
 				//prints the value extracted from legend element
   				var dom_legend = shn_print_display_legend(val1[a].innerHTML);
 				
-				if ((_val2_span != '' || _val2_span != null) && (_val2_div != '' || _val2_div != null) && (_val2_p != '' || _val2_p != null)  ) {
-					var vvv = shn_print_display_description(_val2_div,_val2_span, _val2_p);
- 				}
-
+				//prints the user information under each category
+				display_user_info(val2_div, val2_span, _val2_p);
+				
 				//extract the values from lable elements and store them into a variable
 				val3 = document.getElementsByTagName('fieldset')[i].getElementsByTagName('label');
 				var _val_input = document.getElementsByTagName('fieldset')[i].getElementsByTagName('input');
 				var _val_select = document.getElementsByTagName('fieldset')[i].getElementsByTagName('select');
-				var _val_option = document.getElementsByTagName('fieldset')[i].getElementsByTagName('option');
+				//var _val_option = document.getElementsByTagName('fieldset')[i].getElementsByTagName('option');
 				var _val_textarea = document.getElementsByTagName('fieldset')[i].getElementsByTagName('textarea');
 				
 				for (count_l = 0; count_l < val3.length; count_l++) {
@@ -349,25 +349,6 @@ function shn_print_get_fieldset_content() {
 
 				for(count_s = 0; count_s < _val_select.length; count_s++){
 					_tmp_t[_tmp_t.length] = 'select';
-				}
-
-				for(count_s_o = 0; count_s_o < _val_select.length; count_s_o++){
-					var __val_option = [], str = [], _str = [];
-					__val_option = _val_select[count_s_o].innerHTML;
-					for (_count_s_o = 0; _count_s_o < __val_option.length; _count_s_o++) {
-						if (__val_option[_count_s_o] == ">") {
-							str[str.length] = __val_option[_count_s_o];
-						}
-					}//alert(str.toSource());
-					count_o_l = (str.length/2); //alert(count_o_l); 
-			
-					//for (count_o = 0; count_o < count_o_l.length; count_o++) {
-					//	_tmp_o[_tmp_o.length] = _val_option[count_o_l].innerHTML;
-					//}
-				}
-
-				for (count_o = 0; count_o < count_o_l.length; count_o++) {
-					_tmp_o[_tmp_o.length] = _val_option[count_o].innerHTML;
 				}
 
 				for(count_t = 0; count_t < _val_textarea.length; count_t++){
@@ -453,7 +434,9 @@ function shn_print_display_description(dom_div, dom_span, dom_p) {
 	}
 	// checks whether the dom_p variable is not empty and appends that value
 	if ( (dom_p != '' || dom_p != null)) {
-		_dom_span.innerHTML += dom_p;
+		for (var dp = 0; dp < dom_p.length; dp++) {
+			_dom_span.innerHTML += dom_p[dp];
+		}
 	}
 	_dom_span.setAttribute('class','description');
 	_dom_span.setAttribute('className','description');
@@ -565,29 +548,41 @@ function getElementsByClass(elem, classname) {
     return classes;
 }
 
-/**
- * This function returns an array of elements that matches a given class
- *
- * @param string1, string
- * @access protected
- * @return string
- */
-function getElementsByClassAltered(val_element, classnames) {
-	var _tmp = [];
-	for(count_des = 0; count_des < val_element.length; count_des++){
-		var el_span = val_element[count_des];
-		var _el_span = val_element[count_des].innerHTML;
 
-		if( (el_span.getAttribute("class") == classnames ) && (_el_span != null || _el_span != '') ){
-			_tmp = _el_span; 
+//var getvalue=document.getElementById("myimage").getAttribute("src")
+
+/**
+ * This function adds a line brake
+ *
+ * @param string, string, string
+ * @access protected
+ * @return void
+ */
+function display_user_info(dom_div, dom_span, dom_p) {
+
+	var element_p = document.createElement('p');
+	if ( dom_div != null || dom_div != '' ) {
+		for ( var div_l = 0; div_l < dom_div.length; div_l++ ) {
+			//element_p.innerHTML += dom_div[div_l];	
 		}
-	} //alert(_tmp.toSource());
- return _tmp;
+	}
+	else if ( dom_span != null || dom_span != '') {
+		for ( var span_l = 0; span_l < dom_span.length; span_l++ ) {
+			//element_p.innerHTML += dom_span[span_l];	
+		}
+	}
+	else if ( dom_p != null || dom_p != '') {
+		for ( var p_l = 0; p_l < dom_p.length; p_l++ ) {
+			element_p.innerHTML += dom_p[p_l];	
+		}	
+	}
+	
+	element_p.setAttribute('class','description');
+	element_p.setAttribute('className','description');
+	document.getElementById('print-wrapper').appendChild(element_p);
 }
 
 
-
-//var getvalue=document.getElementById("myimage").getAttribute("src")
 
 /**
  * This function adds a line brake
@@ -646,10 +641,10 @@ function shn_print_add_ocr_layout() {
  * @access protected
  * @return void
  */
-function shn_print_appent_to_wrapper(_dom_wrap, class) {
-	_dom_wrap.setAttribute('class',class);
-	_dom_wrap.setAttribute('className',class);
-	document.getElementById('print-wrapper').appendChild(_dom_wrap);
+function shn_print_appent_to_wrapper(_tdom_wrap, _class) {
+	//_tdom_wrap.setAttribute('class',_class);
+	_tdom_wrap.setAttribute('className',_class);
+	document.getElementById('print-wrapper').appendChild(_tdom_wrap);
 }
 
 
@@ -683,7 +678,7 @@ function shn_print_set_label(dom_label, dom_legend, _dom_wrapper, class_name) {
  * @access protected
  * @return string
  */
-function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -694,7 +689,7 @@ function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, class) 
 	for (var counter = 0; counter < 30; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -706,7 +701,7 @@ function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, class) 
  * @access protected
  * @return string
  */
-function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -717,7 +712,7 @@ function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, class
 // 	for (var counter = 0; counter < 20; counter++) {
 // 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 // 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -730,7 +725,7 @@ function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, class
  * @access protected
  * @return string
  */
-function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -741,7 +736,7 @@ function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, class
 	//for (var counter = 0; counter < 20; counter++) {
 	//	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	//}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -754,7 +749,7 @@ function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, class
  * @access protected
  * @return string
  */
-function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -765,7 +760,7 @@ function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, 
 	for (var counter = 0; counter < 45; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -777,7 +772,7 @@ function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, 
  * @access protected
  * @return string
  */
-function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, class, _tmp_o) {
+function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, _class, _tmp_o) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -789,7 +784,7 @@ function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, class,
 	_dom_wrapper.innerHTML +="<div class='option-label'>"+_tmp_o[counter]+"</div>";
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -801,7 +796,7 @@ function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, class,
  * @access protected
  * @return string
  */
-function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -812,7 +807,7 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, clas
 	for (var counter = 0; counter < 90; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -824,7 +819,7 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, clas
  * @access protected
  * @return string
  */
-function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -850,7 +845,7 @@ function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, class) {
 		_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
 	}
 
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
 
 
@@ -862,7 +857,7 @@ function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, class) {
  * @access protected
  * @return string
  */
-function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrapper, class) {
+function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -873,5 +868,5 @@ function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrappe
 	for (var counter = 0; counter < 14; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
 }
